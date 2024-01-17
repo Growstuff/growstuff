@@ -93,7 +93,7 @@ module IconsHelper
 
   def plant_part_icon(name)
     if File.exist? Rails.root.join('app', 'assets', 'images', 'icons', 'plant_parts', "#{name}.svg")
-      image_tag "icons/plant_parts/#{name}.svg", class: 'img img-icon', 'aria-hidden' => "true"
+      image_tag "icons/plant_parts/#{name}.svg", class: 'img img-icon', 'aria-hidden' => "true", alt: name
     else
       planting_icon
     end
@@ -101,7 +101,7 @@ module IconsHelper
 
   def crop_icon(crop)
     if crop.svg_icon.present?
-      image_tag(crop_path(crop, format: 'svg'), class: 'crop-icon')
+      image_tag(crop_path(crop, format: 'svg'), class: 'crop-icon', alt: crop)
     elsif crop.parent.present?
       crop_icon(crop.parent)
     else
@@ -123,6 +123,6 @@ module IconsHelper
   end
 
   def image_icon(icon)
-    image_tag "icons/#{icon}.svg", class: 'img img-icon', 'aria-hidden' => "true"
+    image_tag "icons/#{icon}.svg", class: 'img img-icon', 'aria-hidden' => "true", alt: icon
   end
 end

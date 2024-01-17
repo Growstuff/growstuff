@@ -1,7 +1,7 @@
 
 .view
   = link_to post do
-    = image_tag post_image_path(post), class: 'img img-cover'
+    = image_tag post_image_path(post), class: 'img img-cover', alt: "A photo related to this post"
 %h4.font-weight-bold.mb-3
   %strong
     = link_to post do
@@ -16,5 +16,5 @@
     = link_to crop do
       = crop_icon(crop)
       = crop.name.pluralize
-/ = image_tag avatar_uri(post.author, 50), class: 'avatar'
+/ = image_tag avatar_uri(post.author, 50), class: 'avatar', alt: post.author
 = link_to 'Read more', post, class: 'btn btn-rounded btn-md'

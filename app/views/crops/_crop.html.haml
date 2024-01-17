@@ -1,7 +1,7 @@
 .card.card-crop
   .crop-image
     = link_to image_tag(crop_image_path(crop),
-                          alt: '',
+                          alt: "Image of #{crop.name}",
                           class: 'img img-card'),
                           crop
   .card-body
