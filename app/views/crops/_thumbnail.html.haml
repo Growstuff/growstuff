@@ -2,7 +2,7 @@
   .card.crop-thumbnail
     = link_to crop_path(slug: crop.slug) do
       = image_tag(crop.thumbnail_url.presence || placeholder_image,
-                          alt: crop.name,
+                          alt: "Image of #{crop.name}",
                           class: 'img img-card')
 
 

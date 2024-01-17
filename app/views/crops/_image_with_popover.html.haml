@@ -1,6 +1,6 @@
 - cache crop do
   = link_to image_tag(crop_image_path(crop),
-                      alt: crop.name, class: 'image-responsive crop-image'),
+                      alt: "Image of #{crop.name}", class: 'image-responsive crop-image'),
             crop.name,
             rel: "popover",
             'data-trigger': 'hover',
