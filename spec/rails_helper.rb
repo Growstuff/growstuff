@@ -30,9 +30,6 @@ Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
   "screenshot_#{example.description.tr(' ', '-').gsub(%r{^.*/spec/}, '')}"
 end
 
-width = 1280
-height = 1280
-Capybara.current_session.driver.browser.manage.window.resize_to(width, height)
 Capybara.app_host = 'http://localhost'
 Capybara.server_port = 8081
 
@@ -100,6 +97,10 @@ RSpec.configure do |config|
 
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, :js) do
+    width = 1280
+    height = 1280
+    Capybara.current_session.driver.browser.manage.window.resize_to(width, height)
+
     if page.driver.browser.respond_to?(:url_blacklist)
       page.driver.browser.url_blacklist = [
         'gravatar.com',
