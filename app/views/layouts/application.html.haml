@@ -22,7 +22,7 @@
           %small= yield(:subtitle)
 
         = render "shared/flash_messages", flash: flash
-        = yield
+        %main= yield
 
     %footer.page-footer.font-small.bg-dark.pt-4= render "layouts/footer"
     /
