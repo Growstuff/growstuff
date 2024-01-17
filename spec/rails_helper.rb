@@ -53,6 +53,13 @@ end
 Capybara.app_host = 'http://localhost'
 Capybara.server_port = 8081
 
+# TODO: Find a better home.
+shared_examples 'is accessible' do
+  it "is accessible" do
+    expect(page).to be_axe_clean
+  end
+end
+
 include Warden::Test::Helpers
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
