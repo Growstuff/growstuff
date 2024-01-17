@@ -60,7 +60,7 @@
 
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
-          = image_tag(avatar_uri(current_member, 50), alt: '', height: 25, width: 25, aria: { hidden => "true" })
+          = image_tag(avatar_uri(current_member, 50), alt: '', height: 25, width: 25, aria: { hidden: "true" })
           = current_member.login_name
           - if current_member.unread_count.positive?
             %span.badge.badge-info= current_member.unread_count
