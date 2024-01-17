@@ -176,7 +176,6 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'
-  gem 'webdrivers'
 end
 
 group :travis do
