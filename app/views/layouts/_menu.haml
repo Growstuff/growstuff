@@ -3,13 +3,13 @@
     - if signed_in?
       %li.nav-item
         = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
-          = image_tag 'icons/notification.svg', class: 'img img-icon'
+          = image_tag 'icons/notification.svg', class: 'img img-icon', alt: "Notifications"
       %li.nav-item
         = link_to member_gardens_path(current_member), class: 'nav-link text-white' do
           = image_icon 'gardens'
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
-          = image_tag "icons/gardener.svg", class: 'img img-icon'
+          = image_tag "icons/gardener.svg", class: 'img img-icon', alt: t('.record'), aria: { hidden: "true" }
           = t('.record')
         .dropdown-menu
           = link_to new_planting_path, class: 'dropdown-item' do
@@ -60,7 +60,7 @@
 
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
-          = image_tag(avatar_uri(current_member, 50), alt: '', height: 25, width: 25)
+          = image_tag(avatar_uri(current_member, 50), alt: '', height: 25, width: 25, aria: { hidden: "true" })
           = current_member.login_name
           - if current_member.unread_count.positive?
             %span.badge.badge-info= current_member.unread_count
