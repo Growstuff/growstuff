@@ -21,10 +21,27 @@ require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'capybara-screenshot/rspec'
 
-require 'webdrivers'
+# TODO: We may want to trial options.add_argument('--disable-dev-shm-usage')      ### optional
 
-Capybara.default_driver = :selenium_chrome_headless
-Capybara.javascript_driver = :selenium_chrome_headless
+# Required for running in the dev container
+Capybara.register_driver :selenium_chrome_customised_headless do |app|
+  options = Selenium::WebDriver::Options.chrome
+  options.add_argument("--headless")
+  options.add_argument("--no-sandbox")
+
+  # driver = Selenium::WebDriver.for :chrome, options: options
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
+end
+
+# Ability to pass in flags to
+if ENV["CAPYBARA_DRIVER"]
+  Capybara.default_driver = ENV["CAPYBARA_DRIVER"].to_sym
+  Capybara.javascript_driver = ENV["CAPYBARA_DRIVER"].to_sym
+else
+  Capybara.default_driver = :selenium_chrome_customised_headless
+  Capybara.javascript_driver = :selenium_chrome_customised_headless
+end
 
 Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
   "screenshot_#{example.description.tr(' ', '-').gsub(%r{^.*/spec/}, '')}"
@@ -97,6 +114,7 @@ RSpec.configure do |config|
 
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, :js) do
+
     # TODO: Why are we setting this page size then straight afterwards, maximising?
     width = 1280
     height = 1280

@@ -181,7 +181,6 @@ group :test do
   gem 'selenium-webdriver'
   gem 'timecop'
   gem 'vcr'
-  gem 'webdrivers'
 end
 
 group :travis do
