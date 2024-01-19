@@ -5,7 +5,7 @@
         = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
           = image_tag 'icons/notification.svg', class: 'img img-icon', alt: "Notifications"
       %li.nav-item
-        = link_to member_gardens_path(current_member), class: 'nav-link text-white' do
+        = link_to member_gardens_path(current_member), class: 'nav-link text-white', title: "My gardens" do
           = image_icon 'gardens'
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
