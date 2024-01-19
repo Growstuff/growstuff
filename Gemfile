@@ -118,7 +118,7 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 gem 'puma'
 
 gem 'loofah', '>= 2.19.1'
-gem 'rack-protection', '>= 2.0.1'
+gem 'rack-protection', '>= 4.0.0'
 
 # Member to member messaging system
 gem 'mailboxer', '>= 0.15.1'
