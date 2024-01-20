@@ -354,7 +354,9 @@ ul.thumbnail-buttons {
     text-align: center;
   }
 }
-
+.text-muted {
+  color: $blue;
+}
 .jumbotron {
   background-color: $beige;
   margin-bottom: 1em;
@@ -364,15 +366,23 @@ ul.thumbnail-buttons {
   h1 {
     font-size: 400%;
   }
+  .stats a {q
+    color: $black;
+  }
 
   // signup widget on homepage
   .signup {
-    background-color: lighten($green, 40%);
-    border: 1px solid lighten($green, 20%);
+    background-color: darken($green, 20%);
+    border: 1px solid darken($green, 20%);
+    color: $white;
     border-radius: 6px;
     line-height: 200%;
     padding: 15px;
     text-align: center;
+
+    .btn-info {
+      background-color: $blue;
+    }
   }
 
   .info {
