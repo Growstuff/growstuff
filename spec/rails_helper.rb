@@ -46,6 +46,9 @@ else
 end
 Capybara.enable_aria_label = true
 
+Capybara::Screenshot.register_driver(:selenium_chrome_customised_headless) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
 Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
   "screenshot_#{example.description.tr(' ', '-').gsub(%r{^.*/spec/}, '')}"
 end
