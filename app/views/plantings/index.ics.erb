@@ -17,8 +17,10 @@ cal.ip_name = "Plantings for #{@owner.login_name}"
   lines << "Finished at: #{planting['finished_at'] ? planting['finished_at'] : 'unknown' }"
 
   lines << planting.description
+  finish_date = planting['finished_at'] || planting['finish_predicted_at'] || planting['last_harvest_predicted_at']
+
   event.dtstart     = Time.at(planting['created_at'])
-  event.dtend       = planting['finished_at']&.to_date || planting['finish_predicted_at']&.to_date || planting['last_harvest_predicted_at']&.to_date || 1.day.from_now
+  event.dtend       = finish_date || 1.day.from_now
   event.summary     = planting['crop_name']
   event.description = lines.join("\n")
   event.ip_class    = "PUBLIC"
@@ -26,8 +28,14 @@ cal.ip_name = "Plantings for #{@owner.login_name}"
 
   cal.add_event(event)
 
-  # Do we want to add a generic TODO for harvests? https://icalendar.org/iCalendar-RFC-5545/3-6-2-to-do-component.html
-  # Do we want a VALARM from first harvest?
+  if finish_date && finish_date > Date.today
+    todo = Icalendar::Todo.new
+    todo.dtstart = planting['first_harvest_predicted_at'] || finish_date
+    todo.due = finish_date
+    todo.summary = "Harvest #{planting['crop_name']}"
+
+    cal.add_todo(todo)
+  end
 end
 cal.publish
 %>
