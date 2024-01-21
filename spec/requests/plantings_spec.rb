@@ -14,7 +14,12 @@ describe "Plantings" do
   context "with a member" do
     before do
       @member = create(:interesting_member)
-      @planting = @member.plantings.first
+      @member.plantings << build(:predictable_planting)
+      @member.plantings << build(:seedling_planting)
+      @member.plantings << build(:seed_planting)
+      @member.plantings << build(:finished_planting)
+      @member.plantings << build(:annual_planting)
+      @member.plantings << build(:perennial_planting)
 
       Planting.reindex
     end
@@ -24,12 +29,14 @@ describe "Plantings" do
         get member_plantings_path(@member, format: "ics")
 
         calendar = Icalendar::Parser.new(response.body, true).parse.first
+        expect(calendar.description).to eq "Plantings by #{@member.login_name}"
         events = calendar.events
-        expect(events.length).to eq 1
+        expect(events.length).to eq 6
+
+        predictable
         # TODO: Better date comparison
         expect(events[0].dtstart.to_datetime.to_i).to be_within(1.second).of @planting.created_at.to_i
-        # expect(events[0].dtstart).to eq @planting.created_at
-        # expect(events[0].dtstart).to eq @planting.created_at
+        expect(events[0].description).to include_text @planting.crop.name
 
         response.status.should be(200)
       end
