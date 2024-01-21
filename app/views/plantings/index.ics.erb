@@ -16,7 +16,7 @@ cal = Icalendar::Calendar.new
 
   lines << planting.description
   event.dtstart     = Time.at(planting['created_at'])
-  event.dtend       = planting['finished_at']&.to_date || planting['last_harvest_predicted_at']&.to_date 
+  event.dtend       = planting['finished_at']&.to_date || planting['last_harvest_predicted_at']&.to_date
   event.summary     = "#{planting['crop']} in #{planting['location']}"
   event.description = lines.join("\n")
   event.ip_class    = "PRIVATE"
