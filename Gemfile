@@ -128,6 +128,9 @@ gem 'faraday_middleware'
 
 gem 'rack-cors'
 
+# External APIs for data
+gem "gbifrb"
+
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
@@ -153,6 +156,7 @@ group :development, :test do
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
+  gem 'pry'
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
@@ -178,6 +182,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'
+  gem 'vcr'
 end
 
 group :travis do

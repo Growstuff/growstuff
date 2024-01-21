@@ -179,6 +179,7 @@ GEM
       simplecov (<= 0.13)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
+    coderay (1.1.3)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
       railties (>= 5.2.0)
@@ -273,6 +274,7 @@ GEM
       sassc (>= 1.11)
     friendly_id (5.5.1)
       activerecord (>= 4.0.0)
+    gbifrb (0.2.0)
     geocoder (1.8.2)
     gibbon (1.2.1)
       httparty
@@ -432,6 +434,9 @@ GEM
       moneta (~> 1.0.0)
       rate_throttle_client (~> 0.1.0)
     popper_js (1.16.1)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
     public_suffix (5.0.4)
     puma (6.4.2)
       nio4r (~> 2.0)
@@ -639,6 +644,7 @@ GEM
       axiom-types (~> 0.1)
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
+    vcr (6.2.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     webrat (0.7.3)
@@ -700,6 +706,7 @@ DEPENDENCIES
   flickraw
   font-awesome-sass
   friendly_id
+  gbifrb
   geocoder
   gibbon (~> 1.2.0)
   gravatar-ultimate
@@ -728,6 +735,7 @@ DEPENDENCIES
   percy-capybara (~> 5.0.0)
   pg
   platform-api
+  pry
   puma
   query_diet
   rack-cors
@@ -758,6 +766,7 @@ DEPENDENCIES
   uglifier
   unicorn
   validate_url
+  vcr
   webrat
   will_paginate
   will_paginate-bootstrap-style
