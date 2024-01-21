@@ -11,7 +11,7 @@
         %description
           :escaped
             <p>Quantity: #{planting['quantity'] ? planting['quantity'] : 'unknown' }</p>
-            <p>Planted on: #{planting['planted_at'] ? planting['planted_at'].to_fs(:default) : 'unknown' }</p>
+            <p>Planted on: #{planting['planted_at'] ? planting['planted_at'] : 'unknown' }</p>
             <p>Sunniness: #{planting['sunniness'] ? planting['sunniness'] : 'unknown' }</p>
             <p>Planted from: #{planting['planted_from'] ? planting['planted_from'] : 'unknown' }</p>
           :escaped_markdown
