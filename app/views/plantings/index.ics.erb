@@ -1,0 +1,29 @@
+<%
+# TODO Refactor to a Planting <-> Ical view class?
+ def planting_as_event(planting)
+    event = Icalendar::Event.new
+
+    lines = []
+    lines <<"Quantity: #{planting.quantity ? planting.quantity : 'unknown' }"
+    lines <<"Planted on: #{planting.planted_at ? planting.planted_at : 'unknown' }"
+    lines <<"Sunniness: #{planting.sunniness ? planting.sunniness : 'unknown' }"
+    lines <<"Planted from: #{planting.planted_from ? planting.planted_from : 'unknown' }"
+    lines << planting.description
+    event.dtstart     = Icalendar::Values::DateTime.new(planting.created_at)
+    event.dtend       = Icalendar::Values::DateTime.new(planting.finished_at) if planting.finished_at
+    event.summary     = "#{planting.crop} in #{planting.location}"
+    event.description = lines.join("\n")
+    event.ip_class    = "PRIVATE"
+    # event.url = 
+    event  
+  end
+  
+cal = Icalendar::Calendar.new
+ @plantings.each do |planting|
+    event = planting_as_event(planting)
+
+    cal.add_event(event)
+end
+cal.publish
+%>
+<%= cal.to_ical %>

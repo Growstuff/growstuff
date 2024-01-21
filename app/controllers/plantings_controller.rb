@@ -29,7 +29,6 @@ class PlantingsController < DataController
     )
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_fs(:number)}.csv"
-
     respond_with(@plantings)
   end
 
