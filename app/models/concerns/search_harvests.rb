@@ -44,6 +44,8 @@ module SearchHarvests
 
         # timestamps
         harvested_at:,
+        first_harvest_predicted_at:,
+        last_harvest_predicted_at:,
         created_at:       created_at.to_i
       }
     end

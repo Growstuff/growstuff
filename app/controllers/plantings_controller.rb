@@ -3,6 +3,7 @@
 class PlantingsController < DataController
   after_action :update_crop_medians, only: %i(create update destroy)
   after_action :update_planting_medians, only: :update
+  respond_to :ics, only: [:index] # TODO: This can be shifted up when all relevant controllers respond to ical
 
   def index
     @show_all = params[:all] == '1'

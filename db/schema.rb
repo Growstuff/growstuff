@@ -571,26 +571,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_14_045751) do
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
   end
 
-  create_table "weather_observations", force: :cascade do |t|
-    t.string "source"
-    t.datetime "observation_at"
-    t.integer "solar_uv_index"
-    t.decimal "wind_speed_kmh"
-    t.decimal "wind_gust_speed_kmh"
-    t.string "wind_direction"
-    t.decimal "air_temperature_centigrade"
-    t.decimal "relative_humidity"
-    t.decimal "precipitation_probability"
-    t.decimal "dew_point_temperature_centigrade"
-    t.decimal "pressure"
-    t.integer "visibility_distance_metres"
-    t.string "weather_type"
-    t.bigint "owner_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["owner_id"], name: "index_weather_observations_on_owner_id"
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "harvests", "plantings"
