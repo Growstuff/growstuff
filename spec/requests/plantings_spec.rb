@@ -14,12 +14,12 @@ describe "Plantings" do
   context "with a member" do
     before do
       @member = create(:interesting_member)
-      @member.plantings << build(:predictable_planting)
-      @member.plantings << build(:seedling_planting)
-      @member.plantings << build(:seed_planting)
-      @member.plantings << build(:finished_planting)
-      @member.plantings << build(:annual_planting)
-      @member.plantings << build(:perennial_planting)
+      @predictable_planting = create(:predictable_planting, owner: @member)
+      @seedling_planting = create(:seedling_planting, owner: @member)
+      @seed_planting = create(:seed_planting, owner: @member)
+      @finished_planting = create(:finished_planting, owner: @member)
+      @annual_planting = create(:annual_planting, owner: @member)
+      @perennial_planting = create(:perennial_planting, owner: @member)
 
       Planting.reindex
     end
@@ -29,14 +29,23 @@ describe "Plantings" do
         get member_plantings_path(@member, format: "ics")
 
         calendar = Icalendar::Parser.new(response.body, true).parse.first
-        expect(calendar.description).to eq "Plantings by #{@member.login_name}"
+        expect(calendar.description[0].to_s).to eq "Plantings by #{@member.login_name}"
         events = calendar.events
-        expect(events.length).to eq 6
+        expect(events.length).to eq 6 # There are 7, but finished plantings aren't included
 
-        predictable
         # TODO: Better date comparison
-        expect(events[0].dtstart.to_datetime.to_i).to be_within(1.second).of @planting.created_at.to_i
-        expect(events[0].description).to include_text @planting.crop.name
+        # Predicted finish should be used
+        expect(events[1].summary.to_s).to include @predictable_planting.crop.name
+        expect(events[1].dtstart.to_datetime.to_i).to be_within(1.second).of @predictable_planting.created_at.to_i
+        expect(events[1].dtend.to_date).to eq @predictable_planting.finish_predicted_at
+
+        # Actual finish should be used
+        # expect(events[4].dtend.to_date).to be_within(1.second).of @finised_planting.finished_at
+
+        # Otherwise, tomorrow should be used
+        expect(events[2].dtend.to_date).to eq 1.day.from_now.to_date
+
+        # TBA: Perennial and annual crops predictions of 'next' harvest date don't really fit
 
         response.status.should be(200)
       end
