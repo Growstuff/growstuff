@@ -28,7 +28,6 @@ class Post < ApplicationRecord
 
   def author_date_subject
     return unless author
-    return unless time
 
     # slugs are created before created_at is set
     time = created_at || Time.zone.now
