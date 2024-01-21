@@ -1,6 +1,7 @@
 <%
 # TODO Refactor to a Planting <-> Ical view class?
 cal = Icalendar::Calendar.new
+cal.name = "Plantings for #{@owner.login_name}"
 @plantings.each do |planting|
 
   event = Icalendar::Event.new
