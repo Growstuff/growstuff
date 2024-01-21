@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 7.0.4'
+gem 'rails', '~> 7.0.7'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -45,7 +45,6 @@ gem 'active_record_union'
 gem 'flickraw'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'js-routes' # provides access to Rails routes in Javascript
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
@@ -69,7 +68,7 @@ gem 'bluecloth'
 
 # Pagination
 gem 'will_paginate'
-gem 'will_paginate-bootstrap4'
+gem 'will_paginate-bootstrap-style'
 
 # user signup/login/etc
 gem 'devise'
@@ -177,7 +176,6 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'
-  gem 'webdrivers'
 end
 
 group :travis do

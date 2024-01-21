@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "signin", js: true do
+describe "signin", :js do
   let(:member)       { FactoryBot.create(:member)                             }
   let(:recipient)    { FactoryBot.create(:member)                             }
   let(:wrangler)     { FactoryBot.create(:crop_wrangling_member)              }

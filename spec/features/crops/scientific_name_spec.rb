@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "Scientific names", js: true do
+describe "Scientific names", :js do
   let!(:zea_mays) { create(:zea_mays) }
   let(:crop)      { zea_mays.crop }
 
