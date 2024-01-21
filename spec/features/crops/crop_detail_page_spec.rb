@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "crop detail page", js: true do
+describe "crop detail page", :js do
   subject do
     # Update the medians after all the
     # data has been loaded

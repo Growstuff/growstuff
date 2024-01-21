@@ -143,6 +143,7 @@ describe Crop do
     shared_examples 'has default photo' do
       it { expect(described_class.has_photos).to include(crop) }
     end
+
     let!(:crop) { FactoryBot.create(:tomato) }
 
     context 'with a planting photo' do

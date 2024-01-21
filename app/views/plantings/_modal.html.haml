@@ -14,7 +14,7 @@
               = link_to plantings_path(planting: {crop_id: planting.crop_id, garden_id: garden.id}), method: :post do
                 .md-v-line
                 .d-flex.justify-content-between
-                  = image_tag garden_image_path(garden), class: 'img', height: 50
+                  = image_tag garden_image_path(garden), class: 'img', height: 50, alt: garden.name
                   %span
                     %h4= garden.name
                     %p= garden.description

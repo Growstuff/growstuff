@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "seeds", js: true do
+describe "seeds", :js do
   context "signed in user" do
     include_context 'signed in member'
     xit "button on index to edit seed" do

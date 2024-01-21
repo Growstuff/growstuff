@@ -3,6 +3,8 @@
 require_relative 'boot'
 
 require 'rails/all'
+ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = "true"
+
 require 'openssl'
 
 # Require the gems listed in Gemfile, including any gems
