@@ -8,7 +8,7 @@ module Admin
     responders :flash
 
     def index
-      @roles = Role.all.order(:name)
+      @roles = Role.all.order(:name).paginate(page: params[:page])
       respond_with @roles
     end
 
@@ -33,7 +33,7 @@ module Admin
 
     def destroy
       @role.destroy
-      respond_with @role, location: admin_roles_path
+      respond_with @role, location: admin_roles_path, notice: "Role was successfully deleted"
     end
 
     private
