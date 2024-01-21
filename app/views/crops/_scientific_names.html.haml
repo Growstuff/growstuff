@@ -16,7 +16,13 @@
               = delete_icon
               = t('.delete')
       - else
-        .badge= sn.name
+        - if sn.gbif_key
+          = link_to sn.name, "https://www.gbif.org/species/#{sn.gbif_key}",
+                  class: 'card-link',
+                  target: "_blank",
+                  rel: "noopener noreferrer"
+        - else
+          .badge= sn.name
 
   %p.text-right
     - if can? :edit, crop
