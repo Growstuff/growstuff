@@ -128,6 +128,8 @@ gem 'faraday_middleware'
 
 gem 'rack-cors'
 
+gem 'icalendar'
+
 # External APIs for data
 gem "gbifrb"
 

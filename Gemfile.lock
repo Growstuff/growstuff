@@ -309,6 +309,9 @@ GEM
       rails-i18n
       rainbow (>= 2.2.2, < 4.0)
       terminal-table (>= 1.5.1)
+    icalendar (2.10.1)
+      ice_cube (~> 0.16)
+    ice_cube (0.16.4)
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
@@ -689,6 +692,7 @@ DEPENDENCIES
   haml_lint (>= 0.25.1)
   hashie (>= 3.5.3)
   i18n-tasks
+  icalendar
   jquery-rails
   jquery-ui-rails
   jsonapi-resources
