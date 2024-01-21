@@ -51,6 +51,10 @@ class RegistrationsController < Devise::RegistrationsController
 
   private
 
+  def sign_up_params
+    params.require(:member).permit(:login_name, :email, :tos_agreement, :newsletter, :password, :password_confirmation)
+  end
+
   def check_captcha
     return if verify_recaptcha # verify_recaptcha(action: 'signup') for v3
 
