@@ -53,7 +53,11 @@ Rails.application.routes.draw do
     get 'author/:author' => 'posts#index', as: 'by_author', on: :collection
   end
 
-  resources :scientific_names
+  resources :scientific_names do
+    collection do
+      get :gbif_suggest
+    end
+  end
   resources :alternate_names
   resources :plant_parts
   resources :photos
@@ -73,6 +77,7 @@ Rails.application.routes.draw do
     get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
     post :openfarm
+    post :gbif
 
     collection do
       get 'requested'
