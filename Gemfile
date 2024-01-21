@@ -130,6 +130,9 @@ gem 'rack-cors'
 
 gem 'icalendar'
 
+# for signups as requested by email service
+gem 'recaptcha'
+
 # External APIs for data
 gem "gbifrb"
 
