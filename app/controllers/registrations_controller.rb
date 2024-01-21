@@ -3,6 +3,8 @@
 class RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
+  prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect with recaptcha.
+
   def edit
     @twitter_auth  = current_member.auth('twitter')
     @flickr_auth   = current_member.auth('flickr')
@@ -44,6 +46,25 @@ class RegistrationsController < Devise::RegistrationsController
     else
       @member.errors.add(:current_password, 'Incorrect password')
       render "edit"
+    end
+  end
+
+  private
+
+  def sign_up_params
+    params.require(:member).permit(:login_name, :email, :tos_agreement, :newsletter, :password, :password_confirmation)
+  end
+
+  def check_captcha
+    return if verify_recaptcha # verify_recaptcha(action: 'signup') for v3
+
+    self.resource = resource_class.new sign_up_params
+    resource.validate # Look for any other validation errors besides reCAPTCHA
+    set_minimum_password_length
+
+    respond_with_navigational(resource) do
+      flash.discard(:recaptcha_error) # We need to discard flash to avoid showing it on the next page reload
+      render :new
     end
   end
 end
