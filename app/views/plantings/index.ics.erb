@@ -13,12 +13,13 @@ cal.name = "Plantings for #{@owner.login_name}"
   lines << "Planted from: #{planting['planted_from'] ? planting['planted_from'] : 'unknown' }"
   lines << "First harvest from: #{planting['first_harvest_predicted_at'] ? planting['first_harvest_predicted_at'] : 'unknown' }"
   lines << "Last harvest from: #{planting['last_harvest_predicted_at'] ? planting['last_harvest_predicted_at'] : 'unknown' }"
+  lines << "Finish predicted at: #{planting[finish_predicted_at] ? planting[finish_predicted_at] : 'unknown'}"
   lines << "Finished at: #{planting['finished_at'] ? planting['finished_at'] : 'unknown' }"
 
   lines << planting.description
   event.dtstart     = Time.at(planting['created_at'])
   event.dtend       = planting['finished_at']&.to_date || planting['last_harvest_predicted_at']&.to_date
-  event.summary     = "#{planting['crop_name']} in #{planting['location_name']}"
+  event.summary     = "#{planting['crop_name']}"
   event.description = lines.join("\n")
   event.ip_class    = "PUBLIC"
   event.url = planting_url(slug: planting['slug'])
