@@ -18,7 +18,7 @@ cal.ip_name = "Plantings for #{@owner.login_name}"
 
   lines << planting.description
   event.dtstart     = Time.at(planting['created_at'])
-  event.dtend       = planting['finished_at']&.to_date || planting['finish_predicted_at']&.to_date || planting['last_harvest_predicted_at']&.to_date
+  event.dtend       = planting['finished_at']&.to_date || planting['finish_predicted_at']&.to_date || planting['last_harvest_predicted_at']&.to_date || 1.day.from_now
   event.summary     = planting['crop_name']
   event.description = lines.join("\n")
   event.ip_class    = "PUBLIC"
