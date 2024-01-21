@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "Planting a crop", js: true do
+describe "Planting a crop", :js do
   context 'signed in' do
     include_context 'signed in member'
     # name is aaa to ensure it is ordered first
@@ -14,7 +14,7 @@ describe "Planting a crop", js: true do
     it "View gardens" do
       visit gardens_path
       expect(page).to have_content "Everyone's gardens"
-      click_link "My gardens"
+      click_link "My gardens", match: :first
       expect(page).to have_content "#{garden.owner.login_name}'s gardens"
       click_link "Everyone's gardens"
       expect(page).to have_content "Everyone's gardens"

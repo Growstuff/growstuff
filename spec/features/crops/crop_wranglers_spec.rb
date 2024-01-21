@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "crop wranglers", js: true do
+describe "crop wranglers", :js do
   context "signed in wrangler" do
     include_context 'signed in crop wrangler'
     let!(:crop_wranglers) { create_list(:crop_wrangling_member, 3) }

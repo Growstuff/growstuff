@@ -46,6 +46,12 @@ class CropsController < ApplicationController
     respond_with @crop, location: @crop
   end
 
+  def gbif
+    @crop = Crop.find(params[:crop_slug])
+    @crop.update_gbif_data!
+    respond_with @crop, location: @crop
+  end
+
   def hierarchy
     @crops = Crop.toplevel.order(:name)
     respond_with @crops
@@ -120,6 +126,7 @@ class CropsController < ApplicationController
       if @crop.approval_status_changed?(from: "pending", to: "approved")
         notifier.deliver_now!
         @crop.update_openfarm_data!
+        @crop.update_gbif_data!
       end
     else
       @crop.approval_status = @crop.approval_status_was
@@ -163,7 +170,7 @@ class CropsController < ApplicationController
     return if params[param_name].blank?
 
     destroy_names(name_type)
-    params[param_name].each do |_i, value|
+    params[param_name].each_value do |value|
       create_name!(name_type, value) unless value.empty?
     end
   end

@@ -5,6 +5,31 @@
     = form_for(@photo) do |f|
       .form-group
         = f.label :title
-        = f.text_field :title, placeholder: "title"
+        = f.text_field :title, placeholder: "title", required: true
+
+      .form-group
+        = f.label :thumbnail_url
+        = f.url_field :thumbnail_url
+
+      .form-group
+        = f.label :fullsize_url
+        = f.url_field :fullsize_url
+
+      .form-group
+        = f.label :link_url
+        = f.url_field :link_url
+
+      .form-group
+        = f.label :license_name
+        = f.text_field :license_name
+
+      .form-group
+        = f.label :license_url
+        = f.text_field :license_url
+
+      .form-group
+        = f.label :date_taken
+        = f.datetime_field :date_taken
+
       .form-group
         .form-actions= f.submit 'Save', class: 'btn'
