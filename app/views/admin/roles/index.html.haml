@@ -5,7 +5,7 @@
   %li.breadcrumb-item.active= link_to 'Roles', admin_roles_path
 
 - if can? :create, Role
-  %p= link_to 'New Role', new_admin_role_path, class: 'btn btn-primary'
+  %p= link_to 'New role', new_admin_role_path, class: 'btn btn-primary'
 
 %table.table.table-striped
   %thead
@@ -25,6 +25,8 @@
             = edit_icon
             = t('.edit')
         - if can?(:destroy, role) && ! role.members.any?
-          = link_to admin_role_path(role), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs text-danger' do
+          = link_to admin_role_path(role), method: :delete, data: { confirm: t(:are_you_sure?) }, class: 'btn btn-default btn-xs text-danger' do
             = delete_icon
             = t('.delete')
+
+= will_paginate(@roles)
