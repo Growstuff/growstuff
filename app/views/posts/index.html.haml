@@ -9,8 +9,8 @@
 %h1= @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
 .row
-  .col-2
-  .col-8= will_paginate @posts
+  .col-md-2
+  .col-md-8= will_paginate @posts
 .row
   .col-md-2
     = render 'layouts/nav', model: Post
