@@ -18,13 +18,16 @@ cal.ip_name = "Plantings for #{@owner.login_name}"
 
   lines << planting.description
   event.dtstart     = Time.at(planting['created_at'])
-  event.dtend       = planting['finished_at']&.to_date || planting['last_harvest_predicted_at']&.to_date
+  event.dtend       = planting['finished_at']&.to_date || planting['finish_predicted_at']&.to_date || planting['last_harvest_predicted_at']&.to_date
   event.summary     = planting['crop_name']
   event.description = lines.join("\n")
   event.ip_class    = "PUBLIC"
   event.url = planting_url(slug: planting['slug'])
 
   cal.add_event(event)
+
+  # Do we want to add a generic TODO for harvests? https://icalendar.org/iCalendar-RFC-5545/3-6-2-to-do-component.html
+  # Do we want a VALARM from first harvest?
 end
 cal.publish
 %>
