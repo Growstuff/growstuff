@@ -24,8 +24,12 @@ class Post < ApplicationRecord
   #
   # Validations
   validates :subject, presence: true, length: { maximum: 255 }
+  validates :body, presence: true
 
   def author_date_subject
+    return unless author
+    return unless time
+
     # slugs are created before created_at is set
     time = created_at || Time.zone.now
     "#{author.login_name} #{time.strftime('%Y%m%d')} #{subject}"

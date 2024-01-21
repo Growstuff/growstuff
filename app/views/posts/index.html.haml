@@ -12,7 +12,7 @@
   .col-2
   .col-8= will_paginate @posts
 .row
-  .col-2
+  .col-md-2
     = render 'layouts/nav', model: Post
     %hr/
     %p
@@ -28,7 +28,7 @@
         or
         = succeed "." do
           = link_to "comments RSS feed", comments_path(format: 'rss')
-  .col-10
+  .col-md-10
     .row.posts
       - @posts.each do |post|
         .col-lg-3.col-md-6.mb-3.post
