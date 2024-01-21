@@ -3,7 +3,7 @@
 %h1 Plant Parts
 
 - if can? :create, PlantPart
-  = link_to 'New Plant part', new_plant_part_path, class: 'btn btn-info'
+  = link_to 'New plant part', new_plant_part_path, class: 'btn btn-info'
 
 .index-cards
   - @plant_parts.each do |plant_part|
