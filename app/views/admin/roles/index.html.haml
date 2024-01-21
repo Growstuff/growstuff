@@ -5,7 +5,7 @@
   %li.breadcrumb-item.active= link_to 'Roles', admin_roles_path
 
 - if can? :create, Role
-  %p= link_to 'New Role', new_admin_role_path, class: 'btn btn-primary'
+  %p= link_to 'New role', new_admin_role_path, class: 'btn btn-primary'
 
 %table.table.table-striped
   %thead

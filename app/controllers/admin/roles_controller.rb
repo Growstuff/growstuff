@@ -33,7 +33,7 @@ module Admin
 
     def destroy
       @role.destroy
-      respond_with @role, location: admin_roles_path
+      respond_with @role, location: admin_roles_path, notice: "Role was successfully deleted"
     end
 
     private
