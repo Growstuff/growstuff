@@ -8,5 +8,6 @@
 
     .text
       %h3.crop-name= link_to crop.name, crop_path(slug: crop.slug)
-      %h5.crop-sci-name
-        = crop.scientific_names.first
+      - if crop.scientific_names.any?
+        %div.crop-sci-name
+          = crop.scientific_names.first
