@@ -9,7 +9,7 @@ class AlternateNamesController < ApplicationController
   # GET /alternate_names
   # GET /alternate_names.json
   def index
-    @alternate_names = AlternateName.all.order(:name)
+    @alternate_names = AlternateName.all.order(:name).paginate(page: params[:page], per_page: 100)
     respond_with(@alternate_names)
   end
 
