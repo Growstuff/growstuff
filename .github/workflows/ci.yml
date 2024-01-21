@@ -94,22 +94,22 @@ jobs:
         run: bundle exec rails search:reindex
 
       - name: Run rspec - spec/helpers
-        run: bundle exec rspec spec/helpers/ -fd --only-failures --fail-fast
+        run: bundle exec rspec spec/helpers/ -fd --fail-fast
 
       - name: Run rspec - spec/models
-        run: bundle exec rspec spec/models/ -fd --only-failures --fail-fast
+        run: bundle exec rspec spec/models/ -fd --fail-fast
 
       - name: Run rspec - spec/controllers
-        run: bundle exec rspec spec/controllers/ -fd --only-failures --fail-fast
+        run: bundle exec rspec spec/controllers/ -fd --fail-fast
 
       - name: Run rspec - spec/views
-        run: bundle exec rspec spec/views/ -fd --only-failures --fail-fast
+        run: bundle exec rspec spec/views/ -fd --fail-fast
 
       - name: Run rspec - spec/routes
-        run: bundle exec rspec spec/routes/ -fd --only-failures --fail-fast
+        run: bundle exec rspec spec/routes/ -fd --fail-fast
 
       - name: Run rspec - spec/services
-        run: bundle exec rspec spec/services/ -fd --only-failures --fail-fast
+        run: bundle exec rspec spec/services/ -fd --fail-fast
 
       - name: Report to code climate
         run: |
@@ -211,7 +211,7 @@ jobs:
         run: bundle exec rails search:reindex
 
       - name: Run rspec - features (report results to Percy.io and CodeClimate)
-        run: bundle exec rspec spec/features/ -fd --only-failures
+        run: bundle exec rspec spec/features/ -fd --fail-fast
 
       - name: Report to code climate
         run: |
