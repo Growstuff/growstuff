@@ -5,6 +5,7 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+%h1 #{@plant_part.name.titlecase}
 - if @plant_part.crops.empty?
   %p No crops are harvested for this plant part (yet).
 - else

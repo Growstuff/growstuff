@@ -44,7 +44,7 @@ gem 'active_record_union'
 
 gem 'flickraw'
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', github: 'jquery-ui-rails/jquery-ui-rails', tag: 'v7.0.0' # See https://github.com/jquery-ui-rails/jquery-ui-rails/issues/146
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
@@ -127,6 +127,9 @@ gem 'faraday'
 gem 'faraday_middleware'
 
 gem 'rack-cors'
+
+# for signups as requested by email service
+gem 'recaptcha'
 
 # External APIs for data
 gem "gbifrb"
