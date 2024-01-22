@@ -1,4 +1,4 @@
-= form_for @garden_type, html: { class: 'form-horizontal', role: "form" } do |f|
+= form_for @garden_type, html: { class: 'form-horizontal' } do |f|
   - if @garden_type.errors.any?
     #error_explanation
       %h2= "#{pluralize(@garden_type.errors.count, "error")} prohibited this garden_type from being saved:"

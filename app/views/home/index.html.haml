@@ -22,10 +22,10 @@
       = render 'crops'
       = link_to "#{t('home.crops.view_all')} »", crops_path, class: 'btn btn-block'
   .col-xl-3.col-12
-    %section.recent-crops
+    %section.recent-crops.card
       - cache cache_key_for(Crop, 'recent') do
         %h2= t('.recently_added')
-        %p
+        %p.card-body
           != CropSearchService.recent(30).map { |c| link_to(c['name'], crop_path(slug: c['slug'])) }.join(", ")
   .col-xl-3.col
     %section.plantings

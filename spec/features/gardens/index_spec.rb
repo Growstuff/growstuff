@@ -14,6 +14,8 @@ describe "Gardens#index", :js do
         visit member_gardens_path(member_slug: member.slug)
       end
 
+      include_examples 'is accessible'
+
       it "displays each of the gardens" do
         member.gardens.each do |garden|
           expect(page).to have_text garden.name
