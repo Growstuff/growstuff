@@ -39,7 +39,7 @@ gem 'oj' # Speeds up json
 
 # planting and harvest predictions
 # based on median values for the crop
-gem 'active_median', '0.2.0'
+gem 'active_median'
 gem 'active_record_union'
 
 gem 'flickraw'

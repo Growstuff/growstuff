@@ -81,8 +81,8 @@ GEM
     active_link_to (1.0.5)
       actionpack
       addressable
-    active_median (0.2.0)
-      activerecord (>= 4.2)
+    active_median (0.4.1)
+      activesupport (>= 6.1)
     active_record_union (1.3.0)
       activerecord (>= 4.0)
     active_utils (3.4.1)
@@ -680,7 +680,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  active_median (= 0.2.0)
+  active_median
   active_record_union
   active_utils
   axe-core-capybara
