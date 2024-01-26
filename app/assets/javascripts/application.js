@@ -22,23 +22,13 @@
 // = require_tree .
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    // var dropdownTrigger = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]')) 
-    // var dropdownList = dropdownTrigger.map(function (dropdownTrigger2) { 
-    //     return new bootstrap.Dropdown(dropdownTrigger2) 
-    // });
-
-    // var dropdownTrigger = [].slice.call(document.querySelectorAll('.dropdown-toggle')) 
-    // var dropdownList = dropdownTrigger.map(function (dropdownTrigger2) { 
-    //     return new bootstrap.Dropdown(dropdownTrigger2) 
-    // });
-
-    var popoverTrigger = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]')) 
-    var popoverList = popoverTrigger.map(function (popoverTrigger2) { 
-        return new bootstrap.Popover(popoverTrigger2) 
+    var popoverTrigger = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    var popoverList = popoverTrigger.map(function (popoverTrigger2) {
+        return new bootstrap.Popover(popoverTrigger2);
     });
 
-    var tooltipTrigger = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')) 
-    var tooltipList = tooltipTrigger.map(function (tooltipTrigger2) { 
-        return new bootstrap.Tooltip(tooltipTrigger2) 
+    var tooltipTrigger = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTrigger.map(function (tooltipTrigger2) {
+        return new bootstrap.Tooltip(tooltipTrigger2);
     }); 
   });
