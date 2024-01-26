@@ -24,7 +24,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 # CSS framework
-gem "bootstrap", ">= 4.6.2"
+gem "bootstrap", ">= 5.0.0"
 gem 'material-sass', '4.1.1'
 
 # Icons used by bootstrap/material-sass
@@ -86,10 +86,10 @@ gem 'gravatar-ultimate'
 gem 'geocoder'
 
 # For easy calendar selection
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datepicker-rails', '>= 1.10.0.1'
 
 # DRY-er easier bootstrap 4 forms
-gem "bootstrap_form", ">= 4.5.0"
+gem "bootstrap_form", ">= 5.0.0"
 
 # For connecting to other services (eg Twitter)
 gem 'omniauth', '~> 1.3'
