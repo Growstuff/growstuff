@@ -65,6 +65,10 @@ shared_examples "crop suggest" do |resource|
   it "Submitting a crop that doesn't exist in the database produces a meaningful error" do
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "Ryan Gosling"
+      # Some forms require additional selections before submission.
+      if resource == "harvest"
+        choose plant_part.name
+      end
       click_button "Save"
     end
 
