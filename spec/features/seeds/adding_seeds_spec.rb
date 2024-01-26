@@ -17,16 +17,18 @@ describe "Seeds", :js, :search do
     end
 
     describe "displays required and optional fields properly" do
-      it { expect(page).to have_selector ".form-group.required", text: "Crop" }
+      # Note: The required behaviour is pushed down to the control itself, not the form-group as of rails 7.1.
+      # Modern browsers enforce the required behaviour better than us doing it ourselves.
+      it { expect(page).to have_selector ".form-group", text: "Crop" }
       it { expect(page).to have_selector 'input#seed_quantity' }
       it { expect(page).to have_selector 'input#seed_plant_before' }
       it { expect(page).to have_selector 'input#seed_days_until_maturity_min' }
       it { expect(page).to have_selector 'input#seed_days_until_maturity_max' }
-      it { expect(page).to have_selector '.form-group.required', text: 'Organic?' }
-      it { expect(page).to have_selector '.form-group.required', text: 'GMO?' }
-      it { expect(page).to have_selector '.form-group.required', text: 'Heirloom?' }
+      it { expect(page).to have_selector '.form-group', text: 'Organic?' }
+      it { expect(page).to have_selector '.form-group', text: 'GMO?' }
+      it { expect(page).to have_selector '.form-group', text: 'Heirloom?' }
       it { expect(page).to have_selector 'textarea#seed_description' }
-      it { expect(page).to have_selector '.form-group.required', text: 'Will trade' }
+      it { expect(page).to have_selector '.form-group', text: 'Will trade' }
     end
 
     describe "Adding a new seed", :js do
