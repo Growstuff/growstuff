@@ -376,7 +376,7 @@ GEM
     moneta (1.0.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    multipart-post (2.2.3)
+    multipart-post (2.3.0)
     net-imap (0.3.7)
       date
       net-protocol
@@ -578,9 +578,8 @@ GEM
       tilt
     scout_apm (5.3.5)
       parser
-    searchkick (4.6.3)
-      activemodel (>= 5)
-      elasticsearch (>= 6, < 7.14)
+    searchkick (5.3.1)
+      activemodel (>= 6.1)
       hashie
     selenium-webdriver (4.16.0)
       rexml (~> 3.2, >= 3.2.5)
