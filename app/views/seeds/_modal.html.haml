@@ -5,7 +5,7 @@
         %h4.modal-title.w-100.font-weight-bold
           = seed_icon
           Save #{seed.crop.name} seeds
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+        %button.close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
           %span{"aria-hidden" => "true"} &#215;
 
       .modal-body
@@ -30,6 +30,6 @@
           Save #{seed.crop_name} seeds.
 
 
-%a.btn{"data-target" => "#modelSeedForm", "data-bs-toggle" => "modal", href: ""}
+%a.btn{"data-bs-target" => "#modelSeedForm", "data-bs-toggle" => "modal", href: ""}
   = seed_icon
   Save seeds

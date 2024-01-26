@@ -3,7 +3,7 @@
     .modal-content
       .modal-header.text-center
         %h4.modal-title.w-100.font-weight-bold Record #{planting.crop.name} planting
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+        %button.close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
           %span{"aria-hidden" => "true"} &#215;
       .modal-body
         %p Which garden is the planting in?
@@ -23,6 +23,6 @@
         = link_to 'add new garden', new_garden_path
 
 
-%a.btn{"data-target" => "#modelPlantingForm", "data-bs-toggle" => "modal", href: "", id: 'planting-button'}
+%a.btn{"data-bs-target" => "#modelPlantingForm", "data-bs-toggle" => "modal", href: "", id: 'planting-button'}
   = planting_icon
   Add to my garden
