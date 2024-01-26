@@ -1,9 +1,9 @@
 - if current_member.present?
-  .flex-column.nav-pills.layout-nav
+  .flex-column.nav-pills.layout-nav{"role" => "tablist", "aria-orientation"=>"vertical"}
     / %h2.card-title #{model} links
-    = link_to url_for([current_member, model]), class: 'nav-link' do
+    = link_to url_for([current_member, model]), class: 'nav-link tab' do
       My #{model.model_name.human.pluralize}
-    = link_to model, class: 'nav-link' do
+    = link_to model, class: 'nav-link tab' do
       Everyone's #{model.model_name.human.pluralize}
     - if can?(:create, model)
       = link_to url_for([model, action: :new]), class: 'btn' do

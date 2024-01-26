@@ -100,7 +100,7 @@ gem 'omniauth-twitter'
 gem "chartkick"
 
 # clever elastic search
-gem 'elasticsearch', '< 7.0.0'
+gem 'elasticsearch', '~> 7.0.0'
 gem 'searchkick'
 
 gem "hashie", ">= 3.5.3"
@@ -179,6 +179,8 @@ group :development, :test do
 end
 
 group :test do
+  gem 'axe-core-capybara'
+  gem 'axe-core-rspec'
   gem 'codeclimate-test-reporter', require: false
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
