@@ -1,6 +1,6 @@
 - if can?(:edit, planting)
   .dropdown.planting-actions
-    %a#planting-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'} Actions
+    %a#planting-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'} Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
       = planting_edit_button(planting, classes: 'dropdown-item')
       = add_photo_button(planting, classes: 'dropdown-item')

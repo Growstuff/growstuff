@@ -6,7 +6,7 @@
     - crop.scientific_names.each do |sn|
       - if can? :edit, sn
         .dropdown.planting-actions
-          %a#planting-actions-scinames.dropdown-toggle.card-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", :href => '#'}= sn.name
+          %a#planting-actions-scinames.dropdown-toggle.card-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :type => "button", :href => '#'}= sn.name
           .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
             = link_to edit_scientific_name_path(sn), class: 'dropdown-item' do
               = edit_icon
