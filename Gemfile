@@ -124,7 +124,6 @@ gem 'rack-protection', '>= 2.0.1'
 gem 'mailboxer', '>= 0.15.1'
 
 gem 'faraday'
-gem 'faraday_middleware'
 
 gem 'rack-cors'
 
