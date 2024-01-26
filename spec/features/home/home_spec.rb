@@ -39,11 +39,11 @@ describe "home page", :search do
     end
 
     it "does not show finished seeds" do
-      expect(subject).not_to have_link href: seed_path(finished_seed)
+      expect(subject).to have_no_link href: seed_path(finished_seed)
     end
 
     it "does not show untradable seeds" do
-      expect(subject).not_to have_link href: seed_path(untradable_seed)
+      expect(subject).to have_no_link href: seed_path(untradable_seed)
     end
 
     it { is_expected.to have_link 'View all seeds »' }
@@ -89,6 +89,7 @@ describe "home page", :search do
     include_examples 'show plantings'
     include_examples 'show harvests'
     include_examples 'shows seeds'
+    include_examples 'is accessible'
     it { is_expected.to have_text 'community of food gardeners' }
   end
 
@@ -98,6 +99,7 @@ describe "home page", :search do
     include_examples 'show plantings'
     include_examples 'show harvests'
     include_examples 'shows seeds'
+    include_examples 'is accessible'
 
     describe 'should say welcome' do
       before { visit root_path }

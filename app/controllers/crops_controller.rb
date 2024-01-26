@@ -63,7 +63,7 @@ class CropsController < ApplicationController
     @crops = CropSearchService.search(@term,
                                       page:           params[:page],
                                       per_page:       Crop.per_page,
-                                      current_member:)
+                                      current_member:).to_a
     respond_with @crops
   end
 
