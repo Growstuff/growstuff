@@ -49,7 +49,7 @@ FactoryBot.define do
       crop { FactoryBot.create(:perennial_crop) }
     end
 
-    factory :predicatable_planting do
+    factory :predictable_planting do
       crop do
         crop = FactoryBot.create(:annual_crop)
         FactoryBot.create(:planting, crop:, planted_at: 10.days.ago)
