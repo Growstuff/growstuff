@@ -227,18 +227,18 @@ GEM
       dotenv (= 2.8.1)
       railties (>= 3.2)
     dumb_delegator (1.0.0)
-    elasticsearch (6.8.3)
-      elasticsearch-api (= 6.8.3)
-      elasticsearch-transport (= 6.8.3)
-    elasticsearch-api (6.8.3)
+    elasticsearch (7.0.0)
+      elasticsearch-api (= 7.0.0)
+      elasticsearch-transport (= 7.0.0)
+    elasticsearch-api (7.0.0)
       multi_json
     elasticsearch-model (7.1.1)
       activesupport (> 3)
       elasticsearch (> 1)
       hashie
     elasticsearch-rails (7.1.0)
-    elasticsearch-transport (6.8.3)
-      faraday (~> 1)
+    elasticsearch-transport (7.0.0)
+      faraday
       multi_json
     erubi (1.12.0)
     erubis (2.7.0)
@@ -399,7 +399,7 @@ GEM
     moneta (1.0.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    multipart-post (2.2.3)
+    multipart-post (2.3.0)
     net-imap (0.3.7)
       date
       net-protocol
@@ -531,7 +531,7 @@ GEM
     rspec-mocks (3.12.6)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
-    rspec-rails (6.1.0)
+    rspec-rails (6.1.1)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       railties (>= 6.1)
@@ -601,9 +601,8 @@ GEM
       tilt
     scout_apm (5.3.5)
       parser
-    searchkick (4.6.3)
-      activemodel (>= 5)
-      elasticsearch (>= 6, < 7.14)
+    searchkick (5.3.1)
+      activemodel (>= 6.1)
       hashie
     selenium-webdriver (4.17.0)
       base64 (~> 0.2)
@@ -709,7 +708,7 @@ DEPENDENCIES
   devise
   discard (>= 1.2)
   dotenv-rails
-  elasticsearch (< 7.0.0)
+  elasticsearch (~> 7.0.0)
   factory_bot_rails
   faker
   faraday
