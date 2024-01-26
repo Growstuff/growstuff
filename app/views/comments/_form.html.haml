@@ -3,7 +3,7 @@
     - if content_for? :title
       %h1.h2-responsive.text-center
         %strong=yield :title
-    = form_for(@comment, html: { class: "form-horizontal", role: "form" }) do |f|
+    = form_for(@comment, html: { class: "form-horizontal" }) do |f|
       - if @comment.errors.any?
         #error_explanation
           %h2

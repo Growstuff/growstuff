@@ -181,6 +181,8 @@ group :development, :test do
 end
 
 group :test do
+  gem 'axe-core-capybara'
+  gem 'axe-core-rspec'
   gem 'codeclimate-test-reporter', require: false
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'

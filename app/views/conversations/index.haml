@@ -52,9 +52,9 @@
                     = truncate(strip_tags(conversation.messages.last.body), length: 150, separator: ' ', omission: '... ')
               .col-md-1
                 - if @box == 'trash'
-                  = link_to conversation_path(conversation, box: @box), method: :put, class: 'restore' do
+                  = link_to conversation_path(conversation, box: @box), method: :put, class: 'restore', title: "Restore" do
                     = icon 'fas', 'trash-restore'
                 - else
-                  = check_box_tag 'conversation_ids[]', conversation.id, false, class: 'selectable'
+                  = check_box_tag 'conversation_ids[]', conversation.id, false, class: 'selectable', "aria-label": "Select for deletion"
       - unless @conversations.empty?
         = will_paginate @conversations
