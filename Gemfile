@@ -39,12 +39,12 @@ gem 'oj' # Speeds up json
 
 # planting and harvest predictions
 # based on median values for the crop
-gem 'active_median', '0.2.0'
+gem 'active_median'
 gem 'active_record_union'
 
 gem 'flickraw'
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', github: 'jquery-ui-rails/jquery-ui-rails', tag: 'v7.0.0' # See https://github.com/jquery-ui-rails/jquery-ui-rails/issues/146
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
@@ -100,7 +100,7 @@ gem 'omniauth-twitter'
 gem "chartkick"
 
 # clever elastic search
-gem 'elasticsearch', '< 7.0.0'
+gem 'elasticsearch', '~> 7.0.0'
 gem 'searchkick'
 
 gem "hashie", ">= 3.5.3"
@@ -124,9 +124,16 @@ gem 'rack-protection', '>= 2.0.1'
 gem 'mailboxer', '>= 0.15.1'
 
 gem 'faraday'
-gem 'faraday_middleware'
 
 gem 'rack-cors'
+
+gem 'icalendar'
+
+# for signups as requested by email service
+gem 'recaptcha'
+
+# External APIs for data
+gem "gbifrb"
 
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
@@ -153,6 +160,7 @@ group :development, :test do
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
+  gem 'pry'
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
@@ -172,11 +180,13 @@ group :development, :test do
 end
 
 group :test do
+  gem 'axe-core-capybara'
+  gem 'axe-core-rspec'
   gem 'codeclimate-test-reporter', require: false
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'
-  gem 'webdrivers'
+  gem 'vcr'
 end
 
 group :travis do

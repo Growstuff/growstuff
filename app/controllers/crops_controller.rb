@@ -46,6 +46,12 @@ class CropsController < ApplicationController
     respond_with @crop, location: @crop
   end
 
+  def gbif
+    @crop = Crop.find(params[:crop_slug])
+    @crop.update_gbif_data!
+    respond_with @crop, location: @crop
+  end
+
   def hierarchy
     @crops = Crop.toplevel.order(:name)
     respond_with @crops
@@ -57,7 +63,7 @@ class CropsController < ApplicationController
     @crops = CropSearchService.search(@term,
                                       page:           params[:page],
                                       per_page:       Crop.per_page,
-                                      current_member:)
+                                      current_member:).to_a
     respond_with @crops
   end
 
@@ -120,6 +126,7 @@ class CropsController < ApplicationController
       if @crop.approval_status_changed?(from: "pending", to: "approved")
         notifier.deliver_now!
         @crop.update_openfarm_data!
+        @crop.update_gbif_data!
       end
     else
       @crop.approval_status = @crop.approval_status_was

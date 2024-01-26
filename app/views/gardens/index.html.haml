@@ -12,9 +12,10 @@
 .row
   .col-md-2
     = render 'layouts/nav', model: Garden
-    = link_to show_inactive_tickbox_path('gardens', owner: @owner, show_all: @show_all) do
-      = check_box_tag 'active', 'all', @show_all
-      include in-active
+    %label
+      = link_to show_inactive_tickbox_path('gardens', owner: @owner, show_all: @show_all) do
+        = check_box_tag 'active', 'all', @show_all
+        include in-active
     - if @owner.present?
       %hr/
       = render @owner

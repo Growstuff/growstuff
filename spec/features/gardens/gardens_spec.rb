@@ -14,7 +14,7 @@ describe "Planting a crop", :js do
     it "View gardens" do
       visit gardens_path
       expect(page).to have_content "Everyone's gardens"
-      click_link "My gardens"
+      click_link "My gardens", match: :first
       expect(page).to have_content "#{garden.owner.login_name}'s gardens"
       click_link "Everyone's gardens"
       expect(page).to have_content "Everyone's gardens"
@@ -127,4 +127,6 @@ describe "Planting a crop", :js do
       expect(page).not_to have_content finished_planting.crop_name
     end
   end
+
+  # TODO:     include_examples 'is accessible'
 end
