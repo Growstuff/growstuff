@@ -127,4 +127,6 @@ describe "Planting a crop", :js do
       expect(page).not_to have_content finished_planting.crop_name
     end
   end
+
+  # TODO:     include_examples 'is accessible'
 end
