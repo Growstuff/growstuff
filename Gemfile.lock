@@ -390,7 +390,6 @@ GEM
     moneta (1.0.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    multipart-post (2.3.0)
     mutex_m (0.2.0)
     net-http (0.4.1)
       uri
@@ -590,6 +589,7 @@ GEM
     ruby-units (4.0.1)
     ruby-vips (2.2.0)
       ffi (~> 1.12)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
