@@ -1,0 +1,42 @@
+<%
+# TODO Refactor to a Planting <-> Ical view class?
+cal = Icalendar::Calendar.new
+cal.description = "Plantings by #{@owner.login_name}"
+@plantings.each do |planting|
+
+  event = Icalendar::Event.new
+
+  lines = []
+  lines << "Quantity: #{planting['quantity'] ? planting['quantity'] : 'unknown' }"
+  lines << "Planted on: #{planting['planted_at'] ? planting['planted_at'] : 'unknown' }"
+  lines << "Sunniness: #{planting['sunniness'] ? planting['sunniness'] : 'unknown' }"
+  lines << "Planted from: #{planting['planted_from'] ? planting['planted_from'] : 'unknown' }"
+  lines << "First harvest from: #{planting['first_harvest_predicted_at'] ? planting['first_harvest_predicted_at'] : 'unknown' }"
+  lines << "Last harvest from: #{planting['last_harvest_predicted_at'] ? planting['last_harvest_predicted_at'] : 'unknown' }"
+  lines << "Finish predicted at: #{planting['finish_predicted_at'] ? planting['finish_predicted_at'] : 'unknown'}"
+  lines << "Finished at: #{planting['finished_at'] ? planting['finished_at'] : 'unknown' }"
+
+  lines << planting.description
+  finish_date = Date.parse(planting['finished_at'] || planting['finish_predicted_at'] || planting['last_harvest_predicted_at']) rescue nil
+
+  event.dtstart     = Time.at(planting['created_at'])
+  event.dtend       = finish_date || 1.day.from_now
+  event.summary     = planting['crop_name']
+  event.description = lines.join("\n")
+  event.ip_class    = "PUBLIC"
+  event.url = planting_url(slug: planting['slug'])
+
+  cal.add_event(event)
+
+  if finish_date && finish_date > Date.today
+    todo = Icalendar::Todo.new
+    todo.dtstart = planting['first_harvest_predicted_at'] || finish_date || Date.today
+    todo.due = finish_date
+    todo.summary = "Harvest #{planting['crop_name']}"
+
+    cal.add_todo(todo)
+  end
+end
+cal.publish
+%>
+<%= cal.to_ical %>

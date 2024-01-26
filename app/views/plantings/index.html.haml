@@ -30,6 +30,8 @@
           = link_to (@owner ? member_plantings_path(@owner, format: format) : plantings_path(format: format)) do
             = icon 'fas', format.to_s
             = format.upcase
+      - if @owner
+        .badge.badge-info= link_to "iCal", member_plantings_path(@owner, format: 'ics', protocol: 'webcal', only_path: false)
       .badge.badge-success= link_to 'API Methods', '/api-docs'
 
   .col-md-10
