@@ -9,6 +9,8 @@ describe 'Commenting on a post' do
 
   before { visit new_comment_path post_id: post.id }
 
+  include_examples 'is accessible'
+
   it "creating a comment" do
     fill_in "comment_body", with: "This is a sample test for comment"
     click_button "Post comment"
@@ -23,6 +25,8 @@ describe 'Commenting on a post' do
     before do
       visit edit_comment_path existing_comment
     end
+
+    include_examples 'is accessible'
 
     it "saving edit" do
       fill_in "comment_body", with: "Testing edit for comment"

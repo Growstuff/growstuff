@@ -20,6 +20,8 @@ require 'capybara'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'capybara-screenshot/rspec'
+require 'axe-capybara'
+require 'axe-rspec'
 
 # TODO: We may want to trial options.add_argument('--disable-dev-shm-usage')      ### optional
 
@@ -42,13 +44,24 @@ else
   Capybara.default_driver = :selenium_chrome_customised_headless
   Capybara.javascript_driver = :selenium_chrome_customised_headless
 end
+Capybara.enable_aria_label = true
 
+Capybara::Screenshot.register_driver(:selenium_chrome_customised_headless) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
 Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
   "screenshot_#{example.description.tr(' ', '-').gsub(%r{^.*/spec/}, '')}"
 end
 
 Capybara.app_host = 'http://localhost'
 Capybara.server_port = 8081
+
+# TODO: Find a better home.
+shared_examples 'is accessible' do
+  it "is accessible" do
+    expect(page).to be_axe_clean.skipping('color-contrast', 'heading-order', 'aria-required-children').according_to :wcag2a
+  end
+end
 
 include Warden::Test::Helpers
 
