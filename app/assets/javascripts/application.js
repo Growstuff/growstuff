@@ -21,14 +21,14 @@
 // = require material
 // = require_tree .
 
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener('DOMContentLoaded', function(event) {
     var popoverTrigger = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-    var popoverList = popoverTrigger.map(function (popoverTrigger2) {
+    popoverTrigger.map(function(popoverTrigger2) {
         return new bootstrap.Popover(popoverTrigger2);
     });
 
     var tooltipTrigger = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    var tooltipList = tooltipTrigger.map(function (tooltipTrigger2) {
+    tooltipTrigger.map(function(tooltipTrigger2) {
         return new bootstrap.Tooltip(tooltipTrigger2);
-    }); 
+    });
   });
