@@ -697,7 +697,7 @@ DEPENDENCIES
   better_errors
   bluecloth
   bonsai-elasticsearch-rails
-  bootstrap (>= 4.6.2)
+  bootstrap (>= 5.0.0)
   bootstrap-datepicker-rails
   bootstrap_form (>= 4.5.0)
   bullet
