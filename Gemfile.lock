@@ -642,6 +642,8 @@ GEM
     temple (0.10.3)
     terminal-table (3.0.2)
       unicode-display_width (>= 1.1.1, < 3)
+    terser (1.2.0)
+      execjs (>= 0.3.0, < 3)
     thor (1.3.0)
     thread_safe (0.3.6)
     tilt (2.3.0)
@@ -650,8 +652,6 @@ GEM
     trollop (1.16.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     unicode-display_width (2.5.0)
     unicorn (6.1.0)
       kgio (~> 2.6)
@@ -785,8 +785,8 @@ DEPENDENCIES
   selenium-webdriver
   sidekiq
   sprockets (< 4)
+  terser
   timecop
-  uglifier
   unicorn
   validate_url
   vcr
