@@ -6,7 +6,7 @@ require 'haml/filters/growstuff_markdown'
 class Haml::Filters
   class EscapedMarkdown < Haml::Filters::Base
     def compile(text)
-      Haml::Helpers.html_escape Haml::Filters::GrowstuffMarkdown.compile(text)
+      Haml::Helpers.html_escape Haml::Filters::GrowstuffMarkdown.new.compile(text)
     end
   end
 

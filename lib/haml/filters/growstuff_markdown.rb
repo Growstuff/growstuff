@@ -9,7 +9,7 @@ class Haml::Filters
       @expanded = text
       expand_crops!
       expand_members!
-      BlueCloth.new(@expanded).to_html
+      [:static, BlueCloth.new(@expanded).to_html]
     end
 
     private
