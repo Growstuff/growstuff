@@ -135,6 +135,8 @@ gem 'recaptcha'
 # External APIs for data
 gem "gbifrb"
 
+gem "msgpack"
+
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
