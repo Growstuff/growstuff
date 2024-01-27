@@ -79,8 +79,7 @@ context "signed in non-wrangler" do
   end
 
   it "can't see wrangling page with js" do
-    visit root_path
-    click_link member.login_name
+    visit member_path(member)
     expect(page).not_to have_link "Crop Wrangling"
   end
 end
