@@ -5,8 +5,8 @@ require 'bluecloth'
 class Haml::Filters
   class GrowstuffMarkdown < Haml::Filters::Base
 
-    def compile(text)
-      @expanded = text
+    def compile(node)
+      @expanded = node.value[:text]
       expand_crops!
       expand_members!
       [:static, BlueCloth.new(@expanded).to_html]
