@@ -2,9 +2,8 @@
 
 require 'bluecloth'
 
-module Haml::Filters
-  module GrowstuffMarkdown
-    include Haml::Filters::Base
+class Haml::Filters
+  class GrowstuffMarkdown < Haml::Filters::Base
 
     def render(text)
       @expanded = text
@@ -72,5 +71,5 @@ module Haml::Filters
 
   # Register it as the handler for the :growstuff_markdown HAML command.
   # The automatic system gives us :growstuffmarkdown, which is ugly.
-  defined['growstuff_markdown'] = GrowstuffMarkdown
+  Haml::Filters.registered[:growstuff_markdown] = GrowstuffMarkdown
 end

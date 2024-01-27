@@ -3,9 +3,8 @@
 require 'bluecloth'
 require 'haml/filters/growstuff_markdown'
 
-module Haml::Filters
-  module EscapedMarkdown
-    include Haml::Filters::Base
+class Haml::Filters
+  class EscapedMarkdown < Haml::Filters::Base
     def render(text)
       Haml::Helpers.html_escape Haml::Filters::GrowstuffMarkdown.render(text)
     end
@@ -13,5 +12,5 @@ module Haml::Filters
 
   # Register it as the handler for the :escaped_markdown HAML command.
   # The automatic system gives us :escapedmarkdown, which is ugly.
-  defined['escaped_markdown'] = EscapedMarkdown
+  Haml::Filters.registered[:escaped_markdown] ||= EscapedMarkdown
 end
