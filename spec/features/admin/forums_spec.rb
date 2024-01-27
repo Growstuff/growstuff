@@ -25,6 +25,7 @@ describe "forums", :js do
       expect(page).to have_current_path new_forum_path, ignore_query: true
       fill_in 'Name', with: 'Discussion'
       fill_in 'Description', with: "this is a new forum"
+      select member.login_name, from: "Owner"
       click_button 'Save'
     end
 
