@@ -120,8 +120,8 @@ describe 'Haml::Filters::Growstuff_Markdown' do
 
   def haml_template(input)
     <<~HTML
-    :growstuff_markdown
-      #{input}
+      :growstuff_markdown
+        #{input}
     HTML
   end
 
