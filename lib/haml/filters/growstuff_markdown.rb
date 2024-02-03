@@ -2,15 +2,15 @@
 
 require 'bluecloth'
 
-module Haml::Filters
-  module GrowstuffMarkdown
-    include Haml::Filters::Base
+class Haml::Filters
+  class GrowstuffMarkdown < Haml::Filters::Markdown
 
-    def render(text)
-      @expanded = text
+    def compile(node)
+      @expanded = node.value[:text]
       expand_crops!
       expand_members!
-      BlueCloth.new(@expanded).to_html
+      node.value[:text] = @expanded
+      compile_with_tilt(node, 'markdown')
     end
 
     private
@@ -72,5 +72,5 @@ module Haml::Filters
 
   # Register it as the handler for the :growstuff_markdown HAML command.
   # The automatic system gives us :growstuffmarkdown, which is ugly.
-  defined['growstuff_markdown'] = GrowstuffMarkdown
+  Haml::Filters.registered[:growstuff_markdown] = GrowstuffMarkdown
 end
