@@ -149,7 +149,7 @@ GEM
       erubi (~> 1.4)
       parser (>= 2.4)
       smart_properties
-    bigdecimal (3.1.4)
+    bigdecimal (3.1.6)
     bluecloth (2.2.0)
     bonsai-elasticsearch-rails (7.0.1)
       elasticsearch-model (< 8)
@@ -283,8 +283,9 @@ GEM
     gravatar-ultimate (2.0.0)
       activesupport (>= 2.3.14)
       rack
-    haml (5.2.2)
-      temple (>= 0.8.0)
+    haml (6.3.0)
+      temple (>= 0.8.2)
+      thor
       tilt
     haml-i18n-extractor (0.5.9)
       activesupport
