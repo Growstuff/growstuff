@@ -65,7 +65,14 @@ class CropsController < ApplicationController
                                       per_page:       Crop.per_page,
                                       current_member:)
 
-    respond_with @crops
+    respond_to do |format|
+      format.html do
+        render
+      end
+      format.json do
+        render json: @crops.to_a
+      end
+    end
   end
 
   def show
