@@ -4,10 +4,10 @@ require 'bluecloth'
 require 'haml/filters/growstuff_markdown'
 
 class Haml::Filters
-  class EscapedMarkdown < Haml::Filters::Base
-    def compile(text)
-      Haml::Util.escape_html Haml::Filters::GrowstuffMarkdown.new.compile(text)
-    end
+  class EscapedMarkdown < Haml::Filters::GrowstuffMarkdown
+    # def compile(text)
+    #   Haml::Util.escape_html Haml::Filters::GrowstuffMarkdown.new.compile(text)
+    # end
   end
 
   # Register it as the handler for the :escaped_markdown HAML command.

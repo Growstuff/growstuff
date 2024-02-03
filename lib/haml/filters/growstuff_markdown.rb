@@ -3,13 +3,14 @@
 require 'bluecloth'
 
 class Haml::Filters
-  class GrowstuffMarkdown < Haml::Filters::Base
+  class GrowstuffMarkdown < Haml::Filters::Markdown
 
     def compile(node)
       @expanded = node.value[:text]
       expand_crops!
       expand_members!
-      [:static, BlueCloth.new(@expanded).to_html]
+      node.value[:text] = @expanded
+      compile_with_tilt(node, 'markdown')
     end
 
     private
