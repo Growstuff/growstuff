@@ -12,13 +12,27 @@ describe 'Haml::Filters::Escaped_Markdown' do
   end
 
   it 'converts Markdown to escaped HTML' do
-    rendered = Haml::Filters::EscapedMarkdown.new.compile("**foo**")
-    rendered[1].should == "&lt;p&gt;&lt;strong&gt;foo&lt;/strong&gt;&lt;/p&gt;"
+    template = <<~HTML
+    :escaped_markdown
+      **foo**
+    HTML
+    rendered = render_haml(template)
+    expect(rendered).to eq "&lt;p&gt;&lt;strong&gt;foo&lt;/strong&gt;&lt;/p&gt;\n\n"
   end
 
   it 'converts quick crop links' do
     @crop = FactoryBot.create(:crop)
-    rendered = Haml::Filters::EscapedMarkdown.new.compile("[#{@crop.name}](crop)")
-    rendered[1].should match(/&lt;a href=&quot;/)
+    template = <<~HTML
+    :escaped_markdown
+      [#{@crop.name}](crop)
+    HTML
+    rendered = render_haml(template)
+    expect(rendered).to match(/&lt;a href=&quot;/)
+  end
+
+  def render_haml(haml)
+    locals = {}
+    options = {}
+    Haml::Template.new(options) { haml }.render(Object.new, locals)
   end
 end
