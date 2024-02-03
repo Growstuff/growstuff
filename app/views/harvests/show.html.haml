@@ -33,7 +33,7 @@
           %h3
             Harvested
             = editable :date, @harvest, :harvested_at, display_field: '.harvested_at'
-          %strong.harvested_at #{time_ago_in_words @harvest.harvested_at} ago
+          %strong.harvested_at #{distance_of_time_in_words @harvest.harvested_at, Time.zone.now.to_date} ago
           %span.harvested_at= I18n.l @harvest.harvested_at
 
         .card{class: @harvest.quantity.present? ? '' : 'text-muted'}

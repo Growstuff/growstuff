@@ -3,6 +3,8 @@
 require_relative 'boot'
 
 require 'rails/all'
+ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = "true"
+
 require 'openssl'
 
 # Require the gems listed in Gemfile, including any gems
@@ -15,8 +17,6 @@ module Growstuff
     config.load_defaults 7.0
 
     I18n.config.enforce_available_locales = true
-
-    config.active_record.legacy_connection_handling = false
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.

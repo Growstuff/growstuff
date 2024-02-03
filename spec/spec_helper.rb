@@ -18,6 +18,14 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'simplecov'
 require 'percy/capybara'
+require 'vcr'
+
+VCR.configure do |c|
+  c.ignore_host "elasticsearch", "localhost"
+  c.cassette_library_dir = 'spec/cassettes'
+  c.hook_into :faraday
+  c.configure_rspec_metadata!
+end
 
 SimpleCov.start
 
@@ -53,7 +61,7 @@ RSpec.configure do |config|
     Searchkick.disable_callbacks
   end
 
-  config.around(:each, search: true) do |example|
+  config.around(:each, :search) do |example|
     Searchkick.callbacks(true) do
       index_everything
       example.run

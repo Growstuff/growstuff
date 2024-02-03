@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_13_015323) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_14_045751) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -543,6 +543,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_015323) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "creator_id"
+    t.integer "gbif_key"
+    t.string "gbif_rank"
+    t.string "gbif_status"
+    t.string "wikidata_id"
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
