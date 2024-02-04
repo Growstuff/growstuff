@@ -1,19 +1,8 @@
 # frozen_string_literal: true
 
-require 'bluecloth'
-
+# TODO: Move this file/helper elsewhere, as it is used as a pre filter rather than plugging into the haml architecture
 class Haml::Filters
-  class GrowstuffMarkdown < Haml::Filters::Markdown
-
-    def compile(node)
-      @expanded = node.value[:text]
-      @expanded = expand_crops!(@expanded)
-      @expanded = expand_members!(@expanded)
-      node.value[:text] = @expanded
-
-      compile_with_tilt(node, 'markdown')
-    end
-
+  class GrowstuffMarkdown
     CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
     MEMBER_AT_REGEX = /(?<!\\)(@\w+)/
@@ -68,8 +57,4 @@ class Haml::Filters
       Member.case_insensitive_login_name(login_name).first
     end
   end
-
-  # Register it as the handler for the :growstuff_markdown HAML command.
-  # The automatic system gives us :growstuffmarkdown, which is ugly.
-  Haml::Filters.registered[:growstuff_markdown] = GrowstuffMarkdown
 end
