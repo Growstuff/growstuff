@@ -25,10 +25,7 @@ def output_member_link(member, name = nil)
 end
 
 describe 'Haml::Filters::Growstuff_Markdown' do
-  it 'is registered as the handler for :growstuff_markdown' do
-    Haml::Filters.registered[:growstuff_markdown].should ==
-      Haml::Filters::GrowstuffMarkdown
-  end
+  include ApplicationHelper
 
   it 'converts quick crop links' do
     @crop = FactoryBot.create(:crop)
@@ -120,8 +117,8 @@ describe 'Haml::Filters::Growstuff_Markdown' do
 
   def haml_template(input)
     <<~HTML
-      :growstuff_markdown
-        #{input}
+      :markdown
+        #{markdownify input}
     HTML
   end
 
