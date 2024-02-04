@@ -11,4 +11,4 @@
         %guid= post_url(post)
         %description
           :escaped_markdown
-            #{ strip_tags post.body }
+            #{ strip_tags markdownify(post.body) }

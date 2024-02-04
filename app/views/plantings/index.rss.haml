@@ -15,6 +15,6 @@
             <p>Sunniness: #{planting['sunniness'] ? planting['sunniness'] : 'unknown' }</p>
             <p>Planted from: #{planting['planted_from'] ? planting['planted_from'] : 'unknown' }</p>
           :escaped_markdown
-            #{ strip_tags planting['description'] }
+            #{ strip_tags markdownify(planting['description']) }
         %link= planting_url(slug: planting['slug'])
         %guid= planting_url(slug: planting['slug'])

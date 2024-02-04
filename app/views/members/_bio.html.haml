@@ -5,5 +5,5 @@
   - else
     #{member.login_name} hasn't written a bio yet.
 - else
-  :growstuff_markdown
-    #{ strip_tags member.bio }
+  :markdown
+    #{ strip_tags markdownify(member.bio) }
