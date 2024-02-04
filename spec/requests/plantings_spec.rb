@@ -50,5 +50,52 @@ describe "Plantings" do
         response.status.should be(200)
       end
     end
+
+    describe "GET /members/x/plantings.csv" do
+      let(:expected_headers) do
+        [
+          "Id",
+          "Growstuff url",
+          "Owner",
+          "Owner name",
+          "Garden",
+          "Garden name",
+          "Crop",
+          "Crop name",
+          "Quantity",
+          "Planted from",
+          "Sunniness",
+          "Date planted",
+          "Finished",
+          "Date finished",
+          "Description",
+          "Date added",
+          "Last modified",
+          "License"
+        ]
+      end
+
+      it "works!" do
+        get member_plantings_path(@member, format: "csv")
+
+        response.status.should be(200)
+
+        data = CSV.parse(response.body, headers: true)
+        expect(data.headers).to eq expected_headers
+
+        expect(data[1]["Crop name"]).to eq @predictable_planting.crop.name
+        expect(data[1]["Owner name"]).to eq @member.to_s
+        expect(data[1]["Garden name"]).to eq @predictable_planting.garden.to_s
+        expect(data[1]["Description"]).to eq @predictable_planting.description
+        expect(data[1]["Date planted"]).to eq @predictable_planting.planted_at.to_fs(:db)
+        expect(data[1]["Quantity"].to_i).to eq @predictable_planting.quantity
+        expect(data[1]["Sunniness"]).to eq @predictable_planting.sunniness
+        expect(data[1]["Planted from"]).to eq @predictable_planting.planted_from
+        expect(data[1]["Date added"]).to eq @predictable_planting.created_at.to_fs(:db)
+        expect(data[1]["License"]).to eq "CC-BY-SA Growstuff http://growstuff.org/"
+
+        expect(data.count).to eq 6
+      end
+    end
   end
 end
