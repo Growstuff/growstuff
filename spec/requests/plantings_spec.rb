@@ -81,7 +81,7 @@ describe "Plantings" do
         response.status.should be(200)
 
         data = CSV.parse(response.body, headers: true)
-        expect(data.headers).to eq expected_header
+        expect(data.headers).to eq expected_headers
 
         expect(data[1]["Crop name"]).to eq @predictable_planting.crop.name
         expect(data[1]["Owner name"]).to eq @member.to_s
