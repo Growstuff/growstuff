@@ -18,31 +18,32 @@ csv.headers :id,
   :license
 
 @plantings.each do |p|
+  puts p.inspect
   csv.row p do |csv, planting|
 
     csv.cell :id
-    csv.cell :growstuff_url, planting_url(slug: p['slug'])
+    csv.cell :growstuff_url, planting_url(p.slug)
 
-    csv.cell :owner_id, p.owner.id
-    csv.cell :owner_name, p.owner.to_s
+    csv.cell :owner_id, p.owner_id
+    csv.cell :owner_name, p.owner_login_name
 
-    csv.cell :garden_id, p.garden.id
-    csv.cell :garden_name, p.garden.to_s
+    csv.cell :garden_id, p.garden_id
+    csv.cell :garden_name, p.garden_name
 
-    csv.cell :crop_id, p.crop.id
-    csv.cell :crop_name, p.crop.to_s
+    csv.cell :crop_id, p.crop_id
+    csv.cell :crop_name, p.crop_name
 
     csv.cells :quantity, :planted_from, :sunniness
 
-    csv.cell :date_planted, p.planted_at ? p.planted_at.to_fs(:db) : ''
+    csv.cell :date_planted, p.planted_at ? p.planted_at : ''
 
     csv.cell :finished
-    csv.cell :date_finished, p.finished_at ? p.finished_at.to_fs(:db) : ''
+    csv.cell :date_finished, p.finished_at ? p.finished_at : ''
 
-    csv.cell :description
+    csv.cell :description, p.description
 
-    csv.cell :date_added, p.created_at.to_fs(:db)
-    csv.cell :last_modified, p.updated_at.to_fs(:db)
+    csv.cell :date_added, Time.at(p.created_at).to_fs(:db)
+    csv.cell :last_modified, Time.at(p.updated_at).to_fs(:db)
 
     csv.cell :license, "CC-BY-SA Growstuff http://growstuff.org/"
 
