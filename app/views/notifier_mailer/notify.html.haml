@@ -12,8 +12,8 @@
   \.
 
 %blockquote
-  :growstuff_markdown
-    #{strip_tags @notification.body}
+  :markdown
+    #{strip_tags markdownify(@notification.body)}
 
 %p
   = link_to "Reply to this message", @reply_link

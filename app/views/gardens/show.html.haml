@@ -29,8 +29,8 @@
           to plant something in this garden.
     %div
       %p
-        :growstuff_markdown
-          #{strip_tags @garden.description}
+        :markdown
+          #{strip_tags markdownify(@garden.description)}
         - unless @garden.description
           .row-fluid
             %p No description available yet.

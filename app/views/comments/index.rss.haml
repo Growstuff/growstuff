@@ -14,7 +14,7 @@
             </p>
 
           :escaped_markdown
-            #{ strip_tags comment.body }
+            #{ strip_tags markdownify(comment.body) }
 
         %pubdate= comment.created_at.to_fs(:rfc822)
         %link= post_url(comment.post)

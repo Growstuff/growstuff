@@ -52,8 +52,8 @@
           .card-header
             %h2 Notes
           .card-body
-            :growstuff_markdown
-              #{strip_tags(@planting.description)}
+            :markdown
+              #{strip_tags markdownify(@planting.description)}
       %section= render 'plantings/photos', photos: @photos, planting: @planting
 
       %section.harvests
