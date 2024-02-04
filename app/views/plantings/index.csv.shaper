@@ -21,7 +21,7 @@ csv.headers :id,
   csv.row p do |csv, planting|
 
     csv.cell :id
-    csv.cell :growstuff_url, planting_url(p)
+    csv.cell :growstuff_url, planting_url(slug: p['slug'])
 
     csv.cell :owner_id, p.owner.id
     csv.cell :owner_name, p.owner.to_s
