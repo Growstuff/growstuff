@@ -33,7 +33,7 @@ gem 'material_icons'
 # icons
 gem 'font-awesome-sass'
 
-gem 'uglifier' # JavaScript compressor
+gem 'terser'
 
 gem 'oj' # Speeds up json
 
