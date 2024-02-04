@@ -13,6 +13,6 @@ module PostsHelper
   def as_haml(post)
     locals = {}
     options = {}
-    Haml::Template.new(options) { strip_tags(post.body) }.render(Object.new, locals)
+    Haml::Template.new(options) { strip_tags(markdownify(post.body)) }.render(Object.new, locals)
   end
 end

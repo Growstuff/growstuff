@@ -34,6 +34,13 @@ module ApplicationHelper
     tag.div(asterisk + ' '.html_safe + text, class: ['margin-bottom'])
   end
 
+  # A helper to replace the complex template compilation mess
+  # of HAML, Tilt, and dynamic compilation with interpolated ruby.
+  def markdownify(text)
+    translator = Haml::Filters::GrowstuffMarkdown.new
+    translator.expand_members!(translator.expand_crops!(text))
+  end
+
   #
   # Returns an image uri for a given member.
   #

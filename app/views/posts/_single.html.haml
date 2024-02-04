@@ -15,5 +15,5 @@
 
 = link_to "Permalink", post
 
-:growstuff_markdown
-  #{ strip_tags @post.body }
+:markdown
+  #{ strip_tags markdownify(@post.body) }
