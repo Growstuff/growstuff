@@ -12,7 +12,7 @@
     %a.font-weight-bold= post.author
 %p.post-body
   :growstuff_markdown
-    = post_stripped_tags(post, length: 300)
+    #{post_stripped_tags(post, length: 300)}
 %h6.font-weight-bold.mb-3
   - post.crops.each do |crop|
     = link_to crop do
