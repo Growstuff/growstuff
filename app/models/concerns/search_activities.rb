@@ -8,8 +8,8 @@ module SearchActivities
                settings:       { number_of_shards: 1, number_of_replicas: 0 },
                mappings:       {
                  properties: {
-                   active:         { type: :boolean },
-                   created_at:     { type: :integer }
+                   active:     { type: :boolean },
+                   created_at: { type: :integer }
                  }
                }
 
@@ -17,14 +17,14 @@ module SearchActivities
       {
         slug:,
         active:,
-        finished:                   finished?,
+        finished:         finished?,
         name:,
         due_date:,
         category:,
         garden_id:,
-        garden_name: garden&.name,
+        garden_name:      garden&.name,
         planting_id:,
-        planting_name: planting&.crop&.name,
+        planting_name:    planting&.crop&.name,
         description:,
 
         # owner
@@ -33,12 +33,12 @@ module SearchActivities
         owner_slug:,
 
         # timestamps
-        created_at:                 created_at.to_i,
-        updated_at:                 updated_at.to_i
+        created_at:       created_at.to_i,
+        updated_at:       updated_at.to_i
       }
     end
 
-    def self.homepage_records(limit)
+    def self.homepage_records(_limit)
       []
     end
   end
