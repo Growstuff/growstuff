@@ -51,7 +51,7 @@ class ActivitiesController < DataController
   def edit
     # the following are needed to display the form but aren't used
     @gardens = @activity.owner.gardens.active.order_by_name
-  @plantings = @activity.owner.plantings.active
+    @plantings = @activity.owner.plantings.active
   end
 
   def create
