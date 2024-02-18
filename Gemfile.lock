@@ -122,13 +122,13 @@ GEM
     ast (2.4.2)
     autoprefixer-rails (10.4.7.0)
       execjs (~> 2)
-    axe-core-api (4.8.1)
+    axe-core-api (4.8.2)
       dumb_delegator
       virtus
-    axe-core-capybara (4.8.1)
+    axe-core-capybara (4.8.2)
       axe-core-api
       dumb_delegator
-    axe-core-rspec (4.8.1)
+    axe-core-rspec (4.8.2)
       axe-core-api
       dumb_delegator
       virtus
@@ -232,10 +232,10 @@ GEM
     discard (1.3.0)
       activerecord (>= 4.2, < 8)
     docile (1.1.5)
-    dotenv (2.8.1)
-    dotenv-rails (2.8.1)
-      dotenv (= 2.8.1)
-      railties (>= 3.2)
+    dotenv (3.0.2)
+    dotenv-rails (3.0.2)
+      dotenv (= 3.0.2)
+      railties (>= 6.1)
     drb (2.2.0)
       ruby2_keywords
     dumb_delegator (1.0.0)
@@ -298,7 +298,7 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
-    haml_lint (0.55.0)
+    haml_lint (0.57.0)
       haml (>= 5.0)
       parallel (~> 1.10)
       rainbow
@@ -336,7 +336,7 @@ GEM
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
     io-console (0.7.2)
-    irb (1.11.1)
+    irb (1.11.2)
       rdoc
       reline (>= 0.4.2)
     jquery-rails (4.6.0)
@@ -391,7 +391,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
-    minitest (5.21.2)
+    minitest (5.22.2)
     moneta (1.0.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
@@ -409,10 +409,10 @@ GEM
     net-smtp (0.4.0.1)
       net-protocol
     nio4r (2.7.0)
-    nokogiri (1.16.0)
+    nokogiri (1.16.2)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.0-x86_64-linux)
+    nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
     oauth (0.5.6)
     oj (3.16.3)
@@ -592,7 +592,7 @@ GEM
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
-    ruby-units (4.0.1)
+    ruby-units (4.0.2)
     ruby-vips (2.2.0)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
@@ -610,7 +610,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    scout_apm (5.3.5)
+    scout_apm (5.3.7)
       parser
     searchkick (5.3.1)
       activemodel (>= 6.1)
@@ -686,7 +686,7 @@ GEM
       webrick
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.12)
+    zeitwerk (2.6.13)
 
 PLATFORMS
   ruby

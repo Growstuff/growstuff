@@ -54,6 +54,12 @@
     margin-bottom: 0;
   }
 
+  .card-footer {
+    .d-flex {
+      flex-direction: column;
+    }
+  }
+
   .sidebar {
     border-left: 0;
     margin-left: 0;

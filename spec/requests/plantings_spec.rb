@@ -14,13 +14,15 @@ describe "Plantings" do
   context "with a member" do
     before do
       @member = create(:interesting_member)
-      @predictable_planting = create(:predictable_planting, owner: @member)
+
+      @predictable_planting = create(:predictable_planting, owner: @member, planted_at: 1.days.ago, days_to_first_harvest: 10, days_to_last_harvest: 20)
+      @predictable_planting.crop.update(median_days_to_first_harvest: 10)
+
       @seedling_planting = create(:seedling_planting, owner: @member)
       @seed_planting = create(:seed_planting, owner: @member)
       @finished_planting = create(:finished_planting, owner: @member)
       @annual_planting = create(:annual_planting, owner: @member)
       @perennial_planting = create(:perennial_planting, owner: @member)
-
       Planting.reindex
     end
 
