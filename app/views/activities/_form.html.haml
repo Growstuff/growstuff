@@ -1,0 +1,49 @@
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  .card-header
+    - if content_for? :title
+      %h1.h2-responsive.text-center
+        = planting_icon
+        %strong=yield :title
+  = bootstrap_form_for(@activity) do |f|
+    .card-body
+      = required_field_help_text
+      - if @activity.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@activity.errors.size, "error")
+            prohibited this activity from being saved:
+          %ul
+            - @activity.errors.full_messages.each do |msg|
+              %li= msg
+
+      .row
+        = f.text_field :name, required: true, label: 'What needs to be done?'
+        = f.select(:category, Activity::CATEGORIES, include_blank: true)
+        = f.text_area :description, rows: 6, label: 'Tell us more about it'
+
+      .row
+        .col-md-4
+          = f.collection_radio_buttons(:garden_id, @activity.owner.gardens.active,
+            :id, :name,
+            label: 'Is this for a specific garden?')
+          = link_to "Add a garden.", new_garden_path
+
+        .col-md-4
+          = f.collection_radio_buttons(:planting_id, @activity.owner.plantings.active,
+            :id, :name,
+            label: 'Is this for a specific planting?')
+          = link_to "Add a planting.", new_planting_path
+
+        .col-md-4
+          = f.text_field :due_date,
+                     value: @activity.due_date ? @activity.due_date.to_fs(:ymd) : '',
+                     class: 'add-datepicker', label: 'When?'
+
+
+      .row
+        .col-md-6
+          = f.check_box :finished, label: 'Mark as finished'
+          %span.help-block= t('.finish_helper')
+
+    .card-footer
+      .text-right= f.submit 'Save'
