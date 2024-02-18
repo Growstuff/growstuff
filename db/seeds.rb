@@ -88,6 +88,16 @@ def load_test_users
       sunniness:    select_random_item(Planting::SUNNINESS_VALUES),
       planted_from: select_random_item(Planting::PLANTED_FROM_VALUES)
     )
+
+    # Create an activity by the member
+    Activity.create(
+      owner_id:     @user.id,
+      garden_id:    @user.gardens.first.id,
+      due_date:   Time.zone.today,
+      name: "Remove all weeds",
+      category: "Weeding",
+      description: "Get rid of the invasive grass, again"
+    )
   end
 
   puts "Finished loading test users"
