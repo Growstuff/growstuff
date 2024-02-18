@@ -125,8 +125,8 @@ describe "member profile", :js do
 
     context 'member has activities' do
       let!(:activity) { FactoryBot.create(:activity, owner: member, due_date: 3.days.ago) }
-      let!(:activity2) { FactoryBot.create(:activity, owner: member, :planting) }
-      let!(:activity3) { FactoryBot.create(:activity, owner: member, :garden) }
+      let!(:activity2) { FactoryBot.create(:activity, :planting, owner: member) }
+      let!(:activity3) { FactoryBot.create(:activity, :garden, owner: member) }
 
       before { visit member_path(member) }
 

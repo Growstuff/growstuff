@@ -13,5 +13,7 @@ class AddActivities < ActiveRecord::Migration[7.1]
       t.references :planting
       t.timestamps
     end
+
+    add_column :members, :activities_count, :integer
   end
 end

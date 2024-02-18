@@ -26,7 +26,7 @@ class TimelineService
     Activity.select(
       :id,
       "'activity' as event_type",
-      'due_date as event_at',
+      'COALESCE(due_date, created_at) as event_at',
       :owner_id,
       'null as crop_id'
     )
