@@ -123,6 +123,18 @@ describe "member profile", :js do
       it { expect(page).not_to have_link href: planting_path(no_planted_at_planting) }
     end
 
+    context 'member has activities' do
+      let!(:activity) { FactoryBot.create(:activity, owner: member, due_date: 3.days.ago) }
+      let!(:activity2) { FactoryBot.create(:activity, owner: member, :planting) }
+      let!(:activity3) { FactoryBot.create(:activity, owner: member, :garden) }
+
+      before { visit member_path(member) }
+
+      it { expect(page).to have_link href: planting_path(activity) }
+      it { expect(page).to have_link href: planting_path(activity2) }
+      it { expect(page).to have_link href: planting_path(activity3) }
+    end
+
     context 'member has seeds' do
       let!(:seed) { FactoryBot.create(:seed, owner: member) }
 
