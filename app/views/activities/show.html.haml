@@ -19,6 +19,7 @@
         .d-flex.justify-content-between
           %h1.display-3
             %strong= @activity.name.titleize
+            %small.text-muted= @activity.category
           %tt
             = @activity.due_date
 
@@ -26,12 +27,11 @@
       = render 'activities/owner', planting: @activity
 
     .col-md-8.col-xs-12
-    -#   %section= render 'facts', activity: @activity
       - if @activity.description.present?
         = cute_icon
         .card
           .card-header
-            %h2 Notes
+            %h2 Description
           .card-body
             :markdown
               #{strip_tags markdownify(@activity.description)}

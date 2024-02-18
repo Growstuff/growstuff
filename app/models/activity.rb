@@ -4,6 +4,7 @@ class Activity < ApplicationRecord
   extend FriendlyId
   include Ownable
   include Finishable
+  include SearchActivities
 
   belongs_to :garden, optional: true
   belongs_to :planting, optional: true
@@ -17,6 +18,9 @@ class Activity < ApplicationRecord
   validates :owner, presence: true
 
   validates :slug, uniqueness: true
+
+  delegate :location, :latitude, :longitude, to: :owner
+  delegate :login_name, :slug, :location, to: :owner, prefix: true
 
   def activity_slug
     "#{owner.login_name}-#{name}-#{id}".downcase.tr(' ', '-')

@@ -1,7 +1,6 @@
 - cache activity do
   .card.activity{class: activity.active ? '' : 'card-finished'}
     = link_to activity_path(slug: activity.slug) do
-      = activity.description
       -# = image_tag activity.thumbnail_url ? activity.thumbnail_url : placeholder_image, class: 'img-card', alt: planting.crop_name
 
     - if member_signed_in? && current_member.id == activity.owner_id
@@ -25,8 +24,12 @@
       .card-body.text-center
         %h4= activity.name
         .text-center= activity.description
+        - if activity.garden
+          .text-center= activity.garden
+        - if activity.planting
+          .text-center= activity.planting
     .card-footer
       .float-right
         %span.chip.member-chip
-          = link_to member_path(slug: activity.owner.slug) do
-            = activity.owner.login_name
+          = link_to member_path(slug: activity.owner_slug) do
+            = activity.owner_login_name

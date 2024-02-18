@@ -278,6 +278,9 @@ en:
       unknown: Unknown
   activities:
     plan_something: Plan something
+    index:
+      title:
+        owner_activities: "%{owner}'s activities"
   plantings:
     badges:
       days_until_finished: days until finished
