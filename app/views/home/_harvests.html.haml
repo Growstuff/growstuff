@@ -1,4 +1,4 @@
-%h2= t('.recently_harvested')
+%h2= t('.recent_activities')
 - Harvest.homepage_records(6).each do |harvest|
   - cache harvest do
     = link_to harvest_path(slug: harvest.slug), class: 'list-group-item list-group-item-action flex-column align-items-start' do
