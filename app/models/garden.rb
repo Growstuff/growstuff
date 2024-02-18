@@ -79,6 +79,16 @@ class Garden < ApplicationRecord
 
   def reindex(refresh: false); end
 
+  # Deactivate any gardens with no active plantings
+  def self.archive!(time_limit: 3.years.ago, limit: 100)
+    Garden.active.where("updated_at < ?", time_limit).order(updated_at: :asc).limit(limit).each do |active_garden|
+      unless active_garden.plantings.active.any?
+        garden.active = false
+        garden.save
+      end
+    end
+  end
+
   protected
 
   def strip_blanks
