@@ -77,6 +77,17 @@ module PredictPlanting
         finish_predicted_at <= Time.zone.today
     end
 
+    # Deactivate any plantings over time_limit that are super late in small batches.
+    def self.archive!(time_limit: 3.years.ago, limit: 100)
+      active_plantings = Planting.annual.active.where("planted_at < ?", time_limit).order(planted_at: :asc).limit(limit)
+      active_plantings.each do |planting|
+        if planting.finish_is_predicatable? && planting.super_late?
+          planting.finished = true
+          planting.save
+        end
+      end
+    end
+
     private
 
     def calculate_percentage_grown
