@@ -16,6 +16,7 @@ class GardensController < DataController
 
   def show
     @current_plantings = @garden.plantings.current.includes(:crop, :owner).order(planted_at: :desc)
+    @current_activities = @garden.activities.current.includes(:owner).order(created_at: :desc)
     @finished_plantings = @garden.plantings.finished.includes(:crop)
     @suggested_companions = Crop.approved.where(
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)

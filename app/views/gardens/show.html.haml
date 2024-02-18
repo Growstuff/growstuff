@@ -61,7 +61,7 @@
       .index-cards
         - if @current_activities.size.positive?
           - @current_activities.each do |activity|
-            = render "activities/card", activity: activitys
+            = render "activities/card", activity: activity
         - else
           .col-md-12
             %p Nothing is currently planned here.
