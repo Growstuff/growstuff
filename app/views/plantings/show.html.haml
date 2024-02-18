@@ -67,7 +67,7 @@
       %section
         %h2 Current activities for planting
         .index-cards
-          - if @current_activities.size.positive?
+          - if @current_activities&.size&.positive?
             - @current_activities.each do |activity|
               = render "activities/card", activity: activity
           - else
