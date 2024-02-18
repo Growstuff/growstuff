@@ -13,7 +13,7 @@
               = link_to edit_activity_path(slug: activity.slug), class: 'dropdown-item' do
                 = edit_icon
                 = t('buttons.edit')
-  
+
               - if activity.active
                 = activity_finish_button(activity, classes: 'dropdown-item')
 
