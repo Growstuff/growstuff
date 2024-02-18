@@ -18,6 +18,30 @@ module ButtonsHelper
     end
   end
 
+  def garden_plan_something_button(garden, classes: "btn btn-default")
+    return unless can? :edit, garden
+
+    link_to new_activity_path(garden_id: garden.id), class: classes do
+      activity_icon + ' ' + t('buttons.plan_something')
+    end
+  end
+
+  def plan_something_button
+    return unless can? :create, Activity
+
+    link_to new_activity_path, class: "btn btn-default" do
+      activity_icon + ' ' + t('buttons.plan_something')
+    end
+  end
+
+  def planting_plan_something_button(planting, classes: "btn btn-default")
+    return unless can? :edit, planting
+
+    link_to new_activity_path(planting_id: planting.id), class: classes do
+      activity_icon + ' ' + t('buttons.plan_something')
+    end
+  end
+
   def garden_mark_active_button(garden, classes: 'btn')
     link_to t('buttons.mark_as_active'),
             garden_path(garden, garden: { active: 1 }),
