@@ -6,7 +6,7 @@ class AddActivities < ActiveRecord::Migration[7.1]
       t.string :category
       t.string :name
       t.string :description
-      t.string :due_date
+      t.date :due_date
       t.boolean :finished
       t.references :owner
       t.references :garden

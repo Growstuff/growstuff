@@ -4,7 +4,10 @@ class Activity < ApplicationRecord
   include Ownable
   include Finishable
 
-  CATEGORIES = ["General", "Weeding", "Soil Cultivation", "Fertilizing", "Pruning"]
+  belongs_to :garden, optional: true
+  belongs_to :planting, optional: true
+
+  CATEGORIES = ["General", "Weeding", "Soil Cultivation", "Fertilizing", "Pruning", "Watering"]
 
   validates :name, presence: true
   validates :category, inclusion: { in: CATEGORIES }, presence: true

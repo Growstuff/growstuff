@@ -10,7 +10,7 @@ FactoryBot.define do
       owner
   
       trait :garden do
-        category { "Soil Conditioning" }
+        category { "Soil Cultivation" }
         description { "Apply compost from winter" }
         due_date { 3.months.from_now }
         garden

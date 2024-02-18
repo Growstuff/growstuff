@@ -130,9 +130,9 @@ describe "member profile", :js do
 
       before { visit member_path(member) }
 
-      it { expect(page).to have_link href: planting_path(activity) }
-      it { expect(page).to have_link href: planting_path(activity2) }
-      it { expect(page).to have_link href: planting_path(activity3) }
+      it { expect(page).to have_link href: activity_path(activity) }
+      it { expect(page).to have_link href: activity_path(activity2) }
+      it { expect(page).to have_link href: activity_path(activity3) }
     end
 
     context 'member has seeds' do
