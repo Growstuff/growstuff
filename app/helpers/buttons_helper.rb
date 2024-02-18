@@ -83,6 +83,19 @@ module ButtonsHelper
     edit_button(edit_planting_path(planting), classes:)
   end
 
+  def activity_edit_button(activity, classes: "btn btn-raised btn-info")
+    edit_button(edit_activity_path(activity), classes:)
+  end
+
+  def activity_finish_button(activity, classes: 'btn btn-default btn-secondary')
+    return unless can?(:edit, activity) || activity.finished
+
+    link_to activity_path(slug: activity.slug, activity: { finished: 1 }),
+            method: :put, class: "#{classes} append-date" do
+      finished_icon + ' ' + t('buttons.mark_as_finished')
+    end
+  end
+
   def planting_finish_button(planting, classes: 'btn btn-default btn-secondary')
     return unless can?(:edit, planting) || planting.finished
 
