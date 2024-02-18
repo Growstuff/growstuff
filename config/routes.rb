@@ -110,7 +110,7 @@ Rails.application.routes.draw do
   end
 
   resources :messages
-  resources :activities
+  resources :activities, param: :slug
   resources :conversations do
     collection do
       delete 'destroy_multiple'

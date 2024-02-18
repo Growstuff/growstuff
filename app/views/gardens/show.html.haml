@@ -66,10 +66,11 @@
           .col-md-12
             %p Nothing is currently planned here.
 
-    %section.companions
-      %h2 Suggestioned companions
-      - @suggested_companions.each do |companion|
-        = render 'crops/tiny', crop: companion
+    - if @suggested_companions.any?
+      %section.companions
+        %h2 Suggestioned companions
+        - @suggested_companions.each do |companion|
+          = render 'crops/tiny', crop: companion
 
     %section= render 'previously'
 
