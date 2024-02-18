@@ -24,7 +24,7 @@ class ActivitiesController < DataController
       boost_by: [:created_at],
       load:     false
     )
-
+    @filename = "Growstuff-#{specifics}Activities-#{Time.zone.now.to_fs(:number)}.csv"
     respond_with(@activities)
   end
 
@@ -55,7 +55,7 @@ class ActivitiesController < DataController
   def edit
     # the following are needed to display the form but aren't used
     @gardens = @activity.owner.gardens.active.order_by_name
-    @plantings = @activity.owner.plantings.active
+  @plantings = @activity.owner.plantings.active
   end
 
   def create
@@ -82,5 +82,11 @@ class ActivitiesController < DataController
       :name, :description, :category, :finished,
       :garden_id, :planting_id, :due_date
     )
+  end
+
+  def specifics
+    if @owner.present?
+      "#{@owner.to_param}-"
+    end
   end
 end
