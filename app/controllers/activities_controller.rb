@@ -37,12 +37,13 @@ class ActivitiesController < DataController
         id:    params[:garden_id]
       )
     end
+
     if params[:planting_id]
-        @activity.planting = Planting.find_by(
-          owner: current_member,
-          id:    params[:planting_id]
-        )
-      end
+      @activity.planting = Planting.find_by(
+        owner: current_member,
+        id:    params[:planting_id]
+      )
+    end
 
     respond_with @activity
   end
