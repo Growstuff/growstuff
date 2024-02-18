@@ -276,6 +276,8 @@ en:
       not_enough_data: Not enough data
       perennial: Perennial
       unknown: Unknown
+  activities:
+    plan_something: Plan something
   plantings:
     badges:
       days_until_finished: days until finished
