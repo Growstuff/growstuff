@@ -213,6 +213,7 @@ en:
     data: 'The data on this page is available in the following formats:'
   layouts:
     header:
+      activities: Activities
       account: Account
       admin: Admin
       browse_crops: Browse Crops
@@ -233,7 +234,7 @@ en:
       inbox_unread: Inbox (%{unread_count})
       plantings: Plantings
       posts: Posts
-      profile: Profile
+      profile: Profile/Timeline
       seeds: Seeds
       skip: Skip navigation menu
       support_growstuff: Support Growstuff

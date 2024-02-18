@@ -67,6 +67,8 @@
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to member_path(current_member), class: 'dropdown-item' do
             = t('.profile')
+          = link_to member_activities_path(current_member), class: 'dropdown-item' do
+            = t('.activities')
           = link_to member_gardens_path(current_member), class: 'dropdown-item' do
             = t('.gardens')
           = link_to member_plantings_path(current_member), class: 'dropdown-item' do
