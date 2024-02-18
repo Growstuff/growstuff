@@ -84,6 +84,7 @@ en:
     new_planting: New planting
     new_post: Write new post
     new_harvest: New harvest
+    new_activity: Plan activity
     plant: Plant
     plant_crop: Plant %{crop_name}
     plant_something_here: Plant something here
