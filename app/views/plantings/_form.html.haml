@@ -36,6 +36,8 @@
           = f.text_field :planted_at,
                      value: @planting.planted_at ? @planting.planted_at.to_fs(:ymd) : '',
                      class: 'add-datepicker', label: 'When?'
+          %span.help-inline
+            Tip: Plan our your future plantings by forward dating
 
       .row
         .col-md-4
