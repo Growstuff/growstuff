@@ -280,7 +280,7 @@ en:
     plan_something: Plan something
     index:
       title:
-        default: Everyone's plantings
+        default: Everyone's activities
         owner_activities: "%{owner}'s activities"
     form:
       finish_helper: >
