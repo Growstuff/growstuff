@@ -11,11 +11,11 @@
       %p
         - if current_member.plantings.active.any?
           = link_to member_path(current_member), class: 'btn btn-dark' do
-            = image_icon 'plantings'
+            = planting_icon
             Track my plantings
       %p
         = link_to member_gardens_path(current_member), class: 'btn btn-dark' do
-          = image_icon 'gardens'
+          = garden_icon
           Show me my garden
 - else
   .hidden-xs
