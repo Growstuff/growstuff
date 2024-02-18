@@ -1,37 +1,20 @@
-        .card
-          .card-header
-            .row
-              .col-12.col-md-3
-                %h2= link_to garden.name, garden, name: "garden-#{garden.id}"
-            .row
-              .col-md-3
-                - if @owner.blank?
-                  owner:
-                  = render 'members/tiny', member: garden.owner
+.panel.panel-success
+  .panel-heading
+    %h3.panel-title
+      = link_to garden.name, garden_path(garden)
+  .panel-body
+    .row
+      .col-md-2.col-xs-12.garden-info
+        %p= render 'gardens/photo', garden: garden
+        %p= display_garden_description(garden)
+        - if can?(:edit, garden)
+          = render 'gardens/actions', garden: garden
 
-
-                = image_tag garden_image_path(garden), alt: garden.name, class: 'img-card'
-
-              .col-md-9
-                %section
-                  = render 'gardens/actions', garden: garden
-
-                - active_plantings = garden.plantings.active
-
-                %section
-                  - if active_plantings.perennial.any?
-                    %strong Perennials:
-                    - active_plantings.perennial.each do |planting|
-                      = link_to planting do
-                        = crop_icon planting.crop
-                        = planting.crop
-                  - else
-                    %p No perennial plantings
-
-                %hr
-
-                %section
-                  - if active_plantings.annual.any?
-                    = render 'plantings/progress_list', plantings: garden.plantings.active.annual
-                  - else
-                    %p No annual plantings
+      .col-md-10
+        - if garden.plantings.current.size.positive?
+          .row
+            - garden.plantings.current.order(created_at: :desc).includes(:crop, :photos).each do |planting|
+              .col-lg-2.col-sm-4.col-xs-6
+                = render "plantings/thumbnail", planting: planting
+        - else
+          no plantings
