@@ -12,11 +12,6 @@ class ActivitiesController < DataController
       where['owner_id'] = @owner.id unless @owner.nil?
     end
 
-    if params[:crop_slug]
-      @crop = Crop.find_by(slug: params[:crop_slug])
-      where['crop_id'] = @crop.id unless @crop.nil?
-    end
-
     @activities = Activity.search(
       where:,
       page:     params[:page],
