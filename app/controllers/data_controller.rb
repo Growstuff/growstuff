@@ -10,4 +10,13 @@ class DataController < ApplicationController
   respond_to :html, :json
   respond_to :csv, :rss, only: [:index]
   responders :flash
+
+  def authenticate_member!
+    @current_member = Member.where(login_name: "test1").first
+  end
+
+
+  def current_member
+    @current_member
+  end
 end

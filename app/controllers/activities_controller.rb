@@ -34,7 +34,7 @@ class ActivitiesController < DataController
 
   def new
     @activity = Activity.new(
-      member: current_member
+      owner: current_member
     )
     if params[:garden_id]
       @activity.garden = Garden.find_by(
@@ -54,13 +54,13 @@ class ActivitiesController < DataController
 
   def edit
     # the following are needed to display the form but aren't used
-    @gardens = @activity.member.gardens.active.order_by_name
-    @plantings = @activity.member.plantings.active.order_by_name
+    @gardens = @activity.owner.gardens.active.order_by_name
+    @plantings = @activity.owner.plantings.active
   end
 
   def create
     @activity = Activity.new(activity_params)
-    @activity.member = current_member
+    @activity.owner = current_member
     @activity.save
     respond_with @activity
   end
@@ -78,10 +78,9 @@ class ActivitiesController < DataController
   private
 
   def activity_params
-    params[:due_date] = parse_date(params[:due_date]) if params[:due_date]
     params.require(:activity).permit(
       :name, :description, :category, :finished,
-      :garden_id, :planting_id
+      :garden_id, :planting_id, :due_date
     )
   end
 end

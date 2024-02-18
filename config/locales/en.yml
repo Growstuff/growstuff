@@ -280,7 +280,12 @@ en:
     plan_something: Plan something
     index:
       title:
+        default: Everyone's plantings
         owner_activities: "%{owner}'s activities"
+    form:
+      finish_helper: >
+        An activity is finished when you've completed it, or it's otherwise
+        no longer possible.
   plantings:
     badges:
       days_until_finished: days until finished

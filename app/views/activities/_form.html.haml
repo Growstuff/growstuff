@@ -17,9 +17,14 @@
               %li= msg
 
       .row
-        = f.text_field :name, required: true, label: 'What needs to be done?'
-        = f.select(:category, Activity::CATEGORIES, include_blank: true)
-        = f.text_area :description, rows: 6, label: 'Tell us more about it'
+        .col-md-12
+          = f.text_field :name, required: true, label: 'What needs to be done?'
+      .row
+        .col-md-4
+          = f.select(:category, Activity::CATEGORIES, include_blank: true)
+      .row
+        .col-md-12
+          = f.text_area :description, rows: 6, label: 'Tell us more about it'
 
       .row
         .col-md-4
@@ -30,7 +35,7 @@
 
         .col-md-4
           = f.collection_radio_buttons(:planting_id, @activity.owner.plantings.active,
-            :id, :name,
+            :id, :crop_name,
             label: 'Is this for a specific planting?')
           = link_to "Add a planting.", new_planting_path
 
@@ -39,6 +44,7 @@
                      value: @activity.due_date ? @activity.due_date.to_fs(:ymd) : '',
                      class: 'add-datepicker', label: 'When?'
 
+      %hr
 
       .row
         .col-md-6
