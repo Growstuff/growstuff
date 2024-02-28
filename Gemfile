@@ -171,7 +171,7 @@ group :development, :test do
   gem 'rubocop-rspec'
   gem 'webrat'                  # provides HTML matchers for view tests
 
-  gem 'dotenv-rails'
+  gem 'dotenv-rails', '>= 3.1.0'
 
   # cli utils
   gem 'haml-i18n-extractor', require: false
