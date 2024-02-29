@@ -5,13 +5,6 @@
       - @harvesting.each do |planting|
         = render 'plantings/thumbnail', planting: planting
 
-- if @harvests.any?
-  %section.havests
-    %h2 Recent Harvests
-    .index-cards
-      - @harvests.each do |harvest|
-        = render 'harvests/thumbnail', harvest: harvest
-
 - if @others.size.positive?
   %section.planting-progress
     %h2 Progress report
@@ -44,4 +37,10 @@
           = link_to planting.crop_name, planting_url(slug: planting.slug)
           planted on #{planting.planted_at.to_date}
 
+- if @harvests.any?
+  %section.havests
+    %h2 Recent Harvests
+    .index-cards
+      - @harvests.each do |harvest|
+        = render 'harvests/thumbnail', harvest: harvest
 
