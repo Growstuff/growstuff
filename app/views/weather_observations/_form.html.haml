@@ -1,0 +1,40 @@
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  = bootstrap_form_for(@garden) do |f|
+    - if content_for? :title
+      .card-header
+        %h1.h2-responsive.text-center
+          %strong=yield :title
+    .card-body
+      = required_field_help_text
+      - if @garden.errors.any?
+        #error_explanation.alert.alert-warning{:role => "alert"}
+          %h4.alert-heading
+            = pluralize(@garden.errors.size, "error")
+            prohibited this garden from being saved
+          %ul
+            - @garden.errors.full_messages.each do |msg|
+              %li= msg
+
+      = f.text_field :name, maxlength: 255, required: true
+      = f.text_area :description, rows: 6
+      = f.text_field :location,
+                      value: @garden.location || current_member.location,
+                      class: 'form-control', maxlength: 255
+      %span.help-block
+        = t('.location_helper')
+        - if current_member.location.blank?
+          = link_to "Set your location now.", edit_member_registration_path
+        - else
+          = link_to "Change your location.", edit_member_registration_path
+      .row
+        .col-md-5.col-12= f.number_field :area, class: 'input-small', step: "any"
+        .col-md-7.col-12= f.select(:area_unit, Garden::AREA_UNITS_VALUES, { include_blank: false })
+        .col-12= f.select(:garden_type_id, GardenType.all.order(:name).pluck(:name, :id),
+                          selected: @garden.garden_type_id, include_blank: true)
+        .col-12
+          = f.check_box :active, label: 'Active?'
+          %p
+            You can mark a garden as inactive if you no longer use it.
+            Note: this will mark all plantings in the garden as "finished".
+    .card-footer
+      .text-right= f.submit 'Save Garden'

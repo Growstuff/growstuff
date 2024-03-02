@@ -103,6 +103,7 @@ Rails.application.routes.draw do
     resources :plantings
     resources :harvests
     resources :posts
+    resources :weather_observations
 
     resources :follows
     get 'followers' => 'follows#followers'
