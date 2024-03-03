@@ -96,7 +96,7 @@ describe "Plantings" do
         expect(data[1]["Date added"]).to eq @predictable_planting.created_at.to_fs(:db)
         expect(data[1]["License"]).to eq "CC-BY-SA Growstuff http://growstuff.org/"
 
-        expect(data.count).to eq 6
+        expect(data.count).to eq 7
       end
     end
   end
