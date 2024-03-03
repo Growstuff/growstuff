@@ -37,7 +37,10 @@
             - elsif @planting.percentage_grown.present?
               #{@planting.percentage_grown.to_i}%
               - if @planting.finish_is_predicatable?
-                %strong #{@planting.age_in_days}/#{@planting.expected_lifespan} days
+                - if @planting.age_in_days < 0
+                  %strong Planned
+                - else
+                  %strong #{@planting.age_in_days}/#{@planting.expected_lifespan} days
 
         = render 'timeline', planting: @planting
 
