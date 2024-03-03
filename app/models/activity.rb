@@ -11,7 +11,7 @@ class Activity < ApplicationRecord
 
   friendly_id :activity_slug, use: %i(slugged finders)
 
-  CATEGORIES = ["General", "Weeding", "Soil Cultivation", "Fertilizing", "Pruning", "Watering"]
+  CATEGORIES = ["General", "Weeding", "Soil Cultivation", "Fertilizing", "Pruning", "Topical Application/Treating", "Watering"]
 
   validates :name, presence: true
   validates :category, inclusion: { in: CATEGORIES }, presence: true
