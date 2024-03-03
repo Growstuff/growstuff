@@ -33,7 +33,7 @@ describe "Plantings" do
         calendar = Icalendar::Parser.new(response.body, true).parse.first
         expect(calendar.description[0].to_s).to eq "Plantings by #{@member.login_name}"
         events = calendar.events
-        expect(events.length).to eq 6 # There are 7, but finished plantings aren't included
+        expect(events.length).to eq 7 # There are 8, but finished plantings aren't included
 
         # TODO: Better date comparison
         # Predicted finish should be used
