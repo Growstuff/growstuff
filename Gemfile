@@ -125,7 +125,7 @@ gem 'mailboxer', '>= 0.15.1'
 
 gem 'faraday'
 
-gem 'rack-cors'
+gem 'rack-cors', '>= 2.0.2'
 
 gem 'icalendar'
 
