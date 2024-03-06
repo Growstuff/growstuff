@@ -451,7 +451,7 @@ GEM
     query_diet (0.7.1)
     racc (1.7.3)
     rack (2.2.8.1)
-    rack-cors (2.0.1)
+    rack-cors (2.0.2)
       rack (>= 2.0.0)
     rack-protection (3.2.0)
       base64 (>= 0.1.0)
