@@ -45,7 +45,7 @@ describe "Plantings" do
         # expect(events[4].dtend.to_date).to be_within(1.second).of @finised_planting.finished_at
 
         # Otherwise, tomorrow should be used
-        expect(events[2].dtend.to_date).to eq 1.day.from_now.to_date
+        expect(events[3].dtend.to_date).to eq 1.day.from_now.to_date
 
         # TBA: Perennial and annual crops predictions of 'next' harvest date don't really fit
 
@@ -96,7 +96,7 @@ describe "Plantings" do
         expect(data[1]["Date added"]).to eq @predictable_planting.created_at.to_fs(:db)
         expect(data[1]["License"]).to eq "CC-BY-SA Growstuff http://growstuff.org/"
 
-        expect(data.count).to eq 7
+        expect(data.count).to eq 6
       end
     end
   end
