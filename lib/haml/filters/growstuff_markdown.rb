@@ -1,29 +1,17 @@
 # frozen_string_literal: true
 
-require 'bluecloth'
-
+# TODO: Move this file/helper elsewhere, as it is used as a pre filter rather than plugging into the haml architecture
 class Haml::Filters
-  class GrowstuffMarkdown < Haml::Filters::Markdown
-
-    def compile(node)
-      @expanded = node.value[:text]
-      expand_crops!
-      expand_members!
-      node.value[:text] = @expanded
-      compile_with_tilt(node, 'markdown')
-    end
-
-    private
-
+  class GrowstuffMarkdown
     CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
     MEMBER_AT_REGEX = /(?<!\\)(@\w+)/
     MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=@\w+)/
     HOST = Rails.application.config.host
 
-    def expand_crops!
+    def expand_crops!(text)
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
-      @expanded = @expanded.gsub(CROP_REGEX) do
+      text.gsub(CROP_REGEX) do
         crop_str = Regexp.last_match(1)
         # find crop case-insensitively
         crop = Crop.where('lower(name) = ?', crop_str.downcase).first
@@ -31,18 +19,18 @@ class Haml::Filters
       end
     end
 
-    def expand_members!
+    def expand_members!(text)
       # turn [jane](member) into [jane](http://growstuff.org/members/jane)
       # turn @jane into [@jane](http://growstuff.org/members/jane)
       [MEMBER_REGEX, MEMBER_AT_REGEX].each do |re|
-        @expanded = @expanded.gsub(re) do
+        text = text.gsub(re) do
           member_str = Regexp.last_match(1)
           member = find_member(member_str)
           member_link(member, member_str)
         end
       end
 
-      @expanded = @expanded.gsub(MEMBER_ESCAPE_AT_REGEX, '')
+      text.gsub(MEMBER_ESCAPE_AT_REGEX, '')
     end
 
     def member_link(member, link_text)
@@ -69,8 +57,4 @@ class Haml::Filters
       Member.case_insensitive_login_name(login_name).first
     end
   end
-
-  # Register it as the handler for the :growstuff_markdown HAML command.
-  # The automatic system gives us :growstuffmarkdown, which is ugly.
-  Haml::Filters.registered[:growstuff_markdown] = GrowstuffMarkdown
 end

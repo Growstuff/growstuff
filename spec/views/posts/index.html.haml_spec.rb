@@ -24,7 +24,7 @@ describe "posts/index" do
   it "renders a list of posts" do
     assert_select "div.post", count: 2
     assert_select "h4", text: "A Post", count: 2
-    assert_select "p.post-body", text: "This is some text.", count: 2
+    assert_select ".post-body p", text: "This is some text.", count: 2
   end
 
   it "contains two gravatar icons" do

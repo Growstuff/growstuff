@@ -9,8 +9,13 @@
       %p= render 'stats', cached: true
     .col
       %p
+        - if current_member.plantings.active.any?
+          = link_to member_path(current_member), class: 'btn btn-dark' do
+            = planting_icon
+            Track my plantings
+      %p
         = link_to member_gardens_path(current_member), class: 'btn btn-dark' do
-          = image_icon 'gardens'
+          = garden_icon
           Show me my garden
 - else
   .hidden-xs
@@ -27,16 +32,21 @@
         %h2= t('.recently_added')
         %p.card-body
           != CropSearchService.recent(30).map { |c| link_to(c['name'], crop_path(slug: c['slug'])) }.join(", ")
-  .col-xl-3.col
+  .col-xl-4.col
     %section.plantings
       = cute_icon
       =render 'plantings'
       %p.text-right= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn btn-block'
-  .col-xl-3.col
+  .col-xl-4.col
     %section.harvests
       = cute_icon
       = render 'harvests'
       %p.text-right= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn btn-block'
+  .col-xl-4.col
+    %section.activities
+      = cute_icon
+      = render 'activities'
+      %p.text-right= link_to "#{t('home.activities.view_all')} »", activities_path, class: 'btn btn-block'
   .col-12.col-md-6
     %section.seeds
       = cute_icon

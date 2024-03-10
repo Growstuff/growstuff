@@ -31,6 +31,6 @@
             = comment.updated_at
 
         .comment-body
-          :growstuff_markdown
-            #{ strip_tags comment.body }
+          :markdown
+            #{ strip_tags markdownify(comment.body) }
 

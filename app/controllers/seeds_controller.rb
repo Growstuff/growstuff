@@ -35,7 +35,7 @@ class SeedsController < DataController
   end
 
   def show
-    @photos = @seed.photos.includes(:owner).order(created_at: :desc).paginate(page: params[:page])
+    @photos = @seed.photos.includes(:owner).order(created_at: :desc, id: :desc).paginate(page: params[:page], per_page: 30)
     respond_with(@seed)
   end
 

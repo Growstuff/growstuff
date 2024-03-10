@@ -26,6 +26,11 @@
       = link_to localize_plural(member.posts, Post), member_posts_path(member)
     - else
       0 posts
+  %li.list-group-item
+    - if member.activities.present?
+      = link_to localize_plural(member.plantings, Activity), member_activities_path(member)
+    - else
+      0 activities
 
   %li.list-group-item
     - if member.followed.present?
