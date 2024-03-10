@@ -4,7 +4,8 @@
                       class: 'image-responsive'),
             planting,
             rel: "popover",
-            'data-trigger': 'hover',
-            'data-title': planting.crop.name,
-            'data-content': render('plantings/popover', planting: planting),
-            'data-html': true
+            'data-bs-toggle': 'popover',
+            'data-bs-trigger': 'hover',
+            'data-bs-title': planting.crop.name,
+            'data-bs-content': render('plantings/popover', planting: planting),
+            'data-bs-html': true

@@ -3,7 +3,8 @@
                       alt: "Image of #{crop.name}", class: 'image-responsive crop-image'),
             crop.name,
             rel: "popover",
-            'data-trigger': 'hover',
-            'data-title': crop.name,
-            'data-content': render(partial: 'crops/popover', locals: { crop: crop }),
-            'data-html': true
+            'data-bs-toggle': 'popover',
+            'data-bs-trigger': 'hover',
+            'data-bs-title': crop.name,
+            'data-bs-content': render(partial: 'crops/popover', locals: { crop: crop }),
+            'data-bs-html': true
