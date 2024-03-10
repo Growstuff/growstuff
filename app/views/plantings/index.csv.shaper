@@ -18,7 +18,6 @@ csv.headers :id,
   :license
 
 @plantings.each do |p|
-  puts p.inspect
   csv.row p do |csv, planting|
 
     csv.cell :id

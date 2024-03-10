@@ -67,6 +67,17 @@
         %a{name: 'seeds'}
         = render 'plantings/descendants', planting: @planting
 
+      %section
+        %h2 Current activities for planting
+        .index-cards
+          - if @current_activities&.size&.positive?
+            - @current_activities.each do |activity|
+              = render "activities/card", activity: activity
+          - else
+            .col-md-12
+              %p Nothing is currently planned here.
+
+
     .col-md-4.col-xs-12
       = render 'plantings/actions', planting: @planting
       %hr/

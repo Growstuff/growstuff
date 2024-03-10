@@ -33,7 +33,7 @@ describe "Plantings" do
         calendar = Icalendar::Parser.new(response.body, true).parse.first
         expect(calendar.description[0].to_s).to eq "Plantings by #{@member.login_name}"
         events = calendar.events
-        expect(events.length).to eq 6 # There are 7, but finished plantings aren't included
+        expect(events.length).to eq 7 # There are 8, but finished plantings aren't included
 
         # TODO: Better date comparison
         # Predicted finish should be used
@@ -45,7 +45,7 @@ describe "Plantings" do
         # expect(events[4].dtend.to_date).to be_within(1.second).of @finised_planting.finished_at
 
         # Otherwise, tomorrow should be used
-        expect(events[2].dtend.to_date).to eq 1.day.from_now.to_date
+        expect(events[3].dtend.to_date).to eq 1.day.from_now.to_date
 
         # TBA: Perennial and annual crops predictions of 'next' harvest date don't really fit
 

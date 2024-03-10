@@ -56,10 +56,21 @@
           .col-md-12
             %p Nothing is currently planted here.
 
-    %section.companions
-      %h2 Suggestioned companions
-      - @suggested_companions.each do |companion|
-        = render 'crops/tiny', crop: companion
+    %section
+      %h2 Current activities in garden
+      .index-cards
+        - if @current_activities&.size&.positive?
+          - @current_activities.each do |activity|
+            = render "activities/card", activity: activity
+        - else
+          .col-md-12
+            %p Nothing is currently planned here.
+
+    - if @suggested_companions.any?
+      %section.companions
+        %h2 Suggestioned companions
+        - @suggested_companions.each do |companion|
+          = render 'crops/tiny', crop: companion
 
     %section= render 'previously'
 

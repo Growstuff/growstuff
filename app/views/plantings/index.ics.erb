@@ -37,6 +37,16 @@ cal.description = "Plantings by #{@owner.login_name}"
     todo.summary = "Harvest #{planting['crop_name']}"
 
     cal.add_todo(todo)
+
+    # To work around google calendar not supporting VTODO, mirror the above as a specific event
+    event = Icalendar::Event.new
+    event.dtstart = predicted_date || finish_date || Date.today
+    event.dtend = finish_date
+    event.summary = "Harvest #{planting['crop_name']}"
+    event.ip_class    = "PUBLIC"
+    event.url = planting_url(slug: planting['slug'])
+
+    cal.add_event(event)
   end
 end
 cal.publish

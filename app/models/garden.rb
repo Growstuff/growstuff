@@ -9,6 +9,7 @@ class Garden < ApplicationRecord
 
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
+  has_many :activities, dependent: :destroy
 
   belongs_to :garden_type, optional: true
 

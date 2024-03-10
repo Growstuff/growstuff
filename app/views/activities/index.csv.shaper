@@ -1,0 +1,47 @@
+csv.headers :id,
+  :growstuff_url,
+  :name,
+  :category,
+  :description,
+  :owner_id,
+  :owner_name,
+  :garden_id,
+  :garden_name,
+  :planting_id,
+  :planting_name,
+  :due_date,
+  :finished,
+  :date_added,
+  :last_modified,
+  :license
+
+@activities.each do |a|
+  csv.row a do |csv, activity|
+
+    csv.cell :id
+    csv.cell :growstuff_url, activity_url(a.slug)
+
+    csv.cell :name, a.description
+    csv.cell :category, a.description
+    csv.cell :description, a.description
+
+    csv.cell :owner_id, a.owner_id
+    csv.cell :owner_name, a.owner_login_name
+
+    csv.cell :garden_id, a.garden_id
+    csv.cell :garden_name, a.garden_name
+
+    csv.cell :planting_id, a.planting_id
+    csv.cell :planting_name, a.planting_name
+
+    csv.cell :due_date, a.due_date ? a.due_date : ''
+
+    csv.cell :finished
+
+    csv.cell :date_added, Time.at(a.created_at).to_fs(:db)
+    csv.cell :last_modified, Time.at(a.updated_at).to_fs(:db)
+
+    csv.cell :license, "CC-BY-SA Growstuff http://growstuff.org/"
+
+  end
+end
