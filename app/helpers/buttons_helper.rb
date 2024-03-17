@@ -22,7 +22,7 @@ module ButtonsHelper
     return unless can? :edit, garden
 
     link_to new_activity_path(garden_id: garden.id), class: classes do
-      activity_icon + ' ' + t('buttons.plan_something')
+      activity_icon + ' ' + t('buttons.new_activity')
     end
   end
 
@@ -30,7 +30,7 @@ module ButtonsHelper
     return unless can? :create, Activity
 
     link_to new_activity_path, class: "btn btn-default" do
-      activity_icon + ' ' + t('buttons.plan_something')
+      activity_icon + ' ' + t('buttons.new_activity')
     end
   end
 
@@ -38,7 +38,7 @@ module ButtonsHelper
     return unless can? :edit, planting
 
     link_to new_activity_path(planting_id: planting.id), class: classes do
-      activity_icon + ' ' + t('buttons.plan_something')
+      activity_icon + ' ' + t('buttons.new_activity')
     end
   end
 
