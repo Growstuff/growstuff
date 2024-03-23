@@ -7,7 +7,7 @@
       = link_to activity_path(slug: activity.slug) do
         .activity-quick-actions
           .dropdown
-            %a.activity-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
+            %a.activity-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'}
 
             .dropdown-menu{"aria-labelledby" => "activity-menu"}
               = link_to edit_activity_path(slug: activity.slug), class: 'dropdown-item' do
