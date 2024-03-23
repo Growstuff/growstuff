@@ -52,7 +52,6 @@ class Harvest < ApplicationRecord
 
   delegate :name, :slug, to: :crop, prefix: true
   delegate :login_name, :slug, to: :owner, prefix: true
-  delegate :name, to: :plant_part, prefix: true
 
   ##
   ## Validations
@@ -108,7 +107,7 @@ class Harvest < ApplicationRecord
   def to_s
     # 50 individual apples, weighing 3lb
     # 2 buckets of apricots, weighing 10kg
-    "#{quantity_to_human} #{unit_to_human} #{crop_name_to_human} #{weight_to_human}".strip
+    "#{quantity_to_human} #{unit_to_human} #{plant_part_name_to_human} of #{crop_name} #{weight_to_human}".strip
   end
 
   def quantity_to_human
@@ -131,13 +130,13 @@ class Harvest < ApplicationRecord
     "weighing #{number_to_human(weight_quantity, strip_insignificant_zeros: true)} #{weight_unit}"
   end
 
-  def crop_name_to_human
+  def plant_part_name_to_human
     if unit != 'individual' # buckets of apricot*s*
-      crop.name.pluralize
+       plant_part.name.pluralize
     elsif quantity == 1
-      crop.name
+      plant_part.name
     else
-      crop.name.pluralize
+      plant_part.name.pluralize
     end.to_s
   end
 
