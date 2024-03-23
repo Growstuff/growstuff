@@ -11,6 +11,10 @@ class PlantPart < ApplicationRecord
 
   scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
 
+  def whole_plant?
+    name == 'whole plant'
+  end
+
   def to_s
     name
   end
