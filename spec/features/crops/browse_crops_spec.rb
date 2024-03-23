@@ -14,10 +14,6 @@ describe "browse crops", :search do
       visit crops_path
     end
 
-    it "has a form for sorting by" do
-      expect(page).to have_css "select#sort"
-    end
-
     it "shows a list of crops" do
       expect(page).to have_content tomato.name
     end

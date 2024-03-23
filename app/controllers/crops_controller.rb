@@ -10,7 +10,6 @@ class CropsController < ApplicationController
   responders :flash
 
   def index
-    @sort = params[:sort]
     @crops = Crop.search('*', boost_by: %i(plantings_count harvests_count),
                               limit:    100,
                               page:     params[:page],

@@ -24,7 +24,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 # CSS framework
-gem "bootstrap", ">= 4.6.2"
+gem "bootstrap", ">= 5.0.0"
 gem 'material-sass', '4.1.1'
 
 # Icons used by bootstrap/material-sass

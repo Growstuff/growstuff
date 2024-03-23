@@ -3,7 +3,8 @@
                     class: 'image-responsive crop-image'),
           harvest,
           rel: "popover",
-          'data-trigger': 'hover',
-          'data-title': harvest.to_s,
-          'data-content': render('harvests/popover', harvest: harvest),
-          'data-html': true
+          'data-bs-toggle': 'popover',
+          'data-bs-trigger': 'hover',
+          'data-bs-title': harvest.to_s,
+          'data-bs-content': render('harvests/popover', harvest: harvest),
+          'data-bs-html': true

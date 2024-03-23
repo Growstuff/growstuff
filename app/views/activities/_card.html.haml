@@ -1,0 +1,35 @@
+- cache activity do
+  .card.activity{class: activity.active ? '' : 'card-finished'}
+    = link_to activity_path(slug: activity.slug) do
+      -# = image_tag activity.thumbnail_url ? activity.thumbnail_url : placeholder_image, class: 'img-card', alt: planting.crop_name
+
+    - if member_signed_in? && current_member.id == activity.owner_id
+      = link_to activity_path(slug: activity.slug) do
+        .activity-quick-actions
+          .dropdown
+            %a.activity-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
+
+            .dropdown-menu{"aria-labelledby" => "activity-menu"}
+              = link_to edit_activity_path(slug: activity.slug), class: 'dropdown-item' do
+                = edit_icon
+                = t('buttons.edit')
+
+              - if activity.active
+                = activity_finish_button(activity, classes: 'dropdown-item')
+
+              - if can? :destroy, activity
+                .dropdown-divider
+                = delete_button(activity, classes: 'dropdown-item text-danger')
+    = link_to activity_path(slug: activity.slug) do
+      .card-body.text-center
+        %h4= activity.name
+        .text-center= activity.description
+        - if activity.garden
+          .text-center= activity.garden
+        - if activity.planting
+          .text-center= activity.planting
+    .card-footer
+      .float-right
+        %span.chip.member-chip
+          = link_to member_path(slug: activity.owner_slug) do
+            = activity.owner_login_name

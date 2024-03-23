@@ -109,6 +109,10 @@ class Ability
     can :update,  Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
     can :destroy, Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
 
+    can :create,  Activity
+    can :update,  Activity, owner_id: member.id
+    can :destroy, Activity, owner_id: member.id
+
     can :create,  Harvest
     can :update,  Harvest, owner_id: member.id
     can :destroy, Harvest, owner_id: member.id

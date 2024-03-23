@@ -18,6 +18,30 @@ module ButtonsHelper
     end
   end
 
+  def garden_plan_something_button(garden, classes: "btn btn-default")
+    return unless can? :edit, garden
+
+    link_to new_activity_path(garden_id: garden.id), class: classes do
+      activity_icon + ' ' + t('buttons.new_activity')
+    end
+  end
+
+  def plan_something_button
+    return unless can? :create, Activity
+
+    link_to new_activity_path, class: "btn btn-default" do
+      activity_icon + ' ' + t('buttons.new_activity')
+    end
+  end
+
+  def planting_plan_something_button(planting, classes: "btn btn-default")
+    return unless can? :edit, planting
+
+    link_to new_activity_path(planting_id: planting.id), class: classes do
+      activity_icon + ' ' + t('buttons.new_activity')
+    end
+  end
+
   def garden_mark_active_button(garden, classes: 'btn')
     link_to t('buttons.mark_as_active'),
             garden_path(garden, garden: { active: 1 }),
@@ -57,6 +81,19 @@ module ButtonsHelper
 
   def planting_edit_button(planting, classes: "btn btn-raised btn-info")
     edit_button(edit_planting_path(planting), classes:)
+  end
+
+  def activity_edit_button(activity, classes: "btn btn-raised btn-info")
+    edit_button(edit_activity_path(activity), classes:)
+  end
+
+  def activity_finish_button(activity, classes: 'btn btn-default btn-secondary')
+    return unless can?(:edit, activity) || activity.finished
+
+    link_to activity_path(slug: activity.slug, activity: { finished: 1 }),
+            method: :put, class: "#{classes} append-date" do
+      finished_icon + ' ' + t('buttons.mark_as_finished')
+    end
   end
 
   def planting_finish_button(planting, classes: 'btn btn-default btn-secondary')
