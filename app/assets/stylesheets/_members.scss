@@ -47,7 +47,7 @@
   color: $white;
   text-overflow: ellipsis;
   white-space: normal;
-  align-items: baseline;
+  align-items: flex-end;
   max-height: 1rlh;
 
   .fa-map-marker {
