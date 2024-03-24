@@ -47,6 +47,8 @@
   color: $white;
   text-overflow: ellipsis;
   white-space: normal;
+  align-items: baseline;
+  max-height: 1rlh;
 
   .fa-map-marker {
     padding-right: 0.5em;
