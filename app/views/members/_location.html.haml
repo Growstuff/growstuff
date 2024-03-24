@@ -1,8 +1,8 @@
 - if member.location.present?
   = link_to place_path(member.location) do
-    %span.badge.badge-location
+    %span.badge.badge-location{title: member.location}
       = icon 'fas', 'map-marker'
-      = member.location
+      = truncate(member.location, length: 15, separator: ' ', omission: '... ')
 - else
   %span.badge.badge-location
     unknown location
