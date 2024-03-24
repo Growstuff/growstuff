@@ -50,9 +50,9 @@
                     = icon 'fas', 'trash-restore'
                 - else
                   = check_box_tag 'conversation_ids[]', conversation.id, false, class: 'selectable', "aria-label": "Select for deletion"
-      .offset-10.col-2
+      .offset-9.col-3
         = button_tag(type: 'submit', class: 'btn btn-default') do
           = icon 'fas', 'trash-alt'
-          = 'Delete Selected'
+          = 'Delete'
       - unless @conversations.empty?
         = will_paginate @conversations
