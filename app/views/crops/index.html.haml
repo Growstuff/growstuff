@@ -9,15 +9,6 @@
 - content_for :breadcrumbs do
   %li.breadcrumb-item.active= link_to 'Crops', crops_path
 
-= bootstrap_form_tag(url: crops_path, method: :get, layout: :inline) do |f|
-  .input-group
-    = f.select "sort",
-                 options_for_select({ "popularity": 'popular',
-                                      "alphabetically": 'alpha' },
-                                      @sort || 'popular'),
-                 label: 'Sort by'
-    = f.submit "Show"
-
 %section.crops
   %h2= t('.title')
   = will_paginate @crops
