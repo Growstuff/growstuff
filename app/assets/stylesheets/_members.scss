@@ -46,4 +46,9 @@
   border-radius: 5%;
   color: $white;
   text-overflow: ellipsis;
+  white-space: normal;
+
+  .fa-map-marker {
+    padding-right: 0.5em;
+  }
 }
