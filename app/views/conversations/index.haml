@@ -8,9 +8,6 @@
     .col-2.offset-md-2
       %h1= @box
     .col-8
-      = button_tag(type: 'submit', class: 'btn btn-default') do
-        = icon 'fas', 'trash-alt'
-        = 'Delete Selected'
 
   .row
     .col-md-2.py-4
@@ -56,5 +53,8 @@
                     = icon 'fas', 'trash-restore'
                 - else
                   = check_box_tag 'conversation_ids[]', conversation.id, false, class: 'selectable', "aria-label": "Select for deletion"
+      = button_tag(type: 'submit', class: 'btn btn-default') do
+        = icon 'fas', 'trash-alt'
+        = 'Delete Selected'
       - unless @conversations.empty?
         = will_paginate @conversations
