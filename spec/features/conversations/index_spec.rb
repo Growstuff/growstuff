@@ -77,7 +77,7 @@ describe "Conversations", :js do
       find('.sent').click
 
       all('input[type=checkbox]').each(&:click)
-      click_button 'Delete Selected'
+      click_button 'Delete'
 
       expect(page).to have_selector('.sent')
       find('.sent').click
