@@ -2,7 +2,7 @@
   = link_to place_path(member.location) do
     %span.badge.badge-location
       = icon 'fas', 'map-marker'
-      = truncate(member.location, length: 15, separator: ' ', omission: '... ')
+      = member.location
 - else
   %span.badge.badge-location
     unknown location

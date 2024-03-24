@@ -27,7 +27,7 @@
         - if @member.location.present?
           %p.badge.badge-location
             = icon 'fas', 'map-marker'
-            = truncate(@member.location, length: 25, separator: ' ', omission: '... ')
+            = @member.location
         %p
           %strong Member since
           = @member.created_at.to_fs(:date)

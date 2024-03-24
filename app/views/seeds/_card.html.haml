@@ -12,7 +12,7 @@
       - if seed.owner_location
         %h6.small.badge.badge-pill.badge-location
           = icon 'fas', 'map-marker'
-          = truncate(seed.owner_location, length: 40, separator: ' ', omission: '... ')
+          = seed.owner_location
       %p
         - if seed.quantity
           .badge.badge-info #{seed.quantity} seeds
