@@ -25,7 +25,7 @@
           - @member.roles.each do |role|
             %span.badge.badge-info= role.name.titleize
         - if @member.location.present?
-          %p.badge.badge-location{title: @member.location}
+          %p.badge.badge-location{ title: @member.location }
             = icon 'fas', 'map-marker'
             = truncate(@member.location, length: 15, separator: ' ', omission: '... ')
         %p
