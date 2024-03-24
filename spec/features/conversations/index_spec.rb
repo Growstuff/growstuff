@@ -26,7 +26,7 @@ describe "Conversations", :js do
     describe 'deleting' do
       before do
         check 'conversation_ids[]'
-        click_button 'Delete Selected'
+        click_button 'Delete'
       end
 
       describe 'view trash' do
@@ -59,7 +59,7 @@ describe "Conversations", :js do
       click_link 'Inbox'
 
       all('input[type=checkbox]').each(&:click)
-      click_button 'Delete Selected'
+      click_button 'Delete'
 
       expect(page).not_to have_content 'this is a message'
       expect(page).not_to have_content 'this is another message'
