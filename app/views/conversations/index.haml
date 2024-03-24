@@ -26,12 +26,12 @@
         - @conversations.each do |conversation|
           .list-group-item
             .row
-              .col-md-1
+              .col-1
                 - if conversation.receipts_for(current_member).last.is_unread?
                   %h1= icon 'far', 'envelope'
                 - else
                   %h1.text-muted= icon 'far', 'envelope-open'
-              .col-md-10
+              .col-9
                 .text-right.float-right
                   - conversation.recipients.each do |member|
                     - if member != current_member
@@ -47,7 +47,7 @@
                         #{time_ago_in_words conversation.messages.last.created_at} ago
                         %span.text-muted= conversation.messages.last.created_at
                     = truncate(strip_tags(conversation.messages.last.body), length: 150, separator: ' ', omission: '... ')
-              .col-md-1
+              .col-1
                 - if @box == 'trash'
                   = link_to conversation_path(conversation, box: @box), method: :put, class: 'restore', title: "Restore" do
                     = icon 'fas', 'trash-restore'
