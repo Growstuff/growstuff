@@ -13,13 +13,10 @@
     .col-md-2.py-4
       - @boxes.each do |box_name, counts|
         = link_to conversations_path(box: box_name), class: "nav-link list-group-item d-flex justify-content-between #{box_name == @box ? 'active' : ''} #{box_name}" do
+          %span
+            = box_name
           - if counts['unread'].positive?
             %span.badge.badge-info=counts['unread']
-          - else
-            %span
-          %span
-            = icon 'fas', box_name
-            = box_name
 
     .col-md-10
       .list-group
