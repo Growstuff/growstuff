@@ -10,9 +10,9 @@
         = seed.owner_login_name
     .card-body
       - if seed.owner_location
-        %h6.small.badge.badge-pill.badge-location
+        %h6.small.badge.badge-pill.badge-location{ title: seed.owner_location }
           = icon 'fas', 'map-marker'
-          = truncate(seed.owner_location, length: 40, separator: ' ', omission: '... ')
+          = truncate(seed.owner_location, length: 15, separator: ' ', omission: '... ')
       %p
         - if seed.quantity
           .badge.badge-info #{seed.quantity} seeds
