@@ -8,33 +8,27 @@
     .col-2.offset-md-2
       %h1= @box
     .col-8
-      = button_tag(type: 'submit', class: 'btn btn-default') do
-        = icon 'fas', 'trash-alt'
-        = 'Delete Selected'
 
   .row
     .col-md-2.py-4
       - @boxes.each do |box_name, counts|
         = link_to conversations_path(box: box_name), class: "nav-link list-group-item d-flex justify-content-between #{box_name == @box ? 'active' : ''} #{box_name}" do
+          %span
+            = box_name
           - if counts['unread'].positive?
             %span.badge.badge-info=counts['unread']
-          - else
-            %span
-          %span
-            = icon 'fas', box_name
-            = box_name
 
     .col-md-10
       .list-group
         - @conversations.each do |conversation|
           .list-group-item
             .row
-              .col-md-1
+              .col-1
                 - if conversation.receipts_for(current_member).last.is_unread?
                   %h1= icon 'far', 'envelope'
                 - else
                   %h1.text-muted= icon 'far', 'envelope-open'
-              .col-md-10
+              .col-9
                 .text-right.float-right
                   - conversation.recipients.each do |member|
                     - if member != current_member
@@ -50,11 +44,15 @@
                         #{time_ago_in_words conversation.messages.last.created_at} ago
                         %span.text-muted= conversation.messages.last.created_at
                     = truncate(strip_tags(conversation.messages.last.body), length: 150, separator: ' ', omission: '... ')
-              .col-md-1
+              .col-1
                 - if @box == 'trash'
                   = link_to conversation_path(conversation, box: @box), method: :put, class: 'restore', title: "Restore" do
                     = icon 'fas', 'trash-restore'
                 - else
                   = check_box_tag 'conversation_ids[]', conversation.id, false, class: 'selectable', "aria-label": "Select for deletion"
+      .offset-9.col-3
+        = button_tag(type: 'submit', class: 'btn btn-default') do
+          = icon 'fas', 'trash-alt'
+          = 'Delete'
       - unless @conversations.empty?
         = will_paginate @conversations
