@@ -10,7 +10,7 @@
     .col
       %p
         - if current_member.plantings.active.any?
-          = link_to member_path(current_member), class: 'btn btn-dark' do
+          = link_to member_path(current_member, anchor: "#content"), class: 'btn btn-dark' do
             = planting_icon
             Track my plantings
       %p
