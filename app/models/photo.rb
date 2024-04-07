@@ -9,7 +9,7 @@ class Photo < ApplicationRecord
 
   has_many :photo_associations, dependent: :delete_all, inverse_of: :photo
 
-  # This doesn't work, ActiveRecord tries to use the polymoriphinc photographable
+  # This doesn't work, ActiveRecord tries to use the polymoriphic photographable
   # relationship instead.
   # has_many :crops, through: :photo_associations, counter_cache: true
   def crops
