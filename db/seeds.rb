@@ -91,15 +91,15 @@ def load_test_users
         planted_from: select_random_item(Planting::PLANTED_FROM_VALUES)
       )
       photo = Photo.create!(
-        owner: @user,
-        source: 'flickr',
-        source_id: 1,
-        title: Faker::Movies::HarryPotter.quote,
-        license_name: "CC-BY",
-        license_url: "http://example.com/license.html",
+        owner:         @user,
+        source:        'flickr',
+        source_id:     1,
+        title:         Faker::Movies::HarryPotter.quote,
+        license_name:  "CC-BY",
+        license_url:   "http://example.com/license.html",
         thumbnail_url: "https://picsum.photos/200?planting-#{planting.id}",
-        fullsize_url: "https://picsum.photos/600?planting-#{planting.id}",
-        link_url: Faker::Internet.url,       
+        fullsize_url:  "https://picsum.photos/600?planting-#{planting.id}",
+        link_url:      Faker::Internet.url
       )
       planting.photos << photo
     end
@@ -123,15 +123,15 @@ def load_test_users
       body:      Faker::Lorem.paragraphs.join("\n")
     )
     photo = Photo.create!(
-      owner: @user,
-      source: 'flickr',
-      source_id: 1,
-      title: Faker::Movies::HarryPotter.quote,
-      license_name: "CC-BY",
-      license_url: "http://example.com/license.html",
+      owner:         @user,
+      source:        'flickr',
+      source_id:     1,
+      title:         Faker::Movies::HarryPotter.quote,
+      license_name:  "CC-BY",
+      license_url:   "http://example.com/license.html",
       thumbnail_url: "https://picsum.photos/200?post-#{post.id}",
-      fullsize_url: "https://picsum.photos/600?post-#{post.id}",
-      link_url: Faker::Internet.url,       
+      fullsize_url:  "https://picsum.photos/600?post-#{post.id}",
+      link_url:      Faker::Internet.url
     )
     post.photos << photo
 
@@ -146,21 +146,48 @@ def load_test_users
         unit:            "individual",
         weight_quantity: 6,
         weight_unit:     "kg",
-        description:     Faker::Book.title,
+        description:     Faker::Book.title
       )
 
       photo = Photo.create!(
-        owner: @user,
-        source: 'flickr',
-        source_id: 1,
-        title: Faker::Movies::HarryPotter.quote,
-        license_name: "CC-BY",
-        license_url: "http://example.com/license.html",
+        owner:         @user,
+        source:        'flickr',
+        source_id:     1,
+        title:         Faker::Movies::HarryPotter.quote,
+        license_name:  "CC-BY",
+        license_url:   "http://example.com/license.html",
         thumbnail_url: "https://picsum.photos/200?harvest-#{harvest.id}",
-        fullsize_url: "https://picsum.photos/600?harvest-#{harvest.id}",
-        link_url: Faker::Internet.url,       
+        fullsize_url:  "https://picsum.photos/600?harvest-#{harvest.id}",
+        link_url:      Faker::Internet.url
       )
       harvest.photos << photo
+    end
+
+    5.times do
+      seed = Seed.create!(
+        owner:           @user,
+        crop:            @user.plantings.first.crop,
+        description:     Faker::Book.title,
+        quantity:        Faker::Number.number(digits: 3),
+        tradable_to:     select_random_item(Seed::TRADABLE_TO_VALUES),
+        organic:         select_random_item(Seed::ORGANIC_VALUES),
+        gmo:             select_random_item(['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown']), # Strangely, this doesn't want to work as Seed:GMO_VALUES
+        heirloom:        select_random_item(Seed::HEIRLOOM_VALUES),
+        parent_planting: @user.plantings.first
+      )
+
+      photo = Photo.create!(
+        owner:         @user,
+        source:        'flickr',
+        source_id:     1,
+        title:         Faker::Movies::HarryPotter.quote,
+        license_name:  "CC-BY",
+        license_url:   "http://example.com/license.html",
+        thumbnail_url: "https://picsum.photos/200?seed-#{seed.id}",
+        fullsize_url:  "https://picsum.photos/600?seed-#{seed.id}",
+        link_url:      Faker::Internet.url
+      )
+      seed.photos << photo
     end
   end
 
