@@ -1,4 +1,8 @@
 %h2 All about #{member.login_name}
+%p
+  %small
+    %a{href: "#content"}
+      Skip to main content
 - if member.bio.blank?
   - if can? :edit, member
     = link_to "Add a bio to complete your profile.", edit_member_registration_path
