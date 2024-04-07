@@ -44,6 +44,7 @@ def load_roles
 end
 
 def load_test_users
+  require "faker"
   puts "Loading test users..."
 
   # Open suburb csv
@@ -80,24 +81,87 @@ def load_test_users
     end
 
     # Create a planting by the member
-    Planting.create(
-      owner_id:     @user.id,
-      garden_id:    @user.gardens.first.id,
-      planted_at:   Time.zone.today,
-      crop_id:      Crop.find(i % Crop.all.size + 1).id,
-      sunniness:    select_random_item(Planting::SUNNINESS_VALUES),
-      planted_from: select_random_item(Planting::PLANTED_FROM_VALUES)
-    )
+    10.times do |n|
+      planting = Planting.create!(
+        owner_id:     @user.id,
+        garden_id:    @user.gardens.first.id,
+        planted_at:   (n * 7).days.ago,
+        crop_id:      Crop.find((i + n) % Crop.all.size + 1).id,
+        sunniness:    select_random_item(Planting::SUNNINESS_VALUES),
+        planted_from: select_random_item(Planting::PLANTED_FROM_VALUES)
+      )
+      photo = Photo.create!(
+        owner: @user,
+        source: 'flickr',
+        source_id: 1,
+        title: Faker::Movies::HarryPotter.quote,
+        license_name: "CC-BY",
+        license_url: "http://example.com/license.html",
+        thumbnail_url: "https://picsum.photos/200?planting-#{planting.id}",
+        fullsize_url: "https://picsum.photos/600?planting-#{planting.id}",
+        link_url: Faker::Internet.url,       
+      )
+      planting.photos << photo
+    end
 
     # Create an activity by the member
-    Activity.create(
-      owner_id:     @user.id,
-      garden_id:    @user.gardens.first.id,
-      due_date:   Time.zone.today,
-      name: "Remove all weeds",
-      category: "Weeding",
-      description: "Get rid of the invasive grass, again"
+    3.times do |_n|
+      Activity.create!(
+        owner_id:    @user.id,
+        garden_id:   @user.gardens.first.id,
+        due_date:    Time.zone.today,
+        name:        Faker::Book.title,
+        category:    "Weeding",
+        description: Faker::Lorem.paragraphs.join("\n")
+      )
+    end
+
+    # Create a post by the member
+    post = Post.create!(
+      author_id: @user.id,
+      subject:   Faker::Book.title,
+      body:      Faker::Lorem.paragraphs.join("\n")
     )
+    photo = Photo.create!(
+      owner: @user,
+      source: 'flickr',
+      source_id: 1,
+      title: Faker::Movies::HarryPotter.quote,
+      license_name: "CC-BY",
+      license_url: "http://example.com/license.html",
+      thumbnail_url: "https://picsum.photos/200?post-#{post.id}",
+      fullsize_url: "https://picsum.photos/600?post-#{post.id}",
+      link_url: Faker::Internet.url,       
+    )
+    post.photos << photo
+
+    2.times do
+      harvest = Harvest.create!(
+        crop:            @user.plantings.last.crop,
+        planting:        @user.plantings.last,
+        plant_part:      select_random_item(PlantPart.all.to_a),
+        owner:           @user,
+        harvested_at:    1.day.ago,
+        quantity:        "3",
+        unit:            "individual",
+        weight_quantity: 6,
+        weight_unit:     "kg",
+        description:     Faker::Book.title,
+      )
+
+      photo = Photo.create!(
+        owner: @user,
+        source: 'flickr',
+        source_id: 1,
+        title: Faker::Movies::HarryPotter.quote,
+        license_name: "CC-BY",
+        license_url: "http://example.com/license.html",
+        thumbnail_url: "https://picsum.photos/200?harvest-#{harvest.id}",
+        fullsize_url: "https://picsum.photos/600?harvest-#{harvest.id}",
+        link_url: Faker::Internet.url,       
+      )
+      harvest.photos << photo
+    end
   end
 
   puts "Finished loading test users"
