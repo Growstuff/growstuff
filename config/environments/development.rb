@@ -67,7 +67,11 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener
 
   config.host = 'localhost:3000'
-  config.hosts << ".preview.app.github.dev"
+  if ENV['CODESPACE_NAME']
+    config.host = "#{ENV['CODESPACE_NAME']}-3000.app.github.dev:443"
+    config.hosts << ".preview.app.github.dev"
+    config.hosts << ".app.github.dev"
+  end
   config.analytics_code = ''
 
   config.action_controller.action_on_unpermitted_parameters = :raise

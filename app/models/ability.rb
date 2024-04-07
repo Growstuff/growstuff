@@ -153,5 +153,10 @@ class Ability
     can :destroy, PlantPart do |pp|
       pp.harvests.empty?
     end
+    # Admins can't delete themselves
+    cannot :destroy, Member
+    can :destroy, Member do |other_member|
+      other_member&.id != member.id
+    end
   end
 end
