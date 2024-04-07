@@ -29,7 +29,7 @@
       %h2= title('harvests', @owner, @crop, @planting)
       = will_paginate @harvests
       - if @harvests.blank?
-        %p You have not logged any harvests
+        %p No harvests recorded yet
       .index-cards
         - @harvests.each do |h|
           = render 'harvests/card', harvest: h
