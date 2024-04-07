@@ -54,7 +54,7 @@ describe "member profile", :js do
     context "activity stats" do
       it "with no activity" do
         visit member_path(member)
-        expect(page).to have_content "Activity"
+        expect(page).to have_content "Stats"
         expect(page).not_to have_content "0 plantings"
         expect(page).not_to have_content "0 harvests"
         expect(page).not_to have_content "0 seeds"
