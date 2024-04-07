@@ -68,11 +68,11 @@
         - @activity.each do |event|
           .list-group-item.list-group-item-action.flex-column.align-items-start{:href => "#!"}
             .d-flex.w-100.justify-content-between
-              %h5
+              %h5.col-md-10
                 = icon_for_model(event.event_type)
                 = event_description(event)
                 = render 'timeline/photos', photo: resolve_model(event) if event.event_type == 'photo'
-              %small
+              %small.col-md-2
               - if event.event_at.present?
                 - if event.event_at.kind_of?(Date)
                   #{distance_of_time_in_words(event.event_at, Time.zone.now.to_date)} ago
