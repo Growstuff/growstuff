@@ -31,9 +31,10 @@
         %p
           %strong Member since
           = @member.created_at.to_fs(:date)
-        %p
-          %strong Last Login
-          = @member.last_sign_in_at
+        - if @member.last_sign_in_at
+          %p
+            %strong Last Login
+            = @member.last_sign_in_at
 
         - if can? :update, @member
           = link_to edit_member_registration_path, class: 'btn btn-block' do

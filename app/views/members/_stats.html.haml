@@ -1,27 +1,27 @@
 .card-body
   %h3.d-none.d-md-block Activity
-  %ul.list-group.list-group-flush
-    - if member.gardens.present?
-      %li.list-group-item
-        = link_to localize_plural(member.gardens, Garden), member_gardens_path(member)
-    - if member.plantings.present?
-      %li.list-group-item
-        = link_to localize_plural(member.plantings, Planting), member_plantings_path(member)
-    - if member.harvests.present?
-      %li.list-group-item
-        = link_to localize_plural(member.harvests, Harvest), member_harvests_path(member)
-    - if member.seeds.present?
-      %li.list-group-item
-        = link_to localize_plural(member.seeds, Seed), member_seeds_path(member)
-    - if member.posts.present?
-      %li.list-group-item
-        = link_to localize_plural(member.posts, Post), member_posts_path(member)
-    - if member.activities.present?
-      %li.list-group-item
-        = link_to localize_plural(member.plantings, Activity), member_activities_path(member)
-    - if member.followed.present?
-      %li.list-group-item
-        = link_to localize_plural(member.followed, Follow), member_follows_path(member)
-    - if member.followers.present?
-      %li.list-group-item
-        = link_to pluralize(member.followers.size, "follower"), member_followers_path(member)
+%ul.list-group.list-group-flush
+  - if member.gardens.present?
+    %li.list-group-item
+      = link_to localize_plural(member.gardens, Garden), member_gardens_path(member)
+  - if member.plantings.present?
+    %li.list-group-item
+      = link_to localize_plural(member.plantings, Planting), member_plantings_path(member)
+  - if member.harvests.present?
+    %li.list-group-item
+      = link_to localize_plural(member.harvests, Harvest), member_harvests_path(member)
+  - if member.seeds.present?
+    %li.list-group-item
+      = link_to localize_plural(member.seeds, Seed), member_seeds_path(member)
+  - if member.posts.present?
+    %li.list-group-item
+      = link_to localize_plural(member.posts, Post), member_posts_path(member)
+  - if member.activities.present?
+    %li.list-group-item
+      = link_to localize_plural(member.plantings, Activity), member_activities_path(member)
+  - if member.followed.present?
+    %li.list-group-item
+      = link_to localize_plural(member.followed, Follow), member_follows_path(member)
+  - if member.followers.present?
+    %li.list-group-item
+      = link_to pluralize(member.followers.size, "follower"), member_followers_path(member)
