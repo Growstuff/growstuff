@@ -21,9 +21,10 @@
         .row
           .col= render "bio", member: @member
           .col= render "avatar", member: @member
-        %p
-          - @member.roles.each do |role|
-            %span.badge.badge-info= role.name.titleize
+        - if @member.roles.any?
+          %p
+            - @member.roles.each do |role|
+              %span.badge.badge-info= role.name.titleize
         - if @member.location.present?
           %p.badge.badge-location{ title: @member.location }
             = icon 'fas', 'map-marker'
@@ -31,9 +32,10 @@
         %p
           %strong Member since
           = @member.created_at.to_fs(:date)
-        %p
-          %strong Last Login
-          = @member.last_sign_in_at
+        - if @member.last_sign_in_at
+          %p
+            %strong Last Login
+            = @member.last_sign_in_at
 
         - if can? :update, @member
           = link_to edit_member_registration_path, class: 'btn btn-block' do
@@ -59,24 +61,71 @@
         = render "contact", member: @member, twitter_auth: @twitter_auth,
                                               flickr_auth: @flickr_auth
 
-  .col-md-10
-    %section= render "map", member: @member
-    = render 'members/full_summary', member: @member
-    %section.activity
-      %h2 Activity
-      .list-group
-        - @activity.each do |event|
-          .list-group-item.list-group-item-action.flex-column.align-items-start{:href => "#!"}
-            .d-flex.w-100.justify-content-between
-              %h5
-                = icon_for_model(event.event_type)
-                = event_description(event)
-                = render 'timeline/photos', photo: resolve_model(event) if event.event_type == 'photo'
-              %small
-              - if event.event_at.present?
-                - if event.event_at.kind_of?(Date)
-                  #{distance_of_time_in_words(event.event_at, Time.zone.now.to_date)} ago
-                - else
-                  #{time_ago_in_words(event.event_at)} ago
-              - else
-                unknown date
+  .col-md-10#content
+    .row
+      %section.order-3.order-md-1.col-12= render "map", member: @member
+      - if @harvesting.size.positive?
+        %section.harvests.order-2.order-md-1
+          %h2 Ready to harvest
+          .index-cards
+            - @harvesting.each do |planting|
+              = render 'plantings/thumbnail', planting: planting
+
+      - if @others.size.positive?
+        %section.planting-progress.order-2.order-md-1.col-12
+          %h2 Progress report
+          %p Still growing and not ready for harvesting.
+          .list-group
+            - @others.each do |planting|
+              .list-group-item
+                %span= render 'plantings/tiny', planting: planting
+                %span= render 'plantings/progress', planting: planting
+      - if @late.size.positive?
+        %section.late.order-2.order-md-1.col-12
+          %h2 Late
+          %p
+            These plantings are at the end of their lifecycle.
+            - if member_signed_in? && @member == current_member
+              %strong When you have removed the planting from your garden, mark the planting as finished in Growstuff.
+          .index-cards
+            - @late.each do |planting|
+              = render 'plantings/thumbnail', planting: planting
+      - if @super_late.any?
+        %section.superlate.order-2.order-md-1.col-12
+          %h2 Super late
+          %p
+            We suspect the following plantings finished long ago and no longer need tracking.
+            - if member_signed_in? && current_member == @member
+              %strong You can mark these plantings as finished to stop tracking.
+          %ul
+            - @super_late.each do |planting|
+              %li
+                = link_to planting.crop_name, planting_url(slug: planting.slug)
+                planted on #{planting.planted_at.to_date}
+
+      - if @harvests.any?
+        %section.havests.order-2.order-md-1.col-12
+          %h2 Recent Harvests
+          .index-cards
+            - @harvests.each do |harvest|
+              = render 'harvests/thumbnail', harvest: harvest
+
+      - if @activity.any?
+        %section.activity.order-2.order-md-1.col-12
+          %h2 Activity
+          .list-group
+            - @activity.each do |event|
+              .list-group-item.list-group-item-action.flex-column.align-items-start{:href => "#!"}
+                .d-flex.w-100.justify-content-between
+                  %h5.col-md-11.col-xs-10.text-truncate
+                    = icon_for_model(event.event_type)
+                    = event_description(event)
+                    = render 'timeline/photos', photo: resolve_model(event) if event.event_type == 'photo'
+                  %small.col-md-1.col-xs-2.text-right
+                    - if event.event_at.present?
+                      - if event.event_at.kind_of?(Date)
+                        #{distance_of_time_in_words(event.event_at, Time.zone.now.to_date)} ago
+                      - else
+                        #{time_ago_in_words(event.event_at)} ago
+                    - else
+                      unknown date
