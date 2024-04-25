@@ -15,6 +15,11 @@ Growstuff was founded in 2012 and has been built by dozens of
 [contributors](CONTRIBUTORS.md).  We are an inclusive, welcoming project, and
 encourage participation from people of all backgrounds and skill levels.
 
+## Want to contribute?
+
+Don't ask to ask, the best way to get started is to fork the project, start a codespace and get hacking.
+Dive on in and submit your PRs.
+
 ## Important links
 
 * [Issues](https://github.com/orgs/Growstuff/projects/1) (features we're
