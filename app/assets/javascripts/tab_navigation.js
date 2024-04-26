@@ -14,7 +14,7 @@ $(document).ready(function() {
     }
 
     $('a[data-bs-toggle="tab"]').on("click", function() {
-        let newUrl;
+        var newUrl;
         var hash = $(this).attr("href");
         newUrl = url.split("#")[0] + hash;
         history.replaceState(null, null, newUrl);
