@@ -1,4 +1,4 @@
-$(document).ready(() => {
+$(document).ready(function() {
     let url = location.href.replace(/\/$/, "");
 
     if (location.hash) {
@@ -11,7 +11,7 @@ $(document).ready(() => {
         setTimeout(() => {
             $(window).scrollTop(0);
         }, 20);
-    } 
+    }
 
     $('a[data-bs-toggle="tab"]').on("click", function() {
         let newUrl;
