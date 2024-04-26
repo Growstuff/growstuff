@@ -94,6 +94,7 @@ submit the change with your pull request.
 - Rowan Crawford / [wombleton](https://github.com/wombleton)
 - Ítalo Pires / [italopires](https://github.com/italopires)
 - Bennett Zink / [bennett-zink](https://github.com/bennett-zink)
+- Dominick Thornton / [domthor](https://github.com/domthor)
 
 ## Bots
 
