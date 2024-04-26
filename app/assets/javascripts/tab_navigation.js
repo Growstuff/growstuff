@@ -2,7 +2,7 @@ $(document).ready(function() {
     var url = location.href.replace(/\/$/, "");
 
     if (location.hash) {
-        const hash = url.split("#");
+        var hash = url.split("#");
         var triggerEl = document.querySelector('#myTab a[href="#' + hash[1] + '"]');
         var tab = new bootstrap.Tab(triggerEl)
         tab.show()
@@ -15,7 +15,7 @@ $(document).ready(function() {
 
     $('a[data-bs-toggle="tab"]').on("click", function() {
         let newUrl;
-        const hash = $(this).attr("href");
+        var hash = $(this).attr("href");
         newUrl = url.split("#")[0] + hash;
         history.replaceState(null, null, newUrl);
     });
