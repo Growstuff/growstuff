@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
     var url = location.href.replace(/\/$/, '');
 
     if (location.hash) {
@@ -8,12 +8,12 @@ $(document).ready(function () {
         tab.show();
         url = location.href.replace(/\/#/, '#');
         history.replaceState(null, null, url);
-        setTimeout(function () {
+        setTimeout(function() {
             $(window).scrollTop(0);
         }, 20);
     }
 
-    $('a[data-bs-toggle="tab"]').on('click', function () {
+    $('a[data-bs-toggle="tab"]').on('click', function() {
         var newUrl;
         var hash = $(this).attr('href');
         newUrl = url.split('#')[0] + hash;
