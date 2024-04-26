@@ -8,7 +8,7 @@ $(document).ready(function() {
         tab.show()
         url = location.href.replace(/\/#/, "#");
         history.replaceState(null, null, url);
-        setTimeout(() => {
+        setTimeout(function() {
             $(window).scrollTop(0);
         }, 20);
     }
