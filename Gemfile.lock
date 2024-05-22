@@ -183,7 +183,7 @@ GEM
       image_processing (~> 1.1)
       marcel (~> 1.0.0)
       ssrf_filter (~> 1.0)
-    chartkick (5.0.6)
+    chartkick (5.0.7)
     childprocess (5.0.0)
     codeclimate-test-reporter (1.0.9)
       simplecov (<= 0.13)
