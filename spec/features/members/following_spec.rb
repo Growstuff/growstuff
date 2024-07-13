@@ -8,8 +8,8 @@ describe "follows", :js do
 
     it "follow buttons on member profile page" do
       visit member_path(member)
-      expect(page).not_to have_link "Follow"
-      expect(page).not_to have_link "Unfollow"
+      expect(page).to have_no_link "Follow"
+      expect(page).to have_no_link "Unfollow"
     end
   end
 
@@ -19,8 +19,8 @@ describe "follows", :js do
 
     it "your profile doesn't have a follow button" do
       visit member_path(member)
-      expect(page).not_to have_link "Follow"
-      expect(page).not_to have_link "Unfollow"
+      expect(page).to have_no_link "Follow"
+      expect(page).to have_no_link "Unfollow"
     end
 
     context "following another member" do
@@ -66,7 +66,7 @@ describe "follows", :js do
         click_link 'Follow'
         click_link 'Unfollow'
         visit member_follows_path(member)
-        expect(page).not_to have_content other_member.login_name
+        expect(page).to have_no_content other_member.login_name
         visit member_followers_path(other_member)
         expect(page).to have_content member.login_name
       end

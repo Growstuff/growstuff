@@ -31,7 +31,7 @@ describe "Planting a crop", :js do
 
       click_link 'Actions'
       expect(page).to have_content "Mark as active"
-      expect(page).not_to have_content "Mark as inactive"
+      expect(page).to have_no_content "Mark as inactive"
     end
 
     it "List only active gardens" do
@@ -41,7 +41,7 @@ describe "Planting a crop", :js do
         click_link "Mark as inactive"
       end
       visit gardens_path
-      expect(page).not_to have_link garden_path(garden)
+      expect(page).to have_no_link garden_path(garden)
     end
 
     it "Create new garden" do
@@ -57,7 +57,7 @@ describe "Planting a crop", :js do
       fill_in "Name", with: "Negative Garden"
       fill_in "Area", with: -5
       click_button "Save"
-      expect(page).not_to have_content "Garden was successfully created"
+      expect(page).to have_no_content "Garden was successfully created"
       expect(page).to have_content "Area must be greater than or equal to 0"
     end
 
@@ -124,7 +124,7 @@ describe "Planting a crop", :js do
 
     it "List only active plantings on a garden" do
       visit gardens_path
-      expect(page).not_to have_content finished_planting.crop_name
+      expect(page).to have_no_content finished_planting.crop_name
     end
   end
 

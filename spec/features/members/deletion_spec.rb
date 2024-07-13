@@ -117,9 +117,9 @@ describe "member deletion" do
 
       it "removes members from following" do
         visit member_follows_path(other_member)
-        expect(page).not_to have_content member.login_name.to_s
+        expect(page).to have_no_content member.login_name.to_s
         visit member_followers_path(other_member)
-        expect(page).not_to have_content member.login_name.to_s
+        expect(page).to have_no_content member.login_name.to_s
       end
 
       it "replaces posts with deletion note" do
@@ -131,7 +131,7 @@ describe "member deletion" do
         FactoryBot.create(:comment, post: othermemberpost, author: member, body: 'i am deleting my account')
 
         visit post_path(othermemberpost)
-        expect(page).not_to have_content member.login_name
+        expect(page).to have_no_content member.login_name
         expect(page).to have_content other_member.login_name
         expect(page).to have_content "Member Deleted"
       end
@@ -166,7 +166,7 @@ describe "member deletion" do
       login_as(otherwrangler)
       visit edit_crop_path(crop)
       expect(page).to have_content member.login_name
-      expect(page).not_to have_content "cropbot"
+      expect(page).to have_no_content "cropbot"
       logout
       login_as(member)
       visit member_path(member)
@@ -176,7 +176,7 @@ describe "member deletion" do
       click_button "Delete"
       login_as(otherwrangler)
       visit edit_crop_path(crop)
-      expect(page).not_to have_content member.login_name
+      expect(page).to have_no_content member.login_name
     end
   end
 end

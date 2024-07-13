@@ -12,13 +12,6 @@
 Capybara/ClickLinkOrButtonStyle:
   Enabled: false
 
-# Offense count: 84
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: have_no, not_to
-Capybara/NegationMatcher:
-  Enabled: false
-
 # Offense count: 39
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: DefaultSelector.

@@ -42,7 +42,7 @@ describe 'seeds/index.rss.haml', :search do
     end
 
     it "does not offer untradable seed as tradeable" do
-      expect(rendered).not_to have_content "Will trade #{seed.tradable_to} from #{seed.owner.location}"
+      expect(rendered).to have_no_content "Will trade #{seed.tradable_to} from #{seed.owner.location}"
     end
   end
 
