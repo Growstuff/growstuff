@@ -86,7 +86,7 @@ def load_test_users
         owner_id:     @user.id,
         garden_id:    @user.gardens.first.id,
         planted_at:   (n * 7).days.ago,
-        crop_id:      Crop.find((i + n) % Crop.all.size + 1).id,
+        crop_id:      Crop.find(((i + n) % Crop.all.size) + 1).id,
         sunniness:    select_random_item(Planting::SUNNINESS_VALUES),
         planted_from: select_random_item(Planting::PLANTED_FROM_VALUES)
       )

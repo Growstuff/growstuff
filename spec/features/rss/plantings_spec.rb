@@ -12,6 +12,6 @@ describe 'Plantings RSS feed' do
     Planting.reindex
     visit plantings_path(format: 'rss')
     expect(page).to have_content "Recent plantings from " \
-                                 "#{@owner || 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})"
+                                 "#{@owner || 'all members'} (#{ENV.fetch('GROWSTUFF_SITE_NAME', nil)})"
   end
 end

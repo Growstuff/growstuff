@@ -4,8 +4,8 @@
 require 'platform-api'
 require 'yaml'
 
-heroku = PlatformAPI.connect(ENV['HEROKU_API_KEY'])
-branch = ENV['TRAVIS_BRANCH']
+heroku = PlatformAPI.connect(ENV.fetch('HEROKU_API_KEY', nil))
+branch = ENV.fetch('TRAVIS_BRANCH', nil)
 travis_config = YAML.load_file('.travis.yml')
 if travis_config['deploy']['app'].key? branch
   app = travis_config['deploy']['app'][branch]

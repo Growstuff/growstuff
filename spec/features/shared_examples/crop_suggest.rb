@@ -66,9 +66,7 @@ shared_examples "crop suggest" do |resource|
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "Ryan Gosling"
       # Some forms require additional selections before submission.
-      if resource == "harvest"
-        choose plant_part.name
-      end
+      choose plant_part.name if resource == "harvest"
       click_button "Save"
     end
 

@@ -11,6 +11,6 @@ describe 'Posts RSS feed' do
   it 'The index title is what we expect' do
     visit posts_path(format: 'rss')
     expect(page).to have_content "Recent posts from " \
-                                 "#{@author || 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})"
+                                 "#{@author || 'all members'} (#{ENV.fetch('GROWSTUFF_SITE_NAME', nil)})"
   end
 end

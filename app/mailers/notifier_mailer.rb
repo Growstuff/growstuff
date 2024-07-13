@@ -2,7 +2,7 @@
 
 class NotifierMailer < ApplicationMailer
   # include NotificationsHelper
-  default from: "Growstuff <#{ENV['GROWSTUFF_EMAIL']}>"
+  default from: "Growstuff <#{ENV.fetch('GROWSTUFF_EMAIL', nil)}>"
 
   def verifier
     unless ENV['RAILS_SECRET_TOKEN']
@@ -10,7 +10,7 @@ class NotifierMailer < ApplicationMailer
             "not set - have you created config/application.yml?"
     end
 
-    ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+    ActiveSupport::MessageVerifier.new(ENV.fetch('RAILS_SECRET_TOKEN', nil))
   end
 
   def notify(notification)
@@ -27,7 +27,7 @@ class NotifierMailer < ApplicationMailer
 
   def planting_reminder(member)
     @member = member
-    @sitename = ENV['GROWSTUFF_SITE_NAME']
+    @sitename = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
 
     @late = []
     @super_late = []
