@@ -14,13 +14,13 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   def store_location
-    unless request.path.in?(["/members/sign_in",
-                             "/members/sign_up",
-                             "/members/password/new",
-                             "/members/password/edit",
-                             "/members/confirmation",
-                             "/members/sign_out"]) || request.xhr?
-      store_location_for(:member, request.fullpath) if request.format == :html
+    if !(request.path.in?(["/members/sign_in",
+                           "/members/sign_up",
+                           "/members/password/new",
+                           "/members/password/edit",
+                           "/members/confirmation",
+                           "/members/sign_out"]) || request.xhr?) && (request.format == :html)
+      store_location_for(:member, request.fullpath)
     end
   end
 
