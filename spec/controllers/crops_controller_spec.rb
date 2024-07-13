@@ -28,7 +28,7 @@ describe CropsController do
     end
   end
 
-  describe "GET crop hierarchy " do
+  describe "GET crop hierarchy" do
     describe 'fetches the crop hierarchy page' do
       context 'wrangler' do
         include_context 'login as wrangler'

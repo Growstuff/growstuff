@@ -19,7 +19,7 @@ describe "browse harvests", :search do
       end
 
       it 'read more' do
-        expect(subject).not_to have_link "Read more"
+        expect(subject).to have_no_link "Read more"
       end
     end
 

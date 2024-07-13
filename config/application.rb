@@ -26,7 +26,7 @@ module Growstuff
     config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone]
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    I18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}')]
+    I18n.load_path += Dir[Rails.root.join("config/locales/*.{rb,yml}")]
     I18n.default_locale = :en
     # rails will fallback to config.i18n.default_locale translation
     config.i18n.fallbacks = true
