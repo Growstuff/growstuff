@@ -358,13 +358,6 @@ RSpec/EmptyLineAfterExample:
 RSpec/ExampleLength:
   Max: 25
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/ExcessiveDocstringSpacing:
-  Exclude:
-    - 'spec/controllers/crops_controller_spec.rb'
-    - 'spec/features/crops/crop_photos_spec.rb'
-
 # Offense count: 32
 RSpec/ExpectInHook:
   Exclude:
