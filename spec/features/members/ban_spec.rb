@@ -18,7 +18,7 @@ describe "members list" do
       end
 
       it { expect(page).to have_link admin.login_name }
-      it { expect(page).not_to have_link spammer.login_name }
+      it { expect(page).to have_no_link spammer.login_name }
     end
   end
 end
