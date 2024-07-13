@@ -5,14 +5,14 @@ namespace :growstuff do
   # usage: rake growstuff:admin_user name=skud
 
   task admin_user: :environment do
-    add_role_to_member! ENV['name'], 'Admin'
+    add_role_to_member! ENV.fetch('name', nil), 'Admin'
   end
 
   desc "Add a crop wrangler user, by name"
   # usage: rake growstuff:cropwrangler_user name=skud
 
   task cropwrangler_user: :environment do
-    add_role_to_member! ENV['name'], 'Crop Wrangler'
+    add_role_to_member! ENV.fetch('name', nil), 'Crop Wrangler'
   end
 
   def add_role_to_member!(login_name, role_name)
@@ -31,7 +31,7 @@ namespace :growstuff do
   task import_crops: :environment do
     require 'csv'
 
-    (@file = ENV['file']) || raise("Usage: rake growstuff:import_crops file=file.csv")
+    (@file = ENV.fetch('file', nil)) || raise("Usage: rake growstuff:import_crops file=file.csv")
 
     puts "Loading crops from #{@file}..."
     CSV.foreach(@file) do |row|

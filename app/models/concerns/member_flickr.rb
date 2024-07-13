@@ -9,8 +9,8 @@ module MemberFlickr
       if @flickr.nil?
         flickr_auth = auth('flickr')
         if flickr_auth
-          FlickRaw.api_key = ENV['GROWSTUFF_FLICKR_KEY']
-          FlickRaw.shared_secret = ENV['GROWSTUFF_FLICKR_SECRET']
+          FlickRaw.api_key = ENV.fetch('GROWSTUFF_FLICKR_KEY', nil)
+          FlickRaw.shared_secret = ENV.fetch('GROWSTUFF_FLICKR_SECRET', nil)
           @flickr = FlickRaw::Flickr.new
           @flickr.access_token = flickr_auth.token
           @flickr.access_secret = flickr_auth.secret

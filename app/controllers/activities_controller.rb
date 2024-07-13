@@ -81,8 +81,8 @@ class ActivitiesController < DataController
   end
 
   def specifics
-    if @owner.present?
-      "#{@owner.to_param}-"
-    end
+    return unless @owner.present?
+
+    "#{@owner.to_param}-"
   end
 end

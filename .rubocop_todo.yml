@@ -91,14 +91,6 @@ Layout/LineLength:
     - 'db/seeds.rb'
 
 # Offense count: 3
-# This cop supports safe autocorrection (--autocorrect).
-Lint/AmbiguousOperatorPrecedence:
-  Exclude:
-    - 'db/seeds.rb'
-    - 'spec/helpers/gardens_helper_spec.rb'
-    - 'spec/helpers/seeds_helper_spec.rb'
-
-# Offense count: 3
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: RequireParenthesesForMethodChains.
 Lint/AmbiguousRange:
@@ -613,14 +605,6 @@ Style/ClassAndModuleChildren:
     - 'lib/haml/filters/escaped_markdown.rb'
     - 'lib/haml/filters/growstuff_markdown.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: Keywords, RequireColon.
-# Keywords: TODO, FIXME, OPTIMIZE, HACK, REVIEW, NOTE
-Style/CommentAnnotation:
-  Exclude:
-    - 'spec/features/seeds/adding_seeds_spec.rb'
-
 # Offense count: 6
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/CommentedKeyword:
@@ -629,12 +613,6 @@ Style/CommentedKeyword:
     - 'spec/models/crop_spec.rb'
     - 'spec/models/photo_spec.rb'
     - 'spec/models/planting_spec.rb'
-
-# Offense count: 37
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowedVars.
-Style/FetchEnvVar:
-  Enabled: false
 
 # Offense count: 3
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -653,33 +631,6 @@ Style/GlobalStdStream:
     - 'config/environments/production.rb'
     - 'lib/tasks/gbif.rake'
     - 'lib/tasks/openfarm.rake'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: MinBodyLength, AllowConsecutiveConditionals.
-Style/GuardClause:
-  Exclude:
-    - 'app/controllers/activities_controller.rb'
-
-# Offense count: 5
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, EnforcedShorthandSyntax, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-# SupportedShorthandSyntax: always, never, either, consistent, either_consistent
-Style/HashSyntax:
-  Exclude:
-    - 'app/models/csv_importer.rb'
-    - 'spec/requests/api/v1/gardens_request_spec.rb'
-    - 'spec/requests/api/v1/plantings_request_spec.rb'
-
-# Offense count: 5
-# This cop supports safe autocorrection (--autocorrect).
-Style/IfUnlessModifier:
-  Exclude:
-    - 'app/controllers/activities_controller.rb'
-    - 'app/controllers/application_controller.rb'
-    - 'bin/setup'
-    - 'spec/features/shared_examples/crop_suggest.rb'
 
 # Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -709,18 +660,13 @@ Style/MutableConstant:
   Exclude:
     - 'app/models/activity.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Style/NegatedIfElseCondition:
-  Exclude:
-    - 'app/helpers/crops_helper.rb'
-
-# Offense count: 4
+# Offense count: 5
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle, AllowedMethods, AllowedPatterns.
 # SupportedStyles: predicate, comparison
 Style/NumericPredicate:
   Exclude:
+    - 'app/helpers/crops_helper.rb'
     - 'app/helpers/harvests_helper.rb'
     - 'app/helpers/plantings_helper.rb'
     - 'app/models/concerns/predict_planting.rb'
@@ -737,13 +683,6 @@ Style/OptionalBooleanParameter:
   Exclude:
     - 'app/models/concerns/member_newsletter.rb'
 
-# Offense count: 5
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: .
-# SupportedStyles: same_as_string_literals, single_quotes, double_quotes
-Style/QuotedSymbols:
-  EnforcedStyle: double_quotes
-
 # Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: Methods.
@@ -751,31 +690,12 @@ Style/RedundantArgument:
   Exclude:
     - 'app/helpers/application_helper.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantConstantBase:
-  Exclude:
-    - 'config.ru'
-
 # Offense count: 4
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: SafeForConstants.
 Style/RedundantFetchBlock:
   Exclude:
     - 'config/puma.rb'
-
-# Offense count: 3
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantRegexpArgument:
-  Exclude:
-    - 'db/migrate/20191119030244_cms_tags.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Exclude:
-    - 'app/controllers/messages_controller.rb'
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
@@ -795,13 +715,6 @@ Style/StringConcatenation:
     - 'config/initializers/rswag_api.rb'
     - 'spec/helpers/gardens_helper_spec.rb'
     - 'spec/helpers/seeds_helper_spec.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-Style/SuperArguments:
-  Exclude:
-    - 'app/controllers/omniauth_callbacks_controller.rb'
-    - 'lib/haml/filters/escaped_markdown.rb'
 
 # Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).

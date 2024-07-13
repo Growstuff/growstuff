@@ -78,14 +78,14 @@ RSpec.describe 'Plantings', type: :request do
   end
 
   it '#index' do
-    get '/api/v1/plantings', params: {}, headers: headers
+    get('/api/v1/plantings', params: {}, headers:)
     expect(subject['data'][0].keys).to eq(planting_encoded_as_json_api.keys)
     expect(subject['data'][0]['attributes'].keys.sort!).to eq(planting_encoded_as_json_api['attributes'].keys.sort!)
     expect(subject['data']).to include(planting_encoded_as_json_api)
   end
 
   it '#show' do
-    get "/api/v1/plantings/#{planting.id}", params: {}, headers: headers
+    get("/api/v1/plantings/#{planting.id}", params: {}, headers:)
     expect(subject['data']['relationships']).to include("garden" => garden_as_json_api)
     expect(subject['data']['relationships']).to include("crop" => crop_as_json_api)
     expect(subject['data']['relationships']).to include("owner" => owner_as_json_api)
