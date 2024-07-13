@@ -16,11 +16,11 @@
         %hr/
         %p Yes, I would be willing trade these from #{current_member.location}
 
-        .btn-group{"aria-label" => "trade to", role: "group"}
-          - Seed::TRADABLE_TO_VALUES.each do |t|
+        .btn-group.d-grid.flex-column{"aria-label" => "trade to", role: "group"}
+          - Seed::TRADABLE_TO_VALUES.reverse.each do |t|
             - unless t == 'nowhere'
-              = button_to seeds_path(seed: {crop_id: seed.crop_id, tradable_to: t}), method: :post, class: 'btn' do
-                %h3= t
+              = button_to seeds_path(seed: {crop_id: seed.crop_id, tradable_to: t}), method: :post, class: 'btn col-12' do
+                = t
 
         %hr/
         %p
