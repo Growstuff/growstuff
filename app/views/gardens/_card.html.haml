@@ -1,0 +1,37 @@
+.card
+  .card-header
+    .row
+      .col-12.col-md-3
+        %h2= link_to garden.name, garden, name: "garden-#{garden.id}"
+    .row
+      .col-md-3
+        - if @owner.blank?
+          owner:
+          = render 'members/tiny', member: garden.owner
+
+
+        = image_tag garden_image_path(garden), alt: garden.name, class: 'img-card'
+
+      .col-md-9
+        %section
+          = render 'gardens/actions', garden: garden
+
+        - active_plantings = garden.plantings.active
+
+        %section
+          - if active_plantings.perennial.any?
+            %strong Perennials:
+            - active_plantings.perennial.each do |planting|
+              = link_to planting do
+                = crop_icon planting.crop
+                = planting.crop
+          - else
+            %p No perennial plantings
+
+        %hr
+
+        %section
+          - if active_plantings.annual.any?
+            = render 'plantings/progress_list', plantings: garden.plantings.active.annual
+          - else
+            %p No annual plantings

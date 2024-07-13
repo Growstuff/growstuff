@@ -2,7 +2,7 @@
 %html{ lang: "en", prefix: "og: https://ogp.me/ns#" }
   = yield :scripts
   = render "layouts/head"
-  %body
+  %body.d-flex.flex-column.vh-100
     = query_diet_widget if Rails.env.development?
     .sr-only= link_to t(".skip"), "#skipnav"
     = render "layouts/header"
@@ -25,7 +25,7 @@
         = render "shared/flash_messages", flash: flash
         %main= yield
 
-    %footer.page-footer.font-small.bg-dark.pt-4= render "layouts/footer"
+    %footer.page-footer.font-small.bg-dark.pt-4.mt-auto= render "layouts/footer"
     /
       Javascripts
       \==================================================

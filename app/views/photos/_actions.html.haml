@@ -1,6 +1,6 @@
 - if can?(:edit, @photo) && can?(:destroy, @photo)
   .dropdown.float-right.photo-actions
-    %a#harvest-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'} Actions
+    %a#harvest-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'} Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "harvest-actions-button"}
       = edit_button(edit_photo_path(@photo), classes: 'dropdown-item')
       .dropdown-divider

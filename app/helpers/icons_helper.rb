@@ -71,6 +71,10 @@ module IconsHelper
     icon('fas', 'seedling')
   end
 
+  def activity_icon
+    icon('fas', 'fa-truck-pickup')
+  end
+
   def post_icon
     image_icon 'post'
   end

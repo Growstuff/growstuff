@@ -54,11 +54,11 @@ describe "member profile", :js do
     context "activity stats" do
       it "with no activity" do
         visit member_path(member)
-        expect(page).to have_content "Activity"
-        expect(page).to have_content "0 plantings"
-        expect(page).to have_content "0 harvests"
-        expect(page).to have_content "0 seeds"
-        expect(page).to have_content "0 posts"
+        expect(page).to have_content "Stats"
+        expect(page).not_to have_content "0 plantings"
+        expect(page).not_to have_content "0 harvests"
+        expect(page).not_to have_content "0 seeds"
+        expect(page).not_to have_content "0 posts"
       end
 
       context "with some activity" do
@@ -121,6 +121,18 @@ describe "member profile", :js do
       it { expect(page).to have_link href: planting_path(old_planting) }
       it { expect(page).to have_link href: planting_path(finished_planting) }
       it { expect(page).not_to have_link href: planting_path(no_planted_at_planting) }
+    end
+
+    context 'member has activities' do
+      let!(:activity) { FactoryBot.create(:activity, owner: member, due_date: 3.days.ago) }
+      let!(:activity2) { FactoryBot.create(:activity, :planting, owner: member) }
+      let!(:activity3) { FactoryBot.create(:activity, :garden, owner: member) }
+
+      before { visit member_path(member) }
+
+      it { expect(page).to have_link href: activity_path(activity) }
+      it { expect(page).to have_link href: activity_path(activity2) }
+      it { expect(page).to have_link href: activity_path(activity3) }
     end
 
     context 'member has seeds' do

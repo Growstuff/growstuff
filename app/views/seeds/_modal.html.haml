@@ -5,7 +5,7 @@
         %h4.modal-title.w-100.font-weight-bold
           = seed_icon
           Save #{seed.crop.name} seeds
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+        %button.close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
           %span{"aria-hidden" => "true"} &#215;
 
       .modal-body
@@ -16,11 +16,11 @@
         %hr/
         %p Yes, I would be willing trade these from #{current_member.location}
 
-        .btn-group{"aria-label" => "trade to", role: "group"}
-          - Seed::TRADABLE_TO_VALUES.each do |t|
+        .btn-group.d-grid.flex-column{"aria-label" => "trade to", role: "group"}
+          - Seed::TRADABLE_TO_VALUES.reverse.each do |t|
             - unless t == 'nowhere'
-              = button_to seeds_path(seed: {crop_id: seed.crop_id, tradable_to: t}), method: :post, class: 'btn' do
-                %h3= t
+              = button_to seeds_path(seed: {crop_id: seed.crop_id, tradable_to: t}), method: :post, class: 'btn col-12' do
+                = t
 
         %hr/
         %p
@@ -30,6 +30,6 @@
           Save #{seed.crop_name} seeds.
 
 
-%a.btn{"data-target" => "#modelSeedForm", "data-toggle" => "modal", href: ""}
+%a.btn{"data-bs-target" => "#modelSeedForm", "data-bs-toggle" => "modal", href: ""}
   = seed_icon
   Save seeds

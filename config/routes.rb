@@ -103,12 +103,14 @@ Rails.application.routes.draw do
     resources :plantings
     resources :harvests
     resources :posts
+    resources :activities
 
     resources :follows
     get 'followers' => 'follows#followers'
   end
 
   resources :messages
+  resources :activities, param: :slug
   resources :conversations do
     collection do
       delete 'destroy_multiple'

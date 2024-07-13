@@ -84,6 +84,7 @@ en:
     new_planting: New planting
     new_post: Write new post
     new_harvest: New harvest
+    new_activity: Plan activity
     plant: Plant
     plant_crop: Plant %{crop_name}
     plant_something_here: Plant something here
@@ -137,6 +138,8 @@ en:
       perks: Join now for your free garden journal, harvest predictions, forums, and more.
       sign_in_linktext: sign in
       sign_up: Sign up
+    activities:
+      view_all: View all activities
     crops:
       our_crops: Some of our crops
       recently_added: Recently added crops
@@ -213,6 +216,7 @@ en:
     data: 'The data on this page is available in the following formats:'
   layouts:
     header:
+      activities: Activities
       account: Account
       admin: Admin
       browse_crops: Browse Crops
@@ -233,7 +237,7 @@ en:
       inbox_unread: Inbox (%{unread_count})
       plantings: Plantings
       posts: Posts
-      profile: Profile
+      profile: Profile/Timeline
       seeds: Seeds
       skip: Skip navigation menu
       support_growstuff: Support Growstuff
@@ -276,6 +280,16 @@ en:
       not_enough_data: Not enough data
       perennial: Perennial
       unknown: Unknown
+  activities:
+    plan_something: Plan something
+    index:
+      title:
+        default: Everyone's activities
+        owner_activities: "%{owner}'s activities"
+    form:
+      finish_helper: >
+        An activity is finished when you've completed it, or it's otherwise
+        no longer possible.
   plantings:
     badges:
       days_until_finished: days until finished

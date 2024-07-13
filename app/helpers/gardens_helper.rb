@@ -11,10 +11,12 @@ module GardensHelper
     end
   end
 
+  # TODO: Not used?
   def display_garden_name(garden)
     truncate(garden.name, length: 50, separator: ' ', omission: '... ')
   end
 
+  # TODO: Only used by specs?
   def display_garden_plantings(plantings)
     if plantings.blank?
       "None"
