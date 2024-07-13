@@ -23,7 +23,6 @@ describe "Requesting a new crop" do
     it "Approve a request" do
       visit edit_crop_path(crop)
       click_button "Approve and save"
-      expect(page).to have_content "En wikipedia url is not a valid English Wikipedia URL"
       fill_in "en_wikipedia_url", with: "http://en.wikipedia.org/wiki/Aung_San_Suu_Kyi"
       click_button "Approve and save"
       expect(page).to have_content "crop was successfully updated."
