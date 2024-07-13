@@ -169,6 +169,7 @@ group :development, :test do
   gem 'rswag-specs'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'rubocop-rspec_rails'
   gem 'webrat'                  # provides HTML matchers for view tests
 
   gem 'dotenv-rails'
