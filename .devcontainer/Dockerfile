@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/ruby:0-3.2-bullseye
+FROM mcr.microsoft.com/devcontainers/ruby:0-3.3-bullseye
 
 # Install Rails
 RUN gem install rails:7.0.8
