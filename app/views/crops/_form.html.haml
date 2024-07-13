@@ -43,7 +43,7 @@
 
       - unless @crop.approved?
         = link_to 'Search wikipedia', "https://en.wikipedia.org/w/index.php?search=#{@crop.name}", target: '_blank'
-      = f.text_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL'
+      = f.url_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL', required: true
       %span.help-block
         Link to the crop's page on the English language Wikipedia (required).
 
