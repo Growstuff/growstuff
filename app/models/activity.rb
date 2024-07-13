@@ -6,6 +6,8 @@ class Activity < ApplicationRecord
   include Finishable
   include SearchActivities
 
+  acts_as_votable
+
   belongs_to :garden, optional: true
   belongs_to :planting, optional: true
 

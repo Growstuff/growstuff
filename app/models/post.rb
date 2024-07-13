@@ -6,6 +6,7 @@ class Post < ApplicationRecord
   friendly_id :author_date_subject, use: %i(slugged finders)
   include PhotoCapable
 
+  acts_as_votable
   #
   # Relationships
   belongs_to :author, class_name: 'Member', inverse_of: :posts

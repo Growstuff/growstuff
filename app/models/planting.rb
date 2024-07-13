@@ -9,6 +9,8 @@ class Planting < ApplicationRecord
   include PredictHarvest
   include SearchPlantings
 
+  acts_as_votable
+
   friendly_id :planting_slug, use: %i(slugged finders)
 
   # Constants

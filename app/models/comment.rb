@@ -4,6 +4,8 @@ class Comment < ApplicationRecord
   belongs_to :author, class_name: 'Member', inverse_of: :comments
   belongs_to :post, counter_cache: true
 
+  acts_as_votable
+
   scope :post_order, -> { order(created_at: :asc) } # for display on post page
 
   after_create do

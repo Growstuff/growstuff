@@ -5,6 +5,8 @@ class Photo < ApplicationRecord
   include Ownable
   include SearchPhotos
 
+  acts_as_votable
+
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
 
   has_many :photo_associations, dependent: :delete_all, inverse_of: :photo
