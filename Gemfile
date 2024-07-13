@@ -5,13 +5,13 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 7.1.0'
+gem 'rails', '~> 7.2.0.beta3'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
 gem "sprockets", "<4"
 
-gem 'bundler', '>= 2.3.10'
+gem 'bundler', '>= 2.4.22'
 
 gem 'coffee-rails'
 gem 'haml'
