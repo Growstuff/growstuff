@@ -102,8 +102,8 @@ describe "Planting a crop", :js, :search do
         end
 
         expect(page).to have_content "planting was successfully created"
-        expect(page).not_to have_content "Finished"
-        expect(page).not_to have_content "Finishes"
+        expect(page).to have_no_content "Finished"
+        expect(page).to have_no_content "Finishes"
       end
 
       it "shows that planting is in progress" do
@@ -122,9 +122,9 @@ describe "Planting a crop", :js, :search do
         end
 
         expect(page).to have_content "planting was successfully created"
-        expect(page).not_to have_content "0%"
-        expect(page).not_to have_content "Finish expected"
-        expect(page).not_to have_content "Finishes"
+        expect(page).to have_no_content "0%"
+        expect(page).to have_no_content "Finish expected"
+        expect(page).to have_no_content "Finishes"
       end
 
       it "shows that planting is 100% complete (no date specified)" do
@@ -184,7 +184,7 @@ describe "Planting a crop", :js, :search do
 
     it "Editing a planting to fill in the finished date" do
       visit planting_path(planting)
-      expect(page).not_to have_content "Finishes"
+      expect(page).to have_no_content "Finishes"
       # click_link(id: 'planting-actions-button')
       click_link 'Actions'
       click_link "Edit"
@@ -230,7 +230,7 @@ describe "Planting a crop", :js, :search do
 
       # shouldn't be on the page
       visit plantings_path
-      expect(page).not_to have_content "maize"
+      expect(page).to have_no_content "maize"
 
       # show all plantings to see this finished planting
       visit plantings_path(all: 1)

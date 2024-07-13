@@ -37,18 +37,22 @@ class CreatePhotographings < ActiveRecord::Migration[4.2]
       Photographing.create! photo_id: s.photo_id, photographable_id: s.seed_id, photographable_type: 'Seed'
     end
   end
+
   class GardensPhoto < ApplicationRecord
     belongs_to :photo
     belongs_to :garden
   end
+
   class PhotosPlanting < ApplicationRecord
     belongs_to :photo
     belongs_to :planting
   end
+
   class HarvestsPhoto < ApplicationRecord
     belongs_to :photo
     belongs_to :harvest
   end
+
   class PhotosSeed < ApplicationRecord
     belongs_to :photo
     belongs_to :seed

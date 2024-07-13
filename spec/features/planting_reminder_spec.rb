@@ -23,7 +23,7 @@ describe "Planting reminder email", :js do
     end
 
     it "doesn't list plantings" do
-      expect(mail).not_to have_content "Progress report"
+      expect(mail).to have_no_content "Progress report"
     end
   end
 
@@ -43,7 +43,7 @@ describe "Planting reminder email", :js do
 
   context "when member has no harvests" do
     it "doesn't list plantings" do
-      expect(mail).not_to have_content "Ready to harvest"
+      expect(mail).to have_no_content "Ready to harvest"
     end
   end
 
