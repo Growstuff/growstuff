@@ -168,6 +168,7 @@ group :development, :test do
   gem 'rspec-rails'             # unit testing framework
   gem 'rswag-specs'
   gem 'rubocop-rails'
+  gem 'rubocop-rake'
   gem 'rubocop-rspec'
   gem 'rubocop-rspec_rails'
   gem 'webrat'                  # provides HTML matchers for view tests

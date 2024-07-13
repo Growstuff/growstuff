@@ -580,6 +580,8 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
+    rubocop-rake (0.6.0)
+      rubocop (~> 1.0)
     rubocop-rspec (3.0.2)
       rubocop (~> 1.61)
     rubocop-rspec_rails (2.30.0)
@@ -775,6 +777,7 @@ DEPENDENCIES
   rswag-ui
   rubocop
   rubocop-rails
+  rubocop-rake
   rubocop-rspec
   rubocop-rspec_rails
   ruby-units

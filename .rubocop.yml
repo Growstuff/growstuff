@@ -2,6 +2,8 @@ inherit_from: .rubocop_todo.yml
 require:
  - rubocop-rails
  - rubocop-rspec
+ - rubocop-rspec_rails
+ - rubocop-rake
 AllCops:
   NewCops: enable
   Exclude:
