@@ -42,6 +42,9 @@ gem 'oj' # Speeds up json
 gem 'active_median'
 gem 'active_record_union'
 
+gem 'acts_as_commentable', git: 'https://github.com/fatfreecrm/acts_as_commentable.git', tag: '7.1.0'
+gem 'acts_as_votable'
+
 gem 'flickraw'
 gem 'jquery-rails'
 gem 'jquery-ui-rails', github: 'jquery-ui-rails/jquery-ui-rails', tag: 'v7.0.0' # See https://github.com/jquery-ui-rails/jquery-ui-rails/issues/146

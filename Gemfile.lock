@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/fatfreecrm/acts_as_commentable.git
+  revision: b7397307b14f930bcfe6611d7e7c8ef4dec152c9
+  tag: 7.1.0
+  specs:
+    acts_as_commentable (7.1.0)
+      activerecord (~> 7.1.0)
+
+GIT
   remote: https://github.com/jquery-ui-rails/jquery-ui-rails.git
   revision: 413265e81f790f795239e07e7e25e01429b2f18d
   tag: v7.0.0
@@ -117,6 +125,7 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
+    acts_as_votable (0.14.0)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
@@ -700,6 +709,8 @@ DEPENDENCIES
   active_median
   active_record_union
   active_utils
+  acts_as_commentable!
+  acts_as_votable
   axe-core-capybara
   axe-core-rspec
   better_errors
