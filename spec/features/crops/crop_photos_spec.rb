@@ -69,7 +69,7 @@ describe "crop detail page", :js, :search do
     include_examples "shows photos"
   end
 
-  context "when not signed in " do
+  context "when not signed in" do
     include_examples "shows photos"
   end
 end
