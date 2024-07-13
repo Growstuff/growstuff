@@ -9,6 +9,7 @@ class AddCropToPhotographings < ActiveRecord::Migration[5.2]
       p.set_crop && p.save!
     end
   end
+
   class Photographing < ApplicationRecord
     belongs_to :photo, inverse_of: :photo_associations
     belongs_to :photographable, polymorphic: true
