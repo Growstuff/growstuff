@@ -582,6 +582,9 @@ GEM
       rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rspec (3.0.2)
       rubocop (~> 1.61)
+    rubocop-rspec_rails (2.30.0)
+      rubocop (~> 1.61)
+      rubocop-rspec (~> 3, >= 3.0.1)
     ruby-progressbar (1.13.0)
     ruby-units (4.0.3)
     ruby-vips (2.2.1)
@@ -773,6 +776,7 @@ DEPENDENCIES
   rubocop
   rubocop-rails
   rubocop-rspec
+  rubocop-rspec_rails
   ruby-units
   sassc-rails
   scout_apm
@@ -791,7 +795,7 @@ DEPENDENCIES
   xmlrpc
 
 RUBY VERSION
-   ruby 3.1.4p223
+   ruby 3.2.2p53
 
 BUNDLED WITH
-   2.3.11
+   2.4.22
