@@ -81,7 +81,7 @@ class CropsController < ApplicationController
         @companions = @crop.companions.approved
       end
       format.svg do
-        icon_data = @crop.svg_icon.presence || File.read(Rails.root.join('app', 'assets', 'images', 'icons', 'sprout.svg'))
+        icon_data = @crop.svg_icon.presence || File.read(Rails.root.join("app/assets/images/icons/sprout.svg"))
         send_data(icon_data, type: "image/svg+xml", disposition: "inline")
       end
       format.json do
