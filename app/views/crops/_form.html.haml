@@ -26,7 +26,7 @@
       %h2 Basic information
 
       .form-group#new_crop
-      = f.text_field :name
+      = f.text_field :name, required: true
       %span.help-block
         The common name for the crop, in English (required).
         - if can? :wrangle, @crop
