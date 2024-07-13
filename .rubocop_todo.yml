@@ -46,9 +46,11 @@ Capybara/SpecificMatcher:
     - 'spec/features/seeds/adding_seeds_spec.rb'
 
 # Offense count: 1
-Capybara/VisibilityMatcher:
+# This cop supports safe autocorrection (--autocorrect).
+# Configuration parameters: AllowForAlignment.
+Layout/CommentIndentation:
   Exclude:
-    - 'spec/features/shared_examples/crop_suggest.rb'
+    - 'config/environments/production.rb'
 
 # Offense count: 6
 # This cop supports unsafe autocorrection (--autocorrect-all).
