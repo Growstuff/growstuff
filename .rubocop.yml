@@ -11,7 +11,7 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'vendor/**/*'
-  TargetRailsVersion: 7.0
+  TargetRailsVersion: 7.1
 
 Rails:
   Enabled: true
