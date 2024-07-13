@@ -505,7 +505,7 @@ GEM
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
-    raindrops (0.20.0)
+    raindrops (0.20.1)
     rake (13.2.1)
     rate_throttle_client (0.1.2)
     rb-fsevent (0.11.2)
