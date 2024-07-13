@@ -307,7 +307,8 @@ GEM
       multi_json (>= 1.9.2)
       webrick
     highline (3.0.1)
-    httparty (0.21.0)
+    httparty (0.22.0)
+      csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     i18n (1.14.5)
@@ -391,7 +392,8 @@ GEM
     moneta (1.0.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
-    multi_xml (0.6.0)
+    multi_xml (0.7.1)
+      bigdecimal (~> 3.1)
     mutex_m (0.2.0)
     net-http (0.4.1)
       uri
