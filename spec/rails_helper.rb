@@ -127,7 +127,6 @@ RSpec.configure do |config|
 
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, :js) do
-
     # TODO: Why are we setting this page size then straight afterwards, maximising?
     width = 1280
     height = 1280
