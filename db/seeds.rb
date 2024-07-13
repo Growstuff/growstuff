@@ -26,7 +26,7 @@ def load_data
 end
 
 def load_crops
-  source_path = Rails.root.join('db', 'seeds')
+  source_path = Rails.root.join("db/seeds")
   Dir.glob("#{source_path}/crops*.csv").each do |crop_file|
     puts "Loading crops from #{crop_file}..."
     CSV.foreach(crop_file) do |row|
@@ -48,7 +48,7 @@ def load_test_users
   puts "Loading test users..."
 
   # Open suburb csv
-  source_path = Rails.root.join('db', 'seeds')
+  source_path = Rails.root.join("db/seeds")
   begin
     suburb_file = File.open("#{source_path}/suburbs.csv")
   rescue StandardError
