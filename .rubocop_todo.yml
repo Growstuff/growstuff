@@ -254,14 +254,6 @@ Lint/SuppressedException:
   Exclude:
     - 'lib/tasks/testing.rake'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: strict, consistent
-Lint/SymbolConversion:
-  Exclude:
-    - 'app/controllers/likes_controller.rb'
-
 # Offense count: 7
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: AutoCorrect.
