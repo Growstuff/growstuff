@@ -17,8 +17,8 @@ namespace :growstuff do
 
   def add_role_to_member!(login_name, role_name)
     unless login_name && role_name
-      raise "Usage: rake growstuff:[rolename] name=[username] "\
-        "\n (login name is case-sensitive)\n"
+      raise "Usage: rake growstuff:[rolename] name=[username] " \
+            "\n (login name is case-sensitive)\n"
     end
     member = Member.find_by!(login_name:)
     role = Role.find_by!(name: role_name)

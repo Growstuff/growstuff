@@ -6,8 +6,8 @@ class NotifierMailer < ApplicationMailer
 
   def verifier
     unless ENV['RAILS_SECRET_TOKEN']
-      raise "RAILS_SECRET_TOKEN environment variable"\
-        "not set - have you created config/application.yml?"
+      raise "RAILS_SECRET_TOKEN environment variable" \
+            "not set - have you created config/application.yml?"
     end
 
     ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
