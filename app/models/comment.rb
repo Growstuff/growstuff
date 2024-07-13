@@ -3,6 +3,9 @@
 class Comment < ApplicationRecord
   belongs_to :author, class_name: 'Member', inverse_of: :comments
   belongs_to :post, counter_cache: true
+  belongs_to :commentable, polymorphic: true, counter_cache: true
+
+  include ActsAsCommentable::Comment
 
   acts_as_votable
 
