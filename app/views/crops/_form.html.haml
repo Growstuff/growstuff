@@ -47,6 +47,10 @@
       %span.help-block
         Link to the crop's page on the English language Wikipedia (required).
 
+      = f.text_field :description     
+      = f.text_field :sun_requirements
+      = f.text_field :sowing_method
+
       -# Only crop wranglers see the crop hierarchy (for now)
       - if can? :wrangle, @crop
         = f.collection_select(:parent_id, Crop.all.order(:name), :id, :name,

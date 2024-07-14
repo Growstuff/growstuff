@@ -194,6 +194,7 @@ class CropsController < ApplicationController
     params.require(:crop).permit(
       :name, :en_wikipedia_url,
       :parent_id, :perennial,
+      :sowing_method, :description, :sun_requirements,
       :request_notes, :reason_for_rejection,
       :rejection_notes,
       scientific_names_attributes: %i(scientific_name _destroy id)
