@@ -1,6 +1,7 @@
 $(document).ready(function() {
   $('.like-btn').show();
 
+  // TODO: Refactor the common ajax behaviours
   $('.post-like').on('ajax:success', function(event, data) {
     var likeButton = $('#post-' + data.id + ' .post-like');
     var likeBadge = $('#post-'+ data.id + ' .like-badge');
@@ -19,6 +20,23 @@ $(document).ready(function() {
     }
   });
 
+  $('.activity-like').on('ajax:success', function(event, data) {
+    var likeButton = $('#activity-' + data.id + ' .activity-like');
+    var likeBadge = $('#activity-'+ data.id + ' .like-badge');
+
+    $('#post-' + data.id + ' .like-count').text(data.like_count);
+    if (data.liked_by_member) {
+      likeBadge.addClass('liked');
+      likeButton.data('method', 'delete');
+      likeButton.attr('href', data.url);
+      likeButton.text('Unlike');
+    } else {
+      likeBadge.removeClass('liked');
+      likeButton.data('method', 'post');
+      likeButton.attr('href', '/likes.json?type=Actiity&id=' + data.id);
+      likeButton.text('Like');
+    }
+  });
 
   $('.photo-like').on('ajax:success', function(event, data) {
     var likeBadge = $('#photo-'+ data.id + ' .like-badge');
