@@ -1,5 +1,5 @@
 - if can?(:edit, @photo) && can?(:destroy, @photo)
-  %span.dropdown.float-right.photo-actions
+ .dropdown.float-right.photo-actions
     %a#photo-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'} Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "photo-actions-button"}
       = edit_button(edit_photo_path(@photo), classes: 'dropdown-item')
