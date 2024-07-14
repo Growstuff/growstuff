@@ -20,11 +20,12 @@
           %h1.display-3
             = harvest_icon
             #{@harvest.crop} harvested by #{@harvest.owner}
+      = render partial: 'planting'
+
     .col-md-4.col-xs-12
       = render 'harvests/owner', harvest: @harvest
       = render 'likes/likes', object: @harvest
     .col-md-8.col-xs-12
-      = render partial: 'planting'
       .index-cards.facts
         - if @harvest.plant_part
           .card
