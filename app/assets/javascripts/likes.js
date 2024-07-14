@@ -19,6 +19,7 @@ $(document).ready(function() {
       likeButton.data('method', 'post');
       likeButton.attr('href', '/likes.json?type=' + object_class + '&id=' + data.id);
       likeButton.text('Like');
+    }
   }
 
   // TODO: Refactor the common ajax behaviours
