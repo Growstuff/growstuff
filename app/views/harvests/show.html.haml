@@ -15,9 +15,11 @@
 .harvest
   .row
     .col-md-8.col-xs-12
-      %h1
-        = harvest_icon
-        #{@harvest.crop} harvested by #{@harvest.owner}
+      .jumbotron
+        .d-flex.justify-content-between
+          %h1.display-3
+            = harvest_icon
+            #{@harvest.crop} harvested by #{@harvest.owner}
     .col-md-4.col-xs-12
       = render 'harvests/owner', harvest: @harvest
       = render 'likes/likes', object: @harvest
