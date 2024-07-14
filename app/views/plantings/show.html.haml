@@ -43,10 +43,10 @@
                   %strong #{@planting.age_in_days}/#{@planting.expected_lifespan} days
 
         = render 'timeline', planting: @planting
+      = render 'likes/likes', object: @planting
 
     .col-md-4.col-xs-12
       = render 'plantings/owner', planting: @planting
-      = render 'likes/likes', object: @planting
 
     .col-md-8.col-xs-12
       %section= render 'facts', planting: @planting

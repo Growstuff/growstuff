@@ -25,10 +25,10 @@
         - if @activity.description.present?
           :markdown
             #{strip_tags markdownify(@activity.description)}
+      = render 'likes/likes', object: @activity
 
     .col-md-4.col-xs-12
       = render 'activities/owner', planting: @activity
-      = render 'likes/likes', object: @activity
 
     .col-md-8.col-xs-12
 
