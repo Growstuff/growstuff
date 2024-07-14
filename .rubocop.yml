@@ -1,13 +1,17 @@
 inherit_from: .rubocop_todo.yml
 require:
+ - rubocop-factory_bot
+ - rubocop-capybara
  - rubocop-rails
  - rubocop-rspec
+ - rubocop-rspec_rails
+ - rubocop-rake
 AllCops:
   NewCops: enable
   Exclude:
     - 'db/schema.rb'
     - 'vendor/**/*'
-  TargetRailsVersion: 7.0
+  TargetRailsVersion: 7.1
 
 Rails:
   Enabled: true

@@ -16,7 +16,7 @@ describe "crops/show" do
 
   it "hides sunniness block if no sunniness" do
     render
-    expect(rendered).not_to have_content "Sunniness"
+    expect(rendered).to have_no_content "Sunniness"
   end
 
   it "has sunniness block if sunny planting" do
@@ -27,7 +27,7 @@ describe "crops/show" do
 
   it "hides planted from block if no planted_from" do
     render
-    expect(rendered).not_to have_content "Planted from"
+    expect(rendered).to have_no_content "Planted from"
   end
 
   it "has planted from block if seed planting" do
@@ -38,7 +38,7 @@ describe "crops/show" do
 
   it "hides harvested block if no harvests" do
     render
-    expect(rendered).not_to have_content "Harvested for"
+    expect(rendered).to have_no_content "Harvested for"
   end
 
   it "has harvested block if harvest" do

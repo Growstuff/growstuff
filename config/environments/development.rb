@@ -16,7 +16,7 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+  if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
 
     config.cache_store = :memory_store
@@ -67,7 +67,11 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener
 
   config.host = 'localhost:3000'
-  config.hosts << ".preview.app.github.dev"
+  if ENV['CODESPACE_NAME']
+    config.host = "#{ENV['CODESPACE_NAME']}-3000.app.github.dev:443"
+    config.hosts << ".preview.app.github.dev"
+    config.hosts << ".app.github.dev"
+  end
   config.analytics_code = ''
 
   config.action_controller.action_on_unpermitted_parameters = :raise

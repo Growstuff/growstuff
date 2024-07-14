@@ -26,7 +26,7 @@ describe "Conversations", :js do
     describe 'deleting' do
       before do
         check 'conversation_ids[]'
-        click_button 'Delete Selected'
+        click_button 'Delete'
       end
 
       describe 'view trash' do
@@ -37,7 +37,7 @@ describe "Conversations", :js do
         describe 'restore conversation' do
           before { click_link class: 'restore' }
 
-          it { expect(page).not_to have_content 'something i want to say' }
+          it { expect(page).to have_no_content 'something i want to say' }
 
           describe 'conversation was restored' do
             before { click_link 'inbox' }
@@ -59,10 +59,10 @@ describe "Conversations", :js do
       click_link 'Inbox'
 
       all('input[type=checkbox]').each(&:click)
-      click_button 'Delete Selected'
+      click_button 'Delete'
 
-      expect(page).not_to have_content 'this is a message'
-      expect(page).not_to have_content 'this is another message'
+      expect(page).to have_no_content 'this is a message'
+      expect(page).to have_no_content 'this is another message'
     end
 
     it 'deletes multiple conversations from the sentbox' do
@@ -77,12 +77,12 @@ describe "Conversations", :js do
       find('.sent').click
 
       all('input[type=checkbox]').each(&:click)
-      click_button 'Delete Selected'
+      click_button 'Delete'
 
       expect(page).to have_selector('.sent')
       find('.sent').click
-      expect(page).not_to have_content 'this is a message'
-      expect(page).not_to have_content 'this is another message'
+      expect(page).to have_no_content 'this is a message'
+      expect(page).to have_no_content 'this is another message'
     end
   end
 end

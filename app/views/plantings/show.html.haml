@@ -37,7 +37,10 @@
             - elsif @planting.percentage_grown.present?
               #{@planting.percentage_grown.to_i}%
               - if @planting.finish_is_predicatable?
-                %strong #{@planting.age_in_days}/#{@planting.expected_lifespan} days
+                - if @planting.age_in_days < 0
+                  %strong Planned
+                - else
+                  %strong #{@planting.age_in_days}/#{@planting.expected_lifespan} days
 
         = render 'timeline', planting: @planting
 
@@ -52,8 +55,8 @@
           .card-header
             %h2 Notes
           .card-body
-            :growstuff_markdown
-              #{strip_tags(@planting.description)}
+            :markdown
+              #{strip_tags markdownify(@planting.description)}
       %section= render 'plantings/photos', photos: @photos, planting: @planting
 
       %section.harvests
@@ -63,6 +66,17 @@
       %section.descendants
         %a{name: 'seeds'}
         = render 'plantings/descendants', planting: @planting
+
+      %section
+        %h2 Current activities for planting
+        .index-cards
+          - if @current_activities&.size&.positive?
+            - @current_activities.each do |activity|
+              = render "activities/card", activity: activity
+          - else
+            .col-md-12
+              %p Nothing is currently planned here.
+
 
     .col-md-4.col-xs-12
       = render 'plantings/actions', planting: @planting

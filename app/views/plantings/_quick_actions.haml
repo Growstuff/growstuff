@@ -1,5 +1,5 @@
 - if can?(:edit, planting)
-  %a#planting-actions-menu.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#"}
+  %a#planting-actions-menu.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#"}
     /=icon('fas', 'ellipsis-v')
   %ul.dropdown-menu.dropdown-menu-left{"aria-labelledby" => "planting-actions-menu"}
     %li= link_to t('view'), planting, class: 'dropdown-item'

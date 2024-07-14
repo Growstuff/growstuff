@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_14_045751) do
-
+ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -41,6 +40,24 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_14_045751) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "activities", force: :cascade do |t|
+    t.string "category"
+    t.string "name"
+    t.string "description"
+    t.date "due_date"
+    t.boolean "finished"
+    t.bigint "owner_id"
+    t.bigint "garden_id"
+    t.bigint "planting_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["garden_id"], name: "index_activities_on_garden_id"
+    t.index ["owner_id"], name: "index_activities_on_owner_id"
+    t.index ["planting_id"], name: "index_activities_on_planting_id"
+    t.index ["slug"], name: "index_activities_on_slug", unique: true
   end
 
   create_table "alternate_names", id: :serial, force: :cascade do |t|
@@ -416,6 +433,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_14_045751) do
     t.datetime "discarded_at", precision: nil
     t.integer "photos_count"
     t.integer "forums_count"
+    t.integer "activities_count"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true

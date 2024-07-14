@@ -109,6 +109,10 @@ class Ability
     can :update,  Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
     can :destroy, Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
 
+    can :create,  Activity
+    can :update,  Activity, owner_id: member.id
+    can :destroy, Activity, owner_id: member.id
+
     can :create,  Harvest
     can :update,  Harvest, owner_id: member.id
     can :destroy, Harvest, owner_id: member.id
@@ -148,6 +152,11 @@ class Ability
     cannot :destroy, PlantPart
     can :destroy, PlantPart do |pp|
       pp.harvests.empty?
+    end
+    # Admins can't delete themselves
+    cannot :destroy, Member
+    can :destroy, Member do |other_member|
+      other_member&.id != member.id
     end
   end
 end

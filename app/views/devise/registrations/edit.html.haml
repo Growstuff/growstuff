@@ -10,15 +10,15 @@
 .card
   %ul#myTab.nav.nav-tabs{role: "tablist"}
     %li.nav-item
-      %a#profile-tab.nav-link.active{"aria-controls" => "profile", "aria-selected" => "true", "data-toggle" => "tab", href: "#profile", role: "tab"} Profile
+      %a#profile-tab.nav-link.active{"aria-controls" => "profile", "aria-selected" => "true", "data-bs-toggle" => "tab", href: "#profile", role: "tab"} Profile
     %li.nav-item
-      %a#email-tab.nav-link{"aria-controls" => "email", "aria-selected" => "false", "data-toggle" => "tab", href: "#email", role: "tab"} Email
+      %a#email-tab.nav-link{"aria-controls" => "email", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#email", role: "tab"} Email
     %li.nav-item
-      %a#apps-tab.nav-link{"aria-controls" => "apps", "aria-selected" => "false", "data-toggle" => "tab", href: "#apps", role: "tab"} Apps
+      %a#apps-tab.nav-link{"aria-controls" => "apps", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#apps", role: "tab"} Apps
     %li.nav-item
-      %a#password-tab.nav-link{"aria-controls" => "password", "aria-selected" => "false", "data-toggle" => "tab", href: "#password", role: "tab"} Password
+      %a#password-tab.nav-link{"aria-controls" => "password", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#password", role: "tab"} Password
     %li.nav-item
-      %a#delete-tab.nav-link.text-danger{"aria-controls" => "delete", "aria-selected" => "false", "data-toggle" => "tab", href: "#delete", role: "tab"} Delete Account
+      %a#delete-tab.nav-link.text-danger{"aria-controls" => "delete", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#delete", role: "tab"} Delete Account
   .card-body
     #myTabContent.tab-content
       #profile.tab-pane.fade.show.active{"aria-labelledby" => "profile-tab", role: "tabpanel"}

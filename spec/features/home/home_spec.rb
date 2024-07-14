@@ -104,7 +104,7 @@ describe "home page", :search do
     describe 'should say welcome' do
       before { visit root_path }
 
-      it { expect(page).to have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{member.login_name}" }
+      it { expect(page).to have_content "Welcome to #{ENV.fetch('GROWSTUFF_SITE_NAME', nil)}, #{member.login_name}" }
     end
   end
 end

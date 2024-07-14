@@ -118,4 +118,27 @@ describe Ability do
       end
     end
   end
+
+  context 'members' do
+    context 'ordinary member' do
+      it "can't manage members" do
+        ability.should_not be_able_to(:destroy, Member)
+      end
+    end
+
+    context 'admin' do
+      let(:role) { FactoryBot.create(:admin) }
+
+      before do
+        member.roles << role
+      end
+
+      it "can manage members" do
+        ability.should be_able_to(:destroy, FactoryBot.create(:member))
+      end
+      it "cannot delete themselves" do
+        ability.should_not be_able_to(:destroy, member)
+      end
+    end
+  end
 end

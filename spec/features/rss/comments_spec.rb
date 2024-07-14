@@ -10,6 +10,6 @@ describe 'Comments RSS feed' do
 
   it 'The index title is what we expect' do
     visit comments_path(format: 'rss')
-    expect(page).to have_content "Recent comments on all posts (#{ENV['GROWSTUFF_SITE_NAME']})"
+    expect(page).to have_content "Recent comments on all posts (#{ENV.fetch('GROWSTUFF_SITE_NAME', nil)})"
   end
 end

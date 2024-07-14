@@ -26,7 +26,7 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = Uglifier.new(harmony: true)
+  config.assets.js_compressor = :terser
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -59,8 +59,8 @@ Rails.application.configure do
   # Use a different cache store in production.
   config.cache_store = :mem_cache_store,
                        (ENV["MEMCACHIER_SERVERS"] || "").split(","),
-                       { username:             ENV["MEMCACHIER_USERNAME"],
-                         password:             ENV["MEMCACHIER_PASSWORD"],
+                       { username:             ENV.fetch("MEMCACHIER_USERNAME", nil),
+                         password:             ENV.fetch("MEMCACHIER_PASSWORD", nil),
                          failover:             true,
                          socket_timeout:       1.5,
                          socket_failure_delay: 0.2,
@@ -89,20 +89,20 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Growstuff configuration
-  config.action_mailer.default_url_options = { host: ENV['HOST'] }
+  config.action_mailer.default_url_options = { host: ENV.fetch('HOST', nil) }
 
   config.action_mailer.smtp_settings = {
-    user_name:            ENV['MAILGUN_SMTP_LOGIN'],
-    password:             ENV['MAILGUN_SMTP_PASSWORD'],
-    domain:               ENV['GROWSTUFF_EMAIL_DOMAIN'],
-    address:              ENV['MAILGUN_SMTP_SERVER'],
+    user_name:            ENV.fetch('MAILGUN_SMTP_LOGIN', nil),
+    password:             ENV.fetch('MAILGUN_SMTP_PASSWORD', nil),
+    domain:               ENV.fetch('GROWSTUFF_EMAIL_DOMAIN', nil),
+    address:              ENV.fetch('MAILGUN_SMTP_SERVER', nil),
     port:                 587,
     authentication:       :plain,
     enable_starttls_auto: true
   }
   ActionMailer::Base.delivery_method = :smtp
 
-  config.host = ENV['HOST']
+  config.host = ENV.fetch('HOST', nil)
   config.analytics_code = <<-GET_CLICKY_SCRIPT
     <script src="//static.getclicky.com/js" type="text/javascript"></script>
     <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>

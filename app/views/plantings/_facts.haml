@@ -21,8 +21,11 @@
   - if planting.finish_is_predicatable?
     .card.fact-card
       %h3 Progress
-      %strong #{planting.age_in_days}/#{planting.expected_lifespan}
-      %span days
+      - if planting.age_in_days < 0
+        %strong Planned
+      - else
+        %strong #{planting.age_in_days}/#{planting.expected_lifespan}
+        %span days
 
   .card.fact-card{class: planting.quantity.present? ? '' : 'text-muted'}
     %h3
@@ -42,6 +45,9 @@
       %h3 Growing
       %strong= seedling_icon
       %span
+      - if planting.age_in_days < 0
+        Planting planned
+      - else
         Planting is still growing today
 
   .card.fact-card{class: planting.planted_from.present? ? '' : 'text-muted'}

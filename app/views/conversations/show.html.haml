@@ -26,8 +26,8 @@
               = render 'members/tiny', member: message.sender
             .col-12
               %p.text-justify
-                :growstuff_markdown
-                  #{ strip_tags(message.body) }
+                :markdown
+                  #{ strip_tags markdownify(message.body) }
         %li.list-group-item
           = icon 'fas', 'reply'
           = render 'messages/form', conversation: @conversation

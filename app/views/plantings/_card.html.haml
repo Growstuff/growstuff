@@ -7,7 +7,7 @@
       = link_to planting_path(slug: planting.slug) do
         .planting-quick-actions
           .dropdown
-            %a.planting-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
+            %a.planting-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'}
 
             .dropdown-menu{"aria-labelledby" => "planting-menu"}
               = link_to edit_planting_path(slug: planting.slug), class: 'dropdown-item' do

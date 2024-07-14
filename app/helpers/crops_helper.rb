@@ -7,10 +7,10 @@ module CropsHelper
 
     return "You don't have any seeds of this crop." if seeds.none?
 
-    if total_quantity != 0
-      "You have #{total_quantity} #{Seed.model_name.human(count: total_quantity)} of this crop."
-    else
+    if total_quantity == 0
       "You have an unknown quantity of seeds of this crop."
+    else
+      "You have #{total_quantity} #{Seed.model_name.human(count: total_quantity)} of this crop."
     end
   end
 

@@ -15,7 +15,7 @@
       .progress-bar{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => planting.percentage_grown, role: "progressbar", style: "width: #{planting.percentage_grown}%"}
     %ul.list-unstyled.d-flex.justify-content-between
       - in_weeks(planting.expected_lifespan).times do |week_number|
-        %li{class: planting.planted_at + week_number.weeks > Time.zone.today ? 'text-muted progress-fade' : '', 'data-toggle': "tooltip", 'data-placement': "top", title: I18n.l(planting.planted_at + week_number.weeks)}
+        %li{class: planting.planted_at + week_number.weeks > Time.zone.today ? 'text-muted progress-fade' : '', 'data-bs-toggle': "tooltip", 'data-bs-placement': "top", title: I18n.l(planting.planted_at + week_number.weeks)}
           = render 'timeline_icon',
             planting: planting,
             week_number: week_number,

@@ -10,8 +10,8 @@
     // Harvest times
     - unless planting.super_late?
       - if planting.harvest_time?
-        %span.badge.badge-info.badge-harvest{'data-toggle': "tooltip", 'data-placement': "top", title: 'Planting is ready for harvesting now'}
+        %span.badge.badge-info.badge-harvest{'data-bs-toggle': "tooltip", 'data-bs-placement': "top", title: 'Planting is ready for harvesting now'}
           = t('label.harvesting_now')
       - elsif planting.before_harvest_time?
-        %span.badge.badge-info{'data-toggle': "tooltip", 'data-placement': "top", title: 'Predicted weeks until harvest'}
+        %span.badge.badge-info{'data-bs-toggle': "tooltip", 'data-bs-placement': "top", title: 'Predicted weeks until harvest'}
           = t('label.weeks_until_harvest', number: in_weeks(days_from_now_to_first_harvest(planting)))

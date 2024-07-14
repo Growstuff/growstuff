@@ -35,7 +35,8 @@
     %section
       %h2= title('seeds', @owner, @crop, @planting)
       = will_paginate @seeds
-
+      - if @seeds.blank?
+        %p No seeds recorded yet
       .index-cards
         - @seeds.each do |s|
           = render 'seeds/card', seed: s

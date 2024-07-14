@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 7.0.7'
+gem 'rails', '~> 7.1.0'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -24,7 +24,7 @@ gem 'rswag-api'
 gem 'rswag-ui'
 
 # CSS framework
-gem "bootstrap", ">= 4.6.2"
+gem "bootstrap", ">= 5.0.0"
 gem 'material-sass', '4.1.1'
 
 # Icons used by bootstrap/material-sass
@@ -33,7 +33,7 @@ gem 'material_icons'
 # icons
 gem 'font-awesome-sass'
 
-gem 'uglifier' # JavaScript compressor
+gem 'terser'
 
 gem 'oj' # Speeds up json
 
@@ -135,6 +135,8 @@ gem 'recaptcha'
 # External APIs for data
 gem "gbifrb"
 
+gem "msgpack"
+
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
@@ -165,8 +167,12 @@ group :development, :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
   gem 'rswag-specs'
+  gem 'rubocop-capybara'
+  gem 'rubocop-factory_bot'
   gem 'rubocop-rails'
+  gem 'rubocop-rake'
   gem 'rubocop-rspec'
+  gem 'rubocop-rspec_rails'
   gem 'webrat'                  # provides HTML matchers for view tests
 
   gem 'dotenv-rails'

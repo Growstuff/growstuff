@@ -30,6 +30,8 @@ module SearchPlantings
         quantity:,
         sunniness:,
         garden_id:,
+        garden_name:                garden&.name,
+        description:,
 
         first_harvest_predicted_at:,
         finish_predicted_at:,
@@ -53,7 +55,8 @@ module SearchPlantings
         harvests_count:,
 
         # timestamps
-        created_at:                 created_at.to_i
+        created_at:                 created_at.to_i,
+        updated_at:                 updated_at.to_i
       }
     end
 

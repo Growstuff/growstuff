@@ -33,17 +33,17 @@ class Seed < ApplicationRecord
   validates :days_until_maturity_max, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :tradable_to, allow_blank: false,
-                          inclusion:   { in: TRADABLE_TO_VALUES, message: "You may only trade seed nowhere, "\
-                                                "locally, nationally, or internationally" }
+                          inclusion:   { in: TRADABLE_TO_VALUES, message: "You may only trade seed nowhere, " \
+                                                                          "locally, nationally, or internationally" }
   validates :organic, allow_blank: false,
-                      inclusion:   { in: ORGANIC_VALUES, message: "You must say whether the seeds "\
-                                             "are organic or not, or that you don't know" }
+                      inclusion:   { in: ORGANIC_VALUES, message: "You must say whether the seeds " \
+                                                                  "are organic or not, or that you don't know" }
   validates :gmo, allow_blank: false,
-                  inclusion:   { in: GMO_VALUES, message: "You must say whether the seeds are "\
-                                                        "genetically modified or not, or that you don't know" }
+                  inclusion:   { in: GMO_VALUES, message: "You must say whether the seeds are " \
+                                                          "genetically modified or not, or that you don't know" }
   validates :heirloom, allow_blank: false,
-                       inclusion:   { in: HEIRLOOM_VALUES, message: "You must say whether the seeds"\
-                                                                  "are heirloom, hybrid, or unknown" }
+                       inclusion:   { in: HEIRLOOM_VALUES, message: "You must say whether the seeds" \
+                                                                    "are heirloom, hybrid, or unknown" }
 
   #
   # Delegations
@@ -56,7 +56,7 @@ class Seed < ApplicationRecord
   default_scope { joins(:owner).merge(Member.kept) } # Ensure owner exists
   scope :tradable, -> { where.not(tradable_to: 'nowhere') }
   scope :interesting, -> { tradable.has_location }
-  scope :has_location, -> { joins(:owner).where.not("members.location": nil) }
+  scope :has_location, -> { joins(:owner).where.not('members.location': nil) }
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
 

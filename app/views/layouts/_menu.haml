@@ -8,7 +8,7 @@
         = link_to member_gardens_path(current_member), class: 'nav-link text-white', title: "My gardens" do
           = image_icon 'gardens'
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
           = image_tag "icons/gardener.svg", class: 'img img-icon', alt: t('.record'), aria: { hidden: "true" }
           = t('.record')
         .dropdown-menu
@@ -18,6 +18,9 @@
           = link_to new_harvest_path, class: 'dropdown-item' do
             = image_icon('harvest-add')
             = t('buttons.new_harvest')
+          = link_to new_activity_path, class: 'dropdown-item' do
+            = image_icon('activity-add')
+            = t('buttons.new_activity')
           = link_to new_seed_path, class: 'dropdown-item' do
             = image_icon('seed-add')
             = t('buttons.new_seeds')
@@ -27,7 +30,7 @@
 
     - cache("everyone-menu", expires_in: 1.week) do
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.crops')
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}= t('.crops')
         .dropdown-menu
           = link_to crops_path, class: 'dropdown-item' do
             = t('.browse_crops')
@@ -41,7 +44,7 @@
             = harvest_icon
             = t('.harvests')
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.community')
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}= t('.community')
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to t('.community_map'), places_path, class: 'dropdown-item'
           = link_to t('.browse_members'), members_path, class: 'dropdown-item'
@@ -51,7 +54,7 @@
     - if member_signed_in?
       - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
         %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('.admin')
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}= t('.admin')
           .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
             - if current_member.role?(:crop_wrangler)
               = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
@@ -59,7 +62,7 @@
               = link_to t('.admin'), admin_path, class: 'dropdown-item'
 
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
           = image_tag(avatar_uri(current_member, 50), alt: 'Avatar of current member', height: 25, width: 25, aria: { hidden: "true" })
           = current_member.login_name
           - if current_member.unread_count.positive?
@@ -67,6 +70,8 @@
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to member_path(current_member), class: 'dropdown-item' do
             = t('.profile')
+          = link_to member_activities_path(current_member), class: 'dropdown-item' do
+            = t('.activities')
           = link_to member_gardens_path(current_member), class: 'dropdown-item' do
             = t('.gardens')
           = link_to member_plantings_path(current_member), class: 'dropdown-item' do

@@ -46,7 +46,7 @@ describe "Alternate names", :js do
       accept_confirm do
         click_link 'Delete'
       end
-      expect(page).not_to have_content alternate_eggplant.name
+      expect(page).to have_no_content alternate_eggplant.name
       expect(page).to have_content 'Alternate name was successfully deleted'
     end
 

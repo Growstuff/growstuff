@@ -40,9 +40,22 @@
   height: 250px;
   width: 100%;
 }
+.card {
+  .badge-location {
+    background-color: darken($blue, 10%);
+    border-radius: 5%;
+    color: $white;
 
-.badge-location {
-  background-color: darken($blue, 10%);
-  border-radius: 5%;
-  color: $white;
+    .fa-map-marker {
+      padding-right: 0.5em;
+    }
+  }
+
+  .badge {
+    text-overflow: ellipsis;
+    white-space: normal;
+    align-items: end;
+    max-height: 1rlh;
+    -webkit-line-clamp: 1;
+  }
 }

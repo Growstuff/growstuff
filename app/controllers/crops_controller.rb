@@ -10,7 +10,6 @@ class CropsController < ApplicationController
   responders :flash
 
   def index
-    @sort = params[:sort]
     @crops = Crop.search('*', boost_by: %i(plantings_count harvests_count),
                               limit:    100,
                               page:     params[:page],
@@ -63,8 +62,16 @@ class CropsController < ApplicationController
     @crops = CropSearchService.search(@term,
                                       page:           params[:page],
                                       per_page:       Crop.per_page,
-                                      current_member:).to_a
-    respond_with @crops
+                                      current_member:)
+
+    respond_to do |format|
+      format.html do
+        render
+      end
+      format.json do
+        render json: @crops.to_a
+      end
+    end
   end
 
   def show
@@ -74,7 +81,7 @@ class CropsController < ApplicationController
         @companions = @crop.companions.approved
       end
       format.svg do
-        icon_data = @crop.svg_icon.presence || File.read(Rails.root.join('app', 'assets', 'images', 'icons', 'sprout.svg'))
+        icon_data = @crop.svg_icon.presence || File.read(Rails.root.join("app/assets/images/icons/sprout.svg"))
         send_data(icon_data, type: "image/svg+xml", disposition: "inline")
       end
       format.json do

@@ -1,6 +1,6 @@
 - flash.each do |type, content|
   %div{ class: build_alert_classes(type), role: "alert" }
-    %button.close{ type: "button", "data-dismiss" => "alert" }
+    %button.close{ type: "button", "data-bs-dismiss" => "alert" }
       %span{ "aria-hidden" => true } &times;
       %span.sr-only Close
     = content

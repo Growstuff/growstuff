@@ -8,14 +8,14 @@
         %title Comment by #{comment.author.login_name} on #{comment.created_at}
         %description
 
-          :escaped
+          :escaped_markdown
             <p>
             Comment on
             #{ link_to @post.subject, post_url(@post) }
             </p>
 
           :escaped_markdown
-            #{ strip_tags comment.body }
+            #{ strip_tags markdownify(comment.body) }
 
         %pubdate= comment.created_at.to_fs(:rfc822)
         %link= post_url(@post)
