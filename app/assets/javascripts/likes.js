@@ -2,7 +2,7 @@ $(document).ready(function() {
   $('.like-btn').show();
 
   /** Handles the result of an ajax call and updates UI */
-  var likeable_success = function(type, data) {
+  var likeable_success = function(data, type) {
     var target = '.' + type + '-' + data.id;
     var object_class = type.charAt(0).toUpperCase() + type.slice(1);
     var likeButton = $(target + ' .' + type + '-like');
@@ -24,19 +24,19 @@ $(document).ready(function() {
 
   // TODO: Refactor the common ajax behaviours
   $('.post-like').on('ajax:success', function(event, data) {
-    likeable_success(event, data, 'post')
+    likeable_success(data, 'post')
   });
 
   $('.activity-like').on('ajax:success', function(event, data) {
-    likeable_success(event, data, 'activity')
+    likeable_success(data, 'activity')
   });
 
   $('.planting-like').on('ajax:success', function(event, data) {
-    likeable_success(event, data, 'planting')
+    likeable_success(data, 'planting')
   });
 
   $('.harvest-like').on('ajax:success', function(event, data) {
-    likeable_success(event, data, 'harvest')
+    likeable_success(data, 'harvest')
   });
 
   $('.photo-like').on('ajax:success', function(event, data) {
