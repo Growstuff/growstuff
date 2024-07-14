@@ -4,8 +4,8 @@ $(document).ready(function() {
   /**
    * Handles the result of an ajax call and updates UI
    *
-   * @param data JSON data from ajax response
-   * @param type object type (ie: post, activity, etc)
+   * @param {object} data JSON data from ajax response
+   * @param {string} type object type (ie: post, activity, etc)
    */
   var likeableSuccess = function(data, type) {
     var target = '.' + type + '-' + data.id;
