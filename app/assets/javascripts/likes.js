@@ -1,12 +1,14 @@
 $(document).ready(function() {
   $('.like-btn').show();
 
-  // TODO: Refactor the common ajax behaviours
-  $('.post-like').on('ajax:success', function(event, data) {
-    var likeButton = $('#post-' + data.id + ' .post-like');
-    var likeBadge = $('#post-'+ data.id + ' .like-badge');
+  /** Handles the result of an ajax call and updates UI */
+  var likeable_success = function(type, data) {
+    var target = '#' + type + '-' + data.id;
+    var object_class = type.charAt(0).toUpperCase() + type.slice(1);
+    var likeButton = $(target + ' .' + type + '-like');
+    var likeBadge = $(target + ' .like-badge');
 
-    $('#post-' + data.id + ' .like-count').text(data.like_count);
+    $(target + ' .like-count').text(data.like_count);
     if (data.liked_by_member) {
       likeBadge.addClass('liked');
       likeButton.data('method', 'delete');
@@ -15,27 +17,25 @@ $(document).ready(function() {
     } else {
       likeBadge.removeClass('liked');
       likeButton.data('method', 'post');
-      likeButton.attr('href', '/likes.json?type=Post&id=' + data.id);
+      likeButton.attr('href', '/likes.json?type=' + object_class + '&id=' + data.id);
       likeButton.text('Like');
-    }
+  }
+
+  // TODO: Refactor the common ajax behaviours
+  $('.post-like').on('ajax:success', function(event, data) {
+    likeable_success(event, data, 'post')
   });
 
   $('.activity-like').on('ajax:success', function(event, data) {
-    var likeButton = $('#activity-' + data.id + ' .activity-like');
-    var likeBadge = $('#activity-'+ data.id + ' .like-badge');
+    likeable_success(event, data, 'activity')
+  });
 
-    $('#post-' + data.id + ' .like-count').text(data.like_count);
-    if (data.liked_by_member) {
-      likeBadge.addClass('liked');
-      likeButton.data('method', 'delete');
-      likeButton.attr('href', data.url);
-      likeButton.text('Unlike');
-    } else {
-      likeBadge.removeClass('liked');
-      likeButton.data('method', 'post');
-      likeButton.attr('href', '/likes.json?type=Actiity&id=' + data.id);
-      likeButton.text('Like');
-    }
+  $('.planting-like').on('ajax:success', function(event, data) {
+    likeable_success(event, data, 'planting')
+  });
+
+  $('.harvest-like').on('ajax:success', function(event, data) {
+    likeable_success(event, data, 'harvest')
   });
 
   $('.photo-like').on('ajax:success', function(event, data) {

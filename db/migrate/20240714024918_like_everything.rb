@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LikeEverything < ActiveRecord::Migration[7.1]
   def change
     change_table :activities do |t|
