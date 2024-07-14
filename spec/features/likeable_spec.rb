@@ -79,28 +79,28 @@ describe 'Likeable', :js, :search do
   end
 
   describe 'posts' do
-    let(:like_count_class) { ".post-like .like-count" }
+    let(:like_count_class) { ".post-#{post.id} .like-count" }
     let(:path) { post_path(post) }
 
     include_examples 'object can be liked'
   end
 
   describe 'activities' do
-    let(:like_count_class) { ".activity-like .like-count" }
+    let(:like_count_class) { ".activity-#{activity.id} .like-count" }
     let(:path) { activity_path(activity) }
 
     include_examples 'object can be liked'
   end
 
   describe 'plantings' do
-    let(:like_count_class) { ".planting-like .like-count" }
+    let(:like_count_class) { ".planting-#{planting.id} .like-count" }
     let(:path) { planting_path(planting) }
 
     include_examples 'object can be liked'
   end
 
   describe 'harvests' do
-    let(:like_count_class) { ".harvest-like .like-count" }
+    let(:like_count_class) { ".harvest-#{harvest.id} .like-count" }
     let(:path) { harvest_path(harvest) }
 
     include_examples 'object can be liked'

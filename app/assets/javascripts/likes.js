@@ -3,7 +3,7 @@ $(document).ready(function() {
 
   /** Handles the result of an ajax call and updates UI */
   var likeable_success = function(type, data) {
-    var target = '#' + type + '-' + data.id;
+    var target = '.' + type + '-' + data.id;
     var object_class = type.charAt(0).toUpperCase() + type.slice(1);
     var likeButton = $(target + ' .' + type + '-like');
     var likeBadge = $(target + ' .like-badge');
