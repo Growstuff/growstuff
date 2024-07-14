@@ -1,7 +1,12 @@
 $(document).ready(function() {
   $('.like-btn').show();
 
-  /** Handles the result of an ajax call and updates UI */
+  /**
+   * Handles the result of an ajax call and updates UI
+   *
+   * @param data JSON data from ajax response
+   * @param type object type (ie: post, activity, etc)
+   */
   var likeableSuccess = function(data, type) {
     var target = '.' + type + '-' + data.id;
     var objectClass = type.charAt(0).toUpperCase() + type.slice(1);
@@ -20,7 +25,7 @@ $(document).ready(function() {
       likeButton.attr('href', '/likes.json?type=' + objectClass + '&id=' + data.id);
       likeButton.text('Like');
     }
-  }
+  };
 
   $('.post-like').on('ajax:success', function(event, data) {
     likeableSuccess(data, 'post');
