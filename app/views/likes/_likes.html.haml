@@ -10,4 +10,3 @@
         = render 'likes/count', likeable: object, liked: true
   - else
     = render 'likes/count', likeable: object, liked: member_signed_in? && object.liked_by?(current_member)
-
