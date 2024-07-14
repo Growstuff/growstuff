@@ -22,7 +22,7 @@
             %strong= @harvest.crop
             %small.text-muted
               harvested by 
-              = #{@harvest.owner}
+              = @harvest.owner
 
         - if @harvest.description.present?
           :markdown
