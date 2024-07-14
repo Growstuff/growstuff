@@ -5,6 +5,7 @@ require 'rails_helper'
 describe 'Likeable', :js, :search do
   let(:another_member) { FactoryBot.create(:london_member) }
   let!(:post)           { FactoryBot.create(:post, :reindex, author: member) }
+  let!(:activity)       { FactoryBot.create(:activity, :reindex, author: member) }
   let!(:photo)          { FactoryBot.create(:photo, :reindex, owner: member) }
 
   before do
@@ -75,10 +76,47 @@ describe 'Likeable', :js, :search do
     end
   end
 
+  # TODO: Refactor to shared examples
   describe 'posts' do
     let(:like_count_class) { "#post-#{post.id} .like-count" }
 
     before { visit post_path(post) }
+
+    it 'can be liked' do
+      expect(page).to have_css(like_count_class, text: "0")
+      expect(page).to have_link 'Like'
+      click_link 'Like', class: 'like-btn'
+      expect(page).to have_css(like_count_class, text: "1")
+
+      # Reload page
+      visit post_path(post)
+      expect(page).to have_css(like_count_class, text: "1")
+      expect(page).to have_link 'Unlike'
+
+      click_link 'Unlike', class: 'like-btn'
+      expect(page).to have_css(like_count_class, text: "0")
+    end
+
+    it 'displays correct number of likes' do
+      expect(page).to have_link 'Like'
+      click_link 'Like', class: 'like-btn'
+      expect(page).to have_css(like_count_class, text: "1")
+
+      logout(member)
+      login_as(another_member)
+      visit post_path(post)
+
+      expect(page).to have_link 'Like'
+      click_link 'Like', class: 'like-btn'
+      expect(page).to have_css(like_count_class, text: "2")
+      logout(another_member)
+    end
+  end
+
+  describe 'activities' do
+    let(:like_count_class) { "#activity-#{activity.id} .like-count" }
+
+    before { visit activity_path(activity) }
 
     it 'can be liked' do
       expect(page).to have_css(like_count_class, text: "0")
