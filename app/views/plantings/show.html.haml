@@ -44,6 +44,7 @@
 
         = render 'timeline', planting: @planting
       = render 'likes/likes', object: @planting
+      = render 'plantings/actions', planting: @planting
 
     .col-md-4.col-xs-12
       = render 'plantings/owner', planting: @planting
@@ -80,8 +81,6 @@
 
 
     .col-md-4.col-xs-12
-      = render 'plantings/actions', planting: @planting
-      %hr/
       = render @planting.crop
 
       - if @planting.location
