@@ -21,6 +21,7 @@ describe 'Likeable', :js, :search do
       visit path
       expect(page).to have_css(like_count_class, text: "0")
       click_link '0', class: 'like-btn'
+      wait_for_ajax
       expect(page).to have_css(like_count_class, text: "1")
 
       # Reload page
@@ -29,6 +30,7 @@ describe 'Likeable', :js, :search do
       expect(page).to have_link '1'
 
       click_link '1', class: 'like-btn'
+      wait_for_ajax
       expect(page).to have_css(like_count_class, text: "0")
     end
 
@@ -37,6 +39,7 @@ describe 'Likeable', :js, :search do
       expect(page).to have_css(like_count_class, text: "0")
       expect(page).to have_link '0'
       click_link '0', class: 'like-btn'
+      wait_for_ajax
       expect(page).to have_css(like_count_class, text: "1")
 
       logout(member)
@@ -45,6 +48,7 @@ describe 'Likeable', :js, :search do
 
       expect(page).to have_css(like_count_class, text: "1")
       click_link '1', class: 'like-btn'
+      wait_for_ajax
       expect(page).to have_css(like_count_class, text: "2")
       logout(another_member)
     end
