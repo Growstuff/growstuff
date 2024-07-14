@@ -22,10 +22,6 @@
             %strong= @harvest.crop
             %small.text-muted= harvested by #{@harvest.owner}
 
-        - if @harvest.description.present?
-          :markdown
-            #{strip_tags markdownify(@harvest.description)}
-
       = render partial: 'planting'
 
     .col-md-4.col-xs-12
@@ -62,6 +58,14 @@
         - if @harvest.planting.present?
           Havested from
           = link_to @harvest.planting, @harvest.planting
+
+      - if @harvest.description.present?
+        .card
+          .card-header
+            %h2 Notes
+          .card-body
+            :markdown
+              #{strip_tags markdownify(@harvest.description)}
 
     .col-md-4.col-xs-12
       = render 'harvests/actions', harvest: @harvest
