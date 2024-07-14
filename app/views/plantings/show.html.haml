@@ -80,6 +80,7 @@
 
     .col-md-4.col-xs-12
       = render 'plantings/actions', planting: @planting
+      = render 'likes/likes', object: @planting
       %hr/
       = render @planting.crop
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_14_024918) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.integer "likes_count", default: 0
     t.index ["garden_id"], name: "index_activities_on_garden_id"
     t.index ["owner_id"], name: "index_activities_on_owner_id"
     t.index ["planting_id"], name: "index_activities_on_planting_id"
@@ -314,6 +315,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.integer "plant_part_id"
     t.float "si_weight"
     t.integer "planting_id"
+    t.integer "likes_count", default: 0
     t.index ["planting_id"], name: "index_harvests_on_planting_id"
   end
 
@@ -530,6 +532,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.integer "days_to_last_harvest"
     t.integer "parent_seed_id"
     t.integer "harvests_count", default: 0
+    t.integer "likes_count", default: 0
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 
