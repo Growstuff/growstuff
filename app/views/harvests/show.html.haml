@@ -20,6 +20,7 @@
         #{@harvest.crop} harvested by #{@harvest.owner}
     .col-md-4.col-xs-12
       = render 'harvests/actions', harvest: @harvest
+      = render 'likes/likes', object: @harvest
     .col-md-8.col-xs-12
       = render partial: 'planting'
       .index-cards.facts
@@ -63,6 +64,5 @@
 
     .col-md-4.col-xs-12
       = render 'harvests/owner', harvest: @harvest
-      = render 'likes/likes', object: @harvest
       %hr/
       = render @harvest.crop
