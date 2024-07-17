@@ -270,6 +270,7 @@ en:
       planting: "%{planting}"
       seed: "%{seed}"
       thing_by: A %{thing} by %{owner}
+      crop: "%{crop}"
   places:
     index:
       title: "%{site_name} Community Map"
