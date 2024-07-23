@@ -113,7 +113,12 @@ class CropsController < ApplicationController
       @crop.approval_status = "pending"
     end
 
-    notify_wranglers if Crop.transaction { @crop.save && save_crop_names }
+    if Crop.transaction { @crop.save && save_crop_names }
+      notify_wranglers
+    else
+      @crop.alternate_names.build
+      @crop.scientific_names.build
+    end
 
     respond_with @crop
   end
