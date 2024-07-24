@@ -92,6 +92,9 @@ en:
     save_seeds: Save seeds
     timeline: Timeline
     write_blog_post: Write blog post
+    like: Like
+    unlike: Remove like
+    total_likes: Total likes
   crops:
     search: Search crops
     index:

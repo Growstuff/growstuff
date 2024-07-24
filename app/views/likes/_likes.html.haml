@@ -1,0 +1,18 @@
+%span.likes
+  - if member_signed_in? && can?(:new, Like)
+    - if !object.liked_by?(current_member)
+      = link_to likes_path(type: object.class.name, id: object.id, format: :json),
+                title: t('buttons.like'),
+                method: :post,
+                remote: true,
+                class: "#{object.class.name.downcase}-#{object.id} #{object.class.name.downcase}-like like-btn btn" do
+        = render 'likes/count', likeable: object, liked: false
+    - else
+      = link_to likes_path(type: object.class.name, id: object.id, format: :json),
+                title: t('buttons.unlike'),
+                method: :delete,
+                remote: true,
+                class: "#{object.class.name.downcase}-#{object.id} #{object.class.name.downcase}-like like-btn btn" do
+        = render 'likes/count', likeable: object, liked: true
+  - else
+    = render 'likes/count', likeable: object, liked: member_signed_in? && object.liked_by?(current_member)

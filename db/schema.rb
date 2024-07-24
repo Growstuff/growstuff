@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_14_024918) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,6 +54,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.integer "cached_votes_total", default: 0
+    t.integer "cached_votes_score", default: 0
+    t.integer "cached_votes_up", default: 0
+    t.integer "cached_votes_down", default: 0
+    t.integer "cached_weighted_score", default: 0
+    t.integer "cached_weighted_total", default: 0
+    t.float "cached_weighted_average", default: 0.0
+    t.integer "likes_count", default: 0
     t.index ["garden_id"], name: "index_activities_on_garden_id"
     t.index ["owner_id"], name: "index_activities_on_owner_id"
     t.index ["planting_id"], name: "index_activities_on_planting_id"
@@ -206,6 +214,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.text "body", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.integer "cached_votes_total", default: 0
+    t.integer "cached_votes_score", default: 0
+    t.integer "cached_votes_up", default: 0
+    t.integer "cached_votes_down", default: 0
+    t.integer "cached_weighted_score", default: 0
+    t.integer "cached_weighted_total", default: 0
+    t.float "cached_weighted_average", default: 0.0
   end
 
   create_table "crop_companions", force: :cascade do |t|
@@ -314,6 +329,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.integer "plant_part_id"
     t.float "si_weight"
     t.integer "planting_id"
+    t.integer "likes_count", default: 0
     t.index ["planting_id"], name: "index_harvests_on_planting_id"
   end
 
@@ -488,6 +504,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.datetime "date_taken", precision: nil
     t.integer "likes_count", default: 0
     t.string "source"
+    t.integer "cached_votes_total", default: 0
+    t.integer "cached_votes_score", default: 0
+    t.integer "cached_votes_up", default: 0
+    t.integer "cached_votes_down", default: 0
+    t.integer "cached_weighted_score", default: 0
+    t.integer "cached_weighted_total", default: 0
+    t.float "cached_weighted_average", default: 0.0
     t.index ["fullsize_url"], name: "index_photos_on_fullsize_url", unique: true
     t.index ["thumbnail_url"], name: "index_photos_on_thumbnail_url", unique: true
   end
@@ -530,6 +553,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.integer "days_to_last_harvest"
     t.integer "parent_seed_id"
     t.integer "harvests_count", default: 0
+    t.integer "cached_votes_total", default: 0
+    t.integer "cached_votes_score", default: 0
+    t.integer "cached_votes_up", default: 0
+    t.integer "cached_votes_down", default: 0
+    t.integer "cached_weighted_score", default: 0
+    t.integer "cached_weighted_total", default: 0
+    t.float "cached_weighted_average", default: 0.0
+    t.integer "likes_count", default: 0
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 
@@ -543,6 +574,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.integer "forum_id"
     t.integer "likes_count", default: 0
     t.integer "comments_count", default: 0
+    t.integer "cached_votes_total", default: 0
+    t.integer "cached_votes_score", default: 0
+    t.integer "cached_votes_up", default: 0
+    t.integer "cached_votes_down", default: 0
+    t.integer "cached_weighted_score", default: 0
+    t.integer "cached_weighted_total", default: 0
+    t.float "cached_weighted_average", default: 0.0
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
@@ -588,6 +626,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.integer "parent_planting_id"
     t.date "saved_at"
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.string "votable_type"
+    t.bigint "votable_id"
+    t.string "voter_type"
+    t.bigint "voter_id"
+    t.boolean "vote_flag"
+    t.string "vote_scope"
+    t.integer "vote_weight"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope"
+    t.index ["votable_type", "votable_id"], name: "index_votes_on_votable"
+    t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope"
+    t.index ["voter_type", "voter_id"], name: "index_votes_on_voter"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -22,19 +22,17 @@
             %small.text-muted= @activity.category
           %tt
             = @activity.due_date
+        - if @activity.description.present?
+          :markdown
+            #{strip_tags markdownify(@activity.description)}
+      = render 'likes/likes', object: @activity
+      = render 'activities/actions', activity: @activity
 
     .col-md-4.col-xs-12
       = render 'activities/owner', planting: @activity
 
     .col-md-8.col-xs-12
-      - if @activity.description.present?
-        = cute_icon
-        .card
-          .card-header
-            %h2 Description
-          .card-body
-            :markdown
-              #{strip_tags markdownify(@activity.description)}
+
 
       - if @activity.garden
         %section.gardens
@@ -48,4 +46,3 @@
 
 
     .col-md-4.col-xs-12
-      = render 'activities/actions', activity: @activity

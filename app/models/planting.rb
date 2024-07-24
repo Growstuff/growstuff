@@ -8,6 +8,7 @@ class Planting < ApplicationRecord
   include PredictPlanting
   include PredictHarvest
   include SearchPlantings
+  include Likeable
 
   friendly_id :planting_slug, use: %i(slugged finders)
 

@@ -15,13 +15,26 @@
 .harvest
   .row
     .col-md-8.col-xs-12
-      %h1
-        = harvest_icon
-        #{@harvest.crop} harvested by #{@harvest.owner}
-    .col-md-4.col-xs-12
-      = render 'harvests/actions', harvest: @harvest
-    .col-md-8.col-xs-12
+      .jumbotron
+        .d-flex.justify-content-between
+          %h1.display-3
+            = harvest_icon
+            %strong= @harvest.crop
+            %small.text-muted
+              harvested by
+              = @harvest.owner
+
+        - if @harvest.description.present?
+          :markdown
+            #{strip_tags markdownify(@harvest.description)}
+
       = render partial: 'planting'
+      = render 'likes/likes', object: @harvest
+      = render 'harvests/actions', harvest: @harvest
+
+    .col-md-4.col-xs-12
+      = render 'harvests/owner', harvest: @harvest
+    .col-md-8.col-xs-12
       .index-cards.facts
         - if @harvest.plant_part
           .card
@@ -53,14 +66,5 @@
           Havested from
           = link_to @harvest.planting, @harvest.planting
 
-      - if @harvest.description.present?
-        .card
-          .card-header
-            %h2 Notes
-          .card-body
-            :markdown
-              #{strip_tags markdownify(@harvest.description)}
-
     .col-md-4.col-xs-12
-      = render 'harvests/owner', harvest: @harvest
       = render @harvest.crop
