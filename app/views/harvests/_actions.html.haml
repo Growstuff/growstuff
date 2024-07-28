@@ -1,5 +1,5 @@
 - if can?(:edit, harvest)
-  .dropdown.harvest-actions
+  %span.dropdown.harvest-actions
     %a#harvest-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'} Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "harvest-actions-button"}
       = harvest_edit_button(harvest, classes: 'dropdown-item')
