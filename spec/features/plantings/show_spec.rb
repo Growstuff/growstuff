@@ -22,7 +22,7 @@ describe "Display a planting", :js do
     context 'Annual no predictions' do
       let(:planting) { FactoryBot.create(:annual_planting) }
 
-      it { expect(page).not_to have_text 'Finish expected' }
+      it { expect(page).to have_no_text 'Finish expected' }
     end
 
     context 'Annual with predicted finish' do

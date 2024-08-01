@@ -1,7 +1,7 @@
 - if can?(:edit, @photo) && can?(:destroy, @photo)
   .dropdown.float-right.photo-actions
-    %a#harvest-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'} Actions
-    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "harvest-actions-button"}
+    %a#photo-actions-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'} Actions
+    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "photo-actions-button"}
       = edit_button(edit_photo_path(@photo), classes: 'dropdown-item')
       .dropdown-divider
       = delete_button(@photo, classes: 'dropdown-item text-danger')

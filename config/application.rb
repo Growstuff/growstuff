@@ -26,7 +26,7 @@ module Growstuff
     config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone]
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    I18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}')]
+    I18n.load_path += Dir[Rails.root.join("config/locales/*.{rb,yml}")]
     I18n.default_locale = :en
     # rails will fallback to config.i18n.default_locale translation
     config.i18n.fallbacks = true
@@ -62,7 +62,7 @@ module Growstuff
 
     # Growstuff-specific configuration variables
     config.currency = 'AUD'
-    config.bot_email = ENV['GROWSTUFF_EMAIL']
+    config.bot_email = ENV.fetch('GROWSTUFF_EMAIL', nil)
     config.user_agent = 'Growstuff'
     config.user_agent_email = "info@growstuff.org"
 
@@ -70,7 +70,7 @@ module Growstuff
     # API key can't be blank or tests fail
     Gibbon::API.timeout = 10
     Gibbon::API.throws_exceptions = false
-    config.newsletter_list_id = ENV['GROWSTUFF_MAILCHIMP_NEWSLETTER_ID']
+    config.newsletter_list_id = ENV.fetch('GROWSTUFF_MAILCHIMP_NEWSLETTER_ID', nil)
 
     # config.active_record.raise_in_transactional_callbacks = true
     config.middleware.insert_before 0, Rack::Cors do

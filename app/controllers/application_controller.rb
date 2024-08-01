@@ -3,9 +3,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   # Working from codespaces, we want to turn off validation
-  if Rails.env.development? && ENV['CODESPACE_NAME']
-    skip_before_action :verify_authenticity_token
-  end
+  skip_before_action :verify_authenticity_token if Rails.env.development? && ENV['CODESPACE_NAME']
 
   include ApplicationHelper
 

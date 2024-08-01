@@ -10,7 +10,7 @@ class Follow < ApplicationRecord
       recipient_id: followed_id,
       sender_id:    follower_id,
       subject:      "#{follower.login_name} is now following you",
-      body:         "#{follower.login_name} just followed you on #{ENV['GROWSTUFF_SITE_NAME']}. "
+      body:         "#{follower.login_name} just followed you on #{ENV.fetch('GROWSTUFF_SITE_NAME', nil)}. "
     )
   end
 end

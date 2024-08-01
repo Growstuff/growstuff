@@ -17,7 +17,7 @@ describe "Seeds", :js, :search do
     end
 
     describe "displays required and optional fields properly" do
-      # Note: The required behaviour is pushed down to the control itself, not the form-group as of rails 7.1.
+      # NOTE: The required behaviour is pushed down to the control itself, not the form-group as of rails 7.1.
       # Modern browsers enforce the required behaviour better than us doing it ourselves.
       it { expect(page).to have_selector "label", text: "Crop" }
       it { expect(page).to have_selector 'input#seed_quantity' }

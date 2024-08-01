@@ -28,7 +28,7 @@ describe CropsController do
     end
   end
 
-  describe "GET crop hierarchy " do
+  describe "GET crop hierarchy" do
     describe 'fetches the crop hierarchy page' do
       context 'wrangler' do
         include_context 'login as wrangler'
@@ -82,8 +82,8 @@ describe CropsController do
           name:             'aubergine',
           en_wikipedia_url: "https://en.wikipedia.org/wiki/Eggplant"
         },
-        alt_name: { "1": "egg plant", "2": "purple apple" },
-        sci_name: { "1": "fancy sci name", "2": "" }
+        alt_name: { '1': "egg plant", '2': "purple apple" },
+        sci_name: { '1': "fancy sci name", '2': "" }
       }
     end
 

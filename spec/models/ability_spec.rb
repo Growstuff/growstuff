@@ -119,7 +119,6 @@ describe Ability do
     end
   end
 
-
   context 'members' do
     context 'ordinary member' do
       it "can't manage members" do

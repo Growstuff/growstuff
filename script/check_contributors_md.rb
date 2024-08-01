@@ -5,12 +5,12 @@ require "English"
 
 if ENV['CI']
   if ENV['GITHUB_EVENT_NAME'] == 'pull_request'
-    author = ENV['GITHUB_ACTOR']
+    author = ENV.fetch('GITHUB_ACTOR', nil)
     exit 1 unless author
 
   elsif ENV['TRAVIS_PULL_REQUEST']
     require 'httparty'
-    repo = ENV['TRAVIS_REPO_SLUG']
+    repo = ENV.fetch('TRAVIS_REPO_SLUG', nil)
     pr = ENV['TRAVIS_PULL_REQUEST']
     url = "https://api.github.com/repos/#{repo}/pulls/#{pr}"
     response = HTTParty.get(url).parsed_response
