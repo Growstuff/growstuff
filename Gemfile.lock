@@ -669,7 +669,8 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    vcr (6.2.0)
+    vcr (6.3.0)
+      base64
     virtus (2.0.0)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
