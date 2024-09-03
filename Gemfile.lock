@@ -591,7 +591,7 @@ GEM
       rubocop (~> 1.61)
       rubocop-rspec (~> 3, >= 3.0.1)
     ruby-progressbar (1.13.0)
-    ruby-units (4.0.3)
+    ruby-units (4.1.0)
     ruby-vips (2.2.1)
       ffi (~> 1.12)
     rubyzip (2.3.2)
