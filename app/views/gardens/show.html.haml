@@ -31,7 +31,7 @@
       %p
         :markdown
           #{strip_tags markdownify(@garden.description)}
-        - unless @garden.description
+        - unless @garden.description.present?
           .row-fluid
             %p No description available yet.
 
@@ -39,6 +39,11 @@
               %p
                 Why not
                 = link_to 'tell us more.', edit_garden_path(@garden)
+        - else
+            - if can? :edit, @garden
+              %p
+                Did you want to
+                = link_to 'update this description.', edit_garden_path(@garden)
 
     - if @garden.plantings.where.not(planted_at: nil).any?
       %section.card
