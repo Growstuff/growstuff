@@ -60,6 +60,14 @@
         - else
           .col-md-12
             %p Nothing is currently planted here.
+        - if can?(:edit, garden)
+          .col-md-12
+            = garden_plant_something_button(garden)
+  
+      - if can?(:destroy, garden)
+        .dropdown-divider
+        = delete_button(garden, classes: 'dropdown-item text-danger',
+          message: 'All plantings associated with this garden will also be deleted. Are you sure?')
 
     %section
       %h2 Current activities in garden
@@ -70,6 +78,9 @@
         - else
           .col-md-12
             %p Nothing is currently planned here.
+        - if can?(:edit, garden)
+          .col-md-12
+            = garden_plan_something_button(garden)
 
     - if @suggested_companions.any?
       %section.companions
@@ -139,3 +150,4 @@
         .index-cards
           - @garden.photos.includes(:owner).each do |photo|
             = render 'photos/thumbnail', photo: photo
+            - if can?(:edit, garden)
