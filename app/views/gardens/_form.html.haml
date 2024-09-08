@@ -16,7 +16,7 @@
               %li= msg
 
       = f.text_field :name, maxlength: 255, required: true
-      = f.text_area :description, rows: 6
+      = f.text_area :description, rows: 6, placeholder: "Tell us about this garden - where is it located? What does it look like? Do you have a link to a photo? Do you have irrigation? What are your plans?"
       = f.text_field :location,
                       value: @garden.location || current_member.location,
                       class: 'form-control', maxlength: 255
