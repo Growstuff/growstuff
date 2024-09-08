@@ -150,4 +150,3 @@
         .index-cards
           - @garden.photos.includes(:owner).each do |photo|
             = render 'photos/thumbnail', photo: photo
-            - if can?(:edit, garden)
