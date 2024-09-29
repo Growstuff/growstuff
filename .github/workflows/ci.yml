@@ -113,8 +113,29 @@ jobs:
       - name: index into elastic search
         run: bundle exec rails search:reindex
 
+      - name: Run rspec (lib)
+        run: bundle exec rspec spec/lib/ -fd
+
+      - name: Run rspec (services)
+        run: bundle exec rspec spec/services/ -fd
+
+      - name: Run rspec (models)
+        run: bundle exec rspec spec/models/ -fd
+
+      - name: Run rspec (controllers)
+        run: bundle exec rspec spec/controllers/ -fd
+
+      - name: Run rspec (views)
+        run: bundle exec rspec spec/views/ -fd
+
+      - name: Run rspec (routing)
+        run: bundle exec rspec spec/requests/ -fd
+
+      - name: Run rspec (request)
+        run: bundle exec rspec spec/requests/ -fd
+
       - name: Run rspec (report results to Percy.io and CodeClimate)
-        run: bundle exec rspec spec -fd
+        run: bundle exec rspec spec/features/ -fd
 
       - name: Report to code climate
         run: |
