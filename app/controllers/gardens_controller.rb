@@ -9,7 +9,7 @@ class GardensController < DataController
     @gardens = @gardens.includes(:owner)
     @gardens = @gardens.active unless @show_all
     if @owner.present?
-      @gardens = @gardens.where(owner: @owner).or(@gardens.joins(:garden_collaborators).where(garden_collaborators: { member: @owner })))
+      @gardens = @gardens.where(owner: @owner).or(@gardens.joins(:garden_collaborators).where(garden_collaborators: { member: @owner }))
     end
     @gardens = @gardens.where.not(members: { confirmed_at: nil })
       .order(:name).paginate(page: params[:page])
