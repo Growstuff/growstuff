@@ -135,10 +135,10 @@ class Ability
     can :update,  Harvest, owner_id: member.id, planting: { owner_id: member.id }
     can :destroy, Harvest, owner_id: member.id, planting: { owner_id: member.id }
     can :update, Harvest do |harvest|
-      harvest.planting.garden&.garden_collaborators&.where(member_id: member.id)&.any?
+      harvest.planting&.garden&.garden_collaborators&.where(member_id: member.id)&.any?
     end
     can :destroy, Harvest do |harvest|
-      harvest.planting.garden&.garden_collaborators&.where(member_id: member.id)&.any?
+      harvest.planting&.garden&.garden_collaborators&.where(member_id: member.id)&.any?
     end
 
     can :create, Photo
