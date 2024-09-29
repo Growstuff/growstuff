@@ -106,12 +106,7 @@ jobs:
 
       - name: Prepare database for testing
         run: bundle exec rails db:prepare
-        
-      - name: precompile assets
-        run: bundle exec rails assets:precompile
-        
-      - name: index into elastic search
-        run: bundle exec rails search:reindex
+
 
       - name: Run rspec (lib)
         run: bundle exec rspec spec/lib/ -fd
@@ -133,6 +128,12 @@ jobs:
 
       - name: Run rspec (request)
         run: bundle exec rspec spec/requests/ -fd
+
+      - name: precompile assets
+        run: bundle exec rails assets:precompile
+
+      - name: index into elastic search
+        run: bundle exec rails search:reindex
 
       - name: Run rspec (report results to Percy.io and CodeClimate)
         run: bundle exec rspec spec/features/ -fd
