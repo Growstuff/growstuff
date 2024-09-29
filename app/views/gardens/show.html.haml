@@ -60,13 +60,13 @@
         - else
           .col-md-12
             %p Nothing is currently planted here.
-        - if can?(:edit, garden)
+        - if can?(:edit, @garden)
           .col-md-12
-            = garden_plant_something_button(garden)
+            = garden_plant_something_button(@garden)
   
-      - if can?(:destroy, garden)
+      - if can?(:destroy, @garden)
         .dropdown-divider
-        = delete_button(garden, classes: 'dropdown-item text-danger',
+        = delete_button(@garden, classes: 'dropdown-item text-danger',
           message: 'All plantings associated with this garden will also be deleted. Are you sure?')
 
     %section
