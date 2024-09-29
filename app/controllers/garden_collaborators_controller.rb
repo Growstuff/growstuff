@@ -6,6 +6,33 @@ class GardenCollaboratorsController < ApplicationController
   respond_to :html
   responders :flash
 
+  def index
+    @garden_collaborators = @garden.garden_collaborators.paginate(page: params[:page])
+    respond_with(@garden_collaborators)
+  end
+
+  def show
+    @garden_collaborator = GardenCollaborator.find(params[:garden_collaborator_id])
+
+    respond_with(@garden_collaborator)
+  end
+
+  def new
+    @garden_collaborator = GardenCollaborator.new(garden: @garden)
+
+    authorize! :create, @garden_collaborator
+
+    respond_with(@garden_collaborator)
+  end
+
+  def edit
+    @garden_collaborator = GardenCollaborator.find(params[:id])
+
+    authorize! :update, @garden_collaborator
+
+    respond_with(@garden_collaborator)
+  end
+
   def create
     @garden_collaborator = GardenCollaborator.new(garden: @garden)
     authorize! :create, @garden_collaborator
@@ -44,34 +71,8 @@ class GardenCollaboratorsController < ApplicationController
     end
   end
 
-  def edit
-    @garden_collaborator = GardenCollaborator.find(params[:id])
-
-    authorize! :update, @garden_collaborator
-  
-    respond_with(@garden_collaborator)
-  end
-
-  def new
-    @garden_collaborator = GardenCollaborator.new(garden: @garden)
-  
-    authorize! :create, @garden_collaborator
-
-    respond_with(@garden_collaborator)
-  end
-
-  def index
-    @garden_collaborators = @garden.garden_collaborators.paginate(page: params[:page])
-    respond_with(@garden_collaborators)
-  end
-
-  def show
-    @garden_collaborator = GardenCollaborator.find(params[:garden_collaborator_id])
-
-    respond_with(@garden_collaborator)
-  end
-
   private
+
   def load_garden
     @garden = Garden.find_by(slug: params[:garden_slug])
   end
