@@ -1,0 +1,29 @@
+- content_for :title, "#{@garden} collaborators"
+
+%h1=  "#{@garden} collaborators"
+
+- content_for :breadcrumbs do
+    %li.breadcrumb-item= link_to 'Gardens', gardens_path
+    %li.breadcrumb-item.active= link_to @garden, gardens_path(@garden)
+
+.row
+  .col-md-2
+    = render 'layouts/nav', model: Garden
+
+  .col-md-10
+    - if @garden.garden_collaborators.empty?
+      %p There are no collaborators to display.
+      - if can?(:create, GardenCollaborator) && @owner == current_member
+        = link_to 'Add a garden collaborator', new_garden_garden_collaborator_path, class: 'btn btn-primary'
+
+    - else
+      %section
+        %h2= page_entries_info @garden.garden_collaborators
+        = will_paginate @garden.garden_collaborators
+
+        - @garden.garden_collaborators.each do |garden_collaborator|
+            - link_to garden_collaborator.member, member_path(garden_collaborator.member)
+
+      .row
+        .col-12= page_entries_info @garden.garden_collaborators
+        .col-12= will_paginate @garden.garden_collaborators
