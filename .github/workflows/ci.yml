@@ -6,6 +6,8 @@ jobs:
   contributors:
     runs-on: ubuntu-latest
     steps:
+      - name: Enable Corepack
+        run: corepack enable
       - uses: actions/checkout@v4
       - name: Install ruby version specified in .ruby-version
         uses: ruby/setup-ruby@v1
