@@ -83,6 +83,9 @@
         %p
           %strong Owner:
           = link_to @garden.owner, @garden.owner
+        - @garden.garden_collaborators.each do |collabator|
+          %strong Collaborator:
+          = link_to collabator, collabator
         - if @garden.location.present?
           %p
             %strong Location:

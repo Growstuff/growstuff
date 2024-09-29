@@ -153,7 +153,7 @@ class Harvest < ApplicationRecord
   def owner_must_match_planting
     return if planting.blank? # only check if we are linked to a planting
 
-    errors.add(:owner, "of harvest must be the same as planting") unless owner == planting.owner
+    errors.add(:owner, "of harvest must be the same as planting, or a collaborator on that garden") unless owner == planting.owner || planting.garden.garden_collaborators.where(member:id: owner).any?
   end
 
   def harvest_must_be_after_planting

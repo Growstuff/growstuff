@@ -127,6 +127,6 @@ class Planting < ApplicationRecord
   end
 
   def owner_must_match_garden_owner
-    errors.add(:owner, "must be the same as garden") unless owner == garden.owner
+    errors.add(:owner, "must be the same as garden, or a collaborator on that garden") unless owner == garden.owner || garden.garden_collaborators.where(member_id: owner).any?
   end
 end

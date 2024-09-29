@@ -108,16 +108,34 @@ class Ability
     can :create,  Planting
     can :update,  Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
     can :destroy, Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
+    can :update, Planting do |planting|
+      planting.garden.garden_collaborators.where(member_id: member.id).any?
+    end
+    can :destroy, Planting do |planting|
+      planting.garden.garden_collaborators.where(member_id: member.id).any?
+    end
 
     can :create,  Activity
     can :update,  Activity, owner_id: member.id
     can :destroy, Activity, owner_id: member.id
+    can :update, Activity do |activity|
+      activity.garden&.garden_collaborators.where(member_id: member.id).any?
+    end
+    can :destroy, Activity do |activity|
+      activity.garden&.garden_collaborators.where(member_id: member.id).any?
+    end
 
     can :create,  Harvest
     can :update,  Harvest, owner_id: member.id
     can :destroy, Harvest, owner_id: member.id
     can :update,  Harvest, owner_id: member.id, planting: { owner_id: member.id }
     can :destroy, Harvest, owner_id: member.id, planting: { owner_id: member.id }
+    can :update, Harvest do |harvest|
+      harvest.planting.garden&.garden_collaborators.where(member_id: member.id).any?
+    end
+    can :destroy, Harvest do |harvest|
+      harvest.planting.garden&.garden_collaborators.where(member_id: member.id).any?
+    end
 
     can :create, Photo
     can :update, Photo, owner_id: member.id
