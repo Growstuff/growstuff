@@ -31,7 +31,7 @@
       %p
         :markdown
           #{strip_tags markdownify(@garden.description)}
-        - unless @garden.description
+        - unless @garden.description.present?
           .row-fluid
             %p No description available yet.
 
@@ -39,6 +39,11 @@
               %p
                 Why not
                 = link_to 'tell us more.', edit_garden_path(@garden)
+        - else
+          - if can? :edit, @garden
+            %p
+              Did you want to
+              = link_to 'update this description.', edit_garden_path(@garden)
 
     - if @garden.plantings.active.any?
       %section.card
@@ -55,6 +60,14 @@
         - else
           .col-md-12
             %p Nothing is currently planted here.
+        - if can?(:edit, @garden)
+          .col-md-12
+            = garden_plant_something_button(@garden)
+  
+      - if can?(:destroy, @garden)
+        .dropdown-divider
+        = delete_button(@garden, classes: 'dropdown-item text-danger',
+          message: 'All plantings associated with this garden will also be deleted. Are you sure?')
 
     %section
       %h2 Current activities in garden
@@ -65,6 +78,9 @@
         - else
           .col-md-12
             %p Nothing is currently planned here.
+        - if can?(:edit, @garden)
+          .col-md-12
+            = garden_plan_something_button(@garden)
 
     - if @suggested_companions.any?
       %section.companions
