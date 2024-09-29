@@ -83,9 +83,16 @@
         %p
           %strong Owner:
           = link_to @garden.owner, @garden.owner
-        - @garden.garden_collaborators.each do |collabator|
-          %strong Collaborator:
-          = link_to collabator, collabator
+        %p
+          %strong Collaborators:
+          - if can?(:create, GardenCollaborator.new(garden: @garden))
+            = link_to "Manage", garden_garden_collaborators_path(@garden)
+          - if @garden.garden_collaborators.any? 
+            - @garden.garden_collaborators.each do |collabator|
+              = link_to collabator.member, collabator.member
+          - else
+            None
+
         - if @garden.location.present?
           %p
             %strong Location:
