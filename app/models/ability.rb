@@ -115,6 +115,10 @@ class Ability
       planting.garden.garden_collaborators.where(member_id: member.id).any?
     end
 
+    can :create,  GardenCollaborator, garden: { owner_id: member.id }
+    can :update,  GardenCollaborator, garden: { owner_id: member.id }
+    can :destroy,  GardenCollaborator, garden: { owner_id: member.id }
+
     can :create,  Activity
     can :update,  Activity, owner_id: member.id
     can :destroy, Activity, owner_id: member.id
