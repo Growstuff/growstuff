@@ -8,6 +8,9 @@ body {
   font-family: $default-font;
 }
 
+.navbar {
+  flex-wrap: nowrap;
+}
 .navbar-brand {
   .site-name {
     font-family: "Modak", cursive;
@@ -16,7 +19,7 @@ body {
   }
 
   img {
-    height: 60px;
+    height: 100%;
   }
 }
 
