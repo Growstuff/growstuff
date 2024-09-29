@@ -3,27 +3,70 @@
 %h1=  "#{@garden} collaborators"
 
 - content_for :breadcrumbs do
-    %li.breadcrumb-item= link_to 'Gardens', gardens_path
-    %li.breadcrumb-item.active= link_to @garden, gardens_path(@garden)
+  %li.breadcrumb-item= link_to 'Gardens', gardens_path
+  %li.breadcrumb-item.active= link_to @garden, gardens_path(@garden)
 
 .row
   .col-md-2
-    = render 'layouts/nav', model: Garden
+    - if current_member.present?
+      .flex-column.nav-pills.layout-nav{"role" => "tablist", "aria-orientation"=>"vertical"}
+        - if can?(:create, GardenCollaborator.new(garden: @garden))
+          = link_to url_for([@garden, GardenCollaborator.new(garden: @garden), action: :new]), class: 'btn' do
+            Add a #{GardenCollaborator.new(garden: @garden).model_name.human}
+    - else
+      = render 'shared/signin_signup', to: "record your #{model.to_s.pluralize.downcase}"
+
+    %hr/
+    %p.text-center
+      #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
+      harvesting from your home garden and see how productive it is.
+
 
   .col-md-10
-    - if @garden.garden_collaborators.empty?
+    - if @garden_collaborators.empty?
       %p There are no collaborators to display.
       - if can?(:create, GardenCollaborator) && @owner == current_member
         = link_to 'Add a garden collaborator', new_garden_garden_collaborator_path, class: 'btn btn-primary'
 
     - else
       %section
-        %h2= page_entries_info @garden.garden_collaborators
-        = will_paginate @garden.garden_collaborators
+        %h2= page_entries_info @garden_collaborators
+        = will_paginate @garden_collaborators
 
-        - @garden.garden_collaborators.each do |garden_collaborator|
-            - link_to garden_collaborator.member, member_path(garden_collaborator.member)
+        - @garden_collaborators.each do |garden_collaborator|
+          - member = garden_collaborator.member
+          - cache member do
+            .card
+              .card-body
+                - if can?(:destroy, garden_collaborator)
+                  %div{"style": "float: right"}
+                    = link_to garden_garden_collaborator_path(@garden, garden_collaborator), method: :delete, class: "btn btn-danger" do
+                      Remove access
+
+                %h4.login-name= link_to member, member
+                %div
+                  = render "members/avatar", member: member
+                %div
+                  = link_to "view all #{member}'s gardens", member_gardens_path(member)
+                  %p
+                    %small
+                      Joined
+                      = distance_of_time_in_words(member.created_at, Time.zone.now)
+                      ago.
+                  - if member.location.present?
+                    = link_to member.location, place_path(member.location)
+              .card-footer
+                %ul.nav.nav-justified.small
+                  %li.nav-item.border-right
+                    = link_to member_plantings_path(member) do
+                      = localize_plural(member.plantings.active, Planting)
+                  %li.nav-item.border-right
+                    = link_to member_harvests_path(member) do
+                      = localize_plural(member.harvests, Harvest)
+                  %li.nav-item
+                    = link_to member_seeds_path(member) do
+                      = localize_plural(member.seeds.active, Seed)
 
       .row
-        .col-12= page_entries_info @garden.garden_collaborators
-        .col-12= will_paginate @garden.garden_collaborators
+        .col-12= page_entries_info @garden_collaborators
+        .col-12= will_paginate @garden_collaborators
