@@ -87,9 +87,10 @@
           %strong Collaborators:
           - if can?(:create, GardenCollaborator.new(garden: @garden))
             = link_to "Manage", garden_garden_collaborators_path(@garden)
-          - if @garden.garden_collaborators.any? 
-            - @garden.garden_collaborators.each do |collabator|
-              = link_to collabator.member, collabator.member
+          - if @garden.garden_collaborators.any?
+            %ul
+              - @garden.garden_collaborators.each do |collabator|
+                %li= link_to collabator.member, collabator.member
           - else
             None
 
