@@ -13,3 +13,9 @@ updates:
     interval: daily
     time: "07:00"
   open-pull-requests-limit: 10
+- package-ecosystem: yarn
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "07:00"
+  open-pull-requests-limit: 10
