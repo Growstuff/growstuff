@@ -6,8 +6,6 @@ jobs:
   contributors:
     runs-on: ubuntu-latest
     steps:
-      - name: Enable Corepack
-        run: corepack enable
       - uses: actions/checkout@v4
       - name: Install ruby version specified in .ruby-version
         uses: ruby/setup-ruby@v1
@@ -74,6 +72,8 @@ jobs:
       #
       # See https://github.com/actions/cache/blob/master/examples.md#node---yarn for details
       #
+      - name: Enable Corepack
+        run: corepack enable
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
