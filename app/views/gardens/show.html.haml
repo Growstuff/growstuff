@@ -78,9 +78,9 @@
         - else
           .col-md-12
             %p Nothing is currently planned here.
-        - if can?(:edit, garden)
+        - if can?(:edit, @garden)
           .col-md-12
-            = garden_plan_something_button(garden)
+            = garden_plan_something_button(@garden)
 
     - if @suggested_companions.any?
       %section.companions
