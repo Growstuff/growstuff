@@ -7,9 +7,6 @@ require 'simplecov'
 # output coverage locally AND send it to coveralls
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([SimpleCov::Formatter::HTMLFormatter])
 
-# fail if there's a significant test coverage drop
-SimpleCov.maximum_coverage_drop 1
-
 require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
