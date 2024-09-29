@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GardenCollaboratorsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
   before_action :load_garden
