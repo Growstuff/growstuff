@@ -272,6 +272,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_041435) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["garden_id"], name: "index_garden_collaborators_on_garden_id"
+    t.index ["member_id", "garden_id"], name: "index_garden_collaborators_on_member_id_and_garden_id", unique: true
     t.index ["member_id"], name: "index_garden_collaborators_on_member_id"
   end
 
