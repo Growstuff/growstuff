@@ -551,7 +551,7 @@ GEM
     rspectre (0.1.0)
       parser (>= 3.2.2.1)
       rspec (~> 3.9)
-    rswag-api (2.14.0)
+    rswag-api (2.15.0)
       activesupport (>= 5.2, < 8.0)
       railties (>= 5.2, < 8.0)
     rswag-specs (2.15.0)
