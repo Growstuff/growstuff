@@ -47,7 +47,7 @@
           = f.select(:unit, Harvest::UNITS_VALUES, { include_blank: false }, class: 'input-medium form-control')
       .row
         .col-md-4
-          = f.number_field :weight_quantity, class: 'input-small form-control', step: 'any', label: 'Weighing (in total)', min: 1
+          = f.number_field :weight_quantity, class: 'input-small form-control', step: 'any', label: 'Weighing (in total)'
         .col-md-8
           = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, { include_blank: false }, class: 'form-control')
       = f.text_area :description, rows: 6, label: 'Notes'
