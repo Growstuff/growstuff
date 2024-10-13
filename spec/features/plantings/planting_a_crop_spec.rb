@@ -253,7 +253,7 @@ describe "Planting a crop", :js, :search do
         fill_autocomplete "crop", with: "mai"
         select_from_autocomplete "maize"
         within "form#new_planting" do
-          fill_in "When", with: Time.new(2015, 10, 15)
+          fill_in "When", with: "2015-10-15"
           fill_in "How many?", with: 42
           select "cutting", from: "Planted from"
           select "sun", from: "Sun or shade?"
