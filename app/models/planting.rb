@@ -61,6 +61,7 @@ class Planting < ApplicationRecord
            to: :crop, prefix: true
   delegate :login_name, :slug, :location, to: :owner, prefix: true
   delegate :slug, to: :planting, prefix: true
+  delegate :slug, :name, to: :garden, prefix: true
 
   delegate :annual?, :perennial?, :svg_icon, to: :crop
   delegate :location, :longitude, :latitude, to: :garden
