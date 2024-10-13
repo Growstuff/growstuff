@@ -31,7 +31,10 @@
         .text-center= render 'plantings/badges', planting: planting
         = render 'plantings/progress', planting: planting
     .card-footer
-      .float-right
-        %span.chip.member-chip
-          = link_to member_path(slug: planting.owner_slug) do
-            = planting.owner_login_name
+      %small
+        Planted by
+        = link_to member_path(slug: planting.owner_slug), class: "owner-link" do
+          = planting.owner_login_name
+        in
+        = link_to garden_path(slug: planting.garden_slug), class: "garden-link" do
+          = planting.garden_name

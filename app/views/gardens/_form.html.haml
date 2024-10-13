@@ -5,7 +5,6 @@
         %h1.h2-responsive.text-center
           %strong=yield :title
     .card-body
-      = required_field_help_text
       - if @garden.errors.any?
         #error_explanation.alert.alert-warning{:role => "alert"}
           %h4.alert-heading
@@ -16,7 +15,7 @@
               %li= msg
 
       = f.text_field :name, maxlength: 255, required: true
-      = f.text_area :description, rows: 6
+      = f.text_area :description, rows: 6, placeholder: "Tell us about this garden - where is it located? What does it look like? Do you have a link to a photo? Do you have irrigation? What are your plans?"
       = f.text_field :location,
                       value: @garden.location || current_member.location,
                       class: 'form-control', maxlength: 255
@@ -27,7 +26,7 @@
         - else
           = link_to "Change your location.", edit_member_registration_path
       .row
-        .col-md-5.col-12= f.number_field :area, class: 'input-small', step: "any"
+        .col-md-5.col-12= f.number_field :area, class: 'input-small', step: "any", min: 0
         .col-md-7.col-12= f.select(:area_unit, Garden::AREA_UNITS_VALUES, { include_blank: false })
         .col-12= f.select(:garden_type_id, GardenType.all.order(:name).pluck(:name, :id),
                           selected: @garden.garden_type_id, include_blank: true)

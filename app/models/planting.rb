@@ -61,6 +61,7 @@ class Planting < ApplicationRecord
            to: :crop, prefix: true
   delegate :login_name, :slug, :location, to: :owner, prefix: true
   delegate :slug, to: :planting, prefix: true
+  delegate :slug, :name, to: :garden, prefix: true
 
   delegate :annual?, :perennial?, :svg_icon, to: :crop
   delegate :location, :longitude, :latitude, to: :garden
@@ -127,6 +128,9 @@ class Planting < ApplicationRecord
   end
 
   def owner_must_match_garden_owner
-    errors.add(:owner, "must be the same as garden") unless owner == garden.owner
+    return if owner == garden.owner || garden.garden_collaborators.where(member_id: owner).any?
+
+    errors.add(:owner,
+               "must be the same as garden, or a collaborator on that garden")
   end
 end

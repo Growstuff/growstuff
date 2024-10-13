@@ -28,12 +28,6 @@ module ApplicationHelper
     "#{klass.name.downcase.pluralize}/#{identifier}-#{count}-#{max_updated_at}"
   end
 
-  def required_field_help_text
-    asterisk = tag.span('*', class: ['red'])
-    text = tag.em('denotes a required field')
-    tag.div(asterisk + ' '.html_safe + text, class: ['margin-bottom'])
-  end
-
   # A helper to replace the complex template compilation mess
   # of HAML, Tilt, and dynamic compilation with interpolated ruby.
   def markdownify(text)

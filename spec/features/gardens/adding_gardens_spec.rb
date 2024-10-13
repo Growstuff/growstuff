@@ -10,10 +10,6 @@ describe "Gardens", :js do
 
     include_examples 'is accessible'
 
-    it "has the required fields help text" do
-      expect(page).to have_content "* denotes a required field"
-    end
-
     it "displays required and optional fields properly" do
       expect(page).to have_selector ".required", text: "Name"
       expect(page).to have_selector 'textarea#garden_description'
@@ -26,15 +22,6 @@ describe "Gardens", :js do
       click_button "Save"
       expect(page).to have_content "Garden was successfully created"
       expect(page).to have_content "New garden"
-    end
-
-    it "Refuse to create new garden with negative area" do
-      visit new_garden_path
-      fill_in "Name", with: "Negative Garden"
-      fill_in "Area", with: -5
-      click_button "Save"
-      expect(page).to have_no_content "Garden was successfully created"
-      expect(page).to have_content "Area must be greater than or equal to 0"
     end
   end
 end

@@ -10,13 +10,6 @@ describe ApplicationHelper do
     parse_date('may 12th 2012').should eq Date.new(2012, 5, 12)
   end
 
-  it "shows required field marker help text with proper formatting" do
-    output = required_field_help_text
-    expect(output).to have_selector '.margin-bottom'
-    expect(output).to have_selector '.red', text: '*'
-    expect(output).to have_selector 'em', text: 'denotes a required field'
-  end
-
   describe '#avatar_uri' do
     context 'with a normal user' do
       before do
