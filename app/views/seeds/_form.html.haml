@@ -31,7 +31,7 @@
           = f.text_field :saved_at,
                      value: @seed.saved_at ? @seed.saved_at.to_fs(:ymd) : '',
                      class: 'add-datepicker', label: 'When were the seeds harvested/saved?'
-        .col-12.col-md-4= f.number_field :quantity, label: 'Quantity'
+        .col-12.col-md-4= f.number_field :quantity, label: 'Quantity', min: 1
         .col-12.col-md-4
           = f.text_field :plant_before, class: 'add-datepicker',
           value: @seed.plant_before ? @seed.plant_before.to_fs(:ymd) : ''
