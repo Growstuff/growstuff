@@ -59,7 +59,7 @@
 
       %hr/
       =  t('.trade_help', site_name: ENV['GROWSTUFF_SITE_NAME'])
-      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, { label: 'Will trade', required: true, wrapper: { class: 'required' }})
+      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, {label: 'Will trade', wrapper: { class: 'required'}, required: true})
       %span.help_inline
         - if current_member.location.blank?
           Don't forget to
