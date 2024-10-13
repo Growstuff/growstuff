@@ -33,7 +33,7 @@
             label: 'Where did you plant it?')
           = link_to "Add a garden.", new_garden_path
         .col-md-4
-          = f.text_field :planted_at,
+          = f.date_field :planted_at,
                      value: @planting.planted_at ? @planting.planted_at.to_fs(:ymd) : '',
                      class: 'add-datepicker', label: 'When?'
           %span.help-inline
@@ -45,7 +45,7 @@
         .col-md-4
           = f.select(:sunniness, Planting::SUNNINESS_VALUES, { include_blank: '', label: 'Sun or shade?' } )
         .col-md-4
-          = f.number_field :quantity, label: 'How many?'
+          = f.number_field :quantity, label: 'How many?', min: 1
       = f.text_area :description, rows: 6, label: 'Tell us more about it'
 
       .row
@@ -53,11 +53,9 @@
           = f.check_box :finished, label: 'Mark as finished'
           %span.help-block= t('.finish_helper')
         .col-md-6
-          = f.text_field :finished_at,
+          = f.date_field :finished_at,
                      value: @planting.finished_at ? @planting.finished_at.to_fs(:ymd) : '',
-                     class: 'add-datepicker',
-                     label: 'Finished date',
-                     placeholder: 'optional'
+                     label: 'Finished date (if known)'
 
     .card-footer
       .text-right= f.submit 'Save'
