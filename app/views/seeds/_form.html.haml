@@ -28,23 +28,23 @@
             = link_to "Request new crops.", new_crop_path
       .row
         .col-12.col-md-4
-          = f.text_field :saved_at,
+          = f.date_field :saved_at,
                      value: @seed.saved_at ? @seed.saved_at.to_fs(:ymd) : '',
-                     class: 'add-datepicker', label: 'When were the seeds harvested/saved?'
+                     label: 'When were the seeds harvested/saved?'
         .col-12.col-md-4= f.number_field :quantity, label: 'Quantity', min: 1
         .col-12.col-md-4
-          = f.text_field :plant_before, class: 'add-datepicker',
-          value: @seed.plant_before ? @seed.plant_before.to_fs(:ymd) : ''
+          = f.date_field :plant_before, value: @seed.plant_before ? @seed.plant_before.to_fs(:ymd) : ''
 
       .row
         .col-12.col-md-4
           = f.check_box :finished, label: 'Mark as finished'
         .col-12.col-md-4
-          = f.text_field :finished_at, class: 'add-datepicker', value: @seed.finished_at ? @seed.finished_at.to_fs(:ymd) : ''
+          = f.date_field :finished_at, value: @seed.finished_at ? @seed.finished_at.to_fs(:ymd) : ''
         .col-12.col-md-4
           %span.help-inline= t('.finish_helper')
 
       .row
+        -# TODO: Range control?
         .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity', min: 1
         .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days", min: 1
 
@@ -54,7 +54,7 @@
         .col-md-4
           = f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
         .col-md-4
-          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
+          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required' }, required: true}, default: 'unknown')
       = f.text_area :description, rows: 6
 
       %hr/

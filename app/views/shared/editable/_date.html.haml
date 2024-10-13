@@ -5,6 +5,5 @@
       = edit_icon
   .hide{id: "date--#{model.id}-#{field.to_s}"}
     = bootstrap_form_for(model) do |f|
-      = f.date_field field,
-               value: model.send(field) ? model.send(field).to_fs(:ymd) : '', label: 'When?'
+      = f.date_field field, value: model.send(field) ? model.send(field).to_fs(:ymd) : '', label: 'When?'
       = f.submit :save

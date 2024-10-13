@@ -62,9 +62,9 @@ describe "Planting a crop", :js, :search do
       before do
         visit new_planting_path
 
-        @a_past_date = 15.days.ago.strftime("%Y-%m-%d")
-        @right_now = Time.zone.today.strftime("%Y-%m-%d")
-        @a_future_date = 1.year.from_now.strftime("%Y-%m-%d")
+        @a_past_date = 15.days.ago
+        @right_now = Time.zone.today
+        @a_future_date = 1.year.from_now
       end
 
       it "shows that it is not planted yet" do
@@ -111,7 +111,7 @@ describe "Planting a crop", :js, :search do
           fill_in "How many?", with: 42
           select "cutting", from: "Planted from"
           select "semi-shade", from: "Sun or shade?"
-          fill_in "When?", with: '2013-03-10'
+          fill_in "When?", with: Time.new(2013, 3, 10)
           fill_in "Tell us more about it", with: "It's rad."
           fill_in "Finished date", with: @a_future_date
           click_button "Save"
@@ -185,7 +185,7 @@ describe "Planting a crop", :js, :search do
       click_link 'Actions'
       click_link "Edit"
       check "finished"
-      fill_in "Finished date", with: "2015-06-25"
+      fill_in "Finished date", with: Time.new(2015, 06, 25)
       click_button "Save"
       expect(page).to have_content "planting was successfully updated"
       expect(page).to have_content "Finished"
@@ -196,9 +196,9 @@ describe "Planting a crop", :js, :search do
       select_from_autocomplete "maize"
       choose(member.gardens.first.name)
       within "form#new_planting" do
-        fill_in "When?", with: "2014-07-01"
+        fill_in "When?", with: Time.new(2014, 7, 1)
         check "Mark as finished"
-        fill_in "Finished date", with: "2014-08-30"
+        fill_in "Finished date", with: Time.new(2014, 8, 30)
         uncheck 'Mark as finished'
       end
 
@@ -253,7 +253,7 @@ describe "Planting a crop", :js, :search do
         fill_autocomplete "crop", with: "mai"
         select_from_autocomplete "maize"
         within "form#new_planting" do
-          fill_in "When", with: "2015-10-15"
+          fill_in "When", with: Time.new(2015, 10, 15)
           fill_in "How many?", with: 42
           select "cutting", from: "Planted from"
           select "sun", from: "Sun or shade?"
