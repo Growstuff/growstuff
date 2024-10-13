@@ -62,9 +62,9 @@ describe "Planting a crop", :js, :search do
       before do
         visit new_planting_path
 
-        @a_past_date = 15.days.ago.to_date
-        @right_now = Time.zone.today.to_date
-        @a_future_date = 1.year.from_now.to_date
+        @a_past_date = 15.days.ago.strftime("%Y-%m-%d")
+        @right_now = Time.zone.today.strftime("%Y-%m-%d")
+        @a_future_date = 1.year.from_now.strftime("%Y-%m-%d")
       end
 
       it "shows that it is not planted yet" do
