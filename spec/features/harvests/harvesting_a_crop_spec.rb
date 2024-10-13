@@ -26,7 +26,7 @@ describe "Harvesting a crop", :js, :search do
 
       within "form#new_harvest" do
         choose plant_part.name
-        fill_in "When?", with: "2014-06-15"
+        fill_in "When?", with: Time.new(2014, 06, 15)
         fill_in "How many?", with: 42
         fill_in "Weighing (in total)", with: 42
         fill_in "Notes", with: "It's killer."
