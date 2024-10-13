@@ -62,7 +62,7 @@ describe "Planting a crop", :js, :search do
       before do
         visit new_planting_path
 
-        @a_past_date = 15.days.ago
+        @a_past_date = 15.days.ago.to_time
         @right_now = Time.zone.today
         @a_future_date = 1.year.from_now
       end
