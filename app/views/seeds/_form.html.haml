@@ -51,11 +51,11 @@
 
       .row
         .col-md-4
-          = f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+          = f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
         .col-md-4
-          = f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+          = f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
         .col-md-4
-          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
       = f.text_area :description, rows: 6
 
       %hr/
