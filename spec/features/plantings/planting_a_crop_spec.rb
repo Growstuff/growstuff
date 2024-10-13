@@ -39,7 +39,7 @@ describe "Planting a crop", :js, :search do
           select "semi-shade", from: "Sun or shade?"
           fill_in "Tell us more about it", with: "It's rad."
           choose 'Garden'
-          fill_in "When", with: Time.new(2014, 6, 15)
+          fill_in "When", with: "2014-06-15"
           click_button "Save"
         end
       end
