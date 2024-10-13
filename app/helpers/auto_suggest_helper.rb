@@ -13,7 +13,7 @@ module AutoSuggestHelper
     resource = resource.class.name.downcase
     source_path = Rails.application.routes.url_helpers.send("search_#{source}s_path", format: :json)
     %(
-      <input id="#{source}" class="auto-suggest #{options[:class]}"
+      <input id="#{source}" class="auto-suggest #{options[:class]}" #{options[:required] ? 'required="required' : ''}
         type="text" value="#{default}" data-source-url="#{source_path}",
         placeholder="e.g. lettuce">
       <noscript class="text-warning">
