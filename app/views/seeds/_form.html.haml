@@ -45,8 +45,8 @@
 
       .row
         -# TODO: Range control?
-        .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity', min: 1, step: 5
-        .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days", min: 1, step: 5
+        .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity', min: 1
+        .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days", min: 1
 
       .row
         .col-md-4
