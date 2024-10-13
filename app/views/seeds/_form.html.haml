@@ -14,7 +14,6 @@
           %ul
             - @seed.errors.full_messages.each do |msg|
               %li= msg
-      = required_field_help_text
 
       .form-group.required
         = f.label :crop, 'Crop'

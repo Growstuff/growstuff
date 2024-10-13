@@ -5,7 +5,6 @@
         %h1.h2-responsive.text-center
           %strong=yield :title
     .card-body
-      = required_field_help_text
       - if @garden.errors.any?
         #error_explanation.alert.alert-warning{:role => "alert"}
           %h4.alert-heading

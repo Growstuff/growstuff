@@ -7,7 +7,6 @@
           = harvest_icon
           %strong=yield :title
     .card-body
-      = required_field_help_text
       - if @harvest.errors.any?
         #error_explanation
           %h2 #{pluralize(@harvest.errors.size, "error")} prohibited this harvest from being saved:"
@@ -31,7 +30,7 @@
                 = link_to "Request new crops.", new_crop_path
 
         .col-md-4
-          = f.text_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_fs(:ymd) : '',
+          = f.date_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_fs(:ymd) : '',
                          class: 'add-datepicker', label: 'When?'
         .col-12
           = f.form_group :plant_part_id, label: { text: "Harvested Plant Part" } do
