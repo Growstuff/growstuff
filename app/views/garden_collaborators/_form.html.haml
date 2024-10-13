@@ -1,7 +1,6 @@
 .card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
   = bootstrap_form_for(@garden_collaborator.new_record? ? [@garden, @garden_collaborator] : garden_garden_collaborator_path(@garden, @garden_collaborator)) do |f|
     .card-body
-      = required_field_help_text
       - if @garden_collaborator.errors.any?
         #error_explanation.alert.alert-warning{:role => "alert"}
           %h4.alert-heading
