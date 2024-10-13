@@ -198,7 +198,7 @@ describe "Planting a crop", :js, :search do
       within "form#new_planting" do
         fill_in "When?", with: "2014-07-01"
         check "Mark as finished"
-        fill_in "Finished date", with: "2014-08-30"
+        fill_in "Finished date", with: Time.new(2014, 8, 30)
         uncheck 'Mark as finished'
       end
 
