@@ -30,8 +30,7 @@
                 = link_to "Request new crops.", new_crop_path
 
         .col-md-4
-          = f.date_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_fs(:ymd) : '',
-                         class: 'add-datepicker', label: 'When?'
+          = f.date_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_fs(:ymd) : '', label: 'When?', required: true
         .col-12
           = f.form_group :plant_part_id, label: { text: "Harvested Plant Part" } do
             .row
@@ -43,12 +42,12 @@
       -# http://blog.isotoma.com/2012/03/html5-input-typenumber-and-decimalsfloats-in-chrome/
       .row
         .col-md-4
-          = f.number_field :quantity, class: 'input-small form-control', step: 'any', label: 'How many?'
+          = f.number_field :quantity, class: 'input-small form-control', step: 'any', label: 'How many?', min: 1
         .col-md-8
           = f.select(:unit, Harvest::UNITS_VALUES, { include_blank: false }, class: 'input-medium form-control')
       .row
         .col-md-4
-          = f.number_field :weight_quantity, class: 'input-small form-control', step: 'any', label: 'Weighing (in total)'
+          = f.number_field :weight_quantity, class: 'input-small form-control', step: 'any', label: 'Weighing (in total)', min: 1
         .col-md-8
           = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, { include_blank: false }, class: 'form-control')
       = f.text_area :description, rows: 6, label: 'Notes'
