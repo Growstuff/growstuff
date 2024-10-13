@@ -191,7 +191,7 @@ describe "Planting a crop", :js, :search do
       expect(page).to have_content "Finished"
     end
 
-    pending "Marking a planting as finished" do
+    it "Marking a planting as finished" do
       fill_autocomplete "crop", with: "mai"
       select_from_autocomplete "maize"
       choose(member.gardens.first.name)
