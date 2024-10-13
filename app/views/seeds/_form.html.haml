@@ -46,21 +46,21 @@
 
       .row
         -# TODO: Range control?
-        .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity'
-        .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days"
+        .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity', min: 1, step: 5
+        .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days", min: 1, step: 5
 
       .row
         .col-md-4
-          = f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+          = f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
         .col-md-4
-          = f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+          = f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
         .col-md-4
-          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required' }, required: true}, default: 'unknown')
       = f.text_area :description, rows: 6
 
       %hr/
       =  t('.trade_help', site_name: ENV['GROWSTUFF_SITE_NAME'])
-      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, {label: 'Will trade', wrapper: { class: 'required'}})
+      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, { label: 'Will trade', required: true, wrapper: { class: 'required '}})
       %span.help_inline
         - if current_member.location.blank?
           Don't forget to
