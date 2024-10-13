@@ -29,7 +29,7 @@ describe "Seeds", :js, :search do
 
     describe "Adding a new seed", :js do
       before do
-        fill_autocomplete "crop", with: "mai"
+        fill_autocomplete "crop", with: " "
         select_from_autocomplete "maize"
         within "form#new_seed" do
           fill_in "Quantity", with: 42
