@@ -10,10 +10,6 @@ describe "Gardens", :js do
 
     include_examples 'is accessible'
 
-    it "has the required fields help text" do
-      expect(page).to have_content "* denotes a required field"
-    end
-
     it "displays required and optional fields properly" do
       expect(page).to have_selector ".required", text: "Name"
       expect(page).to have_selector 'textarea#garden_description'

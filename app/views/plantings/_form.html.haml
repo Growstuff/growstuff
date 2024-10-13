@@ -6,7 +6,6 @@
         %strong=yield :title
   = bootstrap_form_for(@planting) do |f|
     .card-body
-      = required_field_help_text
       - if @planting.errors.any?
         #error_explanation
           %h2
@@ -45,7 +44,7 @@
         .col-md-4
           = f.select(:sunniness, Planting::SUNNINESS_VALUES, { include_blank: '', label: 'Sun or shade?' } )
         .col-md-4
-          = f.number_field :quantity, label: 'How many?'
+          = f.number_field :quantity, label: 'How many?', min: 1
       = f.text_area :description, rows: 6, label: 'Tell us more about it'
 
       .row

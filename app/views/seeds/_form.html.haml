@@ -14,7 +14,6 @@
           %ul
             - @seed.errors.full_messages.each do |msg|
               %li= msg
-      = required_field_help_text
 
       .form-group.required
         = f.label :crop, 'Crop'
@@ -32,7 +31,7 @@
           = f.text_field :saved_at,
                      value: @seed.saved_at ? @seed.saved_at.to_fs(:ymd) : '',
                      class: 'add-datepicker', label: 'When were the seeds harvested/saved?'
-        .col-12.col-md-4= f.number_field :quantity, label: 'Quantity'
+        .col-12.col-md-4= f.number_field :quantity, label: 'Quantity', min: 1
         .col-12.col-md-4
           = f.text_field :plant_before, class: 'add-datepicker',
           value: @seed.plant_before ? @seed.plant_before.to_fs(:ymd) : ''
@@ -46,16 +45,16 @@
           %span.help-inline= t('.finish_helper')
 
       .row
-        .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity'
-        .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days"
+        .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity', min: 1
+        .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days", min: 1
 
       .row
         .col-md-4
-          = f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+          = f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
         .col-md-4
-          = f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+          = f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
         .col-md-4
-          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required'}}, default: 'unknown', required: true)
+          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
       = f.text_area :description, rows: 6
 
       %hr/
