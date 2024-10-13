@@ -39,7 +39,7 @@ describe "Planting a crop", :js, :search do
           select "semi-shade", from: "Sun or shade?"
           fill_in "Tell us more about it", with: "It's rad."
           choose 'Garden'
-          fill_in "When", with: "2014-06-15"
+          fill_in "When", with: Date.parse("2014-06-15")
           click_button "Save"
         end
       end
@@ -185,7 +185,7 @@ describe "Planting a crop", :js, :search do
       click_link 'Actions'
       click_link "Edit"
       check "finished"
-      fill_in "Finished date", with: "2015-06-25"
+      fill_in "Finished date", with: Date.parse("2015-06-25")
       click_button "Save"
       expect(page).to have_content "planting was successfully updated"
       expect(page).to have_content "Finished"
@@ -196,9 +196,9 @@ describe "Planting a crop", :js, :search do
       select_from_autocomplete "maize"
       choose(member.gardens.first.name)
       within "form#new_planting" do
-        fill_in "When?", with: "2014-07-01"
+        fill_in "When?", with: Date.parse("2014-07-01")
         check "Mark as finished"
-        fill_in "Finished date", with: "2014-08-30"
+        fill_in "Finished date", with: Date.parse("2014-08-30")
         uncheck 'Mark as finished'
       end
 
@@ -253,7 +253,7 @@ describe "Planting a crop", :js, :search do
         fill_autocomplete "crop", with: "mai"
         select_from_autocomplete "maize"
         within "form#new_planting" do
-          fill_in "When", with: "2015-10-15"
+          fill_in "When", with: Date.parse("2015-10-15")
           fill_in "How many?", with: 42
           select "cutting", from: "Planted from"
           select "sun", from: "Sun or shade?"

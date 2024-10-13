@@ -124,7 +124,7 @@ class Planting < ApplicationRecord
   def finished_must_be_after_planted
     return unless planted_at && finished_at # only check if we have both
 
-    errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
+    errors.add(:finished_at, "must be after the planting date (#{finished_at}) < #{planted_at}") unless planted_at < finished_at
   end
 
   def owner_must_match_garden_owner
