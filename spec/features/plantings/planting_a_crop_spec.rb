@@ -64,7 +64,7 @@ describe "Planting a crop", :js, :search do
 
         @a_past_date = 15.days.ago.to_time
         @right_now = Time.zone.today
-        @a_future_date = 1.year.from_now
+        @a_future_date = 1.year.from_now.to_time
       end
 
       it "shows that it is not planted yet" do
