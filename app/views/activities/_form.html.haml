@@ -40,9 +40,8 @@
           = link_to "Add a planting.", new_planting_path
 
         .col-md-4
-          = f.text_field :due_date,
-                     value: @activity.due_date ? @activity.due_date.to_fs(:ymd) : '',
-                     class: 'add-datepicker', label: 'When?'
+          = f.date_field :due_date,
+                     value: @activity.due_date ? @activity.due_date.to_fs(:ymd) : '', label: 'When?'
 
       %hr
 
