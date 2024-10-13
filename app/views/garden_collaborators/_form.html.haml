@@ -1,0 +1,19 @@
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  = bootstrap_form_for(@garden_collaborator.new_record? ? [@garden, @garden_collaborator] : garden_garden_collaborator_path(@garden, @garden_collaborator)) do |f|
+    .card-body
+      = required_field_help_text
+      - if @garden_collaborator.errors.any?
+        #error_explanation.alert.alert-warning{:role => "alert"}
+          %h4.alert-heading
+            = pluralize(@garden_collaborator.errors.size, "error")
+            prohibited this garden collaborator from being saved
+          %ul
+            - @garden_collaborator.errors.full_messages.each do |msg|
+              %li= msg
+
+      .alert.alert-info
+        Ask your friend, family member or community garden member for their growstuff username to add them as a collaborator on your garden.
+      = f.text_field :member_slug, maxlength: 255, required: true
+      .row
+    .card-footer
+      .text-right= f.submit 'Save Collaboator'
