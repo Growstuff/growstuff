@@ -12,10 +12,6 @@ describe "Seeds", :js, :search do
 
     it_behaves_like "crop suggest", "seed", "crop"
 
-    it "has the required fields help text" do
-      expect(page).to have_content "* denotes a required field"
-    end
-
     describe "displays required and optional fields properly" do
       # NOTE: The required behaviour is pushed down to the control itself, not the form-group as of rails 7.1.
       # Modern browsers enforce the required behaviour better than us doing it ourselves.

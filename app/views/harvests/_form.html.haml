@@ -7,7 +7,6 @@
           = harvest_icon
           %strong=yield :title
     .card-body
-      = required_field_help_text
       - if @harvest.errors.any?
         #error_explanation
           %h2 #{pluralize(@harvest.errors.size, "error")} prohibited this harvest from being saved:"
