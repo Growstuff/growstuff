@@ -32,7 +32,7 @@
           = f.date_field :saved_at,
                      value: @seed.saved_at ? @seed.saved_at.to_fs(:ymd) : '',
                      label: 'When were the seeds harvested/saved?'
-        .col-12.col-md-4= f.number_field :quantity, label: 'Quantity'
+        .col-12.col-md-4= f.number_field :quantity, label: 'Quantity', min: 1
         .col-12.col-md-4
           = f.date_field :plant_before, value: @seed.plant_before ? @seed.plant_before.to_fs(:ymd) : ''
 
@@ -45,6 +45,7 @@
           %span.help-inline= t('.finish_helper')
 
       .row
+        -# TODO: Range control?
         .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity'
         .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days"
 
