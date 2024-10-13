@@ -185,7 +185,7 @@ describe "Planting a crop", :js, :search do
       click_link 'Actions'
       click_link "Edit"
       check "finished"
-      fill_in "Finished date", with: Time.new(2015, 6, 25)
+      fill_in "Finished date", with: "2015-06-25"
       click_button "Save"
       expect(page).to have_content "planting was successfully updated"
       expect(page).to have_content "Finished"
