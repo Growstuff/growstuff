@@ -22,7 +22,7 @@
           = f.hidden_field :parent_planting_id, value: @planting.id
         - else
 
-          = auto_suggest @seed, :crop, class: 'form-control', default: @crop
+          = auto_suggest @seed, :crop, class: 'form-control', default: @crop, required: true
           %span.help-inline
             Can't find what you're looking for?
             = link_to "Request new crops.", new_crop_path
