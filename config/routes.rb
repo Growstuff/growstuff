@@ -105,6 +105,7 @@ Rails.application.routes.draw do
     resources :plantings
     resources :harvests
     resources :posts
+    resources :weather_observations
     resources :activities
 
     resources :follows
