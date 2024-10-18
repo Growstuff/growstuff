@@ -30,6 +30,7 @@ module SearchPlantings
         quantity:,
         sunniness:,
         garden_id:,
+        garden_slug:                garden&.garden_slug,
         garden_name:                garden&.name,
         description:,
 

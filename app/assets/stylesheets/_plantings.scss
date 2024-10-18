@@ -47,4 +47,13 @@
       margin-left: auto;
     }
   }
+
+  .card-footer {
+    max-height: 2em;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.5em;
+    padding-top: 0;
+  }
 }

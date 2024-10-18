@@ -7,7 +7,6 @@
           = harvest_icon
           %strong=yield :title
     .card-body
-      = required_field_help_text
       - if @harvest.errors.any?
         #error_explanation
           %h2 #{pluralize(@harvest.errors.size, "error")} prohibited this harvest from being saved:"
@@ -31,8 +30,7 @@
                 = link_to "Request new crops.", new_crop_path
 
         .col-md-4
-          = f.text_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_fs(:ymd) : '',
-                         class: 'add-datepicker', label: 'When?'
+          = f.date_field :harvested_at, value: @harvest.harvested_at ? @harvest.harvested_at.to_fs(:ymd) : '', label: 'When?'
         .col-12
           = f.form_group :plant_part_id, label: { text: "Harvested Plant Part" } do
             .row
@@ -44,7 +42,7 @@
       -# http://blog.isotoma.com/2012/03/html5-input-typenumber-and-decimalsfloats-in-chrome/
       .row
         .col-md-4
-          = f.number_field :quantity, class: 'input-small form-control', step: 'any', label: 'How many?'
+          = f.number_field :quantity, class: 'input-small form-control', step: 'any', label: 'How many?', min: 1
         .col-md-8
           = f.select(:unit, Harvest::UNITS_VALUES, { include_blank: false }, class: 'input-medium form-control')
       .row
