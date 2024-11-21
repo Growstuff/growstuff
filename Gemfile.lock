@@ -390,7 +390,7 @@ GEM
     mini_portile2 (2.8.7)
     minitest (5.25.1)
     moneta (1.0.0)
-    msgpack (1.7.3)
+    msgpack (1.7.5)
     multi_json (1.15.0)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
