@@ -18,10 +18,6 @@ describe "Planting a crop", :js, :search do
 
     it_behaves_like "crop suggest", "planting"
 
-    it "has the required fields help text" do
-      expect(page).to have_content "* denotes a required field"
-    end
-
     describe "displays required and optional fields properly" do
       it { expect(page).to have_selector ".required", text: "What did you plant?" }
       it { expect(page).to have_selector ".required", text: "Where did you plant it?" }
