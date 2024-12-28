@@ -443,7 +443,7 @@ GEM
       moneta (~> 1.0.0)
       rate_throttle_client (~> 0.1.0)
     popper_js (2.11.8)
-    pry (0.15.0)
+    pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
     psych (5.2.2)
