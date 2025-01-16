@@ -517,7 +517,7 @@ GEM
       ffi (~> 1.0)
     rdoc (6.9.1)
       psych (>= 4.0.0)
-    recaptcha (5.18.0)
+    recaptcha (5.19.0)
     redis-client (0.23.0)
       connection_pool
     regexp_parser (2.10.0)
