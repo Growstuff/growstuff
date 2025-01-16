@@ -432,7 +432,7 @@ GEM
     orm_adapter (0.5.0)
     ostruct (0.6.1)
     parallel (1.26.3)
-    parser (3.3.6.0)
+    parser (3.3.7.0)
       ast (~> 2.4.1)
       racc
     percy-capybara (5.0.0)
@@ -613,7 +613,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    scout_apm (5.5.0)
+    scout_apm (5.6.0)
       parser
     searchkick (5.3.1)
       activemodel (>= 6.1)
