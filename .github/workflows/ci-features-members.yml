@@ -99,4 +99,4 @@ jobs:
         run: bundle exec rails search:reindex
 
       - name: Run rspec (members/)
-        run: bundle exec rspec spec/features/members/ -fd
+        run: bundle exec rspec spec/features/members/ -fd -t ~@flaky

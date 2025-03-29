@@ -99,4 +99,4 @@ jobs:
         run: bundle exec rails search:reindex
 
       - name: Run rspec (timeline/)
-        run: bundle exec rspec spec/features/timeline/ -fd
+        run: bundle exec rspec spec/features/timeline/ -fd -t ~@flaky

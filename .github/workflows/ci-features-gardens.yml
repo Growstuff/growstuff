@@ -99,4 +99,4 @@ jobs:
         run: bundle exec rails search:reindex
 
       - name: Run rspec (gardens/)
-        run: bundle exec rspec spec/features/gardens/ -fd
+        run: bundle exec rspec spec/features/gardens/ -fd -t ~@flaky

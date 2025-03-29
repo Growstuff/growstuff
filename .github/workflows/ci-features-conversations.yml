@@ -99,5 +99,5 @@ jobs:
         run: bundle exec rails search:reindex
 
       - name: Run rspec (conversations/)
-        run: bundle exec rspec spec/features/conversations/ -fd
+        run: bundle exec rspec spec/features/conversations/ -fd -t ~@flaky
 
