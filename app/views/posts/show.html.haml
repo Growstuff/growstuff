@@ -45,7 +45,7 @@
             = render 'photos/thumbnail', photo: photo
 
       .card-footer
-        = render 'posts/likes', post: @post
+        = render 'likes/likes', object: @post
         .float-right
           - if can? :create, Comment
             = link_to new_comment_path(post_id: @post.id), class: 'btn' do

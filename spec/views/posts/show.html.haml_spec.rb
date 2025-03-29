@@ -24,7 +24,7 @@ describe "posts/show" do
       it { is_expected.to have_text('hello there') }
       # shouldn't show the subject on a single post page
       # (it appears in the title/h1 via the layout, not via this view)
-      it { is_expected.not_to have_text('An Update') }
+      it { is_expected.to have_no_text('An Update') }
     end
 
     describe "should parse markdown into html" do
@@ -37,19 +37,19 @@ describe "posts/show" do
       let(:post) { FactoryBot.create(:post, author:, body: '<a href="http://evil.com">EVIL</a>') }
 
       it { is_expected.to have_content('EVIL') }
-      it { is_expected.not_to have_link("http://evil.com") }
+      it { is_expected.to have_no_link("http://evil.com") }
     end
 
     describe 'script tag in post body' do
       let(:post) { FactoryBot.create(:post, author:, body: "<script>alert('hakker!')</script>") }
 
-      it { is_expected.not_to have_selector('script') }
+      it { is_expected.to have_no_selector('script') }
     end
 
     describe 'script tag in post title' do
       let(:post) { FactoryBot.create(:post, author:, subject: "<script>alert('hakker!')</script>") }
 
-      it { is_expected.not_to have_selector('script') }
+      it { is_expected.to have_no_selector('script') }
     end
 
     describe 'has an anchor to the comments' do

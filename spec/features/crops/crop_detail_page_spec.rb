@@ -22,7 +22,7 @@ describe "crop detail page", :js do
   context "varieties" do
     it "The crop DOES NOT have varieties" do
       visit crop_path(crop)
-      expect(page).not_to have_text 'Varieties'
+      expect(page).to have_no_text 'Varieties'
     end
   end
 
@@ -92,7 +92,7 @@ describe "crop detail page", :js do
 
     it "User not signed in" do
       visit crop_path(seed.crop)
-      expect(page).not_to have_content "You have 20 seeds"
+      expect(page).to have_no_content "You have 20 seeds"
     end
 
     context 'signed in' do
@@ -194,7 +194,7 @@ describe "crop detail page", :js do
 
       it { expect(page).to have_text 'Annual' }
       it { expect(page).to have_text 'living and reproducing in a single year or less' }
-      it { expect(page).not_to have_text 'Perennial' }
+      it { expect(page).to have_no_text 'Perennial' }
     end
 
     context 'crop is Perennial' do
@@ -202,14 +202,14 @@ describe "crop detail page", :js do
 
       it { expect(page).to have_text 'Perennial' }
       it { expect(page).to have_text 'living more than two years' }
-      it { expect(page).not_to have_text 'Annual' }
+      it { expect(page).to have_no_text 'Annual' }
     end
 
     context 'crop Perennial value is null' do
       let(:crop) { FactoryBot.create(:crop, perennial: nil) }
 
-      it { expect(page).not_to have_text 'Perennial' }
-      it { expect(page).not_to have_text 'Annual' }
+      it { expect(page).to have_no_text 'Perennial' }
+      it { expect(page).to have_no_text 'Annual' }
     end
   end
 end

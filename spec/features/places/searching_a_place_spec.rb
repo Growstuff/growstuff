@@ -18,7 +18,7 @@ describe "User searches" do
     it { expect(page).to have_content "community near Philippines" }
     it { expect(page).to have_button "search_button" }
     it { expect(page).to have_content "Nearby members" }
-    it { expect(page).not_to have_content "No results found" }
+    it { expect(page).to have_no_content "No results found" }
   end
 
   it "with a blank search string" do

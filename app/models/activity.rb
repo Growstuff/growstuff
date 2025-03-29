@@ -5,6 +5,7 @@ class Activity < ApplicationRecord
   include Ownable
   include Finishable
   include SearchActivities
+  include Likeable
 
   belongs_to :garden, optional: true
   belongs_to :planting, optional: true

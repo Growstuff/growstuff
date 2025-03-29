@@ -41,12 +41,12 @@ RSpec.describe 'Gardens', type: :request do
   end
 
   it '#index' do
-    get '/api/v1/gardens', params: {}, headers: headers
+    get('/api/v1/gardens', params: {}, headers:)
     expect(subject['data']).to include(garden_encoded_as_json_api)
   end
 
   it '#show' do
-    get "/api/v1/gardens/#{garden.id}", params: {}, headers: headers
+    get("/api/v1/gardens/#{garden.id}", params: {}, headers:)
     expect(subject['data']).to include(garden_encoded_as_json_api)
   end
 

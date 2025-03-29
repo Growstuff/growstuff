@@ -26,7 +26,7 @@ def load_data
 end
 
 def load_crops
-  source_path = Rails.root.join('db', 'seeds')
+  source_path = Rails.root.join("db/seeds")
   Dir.glob("#{source_path}/crops*.csv").each do |crop_file|
     puts "Loading crops from #{crop_file}..."
     CSV.foreach(crop_file) do |row|
@@ -48,7 +48,7 @@ def load_test_users
   puts "Loading test users..."
 
   # Open suburb csv
-  source_path = Rails.root.join('db', 'seeds')
+  source_path = Rails.root.join("db/seeds")
   begin
     suburb_file = File.open("#{source_path}/suburbs.csv")
   rescue StandardError
@@ -86,7 +86,7 @@ def load_test_users
         owner_id:     @user.id,
         garden_id:    @user.gardens.first.id,
         planted_at:   (n * 7).days.ago,
-        crop_id:      Crop.find((i + n) % Crop.all.size + 1).id,
+        crop_id:      Crop.find(((i + n) % Crop.all.size) + 1).id,
         sunniness:    select_random_item(Planting::SUNNINESS_VALUES),
         planted_from: select_random_item(Planting::PLANTED_FROM_VALUES)
       )

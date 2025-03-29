@@ -29,7 +29,8 @@ class ActivitiesController < DataController
 
   def new
     @activity = Activity.new(
-      owner: current_member
+      owner: current_member,
+      due_date: Date.today
     )
     if params[:garden_id]
       @activity.garden = Garden.find_by(
@@ -81,8 +82,8 @@ class ActivitiesController < DataController
   end
 
   def specifics
-    if @owner.present?
-      "#{@owner.to_param}-"
-    end
+    return if @owner.blank?
+
+    "#{@owner.to_param}-"
   end
 end

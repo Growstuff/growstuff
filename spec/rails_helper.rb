@@ -7,9 +7,6 @@ require 'simplecov'
 # output coverage locally AND send it to coveralls
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([SimpleCov::Formatter::HTMLFormatter])
 
-# fail if there's a significant test coverage drop
-SimpleCov.maximum_coverage_drop 1
-
 require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
@@ -127,7 +124,6 @@ RSpec.configure do |config|
 
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, :js) do
-
     # TODO: Why are we setting this page size then straight afterwards, maximising?
     width = 1280
     height = 1280

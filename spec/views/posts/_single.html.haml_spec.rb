@@ -68,7 +68,7 @@ describe "posts/_single" do
     end
 
     it "shows the updated time" do
-      rendered.should have_content @post.updated_at
+      rendered.should have_content @post.updated_at.to_fs(:default)
     end
   end
 

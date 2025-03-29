@@ -44,7 +44,7 @@ module SearchActivities
       1..limit.times do
         where = {
           # photos_count: { gt: 0 },
-          owner_id:     { not: owners }
+          owner_id: { not: owners }
         }
         one_record = search('*',
                             limit:    1,

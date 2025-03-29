@@ -46,7 +46,7 @@ describe "plantings/show" do
         render
       end
 
-      it { expect(rendered).not_to have_content 'Planted from' }
+      it { expect(rendered).to have_no_content 'Planted from' }
     end
   end
 
@@ -82,7 +82,7 @@ describe "plantings/show" do
     end
 
     it "doesn't contain a () if no location is set" do
-      expect(rendered).not_to have_content "()"
+      expect(rendered).to have_no_content "()"
     end
   end
 

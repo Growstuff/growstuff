@@ -15,7 +15,8 @@ describe "Plantings" do
     before do
       @member = create(:interesting_member)
 
-      @predictable_planting = create(:predictable_planting, owner: @member, planted_at: 1.days.ago, days_to_first_harvest: 10, days_to_last_harvest: 20)
+      @predictable_planting = create(:predictable_planting, owner: @member, planted_at: 1.days.ago, days_to_first_harvest: 10,
+days_to_last_harvest: 20)
       @predictable_planting.crop.update(median_days_to_first_harvest: 10)
 
       @seedling_planting = create(:seedling_planting, owner: @member)

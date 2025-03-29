@@ -28,12 +28,12 @@
           = render 'crops/thumbnail', crop: crop
   .col-md-3
     %p
+      %span.btn= render 'photos/likes', photo: @photo
       = render 'photos/actions', photo: @photo
       = link_to @photo.link_url, class: 'btn btn-info' do
         - if @photo.source == 'flickr'
           = icon 'fab', 'flickr'
         View on #{@photo.source.titleize}
-      %span.btn= render 'photos/likes', photo: @photo
       - if @photo.date_taken.present?
         %h3 Taken on #{I18n.l @photo.date_taken.to_date}
 

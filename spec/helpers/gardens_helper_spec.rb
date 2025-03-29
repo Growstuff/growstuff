@@ -29,7 +29,7 @@ describe GardensHelper do
       garden = FactoryBot.create(:garden,
                                  description: 'a' * 140)
       result = helper.display_garden_description(garden)
-      expect(result).to eq 'a' * 126 + '...' + ' ' + link_to("Read more", garden_path(garden))
+      expect(result).to eq ('a' * 126) + '...' + ' ' + link_to("Read more", garden_path(garden))
     end
   end
 

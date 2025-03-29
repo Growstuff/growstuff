@@ -81,7 +81,7 @@ class CropsController < ApplicationController
         @companions = @crop.companions.approved
       end
       format.svg do
-        icon_data = @crop.svg_icon.presence || File.read(Rails.root.join('app', 'assets', 'images', 'icons', 'sprout.svg'))
+        icon_data = @crop.svg_icon.presence || File.read(Rails.root.join("app/assets/images/icons/sprout.svg"))
         send_data(icon_data, type: "image/svg+xml", disposition: "inline")
       end
       format.json do
@@ -113,7 +113,12 @@ class CropsController < ApplicationController
       @crop.approval_status = "pending"
     end
 
-    notify_wranglers if Crop.transaction { @crop.save && save_crop_names }
+    if Crop.transaction { @crop.save && save_crop_names }
+      notify_wranglers
+    else
+      @crop.alternate_names.build
+      @crop.scientific_names.build
+    end
 
     respond_with @crop
   end

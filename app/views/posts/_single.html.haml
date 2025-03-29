@@ -8,10 +8,10 @@
     in
     = link_to @post.forum, @post.forum
   on
-  = @post.created_at
+  = @post.created_at.to_fs(:default)
   - if @post.updated_at > @post.created_at
     and edited at
-    = @post.updated_at
+    = @post.updated_at.to_fs(:default)
 
 = link_to "Permalink", post
 

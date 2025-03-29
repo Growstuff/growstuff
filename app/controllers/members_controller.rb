@@ -61,7 +61,7 @@ class MembersController < ApplicationController
   end
 
   def unsubscribe
-    verifier = ActiveSupport::MessageVerifier.new(ENV['RAILS_SECRET_TOKEN'])
+    verifier = ActiveSupport::MessageVerifier.new(ENV.fetch('RAILS_SECRET_TOKEN', nil))
     decrypted_message = verifier.verify(params[:message])
 
     @member = Member.find(decrypted_message[:member_id])

@@ -49,7 +49,7 @@ describe "Scientific names", :js do
         end
       end
       # expect(page.status_code).to equal 200
-      expect(page).not_to have_content zea_mays.name
+      expect(page).to have_no_content zea_mays.name
       expect(page).to have_content 'Scientific name was successfully deleted.'
     end
 

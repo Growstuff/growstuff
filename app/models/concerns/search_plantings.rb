@@ -30,7 +30,8 @@ module SearchPlantings
         quantity:,
         sunniness:,
         garden_id:,
-        garden_name: garden&.name,
+        garden_slug:                garden&.garden_slug,
+        garden_name:                garden&.name,
         description:,
 
         first_harvest_predicted_at:,

@@ -19,11 +19,11 @@ describe "browse crops", :search do
     end
 
     it "pending crops are not listed" do
-      expect(page).not_to have_content pending_crop.name
+      expect(page).to have_no_content pending_crop.name
     end
 
     it "rejected crops are not listed" do
-      expect(page).not_to have_content rejected_crop.name
+      expect(page).to have_no_content rejected_crop.name
     end
   end
 
@@ -35,7 +35,7 @@ describe "browse crops", :search do
 
   context 'anon' do
     include_examples 'shows crops'
-    it { expect(page).not_to have_link "Add New Crop" }
+    it { expect(page).to have_no_link "Add New Crop" }
   end
 
   context 'member' do

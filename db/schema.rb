@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_29_041435) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.integer "likes_count", default: 0
     t.index ["garden_id"], name: "index_activities_on_garden_id"
     t.index ["owner_id"], name: "index_activities_on_owner_id"
     t.index ["planting_id"], name: "index_activities_on_planting_id"
@@ -265,6 +266,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.index ["slug"], name: "index_forums_on_slug", unique: true
   end
 
+  create_table "garden_collaborators", force: :cascade do |t|
+    t.bigint "member_id"
+    t.bigint "garden_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["garden_id"], name: "index_garden_collaborators_on_garden_id"
+    t.index ["member_id", "garden_id"], name: "index_garden_collaborators_on_member_id_and_garden_id", unique: true
+    t.index ["member_id"], name: "index_garden_collaborators_on_member_id"
+  end
+
   create_table "garden_types", force: :cascade do |t|
     t.text "name", null: false
     t.text "slug", null: false
@@ -314,6 +325,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.integer "plant_part_id"
     t.float "si_weight"
     t.integer "planting_id"
+    t.integer "likes_count", default: 0
     t.index ["planting_id"], name: "index_harvests_on_planting_id"
   end
 
@@ -530,6 +542,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_18_053122) do
     t.integer "days_to_last_harvest"
     t.integer "parent_seed_id"
     t.integer "harvests_count", default: 0
+    t.integer "likes_count", default: 0
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 
