@@ -1,4 +1,4 @@
-name: CI Features
+name: CI Features - Timeline
 
 on: [pull_request]
 
@@ -98,28 +98,5 @@ jobs:
       - name: index into elastic search
         run: bundle exec rails search:reindex
 
-      - name: Run rspec (*_spec)
-        run: bundle exec rspec spec/features/*_spec.rb -fd
-
-      - name: Run rspec (percy/)
-        run: bundle exec rspec spec/features/percy/ -fd
-
-      - name: Run rspec (photos/)
-        run: bundle exec rspec spec/features/photos/ -fd
-
-      - name: Run rspec (places/)
-        run: bundle exec rspec spec/features/places/ -fd
-
-      - name: Run rspec (plantings/)
-        run: bundle exec rspec spec/features/plantings/ -fd
-
-      - name: Run rspec (posts/)
-        run: bundle exec rspec spec/features/posts/ -fd
-
-      - name: Run rspec (rss/)
-        run: bundle exec rspec spec/features/rss/ -fd
-
-      - name: Report to code climate
-        run: |
-          gem install codeclimate-test-reporter
-          codeclimate-test-reporter
+      - name: Run rspec (timeline/)
+        run: bundle exec rspec spec/features/timeline/ -fd
