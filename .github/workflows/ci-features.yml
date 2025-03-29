@@ -1,4 +1,4 @@
-name: CI
+name: CI Features
 
 on: [pull_request]
 
