@@ -14,14 +14,23 @@ describe "member deletion" do
     let!(:secondgarden)   { FactoryBot.create(:garden, owner: member)      }
 
     before do
-      login_as(member)
-      visit member_path(other_member)
-      click_link 'Follow'
-      logout
-      login_as(other_member)
-      visit member_path(member)
-      click_link 'Follow'
-      logout
+      # Ensure both members follow each other.
+      # This behaviour seems slightly flaky across runs, so
+      # conditionally check if we have left over data
+      unless member.get_follow(other_member)
+        login_as(member)
+        visit member_path(other_member)
+        click_link 'Follow'
+        logout
+      end
+
+      unless other_member.get_follow(member)
+        login_as(other_member)
+        visit member_path(member)
+        click_link 'Follow'
+        logout
+      end
+
       login_as(member)
       FactoryBot.create(:comment, author: member, post: othermemberpost)
       FactoryBot.create(:comment, author: other_member, post: memberpost, body: "Fun comment-y thing")
@@ -60,6 +69,10 @@ describe "member deletion" do
       click_link 'Delete Account'
       fill_in "current_pw_for_delete", with: "password1", match: :prefer_exact
       click_button "Delete"
+
+      member.reload
+      expect(member.discarded?).to be true
+
       visit member_path(member)
       expect(page).to have_text "The page you were looking for doesn't exist."
     end
