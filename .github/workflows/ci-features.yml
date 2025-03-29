@@ -113,8 +113,56 @@ jobs:
       - name: index into elastic search
         run: bundle exec rails search:reindex
 
-      - name: Run rspec (report results to Percy.io and CodeClimate)
-        run: bundle exec rspec spec/features/ -fd --fail-fast
+      - name: Run rspec (*_spec)
+        run: bundle exec rspec spec/features/*_spec.rb -fd --fail-fast
+
+      - name: Run rspec (admin/)
+        run: bundle exec rspec spec/features/admin/ -fd --fail-fast
+
+      - name: Run rspec (comments/)
+        run: bundle exec rspec spec/features/comments/ -fd --fail-fast
+
+      - name: Run rspec (conversations/)
+        run: bundle exec rspec spec/features/conversations/ -fd --fail-fast
+
+      - name: Run rspec (crops/)
+        run: bundle exec rspec spec/features/crops/ -fd --fail-fast
+
+      - name: Run rspec (gardens/)
+        run: bundle exec rspec spec/features/gardens/ -fd --fail-fast
+
+      - name: Run rspec (harvests/)
+        run: bundle exec rspec spec/features/harvests/ -fd --fail-fast
+
+      - name: Run rspec (home/)
+        run: bundle exec rspec spec/features/home/ -fd --fail-fast
+
+      - name: Run rspec (members/)
+        run: bundle exec rspec spec/features/members/ -fd --fail-fast
+
+      - name: Run rspec (percy/)
+        run: bundle exec rspec spec/features/percy/ -fd --fail-fast
+
+      - name: Run rspec (photos/)
+        run: bundle exec rspec spec/features/photos/ -fd --fail-fast
+
+      - name: Run rspec (places/)
+        run: bundle exec rspec spec/features/places/ -fd --fail-fast
+
+      - name: Run rspec (plantings/)
+        run: bundle exec rspec spec/features/plantings/ -fd --fail-fast
+
+      - name: Run rspec (posts/)
+        run: bundle exec rspec spec/features/posts/ -fd --fail-fast
+
+      - name: Run rspec (rss/)
+        run: bundle exec rspec spec/features/rss/ -fd --fail-fast
+
+      - name: Run rspec (seeds/)
+        run: bundle exec rspec spec/features/seeds/ -fd --fail-fast
+
+      - name: Run rspec (timeline/)
+        run: bundle exec rspec spec/features/timeline/ -fd --fail-fast
 
       - name: Report to code climate
         run: |
