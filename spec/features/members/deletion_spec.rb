@@ -17,14 +17,14 @@ describe "member deletion" do
       # Ensure both members follow each other.
       # This behaviour seems slightly flaky across runs, so
       # conditionally check if we have left over data
-      unless member.get_follow(other_member)
+      unless member.already_following?(other_member)
         login_as(member)
         visit member_path(other_member)
         click_link 'Follow'
         logout
       end
 
-      unless other_member.get_follow(member)
+      unless other_member.already_following?(member)
         login_as(other_member)
         visit member_path(member)
         click_link 'Follow'
