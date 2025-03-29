@@ -99,49 +99,31 @@ jobs:
         run: bundle exec rails search:reindex
 
       - name: Run rspec (*_spec)
-        run: bundle exec rspec spec/features/*_spec.rb -fd --fail-fast
-
-      - name: Run rspec (conversations/)
-        run: bundle exec rspec spec/features/conversations/ -fd --fail-fast
-
-      - name: Run rspec (crops/)
-        run: bundle exec rspec spec/features/crops/ -fd --fail-fast
-
-      - name: Run rspec (gardens/)
-        run: bundle exec rspec spec/features/gardens/ -fd --fail-fast
-
-      - name: Run rspec (harvests/)
-        run: bundle exec rspec spec/features/harvests/ -fd --fail-fast
-
-      - name: Run rspec (home/)
-        run: bundle exec rspec spec/features/home/ -fd --fail-fast
-
-      - name: Run rspec (members/)
-        run: bundle exec rspec spec/features/members/ -fd --fail-fast
+        run: bundle exec rspec spec/features/*_spec.rb -fd
 
       - name: Run rspec (percy/)
-        run: bundle exec rspec spec/features/percy/ -fd --fail-fast
+        run: bundle exec rspec spec/features/percy/ -fd
 
       - name: Run rspec (photos/)
-        run: bundle exec rspec spec/features/photos/ -fd --fail-fast
+        run: bundle exec rspec spec/features/photos/ -fd
 
       - name: Run rspec (places/)
-        run: bundle exec rspec spec/features/places/ -fd --fail-fast
+        run: bundle exec rspec spec/features/places/ -fd
 
       - name: Run rspec (plantings/)
-        run: bundle exec rspec spec/features/plantings/ -fd --fail-fast
+        run: bundle exec rspec spec/features/plantings/ -fd
 
       - name: Run rspec (posts/)
-        run: bundle exec rspec spec/features/posts/ -fd --fail-fast
+        run: bundle exec rspec spec/features/posts/ -fd
 
       - name: Run rspec (rss/)
-        run: bundle exec rspec spec/features/rss/ -fd --fail-fast
+        run: bundle exec rspec spec/features/rss/ -fd
 
       - name: Run rspec (seeds/)
-        run: bundle exec rspec spec/features/seeds/ -fd --fail-fast
+        run: bundle exec rspec spec/features/seeds/ -fd
 
       - name: Run rspec (timeline/)
-        run: bundle exec rspec spec/features/timeline/ -fd --fail-fast
+        run: bundle exec rspec spec/features/timeline/ -fd
 
       - name: Report to code climate
         run: |

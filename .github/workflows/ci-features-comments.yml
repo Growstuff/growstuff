@@ -99,4 +99,4 @@ jobs:
         run: bundle exec rails search:reindex
 
       - name: Run rspec (comments/)
-        run: bundle exec rspec spec/features/comments/ -fd --fail-fast
+        run: bundle exec rspec spec/features/comments/ -fd
