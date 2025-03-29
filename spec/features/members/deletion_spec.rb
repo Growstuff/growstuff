@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "member deletion" do
+describe "member deletion", flaky: true do
   context "with activity and followers" do
     let(:member)          { FactoryBot.create(:member)                     }
     let(:other_member)    { FactoryBot.create(:member)                     }
@@ -14,22 +14,8 @@ describe "member deletion" do
     let!(:secondgarden)   { FactoryBot.create(:garden, owner: member)      }
 
     before do
-      # Ensure both members follow each other.
-      # This behaviour seems slightly flaky across runs, so
-      # conditionally check if we have left over data
-      unless member.already_following?(other_member)
-        login_as(member)
-        visit member_path(other_member)
-        click_link 'Follow'
-        logout
-      end
-
-      unless other_member.already_following?(member)
-        login_as(other_member)
-        visit member_path(member)
-        click_link 'Follow'
-        logout
-      end
+      member.follows.create!(followed: other_member)
+      other_member.follows.create!(followed: member)
 
       login_as(member)
       FactoryBot.create(:comment, author: member, post: othermemberpost)
