@@ -70,6 +70,10 @@ describe "member deletion" do
       fill_in "current_pw_for_delete", with: "password1", match: :prefer_exact
       click_button "Delete"
 
+      # Assert we're signed out
+      expect(page).to have_current_path(new_member_session_path)
+
+      # And soft deleted
       member.reload
       expect(member.discarded?).to be true
 
