@@ -1,23 +1,8 @@
-name: CI
+name: CI Features
 
 on: [pull_request]
 
 jobs:
-  contributors:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install ruby version specified in .ruby-version
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-      - name: Install gem bundle
-        run: |
-          gem install bundler
-          bundle install
-      - name: Check contributors
-        run: |
-          bundle exec script/check_contributors_md.rb
   rspec:
     runs-on: ubuntu-latest
     services:
@@ -107,27 +92,32 @@ jobs:
       - name: Prepare database for testing
         run: bundle exec rails db:prepare
 
+      - name: precompile assets
+        run: bundle exec rails assets:precompile
 
-      - name: Run rspec (lib)
-        run: bundle exec rspec spec/lib/ -fd --fail-fast
+      - name: index into elastic search
+        run: bundle exec rails search:reindex
 
-      - name: Run rspec (services)
-        run: bundle exec rspec spec/services/ -fd --fail-fast
+      - name: Run rspec (*_spec)
+        run: bundle exec rspec spec/features/*_spec.rb -fd
 
-      - name: Run rspec (models)
-        run: bundle exec rspec spec/models/ -fd --fail-fast
+      - name: Run rspec (percy/)
+        run: bundle exec rspec spec/features/percy/ -fd
 
-      - name: Run rspec (controllers)
-        run: bundle exec rspec spec/controllers/ -fd --fail-fast
+      - name: Run rspec (photos/)
+        run: bundle exec rspec spec/features/photos/ -fd
 
-      - name: Run rspec (views)
-        run: bundle exec rspec spec/views/ -fd --fail-fast
+      - name: Run rspec (places/)
+        run: bundle exec rspec spec/features/places/ -fd
 
-      - name: Run rspec (routing)
-        run: bundle exec rspec spec/routing/ -fd --fail-fast
+      - name: Run rspec (plantings/)
+        run: bundle exec rspec spec/features/plantings/ -fd
 
-      - name: Run rspec (request)
-        run: bundle exec rspec spec/requests/ -fd --fail-fast
+      - name: Run rspec (posts/)
+        run: bundle exec rspec spec/features/posts/ -fd
+
+      - name: Run rspec (rss/)
+        run: bundle exec rspec spec/features/rss/ -fd
 
       - name: Report to code climate
         run: |
