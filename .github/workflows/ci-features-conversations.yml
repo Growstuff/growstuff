@@ -1,4 +1,4 @@
-name: CI Features - Comments
+name: CI Features - Conversations
 
 on: [pull_request]
 
