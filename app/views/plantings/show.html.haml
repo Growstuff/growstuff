@@ -7,6 +7,15 @@
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+  - if @planting.overall_rating.present?
+    %script{type: "application/ld+json"}
+      :plain
+        {
+          "@context": "http://schema.org",
+          "@type": "Rating",
+          "ratingValue": "#{@planting.overall_rating}",
+          "bestRating": "5"
+        }
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Plantings', plantings_path

@@ -81,6 +81,9 @@ class Planting < ApplicationRecord
   validates :planted_from, allow_blank: true, inclusion: {
     in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
   }
+  validates :overall_rating, allow_blank: true, numericality: {
+    only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5
+  }
 
   def planting_slug
     [

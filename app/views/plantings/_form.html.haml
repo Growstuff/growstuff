@@ -45,6 +45,8 @@
           = f.select(:sunniness, Planting::SUNNINESS_VALUES, { include_blank: '', label: 'Sun or shade?' } )
         .col-md-4
           = f.number_field :quantity, label: 'How many?', min: 1
+        .col-md-4
+          = f.select :overall_rating, options_for_select((1..5).to_a, @planting.overall_rating), { include_blank: 'Leave blank', label: 'Overall Rating' }
       = f.text_area :description, rows: 6, label: 'Tell us more about it'
 
       .row
