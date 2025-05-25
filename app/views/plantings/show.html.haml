@@ -79,6 +79,9 @@
             .col-md-12
               %p Nothing is currently planned here.
 
+      %section.comments.mt-4
+        = render 'comments/comments', commentable: @planting
+
 
     .col-md-4.col-xs-12
       = render @planting.crop

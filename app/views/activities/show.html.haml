@@ -44,5 +44,8 @@
           %a{name: 'plantings'}
           = render 'plantings/card', planting: @activity.planting
 
+      %section.comments.mt-4
+        = render 'comments/comments', commentable: @activity
+
 
     .col-md-4.col-xs-12

@@ -22,10 +22,6 @@
     = render "shared/signin_signup",
       to: "or to start using #{ENV['GROWSTUFF_SITE_NAME']} to track what you're planting and harvesting"
 
-- content_for :buttonbar do
-  - if @post.comments.count > 10 && can?(:create, Comment)
-    = link_to 'Comment', new_comment_path(post_id: @post.id), class: 'btn'
-
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to @post.author, @post.author
   %li.breadcrumb-item= link_to 'posts', member_posts_path(member_slug: @post.author.slug)
@@ -47,13 +43,10 @@
       .card-footer
         = render 'likes/likes', object: @post
         .float-right
-          - if can? :create, Comment
-            = link_to new_comment_path(post_id: @post.id), class: 'btn' do
-              = icon 'fas', 'comment'
-              Comment
+          -# Link removed as it's now part of the _comments partial
 
     %section.comments
-      = render "comments", post: @post
+      = render 'comments/comments', commentable: @post
 
   .col-md-4.col-12
     = render @post.author

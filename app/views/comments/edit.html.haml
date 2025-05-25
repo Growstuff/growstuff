@@ -1,7 +1,2 @@
-= content_for :title, "Editing comment"
-
-%p
-  Editing comment on
-  = link_to @comment.post.subject, @comment.post
-
-= render 'form'
+%h2 Edit Comment
+= render 'comments/form', commentable: @comment.commentable, comment: @comment

@@ -24,6 +24,9 @@ class ActivitiesController < DataController
   end
 
   def show
+    # @activity is loaded by load_and_authorize_resource.
+    # We need to ensure comments are eager-loaded.
+    @activity = Activity.includes(comments: :author).find(params[:id])
     respond_with @activity
   end
 

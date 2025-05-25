@@ -20,6 +20,9 @@ class PhotosController < ApplicationController
   end
 
   def show
+    # @photo is loaded by load_and_authorize_resource.
+    # We need to ensure comments are eager-loaded.
+    @photo = Photo.includes(comments: :author).find(params[:id])
     @crops = Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: @photo })
     respond_with(@photo)
   end

@@ -34,6 +34,9 @@ class PlantingsController < DataController
   end
 
   def show
+    # @planting is loaded by load_and_authorize_resource.
+    # We need to ensure comments are eager-loaded.
+    @planting = Planting.includes(comments: :author).find(params[:id])
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
     @harvests = Harvest.search(where: { planting_id: @planting.id })
     @current_activities = @planting.activities.current.includes(:owner).order(created_at: :desc)

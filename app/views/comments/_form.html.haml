@@ -3,14 +3,14 @@
     - if content_for? :title
       %h1.h2-responsive.text-center
         %strong=yield :title
-    = form_for(@comment, html: { class: "form-horizontal" }) do |f|
-      - if @comment.errors.any?
+    = form_for(commentable ? [commentable, comment] : comment, html: { class: "form-horizontal" }) do |f|
+      - if comment.errors.any?
         #error_explanation
           %h2
-            = pluralize(@comment.errors.size, "error")
+            = pluralize(comment.errors.size, "error")
             prohibited this comment from being saved:
           %ul
-            - @comment.errors.full_messages.each do |msg|
+            - comment.errors.full_messages.each do |msg|
               %li= msg
 
       .md-form
@@ -21,6 +21,3 @@
         = render partial: "shared/markdown_help"
       .actions.text-right
         = f.submit 'Post comment', class: 'btn btn-primary'
-      - if defined?(@post)
-        .field
-          = f.hidden_field :post_id, value: @post.id

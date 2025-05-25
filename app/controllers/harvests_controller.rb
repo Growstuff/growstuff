@@ -32,6 +32,9 @@ class HarvestsController < DataController
   end
 
   def show
+    # @harvest is loaded by load_and_authorize_resource.
+    # We need to ensure comments are eager-loaded.
+    @harvest = Harvest.includes(comments: :author).find(params[:id])
     @matching_plantings = matching_plantings if @harvest.owner == current_member
     @photos = @harvest.photos.order(created_at: :desc).paginate(page: params[:page])
     respond_with(@harvest)

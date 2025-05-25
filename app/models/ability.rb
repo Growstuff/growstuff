@@ -98,7 +98,19 @@ class Ability
     can :destroy, Like, member_id: member.id
     can :create,  Comment
     can :update,  Comment, author_id: member.id
-    can :destroy, Comment, author_id: member.id
+    can :destroy, Comment do |comment|
+      is_author = comment.author_id == member.id
+      is_commentable_owner = false
+      if comment.commentable.present?
+        if comment.commentable.respond_to?(:owner_id) && comment.commentable.owner_id == member.id
+          is_commentable_owner = true
+        # Posts use author_id for their "owner"
+        elsif comment.commentable.respond_to?(:author_id) && comment.commentable.author_id == member.id
+          is_commentable_owner = true
+        end
+      end
+      is_author || is_commentable_owner
+    end
 
     # same deal for gardens and plantings
     can :create,  Garden

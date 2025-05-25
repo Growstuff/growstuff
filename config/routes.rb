@@ -28,13 +28,17 @@ Rails.application.routes.draw do
     resources :photos, only: :index
   end
 
+  concern :commentable do
+    resources :comments, only: [:new, :create, :edit, :update, :destroy], shallow: true
+  end
+
   resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
 
     resources :garden_collaborators
   end
 
-  resources :plantings, concerns: :has_photos, param: :slug do
+  resources :plantings, concerns: [:has_photos, :commentable], param: :slug do
     resources :harvests
     resources :seeds
     collection do
@@ -47,11 +51,11 @@ Rails.application.routes.draw do
     get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop', on: :collection
   end
 
-  resources :harvests, concerns: :has_photos, param: :slug do
+  resources :harvests, concerns: [:has_photos, :commentable], param: :slug do
     get 'crop/:crop' => 'harvests#index', as: 'harvests_by_crop', on: :collection
   end
 
-  resources :posts do
+  resources :posts, concerns: :commentable do
     get 'author/:author' => 'posts#index', as: 'by_author', on: :collection
   end
 
@@ -62,7 +66,7 @@ Rails.application.routes.draw do
   end
   resources :alternate_names
   resources :plant_parts
-  resources :photos
+  resources :photos, concerns: :commentable
 
   resources :photo_associations, only: :destroy
 
@@ -112,7 +116,7 @@ Rails.application.routes.draw do
   end
 
   resources :messages
-  resources :activities, param: :slug
+  resources :activities, concerns: :commentable, param: :slug
   resources :conversations do
     collection do
       delete 'destroy_multiple'

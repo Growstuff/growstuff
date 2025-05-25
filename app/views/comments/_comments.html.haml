@@ -1,0 +1,21 @@
+.comments-section.mt-4
+  %h4.mb-3 Comments
+  - if commentable.comments.any?
+    .list-group
+      - commentable.comments.post_order.each do |comment|
+        .list-group-item.p-0.mb-2.border-0
+          = render 'comments/comment', comment: comment
+  - else
+    %p No comments yet.
+
+  - if can? :create, Comment # Assuming a general ability to create comments
+    .mt-3
+      = link_to "Add Comment", new_polymorphic_path([commentable, Comment.new]), class: 'btn btn-primary'
+
+%hr/
+-# This section is for rendering the new/edit form directly on the page if needed,
+-# but the primary "Add Comment" link above goes to the comments/new page.
+-# If @new_comment is passed, it means we want to show the form.
+- if defined?(@new_comment) && @new_comment && can?(:create, Comment) # Check @new_comment specifically
+  %h5.mt-3 Leave a comment
+  = render 'comments/form', commentable: commentable, comment: @new_comment

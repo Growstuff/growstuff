@@ -66,5 +66,8 @@
           Havested from
           = link_to @harvest.planting, @harvest.planting
 
+      %section.comments.mt-4
+        = render 'comments/comments', commentable: @harvest
+
     .col-md-4.col-xs-12
       = render @harvest.crop
