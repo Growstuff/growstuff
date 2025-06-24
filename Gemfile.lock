@@ -297,7 +297,7 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
-    haml_lint (0.62.0)
+    haml_lint (0.63.0)
       haml (>= 5.0)
       parallel (~> 1.10)
       rainbow
@@ -594,7 +594,7 @@ GEM
       rubocop-ast (>= 1.45.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.45.0)
+    rubocop-ast (1.45.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     rubocop-capybara (2.22.1)
