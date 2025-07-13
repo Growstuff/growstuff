@@ -5,7 +5,6 @@ module OpenFarmData
 
   included do
     def update_openfarm_data!
-      OpenfarmService.new.update_crop(self)
     end
 
     def of_photo
