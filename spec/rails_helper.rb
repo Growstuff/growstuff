@@ -2,11 +2,6 @@
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
-require 'simplecov'
-
-# output coverage locally AND send it to coveralls
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([SimpleCov::Formatter::HTMLFormatter])
-
 require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
