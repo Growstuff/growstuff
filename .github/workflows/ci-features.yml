@@ -118,8 +118,3 @@ jobs:
 
       - name: Run rspec (rss/)
         run: bundle exec rspec spec/features/rss/ -fd
-
-      - name: Report to code climate
-        run: |
-          gem install codeclimate-test-reporter
-          codeclimate-test-reporter
