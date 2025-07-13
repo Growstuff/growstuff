@@ -39,12 +39,6 @@ class CropsController < ApplicationController
     respond_with @crops
   end
 
-  def openfarm
-    @crop = Crop.find(params[:crop_slug])
-    @crop.update_openfarm_data!
-    respond_with @crop, location: @crop
-  end
-
   def gbif
     @crop = Crop.find(params[:crop_slug])
     @crop.update_gbif_data!
@@ -137,7 +131,6 @@ class CropsController < ApplicationController
 
       if @crop.approval_status_changed?(from: "pending", to: "approved")
         notifier.deliver_now!
-        @crop.update_openfarm_data!
         @crop.update_gbif_data!
       end
     else

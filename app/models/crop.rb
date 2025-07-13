@@ -3,7 +3,6 @@
 class Crop < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
-  include OpenFarmData
   include GbifData
   include SearchCrops
 

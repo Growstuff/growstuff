@@ -78,7 +78,6 @@ class Ability
       can :manage, Crop
       can :manage, ScientificName
       can :manage, AlternateName
-      can :openfarm, Crop
       can :gbif, Crop
     end
 

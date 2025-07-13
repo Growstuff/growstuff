@@ -4,7 +4,6 @@ require 'rails_helper'
 
 describe PhotosHelper do
   let(:crop) { FactoryBot.create(:crop) }
-  let(:crop_photo_of) { FactoryBot.create(:photo, source: 'openfarm') }
   let(:crop_photo_flickr) { FactoryBot.create(:photo, source: 'flickr') }
 
   let(:garden) { FactoryBot.create(:garden) }

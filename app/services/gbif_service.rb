@@ -126,12 +126,9 @@ class GbifService
 
     gbif_record = fetch(gbif_usage_key)
     if gbif_record.present?
-      #   crop.update! openfarm_data: gbif_record.fetch('data', false)
-      #   save_companions(crop, gbif_record)
       save_photos(crop, gbif_usage_key)
     else
       Rails.logger.debug "\tcrop not found on GBIF"
-      #   crop.update!(openfarm_data: false)
     end
   end
 
