@@ -83,6 +83,9 @@ jobs:
         with:
           bundler-cache: true
 
+      - name: Bundler install
+        run: bundle
+
       - name: Install required JS packages
         run: yarn install
 
