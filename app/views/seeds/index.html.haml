@@ -17,6 +17,14 @@
       = check_box_tag 'active', 'all', @show_all
       include finished
     %hr/
+    %section.filters
+      %h2 Tradeable
+      %ul.nav.flex-column
+        %li.nav-item= link_to "All tradable seeds", seeds_path(tradeable_to: ['locally', 'nationally', 'internationally'])
+        - Seed::TRADABLE_TO_VALUES.each do |value|
+          - unless value == 'nowhere'
+            %li.nav-item= link_to value.capitalize, seeds_path(tradeable_to: value)
+    %hr/
     - if @owner
       = render @owner
     - if @crop
