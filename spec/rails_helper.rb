@@ -15,8 +15,6 @@ require 'capybara-screenshot/rspec'
 require 'axe-capybara'
 require 'axe-rspec'
 
-# TODO: We may want to trial options.add_argument('--disable-dev-shm-usage')      ### optional
-
 # Required for running in the dev container
 Capybara.register_driver :selenium_chrome_customised_headless do |app|
   options = Selenium::WebDriver::Options.chrome
