@@ -15,6 +15,9 @@ namespace :openfarm do
     photos_to_delete = Photo.where(source: 'openfarm')
     count = photos_to_delete.count
     photos_to_delete.each do |photo|
+      photo.associations.each do |photo_association|
+        photo_association.delete
+      end
       photo.delete
     end
     puts "Deleted #{count} pictures."
