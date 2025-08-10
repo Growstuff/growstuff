@@ -1,0 +1,22 @@
+# Hi there!
+#
+# This is a configuration file for the Crowdin CLI.
+# You'll need to replace the placeholder project_id with your actual
+# project ID from CrowdIn.
+#
+# For more information, see the Crowdin CLI documentation:
+# https://support.crowdin.com/enterprise/cli-v3/
+#
+project_id: "your-project-id"
+api_token_env: "CROWDIN_API_TOKEN"
+base_path: "."
+
+files:
+  - source: '/config/locales/en.yml'
+    translation: '/config/locales/%two_letters_code%.yml'
+    # The 'ignore' property is used to exclude files from processing.
+    # We are ignoring the existing Japanese translation file.
+    ignore:
+      - '/config/locales/ja.yml'
+  - source: '/config/locales/*.en.yml'
+    translation: '/config/locales/%file_name%.%two_letters_code%.yml'
