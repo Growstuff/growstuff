@@ -54,6 +54,22 @@ describe "Seeds", :js, :search do
       it { expect(find('.seed--description')).to have_content "It's killer." }
     end
 
+    describe "Adding a seed from other source" do
+      before do
+        select "Other source", from: "Source"
+        fill_autocomplete "crop", with: "mai"
+        select_from_autocomplete "maize"
+        within "form#new_seed" do
+          click_button "Save"
+        end
+      end
+
+      it { expect(page).to have_content "Successfully added maize seed to your stash" }
+      it "persists the from_other_source attribute" do
+        expect(Seed.last.from_other_source).to be_truthy
+      end
+    end
+
     describe "Adding a seed from crop page" do
       before do
         visit crop_path(maize)

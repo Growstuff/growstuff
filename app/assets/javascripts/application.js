@@ -32,3 +32,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
         return new bootstrap.Tooltip(tooltipTrigger2);
     });
   });
+
+$(document).on('change', '[data-js-show-if-other]', function() {
+  var $this = $(this);
+  var $target = $('#' + $this.data('js-show-if-other'));
+  if ($this.val() === 'other') {
+    $target.show();
+  } else {
+    $target.hide();
+  }
+});
