@@ -13,43 +13,50 @@ class CommentsController < ApplicationController
   end
 
   def new
+    @commentable = find_commentable
     @comment = Comment.new
-    @post = Post.find_by(id: params[:post_id])
-
-    if @post
-      @comments = @post.comments
-      respond_with(@comments)
-    else
-      redirect_to(request.referer || root_url,
-                  alert: "Can't post a comment on a non-existent post")
-    end
   end
 
   def edit
-    @comments = @comment.post.comments
+    @comments = @comment.commentable.comments
   end
 
   def create
-    @comment = Comment.new(comment_params)
+    @commentable = find_commentable
+    @comment = @commentable.comments.build(comment_params)
     @comment.author = current_member
     @comment.save
-    respond_with @comment, location: @comment.post
+    respond_with @comment, location: @commentable
   end
 
   def update
     @comment.update(body: comment_params['body'])
-    respond_with @comment, location: @comment.post
+    respond_with @comment, location: @comment.commentable
   end
 
   def destroy
-    @post = @comment.post
+    @commentable = @comment.commentable
     @comment.destroy
-    respond_with(@post)
+    respond_with(@commentable)
   end
 
   private
 
+  def find_commentable
+    if params[:comment]
+      if params[:comment][:commentable_type] == 'Photo'
+        Photo.find(params[:comment][:commentable_id])
+      elsif params[:comment][:commentable_type] == 'Post'
+        Post.find(params[:comment][:commentable_id])
+      end
+    elsif params[:post_id]
+      Post.find(params[:post_id])
+    elsif params[:photo_id]
+      Photo.find(params[:photo_id])
+    end
+  end
+
   def comment_params
-    params.require(:comment).permit(:body, :post_id)
+    params.require(:comment).permit(:body, :post_id, :commentable_id, :commentable_type)
   end
 end

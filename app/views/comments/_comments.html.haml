@@ -1,0 +1,14 @@
+%a{ name: "comments" }
+- if commentable.comments
+  %hr/
+  %h2
+    = comment_icon
+    = localize_plural(commentable.comments, Comment)
+  - commentable.comments.post_order.each do |comment|
+    = render "comments/single", comment: comment
+
+- else
+  %h2 There are no comments yet
+
+- if current_member
+  = render 'comments/form', commentable: commentable

@@ -10,7 +10,7 @@ class Post < ApplicationRecord
   # Relationships
   belongs_to :author, class_name: 'Member', inverse_of: :posts
   belongs_to :forum, optional: true
-  has_many :comments, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
   has_many :crop_posts, dependent: :delete_all
   has_many :crops, through: :crop_posts
 

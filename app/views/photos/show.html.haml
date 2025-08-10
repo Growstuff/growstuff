@@ -47,3 +47,7 @@
         = @photo.license_name
 
     = render "associations", photo: @photo
+
+.row
+  .col-md-9
+    = render 'comments/comments', commentable: @photo

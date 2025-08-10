@@ -53,7 +53,7 @@
               Comment
 
     %section.comments
-      = render "comments", post: @post
+      = render "comments/comments", commentable: @post
 
   .col-md-4.col-12
     = render @post.author
