@@ -255,7 +255,7 @@ GEM
       railties (>= 6.1.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
-    faraday (2.13.2)
+    faraday (2.13.4)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -530,7 +530,7 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
-    recaptcha (5.19.0)
+    recaptcha (5.20.1)
     redis-client (0.23.2)
       connection_pool
     regexp_parser (2.11.1)
@@ -565,6 +565,8 @@ GEM
       rspec-expectations (~> 3.13)
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
+    rspec-rebound (0.2.1)
+      rspec-core (~> 3.3)
     rspec-support (3.13.4)
     rspectre (0.2.0)
       parser (>= 3.3.7.1)
@@ -799,6 +801,7 @@ DEPENDENCIES
   responders
   rspec-activemodel-mocks
   rspec-rails
+  rspec-rebound
   rspectre
   rswag-api
   rswag-specs
