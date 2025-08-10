@@ -590,8 +590,8 @@ GEM
       rspec-expectations (~> 3.13)
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
-    rspec-retry (0.6.2)
-      rspec-core (> 3.3)
+    rspec-rebound (0.2.1)
+      rspec-core (~> 3.3)
     rspec-support (3.13.4)
     rspectre (0.2.0)
       parser (>= 3.3.7.1)
@@ -827,7 +827,7 @@ DEPENDENCIES
   responders
   rspec-activemodel-mocks
   rspec-rails
-  rspec-retry (~> 0.6.2)
+  rspec-rebound
   rspectre
   rswag-api
   rswag-specs
