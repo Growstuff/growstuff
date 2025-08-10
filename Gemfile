@@ -175,6 +175,7 @@ group :development, :test do
   gem 'rubocop-rspec_rails'
   gem 'webrat'                  # provides HTML matchers for view tests
 
+  gem 'crowdin-cli'             # for translations
   gem 'dotenv-rails'
 
   # cli utils
@@ -188,7 +189,6 @@ end
 group :test do
   gem 'axe-core-capybara'
   gem 'axe-core-rspec'
-  gem 'codeclimate-test-reporter', require: false
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'

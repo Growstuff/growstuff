@@ -128,8 +128,3 @@ jobs:
 
       - name: Run rspec (request)
         run: bundle exec rspec spec/requests/ -fd --fail-fast
-
-      - name: Report to code climate
-        run: |
-          gem install codeclimate-test-reporter
-          codeclimate-test-reporter

@@ -1,7 +1,6 @@
 # 🌱 Growstuff
 
 ![Build status](https://github.com/Growstuff/growstuff/workflows/CI/badge.svg)
-[![Code Climate](https://codeclimate.com/github/Growstuff/growstuff/badges/gpa.svg)](https://codeclimate.com/github/Growstuff/growstuff)
 
 Welcome to the Growstuff project.
 
