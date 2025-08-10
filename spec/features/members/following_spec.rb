@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "follows", :js do
+describe "follows" do
   context "when signed out" do
     let(:member) { create(:member) }
 
