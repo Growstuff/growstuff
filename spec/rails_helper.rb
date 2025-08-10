@@ -33,7 +33,7 @@ if ENV["CAPYBARA_DRIVER"]
   Capybara.default_driver = ENV["CAPYBARA_DRIVER"].to_sym
   Capybara.javascript_driver = ENV["CAPYBARA_DRIVER"].to_sym
 else
-  Capybara.default_driver = :selenium_chrome_customised_headless
+  # Capybara.default_driver = :selenium_chrome_customised_headless
   Capybara.javascript_driver = :selenium_chrome_customised_headless
 end
 Capybara.enable_aria_label = true
