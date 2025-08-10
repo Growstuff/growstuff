@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'custom_matchers'
 
-describe "Gardens#index", :js do
+describe "Gardens#index" do
   context "Logged in as member" do
     include_context 'signed in member'
     let(:member) { FactoryBot.create(:member, login_name: 'shadow') }
@@ -14,7 +14,7 @@ describe "Gardens#index", :js do
         visit member_gardens_path(member_slug: member.slug)
       end
 
-      include_examples 'is accessible'
+      it_behaves_like 'is accessible'
 
       it "displays each of the gardens" do
         member.gardens.each do |garden|
