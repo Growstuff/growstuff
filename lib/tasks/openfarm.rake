@@ -14,7 +14,9 @@ namespace :openfarm do
     puts "Deleting pictures with source OpenFarm..."
     photos_to_delete = Photo.where(source: 'openfarm')
     count = photos_to_delete.count
-    photos_to_delete.destroy_all
+    photos_to_delete.each do |photo|
+      photo.delete
+    end
     puts "Deleted #{count} pictures."
   end
 end
