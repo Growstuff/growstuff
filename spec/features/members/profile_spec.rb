@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "member profile", :js do
+describe "member profile" do
   let(:member) { create(:member) }
   let(:other_member)  { create(:member)                }
   let(:admin_member)  { create(:admin_member)          }
@@ -227,8 +227,8 @@ describe "member profile", :js do
   end
 
   context "not signed in" do
-    include_examples 'member details'
-    include_examples 'member activity'
+    it_behaves_like 'member details'
+    it_behaves_like 'member activity'
 
     it "no bio" do
       member.update! bio: nil
@@ -239,8 +239,8 @@ describe "member profile", :js do
 
   context "signed in member" do
     include_context 'signed in member'
-    include_examples 'member details'
-    include_examples 'member activity'
+    it_behaves_like 'member details'
+    it_behaves_like 'member activity'
 
     context "your own profile page" do
       before { visit member_path(member) }
