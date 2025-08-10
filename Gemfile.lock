@@ -662,7 +662,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    scout_apm (5.6.4)
+    scout_apm (5.7.0)
       parser
     searchkick (5.3.1)
       activemodel (>= 6.1)
