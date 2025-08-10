@@ -132,6 +132,9 @@ RSpec.configure do |config|
       ]
     end
 
-    page.driver.browser.manage.window.maximize if page.driver.browser.respond_to?(:manage)
+    # Historically, we wanted to .maximize; but this actually undoes the resize_to step above
+    # with chrome headless
+    # page.driver.browser.manage.window.maximize if page.driver.browser.respond_to?(:manage)
+    # puts "Maximized window size: #{page.driver.browser.manage.window.size}"
   end
 end
