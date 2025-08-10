@@ -51,7 +51,9 @@
     %section.seeds
       = cute_icon
       = render 'seeds'
-      %p.text-right= link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
+      %p.text-right
+        = link_to "#{t('home.seeds.view_all')} »", seeds_path, class: 'btn btn-block'
+        = link_to "All seeds for trade »", seeds_path(tradeable_to: ['locally', 'nationally', 'internationally']), class: 'btn btn-block'
   .col-12.col-lg-6
     %section.discussion.text-center
       = cute_icon
