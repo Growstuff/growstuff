@@ -1,0 +1,13 @@
+self.addEventListener('push', function(event) {
+  const data = event.data.json();
+  const title = data.title || 'Growstuff';
+  const options = {
+    body: data.body,
+    icon: '/assets/growstuff-apple-touch-icon-precomposed.png',
+    badge: '/assets/growstuff-apple-touch-icon-precomposed.png'
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  );
+});

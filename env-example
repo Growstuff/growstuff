@@ -70,3 +70,9 @@ MAILGUN_SMTP_SERVER=""
 # In production, replace them with real ones
 RECAPTCHA_SITE_KEY="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 RECAPTCHA_SECRET_KEY="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+
+# VAPID keys for web push notifications
+# These are insecure and should be replaced with real keys in production
+# Generate new keys with `bundle exec rake webpush:generate_keys`
+GROWSTUFF_VAPID_PUBLIC_KEY="BFf_pM3_3q0g1hIUiWf_nQdYj524I4E-mp3jW_j_7X-B-xWpW-j_8X_8X_8X_8X_8X_8X_8X_8X_8"
+GROWSTUFF_VAPID_PRIVATE_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_29_041435) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_29_041437) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -446,6 +446,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_041435) do
     t.integer "photos_count"
     t.integer "forums_count"
     t.integer "activities_count"
+    t.string "timezone"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true
@@ -604,6 +605,17 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_041435) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  create_table "push_subscriptions", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.string "endpoint", null: false
+    t.string "p256dh", null: false
+    t.string "auth", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["endpoint"], name: "index_push_subscriptions_on_endpoint", unique: true
+    t.index ["member_id"], name: "index_push_subscriptions_on_member_id"
+  end
+
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "harvests", "plantings"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
@@ -612,5 +624,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_041435) do
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
+  add_foreign_key "push_subscriptions", "members"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end
