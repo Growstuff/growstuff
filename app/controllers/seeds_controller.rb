@@ -83,7 +83,7 @@ class SeedsController < DataController
       :days_until_maturity_min, :days_until_maturity_max,
       :organic, :gmo,
       :heirloom, :tradable_to, :slug,
-      :finished, :finished_at, :from_other_source
+      :finished, :finished_at
     )
   end
 

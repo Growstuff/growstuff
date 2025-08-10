@@ -12,6 +12,8 @@ class Planting < ApplicationRecord
 
   friendly_id :planting_slug, use: %i(slugged finders)
 
+  attr_accessor :from_other_source
+
   # Constants
   SUNNINESS_VALUES = %w(sun semi-shade shade).freeze
   PLANTED_FROM_VALUES = [

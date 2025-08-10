@@ -82,6 +82,10 @@ class PlantingsController < DataController
   end
 
   def update
+    if planting_params[:from_other_source] == 'true'
+      @planting.parent_seed_id = nil
+      @planting.from_other_source = true
+    end
     @planting.update(planting_params)
     respond_with @planting
   end
@@ -105,7 +109,7 @@ class PlantingsController < DataController
     params[:planted_at] = parse_date(params[:planted_at]) if params[:planted_at]
     params.require(:planting).permit(
       :crop_id, :description, :garden_id, :planted_at,
-      :parent_seed_id,
+      :parent_seed_id, :from_other_source,
       :quantity, :sunniness, :planted_from, :finished,
       :finished_at
     )

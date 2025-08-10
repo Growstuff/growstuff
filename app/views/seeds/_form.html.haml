@@ -16,21 +16,16 @@
               %li= msg
 
       .form-group.required
-        = f.label :source, 'Source'
-        = f.select :parent_planting_id,
-                     options_for_select(plantings_for_seed_source(current_member), @seed.parent_planting_id),
-                     { include_blank: 'Select a planting' },
-                     { class: 'form-control',
-                       data: { 'js-show-if-other' => 'seed_crop_id_container' } }
-        %span.help-inline
-          Select one of your plantings, or 'Other source'
-      .form-group.required{ id: 'seed_crop_id_container' }
         = f.label :crop, 'Crop'
-        = auto_suggest @seed, :crop, class: 'form-control', default: @crop, required: true
-        %span.help-inline
-          Can't find what you're looking for?
-          = link_to "Request new crops.", new_crop_path
+        - if @planting
+          = link_to @planting, planting_path(@planting)
+          = f.hidden_field :parent_planting_id, value: @planting.id
+        - else
 
+          = auto_suggest @seed, :crop, class: 'form-control', default: @crop, required: true
+          %span.help-inline
+            Can't find what you're looking for?
+            = link_to "Request new crops.", new_crop_path
       .row
         .col-12.col-md-4
           = f.text_field :saved_at,

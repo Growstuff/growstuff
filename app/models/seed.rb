@@ -8,8 +8,6 @@ class Seed < ApplicationRecord
   include SearchSeeds
   friendly_id :seed_slug, use: %i(slugged finders)
 
-  attr_accessor :from_other_source
-
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
   ORGANIC_VALUES = ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'].freeze
   GMO_VALUES = ['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown'].freeze

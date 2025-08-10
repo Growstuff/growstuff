@@ -15,13 +15,13 @@ require 'capybara-screenshot/rspec'
 require 'axe-capybara'
 require 'axe-rspec'
 
+# TODO: We may want to trial options.add_argument('--disable-dev-shm-usage')      ### optional
+
 # Required for running in the dev container
 Capybara.register_driver :selenium_chrome_customised_headless do |app|
   options = Selenium::WebDriver::Options.chrome
   options.add_argument("--headless")
   options.add_argument("--no-sandbox")
-  options.add_argument("--window-size=1920,1080")
-  options.add_argument("--disable-dev-shm-usage")
 
   # driver = Selenium::WebDriver.for :chrome, options: options
 
@@ -120,8 +120,8 @@ RSpec.configure do |config|
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, :js) do
     # TODO: Why are we setting this page size then straight afterwards, maximising?
-    width = 1920
-    height = 1080
+    width = 1280
+    height = 1280
     Capybara.current_session.driver.browser.manage.window.resize_to(width, height)
 
     if page.driver.browser.respond_to?(:url_blacklist)
@@ -132,9 +132,6 @@ RSpec.configure do |config|
       ]
     end
 
-    # Historically, we wanted to .maximize; but this actually undoes the resize_to step above
-    # with chrome headless
-    # page.driver.browser.manage.window.maximize if page.driver.browser.respond_to?(:manage)
-    # puts "Maximized window size: #{page.driver.browser.manage.window.size}"
+    page.driver.browser.manage.window.maximize if page.driver.browser.respond_to?(:manage)
   end
 end
