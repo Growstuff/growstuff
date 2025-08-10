@@ -8,4 +8,18 @@ namespace :openfarm do
     Rails.logger = Logger.new(STDOUT)
     OpenfarmService.new.import!
   end
+
+  desc "Delete all pictures with source OpenFarm"
+  task delete_pictures: :environment do
+    puts "Deleting pictures with source OpenFarm..."
+    photos_to_delete = Photo.where(source: 'openfarm')
+    count = photos_to_delete.count
+    photos_to_delete.each do |photo|
+      photo.associations.each do |photo_association|
+        photo_association.delete
+      end
+      photo.delete
+    end
+    puts "Deleted #{count} pictures."
+  end
 end
