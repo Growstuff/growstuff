@@ -1,17 +1,42 @@
-- if twitter_auth || flickr_auth || member.show_email
+- if member.website_url.present? || member.instagram_handle.present? || member.facebook_handle.present? || member.bluesky_handle.present? || member.other_url.present? || twitter_auth || flickr_auth || member.show_email
   %h4 Contact
+
+  - if member.website_url.present?
+    %p
+      = icon 'fas', 'globe', class: 'fa-fw'
+      = link_to member.website_url, member.website_url, target: '_blank', rel: 'noopener noreferrer'
+
+  - if member.instagram_handle.present?
+    %p
+      = icon 'fab', 'instagram', class: 'fa-fw'
+      = link_to member.instagram_handle, "https://instagram.com/#{member.instagram_handle}", target: '_blank', rel: 'noopener noreferrer'
+
+  - if member.facebook_handle.present?
+    %p
+      = icon 'fab', 'facebook', class: 'fa-fw'
+      = link_to member.facebook_handle, "https://facebook.com/#{member.facebook_handle}", target: '_blank', rel: 'noopener noreferrer'
+
+  - if member.bluesky_handle.present?
+    %p
+      = icon 'fas', 'comment-dots', class: 'fa-fw'
+      = link_to member.bluesky_handle, "https://bsky.app/profile/#{member.bluesky_handle}", target: '_blank', rel: 'noopener noreferrer'
+
+  - if member.other_url.present?
+    %p
+      = icon 'fas', 'link', class: 'fa-fw'
+      = link_to member.other_url, member.other_url, target: '_blank', rel: 'noopener noreferrer'
 
   - if twitter_auth
     %p
       = image_tag "twitter_32.png", size: "32x32", alt: 'Twitter logo'
-      = link_to twitter_auth.name, "https://twitter.com/#{twitter_auth.name}"
+      = link_to twitter_auth.name, "https://twitter.com/#{twitter_auth.name}", target: '_blank', rel: 'noopener noreferrer'
 
   - if flickr_auth
     %p
       = image_tag "flickr_32.png", size: "32x32", alt: 'Flickr logo'
-      = link_to flickr_auth.name, "https://flickr.com/photos/#{flickr_auth.uid}"
+      = link_to flickr_auth.name, "https://flickr.com/photos/#{flickr_auth.uid}", target: '_blank', rel: 'noopener noreferrer'
 
   - if member.show_email
     %p
-      Email:
+      = icon 'fas', 'envelope', class: 'fa-fw'
       = mail_to member.email
