@@ -221,7 +221,7 @@ class CropsController < ApplicationController
             owner: { only: %i(id login_name location latitude longitude) }
           }
         },
-        scientific_names: { only: [:name] }, alternate_names:  { only: [:name] }
+        scientific_names: { only: [:name] }, alternate_names:  { only: %i(name language) }
       }
     }
   end
