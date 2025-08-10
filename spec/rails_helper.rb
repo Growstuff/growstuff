@@ -23,6 +23,7 @@ Capybara.register_driver :selenium_chrome_customised_headless do |app|
   options.add_argument("--headless")
   options.add_argument("--no-sandbox")
   options.add_argument("--window-size=1920,1080")
+  options.add_argument("--disable-dev-shm-usage")
 
   # driver = Selenium::WebDriver.for :chrome, options: options
 
@@ -121,8 +122,8 @@ RSpec.configure do |config|
   # Prevent Poltergeist from fetching external URLs during feature tests
   config.before(:each, :js) do
     # TODO: Why are we setting this page size then straight afterwards, maximising?
-    width = 1280
-    height = 1280
+    width = 1920
+    height = 1080
     Capybara.current_session.driver.browser.manage.window.resize_to(width, height)
 
     if page.driver.browser.respond_to?(:url_blacklist)
