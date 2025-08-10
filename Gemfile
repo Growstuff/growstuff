@@ -193,10 +193,12 @@ group :test do
   gem 'selenium-webdriver'
   gem 'timecop'
   gem 'vcr'
+  gem "rspec-retry", "~> 0.6.2"
+  gem "percy-capybara", "~> 5.0.0"
 end
 
 group :travis do
   gem 'platform-api'
 end
 
-gem "percy-capybara", "~> 5.0.0"
+
