@@ -15,6 +15,13 @@ class CommentsController < ApplicationController
   def new
     @commentable = find_commentable
     @comment = Comment.new
+    if @commentable
+      @comments = @commentable.comments
+      respond_with(@comments)
+    else
+      redirect_to(request.referer || root_url,
+                  alert: "Can't post a comment on a non-existent commentable")
+    end
   end
 
   def edit
@@ -43,20 +50,16 @@ class CommentsController < ApplicationController
   private
 
   def find_commentable
-    if params[:comment]
-      if params[:comment][:commentable_type] == 'Photo'
-        Photo.find(params[:comment][:commentable_id])
-      elsif params[:comment][:commentable_type] == 'Post'
-        Post.find(params[:comment][:commentable_id])
-      end
-    elsif params[:post_id]
-      Post.find(params[:post_id])
-    elsif params[:photo_id]
-      Photo.find(params[:photo_id])
+    return unless params[:comment]
+
+    if params[:comment][:commentable_type] == 'Photo'
+      Photo.find(params[:comment][:commentable_id])
+    elsif params[:comment][:commentable_type] == 'Post'
+      Post.find(params[:comment][:commentable_id])
     end
   end
 
   def comment_params
-    params.require(:comment).permit(:body, :post_id, :commentable_id, :commentable_type)
+    params.require(:comment).permit(:body, :commentable_id, :commentable_type)
   end
 end
