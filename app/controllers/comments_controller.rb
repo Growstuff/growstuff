@@ -25,7 +25,7 @@ class CommentsController < ApplicationController
   end
 
   def edit
-    @comments = @comment.commentable.comments
+    @commentable = @comment.commentable
   end
 
   def create
