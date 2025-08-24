@@ -166,7 +166,7 @@ class CropsController < ApplicationController
   end
 
   def save_crop_names
-    AlternateName.create!(names_params(:alt_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } })
+    AlternateName.create!(names_params(:alt_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id, language: "EN" } })
     ScientificName.create!(names_params(:sci_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } })
   end
 
@@ -181,18 +181,16 @@ class CropsController < ApplicationController
   def recreate_names(param_name, name_type)
     return if params[param_name].blank?
 
-    destroy_names(name_type)
-    params[param_name].each_value do |value|
-      create_name!(name_type, value) unless value.empty?
-    end
-  end
-
-  def destroy_names(name_type)
     @crop.send("#{name_type}_names").each(&:destroy)
-  end
+    params[param_name].each_value do |value|
+      next if value.empty?
 
-  def create_name!(name_type, value)
-    @crop.send("#{name_type}_names").create!(name: value, creator_id: current_member.id)
+      if name_type == 'alternate'
+        @crop.send("#{name_type}_names").create!(name: value, creator_id: current_member.id, language: "EN")
+      else
+        @crop.send("#{name_type}_names").create!(name: value, creator_id: current_member.id)
+      end
+    end
   end
 
   def crop_params
@@ -216,12 +214,12 @@ class CropsController < ApplicationController
   def crop_json_fields
     {
       include: {
-        plantings:        {
+        plantings: {
           include: {
             owner: { only: %i(id login_name location latitude longitude) }
           }
         },
-        scientific_names: { only: [:name] }, alternate_names:  { only: [:name] }
+        scientific_names: { only: [:name] }, alternate_names:  { only: %i(name language) }
       }
     }
   end

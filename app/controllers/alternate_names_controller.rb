@@ -57,6 +57,6 @@ class AlternateNamesController < ApplicationController
   private
 
   def alternate_name_params
-    params.require(:alternate_name).permit(:crop_id, :name, :creator_id)
+    params.require(:alternate_name).permit(:crop_id, :name, :creator_id, :language)
   end
 end
