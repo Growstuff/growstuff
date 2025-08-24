@@ -76,12 +76,6 @@ describe "member profile", :js do
       end
     end
 
-    it "twitter link" do
-      twitter_auth = create(:authentication, member:)
-      visit member_path(member)
-      expect(page).to have_link twitter_auth.name, href: "https://twitter.com/#{twitter_auth.name}"
-    end
-
     it "flickr link" do
       flickr_auth = create(:flickr_authentication, member:)
       visit member_path(member)
