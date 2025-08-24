@@ -4,7 +4,7 @@
   - if member.website_url.present?
     %p
       = icon 'fas', 'globe', class: 'fa-fw'
-      = link_to member.website_url, member.website_url, target: '_blank', rel: 'noopener noreferrer'
+      = link_to "Website", member.website_url, target: '_blank', rel: 'noopener noreferrer'
 
   - if member.instagram_handle.present?
     %p
@@ -24,7 +24,7 @@
   - if member.other_url.present?
     %p
       = icon 'fas', 'link', class: 'fa-fw'
-      = link_to member.other_url, member.other_url, target: '_blank', rel: 'noopener noreferrer'
+      = link_to "More...", member.other_url, target: '_blank', rel: 'noopener noreferrer'
 
   - if twitter_auth
     %p
