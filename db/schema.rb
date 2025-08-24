@@ -65,6 +65,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_041435) do
     t.string "name", null: false
     t.integer "crop_id", null: false
     t.integer "creator_id", null: false
+    t.string "language", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
   end
