@@ -201,3 +201,5 @@ group :travis do
 end
 
 
+
+gem "i18n_data", "~> 1.1"
