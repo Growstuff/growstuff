@@ -46,7 +46,7 @@ module PlantingsHelper
   # Returns a list of gardens the planting can be transplanted to
   # based on the planting's owner.
   def transplantable_gardens_by_owner(planting)
-    garden_ids = planting.owner.gardens.select(:id).to_a + GardenCollaborators.where(member_id: planting.owner.id).select(:garden_id).to_a
+    garden_ids = planting.owner.gardens.select(:id).to_a + GardenCollaborator.where(member_id: planting.owner.id).select(:garden_id).to_a
 
     Garden.active.where.not(id: planting.garden_id).where(id: garden_ids)
   end

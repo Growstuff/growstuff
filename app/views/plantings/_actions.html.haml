@@ -9,7 +9,7 @@
         = planting_finish_button(planting, classes: 'dropdown-item')
         = planting_harvest_button(planting, classes: 'dropdown-item')
         = planting_save_seeds_button(planting, classes: 'dropdown-item')
-      - if can?(:transplant, planting) && planting.active
+      - if can?(:transplant, planting) && planting.active && transplantable_gardens_by_owner(planting).any?
         .dropdown-divider
         .px-2
           = form_tag transplant_planting_path(planting), method: :post do
