@@ -35,12 +35,16 @@ describe CommentsController do
     let(:post) { FactoryBot.create(:post) }
 
     describe "with valid params" do
-      before { get :new, params: { post_id: post.id } }
+      before do
+        get :new, params: {
+          comment: { commentable_id: post.id, commentable_type: "Post" }
+        }
+      end
 
       let(:old_comment) { FactoryBot.create(:comment, commentable: post) }
 
       it "picks up post from params" do
-        expect(assigns(:post)).to eq(post)
+        expect(assigns(:commentable)).to eq(post)
       end
 
       it "assigns the old comments as @comments" do
@@ -82,7 +86,7 @@ describe CommentsController do
       let(:comment) { FactoryBot.create(:comment, author: member) }
 
       it "redirects to the comment's post" do
-        expect(response).to redirect_to(comment.post)
+        expect(response).to redirect_to(comment.commentable)
       end
     end
 
@@ -95,12 +99,12 @@ describe CommentsController do
     describe "attempting to change post_id" do
       let(:post)             { FactoryBot.create(:post, subject: 'our post')           }
       let(:other_post)       { FactoryBot.create(:post, subject: 'the other post')     }
-      let(:valid_attributes) { { post_id: other_post.id, body: "kōrero" } }
+      let(:valid_attributes) { { commentable_type: "Post", commentable_id: other_post.id, body: "kōrero" } }
       let(:comment)          { FactoryBot.create(:comment, author: member, commentable: post) }
 
       it "does not change post_id" do
         comment.reload
-        expect(comment.post_id).to eq(post.id)
+        expect(comment.commentable_id).to eq(post.id)
       end
     end
   end
@@ -112,7 +116,7 @@ describe CommentsController do
       let(:comment) { FactoryBot.create(:comment, author: member) }
 
       it "redirects to the post the comment was on" do
-        expect(response).to redirect_to(comment.post)
+        expect(response).to redirect_to(comment.commentable)
       end
     end
 
