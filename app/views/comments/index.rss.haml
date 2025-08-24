@@ -3,19 +3,20 @@
   %channel
     %title Recent comments on all posts (#{ENV['GROWSTUFF_SITE_NAME']})
     %link= comments_url
-    - @comments.where(commentable_type: "Post").each do |comment|
+    - @comments.each do |comment|
       %item
         %title Comment by #{comment.author.login_name} on #{comment.commentable.subject}
         %description
           :escaped_markdown
             <p>
             Comment on
-            #{ link_to comment.commentable.subject, post_url(comment.commentable) }
+            #{ link_to comment.commentable.subject, polymorphic_url(comment.commentable) }
             </p>
 
           :escaped_markdown
             #{ strip_tags markdownify(comment.body) }
 
         %pubdate= comment.created_at.to_fs(:rfc822)
-        %link= post_url(comment.commentable)
+        %link= polymorphic_url(comment.commentable)
         %guid= comment_url(comment)
+
