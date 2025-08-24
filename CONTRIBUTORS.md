@@ -95,7 +95,8 @@ submit the change with your pull request.
 - Ítalo Pires / [italopires](https://github.com/italopires)
 - Bennett Zink / [bennett-zink](https://github.com/bennett-zink)
 - Dominick Thornton / [domthor](https://github.com/domthor)
-
+- [google-labs-jules[bot]](https://github.com/apps/google-labs-jules)
+ 
 ## Bots
 
 ### Security and Dependency Updates
