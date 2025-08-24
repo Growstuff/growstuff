@@ -21,6 +21,6 @@
         = render partial: "shared/markdown_help"
       .actions.text-right
         = f.submit 'Post comment', class: 'btn btn-primary'
-      - if defined?(@post)
+      - if defined?(@commentable)
         .field
-          = f.hidden_field :post_id, value: @post.id
+          = f.hidden_field :commentable_id, value: @commentable.id
