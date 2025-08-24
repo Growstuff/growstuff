@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_24_081313) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_24_085224) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -506,6 +506,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_24_081313) do
     t.datetime "date_taken", precision: nil
     t.integer "likes_count", default: 0
     t.string "source"
+    t.integer "comments_count", default: 0
     t.index ["fullsize_url"], name: "index_photos_on_fullsize_url", unique: true
     t.index ["thumbnail_url"], name: "index_photos_on_thumbnail_url", unique: true
   end
