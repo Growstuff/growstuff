@@ -25,6 +25,8 @@ class CommentsController < ApplicationController
   end
 
   def edit
+    # TODO: Why does this need a collection of comments?
+    @comments = @comment.commentable.comments
     @commentable = @comment.commentable
   end
 
