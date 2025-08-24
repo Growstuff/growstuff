@@ -446,6 +446,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_29_041435) do
     t.integer "photos_count"
     t.integer "forums_count"
     t.integer "activities_count"
+    t.string "website_url"
+    t.string "instagram_handle"
+    t.string "facebook_handle"
+    t.string "bluesky_handle"
+    t.string "other_url"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true

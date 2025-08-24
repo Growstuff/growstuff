@@ -30,3 +30,7 @@
 @import "predictions";
 @import "homepage";
 @import "maps";
+
+@view-transition {
+  navigation: auto;
+}

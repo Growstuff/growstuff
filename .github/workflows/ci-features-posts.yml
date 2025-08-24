@@ -1,4 +1,4 @@
-name: CI Features - Conversations
+name: CI Features - Admin
 
 on: [pull_request]
 
@@ -98,6 +98,5 @@ jobs:
       - name: index into elastic search
         run: bundle exec rails search:reindex
 
-      - name: Run rspec (conversations/)
-        run: bundle exec rspec spec/features/conversations/ -fd -t ~@flaky
-
+      - name: Run rspec (posts/)
+        run: bundle exec rspec spec/features/posts/ -fd
