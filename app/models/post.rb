@@ -97,6 +97,7 @@ class Post < ApplicationRecord
       Notification.create(
         recipient_id:,
         sender_id:    sender,
+        notifiable:   self,
         subject:      "#{author} mentioned you in their post #{subject}",
         body:
       )

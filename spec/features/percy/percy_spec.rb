@@ -188,8 +188,8 @@ rest of the garden.
 
     describe 'posts' do
       it 'loads posts#show' do
-        FactoryBot.create(:comment, post:)
-        FactoryBot.create(:comment, post:)
+        FactoryBot.create(:comment, commentable: post)
+        FactoryBot.create(:comment, commentable: post)
         visit post_path(post)
         page.percy_snapshot(page, name: "#{prefix}/posts#show")
       end
@@ -199,7 +199,7 @@ rest of the garden.
           FactoryBot.create_list(:post, 12, author: member)
         end
         Post.all.order(id: :desc).limit(4) do |post|
-          FactoryBot.create_list(:comment, rand(1..5), post:)
+          FactoryBot.create_list(:comment, rand(1..5), commentable: post)
         end
         visit posts_path
         page.percy_snapshot(page, name: "#{prefix}/posts#index")
@@ -218,7 +218,7 @@ rest of the garden.
   context "when signed out" do
     let(:prefix) { 'signed-out' }
 
-    include_examples 'visit pages'
+    it_behaves_like 'visit pages'
 
     it 'loads sign in page' do
       visit crops_path # some random page
@@ -247,7 +247,7 @@ rest of the garden.
     let(:prefix) { 'signed-in' }
 
     include_context 'signed in member'
-    include_examples 'visit pages'
+    it_behaves_like 'visit pages'
 
     it 'load my plantings#show' do
       planting = FactoryBot.create(:planting, crop: tomato, owner: member, garden: member.gardens.first)
