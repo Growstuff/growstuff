@@ -1,20 +1,19 @@
-- if @commentable.kind_of?(Post)
-  %p
-    Posted by
-    - if @commentable.author
-      = link_to @commentable.author.login_name, member_path(@commentable.author)
-    - else
-      Member Deleted
-    - if @commentable.forum
-      in
-      = link_to @commentable.forum, @commentable.forum
-    on
-    = @commentable.created_at.to_fs(:default)
-    - if @commentable.updated_at > @commentable.created_at
-      and edited at
-      = @commentable.updated_at.to_fs(:default)
+%p
+  Posted by
+  - if @commentable.author
+    = link_to @commentable.author.login_name, member_path(@commentable.author)
+  - else
+    Member Deleted
+  - if @commentable.respond_to?(:forum) && @commentable.forum
+    in
+    = link_to @commentable.forum, @commentable.forum
+  on
+  = @commentable.created_at.to_fs(:default)
+  - if @commentable.updated_at > @commentable.created_at
+    and edited at
+    = @commentable.updated_at.to_fs(:default)
 
-  = link_to "Permalink", @commentable
+= link_to "Permalink", @commentable
 
-  :markdown
-    #{ strip_tags markdownify(@commentable.body) }
+:markdown
+  #{ strip_tags markdownify(@commentable.body) }

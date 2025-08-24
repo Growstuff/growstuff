@@ -2,9 +2,6 @@
 
 %p
   Editing comment on
-  - if @comment.commentable.kind_of?(Post)
-    = link_to @comment.commentable.subject, @comment.commentable
-  - elsif @comment.commentable.kind_of?(Photo)    
-    = link_to @comment.commentable.title, @comment.commentable
+  = link_to @comment.commentable.subject, @comment.commentable
 
 = render 'form'

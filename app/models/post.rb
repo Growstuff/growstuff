@@ -3,6 +3,7 @@
 class Post < ApplicationRecord
   extend FriendlyId
   include Likeable
+
   friendly_id :author_date_subject, use: %i(slugged finders)
   include PhotoCapable
 
@@ -13,6 +14,7 @@ class Post < ApplicationRecord
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :crop_posts, dependent: :delete_all
   has_many :crops, through: :crop_posts
+  has_many :notifications, as: :notifiable, dependent: :destroy
 
   after_create :send_notification
   #

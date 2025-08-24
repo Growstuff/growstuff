@@ -10,13 +10,14 @@ class Comment < ApplicationRecord
     recipient = commentable.author.id
     sender    = author.id
     # don't send notifications to yourself
-    if (recipient != sender) && commentable.is_a?(Post)
+    if recipient != sender
       Notification.create(
-        recipient_id: recipient,
-        sender_id:    sender,
-        subject:      "#{author} commented on #{commentable.subject}",
+        recipient_id:        recipient,
+        sender_id:           sender,
+        subject:             "#{author} commented on #{commentable.subject}",
         body:,
-        post_id:      commentable.id
+        commentable_id:      commentable.id,
+        commentable_id_type: commentable.class.name
       )
     end
   end

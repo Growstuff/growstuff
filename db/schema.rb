@@ -471,9 +471,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_24_085224) do
     t.string "subject"
     t.text "body"
     t.boolean "read", default: false
-    t.integer "post_id"
+    t.integer "notifiable_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.string "notifiable_type"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
   end
 
   create_table "orders_products", id: false, force: :cascade do |t|

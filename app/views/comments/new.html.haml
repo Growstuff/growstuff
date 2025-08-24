@@ -1,11 +1,10 @@
 = content_for :title, "New comment"
--if @commentable.kind_of?(Post)
-  %section.blog-post
-    .card.post{ id: "post-#{@commentable.id}" }
-      .card-header
-        %h2.display-3= @commentable.subject
-      .card-body= render "posts/single", post: @commentable || @comment.commentable, subject: true
+%section.blog-post
+  .card.post{ id: "post-#{@commentable.id}" }
+    .card-header
+      %h2.display-3= @commentable.subject
+    .card-body= render "posts/single", post: @commentable || @comment.commentable, subject: true
 
-  = render partial: "comments/comments", locals: { commentable: @commentable || @comment.commentable }
+= render partial: "comments/comments", locals: { commentable: @commentable || @comment.commentable }
 
 = render 'form'
