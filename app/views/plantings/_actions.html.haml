@@ -15,7 +15,7 @@
           = form_tag transplant_planting_path(planting), method: :post do
             .form-group
               = label_tag :garden_id, 'Transplant to:'
-              = select_tag :garden_id, options_from_collection_for_select(current_member.gardens.active.where.not(id: planting.garden_id), :id, :name), class: 'form-control form-control-sm'
+              = select_tag :garden_id, options_from_collection_for_select(planting.owner.gardens.active.where.not(id: planting.garden_id), :id, :name), class: 'form-control form-control-sm'
             = submit_tag 'Transplant', class: 'btn btn-sm btn-primary mt-2'
       .dropdown-divider
       = delete_button(planting, classes: 'dropdown-item text-danger')
