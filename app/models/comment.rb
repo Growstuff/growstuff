@@ -3,6 +3,7 @@
 class Comment < ApplicationRecord
   belongs_to :author, class_name: 'Member', inverse_of: :comments
   belongs_to :commentable, polymorphic: true, counter_cache: true
+  # validates :body, presence: true
 
   scope :post_order, -> { order(created_at: :asc) } # for display on post page
 

@@ -1,19 +1,19 @@
 %p
   Posted by
-  - if @commentable.author
-    = link_to @commentable.author.login_name, member_path(@commentable.author)
+  - if @post.author
+    = link_to @post.author.login_name, member_path(@post.author)
   - else
     Member Deleted
-  - if @commentable.respond_to?(:forum) && @commentable.forum
+  - if @post.forum
     in
-    = link_to @commentable.forum, @commentable.forum
+    = link_to @post.forum, @post.forum
   on
-  = @commentable.created_at.to_fs(:default)
-  - if @commentable.updated_at > @commentable.created_at
+  = @post.created_at.to_fs(:default)
+  - if @post.updated_at > @post.created_at
     and edited at
-    = @commentable.updated_at.to_fs(:default)
+    = @post.updated_at.to_fs(:default)
 
-= link_to "Permalink", @commentable
+= link_to "Permalink", @post
 
 :markdown
-  #{ strip_tags markdownify(@commentable.body) }
+  #{ strip_tags markdownify(@post.body) }
