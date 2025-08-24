@@ -13,12 +13,11 @@ class Comment < ApplicationRecord
     # don't send notifications to yourself
     if recipient != sender
       Notification.create(
-        recipient_id:    recipient,
-        sender_id:       sender,
-        subject:         "#{author} commented on #{commentable.subject}",
+        recipient_id: recipient,
+        sender_id:    sender,
+        subject:      "#{author} commented on #{commentable.subject}",
         body:,
-        notifiable_id:   commentable.id,
-        notifiable_type: commentable.class.name
+        notifiable:   commentable
       )
     end
   end

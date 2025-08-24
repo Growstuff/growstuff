@@ -29,7 +29,7 @@ describe Comment do
       @n.recipient.should eq @c.commentable.author
       @n.subject.should include 'commented on'
       @n.body.should eq @c.body
-      @n.post.should eq @c.commentable
+      @n.notifiable.should eq @c.commentable # polymorphic association, this is a Post.
     end
 
     it "doesn't send notifications to yourself" do
