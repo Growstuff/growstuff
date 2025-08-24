@@ -13,12 +13,12 @@
   .form-group
     = f.label :bio, class: 'control-label col-md-2'
     .col-md-8
-      = f.text_area :bio, rows: 6, class: 'form-control'
+      = f.text_area :bio, rows: 6, class: 'form-control', placeholder: "I'm am XYZ gardener interested in A, B, C"
 
   .form-group
     = f.label :website_url, 'Website', class: 'control-label col-md-2'
     .col-md-8
-      = f.url_field :website_url, class: 'form-control'
+      = f.url_field :website_url, class: 'form-control', placeholder: "https://you.example.com/"
 
   .form-group
     = f.label :instagram_handle, 'Instagram', class: 'control-label col-md-2'
@@ -38,8 +38,7 @@
   .form-group
     = f.label :other_url, 'Other URL', class: 'control-label col-md-2'
     .col-md-8
-      = f.url_field :other_url, class: 'form-control'
-      %span.help-block Please enter a full URL, including http:// or https://
+      = f.url_field :other_url, class: 'form-control', placeholder: "https://you.example.com/"
 
   .form-group
     %label.control-label.col-md-2
