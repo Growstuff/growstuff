@@ -1,4 +1,4 @@
-- if member.website_url.present? || member.instagram_handle.present? || member.facebook_handle.present? || member.bluesky_handle.present? || member.other_url.present? || twitter_auth || flickr_auth || member.show_email
+- if member.website_url.present? || member.instagram_handle.present? || member.facebook_handle.present? || member.bluesky_handle.present? || member.other_url.present? || flickr_auth || member.show_email
   %h4 Contact
 
   - if member.website_url.present?
@@ -25,11 +25,6 @@
     %p
       = icon 'fas', 'link', class: 'fa-fw'
       = link_to "More...", member.other_url, target: '_blank', rel: 'noopener noreferrer'
-
-  - if twitter_auth
-    %p
-      = image_tag "twitter_32.png", size: "32x32", alt: 'Twitter logo'
-      = link_to twitter_auth.name, "https://twitter.com/#{twitter_auth.name}", target: '_blank', rel: 'noopener noreferrer'
 
   - if flickr_auth
     %p
