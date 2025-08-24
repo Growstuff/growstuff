@@ -17,7 +17,7 @@ namespace :openfarm do
                             .or(Photo.where('fullsize_url LIKE ?', s3_legacy_url))
     count = photos_to_delete.count
     photos_to_delete.each do |photo|
-      photo.associations.each do |photo_association|
+      photo.photo_associations.each do |photo_association|
         photo_association.delete
       end
       photo.delete
