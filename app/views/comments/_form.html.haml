@@ -15,7 +15,7 @@
               %li= msg
 
       .md-form
-        = f.text_area :body, rows: 6, class: 'form-control md-textarea', autofocus: 'autofocus', required: true
+        = f.text_area :body, rows: 6, class: 'form-control md-textarea', autofocus: 'autofocus', required: true, pattern: '\w+'
         = f.label :body, "Your comment:"
 
       %span.help-block

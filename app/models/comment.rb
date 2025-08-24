@@ -24,12 +24,6 @@ class Comment < ApplicationRecord
   end
 
   def to_s
-    if commentable.is_a?(Post)
-      "#{author.login_name} commented on #{commentable.subject}"
-    elsif commentable.is_a?(Photo)
-      "#{author.login_name} commented on #{commentable.title}"
-    else
-      "#{author.login_name} commented"
-    end
+    "#{author.login_name} commented on #{commentable.subject}"
   end
 end
