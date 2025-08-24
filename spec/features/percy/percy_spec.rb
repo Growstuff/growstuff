@@ -329,7 +329,7 @@ rest of the garden.
       end
 
       it 'comments#new' do
-        visit new_comment_path(post_id: post.id)
+        visit new_comment_path(comment: { commentable_type: Post, commentable_id: post.id })
         page.percy_snapshot(page, name: "comments#new")
       end
     end

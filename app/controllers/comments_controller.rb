@@ -29,8 +29,8 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @commentable = find_commentable
-    @comment = @commentable.comments.build(comment_params)
+    @comment = Comment.new(comment_params)
+    @commentable = @comment.commentable
     @comment.author = current_member
     @comment.save
     respond_with @comment, location: @commentable

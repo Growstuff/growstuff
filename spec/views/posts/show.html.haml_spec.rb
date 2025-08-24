@@ -121,7 +121,7 @@ describe "posts/show" do
     end
 
     it 'shows a comment button' do
-      expect(subject).to have_link "Comment", href: new_comment_path(post_id: post.id)
+      expect(subject).to have_link "Comment", href: new_comment_path(comment: { commentable_type: "Post", commentable_id: post.id })
     end
   end
 end

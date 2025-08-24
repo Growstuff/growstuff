@@ -1,10 +1,17 @@
 = content_for :title, "New comment"
-%section.blog-post
-  .card.post{ id: "post-#{@commentable.id}" }
-    .card-header
-      %h2.display-3= @commentable.subject
-    .card-body= render "posts/single", post: @commentable || @comment.commentable, subject: true
+- if @commentable.is_a?(Post)
+  %section.blog-post
+    .card.post{ id: "post-#{@commentable.id}" }
+      .card-header
+        %h2.display-3= @commentable.subject
+      .card-body= render "posts/single", post: @commentable || @comment.commentable, subject: true
+- elsif @commentable.is_a?(Photo)
+  %section.blog-post
+    .card.photo{ id: "photo-#{@commentable.id}" }
+      .card-header
+        %h2.display-3= @commentable.subject
+      .card-body= render "photos/card", photo: @commentable || @comment.commentable, subject: true
 
 = render partial: "comments/comments", locals: { commentable: @commentable || @comment.commentable }
 
-= render 'form'
+= render 'form', locals: { comment: @comment, commentable: @commentable || @comment.commentable }

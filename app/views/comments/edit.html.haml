@@ -4,4 +4,4 @@
   Editing comment on
   = link_to @comment.commentable.subject, @comment.commentable
 
-= render 'form'
+= render 'form', locals: { comment: @comment, commentable: @comment.comentable }
