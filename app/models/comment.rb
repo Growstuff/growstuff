@@ -10,7 +10,7 @@ class Comment < ApplicationRecord
     recipient = commentable.author.id
     sender    = author.id
     # don't send notifications to yourself
-    if recipient != sender
+    if (recipient != sender) && commentable.is_a?(Post)
       Notification.create(
         recipient_id: recipient,
         sender_id:    sender,
@@ -22,6 +22,12 @@ class Comment < ApplicationRecord
   end
 
   def to_s
-    "#{author.login_name} commented on #{commentable.subject}"
+    if commentable.is_a?(Post)
+      "#{author.login_name} commented on #{commentable.subject}"
+    elsif commentable.is_a?(Photo)
+      "#{author.login_name} commented on #{commentable.title}"
+    else
+      "#{author.login_name} commented"
+    end
   end
 end
