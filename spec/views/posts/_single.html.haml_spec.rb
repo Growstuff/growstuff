@@ -78,7 +78,7 @@ describe "posts/_single" do
       sign_in @member
       controller.stub(:current_user) { @member }
       @post = FactoryBot.create(:post, author: @member)
-      @comment = FactoryBot.create(:comment, post: @post)
+      @comment = FactoryBot.create(:comment, commentable: @post)
       @comment.update(body: "I've been updated")
       render partial: "comments/single", locals: { comment: @comment }
     end
@@ -113,7 +113,7 @@ describe "posts/_single" do
       sign_in @member
       controller.stub(:current_user) { @member }
       @post = FactoryBot.create(:post, author: @member)
-      @comment = FactoryBot.create(:comment, post: @post)
+      @comment = FactoryBot.create(:comment, commentable: @post)
       @comment.update(updated_at: @comment.created_at)
       render partial: "comments/single", locals: { comment: @comment }
     end
