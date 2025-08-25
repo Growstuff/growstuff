@@ -133,7 +133,7 @@ class PlantingsController < DataController
       :crop_id, :description, :garden_id, :planted_at,
       :parent_seed_id,
       :quantity, :sunniness, :planted_from, :finished,
-      :finished_at
+      :finished_at, :failed
     )
   end
 

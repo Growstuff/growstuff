@@ -8,7 +8,7 @@ module PredictPlanting
     before_save :calculate_lifespan
 
     def calculate_lifespan
-      self.lifespan = (planted_at.present? && finished_at.present? ? finished_at - planted_at : nil)
+      self.lifespan = (planted_at.present? && finished_at.present? && !failed? ? finished_at - planted_at : nil)
     end
 
     # dates
@@ -34,7 +34,7 @@ module PredictPlanting
     end
 
     def actual_lifespan
-      return unless planted_at.present? && finished_at.present?
+      return unless planted_at.present? && finished_at.present? && !failed?
 
       (finished_at - planted_at).to_i
     end
@@ -71,7 +71,7 @@ module PredictPlanting
     end
 
     def late?
-      crop.annual? && !finished &&
+      crop.annual? && !finished && !failed &&
         planted_at.present? &&
         finish_predicted_at.present? &&
         finish_predicted_at <= Time.zone.today

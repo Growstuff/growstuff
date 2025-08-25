@@ -513,6 +513,37 @@ describe Planting do
     end
   end
 
+  context "failed" do
+    let(:failed_planting) { FactoryBot.create(:planting, failed: true) }
+    it 'has a failed field' do
+      expect(failed_planting.failed).to be true
+    end
+
+    it 'has a failed scope' do
+      @p = FactoryBot.create(:planting)
+      @f = FactoryBot.create(:planting, failed: true)
+      described_class.failed.should include @f
+      described_class.failed.should_not include @p
+    end
+
+    it 'is not included in the active scope' do
+        @p = FactoryBot.create(:planting)
+        @f = FactoryBot.create(:planting, failed: true)
+        described_class.active.should include @p
+        described_class.active.should_not include @f
+    end
+
+    it 'cannot be finished and failed' do
+        @f = FactoryBot.build(:planting, finished: true, failed: true)
+        @f.should_not be_valid
+    end
+
+    it 'is not finished' do
+        @f = FactoryBot.build(:planting, finished: true, failed: true)
+        expect(@f.finished?).to be false
+    end
+  end
+
   it 'excludes deleted members' do
     expect(described_class.joins(:owner).all).to include(planting)
     planting.owner.destroy
@@ -547,9 +578,13 @@ describe Planting do
     let!(:finished_planting) do
       FactoryBot.create(:finished_planting, owner: member, garden: member.gardens.first)
     end
+    let!(:failed_planting) do
+        FactoryBot.create(:planting, failed: true, owner: member, garden: member.gardens.first)
+    end
 
     it { expect(member.plantings.active).to include(planting) }
     it { expect(member.plantings.active).not_to include(finished_planting) }
+    it { expect(member.plantings.active).not_to include(failed_planting) }
   end
 
   describe 'homepage', :search do
