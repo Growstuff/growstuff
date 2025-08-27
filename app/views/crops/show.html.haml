@@ -125,13 +125,6 @@
             Wikipedia (English)
 
         %li.list-group-item
-          = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-')}",
-                    class: 'card-link',
-                    target: "_blank",
-                    rel: "noopener noreferrer" do
-            = icon 'fas', 'external-link-alt'
-            OpenFarm - Growing guide
-        %li.list-group-item
           = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
                     target: "_blank",
                     class: 'card-link',
