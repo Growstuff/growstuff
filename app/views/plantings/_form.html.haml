@@ -49,7 +49,7 @@
 
       .row
         .col-md-6
-          = f.check_box :finished, label: 'Mark as finished'
+          = f.check_box :finished, label: t('buttons.mark_as_finished')
           %span.help-block= t('.finish_helper')
         .col-md-6
           = f.text_field :finished_at,
@@ -59,7 +59,7 @@
                      placeholder: 'optional'
       .row
         .col-md-6
-          = f.check_box :failed, label: 'Mark as failed'
+          = f.check_box :failed, label: t('buttons.mark_as_failed')
           %span.help-block Mark this planting as failed if it died or was removed without any harvest.
 
     .card-footer
