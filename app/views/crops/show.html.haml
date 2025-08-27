@@ -74,7 +74,6 @@
       .card-body
         %h4 How to grow #{@crop.name.pluralize}
         = render 'grown_for', crop: @crop
-        = render 'planting_advice', crop: @crop
         - if @crop.parent
           %hr/
           %p.parent-crop
