@@ -40,6 +40,9 @@ Rails.application.routes.draw do
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
     end
+    member do
+      post :transplant
+    end
   end
 
   resources :seeds, concerns: :has_photos, param: :slug do
