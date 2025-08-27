@@ -4,10 +4,6 @@ module OpenFarmData
   extend ActiveSupport::Concern
 
   included do
-    def update_openfarm_data!
-      OpenfarmService.new.update_crop(self)
-    end
-
     def of_photo
       fetch_attr('main_image_path')
     end
