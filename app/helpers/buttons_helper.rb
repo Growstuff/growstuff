@@ -132,7 +132,7 @@ module ButtonsHelper
   end
 
   def planting_save_seeds_button(planting, classes: 'btn btn-default')
-    return unless can?(:edit, planting)
+    return unless can?(:edit, planting) && !planting.failed?
 
     link_to new_planting_seed_path(planting_slug: planting.slug), class: classes do
       seed_icon + ' ' + t('buttons.save_seeds')
