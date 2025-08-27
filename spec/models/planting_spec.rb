@@ -45,6 +45,14 @@ describe Planting do
         it { expect(planting.age_in_days).to eq(20) }
         it { expect(planting.percentage_grown).to eq(100) }
       end
+
+      describe 'planting finishing in the future' do
+        let(:planting) { FactoryBot.create(:planting, planted_at: 30.days.ago, finished_at: 10.days.from_now, finished: false) }
+
+        it { expect(planting.expected_lifespan).to eq(40) }
+        it { expect(planting.age_in_days).to eq(30) }
+        it { expect(planting.percentage_grown).to eq(75) }
+      end
     end
 
     context 'lots of data' do

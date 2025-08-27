@@ -54,7 +54,7 @@ module PredictPlanting
           100
         elsif !planted?
           0
-        elsif crop.perennial || finish_predicted_at.nil?
+        elsif crop.perennial || (finish_predicted_at.nil? && finished_at.nil?) # This covers future dated finished_at that hasn't occurrred yet.
           nil
         else
           calculate_percentage_grown
