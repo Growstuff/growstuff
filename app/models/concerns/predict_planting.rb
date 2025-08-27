@@ -13,7 +13,7 @@ module PredictPlanting
 
     # dates
     def finish_predicted_at
-      if planted_at.blank?
+      if planted_at.blank? || failed?
         nil
       elsif crop.median_lifespan.present?
         planted_at + crop.median_lifespan.days
@@ -41,6 +41,7 @@ module PredictPlanting
 
     def age_in_days
       return if planted_at.blank?
+      return if failed?
 
       known_last_day ||= finished_at || Time.zone.today
       (known_last_day - planted_at).to_i
@@ -50,7 +51,7 @@ module PredictPlanting
       Rails.cache.fetch("#{cache_key_with_version}/percentage_grown", expires_in: 8.hours) do
         if finished?
           100
-        elsif !planted?
+        elsif !planted? || failed?
           0
         elsif crop.perennial || finish_predicted_at.nil?
           nil

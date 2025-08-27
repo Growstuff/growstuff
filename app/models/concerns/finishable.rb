@@ -8,7 +8,7 @@ module Finishable
     scope :current, -> { where.not(finished: true) }
 
     def active
-      !finished
+      !finished && !failed
     end
   end
 end
