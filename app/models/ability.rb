@@ -110,6 +110,10 @@ class Ability
     can :update, Planting do |planting|
       planting.garden.garden_collaborators.where(member_id: member.id).any?
     end
+    can :transplant, Planting, garden: { owner_id: member.id }
+    can :transplant, Planting do |planting|
+      planting.garden.garden_collaborators.where(member_id: member.id).any?
+    end
     can :destroy, Planting do |planting|
       planting.garden.garden_collaborators.where(member_id: member.id).any?
     end

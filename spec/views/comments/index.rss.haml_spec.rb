@@ -8,8 +8,8 @@ describe 'comments/index.rss.haml' do
     @author = FactoryBot.create(:member)
     @post = FactoryBot.create(:post)
     assign(:comments, [
-             FactoryBot.create(:comment, author: @author, post: @post),
-             FactoryBot.create(:comment, author: @author, post: @post)
+             FactoryBot.create(:comment, author: @author, commentable: @post),
+             FactoryBot.create(:comment, author: @author, commentable: @post)
            ])
     render
   end

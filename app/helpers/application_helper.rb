@@ -50,7 +50,6 @@ module ApplicationHelper
 
       uri.query = "&width=#{size}&height=#{size}" if uri.host == 'graph.facebook.com'
 
-      # TODO: Assess twitter - https://dev.twitter.com/overview/general/user-profile-images-and-banners
       # TODO: Assess flickr  - https://www.flickr.com/services/api/misc.buddyicons.html
 
       return uri.to_s
