@@ -43,6 +43,8 @@ module PredictPlanting
       return if planted_at.blank?
 
       known_last_day ||= finished_at || Time.zone.today
+      known_last_day = Time.zone.today if known_last_day > Time.zone.today
+
       (known_last_day - planted_at).to_i
     end
 
