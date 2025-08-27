@@ -2,6 +2,7 @@
 
 module ButtonsHelper
   include IconsHelper
+
   def garden_plant_something_button(garden, classes: "btn btn-default")
     return unless can? :edit, garden
 
@@ -97,11 +98,20 @@ module ButtonsHelper
   end
 
   def planting_finish_button(planting, classes: 'btn btn-default btn-secondary')
-    return unless can?(:edit, planting) || planting.finished
+    return unless can?(:edit, planting) || planting.finished || planting.failed
 
     link_to planting_path(slug: planting.slug, planting: { finished: 1 }),
             method: :put, class: "#{classes} append-date" do
       finished_icon + ' ' + t('buttons.mark_as_finished')
+    end
+  end
+
+  def planting_failed_button(planting, classes: 'btn btn-default btn-secondary')
+    return unless can?(:edit, planting) || planting.finished || planting.failed
+
+    link_to planting_path(slug: planting.slug, planting: { failed: 1 }),
+            method: :put, class: "#{classes}" do
+      finished_icon + ' ' + t('buttons.mark_as_failed')
     end
   end
 
