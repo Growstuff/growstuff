@@ -127,7 +127,7 @@ class Planting < ApplicationRecord
   private
 
   def cannot_be_finished_and_failed
-    errors.add(:failed, "can't be true if planting is also finished") if finished? && failed?
+    errors.add(:failed, "can't be true if planting is also finished") if finished && failed
   end
 
   # check that any finished_at date occurs after planted_at
