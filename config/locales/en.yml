@@ -308,6 +308,8 @@ en:
       finish_helper: >
         A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise
         no longer growing in your garden.
+      failed_helper: >
+        Mark this planting as failed if it died or was removed without any harvest.
     index:
       title:
         crop_plantings: Everyone's %{crop} plantings

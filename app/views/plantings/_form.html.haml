@@ -60,7 +60,7 @@
       .row
         .col-md-6
           = f.check_box :failed, label: t('buttons.mark_as_failed')
-          %span.help-block Mark this planting as failed if it died or was removed without any harvest.
+          %span.help-block= %t('.failed_helper')
 
     .card-footer
       .text-right= f.submit 'Save'
