@@ -40,7 +40,7 @@
       - if planting.quantity.to_i.positive? && planting.planted_from.present?
         = planting.planted_from.pluralize(planting.quantity.to_i)
 
-  - unless planting.finished?
+  - unless planting.finished? || planting.failed?
     .card.fact-card.grid-sizer
       %h3 Growing
       %strong= seedling_icon

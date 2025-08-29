@@ -5,7 +5,7 @@
       - if can? :edit, an
         .dropdown.planting-actions
           %a#crop-actions-altnames.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :type => "button", :href => '#'}
-            = an.name
+            = "#{an.name} (#{an.language})"
           .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-altnames"}
             - if can? :edit, an
               = link_to edit_alternate_name_path(an), class: 'dropdown-item' do
@@ -16,7 +16,7 @@
                 = delete_icon
                 = t('.delete')
       - else
-        .badge= an.name
+        .badge= "#{an.name} (#{an.language})"
 
 
   %p.text-right

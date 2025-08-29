@@ -148,6 +148,14 @@
               Google
 
         %li.list-group-item
+          = link_to 'https://chat.openai.com/?model=gpt-4o&prompt=' + CGI.escape(['How do I grow', @crop.name, "and what grows well with it? What should I plant the next season if practicing crop rotation? Explain why and add links to your sources"].join(' ')),
+                  target: "_blank",
+                  class: 'card-link',
+                  rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            ChatGPT
+
+        %li.list-group-item
           = link_to "https://wikihow.com/wikiHowTo?search=#{CGI.escape "grow #{@crop.name}" }",
                     target: "_blank",
                     class: 'card-link',
