@@ -94,9 +94,9 @@ module PredictPlanting
     private
 
     def calculate_percentage_grown
-      return 0 if age_in_days < 0
+      return 0 if age_in_days.to_i < 0
 
-      percent = (age_in_days / expected_lifespan.to_f) * 100
+      percent = (age_in_days.to_f / expected_lifespan.to_f) * 100
       (percent > 100 ? 100 : percent)
     end
   end
