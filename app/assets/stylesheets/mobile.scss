@@ -29,6 +29,14 @@
   }
 }
 
+.crop-actions {
+  flex-direction: column;
+  width: 100%;
+  a {
+    margin: auto;
+    display: block;
+  }
+}
 
   .navbar .navbar-form {
     padding-left: 0;
