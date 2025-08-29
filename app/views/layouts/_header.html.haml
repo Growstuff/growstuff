@@ -4,8 +4,8 @@
       = image_tag("pear.png", class: 'logo', alt: 'Growstuff brand logo (drawing of a pear)')
       .d-none.d-md-block
         %span.site-name Growstuff
+    %button.navbar-toggler{ "aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarSupportedContent", "data-bs-toggle" => "offcanvas", type: "button" }
+      %i.fas.fa-ellipsis-v.navbar-toggler-icon
   .nav= render 'crops/search_bar'
   .nav
-    %button.navbar-toggler{ "aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarSupportedContent", "data-bs-toggle" => "collapse", type: "button" }
-      %i.fas.fa-ellipsis-v.navbar-toggler-icon
     = render 'layouts/menu'
