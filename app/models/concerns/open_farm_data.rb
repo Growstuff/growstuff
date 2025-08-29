@@ -39,10 +39,6 @@ module OpenFarmData
       fetch_attr('common_names')
     end
 
-    def guides_count
-      fetch_attr('guides_count')
-    end
-
     def binomial_name
       fetch_attr('binomial_name')
     end

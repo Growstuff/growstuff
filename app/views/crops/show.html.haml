@@ -74,7 +74,6 @@
       .card-body
         %h4 How to grow #{@crop.name.pluralize}
         = render 'grown_for', crop: @crop
-        = render 'planting_advice', crop: @crop
         - if @crop.parent
           %hr/
           %p.parent-crop
@@ -124,13 +123,6 @@
             = icon 'fas', 'external-link-alt'
             Wikipedia (English)
 
-        %li.list-group-item
-          = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-')}",
-                    class: 'card-link',
-                    target: "_blank",
-                    rel: "noopener noreferrer" do
-            = icon 'fas', 'external-link-alt'
-            OpenFarm - Growing guide
         %li.list-group-item
           = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
                     target: "_blank",
