@@ -1,5 +1,5 @@
 #navbarSupportedContent.collapse.navbar-collapse
-  %ul.navbar-nav.mr-auto
+  %ul.navbar-nav.mr-auto.bg-dark
     - if signed_in?
       %li.nav-item
         = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
