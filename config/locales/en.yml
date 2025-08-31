@@ -123,6 +123,8 @@ en:
       no_plantings: no plantings
       plantingsthumbnail: plantings/thumbnail
     updated: Garden was successfully updated.
+    confirm_delete: All plantings associated with this garden will also be deleted. Are you sure?
+    confirm_deactivate: All plantings associated with this garden will be marked as finished. Are you sure?
   harvests:
     created: Harvest was successfully created.
     harvest_something: Harvest something
@@ -175,7 +177,6 @@ en:
         Our team includes volunteers from all walks of life and all skill levels. To get involved,
         visit %{talk_link} or find more information on the %{wiki_link}.
       get_involved_title: Get Involved
-      github_linktext: Github
       open_data_body_html: >
         We're building a database of crops, planting advice, seed sources, and other information that anyone
         can use for free, under a %{creative_commons_link}. You can use this data for research, to build apps,
@@ -207,10 +208,15 @@ en:
       view_all: View all seeds
     stats:
       member_linktext: "%{count} members"
-      message_html: So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}.
+      message_html: So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}; and %{contributors} people have contributed to our code on %{github}!
       number_crops_linktext: "%{count} crops"
       number_gardens_linktext: "%{count} gardens"
       number_plantings_linktext: "%{count} times"
+    pwa_android_steps_html: 1. Tap the three dots in the top right corner of Chrome.<br>2. Tap <strong>Install app</strong> or <strong>Add to Home screen</strong>.
+    pwa_android_title: For Android
+    pwa_ios_steps_html: 1. Tap the <strong>Share</strong> button in Safari.<br>2. Scroll down and tap <strong>Add to Home Screen</strong>'.
+    pwa_ios_title: For iOS (iPhone/iPad)
+    pwa_title: Want to install Growstuff on your phone?
   label:
     days_until_harvest: "%{number} days"
     weeks_until_harvest: "%{number} weeks until harvest"
