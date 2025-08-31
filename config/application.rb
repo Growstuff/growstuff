@@ -62,9 +62,9 @@ module Growstuff
 
     # Growstuff-specific configuration variables
     config.currency = 'AUD'
-    config.bot_email = ENV.fetch('GROWSTUFF_EMAIL', nil)
+    config.bot_email = Rails.configuration.x.email[:from]
     config.user_agent = 'Growstuff'
-    config.user_agent_email = "info@growstuff.org"
+    config.user_agent_email = Rails.configuration.x.email[:from]
 
     Gibbon::API.api_key = ENV['GROWSTUFF_MAILCHIMP_APIKEY'] || 'notarealkey'
     # API key can't be blank or tests fail
