@@ -21,6 +21,10 @@ module ApplicationHelper
     classes
   end
 
+  def count_github_contibutors
+    File.open(Rails.root.join('CONTRIBUTORS.md')).readlines.grep(/^-/).size
+  end
+
   # Produces a cache key for uniquely identifying cached fragments.
   def cache_key_for(klass, identifier = "all")
     count          = klass.count

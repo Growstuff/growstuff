@@ -82,8 +82,8 @@
   .col-md-10#content
     .row
       %section.order-3.order-md-1.col-12= render "map", member: @member
-      - if @harvesting.size.positive?
-        %section.harvests.order-2.order-md-1
+      - if @harvesting.size.positive? 
+        %section.harvests.order-2.order-md-1.col-12
           %h2 Ready to harvest
           .index-cards
             - @harvesting.each do |planting|
