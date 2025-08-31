@@ -123,6 +123,8 @@ en:
       no_plantings: no plantings
       plantingsthumbnail: plantings/thumbnail
     updated: Garden was successfully updated.
+    confirm_delete: All plantings associated with this garden will also be deleted. Are you sure?
+    confirm_deactivate: All plantings associated with this garden will be marked as finished. Are you sure?
   harvests:
     created: Harvest was successfully created.
     harvest_something: Harvest something
