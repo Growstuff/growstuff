@@ -24,7 +24,7 @@
 
 - content_for :buttonbar do
   - if @post.comments.count > 10 && can?(:create, Comment)
-    = link_to 'Comment', new_comment_path(post_id: @post.id), class: 'btn'
+    = link_to 'Comment', new_comment_path(comment: { commentable_type: 'Post', commentable_id: @post.id }), class: 'btn'
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to @post.author, @post.author
@@ -45,15 +45,15 @@
             = render 'photos/thumbnail', photo: photo
 
       .card-footer
-        = render 'posts/likes', post: @post
+        = render 'likes/likes', object: @post
         .float-right
           - if can? :create, Comment
-            = link_to new_comment_path(post_id: @post.id), class: 'btn' do
+            = link_to new_comment_path(comment: { commentable_type: 'Post', commentable_id: @post.id }), class: 'btn' do
               = icon 'fas', 'comment'
               Comment
 
     %section.comments
-      = render "comments", post: @post
+      = render "comments/comments", commentable: @post
 
   .col-md-4.col-12
     = render @post.author

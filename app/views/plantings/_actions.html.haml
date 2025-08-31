@@ -1,5 +1,5 @@
 - if can?(:edit, planting)
-  .dropdown.planting-actions
+  %span.dropdown.planting-actions
     %a#planting-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'} Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
       = planting_edit_button(planting, classes: 'dropdown-item')
@@ -7,7 +7,16 @@
       - if planting.active
         = planting_plan_something_button(planting, classes: 'dropdown-item')
         = planting_finish_button(planting, classes: 'dropdown-item')
+        = planting_failed_button(planting, classes: 'dropdown-item')
         = planting_harvest_button(planting, classes: 'dropdown-item')
         = planting_save_seeds_button(planting, classes: 'dropdown-item')
+      - if can?(:transplant, planting) && planting.active && transplantable_gardens_by_owner(planting).any?
+        .dropdown-divider
+        .px-2
+          = form_tag transplant_planting_path(planting), method: :post do
+            .form-group
+              = label_tag :garden_id, 'Transplant to:'
+              = select_tag :garden_id, options_from_collection_for_select(transplantable_gardens_by_owner(planting), :id, :name), class: 'form-control form-control-sm'
+            = submit_tag 'Transplant', class: 'btn btn-sm btn-primary mt-2'
       .dropdown-divider
       = delete_button(planting, classes: 'dropdown-item text-danger')

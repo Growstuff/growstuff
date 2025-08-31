@@ -63,8 +63,21 @@ describe "follows", :js do
       end
 
       it "removes members from following and followers lists after unfollow" do
+        expect(member.already_following?(other_member)).to be false
+
         click_link 'Follow'
+        expect(page).to have_current_path(member_path(other_member))
+        expect(page).to have_content "Followed #{other_member.login_name}"
+
+        member.reload
+        expect(member.already_following?(other_member)).to be true
+
         click_link 'Unfollow'
+        expect(page).to have_current_path(member_path(other_member))
+        expect(page).to have_content "Unfollowed #{other_member.login_name}"
+        member.reload
+        expect(member.already_following?(other_member)).to be false
+
         visit member_follows_path(member)
         expect(page).to have_no_content other_member.login_name
         visit member_followers_path(other_member)

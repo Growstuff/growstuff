@@ -5,13 +5,13 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 7.1.0'
+gem 'rails', '~> 7.2.0'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
 gem "sprockets", "<4"
 
-gem 'bundler', '>= 2.3.10'
+gem 'bundler', '>= 2.4.22'
 
 gem 'coffee-rails'
 gem 'haml'
@@ -91,10 +91,9 @@ gem 'bootstrap-datepicker-rails'
 # DRY-er easier bootstrap 4 forms
 gem "bootstrap_form", ">= 4.5.0"
 
-# For connecting to other services (eg Twitter)
+# For connecting to other services (eg Flickr)
 gem 'omniauth', '~> 1.3'
 gem 'omniauth-flickr', '>= 0.0.15'
-gem 'omniauth-twitter'
 
 # Pretty charts
 gem "chartkick"
@@ -175,6 +174,7 @@ group :development, :test do
   gem 'rubocop-rspec_rails'
   gem 'webrat'                  # provides HTML matchers for view tests
 
+  gem 'crowdin-cli'             # for translations
   gem 'dotenv-rails'
 
   # cli utils
@@ -188,15 +188,18 @@ end
 group :test do
   gem 'axe-core-capybara'
   gem 'axe-core-rspec'
-  gem 'codeclimate-test-reporter', require: false
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'timecop'
   gem 'vcr'
+  gem "rspec-rebound"
+  gem "percy-capybara", "~> 5.0.0"
 end
 
 group :travis do
   gem 'platform-api'
 end
 
-gem "percy-capybara", "~> 5.0.0"
+
+
+gem "i18n_data", "~> 1.1"

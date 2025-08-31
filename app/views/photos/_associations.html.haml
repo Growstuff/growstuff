@@ -30,3 +30,9 @@
           = seed_icon
           = link_to t('photos.show.seed', seed: seed.to_s, owner: seed.owner.to_s), seed_path(seed)
           = render "association_delete_button", photo: @photo, type: 'seed', thing: seed
+
+      - @photo.crops.each do |crop|
+        %li
+          = crop_icon(crop)
+          = link_to t('photos.show.crop', crop: crop.to_s), crop_path(crop)
+          = render "association_delete_button", photo: @photo, type: 'crop', thing: crop

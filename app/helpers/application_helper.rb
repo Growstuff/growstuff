@@ -21,17 +21,15 @@ module ApplicationHelper
     classes
   end
 
+  def count_github_contibutors
+    File.open(Rails.root.join('CONTRIBUTORS.md')).readlines.grep(/^-/).size
+  end
+
   # Produces a cache key for uniquely identifying cached fragments.
   def cache_key_for(klass, identifier = "all")
     count          = klass.count
     max_updated_at = klass.maximum(:updated_at).try(:utc).try(:to_fs, :number)
     "#{klass.name.downcase.pluralize}/#{identifier}-#{count}-#{max_updated_at}"
-  end
-
-  def required_field_help_text
-    asterisk = tag.span('*', class: ['red'])
-    text = tag.em('denotes a required field')
-    tag.div(asterisk + ' '.html_safe + text, class: ['margin-bottom'])
   end
 
   # A helper to replace the complex template compilation mess
@@ -56,7 +54,6 @@ module ApplicationHelper
 
       uri.query = "&width=#{size}&height=#{size}" if uri.host == 'graph.facebook.com'
 
-      # TODO: Assess twitter - https://dev.twitter.com/overview/general/user-profile-images-and-banners
       # TODO: Assess flickr  - https://www.flickr.com/services/api/misc.buddyicons.html
 
       return uri.to_s

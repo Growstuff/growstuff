@@ -30,6 +30,8 @@ Rails.application.routes.draw do
 
   resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
+
+    resources :garden_collaborators
   end
 
   resources :plantings, concerns: :has_photos, param: :slug do
@@ -37,6 +39,9 @@ Rails.application.routes.draw do
     resources :seeds
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
+    end
+    member do
+      post :transplant
     end
   end
 
@@ -76,7 +81,6 @@ Rails.application.routes.draw do
     get 'sunniness' => 'charts/crops#sunniness', constraints: { format: 'json' }
     get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
-    post :openfarm
     post :gbif
 
     collection do
