@@ -78,6 +78,7 @@ class ApplicationController < ActionController::Base
                     :tos_agreement,
                     # profile stuff
                     :bio, :location, :latitude, :longitude,
+                    :website_url, :instagram_handle, :facebook_handle, :bluesky_handle, :other_url,
                     # email settings
                     :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
                     # update password

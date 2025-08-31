@@ -53,4 +53,12 @@ namespace :growstuff do
       end
     end
   end
+
+  desc "Mark seeds as finished when plant-before date expires"
+  # usage: rake growstuff:finish_expired_seeds
+  task finish_expired_seeds: :environment do
+    Seed.expired.find_each do |seed|
+      seed.update(finished: true, finished_at: Time.zone.now)
+    end
+  end
 end

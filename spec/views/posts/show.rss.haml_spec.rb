@@ -7,8 +7,8 @@ describe 'posts/show.rss.haml' do
     controller.stub(:current_user) { nil }
     @author = FactoryBot.create(:member)
     @post = FactoryBot.create(:post)
-    FactoryBot.create(:comment, author: @author, post: @post)
-    FactoryBot.create(:comment, author: @author, post: @post)
+    FactoryBot.create(:comment, author: @author, commentable: @post)
+    FactoryBot.create(:comment, author: @author, commentable: @post)
     assign(:post, @post)
     render
   end

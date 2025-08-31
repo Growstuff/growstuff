@@ -91,10 +91,9 @@ gem 'bootstrap-datepicker-rails'
 # DRY-er easier bootstrap 4 forms
 gem "bootstrap_form", ">= 4.5.0"
 
-# For connecting to other services (eg Twitter)
+# For connecting to other services (eg Flickr)
 gem 'omniauth', '~> 1.3'
 gem 'omniauth-flickr', '>= 0.0.15'
-gem 'omniauth-twitter'
 
 # Pretty charts
 gem "chartkick"
@@ -193,10 +192,14 @@ group :test do
   gem 'selenium-webdriver'
   gem 'timecop'
   gem 'vcr'
+  gem "rspec-rebound"
+  gem "percy-capybara", "~> 5.0.0"
 end
 
 group :travis do
   gem 'platform-api'
 end
 
-gem "percy-capybara", "~> 5.0.0"
+
+
+gem "i18n_data", "~> 1.1"

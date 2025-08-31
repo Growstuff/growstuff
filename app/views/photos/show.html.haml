@@ -47,3 +47,11 @@
         = @photo.license_name
 
     = render "associations", photo: @photo
+.row
+  - if can? :create, Comment
+    = link_to new_comment_path(comment: { commentable_type: 'Photo', commentable_id: @photo.id }), class: 'btn' do
+      = icon 'fas', 'comment'
+      Comment
+.row
+  .col-md-9
+    = render 'comments/comments', commentable: @photo
