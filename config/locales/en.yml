@@ -175,7 +175,6 @@ en:
         Our team includes volunteers from all walks of life and all skill levels. To get involved,
         visit %{talk_link} or find more information on the %{wiki_link}.
       get_involved_title: Get Involved
-      github_linktext: Github
       open_data_body_html: >
         We're building a database of crops, planting advice, seed sources, and other information that anyone
         can use for free, under a %{creative_commons_link}. You can use this data for research, to build apps,
@@ -207,7 +206,7 @@ en:
       view_all: View all seeds
     stats:
       member_linktext: "%{count} members"
-      message_html: So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}.
+      message_html: So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}; and %{contributors} people have contributed to our code on %{github}!
       number_crops_linktext: "%{count} crops"
       number_gardens_linktext: "%{count} gardens"
       number_plantings_linktext: "%{count} times"
