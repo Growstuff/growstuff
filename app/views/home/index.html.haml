@@ -8,6 +8,7 @@
 
       %p= render 'stats', cached: true
     .col
+      %br
       %p
         - if current_member.plantings.active.any?
           = link_to member_path(current_member, anchor: "#content"), class: 'btn btn-dark' do
@@ -61,3 +62,16 @@
     %section.members
       = cute_icon
       = render 'members', cached: true
+  .col-12.col-lg-6
+    %section.pwa-install
+      = cute_icon
+      %h2.text-center= t('home.pwa_title')
+      .index-cards
+        .card
+          .card-body
+            %h3= t('home.pwa_ios_title')
+            %p= t('home.pwa_ios_steps_html')
+        .card
+          .card-body
+            %h3= t('home.pwa_android_title')
+            %p= t('home.pwa_android_steps_html')
