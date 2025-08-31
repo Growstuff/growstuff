@@ -6,27 +6,27 @@
   - else
     = tag("meta", property: "og:image", content: image_url('facebook-thumbnail.png'))
     = tag("meta", property: "og:title",
-          content: (content_for?(:title) ? yield(:title) + " - " : "") + ENV['GROWSTUFF_SITE_NAME'])
+          content: (content_for?(:title) ? yield(:title) + " - " : "") + site_name)
     = tag("meta", property: "og:type", content: "website")
     = tag("meta", property: "og:url", content: root_url)
-    = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+    = tag("meta", property: "og:site_name", content: site_name)
 
   - if content_for?(:member_rss_login_name) && content_for(:member_rss_slug)
     = auto_discovery_link_tag(:rss,
       { controller: "/members", action: 'show', format: "rss", id: yield(:member_rss_slug) },
-      title: "#{ENV['GROWSTUFF_SITE_NAME']}- #{yield(:member_rss_login_name)}'s posts")
+      title: "#{site_name}- #{yield(:member_rss_login_name)}'s posts")
   = auto_discovery_link_tag(:rss,
                             { controller: "/posts", format: "rss" },
-                            title: "#{ENV['GROWSTUFF_SITE_NAME']} - Recent posts from all members")
+                            title: "#{site_name} - Recent posts from all members")
   = auto_discovery_link_tag(:rss,
                             { controller: "/crops", format: "rss" },
-                            title: "#{ENV['GROWSTUFF_SITE_NAME']} - Recently added crops")
+                            title: "#{site_name} - Recently added crops")
   = auto_discovery_link_tag(:rss,
                             { controller: "/plantings", format: "rss" },
-                            title: "#{ENV['GROWSTUFF_SITE_NAME']} - Recent plantings from all members")
+                            title: "#{site_name} - Recent plantings from all members")
 
   %title
-    = content_for?(:title) ? yield(:title) + " - #{ENV['GROWSTUFF_SITE_NAME']} " : ENV['GROWSTUFF_SITE_NAME']
+    = content_for?(:title) ? yield(:title) + " - #{site_name} " : site_name
   = csrf_meta_tags
   = stylesheet_link_tag "application", media: "all"
 

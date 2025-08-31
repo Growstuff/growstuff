@@ -6,7 +6,7 @@
   = tag("meta", property: "og:image", content: "#{@seed.owner}'s #{@seed.crop} seeds")
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
-  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+  = tag("meta", property: "og:site_name", content: site_name)
 
 
 - content_for :breadcrumbs do

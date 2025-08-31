@@ -6,7 +6,7 @@
 %p
   = @request.requester.login_name
   has requested a new crop on
-  = ENV['GROWSTUFF_SITE_NAME']
+  = site_name
 
 %ul
   %li Name: #{@request.name}

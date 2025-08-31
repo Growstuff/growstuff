@@ -4,7 +4,7 @@
   %br/
   = render 'devise/shared/error_messages', resource: resource
 
-  %p Delete your account from #{ENV['GROWSTUFF_SITE_NAME']}.
+  %p Delete your account from #{site_name}.
   .form-group
     = f.label :current_password, "Password required to delete", class: 'control-label col-md-2'
     .col-md-4

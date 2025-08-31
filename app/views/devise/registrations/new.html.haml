@@ -1,8 +1,8 @@
 .form-page
   .card.form-card
-    %h1 Join #{ENV['GROWSTUFF_SITE_NAME']}
+    %h1 Join #{site_name}
     .card-body
-      %p Sign up for a #{ENV['GROWSTUFF_SITE_NAME']} account to track your vegetable garden and connect with other local growers.
+      %p Sign up for a #{site_name} account to track your vegetable garden and connect with other local growers.
       %p If you have accessibility issues with the captcha, please contact us via the links in the footer and we will help.
 
     = bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name),
@@ -24,7 +24,7 @@
         to the #{link_to 'Terms of Service', "/policy/tos"}
 
       %p
-        = f.check_box :newsletter, checked: true, label: "Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter"
+        = f.check_box :newsletter, checked: true, label: "Subscribe to the #{site_name} newsletter"
       %p= render partial: 'newsletter_blurb'
 
       = f.submit "Sign up", class: 'btn btn-block btn-success'

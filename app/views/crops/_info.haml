@@ -18,7 +18,7 @@
       - if !@crop.plantings.empty?
         #{@crop.name.titleize} has been planted
         = pluralize(@crop.plantings.size, "time")
-        by #{ENV['GROWSTUFF_SITE_NAME']} members.
+        by #{site_name} members.
       - else
         Nobody is growing this yet. You could be the first!
     - if @crop.description.present?

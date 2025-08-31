@@ -1,8 +1,8 @@
-= content_for :title, t(".title", site_name: ENV['GROWSTUFF_SITE_NAME'])
+= content_for :title, t(".title", site_name: site_name)
 
 %h1
   = member_icon
-  = t(".title", site_name: ENV['GROWSTUFF_SITE_NAME'])
+  = t(".title", site_name: site_name)
 = bootstrap_form_tag(url: members_path, method: :get, layout: :inline) do |f|
   = f.select "sort",
         options_for_select({ "alphabetically": 'alpha', "recently joined": "recently_joined" },

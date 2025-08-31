@@ -6,13 +6,13 @@
   = tag("meta", property: "og:title", content: @post.subject)
   = tag("meta", property: "og:type", content: "article")
   = tag("meta", property: "og:url", content: request.original_url)
-  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+  = tag("meta", property: "og:site_name", content: site_name)
 
 - if @post.author && !current_member
   .alert.alert-info
     = link_to @post.author.login_name, member_path(@post.author)
     is using
-    = link_to ENV["GROWSTUFF_SITE_NAME"], root_path
+    = link_to site_name, root_path
     to discuss #{@post.subject} with a community of food gardeners worldwide.
     We have advice on growing
     = succeed "," do
@@ -20,7 +20,7 @@
     and a community from all around the world.
 
     = render "shared/signin_signup",
-      to: "or to start using #{ENV['GROWSTUFF_SITE_NAME']} to track what you're planting and harvesting"
+      to: "or to start using #{site_name} to track what you're planting and harvesting"
 
 - content_for :buttonbar do
   - if @post.comments.count > 10 && can?(:create, Comment)

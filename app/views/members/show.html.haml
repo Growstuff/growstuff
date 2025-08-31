@@ -5,7 +5,7 @@
   = tag("meta", property: "og:title", content: @member.login_name)
   = tag("meta", property: "og:type", content: "profile")
   = tag("meta", property: "og:url", content: request.original_url)
-  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+  = tag("meta", property: "og:site_name", content: site_name)
 
 - content_for :member_rss_login_name, @member.login_name
 - content_for :member_rss_slug, @member.slug

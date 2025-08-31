@@ -97,4 +97,8 @@ module ApplicationHelper
   def og_description(description)
     strip_tags(description).split(' ')[0..20].join(' ')
   end
+
+  def site_name
+    ENV.fetch('GROWSTUFF_SITE_NAME', 'Growstuff')
+  end
 end

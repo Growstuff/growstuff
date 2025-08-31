@@ -4,7 +4,7 @@
   = tag("meta", property: "og:title", content: @crop.name)
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
-  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+  = tag("meta", property: "og:site_name", content: site_name)
 
 - content_for :scripts do
   = javascript_include_tag "charts"
@@ -115,7 +115,7 @@
     .card
       .card-body
         %h3 Learn more about #{@crop.name.pluralize}
-        %h4.text-muted resources outside #{ENV['GROWSTUFF_SITE_NAME']}
+        %h4.text-muted resources outside #{site_name}
 
       %ul.list-group.list-group-flush
         %li.list-group-item
