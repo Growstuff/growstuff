@@ -91,7 +91,7 @@ describe "home page", :search do
     it_behaves_like 'shows seeds'
     it_behaves_like 'is accessible'
     it { is_expected.to have_text 'community of food gardeners' }
-    it { is_expected.to have_text 'WAnt to install Growstuff on your phone?' }
+    it { is_expected.to have_text 'Want to install Growstuff on your phone?' }
   end
 
   context "when signed in" do
