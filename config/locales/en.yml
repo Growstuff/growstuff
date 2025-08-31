@@ -140,6 +140,12 @@ en:
         %{site_name} is a community of food gardeners. %{site_name}'s open source and open data platform
         can predict when your plantings will be ready to harvest. The more you tell it, the better the predictions.
       perks: Join now for your free garden journal, harvest predictions, forums, and more.
+      pwa_android_steps_html: 1. Tap the three dots in the top right corner of Chrome.<br>2. Tap 'Install app' or 'Add to Home screen'.
+      pwa_android_title: For Android
+      pwa_intro: You can install Growstuff as a Progressive Web App (PWA) to get a native-app-like experience.
+      pwa_ios_steps_html: 1. Tap the 'Share' button in Safari.<br>2. Scroll down and tap 'Add to Home Screen'.
+      pwa_ios_title: For iOS (iPhone/iPad)
+      pwa_title: Install Growstuff on your phone
       sign_in_linktext: sign in
       sign_up: Sign up
     activities:

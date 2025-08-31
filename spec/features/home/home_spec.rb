@@ -91,6 +91,7 @@ describe "home page", :search do
     include_examples 'shows seeds'
     include_examples 'is accessible'
     it { is_expected.to have_text 'community of food gardeners' }
+    it { is_expected.to have_text 'Install Growstuff on your phone' }
   end
 
   context "when signed in" do
@@ -105,6 +106,7 @@ describe "home page", :search do
       before { visit root_path }
 
       it { expect(page).to have_content "Welcome to #{ENV.fetch('GROWSTUFF_SITE_NAME', nil)}, #{member.login_name}" }
+      it { is_expected.not_to have_text 'Install Growstuff on your phone' }
     end
   end
 end
