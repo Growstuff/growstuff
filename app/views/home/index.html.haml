@@ -61,15 +61,16 @@
     %section.members
       = cute_icon
       = render 'members', cached: true
-  .pwa-install.col-12.col-lg-6
-    .alert.alert-info
-      %h2= t('home.pwa_title')
-      %p= t('home.pwa_intro')
-      .container
-        .row
-          .col-6
+  .col-12.col-lg-6
+    %section.pwa-install
+      = cute_icon
+      %h2.text-center= t('home.pwa_title')
+      .index-cards
+        .card
+          .card-body
             %h3= t('home.pwa_ios_title')
             %p= t('home.pwa_ios_steps_html')
-          .col-6
+        .card
+          .card-body
             %h3= t('home.pwa_android_title')
             %p= t('home.pwa_android_steps_html')

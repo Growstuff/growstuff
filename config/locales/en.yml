@@ -211,10 +211,9 @@ en:
       number_crops_linktext: "%{count} crops"
       number_gardens_linktext: "%{count} gardens"
       number_plantings_linktext: "%{count} times"
-    pwa_android_steps_html: 1. Tap the three dots in the top right corner of Chrome.<br>2. Tap 'Install app' or 'Add to Home screen'.
+    pwa_android_steps_html: 1. Tap the three dots in the top right corner of Chrome.<br>2. Tap <strong>Install app</strong> or <strong>Add to Home screen</strong>.
     pwa_android_title: For Android
-    pwa_intro: You can install Growstuff as a Progressive Web App (PWA).
-    pwa_ios_steps_html: 1. Tap the 'Share' button in Safari.<br>2. Scroll down and tap 'Add to Home Screen'.
+    pwa_ios_steps_html: 1. Tap the <strong>Share</strong> button in Safari.<br>2. Scroll down and tap <strong>Add to Home Screen</strong>'.
     pwa_ios_title: For iOS (iPhone/iPad)
     pwa_title: Want to install Growstuff on your phone?
   label:
