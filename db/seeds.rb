@@ -173,8 +173,8 @@ def load_test_users
         organic:         select_random_item(Seed::ORGANIC_VALUES),
         gmo:             select_random_item(['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown']), # Strangely, this doesn't want to work as Seed:GMO_VALUES
         heirloom:        select_random_item(Seed::HEIRLOOM_VALUES),
-        parent_planting: @user.plantings.first.
-        finished:       false
+        parent_planting: @user.plantings.first,
+        finished:        false
       )
 
       photo = Photo.create!(
