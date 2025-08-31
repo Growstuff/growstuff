@@ -1,5 +1,5 @@
 #navbarSupportedContent.collapse.navbar-collapse
-  %ul.navbar-nav.mr-auto
+  %ul.navbar-nav.mr-auto.bg-dark
     - if signed_in?
       %li.nav-item
         = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
@@ -30,7 +30,9 @@
 
     - cache("everyone-menu", expires_in: 1.week) do
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}= t('.crops')
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+          %span
+          = t('.crops')
         .dropdown-menu
           = link_to crops_path, class: 'dropdown-item' do
             = t('.browse_crops')
@@ -44,7 +46,9 @@
             = harvest_icon
             = t('.harvests')
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}= t('.community')
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+          %span
+          = t('.community')
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to t('.community_map'), places_path, class: 'dropdown-item'
           = link_to t('.browse_members'), members_path, class: 'dropdown-item'
@@ -54,7 +58,9 @@
     - if member_signed_in?
       - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
         %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}= t('.admin')
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+            %span
+            = t('.admin')
           .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
             - if current_member.role?(:crop_wrangler)
               = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'

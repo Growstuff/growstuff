@@ -41,6 +41,9 @@ Rails.application.routes.draw do
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
     end
+    member do
+      post :transplant
+    end
   end
 
   resources :seeds, concerns: :has_photos, param: :slug do
@@ -79,7 +82,6 @@ Rails.application.routes.draw do
     get 'sunniness' => 'charts/crops#sunniness', constraints: { format: 'json' }
     get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
-    post :openfarm
     post :gbif
 
     collection do

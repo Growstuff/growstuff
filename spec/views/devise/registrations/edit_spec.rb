@@ -60,29 +60,6 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
     end
 
     context 'other sites section' do
-      context 'not connected to twitter' do
-        it 'has a link to connect' do
-          render
-          assert_select "a", "Connect to Twitter"
-        end
-      end
-
-      context 'connected to twitter' do
-        before do
-          @twitter_auth = FactoryBot.create(:authentication, member: @member)
-          render
-        end
-
-        it 'has a link to twitter profile' do
-          assert_select "a", href: "http://twitter.com/#{@twitter_auth.name}"
-        end
-
-        it 'has a link to disconnect' do
-          render
-          assert_select "a", href: @twitter_auth, text: "Disconnect"
-        end
-      end
-
       context 'not connected to flickr' do
         it 'has a link to connect' do
           render

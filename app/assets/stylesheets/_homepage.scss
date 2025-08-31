@@ -1,6 +1,8 @@
 // stats shown on homepage. eg. "999 members..."
 .stats {
-  font-weight: bold;
+  a {
+    font-weight: bold;
+  }
 }
 
 .crops,
