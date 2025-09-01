@@ -6,7 +6,6 @@ class RegistrationsController < Devise::RegistrationsController
   prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect with recaptcha.
 
   def edit
-    @twitter_auth  = current_member.auth('twitter')
     @flickr_auth   = current_member.auth('flickr')
     render "edit"
   end

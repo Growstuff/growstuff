@@ -2,6 +2,7 @@
 
 module ButtonsHelper
   include IconsHelper
+
   def garden_plant_something_button(garden, classes: "btn btn-default")
     return unless can? :edit, garden
 
@@ -52,7 +53,7 @@ module ButtonsHelper
     link_to t('buttons.mark_as_inactive'),
             garden_path(garden, garden: { active: 0 }),
             method: :put, class: classes,
-            data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
+            data: { confirm: I18n.t('gardens.confirm_deactivate') }
   end
 
   def create_button(model_to_create, path, icon, label)
@@ -97,11 +98,20 @@ module ButtonsHelper
   end
 
   def planting_finish_button(planting, classes: 'btn btn-default btn-secondary')
-    return unless can?(:edit, planting) || planting.finished
+    return unless can?(:edit, planting) || planting.finished || planting.failed
 
     link_to planting_path(slug: planting.slug, planting: { finished: 1 }),
             method: :put, class: "#{classes} append-date" do
       finished_icon + ' ' + t('buttons.mark_as_finished')
+    end
+  end
+
+  def planting_failed_button(planting, classes: 'btn btn-default btn-secondary')
+    return unless can?(:edit, planting) || planting.finished || planting.failed
+
+    link_to planting_path(slug: planting.slug, planting: { failed: 1 }),
+            method: :put, class: "#{classes}" do
+      finished_icon + ' ' + t('buttons.mark_as_failed')
     end
   end
 
@@ -122,7 +132,7 @@ module ButtonsHelper
   end
 
   def planting_save_seeds_button(planting, classes: 'btn btn-default')
-    return unless can?(:edit, planting)
+    return unless can?(:edit, planting) && !planting.failed?
 
     link_to new_planting_seed_path(planting_slug: planting.slug), class: classes do
       seed_icon + ' ' + t('buttons.save_seeds')

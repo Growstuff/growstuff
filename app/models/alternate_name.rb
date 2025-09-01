@@ -5,6 +5,7 @@ class AlternateName < ApplicationRecord
   belongs_to :creator, class_name: 'Member', inverse_of: :created_alternate_names
   validates :name, presence: true
   validates :crop, presence: true
+  validates :language, presence: true
 
   after_commit :reindex
 

@@ -37,7 +37,7 @@
 
       .row
         .col-12.col-md-4
-          = f.check_box :finished, label: 'Mark as finished'
+          = f.check_box :finished, label: t('buttons.mark_as_finished')
         .col-12.col-md-4
           = f.date_field :finished_at, value: @seed.finished_at ? @seed.finished_at.to_fs(:ymd) : ''
         .col-12.col-md-4
@@ -49,17 +49,19 @@
         .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days", min: 1
 
       .row
-        .col-md-4
-          = f.select(:organic, Seed::ORGANIC_VALUES, {label: 'Organic?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
-        .col-md-4
-          = f.select(:gmo, Seed::GMO_VALUES, {label: 'GMO?', wrapper: { class: 'required'}, required: true}, default: 'unknown')
-        .col-md-4
-          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, {label: 'Heirloom?', wrapper: { class: 'required' }, required: true}, default: 'unknown')
+        .col-md-3
+          = f.select(:organic, Seed::ORGANIC_VALUES, { label: 'Organic?', wrapper: { class: 'required' }, required: true }, default: 'unknown')
+        .col-md-3
+          = f.select(:gmo, Seed::GMO_VALUES, { label: 'GMO?', wrapper: { class: 'required' }, required: true }, default: 'unknown')
+        .col-md-3
+          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, { label: 'Heirloom?', wrapper: { class: 'required' }, required: true }, default: 'unknown')
+        .col-md-3
+          = f.select(:source, Seed::SOURCE_VALUES, { label: 'Source?', wrapper: { class: 'required' }, required: true }, default: 'unknown')
       = f.text_area :description, rows: 6
 
       %hr/
       =  t('.trade_help', site_name: ENV['GROWSTUFF_SITE_NAME'])
-      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, {label: 'Will trade', wrapper: { class: 'required'}, required: true})
+      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, { label: 'Will trade', wrapper: { class: 'required' }, required: true })
       %span.help_inline
         - if current_member.location.blank?
           Don't forget to
