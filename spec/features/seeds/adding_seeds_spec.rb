@@ -33,7 +33,7 @@ describe "Seeds", :js, :search do
         select_from_autocomplete "maize"
         within "form#new_seed" do
           fill_in "Quantity", with: 42
-          fill_in "Plant before", with: "2014-06-15"
+          fill_in "Plant before", with: TIme.new(2014, 6, 15)
           fill_in "min", with: 999
           fill_in "max", with: 1999
           select "certified organic", from: "Organic?"
