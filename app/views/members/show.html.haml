@@ -28,7 +28,7 @@
                 %a{href: "#content"}
                   Skip to main content
             - if @member.bio.blank?
-              - if can? :edit, @member
+              - if member_signed_in? && current_member == @member
                 = link_to "Add a bio to complete your profile.", edit_member_registration_path
               - else
                 #{@member.login_name} hasn't written a bio yet.

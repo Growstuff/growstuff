@@ -14,6 +14,7 @@
               = link_to owner, owner
               = event_description(event)
               = render 'timeline/photos', photo: resolve_model(event) if event.event_type == 'photo'
+              = render 'timeline/like', like: resolve_model(event) if event.event_type == 'like'
             %small
             - if event.event_at.present?
               - if event.event_at.kind_of?(Date)

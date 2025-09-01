@@ -12,6 +12,8 @@ class Seed < ApplicationRecord
   ORGANIC_VALUES = ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'].freeze
   GMO_VALUES = ['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown'].freeze
   HEIRLOOM_VALUES = %w(heirloom hybrid unknown).freeze
+  SOURCE_VALUES = ['seed catalogue', 'retail outlet', 'seed bank or similar institution',
+                   'traded from another person', 'my own seed saving', 'other/unknown'].freeze
 
   #
   # Relationships
@@ -44,6 +46,9 @@ class Seed < ApplicationRecord
   validates :heirloom, allow_blank: false,
                        inclusion:   { in: HEIRLOOM_VALUES, message: "You must say whether the seeds" \
                                                                     "are heirloom, hybrid, or unknown" }
+  validates :source, allow_blank: true,
+                     inclusion:   { in: SOURCE_VALUES, message: "You must say where the seeds are from," \
+                                                                 "or that you don't know" }
 
   #
   # Delegations
