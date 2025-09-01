@@ -364,6 +364,8 @@ GEM
       concurrent-ruby
       railties (>= 4.1)
     jsonapi-swagger (0.8.1)
+    jwt (3.1.2)
+      base64
     kgio (2.11.4)
     kramdown (2.4.0)
       rexml
@@ -449,6 +451,7 @@ GEM
       oauth
       omniauth (~> 1.0)
     open-uri (0.1.0)
+    openssl (3.3.0)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
     parallel (1.27.0)
@@ -667,6 +670,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    serviceworker-rails (0.6.0)
+      railties (>= 3.1)
     sidekiq (7.3.9)
       base64
       connection_pool (>= 2.3.0)
@@ -717,6 +722,9 @@ GEM
       descendants_tracker (~> 0.0, >= 0.0.3)
     warden (1.2.9)
       rack (>= 2.0.9)
+    web-push (3.0.2)
+      jwt (~> 3.0)
+      openssl (~> 3.0)
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
@@ -837,6 +845,7 @@ DEPENDENCIES
   scout_apm
   searchkick
   selenium-webdriver
+  serviceworker-rails
   sidekiq
   sprockets (< 4)
   terser
@@ -844,6 +853,7 @@ DEPENDENCIES
   unicorn
   validate_url
   vcr
+  web-push
   webrat
   will_paginate
   will_paginate-bootstrap-style
