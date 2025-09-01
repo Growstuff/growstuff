@@ -47,10 +47,11 @@ class Photo < ApplicationRecord
     info = flickr.photos.getInfo(photo_id: source_id)
     licenses = flickr.photos.licenses.getInfo
     license = licenses.find { |l| l.id == info.license }
+    Rails.logger.error("Cannot find license: " + [info.license, licences].inspect) unless license
     {
       title:         calculate_title(info),
-      license_name:  license&.name,
-      license_url:   license&.url,
+      license_name:  license.name,
+      license_url:   license.url,
       thumbnail_url: FlickRaw.url_q(info),
       fullsize_url:  FlickRaw.url_z(info),
       link_url:      FlickRaw.url_photopage(info),
