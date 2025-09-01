@@ -35,7 +35,7 @@ class TimelineService
               "'like' as event_type",
               "likes.created_at as event_at",
               "photos.owner_id",
-              "'null' as crop_id")
+              "null as crop_id")
   end
 
   def self.likes_on_posts_query
@@ -45,7 +45,7 @@ class TimelineService
               "'like' as event_type",
               "likes.created_at as event_at",
               "posts.author_id as owner_id",
-              "'null' as crop_id")
+              "null as crop_id")
   end
 
   def self.activities_query
