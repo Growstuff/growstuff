@@ -43,10 +43,10 @@ class SeedsController < DataController
 
   def new
     @seed = Seed.new
+    @seed.source = 'my own seed saving'
 
     if params[:planting_slug]
       @planting = Planting.find_by(slug: params[:planting_slug])
-      @seed.source = 'my own seed saving'
     else
       @crop = Crop.find_or_initialize_by(id: params[:crop_id])
     end
