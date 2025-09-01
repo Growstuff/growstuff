@@ -1,0 +1,13 @@
+- content_for :title, t('.title')
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item.active= link_to 'Problems', problems_path
+
+%section.problems
+  %h2= t('.title')
+  = will_paginate @problems
+  .index-cards
+    - @problems.each do |p|
+      = render 'problems/thumbnail', problem: p
+
+  = will_paginate @problems

@@ -4,6 +4,7 @@
 class Haml::Filters
   class GrowstuffMarkdown
     CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
+    PROBLEM_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(problem\)/
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
     MEMBER_AT_REGEX = /(?<!\\)(@\w+)/
     MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=@\w+)/
@@ -41,6 +42,25 @@ class Haml::Filters
         link_text
       end
     end
+
+  def expand_problems!(text)
+    # turn [aphids](problem) into [aphids](http://growstuff.org/problems/aphids)
+    text.gsub(PROBLEM_REGEX) do
+      problem_str = Regexp.last_match(1)
+      # find problem case-insensitively
+      problem = Problem.where('lower(name) = ?', problem_str.downcase).first
+      problem_link problem, problem_str
+    end
+  end
+
+  def problem_link(problem, link_text)
+    if problem
+      url = Rails.application.routes.url_helpers.problem_url(problem, only_path: true)
+      "[#{link_text}](#{url})"
+    else
+      link_text
+    end
+  end
 
     def crop_link(crop, link_text)
       if crop

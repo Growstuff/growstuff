@@ -34,6 +34,8 @@ class Ability
     # are wranglers or admins
     cannot :read, Crop
     can :read, Crop, approval_status: "approved"
+    cannot :read, Problem
+    can :read, Problem, approval_status: "approved"
     # scientific names should only be viewable if associated crop is approved
     cannot :read, ScientificName
     can :read, ScientificName do |sn|
@@ -56,6 +58,8 @@ class Ability
     # members can see even rejected or pending crops if they requested it
     can :read, Crop, requester_id: member.id
     can :requested, Crop # see list of crops they've requested
+    can :read, Problem, requester_id: member.id
+    can :requested, Problem
 
     # managing your own user settings
     can :update, Member, id: member.id
@@ -82,8 +86,14 @@ class Ability
       can :gbif, Crop
     end
 
+    if member.role? :problem_wrangler
+      can :wrangle, Problem
+      can :manage, Problem
+    end
+
     # any member can create a crop provisionally
     can :create, Crop
+    can :create, Problem
 
     # can create & destroy their own authentications against other sites.
     can :create, Authentication

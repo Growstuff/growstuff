@@ -1,0 +1,10 @@
+- cache problem do
+  .card.problem-thumbnail
+    = link_to problem_path(id: problem.slug) do
+      = image_tag(problem.thumbnail_url.presence || placeholder_image,
+                          alt: "Image of #{problem.name}",
+                          class: 'img img-card')
+
+
+    .text
+      %h3.problem-name= link_to problem.name, problem_path(id: problem.slug)

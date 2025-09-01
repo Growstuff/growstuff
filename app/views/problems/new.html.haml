@@ -1,0 +1,15 @@
+- content_for :title, (can?(:wrangle, @problem) ? "New problem" : "Suggest a problem")
+
+- unless can? :wrangle, @problem
+  %p
+    Thanks for taking the time to suggest a problem! Our problem database is
+    managed by volunteers, and we appreciate your help. Here are some
+    things to consider when suggesting a new problem:
+  %ul
+    %li
+      First, you might want to search our problems
+      to make sure we don't have it already, perhaps under an alternate name.
+    %li
+      The Growstuff database only contains problems related to growing edible plants.
+
+= render 'form'

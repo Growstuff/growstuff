@@ -75,6 +75,7 @@ class CropsController < ApplicationController
   end
 
   def show
+    @problems = Problem.joins(plantings: :crop).where(crops: { id: @crop.id }).distinct
     respond_to do |format|
       format.html do
         @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])

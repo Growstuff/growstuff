@@ -24,6 +24,8 @@ class Planting < ApplicationRecord
   belongs_to :crop, counter_cache: true
   has_many :harvests, dependent: :destroy
   has_many :activities, dependent: :destroy
+  has_many :planting_problems, dependent: :destroy
+  has_many :problems, through: :planting_problems
 
   #
   # Ancestry of food

@@ -30,6 +30,15 @@
         - @crop.companions.each do |companion|
           = render 'crops/tiny', crop: companion
 
+    - if @problems.any?
+      %section.problems
+        %h2 Problems
+        - @problems.group_by(&:name).each do |problem_name, problems|
+          - problem = problems.first
+          = link_to problem_path(problem) do
+            = problem_name
+            %span.badge.badge-secondary= problems.size
+
     %section.photos
       = cute_icon
       = render 'crops/photos', crop: @crop

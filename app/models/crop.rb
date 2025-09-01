@@ -17,6 +17,7 @@ class Crop < ApplicationRecord
   has_many :scientific_names, dependent: :delete_all
   has_many :alternate_names, dependent: :delete_all
   has_many :plantings, dependent: :destroy
+  has_many :problems, through: :plantings
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
   has_many :photo_associations, dependent: :delete_all, inverse_of: :crop

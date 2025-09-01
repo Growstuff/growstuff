@@ -32,7 +32,7 @@ module ApplicationHelper
   # of HAML, Tilt, and dynamic compilation with interpolated ruby.
   def markdownify(text)
     translator = Haml::Filters::GrowstuffMarkdown.new
-    translator.expand_members!(translator.expand_crops!(text.to_s))
+    translator.expand_members!(translator.expand_problems!(translator.expand_crops!(text.to_s)))
   end
 
   #

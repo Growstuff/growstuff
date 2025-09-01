@@ -1,0 +1,51 @@
+- content_for :title, "Problem Wrangling"
+
+%h1 Problem Wrangling
+
+%nav.nav
+  = link_to "Add Problem", new_problem_path, class: 'btn'
+
+%section.problem_wranglers
+  %h2 Problem Wranglers
+  - @problem_wranglers.each do |problem_wrangler|
+    = render 'members/tiny', member: problem_wrangler
+
+%hr/
+
+%section
+  %h2 Problems
+
+  %ul#myTab.nav.nav-tabs{role: "tablist"}
+    %li.nav-item
+      %a#home-tab.nav-link{ href: wrangle_problems_path, role: "tab", class: @approval_status.blank? ? 'active' : ''}
+        Recently added
+    %li.nav-item
+      %a#profile-tab.nav-link{ href: wrangle_problems_path(approval_status: "pending"), role: "tab", class: @approval_status == "pending" ? 'active' : ''}
+        Pending approval
+    %li.nav-item
+      %a#contact-tab.nav-link{ href: wrangle_problems_path(approval_status: "rejected"), role: "tab", class: @approval_status == "rejected" ? 'active' : ''} Rejected
+
+  %table.table.table-striped.table-bordered.table-sm{id: @approval_status.blank? ? 'recently-added-problems' : "#{@approval_status}-problems" }
+    %tr
+      %th Name
+      %th Requested by
+      - if @approval_status == "rejected"
+        %th Rejected by
+      - if @approval_status != "rejected" && @approval_status != "pending"
+        %th Added by
+      %th When
+    - @problems.each do |p|
+      %tr
+        %td
+          = link_to edit_problem_path(p) do
+            = icon 'fas', 'bug'
+            = p.name
+        %td= p.requester.present? ? (link_to p.requester, p.requester) : "N/A"
+        - unless @approval_status == "pending"
+          %td= p.creator.present? ? (link_to p.creator, p.creator) : "N/A"
+        %td
+          = distance_of_time_in_words(p.created_at, Time.zone.now)
+          ago.
+
+  = page_entries_info @problems
+  = will_paginate @problems

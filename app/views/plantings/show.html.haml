@@ -51,6 +51,23 @@
 
     .col-md-8.col-xs-12
       %section= render 'facts', planting: @planting
+
+      - if @planting.problems.any?
+        %section.problems
+          %h2 Problems
+          - @planting.planting_problems.each do |planting_problem|
+            .card
+              .card-header
+                %h3= planting_problem.problem.name
+              .card-body
+                - if planting_problem.photos.any?
+                  .row
+                    - planting_problem.photos.each do |photo|
+                      .col-md-4
+                        = image_tag photo.thumbnail_url, class: 'img-fluid'
+                - else
+                  %p No photos of this problem for this planting yet.
+
       - if @planting.description.present?
         = cute_icon
         .card

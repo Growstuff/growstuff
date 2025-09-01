@@ -13,11 +13,14 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :crop_posts, dependent: :delete_all
   has_many :crops, through: :crop_posts
+  has_many :problem_posts, dependent: :delete_all
+  has_many :problems, through: :problem_posts
 
   after_create :send_notification
   #
   # Triggers
   after_save :update_crop_posts_association
+  after_save :update_problem_posts_association
 
   default_scope { joins(:author).merge(Member.kept) } # Ensures the owner still exists
 
@@ -72,6 +75,17 @@ class Post < ApplicationRecord
       crop = Crop.case_insensitive_name(crop_name).first
       # create association
       crops << crop if crop && crops.exclude?(crop)
+    end
+  end
+
+  def update_problem_posts_association
+    problems.clear
+    # look for problems mentioned in the post. eg. [aphids](problem)
+    body.scan(Haml::Filters::GrowstuffMarkdown::PROBLEM_REGEX) do |_m|
+      problem_name = Regexp.last_match(1)
+      problem = Problem.case_insensitive_name(problem_name).first
+      # create association
+      problems << problem if problem && problems.exclude?(problem)
     end
   end
 

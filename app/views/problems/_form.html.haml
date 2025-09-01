@@ -1,0 +1,54 @@
+= bootstrap_form_for(@problem) do |f|
+  - if @problem.errors.any?
+    #error_explanation.alert.alert-warning{role: "alert"}
+      %h3
+        = pluralize(@problem.errors.size, "error")
+        prohibited this problem from being saved:
+      %ul
+        - @problem.errors.full_messages.each do |msg|
+          %li= msg
+
+  .card.col-12.col-md-8.mx-auto.float-none.white
+    .card-header
+      - if content_for? :title
+        %h1.h2-responsive.text-center
+          %strong=yield :title
+    .card-body
+      - if can? :wrangle, @problem
+        %p
+          %span.help-block
+            As a problem wrangler, you can approve or reject problem suggestions.
+
+      %h2 Basic information
+
+      .form-group#new_problem
+      = f.text_field :name, required: true
+      %span.help-block
+        The common name for the problem, in English (required).
+        - if can? :wrangle, @problem
+          Wranglers: please ensure this is singular, and capitalize
+          proper nouns only.
+
+      - if (can?(:wrangle, @problem) && @problem.requester) || (cannot?(:wrangle, @problem) && @problem.new_record?)
+        %h2 Problem request notes
+        = f.text_area :request_notes, rows: 3, id: 'request_notes', label: 'Comments'
+
+      - unless can? :wrangle, @problem
+        %p
+          When you submit this form, your suggestion will be sent to our team of
+          volunteer problem wranglers for review. We'll let you know the outcome as soon as we can.
+
+      - if can?(:wrangle, @problem) && @problem.requester
+        = f.select(:reason_for_rejection, @problem.reasons_for_rejection, include_blank: true)
+
+        = f.text_area :rejection_notes, rows: 3
+        %span.help-block
+          Please provide additional notes why this problem request was rejected if the above reasons do not apply.
+
+    .card-footer
+      .text-right
+        - if @problem.approved?
+          = f.submit 'Save'
+        - else
+          = f.submit 'Reject', class: 'btn btn-danger', name: 'reject'
+          = f.submit 'Approve and save', class: 'btn btn-success', name: 'approve'

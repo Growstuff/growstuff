@@ -89,6 +89,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :problems, param: :slug do
+    collection do
+      get 'requested'
+      get 'wrangle'
+    end
+  end
+
   resources :comments
   resources :forums
 

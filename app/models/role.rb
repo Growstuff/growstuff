@@ -8,7 +8,7 @@ class Role < ApplicationRecord
   has_and_belongs_to_many :members
 
   class << self
-    %i(crop_wranglers admins).each do |method|
+    %i(crop_wranglers admins problem_wranglers).each do |method|
       define_method method do
         slug = method.to_s.singularize.dasherize
         Role.where(slug:).try(:first).try(:members)

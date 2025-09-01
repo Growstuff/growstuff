@@ -1,0 +1,26 @@
+- content_for :title, @problem.name
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Problems', problems_path
+  %li.breadcrumb-item.active= link_to @problem.name.capitalize, @problem
+
+.jumbotron
+  %h1= @problem.name
+
+.row
+  .col-md-9
+    %section.plantings
+      %h2 Plantings with this problem
+      = will_paginate @plantings
+      .index-cards
+        - @plantings.each do |p|
+          = render 'plantings/thumbnail', planting: p
+      = will_paginate @plantings
+  .col-md-3
+    .card
+      .card-body
+        %h4.card-title= @problem.name
+        %p.card-text
+          This problem has been reported on
+          = pluralize(@problem.plantings.count, 'planting')
+          so far.

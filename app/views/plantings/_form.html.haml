@@ -47,6 +47,11 @@
           = f.number_field :quantity, label: 'How many?', min: 1
       = f.text_area :description, rows: 6, label: 'Tell us more about it'
 
+      = f.collection_check_boxes :problem_ids, Problem.approved.order(:name), :id, :name do |b|
+        .form-check
+          = b.check_box
+          = b.label
+
       .row
         .col-md-6
           = f.check_box :finished, label: 'Mark as finished'

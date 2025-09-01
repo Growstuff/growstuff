@@ -42,6 +42,10 @@ class Member < ApplicationRecord
                              inverse_of: :requester
   has_many :created_crops, class_name: 'Crop', foreign_key: 'creator_id', dependent: :nullify,
                            inverse_of: :creator
+  has_many :requested_problems, class_name: 'Problem', foreign_key: 'requester_id', dependent: :nullify,
+                                inverse_of: :requester
+  has_many :created_problems, class_name: 'Problem', foreign_key: 'creator_id', dependent: :nullify,
+                              inverse_of: :creator
   has_many :created_alternate_names, class_name: 'AlternateName', foreign_key: 'creator_id', inverse_of: :creator
   has_many :created_scientific_names, class_name: 'ScientificName', foreign_key: 'creator_id', inverse_of: :creator
 

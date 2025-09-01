@@ -1,0 +1,30 @@
+- content_for :title, "Edit problem: #{@problem.name}"
+
+- if @problem.approval_status == "approved"
+  - if @problem.requester
+    %p
+      Requested by #{link_to @problem.requester, @problem.requester}
+      #{distance_of_time_in_words(@problem.created_at, Time.zone.now)} ago.
+    %p
+      Approved by #{link_to @problem.creator, @problem.creator}.
+  - else
+    %p
+      Added by
+      = link_to @problem.creator, @problem.creator
+      #{distance_of_time_in_words(@problem.created_at, Time.zone.now)} ago.
+- elsif @problem.approval_status == "pending"
+  .alert.alert-danger
+    %p
+      Requested by #{link_to @problem.requester, @problem.requester}
+      #{distance_of_time_in_words(@problem.created_at, Time.zone.now)} ago.
+    %p
+      Status: #{@problem.approval_status}.
+- elsif @problem.approval_status == "rejected"
+  .alert.alert-danger
+    %p
+      Requested by #{link_to @problem.requester, @problem.requester}
+      #{distance_of_time_in_words(@problem.created_at, Time.zone.now)} ago.
+    %p
+      Status: #{@problem.approval_status} by #{link_to @problem.creator, @problem.creator}.
+
+= render 'form'
