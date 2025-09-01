@@ -46,6 +46,7 @@ class SeedsController < DataController
 
     if params[:planting_slug]
       @planting = Planting.find_by(slug: params[:planting_slug])
+      @seed.source = 'my own seed saving'
     else
       @crop = Crop.find_or_initialize_by(id: params[:crop_id])
     end
@@ -56,6 +57,7 @@ class SeedsController < DataController
 
   def create
     @seed = Seed.new(seed_params)
+    @seed.source = 'my own seed saving' if params[:seed][:parent_planting_id].present?
     @seed.finished ||= false
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
@@ -84,7 +86,7 @@ class SeedsController < DataController
       :crop_id, :description, :quantity, :plant_before,
       :parent_planting_id, :saved_at,
       :days_until_maturity_min, :days_until_maturity_max,
-      :organic, :gmo,
+      :organic, :gmo, :source,
       :heirloom, :tradable_to, :slug,
       :finished, :finished_at
     )
