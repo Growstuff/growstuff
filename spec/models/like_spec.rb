@@ -63,6 +63,21 @@ describe Like do
     expect(Like.all).not_to include like
   end
 
+  context "when the likeable author has blocked the member" do
+    let(:likeable_author) { create(:member) }
+    let(:post_author) { create(:member) }
+    let(:post) { create(:post, author: likeable_author) }
+
+    before do
+      likeable_author.blocks.create(blocked: member)
+    end
+
+    it "is not valid" do
+      like = build(:like, likeable: post, member: member)
+      expect(like).not_to be_valid
+    end
+  end
+
   it 'liked_by_members_names' do
     expect(post.liked_by_members_names).to eq []
     Like.create(member:, likeable: post)

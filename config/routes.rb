@@ -95,6 +95,7 @@ Rails.application.routes.draw do
   resources :forums
 
   resources :follows, only: %i(create destroy)
+  resources :blocks, only: %i(create destroy)
 
   post 'likes' => 'likes#create'
   delete 'likes' => 'likes#destroy'
@@ -111,6 +112,7 @@ Rails.application.routes.draw do
 
     resources :follows
     get 'followers' => 'follows#followers'
+    resources :blocks, only: %i(create destroy)
   end
 
   resources :messages
