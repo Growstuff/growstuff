@@ -586,6 +586,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_110545) do
     t.integer "harvests_count", default: 0
     t.integer "likes_count", default: 0
     t.boolean "failed", default: false, null: false
+    t.boolean "from_other_source"
     t.index ["crop_id"], name: "index_plantings_on_crop_id"
     t.index ["garden_id"], name: "index_plantings_on_garden_id"
     t.index ["owner_id"], name: "index_plantings_on_owner_id"
