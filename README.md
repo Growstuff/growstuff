@@ -37,6 +37,10 @@ frontend features. We welcome contributions -- see
 * To set up your development environment, see [Getting started](https://github.com/Growstuff/growstuff/wiki/New-contributor-guide).
 * You may also be interested in our [API](https://github.com/Growstuff/growstuff/wiki/API).
 
+### For Home Automation enthusiasts
+
+https://github.com/Growstuff/homeassistant-growstuff/
+
 ## For designers, writers, researchers, data wranglers, and other contributors
 
 There are heaps of ways to get involved and contribute no matter what
