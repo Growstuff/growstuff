@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_24_162600) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -611,7 +611,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_24_162600) do
     t.date "finished_at"
     t.integer "parent_planting_id"
     t.date "saved_at"
+    t.string "source"
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
+    t.index ["source"], name: "index_seeds_on_source"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
