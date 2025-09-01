@@ -18,29 +18,17 @@ class TimelineService
       .union_all(photos_query)
       .union_all(seeds_query)
       .union_all(activities_query)
-      .union_all(likes_on_photos_query)
-      .union_all(likes_on_posts_query)
+      .union_all(likes_query)
       .where.not(event_at: nil)
       .order(event_at: :desc)
   end
 
-  def self.likes_on_photos_query
+  def self.likes_query
     Like
-      .joins("JOIN photos ON photos.id = likes.likeable_id AND likes.likeable_type = 'Photo'")
       .select("likes.id",
               "'like' as event_type",
               "likes.created_at as event_at",
-              "photos.owner_id::integer",
-              "null as crop_id")
-  end
-
-  def self.likes_on_posts_query
-    Like
-      .joins("JOIN posts ON posts.id = likes.likeable_id AND likes.likeable_type = 'Post'")
-      .select("likes.id",
-              "'like' as event_type",
-              "likes.created_at as event_at",
-              "posts.author_id::integer as owner_id",
+              "likes.member_id as owner_id",
               "null as crop_id")
   end
 
