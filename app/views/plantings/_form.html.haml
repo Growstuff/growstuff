@@ -43,8 +43,16 @@
           = f.select(:sunniness, Planting::SUNNINESS_VALUES, { include_blank: '', label: 'Sun or shade?' } )
         .col-md-4
           = f.number_field :quantity, label: 'How many?', min: 1
-        .col-md-4
-          = f.select :overall_rating, options_for_select((1..5).to_a, @planting.overall_rating), { include_blank: 'Leave blank', label: 'Overall Rating' }
+        .col-md-12
+          = f.range_field :overall_rating, min: 0, max: 5, include_blank: 'Leave blank', label: 'Overall Rating', list: "rating-list"
+          %datalist{"id": "rating-list"}
+            %option{"value": "0"} N/A
+            %option{"value": "1"} Poor
+            %option{"value": "2"}
+            %option{"value": "3"}
+            %option{"value": "4"}
+            %option{"value": "5"} Great
+
       = f.text_area :description, rows: 6, label: 'Tell us more about it'
 
       .row
