@@ -10,7 +10,7 @@ class AddProblems < ActiveRecord::Migration[7.2]
       t.string :slug
 
       t.index :name
-      t.index :slug
+      t.index :slug, unique: true
       t.timestamps
     end
 
