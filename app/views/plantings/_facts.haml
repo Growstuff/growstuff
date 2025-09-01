@@ -89,3 +89,9 @@
       - if planting.finished_at.present?
         %span.plantingfact--finish
           = planting.finished_at.year
+  - if planting.overall_rating.present?
+    .card.fact-card
+      .card-body
+        %h5.card-title Overall Rating
+        %p.card-text
+          %strong= "#{planting.overall_rating}/5"
