@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_24_162600) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -571,6 +571,20 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_24_162600) do
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
+  create_table "problems", force: :cascade do |t|
+    t.string "name"
+    t.string "reason_for_rejection"
+    t.string "rejection_notes"
+    t.string "approval_status", default: "pending", null: false
+    t.bigint "requester_id"
+    t.bigint "creator_id"
+    t.string "slug"
+    t.index ["creator_id"], name: "index_problems_on_creator_id"
+    t.index ["name"], name: "index_problems_on_name"
+    t.index ["requester_id"], name: "index_problems_on_requester_id"
+    t.index ["slug"], name: "index_problems_on_slug"
+  end
+
   create_table "roles", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -611,7 +625,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_24_162600) do
     t.date "finished_at"
     t.integer "parent_planting_id"
     t.date "saved_at"
+    t.string "source"
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
+    t.index ["source"], name: "index_seeds_on_source"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -623,5 +639,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_24_162600) do
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
+  add_foreign_key "problems", "members", column: "creator_id"
+  add_foreign_key "problems", "members", column: "requester_id"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end
