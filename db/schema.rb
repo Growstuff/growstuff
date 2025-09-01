@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_01_110545) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_01_130830) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -576,6 +576,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_110545) do
     t.integer "harvests_count", default: 0
     t.integer "likes_count", default: 0
     t.boolean "failed", default: false, null: false
+    t.integer "overall_rating"
     t.index ["crop_id"], name: "index_plantings_on_crop_id"
     t.index ["garden_id"], name: "index_plantings_on_garden_id"
     t.index ["owner_id"], name: "index_plantings_on_owner_id"
