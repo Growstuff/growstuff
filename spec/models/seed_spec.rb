@@ -132,6 +132,20 @@ describe Seed do
     end
   end
 
+  context 'expired' do
+    it 'returns seeds with a plant_before date in the past' do
+      expired_seed = FactoryBot.create(:seed, plant_before: 1.day.ago)
+      not_expired_seed = FactoryBot.create(:seed, plant_before: 1.day.from_now)
+      described_class.expired.should include expired_seed
+      described_class.expired.should_not include not_expired_seed
+    end
+
+    it 'does not return finished seeds' do
+      expired_seed = FactoryBot.create(:seed, plant_before: 1.day.ago, finished: true)
+      described_class.expired.should_not include expired_seed
+    end
+  end
+
   context 'interesting' do
     it 'lists interesting seeds' do
       # to be interesting a seed must:

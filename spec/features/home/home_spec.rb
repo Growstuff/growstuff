@@ -85,21 +85,22 @@ describe "home page", :search do
   end
 
   context 'when anonymous' do
-    include_examples 'show crops'
-    include_examples 'show plantings'
-    include_examples 'show harvests'
-    include_examples 'shows seeds'
-    include_examples 'is accessible'
+    it_behaves_like 'show crops'
+    it_behaves_like 'show plantings'
+    it_behaves_like 'show harvests'
+    it_behaves_like 'shows seeds'
+    it_behaves_like 'is accessible'
     it { is_expected.to have_text 'community of food gardeners' }
+    it { is_expected.to have_text 'Want to install Growstuff on your phone?' }
   end
 
   context "when signed in" do
     include_context 'signed in member'
-    include_examples 'show crops'
-    include_examples 'show plantings'
-    include_examples 'show harvests'
-    include_examples 'shows seeds'
-    include_examples 'is accessible'
+    it_behaves_like 'show crops'
+    it_behaves_like 'show plantings'
+    it_behaves_like 'show harvests'
+    it_behaves_like 'shows seeds'
+    it_behaves_like 'is accessible'
 
     describe 'should say welcome' do
       before { visit root_path }

@@ -28,7 +28,7 @@
                 %a{href: "#content"}
                   Skip to main content
             - if @member.bio.blank?
-              - if can? :edit, @member
+              - if member_signed_in? && current_member == @member
                 = link_to "Add a bio to complete your profile.", edit_member_registration_path
               - else
                 #{@member.login_name} hasn't written a bio yet.
@@ -82,8 +82,8 @@
   .col-md-10#content
     .row
       %section.order-3.order-md-1.col-12= render "map", member: @member
-      - if @harvesting.size.positive?
-        %section.harvests.order-2.order-md-1
+      - if @harvesting.size.positive? 
+        %section.harvests.order-2.order-md-1.col-12
           %h2 Ready to harvest
           .index-cards
             - @harvesting.each do |planting|
