@@ -44,9 +44,8 @@
         .col-md-4
           = f.number_field :quantity, label: 'How many?', min: 1
         .col-md-12
-          = f.range_field :overall_rating, min: 0, max: 5, include_blank: 'Leave blank', label: 'Overall Rating', list: "rating-list"
+          = f.range_field :overall_rating, min: 1, max: 5, include_blank: 'Leave blank', label: 'Overall Rating', list: "rating-list"
           %datalist{"id": "rating-list"}
-            %option{"value": "0"} N/A
             %option{"value": "1"} Poor
             %option{"value": "2"}
             %option{"value": "3"}
