@@ -3,7 +3,8 @@
 class Problem < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
-  include SearchCrops # Note: This might need to be adapted to SearchProblems
+
+  # include SearchCrops # Note: This might need to be adapted to SearchProblems
 
   friendly_id :name, use: %i(slugged finders)
 
