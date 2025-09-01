@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_01_110545) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -68,6 +68,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "language"
+    t.index ["creator_id"], name: "index_alternate_names_on_creator_id"
+    t.index ["crop_id"], name: "index_alternate_names_on_crop_id"
+    t.index ["language"], name: "index_alternate_names_on_language"
   end
 
   create_table "authentications", id: :serial, force: :cascade do |t|
@@ -209,6 +212,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "commentable_type"
+    t.index ["author_id"], name: "index_comments_on_author_id"
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
   end
 
   create_table "crop_companions", force: :cascade do |t|
@@ -216,6 +221,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.integer "crop_b_id", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.index ["crop_a_id", "crop_b_id"], name: "index_crop_companions_on_crop_a_id_and_crop_b_id"
   end
 
   create_table "crop_posts", id: false, force: :cascade do |t|
@@ -246,7 +252,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.jsonb "openfarm_data"
     t.integer "harvests_count", default: 0
     t.integer "photo_associations_count", default: 0
+    t.index ["creator_id"], name: "index_crops_on_creator_id"
     t.index ["name"], name: "index_crops_on_name"
+    t.index ["parent_id"], name: "index_crops_on_parent_id"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
   end
@@ -256,6 +264,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.integer "followed_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.index ["follower_id", "followed_id"], name: "index_follows_on_follower_id_and_followed_id"
   end
 
   create_table "forums", id: :serial, force: :cascade do |t|
@@ -265,6 +274,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "slug"
+    t.index ["owner_id"], name: "index_forums_on_owner_id"
     t.index ["slug"], name: "index_forums_on_slug", unique: true
   end
 
@@ -328,6 +338,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.float "si_weight"
     t.integer "planting_id"
     t.integer "likes_count", default: 0
+    t.index ["crop_id"], name: "index_harvests_on_crop_id"
+    t.index ["owner_id"], name: "index_harvests_on_owner_id"
+    t.index ["plant_part_id"], name: "index_harvests_on_plant_part_id"
     t.index ["planting_id"], name: "index_harvests_on_planting_id"
   end
 
@@ -464,6 +477,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
   create_table "members_roles", id: false, force: :cascade do |t|
     t.integer "member_id"
     t.integer "role_id"
+    t.index ["member_id", "role_id"], name: "index_members_roles_on_member_id_and_role_id"
   end
 
   create_table "notifications", id: :serial, force: :cascade do |t|
@@ -477,11 +491,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.datetime "updated_at", precision: nil
     t.string "notifiable_type"
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
+    t.index ["recipient_id"], name: "index_notifications_on_recipient_id"
+    t.index ["sender_id"], name: "index_notifications_on_sender_id"
   end
 
   create_table "orders_products", id: false, force: :cascade do |t|
     t.integer "order_id"
     t.integer "product_id"
+    t.index ["order_id", "product_id"], name: "index_orders_products_on_order_id_and_product_id"
   end
 
   create_table "photo_associations", id: :serial, force: :cascade do |t|
@@ -491,6 +508,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "crop_id"
+    t.index ["crop_id"], name: "index_photo_associations_on_crop_id"
     t.index ["photographable_id", "photographable_type", "photo_id"], name: "items_to_photos_idx", unique: true
     t.index ["photographable_id", "photographable_type"], name: "photographable_idx"
   end
@@ -511,12 +529,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.string "source"
     t.integer "comments_count", default: 0
     t.index ["fullsize_url"], name: "index_photos_on_fullsize_url", unique: true
+    t.index ["owner_id"], name: "index_photos_on_owner_id"
+    t.index ["source_id"], name: "index_photos_on_source_id"
     t.index ["thumbnail_url"], name: "index_photos_on_thumbnail_url", unique: true
   end
 
   create_table "photos_plantings", id: false, force: :cascade do |t|
     t.integer "photo_id"
     t.integer "planting_id"
+    t.index ["photo_id", "planting_id"], name: "index_photos_plantings_on_photo_id_and_planting_id"
   end
 
   create_table "photos_seeds", id: false, force: :cascade do |t|
@@ -531,6 +552,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.datetime "updated_at", precision: nil
     t.string "slug"
     t.integer "harvests_count", default: 0
+    t.index ["slug"], name: "index_plant_parts_on_slug", unique: true
+  end
+
+  create_table "planting_problems", force: :cascade do |t|
+    t.bigint "planting_id"
+    t.bigint "problem_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planting_id", "problem_id"], name: "index_planting_problems_on_planting_id_and_problem_id", unique: true
+    t.index ["planting_id"], name: "index_planting_problems_on_planting_id"
+    t.index ["problem_id"], name: "index_planting_problems_on_problem_id"
   end
 
   create_table "plantings", id: :serial, force: :cascade do |t|
@@ -554,6 +586,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.integer "harvests_count", default: 0
     t.integer "likes_count", default: 0
     t.boolean "failed", default: false, null: false
+    t.index ["crop_id"], name: "index_plantings_on_crop_id"
+    t.index ["garden_id"], name: "index_plantings_on_garden_id"
+    t.index ["owner_id"], name: "index_plantings_on_owner_id"
+    t.index ["parent_seed_id"], name: "index_plantings_on_parent_seed_id"
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 
@@ -568,7 +604,34 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.integer "likes_count", default: 0
     t.integer "comments_count", default: 0
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
+    t.index ["forum_id"], name: "index_posts_on_forum_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
+  end
+
+  create_table "problem_posts", force: :cascade do |t|
+    t.bigint "problem_id"
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_problem_posts_on_post_id"
+    t.index ["problem_id", "post_id"], name: "index_problem_posts_on_problem_id_and_post_id", unique: true
+    t.index ["problem_id"], name: "index_problem_posts_on_problem_id"
+  end
+
+  create_table "problems", force: :cascade do |t|
+    t.string "name"
+    t.string "reason_for_rejection"
+    t.string "rejection_notes"
+    t.string "approval_status", default: "pending", null: false
+    t.bigint "requester_id"
+    t.bigint "creator_id"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_problems_on_creator_id"
+    t.index ["name"], name: "index_problems_on_name"
+    t.index ["requester_id"], name: "index_problems_on_requester_id"
+    t.index ["slug"], name: "index_problems_on_slug"
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -590,6 +653,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.string "gbif_rank"
     t.string "gbif_status"
     t.string "wikidata_id"
+    t.index ["creator_id"], name: "index_scientific_names_on_creator_id"
+    t.index ["crop_id"], name: "index_scientific_names_on_crop_id"
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
@@ -612,6 +677,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
     t.integer "parent_planting_id"
     t.date "saved_at"
     t.string "source"
+    t.index ["crop_id"], name: "index_seeds_on_crop_id"
+    t.index ["owner_id"], name: "index_seeds_on_owner_id"
+    t.index ["parent_planting_id"], name: "index_seeds_on_parent_planting_id"
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
     t.index ["source"], name: "index_seeds_on_source"
   end
@@ -624,6 +692,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105232) do
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
+  add_foreign_key "planting_problems", "plantings"
+  add_foreign_key "planting_problems", "problems"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
+  add_foreign_key "problem_posts", "posts"
+  add_foreign_key "problem_posts", "problems"
+  add_foreign_key "problems", "members", column: "creator_id"
+  add_foreign_key "problems", "members", column: "requester_id"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end
