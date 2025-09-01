@@ -17,7 +17,9 @@ encourage participation from people of all backgrounds and skill levels.
 ## Want to contribute?
 
 Don't ask to ask, the best way to get started is to fork the project, start a codespace and get hacking.
-Dive on in and submit your PRs.
+Dive on in and submit your PRs!
+
+Vibe Coding is more than okay, just make sure you indicate if you have done so and ensure there are tests.
 
 ## Important links
 
