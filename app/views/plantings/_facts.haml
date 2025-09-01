@@ -21,7 +21,7 @@
   - if planting.finish_is_predicatable?
     .card.fact-card
       %h3 Progress
-      - if planting.age_in_days < 0
+      - if planting.age_in_days.to_i < 0
         %strong Planned
       - else
         %strong #{planting.age_in_days}/#{planting.expected_lifespan}
@@ -40,12 +40,12 @@
       - if planting.quantity.to_i.positive? && planting.planted_from.present?
         = planting.planted_from.pluralize(planting.quantity.to_i)
 
-  - unless planting.finished?
+  - unless planting.finished? || planting.failed?
     .card.fact-card.grid-sizer
       %h3 Growing
       %strong= seedling_icon
       %span
-      - if planting.age_in_days < 0
+      - if planting.age_in_days.to_i < 0
         Planting planned
       - else
         Planting is still growing today
