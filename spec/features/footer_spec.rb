@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "footer", :js do
+describe "footer" do
   before { visit root_path }
 
   it "footer is on home page" do
