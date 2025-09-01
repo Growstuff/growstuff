@@ -17,6 +17,10 @@ describe "timeline" do
     let!(:friend_harvest) { FactoryBot.create(:planting, owner: friend2, planted_at: 3.years.ago) }
     let!(:finished_planting) { FactoryBot.create(:finished_planting, owner: friend1) }
     let!(:no_planted_at_planting) { FactoryBot.create(:planting, owner: friend2, planted_at: nil) }
+    let!(:friend_photo) { FactoryBot.create(:photo, owner: friend1) }
+    let!(:friend_post) { FactoryBot.create(:post, author: friend2) }
+    let!(:liked_post) { FactoryBot.create(:like, likeable: friend_photo, member: friend2) }
+    let!(:liked_photo) { FactoryBot.create(:like, likeable: friend_post, member: friend1) }
 
     before do
       login_as(member)
@@ -28,6 +32,8 @@ describe "timeline" do
       it { expect(page).to have_link href: planting_path(friend_harvest) }
       it { expect(page).to have_link href: planting_path(finished_planting) }
       it { expect(page).to have_no_link href: planting_path(no_planted_at_planting) }
+      it { expect(page).to have_link href: photo_path(friend_photo) }
+      it { expect(page).to have_link href: post_path(friend_post) }
     end
 
     describe 'shows the friends you follow' do

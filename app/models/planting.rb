@@ -43,7 +43,8 @@ class Planting < ApplicationRecord
       .where.not(gardens: { latitude: nil })
       .where.not(gardens: { longitude: nil })
   }
-  scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
+  scope :active, -> { where(finished: false, failed: false).where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
+  scope :failed, -> { where(failed: true) }
   scope :annual, -> { joins(:crop).where(crops: { perennial: false }) }
   scope :perennial, -> { joins(:crop).where(crops: { perennial: true }) }
   scope :interesting, -> { has_photos.one_per_owner.order(planted_at: :desc) }
@@ -72,6 +73,7 @@ class Planting < ApplicationRecord
   validates :crop, presence: true, approved: { message: "must be present and exist in our database" }
   validate :finished_must_be_after_planted
   validate :owner_must_match_garden_owner
+  validate :cannot_be_finished_and_failed
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
@@ -80,6 +82,9 @@ class Planting < ApplicationRecord
   }
   validates :planted_from, allow_blank: true, inclusion: {
     in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
+  }
+  validates :overall_rating, allow_blank: true, numericality: {
+    only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5
   }
 
   def planting_slug
@@ -96,7 +101,11 @@ class Planting < ApplicationRecord
   end
 
   def finished?
-    finished || (finished_at.present? && finished_at <= Time.zone.today)
+    (finished || (finished_at.present? && finished_at <= Time.zone.today)) && !failed?
+  end
+
+  def failed?
+    failed
   end
 
   def planted?
@@ -119,6 +128,10 @@ class Planting < ApplicationRecord
   end
 
   private
+
+  def cannot_be_finished_and_failed
+    errors.add(:failed, "can't be true if planting is also finished") if finished && failed
+  end
 
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted

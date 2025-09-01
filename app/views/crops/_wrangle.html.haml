@@ -10,10 +10,6 @@
           = edit_icon
           = t('.edit')
 
-        = link_to crop_openfarm_path(crop), method: :post, class: 'dropdown-item' do
-          = icon 'far', 'update'
-          Fetch data from OpenFarm
-
         = link_to crop_gbif_path(crop), method: :post, class: 'dropdown-item' do
           = icon 'far', 'update'
           Fetch data from GBIF

@@ -57,6 +57,7 @@ RSpec.describe 'Plantings', type: :request do
     {
       "slug"                => planting.slug,
       "planted-at"          => "2014-07-30",
+      "failed"              => false,
       "finished-at"         => nil,
       "finished"            => false,
       "quantity"            => 33,

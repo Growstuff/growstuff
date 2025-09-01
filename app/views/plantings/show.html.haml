@@ -7,6 +7,15 @@
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+  - if @planting.overall_rating.present?
+    %script{type: "application/ld+json"}
+      :plain
+        {
+          "@context": "http://schema.org",
+          "@type": "Rating",
+          "ratingValue": "#{@planting.overall_rating}",
+          "bestRating": "5"
+        }
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Plantings', plantings_path
@@ -32,15 +41,17 @@
             %strong= @planting.crop.name.titleize
             %small.text-muted= @planting.crop.default_scientific_name
           %tt
-            - if @planting.finished?
-              Finished
+            - if @planting.failed?
+              %span.badge.badge-danger Failed
+            - elsif @planting.finished?
+              %span.badge.badge-success Finished
             - elsif @planting.percentage_grown.present?
               #{@planting.percentage_grown.to_i}%
               - if @planting.finish_is_predicatable?
-                - if @planting.age_in_days < 0
+                - if @planting.age_in_days.to_i < 0
                   %strong Planned
                 - else
-                  %strong #{@planting.age_in_days}/#{@planting.expected_lifespan} days
+                  %strong #{@planting.age_in_days.to_i}/#{@planting.expected_lifespan} days
 
         = render 'timeline', planting: @planting
       = render 'likes/likes', object: @planting
