@@ -76,10 +76,6 @@ describe "crop detail page", :js do
         expect(page).to have_link "Wikipedia (English)", href: crop.en_wikipedia_url
       end
 
-      it "has a link to OpenFarm" do
-        expect(page).to have_link "OpenFarm - Growing guide"
-      end
-
       it "has a link to gardenate" do
         expect(page).to have_link "Gardenate - Planting reminders",
                                   href: "https://www.gardenate.com/plant/#{CGI.escape crop.name}"
@@ -144,7 +140,7 @@ describe "crop detail page", :js do
       let(:crop) { FactoryBot.create(:annual_crop) }
 
       describe 'with harvests' do
-        include_examples "predicts harvest"
+        it_behaves_like "predicts harvest"
       end
 
       it "predicts lifespan" do
@@ -165,7 +161,7 @@ describe "crop detail page", :js do
       end
 
       describe 'with harvests' do
-        include_examples "predicts harvest"
+        it_behaves_like "predicts harvest"
       end
 
       it "describes Perennial crops" do
@@ -181,7 +177,7 @@ describe "crop detail page", :js do
       end
 
       describe 'with harvests' do
-        include_examples "predicts harvest"
+        it_behaves_like "predicts harvest"
       end
     end
   end

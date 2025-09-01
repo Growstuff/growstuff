@@ -8,6 +8,7 @@ class Photo < ApplicationRecord
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
 
   has_many :photo_associations, dependent: :delete_all, inverse_of: :photo
+  has_many :comments, as: :commentable, dependent: :destroy
 
   # This doesn't work, ActiveRecord tries to use the polymoriphic photographable
   # relationship instead.
@@ -81,6 +82,14 @@ class Photo < ApplicationRecord
 
   def to_s
     "#{title} by #{owner.login_name}"
+  end
+
+  def subject
+    title
+  end
+
+  def author
+    owner
   end
 
   def flickr_photo_id
