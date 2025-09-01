@@ -57,7 +57,7 @@ class SeedsController < DataController
 
   def create
     @seed = Seed.new(seed_params)
-    @seed.source = 'my own seed saving' if params[:seed][:parent_planting_id].present?
+    @seed.source ||= 'my own seed saving'
     @seed.finished ||= false
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
