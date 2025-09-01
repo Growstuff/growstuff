@@ -13,7 +13,6 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
 //= require_tree .
 
 function urlBase64ToUint8Array(base64String) {
