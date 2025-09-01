@@ -1,7 +1,6 @@
 # 🌱 Growstuff
 
 ![Build status](https://github.com/Growstuff/growstuff/workflows/CI/badge.svg)
-[![Code Climate](https://codeclimate.com/github/Growstuff/growstuff/badges/gpa.svg)](https://codeclimate.com/github/Growstuff/growstuff)
 
 Welcome to the Growstuff project.
 
@@ -18,7 +17,9 @@ encourage participation from people of all backgrounds and skill levels.
 ## Want to contribute?
 
 Don't ask to ask, the best way to get started is to fork the project, start a codespace and get hacking.
-Dive on in and submit your PRs.
+Dive on in and submit your PRs!
+
+Vibe Coding is more than okay, just make sure you indicate if you have done so and ensure there are tests.
 
 ## Important links
 
@@ -35,6 +36,10 @@ frontend features. We welcome contributions -- see
 
 * To set up your development environment, see [Getting started](https://github.com/Growstuff/growstuff/wiki/New-contributor-guide).
 * You may also be interested in our [API](https://github.com/Growstuff/growstuff/wiki/API).
+
+### For Home Automation enthusiasts
+
+https://github.com/Growstuff/homeassistant-growstuff/
 
 ## For designers, writers, researchers, data wranglers, and other contributors
 
@@ -63,5 +68,3 @@ For more information about this project, contact [info@growstuff.org](mailto:inf
 
 Security Issues: If you find an authorization bypass or data breach, please contact our maintainers directly at [maintainers@growstuff.org](mailto:maintainers@growstuff.org).
 
-You can also contact us on [Twitter](http://twitter.com/growstufforg/) or
-[Facebook](https://www.facebook.com/pages/Growstuff/1531133417099494) or [Github](https://github.com/Growstuff/growstuff/issues)..

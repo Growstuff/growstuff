@@ -25,9 +25,9 @@
           Last harvest expected
           %strong= crop.median_days_to_last_harvest
           days after planting
-    - if member_signed_in?
-      .card-footer
-        .d-flex.justify-content-between
-          = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
-          - #= render 'harvests/modal', harvest: Harvest.new(crop: crop, owner: current_member)
-          = render 'seeds/modal', seed: Seed.new(crop: crop, owner: current_member)
+  - if member_signed_in?
+    .card-footer
+      .d-flex.btn-group-vertical
+        = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
+        - #= render 'harvests/modal', harvest: Harvest.new(crop: crop, owner: current_member)
+        = render 'seeds/modal', seed: Seed.new(crop: crop, owner: current_member)

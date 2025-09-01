@@ -6,19 +6,6 @@
   .row
     .col-md-12
       %p
-        = image_tag "twitter_32.png", size: "32x32", alt: 'Twitter logo'
-        - if @twitter_auth
-          You are connected to Twitter as
-          = link_to @twitter_auth.name, "https://twitter.com/#{@twitter_auth.name}"
-          = link_to "Disconnect", @twitter_auth,
-                    confirm: "Are you sure you want to remove this connection?",
-                    method: :delete, class: "remove btn btn-danger"
-        - else
-          = link_to 'Connect to Twitter', '/members/auth/twitter', class: 'btn'
-
-  .row
-    .col-md-12
-      %p
         = image_tag "flickr_32.png", size: "32x32", alt: 'Flickr logo'
         - if @flickr_auth
           You are connected to Flickr as

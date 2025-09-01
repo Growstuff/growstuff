@@ -8,6 +8,7 @@ class Photo < ApplicationRecord
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
 
   has_many :photo_associations, dependent: :delete_all, inverse_of: :photo
+  has_many :comments, as: :commentable, dependent: :destroy
 
   # This doesn't work, ActiveRecord tries to use the polymoriphic photographable
   # relationship instead.
@@ -45,7 +46,8 @@ class Photo < ApplicationRecord
     flickr = owner.flickr
     info = flickr.photos.getInfo(photo_id: source_id)
     licenses = flickr.photos.licenses.getInfo
-    license = licenses.find { |l| l.id == info.license }
+    license = licenses.find { |l| l.id.to_i == info.license.to_i }
+    Rails.logger.error("Cannot find license: " + [info.license, licenses].inspect) unless license
     {
       title:         calculate_title(info),
       license_name:  license.name,
@@ -81,6 +83,14 @@ class Photo < ApplicationRecord
 
   def to_s
     "#{title} by #{owner.login_name}"
+  end
+
+  def subject
+    title
+  end
+
+  def author
+    owner
   end
 
   def flickr_photo_id
