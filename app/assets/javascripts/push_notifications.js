@@ -30,7 +30,7 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-document.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const pushButton = document.getElementById('enable-push-notifications');
   if (pushButton) {
     pushButton.addEventListener('click', () => {
