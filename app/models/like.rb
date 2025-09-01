@@ -18,6 +18,7 @@ class Like < ApplicationRecord
   private
 
   def member_is_not_blocked
+    return unless member
     author = likeable_author
     if author && author.already_blocking?(member)
       errors.add(:base, "You cannot like content of a member who has blocked you.")

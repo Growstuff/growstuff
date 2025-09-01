@@ -19,6 +19,7 @@ class Follow < ApplicationRecord
   private
 
   def follower_is_not_blocked
+    return unless follower
     if followed.already_blocking?(follower)
       errors.add(:base, "You cannot follow a member who has blocked you.")
     end
