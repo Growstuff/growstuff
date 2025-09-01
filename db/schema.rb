@@ -555,16 +555,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_110545) do
     t.index ["slug"], name: "index_plant_parts_on_slug", unique: true
   end
 
-  create_table "planting_problems", force: :cascade do |t|
-    t.bigint "planting_id"
-    t.bigint "problem_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["planting_id", "problem_id"], name: "index_planting_problems_on_planting_id_and_problem_id", unique: true
-    t.index ["planting_id"], name: "index_planting_problems_on_planting_id"
-    t.index ["problem_id"], name: "index_planting_problems_on_problem_id"
-  end
-
   create_table "plantings", id: :serial, force: :cascade do |t|
     t.integer "garden_id", null: false
     t.integer "crop_id", null: false
@@ -606,32 +596,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_110545) do
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["forum_id"], name: "index_posts_on_forum_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
-  end
-
-  create_table "problem_posts", force: :cascade do |t|
-    t.bigint "problem_id"
-    t.bigint "post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_problem_posts_on_post_id"
-    t.index ["problem_id", "post_id"], name: "index_problem_posts_on_problem_id_and_post_id", unique: true
-    t.index ["problem_id"], name: "index_problem_posts_on_problem_id"
-  end
-
-  create_table "problems", force: :cascade do |t|
-    t.string "name"
-    t.string "reason_for_rejection"
-    t.string "rejection_notes"
-    t.string "approval_status", default: "pending", null: false
-    t.bigint "requester_id"
-    t.bigint "creator_id"
-    t.string "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_problems_on_creator_id"
-    t.index ["name"], name: "index_problems_on_name"
-    t.index ["requester_id"], name: "index_problems_on_requester_id"
-    t.index ["slug"], name: "index_problems_on_slug"
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -692,12 +656,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_110545) do
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
-  add_foreign_key "planting_problems", "plantings"
-  add_foreign_key "planting_problems", "problems"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
-  add_foreign_key "problem_posts", "posts"
-  add_foreign_key "problem_posts", "problems"
-  add_foreign_key "problems", "members", column: "creator_id"
-  add_foreign_key "problems", "members", column: "requester_id"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end
