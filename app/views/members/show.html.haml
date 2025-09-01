@@ -21,6 +21,21 @@
         .row
           .col= render "bio", member: @member
           .col= render "avatar", member: @member
+        .row
+          .col
+            %p
+              %small
+                %a{href: "#content"}
+                  Skip to main content
+            - if @member.bio.blank?
+              - if member_signed_in? && current_member == @member
+                = link_to "Add a bio to complete your profile.", edit_member_registration_path
+              - else
+                #{@member.login_name} hasn't written a bio yet.
+            - else
+              :markdown
+                #{ strip_tags markdownify(@member.bio) }
+
         - if @member.roles.any?
           %p
             - @member.roles.each do |role|
@@ -30,12 +45,16 @@
             = icon 'fas', 'map-marker'
             = truncate(@member.location, length: 15, separator: ' ', omission: '... ')
         %p
-          %strong Member since
-          = @member.created_at.to_fs(:date)
+          %small
+            %strong Member since
+            %br
+            = @member.created_at.to_fs(:date)
         - if @member.last_sign_in_at
           %p
-            %strong Last Login
-            = @member.last_sign_in_at&.to_fs(:default)
+            %small
+              %strong Last Login
+              %br
+              = @member.last_sign_in_at&.to_fs(:default)
 
         - if can? :update, @member
           = link_to edit_member_registration_path, class: 'btn btn-block' do
@@ -58,14 +77,13 @@
 
       = render "stats", member: @member
       .card-footer
-        = render "contact", member: @member, twitter_auth: @twitter_auth,
-                                              flickr_auth: @flickr_auth
+        = render "contact", member: @member, flickr_auth: @flickr_auth
 
   .col-md-10#content
     .row
       %section.order-3.order-md-1.col-12= render "map", member: @member
-      - if @harvesting.size.positive?
-        %section.harvests.order-2.order-md-1
+      - if @harvesting.size.positive? 
+        %section.harvests.order-2.order-md-1.col-12
           %h2 Ready to harvest
           .index-cards
             - @harvesting.each do |planting|

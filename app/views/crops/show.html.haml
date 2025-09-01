@@ -83,7 +83,6 @@
       .card-body
         %h4 How to grow #{@crop.name.pluralize}
         = render 'grown_for', crop: @crop
-        = render 'planting_advice', crop: @crop
         - if @crop.parent
           %hr/
           %p.parent-crop
@@ -134,13 +133,6 @@
             Wikipedia (English)
 
         %li.list-group-item
-          = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-')}",
-                    class: 'card-link',
-                    target: "_blank",
-                    rel: "noopener noreferrer" do
-            = icon 'fas', 'external-link-alt'
-            OpenFarm - Growing guide
-        %li.list-group-item
           = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
                     target: "_blank",
                     class: 'card-link',
@@ -155,6 +147,14 @@
                     rel: "noopener noreferrer" do
               = icon 'fas', 'external-link-alt'
               Google
+
+        %li.list-group-item
+          = link_to 'https://chat.openai.com/?model=gpt-4o&prompt=' + CGI.escape(['How do I grow', @crop.name, "and what grows well with it? What should I plant the next season if practicing crop rotation? Explain why and add links to your sources"].join(' ')),
+                  target: "_blank",
+                  class: 'card-link',
+                  rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            ChatGPT
 
         %li.list-group-item
           = link_to "https://wikihow.com/wikiHowTo?search=#{CGI.escape "grow #{@crop.name}" }",

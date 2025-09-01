@@ -3,6 +3,7 @@
 class Post < ApplicationRecord
   extend FriendlyId
   include Likeable
+
   friendly_id :author_date_subject, use: %i(slugged finders)
   include PhotoCapable
 
@@ -10,11 +11,12 @@ class Post < ApplicationRecord
   # Relationships
   belongs_to :author, class_name: 'Member', inverse_of: :posts
   belongs_to :forum, optional: true
-  has_many :comments, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
   has_many :crop_posts, dependent: :delete_all
   has_many :crops, through: :crop_posts
   has_many :problem_posts, dependent: :delete_all
   has_many :problems, through: :problem_posts
+  has_many :notifications, as: :notifiable, dependent: :destroy
 
   after_create :send_notification
   #
@@ -109,6 +111,7 @@ class Post < ApplicationRecord
       Notification.create(
         recipient_id:,
         sender_id:    sender,
+        notifiable:   self,
         subject:      "#{author} mentioned you in their post #{subject}",
         body:
       )

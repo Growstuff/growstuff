@@ -5,6 +5,7 @@ class Garden < ApplicationRecord
   include Geocodable
   include PhotoCapable
   include Ownable
+
   friendly_id :garden_slug, use: %i(slugged finders)
 
   has_many :plantings, dependent: :destroy
@@ -44,6 +45,7 @@ class Garden < ApplicationRecord
       .where.not(gardens: { latitude: nil })
       .where.not(gardens: { longitude: nil })
   }
+
   AREA_UNITS_VALUES = {
     "square metres" => "square metre",
     "square feet"   => "square foot",

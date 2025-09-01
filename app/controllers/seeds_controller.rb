@@ -19,9 +19,7 @@ class SeedsController < DataController
       where['parent_planting'] = @planting.id
     end
 
-    if params[:tradeable_to].present?
-      where['tradeable_to'] = params[:tradeable_to]
-    end
+    where['tradeable_to'] = params[:tradeable_to] if params[:tradeable_to].present?
 
     @show_all = (params[:all] == '1')
     where['finished'] = false unless @show_all
@@ -58,6 +56,7 @@ class SeedsController < DataController
 
   def create
     @seed = Seed.new(seed_params)
+    @seed.finished ||= false
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
     flash[:notice] = "Successfully added #{@seed.crop} seed to your stash." if @seed.save

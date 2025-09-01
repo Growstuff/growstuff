@@ -21,6 +21,10 @@ module ApplicationHelper
     classes
   end
 
+  def count_github_contibutors
+    File.open(Rails.root.join('CONTRIBUTORS.md')).readlines.grep(/^-/).size
+  end
+
   # Produces a cache key for uniquely identifying cached fragments.
   def cache_key_for(klass, identifier = "all")
     count          = klass.count
@@ -50,7 +54,6 @@ module ApplicationHelper
 
       uri.query = "&width=#{size}&height=#{size}" if uri.host == 'graph.facebook.com'
 
-      # TODO: Assess twitter - https://dev.twitter.com/overview/general/user-profile-images-and-banners
       # TODO: Assess flickr  - https://www.flickr.com/services/api/misc.buddyicons.html
 
       return uri.to_s

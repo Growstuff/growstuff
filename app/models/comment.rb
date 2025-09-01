@@ -2,26 +2,27 @@
 
 class Comment < ApplicationRecord
   belongs_to :author, class_name: 'Member', inverse_of: :comments
-  belongs_to :post, counter_cache: true
+  belongs_to :commentable, polymorphic: true, counter_cache: true
+  # validates :body, presence: true
 
   scope :post_order, -> { order(created_at: :asc) } # for display on post page
 
   after_create do
-    recipient = post.author.id
+    recipient = commentable.author.id
     sender    = author.id
     # don't send notifications to yourself
     if recipient != sender
       Notification.create(
         recipient_id: recipient,
         sender_id:    sender,
-        subject:      "#{author} commented on #{post.subject}",
+        subject:      "#{author} commented on #{commentable.subject}",
         body:,
-        post_id:      post.id
+        notifiable:   commentable
       )
     end
   end
 
   def to_s
-    "#{author.login_name} commented on #{post.subject}"
+    "#{author.login_name} commented on #{commentable.subject}"
   end
 end
