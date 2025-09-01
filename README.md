@@ -37,7 +37,7 @@ frontend features. We welcome contributions -- see
 
 ### For Home Automation enthusiasts
 
-https://github.com/growstuff/growstuff-homeassistant
+https://github.com/Growstuff/homeassistant-growstuff/
 
 ## For designers, writers, researchers, data wranglers, and other contributors
 
