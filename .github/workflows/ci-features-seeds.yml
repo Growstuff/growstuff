@@ -100,3 +100,10 @@ jobs:
 
       - name: Run rspec (seeds/)
         run: bundle exec rspec spec/features/seeds/ -fd -t ~@flaky
+
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: tmp/screenshots
