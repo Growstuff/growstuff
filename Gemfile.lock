@@ -457,8 +457,8 @@ GEM
       racc
     percy-capybara (5.0.0)
       capybara (>= 3)
-    pg (1.6.1)
-    pg (1.6.1-x86_64-linux)
+    pg (1.6.2)
+    pg (1.6.2-x86_64-linux)
     platform-api (3.8.0)
       heroics (~> 0.1.1)
       moneta (~> 1.0.0)
