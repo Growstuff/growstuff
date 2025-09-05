@@ -100,3 +100,10 @@ jobs:
 
       - name: Run rspec (places/)
         run: bundle exec rspec spec/features/places/ -fd
+
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: tmp/screenshots
