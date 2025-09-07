@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_01_130830) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_01_144900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,6 +83,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_130830) do
     t.datetime "updated_at", precision: nil
     t.string "name"
     t.index ["member_id"], name: "index_authentications_on_member_id"
+  end
+
+  create_table "blocks", force: :cascade do |t|
+    t.bigint "blocker_id"
+    t.bigint "blocked_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["blocked_id"], name: "index_blocks_on_blocked_id"
+    t.index ["blocker_id", "blocked_id"], name: "index_blocks_on_blocker_id_and_blocked_id", unique: true
+    t.index ["blocker_id"], name: "index_blocks_on_blocker_id"
   end
 
   create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
@@ -651,6 +661,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_130830) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "blocks", "members", column: "blocked_id"
+  add_foreign_key "blocks", "members", column: "blocker_id"
   add_foreign_key "harvests", "plantings"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
