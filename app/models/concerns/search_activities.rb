@@ -23,8 +23,10 @@ module SearchActivities
         category:,
         garden_id:,
         garden_name:      garden&.name,
+        garden_slug:      garden&.garden_slug,
         planting_id:,
         planting_name:    planting&.crop&.name,
+        planting_slug:    planting&.slug,
         description:,
 
         # owner
