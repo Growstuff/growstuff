@@ -262,6 +262,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_144900) do
     t.jsonb "openfarm_data"
     t.integer "harvests_count", default: 0
     t.integer "photo_associations_count", default: 0
+    t.integer "row_spacing"
+    t.integer "spread"
+    t.integer "height"
+    t.string "sowing_method"
+    t.string "sun_requirements"
+    t.integer "growing_degree_days"
     t.index ["creator_id"], name: "index_crops_on_creator_id"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["parent_id"], name: "index_crops_on_parent_id"

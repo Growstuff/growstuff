@@ -41,6 +41,14 @@
         = f.radio_button(:perennial, true, label: "Perennial")
         %span.help-block Living more than two years
 
+      %h2 OpenFarm Data
+      = f.number_field :row_spacing, label: 'Row Spacing (cm)', min: 0
+      = f.number_field :spread, label: 'Spread (cm)', min: 0
+      = f.number_field :height, label: 'Height (cm)', min: 0
+      = f.text_field :sowing_method
+      = f.text_field :sun_requirements
+      = f.number_field :growing_degree_days, min: 0
+
       - unless @crop.approved?
         = link_to 'Search wikipedia', "https://en.wikipedia.org/w/index.php?search=#{@crop.name}", target: '_blank'
       = f.url_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL'
