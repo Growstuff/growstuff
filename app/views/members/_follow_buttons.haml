@@ -1,10 +1,10 @@
 - if current_member && current_member != member # must be logged in, can't follow yourself
+  - block = current_member.get_block(member)
   - follow = current_member.get_follow(member)
-  - if !follow && can?(:create, Follow) # not already following
+  - if !block && !follow && can?(:create, Follow) # not already following, and not blocking
     = link_to 'Follow', follows_path(followed: member), method: :post, class: 'btn btn-block btn-success'
   - if follow && can?(:destroy, follow) # already following
     = link_to 'Unfollow', follow_path(follow), method: :delete, class: 'btn btn-block'
-  - block = current_member.get_block(member)
   - if !block && can?(:create, Block) # not already blocking
     = link_to 'Block', blocks_path(blocked: member), method: :post, class: 'btn btn-block btn-danger'
   - if block && can?(:destroy, block) # already blocking
