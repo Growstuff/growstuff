@@ -1,4 +1,4 @@
-name: CI Features - Admin
+name: CI Features - Posts
 
 on: [pull_request]
 
