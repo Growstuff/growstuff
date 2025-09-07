@@ -199,6 +199,4 @@ group :travis do
   gem 'platform-api'
 end
 
-
-
 gem "i18n_data", "~> 1.1"

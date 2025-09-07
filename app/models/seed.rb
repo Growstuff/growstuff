@@ -49,7 +49,7 @@ class Seed < ApplicationRecord
                                                                     "are heirloom, hybrid, or unknown" }
   validates :source, allow_blank: true,
                      inclusion:   { in: SOURCE_VALUES, message: "You must say where the seeds are from," \
-                                                                 "or that you don't know" }
+                                                                "or that you don't know" }
 
   #
   # Delegations
