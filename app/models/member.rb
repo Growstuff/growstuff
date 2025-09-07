@@ -93,9 +93,9 @@ class Member < ApplicationRecord
             uniqueness: {
               case_sensitive: false
             }
-  validates :website_url, format: { with: /\Ahttps?:\/\//, message: "must start with http:// or https://" }, allow_blank: true
-  validates :other_url, format: { with: /\Ahttps?:\/\//, message: "must start with http:// or https://" }, allow_blank: true
-  validates :instagram_handle, :facebook_handle, :bluesky_handle, format: { without: %r{\Ahttps?:\/\/|\/}, message: "should be a handle, not a URL" }, allow_blank: true
+  validates :website_url, format: { with: %r{\Ahttps?://}, message: "must start with http:// or https://" }, allow_blank: true
+  validates :other_url, format: { with: %r{\Ahttps?://}, message: "must start with http:// or https://" }, allow_blank: true
+  validates :instagram_handle, :facebook_handle, :bluesky_handle, format: { without: %r{\Ahttps?://|/}, message: "should be a handle, not a URL" }, allow_blank: true
 
   #
   # Triggers

@@ -36,15 +36,15 @@ namespace :wikidata do
           aliases = wikidata_data['entities'][wikidata_id]['aliases']
           aliases.each do |lang, values|
             values.each do |value|
-              unless AlternateName.exists?(name: value['value'], language: lang, crop: crop)
-                AlternateName.create!(
-                  name:     value['value'],
-                  language: lang,
-                  crop:     crop,
-                  creator:  creator
-                )
-                puts "    Added alternate name: #{value['value']} (#{lang})"
-              end
+              next if AlternateName.exists?(name: value['value'], language: lang, crop: crop)
+
+              AlternateName.create!(
+                name:     value['value'],
+                language: lang,
+                crop:     crop,
+                creator:  creator
+              )
+              puts "    Added alternate name: #{value['value']} (#{lang})"
             end
           end
         else

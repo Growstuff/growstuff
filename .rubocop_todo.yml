@@ -240,13 +240,6 @@ RSpec/EmptyExampleGroup:
     - 'spec/views/photos/edit.html.haml_spec.rb'
     - 'spec/views/posts/_single.html.haml_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterExample:
-  Exclude:
-    - 'spec/models/ability_spec.rb'
-
 # Offense count: 137
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
@@ -264,14 +257,6 @@ RSpec/ExpectInHook:
     - 'spec/features/members/list_spec.rb'
     - 'spec/features/plantings/planting_a_crop_spec.rb'
     - 'spec/features/shared_examples/append_date.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, each, example
-RSpec/HookArgument:
-  Exclude:
-    - 'spec/requests/api/v1/plantings_request_spec.rb'
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
@@ -303,12 +288,6 @@ RSpec/InstanceVariable:
 # Offense count: 42
 RSpec/LetSetup:
   Enabled: false
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/MatchArray:
-  Exclude:
-    - 'spec/models/post_spec.rb'
 
 # Offense count: 2
 RSpec/MessageChain:
@@ -506,12 +485,6 @@ Rails/OutputSafety:
     - 'app/helpers/auto_suggest_helper.rb'
     - 'app/helpers/gardens_helper.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Rails/PluralizationGrammar:
-  Exclude:
-    - 'spec/requests/plantings_spec.rb'
-
 # Offense count: 4
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Rails/RakeEnvironment:
@@ -635,14 +608,6 @@ Style/CommentedKeyword:
     - 'spec/models/planting_spec.rb'
 
 # Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: trailing_conditional, ternary
-Style/EmptyStringInsideInterpolation:
-  Exclude:
-    - 'app/helpers/auto_suggest_helper.rb'
-
-# Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: left_coerce, right_coerce, single_coerce, fdiv
@@ -707,14 +672,6 @@ Style/MutableConstant:
   Exclude:
     - 'app/models/activity.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, MinBodyLength, AllowConsecutiveConditionals.
-# SupportedStyles: skip_modifier_ifs, always
-Style/Next:
-  Exclude:
-    - 'lib/tasks/wikidata.rake'
-
 # Offense count: 5
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle, AllowedMethods, AllowedPatterns.
@@ -758,20 +715,6 @@ Style/RedundantFetchBlock:
 Style/RedundantInterpolation:
   Exclude:
     - 'app/helpers/buttons_helper.rb'
-
-# Offense count: 3
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantRegexpEscape:
-  Exclude:
-    - 'app/models/member.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, AllowInnerSlashes.
-# SupportedStyles: slashes, percent_r, mixed
-Style/RegexpLiteral:
-  Exclude:
-    - 'app/models/member.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).

@@ -144,7 +144,7 @@ describe Post do
     end
 
     it "does not duplicate" do
-      expect(post.crops).to match_array([tomato, maize])
+      expect(post.crops).to contain_exactly(tomato, maize)
     end
 
     it "is updated when post was modified" do
