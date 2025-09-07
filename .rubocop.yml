@@ -1,5 +1,5 @@
 inherit_from: .rubocop_todo.yml
-require:
+plugins:
  - rubocop-factory_bot
  - rubocop-capybara
  - rubocop-rails
