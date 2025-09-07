@@ -38,7 +38,7 @@ module ApplicationHelper
     return 'today' if from_time.is_a?(Date) && (from_time == to_time)
 
     return 'now' if from_time == to_time
-    return distance_of_time_in_words(from_time, to_time, include_seconds:) + ' ago' if from_time > to_time
+    return distance_of_time_in_words(from_time, to_time, include_seconds:) + ' ago' if from_time < to_time
 
     'in ' + distance_of_time_in_words(from_time, to_time, include_seconds:)
   end
