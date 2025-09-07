@@ -20,17 +20,23 @@
               - if can? :destroy, activity
                 .dropdown-divider
                 = delete_button(activity, classes: 'dropdown-item text-danger')
-    = link_to activity_path(slug: activity.slug) do
-      .card-body.text-center
+    .card-body
+      = link_to activity_path(slug: activity.slug) do
         %h4= activity.name
+        %small.due-date
+          = activity.due_date
         %div
           %small.text-justify{title: activity.description}= activity.description.truncate(150)
+      %p
+        %ul.list-unstyled
         - if activity.garden_name && activity.garden_slug
-          .badge.badge-info= link_to activity.garden_name, garden_path(slug: activity.garden_slug)
+          %li
+            %small= link_to activity.garden_name, garden_path(slug: activity.garden_slug)
         - if activity.planting_name && activity.planting_slug
-          .badge= link_to activity.planting_name, planting_path(slug: activity.planting_slug)
+          %li
+            %small= link_to activity.planting_name, planting_path(slug: activity.planting_slug)
+
     .card-footer
-      .float-right
-        %span.chip.member-chip
-          = link_to member_path(slug: activity.owner_slug) do
-            = activity.owner_login_name
+      %small.chip.member-chip
+        = link_to member_path(slug: activity.owner_slug) do
+          = activity.owner_login_name

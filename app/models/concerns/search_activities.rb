@@ -9,7 +9,9 @@ module SearchActivities
                mappings:       {
                  properties: {
                    active:     { type: :boolean },
-                   created_at: { type: :integer }
+                   created_at: { type: :integer },
+                   updated_at: { type: :integer },
+                   due_date:   { type: :date }
                  }
                }
 
