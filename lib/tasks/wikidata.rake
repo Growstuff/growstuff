@@ -38,10 +38,10 @@ namespace :wikidata do
             values.each do |value|
               unless AlternateName.exists?(name: value['value'], language: lang, crop: crop)
                 AlternateName.create!(
-                  name: value['value'],
+                  name:     value['value'],
                   language: lang,
-                  crop: crop,
-                  creator: creator
+                  crop:     crop,
+                  creator:  creator
                 )
                 puts "    Added alternate name: #{value['value']} (#{lang})"
               end
