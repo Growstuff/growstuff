@@ -6,6 +6,7 @@ class Seed < ApplicationRecord
   include Finishable
   include Ownable
   include SearchSeeds
+
   friendly_id :seed_slug, use: %i(slugged finders)
 
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze

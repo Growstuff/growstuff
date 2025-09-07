@@ -94,17 +94,6 @@ Layout/EmptyLines:
   Exclude:
     - 'Gemfile'
 
-# Offense count: 7
-# This cop supports safe autocorrection (--autocorrect).
-Layout/EmptyLinesAfterModuleInclusion:
-  Exclude:
-    - 'app/models/forum.rb'
-    - 'app/models/garden_type.rb'
-    - 'app/models/member.rb'
-    - 'app/models/plant_part.rb'
-    - 'app/models/role.rb'
-    - 'app/models/seed.rb'
-
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowForAlignment, AllowBeforeTrailingComments, ForceEqualSignAlignment.

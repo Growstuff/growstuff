@@ -2,12 +2,14 @@
 
 class Member < ApplicationRecord
   include Discard::Model
+
   acts_as_messageable # messages can be sent to this model
   include Geocodable
   include MemberFlickr
   include MemberNewsletter
 
   extend FriendlyId
+
   friendly_id :login_name, use: %i(slugged finders)
 
   #
