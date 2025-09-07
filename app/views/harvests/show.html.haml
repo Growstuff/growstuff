@@ -46,7 +46,7 @@
           %h3
             Harvested
             = editable :date, @harvest, :harvested_at, display_field: '.harvested_at'
-          %strong.harvested_at #{standard_time_distance @harvest.harvested_at, Time.zone.now.midnight} ago
+          %strong.harvested_at #{standard_time_distance @harvest.harvested_at, Time.zone.now.to_date}
           %span.harvested_at= I18n.l @harvest.harvested_at
 
         .card{class: @harvest.quantity.present? ? '' : 'text-muted'}

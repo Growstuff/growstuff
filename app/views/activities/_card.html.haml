@@ -24,7 +24,7 @@
       = link_to activity_path(slug: activity.slug) do
         %h4= activity.name
         %small.due-date{title: activity.due_date}
-          = standard_time_distance(activity.due_date.to_date, Time.zone.now.midnight)
+          = standard_time_distance(activity.due_date.to_date, Time.zone.now.to_date)
         %div
           %small.text-justify{title: activity.description}= activity.description.truncate(150)
       %p
