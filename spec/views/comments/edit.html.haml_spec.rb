@@ -3,12 +3,9 @@
 require 'rails_helper'
 
 describe "comments/edit" do
-  let(:comment) { FactoryBot.create(:comment) }
-
   before do
     controller.stub(:current_user) { nil }
-    assign(:comment, comment)
-    assign(:commentable, comment.commentable)
+    assign(:comment, FactoryBot.create(:comment))
   end
 
   it "renders the edit comment form" do

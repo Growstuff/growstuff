@@ -5,5 +5,5 @@
     = link_to member.location, place_path(member.location, anchor: "members")
 - else
   .location-not-set
-    %h1 Location not known or geocodable
-    %p We can't show you what's nearby
+    .sr-only Location not known
+    .sr-only We can't show you what's nearby

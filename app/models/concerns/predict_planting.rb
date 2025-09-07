@@ -8,12 +8,12 @@ module PredictPlanting
     before_save :calculate_lifespan
 
     def calculate_lifespan
-      self.lifespan = (planted_at.present? && finished_at.present? && !failed? ? finished_at - planted_at : nil)
+      self.lifespan = (planted_at.present? && finished_at.present? ? finished_at - planted_at : nil)
     end
 
     # dates
     def finish_predicted_at
-      if planted_at.blank? || failed?
+      if planted_at.blank?
         nil
       elsif crop.median_lifespan.present?
         planted_at + crop.median_lifespan.days
@@ -34,18 +34,15 @@ module PredictPlanting
     end
 
     def actual_lifespan
-      return unless planted_at.present? && finished_at.present? && !failed?
+      return unless planted_at.present? && finished_at.present?
 
       (finished_at - planted_at).to_i
     end
 
     def age_in_days
       return if planted_at.blank?
-      return if failed?
 
       known_last_day ||= finished_at || Time.zone.today
-      known_last_day = Time.zone.today if known_last_day > Time.zone.today
-
       (known_last_day - planted_at).to_i
     end
 
@@ -53,9 +50,9 @@ module PredictPlanting
       Rails.cache.fetch("#{cache_key_with_version}/percentage_grown", expires_in: 8.hours) do
         if finished?
           100
-        elsif !planted? || failed?
+        elsif !planted?
           0
-        elsif crop.perennial || (finish_predicted_at.nil? && finished_at.nil?) # This covers future dated finished_at that hasn't occurrred yet.
+        elsif crop.perennial || finish_predicted_at.nil?
           nil
         else
           calculate_percentage_grown
@@ -74,7 +71,7 @@ module PredictPlanting
     end
 
     def late?
-      crop.annual? && !finished && !failed &&
+      crop.annual? && !finished &&
         planted_at.present? &&
         finish_predicted_at.present? &&
         finish_predicted_at <= Time.zone.today
@@ -94,9 +91,9 @@ module PredictPlanting
     private
 
     def calculate_percentage_grown
-      return 0 if age_in_days.to_i < 0
+      return 0 if age_in_days < 0
 
-      percent = (age_in_days.to_f / expected_lifespan.to_f) * 100
+      percent = (age_in_days / expected_lifespan.to_f) * 100
       (percent > 100 ? 100 : percent)
     end
   end

@@ -39,6 +39,12 @@ class CropsController < ApplicationController
     respond_with @crops
   end
 
+  def openfarm
+    @crop = Crop.find(params[:crop_slug])
+    @crop.update_openfarm_data!
+    respond_with @crop, location: @crop
+  end
+
   def gbif
     @crop = Crop.find(params[:crop_slug])
     @crop.update_gbif_data!
@@ -132,6 +138,7 @@ class CropsController < ApplicationController
 
       if @crop.approval_status_changed?(from: "pending", to: "approved")
         notifier.deliver_now!
+        @crop.update_openfarm_data!
         @crop.update_gbif_data!
       end
     else
@@ -160,7 +167,7 @@ class CropsController < ApplicationController
   end
 
   def save_crop_names
-    AlternateName.create!(names_params(:alt_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id, language: "EN" } })
+    AlternateName.create!(names_params(:alt_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } })
     ScientificName.create!(names_params(:sci_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } })
   end
 
@@ -175,16 +182,18 @@ class CropsController < ApplicationController
   def recreate_names(param_name, name_type)
     return if params[param_name].blank?
 
-    @crop.send("#{name_type}_names").each(&:destroy)
+    destroy_names(name_type)
     params[param_name].each_value do |value|
-      next if value.empty?
-
-      if name_type == 'alternate'
-        @crop.send("#{name_type}_names").create!(name: value, creator_id: current_member.id, language: "EN")
-      else
-        @crop.send("#{name_type}_names").create!(name: value, creator_id: current_member.id)
-      end
+      create_name!(name_type, value) unless value.empty?
     end
+  end
+
+  def destroy_names(name_type)
+    @crop.send("#{name_type}_names").each(&:destroy)
+  end
+
+  def create_name!(name_type, value)
+    @crop.send("#{name_type}_names").create!(name: value, creator_id: current_member.id)
   end
 
   def crop_params
@@ -208,12 +217,12 @@ class CropsController < ApplicationController
   def crop_json_fields
     {
       include: {
-        plantings: {
+        plantings:        {
           include: {
             owner: { only: %i(id login_name location latitude longitude) }
           }
         },
-        scientific_names: { only: [:name] }, alternate_names:  { only: %i(name language) }
+        scientific_names: { only: [:name] }, alternate_names:  { only: [:name] }
       }
     }
   end

@@ -1,4 +1,3 @@
-- @post ||= post if defined?(post)
 %p
   Posted by
   - if @post.author
@@ -14,7 +13,7 @@
     and edited at
     = @post.updated_at.to_fs(:default)
 
-= link_to "Permalink", @post
+= link_to "Permalink", post
 
 :markdown
   #{ strip_tags markdownify(@post.body) }

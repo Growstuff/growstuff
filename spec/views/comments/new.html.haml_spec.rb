@@ -6,10 +6,9 @@ describe "comments/new" do
   before do
     controller.stub(:current_user) { nil }
     @post = FactoryBot.create(:post, body: 'tena koutou ki te ao')
-    @comment = FactoryBot.create(:comment, commentable: @post)
+    @comment = FactoryBot.create(:comment, post: @post)
     assign(:comment, @comment)
     assign(:comments, [@comment])
-    assign(:commentable, @post)
     render
   end
 

@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :comment do
-    association :commentable, factory: :post
+    post
     author
     sequence(:body) { |n| "OMG LOL #{n}" }
     # because our commenters are more polite than YouTube's

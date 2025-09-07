@@ -10,33 +10,9 @@
     width: 100%;
   }
 
-#navbarSupportedContent {
-  ul {
-    flex-direction: column-reverse;
-    flex-wrap: nowrap;
-
-    li.nav-item {
-      display: block;
-      a { 
-        display: grid;
-        grid-template-columns: 2em 1fr 2em;
-      }
-      a.dropdown-toggle::after {
-        width: 100%;
-        text-align: right;
-      }
-    }
-  }
-}
-
-.crop-actions {
-  flex-direction: column;
-  width: 100%;
-  a {
-    margin: auto;
+  .navbar .nav > li {
     display: block;
   }
-}
 
   .navbar .navbar-form {
     padding-left: 0;

@@ -21,7 +21,6 @@ class PhotosController < ApplicationController
 
   def show
     @crops = Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: @photo })
-    @comment = Comment.new(commentable: @photo)
     respond_with(@photo)
   end
 

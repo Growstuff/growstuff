@@ -16,6 +16,7 @@ class MembersController < ApplicationController
 
   def show
     @member        = Member.confirmed.kept.find_by!(slug: params[:slug])
+    @twitter_auth  = @member.auth('twitter')
     @flickr_auth   = @member.auth('flickr')
     @posts         = @member.posts
 

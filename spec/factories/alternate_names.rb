@@ -5,7 +5,6 @@
 FactoryBot.define do
   factory :alternate_name do
     name { "alternate name" }
-    language { "EN" }
     crop
     creator
 

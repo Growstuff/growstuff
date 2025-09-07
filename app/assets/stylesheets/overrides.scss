@@ -10,7 +10,6 @@ body {
 
 .navbar {
   flex-wrap: nowrap;
-  align-items: flex-start
 }
 .navbar-brand {
   .site-name {
@@ -367,6 +366,9 @@ ul.thumbnail-buttons {
 
   h1 {
     font-size: 400%;
+  }
+  .stats a {
+    color: $black;
   }
 
   // signup widget on homepage

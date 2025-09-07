@@ -8,8 +8,6 @@
       %p.small #{harvest_icon} First harvest expected #{I18n.l planting.first_harvest_predicted_at}
     - if planting.finished_at.present?
       %p.small #{finished_icon} Finished #{I18n.l planting.finished_at}
-    - elsif planting.failed?
-      %p.small #{finished_icon} Failed
     - elsif planting.finish_predicted_at.present?
       %p.small #{finished_icon} Finish expected #{I18n.l planting.finish_predicted_at}
   - if planting.planted_at.present? && planting.expected_lifespan.present?

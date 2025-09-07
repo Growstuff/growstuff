@@ -16,6 +16,12 @@ describe RegistrationsController do
       assigns(:member).should eq(@member)
     end
 
+    it "picks up the twitter auth" do
+      @auth = FactoryBot.create(:authentication, member: @member)
+      get :edit
+      assigns(:twitter_auth).should eq @auth
+    end
+
     it "picks up the flickr auth" do
       @auth = FactoryBot.create(:flickr_authentication, member: @member)
       get :edit

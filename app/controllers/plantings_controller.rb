@@ -91,32 +91,6 @@ class PlantingsController < DataController
     respond_with @planting, location: @planting.garden
   end
 
-  def transplant
-    # The `load_and_authorize_resource` in DataController will handle finding the
-    # planting and authorizing the action.
-    # We still need to authorize the new garden
-    new_garden = Garden.find(params[:garden_id])
-    authorize! :update, new_garden
-
-    # Mark original planting as finished
-    @planting.update(finished: true, finished_at: Time.zone.now)
-
-    # Create a new planting
-    new_planting = @planting.dup
-    new_planting.garden = new_garden
-    new_planting.slug = nil # let friendly_id generate a new slug
-    new_planting.finished = false
-    new_planting.finished_at = nil
-
-    if new_planting.save
-      redirect_to edit_planting_path(new_planting), notice: 'Planting was successfully transplanted.'
-    else
-      # if the save fails, we should probably roll back the finishing of the original planting
-      @planting.update(finished: false, finished_at: nil)
-      redirect_to @planting, alert: "There was an error transplanting the planting: #{new_planting.errors.full_messages.to_sentence}"
-    end
-  end
-
   private
 
   def update_crop_medians

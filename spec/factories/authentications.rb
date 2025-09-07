@@ -5,7 +5,7 @@
 FactoryBot.define do
   factory :authentication do
     member
-    provider { 'flickr' }
+    provider { 'twitter' }
     uid { 'foo' }
     secret { 'bar' }
     name { 'baz' }

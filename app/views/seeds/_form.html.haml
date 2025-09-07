@@ -38,7 +38,7 @@
 
       .row
         .col-12.col-md-4
-          = f.check_box :finished, label: t('buttons.mark_as_finished')
+          = f.check_box :finished, label: 'Mark as finished'
         .col-12.col-md-4
           = f.text_field :finished_at, class: 'add-datepicker', value: @seed.finished_at ? @seed.finished_at.to_fs(:ymd) : ''
         .col-12.col-md-4

@@ -76,6 +76,12 @@ describe "member profile", :js do
       end
     end
 
+    it "twitter link" do
+      twitter_auth = create(:authentication, member:)
+      visit member_path(member)
+      expect(page).to have_link twitter_auth.name, href: "https://twitter.com/#{twitter_auth.name}"
+    end
+
     it "flickr link" do
       flickr_auth = create(:flickr_authentication, member:)
       visit member_path(member)
@@ -155,7 +161,7 @@ describe "member profile", :js do
 
     context 'member has comments' do
       let(:post) { FactoryBot.create(:post) }
-      let!(:comment) { FactoryBot.create(:comment, commentable: post, author: member) }
+      let!(:comment) { FactoryBot.create(:comment, post:, author: member) }
 
       before { visit member_path(member) }
 
@@ -221,8 +227,8 @@ describe "member profile", :js do
   end
 
   context "not signed in" do
-    it_behaves_like 'member details'
-    it_behaves_like 'member activity'
+    include_examples 'member details'
+    include_examples 'member activity'
 
     it "no bio" do
       member.update! bio: nil
@@ -233,8 +239,8 @@ describe "member profile", :js do
 
   context "signed in member" do
     include_context 'signed in member'
-    it_behaves_like 'member details'
-    it_behaves_like 'member activity'
+    include_examples 'member details'
+    include_examples 'member activity'
 
     context "your own profile page" do
       before { visit member_path(member) }

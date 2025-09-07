@@ -38,7 +38,7 @@ module PredictHarvest
 
     # status
     def harvest_time?
-      return false if crop.perennial || finished || failed
+      return false if crop.perennial || finished
 
       # We have harvests but haven't finished
       harvests.size.positive? ||

@@ -62,3 +62,5 @@ For more information about this project, contact [info@growstuff.org](mailto:inf
 
 Security Issues: If you find an authorization bypass or data breach, please contact our maintainers directly at [maintainers@growstuff.org](mailto:maintainers@growstuff.org).
 
+You can also contact us on [Twitter](http://twitter.com/growstufforg/) or
+[Facebook](https://www.facebook.com/pages/Growstuff/1531133417099494) or [Github](https://github.com/Growstuff/growstuff/issues)..

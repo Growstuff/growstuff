@@ -22,7 +22,7 @@ describe "posts/_single" do
     end
 
     it "doesn't contain a link to new comment" do
-      assert_select("a", { href: new_comment_path(comment: { commmentable_type: "Post", commentable_id: @post.id }) }, false)
+      assert_select("a", { href: new_comment_path(post_id: @post.id) }, false)
     end
   end
 
@@ -35,7 +35,7 @@ describe "posts/_single" do
     end
 
     it "contains link to new comment" do
-      assert_select("a", { href: new_comment_path(comment: { commmentable_type: "Post", commentable_id: @post.id }) }, "Reply")
+      assert_select("a", { href: new_comment_path(post_id: @post.id) }, "Reply")
     end
 
     it "does not contain an edit link" do
@@ -78,7 +78,7 @@ describe "posts/_single" do
       sign_in @member
       controller.stub(:current_user) { @member }
       @post = FactoryBot.create(:post, author: @member)
-      @comment = FactoryBot.create(:comment, commentable: @post)
+      @comment = FactoryBot.create(:comment, post: @post)
       @comment.update(body: "I've been updated")
       render partial: "comments/single", locals: { comment: @comment }
     end
@@ -113,7 +113,7 @@ describe "posts/_single" do
       sign_in @member
       controller.stub(:current_user) { @member }
       @post = FactoryBot.create(:post, author: @member)
-      @comment = FactoryBot.create(:comment, commentable: @post)
+      @comment = FactoryBot.create(:comment, post: @post)
       @comment.update(updated_at: @comment.created_at)
       render partial: "comments/single", locals: { comment: @comment }
     end

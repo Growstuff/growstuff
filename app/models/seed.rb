@@ -59,7 +59,6 @@ class Seed < ApplicationRecord
   scope :has_location, -> { joins(:owner).where.not('members.location': nil) }
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
-  scope :expired, -> { active.where('plant_before < ?', Time.zone.today) }
 
   def tradable
     tradable_to != 'nowhere'

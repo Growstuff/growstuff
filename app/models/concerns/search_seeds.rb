@@ -59,8 +59,7 @@ module SearchSeeds
       search('*', limit:,
                   where:    {
                     finished: false,
-                    tradable: true,
-                    _or:      [{ plant_before: nil }, { plant_before: { lt: Date.today } }]
+                    tradable: true
                   },
                   boost_by: [:created_at],
                   load:     false)

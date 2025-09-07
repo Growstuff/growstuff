@@ -2,6 +2,6 @@
 
 %p
   Editing comment on
-  = link_to @comment.commentable.subject, @comment.commentable
+  = link_to @comment.post.subject, @comment.post
 
-= render 'form', locals: { comment: @comment, commentable: @comment.commentable }
+= render 'form'

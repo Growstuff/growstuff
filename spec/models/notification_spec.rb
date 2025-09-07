@@ -6,7 +6,7 @@ describe Notification do
   let(:notification) { FactoryBot.create(:notification) }
 
   it "belongs to a post" do
-    expect(notification.notifiable).to be_an_instance_of Post
+    expect(notification.post).to be_an_instance_of Post
   end
 
   it "belongs to a recipient" do

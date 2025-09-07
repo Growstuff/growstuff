@@ -1,6 +1,6 @@
 - if crop.approved? && signed_in?
 
-  .btn-group.crop-actions{"aria-label" => "Crop Actions", role: "group"}
+  .btn-group{"aria-label" => "Crop Actions", role: "group"}
     = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
     = render 'harvests/modal', harvest: Harvest.new(crop: @crop,  owner: current_member)
     = render 'seeds/modal', seed: Seed.new(crop: @crop,  owner: current_member)

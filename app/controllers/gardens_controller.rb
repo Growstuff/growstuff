@@ -4,7 +4,7 @@ class GardensController < DataController
   def index
     @owner = Member.find_by(slug: params[:member_slug])
     @show_all = params[:all] == '1'
-    @show_jump_to = params[:member_slug].present? || false
+    @show_jump_to = params[:member_slug].present? ? true : false
 
     @gardens = @gardens.includes(:owner)
     @gardens = @gardens.active unless @show_all
@@ -18,7 +18,7 @@ class GardensController < DataController
   end
 
   def show
-    @current_plantings = @garden.plantings.current.where.not(failed: true).includes(:crop, :owner).order(planted_at: :desc)
+    @current_plantings = @garden.plantings.current.includes(:crop, :owner).order(planted_at: :desc)
     @current_activities = @garden.activities.current.includes(:owner).order(created_at: :desc)
     @finished_plantings = @garden.plantings.finished.includes(:crop)
     @suggested_companions = Crop.approved.where(

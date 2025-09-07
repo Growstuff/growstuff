@@ -8,12 +8,7 @@ module Finishable
     scope :current, -> { where.not(finished: true) }
 
     def active
-      # Plantings can fail. At the moment, activities and seeds cannot.
-      if respond_to?(:failed)
-        !finished && !failed
-      else
-        !finished
-      end
+      !finished
     end
   end
 end

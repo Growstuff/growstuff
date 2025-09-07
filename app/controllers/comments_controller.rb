@@ -13,55 +13,43 @@ class CommentsController < ApplicationController
   end
 
   def new
-    @commentable = find_commentable
     @comment = Comment.new
-    if @commentable
-      @comments = @commentable.comments
+    @post = Post.find_by(id: params[:post_id])
+
+    if @post
+      @comments = @post.comments
       respond_with(@comments)
     else
       redirect_to(request.referer || root_url,
-                  alert: "Can't post a comment on a non-existent commentable")
+                  alert: "Can't post a comment on a non-existent post")
     end
   end
 
   def edit
-    # TODO: Why does this need a collection of comments?
-    @comments = @comment.commentable.comments
-    @commentable = @comment.commentable
+    @comments = @comment.post.comments
   end
 
   def create
     @comment = Comment.new(comment_params)
-    @commentable = @comment.commentable
     @comment.author = current_member
     @comment.save
-    respond_with @comment, location: @commentable
+    respond_with @comment, location: @comment.post
   end
 
   def update
     @comment.update(body: comment_params['body'])
-    respond_with @comment, location: @comment.commentable
+    respond_with @comment, location: @comment.post
   end
 
   def destroy
-    @commentable = @comment.commentable
+    @post = @comment.post
     @comment.destroy
-    respond_with(@commentable)
+    respond_with(@post)
   end
 
   private
 
-  def find_commentable
-    return unless params[:comment]
-
-    if params[:comment][:commentable_type] == 'Photo'
-      Photo.find(params[:comment][:commentable_id])
-    elsif params[:comment][:commentable_type] == 'Post'
-      Post.find(params[:comment][:commentable_id])
-    end
-  end
-
   def comment_params
-    params.require(:comment).permit(:body, :commentable_id, :commentable_type)
+    params.require(:comment).permit(:body, :post_id)
   end
 end

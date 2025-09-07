@@ -61,6 +61,8 @@ class Growstuff::OauthSignupAction
 
   def determine_name(auth)
     case auth['provider']
+    when 'twitter'
+      auth['info']['nickname']
     when 'flickr'
       auth['info']['name']
     else

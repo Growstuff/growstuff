@@ -28,7 +28,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @authentication = action.establish_authentication(auth, member)
 
     if action.member_created?
-      raise "Invalid provider" unless %w(flickr).index(auth['provider'].to_s)
+      raise "Invalid provider" unless %w(twitter flickr).index(auth['provider'].to_s)
 
       session["devise.#{auth['provider']}_data"] = request.env["omniauth.auth"]
       sign_in member

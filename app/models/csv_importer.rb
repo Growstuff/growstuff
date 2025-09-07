@@ -59,7 +59,7 @@ class CsvImporter
 
     alternate_names.split(/,\s*/).each do |name|
       altname = AlternateName.find_by(name:, crop: @crop)
-      altname ||= AlternateName.create! name:, crop: @crop, language: "EN", creator: cropbot
+      altname ||= AlternateName.create! name:, crop: @crop, creator: cropbot
       @crop.alternate_names << altname
     end
   end

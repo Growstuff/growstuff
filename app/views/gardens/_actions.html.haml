@@ -15,4 +15,5 @@
 
       - if can?(:destroy, garden)
         .dropdown-divider
-        = delete_button(garden, classes: 'dropdown-item text-danger', message: 'gardens.confirm_delete')
+        = delete_button(garden, classes: 'dropdown-item text-danger',
+          message: 'All plantings associated with this garden will also be deleted. Are you sure?')

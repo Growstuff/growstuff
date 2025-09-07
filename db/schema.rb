@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_29_041435) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -67,7 +67,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
     t.integer "creator_id", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.string "language"
   end
 
   create_table "authentications", id: :serial, force: :cascade do |t|
@@ -203,12 +202,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
   end
 
   create_table "comments", id: :serial, force: :cascade do |t|
-    t.integer "commentable_id", null: false
+    t.integer "post_id", null: false
     t.integer "author_id", null: false
     t.text "body", null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.string "commentable_type"
   end
 
   create_table "crop_companions", force: :cascade do |t|
@@ -448,11 +446,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
     t.integer "photos_count"
     t.integer "forums_count"
     t.integer "activities_count"
-    t.string "website_url"
-    t.string "instagram_handle"
-    t.string "facebook_handle"
-    t.string "bluesky_handle"
-    t.string "other_url"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true
@@ -472,11 +465,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
     t.string "subject"
     t.text "body"
     t.boolean "read", default: false
-    t.integer "notifiable_id"
+    t.integer "post_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.string "notifiable_type"
-    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
   end
 
   create_table "orders_products", id: false, force: :cascade do |t|
@@ -509,7 +500,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
     t.datetime "date_taken", precision: nil
     t.integer "likes_count", default: 0
     t.string "source"
-    t.integer "comments_count", default: 0
     t.index ["fullsize_url"], name: "index_photos_on_fullsize_url", unique: true
     t.index ["thumbnail_url"], name: "index_photos_on_thumbnail_url", unique: true
   end
@@ -533,16 +523,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
     t.integer "harvests_count", default: 0
   end
 
-  create_table "planting_problems", force: :cascade do |t|
-    t.bigint "planting_id"
-    t.bigint "problem_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["planting_id", "problem_id"], name: "index_planting_problems_on_planting_id_and_problem_id", unique: true
-    t.index ["planting_id"], name: "index_planting_problems_on_planting_id"
-    t.index ["problem_id"], name: "index_planting_problems_on_problem_id"
-  end
-
   create_table "plantings", id: :serial, force: :cascade do |t|
     t.integer "garden_id", null: false
     t.integer "crop_id", null: false
@@ -563,7 +543,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
     t.integer "parent_seed_id"
     t.integer "harvests_count", default: 0
     t.integer "likes_count", default: 0
-    t.boolean "failed", default: false, null: false
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 
@@ -579,32 +558,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
     t.integer "comments_count", default: 0
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
-  end
-
-  create_table "problem_posts", force: :cascade do |t|
-    t.bigint "problem_id"
-    t.bigint "post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_problem_posts_on_post_id"
-    t.index ["problem_id", "post_id"], name: "index_problem_posts_on_problem_id_and_post_id", unique: true
-    t.index ["problem_id"], name: "index_problem_posts_on_problem_id"
-  end
-
-  create_table "problems", force: :cascade do |t|
-    t.string "name"
-    t.string "reason_for_rejection"
-    t.string "rejection_notes"
-    t.string "approval_status", default: "pending", null: false
-    t.bigint "requester_id"
-    t.bigint "creator_id"
-    t.string "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_problems_on_creator_id"
-    t.index ["name"], name: "index_problems_on_name"
-    t.index ["requester_id"], name: "index_problems_on_requester_id"
-    t.index ["slug"], name: "index_problems_on_slug"
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -647,9 +600,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
     t.date "finished_at"
     t.integer "parent_planting_id"
     t.date "saved_at"
-    t.string "source"
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
-    t.index ["source"], name: "index_seeds_on_source"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -660,12 +611,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_105526) do
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
-  add_foreign_key "planting_problems", "plantings"
-  add_foreign_key "planting_problems", "problems"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
-  add_foreign_key "problem_posts", "posts"
-  add_foreign_key "problem_posts", "problems"
-  add_foreign_key "problems", "members", column: "creator_id"
-  add_foreign_key "problems", "members", column: "requester_id"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end

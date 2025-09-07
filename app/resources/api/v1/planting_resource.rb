@@ -13,7 +13,6 @@ module Api
 
       attribute :slug
       attribute :planted_at
-      attribute :failed
       attribute :finished
       attribute :finished_at
       attribute :quantity
@@ -38,7 +37,9 @@ module Api
       filter :finished
 
       attribute :percentage_grown
-      delegate :percentage_grown, to: :@model
+      def percentage_grown
+        @model.percentage_grown
+      end
 
       attribute :crop_name
       attribute :crop_slug

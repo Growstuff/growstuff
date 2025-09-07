@@ -24,7 +24,7 @@ describe "forums/index" do
 
   context "posts" do
     let!(:post) { FactoryBot.create(:forum_post, forum: forum1) }
-    let!(:comment) { FactoryBot.create(:comment, commentable: post) }
+    let!(:comment) { FactoryBot.create(:comment, post:) }
 
     before { render }
 

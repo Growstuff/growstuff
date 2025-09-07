@@ -5,18 +5,17 @@
     %link= comments_url
     - @comments.each do |comment|
       %item
-        %title Comment by #{comment.author.login_name} on #{comment.commentable.subject}
+        %title Comment by #{comment.author.login_name} on #{comment.post.subject}
         %description
           :escaped_markdown
             <p>
             Comment on
-            #{ link_to comment.commentable.subject, polymorphic_url(comment.commentable) }
+            #{ link_to comment.post.subject, post_url(comment.post) }
             </p>
 
           :escaped_markdown
             #{ strip_tags markdownify(comment.body) }
 
         %pubdate= comment.created_at.to_fs(:rfc822)
-        %link= polymorphic_url(comment.commentable)
+        %link= post_url(comment.post)
         %guid= comment_url(comment)
-
