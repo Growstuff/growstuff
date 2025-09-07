@@ -104,16 +104,18 @@ describe CropsController do
       context 'with openfarm data' do
         let(:crop_params) do
           {
-            crop: {
-              name: 'aubergine',
-              en_wikipedia_url: "https://en.wikipedia.org/wiki/Eggplant",
-              row_spacing: 10,
-              spread: 20,
-              height: 30,
-              sowing_method: 'direct',
-              sun_requirements: 'full sun',
+            crop:     {
+              name:                'aubergine',
+              en_wikipedia_url:    "https://en.wikipedia.org/wiki/Eggplant",
+              row_spacing:         10,
+              spread:              20,
+              height:              30,
+              sowing_method:       'direct',
+              sun_requirements:    'full sun',
               growing_degree_days: 100
-            }
+            },
+            alt_name: { '1': "egg plant", '2': "purple apple" },
+            sci_name: { '1': "fancy sci name", '2': "" }
           }
         end
 
