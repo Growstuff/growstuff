@@ -37,6 +37,7 @@ class PlantingsController < DataController
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
     @harvests = Harvest.search(where: { planting_id: @planting.id })
     @current_activities = @planting.activities.current.includes(:owner).order(created_at: :desc)
+    @finished_activities = @planting.activities.finished.includes(:owner).order(created_at: :desc)
     @matching_seeds = matching_seeds
     @crop = @planting.crop
 
