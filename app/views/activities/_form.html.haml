@@ -27,13 +27,13 @@
 
       .row
         .col-md-4
-          = f.collection_radio_buttons(:garden_id, @activity.owner.gardens.active,
+          = f.collection_radio_buttons(:garden_id, @activity.owner.gardens.active.order_by_name,
             :id, :name,
             label: 'Is this for a specific garden?')
           = link_to "Add a garden.", new_garden_path
 
         .col-md-4
-          = f.collection_radio_buttons(:planting_id, @activity.owner.plantings.active,
+          = f.collection_radio_buttons(:planting_id, @activity.owner.plantings.active.recent,
             :id, :crop_name,
             label: 'Is this for a specific planting?')
           = link_to "Add a planting.", new_planting_path

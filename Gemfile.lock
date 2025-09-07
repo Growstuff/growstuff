@@ -294,12 +294,6 @@ GEM
       temple (>= 0.8.2)
       thor
       tilt
-    haml-i18n-extractor (0.5.9)
-      activesupport
-      haml
-      highline
-      tilt
-      trollop (= 1.16.2)
     haml-rails (2.1.0)
       actionpack (>= 5.1)
       activesupport (>= 5.1)
@@ -463,8 +457,8 @@ GEM
       racc
     percy-capybara (5.0.0)
       capybara (>= 3)
-    pg (1.6.1)
-    pg (1.6.1-x86_64-linux)
+    pg (1.6.2)
+    pg (1.6.2-x86_64-linux)
     platform-api (3.8.0)
       heroics (~> 0.1.1)
       moneta (~> 1.0.0)
@@ -481,7 +475,7 @@ GEM
       date
       stringio
     public_suffix (6.0.1)
-    puma (6.6.1)
+    puma (7.0.0)
       nio4r (~> 2.0)
     query_diet (0.7.2)
     racc (1.8.1)
@@ -607,7 +601,7 @@ GEM
     rswag-ui (2.16.0)
       actionpack (>= 5.2, < 8.1)
       railties (>= 5.2, < 8.1)
-    rubocop (1.80.1)
+    rubocop (1.80.2)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -636,7 +630,7 @@ GEM
     rubocop-rake (0.7.1)
       lint_roller (~> 1.1)
       rubocop (>= 1.72.1)
-    rubocop-rspec (3.6.0)
+    rubocop-rspec (3.7.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
     rubocop-rspec_rails (2.31.0)
@@ -694,14 +688,13 @@ GEM
     temple (0.10.4)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
-    terser (1.2.5)
+    terser (1.2.6)
       execjs (>= 0.3.0, < 3)
     thor (1.4.0)
     thread_safe (0.3.6)
     tilt (2.6.1)
     timecop (0.9.10)
     timeout (0.4.3)
-    trollop (1.16.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.1.5)
@@ -788,7 +781,6 @@ DEPENDENCIES
   gibbon (~> 1.2.0)
   gravatar-ultimate
   haml
-  haml-i18n-extractor
   haml-rails
   haml_lint (>= 0.25.1)
   hashie (>= 3.5.3)

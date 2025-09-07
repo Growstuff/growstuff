@@ -1,4 +1,4 @@
-name: CI Features - Admin
+name: CI Features - Posts
 
 on: [pull_request]
 
@@ -100,3 +100,10 @@ jobs:
 
       - name: Run rspec (posts/)
         run: bundle exec rspec spec/features/posts/ -fd
+
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: tmp/screenshots
