@@ -23,11 +23,12 @@
     = link_to activity_path(slug: activity.slug) do
       .card-body.text-center
         %h4= activity.name
-        .text-center= activity.description
-        - if activity.garden
-          .text-center= activity.garden
-        - if activity.planting
-          .text-center= activity.planting
+        %div
+          %small.text-justify{title: activity.description}= activity.description.truncate(150)
+        - if activity.garden_name && activity.garden_slug
+          .badge.badge-info= link_to activity.garden_name, garden_path(slug: activity.garden_slug)
+        - if activity.planting_name && activity.planting_slug
+          .badge= link_to activity.planting_name, planting_path(slug: activity.planting_slug)
     .card-footer
       .float-right
         %span.chip.member-chip
