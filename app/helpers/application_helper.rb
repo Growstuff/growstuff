@@ -21,6 +21,28 @@ module ApplicationHelper
     classes
   end
 
+  # Similar to Rails' time_ago_in_words, but gives a more standard
+  # output like "in 3 days" or "5 months ago".
+  # Also handles the case where from_time is a Date and to_time is a Date
+  # (in which case it just says "today" if they're the same date).
+  #
+  # NOTE: This is similar to distance_of_time_in_words but different enough
+  # that I think it's worth having a separate helper for it.
+  #
+  # from_time - the starting time (Time or Date)
+  # to_time - the ending time (Time or Date). Default: now (Time.zone.now)
+  # include_seconds - whether to include seconds in the calculation
+  #
+  # Returns a string like "in 3 days" or "5 months ago"
+  def standard_time_distance(from_time, to_time = 0, include_seconds = false)
+    return 'today' if from_time.is_a?(Date) && (from_time == to_time)
+
+    return 'now' if from_time == to_time
+    return distance_of_time_in_words(from_time, to_time, include_seconds:) + ' ago' if from_time > to_time
+
+    'in ' + distance_of_time_in_words(from_time, to_time, include_seconds:)
+  end
+
   def count_github_contibutors
     File.open(Rails.root.join('CONTRIBUTORS.md')).readlines.grep(/^-/).size
   end
