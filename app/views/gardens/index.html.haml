@@ -11,6 +11,9 @@
 
 .row
   .col-md-2
+    %small
+      %a{href: "#content"}
+        Skip to main content
     = render 'layouts/nav', model: Garden
     %label
       = link_to show_inactive_tickbox_path('gardens', owner: @owner, show_all: @show_all) do
@@ -20,7 +23,7 @@
       %hr/
       = render @owner
 
-  .col-md-10
+  .col-md-10#content
     - if @gardens.empty?
       %p There are no gardens to display.
       - if can?(:create, Garden) && @owner == current_member
