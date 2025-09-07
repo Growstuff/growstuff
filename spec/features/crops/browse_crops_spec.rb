@@ -34,25 +34,25 @@ describe "browse crops", :search do
   end
 
   context 'anon' do
-    include_examples 'shows crops'
+    it_behaves_like 'shows crops'
     it { expect(page).to have_no_link "Add New Crop" }
   end
 
   context 'member' do
     include_context 'signed in member'
-    include_examples 'shows crops'
-    include_examples 'add new crop'
+    it_behaves_like 'shows crops'
+    it_behaves_like 'add new crop'
   end
 
   context 'wrangler' do
     include_context 'signed in crop wrangler'
-    include_examples 'shows crops'
-    include_examples 'add new crop'
+    it_behaves_like 'shows crops'
+    it_behaves_like 'add new crop'
   end
 
   context 'admin' do
     include_context 'signed in admin'
-    include_examples 'shows crops'
-    include_examples 'add new crop'
+    it_behaves_like 'shows crops'
+    it_behaves_like 'add new crop'
   end
 end

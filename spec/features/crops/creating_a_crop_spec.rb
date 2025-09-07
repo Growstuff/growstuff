@@ -25,7 +25,7 @@ describe "Crop", :js do
 
   shared_examples 'request crop' do
     describe "requesting a crop with multiple scientific and alternate name" do
-      include_examples 'fill in form'
+      it_behaves_like 'fill in form'
       before do
         within "form#new_crop" do
           fill_in "request_notes", with: "This is the Philippine national flower."
@@ -42,7 +42,7 @@ describe "Crop", :js do
 
   shared_examples 'create crop' do
     describe "creating a crop with multiple scientific and alternate name" do
-      include_examples 'fill in form'
+      it_behaves_like 'fill in form'
       before do
         click_button "Save"
       end
@@ -61,16 +61,16 @@ describe "Crop", :js do
 
   context 'member' do
     include_context 'signed in member'
-    include_examples 'request crop'
+    it_behaves_like 'request crop'
   end
 
   context 'crop wrangler' do
     include_context 'signed in crop wrangler'
-    include_examples 'create crop'
+    it_behaves_like 'create crop'
   end
 
   context 'admin' do
     include_context 'signed in admin'
-    include_examples 'create crop'
+    it_behaves_like 'create crop'
   end
 end
