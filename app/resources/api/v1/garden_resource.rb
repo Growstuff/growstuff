@@ -15,6 +15,8 @@ module Api
       filter :active
       filter :garden_type
       filter :location
+      filter :slug
+      filter :owner_id
     end
   end
 end
