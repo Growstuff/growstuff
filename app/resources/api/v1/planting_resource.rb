@@ -34,7 +34,6 @@ module Api
       filter :planted_from
       filter :garden
       filter :owner
-      filter :owner_id
       filter :finished
       filter :active
       filter :failed
