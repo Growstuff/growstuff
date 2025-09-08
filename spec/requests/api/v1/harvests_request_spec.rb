@@ -95,6 +95,12 @@ RSpec.describe 'Harvests', type: :request do
         expect(subject['data'].size).to eq(1)
         expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
     end
+
+    it 'filters by owner' do
+        get("/api/v1/harvests?filter[owner]=#{harvest2.owner.id}", params: {}, headers:)
+        expect(subject['data'].size).to eq(1)
+        expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
+    end
   end
 
   it '#create' do

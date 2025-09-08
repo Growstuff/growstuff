@@ -63,6 +63,12 @@ RSpec.describe 'Gardens', type: :request do
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(garden2.id.to_s)
     end
+
+    it 'filters by owner' do
+      get("/api/v1/gardens?filter[owner]=#{garden2.owner.id}", params: {}, headers:)
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(garden2.id.to_s)
+    end
   end
 
   it '#create' do

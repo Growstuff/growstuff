@@ -161,5 +161,11 @@ RSpec.describe 'Plantings', type: :request do
         expect(subject['data'].size).to eq(1)
         expect(subject['data'][0]['id']).to eq(perennial_planting.id.to_s)
     end
+
+    it 'filters by active' do
+        get('/api/v1/plantings?filter[active]=true', params: {}, headers:)
+        expect(subject['data'].size).to eq(1)
+        expect(subject['data'][0]['id']).to eq(planting.id.to_s)
+    end
   end
 end

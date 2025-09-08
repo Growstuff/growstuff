@@ -20,7 +20,7 @@ module Api
 
       filter :owner
       filter :crop
-      filter :tradable, apply: ->(records, value, _options) { records.tradable if value.first }
+      filter :tradable_to
       filter :organic
       filter :gmo
       filter :heirloom
