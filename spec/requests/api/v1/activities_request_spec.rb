@@ -6,7 +6,7 @@ RSpec.describe 'Activities', type: :request do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:activity) { FactoryBot.create(:activity) }
+  let!(:activity) { FactoryBot.create(:activity, garden: create(:garden), planting: create(:planting)) }
   let!(:activity2) { FactoryBot.create(:activity) }
 
   it '#index' do
