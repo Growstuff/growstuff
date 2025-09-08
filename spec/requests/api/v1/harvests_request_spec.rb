@@ -77,7 +77,7 @@ RSpec.describe 'Harvests', type: :request do
   end
 
   context 'filtering' do
-    let!(:harvest2) { FactoryBot.create(:harvest) }
+    let!(:harvest2) { FactoryBot.create(:harvest, planting: create(:planting)) }
     it 'filters by crop' do
       get("/api/v1/harvests?filter[crop]=#{harvest2.crop.id}", params: {}, headers:)
       expect(subject['data'].size).to eq(1)
