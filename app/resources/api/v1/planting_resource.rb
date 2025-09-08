@@ -36,6 +36,10 @@ module Api
       filter :owner
       filter :owner_id
       filter :finished
+      filter :active
+      filter :failed
+      filter :sunniness
+      filter :perennial
 
       attribute :percentage_grown
       delegate :percentage_grown, to: :@model

@@ -78,4 +78,37 @@ RSpec.describe 'Seeds', type: :request do
       delete "/api/v1/seeds/#{seed.id}", params: {}, headers:
     end.to raise_error ActionController::RoutingError
   end
+
+  context 'filtering' do
+    let!(:seed2) { FactoryBot.create(:seed, tradable_to: 'nationally', organic: 'certified organic', gmo: 'certified GMO-free', heirloom: 'heirloom') }
+    it 'filters by crop' do
+      get("/api/v1/seeds?filter[crop]=#{seed2.crop.id}", params: {}, headers:)
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
+    end
+
+    it 'filters by tradable' do
+      get('/api/v1/seeds?filter[tradable]=true', params: {}, headers:)
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
+    end
+
+    it 'filters by organic' do
+      get('/api/v1/seeds?filter[organic]=certified organic', params: {}, headers:)
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
+    end
+
+    it 'filters by gmo' do
+      get('/api/v1/seeds?filter[gmo]=certified GMO-free', params: {}, headers:)
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
+    end
+
+    it 'filters by heirloom' do
+      get('/api/v1/seeds?filter[heirloom]=heirloom', params: {}, headers:)
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
+    end
+  end
 end

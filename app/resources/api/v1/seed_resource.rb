@@ -17,6 +17,13 @@ module Api
       attribute :organic
       attribute :gmo
       attribute :heirloom
+
+      filter :owner
+      filter :crop
+      filter :tradable
+      filter :organic
+      filter :gmo
+      filter :heirloom
     end
   end
 end

@@ -76,6 +76,27 @@ RSpec.describe 'Harvests', type: :request do
     it { expect(subject['data']).to eq(harvest_encoded_as_json_api) }
   end
 
+  context 'filtering' do
+    let!(:harvest2) { FactoryBot.create(:harvest) }
+    it 'filters by crop' do
+      get("/api/v1/harvests?filter[crop]=#{harvest2.crop.id}", params: {}, headers:)
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
+    end
+
+    it 'filters by planting' do
+      get("/api/v1/harvests?filter[planting]=#{harvest2.planting.id}", params: {}, headers:)
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
+    end
+
+    it 'filters by plant_part' do
+        get("/api/v1/harvests?filter[plant_part]=#{harvest2.plant_part.id}", params: {}, headers:)
+        expect(subject['data'].size).to eq(1)
+        expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
+    end
+  end
+
   it '#create' do
     expect do
       put '/api/v1/harvests', headers:, params: {
