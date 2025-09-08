@@ -10,6 +10,10 @@ module Api
       has_many :photos
 
       attribute :name
+      
+      filter :slug
+      filter :owner
+      filter :owner_id
     end
   end
 end
