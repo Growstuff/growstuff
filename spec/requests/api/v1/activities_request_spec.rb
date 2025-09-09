@@ -21,7 +21,7 @@ RSpec.describe 'Activities', type: :request do
 
   context 'filtering' do
     it 'filters by owner' do
-      get("/api/v1/activities?filter[owner]=#{activity.owner.id}", params: {}, headers:)
+      get("/api/v1/activities?filter[owner_id]=#{activity.owner.id}", params: {}, headers:)
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(activity.id.to_s)
     end

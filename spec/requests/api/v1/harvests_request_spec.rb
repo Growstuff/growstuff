@@ -79,13 +79,13 @@ RSpec.describe 'Harvests', type: :request do
   context 'filtering' do
     let!(:harvest2) { FactoryBot.create(:harvest, planting: create(:planting)) }
     it 'filters by crop' do
-      get("/api/v1/harvests?filter[crop]=#{harvest2.crop.id}", params: {}, headers:)
+      get("/api/v1/harvests?filter[crop_id]=#{harvest2.crop.id}", params: {}, headers:)
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
     end
 
     it 'filters by planting' do
-      get("/api/v1/harvests?filter[planting]=#{harvest2.planting.id}", params: {}, headers:)
+      get("/api/v1/harvests?filter[planting_id]=#{harvest2.planting.id}", params: {}, headers:)
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
     end
