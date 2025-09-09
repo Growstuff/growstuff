@@ -175,7 +175,7 @@ describe "Planting a crop", :js, :search do
       click_link "Edit"
       fill_in "Tell us more about it", with: "Some extra notes"
       click_button "Save"
-      expect(page).to have_content "planting was successfully updated"
+      expect(page).to have_content "Planting was successfully updated"
     end
 
     it "Editing a planting to fill in the finished date" do
@@ -187,7 +187,7 @@ describe "Planting a crop", :js, :search do
       check "finished"
       fill_in "Finished date", with: "2015-06-25"
       click_button "Save"
-      expect(page).to have_content "planting was successfully updated"
+      expect(page).to have_content "Planting was successfully updated"
       expect(page).to have_content "Finished"
     end
 
