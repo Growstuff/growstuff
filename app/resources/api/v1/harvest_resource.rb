@@ -16,6 +16,15 @@ module Api
       attribute :weight_quantity
       attribute :weight_unit
       attribute :si_weight
+
+      filter :owner
+      filter :owner_id
+      filter :crop
+      filter :crop_id
+      filter :planting
+      filter :planting_id
+      filter :plant_part
+      filter :harvested_at
     end
   end
 end
