@@ -32,11 +32,11 @@ class Member < ApplicationRecord
 
   def regenerate_api_token
     api_token.destroy if api_token?
-    build_api_token(
+    create_api_token(
       provider: 'api',
       uid:      id,
       token:    SecureRandom.hex(16)
-    ).save
+    )
   end
   has_many :photos, inverse_of: :owner
   has_many :likes, dependent: :destroy

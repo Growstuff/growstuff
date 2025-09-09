@@ -142,14 +142,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      jsonapi_resources :activities, only: %i(index show create update destroy)
-      jsonapi_resources :crops, only: %i(index show create update destroy)
-      jsonapi_resources :gardens, only: %i(index show create update destroy)
-      jsonapi_resources :harvests, only: %i(index show create update destroy)
-      jsonapi_resources :members, only: %i(index show create update destroy)
-      jsonapi_resources :photos, only: %i(index show create update destroy)
-      jsonapi_resources :plantings, only: %i(index show create update destroy)
-      jsonapi_resources :seeds, only: %i(index show create update destroy)
+      jsonapi_resources :activities
+      jsonapi_resources :crops
+      jsonapi_resources :gardens
+      jsonapi_resources :harvests
+      jsonapi_resources :members
+      jsonapi_resources :photos
+      jsonapi_resources :plantings
+      jsonapi_resources :seeds
     end
   end
 

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Plantings API Write Operations', type: :request do
-  let(:member) { create(:member) }
+  let!(:member) { create(:member) }
   let(:token) { member.regenerate_api_token; member.api_token.token }
   let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
   let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }

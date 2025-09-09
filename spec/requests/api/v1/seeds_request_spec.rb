@@ -61,22 +61,108 @@ RSpec.describe 'Seeds', type: :request do
     it { expect(subject['data']).to eq(seed_encoded_as_json_api) }
   end
 
-  it '#create' do
-    expect do
-      post '/api/v1/seeds', params: { 'seed' => { 'name' => 'can i make this' } }, headers:
-    end.to raise_error ActionController::RoutingError
+  describe '#create' do
+    let!(:member) { create(:member) }
+    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
+    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:crop) { create(:crop) }
+    let(:seed_params) do
+      {
+        data: {
+          type: 'seeds',
+          attributes: {
+            description: 'My API seeds'
+          },
+          relationships: {
+            crop: { data: { type: 'crops', id: crop.id } }
+          }
+        }
+      }.to_json
+    end
+
+    it 'returns 401 Unauthorized without a token' do
+      post '/api/v1/seeds', params: seed_params, headers: headers
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns 201 Created with a valid token' do
+      post '/api/v1/seeds', params: seed_params, headers: auth_headers
+      expect(response).to have_http_status(:created)
+      expect(member.seeds.count).to eq(1)
+    end
   end
 
-  it '#update' do
-    expect do
-      post "/api/v1/seeds/#{seed.id}", params: { 'seed' => { 'name' => 'can i modify this' } }, headers:
-    end.to raise_error ActionController::RoutingError
+  describe '#update' do
+    let!(:member) { create(:member) }
+    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
+    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:crop) { create(:crop) }
+    let(:seed) { create(:seed, owner: member, crop: crop) }
+    let(:other_member_seed) { create(:seed) }
+    let(:update_params) do
+      {
+        data: {
+          type: 'seeds',
+          id: seed.id.to_s,
+          attributes: {
+            description: 'An updated seed'
+          }
+        }
+      }.to_json
+    end
+
+    it 'returns 401 Unauthorized without a token' do
+      patch "/api/v1/seeds/#{seed.id}", params: update_params, headers: headers
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns 200 OK with a valid token for own seed' do
+      patch "/api/v1/seeds/#{seed.id}", params: update_params, headers: auth_headers
+      expect(response).to have_http_status(:ok)
+      expect(seed.reload.description).to eq('An updated seed')
+    end
+
+    it 'returns 403 Forbidden for another member\'s seed' do
+      update_params_for_other = {
+        data: {
+          type: 'seeds',
+          id: other_member_seed.id.to_s,
+          attributes: {
+            description: 'An updated seed'
+          }
+        }
+      }.to_json
+      patch "/api/v1/seeds/#{other_member_seed.id}", params: update_params_for_other, headers: auth_headers
+      expect(response).to have_http_status(:forbidden)
+    end
   end
 
-  it '#delete' do
-    expect do
-      delete "/api/v1/seeds/#{seed.id}", params: {}, headers:
-    end.to raise_error ActionController::RoutingError
+  describe '#delete' do
+    let!(:member) { create(:member) }
+    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
+    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:crop) { create(:crop) }
+    let!(:seed) { create(:seed, owner: member, crop: crop) }
+    let(:other_member_seed) { create(:seed) }
+
+    it 'returns 401 Unauthorized without a token' do
+      delete "/api/v1/seeds/#{seed.id}", headers: headers
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns 204 No Content with a valid token for own seed' do
+      delete "/api/v1/seeds/#{seed.id}", headers: auth_headers
+      expect(response).to have_http_status(:no_content)
+      expect(Seed.find_by(id: seed.id)).to be_nil
+    end
+
+    it 'returns 403 Forbidden for another member\'s seed' do
+      delete "/api/v1/seeds/#{other_member_seed.id}", headers: auth_headers
+      expect(response).to have_http_status(:forbidden)
+    end
   end
 
   context 'filtering' do
