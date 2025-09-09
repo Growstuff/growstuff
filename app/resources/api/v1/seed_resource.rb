@@ -19,7 +19,9 @@ module Api
       attribute :heirloom
 
       filter :owner
+      filter :owner_id
       filter :crop
+      filter :crop_id
       filter :tradable_to
       filter :organic
       filter :gmo
