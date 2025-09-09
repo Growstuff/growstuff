@@ -83,6 +83,8 @@ RSpec.describe 'Seeds', type: :request do
     let!(:seed2) { FactoryBot.create(:seed, tradable_to: 'nationally', organic: 'certified organic', gmo: 'certified GMO-free', heirloom: 'heirloom') }
     it 'filters by crop' do
       get("/api/v1/seeds?filter[crop]=#{seed2.crop.id}", params: {}, headers:)
+
+      expect(response.status).to eq 200
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
     end
@@ -90,30 +92,40 @@ RSpec.describe 'Seeds', type: :request do
 
     it 'filters by tradable_to' do
       get('/api/v1/seeds?filter[tradable_to]=nationally', params: {}, headers:)
+
+      expect(response.status).to eq 200
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
     end
 
     it 'filters by organic' do
       get('/api/v1/seeds?filter[organic]=certified organic', params: {}, headers:)
+
+      expect(response.status).to eq 200
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
     end
 
     it 'filters by gmo' do
       get('/api/v1/seeds?filter[gmo]=certified GMO-free', params: {}, headers:)
+
+      expect(response.status).to eq 200
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
     end
 
     it 'filters by heirloom' do
       get('/api/v1/seeds?filter[heirloom]=heirloom', params: {}, headers:)
+
+      expect(response.status).to eq 200
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
     end
 
     it 'filters by owner' do
-      get("/api/v1/seeds?filter[owner]=#{seed2.owner.id}", params: {}, headers:)
+      get("/api/v1/seeds?filter[owner_id]=#{seed2.owner.id}", params: {}, headers:)
+
+      expect(response.status).to eq 200
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
     end

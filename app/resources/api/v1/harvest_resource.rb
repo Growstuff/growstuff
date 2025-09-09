@@ -20,7 +20,9 @@ module Api
       filter :owner
       filter :owner_id
       filter :crop
+      filter :crop_id
       filter :planting
+      filter :planting_id
       filter :plant_part
       filter :harvested_at
     end

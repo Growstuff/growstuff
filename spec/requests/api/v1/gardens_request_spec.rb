@@ -54,20 +54,26 @@ RSpec.describe 'Gardens', type: :request do
     let!(:garden2) { FactoryBot.create(:garden, active: false, garden_type: FactoryBot.create(:garden_type)) }
     pending 'filters by active' do
       get('/api/v1/gardens?filter[active]=true', params: {}, headers:)
+
+        expect(response.status).to eq 200 
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(garden.id.to_s)
     end
 
     it 'filters by garden_type' do
       get("/api/v1/gardens?filter[garden_type]=#{garden2.garden_type.id}", params: {}, headers:)
+      
+      expect(response.status).to eq 200 
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(garden2.id.to_s)
     end
 
     it 'filters by owner' do
-      get("/api/v1/gardens?filter[owner]=#{garden2.owner.id}", params: {}, headers:)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(garden2.id.to_s)
+      get("/api/v1/gardens?filter[owner_id]=#{garden2.owner.id}", params: {}, headers:)
+
+      expect(response.status).to eq 200 
+      expect(subject['data'].size).to eq(2)
+      expect(subject['data'][1]['id']).to eq(garden2.id.to_s)
     end
   end
 

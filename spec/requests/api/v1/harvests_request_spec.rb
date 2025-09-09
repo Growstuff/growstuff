@@ -86,18 +86,24 @@ RSpec.describe 'Harvests', type: :request do
 
     it 'filters by planting' do
       get("/api/v1/harvests?filter[planting_id]=#{harvest2.planting.id}", params: {}, headers:)
+
+      expect(response.status).to eq 200 
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
     end
 
     it 'filters by plant_part' do
         get("/api/v1/harvests?filter[plant_part]=#{harvest2.plant_part.id}", params: {}, headers:)
+
+        expect(response.status).to eq 200 
         expect(subject['data'].size).to eq(1)
         expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
     end
 
     it 'filters by owner' do
-        get("/api/v1/harvests?filter[owner]=#{harvest2.owner.id}", params: {}, headers:)
+        get("/api/v1/harvests?filter[owner_id]=#{harvest2.owner.id}", params: {}, headers:)
+
+        expect(response.status).to eq 200 
         expect(subject['data'].size).to eq(1)
         expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
     end
