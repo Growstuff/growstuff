@@ -327,7 +327,7 @@ en:
     string: "%{crop} planting in %{garden} by %{owner}"
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
-    finished_prompt_html: "Planting finished. Would you like to <a href=\"%{link}\">plan a soil cultivation activity</a>?"
+    finished_prompt_html: "Planting was successfully updated. Would you like to <a href=\"%{link}\">plan a soil cultivation activity</a>?"
   posts:
     write_blog_post: Write blog post
     index:
