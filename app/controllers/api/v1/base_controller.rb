@@ -8,16 +8,20 @@ module Api
       before_action :authenticate_member_from_token!
 
       def context
-        { current_user: current_member, current_ability: current_ability }
+        { current_user: current_user, current_ability: current_ability }
       end
 
       private
+
+      def current_user
+        @current_user
+      end
 
       def authenticate_member_from_token!
         authenticate_with_http_token do |token, _options|
           auth = Authentication.find_by(token: token, provider: 'api')
           if auth.present?
-            sign_in(:member, auth.member, store: false)
+            @current_user = auth.member
           end
         end
       end
