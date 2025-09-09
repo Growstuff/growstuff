@@ -18,6 +18,7 @@ module Api
       attribute :si_weight
 
       filter :owner
+      filter :owner_id
       filter :crop
       filter :planting
       filter :plant_part
