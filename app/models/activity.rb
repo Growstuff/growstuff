@@ -35,7 +35,15 @@ class Activity < ApplicationRecord
     garden&.name
   end
 
+  def garden_slug
+    garden&.slug
+  end
+
   def planting_name
     planting&.name
+  end
+
+  def planting_slug
+    planting&.slug
   end
 end
