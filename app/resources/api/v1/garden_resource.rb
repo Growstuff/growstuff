@@ -10,6 +10,13 @@ module Api
       has_many :photos
 
       attribute :name
+
+      filter :owner
+      filter :owner_id
+      filter :active
+      filter :garden_type
+      filter :location
+      filter :slug
     end
   end
 end
