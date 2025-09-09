@@ -30,4 +30,12 @@ class Activity < ApplicationRecord
   def to_s
     name
   end
+
+  def garden_name
+    garden&.name
+  end
+
+  def planting_name
+    planting&.name
+  end
 end
