@@ -40,10 +40,10 @@ class Activity < ApplicationRecord
   end
 
   def planting_name
-    planting&.name
+    planting&.crop&.name
   end
 
   def planting_slug
-    planting&.slug
+    planting&.crop&.slug
   end
 end
