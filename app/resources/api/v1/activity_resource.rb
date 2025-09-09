@@ -15,7 +15,13 @@ module Api
       attribute :finished
       attribute :due_date
 
-      filters :owner, :garden, :planting, :category
+      filter :owner
+      filter :owner_id
+      filter :garden
+      filter :garden_id
+      filter :planting
+      filter :planting_id
+      filter :category
     end
   end
 end
