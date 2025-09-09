@@ -21,7 +21,7 @@ RSpec.describe 'Activities', type: :request do
 
   context 'filtering' do
     it 'filters by owner' do
-      get("/api/v1/activities?filter[owner_id]=#{activity.owner.id}", params: {}, headers:)
+      get("/api/v1/activities?filter[owner-id]=#{activity.owner.id}", params: {}, headers:)
 
       expect(response.status).to eq 200
       expect(subject['data'].size).to eq(1)
@@ -29,7 +29,7 @@ RSpec.describe 'Activities', type: :request do
     end
 
     it 'filters by garden' do
-        get("/api/v1/activities?filter[garden_id]=#{activity.garden.id}", params: {}, headers:)
+        get("/api/v1/activities?filter[garden-id]=#{activity.garden.id}", params: {}, headers:)
 
         expect(response.status).to eq 200
         expect(subject['data'].size).to eq(1)
@@ -37,7 +37,7 @@ RSpec.describe 'Activities', type: :request do
     end
 
     it 'filters by planting' do
-        get("/api/v1/activities?filter[planting_id]=#{activity.planting.id}", params: {}, headers:)
+        get("/api/v1/activities?filter[planting-id]=#{activity.planting.id}", params: {}, headers:)
 
         expect(response.status).to eq 200 
         expect(subject['data'].size).to eq(1)
