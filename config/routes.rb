@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   }
   devise_scope :member do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', as: 'unsubscribe_member'
+    post '/members/regenerate_api_token' => 'registrations#regenerate_api_token', as: 'regenerate_api_token'
   end
   match '/members/:id/finish_signup' => 'members#finish_signup', via: %i(get patch), as: :finish_signup
 
@@ -141,14 +142,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      jsonapi_resources :activities
-      jsonapi_resources :crops
-      jsonapi_resources :gardens
-      jsonapi_resources :harvests
-      jsonapi_resources :members
-      jsonapi_resources :photos
-      jsonapi_resources :plantings
-      jsonapi_resources :seeds
+      jsonapi_resources :activities, only: %i(index show create update destroy)
+      jsonapi_resources :crops, only: %i(index show create update destroy)
+      jsonapi_resources :gardens, only: %i(index show create update destroy)
+      jsonapi_resources :harvests, only: %i(index show create update destroy)
+      jsonapi_resources :members, only: %i(index show create update destroy)
+      jsonapi_resources :photos, only: %i(index show create update destroy)
+      jsonapi_resources :plantings, only: %i(index show create update destroy)
+      jsonapi_resources :seeds, only: %i(index show create update destroy)
     end
   end
 

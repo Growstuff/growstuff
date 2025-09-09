@@ -77,21 +77,31 @@ RSpec.describe 'Gardens', type: :request do
     end
   end
 
-  it '#create' do
-    expect do
-      post '/api/v1/gardens', params: { 'garden' => { 'name' => 'can i make this' } }, headers:
-    end.to raise_error ActionController::RoutingError
-  end
+  describe '#create' do
+    let(:member) { create(:member) }
+    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
+    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:garden_params) do
+      {
+        data: {
+          type: 'gardens',
+          attributes: {
+            name: 'My API Garden'
+          }
+        }
+      }.to_json
+    end
 
-  it '#update' do
-    expect do
-      post "/api/v1/gardens/#{garden.id}", params: { 'garden' => { 'name' => 'can i modify this' } }, headers:
-    end.to raise_error ActionController::RoutingError
-  end
+    it 'returns 401 Unauthorized without a token' do
+      post '/api/v1/gardens', params: garden_params, headers: headers
+      expect(response).to have_http_status(:unauthorized)
+    end
 
-  it '#delete' do
-    expect do
-      delete "/api/v1/gardens/#{garden.id}", params: {}, headers:
-    end.to raise_error ActionController::RoutingError
+    it 'returns 201 Created with a valid token' do
+      post '/api/v1/gardens', params: garden_params, headers: auth_headers
+      expect(response).to have_http_status(:created)
+      expect(member.gardens.count).to eq(2) # 1 from after_create callback, 1 from api
+    end
   end
 end

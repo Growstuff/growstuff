@@ -24,6 +24,20 @@ class Member < ApplicationRecord
   has_many :notifications, foreign_key: 'recipient_id', inverse_of: :recipient
   has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender, class_name: "Notification"
   has_many :authentications, dependent: :destroy
+  has_one :api_token, -> { where(provider: 'api') }, class_name: 'Authentication', dependent: :destroy
+
+  def api_token?
+    api_token.present?
+  end
+
+  def regenerate_api_token
+    api_token.destroy if api_token?
+    build_api_token(
+      provider: 'api',
+      uid:      id,
+      token:    SecureRandom.hex(16)
+    ).save
+  end
   has_many :photos, inverse_of: :owner
   has_many :likes, dependent: :destroy
 
