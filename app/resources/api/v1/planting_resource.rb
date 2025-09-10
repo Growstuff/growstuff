@@ -3,7 +3,9 @@
 module Api
   module V1
     class PlantingResource < BaseResource
-      immutable
+      before_create do
+        @model.owner = context[:current_user]
+      end
 
       has_one :garden
       has_one :crop
@@ -36,6 +38,10 @@ module Api
       filter :owner
       filter :owner_id
       filter :finished
+      filter :active, apply: ->(records, _value, _options) { records.active }
+      filter :failed, apply: ->(records, _value, _options) { records.failed }
+      filter :sunniness
+      filter :perennial, apply: ->(records, _value, _options) { records.perennial }
 
       attribute :percentage_grown
       delegate :percentage_grown, to: :@model
