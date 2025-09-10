@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Activities', type: :request do
-  subject { JSON.parse response.body }
+  subject { response.parsed_body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:activity) { FactoryBot.create(:activity, garden: create(:garden), planting: create(:planting)) }
@@ -23,7 +23,7 @@ RSpec.describe 'Activities', type: :request do
     it 'filters by owner' do
       get("/api/v1/activities?filter[owner-id]=#{activity.owner.id}", params: {}, headers:)
 
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(activity.id.to_s)
     end
@@ -31,7 +31,7 @@ RSpec.describe 'Activities', type: :request do
     it 'filters by garden' do
       get("/api/v1/activities?filter[garden-id]=#{activity.garden.id}", params: {}, headers:)
 
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(activity.id.to_s)
     end
@@ -39,7 +39,7 @@ RSpec.describe 'Activities', type: :request do
     it 'filters by planting' do
       get("/api/v1/activities?filter[planting-id]=#{activity.planting.id}", params: {}, headers:)
 
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(activity.id.to_s)
     end
@@ -47,7 +47,7 @@ RSpec.describe 'Activities', type: :request do
     it 'filters by category' do
       get("/api/v1/activities?filter[category]=#{activity.category}", params: {}, headers:)
 
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(2)
       expect(subject['data'][0]['id']).to eq(activity.id.to_s)
       expect(subject['data'][1]['id']).to eq(activity2.id.to_s)

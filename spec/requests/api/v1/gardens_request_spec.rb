@@ -56,7 +56,7 @@ RSpec.describe 'Gardens', type: :request do
     pending 'filters by active' do
       get('/api/v1/gardens?filter[active]=true', params: {}, headers:)
 
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(garden.id.to_s)
     end
@@ -64,7 +64,7 @@ RSpec.describe 'Gardens', type: :request do
     it 'filters by garden_type' do
       get("/api/v1/gardens?filter[garden_type]=#{garden2.garden_type.id}", params: {}, headers:)
 
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(garden2.id.to_s)
     end
@@ -72,7 +72,7 @@ RSpec.describe 'Gardens', type: :request do
     it 'filters by owner' do
       get("/api/v1/gardens?filter[owner_id]=#{garden2.owner.id}", params: {}, headers:)
 
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(2)
       expect(subject['data'][1]['id']).to eq(garden2.id.to_s)
     end

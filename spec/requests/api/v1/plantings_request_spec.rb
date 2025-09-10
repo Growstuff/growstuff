@@ -160,7 +160,7 @@ RSpec.describe 'Plantings', type: :request do
     it 'filters by perennial' do
       get('/api/v1/plantings?filter[perennial]=true', params: {}, headers:)
 
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(perennial_planting.id.to_s)
     end
@@ -168,7 +168,7 @@ RSpec.describe 'Plantings', type: :request do
     it 'filters by active' do
       get('/api/v1/plantings?filter[active]=true', params: {}, headers:)
 
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(2)
       expect(subject['data'][0]['id']).to eq(planting.id.to_s)
     end
