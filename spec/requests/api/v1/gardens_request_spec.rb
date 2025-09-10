@@ -52,18 +52,19 @@ RSpec.describe 'Gardens', type: :request do
 
   context 'filtering' do
     let!(:garden2) { FactoryBot.create(:garden, active: false, garden_type: FactoryBot.create(:garden_type)) }
+
     pending 'filters by active' do
       get('/api/v1/gardens?filter[active]=true', params: {}, headers:)
 
-        expect(response.status).to eq 200 
+      expect(response.status).to eq 200
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(garden.id.to_s)
     end
 
     it 'filters by garden_type' do
       get("/api/v1/gardens?filter[garden_type]=#{garden2.garden_type.id}", params: {}, headers:)
-      
-      expect(response.status).to eq 200 
+
+      expect(response.status).to eq 200
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(garden2.id.to_s)
     end
@@ -71,7 +72,7 @@ RSpec.describe 'Gardens', type: :request do
     it 'filters by owner' do
       get("/api/v1/gardens?filter[owner_id]=#{garden2.owner.id}", params: {}, headers:)
 
-      expect(response.status).to eq 200 
+      expect(response.status).to eq 200
       expect(subject['data'].size).to eq(2)
       expect(subject['data'][1]['id']).to eq(garden2.id.to_s)
     end
@@ -79,13 +80,16 @@ RSpec.describe 'Gardens', type: :request do
 
   describe '#create' do
     let!(:member) { create(:member) }
-    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
     let(:garden_params) do
       {
         data: {
-          type: 'gardens',
+          type:       'gardens',
           attributes: {
             name: 'My API Garden'
           }
@@ -107,7 +111,10 @@ RSpec.describe 'Gardens', type: :request do
 
   describe '#update' do
     let!(:member) { create(:member) }
-    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
     let(:garden) { create(:garden, owner: member) }
@@ -115,8 +122,8 @@ RSpec.describe 'Gardens', type: :request do
     let(:update_params) do
       {
         data: {
-          type: 'gardens',
-          id: garden.id.to_s,
+          type:       'gardens',
+          id:         garden.id.to_s,
           attributes: {
             name: 'An updated garden'
           }
@@ -138,8 +145,8 @@ RSpec.describe 'Gardens', type: :request do
     it 'returns 403 Forbidden for another member\'s garden' do
       update_params_for_other = {
         data: {
-          type: 'gardens',
-          id: other_member_garden.id.to_s,
+          type:       'gardens',
+          id:         other_member_garden.id.to_s,
           attributes: {
             name: 'An updated garden'
           }
@@ -152,7 +159,10 @@ RSpec.describe 'Gardens', type: :request do
 
   describe '#delete' do
     let!(:member) { create(:member) }
-    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
     let!(:garden) { create(:garden, owner: member) }

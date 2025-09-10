@@ -4,7 +4,10 @@ require 'rails_helper'
 
 RSpec.describe 'Plantings API Write Operations', type: :request do
   let!(:member) { create(:member) }
-  let(:token) { member.regenerate_api_token; member.api_token.token }
+  let(:token) do
+    member.regenerate_api_token
+    member.api_token.token
+  end
   let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
   let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
 
@@ -14,13 +17,13 @@ RSpec.describe 'Plantings API Write Operations', type: :request do
   let(:planting_params) do
     {
       data: {
-        type: 'plantings',
-        attributes: {
+        type:          'plantings',
+        attributes:    {
           description: 'A new planting'
         },
         relationships: {
           garden: { data: { type: 'gardens', id: garden.id } },
-          crop: { data: { type: 'crops', id: crop.id } }
+          crop:   { data: { type: 'crops', id: crop.id } }
         }
       }
     }.to_json
@@ -46,8 +49,8 @@ RSpec.describe 'Plantings API Write Operations', type: :request do
     let(:update_params) do
       {
         data: {
-          type: 'plantings',
-          id: planting.id.to_s,
+          type:       'plantings',
+          id:         planting.id.to_s,
           attributes: {
             description: 'An updated planting'
           }
@@ -69,8 +72,8 @@ RSpec.describe 'Plantings API Write Operations', type: :request do
     it 'returns 403 Forbidden for another member\'s planting' do
       update_params_for_other = {
         data: {
-          type: 'plantings',
-          id: other_member_planting.id.to_s,
+          type:       'plantings',
+          id:         other_member_planting.id.to_s,
           attributes: {
             description: 'An updated planting'
           }

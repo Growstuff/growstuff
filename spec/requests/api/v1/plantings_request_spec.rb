@@ -144,6 +144,7 @@ RSpec.describe 'Plantings', type: :request do
   context 'filtering' do
     let!(:planting2) { FactoryBot.create(:planting, failed: true, sunniness: 'shade') }
     let!(:perennial_planting) { FactoryBot.create(:planting, crop: FactoryBot.create(:crop, perennial: true)) }
+
     it 'filters by failed' do
       get('/api/v1/plantings?filter[failed]=true', params: {}, headers:)
       expect(subject['data'].size).to eq(1)
@@ -151,25 +152,25 @@ RSpec.describe 'Plantings', type: :request do
     end
 
     it 'filters by sunniness' do
-        get('/api/v1/plantings?filter[sunniness]=shade', params: {}, headers:)
-        expect(subject['data'].size).to eq(1)
-        expect(subject['data'][0]['id']).to eq(planting2.id.to_s)
+      get('/api/v1/plantings?filter[sunniness]=shade', params: {}, headers:)
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(planting2.id.to_s)
     end
 
     it 'filters by perennial' do
-        get('/api/v1/plantings?filter[perennial]=true', params: {}, headers:)
+      get('/api/v1/plantings?filter[perennial]=true', params: {}, headers:)
 
-        expect(response.status).to eq 200 
-        expect(subject['data'].size).to eq(1)
-        expect(subject['data'][0]['id']).to eq(perennial_planting.id.to_s)
+      expect(response.status).to eq 200
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(perennial_planting.id.to_s)
     end
 
     it 'filters by active' do
-        get('/api/v1/plantings?filter[active]=true', params: {}, headers:)
+      get('/api/v1/plantings?filter[active]=true', params: {}, headers:)
 
-        expect(response.status).to eq 200 
-        expect(subject['data'].size).to eq(2)
-        expect(subject['data'][0]['id']).to eq(planting.id.to_s)
+      expect(response.status).to eq 200
+      expect(subject['data'].size).to eq(2)
+      expect(subject['data'][0]['id']).to eq(planting.id.to_s)
     end
   end
 end

@@ -63,15 +63,18 @@ RSpec.describe 'Seeds', type: :request do
 
   describe '#create' do
     let!(:member) { create(:member) }
-    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
     let(:crop) { create(:crop) }
     let(:seed_params) do
       {
         data: {
-          type: 'seeds',
-          attributes: {
+          type:          'seeds',
+          attributes:    {
             description: 'My API seeds'
           },
           relationships: {
@@ -95,7 +98,10 @@ RSpec.describe 'Seeds', type: :request do
 
   describe '#update' do
     let!(:member) { create(:member) }
-    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
     let(:crop) { create(:crop) }
@@ -104,8 +110,8 @@ RSpec.describe 'Seeds', type: :request do
     let(:update_params) do
       {
         data: {
-          type: 'seeds',
-          id: seed.id.to_s,
+          type:       'seeds',
+          id:         seed.id.to_s,
           attributes: {
             description: 'An updated seed'
           }
@@ -127,8 +133,8 @@ RSpec.describe 'Seeds', type: :request do
     it 'returns 403 Forbidden for another member\'s seed' do
       update_params_for_other = {
         data: {
-          type: 'seeds',
-          id: other_member_seed.id.to_s,
+          type:       'seeds',
+          id:         other_member_seed.id.to_s,
           attributes: {
             description: 'An updated seed'
           }
@@ -141,7 +147,10 @@ RSpec.describe 'Seeds', type: :request do
 
   describe '#delete' do
     let!(:member) { create(:member) }
-    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
     let(:crop) { create(:crop) }
@@ -166,7 +175,10 @@ RSpec.describe 'Seeds', type: :request do
   end
 
   context 'filtering' do
-    let!(:seed2) { FactoryBot.create(:seed, tradable_to: 'nationally', organic: 'certified organic', gmo: 'certified GMO-free', heirloom: 'heirloom') }
+    let!(:seed2) do
+      FactoryBot.create(:seed, tradable_to: 'nationally', organic: 'certified organic', gmo: 'certified GMO-free', heirloom: 'heirloom')
+    end
+
     it 'filters by crop' do
       get("/api/v1/seeds?filter[crop]=#{seed2.crop.id}", params: {}, headers:)
 
@@ -174,7 +186,6 @@ RSpec.describe 'Seeds', type: :request do
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
     end
-
 
     it 'filters by tradable_to' do
       get('/api/v1/seeds?filter[tradable_to]=nationally', params: {}, headers:)
