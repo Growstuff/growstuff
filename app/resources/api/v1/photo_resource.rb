@@ -3,6 +3,10 @@
 module Api
   module V1
     class PhotoResource < BaseResource
+      before_create do
+        @model.owner = context[:current_user]
+      end
+
       has_one :owner, class_name: 'Member'
       has_many :plantings
       has_many :gardens

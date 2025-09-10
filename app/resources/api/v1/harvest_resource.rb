@@ -3,6 +3,12 @@
 module Api
   module V1
     class HarvestResource < BaseResource
+      before_create do
+        @model.owner = context[:current_user]
+        @model.crop_id = @model.planting.crop_id if @model.planting_id
+        @model.harvested_at = Time.zone.now if @model.harvested_at.blank?
+      end
+
       has_one :crop
       has_one :planting
       has_one :owner, class_name: 'Member'
