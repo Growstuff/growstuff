@@ -6,7 +6,7 @@ class RegistrationsController < Devise::RegistrationsController
   prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect with recaptcha.
 
   def edit
-    @flickr_auth   = current_member.auth('flickr')
+    @flickr_auth = current_member.auth('flickr')
     render "edit"
   end
 
@@ -36,6 +36,12 @@ class RegistrationsController < Devise::RegistrationsController
     else
       render "edit"
     end
+  end
+
+  def regenerate_api_token
+    current_member.regenerate_api_token
+    set_flash_message :notice, :api_token_regenerated
+    redirect_to edit_member_registration_path + '#apps'
   end
 
   def destroy
