@@ -3,8 +3,7 @@
 module Api
   module V1
     class CropResource < BaseResource
-      immutable
-
+      immutable # TODO: Re-evaluate this later
       filter :approval_status, default: 'approved'
 
       has_many :plantings

@@ -38,6 +38,12 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def regenerate_api_token
+    current_member.regenerate_api_token
+    set_flash_message :notice, :api_token_regenerated
+    redirect_to edit_member_registration_path + '#apps'
+  end
+
   def destroy
     if @member.valid_password?(params.require(:member)[:current_password])
       @member.discard
