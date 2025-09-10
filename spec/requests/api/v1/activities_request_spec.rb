@@ -1,56 +1,95 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require 'swagger_helper'
 
-RSpec.describe 'Activities', type: :request do
-  subject { JSON.parse response.body }
+RSpec.describe 'Activities API', type: :request do
+  path '/api/v1/activities' do
+    get 'Lists activities' do
+      tags 'Activities'
+      produces 'application/vnd.api+json'
+      parameter name: 'filter[owner-id]', in: :query, type: :string, required: false
+      parameter name: 'filter[garden-id]', in: :query, type: :string, required: false
+      parameter name: 'filter[planting-id]', in: :query, type: :string, required: false
+      parameter name: 'filter[category]', in: :query, type: :string, required: false
 
-  let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:activity) { FactoryBot.create(:activity, garden: create(:garden), planting: create(:planting)) }
-  let!(:activity2) { FactoryBot.create(:activity) }
+      response '200', 'successful' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       id: { type: :string },
+                       type: { type: :string },
+                       attributes: {
+                         type: :object,
+                         properties: {
+                           name: { type: :string },
+                           description: { type: :string },
+                           category: { type: :string },
+                           finished: { type: :boolean },
+                           'due-date': { type: :string, format: 'date-time' }
+                         }
+                       },
+                       relationships: {
+                         type: :object,
+                         properties: {
+                           owner: { '$ref' => '#/components/schemas/relationship' },
+                           garden: { '$ref' => '#/components/schemas/relationship' },
+                           planting: { '$ref' => '#/components/schemas/relationship' }
+                         }
+                       }
+                     }
+                   }
+                 }
+               }
 
-  it '#index' do
-    get('/api/v1/activities', params: {}, headers:)
-    expect(subject['data'].size).to eq(2)
+        let!(:activity) { FactoryBot.create(:activity, garden: create(:garden), planting: create(:planting)) }
+        run_test!
+      end
+    end
   end
 
-  it '#show' do
-    get("/api/v1/activities/#{activity.id}", params: {}, headers:)
-    expect(subject['data']['id']).to eq(activity.id.to_s)
-  end
+  path '/api/v1/activities/{id}' do
+    get 'Retrieves an activity' do
+      tags 'Activities'
+      produces 'application/vnd.api+json'
+      parameter name: :id, in: :path, type: :string
 
-  context 'filtering' do
-    it 'filters by owner' do
-      get("/api/v1/activities?filter[owner-id]=#{activity.owner.id}", params: {}, headers:)
-
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(activity.id.to_s)
-    end
-
-    it 'filters by garden' do
-      get("/api/v1/activities?filter[garden-id]=#{activity.garden.id}", params: {}, headers:)
-
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(activity.id.to_s)
-    end
-
-    it 'filters by planting' do
-      get("/api/v1/activities?filter[planting-id]=#{activity.planting.id}", params: {}, headers:)
-
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(activity.id.to_s)
-    end
-
-    it 'filters by category' do
-      get("/api/v1/activities?filter[category]=#{activity.category}", params: {}, headers:)
-
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(2)
-      expect(subject['data'][0]['id']).to eq(activity.id.to_s)
-      expect(subject['data'][1]['id']).to eq(activity2.id.to_s)
+      response '200', 'successful' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         name: { type: :string },
+                         description: { type: :string },
+                         category: { type: :string },
+                         finished: { type: :boolean },
+                         'due-date': { type: :string, format: 'date-time' }
+                       }
+                     },
+                     relationships: {
+                       type: :object,
+                       properties: {
+                         owner: { '$ref' => '#/components/schemas/relationship' },
+                         garden: { '$ref' => '#/components/schemas/relationship' },
+                         planting: { '$ref' => '#/components/schemas/relationship' }
+                       }
+                     }
+                   }
+                 }
+               }
+        let(:activity) { FactoryBot.create(:activity, garden: create(:garden), planting: create(:planting)) }
+        let(:id) { activity.id }
+        run_test!
+      end
     end
   end
 end

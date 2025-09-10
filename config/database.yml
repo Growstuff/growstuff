@@ -1,31 +1,27 @@
-development:
+default: &default
   adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
   database: growstuff_dev
   user: postgres
   password: postgres
-  host: db
+  host: <%= ENV.fetch("DATABASE_HOST") { 'db' } %>
+
 
 test:
-  adapter: postgresql
+  <<: *default
   database: growstuff_test
   user: postgres
   password: postgres
-  host: db
+  host: <%= ENV.fetch("DATABASE_HOST") { 'db' } %>
 
 production:
-  adapter: postgresql
-  database: growstuff_prod
-  pool: 5
-  timeout: 5000
-  username: growstuff
-  host: localhost
-  password: thisisnottherealpassword
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
 
 staging:
-  adapter: postgresql
-  database: growstuff_prod
-  pool: 5
-  timeout: 5000
-  username: growstuff
-  host: localhost
-  password: thisisnottherealpassword
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>

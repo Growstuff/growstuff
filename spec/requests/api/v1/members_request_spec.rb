@@ -1,100 +1,91 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require 'swagger_helper'
 
-RSpec.describe 'Members', type: :request do
-  subject { JSON.parse response.body }
+RSpec.describe 'Members API', type: :request do
+  path '/api/v1/members' do
+    get 'Lists members' do
+      tags 'Members'
+      produces 'application/vnd.api+json'
+      parameter name: 'filter[login_name]', in: :query, type: :string, required: false
+      parameter name: 'filter[slug]', in: :query, type: :string, required: false
 
-  let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:member) { FactoryBot.create(:member) }
-  let(:member_encoded_as_json_api) do
-    { "id"            => member.id.to_s,
-      "type"          => "members",
-      "links"         => { "self" => resource_url },
-      "attributes"    => attributes,
-      "relationships" => {
-        "gardens"   => gardens_as_json_api,
-        "harvests"  => harvests_as_json_api,
-        "photos"    => photos_as_json_api,
-        "plantings" => plantings_as_json_api,
-        "seeds"     => seeds_as_json_api
-      } }
+      response '200', 'successful' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {
+                       id: { type: :string },
+                       type: { type: :string },
+                       attributes: {
+                         type: :object,
+                         properties: {
+                           'login-name': { type: :string },
+                           slug: { type: :string }
+                         }
+                       },
+                       relationships: {
+                         type: :object,
+                         properties: {
+                           gardens: { '$ref' => '#/components/schemas/relationship' },
+                           harvests: { '$ref' => '#/components/schemas/relationship' },
+                           photos: { '$ref' => '#/components/schemas/relationship' },
+                           plantings: { '$ref' => '#/components/schemas/relationship' },
+                           seeds: { '$ref' => '#/components/schemas/relationship' }
+                         }
+                       }
+                     }
+                   }
+                 }
+               }
+
+        let!(:member) { FactoryBot.create(:member) }
+        run_test!
+      end
+    end
   end
 
-  let(:resource_url) { "http://www.example.com/api/v1/members/#{member.id}" }
+  path '/api/v1/members/{id}' do
+    get 'Retrieves a member' do
+      tags 'Members'
+      produces 'application/vnd.api+json'
+      parameter name: :id, in: :path, type: :string
 
-  let(:harvests_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/harvests",
-                   "related" => "#{resource_url}/harvests" } }
-  end
-
-  let(:photos_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/photos",
-                   "related" => "#{resource_url}/photos" } }
-  end
-
-  let(:seeds_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/seeds",
-                   "related" => "#{resource_url}/seeds" } }
-  end
-
-  let(:plantings_as_json_api) do
-    { "links" =>
-                 { "self"    =>
-                                "#{resource_url}/relationships/plantings",
-                   "related" => "#{resource_url}/plantings" } }
-  end
-  let(:gardens_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/gardens",
-                   "related" => "#{resource_url}/gardens" } }
-  end
-
-  let(:attributes) do
-    {
-      "login-name" => member.login_name,
-      "slug"       => member.slug
-    }
-  end
-
-  describe '#index' do
-    before { get '/api/v1/members', params: {}, headers: }
-
-    it { expect(subject['data']).to include(member_encoded_as_json_api) }
-  end
-
-  describe '#show' do
-    before { get "/api/v1/members/#{member.id}", params: {}, headers: }
-
-    it { expect(subject['data']['relationships']).to include("gardens" => gardens_as_json_api) }
-    it { expect(subject['data']['relationships']).to include("plantings" => plantings_as_json_api) }
-    it { expect(subject['data']['relationships']).to include("seeds" => seeds_as_json_api) }
-    it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
-    it { expect(subject['data']['relationships']).to include("photos" => photos_as_json_api) }
-    it { expect(subject['data']).to eq(member_encoded_as_json_api) }
-  end
-
-  it '#create' do
-    expect do
-      post '/api/v1/members', params: { 'member' => { 'login_name' => 'can i make this' } }, headers:
-    end.to raise_error ActionController::RoutingError
-  end
-
-  it '#update' do
-    expect do
-      post "/api/v1/members/#{member.id}", params:  {
-                                             'member' => { 'login_name' => 'can i modify this' }
-                                           },
-                                           headers:
-    end.to raise_error ActionController::RoutingError
-  end
-
-  it '#delete' do
-    expect do
-      delete "/api/v1/members/#{member.id}", params: {}, headers:
-    end.to raise_error ActionController::RoutingError
+      response '200', 'successful' do
+        schema type: :object,
+               properties: {
+                 data: {
+                   type: :object,
+                   properties: {
+                     id: { type: :string },
+                     type: { type: :string },
+                     attributes: {
+                       type: :object,
+                       properties: {
+                         'login-name': { type: :string },
+                         slug: { type: :string }
+                       }
+                     },
+                     relationships: {
+                       type: :object,
+                       properties: {
+                         gardens: { '$ref' => '#/components/schemas/relationship' },
+                         harvests: { '$ref' => '#/components/schemas/relationship' },
+                         photos: { '$ref' => '#/components/schemas/relationship' },
+                         plantings: { '$ref' => '#/components/schemas/relationship' },
+                         seeds: { '$ref' => '#/components/schemas/relationship' }
+                       }
+                     }
+                   }
+                 }
+               }
+        let(:member) { FactoryBot.create(:member) }
+        let(:id) { member.id }
+        run_test!
+      end
+    end
   end
 end
