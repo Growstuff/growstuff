@@ -149,10 +149,12 @@ RSpec.describe 'Harvests', type: :request do
     end
   end
 
-
   describe '#update' do
     let!(:member) { create(:member) }
-    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
     let(:harvest) { create(:harvest, owner: member) }
@@ -160,8 +162,8 @@ RSpec.describe 'Harvests', type: :request do
     let(:update_params) do
       {
         data: {
-          type: 'harvests',
-          id: harvest.id.to_s,
+          type:       'harvests',
+          id:         harvest.id.to_s,
           attributes: {
             description: 'An updated harvest'
           }
@@ -185,8 +187,8 @@ RSpec.describe 'Harvests', type: :request do
     it 'returns 403 Forbidden for another member\'s harvest' do
       update_params_for_other = {
         data: {
-          type: 'harvests',
-          id: other_member_harvest.id.to_s,
+          type:       'harvests',
+          id:         other_member_harvest.id.to_s,
           attributes: {
             description: 'An updated harvest'
           }
