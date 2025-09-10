@@ -3,6 +3,7 @@
 module Api
   module V1
     class PhotoResource < BaseResource
+      immutable # TODO: Re-evaluate this.
       before_create do
         @model.owner = context[:current_user]
       end
