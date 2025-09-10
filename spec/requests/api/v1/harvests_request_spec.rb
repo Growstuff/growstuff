@@ -78,6 +78,7 @@ RSpec.describe 'Harvests', type: :request do
 
   context 'filtering' do
     let!(:harvest2) { FactoryBot.create(:harvest, planting: create(:planting)) }
+
     it 'filters by crop' do
       get("/api/v1/harvests?filter[crop_id]=#{harvest2.crop.id}", params: {}, headers:)
       expect(subject['data'].size).to eq(1)
@@ -87,31 +88,34 @@ RSpec.describe 'Harvests', type: :request do
     it 'filters by planting' do
       get("/api/v1/harvests?filter[planting_id]=#{harvest2.planting.id}", params: {}, headers:)
 
-      expect(response.status).to eq 200 
+      expect(response.status).to eq 200
       expect(subject['data'].size).to eq(1)
       expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
     end
 
     it 'filters by plant_part' do
-        get("/api/v1/harvests?filter[plant_part]=#{harvest2.plant_part.id}", params: {}, headers:)
+      get("/api/v1/harvests?filter[plant_part]=#{harvest2.plant_part.id}", params: {}, headers:)
 
-        expect(response.status).to eq 200 
-        expect(subject['data'].size).to eq(1)
-        expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
+      expect(response.status).to eq 200
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
     end
 
     it 'filters by owner' do
-        get("/api/v1/harvests?filter[owner_id]=#{harvest2.owner.id}", params: {}, headers:)
+      get("/api/v1/harvests?filter[owner_id]=#{harvest2.owner.id}", params: {}, headers:)
 
-        expect(response.status).to eq 200 
-        expect(subject['data'].size).to eq(1)
-        expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
+      expect(response.status).to eq 200
+      expect(subject['data'].size).to eq(1)
+      expect(subject['data'][0]['id']).to eq(harvest2.id.to_s)
     end
   end
 
   describe '#create' do
     let!(:member) { create(:member) }
-    let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
     let(:crop) { create(:crop) }
@@ -120,8 +124,8 @@ RSpec.describe 'Harvests', type: :request do
     let(:harvest_params) do
       {
         data: {
-          type: 'harvests',
-          attributes: {
+          type:          'harvests',
+          attributes:    {
             description: 'My API harvests'
           },
           relationships: {
@@ -145,17 +149,60 @@ RSpec.describe 'Harvests', type: :request do
     end
   end
 
-  it '#update' do
-    expect do
-      post "/api/v1/harvests/#{harvest.id}", headers:, params: {
-        'harvest' => { 'description' => 'can i modify this' }
-      }
-    end.to raise_error ActionController::RoutingError
-  end
 
-describe '#delete' do
+  describe '#update' do
     let!(:member) { create(:member) }
     let(:token) { member.regenerate_api_token; member.api_token.token }
+    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
+    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:harvest) { create(:harvest, owner: member) }
+    let(:other_member_harvest) { create(:harvest) }
+    let(:update_params) do
+      {
+        data: {
+          type: 'harvests',
+          id: harvest.id.to_s,
+          attributes: {
+            description: 'An updated harvest'
+          }
+        }
+      }.to_json
+    end
+
+    it 'returns 401 Unauthorized without a token' do
+      patch "/api/v1/harvests/#{harvest.id}", params: update_params, headers: headers
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns 200 OK with a valid token for own harvest' do
+      patch "/api/v1/harvests/#{harvest.id}", params: update_params, headers: auth_headers
+
+      puts response.body
+      expect(response).to have_http_status(:ok)
+      expect(harvest.reload.description).to eq('An updated harvest')
+    end
+
+    it 'returns 403 Forbidden for another member\'s harvest' do
+      update_params_for_other = {
+        data: {
+          type: 'harvests',
+          id: other_member_harvest.id.to_s,
+          attributes: {
+            description: 'An updated harvest'
+          }
+        }
+      }.to_json
+      patch "/api/v1/harvests/#{other_member_harvest.id}", params: update_params_for_other, headers: auth_headers
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
+  describe '#delete' do
+    let!(:member) { create(:member) }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
     let!(:harvest) { create(:harvest, owner: member) }
