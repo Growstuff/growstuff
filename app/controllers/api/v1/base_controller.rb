@@ -6,25 +6,23 @@ module Api
       abstract
       protect_from_forgery with: :null_session
       before_action :authenticate_member_from_token!
-      before_action :enforce_member_for_write_operations!, only: [:create, :update, :destroy]
+      before_action :enforce_member_for_write_operations!, only: %i(create update destroy)
       rescue_from CanCan::AccessDenied do
         head :forbidden
       end
 
       def context
         {
-          current_user: current_user,
+          current_user:    current_user,
           current_ability: current_ability,
-          controller: self,
-          action: params[:action]
+          controller:      self,
+          action:          params[:action]
         }
       end
 
       private
 
-      def current_user
-        @current_user
-      end
+      attr_reader :current_user
 
       def enforce_member_for_write_operations!
         head :unauthorized unless current_user
