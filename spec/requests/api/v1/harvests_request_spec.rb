@@ -179,7 +179,6 @@ RSpec.describe 'Harvests', type: :request do
     it 'returns 200 OK with a valid token for own harvest' do
       patch "/api/v1/harvests/#{harvest.id}", params: update_params, headers: auth_headers
 
-      puts response.body
       expect(response).to have_http_status(:ok)
       expect(harvest.reload.description).to eq('An updated harvest')
     end
