@@ -114,7 +114,9 @@ RSpec.describe 'Harvests', type: :request do
     let(:token) { member.regenerate_api_token; member.api_token.token }
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
     let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:crop) { create(:crop) }
     let(:planting) { create(:planting, owner: member) }
+    let(:plant_part) { create(:plant_part) }
     let(:harvest_params) do
       {
         data: {
@@ -124,6 +126,7 @@ RSpec.describe 'Harvests', type: :request do
           },
           relationships: {
             planting: { data: { type: 'plantings', id: planting.id } }
+            # plant_part: { data: { type: 'plant_parts', id: plant_part.id } }
           }
         }
       }.to_json
@@ -138,7 +141,7 @@ RSpec.describe 'Harvests', type: :request do
       post '/api/v1/harvests', params: harvest_params, headers: auth_headers
 
       expect(response).to have_http_status(:created)
-      expect(member.harvest_params.count).to eq(1)
+      expect(member.harvests.count).to eq(1)
     end
   end
 
