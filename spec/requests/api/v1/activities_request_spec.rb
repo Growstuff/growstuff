@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Activities', type: :request do
-  subject { response.parsed_body }
+  subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:activity) { FactoryBot.create(:activity, garden: create(:garden), planting: create(:planting)) }
