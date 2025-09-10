@@ -14,6 +14,7 @@ describe "member token management", :js do
     expect(page).to have_no_content("Your API token is")
     click_on "Generate API Token"
     expect(page).to have_content("Your API token is")
+    member.reload
     expect(member.api_token).to be_present
   end
 
@@ -27,7 +28,9 @@ describe "member token management", :js do
     it "can regenerate an API token" do
       old_token = member.api_token.token
       expect(page).to have_content("Your API token is")
-      click_on "Regenerate"
+      accept_confirm do
+        click_on "Regenerate"
+      end
       expect(page).to have_content("Your API token is")
       expect(member.reload.api_token.token).not_to eq(old_token)
     end
