@@ -29,7 +29,7 @@ class ActivitiesController < DataController
 
   def new
     @activity = Activity.new(
-      owner: current_member,
+      owner:    current_member,
       due_date: Date.today
     )
     if params[:garden_id]
