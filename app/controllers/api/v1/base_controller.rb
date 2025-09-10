@@ -6,8 +6,8 @@ module Api
       abstract
       protect_from_forgery with: :null_session
       before_action :authenticate_member_from_token!
+      before_action :enforce_member_for_write_operations!, only: [:create, :update, :destroy]
       rescue_from CanCan::AccessDenied do
-        # TODO: Is it worth audit logging?
         head :forbidden
       end
 
@@ -26,19 +26,20 @@ module Api
         @current_user
       end
 
+      def enforce_member_for_write_operations!
+        head :unauthorized unless current_user
+      end
+
       def authenticate_member_from_token!
         authenticate_with_http_token do |token, _options|
           auth = Authentication.find_by(token: token, provider: 'api')
           if auth.present?
             @current_user = auth.member
-          else
-            raise UnauthorisedError.new(code: 401, title: "Unauthorized")
+
+            return true
           end
         end
       end
     end
   end
-end
-
-class UnauthorisedError < JSONAPI::Error
 end
