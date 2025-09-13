@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   }
   devise_scope :member do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', as: 'unsubscribe_member'
+    post '/members/regenerate_api_token' => 'registrations#regenerate_api_token', as: 'regenerate_api_token'
   end
   match '/members/:id/finish_signup' => 'members#finish_signup', via: %i(get patch), as: :finish_signup
 
