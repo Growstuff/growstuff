@@ -1,113 +1,387 @@
 {
   "swagger": "2.0",
   "info": {
-  "title": "API V1",
-  "version": "V1"
-},
-  "basePath" : "/api/v1",
+    "title": "API V1",
+    "version": "V1"
+  },
+  "basePath": "/api/v1",
   "paths": {
-  "/crops": {
-    "get": {
-      "summary": "crops List",
-      "tags": [
-        "crops"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "page[number]",
-          "in": "query",
-          "type": "string",
-          "description": "Page num",
-          "required": false
-        },
-        {
-          "name": "page[size]",
-          "in": "query",
-          "type": "string",
-          "description": "Page size",
-          "required": false
-        },
-        {
-          "name": "sort",
-          "in": "query",
-          "type": "string",
-          "description": "Sortable fields: (-)id,name,en_wikipedia_url,perennial,median_lifespan,median_days_to_first_harvest,median_days_to_last_harvest",
-          "required": false
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "filter[id]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "filter[approval_status]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[seeds]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[harvests]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
+    "/crops": {
+      "get": {
+        "summary": "crops List",
+        "tags": [
+          "crops"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "page[number]",
+            "in": "query",
+            "type": "string",
+            "description": "Page num",
+            "required": false
+          },
+          {
+            "name": "page[size]",
+            "in": "query",
+            "type": "string",
+            "description": "Page size",
+            "required": false
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "type": "string",
+            "description": "Sortable fields: (-)id,name,en_wikipedia_url,perennial,median_lifespan,median_days_to_first_harvest,median_days_to_last_harvest",
+            "required": false
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "filter[id]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "filter[approval_status]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "fields[crops]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[seeds]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[harvests]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID"
+                      },
+                      "links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "string",
+                            "description": "Detail link"
+                          }
+                        },
+                        "description": "Detail link"
+                      },
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "x-nullable": false,
+                            "description": "Name"
+                          },
+                          "en_wikipedia_url": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Wikipedia URL (English)"
+                          },
+                          "perennial": {
+                            "type": "boolean",
+                            "x-nullable": true,
+                            "description": "Is the item perennial? (A plant that lives more than two years)"
+                          },
+                          "median_lifespan": {
+                            "type": "integer",
+                            "x-nullable": true,
+                            "description": "Median lifespan"
+                          },
+                          "median_days_to_first_harvest": {
+                            "type": "integer",
+                            "x-nullable": true,
+                            "description": "Median days to first harvest"
+                          },
+                          "median_days_to_last_harvest": {
+                            "type": "integer",
+                            "x-nullable": true,
+                            "description": "Median days to last harvest"
+                          }
+                        },
+                        "description": "Attributes"
+                      },
+                      "relationships": {
+                        "type": "object",
+                        "properties": {
+                          "plantings": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "seeds": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "harvests": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "photos": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "parent": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          }
+                        },
+                        "description": "Associate data"
+                      }
+                    }
+                  },
+                  "description": "Data"
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "record_count": {
+                      "type": "integer",
+                      "description": "Record count"
+                    },
+                    "page_count": {
+                      "type": "integer",
+                      "description": "Page count"
+                    }
+                  },
+                  "description": "Meta"
+                },
+                "links": {
+                  "type": "object",
+                  "properties": {
+                    "first": {
+                      "type": "string",
+                      "description": "First page link"
+                    },
+                    "next": {
+                      "type": "string",
+                      "description": "Next page link"
+                    },
+                    "last": {
+                      "type": "string",
+                      "description": "Last page link"
+                    }
+                  },
+                  "description": "Page links"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            }
+          }
         }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get list",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "array",
-                "items": {
+      }
+    },
+    "/crops/{id}": {
+      "get": {
+        "summary": "crops Detail",
+        "tags": [
+          "crops"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "ID",
+            "required": true
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "fields[crops]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[seeds]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[harvests]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get detail",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
                   "type": "object",
                   "properties": {
                     "id": {
                       "type": "string",
                       "description": "ID"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type"
                     },
                     "links": {
                       "type": "object",
@@ -261,380 +535,308 @@
                       },
                       "description": "Associate data"
                     }
-                  }
-                },
-                "description": "Data"
+                  },
+                  "description": "Data"
+                }
               },
-              "meta": {
-                "type": "object",
-                "properties": {
-                  "record_count": {
-                    "type": "integer",
-                    "description": "Record count"
-                  },
-                  "page_count": {
-                    "type": "integer",
-                    "description": "Page count"
-                  }
-                },
-                "description": "Meta"
-              },
-              "links": {
-                "type": "object",
-                "properties": {
-                  "first": {
-                    "type": "string",
-                    "description": "First page link"
-                  },
-                  "next": {
-                    "type": "string",
-                    "description": "Next page link"
-                  },
-                  "last": {
-                    "type": "string",
-                    "description": "Last page link"
-                  }
-                },
-                "description": "Page links"
-              }
-            },
-            "required": [
-              "data"
-            ]
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/crops/{id}": {
-    "get": {
-      "summary": "crops Detail",
-      "tags": [
-        "crops"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "type": "integer",
-          "description": "ID",
-          "required": true
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[seeds]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[harvests]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get detail",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "ID"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Type"
-                  },
-                  "links": {
+    },
+    "/gardens": {
+      "get": {
+        "summary": "gardens List",
+        "tags": [
+          "gardens"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "page[number]",
+            "in": "query",
+            "type": "string",
+            "description": "Page num",
+            "required": false
+          },
+          {
+            "name": "page[size]",
+            "in": "query",
+            "type": "string",
+            "description": "Page size",
+            "required": false
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "type": "string",
+            "description": "Sortable fields: (-)id,name",
+            "required": false
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "filter[id]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "fields[gardens]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[members]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
                     "type": "object",
                     "properties": {
-                      "self": {
+                      "id": {
                         "type": "string",
+                        "description": "ID"
+                      },
+                      "links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "string",
+                            "description": "Detail link"
+                          }
+                        },
                         "description": "Detail link"
+                      },
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "x-nullable": false,
+                            "description": "Name"
+                          }
+                        },
+                        "description": "Attributes"
+                      },
+                      "relationships": {
+                        "type": "object",
+                        "properties": {
+                          "owner": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "plantings": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "photos": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          }
+                        },
+                        "description": "Associate data"
                       }
-                    },
-                    "description": "Detail link"
+                    }
                   },
-                  "attributes": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string",
-                        "x-nullable": false,
-                        "description": "Name"
-                      },
-                      "en_wikipedia_url": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Wikipedia URL (English)"
-                      },
-                      "perennial": {
-                        "type": "boolean",
-                        "x-nullable": true,
-                        "description": "Is the item perennial? (A plant that lives more than two years)"
-                      },
-                      "median_lifespan": {
-                        "type": "integer",
-                        "x-nullable": true,
-                        "description": "Median lifespan"
-                      },
-                      "median_days_to_first_harvest": {
-                        "type": "integer",
-                        "x-nullable": true,
-                        "description": "Median days to first harvest"
-                      },
-                      "median_days_to_last_harvest": {
-                        "type": "integer",
-                        "x-nullable": true,
-                        "description": "Median days to last harvest"
-                      }
-                    },
-                    "description": "Attributes"
-                  },
-                  "relationships": {
-                    "type": "object",
-                    "properties": {
-                      "plantings": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "seeds": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "harvests": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "photos": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "parent": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      }
-                    },
-                    "description": "Associate data"
-                  }
+                  "description": "Data"
                 },
-                "description": "Data"
-              }
-            },
-            "required": [
-              "data"
-            ]
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "record_count": {
+                      "type": "integer",
+                      "description": "Record count"
+                    },
+                    "page_count": {
+                      "type": "integer",
+                      "description": "Page count"
+                    }
+                  },
+                  "description": "Meta"
+                },
+                "links": {
+                  "type": "object",
+                  "properties": {
+                    "first": {
+                      "type": "string",
+                      "description": "First page link"
+                    },
+                    "next": {
+                      "type": "string",
+                      "description": "Next page link"
+                    },
+                    "last": {
+                      "type": "string",
+                      "description": "Last page link"
+                    }
+                  },
+                  "description": "Page links"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/gardens": {
-    "get": {
-      "summary": "gardens List",
-      "tags": [
-        "gardens"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "page[number]",
-          "in": "query",
-          "type": "string",
-          "description": "Page num",
-          "required": false
-        },
-        {
-          "name": "page[size]",
-          "in": "query",
-          "type": "string",
-          "description": "Page size",
-          "required": false
-        },
-        {
-          "name": "sort",
-          "in": "query",
-          "type": "string",
-          "description": "Sortable fields: (-)id,name",
-          "required": false
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "filter[id]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "fields[gardens]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[members]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get list",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "array",
-                "items": {
+    },
+    "/gardens/{id}": {
+      "get": {
+        "summary": "gardens Detail",
+        "tags": [
+          "gardens"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "ID",
+            "required": true
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "fields[gardens]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[members]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get detail",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
                   "type": "object",
                   "properties": {
                     "id": {
                       "type": "string",
                       "description": "ID"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type"
                     },
                     "links": {
                       "type": "object",
@@ -723,336 +925,395 @@
                       },
                       "description": "Associate data"
                     }
-                  }
-                },
-                "description": "Data"
+                  },
+                  "description": "Data"
+                }
               },
-              "meta": {
-                "type": "object",
-                "properties": {
-                  "record_count": {
-                    "type": "integer",
-                    "description": "Record count"
-                  },
-                  "page_count": {
-                    "type": "integer",
-                    "description": "Page count"
-                  }
-                },
-                "description": "Meta"
-              },
-              "links": {
-                "type": "object",
-                "properties": {
-                  "first": {
-                    "type": "string",
-                    "description": "First page link"
-                  },
-                  "next": {
-                    "type": "string",
-                    "description": "Next page link"
-                  },
-                  "last": {
-                    "type": "string",
-                    "description": "Last page link"
-                  }
-                },
-                "description": "Page links"
-              }
-            },
-            "required": [
-              "data"
-            ]
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/gardens/{id}": {
-    "get": {
-      "summary": "gardens Detail",
-      "tags": [
-        "gardens"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "type": "integer",
-          "description": "ID",
-          "required": true
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "fields[gardens]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[members]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get detail",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "ID"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Type"
-                  },
-                  "links": {
+    },
+    "/members": {
+      "get": {
+        "summary": "members List",
+        "tags": [
+          "members"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "page[number]",
+            "in": "query",
+            "type": "string",
+            "description": "Page num",
+            "required": false
+          },
+          {
+            "name": "page[size]",
+            "in": "query",
+            "type": "string",
+            "description": "Page size",
+            "required": false
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "type": "string",
+            "description": "Sortable fields: (-)id,login_name,slug",
+            "required": false
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "filter[id]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "filter[login_name]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "filter[slug]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "fields[members]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[gardens]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[harvests]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[seeds]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
                     "type": "object",
                     "properties": {
-                      "self": {
+                      "id": {
                         "type": "string",
+                        "description": "ID"
+                      },
+                      "links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "string",
+                            "description": "Detail link"
+                          }
+                        },
                         "description": "Detail link"
-                      }
-                    },
-                    "description": "Detail link"
-                  },
-                  "attributes": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string",
-                        "x-nullable": false,
-                        "description": "Name"
-                      }
-                    },
-                    "description": "Attributes"
-                  },
-                  "relationships": {
-                    "type": "object",
-                    "properties": {
-                      "owner": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
                       },
-                      "plantings": {
+                      "attributes": {
                         "type": "object",
                         "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
+                          "login_name": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Login name"
+                          },
+                          "slug": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Slug"
                           }
                         },
-                        "description": "Related model"
+                        "description": "Attributes"
                       },
-                      "photos": {
+                      "relationships": {
                         "type": "object",
                         "properties": {
-                          "links": {
+                          "gardens": {
                             "type": "object",
                             "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
                                 "description": "Related link"
                               }
                             },
-                            "description": "Related link"
+                            "description": "Related model"
+                          },
+                          "plantings": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "harvests": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "seeds": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "photos": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
                           }
                         },
-                        "description": "Related model"
+                        "description": "Associate data"
                       }
-                    },
-                    "description": "Associate data"
-                  }
+                    }
+                  },
+                  "description": "Data"
                 },
-                "description": "Data"
-              }
-            },
-            "required": [
-              "data"
-            ]
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "record_count": {
+                      "type": "integer",
+                      "description": "Record count"
+                    },
+                    "page_count": {
+                      "type": "integer",
+                      "description": "Page count"
+                    }
+                  },
+                  "description": "Meta"
+                },
+                "links": {
+                  "type": "object",
+                  "properties": {
+                    "first": {
+                      "type": "string",
+                      "description": "First page link"
+                    },
+                    "next": {
+                      "type": "string",
+                      "description": "Next page link"
+                    },
+                    "last": {
+                      "type": "string",
+                      "description": "Last page link"
+                    }
+                  },
+                  "description": "Page links"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/members": {
-    "get": {
-      "summary": "members List",
-      "tags": [
-        "members"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "page[number]",
-          "in": "query",
-          "type": "string",
-          "description": "Page num",
-          "required": false
-        },
-        {
-          "name": "page[size]",
-          "in": "query",
-          "type": "string",
-          "description": "Page size",
-          "required": false
-        },
-        {
-          "name": "sort",
-          "in": "query",
-          "type": "string",
-          "description": "Sortable fields: (-)id,login_name,slug",
-          "required": false
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "filter[id]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "filter[login_name]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "filter[slug]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "fields[members]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[gardens]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[harvests]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[seeds]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get list",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "array",
-                "items": {
+    },
+    "/members/{id}": {
+      "get": {
+        "summary": "members Detail",
+        "tags": [
+          "members"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "ID",
+            "required": true
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "fields[members]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[gardens]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[harvests]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[seeds]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get detail",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
                   "type": "object",
                   "properties": {
                     "id": {
                       "type": "string",
                       "description": "ID"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type"
                     },
                     "links": {
                       "type": "object",
@@ -1186,374 +1447,367 @@
                       },
                       "description": "Associate data"
                     }
-                  }
-                },
-                "description": "Data"
+                  },
+                  "description": "Data"
+                }
               },
-              "meta": {
-                "type": "object",
-                "properties": {
-                  "record_count": {
-                    "type": "integer",
-                    "description": "Record count"
-                  },
-                  "page_count": {
-                    "type": "integer",
-                    "description": "Page count"
-                  }
-                },
-                "description": "Meta"
-              },
-              "links": {
-                "type": "object",
-                "properties": {
-                  "first": {
-                    "type": "string",
-                    "description": "First page link"
-                  },
-                  "next": {
-                    "type": "string",
-                    "description": "Next page link"
-                  },
-                  "last": {
-                    "type": "string",
-                    "description": "Last page link"
-                  }
-                },
-                "description": "Page links"
-              }
-            },
-            "required": [
-              "data"
-            ]
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/members/{id}": {
-    "get": {
-      "summary": "members Detail",
-      "tags": [
-        "members"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "type": "integer",
-          "description": "ID",
-          "required": true
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "fields[members]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[gardens]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[harvests]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[seeds]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get detail",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "ID"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Type"
-                  },
-                  "links": {
+    },
+    "/harvests": {
+      "get": {
+        "summary": "harvests List",
+        "tags": [
+          "harvests"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "page[number]",
+            "in": "query",
+            "type": "string",
+            "description": "Page num",
+            "required": false
+          },
+          {
+            "name": "page[size]",
+            "in": "query",
+            "type": "string",
+            "description": "Page size",
+            "required": false
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "type": "string",
+            "description": "Sortable fields: (-)id,harvested_at,description,unit,weight_quantity,weight_unit,si_weight",
+            "required": false
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "filter[id]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "fields[harvests]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[crops]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[members]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
                     "type": "object",
                     "properties": {
-                      "self": {
+                      "id": {
                         "type": "string",
+                        "description": "ID"
+                      },
+                      "links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "string",
+                            "description": "Detail link"
+                          }
+                        },
                         "description": "Detail link"
+                      },
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "harvested_at": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Harvested date time"
+                          },
+                          "description": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Description"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Unit"
+                          },
+                          "weight_quantity": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Weight/Quanitity"
+                          },
+                          "weight_unit": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Weight Unit"
+                          },
+                          "si_weight": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "SI Weight"
+                          }
+                        },
+                        "description": "Attributes"
+                      },
+                      "relationships": {
+                        "type": "object",
+                        "properties": {
+                          "crop": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "planting": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "owner": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "photos": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          }
+                        },
+                        "description": "Associate data"
                       }
-                    },
-                    "description": "Detail link"
+                    }
                   },
-                  "attributes": {
-                    "type": "object",
-                    "properties": {
-                      "login_name": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Login name"
-                      },
-                      "slug": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Slug"
-                      }
-                    },
-                    "description": "Attributes"
-                  },
-                  "relationships": {
-                    "type": "object",
-                    "properties": {
-                      "gardens": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "plantings": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "harvests": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "seeds": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "photos": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      }
-                    },
-                    "description": "Associate data"
-                  }
+                  "description": "Data"
                 },
-                "description": "Data"
-              }
-            },
-            "required": [
-              "data"
-            ]
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "record_count": {
+                      "type": "integer",
+                      "description": "Record count"
+                    },
+                    "page_count": {
+                      "type": "integer",
+                      "description": "Page count"
+                    }
+                  },
+                  "description": "Meta"
+                },
+                "links": {
+                  "type": "object",
+                  "properties": {
+                    "first": {
+                      "type": "string",
+                      "description": "First page link"
+                    },
+                    "next": {
+                      "type": "string",
+                      "description": "Next page link"
+                    },
+                    "last": {
+                      "type": "string",
+                      "description": "Last page link"
+                    }
+                  },
+                  "description": "Page links"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/harvests": {
-    "get": {
-      "summary": "harvests List",
-      "tags": [
-        "harvests"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "page[number]",
-          "in": "query",
-          "type": "string",
-          "description": "Page num",
-          "required": false
-        },
-        {
-          "name": "page[size]",
-          "in": "query",
-          "type": "string",
-          "description": "Page size",
-          "required": false
-        },
-        {
-          "name": "sort",
-          "in": "query",
-          "type": "string",
-          "description": "Sortable fields: (-)id,harvested_at,description,unit,weight_quantity,weight_unit,si_weight",
-          "required": false
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "filter[id]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "fields[harvests]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[members]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get list",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "array",
-                "items": {
+    },
+    "/harvests/{id}": {
+      "get": {
+        "summary": "harvests Detail",
+        "tags": [
+          "harvests"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "ID",
+            "required": true
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "fields[harvests]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[crops]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[members]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get detail",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
                   "type": "object",
                   "properties": {
                     "id": {
                       "type": "string",
                       "description": "ID"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type"
                     },
                     "links": {
                       "type": "object",
@@ -1571,7 +1825,7 @@
                         "harvested_at": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": "Harvested date time"
+                          "description": "Harvested datetime"
                         },
                         "description": {
                           "type": "string",
@@ -1586,7 +1840,7 @@
                         "weight_quantity": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": "Weight/Quanitity"
+                          "description": "Weight/Quantity"
                         },
                         "weight_unit": {
                           "type": "string",
@@ -1687,353 +1941,314 @@
                       },
                       "description": "Associate data"
                     }
-                  }
-                },
-                "description": "Data"
+                  },
+                  "description": "Data"
+                }
               },
-              "meta": {
-                "type": "object",
-                "properties": {
-                  "record_count": {
-                    "type": "integer",
-                    "description": "Record count"
-                  },
-                  "page_count": {
-                    "type": "integer",
-                    "description": "Page count"
-                  }
-                },
-                "description": "Meta"
-              },
-              "links": {
-                "type": "object",
-                "properties": {
-                  "first": {
-                    "type": "string",
-                    "description": "First page link"
-                  },
-                  "next": {
-                    "type": "string",
-                    "description": "Next page link"
-                  },
-                  "last": {
-                    "type": "string",
-                    "description": "Last page link"
-                  }
-                },
-                "description": "Page links"
-              }
-            },
-            "required": [
-              "data"
-            ]
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/harvests/{id}": {
-    "get": {
-      "summary": "harvests Detail",
-      "tags": [
-        "harvests"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "type": "integer",
-          "description": "ID",
-          "required": true
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "fields[harvests]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[members]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get detail",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "ID"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Type"
-                  },
-                  "links": {
+    },
+    "/seeds": {
+      "get": {
+        "summary": "seeds List",
+        "tags": [
+          "seeds"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "page[number]",
+            "in": "query",
+            "type": "string",
+            "description": "Page num",
+            "required": false
+          },
+          {
+            "name": "page[size]",
+            "in": "query",
+            "type": "string",
+            "description": "Page size",
+            "required": false
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "type": "string",
+            "description": "Sortable fields: (-)id,description,quantity,plant_before,tradable_to,days_until_maturity_min,days_until_maturity_max,organic,gmo,heirloom",
+            "required": false
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "filter[id]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "fields[seeds]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[members]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[crops]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
                     "type": "object",
                     "properties": {
-                      "self": {
+                      "id": {
                         "type": "string",
+                        "description": "ID"
+                      },
+                      "links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "string",
+                            "description": "Detail link"
+                          }
+                        },
                         "description": "Detail link"
+                      },
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "description": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Description"
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "x-nullable": true,
+                            "description": "Quanitity"
+                          },
+                          "plant_before": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Plant before"
+                          },
+                          "tradable_to": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Tradeable to"
+                          },
+                          "days_until_maturity_min": {
+                            "type": "integer",
+                            "x-nullable": true,
+                            "description": "Days until maturity (min)"
+                          },
+                          "days_until_maturity_max": {
+                            "type": "integer",
+                            "x-nullable": true,
+                            "description": "Days until maturity (max)"
+                          },
+                          "organic": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Organic"
+                          },
+                          "gmo": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "GMO"
+                          },
+                          "heirloom": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Heirloom"
+                          }
+                        },
+                        "description": "Attributes"
+                      },
+                      "relationships": {
+                        "type": "object",
+                        "properties": {
+                          "owner": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "crop": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          }
+                        },
+                        "description": "Associate data"
                       }
-                    },
-                    "description": "Detail link"
+                    }
                   },
-                  "attributes": {
-                    "type": "object",
-                    "properties": {
-                      "harvested_at": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Harvested datetime"
-                      },
-                      "description": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Description"
-                      },
-                      "unit": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Unit"
-                      },
-                      "weight_quantity": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Weight/Quantity"
-                      },
-                      "weight_unit": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Weight Unit"
-                      },
-                      "si_weight": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "SI Weight"
-                      }
-                    },
-                    "description": "Attributes"
-                  },
-                  "relationships": {
-                    "type": "object",
-                    "properties": {
-                      "crop": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "planting": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "owner": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "photos": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      }
-                    },
-                    "description": "Associate data"
-                  }
+                  "description": "Data"
                 },
-                "description": "Data"
-              }
-            },
-            "required": [
-              "data"
-            ]
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "record_count": {
+                      "type": "integer",
+                      "description": "Record count"
+                    },
+                    "page_count": {
+                      "type": "integer",
+                      "description": "Page count"
+                    }
+                  },
+                  "description": "Meta"
+                },
+                "links": {
+                  "type": "object",
+                  "properties": {
+                    "first": {
+                      "type": "string",
+                      "description": "First page link"
+                    },
+                    "next": {
+                      "type": "string",
+                      "description": "Next page link"
+                    },
+                    "last": {
+                      "type": "string",
+                      "description": "Last page link"
+                    }
+                  },
+                  "description": "Page links"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/seeds": {
-    "get": {
-      "summary": "seeds List",
-      "tags": [
-        "seeds"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "page[number]",
-          "in": "query",
-          "type": "string",
-          "description": "Page num",
-          "required": false
-        },
-        {
-          "name": "page[size]",
-          "in": "query",
-          "type": "string",
-          "description": "Page size",
-          "required": false
-        },
-        {
-          "name": "sort",
-          "in": "query",
-          "type": "string",
-          "description": "Sortable fields: (-)id,description,quantity,plant_before,tradable_to,days_until_maturity_min,days_until_maturity_max,organic,gmo,heirloom",
-          "required": false
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "filter[id]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "fields[seeds]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[members]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get list",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "array",
-                "items": {
+    },
+    "/seeds/{id}": {
+      "get": {
+        "summary": "seeds Detail",
+        "tags": [
+          "seeds"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "ID",
+            "required": true
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "fields[seeds]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[members]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[crops]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get detail",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
                   "type": "object",
                   "properties": {
                     "id": {
                       "type": "string",
                       "description": "ID"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type"
                     },
                     "links": {
                       "type": "object",
@@ -2056,7 +2271,7 @@
                         "quantity": {
                           "type": "integer",
                           "x-nullable": true,
-                          "description": "Quanitity"
+                          "description": "Quanity"
                         },
                         "plant_before": {
                           "type": "string",
@@ -2066,7 +2281,7 @@
                         "tradable_to": {
                           "type": "string",
                           "x-nullable": true,
-                          "description": "Tradeable to"
+                          "description": "Tradable to"
                         },
                         "days_until_maturity_min": {
                           "type": "integer",
@@ -2142,370 +2357,419 @@
                       },
                       "description": "Associate data"
                     }
-                  }
-                },
-                "description": "Data"
+                  },
+                  "description": "Data"
+                }
               },
-              "meta": {
-                "type": "object",
-                "properties": {
-                  "record_count": {
-                    "type": "integer",
-                    "description": "Record count"
-                  },
-                  "page_count": {
-                    "type": "integer",
-                    "description": "Page count"
-                  }
-                },
-                "description": "Meta"
-              },
-              "links": {
-                "type": "object",
-                "properties": {
-                  "first": {
-                    "type": "string",
-                    "description": "First page link"
-                  },
-                  "next": {
-                    "type": "string",
-                    "description": "Next page link"
-                  },
-                  "last": {
-                    "type": "string",
-                    "description": "Last page link"
-                  }
-                },
-                "description": "Page links"
-              }
-            },
-            "required": [
-              "data"
-            ]
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/seeds/{id}": {
-    "get": {
-      "summary": "seeds Detail",
-      "tags": [
-        "seeds"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "type": "integer",
-          "description": "ID",
-          "required": true
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "fields[seeds]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[members]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get detail",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "ID"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Type"
-                  },
-                  "links": {
+    },
+    "/plantings": {
+      "get": {
+        "summary": "plantings List",
+        "tags": [
+          "plantings"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "page[number]",
+            "in": "query",
+            "type": "string",
+            "description": "Page num",
+            "required": false
+          },
+          {
+            "name": "page[size]",
+            "in": "query",
+            "type": "string",
+            "description": "Page size",
+            "required": false
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "type": "string",
+            "description": "Sortable fields: (-)id,slug,planted_at,finished,finished_at,quantity,description,sunniness,planted_from",
+            "required": false
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "filter[id]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "filter[slug]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "filter[crop]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "filter[planted_from]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "filter[garden]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "filter[owner]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "filter[finished]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[gardens]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[crops]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[harvests]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
                     "type": "object",
                     "properties": {
-                      "self": {
+                      "id": {
                         "type": "string",
+                        "description": "ID"
+                      },
+                      "links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "string",
+                            "description": "Detail link"
+                          }
+                        },
                         "description": "Detail link"
-                      }
-                    },
-                    "description": "Detail link"
-                  },
-                  "attributes": {
-                    "type": "object",
-                    "properties": {
-                      "description": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Description"
                       },
-                      "quantity": {
-                        "type": "integer",
-                        "x-nullable": true,
-                        "description": "Quanity"
-                      },
-                      "plant_before": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Plant before"
-                      },
-                      "tradable_to": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Tradable to"
-                      },
-                      "days_until_maturity_min": {
-                        "type": "integer",
-                        "x-nullable": true,
-                        "description": "Days until maturity (min)"
-                      },
-                      "days_until_maturity_max": {
-                        "type": "integer",
-                        "x-nullable": true,
-                        "description": "Days until maturity (max)"
-                      },
-                      "organic": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Organic"
-                      },
-                      "gmo": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "GMO"
-                      },
-                      "heirloom": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Heirloom"
-                      }
-                    },
-                    "description": "Attributes"
-                  },
-                  "relationships": {
-                    "type": "object",
-                    "properties": {
-                      "owner": {
+                      "attributes": {
                         "type": "object",
                         "properties": {
-                          "links": {
+                          "slug": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Slug"
+                          },
+                          "planted_at": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Planted at"
+                          },
+                          "finished": {
+                            "type": "boolean",
+                            "x-nullable": false,
+                            "description": "Finished?"
+                          },
+                          "finished_at": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Finished at"
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "x-nullable": true,
+                            "description": "Quanity"
+                          },
+                          "description": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Description"
+                          },
+                          "sunniness": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Sunniness"
+                          },
+                          "planted_from": {
+                            "type": "string",
+                            "x-nullable": true,
+                            "description": "Planted from"
+                          }
+                        },
+                        "description": "Attributes"
+                      },
+                      "relationships": {
+                        "type": "object",
+                        "properties": {
+                          "garden": {
                             "type": "object",
                             "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
                                 "description": "Related link"
                               }
                             },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "crop": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
+                            "description": "Related model"
+                          },
+                          "crop": {
                             "type": "object",
                             "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
                                 "description": "Related link"
                               }
                             },
-                            "description": "Related link"
+                            "description": "Related model"
+                          },
+                          "photos": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "harvests": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
                           }
                         },
-                        "description": "Related model"
+                        "description": "Associate data"
                       }
-                    },
-                    "description": "Associate data"
-                  }
+                    }
+                  },
+                  "description": "Data"
                 },
-                "description": "Data"
-              }
-            },
-            "required": [
-              "data"
-            ]
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "record_count": {
+                      "type": "integer",
+                      "description": "Record count"
+                    },
+                    "page_count": {
+                      "type": "integer",
+                      "description": "Page count"
+                    }
+                  },
+                  "description": "Meta"
+                },
+                "links": {
+                  "type": "object",
+                  "properties": {
+                    "first": {
+                      "type": "string",
+                      "description": "First page link"
+                    },
+                    "next": {
+                      "type": "string",
+                      "description": "Next page link"
+                    },
+                    "last": {
+                      "type": "string",
+                      "description": "Last page link"
+                    }
+                  },
+                  "description": "Page links"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/plantings": {
-    "get": {
-      "summary": "plantings List",
-      "tags": [
-        "plantings"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "page[number]",
-          "in": "query",
-          "type": "string",
-          "description": "Page num",
-          "required": false
-        },
-        {
-          "name": "page[size]",
-          "in": "query",
-          "type": "string",
-          "description": "Page size",
-          "required": false
-        },
-        {
-          "name": "sort",
-          "in": "query",
-          "type": "string",
-          "description": "Sortable fields: (-)id,slug,planted_at,finished,finished_at,quantity,description,sunniness,planted_from",
-          "required": false
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "filter[id]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "filter[slug]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "filter[crop]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "filter[planted_from]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "filter[garden]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "filter[owner]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "filter[finished]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[gardens]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[harvests]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get list",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "array",
-                "items": {
+    },
+    "/plantings/{id}": {
+      "get": {
+        "summary": "plantings Detail",
+        "tags": [
+          "plantings"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "ID",
+            "required": true
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[gardens]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[crops]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[harvests]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get detail",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
                   "type": "object",
                   "properties": {
                     "id": {
                       "type": "string",
                       "description": "ID"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type"
                     },
                     "links": {
                       "type": "object",
@@ -2543,7 +2807,7 @@
                         "quantity": {
                           "type": "integer",
                           "x-nullable": true,
-                          "description": "Quanity"
+                          "description": "Quantity"
                         },
                         "description": {
                           "type": "string",
@@ -2649,377 +2913,362 @@
                       },
                       "description": "Associate data"
                     }
-                  }
-                },
-                "description": "Data"
+                  },
+                  "description": "Data"
+                }
               },
-              "meta": {
-                "type": "object",
-                "properties": {
-                  "record_count": {
-                    "type": "integer",
-                    "description": "Record count"
-                  },
-                  "page_count": {
-                    "type": "integer",
-                    "description": "Page count"
-                  }
-                },
-                "description": "Meta"
-              },
-              "links": {
-                "type": "object",
-                "properties": {
-                  "first": {
-                    "type": "string",
-                    "description": "First page link"
-                  },
-                  "next": {
-                    "type": "string",
-                    "description": "Next page link"
-                  },
-                  "last": {
-                    "type": "string",
-                    "description": "Last page link"
-                  }
-                },
-                "description": "Page links"
-              }
-            },
-            "required": [
-              "data"
-            ]
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/plantings/{id}": {
-    "get": {
-      "summary": "plantings Detail",
-      "tags": [
-        "plantings"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "type": "integer",
-          "description": "ID",
-          "required": true
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[gardens]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[crops]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[harvests]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get detail",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "ID"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Type"
-                  },
-                  "links": {
+    },
+    "/photos": {
+      "get": {
+        "summary": "photos List",
+        "tags": [
+          "photos"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "page[number]",
+            "in": "query",
+            "type": "string",
+            "description": "Page num",
+            "required": false
+          },
+          {
+            "name": "page[size]",
+            "in": "query",
+            "type": "string",
+            "description": "Page size",
+            "required": false
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "type": "string",
+            "description": "Sortable fields: (-)id,thumbnail_url,fullsize_url,license_name,link_url,title",
+            "required": false
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "filter[id]",
+            "in": "query",
+            "type": "string",
+            "description": "Filter field",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[members]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[gardens]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[harvests]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
                     "type": "object",
                     "properties": {
-                      "self": {
+                      "id": {
                         "type": "string",
+                        "description": "ID"
+                      },
+                      "links": {
+                        "type": "object",
+                        "properties": {
+                          "self": {
+                            "type": "string",
+                            "description": "Detail link"
+                          }
+                        },
                         "description": "Detail link"
+                      },
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "thumbnail_url": {
+                            "type": "string",
+                            "x-nullable": false,
+                            "description": "Thumbnail URL"
+                          },
+                          "fullsize_url": {
+                            "type": "string",
+                            "x-nullable": false,
+                            "description": "Full-size URL"
+                          },
+                          "license_name": {
+                            "type": "string",
+                            "x-nullable": false,
+                            "description": "License name"
+                          },
+                          "link_url": {
+                            "type": "string",
+                            "x-nullable": false,
+                            "description": "Link URL"
+                          },
+                          "title": {
+                            "type": "string",
+                            "x-nullable": false,
+                            "description": "Title"
+                          }
+                        },
+                        "description": "Attributes"
+                      },
+                      "relationships": {
+                        "type": "object",
+                        "properties": {
+                          "owner": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "plantings": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "gardens": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          },
+                          "harvests": {
+                            "type": "object",
+                            "properties": {
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "description": "Associate list link"
+                                  },
+                                  "related": {
+                                    "type": "string",
+                                    "description": "Related link"
+                                  }
+                                },
+                                "description": "Related link"
+                              }
+                            },
+                            "description": "Related model"
+                          }
+                        },
+                        "description": "Associate data"
                       }
-                    },
-                    "description": "Detail link"
+                    }
                   },
-                  "attributes": {
-                    "type": "object",
-                    "properties": {
-                      "slug": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Slug"
-                      },
-                      "planted_at": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Planted at"
-                      },
-                      "finished": {
-                        "type": "boolean",
-                        "x-nullable": false,
-                        "description": "Finished?"
-                      },
-                      "finished_at": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Finished at"
-                      },
-                      "quantity": {
-                        "type": "integer",
-                        "x-nullable": true,
-                        "description": "Quantity"
-                      },
-                      "description": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Description"
-                      },
-                      "sunniness": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Sunniness"
-                      },
-                      "planted_from": {
-                        "type": "string",
-                        "x-nullable": true,
-                        "description": "Planted from"
-                      }
-                    },
-                    "description": "Attributes"
-                  },
-                  "relationships": {
-                    "type": "object",
-                    "properties": {
-                      "garden": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "crop": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "photos": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "harvests": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      }
-                    },
-                    "description": "Associate data"
-                  }
+                  "description": "Data"
                 },
-                "description": "Data"
-              }
-            },
-            "required": [
-              "data"
-            ]
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "record_count": {
+                      "type": "integer",
+                      "description": "Record count"
+                    },
+                    "page_count": {
+                      "type": "integer",
+                      "description": "Page count"
+                    }
+                  },
+                  "description": "Meta"
+                },
+                "links": {
+                  "type": "object",
+                  "properties": {
+                    "first": {
+                      "type": "string",
+                      "description": "First page link"
+                    },
+                    "next": {
+                      "type": "string",
+                      "description": "Next page link"
+                    },
+                    "last": {
+                      "type": "string",
+                      "description": "Last page link"
+                    }
+                  },
+                  "description": "Page links"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "/photos": {
-    "get": {
-      "summary": "photos List",
-      "tags": [
-        "photos"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "page[number]",
-          "in": "query",
-          "type": "string",
-          "description": "Page num",
-          "required": false
-        },
-        {
-          "name": "page[size]",
-          "in": "query",
-          "type": "string",
-          "description": "Page size",
-          "required": false
-        },
-        {
-          "name": "sort",
-          "in": "query",
-          "type": "string",
-          "description": "Sortable fields: (-)id,thumbnail_url,fullsize_url,license_name,link_url,title",
-          "required": false
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "filter[id]",
-          "in": "query",
-          "type": "string",
-          "description": "Filter field",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[members]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[gardens]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[harvests]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get list",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "array",
-                "items": {
+    },
+    "/photos/{id}": {
+      "get": {
+        "summary": "photos Detail",
+        "tags": [
+          "photos"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "ID",
+            "required": true
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "type": "string",
+            "description": "Include related data",
+            "required": false
+          },
+          {
+            "name": "fields[photos]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[members]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[plantings]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[gardens]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          },
+          {
+            "name": "fields[harvests]",
+            "in": "query",
+            "type": "string",
+            "description": "Display field",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get detail",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
                   "type": "object",
                   "properties": {
                     "id": {
                       "type": "string",
                       "description": "ID"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Type"
                     },
                     "links": {
                       "type": "object",
@@ -3148,266 +3397,17 @@
                       },
                       "description": "Associate data"
                     }
-                  }
-                },
-                "description": "Data"
+                  },
+                  "description": "Data"
+                }
               },
-              "meta": {
-                "type": "object",
-                "properties": {
-                  "record_count": {
-                    "type": "integer",
-                    "description": "Record count"
-                  },
-                  "page_count": {
-                    "type": "integer",
-                    "description": "Page count"
-                  }
-                },
-                "description": "Meta"
-              },
-              "links": {
-                "type": "object",
-                "properties": {
-                  "first": {
-                    "type": "string",
-                    "description": "First page link"
-                  },
-                  "next": {
-                    "type": "string",
-                    "description": "Next page link"
-                  },
-                  "last": {
-                    "type": "string",
-                    "description": "Last page link"
-                  }
-                },
-                "description": "Page links"
-              }
-            },
-            "required": [
-              "data"
-            ]
-          }
-        }
-      }
-    }
-  },
-  "/photos/{id}": {
-    "get": {
-      "summary": "photos Detail",
-      "tags": [
-        "photos"
-      ],
-      "produces": [
-        "application/vnd.api+json"
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "type": "integer",
-          "description": "ID",
-          "required": true
-        },
-        {
-          "name": "include",
-          "in": "query",
-          "type": "string",
-          "description": "Include related data",
-          "required": false
-        },
-        {
-          "name": "fields[photos]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[members]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[plantings]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[gardens]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        },
-        {
-          "name": "fields[harvests]",
-          "in": "query",
-          "type": "string",
-          "description": "Display field",
-          "required": false
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Get detail",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "description": "ID"
-                  },
-                  "type": {
-                    "type": "string",
-                    "description": "Type"
-                  },
-                  "links": {
-                    "type": "object",
-                    "properties": {
-                      "self": {
-                        "type": "string",
-                        "description": "Detail link"
-                      }
-                    },
-                    "description": "Detail link"
-                  },
-                  "attributes": {
-                    "type": "object",
-                    "properties": {
-                      "thumbnail_url": {
-                        "type": "string",
-                        "x-nullable": false,
-                        "description": "Thumbnail URL"
-                      },
-                      "fullsize_url": {
-                        "type": "string",
-                        "x-nullable": false,
-                        "description": "Full-size URL"
-                      },
-                      "license_name": {
-                        "type": "string",
-                        "x-nullable": false,
-                        "description": "License name"
-                      },
-                      "link_url": {
-                        "type": "string",
-                        "x-nullable": false,
-                        "description": "Link URL"
-                      },
-                      "title": {
-                        "type": "string",
-                        "x-nullable": false,
-                        "description": "Title"
-                      }
-                    },
-                    "description": "Attributes"
-                  },
-                  "relationships": {
-                    "type": "object",
-                    "properties": {
-                      "owner": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "plantings": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "gardens": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      },
-                      "harvests": {
-                        "type": "object",
-                        "properties": {
-                          "links": {
-                            "type": "object",
-                            "properties": {
-                              "self": {
-                                "type": "string",
-                                "description": "Associate list link"
-                              },
-                              "related": {
-                                "type": "string",
-                                "description": "Related link"
-                              }
-                            },
-                            "description": "Related link"
-                          }
-                        },
-                        "description": "Related model"
-                      }
-                    },
-                    "description": "Associate data"
-                  }
-                },
-                "description": "Data"
-              }
-            },
-            "required": [
-              "data"
-            ]
+              "required": [
+                "data"
+              ]
+            }
           }
         }
       }
     }
   }
-}
 }

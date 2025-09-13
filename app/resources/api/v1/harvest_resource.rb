@@ -3,11 +3,17 @@
 module Api
   module V1
     class HarvestResource < BaseResource
-      immutable
+      before_save do
+        @model.owner = context[:current_user]
+        @model.crop_id = @model.planting.crop_id if @model.planting_id
+        @model.harvested_at = Time.zone.now if @model.harvested_at.blank?
+        @model.plant_part = PlantPart.first
+      end
 
       has_one :crop
       has_one :planting
       has_one :owner, class_name: 'Member'
+      # has_one :plant_part
       has_many :photos
 
       attribute :harvested_at

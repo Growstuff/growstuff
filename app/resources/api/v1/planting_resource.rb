@@ -3,7 +3,9 @@
 module Api
   module V1
     class PlantingResource < BaseResource
-      immutable
+      before_create do
+        @model.owner = context[:current_user]
+      end
 
       has_one :garden
       has_one :crop
