@@ -543,7 +543,7 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
-    recaptcha (5.20.1)
+    recaptcha (5.21.0)
     redis-client (0.23.2)
       connection_pool
     regexp_parser (2.11.2)
