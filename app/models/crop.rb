@@ -90,7 +90,7 @@ class Crop < ApplicationRecord
   def popular_plant_parts
     PlantPart.joins(:harvests)
       .where("crop_id = ?", id)
-      .order("count_harvests_id DESC")
+      .order(count_harvests_id: :desc)
       .group("plant_parts.id", "plant_parts.name")
       .count("harvests.id")
   end
