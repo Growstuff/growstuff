@@ -10,7 +10,7 @@ FactoryBot.define do
 
     body { "MyText" }
     read { false }
-    association :notifiable, factory: :post
+    notifiable factory: %i(post)
 
     factory :no_email_notification do
       recipient { FactoryBot.create(:no_email_notifications_member) }

@@ -8,7 +8,7 @@ describe "Gardens", :js do
     include_context 'signed in member'
     before { visit new_garden_path }
 
-    include_examples 'is accessible'
+    it_behaves_like 'is accessible'
 
     it "displays required and optional fields properly" do
       expect(page).to have_selector ".required", text: "Name"

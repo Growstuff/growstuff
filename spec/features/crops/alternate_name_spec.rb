@@ -83,23 +83,23 @@ describe "Alternate names", :js do
   end
 
   context 'Anonymous' do
-    include_examples 'show alt names'
+    it_behaves_like 'show alt names'
   end
 
   context 'Signed in member' do
     include_context 'signed in member'
-    include_examples 'show alt names'
+    it_behaves_like 'show alt names'
   end
 
   context 'Crop wrangler' do
     include_context 'signed in crop wrangler'
-    include_examples 'show alt names'
-    include_examples 'edit alt names'
+    it_behaves_like 'show alt names'
+    it_behaves_like 'edit alt names'
   end
 
   context 'Admin' do
     include_context 'signed in admin'
-    include_examples 'show alt names'
-    include_examples 'edit alt names'
+    it_behaves_like 'show alt names'
+    it_behaves_like 'edit alt names'
   end
 end

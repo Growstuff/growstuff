@@ -27,11 +27,11 @@ describe "Delete crop spec" do
 
   context "As a crop wrangler" do
     include_context 'signed in crop wrangler'
-    include_examples 'delete crop'
+    it_behaves_like 'delete crop'
   end
 
   context 'admin' do
     include_context 'signed in admin'
-    include_examples 'delete crop'
+    it_behaves_like 'delete crop'
   end
 end
