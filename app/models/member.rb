@@ -2,12 +2,14 @@
 
 class Member < ApplicationRecord
   include Discard::Model
+
   acts_as_messageable # messages can be sent to this model
   include Geocodable
   include MemberFlickr
   include MemberNewsletter
 
   extend FriendlyId
+
   friendly_id :login_name, use: %i(slugged finders)
 
   #
@@ -105,9 +107,10 @@ class Member < ApplicationRecord
             uniqueness: {
               case_sensitive: false
             }
-  validates :website_url, format: { with: /\Ahttps?:\/\//, message: "must start with http:// or https://" }, allow_blank: true
-  validates :other_url, format: { with: /\Ahttps?:\/\//, message: "must start with http:// or https://" }, allow_blank: true
-  validates :instagram_handle, :facebook_handle, :bluesky_handle, format: { without: %r{\Ahttps?:\/\/|\/}, message: "should be a handle, not a URL" }, allow_blank: true
+  validates :website_url, format: { with: %r{\Ahttps?://}, message: "must start with http:// or https://" }, allow_blank: true
+  validates :other_url, format: { with: %r{\Ahttps?://}, message: "must start with http:// or https://" }, allow_blank: true
+  validates :instagram_handle, :facebook_handle, :bluesky_handle,
+            format: { without: %r{\Ahttps?://|/}, message: "should be a handle, not a URL" }, allow_blank: true
 
   #
   # Triggers
