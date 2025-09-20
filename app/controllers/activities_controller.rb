@@ -33,6 +33,8 @@ class ActivitiesController < DataController
       due_date: Date.today
     )
     @activity.name = params[:name] if params[:name]
+    @activity.description = params[:description] if params[:description]
+    @activity.category = params[:category] if params[:category]
     @activity.due_date = params[:due_date] if params[:due_date]
     if params[:garden_id]
       @activity.garden = Garden.find_by(

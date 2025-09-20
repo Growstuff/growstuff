@@ -88,6 +88,19 @@ module ButtonsHelper
     edit_button(edit_activity_path(activity), classes:)
   end
 
+  def activity_copy_button(activity, classes: 'btn')
+    link_to new_activity_path(
+      name:        activity.name,
+      description: activity.description,
+      category:    activity.category,
+      garden_id:   activity.garden_id,
+      planting_id: activity.planting_id,
+      due_date:    activity.due_date
+    ), class: classes do
+      copy_icon + ' ' + t('buttons.copy')
+    end
+  end
+
   def activity_finish_button(activity, classes: 'btn btn-default btn-secondary')
     return unless can?(:edit, activity) || activity.finished
 
