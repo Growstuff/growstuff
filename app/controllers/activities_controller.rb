@@ -32,6 +32,10 @@ class ActivitiesController < DataController
       owner:    current_member,
       due_date: Date.today
     )
+    @activity.name = params[:name] if params[:name]
+    @activity.description = params[:description] if params[:description]
+    @activity.category = params[:category] if params[:category]
+    @activity.due_date = params[:due_date] if params[:due_date]
     if params[:garden_id]
       @activity.garden = Garden.find_by(
         owner: current_member,
@@ -63,7 +67,17 @@ class ActivitiesController < DataController
   end
 
   def update
-    @activity.update(activity_params)
+    if @activity.update(activity_params)
+      if activity_params[:finished].present?
+        link = new_activity_path(
+          name:        @activity.name,
+          garden_id:   @activity.garden_id,
+          planting_id: @activity.planting_id,
+          due_date:    2.weeks.from_now.to_date
+        )
+        flash[:notice] = t('activities.finished_prompt_html', link: link).html_safe
+      end
+    end
     respond_with @activity
   end
 
