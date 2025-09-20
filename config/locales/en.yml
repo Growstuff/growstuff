@@ -72,6 +72,7 @@ en:
     add: Add
     add_photo: Add photo
     add_seed_to_stash: Add %{crop_name} seeds to stash
+    copy: Copy
     delete: Delete
     edit: Edit
     harvest: Harvest
