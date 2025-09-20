@@ -187,18 +187,16 @@ end
 group :test do
   gem 'axe-core-capybara'
   gem 'axe-core-rspec'
+  gem "percy-capybara", "~> 5.0.0"
   gem 'rails-controller-testing'
+  gem "rspec-rebound"
   gem 'selenium-webdriver'
   gem 'timecop'
   gem 'vcr'
-  gem "rspec-rebound"
-  gem "percy-capybara", "~> 5.0.0"
 end
 
 group :travis do
   gem 'platform-api'
 end
-
-
 
 gem "i18n_data", "~> 1.1"
