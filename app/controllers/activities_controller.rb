@@ -67,16 +67,14 @@ class ActivitiesController < DataController
   end
 
   def update
-    if @activity.update(activity_params)
-      if activity_params[:finished].present?
-        link = new_activity_path(
-          name:        @activity.name,
-          garden_id:   @activity.garden_id,
-          planting_id: @activity.planting_id,
-          due_date:    2.weeks.from_now.to_date
-        )
-        flash[:notice] = t('activities.finished_prompt_html', link: link).html_safe
-      end
+    if @activity.update(activity_params) && activity_params[:finished].present?
+      link = new_activity_path(
+        name:        @activity.name,
+        garden_id:   @activity.garden_id,
+        planting_id: @activity.planting_id,
+        due_date:    2.weeks.from_now.to_date
+      )
+      flash[:notice] = t('activities.finished_prompt_html', link: link).html_safe
     end
     respond_with @activity
   end
