@@ -187,7 +187,7 @@ describe "Planting a crop", :js, :search do
       check "finished"
       fill_in "Finished date", with: "2015-06-25"
       click_button "Save"
-      expect(page).to have_content "planting was successfully updated"
+      expect(page).to have_content "Planting was successfully updated"
       expect(page).to have_content "Finished"
     end
 
@@ -198,6 +198,7 @@ describe "Planting a crop", :js, :search do
       within "form#new_planting" do
         fill_in "When?", with: "2014-07-01"
         check "Mark as finished"
+        find_by_id('planting_overall_rating').set 4
         fill_in "Finished date", with: "2014-08-30"
         uncheck 'Mark as finished'
       end
@@ -220,6 +221,7 @@ describe "Planting a crop", :js, :search do
       expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Finished"
       expect(page).to have_content "Aug 2014"
+      expect(page).to have_content "4/5"
 
       # ensure we've indexed in elastic search
       planting.reindex(refresh: true)

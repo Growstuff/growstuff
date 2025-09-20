@@ -4,7 +4,6 @@ class AddIndexesCrops < ActiveRecord::Migration[7.2]
     add_index :alternate_names, :creator_id
     add_index :alternate_names, :language
 
-    add_index :comments, %i(commentable_type commentable_id)
     add_index :comments, :author_id
 
     add_index :crop_companions, %i(crop_a_id crop_b_id)

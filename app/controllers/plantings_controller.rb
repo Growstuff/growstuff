@@ -37,6 +37,7 @@ class PlantingsController < DataController
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
     @harvests = Harvest.search(where: { planting_id: @planting.id })
     @current_activities = @planting.activities.current.includes(:owner).order(created_at: :desc)
+    @finished_activities = @planting.activities.finished.includes(:owner).order(created_at: :desc)
     @matching_seeds = matching_seeds
     @crop = @planting.crop
 
@@ -86,7 +87,13 @@ class PlantingsController < DataController
       @planting.parent_seed_id = nil
       @planting.from_other_source = true
     end
-    @planting.update(planting_params)
+
+    if @planting.update(planting_params)
+      if planting_params[:finished].present? && @planting.garden.plantings.current.empty?
+        link = new_activity_path(name: 'Cultivate soil', garden_id: @planting.garden_id)
+        flash[:notice] = t('plantings.finished_prompt_html', link: link).html_safe
+      end
+    end
     respond_with @planting
   end
 
@@ -137,7 +144,7 @@ class PlantingsController < DataController
       :crop_id, :description, :garden_id, :planted_at,
       :parent_seed_id, :from_other_source,
       :quantity, :sunniness, :planted_from, :finished,
-      :finished_at, :failed
+      :finished_at, :failed, :overall_rating
     )
   end
 
