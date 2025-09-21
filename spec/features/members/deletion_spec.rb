@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "member deletion", flaky: true do
+describe "member deletion", :flaky do
   context "with activity and followers" do
     let(:member)          { FactoryBot.create(:member)                     }
     let(:other_member)    { FactoryBot.create(:member)                     }
@@ -63,7 +63,7 @@ describe "member deletion", flaky: true do
       member.reload
       expect(member.discarded?).to be true
 
-      # Frustratingly, this cannot be discarded? and also meet 
+      # Frustratingly, this cannot be discarded? and also meet
       # `@member = Member.confirmed.kept.find_by!(slug: params[:slug])`
       #
       # Yet, we see the below assert fail in CI.

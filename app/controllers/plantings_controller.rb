@@ -46,6 +46,12 @@ class PlantingsController < DataController
       .where.not(id: @planting.id)
       .includes(:owner, :crop, :garden)
       .limit(6)
+
+    if @planting.finished? && @planting.garden.plantings.current.none? && (@planting.updated_at + 2.weeks) > Time.zone.now
+      @cultivate_soil_link = new_activity_path(name: 'Cultivate soil', garden_id: @planting.garden_id, category: "Soil Cultivation",
+                                               description: "Recently finished #{@planting.crop.name} planting. Prepare for next planting.")
+    end
+
     respond_with @planting
   end
 

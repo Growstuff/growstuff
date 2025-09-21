@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class UnauthorisedError < JSONAPI::Error
 end
 JSONAPI.configure do |config|
