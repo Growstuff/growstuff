@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'nokogiri'
 module ApplicationHelper
   def parse_date(str)
     str ||= '' # Date.parse barfs on nil
