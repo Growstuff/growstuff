@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'nokogiri'
 module ApplicationHelper
   def parse_date(str)
     str ||= '' # Date.parse barfs on nil
@@ -118,5 +119,23 @@ module ApplicationHelper
 
   def og_description(description)
     strip_tags(description).split(' ')[0..20].join(' ')
+  end
+
+  def github_releases
+    return [] if Rails.env.test?
+
+    feed_url = 'https://github.com/Growstuff/growstuff/releases.atom'
+    Rails.cache.fetch(feed_url, expires_in: 1.day) do
+      response = Faraday.get(feed_url)
+      doc = Nokogiri::XML(response.body)
+      doc.xpath('//xmlns:entry').first(2).map do |entry|
+        {
+          title: entry.xpath('xmlns:title').text,
+          content: entry.xpath('xmlns:content').text,
+          link: entry.xpath('xmlns:link/@href').text,
+          updated: entry.xpath('xmlns:updated').text
+        }
+      end
+    end
   end
 end
