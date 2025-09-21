@@ -85,16 +85,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_144900) do
     t.index ["member_id"], name: "index_authentications_on_member_id"
   end
 
-  create_table "blocks", force: :cascade do |t|
-    t.bigint "blocker_id"
-    t.bigint "blocked_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["blocked_id"], name: "index_blocks_on_blocked_id"
-    t.index ["blocker_id", "blocked_id"], name: "index_blocks_on_blocker_id_and_blocked_id", unique: true
-    t.index ["blocker_id"], name: "index_blocks_on_blocker_id"
-  end
-
   create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
     t.integer "site_id", null: false
     t.string "label", null: false
@@ -483,7 +473,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_144900) do
     t.string "facebook_handle"
     t.string "bluesky_handle"
     t.string "other_url"
-    t.string "timezone"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true
@@ -573,16 +562,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_144900) do
     t.index ["slug"], name: "index_plant_parts_on_slug", unique: true
   end
 
-  create_table "planting_problems", force: :cascade do |t|
-    t.bigint "planting_id"
-    t.bigint "problem_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["planting_id", "problem_id"], name: "index_planting_problems_on_planting_id_and_problem_id", unique: true
-    t.index ["planting_id"], name: "index_planting_problems_on_planting_id"
-    t.index ["problem_id"], name: "index_planting_problems_on_problem_id"
-  end
-
   create_table "plantings", id: :serial, force: :cascade do |t|
     t.integer "garden_id", null: false
     t.integer "crop_id", null: false
@@ -626,43 +605,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_144900) do
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["forum_id"], name: "index_posts_on_forum_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
-  end
-
-  create_table "problem_posts", force: :cascade do |t|
-    t.bigint "problem_id"
-    t.bigint "post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_problem_posts_on_post_id"
-    t.index ["problem_id", "post_id"], name: "index_problem_posts_on_problem_id_and_post_id", unique: true
-    t.index ["problem_id"], name: "index_problem_posts_on_problem_id"
-  end
-
-  create_table "problems", force: :cascade do |t|
-    t.string "name"
-    t.string "reason_for_rejection"
-    t.string "rejection_notes"
-    t.string "approval_status", default: "pending", null: false
-    t.bigint "requester_id"
-    t.bigint "creator_id"
-    t.string "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_problems_on_creator_id"
-    t.index ["name"], name: "index_problems_on_name"
-    t.index ["requester_id"], name: "index_problems_on_requester_id"
-    t.index ["slug"], name: "index_problems_on_slug"
-  end
-
-  create_table "push_subscriptions", force: :cascade do |t|
-    t.bigint "member_id", null: false
-    t.string "endpoint", null: false
-    t.string "p256dh", null: false
-    t.string "auth", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["endpoint"], name: "index_push_subscriptions_on_endpoint", unique: true
-    t.index ["member_id"], name: "index_push_subscriptions_on_member_id"
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -717,21 +659,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_144900) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "blocks", "members", column: "blocked_id"
-  add_foreign_key "blocks", "members", column: "blocker_id"
   add_foreign_key "harvests", "plantings"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
-  add_foreign_key "planting_problems", "plantings"
-  add_foreign_key "planting_problems", "problems"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
-  add_foreign_key "problem_posts", "posts"
-  add_foreign_key "problem_posts", "problems"
-  add_foreign_key "problems", "members", column: "creator_id"
-  add_foreign_key "problems", "members", column: "requester_id"
-  add_foreign_key "push_subscriptions", "members"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end
