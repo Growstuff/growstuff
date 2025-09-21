@@ -24,10 +24,10 @@
     %section.prediction
       = cute_icon
       = render 'predictions', crop: @crop
-    - if @crop.companions.any?
+    - if @crop.all_companions.any?
       %section.companions
         %h2 Companions
-        - @crop.companions.each do |companion|
+        - @crop.all_companions.each do |companion|
           = render 'crops/tiny', crop: companion
 
     %section.photos

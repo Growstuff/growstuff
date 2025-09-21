@@ -153,6 +153,12 @@ class Crop < ApplicationRecord
     where(["lower(crops.name) = :value", { value: name.downcase }])
   end
 
+  def all_companions
+    return companions unless parent
+
+    (companions + parent.companions).uniq
+  end
+
   private
 
   def count_uses_of_property(col_name)
