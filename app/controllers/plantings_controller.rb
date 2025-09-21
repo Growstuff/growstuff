@@ -83,7 +83,10 @@ class PlantingsController < DataController
   end
 
   def update
-    @planting.update(planting_params)
+    if @planting.update(planting_params) && planting_params[:finished].present? && @planting.garden.plantings.current.empty?
+      link = new_activity_path(name: 'Cultivate soil', garden_id: @planting.garden_id)
+      flash[:notice] = t('plantings.finished_prompt_html', link: link).html_safe
+    end
     respond_with @planting
   end
 

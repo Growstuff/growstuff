@@ -43,6 +43,6 @@ module OpenFarmData
   def fetch_attr(key)
     return if openfarm_data.blank?
 
-    openfarm_data.fetch('attributes', {}).fetch(key, nil)
+    openfarm_data.dig('attributes', key)
   end
 end

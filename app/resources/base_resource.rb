@@ -3,7 +3,7 @@
 class BaseResource < JSONAPI::Resource
   abstract
 
-  [:create, :update, :remove].each do |action|
+  %i(create update remove).each do |action|
     set_callback action, :before, :authorize
   end
 
