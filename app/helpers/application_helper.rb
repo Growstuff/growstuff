@@ -126,10 +126,12 @@ module ApplicationHelper
     Rails.cache.fetch(feed_url, expires_in: 1.day) do
       response = Faraday.get(feed_url)
       doc = Nokogiri::XML(response.body)
-      doc.xpath('//xmlns:entry').first(3).map do |entry|
+      doc.xpath('//xmlns:entry').first(2).map do |entry|
         {
           title: entry.xpath('xmlns:title').text,
-          link: entry.xpath('xmlns:link/@href').text
+          content: entry.xpath('xmlns:content').text,
+          link: entry.xpath('xmlns:link/@href').text,
+          updated: entry.xpath('xmlns:updated').text
         }
       end
     end

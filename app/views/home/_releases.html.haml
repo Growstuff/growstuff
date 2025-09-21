@@ -1,8 +1,11 @@
 %section.releases
-  %h2 Recent Releases
-  %ul
-    - github_releases.each do |release|
-      %li
-        = link_to release[:title], release[:link]
+  = cute_icon
+  - github_releases.each do |release|
+
+    %h2= link_to release[:title], release[:link], target: "_blank"
+    .card
+      .card-header
+        %small= release[:updated].to_date.to_s
+      .card-body= release[:content].html_safe
   %p
-    = link_to 'Find out more »', 'https://github.com/Growstuff/growstuff/releases', class: 'btn btn-block'
+    = link_to 'Find out more »', 'https://github.com/Growstuff/growstuff/releases', target: "_blank", class: 'btn btn-block'

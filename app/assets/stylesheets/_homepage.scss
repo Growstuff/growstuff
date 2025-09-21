@@ -16,3 +16,21 @@
 .homepage--list-item {
   height: 100px;
 }
+.releases {
+  .card { 
+    .card-header {
+      
+    }
+    .card-body { 
+      h2 {
+        background-color: transparent;
+        color: black;
+        box-shadow: none;
+      }
+      ul {
+        margin-bottom: 1em;
+        margin-top: 1em;
+      }
+    }
+  }
+}
