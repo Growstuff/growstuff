@@ -122,6 +122,8 @@ module ApplicationHelper
   end
 
   def github_releases
+    return [] if Rails.env.test?
+
     feed_url = 'https://github.com/Growstuff/growstuff/releases.atom'
     Rails.cache.fetch(feed_url, expires_in: 1.day) do
       response = Faraday.get(feed_url)
