@@ -43,6 +43,14 @@
                      value: @activity.due_date ? @activity.due_date.to_fs(:ymd) : '',
                      label: 'When?'
 
+      .row
+        .col-md-6
+          = label_tag :repeat_times, 'Repeat how many times?'
+          = number_field_tag :repeat_times, nil, class: 'form-control'
+        .col-md-6
+          = label_tag :repeat_weeks, 'Every how many weeks?'
+          = number_field_tag :repeat_weeks, nil, class: 'form-control'
+
       %hr
 
       .row
