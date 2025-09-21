@@ -159,7 +159,13 @@ class Crop < ApplicationRecord
     (companions + parent.companions).uniq
   end
 
+  before_destroy :destroy_reverse_companionships
+
   private
+
+  def destroy_reverse_companionships
+    CropCompanion.where(crop_b: self).destroy_all
+  end
 
   def count_uses_of_property(col_name)
     plantings.unscoped
