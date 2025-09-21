@@ -1,0 +1,8 @@
+%section.releases
+  %h2 Recent Releases
+  %ul
+    - github_releases.each do |release|
+      %li
+        = link_to release[:title], release[:link]
+  %p
+    = link_to 'Find out more »', 'https://github.com/Growstuff/growstuff/releases', class: 'btn btn-block'
