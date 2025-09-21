@@ -24,6 +24,17 @@ class ActivitiesController < DataController
   end
 
   def show
+    if @activity.finished? && @activity.owner == current_member && (@activity.updated_at + 2.weeks) > Time.now
+      @repeat_link = new_activity_path(
+        name:        @activity.name,
+        garden_id:   @activity.garden_id,
+        planting_id: @activity.planting_id,
+        category:    @activity.category,
+        description: @activity.description,
+        due_date:    2.weeks.from_now.to_date
+      )
+    end
+
     respond_with @activity
   end
 
@@ -81,15 +92,7 @@ class ActivitiesController < DataController
   end
 
   def update
-    if @activity.update(activity_params) && activity_params[:finished].present?
-      link = new_activity_path(
-        name:        @activity.name,
-        garden_id:   @activity.garden_id,
-        planting_id: @activity.planting_id,
-        due_date:    2.weeks.from_now.to_date
-      )
-      flash[:notice] = t('activities.finished_prompt_html', link: link).html_safe
-    end
+    @activity.update(activity_params)
     respond_with @activity
   end
 

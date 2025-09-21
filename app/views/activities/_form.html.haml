@@ -17,7 +17,7 @@
 
       .row
         .col-md-12
-          = f.text_field :name, required: true, label: 'What needs to be done?'
+          = f.text_field :name, required: true, label: 'What needs to be done?', autofocus: true
       .row
         .col-md-4
           = f.select(:category, Activity::CATEGORIES, include_blank: true)
