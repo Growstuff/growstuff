@@ -123,7 +123,7 @@ module ApplicationHelper
 
   def github_releases
     feed_url = 'https://github.com/Growstuff/growstuff/releases.atom'
-    Rails.cache.fetch(feed_url, expires_in: 1.hour) do
+    Rails.cache.fetch(feed_url, expires_in: 1.day) do
       response = Faraday.get(feed_url)
       doc = Nokogiri::XML(response.body)
       doc.xpath('//xmlns:entry').first(3).map do |entry|
