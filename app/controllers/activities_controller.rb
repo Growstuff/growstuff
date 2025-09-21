@@ -62,7 +62,21 @@ class ActivitiesController < DataController
   def create
     @activity = Activity.new(activity_params)
     @activity.owner = current_member
-    @activity.save
+    @activity.due_date ||= Date.today
+
+    if @activity.save
+      if params[:repeat_times].to_i > 0
+        repeat_times = params[:repeat_times].to_i
+        repeat_weeks = params[:repeat_weeks].to_i
+
+        repeat_times.times do |i|
+          new_activity = @activity.dup
+          new_activity.due_date = @activity.due_date + (i + 1) * repeat_weeks.weeks
+          new_activity.save
+        end
+      end
+    end
+
     respond_with @activity
   end
 
@@ -89,7 +103,8 @@ class ActivitiesController < DataController
   def activity_params
     params.require(:activity).permit(
       :name, :description, :category, :finished,
-      :garden_id, :planting_id, :due_date
+      :garden_id, :planting_id, :due_date,
+      :repeat_times, :repeat_weeks
     )
   end
 
