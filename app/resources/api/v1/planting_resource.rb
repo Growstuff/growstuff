@@ -7,7 +7,7 @@ module Api
         @model.owner = context[:current_user]
       end
 
-      has_one :garden
+      has_one :garden, always_include_linkage_data: true
       has_one :crop
       has_one :owner, class_name: 'Member'
       has_many :photos
