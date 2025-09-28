@@ -6,9 +6,12 @@ RSpec.describe 'Activities', type: :request do
   subject { JSON.parse response.body }
 
   let(:member) { create(:member) }
-  let(:authentication) { create(:authentication, member:) }
+  let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+  end
   let(:authenticated_headers) do
-    headers.merge { 'Authorization' => "Bearer #{authentication.token}" }
+    headers.merge { 'Authorization' => "Token token=#{token}" }
   end
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:activity) { FactoryBot.create(:activity, owner: member, garden: create(:garden), planting: create(:planting)) }
