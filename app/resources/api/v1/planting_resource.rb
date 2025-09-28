@@ -8,8 +8,8 @@ module Api
       end
 
       has_one :garden, always_include_linkage_data: true
-      has_one :crop
-      has_one :owner, class_name: 'Member'
+      has_one :crop, always_include_linkage_data: true
+      has_one :owner, class_name: 'Member', always_include_linkage_data: true
       has_many :photos
       has_many :harvests
 
