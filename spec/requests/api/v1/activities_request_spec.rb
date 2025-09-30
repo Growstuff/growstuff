@@ -5,8 +5,14 @@ require 'rails_helper'
 RSpec.describe 'Activities', type: :request do
   subject { JSON.parse response.body }
 
-  let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:activity) { FactoryBot.create(:activity, garden: create(:garden), planting: create(:planting)) }
+  let(:member) { create(:member) }
+  let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+  end
+  let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
+  let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
+  let!(:activity) { FactoryBot.create(:activity, owner: member, garden: create(:garden, owner: member), planting: create(:planting, owner: member)) }
   let!(:activity2) { FactoryBot.create(:activity) }
 
   it '#index' do
@@ -51,6 +57,39 @@ RSpec.describe 'Activities', type: :request do
       expect(subject['data'].size).to eq(2)
       expect(subject['data'][0]['id']).to eq(activity.id.to_s)
       expect(subject['data'][1]['id']).to eq(activity2.id.to_s)
+    end
+  end
+
+  context '#update' do
+    let(:params) do
+      {
+        'data' => {
+          'type' => 'activities',
+          'id' => activity.id.to_s,
+          'attributes' => {
+            'description' => 'A new description',
+            'finished' => true,
+            'due-date' => '2025-10-31'
+          }
+        }
+      }
+    end
+
+    it 'updates the activity' do
+      patch "/api/v1/activities/#{activity.id}", params: params.to_json, headers: auth_headers
+
+      expect(response).to have_http_status(:ok)
+
+      # Check response
+      expect(subject['data']['attributes']['description']).to eq('A new description')
+      expect(subject['data']['attributes']['finished']).to eq(true)
+      expect(subject['data']['attributes']['due-date']).to eq('2025-10-31')
+
+      # Check database
+      activity.reload
+      expect(activity.description).to eq('A new description')
+      expect(activity.finished).to eq(true)
+      expect(activity.due_date.to_s).to eq('2025-10-31')
     end
   end
 end
