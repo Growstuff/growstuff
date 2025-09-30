@@ -10,10 +10,8 @@ RSpec.describe 'Activities', type: :request do
       member.regenerate_api_token
       member.api_token.token
   end
-  let(:authenticated_headers) do
-    headers.merge { 'Authorization' => "Bearer #{token}" }
-  end
-  let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
+  let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
+  let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
   let!(:activity) { FactoryBot.create(:activity, owner: member, garden: create(:garden, owner: member), planting: create(:planting, owner: member)) }
   let!(:activity2) { FactoryBot.create(:activity) }
 
@@ -78,9 +76,9 @@ RSpec.describe 'Activities', type: :request do
     end
 
     it 'updates the activity' do
-      patch "/api/v1/activities/#{activity.id}", params: params.to_json, headers: authenticated_headers
+      patch "/api/v1/activities/#{activity.id}", params: params.to_json, headers: auth_headers
 
-      puts response.body unless response.status.code == 200
+      puts response.body
       expect(response).to have_http_status(:ok)
 
       # Check response

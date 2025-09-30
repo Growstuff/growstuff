@@ -85,7 +85,7 @@ RSpec.describe 'Gardens', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:garden_params) do
       {
         data: {
@@ -116,7 +116,7 @@ RSpec.describe 'Gardens', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:garden) { create(:garden, owner: member) }
     let(:other_member_garden) { create(:garden) }
     let(:update_params) do
@@ -164,7 +164,7 @@ RSpec.describe 'Gardens', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let!(:garden) { create(:garden, owner: member) }
     let(:other_member_garden) { create(:garden) }
 
