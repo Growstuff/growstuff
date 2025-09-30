@@ -78,7 +78,6 @@ RSpec.describe 'Activities', type: :request do
     it 'updates the activity' do
       patch "/api/v1/activities/#{activity.id}", params: params.to_json, headers: auth_headers
 
-      puts response.body
       expect(response).to have_http_status(:ok)
 
       # Check response
