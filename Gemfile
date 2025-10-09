@@ -178,7 +178,6 @@ group :development, :test do
   gem 'dotenv-rails'
 
   # cli utils
-  gem 'haml-i18n-extractor', require: false
   gem 'haml_lint', '>= 0.25.1', require: false # Checks haml files for goodness
   gem 'i18n-tasks', require: false # adds tests for finding missing and unused translations
   gem 'rspectre', require: false # finds unused code in specs
@@ -188,18 +187,16 @@ end
 group :test do
   gem 'axe-core-capybara'
   gem 'axe-core-rspec'
+  gem "percy-capybara", "~> 5.0.0"
   gem 'rails-controller-testing'
+  gem "rspec-rebound"
   gem 'selenium-webdriver'
   gem 'timecop'
   gem 'vcr'
-  gem "rspec-rebound"
-  gem "percy-capybara", "~> 5.0.0"
 end
 
 group :travis do
   gem 'platform-api'
 end
-
-
 
 gem "i18n_data", "~> 1.1"

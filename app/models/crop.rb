@@ -90,7 +90,7 @@ class Crop < ApplicationRecord
   def popular_plant_parts
     PlantPart.joins(:harvests)
       .where("crop_id = ?", id)
-      .order("count_harvests_id DESC")
+      .order(count_harvests_id: :desc)
       .group("plant_parts.id", "plant_parts.name")
       .count("harvests.id")
   end
@@ -151,6 +151,12 @@ class Crop < ApplicationRecord
 
   def self.case_insensitive_name(name)
     where(["lower(crops.name) = :value", { value: name.downcase }])
+  end
+
+  def all_companions
+    return companions unless parent
+
+    (companions + parent.companions).uniq
   end
 
   private
