@@ -9,7 +9,7 @@
         %title #{post.subject} by #{post.author.login_name}
         %description
           :escaped_markdown
-            #{ strip_tags post.body }
+            #{ strip_tags markdownify(post.body) }
         %pubdate= post.created_at.to_fs(:rfc822)
         %link= post_url(post)
         %guid= post_url(post)

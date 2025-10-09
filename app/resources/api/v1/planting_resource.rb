@@ -3,16 +3,19 @@
 module Api
   module V1
     class PlantingResource < BaseResource
-      immutable
+      before_create do
+        @model.owner = context[:current_user]
+      end
 
-      has_one :garden
-      has_one :crop
-      has_one :owner, class_name: 'Member'
+      has_one :garden, always_include_linkage_data: true
+      has_one :crop, always_include_linkage_data: true
+      has_one :owner, class_name: 'Member', always_include_linkage_data: true
       has_many :photos
       has_many :harvests
 
       attribute :slug
       attribute :planted_at
+      attribute :failed
       attribute :finished
       attribute :finished_at
       attribute :quantity
@@ -35,11 +38,13 @@ module Api
       filter :owner
       filter :owner_id
       filter :finished
+      filter :active, apply: ->(records, _value, _options) { records.active }
+      filter :failed, apply: ->(records, _value, _options) { records.failed }
+      filter :sunniness
+      filter :perennial, apply: ->(records, _value, _options) { records.perennial }
 
       attribute :percentage_grown
-      def percentage_grown
-        @model.percentage_grown
-      end
+      delegate :percentage_grown, to: :@model
 
       attribute :crop_name
       attribute :crop_slug

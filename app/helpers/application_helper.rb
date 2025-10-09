@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'nokogiri'
 module ApplicationHelper
   def parse_date(str)
     str ||= '' # Date.parse barfs on nil
@@ -21,6 +22,32 @@ module ApplicationHelper
     classes
   end
 
+  # Similar to Rails' time_ago_in_words, but gives a more standard
+  # output like "in 3 days" or "5 months ago".
+  # Also handles the case where from_time is a Date and to_time is a Date
+  # (in which case it just says "today" if they're the same date).
+  #
+  # NOTE: This is similar to distance_of_time_in_words but different enough
+  # that I think it's worth having a separate helper for it.
+  #
+  # from_time - the starting time (Time or Date)
+  # to_time - the ending time (Time or Date). Default: now (Time.zone.now)
+  # include_seconds - whether to include seconds in the calculation
+  #
+  # Returns a string like "in 3 days" or "5 months ago"
+  def standard_time_distance(from_time, to_time = 0, include_seconds = false)
+    return 'today' if from_time.is_a?(Date) && (from_time == to_time)
+
+    return 'now' if from_time == to_time
+    return "#{distance_of_time_in_words(from_time, to_time, include_seconds:)} ago" if from_time < to_time
+
+    "in #{distance_of_time_in_words(from_time, to_time, include_seconds:)}"
+  end
+
+  def count_github_contibutors
+    File.open(Rails.root.join('CONTRIBUTORS.md')).readlines.grep(/^-/).size
+  end
+
   # Produces a cache key for uniquely identifying cached fragments.
   def cache_key_for(klass, identifier = "all")
     count          = klass.count
@@ -28,10 +55,11 @@ module ApplicationHelper
     "#{klass.name.downcase.pluralize}/#{identifier}-#{count}-#{max_updated_at}"
   end
 
-  def required_field_help_text
-    asterisk = tag.span('*', class: ['red'])
-    text = tag.em('denotes a required field')
-    tag.div(asterisk + ' '.html_safe + text, class: ['margin-bottom'])
+  # A helper to replace the complex template compilation mess
+  # of HAML, Tilt, and dynamic compilation with interpolated ruby.
+  def markdownify(text)
+    translator = Haml::Filters::GrowstuffMarkdown.new
+    translator.expand_members!(translator.expand_crops!(text.to_s))
   end
 
   #
@@ -49,7 +77,6 @@ module ApplicationHelper
 
       uri.query = "&width=#{size}&height=#{size}" if uri.host == 'graph.facebook.com'
 
-      # TODO: Assess twitter - https://dev.twitter.com/overview/general/user-profile-images-and-banners
       # TODO: Assess flickr  - https://www.flickr.com/services/api/misc.buddyicons.html
 
       return uri.to_s
@@ -92,5 +119,23 @@ module ApplicationHelper
 
   def og_description(description)
     strip_tags(description).split(' ')[0..20].join(' ')
+  end
+
+  def github_releases
+    return [] if Rails.env.test?
+
+    feed_url = 'https://github.com/Growstuff/growstuff/releases.atom'
+    Rails.cache.fetch(feed_url, expires_in: 1.day) do
+      response = Faraday.get(feed_url)
+      doc = Nokogiri::XML(response.body)
+      doc.xpath('//xmlns:entry').first(2).map do |entry|
+        {
+          title: entry.xpath('xmlns:title').text,
+          content: entry.xpath('xmlns:content').text,
+          link: entry.xpath('xmlns:link/@href').text,
+          updated: entry.xpath('xmlns:updated').text
+        }
+      end
+    end
   end
 end

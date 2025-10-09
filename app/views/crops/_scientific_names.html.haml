@@ -6,7 +6,7 @@
     - crop.scientific_names.each do |sn|
       - if can? :edit, sn
         .dropdown.planting-actions
-          %a#planting-actions-scinames.dropdown-toggle.card-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", :href => '#'}= sn.name
+          %a#planting-actions-scinames.dropdown-toggle.card-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :type => "button", :href => '#'}= sn.name
           .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
             = link_to edit_scientific_name_path(sn), class: 'dropdown-item' do
               = edit_icon
@@ -16,7 +16,13 @@
               = delete_icon
               = t('buttons.delete')
       - else
-        .badge= sn.name
+        - if sn.gbif_key
+          = link_to sn.name, "https://www.gbif.org/species/#{sn.gbif_key}",
+                  class: 'card-link',
+                  target: "_blank",
+                  rel: "noopener noreferrer"
+        - else
+          .badge= sn.name
 
   %p.text-right
     - if can? :edit, crop

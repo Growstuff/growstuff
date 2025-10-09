@@ -17,8 +17,29 @@ class TimelineService
       .union_all(comments_query)
       .union_all(photos_query)
       .union_all(seeds_query)
+      .union_all(activities_query)
+      .union_all(likes_query)
       .where.not(event_at: nil)
       .order(event_at: :desc)
+  end
+
+  def self.likes_query
+    Like
+      .select("likes.id",
+              "'like' as event_type",
+              "likes.created_at as event_at",
+              "likes.member_id as owner_id",
+              "null as crop_id")
+  end
+
+  def self.activities_query
+    Activity.select(
+      :id,
+      "'activity' as event_type",
+      'COALESCE(activities.due_date, activities.created_at) as event_at',
+      :owner_id,
+      'null as crop_id'
+    )
   end
 
   def self.plantings_query

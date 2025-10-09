@@ -22,11 +22,11 @@ describe "Display a planting", :js do
     context 'Annual no predictions' do
       let(:planting) { FactoryBot.create(:annual_planting) }
 
-      it { expect(page).not_to have_text 'Finish expected' }
+      it { expect(page).to have_no_text 'Finish expected' }
     end
 
     context 'Annual with predicted finish' do
-      let(:planting) { FactoryBot.create(:predicatable_planting, planted_at: 2.weeks.ago) }
+      let(:planting) { FactoryBot.create(:predictable_planting, planted_at: 2.weeks.ago) }
 
       it { expect(page).to have_text '28%' }
       it { expect(page).to have_text '14/50 days' }

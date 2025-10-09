@@ -3,7 +3,7 @@
     - if content_for? :title
       %h1.h2-responsive.text-center
         %strong=yield :title
-    = form_for @alternate_name, html: { class: 'form-horizontal', role: "form" } do |f|
+    = form_for @alternate_name, html: { class: 'form-horizontal' } do |f|
       - if @alternate_name.errors.any?
         #error_explanation
           %h2
@@ -31,7 +31,8 @@
         = f.label :name, class: 'control-label col-md-2'
         .col-md-8
           = f.text_field :name, class: 'form-control'
-
+        .col-md-8
+          = f.select :language, I18nData.languages.map {|code, name| [name.split(";").first, code] }, class: 'form-control'
       .form-group
         .form-actions.col-md-offset-2.col-md-8
           = f.submit 'Save', class: 'btn btn-primary'

@@ -8,16 +8,22 @@ class Photo < ApplicationRecord
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
 
   has_many :photo_associations, dependent: :delete_all, inverse_of: :photo
+  has_many :comments, as: :commentable, dependent: :destroy
 
-  # This doesn't work, ActiveRecord tries to use the polymoriphinc photographable
+  # This doesn't work, ActiveRecord tries to use the polymoriphic photographable
   # relationship instead.
   # has_many :crops, through: :photo_associations, counter_cache: true
   def crops
     Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: self })
   end
 
-  validates :fullsize_url, url: true
-  validates :thumbnail_url, url: true
+  validates :fullsize_url, url: true, presence: true
+  validates :thumbnail_url, url: true, presence: true
+  validates :link_url, url: true, presence: true
+  validates :owner, presence: true
+  validates :title, presence: true
+  validates :license_name, presence: true # Should assert this is one of CC-BY, CC-BY-NC, etc
+  validates :license_url,  url: true, allow_blank: true
 
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
@@ -40,7 +46,8 @@ class Photo < ApplicationRecord
     flickr = owner.flickr
     info = flickr.photos.getInfo(photo_id: source_id)
     licenses = flickr.photos.licenses.getInfo
-    license = licenses.find { |l| l.id == info.license }
+    license = licenses.find { |l| l.id.to_i == info.license.to_i }
+    Rails.logger.error("Cannot find license: #{[info.license, licenses].inspect}") unless license
     {
       title:         calculate_title(info),
       license_name:  license.name,
@@ -76,6 +83,14 @@ class Photo < ApplicationRecord
 
   def to_s
     "#{title} by #{owner.login_name}"
+  end
+
+  def subject
+    title
+  end
+
+  def author
+    owner
   end
 
   def flickr_photo_id

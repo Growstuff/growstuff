@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "Scientific names", js: true do
+describe "Scientific names", :js do
   let!(:zea_mays) { create(:zea_mays) }
   let(:crop)      { zea_mays.crop }
 
@@ -49,7 +49,7 @@ describe "Scientific names", js: true do
         end
       end
       # expect(page.status_code).to equal 200
-      expect(page).not_to have_content zea_mays.name
+      expect(page).to have_no_content zea_mays.name
       expect(page).to have_content 'Scientific name was successfully deleted.'
     end
 

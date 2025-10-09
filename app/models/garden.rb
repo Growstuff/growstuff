@@ -5,10 +5,13 @@ class Garden < ApplicationRecord
   include Geocodable
   include PhotoCapable
   include Ownable
+
   friendly_id :garden_slug, use: %i(slugged finders)
 
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
+  has_many :activities, dependent: :destroy
+  has_many :garden_collaborators, dependent: :destroy
 
   belongs_to :garden_type, optional: true
 
@@ -42,6 +45,7 @@ class Garden < ApplicationRecord
       .where.not(gardens: { latitude: nil })
       .where.not(gardens: { longitude: nil })
   }
+
   AREA_UNITS_VALUES = {
     "square metres" => "square metre",
     "square feet"   => "square foot",
@@ -77,6 +81,16 @@ class Garden < ApplicationRecord
   end
 
   def reindex(refresh: false); end
+
+  # Deactivate any gardens with no active plantings
+  def self.archive!(time_limit: 3.years.ago, limit: 1000)
+    Garden.active.where("gardens.updated_at < ?", time_limit).order(updated_at: :asc).limit(limit).each do |active_garden|
+      unless active_garden.plantings.active.any?
+        active_garden.active = false
+        active_garden.save
+      end
+    end
+  end
 
   protected
 

@@ -2,12 +2,14 @@
 
 class Member < ApplicationRecord
   include Discard::Model
+
   acts_as_messageable # messages can be sent to this model
   include Geocodable
   include MemberFlickr
   include MemberNewsletter
 
   extend FriendlyId
+
   friendly_id :login_name, use: %i(slugged finders)
 
   #
@@ -19,10 +21,25 @@ class Member < ApplicationRecord
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_many :activities, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_and_belongs_to_many :roles
   has_many :notifications, foreign_key: 'recipient_id', inverse_of: :recipient
   has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender, class_name: "Notification"
   has_many :authentications, dependent: :destroy
+  has_one :api_token, -> { where(provider: 'api') }, class_name: 'Authentication', dependent: :destroy
+
+  def api_token?
+    api_token.present?
+  end
+
+  def regenerate_api_token
+    api_token.destroy if api_token?
+    create_api_token(
+      provider: 'api',
+      uid:      id,
+      token:    SecureRandom.hex(16)
+    )
+  end
   has_many :photos, inverse_of: :owner
   has_many :likes, dependent: :destroy
 
@@ -90,6 +107,10 @@ class Member < ApplicationRecord
             uniqueness: {
               case_sensitive: false
             }
+  validates :website_url, format: { with: %r{\Ahttps?://}, message: "must start with http:// or https://" }, allow_blank: true
+  validates :other_url, format: { with: %r{\Ahttps?://}, message: "must start with http:// or https://" }, allow_blank: true
+  validates :instagram_handle, :facebook_handle, :bluesky_handle,
+            format: { without: %r{\Ahttps?://|/}, message: "should be a handle, not a URL" }, allow_blank: true
 
   #
   # Triggers

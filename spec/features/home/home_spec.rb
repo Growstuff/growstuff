@@ -39,11 +39,11 @@ describe "home page", :search do
     end
 
     it "does not show finished seeds" do
-      expect(subject).not_to have_link href: seed_path(finished_seed)
+      expect(subject).to have_no_link href: seed_path(finished_seed)
     end
 
     it "does not show untradable seeds" do
-      expect(subject).not_to have_link href: seed_path(untradable_seed)
+      expect(subject).to have_no_link href: seed_path(untradable_seed)
     end
 
     it { is_expected.to have_link 'View all seeds »' }
@@ -85,24 +85,27 @@ describe "home page", :search do
   end
 
   context 'when anonymous' do
-    include_examples 'show crops'
-    include_examples 'show plantings'
-    include_examples 'show harvests'
-    include_examples 'shows seeds'
+    it_behaves_like 'show crops'
+    it_behaves_like 'show plantings'
+    it_behaves_like 'show harvests'
+    it_behaves_like 'shows seeds'
+    it_behaves_like 'is accessible'
     it { is_expected.to have_text 'community of food gardeners' }
+    it { is_expected.to have_text 'Want to install Growstuff on your phone?' }
   end
 
   context "when signed in" do
     include_context 'signed in member'
-    include_examples 'show crops'
-    include_examples 'show plantings'
-    include_examples 'show harvests'
-    include_examples 'shows seeds'
+    it_behaves_like 'show crops'
+    it_behaves_like 'show plantings'
+    it_behaves_like 'show harvests'
+    it_behaves_like 'shows seeds'
+    it_behaves_like 'is accessible'
 
     describe 'should say welcome' do
       before { visit root_path }
 
-      it { expect(page).to have_content "Welcome to #{ENV['GROWSTUFF_SITE_NAME']}, #{member.login_name}" }
+      it { expect(page).to have_content "Welcome to #{ENV.fetch('GROWSTUFF_SITE_NAME', nil)}, #{member.login_name}" }
     end
   end
 end

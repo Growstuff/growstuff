@@ -1,0 +1,20 @@
+.card
+  .card-body
+    .row
+      .col
+        %h4
+          Planned by
+          = link_to @activity.owner, @activity.owner
+        = link_to "view all #{@activity.owner}'s activities", member_activities_path(@activity.owner)
+
+        - if @activity.garden
+          %p
+            Planned in
+            = link_to @activity.garden, @activity.garden
+
+        - if @activity.planting
+          %p
+            Planned for
+            = link_to @activity.planting, @activity.planting
+
+      .col= render "members/avatar", member: @activity.owner

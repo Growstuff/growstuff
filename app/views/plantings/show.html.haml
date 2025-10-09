@@ -7,6 +7,15 @@
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+  - if @planting.overall_rating.present?
+    %script{type: "application/ld+json"}
+      :plain
+        {
+          "@context": "http://schema.org",
+          "@type": "Rating",
+          "ratingValue": "#{@planting.overall_rating}",
+          "bestRating": "5"
+        }
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Plantings', plantings_path
@@ -32,14 +41,21 @@
             %strong= @planting.crop.name.titleize
             %small.text-muted= @planting.crop.default_scientific_name
           %tt
-            - if @planting.finished?
-              Finished
+            - if @planting.failed?
+              %span.badge.badge-danger Failed
+            - elsif @planting.finished?
+              %span.badge.badge-success Finished
             - elsif @planting.percentage_grown.present?
               #{@planting.percentage_grown.to_i}%
               - if @planting.finish_is_predicatable?
-                %strong #{@planting.age_in_days}/#{@planting.expected_lifespan} days
+                - if @planting.age_in_days.to_i < 0
+                  %strong Planned
+                - else
+                  %strong #{@planting.age_in_days.to_i}/#{@planting.expected_lifespan} days
 
         = render 'timeline', planting: @planting
+      = render 'likes/likes', object: @planting
+      = render 'plantings/actions', planting: @planting
 
     .col-md-4.col-xs-12
       = render 'plantings/owner', planting: @planting
@@ -52,8 +68,8 @@
           .card-header
             %h2 Notes
           .card-body
-            :growstuff_markdown
-              #{strip_tags(@planting.description)}
+            :markdown
+              #{strip_tags markdownify(@planting.description)}
       %section= render 'plantings/photos', photos: @photos, planting: @planting
 
       %section.harvests
@@ -64,9 +80,26 @@
         %a{name: 'seeds'}
         = render 'plantings/descendants', planting: @planting
 
+      %section
+        %h2 Current activities for planting
+        - if @cultivate_soil_link
+          .alert.alert-info
+            This was the last planting recently in this bed. Would you like to cultivate the soil soon?
+            = link_to 'Cultivate soil', @cultivate_soil_link, class: 'btn btn-secondary btn-sm ml-2'
+        .index-cards
+          - if @current_activities&.size&.positive?
+            - @current_activities.each do |activity|
+              = render "activities/card", activity: activity
+          - else
+            .col-md-12
+              %p Nothing is currently planned here.
+        - if @finished_activities&.size&.positive?
+          %h2 Finished activities for planting
+          .index-cards
+            - @finished_activities.each do |activity|
+              = render "activities/card", activity: activity
+
     .col-md-4.col-xs-12
-      = render 'plantings/actions', planting: @planting
-      %hr/
       = render @planting.crop
 
       - if @planting.location
@@ -76,7 +109,7 @@
             = link_to planting, class: 'list-group-item list-group-item-action flex-column align-items-start' do
               .d-flex.w-100.justify-content-between
                 %p.mb-2
-                  = image_tag planting_image_path(planting), width: 75, class: 'rounded shadow'
+                  = image_tag planting_image_path(planting), width: 75, class: 'rounded shadow', alt: "Image of #{planting.crop.name} by #{planting.owner}"
                 .text-right
                   %h5= planting.crop.name
                   - if planting.planted_from.present?

@@ -1,0 +1,10 @@
+%h2= t('.recent_activities')
+- Activity.homepage_records(6).each do |activity|
+  - cache activity do
+    = link_to activity_path(slug: activity.slug), class: 'list-group-item list-group-item-action flex-column align-items-start' do
+      .d-flex.w-100.justify-content-between.homepage--list-item
+        %div
+          %h4= activity.name
+          %span.badge.badge-success= activity.category
+          %small.text-muted
+            by #{activity.owner_login_name}

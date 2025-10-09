@@ -6,9 +6,9 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "Growstuff <#{ENV['GROWSTUFF_EMAIL']}>"
+  config.mailer_sender = "Growstuff <#{ENV.fetch('GROWSTUFF_EMAIL', nil)}>"
 
-  config.secret_key = ENV['RAILS_SECRET_TOKEN']
+  config.secret_key = ENV.fetch('RAILS_SECRET_TOKEN', nil)
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"

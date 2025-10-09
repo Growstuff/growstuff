@@ -9,7 +9,6 @@
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Photos', photos_path
 
-= page_entries_info @photos
 = will_paginate @photos
 
 .index-cards

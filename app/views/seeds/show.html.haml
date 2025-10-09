@@ -45,8 +45,8 @@
           .card-header
             %h2 Notes
           .card-body
-            :growstuff_markdown
-              #{strip_tags(@seed.description)}
+            :markdown
+              #{strip_tags markdownify(@seed.description)}
 
       - if current_member
         - if @seed.tradable && current_member != @seed.owner

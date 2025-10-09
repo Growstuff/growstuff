@@ -14,8 +14,8 @@
             - @forum.errors.full_messages.each do |msg|
               %li= msg
 
-      = f.text_field :name
-      = f.text_area :description, rows: 6
-      = f.select(:owner_id, Member.all.order(:login_name).pluck(:login_name, :id))
+      = f.text_field :name, required: true
+      = f.text_area :description, rows: 6, required: true
+      = f.select(:owner_id, Member.all.order(:login_name).pluck(:login_name, :id), required: true)
     .card-footer
       .text-right= f.submit 'Save'

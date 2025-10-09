@@ -14,9 +14,13 @@
               = link_to owner, owner
               = event_description(event)
               = render 'timeline/photos', photo: resolve_model(event) if event.event_type == 'photo'
+              = render 'timeline/like', like: resolve_model(event) if event.event_type == 'like'
             %small
             - if event.event_at.present?
-              #{time_ago_in_words(event.event_at)} ago
+              - if event.event_at.kind_of?(Date)
+                #{distance_of_time_in_words(event.event_at, Time.zone.now.to_date)} ago
+              - else
+                #{time_ago_in_words(event.event_at)} ago
             - else
               unknown date
 

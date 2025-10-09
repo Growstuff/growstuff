@@ -1,0 +1,37 @@
+<%
+# TODO Refactor to a Activity <-> Ical view class?
+cal = Icalendar::Calendar.new
+cal.description = "Activities by #{@owner.login_name}"
+@activities.each do |activity|
+
+  event = Icalendar::Event.new
+
+  lines = []
+  lines << "Garden: #{activity['garden_name'] ? activity['garden_name'] : 'N/A' }"
+  lines << "Planting: #{activity['planting_name'] ? activity['planting_name'] : 'N/A' }"
+
+  lines << activity.description
+  finish_date = Date.parse(activity['due_date']) rescue nil
+
+  event.dtstart     = Time.at(activity['created_at'])
+  event.dtend       = finish_date || 1.day.from_now
+  event.summary     = "#{activity['name']} - #{activity['category']}"
+  event.description = lines.join("\n")
+  event.ip_class    = "PUBLIC"
+  event.url = activity_url(slug: activity['slug'])
+
+  cal.add_event(event)
+
+  if finish_date && finish_date > Date.today
+    todo = Icalendar::Todo.new
+    todo.dtstart = finish_date || Date.today
+    todo.due = finish_date
+    todo.summary     = "#{activity['name']} - #{activity['category']}"
+    todo.description = lines.join("\n")
+
+    cal.add_todo(todo)
+  end
+end
+cal.publish
+%>
+<%= cal.to_ical %>

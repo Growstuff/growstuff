@@ -3,7 +3,7 @@
 %h1 Plant Parts
 
 - if can? :create, PlantPart
-  = link_to 'New Plant part', new_plant_part_path, class: 'btn btn-info'
+  = link_to 'New plant part', new_plant_part_path, class: 'btn btn-info'
 
 .index-cards
   - @plant_parts.each do |plant_part|
@@ -20,6 +20,8 @@
       .card-footer
         %p
           - if can? :edit, plant_part
-            = link_to 'Edit', edit_plant_part_path(plant_part), class: 'btn btn-default btn-xs'
+            = link_to t('buttons.edit'), edit_plant_part_path(plant_part), class: 'btn btn-default btn-xs'
           - if can? :destroy, plant_part
-            = link_to 'Delete', plant_part, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-default btn-xs'
+            = link_to t('buttons.delete'), plant_part, method: :delete, data: { confirm: t(:are_you_sure?) }, class: 'btn btn-default btn-xs'
+
+= will_paginate(@plant_parts)

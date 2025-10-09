@@ -1,7 +1,13 @@
 .crop-icon {
   height: 1em;
 }
-
+.card-footer {
+  .btn-group-vertical {
+    .btn {
+      text-wrap: initial
+    }
+  }
+}
 .crop-thumbnail {
   .text {
     bottom: 0;
@@ -19,7 +25,7 @@
       padding-bottom: 0;
     }
 
-    h5.crop-sci-name {
+    .crop-sci-name {
       background-color: $beige;
       color: $black;
       font-size: 0.7em;

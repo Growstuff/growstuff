@@ -10,7 +10,6 @@ class CropsController < ApplicationController
   responders :flash
 
   def index
-    @sort = params[:sort]
     @crops = Crop.search('*', boost_by: %i(plantings_count harvests_count),
                               limit:    100,
                               page:     params[:page],
@@ -40,9 +39,9 @@ class CropsController < ApplicationController
     respond_with @crops
   end
 
-  def openfarm
+  def gbif
     @crop = Crop.find(params[:crop_slug])
-    @crop.update_openfarm_data!
+    @crop.update_gbif_data!
     respond_with @crop, location: @crop
   end
 
@@ -58,7 +57,15 @@ class CropsController < ApplicationController
                                       page:           params[:page],
                                       per_page:       Crop.per_page,
                                       current_member:)
-    respond_with @crops
+
+    respond_to do |format|
+      format.html do
+        render
+      end
+      format.json do
+        render json: @crops.to_a
+      end
+    end
   end
 
   def show
@@ -68,7 +75,7 @@ class CropsController < ApplicationController
         @companions = @crop.companions.approved
       end
       format.svg do
-        icon_data = @crop.svg_icon.presence || File.read(Rails.root.join('app', 'assets', 'images', 'icons', 'sprout.svg'))
+        icon_data = @crop.svg_icon.presence || File.read(Rails.root.join("app/assets/images/icons/sprout.svg"))
         send_data(icon_data, type: "image/svg+xml", disposition: "inline")
       end
       format.json do
@@ -100,7 +107,12 @@ class CropsController < ApplicationController
       @crop.approval_status = "pending"
     end
 
-    notify_wranglers if Crop.transaction { @crop.save && save_crop_names }
+    if Crop.transaction { @crop.save && save_crop_names }
+      notify_wranglers
+    else
+      @crop.alternate_names.build
+      @crop.scientific_names.build
+    end
 
     respond_with @crop
   end
@@ -119,7 +131,7 @@ class CropsController < ApplicationController
 
       if @crop.approval_status_changed?(from: "pending", to: "approved")
         notifier.deliver_now!
-        @crop.update_openfarm_data!
+        @crop.update_gbif_data!
       end
     else
       @crop.approval_status = @crop.approval_status_was
@@ -147,7 +159,7 @@ class CropsController < ApplicationController
   end
 
   def save_crop_names
-    AlternateName.create!(names_params(:alt_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } })
+    AlternateName.create!(names_params(:alt_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id, language: "EN" } })
     ScientificName.create!(names_params(:sci_name).map { |n| { name: n, creator_id: current_member.id, crop_id: @crop.id } })
   end
 
@@ -162,18 +174,16 @@ class CropsController < ApplicationController
   def recreate_names(param_name, name_type)
     return if params[param_name].blank?
 
-    destroy_names(name_type)
-    params[param_name].each do |_i, value|
-      create_name!(name_type, value) unless value.empty?
-    end
-  end
-
-  def destroy_names(name_type)
     @crop.send("#{name_type}_names").each(&:destroy)
-  end
+    params[param_name].each_value do |value|
+      next if value.empty?
 
-  def create_name!(name_type, value)
-    @crop.send("#{name_type}_names").create!(name: value, creator_id: current_member.id)
+      if name_type == 'alternate'
+        @crop.send("#{name_type}_names").create!(name: value, creator_id: current_member.id, language: "EN")
+      else
+        @crop.send("#{name_type}_names").create!(name: value, creator_id: current_member.id)
+      end
+    end
   end
 
   def crop_params
@@ -182,6 +192,8 @@ class CropsController < ApplicationController
       :parent_id, :perennial,
       :request_notes, :reason_for_rejection,
       :rejection_notes,
+      :row_spacing, :spread, :height,
+      :sowing_method, :sun_requirements, :growing_degree_days,
       scientific_names_attributes: %i(scientific_name _destroy id)
     )
   end
@@ -197,12 +209,12 @@ class CropsController < ApplicationController
   def crop_json_fields
     {
       include: {
-        plantings:        {
+        plantings: {
           include: {
             owner: { only: %i(id login_name location latitude longitude) }
           }
         },
-        scientific_names: { only: [:name] }, alternate_names:  { only: [:name] }
+        scientific_names: { only: [:name] }, alternate_names:  { only: %i(name language) }
       }
     }
   end

@@ -9,7 +9,7 @@ class AlternateNamesController < ApplicationController
   # GET /alternate_names
   # GET /alternate_names.json
   def index
-    @alternate_names = AlternateName.all.order(:name)
+    @alternate_names = AlternateName.all.order(:name).paginate(page: params[:page], per_page: 100)
     respond_with(@alternate_names)
   end
 
@@ -57,6 +57,6 @@ class AlternateNamesController < ApplicationController
   private
 
   def alternate_name_params
-    params.require(:alternate_name).permit(:crop_id, :name, :creator_id)
+    params.require(:alternate_name).permit(:crop_id, :name, :creator_id, :language)
   end
 end

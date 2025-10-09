@@ -16,10 +16,16 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-require 'simplecov'
 require 'percy/capybara'
+require 'rspec/rebound'
+require 'vcr'
 
-SimpleCov.start
+VCR.configure do |c|
+  c.ignore_host "elasticsearch", "localhost"
+  c.cassette_library_dir = 'spec/cassettes'
+  c.hook_into :faraday
+  c.configure_rspec_metadata!
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -44,6 +50,7 @@ RSpec.configure do |config|
     Photo.reindex
     Planting.reindex
     Seed.reindex
+    Activity.reindex
   end
 
   config.before(:suite) do
@@ -53,7 +60,7 @@ RSpec.configure do |config|
     Searchkick.disable_callbacks
   end
 
-  config.around(:each, search: true) do |example|
+  config.around(:each, :search) do |example|
     Searchkick.callbacks(true) do
       index_everything
       example.run
@@ -117,4 +124,20 @@ RSpec.configure do |config|
 
   # Remember which tests failed, so you can run rspec with the `--only-failures` flag.
   config.example_status_persistence_file_path = "tmp/examples.txt"
+
+  # show retry status in spec process
+  config.verbose_retry = true
+  # show exception that triggers a retry if verbose_retry is set to true
+  config.display_try_failure_messages = true
+
+  # run retry only on features
+  config.around :each, :js do |ex|
+    ex.run_with_retry retry: 3
+  end
+
+  # callback to be run between retries
+  config.retry_callback = proc do |ex|
+    # run some additional clean up task - can be filtered by example metadata
+    Capybara.reset! if ex.metadata[:js]
+  end
 end

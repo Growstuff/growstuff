@@ -17,8 +17,8 @@ shared_examples "crop suggest" do |resource|
       fill_autocomplete "crop", with: "pe"
     end
 
-    expect(page).not_to have_content("pear")
-    expect(page).not_to have_content("pea")
+    expect(page).to have_no_content("pear")
+    expect(page).to have_no_content("pea")
 
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "pea"
@@ -65,6 +65,8 @@ shared_examples "crop suggest" do |resource|
   it "Submitting a crop that doesn't exist in the database produces a meaningful error" do
     within "form#new_#{resource}" do
       fill_autocomplete "crop", with: "Ryan Gosling"
+      # Some forms require additional selections before submission.
+      choose plant_part.name if resource == "harvest"
       click_button "Save"
     end
 

@@ -76,9 +76,11 @@ class Ability
     if member.role? :crop_wrangler
       can :wrangle, Crop
       can :manage, Crop
+      can :manage, CropCompanion
       can :manage, ScientificName
       can :manage, AlternateName
       can :openfarm, Crop
+      can :gbif, Crop
     end
 
     # any member can create a crop provisionally
@@ -107,12 +109,42 @@ class Ability
     can :create,  Planting
     can :update,  Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
     can :destroy, Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
+    can :update, Planting do |planting|
+      planting.garden.garden_collaborators.where(member_id: member.id).any?
+    end
+    can :transplant, Planting, garden: { owner_id: member.id }
+    can :transplant, Planting do |planting|
+      planting.garden.garden_collaborators.where(member_id: member.id).any?
+    end
+    can :destroy, Planting do |planting|
+      planting.garden.garden_collaborators.where(member_id: member.id).any?
+    end
+
+    can :create,  GardenCollaborator, garden: { owner_id: member.id }
+    can :update,  GardenCollaborator, garden: { owner_id: member.id }
+    can :destroy, GardenCollaborator, garden: { owner_id: member.id }
+
+    can :create,  Activity
+    can :update,  Activity, owner_id: member.id
+    can :destroy, Activity, owner_id: member.id
+    can :update, Activity do |activity|
+      activity.garden&.garden_collaborators&.where(member_id: member.id)&.any?
+    end
+    can :destroy, Activity do |activity|
+      activity.garden&.garden_collaborators&.where(member_id: member.id)&.any?
+    end
 
     can :create,  Harvest
     can :update,  Harvest, owner_id: member.id
     can :destroy, Harvest, owner_id: member.id
     can :update,  Harvest, owner_id: member.id, planting: { owner_id: member.id }
     can :destroy, Harvest, owner_id: member.id, planting: { owner_id: member.id }
+    can :update, Harvest do |harvest|
+      harvest.planting&.garden&.garden_collaborators&.where(member_id: member.id)&.any?
+    end
+    can :destroy, Harvest do |harvest|
+      harvest.planting&.garden&.garden_collaborators&.where(member_id: member.id)&.any?
+    end
 
     can :create, Photo
     can :update, Photo, owner_id: member.id
@@ -147,6 +179,11 @@ class Ability
     cannot :destroy, PlantPart
     can :destroy, PlantPart do |pp|
       pp.harvests.empty?
+    end
+    # Admins can't delete themselves
+    cannot :destroy, Member
+    can :destroy, Member do |other_member|
+      other_member&.id != member.id
     end
   end
 end

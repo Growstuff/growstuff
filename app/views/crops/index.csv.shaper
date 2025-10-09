@@ -58,10 +58,10 @@ csv.headers *all_headers
     end
 
     csv.cell :plantings_count, c.plantings_count || 0
-    csv.cell :seeds_count, c.seeds.size
+    csv.cell :seeds_count, c.seeds.size[]
     csv.cell :harvests_count, c.harvests.size
 
-    # Sunniness
+  # Sunniness
 
     sunniness = c.sunniness
     sunniness_rec = sunniness.max_by{|k,v| v}

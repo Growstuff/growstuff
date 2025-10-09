@@ -2,6 +2,8 @@
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  # Working from codespaces, we want to turn off validation
+  skip_before_action :verify_authenticity_token if Rails.env.development? && ENV['CODESPACE_NAME']
 
   include ApplicationHelper
 
@@ -76,6 +78,7 @@ class ApplicationController < ActionController::Base
                     :tos_agreement,
                     # profile stuff
                     :bio, :location, :latitude, :longitude,
+                    :website_url, :instagram_handle, :facebook_handle, :bluesky_handle, :other_url,
                     # email settings
                     :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
                     # update password

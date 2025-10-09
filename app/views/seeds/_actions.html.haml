@@ -1,6 +1,6 @@
 - if can?(:edit, seed)
   .dropdown.seed-actions
-    %a#seed-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button", href: '#'}
+    %a#seed-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'}
       Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "seed-actions-button"}
       - if can?(:create, Planting) && can?(:update, seed) && seed.active

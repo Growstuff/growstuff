@@ -17,8 +17,10 @@
       %td= link_to 'Show', scientific_name
       %td
         - if can? :edit, scientific_name
-          = link_to 'Edit', edit_scientific_name_path(scientific_name), class: 'btn btn-default btn-xs'
+          = link_to t('buttons.edit'), edit_scientific_name_path(scientific_name), class: 'btn btn-default btn-xs'
       %td
         - if can? :destroy, scientific_name
-          = link_to 'Delete', scientific_name, method: :delete, data: { confirm: 'Are you sure?' },
+          = link_to t('buttons.delete'), scientific_name, method: :delete, data: { confirm: t(:are_you_sure?) },
             class: 'btn btn-default btn-xs'
+
+= will_paginate @scientific_names

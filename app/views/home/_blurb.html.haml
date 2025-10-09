@@ -1,9 +1,10 @@
 .row.homepage-blurb
   .col-md-8.info
+    %h1 Growstuff - An open gardening platform
     %p= t('.intro', site_name: ENV['GROWSTUFF_SITE_NAME'])
     = render 'stats'
   .col-md-4
     .signup
       %p= t('.perks')
-      %p= link_to(t('.sign_up'), new_member_registration_path, class: 'btn btn-info btn-block')
+      %p= link_to(t('.sign_up'), new_member_registration_path, class: 'btn btn-primary btn-block')
       %p= t('.already_html', sign_in: link_to(t('.sign_in_linktext'), new_member_session_path, class: 'btn btn-primary'))

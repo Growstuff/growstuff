@@ -24,7 +24,7 @@ describe "posts/show" do
       it { is_expected.to have_text('hello there') }
       # shouldn't show the subject on a single post page
       # (it appears in the title/h1 via the layout, not via this view)
-      it { is_expected.not_to have_text('An Update') }
+      it { is_expected.to have_no_text('An Update') }
     end
 
     describe "should parse markdown into html" do
@@ -37,19 +37,19 @@ describe "posts/show" do
       let(:post) { FactoryBot.create(:post, author:, body: '<a href="http://evil.com">EVIL</a>') }
 
       it { is_expected.to have_content('EVIL') }
-      it { is_expected.not_to have_link("http://evil.com") }
+      it { is_expected.to have_no_link("http://evil.com") }
     end
 
     describe 'script tag in post body' do
       let(:post) { FactoryBot.create(:post, author:, body: "<script>alert('hakker!')</script>") }
 
-      it { is_expected.not_to have_selector('script') }
+      it { is_expected.to have_no_selector('script') }
     end
 
     describe 'script tag in post title' do
       let(:post) { FactoryBot.create(:post, author:, subject: "<script>alert('hakker!')</script>") }
 
-      it { is_expected.not_to have_selector('script') }
+      it { is_expected.to have_no_selector('script') }
     end
 
     describe 'has an anchor to the comments' do
@@ -61,7 +61,7 @@ describe "posts/show" do
 
   context "when there is one comment" do
     let(:post) { FactoryBot.create(:html_post, author:) }
-    let!(:comment) { FactoryBot.create(:comment, post:) }
+    let!(:comment) { FactoryBot.create(:comment, commentable: post) }
 
     before do
       @comments = post.comments
@@ -85,12 +85,12 @@ describe "posts/show" do
     let(:post) { FactoryBot.create(:html_post, author:) }
 
     before do
-      @comment1 = FactoryBot.create(:comment, post:, body: "F1rst!!!",
+      @comment1 = FactoryBot.create(:comment, commentable: post, body: "F1rst!!!",
                                               created_at: Date.new(2010, 5, 17))
-      @comment3 = FactoryBot.create(:comment, post:, body: "Th1rd!!!",
+      @comment3 = FactoryBot.create(:comment, commentable: post, body: "Th1rd!!!",
                                               created_at: Date.new(2012, 5, 17))
-      @comment4 = FactoryBot.create(:comment, post:, body: "F0urth!!!")
-      @comment2 = FactoryBot.create(:comment, post:, body: "S3c0nd!!1!",
+      @comment4 = FactoryBot.create(:comment, commentable: post, body: "F0urth!!!")
+      @comment2 = FactoryBot.create(:comment, commentable: post, body: "S3c0nd!!1!",
                                               created_at: Date.new(2011, 5, 17))
       @comments = post.comments
       render
@@ -121,7 +121,7 @@ describe "posts/show" do
     end
 
     it 'shows a comment button' do
-      expect(subject).to have_link "Comment", href: new_comment_path(post_id: post.id)
+      expect(subject).to have_link "Comment", href: new_comment_path(comment: { commentable_type: "Post", commentable_id: post.id })
     end
   end
 end

@@ -21,6 +21,7 @@ class PhotosController < ApplicationController
 
   def show
     @crops = Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: @photo })
+    @comment = Comment.new(commentable: @photo)
     respond_with(@photo)
   end
 
@@ -63,7 +64,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).permit(:source_id, :source, :title, :license_name,
-                                  :license_url, :thumbnail_url, :fullsize_url, :link_url)
+                                  :license_url, :thumbnail_url, :fullsize_url, :link_url, :date_taken)
   end
 
   # Item with photos attached

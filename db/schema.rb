@@ -2,25 +2,75 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_15_012538) do
-
+ActiveRecord::Schema[7.2].define(version: 2025_09_01_144900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "activities", force: :cascade do |t|
+    t.string "category"
+    t.string "name"
+    t.string "description"
+    t.date "due_date"
+    t.boolean "finished"
+    t.bigint "owner_id"
+    t.bigint "garden_id"
+    t.bigint "planting_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.integer "likes_count", default: 0
+    t.index ["garden_id"], name: "index_activities_on_garden_id"
+    t.index ["owner_id"], name: "index_activities_on_owner_id"
+    t.index ["planting_id"], name: "index_activities_on_planting_id"
+    t.index ["slug"], name: "index_activities_on_slug", unique: true
+  end
 
   create_table "alternate_names", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.integer "crop_id", null: false
     t.integer "creator_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.string "language"
+    t.index ["creator_id"], name: "index_alternate_names_on_creator_id"
+    t.index ["crop_id"], name: "index_alternate_names_on_crop_id"
+    t.index ["language"], name: "index_alternate_names_on_language"
   end
 
   create_table "authentications", id: :serial, force: :cascade do |t|
@@ -29,8 +79,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "uid"
     t.string "token"
     t.string "secret"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "name"
     t.index ["member_id"], name: "index_authentications_on_member_id"
   end
@@ -56,8 +106,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "file_file_name"
     t.string "description", limit: 2048
     t.integer "position", default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["site_id", "block_id"], name: "index_comfy_cms_files_on_site_id_and_block_id"
     t.index ["site_id", "file_file_name"], name: "index_comfy_cms_files_on_site_id_and_file_file_name"
     t.index ["site_id", "label"], name: "index_comfy_cms_files_on_site_id_and_label"
@@ -69,10 +119,10 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.text "content"
     t.string "record_type"
     t.integer "record_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "tag", default: "text", null: false
-    t.datetime "datetime"
+    t.datetime "datetime", precision: nil
     t.boolean "boolean", default: false, null: false
     t.index ["identifier"], name: "index_comfy_cms_fragments_on_identifier"
     t.index ["record_id", "record_type"], name: "index_comfy_cms_fragments_on_record_id_and_record_type"
@@ -88,8 +138,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.text "css"
     t.text "js"
     t.integer "position", default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["parent_id", "position"], name: "index_comfy_cms_layouts_on_parent_id_and_position"
     t.index ["site_id", "identifier"], name: "index_comfy_cms_layouts_on_site_id_and_identifier", unique: true
   end
@@ -106,8 +156,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.integer "position", default: 0, null: false
     t.integer "children_count", default: 0, null: false
     t.boolean "is_published", default: true, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["parent_id", "position"], name: "index_comfy_cms_pages_on_parent_id_and_position"
     t.index ["site_id", "full_path"], name: "index_comfy_cms_pages_on_site_id_and_full_path"
   end
@@ -116,7 +166,7 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "record_type", null: false
     t.integer "record_id", null: false
     t.text "data"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["record_type", "record_id", "created_at"], name: "index_cms_revisions_on_rtype_and_rid_and_created_at"
   end
 
@@ -135,8 +185,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "identifier", null: false
     t.text "content"
     t.integer "position", default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["site_id", "identifier"], name: "index_comfy_cms_snippets_on_site_id_and_identifier", unique: true
     t.index ["site_id", "position"], name: "index_comfy_cms_snippets_on_site_id_and_position"
   end
@@ -148,26 +198,31 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "label", null: false
     t.text "content_cache"
     t.boolean "is_published", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["is_published"], name: "index_comfy_cms_translations_on_is_published"
     t.index ["locale"], name: "index_comfy_cms_translations_on_locale"
     t.index ["page_id"], name: "index_comfy_cms_translations_on_page_id"
   end
 
   create_table "comments", id: :serial, force: :cascade do |t|
-    t.integer "post_id", null: false
+    t.integer "commentable_id", null: false
     t.integer "author_id", null: false
     t.text "body", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.string "commentable_type"
+    t.index ["author_id"], name: "index_comments_on_author_id"
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
   end
 
   create_table "crop_companions", force: :cascade do |t|
     t.integer "crop_a_id", null: false
     t.integer "crop_b_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "source_url"
+    t.index ["crop_a_id", "crop_b_id"], name: "index_crop_companions_on_crop_a_id_and_crop_b_id"
   end
 
   create_table "crop_posts", id: false, force: :cascade do |t|
@@ -180,8 +235,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
   create_table "crops", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.string "en_wikipedia_url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "slug"
     t.integer "parent_id"
     t.integer "plantings_count", default: 0
@@ -198,7 +253,15 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.jsonb "openfarm_data"
     t.integer "harvests_count", default: 0
     t.integer "photo_associations_count", default: 0
+    t.integer "row_spacing"
+    t.integer "spread"
+    t.integer "height"
+    t.string "sowing_method"
+    t.string "sun_requirements"
+    t.integer "growing_degree_days"
+    t.index ["creator_id"], name: "index_crops_on_creator_id"
     t.index ["name"], name: "index_crops_on_name"
+    t.index ["parent_id"], name: "index_crops_on_parent_id"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
   end
@@ -206,25 +269,37 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
   create_table "follows", id: :serial, force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.index ["follower_id", "followed_id"], name: "index_follows_on_follower_id_and_followed_id"
   end
 
   create_table "forums", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
     t.integer "owner_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "slug"
+    t.index ["owner_id"], name: "index_forums_on_owner_id"
     t.index ["slug"], name: "index_forums_on_slug", unique: true
+  end
+
+  create_table "garden_collaborators", force: :cascade do |t|
+    t.bigint "member_id"
+    t.bigint "garden_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["garden_id"], name: "index_garden_collaborators_on_garden_id"
+    t.index ["member_id", "garden_id"], name: "index_garden_collaborators_on_member_id_and_garden_id", unique: true
+    t.index ["member_id"], name: "index_garden_collaborators_on_member_id"
   end
 
   create_table "garden_types", force: :cascade do |t|
     t.text "name", null: false
     t.text "slug", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["name"], name: "index_garden_types_on_name", unique: true
     t.index ["slug"], name: "index_garden_types_on_slug", unique: true
   end
@@ -233,8 +308,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "name", null: false
     t.integer "owner_id"
     t.string "slug", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.text "description"
     t.boolean "active", default: true
     t.string "location"
@@ -261,14 +336,18 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.decimal "quantity"
     t.string "unit"
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "slug"
     t.decimal "weight_quantity"
     t.string "weight_unit"
     t.integer "plant_part_id"
     t.float "si_weight"
     t.integer "planting_id"
+    t.integer "likes_count", default: 0
+    t.index ["crop_id"], name: "index_harvests_on_crop_id"
+    t.index ["owner_id"], name: "index_harvests_on_owner_id"
+    t.index ["plant_part_id"], name: "index_harvests_on_plant_part_id"
     t.index ["planting_id"], name: "index_harvests_on_planting_id"
   end
 
@@ -283,8 +362,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "likeable_type"
     t.integer "likeable_id"
     t.string "categories", array: true
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["likeable_id"], name: "index_likes_on_likeable_id"
     t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id"
     t.index ["member_id"], name: "index_likes_on_member_id"
@@ -294,16 +373,16 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "unsubscriber_type"
     t.integer "unsubscriber_id"
     t.integer "conversation_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["conversation_id"], name: "index_mailboxer_conversation_opt_outs_on_conversation_id"
     t.index ["unsubscriber_id", "unsubscriber_type"], name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type"
   end
 
   create_table "mailboxer_conversations", id: :serial, force: :cascade do |t|
     t.string "subject", default: ""
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "mailboxer_notifications", id: :serial, force: :cascade do |t|
@@ -318,10 +397,10 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "notified_object_type"
     t.integer "notified_object_id"
     t.string "attachment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "global", default: false
-    t.datetime "expires"
+    t.datetime "expires", precision: nil
     t.index ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id"
     t.index ["notified_object_id", "notified_object_type"], name: "index_mailboxer_notifications_on_notified_object_id_and_type"
     t.index ["notified_object_type", "notified_object_id"], name: "mailboxer_notifications_notified_object"
@@ -337,8 +416,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.boolean "trashed", default: false
     t.boolean "deleted", default: false
     t.string "mailbox_type", limit: 25
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "is_delivered", default: false
     t.string "delivery_method"
     t.string "message_id"
@@ -353,22 +432,22 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
     t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
     t.string "unconfirmed_email"
     t.integer "failed_attempts", default: 0
     t.string "unlock_token"
-    t.datetime "locked_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "locked_at", precision: nil
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "login_name"
     t.string "slug"
     t.boolean "tos_agreement"
@@ -385,9 +464,15 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.integer "gardens_count"
     t.integer "harvests_count"
     t.integer "seeds_count"
-    t.datetime "discarded_at"
+    t.datetime "discarded_at", precision: nil
     t.integer "photos_count"
     t.integer "forums_count"
+    t.integer "activities_count"
+    t.string "website_url"
+    t.string "instagram_handle"
+    t.string "facebook_handle"
+    t.string "bluesky_handle"
+    t.string "other_url"
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true
@@ -399,6 +484,7 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
   create_table "members_roles", id: false, force: :cascade do |t|
     t.integer "member_id"
     t.integer "role_id"
+    t.index ["member_id", "role_id"], name: "index_members_roles_on_member_id_and_role_id"
   end
 
   create_table "notifications", id: :serial, force: :cascade do |t|
@@ -407,23 +493,29 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.string "subject"
     t.text "body"
     t.boolean "read", default: false
-    t.integer "post_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "notifiable_id"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.string "notifiable_type"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
+    t.index ["recipient_id"], name: "index_notifications_on_recipient_id"
+    t.index ["sender_id"], name: "index_notifications_on_sender_id"
   end
 
   create_table "orders_products", id: false, force: :cascade do |t|
     t.integer "order_id"
     t.integer "product_id"
+    t.index ["order_id", "product_id"], name: "index_orders_products_on_order_id_and_product_id"
   end
 
   create_table "photo_associations", id: :serial, force: :cascade do |t|
     t.integer "photo_id", null: false
     t.integer "photographable_id", null: false
     t.string "photographable_type", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "crop_id"
+    t.index ["crop_id"], name: "index_photo_associations_on_crop_id"
     t.index ["photographable_id", "photographable_type", "photo_id"], name: "items_to_photos_idx", unique: true
     t.index ["photographable_id", "photographable_type"], name: "photographable_idx"
   end
@@ -432,23 +524,27 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.integer "owner_id", null: false
     t.string "thumbnail_url", null: false
     t.string "fullsize_url", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "title", null: false
     t.string "license_name", null: false
     t.string "license_url"
     t.string "link_url", null: false
     t.string "source_id"
-    t.datetime "date_taken"
+    t.datetime "date_taken", precision: nil
     t.integer "likes_count", default: 0
     t.string "source"
+    t.integer "comments_count", default: 0
     t.index ["fullsize_url"], name: "index_photos_on_fullsize_url", unique: true
+    t.index ["owner_id"], name: "index_photos_on_owner_id"
+    t.index ["source_id"], name: "index_photos_on_source_id"
     t.index ["thumbnail_url"], name: "index_photos_on_thumbnail_url", unique: true
   end
 
   create_table "photos_plantings", id: false, force: :cascade do |t|
     t.integer "photo_id"
     t.integer "planting_id"
+    t.index ["photo_id", "planting_id"], name: "index_photos_plantings_on_photo_id_and_planting_id"
   end
 
   create_table "photos_seeds", id: false, force: :cascade do |t|
@@ -459,10 +555,11 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
 
   create_table "plant_parts", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "slug"
     t.integer "harvests_count", default: 0
+    t.index ["slug"], name: "index_plant_parts_on_slug", unique: true
   end
 
   create_table "plantings", id: :serial, force: :cascade do |t|
@@ -471,8 +568,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.date "planted_at"
     t.integer "quantity"
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "slug"
     t.string "sunniness"
     t.string "planted_from"
@@ -484,6 +581,14 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.integer "days_to_last_harvest"
     t.integer "parent_seed_id"
     t.integer "harvests_count", default: 0
+    t.integer "likes_count", default: 0
+    t.boolean "failed", default: false, null: false
+    t.boolean "from_other_source"
+    t.integer "overall_rating"
+    t.index ["crop_id"], name: "index_plantings_on_crop_id"
+    t.index ["garden_id"], name: "index_plantings_on_garden_id"
+    t.index ["owner_id"], name: "index_plantings_on_owner_id"
+    t.index ["parent_seed_id"], name: "index_plantings_on_parent_seed_id"
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 
@@ -491,21 +596,22 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.integer "author_id", null: false
     t.string "subject", null: false
     t.text "body", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "slug"
     t.integer "forum_id"
     t.integer "likes_count", default: 0
     t.integer "comments_count", default: 0
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
+    t.index ["forum_id"], name: "index_posts_on_forum_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "slug"
     t.index ["slug"], name: "index_roles_on_slug", unique: true
   end
@@ -513,9 +619,15 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
   create_table "scientific_names", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.integer "crop_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "creator_id"
+    t.integer "gbif_key"
+    t.string "gbif_rank"
+    t.string "gbif_status"
+    t.string "wikidata_id"
+    t.index ["creator_id"], name: "index_scientific_names_on_creator_id"
+    t.index ["crop_id"], name: "index_scientific_names_on_crop_id"
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
@@ -524,8 +636,8 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.text "description"
     t.integer "quantity"
     t.date "plant_before"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "tradable_to", default: "nowhere"
     t.string "slug"
     t.integer "days_until_maturity_min"
@@ -537,9 +649,16 @@ ActiveRecord::Schema.define(version: 2020_08_15_012538) do
     t.date "finished_at"
     t.integer "parent_planting_id"
     t.date "saved_at"
+    t.string "source"
+    t.index ["crop_id"], name: "index_seeds_on_crop_id"
+    t.index ["owner_id"], name: "index_seeds_on_owner_id"
+    t.index ["parent_planting_id"], name: "index_seeds_on_parent_planting_id"
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
+    t.index ["source"], name: "index_seeds_on_source"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "harvests", "plantings"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"

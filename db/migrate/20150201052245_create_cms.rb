@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CreateCms < ActiveRecord::Migration[4.2]
-  def self.up # rubocop:disable Metrics/MethodLength
+  def self.up
     # -- Sites --------------------------------------------------------------
     create_table :comfy_cms_sites do |t|
       t.string :label,        null: false

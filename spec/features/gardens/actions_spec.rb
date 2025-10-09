@@ -51,7 +51,7 @@ describe "Gardens" do
 
         include_examples "has buttons bar at top"
         describe 'does not show actions on other member garden' do
-          it { is_expected.not_to have_link 'Actions' }
+          it { is_expected.to have_no_link 'Actions' }
         end
       end
     end
@@ -73,7 +73,7 @@ describe "Gardens" do
       describe "someone else's garden" do
         before { visit garden_path(other_member_garden) }
 
-        it { is_expected.not_to have_link 'Actions' }
+        it { is_expected.to have_no_link 'Actions' }
       end
     end
   end

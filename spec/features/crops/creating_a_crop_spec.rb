@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "Crop", js: true do
+describe "Crop", :js do
   shared_context 'fill in form' do
     before do
       visit new_crop_path
@@ -19,9 +19,18 @@ describe "Crop", js: true do
         click_button class: "add-altname-row"
         fill_in "alt_name[3]", with: "Jazmin"
         fill_in "alt_name[4]", with: "Matsurika"
+
+        fill_in "crop_row_spacing", with: "12"
+        fill_in "crop_spread", with: "30"
+        fill_in "crop_height", with: "10"
+        fill_in "crop_sowing_method", with: "directly into final position"
+
+        fill_in "crop_sun_requirements", with: "full sun"
+        fill_in "crop_growing_degree_days", with: 100
       end
     end
   end
+
   shared_examples 'request crop' do
     describe "requesting a crop with multiple scientific and alternate name" do
       include_examples 'fill in form'
@@ -38,6 +47,7 @@ describe "Crop", js: true do
       it { expect(page).to have_content "Matsurika" }
     end
   end
+
   shared_examples 'create crop' do
     describe "creating a crop with multiple scientific and alternate name" do
       include_examples 'fill in form'

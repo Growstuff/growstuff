@@ -1,0 +1,43 @@
+- content_for :title, title('activities', @owner, nil, @planting)
+
+- content_for :breadcrumbs do
+  - if @owner
+    %li.breadcrumb-item= link_to 'Activities', activities_path
+    %li.breadcrumb-item.active= link_to "#{@owner}'s activities", activities_path(owner: @owner)
+  - else
+    %li.breadcrumb-item.active= link_to 'Activities', activities_path
+
+.row
+  .col-md-2
+    %h1
+      = activity_icon
+      = title('activities', @owner, nil, @planting)
+    = render 'layouts/nav', model: Activity
+    = link_to show_inactive_tickbox_path('activities', owner: @owner, crop: nil, show_all: @show_all) do
+      = check_box_tag 'active', 'all', @show_all
+      include finished activities
+    %hr
+    - if @owner.present?
+      = render @owner, cached: true
+
+    %section.open-data
+      %h2 Open Data
+      %p= t('label.data')
+      - ['csv', 'json', 'rss'].each do |format|
+        .badge.badge-info
+          = link_to (@owner ? member_activities_path(@owner, format: format) : activities_path(format: format)) do
+            = icon 'fas', format.to_s
+            = format.upcase
+      - if @owner
+        .badge.badge-info= link_to "iCal", member_activities_path(@owner, format: 'ics', protocol: 'webcal', only_path: false)
+      .badge.badge-success= link_to 'API Methods', '/api-docs'
+
+  .col-md-10
+
+    %section
+      %h2= title('activities', @owner, nil, @planting)
+      = will_paginate @activities
+      .index-cards
+        - @activities.each do |a|
+          = render 'activities/card', activity: a
+      = will_paginate @activities

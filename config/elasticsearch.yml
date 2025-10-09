@@ -1,0 +1,5 @@
+development: &default
+  host: 'http://es01:9200'
+  log: true
+test:
+  host: 'http://es01:9200'

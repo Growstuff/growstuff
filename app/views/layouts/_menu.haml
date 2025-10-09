@@ -1,16 +1,16 @@
 #navbarSupportedContent.collapse.navbar-collapse
-  %ul.navbar-nav.mr-auto
+  %ul.navbar-nav.mr-auto.bg-dark
     - if signed_in?
       %li.nav-item
-        = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
-          = image_tag 'icons/notification.svg', class: 'img img-icon'
+        = link_to timeline_index_path, method: :get, class: 'nav-link text-white', title: "Timeline" do
+          = image_tag 'icons/notification.svg', class: 'img img-icon', alt: "Notifications"
       %li.nav-item
-        = link_to member_gardens_path(current_member), class: 'nav-link text-white' do
+        = link_to member_gardens_path(current_member, anchor: "content"), class: 'nav-link text-white', title: "My gardens" do
           = image_icon 'gardens'
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
-          = image_tag "icons/gardener.svg", class: 'img img-icon'
-          = t('layouts.header.record')
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+          = image_tag "icons/gardener.svg", class: 'img img-icon', alt: t('.record'), aria: { hidden: "true" }
+          = t('.record')
         .dropdown-menu
           = link_to new_planting_path, class: 'dropdown-item' do
             = image_icon('planting-add')
@@ -18,6 +18,9 @@
           = link_to new_harvest_path, class: 'dropdown-item' do
             = image_icon('harvest-add')
             = t('buttons.new_harvest')
+          = link_to new_activity_path, class: 'dropdown-item' do
+            = image_icon('activity-add')
+            = t('buttons.new_activity')
           = link_to new_seed_path, class: 'dropdown-item' do
             = image_icon('seed-add')
             = t('buttons.new_seeds')
@@ -27,7 +30,9 @@
 
     - cache("everyone-menu", expires_in: 1.week) do
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= Crop.model_name.human(count: 2).titleize
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+          %span
+          = t('.crops')
         .dropdown-menu
           = link_to crops_path, class: 'dropdown-item' do
             = t('layouts.header.browse_crops')
@@ -41,7 +46,9 @@
             = harvest_icon
             = t('layouts.header.harvests')
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('layouts.header.community')
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+          %span
+          = t('.community')
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to t('layouts.header.community_map'), places_path, class: 'dropdown-item'
           = link_to t('layouts.header.browse_members'), members_path, class: 'dropdown-item'
@@ -51,7 +58,9 @@
     - if member_signed_in?
       - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
         %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}= t('layouts.header.admin')
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+            %span
+            = t('.admin')
           .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
             - if current_member.role?(:crop_wrangler)
               = link_to t('layouts.header.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
@@ -59,14 +68,16 @@
               = link_to t('layouts.header.admin'), admin_path, class: 'dropdown-item'
 
       %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
-          = image_tag(avatar_uri(current_member, 50), alt: '', height: 25, width: 25)
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+          = image_tag(avatar_uri(current_member, 50), alt: 'Avatar of current member', height: 25, width: 25, aria: { hidden: "true" })
           = current_member.login_name
           - if current_member.unread_count.positive?
             %span.badge.badge-info= current_member.unread_count
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to member_path(current_member), class: 'dropdown-item' do
-            = t('layouts.header.profile')
+            = t('.profile')
+          = link_to member_activities_path(current_member), class: 'dropdown-item' do
+            = t('.activities')
           = link_to member_gardens_path(current_member), class: 'dropdown-item' do
             = Garden.model_name.human(count: 2).titleize
           = link_to member_plantings_path(current_member), class: 'dropdown-item' do

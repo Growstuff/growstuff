@@ -25,7 +25,7 @@ en:
       invalid: 'Invalid email or password.'
       invalid_token: 'Invalid authentication token.'
       timeout: 'Your session expired, please sign in again to continue.'
-      inactive: 'Your account was not activated yet.'
+      inactive: 'Your account is not activated.'
     sessions:
       signed_in: 'Signed in successfully.'
       signed_out: 'Signed out successfully.'
@@ -54,6 +54,7 @@ en:
         You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm
         link to finalize confirming your new email address.
       destroyed: 'Bye! Your account was successfully cancelled. We hope to see you again soon.'
+      api_token_regenerated: 'Your API token has been regenerated.'
     unlocks:
       send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
       unlocked: 'Your account has been unlocked successfully. Please sign in to continue.'

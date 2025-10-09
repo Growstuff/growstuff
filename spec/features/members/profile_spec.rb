@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "member profile", js: true do
+describe "member profile", :js do
   let(:member) { create(:member) }
   let(:other_member)  { create(:member)                }
   let(:admin_member)  { create(:admin_member)          }
@@ -32,9 +32,9 @@ describe "member profile", js: true do
 
       it "member has not set location" do
         visit member_path(member)
-        expect(page).not_to have_css("h1>small")
-        expect(page).not_to have_css("#membermap")
-        expect(page).not_to have_content "See other members"
+        expect(page).to have_no_css("h1>small")
+        expect(page).to have_no_css("#membermap")
+        expect(page).to have_no_content "See other members"
       end
     end
 
@@ -47,18 +47,18 @@ describe "member profile", js: true do
 
       it "private email address" do
         visit member_path(member)
-        expect(page).not_to have_content member.email
+        expect(page).to have_no_content member.email
       end
     end
 
     context "activity stats" do
       it "with no activity" do
         visit member_path(member)
-        expect(page).to have_content "Activity"
-        expect(page).to have_content "0 plantings"
-        expect(page).to have_content "0 harvests"
-        expect(page).to have_content "0 seeds"
-        expect(page).to have_content "0 posts"
+        expect(page).to have_content "Stats"
+        expect(page).to have_no_content "0 plantings"
+        expect(page).to have_no_content "0 harvests"
+        expect(page).to have_no_content "0 seeds"
+        expect(page).to have_no_content "0 posts"
       end
 
       context "with some activity" do
@@ -74,12 +74,6 @@ describe "member profile", js: true do
         it { expect(page).to have_link(href: seed_path(seed)) }
         it { expect(page).to have_link(href: post_path(post)) }
       end
-    end
-
-    it "twitter link" do
-      twitter_auth = create(:authentication, member:)
-      visit member_path(member)
-      expect(page).to have_link twitter_auth.name, href: "https://twitter.com/#{twitter_auth.name}"
     end
 
     it "flickr link" do
@@ -102,8 +96,8 @@ describe "member profile", js: true do
 
       it "ordinary user's page" do
         visit member_path(other_member)
-        expect(page).not_to have_text "Crop Wrangler"
-        expect(page).not_to have_text "Admin"
+        expect(page).to have_no_text "Crop Wrangler"
+        expect(page).to have_no_text "Admin"
       end
     end
   end
@@ -120,7 +114,19 @@ describe "member profile", js: true do
       it { expect(page).to have_link href: planting_path(new_planting) }
       it { expect(page).to have_link href: planting_path(old_planting) }
       it { expect(page).to have_link href: planting_path(finished_planting) }
-      it { expect(page).not_to have_link href: planting_path(no_planted_at_planting) }
+      it { expect(page).to have_no_link href: planting_path(no_planted_at_planting) }
+    end
+
+    context 'member has activities' do
+      let!(:activity) { FactoryBot.create(:activity, owner: member, due_date: 3.days.ago) }
+      let!(:activity2) { FactoryBot.create(:activity, :planting, owner: member) }
+      let!(:activity3) { FactoryBot.create(:activity, :garden, owner: member) }
+
+      before { visit member_path(member) }
+
+      it { expect(page).to have_link href: activity_path(activity) }
+      it { expect(page).to have_link href: activity_path(activity2) }
+      it { expect(page).to have_link href: activity_path(activity3) }
     end
 
     context 'member has seeds' do
@@ -149,7 +155,7 @@ describe "member profile", js: true do
 
     context 'member has comments' do
       let(:post) { FactoryBot.create(:post) }
-      let!(:comment) { FactoryBot.create(:comment, post:, author: member) }
+      let!(:comment) { FactoryBot.create(:comment, commentable: post, author: member) }
 
       before { visit member_path(member) }
 
@@ -215,8 +221,8 @@ describe "member profile", js: true do
   end
 
   context "not signed in" do
-    include_examples 'member details'
-    include_examples 'member activity'
+    it_behaves_like 'member details'
+    it_behaves_like 'member activity'
 
     it "no bio" do
       member.update! bio: nil
@@ -227,8 +233,8 @@ describe "member profile", js: true do
 
   context "signed in member" do
     include_context 'signed in member'
-    include_examples 'member details'
-    include_examples 'member activity'
+    it_behaves_like 'member details'
+    it_behaves_like 'member activity'
 
     context "your own profile page" do
       before { visit member_path(member) }
@@ -245,7 +251,7 @@ describe "member profile", js: true do
         expect(page).to have_link "Send message", href: new_message_path(recipient_id: other_member.id)
       end
 
-      it { expect(page).not_to have_link "Edit profile", href: edit_member_registration_path }
+      it { expect(page).to have_no_link "Edit profile", href: edit_member_registration_path }
     end
   end
 end

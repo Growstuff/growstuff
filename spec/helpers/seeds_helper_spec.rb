@@ -29,7 +29,7 @@ describe SeedsHelper do
       seed = FactoryBot.create(:seed,
                                description: 'a' * 140)
       result = helper.display_seed_description(seed)
-      expect(result).to eq 'a' * 126 + '...' + ' ' + link_to("Read more", seed_path(seed))
+      expect(result).to eq ('a' * 126) + '...' + ' ' + link_to("Read more", seed_path(seed))
     end
   end
 end

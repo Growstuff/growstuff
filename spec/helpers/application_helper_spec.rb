@@ -10,13 +10,6 @@ describe ApplicationHelper do
     parse_date('may 12th 2012').should eq Date.new(2012, 5, 12)
   end
 
-  it "shows required field marker help text with proper formatting" do
-    output = required_field_help_text
-    expect(output).to have_selector '.margin-bottom'
-    expect(output).to have_selector '.red', text: '*'
-    expect(output).to have_selector 'em', text: 'denotes a required field'
-  end
-
   describe '#avatar_uri' do
     context 'with a normal user' do
       before do
@@ -48,7 +41,7 @@ describe ApplicationHelper do
 
     context 'with a populated collection' do
       context 'with one element' do
-        before { create(:comment, post:) }
+        before { create(:comment, commentable: post) }
 
         it 'returns a string with the quantity and the plural of the model' do
           expect(localize_plural(post.comments, Comment)).to eq '1 comment'
@@ -56,7 +49,7 @@ describe ApplicationHelper do
       end
 
       context 'with more than one element' do
-        before { create_list(:comment, 2, post:) }
+        before { create_list(:comment, 2, commentable: post) }
 
         it 'returns a string with the quantity and the plural of the model' do
           expect(localize_plural(post.comments, Comment)).to eq '2 comments'

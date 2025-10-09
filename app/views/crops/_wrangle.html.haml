@@ -4,15 +4,19 @@
       You are a
       %strong CROP WRANGLER
     .dropdown.crop-actions
-      %a#crop-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button", href: '#'} Actions
+      %a#crop-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :type => "button", href: '#'} Actions
       .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-button"}
         = link_to edit_crop_path(crop), class: 'dropdown-item' do
           = edit_icon
           = t('buttons.edit')
 
-        = link_to crop_openfarm_path(crop), method: :post, class: 'dropdown-item' do
+        = link_to crop_gbif_path(crop), method: :post, class: 'dropdown-item' do
           = icon 'far', 'update'
-          Fetch data from OpenFarm
+          Fetch data from GBIF
+
+        = link_to admin_crop_crop_companions_path(crop), class: 'dropdown-item' do
+          = icon 'fas', 'leaf'
+          Manage Companions
 
         - if can? :destroy, crop
           .dropdown-divider

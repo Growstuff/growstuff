@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :scientific_name do
-    association :crop, factory: :crop
+    association :crop
     name { "Beanus Magicus" }
     creator
 

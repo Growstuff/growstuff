@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   }
   devise_scope :member do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', as: 'unsubscribe_member'
+    post '/members/regenerate_api_token' => 'registrations#regenerate_api_token', as: 'regenerate_api_token'
   end
   match '/members/:id/finish_signup' => 'members#finish_signup', via: %i(get patch), as: :finish_signup
 
@@ -30,6 +31,8 @@ Rails.application.routes.draw do
 
   resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
+
+    resources :garden_collaborators
   end
 
   resources :plantings, concerns: :has_photos, param: :slug do
@@ -37,6 +40,9 @@ Rails.application.routes.draw do
     resources :seeds
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
+    end
+    member do
+      post :transplant
     end
   end
 
@@ -53,7 +59,11 @@ Rails.application.routes.draw do
     get 'author/:author' => 'posts#index', as: 'by_author', on: :collection
   end
 
-  resources :scientific_names
+  resources :scientific_names do
+    collection do
+      get :gbif_suggest
+    end
+  end
   resources :alternate_names
   resources :plant_parts
   resources :photos
@@ -72,7 +82,7 @@ Rails.application.routes.draw do
     get 'sunniness' => 'charts/crops#sunniness', constraints: { format: 'json' }
     get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
-    post :openfarm
+    post :gbif
 
     collection do
       get 'requested'
@@ -98,12 +108,14 @@ Rails.application.routes.draw do
     resources :plantings
     resources :harvests
     resources :posts
+    resources :activities
 
     resources :follows
     get 'followers' => 'follows#followers'
   end
 
   resources :messages
+  resources :activities, param: :slug
   resources :conversations do
     collection do
       delete 'destroy_multiple'
@@ -126,10 +138,14 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :members, param: :slug
     resources :roles
+    resources :crops, param: :slug do
+      resources :crop_companions
+    end
   end
 
   namespace :api do
     namespace :v1 do
+      jsonapi_resources :activities
       jsonapi_resources :crops
       jsonapi_resources :gardens
       jsonapi_resources :harvests

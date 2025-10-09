@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "Alternate names", js: true do
+describe "Alternate names", :js do
   let!(:alternate_eggplant) { create(:alternate_eggplant) }
   let(:crop)                { alternate_eggplant.crop }
 
@@ -46,7 +46,7 @@ describe "Alternate names", js: true do
       accept_confirm do
         click_link 'Delete'
       end
-      expect(page).not_to have_content alternate_eggplant.name
+      expect(page).to have_no_content alternate_eggplant.name
       expect(page).to have_content 'Alternate name was successfully deleted'
     end
 

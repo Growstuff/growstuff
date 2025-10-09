@@ -1,0 +1,62 @@
+.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
+  .card-header
+    - if content_for? :title
+      %h1.h2-responsive.text-center
+        = planting_icon
+        %strong=yield :title
+  = bootstrap_form_for(@activity) do |f|
+    .card-body
+      - if @activity.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@activity.errors.size, "error")
+            prohibited this activity from being saved:
+          %ul
+            - @activity.errors.full_messages.each do |msg|
+              %li= msg
+
+      .row
+        .col-md-12
+          = f.text_field :name, required: true, label: 'What needs to be done?', autofocus: true
+      .row
+        .col-md-4
+          = f.select(:category, Activity::CATEGORIES, include_blank: true)
+      .row
+        .col-md-12
+          = f.text_area :description, rows: 6, label: 'Tell us more about it'
+
+      .row
+        .col-md-4
+          = f.collection_radio_buttons(:garden_id, @activity.owner.gardens.active.order_by_name,
+            :id, :name,
+            label: 'Is this for a specific garden?')
+          = link_to "Add a garden.", new_garden_path
+
+        .col-md-4
+          = f.collection_radio_buttons(:planting_id, @activity.owner.plantings.active.recent,
+            :id, :crop_name,
+            label: 'Is this for a specific planting?')
+          = link_to "Add a planting.", new_planting_path
+
+        .col-md-4
+          = f.date_field :due_date,
+                     value: @activity.due_date ? @activity.due_date.to_fs(:ymd) : '',
+                     label: 'When?'
+
+      .row
+        .col-md-6
+          = label_tag :repeat_times, 'Repeat how many times?'
+          = number_field_tag :repeat_times, nil, class: 'form-control'
+        .col-md-6
+          = label_tag :repeat_weeks, 'Every how many weeks?'
+          = number_field_tag :repeat_weeks, nil, class: 'form-control'
+
+      %hr
+
+      .row
+        .col-md-6
+          = f.check_box :finished, label: t('buttons.mark_as_finished')
+          %span.help-block= t('.finish_helper')
+
+    .card-footer
+      .text-right= f.submit 'Save'

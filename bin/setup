@@ -23,12 +23,8 @@ FileUtils.chdir APP_ROOT do
   system('bin/yarn')
 
   puts "\n== Copying sample files =="
-  unless File.exist?('config/database.yml')
-    FileUtils.cp 'config/database.yml.example', 'config/database.yml'
-  end
-  unless File.exist?('.env')
-    FileUtils.cp 'env-example', '.env'
-  end
+  FileUtils.cp 'config/database.yml.example', 'config/database.yml' unless File.exist?('config/database.yml')
+  FileUtils.cp 'env-example', '.env' unless File.exist?('.env')
 
   puts "\n== Checking for elastic search =="
   system! 'script/check_elasticsearch.sh'

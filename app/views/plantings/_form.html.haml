@@ -6,7 +6,6 @@
         %strong=yield :title
   = bootstrap_form_for(@planting) do |f|
     .card-body
-      = required_field_help_text
       - if @planting.errors.any?
         #error_explanation
           %h2
@@ -28,14 +27,14 @@
 
       .row
         .col-md-8
-          = f.collection_radio_buttons(:garden_id, @planting.owner.gardens.active,
+          = f.collection_radio_buttons(:garden_id, @planting.owner.gardens.active.order_by_name,
             :id, :name, required: true,
             label: 'Where did you plant it?')
           = link_to "Add a garden.", new_garden_path
         .col-md-4
           = f.text_field :planted_at,
                      value: @planting.planted_at ? @planting.planted_at.to_fs(:ymd) : '',
-                     class: 'add-datepicker', label: 'When?'
+                     class: 'add-datepicker', label: 'When?', title: "Plan out your future plantings by forward dating, and subscribe to your iCalendar feed for reminders to plant"
 
       .row
         .col-md-4
@@ -43,19 +42,31 @@
         .col-md-4
           = f.select(:sunniness, Planting::SUNNINESS_VALUES, { include_blank: '', label: 'Sun or shade?' } )
         .col-md-4
-          = f.number_field :quantity, label: 'How many?'
+          = f.number_field :quantity, label: 'How many?', min: 1
+        .col-md-12
+          = f.range_field :overall_rating, min: 1, max: 5, include_blank: 'Leave blank', label: 'Overall Rating', list: "rating-list", title: "How well is the planting going?"
+          %datalist{"id": "rating-list"}
+            %option{"value": "1"} Poor
+            %option{"value": "2"}
+            %option{"value": "3"}
+            %option{"value": "4"}
+            %option{"value": "5"} Great
+
       = f.text_area :description, rows: 6, label: 'Tell us more about it'
 
       .row
         .col-md-6
-          = f.check_box :finished, label: 'Mark as finished'
-          %span.help-block= t('.finish_helper')
+          = f.check_box :finished, label: t('buttons.mark_as_finished'), title: t('.finish_helper')
+
         .col-md-6
           = f.text_field :finished_at,
                      value: @planting.finished_at ? @planting.finished_at.to_fs(:ymd) : '',
                      class: 'add-datepicker',
                      label: 'Finished date',
                      placeholder: 'optional'
+      .row
+        .col-md-6
+          = f.check_box :failed, label: t('buttons.mark_as_failed'), title: t('.failed_helper')
 
     .card-footer
       .text-right= f.submit 'Save'

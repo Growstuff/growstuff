@@ -29,9 +29,9 @@
           to plant something in this garden.
     %div
       %p
-        :growstuff_markdown
-          #{strip_tags @garden.description}
-        - unless @garden.description
+        :markdown
+          #{strip_tags markdownify(@garden.description)}
+        - unless @garden.description.present?
           .row-fluid
             %p No description available yet.
 
@@ -39,8 +39,13 @@
               %p
                 Why not
                 = link_to 'tell us more.', edit_garden_path(@garden)
+        - else
+          - if can? :edit, @garden
+            %p
+              Did you want to
+              = link_to 'update this description.', edit_garden_path(@garden)
 
-    - if @garden.plantings.where.not(planted_at: nil).any?
+    - if @garden.plantings.active.any?
       %section.card
         %h2 Garden progress
         .card-body
@@ -55,11 +60,32 @@
         - else
           .col-md-12
             %p Nothing is currently planted here.
+        - if can?(:edit, @garden)
+          .col-md-12
+            = garden_plant_something_button(@garden)
+  
+      - if can?(:destroy, @garden)
+        .dropdown-divider
+        = delete_button(@garden, classes: 'dropdown-item text-danger', message: 'gardens.confirm_delete')
 
-    %section.companions
-      %h2 Suggestioned companions
-      - @suggested_companions.each do |companion|
-        = render 'crops/tiny', crop: companion
+    %section
+      %h2 Current activities in garden
+      .index-cards
+        - if @current_activities&.size&.positive?
+          - @current_activities.each do |activity|
+            = render "activities/card", activity: activity
+        - else
+          .col-md-12
+            %p Nothing is currently planned here.
+        - if can?(:edit, @garden)
+          .col-md-12
+            = garden_plan_something_button(@garden)
+
+    - if @suggested_companions.any?
+      %section.companions
+        %h2 Suggestioned companions
+        - @suggested_companions.each do |companion|
+          = render 'crops/tiny', crop: companion
 
     %section= render 'previously'
 
@@ -72,6 +98,17 @@
         %p
           %strong Owner:
           = link_to @garden.owner, @garden.owner
+        %p
+          %strong Collaborators:
+          - if can?(:create, GardenCollaborator.new(garden: @garden))
+            = link_to "Manage", garden_garden_collaborators_path(@garden)
+          - if @garden.garden_collaborators.any?
+            %ul
+              - @garden.garden_collaborators.each do |collabator|
+                %li= link_to collabator.member, collabator.member
+          - else
+            None
+
         - if @garden.location.present?
           %p
             %strong Location:

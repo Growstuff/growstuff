@@ -16,10 +16,12 @@ module FeatureHelpers
     let(:member) { FactoryBot.create(:member) }
     include_examples 'sign in'
   end
+
   shared_context 'signed in crop wrangler' do
     let(:member) { FactoryBot.create(:crop_wrangling_member) }
     include_examples 'sign in'
   end
+
   shared_context 'signed in admin' do
     let(:member) { FactoryBot.create(:admin_member) }
     include_examples 'sign in'

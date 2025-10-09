@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "forums", js: true do
+describe "forums", :js do
   include_context 'signed in admin'
   let(:forum) { create(:forum) }
 
@@ -25,6 +25,7 @@ describe "forums", js: true do
       expect(page).to have_current_path new_forum_path, ignore_query: true
       fill_in 'Name', with: 'Discussion'
       fill_in 'Description', with: "this is a new forum"
+      select member.login_name, from: "Owner"
       click_button 'Save'
     end
 

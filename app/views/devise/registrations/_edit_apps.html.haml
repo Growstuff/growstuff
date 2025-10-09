@@ -1,21 +1,8 @@
 = form_for(resource, as: resource_name,
-    url: registration_path(resource_name),
+    url: registration_path(resource_name) + '#apps',
     html: { method: :put, class: 'form-horizontal' }) do |_f|
   %br/
   = render 'devise/shared/error_messages', resource: resource
-  .row
-    .col-md-12
-      %p
-        = image_tag "twitter_32.png", size: "32x32", alt: 'Twitter logo'
-        - if @twitter_auth
-          You are connected to Twitter as
-          = link_to @twitter_auth.name, "https://twitter.com/#{@twitter_auth.name}"
-          = link_to "Disconnect", @twitter_auth,
-                    confirm: "Are you sure you want to remove this connection?",
-                    method: :delete, class: "remove btn btn-danger"
-        - else
-          = link_to 'Connect to Twitter', '/members/auth/twitter', class: 'btn'
-
   .row
     .col-md-12
       %p
@@ -28,3 +15,16 @@
                     method: :delete, class: "remove btn btn-danger"
         - else
           = link_to 'Connect to Flickr', '/members/auth/flickr', class: 'btn'
+  %hr
+  .row
+    .col-md-12
+      %p
+        = image_tag "icons/post.svg", size: "32x32", alt: 'API logo'
+        - if current_member.api_token?
+          Your API token is
+          %code= current_member.api_token.token
+          = link_to "Regenerate", regenerate_api_token_path,
+                    data: { confirm: "Are you sure? Your old token will stop working immediately." },
+                    method: :post, class: "remove btn btn-danger"
+        - else
+          = link_to 'Generate API Token', regenerate_api_token_path, method: :post, class: 'btn btn-primary'

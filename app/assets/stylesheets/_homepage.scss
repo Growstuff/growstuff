@@ -1,6 +1,8 @@
 // stats shown on homepage. eg. "999 members..."
 .stats {
-  font-weight: bold;
+  a {
+    font-weight: bold;
+  }
 }
 
 .crops,
@@ -13,4 +15,28 @@
 
 .homepage--list-item {
   height: 100px;
+}
+.releases {
+  .card { 
+    .card-header {
+      
+    }
+    .card-body { 
+      h2 {
+        background-color: transparent;
+        color: black;
+        box-shadow: none;
+      }
+      img {
+        border: 0.5em solid #111;
+        margin-left: 5%;
+        margin-right: 5%;
+        width: 90%;
+      }
+      ul {
+        margin-bottom: 1em;
+        margin-top: 1em;
+      }
+    }
+  }
 }

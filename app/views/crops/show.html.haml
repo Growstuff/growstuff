@@ -24,10 +24,10 @@
     %section.prediction
       = cute_icon
       = render 'predictions', crop: @crop
-    - if @crop.companions.any?
+    - if @crop.all_companions.any?
       %section.companions
         %h2 Companions
-        - @crop.companions.each do |companion|
+        - @crop.all_companions.each do |companion|
           = render 'crops/tiny', crop: companion
 
     %section.photos
@@ -74,7 +74,6 @@
       .card-body
         %h4 How to grow #{@crop.name.pluralize}
         = render 'grown_for', crop: @crop
-        = render 'planting_advice', crop: @crop
         - if @crop.parent
           %hr/
           %p.parent-crop
@@ -86,7 +85,7 @@
           = link_to crop_plantings_path(@crop), class: 'card-link' do
             = planting_icon
             #{@crop.name.capitalize} plantings
-          %span.badge.badge-primary.badge-pill=@crop.plantings.size
+          %span.badge.badge-primary.badge-pill=@crop.plantings.active.size
         .list-group-item.d-flex.justify-content-between.align-items-center
           = link_to crop_harvests_path(@crop), class: 'card-link' do
             = harvest_icon
@@ -112,6 +111,8 @@
     = render 'harvests', crop: @crop
     = render 'find_seeds', crop: @crop
 
+    = render 'openfarm_data', crop: @crop
+
     = cute_icon
     .card
       .card-body
@@ -124,13 +125,6 @@
             = icon 'fas', 'external-link-alt'
             Wikipedia (English)
 
-        %li.list-group-item
-          = link_to "https://openfarm.cc/en/crops/#{CGI.escape @crop.name.gsub(' ', '-')}",
-                    class: 'card-link',
-                    target: "_blank",
-                    rel: "noopener noreferrer" do
-            = icon 'fas', 'external-link-alt'
-            OpenFarm - Growing guide
         %li.list-group-item
           = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
                     target: "_blank",
@@ -146,6 +140,14 @@
                     rel: "noopener noreferrer" do
               = icon 'fas', 'external-link-alt'
               Google
+
+        %li.list-group-item
+          = link_to 'https://chat.openai.com/?model=gpt-4o&prompt=' + CGI.escape(['How do I grow', @crop.name, "and what grows well with it? What should I plant the next season if practicing crop rotation? Explain why and add links to your sources"].join(' ')),
+                  target: "_blank",
+                  class: 'card-link',
+                  rel: "noopener noreferrer" do
+            = icon 'fas', 'external-link-alt'
+            ChatGPT
 
         %li.list-group-item
           = link_to "https://wikihow.com/wikiHowTo?search=#{CGI.escape "grow #{@crop.name}" }",

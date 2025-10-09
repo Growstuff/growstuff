@@ -3,7 +3,7 @@
     .modal-content
       .modal-header.text-center
         %h4.modal-title.w-100.font-weight-bold Record #{harvest.crop.name} harvest
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+        %button.close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
           %span{"aria-hidden" => "true"} &#215;
       .modal-body
         %p Select which plant part you have havested
@@ -26,6 +26,6 @@
               = plant_part_icon(plant_part.name)
               = plant_part
 
-%a.btn#modalHarvestButton{"data-target" => "#modelHarvestForm", "data-toggle" => "modal", href: ""}
+%a.btn#modalHarvestButton{"data-bs-target" => "#modelHarvestForm", "data-bs-toggle" => "modal", href: ""}
   = harvest_icon
   Record harvest

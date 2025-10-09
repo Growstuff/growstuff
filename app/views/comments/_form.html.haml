@@ -1,9 +1,10 @@
+- @comment ||= Comment.new(commentable: @commentable)
 .card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
   .card-body
     - if content_for? :title
       %h1.h2-responsive.text-center
         %strong=yield :title
-    = form_for(@comment, html: { class: "form-horizontal", role: "form" }) do |f|
+    = form_for(@comment, html: { class: "form-horizontal" }) do |f|
       - if @comment.errors.any?
         #error_explanation
           %h2
@@ -14,13 +15,13 @@
               %li= msg
 
       .md-form
-        = f.text_area :body, rows: 6, class: 'form-control md-textarea', autofocus: 'autofocus'
+        = f.text_area :body, rows: 6, class: 'form-control md-textarea', autofocus: 'autofocus', required: true, pattern: '\w+'
         = f.label :body, "Your comment:"
 
       %span.help-block
         = render partial: "shared/markdown_help"
       .actions.text-right
         = f.submit 'Post comment', class: 'btn btn-primary'
-      - if defined?(@post)
-        .field
-          = f.hidden_field :post_id, value: @post.id
+      .field
+        = f.hidden_field :commentable_id, value: @commentable.id
+        = f.hidden_field :commentable_type, value: @commentable.class.name

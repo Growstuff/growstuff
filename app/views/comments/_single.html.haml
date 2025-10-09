@@ -6,7 +6,7 @@
         - if can?(:edit, comment) || can?(:destroy, comment)
           %hr/
           .dropdown
-            %button#comment-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button"} Actions
+            %button#comment-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button"} Actions
             .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "comment-edit-button"}
               - if can? :edit, comment
                 = link_to edit_comment_path(comment), class: 'dropdown-item' do
@@ -31,6 +31,6 @@
             = comment.updated_at
 
         .comment-body
-          :growstuff_markdown
-            #{ strip_tags comment.body }
+          :markdown
+            #{ strip_tags markdownify(comment.body) }
 

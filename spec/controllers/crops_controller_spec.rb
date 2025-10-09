@@ -28,7 +28,7 @@ describe CropsController do
     end
   end
 
-  describe "GET crop hierarchy " do
+  describe "GET crop hierarchy" do
     describe 'fetches the crop hierarchy page' do
       context 'wrangler' do
         include_context 'login as wrangler'
@@ -82,8 +82,8 @@ describe CropsController do
           name:             'aubergine',
           en_wikipedia_url: "https://en.wikipedia.org/wiki/Eggplant"
         },
-        alt_name: { "1": "egg plant", "2": "purple apple" },
-        sci_name: { "1": "fancy sci name", "2": "" }
+        alt_name: { '1': "egg plant", '2': "purple apple" },
+        sci_name: { '1': "fancy sci name", '2': "" }
       }
     end
 
@@ -100,6 +100,36 @@ describe CropsController do
       it { expect { subject }.to change(Crop, :count).by(1) }
       it { expect { subject }.to change(AlternateName, :count).by(2) }
       it { expect { subject }.to change(ScientificName, :count).by(1) }
+
+      context 'with openfarm data' do
+        let(:crop_params) do
+          {
+            crop:     {
+              name:                'aubergine',
+              en_wikipedia_url:    "https://en.wikipedia.org/wiki/Eggplant",
+              row_spacing:         10,
+              spread:              20,
+              height:              30,
+              sowing_method:       'direct',
+              sun_requirements:    'full sun',
+              growing_degree_days: 100
+            },
+            alt_name: { '1': "egg plant", '2': "purple apple" },
+            sci_name: { '1': "fancy sci name", '2': "" }
+          }
+        end
+
+        it 'saves openfarm data' do
+          subject
+          crop = Crop.last
+          expect(crop.row_spacing).to eq(10)
+          expect(crop.spread).to eq(20)
+          expect(crop.height).to eq(30)
+          expect(crop.sowing_method).to eq('direct')
+          expect(crop.sun_requirements).to eq('full sun')
+          expect(crop.growing_degree_days).to eq(100)
+        end
+      end
     end
   end
 

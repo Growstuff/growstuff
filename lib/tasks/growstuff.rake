@@ -5,20 +5,20 @@ namespace :growstuff do
   # usage: rake growstuff:admin_user name=skud
 
   task admin_user: :environment do
-    add_role_to_member! ENV['name'], 'Admin'
+    add_role_to_member! ENV.fetch('name', nil), 'Admin'
   end
 
   desc "Add a crop wrangler user, by name"
   # usage: rake growstuff:cropwrangler_user name=skud
 
   task cropwrangler_user: :environment do
-    add_role_to_member! ENV['name'], 'Crop Wrangler'
+    add_role_to_member! ENV.fetch('name', nil), 'Crop Wrangler'
   end
 
   def add_role_to_member!(login_name, role_name)
     unless login_name && role_name
-      raise "Usage: rake growstuff:[rolename] name=[username] "\
-        "\n (login name is case-sensitive)\n"
+      raise "Usage: rake growstuff:[rolename] name=[username] " \
+            "\n (login name is case-sensitive)\n"
     end
     member = Member.find_by!(login_name:)
     role = Role.find_by!(name: role_name)
@@ -31,7 +31,7 @@ namespace :growstuff do
   task import_crops: :environment do
     require 'csv'
 
-    (@file = ENV['file']) || raise("Usage: rake growstuff:import_crops file=file.csv")
+    (@file = ENV.fetch('file', nil)) || raise("Usage: rake growstuff:import_crops file=file.csv")
 
     puts "Loading crops from #{@file}..."
     CSV.foreach(@file) do |row|
@@ -51,6 +51,14 @@ namespace :growstuff do
       Member.confirmed.wants_reminders.each do |m|
         Notifier.planting_reminder(m).deliver_now! unless m.plantings.active.empty?
       end
+    end
+  end
+
+  desc "Mark seeds as finished when plant-before date expires"
+  # usage: rake growstuff:finish_expired_seeds
+  task finish_expired_seeds: :environment do
+    Seed.expired.find_each do |seed|
+      seed.update(finished: true, finished_at: Time.zone.now)
     end
   end
 end

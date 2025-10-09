@@ -18,10 +18,6 @@ describe "Planting a crop", :js, :search do
 
     it_behaves_like "crop suggest", "planting"
 
-    it "has the required fields help text" do
-      expect(page).to have_content "* denotes a required field"
-    end
-
     describe "displays required and optional fields properly" do
       it { expect(page).to have_selector ".required", text: "What did you plant?" }
       it { expect(page).to have_selector ".required", text: "Where did you plant it?" }
@@ -102,8 +98,8 @@ describe "Planting a crop", :js, :search do
         end
 
         expect(page).to have_content "planting was successfully created"
-        expect(page).not_to have_content "Finished"
-        expect(page).not_to have_content "Finishes"
+        expect(page).to have_no_content "Finished"
+        expect(page).to have_no_content "Finishes"
       end
 
       it "shows that planting is in progress" do
@@ -122,9 +118,9 @@ describe "Planting a crop", :js, :search do
         end
 
         expect(page).to have_content "planting was successfully created"
-        expect(page).not_to have_content "0%"
-        expect(page).not_to have_content "Finish expected"
-        expect(page).not_to have_content "Finishes"
+        expect(page).to have_no_content "0%"
+        expect(page).to have_no_content "Finish expected"
+        expect(page).to have_no_content "Finishes"
       end
 
       it "shows that planting is 100% complete (no date specified)" do
@@ -184,14 +180,14 @@ describe "Planting a crop", :js, :search do
 
     it "Editing a planting to fill in the finished date" do
       visit planting_path(planting)
-      expect(page).not_to have_content "Finishes"
+      expect(page).to have_no_content "Finishes"
       # click_link(id: 'planting-actions-button')
       click_link 'Actions'
       click_link "Edit"
       check "finished"
       fill_in "Finished date", with: "2015-06-25"
       click_button "Save"
-      expect(page).to have_content "planting was successfully updated"
+      expect(page).to have_content "was successfully updated"
       expect(page).to have_content "Finished"
     end
 
@@ -202,6 +198,7 @@ describe "Planting a crop", :js, :search do
       within "form#new_planting" do
         fill_in "When?", with: "2014-07-01"
         check "Mark as finished"
+        find_by_id('planting_overall_rating').set 4
         fill_in "Finished date", with: "2014-08-30"
         uncheck 'Mark as finished'
       end
@@ -224,17 +221,41 @@ describe "Planting a crop", :js, :search do
       expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Finished"
       expect(page).to have_content "Aug 2014"
+      expect(page).to have_content "4/5"
 
       # ensure we've indexed in elastic search
       planting.reindex(refresh: true)
 
       # shouldn't be on the page
       visit plantings_path
-      expect(page).not_to have_content "maize"
+      expect(page).to have_no_content "maize"
 
       # show all plantings to see this finished planting
       visit plantings_path(all: 1)
       expect(page).to have_content "maize"
+    end
+
+    describe "Transplanting a planting" do
+      it "allows transplanting to another garden" do
+        other_garden = FactoryBot.create(:garden, owner: member, name: 'Backyard')
+        visit planting_path(planting)
+        click_link 'Actions'
+        select other_garden.name, from: 'Transplant to:'
+        click_on "Transplant"
+        expect(page).to have_content "Planting was successfully transplanted"
+
+        new_planting = Planting.last
+        planting.reload
+
+        # The old planting is finished.
+        expect(planting.finished).to be true
+        expect(planting.finished_at).not_to be_nil
+
+        # The new planting is a continuation of the old one.
+        expect(new_planting.garden).to eq(other_garden)
+        expect(new_planting.crop).to eq(planting.crop)
+        expect(new_planting.owner).to eq(planting.owner)
+      end
     end
 
     describe "Marking a planting as finished without a date" do

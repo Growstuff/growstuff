@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "seeds", js: true do
+describe "seeds", :js do
   context "signed in user" do
     include_context 'signed in member'
     xit "button on index to edit seed" do
@@ -49,6 +49,7 @@ describe "seeds", js: true do
       click_link 'Edit'
       expect(page).to have_current_path edit_seed_path(seed), ignore_query: true
       fill_in 'Quantity', with: seed.quantity * 2
+      select 'traded from another person', from: 'Source'
       click_button 'Save'
       expect(page).to have_current_path seed_path(seed), ignore_query: true
     end

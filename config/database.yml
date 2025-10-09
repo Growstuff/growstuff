@@ -1,10 +1,16 @@
 development:
   adapter: postgresql
   database: growstuff_dev
+  user: postgres
+  password: postgres
+  host: db
 
 test:
   adapter: postgresql
   database: growstuff_test
+  user: postgres
+  password: postgres
+  host: db
 
 production:
   adapter: postgresql

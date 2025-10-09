@@ -10,9 +10,33 @@
     width: 100%;
   }
 
-  .navbar .nav > li {
+#navbarSupportedContent {
+  ul {
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+
+    li.nav-item {
+      display: block;
+      a { 
+        display: grid;
+        grid-template-columns: 2em 1fr 2em;
+      }
+      a.dropdown-toggle::after {
+        width: 100%;
+        text-align: right;
+      }
+    }
+  }
+}
+
+.crop-actions {
+  flex-direction: column;
+  width: 100%;
+  a {
+    margin: auto;
     display: block;
   }
+}
 
   .navbar .navbar-form {
     padding-left: 0;
@@ -52,6 +76,12 @@
 
   .card-title {
     margin-bottom: 0;
+  }
+
+  .card-footer {
+    .d-flex {
+      flex-direction: column;
+    }
   }
 
   .sidebar {

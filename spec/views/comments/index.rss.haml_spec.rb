@@ -8,8 +8,8 @@ describe 'comments/index.rss.haml' do
     @author = FactoryBot.create(:member)
     @post = FactoryBot.create(:post)
     assign(:comments, [
-             FactoryBot.create(:comment, author: @author, post: @post),
-             FactoryBot.create(:comment, author: @author, post: @post)
+             FactoryBot.create(:comment, author: @author, commentable: @post),
+             FactoryBot.create(:comment, author: @author, commentable: @post)
            ])
     render
   end
@@ -24,7 +24,7 @@ describe 'comments/index.rss.haml' do
 
   it 'escapes html for link to post' do
     # it's then unescaped by 'render' so we don't actually look for &lt;
-    rendered.should have_content '<a href='
+    rendered.to_s.should have_content '<a href='
   end
 
   it 'shows content of comments' do

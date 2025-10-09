@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class ScientificNamesController < ApplicationController
-  before_action :authenticate_member!, except: %i(index show)
-  load_and_authorize_resource
+  before_action :authenticate_member!, except: %i(index show gbif_suggest)
+  load_and_authorize_resource except: [:gbif_suggest]
   respond_to :html, :json
   responders :flash
 
   # GET /scientific_names
   # GET /scientific_names.json
   def index
-    @scientific_names = ScientificName.all.order(:name)
+    @scientific_names = ScientificName.all.order(:name).paginate(page: params[:page], per_page: 100)
     respond_with(@scientific_names)
   end
 
@@ -35,7 +35,7 @@ class ScientificNamesController < ApplicationController
   def create
     @scientific_name = ScientificName.new(scientific_name_params)
     @scientific_name.creator = current_member
-
+    gbif_sync!(@scientific_name)
     @scientific_name.save
     respond_with(@scientific_name.crop)
   end
@@ -43,7 +43,9 @@ class ScientificNamesController < ApplicationController
   # PUT /scientific_names/1
   # PUT /scientific_names/1.json
   def update
-    @scientific_name.update(scientific_name_params)
+    @scientific_name.assign_attributes(scientific_name_params)
+    gbif_sync!(@scientific_name)
+    @scientific_name.save
     respond_with(@scientific_name.crop)
   end
 
@@ -56,9 +58,26 @@ class ScientificNamesController < ApplicationController
     respond_with(@crop)
   end
 
+  def gbif_suggest
+    render json: gbif_service.suggest(params[:term])
+  end
+
   private
 
+  def gbif_sync!(model)
+    return unless model.gbif_key
+
+    result = gbif_service.fetch(model.gbif_key)
+
+    model.gbif_rank = result["rank"]
+    model.gbif_status = result["status"]
+  end
+
   def scientific_name_params
-    params.require(:scientific_name).permit(:crop_id, :name)
+    params.require(:scientific_name).permit(:crop_id, :name, :gbif_key)
+  end
+
+  def gbif_service
+    GbifService.new
   end
 end

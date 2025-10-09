@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "crop wranglers", js: true do
+describe "crop wranglers", :js do
   context "signed in wrangler" do
     include_context 'signed in crop wrangler'
     let!(:crop_wranglers) { create_list(:crop_wrangling_member, 3) }
@@ -75,12 +75,11 @@ context "signed in non-wrangler" do
 
   it "can't see wrangling page without js", js: false do
     visit root_path
-    expect(page).not_to have_link "Crop Wrangling"
+    expect(page).to have_no_link "Crop Wrangling"
   end
 
   it "can't see wrangling page with js" do
-    visit root_path
-    click_link member.login_name
-    expect(page).not_to have_link "Crop Wrangling"
+    visit member_path(member)
+    expect(page).to have_no_link "Crop Wrangling"
   end
 end
