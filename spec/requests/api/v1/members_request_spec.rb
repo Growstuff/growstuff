@@ -17,7 +17,8 @@ RSpec.describe 'Members', type: :request do
         "harvests"  => harvests_as_json_api,
         "photos"    => photos_as_json_api,
         "plantings" => plantings_as_json_api,
-        "seeds"     => seeds_as_json_api
+        "seeds"     => seeds_as_json_api,
+        "activities" => activities_as_json_api
       } }
   end
 
@@ -39,6 +40,12 @@ RSpec.describe 'Members', type: :request do
     { "links" =>
                  { "self"    => "#{resource_url}/relationships/seeds",
                    "related" => "#{resource_url}/seeds" } }
+  end
+
+  let(:activities_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/activities",
+                   "related" => "#{resource_url}/activities" } }
   end
 
   let(:plantings_as_json_api) do
@@ -74,6 +81,7 @@ RSpec.describe 'Members', type: :request do
     it { expect(subject['data']['relationships']).to include("seeds" => seeds_as_json_api) }
     it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
     it { expect(subject['data']['relationships']).to include("photos" => photos_as_json_api) }
+    it { expect(subject['data']['relationships']).to include("activities" => activities_as_json_api) }
     it { expect(subject['data']).to eq(member_encoded_as_json_api) }
   end
 
