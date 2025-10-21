@@ -337,7 +337,7 @@ GEM
       terminal-table (>= 1.5.1)
     i18n_data (1.1.0)
       simple_po_parser (~> 1.1)
-    icalendar (2.12.0)
+    icalendar (2.12.1)
       base64
       ice_cube (~> 0.16)
       logger
