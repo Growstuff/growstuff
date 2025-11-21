@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: Checkout this repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Configure sysctl limits
         run: |
