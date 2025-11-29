@@ -85,7 +85,7 @@ module ButtonsHelper
   end
 
   def activity_edit_button(activity, classes: "btn btn-raised btn-info")
-    edit_button(edit_activity_path(activity), classes:)
+    edit_button(edit_activity_path(slug: activity.slug), classes:)
   end
 
   def activity_copy_button(activity, classes: 'btn')

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_01_130830) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_28_200506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -221,6 +221,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_130830) do
     t.integer "crop_b_id", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.string "source_url"
     t.index ["crop_a_id", "crop_b_id"], name: "index_crop_companions_on_crop_a_id_and_crop_b_id"
   end
 
@@ -258,6 +259,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_130830) do
     t.string "sowing_method"
     t.string "sun_requirements"
     t.integer "growing_degree_days"
+    t.string "en_youtube_url"
+    t.text "description"
     t.index ["creator_id"], name: "index_crops_on_creator_id"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["parent_id"], name: "index_crops_on_parent_id"

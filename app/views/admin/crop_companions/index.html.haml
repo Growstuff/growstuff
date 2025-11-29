@@ -1,0 +1,16 @@
+%h1= "Companions for #{@crop.name}"
+
+= link_to 'New Companion', new_admin_crop_crop_companion_path(@crop), class: 'btn btn-primary'
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Source URL
+      %th Actions
+  %tbody
+    - @crop_companions.each do |companion|
+      %tr
+        %td= companion.crop_b.name
+        %td= companion.source_url
+        %td= link_to 'Delete', admin_crop_crop_companion_path(@crop, companion), method: :delete, data: { confirm: 'Are you sure?' }

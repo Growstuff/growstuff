@@ -544,6 +544,20 @@ describe Crop do
     end
   end
 
+  context "destroying a crop" do
+    let!(:crop_a) { FactoryBot.create(:crop) }
+    let!(:crop_b) { FactoryBot.create(:crop) }
+
+    before do
+      CropCompanion.create(crop_a: crop_a, crop_b: crop_b)
+      CropCompanion.create(crop_a: crop_b, crop_b: crop_a)
+    end
+
+    it "destroys companion links" do
+      expect { crop_a.destroy }.to change { CropCompanion.count }.from(2).to(0)
+    end
+  end
+
   context "crop rejections" do
     let!(:rejected_reason) do
       FactoryBot.create(:crop, name:                 'tomato',

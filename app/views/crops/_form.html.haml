@@ -42,6 +42,7 @@
         %span.help-block Living more than two years
 
       %h2 OpenFarm Data
+      = f.text_area :description, label: 'Description'
       = f.number_field :row_spacing, label: 'Row Spacing (cm)', min: 0
       = f.number_field :spread, label: 'Spread (cm)', min: 0
       = f.number_field :height, label: 'Height (cm)', min: 0
@@ -54,6 +55,9 @@
       = f.url_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL'
       %span.help-block
         Link to the crop's page on the English language Wikipedia (required).
+      = f.url_field :en_youtube_url, label: 'YouTube URL'
+      %span.help-block
+        Link to a YouTube video about the crop in English.
 
       -# Only crop wranglers see the crop hierarchy (for now)
       - if can? :wrangle, @crop

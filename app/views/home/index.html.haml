@@ -62,6 +62,7 @@
     %section.members
       = cute_icon
       = render 'members', cached: true
+.row
   .col-12.col-lg-6
     %section.pwa-install
       = cute_icon
@@ -75,3 +76,5 @@
           .card-body
             %h3= t('home.pwa_android_title')
             %p= t('home.pwa_android_steps_html')
+  .col-12.col-lg-6
+    = render 'releases'

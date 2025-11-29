@@ -25,6 +25,8 @@ class Planting < ApplicationRecord
   has_many :harvests, dependent: :destroy
   has_many :activities, dependent: :destroy
 
+  scope :current, -> { where.not(finished: true).where.not(failed: true) }
+
   #
   # Ancestry of food
   belongs_to :parent_seed, class_name: 'Seed', # parent,
