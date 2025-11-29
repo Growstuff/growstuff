@@ -55,6 +55,12 @@ class Crop < ApplicationRecord
               message: 'is not a valid English Wikipedia URL'
             },
             if:     :approved?
+  validates :en_youtube_url,
+            format: {
+              with:    %r{\A(?:https?://)?(?:www\.)?(?:youtube(?:-nocookie)?\.com/(?:(?:v|e(?:mbed)?)/|\S*?[?&]v=)|youtu\.be/)[a-zA-Z0-9_-]{11}(?:[?&]\S*)?\z},
+              message: 'is not a valid YouTube URL'
+            },
+            allow_blank: true
   validates :name, uniqueness: { scope: :approval_status }, if: :pending?
 
   def to_s

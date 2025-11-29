@@ -17,4 +17,12 @@ module CropsHelper
   def crop_ebay_seeds_url(crop)
     "https://www.ebay.com/sch/i.html?_nkw=#{CGI.escape crop.name}"
   end
+
+  def youtube_video_id(url)
+    return unless url
+
+    regex = %r{(?:youtube(?:-nocookie)?\.com/(?:[^/\n\s]+/\S+/|(?:v|e(?:mbed)?)/|\S*?[?&]v=)|youtu\.be/)([a-zA-Z0-9_-]{11})}
+    match = url.match(regex)
+    match[1] if match
+  end
 end
