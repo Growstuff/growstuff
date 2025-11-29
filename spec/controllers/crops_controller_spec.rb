@@ -101,7 +101,7 @@ describe CropsController do
       it { expect { subject }.to change(AlternateName, :count).by(2) }
       it { expect { subject }.to change(ScientificName, :count).by(1) }
 
-      context 'with openfarm data' do
+      context 'with data' do
         let(:crop_params) do
           {
             crop:     {
@@ -113,14 +113,15 @@ describe CropsController do
               description:         'hello',
               sowing_method:       'direct',
               sun_requirements:    'full sun',
-              growing_degree_days: 100
+              growing_degree_days: 100,
+              en_youtube_url:      'https://www.youtube.com/watch?v=INZybkX8tLI'
             },
             alt_name: { '1': "egg plant", '2': "purple apple" },
             sci_name: { '1': "fancy sci name", '2': "" }
           }
         end
 
-        it 'saves openfarm data' do
+        it 'saves data' do
           subject
           crop = Crop.last
           expect(crop.row_spacing).to eq(10)
@@ -130,6 +131,7 @@ describe CropsController do
           expect(crop.sun_requirements).to eq('full sun')
           expect(crop.growing_degree_days).to eq(100)
           expect(crop.description).to eq 'hello'
+          expect(crop.en_youtube_url).to eq 'https://www.youtube.com/watch?v=INZybkX8tLI'
         end
       end
     end
