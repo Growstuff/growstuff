@@ -10,9 +10,8 @@
             %a.activity-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'}
 
             .dropdown-menu{"aria-labelledby" => "activity-menu"}
-              = link_to edit_activity_path(slug: activity.slug), class: 'dropdown-item' do
-                = edit_icon
-                = t('buttons.edit')
+              = activity_edit_button(activity, classes: 'dropdown-item')
+              = activity_copy_button(activity, classes: 'dropdown-item')
 
               - if activity.active
                 = activity_finish_button(activity, classes: 'dropdown-item')

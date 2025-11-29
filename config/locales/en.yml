@@ -303,7 +303,6 @@ en:
       finish_helper: >
         An activity is finished when you've completed it, or it's otherwise
         no longer possible.
-    finished_prompt_html: "Activity finished. Would you like to <a href=\"%{link}\">repeat this activity in two weeks</a>?"
   plantings:
     badges:
       days_until_finished: days until finished
@@ -328,7 +327,6 @@ en:
     string: "%{crop} planting in %{garden} by %{owner}"
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
-    finished_prompt_html: "Planting was successfully updated. Would you like to <a href=\"%{link}\">plan a soil cultivation activity</a>?"
   posts:
     write_blog_post: Write blog post
     index:

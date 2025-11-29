@@ -231,6 +231,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_144900) do
     t.integer "crop_b_id", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.string "source_url"
     t.index ["crop_a_id", "crop_b_id"], name: "index_crop_companions_on_crop_a_id_and_crop_b_id"
   end
 
@@ -592,6 +593,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_01_144900) do
     t.integer "harvests_count", default: 0
     t.integer "likes_count", default: 0
     t.boolean "failed", default: false, null: false
+    t.boolean "from_other_source"
     t.integer "overall_rating"
     t.index ["crop_id"], name: "index_plantings_on_crop_id"
     t.index ["garden_id"], name: "index_plantings_on_garden_id"

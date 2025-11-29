@@ -140,6 +140,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :members, param: :slug
     resources :roles
+    resources :crops, param: :slug do
+      resources :crop_companions
+    end
   end
 
   namespace :api do
