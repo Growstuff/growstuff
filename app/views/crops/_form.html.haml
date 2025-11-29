@@ -42,6 +42,7 @@
         %span.help-block Living more than two years
 
       %h2 OpenFarm Data
+      = f.text_area :description, label: 'Description'
       = f.number_field :row_spacing, label: 'Row Spacing (cm)', min: 0
       = f.number_field :spread, label: 'Spread (cm)', min: 0
       = f.number_field :height, label: 'Height (cm)', min: 0
