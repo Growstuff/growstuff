@@ -5,7 +5,8 @@ module CropsHelper
   def crop_or_parent(crop, attribute)
     default = crop.send(attribute)
     return default if default.present?
-    while parent = crop.parent do
+    parent = crop
+    while parent = parent.parent do
       return parent.send(attribute) if parent&.send(attribute).present?
     end
 
