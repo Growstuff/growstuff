@@ -110,7 +110,7 @@ describe CropsController do
               row_spacing:         10,
               spread:              20,
               height:              30,
-              description:         'hello'
+              description:         'hello',
               sowing_method:       'direct',
               sun_requirements:    'full sun',
               growing_degree_days: 100
