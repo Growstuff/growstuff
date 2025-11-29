@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 module CropsHelper
+
+  def crop_or_parent(crop, attribute)
+    default = crop.send(attribute)
+    return default if default.present?
+    return crop.parent.send(attribute) if crop.parent&.send(attribute).present?
+
+    # For scopes, arrays, etc return the empty value
+    default
+  end
+
   def display_seed_availability(member, crop)
     seeds = member.seeds.where(crop:)
     total_quantity = seeds.where.not(quantity: nil).sum(:quantity)
