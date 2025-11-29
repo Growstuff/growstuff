@@ -108,23 +108,5 @@ jobs:
         run: bundle exec rails db:prepare
 
 
-      - name: Run rspec (lib)
-        run: bundle exec rspec spec/lib/ -fd --fail-fast
-
-      - name: Run rspec (services)
-        run: bundle exec rspec spec/services/ -fd --fail-fast
-
-      - name: Run rspec (models)
-        run: bundle exec rspec spec/models/ -fd --fail-fast
-
-      - name: Run rspec (controllers)
-        run: bundle exec rspec spec/controllers/ -fd --fail-fast
-
-      - name: Run rspec (views)
-        run: bundle exec rspec spec/views/ -fd --fail-fast
-
-      - name: Run rspec (routing)
-        run: bundle exec rspec spec/routing/ -fd --fail-fast
-
-      - name: Run rspec (request)
-        run: bundle exec rspec spec/requests/ -fd --fail-fast
+      - name: Run tests with test-queue
+        run: bundle exec test-queue rspec spec -fd

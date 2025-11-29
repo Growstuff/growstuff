@@ -191,6 +191,7 @@ group :test do
   gem 'rails-controller-testing'
   gem "rspec-rebound"
   gem 'selenium-webdriver'
+  gem 'test-queue'
   gem 'timecop'
   gem 'vcr'
 end
