@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 module CropsHelper
+
+  def crop_or_parent(crop, attribute)
+    return crop.send(attribute) if crop.send(attribute).present?
+    return crop.parent.send(attribute) if crop.parent&.send(attribute).present?
+
+    nil
+  end
+
   def display_seed_availability(member, crop)
     seeds = member.seeds.where(crop:)
     total_quantity = seeds.where.not(quantity: nil).sum(:quantity)
