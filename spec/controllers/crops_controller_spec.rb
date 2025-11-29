@@ -110,6 +110,7 @@ describe CropsController do
               row_spacing:         10,
               spread:              20,
               height:              30,
+              description:         'hello'
               sowing_method:       'direct',
               sun_requirements:    'full sun',
               growing_degree_days: 100
@@ -128,6 +129,7 @@ describe CropsController do
           expect(crop.sowing_method).to eq('direct')
           expect(crop.sun_requirements).to eq('full sun')
           expect(crop.growing_degree_days).to eq(100)
+          expect(crop.description).to eq 'hello'
         end
       end
     end
