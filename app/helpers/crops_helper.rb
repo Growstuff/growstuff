@@ -3,10 +3,12 @@
 module CropsHelper
 
   def crop_or_parent(crop, attribute)
-    return crop.send(attribute) if crop.send(attribute).present?
+    default = crop.send(attribute)
+    return default if default.present?
     return crop.parent.send(attribute) if crop.parent&.send(attribute).present?
 
-    nil
+    # For scopes, arrays, etc return the empty value
+    default
   end
 
   def display_seed_availability(member, crop)
