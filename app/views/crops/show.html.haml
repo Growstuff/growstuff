@@ -30,6 +30,12 @@
         - @crop.all_companions.each do |companion|
           = render 'crops/tiny', crop: companion
 
+    - if @crop.en_youtube_url.present?
+      %section.youtube
+        %h2 Video
+        .embed-responsive.embed-responsive-16by9
+          %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{youtube_video_id(@crop.en_youtube_url)}", allowfullscreen: true }
+
     %section.photos
       = cute_icon
       = render 'crops/photos', crop: @crop
@@ -157,3 +163,10 @@
             = icon 'fas', 'external-link-alt'
             Wikihow instructions
 
+        %li.list-group-item
+          = link_to "https://www.youtube.com/results?search_query=#{CGI.escape "growing #{@crop.name}"}",
+                    target: "_blank",
+                    class: 'card-link',
+                    rel: "noopener noreferrer" do
+            = icon 'fab', 'youtube'
+            YouTube

@@ -188,10 +188,11 @@ class CropsController < ApplicationController
 
   def crop_params
     params.require(:crop).permit(
-      :name, :en_wikipedia_url,
+      :name, :en_wikipedia_url, :en_youtube_url,
       :parent_id, :perennial,
       :request_notes, :reason_for_rejection,
       :rejection_notes,
+      :description,
       :row_spacing, :spread, :height,
       :sowing_method, :sun_requirements, :growing_degree_days,
       scientific_names_attributes: %i(scientific_name _destroy id)
