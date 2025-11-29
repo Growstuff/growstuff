@@ -21,10 +21,6 @@
   .col-md-3= render 'wrangle', crop: @crop
 .row
   .col-md-9
-    - if @crop.en_youtube_url.present?
-      %section.youtube
-        .embed-responsive.embed-responsive-16by9
-          %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{youtube_video_id(@crop.en_youtube_url)}", allowfullscreen: true }
     %section.prediction
       = cute_icon
       = render 'predictions', crop: @crop
@@ -33,6 +29,11 @@
         %h2 Companions
         - @crop.all_companions.each do |companion|
           = render 'crops/tiny', crop: companion
+
+    - if @crop.en_youtube_url.present?
+      %section.youtube
+        .embed-responsive.embed-responsive-16by9
+          %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{youtube_video_id(@crop.en_youtube_url)}", allowfullscreen: true }
 
     %section.photos
       = cute_icon
