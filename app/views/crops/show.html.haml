@@ -30,11 +30,11 @@
         - @crop.all_companions.each do |companion|
           = render 'crops/tiny', crop: companion
 
-    - if @crop.en_youtube_url.present?
+    - if crop_or_parent(@crop, :en_youtube_url).present?
       %section.youtube
         %h2 Video
         .embed-responsive.embed-responsive-16by9
-          %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{youtube_video_id(@crop.en_youtube_url)}", allowfullscreen: true }
+          %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{youtube_video_id(crop_or_parent(@crop, :en_youtube_url))}", allowfullscreen: true }
 
     %section.photos
       = cute_icon
