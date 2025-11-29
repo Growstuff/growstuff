@@ -32,6 +32,7 @@
 
     - if @crop.en_youtube_url.present?
       %section.youtube
+        %h2 Video
         .embed-responsive.embed-responsive-16by9
           %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{youtube_video_id(@crop.en_youtube_url)}", allowfullscreen: true }
 
