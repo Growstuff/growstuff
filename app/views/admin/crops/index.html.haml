@@ -1,44 +1,56 @@
-- content_for :title, "Crop Wrangler Admin"
-- content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Admin', '#'
-  %li.breadcrumb-item.active Crop Wrangler
+- content_for :title, "Crop Wrangling"
 
-%h1 Crop Wrangler Admin
+%h1 Crop Wrangling
 
-%ul#myTab.nav.nav-tabs{role: "tablist"}
-  %li.nav-item
-    %a#home-tab.nav-link{ href: admin_crops_path, role: "tab", class: 'active'}
-      Recently edited
-  %li.nav-item
-    %a#home-tab.nav-link{ href: wrangle_crops_path, role: "tab"}
-      Recently added
-  %li.nav-item
-    %a#profile-tab.nav-link{ href: wrangle_crops_path(approval_status: "pending"), role: "tab"}
-      Pending approval
-  %li.nav-item
-    %a#contact-tab.nav-link{ href: wrangle_crops_path(approval_status: "rejected"), role: "tab"}
-      Rejected
+%nav.nav
+  = link_to "Full crop hierarchy", hierarchy_crops_path, class: 'nav-link'
+  = link_to "Add Crop", new_crop_path, class: 'btn'
 
-.card
-  %ul.list-group.list-group-flush
-    - @versions.each do |version|
-      - crop = version.item || version.reify
-      - if crop
-        %li.list-group-item
-          .d-flex.w-100.justify-content-between
-            %h5.mb-1
-              - if version.event == "destroy"
-                = crop.name
-              - else
-                = link_to crop.name, crop
-              %small.text-muted= "was #{version.event}d"
-            .d-inline-block
-              %small.mr-2= time_ago_in_words(version.created_at) + " ago"
-              - if can?(:wrangle, Crop)
-                = link_to "Revert", revert_admin_version_path(version), method: :post, class: "btn btn-sm btn-outline-danger"
-          - member = @members[version.whodunnit.to_i]
-          - if member
-            %p.mb-1
-              Made by
-              = link_to member.name, member
-          = render 'shared/version_changeset', version: version
+%section.crop_wranglers
+  %h2 Crop Wranglers
+  - @crop_wranglers.each do |crop_wrangler|
+    = render 'members/tiny', member: crop_wrangler
+
+%hr/
+
+%section
+  %h2 Crops
+
+
+  %ul#myTab.nav.nav-tabs{role: "tablist"}
+    %li.nav-item
+      %a#home-tab.nav-link{ href: admin_crops_path, role: "tab", class: 'active'}
+        Recently edited
+    %li.nav-item
+      %a#home-tab.nav-link{ href: wrangle_crops_path, role: "tab"}
+        Recently added
+    %li.nav-item
+      %a#profile-tab.nav-link{ href: wrangle_crops_path(approval_status: "pending"), role: "tab"}
+        Pending approval
+    %li.nav-item
+      %a#contact-tab.nav-link{ href: wrangle_crops_path(approval_status: "rejected"), role: "tab"}
+        Rejected
+
+  .card
+    %ul.list-group.list-group-flush
+      - @versions.each do |version|
+        - crop = version.item || version.reify
+        - if crop
+          %li.list-group-item
+            .d-flex.w-100.justify-content-between
+              %h5.mb-1
+                - if version.event == "destroy"
+                  = crop.name
+                - else
+                  = link_to crop.name, crop
+                %small.text-muted= "was #{version.event}d"
+              .d-inline-block
+                %small.mr-2= time_ago_in_words(version.created_at) + " ago"
+                - if can?(:wrangle, Crop)
+                  = link_to "Revert", revert_admin_version_path(version), method: :post, class: "btn btn-sm btn-outline-danger"
+            - member = @members[version.whodunnit.to_i]
+            - if member
+              %p.mb-1
+                Made by
+                = link_to member.name, member
+            = render 'shared/version_changeset', version: version
