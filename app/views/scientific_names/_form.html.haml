@@ -25,5 +25,9 @@
     .col-md-8
       = f.text_field :name, class: 'form-control'
   .form-group
+    = f.label :wikidata_id, "Wikidata ID", class: 'control-label col-md-2'
+    .col-md-8
+      = f.text_field :wikidata_id, class: 'form-control'
+  .form-group
     .form-actions.col-md-offset-2.col-md-8
       = f.submit 'Save', class: 'btn btn-primary'
