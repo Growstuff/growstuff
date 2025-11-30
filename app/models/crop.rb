@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Crop < ApplicationRecord
+  has_paper_trail
   extend FriendlyId
   include PhotoCapable
   include OpenFarmData

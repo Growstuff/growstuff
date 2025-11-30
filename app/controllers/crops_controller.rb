@@ -73,6 +73,8 @@ class CropsController < ApplicationController
       format.html do
         @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
         @companions = @crop.companions.approved
+        member_ids = @crop.versions.map(&:whodunnit).compact.map(&:to_i)
+        @version_members = Member.where(id: member_ids).index_by(&:id)
       end
       format.svg do
         icon_data = @crop.svg_icon.presence || File.read(Rails.root.join("app/assets/images/icons/sprout.svg"))

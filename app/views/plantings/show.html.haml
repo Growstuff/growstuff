@@ -16,6 +16,8 @@
           "ratingValue": "#{@planting.overall_rating}",
           "bestRating": "5"
         }
+  %script{type: "application/ld+json"}
+    = crop_jsonld_data(@planting.crop, full_attributes: false).to_json.html_safe
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Plantings', plantings_path
