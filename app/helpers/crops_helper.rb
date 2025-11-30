@@ -66,7 +66,7 @@ module CropsHelper
       images << photo.fullsize_url
     end
 
-    # TODO: Review plantings, seeds, harvests as a subtype of social media post?
+    # TODO: Review plantings, seeds, harvests as a subtype of social media post or event that ended? Or creative work?
     # has_many :plantings, dependent: :destroy
     # has_many :seeds, dependent: :destroy
     # has_many :harvests, dependent: :destroy
