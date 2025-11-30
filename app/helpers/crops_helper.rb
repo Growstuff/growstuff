@@ -50,7 +50,7 @@ module CropsHelper
       if crop.en_youtube_url.present?
         subject_of_entities << {
           '@type': "VideoObject",
-          url:     en_youtube_url
+          url:     crop.en_youtube_url
         }
       end
 
