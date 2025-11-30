@@ -92,6 +92,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :crops, only: [:index]
+  end
+
   resources :comments
   resources :forums
 
