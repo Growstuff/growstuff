@@ -200,3 +200,5 @@ group :travis do
 end
 
 gem "i18n_data", "~> 1.1"
+
+gem "paper_trail", "~> 17.0"
