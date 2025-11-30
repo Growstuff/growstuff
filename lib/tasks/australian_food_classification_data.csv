@@ -1,0 +1,157 @@
+Public Food Key,Classification,Food Name,"Energy with dietary fibre, equated
+(kJ)","Energy, without dietary fibre, equated
+(kJ)","Moisture (water)
+(g)","Protein
+(g)","Nitrogen
+(g)","Fat, total
+(g)","Ash
+(g)","Total dietary fibre
+(g)","Alcohol
+(g)","Fructose
+(g)","Glucose
+(g)","Sucrose
+(g)","Maltose
+(g)","Lactose
+(g)","Galactose
+(g)","Maltotrios
+(g)",Total sugars (g),Added sugars (g),"Free sugars
+(g)","Starch
+(g)","Dextrin
+(g)","Glycerol
+(g)","Glycogen
+(g)","Inulin
+(g)","Erythritol
+(g)","Maltitol
+(g)","Mannitol
+(g)","Xylitol
+(g)",Maltodextrin (g),"Oligosaccharides
+(g)","Polydextrose
+(g)","Raffinose
+(g)","Stachyose
+(g)","Sorbitol
+(g)","Resistant starch
+(g)","Available carbohydrate, without sugar alcohols
+(g)","Available carbohydrate, with sugar alcohols
+(g)","Acetic acid
+(g)","Citric acid
+(g)","Fumaric acid
+(g)","Lactic acid
+(g)","Malic acid
+ (g)","Oxalic acid
+(g)","Propionic acid
+(g)","Quinic acid
+(g)","Shikimic acid
+(g)","Succinic acid
+(g)","Tartaric acid
+(g)","Aluminium (Al)
+(ug)","Antimony (Sb)
+(ug)","Arsenic (As)
+(ug)","Cadmium (Cd)
+(ug)","Calcium (Ca)
+(mg)","Chromium (Cr)
+(ug)","Chloride (Cl)
+(mg)","Cobalt (Co)
+(ug)","Copper (Cu)
+(mg)","Fluoride (F)
+(ug)","Iodine (I)
+(ug)","Iron (Fe)
+(mg)","Lead (Pb)
+(ug)","Magnesium (Mg)
+(mg)","Manganese (Mn)
+(mg)","Mercury (Hg)
+(ug)","Molybdenum (Mo)
+(ug)","Nickel (Ni)
+(ug)","Phosphorus (P)
+(mg)","Potassium (K)
+(mg)","Selenium (Se)
+(ug)","Sodium (Na)
+(mg)","Sulphur (S)
+(mg)","Tin (Sn)
+(ug)","Zinc (Zn)
+(mg)","Retinol (preformed vitamin A)
+(ug)","Alpha-carotene
+(ug)","Beta-carotene
+(ug)","Cryptoxanthin
+(ug)","Beta-carotene equivalents (provitamin A)
+(ug)","Vitamin A retinol equivalents
+(ug)","Lutein
+(ug)","Lycopene
+(ug)","Xanthophyl
+(ug)","Thiamin (B1)
+(mg)","Riboflavin (B2)
+(mg)","Niacin (B3)
+(mg)","Niacin derived from tryptophan
+(mg)","Niacin derived equivalents
+(mg)","Pantothenic acid (B5)
+(mg)","Pyridoxine (B6)
+(mg)","Biotin (B7)
+(ug)","Cobalamin (B12)
+(ug)","Folate, natural
+(ug)","Folic acid
+(ug)","Total folates
+(ug)","Dietary folate equivalents
+(ug)","Vitamin C
+(mg)","Cholecalciferol (D3)
+(ug)","Ergocalciferol (D2)
+(ug)","25-hydroxy cholecalciferol (25-OH D3)
+(ug)","25-hydroxy ergocalciferol (25-OH D2)
+(ug)","Vitamin D3 equivalents
+(ug)","Alpha tocopherol
+(mg)","Alpha tocotrienol
+(mg)","Beta tocopherol
+(mg)","Beta tocotrienol
+(mg)","Delta tocopherol
+(mg)","Delta tocotrienol
+(mg)","Gamma tocopherol
+(mg)","Gamma tocotrienol
+(mg)","Vitamin E
+(mg)",C4 (%T),C6 (%T),C8 (%T),C10 (%T),C11 (%T),C12 (%T),C13 (%T),C14 (%T),C15 (%T),C16 (%T),C17 (%T),C18 (%T),C19 (%T),C20 (%T),C21 (%T),C22 (%T),C23 (%T),C24 (%T),"Total saturated fatty acids, equated (%T)",C10:1 (%T),C12:1 (%T),C14:1 (%T),C15:1 (%T),C16:1 (%T),C17:1 (%T),C18:1 (%T),C18:1w5 (%T),C18:1w6 (%T),C18:1w7 (%T),C18:1w9 (%T),C20:1 (%T),C20:1w9 (%T),C20:1w13 (%T),C20:1w11 (%T),C22:1 (%T),C22:1w9 (%T),C22:1w11 (%T),C24:1 (%T),C24:1w9 (%T),C24:1w11 (%T),C24:1w13 (%T),"Total monounsaturated fatty acids, equated (%T)",C12:2 (%T),C16:2w4 (%T),C16:3 (%T),C18:2w6 (%T),C18:3w3 (%T),C18:3w4 (%T),C18:3w6 (%T),C18:4w1 (%T),C18:4w3 (%T),C20:2 (%T),C20:2w6 (%T),C20:3 (%T),C20:4 (%T),C20:3w3 (%T),C20:3w6 (%T),C20:4w3 (%T),C20:4w6 (%T),C20:5w3 (%T),C21:5w3 (%T),C22:2 (%T),C22:2w6 (%T),C22:4w6 (%T),C22:5w3 (%T),C22:5w6 (%T),C22:6w3 (%T),"Total polyunsaturated fatty acids, equated (%T)","Total long chain omega 3 fatty acids, equated
+(%T)","Total undifferentiated fatty acids
+(%T)","Total trans fatty acids, imputed
+(%T)",C4 (g),C6 (g),C8 (g),C10 (g),C11 (g),C12 (g),C13 (g),C14 (g),C15 (g),C16 (g),C17 (g),C18 (g),C19 (g),C20 (g),C21 (g),C22 (g),C23 (g),C24 (g),"Total saturated fatty acids, equated
+(g)",C10:1 (g),C12:1 (g),C14:1 (g),C15:1 (g),C16:1 (g),C17:1 (g),C18:1 (g),C18:1w5 (mg),C18:1w6 (mg),C18:1w7 (g),C18:1w9 (mg),C20:1 (g),C20:1w9 (mg),C20:1w13 (mg),C20:1w11 (mg),C22:1 (g),C22:1w9 (mg),C22:1w11 (mg),C24:1 (g),C24:1w9 (mg),C24:1w11 (mg),C24:1w13 (mg),"Total monounsaturated fatty acids, equated
+(g)",C12:2 (g),C16:2w4 (mg),C16:3 (g),C18:2w6 (g),C18:3w3 (g),C18:3w4 (g),C18:3w6 (mg),C18:4w1 (g),C18:4w3 (mg),C20:2 (mg),C20:2w6 (mg),C20:3 (mg),C20:3w3 (mg),C20:3w6 (mg),C20:4 (g),C20:4w3 (mg),C20:4w6 (mg),C20:5w3 (mg),C21:5w3 (g),C22:5w3 (mg),C22:4w6 (mg),C22:2 (g),C22:2w6 (mg),C22:5w6 (g),C22:6w3 (mg),"Total polyunsaturated fatty acids, equated
+(g)","Total long chain omega 3 fatty acids, equated
+(mg)","Total undifferentiated fatty acids, mass basis basis
+(mg)","Total trans fatty acids, imputed
+(mg)","Caffeine
+(mg)","Cholesterol
+(mg)","Alanine
+(mg/gN)","Arginine
+(mg/gN)","Aspartic acid
+(mg/gN)","Cystine plus cysteine
+(mg/gN)","Glutamic acid
+(mg/gN)","Glycine
+(mg/gN)","Histidine
+(mg/gN)","Isoleucine
+(mg/gN)","Leucine
+(mg/gN)","Lysine
+(mg/gN)","Methionine
+(mg/gN)","Phenylalanine
+(mg/gN)","Proline
+(mg/gN)","Serine
+(mg/gN)","Threonine
+(mg/gN)","Tyrosine
+(mg/gN)","Tryptophan
+(mg/gN)","Valine
+(mg/gN)","Alanine
+(mg)","Arginine
+(mg)","Aspartic acid
+(mg)","Cystine plus cysteine
+(mg)","Glutamic acid
+(mg)","Glycine
+(mg)","Histidine
+(mg)","Isoleucine
+(mg)","Leucine
+(mg)","Lysine
+(mg)","Methionine
+(mg)","Phenylalanine
+(mg)","Proline
+(mg)","Serine
+(mg)","Threonine
+(mg)","Tyrosine
+(mg)","Tryptophan
+(mg)","Valine
+(mg)"
+F002258,31302,"Cardamom seed, dried, ground","1,236","1,012",8.3,10.8,1.72,6.7,5.8,28.0,0.0,,,,,,,,4.4,0.0,0.0,30.0,,,,,,,,,,,,,,,,34.4,34.4,,,,,,,,,,,,,,,,383,,,,,,0.0,13.97,,229,,,,,178,"1,119",11.7,18,,,7.47,0,,22,,22,4,,,,0.198,0.182,1.10,2.64,3.74,,0.23,,0.0,3,0,3,3,21,0.0,0,0.0,0,0.00,2.8,,,,,,,,2.85,,,,,,,,,,,,,,,,,,,34.34,,,,,,,,,,,,,,,,,,,,,,,43.94,,,,15.6,6.1,,,,,,,,,,,,,0.0,,,,,0.0,,0.0,21.72,0.000,,0.0,,,,,,,,,,,,,,,,,,,2.20,,,,,,,,,,,,,,,,,,,,,,,2.81,,,,1.00,0.39,,,,,,,,,,,,,0.00,,0.00,,,,,0.00,1.39,0.000,,0.00,0,0,,,,,,,,,,,,,,,,,90,,,,,,,,,,,,,,,,,,155,
+F002893,31302,"Chilli (chili), dried, ground","1,280","1,002",10.8,13.4,2.14,14.3,11.8,34.8,0.0,,,,,,,,7.2,0.0,0.0,7.7,,,,,,,,,,,,,,,,14.9,14.9,,,,,,,,,,,,,,,,330,,,,,,2.3,17.30,,149,,,,,300,"1,950",20.4,"2,867",,,4.30,0,,"15,000",,"15,000","2,500",,,,0.250,0.940,11.60,1.18,12.78,,2.09,,0.0,28,0,28,28,1,0.0,0,0.0,0,0.00,38.1,,,,,,,,38.14,,,,,,,,,,,,,,,,,,,18.00,,,,,,,,,,,,,,,,,,,,,,,23.47,,,,54.6,3.9,,,,,,,,,,,,,0.0,,,,,0.0,,0.0,58.53,0.000,,0.0,,,,,,,,,,,,,,,,,,,2.06,,,,,,,,,,,,,,,,,,,,,,,2.68,,,,6.24,0.44,,,,,,,,,,,,,0.00,,0.00,,,,,0.00,6.69,0.000,,0.00,0,0,,,,,,,,,,,,,,,,,32,,,,,,,,,,,,,,,,,,69,
