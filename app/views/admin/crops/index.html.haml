@@ -11,13 +11,14 @@
       %a#home-tab.nav-link{ href: admin_crops_path, role: "tab", class: 'active'}
         Recently edited
     %li.nav-item
-      %a#home-tab.nav-link{ href: wrangle_crops_path, role: "tab",}
+      %a#home-tab.nav-link{ href: wrangle_crops_path, role: "tab"}
         Recently added
     %li.nav-item
       %a#profile-tab.nav-link{ href: wrangle_crops_path(approval_status: "pending"), role: "tab"}
         Pending approval
     %li.nav-item
-      %a#contact-tab.nav-link{ href: wrangle_crops_path(approval_status: "rejected"), role: "tab"} Rejected
+      %a#contact-tab.nav-link{ href: wrangle_crops_path(approval_status: "rejected"), role: "tab"}
+        Rejected
 
 .card
   %ul.list-group.list-group-flush
