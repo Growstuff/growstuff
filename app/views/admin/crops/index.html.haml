@@ -1,0 +1,41 @@
+- content_for :title, "Crop Wrangler Admin"
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', '#'
+  %li.breadcrumb-item.active Crop Wrangler
+
+%h1 Crop Wrangler Admin
+
+%ul#myTab.nav.nav-tabs{role: "tablist"}
+  %li.nav-item
+    %a#home-tab.nav-link{ href: admin_crops_path, role: "tab", class: 'active'}
+      Recently edited
+  %li.nav-item
+    %a#home-tab.nav-link{ href: wrangle_crops_path, role: "tab"}
+      Recently added
+  %li.nav-item
+    %a#profile-tab.nav-link{ href: wrangle_crops_path(approval_status: "pending"), role: "tab"}
+      Pending approval
+  %li.nav-item
+    %a#contact-tab.nav-link{ href: wrangle_crops_path(approval_status: "rejected"), role: "tab"}
+      Rejected
+
+.card
+  %ul.list-group.list-group-flush
+    - @versions.each do |version|
+      - crop = version.item || version.reify
+      - if crop
+        %li.list-group-item
+          .d-flex.w-100.justify-content-between
+            %h5.mb-1
+              - if version.event == "destroy"
+                = crop.name
+              - else
+                = link_to crop.name, crop
+              %small.text-muted= "was #{version.event}d"
+            %small= time_ago_in_words(version.created_at) + " ago"
+          - member = @members[version.whodunnit.to_i]
+          - if member
+            %p.mb-1
+              Made by
+              = link_to member.name, member
+          = render 'shared/version_changeset', version: version

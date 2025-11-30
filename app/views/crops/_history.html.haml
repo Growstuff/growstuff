@@ -1,0 +1,16 @@
+%section.history
+  %h2 History
+  .card
+    %ul.list-group.list-group-flush
+      - crop.versions.reorder(created_at: :desc).each do |version|
+        - if version.changeset.present?
+          %li.list-group-item
+            .d-flex.w-100.justify-content-between
+              %h5.mb-1= version.event.humanize
+              %small= time_ago_in_words(version.created_at) + " ago"
+            - member = @version_members[version.whodunnit.to_i]
+            - if member
+              %p.mb-1
+                Made by
+                = link_to member.name, member
+            = render 'shared/version_changeset', version: version
