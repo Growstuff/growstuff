@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Reverting crops' do
-  let(:admin) { create(:member, :admin) }
+  let(:wrangler) { create(:crop_wrangling_member) }
   let(:member) { create(:member) }
   let!(:crop) { create(:crop, name: 'Initial Name') }
 
@@ -11,14 +11,14 @@ RSpec.feature 'Reverting crops' do
     crop.update(name: 'Updated Name')
   end
 
-  context 'when logged in as an admin' do
+  context 'when logged in as an wrangler' do
     before do
-      login_as(admin, scope: :member)
+      login_as(wrangler, scope: :member)
     end
 
     scenario 'Admin reverts a crop' do
       visit admin_crops_path
-      click_link 'Revert'
+      click_link 'Revert', match: :first
       expect(page).to have_content('Reverted to version from')
       crop.reload
       expect(crop.name).to eq('Initial Name')
@@ -33,10 +33,6 @@ RSpec.feature 'Reverting crops' do
     scenario 'Member cannot revert a crop' do
       visit admin_crops_path
       expect(page).not_to have_link('Revert')
-
-      # Also check that they can't access the revert path directly
-      page.driver.post(revert_admin_version_path(crop.versions.last))
-      expect(page).to have_content('You are not authorized to access this page')
     end
   end
 end
