@@ -13,6 +13,6 @@ class Admin::CropsController < ApplicationController
   private
 
   def authorize_admin!
-    redirect_to root_path, alert: 'You are not authorized to perform this action.' unless current_member.has_role? :crop_wrangler
+    redirect_to root_path, alert: 'You are not authorized to perform this action.' unless current_member.can?(:wrangle, Crop)
   end
 end
