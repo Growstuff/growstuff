@@ -38,6 +38,9 @@
         %h2 Video
         .embed-responsive.embed-responsive-16by9
           %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{youtube_video_id(crop_or_parent(@crop, :en_youtube_url))}", allowfullscreen: true }
+    - else
+      - if member_signed_in?
+        %p= link_to "Submit a video.", edit_crop_path(@crop)
 
     %section.photos
       = cute_icon
