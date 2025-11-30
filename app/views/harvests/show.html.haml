@@ -8,7 +8,7 @@
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 %script{type: "application/ld+json"}
-  = jsonld_data(@harvest.crop).to_json.html_safe
+  = crop_jsonld_data(@harvest.crop, full_attributes: false).to_json.html_safe
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Harvests', harvests_path
