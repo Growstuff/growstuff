@@ -1,3 +1,4 @@
+= render 'schema_org', crop: @crop
 - content_for :title, @crop.name
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: crop_image_path(@crop))
@@ -39,7 +40,7 @@
           %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{youtube_video_id(crop_or_parent(@crop, :en_youtube_url))}", allowfullscreen: true }
     - else
       - if member_signed_in?
-        %p= link_to "Submit a video.", edit_crop_path(@crop)
+        %p= link_to "Submit a video.", edit_crop_path(@crop, anchor: ":~:text=Youtube")
 
     %section.photos
       = cute_icon

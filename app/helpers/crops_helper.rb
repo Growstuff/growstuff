@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 module CropsHelper
-
   def crop_or_parent(crop, attribute)
     default = crop.send(attribute)
     return default if default.present?
+
     parent = crop
-    while parent = parent.parent do
+    while parent = parent.parent
       return parent.send(attribute) if parent&.send(attribute).present?
     end
 
@@ -37,5 +37,14 @@ module CropsHelper
     regex = %r{(?:youtube(?:-nocookie)?\.com/(?:[^/\n\s]+/\S+/|(?:v|e(?:mbed)?)/|\S*?[?&]v=)|youtu\.be/)([a-zA-Z0-9_-]{11})}
     match = url.match(regex)
     match[1] if match
+  end
+
+  def jsonld_data(crop)
+    {
+      '@context':     "https://schema.org",
+      '@type':        "BioChemEntity",
+      name:           crop.name,
+      taxonomicRange: crop.scientific_names.map(&:name)
+    }
   end
 end
