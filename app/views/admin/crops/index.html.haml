@@ -32,7 +32,10 @@
               - else
                 = link_to crop.name, crop
               %small.text-muted= "was #{version.event}d"
-            %small= time_ago_in_words(version.created_at) + " ago"
+            .d-inline-block
+              %small.mr-2= time_ago_in_words(version.created_at) + " ago"
+              - if can?(:wrangle, Crop)
+                = link_to "Revert", revert_admin_version_path(version), method: :post, class: "btn btn-sm btn-outline-danger"
           - member = @members[version.whodunnit.to_i]
           - if member
             %p.mb-1
