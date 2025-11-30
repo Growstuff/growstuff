@@ -57,4 +57,4 @@
   - if member_signed_in? && (!crop.height.present? || !crop.spread.present? || !crop.row_spacing.present? || !crop.growing_degree_days.present?)
     .card.fact-card
       .card-body.text-center
-        %p= link_to "Add more attributes.", edit_crop_path(@crop)
+        %p= link_to "Add more attributes.", edit_crop_path(@crop, anchor: ":~:text=Data")

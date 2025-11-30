@@ -25,7 +25,7 @@
       %p= simple_format crop_or_parent(@crop, :description)
     - else
       - if member_signed_in?
-        %p= link_to "Add a description.", edit_crop_path(@crop)
+        %p= link_to "Add a description.", edit_crop_path(@crop, anchor: ":~:text=Description")
   .col-md-3
     = image_tag crop_image_path(@crop),
       class: 'img-responsive shadow rounded crop-hero-photo', alt: "Image of #{@crop.name}"
