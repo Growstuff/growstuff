@@ -70,8 +70,6 @@
         .index-cards
           = render 'varieties', crop: @crop
 
-    = render 'history', crop: @crop
-
     %section.crop-map
       %h2
         = icon 'fas', 'map'
@@ -84,6 +82,7 @@
 
     %section.posts= render 'crops/posts', crop: @crop
 
+    = render 'history', crop: @crop
   .col-md-3
     = cute_icon
     .card
