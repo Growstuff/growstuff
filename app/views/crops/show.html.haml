@@ -1,3 +1,4 @@
+= render 'schema_org', crop: @crop
 - content_for :title, @crop.name
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: crop_image_path(@crop))

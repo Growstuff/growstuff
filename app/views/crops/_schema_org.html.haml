@@ -1,0 +1,8 @@
+- schema = {
+-   "@context": "https://schema.org",
+-   "@type": "BioChemEntity",
+-   "name": crop.name,
+-   "taxonomicRange": crop.scientific_names.map(&:name)
+- }
+%script{type: "application/ld+json"}
+  = schema.to_json.html_safe
