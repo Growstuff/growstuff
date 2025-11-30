@@ -94,6 +94,9 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :crops, only: [:index]
+    resources :versions, only: [] do
+      post :revert, on: :member, as: :revert
+    end
   end
 
   resources :comments
