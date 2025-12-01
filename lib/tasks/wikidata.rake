@@ -16,33 +16,12 @@ namespace :wikidata do
       puts "Processing crop: #{crop.name}"
       wikidata_id = nil
 
-      # Try to find Wikidata ID using scientific names first
-      crop.scientific_names.each do |sci_name|
-        begin
-          puts "  Searching for Wikidata ID using scientific name: #{sci_name.name}"
-          title = sci_name.name.tr(' ', '_') # Wikipedia titles use underscores
-          wiki_uri = URI("https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&titles=#{title}&format=json")
-          wiki_response = Net::HTTP.get(wiki_uri)
-          wiki_data = JSON.parse(wiki_response)
-
-          # The response for a non-existent page has a key of "-1"
-          pages = wiki_data['query']['pages']
-          page_id = pages.keys.first
-
-          if page_id != "-1" && pages[page_id]['pageprops'] && pages[page_id]['pageprops']['wikibase_item']
-            wikidata_id = pages[page_id]['pageprops']['wikibase_item']
-            puts "    Found Wikidata ID via scientific name: #{wikidata_id}"
-            break # Found it, so we can stop looping through scientific names
-          else
-            puts "    No Wikidata ID found for scientific name: #{sci_name.name}"
-          end
-        rescue StandardError => e
-          puts "    Error querying Wikipedia for scientific name #{sci_name.name}: #{e.message}"
-        end
-      end
-
-      # If not found via scientific name, try the existing en_wikipedia_url method
-      if !wikidata_id && crop.en_wikipedia_url.present?
+      # Try to find Wikidata ID from the scientific_names table first
+      if (sci_name_with_id = crop.scientific_names.find { |sn| sn.wikidata_id.present? })
+        wikidata_id = sci_name_with_id.wikidata_id
+        puts "  Found Wikidata ID in scientific_names table: #{wikidata_id}"
+      # If not found, try the existing en_wikipedia_url method
+      elsif crop.en_wikipedia_url.present?
         begin
           title = crop.en_wikipedia_url.split('/').last
           puts "  Searching for Wikidata ID using Wikipedia URL: #{crop.en_wikipedia_url}"
