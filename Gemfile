@@ -204,3 +204,4 @@ gem "i18n_data", "~> 1.1"
 gem "paper_trail", "~> 17.0"
 
 gem 'sitemap_generator'
+gem 'aws-sdk-s3', '~> 1', '>= 1.114.0'
