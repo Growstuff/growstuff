@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_30_035701) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_30_053104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -261,6 +261,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_30_035701) do
     t.integer "growing_degree_days"
     t.string "en_youtube_url"
     t.text "description"
+    t.string "public_food_key"
     t.index ["creator_id"], name: "index_crops_on_creator_id"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["parent_id"], name: "index_crops_on_parent_id"
