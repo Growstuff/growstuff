@@ -170,6 +170,8 @@ class CropsController < ApplicationController
                Crop.approved.where(sun_requirements: [nil, '']).order(plantings_count: :desc)
              when 'height'
                Crop.approved.where(height: nil).order(plantings_count: :desc)
+             when 'public_food_key'
+               Crop.approved.where(public_food_key: [nil, '']).order(plantings_count: :desc)
              else
                Crop.none
              end
