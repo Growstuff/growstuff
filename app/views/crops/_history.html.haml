@@ -8,7 +8,7 @@
             .d-flex.w-100.justify-content-between
               %h5.mb-1= version.event.humanize
               %small= time_ago_in_words(version.created_at) + " ago"
-            - member = @version_members[version.whodunnit.to_i]
+            - member = @version_members.present? && @version_members[version.whodunnit.to_i]
             - if member
               %p.mb-1
                 Made by
