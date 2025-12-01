@@ -1,0 +1,45 @@
+%h1 Data Improvement
+
+%ul.nav.nav-tabs
+  %li.active
+    %a{"data-toggle" => "tab", :href => "#photos"} Photos
+  %li
+    %a{"data-toggle" => "tab", :href => "#descriptions"} Descriptions
+  %li
+    %a{"data-toggle" => "tab", :href => "#youtube"} YouTube videos
+  %li
+    %a{"data-toggle" => "tab", :href => "#alternate_names"} Alternate names
+  %li
+    %a{"data-toggle" => "tab", :href => "#wikidata"} Wikidata ID
+  %li
+    %a{"data-toggle" => "tab", :href => "#row_spacing"} Row spacing
+  %li
+    %a{"data-toggle" => "tab", :href => "#sun_requirements"} Sun requirements
+  %li
+    %a{"data-toggle" => "tab", :href => "#height"} Height
+
+.tab-content
+  .tab-pane.active#photos
+    %h2 Crops without Photos
+    = render 'crop_list', crops: @crops_without_photos
+  .tab-pane#descriptions
+    %h2 Crops without Descriptions
+    = render 'crop_list', crops: @crops_without_description
+  .tab-pane#youtube
+    %h2 Crops without YouTube videos
+    = render 'crop_list', crops: @crops_without_youtube
+  .tab-pane#alternate_names
+    %h2 Crops without Alternate names
+    = render 'crop_list', crops: @crops_without_alternate_names
+  .tab-pane#wikidata
+    %h2 Crops without Wikidata ID
+    = render 'crop_list', crops: @crops_without_wikidata
+  .tab-pane#row_spacing
+    %h2 Crops without Row spacing
+    = render 'crop_list', crops: @crops_without_row_spacing
+  .tab-pane#sun_requirements
+    %h2 Crops without Sun requirements
+    = render 'crop_list', crops: @crops_without_sun_requirements
+  .tab-pane#height
+    %h2 Crops without Height
+    = render 'crop_list', crops: @crops_without_height
