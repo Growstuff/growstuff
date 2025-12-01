@@ -4,7 +4,7 @@
 
 %ul.nav.nav-tabs
   - tabs.each do |key, value|
-    %li{class: ('active' if @active_tab == key.to_s)}
+    %li{class: "nav-item #{('active' if @active_tab == key.to_s)}"}
       = link_to value, data_improvement_crops_path(tab: key)
 
 .tab-content
