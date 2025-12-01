@@ -1,5 +1,10 @@
 = render 'schema_org', crop: @crop
 - content_for :title, @crop.name
+- content_for :meta_description do
+  - if @crop.description.present?
+    = @crop.description
+  - else
+    = "Learn how to grow #{@crop.name}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: crop_image_path(@crop))
   = tag("meta", property: "og:title", content: @crop.name)
