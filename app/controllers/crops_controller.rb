@@ -149,6 +149,32 @@ class CropsController < ApplicationController
     respond_with @crop
   end
 
+  def data_improvement
+    @active_tab = params[:tab] || 'photos'
+
+    @crops = case @active_tab
+             when 'photos'
+               Crop.approved.where(photo_associations_count: 0).order(plantings_count: :desc)
+             when 'descriptions'
+               Crop.approved.where(description: [nil, '']).order(plantings_count: :desc)
+             when 'youtube'
+               Crop.approved.where(en_youtube_url: [nil, '']).order(plantings_count: :desc)
+             when 'alternate_names'
+               Crop.approved.left_joins(:alternate_names).where(alternate_names: { id: nil }).order(plantings_count: :desc)
+             when 'wikidata'
+               crops_with_wikidata = Crop.joins(:scientific_names).where.not(scientific_names: { wikidata_id: nil }).distinct
+               Crop.approved.where.not(id: crops_with_wikidata).order(plantings_count: :desc)
+             when 'row_spacing'
+               Crop.approved.where(row_spacing: nil).order(plantings_count: :desc)
+             when 'sun_requirements'
+               Crop.approved.where(sun_requirements: [nil, '']).order(plantings_count: :desc)
+             when 'height'
+               Crop.approved.where(height: nil).order(plantings_count: :desc)
+             else
+               Crop.none
+             end
+  end
+
   private
 
   def notifier
@@ -195,6 +221,7 @@ class CropsController < ApplicationController
       :request_notes, :reason_for_rejection,
       :rejection_notes,
       :description,
+      :public_food_key,
       :row_spacing, :spread, :height,
       :sowing_method, :sun_requirements, :growing_degree_days,
       scientific_names_attributes: %i(scientific_name _destroy id)
