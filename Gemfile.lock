@@ -688,6 +688,8 @@ GEM
       rack (>= 2.2.4)
       redis-client (>= 0.22.2)
     simple_po_parser (1.1.6)
+    sitemap_generator (6.3.0)
+      builder (~> 3.0)
     sprockets (3.7.5)
       base64
       concurrent-ruby (~> 1.0)
@@ -854,6 +856,7 @@ DEPENDENCIES
   searchkick
   selenium-webdriver
   sidekiq
+  sitemap_generator
   sprockets (< 4)
   terser
   timecop
