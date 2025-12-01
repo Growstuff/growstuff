@@ -140,6 +140,12 @@
             = icon 'fas', 'external-link-alt'
             Wikipedia (English)
 
+        - if @crop.public_food_key.present?
+          %li.list-group-item
+            = link_to "https://afcd.foodstandards.gov.au/fooddetails.aspx?PFKID=#{@crop.public_food_key}", target: "_blank", rel: "noopener noreferrer" do
+              = icon 'fas', 'external-link-alt'
+              Australian Food Composition Database
+
         %li.list-group-item
           = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
                     target: "_blank",
