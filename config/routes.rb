@@ -89,6 +89,7 @@ Rails.application.routes.draw do
       get 'wrangle'
       get 'hierarchy'
       get 'search'
+      get 'data_improvement'
     end
   end
 
