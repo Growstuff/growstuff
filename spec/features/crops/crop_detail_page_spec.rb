@@ -196,7 +196,7 @@ describe "crop detail page", :js do
     context 'crop is Perennial' do
       let(:crop) { FactoryBot.create(:perennial_crop) }
 
-      it { expect(page).to have_text 'Perennial' }
+      it { expect(find('.index-cards.facts')).to have_text 'Perennial' }
       it { expect(page).to have_text 'living more than two years' }
       it { expect(page).to have_no_text 'Annual' }
     end
@@ -204,7 +204,7 @@ describe "crop detail page", :js do
     context 'crop Perennial value is null' do
       let(:crop) { FactoryBot.create(:crop, perennial: nil) }
 
-      it { expect(page).to have_no_text 'Perennial' }
+      it { expect(find('.index-cards.facts')).to have_no_text 'Perennial' }
       it { expect(page).to have_no_text 'Annual' }
     end
   end
