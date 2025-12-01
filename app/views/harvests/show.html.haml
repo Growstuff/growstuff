@@ -1,4 +1,9 @@
 = content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
+- content_for :meta_description do
+  - if @harvest.description.present?
+    = @harvest.description
+  - else
+    = "#{@harvest.crop} harvested by #{@harvest.owner}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: harvest_image_path(@harvest))
   = tag("meta", property: "og:image:user_generated", content: "true")
@@ -71,3 +76,4 @@
 
     .col-md-4.col-xs-12
       = render @harvest.crop
+      = render 'crops/nutritional_data', crop: @harvest.crop
