@@ -70,6 +70,7 @@
         = f.number_field :growing_degree_days, min: 0
         - if @crop.parent
           %span.help-block Parent: #{@crop.parent.growing_degree_days}
+      = f.text_field :public_food_key, label: 'Australian Food Composition Database Public Food Key'
 
       - unless @crop.approved?
         = link_to 'Search wikipedia', "https://en.wikipedia.org/w/index.php?search=#{@crop.name}", target: '_blank'
