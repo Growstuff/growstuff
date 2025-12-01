@@ -1,0 +1,38 @@
+- data = crop.australian_food_classification_data
+- if data
+  .card
+    .card-body
+      %h4.card-title Nutritional Data
+      %p.card-text A summary of nutritional data per 100g.
+      %table.table.table-sm.table-borderless
+        %tbody
+          - if data.energy_with_dietary_fibre_equated_kj.to_f > 0
+            %tr
+              %th Energy
+              %td= "\#{data.energy_with_dietary_fibre_equated_kj.to_f.round(1)} kJ"
+          - if data.protein_g.to_f > 0
+            %tr
+              %th Protein
+              %td= "\#{data.protein_g.to_f.round(1)} g"
+          - if data.fat_total_g.to_f > 0
+            %tr
+              %th Fat, total
+              %td= "\#{data.fat_total_g.to_f.round(1)} g"
+          - if data.available_carbohydrate_with_sugar_alcohols_g.to_f > 0
+            %tr
+              %th Carbohydrate
+              %td= "\#{data.available_carbohydrate_with_sugar_alcohols_g.to_f.round(1)} g"
+          - if data.total_sugars_g.to_f > 0
+            %tr
+              %th - Sugars
+              %td= "\#{data.total_sugars_g.to_f.round(1)} g"
+          - if data.total_dietary_fibre_g.to_f > 0
+            %tr
+              %th Fibre
+              %td= "\#{data.total_dietary_fibre_g.to_f.round(1)} g"
+          - if data.sodium_na_mg.to_f > 0
+            %tr
+              %th Sodium
+              %td= "\#{data.sodium_na_mg.to_f.round(1)} mg"
+    .card-footer
+      = link_to "See more", "https://afcd.foodstandards.gov.au/fooddetails.aspx?PFKID=#{data.public_food_key}", target: "_blank", rel: "noopener noreferrer"

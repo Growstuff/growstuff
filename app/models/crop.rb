@@ -28,6 +28,10 @@ class Crop < ApplicationRecord
   has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
   has_many :crop_posts, dependent: :delete_all
   has_many :posts, through: :crop_posts, dependent: :delete_all
+  has_one :australian_food_classification_data,
+          foreign_key: :public_food_key,
+          primary_key: :public_food_key,
+          inverse_of:  :crop
 
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
 
