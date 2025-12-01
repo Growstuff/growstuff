@@ -1,4 +1,9 @@
 = content_for :title, "#{@planting.crop} in #{@planting.location}"
+- content_for :meta_description do
+  - if @planting.description.present?
+    = @planting.description
+  - else
+    = "#{@planting.crop} planted in #{@planting.location} by #{@planting.owner}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: planting_image_path(@planting))
   = tag("meta", property: "og:title", content: "#{@planting.crop} in #{@planting.location}")

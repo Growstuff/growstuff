@@ -1,4 +1,9 @@
 - content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
+- content_for :meta_description do
+  - if @seed.description.present?
+    = @seed.description
+  - else
+    = "Seeds for #{@seed.crop.name}, shared by #{@seed.owner}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: seed_image_path(@seed))
   - if @seed.description
