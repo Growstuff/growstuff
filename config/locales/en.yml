@@ -219,6 +219,24 @@ en:
     pwa_ios_steps_html: 1. Tap the <strong>Share</strong> button in Safari.<br>2. Scroll down and tap <strong>Add to Home Screen</strong>'.
     pwa_ios_title: For iOS (iPhone/iPad)
     pwa_title: Want to install Growstuff on your phone?
+  community_gardens:
+    title: Community Gardens on Growstuff
+    meta_description: Manage your community garden, track your plantings, and collaborate with other gardeners.
+    header: Community Gardens
+    lead: Growstuff is the perfect place to manage your community garden. Track your plantings, celebrate your harvests, and collaborate with your fellow gardeners, all in one place.
+    get_started: Get Started Today
+    get_started_text: Signing up for Growstuff is free and easy. Create an account to start tracking your garden today.
+    sign_up: Sign up for free
+    collaborate: Collaborate with Your Team
+    collaborate_text: Invite other gardeners to collaborate on your garden plots. Share the work, share the harvest, and grow together as a community.
+    learn_more: Learn more about gardens
+    features_title: Features for Community Gardens
+    features_list:
+      - Track all your plantings and harvests
+      - Keep notes and photos of your garden's progress
+      - Add collaborators to your garden plots
+      - See what other community gardens are growing
+      - Get advice and support from our community of gardeners
   label:
     days_until_harvest: "%{number} days"
     weeks_until_harvest: "%{number} weeks until harvest"
@@ -235,6 +253,7 @@ en:
       browse_members: Browse Members
       community: Community
       community_map: Community Map
+      community_gardens: Community Gardens
       garden_type: Garden Type
       garden_types: Garden Types
       crop_wrangling: Crop Wrangling
