@@ -7,9 +7,9 @@ SitemapGenerator::Sitemap.default_host = 'https://growstuff.org'
 
 SitemapGenerator::Sitemap.adapter = SitemapGenerator::AwsSdkAdapter.new(
   ENV['S3_SITEMAP_BUCKET'],
-  aws_access_key_id: ENV['S3_ACCESS_KEY'],
-  aws_secret_access_key: ENV['S3_SECRET_KEY'],
-  aws_region: ENV.fetch('S3_AWS_REGION', 'us-east-1')
+  access_key_id: ENV['S3_ACCESS_KEY'],
+  secret_access_key: ENV['S3_SECRET_KEY'],
+  region: ENV.fetch('S3_AWS_REGION', 'us-east-1')
 )
 
 SitemapGenerator::Sitemap.create do
