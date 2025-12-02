@@ -1,5 +1,9 @@
 = render 'schema_org', crop: @crop
-- content_for :title, @crop.name
+- content_for :title do
+  = @crop.name.titleize
+  - if @crop.default_scientific_name.present?
+    = " (#{@crop.default_scientific_name})"
+  = " growing guide and open data repository"
 - content_for :meta_description do
   - if @crop.description.present?
     = @crop.description
