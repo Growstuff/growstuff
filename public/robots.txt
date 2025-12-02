@@ -141,4 +141,4 @@ Crawl-delay: 5
 User-agent: *
 Disallow: /api/
 
-Sitemap: https://growstuff.org/sitemaps/sitemap.xml.gz
+Sitemap: https://growstuff-prod.s3.us-west-2.amazonaws.com/sitemap.xml.gz
