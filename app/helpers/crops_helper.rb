@@ -58,7 +58,10 @@ module CropsHelper
         subject_of_entities << {
           '@type': "SocialMediaPosting",
           url:     post_url(post),
-          author:  post.author.login_name,
+          author:  {
+            '@type': 'Person',
+            name: post.author.login_name
+          },
           'datePublished': post.created_at 
         }
       end
