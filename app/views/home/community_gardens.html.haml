@@ -5,13 +5,10 @@
 
 
 
-.container.m-5
+.container.mt-5
 
-  .row.m-5
-    .col-lg-6.d-none-sm
-      .container.text-center.openpeeps
-        =image_tag("girlwithvegetables-0038331hotifw.svg", width: "100%")
-    .col-lg-6
+  .row
+    .col-lg-6.col-sm-12
       .row
         %h1.display-4= t('community_gardens.header')
         %p.lead= t('community_gardens.lead')
@@ -35,3 +32,6 @@
         %p
           = link_to t('community_gardens.learn_more'), gardens_path, class: 'btn btn-info btn-lg'
 
+    .col-lg-6.d-lg-block.d-xs-none
+      .container
+        =image_tag("girlwithvegetables-0038331hotifw.svg", width: "100%")
