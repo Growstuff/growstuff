@@ -6,17 +6,15 @@
 
 
 .container.m-5
-  .row
-    .col-md-6
-      .container
+
+  .row.m-5
+    .col-lg-6.d-none-sm
+      .container.text-center.openpeeps
+        =image_tag("girlwithvegetables-0038331hotifw.svg", width: "100%")
+    .col-lg-6
+      .row
         %h1.display-4= t('community_gardens.header')
         %p.lead= t('community_gardens.lead')
-
-  .row
-    .col-lg-6.d-none-sm
-      .text-center.openpeeps
-        =image_tag("openpeeps/Flat Assets/Templates/Sitting/peep-sitting-#{rand(1..10)}.svg", width: "100%")
-    .col-lg-6
       .row
         %h2= t('community_gardens.features_title')
         %ul

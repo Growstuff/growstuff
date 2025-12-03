@@ -1,1 +1,0 @@
-https://www.openpeeps.com/ assets by Pablo Stanley under a CC-0 licence.
