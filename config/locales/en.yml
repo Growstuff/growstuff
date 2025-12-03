@@ -231,12 +231,6 @@ en:
     collaborate_text: Invite other gardeners to collaborate on your garden plots. Share the work, share the harvest, and grow together as a community.
     learn_more: Learn more about gardens
     features_title: Features for Community Gardens
-    features_list:
-      - Track all your plantings and harvests
-      - Keep notes and photos of your garden's progress
-      - Add collaborators to your garden plots
-      - See what other community gardens are growing
-      - Get advice and support from our community of gardeners
   label:
     days_until_harvest: "%{number} days"
     weeks_until_harvest: "%{number} weeks until harvest"

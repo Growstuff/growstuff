@@ -1,31 +1,34 @@
 - content_for :title do
-  = t('.title')
+  = t('community_gardens.title')
 - content_for :meta_description do
-  = t('.meta_description')
+  = t('community_gardens.meta_description')
 
 .jumbotron
   .container
-    %h1.display-4= t('.header')
-    %p.lead= t('.lead')
+    %h1.display-4= t('community_gardens.header')
+    %p.lead= t('community_gardens.lead')
 
 .container
   .row
     .col-md-6
-      %h2= t('.get_started')
-      %p= t('.get_started_text')
+      %h2= t('community_gardens.get_started')
+      %p= t('community_gardens.get_started_text')
       %p
         = link_to t('.sign_up'), new_member_registration_path, class: 'btn btn-success btn-lg'
     .col-md-6
-      %h2= t('.collaborate')
-      %p= t('.collaborate_text')
+      %h2= t('community_gardens.collaborate')
+      %p= t('community_gardens.collaborate_text')
       %p
-        = link_to t('.learn_more'), gardens_path, class: 'btn btn-info btn-lg'
+        = link_to t('community_gardens.learn_more'), gardens_path, class: 'btn btn-info btn-lg'
 
   %hr
 
   .row
     .col-12
-      %h2= t('.features_title')
+      %h2= t('community_gardens.features_title')
       %ul
-        - t('.features_list').each do |feature|
-          %li= feature
+        %li Track all your plantings and harvests
+        %li Keep notes your community's progress
+        %li Add collaborators to your garden plots
+        %li See what other community gardens are growing
+        %li Get advice and support from our community of gardeners
