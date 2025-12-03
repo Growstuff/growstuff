@@ -3,32 +3,37 @@
 - content_for :meta_description do
   = t('community_gardens.meta_description')
 
-.jumbotron
-  .container
-    %h1.display-4= t('community_gardens.header')
-    %p.lead= t('community_gardens.lead')
 
-.container
+
+.container.m-5
   .row
     .col-md-6
-      %h2= t('community_gardens.get_started')
-      %p= t('community_gardens.get_started_text')
-      %p
-        = link_to t('.sign_up'), new_member_registration_path, class: 'btn btn-success btn-lg'
-    .col-md-6
-      %h2= t('community_gardens.collaborate')
-      %p= t('community_gardens.collaborate_text')
-      %p
-        = link_to t('community_gardens.learn_more'), gardens_path, class: 'btn btn-info btn-lg'
-
-  %hr
+      .container
+        %h1.display-4= t('community_gardens.header')
+        %p.lead= t('community_gardens.lead')
 
   .row
-    .col-12
-      %h2= t('community_gardens.features_title')
-      %ul
-        %li Track all your plantings and harvests
-        %li Keep notes your community's progress
-        %li Add collaborators to your garden plots
-        %li See what other community gardens are growing
-        %li Get advice and support from our community of gardeners
+    .col-lg-6.d-none-sm
+      .text-center.openpeeps
+        =image_tag("openpeeps/Flat Assets/Templates/Sitting/peep-sitting-#{rand(1..10)}.svg", width: "100%")
+    .col-lg-6
+      .row
+        %h2= t('community_gardens.features_title')
+        %ul
+          %li Track all your plantings and harvests
+          %li Keep notes your community's progress
+          %li Add collaborators to your garden plots
+          %li See what other community gardens are growing
+          %li Get advice and support from our community of gardeners
+
+      .row
+        %h2= t('community_gardens.get_started')
+        %p= t('community_gardens.get_started_text')
+        %p
+          = link_to t('.sign_up'), new_member_registration_path, class: 'btn btn-success btn-lg'
+      .row
+        %h2= t('community_gardens.collaborate')
+        %p= t('community_gardens.collaborate_text')
+        %p
+          = link_to t('community_gardens.learn_more'), gardens_path, class: 'btn btn-info btn-lg'
+
