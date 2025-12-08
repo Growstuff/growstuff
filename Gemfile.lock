@@ -675,7 +675,7 @@ GEM
     ruby-units (4.1.0)
     ruby-vips (2.2.1)
       ffi (~> 1.12)
-    rubyzip (3.2.1)
+    rubyzip (3.2.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -695,7 +695,7 @@ GEM
       activemodel (>= 6.1)
       hashie
     securerandom (0.4.1)
-    selenium-webdriver (4.38.0)
+    selenium-webdriver (4.39.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
