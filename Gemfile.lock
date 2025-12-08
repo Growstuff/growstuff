@@ -462,7 +462,7 @@ GEM
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (0.5.6)
-    oj (3.16.12)
+    oj (3.16.13)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     omniauth (1.9.2)
