@@ -605,7 +605,7 @@ describe Planting do
 
     before { described_class.reindex }
 
-    it { expect(subject.count).to eq 2 }
-    it { expect(subject.map(&:id)).to eq([interesting_planting.id.to_s, finished_interesting_planting.id.to_s]) }
+    it { expect(subject.count).to eq 3 }
+    it { expect(subject.map(&:id)).to eq([interesting_planting.id.to_s, finished_interesting_planting.id.to_s, planting.id.to_s]) }
   end
 end
