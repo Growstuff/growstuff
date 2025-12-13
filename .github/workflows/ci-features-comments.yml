@@ -71,7 +71,22 @@ jobs:
 
       - name: Install required OS packages
         run: |
-          sudo apt-get -y install libpq-dev google-chrome-stable
+          sudo apt-get -y install libpq-dev
+
+      - name: Cache Playwright Chromium browser
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install Playwright Chromium browser (with deps)
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: yarn run playwright install --with-deps chromium
+
+      - name: Install Playwright Chromium browser deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: yarn run playwright install-deps chromium
 
       - name: Install NodeJS
         uses: actions/setup-node@v6
