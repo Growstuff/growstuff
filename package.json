@@ -16,7 +16,8 @@
     "csslint": "^1.0.5",
     "eslint": "^5.0.0",
     "eslint-config-google": "^0.9.1",
-    "jshint": "^2.9.4"
+    "jshint": "^2.9.4",
+    "playwright": "1.57.0"
   },
   "repository": {
     "type": "git",

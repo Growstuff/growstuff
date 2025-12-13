@@ -10,35 +10,36 @@ Rails.application.eager_load!
 
 require 'capybara'
 require 'capybara/rspec'
-require 'selenium/webdriver'
-require 'capybara-screenshot/rspec'
-require 'axe-capybara'
-require 'axe-rspec'
+# require 'capybara-screenshot/rspec'
+# require 'axe-capybara'
+# require 'axe-rspec'
 
 # Required for running in the dev container
-Capybara.register_driver :selenium_chrome_customised_headless do |app|
-  options = Selenium::WebDriver::Options.chrome
-  options.add_argument("--headless")
-  options.add_argument("--no-sandbox")
-  options.add_argument("--window-size=1920,1080")
-  options.add_argument("--disable-dev-shm-usage")
+Capybara.register_driver :playwright_chrome_customised do |app|
+  # options = Capybara::Playwright::Options.chrome
+  # # options.add_argument("--headless")
+  # options.add_argument("--no-sandbox")
+  # options.add_argument("--window-size=1920,1080")
+  # options.add_argument("--disable-dev-shm-usage")
 
-  # driver = Selenium::WebDriver.for :chrome, options: options
 
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
+  Capybara::Playwright::Driver.new(app,
+    browser_type: ENV["PLAYWRIGHT_BROWSER"]&.to_sym || :chromium,
+    headless: true)
 end
+
 
 # Ability to pass in flags to
 if ENV["CAPYBARA_DRIVER"]
   Capybara.default_driver = ENV["CAPYBARA_DRIVER"].to_sym
   Capybara.javascript_driver = ENV["CAPYBARA_DRIVER"].to_sym
 else
-  Capybara.default_driver = :selenium_chrome_customised_headless
-  Capybara.javascript_driver = :selenium_chrome_customised_headless
+  Capybara.default_driver = :playwright_chrome_customised
+  Capybara.javascript_driver = :playwright_chrome_customised
 end
 Capybara.enable_aria_label = true
 
-Capybara::Screenshot.register_driver(:selenium_chrome_customised_headless) do |driver, path|
+Capybara::Screenshot.register_driver(:playwright_chrome_customised) do |driver, path|
   driver.browser.save_screenshot(path)
 end
 Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
@@ -122,15 +123,15 @@ RSpec.configure do |config|
     # TODO: Why are we setting this page size then straight afterwards, maximising?
     width = 1920
     height = 1080
-    Capybara.current_session.driver.browser.manage.window.resize_to(width, height)
+    # Capybara.current_session.driver.browser.manage.window.resize_to(width, height)
 
-    if page.driver.browser.respond_to?(:url_blacklist)
-      page.driver.browser.url_blacklist = [
-        'gravatar.com',
-        'okfn.org',
-        'googlecode.com'
-      ]
-    end
+    # if page.driver.browser.respond_to?(:url_blacklist)
+    #   page.driver.browser.url_blacklist = [
+    #     'gravatar.com',
+    #     'okfn.org',
+    #     'googlecode.com'
+    #   ]
+    # end
 
     # Historically, we wanted to .maximize; but this actually undoes the resize_to step above
     # with chrome headless

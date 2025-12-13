@@ -195,7 +195,7 @@ group :test do
   gem "percy-capybara", "~> 5.0.0"
   gem 'rails-controller-testing'
   gem "rspec-rebound"
-  gem 'selenium-webdriver'
+  gem 'capybara-playwright-driver'
   gem 'timecop'
   gem 'vcr'
 end

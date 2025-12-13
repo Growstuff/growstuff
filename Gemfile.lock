@@ -194,6 +194,10 @@ GEM
     capybara-email (3.0.2)
       capybara (>= 2.4, < 4.0)
       mail
+    capybara-playwright-driver (0.5.7)
+      addressable
+      capybara
+      playwright-ruby-client (>= 1.16.0)
     capybara-screenshot (1.0.26)
       capybara (>= 1.0, < 4)
       launchy
@@ -492,6 +496,9 @@ GEM
       heroics (~> 0.1.1)
       moneta (~> 1.0.0)
       rate_throttle_client (~> 0.1.0)
+    playwright-ruby-client (1.57.0)
+      concurrent-ruby (>= 1.1.6)
+      mime-types (>= 3.0)
     popper_js (2.11.8)
     pp (0.6.3)
       prettyprint
@@ -796,6 +803,7 @@ DEPENDENCIES
   cancancan
   capybara
   capybara-email
+  capybara-playwright-driver
   capybara-screenshot
   chartkick
   coffee-rails
