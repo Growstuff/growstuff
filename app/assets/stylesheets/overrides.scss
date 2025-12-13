@@ -132,6 +132,8 @@ section {
     border-radius: 5%;
     margin: 0.5em 0.5em 0.5em 0;
     width: 200px;
+    align-items: stretch;
+    justify-content: space-between;
 
     .img-card {
       border-top-left-radius: 5%;

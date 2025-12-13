@@ -9,7 +9,9 @@ module SearchActivities
                mappings:       {
                  properties: {
                    active:     { type: :boolean },
-                   created_at: { type: :integer }
+                   created_at: { type: :integer },
+                   updated_at: { type: :integer },
+                   due_date:   { type: :date }
                  }
                }
 
@@ -23,8 +25,10 @@ module SearchActivities
         category:,
         garden_id:,
         garden_name:      garden&.name,
+        garden_slug:      garden&.garden_slug,
         planting_id:,
         planting_name:    planting&.crop&.name,
+        planting_slug:    planting&.slug,
         description:,
 
         # owner

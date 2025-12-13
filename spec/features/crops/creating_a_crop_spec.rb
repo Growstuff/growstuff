@@ -19,6 +19,14 @@ describe "Crop", :js do
         click_button class: "add-altname-row"
         fill_in "alt_name[3]", with: "Jazmin"
         fill_in "alt_name[4]", with: "Matsurika"
+
+        fill_in "crop_row_spacing", with: "12"
+        fill_in "crop_spread", with: "30"
+        fill_in "crop_height", with: "10"
+        fill_in "crop_sowing_method", with: "directly into final position"
+
+        fill_in "crop_sun_requirements", with: "full sun"
+        fill_in "crop_growing_degree_days", with: 100
       end
     end
   end

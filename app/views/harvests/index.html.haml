@@ -1,5 +1,6 @@
 - content_for(:title) do
   = title('harvests', @owner, @crop, @planting)
+- content_for :meta_description, "Browse and search for harvests."
 - content_for :breadcrumbs do
   - if @owner
     %li.breadcrumb-item= link_to 'Harvests', harvests_path

@@ -17,13 +17,14 @@ encourage participation from people of all backgrounds and skill levels.
 ## Want to contribute?
 
 Don't ask to ask, the best way to get started is to fork the project, start a codespace and get hacking.
-Dive on in and submit your PRs.
+Dive on in and submit your PRs!
+
+Vibe Coding is more than okay, just make sure you indicate if you have done so and ensure there are tests.
 
 ## Important links
 
 * [Issues](https://github.com/orgs/Growstuff/projects/1) (features we're
   working on, known bugs, etc)
-* [![Gitter](https://badges.gitter.im/Growstuff/growstuff.svg)](https://gitter.im/Growstuff/growstuff?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 * [Wiki](https://github.com/Growstuff/growstuff/wiki) (general documentation, etc.)
 
 ## For coders
@@ -34,6 +35,10 @@ frontend features. We welcome contributions -- see
 
 * To set up your development environment, see [Getting started](https://github.com/Growstuff/growstuff/wiki/New-contributor-guide).
 * You may also be interested in our [API](https://github.com/Growstuff/growstuff/wiki/API).
+
+### For Home Automation enthusiasts
+
+https://github.com/Growstuff/homeassistant-growstuff/
 
 ## For designers, writers, researchers, data wranglers, and other contributors
 

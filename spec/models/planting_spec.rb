@@ -523,6 +523,7 @@ describe Planting do
 
   context "failed" do
     let(:failed_planting) { FactoryBot.create(:planting, failed: true) }
+
     it 'has a failed field' do
       expect(failed_planting.failed).to be true
     end
@@ -535,20 +536,20 @@ describe Planting do
     end
 
     it 'is not included in the active scope' do
-        @p = FactoryBot.create(:planting)
-        @f = FactoryBot.create(:planting, failed: true)
-        described_class.active.should include @p
-        described_class.active.should_not include @f
+      @p = FactoryBot.create(:planting)
+      @f = FactoryBot.create(:planting, failed: true)
+      described_class.active.should include @p
+      described_class.active.should_not include @f
     end
 
     it 'cannot be finished and failed' do
-        @f = FactoryBot.build(:planting, finished: true, failed: true)
-        @f.should_not be_valid
+      @f = FactoryBot.build(:planting, finished: true, failed: true)
+      @f.should_not be_valid
     end
 
     it 'is not finished' do
-        @f = FactoryBot.build(:planting, finished: true, failed: true)
-        expect(@f.finished?).to be false
+      @f = FactoryBot.build(:planting, finished: true, failed: true)
+      expect(@f.finished?).to be false
     end
   end
 
@@ -587,7 +588,7 @@ describe Planting do
       FactoryBot.create(:finished_planting, owner: member, garden: member.gardens.first)
     end
     let!(:failed_planting) do
-        FactoryBot.create(:planting, failed: true, owner: member, garden: member.gardens.first)
+      FactoryBot.create(:planting, failed: true, owner: member, garden: member.gardens.first)
     end
 
     it { expect(member.plantings.active).to include(planting) }
@@ -604,7 +605,7 @@ describe Planting do
 
     before { described_class.reindex }
 
-    it { expect(subject.count).to eq 2 }
-    it { expect(subject.map(&:id)).to eq([interesting_planting.id.to_s, finished_interesting_planting.id.to_s]) }
+    it { expect(subject.count).to eq 3 }
+    it { expect(subject.map(&:id)).to eq([interesting_planting.id.to_s, finished_interesting_planting.id.to_s, planting.id.to_s]) }
   end
 end
