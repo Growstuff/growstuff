@@ -576,7 +576,7 @@ GEM
       psych (>= 4.0.0)
       tsort
     recaptcha (5.21.1)
-    redis-client (0.23.2)
+    redis-client (0.26.2)
       connection_pool
     regexp_parser (2.11.3)
     reline (0.6.3)
@@ -701,12 +701,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
-    sidekiq (7.3.9)
+    sidekiq (7.3.10)
       base64
-      connection_pool (>= 2.3.0)
+      connection_pool (>= 2.3.0, < 3)
       logger
-      rack (>= 2.2.4)
-      redis-client (>= 0.22.2)
+      rack (>= 2.2.4, < 3.3)
+      redis-client (>= 0.23.0, < 1)
     simple_po_parser (1.1.6)
     sitemap_generator (6.3.0)
       builder (~> 3.0)
