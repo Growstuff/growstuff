@@ -327,7 +327,8 @@ GEM
       rainbow
       rubocop (>= 1.0)
       sysexits (~> 1.1)
-    hashie (5.0.0)
+    hashie (5.1.0)
+      logger
     heroics (0.1.3)
       base64
       erubis (~> 2.0)
