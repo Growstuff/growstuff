@@ -500,7 +500,7 @@ GEM
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
-    prism (1.7.0)
+    prism (1.8.0)
     pry (0.16.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -696,9 +696,8 @@ GEM
       tilt
     scout_apm (6.0.2)
       parser
-    searchkick (5.3.1)
-      activemodel (>= 6.1)
-      hashie
+    searchkick (6.0.3)
+      activemodel (>= 7.2)
     securerandom (0.4.1)
     selenium-webdriver (4.40.0)
       base64 (~> 0.2)
