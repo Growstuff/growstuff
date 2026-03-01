@@ -13,7 +13,7 @@ describe "members list" do
     before do
       visit members_path
       expect(page).to have_css "#sort"
-      expect(page).to have_selector "form"
+      expect(page).to have_css "form"
     end
 
     it "default alphabetical sort" do

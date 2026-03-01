@@ -55,7 +55,7 @@ describe "posts/show" do
     describe 'has an anchor to the comments' do
       let(:post) { FactoryBot.create(:post, author:) }
 
-      it { is_expected.to have_selector('a[name=comments]') }
+      it { is_expected.to have_css('a[name=comments]') }
     end
   end
 

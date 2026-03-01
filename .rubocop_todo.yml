@@ -13,14 +13,6 @@ Bundler/OrderedGems:
   Exclude:
     - 'Gemfile'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: have_no, not_to
-Capybara/NegationMatcher:
-  Exclude:
-    - 'spec/features/admin/reverting_crops_spec.rb'
-
 # Offense count: 19
 Capybara/NegationMatcherAfterVisit:
   Exclude:
@@ -32,22 +24,6 @@ Capybara/NegationMatcherAfterVisit:
     - 'spec/features/members/following_spec.rb'
     - 'spec/features/members/profile_spec.rb'
     - 'spec/features/plantings/planting_a_crop_spec.rb'
-
-# Offense count: 34
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: DefaultSelector.
-Capybara/RSpec/HaveSelector:
-  Exclude:
-    - 'spec/features/conversations/index_spec.rb'
-    - 'spec/features/footer_spec.rb'
-    - 'spec/features/gardens/adding_gardens_spec.rb'
-    - 'spec/features/harvests/harvesting_a_crop_spec.rb'
-    - 'spec/features/members/list_spec.rb'
-    - 'spec/features/plantings/planting_a_crop_spec.rb'
-    - 'spec/features/seeds/adding_seeds_spec.rb'
-    - 'spec/features/shared_examples/crop_suggest.rb'
-    - 'spec/support/feature_helpers.rb'
-    - 'spec/views/posts/show.html.haml_spec.rb'
 
 # Offense count: 14
 Capybara/SpecificMatcher:
