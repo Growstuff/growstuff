@@ -211,7 +211,7 @@ RSpec.describe 'Plantings', type: :request do
   end
 
   describe "by member/owner" do
-    before :each do
+    before do
       @member1 = planting.owner
       @planting2 = create(:planting, owner: create(:owner))
       @member2 = @planting2.owner

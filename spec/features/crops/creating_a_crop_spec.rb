@@ -33,13 +33,14 @@ describe "Crop", :js do
 
   shared_examples 'request crop' do
     describe "requesting a crop with multiple scientific and alternate name" do
-      include_examples 'fill in form'
       before do
         within "form#new_crop" do
           fill_in "request_notes", with: "This is the Philippine national flower."
           click_button "Save"
         end
       end
+
+      include_examples 'fill in form'
 
       it { expect(page).to have_content 'crop was successfully created.' }
       it { expect(page).to have_content "This crop is currently pending approval." }
@@ -50,10 +51,11 @@ describe "Crop", :js do
 
   shared_examples 'create crop' do
     describe "creating a crop with multiple scientific and alternate name" do
-      include_examples 'fill in form'
       before do
         click_button "Save"
       end
+
+      include_examples 'fill in form'
 
       it { expect(page).to have_content 'crop was successfully created.' }
       it { expect(page).to have_content "Jasminum sambac 2" }

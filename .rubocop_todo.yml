@@ -370,13 +370,6 @@ RSpec/EmptyExampleGroup:
     - 'spec/views/photos/edit.html.haml_spec.rb'
     - 'spec/views/posts/_single.html.haml_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterExample:
-  Exclude:
-    - 'spec/models/ability_spec.rb'
-
 # Offense count: 146
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
@@ -402,20 +395,6 @@ RSpec/ExpectInHook:
     - 'spec/features/members/list_spec.rb'
     - 'spec/features/plantings/planting_a_crop_spec.rb'
     - 'spec/features/shared_examples/append_date.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, each, example
-RSpec/HookArgument:
-  Exclude:
-    - 'spec/requests/api/v1/plantings_request_spec.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/HooksBeforeExamples:
-  Exclude:
-    - 'spec/features/crops/creating_a_crop_spec.rb'
 
 # Offense count: 53
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -461,12 +440,6 @@ RSpec/InstanceVariable:
 # Offense count: 41
 RSpec/LetSetup:
   Enabled: false
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/MatchArray:
-  Exclude:
-    - 'spec/models/post_spec.rb'
 
 # Offense count: 2
 RSpec/MessageChain:
