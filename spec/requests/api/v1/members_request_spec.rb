@@ -13,11 +13,11 @@ RSpec.describe 'Members', type: :request do
       "links"         => { "self" => resource_url },
       "attributes"    => attributes,
       "relationships" => {
-        "gardens"   => gardens_as_json_api,
-        "harvests"  => harvests_as_json_api,
-        "photos"    => photos_as_json_api,
-        "plantings" => plantings_as_json_api,
-        "seeds"     => seeds_as_json_api,
+        "gardens"    => gardens_as_json_api,
+        "harvests"   => harvests_as_json_api,
+        "photos"     => photos_as_json_api,
+        "plantings"  => plantings_as_json_api,
+        "seeds"      => seeds_as_json_api,
         "activities" => activities_as_json_api
       } }
   end

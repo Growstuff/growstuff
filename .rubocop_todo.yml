@@ -75,51 +75,6 @@ FactoryBot/ExcessiveCreateList:
 FactoryBot/SyntaxMethods:
   Enabled: false
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines, beginning_only, ending_only
-Layout/EmptyLinesAroundClassBody:
-  Exclude:
-    - 'db/migrate/20251130035700_create_versions.rb'
-
-# Offense count: 312
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowMultipleStyles, EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle.
-# SupportedHashRocketStyles: key, separator, table
-# SupportedColonStyles: key, separator, table
-# SupportedLastArgumentHashStyles: always_inspect, always_ignore, ignore_implicit, ignore_explicit
-Layout/HashAlignment:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/crops_helper.rb'
-    - 'app/models/concerns/search_harvests.rb'
-    - 'app/models/concerns/search_plantings.rb'
-    - 'app/models/crop.rb'
-    - 'config/sitemap.rb'
-    - 'lib/tasks/import.rake'
-    - 'spec/requests/api/v1/activities_request_spec.rb'
-    - 'spec/requests/api/v1/members_request_spec.rb'
-
-# Offense count: 7
-# This cop supports safe autocorrection (--autocorrect).
-Layout/HeredocIndentation:
-  Exclude:
-    - 'db/migrate/20190712003735_add_like_counter_caches.rb'
-    - 'db/migrate/20191226024813_crop_harvest_counter_cache.rb'
-    - 'db/migrate/20191226024957_crop_photo_counter_cache.rb'
-    - 'db/migrate/20191226025124_plant_part_harvest_counter_cache.rb'
-    - 'db/migrate/20191226025225_post_comment_counter_cache.rb'
-    - 'db/migrate/20250824085224_add_photos_comment_count.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: Width, EnforcedStyleAlignWith, AllowedPatterns.
-# SupportedStylesAlignWith: start_of_line, relative_to_receiver
-Layout/IndentationWidth:
-  Exclude:
-    - 'spec/requests/api/v1/activities_request_spec.rb'
-
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: Max, AllowHeredoc, AllowURI, AllowQualifiedName, URISchemes, AllowRBSInlineAnnotation, AllowCopDirectives, AllowedPatterns, SplitStrings.
@@ -132,20 +87,6 @@ Layout/LineLength:
     - 'app/models/crop.rb'
     - 'db/seeds.rb'
     - 'spec/requests/api/v1/activities_request_spec.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowInHeredoc.
-Layout/TrailingWhitespace:
-  Exclude:
-    - 'Gemfile'
-    - 'app/helpers/crops_helper.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Lint/AmbiguousOperatorPrecedence:
-  Exclude:
-    - 'app/controllers/activities_controller.rb'
 
 # Offense count: 4
 # This cop supports unsafe autocorrection (--autocorrect-all).

@@ -82,7 +82,7 @@ class ActivitiesController < DataController
 
         repeat_times.times do |i|
           new_activity = @activity.dup
-          new_activity.due_date = @activity.due_date + (i + 1) * repeat_weeks.weeks
+          new_activity.due_date = @activity.due_date + ((i + 1) * repeat_weeks.weeks)
           new_activity.save
         end
       end

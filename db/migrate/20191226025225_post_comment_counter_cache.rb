@@ -11,7 +11,7 @@ class PostCommentCounterCache < ActiveRecord::Migration[5.2]
   end
 
   def set_counter_value
-    execute <<-SQL.squish
+    execute <<~SQL.squish
       UPDATE posts
          SET comments_count = (
            SELECT count(1)

@@ -7,8 +7,8 @@ RSpec.describe 'Activities', type: :request do
 
   let(:member) { create(:member) }
   let(:token) do
-      member.regenerate_api_token
-      member.api_token.token
+    member.regenerate_api_token
+    member.api_token.token
   end
   let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
   let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
@@ -64,12 +64,12 @@ RSpec.describe 'Activities', type: :request do
     let(:params) do
       {
         'data' => {
-          'type' => 'activities',
-          'id' => activity.id.to_s,
+          'type'       => 'activities',
+          'id'         => activity.id.to_s,
           'attributes' => {
             'description' => 'A new description',
-            'finished' => true,
-            'due-date' => '2025-10-31'
+            'finished'    => true,
+            'due-date'    => '2025-10-31'
           }
         }
       }

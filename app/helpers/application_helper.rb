@@ -130,9 +130,9 @@ module ApplicationHelper
       doc = Nokogiri::XML(response.body)
       doc.xpath('//xmlns:entry').first(2).map do |entry|
         {
-          title: entry.xpath('xmlns:title').text,
+          title:   entry.xpath('xmlns:title').text,
           content: entry.xpath('xmlns:content').text,
-          link: entry.xpath('xmlns:link/@href').text,
+          link:    entry.xpath('xmlns:link/@href').text,
           updated: entry.xpath('xmlns:updated').text
         }
       end

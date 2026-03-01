@@ -56,7 +56,7 @@ module SearchHarvests
           # Disabled for now so that more relevant harvests are
           # surfaced; even if we're falling back to crop photos.
           # photos_count: { gt: 0 },
-          owner_id:     { not: owners }
+          owner_id: { not: owners }
         }
         one_record = search('*',
                             limit:    1,
