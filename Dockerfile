@@ -10,7 +10,7 @@ RUN apt-get update -qq && \
     gnupg2 \
     shared-mime-info \
     libvips \
-    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && npm install -g yarn \
     && apt-get clean \
