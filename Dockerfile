@@ -1,4 +1,4 @@
-FROM ruby:3.3.8-bullseye
+FROM ruby:3.4.8-trixie
 
 # Install system dependencies
 RUN apt-get update -qq && \
