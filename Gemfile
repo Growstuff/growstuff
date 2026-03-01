@@ -200,10 +200,6 @@ group :test do
   gem 'vcr'
 end
 
-group :travis do
-  gem 'platform-api'
-end
-
 gem "i18n_data", "~> 1.1"
 
 gem "paper_trail", "~> 17.0"
