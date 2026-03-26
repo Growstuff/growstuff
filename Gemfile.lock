@@ -383,7 +383,7 @@ GEM
       activerecord (>= 4.1)
       concurrent-ruby
       railties (>= 4.1)
-    jsonapi-swagger (0.8.1)
+    jsonapi-swagger (1.0.0)
     kgio (2.11.4)
     kramdown (2.4.0)
       rexml
