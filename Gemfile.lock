@@ -82,8 +82,8 @@ GEM
     active_link_to (1.0.5)
       actionpack
       addressable
-    active_median (0.6.0)
-      activesupport (>= 7.1)
+    active_median (1.0.0)
+      activesupport (>= 7.2)
     active_record_union (1.4.0)
       activerecord (>= 6.0)
     active_utils (3.6.0)
@@ -163,7 +163,7 @@ GEM
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
       rouge (>= 1.0.0)
-    bigdecimal (4.1.0)
+    bigdecimal (4.1.1)
     bluecloth (2.2.0)
     bonsai-elasticsearch-rails (7.0.1)
       elasticsearch-model (< 8)
