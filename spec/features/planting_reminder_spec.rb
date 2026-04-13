@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-describe "Planting reminder email", :js do
+describe "Planting reminder email" do
   let(:member) { create(:member) }
   let(:mail)   { NotifierMailer.planting_reminder(member) }
 

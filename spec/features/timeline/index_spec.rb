@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "timeline", :js do
+describe "timeline" do
   let(:member) { FactoryBot.create(:member) }
   let(:friend1) { FactoryBot.create(:member) }
   let(:friend2) { FactoryBot.create(:member) }

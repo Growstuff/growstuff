@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "Changing locales", :js do
+describe "Changing locales" do
   after { I18n.locale = :en }
 
   let(:member) { FactoryBot.create(:member) }
