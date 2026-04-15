@@ -759,7 +759,8 @@ GEM
     will_paginate (4.0.1)
     will_paginate-bootstrap-style (0.3.0)
       will_paginate (~> 4.0, >= 4.0.0)
-    xmlrpc (0.3.3)
+    xmlrpc (0.3.4)
+      rexml
       webrick
     xpath (3.2.0)
       nokogiri (~> 1.8)
