@@ -25,14 +25,6 @@ Capybara/NegationMatcherAfterVisit:
     - 'spec/features/members/profile_spec.rb'
     - 'spec/features/plantings/planting_a_crop_spec.rb'
 
-# Offense count: 34
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: DefaultSelector.
-Capybara/RSpec/HaveSelector:
-  Exclude:
-    - 'spec/support/feature_helpers.rb'
-    - 'spec/views/posts/show.html.haml_spec.rb'
-
 # Offense count: 14
 Capybara/SpecificMatcher:
   Exclude:
