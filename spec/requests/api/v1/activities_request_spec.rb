@@ -60,7 +60,7 @@ RSpec.describe 'Activities', type: :request do
     end
   end
 
-  context '#update' do
+  describe '#update' do
     let(:params) do
       {
         'data' => {
