@@ -30,14 +30,6 @@ Capybara/NegationMatcherAfterVisit:
 # Configuration parameters: DefaultSelector.
 Capybara/RSpec/HaveSelector:
   Exclude:
-    - 'spec/features/conversations/index_spec.rb'
-    - 'spec/features/footer_spec.rb'
-    - 'spec/features/gardens/adding_gardens_spec.rb'
-    - 'spec/features/harvests/harvesting_a_crop_spec.rb'
-    - 'spec/features/members/list_spec.rb'
-    - 'spec/features/plantings/planting_a_crop_spec.rb'
-    - 'spec/features/seeds/adding_seeds_spec.rb'
-    - 'spec/features/shared_examples/crop_suggest.rb'
     - 'spec/support/feature_helpers.rb'
     - 'spec/views/posts/show.html.haml_spec.rb'
 
