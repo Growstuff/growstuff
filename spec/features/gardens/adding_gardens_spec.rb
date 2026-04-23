@@ -11,10 +11,10 @@ describe "Gardens", :js do
     it_behaves_like 'is accessible'
 
     it "displays required and optional fields properly" do
-      expect(page).to have_selector ".required", text: "Name"
-      expect(page).to have_selector 'textarea#garden_description'
-      expect(page).to have_selector 'input#garden_location'
-      expect(page).to have_selector 'input#garden_area'
+      expect(page).to have_css ".required", text: "Name"
+      expect(page).to have_css 'textarea#garden_description'
+      expect(page).to have_css 'input#garden_location'
+      expect(page).to have_css 'input#garden_area'
     end
 
     it "Create new garden" do

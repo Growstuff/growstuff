@@ -22,8 +22,8 @@ describe 'seeds/index.rss.haml', :search do
   end
 
   context 'all seeds' do
-    let!(:seed) { FactoryBot.create(:seed) }
-    let!(:tradable) { FactoryBot.create(:tradable_seed) }
+    let!(:seed) { create(:seed) }
+    let!(:tradable) { create(:tradable_seed) }
 
     before do
       Seed.searchkick_index.refresh
@@ -47,7 +47,7 @@ describe 'seeds/index.rss.haml', :search do
   end
 
   context "one member's seeds" do
-    let!(:seed) { FactoryBot.create(:seed) }
+    let!(:seed) { create(:seed) }
 
     before do
       assign(:owner, seed.owner)

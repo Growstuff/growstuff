@@ -6,21 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: TreatCommentsAsGroupSeparators, ConsiderPunctuation.
-Bundler/OrderedGems:
-  Exclude:
-    - 'Gemfile'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: have_no, not_to
-Capybara/NegationMatcher:
-  Exclude:
-    - 'spec/features/admin/reverting_crops_spec.rb'
-
 # Offense count: 19
 Capybara/NegationMatcherAfterVisit:
   Exclude:
@@ -32,22 +17,6 @@ Capybara/NegationMatcherAfterVisit:
     - 'spec/features/members/following_spec.rb'
     - 'spec/features/members/profile_spec.rb'
     - 'spec/features/plantings/planting_a_crop_spec.rb'
-
-# Offense count: 34
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: DefaultSelector.
-Capybara/RSpec/HaveSelector:
-  Exclude:
-    - 'spec/features/conversations/index_spec.rb'
-    - 'spec/features/footer_spec.rb'
-    - 'spec/features/gardens/adding_gardens_spec.rb'
-    - 'spec/features/harvests/harvesting_a_crop_spec.rb'
-    - 'spec/features/members/list_spec.rb'
-    - 'spec/features/plantings/planting_a_crop_spec.rb'
-    - 'spec/features/seeds/adding_seeds_spec.rb'
-    - 'spec/features/shared_examples/crop_suggest.rb'
-    - 'spec/support/feature_helpers.rb'
-    - 'spec/views/posts/show.html.haml_spec.rb'
 
 # Offense count: 14
 Capybara/SpecificMatcher:
@@ -94,11 +63,6 @@ FactoryBot/ExcessiveCreateList:
     - 'spec/features/crops/show_spec.rb'
     - 'spec/features/percy/percy_spec.rb'
 
-# Offense count: 1158
-# This cop supports unsafe autocorrection (--autocorrect-all).
-FactoryBot/SyntaxMethods:
-  Enabled: false
-
 # Offense count: 312
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowMultipleStyles, EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle.
@@ -117,17 +81,6 @@ Layout/HashAlignment:
     - 'spec/requests/api/v1/activities_request_spec.rb'
     - 'spec/requests/api/v1/members_request_spec.rb'
 
-# Offense count: 7
-# This cop supports safe autocorrection (--autocorrect).
-Layout/HeredocIndentation:
-  Exclude:
-    - 'db/migrate/20190712003735_add_like_counter_caches.rb'
-    - 'db/migrate/20191226024813_crop_harvest_counter_cache.rb'
-    - 'db/migrate/20191226024957_crop_photo_counter_cache.rb'
-    - 'db/migrate/20191226025124_plant_part_harvest_counter_cache.rb'
-    - 'db/migrate/20191226025225_post_comment_counter_cache.rb'
-    - 'db/migrate/20250824085224_add_photos_comment_count.rb'
-
 # Offense count: 6
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: Max, AllowHeredoc, AllowURI, AllowQualifiedName, URISchemes, AllowRBSInlineAnnotation, AllowCopDirectives, AllowedPatterns, SplitStrings.
@@ -140,14 +93,6 @@ Layout/LineLength:
     - 'app/models/crop.rb'
     - 'db/seeds.rb'
     - 'spec/requests/api/v1/activities_request_spec.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowInHeredoc.
-Layout/TrailingWhitespace:
-  Exclude:
-    - 'Gemfile'
-    - 'app/helpers/crops_helper.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
@@ -190,18 +135,6 @@ Lint/DuplicateBranch:
 Lint/DuplicateMethods:
   Exclude:
     - 'app/models/planting.rb'
-
-# Offense count: 8
-# Configuration parameters: AllowComments, AllowEmptyLambdas.
-Lint/EmptyBlock:
-  Exclude:
-    - 'db/migrate/20171022032108_all_the_predictions.rb'
-    - 'spec/controllers/home_controller_spec.rb'
-    - 'spec/controllers/likes_controller_spec.rb'
-    - 'spec/controllers/plant_parts_controller_spec.rb'
-    - 'spec/factories/crop_companions.rb'
-    - 'spec/features/crops/crop_detail_page_spec.rb'
-    - 'spec/requests/authentications_spec.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
@@ -365,14 +298,6 @@ RSpec/EmptyLineAfterExample:
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
   Max: 27
-
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: method_call, block
-RSpec/ExpectChange:
-  Exclude:
-    - 'spec/models/crop_spec.rb'
 
 # Offense count: 32
 RSpec/ExpectInHook:
@@ -675,12 +600,6 @@ Rails/RakeEnvironment:
     - 'lib/tasks/hooks.rake'
     - 'lib/tasks/i18n.rake'
     - 'lib/tasks/testing.rake'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Rails/RedirectBackOrTo:
-  Exclude:
-    - 'app/controllers/follows_controller.rb'
 
 # Offense count: 9
 # This cop supports unsafe autocorrection (--autocorrect-all).

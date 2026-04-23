@@ -73,13 +73,13 @@ describe "Conversations", :js do
       click_link recipient.login_name
       click_link 'Inbox'
 
-      expect(page).to have_selector('.sent')
+      expect(page).to have_css('.sent')
       find('.sent').click
 
       all('input[type=checkbox]').each(&:click)
       click_button 'Delete'
 
-      expect(page).to have_selector('.sent')
+      expect(page).to have_css('.sent')
       find('.sent').click
       expect(page).to have_no_content 'this is a message'
       expect(page).to have_no_content 'this is another message'

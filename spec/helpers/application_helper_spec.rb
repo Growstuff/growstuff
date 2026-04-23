@@ -13,7 +13,7 @@ describe ApplicationHelper do
   describe '#avatar_uri' do
     context 'with a normal user' do
       before do
-        @member = FactoryBot.build(:member, email: 'example@example.com', preferred_avatar_uri: nil)
+        @member = build(:member, email: 'example@example.com', preferred_avatar_uri: nil)
       end
 
       it 'renders a gravatar uri' do
@@ -27,7 +27,7 @@ describe ApplicationHelper do
 
     context 'with a user who specified a preferred avatar uri' do
       before do
-        @member = FactoryBot.build(:member, email: 'example@example.com', preferred_avatar_uri: 'http://media.catmoji.com/post/ujg/cat-in-hat.jpg')
+        @member = build(:member, email: 'example@example.com', preferred_avatar_uri: 'http://media.catmoji.com/post/ujg/cat-in-hat.jpg')
       end
 
       it 'renders a the specified uri' do
