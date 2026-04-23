@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Crop < ApplicationRecord
+  has_paper_trail
   extend FriendlyId
   include PhotoCapable
   include OpenFarmData
@@ -27,6 +28,10 @@ class Crop < ApplicationRecord
   has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
   has_many :crop_posts, dependent: :delete_all
   has_many :posts, through: :crop_posts, dependent: :delete_all
+  has_one :australian_food_classification_data,
+          foreign_key: :public_food_key,
+          primary_key: :public_food_key,
+          inverse_of:  :crop
 
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
 
@@ -55,6 +60,12 @@ class Crop < ApplicationRecord
               message: 'is not a valid English Wikipedia URL'
             },
             if:     :approved?
+  validates :en_youtube_url,
+            format: {
+              with:    %r{\A(?:https?://)?(?:www\.)?(?:youtube(?:-nocookie)?\.com/(?:(?:v|e(?:mbed)?)/|\S*?[?&]v=)|youtu\.be/)[a-zA-Z0-9_-]{11}(?:[?&]\S*)?\z},
+              message: 'is not a valid YouTube URL'
+            },
+            allow_blank: true
   validates :name, uniqueness: { scope: :approval_status }, if: :pending?
 
   def to_s
@@ -156,10 +167,16 @@ class Crop < ApplicationRecord
   def all_companions
     return companions unless parent
 
-    (companions + parent.companions).uniq
+    (companions + parent.all_companions).uniq
   end
 
+  before_destroy :destroy_reverse_companionships
+
   private
+
+  def destroy_reverse_companionships
+    CropCompanion.where(crop_b: self).destroy_all
+  end
 
   def count_uses_of_property(col_name)
     plantings.unscoped
