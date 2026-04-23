@@ -16,7 +16,7 @@ describe LikesController do
 
     it { expect(Like.last.likeable_id).to eq(blogpost.id) }
     it { expect(Like.last.likeable_type).to eq('Post') }
-    it { JSON.parse(response.body)["description"] == "1 like" }
+    it { response.parsed_body["description"] == "1 like" }
 
     describe "Liking someone else's post" do
       it { expect(response.code).to eq('201') }
@@ -30,14 +30,14 @@ describe LikesController do
 
     describe "un-liking something i liked before" do
       it { expect(response.code).to eq('200') }
-      it { JSON.parse(response.body)["description"] == "0 likes" }
+      it { response.parsed_body["description"] == "0 likes" }
     end
 
     describe "Deleting someone else's like" do
       let(:like) { create(:like) }
 
       it { expect(response.code).to eq('403') }
-      it { JSON.parse(response.body)["error"] == "Unable to like" }
+      it { response.parsed_body["error"] == "Unable to like" }
     end
   end
 end

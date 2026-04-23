@@ -625,21 +625,6 @@ Rails/RedundantPresenceValidationOnBelongsTo:
     - 'app/models/planting.rb'
     - 'app/models/scientific_name.rb'
 
-# Offense count: 16
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Rails/ResponseParsedBody:
-  Exclude:
-    - 'spec/controllers/api/v1/plantings_controller_spec.rb'
-    - 'spec/controllers/likes_controller_spec.rb'
-    - 'spec/requests/api/v1/activities_request_spec.rb'
-    - 'spec/requests/api/v1/crop_request_spec.rb'
-    - 'spec/requests/api/v1/gardens_request_spec.rb'
-    - 'spec/requests/api/v1/harvests_request_spec.rb'
-    - 'spec/requests/api/v1/members_request_spec.rb'
-    - 'spec/requests/api/v1/photos_request_spec.rb'
-    - 'spec/requests/api/v1/plantings_request_spec.rb'
-    - 'spec/requests/api/v1/seeds_request_spec.rb'
-
 # Offense count: 9
 Rails/ReversibleMigration:
   Exclude:

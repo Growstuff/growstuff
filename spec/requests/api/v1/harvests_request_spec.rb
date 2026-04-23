@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Harvests', type: :request do
-  subject { JSON.parse response.body }
+  subject { response.parsed_body }
 
   let(:headers)  { { 'Accept' => 'application/vnd.api+json' } }
   let!(:harvest) { create(:harvest) }

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Photos', type: :request do
-  subject { JSON.parse response.body }
+  subject { response.parsed_body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:photo)  { create(:photo) }

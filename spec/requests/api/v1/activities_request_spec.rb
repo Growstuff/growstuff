@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Activities', type: :request do
-  subject { JSON.parse response.body }
+  subject { response.parsed_body }
 
   let(:member) { create(:member) }
   let(:token) do

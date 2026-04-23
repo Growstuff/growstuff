@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Plantings', type: :request do
-  subject { JSON.parse response.body }
+  subject { response.parsed_body }
 
   let(:headers)   { { 'Accept' => 'application/vnd.api+json' } }
   let!(:planting) { create(:planting) }
@@ -220,18 +220,18 @@ RSpec.describe 'Plantings', type: :request do
     describe "#show" do
       it "locates the correct member" do
         get "/api/v1/plantings?filter[owner-id]=#{@member1.id}"
-        expect(JSON.parse(response.body)['data'][0]['id']).to eq(planting.id.to_s)
+        expect(response.parsed_body['data'][0]['id']).to eq(planting.id.to_s)
 
         get "/api/v1/plantings?filter[owner-id]=#{@member2.id}"
-        expect(JSON.parse(response.body)['data'][0]['id']).to eq(@planting2.id.to_s)
+        expect(response.parsed_body['data'][0]['id']).to eq(@planting2.id.to_s)
 
         pending "The below should be identical to the above, but aren't."
 
         get "/api/v1/members/#{@member1.id}/plantings"
-        expect(JSON.parse(response.body)['data'][0]['id']).to eq(planting.id.to_s)
+        expect(response.parsed_body['data'][0]['id']).to eq(planting.id.to_s)
 
         get "/api/v1/members/#{@member2.id}/plantings"
-        expect(JSON.parse(response.body)['data'][0]['id']).to eq(@planting2.id.to_s)
+        expect(response.parsed_body['data'][0]['id']).to eq(@planting2.id.to_s)
       end
     end
   end
