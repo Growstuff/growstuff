@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::V1::PlantingsController, type: :controller do
+RSpec.describe Api::V1::PlantingsController do
   subject { JSON.parse response.body }
 
   let!(:member) { create(:member) }

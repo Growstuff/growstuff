@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe EventHelper, type: :helper do
+RSpec.describe EventHelper do
   subject { resolve_model(event) }
 
   let(:planting) { create(:planting) }
