@@ -144,7 +144,7 @@ describe Harvest do
     it 'lists most recent harvests first' do
       @h1 = create(:harvest, created_at: 1.day.ago)
       @h2 = create(:harvest, created_at: 1.hour.ago)
-      expect(described_class.all.order(created_at: :desc)).to eq [@h2, @h1]
+      expect(described_class.order(created_at: :desc)).to eq [@h2, @h1]
     end
   end
 
