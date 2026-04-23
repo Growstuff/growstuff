@@ -672,12 +672,6 @@ Rails/WhereEquals:
     - 'app/models/harvest.rb'
     - 'app/models/planting.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Rails/WhereMissing:
-  Exclude:
-    - 'app/controllers/crops_controller.rb'
-
 # Offense count: 3
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Rails/WhereRange:
