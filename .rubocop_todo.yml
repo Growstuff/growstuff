@@ -254,12 +254,6 @@ RSpec/BeforeAfterAll:
   Exclude:
     - 'spec/tasks/import_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/ContextMethod:
-  Exclude:
-    - 'spec/requests/api/v1/activities_request_spec.rb'
-
 # Offense count: 299
 # Configuration parameters: Prefixes, AllowedPatterns.
 # Prefixes: when, with, without
