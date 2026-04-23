@@ -18,7 +18,7 @@ describe "Conversations", :js do
       click_link 'Inbox'
     end
 
-    include_examples 'is accessible'
+    it_behaves_like 'is accessible'
 
     it { expect(page).to have_content 'something i want to say' }
     it { page.percy_snapshot(page, name: 'conversations#index') }

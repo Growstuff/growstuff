@@ -34,11 +34,11 @@ describe "signout" do
   end
 
   describe 'after signout, redirect to signin page if page needs authentication' do
-    include_examples "sign-in redirects", "/plantings/new"
-    include_examples "sign-in redirects", "/harvests/new"
-    include_examples "sign-in redirects", "/posts/new"
-    include_examples "sign-in redirects", "/gardens/new"
-    include_examples "sign-in redirects", "/seeds/new"
+    it_behaves_like "sign-in redirects", "/plantings/new"
+    it_behaves_like "sign-in redirects", "/harvests/new"
+    it_behaves_like "sign-in redirects", "/posts/new"
+    it_behaves_like "sign-in redirects", "/gardens/new"
+    it_behaves_like "sign-in redirects", "/seeds/new"
   end
 
   it 'photos' do

@@ -31,7 +31,7 @@ describe 'seeds/index.rss.haml', :search do
       render
     end
 
-    include_examples 'displays seed in rss feed'
+    it_behaves_like 'displays seed in rss feed'
 
     it 'shows RSS feed title' do
       expect(rendered).to have_content "Recent seeds from all members"
@@ -60,6 +60,6 @@ describe 'seeds/index.rss.haml', :search do
       expect(rendered).to have_content "Recent seeds from #{seed.owner}"
     end
 
-    include_examples 'displays seed in rss feed'
+    it_behaves_like 'displays seed in rss feed'
   end
 end

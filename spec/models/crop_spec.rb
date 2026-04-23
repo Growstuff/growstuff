@@ -154,7 +154,7 @@ describe Crop do
 
       it { expect(crop.default_photo).to eq photo }
 
-      include_examples 'has default photo'
+      it_behaves_like 'has default photo'
     end
 
     context 'with a harvest photo' do
@@ -165,7 +165,7 @@ describe Crop do
 
       it { expect(crop.default_photo).to eq photo }
 
-      include_examples 'has default photo'
+      it_behaves_like 'has default photo'
 
       context 'and planting photo' do
         let(:planting) { create(:planting, crop:) }

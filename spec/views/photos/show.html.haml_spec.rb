@@ -58,7 +58,7 @@ describe "photos/show" do
       render
     end
 
-    include_examples "photo data renders"
+    it_behaves_like "photo data renders"
 
     it "has a delete button" do
       assert_select "a[href='#{photo_path(@photo)}']"
@@ -71,8 +71,8 @@ describe "photos/show" do
       render
     end
 
-    include_examples "photo data renders"
-    include_examples "No links to change data"
+    it_behaves_like "photo data renders"
+    it_behaves_like "No links to change data"
   end
 
   context "not signed in" do
@@ -81,8 +81,8 @@ describe "photos/show" do
       render
     end
 
-    include_examples "photo data renders"
-    include_examples "No links to change data"
+    it_behaves_like "photo data renders"
+    it_behaves_like "No links to change data"
   end
 
   context "CC-licensed photo" do

@@ -14,17 +14,17 @@ module FeatureHelpers
 
   shared_context 'signed in member' do
     let(:member) { create(:member) }
-    include_examples 'sign in'
+    it_behaves_like 'sign in'
   end
 
   shared_context 'signed in crop wrangler' do
     let(:member) { create(:crop_wrangling_member) }
-    include_examples 'sign in'
+    it_behaves_like 'sign in'
   end
 
   shared_context 'signed in admin' do
     let(:member) { create(:admin_member) }
-    include_examples 'sign in'
+    it_behaves_like 'sign in'
   end
 
   shared_context 'sign in' do

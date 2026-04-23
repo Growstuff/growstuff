@@ -58,13 +58,13 @@ describe 'Likeable', :js, :search do
     describe 'photos#index' do
       let(:path) { photos_path }
 
-      include_examples 'object can be liked'
+      it_behaves_like 'object can be liked'
     end
 
     describe 'photos#show' do
       let(:path) { photo_path(photo) }
 
-      include_examples 'object can be liked'
+      it_behaves_like 'object can be liked'
     end
 
     describe 'crops#show' do
@@ -74,7 +74,7 @@ describe 'Likeable', :js, :search do
 
       before { planting.photos << photo }
 
-      include_examples 'object can be liked'
+      it_behaves_like 'object can be liked'
     end
   end
 
@@ -82,27 +82,27 @@ describe 'Likeable', :js, :search do
     let(:like_count_class) { ".post-#{post.id} .like-count" }
     let(:path) { post_path(post) }
 
-    include_examples 'object can be liked'
+    it_behaves_like 'object can be liked'
   end
 
   describe 'activities' do
     let(:like_count_class) { ".activity-#{activity.id} .like-count" }
     let(:path) { activity_path(activity) }
 
-    include_examples 'object can be liked'
+    it_behaves_like 'object can be liked'
   end
 
   describe 'plantings' do
     let(:like_count_class) { ".planting-#{planting.id} .like-count" }
     let(:path) { planting_path(planting) }
 
-    include_examples 'object can be liked'
+    it_behaves_like 'object can be liked'
   end
 
   describe 'harvests' do
     let(:like_count_class) { ".harvest-#{harvest.id} .like-count" }
     let(:path) { harvest_path(harvest) }
 
-    include_examples 'object can be liked'
+    it_behaves_like 'object can be liked'
   end
 end

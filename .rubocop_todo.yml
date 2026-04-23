@@ -334,26 +334,6 @@ RSpec/HooksBeforeExamples:
   Exclude:
     - 'spec/features/crops/creating_a_crop_spec.rb'
 
-# Offense count: 53
-# This cop supports unsafe autocorrection (--autocorrect-all).
-RSpec/IncludeExamples:
-  Exclude:
-    - 'spec/features/conversations/index_spec.rb'
-    - 'spec/features/crops/alternate_name_spec.rb'
-    - 'spec/features/crops/browse_crops_spec.rb'
-    - 'spec/features/crops/creating_a_crop_spec.rb'
-    - 'spec/features/crops/crop_photos_spec.rb'
-    - 'spec/features/crops/delete_crop_spec.rb'
-    - 'spec/features/gardens/actions_spec.rb'
-    - 'spec/features/gardens/adding_gardens_spec.rb'
-    - 'spec/features/gardens/index_spec.rb'
-    - 'spec/features/likeable_spec.rb'
-    - 'spec/features/signout_spec.rb'
-    - 'spec/models/crop_spec.rb'
-    - 'spec/support/feature_helpers.rb'
-    - 'spec/views/photos/show.html.haml_spec.rb'
-    - 'spec/views/seeds/index.rss.haml_spec.rb'
-
 # Offense count: 37
 # Configuration parameters: Max, AllowedIdentifiers, AllowedPatterns.
 RSpec/IndexedLet:
