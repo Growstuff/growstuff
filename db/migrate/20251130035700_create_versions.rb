@@ -1,7 +1,6 @@
 # This migration creates the `versions` table for the Version class.
 # All other migrations PT provides are optional.
 class CreateVersions < ActiveRecord::Migration[7.2]
-
   # The largest text column available in all supported RDBMS is
   # 1024^3 - 1 bytes, roughly one gibibyte.  We specify a size
   # so that MySQL will use `longtext` instead of `text`.  Otherwise,
