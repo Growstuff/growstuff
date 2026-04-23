@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Members', type: :request do
+RSpec.describe 'Members' do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }

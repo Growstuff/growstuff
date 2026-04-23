@@ -242,12 +242,6 @@ RSpec/BeforeAfterAll:
   Exclude:
     - 'spec/tasks/import_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/ContextMethod:
-  Exclude:
-    - 'spec/requests/api/v1/activities_request_spec.rb'
-
 # Offense count: 299
 # Configuration parameters: Prefixes, AllowedPatterns.
 # Prefixes: when, with, without
@@ -478,23 +472,6 @@ RSpec/VerifiedDoubles:
     - 'spec/controllers/gardens_controller_spec.rb'
     - 'spec/views/devise/shared/_links_spec.rb'
 
-# Offense count: 7
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: ResponseMethods.
-# ResponseMethods: response, last_response
-RSpecRails/HaveHttpStatus:
-  Exclude:
-    - 'spec/controllers/api/v1/plantings_controller_spec.rb'
-    - 'spec/controllers/harvests_controller_spec.rb'
-    - 'spec/controllers/likes_controller_spec.rb'
-    - 'spec/requests/harvests_spec.rb'
-
-# Offense count: 17
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: Inferences.
-RSpecRails/InferredSpecType:
-  Enabled: false
-
 # Offense count: 30
 # Configuration parameters: Database.
 # SupportedDatabases: mysql, postgresql
@@ -614,7 +591,6 @@ Rails/RedundantActiveRecordAllMethod:
     - 'app/controllers/scientific_names_controller.rb'
     - 'spec/features/members/deletion_spec.rb'
     - 'spec/features/percy/percy_spec.rb'
-    - 'spec/models/harvest_spec.rb'
 
 # Offense count: 5
 # This cop supports unsafe autocorrection (--autocorrect-all).

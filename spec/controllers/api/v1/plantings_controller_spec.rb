@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::V1::PlantingsController, type: :controller do
+RSpec.describe Api::V1::PlantingsController do
   subject { JSON.parse response.body }
 
   let!(:member) { create(:member) }
@@ -42,7 +42,7 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
 
         it { expect(matching_planting).to include('id' => my_planting.id.to_s) }
         it { expect(matching_planting['attributes']).to eq expected_attributes }
-        it { expect(response.status).to eq 200 }
+        it { expect(response).to have_http_status :ok }
       end
 
       context 'with photo' do
@@ -81,7 +81,7 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
 
         it { expect(matching_planting).to include('id' => my_planting.id.to_s) }
         it { expect(matching_planting['attributes']).to eq expected_attributes }
-        it { expect(response.status).to eq 200 }
+        it { expect(response).to have_http_status :ok }
       end
     end
   end
