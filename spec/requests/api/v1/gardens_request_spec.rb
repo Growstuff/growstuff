@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Gardens', type: :request do
+RSpec.describe 'Gardens' do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:garden) { FactoryBot.create(:garden) }
+  let!(:garden) { create(:garden) }
   let(:garden_encoded_as_json_api) do
     { "id"            => garden.id.to_s,
       "type"          => "gardens",
@@ -51,7 +51,7 @@ RSpec.describe 'Gardens', type: :request do
   end
 
   context 'filtering' do
-    let!(:garden2) { FactoryBot.create(:garden, active: false, garden_type: FactoryBot.create(:garden_type)) }
+    let!(:garden2) { create(:garden, active: false, garden_type: create(:garden_type)) }
 
     pending 'filters by active' do
       get('/api/v1/gardens?filter[active]=true', params: {}, headers:)
@@ -85,7 +85,7 @@ RSpec.describe 'Gardens', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:garden_params) do
       {
         data: {
@@ -116,7 +116,7 @@ RSpec.describe 'Gardens', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:garden) { create(:garden, owner: member) }
     let(:other_member_garden) { create(:garden) }
     let(:update_params) do
@@ -164,7 +164,7 @@ RSpec.describe 'Gardens', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let!(:garden) { create(:garden, owner: member) }
     let(:other_member_garden) { create(:garden) }
 

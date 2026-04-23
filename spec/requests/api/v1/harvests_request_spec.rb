@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Harvests', type: :request do
+RSpec.describe 'Harvests' do
   subject { JSON.parse response.body }
 
   let(:headers)  { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:harvest) { FactoryBot.create(:harvest) }
+  let!(:harvest) { create(:harvest) }
   let(:harvest_encoded_as_json_api) do
     { "id"            => harvest.id.to_s,
       "type"          => "harvests",
@@ -77,7 +77,7 @@ RSpec.describe 'Harvests', type: :request do
   end
 
   context 'filtering' do
-    let!(:harvest2) { FactoryBot.create(:harvest, planting: create(:planting)) }
+    let!(:harvest2) { create(:harvest, planting: create(:planting)) }
 
     it 'filters by crop' do
       get("/api/v1/harvests?filter[crop_id]=#{harvest2.crop.id}", params: {}, headers:)
@@ -117,7 +117,7 @@ RSpec.describe 'Harvests', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:crop) { create(:crop) }
     let(:planting) { create(:planting, owner: member) }
     let(:plant_part) { create(:plant_part) }
@@ -156,7 +156,7 @@ RSpec.describe 'Harvests', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:harvest) { create(:harvest, owner: member) }
     let(:other_member_harvest) { create(:harvest) }
     let(:update_params) do
@@ -205,7 +205,7 @@ RSpec.describe 'Harvests', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let!(:harvest) { create(:harvest, owner: member) }
     let(:other_member_harvest) { create(:harvest) }
 

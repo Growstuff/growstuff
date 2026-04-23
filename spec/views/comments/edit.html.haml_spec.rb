@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "comments/edit" do
-  let(:comment) { FactoryBot.create(:comment) }
+  let(:comment) { create(:comment) }
 
   before do
     controller.stub(:current_user) { nil }

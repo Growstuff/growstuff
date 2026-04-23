@@ -5,9 +5,9 @@ require 'rails_helper'
 describe 'crops/index.rss.haml' do
   before do
     controller.stub(:current_user) { nil }
-    @author = FactoryBot.create(:member)
-    @tomato = FactoryBot.create(:tomato)
-    @maize = FactoryBot.create(:maize)
+    @author = create(:member)
+    @tomato = create(:tomato)
+    @maize = create(:maize)
     assign(:crops, [@tomato, @maize])
     render
   end

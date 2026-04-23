@@ -6,14 +6,14 @@ describe PostsController do
   login_member
 
   def valid_attributes
-    member = FactoryBot.create(:member)
+    member = create(:member)
     { author_id: member.id, subject: "blah", body: "blah blah" }
   end
 
   describe '#index' do
     before do
-      FactoryBot.create_list(:post, 100)
-      FactoryBot.create_list(:post, 5, author: member)
+      create_list(:post, 100)
+      create_list(:post, 5, author: member)
     end
 
     describe "everyone's posts" do

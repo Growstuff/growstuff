@@ -7,18 +7,18 @@ describe PlantingsController, :search do
 
   def valid_attributes
     {
-      garden_id: FactoryBot.create(:garden, owner: subject.current_member).id,
-      crop_id:   FactoryBot.create(:crop).id
+      garden_id: create(:garden, owner: subject.current_member).id,
+      crop_id:   create(:crop).id
     }
   end
 
   describe "GET index", :search do
-    let!(:member1)   { FactoryBot.create(:member)                                                       }
-    let!(:member2)   { FactoryBot.create(:member)                                                       }
-    let!(:tomato)    { FactoryBot.create(:tomato)                                                       }
-    let!(:maize)     { FactoryBot.create(:maize)                                                        }
-    let!(:planting1) { FactoryBot.create(:planting, crop: tomato, owner: member1, created_at: 1.day.ago) }
-    let!(:planting2) { FactoryBot.create(:planting, crop: maize, owner: member2, created_at: 5.days.ago) }
+    let!(:member1)   { create(:member)                                                       }
+    let!(:member2)   { create(:member)                                                       }
+    let!(:tomato)    { create(:tomato)                                                       }
+    let!(:maize)     { create(:maize)                                                        }
+    let!(:planting1) { create(:planting, crop: tomato, owner: member1, created_at: 1.day.ago) }
+    let!(:planting2) { create(:planting, crop: maize, owner: member2, created_at: 5.days.ago) }
 
     before do
       Planting.reindex
@@ -50,7 +50,7 @@ describe PlantingsController, :search do
 
   describe "GET new" do
     describe "picks up crop from params" do
-      let(:crop) { FactoryBot.create(:crop) }
+      let(:crop) { create(:crop) }
 
       before { get :new, params: { crop_id: crop.id } }
 
@@ -64,7 +64,7 @@ describe PlantingsController, :search do
     end
 
     describe "picks up member's garden from params" do
-      let(:garden) { FactoryBot.create(:garden, owner: member) }
+      let(:garden) { create(:garden, owner: member) }
 
       before { get :new, params: { garden_id: garden.id } }
 
@@ -72,8 +72,8 @@ describe PlantingsController, :search do
     end
 
     describe "Doesn't display another member's garden on planting form" do
-      let(:another_member) { FactoryBot.create(:member) } # over-riding member from login_member()
-      let(:garden) { FactoryBot.create(:garden, owner: another_member) }
+      let(:another_member) { create(:member) } # over-riding member from login_member()
+      let(:garden) { create(:garden, owner: another_member) }
 
       before { get :new, params: { garden_id: garden.id } }
 
@@ -81,8 +81,8 @@ describe PlantingsController, :search do
     end
 
     describe "Doesn't display un-approved crops on planting form" do
-      let(:crop) { FactoryBot.create(:crop, approval_status: 'pending') }
-      let!(:garden) { FactoryBot.create(:garden, owner: member) }
+      let(:crop) { create(:crop, approval_status: 'pending') }
+      let!(:garden) { create(:garden, owner: member) }
 
       before { get :new, params: { crop_id: crop.id } }
 
@@ -90,8 +90,8 @@ describe PlantingsController, :search do
     end
 
     describe "Doesn't display rejected crops on planting form" do
-      let(:crop) { FactoryBot.create(:crop, approval_status: 'rejected', reason_for_rejection: 'nope') }
-      let!(:garden) { FactoryBot.create(:garden, owner: member) }
+      let(:crop) { create(:crop, approval_status: 'rejected', reason_for_rejection: 'nope') }
+      let!(:garden) { create(:garden, owner: member) }
 
       before { get :new, params: { crop_id: crop.id } }
 
@@ -111,7 +111,7 @@ describe PlantingsController, :search do
     end
 
     context 'with parent seed' do
-      let(:seed) { FactoryBot.create(:seed, owner: member) }
+      let(:seed) { create(:seed, owner: member) }
 
       before { get :new, params: { seed_id: seed.to_param } }
 
@@ -128,8 +128,8 @@ describe PlantingsController, :search do
   end
 
   describe 'GET :edit' do
-    let(:my_planting) { FactoryBot.create(:planting, owner: member) }
-    let(:not_my_planting) { FactoryBot.create(:planting) }
+    let(:my_planting) { create(:planting, owner: member) }
+    let(:not_my_planting) { create(:planting) }
 
     context 'my planting' do
       before { get :edit, params: { slug: my_planting } }

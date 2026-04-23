@@ -29,8 +29,10 @@ describe "forums", :js do
       click_button 'Save'
     end
 
-    it { expect(page).to have_current_path forum_path(Forum.last), ignore_query: true }
-    it { expect(page).to have_content 'Forum was successfully created' }
+    it 'saves' do
+      expect(page).to have_content 'Forum was successfully created'
+      expect(page).to have_current_path forum_path(Forum.last), ignore_query: true
+    end
   end
 
   describe 'editing forum' do

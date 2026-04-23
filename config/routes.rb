@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :authentications, only: %i(create destroy)
 
   get "home/index"
+  get '/community-gardens', to: 'home#community_gardens'
   root to: 'home#index'
 
   concern :has_photos do
@@ -89,6 +90,14 @@ Rails.application.routes.draw do
       get 'wrangle'
       get 'hierarchy'
       get 'search'
+      get 'data_improvement'
+    end
+  end
+
+  namespace :admin do
+    resources :crops, only: [:index]
+    resources :versions, only: [] do
+      post :revert, on: :member, as: :revert
     end
   end
 
