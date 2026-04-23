@@ -141,14 +141,6 @@ Layout/LineLength:
     - 'db/seeds.rb'
     - 'spec/requests/api/v1/activities_request_spec.rb'
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowInHeredoc.
-Layout/TrailingWhitespace:
-  Exclude:
-    - 'Gemfile'
-    - 'app/helpers/crops_helper.rb'
-
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 Lint/AmbiguousOperatorPrecedence:
