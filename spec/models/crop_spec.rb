@@ -554,7 +554,7 @@ describe Crop do
     end
 
     it "destroys companion links" do
-      expect { crop_a.destroy }.to change { CropCompanion.count }.from(2).to(0)
+      expect { crop_a.destroy }.to change(CropCompanion, :count).from(2).to(0)
     end
   end
 

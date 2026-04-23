@@ -311,14 +311,6 @@ RSpec/EmptyLineAfterExample:
 RSpec/ExampleLength:
   Max: 27
 
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: method_call, block
-RSpec/ExpectChange:
-  Exclude:
-    - 'spec/models/crop_spec.rb'
-
 # Offense count: 32
 RSpec/ExpectInHook:
   Exclude:
