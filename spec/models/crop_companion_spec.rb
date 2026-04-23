@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CropCompanion, type: :model do
+RSpec.describe CropCompanion do
   it 'has a crop' do
     cc = described_class.new
     cc.crop_a = create :tomato

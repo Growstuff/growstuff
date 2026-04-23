@@ -483,12 +483,6 @@ RSpecRails/HaveHttpStatus:
     - 'spec/controllers/likes_controller_spec.rb'
     - 'spec/requests/harvests_spec.rb'
 
-# Offense count: 17
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: Inferences.
-RSpecRails/InferredSpecType:
-  Enabled: false
-
 # Offense count: 30
 # Configuration parameters: Database.
 # SupportedDatabases: mysql, postgresql

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Gardens', type: :request do
+RSpec.describe 'Gardens' do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }

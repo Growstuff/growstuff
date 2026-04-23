@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Activities', type: :request do
+RSpec.describe 'Activities' do
   subject { JSON.parse response.body }
 
   let(:member) { create(:member) }

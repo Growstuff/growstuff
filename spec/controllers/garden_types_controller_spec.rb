@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe GardenTypesController, type: :controller do
+RSpec.describe GardenTypesController do
   include Devise::Test::ControllerHelpers
 
   let(:valid_params) { { name: 'My second GardenType' } }
