@@ -91,7 +91,7 @@ jobs:
       - name: Install NodeJS
         uses: actions/setup-node@v6
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install Ruby (version given by .ruby-version) and Bundler
         uses: ruby/setup-ruby@v1
