@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 describe "crops/_grown_for" do
-  let(:crop)       { FactoryBot.create(:crop)       }
-  let(:plant_path) { FactoryBot.create(:plant_part) }
+  let(:crop)       { create(:crop)       }
+  let(:plant_path) { create(:plant_part) }
   let!(:harvest) do
-    FactoryBot.create(:harvest,
-                      crop:,
-                      plant_part: plant_path)
+    create(:harvest,
+           crop:,
+           plant_part: plant_path)
   end
 
   it 'shows plant parts' do

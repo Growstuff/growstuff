@@ -86,11 +86,6 @@ FactoryBot/ExcessiveCreateList:
     - 'spec/features/crops/show_spec.rb'
     - 'spec/features/percy/percy_spec.rb'
 
-# Offense count: 1158
-# This cop supports unsafe autocorrection (--autocorrect-all).
-FactoryBot/SyntaxMethods:
-  Enabled: false
-
 # Offense count: 312
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowMultipleStyles, EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle.

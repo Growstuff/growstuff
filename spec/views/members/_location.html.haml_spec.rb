@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "members/_location" do
   context "member with location" do
-    let(:member) { FactoryBot.create(:london_member) }
+    let(:member) { create(:london_member) }
 
     before { render partial: 'members/location', locals: { member: } }
 
@@ -19,7 +19,7 @@ describe "members/_location" do
 
   context "member with no location" do
     before do
-      member = FactoryBot.create(:member)
+      member = create(:member)
       render partial: 'members/location', locals: { member: }
     end
 
