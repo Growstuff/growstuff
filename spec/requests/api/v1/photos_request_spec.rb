@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Photos', type: :request do
+RSpec.describe 'Photos' do
   subject { response.parsed_body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }

@@ -12,7 +12,7 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.describe ButtonsHelper, type: :helper do
+RSpec.describe ButtonsHelper do
   before { allow(self).to receive(:can?).and_return(true) }
 
   let(:garden)   { create(:garden)   }

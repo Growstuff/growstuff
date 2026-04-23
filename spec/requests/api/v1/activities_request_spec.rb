@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Activities', type: :request do
+RSpec.describe 'Activities' do
   subject { response.parsed_body }
 
   let(:member) { create(:member) }
@@ -60,7 +60,7 @@ RSpec.describe 'Activities', type: :request do
     end
   end
 
-  context '#update' do
+  describe '#update' do
     let(:params) do
       {
         'data' => {
