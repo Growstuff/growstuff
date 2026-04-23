@@ -614,7 +614,6 @@ Rails/RedundantActiveRecordAllMethod:
     - 'app/controllers/scientific_names_controller.rb'
     - 'spec/features/members/deletion_spec.rb'
     - 'spec/features/percy/percy_spec.rb'
-    - 'spec/models/harvest_spec.rb'
 
 # Offense count: 5
 # This cop supports unsafe autocorrection (--autocorrect-all).
