@@ -692,12 +692,6 @@ Rails/RakeEnvironment:
     - 'lib/tasks/i18n.rake'
     - 'lib/tasks/testing.rake'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Rails/RedirectBackOrTo:
-  Exclude:
-    - 'app/controllers/follows_controller.rb'
-
 # Offense count: 9
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: AllowedReceivers.
