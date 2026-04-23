@@ -1,4 +1,9 @@
 - content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
+- content_for :meta_description do
+  - if @seed.description.present?
+    = @seed.description
+  - else
+    = "Seeds for #{@seed.crop.name}, shared by #{@seed.owner}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: seed_image_path(@seed))
   - if @seed.description
@@ -8,6 +13,8 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+%script{type: "application/ld+json"}
+  = crop_jsonld_data(@seed.crop, full_attributes: false).to_json.html_safe
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Seeds', seeds_path

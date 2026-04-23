@@ -28,8 +28,10 @@ describe "plant parts", :js do
       click_button 'Save'
     end
 
-    it { expect(page).to have_current_path plant_part_path(PlantPart.last), ignore_query: true }
-    it { expect(page).to have_content 'Plant part was successfully created' }
+    it 'saves' do
+      expect(page).to have_content 'Plant part was successfully created'
+      expect(page).to have_current_path plant_part_path(PlantPart.last), ignore_query: true
+    end
   end
 
   describe 'editing plant part' do
