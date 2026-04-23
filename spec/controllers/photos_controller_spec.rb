@@ -7,7 +7,7 @@ describe PhotosController, :search do
 
   describe 'GET index' do
     describe 'all photos' do
-      let!(:photo) { FactoryBot.create(:photo, :reindex) }
+      let!(:photo) { create(:photo, :reindex) }
 
       before do
         Photo.reindex
@@ -21,10 +21,10 @@ describe PhotosController, :search do
     end
 
     describe '#index crop photos' do
-      let!(:photo)      { FactoryBot.create(:photo, :reindex, owner: member, title: 'no assocations photo') }
-      let!(:crop_photo) { FactoryBot.create(:photo, :reindex, owner: member, title: 'photos of planting')   }
-      let!(:planting)   { FactoryBot.create(:planting, :reindex, crop:, owner: member) }
-      let!(:crop)       { FactoryBot.create(:crop, :reindex) }
+      let!(:photo)      { create(:photo, :reindex, owner: member, title: 'no assocations photo') }
+      let!(:crop_photo) { create(:photo, :reindex, owner: member, title: 'photos of planting')   }
+      let!(:planting)   { create(:planting, :reindex, crop:, owner: member) }
+      let!(:crop)       { create(:crop, :reindex) }
 
       before do
         planting.photos << crop_photo
@@ -49,12 +49,12 @@ describe PhotosController, :search do
   end
 
   describe "GET new" do
-    let(:tomato)   { FactoryBot.create(:tomato)                                }
-    let(:planting) { FactoryBot.create(:planting, crop: tomato, owner: member) }
-    let(:garden)   { FactoryBot.create(:garden, owner: member)                 }
-    let(:harvest)  { FactoryBot.create(:harvest, owner: member)                }
-    let(:member)   { FactoryBot.create(:member)                                }
-    let!(:auth)    { FactoryBot.create(:flickr_authentication, member:) }
+    let(:tomato)   { create(:tomato)                                }
+    let(:planting) { create(:planting, crop: tomato, owner: member) }
+    let(:garden)   { create(:garden, owner: member)                 }
+    let(:harvest)  { create(:harvest, owner: member)                }
+    let(:member)   { create(:member)                                }
+    let!(:auth)    { create(:flickr_authentication, member:) }
 
     before do
       sign_in member
@@ -97,11 +97,11 @@ describe PhotosController, :search do
                                                            link_url:      "http://example.com")
     end
 
-    let(:member)   { FactoryBot.create(:member)                                  }
-    let(:garden)   { FactoryBot.create(:garden, owner: member)                   }
-    let(:planting) { FactoryBot.create(:planting, garden:, owner: member) }
-    let(:harvest)  { FactoryBot.create(:harvest, owner: member)                  }
-    let(:photo)    { FactoryBot.create(:photo, owner: member)                    }
+    let(:member)   { create(:member)                                  }
+    let(:garden)   { create(:garden, owner: member)                   }
+    let(:planting) { create(:planting, garden:, owner: member) }
+    let(:harvest)  { create(:harvest, owner: member)                  }
+    let(:photo)    { create(:photo, owner: member)                    }
 
     describe "with valid params" do
       before { controller.stub(:current_member) { member } }
@@ -153,7 +153,7 @@ describe PhotosController, :search do
       end
 
       it "doesn't attach photo to a comment" do
-        comment = FactoryBot.create(:comment)
+        comment = create(:comment)
         expect do
           post :create, params: {
             photo: { source_id: photo.source_id, source: 'flickr' }, type: "comment", id: comment.id
@@ -163,7 +163,7 @@ describe PhotosController, :search do
     end
 
     describe "for the second time" do
-      let(:planting) { FactoryBot.create(:planting, owner: member) }
+      let(:planting) { create(:planting, owner: member) }
       let(:valid_params) { { photo: { source_id: 1 }, id: planting.id, type: 'planting' } }
 
       it "does not add a photo twice" do
@@ -176,8 +176,8 @@ describe PhotosController, :search do
       before { controller.stub(:current_member) { member } }
 
       describe "creates the planting/photo link" do
-        let(:planting) { FactoryBot.create(:planting, garden:, owner: member) }
-        let(:photo) { FactoryBot.create(:photo, owner: member) }
+        let(:planting) { create(:planting, garden:, owner: member) }
+        let(:photo) { create(:photo, owner: member) }
 
         before { post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "planting", id: planting.id } }
 
@@ -196,11 +196,11 @@ describe PhotosController, :search do
     end
 
     describe "with mismatched owners" do
-      let(:photo) { FactoryBot.create(:photo) }
+      let(:photo) { create(:photo) }
 
       it "does not create the planting/photo link" do
         # members will be auto-created, and different
-        another_planting = FactoryBot.create(:planting)
+        another_planting = create(:planting)
         expect do
           post :create, params: {
             photo: { source_id: photo.source_id, source: 'flickr' },
@@ -212,7 +212,7 @@ describe PhotosController, :search do
 
       it "does not create the harvest/photo link" do
         # members will be auto-created, and different
-        another_harvest = FactoryBot.create(:harvest)
+        another_harvest = create(:harvest)
         expect do
           post :create, params: {
             photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: another_harvest.id

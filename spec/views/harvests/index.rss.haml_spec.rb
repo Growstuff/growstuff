@@ -5,12 +5,12 @@ require 'rails_helper'
 describe 'harvests/index.rss.haml', :search do
   before do
     controller.stub(:current_user) { nil }
-    @member = FactoryBot.create(:member)
-    @tomato = FactoryBot.create(:tomato)
+    @member = create(:member)
+    @tomato = create(:tomato)
 
-    @harvest1 = FactoryBot.create(:harvest, crop: @tomato)
-    @harvest2 = FactoryBot.create(:harvest, crop: @tomato)
-    @harvest3 = FactoryBot.create(:harvest, crop: @tomato)
+    @harvest1 = create(:harvest, crop: @tomato)
+    @harvest2 = create(:harvest, crop: @tomato)
+    @harvest3 = create(:harvest, crop: @tomato)
 
     Harvest.searchkick_index.refresh
     assign(:harvests, Harvest.search(load: false))

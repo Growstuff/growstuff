@@ -4,10 +4,10 @@ require "rails_helper"
 require 'custom_matchers'
 
 describe "Planting a crop", :js, :search do
-  let!(:maize) { FactoryBot.create(:maize) }
-  let(:garden) { FactoryBot.create(:garden, owner: member, name: 'Orchard') }
+  let!(:maize) { create(:maize) }
+  let(:garden) { create(:garden, owner: member, name: 'Orchard') }
   let!(:planting) do
-    FactoryBot.create(:planting, garden:, owner: member, planted_at: Date.parse("2013-03-10"))
+    create(:planting, garden:, owner: member, planted_at: Date.parse("2013-03-10"))
   end
 
   before { Planting.reindex }
@@ -237,7 +237,7 @@ describe "Planting a crop", :js, :search do
 
     describe "Transplanting a planting" do
       it "allows transplanting to another garden" do
-        other_garden = FactoryBot.create(:garden, owner: member, name: 'Backyard')
+        other_garden = create(:garden, owner: member, name: 'Backyard')
         visit planting_path(planting)
         click_link 'Actions'
         select other_garden.name, from: 'Transplant to:'

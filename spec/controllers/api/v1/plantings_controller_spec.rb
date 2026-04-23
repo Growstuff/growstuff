@@ -5,14 +5,14 @@ require 'rails_helper'
 RSpec.describe Api::V1::PlantingsController, type: :controller do
   subject { JSON.parse response.body }
 
-  let!(:member) { FactoryBot.create(:member) }
+  let!(:member) { create(:member) }
 
   describe '#index' do
     let(:matching_planting) { subject['data'].select { |planting| planting['id'] == my_planting.id.to_s }.first }
 
     describe 'GET #index' do
       context 'basic planting' do
-        let!(:my_planting) { FactoryBot.create(:planting, owner: member, planted_at: '2000-01-01') }
+        let!(:my_planting) { create(:planting, owner: member, planted_at: '2000-01-01') }
         let(:expected_attributes) do
           {
             'crop-name'           => my_planting.crop.name,
@@ -46,7 +46,7 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
       end
 
       context 'with photo' do
-        let!(:my_planting) { FactoryBot.create(:planting, owner: member, planted_at: '2000-01-01') }
+        let!(:my_planting) { create(:planting, owner: member, planted_at: '2000-01-01') }
 
         let(:expected_attributes) do
           {
@@ -72,7 +72,7 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
             'thumbnail'           => photo.thumbnail_url
           }
         end
-        let(:photo) { FactoryBot.create(:photo, owner: my_planting.owner) }
+        let(:photo) { create(:photo, owner: my_planting.owner) }
 
         before do
           my_planting.photos << photo

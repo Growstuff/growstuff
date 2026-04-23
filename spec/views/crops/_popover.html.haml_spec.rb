@@ -4,9 +4,9 @@ require 'rails_helper'
 
 describe "crops/_popover" do
   before do
-    @tomato = FactoryBot.create(:tomato)
-    @sn = FactoryBot.create(:solanum_lycopersicum, crop: @tomato)
-    @planting = FactoryBot.create(:planting, crop: @tomato)
+    @tomato = create(:tomato)
+    @sn = create(:solanum_lycopersicum, crop: @tomato)
+    @planting = create(:planting, crop: @tomato)
     @tomato.reload # to pick up latest plantings_count
     render partial: 'crops/popover', locals: { crop: @tomato }
   end
