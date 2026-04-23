@@ -76,3 +76,7 @@ Rails/SkipsModelValidations:
     - 'db/migrate/20240810160538_set_default_language_for_existing_alternate_names.rb'
     - 'db/migrate/20240101010102_populate_crop_fields_from_openfarm_data.rb'
     - 'db/seeds.rb'
+
+Rails/ResponseParsedBody:
+  Exclude:
+    - spec/controllers/api/v1/plantings_controller_spec.rb
