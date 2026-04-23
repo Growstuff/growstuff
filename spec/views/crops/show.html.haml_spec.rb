@@ -12,6 +12,7 @@ describe "crops/show" do
     @current_member = @member
     @harvest = FactoryBot.create(:harvest, owner: @member)
     controller.stub(:current_user) { @member }
+    assign(:version_members, {})
   end
 
   it "hides sunniness block if no sunniness" do
