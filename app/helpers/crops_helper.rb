@@ -56,11 +56,11 @@ module CropsHelper
 
       crop.posts.each do |post|
         subject_of_entities << {
-          '@type': "SocialMediaPosting",
-          url:     post_url(post),
-          author:  {
+          '@type':         "SocialMediaPosting",
+          url:             post_url(post),
+          author:          {
             '@type': 'Person',
-            name: post.author.login_name
+            name:    post.author.login_name
           },
           'datePublished': post.created_at
         }

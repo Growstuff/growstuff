@@ -69,7 +69,7 @@ module SearchPlantings
           # Disabled for now so that more relevant plantings are
           # surfaced; even if we're falling back to crop photos.
           # photos_count: { gt: 0 },
-          owner_id:     { not: owners }
+          owner_id: { not: owners }
         }
         one_record = search('*',
                             limit:    1,

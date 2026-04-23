@@ -61,7 +61,7 @@ class Crop < ApplicationRecord
             },
             if:     :approved?
   validates :en_youtube_url,
-            format: {
+            format:      {
               with:    %r{\A(?:https?://)?(?:www\.)?(?:youtube(?:-nocookie)?\.com/(?:(?:v|e(?:mbed)?)/|\S*?[?&]v=)|youtu\.be/)[a-zA-Z0-9_-]{11}(?:[?&]\S*)?\z},
               message: 'is not a valid YouTube URL'
             },

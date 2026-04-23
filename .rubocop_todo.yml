@@ -99,13 +99,6 @@ FactoryBot/SyntaxMethods:
 # SupportedLastArgumentHashStyles: always_inspect, always_ignore, ignore_implicit, ignore_explicit
 Layout/HashAlignment:
   Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/crops_helper.rb'
-    - 'app/models/concerns/search_harvests.rb'
-    - 'app/models/concerns/search_plantings.rb'
-    - 'app/models/crop.rb'
-    - 'config/sitemap.rb'
-    - 'lib/tasks/import.rake'
     - 'spec/requests/api/v1/activities_request_spec.rb'
     - 'spec/requests/api/v1/members_request_spec.rb'
 
