@@ -472,17 +472,6 @@ RSpec/VerifiedDoubles:
     - 'spec/controllers/gardens_controller_spec.rb'
     - 'spec/views/devise/shared/_links_spec.rb'
 
-# Offense count: 7
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: ResponseMethods.
-# ResponseMethods: response, last_response
-RSpecRails/HaveHttpStatus:
-  Exclude:
-    - 'spec/controllers/api/v1/plantings_controller_spec.rb'
-    - 'spec/controllers/harvests_controller_spec.rb'
-    - 'spec/controllers/likes_controller_spec.rb'
-    - 'spec/requests/harvests_spec.rb'
-
 # Offense count: 30
 # Configuration parameters: Database.
 # SupportedDatabases: mysql, postgresql
