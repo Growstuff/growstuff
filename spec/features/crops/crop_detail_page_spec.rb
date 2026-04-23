@@ -157,9 +157,6 @@ describe "crop detail page", :js do
     context 'crop is Perennial' do
       let(:crop) { create(:perennial_crop) }
 
-      describe 'with no harvests' do
-      end
-
       describe 'with harvests' do
         it_behaves_like "predicts harvest"
       end
@@ -172,9 +169,6 @@ describe "crop detail page", :js do
 
     context 'crop Perennial value is null' do
       let(:crop) { create(:crop, perennial: nil) }
-
-      describe 'with no harvests' do
-      end
 
       describe 'with harvests' do
         it_behaves_like "predicts harvest"

@@ -18,7 +18,6 @@ class AllThePredictions < ActiveRecord::Migration[4.2]
 
     remove_column :plantings, :days_before_maturity, :integer
 
-    create_table :median_functions do |t|
-    end
+    create_table :median_functions
   end
 end
