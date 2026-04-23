@@ -51,7 +51,7 @@ describe HarvestsController, :search do
     describe "generates a csv" do
       before { get :index, format: "csv" }
 
-      it { expect(response.status).to eq 200 }
+      it { expect(response).to have_http_status :ok }
     end
   end
 
