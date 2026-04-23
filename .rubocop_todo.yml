@@ -136,18 +136,6 @@ Lint/DuplicateMethods:
   Exclude:
     - 'app/models/planting.rb'
 
-# Offense count: 8
-# Configuration parameters: AllowComments, AllowEmptyLambdas.
-Lint/EmptyBlock:
-  Exclude:
-    - 'db/migrate/20171022032108_all_the_predictions.rb'
-    - 'spec/controllers/home_controller_spec.rb'
-    - 'spec/controllers/likes_controller_spec.rb'
-    - 'spec/controllers/plant_parts_controller_spec.rb'
-    - 'spec/factories/crop_companions.rb'
-    - 'spec/features/crops/crop_detail_page_spec.rb'
-    - 'spec/requests/authentications_spec.rb'
-
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 Lint/RedundantCopDisableDirective:

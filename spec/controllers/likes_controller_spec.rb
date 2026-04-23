@@ -21,9 +21,6 @@ describe LikesController do
     describe "Liking someone else's post" do
       it { expect(response.code).to eq('201') }
     end
-
-    describe "Liking your own post" do
-    end
   end
 
   describe "DELETE destroy" do
