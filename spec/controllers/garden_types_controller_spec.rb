@@ -2,10 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe GardenTypesController, type: :controller do
+RSpec.describe GardenTypesController do
   include Devise::Test::ControllerHelpers
+
   let(:valid_params) { { name: 'My second GardenType' } }
-  let(:garden_type)  { FactoryBot.create(:garden_type) }
+  let(:garden_type)  { create(:garden_type) }
 
   context "when not signed in" do
     describe 'GET new' do
@@ -53,7 +54,7 @@ RSpec.describe GardenTypesController, type: :controller do
   context "when signed in as a member" do
     before { sign_in member }
 
-    let!(:member) { FactoryBot.create(:member) }
+    let!(:member) { create(:member) }
 
     describe "for any garden_type" do
       let(:any_garden_type) { double('garden_type') }

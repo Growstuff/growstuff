@@ -25,6 +25,8 @@ class Planting < ApplicationRecord
   has_many :harvests, dependent: :destroy
   has_many :activities, dependent: :destroy
 
+  scope :current, -> { where.not(finished: true).where.not(failed: true) }
+
   #
   # Ancestry of food
   belongs_to :parent_seed, class_name: 'Seed', # parent,
@@ -82,6 +84,9 @@ class Planting < ApplicationRecord
   }
   validates :planted_from, allow_blank: true, inclusion: {
     in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
+  }
+  validates :overall_rating, allow_blank: true, numericality: {
+    only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5
   }
 
   def planting_slug

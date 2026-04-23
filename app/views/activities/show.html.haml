@@ -12,6 +12,7 @@
   %li.breadcrumb-item= link_to @activity.owner, member_activities_path(@activity.owner)
   %li.breadcrumb-item.active= link_to @activity.name, @activity
 
+
 .activity
   .row
     .col-md-8.col-xs-12
@@ -22,9 +23,14 @@
             %small.text-muted= @activity.category
           %tt
             = @activity.due_date
+        - if @repeat_link
+          .alert.alert-info
+            Activity marked as finished recently. Would you like to repeat in the near future?
+            = link_to 'Repeat this activity', @repeat_link, class: 'btn btn-secondary btn-sm ml-2'
         - if @activity.description.present?
           :markdown
             #{strip_tags markdownify(@activity.description)}
+
       = render 'likes/likes', object: @activity
       = render 'activities/actions', activity: @activity
 

@@ -8,14 +8,6 @@ module OpenFarmData
       fetch_attr('main_image_path')
     end
 
-    def height
-      fetch_attr('height')
-    end
-
-    def spread
-      fetch_attr('spread')
-    end
-
     def svg_icon
       icon = fetch_attr('svg_icon')
       return icon if icon.present?
@@ -27,14 +19,6 @@ module OpenFarmData
       fetch_attr('tags_array')
     end
 
-    def description
-      fetch_attr('description')
-    end
-
-    def row_spacing
-      fetch_attr('row_spacing')
-    end
-
     def common_names
       fetch_attr('common_names')
     end
@@ -43,20 +27,8 @@ module OpenFarmData
       fetch_attr('binomial_name')
     end
 
-    def sowing_method
-      fetch_attr('sowing_method')
-    end
-
     def main_image_path
       fetch_attr('main_image_path')
-    end
-
-    def sun_requirements
-      fetch_attr('sun_requirements')
-    end
-
-    def growing_degree_days
-      fetch_attr('growing_degree_days')
     end
 
     def processing_pictures
@@ -67,6 +39,6 @@ module OpenFarmData
   def fetch_attr(key)
     return if openfarm_data.blank?
 
-    openfarm_data.fetch('attributes', {}).fetch(key, nil)
+    openfarm_data.dig('attributes', key)
   end
 end

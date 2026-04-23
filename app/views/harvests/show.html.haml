@@ -1,4 +1,9 @@
 = content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
+- content_for :meta_description do
+  - if @harvest.description.present?
+    = @harvest.description
+  - else
+    = "#{@harvest.crop} harvested by #{@harvest.owner}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: harvest_image_path(@harvest))
   = tag("meta", property: "og:image:user_generated", content: "true")
@@ -6,6 +11,9 @@
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+
+%script{type: "application/ld+json"}
+  = crop_jsonld_data(@harvest.crop, full_attributes: false).to_json.html_safe
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Harvests', harvests_path
@@ -46,7 +54,7 @@
           %h3
             Harvested
             = editable :date, @harvest, :harvested_at, display_field: '.harvested_at'
-          %strong.harvested_at #{distance_of_time_in_words @harvest.harvested_at, Time.zone.now.to_date} ago
+          %strong.harvested_at #{standard_time_distance @harvest.harvested_at, Time.zone.now.to_date}
           %span.harvested_at= I18n.l @harvest.harvested_at
 
         .card{class: @harvest.quantity.present? ? '' : 'text-muted'}
@@ -68,3 +76,4 @@
 
     .col-md-4.col-xs-12
       = render @harvest.crop
+      = render 'crops/nutritional_data', crop: @harvest.crop

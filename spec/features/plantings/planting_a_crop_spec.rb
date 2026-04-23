@@ -4,10 +4,10 @@ require "rails_helper"
 require 'custom_matchers'
 
 describe "Planting a crop", :js, :search do
-  let!(:maize) { FactoryBot.create(:maize) }
-  let(:garden) { FactoryBot.create(:garden, owner: member, name: 'Orchard') }
+  let!(:maize) { create(:maize) }
+  let(:garden) { create(:garden, owner: member, name: 'Orchard') }
   let!(:planting) do
-    FactoryBot.create(:planting, garden:, owner: member, planted_at: Date.parse("2013-03-10"))
+    create(:planting, garden:, owner: member, planted_at: Date.parse("2013-03-10"))
   end
 
   before { Planting.reindex }
@@ -19,14 +19,14 @@ describe "Planting a crop", :js, :search do
     it_behaves_like "crop suggest", "planting"
 
     describe "displays required and optional fields properly" do
-      it { expect(page).to have_selector ".required", text: "What did you plant?" }
-      it { expect(page).to have_selector ".required", text: "Where did you plant it?" }
-      it { expect(page).to have_selector 'input#planting_planted_at' }
-      it { expect(page).to have_selector 'input#planting_quantity' }
-      it { expect(page).to have_selector 'select#planting_planted_from' }
-      it { expect(page).to have_selector 'select#planting_sunniness' }
-      it { expect(page).to have_selector 'textarea#planting_description' }
-      it { expect(page).to have_selector 'input#planting_finished_at' }
+      it { expect(page).to have_css ".required", text: "What did you plant?" }
+      it { expect(page).to have_css ".required", text: "Where did you plant it?" }
+      it { expect(page).to have_css 'input#planting_planted_at' }
+      it { expect(page).to have_css 'input#planting_quantity' }
+      it { expect(page).to have_css 'select#planting_planted_from' }
+      it { expect(page).to have_css 'select#planting_sunniness' }
+      it { expect(page).to have_css 'textarea#planting_description' }
+      it { expect(page).to have_css 'input#planting_finished_at' }
     end
 
     describe "Creating a new planting" do
@@ -187,7 +187,7 @@ describe "Planting a crop", :js, :search do
       check "finished"
       fill_in "Finished date", with: "2015-06-25"
       click_button "Save"
-      expect(page).to have_content "planting was successfully updated"
+      expect(page).to have_content "was successfully updated"
       expect(page).to have_content "Finished"
     end
 
@@ -198,6 +198,7 @@ describe "Planting a crop", :js, :search do
       within "form#new_planting" do
         fill_in "When?", with: "2014-07-01"
         check "Mark as finished"
+        find_by_id('planting_overall_rating').set 4
         fill_in "Finished date", with: "2014-08-30"
         uncheck 'Mark as finished'
       end
@@ -220,6 +221,7 @@ describe "Planting a crop", :js, :search do
       expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Finished"
       expect(page).to have_content "Aug 2014"
+      expect(page).to have_content "4/5"
 
       # ensure we've indexed in elastic search
       planting.reindex(refresh: true)
@@ -235,7 +237,7 @@ describe "Planting a crop", :js, :search do
 
     describe "Transplanting a planting" do
       it "allows transplanting to another garden" do
-        other_garden = FactoryBot.create(:garden, owner: member, name: 'Backyard')
+        other_garden = create(:garden, owner: member, name: 'Backyard')
         visit planting_path(planting)
         click_link 'Actions'
         select other_garden.name, from: 'Transplant to:'

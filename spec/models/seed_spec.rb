@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe Seed do
-  let(:owner) { FactoryBot.create(:owner, login_name: 'tamateapokaiwhenua') }
-  let(:seed)  { FactoryBot.build(:seed, owner:) }
+  let(:owner) { create(:owner, login_name: 'tamateapokaiwhenua') }
+  let(:seed)  { build(:seed, owner:) }
 
   it 'saves a basic seed' do
     seed.save.should be(true)
@@ -17,24 +17,24 @@ describe Seed do
 
   context 'quantity' do
     it 'allows integer quantities' do
-      @seed = FactoryBot.build(:seed, quantity: 99)
+      @seed = build(:seed, quantity: 99)
       @seed.should be_valid
     end
 
     it "doesn't allow decimal quantities" do
-      @seed = FactoryBot.build(:seed, quantity: 99.9)
+      @seed = build(:seed, quantity: 99.9)
       @seed.should_not be_valid
     end
 
     it "doesn't allow non-numeric quantities" do
-      @seed = FactoryBot.build(:seed, quantity: 'foo')
+      @seed = build(:seed, quantity: 'foo')
       @seed.should_not be_valid
     end
 
     it "allows blank quantities" do
-      @seed = FactoryBot.build(:seed, quantity: nil)
+      @seed = build(:seed, quantity: nil)
       @seed.should be_valid
-      @seed = FactoryBot.build(:seed, quantity: '')
+      @seed = build(:seed, quantity: '')
       @seed.should be_valid
     end
   end
@@ -42,13 +42,13 @@ describe Seed do
   context 'tradable' do
     it 'all valid tradable_to values should work' do
       %w(nowhere locally nationally internationally).each do |t|
-        @seed = FactoryBot.build(:seed, tradable_to: t)
+        @seed = build(:seed, tradable_to: t)
         @seed.should be_valid
       end
     end
 
     it 'refuses invalid tradable_to values' do
-      @seed = FactoryBot.build(:seed, tradable_to: 'not valid')
+      @seed = build(:seed, tradable_to: 'not valid')
       @seed.should_not be_valid
       @seed.errors[:tradable_to].should include(
         "You may only trade seed nowhere, locally, " \
@@ -57,34 +57,34 @@ describe Seed do
     end
 
     it 'does not allow nil or blank values' do
-      @seed = FactoryBot.build(:seed, tradable_to: nil)
+      @seed = build(:seed, tradable_to: nil)
       @seed.should_not be_valid
-      @seed = FactoryBot.build(:seed, tradable_to: '')
+      @seed = build(:seed, tradable_to: '')
       @seed.should_not be_valid
     end
 
     it 'tradable gives the right answers' do
-      @seed = FactoryBot.create(:seed, tradable_to: 'nowhere')
+      @seed = create(:seed, tradable_to: 'nowhere')
       @seed.tradable.should be false
-      @seed = FactoryBot.create(:seed, tradable_to: 'locally')
+      @seed = create(:seed, tradable_to: 'locally')
       @seed.tradable.should be true
-      @seed = FactoryBot.create(:seed, tradable_to: 'nationally')
+      @seed = create(:seed, tradable_to: 'nationally')
       @seed.tradable.should be true
-      @seed = FactoryBot.create(:seed, tradable_to: 'internationally')
+      @seed = create(:seed, tradable_to: 'internationally')
       @seed.tradable.should be true
     end
 
     it 'recognises a tradable seed' do
-      FactoryBot.create(:tradable_seed).tradable.should == true
+      create(:tradable_seed).tradable.should == true
     end
 
     it 'recognises an untradable seed' do
-      FactoryBot.create(:untradable_seed).tradable.should == false
+      create(:untradable_seed).tradable.should == false
     end
 
     it 'scopes correctly' do
-      @tradable = FactoryBot.create(:tradable_seed)
-      @untradable = FactoryBot.create(:untradable_seed)
+      @tradable = create(:tradable_seed)
+      @untradable = create(:untradable_seed)
       described_class.tradable.should include @tradable
       described_class.tradable.should_not include @untradable
     end
@@ -94,7 +94,7 @@ describe Seed do
     it 'all valid organic values should work' do
       ['certified organic', 'non-certified organic',
        'conventional/non-organic', 'unknown'].each do |t|
-        @seed = FactoryBot.build(:seed, organic: t)
+        @seed = build(:seed, organic: t)
         @seed.should be_valid
       end
     end
@@ -102,21 +102,21 @@ describe Seed do
     it 'all valid GMO values should work' do
       ['certified GMO-free', 'non-certified GMO-free',
        'GMO', 'unknown'].each do |t|
-        @seed = FactoryBot.build(:seed, gmo: t)
+        @seed = build(:seed, gmo: t)
         @seed.should be_valid
       end
     end
 
     it 'all valid heirloom values should work' do
       %w(heirloom hybrid unknown).each do |t|
-        @seed = FactoryBot.build(:seed, heirloom: t)
+        @seed = build(:seed, heirloom: t)
         @seed.should be_valid
       end
     end
 
     it 'refuses invalid organic/GMO/heirloom values' do
       %i(organic gmo heirloom).each do |field|
-        @seed = FactoryBot.build(:seed, field => 'not valid')
+        @seed = build(:seed, field => 'not valid')
         @seed.should_not be_valid
         @seed.errors[field].should_not be_empty
       end
@@ -124,9 +124,9 @@ describe Seed do
 
     it 'does not allow nil or blank values' do
       %i(organic gmo heirloom).each do |field|
-        @seed = FactoryBot.build(:seed, field => nil)
+        @seed = build(:seed, field => nil)
         @seed.should_not be_valid
-        @seed = FactoryBot.build(:seed, field => '')
+        @seed = build(:seed, field => '')
         @seed.should_not be_valid
       end
     end
@@ -134,14 +134,14 @@ describe Seed do
 
   context 'expired' do
     it 'returns seeds with a plant_before date in the past' do
-      expired_seed = FactoryBot.create(:seed, plant_before: 1.day.ago)
-      not_expired_seed = FactoryBot.create(:seed, plant_before: 1.day.from_now)
+      expired_seed = create(:seed, plant_before: 1.day.ago)
+      not_expired_seed = create(:seed, plant_before: 1.day.from_now)
       described_class.expired.should include expired_seed
       described_class.expired.should_not include not_expired_seed
     end
 
     it 'does not return finished seeds' do
-      expired_seed = FactoryBot.create(:seed, plant_before: 1.day.ago, finished: true)
+      expired_seed = create(:seed, plant_before: 1.day.ago, finished: true)
       described_class.expired.should_not include expired_seed
     end
   end
@@ -152,11 +152,11 @@ describe Seed do
       # 1) be tradable
       # 2) the owner must have a location set
 
-      @located_member = FactoryBot.create(:london_member)
-      @seed1 = FactoryBot.create(:tradable_seed, owner: @located_member)
-      @seed2 = FactoryBot.create(:seed, owner: @located_member)
-      @seed3 = FactoryBot.create(:tradable_seed)
-      @seed4 = FactoryBot.create(:seed)
+      @located_member = create(:london_member)
+      @seed1 = create(:tradable_seed, owner: @located_member)
+      @seed2 = create(:seed, owner: @located_member)
+      @seed3 = create(:tradable_seed)
+      @seed4 = create(:seed)
 
       described_class.interesting.should include @seed1
       described_class.interesting.should_not include @seed2
@@ -167,9 +167,9 @@ describe Seed do
   end
 
   context 'photos' do
-    let(:seed) { FactoryBot.create(:seed) }
+    let(:seed) { create(:seed) }
 
-    before { seed.photos << FactoryBot.create(:photo, owner: seed.owner) }
+    before { seed.photos << create(:photo, owner: seed.owner) }
 
     it 'is found in has_photos scope' do
       described_class.has_photos.should include(seed)
@@ -177,8 +177,8 @@ describe Seed do
   end
 
   context 'ancestry' do
-    let(:parent_planting) { FactoryBot.create(:planting) }
-    let(:seed)            { FactoryBot.create(:seed, parent_planting:, owner: parent_planting.owner) }
+    let(:parent_planting) { create(:planting) }
+    let(:seed)            { create(:seed, parent_planting:, owner: parent_planting.owner) }
 
     it "seed has a parent planting" do
       expect(seed.parent_planting).to eq(parent_planting)
@@ -191,15 +191,15 @@ describe Seed do
 
   context "finished" do
     describe 'has finished fields' do
-      let(:seed) { FactoryBot.create(:finished_seed) }
+      let(:seed) { create(:finished_seed) }
 
       it { expect(seed.finished).to be true }
       it { expect(seed.finished_at).to be_an_instance_of Date }
     end
 
     describe 'scopes' do
-      let!(:seed)          { FactoryBot.create(:seed)          }
-      let!(:finished_seed) { FactoryBot.create(:finished_seed) }
+      let!(:seed)          { create(:seed)          }
+      let!(:finished_seed) { create(:finished_seed) }
 
       describe 'has finished scope' do
         it { expect(described_class.finished).to include finished_seed }
@@ -216,9 +216,9 @@ describe Seed do
   describe 'homepage', :search do
     subject { described_class.homepage_records(100) }
 
-    let!(:tradable_seed) { FactoryBot.create(:tradable_seed, :reindex, finished: false)  }
-    let!(:finished_seed)   { FactoryBot.create(:tradable_seed, :reindex, finished: true) }
-    let!(:untradable_seed) { FactoryBot.create(:untradable_seed, :reindex)               }
+    let!(:tradable_seed) { create(:tradable_seed, :reindex, finished: false)  }
+    let!(:finished_seed)   { create(:tradable_seed, :reindex, finished: true) }
+    let!(:untradable_seed) { create(:untradable_seed, :reindex)               }
 
     before { described_class.reindex }
 

@@ -74,7 +74,7 @@ class ScientificNamesController < ApplicationController
   end
 
   def scientific_name_params
-    params.require(:scientific_name).permit(:crop_id, :name, :gbif_key)
+    params.require(:scientific_name).permit(:crop_id, :name, :gbif_key, :wikidata_id)
   end
 
   def gbif_service

@@ -17,7 +17,7 @@
 
       .row
         .col-md-12
-          = f.text_field :name, required: true, label: 'What needs to be done?'
+          = f.text_field :name, required: true, label: 'What needs to be done?', autofocus: true
       .row
         .col-md-4
           = f.select(:category, Activity::CATEGORIES, include_blank: true)
@@ -27,13 +27,13 @@
 
       .row
         .col-md-4
-          = f.collection_radio_buttons(:garden_id, @activity.owner.gardens.active,
+          = f.collection_radio_buttons(:garden_id, @activity.owner.gardens.active.order_by_name,
             :id, :name,
             label: 'Is this for a specific garden?')
           = link_to "Add a garden.", new_garden_path
 
         .col-md-4
-          = f.collection_radio_buttons(:planting_id, @activity.owner.plantings.active,
+          = f.collection_radio_buttons(:planting_id, @activity.owner.plantings.active.recent,
             :id, :crop_name,
             label: 'Is this for a specific planting?')
           = link_to "Add a planting.", new_planting_path
@@ -42,6 +42,14 @@
           = f.date_field :due_date,
                      value: @activity.due_date ? @activity.due_date.to_fs(:ymd) : '',
                      label: 'When?'
+
+      .row
+        .col-md-6
+          = label_tag :repeat_times, 'Repeat how many times?'
+          = number_field_tag :repeat_times, nil, class: 'form-control'
+        .col-md-6
+          = label_tag :repeat_weeks, 'Every how many weeks?'
+          = number_field_tag :repeat_weeks, nil, class: 'form-control'
 
       %hr
 

@@ -3,8 +3,7 @@
 module Api
   module V1
     class CropResource < BaseResource
-      immutable
-
+      immutable # TODO: Re-evaluate this later
       filter :approval_status, default: 'approved'
 
       has_many :plantings
@@ -13,7 +12,7 @@ module Api
 
       has_many :photos
 
-      has_one :parent, class_name: 'Crop'
+      has_one :parent, class_name: 'Crop', always_include_linkage_data: true
 
       attribute :name
       attribute :en_wikipedia_url

@@ -2,10 +2,10 @@
   %ul.navbar-nav.mr-auto.bg-dark
     - if signed_in?
       %li.nav-item
-        = link_to timeline_index_path, method: :get, class: 'nav-link text-white' do
+        = link_to timeline_index_path, method: :get, class: 'nav-link text-white', title: "Timeline" do
           = image_tag 'icons/notification.svg', class: 'img img-icon', alt: "Notifications"
       %li.nav-item
-        = link_to member_gardens_path(current_member), class: 'nav-link text-white', title: "My gardens" do
+        = link_to member_gardens_path(current_member, anchor: "content"), class: 'nav-link text-white', title: "My gardens" do
           = image_icon 'gardens'
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
@@ -52,6 +52,7 @@
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to t('.community_map'), places_path, class: 'dropdown-item'
           = link_to t('.browse_members'), members_path, class: 'dropdown-item'
+          = link_to t('.community_gardens'), community_gardens_path, class: 'dropdown-item'
           = link_to t('.posts'), posts_path, class: 'dropdown-item'
           = link_to t('.forums'), forums_path, class: 'dropdown-item'
 

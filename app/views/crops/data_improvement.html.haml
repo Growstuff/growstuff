@@ -1,0 +1,13 @@
+%h1 Data Improvement
+
+- tabs = { photos: "Photos", descriptions: "Descriptions", youtube: "YouTube videos", alternate_names: "Alternate names", wikidata: "Wikidata ID", public_food_key: "Public Food Key", row_spacing: "Row spacing", sun_requirements: "Sun requirements", height: "Height" }
+
+%ul.nav.nav-tabs
+  - tabs.each do |key, value|
+    %li{class: "nav-item #{('active' if @active_tab == key.to_s)}"}
+      = link_to value, data_improvement_crops_path(tab: key)
+
+.tab-content
+  .tab-pane.active
+    %h2= "Crops without #{tabs[@active_tab.to_sym]}"
+    = render 'crop_list', crops: @crops

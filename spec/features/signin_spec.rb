@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-describe "signin", :js do
-  let(:member)       { FactoryBot.create(:member)                             }
-  let(:recipient)    { FactoryBot.create(:member)                             }
-  let(:wrangler)     { FactoryBot.create(:crop_wrangling_member)              }
+describe "signin" do
+  let(:member)       { create(:member)                             }
+  let(:recipient)    { create(:member)                             }
+  let(:wrangler)     { create(:crop_wrangling_member)              }
 
   before do
-    crop = FactoryBot.create(:tomato)
+    crop = create(:tomato)
     crop.reindex
   end
 

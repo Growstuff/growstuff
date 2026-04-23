@@ -53,7 +53,7 @@ module ButtonsHelper
     link_to t('buttons.mark_as_inactive'),
             garden_path(garden, garden: { active: 0 }),
             method: :put, class: classes,
-            data: { confirm: 'All plantings associated with this garden will be marked as finished. Are you sure?' }
+            data: { confirm: I18n.t('gardens.confirm_deactivate') }
   end
 
   def create_button(model_to_create, path, icon, label)
@@ -85,7 +85,20 @@ module ButtonsHelper
   end
 
   def activity_edit_button(activity, classes: "btn btn-raised btn-info")
-    edit_button(edit_activity_path(activity), classes:)
+    edit_button(edit_activity_path(slug: activity.slug), classes:)
+  end
+
+  def activity_copy_button(activity, classes: 'btn')
+    link_to new_activity_path(
+      name:        activity.name,
+      description: activity.description,
+      category:    activity.category,
+      garden_id:   activity.garden_id,
+      planting_id: activity.planting_id,
+      due_date:    activity.due_date
+    ), class: classes do
+      copy_icon + ' ' + t('buttons.copy')
+    end
   end
 
   def activity_finish_button(activity, classes: 'btn btn-default btn-secondary')

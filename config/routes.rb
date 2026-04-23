@@ -16,12 +16,14 @@ Rails.application.routes.draw do
   }
   devise_scope :member do
     get '/members/unsubscribe/:message' => 'members#unsubscribe', as: 'unsubscribe_member'
+    post '/members/regenerate_api_token' => 'registrations#regenerate_api_token', as: 'regenerate_api_token'
   end
   match '/members/:id/finish_signup' => 'members#finish_signup', via: %i(get patch), as: :finish_signup
 
   resources :authentications, only: %i(create destroy)
 
   get "home/index"
+  get '/community-gardens', to: 'home#community_gardens'
   root to: 'home#index'
 
   concern :has_photos do
@@ -88,6 +90,14 @@ Rails.application.routes.draw do
       get 'wrangle'
       get 'hierarchy'
       get 'search'
+      get 'data_improvement'
+    end
+  end
+
+  namespace :admin do
+    resources :crops, only: [:index]
+    resources :versions, only: [] do
+      post :revert, on: :member, as: :revert
     end
   end
 
@@ -138,10 +148,14 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :members, param: :slug
     resources :roles
+    resources :crops, param: :slug do
+      resources :crop_companions
+    end
   end
 
   namespace :api do
     namespace :v1 do
+      jsonapi_resources :activities
       jsonapi_resources :crops
       jsonapi_resources :gardens
       jsonapi_resources :harvests

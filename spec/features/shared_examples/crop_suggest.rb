@@ -9,7 +9,7 @@ shared_examples "crop suggest" do |resource|
   let!(:roma)   { create(:roma)              }
 
   it "placeholder text in crop auto suggest field" do
-    expect(page).to have_selector("input[placeholder='e.g. lettuce']")
+    expect(page).to have_css("input[placeholder='e.g. lettuce']")
   end
 
   it "typing in the crop name displays suggestions" do
@@ -41,7 +41,7 @@ shared_examples "crop suggest" do |resource|
 
     select_from_autocomplete("pear")
 
-    expect(page).to have_selector("input##{resource}_crop_id[value='#{pear.id}']", visible: false)
+    expect(page).to have_css("input##{resource}_crop_id[value='#{pear.id}']", visible: false)
   end
 
   it "Typing and pausing does not affect input" do
