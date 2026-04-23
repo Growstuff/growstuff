@@ -1,4 +1,9 @@
 - content_for :title, @member.login_name
+- content_for :meta_description do
+  - if @member.bio.present?
+    = @member.bio
+  - else
+    = "Gardening profile for #{@member.login_name}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: avatar_uri(@member, 200))
   = tag("meta", property: "og:image:user_generated", content: "true")
@@ -85,14 +90,14 @@
     .row
       %section.order-3.order-md-1.col-12= render "map", member: @member
       - if @harvesting.size.positive? 
-        %section.harvests.order-2.order-md-1.col-12
+        %section.harvests.order-2.order-md-1.col-12#harvests
           %h2 Ready to harvest
           .index-cards
             - @harvesting.each do |planting|
               = render 'plantings/thumbnail', planting: planting
 
       - if @others.size.positive?
-        %section.planting-progress.order-2.order-md-1.col-12
+        %section.planting-progress.order-2.order-md-1.col-12#planting-progress
           %h2 Progress report
           %p Still growing and not ready for harvesting.
           .list-group
@@ -101,7 +106,7 @@
                 %span= render 'plantings/tiny', planting: planting
                 %span= render 'plantings/progress', planting: planting
       - if @late.size.positive?
-        %section.late.order-2.order-md-1.col-12
+        %section.late.order-2.order-md-1.col-12#late
           %h2 Late
           %p
             These plantings are at the end of their lifecycle.
@@ -111,7 +116,7 @@
             - @late.each do |planting|
               = render 'plantings/thumbnail', planting: planting
       - if @super_late.any?
-        %section.superlate.order-2.order-md-1.col-12
+        %section.superlate.order-2.order-md-1.col-12#superlate
           %h2 Super late
           %p
             We suspect the following plantings finished long ago and no longer need tracking.
@@ -124,14 +129,14 @@
                 planted on #{planting.planted_at.to_date}
 
       - if @harvests.any?
-        %section.havests.order-2.order-md-1.col-12
+        %section.havests.order-2.order-md-1.col-12#recent-harvests
           %h2 Recent Harvests
           .index-cards
             - @harvests.each do |harvest|
               = render 'harvests/thumbnail', harvest: harvest
 
       - if @activity.any?
-        %section.activity.order-2.order-md-1.col-12
+        %section.activity.order-2.order-md-1.col-12#activity
           %h2 Activity
           .list-group
             - @activity.each do |event|

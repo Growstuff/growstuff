@@ -18,6 +18,9 @@
 
   %ul#myTab.nav.nav-tabs{role: "tablist"}
     %li.nav-item
+      %a#home-tab.nav-link{ href: admin_crops_path, role: "tab", class: ''}
+        Recently edited
+    %li.nav-item
       %a#home-tab.nav-link{ href: wrangle_crops_path, role: "tab", class: @approval_status.blank? ? 'active' : ''}
         Recently added
     %li.nav-item

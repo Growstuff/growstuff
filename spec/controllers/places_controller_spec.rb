@@ -9,8 +9,8 @@ describe PlacesController do
 
   describe "GET show" do
     before do
-      @member_london = FactoryBot.create(:london_member)
-      @member_south_pole = FactoryBot.create(:south_pole_member)
+      @member_london = create(:london_member)
+      @member_south_pole = create(:south_pole_member)
     end
 
     it "assigns place name" do

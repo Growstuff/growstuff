@@ -9,4 +9,4 @@
 - if @harvest.planting.present? && @harvest.planting.overall_rating.blank?
   .alert.alert-info{role: "alert"}
     This harvest is from a planting that hasn't been rated yet.
-    = link_to "Rate this planting", edit_planting_path(@harvest.planting), class: 'alert-link'
+    = link_to "Rate this planting", edit_planting_path(@harvest.planting, anchor: "planting_overall_rating"), class: 'alert-link'

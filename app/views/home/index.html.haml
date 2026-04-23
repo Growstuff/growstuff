@@ -1,5 +1,7 @@
 - content_for :title do
   = ENV['GROWSTUFF_SITE_NAME']
+- content_for :meta_description do
+  Growstuff is a community of food gardeners. Let's learn to grow food together.
 
 - if member_signed_in?
   .row
@@ -11,11 +13,11 @@
       %br
       %p
         - if current_member.plantings.active.any?
-          = link_to member_path(current_member, anchor: "#content"), class: 'btn btn-dark' do
+          = link_to member_path(current_member, anchor: "content"), class: 'btn btn-dark' do
             = planting_icon
             Track my plantings
       %p
-        = link_to member_gardens_path(current_member), class: 'btn btn-dark' do
+        = link_to member_gardens_path(current_member, anchor: "content"), class: 'btn btn-dark' do
           = garden_icon
           Show me my garden
 - else
@@ -62,6 +64,7 @@
     %section.members
       = cute_icon
       = render 'members', cached: true
+.row
   .col-12.col-lg-6
     %section.pwa-install
       = cute_icon
@@ -75,3 +78,5 @@
           .card-body
             %h3= t('home.pwa_android_title')
             %p= t('home.pwa_android_steps_html')
+  .col-12.col-lg-6
+    = render 'releases'

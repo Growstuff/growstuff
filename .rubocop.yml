@@ -1,5 +1,5 @@
 inherit_from: .rubocop_todo.yml
-require:
+plugins:
  - rubocop-factory_bot
  - rubocop-capybara
  - rubocop-rails
@@ -24,6 +24,7 @@ Naming/FileName:
 
 RSpec/DescribeClass:
   Exclude:
+   - 'spec/tasks/import_spec.rb'
    - 'spec/views/**/*.rb'
    - 'spec/features/**/*.rb'
 
@@ -71,4 +72,7 @@ Layout/LineLength:
 Rails/SkipsModelValidations:
   Exclude:
     - 'db/migrate/20190317023129_finished_boolean.rb'
+    - 'db/migrate/20251128200506_add_description_to_crops.rb'
+    - 'db/migrate/20240810160538_set_default_language_for_existing_alternate_names.rb'
+    - 'db/migrate/20240101010102_populate_crop_fields_from_openfarm_data.rb'
     - 'db/seeds.rb'
