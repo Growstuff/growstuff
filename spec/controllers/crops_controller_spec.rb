@@ -42,8 +42,8 @@ describe CropsController do
 
   describe "GET crop search" do
     describe 'fetches the crop search page' do
-      let!(:tomato) { FactoryBot.create(:tomato) }
-      let!(:maize)  { FactoryBot.create(:maize) }
+      let!(:tomato) { create(:tomato) }
+      let!(:maize)  { create(:maize) }
 
       before { Crop.reindex }
 
@@ -140,7 +140,7 @@ describe CropsController do
   describe 'DELETE destroy' do
     subject { delete :destroy, params: { slug: crop.to_param } }
 
-    let!(:crop) { FactoryBot.create(:crop) }
+    let!(:crop) { create(:crop) }
 
     context 'not logged in' do
       it { expect { subject }.not_to change(Crop, :count) }
