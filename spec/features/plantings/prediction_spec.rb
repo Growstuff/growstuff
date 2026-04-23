@@ -4,9 +4,9 @@ require "rails_helper"
 require 'custom_matchers'
 describe "Display a planting", :js do
   describe 'planting perennial' do
-    let(:garden) { FactoryBot.create(:garden, location: 'Edinburgh') }
-    let(:crop) { FactoryBot.create(:crop, name: 'feijoa', perennial: true) }
-    let(:planting) { FactoryBot.create(:planting, crop:, garden:, owner: garden.owner) }
+    let(:garden) { create(:garden, location: 'Edinburgh') }
+    let(:crop) { create(:crop, name: 'feijoa', perennial: true) }
+    let(:planting) { create(:planting, crop:, garden:, owner: garden.owner) }
 
     describe 'no harvest to predict from' do
       before { visit planting_path(planting) }
@@ -17,9 +17,9 @@ describe "Display a planting", :js do
 
     describe 'harvests used to predict' do
       before do
-        FactoryBot.create(:harvest, planting:, crop:, harvested_at: '1 May 2019')
-        FactoryBot.create(:harvest, planting:, crop:, harvested_at: '18 June 2019')
-        FactoryBot.create_list(:harvest, 4, planting:, crop:, harvested_at: '18 August 2019')
+        create(:harvest, planting:, crop:, harvested_at: '1 May 2019')
+        create(:harvest, planting:, crop:, harvested_at: '18 June 2019')
+        create_list(:harvest, 4, planting:, crop:, harvested_at: '18 August 2019')
       end
 
       before { visit planting_path(planting) }
@@ -36,22 +36,22 @@ describe "Display a planting", :js do
 
       before do
         # Near by planting with harvests
-        nearby_garden = FactoryBot.create(:garden, location: 'Greenwich, UK')
-        nearby_planting = FactoryBot.create(:planting, crop:,
+        nearby_garden = create(:garden, location: 'Greenwich, UK')
+        nearby_planting = create(:planting, crop:,
                                                        garden: nearby_garden, owner: nearby_garden.owner, planted_at: '1 January 2000')
-        FactoryBot.create(:harvest, planting: nearby_planting, crop:,
+        create(:harvest, planting: nearby_planting, crop:,
                                     harvested_at: '1 May 2019')
-        FactoryBot.create(:harvest, planting: nearby_planting, crop:,
+        create(:harvest, planting: nearby_planting, crop:,
                                     harvested_at: '18 June 2019')
-        FactoryBot.create_list(:harvest, 4, planting: nearby_planting, crop:,
+        create_list(:harvest, 4, planting: nearby_planting, crop:,
                                             harvested_at: '18 August 2008')
 
         # far away planting harvests
-        faraway_garden = FactoryBot.create(:garden, location: 'Amundsen-Scott Base, Antarctica')
-        faraway_planting = FactoryBot.create(:planting, garden: faraway_garden, crop:,
+        faraway_garden = create(:garden, location: 'Amundsen-Scott Base, Antarctica')
+        faraway_planting = create(:planting, garden: faraway_garden, crop:,
                                                         owner: faraway_garden.owner, planted_at: '16 May 2001')
 
-        FactoryBot.create_list(:harvest, 4, planting: faraway_planting, crop:,
+        create_list(:harvest, 4, planting: faraway_planting, crop:,
                                             harvested_at: '18 December 2006')
       end
 

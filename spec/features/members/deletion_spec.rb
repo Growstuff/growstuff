@@ -4,26 +4,26 @@ require 'rails_helper'
 
 describe "member deletion", :flaky do
   context "with activity and followers" do
-    let(:member)          { FactoryBot.create(:member)                     }
-    let(:other_member)    { FactoryBot.create(:member)                     }
-    let(:memberpost)      { FactoryBot.create(:post, author: member)       }
-    let(:othermemberpost) { FactoryBot.create(:post, author: other_member) }
-    let!(:planting)       { FactoryBot.create(:planting, owner: member)    }
-    let!(:harvest)        { FactoryBot.create(:harvest, owner: member)     }
-    let!(:seed)           { FactoryBot.create(:seed, owner: member)        }
-    let!(:secondgarden)   { FactoryBot.create(:garden, owner: member)      }
+    let(:member)          { create(:member)                     }
+    let(:other_member)    { create(:member)                     }
+    let(:memberpost)      { create(:post, author: member)       }
+    let(:othermemberpost) { create(:post, author: other_member) }
+    let!(:planting)       { create(:planting, owner: member)    }
+    let!(:harvest)        { create(:harvest, owner: member)     }
+    let!(:seed)           { create(:seed, owner: member)        }
+    let!(:secondgarden)   { create(:garden, owner: member)      }
 
     before do
       member.follows.create!(followed: other_member)
       other_member.follows.create!(followed: member)
 
       login_as(member)
-      FactoryBot.create(:comment, author: member, post: othermemberpost)
-      FactoryBot.create(:comment, author: other_member, post: memberpost, body: "Fun comment-y thing")
+      create(:comment, author: member, post: othermemberpost)
+      create(:comment, author: other_member, post: memberpost, body: "Fun comment-y thing")
       # deletion breaks if no wranglers exist
-      FactoryBot.create(:cropbot)
+      create(:cropbot)
       # deletion breaks if ex_member doesn't exist
-      FactoryBot.create(:member, login_name: "ex_member")
+      create(:member, login_name: "ex_member")
     end
 
     it "has option to delete on member profile page" do
@@ -136,7 +136,7 @@ describe "member deletion", :flaky do
       end
 
       it "replaces comments on others' posts with deletion note, leaving post intact" do
-        FactoryBot.create(:comment, post: othermemberpost, author: member, body: 'i am deleting my account')
+        create(:comment, post: othermemberpost, author: member, body: 'i am deleting my account')
 
         visit post_path(othermemberpost)
         expect(page).to have_no_content member.login_name
@@ -163,12 +163,12 @@ describe "member deletion", :flaky do
   end
 
   context "for a crop wrangler" do
-    let(:member) { FactoryBot.create(:crop_wrangling_member) }
-    let!(:ex_wrangler) { FactoryBot.create(:crop_wrangling_member, login_name: "ex_wrangler") }
-    let(:otherwrangler) { FactoryBot.create(:crop_wrangling_member) }
-    let(:crop)          { FactoryBot.create(:crop, creator: member) }
+    let(:member) { create(:crop_wrangling_member) }
+    let!(:ex_wrangler) { create(:crop_wrangling_member, login_name: "ex_wrangler") }
+    let(:otherwrangler) { create(:crop_wrangling_member) }
+    let(:crop)          { create(:crop, creator: member) }
 
-    before { FactoryBot.create(:cropbot) }
+    before { create(:cropbot) }
 
     it "leaves crops behind" do
       login_as(otherwrangler)
