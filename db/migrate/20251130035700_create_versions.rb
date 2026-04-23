@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This migration creates the `versions` table for the Version class.
 # All other migrations PT provides are optional.
 class CreateVersions < ActiveRecord::Migration[7.2]
