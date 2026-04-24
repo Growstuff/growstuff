@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe "forums/index" do
-  let(:admin) { FactoryBot.create(:admin_member) }
-  let(:forum1) { FactoryBot.create(:forum) }
-  let(:forum2) { FactoryBot.create(:forum) }
+  let(:admin) { create(:admin_member) }
+  let(:forum1) { create(:forum) }
+  let(:forum2) { create(:forum) }
 
   before do
     controller.stub(:current_user) { admin }
@@ -23,8 +23,8 @@ describe "forums/index" do
   end
 
   context "posts" do
-    let!(:post) { FactoryBot.create(:forum_post, forum: forum1) }
-    let!(:comment) { FactoryBot.create(:comment, commentable: post) }
+    let!(:post) { create(:forum_post, forum: forum1) }
+    let!(:comment) { create(:comment, commentable: post) }
 
     before { render }
 

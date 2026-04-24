@@ -4,7 +4,7 @@ require 'rails_helper'
 describe 'devise/mailer/unlock_instructions.html.haml', type: "view" do
   context "logged in" do
     before do
-      @resource = FactoryBot.create(:member)
+      @resource = create(:member)
       render
     end
 
