@@ -19,7 +19,7 @@ describe LikesController do
     it { response.parsed_body["description"] == "1 like" }
 
     describe "Liking someone else's post" do
-      it { expect(response.code).to eq('201') }
+      it { expect(response).to have_http_status(:created) }
     end
   end
 
@@ -29,14 +29,14 @@ describe LikesController do
     it { expect(response.content_type).to eq "application/json; charset=utf-8" }
 
     describe "un-liking something i liked before" do
-      it { expect(response.code).to eq('200') }
+      it { expect(response).to have_http_status(:ok) }
       it { response.parsed_body["description"] == "0 likes" }
     end
 
     describe "Deleting someone else's like" do
       let(:like) { create(:like) }
 
-      it { expect(response.code).to eq('403') }
+      it { expect(response).to have_http_status(:forbidden) }
       it { response.parsed_body["error"] == "Unable to like" }
     end
   end
