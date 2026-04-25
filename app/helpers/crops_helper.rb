@@ -62,7 +62,7 @@ module CropsHelper
             '@type': 'Person',
             name: post.author.login_name
           },
-          'datePublished': post.created_at 
+          datePublished: post.created_at
         }
       end
 

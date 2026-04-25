@@ -35,4 +35,4 @@
               %th Sodium
               %td= "#{data.sodium_na_mg.to_f.round(1)} mg"
     .card-footer
-      = link_to "See more", "https://afcd.foodstandards.gov.au/fooddetails.aspx?PFKID=#{data.public_food_key}", target: "_blank", rel: "noopener noreferrer"
+      = link_to "See more", "https://www.foodstandards.gov.au/science-data/food-nutrient-databases/afcd/search/food/#{data.public_food_key}", target: "_blank", rel: "noopener noreferrer"

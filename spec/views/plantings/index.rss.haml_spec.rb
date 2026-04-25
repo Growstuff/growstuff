@@ -9,9 +9,9 @@ describe 'plantings/index.rss.haml', :search do
 
   context 'all plantings' do
     before do
-      @planting = FactoryBot.create(:planting)
-      @sunny = FactoryBot.create(:sunny_planting)
-      @seedling = FactoryBot.create(:seedling_planting)
+      @planting = create(:planting)
+      @sunny = create(:sunny_planting)
+      @seedling = create(:seedling_planting)
       Planting.searchkick_index.refresh
       assign(:plantings, Planting.search(load: false))
       render
@@ -36,7 +36,7 @@ describe 'plantings/index.rss.haml', :search do
 
   context "one person's plantings" do
     before do
-      @planting = FactoryBot.create(:planting)
+      @planting = create(:planting)
       assign(:plantings, [@planting])
       assign(:owner, @planting.owner)
       render

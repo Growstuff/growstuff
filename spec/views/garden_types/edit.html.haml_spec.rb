@@ -4,10 +4,10 @@ require 'rails_helper'
 
 describe "garden_types/edit" do
   before do
-    @owner = FactoryBot.create(:admin_member)
+    @owner = create(:admin_member)
     sign_in @owner
     controller.stub(:current_user) { @owner }
-    @garden_type = assign(:garden_type, FactoryBot.create(:garden_type))
+    @garden_type = assign(:garden_type, create(:garden_type))
     render
   end
 

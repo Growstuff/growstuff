@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 describe 'Likeable', :js, :search do
-  let(:another_member) { FactoryBot.create(:london_member) }
-  let!(:post)           { FactoryBot.create(:post, :reindex, author: member) }
-  let!(:activity)       { FactoryBot.create(:activity, :reindex, owner: member) }
-  let!(:photo)          { FactoryBot.create(:photo, :reindex, owner: member) }
-  let!(:harvest)        { FactoryBot.create(:harvest, :reindex, owner: member) }
-  let!(:planting)       { FactoryBot.create(:planting, :reindex, owner: member) }
+  let(:another_member) { create(:london_member) }
+  let!(:post)           { create(:post, :reindex, author: member) }
+  let!(:activity)       { create(:activity, :reindex, owner: member) }
+  let!(:photo)          { create(:photo, :reindex, owner: member) }
+  let!(:harvest)        { create(:harvest, :reindex, owner: member) }
+  let!(:planting)       { create(:planting, :reindex, owner: member) }
 
   before do
     Photo.reindex
@@ -68,8 +68,8 @@ describe 'Likeable', :js, :search do
     end
 
     describe 'crops#show' do
-      let(:crop) { FactoryBot.create(:crop) }
-      let(:planting) { FactoryBot.create(:planting, owner: member, crop:) }
+      let(:crop) { create(:crop) }
+      let(:planting) { create(:planting, owner: member, crop:) }
       let(:path) { crop_path(crop) }
 
       before { planting.photos << photo }

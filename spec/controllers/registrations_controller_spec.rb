@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe RegistrationsController do
   before do
-    @member = FactoryBot.create(:member)
+    @member = create(:member)
     sign_in @member
     controller.stub(:current_user) { @member }
     controller.stub(:devise_mapping).and_return(Devise.mappings[:member])
@@ -17,7 +17,7 @@ describe RegistrationsController do
     end
 
     it "picks up the flickr auth" do
-      @auth = FactoryBot.create(:flickr_authentication, member: @member)
+      @auth = create(:flickr_authentication, member: @member)
       get :edit
       assigns(:flickr_auth).should eq @auth
     end

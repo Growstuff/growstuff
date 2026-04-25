@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Seeds', type: :request do
+RSpec.describe 'Seeds' do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:seed)   { FactoryBot.create(:seed) }
+  let!(:seed)   { create(:seed) }
   let(:seed_encoded_as_json_api) do
     { "id"            => seed.id.to_s,
       "type"          => "seeds",
@@ -176,7 +176,7 @@ RSpec.describe 'Seeds', type: :request do
 
   context 'filtering' do
     let!(:seed2) do
-      FactoryBot.create(:seed, tradable_to: 'nationally', organic: 'certified organic', gmo: 'certified GMO-free', heirloom: 'heirloom')
+      create(:seed, tradable_to: 'nationally', organic: 'certified organic', gmo: 'certified GMO-free', heirloom: 'heirloom')
     end
 
     it 'filters by crop' do
