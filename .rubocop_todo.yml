@@ -672,12 +672,6 @@ Rails/WhereEquals:
     - 'app/models/harvest.rb'
     - 'app/models/planting.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Rails/WhereMissing:
-  Exclude:
-    - 'app/controllers/crops_controller.rb'
-
 # Offense count: 3
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Rails/WhereRange:
@@ -733,13 +727,6 @@ Style/FileOpen:
 Style/FloatDivision:
   Exclude:
     - 'app/models/concerns/predict_planting.rb'
-
-# Offense count: 22
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: always, always_true, never
-Style/FrozenStringLiteralComment:
-  Enabled: false
 
 # Offense count: 2
 # This cop supports unsafe autocorrection (--autocorrect-all).
