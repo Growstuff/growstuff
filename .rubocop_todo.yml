@@ -248,17 +248,6 @@ RSpec/ExampleLength:
   Max: 27
 
 # Offense count: 32
-RSpec/ExpectInHook:
-  Exclude:
-    - 'spec/controllers/garden_types_controller_spec.rb'
-    - 'spec/controllers/gardens_controller_spec.rb'
-    - 'spec/features/admin/forums_spec.rb'
-    - 'spec/features/admin/plant_parts_spec.rb'
-    - 'spec/features/admin/roles_spec.rb'
-    - 'spec/features/crops/crop_photos_spec.rb'
-    - 'spec/features/members/list_spec.rb'
-    - 'spec/features/plantings/planting_a_crop_spec.rb'
-    - 'spec/features/shared_examples/append_date.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).

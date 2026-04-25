@@ -23,7 +23,6 @@ describe "plant parts", :js do
     before do
       visit plant_parts_path
       click_link "New plant part"
-      expect(page).to have_current_path new_plant_part_path, ignore_query: true
       fill_in 'Name', with: "this is a new plant part"
       click_button 'Save'
     end

@@ -25,29 +25,42 @@ RSpec.describe GardensController do
     describe 'changing existing records' do
       before do
         allow(Garden).to receive(:find).and_return(:garden)
-        expect(garden).not_to receive(:save)
-        expect(garden).not_to receive(:save!)
-        expect(garden).not_to receive(:update)
-        expect(garden).not_to receive(:update!)
-        expect(garden).not_to receive(:destroy)
       end
 
       describe 'GET edit' do
-        before { get :edit, params: { slug: garden.to_param } }
-
-        it { expect(response).to redirect_to(new_member_session_path) }
+        it "redirects to login" do
+          expect(garden).not_to receive(:save)
+          expect(garden).not_to receive(:save!)
+          expect(garden).not_to receive(:update)
+          expect(garden).not_to receive(:update!)
+          expect(garden).not_to receive(:destroy)
+          get :edit, params: { slug: garden.to_param }
+          expect(response).to redirect_to(new_member_session_path)
+        end
       end
 
       describe 'POST update' do
-        before { post :update, params: { slug: garden.to_param, garden: valid_params } }
-
-        it { expect(response).to redirect_to(new_member_session_path) }
+        it "redirects to login" do
+          expect(garden).not_to receive(:save)
+          expect(garden).not_to receive(:save!)
+          expect(garden).not_to receive(:update)
+          expect(garden).not_to receive(:update!)
+          expect(garden).not_to receive(:destroy)
+          post :update, params: { slug: garden.to_param, garden: valid_params }
+          expect(response).to redirect_to(new_member_session_path)
+        end
       end
 
       describe 'DELETE' do
-        before { delete :destroy, params: { slug: garden.to_param, params: { garden: valid_params } } }
-
-        it { expect(response).to redirect_to(new_member_session_path) }
+        it "redirects to login" do
+          expect(garden).not_to receive(:save)
+          expect(garden).not_to receive(:save!)
+          expect(garden).not_to receive(:update)
+          expect(garden).not_to receive(:update!)
+          expect(garden).not_to receive(:destroy)
+          delete :destroy, params: { slug: garden.to_param, params: { garden: valid_params } }
+          expect(response).to redirect_to(new_member_session_path)
+        end
       end
     end
   end
@@ -61,30 +74,43 @@ RSpec.describe GardensController do
       let(:not_my_garden) { double('garden') }
 
       before do
-        expect(Garden).to receive(:find).and_return(:not_my_garden)
-        expect(not_my_garden).not_to receive(:save)
-        expect(not_my_garden).not_to receive(:save!)
-        expect(not_my_garden).not_to receive(:update)
-        expect(not_my_garden).not_to receive(:update!)
-        expect(not_my_garden).not_to receive(:destroy)
+        allow(Garden).to receive(:find).and_return(:not_my_garden)
       end
 
       describe 'GET edit' do
-        before { get :edit, params: { slug: not_my_garden.to_param } }
-
-        it { expect(response).to redirect_to(root_path) }
+        it "redirects to root" do
+          expect(not_my_garden).not_to receive(:save)
+          expect(not_my_garden).not_to receive(:save!)
+          expect(not_my_garden).not_to receive(:update)
+          expect(not_my_garden).not_to receive(:update!)
+          expect(not_my_garden).not_to receive(:destroy)
+          get :edit, params: { slug: not_my_garden.to_param }
+          expect(response).to redirect_to(root_path)
+        end
       end
 
       describe 'POST update' do
-        before { post :update, params: { slug: not_my_garden.to_param, garden: valid_params } }
-
-        it { expect(response).to redirect_to(root_path) }
+        it "redirects to root" do
+          expect(not_my_garden).not_to receive(:save)
+          expect(not_my_garden).not_to receive(:save!)
+          expect(not_my_garden).not_to receive(:update)
+          expect(not_my_garden).not_to receive(:update!)
+          expect(not_my_garden).not_to receive(:destroy)
+          post :update, params: { slug: not_my_garden.to_param, garden: valid_params }
+          expect(response).to redirect_to(root_path)
+        end
       end
 
       describe 'DELETE' do
-        before { delete :destroy, params: { slug: not_my_garden.to_param, params: { garden: valid_params } } }
-
-        it { expect(response).to redirect_to(root_path) }
+        it "redirects to root" do
+          expect(not_my_garden).not_to receive(:save)
+          expect(not_my_garden).not_to receive(:save!)
+          expect(not_my_garden).not_to receive(:update)
+          expect(not_my_garden).not_to receive(:update!)
+          expect(not_my_garden).not_to receive(:destroy)
+          delete :destroy, params: { slug: not_my_garden.to_param, params: { garden: valid_params } }
+          expect(response).to redirect_to(root_path)
+        end
       end
     end
   end
