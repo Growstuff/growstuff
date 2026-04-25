@@ -17,7 +17,7 @@ describe 'Test with visual testing', :js do
   let(:admin_gravatar) { 'https://secure.gravatar.com/avatar/622db62c7beab8d5d8b7a80aa6385b2f?size=150&default=identicon' }
   let(:someone_else_gravatar) { 'https://secure.gravatar.com/avatar/7fd767571ff5ceefc7a687a543b2c402?size=150&default=identicon' }
 
-  let!(:tomato)   { create(:tomato, creator: someone_else) }
+  let!(:tomato) { create(:tomato, creator: someone_else) }
   let(:plant_part) { create(:plant_part, name: 'fruit') }
 
   let(:tomato_photo) do
