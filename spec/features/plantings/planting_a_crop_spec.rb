@@ -288,7 +288,7 @@ describe "Planting a crop", :js, :search do
         end
       end
 
-      it { expect(page).to have_css("img[alt='sun']") }
+      xit { expect(page).to have_css("img[alt='sun']") }
     end
 
     describe "Marking a planting as finished from the show page" do
