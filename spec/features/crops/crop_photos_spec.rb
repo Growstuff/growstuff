@@ -5,30 +5,30 @@ require 'rails_helper'
 describe "crop detail page", :js, :search do
   subject { page }
 
-  let!(:owner_member) { FactoryBot.create(:member) }
+  let!(:owner_member) { create(:member) }
 
-  let!(:crop) { FactoryBot.create(:crop, :reindex) }
+  let!(:crop) { create(:crop, :reindex) }
 
-  let(:plant_part) { FactoryBot.create(:plant_part, name: 'fruit') }
+  let(:plant_part) { create(:plant_part, name: 'fruit') }
 
-  let!(:harvest)  { FactoryBot.create(:harvest, crop:, owner: owner_member, plant_part:) }
-  let!(:planting) { FactoryBot.create(:planting, crop:, owner: owner_member) }
-  let!(:seed)     { FactoryBot.create(:seed, crop:, owner: owner_member)     }
+  let!(:harvest)  { create(:harvest, crop:, owner: owner_member, plant_part:) }
+  let!(:planting) { create(:planting, crop:, owner: owner_member) }
+  let!(:seed)     { create(:seed, crop:, owner: owner_member)     }
 
-  let!(:photo1) { FactoryBot.create(:photo, owner: owner_member) }
-  let!(:photo2) { FactoryBot.create(:photo, owner: owner_member) }
-  let!(:photo3) { FactoryBot.create(:photo, owner: owner_member) }
-  let!(:photo4) { FactoryBot.create(:photo, owner: owner_member) }
-  let!(:photo5) { FactoryBot.create(:photo, owner: owner_member) }
-  let!(:photo6) { FactoryBot.create(:photo, owner: owner_member) }
+  let!(:first_planting_photo)  { create(:photo, owner: owner_member) }
+  let!(:second_planting_photo) { create(:photo, owner: owner_member) }
+  let!(:first_harvest_photo)   { create(:photo, owner: owner_member) }
+  let!(:second_harvest_photo)  { create(:photo, owner: owner_member) }
+  let!(:first_seed_photo)      { create(:photo, owner: owner_member) }
+  let!(:second_seed_photo)     { create(:photo, owner: owner_member) }
 
   before do
-    planting.photos << photo1
-    planting.photos << photo2
-    harvest.photos << photo3
-    harvest.photos << photo4
-    seed.photos << photo5
-    seed.photos << photo6
+    planting.photos << first_planting_photo
+    planting.photos << second_planting_photo
+    harvest.photos << first_harvest_photo
+    harvest.photos << second_harvest_photo
+    seed.photos << first_seed_photo
+    seed.photos << second_seed_photo
     Crop.reindex
     visit crop_path(crop)
     expect(crop.photos.count).to eq 6
@@ -38,18 +38,18 @@ describe "crop detail page", :js, :search do
 
   shared_examples "shows photos" do
     describe "show planting photos" do
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo1.fullsize_url}')]") }
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo2.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{first_planting_photo.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{second_planting_photo.fullsize_url}')]") }
     end
 
     describe "show harvest photos" do
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo3.fullsize_url}')]") }
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo4.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{first_harvest_photo.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{second_harvest_photo.fullsize_url}')]") }
     end
 
     describe "show seed photos" do
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo5.fullsize_url}')]") }
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo6.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{first_seed_photo.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{second_seed_photo.fullsize_url}')]") }
     end
 
     describe "link to more photos" do

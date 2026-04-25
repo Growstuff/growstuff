@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Charts::GardensController do
   include Devise::Test::ControllerHelpers
 
-  let(:garden) { FactoryBot.create(:garden) }
+  let(:garden) { create(:garden) }
 
   context "when not signed in" do
     describe 'GET timeline' do
@@ -18,7 +18,7 @@ describe Charts::GardensController do
   context "when signed in" do
     before { sign_in member }
 
-    let!(:member) { FactoryBot.create(:member) }
+    let!(:member) { create(:member) }
 
     describe 'GET timeline' do
       before { get :timeline, params: { garden_slug: garden.to_param } }

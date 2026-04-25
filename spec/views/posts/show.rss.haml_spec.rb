@@ -5,10 +5,10 @@ require 'rails_helper'
 describe 'posts/show.rss.haml' do
   before do
     controller.stub(:current_user) { nil }
-    @author = FactoryBot.create(:member)
-    @post = FactoryBot.create(:post)
-    FactoryBot.create(:comment, author: @author, commentable: @post)
-    FactoryBot.create(:comment, author: @author, commentable: @post)
+    @author = create(:member)
+    @post = create(:post)
+    create(:comment, author: @author, commentable: @post)
+    create(:comment, author: @author, commentable: @post)
     assign(:post, @post)
     render
   end
