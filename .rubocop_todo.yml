@@ -153,13 +153,6 @@ Lint/SuppressedException:
   Exclude:
     - 'lib/tasks/testing.rake'
 
-# Offense count: 7
-# This cop supports safe autocorrection (--autocorrect).
-Lint/UselessAssignment:
-  Exclude:
-    - 'config.rb'
-    - 'config/compass.rb'
-
 # Offense count: 1
 Lint/UselessConstantScoping:
   Exclude:
