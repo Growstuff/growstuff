@@ -300,7 +300,7 @@ describe Crop do
     let(:crop1) { create(:crop) }
     let(:crop2) { create(:crop) }
 
-    let(:crop1_planting) { crop.plantings.first }
+    let(:crop1_planting) { crop1.plantings.first }
     let(:crop2_planting) { crop2.plantings.first }
 
     let(:member) { create(:member, login_name: 'pikachu') }
