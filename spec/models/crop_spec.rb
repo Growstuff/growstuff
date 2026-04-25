@@ -297,54 +297,54 @@ describe Crop do
     subject { described_class.interesting }
 
     # first, a couple of candidate crops
-    let(:crop1) { create(:crop) }
-    let(:crop2) { create(:crop) }
+    let(:first_crop) { create(:crop) }
+    let(:second_crop) { create(:crop) }
 
-    let(:crop1_planting) { crop1.plantings.first }
-    let(:crop2_planting) { crop2.plantings.first }
+    let(:first_crop_planting) { first_crop.plantings.first }
+    let(:second_crop_planting) { second_crop.plantings.first }
 
     let(:member) { create(:member, login_name: 'pikachu') }
 
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting
-        create_list(:planting, 3, crop: crop1, owner: member)
-        create_list(:planting, 3, crop: crop2, owner: member)
+        create_list(:planting, 3, crop: first_crop, owner: member)
+        create_list(:planting, 3, crop: second_crop, owner: member)
         # crops need 3+ photos to be interesting
-        crop1_planting.photos = create_list :photo, 3, owner: member
-        crop2_planting.photos = create_list :photo, 3, owner: member
+        first_crop_planting.photos = create_list :photo, 3, owner: member
+        second_crop_planting.photos = create_list :photo, 3, owner: member
       end
 
-      it { is_expected.to include crop1 }
-      it { is_expected.to include crop2 }
+      it { is_expected.to include first_crop }
+      it { is_expected.to include second_crop }
       it { expect(subject.size).to eq 2 }
     end
 
     describe 'crops without plantings are not interesting' do
       before do
-        # only crop1 has plantings
-        create_list(:planting, 3, crop: crop1, owner: member)
+        # only first_crop has plantings
+        create_list(:planting, 3, crop: first_crop, owner: member)
         # ... and photos
-        crop1_planting.photos = create_list(:photo, 3, owner: member)
+        first_crop_planting.photos = create_list(:photo, 3, owner: member)
       end
 
-      it { is_expected.to include crop1 }
-      it { is_expected.not_to include crop2 }
+      it { is_expected.to include first_crop }
+      it { is_expected.not_to include second_crop }
       it { expect(subject.size).to eq 1 }
     end
 
     describe 'crops without photos are not interesting' do
       before do
         # both crops have plantings
-        create_list(:planting, 3, crop: crop1, owner: member)
-        create_list(:planting, 3, crop: crop2, owner: member)
+        create_list(:planting, 3, crop: first_crop, owner: member)
+        create_list(:planting, 3, crop: second_crop, owner: member)
 
-        # but only crop1 has photos
-        crop1_planting.photos = create_list(:photo, 3, owner: member)
+        # but only first_crop has photos
+        first_crop_planting.photos = create_list(:photo, 3, owner: member)
       end
 
-      it { is_expected.to include crop1 }
-      it { is_expected.not_to include crop2 }
+      it { is_expected.to include first_crop }
+      it { is_expected.not_to include second_crop }
       it { expect(subject.size).to eq 1 }
     end
   end

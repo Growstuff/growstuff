@@ -102,10 +102,10 @@ describe Member do
 
   context 'newsletter scope' do
     it 'finds newsletter recipients' do
-      member1 = create(:member)
-      member2 = create(:newsletter_recipient_member)
-      Member.wants_newsletter.should include member2
-      Member.wants_newsletter.should_not include member1
+      regular_member = create(:member)
+      newsletter_member = create(:newsletter_recipient_member)
+      Member.wants_newsletter.should include newsletter_member
+      Member.wants_newsletter.should_not include regular_member
     end
   end
 
@@ -299,31 +299,31 @@ describe Member do
   end
 
   context 'member who followed another member' do
-    let(:member1) { create(:member) }
-    let(:member2) { create(:member) }
-    let(:member3) { create(:member) }
+    let(:follower) { create(:member) }
+    let(:followed_member) { create(:member) }
+    let(:other_member) { create(:member) }
 
     before do
-      @follow = member1.follows.create(follower_id: member1.id, followed_id: member2.id)
+      @follow = follower.follows.create(follower_id: follower.id, followed_id: followed_member.id)
     end
 
     context 'already_following' do
       it 'detects that member is already following a member' do
-        expect(member1.already_following?(member2)).to be true
+        expect(follower.already_following?(followed_member)).to be true
       end
 
       it 'detects that member is not already following a member' do
-        expect(member1.already_following?(member3)).to be false
+        expect(follower.already_following?(other_member)).to be false
       end
     end
 
     context 'get_follow' do
       it 'gets the correct follow for a followed member' do
-        expect(member1.get_follow(member2).id).to eq @follow.id
+        expect(follower.get_follow(followed_member).id).to eq @follow.id
       end
 
       it 'returns nil for a member that is not followed' do
-        expect(member1.get_follow(member3)).to be_nil
+        expect(follower.get_follow(other_member)).to be_nil
       end
     end
   end
