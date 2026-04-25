@@ -4,20 +4,20 @@ require 'rails_helper'
 
 describe 'home/index.html.haml', type: "view" do
   before do
-    @member = FactoryBot.create(:london_member)
+    @member = create(:london_member)
     @member.updated_at = 2.days.ago
     assign(:interesting_members, [@member])
 
-    @post = FactoryBot.create(:post, author: @member)
+    @post = create(:post, author: @member)
     assign(:posts, [@post])
 
-    @planting = FactoryBot.create(:planting, owner: @member)
+    @planting = create(:planting, owner: @member)
     assign(:plantings, [@planting])
 
-    @crop = FactoryBot.create(:crop)
+    @crop = create(:crop)
     assign(:crops, [@crop])
     assign(:recent_crops, [@crop])
-    assign(:seeds, [FactoryBot.create(:tradable_seed)])
+    assign(:seeds, [create(:tradable_seed)])
 
     Crop.reindex
   end

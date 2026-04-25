@@ -3,14 +3,14 @@
 require 'rails_helper'
 
 describe TimelineService do
-  let(:member) { FactoryBot.create(:member) }
-  let(:friend) { FactoryBot.create(:member) }
+  let(:member) { create(:member) }
+  let(:friend) { create(:member) }
 
-  let!(:friend_planting) { FactoryBot.create(:planting, owner: friend, planted_at: 1.day.ago) }
-  let!(:friend_harvest) { FactoryBot.create(:harvest, owner: friend, harvested_at: 2.days.ago) }
+  let!(:friend_planting) { create(:planting, owner: friend, planted_at: 1.day.ago) }
+  let!(:friend_harvest) { create(:harvest, owner: friend, harvested_at: 2.days.ago) }
 
-  let!(:my_seeds) { FactoryBot.create(:seed, owner: member, created_at: 4.days.ago) }
-  let!(:my_post) { FactoryBot.create(:post, author: member, created_at: 3.months.ago) }
+  let!(:my_seeds) { create(:seed, owner: member, created_at: 4.days.ago) }
+  let!(:my_post) { create(:post, author: member, created_at: 3.months.ago) }
 
   describe 'a friend you followed' do
     subject { TimelineService.followed_query(member) }

@@ -15,16 +15,16 @@ describe "Seeds", :js, :search do
     describe "displays required and optional fields properly" do
       # NOTE: The required behaviour is pushed down to the control itself, not the form-group as of rails 7.1.
       # Modern browsers enforce the required behaviour better than us doing it ourselves.
-      it { expect(page).to have_selector "label", text: "Crop" }
-      it { expect(page).to have_selector 'input#seed_quantity' }
-      it { expect(page).to have_selector 'input#seed_plant_before' }
-      it { expect(page).to have_selector 'input#seed_days_until_maturity_min' }
-      it { expect(page).to have_selector 'input#seed_days_until_maturity_max' }
-      it { expect(page).to have_selector 'label', text: 'Organic?' }
-      it { expect(page).to have_selector 'label', text: 'GMO?' }
-      it { expect(page).to have_selector 'label', text: 'Heirloom?' }
-      it { expect(page).to have_selector 'textarea#seed_description' }
-      it { expect(page).to have_selector 'label', text: 'Will trade' }
+      it { expect(page).to have_css "label", text: "Crop" }
+      it { expect(page).to have_css 'input#seed_quantity' }
+      it { expect(page).to have_css 'input#seed_plant_before' }
+      it { expect(page).to have_css 'input#seed_days_until_maturity_min' }
+      it { expect(page).to have_css 'input#seed_days_until_maturity_max' }
+      it { expect(page).to have_css 'label', text: 'Organic?' }
+      it { expect(page).to have_css 'label', text: 'GMO?' }
+      it { expect(page).to have_css 'label', text: 'Heirloom?' }
+      it { expect(page).to have_css 'textarea#seed_description' }
+      it { expect(page).to have_css 'label', text: 'Will trade' }
     end
 
     describe "Adding a new seed", :js do
