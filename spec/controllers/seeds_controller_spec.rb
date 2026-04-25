@@ -21,10 +21,6 @@ describe SeedsController, :search do
 
     it { expect(response).to be_successful }
 
-    context 'no parent planting' do
-      before { get :new }
-    end
-
     context 'with parent planting' do
       let!(:planting) { create(:planting, owner:) }
 

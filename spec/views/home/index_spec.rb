@@ -33,12 +33,4 @@ describe 'home/index.html.haml', type: "view" do
       rendered.should have_content @member.location
     end
   end
-
-  context 'signed in' do
-    before do
-      sign_in @member
-      controller.stub(:current_user) { @member }
-      render
-    end
-  end
 end
