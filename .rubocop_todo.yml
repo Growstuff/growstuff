@@ -780,13 +780,6 @@ Style/OptionalBooleanParameter:
     - 'app/models/concerns/member_newsletter.rb'
 
 # Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: PreferredDelimiters.
-Style/PercentLiteralDelimiters:
-  Exclude:
-    - 'db/migrate/20251130035700_create_versions.rb'
-
-# Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: Methods.
 Style/RedundantArgument:
