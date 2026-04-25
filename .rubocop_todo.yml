@@ -269,13 +269,6 @@ RSpec/EmptyExampleGroup:
     - 'spec/views/photos/edit.html.haml_spec.rb'
     - 'spec/views/posts/_single.html.haml_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterExample:
-  Exclude:
-    - 'spec/models/ability_spec.rb'
-
 # Offense count: 146
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
