@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Members' do
-  subject { response.parsed_body }
+  subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
   let!(:member) { create(:member) }
