@@ -297,26 +297,26 @@ describe Crop do
     subject { described_class.interesting }
 
     # first, a couple of candidate crops
-    let(:crop) { create(:crop) }
-    let(:another_crop) { create(:crop) }
+    let(:crop1) { create(:crop) }
+    let(:crop2) { create(:crop) }
 
-    let(:crop_planting) { crop.plantings.first }
-    let(:another_crop_planting) { another_crop.plantings.first }
+    let(:crop1_planting) { crop.plantings.first }
+    let(:crop2_planting) { crop2.plantings.first }
 
     let(:member) { create(:member, login_name: 'pikachu') }
 
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting
-        create_list(:planting, 3, crop: crop, owner: member)
-        create_list(:planting, 3, crop: another_crop, owner: member)
+        create_list(:planting, 3, crop: crop1, owner: member)
+        create_list(:planting, 3, crop: crop2, owner: member)
         # crops need 3+ photos to be interesting
-        crop_planting.photos = create_list :photo, 3, owner: member
-        another_crop_planting.photos = create_list :photo, 3, owner: member
+        crop1_planting.photos = create_list :photo, 3, owner: member
+        crop2_planting.photos = create_list :photo, 3, owner: member
       end
 
-      it { is_expected.to include crop }
-      it { is_expected.to include another_crop }
+      it { is_expected.to include crop1 }
+      it { is_expected.to include crop2 }
       it { expect(subject.size).to eq 2 }
     end
 
