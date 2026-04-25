@@ -31,12 +31,15 @@ describe "crop detail page", :js, :search do
     seed.photos << second_seed_photo
     Crop.reindex
     visit crop_path(crop)
-    expect(crop.photos.count).to eq 6
-    expect(crop.photos.by_model(Planting).count).to eq 2
-    expect(page).to have_content 'Photos'
   end
 
   shared_examples "shows photos" do
+    it "shows the photo section" do
+      expect(crop.photos.count).to eq 6
+      expect(crop.photos.by_model(Planting).count).to eq 2
+      expect(page).to have_content 'Photos'
+    end
+
     describe "show planting photos" do
       it { is_expected.to have_xpath("//img[contains(@src,'#{first_planting_photo.fullsize_url}')]") }
       it { is_expected.to have_xpath("//img[contains(@src,'#{second_planting_photo.fullsize_url}')]") }
