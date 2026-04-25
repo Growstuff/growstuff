@@ -80,3 +80,4 @@ Rails/SkipsModelValidations:
 Rails/ResponseParsedBody:
   Exclude:
     - spec/controllers/api/v1/plantings_controller_spec.rb
+    - spec/requests/api/v1/members_request_spec.rb
