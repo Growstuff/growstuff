@@ -153,14 +153,6 @@ Lint/SuppressedException:
   Exclude:
     - 'lib/tasks/testing.rake'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: strict, consistent
-Lint/SymbolConversion:
-  Exclude:
-    - 'app/helpers/crops_helper.rb'
-
 # Offense count: 7
 # This cop supports safe autocorrection (--autocorrect).
 Lint/UselessAssignment:
@@ -256,13 +248,6 @@ RSpec/DescribedClass:
     - 'spec/models/like_spec.rb'
     - 'spec/models/member_spec.rb'
     - 'spec/services/timeline_service_spec.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterExample:
-  Exclude:
-    - 'spec/models/ability_spec.rb'
 
 # Offense count: 146
 # Configuration parameters: CountAsOne.

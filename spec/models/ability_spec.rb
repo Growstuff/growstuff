@@ -136,6 +136,7 @@ describe Ability do
       it "can manage members" do
         ability.should be_able_to(:destroy, create(:member))
       end
+
       it "cannot delete themselves" do
         ability.should_not be_able_to(:destroy, member)
       end
