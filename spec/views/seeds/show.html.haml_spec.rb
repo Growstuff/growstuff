@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "seeds/show" do
-  let(:seed) { FactoryBot.create(:seed) }
+  let(:seed) { create(:seed) }
 
   before do
     controller.stub(:current_user) { nil }
@@ -18,9 +18,9 @@ describe "seeds/show" do
 
   context "tradable" do
     context 'with location' do
-      let!(:owner) { FactoryBot.create(:london_member) }
-      let!(:seed)   { FactoryBot.create(:tradable_seed, owner:) }
-      let!(:member) { FactoryBot.create(:member) }
+      let!(:owner) { create(:london_member) }
+      let!(:seed)   { create(:tradable_seed, owner:) }
+      let!(:member) { create(:member) }
 
       before do
         assign(:seed, seed)
@@ -46,8 +46,8 @@ describe "seeds/show" do
 
     context 'with no location' do
       # no location
-      let(:owner) { FactoryBot.create(:member) }
-      let!(:seed) { FactoryBot.create(:tradable_seed, owner:) }
+      let(:owner) { create(:member) }
+      let!(:seed) { create(:tradable_seed, owner:) }
 
       before do
         sign_in owner

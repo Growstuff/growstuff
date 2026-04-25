@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Gardens', type: :request do
+RSpec.describe 'Gardens' do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:garden) { FactoryBot.create(:garden) }
+  let!(:garden) { create(:garden) }
   let(:garden_encoded_as_json_api) do
     { "id"            => garden.id.to_s,
       "type"          => "gardens",
@@ -51,7 +51,7 @@ RSpec.describe 'Gardens', type: :request do
   end
 
   context 'filtering' do
-    let!(:garden2) { FactoryBot.create(:garden, active: false, garden_type: FactoryBot.create(:garden_type)) }
+    let!(:garden2) { create(:garden, active: false, garden_type: create(:garden_type)) }
 
     pending 'filters by active' do
       get('/api/v1/gardens?filter[active]=true', params: {}, headers:)

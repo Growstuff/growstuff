@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAustralianFoodClassificationData < ActiveRecord::Migration[5.2]
   def change
     create_table :australian_food_classification_data do |t|

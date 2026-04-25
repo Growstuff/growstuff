@@ -6,7 +6,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
   context "logged in" do
     before do
       controller.stub(:current_user) { nil }
-      @member = FactoryBot.create(:member)
+      @member = create(:member)
       controller.stub(:current_member) { @member }
       @view.stub(:resource).and_return(@member)
       @view.stub(:resource_name).and_return("member")
@@ -69,7 +69,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
 
       context 'connected to flickr' do
         before do
-          @flickr_auth = FactoryBot.create(:flickr_authentication, member: @member)
+          @flickr_auth = create(:flickr_authentication, member: @member)
           render
         end
 

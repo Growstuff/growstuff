@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :authentications, only: %i(create destroy)
 
   get "home/index"
+  get '/community-gardens', to: 'home#community_gardens'
   root to: 'home#index'
 
   concern :has_photos do

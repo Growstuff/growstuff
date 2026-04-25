@@ -61,7 +61,7 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Setup yarn cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -76,7 +76,7 @@ jobs:
       - name: Install NodeJS
         uses: actions/setup-node@v6
         with:
-          node-version: '12'
+          node-version: '24'
 
       - name: Install Ruby (version given by .ruby-version) and Bundler
         uses: ruby/setup-ruby@v1
@@ -103,7 +103,7 @@ jobs:
 
       - name: Upload screenshots
         if: failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: screenshots
           path: tmp/screenshots

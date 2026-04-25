@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PopulateCropFieldsFromOpenfarmData < ActiveRecord::Migration[5.2]
   def up
     Crop.find_each do |crop|

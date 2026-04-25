@@ -5,8 +5,8 @@ require 'rails_helper'
 describe "posts/edit" do
   before do
     controller.stub(:current_user) { nil }
-    @author = FactoryBot.create(:member)
-    @post = assign(:post, FactoryBot.create(:post, author: @author))
+    @author = create(:member)
+    @post = assign(:post, create(:post, author: @author))
   end
 
   context "logged in" do
@@ -32,10 +32,10 @@ describe "posts/edit" do
 
     context "forum specified" do
       before do
-        @forum = assign(:forum, FactoryBot.create(:forum))
-        assign(:post, FactoryBot.create(:post,
-                                        forum:  @forum,
-                                        author: @author))
+        @forum = assign(:forum, create(:forum))
+        assign(:post, create(:post,
+                             forum:  @forum,
+                             author: @author))
         render
       end
 
