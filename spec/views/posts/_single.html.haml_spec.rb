@@ -43,16 +43,6 @@ describe "posts/_single" do
     end
   end
 
-  context "when logged in as post author" do
-    before do
-      @member = create(:member)
-      sign_in @member
-      controller.stub(:current_user) { @member }
-      @post = create(:post, author: @member)
-      render_post
-    end
-  end
-
   context "when post has been edited" do
     before do
       @member = create(:member)
