@@ -51,13 +51,13 @@ describe Member do
     it "has many comments" do
       create(:comment, author: member)
       create(:comment, author: member)
-      expect(member.comments.size).to == 2
+      expect(member.comments.size).to eq 2
     end
 
     it "has many forums" do
       create(:forum, owner: member)
       create(:forum, owner: member)
-      expect(member.forums.size).to == 2
+      expect(member.forums.size).to eq 2
     end
 
     it "has many likes" do
@@ -219,7 +219,7 @@ describe Member do
 
     it 'ignores unconfirmed members' do
       create(:unconfirmed_member)
-      expect(Member.confirmed.size).to == 2
+      expect(Member.confirmed.size).to eq 2
     end
   end
 

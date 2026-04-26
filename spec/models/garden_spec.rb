@@ -59,7 +59,7 @@ describe Garden do
   end
 
   it "stringifies as its name" do
-    expect(garden.to_s).to == garden.name
+    expect(garden.to_s).to eq garden.name
   end
 
   it "destroys plantings when deleted" do
