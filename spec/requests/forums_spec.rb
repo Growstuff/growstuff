@@ -37,9 +37,9 @@ describe "Forums" do
       before { sign_in admin }
 
       it "creates a new forum" do
-        expect {
+        expect do
           post forums_path, params: { forum: { name: "New Request Forum", description: "Desc", owner_id: admin.id } }
-        }.to change(Forum, :count).by(1)
+        end.to change(Forum, :count).by(1)
         expect(response).to redirect_to(forum_path(Forum.last))
       end
     end

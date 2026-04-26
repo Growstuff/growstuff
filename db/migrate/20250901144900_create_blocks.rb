@@ -8,6 +8,6 @@ class CreateBlocks < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_index :blocks, [:blocker_id, :blocked_id], unique: true
+    add_index :blocks, %i(blocker_id blocked_id), unique: true
   end
 end

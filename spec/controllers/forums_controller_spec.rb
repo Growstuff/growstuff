@@ -49,9 +49,9 @@ describe ForumsController do
         let(:valid_attributes) { { name: "New Forum", description: "A new forum", owner_id: admin.id } }
 
         it "creates a new Forum" do
-          expect {
+          expect do
             post :create, params: { forum: valid_attributes }
-          }.to change(Forum, :count).by(1)
+          end.to change(Forum, :count).by(1)
         end
 
         it "redirects to the created forum" do
@@ -81,9 +81,9 @@ describe ForumsController do
     describe "DELETE #destroy" do
       it "destroys the requested forum" do
         forum # ensure forum exists
-        expect {
+        expect do
           delete :destroy, params: { id: forum.to_param }
-        }.to change(Forum, :count).by(-1)
+        end.to change(Forum, :count).by(-1)
       end
 
       it "redirects to the forums list" do
