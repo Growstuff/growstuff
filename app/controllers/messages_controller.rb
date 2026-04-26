@@ -27,10 +27,21 @@ class MessagesController < ApplicationController
   def create
     if params[:conversation_id].present?
       @conversation = Mailboxer::Conversation.find(params[:conversation_id])
+      # Check if any of the recipients have blocked the sender
+      if @conversation.recipients.any? { |recipient| recipient.already_blocking?(current_member) }
+        flash[:error] = "You cannot reply to this conversation because one of the recipients has blocked you."
+        redirect_to conversation_path(@conversation)
+        return
+      end
       current_member.reply_to_conversation(@conversation, params[:body])
       redirect_to conversation_path(@conversation)
     else
       recipient = Member.find(params[:recipient_id])
+      if recipient.already_blocking?(current_member)
+        flash[:error] = "You cannot send a message to a member who has blocked you."
+        redirect_back fallback_location: root_path
+        return
+      end
       body = params[:body]
       subject = params[:subject]
       @conversation = current_member.send_message(recipient, body, subject)

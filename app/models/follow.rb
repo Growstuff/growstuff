@@ -4,6 +4,7 @@ class Follow < ApplicationRecord
   belongs_to :follower, class_name: "Member", inverse_of: :follows
   belongs_to :followed, class_name: "Member", inverse_of: :inverse_follows
   validates :follower_id, uniqueness: { scope: :followed_id }
+  validate :follower_is_not_blocked
 
   after_create do
     Notification.create(
@@ -13,5 +14,14 @@ class Follow < ApplicationRecord
       body:         "#{follower.login_name} just followed you on #{ENV.fetch('GROWSTUFF_SITE_NAME', nil)}. ",
       notifiable:   self
     )
+  end
+
+  private
+
+  def follower_is_not_blocked
+    return unless follower
+    if followed.already_blocking?(follower)
+      errors.add(:base, "You cannot follow a member who has blocked you.")
+    end
   end
 end

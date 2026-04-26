@@ -77,6 +77,90 @@ describe Ability do
     end
   end
 
+  context 'plantings' do
+    let(:approved_crop) { create(:crop, approval_status: 'approved') }
+    let(:unapproved_crop) { create(:crop, approval_status: 'unapproved') }
+    let(:garden) { create(:garden, owner: member) }
+    let(:planting) { create(:planting, garden: garden, crop: approved_crop, owner: member) }
+    let(:other_planting) { create(:planting, crop: approved_crop) }
+    let(:planting_with_unapproved_crop) { create(:planting, garden: garden, crop: unapproved_crop, owner: member) }
+
+    it 'can create a planting' do
+      ability.should be_able_to(:create, Planting)
+    end
+
+    it 'can manage their own planting with an approved crop' do
+      ability.should be_able_to(:update, planting)
+      ability.should be_able_to(:destroy, planting)
+    end
+
+    xit "can't manage their own planting with an unapproved crop" do
+      ability.should_not be_able_to(:update, planting_with_unapproved_crop)
+      ability.should_not be_able_to(:destroy, planting_with_unapproved_crop)
+    end
+
+    it "can't manage another member's planting" do
+      ability.should_not be_able_to(:update, other_planting)
+      ability.should_not be_able_to(:destroy, other_planting)
+    end
+
+    it 'can transplant their own planting' do
+      ability.should be_able_to(:transplant, planting)
+    end
+
+    context 'garden collaborator' do
+      let(:garden) { create(:garden) }
+      let(:planting_in_garden) { create(:planting, garden:, crop: approved_crop, owner: garden.owner) }
+
+      before do
+        garden.garden_collaborators.create(member:)
+      end
+
+      it 'can manage plantings in a garden they collaborate on' do
+        ability.should be_able_to(:update, planting_in_garden)
+        ability.should be_able_to(:destroy, planting_in_garden)
+      end
+
+      it 'can transplant a planting in a garden they collaborate on' do
+        ability.should be_able_to(:transplant, planting_in_garden)
+      end
+    end
+  end
+
+  context 'harvests' do
+    let(:harvest) { create(:harvest, owner: member) }
+    let(:other_harvest) { create(:harvest) }
+
+    it 'can create a harvest' do
+      ability.should be_able_to(:create, Harvest)
+    end
+
+    it 'can manage their own harvest' do
+      ability.should be_able_to(:update, harvest)
+      ability.should be_able_to(:destroy, harvest)
+    end
+
+    it "can't manage another member's harvest" do
+      ability.should_not be_able_to(:update, other_harvest)
+      ability.should_not be_able_to(:destroy, other_harvest)
+    end
+
+    context 'garden collaborator' do
+      let(:garden) { create(:garden) }
+      let(:planting_in_garden) { create(:planting, garden:, owner: garden.owner) }
+      let(:harvest_in_garden) { create(:harvest, planting: planting_in_garden, owner: planting_in_garden.owner) }
+
+      before do
+        garden.garden_collaborators.create(member:)
+      end
+
+      it 'can manage harvests in a garden they collaborate on' do
+        ability.should be_able_to(:update, harvest_in_garden)
+        ability.should be_able_to(:destroy, harvest_in_garden)
+      end
+    end
+  end
+
   context 'plant parts' do
     let(:plant_part) { create(:plant_part) }
 
@@ -140,6 +224,113 @@ describe Ability do
       it "cannot delete themselves" do
         expect(ability).not_to be_able_to(:destroy, member)
       end
+    end
+  end
+
+  context 'activities' do
+    let(:activity) { create(:activity, owner: member) }
+    let(:other_activity) { create(:activity) }
+
+    it 'can create an activity' do
+      ability.should be_able_to(:create, Activity)
+    end
+
+    it 'can manage their own activity' do
+      ability.should be_able_to(:update, activity)
+      ability.should be_able_to(:destroy, activity)
+    end
+
+    it "can't manage another member's activity" do
+      ability.should_not be_able_to(:update, other_activity)
+      ability.should_not be_able_to(:destroy, other_activity)
+    end
+
+    context 'garden collaborator' do
+      let(:garden) { create(:garden) }
+      let(:activity_in_garden) { create(:activity, garden:) }
+
+      before do
+        garden.garden_collaborators.create(member:)
+      end
+
+      it 'can manage activities in a garden they collaborate on' do
+        ability.should be_able_to(:update, activity_in_garden)
+        ability.should be_able_to(:destroy, activity_in_garden)
+      end
+    end
+  end
+
+  context 'seeds' do
+    let(:seed) { create(:seed, owner: member) }
+    let(:other_seed) { create(:seed) }
+
+    it 'can create a seed' do
+      ability.should be_able_to(:create, Seed)
+    end
+
+    it 'can manage their own seed' do
+      ability.should be_able_to(:update, seed)
+      ability.should be_able_to(:destroy, seed)
+    end
+
+    it "can't manage another member's seed" do
+      ability.should_not be_able_to(:update, other_seed)
+      ability.should_not be_able_to(:destroy, other_seed)
+    end
+  end
+
+  context 'comments' do
+    let(:comment) { create(:comment, author: member) }
+    let(:other_comment) { create(:comment) }
+
+    it 'can create a comment' do
+      ability.should be_able_to(:create, Comment)
+    end
+
+    it 'can manage their own comment' do
+      ability.should be_able_to(:update, comment)
+      ability.should be_able_to(:destroy, comment)
+    end
+
+    it "can't manage another member's comment" do
+      ability.should_not be_able_to(:update, other_comment)
+      ability.should_not be_able_to(:destroy, other_comment)
+    end
+  end
+
+  context 'photos' do
+    let(:photo) { create(:photo, owner: member) }
+    let(:other_photo) { create(:photo) }
+
+    it 'can create a photo' do
+      ability.should be_able_to(:create, Photo)
+    end
+
+    it 'can manage their own photo' do
+      ability.should be_able_to(:update, photo)
+      ability.should be_able_to(:destroy, photo)
+    end
+
+    it "can't manage another member's photo" do
+      ability.should_not be_able_to(:update, other_photo)
+      ability.should_not be_able_to(:destroy, other_photo)
+    end
+  end
+
+  context 'likes' do
+    let(:like) { create(:like, member:) }
+    let(:other_like) { create(:like) }
+
+    it 'can create a like' do
+      ability.should be_able_to(:create, Like)
+    end
+
+    it 'can destroy their own like' do
+      ability.should be_able_to(:destroy, like)
+    end
+
+    it "can't destroy another member's like" do
+      ability.should_not be_able_to(:destroy, other_like)
     end
   end
 end
