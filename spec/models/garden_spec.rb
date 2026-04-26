@@ -11,7 +11,7 @@ describe Garden do
   end
 
   it "has a description" do
-    expect(garden.description).to == "This is a **totally** cool garden"
+    expect(garden.description).to eq "This is a **totally** cool garden"
   end
 
   it "doesn't allow a nil name" do

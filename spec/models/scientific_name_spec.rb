@@ -13,7 +13,7 @@ describe ScientificName do
     it 'is fetchable from the database' do
       sn.save
       @sn2 = described_class.find_by(name: 'Zea mays')
-      expect(@sn2.crop.name).to == 'maize'
+      expect(@sn2.crop.name).to eq 'maize'
     end
 
     it 'has a creator' do

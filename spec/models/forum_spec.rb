@@ -20,6 +20,6 @@ describe Forum do
   it "has many posts" do
     @post1 = create(:forum_post, forum:)
     @post2 = create(:forum_post, forum:)
-    expect(forum.posts.size).to == 2
+    expect(forum.posts.size).to eq 2
   end
 end

@@ -21,14 +21,14 @@ describe Post do
     post = create(:post, author: member)
     create(:comment, commentable: post)
     create(:comment, commentable: post)
-    expect(post.comments.size).to == 2
+    expect(post.comments.size).to eq 2
   end
 
   it "supports counting comments" do
     post = create(:post, author: member)
     create(:comment, commentable: post)
     create(:comment, commentable: post)
-    expect(post.comment_count).to == 2
+    expect(post.comment_count).to eq 2
   end
 
   it "destroys comments when deleted" do
