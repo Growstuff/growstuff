@@ -39,7 +39,7 @@ class MessagesController < ApplicationController
       recipient = Member.find(params[:recipient_id])
       if recipient.already_blocking?(current_member)
         flash[:error] = "You cannot send a message to a member who has blocked you."
-        redirect_back fallback_location: root_path
+        redirect_back_or_to(root_path)
         return
       end
       body = params[:body]
