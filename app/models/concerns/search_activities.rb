@@ -15,6 +15,12 @@ module SearchActivities
                  }
                }
 
+    scope :search_import, -> { where("finished <> true OR updated_at >= ?", 2.years.ago) }
+
+    def should_index?
+      !finished || updated_at >= 2.years.ago
+    end
+
     def search_data
       {
         slug:,
