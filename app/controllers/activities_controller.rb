@@ -4,21 +4,16 @@ class ActivitiesController < DataController
   def index
     @show_all = params[:all] == '1'
 
-    where = {}
-    where['active'] = true unless @show_all
+    @activities = Activity.includes(:owner, :garden, planting: :crop).order(created_at: :desc)
+    @activities = @activities.active unless @show_all
 
     if params[:member_slug]
       @owner = Member.find_by(slug: params[:member_slug])
-      where['owner_id'] = @owner.id unless @owner.nil?
+      @activities = @activities.where(owner_id: @owner.id) if @owner.present?
     end
 
-    @activities = Activity.search(
-      where:,
-      page:     params[:page],
-      limit:    30,
-      boost_by: [:created_at],
-      load:     false
-    )
+    @activities = @activities.paginate(page: params[:page], per_page: 30)
+
     @filename = "Growstuff-#{specifics}Activities-#{Time.zone.now.to_fs(:number)}.csv"
     respond_with(@activities)
   end
