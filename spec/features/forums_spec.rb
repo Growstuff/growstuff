@@ -33,7 +33,7 @@ describe "Forums usage", :js do
       visit forum_path(forum)
       click_link "Post something"
 
-      expect(page).to have_current_path(new_post_path(forum_id: forum.id), ignore_query: true)
+      expect(page).to have_current_path(new_post_path(forum_id: forum.id))
       expect(page).to have_content("This post will be posted in the forum #{forum.name}")
 
       fill_in "post_subject", with: "My New Post"
