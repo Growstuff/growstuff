@@ -22,8 +22,8 @@
       .form-group
         = f.label :crop_id, class: 'control-label col-md-2'
         .col-md-8
-          = collection_select(:alternate_name, :crop_id,
-                              Crop.all, :id, :name,
+          = select(:alternate_name, :crop_id,
+                              Crop.order(:name).pluck(:name, :id),
                               { selected: @alternate_name.crop_id || @crop.id },
                               class: 'form-control')
 
