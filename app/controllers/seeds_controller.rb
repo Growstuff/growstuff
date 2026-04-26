@@ -61,7 +61,7 @@ class SeedsController < DataController
     @seed.finished ||= false
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
-    flash[:notice] = "Successfully added #{@seed.crop} seed to your stash." if @seed.save
+    flash[:notice] = t('seeds.added_to_stash', crop: @seed.crop) if @seed.save
     if params[:return] == 'planting'
       respond_with(@seed, location: @seed.parent_planting)
     else
@@ -70,7 +70,7 @@ class SeedsController < DataController
   end
 
   def update
-    flash[:notice] = 'Seed was successfully updated.' if @seed.update(seed_params)
+    flash[:notice] = t('seeds.updated') if @seed.update(seed_params)
     respond_with(@seed)
   end
 
