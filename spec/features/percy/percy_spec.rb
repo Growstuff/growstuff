@@ -7,17 +7,17 @@ describe 'Test with visual testing', :js do
   # on every run, so doesn't trigger percy to see changes
   before { Faker::Config.random = Random.new(42) }
 
-  let!(:member)        { create(:member, login_name: 'percy', preferred_avatar_uri: gravatar) }
-  let!(:crop_wrangler) { create(:crop_wrangling_member, login_name: 'croppy', preferred_avatar_uri: gravatar2) }
-  let!(:admin_user) { create(:admin_member, login_name: 'janitor', preferred_avatar_uri: gravatar3) }
-  let!(:someone_else) { create(:edinburgh_member, login_name: 'ruby', preferred_avatar_uri: gravatar4) }
+  let!(:member)        { create(:member, login_name: 'percy', preferred_avatar_uri: member_gravatar) }
+  let!(:crop_wrangler) { create(:crop_wrangling_member, login_name: 'croppy', preferred_avatar_uri: crop_wrangler_gravatar) }
+  let!(:admin_user) { create(:admin_member, login_name: 'janitor', preferred_avatar_uri: admin_gravatar) }
+  let!(:someone_else) { create(:edinburgh_member, login_name: 'ruby', preferred_avatar_uri: someone_else_gravatar) }
 
-  let(:gravatar) { 'https://secure.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
-  let(:gravatar2) { 'https://secure.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
-  let(:gravatar3) { 'https://secure.gravatar.com/avatar/622db62c7beab8d5d8b7a80aa6385b2f?size=150&default=identicon' }
-  let(:gravatar4) { 'https://secure.gravatar.com/avatar/7fd767571ff5ceefc7a687a543b2c402?size=150&default=identicon' }
+  let(:member_gravatar) { 'https://secure.gravatar.com/avatar/d021434aac03a7f7c7c0de60d07dad1c?size=150&default=identicon' }
+  let(:crop_wrangler_gravatar) { 'https://secure.gravatar.com/avatar/353d83d3677b142520987e1936fd093c?size=150&default=identicon' }
+  let(:admin_gravatar) { 'https://secure.gravatar.com/avatar/622db62c7beab8d5d8b7a80aa6385b2f?size=150&default=identicon' }
+  let(:someone_else_gravatar) { 'https://secure.gravatar.com/avatar/7fd767571ff5ceefc7a687a543b2c402?size=150&default=identicon' }
 
-  let!(:tomato)   { create(:tomato, creator: someone_else) }
+  let!(:tomato) { create(:tomato, creator: someone_else) }
   let(:plant_part) { create(:plant_part, name: 'fruit') }
 
   let(:tomato_photo) do

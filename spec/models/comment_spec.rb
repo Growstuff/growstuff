@@ -41,6 +41,21 @@ describe Comment do
     end
   end
 
+  context "when the post author has blocked the comment author" do
+    let(:post_author) { create(:member) }
+    let(:comment_author) { create(:member) }
+    let(:post) { create(:post, author: post_author) }
+
+    before do
+      post_author.blocks.create(blocked: comment_author)
+    end
+
+    it "is not valid" do
+      comment = build(:comment, commentable: post, author: comment_author)
+      expect(comment).not_to be_valid
+    end
+  end
+
   context "ordering" do
     before do
       @m = create(:member)

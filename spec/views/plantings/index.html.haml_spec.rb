@@ -45,7 +45,7 @@ describe "plantings/index.html.haml" do
 
   it "provides data links" do
     render
-    rendered.should have_content "The data on this page is available in the following formats:"
+    expect(rendered).to have_content "The data on this page is available in the following formats:"
     assert_select "a", href: plantings_path(format: 'csv')
     assert_select "a", href: plantings_path(format: 'json')
     assert_select "a", href: plantings_path(format: 'rss')

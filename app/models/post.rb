@@ -49,9 +49,10 @@ class Post < ApplicationRecord
 
   # return posts sorted by recent activity
   def self.recently_active
-    Post.order(created_at: :desc).sort do |a, b|
-      b.recent_activity <=> a.recent_activity
-    end
+    left_joins(:comments)
+      .select('posts.*, COALESCE(MAX(comments.created_at), posts.created_at) AS last_activity_at')
+      .group('posts.id')
+      .order(Arel.sql('last_activity_at DESC'))
   end
 
   def owner_id

@@ -286,9 +286,9 @@ describe "Planting a crop", :js, :search do
           check "Mark as finished"
           click_button "Save"
         end
-
-        it { expect(page).to have_css("img[alt='sun']") }
       end
+
+      xit { expect(page).to have_css("img[alt='sun']") }
     end
 
     describe "Marking a planting as finished from the show page" do

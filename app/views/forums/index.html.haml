@@ -6,6 +6,7 @@
 
 - @forums.each do |forum|
   %h2= forum
+  %p= forum.description
   %p
     = localize_plural(forum.posts, Post)
     |

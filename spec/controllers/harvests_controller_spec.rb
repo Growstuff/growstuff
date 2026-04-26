@@ -15,12 +15,12 @@ describe HarvestsController, :search do
   end
 
   describe "GET index" do
-    let!(:member1)  { create(:member)                                            }
-    let(:member2)   { create(:member)                                            }
-    let(:tomato)    { create(:tomato)                                            }
-    let(:maize)     { create(:maize)                                             }
-    let!(:harvest1) { create(:harvest, owner_id: member1.id, crop_id: tomato.id) }
-    let!(:harvest2) { create(:harvest, owner_id: member2.id, crop_id: maize.id)  }
+    let!(:first_member)     { create(:member)                                                  }
+    let(:second_member)     { create(:member)                                                  }
+    let(:tomato)            { create(:tomato)                                                  }
+    let(:maize)             { create(:maize)                                                   }
+    let!(:tomato_harvest)   { create(:harvest, owner_id: first_member.id, crop_id: tomato.id)  }
+    let!(:maize_harvest)    { create(:harvest, owner_id: second_member.id, crop_id: maize.id)  }
 
     before { Harvest.reindex }
 
@@ -28,16 +28,16 @@ describe HarvestsController, :search do
       before { get :index, params: {} }
 
       it { expect(assigns(:harvests).size).to eq 2 }
-      it { expect(assigns(:harvests)[0].slug).to eq harvest1.slug }
-      it { expect(assigns(:harvests)[1].slug).to eq harvest2.slug }
+      it { expect(assigns(:harvests)[0].slug).to eq tomato_harvest.slug }
+      it { expect(assigns(:harvests)[1].slug).to eq maize_harvest.slug }
     end
 
     describe "picks up owner from params and shows owner's harvests only" do
-      before { get :index, params: { member_slug: member1.slug } }
+      before { get :index, params: { member_slug: first_member.slug } }
 
-      it { expect(assigns(:owner)).to eq member1 }
+      it { expect(assigns(:owner)).to eq first_member }
       it { expect(assigns(:harvests).size).to eq 1 }
-      it { expect(assigns(:harvests)[0].slug).to eq harvest1.slug }
+      it { expect(assigns(:harvests)[0].slug).to eq tomato_harvest.slug }
     end
 
     describe "picks up crop from params and shows the harvests for the crop only" do
@@ -45,7 +45,7 @@ describe HarvestsController, :search do
 
       it { expect(assigns(:crop)).to eq maize }
       it { expect(assigns(:harvests).size).to eq 1 }
-      it { expect(assigns(:harvests)[0].slug).to eq harvest2.slug }
+      it { expect(assigns(:harvests)[0].slug).to eq maize_harvest.slug }
     end
 
     describe "generates a csv" do

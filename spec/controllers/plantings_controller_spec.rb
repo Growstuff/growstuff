@@ -13,12 +13,12 @@ describe PlantingsController, :search do
   end
 
   describe "GET index", :search do
-    let!(:member1)   { create(:member)                                                       }
-    let!(:member2)   { create(:member)                                                       }
-    let!(:tomato)    { create(:tomato)                                                       }
-    let!(:maize)     { create(:maize)                                                        }
-    let!(:planting1) { create(:planting, crop: tomato, owner: member1, created_at: 1.day.ago) }
-    let!(:planting2) { create(:planting, crop: maize, owner: member2, created_at: 5.days.ago) }
+    let!(:first_member)      { create(:member)                                                       }
+    let!(:second_member)     { create(:member)                                                       }
+    let!(:tomato)            { create(:tomato)                                                       }
+    let!(:maize)             { create(:maize)                                                        }
+    let!(:tomato_planting)   { create(:planting, crop: tomato, owner: first_member, created_at: 1.day.ago) }
+    let!(:maize_planting)    { create(:planting, crop: maize, owner: second_member, created_at: 5.days.ago) }
 
     before do
       Planting.reindex
@@ -28,23 +28,23 @@ describe PlantingsController, :search do
       before { get :index }
 
       it { expect(assigns(:plantings).size).to eq 2 }
-      it { expect(assigns(:plantings)[0]['slug']).to eq planting1.slug }
-      it { expect(assigns(:plantings)[1]['slug']).to eq planting2.slug }
+      it { expect(assigns(:plantings)[0]['slug']).to eq tomato_planting.slug }
+      it { expect(assigns(:plantings)[1]['slug']).to eq maize_planting.slug }
     end
 
     describe "picks up owner from params and shows owner's plantings only" do
-      before { get :index, params: { member_slug: member1.slug } }
+      before { get :index, params: { member_slug: first_member.slug } }
 
-      it { expect(assigns(:owner)).to eq member1 }
+      it { expect(assigns(:owner)).to eq first_member }
       it { expect(assigns(:plantings).size).to eq 1 }
-      it { expect(assigns(:plantings).first['slug']).to eq planting1.slug }
+      it { expect(assigns(:plantings).first['slug']).to eq tomato_planting.slug }
     end
 
     describe "picks up crop from params and shows the plantings for the crop only" do
       before { get :index, params: { crop_slug: maize.slug } }
 
       it { expect(assigns(:crop)).to eq maize }
-      it { expect(assigns(:plantings).first['slug']).to eq planting2.slug }
+      it { expect(assigns(:plantings).first['slug']).to eq maize_planting.slug }
     end
   end
 

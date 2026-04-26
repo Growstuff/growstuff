@@ -13,11 +13,11 @@ describe 'crops/index.rss.haml' do
   end
 
   it 'shows RSS feed title' do
-    rendered.should have_content "Recently added crops"
+    expect(rendered).to have_content "Recently added crops"
   end
 
   it 'shows names of crops' do
-    rendered.should have_content @tomato.name
-    rendered.should have_content @maize.name
+    expect(rendered).to have_content @tomato.name
+    expect(rendered).to have_content @maize.name
   end
 end
