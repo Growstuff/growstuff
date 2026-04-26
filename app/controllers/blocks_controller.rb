@@ -12,7 +12,7 @@ class BlocksController < ApplicationController
     else
       flash[:error] = "Already blocking or error while blocking."
     end
-    redirect_back fallback_location: root_path
+    redirect_back_or_to(root_path)
   end
 
   def destroy

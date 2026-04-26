@@ -31,8 +31,9 @@ class Comment < ApplicationRecord
 
   def author_is_not_blocked
     return unless author
-    if commentable.author.already_blocking?(author)
-      errors.add(:base, "You cannot comment on a post of a member who has blocked you.")
-    end
+
+    return unless commentable.author.already_blocking?(author)
+
+    errors.add(:base, "You cannot comment on a post of a member who has blocked you.")
   end
 end
