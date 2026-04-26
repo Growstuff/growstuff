@@ -173,12 +173,12 @@ class Member < ApplicationRecord
   end
 
   def self.nearest_to(place)
-    nearby_members = []
-    if place
-      latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
-      nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) } if latitude && longitude
-    end
-    nearby_members
+    return [] if place.blank?
+
+    latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
+    return [] unless latitude && longitude
+
+    Member.located.near([latitude, longitude], 1000)
   end
 
   def already_following?(member)

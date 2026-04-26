@@ -27,7 +27,7 @@ describe "posts/edit" do
     end
 
     it 'no forum mentioned' do
-      expect(rendered).not_to have_content "This post will be posted in the forum"
+      expect(rendered).to have_no_content "This post will be posted in the forum"
     end
 
     context "forum specified" do

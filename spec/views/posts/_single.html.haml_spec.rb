@@ -93,7 +93,7 @@ describe "posts/_single" do
     end
 
     it "does not show edited at" do
-      expect(rendered).not_to have_content "edited at #{@post.updated_at}"
+      expect(rendered).to have_no_content "edited at #{@post.updated_at}"
     end
   end
 
@@ -109,7 +109,7 @@ describe "posts/_single" do
     end
 
     it "does not show edited at" do
-      expect(rendered).not_to have_content "edited at #{@comment.updated_at}"
+      expect(rendered).to have_no_content "edited at #{@comment.updated_at}"
     end
   end
 end
