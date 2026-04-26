@@ -45,7 +45,7 @@ describe "plantings/index.html.haml" do
 
   it "provides data links" do
     render
-    rendered.should have_content "The data on this page is available in the following formats:"
+    expect(rendered).to have_content "The data on this page is available in the following formats:"
     assert_select "a", href: plantings_path(format: 'csv')
     assert_select "a", href: plantings_path(format: 'json')
     assert_select "a", href: plantings_path(format: 'rss')
@@ -54,12 +54,12 @@ describe "plantings/index.html.haml" do
   it "displays member's name in title" do
     assign(:owner, member)
     render
-    view.content_for(:title).should have_content member.login_name
+    expect(view.content_for(:title)).to have_content member.login_name
   end
 
   it "displays crop's name in title" do
     assign(:crop, tomato)
     render
-    view.content_for(:title).should have_content tomato.name
+    expect(view.content_for(:title)).to have_content tomato.name
   end
 end

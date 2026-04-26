@@ -7,6 +7,7 @@ describe "forums", :js do
     include_context 'signed in admin'
     it "navigating to forum admin with js" do
       visit admin_path
+      expect(page).to have_content 'Admin'
       page.percy_snapshot(page, name: 'Admin page')
     end
   end

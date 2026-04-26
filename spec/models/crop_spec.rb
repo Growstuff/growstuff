@@ -7,24 +7,24 @@ describe Crop do
     let(:crop) { create(:tomato) }
 
     it 'saves a basic crop' do
-      crop.save.should be(true)
+      expect(crop.save).to be(true)
     end
 
     it 'is fetchable from the database' do
       crop.save
       @crop2 = described_class.find_by(name: 'tomato')
-      @crop2.en_wikipedia_url.should eq("http://en.wikipedia.org/wiki/Tomato")
-      @crop2.slug.should eq("tomato")
+      expect(@crop2.en_wikipedia_url).to eq("http://en.wikipedia.org/wiki/Tomato")
+      expect(@crop2.slug).to eq("tomato")
     end
 
     it 'stringifies as the system name' do
       crop.save
-      crop.to_s.should eq('tomato')
+      expect(crop.to_s).to eq('tomato')
     end
 
     it 'has a creator' do
       crop.save
-      crop.creator.should be_an_instance_of Member
+      expect(crop.creator).to be_an_instance_of Member
     end
   end
 
@@ -42,7 +42,7 @@ describe Crop do
     end
 
     it 'recent scope sorts by creation date' do
-      described_class.recent.first.should == @uppercase
+      expect(described_class.recent.first).to == @uppercase
     end
   end
 
@@ -217,7 +217,7 @@ describe Crop do
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
       create(:shady_planting, crop:)
-      crop.sunniness.should be_an_instance_of Hash
+      expect(crop.sunniness).to be_an_instance_of Hash
     end
 
     it 'counts each sunniness value' do
@@ -225,14 +225,14 @@ describe Crop do
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
       create(:shady_planting, crop:)
-      crop.sunniness.should == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
+      expect(crop.sunniness).to == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
     end
 
     it 'ignores unused sunniness values' do
       create(:sunny_planting, crop:)
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
-      crop.sunniness.should == { 'sun' => 2, 'semi-shade' => 1 }
+      expect(crop.sunniness).to == { 'sun' => 2, 'semi-shade' => 1 }
     end
   end
 
@@ -244,7 +244,7 @@ describe Crop do
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
       create(:cutting_planting, crop:)
-      crop.planted_from.should be_an_instance_of Hash
+      expect(crop.planted_from).to be_an_instance_of Hash
     end
 
     it 'counts each planted_from value' do
@@ -252,14 +252,14 @@ describe Crop do
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
       create(:cutting_planting, crop:)
-      crop.planted_from.should == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
+      expect(crop.planted_from).to == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
     end
 
     it 'ignores unused planted_from values' do
       create(:seed_planting, crop:)
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
-      crop.planted_from.should == { 'seed' => 2, 'seedling' => 1 }
+      expect(crop.planted_from).to == { 'seed' => 2, 'seedling' => 1 }
     end
   end
 
@@ -267,7 +267,7 @@ describe Crop do
     let(:crop) { create(:tomato) }
 
     it 'returns a hash of plant_part values' do
-      crop.popular_plant_parts.should be_an_instance_of Hash
+      expect(crop.popular_plant_parts).to be_an_instance_of Hash
     end
 
     it 'counts each plant_part value' do
@@ -287,7 +287,7 @@ describe Crop do
       @harvest4 = create(:harvest,
                          crop:,
                          plant_part: @root)
-      crop.popular_plant_parts.should == { [@fruit.id, @fruit.name] => 2,
+      expect(crop.popular_plant_parts).to == { [@fruit.id, @fruit.name] => 2,
                                            [@seed.id, @seed.name]   => 1,
                                            [@root.id, @root.name]   => 1 }
     end

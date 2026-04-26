@@ -7,59 +7,59 @@ describe Garden do
   let(:garden)      { create(:garden, owner:, name: 'Springfield Community Garden') }
 
   it "has a slug" do
-    garden.slug.should match(/hatupatu-springfield-community-garden/)
+    expect(garden.slug).to match(/hatupatu-springfield-community-garden/)
   end
 
   it "has a description" do
-    garden.description.should == "This is a **totally** cool garden"
+    expect(garden.description).to == "This is a **totally** cool garden"
   end
 
   it "doesn't allow a nil name" do
     garden = build(:garden, name: nil)
-    garden.should_not be_valid
+    expect(garden).not_to be_valid
   end
 
   it "doesn't allow a blank name" do
     garden = build(:garden, name: "")
-    garden.should_not be_valid
+    expect(garden).not_to be_valid
   end
 
   it "allows numbers" do
     garden = build(:garden, name: "100 vines of 2 kamo-kamo")
-    garden.should be_valid
+    expect(garden).to be_valid
   end
 
   it "allows brackets" do
     garden = build(:garden, name: "Garden (second)")
-    garden.should be_valid
+    expect(garden).to be_valid
   end
 
   it "allows macrons" do
     garden = build(:garden, name: "Kūmara and pūha patch")
-    garden.should be_valid
+    expect(garden).to be_valid
   end
 
   it "allows some punctuation" do
     garden = build(:garden, name: "best-garden-eva!")
-    garden.should be_valid
+    expect(garden).to be_valid
   end
 
   it "doesn't allow a name with only spaces" do
     garden = build(:garden, name: "    ")
-    garden.should_not be_valid
+    expect(garden).not_to be_valid
   end
 
   it "doesn't allow new line chars in garden names" do
     garden = build(:garden, name: "My garden\nI am a 1337 hacker")
-    garden.should_not be_valid
+    expect(garden).not_to be_valid
   end
 
   it "has an owner" do
-    garden.owner.should be_an_instance_of Member
+    expect(garden.owner).to be_an_instance_of Member
   end
 
   it "stringifies as its name" do
-    garden.to_s.should == garden.name
+    expect(garden.to_s).to == garden.name
   end
 
   it "destroys plantings when deleted" do
@@ -75,27 +75,27 @@ describe Garden do
   context 'area' do
     it 'allows numeric area' do
       garden = build(:garden, area: 33)
-      garden.should be_valid
+      expect(garden).to be_valid
     end
 
     it "doesn't allow negative area" do
       garden = build(:garden, area: -5)
-      garden.should_not be_valid
+      expect(garden).not_to be_valid
     end
 
     it 'allows decimal quantities' do
       garden = build(:garden, area: 3.3)
-      garden.should be_valid
+      expect(garden).to be_valid
     end
 
     it 'allows blank quantities' do
       garden = build(:garden, area: '')
-      garden.should be_valid
+      expect(garden).to be_valid
     end
 
     it 'allows nil quantities' do
       garden = build(:garden, area: nil)
-      garden.should be_valid
+      expect(garden).to be_valid
     end
 
     it 'cleans up zero quantities' do
@@ -105,7 +105,7 @@ describe Garden do
 
     it "doesn't allow non-numeric quantities" do
       garden = build(:garden, area: "99a")
-      garden.should_not be_valid
+      expect(garden).not_to be_valid
     end
   end
 
@@ -113,19 +113,19 @@ describe Garden do
     Garden::AREA_UNITS_VALUES.values.push(nil, '').each do |s|
       it "#{s} should be a valid unit" do
         garden = build(:garden, area_unit: s)
-        garden.should be_valid
+        expect(garden).to be_valid
       end
     end
 
     it 'refuses invalid unit values' do
       garden = build(:garden, area_unit: 'not valid')
-      garden.should_not be_valid
-      garden.errors[:area_unit].should include("not valid is not a valid area unit")
+      expect(garden).not_to be_valid
+      expect(garden.errors[:area_unit]).to include("not valid is not a valid area unit")
     end
 
     it 'sets area unit to blank if area is blank' do
       garden = build(:garden, area: '', area_unit: 'acre')
-      garden.should be_valid
+      expect(garden).to be_valid
       expect(garden.area_unit).to be_nil
     end
   end
@@ -135,13 +135,13 @@ describe Garden do
     let(:inactive) { create(:inactive_garden) }
 
     it 'includes active garden in active scope' do
-      described_class.active.should include active
-      described_class.active.should_not include inactive
+      expect(described_class.active).to include active
+      expect(described_class.active).not_to include inactive
     end
 
     it 'includes inactive garden in inactive scope' do
-      described_class.inactive.should include inactive
-      described_class.inactive.should_not include active
+      expect(described_class.inactive).to include inactive
+      expect(described_class.inactive).not_to include active
     end
   end
 
@@ -196,7 +196,7 @@ describe Garden do
     it 'deletes association with photos when photo is deleted' do
       photo.destroy
       garden.reload
-      garden.photos.should be_empty
+      expect(garden.photos).to be_empty
     end
 
     it 'has a default photo' do

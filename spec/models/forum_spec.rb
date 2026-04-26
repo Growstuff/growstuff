@@ -6,20 +6,20 @@ describe Forum do
   let(:forum) { create(:forum) }
 
   it "belongs to an owner" do
-    forum.owner.should be_an_instance_of Member
+    expect(forum.owner).to be_an_instance_of Member
   end
 
   it "stringifies nicely" do
-    forum.to_s.should eq forum.name
+    expect(forum.to_s).to eq forum.name
   end
 
   it 'has a slug' do
-    forum.slug.should eq 'permaculture'
+    expect(forum.slug).to eq 'permaculture'
   end
 
   it "has many posts" do
     @post1 = create(:forum_post, forum:)
     @post2 = create(:forum_post, forum:)
-    forum.posts.size.should == 2
+    expect(forum.posts.size).to == 2
   end
 end

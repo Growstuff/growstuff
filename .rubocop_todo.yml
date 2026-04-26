@@ -352,9 +352,6 @@ RSpec/NestedGroups:
 # Offense count: 407
 # Configuration parameters: AllowedPatterns.
 # AllowedPatterns: ^expect_, ^assert_
-RSpec/NoExpectationExample:
-  Enabled: false
-
 # Offense count: 4
 RSpec/PendingWithoutReason:
   Exclude:

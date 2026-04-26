@@ -13,52 +13,52 @@ describe Post do
     datestr = time.strftime("%Y%m%d")
     # 2 digit day and month, full-length years
     # Counting digits using Math.log is not precise enough!
-    datestr.size.should eq(4 + time.year.to_s.size)
-    post.slug.should eq("#{member.login_name}-#{datestr}-a-post")
+    expect(datestr.size).to eq(4 + time.year.to_s.size)
+    expect(post.slug).to eq("#{member.login_name}-#{datestr}-a-post")
   end
 
   it "has many comments" do
     post = create(:post, author: member)
     create(:comment, commentable: post)
     create(:comment, commentable: post)
-    post.comments.size.should == 2
+    expect(post.comments.size).to == 2
   end
 
   it "supports counting comments" do
     post = create(:post, author: member)
     create(:comment, commentable: post)
     create(:comment, commentable: post)
-    post.comment_count.should == 2
+    expect(post.comment_count).to == 2
   end
 
   it "destroys comments when deleted" do
     post = create(:post, author: member)
     create(:comment, commentable: post)
     create(:comment, commentable: post)
-    post.comments.size.should eq(2)
+    expect(post.comments.size).to eq(2)
     all = Comment.count
     post.destroy
-    Comment.count.should eq(all - 2)
+    expect(Comment.count).to eq(all - 2)
   end
 
   it "belongs to a forum" do
     post = create(:forum_post)
-    post.forum.should be_an_instance_of Forum
+    expect(post.forum).to be_an_instance_of Forum
   end
 
   it "doesn't allow a nil subject" do
     post = build(:post, subject: nil)
-    post.should_not be_valid
+    expect(post).not_to be_valid
   end
 
   it "doesn't allow a blank subject" do
     post = build(:post, subject: "")
-    post.should_not be_valid
+    expect(post).not_to be_valid
   end
 
   it "doesn't allow a subject with only spaces" do
     post = build(:post, subject: "    ")
-    post.should_not be_valid
+    expect(post).not_to be_valid
   end
 
   context "recent activity" do
@@ -69,28 +69,28 @@ describe Post do
     let!(:post) { create(:post, created_at: 1.day.ago) }
 
     it "sets recent activity to post time" do
-      post.recent_activity.to_i.should eq post.created_at.to_i
+      expect(post.recent_activity.to_i).to eq post.created_at.to_i
     end
 
     it "sets recent activity to comment time" do
       comment = create(:comment, commentable: post,
                                  created_at:  1.hour.ago)
-      post.recent_activity.to_i.should eq comment.created_at.to_i
+      expect(post.recent_activity.to_i).to eq comment.created_at.to_i
     end
 
     it "shiny new post is recently active" do
       # create a shiny new post
       post2 = create(:post, created_at: 1.minute.ago)
-      described_class.recently_active.first.should eq post2
-      described_class.recently_active.second.should eq post
+      expect(described_class.recently_active.first).to eq post2
+      expect(described_class.recently_active.second).to eq post
     end
 
     it "new comment on old post is recently active" do
       # now comment on an older post
       post2 = create(:post, created_at: 1.minute.ago)
       create(:comment, commentable: post, created_at: 1.second.ago)
-      described_class.recently_active.first.should eq post
-      described_class.recently_active.second.should eq post2
+      expect(described_class.recently_active.first).to eq post
+      expect(described_class.recently_active.second).to eq post2
     end
   end
 
@@ -112,10 +112,10 @@ describe Post do
     it "sets the notification field" do
       p = create(:post, author: member, body: "Hey @#{member2}")
       n = Notification.first
-      n.sender.should eq member
-      n.recipient.should eq member2
-      n.subject.should match(/mentioned you in their post/)
-      n.body.should eq p.body
+      expect(n.sender).to eq member
+      expect(n.recipient).to eq member2
+      expect(n.subject).to match(/mentioned you in their post/)
+      expect(n.body).to eq p.body
     end
 
     it "sends notifications to all members mentioned" do

@@ -13,7 +13,7 @@ describe "places/show" do
   end
 
   it "shows the selected place" do
-    view.content_for(:title).should match @place
+    expect(view.content_for(:title)).to match @place
   end
 
   it "shows the selected place in the textbox" do
@@ -22,7 +22,7 @@ describe "places/show" do
 
   it "shows the names of nearby members" do
     @nearby_members.each do |m|
-      rendered.should have_content m.login_name
+      expect(rendered).to have_content m.login_name
     end
   end
 end
