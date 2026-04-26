@@ -9,18 +9,18 @@ describe PlacesController do
 
   describe "GET show" do
     before do
-      @member_london = create(:london_member)
-      @member_south_pole = create(:south_pole_member)
+      @london_member = create(:london_member)
+      @edinburgh_member = create(:edinburgh_member)
     end
 
     it "assigns place name" do
-      get :show, params: { place: @member_london.location }
-      assigns(:place).should eq @member_london.location
+      get :show, params: { place: @london_member.location }
+      assigns(:place).should eq @london_member.location
     end
 
     it "assigns nearby members" do
-      get :show, params: { place: @member_london.location }
-      assigns(:nearby_members).should eq [@member_london, @member_south_pole]
+      get :show, params: { place: @london_member.location }
+      assigns(:nearby_members).should eq [@london_member, @edinburgh_member]
     end
   end
 
