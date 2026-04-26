@@ -164,6 +164,12 @@ class Ability
     can :destroy, Follow
     cannot :destroy, Follow, followed_id: member.id # can't unfollow yourself
 
+    # blocking/unblocking permissions
+    can :create, Block
+    cannot :create, Block, blocked_id: member.id # can't block yourself
+
+    can :destroy, Block, blocker_id: member.id # can only unblock your own blocks
+
     cannot :create, GardenType
     cannot :update, GardenType
     cannot :destroy, GardenType
