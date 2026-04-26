@@ -116,11 +116,11 @@ class PlantingsController < DataController
     new_planting.finished_at = nil
 
     if new_planting.save
-      redirect_to edit_planting_path(new_planting), notice: 'Planting was successfully transplanted.'
+      redirect_to edit_planting_path(new_planting), notice: t('messages.transplant_success')
     else
       # if the save fails, we should probably roll back the finishing of the original planting
       @planting.update(finished: false, finished_at: nil)
-      redirect_to @planting, alert: "There was an error transplanting the planting: #{new_planting.errors.full_messages.to_sentence}"
+      redirect_to @planting, alert: t('messages.transplant_error', errors: new_planting.errors.full_messages.to_sentence)
     end
   end
 

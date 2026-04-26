@@ -475,10 +475,6 @@ Rails/I18nLocaleAssignment:
   Exclude:
     - 'spec/features/locale_spec.rb'
 
-# Offense count: 40
-Rails/I18nLocaleTexts:
-  Enabled: false
-
 # Offense count: 1
 # Configuration parameters: IgnoreScopes.
 Rails/InverseOf:

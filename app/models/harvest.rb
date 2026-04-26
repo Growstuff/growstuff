@@ -58,18 +58,18 @@ class Harvest < ApplicationRecord
   ##
   ## Validations
   validates :crop, approved: true
-  validates :crop, presence: { message: "must be present and exist in our database" }
-  validates :plant_part, presence: { message: "must be present and exist in our database" }
+  validates :crop, presence: { message: :crop_not_found }
+  validates :plant_part, presence: { message: :crop_not_found }
   validates :harvested_at, presence: true
   validates :quantity, allow_nil: true, numericality: {
     only_integer: false, greater_than_or_equal_to: 0
   }
   validates :unit, allow_blank: true, inclusion: {
-    in: UNITS_VALUES.values, message: "%<value>s is not a valid unit"
+    in: UNITS_VALUES.values, message: :not_a_valid_unit
   }
   validates :weight_quantity, allow_nil: true, numericality: { only_integer: false }
   validates :weight_unit, allow_blank: true, inclusion: {
-    in: WEIGHT_UNITS_VALUES.values, message: "%<value>s is not a valid unit"
+    in: WEIGHT_UNITS_VALUES.values, message: :not_a_valid_unit
   }
   validate :crop_must_match_planting
   validate :owner_must_match_planting
@@ -147,7 +147,7 @@ class Harvest < ApplicationRecord
   def crop_must_match_planting
     return if planting.blank? # only check if we are linked to a planting
 
-    errors.add(:planting, "must be the same crop") unless crop == planting.crop
+    errors.add(:planting, :same_crop_required) unless crop == planting.crop
   end
 
   def owner_must_match_planting
@@ -155,14 +155,13 @@ class Harvest < ApplicationRecord
 
     return if owner == planting.owner || planting.garden.garden_collaborators.where(member_id: owner).any?
 
-    errors.add(:owner,
-               "of harvest must be the same as planting, or a collaborator on that garden")
+    errors.add(:owner, :same_owner_required)
   end
 
   def harvest_must_be_after_planting
     # only check if we are linked to a planting
     return unless harvested_at.present? && planting.present? && planting.planted_at.present?
 
-    errors.add(:planting, "cannot be harvested before planting") unless harvested_at > planting.planted_at
+    errors.add(:planting, :harvest_after_planted) unless harvested_at > planting.planted_at
   end
 end

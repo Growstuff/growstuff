@@ -63,6 +63,56 @@ en:
       seed:
         one: seed
         other: seeds
+    errors:
+      messages:
+        crop_not_found: must be present and exist in our database
+        crop_must_be_approved: must be present and exist in our database
+        failed_and_finished: "can't be true if planting is also finished"
+        finished_after_planted: must be after the planting date
+        rejection_reason_required: must be rejected if a reason for rejection is present
+        rejection_notes_required: "must be added if the reason for rejection is \"other\""
+        same_crop_required: must be the same crop
+        harvest_after_planted: cannot be harvested before planting
+        cannot_be_garden_owner: cannot be the garden owner
+        same_owner_required: "of harvest must be the same as planting, or a collaborator on that garden"
+        photo_owner_mismatch: must have same owner as item it links to
+        calculate_crop_failed: failed to calculate crop
+        not_a_valid_wikipedia_url: is not a valid English Wikipedia URL
+        not_a_valid_youtube_url: is not a valid YouTube URL
+        not_a_valid_sunniness: "%{value} is not a valid sunniness value"
+        not_a_valid_planting_method: "%{value} is not a valid planting method"
+        not_a_valid_unit: "%{value} is not a valid unit"
+        not_a_valid_area_unit: "%{value} is not a valid area unit"
+        no_newlines: must contain no newlines
+      models:
+        member:
+          attributes:
+            login_name:
+              login_name_length: should be between 2 and 25 characters long
+              login_name_reserved: name is reserved
+              login_name_format: may only include letters, numbers, or underscores
+            website_url:
+              url_format: "must start with http:// or https://"
+            other_url:
+              url_format: "must start with http:// or https://"
+            instagram_handle:
+              handle_format: should be a handle, not a URL
+            facebook_handle:
+              handle_format: should be a handle, not a URL
+            bluesky_handle:
+              handle_format: should be a handle, not a URL
+        seed:
+          attributes:
+            tradable_to:
+              tradable_to_inclusion: "You may only trade seed nowhere, locally, nationally, or internationally"
+            organic:
+              organic_inclusion: "You must say whether the seeds are organic or not, or that you don't know"
+            gmo:
+              gmo_inclusion: "You must say whether the seeds are genetically modified or not, or that you don't know"
+            heirloom:
+              heirloom_inclusion: "You must say whether the seeds are heirloom, hybrid, or unknown"
+            source:
+              source_inclusion: "You must say where the seeds are from, or that you don't know"
   application_helper:
     title:
       title:
@@ -112,6 +162,9 @@ en:
   forums:
     index:
       title: Forums
+    created: Forum was successfully created.
+    updated: Forum was successfully updated.
+    deleted: Forum was successfully deleted.
   gardens:
     created: Garden was successfully created.
     deleted: Garden was successfully deleted.
@@ -208,6 +261,8 @@ en:
       trade_to: Will trade to
       unspecified: unspecified
       view_all: View all seeds
+    added_to_stash: Successfully added %{crop} seed to your stash.
+    updated: Seed was successfully updated.
     stats:
       member_linktext: "%{count} members"
       message_html: So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}; and %{contributors} people have contributed to our code on %{github}!
@@ -274,6 +329,21 @@ en:
       sign_up: Sign up
   links:
     my_gardens: My gardens
+
+  messages:
+    auth_success: Authentication successful.
+    auth_failed: Authentication failed.
+    crops_waiting: There are crops waiting to be wrangled.
+    followed: "Followed %{name}"
+    unfollowed: "Unfollowed %{name}"
+    follow_error: Already following or error while following.
+    transplant_success: Planting was successfully transplanted.
+    transplant_error: "There was an error transplanting the planting: %{errors}"
+    revert_success: "Reverted to version from %{date}"
+    revert_error: "Could not revert to version from %{date}. Errors: %{errors}"
+    invalid_location: Please enter a valid location
+    unable_to_like: Unable to like
+    unable_to_unlike: Unable to unlike
 
   members:
     edit_profile: Edit profile
@@ -342,10 +412,22 @@ en:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
   posts:
     write_blog_post: Write blog post
+    created: Post was successfully created.
+    updated: Post was successfully updated.
+    deleted: Post was deleted.
     index:
       title:
         author_posts: "%{author} posts"
         default: Everyone's posts
+  scientific_names:
+    deleted: Scientific name was successfully deleted.
+  alternate_names:
+    created: Alternate name was successfully created.
+    updated: Alternate name was successfully updated.
+    deleted: Alternate name was successfully deleted.
+  crop_companions:
+    created: Companion was successfully created.
+    deleted: Companion was successfully destroyed.
   seeds:
     form:
       trade_help: >
