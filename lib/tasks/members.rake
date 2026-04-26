@@ -8,7 +8,7 @@ namespace :members do
     limit_date = 24.months.ago
     dry_run = ENV.fetch('DRY_RUN', 'false') == 'true'
 
-    inactive_members = Member.where("last_sign_in_at < ? OR (last_sign_in_at IS NULL AND created_at < ?)", limit_date, limit_date).limit(10)
+    inactive_members = Member.where("last_sign_in_at < ? OR (last_sign_in_at IS NULL AND created_at < ?)", limit_date, limit_date).limit(100)
 
     count = 0
     inactive_members.find_each do |member|
