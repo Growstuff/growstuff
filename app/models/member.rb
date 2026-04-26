@@ -96,21 +96,21 @@ class Member < ApplicationRecord
   validates :tos_agreement, acceptance: { allow_nil: true, accept: true }
   validates :login_name,
             length:     {
-              minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
+              minimum: 2, maximum: 25, message: :login_name_length
             },
             exclusion:  {
-              in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
+              in: %w(growstuff admin moderator staff nearby), message: :login_name_reserved
             },
             format:     {
-              with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
+              with: /\A\w+\z/, message: :login_name_format
             },
             uniqueness: {
               case_sensitive: false
             }
-  validates :website_url, format: { with: %r{\Ahttps?://}, message: "must start with http:// or https://" }, allow_blank: true
-  validates :other_url, format: { with: %r{\Ahttps?://}, message: "must start with http:// or https://" }, allow_blank: true
+  validates :website_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
+  validates :other_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
   validates :instagram_handle, :facebook_handle, :bluesky_handle,
-            format: { without: %r{\Ahttps?://|/}, message: "should be a handle, not a URL" }, allow_blank: true
+            format: { without: %r{\Ahttps?://|/}, message: :handle_format }, allow_blank: true
 
   #
   # Triggers

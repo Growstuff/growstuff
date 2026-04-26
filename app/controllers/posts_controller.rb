@@ -29,17 +29,17 @@ class PostsController < ApplicationController
   def create
     params[:post][:author_id] = current_member.id
     @post = Post.new(post_params)
-    flash[:notice] = 'Post was successfully created.' if @post.save
+    flash[:notice] = t('posts.created') if @post.save
     respond_with(@post)
   end
 
   def update
-    flash[:notice] = 'Post was successfully updated.' if @post.update(post_params)
+    flash[:notice] = t('posts.updated') if @post.update(post_params)
     respond_with(@post)
   end
 
   def destroy
-    flash[:notice] = 'Post was deleted.' if @post.destroy
+    flash[:notice] = t('posts.deleted') if @post.destroy
     respond_with(@post)
   end
 
