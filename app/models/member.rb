@@ -105,8 +105,7 @@ class Member < ApplicationRecord
               with: /\A\w+\z/, message: :login_name_format
             },
             uniqueness: {
-              case_sensitive: false,
-              message:        :login_name_reserved
+              case_sensitive: false
             }
   validates :website_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
   validates :other_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
