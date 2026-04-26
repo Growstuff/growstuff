@@ -94,6 +94,7 @@ describe 'layouts/_header.html.haml', type: "view" do
     context 'has notifications' do
       it 'shows inbox count' do
         create(:notification, recipient: @member)
+        @member.instance_variable_set(:@unread_count, nil)
         render
         expect(rendered).to have_content 'Inbox 1'
       end
