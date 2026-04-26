@@ -73,10 +73,11 @@
               = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
     - if @crop.varieties.any?
-      %section.varieties
-        %h2 Varieties
-        .index-cards
-          = render 'varieties', crop: @crop
+      - cache [@crop, 'varieties'] do
+        %section.varieties
+          %h2 Varieties
+          .index-cards
+            = render 'varieties', crop: @crop
 
     %section.crop-map
       %h2
@@ -134,9 +135,11 @@
     = render 'harvests', crop: @crop
     = render 'find_seeds', crop: @crop
 
-    = render 'openfarm_data', crop: @crop
+    - cache [@crop, 'openfarm_data'] do
+      = render 'openfarm_data', crop: @crop
 
-    = render 'nutritional_data', crop: @crop
+    - cache [@crop, 'nutritional_data'] do
+      = render 'nutritional_data', crop: @crop
 
     = cute_icon
     .card
