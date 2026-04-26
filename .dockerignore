@@ -7,7 +7,6 @@ tmp/*
 node_modules
 public/assets
 .env
-.ruby-version
 .ruby-gemset
 .editorconfig
 .esignore

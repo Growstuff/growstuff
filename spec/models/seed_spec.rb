@@ -75,11 +75,11 @@ describe Seed do
     end
 
     it 'recognises a tradable seed' do
-      expect(create(:tradable_seed).tradable).to == true
+      expect(create(:tradable_seed).tradable).to be true
     end
 
     it 'recognises an untradable seed' do
-      expect(create(:untradable_seed).tradable).to == false
+      expect(create(:untradable_seed).tradable).to be false
     end
 
     it 'scopes correctly' do
@@ -162,7 +162,7 @@ describe Seed do
       expect(described_class.interesting).not_to include @seed2
       expect(described_class.interesting).not_to include @seed3
       expect(described_class.interesting).not_to include @seed4
-      expect(described_class.interesting.size).to == 1
+      expect(described_class.interesting.size).to eq 1
     end
   end
 
