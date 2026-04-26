@@ -37,6 +37,7 @@ class PlantingsController < DataController
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
     @harvests = Harvest.search(where: { planting_id: @planting.id })
     @current_activities = @planting.activities.current.includes(:owner).order(created_at: :desc)
+    @finished_activities = @planting.activities.finished.includes(:owner).order(created_at: :desc)
     @matching_seeds = matching_seeds
     @crop = @planting.crop
 
@@ -45,6 +46,12 @@ class PlantingsController < DataController
       .where.not(id: @planting.id)
       .includes(:owner, :crop, :garden)
       .limit(6)
+
+    if @planting.finished? && @planting.garden.plantings.current.none? && (@planting.updated_at + 2.weeks) > Time.zone.now
+      @cultivate_soil_link = new_activity_path(name: 'Cultivate soil', garden_id: @planting.garden_id, category: "Soil Cultivation",
+                                               description: "Recently finished #{@planting.crop.name} planting. Prepare for next planting.")
+    end
+
     respond_with @planting
   end
 
@@ -109,11 +116,11 @@ class PlantingsController < DataController
     new_planting.finished_at = nil
 
     if new_planting.save
-      redirect_to edit_planting_path(new_planting), notice: 'Planting was successfully transplanted.'
+      redirect_to edit_planting_path(new_planting), notice: t('messages.transplant_success')
     else
       # if the save fails, we should probably roll back the finishing of the original planting
       @planting.update(finished: false, finished_at: nil)
-      redirect_to @planting, alert: "There was an error transplanting the planting: #{new_planting.errors.full_messages.to_sentence}"
+      redirect_to @planting, alert: t('messages.transplant_error', errors: new_planting.errors.full_messages.to_sentence)
     end
   end
 

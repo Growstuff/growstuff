@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "GardenTypes", type: :request do
+RSpec.describe "GardenTypes" do
   describe "GET /garden_types" do
     it "works! (now write some real specs)" do
       get garden_types_path

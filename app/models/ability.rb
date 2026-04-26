@@ -76,6 +76,7 @@ class Ability
     if member.role? :crop_wrangler
       can :wrangle, Crop
       can :manage, Crop
+      can :manage, CropCompanion
       can :manage, ScientificName
       can :manage, AlternateName
       can :gbif, Crop

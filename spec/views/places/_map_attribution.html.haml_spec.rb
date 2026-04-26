@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "places/_map_attribution.html.haml", type: :view do
+describe "places/_map_attribution.html.haml" do
   before do
     render
   end

@@ -25,7 +25,6 @@ Vibe Coding is more than okay, just make sure you indicate if you have done so a
 
 * [Issues](https://github.com/orgs/Growstuff/projects/1) (features we're
   working on, known bugs, etc)
-* [![Gitter](https://badges.gitter.im/Growstuff/growstuff.svg)](https://gitter.im/Growstuff/growstuff?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 * [Wiki](https://github.com/Growstuff/growstuff/wiki) (general documentation, etc.)
 
 ## For coders

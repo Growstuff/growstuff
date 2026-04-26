@@ -7,8 +7,8 @@ module EventHelper
 
   def event_description(event)
     render "#{event.event_type.pluralize}/description", event_model: resolve_model(event)
-rescue ActionView::MissingTemplate
-  "#{event.event_type.humanize.downcase}d"
+  rescue ActionView::MissingTemplate
+    "#{event.event_type.humanize.downcase}d"
   end
 
   def resolve_model(event)

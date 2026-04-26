@@ -14,10 +14,10 @@ describe "Harvesting a crop", :js, :search do
     it_behaves_like "crop suggest", "harvest", "crop"
 
     describe "displays required and optional fields properly" do
-      it { expect(page).to have_selector ".required", text: "What did you harvest?" }
-      it { expect(page).to have_selector 'input#harvest_quantity' }
-      it { expect(page).to have_selector 'input#harvest_weight_quantity' }
-      it { expect(page).to have_selector 'textarea#harvest_description' }
+      it { expect(page).to have_css ".required", text: "What did you harvest?" }
+      it { expect(page).to have_css 'input#harvest_quantity' }
+      it { expect(page).to have_css 'input#harvest_weight_quantity' }
+      it { expect(page).to have_css 'textarea#harvest_description' }
     end
 
     it "Creating a new harvest", :js do
@@ -26,7 +26,7 @@ describe "Harvesting a crop", :js, :search do
 
       within "form#new_harvest" do
         choose plant_part.name
-        fill_in "When?", with: Time.new(2014, 06, 15)
+        fill_in "When?", with: Time.new(2014, 6, 15)
         fill_in "How many?", with: 42
         fill_in "Weighing (in total)", with: 42
         fill_in "Notes", with: "It's killer."

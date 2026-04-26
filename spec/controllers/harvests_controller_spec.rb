@@ -8,19 +8,19 @@ describe HarvestsController, :search do
   def valid_attributes
     {
       owner_id:      subject.current_member.id,
-      crop_id:       FactoryBot.create(:crop).id,
-      plant_part_id: FactoryBot.create(:plant_part).id,
+      crop_id:       create(:crop).id,
+      plant_part_id: create(:plant_part).id,
       harvested_at:  '2017-01-01'
     }
   end
 
   describe "GET index" do
-    let!(:member1)  { FactoryBot.create(:member)                                            }
-    let(:member2)   { FactoryBot.create(:member)                                            }
-    let(:tomato)    { FactoryBot.create(:tomato)                                            }
-    let(:maize)     { FactoryBot.create(:maize)                                             }
-    let!(:harvest1) { FactoryBot.create(:harvest, owner_id: member1.id, crop_id: tomato.id) }
-    let!(:harvest2) { FactoryBot.create(:harvest, owner_id: member2.id, crop_id: maize.id)  }
+    let!(:first_member)     { create(:member)                                                  }
+    let(:second_member)     { create(:member)                                                  }
+    let(:tomato)            { create(:tomato)                                                  }
+    let(:maize)             { create(:maize)                                                   }
+    let!(:tomato_harvest)   { create(:harvest, owner_id: first_member.id, crop_id: tomato.id)  }
+    let!(:maize_harvest)    { create(:harvest, owner_id: second_member.id, crop_id: maize.id)  }
 
     before { Harvest.reindex }
 
@@ -28,16 +28,16 @@ describe HarvestsController, :search do
       before { get :index, params: {} }
 
       it { expect(assigns(:harvests).size).to eq 2 }
-      it { expect(assigns(:harvests)[0].slug).to eq harvest1.slug }
-      it { expect(assigns(:harvests)[1].slug).to eq harvest2.slug }
+      it { expect(assigns(:harvests)[0].slug).to eq tomato_harvest.slug }
+      it { expect(assigns(:harvests)[1].slug).to eq maize_harvest.slug }
     end
 
     describe "picks up owner from params and shows owner's harvests only" do
-      before { get :index, params: { member_slug: member1.slug } }
+      before { get :index, params: { member_slug: first_member.slug } }
 
-      it { expect(assigns(:owner)).to eq member1 }
+      it { expect(assigns(:owner)).to eq first_member }
       it { expect(assigns(:harvests).size).to eq 1 }
-      it { expect(assigns(:harvests)[0].slug).to eq harvest1.slug }
+      it { expect(assigns(:harvests)[0].slug).to eq tomato_harvest.slug }
     end
 
     describe "picks up crop from params and shows the harvests for the crop only" do
@@ -45,13 +45,13 @@ describe HarvestsController, :search do
 
       it { expect(assigns(:crop)).to eq maize }
       it { expect(assigns(:harvests).size).to eq 1 }
-      it { expect(assigns(:harvests)[0].slug).to eq harvest2.slug }
+      it { expect(assigns(:harvests)[0].slug).to eq maize_harvest.slug }
     end
 
     describe "generates a csv" do
       before { get :index, format: "csv" }
 
-      it { expect(response.status).to eq 200 }
+      it { expect(response).to have_http_status :ok }
     end
   end
 
@@ -109,7 +109,7 @@ describe HarvestsController, :search do
       end
 
       describe "links to planting" do
-        let(:planting) { FactoryBot.create(:planting, owner_id: member.id, garden: member.gardens.first) }
+        let(:planting) { create(:planting, owner_id: member.id, garden: member.gardens.first) }
 
         before { post :create, params: { harvest: valid_attributes.merge(planting_id: planting.id) } }
 
@@ -134,8 +134,8 @@ describe HarvestsController, :search do
     end
 
     describe "not my planting" do
-      let(:not_my_planting) { FactoryBot.create(:planting) }
-      let(:harvest)         { FactoryBot.create(:harvest)  }
+      let(:not_my_planting) { create(:planting) }
+      let(:harvest)         { create(:harvest)  }
 
       describe "does not save planting_id" do
         before do
@@ -153,7 +153,7 @@ describe HarvestsController, :search do
       let(:harvest) { Harvest.create! valid_attributes }
 
       it "updates the requested harvest" do
-        new_crop = FactoryBot.create(:crop)
+        new_crop = create(:crop)
         expect do
           put :update, params: { slug: harvest.to_param, harvest: { crop_id: new_crop.id } }
           harvest.reload
@@ -190,8 +190,8 @@ describe HarvestsController, :search do
     end
 
     describe "not my planting" do
-      let(:not_my_planting) { FactoryBot.create(:planting) }
-      let(:harvest)         { FactoryBot.create(:harvest)  }
+      let(:not_my_planting) { create(:planting) }
+      let(:harvest)         { create(:harvest)  }
 
       describe "does not save planting_id" do
         before do

@@ -11,13 +11,13 @@ class CropPhotoCounterCache < ActiveRecord::Migration[5.2]
   end
 
   def set_counter_value
-    execute <<-SQL.squish
-        UPDATE crops
-           SET photo_associations_count = (
-             SELECT count(1)
-               FROM photo_associations
-              WHERE photo_associations.crop_id = crops.id
-              )
+    execute <<~SQL.squish
+      UPDATE crops
+         SET photo_associations_count = (
+           SELECT count(1)
+             FROM photo_associations
+            WHERE photo_associations.crop_id = crops.id
+            )
     SQL
   end
 end
