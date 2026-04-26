@@ -50,7 +50,7 @@ class Activity < ApplicationRecord
 
   def self.homepage_records(limit)
     # Get the latest activity for each owner, then return the latest 'limit' of those
-    Activity.where(id: Activity.select("DISTINCT ON (owner_id) id").order("owner_id, created_at DESC"))
+    Activity.where(id: Activity.select("DISTINCT ON (owner_id) activities.id").order("owner_id, created_at DESC"))
             .order(created_at: :desc)
             .limit(limit)
   end
