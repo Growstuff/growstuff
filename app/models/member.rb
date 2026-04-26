@@ -173,12 +173,12 @@ class Member < ApplicationRecord
   end
 
   def self.nearest_to(place)
-    nearby_members = []
-    if place
-      latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
-      nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) } if latitude && longitude
-    end
-    nearby_members
+    return [] if place.blank?
+
+    latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
+    return [] unless latitude && longitude
+
+    Member.located.near([latitude, longitude], 1000)
   end
 
   def already_following?(member)
@@ -195,5 +195,26 @@ class Member < ApplicationRecord
 
   def get_block(member)
     blocks.find_by(blocked_id: member.id) if already_blocking?(member)
+  end
+
+  def has_activity?
+    (gardens.exists? && gardens.count > 1) ||
+      plantings.exists? ||
+      harvests.exists? ||
+      seeds.exists? ||
+      photos.exists? ||
+      forums.exists? ||
+      activities.exists? ||
+      posts.exists? ||
+      comments.exists? ||
+      requested_crops.exists? ||
+      created_crops.exists? ||
+      likes.exists? ||
+      created_alternate_names.exists? ||
+      created_scientific_names.exists? ||
+      follows.exists? ||
+      inverse_follows.exists? ||
+      blocks.exists? ||
+      inverse_blocks.exists?
   end
 end

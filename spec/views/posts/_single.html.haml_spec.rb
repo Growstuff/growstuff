@@ -54,11 +54,11 @@ describe "posts/_single" do
     end
 
     it "shows edited at" do
-      rendered.should have_content "edited at"
+      expect(rendered).to have_content "edited at"
     end
 
     it "shows the updated time" do
-      rendered.should have_content @post.updated_at.to_fs(:default)
+      expect(rendered).to have_content @post.updated_at.to_fs(:default)
     end
   end
 
@@ -74,11 +74,11 @@ describe "posts/_single" do
     end
 
     it "shows edited at time" do
-      rendered.should have_content "edited at"
+      expect(rendered).to have_content "edited at"
     end
 
     it "shows updated time" do
-      rendered.should have_content @comment.updated_at
+      expect(rendered).to have_content @comment.updated_at
     end
   end
 
@@ -93,7 +93,7 @@ describe "posts/_single" do
     end
 
     it "does not show edited at" do
-      rendered.should_not have_content "edited at #{@post.updated_at}"
+      expect(rendered).to have_no_content "edited at #{@post.updated_at}"
     end
   end
 
@@ -109,7 +109,7 @@ describe "posts/_single" do
     end
 
     it "does not show edited at" do
-      rendered.should_not have_content "edited at #{@comment.updated_at}"
+      expect(rendered).to have_no_content "edited at #{@comment.updated_at}"
     end
   end
 end

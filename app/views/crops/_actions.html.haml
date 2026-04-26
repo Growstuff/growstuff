@@ -1,6 +1,9 @@
 - if crop.approved? && signed_in?
+  - active_plantings = current_member.plantings.where(crop: crop).active
 
   .btn-group.crop-actions{"aria-label" => "Crop Actions", role: "group"}
     = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
     = render 'harvests/modal', harvest: Harvest.new(crop: @crop,  owner: current_member)
     = render 'seeds/modal', seed: Seed.new(crop: @crop,  owner: current_member)
+    - if active_plantings.any?
+      = render 'plantings/failed_modal', crop: crop, active_plantings: active_plantings

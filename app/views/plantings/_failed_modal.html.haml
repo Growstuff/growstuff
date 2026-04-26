@@ -1,0 +1,26 @@
+#modelFailedPlantingForm.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "failed-planting-button", role: "dialog", tabindex: "-1"}
+  .modal-dialog{role: "document"}
+    .modal-content
+      .modal-header.text-center
+        %h4.modal-title.w-100.font-weight-bold Mark #{crop.name} planting as failed
+        %button.close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
+          %span{"aria-hidden" => "true"} &#215;
+      .modal-body
+        %p Which planting would you like to mark as failed?
+
+        %ul.list-group
+          - active_plantings.each do |planting|
+            %li.list-group-item
+              = link_to planting_path(planting, planting: {failed: 1}), method: :put do
+                .d-flex.justify-content-between
+                  %span
+                    %h4= planting.garden.name
+                    %p Planted #{planting.planted_at}
+                  %span
+                    = finished_icon
+        .mt-3.text-right
+          = link_to 'cancel', '', "data-bs-dismiss" => "modal", class: 'btn btn-secondary'
+
+%a.btn#failed-planting-button{"data-bs-target" => "#modelFailedPlantingForm", "data-bs-toggle" => "modal", href: ""}
+  = finished_icon
+  Mark as failed
