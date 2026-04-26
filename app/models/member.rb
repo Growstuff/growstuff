@@ -196,4 +196,25 @@ class Member < ApplicationRecord
   def get_block(member)
     blocks.find_by(blocked_id: member.id) if already_blocking?(member)
   end
+
+  def has_activity?
+    gardens.exists? ||
+      plantings.exists? ||
+      harvests.exists? ||
+      seeds.exists? ||
+      photos.exists? ||
+      forums.exists? ||
+      activities.exists? ||
+      posts.exists? ||
+      comments.exists? ||
+      requested_crops.exists? ||
+      created_crops.exists? ||
+      likes.exists? ||
+      created_alternate_names.exists? ||
+      created_scientific_names.exists? ||
+      follows.exists? ||
+      inverse_follows.exists? ||
+      blocks.exists? ||
+      inverse_blocks.exists?
+  end
 end
