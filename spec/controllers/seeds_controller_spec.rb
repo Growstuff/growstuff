@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe SeedsController, :search do
-  let(:owner) { FactoryBot.create(:member) }
+  let(:owner) { create(:member) }
 
   describe "GET index" do
     describe "picks up owner from params" do
@@ -21,12 +21,8 @@ describe SeedsController, :search do
 
     it { expect(response).to be_successful }
 
-    context 'no parent planting' do
-      before { get :new }
-    end
-
     context 'with parent planting' do
-      let!(:planting) { FactoryBot.create(:planting, owner:) }
+      let!(:planting) { create(:planting, owner:) }
 
       before do
         Seed.reindex

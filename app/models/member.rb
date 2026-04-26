@@ -53,6 +53,15 @@ class Member < ApplicationRecord
   has_many :followers, through: :inverse_follows, source: :follower
 
   #
+  # Blocking other members
+  has_many :blocks, class_name: "Block", foreign_key: "blocker_id", dependent: :destroy,
+                    inverse_of: :blocker
+  has_many :inverse_blocks, class_name: "Block", foreign_key: "blocked_id",
+                            dependent: :destroy, inverse_of: :blocked
+  has_many :blocked_members, through: :blocks, source: :blocked
+  has_many :blockers, through: :inverse_blocks, source: :blocker
+
+  #
   # Global data records this member created
   has_many :requested_crops, class_name: 'Crop', foreign_key: 'requester_id', dependent: :nullify,
                              inverse_of: :requester
@@ -96,21 +105,21 @@ class Member < ApplicationRecord
   validates :tos_agreement, acceptance: { allow_nil: true, accept: true }
   validates :login_name,
             length:     {
-              minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
+              minimum: 2, maximum: 25, message: :login_name_length
             },
             exclusion:  {
-              in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
+              in: %w(growstuff admin moderator staff nearby), message: :login_name_reserved
             },
             format:     {
-              with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
+              with: /\A\w+\z/, message: :login_name_format
             },
             uniqueness: {
               case_sensitive: false
             }
-  validates :website_url, format: { with: %r{\Ahttps?://}, message: "must start with http:// or https://" }, allow_blank: true
-  validates :other_url, format: { with: %r{\Ahttps?://}, message: "must start with http:// or https://" }, allow_blank: true
+  validates :website_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
+  validates :other_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
   validates :instagram_handle, :facebook_handle, :bluesky_handle,
-            format: { without: %r{\Ahttps?://|/}, message: "should be a handle, not a URL" }, allow_blank: true
+            format: { without: %r{\Ahttps?://|/}, message: :handle_format }, allow_blank: true
 
   #
   # Triggers
@@ -178,5 +187,13 @@ class Member < ApplicationRecord
 
   def get_follow(member)
     follows.find_by(followed_id: member.id) if already_following?(member)
+  end
+
+  def already_blocking?(member)
+    blocks.exists?(blocked_id: member.id)
+  end
+
+  def get_block(member)
+    blocks.find_by(blocked_id: member.id) if already_blocking?(member)
   end
 end

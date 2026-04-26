@@ -3,18 +3,18 @@
 require 'rails_helper'
 
 describe "forums/index" do
-  let(:admin) { FactoryBot.create(:admin_member) }
-  let(:forum1) { FactoryBot.create(:forum) }
-  let(:forum2) { FactoryBot.create(:forum) }
+  let(:admin) { create(:admin_member) }
+  let(:first_forum) { create(:forum) }
+  let(:second_forum) { create(:forum) }
 
   before do
     controller.stub(:current_user) { admin }
-    assign(:forums, [forum1, forum2])
+    assign(:forums, [first_forum, second_forum])
   end
 
   it "renders a list of forums" do
     render
-    assert_select "h2", text: forum1.name, count: 2
+    assert_select "h2", text: first_forum.name, count: 2
   end
 
   it "doesn't display posts for empty forums" do
@@ -23,8 +23,8 @@ describe "forums/index" do
   end
 
   context "posts" do
-    let!(:post) { FactoryBot.create(:forum_post, forum: forum1) }
-    let!(:comment) { FactoryBot.create(:comment, commentable: post) }
+    let!(:post) { create(:forum_post, forum: first_forum) }
+    let!(:comment) { create(:comment, commentable: post) }
 
     before { render }
 
