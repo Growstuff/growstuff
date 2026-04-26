@@ -214,7 +214,7 @@ describe Member do
     end
 
     it 'sees confirmed members' do
-      expect(Member.confirmed.size).to == 2
+      expect(Member.confirmed.size).to eq 2
     end
 
     it 'ignores unconfirmed members' do
