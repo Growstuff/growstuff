@@ -5,10 +5,10 @@ namespace :members do
   # usage: rake members:cleanup_inactive
   # usage: DRY_RUN=true rake members:cleanup_inactive
   task cleanup_inactive: :environment do
-    limit_date = 24.months.ago
+    limit_date = 3.years.ago
     dry_run = ENV.fetch('DRY_RUN', 'false') == 'true'
 
-    inactive_members = Member.where("last_sign_in_at < ? OR (last_sign_in_at IS NULL AND created_at < ?)", limit_date, limit_date).limit(10)
+    inactive_members = Member.where("last_sign_in_at < ? OR (last_sign_in_at IS NULL AND created_at < ?)", limit_date, limit_date)
 
     count = 0
     inactive_members.find_each do |member|
