@@ -12,29 +12,8 @@ namespace :members do
 
     count = 0
     inactive_members.find_each do |member|
-      # Check for activity
-      # The requirement is "no gardens, plantings, or other activity"
-
-      has_activity = member.gardens.exists? ||
-                     member.plantings.exists? ||
-                     member.harvests.exists? ||
-                     member.seeds.exists? ||
-                     member.photos.exists? ||
-                     member.forums.exists? || # member has_many :forums (as owner)
-                     member.activities.exists? ||
-                     member.posts.exists? ||
-                     member.comments.exists? ||
-                     member.requested_crops.exists? ||
-                     member.created_crops.exists? ||
-                     member.likes.exists? ||
-                     member.created_alternate_names.exists? ||
-                     member.created_scientific_names.exists? ||
-                     member.follows.exists? ||
-                     member.inverse_follows.exists? ||
-                     member.blocks.exists? ||
-                     member.inverse_blocks.exists?
-
-      unless has_activity
+      # Check for activity using the model method
+      unless member.has_activity?
         if dry_run
           puts "[DRY RUN] Would delete inactive member: #{member.login_name} (ID: #{member.id}, Last login: #{member.last_sign_in_at || 'Never'}, Created: #{member.created_at})"
         else
