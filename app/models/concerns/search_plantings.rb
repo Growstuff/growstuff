@@ -16,7 +16,7 @@ module SearchPlantings
                  }
                }
 
-    scope :search_import, -> { where("NOT (finished = true OR failed = true) OR updated_at >= ?", 2.years.ago) }
+    scope :search_import, -> { where("NOT (finished = true OR failed = true) OR plantings.updated_at >= ?", 2.years.ago) }
 
     def should_index?
       (!finished && !failed) || updated_at >= 2.years.ago
