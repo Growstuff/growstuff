@@ -178,7 +178,7 @@ class Member < ApplicationRecord
     latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
     return [] unless latitude && longitude
 
-    Member.located.near([latitude, longitude])
+    Member.located.near([latitude, longitude], 1000)
   end
 
   def already_following?(member)
