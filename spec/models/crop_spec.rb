@@ -42,7 +42,7 @@ describe Crop do
     end
 
     it 'recent scope sorts by creation date' do
-      expect(described_class.recent.first).to == @uppercase
+      expect(described_class.recent.first).to eq @uppercase
     end
   end
 
@@ -225,14 +225,14 @@ describe Crop do
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
       create(:shady_planting, crop:)
-      expect(crop.sunniness).to == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
+      expect(crop.sunniness).to eq { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
     end
 
     it 'ignores unused sunniness values' do
       create(:sunny_planting, crop:)
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
-      expect(crop.sunniness).to == { 'sun' => 2, 'semi-shade' => 1 }
+      expect(crop.sunniness).to eq { 'sun' => 2, 'semi-shade' => 1 }
     end
   end
 
