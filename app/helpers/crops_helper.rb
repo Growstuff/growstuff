@@ -2,16 +2,22 @@
 
 module CropsHelper
   def crop_or_parent(crop, attribute)
-    default = crop.send(attribute)
-    return default if default.present?
-
-    parent = crop
-    while parent = parent.parent
-      return parent.send(attribute) if parent&.send(attribute).present?
+    @crop_or_parent ||= {}
+    cache_key = "#{crop.cache_key_with_version}_#{attribute}"
+    @crop_or_parent[cache_key] ||= begin
+      result = crop.send(attribute)
+      if result.blank?
+        parent = crop
+        while (parent = parent.parent)
+          if parent&.send(attribute).present?
+            result = parent.send(attribute)
+            break
+          end
+        end
+      end
+      # For scopes, arrays, etc return the empty value
+      result
     end
-
-    # For scopes, arrays, etc return the empty value
-    default
   end
 
   def display_seed_availability(member, crop)
