@@ -78,12 +78,12 @@ describe Ability do
   end
 
   context 'plantings' do
-    let(:approved_crop) { FactoryBot.create(:crop, approval_status: 'approved') }
-    let(:unapproved_crop) { FactoryBot.create(:crop, approval_status: 'unapproved') }
-    let(:garden) { FactoryBot.create(:garden, owner: member) }
-    let(:planting) { FactoryBot.create(:planting, garden: garden, crop: approved_crop, owner: member) }
-    let(:other_planting) { FactoryBot.create(:planting, crop: approved_crop) }
-    let(:planting_with_unapproved_crop) { FactoryBot.create(:planting, garden: garden, crop: unapproved_crop, owner: member) }
+    let(:approved_crop) { create(:crop, approval_status: 'approved') }
+    let(:unapproved_crop) { create(:crop, approval_status: 'unapproved') }
+    let(:garden) { create(:garden, owner: member) }
+    let(:planting) { create(:planting, garden: garden, crop: approved_crop, owner: member) }
+    let(:other_planting) { create(:planting, crop: approved_crop) }
+    let(:planting_with_unapproved_crop) { create(:planting, garden: garden, crop: unapproved_crop, owner: member) }
 
     it 'can create a planting' do
       ability.should be_able_to(:create, Planting)
@@ -109,8 +109,8 @@ describe Ability do
     end
 
     context 'garden collaborator' do
-      let(:garden) { FactoryBot.create(:garden) }
-      let(:planting_in_garden) { FactoryBot.create(:planting, garden:, crop: approved_crop, owner: garden.owner) }
+      let(:garden) { create(:garden) }
+      let(:planting_in_garden) { create(:planting, garden:, crop: approved_crop, owner: garden.owner) }
 
       before do
         garden.garden_collaborators.create(member:)
@@ -128,8 +128,8 @@ describe Ability do
   end
 
   context 'harvests' do
-    let(:harvest) { FactoryBot.create(:harvest, owner: member) }
-    let(:other_harvest) { FactoryBot.create(:harvest) }
+    let(:harvest) { create(:harvest, owner: member) }
+    let(:other_harvest) { create(:harvest) }
 
     it 'can create a harvest' do
       ability.should be_able_to(:create, Harvest)
@@ -146,9 +146,9 @@ describe Ability do
     end
 
     context 'garden collaborator' do
-      let(:garden) { FactoryBot.create(:garden) }
-      let(:planting_in_garden) { FactoryBot.create(:planting, garden:, owner: garden.owner) }
-      let(:harvest_in_garden) { FactoryBot.create(:harvest, planting: planting_in_garden, owner: planting_in_garden.owner) }
+      let(:garden) { create(:garden) }
+      let(:planting_in_garden) { create(:planting, garden:, owner: garden.owner) }
+      let(:harvest_in_garden) { create(:harvest, planting: planting_in_garden, owner: planting_in_garden.owner) }
 
       before do
         garden.garden_collaborators.create(member:)
@@ -228,8 +228,8 @@ describe Ability do
   end
 
   context 'activities' do
-    let(:activity) { FactoryBot.create(:activity, owner: member) }
-    let(:other_activity) { FactoryBot.create(:activity) }
+    let(:activity) { create(:activity, owner: member) }
+    let(:other_activity) { create(:activity) }
 
     it 'can create an activity' do
       ability.should be_able_to(:create, Activity)
@@ -246,8 +246,8 @@ describe Ability do
     end
 
     context 'garden collaborator' do
-      let(:garden) { FactoryBot.create(:garden) }
-      let(:activity_in_garden) { FactoryBot.create(:activity, garden:) }
+      let(:garden) { create(:garden) }
+      let(:activity_in_garden) { create(:activity, garden:) }
 
       before do
         garden.garden_collaborators.create(member:)
@@ -261,8 +261,8 @@ describe Ability do
   end
 
   context 'seeds' do
-    let(:seed) { FactoryBot.create(:seed, owner: member) }
-    let(:other_seed) { FactoryBot.create(:seed) }
+    let(:seed) { create(:seed, owner: member) }
+    let(:other_seed) { create(:seed) }
 
     it 'can create a seed' do
       ability.should be_able_to(:create, Seed)
@@ -280,8 +280,8 @@ describe Ability do
   end
 
   context 'comments' do
-    let(:comment) { FactoryBot.create(:comment, author: member) }
-    let(:other_comment) { FactoryBot.create(:comment) }
+    let(:comment) { create(:comment, author: member) }
+    let(:other_comment) { create(:comment) }
 
     it 'can create a comment' do
       ability.should be_able_to(:create, Comment)
@@ -299,8 +299,8 @@ describe Ability do
   end
 
   context 'photos' do
-    let(:photo) { FactoryBot.create(:photo, owner: member) }
-    let(:other_photo) { FactoryBot.create(:photo) }
+    let(:photo) { create(:photo, owner: member) }
+    let(:other_photo) { create(:photo) }
 
     it 'can create a photo' do
       ability.should be_able_to(:create, Photo)
@@ -318,8 +318,8 @@ describe Ability do
   end
 
   context 'likes' do
-    let(:like) { FactoryBot.create(:like, member:) }
-    let(:other_like) { FactoryBot.create(:like) }
+    let(:like) { create(:like, member:) }
+    let(:other_like) { create(:like) }
 
     it 'can create a like' do
       ability.should be_able_to(:create, Like)
