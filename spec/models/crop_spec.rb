@@ -252,14 +252,14 @@ describe Crop do
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
       create(:cutting_planting, crop:)
-      expect(crop.planted_from).to == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
+      expect(crop.planted_from).to eq { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
     end
 
     it 'ignores unused planted_from values' do
       create(:seed_planting, crop:)
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
-      expect(crop.planted_from).to == { 'seed' => 2, 'seedling' => 1 }
+      expect(crop.planted_from).to eq { 'seed' => 2, 'seedling' => 1 }
     end
   end
 
@@ -287,7 +287,7 @@ describe Crop do
       @harvest4 = create(:harvest,
                          crop:,
                          plant_part: @root)
-      expect(crop.popular_plant_parts).to == { [@fruit.id, @fruit.name] => 2,
+      expect(crop.popular_plant_parts).to eq { [@fruit.id, @fruit.name] => 2,
                                            [@seed.id, @seed.name]   => 1,
                                            [@root.id, @root.name]   => 1 }
     end
