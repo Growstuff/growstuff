@@ -261,7 +261,7 @@ en:
       trade_to: Will trade to
       unspecified: unspecified
       view_all: View all seeds
-      added_to_stash: Successfully added %{crop} seed to your stash.
+    added_to_stash: Successfully added %{crop} seed to your stash.
     updated: Seed was successfully updated.
     stats:
       member_linktext: "%{count} members"
@@ -443,6 +443,7 @@ en:
         owner_seeds: "%{owner} seeds"
     save_seeds: Save seeds
     string: "%{crop} seeds belonging to %{owner}"
+    added_to_stash: Successfully added %{crop} seed to your stash.
   unauthorized:
     create:
       all: Please sign in or sign up to create a %{subject}.
