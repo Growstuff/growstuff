@@ -11,9 +11,9 @@ class PlantingsController < DataController
     where = {}
     where['active'] = true unless @show_all
 
-    if params[:member_slug]
-      @owner = Member.find_by(slug: params[:member_slug])
-      where['owner_id'] = @owner.id unless @owner.nil?
+    if params[:member_slug].present?
+      @owner = Member.find_by!(slug: params[:member_slug])
+      where['owner_id'] = @owner.id
     end
 
     if params[:crop_slug]
