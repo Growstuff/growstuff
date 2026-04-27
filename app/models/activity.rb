@@ -54,4 +54,8 @@ class Activity < ApplicationRecord
             .order(created_at: :desc)
             .limit(limit)
   end
+
+  def self.reindex(refresh: false); end
+
+  def reindex(refresh: false); end
 end
