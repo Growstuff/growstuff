@@ -14,9 +14,12 @@ module Charts
 
     def harvested_for
       @crop = Crop.find_by!(slug: params[:crop_slug])
-      render json: Harvest.joins(:plant_part)
-        .where(crop: @crop)
-        .group("plant_parts.name").count(:id)
+      data = Rails.cache.fetch("#{@crop.cache_key_with_version}/harvested_for", expires_in: 1.day) do
+        Harvest.joins(:plant_part)
+          .where(crop: @crop)
+          .group("plant_parts.name").count(:id)
+      end
+      render json: data
     end
 
     private
