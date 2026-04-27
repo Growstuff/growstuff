@@ -118,6 +118,8 @@ class PhotosController < ApplicationController
       { crops: @crop.id }
     elsif params[:planting_id]
       { planting_id: @planting.id }
+    elsif params[:planting_slug]
+      { plantings: @planting.id }
     else
       {}
     end
@@ -126,5 +128,6 @@ class PhotosController < ApplicationController
   def set_crop_and_planting
     @crop = Crop.find params[:crop_slug] if params[:crop_slug]
     @planting = Planting.find params[:planting_id] if params[:planting_id]
+    @planting ||= Planting.find params[:planting_slug] if params[:planting_slug]
   end
 end
