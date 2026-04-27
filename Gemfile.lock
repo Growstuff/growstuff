@@ -503,6 +503,8 @@ GEM
     query_diet (0.7.3)
     racc (1.8.1)
     rack (2.2.23)
+    rack-attack (6.8.0)
+      rack (>= 1.0, < 4)
     rack-cors (2.0.2)
       rack (>= 2.0.0)
     rack-protection (3.2.0)
@@ -841,6 +843,7 @@ DEPENDENCIES
   pry
   puma
   query_diet
+  rack-attack
   rack-cors
   rack-protection (>= 2.0.1)
   rails (~> 7.2.0)
