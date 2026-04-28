@@ -160,7 +160,7 @@ class PlantingsController < DataController
   end
 
   def matching_seeds
-    Seed.where(crop: @planting.crop, owner: @planting.owner)
+    @matching_seeds ||= Seed.where(crop: @planting.crop, owner: @planting.owner)
       .where('(finished_at IS NULL OR finished_at >= ?)', @planting.planted_at)
       .where('(saved_at IS NULL OR saved_at <= ?)', @planting.planted_at)
   end

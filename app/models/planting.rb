@@ -119,14 +119,18 @@ class Planting < ApplicationRecord
   end
 
   def nearby_same_crop
-    return Planting.none if location.blank? || latitude.blank? || longitude.blank?
+    return @nearby_same_crop if defined?(@nearby_same_crop)
 
-    # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
-    Planting.joins(:garden)
-      .where(crop:)
-      .located
-      .where('gardens.latitude < ? AND gardens.latitude > ?',
-             latitude + 10, latitude - 10)
+    @nearby_same_crop = if location.blank? || latitude.blank? || longitude.blank?
+                          Planting.none
+                        else
+                          # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
+                          Planting.joins(:garden)
+                            .where(crop:)
+                            .located
+                            .where('gardens.latitude < ? AND gardens.latitude > ?',
+                                   latitude + 10, latitude - 10)
+                        end
   end
 
   private
