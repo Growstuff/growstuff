@@ -5,8 +5,8 @@ class HarvestsController < DataController
 
   def index
     where = {}
-    if params[:member_slug]
-      @owner = Member.find_by(slug: params[:member_slug])
+    if params[:member_slug].present?
+      @owner = Member.find_by!(slug: params[:member_slug])
       where['owner_id'] = @owner.id
     end
 

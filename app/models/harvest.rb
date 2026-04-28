@@ -109,37 +109,49 @@ class Harvest < ApplicationRecord
   def to_s
     # 50 individual apples, weighing 3lb
     # 2 buckets of apricots, weighing 10kg
-    "#{quantity_to_human} #{unit_to_human} #{crop_name_to_human} #{weight_to_human}".strip
+    @to_s ||= "#{quantity_to_human} #{unit_to_human} #{crop_name_to_human} #{weight_to_human}".strip
   end
 
   def quantity_to_human
-    return number_to_human(quantity.to_s, strip_insignificant_zeros: true) if quantity
-
-    ""
+    @quantity_to_human ||= if quantity
+                             number_to_human(quantity.to_s, strip_insignificant_zeros: true)
+                           else
+                             ""
+                           end
   end
 
   def unit_to_human
-    return "" unless quantity && unit
-    return 'individual' if unit == 'individual'
-    return "#{unit} of" if quantity == 1
-
-    "#{unit.pluralize} of"
+    @unit_to_human ||= begin
+      if !quantity || !unit
+        ""
+      elsif unit == 'individual'
+        'individual'
+      elsif quantity == 1
+        "#{unit} of"
+      else
+        "#{unit.pluralize} of"
+      end
+    end
   end
 
   def weight_to_human
-    return "" unless weight_quantity
-
-    "weighing #{number_to_human(weight_quantity, strip_insignificant_zeros: true)} #{weight_unit}"
+    @weight_to_human ||= if weight_quantity
+                           "weighing #{number_to_human(weight_quantity, strip_insignificant_zeros: true)} #{weight_unit}"
+                         else
+                           ""
+                         end
   end
 
   def crop_name_to_human
-    if unit != 'individual' # buckets of apricot*s*
-      crop.name.pluralize
-    elsif quantity == 1
-      crop.name
-    else
-      crop.name.pluralize
-    end.to_s
+    @crop_name_to_human ||= begin
+      if unit != 'individual' # buckets of apricot*s*
+        crop.name.pluralize
+      elsif quantity == 1
+        crop.name
+      else
+        crop.name.pluralize
+      end.to_s
+    end
   end
 
   private
