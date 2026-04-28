@@ -5,7 +5,8 @@
       %p Nobody has harvested this crop yet.
   - unless crop.harvests.empty?
     %ul.list-group.list-group-flush
-      - Harvest.where(crop: crop).includes(:owner).order(harvested_at: :desc).limit(3).each do |harvest|
+      - Rails.cache.fetch([crop, "recent_harvests", Time.zone.today]) do
+        - Harvest.where(crop: crop).includes(:owner).order(harvested_at: :desc).limit(3).each do |harvest|
         - cache [harvest, Time.zone.today] do
           %li.list-group-item
             = link_to harvest_path(harvest), class: 'card-link' do
