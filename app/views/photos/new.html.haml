@@ -21,13 +21,14 @@
     Please select a photo from your recent uploads.
 
 
-  - if @sets && !@sets.empty?
-    %p
-      = bootstrap_form_tag(url: new_photo_path, method: :get, layout: :inline) do |f|
-        = f.select :set, options_for_select(@sets, @current_set), label: "Choose a photo album"
-        = hidden_field_tag :type, @type
-        = hidden_field_tag :id, @id
-        = f.submit "Search", class: "btn btn-success"
+  %p
+    = bootstrap_form_tag(url: new_photo_path, method: :get, layout: :inline) do |f|
+      - if @sets && !@sets.empty?
+        = f.select :set, options_for_select(@sets, @current_set), label: "Choose a photo album", include_blank: true
+      = f.text_field :tag, value: @current_tag, label: "or search by tag"
+      = hidden_field_tag :type, @type
+      = hidden_field_tag :id, @id
+      = f.submit "Search", class: "btn btn-success"
 
   - if @sets && @current_set
     %h2= @sets.key(@current_set)
