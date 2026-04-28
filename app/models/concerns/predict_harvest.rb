@@ -6,23 +6,31 @@ module PredictHarvest
   included do
     # dates
     def first_harvest_date
-      harvests_with_dates.minimum(:harvested_at)
+      return @first_harvest_date if defined?(@first_harvest_date)
+
+      @first_harvest_date = harvests_with_dates.minimum(:harvested_at)
     end
 
     def last_harvest_date
-      harvests_with_dates.maximum(:harvested_at)
+      return @last_harvest_date if defined?(@last_harvest_date)
+
+      @last_harvest_date = harvests_with_dates.maximum(:harvested_at)
     end
 
     def first_harvest_predicted_at
-      return unless crop.median_days_to_first_harvest.present? && planted_at.present?
+      return @first_harvest_predicted_at if defined?(@first_harvest_predicted_at)
 
-      planted_at + crop.median_days_to_first_harvest.days
+      @first_harvest_predicted_at = if crop.median_days_to_first_harvest.present? && planted_at.present?
+                                      planted_at + crop.median_days_to_first_harvest.days
+                                    end
     end
 
     def last_harvest_predicted_at
-      return unless crop.median_days_to_last_harvest.present? && planted_at.present?
+      return @last_harvest_predicted_at if defined?(@last_harvest_predicted_at)
 
-      planted_at + crop.median_days_to_last_harvest.days
+      @last_harvest_predicted_at = if crop.median_days_to_last_harvest.present? && planted_at.present?
+                                     planted_at + crop.median_days_to_last_harvest.days
+                                   end
     end
 
     # actions
