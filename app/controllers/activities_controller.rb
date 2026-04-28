@@ -7,9 +7,9 @@ class ActivitiesController < DataController
     @activities = Activity.includes(:owner, :garden, planting: :crop).order(created_at: :desc)
     @activities = @activities.active unless @show_all
 
-    if params[:member_slug]
-      @owner = Member.find_by(slug: params[:member_slug])
-      @activities = @activities.where(owner_id: @owner.id) if @owner.present?
+    if params[:member_slug].present?
+      @owner = Member.find_by!(slug: params[:member_slug])
+      where['owner_id'] = @owner.id
     end
 
     @activities = @activities.paginate(page: params[:page], per_page: 30)

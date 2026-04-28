@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   respond_to :rss, only: %i(index show)
 
   def index
-    @author = Member.find_by(slug: params[:member_slug])
+    @author = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
     @posts = posts
     respond_with(@posts)
   end
