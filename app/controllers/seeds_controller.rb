@@ -1,21 +1,22 @@
 # frozen_string_literal: true
 
 class SeedsController < DataController
+  before_action :set_owner
+
   def index
     where = {}
 
-    if params[:member_slug].present?
-      @owner = Member.find_by!(slug: params[:member_slug])
+    if @owner
       where['owner_id'] = @owner.id
     end
 
     if params[:crop_slug].present?
-      @crop = Crop.find_by(slug: params[:crop_slug])
+      @crop = Crop.find_by!(slug: params[:crop_slug])
       where['crop_id'] = @crop.id
     end
 
     if params[:planting_id].present?
-      @planting = Planting.find_by(slug: params[:planting_id])
+      @planting = Planting.find_by!(slug: params[:planting_id])
       where['parent_planting'] = @planting.id
     end
 
@@ -46,7 +47,7 @@ class SeedsController < DataController
     @seed.source = 'my own seed saving'
 
     if params[:planting_slug]
-      @planting = Planting.find_by(slug: params[:planting_slug])
+      @planting = Planting.find_by!(slug: params[:planting_slug])
     else
       @crop = Crop.find_or_initialize_by(id: params[:crop_id])
     end
@@ -80,6 +81,10 @@ class SeedsController < DataController
   end
 
   private
+
+  def set_owner
+    @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
+  end
 
   def seed_params
     params.require(:seed).permit(
