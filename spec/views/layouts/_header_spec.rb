@@ -90,20 +90,19 @@ describe 'layouts/_header.html.haml', type: "view" do
       rendered.should have_content 'Inbox'
       rendered.should_not match(/Inbox \d+/)
     end
+  end
 
-    context 'has notifications' do
-      before do
-        @member = create(:member)
-        create(:notification, recipient: @member)
-        sign_in @member
-        controller.stub(:current_user) { @member }
-        render
-      end
+  context 'logged in, has notifications' do
+    before do
+      @member = create(:member)
+      create(:notification, recipient: @member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
+    end
 
-      it 'shows inbox count' do
-        render
-        rendered.should have_content 'Inbox 1'
-      end
+    it 'shows inbox count' do
+      render
+      rendered.should have_content 'Inbox 1'
     end
   end
 end
