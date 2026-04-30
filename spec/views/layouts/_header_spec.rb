@@ -92,9 +92,15 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
 
     context 'has notifications' do
-      it 'shows inbox count' do
+      before do
+        @member = create(:member)
         create(:notification, recipient: @member)
-        @member.reload
+        sign_in @member
+        controller.stub(:current_user) { @member }
+        render
+      end
+
+      it 'shows inbox count' do
         render
         rendered.should have_content 'Inbox 1'
       end
