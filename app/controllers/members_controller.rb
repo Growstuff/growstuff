@@ -90,11 +90,12 @@ class MembersController < ApplicationController
 
   EMAIL_TYPE_STRING = {
     send_notification_email: "direct message notifications",
-    send_planting_reminder:  "planting reminders"
+    send_planting_reminder:  "planting reminders",
+    send_harvest_reminder:   "harvest reminders"
   }.freeze
 
   def member_params
-    params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter)
+    params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter, :send_harvest_reminder)
   end
 
   def member_json_fields
