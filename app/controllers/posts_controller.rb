@@ -21,6 +21,10 @@ class PostsController < ApplicationController
   def new
     @post = Post.new
     @forum = Forum.find_by(id: params[:forum_id])
+    if params[:crop_id]
+      @crop = Crop.friendly.find(params[:crop_id])
+      @post.body = "[#{@crop.name}](crop)"
+    end
     respond_with(@post)
   end
 
