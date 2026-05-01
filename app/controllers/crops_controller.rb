@@ -13,7 +13,7 @@ class CropsController < ApplicationController
     @crops = Crop.search('*', boost_by: %i(plantings_count harvests_count),
                               limit:    100,
                               page:     params[:page],
-                              load:     false)
+                              load:     (request.format.csv? ? { include: %i(scientific_names parent creator) } : false))
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
     respond_with @crops
