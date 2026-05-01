@@ -72,6 +72,12 @@ describe "Harvesting a crop", :js, :search do
       it { expect(page).to have_content "harvest was successfully created." }
       it { expect(page).to have_content planting.garden.name }
       it { expect(page).to have_content "maize" }
+
+      it "updates the planting rating" do
+        find_by_id('harvest_overall_rating').set 4
+        click_button "Save"
+        expect(planting.reload.overall_rating).to eq 4
+      end
     end
 
     context "Editing a harvest" do

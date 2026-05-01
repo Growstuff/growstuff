@@ -52,7 +52,9 @@ class HarvestsController < DataController
   def create
     @harvest.crop_id = @harvest.planting.crop_id if @harvest.planting_id
     @harvest.harvested_at = Time.zone.now if @harvest.harvested_at.blank?
-    @harvest.save
+    if @harvest.save
+      update_planting_rating
+    end
     if params[:return] == 'planting'
       respond_with(@harvest, location: @harvest.planting)
     else
@@ -61,7 +63,9 @@ class HarvestsController < DataController
   end
 
   def update
-    @harvest.update(harvest_params)
+    if @harvest.update(harvest_params)
+      update_planting_rating
+    end
     respond_with(@harvest)
   end
 
@@ -76,7 +80,7 @@ class HarvestsController < DataController
     params.require(:harvest)
       .permit(:planting_id, :crop_id, :harvested_at, :description,
               :quantity, :unit, :weight_quantity, :weight_unit,
-              :plant_part_id, :slug, :si_weight)
+              :plant_part_id, :slug, :si_weight, :overall_rating)
       .merge(owner_id: current_member.id)
   end
 
@@ -102,5 +106,11 @@ class HarvestsController < DataController
 
     @harvest.planting.update_harvest_days!
     @harvest.crop.update_harvest_medians
+  end
+
+  def update_planting_rating
+    return if @harvest.planting.nil? || params[:harvest][:overall_rating].blank?
+
+    @harvest.planting.update(overall_rating: params[:harvest][:overall_rating])
   end
 end

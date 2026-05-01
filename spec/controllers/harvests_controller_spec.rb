@@ -115,6 +115,21 @@ describe HarvestsController, :search do
 
         it { expect(Harvest.last.planting.id).to eq(planting.id) }
       end
+
+      describe "updates planting rating" do
+        let(:planting) { create(:planting, owner_id: member.id, garden: member.gardens.first) }
+
+        it "updates the planting rating when provided" do
+          post :create, params: {
+            harvest: valid_attributes.merge(
+              planting_id:    planting.id,
+              crop_id:        planting.crop_id,
+              overall_rating: 4
+            )
+          }
+          expect(planting.reload.overall_rating).to eq(4)
+        end
+      end
     end
 
     describe "with invalid params" do
@@ -170,6 +185,18 @@ describe HarvestsController, :search do
         before { put :update, params: { slug: harvest.to_param, harvest: valid_attributes } }
 
         it { expect(response).to redirect_to(harvest) }
+      end
+
+      describe "updates planting rating" do
+        let(:planting) { create(:planting, owner_id: member.id, garden: member.gardens.first) }
+        let(:harvest) do
+          create(:harvest, valid_attributes.merge(planting_id: planting.id, crop_id: planting.crop_id))
+        end
+
+        it "updates the planting rating when provided" do
+          put :update, params: { slug: harvest.to_param, harvest: { overall_rating: 3 } }
+          expect(planting.reload.overall_rating).to eq(3)
+        end
       end
     end
 
