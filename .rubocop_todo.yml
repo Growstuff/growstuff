@@ -7,7 +7,7 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Offense count: 19
-Capybara/NegationMatcherAfterVisit:
+Capybara/RSpec/NegationMatcherAfterVisit:
   Exclude:
     - 'spec/features/admin/reverting_crops_spec.rb'
     - 'spec/features/crops/crop_detail_page_spec.rb'
@@ -19,7 +19,7 @@ Capybara/NegationMatcherAfterVisit:
     - 'spec/features/plantings/planting_a_crop_spec.rb'
 
 # Offense count: 14
-Capybara/SpecificMatcher:
+Capybara/RSpec/SpecificMatcher:
   Exclude:
     - 'spec/features/footer_spec.rb'
     - 'spec/features/gardens/adding_gardens_spec.rb'
@@ -28,7 +28,7 @@ Capybara/SpecificMatcher:
     - 'spec/features/seeds/adding_seeds_spec.rb'
 
 # Offense count: 1
-Capybara/VisibilityMatcher:
+Capybara/RSpec/VisibilityMatcher:
   Exclude:
     - 'spec/features/shared_examples/crop_suggest.rb'
 
