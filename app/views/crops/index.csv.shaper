@@ -44,7 +44,9 @@ csv.headers *all_headers
 @crops.each do |c|
   csv.row c do |csv, crop|
 
-    csv.cells :id, :name, :en_wikipedia_url
+    csv.cell :id, c.id
+    csv.cell :name, c.name
+    csv.cell :en_wikipedia_url, c.en_wikipedia_url
     csv.cell :growstuff_url, crop_url(c)
 
     if c.scientific_names.any?
