@@ -60,8 +60,14 @@ module PredictHarvest
     def before_harvest_time?
       first_harvest_predicted_at.present? &&
         harvests.empty? &&
-        first_harvest_predicted_at.present? &&
         first_harvest_predicted_at > Time.zone.today
+    end
+
+    def harvest_in_next_week?
+      first_harvest_predicted_at.present? &&
+        harvests.empty? &&
+        first_harvest_predicted_at >= Time.zone.today &&
+        first_harvest_predicted_at <= Time.zone.today + 7.days
     end
 
     def harvest_months

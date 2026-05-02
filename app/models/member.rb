@@ -79,6 +79,7 @@ class Member < ApplicationRecord
   scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
   scope :wants_reminders, -> { where(send_planting_reminder: true) }
+  scope :wants_harvest_reminders, -> { where(send_harvest_reminder: true) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

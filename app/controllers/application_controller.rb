@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
                     # profile stuff
                     :bio, :location, :latitude, :longitude,
                     # email settings
-                    :show_email, :newsletter, :send_notification_email, :send_planting_reminder)
+                    :show_email, :newsletter, :send_notification_email, :send_planting_reminder, :send_harvest_reminder)
     end
 
     devise_parameter_sanitizer.permit(:account_update) do |member|
@@ -80,7 +80,7 @@ class ApplicationController < ActionController::Base
                     :bio, :location, :latitude, :longitude,
                     :website_url, :instagram_handle, :facebook_handle, :bluesky_handle, :other_url,
                     # email settings
-                    :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
+                    :show_email, :newsletter, :send_notification_email, :send_planting_reminder, :send_harvest_reminder,
                     # update password
                     :current_password)
     end
