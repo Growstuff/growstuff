@@ -276,7 +276,7 @@ GEM
     elasticsearch-transport (7.0.0)
       faraday
       multi_json
-    erb (6.0.2)
+    erb (6.0.4)
     erubi (1.13.1)
     execjs (2.10.0)
     factory_bot (6.5.5)
