@@ -73,6 +73,21 @@ describe CropsController do
     end
   end
 
+  describe "GET CSV" do
+    let!(:tomato) { create(:tomato, en_wikipedia_url: "https://en.wikipedia.org/wiki/Tomato") }
+    before do
+      Crop.reindex
+      get :index, format: "csv"
+    end
+
+    it { is_expected.to be_successful }
+    it { expect(response.content_type).to eq("text/csv; charset=utf-8") }
+    it "contains tomato" do
+      expect(assigns(:crops)).not_to be_empty
+      expect(response.body).to include("tomato")
+    end
+  end
+
   describe 'CREATE' do
     subject { put :create, params: crop_params }
 
