@@ -23,7 +23,7 @@ class HarvestsController < DataController
     @harvests = Harvest.search('*', where:,
                                     limit:    100,
                                     page:     params[:page],
-                                    load:     false,
+                                    load:     (request.format.csv? ? { include: %i(crop owner plant_part) } : false),
                                     boost_by: [:created_at])
 
     @filename = csv_filename
