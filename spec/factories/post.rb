@@ -21,5 +21,9 @@ FactoryBot.define do
     factory :forum_post do
       forum
     end
+
+    trait :reindex do
+      # Post is not using elasticsearch, but this trait is used in some tests
+    end
   end
 end

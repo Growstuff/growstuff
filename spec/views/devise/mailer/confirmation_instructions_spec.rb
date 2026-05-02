@@ -10,11 +10,11 @@ describe 'devise/mailer/confirmation_instructions.html.haml', type: "view" do
     end
 
     it 'has a confirmation link' do
-      rendered.should have_content 'Confirm my account'
+      expect(rendered).to have_content 'Confirm my account'
     end
 
     it 'has a link to the homepage' do
-      rendered.should have_content root_url
+      expect(rendered).to have_content root_url
     end
   end
 end
