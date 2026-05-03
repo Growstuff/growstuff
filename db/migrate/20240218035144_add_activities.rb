@@ -15,7 +15,5 @@ class AddActivities < ActiveRecord::Migration[7.1]
     end
 
     add_column :members, :activities_count, :integer
-
-    Activity.reindex
   end
 end

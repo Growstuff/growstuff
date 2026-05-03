@@ -73,6 +73,8 @@ module Growstuff
     config.newsletter_list_id = ENV.fetch('GROWSTUFF_MAILCHIMP_NEWSLETTER_ID', nil)
 
     # config.active_record.raise_in_transactional_callbacks = true
+    config.middleware.insert_before 0, Rack::Attack
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'

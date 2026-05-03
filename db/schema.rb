@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_01_045000) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_29_132911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -786,6 +786,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_01_045000) do
     t.string "facebook_handle"
     t.string "bluesky_handle"
     t.string "other_url"
+    t.boolean "send_harvest_reminder", default: true, null: false
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true
