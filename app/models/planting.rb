@@ -72,7 +72,7 @@ class Planting < ApplicationRecord
   ##
   ## Validations
   validates :garden, presence: true
-  validates :crop, presence: true, approved: { message: "must be present and exist in our database" }
+  validates :crop, presence: true, approved: { message: :crop_must_be_approved }
   validate :finished_must_be_after_planted
   validate :owner_must_match_garden_owner
   validate :cannot_be_finished_and_failed
@@ -80,10 +80,10 @@ class Planting < ApplicationRecord
     only_integer: true, greater_than_or_equal_to: 0
   }
   validates :sunniness, allow_blank: true, inclusion: {
-    in: SUNNINESS_VALUES, message: "%<value>s is not a valid sunniness value"
+    in: SUNNINESS_VALUES, message: :not_a_valid_sunniness
   }
   validates :planted_from, allow_blank: true, inclusion: {
-    in: PLANTED_FROM_VALUES, message: "%<value>s is not a valid planting method"
+    in: PLANTED_FROM_VALUES, message: :not_a_valid_planting_method
   }
   validates :overall_rating, allow_blank: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5
@@ -119,33 +119,36 @@ class Planting < ApplicationRecord
   end
 
   def nearby_same_crop
-    return Planting.none if location.blank? || latitude.blank? || longitude.blank?
+    return @nearby_same_crop if defined?(@nearby_same_crop)
 
-    # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
-    Planting.joins(:garden)
-      .where(crop:)
-      .located
-      .where('gardens.latitude < ? AND gardens.latitude > ?',
-             latitude + 10, latitude - 10)
+    @nearby_same_crop = if location.blank? || latitude.blank? || longitude.blank?
+                          Planting.none
+                        else
+                          # latitude, longitude = Geocoder.coordinates(location, params: { limit: 1 })
+                          Planting.joins(:garden)
+                            .where(crop:)
+                            .located
+                            .where('gardens.latitude < ? AND gardens.latitude > ?',
+                                   latitude + 10, latitude - 10)
+                        end
   end
 
   private
 
   def cannot_be_finished_and_failed
-    errors.add(:failed, "can't be true if planting is also finished") if finished && failed
+    errors.add(:failed, :failed_and_finished) if finished && failed
   end
 
   # check that any finished_at date occurs after planted_at
   def finished_must_be_after_planted
     return unless planted_at && finished_at # only check if we have both
 
-    errors.add(:finished_at, "must be after the planting date") unless planted_at < finished_at
+    errors.add(:finished_at, :finished_after_planted) unless planted_at < finished_at
   end
 
   def owner_must_match_garden_owner
     return if owner == garden.owner || garden.garden_collaborators.where(member_id: owner).any?
 
-    errors.add(:owner,
-               "must be the same as garden, or a collaborator on that garden")
+    errors.add(:owner, :same_owner_required)
   end
 end

@@ -116,6 +116,8 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 gem 'puma'
 
+gem 'rack-attack'
+
 gem 'loofah', '>= 2.19.1'
 gem 'rack-protection', '>= 2.0.1'
 

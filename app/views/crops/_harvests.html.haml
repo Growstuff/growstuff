@@ -5,14 +5,15 @@
       %p Nobody has harvested this crop yet.
   - unless crop.harvests.empty?
     %ul.list-group.list-group-flush
-      - Harvest.where(crop: crop).includes(:owner).order(harvested_at: :desc).limit(3).each do |harvest|
-        %li.list-group-item
-          = link_to harvest_path(harvest), class: 'card-link' do
-            = harvest_icon
-            #{harvest.owner} harvested #{display_quantity(harvest)}.
-          .float-right= render 'members/location', member: harvest.owner
-          .harvest-timeago
-            %small #{standard_time_distance(harvest.harvested_at, Time.zone.now.to_date)}
+      - Rails.cache.fetch([crop, "recent_harvests", Time.zone.today]) do
+        - Harvest.where(crop: crop).includes(:owner).order(harvested_at: :desc).limit(3).each do |harvest|
+          %li.list-group-item
+            = link_to harvest_path(harvest), class: 'card-link' do
+              = harvest_icon
+              #{harvest.owner} harvested #{display_quantity(harvest)}.
+            .float-right= render 'members/location', member: harvest.owner
+            .harvest-timeago
+              %small #{standard_time_distance(harvest.harvested_at, Time.zone.now.to_date)}
       %li.list-group-item= link_to "View all #{crop.name} harvests", crop_harvests_path(crop), class: 'card-link'
       - if crop.approved?
         - if current_member

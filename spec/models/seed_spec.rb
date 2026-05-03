@@ -7,35 +7,35 @@ describe Seed do
   let(:seed)  { build(:seed, owner:) }
 
   it 'saves a basic seed' do
-    seed.save.should be(true)
+    expect(seed.save).to be(true)
   end
 
   it "has a slug" do
     seed.save
-    seed.slug.should match(/tamateapokaiwhenua-magic-bean/)
+    expect(seed.slug).to match(/tamateapokaiwhenua-magic-bean/)
   end
 
   context 'quantity' do
     it 'allows integer quantities' do
       @seed = build(:seed, quantity: 99)
-      @seed.should be_valid
+      expect(@seed).to be_valid
     end
 
     it "doesn't allow decimal quantities" do
       @seed = build(:seed, quantity: 99.9)
-      @seed.should_not be_valid
+      expect(@seed).not_to be_valid
     end
 
     it "doesn't allow non-numeric quantities" do
       @seed = build(:seed, quantity: 'foo')
-      @seed.should_not be_valid
+      expect(@seed).not_to be_valid
     end
 
     it "allows blank quantities" do
       @seed = build(:seed, quantity: nil)
-      @seed.should be_valid
+      expect(@seed).to be_valid
       @seed = build(:seed, quantity: '')
-      @seed.should be_valid
+      expect(@seed).to be_valid
     end
   end
 
@@ -43,14 +43,14 @@ describe Seed do
     it 'all valid tradable_to values should work' do
       %w(nowhere locally nationally internationally).each do |t|
         @seed = build(:seed, tradable_to: t)
-        @seed.should be_valid
+        expect(@seed).to be_valid
       end
     end
 
     it 'refuses invalid tradable_to values' do
       @seed = build(:seed, tradable_to: 'not valid')
-      @seed.should_not be_valid
-      @seed.errors[:tradable_to].should include(
+      expect(@seed).not_to be_valid
+      expect(@seed.errors[:tradable_to]).to include(
         "You may only trade seed nowhere, locally, " \
         "nationally, or internationally"
       )
@@ -58,35 +58,35 @@ describe Seed do
 
     it 'does not allow nil or blank values' do
       @seed = build(:seed, tradable_to: nil)
-      @seed.should_not be_valid
+      expect(@seed).not_to be_valid
       @seed = build(:seed, tradable_to: '')
-      @seed.should_not be_valid
+      expect(@seed).not_to be_valid
     end
 
     it 'tradable gives the right answers' do
       @seed = create(:seed, tradable_to: 'nowhere')
-      @seed.tradable.should be false
+      expect(@seed.tradable).to be false
       @seed = create(:seed, tradable_to: 'locally')
-      @seed.tradable.should be true
+      expect(@seed.tradable).to be true
       @seed = create(:seed, tradable_to: 'nationally')
-      @seed.tradable.should be true
+      expect(@seed.tradable).to be true
       @seed = create(:seed, tradable_to: 'internationally')
-      @seed.tradable.should be true
+      expect(@seed.tradable).to be true
     end
 
     it 'recognises a tradable seed' do
-      create(:tradable_seed).tradable.should == true
+      expect(create(:tradable_seed).tradable).to be true
     end
 
     it 'recognises an untradable seed' do
-      create(:untradable_seed).tradable.should == false
+      expect(create(:untradable_seed).tradable).to be false
     end
 
     it 'scopes correctly' do
       @tradable = create(:tradable_seed)
       @untradable = create(:untradable_seed)
-      described_class.tradable.should include @tradable
-      described_class.tradable.should_not include @untradable
+      expect(described_class.tradable).to include @tradable
+      expect(described_class.tradable).not_to include @untradable
     end
   end
 
@@ -95,7 +95,7 @@ describe Seed do
       ['certified organic', 'non-certified organic',
        'conventional/non-organic', 'unknown'].each do |t|
         @seed = build(:seed, organic: t)
-        @seed.should be_valid
+        expect(@seed).to be_valid
       end
     end
 
@@ -103,31 +103,31 @@ describe Seed do
       ['certified GMO-free', 'non-certified GMO-free',
        'GMO', 'unknown'].each do |t|
         @seed = build(:seed, gmo: t)
-        @seed.should be_valid
+        expect(@seed).to be_valid
       end
     end
 
     it 'all valid heirloom values should work' do
       %w(heirloom hybrid unknown).each do |t|
         @seed = build(:seed, heirloom: t)
-        @seed.should be_valid
+        expect(@seed).to be_valid
       end
     end
 
     it 'refuses invalid organic/GMO/heirloom values' do
       %i(organic gmo heirloom).each do |field|
         @seed = build(:seed, field => 'not valid')
-        @seed.should_not be_valid
-        @seed.errors[field].should_not be_empty
+        expect(@seed).not_to be_valid
+        expect(@seed.errors[field]).not_to be_empty
       end
     end
 
     it 'does not allow nil or blank values' do
       %i(organic gmo heirloom).each do |field|
         @seed = build(:seed, field => nil)
-        @seed.should_not be_valid
+        expect(@seed).not_to be_valid
         @seed = build(:seed, field => '')
-        @seed.should_not be_valid
+        expect(@seed).not_to be_valid
       end
     end
   end
@@ -136,13 +136,13 @@ describe Seed do
     it 'returns seeds with a plant_before date in the past' do
       expired_seed = create(:seed, plant_before: 1.day.ago)
       not_expired_seed = create(:seed, plant_before: 1.day.from_now)
-      described_class.expired.should include expired_seed
-      described_class.expired.should_not include not_expired_seed
+      expect(described_class.expired).to include expired_seed
+      expect(described_class.expired).not_to include not_expired_seed
     end
 
     it 'does not return finished seeds' do
       expired_seed = create(:seed, plant_before: 1.day.ago, finished: true)
-      described_class.expired.should_not include expired_seed
+      expect(described_class.expired).not_to include expired_seed
     end
   end
 
@@ -158,11 +158,11 @@ describe Seed do
       @seed3 = create(:tradable_seed)
       @seed4 = create(:seed)
 
-      described_class.interesting.should include @seed1
-      described_class.interesting.should_not include @seed2
-      described_class.interesting.should_not include @seed3
-      described_class.interesting.should_not include @seed4
-      described_class.interesting.size.should == 1
+      expect(described_class.interesting).to include @seed1
+      expect(described_class.interesting).not_to include @seed2
+      expect(described_class.interesting).not_to include @seed3
+      expect(described_class.interesting).not_to include @seed4
+      expect(described_class.interesting.size).to eq 1
     end
   end
 
@@ -172,7 +172,7 @@ describe Seed do
     before { seed.photos << create(:photo, owner: seed.owner) }
 
     it 'is found in has_photos scope' do
-      described_class.has_photos.should include(seed)
+      expect(described_class.has_photos).to include(seed)
     end
   end
 

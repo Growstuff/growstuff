@@ -10,6 +10,20 @@ describe PostsController do
     { author_id: member.id, subject: "blah", body: "blah blah" }
   end
 
+  describe '#new' do
+    let(:crop) { create(:crop, name: 'Bush Bean') }
+
+    it 'pre-populates the body when crop_id is present' do
+      get :new, params: { crop_id: crop.slug }
+      expect(assigns(:post).body).to eq("[#{crop.name}](crop)")
+    end
+
+    it 'does not pre-populate the body when crop_id is absent' do
+      get :new
+      expect(assigns(:post).body).to be_nil
+    end
+  end
+
   describe '#index' do
     before do
       create_list(:post, 100)

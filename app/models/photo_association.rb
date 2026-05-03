@@ -29,12 +29,12 @@ class PhotoAssociation < ApplicationRecord
   def photo_and_item_have_same_owner
     return if photographable_type == 'Crop'
 
-    errors.add(:photo, "must have same owner as item it links to") unless photographable.owner_id == photo.owner_id
+    errors.add(:photo, :photo_owner_mismatch) unless photographable.owner_id == photo.owner_id
   end
 
   def crop_present
     return unless %w(Planting Seed Harvest).include?(photographable_type)
 
-    errors.add(:crop_id, "failed to calculate crop") if crop_id.blank?
+    errors.add(:crop_id, :calculate_crop_failed) if crop_id.blank?
   end
 end

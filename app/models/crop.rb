@@ -57,13 +57,13 @@ class Crop < ApplicationRecord
   validates :en_wikipedia_url,
             format: {
               with:    %r{\Ahttps?://en\.wikipedia\.org/wiki/[[:alnum:]%_.()-]+\z},
-              message: 'is not a valid English Wikipedia URL'
+              message: :not_a_valid_wikipedia_url
             },
             if:     :approved?
   validates :en_youtube_url,
             format: {
               with:    %r{\A(?:https?://)?(?:www\.)?(?:youtube(?:-nocookie)?\.com/(?:(?:v|e(?:mbed)?)/|\S*?[?&]v=)|youtu\.be/)[a-zA-Z0-9_-]{11}(?:[?&]\S*)?\z},
-              message: 'is not a valid YouTube URL'
+              message: :not_a_valid_youtube_url
             },
             allow_blank: true
   validates :name, uniqueness: { scope: :approval_status }, if: :pending?
@@ -190,12 +190,12 @@ class Crop < ApplicationRecord
     return if rejected?
     return unless reason_for_rejection.present? || rejection_notes.present?
 
-    errors.add(:approval_status, "must be rejected if a reason for rejection is present")
+    errors.add(:approval_status, :rejection_reason_required)
   end
 
   def must_have_meaningful_reason_for_rejection
     return unless reason_for_rejection == "other" && rejection_notes.blank?
 
-    errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
+    errors.add(:rejection_notes, :rejection_notes_required)
   end
 end

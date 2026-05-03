@@ -22,7 +22,7 @@ describe "places/show" do
 
   it "shows the names of nearby members" do
     @nearby_members.each do |m|
-      rendered.should have_content m.login_name
+      expect(rendered).to have_content m.login_name
     end
   end
 end

@@ -5,7 +5,7 @@ class SeedsController < DataController
     where = {}
 
     if params[:member_slug].present?
-      @owner = Member.find_by(slug: params[:member_slug])
+      @owner = Member.find_by!(slug: params[:member_slug])
       where['owner_id'] = @owner.id
     end
 
@@ -30,7 +30,7 @@ class SeedsController < DataController
       page:     params[:page],
       limit:    30,
       boost_by: [:created_at],
-      load:     false
+      load:     (request.format.csv? ? { include: %i(crop owner) } : false)
     )
 
     respond_with(@seeds)
@@ -61,7 +61,7 @@ class SeedsController < DataController
     @seed.finished ||= false
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
-    flash[:notice] = "Successfully added #{@seed.crop} seed to your stash." if @seed.save
+    flash[:notice] = t('seeds.added_to_stash', crop: @seed.crop) if @seed.save
     if params[:return] == 'planting'
       respond_with(@seed, location: @seed.parent_planting)
     else
@@ -70,7 +70,7 @@ class SeedsController < DataController
   end
 
   def update
-    flash[:notice] = 'Seed was successfully updated.' if @seed.update(seed_params)
+    flash[:notice] = t('seeds.updated') if @seed.update(seed_params)
     respond_with(@seed)
   end
 

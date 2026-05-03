@@ -5,8 +5,8 @@ class HarvestsController < DataController
 
   def index
     where = {}
-    if params[:member_slug]
-      @owner = Member.find_by(slug: params[:member_slug])
+    if params[:member_slug].present?
+      @owner = Member.find_by!(slug: params[:member_slug])
       where['owner_id'] = @owner.id
     end
 
@@ -23,7 +23,7 @@ class HarvestsController < DataController
     @harvests = Harvest.search('*', where:,
                                     limit:    100,
                                     page:     params[:page],
-                                    load:     false,
+                                    load:     (request.format.csv? ? { include: %i(crop owner plant_part) } : false),
                                     boost_by: [:created_at])
 
     @filename = csv_filename
