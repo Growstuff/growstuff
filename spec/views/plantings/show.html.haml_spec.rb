@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe "plantings/show" do
-  let(:crop)   { FactoryBot.create(:tomato)                }
-  let(:member) { FactoryBot.create(:member)                }
-  let(:garden) { FactoryBot.create(:garden, owner: member) }
+  let(:crop)   { create(:tomato)                }
+  let(:member) { create(:member)                }
+  let(:garden) { create(:garden, owner: member) }
   let(:planting) do
-    FactoryBot.create(:planting, garden:, crop:,
+    create(:planting, garden:, crop:,
                                  owner: garden.owner,
                                  planted_from: 'cutting')
   end
@@ -20,7 +20,7 @@ describe "plantings/show" do
   end
 
   context 'sunniness' do
-    let(:planting) { FactoryBot.create(:sunny_planting) }
+    let(:planting) { create(:sunny_planting) }
 
     describe "shows the sunniness" do
       before { render }
@@ -31,7 +31,7 @@ describe "plantings/show" do
   end
 
   context 'planted from' do
-    let(:planting) { FactoryBot.create(:cutting_planting) }
+    let(:planting) { create(:cutting_planting) }
 
     describe "shows planted_from" do
       before { render }
@@ -51,8 +51,8 @@ describe "plantings/show" do
   end
 
   it "shows photos" do
-    photo1 = FactoryBot.create(:photo, owner: member)
-    photo2 = FactoryBot.create(:photo, owner: member)
+    photo1 = create(:photo, owner: member)
+    photo2 = create(:photo, owner: member)
     planting.photos << photo1
     planting.photos << photo2
     render

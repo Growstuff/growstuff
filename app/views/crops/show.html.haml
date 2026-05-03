@@ -1,4 +1,13 @@
-- content_for :title, @crop.name
+= render 'schema_org', crop: @crop
+- content_for :title do
+  = @crop.name.titleize
+  - if @crop.default_scientific_name.present?
+    = " (#{@crop.default_scientific_name})"
+- content_for :meta_description do
+  - if @crop.description.present?
+    = @crop.description
+  - else
+    = "Learn how to grow #{@crop.name}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: crop_image_path(@crop))
   = tag("meta", property: "og:title", content: @crop.name)
@@ -11,6 +20,8 @@
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Crops', crops_path
+  - if @crop.parent
+    %li.breadcrumb-item.active= link_to @crop.parent.name.capitalize, @crop.parent
   %li.breadcrumb-item.active= link_to @crop.name.capitalize, @crop
 
 = render 'approval_status_message', crop: @crop
@@ -29,6 +40,17 @@
         %h2 Companions
         - @crop.all_companions.each do |companion|
           = render 'crops/tiny', crop: companion
+
+    - if crop_or_parent(@crop, :en_youtube_url).present?
+      %section.youtube
+        %h2 Video
+        .embed-responsive.embed-responsive-16by9
+          %iframe.embed-responsive-item{ src: "https://www.youtube.com/embed/#{youtube_video_id(crop_or_parent(@crop, :en_youtube_url))}", allowfullscreen: true }
+    - else
+      - if member_signed_in?
+        %section.youtube
+          %h2 Video
+          %p= link_to "Submit a video.", edit_crop_path(@crop, anchor: ":~:text=Youtube")
 
     %section.photos
       = cute_icon
@@ -51,10 +73,11 @@
               = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
     - if @crop.varieties.any?
-      %section.varieties
-        %h2 Varieties
-        .index-cards
-          = render 'varieties', crop: @crop
+      - cache [@crop, 'varieties'] do
+        %section.varieties
+          %h2 Varieties
+          .index-cards
+            = render 'varieties', crop: @crop
 
     %section.crop-map
       %h2
@@ -68,6 +91,7 @@
 
     %section.posts= render 'crops/posts', crop: @crop
 
+    = render 'history', crop: @crop
   .col-md-3
     = cute_icon
     .card
@@ -111,7 +135,11 @@
     = render 'harvests', crop: @crop
     = render 'find_seeds', crop: @crop
 
-    = render 'openfarm_data', crop: @crop
+    - cache [@crop, 'openfarm_data'] do
+      = render 'openfarm_data', crop: @crop
+
+    - cache [@crop, 'nutritional_data'] do
+      = render 'nutritional_data', crop: @crop
 
     = cute_icon
     .card
@@ -124,6 +152,12 @@
           = link_to @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer" do
             = icon 'fas', 'external-link-alt'
             Wikipedia (English)
+
+        - if @crop.public_food_key.present?
+          %li.list-group-item
+            = link_to "https://afcd.foodstandards.gov.au/fooddetails.aspx?PFKID=#{@crop.public_food_key}", target: "_blank", rel: "noopener noreferrer" do
+              = icon 'fas', 'external-link-alt'
+              Australian Food Composition Database
 
         %li.list-group-item
           = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
@@ -157,3 +191,10 @@
             = icon 'fas', 'external-link-alt'
             Wikihow instructions
 
+        %li.list-group-item
+          = link_to "https://www.youtube.com/results?search_query=#{CGI.escape "growing #{@crop.name}"}",
+                    target: "_blank",
+                    class: 'card-link',
+                    rel: "noopener noreferrer" do
+            = icon 'fab', 'youtube'
+            YouTube

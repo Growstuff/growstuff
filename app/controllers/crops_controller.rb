@@ -13,7 +13,7 @@ class CropsController < ApplicationController
     @crops = Crop.search('*', boost_by: %i(plantings_count harvests_count),
                               limit:    100,
                               page:     params[:page],
-                              load:     false)
+                              load:     (request.format.csv? || request.format.rss? ? { include: %i(parent scientific_names seeds harvests creator plantings) } : false))
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
     respond_with @crops
@@ -97,6 +97,8 @@ class CropsController < ApplicationController
       format.html do
         @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
         @companions = @crop.companions.approved
+        member_ids = @crop.versions.map(&:whodunnit).compact.map(&:to_i)
+        @version_members = Member.where(id: member_ids).index_by(&:id)
       end
       format.svg do
         icon_data = @crop.svg_icon.presence || File.read(Rails.root.join("app/assets/images/icons/sprout.svg"))
@@ -171,6 +173,34 @@ class CropsController < ApplicationController
     respond_with @crop
   end
 
+  def data_improvement
+    @active_tab = params[:tab] || 'photos'
+
+    @crops = case @active_tab
+             when 'photos'
+               Crop.approved.where(photo_associations_count: 0).order(plantings_count: :desc)
+             when 'descriptions'
+               Crop.approved.where(description: [nil, '']).order(plantings_count: :desc)
+             when 'youtube'
+               Crop.approved.where(en_youtube_url: [nil, '']).order(plantings_count: :desc)
+             when 'alternate_names'
+               Crop.approved.where.missing(:alternate_names).order(plantings_count: :desc)
+             when 'wikidata'
+               crops_with_wikidata = Crop.joins(:scientific_names).where.not(scientific_names: { wikidata_id: nil }).distinct
+               Crop.approved.where.not(id: crops_with_wikidata).order(plantings_count: :desc)
+             when 'row_spacing'
+               Crop.approved.where(row_spacing: nil).order(plantings_count: :desc)
+             when 'sun_requirements'
+               Crop.approved.where(sun_requirements: [nil, '']).order(plantings_count: :desc)
+             when 'height'
+               Crop.approved.where(height: nil).order(plantings_count: :desc)
+             when 'public_food_key'
+               Crop.approved.where(public_food_key: [nil, '']).order(plantings_count: :desc)
+             else
+               Crop.none
+             end
+  end
+
   private
 
   def notifier
@@ -212,10 +242,12 @@ class CropsController < ApplicationController
 
   def crop_params
     params.require(:crop).permit(
-      :name, :en_wikipedia_url,
+      :name, :en_wikipedia_url, :en_youtube_url,
       :parent_id, :perennial,
       :request_notes, :reason_for_rejection,
       :rejection_notes,
+      :description,
+      :public_food_key,
       :row_spacing, :spread, :height,
       :sowing_method, :sun_requirements, :growing_degree_days,
       scientific_names_attributes: %i(scientific_name _destroy id)

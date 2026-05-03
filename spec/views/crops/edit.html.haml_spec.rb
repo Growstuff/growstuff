@@ -5,9 +5,9 @@ require 'rails_helper'
 describe "crops/edit" do
   before do
     controller.stub(:current_user) do
-      FactoryBot.create(:crop_wrangling_member)
+      create(:crop_wrangling_member)
     end
-    @crop = FactoryBot.create(:maize)
+    @crop = create(:maize)
     3.times do
       @crop.scientific_names.build
     end

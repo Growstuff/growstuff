@@ -4,11 +4,11 @@ require 'rails_helper'
 
 describe "gardens/show" do
   before do
-    @owner = FactoryBot.create(:member)
+    @owner = create(:member)
     controller.stub(:current_user) { @owner }
-    @garden = FactoryBot.create(:garden, owner: @owner)
-    @planting = FactoryBot.create(:planting, garden: @garden, owner: @garden.owner)
-    @suggested_companions = FactoryBot.create_list(:crop, 4)
+    @garden = create(:garden, owner: @owner)
+    @planting = create(:planting, garden: @garden, owner: @garden.owner)
+    @suggested_companions = create_list(:crop, 4)
     assign(:garden, @garden)
     assign(:current_plantings, [@planting])
     assign(:finished_plantings, [])

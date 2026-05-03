@@ -31,6 +31,12 @@
   .form-group
     .col-md-offset-2.col-md-8.checkbox
       %label
+        = f.check_box :send_harvest_reminder
+        Receive regular reminders of upcoming harvests.
+
+  .form-group
+    .col-md-offset-2.col-md-8.checkbox
+      %label
         = f.check_box :newsletter
         Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
       .help-block

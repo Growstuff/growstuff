@@ -50,7 +50,6 @@ RSpec.configure do |config|
     Photo.reindex
     Planting.reindex
     Seed.reindex
-    Activity.reindex
   end
 
   config.before(:suite) do

@@ -85,7 +85,7 @@ class GbifService
   end
 
   def import!
-    Crop.order(updated_at: :desc).each do |crop|
+    Crop.order(updated_at: :desc).find_each do |crop|
       Rails.logger.debug { "#{crop.id}, #{crop.name}" }
       update_crop(crop) if crop.valid?
     rescue ActiveRecord::RecordInvalid

@@ -11,6 +11,6 @@ describe 'layouts/application.html.haml', type: "view" do
     Rails.application.config.analytics_code = '<script>console.log("foo!");</script>'
     render
     assert_select "script", text: 'console.log("foo!");'
-    rendered.should_not have_content 'script'
+    expect(rendered).to have_no_content 'script'
   end
 end
