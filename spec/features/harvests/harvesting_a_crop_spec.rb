@@ -54,6 +54,8 @@ describe "Harvesting a crop", :js, :search do
         visit crop_path(maize)
         click_link "Record harvest"
         click_link plant_part.name
+        # We then navigate to the new_harvest_path, and save.
+        click_button "Save"
       end
 
       it { expect(page).to have_content "harvest was successfully created." }
@@ -69,13 +71,20 @@ describe "Harvesting a crop", :js, :search do
         click_link plant_part.name
       end
 
-      it { expect(page).to have_content "harvest was successfully created." }
-      it { expect(page).to have_content planting.garden.name }
-      it { expect(page).to have_content "maize" }
+      it "saves" do
+        # We then navigate to the new_harvest_path, and save.
+        click_button "Save"
+
+        expect(page).to have_content "harvest was successfully created."
+        expect(page).to have_content planting.garden.name
+        expect(page).to have_content "maize"
+      end
 
       it "updates the planting rating" do
         find_by_id('harvest_overall_rating').set 4
         click_button "Save"
+        
+        expect(page).to have_content "harvest was successfully created."
         expect(planting.reload.overall_rating).to eq 4
       end
     end

@@ -1,5 +1,6 @@
 %h2= t('.recently_planted')
 - Planting.homepage_records(6).each do |planting|
+  - next unless planting['thumbnail_url'].present?
   = link_to planting_path(slug: planting['slug']), class: 'list-group-item list-group-item-action flex-column align-items-start' do
     .d-flex.w-100.justify-content-between.homepage--list-item
       %p.mb-2
