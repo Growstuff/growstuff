@@ -1,0 +1,6 @@
+.card.my-2
+  .card-body
+    %blockquote.blockquote.mb-0
+      %p= truncate(likeable.body, length: 140)
+      %footer.blockquote-footer
+        = link_to "view post", likeable

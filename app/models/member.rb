@@ -2,12 +2,14 @@
 
 class Member < ApplicationRecord
   include Discard::Model
+
   acts_as_messageable # messages can be sent to this model
   include Geocodable
   include MemberFlickr
   include MemberNewsletter
 
   extend FriendlyId
+
   friendly_id :login_name, use: %i(slugged finders)
 
   #
@@ -24,6 +26,20 @@ class Member < ApplicationRecord
   has_many :notifications, foreign_key: 'recipient_id', inverse_of: :recipient
   has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender, class_name: "Notification"
   has_many :authentications, dependent: :destroy
+  has_one :api_token, -> { where(provider: 'api') }, class_name: 'Authentication', dependent: :destroy
+
+  def api_token?
+    api_token.present?
+  end
+
+  def regenerate_api_token
+    api_token.destroy if api_token?
+    create_api_token(
+      provider: 'api',
+      uid:      id,
+      token:    SecureRandom.hex(16)
+    )
+  end
   has_many :photos, inverse_of: :owner
   has_many :likes, dependent: :destroy
 
@@ -35,6 +51,15 @@ class Member < ApplicationRecord
                              dependent: :destroy, inverse_of: :followed
   has_many :followed, through: :follows
   has_many :followers, through: :inverse_follows, source: :follower
+
+  #
+  # Blocking other members
+  has_many :blocks, class_name: "Block", foreign_key: "blocker_id", dependent: :destroy,
+                    inverse_of: :blocker
+  has_many :inverse_blocks, class_name: "Block", foreign_key: "blocked_id",
+                            dependent: :destroy, inverse_of: :blocked
+  has_many :blocked_members, through: :blocks, source: :blocked
+  has_many :blockers, through: :inverse_blocks, source: :blocker
 
   #
   # Global data records this member created
@@ -54,6 +79,7 @@ class Member < ApplicationRecord
   scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
   scope :wants_reminders, -> { where(send_planting_reminder: true) }
+  scope :wants_harvest_reminders, -> { where(send_harvest_reminder: true) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -80,20 +106,21 @@ class Member < ApplicationRecord
   validates :tos_agreement, acceptance: { allow_nil: true, accept: true }
   validates :login_name,
             length:     {
-              minimum: 2, maximum: 25, message: "should be between 2 and 25 characters long"
+              minimum: 2, maximum: 25, message: :login_name_length
             },
             exclusion:  {
-              in: %w(growstuff admin moderator staff nearby), message: "name is reserved"
+              in: %w(growstuff admin moderator staff nearby), message: :login_name_reserved
             },
             format:     {
-              with: /\A\w+\z/, message: "may only include letters, numbers, or underscores"
+              with: /\A\w+\z/, message: :login_name_format
             },
             uniqueness: {
               case_sensitive: false
             }
-  validates :website_url, format: { with: /\Ahttps?:\/\//, message: "must start with http:// or https://" }, allow_blank: true
-  validates :other_url, format: { with: /\Ahttps?:\/\//, message: "must start with http:// or https://" }, allow_blank: true
-  validates :instagram_handle, :facebook_handle, :bluesky_handle, format: { without: %r{\Ahttps?:\/\/|\/}, message: "should be a handle, not a URL" }, allow_blank: true
+  validates :website_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
+  validates :other_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
+  validates :instagram_handle, :facebook_handle, :bluesky_handle,
+            format: { without: %r{\Ahttps?://|/}, message: :handle_format }, allow_blank: true
 
   #
   # Triggers
@@ -135,7 +162,7 @@ class Member < ApplicationRecord
   end
 
   def unread_count
-    receipts.where(is_read: false).count
+    @unread_count ||= receipts.where(is_read: false).count
   end
 
   def self.login_name_or_email(login)
@@ -147,12 +174,12 @@ class Member < ApplicationRecord
   end
 
   def self.nearest_to(place)
-    nearby_members = []
-    if place
-      latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
-      nearby_members = Member.located.sort_by { |x| x.distance_from([latitude, longitude]) } if latitude && longitude
-    end
-    nearby_members
+    return [] if place.blank?
+
+    latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
+    return [] unless latitude && longitude
+
+    Member.located.near([latitude, longitude], 1000)
   end
 
   def already_following?(member)
@@ -161,5 +188,34 @@ class Member < ApplicationRecord
 
   def get_follow(member)
     follows.find_by(followed_id: member.id) if already_following?(member)
+  end
+
+  def already_blocking?(member)
+    blocks.exists?(blocked_id: member.id)
+  end
+
+  def get_block(member)
+    blocks.find_by(blocked_id: member.id) if already_blocking?(member)
+  end
+
+  def has_activity?
+    (gardens.exists? && gardens.count > 1) ||
+      plantings.exists? ||
+      harvests.exists? ||
+      seeds.exists? ||
+      photos.exists? ||
+      forums.exists? ||
+      activities.exists? ||
+      posts.exists? ||
+      comments.exists? ||
+      requested_crops.exists? ||
+      created_crops.exists? ||
+      likes.exists? ||
+      created_alternate_names.exists? ||
+      created_scientific_names.exists? ||
+      follows.exists? ||
+      inverse_follows.exists? ||
+      blocks.exists? ||
+      inverse_blocks.exists?
   end
 end

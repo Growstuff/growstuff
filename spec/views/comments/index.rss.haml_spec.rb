@@ -5,21 +5,21 @@ require 'rails_helper'
 describe 'comments/index.rss.haml' do
   before do
     controller.stub(:current_user) { nil }
-    @author = FactoryBot.create(:member)
-    @post = FactoryBot.create(:post)
+    @author = create(:member)
+    @post = create(:post)
     assign(:comments, [
-             FactoryBot.create(:comment, author: @author, commentable: @post),
-             FactoryBot.create(:comment, author: @author, commentable: @post)
+             create(:comment, author: @author, commentable: @post),
+             create(:comment, author: @author, commentable: @post)
            ])
     render
   end
 
   it 'shows RSS feed title' do
-    rendered.should have_content "Recent comments on all posts"
+    expect(rendered).to have_content "Recent comments on all posts"
   end
 
   it 'shows item title' do
-    rendered.should have_content "Comment by #{@author.login_name}"
+    expect(rendered).to have_content "Comment by #{@author.login_name}"
   end
 
   it 'escapes html for link to post' do
@@ -28,6 +28,6 @@ describe 'comments/index.rss.haml' do
   end
 
   it 'shows content of comments' do
-    rendered.should have_content "OMG LOL"
+    expect(rendered).to have_content "OMG LOL"
   end
 end

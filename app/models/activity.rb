@@ -4,7 +4,6 @@ class Activity < ApplicationRecord
   extend FriendlyId
   include Ownable
   include Finishable
-  include SearchActivities
   include Likeable
 
   belongs_to :garden, optional: true
@@ -30,4 +29,33 @@ class Activity < ApplicationRecord
   def to_s
     name
   end
+
+  def garden_name
+    garden&.name
+  end
+
+  def garden_slug
+    garden&.slug
+  end
+
+  def planting_name
+    planting&.crop&.name
+  end
+
+  def planting_slug
+    planting&.crop&.slug
+  end
+
+  scope :active, -> { where(finished: [false, nil]) }
+
+  def self.homepage_records(limit)
+    # Get the latest activity for each owner, then return the latest 'limit' of those
+    Activity.where(id: Activity.unscoped.select("DISTINCT ON (owner_id) id").order("owner_id, created_at DESC"))
+            .order(created_at: :desc)
+            .limit(limit)
+  end
+
+  def self.reindex(refresh: false); end
+
+  def reindex(refresh: false); end
 end

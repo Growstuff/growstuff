@@ -13,40 +13,49 @@ module PredictPlanting
 
     # dates
     def finish_predicted_at
-      if planted_at.blank? || failed?
-        nil
-      elsif crop.median_lifespan.present?
-        planted_at + crop.median_lifespan.days
-      elsif crop.parent.present? && crop.parent.median_lifespan.present?
-        planted_at + crop.parent.median_lifespan.days
-      end
+      return @finish_predicted_at if defined?(@finish_predicted_at)
+
+      @finish_predicted_at = if planted_at.blank? || failed?
+                               nil
+                             elsif crop.median_lifespan.present?
+                               planted_at + crop.median_lifespan.days
+                             elsif crop.parent.present? && crop.parent.median_lifespan.present?
+                               planted_at + crop.parent.median_lifespan.days
+                             end
     end
 
     # days
     def expected_lifespan
-      if actual_lifespan.present?
-        actual_lifespan
-      elsif crop.median_lifespan.present?
-        crop.median_lifespan
-      elsif crop.parent.present? && crop.parent.median_lifespan.present?
-        crop.parent.median_lifespan
-      end
+      return @expected_lifespan if defined?(@expected_lifespan)
+
+      @expected_lifespan = if actual_lifespan.present?
+                             actual_lifespan
+                           elsif crop.median_lifespan.present?
+                             crop.median_lifespan
+                           elsif crop.parent.present? && crop.parent.median_lifespan.present?
+                             crop.parent.median_lifespan
+                           end
     end
 
     def actual_lifespan
-      return unless planted_at.present? && finished_at.present? && !failed?
+      return @actual_lifespan if defined?(@actual_lifespan)
 
-      (finished_at - planted_at).to_i
+      @actual_lifespan = if planted_at.present? && finished_at.present? && !failed?
+                           (finished_at - planted_at).to_i
+                         end
     end
 
     def age_in_days
-      return if planted_at.blank?
-      return if failed?
+      return @age_in_days if defined?(@age_in_days)
 
-      known_last_day ||= finished_at || Time.zone.today
-      known_last_day = Time.zone.today if known_last_day > Time.zone.today
+      @age_in_days = if planted_at.blank? || failed?
+                       nil
+                     else
+                       known_last_day = finished_at || Time.zone.today
+                       known_last_day = Time.zone.today if known_last_day > Time.zone.today
 
-      (known_last_day - planted_at).to_i
+                       (known_last_day - planted_at).to_i
+                     end
     end
 
     def percentage_grown

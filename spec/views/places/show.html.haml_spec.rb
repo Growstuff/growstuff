@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe "places/show" do
   before do
-    @member = FactoryBot.create(:london_member)
-    @nearby_members = [FactoryBot.create(:member)]
+    @member = create(:london_member)
+    @nearby_members = [create(:member)]
     controller.stub(:current_user) { @member }
     controller.stub(:current_member) { @member }
     @place = @member.location
@@ -22,7 +22,7 @@ describe "places/show" do
 
   it "shows the names of nearby members" do
     @nearby_members.each do |m|
-      rendered.should have_content m.login_name
+      expect(rendered).to have_content m.login_name
     end
   end
 end

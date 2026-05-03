@@ -6,7 +6,7 @@
     Nobody has posted about #{crop.name.pluralize} yet.
   %p
     - if can? :create, Post
-      = link_to "Post something", new_post_path, class: 'btn btn-default'
+      = link_to "Post something", new_post_path(crop_id: crop.slug), class: 'btn btn-default'
     - else
       = render partial: "shared/signin_signup",
               locals: { to: "post your tips and experiences growing #{crop.name.pluralize}" }

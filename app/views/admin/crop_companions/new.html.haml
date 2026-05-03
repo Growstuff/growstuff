@@ -1,0 +1,6 @@
+%h1= "New Companion for #{@crop.name}"
+
+= bootstrap_form_for [:admin, @crop, @crop_companion] do |f|
+  = f.collection_select :crop_b_id, Crop.order(:name), :id, :name, { label: 'Companion' }
+  = f.text_field :source_url, label: 'Source URL'
+  = f.submit 'Create'

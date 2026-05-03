@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "footer", :js do
+describe "footer" do
   before { visit root_path }
 
   it "footer is on home page" do
@@ -10,7 +10,7 @@ describe "footer", :js do
   end
 
   it 'has the Open Service link and graphic' do
-    expect(page).to have_selector 'a[href="https://opendefinition.org/ossd/"]'
+    expect(page).to have_css 'a[href="https://opendefinition.org/ossd/"]'
   end
 
   # NB: not testing specific content in the footer since I'm going to put them

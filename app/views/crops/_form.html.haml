@@ -41,15 +41,51 @@
         = f.radio_button(:perennial, true, label: "Perennial")
         %span.help-block Living more than two years
 
+      %h2 Data
+      - if @crop.description.blank? || can?(:wrangle, @crop)
+        = f.text_area :description, label: 'Description'
+        - if @crop.parent
+          %span.help-block Parent: #{@crop.parent.description}
+      - if @crop.row_spacing.blank? || can?(:wrangle, @crop)
+        = f.number_field :row_spacing, label: 'Row Spacing (cm)', min: 0
+        - if @crop.parent
+          %span.help-block Parent: #{@crop.parent.row_spacing}
+      - if @crop.spread.blank? || can?(:wrangle, @crop)
+        = f.number_field :spread, label: 'Spread (cm)', min: 0
+        - if @crop.parent
+          %span.help-block Parent: #{@crop.parent.spread}
+      - if @crop.height.blank? || can?(:wrangle, @crop)
+        = f.number_field :height, label: 'Height (cm)', min: 0
+        - if @crop.parent
+          %span.help-block Parent: #{@crop.parent.height}
+      - if @crop.sowing_method.blank? || can?(:wrangle, @crop)
+        = f.text_field :sowing_method
+        - if @crop.parent
+          %span.help-block Parent: #{@crop.parent.sowing_method}
+      - if @crop.sun_requirements.blank? || can?(:wrangle, @crop)
+        = f.text_field :sun_requirements
+        - if @crop.parent
+          %span.help-block Parent: #{@crop.parent.sun_requirements}
+      - if @crop.growing_degree_days.blank? || can?(:wrangle, @crop)
+        = f.number_field :growing_degree_days, min: 0
+        - if @crop.parent
+          %span.help-block Parent: #{@crop.parent.growing_degree_days}
+      = f.text_field :public_food_key, label: 'Australian Food Composition Database Public Food Key'
+
       - unless @crop.approved?
         = link_to 'Search wikipedia', "https://en.wikipedia.org/w/index.php?search=#{@crop.name}", target: '_blank'
-      = f.url_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL'
-      %span.help-block
-        Link to the crop's page on the English language Wikipedia (required).
+      - if @crop.en_wikipedia_url.blank? || can?(:wrangle, @crop)
+        = f.url_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL'
+        %span.help-block
+          Link to the crop's page on the English language Wikipedia (required).
+      - if @crop.en_youtube_url.blank? || can?(:wrangle, @crop)
+        = f.url_field :en_youtube_url, label: 'YouTube URL'
+        %span.help-block
+          Link to a YouTube video about the crop in English.
 
       -# Only crop wranglers see the crop hierarchy (for now)
       - if can? :wrangle, @crop
-        = f.collection_select(:parent_id, Crop.all.order(:name), :id, :name,
+        = f.select(:parent_id, Crop.order(:name).pluck(:name, :id),
           { include_blank: true, label: 'Parent crop'})
         %span.help-block Optional. For setting up crop hierarchies for varieties etc.
 

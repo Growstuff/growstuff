@@ -49,12 +49,13 @@ describe "seeds", :js do
       click_link 'Edit'
       expect(page).to have_current_path edit_seed_path(seed), ignore_query: true
       fill_in 'Quantity', with: seed.quantity * 2
+      select 'traded from another person', from: 'Source'
       click_button 'Save'
       expect(page).to have_current_path seed_path(seed), ignore_query: true
     end
 
     describe "delete seeds" do
-      let(:seed) { FactoryBot.create(:seed, owner: member) }
+      let(:seed) { create(:seed, owner: member) }
 
       before do
         visit seed_path(seed)
@@ -71,25 +72,25 @@ describe "seeds", :js do
       before { visit seed_path(seed) }
 
       describe "view seeds with max and min days until maturity" do
-        let(:seed) { FactoryBot.create(:seed, days_until_maturity_min: 5, days_until_maturity_max: 7) }
+        let(:seed) { create(:seed, days_until_maturity_min: 5, days_until_maturity_max: 7) }
 
         it { expect(find('.seedfacts--maturity')).to have_content("5–7") }
       end
 
       describe "view seeds with only max days until maturity" do
-        let(:seed) { FactoryBot.create(:seed, days_until_maturity_max: 7) }
+        let(:seed) { create(:seed, days_until_maturity_max: 7) }
 
         it { expect(find('.seedfacts--maturity')).to have_content("7") }
       end
 
       describe "view seeds with only min days until maturity" do
-        let(:seed) { FactoryBot.create(:seed, days_until_maturity_min: 5) }
+        let(:seed) { create(:seed, days_until_maturity_min: 5) }
 
         it { expect(find('.seedfacts--maturity')).to have_content("5") }
       end
 
       describe "view seeds with neither max nor min days until maturity" do
-        let(:seed) { FactoryBot.create(:seed) }
+        let(:seed) { create(:seed) }
 
         it { expect(find('.seedfacts--maturity')).to have_content "unknown" }
       end

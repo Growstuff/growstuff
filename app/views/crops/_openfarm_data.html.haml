@@ -1,0 +1,33 @@
+- if crop.row_spacing || crop.spread || crop.height || crop.sowing_method || crop.sun_requirements || crop.growing_degree_days
+  = cute_icon
+  .card
+    .card-body
+      %h4 OpenFarm Data
+    %ul.list-group.list-group-flush
+      - if crop.row_spacing
+        %li.list-group-item
+          %strong Row Spacing:
+          = crop.row_spacing
+          cm
+      - if crop.spread
+        %li.list-group-item
+          %strong Spread:
+          = crop.spread
+          cm
+      - if crop.height
+        %li.list-group-item
+          %strong Height:
+          = crop.height
+          cm
+      - if crop.sowing_method
+        %li.list-group-item
+          %strong Sowing Method:
+          = crop.sowing_method
+      - if crop.sun_requirements
+        %li.list-group-item
+          %strong Sun Requirements:
+          = crop.sun_requirements
+      - if crop.growing_degree_days
+        %li.list-group-item
+          %strong Growing Degree Days:
+          = crop.growing_degree_days

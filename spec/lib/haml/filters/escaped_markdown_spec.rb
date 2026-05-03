@@ -21,7 +21,7 @@ describe 'Haml::Filters::Escaped_Markdown' do
   end
 
   it 'converts quick crop links' do
-    @crop = FactoryBot.create(:crop)
+    @crop = create(:crop)
     template = <<~HTML
       :escaped_markdown
         [#{@crop.name}](crop)

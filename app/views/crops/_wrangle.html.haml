@@ -14,6 +14,10 @@
           = icon 'far', 'update'
           Fetch data from GBIF
 
+        = link_to admin_crop_crop_companions_path(crop), class: 'dropdown-item' do
+          = icon 'fas', 'leaf'
+          Manage Companions
+
         - if can? :destroy, crop
           .dropdown-divider
           = delete_button(crop, classes: 'dropdown-item text-danger')

@@ -14,23 +14,23 @@ class AddLikeCounterCaches < ActiveRecord::Migration[5.2]
   end
 
   def data
-    execute <<-SQL.squish
-        UPDATE photos
-           SET likes_count = (
-             SELECT count(1)
-               FROM likes
-              WHERE likes.likeable_id = photos.id
-              AND likeable_type = 'Photo'
-              )
+    execute <<~SQL.squish
+      UPDATE photos
+         SET likes_count = (
+           SELECT count(1)
+             FROM likes
+            WHERE likes.likeable_id = photos.id
+            AND likeable_type = 'Photo'
+            )
     SQL
-    execute <<-SQL.squish
-        UPDATE posts
-           SET likes_count = (
-             SELECT count(1)
-               FROM likes
-              WHERE likes.likeable_id = posts.id
-              AND likeable_type = 'Post'
-              )
+    execute <<~SQL.squish
+      UPDATE posts
+         SET likes_count = (
+           SELECT count(1)
+             FROM likes
+            WHERE likes.likeable_id = posts.id
+            AND likeable_type = 'Post'
+            )
     SQL
   end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Crop < ApplicationRecord
+  has_paper_trail
   extend FriendlyId
   include PhotoCapable
   include OpenFarmData
@@ -27,6 +28,10 @@ class Crop < ApplicationRecord
   has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
   has_many :crop_posts, dependent: :delete_all
   has_many :posts, through: :crop_posts, dependent: :delete_all
+  has_one :australian_food_classification_data,
+          foreign_key: :public_food_key,
+          primary_key: :public_food_key,
+          inverse_of:  :crop
 
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
 
@@ -52,9 +57,15 @@ class Crop < ApplicationRecord
   validates :en_wikipedia_url,
             format: {
               with:    %r{\Ahttps?://en\.wikipedia\.org/wiki/[[:alnum:]%_.()-]+\z},
-              message: 'is not a valid English Wikipedia URL'
+              message: :not_a_valid_wikipedia_url
             },
             if:     :approved?
+  validates :en_youtube_url,
+            format: {
+              with:    %r{\A(?:https?://)?(?:www\.)?(?:youtube(?:-nocookie)?\.com/(?:(?:v|e(?:mbed)?)/|\S*?[?&]v=)|youtu\.be/)[a-zA-Z0-9_-]{11}(?:[?&]\S*)?\z},
+              message: :not_a_valid_youtube_url
+            },
+            allow_blank: true
   validates :name, uniqueness: { scope: :approval_status }, if: :pending?
 
   def to_s
@@ -90,7 +101,7 @@ class Crop < ApplicationRecord
   def popular_plant_parts
     PlantPart.joins(:harvests)
       .where("crop_id = ?", id)
-      .order("count_harvests_id DESC")
+      .order(count_harvests_id: :desc)
       .group("plant_parts.id", "plant_parts.name")
       .count("harvests.id")
   end
@@ -153,7 +164,19 @@ class Crop < ApplicationRecord
     where(["lower(crops.name) = :value", { value: name.downcase }])
   end
 
+  def all_companions
+    return companions unless parent
+
+    (companions + parent.all_companions).uniq
+  end
+
+  before_destroy :destroy_reverse_companionships
+
   private
+
+  def destroy_reverse_companionships
+    CropCompanion.where(crop_b: self).destroy_all
+  end
 
   def count_uses_of_property(col_name)
     plantings.unscoped
@@ -167,12 +190,12 @@ class Crop < ApplicationRecord
     return if rejected?
     return unless reason_for_rejection.present? || rejection_notes.present?
 
-    errors.add(:approval_status, "must be rejected if a reason for rejection is present")
+    errors.add(:approval_status, :rejection_reason_required)
   end
 
   def must_have_meaningful_reason_for_rejection
     return unless reason_for_rejection == "other" && rejection_notes.blank?
 
-    errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
+    errors.add(:rejection_notes, :rejection_notes_required)
   end
 end

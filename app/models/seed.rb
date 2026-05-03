@@ -6,12 +6,15 @@ class Seed < ApplicationRecord
   include Finishable
   include Ownable
   include SearchSeeds
+
   friendly_id :seed_slug, use: %i(slugged finders)
 
   TRADABLE_TO_VALUES = %w(nowhere locally nationally internationally).freeze
   ORGANIC_VALUES = ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'].freeze
   GMO_VALUES = ['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown'].freeze
   HEIRLOOM_VALUES = %w(heirloom hybrid unknown).freeze
+  SOURCE_VALUES = ['seed catalogue', 'retail outlet', 'seed bank or similar institution',
+                   'traded from another person', 'my own seed saving', 'other/unknown'].freeze
 
   #
   # Relationships
@@ -25,7 +28,7 @@ class Seed < ApplicationRecord
   #
   # Validations
   validates :crop, approved: true
-  validates :crop, presence: { message: "must be present and exist in our database" }
+  validates :crop, presence: { message: :crop_not_found }
   validates :quantity, allow_nil:    true,
                        numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :days_until_maturity_min, allow_nil:    true,
@@ -33,17 +36,15 @@ class Seed < ApplicationRecord
   validates :days_until_maturity_max, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :tradable_to, allow_blank: false,
-                          inclusion:   { in: TRADABLE_TO_VALUES, message: "You may only trade seed nowhere, " \
-                                                                          "locally, nationally, or internationally" }
+                          inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }
   validates :organic, allow_blank: false,
-                      inclusion:   { in: ORGANIC_VALUES, message: "You must say whether the seeds " \
-                                                                  "are organic or not, or that you don't know" }
+                      inclusion:   { in: ORGANIC_VALUES, message: :organic_inclusion }
   validates :gmo, allow_blank: false,
-                  inclusion:   { in: GMO_VALUES, message: "You must say whether the seeds are " \
-                                                          "genetically modified or not, or that you don't know" }
+                  inclusion:   { in: GMO_VALUES, message: :gmo_inclusion }
   validates :heirloom, allow_blank: false,
-                       inclusion:   { in: HEIRLOOM_VALUES, message: "You must say whether the seeds" \
-                                                                    "are heirloom, hybrid, or unknown" }
+                       inclusion:   { in: HEIRLOOM_VALUES, message: :heirloom_inclusion }
+  validates :source, allow_blank: true,
+                     inclusion:   { in: SOURCE_VALUES, message: :source_inclusion }
 
   #
   # Delegations
