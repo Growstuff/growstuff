@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe 'home/_seeds.html.haml', :search, type: "view" do
-  let!(:seed) { FactoryBot.create(:tradable_seed, owner:) }
-  let(:owner) { FactoryBot.create(:london_member) }
+  let!(:seed) { create(:tradable_seed, owner:) }
+  let(:owner) { create(:london_member) }
 
   before do
     Seed.searchkick_index.refresh

@@ -1,4 +1,9 @@
 - content_for :title, @member.login_name
+- content_for :meta_description do
+  - if @member.bio.present?
+    = @member.bio
+  - else
+    = "Gardening profile for #{@member.login_name}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: avatar_uri(@member, 200))
   = tag("meta", property: "og:image:user_generated", content: "true")

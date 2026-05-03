@@ -32,14 +32,14 @@ class ForumsController < ApplicationController
   # POST /forums.json
   def create
     @forum = Forum.new(forum_params)
-    flash[:notice] = 'Forum was successfully created.' if @forum.save
+    flash[:notice] = t('forums.created') if @forum.save
     respond_with(@forum)
   end
 
   # PUT /forums/1
   # PUT /forums/1.json
   def update
-    flash[:notice] = 'Forum was successfully updated.' if @forum.update(forum_params)
+    flash[:notice] = t('forums.updated') if @forum.update(forum_params)
     respond_with(@forum)
   end
 
@@ -47,7 +47,7 @@ class ForumsController < ApplicationController
   # DELETE /forums/1.json
   def destroy
     @forum.destroy
-    flash[:notice] = 'Forum was successfully deleted'
+    flash[:notice] = t('forums.deleted')
     redirect_to forums_url
   end
 

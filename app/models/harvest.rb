@@ -58,18 +58,18 @@ class Harvest < ApplicationRecord
   ##
   ## Validations
   validates :crop, approved: true
-  validates :crop, presence: { message: "must be present and exist in our database" }
-  validates :plant_part, presence: { message: "must be present and exist in our database" }
+  validates :crop, presence: { message: :crop_not_found }
+  validates :plant_part, presence: { message: :crop_not_found }
   validates :harvested_at, presence: true
   validates :quantity, allow_nil: true, numericality: {
     only_integer: false, greater_than_or_equal_to: 0
   }
   validates :unit, allow_blank: true, inclusion: {
-    in: UNITS_VALUES.values, message: "%<value>s is not a valid unit"
+    in: UNITS_VALUES.values, message: :not_a_valid_unit
   }
   validates :weight_quantity, allow_nil: true, numericality: { only_integer: false }
   validates :weight_unit, allow_blank: true, inclusion: {
-    in: WEIGHT_UNITS_VALUES.values, message: "%<value>s is not a valid unit"
+    in: WEIGHT_UNITS_VALUES.values, message: :not_a_valid_unit
   }
   validate :crop_must_match_planting
   validate :owner_must_match_planting
@@ -109,37 +109,49 @@ class Harvest < ApplicationRecord
   def to_s
     # 50 individual apples, weighing 3lb
     # 2 buckets of apricots, weighing 10kg
-    "#{quantity_to_human} #{unit_to_human} #{crop_name_to_human} #{weight_to_human}".strip
+    @to_s ||= "#{quantity_to_human} #{unit_to_human} #{crop_name_to_human} #{weight_to_human}".strip
   end
 
   def quantity_to_human
-    return number_to_human(quantity.to_s, strip_insignificant_zeros: true) if quantity
-
-    ""
+    @quantity_to_human ||= if quantity
+                             number_to_human(quantity.to_s, strip_insignificant_zeros: true)
+                           else
+                             ""
+                           end
   end
 
   def unit_to_human
-    return "" unless quantity && unit
-    return 'individual' if unit == 'individual'
-    return "#{unit} of" if quantity == 1
-
-    "#{unit.pluralize} of"
+    @unit_to_human ||= begin
+      if !quantity || !unit
+        ""
+      elsif unit == 'individual'
+        'individual'
+      elsif quantity == 1
+        "#{unit} of"
+      else
+        "#{unit.pluralize} of"
+      end
+    end
   end
 
   def weight_to_human
-    return "" unless weight_quantity
-
-    "weighing #{number_to_human(weight_quantity, strip_insignificant_zeros: true)} #{weight_unit}"
+    @weight_to_human ||= if weight_quantity
+                           "weighing #{number_to_human(weight_quantity, strip_insignificant_zeros: true)} #{weight_unit}"
+                         else
+                           ""
+                         end
   end
 
   def crop_name_to_human
-    if unit != 'individual' # buckets of apricot*s*
-      crop.name.pluralize
-    elsif quantity == 1
-      crop.name
-    else
-      crop.name.pluralize
-    end.to_s
+    @crop_name_to_human ||= begin
+      if unit != 'individual' # buckets of apricot*s*
+        crop.name.pluralize
+      elsif quantity == 1
+        crop.name
+      else
+        crop.name.pluralize
+      end.to_s
+    end
   end
 
   private
@@ -147,7 +159,7 @@ class Harvest < ApplicationRecord
   def crop_must_match_planting
     return if planting.blank? # only check if we are linked to a planting
 
-    errors.add(:planting, "must be the same crop") unless crop == planting.crop
+    errors.add(:planting, :same_crop_required) unless crop == planting.crop
   end
 
   def owner_must_match_planting
@@ -155,14 +167,13 @@ class Harvest < ApplicationRecord
 
     return if owner == planting.owner || planting.garden.garden_collaborators.where(member_id: owner).any?
 
-    errors.add(:owner,
-               "of harvest must be the same as planting, or a collaborator on that garden")
+    errors.add(:owner, :same_owner_required)
   end
 
   def harvest_must_be_after_planting
     # only check if we are linked to a planting
     return unless harvested_at.present? && planting.present? && planting.planted_at.present?
 
-    errors.add(:planting, "cannot be harvested before planting") unless harvested_at > planting.planted_at
+    errors.add(:planting, :harvest_after_planted) unless harvested_at > planting.planted_at
   end
 end

@@ -1,4 +1,9 @@
 = content_for :title, "#{@planting.crop} in #{@planting.location}"
+- content_for :meta_description do
+  - if @planting.description.present?
+    = @planting.description
+  - else
+    = "#{@planting.crop} planted in #{@planting.location} by #{@planting.owner}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: planting_image_path(@planting))
   = tag("meta", property: "og:title", content: "#{@planting.crop} in #{@planting.location}")
@@ -16,6 +21,8 @@
           "ratingValue": "#{@planting.overall_rating}",
           "bestRating": "5"
         }
+  %script{type: "application/ld+json"}
+    = crop_jsonld_data(@planting.crop, full_attributes: false).to_json.html_safe
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Plantings', plantings_path
@@ -83,6 +90,10 @@
 
       %section
         %h2 Current activities for planting
+        - if @cultivate_soil_link
+          .alert.alert-info
+            This was the last planting recently in this bed. Would you like to cultivate the soil soon?
+            = link_to 'Cultivate soil', @cultivate_soil_link, class: 'btn btn-secondary btn-sm ml-2'
         .index-cards
           - if @current_activities&.size&.positive?
             - @current_activities.each do |activity|

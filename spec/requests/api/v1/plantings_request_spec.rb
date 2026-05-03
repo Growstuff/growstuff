@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Plantings', type: :request do
+RSpec.describe 'Plantings' do
   subject { JSON.parse response.body }
 
   let(:headers)   { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:planting) { FactoryBot.create(:planting) }
+  let!(:planting) { create(:planting) }
   let(:planting_encoded_as_json_api) do
     { "id"            => planting.id.to_s,
       "type"          => "plantings",
@@ -102,7 +102,7 @@ RSpec.describe 'Plantings', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:crop) { create(:crop) }
     let(:garden) { create(:garden, owner: member) }
     let(:planting_params) do
@@ -140,7 +140,7 @@ RSpec.describe 'Plantings', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:planting) { create(:planting, owner: member) }
     let(:other_member_planting) { create(:planting) }
     let(:update_params) do
@@ -189,7 +189,7 @@ RSpec.describe 'Plantings', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let!(:planting) { create(:planting, owner: member) }
     let(:other_member_planting) { create(:planting) }
 
@@ -237,8 +237,8 @@ RSpec.describe 'Plantings', type: :request do
   end
 
   context 'filtering' do
-    let!(:planting2) { FactoryBot.create(:planting, failed: true, sunniness: 'shade') }
-    let!(:perennial_planting) { FactoryBot.create(:planting, crop: FactoryBot.create(:crop, perennial: true)) }
+    let!(:planting2) { create(:planting, failed: true, sunniness: 'shade') }
+    let!(:perennial_planting) { create(:planting, crop: create(:crop, perennial: true)) }
 
     it 'filters by failed' do
       get('/api/v1/plantings?filter[failed]=true', params: {}, headers:)

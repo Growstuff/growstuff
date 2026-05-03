@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :authentications, only: %i(create destroy)
 
   get "home/index"
+  get '/community-gardens', to: 'home#community_gardens'
   root to: 'home#index'
 
   concern :has_photos do
@@ -89,6 +90,14 @@ Rails.application.routes.draw do
       get 'wrangle'
       get 'hierarchy'
       get 'search'
+      get 'data_improvement'
+    end
+  end
+
+  namespace :admin do
+    resources :crops, only: [:index]
+    resources :versions, only: [] do
+      post :revert, on: :member, as: :revert
     end
   end
 
@@ -96,6 +105,7 @@ Rails.application.routes.draw do
   resources :forums
 
   resources :follows, only: %i(create destroy)
+  resources :blocks, only: %i(create destroy)
 
   post 'likes' => 'likes#create'
   delete 'likes' => 'likes#destroy'
@@ -112,6 +122,7 @@ Rails.application.routes.draw do
 
     resources :follows
     get 'followers' => 'follows#followers'
+    resources :blocks, only: %i(create destroy)
   end
 
   resources :messages
@@ -138,6 +149,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :members, param: :slug
     resources :roles
+    resources :crops, param: :slug do
+      resources :crop_companions
+    end
   end
 
   namespace :api do

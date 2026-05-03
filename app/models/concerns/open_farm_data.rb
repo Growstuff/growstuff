@@ -19,10 +19,6 @@ module OpenFarmData
       fetch_attr('tags_array')
     end
 
-    def description
-      fetch_attr('description')
-    end
-
     def common_names
       fetch_attr('common_names')
     end
@@ -43,6 +39,6 @@ module OpenFarmData
   def fetch_attr(key)
     return if openfarm_data.blank?
 
-    openfarm_data.fetch('attributes', {}).fetch(key, nil)
+    openfarm_data.dig('attributes', key)
   end
 end

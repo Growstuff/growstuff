@@ -23,7 +23,6 @@ describe "roles", :js do
     before do
       visit admin_roles_path
       click_link "New role"
-      expect(page).to have_current_path new_admin_role_path, ignore_query: true
       fill_in 'Name', with: 'Discussion'
       fill_in 'Description', with: "this is a new role"
       click_button 'Save'

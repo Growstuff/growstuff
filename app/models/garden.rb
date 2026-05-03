@@ -32,7 +32,7 @@ class Garden < ApplicationRecord
 
   validates :name, uniqueness: { scope: :owner_id }
   validates :name,
-            format: { without: /\n/, message: "must contain no newlines" },
+            format: { without: /\n/, message: :no_newlines },
             allow_blank: false, presence: true,
             length: { maximum: 255 }
 
@@ -53,7 +53,7 @@ class Garden < ApplicationRecord
     "acres"         => "acre"
   }.freeze
   validates :area_unit, inclusion:   { in:      AREA_UNITS_VALUES.values,
-                                       message: "%<value>s is not a valid area unit" },
+                                       message: :not_a_valid_area_unit },
                         allow_blank: true
 
   def cleanup_area
