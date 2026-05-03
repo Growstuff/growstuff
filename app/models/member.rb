@@ -162,7 +162,7 @@ class Member < ApplicationRecord
   end
 
   def unread_count
-    receipts.where(is_read: false).count
+    @unread_count ||= receipts.where(is_read: false).count
   end
 
   def self.login_name_or_email(login)

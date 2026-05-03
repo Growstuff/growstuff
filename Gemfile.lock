@@ -276,7 +276,7 @@ GEM
     elasticsearch-transport (7.0.0)
       faraday
       multi_json
-    erb (6.0.2)
+    erb (6.0.4)
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
@@ -889,6 +889,9 @@ DEPENDENCIES
   will_paginate
   will_paginate-bootstrap-style
   xmlrpc
+
+RUBY VERSION
+   ruby 3.4.9
 
 BUNDLED WITH
    2.4.22
