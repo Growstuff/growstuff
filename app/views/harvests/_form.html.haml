@@ -55,7 +55,7 @@
       - if @planting.present?
         .row
           .col-md-12
-            = f.range_field :overall_rating, min: 1, max: 5, value: @planting.overall_rating, include_blank: 'Leave blank', label: 'Overall Rating', list: "rating-list", title: "How well is the planting going?"
+            = f.range_field :overall_rating, min: 1, max: 5, value: @planting.overall_rating, include_blank: 'Leave blank', label: 'Overall Rating - Planting', list: "rating-list", title: "How well is the planting going?"
             %datalist{"id": "rating-list"}
               %option{"value": "1"} Poor
               %option{"value": "2"}
