@@ -1,15 +1,31 @@
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  host: localhost
-  username: postgres
-  password: postgres
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
 development:
-  <<: *default
-  database: growstuff_development
+  adapter: postgresql
+  database: growstuff_dev
+  user: postgres
+  password: postgres
+  host: db
 
 test:
-  <<: *default
+  adapter: postgresql
   database: growstuff_test
+  user: postgres
+  password: postgres
+  host: db
+
+production:
+  adapter: postgresql
+  database: growstuff_prod
+  pool: 5
+  timeout: 5000
+  username: growstuff
+  host: localhost
+  password: thisisnottherealpassword
+
+staging:
+  adapter: postgresql
+  database: growstuff_prod
+  pool: 5
+  timeout: 5000
+  username: growstuff
+  host: localhost
+  password: thisisnottherealpassword
