@@ -61,7 +61,7 @@ gem 'unicorn'                      # http server
 gem "comfortable_mexican_sofa", git: "https://github.com/restarone/comfortable-mexican-sofa.git"
 
 gem 'active_utils'
-gem 'solid_queue'
+gem 'sidekiq'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
