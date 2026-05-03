@@ -63,7 +63,7 @@ Rails.application.configure do
                          down_retry_delay:     60 }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
-  # config.active_job.queue_adapter     = :resque
+  config.active_job.queue_adapter = :solid_queue
   # config.active_job.queue_name_prefix = "growstuff_#{Rails.env}"
   config.action_mailer.perform_caching = false
 
@@ -105,7 +105,6 @@ Rails.application.configure do
     <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100594260ns.gif" /></p></noscript>
   GET_CLICKY_SCRIPT
 
-  config.active_job.queue_adapter = :sidekiq
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
