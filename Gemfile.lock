@@ -82,8 +82,8 @@ GEM
     active_link_to (1.0.5)
       actionpack
       addressable
-    active_median (1.0.0)
-      activesupport (>= 7.2)
+    active_median (0.6.0)
+      activesupport (>= 7.1)
     active_record_union (1.4.0)
       activerecord (>= 6.0)
     active_utils (3.6.0)
@@ -236,7 +236,7 @@ GEM
     csv_shaper (1.4.0)
       activesupport (>= 3.0.0)
       csv
-    dalli (5.0.2)
+    dalli (4.3.3)
       logger
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
@@ -477,7 +477,7 @@ GEM
     paper_trail (17.0.0)
       activerecord (>= 7.1)
       request_store (~> 1.4)
-    parallel (2.0.1)
+    parallel (1.28.0)
     parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
@@ -886,7 +886,7 @@ DEPENDENCIES
   xmlrpc
 
 RUBY VERSION
-   ruby 3.4.8p72
+   ruby 3.2.3p157
 
 BUNDLED WITH
    2.4.22
