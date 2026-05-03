@@ -2,7 +2,7 @@
 
 class GardensController < DataController
   def index
-    @owner = Member.find_by(slug: params[:member_slug])
+    @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
     @show_all = params[:all] == '1'
     @show_jump_to = params[:member_slug].present? || false
 

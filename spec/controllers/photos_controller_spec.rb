@@ -60,6 +60,7 @@ describe PhotosController, :search do
       sign_in member
       member.stub(:flickr_photos) { [[], 0] }
       member.stub(:flickr_sets) { { "foo" => "bar" } }
+      member.stub(:flickr_auth_valid?) { true }
       controller.stub(:current_member) { member }
     end
 
@@ -84,6 +85,16 @@ describe PhotosController, :search do
 
       it { expect(assigns(:item)).to eq garden }
       it { expect(flash[:alert]).not_to be_present }
+    end
+
+    describe "filtering by tag" do
+      let(:tag) { "tomato" }
+
+      it "passes the tag to flickr_photos" do
+        expect(member).to receive(:flickr_photos).with(anything, nil, tag).and_return([[], 0])
+        get :new, params: { type: "planting", id: planting.id, tag: tag }
+        expect(assigns(:current_tag)).to eq tag
+      end
     end
   end
 

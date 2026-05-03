@@ -3,6 +3,7 @@
 module Charts
   class CropsController < ApplicationController
     respond_to :json
+    before_action :set_crop
 
     def sunniness
       pie_chart_query 'sunniness'
@@ -13,8 +14,7 @@ module Charts
     end
 
     def harvested_for
-      @crop = Crop.find_by!(slug: params[:crop_slug])
-      data = Rails.cache.fetch("#{@crop.cache_key_with_version}/harvested_for", expires_in: 8.hours) do
+      data = Rails.cache.fetch("#{@crop.cache_key_with_version}/harvested_for", expires_in: 1.day) do
         Harvest.joins(:plant_part)
           .where(crop: @crop)
           .group("plant_parts.name").count(:id)
@@ -24,9 +24,12 @@ module Charts
 
     private
 
-    def pie_chart_query(field)
+    def set_crop
       @crop = Crop.find_by!(slug: params[:crop_slug])
-      data = Rails.cache.fetch("#{@crop.cache_key_with_version}/#{field}", expires_in: 8.hours) do
+    end
+
+    def pie_chart_query(field)
+      data = Rails.cache.fetch("#{@crop.cache_key_with_version}/#{field}", expires_in: 1.day) do
         Planting.where(crop: @crop)
           .where.not(field.to_sym => nil)
           .where.not(field.to_sym => '')

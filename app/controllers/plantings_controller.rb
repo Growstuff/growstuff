@@ -11,9 +11,9 @@ class PlantingsController < DataController
     where = {}
     where['active'] = true unless @show_all
 
-    if params[:member_slug]
-      @owner = Member.find_by(slug: params[:member_slug])
-      where['owner_id'] = @owner.id unless @owner.nil?
+    if params[:member_slug].present?
+      @owner = Member.find_by!(slug: params[:member_slug])
+      where['owner_id'] = @owner.id
     end
 
     if params[:crop_slug]
@@ -160,7 +160,7 @@ class PlantingsController < DataController
   end
 
   def matching_seeds
-    Seed.where(crop: @planting.crop, owner: @planting.owner)
+    @matching_seeds ||= Seed.where(crop: @planting.crop, owner: @planting.owner)
       .where('(finished_at IS NULL OR finished_at >= ?)', @planting.planted_at)
       .where('(saved_at IS NULL OR saved_at <= ?)', @planting.planted_at)
   end

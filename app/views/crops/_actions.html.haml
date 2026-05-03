@@ -5,5 +5,8 @@
     = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
     = render 'harvests/modal', harvest: Harvest.new(crop: @crop,  owner: current_member)
     = render 'seeds/modal', seed: Seed.new(crop: @crop,  owner: current_member)
+    = link_to new_post_path(crop_id: crop.slug), class: 'btn', id: 'post-button' do
+      = post_icon
+      Post
     - if active_plantings.any?
       = render 'plantings/failed_modal', crop: crop, active_plantings: active_plantings

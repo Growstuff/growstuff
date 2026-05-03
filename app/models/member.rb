@@ -79,6 +79,7 @@ class Member < ApplicationRecord
   scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
   scope :wants_reminders, -> { where(send_planting_reminder: true) }
+  scope :wants_harvest_reminders, -> { where(send_harvest_reminder: true) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -195,5 +196,26 @@ class Member < ApplicationRecord
 
   def get_block(member)
     blocks.find_by(blocked_id: member.id) if already_blocking?(member)
+  end
+
+  def has_activity?
+    (gardens.exists? && gardens.count > 1) ||
+      plantings.exists? ||
+      harvests.exists? ||
+      seeds.exists? ||
+      photos.exists? ||
+      forums.exists? ||
+      activities.exists? ||
+      posts.exists? ||
+      comments.exists? ||
+      requested_crops.exists? ||
+      created_crops.exists? ||
+      likes.exists? ||
+      created_alternate_names.exists? ||
+      created_scientific_names.exists? ||
+      follows.exists? ||
+      inverse_follows.exists? ||
+      blocks.exists? ||
+      inverse_blocks.exists?
   end
 end
