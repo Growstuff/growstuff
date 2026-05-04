@@ -20,6 +20,7 @@ module Api
         end
 
         serializer = JSONAPI::ResourceSerializer.new(Api::V1::CropResource)
+
         data = resources.map do |resource|
           serializer.object_hash(resource, {})
         end

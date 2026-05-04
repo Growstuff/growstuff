@@ -6,6 +6,9 @@
   },
   "basePath": "/api/v1",
   "paths": {
+    "/crops": {
+      "get": {
+        "summary": "crops List",
     "/crops/search": {
       "get": {
         "summary": "crops Search",
@@ -85,9 +88,6 @@
         }
       }
     },
-    "/crops": {
-      "get": {
-        "summary": "crops List",
         "tags": [
           "crops"
         ],
