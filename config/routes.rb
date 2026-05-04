@@ -157,7 +157,11 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       jsonapi_resources :activities
-      jsonapi_resources :crops
+      jsonapi_resources :crops do
+        collection do
+          get :search
+        end
+      end
       jsonapi_resources :gardens
       jsonapi_resources :harvests
       jsonapi_resources :members
