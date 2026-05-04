@@ -14,7 +14,11 @@ Bundler.require(*Rails.groups)
 module Growstuff
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 8.0
+
+    # Rails 7.1+ requires a coder for `serialize`.
+    # We set YAML as the default for compatibility with gems like Mexican Sofa.
+    config.active_record.default_column_serializer = YAML
 
     I18n.config.enforce_available_locales = true
 
