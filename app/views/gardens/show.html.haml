@@ -122,6 +122,23 @@
             %strong Garden type:
             = @garden.garden_type.name
 
+        - if @garden.location_wikidata_id.present?
+          %p
+            %strong Wikidata:
+            = link_to @garden.location_wikidata_id, "https://www.wikidata.org/wiki/#{@garden.location_wikidata_id}", target: '_blank', rel: 'noopener noreferrer'
+          - if @garden.highest_temp_c.present?
+            %p
+              %strong Highest temperature:
+              = "#{ @garden.highest_temp_c.round(1) }°C"
+          - if @garden.lowest_temp_c.present?
+            %p
+              %strong Lowest temperature:
+              = "#{ @garden.lowest_temp_c.round(1) }°C"
+        - elsif can?(:edit, @garden) && @garden.location.present?
+          .alert.alert-info
+            %p Wikidata information is missing for this location.
+            = button_to "Fetch Wikidata info", fetch_wikidata_garden_path(@garden), method: :post, class: 'btn btn-info btn-sm'
+
     .card
       .card-header
         %h4 #{@garden.owner}'s gardens

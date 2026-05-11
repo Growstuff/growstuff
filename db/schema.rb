@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_29_132911) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_11_035341) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -631,6 +631,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_29_132911) do
     t.decimal "area"
     t.string "area_unit"
     t.integer "garden_type_id"
+    t.string "location_wikidata_id"
+    t.float "lowest_temp_c"
+    t.float "highest_temp_c"
     t.index ["garden_type_id"], name: "index_gardens_on_garden_type_id"
     t.index ["owner_id"], name: "index_gardens_on_owner_id"
     t.index ["slug"], name: "index_gardens_on_slug", unique: true
