@@ -102,6 +102,8 @@
           %strong Collaborators:
           - if can?(:create, GardenCollaborator.new(garden: @garden))
             = link_to "Manage", garden_garden_collaborators_path(@garden)
+          - elsif current_member.present? && (collab = @garden.garden_collaborators.find_by(member: current_member))
+            = link_to "Leave garden", garden_garden_collaborator_path(@garden, collab), method: :delete, class: 'text-danger', data: { confirm: 'Are you sure you want to leave this garden?' }
           - if @garden.garden_collaborators.any?
             %ul
               - @garden.garden_collaborators.each do |collabator|
