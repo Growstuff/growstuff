@@ -123,17 +123,25 @@
             = @garden.garden_type.name
 
         - if @garden.location_wikidata_id.present?
+          %hr
           %p
-            %strong Wikidata:
-            = link_to @garden.location_wikidata_id, "https://www.wikidata.org/wiki/#{@garden.location_wikidata_id}", target: '_blank', rel: 'noopener noreferrer'
-          - if @garden.highest_temp_c.present?
-            %p
-              %strong Highest temperature:
+            %small
+              Data about this location from 
+              = link_to "wikidata", "https://www.wikidata.org/wiki/#{@garden.location_wikidata_id}", target: '_blank', rel: 'noopener noreferrer'
+
+          %p
+            %strong Highest temperature:
+            - if @garden.highest_temp_c.present?
               = "#{ @garden.highest_temp_c.round(1) }°C"
-          - if @garden.lowest_temp_c.present?
-            %p
-              %strong Lowest temperature:
+            - else
+              Not known
+          %p
+            %strong Lowest temperature:
+            - if @garden.lowest_temp_c.present?
               = "#{ @garden.lowest_temp_c.round(1) }°C"
+            - else
+              Not known
+
         - elsif can?(:edit, @garden) && @garden.location.present?
           .alert.alert-info
             %p Wikidata information is missing for this location.
