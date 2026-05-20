@@ -236,7 +236,7 @@ GEM
     csv_shaper (1.4.0)
       activesupport (>= 3.0.0)
       csv
-    dalli (5.0.2)
+    dalli (5.0.4)
       logger
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
