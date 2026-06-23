@@ -8,6 +8,8 @@ class Harvest < ApplicationRecord
   include SearchHarvests
   include Likeable
 
+  attr_accessor :overall_rating
+
   friendly_id :harvest_slug, use: %i(slugged finders)
 
   # Constants
