@@ -47,7 +47,6 @@ RSpec.configure do |config|
     # reindex models
     Crop.reindex
     Harvest.reindex
-    Photo.reindex
     Planting.reindex
     Seed.reindex
   end

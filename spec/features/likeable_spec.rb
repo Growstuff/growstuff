@@ -6,13 +6,9 @@ describe 'Likeable', :js, :search do
   let(:another_member) { create(:london_member) }
   let!(:post)           { create(:post, :reindex, author: member) }
   let!(:activity)       { create(:activity, :reindex, owner: member) }
-  let!(:photo)          { create(:photo, :reindex, owner: member) }
+  let!(:photo)          { create(:photo, owner: member) }
   let!(:harvest)        { create(:harvest, :reindex, owner: member) }
   let!(:planting)       { create(:planting, :reindex, owner: member) }
-
-  before do
-    Photo.reindex
-  end
 
   include_context 'signed in member'
 
