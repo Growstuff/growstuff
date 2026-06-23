@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_01_045000) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_29_132911) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -631,6 +631,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_01_045000) do
     t.decimal "area"
     t.string "area_unit"
     t.integer "garden_type_id"
+    t.string "location_wikidata_id"
+    t.float "lowest_temp_c"
+    t.float "highest_temp_c"
     t.index ["garden_type_id"], name: "index_gardens_on_garden_type_id"
     t.index ["owner_id"], name: "index_gardens_on_owner_id"
     t.index ["slug"], name: "index_gardens_on_slug", unique: true
@@ -786,6 +789,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_01_045000) do
     t.string "facebook_handle"
     t.string "bluesky_handle"
     t.string "other_url"
+    t.boolean "send_harvest_reminder", default: true, null: false
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true

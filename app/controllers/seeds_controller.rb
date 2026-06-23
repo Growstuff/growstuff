@@ -30,7 +30,7 @@ class SeedsController < DataController
       page:     params[:page],
       limit:    30,
       boost_by: [:created_at],
-      load:     false
+      load:     (request.format.csv? ? { include: %i(crop owner) } : false)
     )
 
     respond_with(@seeds)

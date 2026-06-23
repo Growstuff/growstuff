@@ -165,9 +165,11 @@ class Crop < ApplicationRecord
   end
 
   def all_companions
-    return companions unless parent
-
-    (companions + parent.all_companions).uniq
+    @all_companions ||= if parent
+                          (companions + parent.all_companions).uniq
+                        else
+                          companions
+                        end
   end
 
   before_destroy :destroy_reverse_companionships

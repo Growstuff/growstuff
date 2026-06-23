@@ -456,3 +456,9 @@ en:
       all: Not authorized to %{action} %{subject}.
     read:
       notification: You must be signed in to view notifications.
+  notifier_mailer:
+    harvest_reminder:
+      subject: "Upcoming harvests in your garden - %{sitename}"
+      heading: "Upcoming harvests in your garden"
+      intro: "Based on our predictions, the following plantings in your garden are likely to be ready for harvest within the next week:"
+      unsubscribe: "Unsubscribe from harvest reminders"

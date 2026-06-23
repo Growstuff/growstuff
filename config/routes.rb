@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
   resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
+    post 'fetch_wikidata' => 'gardens#fetch_wikidata', on: :member
 
     resources :garden_collaborators
   end
@@ -157,6 +158,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       jsonapi_resources :activities
+      get "crops/search", to: "crops#search"
       jsonapi_resources :crops
       jsonapi_resources :gardens
       jsonapi_resources :harvests
