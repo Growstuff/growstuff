@@ -25,7 +25,7 @@ ENV RAILS_ENV=production \
 WORKDIR /app
 
 # Install gems
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock .ruby-version ./
 RUN bundle config set --local deployment 'true' && \
     bundle config set --local without 'development test' && \
     bundle install --jobs 4 --retry 3
