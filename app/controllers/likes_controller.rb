@@ -11,7 +11,7 @@ class LikesController < ApplicationController
       likeable_id:   params[:id]
     )
     if @like.likeable && @like.save
-      @like.likeable.reindex(refresh: true)
+      @like.likeable.reindex(refresh: true) if @like.likeable.respond_to?(:reindex)
       success(@like, liked_by_member: true, status_code: :created)
     else
       failed(@like, message: t('messages.unable_to_like'))
@@ -26,7 +26,7 @@ class LikesController < ApplicationController
     )
 
     if @like&.destroy
-      @like.likeable.reindex(refresh: true)
+      @like.likeable.reindex(refresh: true) if @like.likeable.respond_to?(:reindex)
       success(@like, liked_by_member: false, status_code: :ok)
     else
       failed(@like, message: t('messages.unable_to_unlike'))
