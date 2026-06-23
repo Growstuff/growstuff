@@ -28,7 +28,6 @@ describe "home page", :search do
     Planting.reindex
     Seed.reindex
     Harvest.reindex
-    Photo.reindex
 
     visit root_path
   end
