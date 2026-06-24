@@ -14,9 +14,9 @@ describe "home page" do
   let(:seed)    { create(:tradable_seed, owner: member, crop:) }
   let(:harvest) { create(:harvest, owner: member, crop:)       }
 
-  let!(:tradable_seed) { create(:tradable_seed, :reindex, finished: false)  }
-  let!(:finished_seed)   { create(:tradable_seed, :reindex, finished: true) }
-  let!(:untradable_seed) { create(:untradable_seed, :reindex)               }
+  let!(:tradable_seed) { create(:tradable_seed, finished: false)  }
+  let!(:finished_seed)   { create(:tradable_seed, finished: true) }
+  let!(:untradable_seed) { create(:untradable_seed)               }
 
   before do
     # Add photos, so they can appear on home page
@@ -26,7 +26,6 @@ describe "home page" do
 
     Crop.reindex
     Planting.reindex
-    Seed.reindex
 
     visit root_path
   end
