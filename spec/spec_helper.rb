@@ -46,7 +46,6 @@ RSpec.configure do |config|
   def index_everything
     # reindex models
     Crop.reindex
-    Seed.reindex
   end
 
   config.before(:suite) do

@@ -5,7 +5,6 @@ class Seed < ApplicationRecord
   include PhotoCapable
   include Finishable
   include Ownable
-  include SearchSeeds
 
   friendly_id :seed_slug, use: %i(slugged finders)
 
@@ -72,5 +71,12 @@ class Seed < ApplicationRecord
 
   def to_s
     I18n.t('seeds.string', crop: crop.name, owner:)
+  end
+
+  def self.homepage_records(limit)
+    current.tradable
+           .where("plant_before IS NULL OR plant_before < ?", Time.zone.today)
+           .order(created_at: :desc)
+           .limit(limit)
   end
 end
