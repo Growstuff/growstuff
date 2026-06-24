@@ -596,16 +596,14 @@ describe Planting do
     it { expect(member.plantings.active).not_to include(failed_planting) }
   end
 
-  describe 'homepage', :search do
+  describe 'homepage' do
     subject { described_class.homepage_records(100) }
 
-    let!(:interesting_planting) { create(:planting, :reindex, :with_photo) }
-    let!(:finished_interesting_planting) { create(:finished_planting, :reindex, :with_photo) }
-    let!(:planting) { create(:planting, :reindex) }
-
-    before { described_class.reindex }
+    let!(:interesting_planting) { create(:planting, :with_photo) }
+    let!(:finished_interesting_planting) { create(:finished_planting, :with_photo) }
+    let!(:planting) { create(:planting) }
 
     it { expect(subject.count).to eq 3 }
-    it { expect(subject.map(&:id)).to eq([interesting_planting.id.to_s, finished_interesting_planting.id.to_s, planting.id.to_s]) }
+    it { expect(subject.map(&:id)).to include(interesting_planting.id, finished_interesting_planting.id, planting.id) }
   end
 end

@@ -46,10 +46,6 @@ RSpec.configure do |config|
   def index_everything
     # reindex models
     Crop.reindex
-    Planting.reindex
-    Seed.reindex
-  rescue StandardError => e
-    puts "Skipping reindex: #{e.message}"
   end
 
   config.before(:suite) do

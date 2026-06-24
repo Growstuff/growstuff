@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-describe 'plantings/index.rss.haml', :search do
+describe 'plantings/index.rss.haml' do
   before do
-    controller.stub(:current_user) { nil }
+    allow(view).to receive(:current_user).and_return(nil)
   end
 
   context 'all plantings' do
@@ -12,8 +12,7 @@ describe 'plantings/index.rss.haml', :search do
       @planting = create(:planting)
       @sunny = create(:sunny_planting)
       @seedling = create(:seedling_planting)
-      Planting.searchkick_index.refresh
-      assign(:plantings, Planting.search(load: false))
+      assign(:plantings, Planting.all)
       render
     end
 

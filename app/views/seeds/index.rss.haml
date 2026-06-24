@@ -17,6 +17,6 @@
             <p>Heirloom? #{seed.heirloom}</p>
           - if seed.tradable
             :escaped
-              <p>Will trade #{seed.tradable_to} from #{seed.location ||= 'unknown location'}</p>
+              <p>Will trade #{seed.tradable_to} from #{seed.location || 'unknown location'}</p>
         %link= seed_url(slug: seed.slug)
         %guid= seed_url(slug: seed.slug)
