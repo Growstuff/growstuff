@@ -21,7 +21,7 @@ cal.description = "Plantings by #{@owner.login_name}"
 
   event.dtstart     = Time.at(planting['created_at'])
   event.dtend       = finish_date || 1.day.from_now
-  event.summary     = planting['crop_name']
+  event.summary     = planting.crop.name
   event.description = lines.join("\n")
   event.ip_class    = "PUBLIC"
   event.url = planting_url(slug: planting['slug'])
@@ -34,7 +34,7 @@ cal.description = "Plantings by #{@owner.login_name}"
     todo = Icalendar::Todo.new
     todo.dtstart = predicted_date || finish_date || Date.today
     todo.due = finish_date
-    todo.summary = "Harvest #{planting['crop_name']}"
+    todo.summary = "Harvest #{planting.crop.name}"
 
     cal.add_todo(todo)
 
@@ -42,7 +42,7 @@ cal.description = "Plantings by #{@owner.login_name}"
     event = Icalendar::Event.new
     event.dtstart = predicted_date || finish_date || Date.today
     event.dtend = finish_date
-    event.summary = "Harvest #{planting['crop_name']}"
+    event.summary = "Harvest #{planting.crop.name}"
     event.ip_class    = "PUBLIC"
     event.url = planting_url(slug: planting['slug'])
 

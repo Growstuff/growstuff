@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PlantingsController, :search do
+describe PlantingsController do
   login_member
 
   def valid_attributes
@@ -12,7 +12,7 @@ describe PlantingsController, :search do
     }
   end
 
-  describe "GET index", :search do
+  describe "GET index" do
     let!(:first_member)      { create(:member)                                                       }
     let!(:second_member)     { create(:member)                                                       }
     let!(:tomato)            { create(:tomato)                                                       }
@@ -20,16 +20,12 @@ describe PlantingsController, :search do
     let!(:tomato_planting)   { create(:planting, crop: tomato, owner: first_member, created_at: 1.day.ago) }
     let!(:maize_planting)    { create(:planting, crop: maize, owner: second_member, created_at: 5.days.ago) }
 
-    before do
-      Planting.reindex
-    end
-
     describe "assigns all plantings as @plantings" do
       before { get :index }
 
       it { expect(assigns(:plantings).size).to eq 2 }
-      it { expect(assigns(:plantings)[0]['slug']).to eq tomato_planting.slug }
-      it { expect(assigns(:plantings)[1]['slug']).to eq maize_planting.slug }
+      it { expect(assigns(:plantings)[0].slug).to eq tomato_planting.slug }
+      it { expect(assigns(:plantings)[1].slug).to eq maize_planting.slug }
     end
 
     describe "picks up owner from params and shows owner's plantings only" do
@@ -37,14 +33,14 @@ describe PlantingsController, :search do
 
       it { expect(assigns(:owner)).to eq first_member }
       it { expect(assigns(:plantings).size).to eq 1 }
-      it { expect(assigns(:plantings).first['slug']).to eq tomato_planting.slug }
+      it { expect(assigns(:plantings).first.slug).to eq tomato_planting.slug }
     end
 
     describe "picks up crop from params and shows the plantings for the crop only" do
       before { get :index, params: { crop_slug: maize.slug } }
 
       it { expect(assigns(:crop)).to eq maize }
-      it { expect(assigns(:plantings).first['slug']).to eq maize_planting.slug }
+      it { expect(assigns(:plantings).first.slug).to eq maize_planting.slug }
     end
   end
 
