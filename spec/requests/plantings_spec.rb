@@ -35,7 +35,6 @@ days_to_last_harvest: 20)
         events = calendar.events
         expect(events.length).to eq 7
 
-        # Predicted finish should be used
         predictable_event = events.find { |e| e.dtend.to_date == @predictable_planting.finish_predicted_at }
         expect(predictable_event.summary.to_s).to include @predictable_planting.crop.name
         expect(predictable_event.dtstart.to_datetime.to_i).to be_within(1.second).of @predictable_planting.created_at.to_i
