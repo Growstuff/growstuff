@@ -33,7 +33,6 @@ days_to_last_harvest: 20)
         calendar = Icalendar::Parser.new(response.body, true).parse.first
         expect(calendar.description[0].to_s).to eq "Plantings by #{@member.login_name}"
         events = calendar.events
-        # puts events.map { |e| [e.summary.to_s, e.dtstart.to_datetime, e.dtend.to_date, e.description.to_s] }.inspect
         expect(events.length).to eq 7
 
         # TODO: Better date comparison
