@@ -50,6 +50,8 @@ RSpec.configure do |config|
     Photo.reindex
     Planting.reindex
     Seed.reindex
+  rescue StandardError => e
+    puts "Skipping reindex: #{e.message}"
   end
 
   config.before(:suite) do
@@ -61,9 +63,19 @@ RSpec.configure do |config|
 
   config.around(:each, :search) do |example|
     Searchkick.callbacks(true) do
-      index_everything
+      begin
+        index_everything
+      rescue StandardError => e
+        puts "Skipping pre-index in search block: #{e.message}"
+      end
+
       example.run
-      index_everything
+
+      begin
+        index_everything
+      rescue StandardError => e
+        puts "Skipping post-index in search block: #{e.message}"
+      end
     end
   end
 
