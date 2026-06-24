@@ -3,6 +3,7 @@
 # JSONAPI::Resources (0.10.7) is currently incompatible with Rails 8.1
 # because ActionDispatch::Routing::Mapper::Resources::Resource.initialize now expects keyword arguments for only/except.
 # This patch ensures that it passes keyword arguments correctly.
+# Remove when https://github.com/JSONAPI-Resources/jsonapi-resources/issues/1488 is fixed
 
 if defined?(JSONAPI)
   module ActionDispatch
