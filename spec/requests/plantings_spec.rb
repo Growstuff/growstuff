@@ -24,7 +24,6 @@ days_to_last_harvest: 20)
       @finished_planting = create(:finished_planting, owner: @member)
       @annual_planting = create(:annual_planting, owner: @member)
       @perennial_planting = create(:perennial_planting, owner: @member)
-      Planting.reindex
     end
 
     describe "GET /members/x/plantings.ics" do

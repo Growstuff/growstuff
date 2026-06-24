@@ -25,7 +25,6 @@ describe "home page" do
     harvest.photos << photo
 
     Crop.reindex
-    Planting.reindex
     Seed.reindex
 
     visit root_path

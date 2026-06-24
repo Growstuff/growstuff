@@ -68,9 +68,5 @@ FactoryBot.define do
         planting.save
       end
     end
-
-    trait :reindex do
-      # Decoupled from Elasticsearch
-    end
   end
 end
