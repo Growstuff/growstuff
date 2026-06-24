@@ -85,16 +85,18 @@ days_to_last_harvest: 20)
         data = CSV.parse(response.body, headers: true)
         expect(data.headers).to eq expected_headers
 
-        expect(data[1]["Crop name"]).to eq @predictable_planting.crop.name
-        expect(data[1]["Owner name"]).to eq @member.to_s
-        expect(data[1]["Garden name"]).to eq @predictable_planting.garden.to_s
-        expect(data[1]["Description"]).to eq @predictable_planting.description
-        expect(data[1]["Date planted"]).to eq @predictable_planting.planted_at.to_fs(:db)
-        expect(data[1]["Quantity"].to_i).to eq @predictable_planting.quantity
-        expect(data[1]["Sunniness"]).to eq @predictable_planting.sunniness
-        expect(data[1]["Planted from"]).to eq @predictable_planting.planted_from
-        expect(data[1]["Date added"]).to eq @predictable_planting.created_at.to_fs(:db)
-        expect(data[1]["License"]).to eq "CC-BY-SA Growstuff http://growstuff.org/"
+        row = data.detect { |crop_name| @predictable_planting.id.to_s == crop_name['Id'] }
+
+        expect(row["Crop name"]).to eq @predictable_planting.crop.name
+        expect(row["Owner name"]).to eq @member.to_s
+        expect(row["Garden name"]).to eq @predictable_planting.garden.to_s
+        expect(row["Description"]).to eq @predictable_planting.description
+        expect(row["Date planted"]).to eq @predictable_planting.planted_at.to_fs(:db)
+        expect(row["Quantity"].to_i).to eq @predictable_planting.quantity
+        expect(row["Sunniness"]).to eq @predictable_planting.sunniness
+        expect(row["Planted from"]).to eq @predictable_planting.planted_from
+        expect(row["Date added"]).to eq @predictable_planting.created_at.to_fs(:db)
+        expect(row["License"]).to eq "CC-BY-SA Growstuff http://growstuff.org/"
 
         expect(data.count).to eq 6
       end
