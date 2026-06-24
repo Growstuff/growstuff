@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe HarvestsController, :search do
+describe HarvestsController do
   login_member
 
   def valid_attributes
@@ -22,14 +22,12 @@ describe HarvestsController, :search do
     let!(:tomato_harvest)   { create(:harvest, owner_id: first_member.id, crop_id: tomato.id)  }
     let!(:maize_harvest)    { create(:harvest, owner_id: second_member.id, crop_id: maize.id)  }
 
-    before { Harvest.reindex }
-
     describe "assigns all harvests as @harvests" do
       before { get :index, params: {} }
 
       it { expect(assigns(:harvests).size).to eq 2 }
-      it { expect(assigns(:harvests)[0].slug).to eq tomato_harvest.slug }
-      it { expect(assigns(:harvests)[1].slug).to eq maize_harvest.slug }
+      it { expect(assigns(:harvests)).to include(tomato_harvest) }
+      it { expect(assigns(:harvests)).to include(maize_harvest) }
     end
 
     describe "picks up owner from params and shows owner's harvests only" do

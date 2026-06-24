@@ -5,6 +5,5 @@ namespace :search do
   task reindex: :environment do
     Crop.reindex
     Planting.reindex
-    Harvest.reindex
   end
 end

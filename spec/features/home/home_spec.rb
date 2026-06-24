@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "home page", :search do
+describe "home page" do
   subject { page }
 
   let(:member) { create(:member) }
@@ -26,7 +26,6 @@ describe "home page", :search do
 
     Crop.reindex
     Planting.reindex
-    Harvest.reindex
 
     visit root_path
   end

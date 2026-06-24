@@ -6,8 +6,6 @@ class ElasticIndexing < ActiveRecord::Migration[5.2]
     Crop.reindex
     say 'indexing plantings'
     Planting.reindex
-    say 'indexing harvests'
-    Harvest.reindex
     say 'indexing photos'
     Photo.reindex
   end

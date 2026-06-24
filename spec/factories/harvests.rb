@@ -29,8 +29,5 @@ FactoryBot.define do
   end
 
   trait :reindex do
-    after(:create) do |harvest, _evaluator|
-      harvest.reindex(refresh: true)
-    end
   end
 end
