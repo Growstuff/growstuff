@@ -4,27 +4,26 @@ class HarvestsController < DataController
   after_action :update_crop_medians, only: %i(create update destroy)
 
   def index
-    where = {}
+    @harvests = Harvest.all
+
     if params[:member_slug].present?
       @owner = Member.find_by!(slug: params[:member_slug])
-      where['owner_id'] = @owner.id
+      @harvests = @harvests.where(owner_id: @owner.id)
     end
 
     if params[:crop_slug]
       @crop = Crop.find_by(slug: params[:crop_slug])
-      where['crop_id'] = @crop.id
+      @harvests = @harvests.where(crop_id: @crop.id) if @crop
     end
 
     if params[:planting_slug]
       @planting = Planting.find_by(slug: params[:planting_slug])
-      where['planting_id'] = @planting.id
+      @harvests = @harvests.where(planting_id: @planting.id) if @planting
     end
 
-    @harvests = Harvest.search('*', where:,
-                                    limit:    100,
-                                    page:     params[:page],
-                                    load:     (request.format.csv? ? { include: %i(crop owner plant_part) } : false),
-                                    boost_by: [:created_at])
+    @harvests = @harvests.includes(:crop, :owner, :plant_part)
+
+    @harvests = @harvests.recent.paginate(page: params[:page], per_page: 100)
 
     @filename = csv_filename
 
