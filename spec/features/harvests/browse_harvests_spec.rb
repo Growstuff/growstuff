@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "browse harvests", :search do
+describe "browse harvests" do
   subject { page }
 
   let!(:harvest) { create(:harvest, owner: member) }
@@ -11,10 +11,9 @@ describe "browse harvests", :search do
     include_context 'signed in member'
 
     describe 'blank optional fields' do
-      let!(:harvest) { create(:harvest, :no_description, :reindex) }
+      let!(:harvest) { create(:harvest, :no_description) }
 
       before do
-        Harvest.reindex
         visit harvests_path
       end
 
@@ -24,10 +23,9 @@ describe "browse harvests", :search do
     end
 
     describe "filled in optional fields" do
-      let!(:harvest) { create(:harvest, :long_description, :reindex) }
+      let!(:harvest) { create(:harvest, :long_description) }
 
       before do
-        Harvest.reindex
         visit harvests_path
       end
 
