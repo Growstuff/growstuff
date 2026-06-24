@@ -6,6 +6,5 @@ namespace :search do
     Crop.reindex
     Planting.reindex
     Harvest.reindex
-    Seed.reindex
   end
 end

@@ -26,7 +26,6 @@ describe "home page", :search do
 
     Crop.reindex
     Planting.reindex
-    Seed.reindex
     Harvest.reindex
 
     visit root_path

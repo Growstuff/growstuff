@@ -48,7 +48,6 @@ RSpec.configure do |config|
     Crop.reindex
     Harvest.reindex
     Planting.reindex
-    Seed.reindex
   end
 
   config.before(:suite) do
