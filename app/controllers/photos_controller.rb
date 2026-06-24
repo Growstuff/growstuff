@@ -9,13 +9,17 @@ class PhotosController < ApplicationController
   responders :flash
 
   def index
-    @photos = Photo.search(
-      load:     false,
-      boost_by: [:created_at],
-      where:    index_where_clause,
-      page:     params[:page],
-      limit:    Photo.per_page
-    )
+    @photos = if @crop
+                @crop.photos
+              elsif @planting
+                @planting.photos
+              else
+                Photo.all
+              end
+
+    @photos = @photos.includes(:owner)
+                     .order(created_at: :desc)
+                     .paginate(page: params[:page], per_page: Photo.per_page)
     respond_with(@photos)
   end
 
@@ -111,18 +115,6 @@ class PhotosController < ApplicationController
 
     @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
       pager.replace photos
-    end
-  end
-
-  def index_where_clause
-    if params[:crop_slug]
-      { crops: @crop.id }
-    elsif params[:planting_id]
-      { planting_id: @planting.id }
-    elsif params[:planting_slug]
-      { plantings: @planting.id }
-    else
-      {}
     end
   end
 

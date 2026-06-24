@@ -46,8 +46,6 @@ RSpec.configure do |config|
   def index_everything
     # reindex models
     Crop.reindex
-    Harvest.reindex
-    Photo.reindex
     Planting.reindex
     Seed.reindex
   rescue StandardError => e

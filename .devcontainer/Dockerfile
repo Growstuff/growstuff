@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/devcontainers/ruby:3.4-trixie
 
 # Install Rails
-RUN gem install rails:7.0.8
+RUN gem install rails:8.0.5
 
 # Default value to allow debug server to serve content over GitHub Codespace's port forwarding service
 # The value is a comma-separated list of allowed domains
