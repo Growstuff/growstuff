@@ -70,9 +70,7 @@ FactoryBot.define do
     end
 
     trait :reindex do
-      after(:create) do |planting, _evaluator|
-        planting.reindex(refresh: true)
-      end
+      # Decoupled from Elasticsearch
     end
   end
 end
