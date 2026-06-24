@@ -865,7 +865,7 @@ DEPENDENCIES
   xmlrpc
 
 RUBY VERSION
-   ruby 3.2.3p157
+   ruby 3.4.9
 
 BUNDLED WITH
    2.4.22
