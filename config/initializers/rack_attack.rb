@@ -27,6 +27,11 @@ class Rack::Attack
     end
   end
 
+  # Abusive services
+  blocklist('block Semrush crawler') do |request|
+    request.user_agent.to_s.downcase.include?('semrush')
+  end
+  
   ### Custom Response Headers ###
 
   # Add Retry-After header to throttled responses
