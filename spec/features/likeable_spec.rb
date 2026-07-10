@@ -8,7 +8,7 @@ describe 'Likeable', :js, :search do
   let!(:activity)       { create(:activity, :reindex, owner: member) }
   let!(:photo)          { create(:photo, owner: member) }
   let!(:harvest)        { create(:harvest, :reindex, owner: member) }
-  let!(:planting)       { create(:planting, :reindex, owner: member) }
+  let!(:planting)       { create(:planting, owner: member) }
 
   include_context 'signed in member'
 

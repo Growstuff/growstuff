@@ -213,16 +213,14 @@ describe Seed do
     end
   end
 
-  describe 'homepage', :search do
+  describe 'homepage' do
     subject { described_class.homepage_records(100) }
 
-    let!(:tradable_seed) { create(:tradable_seed, :reindex, finished: false)  }
-    let!(:finished_seed)   { create(:tradable_seed, :reindex, finished: true) }
-    let!(:untradable_seed) { create(:untradable_seed, :reindex)               }
-
-    before { described_class.reindex }
+    let!(:tradable_seed) { create(:tradable_seed, finished: false)  }
+    let!(:finished_seed)   { create(:tradable_seed, finished: true) }
+    let!(:untradable_seed) { create(:untradable_seed)               }
 
     it { expect(subject.count).to eq 1 }
-    it { expect(subject.first.id).to eq tradable_seed.id.to_s }
+    it { expect(subject.first.id).to eq tradable_seed.id }
   end
 end

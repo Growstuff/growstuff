@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "home page", :search do
+describe "home page" do
   subject { page }
 
   let(:member) { create(:member) }
@@ -14,9 +14,9 @@ describe "home page", :search do
   let(:seed)    { create(:tradable_seed, owner: member, crop:) }
   let(:harvest) { create(:harvest, owner: member, crop:)       }
 
-  let!(:tradable_seed) { create(:tradable_seed, :reindex, finished: false)  }
-  let!(:finished_seed)   { create(:tradable_seed, :reindex, finished: true) }
-  let!(:untradable_seed) { create(:untradable_seed, :reindex)               }
+  let!(:tradable_seed) { create(:tradable_seed, finished: false)  }
+  let!(:finished_seed)   { create(:tradable_seed, finished: true) }
+  let!(:untradable_seed) { create(:untradable_seed)               }
 
   before do
     # Add photos, so they can appear on home page
@@ -25,9 +25,6 @@ describe "home page", :search do
     harvest.photos << photo
 
     Crop.reindex
-    Planting.reindex
-    Seed.reindex
-    Harvest.reindex
 
     visit root_path
   end
