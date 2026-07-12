@@ -57,19 +57,11 @@ RSpec.configure do |config|
 
   config.around(:each, :search) do |example|
     Searchkick.callbacks(true) do
-      begin
-        index_everything
-      rescue StandardError => e
-        puts "Skipping pre-index in search block: #{e.message}"
-      end
+      index_everything
 
       example.run
 
-      begin
-        index_everything
-      rescue StandardError => e
-        puts "Skipping post-index in search block: #{e.message}"
-      end
+      index_everything
     end
   end
 
