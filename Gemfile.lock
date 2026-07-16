@@ -466,7 +466,7 @@ GEM
     parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
-    percy-capybara (5.0.0)
+    percy-capybara (5.0.1)
       capybara (>= 3)
     pg (1.6.3)
     pg (1.6.3-x86_64-linux)
