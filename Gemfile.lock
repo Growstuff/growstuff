@@ -463,7 +463,7 @@ GEM
       activerecord (>= 7.1)
       request_store (~> 1.4)
     parallel (2.1.0)
-    parser (3.3.11.1)
+    parser (3.3.12.0)
       ast (~> 2.4.1)
       racc
     percy-capybara (5.0.1)
@@ -672,7 +672,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    scout_apm (6.2.0)
+    scout_apm (6.2.1)
       parser
     searchkick (5.3.1)
       activemodel (>= 6.1)
