@@ -421,6 +421,25 @@ describe Planting do
       planting.photos << @photo2
       expect(planting.default_photo).to eq @photo2
     end
+
+    describe '#thumbnail_url' do
+      let(:crop_photo) { create(:photo) }
+
+      it 'returns its own default photo if present' do
+        expect(planting.thumbnail_url).to eq photo.fullsize_url
+      end
+
+      it 'falls back to crop default photo if no planting photo is present' do
+        planting_without_photo = create(:planting, crop:)
+        PhotoAssociation.create!(photo: crop_photo, photographable: crop)
+        expect(planting_without_photo.thumbnail_url).to eq crop_photo.fullsize_url
+      end
+
+      it 'returns nil if neither planting nor crop has a photo' do
+        planting_without_photo = create(:planting, crop:)
+        expect(planting_without_photo.thumbnail_url).to be_nil
+      end
+    end
   end
 
   context 'interesting plantings' do
