@@ -219,7 +219,7 @@ GEM
       gli (>= 2.7.0)
       i18n (>= 0.6.4)
       rubyzip (>= 1.0.0)
-    csv (3.3.5)
+    csv (3.3.6)
     csv_shaper (1.4.0)
       activesupport (>= 3.0.0)
       csv
