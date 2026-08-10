@@ -46,6 +46,8 @@ RSpec.configure do |config|
   def index_everything
     # reindex models
     Crop.reindex
+  rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Errno::ECONNREFUSED => e
+    warn "Searchkick/Elasticsearch is not available: #{e.message}. Skipping reindexing."
   end
 
   config.before(:suite) do

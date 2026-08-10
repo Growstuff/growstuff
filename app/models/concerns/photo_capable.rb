@@ -18,9 +18,11 @@ module PhotoCapable
     def thumbnail_url
       df = default_photo
 
-      return unless df
-
-      df.source == 'flickr' ? df.fullsize_url : df.thumbnail_url
+      if df
+        df.source == 'flickr' ? df.fullsize_url : df.thumbnail_url
+      elsif respond_to?(:crop) && crop.present?
+        crop.thumbnail_url
+      end
     end
 
     def most_liked_photo

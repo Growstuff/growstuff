@@ -43,4 +43,8 @@ RSpec.configure do |config|
   config.append_after do
     DatabaseCleaner.clean
   end
+
+  config.before(:each) do
+    Rails.cache.clear
+  end
 end
