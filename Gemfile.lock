@@ -307,7 +307,7 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
-    haml_lint (0.76.0)
+    haml_lint (0.77.0)
       haml (>= 5.0)
       parallel (>= 1.10)
       rainbow
@@ -705,7 +705,7 @@ GEM
       sprockets (>= 3.0.0)
     ssrf_filter (1.5.0)
     sysexits (1.2.0)
-    temple (0.10.4)
+    temple (0.10.6)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     terser (1.2.8)
