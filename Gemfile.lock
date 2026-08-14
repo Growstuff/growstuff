@@ -447,7 +447,7 @@ GEM
     nokogiri (1.19.4-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (0.5.7)
-    oj (3.17.5)
+    oj (3.17.6)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     omniauth (1.9.2)
