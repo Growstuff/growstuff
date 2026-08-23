@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/ruby:3.4-trixie
+FROM mcr.microsoft.com/devcontainers/ruby:4-trixie
 
 # Install Rails
 RUN gem install rails:8.0.5

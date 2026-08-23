@@ -1,4 +1,4 @@
-FROM ruby:3.4.10-trixie
+FROM 4.0.6-trixie
 
 # Install system dependencies
 RUN apt-get update -qq && \
