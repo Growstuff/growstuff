@@ -5,7 +5,9 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 8.0.0'
+gem 'rails', '~> 8.1.0'
+
+gem 'csv'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -16,6 +18,7 @@ gem 'bundler', '>= 2.4.22'
 gem 'coffee-rails'
 gem 'haml'
 gem 'sassc-rails'
+gem 'oauth', '1.1.6' # Explicitly pinned, as the maintainer does huge (400 files, 45k lines) changes in point releases - required manual plus agentic security review.
 
 # API data
 gem 'jsonapi-resources'

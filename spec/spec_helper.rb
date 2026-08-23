@@ -58,7 +58,9 @@ RSpec.configure do |config|
   config.around(:each, :search) do |example|
     Searchkick.callbacks(true) do
       index_everything
+
       example.run
+
       index_everything
     end
   end
