@@ -18,7 +18,7 @@ gem 'bundler', '>= 2.4.22'
 gem 'coffee-rails'
 gem 'haml'
 gem 'sassc-rails'
-gem 'oauth', '1.1.1'
+gem 'oauth', '1.1.2'
 
 # API data
 gem 'jsonapi-resources'
