@@ -154,5 +154,6 @@ Disallow: /
 #
 User-agent: *
 Disallow: /api/
+Disallow: /dont-crawl-me
 
 Sitemap: https://growstuff-prod.s3.us-west-2.amazonaws.com/sitemap.xml.gz
