@@ -20,6 +20,9 @@ class PhotosController < ApplicationController
     @photos = @photos.includes(:owner)
                      .order(created_at: :desc)
                      .paginate(page: params[:page], per_page: Photo.per_page)
+
+    raise ActiveRecord::RecordNotFound if @photos.out_of_bounds?
+
     respond_with(@photos)
   end
 
