@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class NotifierMailer < ApplicationMailer
-  # include NotificationsHelper
+  include NotificationsHelper
   default from: "Growstuff <#{ENV.fetch('GROWSTUFF_EMAIL', nil)}>"
 
   def verifier
