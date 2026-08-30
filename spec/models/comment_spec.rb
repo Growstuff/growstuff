@@ -7,11 +7,11 @@ describe Comment do
     let(:comment) { create(:comment) }
 
     it "belongs to a post" do
-      comment.commentable.should be_an_instance_of Post
+      expect(comment.commentable).to be_an_instance_of Post
     end
 
     it "belongs to an author" do
-      comment.author.should be_an_instance_of Member
+      expect(comment.author).to be_an_instance_of Member
     end
   end
 
@@ -25,11 +25,11 @@ describe Comment do
     it "sets the notification fields" do
       @c = create(:comment)
       @n = Notification.first
-      @n.sender.should eq @c.author
-      @n.recipient.should eq @c.commentable.author
-      @n.subject.should include 'commented on'
-      @n.body.should eq @c.body
-      @n.notifiable.should eq @c.commentable # polymorphic association, this is a Post.
+      expect(@n.sender).to eq @c.author
+      expect(@n.recipient).to eq @c.commentable.author
+      expect(@n.subject).to include 'commented on'
+      expect(@n.body).to eq @c.body
+      expect(@n.notifiable).to eq @c.commentable # polymorphic association, this is a Post.
     end
 
     it "doesn't send notifications to yourself" do
@@ -65,7 +65,7 @@ describe Comment do
     end
 
     it 'has a scope for ASC order for displaying on post page' do
-      described_class.post_order.should eq [@c1, @c2]
+      expect(described_class.post_order).to eq [@c1, @c2]
     end
   end
 end

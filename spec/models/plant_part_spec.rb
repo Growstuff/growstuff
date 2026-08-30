@@ -5,7 +5,7 @@ require 'rails_helper'
 describe PlantPart do
   it 'stringifies' do
     @pp = create(:plant_part)
-    @pp.to_s.should eq @pp.name
+    expect(@pp.to_s).to eq @pp.name
   end
 
   it 'has crops' do
