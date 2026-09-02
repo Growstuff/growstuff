@@ -123,6 +123,11 @@ class CropsController < ApplicationController
     if can?(:wrangle, @crop)
       @crop.approval_status = 'rejected' if params.fetch("reject", false)
       @crop.approval_status = 'approved' if params.fetch("approve", false)
+      if params.fetch("restore", false)
+        @crop.approval_status = 'pending'
+        @crop.reason_for_rejection = nil
+        @crop.rejection_notes = nil
+      end
     end
 
     @crop.creator = current_member if @crop.approval_status == "pending"
