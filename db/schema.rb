@@ -789,6 +789,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_29_132911) do
     t.string "facebook_handle"
     t.string "bluesky_handle"
     t.string "other_url"
+    t.string "timezone"
     t.boolean "send_harvest_reminder", default: true, null: false
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
@@ -900,6 +901,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_29_132911) do
     t.integer "harvests_count", default: 0
     t.integer "likes_count", default: 0
     t.boolean "failed", default: false, null: false
+    t.boolean "from_other_source"
     t.integer "overall_rating"
     t.index ["crop_id"], name: "index_plantings_on_crop_id"
     t.index ["garden_id"], name: "index_plantings_on_garden_id"
@@ -921,6 +923,43 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_29_132911) do
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["forum_id"], name: "index_posts_on_forum_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
+  end
+
+  create_table "problem_posts", force: :cascade do |t|
+    t.bigint "problem_id"
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_problem_posts_on_post_id"
+    t.index ["problem_id", "post_id"], name: "index_problem_posts_on_problem_id_and_post_id", unique: true
+    t.index ["problem_id"], name: "index_problem_posts_on_problem_id"
+  end
+
+  create_table "problems", force: :cascade do |t|
+    t.string "name"
+    t.string "reason_for_rejection"
+    t.string "rejection_notes"
+    t.string "approval_status", default: "pending", null: false
+    t.bigint "requester_id"
+    t.bigint "creator_id"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_problems_on_creator_id"
+    t.index ["name"], name: "index_problems_on_name"
+    t.index ["requester_id"], name: "index_problems_on_requester_id"
+    t.index ["slug"], name: "index_problems_on_slug"
+  end
+
+  create_table "push_subscriptions", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.string "endpoint", null: false
+    t.string "p256dh", null: false
+    t.string "auth", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["endpoint"], name: "index_push_subscriptions_on_endpoint", unique: true
+    t.index ["member_id"], name: "index_push_subscriptions_on_member_id"
   end
 
   create_table "roles", id: :serial, force: :cascade do |t|
@@ -995,5 +1034,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_29_132911) do
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
+  add_foreign_key "problem_posts", "posts"
+  add_foreign_key "problem_posts", "problems"
+  add_foreign_key "problems", "members", column: "creator_id"
+  add_foreign_key "problems", "members", column: "requester_id"
+  add_foreign_key "push_subscriptions", "members"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end

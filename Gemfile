@@ -133,6 +133,10 @@ gem 'rack-cors'
 
 gem 'icalendar'
 
+# for web push notifications
+gem 'web-push'
+gem 'serviceworker-rails'
+
 # for signups as requested by email service
 gem 'recaptcha'
 
