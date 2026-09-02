@@ -204,6 +204,15 @@ class CropsController < ApplicationController
   def recreate_names(param_name, name_type)
     return if params[param_name].blank?
 
+    # Get the submitted names, reject blanks, and sort for comparison
+    submitted_names = params[param_name].values.reject(&:blank?).sort
+    # Get the existing names from the database, and sort for comparison
+    existing_names = @crop.send("#{name_type}_names").pluck(:name).sort
+
+    # Return early to prevent destroying and recreating names (and their associated attributes)
+    # if the list of names has not changed.
+    return if submitted_names == existing_names
+
     @crop.send("#{name_type}_names").each(&:destroy)
     params[param_name].each_value do |value|
       next if value.empty?
@@ -226,7 +235,7 @@ class CropsController < ApplicationController
       :public_food_key,
       :row_spacing, :spread, :height,
       :sowing_method, :sun_requirements, :growing_degree_days,
-      scientific_names_attributes: %i(scientific_name _destroy id)
+      scientific_names_attributes: %i(name _destroy id)
     )
   end
 
