@@ -73,7 +73,17 @@ class PlantingsController < DataController
   end
 
   def update
-    @planting.update(planting_params)
+    if planting_params[:from_other_source] == 'true'
+      @planting.parent_seed_id = nil
+      @planting.from_other_source = true
+    end
+
+    if @planting.update(planting_params)
+      if planting_params[:finished].present? && @planting.garden.plantings.current.empty?
+        link = new_activity_path(name: 'Cultivate soil', garden_id: @planting.garden_id)
+        flash[:notice] = t('plantings.finished_prompt_html', link: link).html_safe
+      end
+    end
     respond_with @planting
   end
 
@@ -122,7 +132,7 @@ class PlantingsController < DataController
     params[:planted_at] = parse_date(params[:planted_at]) if params[:planted_at]
     params.require(:planting).permit(
       :crop_id, :description, :garden_id, :planted_at,
-      :parent_seed_id,
+      :parent_seed_id, :from_other_source,
       :quantity, :sunniness, :planted_from, :finished,
       :finished_at, :failed, :overall_rating
     )

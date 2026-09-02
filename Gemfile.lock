@@ -418,7 +418,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2025.0805)
+    mime-types-data (3.2025.0826)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
@@ -773,7 +773,6 @@ GEM
     zeitwerk (2.8.3)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES
