@@ -4,10 +4,10 @@ require 'rails_helper'
 
 describe ApplicationHelper do
   it "parses dates" do
-    parse_date(nil).should be_nil
-    parse_date('').should be_nil
-    parse_date('2012-05-12').should eq Date.new(2012, 5, 12)
-    parse_date('may 12th 2012').should eq Date.new(2012, 5, 12)
+    expect(parse_date(nil)).to be_nil
+    expect(parse_date('')).to be_nil
+    expect(parse_date('2012-05-12')).to eq Date.new(2012, 5, 12)
+    expect(parse_date('may 12th 2012')).to eq Date.new(2012, 5, 12)
   end
 
   describe '#avatar_uri' do

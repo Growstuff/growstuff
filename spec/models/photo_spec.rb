@@ -174,7 +174,7 @@ describe Photo do
     # So we're just going to test that the method exists.
     it 'exists' do
       photo = described_class.new(owner_id: 1)
-      photo.should.respond_to? :flickr_metadata
+      expect(photo).to respond_to :flickr_metadata
     end
   end
 

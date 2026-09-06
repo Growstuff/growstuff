@@ -21,7 +21,10 @@ describe "Conversations", :js do
     include_examples 'is accessible'
 
     it { expect(page).to have_content 'something i want to say' }
-    it { page.percy_snapshot(page, name: 'conversations#index') }
+    it "takes a percy snapshot" do
+      expect(page).to have_content 'something i want to say'
+      page.percy_snapshot(page, name: 'conversations#index')
+    end
 
     describe 'deleting' do
       before do

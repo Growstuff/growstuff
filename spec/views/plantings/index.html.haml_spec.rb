@@ -54,12 +54,12 @@ describe "plantings/index.html.haml" do
   it "displays member's name in title" do
     assign(:owner, member)
     render
-    view.content_for(:title).should have_content member.login_name
+    expect(view.content_for(:title)).to have_content member.login_name
   end
 
   it "displays crop's name in title" do
     assign(:crop, tomato)
     render
-    view.content_for(:title).should have_content tomato.name
+    expect(view.content_for(:title)).to have_content tomato.name
   end
 end

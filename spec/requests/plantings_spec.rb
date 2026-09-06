@@ -7,7 +7,7 @@ describe "Plantings" do
     it "works! (now write some real specs)" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
       get plantings_path
-      response.status.should be(200)
+      expect(response.status).to be(200)
     end
   end
 
@@ -47,7 +47,7 @@ days_to_last_harvest: 20)
 
         # TBA: Perennial and annual crops predictions of 'next' harvest date don't really fit
 
-        response.status.should be(200)
+        expect(response.status).to be(200)
       end
     end
 
@@ -78,7 +78,7 @@ days_to_last_harvest: 20)
       it "works!" do
         get member_plantings_path(@member, format: "csv")
 
-        response.status.should be(200)
+        expect(response.status).to be(200)
 
         data = CSV.parse(response.body, headers: true)
         expect(data.headers).to eq expected_headers

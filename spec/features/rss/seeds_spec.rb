@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'Seeds RSS feed' do
   it 'The index feed exists' do
     visit seeds_path(format: 'rss')
-    # expect(page.status_code).to equal 200
+    expect(page).to have_http_status :ok
   end
 
   it 'The index title is what we expect' do

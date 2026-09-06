@@ -16,6 +16,7 @@ describe 'devise/shared/_links.haml', type: "view" do
     @view.stub(:resource_name).and_return("member")
     @view.stub(devise_mapping: devise_mapping(false, false, false, false, false))
     render
+    expect(rendered).to have_link 'Sign in'
   end
 
   it "does not have a sign-in link if in sessions" do
@@ -23,5 +24,6 @@ describe 'devise/shared/_links.haml', type: "view" do
     @view.stub(:resource_name).and_return("member")
     @view.stub(devise_mapping: devise_mapping(false, false, false, false, false))
     render
+    expect(rendered).not_to have_link 'Sign in'
   end
 end

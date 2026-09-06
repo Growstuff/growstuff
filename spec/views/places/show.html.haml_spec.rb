@@ -13,7 +13,7 @@ describe "places/show" do
   end
 
   it "shows the selected place" do
-    view.content_for(:title).should match @place
+    expect(view.content_for(:title)).to match @place
   end
 
   it "shows the selected place in the textbox" do
