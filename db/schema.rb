@@ -984,6 +984,26 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_29_132911) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  create_table "weather_observations", force: :cascade do |t|
+    t.string "source"
+    t.datetime "observation_at"
+    t.integer "solar_uv_index"
+    t.decimal "wind_speed_kmh"
+    t.decimal "wind_gust_speed_kmh"
+    t.string "wind_direction"
+    t.decimal "air_temperature_centigrade"
+    t.decimal "relative_humidity"
+    t.decimal "precipitation_probability"
+    t.decimal "dew_point_temperature_centigrade"
+    t.decimal "pressure"
+    t.integer "visibility_distance_metres"
+    t.string "weather_type"
+    t.bigint "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_weather_observations_on_owner_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blocks", "members", column: "blocked_id"
