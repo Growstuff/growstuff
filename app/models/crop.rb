@@ -172,6 +172,25 @@ class Crop < ApplicationRecord
                         end
   end
 
+  def merge_with(other_crop)
+    Crop.transaction do
+      other_crop.alternate_names.update_all(crop_id: id)
+      other_crop.scientific_names.update_all(crop_id: id)
+      other_crop.plantings.update_all(crop_id: id)
+      other_crop.seeds.update_all(crop_id: id)
+      other_crop.harvests.update_all(crop_id: id)
+      other_crop.photo_associations.update_all(crop_id: id)
+      other_crop.varieties.update_all(parent_id: id)
+      other_crop.crop_posts.update_all(crop_id: id)
+
+      # Companions can be crop_a or crop_b
+      CropCompanion.where(crop_a_id: other_crop.id).update_all(crop_a_id: id)
+      CropCompanion.where(crop_b_id: other_crop.id).update_all(crop_b_id: id)
+
+      other_crop.destroy
+    end
+  end
+
   before_destroy :destroy_reverse_companionships
 
   private

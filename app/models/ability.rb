@@ -75,6 +75,7 @@ class Ability
     # only crop wranglers can create/edit/destroy crops
     if member.role? :crop_wrangler
       can :wrangle, Crop
+      can :merge, Crop
       can :manage, Crop
       can :manage, CropCompanion
       can :manage, ScientificName

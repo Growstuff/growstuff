@@ -1,0 +1,14 @@
+- content_for :title, "Merge Crops"
+
+%h1 Merge Crops
+
+= form_tag merge_crops_path, method: :post do
+  .form-group
+    = label_tag :master_crop_slug, "Master Crop (the one to keep)"
+    = text_field_tag :master_crop_slug, nil, class: 'form-control'
+
+  .form-group
+    = label_tag :duplicate_crop_slug, "Duplicate Crop (the one to delete)"
+    = text_field_tag :duplicate_crop_slug, nil, class: 'form-control'
+
+  = submit_tag "Merge", class: 'btn btn-primary'
