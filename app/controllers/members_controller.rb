@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MembersController < ApplicationController
-  load_and_authorize_resource except: %i(finish_signup unsubscribe view_follows view_followers show)
+  load_and_authorize_resource except: %i(finish_signup unsubscribe view_follows view_followers show set_location update_location)
   skip_authorize_resource only: %i(nearby unsubscribe finish_signup)
   respond_to :html, :json, :rss
 
@@ -83,6 +83,36 @@ class MembersController < ApplicationController
     end
   end
 
+  def set_location
+    @member = Member.find_by_slug!(params[:id])
+    authorize! :update, @member
+  end
+
+  def update_location
+    @member = Member.find_by_slug!(params[:id])
+    authorize! :update, @member
+
+    if params[:member][:latitude].present? && params[:member][:longitude].present?
+      lat = params[:member][:latitude].to_f.round(2)
+      lng = params[:member][:longitude].to_f.round(2)
+      params[:member][:latitude] = lat
+      params[:member][:longitude] = lng
+
+      results = Geocoder.search([lat, lng])
+      if results.first
+        params[:member][:location] = results.first.city || results.first.town || results.first.village || results.first.hamlet
+      else
+        params[:member][:location] = "Location near #{lat}, #{lng}"
+      end
+    end
+
+    if @member.update(member_params)
+      redirect_to member_path(@member), notice: 'Location updated.'
+    else
+      render :set_location
+    end
+  end
+
   private
 
   EMAIL_TYPE_STRING = {
@@ -92,7 +122,7 @@ class MembersController < ApplicationController
   }.freeze
 
   def member_params
-    params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter, :send_harvest_reminder)
+    params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter, :location, :latitude, :longitude, :send_harvest_reminder)
   end
 
   def member_json_fields

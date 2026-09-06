@@ -114,6 +114,10 @@ Rails.application.routes.draw do
   resources :timeline
 
   resources :members, param: :slug do
+    member do
+      get :set_location
+      put :update_location
+    end
     resources :gardens
     resources :seeds
     resources :plantings

@@ -1,0 +1,23 @@
+- content_for :title, "Set your location"
+
+%h1 Set your location
+
+= form_for @member, url: update_location_member_path(@member), method: :put do |f|
+  .form-group
+    = f.label :location
+    = f.text_field :location, class: 'form-control'
+
+  .form-group
+    = f.label :latitude
+    = f.text_field :latitude, class: 'form-control', readonly: true
+
+  .form-group
+    = f.label :longitude
+    = f.text_field :longitude, class: 'form-control', readonly: true
+
+  #map.set-location-map
+
+  .form-group
+    %button#find-me.btn.btn-default Find my location
+
+  = f.submit 'Update location', class: 'btn btn-primary'
