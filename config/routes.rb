@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   match '/members/:id/finish_signup' => 'members#finish_signup', via: %i(get patch), as: :finish_signup
 
   resources :authentications, only: %i(create destroy)
+  resources :push_subscriptions, only: %i(create destroy)
 
   get "home/index"
   get '/community-gardens', to: 'home#community_gardens'

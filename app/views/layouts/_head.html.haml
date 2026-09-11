@@ -32,9 +32,11 @@
   - else
     %meta{name: "description", content: "Growstuff is a community of food gardeners. Let's learn to grow food together. All our data is open data."}
   = csrf_meta_tags
+  %meta{name: "vapid-public-key", content: ENV['GROWSTUFF_VAPID_PUBLIC_KEY']}
   = stylesheet_link_tag "application", media: "all"
 
   %link{ href: path_to_image("growstuff-apple-touch-icon-precomposed.png"), rel: "apple-touch-icon-precomposed" }
   %link{ href: "https://fonts.googleapis.com/css?family=Modak|Raleway&display=swap", rel: "stylesheet" }
   = favicon_link_tag 'favicon.ico'
+  = serviceworker_js_tag
   = tag("meta", name: "google-site-verification", content: "j249rPGdBqZ7gcShcdsSXCnGN5lqCuTISJnlQXxOfu4")
