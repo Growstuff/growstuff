@@ -92,6 +92,17 @@ describe "Display a planting", :js do
         it { expect(page).to have_text 'Parent seed' }
         it { expect(page).to have_link href: planting_path(planting) }
       end
+
+      describe 'selecting other source' do
+        before do
+          choose 'Other source'
+          click_button 'save'
+        end
+
+        it "hides the seed source question" do
+          expect(page).to have_no_text 'Is this from one of these plantings?'
+        end
+      end
     end
   end
 end

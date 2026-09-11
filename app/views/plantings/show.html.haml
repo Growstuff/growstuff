@@ -36,6 +36,7 @@
       Is this from one of these plantings?
       - @matching_seeds.each do |seed|
         = f.radio_button :parent_seed_id, seed.id, label: seed
+      = f.radio_button :parent_seed_id, 'other', label: 'Other source'
       = f.submit "save", class: 'btn btn-sm'
 
 .planting
