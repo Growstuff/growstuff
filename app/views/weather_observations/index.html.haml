@@ -1,0 +1,65 @@
+- content_for :title, @owner ? "#{@owner}'s weather_observations" : "Everyone's weather_observations"
+
+%h1= @owner ? "#{@owner}'s weather_observations" : "Everyone's weather_observations"
+
+- content_for :breadcrumbs do
+  - if @owner
+    %li.breadcrumb-item= link_to 'weather_observations', weather_observations_path
+    %li.breadcrumb-item.active= link_to "#{@owner}'s weather_observations", member_weather_observations_path(@owner)
+  - else
+    %li.breadcrumb-item.active= link_to 'weather_observations', weather_observations_path
+
+.row
+  .col-md-2
+    = render 'layouts/nav', model: weather_observation
+    = link_to show_inactive_tickbox_path('weather_observations', owner: @owner, show_all: @show_all) do
+      = check_box_tag 'active', 'all', @show_all
+      include in-active
+    - if @owner.present?
+      %hr/
+      = render @owner
+
+  .col-md-10
+    - if @weather_observations.empty?
+      %p There are no weather_observations to display.
+      - if can?(:create, weather_observation) && @owner == current_member
+        = link_to 'Add a weather_observation', new_weather_observation_path, class: 'btn btn-primary'
+
+    - else
+      %section
+        %h2= page_entries_info @weather_observations
+        = will_paginate @weather_observations
+
+      - if @show_jump_to == true
+        %section
+          .jump
+            jump to:
+            - @weather_observations.each do |weather_observation|
+              .badge.badge-primary
+                - if @owner.present?
+                  = link_to weather_observation.weather_type, member_weather_observations_path(@owner, anchor: "weather_observation-#{weather_observation.id}")
+                - else
+                  = link_to weather_observation.weather_type, weather_observations_path(anchor: "weather_observation-#{weather_observation.id}")
+      - @weather_observations.each do |weather_observation|
+        .card
+          .card-header
+            .row
+              .col-12.col-md-3
+                %h2= link_to weather_observation.weather_type, weather_observation, name: "weather_observation-#{weather_observation.id}"
+            .row
+              .col-md-3
+                - if @owner.blank?
+                  owner:
+                  = render 'members/tiny', member: weather_observation.owner
+
+              .col-md-9
+                %section
+                  = render 'weather_observations/actions', weather_observation: weather_observation
+
+
+                  
+
+
+      .row
+        .col-12= page_entries_info @weather_observations
+        .col-12= will_paginate @weather_observations
