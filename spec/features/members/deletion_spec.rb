@@ -73,12 +73,13 @@ describe "member deletion", :flaky do
     end
 
     describe 'percy spec' do
-      it do
+      it "takes a percy snapshot" do
         logout
         login_as(member)
         visit member_path(member)
         click_link 'Edit profile'
         click_link 'Delete Account'
+        expect(page).to have_content 'Delete Account'
         page.percy_snapshot(page, name: 'Account deletion')
       end
     end

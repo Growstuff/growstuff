@@ -21,7 +21,11 @@ describe "Conversations", :js do
 
     it { expect(page).to have_content 'this is the body' }
     it { expect(page).to have_link sender.login_name }
-    it { page.percy_snapshot(page, name: 'conversations#show') }
+
+    it "takes a percy snapshot" do
+      expect(page).to have_content 'this is the body'
+      page.percy_snapshot(page, name: 'conversations#show')
+    end
 
     describe 'Replying to the conversation' do
       before do

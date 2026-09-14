@@ -7,18 +7,18 @@ describe ScientificName do
     let(:sn) { create(:zea_mays) }
 
     it 'saves a basic scientific name' do
-      sn.save.should be(true)
+      expect(sn.save).to be(true)
     end
 
     it 'is fetchable from the database' do
       sn.save
       @sn2 = described_class.find_by(name: 'Zea mays')
-      @sn2.crop.name.should == 'maize'
+      expect(@sn2.crop.name).to eq 'maize'
     end
 
     it 'has a creator' do
       sn.save
-      sn.creator.should be_an_instance_of Member
+      expect(sn.creator).to be_an_instance_of Member
     end
   end
 

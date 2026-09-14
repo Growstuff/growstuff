@@ -27,7 +27,7 @@ describe PlacesController do
   describe "GET search" do
     it "redirects to the new place" do
       get :search, params: { new_place: "foo" }
-      response.should redirect_to place_path("foo")
+      expect(response).to redirect_to place_path("foo")
     end
   end
 end

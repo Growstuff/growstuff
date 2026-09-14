@@ -28,6 +28,10 @@ RSpec/DescribeClass:
    - 'spec/views/**/*.rb'
    - 'spec/features/**/*.rb'
 
+RSpec/NoExpectationExample:
+  Exclude:
+    - 'spec/features/percy/percy_spec.rb'
+
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 

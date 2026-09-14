@@ -7,7 +7,7 @@ require 'haml/helpers'
 
 describe 'Haml::Filters::Escaped_Markdown' do
   it 'is registered as the handler for :escaped_markdown' do
-    Haml::Filters.registered[:escaped_markdown].should ==
+    expect(Haml::Filters.registered[:escaped_markdown]).to eq
       Haml::Filters::EscapedMarkdown
   end
 

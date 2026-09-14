@@ -388,10 +388,7 @@ RSpec/NestedGroups:
 # Offense count: 366
 # Configuration parameters: AllowedPatterns.
 # AllowedPatterns: ^expect_, ^assert_
-RSpec/NoExpectationExample:
-  Enabled: false
-
-# Offense count: 9
+# Offense count: 4
 RSpec/PendingWithoutReason:
   Exclude:
     - 'spec/features/members/blocking_spec.rb'
