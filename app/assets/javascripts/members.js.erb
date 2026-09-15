@@ -30,3 +30,44 @@ if (document.getElementById("membermap") !== null) {
   });
 
 }
+
+$(document).on('click', '#find-me', function(e) {
+  e.preventDefault();
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      $('#member_latitude').val(position.coords.latitude);
+      $('#member_longitude').val(position.coords.longitude);
+      updateMap(position.coords.latitude, position.coords.longitude);
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+});
+
+if (document.getElementById("map") !== null) {
+  var map = L.map('map').setView([0, 0], 2);
+  var marker;
+
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 18
+  }).addTo(map);
+
+  map.on('click', function(e) {
+    updateMarker(e.latlng);
+    $('#member_latitude').val(e.latlng.lat);
+    $('#member_longitude').val(e.latlng.lng);
+  });
+
+  function updateMarker(latlng) {
+    if (marker) {
+      map.removeLayer(marker);
+    }
+    marker = L.marker(latlng).addTo(map);
+  }
+
+  function updateMap(lat, lng) {
+    map.setView([lat, lng], 13);
+    updateMarker(L.latLng(lat, lng));
+  }
+}

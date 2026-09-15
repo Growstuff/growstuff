@@ -65,6 +65,9 @@
           = link_to edit_member_registration_path, class: 'btn btn-block' do
             = member_icon
             = t('members.edit_profile')
+          = link_to set_location_member_path(@member), class: 'btn btn-block' do
+            = icon('fas', 'map-marker')
+            Set location
 
         - if can?(:create, Notification) && current_member != @member
           = link_to new_message_path(recipient_id: @member.id), class: 'btn btn-block' do
