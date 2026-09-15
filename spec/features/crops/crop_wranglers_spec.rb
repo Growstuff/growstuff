@@ -66,6 +66,15 @@ describe "crop wranglers", :js do
       visit crop_path(rejected_crop)
       expect(page).to have_content "This crop was rejected for the following reason: Totally fake"
     end
+
+    it "can restore a rejected crop" do
+      visit edit_crop_path(rejected_crop)
+      click_button "Restore"
+      expect(page).to have_content "crop was successfully updated"
+      rejected_crop.reload
+      expect(rejected_crop).to be_pending
+      expect(rejected_crop.reason_for_rejection).to be_nil
+    end
   end
 end
 
