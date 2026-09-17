@@ -5,7 +5,7 @@ require 'rails_helper'
 describe "garden_types/show" do
   subject { render }
 
-  let!(:garden_type) { FactoryBot.create(:garden_type, name: "Hot Sauce") }
+  let!(:garden_type) { create(:garden_type, name: "Hot Sauce") }
 
   before do
     controller.stub(:current_user) { nil }

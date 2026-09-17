@@ -30,7 +30,7 @@ class AlternateNamesController < ApplicationController
     @alternate_name = AlternateName.new(alternate_name_params)
 
     if @alternate_name.save
-      redirect_to @alternate_name.crop, notice: 'Alternate name was successfully created.'
+      redirect_to @alternate_name.crop, notice: t('alternate_names.created')
     else
       render action: "new"
     end
@@ -40,7 +40,7 @@ class AlternateNamesController < ApplicationController
   # PUT /alternate_names/1.json
   def update
     if @alternate_name.update(alternate_name_params)
-      redirect_to @alternate_name.crop, notice: 'Alternate name was successfully updated.'
+      redirect_to @alternate_name.crop, notice: t('alternate_names.updated')
     else
       render action: "edit"
     end
@@ -51,7 +51,7 @@ class AlternateNamesController < ApplicationController
   def destroy
     @crop = @alternate_name.crop
     @alternate_name.destroy
-    redirect_to @crop, notice: 'Alternate name was successfully deleted.'
+    redirect_to @crop, notice: t('alternate_names.deleted')
   end
 
   private

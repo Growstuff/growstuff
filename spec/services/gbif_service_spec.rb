@@ -12,7 +12,7 @@ describe GbifService, :vcr, type: :service do
   before do
     # don't use 'let' for this -- we need to actually create it,
     # regardless of whether it's used.
-    @cropbot = FactoryBot.create(:cropbot)
+    @cropbot = create(:cropbot)
   end
 
   describe "#fetch" do

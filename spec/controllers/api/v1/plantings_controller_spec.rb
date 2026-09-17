@@ -2,17 +2,17 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::V1::PlantingsController, type: :controller do
+RSpec.describe Api::V1::PlantingsController do
   subject { JSON.parse response.body }
 
-  let!(:member) { FactoryBot.create(:member) }
+  let!(:member) { create(:member) }
 
   describe '#index' do
     let(:matching_planting) { subject['data'].select { |planting| planting['id'] == my_planting.id.to_s }.first }
 
     describe 'GET #index' do
       context 'basic planting' do
-        let!(:my_planting) { FactoryBot.create(:planting, owner: member, planted_at: '2000-01-01') }
+        let!(:my_planting) { create(:planting, owner: member, planted_at: '2000-01-01') }
         let(:expected_attributes) do
           {
             'crop-name'           => my_planting.crop.name,
@@ -42,11 +42,11 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
 
         it { expect(matching_planting).to include('id' => my_planting.id.to_s) }
         it { expect(matching_planting['attributes']).to eq expected_attributes }
-        it { expect(response.status).to eq 200 }
+        it { expect(response).to have_http_status :ok }
       end
 
       context 'with photo' do
-        let!(:my_planting) { FactoryBot.create(:planting, owner: member, planted_at: '2000-01-01') }
+        let!(:my_planting) { create(:planting, owner: member, planted_at: '2000-01-01') }
 
         let(:expected_attributes) do
           {
@@ -72,7 +72,7 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
             'thumbnail'           => photo.thumbnail_url
           }
         end
-        let(:photo) { FactoryBot.create(:photo, owner: my_planting.owner) }
+        let(:photo) { create(:photo, owner: my_planting.owner) }
 
         before do
           my_planting.photos << photo
@@ -81,7 +81,7 @@ RSpec.describe Api::V1::PlantingsController, type: :controller do
 
         it { expect(matching_planting).to include('id' => my_planting.id.to_s) }
         it { expect(matching_planting['attributes']).to eq expected_attributes }
-        it { expect(response.status).to eq 200 }
+        it { expect(response).to have_http_status :ok }
       end
     end
   end

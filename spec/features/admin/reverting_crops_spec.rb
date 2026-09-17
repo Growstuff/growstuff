@@ -32,7 +32,7 @@ RSpec.feature 'Reverting crops' do
 
     scenario 'Member cannot revert a crop' do
       visit admin_crops_path
-      expect(page).not_to have_link('Revert')
+      expect(page).to have_no_link('Revert')
     end
   end
 end

@@ -40,8 +40,15 @@ module MemberFlickr
     # Fetches a collection of photos from Flickr
     # Returns a [[page of photos], total] pair.
     # Total is needed for pagination.
-    def flickr_photos(page_num = 1, set = nil)
-      result = if set
+    def flickr_photos(page_num = 1, set = nil, tags = nil)
+      result = if tags.present?
+                 flickr.photos.search(
+                   user_id:  'me',
+                   tags:     tags,
+                   page:     page_num,
+                   per_page: 30
+                 )
+               elsif set.present?
                  flickr.photosets.getPhotos(
                    photoset_id: set,
                    page:        page_num,

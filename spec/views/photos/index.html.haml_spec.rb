@@ -9,8 +9,8 @@ describe "photos/index" do
     total_entries = 2
     photos = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([
-                      FactoryBot.create(:photo),
-                      FactoryBot.create(:photo)
+                      create(:photo),
+                      create(:photo)
                     ])
     end
     assign(:photos, photos)

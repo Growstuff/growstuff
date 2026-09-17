@@ -13,7 +13,7 @@
           .index-cards
             - harvest.crop.plant_parts.order(:name).each do |plant_part|
               .card
-                = link_to harvests_path(harvest: {planting_id: harvest.planting_id, crop_id: harvest.crop_id, plant_part_id: plant_part.id}), method: :post do
+                = link_to new_harvest_path(harvest: {planting_id: harvest.planting_id, crop_id: harvest.crop_id, plant_part_id: plant_part.id}) do
                   .card-title.text-center
                     %h3= plant_part_icon(plant_part.name)
                     %h3= plant_part.name
@@ -22,9 +22,11 @@
         %h6 All Plant parts
         %nav.nav
           - PlantPart.all.order(:name).each do |plant_part|
-            = link_to harvests_path(harvest: {planting_id: harvest.planting_id, crop_id: harvest.crop_id, plant_part_id: plant_part.id}), method: :post, class: 'nav-link border' do
+            = link_to new_harvest_path(harvest: {planting_id: harvest.planting_id, crop_id: harvest.crop_id, plant_part_id: plant_part.id}), class: 'nav-link border' do
               = plant_part_icon(plant_part.name)
               = plant_part
+
+
 
 %a.btn#modalHarvestButton{"data-bs-target" => "#modelHarvestForm", "data-bs-toggle" => "modal", href: ""}
   = harvest_icon

@@ -4,7 +4,7 @@
 - content_for :breadcrumbs do
   - if @owner
     %li.breadcrumb-item= link_to 'Harvests', harvests_path
-    %li.breadcrumb-item.active= link_to "#{@owner}'s harvests", harvests_path(owner: @owner)
+    %li.breadcrumb-item.active= link_to "#{@owner}'s harvests", member_harvests_path(@owner)
   - else
     %li.breadcrumb-item.active= link_to "Harvests", harvests_path
 .row

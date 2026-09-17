@@ -9,7 +9,7 @@ describe "Gardens" do
 
     include_context 'signed in member'
     let(:garden) { member.gardens.first }
-    let(:other_member_garden) { FactoryBot.create(:garden) }
+    let(:other_member_garden) { create(:garden) }
 
     describe '#index' do
       shared_examples "has buttons bar at top" do
@@ -47,7 +47,7 @@ describe "Gardens" do
       end
 
       context "other member's garden" do
-        before { visit gardens_path(member_slug: FactoryBot.create(:member).slug) }
+        before { visit gardens_path(member_slug: create(:member).slug) }
 
         include_examples "has buttons bar at top"
         describe 'does not show actions on other member garden' do

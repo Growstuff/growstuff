@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe "seeds/new" do
-  let!(:seed)   { FactoryBot.create(:seed, owner: member) }
-  let!(:member) { FactoryBot.create(:member)              }
+  let!(:seed)   { create(:seed, owner: member) }
+  let!(:member) { create(:member)              }
 
   before do
     sign_in member
@@ -31,7 +31,7 @@ describe "seeds/new" do
   end
 
   context 'when member has location' do
-    let!(:member) { FactoryBot.create(:london_member) }
+    let!(:member) { create(:london_member) }
 
     describe 'shows the location' do
       it { expect(rendered).to have_text "from #{member.location}." }

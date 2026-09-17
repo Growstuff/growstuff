@@ -13,7 +13,7 @@ class CropsController < ApplicationController
     @crops = Crop.search('*', boost_by: %i(plantings_count harvests_count),
                               limit:    100,
                               page:     params[:page],
-                              load:     false)
+                              load:     (request.format.csv? || request.format.rss? ? { include: %i(parent scientific_names seeds harvests creator plantings) } : false))
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
     respond_with @crops
@@ -160,7 +160,7 @@ class CropsController < ApplicationController
              when 'youtube'
                Crop.approved.where(en_youtube_url: [nil, '']).order(plantings_count: :desc)
              when 'alternate_names'
-               Crop.approved.left_joins(:alternate_names).where(alternate_names: { id: nil }).order(plantings_count: :desc)
+               Crop.approved.where.missing(:alternate_names).order(plantings_count: :desc)
              when 'wikidata'
                crops_with_wikidata = Crop.joins(:scientific_names).where.not(scientific_names: { wikidata_id: nil }).distinct
                Crop.approved.where.not(id: crops_with_wikidata).order(plantings_count: :desc)

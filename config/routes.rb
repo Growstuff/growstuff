@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   get '/robots.txt' => 'robots#robots'
+  get '/dont-crawl-me' => proc { [403, { 'Content-Type' => 'text/plain' }, ['Forbidden']] }
 
   resources :garden_types
   resources :plant_parts
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
 
   resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
+    post 'fetch_wikidata' => 'gardens#fetch_wikidata', on: :member
 
     resources :garden_collaborators
   end
@@ -105,6 +107,7 @@ Rails.application.routes.draw do
   resources :forums
 
   resources :follows, only: %i(create destroy)
+  resources :blocks, only: %i(create destroy)
 
   post 'likes' => 'likes#create'
   delete 'likes' => 'likes#destroy'
@@ -121,6 +124,7 @@ Rails.application.routes.draw do
 
     resources :follows
     get 'followers' => 'follows#followers'
+    resources :blocks, only: %i(create destroy)
   end
 
   resources :messages
@@ -155,6 +159,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       jsonapi_resources :activities
+      get "crops/search", to: "crops#search"
       jsonapi_resources :crops
       jsonapi_resources :gardens
       jsonapi_resources :harvests

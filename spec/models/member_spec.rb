@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Member do
   context 'valid member' do
-    let!(:member) { FactoryBot.create(:member, login_name: 'hinemoa') }
+    let!(:member) { create(:member, login_name: 'hinemoa') }
 
     describe 'should be fetchable from the database' do
       subject { Member.find(member.id) }
@@ -35,7 +35,7 @@ describe Member do
     end
 
     it 'is able to fetch posts' do
-      post = FactoryBot.create(:post, author: member)
+      post = create(:post, author: member)
       expect(member.posts).to eq [post]
     end
 
@@ -44,27 +44,27 @@ describe Member do
     end
 
     it 'has many plantings' do
-      FactoryBot.create(:planting, owner: member)
+      create(:planting, owner: member)
       member.plantings.size.should eq 1
     end
 
     it "has many comments" do
-      FactoryBot.create(:comment, author: member)
-      FactoryBot.create(:comment, author: member)
+      create(:comment, author: member)
+      create(:comment, author: member)
       member.comments.size.should == 2
     end
 
     it "has many forums" do
-      FactoryBot.create(:forum, owner: member)
-      FactoryBot.create(:forum, owner: member)
+      create(:forum, owner: member)
+      create(:forum, owner: member)
       member.forums.size.should == 2
     end
 
     it "has many likes" do
-      @post1 = FactoryBot.create(:post, author: member)
-      @post2 = FactoryBot.create(:post, author: member)
-      @like1 = FactoryBot.create(:like, member:, likeable: @post1)
-      @like2 = FactoryBot.create(:like, member:, likeable: @post2)
+      @post1 = create(:post, author: member)
+      @post2 = create(:post, author: member)
+      @like1 = create(:like, member:, likeable: @post1)
+      @like2 = create(:like, member:, likeable: @post2)
 
       expect(member.likes.length).to eq 2
     end
@@ -93,7 +93,7 @@ describe Member do
   end
 
   context 'no TOS agreement' do
-    let(:member) { FactoryBot.build(:no_tos_member) }
+    let(:member) { build(:no_tos_member) }
 
     it "refuses to save a member who hasn't agreed to the TOS" do
       member.save.should_not be(true)
@@ -102,24 +102,24 @@ describe Member do
 
   context 'newsletter scope' do
     it 'finds newsletter recipients' do
-      member1 = FactoryBot.create(:member)
-      member2 = FactoryBot.create(:newsletter_recipient_member)
-      Member.wants_newsletter.should include member2
-      Member.wants_newsletter.should_not include member1
+      regular_member = create(:member)
+      newsletter_member = create(:newsletter_recipient_member)
+      Member.wants_newsletter.should include newsletter_member
+      Member.wants_newsletter.should_not include regular_member
     end
   end
 
   context 'same :login_name' do
     it "does not allow two members with the same login_name" do
-      FactoryBot.create(:member, login_name: "bob")
-      member = FactoryBot.build(:member, login_name: "bob")
+      create(:member, login_name: "bob")
+      member = build(:member, login_name: "bob")
       member.should_not be_valid
       member.errors[:login_name].should include("has already been taken")
     end
 
     it "tests uniqueness case-insensitively" do
-      FactoryBot.create(:member, login_name: "bob")
-      member = FactoryBot.build(:member, login_name: "BoB")
+      create(:member, login_name: "bob")
+      member = build(:member, login_name: "BoB")
       member.should_not be_valid
       member.errors[:login_name].should include("has already been taken")
     end
@@ -127,38 +127,38 @@ describe Member do
 
   context 'case sensitivity' do
     it 'preserves case of login name' do
-      FactoryBot.create(:member, login_name: "BOB")
+      create(:member, login_name: "BOB")
       Member.find('bob').login_name.should eq 'BOB'
     end
   end
 
   context 'invalid login names' do
     it "doesn't allow short names" do
-      member = FactoryBot.build(:invalid_member_shortname)
+      member = build(:invalid_member_shortname)
       member.should_not be_valid
       member.errors[:login_name].should include("should be between 2 and 25 characters long")
     end
 
     it "doesn't allow really long names" do
-      member = FactoryBot.build(:invalid_member_longname)
+      member = build(:invalid_member_longname)
       member.should_not be_valid
       member.errors[:login_name].should include("should be between 2 and 25 characters long")
     end
 
     it "doesn't allow spaces in names" do
-      member = FactoryBot.build(:invalid_member_spaces)
+      member = build(:invalid_member_spaces)
       member.should_not be_valid
       member.errors[:login_name].should include("may only include letters, numbers, or underscores")
     end
 
     it "doesn't allow other chars in names" do
-      member = FactoryBot.build(:invalid_member_badchars)
+      member = build(:invalid_member_badchars)
       member.should_not be_valid
       member.errors[:login_name].should include("may only include letters, numbers, or underscores")
     end
 
     it "doesn't allow reserved names" do
-      member = FactoryBot.build(:invalid_member_badname)
+      member = build(:invalid_member_badname)
       member.should_not be_valid
       member.errors[:login_name].should include("name is reserved")
     end
@@ -166,24 +166,24 @@ describe Member do
 
   context 'valid login names' do
     it "allows plain alphanumeric chars in names" do
-      member = FactoryBot.build(:valid_member_alphanumeric)
+      member = build(:valid_member_alphanumeric)
       member.should be_valid
     end
 
     it "allows uppercase chars in names" do
-      member = FactoryBot.build(:valid_member_uppercase)
+      member = build(:valid_member_uppercase)
       member.should be_valid
     end
 
     it "allows underscores in names" do
-      member = FactoryBot.build(:valid_member_underscore)
+      member = build(:valid_member_underscore)
       member.should be_valid
     end
   end
 
   context 'roles' do
-    let(:member) { FactoryBot.create(:member) }
-    let(:role)   { FactoryBot.create(:role)   }
+    let(:member) { create(:member) }
+    let(:role)   { create(:role)   }
 
     before do
       member.roles << role
@@ -195,13 +195,13 @@ describe Member do
     end
 
     it 'sets up roles in factories' do
-      admin = FactoryBot.create(:admin_member)
+      admin = create(:admin_member)
       admin.role?(:admin).should be true
     end
 
     it 'converts role names properly' do
       # need to make sure spaces get turned to underscores
-      role = FactoryBot.create(:role, name: "a b c")
+      role = create(:role, name: "a b c")
       member.roles << role
       member.role?(:a_b_c).should be true
     end
@@ -209,8 +209,8 @@ describe Member do
 
   context 'confirmed scope' do
     before do
-      FactoryBot.create(:member)
-      FactoryBot.create(:member)
+      create(:member)
+      create(:member)
     end
 
     it 'sees confirmed members' do
@@ -218,7 +218,7 @@ describe Member do
     end
 
     it 'ignores unconfirmed members' do
-      FactoryBot.create(:unconfirmed_member)
+      create(:unconfirmed_member)
       Member.confirmed.size.should == 2
     end
   end
@@ -226,17 +226,17 @@ describe Member do
   context 'located scope' do
     # located members must have location, lat, long
     it 'finds members who have locations' do
-      london_member = FactoryBot.create(:london_member)
+      london_member = create(:london_member)
       Member.located.should include london_member
     end
 
     it 'ignores members with blank locations' do
-      nowhere_member = FactoryBot.create(:member)
+      nowhere_member = create(:member)
       Member.located.should_not include nowhere_member
     end
 
     it 'ignores members with blank lat/long' do
-      london_member = FactoryBot.create(:london_member)
+      london_member = create(:london_member)
       london_member.latitude = nil
       london_member.longitude = nil
       london_member.save(validate: false)
@@ -246,8 +246,8 @@ describe Member do
 
   context 'near location' do
     it 'finds nearby members and sorts them' do
-      edinburgh_member = FactoryBot.create(:edinburgh_member)
-      london_member = FactoryBot.create(:london_member)
+      edinburgh_member = create(:edinburgh_member)
+      london_member = create(:london_member)
       Member.nearest_to('Greenwich, UK').should eq [london_member, edinburgh_member]
     end
   end
@@ -266,10 +266,10 @@ describe Member do
           :unconfirmed_member, # !1
           :london_member,      # 1, 2, !3
           :member              # 1, !2, 3
-        ].collect { |m| FactoryBot.create(m) }
+        ].collect { |m| create(m) }
 
         [0, 1, 2, 3, 5].each do |i|
-          FactoryBot.create(:planting, owner: @members[i])
+          create(:planting, owner: @members[i])
         end
 
         @members[0].updated_at = 3.days.ago
@@ -281,7 +281,7 @@ describe Member do
         @result = Member.interesting
 
         # Some members have multiple plantings, but should only appear once
-        FactoryBot.create_list(:planting, 3, owner: @members[2])
+        create_list(:planting, 3, owner: @members[2])
       end
 
       it 'finds interesting members without duplicates in the correct order' do
@@ -292,44 +292,44 @@ describe Member do
 
   context 'harvests' do
     it 'has harvests' do
-      member = FactoryBot.create(:member)
-      harvest = FactoryBot.create(:harvest, owner: member)
+      member = create(:member)
+      harvest = create(:harvest, owner: member)
       member.harvests.should eq [harvest]
     end
   end
 
   context 'member who followed another member' do
-    let(:member1) { FactoryBot.create(:member) }
-    let(:member2) { FactoryBot.create(:member) }
-    let(:member3) { FactoryBot.create(:member) }
+    let(:follower) { create(:member) }
+    let(:followed_member) { create(:member) }
+    let(:other_member) { create(:member) }
 
     before do
-      @follow = member1.follows.create(follower_id: member1.id, followed_id: member2.id)
+      @follow = follower.follows.create(follower_id: follower.id, followed_id: followed_member.id)
     end
 
     context 'already_following' do
       it 'detects that member is already following a member' do
-        expect(member1.already_following?(member2)).to be true
+        expect(follower.already_following?(followed_member)).to be true
       end
 
       it 'detects that member is not already following a member' do
-        expect(member1.already_following?(member3)).to be false
+        expect(follower.already_following?(other_member)).to be false
       end
     end
 
     context 'get_follow' do
       it 'gets the correct follow for a followed member' do
-        expect(member1.get_follow(member2).id).to eq @follow.id
+        expect(follower.get_follow(followed_member).id).to eq @follow.id
       end
 
       it 'returns nil for a member that is not followed' do
-        expect(member1.get_follow(member3)).to be_nil
+        expect(follower.get_follow(other_member)).to be_nil
       end
     end
   end
 
   context 'subscriptions' do
-    let(:member) { FactoryBot.create(:member) }
+    let(:member) { create(:member) }
     let(:gb) { instance_double("Gibbon::API.new") }
 
     it 'subscribes to the newsletter' do
@@ -344,7 +344,7 @@ describe Member do
   end
 
   context 'member deleted' do
-    let(:member) { FactoryBot.create(:member) }
+    let(:member) { create(:member) }
 
     context 'queries a scope' do
       before { member.destroy }
@@ -365,12 +365,12 @@ describe Member do
     end
 
     context "deleted admin member" do
-      let(:member) { FactoryBot.create(:admin_member) }
+      let(:member) { create(:admin_member) }
 
       before { member.discard }
 
       context 'crop creator' do
-        let!(:crop) { FactoryBot.create(:crop, creator: member) }
+        let!(:crop) { create(:crop, creator: member) }
 
         it "leaves crops behind, reassigned to cropbot" do
           expect(Crop.all).to include(crop)
@@ -378,7 +378,7 @@ describe Member do
       end
 
       context 'forum owners' do
-        let!(:forum) { FactoryBot.create(:forum, owner: member) }
+        let!(:forum) { create(:forum, owner: member) }
 
         it "leaves forums behind, reassigned to ex_admin" do
           expect(forum.owner).to eq(member)

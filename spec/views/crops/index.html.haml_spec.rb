@@ -8,8 +8,8 @@ describe "crops/index.html.haml" do
     page = 1
     per_page = 2
     total_entries = 2
-    @tomato = FactoryBot.create(:tomato)
-    @maize  = FactoryBot.create(:maize)
+    @tomato = create(:tomato)
+    @maize  = create(:maize)
     assign(:crops, [@tomato, @maize])
     crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
       pager.replace([@tomato, @maize])
@@ -18,8 +18,8 @@ describe "crops/index.html.haml" do
   end
 
   it "shows photos where available" do
-    @planting = FactoryBot.create(:planting, crop: @tomato)
-    @photo = FactoryBot.create(:photo, owner: @planting.owner)
+    @planting = create(:planting, crop: @tomato)
+    @photo = create(:photo, owner: @planting.owner)
     @planting.photos << @photo
     render
     assert_select "img", src: @photo.thumbnail_url
@@ -33,7 +33,7 @@ describe "crops/index.html.haml" do
   context "downloads" do
     it "offers data downloads" do
       render
-      rendered.should have_content "The data on this page is available in the following formats:"
+      expect(rendered).to have_content "The data on this page is available in the following formats:"
       assert_select "a", href: crops_path(format: 'csv')
       assert_select "a", href: crops_path(format: 'json')
       assert_select "a", href: crops_path(format: 'rss')

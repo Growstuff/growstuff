@@ -11,13 +11,13 @@ class PlantPartHarvestCounterCache < ActiveRecord::Migration[5.2]
   end
 
   def set_counter_value
-    execute <<-SQL.squish
-        UPDATE plant_parts
-           SET harvests_count = (
-             SELECT count(1)
-               FROM harvests
-              WHERE harvests.plant_part_id = plant_parts.id
-              )
+    execute <<~SQL.squish
+      UPDATE plant_parts
+         SET harvests_count = (
+           SELECT count(1)
+             FROM harvests
+            WHERE harvests.plant_part_id = plant_parts.id
+            )
     SQL
   end
 end

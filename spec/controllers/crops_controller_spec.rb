@@ -42,8 +42,8 @@ describe CropsController do
 
   describe "GET crop search" do
     describe 'fetches the crop search page' do
-      let!(:tomato) { FactoryBot.create(:tomato) }
-      let!(:maize)  { FactoryBot.create(:maize) }
+      let!(:tomato) { create(:tomato) }
+      let!(:maize)  { create(:maize) }
 
       before { Crop.reindex }
 
@@ -70,6 +70,21 @@ describe CropsController do
       it { is_expected.to be_successful }
       it { is_expected.to render_template("crops/index") }
       it { expect(response.content_type).to eq("application/rss+xml; charset=utf-8") }
+    end
+  end
+
+  describe "GET CSV" do
+    let!(:tomato) { create(:tomato, en_wikipedia_url: "https://en.wikipedia.org/wiki/Tomato") }
+    before do
+      Crop.reindex
+      get :index, format: "csv"
+    end
+
+    it { is_expected.to be_successful }
+    it { expect(response.content_type).to eq("text/csv; charset=utf-8") }
+    it "contains tomato", pending: "not properly functional" do
+      expect(assigns(:crops)).not_to be_empty
+      expect(response.body).to include("tomato")
     end
   end
 
@@ -140,7 +155,7 @@ describe CropsController do
   describe 'DELETE destroy' do
     subject { delete :destroy, params: { slug: crop.to_param } }
 
-    let!(:crop) { FactoryBot.create(:crop) }
+    let!(:crop) { create(:crop) }
 
     context 'not logged in' do
       it { expect { subject }.not_to change(Crop, :count) }

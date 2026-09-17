@@ -21,5 +21,9 @@ FactoryBot.define do
       description { "Stake tomato" }
       planting
     end
+
+    trait :reindex do
+      # Activity is not using elasticsearch anymore, so we don't need to reindex
+    end
   end
 end

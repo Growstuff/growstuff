@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'seeds/index.rss.haml', :search do
+describe 'seeds/index.rss.haml' do
   before do
     controller.stub(:current_user) { nil }
   end
@@ -22,12 +22,11 @@ describe 'seeds/index.rss.haml', :search do
   end
 
   context 'all seeds' do
-    let!(:seed) { FactoryBot.create(:seed) }
-    let!(:tradable) { FactoryBot.create(:tradable_seed) }
+    let!(:seed) { create(:seed) }
+    let!(:tradable) { create(:tradable_seed) }
 
     before do
-      Seed.searchkick_index.refresh
-      assign(:seeds, Seed.search(load: false))
+      assign(:seeds, Seed.all)
       render
     end
 
@@ -47,12 +46,11 @@ describe 'seeds/index.rss.haml', :search do
   end
 
   context "one member's seeds" do
-    let!(:seed) { FactoryBot.create(:seed) }
+    let!(:seed) { create(:seed) }
 
     before do
       assign(:owner, seed.owner)
-      Seed.searchkick_index.refresh
-      assign(:seeds, Seed.search(load: false))
+      assign(:seeds, Seed.all)
       render
     end
 

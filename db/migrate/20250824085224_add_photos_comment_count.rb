@@ -11,7 +11,7 @@ class AddPhotosCommentCount < ActiveRecord::Migration[7.2]
   end
 
   def set_counter_value
-    execute <<-SQL.squish
+    execute <<~SQL.squish
       UPDATE photos
          SET comments_count = (
            SELECT count(1)

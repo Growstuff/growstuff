@@ -5,7 +5,7 @@ require 'rails_helper'
 describe ScientificNamesController do
   login_member(:crop_wrangling_member)
 
-  let!(:crop) { FactoryBot.create(:tomato) }
+  let!(:crop) { create(:tomato) }
 
   def valid_attributes
     { name: 'Solanum lycopersicum', crop_id: crop.id }

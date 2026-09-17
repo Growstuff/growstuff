@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Crops', type: :request do
+RSpec.describe 'Crops' do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:crop)   { FactoryBot.create(:crop) }
+  let!(:crop)   { create(:crop) }
   let(:crop_encoded_as_json_api) do
     { "id"            => crop.id.to_s,
       "type"          => "crops",

@@ -4,11 +4,11 @@ require 'rails_helper'
 
 describe 'home/_members.html.haml', type: "view" do
   before do
-    @member = FactoryBot.create(:london_member)
+    @member = create(:london_member)
     @member.updated_at = 2.days.ago
     assign(:members, [@member])
 
-    @planting = FactoryBot.create(:planting, owner: @member)
+    @planting = create(:planting, owner: @member)
     render
   end
 

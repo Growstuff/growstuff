@@ -85,7 +85,7 @@
 
       -# Only crop wranglers see the crop hierarchy (for now)
       - if can? :wrangle, @crop
-        = f.collection_select(:parent_id, Crop.all.order(:name), :id, :name,
+        = f.select(:parent_id, Crop.order(:name).pluck(:name, :id),
           { include_blank: true, label: 'Parent crop'})
         %span.help-block Optional. For setting up crop hierarchies for varieties etc.
 

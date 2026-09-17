@@ -11,13 +11,13 @@ class CropHarvestCounterCache < ActiveRecord::Migration[5.2]
   end
 
   def set_counter_value
-    execute <<-SQL.squish
-        UPDATE crops
-           SET harvests_count = (
-             SELECT count(1)
-               FROM harvests
-              WHERE harvests.crop_id = crops.id
-              )
+    execute <<~SQL.squish
+      UPDATE crops
+         SET harvests_count = (
+           SELECT count(1)
+             FROM harvests
+            WHERE harvests.crop_id = crops.id
+            )
     SQL
   end
 end

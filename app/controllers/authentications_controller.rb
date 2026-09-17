@@ -24,9 +24,9 @@ class AuthenticationsController < ApplicationController
           name:
         )
 
-      flash[:notice] = "Authentication successful."
+      flash[:notice] = t('messages.auth_success')
     else
-      flash[:notice] = "Authentication failed."
+      flash[:notice] = t('messages.auth_failed')
     end
     redirect_to request.env['omniauth.origin'] || edit_member_registration_path
   end

@@ -13,7 +13,7 @@ describe 'devise/registrations/new.html.haml', type: "view" do
     end
 
     it 'has some fields' do
-      rendered.should have_content 'Email'
+      expect(rendered).to have_content 'Email'
     end
 
     it 'has a checkbox for newsletter subscription' do

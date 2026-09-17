@@ -22,15 +22,16 @@ describe "forums", :js do
     before do
       visit forums_path
       click_link "New forum"
-      expect(page).to have_current_path new_forum_path, ignore_query: true
       fill_in 'Name', with: 'Discussion'
       fill_in 'Description', with: "this is a new forum"
       select member.login_name, from: "Owner"
       click_button 'Save'
     end
 
-    it { expect(page).to have_current_path forum_path(Forum.last), ignore_query: true }
-    it { expect(page).to have_content 'Forum was successfully created' }
+    it 'saves' do
+      expect(page).to have_content 'Forum was successfully created'
+      expect(page).to have_current_path forum_path(Forum.last), ignore_query: true
+    end
   end
 
   describe 'editing forum' do

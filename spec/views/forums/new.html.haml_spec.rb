@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "forums/new" do
   before do
-    @forum = assign(:forum, FactoryBot.create(:forum))
+    @forum = assign(:forum, create(:forum))
     render
   end
 

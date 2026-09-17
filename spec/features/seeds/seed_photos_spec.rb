@@ -10,8 +10,8 @@ describe "Seeds", :js do
     include_context 'signed in member'
     before { visit seed_path(seed) }
 
-    let(:member) { FactoryBot.create(:member)              }
-    let!(:seed)  { FactoryBot.create(:seed, owner: member) }
+    let(:member) { create(:member)              }
+    let!(:seed)  { create(:seed, owner: member) }
 
     it {
       click_on "Actions"
@@ -28,7 +28,7 @@ describe "Seeds", :js do
         visit seed_path(seed)
       end
 
-      let!(:photo) { FactoryBot.create(:photo, title: 'hello photo', owner: seed.owner) }
+      let!(:photo) { create(:photo, title: 'hello photo', owner: seed.owner) }
 
       it { is_expected.to have_xpath("//img[contains(@src,'#{photo.thumbnail_url}')]") }
       it { is_expected.to have_xpath("//a[contains(@href,'#{photo_path(photo)}')]") }
@@ -41,7 +41,7 @@ describe "Seeds", :js do
         visit seed_path(seed)
       end
 
-      let!(:photos) { FactoryBot.create_list(:photo, 10 * 5, owner: seed.owner) }
+      let!(:photos) { create_list(:photo, 10 * 5, owner: seed.owner) }
       let(:newest_photo) { seed.photos.order(created_at: :desc, id: :desc).first }
       let(:oldest_photo) { seed.photos.order(created_at: :desc, id: :desc).last }
 

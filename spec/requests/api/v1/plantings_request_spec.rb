@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Plantings', type: :request do
+RSpec.describe 'Plantings' do
   subject { JSON.parse response.body }
 
   let(:headers)   { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:planting) { FactoryBot.create(:planting) }
+  let!(:planting) { create(:planting) }
   let(:planting_encoded_as_json_api) do
     { "id"            => planting.id.to_s,
       "type"          => "plantings",
@@ -237,8 +237,8 @@ RSpec.describe 'Plantings', type: :request do
   end
 
   context 'filtering' do
-    let!(:planting2) { FactoryBot.create(:planting, failed: true, sunniness: 'shade') }
-    let!(:perennial_planting) { FactoryBot.create(:planting, crop: FactoryBot.create(:crop, perennial: true)) }
+    let!(:planting2) { create(:planting, failed: true, sunniness: 'shade') }
+    let!(:perennial_planting) { create(:planting, crop: create(:crop, perennial: true)) }
 
     it 'filters by failed' do
       get('/api/v1/plantings?filter[failed]=true', params: {}, headers:)

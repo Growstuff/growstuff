@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe Like do
-  let(:member) { FactoryBot.create(:member) }
-  let(:post)   { FactoryBot.create(:post)   }
-  let(:photo)  { FactoryBot.create(:photo) }
+  let(:member) { create(:member) }
+  let(:post)   { create(:post)   }
+  let(:photo)  { create(:photo) }
 
   context 'existing like' do
     before do
@@ -61,6 +61,21 @@ describe Like do
     like = Like.create(member:, likeable: post)
     member.destroy
     expect(Like.all).not_to include like
+  end
+
+  context "when the likeable author has blocked the member" do
+    let(:likeable_author) { create(:member) }
+    let(:post_author) { create(:member) }
+    let(:post) { create(:post, author: likeable_author) }
+
+    before do
+      likeable_author.blocks.create(blocked: member)
+    end
+
+    it "is not valid" do
+      like = build(:like, likeable: post, member: member)
+      expect(like).not_to be_valid
+    end
   end
 
   it 'liked_by_members_names' do

@@ -36,10 +36,11 @@
       = cute_icon
       = render 'predictions', crop: @crop
     - if @crop.all_companions.any?
-      %section.companions
-        %h2 Companions
-        - @crop.all_companions.each do |companion|
-          = render 'crops/tiny', crop: companion
+      - cache [@crop, 'companions'] do
+        %section.companions
+          %h2 Companions
+          - @crop.all_companions.each do |companion|
+            = render 'crops/tiny', crop: companion
 
     - if crop_or_parent(@crop, :en_youtube_url).present?
       %section.youtube
@@ -73,10 +74,11 @@
               = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
     - if @crop.varieties.any?
-      %section.varieties
-        %h2 Varieties
-        .index-cards
-          = render 'varieties', crop: @crop
+      - cache [@crop, 'varieties'] do
+        %section.varieties
+          %h2 Varieties
+          .index-cards
+            = render 'varieties', crop: @crop
 
     %section.crop-map
       %h2
@@ -134,9 +136,11 @@
     = render 'harvests', crop: @crop
     = render 'find_seeds', crop: @crop
 
-    = render 'openfarm_data', crop: @crop
+    - cache [@crop, 'openfarm_data'] do
+      = render 'openfarm_data', crop: @crop
 
-    = render 'nutritional_data', crop: @crop
+    - cache [@crop, 'nutritional_data'] do
+      = render 'nutritional_data', crop: @crop
 
     = cute_icon
     .card

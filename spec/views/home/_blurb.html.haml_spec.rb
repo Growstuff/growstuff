@@ -10,7 +10,7 @@ describe 'home/_blurb.html.haml', type: "view" do
     end
 
     it 'has description' do
-      rendered.should have_content 'is a community of food gardeners'
+      expect(rendered).to have_content 'is a community of food gardeners'
     end
 
     it 'has signup section' do
@@ -19,7 +19,7 @@ describe 'home/_blurb.html.haml', type: "view" do
     end
 
     it 'has a link to sign in' do
-      rendered.should have_content "Or sign in if you already have an account"
+      expect(rendered).to have_content "Or sign in if you already have an account"
       assert_select "a", href: new_member_session_path
     end
   end

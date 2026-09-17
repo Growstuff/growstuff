@@ -42,7 +42,7 @@ describe "signout" do
   end
 
   it 'photos' do
-    garden = FactoryBot.create(:garden, owner: member)
+    garden = create(:garden, owner: member)
     visit "/photos/new?id=#{garden.id}&type=garden"
     expect(page).to have_current_path new_member_session_path, ignore_query: true
     # expect(page).to have_http_status(200)

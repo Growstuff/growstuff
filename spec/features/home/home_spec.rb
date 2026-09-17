@@ -2,21 +2,21 @@
 
 require 'rails_helper'
 
-describe "home page", :search do
+describe "home page" do
   subject { page }
 
-  let(:member) { FactoryBot.create(:member) }
+  let(:member) { create(:member) }
 
-  let(:photo) { FactoryBot.create(:photo, owner: member) }
-  let(:crop) { FactoryBot.create(:crop, created_at: 1.day.ago) }
+  let(:photo) { create(:photo, owner: member) }
+  let(:crop) { create(:crop, created_at: 1.day.ago) }
 
-  let(:planting) { FactoryBot.create(:planting, owner: member, crop:) }
-  let(:seed)    { FactoryBot.create(:tradable_seed, owner: member, crop:) }
-  let(:harvest) { FactoryBot.create(:harvest, owner: member, crop:)       }
+  let(:planting) { create(:planting, owner: member, crop:) }
+  let(:seed)    { create(:tradable_seed, owner: member, crop:) }
+  let(:harvest) { create(:harvest, owner: member, crop:)       }
 
-  let!(:tradable_seed) { FactoryBot.create(:tradable_seed, :reindex, finished: false)  }
-  let!(:finished_seed)   { FactoryBot.create(:tradable_seed, :reindex, finished: true) }
-  let!(:untradable_seed) { FactoryBot.create(:untradable_seed, :reindex)               }
+  let!(:tradable_seed) { create(:tradable_seed, finished: false)  }
+  let!(:finished_seed)   { create(:tradable_seed, finished: true) }
+  let!(:untradable_seed) { create(:untradable_seed)               }
 
   before do
     # Add photos, so they can appear on home page
@@ -25,10 +25,6 @@ describe "home page", :search do
     harvest.photos << photo
 
     Crop.reindex
-    Planting.reindex
-    Seed.reindex
-    Harvest.reindex
-    Photo.reindex
 
     visit root_path
   end

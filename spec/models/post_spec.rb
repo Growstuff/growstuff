@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 describe Post do
-  let(:member) { FactoryBot.create(:member, login_name: 'whinacooper') }
+  let(:member) { create(:member, login_name: 'whinacooper') }
 
   it_behaves_like "it is likeable"
 
   it "has a slug" do
-    post = FactoryBot.create(:post, author: member, subject: 'A Post')
+    post = create(:post, author: member, subject: 'A Post')
     time = post.created_at
     datestr = time.strftime("%Y%m%d")
     # 2 digit day and month, full-length years
@@ -18,23 +18,23 @@ describe Post do
   end
 
   it "has many comments" do
-    post = FactoryBot.create(:post, author: member)
-    FactoryBot.create(:comment, commentable: post)
-    FactoryBot.create(:comment, commentable: post)
+    post = create(:post, author: member)
+    create(:comment, commentable: post)
+    create(:comment, commentable: post)
     post.comments.size.should == 2
   end
 
   it "supports counting comments" do
-    post = FactoryBot.create(:post, author: member)
-    FactoryBot.create(:comment, commentable: post)
-    FactoryBot.create(:comment, commentable: post)
+    post = create(:post, author: member)
+    create(:comment, commentable: post)
+    create(:comment, commentable: post)
     post.comment_count.should == 2
   end
 
   it "destroys comments when deleted" do
-    post = FactoryBot.create(:post, author: member)
-    FactoryBot.create(:comment, commentable: post)
-    FactoryBot.create(:comment, commentable: post)
+    post = create(:post, author: member)
+    create(:comment, commentable: post)
+    create(:comment, commentable: post)
     post.comments.size.should eq(2)
     all = Comment.count
     post.destroy
@@ -42,22 +42,22 @@ describe Post do
   end
 
   it "belongs to a forum" do
-    post = FactoryBot.create(:forum_post)
+    post = create(:forum_post)
     post.forum.should be_an_instance_of Forum
   end
 
   it "doesn't allow a nil subject" do
-    post = FactoryBot.build(:post, subject: nil)
+    post = build(:post, subject: nil)
     post.should_not be_valid
   end
 
   it "doesn't allow a blank subject" do
-    post = FactoryBot.build(:post, subject: "")
+    post = build(:post, subject: "")
     post.should_not be_valid
   end
 
   it "doesn't allow a subject with only spaces" do
-    post = FactoryBot.build(:post, subject: "    ")
+    post = build(:post, subject: "    ")
     post.should_not be_valid
   end
 
@@ -66,51 +66,51 @@ describe Post do
       Time.stub(now: Time.zone.now)
     end
 
-    let!(:post) { FactoryBot.create(:post, created_at: 1.day.ago) }
+    let!(:post) { create(:post, created_at: 1.day.ago) }
 
     it "sets recent activity to post time" do
       post.recent_activity.to_i.should eq post.created_at.to_i
     end
 
     it "sets recent activity to comment time" do
-      comment = FactoryBot.create(:comment, commentable: post,
-                                            created_at:  1.hour.ago)
+      comment = create(:comment, commentable: post,
+                                 created_at:  1.hour.ago)
       post.recent_activity.to_i.should eq comment.created_at.to_i
     end
 
     it "shiny new post is recently active" do
       # create a shiny new post
-      post2 = FactoryBot.create(:post, created_at: 1.minute.ago)
+      post2 = create(:post, created_at: 1.minute.ago)
       described_class.recently_active.first.should eq post2
       described_class.recently_active.second.should eq post
     end
 
     it "new comment on old post is recently active" do
       # now comment on an older post
-      post2 = FactoryBot.create(:post, created_at: 1.minute.ago)
-      FactoryBot.create(:comment, commentable: post, created_at: 1.second.ago)
+      post2 = create(:post, created_at: 1.minute.ago)
+      create(:comment, commentable: post, created_at: 1.second.ago)
       described_class.recently_active.first.should eq post
       described_class.recently_active.second.should eq post2
     end
   end
 
   context "notifications" do
-    let(:member2) { FactoryBot.create(:member) }
+    let(:member2) { create(:member) }
 
     it "sends a notification when a member is mentioned using @-syntax" do
       expect do
-        FactoryBot.create(:post, author: member, body: "Hey @#{member2}")
+        create(:post, author: member, body: "Hey @#{member2}")
       end.to change(Notification, :count).by(1)
     end
 
     it "sends a notification when a member is mentioned using [](member) syntax" do
       expect do
-        FactoryBot.create(:post, author: member, body: "Hey [#{member2}](member)")
+        create(:post, author: member, body: "Hey [#{member2}](member)")
       end.to change(Notification, :count).by(1)
     end
 
     it "sets the notification field" do
-      p = FactoryBot.create(:post, author: member, body: "Hey @#{member2}")
+      p = create(:post, author: member, body: "Hey @#{member2}")
       n = Notification.first
       n.sender.should eq member
       n.recipient.should eq member2
@@ -119,24 +119,24 @@ describe Post do
     end
 
     it "sends notifications to all members mentioned" do
-      member3 = FactoryBot.create(:member)
+      member3 = create(:member)
       expect do
-        FactoryBot.create(:post, author: member, body: "Hey @#{member2} & @#{member3}")
+        create(:post, author: member, body: "Hey @#{member2} & @#{member3}")
       end.to change(Notification, :count).by(2)
     end
 
     it "doesn't send notifications if you mention yourself" do
       expect do
-        FactoryBot.create(:post, author: member, body: "@#{member}")
+        create(:post, author: member, body: "@#{member}")
       end.not_to change(Notification, :count)
     end
   end
 
   context "crop-post association" do
-    let!(:tomato) { FactoryBot.create(:tomato) }
-    let!(:maize) { FactoryBot.create(:maize)                                                   }
-    let!(:chard) { FactoryBot.create(:chard)                                                   }
-    let!(:post)  { FactoryBot.create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
+    let!(:tomato) { create(:tomato) }
+    let!(:maize) { create(:maize)                                                   }
+    let!(:chard) { create(:chard)                                                   }
+    let!(:post)  { create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
 
     it "is generated" do
       expect(tomato.posts).to eq [post]
@@ -174,7 +174,7 @@ describe Post do
   end
 
   it 'excludes deleted members' do
-    post = FactoryBot.create(:post, author: member)
+    post = create(:post, author: member)
     expect(described_class.joins(:author).all).to include(post)
     member.destroy
     expect(described_class.joins(:author).all).not_to include(post)
