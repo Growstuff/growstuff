@@ -17,6 +17,11 @@ describe PhotosController do
         expect(assigns(:photos).count).to eq 1
         expect(assigns(:photos).first.id).to eq photo.id
       end
+
+      it 'returns 404 not found when page is out of bounds' do
+        get :index, params: { page: 105 }
+        expect(response).to have_http_status(:not_found)
+      end
     end
 
     describe '#index crop photos' do

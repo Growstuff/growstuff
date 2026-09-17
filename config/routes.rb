@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   get '/robots.txt' => 'robots#robots'
+  get '/dont-crawl-me' => proc { [403, { 'Content-Type' => 'text/plain' }, ['Forbidden']] }
 
   resources :garden_types
   resources :plant_parts
