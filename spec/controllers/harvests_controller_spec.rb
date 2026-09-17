@@ -64,14 +64,53 @@ describe HarvestsController do
   end
 
   describe "GET new" do
-    before { get :new, params: {} }
+    let(:planting) { create(:planting) }
 
-    describe "assigns a new harvest as @harvest" do
-      it { expect(assigns(:harvest)).to be_a_new(Harvest) }
+    describe "when no planting is specified" do
+      before { get :new, params: {} }
+
+      it "assigns a new harvest as @harvest" do
+        expect(assigns(:harvest)).to be_a_new(Harvest)
+      end
+
+      it "sets the date of the harvest to today" do
+        expect(assigns(:harvest).harvested_at).to eq(Time.zone.today)
+      end
     end
 
-    describe "sets the date of the harvest to today" do
-      it { expect(assigns(:harvest).harvested_at).to eq(Time.zone.today) }
+    describe "when planting_slug parameter is provided" do
+      before { get :new, params: { planting_slug: planting.slug } }
+
+      it "assigns @planting" do
+        expect(assigns(:planting)).to eq(planting)
+      end
+
+      it "assigns @crop from the planting" do
+        expect(assigns(:crop)).to eq(planting.crop)
+      end
+
+      it "prefills @harvest with the planting and planting crop" do
+        expect(assigns(:harvest).planting).to eq(planting)
+        expect(assigns(:harvest).crop).to eq(planting.crop)
+        expect(assigns(:harvest).crop_id).to eq(planting.crop_id)
+      end
+    end
+
+    describe "when harvest[planting_id] parameter is provided" do
+      before { get :new, params: { harvest: { planting_id: planting.id } } }
+
+      it "assigns @planting" do
+        expect(assigns(:planting)).to eq(planting)
+      end
+
+      it "assigns @crop from the planting" do
+        expect(assigns(:crop)).to eq(planting.crop)
+      end
+
+      it "prefills @harvest with the planting crop" do
+        expect(assigns(:harvest).crop).to eq(planting.crop)
+        expect(assigns(:harvest).crop_id).to eq(planting.crop_id)
+      end
     end
   end
 
