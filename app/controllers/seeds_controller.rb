@@ -2,36 +2,32 @@
 
 class SeedsController < DataController
   def index
-    where = {}
+    @seeds = Seed.all
 
     if params[:member_slug].present?
-      @owner = Member.find_by(slug: params[:member_slug])
-      where['owner_id'] = @owner.id
+      @owner = Member.find_by!(slug: params[:member_slug])
+      @seeds = @seeds.where(owner_id: @owner.id)
     end
 
     if params[:crop_slug].present?
       @crop = Crop.find_by(slug: params[:crop_slug])
-      where['crop_id'] = @crop.id
+      @seeds = @seeds.where(crop_id: @crop.id) if @crop
     end
 
     if params[:planting_id].present?
       @planting = Planting.find_by(slug: params[:planting_id])
-      where['parent_planting'] = @planting.id
+      @seeds = @seeds.where(parent_planting_id: @planting.id) if @planting
     end
 
-    where['tradeable_to'] = params[:tradeable_to] if params[:tradeable_to].present?
+    @seeds = @seeds.where(tradable_to: params[:tradeable_to]) if params[:tradeable_to].present?
 
     @show_all = (params[:all] == '1')
-    where['finished'] = false unless @show_all
+    @seeds = @seeds.current unless @show_all
 
     @filename = csv_filename
-    @seeds = Seed.search(
-      where:,
-      page:     params[:page],
-      limit:    30,
-      boost_by: [:created_at],
-      load:     false
-    )
+    @seeds = @seeds.includes(:crop, :owner)
+                   .order(created_at: :desc)
+                   .paginate(page: params[:page], per_page: 30)
 
     respond_with(@seeds)
   end
@@ -61,7 +57,7 @@ class SeedsController < DataController
     @seed.finished ||= false
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
-    flash[:notice] = "Successfully added #{@seed.crop} seed to your stash." if @seed.save
+    flash[:notice] = t('seeds.added_to_stash', crop: @seed.crop) if @seed.save
     if params[:return] == 'planting'
       respond_with(@seed, location: @seed.parent_planting)
     else
@@ -70,7 +66,7 @@ class SeedsController < DataController
   end
 
   def update
-    flash[:notice] = 'Seed was successfully updated.' if @seed.update(seed_params)
+    flash[:notice] = t('seeds.updated') if @seed.update(seed_params)
     respond_with(@seed)
   end
 

@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Seeds', type: :request do
+RSpec.describe 'Seeds' do
   subject { JSON.parse response.body }
 
   let(:headers) { { 'Accept' => 'application/vnd.api+json' } }
-  let!(:seed)   { FactoryBot.create(:seed) }
+  let!(:seed)   { create(:seed) }
   let(:seed_encoded_as_json_api) do
     { "id"            => seed.id.to_s,
       "type"          => "seeds",
@@ -68,7 +68,7 @@ RSpec.describe 'Seeds', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:crop) { create(:crop) }
     let(:seed_params) do
       {
@@ -103,7 +103,7 @@ RSpec.describe 'Seeds', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:crop) { create(:crop) }
     let(:seed) { create(:seed, owner: member, crop: crop) }
     let(:other_member_seed) { create(:seed) }
@@ -152,7 +152,7 @@ RSpec.describe 'Seeds', type: :request do
       member.api_token.token
     end
     let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Token token=#{token}") }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
     let(:crop) { create(:crop) }
     let!(:seed) { create(:seed, owner: member, crop: crop) }
     let(:other_member_seed) { create(:seed) }
@@ -176,7 +176,7 @@ RSpec.describe 'Seeds', type: :request do
 
   context 'filtering' do
     let!(:seed2) do
-      FactoryBot.create(:seed, tradable_to: 'nationally', organic: 'certified organic', gmo: 'certified GMO-free', heirloom: 'heirloom')
+      create(:seed, tradable_to: 'nationally', organic: 'certified organic', gmo: 'certified GMO-free', heirloom: 'heirloom')
     end
 
     it 'filters by crop' do

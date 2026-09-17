@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 describe "photos/show" do
-  let(:photo) { FactoryBot.create(:photo, owner: member) }
-  let(:member) { FactoryBot.create(:member) }
-  let(:harvest)  { FactoryBot.create(:harvest, owner: member)  }
-  let(:planting) { FactoryBot.create(:planting, owner: member) }
-  let(:seed)     { FactoryBot.create(:seed, owner: member)     }
-  let(:garden)   { FactoryBot.create(:garden, owner: member)   }
-  let(:crops) { FactoryBot.create_list(:crop, 2) }
+  let(:photo) { create(:photo, owner: member) }
+  let(:member) { create(:member) }
+  let(:harvest)  { create(:harvest, owner: member)  }
+  let(:planting) { create(:planting, owner: member) }
+  let(:seed)     { create(:seed, owner: member)     }
+  let(:garden)   { create(:garden, owner: member)   }
+  let(:crops) { create_list(:crop, 2) }
 
   before do
     @photo = photo
@@ -67,7 +67,7 @@ describe "photos/show" do
 
   context "signed in as another member" do
     before do
-      controller.stub(:current_user) { FactoryBot.create(:member) }
+      controller.stub(:current_user) { create(:member) }
       render
     end
 
@@ -104,12 +104,12 @@ describe "photos/show" do
   context "unlicensed photo" do
     before do
       controller.stub(:current_user) { nil }
-      @photo = assign(:photo, FactoryBot.create(:unlicensed_photo))
+      @photo = assign(:photo, create(:unlicensed_photo))
       render
     end
 
     it "contains the phrase 'All rights reserved'" do
-      rendered.should have_content "All rights reserved"
+      expect(rendered).to have_content "All rights reserved"
     end
   end
 end

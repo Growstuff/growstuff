@@ -4,17 +4,17 @@ require 'rails_helper'
 
 describe "plantings/_form" do
   before do
-    @member = FactoryBot.create(:member)
-    @garden = FactoryBot.create(:garden, owner: @member)
-    @uppercase = FactoryBot.create(:uppercasecrop)
-    @lowercase = FactoryBot.create(:lowercasecrop)
+    @member = create(:member)
+    @garden = create(:garden, owner: @member)
+    @uppercase = create(:uppercasecrop)
+    @lowercase = create(:lowercasecrop)
     @crop = @lowercase # needed to render the form
 
-    @planting = FactoryBot.create(:planting,
-                                  garden:     @garden,
-                                  crop:       @crop,
-                                  owner:      @member,
-                                  planted_at: Date.new(2013, 3, 1))
+    @planting = create(:planting,
+                       garden:     @garden,
+                       crop:       @crop,
+                       owner:      @member,
+                       planted_at: Date.new(2013, 3, 1))
 
     @gardens = @member.gardens
     sign_in @member

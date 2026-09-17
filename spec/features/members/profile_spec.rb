@@ -62,10 +62,10 @@ describe "member profile", :js do
       end
 
       context "with some activity" do
-        let!(:planting) { FactoryBot.create(:planting, owner: member) }
-        let!(:harvest) { FactoryBot.create(:harvest, owner: member) }
-        let!(:seed) { FactoryBot.create(:seed, owner: member) }
-        let!(:post) { FactoryBot.create(:post, author: member) }
+        let!(:planting) { create(:planting, owner: member) }
+        let!(:harvest) { create(:harvest, owner: member) }
+        let!(:seed) { create(:seed, owner: member) }
+        let!(:post) { create(:post, author: member) }
 
         before { visit member_path(member) }
 
@@ -104,10 +104,10 @@ describe "member profile", :js do
 
   shared_examples 'member activity' do
     context 'member has plantings' do
-      let!(:new_planting) { FactoryBot.create(:planting, owner: member, planted_at: Time.zone.now) }
-      let!(:old_planting) { FactoryBot.create(:planting, owner: member, planted_at: 3.years.ago) }
-      let!(:finished_planting) { FactoryBot.create(:finished_planting, owner: member) }
-      let!(:no_planted_at_planting) { FactoryBot.create(:planting, owner: member, planted_at: nil) }
+      let!(:new_planting) { create(:planting, owner: member, planted_at: Time.zone.now) }
+      let!(:old_planting) { create(:planting, owner: member, planted_at: 3.years.ago) }
+      let!(:finished_planting) { create(:finished_planting, owner: member) }
+      let!(:no_planted_at_planting) { create(:planting, owner: member, planted_at: nil) }
 
       before { visit member_path(member) }
 
@@ -118,19 +118,19 @@ describe "member profile", :js do
     end
 
     context 'member has activities' do
-      let!(:activity) { FactoryBot.create(:activity, owner: member, due_date: 3.days.ago) }
-      let!(:activity2) { FactoryBot.create(:activity, :planting, owner: member) }
-      let!(:activity3) { FactoryBot.create(:activity, :garden, owner: member) }
+      let!(:past_activity) { create(:activity, owner: member, due_date: 3.days.ago) }
+      let!(:planting_activity) { create(:activity, :planting, owner: member) }
+      let!(:garden_activity) { create(:activity, :garden, owner: member) }
 
       before { visit member_path(member) }
 
-      it { expect(page).to have_link href: activity_path(activity) }
-      it { expect(page).to have_link href: activity_path(activity2) }
-      it { expect(page).to have_link href: activity_path(activity3) }
+      it { expect(page).to have_link href: activity_path(past_activity) }
+      it { expect(page).to have_link href: activity_path(planting_activity) }
+      it { expect(page).to have_link href: activity_path(garden_activity) }
     end
 
     context 'member has seeds' do
-      let!(:seed) { FactoryBot.create(:seed, owner: member) }
+      let!(:seed) { create(:seed, owner: member) }
 
       before { visit member_path(member) }
 
@@ -138,7 +138,7 @@ describe "member profile", :js do
     end
 
     context 'member has harvests' do
-      let!(:harvest) { FactoryBot.create(:harvest, owner: member) }
+      let!(:harvest) { create(:harvest, owner: member) }
 
       before { visit member_path(member) }
 
@@ -146,7 +146,7 @@ describe "member profile", :js do
     end
 
     context 'member has posts' do
-      let!(:post) { FactoryBot.create(:post, author: member) }
+      let!(:post) { create(:post, author: member) }
 
       before { visit member_path(member) }
 
@@ -154,8 +154,8 @@ describe "member profile", :js do
     end
 
     context 'member has comments' do
-      let(:post) { FactoryBot.create(:post) }
-      let!(:comment) { FactoryBot.create(:comment, commentable: post, author: member) }
+      let(:post) { create(:post) }
+      let!(:comment) { create(:comment, commentable: post, author: member) }
 
       before { visit member_path(member) }
 
@@ -164,8 +164,8 @@ describe "member profile", :js do
     end
 
     context 'photos' do
-      let(:planting) { FactoryBot.create(:planting, owner: member) }
-      let!(:photo) { FactoryBot.create(:photo, owner: member, plantings: [planting]) }
+      let(:planting) { create(:planting, owner: member) }
+      let!(:photo) { create(:photo, owner: member, plantings: [planting]) }
 
       before { visit member_path(member) }
 
@@ -174,35 +174,35 @@ describe "member profile", :js do
     end
 
     context 'plantings' do
-      let(:crop) { FactoryBot.create(:crop) }
+      let(:crop) { create(:crop) }
       let(:growing_planting) do
-        FactoryBot.create(:planting,
-                          crop:,
-                          owner:      member,
-                          planted_at: Time.zone.today)
+        create(:planting,
+               crop:,
+               owner:      member,
+               planted_at: Time.zone.today)
       end
       let(:harvesting_planting) do
-        FactoryBot.create(:planting,
-                          crop:,
-                          owner:      member,
-                          planted_at: 51.days.ago)
+        create(:planting,
+               crop:,
+               owner:      member,
+               planted_at: 51.days.ago)
       end
       let(:super_late_planting) do
-        FactoryBot.create(:planting,
-                          crop:, owner: member,
-                          planted_at: 260.days.ago)
+        create(:planting,
+               crop:, owner: member,
+               planted_at: 260.days.ago)
       end
 
       before do
         # time to harvest = 50 day
         # time to finished = 90 days
-        FactoryBot.create(:harvest,
-                          harvested_at: 50.days.ago,
-                          crop:,
-                          planting:     FactoryBot.create(:planting,
-                                                          crop:,
-                                                          planted_at:  100.days.ago,
-                                                          finished_at: 10.days.ago))
+        create(:harvest,
+               harvested_at: 50.days.ago,
+               crop:,
+               planting:     create(:planting,
+                                    crop:,
+                                    planted_at:  100.days.ago,
+                                    finished_at: 10.days.ago))
         crop.plantings.each(&:update_harvest_days!)
         crop.update_lifespan_medians
         crop.update_harvest_medians

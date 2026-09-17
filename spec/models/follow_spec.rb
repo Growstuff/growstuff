@@ -4,8 +4,8 @@ require 'spec_helper'
 
 describe Follow do
   before do
-    @member1 = FactoryBot.create(:member)
-    @member2 = FactoryBot.create(:member)
+    @member1 = create(:member)
+    @member2 = create(:member)
   end
 
   it "sends a notification when a follow is created" do

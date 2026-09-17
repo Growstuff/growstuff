@@ -10,4 +10,6 @@ class HomeController < ApplicationController
     # the relevant class methods directly in the view, so that fragment
     # caching will be effective.
   end
+
+  def community_gardens; end
 end

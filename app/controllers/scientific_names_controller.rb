@@ -54,7 +54,7 @@ class ScientificNamesController < ApplicationController
   def destroy
     @crop = @scientific_name.crop
     @scientific_name.destroy
-    flash[:notice] = 'Scientific name was successfully deleted.'
+    flash[:notice] = t('scientific_names.deleted')
     respond_with(@crop)
   end
 
@@ -74,7 +74,7 @@ class ScientificNamesController < ApplicationController
   end
 
   def scientific_name_params
-    params.require(:scientific_name).permit(:crop_id, :name, :gbif_key)
+    params.require(:scientific_name).permit(:crop_id, :name, :gbif_key, :wikidata_id)
   end
 
   def gbif_service

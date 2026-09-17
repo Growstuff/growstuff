@@ -8,6 +8,8 @@
           = link_to planting_path(planting), class: 'card-link' do
             = planting_icon
             = planting
+          - if can?(:edit, planting)
+            .float-right= render 'plantings/actions', planting: planting
           .float-right= render 'members/location', member: planting.owner
   .card-footer
     - if crop.approved?

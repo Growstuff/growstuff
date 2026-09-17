@@ -9,13 +9,20 @@ class PhotosController < ApplicationController
   responders :flash
 
   def index
-    @photos = Photo.search(
-      load:     false,
-      boost_by: [:created_at],
-      where:    index_where_clause,
-      page:     params[:page],
-      limit:    Photo.per_page
-    )
+    @photos = if @crop
+                @crop.photos
+              elsif @planting
+                @planting.photos
+              else
+                Photo.all
+              end
+
+    @photos = @photos.includes(:owner)
+                     .order(created_at: :desc)
+                     .paginate(page: params[:page], per_page: Photo.per_page)
+
+    raise ActiveRecord::RecordNotFound if @photos.out_of_bounds?
+
     respond_with(@photos)
   end
 
@@ -102,29 +109,21 @@ class PhotosController < ApplicationController
     end
 
     @current_set = params[:set]
+    @current_tag = params[:tag]
 
     page = params[:page] || 1
 
     @sets = current_member.flickr_sets
-    photos, total = current_member.flickr_photos(page, @current_set)
+    photos, total = current_member.flickr_photos(page, @current_set, @current_tag)
 
     @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
       pager.replace photos
     end
   end
 
-  def index_where_clause
-    if params[:crop_slug]
-      { crops: @crop.id }
-    elsif params[:planting_id]
-      { planting_id: @planting.id }
-    else
-      {}
-    end
-  end
-
   def set_crop_and_planting
     @crop = Crop.find params[:crop_slug] if params[:crop_slug]
     @planting = Planting.find params[:planting_id] if params[:planting_id]
+    @planting ||= Planting.find params[:planting_slug] if params[:planting_slug]
   end
 end

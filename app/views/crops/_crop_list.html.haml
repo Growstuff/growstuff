@@ -1,0 +1,10 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Plantings
+  %tbody
+    - crops.each do |crop|
+      %tr
+        %td= link_to crop.name, crop
+        %td= crop.plantings_count

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe "Changing locales", :js do
   after { I18n.locale = :en }
 
-  let(:member) { FactoryBot.create(:member) }
+  let(:member) { create(:member) }
 
   it "Locale can be set with a query param" do
     # Login then log out, to ensure we're now logged out

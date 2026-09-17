@@ -4,25 +4,28 @@
     %p None known.
   - else
     - crop.scientific_names.each do |sn|
-      - if can? :edit, sn
-        .dropdown.planting-actions
-          %a#planting-actions-scinames.dropdown-toggle.card-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :type => "button", :href => '#'}= sn.name
-          .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
-            = link_to edit_scientific_name_path(sn), class: 'dropdown-item' do
-              = edit_icon
-              = t('.edit')
-            .dropdown-divider
-            = link_to sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item text-danger' do
-              = delete_icon
-              = t('.delete')
-      - else
-        - if sn.gbif_key
-          = link_to sn.name, "https://www.gbif.org/species/#{sn.gbif_key}",
-                  class: 'card-link',
-                  target: "_blank",
-                  rel: "noopener noreferrer"
+      .d-inline-block
+        - if can? :edit, sn
+          .dropdown.planting-actions.d-inline-block
+            %a#planting-actions-scinames.dropdown-toggle.card-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :type => "button", :href => '#'}= sn.name
+            .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "planting-actions-button"}
+              = link_to edit_scientific_name_path(sn), class: 'dropdown-item' do
+                = edit_icon
+                = t('.edit')
+              .dropdown-divider
+              = link_to sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item text-danger' do
+                = delete_icon
+                = t('.delete')
         - else
-          .badge= sn.name
+          - if sn.gbif_key
+            = link_to sn.name, "https://www.gbif.org/species/#{sn.gbif_key}",
+                    class: 'card-link',
+                    target: "_blank",
+                    rel: "noopener noreferrer"
+          - else
+            .badge= sn.name
+      - if sn.wikidata_id.present?
+        = link_to "WD", "https://www.wikidata.org/wiki/#{sn.wikidata_id}", class: 'badge badge-info ms-1', target: '_blank', rel: 'noopener noreferrer', title: 'Wikidata'
 
   %p.text-right
     - if can? :edit, crop

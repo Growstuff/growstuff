@@ -8,26 +8,10 @@ class PlantingsController < DataController
   def index
     @show_all = params[:all] == '1'
 
-    where = {}
-    where['active'] = true unless @show_all
+    @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
+    @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug]
 
-    if params[:member_slug]
-      @owner = Member.find_by(slug: params[:member_slug])
-      where['owner_id'] = @owner.id unless @owner.nil?
-    end
-
-    if params[:crop_slug]
-      @crop = Crop.find_by(slug: params[:crop_slug])
-      where['crop_id'] = @crop.id unless @crop.nil?
-    end
-
-    @plantings = Planting.search(
-      where:,
-      page:     params[:page],
-      limit:    30,
-      boost_by: [:created_at],
-      load:     false
-    )
+    @plantings = plantings
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_fs(:number)}.csv"
     respond_with(@plantings)
@@ -35,7 +19,7 @@ class PlantingsController < DataController
 
   def show
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
-    @harvests = Harvest.search(where: { planting_id: @planting.id })
+    @harvests = Harvest.where(planting_id: @planting.id).recent
     @current_activities = @planting.activities.current.includes(:owner).order(created_at: :desc)
     @finished_activities = @planting.activities.finished.includes(:owner).order(created_at: :desc)
     @matching_seeds = matching_seeds
@@ -116,11 +100,11 @@ class PlantingsController < DataController
     new_planting.finished_at = nil
 
     if new_planting.save
-      redirect_to edit_planting_path(new_planting), notice: 'Planting was successfully transplanted.'
+      redirect_to edit_planting_path(new_planting), notice: t('messages.transplant_success')
     else
       # if the save fails, we should probably roll back the finishing of the original planting
       @planting.update(finished: false, finished_at: nil)
-      redirect_to @planting, alert: "There was an error transplanting the planting: #{new_planting.errors.full_messages.to_sentence}"
+      redirect_to @planting, alert: t('messages.transplant_error', errors: new_planting.errors.full_messages.to_sentence)
     end
   end
 
@@ -160,7 +144,7 @@ class PlantingsController < DataController
   end
 
   def matching_seeds
-    Seed.where(crop: @planting.crop, owner: @planting.owner)
+    @matching_seeds ||= Seed.where(crop: @planting.crop, owner: @planting.owner)
       .where('(finished_at IS NULL OR finished_at >= ?)', @planting.planted_at)
       .where('(saved_at IS NULL OR saved_at <= ?)', @planting.planted_at)
   end

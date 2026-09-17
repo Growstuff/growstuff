@@ -8,9 +8,9 @@ module Admin
     responders :flash
 
     def index
-      @members = Member.all
-      @members = @members.where("login_name ILIKE ?", "%#{search_term}%") unless search_term.nil?
-      @members = @members.order(:login_name).paginate(page: params[:page])
+      @members = Member.order(:login_name)
+      @members = @members.where("login_name ILIKE ?", "%#{search_term}%") if search_term.present?
+      @members = @members.paginate(page: params[:page])
     end
 
     def edit

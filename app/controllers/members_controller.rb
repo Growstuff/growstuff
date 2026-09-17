@@ -40,12 +40,9 @@ class MembersController < ApplicationController
       end
     end
 
-    @harvests = Harvest.search(
-      where:    { owner_id: @member.id },
-      boost_by: [:created_at],
-      limit:    16,
-      load:     false
-    )
+    @harvests = Harvest.where(owner_id: @member.id)
+                       .recent
+                       .limit(16)
 
     respond_to do |format|
       format.html # show.html.haml
@@ -90,11 +87,12 @@ class MembersController < ApplicationController
 
   EMAIL_TYPE_STRING = {
     send_notification_email: "direct message notifications",
-    send_planting_reminder:  "planting reminders"
+    send_planting_reminder:  "planting reminders",
+    send_harvest_reminder:   "harvest reminders"
   }.freeze
 
   def member_params
-    params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter)
+    params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter, :send_harvest_reminder)
   end
 
   def member_json_fields

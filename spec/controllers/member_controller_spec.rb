@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe MembersController do
   before do
-    @member = FactoryBot.create(:member)
-    @flickr_auth = FactoryBot.create(:flickr_authentication, member: @member)
+    @member = create(:member)
+    @flickr_auth = create(:flickr_authentication, member: @member)
   end
 
   describe "GET index" do
@@ -39,7 +39,7 @@ describe MembersController do
     end
 
     it "doesn't show unconfirmed members" do
-      @member2 = FactoryBot.create(:unconfirmed_member)
+      @member2 = create(:unconfirmed_member)
       get :show, params: { slug: @member2.id }
       expect(response).to have_http_status(:not_found)
     end

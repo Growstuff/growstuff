@@ -46,11 +46,6 @@ RSpec.configure do |config|
   def index_everything
     # reindex models
     Crop.reindex
-    Harvest.reindex
-    Photo.reindex
-    Planting.reindex
-    Seed.reindex
-    Activity.reindex
   end
 
   config.before(:suite) do
@@ -63,7 +58,9 @@ RSpec.configure do |config|
   config.around(:each, :search) do |example|
     Searchkick.callbacks(true) do
       index_everything
+
       example.run
+
       index_everything
     end
   end

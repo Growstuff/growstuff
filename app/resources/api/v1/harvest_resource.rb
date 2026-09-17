@@ -10,9 +10,9 @@ module Api
         @model.plant_part = PlantPart.first
       end
 
-      has_one :crop
-      has_one :planting
-      has_one :owner, class_name: 'Member'
+      has_one :crop, always_include_linkage_data: true
+      has_one :planting, always_include_linkage_data: true
+      has_one :owner, class_name: 'Member', always_include_linkage_data: true
       # has_one :plant_part
       has_many :photos
 

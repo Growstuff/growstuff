@@ -4,11 +4,11 @@ shared_examples "it is likeable" do
   before do
     # Possibly a horrible hack.
     # Will fail if factory name does not match the model name..
-    @likeable = FactoryBot.create(described_class.to_s.underscore.to_sym)
-    @member1 = FactoryBot.create(:member)
-    @member2 = FactoryBot.create(:member)
-    @like1 = FactoryBot.create(:like, member: @member1, likeable: @likeable)
-    @like2 = FactoryBot.create(:like, member: @member2, likeable: @likeable)
+    @likeable = create(described_class.to_s.underscore.to_sym)
+    @member1 = create(:member)
+    @member2 = create(:member)
+    @like1 = create(:like, member: @member1, likeable: @likeable)
+    @like2 = create(:like, member: @member2, likeable: @likeable)
   end
 
   it "has many likes" do

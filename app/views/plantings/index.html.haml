@@ -1,9 +1,10 @@
 - content_for :title, title('plantings', @owner, @crop, @planting)
+- content_for :meta_description, "Browse and search for plantings."
 
 - content_for :breadcrumbs do
   - if @owner
     %li.breadcrumb-item= link_to 'Plantings', plantings_path
-    %li.breadcrumb-item.active= link_to "#{@owner}'s plantings", plantings_path(owner: @owner)
+    %li.breadcrumb-item.active= link_to "#{@owner}'s plantings", member_plantings_path(@owner)
   - else
     %li.breadcrumb-item.active= link_to 'Plantings', plantings_path
 

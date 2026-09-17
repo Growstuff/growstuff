@@ -19,10 +19,6 @@ module OpenFarmData
       fetch_attr('tags_array')
     end
 
-    def description
-      fetch_attr('description')
-    end
-
     def common_names
       fetch_attr('common_names')
     end

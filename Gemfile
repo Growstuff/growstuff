@@ -5,7 +5,9 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.1.0'
+
+gem 'csv'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -16,6 +18,7 @@ gem 'bundler', '>= 2.4.22'
 gem 'coffee-rails'
 gem 'haml'
 gem 'sassc-rails'
+gem 'oauth', '1.1.6' # Explicitly pinned, as the maintainer does huge (400 files, 45k lines) changes in point releases - required manual plus agentic security review.
 
 # API data
 gem 'jsonapi-resources'
@@ -116,6 +119,8 @@ gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 gem 'puma'
 
+gem 'rack-attack'
+
 gem 'loofah', '>= 2.19.1'
 gem 'rack-protection', '>= 2.0.1'
 
@@ -135,6 +140,11 @@ gem 'recaptcha'
 gem "gbifrb"
 
 gem "msgpack"
+
+# Pinned due to RAILS_ENV=production bundle exec rake assets:precompile failing with ArgumentError: wrong number of arguments (given 1, expected 0) (ArgumentError)
+# /tmp/build_8301a541/vendor/bundle/ruby/3.3.0/gems/connection_pool-3.0.2/lib/connection_pool.rb:48:in `initialize'
+# /tmp/build_8301a541/vendor/bundle/ruby/3.3.0/gems/activesupport-7.2.3/lib/active_support/cache/mem_cache_store.rb:63:in `new'
+gem "connection_pool", "< 3"
 
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
@@ -195,8 +205,9 @@ group :test do
   gem 'vcr'
 end
 
-group :travis do
-  gem 'platform-api'
-end
-
 gem "i18n_data", "~> 1.1"
+
+gem "paper_trail", "~> 17.0"
+
+gem 'aws-sdk-s3', '~> 1', '>= 1.114.0'
+gem 'sitemap_generator'

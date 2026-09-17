@@ -1,0 +1,17 @@
+- if version.changeset.present?
+  .changes
+    - version.changeset.each do |field, changes|
+      - if field != "updated_at"
+        .row
+          .col-md-3
+            %strong= field.humanize
+          .col-md-9
+            - if changes[0].present?
+              %em= changes[0]
+            - else
+              %em (blank)
+            %span.text-muted ->
+            - if changes[1].present?
+              %em= changes[1]
+            - else
+              %em (blank)

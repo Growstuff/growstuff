@@ -11,19 +11,23 @@
   %p
     %span.help-block
       For detailed crop wrangling guidelines, please consult the
-      = link_to "crop wrangling guide", "http://wiki.growstuff.org/index.php/Crop_wrangling"
+      = link_to "crop wrangling guide", "https://github.com/Growstuff/growstuff/wiki/Crop-Wrangling"
       on the Growstuff wiki.
 
   .form-group
     = f.label :crop_id, class: 'control-label col-md-2'
     .col-md-8
-      = collection_select(:scientific_name, :crop_id, Crop.all.order(:name), :id,
-        :name, { selected: @scientific_name.crop_id || @crop.id },
+      = select(:scientific_name, :crop_id, Crop.order(:name).pluck(:name, :id),
+        { selected: @scientific_name.crop_id || @crop.id },
         class: 'form-control')
   .form-group
     = f.label :name, class: 'control-label col-md-2'
     .col-md-8
       = f.text_field :name, class: 'form-control'
+  .form-group
+    = f.label :wikidata_id, "Wikidata ID", class: 'control-label col-md-2'
+    .col-md-8
+      = f.text_field :wikidata_id, class: 'form-control', pattern: 'Q[1-9][0-9]*'
   .form-group
     .form-actions.col-md-offset-2.col-md-8
       = f.submit 'Save', class: 'btn btn-primary'

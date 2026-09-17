@@ -12,7 +12,7 @@ module Api
 
       has_many :photos
 
-      has_one :parent, class_name: 'Crop'
+      has_one :parent, class_name: 'Crop', always_include_linkage_data: true
 
       attribute :name
       attribute :en_wikipedia_url

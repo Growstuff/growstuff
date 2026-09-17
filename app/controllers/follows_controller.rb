@@ -13,11 +13,11 @@ class FollowsController < ApplicationController
     @follow = current_member.follows.build(followed: Member.find(params[:followed]))
 
     if @follow.save
-      flash[:notice] = "Followed #{@follow.followed.login_name}"
+      flash[:notice] = t('messages.followed', name: @follow.followed.login_name)
     else
-      flash[:error] = "Already following or error while following."
+      flash[:error] = t('messages.follow_error')
     end
-    redirect_back fallback_location: root_path
+    redirect_back_or_to(root_path)
   end
 
   def destroy
@@ -25,7 +25,7 @@ class FollowsController < ApplicationController
     @unfollowed = @follow.followed
     @follow.destroy
 
-    flash[:notice] = "Unfollowed #{@unfollowed.login_name}"
+    flash[:notice] = t('messages.unfollowed', name: @unfollowed.login_name)
     redirect_to @unfollowed
   end
 

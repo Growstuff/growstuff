@@ -14,7 +14,7 @@ describe AdminController do
     end
 
     describe 'assigns @members' do
-      let!(:m) { FactoryBot.create(:newsletter_recipient_member) }
+      let!(:m) { create(:newsletter_recipient_member) }
 
       it { expect(assigns(:members)).to eq [m] }
     end

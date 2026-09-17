@@ -9,6 +9,7 @@ module Api
       has_many :plantings, foreign_key: 'owner_id'
       has_many :harvests, foreign_key: 'owner_id'
       has_many :seeds, foreign_key: 'owner_id'
+      has_many :activities, foreign_key: 'owner_id'
 
       has_many :photos
 

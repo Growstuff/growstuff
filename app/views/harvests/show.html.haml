@@ -1,4 +1,9 @@
 = content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
+- content_for :meta_description do
+  - if @harvest.description.present?
+    = @harvest.description
+  - else
+    = "#{@harvest.crop} harvested by #{@harvest.owner}."
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: harvest_image_path(@harvest))
   = tag("meta", property: "og:image:user_generated", content: "true")
@@ -6,6 +11,9 @@
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+
+%script{type: "application/ld+json"}
+  = crop_jsonld_data(@harvest.crop, full_attributes: false).to_json.html_safe
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Harvests', harvests_path
@@ -68,3 +76,4 @@
 
     .col-md-4.col-xs-12
       = render @harvest.crop
+      = render 'crops/nutritional_data', crop: @harvest.crop

@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe "posts/new" do
-  let(:author) { FactoryBot.create(:member) }
+  let(:author) { create(:member) }
 
   before do
-    assign(:post, FactoryBot.create(:post, author:))
+    assign(:post, create(:post, author:))
     # assign(:forum, Forum.new)
     sign_in author
     controller.stub(:current_user) { author }
@@ -37,11 +37,11 @@ describe "posts/new" do
   end
 
   context "forum specified" do
-    let(:forum) { FactoryBot.create(:forum) }
+    let(:forum) { create(:forum) }
 
     before do
       assign(:forum, forum)
-      assign(:post, FactoryBot.create(:post, forum:))
+      assign(:post, create(:post, forum:))
       render
     end
 
