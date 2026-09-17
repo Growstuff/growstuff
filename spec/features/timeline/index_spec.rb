@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "timeline", :js do
+describe "timeline" do
   let(:member) { create(:member) }
   let(:planting_friend) { create(:member) }
   let(:post_friend) { create(:member) }

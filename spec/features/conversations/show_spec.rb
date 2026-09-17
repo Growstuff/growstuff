@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "Conversations", :js do
+describe "Conversations" do
   let(:sender)    { create(:member)                        }
   let(:recipient) { create(:member, login_name: 'beyonce') }
 
