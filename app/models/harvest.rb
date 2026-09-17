@@ -5,8 +5,9 @@ class Harvest < ApplicationRecord
   extend FriendlyId
   include PhotoCapable
   include Ownable
-  include SearchHarvests
   include Likeable
+
+  attr_accessor :overall_rating
 
   friendly_id :harvest_slug, use: %i(slugged finders)
 
@@ -152,6 +153,10 @@ class Harvest < ApplicationRecord
         crop.name.pluralize
       end.to_s
     end
+  end
+
+  def self.homepage_records(limit)
+    recent.one_per_owner.limit(limit)
   end
 
   private

@@ -17,7 +17,7 @@
       %li.list-group-item= link_to "View all #{crop.name} harvests", crop_harvests_path(crop), class: 'card-link'
       - if crop.approved?
         - if current_member
-          %li.list-group-item= link_to "Harvest #{crop.name}", new_harvest_path(crop_id: crop.id), class: 'btn btn-block'
+          %li.list-group-item= link_to "Harvest #{crop.name}", new_harvest_path(harvest: { crop_id: crop.id }), class: 'btn btn-block'
         - else
           %li.list-group-item.active
             = icon 'fas', 'user'

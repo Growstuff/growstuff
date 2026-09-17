@@ -10,8 +10,6 @@ describe "Planting a crop", :js, :search do
     create(:planting, garden:, owner: member, planted_at: Date.parse("2013-03-10"))
   end
 
-  before { Planting.reindex }
-
   context 'signed in' do
     include_context 'signed in member'
     before { visit new_planting_path }
@@ -222,9 +220,6 @@ describe "Planting a crop", :js, :search do
       expect(page).to have_content "Finished"
       expect(page).to have_content "Aug 2014"
       expect(page).to have_content "4/5"
-
-      # ensure we've indexed in elastic search
-      planting.reindex(refresh: true)
 
       # shouldn't be on the page
       visit plantings_path

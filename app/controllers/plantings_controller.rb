@@ -8,26 +8,10 @@ class PlantingsController < DataController
   def index
     @show_all = params[:all] == '1'
 
-    where = {}
-    where['active'] = true unless @show_all
+    @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
+    @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug]
 
-    if params[:member_slug].present?
-      @owner = Member.find_by!(slug: params[:member_slug])
-      where['owner_id'] = @owner.id
-    end
-
-    if params[:crop_slug]
-      @crop = Crop.find_by(slug: params[:crop_slug])
-      where['crop_id'] = @crop.id unless @crop.nil?
-    end
-
-    @plantings = Planting.search(
-      where:,
-      page:     params[:page],
-      limit:    30,
-      boost_by: [:created_at],
-      load:     false
-    )
+    @plantings = plantings
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_fs(:number)}.csv"
     respond_with(@plantings)
@@ -35,7 +19,7 @@ class PlantingsController < DataController
 
   def show
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
-    @harvests = Harvest.search(where: { planting_id: @planting.id })
+    @harvests = Harvest.where(planting_id: @planting.id).recent
     @current_activities = @planting.activities.current.includes(:owner).order(created_at: :desc)
     @finished_activities = @planting.activities.finished.includes(:owner).order(created_at: :desc)
     @matching_seeds = matching_seeds

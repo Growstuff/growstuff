@@ -57,12 +57,23 @@ class GardensController < DataController
     redirect_to(member_gardens_path(@garden.owner))
   end
 
+  def fetch_wikidata
+    if @garden.populate_wikidata_info
+      @garden.save
+      flash[:notice] = "Wikidata information updated."
+    else
+      flash[:alert] = "Could not find Wikidata information for this location."
+    end
+    redirect_to @garden
+  end
+
   private
 
   def garden_params
     params.require(:garden).permit(
       :name, :slug, :description, :active,
-      :location, :latitude, :longitude, :area, :area_unit, :garden_type_id
+      :location, :latitude, :longitude, :area, :area_unit, :garden_type_id,
+      :location_wikidata_id, :lowest_temp_c, :highest_temp_c
     )
   end
 end

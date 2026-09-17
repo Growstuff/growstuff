@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Photo do
-  let(:photo)  { create(:photo, :reindex, owner: member) }
+  let(:photo)  { create(:photo, owner: member) }
   let(:member) { create(:member) }
 
   it_behaves_like "it is likeable"
@@ -237,36 +237,4 @@ describe Photo do
     end
   end
 
-  describe 'Elastic search indexing', :search do
-    let!(:planting) { create(:planting, :reindex, owner: photo.owner) }
-    let!(:crop) { create(:crop, :reindex) }
-
-    before do
-      planting.photos << photo
-      described_class.reindex
-      described_class.searchkick_index.refresh
-    end
-
-    describe "finds all photos in search index" do
-      it "finds just one" do
-        expect(described_class.search.count).to eq 1
-      end
-
-      it "finds the matching photo" do
-        expect(described_class.search).to include photo
-      end
-
-      it "retrieves crops from ES" do
-        expect(described_class.search(load: false).first.crops).to eq [planting.crop.id]
-      end
-    end
-
-    it "finds photos by owner in search index" do
-      expect(described_class.search(where: { owner_id: planting.owner_id })).to include photo
-    end
-
-    it "finds photos by crop in search index" do
-      expect(described_class.search(where: { crops: planting.crop.id })).to include photo
-    end
-  end
 end

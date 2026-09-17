@@ -28,6 +28,7 @@ class PhotoAssociation < ApplicationRecord
 
   def photo_and_item_have_same_owner
     return if photographable_type == 'Crop'
+    return if photographable.blank?
 
     errors.add(:photo, :photo_owner_mismatch) unless photographable.owner_id == photo.owner_id
   end

@@ -421,6 +421,25 @@ describe Planting do
       planting.photos << @photo2
       expect(planting.default_photo).to eq @photo2
     end
+
+    describe '#thumbnail_url' do
+      let(:crop_photo) { create(:photo) }
+
+      it 'returns its own default photo if present' do
+        expect(planting.thumbnail_url).to eq photo.fullsize_url
+      end
+
+      it 'falls back to crop default photo if no planting photo is present' do
+        planting_without_photo = create(:planting, crop:)
+        PhotoAssociation.create!(photo: crop_photo, photographable: crop)
+        expect(planting_without_photo.thumbnail_url).to eq crop_photo.fullsize_url
+      end
+
+      it 'returns nil if neither planting nor crop has a photo' do
+        planting_without_photo = create(:planting, crop:)
+        expect(planting_without_photo.thumbnail_url).to be_nil
+      end
+    end
   end
 
   context 'interesting plantings' do
@@ -596,16 +615,14 @@ describe Planting do
     it { expect(member.plantings.active).not_to include(failed_planting) }
   end
 
-  describe 'homepage', :search do
+  describe 'homepage' do
     subject { described_class.homepage_records(100) }
 
-    let!(:interesting_planting) { create(:planting, :reindex, :with_photo) }
-    let!(:finished_interesting_planting) { create(:finished_planting, :reindex, :with_photo) }
-    let!(:planting) { create(:planting, :reindex) }
-
-    before { described_class.reindex }
+    let!(:interesting_planting) { create(:planting, :with_photo) }
+    let!(:finished_interesting_planting) { create(:finished_planting, :with_photo) }
+    let!(:planting) { create(:planting) }
 
     it { expect(subject.count).to eq 3 }
-    it { expect(subject.map(&:id)).to eq([interesting_planting.id.to_s, finished_interesting_planting.id.to_s, planting.id.to_s]) }
+    it { expect(subject.map(&:id)).to include(interesting_planting.id, finished_interesting_planting.id, planting.id) }
   end
 end

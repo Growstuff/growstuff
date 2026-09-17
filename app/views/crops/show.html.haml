@@ -36,10 +36,11 @@
       = cute_icon
       = render 'predictions', crop: @crop
     - if @crop.all_companions.any?
-      %section.companions
-        %h2 Companions
-        - @crop.all_companions.each do |companion|
-          = render 'crops/tiny', crop: companion
+      - cache [@crop, 'companions'] do
+        %section.companions
+          %h2 Companions
+          - @crop.all_companions.each do |companion|
+            = render 'crops/tiny', crop: companion
 
     - if crop_or_parent(@crop, :en_youtube_url).present?
       %section.youtube

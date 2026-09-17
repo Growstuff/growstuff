@@ -21,6 +21,7 @@ class Garden < ApplicationRecord
   after_validation :cleanup_area
   after_validation :geocode
   after_validation :empty_unwanted_geocodes
+  after_validation :populate_wikidata_info, if: :will_save_change_to_location?
   after_save :mark_inactive_garden_plantings_as_finished
 
   scope :active, -> { where(active: true) }
@@ -90,6 +91,19 @@ class Garden < ApplicationRecord
         active_garden.save
       end
     end
+  end
+
+  def populate_wikidata_info
+    return false if location.blank?
+
+    wd_id = WikidataService.find_wikidata_id(location)
+    return false if wd_id.blank?
+
+    self.location_wikidata_id = wd_id
+    temps = WikidataService.fetch_temps(wd_id)
+    self.highest_temp_c = temps[:highest_temp_c]
+    self.lowest_temp_c = temps[:lowest_temp_c]
+    true
   end
 
   protected

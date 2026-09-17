@@ -2,13 +2,12 @@
 
 require 'rails_helper'
 
-describe SeedsController, :search do
+describe SeedsController do
   let(:owner) { create(:member) }
 
   describe "GET index" do
     describe "picks up owner from params" do
       before do
-        Seed.reindex
         get :index, params: { member_slug: owner.slug }
       end
 
@@ -25,7 +24,6 @@ describe SeedsController, :search do
       let!(:planting) { create(:planting, owner:) }
 
       before do
-        Seed.reindex
         get :new, params: { planting_slug: planting.to_param }
       end
 

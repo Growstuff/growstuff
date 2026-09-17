@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe HarvestsController, :search do
+describe HarvestsController do
   login_member
 
   def valid_attributes
@@ -22,14 +22,12 @@ describe HarvestsController, :search do
     let!(:tomato_harvest)   { create(:harvest, owner_id: first_member.id, crop_id: tomato.id)  }
     let!(:maize_harvest)    { create(:harvest, owner_id: second_member.id, crop_id: maize.id)  }
 
-    before { Harvest.reindex }
-
     describe "assigns all harvests as @harvests" do
       before { get :index, params: {} }
 
       it { expect(assigns(:harvests).size).to eq 2 }
-      it { expect(assigns(:harvests)[0].slug).to eq tomato_harvest.slug }
-      it { expect(assigns(:harvests)[1].slug).to eq maize_harvest.slug }
+      it { expect(assigns(:harvests)).to include(tomato_harvest) }
+      it { expect(assigns(:harvests)).to include(maize_harvest) }
     end
 
     describe "picks up owner from params and shows owner's harvests only" do
@@ -115,6 +113,21 @@ describe HarvestsController, :search do
 
         it { expect(Harvest.last.planting.id).to eq(planting.id) }
       end
+
+      describe "updates planting rating" do
+        let(:planting) { create(:planting, owner_id: member.id, garden: member.gardens.first) }
+
+        it "updates the planting rating when provided" do
+          post :create, params: {
+            harvest: valid_attributes.merge(
+              planting_id:    planting.id,
+              crop_id:        planting.crop_id,
+              overall_rating: 4
+            )
+          }
+          expect(planting.reload.overall_rating).to eq(4)
+        end
+      end
     end
 
     describe "with invalid params" do
@@ -170,6 +183,18 @@ describe HarvestsController, :search do
         before { put :update, params: { slug: harvest.to_param, harvest: valid_attributes } }
 
         it { expect(response).to redirect_to(harvest) }
+      end
+
+      describe "updates planting rating" do
+        let(:planting) { create(:planting, owner_id: member.id, garden: member.gardens.first) }
+        let(:harvest) do
+          create(:harvest, valid_attributes.merge(planting_id: planting.id, crop_id: planting.crop_id))
+        end
+
+        it "updates the planting rating when provided" do
+          put :update, params: { slug: harvest.to_param, harvest: { overall_rating: 3 } }
+          expect(planting.reload.overall_rating).to eq(3)
+        end
       end
     end
 

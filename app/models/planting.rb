@@ -7,7 +7,6 @@ class Planting < ApplicationRecord
   include Ownable
   include PredictPlanting
   include PredictHarvest
-  include SearchPlantings
   include Likeable
 
   friendly_id :planting_slug, use: %i(slugged finders)
@@ -131,6 +130,10 @@ class Planting < ApplicationRecord
                             .where('gardens.latitude < ? AND gardens.latitude > ?',
                                    latitude + 10, latitude - 10)
                         end
+  end
+
+  def self.homepage_records(limit)
+    recent.one_per_owner.limit(limit)
   end
 
   private

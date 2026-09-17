@@ -2,12 +2,11 @@
 
 require 'rails_helper'
 
-describe 'home/_seeds.html.haml', :search, type: "view" do
+describe 'home/_seeds.html.haml', type: "view" do
   let!(:seed) { create(:tradable_seed, owner:) }
   let(:owner) { create(:london_member) }
 
   before do
-    Seed.searchkick_index.refresh
     render
   end
 
