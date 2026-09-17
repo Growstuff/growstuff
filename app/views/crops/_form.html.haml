@@ -148,6 +148,8 @@
       .text-right
         - if @crop.approved?
           = f.submit 'Save'
+        - elsif @crop.rejected?
+          = f.submit 'Restore', class: 'btn btn-warning', name: 'restore'
         - else
           = f.submit 'Reject', class: 'btn btn-danger', name: 'reject'
           = f.submit 'Approve and save', class: 'btn btn-success', name: 'approve'
