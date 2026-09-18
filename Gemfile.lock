@@ -376,7 +376,6 @@ GEM
       concurrent-ruby
       railties (>= 4.1)
     jsonapi-swagger (0.8.1)
-    kgio (2.11.4)
     kramdown (2.4.0)
       rexml
     language_server-protocol (3.17.0.6)
@@ -561,7 +560,6 @@ GEM
       tsort (>= 0.2)
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
-    raindrops (0.20.1)
     rake (13.4.2)
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
@@ -740,9 +738,6 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
-    unicorn (6.1.0)
-      kgio (~> 2.6)
-      raindrops (~> 0.7)
     uniform_notifier (1.18.0)
     uri (1.1.1)
     useragent (0.16.11)
@@ -884,7 +879,6 @@ DEPENDENCIES
   sprockets (< 4)
   terser
   timecop
-  unicorn
   validate_url
   vcr
   webrat
@@ -893,7 +887,7 @@ DEPENDENCIES
   xmlrpc
 
 RUBY VERSION
-   ruby 4.0.6
+  ruby 4.0.6
 
 BUNDLED WITH
-   2.4.22
+  4.0.7
