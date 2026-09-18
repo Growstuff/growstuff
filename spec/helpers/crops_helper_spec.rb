@@ -42,4 +42,25 @@ describe CropsHelper do
       end
     end
   end
+
+  describe '#crop_jsonld_data' do
+    let(:crop) { create(:crop, name: 'Tomato') }
+
+    it 'returns schema.org BioChemEntity hash structure' do
+      data = helper.crop_jsonld_data(crop)
+      expect(data['@context']).to eq('https://schema.org')
+      expect(data['@type']).to eq('BioChemEntity')
+      expect(data[:name]).to eq('Tomato')
+    end
+
+    it 'caps posts and photos at 50' do
+      create_list(:post, 60, crops: [crop])
+      photos = create_list(:photo, 60)
+      photos.each { |p| crop.photo_associations.create!(photo: p) }
+
+      data = helper.crop_jsonld_data(crop, full_attributes: true)
+      expect(data[:subjectOf].size).to eq(50)
+      expect(data[:image].size).to eq(50)
+    end
+  end
 end

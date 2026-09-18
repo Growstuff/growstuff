@@ -10,18 +10,18 @@ module PhotoCapable
     scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
 
     def default_photo
-      Rails.cache.fetch("#{cache_key_with_version}/default_photo", expires_in: 8.hours) do
-        most_liked_photo
-      end
+      most_liked_photo
     end
 
     def thumbnail_url
-      df = default_photo
+      Rails.cache.fetch("#{cache_key_with_version}/thumbnail_url", expires_in: 8.hours) do
+        df = default_photo
 
-      if df
-        df.source == 'flickr' ? df.fullsize_url : df.thumbnail_url
-      elsif respond_to?(:crop) && crop.present?
-        crop.thumbnail_url
+        if df
+          df.source == 'flickr' ? df.fullsize_url : df.thumbnail_url
+        elsif respond_to?(:crop) && crop.present?
+          crop.thumbnail_url
+        end
       end
     end
 
