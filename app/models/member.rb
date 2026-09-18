@@ -173,13 +173,14 @@ class Member < ApplicationRecord
     where(["lower(login_name) = :value", { value: login.downcase }])
   end
 
-  def self.nearest_to(place)
-    return [] if place.blank?
+  def self.nearest_to(place, limit = 50)
+    return Member.none if place.blank?
 
     latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
-    return [] unless latitude && longitude
+    return Member.none unless latitude && longitude
 
-    Member.located.near([latitude, longitude], 1000)
+    relation = Member.located.near([latitude, longitude], 1000)
+    limit ? relation.limit(limit) : relation
   end
 
   def already_following?(member)
