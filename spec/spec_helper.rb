@@ -46,6 +46,8 @@ RSpec.configure do |config|
   def index_everything
     # reindex models
     Crop.reindex
+  rescue StandardError
+    # Searchkick/Elasticsearch might not be running in this test environment
   end
 
   config.before(:suite) do
