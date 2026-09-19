@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
 class Rack::Attack
+  ### Cache Config ###
+
+  # Count requests in this process's memory, not in Rails.cache (memcached).
+  # When memcached times out, the counters silently stop working and
+  # crawlers are never throttled or banned.
+  # Each Puma worker keeps its own counters, so the effective limits are
+  # per worker.
+  cache.store = ActiveSupport::Cache::MemoryStore.new(size: 8.megabytes)
+
   ### Throttle Config ###
 
   if Rails.env.production?

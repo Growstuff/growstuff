@@ -15,6 +15,23 @@ RSpec.describe 'Rack::Attack', type: :request do
     Rack::Attack.reset!
   end
 
+  describe 'cache store' do
+    it 'counts requests in process memory, not in Rails.cache' do
+      expect(Rack::Attack.cache.store).to be_a(ActiveSupport::Cache::MemoryStore)
+      expect(Rack::Attack.cache.store).not_to equal(Rails.cache)
+    end
+
+    it 'keeps banning an IP when Rails.cache is broken' do
+      allow(Rails.cache).to receive(:increment).and_raise(IOError, 'memcached is down')
+      allow(Rails.cache).to receive(:read).and_raise(IOError, 'memcached is down')
+
+      get '/dont-crawl-me', headers: { 'REMOTE_ADDR' => '1.2.3.4' }
+      get '/community-gardens', headers: { 'REMOTE_ADDR' => '1.2.3.4' }
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
   describe 'honeypot route /dont-crawl-me' do
     it 'bans an IP for 7 days when hitting /dont-crawl-me' do
       get '/dont-crawl-me', headers: { 'REMOTE_ADDR' => '1.2.3.4' }
