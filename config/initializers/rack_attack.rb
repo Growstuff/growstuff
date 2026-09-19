@@ -41,6 +41,13 @@ class Rack::Attack
     request.user_agent.to_s.downcase.include?('semrush')
   end
 
+  # Block IPs listed in the BLOCKED_IPS environment variable (comma separated).
+  # This lets us stop a crawler that is overloading the site without
+  # committing its IP address to the repository.
+  blocklist('block configured IPs') do |request|
+    ENV.fetch('BLOCKED_IPS', '').split(',').map(&:strip).include?(request.ip)
+  end
+
   # Honeypot: block IPs that request disallowed route /dont-crawl-me for 7 days (1 week)
   blocklist('fail2ban/honeypot') do |req|
     Fail2Ban.filter("honeypot-#{req.ip}", maxretry: 1, findtime: 1.day, bantime: 7.days) do

@@ -32,6 +32,26 @@ RSpec.describe 'Rack::Attack', type: :request do
     end
   end
 
+  describe 'BLOCKED_IPS environment variable' do
+    before do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with('BLOCKED_IPS', '').and_return('9.9.9.9, 8.8.8.8')
+    end
+
+    it 'blocks every IP in the list' do
+      get '/community-gardens', headers: { 'REMOTE_ADDR' => '9.9.9.9' }
+      expect(response).to have_http_status(:forbidden)
+
+      get '/community-gardens', headers: { 'REMOTE_ADDR' => '8.8.8.8' }
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'allows IPs that are not in the list' do
+      get '/community-gardens', headers: { 'REMOTE_ADDR' => '5.6.7.8' }
+      expect(response).not_to have_http_status(:forbidden)
+    end
+  end
+
   describe 'honeypot route /dont-crawl-me' do
     it 'bans an IP for 7 days when hitting /dont-crawl-me' do
       get '/dont-crawl-me', headers: { 'REMOTE_ADDR' => '1.2.3.4' }
