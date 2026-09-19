@@ -58,7 +58,7 @@ Rails.application.configure do
                        { username:             ENV.fetch("MEMCACHIER_USERNAME", nil),
                          password:             ENV.fetch("MEMCACHIER_PASSWORD", nil),
                          failover:             true,
-                         socket_timeout:       1.5,
+                         socket_timeout:       0.5,
                          socket_failure_delay: 0.2,
                          down_retry_delay:     60 }
 
