@@ -36,14 +36,10 @@ class Ability
     can :read, Crop, approval_status: "approved"
     # scientific names should only be viewable if associated crop is approved
     cannot :read, ScientificName
-    can :read, ScientificName do |sn|
-      sn.crop.approved?
-    end
+    can :read, ScientificName, crop: { approval_status: "approved" }
     # ... same for alternate names
     cannot :read, AlternateName
-    can :read, AlternateName do |an|
-      an.crop.approved?
-    end
+    can :read, AlternateName, crop: { approval_status: "approved" }
 
     cannot :create, GardenType
     cannot :update, GardenType
@@ -109,16 +105,10 @@ class Ability
     can :create,  Planting
     can :update,  Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
     can :destroy, Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
-    can :update, Planting do |planting|
-      planting.garden.garden_collaborators.where(member_id: member.id).any?
-    end
+    can :update,  Planting, garden: { garden_collaborators: { member_id: member.id } }
     can :transplant, Planting, garden: { owner_id: member.id }
-    can :transplant, Planting do |planting|
-      planting.garden.garden_collaborators.where(member_id: member.id).any?
-    end
-    can :destroy, Planting do |planting|
-      planting.garden.garden_collaborators.where(member_id: member.id).any?
-    end
+    can :transplant, Planting, garden: { garden_collaborators: { member_id: member.id } }
+    can :destroy, Planting, garden: { garden_collaborators: { member_id: member.id } }
 
     can :create,  GardenCollaborator, garden: { owner_id: member.id }
     can :update,  GardenCollaborator, garden: { owner_id: member.id }
@@ -128,24 +118,16 @@ class Ability
     can :create,  Activity
     can :update,  Activity, owner_id: member.id
     can :destroy, Activity, owner_id: member.id
-    can :update, Activity do |activity|
-      activity.garden&.garden_collaborators&.where(member_id: member.id)&.any?
-    end
-    can :destroy, Activity do |activity|
-      activity.garden&.garden_collaborators&.where(member_id: member.id)&.any?
-    end
+    can :update,  Activity, garden: { garden_collaborators: { member_id: member.id } }
+    can :destroy, Activity, garden: { garden_collaborators: { member_id: member.id } }
 
     can :create,  Harvest
     can :update,  Harvest, owner_id: member.id
     can :destroy, Harvest, owner_id: member.id
     can :update,  Harvest, owner_id: member.id, planting: { owner_id: member.id }
     can :destroy, Harvest, owner_id: member.id, planting: { owner_id: member.id }
-    can :update, Harvest do |harvest|
-      harvest.planting&.garden&.garden_collaborators&.where(member_id: member.id)&.any?
-    end
-    can :destroy, Harvest do |harvest|
-      harvest.planting&.garden&.garden_collaborators&.where(member_id: member.id)&.any?
-    end
+    can :update,  Harvest, planting: { garden: { garden_collaborators: { member_id: member.id } } }
+    can :destroy, Harvest, planting: { garden: { garden_collaborators: { member_id: member.id } } }
 
     can :create, Photo
     can :update, Photo, owner_id: member.id
