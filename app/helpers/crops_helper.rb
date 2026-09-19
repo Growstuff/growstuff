@@ -77,7 +77,7 @@ module CropsHelper
           }
         end
 
-        crop.posts.each do |post|
+        crop.posts.limit(50).each do |post|
           subject_of_entities << {
             '@type': "SocialMediaPosting",
             url:     post_url(post),
@@ -89,7 +89,7 @@ module CropsHelper
           }
         end
 
-        crop.photos.each do |photo|
+        crop.photos.limit(50).each do |photo|
           images << photo.fullsize_url
         end
       end

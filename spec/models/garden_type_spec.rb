@@ -37,4 +37,33 @@ describe GardenType do
     it { expect(garden_type.gardens.size).to eq(1) }
     it { expect { garden_type.destroy }.not_to change(Garden, :count) }
   end
+
+  describe "#subtitler" do
+    let(:garden_type) { create(:garden_type, name: "Community Plot") }
+
+    context "when there are no gardens" do
+      it "returns 0 gardens string" do
+        expect(garden_type.subtitler).to eq("0 gardens are using this garden type")
+      end
+    end
+
+    context "when there is 1 garden" do
+      before { create(:garden, garden_type:) }
+
+      it "returns 1 garden string" do
+        expect(garden_type.subtitler).to eq("1 garden is using this garden type")
+      end
+    end
+
+    context "when there are multiple gardens" do
+      before do
+        create(:garden, garden_type:)
+        create(:garden, garden_type:)
+      end
+
+      it "returns plural gardens string" do
+        expect(garden_type.subtitler).to eq("2 gardens are using this garden type")
+      end
+    end
+  end
 end

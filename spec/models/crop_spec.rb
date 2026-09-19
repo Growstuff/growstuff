@@ -154,6 +154,13 @@ describe Crop do
 
       it { expect(crop.default_photo).to eq photo }
 
+      it 'caches thumbnail_url string in Rails.cache' do
+        expected_url = photo.source == 'flickr' ? photo.fullsize_url : photo.thumbnail_url
+        expect(crop.thumbnail_url).to eq expected_url
+        cached_value = Rails.cache.read("#{crop.cache_key_with_version}/thumbnail_url")
+        expect(cached_value).to eq expected_url
+      end
+
       include_examples 'has default photo'
     end
 
