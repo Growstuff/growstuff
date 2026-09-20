@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 
+import EditPlantingModal from './EditPlantingModal';
 import GardenCard from './GardenCard';
 import PlantSomethingModal from './PlantSomethingModal';
 
@@ -12,6 +13,7 @@ const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((p
 export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl}) {
   const [gardens, setGardens] = useState(initialGardens);
   const [plantingIn, setPlantingIn] = useState(null); // the garden the dialog is open for
+  const [editing, setEditing] = useState(null); // the planting the edit dialog is open for
   const [notice, setNotice] = useState(null);
   const [highlightedId, setHighlightedId] = useState(null);
   const highlightTimer = useRef(null);
@@ -44,6 +46,12 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
     highlightTimer.current = setTimeout(() => setHighlightedId(null), 4000);
   }
 
+  function edited(updatedCard, planting) {
+    replaceCard(updatedCard);
+    setEditing(null);
+    setNotice(`Saved changes to ${planting.crop.name}.`);
+  }
+
   return (
     <>
       {notice && (
@@ -60,8 +68,16 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           onPlant={setPlantingIn}
           highlightedId={highlightedId}
           onPlantingUpdated={replaceCard}
+          onEditPlanting={setEditing}
         />
       ))}
+      {editing && (
+        <EditPlantingModal
+          planting={editing}
+          onClose={() => setEditing(null)}
+          onSaved={(updatedCard) => edited(updatedCard, editing)}
+        />
+      )}
       {plantingIn && (
         <PlantSomethingModal
           garden={plantingIn}
