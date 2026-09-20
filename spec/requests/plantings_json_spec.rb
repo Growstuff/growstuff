@@ -66,6 +66,40 @@ describe 'Creating and updating a planting as JSON' do
     end
   end
 
+  describe 'Loading a planting to edit as JSON' do
+    let!(:planting) do
+      create(:planting, garden: garden, owner: member, crop: crop, planted_at: Date.new(2026, 3, 1),
+                        quantity: 4, sunniness: 'shade', description: 'By the fence')
+    end
+
+    it 'gives the current values and the choices for the selects' do
+      sign_in member
+      inactive = create(:garden, owner: member, active: false)
+      other = create(:garden, owner: member, name: 'Zzz')
+
+      get "/plantings/#{planting.slug}/edit.json", headers: json_headers
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['planting']).to include(
+        'url' => "/plantings/#{planting.slug}", 'crop' => { 'id' => crop.id, 'name' => 'lettuce' },
+        'garden_id' => garden.id, 'planted_at' => '2026-03-01', 'quantity' => 4, 'sunniness' => 'shade',
+        'description' => 'By the fence'
+      )
+      expect(response.parsed_body['gardens'].pluck('id')).to include(garden.id, other.id)
+      expect(response.parsed_body['gardens'].pluck('id')).not_to include(inactive.id)
+      expect(response.parsed_body['planted_from_values']).to include('seed', 'seedling')
+      expect(response.parsed_body['sunniness_values']).to eq %w(sun semi-shade shade)
+    end
+
+    it "refuses someone else's planting" do
+      sign_in create(:member)
+
+      get "/plantings/#{planting.slug}/edit.json", headers: json_headers
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
   describe 'Updating a planting as JSON' do
     let!(:planting) { create(:planting, garden: garden, owner: member, crop: crop, planted_at: Date.new(2026, 3, 1)) }
 
