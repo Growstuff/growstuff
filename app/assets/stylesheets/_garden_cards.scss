@@ -12,6 +12,12 @@ $garden-card-line: #e6e6e6;
     padding: 0.75rem 1.25rem;
   }
 
+  .garden-card-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .garden-card-title {
     margin: 0;
     font-size: 1.4rem;
