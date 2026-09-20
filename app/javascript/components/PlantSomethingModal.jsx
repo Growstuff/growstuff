@@ -72,7 +72,7 @@ export default function PlantSomethingModal({garden, options, onClose, onCreated
             <input
               type="number"
               min="1"
-              placeholder="N"
+              placeholder="number"
               aria-label="Quantity"
               className="madlib-field madlib-quantity"
               value={fields.quantity}
