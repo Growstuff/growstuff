@@ -45,7 +45,9 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
       {notice && (
         <div className="alert alert-success alert-dismissible" role="status">
           {notice}
-          <button type="button" className="btn-close" aria-label="Dismiss" onClick={() => setNotice(null)} />
+          <button type="button" className="close" aria-label="Dismiss" onClick={() => setNotice(null)}>
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       )}
       {gardens.map((garden) => (

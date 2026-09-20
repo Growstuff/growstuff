@@ -43,7 +43,7 @@ export default function CropPicker({id, value, onChange, invalid}) {
         <span className="chip crop-chip">{value.name}</span>
         {' '}
         <button type="button" className="btn btn-sm btn-link" onClick={() => onChange(null)}>
-          Change<span className="visually-hidden"> crop</span>
+          Change<span className="sr-only"> crop</span>
         </button>
       </div>
     );
@@ -68,14 +68,14 @@ export default function CropPicker({id, value, onChange, invalid}) {
         }}
         aria-describedby={`${id}-status`}
       />
-      <div id={`${id}-status`} className="visually-hidden" role="status">
+      <div id={`${id}-status`} className="sr-only" role="status">
         {term.trim() && results.length > 0 ? `${results.length} crops found` : ''}
       </div>
       {results.length > 0 && (
         <ul className="list-group position-absolute w-100 shadow" style={{zIndex: 1060, maxHeight: '16rem', overflowY: 'auto'}}>
           {results.map((crop) => (
             <li key={crop.id} className="list-group-item p-0">
-              <button type="button" className="btn btn-link text-start w-100" onClick={() => choose(crop)}>
+              <button type="button" className="btn btn-link text-left w-100" onClick={() => choose(crop)}>
                 {crop.name}
               </button>
             </li>

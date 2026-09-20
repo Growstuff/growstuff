@@ -68,32 +68,32 @@ export default function PlantSomethingModal({garden, options, onClose, onCreated
           )}
 
           <div className="mb-3">
-            <label htmlFor="planting-crop" className="form-label required">What did you plant?</label>
+            <label htmlFor="planting-crop" className="required">What did you plant?</label>
             <CropPicker id="planting-crop" value={crop} onChange={setCrop} invalid={errors.some((m) => m.startsWith('Crop'))} />
           </div>
 
           <div className="row">
             <div className="col-md-6 mb-3">
-              <label htmlFor="planting-planted-at" className="form-label">When?</label>
+              <label htmlFor="planting-planted-at">When?</label>
               <input id="planting-planted-at" type="date" className="form-control" value={fields.planted_at} onChange={set('planted_at')} />
             </div>
             <div className="col-md-6 mb-3">
-              <label htmlFor="planting-quantity" className="form-label">How many?</label>
+              <label htmlFor="planting-quantity">How many?</label>
               <input id="planting-quantity" type="number" min="1" className="form-control" value={fields.quantity} onChange={set('quantity')} />
             </div>
           </div>
 
           <div className="row">
             <div className="col-md-6 mb-3">
-              <label htmlFor="planting-planted-from" className="form-label">Planted from</label>
-              <select id="planting-planted-from" className="form-select" value={fields.planted_from} onChange={set('planted_from')}>
+              <label htmlFor="planting-planted-from">Planted from</label>
+              <select id="planting-planted-from" className="form-control" value={fields.planted_from} onChange={set('planted_from')}>
                 <option value="" />
                 {options.planted_from.map((value) => <option key={value} value={value}>{value}</option>)}
               </select>
             </div>
             <div className="col-md-6 mb-3">
-              <label htmlFor="planting-sunniness" className="form-label">Sun or shade?</label>
-              <select id="planting-sunniness" className="form-select" value={fields.sunniness} onChange={set('sunniness')}>
+              <label htmlFor="planting-sunniness">Sun or shade?</label>
+              <select id="planting-sunniness" className="form-control" value={fields.sunniness} onChange={set('sunniness')}>
                 <option value="" />
                 {options.sunniness.map((value) => <option key={value} value={value}>{value}</option>)}
               </select>
@@ -101,7 +101,7 @@ export default function PlantSomethingModal({garden, options, onClose, onCreated
           </div>
 
           <div className="mb-3">
-            <label htmlFor="planting-description" className="form-label">Tell us more about it</label>
+            <label htmlFor="planting-description">Tell us more about it</label>
             <textarea id="planting-description" rows="3" className="form-control" value={fields.description} onChange={set('description')} />
           </div>
 
