@@ -6,31 +6,32 @@ class Haml::Filters
     CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
     MEMBER_AT_REGEX = /(?<!\\)(@\w+)/
+    MEMBER_COMBINED_REGEX = Regexp.union(MEMBER_REGEX, MEMBER_AT_REGEX)
     MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=@\w+)/
     HOST = Rails.application.config.host
 
     def expand_crops!(text)
       # turn [tomato](crop) into [tomato](http://growstuff.org/crops/tomato)
-      text.gsub(CROP_REGEX) do
+      text.gsub!(CROP_REGEX) do
         crop_str = Regexp.last_match(1)
         # find crop case-insensitively
         crop = Crop.where('lower(name) = ?', crop_str.downcase).first
         crop_link crop, crop_str
       end
+      text
     end
 
     def expand_members!(text)
       # turn [jane](member) into [jane](http://growstuff.org/members/jane)
       # turn @jane into [@jane](http://growstuff.org/members/jane)
-      [MEMBER_REGEX, MEMBER_AT_REGEX].each do |re|
-        text = text.gsub(re) do
-          member_str = Regexp.last_match(1)
-          member = find_member(member_str)
-          member_link(member, member_str)
-        end
+      text.gsub!(MEMBER_COMBINED_REGEX) do
+        member_str = Regexp.last_match(1) || Regexp.last_match(2)
+        member = find_member(member_str)
+        member_link(member, member_str)
       end
 
-      text.gsub(MEMBER_ESCAPE_AT_REGEX, '')
+      text.gsub!(MEMBER_ESCAPE_AT_REGEX, '')
+      text
     end
 
     def member_link(member, link_text)
