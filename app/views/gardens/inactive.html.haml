@@ -9,13 +9,13 @@
 
 .row
   .col-md-2
-    %small
+    %small.d-block.sidebar-inset
       %a{href: "#content"}
         Skip to main content
     = render 'layouts/nav', model: Garden
     %hr/
     = render @owner
-    .inactive-gardens-link.mt-3
+    .inactive-gardens-link.sidebar-inset.mt-3
       = link_to "Current gardens", member_gardens_path(@owner)
 
   .col-md-10#content

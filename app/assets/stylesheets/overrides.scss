@@ -519,3 +519,19 @@ ul.thumbnail-buttons {
 .breadcrumb-item a {
   color: #5f5e5c;
 }
+
+// Sidebar text (the skip link, the nav links and button, the blurb) starts where
+// the text inside a card beside it starts, instead of at the card's edge.
+.sidebar-inset {
+  padding-inline: var(--bs-card-spacer-x, 1rem);
+}
+
+.layout-nav {
+  .nav-link {
+    padding-block: 0.25rem;
+  }
+
+  .btn {
+    margin-top: 0.5rem;
+  }
+}
