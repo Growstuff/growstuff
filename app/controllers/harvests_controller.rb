@@ -38,6 +38,20 @@ class HarvestsController < DataController
 
   def new
     @harvest = Harvest.new(new_harvest_params.merge(harvested_at: Time.zone.today))
+
+    if params[:planting_slug].present?
+      @planting = Planting.find_by(slug: params[:planting_slug])
+      @harvest.planting ||= @planting
+    end
+
+    if @harvest.planting
+      @harvest.crop ||= @harvest.planting.crop
+    elsif params[:crop_id].present?
+      @harvest.crop ||= Crop.find_by(id: params[:crop_id])
+    elsif params[:crop_slug].present?
+      @harvest.crop ||= Crop.find_by(slug: params[:crop_slug])
+    end
+
     @planting = @harvest.planting
     @crop = @harvest.crop
     respond_with(@harvest)
@@ -45,12 +59,15 @@ class HarvestsController < DataController
 
   def edit
     @planting = @harvest.planting if @harvest.planting_id
+    @crop = @harvest.crop
     respond_with(@harvest)
   end
 
   def create
     @harvest.crop_id = @harvest.planting.crop_id if @harvest.planting_id
     @harvest.harvested_at = Time.zone.now if @harvest.harvested_at.blank?
+    @planting = @harvest.planting
+    @crop = @harvest.crop
     update_planting_rating if @harvest.save
     if params[:return] == 'planting'
       respond_with(@harvest, location: @harvest.planting)
