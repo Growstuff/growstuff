@@ -25,6 +25,11 @@ $font-size-base: 0.875rem; // the site's text size; Bootstrap's default is 1rem
 $link-decoration: none;
 $link-hover-decoration: underline;
 $line-height-base: 1.428572;
+
+// Breadcrumbs as the old skin drew them: padded, with a > divider.
+$breadcrumb-padding-y: 0.75rem;
+$breadcrumb-padding-x: 1rem;
+$breadcrumb-divider: quote(">");
 // The sizes the old Material skin gave the display-* classes the site uses (display-3, display-4).
 $display-font-sizes: (
   1: 7rem,
