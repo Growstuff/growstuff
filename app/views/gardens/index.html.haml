@@ -18,11 +18,8 @@
       %a{href: "#content"}
         Skip to main content
     = render 'layouts/nav', model: Garden
-    %label
-      = link_to show_inactive_tickbox_path('gardens', owner: @owner, show_all: @show_all) do
-        = check_box_tag 'active', 'all', @show_all
-        include in-active
     - if @owner.present?
+      = link_to 'Past gardens', member_past_gardens_path(@owner), class: 'nav-link'
       %hr/
       = render @owner
 
