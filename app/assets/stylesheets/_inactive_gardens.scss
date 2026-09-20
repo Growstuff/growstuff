@@ -1,6 +1,6 @@
-// A member's past gardens: a gallery of cards, a photo and what was grown.
+// A member's inactive gardens: a gallery of cards, a photo and what was grown.
 
-.past-garden-card {
+.inactive-garden-card {
   overflow: hidden;
 
   .card-img-top {
@@ -14,12 +14,12 @@
     font-weight: 500;
   }
 
-  .past-garden-meta {
+  .inactive-garden-meta {
     color: #666;
     font-size: 0.9rem;
   }
 
-  .past-garden-crops {
+  .inactive-garden-crops {
     display: flex;
     flex-wrap: wrap;
     margin: 0;
@@ -30,7 +30,7 @@
     }
   }
 
-  .past-garden-more {
+  .inactive-garden-more {
     align-self: center;
     color: #666;
     font-size: 0.9rem;
