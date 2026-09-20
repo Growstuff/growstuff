@@ -81,7 +81,16 @@
 }
 
 .crop-chip {
-  background-color: lighten($brown, 20%);
+  // A soft tint of the brand green (Bootstrap 5.3's subtle colours) rather than a
+  // solid brown-grey pill, so a row of crops doesn't read as a row of dark blobs.
+  background-color: var(--bs-success-bg-subtle);
+  border: 1px solid var(--bs-success-border-subtle);
+  color: var(--bs-success-text-emphasis);
+  line-height: 28px;
+
+  a {
+    color: inherit;
+  }
 }
 
 .crop-hero-photo {
