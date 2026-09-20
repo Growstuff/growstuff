@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "A member's past gardens" do
+describe "A member's inactive gardens" do
   let(:owner) { create(:member, login_name: 'gardener') }
   let(:tomato) { create(:tomato) }
   let!(:retired) { create(:inactive_garden, owner: owner, name: 'Old plot', description: 'Where it all began') }
@@ -14,7 +14,7 @@ describe "A member's past gardens" do
   end
 
   context 'when nobody is signed in' do
-    before { visit member_past_gardens_path(owner) }
+    before { visit member_inactive_gardens_path(owner) }
 
     it 'shows only the inactive gardens, with when they were used and what was grown' do
       expect(page).to have_link 'Old plot', href: garden_path(retired)
@@ -37,7 +37,7 @@ describe "A member's past gardens" do
     include_context 'signed in member'
     let(:owner) { member }
 
-    before { visit member_past_gardens_path(owner) }
+    before { visit member_inactive_gardens_path(owner) }
 
     it 'lets them reactivate a garden' do
       click_link 'Mark as active'
@@ -46,10 +46,10 @@ describe "A member's past gardens" do
     end
   end
 
-  context "when someone else's past gardens" do
+  context "when someone else's inactive gardens" do
     include_context 'signed in member'
 
-    before { visit member_past_gardens_path(owner) }
+    before { visit member_inactive_gardens_path(owner) }
 
     it 'does not let a signed in visitor reactivate them' do
       expect(page).to have_link 'Old plot'
@@ -57,11 +57,11 @@ describe "A member's past gardens" do
     end
   end
 
-  context 'with no past gardens' do
-    before { visit member_past_gardens_path(create(:member)) }
+  context 'with no inactive gardens' do
+    before { visit member_inactive_gardens_path(create(:member)) }
 
     it 'says so' do
-      expect(page).to have_text 'There are no past gardens to show.'
+      expect(page).to have_text 'There are no inactive gardens to show.'
     end
   end
 end

@@ -51,9 +51,10 @@ describe "Gardens#index", :js do
         expect(page).to have_no_link(inactive_garden.name, href: garden_path(inactive_garden))
       end
 
-      it "no longer has an include in-active tickbox, but links to the past gardens" do
+      it "no longer has an include in-active tickbox, but links to the inactive gardens" do
         expect(page).to have_no_text 'include in-active'
-        expect(page).to have_link 'Past gardens', href: member_past_gardens_path(member)
+        expect(page).to have_text 'Gardens no longer in use'
+        expect(page).to have_link 'Inactive gardens', href: member_inactive_gardens_path(member)
       end
     end
 

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class GardensController < DataController
-  # Anyone can look at a member's past gardens, as they can their current ones.
-  skip_before_action :authenticate_member!, only: :past
-  skip_load_and_authorize_resource only: :past
+  # Anyone can look at a member's inactive gardens, as they can their current ones.
+  skip_before_action :authenticate_member!, only: :inactive
+  skip_load_and_authorize_resource only: :inactive
 
   def index
     @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
@@ -21,7 +21,7 @@ class GardensController < DataController
   end
 
   # A member's gardens that are no longer active, as a gallery of what they grew.
-  def past
+  def inactive
     @owner = Member.confirmed.find_by!(slug: params[:member_slug])
     owned = Garden.inactive.where(owner: @owner)
     collaborating = Garden.inactive.where(id: GardenCollaborator.where(member: @owner).select(:garden_id))
