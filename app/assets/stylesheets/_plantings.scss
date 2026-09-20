@@ -152,6 +152,13 @@
     color: #fff;
     font-weight: 600;
   }
+
+  // "usual for this crop", beside the suggested plant part.
+  .crop-picker-usual {
+    font-size: 0.9rem;
+    font-weight: normal;
+    opacity: 0.75;
+  }
 }
 
 // "Plant something" dialog: where you are, what is happening, what you chose.
@@ -272,4 +279,3 @@
     opacity: 0.7;
   }
 }
-

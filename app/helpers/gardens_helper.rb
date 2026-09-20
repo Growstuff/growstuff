@@ -7,7 +7,8 @@ module GardensHelper
     {
       gardens:          GardenCardSerializer.collection(gardens, ability: current_ability, show_owner: owner.blank?),
       default_icon_url: image_path('icons/planting.svg'),
-      spade_icon_url:   image_path('spade-marker.svg')
+      spade_icon_url:   image_path('spade-marker.svg'),
+      harvest_icon_url: image_path('icons/harvest.svg')
     }
   end
 
