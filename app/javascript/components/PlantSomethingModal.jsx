@@ -43,7 +43,7 @@ function Steps({current}) {
   );
 }
 
-// "Plant something here", as a dialog over the garden cards. Two steps: search
+// "Add planting", as a dialog over the garden cards. Two steps: search
 // for a crop and choose it, then confirm what you chose and it is planted in the
 // card's garden (today, with no other details; those can be added later). On
 // success it hands back the garden's updated card.

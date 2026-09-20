@@ -8,7 +8,7 @@ const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((p
 
 // The list of garden cards on the gardens index. Props come from
 // GardensHelper#garden_cards_props. It owns the cards' state so that saving a
-// planting from the "Plant something here" dialog can swap in the garden's
+// planting from the "Add planting" dialog can swap in the garden's
 // updated card, and the new planting appears without a page reload.
 export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl}) {
   const [gardens, setGardens] = useState(initialGardens);
