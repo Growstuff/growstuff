@@ -25,7 +25,7 @@ function errorMessages(status, data) {
 // with PATCH, and hands the refreshed garden card to onSaved, so the list
 // updates in place and the page is never left.
 export default function EditPlantingModal({planting, onClose, onSaved}) {
-  const [form, setForm] = useState(null); // {planting, gardens, planted_from_values, sunniness_values}
+  const [form, setForm] = useState(null); // {planting, planted_from_values, sunniness_values}
   const [values, setValues] = useState(null);
   const [loadError, setLoadError] = useState(false);
   const [changingCrop, setChangingCrop] = useState(false);
@@ -63,10 +63,10 @@ export default function EditPlantingModal({planting, onClose, onSaved}) {
     event.preventDefault();
     setSaving(true);
     setErrors([]);
-    const {crop, garden_id: gardenId, planted_at: plantedAt, planted_from: plantedFrom, sunniness, quantity,
+    const {crop, planted_at: plantedAt, planted_from: plantedFrom, sunniness, quantity,
       overall_rating: rating, description, finished, finished_at: finishedAt, failed} = values;
     const attributes = {
-      crop_id: crop.id, garden_id: gardenId, planted_at: plantedAt, planted_from: plantedFrom, sunniness, quantity,
+      crop_id: crop.id, planted_at: plantedAt, planted_from: plantedFrom, sunniness, quantity,
       overall_rating: rating, description, finished, finished_at: finishedAt, failed,
     };
     try {
@@ -122,19 +122,10 @@ export default function EditPlantingModal({planting, onClose, onSaved}) {
             </div>
 
             <div className="row g-3 mb-3">
-              <div className="col-md-8">
-                <label className="form-label" htmlFor="edit-planting-garden">Where did you plant it?</label>
-                <select id="edit-planting-garden" className="form-select" value={values.garden_id} onChange={set('garden_id')} required>
-                  {form.gardens.map((garden) => <option key={garden.id} value={garden.id}>{garden.name}</option>)}
-                </select>
-              </div>
               <div className="col-md-4">
                 <label className="form-label" htmlFor="edit-planting-planted-at">When?</label>
                 <input id="edit-planting-planted-at" type="date" className="form-control" value={values.planted_at || ''} onChange={set('planted_at')} />
               </div>
-            </div>
-
-            <div className="row g-3 mb-3">
               <div className="col-md-4">
                 <label className="form-label" htmlFor="edit-planting-planted-from">Planted from</label>
                 <select id="edit-planting-planted-from" className="form-select" value={values.planted_from || ''} onChange={set('planted_from')}>
@@ -149,18 +140,20 @@ export default function EditPlantingModal({planting, onClose, onSaved}) {
                   {form.sunniness_values.map((value) => <option key={value} value={value}>{value}</option>)}
                 </select>
               </div>
+            </div>
+
+            <div className="row g-3 mb-3">
               <div className="col-md-4">
                 <label className="form-label" htmlFor="edit-planting-quantity">How many?</label>
                 <input id="edit-planting-quantity" type="number" min="1" className="form-control" value={values.quantity ?? ''} onChange={set('quantity')} />
               </div>
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label" htmlFor="edit-planting-rating">Overall rating</label>
-              <select id="edit-planting-rating" className="form-select" value={values.overall_rating ?? ''} onChange={set('overall_rating')}>
-                <option value="">Not rated</option>
-                {RATINGS.map(([number, word]) => <option key={number} value={number}>{word ? `${number} – ${word}` : number}</option>)}
-              </select>
+              <div className="col-md-8">
+                <label className="form-label" htmlFor="edit-planting-rating">Overall rating</label>
+                <select id="edit-planting-rating" className="form-select" value={values.overall_rating ?? ''} onChange={set('overall_rating')}>
+                  <option value="">Not rated</option>
+                  {RATINGS.map(([number, word]) => <option key={number} value={number}>{word ? `${number} – ${word}` : number}</option>)}
+                </select>
+              </div>
             </div>
 
             <div className="mb-3">
