@@ -1,4 +1,6 @@
 - cache seed do
+  - has_details = seed.owner_location || seed.quantity || seed.organic != 'unknown' || seed.gmo != 'unknown' || seed.heirloom != 'unknown'
+  - has_footer = seed.tradable || seed.plant_before
   .card.seed-card
     = link_to seed_path(slug: seed.slug) do
       = image_tag(seed.thumbnail_url ? seed.thumbnail_url : placeholder_image, alt: seed.crop_name, class: 'img-card')
@@ -8,28 +10,31 @@
       %h5
         %span.text-muted seeds saved by
         = seed.owner_login_name
-    .card-body
-      - if seed.owner_location
-        %h6.small.badge.rounded-pill.badge-location{ title: seed.owner_location }
-          = icon 'fas', 'map-marker'
-          = truncate(seed.owner_location, length: 15, separator: ' ', omission: '... ')
-      %p
-        - if seed.quantity
-          .badge.text-bg-info #{seed.quantity} seeds
-        %ul
-          - if seed.organic != 'unknown'
-            %li
-              %small.seedtitle--organic= seed.organic
-          - if seed.gmo != 'unknown'
-            %li
-              %small.seedtitle--gmo= seed.gmo
-          - if seed.heirloom != 'unknown'
-            %li
-              %small.seedtitle--heirloom= seed.heirloom
+    -# Only draw the body and footer when there is something in them; empty, they are padded white bars.
+    - if has_details
+      .card-body
+        - if seed.owner_location
+          %h6.small.badge.rounded-pill.badge-location{ title: seed.owner_location }
+            = icon 'fas', 'map-marker'
+            = truncate(seed.owner_location, length: 15, separator: ' ', omission: '... ')
+        %p
+          - if seed.quantity
+            .badge.text-bg-info #{seed.quantity} seeds
+          %ul
+            - if seed.organic != 'unknown'
+              %li
+                %small.seedtitle--organic= seed.organic
+            - if seed.gmo != 'unknown'
+              %li
+                %small.seedtitle--gmo= seed.gmo
+            - if seed.heirloom != 'unknown'
+              %li
+                %small.seedtitle--heirloom= seed.heirloom
 
-    .card-footer
-      .d-flex.w-100.justify-content-between
-        - if seed.tradable
-          %small Will trade #{seed.tradable_to}
-        - if seed.plant_before
-          %small Plant before #{seed.plant_before}
+    - if has_footer
+      .card-footer
+        .d-flex.w-100.justify-content-between
+          - if seed.tradable
+            %small Will trade #{seed.tradable_to}
+          - if seed.plant_before
+            %small Plant before #{seed.plant_before}
