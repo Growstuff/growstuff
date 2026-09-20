@@ -1,20 +1,20 @@
 import React from 'react';
 
-import {formatDate} from '../dates';
 import ActionsMenu from './ActionsMenu';
 import CropChip from './CropChip';
+import PlantedDate from './PlantedDate';
 
 // One annual planting as a row of three aligned columns: the crop (and when it
 // was planted), how it is getting on (badges, then a progress bar or a note
 // when there is nothing to predict from), and its own actions menu.
-export default function PlantingRow({planting, defaultIconUrl, highlighted}) {
-  const {id, url, crop, badges, planted_at: plantedAt} = planting;
+export default function PlantingRow({planting, defaultIconUrl, highlighted, onUpdated}) {
+  const {id, url, crop, badges} = planting;
 
   return (
     <div className={`planting-row${highlighted ? ' planting-just-added' : ''}`}>
       <div className="planting-row-crop">
         <CropChip url={url} crop={crop} defaultIconUrl={defaultIconUrl} highlighted={highlighted} />
-        {plantedAt && <span className="planting-row-planted">Planted {formatDate(plantedAt)}</span>}
+        <PlantedDate planting={planting} onUpdated={onUpdated} />
       </div>
       <div className="planting-row-status">
         {badges.length > 0 && (

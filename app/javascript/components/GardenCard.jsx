@@ -12,7 +12,7 @@ function isPlainClick(event) {
 // One garden: its name and actions menu (top right), a picture, then what is
 // planted, as perennials (just names) and annuals (each with its progress).
 // Matches gardens/_card.
-export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId}) {
+export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, onPlantingUpdated}) {
   const {id, name, url, image_url: imageUrl, owner, actions, perennials, annuals} = garden;
   const empty = perennials.length === 0 && annuals.length === 0;
 
@@ -55,6 +55,7 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
                         crop={planting.crop}
                         defaultIconUrl={defaultIconUrl}
                         highlighted={planting.id === highlightedId}
+                        onUpdated={onPlantingUpdated}
                       />
                     ))}
                   </div>
@@ -72,6 +73,7 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
                         planting={planting}
                         defaultIconUrl={defaultIconUrl}
                         highlighted={planting.id === highlightedId}
+                        onUpdated={onPlantingUpdated}
                       />
                     ))}
                   </div>

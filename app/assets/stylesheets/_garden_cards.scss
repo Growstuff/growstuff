@@ -100,6 +100,45 @@ $garden-card-line: #e6e6e6;
     font-size: 0.8rem;
   }
 
+  // The planted date, when it can be edited: a quiet button with a pencil that
+  // firms up on hover and focus, so it reads as editable without shouting.
+  .planting-date-button {
+    border: 0;
+    border-bottom: 1px dotted currentColor;
+    background: none;
+    cursor: pointer;
+
+    .fa {
+      margin-left: 0.35rem;
+      opacity: 0.5;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--bs-link-color, #0a58ca);
+
+      .fa {
+        opacity: 1;
+      }
+    }
+  }
+
+  .planting-date-editor {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-left: 0.5rem;
+
+    .form-control {
+      width: auto;
+    }
+  }
+
+  .planting-date-error {
+    flex-basis: 100%;
+    color: var(--bs-danger, #dc3545);
+  }
+
   .planting-row-status {
     min-width: 0;
   }
