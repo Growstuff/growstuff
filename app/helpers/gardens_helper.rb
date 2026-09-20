@@ -6,12 +6,7 @@ module GardensHelper
   def garden_cards_props(gardens, owner: nil)
     {
       gardens:          GardenCardSerializer.collection(gardens, ability: current_ability, show_owner: owner.blank?),
-      default_icon_url: image_path('icons/planting.svg'),
-      planting_options: {
-        planted_from: Planting::PLANTED_FROM_VALUES,
-        sunniness:    Planting::SUNNINESS_VALUES,
-        today:        Time.zone.today.iso8601
-      }
+      default_icon_url: image_path('icons/planting.svg')
     }
   end
 

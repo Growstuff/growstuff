@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {postJson} from '../api';
 import CropPicker from './CropPicker';
 import Modal from './Modal';
 
-const FIELD_NAMES = {crop: 'Crop', garden: 'Garden', planted_at: 'Planted date', quantity: 'Quantity'};
+const FIELD_NAMES = {crop: 'Crop', garden: 'Garden'};
 
 function humanize(field) {
   return FIELD_NAMES[field] || field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
@@ -12,129 +12,76 @@ function humanize(field) {
 
 function errorMessages(status, data) {
   if (status === 422 && data && data.errors) {
-    return Object.entries(data.errors).flatMap(([field, messages]) => messages.map((m) => `${humanize(field)} ${m}`));
+    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${humanize(field)} ${m}`));
+    if (messages.length > 0) return messages;
   }
   if (status === 403) return ['You can\'t plant in this garden.'];
   if (status === 401) return ['Please sign in again to plant something.'];
   return ['Something went wrong saving that. Please try again.'];
 }
 
-// "Plant something here", as a dialog over the garden cards. The garden is the
-// card's, so it isn't asked. On success it hands back the garden's updated card.
-export default function PlantSomethingModal({garden, options, onClose, onCreated}) {
-  const [crop, setCrop] = useState(null);
-  const [fields, setFields] = useState({
-    planted_at: options.today, planted_from: '', sunniness: '', quantity: '',
-  });
-  const [errors, setErrors] = useState([]);
+// "Plant something here", as a dialog over the garden cards. Search for a crop
+// and choose it, then confirm what you chose and it is planted in the card's
+// garden (today, with no other details; those can be added later). On success
+// it hands back the garden's updated card.
+export default function PlantSomethingModal({garden, onClose, onCreated}) {
+  const [crop, setCrop] = useState(null); // chosen, waiting for confirmation
   const [saving, setSaving] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const confirmButton = useRef(null);
 
-  const set = (name) => (event) => {
-    const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-    setFields({...fields, [name]: value});
-  };
+  // Once a crop is chosen the search goes away; Enter then confirms.
+  useEffect(() => {
+    if (crop && confirmButton.current) confirmButton.current.focus();
+  }, [crop]);
 
-  async function submit(event) {
-    event.preventDefault();
+  async function confirm() {
     setSaving(true);
     setErrors([]);
     try {
-      const {ok, status, data} = await postJson('/plantings.json', {
-        planting: {garden_id: garden.id, crop_id: crop ? crop.id : undefined, ...fields},
-      });
+      const {ok, status, data} = await postJson('/plantings.json', {planting: {garden_id: garden.id, crop_id: crop.id}});
       if (ok) {
-        onCreated(data.garden, crop);
-      } else {
-        setErrors(errorMessages(status, data));
+        onCreated(data.garden, crop); // closes this dialog
+        return;
       }
+      setErrors(errorMessages(status, data));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
-    } finally {
-      setSaving(false);
     }
+    setSaving(false);
   }
 
-  const titleId = `plant-something-title-${garden.id}`;
-
   return (
-    <Modal title={`Plant something in ${garden.name}`} titleId={titleId} onClose={onClose}>
-      <form onSubmit={submit} noValidate>
-        <div className="modal-body">
-          {errors.length > 0 && (
-            <div className="alert alert-danger" role="alert">
-              <ul className="mb-0">{errors.map((message) => <li key={message}>{message}</li>)}</ul>
-            </div>
-          )}
-
-          <p className="madlib">
-            <span className="madlib-phrase">
-              I planted
-              <input
-                type="number"
-                min="1"
-                placeholder="number"
-                aria-label="Quantity"
-                className="madlib-field madlib-quantity"
-                value={fields.quantity}
-                onChange={set('quantity')}
-              />
-              <CropPicker
-                id="planting-crop"
-                value={crop}
-                onChange={setCrop}
-                invalid={errors.some((m) => m.startsWith('Crop'))}
-                nextFocusId="planting-planted-at"
-              />
-              {fields.quantity !== '1' && <span className="madlib-aside">(s)</span>}
-            </span>
-            {' '}
-            <span className="madlib-phrase">
-              on
-              <input
-                id="planting-planted-at"
-                type="date"
-                aria-label="Planted date"
-                className="madlib-field madlib-date"
-                value={fields.planted_at}
-                onChange={set('planted_at')}
-              />
-            </span>
-            {' '}
-            <span className="madlib-phrase">
-              from
-              <select
-                aria-label="Planted from"
-                className={`madlib-field${fields.planted_from ? '' : ' madlib-empty'}`}
-                value={fields.planted_from}
-                onChange={set('planted_from')}
-              >
-                <option value="">optional</option>
-                {options.planted_from.map((value) => <option key={value} value={value}>{value}</option>)}
-              </select>
-            </span>
-            {' '}
-            <span className="madlib-phrase">
-              in
-              <select
-                aria-label="Sun or shade"
-                className={`madlib-field${fields.sunniness ? '' : ' madlib-empty'}`}
-                value={fields.sunniness}
-                onChange={set('sunniness')}
-              >
-                <option value="">optional</option>
-                {options.sunniness.map((value) => <option key={value} value={value}>{value}</option>)}
-              </select>
-              .
-            </span>
-          </p>
-        </div>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
-          <button type="submit" className="btn btn-primary" disabled={saving} aria-busy={saving}>
-            {saving ? 'Saving…' : 'Save'}
+    <Modal title={`Plant something in ${garden.name}`} titleId={`plant-something-title-${garden.id}`} onClose={onClose}>
+      <div className="modal-body">
+        {errors.length > 0 && (
+          <div className="alert alert-danger" role="alert">
+            <ul className="mb-0">{errors.map((message) => <li key={message}>{message}</li>)}</ul>
+          </div>
+        )}
+        {crop ? (
+          <div className="crop-confirm">
+            <p className="crop-confirm-label">You&rsquo;re planting</p>
+            <p className="crop-confirm-name">
+              {crop.name}
+              <button type="button" className="btn btn-sm btn-link" onClick={() => setCrop(null)} disabled={saving}>
+                Change<span className="sr-only"> crop</span>
+              </button>
+            </p>
+            <p className="crop-confirm-detail">in {garden.name}, today.</p>
+          </div>
+        ) : (
+          <CropPicker id="planting-crop" onChoose={setCrop} />
+        )}
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
+        {crop && (
+          <button ref={confirmButton} type="button" className="btn btn-primary" onClick={confirm} disabled={saving} aria-busy={saving}>
+            {saving ? 'Planting…' : 'Plant it'}
           </button>
-        </div>
-      </form>
+        )}
+      </div>
     </Modal>
   );
 }

@@ -21,40 +21,38 @@ describe 'Planting from a garden card', :js, :search do
     end
   end
 
-  it 'opens a dialog over the list, without asking which garden' do
+  def search_for(term)
+    fill_in 'What did you plant?', with: term
+  end
+
+  def choose_crop(name)
+    search_for(name[0, 4])
+    find('[role=option]', text: name).click
+  end
+
+  it 'opens a dialog over the list, asking what you planted and not which garden' do
     open_plant_dialog('Orchard')
 
     within '[role=dialog]' do
       expect(page).to have_content 'Plant something in Orchard'
-      expect(page).to have_content 'I planted'
+      expect(page).to have_field 'What did you plant?', placeholder: 'Start typing a crop name'
       expect(page).to have_no_content 'Where did you plant it?'
     end
     expect(page).to have_current_path(gardens_path)
   end
 
-  it 'hints at typing a crop name, and offers a way to request one that is not found' do
+  it 'shows what was chosen and plants it into that garden once confirmed, without leaving the list' do
     open_plant_dialog('Orchard')
 
     within '[role=dialog]' do
-      expect(page).to have_field 'Crop', placeholder: 'type a crop name'
+      choose_crop('lettuce')
 
-      fill_in 'Crop', with: 'zzzznotacrop'
+      expect(page).to have_content 'You’re planting'
+      expect(page).to have_css '.crop-confirm-name', text: 'lettuce'
+      expect(page).to have_content 'in Orchard, today.'
+      expect(Planting.count).to eq 0
 
-      expect(page).to have_content 'No crops match'
-      expect(page).to have_link 'Request a new crop', href: new_crop_path
-    end
-  end
-
-  it 'plants into that garden and shows the planting on its card, without leaving the list' do
-    open_plant_dialog('Orchard')
-
-    within '[role=dialog]' do
-      fill_in 'Quantity', with: 4
-      fill_in 'Crop', with: 'lett'
-      find('[role=option]', text: 'lettuce').click
-      select 'seedling', from: 'Planted from'
-      select 'sun', from: 'Sun or shade'
-      click_button 'Save'
+      click_button 'Plant it'
     end
 
     expect(page).to have_no_css '[role=dialog]'
@@ -62,8 +60,32 @@ describe 'Planting from a garden card', :js, :search do
     within(:css, '.card', text: 'Orchard') { expect(page).to have_content 'lettuce' }
     within(:css, '.card', text: 'Balcony') { expect(page).to have_no_content 'lettuce' }
     expect(page).to have_current_path(gardens_path)
-    expect(Planting.last).to have_attributes(garden: garden, crop: lettuce, quantity: 4, owner: member,
-                                             planted_from: 'seedling', sunniness: 'sun')
+    expect(Planting.last).to have_attributes(garden: garden, crop: lettuce, owner: member,
+                                             planted_at: Time.zone.today)
+  end
+
+  it 'lets you change your mind before confirming' do
+    open_plant_dialog('Orchard')
+
+    within '[role=dialog]' do
+      choose_crop('lettuce')
+      click_button 'Change'
+
+      expect(page).to have_field 'What did you plant?', with: ''
+      expect(page).to have_no_css '.crop-confirm-name'
+    end
+    expect(Planting.count).to eq 0
+  end
+
+  it 'hints at typing a crop name, and offers a way to request one that is not found' do
+    open_plant_dialog('Orchard')
+
+    within '[role=dialog]' do
+      search_for 'zzzznotacrop'
+
+      expect(page).to have_content 'No crops match'
+      expect(page).to have_link 'Request a new crop', href: new_crop_path
+    end
   end
 
   describe 'choosing a crop with the keyboard' do
@@ -72,13 +94,13 @@ describe 'Planting from a garden card', :js, :search do
     before do
       Crop.reindex
       open_plant_dialog('Orchard')
-      fill_in 'Crop', with: 'lettuce'
+      search_for 'lettuce'
       expect(page).to have_css '[role=option]', count: 2
     end
 
     it 'moves through the matches with the arrow keys and chooses with Enter' do
       names = all('[role=option]').map(&:text)
-      crop = find_field('Crop')
+      crop = find_field('What did you plant?')
 
       crop.send_keys(:down)
       expect(page).to have_css '[role=option][aria-selected=true]', text: names[0]
@@ -88,52 +110,68 @@ describe 'Planting from a garden card', :js, :search do
       expect(page).to have_css '[role=option][aria-selected=true]', text: names[0]
       crop.send_keys(:enter)
 
-      expect(page).to have_css '.madlib-chosen', text: names[0]
+      expect(page).to have_css '.crop-confirm-name', text: names[0]
       expect(page).to have_no_css '[role=option]'
-    end
-
-    it 'moves on to the date after choosing, so a second Enter saves instead of undoing the choice' do
-      names = all('[role=option]').map(&:text)
-
-      find_field('Crop').send_keys(:down, :enter)
-
-      expect(page).to have_css '.madlib-chosen', text: names[0]
-      expect(page.evaluate_script('document.activeElement.getAttribute("aria-label")')).to eq 'Planted date'
-
-      find_field('Planted date').send_keys(:enter)
-
-      expect(page).to have_content "Planted #{names[0]} in Orchard."
-      expect(Planting.last.crop.name).to eq names[0]
+      expect(Planting.count).to eq 0
     end
 
     it 'chooses the top match with Enter when none is highlighted' do
       names = all('[role=option]').map(&:text)
 
-      find_field('Crop').send_keys(:enter)
+      find_field('What did you plant?').send_keys(:enter)
 
-      expect(page).to have_css '.madlib-chosen', text: names[0]
+      expect(page).to have_css '.crop-confirm-name', text: names[0]
+    end
+
+    it 'puts focus on Plant it after choosing, so a second Enter confirms' do
+      names = all('[role=option]').map(&:text)
+
+      find_field('What did you plant?').send_keys(:down, :enter)
+
+      expect(page).to have_css '.crop-confirm-name', text: names[0]
+      expect(page.evaluate_script('document.activeElement.textContent')).to eq 'Plant it'
+
+      find_button('Plant it').send_keys(:enter)
+
+      expect(page).to have_content "Planted #{names[0]} in Orchard."
+      expect(Planting.last.crop.name).to eq names[0]
     end
 
     it 'closes the list on the first Escape and the dialog on the second' do
-      find_field('Crop').send_keys(:escape)
+      find_field('What did you plant?').send_keys(:escape)
 
       expect(page).to have_no_css '[role=option]'
       expect(page).to have_css '[role=dialog]'
 
-      find_field('Crop').send_keys(:escape)
+      find_field('What did you plant?').send_keys(:escape)
 
       expect(page).to have_no_css '[role=dialog]'
     end
   end
 
-  it 'keeps the dialog open and says what is wrong when no crop was chosen' do
+  it 'keeps the dialog open and says what went wrong when planting fails, so you can try again' do
+    allow_any_instance_of(Planting).to receive(:save) do |planting|
+      planting.errors.add(:crop, 'is not available')
+      false
+    end
     open_plant_dialog('Orchard')
 
     within '[role=dialog]' do
-      click_button 'Save'
+      choose_crop('lettuce')
+      click_button 'Plant it'
 
-      expect(page).to have_css '[role=alert]', text: /Crop/
+      expect(page).to have_css '[role=alert]', text: 'Crop is not available'
+      expect(page).to have_button 'Plant it', disabled: false
     end
+    expect(Planting.count).to eq 0
+  end
+
+  it 'closes with Cancel and plants nothing' do
+    open_plant_dialog('Orchard')
+
+    within('[role=dialog]') { click_button 'Cancel' }
+
+    expect(page).to have_no_css '[role=dialog]'
     expect(Planting.count).to eq 0
   end
 
