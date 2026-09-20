@@ -130,9 +130,18 @@ $garden-card-line: #e6e6e6;
     text-align: right;
   }
 
-  // The "more" button: three dots, without the theme's dropdown caret.
+  // The "more" button: three dots in a small round button. The theme gives every
+  // .btn a 5.5rem minimum width, which made the hover background a wide box, and
+  // adds a dropdown caret we don't want.
   .planting-actions-toggle {
-    padding: 0.25rem 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    min-width: 0;
+    height: 2.25rem;
+    padding: 0;
+    border-radius: 50%;
     color: $garden-card-muted;
 
     &::after {
