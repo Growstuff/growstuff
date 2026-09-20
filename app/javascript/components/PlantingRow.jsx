@@ -38,7 +38,7 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted}) {
           actions={planting.actions}
           label={<i className="fa fa-ellipsis-v" aria-hidden="true" />}
           ariaLabel={`Actions for ${crop.name}`}
-          className="btn btn-sm btn-link planting-actions-toggle"
+          className="btn btn-sm btn-link actions-toggle-dots"
         />
       </div>
     </div>
