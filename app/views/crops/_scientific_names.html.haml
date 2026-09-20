@@ -27,6 +27,6 @@
       - if sn.wikidata_id.present?
         = link_to "WD", "https://www.wikidata.org/wiki/#{sn.wikidata_id}", class: 'badge badge-info ms-1', target: '_blank', rel: 'noopener noreferrer', title: 'Wikidata'
 
-  %p.text-right
+  %p.text-end
     - if can? :edit, crop
       = link_to 'Add', new_scientific_name_path(crop_id: crop.id), class: 'btn btn-default btn-xs'

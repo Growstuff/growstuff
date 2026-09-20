@@ -20,7 +20,7 @@
 
       %span.help-block
         = render partial: "shared/markdown_help"
-      .actions.text-right
+      .actions.text-end
         = f.submit 'Post comment', class: 'btn btn-primary'
       .field
         = f.hidden_field :commentable_id, value: @commentable.id

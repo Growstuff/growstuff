@@ -2,5 +2,5 @@
   %div{ class: build_alert_classes(type), role: "alert" }
     %button.close{ type: "button", "data-bs-dismiss" => "alert" }
       %span{ "aria-hidden" => true } &times;
-      %span.sr-only Close
+      %span.visually-hidden Close
     = sanitize(content)

@@ -19,6 +19,6 @@
         .badge= "#{an.name} (#{an.language})"
 
 
-  %p.text-right
+  %p.text-end
     - if can? :edit, crop
       = link_to 'Add', new_alternate_name_path(crop_id: crop.id), class: 'btn btn-default btn-xs'

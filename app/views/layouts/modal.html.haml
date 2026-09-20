@@ -4,7 +4,7 @@
       .modal-header
         %button.close{"data-bs-dismiss" => "modal", type: "button"}
           %span{"aria-hidden" => "true"} &#215;
-          %span.sr-only Close
+          %span.visually-hidden Close
         %h4#mainModalLabel.modal-title
           = yield :title if content_for? :title
           \&#160;

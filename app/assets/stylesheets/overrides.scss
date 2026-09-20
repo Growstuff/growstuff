@@ -441,3 +441,8 @@ ul.thumbnail-buttons {
 .progress-fade:hover::before {
   background: none;
 }
+
+// Bootstrap 5 dropped text-justify.
+.text-justify {
+  text-align: justify;
+}

@@ -1,5 +1,5 @@
 - if can? :edit, post
-  .dropdown.float-right
+  .dropdown.float-end
     %button#post-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :type => "button"} Actions
     .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "post-edit-button"}
       - if can? :edit, post

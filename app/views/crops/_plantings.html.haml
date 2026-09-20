@@ -9,8 +9,8 @@
             = planting_icon
             = planting
           - if can?(:edit, planting)
-            .float-right= render 'plantings/actions', planting: planting
-          .float-right= render 'members/location', member: planting.owner
+            .float-end= render 'plantings/actions', planting: planting
+          .float-end= render 'members/location', member: planting.owner
   .card-footer
     - if crop.approved?
       - if current_member

@@ -144,7 +144,7 @@
                     = icon_for_model(event.event_type)
                     = event_description(event)
                     = render 'timeline/photos', photo: resolve_model(event) if event.event_type == 'photo'
-                  %small.col-md-1.col-xs-2.text-right
+                  %small.col-md-1.col-xs-2.text-end
                     - if event.event_at.present?
                       - if event.event_at.kind_of?(Date)
                         #{distance_of_time_in_words(event.event_at, Time.zone.now.to_date)} ago

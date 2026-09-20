@@ -29,7 +29,7 @@
                 - else
                   %h1.text-muted= icon 'far', 'envelope-open'
               .col-9
-                .text-right.float-right
+                .text-end.float-end
                   - conversation.recipients.each do |member|
                     - if member != current_member
                       = render 'members/tiny', member: member

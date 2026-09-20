@@ -92,7 +92,7 @@
         - if @cultivate_soil_link
           .alert.alert-info
             This was the last planting recently in this bed. Would you like to cultivate the soil soon?
-            = link_to 'Cultivate soil', @cultivate_soil_link, class: 'btn btn-secondary btn-sm ml-2'
+            = link_to 'Cultivate soil', @cultivate_soil_link, class: 'btn btn-secondary btn-sm ms-2'
         .index-cards
           - if @current_activities&.size&.positive?
             - @current_activities.each do |activity|
@@ -117,7 +117,7 @@
               .d-flex.w-100.justify-content-between
                 %p.mb-2
                   = image_tag planting_image_path(planting), width: 75, class: 'rounded shadow', alt: "Image of #{planting.crop.name} by #{planting.owner}"
-                .text-right
+                .text-end
                   %h5= planting.crop.name
                   - if planting.planted_from.present?
                     %span.badge.badge-success= planting.planted_from.pluralize
