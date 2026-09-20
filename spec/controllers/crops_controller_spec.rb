@@ -28,6 +28,19 @@ describe CropsController do
     end
   end
 
+  describe "GET data_improvement" do
+    context 'wrangler' do
+      include_context 'login as wrangler'
+
+      it 'fetches the data improvement page and paginates crops with per_page 50' do
+        get :data_improvement
+        expect(response).to be_successful
+        expect(response).to render_template("crops/data_improvement")
+        expect(assigns(:crops).per_page).to eq(50)
+      end
+    end
+  end
+
   describe "GET crop hierarchy" do
     describe 'fetches the crop hierarchy page' do
       context 'wrangler' do
