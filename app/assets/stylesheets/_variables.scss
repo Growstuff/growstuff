@@ -97,6 +97,8 @@ $navbar-default-brand-color: lighten($green, 20%);
 
 $highest-level: 1070;
 
-$progress-height: 5em;
-$progress-bar-color: $green;
-$progress-bg: $white;
+// Progress bars: a thin strip, dark green filled over a lighter green track, as before.
+// (These were Bootstrap 3 variables the old skin ignored; Bootstrap 5 reads them.)
+$progress-height: 0.875rem;
+$progress-bg: lighten($green, 15%);
+$progress-bar-bg: $green;
