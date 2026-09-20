@@ -59,9 +59,6 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
                         crop={planting.crop}
                         defaultIconUrl={defaultIconUrl}
                         highlighted={planting.id === highlightedId}
-                        onUpdated={onPlantingUpdated}
-                        onEdit={onEditPlanting}
-                        onHarvest={onHarvestPlanting}
                       />
                     ))}
                   </div>
@@ -81,6 +78,7 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
                         highlighted={planting.id === highlightedId}
                         onUpdated={onPlantingUpdated}
                         onEdit={onEditPlanting}
+                        onHarvest={onHarvestPlanting}
                       />
                     ))}
                   </div>
