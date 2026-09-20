@@ -17,18 +17,21 @@
 #   stores them: as records pointing at Flickr's own image URLs, so nothing is
 #   downloaded from Flickr. (The site has no way to list a garden's photos.)
 #
+# Pass active_only: true to import just active gardens and current plantings.
+#
 # Re-running is safe: gardens and plantings are matched by slug and photos by
 # image URL.
 class MemberImportService
   class Aborted < StandardError; end
 
   # rubocop:disable-next Metrics/ParameterLists
-  def initialize(login_name:, local_email: nil, local_password: nil, photos: true, out: $stdout, client: nil,
+  def initialize(login_name:, local_email: nil, local_password: nil, photos: true, active_only: false, out: $stdout, client: nil,
     **client_options)
     @login_name = login_name
     @local_email = local_email
     @local_password = local_password
     @photos = photos
+    @active_only = active_only
     @out = out
     @client = client || RemoteApiClient.new(out: out, **client_options)
     @crop_importer = CropImportService.new(client: @client, out: out, reindex: false)
@@ -79,7 +82,7 @@ class MemberImportService
   # Returns { remote garden id => local Garden }
   def import_gardens(remote_member)
     gardens = {}
-    @client.each_site_page("/members/#{remote_member.dig('attributes', 'slug')}/gardens.json", { 'all' => 1 }) do |rows, _page|
+    @client.each_site_page("/members/#{remote_member.dig('attributes', 'slug')}/gardens.json", list_params) do |rows, _page|
       rows.each do |row|
         # The list also includes gardens the member only collaborates on.
         next unless row['owner_id'].to_s == remote_member['id']
@@ -89,6 +92,12 @@ class MemberImportService
       end
     end
     gardens
+  end
+
+  # The site lists only active gardens, and current (not finished or failed)
+  # plantings, unless asked for all of them.
+  def list_params
+    @active_only ? {} : { 'all' => 1 }
   end
 
   def import_garden(row)
@@ -115,7 +124,7 @@ class MemberImportService
   end
 
   def import_plantings(remote_member, gardens)
-    @client.each_site_page("/members/#{remote_member.dig('attributes', 'slug')}/plantings.json", { 'all' => 1 }) do |rows, page|
+    @client.each_site_page("/members/#{remote_member.dig('attributes', 'slug')}/plantings.json", list_params) do |rows, page|
       rows.each { |row| import_planting(row, gardens) }
       @out.puts "plantings page #{page}: #{rows.size} (#{@stats[:plantings_created]} created so far)"
     end

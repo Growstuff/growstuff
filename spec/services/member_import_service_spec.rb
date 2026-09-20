@@ -14,6 +14,7 @@ describe MemberImportService, type: :service do
   # Site JSON lists are paged with ?page=N: page 1 gets the rows, later pages are empty.
   let(:responses) { {} }
   let(:requested_paths) { [] }
+  let(:requested_queries) { {} }
 
   def serve_json_api(path, data)
     responses[path] = [200, { data: data }.to_json]
@@ -57,6 +58,7 @@ describe MemberImportService, type: :service do
   before do
     stubs.get(%r{\A/(api/v1/crops|members/shiny|plantings)/?}) do |env|
       requested_paths << env.url.path
+      requested_queries[env.url.path] = env.params.dup
       status, body = responses.fetch(env.url.path, [404, ''])
       # Only the first page of a site JSON list has anything on it.
       body = '[]' if env.params['page'].to_i > 1
@@ -179,6 +181,22 @@ describe MemberImportService, type: :service do
       expect { described_class.new(**options).call }
         .to raise_error(described_class::Aborted, /No member called "Shiny"/)
       expect(Member.find_by(login_name: 'Shiny')).to be_nil
+    end
+  end
+
+  describe 'active_only' do
+    it 'asks for everything by default' do
+      described_class.new(**options).call
+
+      expect(requested_queries['/members/shiny/gardens.json']).to include('all' => '1')
+      expect(requested_queries['/members/shiny/plantings.json']).to include('all' => '1')
+    end
+
+    it 'leaves out the all flag so the site lists only active gardens and current plantings' do
+      described_class.new(**options, active_only: true).call
+
+      expect(requested_queries['/members/shiny/gardens.json']).not_to have_key('all')
+      expect(requested_queries['/members/shiny/plantings.json']).not_to have_key('all')
     end
   end
 

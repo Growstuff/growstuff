@@ -3,7 +3,8 @@
 namespace :members do
   desc "Copy one member's gardens, plantings and photos from production (or SOURCE_URL) into the local database. " \
        "Usage: rake members:pull_from_production MEMBER=login_name. " \
-       "Options: SOURCE_URL, DELAY=2 (seconds between requests), PHOTOS=false, LOCAL_EMAIL, LOCAL_PASSWORD"
+       "Options: SOURCE_URL, DELAY=2 (seconds between requests), " \
+       "ACTIVE_ONLY=true (active gardens and current plantings only), PHOTOS=false, LOCAL_EMAIL, LOCAL_PASSWORD"
   task pull_from_production: :environment do
     abort "Refusing to pull members into a production database." if Rails.env.production?
     abort "Usage: rake members:pull_from_production MEMBER=login_name" if ENV['MEMBER'].blank?
@@ -13,6 +14,7 @@ namespace :members do
       source_url:     ENV.fetch('SOURCE_URL', RemoteApiClient::DEFAULT_SOURCE_URL),
       delay:          ENV.fetch('DELAY', 2).to_f,
       photos:         ENV['PHOTOS'] != 'false',
+      active_only:    ENV['ACTIVE_ONLY'] == 'true',
       local_email:    ENV.fetch('LOCAL_EMAIL', nil),
       local_password: ENV.fetch('LOCAL_PASSWORD', nil)
     }
