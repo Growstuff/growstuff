@@ -28,6 +28,40 @@ describe CropsController do
     end
   end
 
+  describe "GET data_improvement" do
+    context 'wrangler' do
+      include_context 'login as wrangler'
+
+      it 'fetches the data improvement page and paginates crops with per_page 50' do
+        get :data_improvement
+        expect(response).to be_successful
+        expect(response).to render_template("crops/data_improvement")
+        expect(assigns(:crops).per_page).to eq(50)
+      end
+    end
+  end
+
+  describe "GET show" do
+    let!(:crop) { create(:crop) }
+    let!(:member) { create(:member) }
+
+    before do
+      PaperTrail::Version.create!(
+        item_type: 'Crop',
+        item_id: crop.id,
+        event: 'update',
+        whodunnit: member.id.to_s,
+        created_at: Time.current
+      )
+    end
+
+    it "fetches crop show page and sets version members using distinct whodunnit IDs" do
+      get :show, params: { slug: crop.to_param }
+      expect(response).to be_successful
+      expect(assigns(:version_members)).to eq({ member.id => member })
+    end
+  end
+
   describe "GET crop hierarchy" do
     describe 'fetches the crop hierarchy page' do
       context 'wrangler' do

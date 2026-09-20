@@ -45,9 +45,8 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
-  # Use the lowest log level to ensure availability of diagnostic information
-  # when problems arise.
-  config.log_level = :debug
+  # Use info log level by default, configurable via RAILS_LOG_LEVEL.
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info").to_sym
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
@@ -58,7 +57,7 @@ Rails.application.configure do
                        { username:             ENV.fetch("MEMCACHIER_USERNAME", nil),
                          password:             ENV.fetch("MEMCACHIER_PASSWORD", nil),
                          failover:             true,
-                         socket_timeout:       1.5,
+                         socket_timeout:       0.5,
                          socket_failure_delay: 0.2,
                          down_retry_delay:     60 }
 

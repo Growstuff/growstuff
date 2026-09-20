@@ -73,7 +73,7 @@ class CropsController < ApplicationController
       format.html do
         @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
         @companions = @crop.companions.approved
-        member_ids = @crop.versions.map(&:whodunnit).compact.map(&:to_i)
+        member_ids = @crop.versions.reorder(nil).distinct.pluck(:whodunnit).compact.map(&:to_i)
         @version_members = Member.where(id: member_ids).index_by(&:id)
       end
       format.svg do
@@ -174,7 +174,7 @@ class CropsController < ApplicationController
                Crop.approved.where(public_food_key: [nil, '']).order(plantings_count: :desc)
              else
                Crop.none
-             end
+             end.paginate(page: params[:page], per_page: 50)
   end
 
   private
