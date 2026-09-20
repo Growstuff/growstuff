@@ -92,6 +92,20 @@ describe 'Planting from a garden card', :js, :search do
       expect(page).to have_no_css '[role=option]'
     end
 
+    it 'moves on to the date after choosing, so a second Enter saves instead of undoing the choice' do
+      names = all('[role=option]').map(&:text)
+
+      find_field('Crop').send_keys(:down, :enter)
+
+      expect(page).to have_css '.madlib-chosen', text: names[0]
+      expect(page.evaluate_script('document.activeElement.getAttribute("aria-label")')).to eq 'Planted date'
+
+      find_field('Planted date').send_keys(:enter)
+
+      expect(page).to have_content "Planted #{names[0]} in Orchard."
+      expect(Planting.last.crop.name).to eq names[0]
+    end
+
     it 'chooses the top match with Enter when none is highlighted' do
       names = all('[role=option]').map(&:text)
 

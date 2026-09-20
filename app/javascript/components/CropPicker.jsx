@@ -9,12 +9,11 @@ import {getJson} from '../api';
 // A combobox with a listbox of matches: Up and Down move through them, Enter
 // chooses the highlighted one (or the top match if none is highlighted), and
 // Escape closes the list before it would close the dialog.
-export default function CropPicker({id, value, onChange, invalid}) {
+export default function CropPicker({id, value, onChange, invalid, nextFocusId}) {
   const [term, setTerm] = useState('');
   const [results, setResults] = useState([]);
   const [noMatch, setNoMatch] = useState(false); // a search finished and found nothing
   const [activeIndex, setActiveIndex] = useState(-1);
-  const changeButton = useRef(null);
   const list = useRef(null);
   const listId = `${id}-results`;
   const open = results.length > 0;
@@ -45,10 +44,13 @@ export default function CropPicker({id, value, onChange, invalid}) {
     };
   }, [term, value]);
 
-  // Once a crop is chosen the input goes away, so put focus on "Change" rather than losing it.
+  // Once a crop is chosen the input goes away, so move on to the next blank
+  // rather than losing focus. (Not to the "Change" button: a second Enter
+  // would press it and undo the choice.)
   useEffect(() => {
-    if (value && changeButton.current) changeButton.current.focus();
-  }, [value]);
+    const next = value && nextFocusId ? document.getElementById(nextFocusId) : null;
+    if (next) next.focus();
+  }, [value, nextFocusId]);
 
   // Keep the highlighted match in view when the list scrolls.
   useEffect(() => {
@@ -85,7 +87,7 @@ export default function CropPicker({id, value, onChange, invalid}) {
     return (
       <span>
         <span className="madlib-chosen">{value.name}</span>
-        <button ref={changeButton} type="button" className="btn btn-sm btn-link" onClick={() => onChange(null)}>
+        <button type="button" className="btn btn-sm btn-link" onClick={() => onChange(null)}>
           Change<span className="sr-only"> crop</span>
         </button>
       </span>

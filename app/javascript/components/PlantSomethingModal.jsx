@@ -78,13 +78,20 @@ export default function PlantSomethingModal({garden, options, onClose, onCreated
                 value={fields.quantity}
                 onChange={set('quantity')}
               />
-              <CropPicker id="planting-crop" value={crop} onChange={setCrop} invalid={errors.some((m) => m.startsWith('Crop'))} />
+              <CropPicker
+                id="planting-crop"
+                value={crop}
+                onChange={setCrop}
+                invalid={errors.some((m) => m.startsWith('Crop'))}
+                nextFocusId="planting-planted-at"
+              />
               {fields.quantity !== '1' && <span className="madlib-aside">(s)</span>}
             </span>
             {' '}
             <span className="madlib-phrase">
               on
               <input
+                id="planting-planted-at"
                 type="date"
                 aria-label="Planted date"
                 className="madlib-field madlib-date"
