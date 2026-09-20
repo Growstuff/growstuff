@@ -65,5 +65,8 @@ describe "User searches" do
   def search_with(search_string)
     fill_in "new_place", with: search_string
     click_button "search_button"
+    # The search redirects to the place page. Wait for it to load before reading it.
+    # A blank search stays on the same URL, so there is nothing to wait for.
+    expect(page).to have_current_path(place_path(search_string)) if search_string.present?
   end
 end
