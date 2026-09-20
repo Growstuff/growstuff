@@ -22,8 +22,8 @@ function errorMessages(status, data) {
   return ['Something went wrong saving that. Please try again.'];
 }
 
-// "2026-09-21" a number of days earlier, as "2026-09-20". Worked out in UTC so
-// the browser's time zone can't shift it.
+// "2026-09-21" a number of days earlier (or later, if negative), as
+// "2026-09-20". Worked out in UTC so the browser's time zone can't shift it.
 function daysBefore(iso, days) {
   const [year, month, day] = iso.split('-').map(Number);
   return new Date(Date.UTC(year, month - 1, day - days)).toISOString().slice(0, 10);
@@ -73,6 +73,13 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
   // The server's "today" is the one that counts, not the browser's.
   const today = form && form.harvested_at;
   const harvestedAt = {today, yesterday: today && daysBefore(today, 1), other: values && values.custom_date}[when];
+
+  // A harvest has to come after the planting (the server checks), so there is
+  // nothing to offer before that: no Yesterday for a planting made yesterday
+  // or today, and the date box starts the day after it was planted.
+  const plantedOn = planting.planted_at;
+  const choices = WHEN_CHOICES.filter(([choice]) => choice !== 'yesterday' || !plantedOn || (today && daysBefore(today, 1) > plantedOn));
+  const earliest = plantedOn ? daysBefore(plantedOn, -1) : undefined;
 
   function choosePart(chosen) {
     setPart(chosen);
@@ -247,7 +254,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
               <fieldset>
                 <legend className="crop-picker-label when-legend">When did you harvest it?</legend>
                 <div className="when-choices">
-                  {WHEN_CHOICES.map(([choice, label]) => (
+                  {choices.map(([choice, label]) => (
                     <React.Fragment key={choice}>
                       <input
                         type="radio"
@@ -270,6 +277,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
                       type="date"
                       className="form-control when-date"
                       value={values.custom_date}
+                      min={earliest}
                       onChange={set('custom_date')}
                       required
                       autoFocus
