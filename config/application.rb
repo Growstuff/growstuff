@@ -2,7 +2,14 @@
 
 require_relative 'boot'
 
-require 'rails/all'
+require 'rails'
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_view/railtie'
+require 'sprockets/railtie'
 ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = "true"
 
 require 'openssl'
