@@ -9,7 +9,7 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted}) {
   const {id, url, crop, badges, percentage_grown: percentage, finish_predicted_label: finishLabel} = planting;
 
   return (
-    <div className="row progress-row" style={highlighted ? {backgroundColor: '#d4edda', transition: 'background-color 1s'} : undefined}>
+    <div className={`row progress-row${highlighted ? ' planting-just-added' : ''}`}>
       <div className="col-12 col-md-4 progress-row--crop">
         <CropChip url={url} crop={crop} defaultIconUrl={defaultIconUrl} highlighted={highlighted} />
         <div className="planting-badges">

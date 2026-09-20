@@ -4,7 +4,7 @@ import React from 'react';
 export default function CropChip({url, crop, defaultIconUrl, highlighted}) {
   return (
     <a href={url}>
-      <div className="chip crop-chip" style={highlighted ? {backgroundColor: '#d4edda'} : undefined}>
+      <div className={`chip crop-chip${highlighted ? ' planting-just-added' : ''}`}>
         <img className="crop-icon" src={crop.icon_url || defaultIconUrl} alt={crop.name} />
         {crop.name}
       </div>

@@ -57,7 +57,12 @@ describe 'Planting from a garden card', :js, :search do
 
     expect(page).to have_no_css '[role=dialog]'
     expect(page).to have_content 'Planted lettuce in Orchard.'
-    within(:css, '.card', text: 'Orchard') { expect(page).to have_content 'lettuce' }
+    within(:css, '.card', text: 'Orchard') do
+      expect(page).to have_content 'lettuce'
+      # Picked out without recolouring the chip (brown with white text) it sits in.
+      expect(page).to have_css '.planting-just-added', text: 'lettuce'
+      expect(page).to have_no_css '.crop-chip[style]'
+    end
     within(:css, '.card', text: 'Balcony') { expect(page).to have_no_content 'lettuce' }
     expect(page).to have_current_path(gardens_path)
     expect(Planting.last).to have_attributes(garden: garden, crop: lettuce, owner: member,

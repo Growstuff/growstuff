@@ -154,3 +154,15 @@
     font-size: 1.1rem;
   }
 }
+
+// A planting just added from the "Plant something" dialog. It is picked out
+// without changing any text or chip colours: chips are brown with white text,
+// so a light background on them would make the text unreadable.
+.progress-row.planting-just-added {
+  background-color: #e8f5e9;
+  box-shadow: inset 4px 0 0 #43a047;
+}
+
+.crop-chip.planting-just-added {
+  box-shadow: 0 0 0 3px #43a047;
+}
