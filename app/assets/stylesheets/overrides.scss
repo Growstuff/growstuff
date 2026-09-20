@@ -10,9 +10,16 @@ body {
 
 .navbar {
   flex-wrap: nowrap;
-  align-items: flex-start
+  align-items: flex-start;
+  min-height: 3.5rem;
+  padding: 0.625rem 1rem;
 }
 .navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  height: 2.25rem;
+  padding: 0;
+
   .site-name {
     font-family: "Modak", cursive;
     font-size: 3em;
@@ -20,12 +27,18 @@ body {
   }
 
   img {
+    width: auto;
     height: 100%;
   }
 }
 
 #navbar-search {
   padding-left: 1em;
+
+  // Bootstrap 5's input-group shrinks to nothing inside a shrink-to-fit parent.
+  .input-group {
+    min-width: 18rem;
+  }
 
   .input-group {
     input {
@@ -445,4 +458,10 @@ ul.thumbnail-buttons {
 // Bootstrap 5 dropped text-justify.
 .text-justify {
   text-align: justify;
+}
+
+// A .btn with no colour variant is plain text in Bootstrap 5, so it reads as a
+// link. Give it the same bordered look as btn-outline-secondary.
+.btn:not([class*="btn-"]) {
+  @extend .btn-outline-secondary;
 }
