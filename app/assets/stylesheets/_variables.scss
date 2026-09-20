@@ -11,38 +11,27 @@ $orange: #ffa500;
 $yellow: #b2935c;
 $white: #fff;
 
+$default-font: "Raleway", "Fira Sans", Helvetica, Arial, sans-serif;
+$black: #000;
+
+// Bootstrap 5 configuration. These are read by Bootstrap's own variables
+// (each is declared !default there), so they must be defined before it is imported.
 $body-bg: $beige;
+$body-color: $brown;
 $text-color: $brown;
 $link-color: $green;
+$font-family-sans-serif: $default-font;
 
-$default-font: "Raleway", "Fira Sans", Helvetica, Arial, sans-serif;
+$primary: $green;
+$secondary: $blue;
+$success: $green;
+$info: #2196f3;
+$warning: $orange;
+$danger: $red;
+$light: $beige;
+$dark: $brown;
 
-$primary: (
-  color: $green,
-  dark: darken($green, 20%),
-  light: lighten($green, 20%),
-);
-$secondary: (
-  color: $blue,
-  dark: darken($blue, 20%),
-  light: lighten($blue, 20%),
-);
-$success: (
-  color: $green,
-  dark: darken($green, 20%),
-  light: lighten($green, 20%),
-);
-$danger: (
-  color: $red,
-  dark: darken($red, 20%),
-  light: lighten($red, 20%),
-);
-$dark: (
-  color: $brown,
-  dark: darken($brown, 20%),
-  light: lighten($brown, 20%),
-);
-
+// The site's own breakpoints (Bootstrap's defaults are lg: 992px, xl: 1200px, xxl: 1400px).
 $grid-breakpoints: (
   // Extra small screen / phone
   xs: 0,
@@ -54,6 +43,12 @@ $grid-breakpoints: (
   lg: 1200px,
   // Extra large screen / wide desktop
   xl: 1800px
+);
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 1140px,
+  xl: 1320px
 );
 
 // Nav bar

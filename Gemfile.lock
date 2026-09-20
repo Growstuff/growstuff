@@ -407,9 +407,6 @@ GEM
       carrierwave (>= 0.5.8)
       rails (>= 5.0.0)
     marcel (1.0.4)
-    material-sass (4.1.1)
-      autoprefixer-rails (>= 6.0.3)
-      sass (>= 3.5.2)
     material_icons (4.0.0)
       railties (>= 3.2)
     matrix (0.4.3)
@@ -676,11 +673,6 @@ GEM
       ffi (~> 1.12)
       logger
     rubyzip (3.6.0)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -831,7 +823,6 @@ DEPENDENCIES
   listen
   loofah (>= 2.19.1)
   mailboxer (>= 0.15.1)
-  material-sass (= 4.1.1)
   material_icons
   memcachier
   msgpack
