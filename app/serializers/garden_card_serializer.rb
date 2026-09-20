@@ -173,7 +173,7 @@ class GardenCardSerializer
     return [] unless can?(:edit, planting)
 
     actions = [
-      action(:view, I18n.t('view'), routes.planting_path(planting)),
+      action(:view, I18n.t('buttons.view'), routes.planting_path(planting)),
       action(:edit, I18n.t('buttons.edit'), routes.edit_planting_path(planting)),
       photo_action(planting)
     ]

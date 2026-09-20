@@ -110,6 +110,20 @@ describe GardenCardSerializer do
     end
   end
 
+  describe 'labels' do
+    it 'are all real translations, never a missing-translation placeholder' do
+      create(:planting, garden: garden, owner: member, crop: annual_crop, planted_at: 10.days.ago)
+      create(:planting, garden: garden, owner: member, crop: perennial_crop)
+
+      card = serialize(garden)
+      labels = (card[:actions] + card[:annuals].flat_map { |planting| planting[:actions] + planting[:badges] })
+        .flat_map { |item| [item[:label], item[:confirm]] }.compact
+
+      expect(labels).to include('View', 'Edit', 'Plant something here')
+      expect(labels).to all(satisfy { |label| label.exclude?('translation missing') && label.exclude?('Translation missing') })
+    end
+  end
+
   describe '.collection' do
     it 'loads the plantings for every garden in one query' do
       gardens = create_list(:garden, 3, owner: member)
