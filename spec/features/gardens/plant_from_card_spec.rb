@@ -51,7 +51,7 @@ describe 'Planting from a garden card', :js, :search do
     within '[role=dialog]' do
       fill_in 'Quantity', with: 4
       fill_in 'Crop', with: 'lett'
-      click_button 'lettuce'
+      find('[role=option]', text: 'lettuce').click
       select 'seedling', from: 'Planted from'
       select 'sun', from: 'Sun or shade'
       click_button 'Save'
@@ -64,6 +64,52 @@ describe 'Planting from a garden card', :js, :search do
     expect(page).to have_current_path(gardens_path)
     expect(Planting.last).to have_attributes(garden: garden, crop: lettuce, quantity: 4, owner: member,
                                              planted_from: 'seedling', sunniness: 'sun')
+  end
+
+  describe 'choosing a crop with the keyboard' do
+    let!(:leaf_lettuce) { create(:annual_crop, name: 'leaf lettuce') }
+
+    before do
+      Crop.reindex
+      open_plant_dialog('Orchard')
+      fill_in 'Crop', with: 'lettuce'
+      expect(page).to have_css '[role=option]', count: 2
+    end
+
+    it 'moves through the matches with the arrow keys and chooses with Enter' do
+      names = all('[role=option]').map(&:text)
+      crop = find_field('Crop')
+
+      crop.send_keys(:down)
+      expect(page).to have_css '[role=option][aria-selected=true]', text: names[0]
+      crop.send_keys(:down)
+      expect(page).to have_css '[role=option][aria-selected=true]', text: names[1]
+      crop.send_keys(:up)
+      expect(page).to have_css '[role=option][aria-selected=true]', text: names[0]
+      crop.send_keys(:enter)
+
+      expect(page).to have_css '.madlib-chosen', text: names[0]
+      expect(page).to have_no_css '[role=option]'
+    end
+
+    it 'chooses the top match with Enter when none is highlighted' do
+      names = all('[role=option]').map(&:text)
+
+      find_field('Crop').send_keys(:enter)
+
+      expect(page).to have_css '.madlib-chosen', text: names[0]
+    end
+
+    it 'closes the list on the first Escape and the dialog on the second' do
+      find_field('Crop').send_keys(:escape)
+
+      expect(page).to have_no_css '[role=option]'
+      expect(page).to have_css '[role=dialog]'
+
+      find_field('Crop').send_keys(:escape)
+
+      expect(page).to have_no_css '[role=dialog]'
+    end
   end
 
   it 'keeps the dialog open and says what is wrong when no crop was chosen' do
