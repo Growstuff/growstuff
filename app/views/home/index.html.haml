@@ -35,17 +35,17 @@
         %h2= t('.recently_added')
         %p.card-body
           != CropSearchService.recent(30).map { |c| link_to(c['name'], crop_path(slug: c['slug'])) }.join(", ")
-  .col-xl-4.col
+  .col-12.col-md-4
     %section.plantings
       = cute_icon
       =render 'plantings'
       %p.text-end= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn w-100'
-  .col-xl-4.col
+  .col-12.col-md-4
     %section.harvests
       = cute_icon
       = render 'harvests'
       %p.text-end= link_to "#{t('home.harvests.view_all')} »", harvests_path, class: 'btn w-100'
-  .col-xl-4.col
+  .col-12.col-md-4
     %section.activities
       = cute_icon
       = render 'activities'
