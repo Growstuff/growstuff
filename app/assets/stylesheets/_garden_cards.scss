@@ -95,6 +95,12 @@ $garden-card-line: #e6e6e6;
     flex-direction: column;
     align-items: flex-start;
 
+    .planting-row-chip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
     .chip {
       margin: 0;
     }
@@ -207,6 +213,24 @@ $garden-card-line: #e6e6e6;
 .planting-row.planting-just-added {
   background-color: #e8f5e9;
   box-shadow: inset 4px 0 0 #43a047;
+}
+
+// A planting that has just had a harvest recorded: amber, like the harvest icon,
+// with a tag saying so beside the chip, so it is easy to tell which one it was.
+.planting-row.planting-just-harvested {
+  background-color: #fff8e1;
+  box-shadow: inset 4px 0 0 #f5a623;
+}
+
+.harvest-recorded-tag {
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.7rem;
+  border-radius: 1rem;
+  background: #f5a623;
+  color: #3e2a00;
+  font-size: 0.8rem;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 .crop-chip.planting-just-added {

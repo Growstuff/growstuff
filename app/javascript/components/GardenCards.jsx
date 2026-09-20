@@ -17,7 +17,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
   const [editing, setEditing] = useState(null); // the planting the edit dialog is open for
   const [harvesting, setHarvesting] = useState(null); // the planting the harvest dialog is open for
   const [notice, setNotice] = useState(null);
-  const [highlightedId, setHighlightedId] = useState(null);
+  const [highlight, setHighlight] = useState(null); // {id, kind}: the planting just added or harvested
   const highlightTimer = useRef(null);
 
   // The "jump to" links point at #garden-<id>, but the cards only exist once
@@ -43,9 +43,14 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
     replaceCard(updatedCard);
     setPlantingIn(null);
     setNotice(`Planted ${crop ? crop.name : 'something'} in ${updatedCard.name}.`);
-    setHighlightedId(added);
+    flash(added, 'added');
+  }
+
+  // Picks out a planting for a few seconds, so you can see which one changed.
+  function flash(id, kind) {
+    setHighlight({id, kind});
     clearTimeout(highlightTimer.current);
-    highlightTimer.current = setTimeout(() => setHighlightedId(null), 4000);
+    highlightTimer.current = setTimeout(() => setHighlight(null), 5000);
   }
 
   function edited(updatedCard, planting) {
@@ -57,7 +62,8 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
   function harvested(updatedCard, planting) {
     replaceCard(updatedCard);
     setHarvesting(null);
-    setNotice(`Recorded a harvest of ${planting.crop.name}.`);
+    setNotice(`Recorded a harvest of ${planting.crop.name} in ${updatedCard.name}.`);
+    flash(planting.id, 'harvested');
   }
 
   return (
@@ -74,7 +80,8 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           garden={garden}
           defaultIconUrl={defaultIconUrl}
           onPlant={setPlantingIn}
-          highlightedId={highlightedId}
+          highlightedId={highlight && highlight.id}
+          highlightKind={highlight && highlight.kind}
           onPlantingUpdated={replaceCard}
           onEditPlanting={setEditing}
           onHarvestPlanting={setHarvesting}
