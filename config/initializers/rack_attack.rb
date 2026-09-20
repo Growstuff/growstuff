@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
 class Rack::Attack
+  ### Cache Config ###
+
+  # Count requests in this process's memory, not in Rails.cache (memcached).
+  # When memcached times out, the counters silently stop working and
+  # crawlers are never throttled or banned.
+  # Each Puma worker keeps its own counters, so the effective limits are
+  # per worker.
+  cache.store = ActiveSupport::Cache::MemoryStore.new(size: 8.megabytes)
+
   ### Throttle Config ###
 
   if Rails.env.production?
@@ -30,6 +39,13 @@ class Rack::Attack
   # Abusive services
   blocklist('block Semrush crawler') do |request|
     request.user_agent.to_s.downcase.include?('semrush')
+  end
+
+  # Block IPs listed in the BLOCKED_IPS environment variable (comma separated).
+  # This lets us stop a crawler that is overloading the site without
+  # committing its IP address to the repository.
+  blocklist('block configured IPs') do |request|
+    ENV.fetch('BLOCKED_IPS', '').split(',').map(&:strip).include?(request.ip)
   end
 
   # Honeypot: block IPs that request disallowed route /dont-crawl-me for 7 days (1 week)
