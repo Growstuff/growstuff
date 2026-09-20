@@ -119,6 +119,12 @@ jobs:
       - name: Run rspec (services)
         run: bundle exec rspec spec/services/ -fd --fail-fast
 
+      - name: Run rspec (helpers)
+        run: bundle exec rspec spec/helpers/ -fd --fail-fast
+
+      - name: Run rspec (serializers)
+        run: bundle exec rspec spec/serializers/ -fd --fail-fast
+
       - name: Run rspec (models)
         run: bundle exec rspec spec/models/ -fd --fail-fast
 
