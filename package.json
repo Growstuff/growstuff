@@ -3,8 +3,15 @@
   "version": "1.0.0",
   "description": "Growstuff Linters",
   "main": "index.js",
+  "scripts": {
+    "build": "esbuild app/javascript/react_islands.jsx --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets",
+    "build:watch": "yarn build --watch=forever"
+  },
   "dependencies": {
-    "mdbootstrap": "^4.20.0"
+    "esbuild": "^0.28.2",
+    "mdbootstrap": "^4.20.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "engines": {
     "node": ">=6.0.0",

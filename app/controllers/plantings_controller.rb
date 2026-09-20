@@ -52,6 +52,8 @@ class PlantingsController < DataController
         owner: current_member,
         id:    params[:garden_id]
       )
+      # Arrived from a garden (e.g. "Plant something here"): no need to ask which.
+      @garden_locked = @planting.garden.present?
     end
 
     respond_with @planting
@@ -68,7 +70,11 @@ class PlantingsController < DataController
     @planting.planted_at = Time.zone.now if @planting.planted_at.blank?
     @planting.owner = current_member
     @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
+    # Only into your own gardens. A missing garden is left to the validation.
+    authorize! :update, @planting.garden if @planting.garden.present?
     @planting.save
+    return render_created_json if request.format.json?
+
     respond_with @planting
   end
 
@@ -109,6 +115,17 @@ class PlantingsController < DataController
   end
 
   private
+
+  # Used by the React garden cards, which replace the garden's card with the
+  # returned one, so the new planting shows up without a page reload.
+  def render_created_json
+    if @planting.persisted?
+      card = GardenCardSerializer.collection([@planting.garden], ability: current_ability, show_owner: false).first
+      render json: { garden: card }, status: :created
+    else
+      render json: { errors: @planting.errors }, status: :unprocessable_content
+    end
+  end
 
   def update_crop_medians
     @planting.crop.update_lifespan_medians if @planting.crop.present?

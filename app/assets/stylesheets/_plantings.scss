@@ -57,3 +57,219 @@
     padding-top: 0;
   }
 }
+
+// "Plant something" dialog: one big question, and choosing a crop plants it.
+.crop-picker {
+  .crop-picker-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #212529;
+    font-size: 1.75rem;
+  }
+
+  .crop-picker-field {
+    position: relative;
+  }
+
+  .crop-picker-icon,
+  .crop-picker-spinner {
+    position: absolute;
+    top: 50%;
+    color: #9e9e9e;
+    font-size: 1.25rem;
+    transform: translateY(-50%);
+  }
+
+  .crop-picker-icon {
+    left: 0.5rem;
+  }
+
+  .crop-picker-spinner {
+    right: 0.5rem;
+  }
+
+  .crop-picker-input {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 2.25rem;
+    border: 0;
+    border-bottom: 2px solid #9e9e9e;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    font-size: 1.5rem;
+
+    &:focus {
+      outline: 0;
+      border-bottom-color: #1976d2;
+    }
+
+    &.is-invalid {
+      border-bottom-color: #dc3545;
+    }
+  }
+
+  .crop-picker-hint {
+    margin-top: 0.5rem;
+    color: #757575;
+    font-size: 1rem;
+  }
+
+  .crop-picker-empty {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #bdbdbd;
+    border-radius: 4px;
+    background: #fff;
+  }
+
+  // The list of matching crops under the input.
+  // In the flow of the dialog, not floating over it, so the dialog grows to
+  // hold the matches and never covers its own buttons.
+  .crop-picker-options {
+    max-height: 16rem;
+    margin-top: 0.5rem !important;
+    padding: 0;
+    overflow-y: auto;
+    list-style: none;
+    background: #fff;
+    border: 1px solid #bdbdbd;
+    border-radius: 4px;
+    font-size: 1.1rem;
+  }
+
+  .crop-picker-option {
+    padding: 0.5rem 0.75rem;
+    border-left: 4px solid transparent;
+    cursor: pointer;
+  }
+
+  // The one Enter would choose: solid colour and white text, so it can't be missed.
+  .crop-picker-option-active {
+    background: #1976d2;
+    border-left-color: #0d47a1;
+    color: #fff;
+    font-weight: 600;
+  }
+}
+
+// "Plant something" dialog: where you are, what is happening, what you chose.
+.modal-title-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.plant-dialog-body {
+  padding: 1.5rem 2rem;
+}
+
+// Step 1 of 2 / step 2 of 2.
+.plant-steps {
+  display: flex;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+
+  .plant-step {
+    display: flex;
+    align-items: center;
+    margin-right: 1.5rem;
+    color: #9e9e9e;
+    font-size: 0.95rem;
+  }
+
+  .plant-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-right: 0.5rem;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: bold;
+  }
+
+  .plant-step-current {
+    color: #212529;
+    font-weight: bold;
+
+    .plant-step-number {
+      border-color: #43a047;
+      background: #43a047;
+      color: #fff;
+    }
+  }
+
+  .plant-step-done {
+    color: #43a047;
+  }
+}
+
+// The chosen crop, shown back for confirmation.
+.crop-confirm {
+  padding: 1rem 1.25rem;
+  border-left: 4px solid #43a047;
+  background: #f1f8f2;
+
+  .crop-confirm-label {
+    margin-bottom: 0.75rem;
+    color: #757575;
+    font-size: 1.1rem;
+  }
+
+  .crop-confirm-details {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    align-items: center;
+    margin: 0;
+    row-gap: 0.5rem;
+
+    dt {
+      color: #757575;
+      font-weight: normal;
+    }
+
+    dd {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+  }
+
+  .crop-confirm-name {
+    font-size: 1.75rem;
+    font-weight: bold;
+
+    .btn {
+      margin-left: 1rem;
+      vertical-align: middle;
+    }
+  }
+}
+
+// The main action of the "Plant something" dialog. The theme greys a button
+// while it has focus, and this one is focused on purpose (so Enter confirms),
+// so give every state an explicit filled green.
+.modal-footer .btn-plant {
+  background-color: #57803c;
+  color: #fff;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #446630;
+    color: #fff;
+    box-shadow: 0 0 0 3px rgba(87, 128, 60, 0.4);
+  }
+
+  &:disabled {
+    background-color: #57803c;
+    color: #fff;
+    opacity: 0.7;
+  }
+}
+
