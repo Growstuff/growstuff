@@ -5,8 +5,6 @@
 
 %h1= @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
-= react_component 'GardenSummary', owner: @owner&.login_name, count: @gardens.total_entries
-
 - content_for :breadcrumbs do
   - if @owner
     %li.breadcrumb-item= link_to 'Gardens', gardens_path
@@ -49,8 +47,9 @@
                   = link_to garden.name, member_gardens_path(@owner, anchor: "garden-#{garden.id}")
                 - else
                   = link_to garden.name, gardens_path(anchor: "garden-#{garden.id}")
-      - @gardens.each do |garden|
-        = render 'gardens/card', garden: garden
+      = react_component 'GardenCards', garden_cards_props(@gardens, owner: @owner)
+      %noscript
+        %p The garden cards need JavaScript to display.
 
       .row
         .col-12= page_entries_info @gardens

@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
 module GardensHelper
+  # Props for the GardenCards React island: a card per garden, plus the icon to
+  # use for crops that have none of their own.
+  def garden_cards_props(gardens, owner: nil)
+    {
+      gardens:          GardenCardSerializer.collection(gardens, ability: current_ability, show_owner: owner.blank?),
+      default_icon_url: image_path('icons/planting.svg')
+    }
+  end
+
   def display_garden_description(garden)
     if garden.description.nil?
       "no description provided."
