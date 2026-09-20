@@ -45,28 +45,14 @@ namespace :growstuff do
   # usage: rake growstuff:send_planting_reminder
 
   task send_planting_reminder: :environment do
-    # Heroku scheduler only lets us run things daily, so this checks
-    # Send on Monday
-    if Time.zone.today.wday == 1
-      Member.confirmed.wants_reminders.find_each do |m|
-        NotifierMailer.planting_reminder(m).deliver_later unless m.plantings.active.empty?
-      end
-    end
+    ReminderService.new.send_planting_reminders
   end
 
   desc "Send harvest reminder email"
   # usage: rake growstuff:send_harvest_reminders
 
   task send_harvest_reminders: :environment do
-    # Heroku scheduler only lets us run things daily, so this checks
-    # Send on Wednesday
-    if Time.zone.today.wday == 3
-      Member.confirmed.wants_harvest_reminders.find_each do |m|
-        if m.plantings.active.any?(&:harvest_in_next_week?)
-          NotifierMailer.harvest_reminder(m).deliver_later
-        end
-      end
-    end
+    ReminderService.new.send_harvest_reminders
   end
 
   desc "Mark seeds as finished when plant-before date expires"
