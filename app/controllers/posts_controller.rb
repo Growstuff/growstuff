@@ -14,7 +14,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.includes(:author, comments: :author).find(params[:id])
+    @post = Post.includes(:author).find(params[:id])
     respond_with(@post)
   end
 
