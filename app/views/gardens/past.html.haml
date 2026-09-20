@@ -1,0 +1,31 @@
+- content_for :title, "#{@owner}'s past gardens"
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Gardens', gardens_path
+  %li.breadcrumb-item= link_to "#{@owner}'s gardens", member_gardens_path(@owner)
+  %li.breadcrumb-item.active= link_to 'Past gardens', member_past_gardens_path(@owner)
+
+%h1 #{@owner}'s past gardens
+
+.row
+  .col-md-2
+    %small
+      %a{href: "#content"}
+        Skip to main content
+    = render 'layouts/nav', model: Garden
+    = link_to "Current gardens", member_gardens_path(@owner), class: 'nav-link'
+    %hr/
+    = render @owner
+
+  .col-md-10#content
+    - if @gardens.empty?
+      %p
+        There are no past gardens to show.
+        - if @owner == current_member
+          A garden you mark as inactive will appear here.
+    - else
+      %p.lead Gardens that are no longer in use, and what was grown in them.
+      .row.row-cols-1.row-cols-sm-2.row-cols-lg-3.g-4
+        - @gardens.each do |garden|
+          .col= render 'gardens/past_card', garden: garden
+      .mt-3= will_paginate @gardens
