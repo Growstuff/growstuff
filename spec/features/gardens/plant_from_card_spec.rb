@@ -32,6 +32,19 @@ describe 'Planting from a garden card', :js, :search do
     expect(page).to have_current_path(gardens_path)
   end
 
+  it 'hints at typing a crop name, and offers a way to request one that is not found' do
+    open_plant_dialog('Orchard')
+
+    within '[role=dialog]' do
+      expect(page).to have_field 'Crop', placeholder: 'type a crop name'
+
+      fill_in 'Crop', with: 'zzzznotacrop'
+
+      expect(page).to have_content 'No crops match'
+      expect(page).to have_link 'Request a new crop', href: new_crop_path
+    end
+  end
+
   it 'plants into that garden and shows the planting on its card, without leaving the list' do
     open_plant_dialog('Orchard')
 

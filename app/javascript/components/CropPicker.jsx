@@ -8,8 +8,10 @@ import {getJson} from '../api';
 export default function CropPicker({id, value, onChange, invalid}) {
   const [term, setTerm] = useState('');
   const [results, setResults] = useState([]);
+  const [noMatch, setNoMatch] = useState(false); // a search finished and found nothing
 
   useEffect(() => {
+    setNoMatch(false);
     if (!term.trim() || value) {
       setResults([]);
       return undefined;
@@ -19,7 +21,9 @@ export default function CropPicker({id, value, onChange, invalid}) {
     const timer = setTimeout(async () => {
       try {
         const {ok, data} = await getJson(`/crops/search.json?term=${encodeURIComponent(term)}`, {signal: controller.signal});
-        setResults(ok && Array.isArray(data) ? data : []);
+        const found = ok && Array.isArray(data) ? data : [];
+        setResults(found);
+        setNoMatch(ok && found.length === 0);
       } catch (error) {
         if (error.name !== 'AbortError') setResults([]);
       }
@@ -56,7 +60,7 @@ export default function CropPicker({id, value, onChange, invalid}) {
         className={`madlib-field madlib-crop${invalid ? ' is-invalid' : ''}`}
         aria-label="Crop"
         autoComplete="off"
-        placeholder="crop"
+        placeholder="type a crop name"
         value={term}
         onChange={(event) => setTerm(event.target.value)}
         onKeyDown={(event) => {
@@ -71,6 +75,15 @@ export default function CropPicker({id, value, onChange, invalid}) {
       <span id={`${id}-status`} className="sr-only" role="status">
         {term.trim() && results.length > 0 ? `${results.length} crops found` : ''}
       </span>
+      {noMatch && (
+        <div
+          className="position-absolute bg-white border rounded shadow p-2 text-left"
+          style={{zIndex: 1060, minWidth: '16rem', fontSize: '1rem', lineHeight: 1.5}}
+        >
+          No crops match &ldquo;{term}&rdquo;.{' '}
+          <a href="/crops/new" target="_blank" rel="noopener noreferrer">Request a new crop</a>
+        </div>
+      )}
       {results.length > 0 && (
         <ul className="list-group position-absolute shadow" style={{zIndex: 1060, maxHeight: '16rem', overflowY: 'auto', minWidth: '14rem', textAlign: 'left', fontSize: '1rem', lineHeight: 1.5}}>
           {results.map((crop) => (
