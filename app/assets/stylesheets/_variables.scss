@@ -28,6 +28,10 @@ $link-decoration: none;
 $link-hover-decoration: underline;
 $line-height-base: 1.428572;
 
+// Bootstrap 5 makes the text of a bare .badge white; Bootstrap 4 left it alone. The like
+// button's heart and count sit in a bare badge on a pale button, so leave the colour alone again.
+$badge-color: inherit;
+
 // Header menu links. Bootstrap's dark navbar uses 55% white, which on the brown navbar is
 // 4.47:1, just under the 4.5:1 minimum.
 $navbar-dark-color: rgba($white, 0.85);
