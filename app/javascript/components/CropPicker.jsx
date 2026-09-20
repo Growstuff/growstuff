@@ -131,8 +131,7 @@ export default function CropPicker({id, value, onChange, invalid}) {
           ref={list}
           role="listbox"
           aria-label="Matching crops"
-          className="list-group position-absolute shadow"
-          style={{zIndex: 1060, maxHeight: '16rem', overflowY: 'auto', minWidth: '14rem', textAlign: 'left', fontSize: '1rem', lineHeight: 1.5}}
+          className="madlib-options position-absolute shadow"
         >
           {results.map((crop, index) => (
             <li
@@ -140,8 +139,7 @@ export default function CropPicker({id, value, onChange, invalid}) {
               id={`${id}-option-${crop.id}`}
               role="option"
               aria-selected={index === activeIndex}
-              className={`list-group-item list-group-item-action${index === activeIndex ? ' active' : ''}`}
-              style={{cursor: 'pointer'}}
+              className={`madlib-option${index === activeIndex ? ' madlib-option-active' : ''}`}
               // mousedown, not click, so the input keeps focus while we choose.
               onMouseDown={(event) => {
                 event.preventDefault();
