@@ -36,6 +36,8 @@ describe 'Planting from a garden card', :js, :search do
     within '[role=dialog]' do
       expect(page).to have_content 'Plant something in Orchard'
       expect(page).to have_field 'What did you plant?', placeholder: 'Start typing a crop name'
+      expect(page).to have_css 'img.modal-title-icon'
+      expect(page).to have_css '.plant-step-current', text: 'Choose a crop'
       expect(page).to have_no_content 'Where did you plant it?'
     end
     expect(page).to have_current_path(gardens_path)
@@ -47,9 +49,15 @@ describe 'Planting from a garden card', :js, :search do
     within '[role=dialog]' do
       choose_crop('lettuce')
 
-      expect(page).to have_content 'You’re planting'
+      expect(page).to have_content 'Ready to plant?'
       expect(page).to have_css '.crop-confirm-name', text: 'lettuce'
-      expect(page).to have_content 'in Orchard, today.'
+      expect(page).to have_css '.plant-step-done', text: 'Choose a crop'
+      expect(page).to have_css '.plant-step-current', text: 'Confirm'
+      within('.crop-confirm') do
+        expect(page).to have_content 'Garden'
+        expect(page).to have_content 'Orchard'
+        expect(page).to have_content 'Today'
+      end
       expect(Planting.count).to eq 0
 
       click_button 'Plant it'

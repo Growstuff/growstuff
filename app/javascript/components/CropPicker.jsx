@@ -2,6 +2,12 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import {getJson} from '../api';
 
+function hint(searching, open, count) {
+  if (searching) return 'Searching…';
+  if (open) return `${count} ${count === 1 ? 'crop' : 'crops'} found. Use the up and down arrow keys, then Enter, to choose one.`;
+  return 'Search for a crop, then choose it.';
+}
+
 // One big question, "What did you plant?", with search-as-you-type for the
 // answer, using the same /crops/search.json as the existing form's autosuggest
 // (which puts crops you have planted first). Choosing a crop calls onChoose(crop);
@@ -14,6 +20,7 @@ export default function CropPicker({id, onChoose}) {
   const [term, setTerm] = useState('');
   const [results, setResults] = useState([]);
   const [noMatch, setNoMatch] = useState(false); // a search finished and found nothing
+  const [searching, setSearching] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const list = useRef(null);
   const listId = `${id}-results`;
@@ -23,8 +30,10 @@ export default function CropPicker({id, onChoose}) {
     setNoMatch(false);
     if (!term.trim()) {
       setResults([]);
+      setSearching(false);
       return undefined;
     }
+    setSearching(true);
 
     const controller = new AbortController();
     const timer = setTimeout(async () => {
@@ -34,8 +43,12 @@ export default function CropPicker({id, onChoose}) {
         setResults(found);
         setActiveIndex(-1);
         setNoMatch(ok && found.length === 0);
+        setSearching(false);
       } catch (error) {
-        if (error.name !== 'AbortError') setResults([]);
+        if (error.name !== 'AbortError') {
+          setResults([]);
+          setSearching(false);
+        }
       }
     }, 250);
 
@@ -81,28 +94,33 @@ export default function CropPicker({id, onChoose}) {
   return (
     <div className="crop-picker position-relative">
       <label htmlFor={id} className="crop-picker-label">What did you plant?</label>
-      <input
-        id={id}
-        type="text"
-        role="combobox"
-        className="crop-picker-input"
-        autoFocus
-        aria-autocomplete="list"
-        aria-expanded={open}
-        aria-controls={listId}
-        aria-activedescendant={activeCrop ? `${id}-option-${activeCrop.id}` : undefined}
-        aria-describedby={`${id}-status`}
-        autoComplete="off"
-        placeholder="Start typing a crop name"
-        value={term}
-        onChange={(event) => setTerm(event.target.value)}
-        onKeyDown={onKeyDown}
-      />
+      <div className="crop-picker-field">
+        <i className="fa fa-search crop-picker-icon" aria-hidden="true" />
+        <input
+          id={id}
+          type="text"
+          role="combobox"
+          className="crop-picker-input"
+          autoFocus
+          aria-autocomplete="list"
+          aria-expanded={open}
+          aria-controls={listId}
+          aria-activedescendant={activeCrop ? `${id}-option-${activeCrop.id}` : undefined}
+          aria-describedby={`${id}-status`}
+          autoComplete="off"
+          placeholder="Start typing a crop name"
+          value={term}
+          onChange={(event) => setTerm(event.target.value)}
+          onKeyDown={onKeyDown}
+        />
+        {searching && <i className="fa fa-spinner fa-spin crop-picker-spinner" aria-hidden="true" />}
+      </div>
       <div id={`${id}-status`} className="crop-picker-hint" role="status">
-        {open ? `${results.length} crops found. Use the up and down arrow keys, then Enter, to choose one.` : 'Search for a crop, then choose it.'}
+        {hint(searching, open, results.length)}
       </div>
       {noMatch && (
         <div className="crop-picker-empty">
+          <i className="fa fa-info-circle" aria-hidden="true" />{' '}
           No crops match &ldquo;{term}&rdquo;.{' '}
           <a href="/crops/new" target="_blank" rel="noopener noreferrer">Request a new crop</a>
         </div>

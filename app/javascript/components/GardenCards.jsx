@@ -9,7 +9,7 @@ const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((p
 // GardensHelper#garden_cards_props. It owns the cards' state so that saving a
 // planting from the "Plant something here" dialog can swap in the garden's
 // updated card, and the new planting appears without a page reload.
-export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl}) {
+export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl}) {
   const [gardens, setGardens] = useState(initialGardens);
   const [plantingIn, setPlantingIn] = useState(null); // the garden the dialog is open for
   const [notice, setNotice] = useState(null);
@@ -44,7 +44,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
     <>
       {notice && (
         <div className="alert alert-success alert-dismissible" role="status">
-          {notice}
+          <i className="fa fa-check-circle" aria-hidden="true" /> {notice}
           <button type="button" className="close" aria-label="Dismiss" onClick={() => setNotice(null)}>
             <span aria-hidden="true">&times;</span>
           </button>
@@ -62,6 +62,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
       {plantingIn && (
         <PlantSomethingModal
           garden={plantingIn}
+          iconUrl={spadeIconUrl}
           onClose={() => setPlantingIn(null)}
           onCreated={created}
         />
