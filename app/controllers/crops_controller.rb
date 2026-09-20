@@ -174,7 +174,7 @@ class CropsController < ApplicationController
                Crop.approved.where(public_food_key: [nil, '']).order(plantings_count: :desc)
              else
                Crop.none
-             end
+             end.paginate(page: params[:page], per_page: 50)
   end
 
   private
