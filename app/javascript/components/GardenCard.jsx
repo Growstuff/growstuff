@@ -26,6 +26,9 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
         <ActionsMenu
           id={`garden-${id}`}
           actions={actions}
+          label={<i className="fa fa-ellipsis-v" aria-hidden="true" />}
+          ariaLabel={`Actions for ${name}`}
+          className="btn btn-sm btn-link actions-toggle-dots"
           onSelect={(action, event) => {
             if (action.key === 'plant' && onPlant && isPlainClick(event)) {
               event.preventDefault();
