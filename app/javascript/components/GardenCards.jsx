@@ -11,7 +11,7 @@ const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((p
 // GardensHelper#garden_cards_props. It owns the cards' state so that saving a
 // planting from the "Add planting" dialog can swap in the garden's
 // updated card, and the new planting appears without a page reload.
-export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl}) {
+export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl, harvest_icon_url: harvestIconUrl}) {
   const [gardens, setGardens] = useState(initialGardens);
   const [plantingIn, setPlantingIn] = useState(null); // the garden the dialog is open for
   const [editing, setEditing] = useState(null); // the planting the edit dialog is open for
@@ -90,6 +90,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
       {harvesting && (
         <RecordHarvestModal
           planting={harvesting}
+          iconUrl={harvestIconUrl}
           onClose={() => setHarvesting(null)}
           onSaved={(updatedCard) => harvested(updatedCard, harvesting)}
         />
