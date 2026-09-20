@@ -465,3 +465,9 @@ ul.thumbnail-buttons {
 .btn:not([class*="btn-"]) {
   @extend .btn-outline-secondary;
 }
+
+// The card variables drop the card's border, which also drew the line under a
+// header, so put that line back.
+.card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
