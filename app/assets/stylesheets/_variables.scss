@@ -17,7 +17,9 @@ $black: #000;
 // Bootstrap 5 configuration. These are read by Bootstrap's own variables
 // (each is declared !default there), so they must be defined before it is imported.
 $body-bg: $beige;
-$body-color: $brown;
+// Near-black, as the old skin's body text was (rgba(0, 0, 0, 0.87) on white). The brown
+// is too close to the link green for links in running text to be told apart without underlines.
+$body-color: #212121;
 $text-color: $brown;
 $link-color: $green;
 $font-family-sans-serif: $default-font;
