@@ -21,6 +21,19 @@ $body-color: $brown;
 $text-color: $brown;
 $link-color: $green;
 $font-family-sans-serif: $default-font;
+$font-size-base: 0.875rem; // the site's text size; Bootstrap's default is 1rem
+$link-decoration: none;
+$link-hover-decoration: underline;
+$line-height-base: 1.428572;
+// The sizes the old Material skin gave the display-* classes the site uses (display-3, display-4).
+$display-font-sizes: (
+  1: 7rem,
+  2: 3.5rem,
+  3: 2.8125rem,
+  4: 2.125rem,
+  5: 2rem,
+  6: 1.75rem
+);
 
 $primary: $green;
 $secondary: $blue;
