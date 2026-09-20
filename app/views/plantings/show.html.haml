@@ -40,7 +40,7 @@
 
 .planting
   .row
-    .col-md-8.col-xs-12
+    .col-md-8.col-12
       .jumbotron
         .d-flex.justify-content-between
           %h1.display-3
@@ -64,10 +64,10 @@
       = render 'likes/likes', object: @planting
       = render 'plantings/actions', planting: @planting
 
-    .col-md-4.col-xs-12
+    .col-md-4.col-12
       = render 'plantings/owner', planting: @planting
 
-    .col-md-8.col-xs-12
+    .col-md-8.col-12
       %section= render 'facts', planting: @planting
       - if @planting.description.present?
         = cute_icon
@@ -106,7 +106,7 @@
             - @finished_activities.each do |activity|
               = render "activities/card", activity: activity
 
-    .col-md-4.col-xs-12
+    .col-md-4.col-12
       = render @planting.crop
 
       - if @planting.location

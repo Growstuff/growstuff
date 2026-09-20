@@ -20,7 +20,7 @@
     #{ strip_tags markdownify(@forum.description) }
 
 - if can? :edit, @forum
-  = link_to "Edit", edit_forum_path(@forum), class: 'btn btn-default btn-xs'
+  = link_to "Edit", edit_forum_path(@forum), class: 'btn btn-outline-secondary btn-sm'
 - if can? :delete, @forum
   = link_to 'Delete', @forum, method: :delete, data: { confirm: 'Are you sure?' }
 

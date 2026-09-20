@@ -19,7 +19,7 @@
           = link_to "crop wrangling guide", "https://github.com/Growstuff/growstuff/wiki/Crop-Wrangling"
           on the Growstuff wiki.
 
-      .form-group
+      .mb-3
         = f.label :crop_id, class: 'control-label col-md-2'
         .col-md-8
           = select(:alternate_name, :crop_id,
@@ -27,12 +27,12 @@
                               { selected: @alternate_name.crop_id || @crop.id },
                               class: 'form-control')
 
-      .form-group
+      .mb-3
         = f.label :name, class: 'control-label col-md-2'
         .col-md-8
           = f.text_field :name, class: 'form-control'
         .col-md-8
           = f.select :language, I18nData.languages.map {|code, name| [name.split(";").first, code] }, class: 'form-control'
-      .form-group
-        .form-actions.col-md-offset-2.col-md-8
+      .mb-3
+        .form-actions.offset-md-2.col-md-8
           = f.submit 'Save', class: 'btn btn-primary'

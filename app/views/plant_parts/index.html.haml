@@ -20,8 +20,8 @@
       .card-footer
         %p
           - if can? :edit, plant_part
-            = link_to t('buttons.edit'), edit_plant_part_path(plant_part), class: 'btn btn-default btn-xs'
+            = link_to t('buttons.edit'), edit_plant_part_path(plant_part), class: 'btn btn-outline-secondary btn-sm'
           - if can? :destroy, plant_part
-            = link_to t('buttons.delete'), plant_part, method: :delete, data: { confirm: t(:are_you_sure?) }, class: 'btn btn-default btn-xs'
+            = link_to t('buttons.delete'), plant_part, method: :delete, data: { confirm: t(:are_you_sure?) }, class: 'btn btn-outline-secondary btn-sm'
 
 = will_paginate(@plant_parts)

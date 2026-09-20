@@ -15,7 +15,7 @@
 
 .activity
   .row
-    .col-md-8.col-xs-12
+    .col-md-8.col-12
       .jumbotron
         .d-flex.justify-content-between
           %h1.display-3
@@ -34,10 +34,10 @@
       = render 'likes/likes', object: @activity
       = render 'activities/actions', activity: @activity
 
-    .col-md-4.col-xs-12
+    .col-md-4.col-12
       = render 'activities/owner', planting: @activity
 
-    .col-md-8.col-xs-12
+    .col-md-8.col-12
 
 
       - if @activity.garden
@@ -51,4 +51,4 @@
           = render 'plantings/card', planting: @activity.planting
 
 
-    .col-md-4.col-xs-12
+    .col-md-4.col-12

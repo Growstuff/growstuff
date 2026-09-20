@@ -9,8 +9,8 @@
       %p Enter either your login name or your email address to resend the confirmation email.
 
       = f.text_field :login, class: 'form-control', placeholder: 'email or login name'
-      = f.submit "Resend confirmation instructions", class: 'btn btn-block my-4 btn-primary'
+      = f.submit "Resend confirmation instructions", class: 'btn w-100 my-4 btn-primary'
 
-      .form-group
-        .col-md-offset-2.col-md-8
+      .mb-3
+        .offset-md-2.col-md-8
           = render "devise/shared/links"

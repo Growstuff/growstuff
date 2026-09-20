@@ -15,7 +15,7 @@
             - @seed.errors.full_messages.each do |msg|
               %li= msg
 
-      .form-group.required
+      .mb-3.required
         = f.label :crop, 'Crop'
         - if @planting
           = link_to @planting, planting_path(@planting)

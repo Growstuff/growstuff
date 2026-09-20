@@ -25,7 +25,7 @@
       -# Everyone (wranglers and requesters) sees the basic info section
       %h2 Basic information
 
-      .form-group#new_crop
+      .mb-3#new_crop
       = f.text_field :name, required: true
       %span.help-block
         The common name for the crop, in English (required).
@@ -95,7 +95,7 @@
       = button_tag "+", class: "add-sciname-row", type: "button"
       = button_tag "-", class: "remove-sciname-row", type: "button"
 
-      .form-group#scientific_names
+      .mb-3#scientific_names
         - @crop.scientific_names.each.with_index do |sci, index|
           .template.col-12{ id: "sci_template[#{index + 1}]" }
             .col-2
@@ -111,7 +111,7 @@
       = button_tag "+", class: "add-altname-row", type: "button"
       = button_tag "-", class: "remove-altname-row", type: "button"
 
-      .form-group#alternate_names
+      .mb-3#alternate_names
         - @crop.alternate_names.each.with_index do |alt, index|
           .template.col-12{ id: "alt_template[#{index + 1}]" }
             .col-2

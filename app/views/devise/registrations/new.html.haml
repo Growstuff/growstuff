@@ -27,7 +27,7 @@
         = f.check_box :newsletter, checked: true, label: "Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter"
       %p= render partial: 'newsletter_blurb'
 
-      = f.submit "Sign up", class: 'btn btn-block btn-success'
+      = f.submit "Sign up", class: 'btn w-100 btn-success'
 
       -# START add reCAPTCHA
       = flash[:recaptcha_error]
