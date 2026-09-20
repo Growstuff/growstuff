@@ -119,7 +119,8 @@ class GardenCardSerializer
   def annual(planting)
     {
       id: planting.id, url: routes.planting_path(planting), crop: crop_chip(planting),
-      planted_at: planting.planted_at, percentage_grown: planting.percentage_grown,
+      planted_at: planting.planted_at, can_edit: can?(:edit, planting),
+      percentage_grown: planting.percentage_grown,
       progress_state: planting.progress_state,
       finish_predicted_label: finish_label(planting), progress_note: progress_note(planting),
       badges: badges(planting), actions: planting_actions(planting)

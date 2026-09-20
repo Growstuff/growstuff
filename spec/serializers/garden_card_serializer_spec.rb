@@ -112,6 +112,11 @@ describe GardenCardSerializer do
     it 'gives someone else no planting actions' do
       expect(serialize(garden, viewer: other_member)[:annuals].first[:actions]).to eq []
     end
+
+    it 'says whether the viewer can edit the planting, so its date can be changed' do
+      expect(serialize(garden)[:annuals].first[:can_edit]).to be true
+      expect(serialize(garden, viewer: other_member)[:annuals].first[:can_edit]).to be false
+    end
   end
 
   describe 'labels' do
