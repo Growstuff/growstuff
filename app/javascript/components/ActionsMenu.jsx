@@ -5,7 +5,7 @@ import React from 'react';
 // data-method / data-confirm attributes that jquery_ujs already handles, and
 // Bootstrap's delegated data-api drives the dropdown, so neither needs to
 // know about React.
-export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, className = 'btn dropdown-toggle'}) {
+export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, className = 'btn dropdown-toggle', onSelect}) {
   if (!actions || actions.length === 0) return null;
 
   const buttonId = `actions-${id}`;
@@ -33,6 +33,7 @@ export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, 
               href={action.href}
               data-method={action.method}
               data-confirm={action.confirm}
+              onClick={(event) => onSelect && onSelect(action, event)}
             >
               {action.label}
             </a>

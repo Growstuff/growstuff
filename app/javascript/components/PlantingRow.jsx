@@ -5,13 +5,13 @@ import CropChip from './CropChip';
 
 // One annual planting: crop, badges, progress bar and quick actions.
 // Matches plantings/_progress_list and its partials.
-export default function PlantingRow({planting, defaultIconUrl}) {
+export default function PlantingRow({planting, defaultIconUrl, highlighted}) {
   const {id, url, crop, badges, percentage_grown: percentage, finish_predicted_label: finishLabel} = planting;
 
   return (
-    <div className="row progress-row">
+    <div className="row progress-row" style={highlighted ? {backgroundColor: '#d4edda', transition: 'background-color 1s'} : undefined}>
       <div className="col-12 col-md-4 progress-row--crop">
-        <CropChip url={url} crop={crop} defaultIconUrl={defaultIconUrl} />
+        <CropChip url={url} crop={crop} defaultIconUrl={defaultIconUrl} highlighted={highlighted} />
         <div className="planting-badges">
           {badges.map((badge) => (
             <span
