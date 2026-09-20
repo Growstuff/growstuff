@@ -172,10 +172,12 @@ export default function EditPlantingModal({planting, onClose, onSaved}) {
                   <label className="form-check-label" htmlFor="edit-planting-failed">Mark as failed</label>
                 </div>
               </div>
-              <div className="col-md-6">
-                <label className="form-label" htmlFor="edit-planting-finished-at">Finished date</label>
-                <input id="edit-planting-finished-at" type="date" className="form-control" value={values.finished_at || ''} onChange={set('finished_at')} />
-              </div>
+              {values.finished && (
+                <div className="col-md-6">
+                  <label className="form-label" htmlFor="edit-planting-finished-at">Finished date</label>
+                  <input id="edit-planting-finished-at" type="date" className="form-control" value={values.finished_at || ''} onChange={set('finished_at')} />
+                </div>
+              )}
             </div>
           </div>
           <div className="modal-footer">
