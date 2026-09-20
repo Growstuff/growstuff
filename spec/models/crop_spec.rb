@@ -565,6 +565,24 @@ describe Crop do
     end
   end
 
+  context 'search_data' do
+    let(:crop) { create(:crop) }
+    let(:member) { create(:member) }
+
+    it 'returns distinct planter IDs' do
+      create_list(:planting, 3, crop:, owner: member)
+      expect(crop.search_data[:planters_ids]).to eq([member.id])
+    end
+
+    it 'uses photo_associations_count for has_photos' do
+      crop.update!(photo_associations_count: 0)
+      expect(crop.search_data[:has_photos]).to be(false)
+
+      crop.update!(photo_associations_count: 2)
+      expect(crop.search_data[:has_photos]).to be(true)
+    end
+  end
+
   context "crop rejections" do
     let!(:rejected_reason) do
       create(:crop, name:                 'tomato',
