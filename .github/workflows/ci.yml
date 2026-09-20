@@ -101,6 +101,11 @@ jobs:
       - name: Install required JS packages
         run: yarn install
 
+      # The React bundle is built, not committed, and pages that load it (e.g.
+      # the gardens index) need it to exist.
+      - name: Build JavaScript
+        run: yarn build
+
       - name: install chrome
         run: sudo apt-get install google-chrome-stable
 
