@@ -43,7 +43,7 @@ describe CropsController do
     end
 
     it "fetches crop show page and sets version members using distinct whodunnit IDs" do
-      get :show, params: { id: crop.to_param }
+      get :show, params: { slug: crop.to_param }
       expect(response).to be_successful
       expect(assigns(:version_members)).to eq({ member.id => member })
     end
