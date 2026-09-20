@@ -27,7 +27,7 @@ describe 'Recording a harvest as JSON' do
       create(:harvest, crop: crop, plant_part: leaf)
       create(:plant_part, name: 'seed')
 
-      get "/plantings/#{planting.slug}/harvests/new.json", headers: json_headers
+      get "/plantings/#{planting.slug}/harvests/new.json", headers: { 'ACCEPT' => 'application/json' }
 
       expect(response).to have_http_status(:ok)
       form = response.parsed_body
@@ -39,7 +39,7 @@ describe 'Recording a harvest as JSON' do
     end
 
     it 'has no plant part chosen when the crop has never been harvested' do
-      get "/plantings/#{planting.slug}/harvests/new.json", headers: json_headers
+      get "/plantings/#{planting.slug}/harvests/new.json", headers: { 'ACCEPT' => 'application/json' }
 
       expect(response.parsed_body['plant_part_id']).to be_nil
     end
