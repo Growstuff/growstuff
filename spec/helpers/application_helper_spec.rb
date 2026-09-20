@@ -82,7 +82,7 @@ describe ApplicationHelper do
         end
 
         it 'includes base classes' do
-          expect(build_alert_classes(:danger)).to include 'alert alert-dismissable'
+          expect(build_alert_classes(:danger)).to include 'alert alert-dismissible'
         end
 
         it 'does not include danger when info' do
@@ -100,7 +100,7 @@ describe ApplicationHelper do
         end
 
         it 'includes base classes' do
-          expect(build_alert_classes(:warning)).to include 'alert alert-dismissable'
+          expect(build_alert_classes(:warning)).to include 'alert alert-dismissible'
         end
 
         it 'does not include warning when info' do
@@ -118,7 +118,7 @@ describe ApplicationHelper do
         end
 
         it 'includes base classes' do
-          expect(build_alert_classes(:success)).to include 'alert alert-dismissable'
+          expect(build_alert_classes(:success)).to include 'alert alert-dismissible'
         end
 
         it 'does not include success when info' do
@@ -136,7 +136,7 @@ describe ApplicationHelper do
         end
 
         it 'includes base classes' do
-          expect(build_alert_classes(:info)).to include 'alert alert-dismissable'
+          expect(build_alert_classes(:info)).to include 'alert alert-dismissible'
         end
 
         it 'does not include info when danger' do
