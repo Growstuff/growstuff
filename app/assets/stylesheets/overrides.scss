@@ -456,6 +456,7 @@ ul.thumbnail-buttons {
   text-align: justify;
 }
 
+// Buttons are uppercase, as in the old skin, except link buttons.
 // Bootstrap only draws the button shadow when $enable-shadows is on, so draw it here.
 .btn {
   box-shadow: var(--bs-btn-box-shadow);
@@ -484,6 +485,27 @@ ul.thumbnail-buttons {
   --bs-btn-hover-bg: rgba(0, 0, 0, 0.12);
   --bs-btn-active-color: #{$body-color};
   --bs-btn-active-bg: rgba(0, 0, 0, 0.12);
+}
+
+// Progress bar colours by state (Planting#progress_state).
+.progress-bar--growing {
+  background-color: var(--bs-info);
+}
+
+.progress-bar--harvesting {
+  background-color: var(--bs-success);
+}
+
+.progress-bar--late {
+  background-color: var(--bs-warning);
+}
+
+.progress-bar--super_late {
+  background-color: var(--bs-danger);
+}
+
+.progress-bar--finished {
+  background-color: var(--bs-secondary);
 }
 
 // The card variables drop the card's border, which also drew the line under a

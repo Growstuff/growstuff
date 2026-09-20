@@ -111,8 +111,8 @@ $btn-font-weight: 500;
 $btn-box-shadow: $material-shadow-raised;
 $btn-active-box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 3px rgba(0, 0, 0, 0.12), 0 4px 15px 0 rgba(0, 0, 0, 0.2);
 
-// Progress bars: a thin strip, dark green filled over a lighter green track, as before.
-// (These were Bootstrap 3 variables the old skin ignored; Bootstrap 5 reads them.)
+// Progress bars: a thin strip over a neutral track. The bar's colour shows how the planting is
+// getting on (see .progress-bar--* in overrides.scss).
 $progress-height: 0.875rem;
-$progress-bg: lighten($green, 15%);
+$progress-bg: #e0e0e0;
 $progress-bar-bg: $green;
