@@ -113,7 +113,7 @@ class HarvestsController < DataController
   end
 
   def new_harvest_params
-    return {} unless params[:harvest]
+    return {} if params[:harvest].blank?
 
     params.require(:harvest)
       .permit(:planting_id, :crop_id, :harvested_at, :description,

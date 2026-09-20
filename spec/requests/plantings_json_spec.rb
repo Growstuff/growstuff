@@ -107,7 +107,7 @@ describe 'Creating and updating a planting as JSON' do
       before { sign_in member }
 
       it "changes the planted date and returns the garden's updated card" do
-        update_planting(planted_at: '2026-04-15')
+        update_planting({ planted_at: '2026-04-15' })
 
         expect(response).to have_http_status(:ok)
         expect(planting.reload.planted_at).to eq Date.new(2026, 4, 15)
@@ -118,7 +118,7 @@ describe 'Creating and updating a planting as JSON' do
       it 'returns validation errors as 422 and keeps the old date' do
         planting.update!(finished_at: Date.new(2026, 3, 10))
 
-        update_planting(planted_at: '2026-05-01')
+        update_planting({ planted_at: '2026-05-01' })
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['errors']).to have_key('finished_at')
@@ -136,7 +136,7 @@ describe 'Creating and updating a planting as JSON' do
     end
 
     it 'asks a visitor who is not signed in to sign in' do
-      update_planting(planted_at: '2026-04-15')
+      update_planting({ planted_at: '2026-04-15' })
 
       expect(response).to have_http_status(:unauthorized)
       expect(planting.reload.planted_at).to eq Date.new(2026, 3, 1)
