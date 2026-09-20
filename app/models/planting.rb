@@ -150,6 +150,7 @@ class Planting < ApplicationRecord
   end
 
   def owner_must_match_garden_owner
+    return if garden.blank? # reported by the garden presence validation
     return if owner == garden.owner || garden.garden_collaborators.where(member_id: owner).any?
 
     errors.add(:owner, :same_owner_required)

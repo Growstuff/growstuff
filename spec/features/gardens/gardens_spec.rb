@@ -58,7 +58,7 @@ describe "Planting a crop", :js do
       end
 
       it "button on index to edit garden" do
-        first('a#garden-actions-button').click
+        click_link 'Actions', match: :first
         click_link href: edit_garden_path(garden)
         expect(page).to have_content 'Edit garden'
       end

@@ -3,7 +3,7 @@
   %channel
     %title Recent comments on #{@post.subject} (#{ENV['GROWSTUFF_SITE_NAME']})
     %link= post_url(@post)
-    - @post.comments.each do |comment|
+    - @post.comments.includes(:author).limit(50).each do |comment|
       %item
         %title Comment by #{comment.author.login_name} on #{comment.created_at}
         %description

@@ -46,6 +46,8 @@ gem 'active_record_union'
 
 gem 'flickraw'
 gem 'jquery-rails'
+# Builds JavaScript (React) with esbuild into app/assets/builds; Sprockets then serves it
+gem 'jsbundling-rails'
 gem 'jquery-ui-rails', github: 'jquery-ui-rails/jquery-ui-rails', tag: 'v7.0.0' # See https://github.com/jquery-ui-rails/jquery-ui-rails/issues/146
 
 gem 'cancancan'                    # for checking member privileges
