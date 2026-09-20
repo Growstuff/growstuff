@@ -1,6 +1,11 @@
 - content_for :title, @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
 
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
 %h1= @owner ? "#{@owner}'s gardens" : "Everyone's gardens"
+
+= react_component 'GardenSummary', owner: @owner&.login_name, count: @gardens.total_entries
 
 - content_for :breadcrumbs do
   - if @owner

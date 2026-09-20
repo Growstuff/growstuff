@@ -7,7 +7,9 @@
 import React from 'react';
 import {createRoot} from 'react-dom/client';
 
-const components = {};
+import GardenSummary from './components/GardenSummary';
+
+const components = {GardenSummary};
 
 function mountIslands() {
   document.querySelectorAll('[data-react-component]').forEach((element) => {
