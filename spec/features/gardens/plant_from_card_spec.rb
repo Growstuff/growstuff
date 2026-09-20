@@ -69,6 +69,9 @@ describe 'Planting from a garden card', :js, :search do
       expect(page).to have_content 'lettuce'
       # Picked out without recolouring the chip (brown with white text) it sits in.
       expect(page).to have_css '.planting-just-added', text: 'lettuce'
+      # ...and the class has styling: a class with no CSS once slipped through.
+      highlight = page.evaluate_script("getComputedStyle(document.querySelector('.planting-row.planting-just-added')).backgroundColor")
+      expect(highlight).not_to eq 'rgba(0, 0, 0, 0)'
       expect(page).to have_no_css '.crop-chip[style]'
     end
     within(:css, '.card', text: 'Balcony') { expect(page).to have_no_content 'lettuce' }

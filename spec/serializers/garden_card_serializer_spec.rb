@@ -95,7 +95,7 @@ describe GardenCardSerializer do
     it 'says why there is no progress bar' do
       annual.update!(planted_at: nil)
 
-      expect(serialize(garden)[:annuals].first[:progress_note]).to eq 'set "planted" date to allow predictions'
+      expect(serialize(garden)[:annuals].first[:progress_note]).to eq 'Set a planted date to see predictions'
     end
 
     it 'gives the owner the quick actions from plantings/_quick_actions' do

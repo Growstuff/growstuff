@@ -1,0 +1,174 @@
+// Garden cards on the gardens index (rendered by React).
+$garden-card-muted: #666;
+$garden-card-line: #e6e6e6;
+
+.garden-card {
+  margin-bottom: 1.25rem;
+
+  .garden-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+  }
+
+  .garden-card-title {
+    margin: 0;
+    font-size: 1.4rem;
+    line-height: 1.3;
+  }
+
+  .garden-card-owner {
+    color: $garden-card-muted;
+    font-size: 0.9rem;
+  }
+
+  .garden-card-body {
+    display: flex;
+    align-items: flex-start;
+    padding: 1.25rem;
+  }
+
+  .garden-card-image {
+    flex: none;
+    width: 8.5rem;
+    height: 8.5rem;
+    margin-right: 1.5rem;
+    border-radius: 4px;
+    object-fit: cover;
+  }
+
+  .garden-card-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .garden-card-section + .garden-card-section {
+    margin-top: 1.25rem;
+  }
+
+  .garden-card-heading {
+    margin: 0 0 0.5rem;
+    color: $garden-card-muted;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .garden-card-none {
+    margin: 0;
+    color: $garden-card-muted;
+  }
+
+  .garden-card-chips {
+    display: flex;
+    flex-wrap: wrap;
+
+    .chip {
+      margin: 0 0.5rem 0.5rem 0;
+    }
+  }
+}
+
+// One annual planting: crop | how it's getting on | actions, in aligned columns.
+.planting-row {
+  display: grid;
+  grid-template-columns: minmax(11rem, 15rem) minmax(0, 1fr) 2.5rem;
+  align-items: center;
+  padding: 0.6rem 0.5rem;
+  border-top: 1px solid $garden-card-line;
+  column-gap: 1rem;
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  .planting-row-crop {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .chip {
+      margin: 0;
+    }
+  }
+
+  .planting-row-planted {
+    padding-left: 0.5rem;
+    color: $garden-card-muted;
+    font-size: 0.8rem;
+  }
+
+  .planting-row-status {
+    min-width: 0;
+  }
+
+  .planting-badges {
+    margin-bottom: 0.35rem;
+  }
+
+  .planting-row-note {
+    color: $garden-card-muted;
+    font-size: 0.85rem;
+  }
+
+  .planting-progress .progress {
+    height: 0.5rem;
+    margin: 0;
+  }
+
+  .planting-progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.15rem;
+    color: $garden-card-muted;
+    font-size: 0.8rem;
+  }
+
+  .planting-row-actions {
+    text-align: right;
+  }
+
+  // The "more" button: three dots, without the theme's dropdown caret.
+  .planting-actions-toggle {
+    padding: 0.25rem 0.75rem;
+    color: $garden-card-muted;
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
+// A planting just added from the "Plant something" dialog. It is picked out
+// without changing any text or chip colours: chips are brown with white text,
+// so a light background on them would make the text unreadable.
+.planting-row.planting-just-added {
+  background-color: #e8f5e9;
+  box-shadow: inset 4px 0 0 #43a047;
+}
+
+.crop-chip.planting-just-added {
+  box-shadow: 0 0 0 3px #43a047;
+}
+
+@media (max-width: 767px) {
+  .garden-card .garden-card-body {
+    flex-direction: column;
+  }
+
+  .garden-card .garden-card-image {
+    margin: 0 0 1rem;
+  }
+
+  .planting-row {
+    grid-template-columns: minmax(0, 1fr) 2.5rem;
+
+    .planting-row-status {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      margin-top: 0.5rem;
+    }
+  }
+}

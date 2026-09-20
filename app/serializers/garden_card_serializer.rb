@@ -134,9 +134,9 @@ class GardenCardSerializer
   # Shown instead of a progress bar when there is nothing to predict from.
   def progress_note(planting)
     if planting.planted_at.blank?
-      'set "planted" date to allow predictions'
+      'Set a planted date to see predictions'
     elsif planting.percentage_grown.blank?
-      "not enough data on #{planting.crop} to predict"
+      'Not enough data on this crop to predict'
     end
   end
 
