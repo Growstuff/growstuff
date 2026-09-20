@@ -24,8 +24,7 @@ function errorMessages(status, data) {
 export default function PlantSomethingModal({garden, options, onClose, onCreated}) {
   const [crop, setCrop] = useState(null);
   const [fields, setFields] = useState({
-    planted_at: options.today, planted_from: '', sunniness: '', quantity: '', description: '',
-    overall_rating: '', finished: false,
+    planted_at: options.today, planted_from: '', sunniness: '', quantity: '',
   });
   const [errors, setErrors] = useState([]);
   const [saving, setSaving] = useState(false);
@@ -100,16 +99,6 @@ export default function PlantSomethingModal({garden, options, onClose, onCreated
             </select>
             .
           </p>
-
-          <div className="mb-3">
-            <label htmlFor="planting-description">Tell us more about it</label>
-            <textarea id="planting-description" rows="3" className="form-control" value={fields.description} onChange={set('description')} />
-          </div>
-
-          <div className="form-check">
-            <input id="planting-finished" type="checkbox" className="form-check-input" checked={fields.finished} onChange={set('finished')} />
-            <label htmlFor="planting-finished" className="form-check-label">Mark as finished</label>
-          </div>
         </div>
         <div className="modal-footer">
           <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
