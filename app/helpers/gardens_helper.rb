@@ -11,6 +11,15 @@ module GardensHelper
     }
   end
 
+  # "2022–2024 · 12 plantings": when a past garden was in use, by its plantings.
+  def garden_history_summary(garden)
+    plantings = garden.plantings.to_a
+    years = plantings.filter_map { |planting| planting.planted_at&.year }
+    years = [garden.created_at.year] if years.empty?
+    range = years.min == years.max ? years.min.to_s : "#{years.min}–#{years.max}"
+    "#{range} · #{pluralize(plantings.size, 'planting')}"
+  end
+
   def display_garden_description(garden)
     if garden.description.nil?
       "no description provided."

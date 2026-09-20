@@ -115,6 +115,8 @@ Rails.application.routes.draw do
   resources :timeline
 
   resources :members, param: :slug do
+    # Before the gardens resource, so "past" isn't taken for a garden's id.
+    get 'gardens/past' => 'gardens#past', as: :past_gardens
     resources :gardens
     resources :seeds
     resources :plantings

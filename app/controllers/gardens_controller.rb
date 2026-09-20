@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class GardensController < DataController
+  # Anyone can look at a member's past gardens, as they can their current ones.
+  skip_before_action :authenticate_member!, only: :past
+  skip_load_and_authorize_resource only: :past
+
   def index
     @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
     @show_all = params[:all] == '1'
@@ -15,6 +19,17 @@ class GardensController < DataController
     @gardens = @gardens.where.not(members: { confirmed_at: nil })
       .order(:name).paginate(page: params[:page])
     respond_with(@gardens)
+  end
+
+  # A member's gardens that are no longer active, as a gallery of what they grew.
+  def past
+    @owner = Member.confirmed.find_by!(slug: params[:member_slug])
+    owned = Garden.inactive.where(owner: @owner)
+    collaborating = Garden.inactive.where(id: GardenCollaborator.where(member: @owner).select(:garden_id))
+    @gardens = owned.or(collaborating)
+      .includes(:owner, plantings: { crop: { parent: :parent } })
+      .order(updated_at: :desc)
+      .paginate(page: params[:page], per_page: 12)
   end
 
   def show
