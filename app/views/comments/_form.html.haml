@@ -4,7 +4,7 @@
     - if content_for? :title
       %h1.h2-responsive.text-center
         %strong=yield :title
-    = form_for(@comment, html: { class: "form-horizontal" }) do |f|
+    = form_for(@comment) do |f|
       - if @comment.errors.any?
         #error_explanation
           %h2
@@ -18,7 +18,7 @@
         = f.text_area :body, rows: 6, class: 'form-control md-textarea', autofocus: 'autofocus', required: true, pattern: '\w+'
         = f.label :body, "Your comment:"
 
-      %span.help-block
+      %span.form-text
         = render partial: "shared/markdown_help"
       .actions.text-end
         = f.submit 'Post comment', class: 'btn btn-primary'

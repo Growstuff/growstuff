@@ -4,7 +4,6 @@
     = form_for(resource, as: resource_name,
         url: unlock_path(resource_name),
         html: { method: :post,
-        class: 'form-horizontal',
         role: 'form' }) do |f|
 
       %h2 Resend unlock instructions

@@ -19,7 +19,7 @@
       = f.text_field :location,
                       value: @garden.location || current_member.location,
                       class: 'form-control', maxlength: 255
-      %span.help-block
+      %span.form-text
         = t('.location_helper')
         - if current_member.location.blank?
           = link_to "Set your location now.", edit_member_registration_path

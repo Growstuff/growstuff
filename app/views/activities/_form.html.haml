@@ -56,7 +56,7 @@
       .row
         .col-md-6
           = f.check_box :finished, label: t('buttons.mark_as_finished')
-          %span.help-block= t('.finish_helper')
+          %span.form-text= t('.finish_helper')
 
     .card-footer
       .text-end= f.submit 'Save'
