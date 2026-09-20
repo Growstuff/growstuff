@@ -54,9 +54,7 @@ export default function Modal({title, titleId, onClose, children}) {
           <div className="modal-content" ref={contentRef} tabIndex="-1">
             <div className="modal-header">
               <h2 className="modal-title h5" id={titleId}>{title}</h2>
-              <button type="button" className="close" aria-label="Close" onClick={onClose}>
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <button type="button" className="btn-close" aria-label="Close" onClick={onClose} />
             </div>
             {children}
           </div>

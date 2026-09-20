@@ -35,7 +35,7 @@ function Steps({current}) {
               {state === 'done' ? <i className="fa fa-check" aria-hidden="true" /> : number}
             </span>
             {label}
-            {state === 'done' && <span className="sr-only"> (done)</span>}
+            {state === 'done' && <span className="visually-hidden"> (done)</span>}
           </li>
         );
       })}
@@ -101,7 +101,7 @@ export default function PlantSomethingModal({garden, iconUrl, onClose, onCreated
               <dd className="crop-confirm-name">
                 {crop.name}
                 <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => setCrop(null)} disabled={saving}>
-                  <i className="fa fa-edit" aria-hidden="true" /> Change<span className="sr-only"> crop</span>
+                  <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> crop</span>
                 </button>
               </dd>
               <dt>Garden</dt>
@@ -113,7 +113,7 @@ export default function PlantSomethingModal({garden, iconUrl, onClose, onCreated
         ) : (
           <CropPicker id="planting-crop" onChoose={setCrop} />
         )}
-        <div className="sr-only" role="status">{saving ? `Planting ${crop.name} in ${garden.name}…` : ''}</div>
+        <div className="visually-hidden" role="status">{saving ? `Planting ${crop.name} in ${garden.name}…` : ''}</div>
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-link" onClick={onClose} disabled={saving}>Cancel</button>

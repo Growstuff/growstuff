@@ -20,7 +20,7 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted}) {
         {badges.length > 0 && (
           <div className="planting-badges">
             {badges.map((badge) => (
-              <span key={badge.kind} className={`badge badge-info badge-${badge.kind.replace('_', '-')}`} title={badge.title}>
+              <span key={badge.kind} className={`badge text-bg-info badge-${badge.kind.replace('_', '-')}`} title={badge.title}>
                 {badge.label}
               </span>
             ))}

@@ -24,7 +24,7 @@ export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, 
       >
         {label}
       </a>
-      <div className="dropdown-menu dropdown-menu-end dropdown-menu-right" aria-labelledby={buttonId}>
+      <div className="dropdown-menu dropdown-menu-end" aria-labelledby={buttonId}>
         {actions.map((action) => (
           <React.Fragment key={action.key}>
             {action.divider && <div className="dropdown-divider" />}
