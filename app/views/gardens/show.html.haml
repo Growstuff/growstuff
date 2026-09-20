@@ -63,10 +63,6 @@
         - if can?(:edit, @garden)
           .col-md-12
             = garden_plant_something_button(@garden)
-  
-      - if can?(:destroy, @garden)
-        .dropdown-divider
-        = delete_button(@garden, classes: 'dropdown-item text-danger', message: 'gardens.confirm_delete')
 
     %section
       %h2 Current activities in garden
