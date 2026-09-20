@@ -44,6 +44,10 @@ describe "crop wranglers", :js do
     end
 
     it "can create a new crop" do
+      # Typing a scientific name makes the page ask GBIF for suggestions after a
+      # short delay. Whether that request lands before Save navigates away is a
+      # race, so answer it here rather than reach the real GBIF API.
+      allow(GbifService).to receive(:new).and_return(instance_double(GbifService, suggest: []))
       visit root_path
       click_link 'Admin'
       click_link 'Crop Wrangling'
