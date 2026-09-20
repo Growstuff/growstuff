@@ -18,6 +18,8 @@ describe "members list" do
       expect(page).to have_css "#sort"
       expect(page).to have_css "form"
       click_button('Show')
+      # "Show" reloads the whole page. Wait for the new page before reading the list.
+      expect(page).to have_current_path(/sort=alpha/)
       expect(subject.first).to have_text archaeopteryx.login_name
       expect(subject.last).to have_text zephyrosaurus.login_name
     end
@@ -27,6 +29,8 @@ describe "members list" do
       expect(page).to have_css "form"
       select("recently", from: 'sort')
       click_button('Show')
+      # "Show" reloads the whole page. Wait for the new page before reading the list.
+      expect(page).to have_current_path(/sort=recently_joined/)
       expect(subject.first).to have_text testingname.login_name
       expect(subject.last).to have_text archaeopteryx.login_name
     end
