@@ -34,6 +34,25 @@ describe Ability do
     end
   end
 
+  context 'scientific names and alternate names' do
+    let(:approved_crop) { create(:crop, approval_status: 'approved') }
+    let(:pending_crop) { create(:crop, approval_status: 'pending') }
+    let(:scientific_name) { create(:scientific_name, crop: approved_crop) }
+    let(:unapproved_scientific_name) { create(:scientific_name, crop: pending_crop) }
+    let(:alternate_name) { create(:alternate_name, crop: approved_crop) }
+    let(:unapproved_alternate_name) { create(:alternate_name, crop: pending_crop) }
+
+    it 'can read scientific names and alternate names of approved crops' do
+      ability.should be_able_to(:read, scientific_name)
+      ability.should be_able_to(:read, alternate_name)
+    end
+
+    it 'cannot read scientific names and alternate names of unapproved crops' do
+      ability.should_not be_able_to(:read, unapproved_scientific_name)
+      ability.should_not be_able_to(:read, unapproved_alternate_name)
+    end
+  end
+
   context "crop wrangling" do
     let(:crop) { create(:crop) }
 

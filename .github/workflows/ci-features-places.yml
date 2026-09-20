@@ -1,4 +1,4 @@
-name: CI Features - Admin
+name: CI Features - Places
 
 on: [pull_request]
 

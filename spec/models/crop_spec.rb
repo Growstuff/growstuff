@@ -154,6 +154,13 @@ describe Crop do
 
       it { expect(crop.default_photo).to eq photo }
 
+      it 'caches thumbnail_url string in Rails.cache' do
+        expected_url = photo.source == 'flickr' ? photo.fullsize_url : photo.thumbnail_url
+        expect(crop.thumbnail_url).to eq expected_url
+        cached_value = Rails.cache.read("#{crop.cache_key_with_version}/thumbnail_url")
+        expect(cached_value).to eq expected_url
+      end
+
       include_examples 'has default photo'
     end
 
@@ -555,6 +562,24 @@ describe Crop do
 
     it "destroys companion links" do
       expect { crop_a.destroy }.to change(CropCompanion, :count).from(2).to(0)
+    end
+  end
+
+  context 'search_data' do
+    let(:crop) { create(:crop) }
+    let(:member) { create(:member) }
+
+    it 'returns distinct planter IDs' do
+      create_list(:planting, 3, crop:, owner: member)
+      expect(crop.search_data[:planters_ids]).to eq([member.id])
+    end
+
+    it 'uses photo_associations_count for has_photos' do
+      crop.update!(photo_associations_count: 0)
+      expect(crop.search_data[:has_photos]).to be(false)
+
+      crop.update!(photo_associations_count: 2)
+      expect(crop.search_data[:has_photos]).to be(true)
     end
   end
 

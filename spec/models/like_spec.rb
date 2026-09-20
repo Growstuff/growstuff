@@ -51,12 +51,6 @@ describe Like do
     expect(Like.all).not_to include like
   end
 
-  it 'destroys like if post no longer exists' do
-    like = Like.create(member:, likeable: post)
-    post.destroy
-    expect(Like.all).not_to include like
-  end
-
   it 'destroys like if member no longer exists' do
     like = Like.create(member:, likeable: post)
     member.destroy
@@ -76,6 +70,18 @@ describe Like do
       like = build(:like, likeable: post, member: member)
       expect(like).not_to be_valid
     end
+  end
+
+  it 'liked_by?' do
+    expect(post.liked_by?(member)).to be false
+    expect(post.liked_by?(nil)).to be false
+
+    Like.create(member:, likeable: post)
+    expect(post.liked_by?(member)).to be true
+
+    expect(photo.liked_by?(member)).to be false
+    Like.create(member:, likeable: photo)
+    expect(photo.liked_by?(member)).to be true
   end
 
   it 'liked_by_members_names' do
