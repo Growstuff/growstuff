@@ -2,6 +2,13 @@
 
 require 'nokogiri'
 module ApplicationHelper
+  # Renders an empty element for app/javascript/react_islands.jsx to mount the
+  # named React component into, passing it props. The page also needs the
+  # bundle: `= javascript_include_tag 'react_islands', defer: true`.
+  def react_component(name, props = {}, html_options = {})
+    content_tag(:div, '', html_options.merge(data: { react_component: name, props: props.to_json }))
+  end
+
   def parse_date(str)
     str ||= '' # Date.parse barfs on nil
     str == '' ? nil : Date.parse(str)
