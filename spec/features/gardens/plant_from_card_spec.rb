@@ -26,6 +26,7 @@ describe 'Planting from a garden card', :js, :search do
 
     within '[role=dialog]' do
       expect(page).to have_content 'Plant something in Orchard'
+      expect(page).to have_content 'I planted'
       expect(page).to have_no_content 'Where did you plant it?'
     end
     expect(page).to have_current_path(gardens_path)
@@ -35,9 +36,11 @@ describe 'Planting from a garden card', :js, :search do
     open_plant_dialog('Orchard')
 
     within '[role=dialog]' do
-      fill_in 'What did you plant?', with: 'lett'
+      fill_in 'Quantity', with: 4
+      fill_in 'Crop', with: 'lett'
       click_button 'lettuce'
-      fill_in 'How many?', with: 4
+      select 'seedling', from: 'Planted from'
+      select 'sun', from: 'Sun or shade'
       click_button 'Save'
     end
 
@@ -46,7 +49,8 @@ describe 'Planting from a garden card', :js, :search do
     within(:css, '.card', text: 'Orchard') { expect(page).to have_content 'lettuce' }
     within(:css, '.card', text: 'Balcony') { expect(page).to have_no_content 'lettuce' }
     expect(page).to have_current_path(gardens_path)
-    expect(Planting.last).to have_attributes(garden: garden, crop: lettuce, quantity: 4, owner: member)
+    expect(Planting.last).to have_attributes(garden: garden, crop: lettuce, quantity: 4, owner: member,
+                                             planted_from: 'seedling', sunniness: 'sun')
   end
 
   it 'keeps the dialog open and says what is wrong when no crop was chosen' do

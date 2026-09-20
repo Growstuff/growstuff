@@ -39,24 +39,24 @@ export default function CropPicker({id, value, onChange, invalid}) {
 
   if (value) {
     return (
-      <div>
-        <span className="chip crop-chip">{value.name}</span>
-        {' '}
+      <span>
+        <span className="madlib-chosen">{value.name}</span>
         <button type="button" className="btn btn-sm btn-link" onClick={() => onChange(null)}>
           Change<span className="sr-only"> crop</span>
         </button>
-      </div>
+      </span>
     );
   }
 
   return (
-    <div className="position-relative">
+    <span className="position-relative d-inline-block">
       <input
         id={id}
         type="text"
-        className={`form-control${invalid ? ' is-invalid' : ''}`}
+        className={`madlib-field madlib-crop${invalid ? ' is-invalid' : ''}`}
+        aria-label="Crop"
         autoComplete="off"
-        placeholder="Start typing a crop name"
+        placeholder="crop"
         value={term}
         onChange={(event) => setTerm(event.target.value)}
         onKeyDown={(event) => {
@@ -68,11 +68,11 @@ export default function CropPicker({id, value, onChange, invalid}) {
         }}
         aria-describedby={`${id}-status`}
       />
-      <div id={`${id}-status`} className="sr-only" role="status">
+      <span id={`${id}-status`} className="sr-only" role="status">
         {term.trim() && results.length > 0 ? `${results.length} crops found` : ''}
-      </div>
+      </span>
       {results.length > 0 && (
-        <ul className="list-group position-absolute w-100 shadow" style={{zIndex: 1060, maxHeight: '16rem', overflowY: 'auto'}}>
+        <ul className="list-group position-absolute shadow" style={{zIndex: 1060, maxHeight: '16rem', overflowY: 'auto', minWidth: '14rem', textAlign: 'left', fontSize: '1rem', lineHeight: 1.5}}>
           {results.map((crop) => (
             <li key={crop.id} className="list-group-item p-0">
               <button type="button" className="btn btn-link text-left w-100" onClick={() => choose(crop)}>
@@ -82,6 +82,6 @@ export default function CropPicker({id, value, onChange, invalid}) {
           ))}
         </ul>
       )}
-    </div>
+    </span>
   );
 }

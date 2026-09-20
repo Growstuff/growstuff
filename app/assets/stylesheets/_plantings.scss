@@ -57,3 +57,56 @@
     padding-top: 0;
   }
 }
+
+// "Plant something" dialog: the form reads as one sentence with blanks to fill in.
+.madlib {
+  font-size: 1.4rem;
+  line-height: 2.8;
+
+  .madlib-field {
+    display: inline-block;
+    width: auto;
+    margin: 0 0.25rem;
+    padding: 0 0.25rem;
+    border: 0;
+    border-bottom: 2px solid #9e9e9e;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: center;
+
+    &:focus {
+      outline: 0;
+      border-bottom-color: #1976d2;
+    }
+
+    &.is-invalid {
+      border-bottom-color: #dc3545;
+    }
+  }
+
+  .madlib-quantity {
+    width: 4.5rem;
+  }
+
+  .madlib-crop {
+    width: 12rem;
+  }
+
+  .madlib-date {
+    width: 11rem;
+  }
+
+  .madlib-chosen {
+    font-weight: bold;
+    border-bottom: 2px solid #9e9e9e;
+    padding: 0 0.25rem;
+  }
+
+  .madlib-aside {
+    font-size: 1rem;
+    color: #757575;
+  }
+}

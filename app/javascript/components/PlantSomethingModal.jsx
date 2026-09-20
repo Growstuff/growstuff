@@ -67,38 +67,39 @@ export default function PlantSomethingModal({garden, options, onClose, onCreated
             </div>
           )}
 
-          <div className="mb-3">
-            <label htmlFor="planting-crop" className="required">What did you plant?</label>
+          <p className="madlib">
+            I planted
+            <input
+              type="number"
+              min="1"
+              placeholder="N"
+              aria-label="Quantity"
+              className="madlib-field madlib-quantity"
+              value={fields.quantity}
+              onChange={set('quantity')}
+            />
             <CropPicker id="planting-crop" value={crop} onChange={setCrop} invalid={errors.some((m) => m.startsWith('Crop'))} />
-          </div>
-
-          <div className="row">
-            <div className="col-md-6 mb-3">
-              <label htmlFor="planting-planted-at">When?</label>
-              <input id="planting-planted-at" type="date" className="form-control" value={fields.planted_at} onChange={set('planted_at')} />
-            </div>
-            <div className="col-md-6 mb-3">
-              <label htmlFor="planting-quantity">How many?</label>
-              <input id="planting-quantity" type="number" min="1" className="form-control" value={fields.quantity} onChange={set('quantity')} />
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-md-6 mb-3">
-              <label htmlFor="planting-planted-from">Planted from</label>
-              <select id="planting-planted-from" className="form-control" value={fields.planted_from} onChange={set('planted_from')}>
-                <option value="" />
-                {options.planted_from.map((value) => <option key={value} value={value}>{value}</option>)}
-              </select>
-            </div>
-            <div className="col-md-6 mb-3">
-              <label htmlFor="planting-sunniness">Sun or shade?</label>
-              <select id="planting-sunniness" className="form-control" value={fields.sunniness} onChange={set('sunniness')}>
-                <option value="" />
-                {options.sunniness.map((value) => <option key={value} value={value}>{value}</option>)}
-              </select>
-            </div>
-          </div>
+            {fields.quantity !== '1' && <span className="madlib-aside">(s)</span>}
+            {' '}on
+            <input
+              type="date"
+              aria-label="Planted date"
+              className="madlib-field madlib-date"
+              value={fields.planted_at}
+              onChange={set('planted_at')}
+            />
+            from
+            <select aria-label="Planted from" className="madlib-field" value={fields.planted_from} onChange={set('planted_from')}>
+              <option value="">…</option>
+              {options.planted_from.map((value) => <option key={value} value={value}>{value}</option>)}
+            </select>
+            in
+            <select aria-label="Sun or shade" className="madlib-field" value={fields.sunniness} onChange={set('sunniness')}>
+              <option value="">…</option>
+              {options.sunniness.map((value) => <option key={value} value={value}>{value}</option>)}
+            </select>
+            .
+          </p>
 
           <div className="mb-3">
             <label htmlFor="planting-description">Tell us more about it</label>
