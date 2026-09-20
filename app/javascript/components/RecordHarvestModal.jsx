@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 
 import {getJson, postJson} from '../api';
+import {formatDate} from '../dates';
 import Modal from './Modal';
 import PlantPartPicker from './PlantPartPicker';
 import Steps from './Steps';
 
-const STEPS = ['Choose a part', 'How much?'];
+const STEPS = ['Choose a part', 'How much?', 'When?', 'Any notes?'];
+const WHEN_CHOICES = [['today', 'Today'], ['yesterday', 'Yesterday'], ['other', 'Enter date']];
 
 function humanize(field) {
   return field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
@@ -20,16 +22,26 @@ function errorMessages(status, data) {
   return ['Something went wrong saving that. Please try again.'];
 }
 
-// Recording a harvest from a garden card, as a dialog over the list, in the same
-// two steps as the Add planting dialog: say which part of the plant you
-// harvested, then how much. The crop is the planting's and the date is today.
-// It loads those, and the choices, from /plantings/:slug/harvests/new.json, saves
+// "2026-09-21" a number of days earlier, as "2026-09-20". Worked out in UTC so
+// the browser's time zone can't shift it.
+function daysBefore(iso, days) {
+  const [year, month, day] = iso.split('-').map(Number);
+  return new Date(Date.UTC(year, month - 1, day - days)).toISOString().slice(0, 10);
+}
+
+// Recording a harvest from a garden card, as a dialog over the list, in steps
+// like the Add planting dialog: which part of the plant you harvested, how
+// much, when (today unless you say otherwise), then any notes, and save. The
+// crop is the planting's.
+// It loads that, and the choices, from /plantings/:slug/harvests/new.json, saves
 // with POST /harvests.json, and hands the refreshed garden card to onSaved, so
 // the planting's badges follow and the page is never left.
 export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}) {
   const [form, setForm] = useState(null); // {planting_id, plant_parts, plant_part_id (the usual one), units, weight_units, ...}
   const [values, setValues] = useState(null);
   const [part, setPart] = useState(null); // step 1's answer
+  const [step, setStep] = useState(1);
+  const [when, setWhen] = useState('today'); // today, yesterday, or other (a date you enter)
   const [loadError, setLoadError] = useState(false);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -42,7 +54,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
         if (!ok) throw new Error('load failed');
         setForm(data);
         setValues({
-          harvested_at: data.harvested_at || '',
+          custom_date: '',
           quantity: '',
           unit: data.units[0].value,
           weight_quantity: '',
@@ -58,13 +70,48 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
 
   const set = (field) => (event) => setValues((current) => ({...current, [field]: event.target.value}));
 
+  // The server's "today" is the one that counts, not the browser's.
+  const today = form && form.harvested_at;
+  const harvestedAt = {today, yesterday: today && daysBefore(today, 1), other: values && values.custom_date}[when];
+
+  function choosePart(chosen) {
+    setPart(chosen);
+    setStep(2);
+  }
+
+  function chooseWhen(choice) {
+    setWhen(choice);
+    if (choice === 'other' && !values.custom_date) setValues((current) => ({...current, custom_date: today}));
+  }
+
+  function amount() {
+    const unit = form.units.find((candidate) => candidate.value === values.unit);
+    const parts = [
+      values.quantity && `${values.quantity} ${unit ? unit.label : values.unit}`,
+      values.weight_quantity && `${values.weight_quantity} ${values.weight_unit}`,
+    ].filter(Boolean);
+    return parts.length > 0 ? parts.join(' · ') : 'Not entered';
+  }
+
+  // "Today, 21 Sep", or just the date when you entered one.
+  function whenLabel() {
+    const date = formatDate(harvestedAt);
+    return when === 'other' ? date : `${WHEN_CHOICES.find(([value]) => value === when)[1]}, ${date}`;
+  }
+
+  // Each step's button goes on to the next; the last one saves.
   async function save(event) {
     event.preventDefault();
+    if (step < STEPS.length) {
+      setStep(step + 1);
+      return;
+    }
     setSaving(true);
     setErrors([]);
     try {
+      const {custom_date: customDate, ...fields} = values;
       const {ok, status, data} = await postJson('/harvests.json', {
-        harvest: {planting_id: form.planting_id, plant_part_id: part.id, ...values},
+        harvest: {planting_id: form.planting_id, plant_part_id: part.id, harvested_at: harvestedAt, ...fields},
       });
       if (ok) {
         onSaved(data.garden); // closes this dialog
@@ -94,21 +141,16 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
       {!loadError && !values && (
         <div className="modal-body" role="status"><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Loading…</div>
       )}
-      {values && !part && (
-        <>
-          <div className="modal-body plant-dialog-body">
-            <Steps steps={STEPS} current={1} />
-            <PlantPartPicker id="record-harvest-part" parts={form.plant_parts} suggestedId={form.plant_part_id} onChoose={setPart} />
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-link" onClick={onClose}>Cancel</button>
-          </div>
-        </>
+      {values && step === 1 && (
+        <div className="modal-body plant-dialog-body">
+          <Steps steps={STEPS} current={1} />
+          <PlantPartPicker id="record-harvest-part" parts={form.plant_parts} suggestedId={form.plant_part_id} onChoose={choosePart} />
+        </div>
       )}
-      {values && part && (
+      {values && step > 1 && (
         <form onSubmit={save}>
           <div className="modal-body plant-dialog-body">
-            <Steps steps={STEPS} current={2} />
+            <Steps steps={STEPS} current={step} />
             {errors.length > 0 && (
               <div className="alert alert-danger" role="alert">
                 <i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
@@ -123,75 +165,152 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
                 <dt>Crop</dt>
                 <dd>{planting.crop.name}</dd>
                 <dt>Part</dt>
-                <dd className="crop-confirm-name">
+                <dd className={step === 2 ? 'crop-confirm-name' : undefined}>
                   {part.name}
-                  <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => setPart(null)} disabled={saving}>
+                  <button type="button" className="btn btn-sm btn-outline-secondary ms-3" onClick={() => setStep(1)} disabled={saving}>
                     <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> plant part</span>
                   </button>
                 </dd>
+                {step > 2 && (
+                  <>
+                    <dt>Amount</dt>
+                    <dd>
+                      {amount()}
+                      <button type="button" className="btn btn-sm btn-outline-secondary ms-3" onClick={() => setStep(2)} disabled={saving}>
+                        <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> amount</span>
+                      </button>
+                    </dd>
+                  </>
+                )}
+                {step > 3 && (
+                  <>
+                    <dt>When</dt>
+                    <dd>
+                      {whenLabel()}
+                      <button type="button" className="btn btn-sm btn-outline-secondary ms-3" onClick={() => setStep(3)} disabled={saving}>
+                        <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> when</span>
+                      </button>
+                    </dd>
+                  </>
+                )}
               </dl>
             </div>
 
-            <div className="row g-3 mb-3">
-              <div className="col-md-4">
-                <label className="form-label" htmlFor="record-harvest-quantity">How many?</label>
-                <input
-                  id="record-harvest-quantity"
-                  type="number"
-                  min="0"
-                  step="any"
+            {step === 2 && (
+              <>
+                <div className="row g-3 mb-3">
+                  <div className="col-md-4">
+                    <label className="form-label" htmlFor="record-harvest-quantity">How many?</label>
+                    <input
+                      id="record-harvest-quantity"
+                      type="number"
+                      min="0"
+                      step="any"
+                      className="form-control"
+                      value={values.quantity}
+                      onChange={set('quantity')}
+                      autoFocus
+                    />
+                  </div>
+                  <div className="col-md-8">
+                    <label className="form-label" htmlFor="record-harvest-unit">Counted as</label>
+                    <select id="record-harvest-unit" className="form-select" value={values.unit} onChange={set('unit')}>
+                      {form.units.map((unit) => <option key={unit.value} value={unit.value}>{unit.label}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="row g-3 mb-3">
+                  <div className="col-md-4">
+                    <label className="form-label" htmlFor="record-harvest-weight">Weighing (in total)</label>
+                    <input
+                      id="record-harvest-weight"
+                      type="number"
+                      min="0"
+                      step="any"
+                      className="form-control"
+                      value={values.weight_quantity}
+                      onChange={set('weight_quantity')}
+                    />
+                  </div>
+                  <div className="col-md-8">
+                    <label className="form-label" htmlFor="record-harvest-weight-unit">Weighed in</label>
+                    <select id="record-harvest-weight-unit" className="form-select" value={values.weight_unit} onChange={set('weight_unit')}>
+                      {form.weight_units.map((unit) => <option key={unit.value} value={unit.value}>{unit.label}</option>)}
+                    </select>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {step === 3 && (
+              <fieldset>
+                <legend className="crop-picker-label when-legend">When did you harvest it?</legend>
+                <div className="when-choices">
+                  {WHEN_CHOICES.map(([choice, label]) => (
+                    <React.Fragment key={choice}>
+                      <input
+                        type="radio"
+                        className="visually-hidden"
+                        name="record-harvest-when"
+                        id={`record-harvest-when-${choice}`}
+                        checked={when === choice}
+                        onChange={() => chooseWhen(choice)}
+                        autoFocus={choice === 'today'}
+                      />
+                      <label className="when-choice" htmlFor={`record-harvest-when-${choice}`}>{label}</label>
+                    </React.Fragment>
+                  ))}
+                </div>
+                {when === 'other' ? (
+                  <div className="mt-3">
+                    <label className="form-label" htmlFor="record-harvest-date">Date</label>
+                    <input
+                      id="record-harvest-date"
+                      type="date"
+                      className="form-control when-date"
+                      value={values.custom_date}
+                      onChange={set('custom_date')}
+                      required
+                      autoFocus
+                    />
+                  </div>
+                ) : (
+                  <p className="when-hint">{harvestedAt && formatDate(harvestedAt)}</p>
+                )}
+              </fieldset>
+            )}
+
+            {step === 4 && (
+              <div>
+                <label className="crop-picker-label" htmlFor="record-harvest-notes">Any notes?</label>
+                <textarea
+                  id="record-harvest-notes"
                   className="form-control"
-                  value={values.quantity}
-                  onChange={set('quantity')}
+                  rows="3"
+                  placeholder="Optional. How did it go?"
+                  value={values.description}
+                  onChange={set('description')}
+                  // Enter is a new line here, so Ctrl or Cmd with Enter saves.
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+                      event.preventDefault();
+                      event.currentTarget.form.requestSubmit();
+                    }
+                  }}
                   autoFocus
                 />
               </div>
-              <div className="col-md-8">
-                <label className="form-label" htmlFor="record-harvest-unit">Counted as</label>
-                <select id="record-harvest-unit" className="form-select" value={values.unit} onChange={set('unit')}>
-                  {form.units.map((unit) => <option key={unit.value} value={unit.value}>{unit.label}</option>)}
-                </select>
-              </div>
-            </div>
-
-            <div className="row g-3 mb-3">
-              <div className="col-md-4">
-                <label className="form-label" htmlFor="record-harvest-weight">Weighing (in total)</label>
-                <input
-                  id="record-harvest-weight"
-                  type="number"
-                  min="0"
-                  step="any"
-                  className="form-control"
-                  value={values.weight_quantity}
-                  onChange={set('weight_quantity')}
-                />
-              </div>
-              <div className="col-md-8">
-                <label className="form-label" htmlFor="record-harvest-weight-unit">Weighed in</label>
-                <select id="record-harvest-weight-unit" className="form-select" value={values.weight_unit} onChange={set('weight_unit')}>
-                  {form.weight_units.map((unit) => <option key={unit.value} value={unit.value}>{unit.label}</option>)}
-                </select>
-              </div>
-            </div>
-
-            <div className="row g-3 mb-3">
-              <div className="col-md-4">
-                <label className="form-label" htmlFor="record-harvest-date">When?</label>
-                <input id="record-harvest-date" type="date" className="form-control" value={values.harvested_at} onChange={set('harvested_at')} required />
-              </div>
-            </div>
-
-            <div>
-              <label className="form-label" htmlFor="record-harvest-notes">Notes</label>
-              <textarea id="record-harvest-notes" className="form-control" rows="2" value={values.description} onChange={set('description')} />
-            </div>
+            )}
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-link" onClick={onClose} disabled={saving}>Cancel</button>
-            <button type="submit" className="btn btn-success btn-plant" disabled={saving} aria-busy={saving}>
-              {saving ? <><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Save harvest'}
-            </button>
+            {step > 2 && <button type="button" className="btn btn-link" onClick={() => setStep(step - 1)} disabled={saving}>Back</button>}
+            {step < STEPS.length && <button type="submit" className="btn btn-success btn-plant">Next</button>}
+            {step === STEPS.length && (
+              <button type="submit" className="btn btn-success btn-plant" disabled={saving || !harvestedAt} aria-busy={saving}>
+                {saving ? <><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Save harvest'}
+              </button>
+            )}
           </div>
         </form>
       )}
