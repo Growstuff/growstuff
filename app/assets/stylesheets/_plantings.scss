@@ -87,8 +87,29 @@
     }
   }
 
+  // Keep each phrase and its blank together when the sentence wraps.
+  .madlib-phrase {
+    white-space: nowrap;
+  }
+
   .madlib-quantity {
     width: 6.5rem;
+    -moz-appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+  }
+
+  select.madlib-field {
+    min-width: 9rem;
+  }
+
+  // A blank that hasn't been filled in.
+  .madlib-empty {
+    color: #9e9e9e;
   }
 
   .madlib-crop {
@@ -96,7 +117,7 @@
   }
 
   .madlib-date {
-    width: 11rem;
+    width: 13rem;
   }
 
   .madlib-chosen {

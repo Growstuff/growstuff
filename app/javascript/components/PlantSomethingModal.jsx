@@ -67,37 +67,58 @@ export default function PlantSomethingModal({garden, options, onClose, onCreated
           )}
 
           <p className="madlib">
-            I planted
-            <input
-              type="number"
-              min="1"
-              placeholder="number"
-              aria-label="Quantity"
-              className="madlib-field madlib-quantity"
-              value={fields.quantity}
-              onChange={set('quantity')}
-            />
-            <CropPicker id="planting-crop" value={crop} onChange={setCrop} invalid={errors.some((m) => m.startsWith('Crop'))} />
-            {fields.quantity !== '1' && <span className="madlib-aside">(s)</span>}
-            {' '}on
-            <input
-              type="date"
-              aria-label="Planted date"
-              className="madlib-field madlib-date"
-              value={fields.planted_at}
-              onChange={set('planted_at')}
-            />
-            from
-            <select aria-label="Planted from" className="madlib-field" value={fields.planted_from} onChange={set('planted_from')}>
-              <option value="">…</option>
-              {options.planted_from.map((value) => <option key={value} value={value}>{value}</option>)}
-            </select>
-            in
-            <select aria-label="Sun or shade" className="madlib-field" value={fields.sunniness} onChange={set('sunniness')}>
-              <option value="">…</option>
-              {options.sunniness.map((value) => <option key={value} value={value}>{value}</option>)}
-            </select>
-            .
+            <span className="madlib-phrase">
+              I planted
+              <input
+                type="number"
+                min="1"
+                placeholder="number"
+                aria-label="Quantity"
+                className="madlib-field madlib-quantity"
+                value={fields.quantity}
+                onChange={set('quantity')}
+              />
+              <CropPicker id="planting-crop" value={crop} onChange={setCrop} invalid={errors.some((m) => m.startsWith('Crop'))} />
+              {fields.quantity !== '1' && <span className="madlib-aside">(s)</span>}
+            </span>
+            {' '}
+            <span className="madlib-phrase">
+              on
+              <input
+                type="date"
+                aria-label="Planted date"
+                className="madlib-field madlib-date"
+                value={fields.planted_at}
+                onChange={set('planted_at')}
+              />
+            </span>
+            {' '}
+            <span className="madlib-phrase">
+              from
+              <select
+                aria-label="Planted from"
+                className={`madlib-field${fields.planted_from ? '' : ' madlib-empty'}`}
+                value={fields.planted_from}
+                onChange={set('planted_from')}
+              >
+                <option value="">optional</option>
+                {options.planted_from.map((value) => <option key={value} value={value}>{value}</option>)}
+              </select>
+            </span>
+            {' '}
+            <span className="madlib-phrase">
+              in
+              <select
+                aria-label="Sun or shade"
+                className={`madlib-field${fields.sunniness ? '' : ' madlib-empty'}`}
+                value={fields.sunniness}
+                onChange={set('sunniness')}
+              >
+                <option value="">optional</option>
+                {options.sunniness.map((value) => <option key={value} value={value}>{value}</option>)}
+              </select>
+              .
+            </span>
           </p>
         </div>
         <div className="modal-footer">
