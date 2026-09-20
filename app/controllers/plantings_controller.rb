@@ -52,6 +52,8 @@ class PlantingsController < DataController
         owner: current_member,
         id:    params[:garden_id]
       )
+      # Arrived from a garden (e.g. "Plant something here"): no need to ask which.
+      @garden_locked = @planting.garden.present?
     end
 
     respond_with @planting

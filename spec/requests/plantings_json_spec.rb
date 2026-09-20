@@ -4,7 +4,7 @@ require 'rails_helper'
 
 # POST /plantings.json is for our own React garden cards only: session cookie
 # and CSRF token, same origin. It is not part of the public API (/api/v1).
-describe 'Creating a planting as JSON', type: :request do
+describe 'Creating a planting as JSON' do
   include Devise::Test::IntegrationHelpers
 
   let(:member) { create(:member) }
@@ -126,6 +126,31 @@ describe 'Creating a planting as JSON', type: :request do
                                                       'Access-Control-Request-Method' => 'POST' }
 
       expect(response.headers.keys.map(&:downcase)).not_to include('access-control-allow-origin')
+    end
+  end
+
+  describe 'the new planting form, when arriving from a garden' do
+    before { sign_in member }
+
+    it 'does not ask which garden, and posts the one you came from' do
+      get new_planting_path(garden_id: garden.id)
+
+      page = Capybara.string(response.body)
+      expect(page).to have_css("input[type=hidden][name='planting[garden_id]'][value='#{garden.id}']", visible: :all)
+      expect(page).to have_text "Planting in #{garden.name}"
+      expect(page).to have_no_text 'Where did you plant it?'
+    end
+
+    it 'still asks when it is not from one of your gardens' do
+      get new_planting_path(garden_id: create(:garden).id)
+
+      expect(Capybara.string(response.body)).to have_text 'Where did you plant it?'
+    end
+
+    it 'still asks when no garden was given' do
+      get new_planting_path
+
+      expect(Capybara.string(response.body)).to have_text 'Where did you plant it?'
     end
   end
 end
