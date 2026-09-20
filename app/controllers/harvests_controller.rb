@@ -54,6 +54,8 @@ class HarvestsController < DataController
 
     @planting = @harvest.planting
     @crop = @harvest.crop
+    return render json: HarvestFormSerializer.new(@harvest) if request.format.json? && @crop.present?
+
     respond_with(@harvest)
   end
 
@@ -69,6 +71,8 @@ class HarvestsController < DataController
     @planting = @harvest.planting
     @crop = @harvest.crop
     update_planting_rating if @harvest.save
+    return render_card_json if request.format.json? && @planting.present?
+
     if params[:return] == 'planting'
       respond_with(@harvest, location: @harvest.planting)
     else
@@ -87,6 +91,18 @@ class HarvestsController < DataController
   end
 
   private
+
+  # Used by the React garden cards, which replace the garden's card with the
+  # returned one, so the planting's badges and predictions follow the harvest
+  # without a page reload.
+  def render_card_json
+    if @harvest.persisted?
+      card = GardenCardSerializer.collection([@planting.garden], ability: current_ability, show_owner: false).first
+      render json: { garden: card }, status: :created
+    else
+      render json: { errors: @harvest.errors }, status: :unprocessable_content
+    end
+  end
 
   def harvest_params
     params.require(:harvest)
