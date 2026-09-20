@@ -12,7 +12,7 @@ namespace :wikidata do
       return
     end
 
-    Crop.all.each do |crop|
+    Crop.includes(:scientific_names).find_each do |crop|
       puts "Processing crop: #{crop.name}"
       wikidata_id = nil
 
