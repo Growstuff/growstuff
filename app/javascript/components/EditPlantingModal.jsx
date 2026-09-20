@@ -3,8 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {getJson, patchJson} from '../api';
 import CropPicker from './CropPicker';
 import Modal from './Modal';
-
-const RATINGS = [[1, 'Poor'], [2, ''], [3, ''], [4, ''], [5, 'Great']];
+import StarRating from './StarRating';
 
 function humanize(field) {
   return field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
@@ -148,11 +147,12 @@ export default function EditPlantingModal({planting, onClose, onSaved}) {
                 <input id="edit-planting-quantity" type="number" min="1" className="form-control" value={values.quantity ?? ''} onChange={set('quantity')} />
               </div>
               <div className="col-md-8">
-                <label className="form-label" htmlFor="edit-planting-rating">Overall rating</label>
-                <select id="edit-planting-rating" className="form-select" value={values.overall_rating ?? ''} onChange={set('overall_rating')}>
-                  <option value="">Not rated</option>
-                  {RATINGS.map(([number, word]) => <option key={number} value={number}>{word ? `${number} – ${word}` : number}</option>)}
-                </select>
+                <StarRating
+                  id="edit-planting-rating"
+                  label="Overall rating"
+                  value={values.overall_rating}
+                  onChange={(rating) => setValues({...values, overall_rating: rating})}
+                />
               </div>
             </div>
 
