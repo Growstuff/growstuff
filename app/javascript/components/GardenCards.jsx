@@ -26,13 +26,17 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
 
   useEffect(() => () => clearTimeout(highlightTimer.current), []);
 
+  // The response leaves out the owner (the page already has it); keep ours.
+  function replaceCard(updatedCard) {
+    setGardens((current) => current.map((garden) => (garden.id === updatedCard.id ? {...updatedCard, owner: garden.owner} : garden)));
+  }
+
   function created(updatedCard, crop) {
     const before = gardens.find((garden) => garden.id === updatedCard.id);
     const known = new Set(plantingIds(before));
     const added = plantingIds(updatedCard).find((id) => !known.has(id));
 
-    // The response leaves out the owner (the page already has it); keep ours.
-    setGardens(gardens.map((garden) => (garden.id === updatedCard.id ? {...updatedCard, owner: garden.owner} : garden)));
+    replaceCard(updatedCard);
     setPlantingIn(null);
     setNotice(`Planted ${crop ? crop.name : 'something'} in ${updatedCard.name}.`);
     setHighlightedId(added);
@@ -55,6 +59,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           defaultIconUrl={defaultIconUrl}
           onPlant={setPlantingIn}
           highlightedId={highlightedId}
+          onPlantingUpdated={replaceCard}
         />
       ))}
       {plantingIn && (
