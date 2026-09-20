@@ -34,7 +34,7 @@ class GardenCardSerializer
     {
       id: @garden.id, name: @garden.name, slug: @garden.slug, active: @garden.active,
       url: routes.garden_path(@garden), image_url: image_url,
-      owner: owner, can_edit: can?(:edit, @garden), actions: garden_actions,
+      owner: owner, can_edit: can?(:edit, @garden), plant_url: plant_url, actions: garden_actions,
       perennials: @plantings.select { |planting| planting.crop.perennial? }.map { |planting| perennial(planting) },
       annuals: @plantings.select { |planting| planting.crop.annual? }.map { |planting| annual(planting) }
     }
@@ -67,7 +67,14 @@ class GardenCardSerializer
     { key: key, label: label, href: href, **options }.compact
   end
 
-  # The same items, in the same order, as gardens/_actions.
+  # Where the card's "Add planting" button goes (the dialog is opened by React,
+  # this is for a ctrl-click). Only for gardens you can plant in.
+  def plant_url
+    routes.new_planting_path(garden_id: @garden.id) if @garden.active && can?(:edit, @garden)
+  end
+
+  # The items of gardens/_actions, in the same order, except "Plant something
+  # here", which is the card's own button.
   def garden_actions
     return [] unless can?(:edit, @garden)
 
@@ -80,7 +87,6 @@ class GardenCardSerializer
 
   def active_garden_actions
     [
-      action(:plant, I18n.t('buttons.plant_something_here'), routes.new_planting_path(garden_id: @garden.id)),
       action(:plan, I18n.t('buttons.new_activity'), routes.new_activity_path(garden_id: @garden.id)),
       action(:deactivate, I18n.t('buttons.mark_as_inactive'), routes.garden_path(@garden, garden: { active: 0 }),
              method: :put, confirm: I18n.t('gardens.confirm_deactivate'))

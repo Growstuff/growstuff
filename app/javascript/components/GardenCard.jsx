@@ -9,11 +9,8 @@ import PlantingRow from './PlantingRow';
 // planted, as perennials (just names) and annuals (each with its progress).
 // Matches gardens/_card.
 export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, onPlantingUpdated, onEditPlanting}) {
-  const {id, name, url, image_url: imageUrl, owner, actions, perennials, annuals} = garden;
+  const {id, name, url, image_url: imageUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
   const empty = perennials.length === 0 && annuals.length === 0;
-  // Only gardens you can plant in (yours, and active) have this action.
-  const plantAction = actions.find((action) => action.key === 'plant');
-
   function plant(event) {
     if (onPlant && isPlainClick(event)) {
       event.preventDefault();
@@ -29,8 +26,8 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
           {owner && <div className="garden-card-owner">owner: <a href={owner.url}>{owner.login_name}</a></div>}
         </div>
         <div className="garden-card-header-actions">
-          {plantAction && (
-            <a href={plantAction.href} className="btn btn-success btn-sm garden-add-planting" onClick={plant}>
+          {plantUrl && (
+            <a href={plantUrl} className="btn btn-success btn-sm garden-add-planting" onClick={plant}>
               <i className="fa fa-plus" aria-hidden="true" /> Add planting
               <span className="visually-hidden"> to {name}</span>
             </a>
@@ -41,7 +38,6 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
             label={<i className="fa fa-ellipsis-v" aria-hidden="true" />}
             ariaLabel={`Actions for ${name}`}
             className="btn btn-sm btn-link actions-toggle-dots"
-            onSelect={(action, event) => action.key === 'plant' && plant(event)}
           />
         </div>
       </div>

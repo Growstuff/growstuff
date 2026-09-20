@@ -32,11 +32,21 @@ describe GardenCardSerializer do
   end
 
   describe 'garden actions' do
-    it 'gives the owner of an active garden the same menu as gardens/_actions, in order' do
+    it 'gives the owner of an active garden the menu of gardens/_actions, in order, without the Add planting button' do
       actions = serialize(garden)[:actions]
 
-      expect(actions.pluck(:key)).to eq %i(plant plan deactivate edit photo delete)
-      expect(actions.first).to include(label: 'Plant something here', href: "/plantings/new?garden_id=#{garden.id}")
+      expect(actions.pluck(:key)).to eq %i(plan deactivate edit photo delete)
+    end
+
+    it 'links the Add planting button to the new planting form for an active garden you can edit' do
+      expect(serialize(garden)[:plant_url]).to eq "/plantings/new?garden_id=#{garden.id}"
+    end
+
+    it 'has no Add planting link for an inactive garden, or one that is not yours' do
+      garden.update!(active: false)
+
+      expect(serialize(garden)[:plant_url]).to be_nil
+      expect(serialize(create(:garden), viewer: member)[:plant_url]).to be_nil
     end
 
     it 'marks deactivating and deleting as non-GET links that ask for confirmation' do
@@ -128,7 +138,7 @@ describe GardenCardSerializer do
       labels = (card[:actions] + card[:annuals].flat_map { |planting| planting[:actions] + planting[:badges] })
         .flat_map { |item| [item[:label], item[:confirm]] }.compact
 
-      expect(labels).to include('View', 'Edit', 'Plant something here')
+      expect(labels).to include('View', 'Edit', 'Add photo')
       expect(labels).to all(satisfy { |label| label.exclude?('translation missing') && label.exclude?('Translation missing') })
     end
   end
