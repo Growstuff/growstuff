@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {isPlainClick} from '../events';
 import ActionsMenu from './ActionsMenu';
 import CropChip from './CropChip';
 import PlantedDate from './PlantedDate';
@@ -7,7 +8,7 @@ import PlantedDate from './PlantedDate';
 // One annual planting as a row of three aligned columns: the crop (and when it
 // was planted), how it is getting on (badges, then a progress bar or a note
 // when there is nothing to predict from), and its own actions menu.
-export default function PlantingRow({planting, defaultIconUrl, highlighted, onUpdated}) {
+export default function PlantingRow({planting, defaultIconUrl, highlighted, onUpdated, onEdit}) {
   const {id, url, crop, badges} = planting;
 
   return (
@@ -39,6 +40,12 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted, onUp
           label={<i className="fa fa-ellipsis-v" aria-hidden="true" />}
           ariaLabel={`Actions for ${crop.name}`}
           className="btn btn-sm btn-link actions-toggle-dots"
+          onSelect={(action, event) => {
+            if (action.key === 'edit' && onEdit && isPlainClick(event)) {
+              event.preventDefault();
+              onEdit(planting);
+            }
+          }}
         />
       </div>
     </div>
