@@ -110,18 +110,18 @@
           = link_to crop_plantings_path(@crop), class: 'card-link' do
             = planting_icon
             #{@crop.name.capitalize} plantings
-          %span.badge.badge-primary.badge-pill=@crop.plantings.active.size
+          %span.badge.text-bg-primary.rounded-pill=@crop.plantings.active.size
         .list-group-item.d-flex.justify-content-between.align-items-center
           = link_to crop_harvests_path(@crop), class: 'card-link' do
             = harvest_icon
             #{@crop.name.capitalize} harvests
-          %span.badge.badge-primary.badge-pill=@crop.harvests.size
+          %span.badge.text-bg-primary.rounded-pill=@crop.harvests.size
 
         .list-group-item.d-flex.justify-content-between.align-items-center
           = link_to crop_seeds_path(@crop), class: 'card-link' do
             = seed_icon
             #{@crop.name.capitalize} seeds
-          %span.badge.badge-primary.badge-pill=@crop.seeds.size
+          %span.badge.text-bg-primary.rounded-pill=@crop.seeds.size
 
         - if member_signed_in?
           .list-group-item.d-flex.justify-content-between.align-items-center

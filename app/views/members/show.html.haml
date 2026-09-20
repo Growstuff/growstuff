@@ -44,7 +44,7 @@
         - if @member.roles.any?
           %p
             - @member.roles.each do |role|
-              %span.badge.badge-info= role.name.titleize
+              %span.badge.text-bg-info= role.name.titleize
         - if @member.location.present?
           %p.badge.badge-location{ title: @member.location }
             = icon 'fas', 'map-marker'

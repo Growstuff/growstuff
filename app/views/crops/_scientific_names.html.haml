@@ -25,7 +25,7 @@
           - else
             .badge= sn.name
       - if sn.wikidata_id.present?
-        = link_to "WD", "https://www.wikidata.org/wiki/#{sn.wikidata_id}", class: 'badge badge-info ms-1', target: '_blank', rel: 'noopener noreferrer', title: 'Wikidata'
+        = link_to "WD", "https://www.wikidata.org/wiki/#{sn.wikidata_id}", class: 'badge text-bg-info ms-1', target: '_blank', rel: 'noopener noreferrer', title: 'Wikidata'
 
   %p.text-end
     - if can? :edit, crop

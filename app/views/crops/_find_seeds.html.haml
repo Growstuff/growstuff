@@ -14,7 +14,7 @@
         = link_to crop_seeds_path(crop), class: 'card-link' do
           = seed_icon
           View all #{crop.name} seeds
-        %span.badge.badge-primary.badge-pill=crop.seeds.size
+        %span.badge.text-bg-primary.rounded-pill=crop.seeds.size
 
   %ul.list-group
     %li.list-group-item

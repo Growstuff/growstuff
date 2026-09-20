@@ -49,9 +49,9 @@
             %small.text-muted= @planting.crop.default_scientific_name
           %tt
             - if @planting.failed?
-              %span.badge.badge-danger Failed
+              %span.badge.text-bg-danger Failed
             - elsif @planting.finished?
-              %span.badge.badge-success Finished
+              %span.badge.text-bg-success Finished
             - elsif @planting.percentage_grown.present?
               #{@planting.percentage_grown.to_i}%
               - if @planting.finish_is_predicatable?
@@ -120,7 +120,7 @@
                 .text-end
                   %h5= planting.crop.name
                   - if planting.planted_from.present?
-                    %span.badge.badge-success= planting.planted_from.pluralize
+                    %span.badge.text-bg-success= planting.planted_from.pluralize
                   %small.text-muted
                     planted by #{planting.owner}
                     in #{planting.garden.location}
