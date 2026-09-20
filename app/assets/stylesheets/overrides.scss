@@ -471,3 +471,9 @@ ul.thumbnail-buttons {
 .card-header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
+
+// Breadcrumb links were grey in the old skin. Bootstrap 5 uses the link green,
+// which is 4.12:1 on the beige page, under the 4.5:1 minimum.
+.breadcrumb-item a {
+  color: #5f5e5c;
+}

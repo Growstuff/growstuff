@@ -28,6 +28,12 @@ $link-decoration: none;
 $link-hover-decoration: underline;
 $line-height-base: 1.428572;
 
+// Header menu links. Bootstrap's dark navbar uses 55% white, which on the brown navbar is
+// 4.47:1, just under the 4.5:1 minimum.
+$navbar-dark-color: rgba($white, 0.85);
+$navbar-dark-hover-color: $white;
+$navbar-dark-active-color: $white;
+
 // Cards as the old Material skin drew them: white, square-ish, no border, and raised.
 $material-shadow-raised: 0 0 4px 0 rgba(0, 0, 0, 0.14), 0 3px 4px 0 rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 $card-bg: $white;
