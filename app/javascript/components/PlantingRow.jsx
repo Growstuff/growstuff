@@ -8,13 +8,18 @@ import PlantedDate from './PlantedDate';
 // One annual planting as a row of three aligned columns: the crop (and when it
 // was planted), how it is getting on (badges, then a progress bar or a note
 // when there is nothing to predict from), and its own actions menu.
-export default function PlantingRow({planting, defaultIconUrl, highlighted, onUpdated, onEdit, onHarvest}) {
+export default function PlantingRow({planting, defaultIconUrl, highlighted, highlightKind = 'added', onUpdated, onEdit, onHarvest}) {
   const {id, url, crop, badges} = planting;
 
   return (
-    <div className={`planting-row${highlighted ? ' planting-just-added' : ''}`}>
+    <div className={`planting-row${highlighted ? ` planting-just-${highlightKind}` : ''}`}>
       <div className="planting-row-crop">
-        <CropChip url={url} crop={crop} defaultIconUrl={defaultIconUrl} highlighted={highlighted} />
+        <div className="planting-row-chip">
+          <CropChip url={url} crop={crop} defaultIconUrl={defaultIconUrl} highlighted={highlighted && highlightKind === 'added'} />
+          {highlighted && highlightKind === 'harvested' && (
+            <span className="harvest-recorded-tag"><i className="fa fa-check" aria-hidden="true" /> Harvest recorded</span>
+          )}
+        </div>
         <PlantedDate planting={planting} onUpdated={onUpdated} />
       </div>
       <div className="planting-row-status">
