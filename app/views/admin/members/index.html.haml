@@ -5,9 +5,8 @@
 .row
   .col-md-6
     = bootstrap_form_tag url: admin_members_path, method: :get, layout: :horizontal do |f|
-      .input-group.md-form.form-sm
-        .input-group-prepend
-          %span.input-group-text= icon 'fas', 'user'
+      .input-group
+        %span.input-group-text= icon 'fas', 'user'
         = f.text_field(:q, 'aria-label': 'search members', placeholder: 'search members', hide_label: true)
         = f.submit 'search', class: 'btn btn-secondary'
 
