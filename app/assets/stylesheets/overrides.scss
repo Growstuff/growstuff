@@ -456,10 +456,34 @@ ul.thumbnail-buttons {
   text-align: justify;
 }
 
+// Bootstrap only draws the button shadow when $enable-shadows is on, so draw it here.
+.btn {
+  box-shadow: var(--bs-btn-box-shadow);
+  text-transform: uppercase;
+
+  &:active,
+  &.active {
+    box-shadow: $btn-active-box-shadow;
+  }
+
+  &:disabled,
+  &.disabled {
+    box-shadow: none;
+  }
+}
+
+.btn-link {
+  text-transform: none;
+}
+
 // A .btn with no colour variant is plain text in Bootstrap 5, so it reads as a
-// link. Give it the same bordered look as btn-outline-secondary.
+// link. Draw it as the old skin did: no fill, dark text, raised, darker while hovered.
 .btn:not([class*="btn-"]) {
-  @extend .btn-outline-secondary;
+  --bs-btn-color: #{$body-color};
+  --bs-btn-hover-color: #{$body-color};
+  --bs-btn-hover-bg: rgba(0, 0, 0, 0.12);
+  --bs-btn-active-color: #{$body-color};
+  --bs-btn-active-bg: rgba(0, 0, 0, 0.12);
 }
 
 // The card variables drop the card's border, which also drew the line under a

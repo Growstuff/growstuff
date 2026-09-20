@@ -101,6 +101,16 @@ $navbar-default-brand-color: lighten($green, 20%);
 
 $highest-level: 1070;
 
+// Buttons as the old Material skin drew them: raised by a shadow, no border, medium weight.
+// (The shadow deepens while pressed; the uppercase lettering is in overrides.scss.)
+$btn-border-width: 0;
+$btn-border-radius: 2px;
+$btn-border-radius-sm: 2px;
+$btn-border-radius-lg: 2px;
+$btn-font-weight: 500;
+$btn-box-shadow: $material-shadow-raised;
+$btn-active-box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 3px rgba(0, 0, 0, 0.12), 0 4px 15px 0 rgba(0, 0, 0, 0.2);
+
 // Progress bars: a thin strip, dark green filled over a lighter green track, as before.
 // (These were Bootstrap 3 variables the old skin ignored; Bootstrap 5 reads them.)
 $progress-height: 0.875rem;
