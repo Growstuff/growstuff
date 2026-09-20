@@ -63,6 +63,7 @@ class PlantingsController < DataController
     # the following are needed to display the form but aren't used
     @crop = Crop.new
     @gardens = @planting.owner.gardens.active.order_by_name
+    render json: PlantingFormSerializer.new(@planting) if request.format.json?
   end
 
   def create
