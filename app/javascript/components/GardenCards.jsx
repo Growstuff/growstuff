@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import EditPlantingModal from './EditPlantingModal';
 import GardenCard from './GardenCard';
 import PlantSomethingModal from './PlantSomethingModal';
+import RecordHarvestModal from './RecordHarvestModal';
 
 const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((planting) => planting.id);
 
@@ -14,6 +15,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
   const [gardens, setGardens] = useState(initialGardens);
   const [plantingIn, setPlantingIn] = useState(null); // the garden the dialog is open for
   const [editing, setEditing] = useState(null); // the planting the edit dialog is open for
+  const [harvesting, setHarvesting] = useState(null); // the planting the harvest dialog is open for
   const [notice, setNotice] = useState(null);
   const [highlightedId, setHighlightedId] = useState(null);
   const highlightTimer = useRef(null);
@@ -52,6 +54,12 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
     setNotice(`Saved changes to ${planting.crop.name}.`);
   }
 
+  function harvested(updatedCard, planting) {
+    replaceCard(updatedCard);
+    setHarvesting(null);
+    setNotice(`Recorded a harvest of ${planting.crop.name}.`);
+  }
+
   return (
     <>
       {notice && (
@@ -69,6 +77,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           highlightedId={highlightedId}
           onPlantingUpdated={replaceCard}
           onEditPlanting={setEditing}
+          onHarvestPlanting={setHarvesting}
         />
       ))}
       {editing && (
@@ -76,6 +85,13 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           planting={editing}
           onClose={() => setEditing(null)}
           onSaved={(updatedCard) => edited(updatedCard, editing)}
+        />
+      )}
+      {harvesting && (
+        <RecordHarvestModal
+          planting={harvesting}
+          onClose={() => setHarvesting(null)}
+          onSaved={(updatedCard) => harvested(updatedCard, harvesting)}
         />
       )}
       {plantingIn && (
