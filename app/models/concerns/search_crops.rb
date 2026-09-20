@@ -39,8 +39,8 @@ module SearchCrops
         plantings_count:,
         harvests_count:,
         # boost this crop for these members
-        planters_ids:     plantings.pluck(:owner_id),
-        has_photos:       photos.size.positive?,
+        planters_ids:     plantings.distinct.pluck(:owner_id),
+        has_photos:       photo_associations_count.positive?,
         thumbnail_url:,
         scientific_name:  default_scientific_name&.name,
         created_at:       created_at.to_i
