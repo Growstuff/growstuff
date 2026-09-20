@@ -542,8 +542,23 @@ ul.thumbnail-buttons {
 }
 
 .layout-nav {
+  // Links in the link colour and underlined, so they read as links. The page
+  // you are on is bold and not underlined, since it goes nowhere new.
   .nav-link {
     padding-block: 0.25rem;
+    color: var(--bs-link-color);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--bs-link-hover-color);
+    }
+
+    &[aria-current="page"] {
+      font-weight: bold;
+      text-decoration: none;
+    }
   }
 
   .btn {
