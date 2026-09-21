@@ -129,8 +129,23 @@ class GardenCardSerializer
       percentage_grown: planting.percentage_grown,
       progress_state: planting.progress_state,
       finish_predicted_label: finish_label(planting), progress_note: progress_note(planting),
-      badges: badges(planting), actions: planting_actions(planting)
+      badges: badges(planting), harvests: harvest_marks(planting), actions: planting_actions(planting)
     }
+  end
+
+  # Where each harvest falls along the planting's progress bar, oldest first, on
+  # the same scale as the bar's fill (age over expected lifespan, 0 to 100).
+  def harvest_marks(planting)
+    lifespan = planting.expected_lifespan.to_f
+    return [] if planting.planted_at.blank? || !lifespan.positive?
+
+    marks = planting.harvests.filter_map do |harvest|
+      next if harvest.harvested_at.blank?
+
+      percent = ((harvest.harvested_at - planting.planted_at).to_f / lifespan * 100).clamp(0, 100)
+      { date: harvest.harvested_at, percent: percent.round(1) }
+    end
+    marks.sort_by { |mark| mark[:date] }
   end
 
   # "Mar 2026", as plantings/_progress shows it.

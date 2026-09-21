@@ -123,6 +123,28 @@ describe GardenCardSerializer do
       expect(serialize(garden, viewer: other_member)[:annuals].first[:actions]).to eq []
     end
 
+    it 'places each harvest along the progress bar, oldest first, on the bar\'s own scale' do
+      annual_crop.update!(median_lifespan: 100)
+      planted = annual.planted_at
+      create(:harvest, planting: annual, owner: member, crop: annual_crop, harvested_at: planted + 50.days)
+      create(:harvest, planting: annual, owner: member, crop: annual_crop, harvested_at: planted + 2.days)
+
+      marks = serialize(garden)[:annuals].first[:harvests]
+
+      expect(marks).to eq [{ date: planted + 2.days, percent: 2.0 }, { date: planted + 50.days, percent: 50.0 }]
+    end
+
+    it 'keeps a harvest after the predicted finish at the end of the bar' do
+      annual_crop.update!(median_lifespan: 100)
+      create(:harvest, planting: annual, owner: member, crop: annual_crop, harvested_at: annual.planted_at + 130.days)
+
+      expect(serialize(garden)[:annuals].first[:harvests].pluck(:percent)).to eq [100]
+    end
+
+    it 'has no harvest marks for a planting with none' do
+      expect(serialize(garden)[:annuals].first[:harvests]).to eq []
+    end
+
     it 'says whether the viewer can edit the planting, so its date can be changed' do
       expect(serialize(garden)[:annuals].first[:can_edit]).to be true
       expect(serialize(garden, viewer: other_member)[:annuals].first[:can_edit]).to be false
