@@ -118,5 +118,8 @@ $progress-height: 0.875rem;
 $progress-bg: #e0e0e0;
 $progress-bar-bg: $green;
 
+// List groups (the homepage lists) are white, like cards, not the page's beige.
+$list-group-bg: $white;
+
 // Checkboxes and radios: a border you can see on the beige page and white cards.
 $form-check-input-border: 1px solid #757575;

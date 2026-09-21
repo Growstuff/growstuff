@@ -112,16 +112,17 @@
       - if @planting.location
         %section.neighbours
           %h2 World Neighbours
-          - @neighbours.each do |planting|
-            = link_to planting, class: 'list-group-item list-group-item-action flex-column align-items-start' do
-              .d-flex.w-100.justify-content-between
-                %p.mb-2
-                  = image_tag planting_image_path(planting), width: 75, class: 'rounded shadow', alt: "Image of #{planting.crop.name} by #{planting.owner}"
-                .text-end
-                  %h5= planting.crop.name
-                  - if planting.planted_from.present?
-                    %span.badge.text-bg-success= planting.planted_from.pluralize
-                  %small.text-muted
-                    planted by #{planting.owner}
-                    in #{planting.garden.location}
+          .list-group.shadow-sm
+            - @neighbours.each do |planting|
+              = link_to planting, class: 'list-group-item list-group-item-action flex-column align-items-start' do
+                .d-flex.w-100.justify-content-between
+                  %p.mb-2
+                    = image_tag planting_image_path(planting), width: 75, class: 'rounded shadow', alt: "Image of #{planting.crop.name} by #{planting.owner}"
+                  .text-end
+                    %h5= planting.crop.name
+                    - if planting.planted_from.present?
+                      %span.badge.text-bg-success= planting.planted_from.pluralize
+                    %small.text-muted
+                      planted by #{planting.owner}
+                      in #{planting.garden.location}
           %p Other #{@planting.crop.name} plantings at the same latitude
