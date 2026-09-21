@@ -94,6 +94,21 @@ describe CropsController do
         it { expect(assigns(:term)).to eq 'tom' }
         it { expect(assigns(:crops).map(&:name)).to eq ['tomato'] }
       end
+
+      describe 'search by an alternate name' do
+        let!(:aubergine) { create(:alternate_eggplant) }
+
+        before do
+          Crop.reindex
+          get :search, params: { term: 'aubergine' }, format: :json
+        end
+
+        it 'says which alternate name matched' do
+          result = response.parsed_body.first
+          expect(result['name']).to eq 'eggplant'
+          expect(result['matched_alternate_name']).to eq 'aubergine'
+        end
+      end
     end
   end
 

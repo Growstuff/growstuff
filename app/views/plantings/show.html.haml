@@ -27,7 +27,7 @@
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Plantings', plantings_path
   %li.breadcrumb-item= link_to @planting.owner, member_plantings_path(@planting.owner)
-  %li.breadcrumb-item.active= link_to @planting.crop.name, @planting
+  %li.breadcrumb-item.active= link_to @planting.display_name, @planting
 
 
 - if @planting.parent_seed.nil? && @matching_seeds && @matching_seeds.any? && @planting.owner == current_member
@@ -45,8 +45,10 @@
         .d-flex.justify-content-between
           %h1.display-3
             = crop_icon(@planting.crop)
-            %strong= @planting.crop.name.titleize
+            %strong= @planting.display_name.titleize
             %small.text-muted= @planting.crop.default_scientific_name
+            - if @planting.alternate_name.present?
+              %small.text-muted= link_to "(#{@planting.crop.name})", @planting.crop
           %tt
             - if @planting.failed?
               %span.badge.text-bg-danger Failed
