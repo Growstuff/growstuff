@@ -59,7 +59,7 @@ class NotifierMailer < ApplicationMailer
 
   def harvest_reminder(member)
     @member = member
-    @plantings = @member.plantings.active.harvest_in_next_week
+    @plantings = @member.plantings.active.select(&:harvest_in_next_week?)
     @sitename = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
     @subject = I18n.t('notifier_mailer.harvest_reminder.subject', sitename: @sitename)
 

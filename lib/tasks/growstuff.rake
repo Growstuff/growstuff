@@ -62,7 +62,7 @@ namespace :growstuff do
     # Send on Wednesday
     if Time.zone.today.wday == 3
       Member.confirmed.wants_harvest_reminders.find_each do |m|
-        if m.plantings.active.harvest_in_next_week.exists?
+        if m.plantings.active.any?(&:harvest_in_next_week?)
           NotifierMailer.harvest_reminder(m).deliver_later
         end
       end
