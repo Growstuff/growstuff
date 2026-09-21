@@ -119,7 +119,11 @@ class GardenCardSerializer
   end
 
   def perennial(planting)
-    { id: planting.id, url: routes.planting_path(planting), crop: crop_chip(planting) }
+    {
+      id: planting.id, url: routes.planting_path(planting), crop: crop_chip(planting),
+      planted_at: planting.planted_at, today: Time.zone.today, can_edit: can?(:edit, planting),
+      actions: planting_actions(planting)
+    }
   end
 
   def annual(planting)

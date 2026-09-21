@@ -2,7 +2,7 @@ import React from 'react';
 
 import {isPlainClick} from '../events';
 import ActionsMenu from './ActionsMenu';
-import CropChip from './CropChip';
+import PlantingChip from './PlantingChip';
 import PlantingRow from './PlantingRow';
 
 // One garden: its name and actions menu (top right), a picture, then what is
@@ -11,6 +11,14 @@ import PlantingRow from './PlantingRow';
 export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto, onFinishPlanting}) {
   const {id, name, url, image_url: imageUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
   const empty = perennials.length === 0 && annuals.length === 0;
+  // What each planting's menu items open, for annuals and perennials alike.
+  const handlers = {
+    edit: onEditPlanting,
+    harvest: onHarvestPlanting,
+    seeds: onSaveSeedsPlanting,
+    finish: onFinishPlanting,
+    photo: onAddPhoto && ((planting, action) => onAddPhoto({label: planting.crop.name, href: action.href})),
+  };
   function plant(event) {
     if (onPlant && isPlainClick(event)) {
       event.preventDefault();
@@ -59,12 +67,12 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
                 {perennials.length > 0 ? (
                   <div className="garden-card-chips">
                     {perennials.map((planting) => (
-                      <CropChip
+                      <PlantingChip
                         key={planting.id}
-                        url={planting.url}
-                        crop={planting.crop}
+                        planting={planting}
                         defaultIconUrl={defaultIconUrl}
                         highlighted={planting.id === highlightedId}
+                        handlers={handlers}
                       />
                     ))}
                   </div>
@@ -84,11 +92,7 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
                         highlighted={planting.id === highlightedId}
                         highlightKind={highlightKind}
                         onUpdated={onPlantingUpdated}
-                        onEdit={onEditPlanting}
-                        onHarvest={onHarvestPlanting}
-                        onSaveSeeds={onSaveSeedsPlanting}
-                        onFinish={onFinishPlanting}
-                        onAddPhoto={onAddPhoto && ((planting, action) => onAddPhoto({label: planting.crop.name, href: action.href}))}
+                        handlers={handlers}
                       />
                     ))}
                   </div>
