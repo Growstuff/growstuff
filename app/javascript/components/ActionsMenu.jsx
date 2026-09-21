@@ -5,6 +5,17 @@ import React from 'react';
 // data-method / data-confirm attributes that jquery_ujs already handles, and
 // Bootstrap's delegated data-api drives the dropdown, so neither needs to
 // know about React.
+// A click that onSelect has taken over (by preventing the link) is not the page's
+// any more: jquery_ujs, further up the page, would still send the link's
+// data-method request (as for "mark as finished"), and Bootstrap, which closes the
+// menu as the click passes by, would not see it. So stop it here, and close the menu.
+function handled(event, buttonId) {
+  event.stopPropagation();
+  const toggle = document.getElementById(buttonId);
+  const dropdown = toggle && window.bootstrap && window.bootstrap.Dropdown.getInstance(toggle);
+  if (dropdown) dropdown.hide();
+}
+
 export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, className = 'btn dropdown-toggle', onSelect}) {
   if (!actions || actions.length === 0) return null;
 
@@ -33,7 +44,10 @@ export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, 
               href={action.href}
               data-method={action.method}
               data-confirm={action.confirm}
-              onClick={(event) => onSelect && onSelect(action, event)}
+              onClick={(event) => {
+                if (onSelect) onSelect(action, event);
+                if (event.defaultPrevented) handled(event, buttonId);
+              }}
             >
               {action.label}
             </a>
