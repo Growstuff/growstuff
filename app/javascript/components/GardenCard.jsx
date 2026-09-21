@@ -8,7 +8,7 @@ import PlantingRow from './PlantingRow';
 // One garden: its name and actions menu (top right), a picture, then what is
 // planted, as perennials (just names) and annuals (each with its progress).
 // Matches gardens/_card.
-export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting}) {
+export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting}) {
   const {id, name, url, image_url: imageUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
   const empty = perennials.length === 0 && annuals.length === 0;
   function plant(event) {
@@ -80,6 +80,7 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
                         onUpdated={onPlantingUpdated}
                         onEdit={onEditPlanting}
                         onHarvest={onHarvestPlanting}
+                        onSaveSeeds={onSaveSeedsPlanting}
                       />
                     ))}
                   </div>

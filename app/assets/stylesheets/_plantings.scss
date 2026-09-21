@@ -297,6 +297,8 @@
 
   .pill-choice {
     margin: 0;
+    background: transparent;
+    font-family: inherit;
     padding: 0.5rem 1.5rem;
     border: 2px solid #9e9e9e;
     border-radius: 2rem;
@@ -305,7 +307,8 @@
     cursor: pointer;
   }
 
-  input:checked + .pill-choice {
+  input:checked + .pill-choice,
+  .pill-choice-selected {
     border-color: #43a047;
     background: #43a047;
     color: #fff;

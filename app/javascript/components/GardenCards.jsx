@@ -4,6 +4,7 @@ import EditPlantingModal from './EditPlantingModal';
 import GardenCard from './GardenCard';
 import PlantSomethingModal from './PlantSomethingModal';
 import RecordHarvestModal from './RecordHarvestModal';
+import SaveSeedsModal from './SaveSeedsModal';
 
 const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((planting) => planting.id);
 
@@ -11,11 +12,12 @@ const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((p
 // GardensHelper#garden_cards_props. It owns the cards' state so that saving a
 // planting from the "Add planting" dialog can swap in the garden's
 // updated card, and the new planting appears without a page reload.
-export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl, harvest_icon_url: harvestIconUrl}) {
+export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl, harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl}) {
   const [gardens, setGardens] = useState(initialGardens);
   const [plantingIn, setPlantingIn] = useState(null); // the garden the dialog is open for
   const [editing, setEditing] = useState(null); // the planting the edit dialog is open for
   const [harvesting, setHarvesting] = useState(null); // the planting the harvest dialog is open for
+  const [savingSeeds, setSavingSeeds] = useState(null); // the planting the save seeds dialog is open for
   const [notice, setNotice] = useState(null);
   const [highlight, setHighlight] = useState(null); // {id, kind}: the planting just added or harvested
   const highlightTimer = useRef(null);
@@ -66,6 +68,11 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
     flash(planting.id, 'harvested');
   }
 
+  function seedsSaved(seed, planting) {
+    setSavingSeeds(null);
+    setNotice(<>Saved {planting.crop.name} seeds to your stash. <a href={seed.url}>See them</a>.</>);
+  }
+
   return (
     <>
       {notice && (
@@ -85,6 +92,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           onPlantingUpdated={replaceCard}
           onEditPlanting={setEditing}
           onHarvestPlanting={setHarvesting}
+          onSaveSeedsPlanting={setSavingSeeds}
         />
       ))}
       {editing && (
@@ -100,6 +108,14 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           iconUrl={harvestIconUrl}
           onClose={() => setHarvesting(null)}
           onSaved={(updatedCard) => harvested(updatedCard, harvesting)}
+        />
+      )}
+      {savingSeeds && (
+        <SaveSeedsModal
+          planting={savingSeeds}
+          iconUrl={seedIconUrl}
+          onClose={() => setSavingSeeds(null)}
+          onSaved={(seed) => seedsSaved(seed, savingSeeds)}
         />
       )}
       {plantingIn && (
