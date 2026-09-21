@@ -9,7 +9,8 @@ module GardensHelper
       default_icon_url: image_path('icons/planting.svg'),
       spade_icon_url:   image_path('spade-marker.svg'),
       harvest_icon_url: image_path('icons/harvest.svg'),
-      seed_icon_url:    image_path('icons/seeds.svg')
+      seed_icon_url:    image_path('icons/seeds.svg'),
+      photo_icon_url:   image_path('icons/photo.svg')
     }
   end
 

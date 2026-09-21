@@ -8,7 +8,7 @@ import PlantingRow from './PlantingRow';
 // One garden: its name and actions menu (top right), a picture, then what is
 // planted, as perennials (just names) and annuals (each with its progress).
 // Matches gardens/_card.
-export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting}) {
+export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto}) {
   const {id, name, url, image_url: imageUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
   const empty = perennials.length === 0 && annuals.length === 0;
   function plant(event) {
@@ -38,6 +38,12 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
             label={<i className="fa fa-ellipsis-v" aria-hidden="true" />}
             ariaLabel={`Actions for ${name}`}
             className="btn btn-sm btn-link actions-toggle-dots"
+            onSelect={(action, event) => {
+              if (action.key === 'photo' && onAddPhoto && isPlainClick(event)) {
+                event.preventDefault();
+                onAddPhoto({label: name, href: action.href});
+              }
+            }}
           />
         </div>
       </div>
@@ -81,6 +87,7 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
                         onEdit={onEditPlanting}
                         onHarvest={onHarvestPlanting}
                         onSaveSeeds={onSaveSeedsPlanting}
+                        onAddPhoto={onAddPhoto && ((planting, action) => onAddPhoto({label: planting.crop.name, href: action.href}))}
                       />
                     ))}
                   </div>

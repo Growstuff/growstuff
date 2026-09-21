@@ -9,7 +9,7 @@ import PlantedDate from './PlantedDate';
 // One annual planting as a row of three aligned columns: the crop (and when it
 // was planted), how it is getting on (badges, then a progress bar or a note
 // when there is nothing to predict from), and its own actions menu.
-export default function PlantingRow({planting, defaultIconUrl, highlighted, highlightKind = 'added', onUpdated, onEdit, onHarvest, onSaveSeeds}) {
+export default function PlantingRow({planting, defaultIconUrl, highlighted, highlightKind = 'added', onUpdated, onEdit, onHarvest, onSaveSeeds, onAddPhoto}) {
   const {id, url, crop, badges} = planting;
 
   return (
@@ -47,10 +47,10 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted, high
           ariaLabel={`Actions for ${crop.name}`}
           className="btn btn-sm btn-link actions-toggle-dots"
           onSelect={(action, event) => {
-            const open = {edit: onEdit, harvest: onHarvest, seeds: onSaveSeeds}[action.key];
+            const open = {edit: onEdit, harvest: onHarvest, seeds: onSaveSeeds, photo: onAddPhoto}[action.key];
             if (open && isPlainClick(event)) {
               event.preventDefault();
-              open(planting);
+              open(planting, action);
             }
           }}
         />
