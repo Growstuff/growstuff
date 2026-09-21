@@ -16,7 +16,7 @@ function handled(event, buttonId) {
   if (dropdown) dropdown.hide();
 }
 
-export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, className = 'btn dropdown-toggle', onSelect}) {
+export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, className = 'btn dropdown-toggle', menuClassName = 'dropdown-menu-end', onSelect}) {
   if (!actions || actions.length === 0) return null;
 
   const buttonId = `actions-${id}`;
@@ -35,7 +35,7 @@ export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, 
       >
         {label}
       </a>
-      <div className="dropdown-menu dropdown-menu-end" aria-labelledby={buttonId}>
+      <div className={`dropdown-menu ${menuClassName}`} aria-labelledby={buttonId}>
         {actions.map((action) => (
           <React.Fragment key={action.key}>
             {action.divider && <div className="dropdown-divider" />}

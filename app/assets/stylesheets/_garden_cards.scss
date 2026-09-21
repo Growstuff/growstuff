@@ -80,7 +80,7 @@ $garden-card-line: #e6e6e6;
 // One annual planting: crop | how it's getting on | actions, in aligned columns.
 .planting-row {
   display: grid;
-  grid-template-columns: minmax(11rem, 15rem) minmax(0, 1fr) 2.5rem;
+  grid-template-columns: minmax(11rem, 15rem) minmax(0, 1fr);
   align-items: center;
   padding: 0.6rem 0.5rem;
   border-top: 1px solid $garden-card-line;
@@ -192,21 +192,17 @@ $garden-card-line: #e6e6e6;
     color: $garden-card-muted;
     font-size: 0.8rem;
   }
+}
 
-  .planting-row-actions {
-    text-align: right;
-  }
+// The planting menu's items are lowercase. Done in CSS because the labels are
+// the shared button translations, which other pages show in sentence case.
+.planting-menu .dropdown-item {
+  text-transform: lowercase;
 }
 
 // The "more" button: three dots in a small round button. The theme gives every
 // .btn a 5.5rem minimum width, which made the hover background a wide box, and
 // adds a dropdown caret we don't want.
-// The planting menu's items are lowercase. Done in CSS because the labels are
-// the shared button translations, which other pages show in sentence case.
-.planting-row .dropdown-item {
-  text-transform: lowercase;
-}
-
 .actions-toggle-dots {
   display: inline-flex;
   align-items: center;
@@ -263,7 +259,7 @@ $garden-card-line: #e6e6e6;
   }
 
   .planting-row {
-    grid-template-columns: minmax(0, 1fr) 2.5rem;
+    grid-template-columns: minmax(0, 1fr);
 
     .planting-row-status {
       grid-column: 1 / -1;
@@ -313,5 +309,24 @@ $garden-card-line: #e6e6e6;
     margin-left: 0.75rem;
     color: $garden-card-muted;
     font-size: 0.9rem;
+  }
+}
+
+// A crop chip that is also the planting's menu: a caret says it opens something,
+// and it takes a slightly deeper tint while pointed at or open.
+.chip-menu-toggle {
+  cursor: pointer;
+  text-decoration: none;
+
+  &::after {
+    margin-left: 0.5rem;
+    vertical-align: 0.15em;
+  }
+
+  &:hover,
+  &:focus-visible,
+  &.show {
+    background-color: var(--bs-success-border-subtle);
+    color: var(--bs-success-text-emphasis);
   }
 }

@@ -1,22 +1,21 @@
 import React from 'react';
 
 import {formatDate} from '../dates';
-import {isPlainClick} from '../events';
-import ActionsMenu from './ActionsMenu';
-import CropChip from './CropChip';
 import PlantedDate from './PlantedDate';
+import PlantingChip from './PlantingChip';
 
-// One annual planting as a row of three aligned columns: the crop (and when it
-// was planted), how it is getting on (badges, then a progress bar or a note
-// when there is nothing to predict from), and its own actions menu.
-export default function PlantingRow({planting, defaultIconUrl, highlighted, highlightKind = 'added', onUpdated, onEdit, onHarvest, onSaveSeeds, onAddPhoto, onFinish}) {
-  const {id, url, crop, badges} = planting;
+// One annual planting as a row of two aligned columns: the crop, which is also
+// the planting's menu (and when it was planted), and how it is getting on
+// (badges, then a progress bar or a note when there is nothing to predict from).
+// `handlers` is what the menu's items open (see selectPlantingAction).
+export default function PlantingRow({planting, defaultIconUrl, highlighted, highlightKind = 'added', onUpdated, handlers}) {
+  const {badges} = planting;
 
   return (
     <div className={`planting-row${highlighted ? ` planting-just-${highlightKind}` : ''}`}>
       <div className="planting-row-crop">
         <div className="planting-row-chip">
-          <CropChip url={url} crop={crop} defaultIconUrl={defaultIconUrl} highlighted={highlighted && highlightKind === 'added'} />
+          <PlantingChip planting={planting} defaultIconUrl={defaultIconUrl} highlighted={highlighted && highlightKind === 'added'} handlers={handlers} />
           {highlighted && highlightKind === 'harvested' && (
             <span className="harvest-recorded-tag"><i className="fa fa-check" aria-hidden="true" /> Harvest recorded</span>
           )}
@@ -38,22 +37,6 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted, high
         ) : (
           <Progress percentage={planting.percentage_grown} state={planting.progress_state} finishLabel={planting.finish_predicted_label} harvests={planting.harvests} />
         )}
-      </div>
-      <div className="planting-row-actions">
-        <ActionsMenu
-          id={`planting-${id}`}
-          actions={planting.actions}
-          label={<i className="fa fa-ellipsis-v" aria-hidden="true" />}
-          ariaLabel={`Actions for ${crop.name}`}
-          className="btn btn-sm btn-link actions-toggle-dots"
-          onSelect={(action, event) => {
-            const open = {edit: onEdit, harvest: onHarvest, seeds: onSaveSeeds, photo: onAddPhoto, finish: onFinish}[action.key];
-            if (open && isPlainClick(event)) {
-              event.preventDefault();
-              open(planting, action);
-            }
-          }}
-        />
       </div>
     </div>
   );
