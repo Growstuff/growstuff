@@ -46,8 +46,6 @@ RSpec.configure do |config|
   def index_everything
     # reindex models
     Crop.reindex
-  rescue Faraday::ConnectionFailed, Elasticsearch::Transport::Transport::Error
-    nil
   end
 
   config.before(:suite) do
