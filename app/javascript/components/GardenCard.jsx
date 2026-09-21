@@ -8,7 +8,7 @@ import PlantingRow from './PlantingRow';
 // One garden: its name and actions menu (top right), a picture, then what is
 // planted, as perennials (just names) and annuals (each with its progress).
 // Matches gardens/_card.
-export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto, onFinishPlanting}) {
+export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto, onFinishPlanting, onEditGarden}) {
   const {id, name, url, image_url: imageUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
   const empty = perennials.length === 0 && annuals.length === 0;
   // What each planting's menu items open, for annuals and perennials alike.
@@ -47,9 +47,13 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
             ariaLabel={`Actions for ${name}`}
             className="btn btn-sm btn-link actions-toggle-dots"
             onSelect={(action, event) => {
-              if (action.key === 'photo' && onAddPhoto && isPlainClick(event)) {
+              if (!isPlainClick(event)) return;
+              if (action.key === 'photo' && onAddPhoto) {
                 event.preventDefault();
                 onAddPhoto({label: name, href: action.href});
+              } else if (action.key === 'edit' && onEditGarden) {
+                event.preventDefault();
+                onEditGarden(garden);
               }
             }}
           />
