@@ -113,6 +113,22 @@ describe Planting do
     end
   end
 
+  describe '#progress_state' do
+    let(:planting) { described_class.new }
+
+    def states(finished: false, super_late: false, late: false, harvest_time: false)
+      allow(planting).to receive_messages(finished?: finished, super_late?: super_late, late?: late,
+                                          harvest_time?: harvest_time)
+      planting.progress_state
+    end
+
+    it { expect(states).to eq :growing }
+    it { expect(states(harvest_time: true)).to eq :harvesting }
+    it { expect(states(late: true, harvest_time: true)).to eq :late }
+    it { expect(states(late: true, super_late: true)).to eq :super_late }
+    it { expect(states(finished: true, late: true)).to eq :finished }
+  end
+
   describe 'planting first harvest preductions' do
     context 'no data' do
       let(:planting) { create(:planting) }

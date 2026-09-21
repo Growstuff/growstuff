@@ -15,7 +15,7 @@
             - @seed.errors.full_messages.each do |msg|
               %li= msg
 
-      .form-group.required
+      .mb-3.required
         = f.label :crop, 'Crop'
         - if @planting
           = link_to @planting, planting_path(@planting)
@@ -73,4 +73,4 @@
             = link_to current_member.location, place_path(current_member.location)
           = link_to "Change your location.", edit_member_registration_path
     .card-footer
-      .text-right= f.submit 'Save'
+      .text-end= f.submit 'Save'

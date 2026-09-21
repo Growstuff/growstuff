@@ -28,9 +28,8 @@ gem 'rswag-ui'
 
 # CSS framework
 gem "bootstrap", ">= 5.0.0"
-gem 'material-sass', '4.1.1'
 
-# Icons used by bootstrap/material-sass
+# Icon font (Material Icons)
 gem 'material_icons'
 
 # icons

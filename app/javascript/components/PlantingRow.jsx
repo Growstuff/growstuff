@@ -20,7 +20,7 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted}) {
         {badges.length > 0 && (
           <div className="planting-badges">
             {badges.map((badge) => (
-              <span key={badge.kind} className={`badge badge-info badge-${badge.kind.replace('_', '-')}`} title={badge.title}>
+              <span key={badge.kind} className={`badge text-bg-info badge-${badge.kind.replace('_', '-')}`} title={badge.title}>
                 {badge.label}
               </span>
             ))}
@@ -29,7 +29,7 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted}) {
         {planting.progress_note ? (
           <small className="planting-row-note">{planting.progress_note}</small>
         ) : (
-          <Progress percentage={planting.percentage_grown} finishLabel={planting.finish_predicted_label} />
+          <Progress percentage={planting.percentage_grown} state={planting.progress_state} finishLabel={planting.finish_predicted_label} />
         )}
       </div>
       <div className="planting-row-actions">
@@ -45,14 +45,14 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted}) {
   );
 }
 
-function Progress({percentage, finishLabel}) {
+function Progress({percentage, state, finishLabel}) {
   if (percentage === null || percentage === undefined) return null;
 
   return (
     <div className="planting-progress">
       <div className="progress">
         <div
-          className="progress-bar bg-success"
+          className={`progress-bar progress-bar--${state}`}
           role="progressbar"
           aria-valuemin="0"
           aria-valuemax="100"

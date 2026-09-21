@@ -3,7 +3,7 @@
     - if content_for? :title
       %h1.h2-responsive.text-center
         %strong=yield :title
-    = form_for @alternate_name, html: { class: 'form-horizontal' } do |f|
+    = form_for @alternate_name do |f|
       - if @alternate_name.errors.any?
         #error_explanation
           %h2
@@ -14,25 +14,25 @@
               %li= msg
 
       %p
-        %span.help-block
+        %span.form-text
           For detailed crop wrangling guidelines, please consult the
           = link_to "crop wrangling guide", "https://github.com/Growstuff/growstuff/wiki/Crop-Wrangling"
           on the Growstuff wiki.
 
-      .form-group
-        = f.label :crop_id, class: 'control-label col-md-2'
+      .row.mb-3
+        = f.label :crop_id, class: 'col-form-label col-md-2'
         .col-md-8
           = select(:alternate_name, :crop_id,
                               Crop.order(:name).pluck(:name, :id),
                               { selected: @alternate_name.crop_id || @crop.id },
                               class: 'form-control')
 
-      .form-group
-        = f.label :name, class: 'control-label col-md-2'
+      .row.mb-3
+        = f.label :name, class: 'col-form-label col-md-2'
         .col-md-8
           = f.text_field :name, class: 'form-control'
         .col-md-8
           = f.select :language, I18nData.languages.map {|code, name| [name.split(";").first, code] }, class: 'form-control'
-      .form-group
-        .form-actions.col-md-offset-2.col-md-8
+      .row.mb-3
+        .offset-md-2.col-md-8
           = f.submit 'Save', class: 'btn btn-primary'

@@ -92,6 +92,10 @@ describe GardenCardSerializer do
       expect(planting).to include(url: "/plantings/#{annual.slug}", crop: { name: 'lettuce', icon_url: nil })
     end
 
+    it 'says how the planting is getting on, for the progress bar colour' do
+      expect(serialize(garden)[:annuals].first[:progress_state]).to eq :growing
+    end
+
     it 'says why there is no progress bar' do
       annual.update!(planted_at: nil)
 

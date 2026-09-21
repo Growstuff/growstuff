@@ -124,8 +124,6 @@ GEM
     ast (2.4.3)
     auth-sanitizer (0.2.3)
       version_gem (~> 1.1, >= 1.1.14)
-    autoprefixer-rails (10.4.16.0)
-      execjs (~> 2)
     aws-eventstream (1.4.0)
     aws-partitions (1.1287.0)
     aws-sdk-core (3.257.0)
@@ -163,8 +161,7 @@ GEM
     bonsai-elasticsearch-rails (7.0.1)
       elasticsearch-model (< 8)
       elasticsearch-rails (< 8)
-    bootstrap (5.3.2)
-      autoprefixer-rails (>= 9.1.0)
+    bootstrap (5.3.8)
       popper_js (>= 2.11.8, < 3)
     bootstrap-datepicker-rails (1.9.0.1)
       railties (>= 3.0)
@@ -409,9 +406,6 @@ GEM
       carrierwave (>= 0.5.8)
       rails (>= 5.0.0)
     marcel (1.0.4)
-    material-sass (4.1.1)
-      autoprefixer-rails (>= 6.0.3)
-      sass (>= 3.5.2)
     material_icons (4.0.0)
       railties (>= 3.2)
     matrix (0.4.3)
@@ -678,11 +672,6 @@ GEM
       ffi (~> 1.12)
       logger
     rubyzip (3.6.0)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -834,7 +823,6 @@ DEPENDENCIES
   listen
   loofah (>= 2.19.1)
   mailboxer (>= 0.15.1)
-  material-sass (= 4.1.1)
   material_icons
   memcachier
   msgpack

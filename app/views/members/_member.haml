@@ -15,10 +15,10 @@
           = link_to member.location, place_path(member.location)
     .card-footer
       %ul.nav.nav-justified.small
-        %li.nav-item.border-right
+        %li.nav-item.border-end
           = link_to member_plantings_path(member) do
             = localize_plural(member.plantings.active, Planting)
-        %li.nav-item.border-right
+        %li.nav-item.border-end
           = link_to member_harvests_path(member) do
             = localize_plural(member.harvests, Harvest)
         %li.nav-item

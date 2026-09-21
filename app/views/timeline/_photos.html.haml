@@ -1,6 +1,6 @@
-.media
+.d-flex
   = link_to(image_tag(photo.thumbnail_url, width: 150, class: 'rounded', alt: photo.title), photo)
-  .media-body
+  .flex-grow-1.ms-3
     %p
       %ul.associations
         - photo.crops.each do |crop|

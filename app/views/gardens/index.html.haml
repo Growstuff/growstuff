@@ -42,7 +42,7 @@
           .jump
             jump to:
             - @gardens.each do |garden|
-              .badge.badge-primary
+              .badge.text-bg-primary
                 - if @owner.present?
                   = link_to garden.name, member_gardens_path(@owner, anchor: "garden-#{garden.id}")
                 - else

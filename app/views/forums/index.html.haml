@@ -2,7 +2,7 @@
 
 - if can? :create, Forum
   %p
-    = link_to "New forum", new_forum_path, class: 'btn btn-default'
+    = link_to "New forum", new_forum_path, class: 'btn btn-outline-secondary'
 
 - @forums.each do |forum|
   %h2= forum

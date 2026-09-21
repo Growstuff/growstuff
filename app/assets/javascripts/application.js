@@ -18,7 +18,6 @@
 // = require jquery-ui/widgets/autocomplete
 // = require bootstrap-sprockets
 // = require bootstrap-datepicker
-// = require material
 // = require_tree .
 
 document.addEventListener('DOMContentLoaded', function(event) {

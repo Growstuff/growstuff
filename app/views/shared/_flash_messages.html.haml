@@ -1,6 +1,4 @@
 - flash.each do |type, content|
   %div{ class: build_alert_classes(type), role: "alert" }
-    %button.close{ type: "button", "data-bs-dismiss" => "alert" }
-      %span{ "aria-hidden" => true } &times;
-      %span.sr-only Close
+    %button.btn-close{ type: "button", "aria-label" => "Close", "data-bs-dismiss" => "alert" }
     = sanitize(content)

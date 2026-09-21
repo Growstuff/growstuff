@@ -2,9 +2,8 @@
   .modal-dialog{role: "document"}
     .modal-content
       .modal-header.text-center
-        %h4.modal-title.w-100.font-weight-bold Mark #{crop.name} planting as failed
-        %button.close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
-          %span{"aria-hidden" => "true"} &#215;
+        %h4.modal-title.w-100.fw-bold Mark #{crop.name} planting as failed
+        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
       .modal-body
         %p Which planting would you like to mark as failed?
 
@@ -18,7 +17,7 @@
                     %p Planted #{planting.planted_at}
                   %span
                     = finished_icon
-        .mt-3.text-right
+        .mt-3.text-end
           = link_to 'cancel', '', "data-bs-dismiss" => "modal", class: 'btn btn-secondary'
 
 %a.btn#failed-planting-button{"data-bs-target" => "#modelFailedPlantingForm", "data-bs-toggle" => "modal", href: ""}

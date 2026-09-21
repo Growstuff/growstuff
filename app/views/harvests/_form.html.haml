@@ -25,7 +25,7 @@
           - else
             = auto_suggest @harvest, :crop, class: 'form-control', default: @crop
             - unless @planting
-              %span.help-block.col-md-8
+              %span.form-text.col-md-8
                 Can't find what you're looking for?
                 = link_to "Request new crops.", new_crop_path
 
@@ -64,5 +64,5 @@
               %option{"value": "5"} Great
 
     .card-footer
-      .text-right= f.submit 'Save'
+      .text-end= f.submit 'Save'
 
