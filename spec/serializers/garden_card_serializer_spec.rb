@@ -141,6 +141,10 @@ describe GardenCardSerializer do
       expect(serialize(garden)[:annuals].first[:harvests].pluck(:percent)).to eq [100]
     end
 
+    it "says what day it is on the server, which is the day finishing something today means" do
+      expect(serialize(garden)[:annuals].first[:today]).to eq Time.zone.today
+    end
+
     it 'has no harvest marks for a planting with none' do
       expect(serialize(garden)[:annuals].first[:harvests]).to eq []
     end

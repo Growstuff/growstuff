@@ -115,6 +115,22 @@ describe 'Creating and updating a planting as JSON' do
         expect(annual['planted_at']).to eq '2026-04-15'
       end
 
+      it 'marks it finished on the date given, and the refreshed card no longer lists it' do
+        update_planting({ finished: true, finished_at: '2026-04-15' })
+
+        expect(response).to have_http_status(:ok)
+        expect(planting.reload).to have_attributes(finished: true, finished_at: Date.new(2026, 4, 15))
+        expect(response.parsed_body.dig('garden', 'annuals').pluck('id')).not_to include(planting.id)
+      end
+
+      it 'does not finish it on or before the day it was planted' do
+        update_planting({ finished: true, finished_at: '2026-03-01' })
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['errors']).to have_key('finished_at')
+        expect(planting.reload.finished).to be false
+      end
+
       it 'returns validation errors as 422 and keeps the old date' do
         planting.update!(finished_at: Date.new(2026, 3, 10))
 
