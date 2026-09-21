@@ -64,7 +64,8 @@ $display-font-sizes: (
 $primary: $green;
 $secondary: $blue;
 $success: $green;
-$info: #2196f3;
+// Dark enough that Bootstrap gives it white text (4.6:1), as text-bg-info and btn-info did before.
+$info: #1976d2;
 $warning: $orange;
 $danger: $red;
 $light: $beige;
