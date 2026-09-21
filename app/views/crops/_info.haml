@@ -4,7 +4,7 @@
       = crop_icon(@crop)
       %strong.crop-name= @crop.name.titleize
       - unless @crop.approved?
-        %badge.text-bg-warning=@crop.approval_status
+        %span.badge.text-bg-warning= @crop.approval_status
       %small.text-muted= @crop.default_scientific_name
     - if crop_or_parent(@crop, :sowing_method).present?
       %p
