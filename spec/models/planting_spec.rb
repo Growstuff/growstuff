@@ -625,4 +625,11 @@ describe Planting do
     it { expect(subject.count).to eq 3 }
     it { expect(subject.map(&:id)).to include(interesting_planting.id, finished_interesting_planting.id, planting.id) }
   end
+
+  it 'is invalid, rather than raising, when it has no garden' do
+    planting = build(:planting, garden: nil)
+
+    expect(planting).not_to be_valid
+    expect(planting.errors[:garden]).to be_present
+  end
 end

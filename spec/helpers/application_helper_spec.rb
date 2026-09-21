@@ -145,4 +145,29 @@ describe ApplicationHelper do
       end
     end
   end
+
+  describe '#react_component' do
+    it 'renders an empty mount point carrying the component name and props as JSON' do
+      html = helper.react_component('GardenSummary', owner: 'shiny', count: 3)
+
+      element = Capybara.string(html).find('div[data-react-component]', visible: :all)
+      expect(element['data-react-component']).to eq 'GardenSummary'
+      expect(JSON.parse(element['data-props'])).to eq('owner' => 'shiny', 'count' => 3)
+      expect(element.text).to eq ''
+    end
+
+    it 'escapes props so they cannot break out of the attribute' do
+      html = helper.react_component('GardenSummary', owner: '"><script>alert(1)</script>')
+
+      expect(html).not_to include('<script>')
+      element = Capybara.string(html).find('div[data-react-component]', visible: :all)
+      expect(JSON.parse(element['data-props'])['owner']).to eq '"><script>alert(1)</script>'
+    end
+
+    it 'passes html options through' do
+      html = helper.react_component('GardenSummary', {}, class: 'mb-3')
+
+      expect(html).to include('class="mb-3"')
+    end
+  end
 end

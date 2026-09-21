@@ -45,22 +45,28 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
-  # Use the lowest log level to ensure availability of diagnostic information
-  # when problems arise.
-  config.log_level = :debug
+  # Use info log level by default, configurable via RAILS_LOG_LEVEL.
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info").to_sym
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
-  # Use a different cache store in production.
-  config.cache_store = :mem_cache_store,
-                       (ENV["MEMCACHIER_SERVERS"] || "").split(","),
-                       { username:             ENV.fetch("MEMCACHIER_USERNAME", nil),
-                         password:             ENV.fetch("MEMCACHIER_PASSWORD", nil),
-                         failover:             true,
-                         socket_timeout:       0.5,
-                         socket_failure_delay: 0.2,
-                         down_retry_delay:     60 }
+  # Memcached is opt-in via USE_MEMCACHED. Otherwise each process keeps its own
+  # capped in-memory cache: the store is per Puma worker, so the dyno pays
+  # RAILS_CACHE_SIZE_MB once per worker, not once in total.
+  memcached_servers = ENV.fetch("MEMCACHIER_SERVERS", "").split(",")
+
+  config.cache_store = if ENV["USE_MEMCACHED"] == "true" && memcached_servers.any?
+                         [:mem_cache_store, memcached_servers,
+                          { username:             ENV.fetch("MEMCACHIER_USERNAME", nil),
+                            password:             ENV.fetch("MEMCACHIER_PASSWORD", nil),
+                            failover:             true,
+                            socket_timeout:       0.5,
+                            socket_failure_delay: 0.2,
+                            down_retry_delay:     60 }]
+                       else
+                         [:memory_store, { size: Integer(ENV.fetch("RAILS_CACHE_SIZE_MB", "32")).megabytes }]
+                       end
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
