@@ -504,8 +504,9 @@ ul.thumbnail-buttons {
   background-color: var(--bs-danger);
 }
 
+// Grey, not --bs-secondary: the site's secondary colour is its dark blue.
 .progress-bar--finished {
-  background-color: var(--bs-secondary);
+  background-color: var(--bs-gray-600);
 }
 
 // The card variables drop the card's border, which also drew the line under a
