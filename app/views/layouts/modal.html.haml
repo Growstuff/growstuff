@@ -2,8 +2,8 @@
   .modal-dialog
     .modal-content
       .modal-header
-        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
         %h4#mainModalLabel.modal-title
           = yield :title if content_for? :title
           \&#160;
+        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
       = yield
