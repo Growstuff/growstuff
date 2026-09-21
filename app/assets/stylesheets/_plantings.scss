@@ -283,19 +283,19 @@
   }
 }
 
-// Record harvest, step 3: Today / Yesterday / Enter date, as pills. The radios
+// A choice of one, as pills (Today / Yesterday / Enter date; Not for trade / Locally / ...). The radios
 // are visually hidden, so the pill shows which one has keyboard focus.
-.when-legend {
+.step-legend {
   float: none;
   width: auto;
 }
 
-.when-choices {
+.pill-choices {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 
-  .when-choice {
+  .pill-choice {
     margin: 0;
     padding: 0.5rem 1.5rem;
     border: 2px solid #9e9e9e;
@@ -305,20 +305,20 @@
     cursor: pointer;
   }
 
-  input:checked + .when-choice {
+  input:checked + .pill-choice {
     border-color: #43a047;
     background: #43a047;
     color: #fff;
     font-weight: bold;
   }
 
-  input:focus-visible + .when-choice {
+  input:focus-visible + .pill-choice {
     outline: 2px solid #1976d2;
     outline-offset: 2px;
   }
 }
 
-.when-hint {
+.step-hint {
   margin: 0.75rem 0 0;
   color: #757575;
 }

@@ -252,8 +252,8 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
 
             {step === 3 && (
               <fieldset>
-                <legend className="crop-picker-label when-legend">When did you harvest it?</legend>
-                <div className="when-choices">
+                <legend className="crop-picker-label step-legend">When did you harvest it?</legend>
+                <div className="pill-choices">
                   {choices.map(([choice, label]) => (
                     <React.Fragment key={choice}>
                       <input
@@ -265,7 +265,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
                         onChange={() => chooseWhen(choice)}
                         autoFocus={choice === 'today'}
                       />
-                      <label className="when-choice" htmlFor={`record-harvest-when-${choice}`}>{label}</label>
+                      <label className="pill-choice" htmlFor={`record-harvest-when-${choice}`}>{label}</label>
                     </React.Fragment>
                   ))}
                 </div>
@@ -284,7 +284,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
                     />
                   </div>
                 ) : (
-                  <p className="when-hint">{harvestedAt && formatDate(harvestedAt)}</p>
+                  <p className="step-hint">{harvestedAt && formatDate(harvestedAt)}</p>
                 )}
               </fieldset>
             )}
