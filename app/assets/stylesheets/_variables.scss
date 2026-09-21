@@ -66,7 +66,8 @@ $display-font-sizes: (
 $primary: $green;
 $secondary: $blue;
 $success: $green;
-$info: #2196f3;
+// Dark enough that Bootstrap gives it white text (4.6:1), as text-bg-info and btn-info did before.
+$info: #1976d2;
 $warning: $orange;
 $danger: $red;
 $light: $beige;
@@ -118,3 +119,9 @@ $btn-active-box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 3px rgba(
 $progress-height: 0.875rem;
 $progress-bg: #e0e0e0;
 $progress-bar-bg: $green;
+
+// List groups (the homepage lists) are white, like cards, not the page's beige.
+$list-group-bg: $white;
+
+// Checkboxes and radios: a border you can see on the beige page and white cards.
+$form-check-input-border: 1px solid #757575;

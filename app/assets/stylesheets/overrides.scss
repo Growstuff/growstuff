@@ -366,6 +366,20 @@ ul.thumbnail-buttons {
     padding: 1em;
     text-align: center;
   }
+
+  // A checkbox sits next to its label, in the middle, as the rest of the form does
+  // (Bootstrap 5 floats it to the left edge of the field).
+  .form-check {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-left: 0;
+
+    .form-check-input {
+      float: none;
+      margin: 0.2em 0 0;
+    }
+  }
 }
 .text-muted {
   color: $blue;
