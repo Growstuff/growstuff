@@ -138,7 +138,7 @@ class PlantingsController < DataController
   def planting_params
     params[:planted_at] = parse_date(params[:planted_at]) if params[:planted_at]
     params.require(:planting).permit(
-      :crop_id, :description, :garden_id, :planted_at,
+      :crop_id, :alternate_name_id, :description, :garden_id, :planted_at,
       :parent_seed_id,
       :quantity, :sunniness, :planted_from, :finished,
       :finished_at, :failed, :overall_rating
