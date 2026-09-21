@@ -48,6 +48,8 @@ class GardensController < DataController
   end
 
   def edit
+    return render json: GardenFormSerializer.new(@garden, member: current_member) if request.format.json?
+
     respond_with(@garden)
   end
 
@@ -61,7 +63,10 @@ class GardensController < DataController
   end
 
   def update
-    flash[:notice] = I18n.t('gardens.updated') if @garden.update(garden_params)
+    saved = @garden.update(garden_params)
+    return render_card_json(saved) if request.format.json?
+
+    flash[:notice] = I18n.t('gardens.updated') if saved
     respond_with(@garden)
   end
 
@@ -82,6 +87,17 @@ class GardensController < DataController
   end
 
   private
+
+  # Used by the React garden cards, which replace the garden's card with the
+  # returned one. No flash: nothing redirects, so it would turn up on the next page.
+  def render_card_json(saved)
+    if saved
+      card = GardenCardSerializer.collection([@garden], ability: current_ability, show_owner: false).first
+      render json: { garden: card }
+    else
+      render json: { errors: @garden.errors }, status: :unprocessable_content
+    end
+  end
 
   def garden_params
     params.require(:garden).permit(
