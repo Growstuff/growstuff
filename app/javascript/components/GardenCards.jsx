@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import AddPhotoModal from './AddPhotoModal';
 import EditPlantingModal from './EditPlantingModal';
 import GardenCard from './GardenCard';
+import MarkFinishedModal from './MarkFinishedModal';
 import PlantSomethingModal from './PlantSomethingModal';
 import RecordHarvestModal from './RecordHarvestModal';
 import SaveSeedsModal from './SaveSeedsModal';
@@ -13,13 +14,14 @@ const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((p
 // GardensHelper#garden_cards_props. It owns the cards' state so that saving a
 // planting from the "Add planting" dialog can swap in the garden's
 // updated card, and the new planting appears without a page reload.
-export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl, harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl, photo_icon_url: photoIconUrl}) {
+export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl, harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl, photo_icon_url: photoIconUrl, finish_icon_url: finishIconUrl}) {
   const [gardens, setGardens] = useState(initialGardens);
   const [plantingIn, setPlantingIn] = useState(null); // the garden the dialog is open for
   const [editing, setEditing] = useState(null); // the planting the edit dialog is open for
   const [harvesting, setHarvesting] = useState(null); // the planting the harvest dialog is open for
   const [savingSeeds, setSavingSeeds] = useState(null); // the planting the save seeds dialog is open for
   const [addingPhoto, setAddingPhoto] = useState(null); // {label, href}: what the add photo dialog is open for
+  const [finishing, setFinishing] = useState(null); // the planting the mark as finished dialog is open for
   const [notice, setNotice] = useState(null);
   const [highlight, setHighlight] = useState(null); // {id, kind}: the planting just added or harvested
   const highlightTimer = useRef(null);
@@ -81,6 +83,12 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
     setNotice(<>Added a photo to {target.label}. <a href={result.photo.url}>See it</a>.</>);
   }
 
+  function finished(updatedCard, planting) {
+    replaceCard(updatedCard); // the planting is no longer in progress, so it leaves the card
+    setFinishing(null);
+    setNotice(`Marked ${planting.crop.name} as finished.`);
+  }
+
   return (
     <>
       {notice && (
@@ -102,6 +110,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           onHarvestPlanting={setHarvesting}
           onSaveSeedsPlanting={setSavingSeeds}
           onAddPhoto={setAddingPhoto}
+          onFinishPlanting={setFinishing}
         />
       ))}
       {editing && (
@@ -125,6 +134,14 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           iconUrl={seedIconUrl}
           onClose={() => setSavingSeeds(null)}
           onSaved={(seed) => seedsSaved(seed, savingSeeds)}
+        />
+      )}
+      {finishing && (
+        <MarkFinishedModal
+          planting={finishing}
+          iconUrl={finishIconUrl}
+          onClose={() => setFinishing(null)}
+          onSaved={(updatedCard) => finished(updatedCard, finishing)}
         />
       )}
       {addingPhoto && (
