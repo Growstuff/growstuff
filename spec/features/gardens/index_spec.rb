@@ -73,8 +73,12 @@ describe "Gardens#index", :js do
         visit member_gardens_path(member_slug: member.slug)
       end
 
-      it "shows planting in garden" do
-        expect(page).to have_link(planting.crop.name, href: planting_path(planting))
+      it "shows planting in garden, as a chip whose menu leads to it" do
+        expect(page).to have_css('.chip', text: planting.crop.name)
+
+        click_link "Actions for #{planting.crop.name}"
+
+        expect(page).to have_link('View', href: planting_path(planting))
       end
 
       it "does not show finished planting" do
