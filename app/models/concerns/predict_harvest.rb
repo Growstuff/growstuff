@@ -4,6 +4,14 @@ module PredictHarvest
   extend ActiveSupport::Concern
 
   included do
+    scope :harvest_in_next_week, lambda { |date = Time.zone.today|
+      joins(:crop)
+        .where.not(planted_at: nil)
+        .where.not(crops: { median_days_to_first_harvest: nil })
+        .where(harvests_count: 0)
+        .where("plantings.planted_at + (crops.median_days_to_first_harvest * INTERVAL '1 day') BETWEEN ? AND ?", date, date + 7.days)
+    }
+
     # dates
     def first_harvest_date
       return @first_harvest_date if defined?(@first_harvest_date)
