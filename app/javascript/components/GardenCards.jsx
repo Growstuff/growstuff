@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import AddPhotoModal from './AddPhotoModal';
+import EditGardenModal from './EditGardenModal';
 import EditPlantingModal from './EditPlantingModal';
 import GardenCard from './GardenCard';
 import MarkFinishedModal from './MarkFinishedModal';
@@ -22,6 +23,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
   const [savingSeeds, setSavingSeeds] = useState(null); // the planting the save seeds dialog is open for
   const [addingPhoto, setAddingPhoto] = useState(null); // {label, href}: what the add photo dialog is open for
   const [finishing, setFinishing] = useState(null); // the planting the mark as finished dialog is open for
+  const [editingGarden, setEditingGarden] = useState(null); // the garden the edit dialog is open for
   const [notice, setNotice] = useState(null);
   const [highlight, setHighlight] = useState(null); // {id, kind}: the planting just added or harvested
   const highlightTimer = useRef(null);
@@ -89,6 +91,19 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
     setNotice(`Marked ${planting.crop.name} as finished.`);
   }
 
+  // Saved from the garden's edit dialog. A garden marked inactive is not on this
+  // list, so it leaves it, and its plantings with it.
+  function gardenEdited(updatedCard) {
+    setEditingGarden(null);
+    if (updatedCard.active) {
+      replaceCard(updatedCard);
+      setNotice(`Saved changes to ${updatedCard.name}.`);
+    } else {
+      setGardens((current) => current.filter((garden) => garden.id !== updatedCard.id));
+      setNotice(`${updatedCard.name} is now inactive, and its plantings are finished. You will find it under inactive gardens.`);
+    }
+  }
+
   return (
     <>
       {notice && (
@@ -111,6 +126,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           onSaveSeedsPlanting={setSavingSeeds}
           onAddPhoto={setAddingPhoto}
           onFinishPlanting={setFinishing}
+          onEditGarden={setEditingGarden}
         />
       ))}
       {editing && (
@@ -134,6 +150,13 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           iconUrl={seedIconUrl}
           onClose={() => setSavingSeeds(null)}
           onSaved={(seed) => seedsSaved(seed, savingSeeds)}
+        />
+      )}
+      {editingGarden && (
+        <EditGardenModal
+          garden={editingGarden}
+          onClose={() => setEditingGarden(null)}
+          onSaved={gardenEdited}
         />
       )}
       {finishing && (
