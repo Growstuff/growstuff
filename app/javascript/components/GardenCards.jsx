@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 
+import AddPhotoModal from './AddPhotoModal';
 import EditPlantingModal from './EditPlantingModal';
 import GardenCard from './GardenCard';
 import PlantSomethingModal from './PlantSomethingModal';
@@ -12,12 +13,13 @@ const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((p
 // GardensHelper#garden_cards_props. It owns the cards' state so that saving a
 // planting from the "Add planting" dialog can swap in the garden's
 // updated card, and the new planting appears without a page reload.
-export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl, harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl}) {
+export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl, harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl, photo_icon_url: photoIconUrl}) {
   const [gardens, setGardens] = useState(initialGardens);
   const [plantingIn, setPlantingIn] = useState(null); // the garden the dialog is open for
   const [editing, setEditing] = useState(null); // the planting the edit dialog is open for
   const [harvesting, setHarvesting] = useState(null); // the planting the harvest dialog is open for
   const [savingSeeds, setSavingSeeds] = useState(null); // the planting the save seeds dialog is open for
+  const [addingPhoto, setAddingPhoto] = useState(null); // {label, href}: what the add photo dialog is open for
   const [notice, setNotice] = useState(null);
   const [highlight, setHighlight] = useState(null); // {id, kind}: the planting just added or harvested
   const highlightTimer = useRef(null);
@@ -73,6 +75,12 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
     setNotice(<>Saved {planting.crop.name} seeds to your stash. <a href={seed.url}>See them</a>.</>);
   }
 
+  function photoAdded(result, target) {
+    if (result.garden) replaceCard(result.garden); // a garden's picture may now be this one
+    setAddingPhoto(null);
+    setNotice(<>Added a photo to {target.label}. <a href={result.photo.url}>See it</a>.</>);
+  }
+
   return (
     <>
       {notice && (
@@ -93,6 +101,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           onEditPlanting={setEditing}
           onHarvestPlanting={setHarvesting}
           onSaveSeedsPlanting={setSavingSeeds}
+          onAddPhoto={setAddingPhoto}
         />
       ))}
       {editing && (
@@ -116,6 +125,15 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           iconUrl={seedIconUrl}
           onClose={() => setSavingSeeds(null)}
           onSaved={(seed) => seedsSaved(seed, savingSeeds)}
+        />
+      )}
+      {addingPhoto && (
+        <AddPhotoModal
+          label={addingPhoto.label}
+          newUrl={addingPhoto.href}
+          iconUrl={photoIconUrl}
+          onClose={() => setAddingPhoto(null)}
+          onAdded={(result) => photoAdded(result, addingPhoto)}
         />
       )}
       {plantingIn && (
