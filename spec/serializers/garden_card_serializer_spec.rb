@@ -115,8 +115,8 @@ describe GardenCardSerializer do
     it 'gives the owner the quick actions from plantings/_quick_actions' do
       actions = serialize(garden)[:annuals].first[:actions]
 
-      expect(actions.pluck(:key)).to eq %i(view edit photo finish harvest seeds)
-      expect(actions.find { |action| action[:key] == :finish }).to include(method: :put)
+      expect(actions.pluck(:key)).to eq %i(view edit photo harvest seeds finish)
+      expect(actions.last).to include(key: :finish, method: :put, divider: true)
     end
 
     it 'gives someone else no planting actions' do

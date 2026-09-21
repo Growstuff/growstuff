@@ -176,7 +176,8 @@ class GardenCardSerializer
     end
   end
 
-  # The same items, in the same order, as plantings/_quick_actions.
+  # The same items, in the same order, as plantings/_quick_actions: finishing
+  # goes last, below a divider, as it takes the planting off the list.
   def planting_actions(planting)
     return [] unless can?(:edit, planting)
 
@@ -191,11 +192,11 @@ class GardenCardSerializer
 
   def active_planting_actions(planting)
     [
-      action(:finish, I18n.t('buttons.mark_as_finished'),
-             routes.planting_path(slug: planting.slug, planting: { finished: 1 }), method: :put),
       (action(:harvest, I18n.t('buttons.record_harvest'), routes.new_planting_harvest_path(planting_slug: planting.slug)) if can?(:create,
                                                                                                                                   Harvest)),
-      (action(:seeds, I18n.t('buttons.save_seeds'), routes.new_planting_seed_path(planting_slug: planting.slug)) unless planting.failed?)
+      (action(:seeds, I18n.t('buttons.save_seeds'), routes.new_planting_seed_path(planting_slug: planting.slug)) unless planting.failed?),
+      action(:finish, I18n.t('buttons.mark_as_finished'),
+             routes.planting_path(slug: planting.slug, planting: { finished: 1 }), method: :put, divider: true)
     ].compact
   end
 end
