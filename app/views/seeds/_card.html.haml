@@ -20,7 +20,7 @@
         %p
           - if seed.quantity
             .badge.text-bg-info #{seed.quantity} seeds
-          %ul
+          %ul.small.ps-3
             - if seed.organic != 'unknown'
               %li
                 %small.seedtitle--organic= seed.organic
