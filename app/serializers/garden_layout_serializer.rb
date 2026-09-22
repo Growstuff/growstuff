@@ -17,17 +17,19 @@ class GardenLayoutSerializer
 
   def as_json(*)
     {
-      garden:         garden_json,
-      editable:       @editable,
-      resizable:      @resizable,
+      garden:           garden_json,
+      editable:         @editable,
+      resizable:        @resizable,
       # Planting is a change to the garden, like resizing it, and only into an
       # active one, as with the garden page's own button.
-      plantable:      @resizable && @garden.active,
-      layout_url:     routes.layout_member_garden_path(@garden.owner, @garden, format: :json),
-      spade_icon_url: ActionController::Base.helpers.image_path('spade-marker.svg'),
-      save_url:       routes.update_layout_member_garden_path(@garden.owner, @garden),
-      max_grid_size:  Garden::MAX_GRID_SIZE,
-      plantings:      plantings.map { |planting| planting_json(planting) }
+      plantable:        @resizable && @garden.active,
+      layout_url:       routes.layout_member_garden_path(@garden.owner, @garden, format: :json),
+      spade_icon_url:   ActionController::Base.helpers.image_path('spade-marker.svg'),
+      # There's no compost bin in the icon set; a worm is the nearest thing.
+      compost_icon_url: ActionController::Base.helpers.image_path('icons/earth-worm.svg'),
+      save_url:         routes.update_layout_member_garden_path(@garden.owner, @garden),
+      max_grid_size:    Garden::MAX_GRID_SIZE,
+      plantings:        plantings.map { |planting| planting_json(planting) }
     }
   end
 

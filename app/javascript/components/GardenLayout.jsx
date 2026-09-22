@@ -1,4 +1,5 @@
-import React, {useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
 
 import {getJson, patchJson} from '../api';
 import PlantSomethingModal from './PlantSomethingModal';
@@ -42,12 +43,40 @@ function PlantFace({planting, labelled = false}) {
   return <img src={planting.icon_url} alt={labelled ? planting.crop_name : ''} className="garden-layout-icon" />;
 }
 
+// A copy of a composted plant that arcs from where it was dropped into the bin,
+// shrinking and spinning as it goes. Drawn over the page, then removed.
+function CompostGhost({ghost, onDone}) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const dx = ghost.to.x - ghost.from.x;
+    const dy = ghost.to.y - ghost.from.y;
+    const at = (fraction, lift) => `translate(calc(-50% + ${dx * fraction}px), calc(-50% + ${dy * fraction - lift}px))`;
+    const animation = ref.current.animate([
+      {transform: `${at(0, 0)} scale(1) rotate(0deg)`, opacity: 1},
+      {transform: `${at(0.5, 60)} scale(0.8) rotate(100deg)`, opacity: 1, offset: 0.45},
+      {transform: `${at(1, 0)} scale(0.15) rotate(240deg)`, opacity: 0.3},
+    ], {duration: 600, easing: 'cubic-bezier(0.45, 0.05, 0.55, 0.95)'});
+    animation.onfinish = onDone;
+    return () => animation.cancel();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <div ref={ref} className="garden-layout-compost-ghost" style={{left: ghost.from.x, top: ghost.from.y}}>
+      <img src={ghost.icon} alt="" />
+    </div>
+  );
+}
+
+function prefersReducedMotion() {
+  return Boolean(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+}
+
 // The bed, with one circle per plant. A plant's position is its centre, in grid
 // cells, and it is a float: a plant goes exactly where it is dropped, and the
 // grid is there to measure and line things up by, not a set of slots.
 export default function GardenLayout({
   garden: initialGarden, editable, resizable, plantable, max_grid_size: maxGridSize, save_url: saveUrl,
-  layout_url: layoutUrl, spade_icon_url: spadeIconUrl, plantings: initialPlantings,
+  layout_url: layoutUrl, spade_icon_url: spadeIconUrl, compost_icon_url: compostIconUrl, plantings: initialPlantings,
 }) {
   const [planting, setPlanting] = useState(false);
   // The bed's size is edited here too, and redraws as it's typed.
@@ -58,10 +87,17 @@ export default function GardenLayout({
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null);
   const [notice, setNotice] = useState(null);
+  const [ghosts, setGhosts] = useState([]);
+  const [gulping, setGulping] = useState(false);
+  const binIcon = useRef(null);
+  const ghostCount = useRef(0);
+  const gulpTimer = useRef(null);
   const [dragging, setDragging] = useState(null);
   const lastSaved = useRef(withKeys(initialPlantings));
   const newPlants = useRef(0);
-  const gridRef = useRef(null);
+  // The soil inside the bed's frame. Drops are measured against this, not the
+  // whole bed, so a plant lands where it's let go rather than a frame's width off.
+  const soilRef = useRef(null);
 
   const everyPlant = useMemo(() => allPlants(plantings), [plantings]);
   const onGrid = useMemo(() => everyPlant.filter(({plant}) => isPlaced(plant)), [everyPlant]);
@@ -74,11 +110,13 @@ export default function GardenLayout({
         : {plant_id: plant.id, bed_x: plant.bed_x, bed_y: plant.bed_y}));
   }
 
-  async function save(next) {
+  // composted: ids of plants to delete outright, rather than just take off the
+  // bed; the server needs telling, since a missing plant otherwise means lifted.
+  async function save(next, {composted = []} = {}) {
     setPlantings(next);
     setSaving(true);
     setMessage(null);
-    const {ok, data} = await patchJson(saveUrl, {placements: placementsOf(next)});
+    const {ok, data} = await patchJson(saveUrl, {placements: placementsOf(next), composted});
     setSaving(false);
     if (ok && data) {
       const saved = withKeys(data.plantings);
@@ -102,7 +140,7 @@ export default function GardenLayout({
 
   // Where on the bed the pointer let go, in grid cells.
   function dropPosition(event) {
-    const rect = gridRef.current.getBoundingClientRect();
+    const rect = soilRef.current.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * garden.grid_columns;
     const y = ((event.clientY - rect.top) / rect.height) * garden.grid_rows;
     return {
@@ -206,6 +244,42 @@ export default function GardenLayout({
     }
   }
 
+  // Starts a plant's flight from the pointer to the middle of the bin's icon.
+  function throwInBin(event, planting) {
+    if (prefersReducedMotion() || !binIcon.current) return;
+
+    const bin = binIcon.current.getBoundingClientRect();
+    ghostCount.current += 1;
+    setGhosts((current) => [...current, {
+      id: ghostCount.current,
+      icon: planting.icon_url,
+      from: {x: event.clientX, y: event.clientY},
+      to: {x: bin.left + (bin.width / 2), y: bin.top + (bin.height / 2)},
+    }]);
+  }
+
+  // The plant has landed: clear its copy away and let the bin swallow.
+  function landed(id) {
+    setGhosts((current) => current.filter((ghost) => ghost.id !== id));
+    setGulping(true);
+    clearTimeout(gulpTimer.current);
+    gulpTimer.current = setTimeout(() => setGulping(false), 450);
+  }
+
+  // Into the compost: that plant is gone, and its planting has one fewer. A
+  // plant dragged out of a stack but not yet saved just disappears.
+  function compost(key, event) {
+    const entry = everyPlant.find(({plant}) => plant.key === key);
+    if (!entry) return;
+
+    throwInBin(event, entry.planting);
+    setNotice(`Composted a ${entry.planting.crop_name}.`);
+    save(
+      plantings.map((planting) => ({...planting, plants: planting.plants.filter((plant) => plant.key !== key)})),
+      {composted: entry.plant.id === null || entry.plant.id === undefined ? [] : [entry.plant.id]},
+    );
+  }
+
   function dragData(event) {
     const [kind, value] = (event.dataTransfer.getData('text/plain') || '').split(':');
     return {kind, value};
@@ -231,6 +305,36 @@ export default function GardenLayout({
     if (kind === 'stack') placeFromStack(Number(value), x, y);
     if (kind === 'plant') moveTo(value, x, y);
   }
+
+  // The page gives the bin a slot of its own, under "About this garden", so it
+  // stays in view; it's drawn there through a portal so it keeps this state.
+  const [compostSlot, setCompostSlot] = useState(null);
+  useEffect(() => setCompostSlot(document.getElementById('garden-layout-compost')), []);
+
+  const compostBin = (
+    <div
+      className={[
+        'garden-layout-compost',
+        dragging && dragging.startsWith('plant:') ? 'is-ready' : '',
+        gulping ? 'is-gulping' : '',
+      ].filter(Boolean).join(' ')}
+      onDragOver={(event) => event.preventDefault()}
+      onDrop={(event) => {
+        event.preventDefault();
+        // Without a slot on the page the bin sits inside the sidebar, whose own
+        // drop lifts a plant back onto its stack; this one must not do both.
+        event.stopPropagation();
+        const {kind, value} = dragData(event);
+        if (kind === 'plant') compost(value, event);
+      }}
+    >
+      <img src={compostIconUrl} alt="" className="garden-layout-compost-icon" ref={binIcon} />
+      <span>
+        <strong>Compost bin</strong>
+        <small>Drop a plant here to remove it from its planting.</small>
+      </span>
+    </div>
+  );
 
   const cells = [];
   for (let i = 0; i < garden.grid_rows * garden.grid_columns; i += 1) {
@@ -272,7 +376,6 @@ export default function GardenLayout({
           </div>
           <div
             className="garden-layout-grid"
-            ref={gridRef}
             // As big as fits: the full width available, unless that would make
             // the bed taller than the window, in which case the height decides.
             style={{
@@ -284,6 +387,7 @@ export default function GardenLayout({
           >
             <div
               className="garden-layout-cells"
+              ref={soilRef}
               style={{
                 gridTemplateColumns: `repeat(${garden.grid_columns}, 1fr)`,
                 gridTemplateRows: `repeat(${garden.grid_rows}, 1fr)`,
@@ -334,10 +438,9 @@ export default function GardenLayout({
           ) : (
             <ul className="garden-layout-tray-list">
               {plantings.map((planting) => {
-                const placed = planting.plants.filter(isPlaced).length;
-                const waiting = planting.plants.length - placed;
+                const waiting = planting.plants.filter((plant) => !isPlaced(plant)).length;
                 return (
-                  <li key={planting.id} className="garden-layout-tray-planting">
+                  <li key={planting.id}>
                     {/* The planting's crop chip, as on the garden cards. Dragging it
                         puts one more of that crop on the bed; it stays here, so
                         it can be dragged again. */}
@@ -357,12 +460,6 @@ export default function GardenLayout({
                         {planting.crop_name}
                       </a>
                     )}
-                    <p className="garden-layout-tray-empty">
-                      {placed === 0 ? 'none on the bed' : `${placed} on the bed`}
-                      {editable && waiting > 0 && `, ${waiting} to place`}
-                      {' · '}
-                      <a href={planting.url}>planting</a>
-                    </p>
                   </li>
                 );
               })}
@@ -376,9 +473,15 @@ export default function GardenLayout({
               onCreated={planted}
             />
           )}
+          {editable && !compostSlot && compostBin}
           {editable && <p className="garden-layout-hint">Drag a crop onto the bed, or a plant back here to lift it.</p>}
         </aside>
       </div>
+      {editable && compostSlot && createPortal(compostBin, compostSlot)}
+      {ghosts.length > 0 && createPortal(
+        ghosts.map((ghost) => <CompostGhost key={ghost.id} ghost={ghost} onDone={() => landed(ghost.id)} />),
+        document.body,
+      )}
     </div>
   );
 }

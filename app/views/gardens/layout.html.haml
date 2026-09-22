@@ -45,3 +45,8 @@
             %strong Area:
             = pluralize(@garden.area, @garden.area_unit)
         %p= link_to 'Back to the garden', garden_path(@garden)
+
+    -# The layout island draws its compost bin in here, so it sits in view in
+    -# this column rather than at the foot of a long list of plantings.
+    - if @editable
+      .garden-layout-compost-slot#garden-layout-compost

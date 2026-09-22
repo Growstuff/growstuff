@@ -1,6 +1,11 @@
 // The bed layout map on gardens#layout (rendered by React).
 $garden-layout-line: #d9d4c7;
-$garden-layout-soil: #f6f3ea;
+// The bed itself: dark soil, timber for the raised frame, twine for the grid.
+$garden-layout-soil: #5b4332;
+$garden-layout-timber: #9c7a54;
+$garden-layout-timber-dark: #86653f;
+$garden-layout-timber-light: #b08d63;
+$garden-layout-twine: rgba(233, 214, 170, 0.3);
 $garden-layout-planting: #cfe3c4;
 $garden-layout-planting-border: #7ba368;
 // Behind the plants, so the cells a planting occupies stay visible without
@@ -54,32 +59,53 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   }
 
 
-  // The bed. Plants are positioned over it rather than laid out by it, so the
-  // grid is a backdrop to measure against, not a set of slots.
+  // The bed: a timber-framed raised bed. Plants are positioned over it rather
+  // than laid out by it, so the grid is a backdrop to measure against, not a
+  // set of slots. The frame is the border, not padding, so the soil fills the
+  // box plants are positioned in and their percentages line up with it.
   .garden-layout-grid {
     position: relative;
     min-width: 12rem;
-    padding: 2px;
-    background: $garden-layout-line;
-    border: 1px solid $garden-layout-line;
-    border-radius: 4px;
+    padding: 0;
+    border: 10px solid transparent;
+    border-radius: 6px;
+    // Soil inside, timber in the border: one background clipped to each.
+    background:
+      linear-gradient($garden-layout-soil, $garden-layout-soil) padding-box,
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.18)) border-box,
+      repeating-linear-gradient(90deg, $garden-layout-timber 0 3px, $garden-layout-timber-dark 3px 7px,
+        $garden-layout-timber-light 7px 9px, $garden-layout-timber 9px 14px) border-box;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(0, 0, 0, 0.45);
   }
 
-  // Fills the bed, which is sized to the window, so the cells stay square
-  // because the bed has the grid's proportions rather than because each cell
-  // insists on it.
+  // The soil, with its grid of twine. Specks of lighter grit and darker crumbs
+  // tiled at sizes that don't line up, so it doesn't look like wallpaper, and
+  // shading towards the edges where the frame overhangs it.
   .garden-layout-cells {
     display: grid;
-    gap: 2px;
     height: 100%;
+    border-radius: 2px;
+    background-color: $garden-layout-soil;
+    background-image:
+      radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.3)),
+      radial-gradient(circle at 20% 30%, rgba(255, 240, 215, 0.1) 0 1px, transparent 1.6px),
+      radial-gradient(circle at 70% 60%, rgba(0, 0, 0, 0.3) 0 1.5px, transparent 2.2px),
+      radial-gradient(circle at 40% 80%, rgba(255, 230, 200, 0.08) 0 1px, transparent 1.6px),
+      radial-gradient(circle at 85% 15%, rgba(0, 0, 0, 0.22) 0 1px, transparent 1.8px);
+    background-size: 100% 100%, 13px 13px, 17px 17px, 11px 11px, 19px 19px;
   }
 
+  // One square of the bed, marked out by twine along its right and bottom.
   .garden-layout-cell {
-    background: $garden-layout-soil;
+    box-shadow: inset -1px -1px 0 $garden-layout-twine;
   }
 
   // One plant, centred on its position anywhere over the bed.
   .garden-layout-plant {
+    .garden-layout-plant-circle {
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.45);
+    }
+
     position: absolute;
     display: flex;
     aspect-ratio: 1;
@@ -162,25 +188,15 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     color: #666;
   }
 
-  // A single column in the sidebar, so long crop names stay readable.
+  // A single column of crop chips in the sidebar.
   .garden-layout-tray-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    align-items: flex-start;
+    gap: 0.4rem;
     margin: 0;
     padding: 0;
     list-style: none;
-  }
-
-  // One planting: its name, how many plants it has, and the circles still to place.
-  .garden-layout-tray-planting {
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid $garden-layout-line;
-
-    &:last-child {
-      padding-bottom: 0;
-      border-bottom: 0;
-    }
   }
 
   // A crop chip you drag from; it stays put however many plants you take.
@@ -242,5 +258,88 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
       flex-direction: row;
       flex-wrap: wrap;
     }
+  }
+}
+
+// The slot under "About this garden" that the island draws its compost bin
+// into. Sticky, so the bin is still in reach after scrolling down the bed.
+.garden-layout-compost-slot {
+  position: sticky;
+  top: 1rem;
+  margin-top: 1rem;
+}
+
+// Where plants go to be removed for good, rather than back onto a stack.
+.garden-layout-compost {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  font-size: 0.8rem;
+  color: #5d4037;
+  background: #efebe9;
+  border: 2px dashed #a1887f;
+  border-radius: 6px;
+
+  strong,
+  small {
+    display: block;
+  }
+
+  small {
+    color: #795548;
+  }
+
+  // While a plant is being dragged, so it's obvious where it can go.
+  &.is-ready {
+    background: #d7ccc8;
+    border-color: #6d4c41;
+  }
+}
+
+.garden-layout-compost-icon {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+}
+
+// The copy of a plant flying into the compost bin. Fixed to the window, since
+// it travels from the bed to another column, and ignores the pointer so it
+// can't get in the way of the next drag.
+.garden-layout-compost-ghost {
+  position: fixed;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  pointer-events: none;
+  background: $garden-layout-planting;
+  border: 1px solid $garden-layout-planting-border;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+
+  img {
+    width: 70%;
+    height: 70%;
+  }
+}
+
+// The bin swallowing a plant as it lands.
+.garden-layout-compost.is-gulping .garden-layout-compost-icon {
+  animation: garden-layout-gulp 0.45s ease-out;
+}
+
+@keyframes garden-layout-gulp {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.25) rotate(-8deg); }
+  60% { transform: scale(0.95) rotate(6deg); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-layout-compost.is-gulping .garden-layout-compost-icon {
+    animation: none;
   }
 }

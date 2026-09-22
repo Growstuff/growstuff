@@ -63,11 +63,13 @@ class GardensController < DataController
   #
   # A planting behaves like a stack: dragging one off it puts a plant on the
   # bed, and the planting's quantity follows from how many plants it ends up
-  # with rather than being typed in.
+  # with rather than being typed in. Composting a plant is the way back down.
   def update_layout
     @layout_errors = {}
     placements = layout_params
+    composted = compost_params
     saved = Garden.transaction do
+      compost(composted)
       clear_positions
       apply_placements(placements)
       raise ActiveRecord::Rollback if @layout_errors.present?
@@ -183,6 +185,17 @@ class GardensController < DataController
     spare || planting.plants.build
   end
 
+  # Composting is the one way the layout makes a planting smaller: the plant
+  # is gone, rather than lifted off the bed, and sync_quantities then counts
+  # one fewer.
+  def compost(plant_ids)
+    return if plant_ids.empty?
+
+    plants = @garden.placed_or_owned_plants.where(id: plant_ids)
+    (plant_ids - plants.ids).each { |id| @layout_errors[id] = ['is not a plant in this garden'] }
+    plants.destroy_all
+  end
+
   # The number of plants is whatever ended up on and off the bed, so dragging
   # one more onto the grid is what makes the planting bigger.
   def sync_quantities
@@ -202,6 +215,14 @@ class GardensController < DataController
     placements.map do |placement|
       placement.permit(:plant_id, :planting_id, :bed_x, :bed_y).to_h.symbolize_keys
     end
+  end
+
+  # The ids of plants dropped in the compost bin.
+  def compost_params
+    ids = params[:composted]
+    return [] unless ids.is_a?(Array)
+
+    ids.filter_map { |id| Integer(id.to_s, exception: false) }
   end
 
   # Used by the React garden cards, which replace the garden's card with the
