@@ -47,6 +47,18 @@ function diameterOf(plant, planting) {
   return plant.diameter ?? planting.default_diameter ?? 1;
 }
 
+// How many cells across a stepping stone is drawn.
+const STONE_SIZE = 0.8;
+
+function round3(value) {
+  return Number(value.toFixed(3));
+}
+
+// A row as it would be with one end dragged somewhere else.
+function withRowEnd(row, end, x, y) {
+  return end === 'start' ? {...row, x, y} : {...row, x2: x, y2: y};
+}
+
 // Ring colours for telling apart plantings drawn with the same icon: the five
 // hues that stay distinguishable from each other on the soil, colour blind or
 // not (checked against the soil for every pair, as any two plantings can end up
@@ -143,6 +155,7 @@ export default function GardenLayout({
   garden: initialGarden, editable, resizable, plantable, max_grid_size: maxGridSize, max_diameter: maxDiameter,
   save_url: saveUrl,
   layout_url: layoutUrl, spade_icon_url: spadeIconUrl, compost_icon_url: compostIconUrl, plantings: initialPlantings,
+  features: initialFeatures = [], stone_icon_url: stoneIconUrl,
 }) {
   const [planting, setPlanting] = useState(false);
   // The bed's size is edited here too, and redraws as it's typed.
@@ -170,6 +183,13 @@ export default function GardenLayout({
   const [liveSize, setLiveSize] = useState(null); // {key, diameter} while dragging the handle
   // What follows the pointer while a plant is dragged: {icon, size, x, y} in px.
   const [avatar, setAvatar] = useState(null);
+  // Stepping stones, labels and rows: saved with the plants, in the same request.
+  const [features, setFeatures] = useState(initialFeatures);
+  const lastSavedFeatures = useRef(initialFeatures);
+  const featureCount = useRef(0);
+  // A row end being dragged, and where it is so far.
+  const rowEnd = useRef(null);
+  const [liveRow, setLiveRow] = useState(null);
   // The size last given to a plant of each planting, by planting id, so the
   // next one taken off its chip matches: shrink a chive and the next is as small.
   const nextSizes = useRef({});
@@ -205,19 +225,24 @@ export default function GardenLayout({
 
   // composted: ids of plants to delete outright, rather than just take off the
   // bed; the server needs telling, since a missing plant otherwise means lifted.
-  async function save(unfitted, {composted = []} = {}) {
+  // nextFeatures: the stones, labels and rows to save along with the plants.
+  async function save(unfitted, {composted = [], nextFeatures = features} = {}) {
     const next = fitPlants(unfitted, garden);
     setPlantings(next);
+    setFeatures(nextFeatures);
     setSaving(true);
     setMessage(null);
-    const {ok, data} = await patchJson(saveUrl, {placements: placementsOf(next), composted});
+    const {ok, data} = await patchJson(saveUrl, {placements: placementsOf(next), composted, features: nextFeatures});
     setSaving(false);
     if (ok && data) {
       const saved = fitPlants(withKeys(data.plantings), garden);
       lastSaved.current = saved;
       setPlantings(saved);
+      lastSavedFeatures.current = data.features || [];
+      setFeatures(lastSavedFeatures.current);
     } else {
       setPlantings(lastSaved.current);
+      setFeatures(lastSavedFeatures.current);
       const reason = firstError(data);
       setMessage(reason
         ? `${reason[0].toUpperCase()}${reason.slice(1)}. The bed has been put back as it was.`
@@ -293,6 +318,8 @@ export default function GardenLayout({
       const fresh = fitPlants(withKeys(data.plantings), garden);
       lastSaved.current = fresh;
       setPlantings(fresh);
+      lastSavedFeatures.current = data.features || [];
+      setFeatures(lastSavedFeatures.current);
       setMessage(null);
       setNotice(`Planted ${crop ? crop.name : 'something'}. Drag it onto the bed.`);
     } else {
@@ -315,12 +342,19 @@ export default function GardenLayout({
   // How far out the placed plants reach, edges and all, so the bed can't
   // shrink out from under one.
   function reach() {
-    return onGrid.reduce((far, {plant, planting}) => {
+    const plantsReach = onGrid.reduce((far, {plant, planting}) => {
       const radius = diameterOf(plant, planting) / 2;
       return {
         columns: Math.max(far.columns, plant.bed_x + radius), rows: Math.max(far.rows, plant.bed_y + radius),
       };
     }, {columns: 0, rows: 0});
+    return features.reduce((far, feature) => {
+      const margin = feature.kind === 'stone' ? STONE_SIZE / 2 : 0;
+      return {
+        columns: Math.max(far.columns, feature.x + margin, feature.x2 ?? 0),
+        rows: Math.max(far.rows, feature.y + margin, feature.y2 ?? 0),
+      };
+    }, plantsReach);
   }
 
   // Redraws straight away, and saves once typing pauses, so each keystroke
@@ -444,6 +478,114 @@ export default function GardenLayout({
     setLiveSize(null);
   }
 
+  // Stepping stones, labels and rows. Each saves the whole arrangement, as a
+  // plant does.
+  function saveFeatures(nextFeatures) {
+    save(plantings, {nextFeatures});
+  }
+
+  function newFeatureId() {
+    featureCount.current += 1;
+    return `f${Date.now().toString(36)}${featureCount.current}`;
+  }
+
+  function onBed(value, size, margin = 0) {
+    return round3(clamp(value, margin, size - margin));
+  }
+
+  function askForText(question, current = '') {
+    // eslint-disable-next-line no-alert
+    const answer = window.prompt(question, current);
+    return answer === null ? null : answer.trim().slice(0, 40);
+  }
+
+  function addFeature(kind, x, y) {
+    const {grid_columns: columns, grid_rows: rows} = garden;
+    const id = newFeatureId();
+    if (kind === 'stone') {
+      saveFeatures([...features, {id, kind, x: onBed(x, columns, STONE_SIZE / 2), y: onBed(y, rows, STONE_SIZE / 2)}]);
+    } else if (kind === 'label') {
+      const text = askForText('What should the label say?');
+      if (text) saveFeatures([...features, {id, kind, x: onBed(x, columns), y: onBed(y, rows), text}]);
+    } else if (kind === 'row') {
+      // Two cells long, across the bed; drag its ends to set where it runs.
+      const half = Math.min(1, columns / 2);
+      const middle = onBed(x, columns, half);
+      const across = onBed(y, rows);
+      saveFeatures([...features, {id, kind, x: round3(middle - half), y: across, x2: round3(middle + half), y2: across}]);
+    }
+  }
+
+  // Moves a stone or label to (x, y); a row is moved by its middle, keeping its
+  // length and direction, and both ends on the bed.
+  function moveFeature(id, x, y) {
+    const {grid_columns: columns, grid_rows: rows} = garden;
+    saveFeatures(features.map((feature) => {
+      if (feature.id !== id) return feature;
+      if (feature.kind !== 'row') {
+        const margin = feature.kind === 'stone' ? STONE_SIZE / 2 : 0;
+        return {...feature, x: onBed(x, columns, margin), y: onBed(y, rows, margin)};
+      }
+      const halfX = (feature.x2 - feature.x) / 2;
+      const halfY = (feature.y2 - feature.y) / 2;
+      const middleX = clamp(x, Math.abs(halfX), columns - Math.abs(halfX));
+      const middleY = clamp(y, Math.abs(halfY), rows - Math.abs(halfY));
+      return {
+        ...feature,
+        x: round3(middleX - halfX), y: round3(middleY - halfY), x2: round3(middleX + halfX), y2: round3(middleY + halfY),
+      };
+    }));
+  }
+
+  function removeFeature(id, event) {
+    const feature = features.find((candidate) => candidate.id === id);
+    if (!feature) return;
+    if (feature.kind === 'stone') throwInBin(event, {icon_url: stoneIconUrl});
+    setNotice(`Took the ${feature.kind === 'stone' ? 'stepping stone' : feature.kind} off the bed.`);
+    saveFeatures(features.filter((candidate) => candidate.id !== id));
+  }
+
+  // A label's text, or a row's name, which a row can do without.
+  function rename(feature) {
+    const text = feature.kind === 'row'
+      ? askForText('What is growing in this row? (Leave it empty for no name.)', feature.text || '')
+      : askForText('What should the label say?', feature.text || '');
+    if (text === null || (feature.kind === 'label' && !text)) return;
+    saveFeatures(features.map((candidate) => (candidate.id === feature.id ? {...candidate, text} : candidate)));
+  }
+
+  // Dragging one end of a row, with pointer events like the plant resize handle.
+  function startRowEnd(event, row, end) {
+    event.preventDefault();
+    event.stopPropagation();
+    rowEnd.current = {id: row.id, end};
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function moveRowEnd(event) {
+    if (!rowEnd.current) return;
+    const rect = soilRef.current.getBoundingClientRect();
+    const x = onBed(((event.clientX - rect.left) / rect.width) * garden.grid_columns, garden.grid_columns);
+    const y = onBed(((event.clientY - rect.top) / rect.height) * garden.grid_rows, garden.grid_rows);
+    setLiveRow({...rowEnd.current, x, y});
+  }
+
+  function endRowEnd() {
+    const current = rowEnd.current;
+    rowEnd.current = null;
+    if (current && liveRow && liveRow.id === current.id) {
+      saveFeatures(features.map((feature) => (feature.id === current.id
+        ? withRowEnd(feature, current.end, liveRow.x, liveRow.y)
+        : feature)));
+    }
+    setLiveRow(null);
+  }
+
+  // A row as drawn right now: with the end being dragged where it has got to.
+  function rowAsDrawn(row) {
+    return liveRow && liveRow.id === row.id ? withRowEnd(row, liveRow.end, liveRow.x, liveRow.y) : row;
+  }
+
   function dragData(event) {
     const [kind, value] = (event.dataTransfer.getData('text/plain') || '').split(':');
     return {kind, value};
@@ -458,15 +600,17 @@ export default function GardenLayout({
       onDragStart: (event) => {
         // Pulling on a plant's resize handle resizes it; it shouldn't also
         // start dragging the plant it belongs to.
-        if (resizing.current) {
+        if (resizing.current || rowEnd.current) {
           event.preventDefault();
           return;
         }
         event.dataTransfer.setData('text/plain', payload);
         event.dataTransfer.effectAllowed = 'move';
         if (invisibleDragImage) event.dataTransfer.setDragImage(invisibleDragImage, 0, 0);
-        const cellPx = soilRef.current.getBoundingClientRect().width / garden.grid_columns;
-        setAvatar({icon: look.icon, size: Math.max(20, look.diameter * cellPx), x: event.clientX, y: event.clientY});
+        const cell = soilRef.current.getBoundingClientRect().width / garden.grid_columns;
+        setAvatar({
+          icon: look.icon, text: look.text, size: Math.max(20, look.diameter * cell), x: event.clientX, y: event.clientY,
+        });
         setDragging(payload);
       },
       onDragEnd: endDrag,
@@ -509,6 +653,8 @@ export default function GardenLayout({
     const {x, y} = dropPosition(event);
     if (kind === 'stack') placeFromStack(Number(value), x, y);
     if (kind === 'plant') moveTo(value, x, y);
+    if (kind === 'new-feature') addFeature(value, x, y);
+    if (kind === 'feature') moveFeature(value, x, y);
   }
 
   // The page gives the bin a slot of its own, under "About this garden", so it
@@ -532,6 +678,7 @@ export default function GardenLayout({
         const {kind, value} = dragData(event);
         if (kind === 'plant') compost(value, event);
         if (kind === 'stack') compostSpare(Number(value), event);
+        if (kind === 'feature') removeFeature(value, event);
       }}
     >
       <img src={compostIconUrl} alt="" className="garden-layout-compost-icon" ref={binIcon} />
@@ -541,6 +688,10 @@ export default function GardenLayout({
       </span>
     </div>
   );
+
+  // A position in cells as a percentage of the bed, for placing things on it.
+  const acrossBed = (cells) => `${(cells / garden.grid_columns) * 100}%`;
+  const downBed = (cells) => `${(cells / garden.grid_rows) * 100}%`;
 
   const cells = [];
   for (let i = 0; i < garden.grid_rows * garden.grid_columns; i += 1) {
@@ -601,6 +752,63 @@ export default function GardenLayout({
             >
               {cells}
             </div>
+            {/* Rows and stepping stones, under the plants. */}
+            <svg
+              className="garden-layout-rows"
+              viewBox={`0 0 ${garden.grid_columns} ${garden.grid_rows}`}
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              {features.filter((feature) => feature.kind === 'row').map(rowAsDrawn).map((row) => (
+                <g key={row.id}>
+                  <line className="garden-layout-row-furrow" x1={row.x} y1={row.y} x2={row.x2} y2={row.y2} />
+                  <line className="garden-layout-row-seam" x1={row.x} y1={row.y} x2={row.x2} y2={row.y2} />
+                </g>
+              ))}
+            </svg>
+            {features.filter((feature) => feature.kind === 'row').map(rowAsDrawn).map((row) => (
+              <React.Fragment key={row.id}>
+                {/* Its name, and the handle to move it by, at its middle. */}
+                {(editable || row.text) && (
+                  <div
+                    className={`garden-layout-row-grip${dragging === `feature:${row.id}` ? ' is-dragging' : ''}`}
+                    style={{left: acrossBed((row.x + row.x2) / 2), top: downBed((row.y + row.y2) / 2)}}
+                    title={editable ? 'A row: drag to move it, double-click to name it' : row.text}
+                    onDoubleClick={editable ? () => rename(row) : undefined}
+                    {...dragProps(`feature:${row.id}`, {text: row.text || 'row', diameter: 1})}
+                  >
+                    {row.text || '⋮⋮'}
+                  </div>
+                )}
+                {editable && ['start', 'end'].map((end) => (
+                  <span
+                    key={end}
+                    className="garden-layout-row-end"
+                    role="presentation"
+                    title="Drag to move this end of the row"
+                    style={{
+                      left: acrossBed(end === 'start' ? row.x : row.x2),
+                      top: downBed(end === 'start' ? row.y : row.y2),
+                    }}
+                    onPointerDown={(event) => startRowEnd(event, row, end)}
+                    onPointerMove={moveRowEnd}
+                    onPointerUp={endRowEnd}
+                    onPointerCancel={endRowEnd}
+                  />
+                ))}
+              </React.Fragment>
+            ))}
+            {features.filter((feature) => feature.kind === 'stone').map((stone) => (
+              <div
+                key={stone.id}
+                className={`garden-layout-stone${dragging === `feature:${stone.id}` ? ' is-dragging' : ''}`}
+                style={{left: acrossBed(stone.x), top: downBed(stone.y), width: acrossBed(STONE_SIZE)}}
+                title="Stepping stone"
+                {...dragProps(`feature:${stone.id}`, {icon: stoneIconUrl, diameter: STONE_SIZE})}
+              >
+                <span className="garden-layout-stone-shape" />
+              </div>
+            ))}
             {/* Biggest first, so a small plant is drawn over a big one it sits beside. */}
             {[...onGrid]
               .sort((a, b) => diameterOf(b.plant, b.planting) - diameterOf(a.plant, a.planting))
@@ -653,6 +861,19 @@ export default function GardenLayout({
                   </div>
                 );
               })}
+            {/* Labels, over the plants, like markers stuck in the soil. */}
+            {features.filter((feature) => feature.kind === 'label').map((label) => (
+              <div
+                key={label.id}
+                className={`garden-layout-label${dragging === `feature:${label.id}` ? ' is-dragging' : ''}`}
+                style={{left: acrossBed(label.x), top: downBed(label.y)}}
+                title={editable ? 'Drag to move, double-click to change' : undefined}
+                onDoubleClick={editable ? () => rename(label) : undefined}
+                {...dragProps(`feature:${label.id}`, {text: label.text, diameter: 1})}
+              >
+                {label.text}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -725,6 +946,43 @@ export default function GardenLayout({
               })}
             </ul>
           )}
+          {editable && (
+            <>
+              <h3 className="garden-layout-tray-heading garden-layout-features-heading">Garden features</h3>
+              <ul className="garden-layout-tray-list">
+                <li>
+                  <div
+                    className={`chip garden-layout-chip garden-layout-feature-chip${dragging === 'new-feature:stone' ? ' is-dragging' : ''}`}
+                    title="Drag onto the bed to put down a stepping stone"
+                    {...dragProps('new-feature:stone', {icon: stoneIconUrl, diameter: STONE_SIZE})}
+                  >
+                    <img className="crop-icon" src={stoneIconUrl} alt="" />
+                    <span className="garden-layout-chip-name">Stepping stone</span>
+                  </div>
+                </li>
+                <li>
+                  <div
+                    className={`chip garden-layout-chip garden-layout-feature-chip${dragging === 'new-feature:label' ? ' is-dragging' : ''}`}
+                    title="Drag onto the bed to add a label"
+                    {...dragProps('new-feature:label', {text: 'Aa', diameter: 1})}
+                  >
+                    <i className="fa fa-font garden-layout-feature-icon" aria-hidden="true" />
+                    <span className="garden-layout-chip-name">Label</span>
+                  </div>
+                </li>
+                <li>
+                  <div
+                    className={`chip garden-layout-chip garden-layout-feature-chip${dragging === 'new-feature:row' ? ' is-dragging' : ''}`}
+                    title="Drag onto the bed to mark out a row"
+                    {...dragProps('new-feature:row', {text: 'row', diameter: 1})}
+                  >
+                    <i className="fa fa-grip-lines garden-layout-feature-icon" aria-hidden="true" />
+                    <span className="garden-layout-chip-name">Row</span>
+                  </div>
+                </li>
+              </ul>
+            </>
+          )}
           {planting && (
             <PlantSomethingModal
               garden={garden}
@@ -734,7 +992,7 @@ export default function GardenLayout({
             />
           )}
           {editable && !compostSlot && compostBin}
-          {editable && <p className="garden-layout-hint">Drag a crop onto the bed, or a plant back here to lift it.</p>}
+          {editable && <p className="garden-layout-hint">Drag a crop or a garden feature onto the bed, or a plant back here to lift it. Double-click a label or row to rename it.</p>}
         </aside>
       </div>
       {editable && compostSlot && createPortal(compostBin, compostSlot)}
@@ -743,7 +1001,9 @@ export default function GardenLayout({
           className="garden-layout-drag-avatar"
           style={{left: avatar.x, top: avatar.y, width: avatar.size, height: avatar.size}}
         >
-          <img src={avatar.icon} alt="" />
+          {avatar.icon
+            ? <img src={avatar.icon} alt="" />
+            : <span className="garden-layout-drag-avatar-text">{avatar.text}</span>}
         </div>,
         document.body,
       )}

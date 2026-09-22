@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_22_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_22_150000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -629,6 +629,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_130000) do
     t.integer "grid_rows", default: 10, null: false
     t.float "highest_temp_c"
     t.float "latitude"
+    t.jsonb "layout_features", default: [], null: false
     t.string "location"
     t.string "location_wikidata_id"
     t.float "longitude"

@@ -48,6 +48,14 @@ class Garden < ApplicationRecord
             numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: MAX_GRID_SIZE }
   validate :grid_must_not_cut_off_plantings
 
+  # The things on the layout that aren't plants. Each is a hash with a kind, a
+  # position in grid cells (x, y), and for a row its other end (x2, y2); a label,
+  # and optionally a row, has text.
+  LAYOUT_FEATURE_KINDS = %w(stone label row).freeze
+  MAX_LAYOUT_FEATURES = 200
+  MAX_LAYOUT_TEXT = 40
+  validate :layout_features_must_fit
+
   scope :located, lambda {
     where.not(gardens: { location: '' })
       .where.not(gardens: { latitude: nil })
@@ -118,6 +126,16 @@ class Garden < ApplicationRecord
     grid_columns * grid_rows
   end
 
+  # What's wrong with a list of layout features, if anything, as messages. Used
+  # by the layout's save as well as by validation, so a drag can be checked
+  # without a full save (which would geocode the garden every time).
+  def layout_feature_problems(features, columns: grid_columns, rows: grid_rows)
+    return ['The garden features must be a list'] unless features.is_a?(Array)
+    return ["A bed can have at most #{MAX_LAYOUT_FEATURES} stones, labels and rows"] if features.size > MAX_LAYOUT_FEATURES
+
+    features.filter_map { |feature| layout_feature_problem(feature, columns, rows) }.uniq
+  end
+
   # The plants currently drawn on this bed's layout.
   def placed_plants
     Plant.placed.where(planting_id: plantings.current.select(:id))
@@ -152,8 +170,33 @@ class Garden < ApplicationRecord
   def grid_must_not_cut_off_plantings
     return if new_record? || grid_columns.blank? || grid_rows.blank?
     return unless will_save_change_to_grid_columns? || will_save_change_to_grid_rows?
-    return if placed_plants.outside_grid(grid_columns, grid_rows).none?
+    return if placed_plants.outside_grid(grid_columns, grid_rows).none? &&
+              layout_feature_problems(layout_features).empty?
 
     errors.add(:base, :grid_too_small_for_plantings)
+  end
+
+  def layout_features_must_fit
+    return unless will_save_change_to_layout_features?
+
+    layout_feature_problems(layout_features).each { |problem| errors.add(:base, problem) }
+  end
+
+  def layout_feature_problem(feature, columns, rows)
+    known = feature.is_a?(Hash) && LAYOUT_FEATURE_KINDS.include?(feature['kind'])
+    return 'Only stones, labels and rows can go on the bed' unless known
+
+    ends = [%w(x y)]
+    ends << %w(x2 y2) if feature['kind'] == 'row'
+    return 'A stone, label or row is off the bed' unless ends.all? { |col, row| on_bed?(feature[col], feature[row], columns, rows) }
+
+    text = feature['text'].to_s
+    return 'A label needs something written on it' if feature['kind'] == 'label' && text.strip.empty?
+
+    "A label or row name can be at most #{MAX_LAYOUT_TEXT} characters" if text.length > MAX_LAYOUT_TEXT
+  end
+
+  def on_bed?(col, row, columns, rows)
+    col.is_a?(Numeric) && row.is_a?(Numeric) && col.between?(0, columns) && row.between?(0, rows)
   end
 end

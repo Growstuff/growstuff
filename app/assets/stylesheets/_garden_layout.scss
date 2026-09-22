@@ -184,6 +184,132 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     touch-action: none;
   }
 
+  // Rows, drawn over the whole bed in grid cells: a dug furrow with a line of
+  // twine down it. Pointer events go to the handles, not the drawing.
+  .garden-layout-rows {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .garden-layout-row-furrow {
+    stroke: rgba(30, 18, 10, 0.55);
+    stroke-width: 0.3;
+    stroke-linecap: round;
+  }
+
+  .garden-layout-row-seam {
+    stroke: $garden-layout-twine;
+    stroke-width: 0.05;
+    stroke-dasharray: 0.15 0.15;
+    stroke-linecap: round;
+  }
+
+  // A row's name at its middle, which is also what moves it.
+  .garden-layout-row-grip {
+    position: absolute;
+    padding: 0 0.45rem;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    color: #fff;
+    white-space: nowrap;
+    background: rgba(40, 28, 20, 0.8);
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+
+    &[draggable="true"] {
+      cursor: grab;
+    }
+  }
+
+  // The ends of a row, offered while the pointer is over the bed.
+  .garden-layout-row-end {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    cursor: move;
+    background: #fff;
+    border: 2px solid #6d4c41;
+    border-radius: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.15s;
+    touch-action: none;
+  }
+
+  .garden-layout-grid:hover .garden-layout-row-end {
+    opacity: 1;
+  }
+
+  // A stepping stone: a flat grey pebble, only the stone itself grabbable.
+  .garden-layout-stone {
+    position: absolute;
+    aspect-ratio: 1;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+
+    &[draggable="true"] .garden-layout-stone-shape {
+      cursor: grab;
+    }
+  }
+
+  .garden-layout-stone-shape {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    background: radial-gradient(circle at 35% 30%, #dcd9d2, #aaa69c 60%, #8b877e);
+    border-radius: 48% 52% 45% 55% / 55% 45% 55% 45%;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5), inset 0 -2px 3px rgba(0, 0, 0, 0.25);
+  }
+
+  // A label, like a plant marker stuck in the soil.
+  .garden-layout-label {
+    position: absolute;
+    padding: 0.05rem 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #3e2a1c;
+    white-space: nowrap;
+    background: rgba(255, 250, 235, 0.95);
+    border: 1px solid rgba(62, 42, 28, 0.4);
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    transform: translate(-50%, -50%);
+
+    &[draggable="true"] {
+      cursor: grab;
+    }
+  }
+
+  .garden-layout-row-grip,
+  .garden-layout-stone,
+  .garden-layout-label {
+    &.is-dragging {
+      opacity: 0.4;
+    }
+  }
+
+  // The garden features in the sidebar: grey, so they don't read as crops.
+  .garden-layout-features-heading {
+    margin-top: 1rem;
+  }
+
+  .garden-layout-feature-chip {
+    color: #3e3a33;
+    background: #ecebe6;
+    border: 1px solid #cfccc3;
+  }
+
+  .garden-layout-feature-icon {
+    flex: none;
+    width: 24px;
+    text-align: center;
+  }
+
   // A plant's name, under it, on a dark pill so it reads on the soil.
   .garden-layout-plant-name {
     position: absolute;
@@ -584,7 +710,15 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .garden-layout .garden-layout-plant {
+  .garden-layout .garden-layout-plant,
+  .garden-layout .garden-layout-row-end {
     transition: none;
   }
+}
+
+// A label or row being dragged: its text, as the ring would show a plant.
+.garden-layout-drag-avatar-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #3e2a1c;
 }

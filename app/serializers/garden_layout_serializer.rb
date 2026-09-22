@@ -30,6 +30,9 @@ class GardenLayoutSerializer
       save_url:         routes.update_layout_member_garden_path(@garden.owner, @garden),
       max_grid_size:    Garden::MAX_GRID_SIZE,
       max_diameter:     Plant::MAX_DIAMETER,
+      # Stepping stones, labels and rows.
+      features:         @garden.layout_features,
+      stone_icon_url:   ActionController::Base.helpers.image_path('icons/stones.svg'),
       plantings:        plantings.map { |planting| planting_json(planting) }
     }
   end

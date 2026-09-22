@@ -228,6 +228,45 @@ describe "Gardens" do
       end
     end
 
+    describe 'stepping stones, labels and rows' do
+      before { sign_in owner }
+
+      let(:features) do
+        [{ id: 'a', kind: 'stone', x: 1.5, y: 1.5 },
+         { id: 'b', kind: 'label', x: 2, y: 0.5, text: 'path' },
+         { id: 'c', kind: 'row', x: 0.5, y: 2, x2: 3.5, y2: 2, text: 'carrots' }]
+      end
+
+      def save_features(list, placements: [])
+        patch layout_member_garden_path(garden.owner, garden), params: { placements:, features: list }, as: :json
+      end
+
+      it 'saves them with the rest of the arrangement, and sends them back' do
+        save_features(features)
+
+        expect(response).to have_http_status(:ok)
+        expect(garden.reload.layout_features.pluck('kind')).to eq %w(stone label row)
+        expect(garden.layout_features.last).to include('x2' => 3.5, 'text' => 'carrots')
+        expect(response.parsed_body['features'].length).to eq 3
+      end
+
+      it 'refuses the whole arrangement if one is off the bed' do
+        save_features([{ id: 'a', kind: 'stone', x: 9, y: 1 }], placements: [at(tomato_plant, 1, 1)])
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['errors']['features']).to eq ['A stone, label or row is off the bed']
+        expect(garden.reload.layout_features).to be_empty
+        expect(tomato_plant.reload.bed_x).to be_nil
+      end
+
+      it 'leaves them alone when a save does not mention them' do
+        garden.update_column(:layout_features, [{ 'kind' => 'stone', 'x' => 1, 'y' => 1 }]) # rubocop:disable Rails/SkipsModelValidations
+        save_layout([at(tomato_plant, 1, 1)])
+
+        expect(garden.reload.layout_features.length).to eq 1
+      end
+    end
+
     # Development raises on unpermitted parameters and test only logs, so this
     # turns the check on to cover what the browser actually hits: the route's
     # :member_slug and :slug, plus the empty :garden that wrap_parameters adds
@@ -236,8 +275,11 @@ describe "Gardens" do
       original = ActionController::Parameters.action_on_unpermitted_parameters
       ActionController::Parameters.action_on_unpermitted_parameters = :raise
       sign_in owner
-      save_layout([at(tomato_plant, 1, 1, diameter: 2), { planting_id: lettuce.id, bed_x: 2, bed_y: 2 }],
-                  composted: [lettuce_plants.last.id])
+      patch layout_member_garden_path(garden.owner, garden),
+            params: { placements: [at(tomato_plant, 1, 1, diameter: 2), { planting_id: lettuce.id, bed_x: 2, bed_y: 2 }],
+                      composted:  [lettuce_plants.last.id],
+                      features:   [{ id: 'a', kind: 'row', x: 0.5, y: 1, x2: 3, y2: 1, text: 'beans' }] },
+            as:     :json
 
       expect(response).to have_http_status(:ok)
       expect(tomato_plant.reload).to have_attributes(bed_x: 1, diameter: 2)

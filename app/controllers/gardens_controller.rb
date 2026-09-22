@@ -71,12 +71,14 @@ class GardensController < DataController
     @layout_errors = {}
     placements = layout_params
     composted = compost_params
+    features = features_params
     saved = Garden.transaction do
       # In case something was planted since the page was opened.
       @garden.prepare_layout
       compost(composted)
       clear_positions
       apply_placements(placements)
+      apply_features(features) unless features.nil?
       raise ActiveRecord::Rollback if @layout_errors.present?
 
       sync_quantities
@@ -201,6 +203,15 @@ class GardensController < DataController
     plants.destroy_all
   end
 
+  # Stones, labels and rows are saved as a list on the garden, checked here and
+  # written directly: a full save would geocode the garden on every drag.
+  def apply_features(features)
+    problems = @garden.layout_feature_problems(features)
+    return @layout_errors[:features] = problems if problems.any?
+
+    @garden.update_column(:layout_features, features) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   # The number of plants is whatever ended up on and off the bed, so dragging
   # one more onto the grid is what makes the planting bigger.
   def sync_quantities
@@ -219,6 +230,20 @@ class GardensController < DataController
 
     placements.map do |placement|
       placement.permit(:plant_id, :planting_id, :bed_x, :bed_y, :diameter).to_h.symbolize_keys
+    end
+  end
+
+  # The stones, labels and rows, as plain hashes with numbers as numbers. Nil
+  # when the request doesn't send them, which leaves them as they are.
+  def features_params
+    features = params[:features]
+    return nil if features.nil?
+    return [] unless features.is_a?(Array)
+
+    features.map do |feature|
+      hash = feature.permit(:id, :kind, :x, :y, :x2, :y2, :text).to_h
+      %w(x y x2 y2).each { |key| hash[key] = Float(hash[key], exception: false) if hash.key?(key) }
+      hash.compact
     end
   end
 

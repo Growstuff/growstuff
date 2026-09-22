@@ -245,6 +245,51 @@ describe Garden do
     end
   end
 
+  describe 'stepping stones, labels and rows' do
+    let(:bed) { create(:garden, owner:, grid_columns: 4, grid_rows: 3) }
+
+    def problems(features)
+      bed.layout_feature_problems(features)
+    end
+
+    it 'takes stones, labels and rows that sit on the bed' do
+      expect(problems([
+                        { 'kind' => 'stone', 'x' => 0.4, 'y' => 2.6 },
+                        { 'kind' => 'label', 'x' => 4, 'y' => 0, 'text' => 'path' },
+                        { 'kind' => 'row', 'x' => 0.5, 'y' => 1, 'x2' => 3.5, 'y2' => 1, 'text' => '' }
+                      ])).to be_empty
+    end
+
+    it 'refuses anything off the bed, including the far end of a row' do
+      expect(problems([{ 'kind' => 'stone', 'x' => 4.5, 'y' => 1 }])).to eq ['A stone, label or row is off the bed']
+      expect(problems([{ 'kind' => 'row', 'x' => 1, 'y' => 1, 'x2' => 9, 'y2' => 1 }])).to be_present
+    end
+
+    it 'refuses things it does not know, empty labels and long names' do
+      expect(problems([{ 'kind' => 'dragon', 'x' => 1, 'y' => 1 }])).to be_present
+      expect(problems([{ 'kind' => 'label', 'x' => 1, 'y' => 1, 'text' => ' ' }])).to be_present
+      expect(problems([{ 'kind' => 'label', 'x' => 1, 'y' => 1, 'text' => 'x' * 41 }])).to be_present
+      expect(problems('not a list')).to be_present
+    end
+
+    it 'has a limit on how many there can be' do
+      stones = Array.new(Garden::MAX_LAYOUT_FEATURES + 1) { { 'kind' => 'stone', 'x' => 1, 'y' => 1 } }
+      expect(problems(stones)).to be_present
+    end
+
+    it 'is checked when the garden is saved' do
+      bed.layout_features = [{ 'kind' => 'stone', 'x' => 10, 'y' => 1 }]
+      expect(bed).not_to be_valid
+    end
+
+    it 'does not shrink the bed out from under one' do
+      bed.update!(layout_features: [{ 'kind' => 'row', 'x' => 0.5, 'y' => 1, 'x2' => 3.5, 'y2' => 1 }])
+      bed.grid_columns = 3
+
+      expect(bed).not_to be_valid
+    end
+  end
+
   describe '#prepare_layout' do
     let(:bed) { create(:garden, owner:) }
 
