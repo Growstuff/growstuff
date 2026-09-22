@@ -51,6 +51,24 @@ function clamp(value, low, high) {
   return Math.min(Math.max(value, low), high);
 }
 
+// Keeps every plant wholly on the bed. A position is the plant's centre, so it
+// has to stay half the plant's width from each edge, or a big plant near the
+// edge hangs over the frame. A plant wider than the bed sits in the middle.
+function fitPlants(plantings, garden) {
+  return plantings.map((planting) => ({
+    ...planting,
+    plants: planting.plants.map((plant) => {
+      if (!isPlaced(plant)) return plant;
+      const radius = Math.min(diameterOf(plant, planting), garden.grid_columns, garden.grid_rows) / 2;
+      return {
+        ...plant,
+        bed_x: Number(clamp(plant.bed_x, radius, garden.grid_columns - radius).toFixed(3)),
+        bed_y: Number(clamp(plant.bed_y, radius, garden.grid_rows - radius).toFixed(3)),
+      };
+    }),
+  }));
+}
+
 // What goes inside a plant's circle: the crop's icon.
 function PlantFace({planting, labelled = false}) {
   return <img src={planting.icon_url} alt={labelled ? planting.crop_name : ''} className="garden-layout-icon" />;
@@ -107,7 +125,7 @@ export default function GardenLayout({
   const [garden, setGarden] = useState(initialGarden);
   const savedSize = useRef({columns: initialGarden.grid_columns, rows: initialGarden.grid_rows});
   const resizeTimer = useRef(null);
-  const [plantings, setPlantings] = useState(() => withKeys(initialPlantings));
+  const [plantings, setPlantings] = useState(() => fitPlants(withKeys(initialPlantings), initialGarden));
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null);
   const [notice, setNotice] = useState(null);
@@ -117,7 +135,7 @@ export default function GardenLayout({
   const ghostCount = useRef(0);
   const gulpTimer = useRef(null);
   const [dragging, setDragging] = useState(null);
-  const lastSaved = useRef(withKeys(initialPlantings));
+  const lastSaved = useRef(fitPlants(withKeys(initialPlantings), initialGarden));
   const newPlants = useRef(0);
   // The soil inside the bed's frame. Drops are measured against this, not the
   // whole bed, so a plant lands where it's let go rather than a frame's width off.
@@ -148,14 +166,15 @@ export default function GardenLayout({
 
   // composted: ids of plants to delete outright, rather than just take off the
   // bed; the server needs telling, since a missing plant otherwise means lifted.
-  async function save(next, {composted = []} = {}) {
+  async function save(unfitted, {composted = []} = {}) {
+    const next = fitPlants(unfitted, garden);
     setPlantings(next);
     setSaving(true);
     setMessage(null);
     const {ok, data} = await patchJson(saveUrl, {placements: placementsOf(next), composted});
     setSaving(false);
     if (ok && data) {
-      const saved = withKeys(data.plantings);
+      const saved = fitPlants(withKeys(data.plantings), garden);
       lastSaved.current = saved;
       setPlantings(saved);
     } else {
@@ -232,7 +251,7 @@ export default function GardenLayout({
     setPlanting(false);
     const {ok, data} = await getJson(layoutUrl);
     if (ok && data) {
-      const fresh = withKeys(data.plantings);
+      const fresh = fitPlants(withKeys(data.plantings), garden);
       lastSaved.current = fresh;
       setPlantings(fresh);
       setMessage(null);
@@ -254,11 +273,15 @@ export default function GardenLayout({
     })));
   }
 
-  // The furthest any placed plant sits, so the bed can't shrink out from under it.
+  // How far out the placed plants reach, edges and all, so the bed can't
+  // shrink out from under one.
   function reach() {
-    return onGrid.reduce((far, {plant}) => ({
-      columns: Math.max(far.columns, plant.bed_x), rows: Math.max(far.rows, plant.bed_y),
-    }), {columns: 0, rows: 0});
+    return onGrid.reduce((far, {plant, planting}) => {
+      const radius = diameterOf(plant, planting) / 2;
+      return {
+        columns: Math.max(far.columns, plant.bed_x + radius), rows: Math.max(far.rows, plant.bed_y + radius),
+      };
+    }, {columns: 0, rows: 0});
   }
 
   // Redraws straight away, and saves once typing pauses, so each keystroke
@@ -365,7 +388,9 @@ export default function GardenLayout({
     if (!current) return;
     const distance = Math.hypot(event.clientX - current.centre.x, event.clientY - current.centre.y);
     // In steps of a twentieth of a cell, so sizes come out as tidy numbers.
-    const diameter = clamp(Math.round((2 * distance / current.cellPx) * 20) / 20, 0.25, maxDiameter);
+    // No bigger than the bed, which it couldn't then fit on.
+    const largest = Math.min(maxDiameter, garden.grid_columns, garden.grid_rows);
+    const diameter = clamp(Math.round((2 * distance / current.cellPx) * 20) / 20, 0.25, largest);
     setLiveSize({key: current.key, diameter});
   }
 
