@@ -68,7 +68,7 @@
       %section.card
         %h2 Garden progress
         .card-body
-          = render 'plantings/progress_list', plantings: @garden.plantings.active
+          = render 'plantings/progress_list', plantings: @garden.plantings.active.limit(10)
 
     %section
       %h2 Current plantings in garden
@@ -196,9 +196,10 @@
       %%p
         = add_photo_button(@garden)
 
-    - if @garden.photos.size.positive?
+    - if @photos.present? && @photos.any?
       %section.photos
         %h2= localize_plural(@garden.photos, Photo)
         .index-cards
-          - @garden.photos.includes(:owner).each do |photo|
+          - @photos.each do |photo|
             = render 'photos/thumbnail', photo: photo
+        = will_paginate @photos

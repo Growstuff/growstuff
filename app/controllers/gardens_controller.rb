@@ -40,6 +40,7 @@ class GardensController < DataController
     @suggested_companions = Crop.approved.where(
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
+    @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).paginate(page: params[:page])
     respond_with(@garden)
   end
 
