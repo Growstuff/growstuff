@@ -3,7 +3,7 @@
   -# Saving seeds is in the page's actions menu too; this is the quiet
   -# affordance in place, and the link behind the menu item.
   - if can?(:edit, planting) && !planting.failed?
-    = link_to new_planting_seed_path(planting_slug: planting.slug), class: 'btn btn-sm section-add' do
+    = link_to new_planting_seed_path(planting_slug: planting.slug), class: 'btn btn-sm section-add', data: { planting_dialog: 'seeds' } do
       = icon 'fas', 'plus'
       add
 

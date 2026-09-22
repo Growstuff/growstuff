@@ -3,7 +3,7 @@
   -# Recording a harvest is in the page's actions menu too; this is the quiet
   -# affordance in place, and the link behind the menu item.
   - if can?(:edit, planting) && !planting.failed && can?(:create, Harvest)
-    = link_to new_planting_harvest_path(planting_slug: planting.slug), class: 'btn btn-sm section-add' do
+    = link_to new_planting_harvest_path(planting_slug: planting.slug), class: 'btn btn-sm section-add', data: { planting_dialog: 'harvest' } do
       = icon 'fas', 'plus'
       add
 - if planting.harvests.empty?

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import ActionsMenu from './ActionsMenu';
 import AddPhotoModal from './AddPhotoModal';
@@ -48,6 +48,22 @@ export default function PlantingActions({
 
   const close = () => setOpen(null);
   const saved = () => window.location.reload();
+
+  // The quiet "add" on each section heading opens the same dialog as the menu
+  // item does. Those are server-rendered links, outside this island, so we
+  // listen for them here; their href stays as the fallback without JavaScript.
+  useEffect(() => {
+    function onClick(event) {
+      const trigger = event.target.closest('[data-planting-dialog]');
+      if (!trigger) return;
+      const which = trigger.dataset.plantingDialog;
+      event.preventDefault();
+      if (which === 'photo') setPhoto({href: trigger.getAttribute('href')});
+      setOpen(which);
+    }
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
 
   return (
     <>

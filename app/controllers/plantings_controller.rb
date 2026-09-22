@@ -18,7 +18,7 @@ class PlantingsController < DataController
   end
 
   def show
-    @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
+    @photos = @planting.photos.includes(:owner).order(date_taken: :desc).paginate(page: 1, per_page: 12)
     @harvests = Harvest.where(planting_id: @planting.id).recent
     @current_activities = @planting.activities.current.includes(:owner).order(created_at: :desc)
     @finished_activities = @planting.activities.finished.includes(:owner).order(created_at: :desc)

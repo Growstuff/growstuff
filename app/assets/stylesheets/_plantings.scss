@@ -383,6 +383,41 @@
     font-size: 0.9rem;
   }
 
+  // The rating card's stars are its value slot, so they sit where every other
+  // card's big value does: centred, with the reading beneath them. The card's
+  // own h3 is the label, so the fieldset's legend is hidden rather than
+  // repeating the word.
+  .facts .planting-rating {
+    legend {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .star-rating-stars {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .star-rating-star {
+      font-size: 1.35rem;
+    }
+
+    .star-rating-value {
+      flex: 1 0 100%;
+      margin-left: 0;
+      text-align: center;
+    }
+
+    .btn-link {
+      flex: 1 0 100%;
+      padding: 0;
+    }
+  }
+
   // Every fact card in a row is the same height, whatever its sub-line says.
   .facts .card {
     min-height: 9.5rem;

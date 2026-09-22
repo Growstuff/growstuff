@@ -9,8 +9,9 @@ import {createRoot} from 'react-dom/client';
 
 import GardenCards from './components/GardenCards';
 import PlantingActions from './components/PlantingActions';
+import PlantingRating from './components/PlantingRating';
 
-const components = {GardenCards, PlantingActions};
+const components = {GardenCards, PlantingActions, PlantingRating};
 
 function mountIslands() {
   document.querySelectorAll('[data-react-component]').forEach((element) => {

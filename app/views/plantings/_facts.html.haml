@@ -69,14 +69,20 @@
 
   .card.fact-card{class: planting.overall_rating.present? ? '' : 'text-muted'}
     %h3 Rating
-    %strong.plantingfact--rating{'aria-hidden' => 'true'}
-      - (1..5).each do |star|
-        = icon(star <= planting.overall_rating.to_f.round ? 'fas' : 'far', 'star')
-    %span.plantingfact--ratingvalue
-      - if planting.overall_rating.present?
-        = "#{number_with_precision planting.overall_rating, precision: 1, strip_insignificant_zeros: true} of 5"
-      - else
-        not rated
+    -# The stars are the edit control for whoever owns the planting: click one
+    -# to rate it. This is the one fact card the pencil doesn't suit.
+    - if can?(:edit, planting)
+      = react_component 'PlantingRating',
+        { planting: { id: planting.id, url: planting_path(planting) }, value: planting.overall_rating }
+    - else
+      %strong.plantingfact--rating{'aria-hidden' => 'true'}
+        - (1..5).each do |star|
+          = icon(star <= planting.overall_rating.to_f.round ? 'fas' : 'far', 'star')
+      %span.plantingfact--ratingvalue
+        - if planting.overall_rating.present?
+          = "#{number_with_precision planting.overall_rating, precision: 1, strip_insignificant_zeros: true} of 5"
+        - else
+          not rated
 
   -# Facts that only some plantings have.
   - if planting.parent_seed
