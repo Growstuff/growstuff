@@ -48,10 +48,13 @@ class Garden < ApplicationRecord
             numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: MAX_GRID_SIZE }
   validate :grid_must_not_cut_off_plantings
 
-  # The things on the layout that aren't plants. Each is a hash with a kind, a
-  # position in grid cells (x, y), and for a row its other end (x2, y2); a label,
-  # and optionally a row, has text.
-  LAYOUT_FEATURE_KINDS = %w(stone label row).freeze
+  # The things on the layout that aren't plants. Each is a hash with a kind and a
+  # position in grid cells (x, y). A line (a row, path, drip line, fence or
+  # trellis) runs from there to (x2, y2), and an area (netting) is the rectangle
+  # with those two corners. A label has text, and lines and areas can.
+  LAYOUT_POINT_KINDS = %w(stone sprinkler tap stake label).freeze
+  LAYOUT_SPAN_KINDS = %w(row path dripline fence trellis netting).freeze
+  LAYOUT_FEATURE_KINDS = (LAYOUT_POINT_KINDS + LAYOUT_SPAN_KINDS).freeze
   MAX_LAYOUT_FEATURES = 200
   MAX_LAYOUT_TEXT = 40
   validate :layout_features_must_fit
@@ -131,7 +134,7 @@ class Garden < ApplicationRecord
   # without a full save (which would geocode the garden every time).
   def layout_feature_problems(features, columns: grid_columns, rows: grid_rows)
     return ['The garden features must be a list'] unless features.is_a?(Array)
-    return ["A bed can have at most #{MAX_LAYOUT_FEATURES} stones, labels and rows"] if features.size > MAX_LAYOUT_FEATURES
+    return ["A bed can have at most #{MAX_LAYOUT_FEATURES} garden features"] if features.size > MAX_LAYOUT_FEATURES
 
     features.filter_map { |feature| layout_feature_problem(feature, columns, rows) }.uniq
   end
@@ -184,11 +187,11 @@ class Garden < ApplicationRecord
 
   def layout_feature_problem(feature, columns, rows)
     known = feature.is_a?(Hash) && LAYOUT_FEATURE_KINDS.include?(feature['kind'])
-    return 'Only stones, labels and rows can go on the bed' unless known
+    return "That isn't something that can go on the bed" unless known
 
     ends = [%w(x y)]
-    ends << %w(x2 y2) if feature['kind'] == 'row'
-    return 'A stone, label or row is off the bed' unless ends.all? { |col, row| on_bed?(feature[col], feature[row], columns, rows) }
+    ends << %w(x2 y2) if LAYOUT_SPAN_KINDS.include?(feature['kind'])
+    return 'A garden feature is off the bed' unless ends.all? { |col, row| on_bed?(feature[col], feature[row], columns, rows) }
 
     text = feature['text'].to_s
     return 'A label needs something written on it' if feature['kind'] == 'label' && text.strip.empty?

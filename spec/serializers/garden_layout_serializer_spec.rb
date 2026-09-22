@@ -19,7 +19,9 @@ describe GardenLayoutSerializer do
     expect(layout[:save_url]).to eq("/members/#{owner.slug}/gardens/#{garden.slug}/layout")
     expect(layout[:layout_url]).to eq("/members/#{owner.slug}/gardens/#{garden.slug}/layout.json")
     expect(layout).to include(max_grid_size: Garden::MAX_GRID_SIZE, max_diameter: Plant::MAX_DIAMETER)
-    expect(layout[:stone_icon_url]).to match(%r{\A/assets/icons/stones.*\.svg\z})
+    expect(layout[:feature_icon_urls]).to match(stone:     %r{\A/assets/icons/stones.*\.svg\z},
+                                                sprinkler: %r{\A/assets/icons/sprinkler.*\.svg\z},
+                                                tap:       %r{\A/assets/icons/hose.*\.svg\z})
   end
 
   it 'gives the stepping stones, labels and rows on the bed' do

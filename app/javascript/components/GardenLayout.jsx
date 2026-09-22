@@ -47,15 +47,50 @@ function diameterOf(plant, planting) {
   return plant.diameter ?? planting.default_diameter ?? 1;
 }
 
-// How many cells across a stepping stone is drawn.
-const STONE_SIZE = 0.8;
+// Everything besides plants that can go on the bed, in the order the sidebar
+// offers them, and how each is drawn. A point is an object with a size, centred
+// on (x, y); a label is text at (x, y); a line runs from (x, y) to (x2, y2); an
+// area is the rectangle with those two corners. Lines and areas share their
+// handles: drag the middle to move, the ends or corners to reshape.
+const FEATURE_TYPES = {
+  stone: {name: 'Stepping stone', shape: 'point', size: 0.8},
+  sprinkler: {name: 'Sprinkler', shape: 'point', size: 0.7},
+  tap: {name: 'Tap', shape: 'point', size: 0.6},
+  stake: {name: 'Stake', shape: 'point', size: 0.3},
+  label: {name: 'Label', shape: 'label', faIcon: 'fa-font'},
+  row: {name: 'Row', shape: 'line', faIcon: 'fa-grip-lines'},
+  path: {name: 'Path', shape: 'line', faIcon: 'fa-shoe-prints'},
+  dripline: {name: 'Drip line', shape: 'line', faIcon: 'fa-tint'},
+  fence: {name: 'Fence', shape: 'line', faIcon: 'fa-grip-lines-vertical'},
+  trellis: {name: 'Trellis', shape: 'line', faIcon: 'fa-border-all'},
+  netting: {name: 'Netting', shape: 'area', faIcon: 'fa-th'},
+};
+
+function shapeOf(feature) {
+  return FEATURE_TYPES[feature.kind]?.shape;
+}
+
+// Lines and areas: the kinds with two points, moved by their middle.
+function isSpan(feature) {
+  return ['line', 'area'].includes(shapeOf(feature));
+}
+
+// How big a feature is, for keeping it on the bed; labels and the ends of
+// lines and areas are points.
+function featureSize(feature) {
+  return FEATURE_TYPES[feature.kind]?.size || 0;
+}
+
+function featureName(kind) {
+  return FEATURE_TYPES[kind].name.toLowerCase();
+}
 
 function round3(value) {
   return Number(value.toFixed(3));
 }
 
-// A row as it would be with one end dragged somewhere else.
-function withRowEnd(row, end, x, y) {
+// A line or area as it would be with one end or corner dragged elsewhere.
+function withEnd(row, end, x, y) {
   return end === 'start' ? {...row, x, y} : {...row, x2: x, y2: y};
 }
 
@@ -155,7 +190,7 @@ export default function GardenLayout({
   garden: initialGarden, editable, resizable, plantable, max_grid_size: maxGridSize, max_diameter: maxDiameter,
   save_url: saveUrl,
   layout_url: layoutUrl, spade_icon_url: spadeIconUrl, compost_icon_url: compostIconUrl, plantings: initialPlantings,
-  features: initialFeatures = [], stone_icon_url: stoneIconUrl,
+  features: initialFeatures = [], feature_icon_urls: featureIcons = {},
 }) {
   const [planting, setPlanting] = useState(false);
   // The bed's size is edited here too, and redraws as it's typed.
@@ -187,9 +222,9 @@ export default function GardenLayout({
   const [features, setFeatures] = useState(initialFeatures);
   const lastSavedFeatures = useRef(initialFeatures);
   const featureCount = useRef(0);
-  // A row end being dragged, and where it is so far.
-  const rowEnd = useRef(null);
-  const [liveRow, setLiveRow] = useState(null);
+  // A line's end or an area's corner being dragged, and where it is so far.
+  const endDragged = useRef(null);
+  const [liveEnd, setLiveEnd] = useState(null);
   // The size last given to a plant of each planting, by planting id, so the
   // next one taken off its chip matches: shrink a chive and the next is as small.
   const nextSizes = useRef({});
@@ -349,7 +384,7 @@ export default function GardenLayout({
       };
     }, {columns: 0, rows: 0});
     return features.reduce((far, feature) => {
-      const margin = feature.kind === 'stone' ? STONE_SIZE / 2 : 0;
+      const margin = featureSize(feature) / 2;
       return {
         columns: Math.max(far.columns, feature.x + margin, feature.x2 ?? 0),
         rows: Math.max(far.rows, feature.y + margin, feature.y2 ?? 0),
@@ -478,8 +513,8 @@ export default function GardenLayout({
     setLiveSize(null);
   }
 
-  // Stepping stones, labels and rows. Each saves the whole arrangement, as a
-  // plant does.
+  // The garden features: stones, sprinklers, labels, rows, netting and the rest.
+  // Each change saves the whole arrangement, as a plant does.
   function saveFeatures(nextFeatures) {
     save(plantings, {nextFeatures});
   }
@@ -500,30 +535,38 @@ export default function GardenLayout({
   }
 
   function addFeature(kind, x, y) {
+    const type = FEATURE_TYPES[kind];
+    if (!type) return;
     const {grid_columns: columns, grid_rows: rows} = garden;
     const id = newFeatureId();
-    if (kind === 'stone') {
-      saveFeatures([...features, {id, kind, x: onBed(x, columns, STONE_SIZE / 2), y: onBed(y, rows, STONE_SIZE / 2)}]);
-    } else if (kind === 'label') {
+    if (type.shape === 'point') {
+      const margin = type.size / 2;
+      saveFeatures([...features, {id, kind, x: onBed(x, columns, margin), y: onBed(y, rows, margin)}]);
+    } else if (type.shape === 'label') {
       const text = askForText('What should the label say?');
       if (text) saveFeatures([...features, {id, kind, x: onBed(x, columns), y: onBed(y, rows), text}]);
-    } else if (kind === 'row') {
-      // Two cells long, across the bed; drag its ends to set where it runs.
-      const half = Math.min(1, columns / 2);
-      const middle = onBed(x, columns, half);
-      const across = onBed(y, rows);
-      saveFeatures([...features, {id, kind, x: round3(middle - half), y: across, x2: round3(middle + half), y2: across}]);
+    } else {
+      // A line two cells long, across the bed, or an area two cells square;
+      // drag its ends or corners to reshape it.
+      const halfX = Math.min(1, columns / 2);
+      const halfY = type.shape === 'area' ? Math.min(1, rows / 2) : 0;
+      const middleX = onBed(x, columns, halfX);
+      const middleY = onBed(y, rows, halfY);
+      saveFeatures([...features, {
+        id, kind,
+        x: round3(middleX - halfX), y: round3(middleY - halfY), x2: round3(middleX + halfX), y2: round3(middleY + halfY),
+      }]);
     }
   }
 
-  // Moves a stone or label to (x, y); a row is moved by its middle, keeping its
-  // length and direction, and both ends on the bed.
+  // Moves a point or label to (x, y). A line or area moves by its middle,
+  // keeping its shape, and all of it on the bed.
   function moveFeature(id, x, y) {
     const {grid_columns: columns, grid_rows: rows} = garden;
     saveFeatures(features.map((feature) => {
       if (feature.id !== id) return feature;
-      if (feature.kind !== 'row') {
-        const margin = feature.kind === 'stone' ? STONE_SIZE / 2 : 0;
+      if (!isSpan(feature)) {
+        const margin = featureSize(feature) / 2;
         return {...feature, x: onBed(x, columns, margin), y: onBed(y, rows, margin)};
       }
       const halfX = (feature.x2 - feature.x) / 2;
@@ -540,50 +583,53 @@ export default function GardenLayout({
   function removeFeature(id, event) {
     const feature = features.find((candidate) => candidate.id === id);
     if (!feature) return;
-    if (feature.kind === 'stone') throwInBin(event, {icon_url: stoneIconUrl});
-    setNotice(`Took the ${feature.kind === 'stone' ? 'stepping stone' : feature.kind} off the bed.`);
+    if (featureIcons[feature.kind]) throwInBin(event, {icon_url: featureIcons[feature.kind]});
+    setNotice(`Took the ${featureName(feature.kind)} off the bed.`);
     saveFeatures(features.filter((candidate) => candidate.id !== id));
   }
 
-  // A label's text, or a row's name, which a row can do without.
+  // A label's text, or the name of a line or area, which they can do without.
   function rename(feature) {
-    const text = feature.kind === 'row'
-      ? askForText('What is growing in this row? (Leave it empty for no name.)', feature.text || '')
-      : askForText('What should the label say?', feature.text || '');
+    let question = `What would you like to call this ${featureName(feature.kind)}? (Leave it empty for no name.)`;
+    if (feature.kind === 'row') question = 'What is growing in this row? (Leave it empty for no name.)';
+    if (feature.kind === 'label') question = 'What should the label say?';
+    const text = askForText(question, feature.text || '');
     if (text === null || (feature.kind === 'label' && !text)) return;
     saveFeatures(features.map((candidate) => (candidate.id === feature.id ? {...candidate, text} : candidate)));
   }
 
-  // Dragging one end of a row, with pointer events like the plant resize handle.
-  function startRowEnd(event, row, end) {
+  // Dragging a line's end or an area's corner, with pointer events like the
+  // plant resize handle.
+  function startEndDrag(event, row, end) {
     event.preventDefault();
     event.stopPropagation();
-    rowEnd.current = {id: row.id, end};
+    endDragged.current = {id: row.id, end};
     event.currentTarget.setPointerCapture(event.pointerId);
   }
 
-  function moveRowEnd(event) {
-    if (!rowEnd.current) return;
+  function moveEndDrag(event) {
+    if (!endDragged.current) return;
     const rect = soilRef.current.getBoundingClientRect();
     const x = onBed(((event.clientX - rect.left) / rect.width) * garden.grid_columns, garden.grid_columns);
     const y = onBed(((event.clientY - rect.top) / rect.height) * garden.grid_rows, garden.grid_rows);
-    setLiveRow({...rowEnd.current, x, y});
+    setLiveEnd({...endDragged.current, x, y});
   }
 
-  function endRowEnd() {
-    const current = rowEnd.current;
-    rowEnd.current = null;
-    if (current && liveRow && liveRow.id === current.id) {
+  function finishEndDrag() {
+    const current = endDragged.current;
+    endDragged.current = null;
+    if (current && liveEnd && liveEnd.id === current.id) {
       saveFeatures(features.map((feature) => (feature.id === current.id
-        ? withRowEnd(feature, current.end, liveRow.x, liveRow.y)
+        ? withEnd(feature, current.end, liveEnd.x, liveEnd.y)
         : feature)));
     }
-    setLiveRow(null);
+    setLiveEnd(null);
   }
 
-  // A row as drawn right now: with the end being dragged where it has got to.
-  function rowAsDrawn(row) {
-    return liveRow && liveRow.id === row.id ? withRowEnd(row, liveRow.end, liveRow.x, liveRow.y) : row;
+  // A line or area as drawn right now: with the end or corner being dragged
+  // where it has got to.
+  function asDrawn(row) {
+    return liveEnd && liveEnd.id === row.id ? withEnd(row, liveEnd.end, liveEnd.x, liveEnd.y) : row;
   }
 
   function dragData(event) {
@@ -600,7 +646,7 @@ export default function GardenLayout({
       onDragStart: (event) => {
         // Pulling on a plant's resize handle resizes it; it shouldn't also
         // start dragging the plant it belongs to.
-        if (resizing.current || rowEnd.current) {
+        if (resizing.current || endDragged.current) {
           event.preventDefault();
           return;
         }
@@ -752,61 +798,36 @@ export default function GardenLayout({
             >
               {cells}
             </div>
-            {/* Rows and stepping stones, under the plants. */}
+            {/* Lines, then points, under the plants. */}
             <svg
-              className="garden-layout-rows"
+              className="garden-layout-overlay"
               viewBox={`0 0 ${garden.grid_columns} ${garden.grid_rows}`}
               preserveAspectRatio="none"
               aria-hidden="true"
             >
-              {features.filter((feature) => feature.kind === 'row').map(rowAsDrawn).map((row) => (
-                <g key={row.id}>
-                  <line className="garden-layout-row-furrow" x1={row.x} y1={row.y} x2={row.x2} y2={row.y2} />
-                  <line className="garden-layout-row-seam" x1={row.x} y1={row.y} x2={row.x2} y2={row.y2} />
+              {features.filter((feature) => shapeOf(feature) === 'line').map(asDrawn).map((line) => (
+                <g key={line.id} className={`garden-layout-line is-${line.kind}`}>
+                  <line className="garden-layout-line-body" x1={line.x} y1={line.y} x2={line.x2} y2={line.y2} />
+                  <line className="garden-layout-line-detail" x1={line.x} y1={line.y} x2={line.x2} y2={line.y2} />
                 </g>
               ))}
             </svg>
-            {features.filter((feature) => feature.kind === 'row').map(rowAsDrawn).map((row) => (
-              <React.Fragment key={row.id}>
-                {/* Its name, and the handle to move it by, at its middle. */}
-                {(editable || row.text) && (
-                  <div
-                    className={`garden-layout-row-grip${dragging === `feature:${row.id}` ? ' is-dragging' : ''}`}
-                    style={{left: acrossBed((row.x + row.x2) / 2), top: downBed((row.y + row.y2) / 2)}}
-                    title={editable ? 'A row: drag to move it, double-click to name it' : row.text}
-                    onDoubleClick={editable ? () => rename(row) : undefined}
-                    {...dragProps(`feature:${row.id}`, {text: row.text || 'row', diameter: 1})}
-                  >
-                    {row.text || '⋮⋮'}
-                  </div>
-                )}
-                {editable && ['start', 'end'].map((end) => (
-                  <span
-                    key={end}
-                    className="garden-layout-row-end"
-                    role="presentation"
-                    title="Drag to move this end of the row"
-                    style={{
-                      left: acrossBed(end === 'start' ? row.x : row.x2),
-                      top: downBed(end === 'start' ? row.y : row.y2),
-                    }}
-                    onPointerDown={(event) => startRowEnd(event, row, end)}
-                    onPointerMove={moveRowEnd}
-                    onPointerUp={endRowEnd}
-                    onPointerCancel={endRowEnd}
-                  />
-                ))}
-              </React.Fragment>
-            ))}
-            {features.filter((feature) => feature.kind === 'stone').map((stone) => (
+            {features.filter((feature) => shapeOf(feature) === 'point').map((point) => (
               <div
-                key={stone.id}
-                className={`garden-layout-stone${dragging === `feature:${stone.id}` ? ' is-dragging' : ''}`}
-                style={{left: acrossBed(stone.x), top: downBed(stone.y), width: acrossBed(STONE_SIZE)}}
-                title="Stepping stone"
-                {...dragProps(`feature:${stone.id}`, {icon: stoneIconUrl, diameter: STONE_SIZE})}
+                key={point.id}
+                className={`garden-layout-point is-${point.kind}${dragging === `feature:${point.id}` ? ' is-dragging' : ''}`}
+                style={{left: acrossBed(point.x), top: downBed(point.y), width: acrossBed(featureSize(point))}}
+                title={FEATURE_TYPES[point.kind].name}
+                {...dragProps(`feature:${point.id}`, {
+                  icon: featureIcons[point.kind], text: FEATURE_TYPES[point.kind].name, diameter: featureSize(point),
+                })}
               >
-                <span className="garden-layout-stone-shape" />
+                <span className="garden-layout-point-shape">
+                  {/* A stone and a stake are drawn; the rest show their icon. */}
+                  {!['stone', 'stake'].includes(point.kind) && featureIcons[point.kind] && (
+                    <img src={featureIcons[point.kind]} alt={FEATURE_TYPES[point.kind].name} />
+                  )}
+                </span>
               </div>
             ))}
             {/* Biggest first, so a small plant is drawn over a big one it sits beside. */}
@@ -874,6 +895,67 @@ export default function GardenLayout({
                 {label.text}
               </div>
             ))}
+            {/* Netting, over the plants it covers. */}
+            <svg
+              className="garden-layout-overlay"
+              viewBox={`0 0 ${garden.grid_columns} ${garden.grid_rows}`}
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <defs>
+                <pattern id={`garden-layout-mesh-${garden.id}`} width="0.25" height="0.25" patternUnits="userSpaceOnUse">
+                  <path className="garden-layout-netting-mesh" d="M0 0 L0.25 0.25 M0.25 0 L0 0.25" />
+                </pattern>
+              </defs>
+              {features.filter((feature) => shapeOf(feature) === 'area').map(asDrawn).map((area) => (
+                <rect
+                  key={area.id}
+                  className={`garden-layout-area is-${area.kind}`}
+                  x={Math.min(area.x, area.x2)}
+                  y={Math.min(area.y, area.y2)}
+                  width={Math.abs(area.x2 - area.x)}
+                  height={Math.abs(area.y2 - area.y)}
+                  fill={`url(#garden-layout-mesh-${garden.id})`}
+                />
+              ))}
+            </svg>
+            {/* The handles of lines and areas, on top of everything: the middle to
+                move it and show its name, the ends or corners to reshape it. */}
+            {features.filter(isSpan).map(asDrawn).map((span) => {
+              const name = FEATURE_TYPES[span.kind].name;
+              const corner = shapeOf(span) === 'area' ? 'corner' : 'end';
+              return (
+                <React.Fragment key={span.id}>
+                  {(editable || span.text) && (
+                    <div
+                      className={`garden-layout-span-grip${dragging === `feature:${span.id}` ? ' is-dragging' : ''}`}
+                      style={{left: acrossBed((span.x + span.x2) / 2), top: downBed((span.y + span.y2) / 2)}}
+                      title={editable ? `${name}: drag to move it, double-click to name it` : span.text}
+                      onDoubleClick={editable ? () => rename(span) : undefined}
+                      {...dragProps(`feature:${span.id}`, {text: span.text || name, diameter: 1})}
+                    >
+                      {span.text || '⋮⋮'}
+                    </div>
+                  )}
+                  {editable && ['start', 'end'].map((end) => (
+                    <span
+                      key={end}
+                      className="garden-layout-span-end"
+                      role="presentation"
+                      title={`Drag to move this ${corner}`}
+                      style={{
+                        left: acrossBed(end === 'start' ? span.x : span.x2),
+                        top: downBed(end === 'start' ? span.y : span.y2),
+                      }}
+                      onPointerDown={(event) => startEndDrag(event, span, end)}
+                      onPointerMove={moveEndDrag}
+                      onPointerUp={finishEndDrag}
+                      onPointerCancel={finishEndDrag}
+                    />
+                  ))}
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
 
@@ -950,36 +1032,22 @@ export default function GardenLayout({
             <>
               <h3 className="garden-layout-tray-heading garden-layout-features-heading">Garden features</h3>
               <ul className="garden-layout-tray-list">
-                <li>
-                  <div
-                    className={`chip garden-layout-chip garden-layout-feature-chip${dragging === 'new-feature:stone' ? ' is-dragging' : ''}`}
-                    title="Drag onto the bed to put down a stepping stone"
-                    {...dragProps('new-feature:stone', {icon: stoneIconUrl, diameter: STONE_SIZE})}
-                  >
-                    <img className="crop-icon" src={stoneIconUrl} alt="" />
-                    <span className="garden-layout-chip-name">Stepping stone</span>
-                  </div>
-                </li>
-                <li>
-                  <div
-                    className={`chip garden-layout-chip garden-layout-feature-chip${dragging === 'new-feature:label' ? ' is-dragging' : ''}`}
-                    title="Drag onto the bed to add a label"
-                    {...dragProps('new-feature:label', {text: 'Aa', diameter: 1})}
-                  >
-                    <i className="fa fa-font garden-layout-feature-icon" aria-hidden="true" />
-                    <span className="garden-layout-chip-name">Label</span>
-                  </div>
-                </li>
-                <li>
-                  <div
-                    className={`chip garden-layout-chip garden-layout-feature-chip${dragging === 'new-feature:row' ? ' is-dragging' : ''}`}
-                    title="Drag onto the bed to mark out a row"
-                    {...dragProps('new-feature:row', {text: 'row', diameter: 1})}
-                  >
-                    <i className="fa fa-grip-lines garden-layout-feature-icon" aria-hidden="true" />
-                    <span className="garden-layout-chip-name">Row</span>
-                  </div>
-                </li>
+                {Object.entries(FEATURE_TYPES).map(([kind, type]) => (
+                  <li key={kind}>
+                    <div
+                      className={`chip garden-layout-chip garden-layout-feature-chip${dragging === `new-feature:${kind}` ? ' is-dragging' : ''}`}
+                      title={`Drag onto the bed to add ${kind === 'netting' ? 'netting' : `a ${featureName(kind)}`}`}
+                      {...dragProps(`new-feature:${kind}`, {icon: featureIcons[kind], text: type.name, diameter: type.size || 1})}
+                    >
+                      {featureIcons[kind] && <img className="crop-icon" src={featureIcons[kind]} alt="" />}
+                      {!featureIcons[kind] && kind === 'stake' && <span className="garden-layout-stake-swatch" />}
+                      {!featureIcons[kind] && type.faIcon && (
+                        <i className={`fa ${type.faIcon} garden-layout-feature-icon`} aria-hidden="true" />
+                      )}
+                      <span className="garden-layout-chip-name">{type.name}</span>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </>
           )}
@@ -992,7 +1060,7 @@ export default function GardenLayout({
             />
           )}
           {editable && !compostSlot && compostBin}
-          {editable && <p className="garden-layout-hint">Drag a crop or a garden feature onto the bed, or a plant back here to lift it. Double-click a label or row to rename it.</p>}
+          {editable && <p className="garden-layout-hint">Drag a crop or a garden feature onto the bed, or a plant back here to lift it. Double-click a label, line or netting to rename it.</p>}
         </aside>
       </div>
       {editable && compostSlot && createPortal(compostBin, compostSlot)}

@@ -255,14 +255,24 @@ describe Garden do
     it 'takes stones, labels and rows that sit on the bed' do
       expect(problems([
                         { 'kind' => 'stone', 'x' => 0.4, 'y' => 2.6 },
+                        { 'kind' => 'sprinkler', 'x' => 2, 'y' => 1.5 },
+                        { 'kind' => 'tap', 'x' => 3.7, 'y' => 0.3 },
+                        { 'kind' => 'stake', 'x' => 1, 'y' => 1 },
+                        { 'kind' => 'path', 'x' => 0, 'y' => 2, 'x2' => 4, 'y2' => 2 },
+                        { 'kind' => 'dripline', 'x' => 0.5, 'y' => 0.5, 'x2' => 0.5, 'y2' => 2.5 },
+                        { 'kind' => 'fence', 'x' => 0, 'y' => 3, 'x2' => 4, 'y2' => 3 },
+                        { 'kind' => 'trellis', 'x' => 3.5, 'y' => 0, 'x2' => 3.5, 'y2' => 3, 'text' => 'beans' },
+                        { 'kind' => 'netting', 'x' => 0.5, 'y' => 0.5, 'x2' => 2.5, 'y2' => 2 },
                         { 'kind' => 'label', 'x' => 4, 'y' => 0, 'text' => 'path' },
                         { 'kind' => 'row', 'x' => 0.5, 'y' => 1, 'x2' => 3.5, 'y2' => 1, 'text' => '' }
                       ])).to be_empty
     end
 
     it 'refuses anything off the bed, including the far end of a row' do
-      expect(problems([{ 'kind' => 'stone', 'x' => 4.5, 'y' => 1 }])).to eq ['A stone, label or row is off the bed']
+      expect(problems([{ 'kind' => 'stone', 'x' => 4.5, 'y' => 1 }])).to eq ['A garden feature is off the bed']
       expect(problems([{ 'kind' => 'row', 'x' => 1, 'y' => 1, 'x2' => 9, 'y2' => 1 }])).to be_present
+      expect(problems([{ 'kind' => 'sprinkler', 'x' => 1, 'y' => -1 }])).to be_present
+      expect(problems([{ 'kind' => 'netting', 'x' => 1, 'y' => 1 }])).to be_present
     end
 
     it 'refuses things it does not know, empty labels and long names' do

@@ -186,9 +186,10 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     touch-action: none;
   }
 
-  // Rows, drawn over the whole bed in grid cells: a dug furrow with a line of
-  // twine down it. Pointer events go to the handles, not the drawing.
-  .garden-layout-rows {
+  // Lines and netting are drawn in SVG over the whole bed, in grid cells, one
+  // layer under the plants and one over them. Pointer events go to the
+  // handles, never the drawing, so plants underneath can still be picked up.
+  .garden-layout-overlay {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -197,21 +198,100 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     pointer-events: none;
   }
 
-  .garden-layout-row-furrow {
-    stroke: rgba(30, 18, 10, 0.55);
-    stroke-width: 0.3;
-    stroke-linecap: round;
+  .garden-layout-line line {
+    fill: none;
   }
 
-  .garden-layout-row-seam {
-    stroke: $garden-layout-twine;
-    stroke-width: 0.05;
-    stroke-dasharray: 0.15 0.15;
-    stroke-linecap: round;
+  // A row: a dug furrow with a line of twine down it.
+  .garden-layout-line.is-row {
+    .garden-layout-line-body {
+      stroke: rgba(30, 18, 10, 0.55);
+      stroke-width: 0.3;
+      stroke-linecap: round;
+    }
+
+    .garden-layout-line-detail {
+      stroke: $garden-layout-twine;
+      stroke-width: 0.05;
+      stroke-dasharray: 0.15 0.15;
+      stroke-linecap: round;
+    }
   }
 
-  // A row's name at its middle, which is also what moves it.
-  .garden-layout-row-grip {
+  // A path: a wide strip of pale gravel, speckled.
+  .garden-layout-line.is-path {
+    .garden-layout-line-body {
+      stroke: #cbbfa6;
+      stroke-width: 0.7;
+      stroke-linecap: round;
+    }
+
+    .garden-layout-line-detail {
+      stroke: #a8997e;
+      stroke-width: 0.5;
+      stroke-dasharray: 0.03 0.1;
+      stroke-linecap: round;
+    }
+  }
+
+  // A drip line: a thin blue pipe with an emitter every half cell.
+  .garden-layout-line.is-dripline {
+    .garden-layout-line-body {
+      stroke: #2f7fc1;
+      stroke-width: 0.07;
+      stroke-linecap: round;
+    }
+
+    .garden-layout-line-detail {
+      stroke: #2f7fc1;
+      stroke-width: 0.17;
+      stroke-dasharray: 0 0.5;
+      stroke-linecap: round;
+    }
+  }
+
+  // A fence: a dark rail with a post every cell.
+  .garden-layout-line.is-fence {
+    .garden-layout-line-body {
+      stroke: #3e2a1c;
+      stroke-width: 0.07;
+    }
+
+    .garden-layout-line-detail {
+      stroke: #3e2a1c;
+      stroke-width: 0.22;
+      stroke-dasharray: 0.12 0.88;
+    }
+  }
+
+  // A trellis: a strip of light timber lattice.
+  .garden-layout-line.is-trellis {
+    .garden-layout-line-body {
+      stroke: #c9a36a;
+      stroke-width: 0.22;
+    }
+
+    .garden-layout-line-detail {
+      stroke: #7a5a33;
+      stroke-width: 0.22;
+      stroke-dasharray: 0.03 0.12;
+    }
+  }
+
+  // Netting: a pale mesh, see-through, over the plants it covers.
+  .garden-layout-area.is-netting {
+    stroke: rgba(255, 255, 255, 0.75);
+    stroke-width: 0.04;
+    stroke-dasharray: 0.12 0.06;
+  }
+
+  .garden-layout-netting-mesh {
+    stroke: rgba(255, 255, 255, 0.5);
+    stroke-width: 0.015;
+  }
+
+  // A line's or area's middle: its name, and the handle to move it by.
+  .garden-layout-span-grip {
     position: absolute;
     padding: 0 0.45rem;
     font-size: 0.7rem;
@@ -227,8 +307,8 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     }
   }
 
-  // The ends of a row, offered while the pointer is over the bed.
-  .garden-layout-row-end {
+  // Its ends or corners, offered while the pointer is over the bed.
+  .garden-layout-span-end {
     position: absolute;
     width: 12px;
     height: 12px;
@@ -242,30 +322,67 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     touch-action: none;
   }
 
-  .garden-layout-grid:hover .garden-layout-row-end {
+  .garden-layout-grid:hover .garden-layout-span-end {
     opacity: 1;
   }
 
-  // A stepping stone: a flat grey pebble, only the stone itself grabbable.
-  .garden-layout-stone {
+  // A point on the bed: stone, sprinkler, tap or stake. Only its shape is
+  // grabbable, not the square box around it.
+  .garden-layout-point {
     position: absolute;
     aspect-ratio: 1;
     pointer-events: none;
     transform: translate(-50%, -50%);
 
-    &[draggable="true"] .garden-layout-stone-shape {
+    &[draggable="true"] .garden-layout-point-shape {
       cursor: grab;
     }
   }
 
-  .garden-layout-stone-shape {
-    display: block;
+  .garden-layout-point-shape {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
     pointer-events: auto;
+    border-radius: 50%;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.45);
+
+    img {
+      width: 72%;
+      height: 72%;
+    }
+  }
+
+  // A stepping stone: a flat grey pebble.
+  .garden-layout-point.is-stone .garden-layout-point-shape {
     background: radial-gradient(circle at 35% 30%, #dcd9d2, #aaa69c 60%, #8b877e);
     border-radius: 48% 52% 45% 55% / 55% 45% 55% 45%;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5), inset 0 -2px 3px rgba(0, 0, 0, 0.25);
+  }
+
+  // Water: a sprinkler or tap, its icon on a white disc ringed in blue.
+  .garden-layout-point.is-sprinkler .garden-layout-point-shape,
+  .garden-layout-point.is-tap .garden-layout-point-shape {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #4f8fc0;
+  }
+
+  // A stake, seen from above: the round top of a wooden post.
+  .garden-layout-point.is-stake .garden-layout-point-shape,
+  .garden-layout-stake-swatch {
+    background: radial-gradient(circle, #b08a5a 0 25%, #8a653d 26% 45%, #a07a4c 46% 65%, #6f4f2e 66%);
+    border: 1px solid #4a3322;
+  }
+
+  .garden-layout-stake-swatch {
+    display: inline-block;
+    flex: none;
+    width: 14px;
+    height: 14px;
+    margin: 0 5px;
+    border-radius: 50%;
   }
 
   // A label, like a plant marker stuck in the soil.
@@ -287,8 +404,8 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     }
   }
 
-  .garden-layout-row-grip,
-  .garden-layout-stone,
+  .garden-layout-span-grip,
+  .garden-layout-point,
   .garden-layout-label {
     &.is-dragging {
       opacity: 0.4;
@@ -716,7 +833,7 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
 
 @media (prefers-reduced-motion: reduce) {
   .garden-layout .garden-layout-plant,
-  .garden-layout .garden-layout-row-end {
+  .garden-layout .garden-layout-span-end {
     transition: none;
   }
 }

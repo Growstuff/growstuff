@@ -233,6 +233,8 @@ describe "Gardens" do
 
       let(:features) do
         [{ id: 'a', kind: 'stone', x: 1.5, y: 1.5 },
+         { id: 's', kind: 'sprinkler', x: 3, y: 1 },
+         { id: 'n', kind: 'netting', x: 0.5, y: 0.5, x2: 2, y2: 2 },
          { id: 'b', kind: 'label', x: 2, y: 0.5, text: 'path' },
          { id: 'c', kind: 'row', x: 0.5, y: 2, x2: 3.5, y2: 2, text: 'carrots' }]
       end
@@ -245,16 +247,16 @@ describe "Gardens" do
         save_features(features)
 
         expect(response).to have_http_status(:ok)
-        expect(garden.reload.layout_features.pluck('kind')).to eq %w(stone label row)
+        expect(garden.reload.layout_features.pluck('kind')).to eq %w(stone sprinkler netting label row)
         expect(garden.layout_features.last).to include('x2' => 3.5, 'text' => 'carrots')
-        expect(response.parsed_body['features'].length).to eq 3
+        expect(response.parsed_body['features'].length).to eq 5
       end
 
       it 'refuses the whole arrangement if one is off the bed' do
         save_features([{ id: 'a', kind: 'stone', x: 9, y: 1 }], placements: [at(tomato_plant, 1, 1)])
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['errors']['features']).to eq ['A stone, label or row is off the bed']
+        expect(response.parsed_body['errors']['features']).to eq ['A garden feature is off the bed']
         expect(garden.reload.layout_features).to be_empty
         expect(tomato_plant.reload.bed_x).to be_nil
       end
