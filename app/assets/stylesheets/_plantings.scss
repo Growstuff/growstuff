@@ -410,8 +410,22 @@
 
   // The timeline and harvest months are context for the title, not part of it.
   .harvest-months {
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     font-size: 0.9rem;
+  }
+
+  .harvest-months-label {
+    margin-bottom: 0.4rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(65, 63, 59, 0.7);
+  }
+
+  .harvest-months-legend,
+  .harvest-months-empty {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
   }
 
   // Harvest months in the grower's own seasons, three to a season, each group

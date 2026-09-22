@@ -430,6 +430,12 @@ en:
       activities_current: Planned
       activities_finished: Finished
       neighbours: World neighbours
+      harvest_months: Harvest months
+      harvest_months_unknown: >
+        Not enough data on this crop at this latitude yet to say when it is
+        usually harvested.
+      harvest_months_legend: Highlighted months are when this crop is usually harvested here.
+      harvest_month_yes: "%{month}, usually harvesting"
       grower: Grower
       crop: Crop
       neighbours_explanation: Other %{crop} plantings at the same latitude.
