@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_22_120002) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_22_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -545,6 +545,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_120002) do
     t.string "approval_status", default: "approved"
     t.datetime "created_at", precision: nil
     t.integer "creator_id"
+    t.float "default_diameter"
     t.text "description"
     t.string "en_wikipedia_url"
     t.string "en_youtube_url"
@@ -914,6 +915,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_120002) do
     t.float "bed_x"
     t.float "bed_y"
     t.datetime "created_at", null: false
+    t.float "diameter"
     t.bigint "planting_id", null: false
     t.datetime "updated_at", null: false
     t.index ["planting_id", "bed_x", "bed_y"], name: "index_plants_on_planting_id_and_bed_x_and_bed_y"

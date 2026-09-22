@@ -5,8 +5,13 @@
 # layout grid separately, and so per-plant state (one of them failing, say) has
 # somewhere to live later.
 #
-# bed_x and bed_y are both nil until the plant is placed on the grid.
+# bed_x and bed_y are both nil until the plant is placed on the grid. diameter
+# is nil until the plant is resized, and it's then drawn at its crop's size.
 class Plant < ApplicationRecord
+  # The biggest a plant can be drawn, in grid cells: room for a pumpkin, and
+  # still smaller than any sensible bed.
+  MAX_DIAMETER = 6
+
   belongs_to :planting
 
   delegate :garden, :crop, :owner, to: :planting
@@ -18,6 +23,8 @@ class Plant < ApplicationRecord
   }
 
   validates :bed_x, :bed_y, allow_nil: true, numericality: { greater_than_or_equal_to: 0 }
+  # Blank means this plant hasn't been resized, and follows its crop's default.
+  validates :diameter, allow_nil: true, numericality: { greater_than: 0, less_than_or_equal_to: MAX_DIAMETER }
   validate :position_must_be_complete
   validate :position_must_fit_the_grid
   validate :planting_must_have_room, on: :create

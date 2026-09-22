@@ -101,9 +101,37 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   }
 
   // One plant, centred on its position anywhere over the bed.
+  //
+  // The box is square but the plant is round, and boxes of plants sitting close
+  // together overlap where their circles don't. So the box itself ignores the
+  // pointer and only the circle (hit-tested to its rounded shape) and the resize
+  // handle take it: otherwise grabbing the edge of one plant picks up whichever
+  // neighbour's box is on top. The drag still starts from the box, as the
+  // circle's draggable ancestor.
   .garden-layout-plant {
+    pointer-events: none;
+
+    .garden-layout-plant-circle,
+    .garden-layout-resize {
+      pointer-events: auto;
+    }
+    // As big as the plant is, however many cells that is, rather than capped
+    // at the size a circle is elsewhere.
     .garden-layout-plant-circle {
+      max-width: none;
+      max-height: none;
       box-shadow: 0 2px 3px rgba(0, 0, 0, 0.45);
+    }
+
+    // Only offered while the pointer is over the plant, or it's being resized.
+    &:hover .garden-layout-resize,
+    &.is-resizing .garden-layout-resize {
+      opacity: 1;
+    }
+
+    &.is-resizing .garden-layout-plant-circle {
+      outline: 2px dashed rgba(255, 255, 255, 0.7);
+      outline-offset: 2px;
     }
 
     position: absolute;
@@ -121,6 +149,27 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     &.is-dragging {
       opacity: 0.4;
     }
+  }
+
+  // The resize handle: a dot on the circle's edge, down and to the right, where
+  // the edge crosses the diagonal (about 14.6% in from the corner).
+  .garden-layout-resize {
+    position: absolute;
+    right: 14.6%;
+    bottom: 14.6%;
+    width: 12px;
+    height: 12px;
+    cursor: nwse-resize;
+    background: #fff;
+    border: 2px solid $garden-layout-planting-border;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translate(50%, 50%);
+    transition: opacity 0.15s;
+    // Pointer events are captured while resizing, and the browser mustn't
+    // treat the gesture as scrolling on a touch screen.
+    touch-action: none;
   }
 
   // The circle itself, on the bed or waiting in the sidebar.
@@ -341,5 +390,28 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
 @media (prefers-reduced-motion: reduce) {
   .garden-layout-compost.is-gulping .garden-layout-compost-icon {
     animation: none;
+  }
+}
+
+// The plant being dragged, drawn at its size on the bed and centred on the
+// pointer, which is exactly where it will land. A white ring with a dark edge
+// either side, so it shows up on the soil and the page alike.
+.garden-layout-drag-avatar {
+  position: fixed;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: rgba(207, 227, 196, 0.55);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(0, 0, 0, 0.35), 0 3px 8px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+
+  img {
+    width: 70%;
+    height: 70%;
+    opacity: 0.9;
   }
 }

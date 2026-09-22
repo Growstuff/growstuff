@@ -152,7 +152,7 @@ class GardensController < DataController
       plant = plant_for(placement, existing, spoken_for)
       next if plant.nil? # the error is already recorded
 
-      plant.assign_attributes(bed_x: placement[:bed_x], bed_y: placement[:bed_y])
+      plant.assign_attributes(placement.slice(:bed_x, :bed_y, :diameter))
       @layout_errors[plant.id || :new] = plant.errors.full_messages unless plant.save
     end
   end
@@ -213,7 +213,7 @@ class GardensController < DataController
     return [] unless placements.is_a?(Array)
 
     placements.map do |placement|
-      placement.permit(:plant_id, :planting_id, :bed_x, :bed_y).to_h.symbolize_keys
+      placement.permit(:plant_id, :planting_id, :bed_x, :bed_y, :diameter).to_h.symbolize_keys
     end
   end
 

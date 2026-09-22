@@ -34,6 +34,12 @@ function allPlants(plantings) {
   return plantings.flatMap((planting) => planting.plants.map((plant) => ({plant, planting})));
 }
 
+// How many cells across a plant is drawn: its own size if it has been resized,
+// otherwise its crop's default.
+function diameterOf(plant, planting) {
+  return plant.diameter ?? planting.default_diameter ?? 1;
+}
+
 function clamp(value, low, high) {
   return Math.min(Math.max(value, low), high);
 }
@@ -42,6 +48,16 @@ function clamp(value, low, high) {
 function PlantFace({planting, labelled = false}) {
   return <img src={planting.icon_url} alt={labelled ? planting.crop_name : ''} className="garden-layout-icon" />;
 }
+
+// Swapped in for the browser's own drag picture, which is a faint snapshot that
+// all but vanishes on dark soil; the layout draws its own instead. Made once,
+// up front, as setDragImage needs an image that has already loaded.
+const invisibleDragImage = (() => {
+  if (typeof Image === 'undefined') return null;
+  const image = new Image();
+  image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  return image;
+})();
 
 // A copy of a composted plant that arcs from where it was dropped into the bin,
 // shrinking and spinning as it goes. Drawn over the page, then removed.
@@ -75,7 +91,8 @@ function prefersReducedMotion() {
 // cells, and it is a float: a plant goes exactly where it is dropped, and the
 // grid is there to measure and line things up by, not a set of slots.
 export default function GardenLayout({
-  garden: initialGarden, editable, resizable, plantable, max_grid_size: maxGridSize, save_url: saveUrl,
+  garden: initialGarden, editable, resizable, plantable, max_grid_size: maxGridSize, max_diameter: maxDiameter,
+  save_url: saveUrl,
   layout_url: layoutUrl, spade_icon_url: spadeIconUrl, compost_icon_url: compostIconUrl, plantings: initialPlantings,
 }) {
   const [planting, setPlanting] = useState(false);
@@ -98,6 +115,15 @@ export default function GardenLayout({
   // The soil inside the bed's frame. Drops are measured against this, not the
   // whole bed, so a plant lands where it's let go rather than a frame's width off.
   const soilRef = useRef(null);
+  // A resize in progress: which plant, where its centre is on screen, and how
+  // big a cell is, so the pointer's distance from the centre gives a diameter.
+  const resizing = useRef(null);
+  const [liveSize, setLiveSize] = useState(null); // {key, diameter} while dragging the handle
+  // What follows the pointer while a plant is dragged: {icon, size, x, y} in px.
+  const [avatar, setAvatar] = useState(null);
+  // The size last given to a plant of each planting, by planting id, so the
+  // next one taken off its chip matches: shrink a chive and the next is as small.
+  const nextSizes = useRef({});
 
   const everyPlant = useMemo(() => allPlants(plantings), [plantings]);
   const onGrid = useMemo(() => everyPlant.filter(({plant}) => isPlaced(plant)), [everyPlant]);
@@ -105,9 +131,12 @@ export default function GardenLayout({
   function placementsOf(list) {
     return allPlants(list)
       .filter(({plant}) => isPlaced(plant))
-      .map(({plant, planting}) => (plant.id === null || plant.id === undefined
-        ? {planting_id: planting.id, bed_x: plant.bed_x, bed_y: plant.bed_y}
-        : {plant_id: plant.id, bed_x: plant.bed_x, bed_y: plant.bed_y}));
+      .map(({plant, planting}) => {
+        const where = {bed_x: plant.bed_x, bed_y: plant.bed_y, diameter: plant.diameter ?? null};
+        return plant.id === null || plant.id === undefined
+          ? {planting_id: planting.id, ...where}
+          : {plant_id: plant.id, ...where};
+      });
   }
 
   // composted: ids of plants to delete outright, rather than just take off the
@@ -149,6 +178,19 @@ export default function GardenLayout({
     };
   }
 
+  // What the next plant off this planting's chip should be: the size last set
+  // on one of its plants here, or after a reload its newest plant that has a
+  // size of its own. Null means follow the crop's default.
+  function sizeForNext(planting) {
+    const remembered = nextSizes.current[planting.id];
+    if (remembered !== undefined) return remembered;
+
+    const sized = planting.plants
+      .filter((plant) => plant.id !== null && plant.id !== undefined && plant.diameter !== null && plant.diameter !== undefined)
+      .sort((a, b) => b.id - a.id)[0];
+    return sized ? sized.diameter : null;
+  }
+
   function moveTo(key, x, y) {
     save(withPlant(key, {bed_x: x, bed_y: y}));
   }
@@ -158,13 +200,14 @@ export default function GardenLayout({
   // had, and the server creates it.
   function placeFromStack(plantingId, x, y) {
     const planting = plantings.find((candidate) => candidate.id === plantingId);
+    const size = sizeForNext(planting);
     const spare = planting.plants.find((plant) => !isPlaced(plant));
     if (spare) {
-      save(withPlant(spare.key, {bed_x: x, bed_y: y}));
+      save(withPlant(spare.key, {bed_x: x, bed_y: y, diameter: size ?? spare.diameter ?? null}));
       return;
     }
     newPlants.current += 1;
-    const fresh = {id: null, key: `new-${newPlants.current}`, bed_x: x, bed_y: y};
+    const fresh = {id: null, key: `new-${newPlants.current}`, bed_x: x, bed_y: y, diameter: size};
     save(plantings.map((candidate) => (candidate.id === plantingId
       ? {...candidate, plants: [...candidate.plants, fresh]}
       : candidate)));
@@ -244,6 +287,19 @@ export default function GardenLayout({
     }
   }
 
+  // A planting's chip dropped in the bin: compost one of its plants that isn't
+  // on the bed. Placed ones are left alone; to compost one of those, drag it.
+  function compostSpare(plantingId, event) {
+    const planting = plantings.find((candidate) => candidate.id === plantingId);
+    if (!planting) return;
+    const spare = planting.plants.find((plant) => !isPlaced(plant));
+    if (!spare) {
+      setMessage(`Every ${planting.crop_name} is on the bed. Drag the one you want to compost into the bin.`);
+      return;
+    }
+    compost(spare.key, event);
+  }
+
   // Starts a plant's flight from the pointer to the middle of the bin's icon.
   function throwInBin(event, planting) {
     if (prefersReducedMotion() || !binIcon.current) return;
@@ -280,23 +336,101 @@ export default function GardenLayout({
     );
   }
 
+  // The handle on a plant's edge: drag it out to grow the plant, in to shrink
+  // it. Uses pointer events rather than drag-and-drop, which moves the plant.
+  function startResize(event, plant) {
+    event.preventDefault();
+    event.stopPropagation();
+    const rect = soilRef.current.getBoundingClientRect();
+    resizing.current = {
+      key: plant.key,
+      cellPx: rect.width / garden.grid_columns,
+      centre: {
+        x: rect.left + ((plant.bed_x / garden.grid_columns) * rect.width),
+        y: rect.top + ((plant.bed_y / garden.grid_rows) * rect.height),
+      },
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function resizeTo(event) {
+    const current = resizing.current;
+    if (!current) return;
+    const distance = Math.hypot(event.clientX - current.centre.x, event.clientY - current.centre.y);
+    // In steps of a twentieth of a cell, so sizes come out as tidy numbers.
+    const diameter = clamp(Math.round((2 * distance / current.cellPx) * 20) / 20, 0.25, maxDiameter);
+    setLiveSize({key: current.key, diameter});
+  }
+
+  function endResize() {
+    const current = resizing.current;
+    resizing.current = null;
+    if (liveSize && current && liveSize.key === current.key) {
+      const resized = everyPlant.find(({plant}) => plant.key === current.key);
+      if (resized) nextSizes.current[resized.planting.id] = liveSize.diameter;
+      save(withPlant(current.key, {diameter: liveSize.diameter}));
+    }
+    setLiveSize(null);
+  }
+
   function dragData(event) {
     const [kind, value] = (event.dataTransfer.getData('text/plain') || '').split(':');
     return {kind, value};
   }
 
-  function dragProps(payload) {
+  // look: the crop icon and diameter in cells, for the circle that follows the
+  // pointer while it's dragged.
+  function dragProps(payload, look) {
     if (!editable) return {};
     return {
       draggable: true,
       onDragStart: (event) => {
+        // Pulling on a plant's resize handle resizes it; it shouldn't also
+        // start dragging the plant it belongs to.
+        if (resizing.current) {
+          event.preventDefault();
+          return;
+        }
         event.dataTransfer.setData('text/plain', payload);
         event.dataTransfer.effectAllowed = 'move';
+        if (invisibleDragImage) event.dataTransfer.setDragImage(invisibleDragImage, 0, 0);
+        const cellPx = soilRef.current.getBoundingClientRect().width / garden.grid_columns;
+        setAvatar({icon: look.icon, size: Math.max(20, look.diameter * cellPx), x: event.clientX, y: event.clientY});
         setDragging(payload);
       },
-      onDragEnd: () => setDragging(null),
+      onDragEnd: endDrag,
     };
   }
+
+  function endDrag() {
+    setDragging(null);
+    setAvatar(null);
+  }
+
+  // Follow the pointer anywhere on the page while dragging, and tidy up when the
+  // drag ends however it ends. The drag's own end event isn't enough: a plant
+  // dropped in the compost is gone from the page before that event would fire.
+  useEffect(() => {
+    if (!avatar) return undefined;
+    let frame = null;
+    const follow = (event) => {
+      const {clientX: x, clientY: y} = event;
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = null;
+        setAvatar((current) => (current ? {...current, x, y} : current));
+      });
+    };
+    document.addEventListener('dragover', follow);
+    document.addEventListener('drop', endDrag, true);
+    document.addEventListener('dragend', endDrag, true);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      document.removeEventListener('dragover', follow);
+      document.removeEventListener('drop', endDrag, true);
+      document.removeEventListener('dragend', endDrag, true);
+    };
+  }, [avatar !== null]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function dropOnBed(event) {
     event.preventDefault();
@@ -315,7 +449,7 @@ export default function GardenLayout({
     <div
       className={[
         'garden-layout-compost',
-        dragging && dragging.startsWith('plant:') ? 'is-ready' : '',
+        dragging ? 'is-ready' : '',
         gulping ? 'is-gulping' : '',
       ].filter(Boolean).join(' ')}
       onDragOver={(event) => event.preventDefault()}
@@ -326,12 +460,13 @@ export default function GardenLayout({
         event.stopPropagation();
         const {kind, value} = dragData(event);
         if (kind === 'plant') compost(value, event);
+        if (kind === 'stack') compostSpare(Number(value), event);
       }}
     >
       <img src={compostIconUrl} alt="" className="garden-layout-compost-icon" ref={binIcon} />
       <span>
         <strong>Compost bin</strong>
-        <small>Drop a plant here to remove it from its planting.</small>
+        <small>Drop a plant or a crop here to remove one from its planting.</small>
       </span>
     </div>
   );
@@ -395,23 +530,48 @@ export default function GardenLayout({
             >
               {cells}
             </div>
-            {onGrid.map(({plant, planting}) => (
-              <div
-                key={plant.key}
-                className={`garden-layout-plant${dragging === `plant:${plant.key}` ? ' is-dragging' : ''}`}
-                style={{
-                  left: `${(plant.bed_x / garden.grid_columns) * 100}%`,
-                  top: `${(plant.bed_y / garden.grid_rows) * 100}%`,
-                  width: `${100 / garden.grid_columns}%`,
-                }}
-                title={`${planting.crop_name} at ${plant.bed_x}, ${plant.bed_y}`}
-                {...dragProps(`plant:${plant.key}`)}
-              >
-                <a href={planting.url} className="garden-layout-plant-circle">
-                  <PlantFace planting={planting} labelled />
-                </a>
-              </div>
-            ))}
+            {/* Biggest first, so a small plant is drawn over a big one it sits beside. */}
+            {[...onGrid]
+              .sort((a, b) => diameterOf(b.plant, b.planting) - diameterOf(a.plant, a.planting))
+              .map(({plant, planting}) => {
+                const diameter = liveSize && liveSize.key === plant.key
+                  ? liveSize.diameter
+                  : diameterOf(plant, planting);
+                return (
+                  <div
+                    key={plant.key}
+                    className={[
+                      'garden-layout-plant',
+                      dragging === `plant:${plant.key}` ? 'is-dragging' : '',
+                      liveSize && liveSize.key === plant.key ? 'is-resizing' : '',
+                    ].filter(Boolean).join(' ')}
+                    style={{
+                      left: `${(plant.bed_x / garden.grid_columns) * 100}%`,
+                      top: `${(plant.bed_y / garden.grid_rows) * 100}%`,
+                      width: `${(diameter / garden.grid_columns) * 100}%`,
+                    }}
+                    title={`${planting.crop_name}, ${diameter} ${diameter === 1 ? 'cell' : 'cells'} across`}
+                    {...dragProps(`plant:${plant.key}`, {icon: planting.icon_url, diameter})}
+                  >
+                    {/* Not a link: a plant on the bed is something to pick up and
+                        move, so a click shouldn't take you away to its planting. */}
+                    <span className="garden-layout-plant-circle">
+                      <PlantFace planting={planting} labelled />
+                    </span>
+                    {editable && (
+                      <span
+                        className="garden-layout-resize"
+                        role="presentation"
+                        title="Drag to make this plant bigger or smaller"
+                        onPointerDown={(event) => startResize(event, plant)}
+                        onPointerMove={resizeTo}
+                        onPointerUp={endResize}
+                        onPointerCancel={endResize}
+                      />
+                    )}
+                  </div>
+                );
+              })}
           </div>
         </div>
 
@@ -448,7 +608,7 @@ export default function GardenLayout({
                       <div
                         className={`chip crop-chip garden-layout-chip${dragging === `stack:${planting.id}` ? ' is-dragging' : ''}`}
                         title={`Drag onto the bed to place a ${planting.crop_name}`}
-                        {...dragProps(`stack:${planting.id}`)}
+                        {...dragProps(`stack:${planting.id}`, {icon: planting.icon_url, diameter: sizeForNext(planting) ?? planting.default_diameter ?? 1})}
                       >
                         <img className="crop-icon" src={planting.icon_url} alt="" />
                         {planting.crop_name}
@@ -478,6 +638,15 @@ export default function GardenLayout({
         </aside>
       </div>
       {editable && compostSlot && createPortal(compostBin, compostSlot)}
+      {avatar && createPortal(
+        <div
+          className="garden-layout-drag-avatar"
+          style={{left: avatar.x, top: avatar.y, width: avatar.size, height: avatar.size}}
+        >
+          <img src={avatar.icon} alt="" />
+        </div>,
+        document.body,
+      )}
       {ghosts.length > 0 && createPortal(
         ghosts.map((ghost) => <CompostGhost key={ghost.id} ghost={ghost} onDone={() => landed(ghost.id)} />),
         document.body,

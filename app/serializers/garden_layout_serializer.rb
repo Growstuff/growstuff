@@ -29,6 +29,7 @@ class GardenLayoutSerializer
       compost_icon_url: ActionController::Base.helpers.image_path('icons/earth-worm.svg'),
       save_url:         routes.update_layout_member_garden_path(@garden.owner, @garden),
       max_grid_size:    Garden::MAX_GRID_SIZE,
+      max_diameter:     Plant::MAX_DIAMETER,
       plantings:        plantings.map { |planting| planting_json(planting) }
     }
   end
@@ -36,7 +37,7 @@ class GardenLayoutSerializer
   private
 
   def plantings
-    @plantings ||= @garden.plantings.current.includes(:plants, :crop).order(:planted_at)
+    @plantings ||= @garden.plantings.current.includes(:plants, crop: { parent: :parent }).order(:planted_at)
   end
 
   def routes
@@ -57,19 +58,22 @@ class GardenLayoutSerializer
   def planting_json(planting)
     crop = planting.crop
     {
-      id:        planting.id,
-      url:       routes.planting_path(planting),
-      crop_name: crop.name,
+      id:               planting.id,
+      url:              routes.planting_path(planting),
+      crop_name:        crop.name,
       # crops#show serves the crop's icon as SVG, falling back to its parent's
       # and then to a generic sprout, so every crop has one to draw.
-      icon_url:  routes.crop_path(crop, format: 'svg'),
-      quantity:  planting.quantity,
+      icon_url:         routes.crop_path(crop, format: 'svg'),
+      quantity:         planting.quantity,
+      # What its plants are drawn at unless one has been resized, in cells.
+      default_diameter: crop.layout_diameter || 1,
       # Every plant, placed or not; the island draws a circle for each.
-      plants:    planting.plants.sort_by(&:id).map { |plant| plant_json(plant) }
+      plants:           planting.plants.sort_by(&:id).map { |plant| plant_json(plant) }
     }
   end
 
   def plant_json(plant)
-    { id: plant.id, bed_x: plant.bed_x, bed_y: plant.bed_y }
+    # diameter is nil unless this plant has been resized.
+    { id: plant.id, bed_x: plant.bed_x, bed_y: plant.bed_y, diameter: plant.diameter }
   end
 end
