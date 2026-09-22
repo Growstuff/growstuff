@@ -26,10 +26,10 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     gap: 1rem;
   }
 
+  // Not clipped, so the outline of a bed being dragged bigger can show past it.
   .garden-layout-grid-wrapper {
     flex: 1 1 auto;
-    min-width: 0; // let the grid scroll rather than push the tray off
-    overflow-x: auto;
+    min-width: 0;
   }
 
   // Bed size and clearing, above the bed.
@@ -78,6 +78,95 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
       repeating-linear-gradient(90deg, $garden-layout-timber 0 3px, $garden-layout-timber-dark 3px 7px,
         $garden-layout-timber-light 7px 9px, $garden-layout-timber 9px 14px) border-box;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(0, 0, 0, 0.45);
+  }
+
+  // The bed's right edge, bottom edge and corner, over the timber frame, for
+  // dragging it bigger or smaller. A pale grip shows while the bed is pointed at.
+  .garden-layout-bed-edge {
+    position: absolute;
+    z-index: 3;
+    touch-action: none;
+
+    &::after {
+      position: absolute;
+      content: '';
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 999px;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    &.is-right {
+      top: 0;
+      right: -10px;
+      bottom: 0;
+      width: 10px;
+      cursor: ew-resize;
+
+      &::after {
+        top: calc(50% - 14px);
+        left: 3px;
+        width: 4px;
+        height: 28px;
+      }
+    }
+
+    &.is-bottom {
+      right: 0;
+      bottom: -10px;
+      left: 0;
+      height: 10px;
+      cursor: ns-resize;
+
+      &::after {
+        top: 3px;
+        left: calc(50% - 14px);
+        width: 28px;
+        height: 4px;
+      }
+    }
+
+    &.is-corner {
+      right: -14px;
+      bottom: -14px;
+      width: 18px;
+      height: 18px;
+      cursor: nwse-resize;
+      background: #fff;
+      border: 2px solid #6d4c41;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+  }
+
+  .garden-layout-grid:hover .garden-layout-bed-edge {
+    &::after,
+    &.is-corner {
+      opacity: 1;
+    }
+  }
+
+  // The size the bed is being dragged to, drawn from its top left corner.
+  .garden-layout-bed-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px dashed #fff;
+
+    span {
+      position: absolute;
+      right: 0.35rem;
+      bottom: 0.35rem;
+      padding: 0 0.5rem;
+      font-size: 0.85rem;
+      color: #fff;
+      background: rgba(40, 28, 20, 0.85);
+      border-radius: 999px;
+    }
   }
 
   // The soil, with its grid of twine. Specks of lighter grit and darker crumbs
@@ -877,7 +966,9 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
 
 @media (prefers-reduced-motion: reduce) {
   .garden-layout .garden-layout-plant,
-  .garden-layout .garden-layout-span-end {
+  .garden-layout .garden-layout-span-end,
+  .garden-layout .garden-layout-bed-edge,
+  .garden-layout .garden-layout-bed-edge::after {
     transition: none;
   }
 }
