@@ -3,7 +3,13 @@
     .row
       .col-12.col-md-3
         %h2= link_to garden.name, garden, name: "garden-#{garden.id}"
-        .garden-card-layout-link= link_to 'Garden layout', layout_member_garden_path(garden.owner, garden)
+        = link_to layout_member_garden_path(garden.owner, garden),
+                  class: 'btn btn-outline-success btn-sm garden-card-layout-button' do
+          %i.fa.fa-th-large{ 'aria-hidden': 'true' }
+          Layout
+          %span.visually-hidden
+            of
+            = garden.name
     .row
       .col-md-3
         - if @owner.blank?

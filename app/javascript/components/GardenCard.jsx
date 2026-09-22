@@ -32,16 +32,14 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
         <div>
           <h2 className="garden-card-title"><a href={url} name={`garden-${id}`}>{name}</a></h2>
           {owner && <div className="garden-card-owner">owner: <a href={owner.url}>{owner.login_name}</a></div>}
-          {layoutUrl && (
-            <div className="garden-card-layout-link">
-              <a href={layoutUrl}>
-                Garden layout
-                <span className="visually-hidden"> for {name}</span>
-              </a>
-            </div>
-          )}
         </div>
         <div className="garden-card-header-actions">
+          {layoutUrl && (
+            <a href={layoutUrl} className="btn btn-outline-success btn-sm garden-card-layout-button">
+              <i className="fa fa-th-large" aria-hidden="true" /> Layout
+              <span className="visually-hidden"> of {name}</span>
+            </a>
+          )}
           {plantUrl && (
             <a href={plantUrl} className="btn btn-success btn-sm garden-add-planting" onClick={plant}>
               <i className="fa fa-plus" aria-hidden="true" /> Add planting

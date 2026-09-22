@@ -29,8 +29,9 @@ $garden-card-line: #e6e6e6;
     font-size: 0.9rem;
   }
 
-  .garden-card-layout-link {
-    font-size: 0.9rem;
+  // Beside "Add planting", and kept to one line like it.
+  .garden-card-layout-button {
+    white-space: nowrap;
   }
 
   .garden-card-body {

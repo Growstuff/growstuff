@@ -37,7 +37,14 @@ class GardenLayoutSerializer
   private
 
   def plantings
-    @plantings ||= @garden.plantings.current.includes(:plants, crop: { parent: :parent }).order(:planted_at)
+    # By crop name, so the sidebar is easy to scan; plantings of the same crop
+    # oldest first, which is the order their dates read in. The id breaks any
+    # remaining tie: without it the database may return ties in any order,
+    # which changes when rows are updated, and the sidebar would shuffle.
+    @plantings ||= @garden.plantings.current
+      .includes(:plants, crop: { parent: :parent })
+      .joins(:crop)
+      .order(Arel.sql('lower(crops.name)'), planted_at: :asc, id: :asc)
   end
 
   def routes
@@ -61,6 +68,8 @@ class GardenLayoutSerializer
       id:               planting.id,
       url:              routes.planting_path(planting),
       crop_name:        crop.name,
+      # Tells apart two plantings of the same crop in the sidebar.
+      planted_at:       planting.planted_at,
       # crops#show serves the crop's icon as SVG, falling back to its parent's
       # and then to a generic sprout, so every crop has one to draw.
       icon_url:         routes.crop_path(crop, format: 'svg'),

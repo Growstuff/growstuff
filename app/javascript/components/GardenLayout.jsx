@@ -34,6 +34,13 @@ function allPlants(plantings) {
   return plantings.flatMap((planting) => planting.plants.map((plant) => ({plant, planting})));
 }
 
+// "3 Mar", for telling apart plantings of the same crop.
+function plantedLabel(planting) {
+  if (!planting.planted_at) return null;
+  const date = new Date(`${planting.planted_at}T00:00:00`);
+  return Number.isNaN(date.getTime()) ? null : date.toLocaleDateString(undefined, {day: 'numeric', month: 'short'});
+}
+
 // How many cells across a plant is drawn: its own size if it has been resized,
 // otherwise its crop's default.
 function diameterOf(plant, planting) {
@@ -599,6 +606,18 @@ export default function GardenLayout({
             <ul className="garden-layout-tray-list">
               {plantings.map((planting) => {
                 const waiting = planting.plants.filter((plant) => !isPlaced(plant)).length;
+                // Only crops that appear more than once need telling apart.
+                const repeated = plantings.filter((other) => other.crop_name === planting.crop_name).length > 1;
+                const when = repeated ? plantedLabel(planting) : null;
+                const label = (
+                  <>
+                    <img className="crop-icon" src={planting.icon_url} alt="" />
+                    <span className="garden-layout-chip-name">
+                      {planting.crop_name}
+                      {when && <span className="garden-layout-chip-when"> · {when}</span>}
+                    </span>
+                  </>
+                );
                 return (
                   <li key={planting.id}>
                     {/* The planting's crop chip, as on the garden cards. Dragging it
@@ -610,14 +629,12 @@ export default function GardenLayout({
                         title={`Drag onto the bed to place a ${planting.crop_name}`}
                         {...dragProps(`stack:${planting.id}`, {icon: planting.icon_url, diameter: sizeForNext(planting) ?? planting.default_diameter ?? 1})}
                       >
-                        <img className="crop-icon" src={planting.icon_url} alt="" />
-                        {planting.crop_name}
+                        {label}
                         {waiting > 0 && <span className="garden-layout-chip-count">{waiting}</span>}
                       </div>
                     ) : (
                       <a href={planting.url} className="chip crop-chip garden-layout-chip">
-                        <img className="crop-icon" src={planting.icon_url} alt="" />
-                        {planting.crop_name}
+                        {label}
                       </a>
                     )}
                   </li>

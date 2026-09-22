@@ -241,24 +241,24 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   .garden-layout-tray-list {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
+    gap: 0.35rem;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   // A crop chip you drag from; it stays put however many plants you take.
+  // Full width, so the column lines up, with the icon inside the chip's curve:
+  // the shared .chip style tucks its image into 25px of padding with a -25px
+  // margin, which these slimmer chips don't have, so that is undone here.
   .garden-layout-chip {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 0.35rem;
-    max-width: 100%;
+    gap: 0.4rem;
+    width: 100%;
+    height: 30px;
     margin: 0;
-    padding: 0 0.75rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    padding: 0 0.5rem 0 3px;
     text-decoration: none;
 
     &[draggable="true"] {
@@ -269,14 +269,35 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
       opacity: 0.4;
     }
 
-    .crop-icon {
+    img.crop-icon {
       flex: none;
-      height: 1.2em;
+      float: none;
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      padding: 2px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
     }
+  }
+
+  .garden-layout-chip-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.85rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .garden-layout-chip-when {
+    font-size: 0.75rem;
+    color: var(--bs-secondary-color);
   }
 
   // How many of this planting's plants aren't on the bed yet.
   .garden-layout-chip-count {
+    flex: none;
     padding: 0 0.4rem;
     font-size: 0.7rem;
     line-height: 1.4;
@@ -413,5 +434,88 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     width: 70%;
     height: 70%;
     opacity: 0.9;
+  }
+}
+
+// The invitation to the layout page on gardens#show: a small bed in the same
+// soil and timber, with a few plants in it, beside the pitch.
+.garden-layout-teaser {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  color: inherit;
+  text-decoration: none;
+  background: var(--bs-success-bg-subtle);
+  border: 1px solid var(--bs-success-border-subtle);
+  border-radius: 8px;
+  transition: box-shadow 0.15s, transform 0.15s;
+
+  &:hover,
+  &:focus-visible {
+    color: inherit;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+
+    .garden-layout-teaser-cta {
+      text-decoration: underline;
+    }
+  }
+}
+
+.garden-layout-teaser-bed {
+  position: relative;
+  flex: none;
+  width: 5.5rem;
+  height: 4rem;
+  border: 5px solid $garden-layout-timber;
+  border-radius: 4px;
+  background:
+    linear-gradient(90deg, transparent 49%, $garden-layout-twine 49% 51%, transparent 51%),
+    linear-gradient(0deg, transparent 49%, $garden-layout-twine 49% 51%, transparent 51%),
+    $garden-layout-soil;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.45);
+
+  // The plants: a big one, two small and a middling one.
+  span {
+    position: absolute;
+    background: $garden-layout-planting;
+    border: 1px solid $garden-layout-planting-border;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  }
+
+  span:nth-child(1) { top: 12%; left: 10%; width: 45%; aspect-ratio: 1; }
+  span:nth-child(2) { top: 18%; left: 64%; width: 22%; aspect-ratio: 1; }
+  span:nth-child(3) { top: 58%; left: 66%; width: 18%; aspect-ratio: 1; }
+  span:nth-child(4) { top: 62%; left: 38%; width: 26%; aspect-ratio: 1; }
+}
+
+.garden-layout-teaser-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  font-size: 0.9rem;
+
+  strong {
+    font-size: 1.05rem;
+  }
+}
+
+.garden-layout-teaser-cta {
+  font-weight: 600;
+  color: var(--bs-success-text-emphasis);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-layout-teaser {
+    transition: none;
+
+    &:hover,
+    &:focus-visible {
+      transform: none;
+    }
   }
 }
