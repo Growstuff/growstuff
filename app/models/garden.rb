@@ -129,6 +129,18 @@ class Garden < ApplicationRecord
     Plant.where(planting_id: plantings.current.select(:id))
   end
 
+  # Gives each planting growing here its plants, the first time the layout is
+  # used, rather than making them for every planting whether or not it ever
+  # goes on a layout. Plantings that already have plants are left alone, and
+  # so is one composted down to none. All in one insert.
+  def prepare_layout
+    now = Time.current
+    rows = plantings.current.where.not(id: Plant.select(:planting_id)).flat_map do |planting|
+      Array.new(planting.plant_count) { { planting_id: planting.id, created_at: now, updated_at: now } }
+    end
+    Plant.insert_all(rows) if rows.any? # rubocop:disable Rails/SkipsModelValidations
+  end
+
   protected
 
   def strip_blanks

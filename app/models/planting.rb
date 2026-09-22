@@ -26,11 +26,13 @@ class Planting < ApplicationRecord
   belongs_to :alternate_name, optional: true
   has_many :harvests, dependent: :destroy
   has_many :activities, dependent: :destroy
-  # One per individual plant, for placing on the garden's layout grid.
+  # One per individual plant, for placing on the garden's layout grid. Made the
+  # first time the garden's layout is used (Garden#prepare_layout), not for every
+  # planting, as most plantings never go on a layout.
   has_many :plants, dependent: :destroy
 
-  after_create :sync_plants
-  after_update :sync_plants, if: :saved_change_to_quantity?
+  # Once a planting is on a layout, keep its plants in step with its quantity.
+  after_update :sync_plants, if: -> { saved_change_to_quantity? && plants.exists? }
 
   scope :current, -> { where.not(finished: true).where.not(failed: true) }
 
@@ -128,14 +130,17 @@ class Planting < ApplicationRecord
   end
 
   # How many individual plants this planting is. A blank quantity means nobody
-  # said, which we treat as a single plant so it still has something to place.
+  # said, which we treat as a single plant so it still has something to place;
+  # zero is none, as when every plant has gone to the compost.
   #
   # Capped: a planting of a thousand seedlings would be a thousand rows and a
   # thousand circles on the bed, which is neither drawable nor useful. Past the
   # cap the layout shows MAX_PLANTS of them and the planting's own quantity
   # stays whatever the member set.
   def plant_count
-    quantity.to_i.clamp(1, MAX_PLANTS)
+    return 1 if quantity.nil?
+
+    quantity.clamp(0, MAX_PLANTS)
   end
 
   # Whether the bed is showing fewer plants than the planting says it has.
@@ -199,8 +204,8 @@ class Planting < ApplicationRecord
     remove_plants(have - wanted)
   end
 
-  # One insert rather than a save each: a planting of 200 seedlings is one row
-  # per plant, and the factories alone would make that a lot of round trips.
+  # One insert rather than a save each: a planting of a hundred seedlings is a
+  # row per plant.
   def add_plants(count)
     now = Time.current
     Plant.insert_all(Array.new(count) { { planting_id: id, created_at: now, updated_at: now } }) # rubocop:disable Rails/SkipsModelValidations

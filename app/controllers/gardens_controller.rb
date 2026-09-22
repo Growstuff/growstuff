@@ -48,6 +48,9 @@ class GardensController < DataController
   def layout
     @owner = @garden.owner
     @editable = can?(:update_layout, @garden)
+    # Someone who can arrange the bed is here to use the layout, so this is when
+    # its plantings get their plants. Just looking doesn't make any.
+    @garden.prepare_layout if @editable
     @layout = GardenLayoutSerializer.new(@garden, editable: @editable, resizable: can?(:update, @garden)).as_json
     # The island reloads this after planting something new, since the planting
     # form answers with a garden card rather than a layout.
@@ -69,6 +72,8 @@ class GardensController < DataController
     placements = layout_params
     composted = compost_params
     saved = Garden.transaction do
+      # In case something was planted since the page was opened.
+      @garden.prepare_layout
       compost(composted)
       clear_positions
       apply_placements(placements)
