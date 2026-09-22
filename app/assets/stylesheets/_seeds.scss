@@ -1,12 +1,11 @@
 // A seed card is drawn as a seed packet: tall and papery, with a torn top edge,
 // a printed frame, a bold crop-name band and the small print along the bottom.
-// Nothing else in a card grid is this shape, so seeds are recognisable before
-// a word of the card is read.
+// Its proportions and its paper are what mark it out; the corner radius is the
+// same as every other data card's.
 .seed-card.card {
   aspect-ratio: 3 / 4;
   display: flex;
   flex-direction: column;
-  border-radius: 0;
   border: 1px solid darken($beige, 25%);
   background: $beige;
   padding: 0.5rem;

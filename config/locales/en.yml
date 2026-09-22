@@ -389,6 +389,11 @@ en:
       finish_helper: >
         An activity is finished when you've completed it, or it's otherwise
         no longer possible.
+  seasons:
+    spring: Spring
+    summer: Summer
+    autumn: Autumn
+    winter: Winter
   plantings:
     badges:
       days_until_finished: days until finished

@@ -25,17 +25,22 @@
     %small (One emojii = 1 week)
 .harvest-months
   Harvest months:
+  -# Grouped by the grower's own seasons where we know which hemisphere they
+  -# garden in; a plain year otherwise, rather than guessing.
   - if planting.harvest_months.empty?
     %span.text-muted
       We need more data on this crop in your latitude. There's not enough
       info yet to predict harvests.
+  - elsif (seasons = seasons_with_months(planting.latitude))
+    .harvest-seasons
+      - seasons.each do |season, months|
+        .harvest-season
+          %span.harvest-season-name= t("seasons.#{season}")
+          .harvest-season-months
+            - months.each do |month|
+              = render 'plantings/harvest_month', planting: planting, month: month
   - else
     - (1..12).each do |month|
-      - if planting.harvest_months.keys().include?(month.to_f)
-        .badge.text-bg-info.badge-harvesting{id: "month-#{month}"}
-          = I18n.t('date.abbr_month_names')[month]
-      - else
-        .badge.text-muted{'aria-hidden': "true", id: "month-#{month}"}
-          = I18n.t('date.abbr_month_names')[month]
+      = render 'plantings/harvest_month', planting: planting, month: month
   - unless planting.garden.location.blank?
     in #{link_to planting.garden.location, place_path(planting.garden.location)}

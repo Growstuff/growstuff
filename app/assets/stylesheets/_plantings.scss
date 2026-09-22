@@ -375,7 +375,7 @@
   // one body of data rather than running into the sidebar beside it.
   .planting-detail {
     border: 1px solid rgba(65, 63, 59, 0.35);
-    border-radius: 6px;
+    border-radius: $card-radius;
     padding: 0 1.25rem;
 
     // The border is the outer edge now, so the last section shouldn't leave a
@@ -412,6 +412,36 @@
   .harvest-months {
     margin-top: 1rem;
     font-size: 0.9rem;
+  }
+
+  // Harvest months in the grower's own seasons, three to a season, each group
+  // named and kept together so the year reads as a gardener thinks of it.
+  .harvest-seasons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .harvest-season {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.35rem 0.5rem;
+    border: 1px solid rgba(65, 63, 59, 0.15);
+    border-radius: $card-radius;
+  }
+
+  .harvest-season-name {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(65, 63, 59, 0.7);
+  }
+
+  .harvest-season-months {
+    display: flex;
+    gap: 0.25rem;
   }
 
   // The rating card's stars are its value slot, so they sit where every other
@@ -535,7 +565,7 @@
   section {
     background: $white;
     border: 1px solid rgba(65, 63, 59, 0.15);
-    border-radius: 4px;
+    border-radius: $card-radius;
     padding: 0 1rem 1rem;
   }
 
@@ -549,7 +579,7 @@
     margin: 0 -1rem 1rem;
     padding: 0.3rem 1rem;
     background-color: $green;
-    border-radius: 3px 3px 0 0;
+    border-radius: $card-radius $card-radius 0 0;
     color: $white;
 
     h2 {

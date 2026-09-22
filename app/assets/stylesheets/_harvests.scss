@@ -41,13 +41,13 @@
   }
 }
 
-// A harvest card, told apart from a planting card at a glance: square corners
-// and a warm accent where a planting is rounded and green. A harvest is an
-// event — one crop, one plant part, one day — so the date leads the footer
-// where a planting card shows a progress bar.
+// A harvest card, told apart from a planting card at a glance by its warm
+// accent and its icon, not by its shape: every data card shares one corner
+// radius. A harvest is an event — one crop, one plant part, one day — so the
+// date leads the footer where a planting card shows a progress bar.
 .harvest-card.card {
-  border-radius: 0;
   border-top: 4px solid $orange;
+  overflow: hidden;
 
   .harvest-card-photo {
     position: relative;

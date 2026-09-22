@@ -39,6 +39,11 @@
                 = link_to @planting.owner, @planting.owner
                 in
                 = link_to @planting.garden, @planting.garden
+                -# Where it grows is one of the first things worth knowing about
+                -# a planting: it decides the seasons and the harvest times.
+                - if @planting.garden.location.present?
+                  &middot;
+                  = link_to @planting.garden.location, place_path(@planting.garden.location, anchor: "plantings")
                 - if @planting.alternate_name.present?
                   = link_to "(#{@planting.crop.name})", @planting.crop
             .d-flex.align-items-center.gap-2

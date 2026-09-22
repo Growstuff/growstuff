@@ -1,0 +1,6 @@
+- if planting.harvest_months.keys.include?(month.to_f)
+  .badge.text-bg-info.badge-harvesting{ id: "month-#{month}" }
+    = I18n.t('date.abbr_month_names')[month]
+- else
+  .badge.text-muted{ 'aria-hidden': "true", id: "month-#{month}" }
+    = I18n.t('date.abbr_month_names')[month]

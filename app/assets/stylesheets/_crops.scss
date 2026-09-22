@@ -42,8 +42,8 @@
     }
 
     .img-card {
-      border: 5%;
-      border-radius: 5%;
+      border-top-left-radius: $card-radius;
+      border-top-right-radius: $card-radius;
     }
   }
 }

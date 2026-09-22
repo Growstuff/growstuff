@@ -140,17 +140,20 @@ section {
   flex: none;
   flex-wrap: wrap;
 
+  // One corner radius for every data card — plantings, harvests, seeds — so a
+  // grid of them reads as one set. A percentage radius draws an ellipse that
+  // changes with the card's size, so this is a fixed length.
   .card {
     background: $white;
-    border-radius: 5%;
+    border-radius: $card-radius;
     margin: 0.5em 0.5em 0.5em 0;
     width: 200px;
     align-items: stretch;
     justify-content: space-between;
 
     .img-card {
-      border-top-left-radius: 5%;
-      border-top-right-radius: 5%;
+      border-top-left-radius: $card-radius;
+      border-top-right-radius: $card-radius;
     }
   }
 
