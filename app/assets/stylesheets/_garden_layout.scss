@@ -509,6 +509,16 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   color: var(--bs-success-text-emphasis);
 }
 
+// On the home page it's the first thing on the page, so a little roomier.
+.garden-layout-teaser-home {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+
+  .garden-layout-teaser-text strong {
+    font-size: 1.25rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .garden-layout-teaser {
     transition: none;
