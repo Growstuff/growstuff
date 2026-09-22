@@ -123,7 +123,19 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
       box-shadow: 0 2px 3px rgba(0, 0, 0, 0.45);
     }
 
-    // Only offered while the pointer is over the plant, or it's being resized.
+      // A planting that shares its icon with another is ringed in its own colour,
+    // with a white edge so the ring stands off the soil.
+    .garden-layout-plant-circle.has-ring {
+      border: 3px solid var(--ring);
+      box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.9), 0 2px 3px rgba(0, 0, 0, 0.45);
+    }
+
+    // Picked out while its planting is pointed at, here or in the sidebar.
+    &.is-highlighted .garden-layout-plant-circle {
+      box-shadow: 0 0 0 3px #fff, 0 0 14px rgba(255, 255, 255, 0.8);
+    }
+
+  // Only offered while the pointer is over the plant, or it's being resized.
     &:hover .garden-layout-resize,
     &.is-resizing .garden-layout-resize {
       opacity: 1;
@@ -170,6 +182,47 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     // Pointer events are captured while resizing, and the browser mustn't
     // treat the gesture as scrolling on a touch screen.
     touch-action: none;
+  }
+
+  // A plant's name, under it, on a dark pill so it reads on the soil.
+  .garden-layout-plant-name {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    max-width: 9rem;
+    margin-top: 1px;
+    padding: 0 0.4rem;
+    overflow: hidden;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    color: #fff;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+    background: rgba(40, 28, 20, 0.75);
+    border-radius: 999px;
+    transform: translateX(-50%);
+  }
+
+  // Everything but the planting being pointed at fades back.
+  .garden-layout-grid.is-highlighting .garden-layout-plant:not(.is-highlighted) {
+    opacity: 0.3;
+  }
+
+  .garden-layout-plant {
+    transition: opacity 0.15s;
+  }
+
+  .garden-layout-chip.is-highlighted {
+    box-shadow: 0 0 0 2px $garden-layout-planting-border;
+  }
+
+  .garden-layout-chip-colour {
+    flex: none;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
   }
 
   // The circle itself, on the bed or waiting in the sidebar.
@@ -527,5 +580,11 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     &:focus-visible {
       transform: none;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-layout .garden-layout-plant {
+    transition: none;
   }
 }

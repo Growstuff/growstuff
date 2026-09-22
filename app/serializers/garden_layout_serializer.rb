@@ -73,6 +73,9 @@ class GardenLayoutSerializer
       # crops#show serves the crop's icon as SVG, falling back to its parent's
       # and then to a generic sprout, so every crop has one to draw.
       icon_url:         routes.crop_path(crop, format: 'svg'),
+      # Which icon it's drawn with, so the page can tell apart plantings that
+      # share one (the same crop, or ones with no icon of their own) by colour.
+      icon_key:         Digest::MD5.hexdigest(crop.svg_icon.to_s),
       quantity:         planting.quantity,
       # What its plants are drawn at unless one has been resized, in cells.
       default_diameter: crop.layout_diameter || 1,

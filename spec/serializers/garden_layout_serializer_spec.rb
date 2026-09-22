@@ -56,6 +56,19 @@ describe GardenLayoutSerializer do
     expect(planting_json(inherited)[:default_diameter]).to eq 0.5
   end
 
+  # So the page can colour plantings that would otherwise look alike.
+  it 'says which plantings are drawn with the same icon' do
+    iconless = create(:crop, name: 'kale')
+    first = create(:planting, garden:, owner:, crop: iconless)
+    second = create(:planting, garden:, owner:, crop: lettuce)
+    lettuce.update!(openfarm_data: { 'attributes' => { 'svg_icon' => '<svg>lettuce</svg>' } })
+    third = create(:planting, garden:, owner:, crop: iconless)
+
+    keys = [first, second, third].map { |planting| planting_json(planting)[:icon_key] }
+    expect(keys[0]).to eq keys[2]
+    expect(keys[0]).not_to eq keys[1]
+  end
+
   it 'leaves out plantings that are no longer growing' do
     create(:planting, garden:, owner:, crop: lettuce, finished: true, finished_at: 1.day.ago)
     create(:planting, garden:, owner:, crop: lettuce, failed: true)

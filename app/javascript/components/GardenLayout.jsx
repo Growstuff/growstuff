@@ -47,6 +47,30 @@ function diameterOf(plant, planting) {
   return plant.diameter ?? planting.default_diameter ?? 1;
 }
 
+// Ring colours for telling apart plantings drawn with the same icon: the five
+// hues that stay distinguishable from each other on the soil, colour blind or
+// not (checked against the soil for every pair, as any two plantings can end up
+// side by side). Always given out in this order.
+const RING_COLOURS = ['#2a78d6', '#1baf7a', '#c98500', '#008300', '#e34948'];
+
+// planting id => ring colour. Only plantings that share their icon with another
+// get one, in the order they were made, so a planting keeps its colour as
+// others come and go. Past five in a group there's no colour left; those go by
+// their names.
+function ringColours(plantings) {
+  const groups = {};
+  plantings.forEach((planting) => {
+    (groups[planting.icon_key] ||= []).push(planting);
+  });
+  const colours = {};
+  Object.values(groups).filter((group) => group.length > 1).forEach((group) => {
+    [...group].sort((a, b) => a.id - b.id).forEach((planting, i) => {
+      if (i < RING_COLOURS.length) colours[planting.id] = RING_COLOURS[i];
+    });
+  });
+  return colours;
+}
+
 function clamp(value, low, high) {
   return Math.min(Math.max(value, low), high);
 }
@@ -152,6 +176,21 @@ export default function GardenLayout({
 
   const everyPlant = useMemo(() => allPlants(plantings), [plantings]);
   const onGrid = useMemo(() => everyPlant.filter(({plant}) => isPlaced(plant)), [everyPlant]);
+  const colours = useMemo(() => ringColours(plantings), [plantings]);
+  // The planting being pointed at, on the bed or in the sidebar, whose plants
+  // are picked out and the rest faded.
+  const [hovered, setHovered] = useState(null);
+  // How wide a cell is on screen, to know which plants have room for a name.
+  const [cellPx, setCellPx] = useState(0);
+  useEffect(() => {
+    const soil = soilRef.current;
+    if (!soil || typeof ResizeObserver === 'undefined') return undefined;
+    const measure = () => setCellPx(soil.getBoundingClientRect().width / garden.grid_columns);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(soil);
+    return () => observer.disconnect();
+  }, [garden.grid_columns]);
 
   function placementsOf(list) {
     return allPlants(list)
@@ -542,7 +581,7 @@ export default function GardenLayout({
             )}
           </div>
           <div
-            className="garden-layout-grid"
+            className={`garden-layout-grid${hovered ? ' is-highlighting' : ''}`}
             // As big as fits: the full width available, unless that would make
             // the bed taller than the window, in which case the height decides.
             style={{
@@ -576,6 +615,7 @@ export default function GardenLayout({
                       'garden-layout-plant',
                       dragging === `plant:${plant.key}` ? 'is-dragging' : '',
                       liveSize && liveSize.key === plant.key ? 'is-resizing' : '',
+                      hovered === planting.id ? 'is-highlighted' : '',
                     ].filter(Boolean).join(' ')}
                     style={{
                       left: `${(plant.bed_x / garden.grid_columns) * 100}%`,
@@ -587,9 +627,18 @@ export default function GardenLayout({
                   >
                     {/* Not a link: a plant on the bed is something to pick up and
                         move, so a click shouldn't take you away to its planting. */}
-                    <span className="garden-layout-plant-circle">
+                    <span
+                      className={`garden-layout-plant-circle${colours[planting.id] ? ' has-ring' : ''}`}
+                      style={colours[planting.id] ? {'--ring': colours[planting.id]} : undefined}
+                      onMouseEnter={() => setHovered(planting.id)}
+                      onMouseLeave={() => setHovered(null)}
+                    >
                       <PlantFace planting={planting} labelled />
                     </span>
+                    {/* Its name, when the plant is big enough on screen to carry one. */}
+                    {diameter * cellPx >= 44 && (
+                      <span className="garden-layout-plant-name" aria-hidden="true">{planting.crop_name}</span>
+                    )}
                     {editable && (
                       <span
                         className="garden-layout-resize"
@@ -634,8 +683,16 @@ export default function GardenLayout({
                 // Only crops that appear more than once need telling apart.
                 const repeated = plantings.filter((other) => other.crop_name === planting.crop_name).length > 1;
                 const when = repeated ? plantedLabel(planting) : null;
+                const colour = colours[planting.id];
+                const hover = {
+                  onMouseEnter: () => setHovered(planting.id),
+                  onMouseLeave: () => setHovered(null),
+                };
+                const highlighted = hovered === planting.id ? ' is-highlighted' : '';
                 const label = (
                   <>
+                    {/* The same colour as its plants' rings, so the sidebar is the key. */}
+                    {colour && <span className="garden-layout-chip-colour" style={{background: colour}} />}
                     <img className="crop-icon" src={planting.icon_url} alt="" />
                     <span className="garden-layout-chip-name">
                       {planting.crop_name}
@@ -650,15 +707,16 @@ export default function GardenLayout({
                         it can be dragged again. */}
                     {editable ? (
                       <div
-                        className={`chip crop-chip garden-layout-chip${dragging === `stack:${planting.id}` ? ' is-dragging' : ''}`}
+                        className={`chip crop-chip garden-layout-chip${dragging === `stack:${planting.id}` ? ' is-dragging' : ''}${highlighted}`}
                         title={`Drag onto the bed to place a ${planting.crop_name}`}
                         {...dragProps(`stack:${planting.id}`, {icon: planting.icon_url, diameter: sizeForNext(planting) ?? planting.default_diameter ?? 1})}
+                        {...hover}
                       >
                         {label}
                         {waiting > 0 && <span className="garden-layout-chip-count">{waiting}</span>}
                       </div>
                     ) : (
-                      <a href={planting.url} className="chip crop-chip garden-layout-chip">
+                      <a href={planting.url} className={`chip crop-chip garden-layout-chip${highlighted}`} {...hover}>
                         {label}
                       </a>
                     )}
