@@ -227,6 +227,7 @@ describe Garden do
 
     it 'does not shrink out from under a placed plant' do
       planting = create(:planting, garden: bed, owner:, quantity: 1)
+      bed.prepare_layout
       planting.plants.first.update!(bed_x: 3, bed_y: 2)
       bed.grid_columns = 2
 
@@ -236,10 +237,46 @@ describe Garden do
 
     it 'shrinks when nothing is in the way' do
       planting = create(:planting, garden: bed, owner:, quantity: 1)
+      bed.prepare_layout
       planting.plants.first.update!(bed_x: 0, bed_y: 0)
       bed.grid_columns = 2
 
       expect(bed).to be_valid
+    end
+  end
+
+  describe '#prepare_layout' do
+    let(:bed) { create(:garden, owner:) }
+
+    it 'gives each planting growing here its plants' do
+      two = create(:planting, garden: bed, owner:, quantity: 2)
+      one = create(:planting, garden: bed, owner:, quantity: nil)
+      bed.prepare_layout
+
+      expect([two.plants.count, one.plants.count]).to eq [2, 1]
+    end
+
+    it 'leaves plantings that already have plants alone, so it can be run again' do
+      planting = create(:planting, garden: bed, owner:, quantity: 2)
+      bed.prepare_layout
+      planting.plants.first.destroy
+
+      expect { bed.prepare_layout }.not_to change(planting.plants, :count)
+    end
+
+    it "doesn't bring back a planting composted down to nothing" do
+      planting = create(:planting, garden: bed, owner:, quantity: 0)
+
+      expect { bed.prepare_layout }.not_to change(planting.plants, :count)
+    end
+
+    it 'skips plantings that are no longer growing, and other gardens' do
+      finished = create(:planting, garden: bed, owner:, quantity: 2, finished: true, finished_at: 1.day.ago)
+      elsewhere = create(:planting, quantity: 2)
+      bed.prepare_layout
+
+      expect(finished.plants).to be_empty
+      expect(elsewhere.plants).to be_empty
     end
   end
 

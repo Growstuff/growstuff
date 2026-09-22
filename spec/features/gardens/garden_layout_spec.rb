@@ -2,58 +2,152 @@
 
 require 'rails_helper'
 
-describe 'The garden layout map', :js do
+describe 'The garden layout', :js do
   include_context 'signed in member'
 
-  let!(:garden)  { create(:garden, owner: member, name: 'Orchard', grid_columns: 3, grid_rows: 2) }
+  let!(:garden)  { create(:garden, owner: member, name: 'Orchard', grid_columns: 4, grid_rows: 3) }
   let(:crop)     { create(:crop, name: 'lettuce') }
-  let!(:lettuce) { create(:planting, garden:, owner: member, crop:) }
+  let!(:lettuce) { create(:planting, garden:, owner: member, crop:, quantity: 2) }
+
+  # Opening the layout would do this; done up front so examples can place plants first.
+  before { garden.prepare_layout }
 
   def visit_layout
     visit layout_member_garden_path(member, garden)
   end
 
-  it 'draws a cell for every square of the bed' do
-    visit_layout
-
-    expect(page).to have_css('.garden-layout-cell', count: 6)
+  def bed
+    find('.garden-layout-cells')
   end
 
-  it 'lists a planting that has not been placed yet' do
+  def chip(name)
+    find('.garden-layout-chip', text: name)
+  end
+
+  # The page saves after the screen has changed, so wait for the database too.
+  def wait_until(timeout = Capybara.default_max_wait_time)
+    Timeout.timeout(timeout) { sleep 0.1 until yield }
+  end
+
+  it 'draws the bed a cell per square, with the plantings as chips beside it' do
     visit_layout
 
-    within '.garden-layout-tray' do
-      expect(page).to have_content 'lettuce'
+    expect(page).to have_css('.garden-layout-cell', count: 12)
+    expect(chip('lettuce')).to have_css('.garden-layout-chip-count', text: '2')
+    expect(page).to have_no_css('.garden-layout-plant')
+  end
+
+  # Capybara drops at the middle of what it's dropped on: here, the whole bed.
+  it 'puts a plant on the bed where a chip is dropped' do
+    visit_layout
+    chip('lettuce').drag_to(bed)
+
+    expect(page).to have_css('.garden-layout-plant', count: 1)
+    expect(chip('lettuce')).to have_css('.garden-layout-chip-count', text: '1')
+    wait_until { lettuce.plants.placed.any? }
+    expect(lettuce.plants.placed.first).to have_attributes(bed_x: 2.0, bed_y: 1.5)
+  end
+
+  it 'makes another plant when a chip is dragged out once they are all on the bed' do
+    lettuce.plants.each_with_index { |plant, i| plant.update!(bed_x: i + 0.5, bed_y: 0.5) }
+    visit_layout
+    chip('lettuce').drag_to(bed)
+
+    expect(page).to have_css('.garden-layout-plant', count: 3)
+    wait_until { lettuce.reload.quantity == 3 }
+  end
+
+  it 'lifts a plant back off the bed when it is dropped on the sidebar' do
+    lettuce.plants.first.update!(bed_x: 1.5, bed_y: 1.5)
+    visit_layout
+    find('.garden-layout-plant').drag_to(find('.garden-layout-tray-heading'))
+
+    expect(page).to have_no_css('.garden-layout-plant')
+    wait_until { lettuce.plants.placed.none? }
+    expect(lettuce.reload.plants.count).to eq 2
+  end
+
+  describe 'the compost bin' do
+    it 'sits under "About this garden"' do
+      visit_layout
+
+      expect(page).to have_css('#garden-layout-compost .garden-layout-compost', text: 'Compost bin')
     end
-    expect(page).to have_no_css('.garden-layout-planting')
-  end
 
-  it 'draws a placed planting over the cells it covers' do
-    lettuce.update!(bed_x: 1, bed_y: 0, bed_width: 2)
-    visit_layout
+    it 'takes a plant dropped in it, and the planting has one fewer' do
+      lettuce.plants.first.update!(bed_x: 1.5, bed_y: 1.5)
+      visit_layout
+      find('.garden-layout-plant').drag_to(find('.garden-layout-compost'))
 
-    expect(page).to have_css('.garden-layout-planting', text: 'lettuce')
-    within '.garden-layout-tray' do
-      expect(page).to have_content 'Everything is on the bed'
+      expect(page).to have_content 'Composted a lettuce.'
+      wait_until { lettuce.reload.plants.one? }
+      expect(lettuce.quantity).to eq 1
+    end
+
+    it 'takes one of the plants not yet on the bed when a chip is dropped in it' do
+      visit_layout
+      chip('lettuce').drag_to(find('.garden-layout-compost'))
+
+      expect(chip('lettuce')).to have_css('.garden-layout-chip-count', text: '1')
+      wait_until { lettuce.reload.plants.one? }
+    end
+
+    it 'refuses a chip whose plants are all on the bed' do
+      lettuce.plants.each_with_index { |plant, i| plant.update!(bed_x: i + 0.5, bed_y: 0.5) }
+      visit_layout
+      chip('lettuce').drag_to(find('.garden-layout-compost'))
+
+      expect(page).to have_content 'Every lettuce is on the bed.'
+      expect(lettuce.reload.plants.count).to eq 2
     end
   end
 
-  it 'lets the owner resize the bed' do
+  it 'resizes a plant by its handle' do
+    plant = lettuce.plants.first.tap { |p| p.update!(bed_x: 2, bed_y: 1.5) }
     visit_layout
-    fill_in 'Columns', with: '4'
-    click_button 'Resize bed'
+    circle = find('.garden-layout-plant')
+    handle = circle.find('.garden-layout-resize', visible: :all)
+    page.driver.browser.action.move_to(circle.native).perform
+    page.driver.browser.action.move_to(handle.native).click_and_hold.move_by(40, 40).release.perform
 
-    expect(garden.reload.grid_columns).to eq 4
+    wait_until { plant.reload.diameter.to_f > 1 }
   end
 
-  it 'will not shrink the bed past a planting, and says why' do
-    lettuce.update!(bed_x: 2, bed_y: 0)
-    visit_layout
-    fill_in 'Columns', with: '1'
-    click_button 'Resize bed'
+  describe 'the size of the bed' do
+    it 'changes as it is typed, and is saved' do
+      visit_layout
+      fill_in 'Columns', with: '6'
 
-    expect(page).to have_content 'some plantings would fall outside the bed'
-    expect(garden.reload.grid_columns).to eq 3
+      expect(page).to have_css('.garden-layout-cell', count: 18)
+      wait_until { garden.reload.grid_columns == 6 }
+    end
+
+    it 'refuses to shrink past a plant, and says why' do
+      lettuce.plants.first.update!(bed_x: 3.5, bed_y: 1)
+      visit_layout
+      fill_in 'Columns', with: '2'
+
+      expect(page).to have_content 'there are plants out to column 4'
+      expect(page).to have_css('.garden-layout-cell', count: 12)
+      expect(garden.reload.grid_columns).to eq 4
+    end
+  end
+
+  it 'clears the bed with Remove all, keeping the plants' do
+    lettuce.plants.each_with_index { |plant, i| plant.update!(bed_x: i + 0.5, bed_y: 0.5) }
+    visit_layout
+    accept_confirm { click_button 'Remove all' }
+
+    expect(page).to have_no_css('.garden-layout-plant')
+    wait_until { lettuce.plants.placed.none? }
+    expect(lettuce.reload.plants.count).to eq 2
+  end
+
+  it 'opens the planting dialog from Plant something' do
+    visit_layout
+    click_button 'Plant something'
+
+    within('[role=dialog]') { expect(page).to have_content 'Plant something in Orchard' }
   end
 
   context 'when signed in as someone else' do
@@ -62,12 +156,14 @@ describe 'The garden layout map', :js do
     before { sign_in stranger }
 
     it 'shows the bed but offers no way to change it' do
-      lettuce.update!(bed_x: 0, bed_y: 0)
+      lettuce.plants.first.update!(bed_x: 1.5, bed_y: 1.5)
       visit_layout
 
-      expect(page).to have_css('.garden-layout-planting', text: 'lettuce')
-      expect(page).to have_no_button 'Resize bed'
-      expect(page).to have_no_css('.garden-layout-planting[draggable="true"]')
+      expect(page).to have_css('.garden-layout-plant')
+      expect(page).to have_no_css('[draggable="true"]')
+      expect(page).to have_no_field 'Columns'
+      expect(page).to have_no_button 'Plant something'
+      expect(page).to have_no_css('.garden-layout-compost')
     end
   end
 end
