@@ -613,18 +613,6 @@
     padding: 0;
   }
 
-  // Sidebar sections use the same vocabulary as the main column. Partials
-  // shared with other pages bring their own .card, which inside a section is a
-  // box within a box, so flatten it.
-  .planting-owner,
-  .planting-crop {
-    > .card {
-      margin: 0 -1rem -1rem;
-      border: 0;
-      border-radius: 0;
-    }
-  }
-
   .planting-owner-avatar img {
     width: 64px;
     height: 64px;
@@ -632,9 +620,48 @@
     object-fit: cover;
   }
 
-  // The crop's own photo spans the section, like a section's lid would.
-  .planting-crop .crop-image .img-card {
-    border-radius: 0;
+  // The crop block's photo runs edge to edge under the heading bar, so the
+  // section holds no stray white margins around it.
+  .planting-crop {
+    padding: 0;
+    overflow: hidden;
+
+    > .section-header {
+      margin: 0;
+      border-radius: $card-radius $card-radius 0 0;
+    }
+
+    .planting-crop-photo {
+      display: block;
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .planting-crop-body {
+      padding: 0.75rem 1rem 1rem;
+    }
+
+    .planting-crop-name {
+      margin: 0;
+    }
+
+    .planting-crop-sci {
+      margin: 0 0 0.5rem;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: rgba(65, 63, 59, 0.7);
+    }
+
+    .planting-crop-facts {
+      margin: 0;
+      padding-left: 1.1rem;
+      font-size: 0.85rem;
+
+      li + li {
+        margin-top: 0.25rem;
+      }
+    }
   }
 
   // Quiet enough to sit on the heading bar without shouting over the heading.

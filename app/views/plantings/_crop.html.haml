@@ -1,0 +1,25 @@
+-# The crop behind this planting, as sidebar context. Not crops/_card: that is
+-# a card for a grid, and inside a section it fights the section's own box.
+= link_to crop_path(crop) do
+  = image_tag crop_image_path(crop), alt: "Photo of #{crop.name}", class: 'planting-crop-photo'
+.planting-crop-body
+  %h3.planting-crop-name= link_to crop.name.titleize, crop
+  - if crop.default_scientific_name.present?
+    %p.planting-crop-sci= crop.default_scientific_name
+  %ul.planting-crop-facts
+    - unless crop.median_days_to_first_harvest.nil?
+      %li
+        First harvest about
+        %strong= pluralize crop.median_days_to_first_harvest, 'day'
+        after planting
+    - if crop.annual? && crop.median_days_to_last_harvest.present?
+      %li
+        Last harvest about
+        %strong= pluralize crop.median_days_to_last_harvest, 'day'
+        after planting
+    - if crop.annual? && crop.median_lifespan.present?
+      %li
+        Usually grows for about
+        %strong= pluralize crop.median_lifespan, 'day'
+    - if crop.perennial
+      %li A perennial, so it keeps growing year to year

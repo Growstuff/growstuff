@@ -106,7 +106,7 @@
       %section.planting-crop
         .section-header
           %h2= t('plantings.show.crop')
-        = render 'crops/crop', crop: @planting.crop, actions: false
+        = render 'plantings/crop', crop: @planting.crop
 
       - if @planting.location && @neighbours.any?
         %section.neighbours
