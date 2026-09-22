@@ -430,9 +430,32 @@
     min-width: 0;
 
     h1 {
-      margin-bottom: 0.25rem;
+      margin-bottom: 0;
       font-size: clamp(2rem, 6vw, 3.5rem);
       overflow-wrap: anywhere;
+    }
+  }
+
+  // The like button sits beside the name it belongs to, at its own size
+  // rather than the title's.
+  .planting-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.25rem;
+
+    .likes .btn {
+      padding: 0.15rem 0.5rem;
+      border: 1px solid rgba(65, 63, 59, 0.2);
+      color: rgba(65, 63, 59, 0.75);
+      font-size: 0.9rem;
+
+      &:hover,
+      &:focus {
+        background: rgba(65, 63, 59, 0.06);
+        color: $brown;
+      }
     }
   }
 

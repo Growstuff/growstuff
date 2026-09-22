@@ -28,9 +28,11 @@
       .jumbotron
         .d-flex.justify-content-between.align-items-start
           .planting-identity
-            %h1.display-3
-              = crop_icon(@planting.crop)
-              %strong= @planting.display_name.titleize
+            .planting-title
+              %h1.display-3
+                = crop_icon(@planting.crop)
+                %strong= @planting.display_name.titleize
+              = render 'likes/likes', object: @planting
             %p.lead.text-muted.planting-subtitle
               planting by
               = link_to @planting.owner, @planting.owner
@@ -46,7 +48,6 @@
             = render 'plantings/actions', planting: @planting
 
         = render 'timeline', planting: @planting
-      = render 'likes/likes', object: @planting
 
       %section.planting-facts= render 'facts', planting: @planting
 
