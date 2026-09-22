@@ -32,11 +32,21 @@ describe GardenCardSerializer do
   end
 
   describe 'garden actions' do
-    it 'gives the owner of an active garden the same menu as gardens/_actions, in order' do
+    it 'gives the owner of an active garden the menu of gardens/_actions, in order, without the Add planting button' do
       actions = serialize(garden)[:actions]
 
-      expect(actions.pluck(:key)).to eq %i(plant plan deactivate edit photo delete)
-      expect(actions.first).to include(label: 'Plant something here', href: "/plantings/new?garden_id=#{garden.id}")
+      expect(actions.pluck(:key)).to eq %i(plan deactivate edit photo delete)
+    end
+
+    it 'links the Add planting button to the new planting form for an active garden you can edit' do
+      expect(serialize(garden)[:plant_url]).to eq "/plantings/new?garden_id=#{garden.id}"
+    end
+
+    it 'has no Add planting link for an inactive garden, or one that is not yours' do
+      garden.update!(active: false)
+
+      expect(serialize(garden)[:plant_url]).to be_nil
+      expect(serialize(create(:garden), viewer: member)[:plant_url]).to be_nil
     end
 
     it 'marks deactivating and deleting as non-GET links that ask for confirmation' do
@@ -105,12 +115,43 @@ describe GardenCardSerializer do
     it 'gives the owner the quick actions from plantings/_quick_actions' do
       actions = serialize(garden)[:annuals].first[:actions]
 
-      expect(actions.pluck(:key)).to eq %i(view edit photo finish harvest seeds)
-      expect(actions.find { |action| action[:key] == :finish }).to include(method: :put)
+      expect(actions.pluck(:key)).to eq %i(view edit photo harvest seeds finish)
+      expect(actions.last).to include(key: :finish, method: :put, divider: true)
     end
 
     it 'gives someone else no planting actions' do
       expect(serialize(garden, viewer: other_member)[:annuals].first[:actions]).to eq []
+    end
+
+    it 'places each harvest along the progress bar, oldest first, on the bar\'s own scale' do
+      annual_crop.update!(median_lifespan: 100)
+      planted = annual.planted_at
+      create(:harvest, planting: annual, owner: member, crop: annual_crop, harvested_at: planted + 50.days)
+      create(:harvest, planting: annual, owner: member, crop: annual_crop, harvested_at: planted + 2.days)
+
+      marks = serialize(garden)[:annuals].first[:harvests]
+
+      expect(marks).to eq [{ date: planted + 2.days, percent: 2.0 }, { date: planted + 50.days, percent: 50.0 }]
+    end
+
+    it 'keeps a harvest after the predicted finish at the end of the bar' do
+      annual_crop.update!(median_lifespan: 100)
+      create(:harvest, planting: annual, owner: member, crop: annual_crop, harvested_at: annual.planted_at + 130.days)
+
+      expect(serialize(garden)[:annuals].first[:harvests].pluck(:percent)).to eq [100]
+    end
+
+    it "says what day it is on the server, which is the day finishing something today means" do
+      expect(serialize(garden)[:annuals].first[:today]).to eq Time.zone.today
+    end
+
+    it 'has no harvest marks for a planting with none' do
+      expect(serialize(garden)[:annuals].first[:harvests]).to eq []
+    end
+
+    it 'says whether the viewer can edit the planting, so its date can be changed' do
+      expect(serialize(garden)[:annuals].first[:can_edit]).to be true
+      expect(serialize(garden, viewer: other_member)[:annuals].first[:can_edit]).to be false
     end
   end
 
@@ -123,7 +164,7 @@ describe GardenCardSerializer do
       labels = (card[:actions] + card[:annuals].flat_map { |planting| planting[:actions] + planting[:badges] })
         .flat_map { |item| [item[:label], item[:confirm]] }.compact
 
-      expect(labels).to include('View', 'Edit', 'Plant something here')
+      expect(labels).to include('View', 'Edit', 'Add photo')
       expect(labels).to all(satisfy { |label| label.exclude?('translation missing') && label.exclude?('Translation missing') })
     end
   end

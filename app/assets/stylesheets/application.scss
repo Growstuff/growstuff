@@ -6,7 +6,8 @@
 @import "jquery-ui/autocomplete";
 @import "bootstrap-datepicker";
 @import "leaflet";
-@import "leaflet.markercluster";
+@import "leaflet.markercluster/dist/MarkerCluster";
+@import "leaflet.markercluster/dist/MarkerCluster.Default";
 
 // Font Awesome
 @import "font-awesome-sprockets";
@@ -24,6 +25,7 @@
 @import "notifications";
 @import "plantings";
 @import "garden_cards";
+@import "inactive_gardens";
 @import "photos";
 @import "posts";
 @import "seeds";

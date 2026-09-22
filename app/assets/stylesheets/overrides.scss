@@ -534,3 +534,34 @@ ul.thumbnail-buttons {
 .breadcrumb-item a {
   color: #5f5e5c;
 }
+
+// Sidebar text (the skip link, the nav links and button, the blurb) starts where
+// the text inside a card beside it starts, instead of at the card's edge.
+.sidebar-inset {
+  padding-inline: var(--bs-card-spacer-x, 1rem);
+}
+
+.layout-nav {
+  // Links in the link colour and underlined, so they read as links. The page
+  // you are on is bold and not underlined, since it goes nowhere new.
+  .nav-link {
+    padding-block: 0.25rem;
+    color: var(--bs-link-color);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--bs-link-hover-color);
+    }
+
+    &[aria-current="page"] {
+      font-weight: bold;
+      text-decoration: none;
+    }
+  }
+
+  .btn {
+    margin-top: 0.5rem;
+  }
+}

@@ -16,8 +16,7 @@ describe 'Planting from a garden card', :js, :search do
 
   def open_plant_dialog(garden_name)
     within(:css, '.card', text: garden_name) do
-      click_link 'Actions'
-      click_link 'Plant something here'
+      click_link 'Add planting'
     end
   end
 

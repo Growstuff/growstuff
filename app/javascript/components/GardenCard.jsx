@@ -1,20 +1,30 @@
 import React from 'react';
 
+import {isPlainClick} from '../events';
 import ActionsMenu from './ActionsMenu';
-import CropChip from './CropChip';
+import PlantingChip from './PlantingChip';
 import PlantingRow from './PlantingRow';
-
-// A plain left click, as opposed to ctrl/cmd/shift/middle click, which should still open the link normally.
-function isPlainClick(event) {
-  return event.button === 0 && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey);
-}
 
 // One garden: its name and actions menu (top right), a picture, then what is
 // planted, as perennials (just names) and annuals (each with its progress).
 // Matches gardens/_card.
-export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId}) {
-  const {id, name, url, image_url: imageUrl, owner, actions, perennials, annuals} = garden;
+export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto, onFinishPlanting, onEditGarden}) {
+  const {id, name, url, image_url: imageUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
   const empty = perennials.length === 0 && annuals.length === 0;
+  // What each planting's menu items open, for annuals and perennials alike.
+  const handlers = {
+    edit: onEditPlanting,
+    harvest: onHarvestPlanting,
+    seeds: onSaveSeedsPlanting,
+    finish: onFinishPlanting,
+    photo: onAddPhoto && ((planting, action) => onAddPhoto({label: planting.crop.name, href: action.href})),
+  };
+  function plant(event) {
+    if (onPlant && isPlainClick(event)) {
+      event.preventDefault();
+      onPlant(garden);
+    }
+  }
 
   return (
     <div className="card garden-card" data-garden-id={id}>
@@ -23,16 +33,31 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
           <h2 className="garden-card-title"><a href={url} name={`garden-${id}`}>{name}</a></h2>
           {owner && <div className="garden-card-owner">owner: <a href={owner.url}>{owner.login_name}</a></div>}
         </div>
-        <ActionsMenu
-          id={`garden-${id}`}
-          actions={actions}
-          onSelect={(action, event) => {
-            if (action.key === 'plant' && onPlant && isPlainClick(event)) {
-              event.preventDefault();
-              onPlant(garden);
-            }
-          }}
-        />
+        <div className="garden-card-header-actions">
+          {plantUrl && (
+            <a href={plantUrl} className="btn btn-success btn-sm garden-add-planting" onClick={plant}>
+              <i className="fa fa-plus" aria-hidden="true" /> Add planting
+              <span className="visually-hidden"> to {name}</span>
+            </a>
+          )}
+          <ActionsMenu
+            id={`garden-${id}`}
+            actions={actions}
+            label={<i className="fa fa-ellipsis-v" aria-hidden="true" />}
+            ariaLabel={`Actions for ${name}`}
+            className="btn btn-sm btn-link actions-toggle-dots"
+            onSelect={(action, event) => {
+              if (!isPlainClick(event)) return;
+              if (action.key === 'photo' && onAddPhoto) {
+                event.preventDefault();
+                onAddPhoto({label: name, href: action.href});
+              } else if (action.key === 'edit' && onEditGarden) {
+                event.preventDefault();
+                onEditGarden(garden);
+              }
+            }}
+          />
+        </div>
       </div>
       <div className="card-body garden-card-body">
         <img src={imageUrl} alt={name} className="garden-card-image" />
@@ -46,12 +71,12 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
                 {perennials.length > 0 ? (
                   <div className="garden-card-chips">
                     {perennials.map((planting) => (
-                      <CropChip
+                      <PlantingChip
                         key={planting.id}
-                        url={planting.url}
-                        crop={planting.crop}
+                        planting={planting}
                         defaultIconUrl={defaultIconUrl}
                         highlighted={planting.id === highlightedId}
+                        handlers={handlers}
                       />
                     ))}
                   </div>
@@ -69,6 +94,9 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
                         planting={planting}
                         defaultIconUrl={defaultIconUrl}
                         highlighted={planting.id === highlightedId}
+                        highlightKind={highlightKind}
+                        onUpdated={onPlantingUpdated}
+                        handlers={handlers}
                       />
                     ))}
                   </div>

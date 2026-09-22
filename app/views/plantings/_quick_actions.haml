@@ -7,8 +7,10 @@
     %li= add_photo_button(planting, classes: 'dropdown-item')
 
     - if planting.active
-      %li= planting_finish_button(planting, classes: 'dropdown-item')
       %li= planting_harvest_button(planting, classes: 'dropdown-item')
       %li= planting_save_seeds_button(planting, classes: 'dropdown-item')
+      %li
+        %hr.dropdown-divider
+      %li= planting_finish_button(planting, classes: 'dropdown-item')
 
 

@@ -1,0 +1,38 @@
+// A member's inactive gardens: a gallery of cards, a photo and what was grown.
+
+.inactive-garden-card {
+  overflow: hidden;
+
+  .card-img-top {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+
+  .card-title {
+    font-weight: 500;
+  }
+
+  .inactive-garden-meta {
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .inactive-garden-crops {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+
+    li {
+      margin: 0 0.5rem 0.5rem 0;
+    }
+  }
+
+  .inactive-garden-more {
+    align-self: center;
+    color: #666;
+    font-size: 0.9rem;
+  }
+}

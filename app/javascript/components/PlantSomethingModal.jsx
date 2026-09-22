@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {postJson} from '../api';
 import CropPicker from './CropPicker';
 import Modal from './Modal';
+import Steps from './Steps';
 
 const FIELD_NAMES = {crop: 'Crop', garden: 'Garden'};
 const STEPS = ['Choose a crop', 'Confirm'];
@@ -21,29 +22,7 @@ function errorMessages(status, data) {
   return ['Something went wrong saving that. Please try again.'];
 }
 
-// Where you are: done steps get a tick, the current one is marked for
-// assistive technology as well as by colour.
-function Steps({current}) {
-  return (
-    <ol className="plant-steps" aria-label="Progress">
-      {STEPS.map((label, index) => {
-        const number = index + 1;
-        const state = number < current ? 'done' : number === current ? 'current' : 'todo';
-        return (
-          <li key={label} className={`plant-step plant-step-${state}`} aria-current={state === 'current' ? 'step' : undefined}>
-            <span className="plant-step-number">
-              {state === 'done' ? <i className="fa fa-check" aria-hidden="true" /> : number}
-            </span>
-            {label}
-            {state === 'done' && <span className="visually-hidden"> (done)</span>}
-          </li>
-        );
-      })}
-    </ol>
-  );
-}
-
-// "Plant something here", as a dialog over the garden cards. Two steps: search
+// "Add planting", as a dialog over the garden cards. Two steps: search
 // for a crop and choose it, then confirm what you chose and it is planted in the
 // card's garden (today, with no other details; those can be added later). On
 // success it hands back the garden's updated card.
@@ -84,7 +63,7 @@ export default function PlantSomethingModal({garden, iconUrl, onClose, onCreated
   return (
     <Modal title={title} titleId={`plant-something-title-${garden.id}`} onClose={onClose}>
       <div className="modal-body plant-dialog-body">
-        <Steps current={crop ? 2 : 1} />
+        <Steps steps={STEPS} current={crop ? 2 : 1} />
         {errors.length > 0 && (
           <div className="alert alert-danger" role="alert">
             <i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}

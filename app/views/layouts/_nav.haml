@@ -1,17 +1,20 @@
-- if current_member.present?
-  .flex-column.nav-pills.layout-nav{"role" => "tablist", "aria-orientation"=>"vertical"}
-    / %h2.card-title #{model} links
-    = link_to url_for([current_member, model]), class: 'nav-link tab' do
-      My #{model.model_name.human.pluralize}
-    = link_to model, class: 'nav-link tab' do
-      Everyone's #{model.model_name.human.pluralize}
-    - if can?(:create, model)
-      = link_to url_for([model, action: :new]), class: 'btn' do
-        Add a #{model.model_name.human}
-- else
-  = render 'shared/signin_signup', to: "record your #{model.to_s.pluralize.downcase}"
+.sidebar-inset
+  - if current_member.present?
+    .flex-column.nav-pills.layout-nav{"role" => "tablist", "aria-orientation"=>"vertical"}
+      / %h2.card-title #{model} links
+      - mine = url_for([current_member, model])
+      - everyones = url_for(model)
+      = link_to mine, class: 'nav-link tab', aria: { current: ('page' if current_page?(mine)) } do
+        My #{model.model_name.human.pluralize}
+      = link_to everyones, class: 'nav-link tab', aria: { current: ('page' if current_page?(everyones)) } do
+        Everyone's #{model.model_name.human.pluralize}
+      - if can?(:create, model)
+        = link_to url_for([model, action: :new]), class: 'btn' do
+          Add a #{model.model_name.human}
+  - else
+    = render 'shared/signin_signup', to: "record your #{model.to_s.pluralize.downcase}"
 
 %hr/
-%p.text-center
+%p.sidebar-inset
   #{ENV['GROWSTUFF_SITE_NAME']} helps you track what you're
   harvesting from your home garden and see how productive it is.

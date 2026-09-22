@@ -12,6 +12,12 @@ $garden-card-line: #e6e6e6;
     padding: 0.75rem 1.25rem;
   }
 
+  .garden-card-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .garden-card-title {
     margin: 0;
     font-size: 1.4rem;
@@ -74,7 +80,7 @@ $garden-card-line: #e6e6e6;
 // One annual planting: crop | how it's getting on | actions, in aligned columns.
 .planting-row {
   display: grid;
-  grid-template-columns: minmax(11rem, 15rem) minmax(0, 1fr) 2.5rem;
+  grid-template-columns: minmax(11rem, 15rem) minmax(0, 1fr);
   align-items: center;
   padding: 0.6rem 0.5rem;
   border-top: 1px solid $garden-card-line;
@@ -89,6 +95,12 @@ $garden-card-line: #e6e6e6;
     flex-direction: column;
     align-items: flex-start;
 
+    .planting-row-chip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
     .chip {
       margin: 0;
     }
@@ -98,6 +110,45 @@ $garden-card-line: #e6e6e6;
     padding-left: 0.5rem;
     color: $garden-card-muted;
     font-size: 0.8rem;
+  }
+
+  // The planted date, when it can be edited: a quiet button with a pencil that
+  // firms up on hover and focus, so it reads as editable without shouting.
+  .planting-date-button {
+    border: 0;
+    border-bottom: 1px dotted currentColor;
+    background: none;
+    cursor: pointer;
+
+    .fa {
+      margin-left: 0.35rem;
+      opacity: 0.5;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--bs-link-color, #0a58ca);
+
+      .fa {
+        opacity: 1;
+      }
+    }
+  }
+
+  .planting-date-editor {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-left: 0.5rem;
+
+    .form-control {
+      width: auto;
+    }
+  }
+
+  .planting-date-error {
+    flex-basis: 100%;
+    color: var(--bs-danger, #dc3545);
   }
 
   .planting-row-status {
@@ -118,6 +169,22 @@ $garden-card-line: #e6e6e6;
     margin: 0;
   }
 
+  // Ticks for harvests sit over the bar, a little taller than it (so they stand
+  // out from the fill), which is why they are not inside .progress, which clips.
+  .planting-progress-track {
+    position: relative;
+  }
+
+  .harvest-tick {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    width: 3px;
+    margin-left: -1px;
+    border-radius: 1px;
+    background: #3e2723;
+  }
+
   .planting-progress-labels {
     display: flex;
     justify-content: space-between;
@@ -125,28 +192,30 @@ $garden-card-line: #e6e6e6;
     color: $garden-card-muted;
     font-size: 0.8rem;
   }
+}
 
-  .planting-row-actions {
-    text-align: right;
-  }
+// The planting menu's items are lowercase. Done in CSS because the labels are
+// the shared button translations, which other pages show in sentence case.
+.planting-menu .dropdown-item {
+  text-transform: lowercase;
+}
 
-  // The "more" button: three dots in a small round button. The theme gives every
-  // .btn a 5.5rem minimum width, which made the hover background a wide box, and
-  // adds a dropdown caret we don't want.
-  .planting-actions-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.25rem;
-    min-width: 0;
-    height: 2.25rem;
-    padding: 0;
-    border-radius: 50%;
-    color: $garden-card-muted;
+// The "more" button: three dots in a small round button. The theme gives every
+// .btn a 5.5rem minimum width, which made the hover background a wide box, and
+// adds a dropdown caret we don't want.
+.actions-toggle-dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  min-width: 0;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: 50%;
+  color: $garden-card-muted;
 
-    &::after {
-      display: none;
-    }
+  &::after {
+    display: none;
   }
 }
 
@@ -156,6 +225,24 @@ $garden-card-line: #e6e6e6;
 .planting-row.planting-just-added {
   background-color: #e8f5e9;
   box-shadow: inset 4px 0 0 #43a047;
+}
+
+// A planting that has just had a harvest recorded: amber, like the harvest icon,
+// with a tag saying so beside the chip, so it is easy to tell which one it was.
+.planting-row.planting-just-harvested {
+  background-color: #fff8e1;
+  box-shadow: inset 4px 0 0 #f5a623;
+}
+
+.harvest-recorded-tag {
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.7rem;
+  border-radius: 1rem;
+  background: #f5a623;
+  color: #3e2a00;
+  font-size: 0.8rem;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 .crop-chip.planting-just-added {
@@ -172,12 +259,74 @@ $garden-card-line: #e6e6e6;
   }
 
   .planting-row {
-    grid-template-columns: minmax(0, 1fr) 2.5rem;
+    grid-template-columns: minmax(0, 1fr);
 
     .planting-row-status {
       grid-column: 1 / -1;
       grid-row: 2;
       margin-top: 0.5rem;
     }
+  }
+}
+
+// Star rating in the planting edit dialog. The radios are visually hidden, so
+// show a ring on the star that has keyboard focus.
+.star-rating {
+  border: 0;
+  padding: 0;
+
+  legend {
+    float: none;
+    width: auto;
+    font-size: inherit;
+  }
+
+  .star-rating-stars {
+    display: flex;
+    align-items: center;
+    min-height: 2.25rem;
+  }
+
+  .star-rating-star {
+    padding: 0 0.1rem;
+    color: #9e9e9e;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .star-rating-star--lit {
+    color: #f5a623;
+  }
+
+  input:focus-visible + .star-rating-star {
+    outline: 2px solid var(--bs-link-color, #0a58ca);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  .star-rating-value {
+    margin-left: 0.75rem;
+    color: $garden-card-muted;
+    font-size: 0.9rem;
+  }
+}
+
+// A crop chip that is also the planting's menu: a caret says it opens something,
+// and it takes a slightly deeper tint while pointed at or open.
+.chip-menu-toggle {
+  cursor: pointer;
+  text-decoration: none;
+
+  &::after {
+    margin-left: 0.5rem;
+    vertical-align: 0.15em;
+  }
+
+  &:hover,
+  &:focus-visible,
+  &.show {
+    background-color: var(--bs-success-border-subtle);
+    color: var(--bs-success-text-emphasis);
   }
 }
