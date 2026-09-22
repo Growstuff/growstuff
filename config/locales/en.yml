@@ -182,6 +182,8 @@ en:
     confirm_deactivate: All plantings associated with this garden will be marked as finished. Are you sure?
     created_prompt_html: "Garden was successfully created. Would you like to <a href=\"%{link}\">plan to weed this garden bed in two weeks</a>?"
   harvests:
+    show:
+      heading: "%{crop} harvest"
     created: Harvest was successfully created.
     harvest_something: Harvest something
     index:
@@ -413,7 +415,7 @@ en:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
     show:
       title: "%{crop} planting by %{owner}"
-      subtitle_html: "planting by %{owner} in %{garden}"
+      heading: "%{crop} planting"
       meta_description: "%{crop} planted by %{owner} in %{garden}."
       notes: Notes
       photos: Photos
@@ -456,6 +458,8 @@ en:
     created: Companion was successfully created.
     deleted: Companion was successfully destroyed.
   seeds:
+    show:
+      heading: "%{crop} seeds"
     form:
       trade_help: >
         Are you interested in trading or swapping seeds with other %{site_name} members?  If you list

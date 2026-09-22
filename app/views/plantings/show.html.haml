@@ -32,10 +32,10 @@
               .planting-title
                 %h1.display-3
                   = crop_icon(@planting.crop)
-                  %strong= @planting.display_name.titleize
+                  %strong= t('plantings.show.heading', crop: @planting.display_name.titleize)
                 = render 'likes/likes', object: @planting
               %p.lead.text-muted.planting-subtitle
-                planting by
+                by
                 = link_to @planting.owner, @planting.owner
                 in
                 = link_to @planting.garden, @planting.garden

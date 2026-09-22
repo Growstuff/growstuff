@@ -25,11 +25,14 @@
   .row
     .col-md-9.col-12
       .jumbotron
-        .d-flex.justify-content-between
-          %h1.display-3
-            = crop_icon(@seed.crop)
-            = @seed.crop.name.titleize
-            seeds
+        .d-flex.justify-content-between.align-items-start
+          %div
+            %h1.display-3
+              = crop_icon(@seed.crop)
+              = t('seeds.show.heading', crop: @seed.crop.name.titleize)
+            %p.lead.text-muted.mb-0
+              saved by
+              = link_to @seed.owner, @seed.owner
           %span.text-muted= I18n.l @seed.created_at.to_date
         - if @seed.organic != 'unknown'
           .badge.text-bg-success.seedtitle--organic= @seed.organic
