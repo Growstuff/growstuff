@@ -17,7 +17,9 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     margin-bottom: 1rem;
   }
 
-  // Bed on the left, the plantings waiting to go on it down the right.
+  // The plantings and garden features down the left, then the bed right next to
+  // them, whatever the bed's shape. (The bed sits at the start of its column, so
+  // a sidebar on the right would be left stranded past a tall, narrow bed.)
   .garden-layout-columns {
     display: flex;
     align-items: flex-start;
@@ -394,6 +396,7 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   }
 
   .garden-layout-tray {
+    order: -1;
     flex: 0 0 12rem;
     align-self: stretch;
     padding: 0.75rem;
@@ -497,7 +500,9 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
       flex-direction: column;
     }
 
+    // Under the bed on a phone, so the bed isn't pushed below a long list.
     .garden-layout-tray {
+      order: 0;
       flex: 1 1 auto;
       align-self: auto;
       width: 100%;
