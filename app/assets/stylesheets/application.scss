@@ -6,7 +6,8 @@
 @import "jquery-ui/autocomplete";
 @import "bootstrap-datepicker";
 @import "leaflet";
-@import "leaflet.markercluster";
+@import "leaflet.markercluster/dist/MarkerCluster";
+@import "leaflet.markercluster/dist/MarkerCluster.Default";
 
 // Font Awesome
 @import "font-awesome-sprockets";
