@@ -1,0 +1,47 @@
+= content_for :title, "Layout of #{@owner}'s #{@garden}"
+
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Gardens', gardens_path
+  %li.breadcrumb-item= link_to "#{@owner}'s gardens", member_gardens_path(@owner)
+  %li.breadcrumb-item= link_to @garden.name, garden_path(@garden)
+  %li.breadcrumb-item.active Layout
+
+.row
+  .col-md-9.col-12
+    %h1
+      Layout of
+      %strong= @garden
+  .col-md-3.col-12
+    = render 'gardens/actions', garden: @garden
+
+.row
+  .col-md-9
+    - unless @garden.active
+      .alert.alert-warning This garden is inactive.
+
+    = react_component 'GardenLayout', @layout
+    %noscript
+      %p The bed layout needs JavaScript to display.
+      %ul
+        - @garden.plantings.current.includes(:crop).order(:planted_at).each do |planting|
+          %li= link_to planting.crop.name, planting
+
+  .col-md-3
+    .card
+      .card-body
+        %h4 About this garden
+        %p
+          %strong Owner:
+          = link_to @owner, @owner
+        - if @garden.location.present?
+          %p
+            %strong Location:
+            = @garden.location
+        - if @garden.area.present?
+          %p
+            %strong Area:
+            = pluralize(@garden.area, @garden.area_unit)
+        %p= link_to 'Back to the garden', garden_path(@garden)

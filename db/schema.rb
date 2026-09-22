@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_29_132911) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_22_120002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -624,6 +624,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_132911) do
     t.datetime "created_at", precision: nil
     t.text "description"
     t.integer "garden_type_id"
+    t.integer "grid_columns", default: 10, null: false
+    t.integer "grid_rows", default: 10, null: false
     t.float "highest_temp_c"
     t.float "latitude"
     t.string "location"
@@ -908,6 +910,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_132911) do
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 
+  create_table "plants", force: :cascade do |t|
+    t.float "bed_x"
+    t.float "bed_y"
+    t.datetime "created_at", null: false
+    t.bigint "planting_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planting_id", "bed_x", "bed_y"], name: "index_plants_on_planting_id_and_bed_x_and_bed_y"
+  end
+
   create_table "posts", id: :serial, force: :cascade do |t|
     t.integer "author_id", null: false
     t.text "body", null: false
@@ -995,5 +1006,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_132911) do
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
+  add_foreign_key "plants", "plantings"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end

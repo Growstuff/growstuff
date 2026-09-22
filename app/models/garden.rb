@@ -41,6 +41,13 @@ class Garden < ApplicationRecord
             numericality: { only_integer: false, greater_than_or_equal_to: 0 },
             allow_nil:    true
 
+  # The layout grid. Capped so a bed's map stays a sensible number of cells to
+  # draw, and so shrinking it can't quietly strand a planting off the edge.
+  MAX_GRID_SIZE = 50
+  validates :grid_columns, :grid_rows,
+            numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: MAX_GRID_SIZE }
+  validate :grid_must_not_cut_off_plantings
+
   scope :located, lambda {
     where.not(gardens: { location: '' })
       .where.not(gardens: { latitude: nil })
@@ -106,9 +113,35 @@ class Garden < ApplicationRecord
     true
   end
 
+  # How many cells the bed's layout grid has, for callers that just want the size.
+  def grid_cells
+    grid_columns * grid_rows
+  end
+
+  # The plants currently drawn on this bed's layout.
+  def placed_plants
+    Plant.placed.where(planting_id: plantings.current.select(:id))
+  end
+
+  # Every plant of every planting growing here, placed or not. What the layout
+  # page may rearrange.
+  def placed_or_owned_plants
+    Plant.where(planting_id: plantings.current.select(:id))
+  end
+
   protected
 
   def strip_blanks
     self.name = name.strip unless name.nil?
+  end
+
+  # Shrinking the grid must not leave a placed plant hanging over the edge,
+  # which would otherwise only show up as a plant missing from the map.
+  def grid_must_not_cut_off_plantings
+    return if new_record? || grid_columns.blank? || grid_rows.blank?
+    return unless will_save_change_to_grid_columns? || will_save_change_to_grid_rows?
+    return if placed_plants.outside_grid(grid_columns, grid_rows).none?
+
+    errors.add(:base, :grid_too_small_for_plantings)
   end
 end

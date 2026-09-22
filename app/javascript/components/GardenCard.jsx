@@ -9,7 +9,7 @@ import PlantingRow from './PlantingRow';
 // planted, as perennials (just names) and annuals (each with its progress).
 // Matches gardens/_card.
 export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto, onFinishPlanting, onEditGarden}) {
-  const {id, name, url, image_url: imageUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
+  const {id, name, url, image_url: imageUrl, layout_url: layoutUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
   const empty = perennials.length === 0 && annuals.length === 0;
   // What each planting's menu items open, for annuals and perennials alike.
   const handlers = {
@@ -32,6 +32,14 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
         <div>
           <h2 className="garden-card-title"><a href={url} name={`garden-${id}`}>{name}</a></h2>
           {owner && <div className="garden-card-owner">owner: <a href={owner.url}>{owner.login_name}</a></div>}
+          {layoutUrl && (
+            <div className="garden-card-layout-link">
+              <a href={layoutUrl}>
+                Garden layout
+                <span className="visually-hidden"> for {name}</span>
+              </a>
+            </div>
+          )}
         </div>
         <div className="garden-card-header-actions">
           {plantUrl && (

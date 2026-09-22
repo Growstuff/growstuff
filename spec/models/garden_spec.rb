@@ -210,6 +210,39 @@ describe Garden do
     end
   end
 
+  context 'layout grid' do
+    let(:bed) { create(:garden, owner:, name: 'Sunny bed', grid_columns: 4, grid_rows: 3) }
+
+    it 'defaults to 10 by 10' do
+      expect([garden.grid_columns, garden.grid_rows]).to eq [10, 10]
+      expect(garden.grid_cells).to eq 100
+    end
+
+    it 'must have at least one cell, and no more than the cap' do
+      expect(build(:garden, owner:, grid_columns: 0)).not_to be_valid
+      expect(build(:garden, owner:, grid_rows: 0)).not_to be_valid
+      expect(build(:garden, owner:, grid_columns: Garden::MAX_GRID_SIZE + 1)).not_to be_valid
+      expect(build(:garden, owner:, grid_columns: Garden::MAX_GRID_SIZE)).to be_valid
+    end
+
+    it 'does not shrink out from under a placed plant' do
+      planting = create(:planting, garden: bed, owner:, quantity: 1)
+      planting.plants.first.update!(bed_x: 3, bed_y: 2)
+      bed.grid_columns = 2
+
+      expect(bed).not_to be_valid
+      expect(bed.errors[:base]).to be_present
+    end
+
+    it 'shrinks when nothing is in the way' do
+      planting = create(:planting, garden: bed, owner:, quantity: 1)
+      planting.plants.first.update!(bed_x: 0, bed_y: 0)
+      bed.grid_columns = 2
+
+      expect(bed).to be_valid
+    end
+  end
+
   it 'excludes deleted members' do
     expect(described_class.joins(:owner).all).to include(garden)
     owner.destroy

@@ -1,0 +1,246 @@
+// The bed layout map on gardens#layout (rendered by React).
+$garden-layout-line: #d9d4c7;
+$garden-layout-soil: #f6f3ea;
+$garden-layout-planting: #cfe3c4;
+$garden-layout-planting-border: #7ba368;
+// Behind the plants, so the cells a planting occupies stay visible without
+// competing with the circles drawn on top of them.
+$garden-layout-footprint: rgba(207, 227, 196, 0.35);
+
+.garden-layout {
+  .garden-layout-message {
+    margin-bottom: 1rem;
+  }
+
+  // Bed on the left, the plantings waiting to go on it down the right.
+  .garden-layout-columns {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .garden-layout-grid-wrapper {
+    flex: 1 1 auto;
+    min-width: 0; // let the grid scroll rather than push the tray off
+    overflow-x: auto;
+  }
+
+  // Bed size and clearing, above the bed.
+  .garden-layout-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: #555;
+  }
+
+  .garden-layout-size {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin: 0;
+    }
+
+    input {
+      width: 4.5rem;
+    }
+  }
+
+
+  // The bed. Plants are positioned over it rather than laid out by it, so the
+  // grid is a backdrop to measure against, not a set of slots.
+  .garden-layout-grid {
+    position: relative;
+    min-width: 12rem;
+    padding: 2px;
+    background: $garden-layout-line;
+    border: 1px solid $garden-layout-line;
+    border-radius: 4px;
+  }
+
+  // Fills the bed, which is sized to the window, so the cells stay square
+  // because the bed has the grid's proportions rather than because each cell
+  // insists on it.
+  .garden-layout-cells {
+    display: grid;
+    gap: 2px;
+    height: 100%;
+  }
+
+  .garden-layout-cell {
+    background: $garden-layout-soil;
+  }
+
+  // One plant, centred on its position anywhere over the bed.
+  .garden-layout-plant {
+    position: absolute;
+    display: flex;
+    aspect-ratio: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    transform: translate(-50%, -50%);
+
+    &[draggable="true"] {
+      cursor: grab;
+    }
+
+    &.is-dragging {
+      opacity: 0.4;
+    }
+  }
+
+  // The circle itself, on the bed or waiting in the sidebar.
+  .garden-layout-plant-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    max-width: 2.2rem;
+    max-height: 2.2rem;
+    aspect-ratio: 1;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    background: $garden-layout-planting;
+    border: 1px solid $garden-layout-planting-border;
+    border-radius: 50%;
+
+    &.is-waiting {
+      width: 1.6rem;
+      height: 1.6rem;
+      cursor: grab;
+    }
+
+    &.is-dragging {
+      opacity: 0.4;
+    }
+  }
+
+  // Sized to the circle it sits in rather than fixed, so a plant on the bed and
+  // one waiting in the sidebar both look right.
+  .garden-layout-icon {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+  }
+
+  .garden-layout-crop {
+    font-size: 0.8rem;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
+  .garden-layout-tray {
+    flex: 0 0 12rem;
+    align-self: stretch;
+    padding: 0.75rem;
+    border: 1px dashed $garden-layout-line;
+    border-radius: 4px;
+  }
+
+  .garden-layout-tray-heading {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+  }
+
+  .garden-layout-plant-button {
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+
+  .garden-layout-saving {
+    font-weight: normal;
+    color: #666;
+  }
+
+  // A single column in the sidebar, so long crop names stay readable.
+  .garden-layout-tray-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // One planting: its name, how many plants it has, and the circles still to place.
+  .garden-layout-tray-planting {
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid $garden-layout-line;
+
+    &:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+  }
+
+  // A crop chip you drag from; it stays put however many plants you take.
+  .garden-layout-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: none;
+
+    &[draggable="true"] {
+      cursor: grab;
+    }
+
+    &.is-dragging {
+      opacity: 0.4;
+    }
+
+    .crop-icon {
+      flex: none;
+      height: 1.2em;
+    }
+  }
+
+  // How many of this planting's plants aren't on the bed yet.
+  .garden-layout-chip-count {
+    padding: 0 0.4rem;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    background: var(--bs-success-border-subtle);
+    border-radius: 999px;
+  }
+
+  .garden-layout-tray-empty,
+  .garden-layout-hint {
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    color: #666;
+  }
+
+  // Too narrow for a sidebar: put the tray back under the bed, pills in a row.
+  @media (max-width: 767.98px) {
+    .garden-layout-columns {
+      flex-direction: column;
+    }
+
+    .garden-layout-tray {
+      flex: 1 1 auto;
+      align-self: auto;
+      width: 100%;
+    }
+
+    .garden-layout-tray-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+}

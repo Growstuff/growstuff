@@ -3,6 +3,7 @@
     .row
       .col-12.col-md-3
         %h2= link_to garden.name, garden, name: "garden-#{garden.id}"
+        .garden-card-layout-link= link_to 'Garden layout', layout_member_garden_path(garden.owner, garden)
     .row
       .col-md-3
         - if @owner.blank?
