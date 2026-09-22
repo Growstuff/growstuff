@@ -70,6 +70,21 @@ class Crop < ApplicationRecord
   validates :default_diameter, allow_nil: true, numericality: {
     greater_than: 0, less_than_or_equal_to: Plant::MAX_DIAMETER
   }
+  validates :icon, allow_blank: true, inclusion: { in: ->(_) { icon_names } }
+
+  # Crop icons that ship with the app: Microsoft's Fluent Emoji (MIT licensed;
+  # see COPYRIGHT there), one per food plant or flower they draw.
+  ICON_DIR = Rails.root.join('app/assets/images/crops')
+
+  def self.icon_names
+    @icon_names ||= Dir[ICON_DIR.join('*.svg')].map { |path| File.basename(path, '.svg') }.sort
+  end
+
+  # Read once and kept, as crop chips ask for these a lot.
+  def self.icon_svg(name)
+    @icon_svgs ||= {}
+    @icon_svgs[name] ||= ICON_DIR.join("#{name}.svg").read
+  end
 
   def to_s
     name
@@ -80,6 +95,15 @@ class Crop < ApplicationRecord
   # follows tomato unless it has its own.
   def layout_diameter
     default_diameter || parent&.layout_diameter
+  end
+
+  # This crop's icon as SVG: the one chosen for it, else the one OpenFarm had,
+  # else its parent crop's, so a variety of tomato gets the tomato. Nil when
+  # none of those has one; crops#show then serves a sprout.
+  def svg_icon
+    return self.class.icon_svg(icon) if icon.present?
+
+    openfarm_svg_icon.presence || parent&.svg_icon
   end
 
   def to_param

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "esbuild": "^0.28.2",
+    "leaflet.markercluster": "^1.5.3",
     "mdbootstrap": "^4.20.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

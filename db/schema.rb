@@ -552,6 +552,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_150000) do
     t.integer "growing_degree_days"
     t.integer "harvests_count", default: 0
     t.integer "height"
+    t.string "icon"
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
     t.integer "median_lifespan"

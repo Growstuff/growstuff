@@ -89,6 +89,14 @@
           { include_blank: true, label: 'Parent crop'})
         %span.form-text Optional. For setting up crop hierarchies for varieties etc.
 
+        - icon_choices = Crop.icon_names.map { |icon| [icon.humanize, icon] }
+        = f.select(:icon, icon_choices, { include_blank: "None: use the parent crop's", label: 'Icon' })
+        %span.form-text
+          Optional. Shown for this crop and any varieties of it that don't have their own.
+          - if @crop.persisted? && @crop.svg_icon.present?
+            Currently:
+            = image_tag crop_path(@crop, format: 'svg'), class: 'crop-icon', alt: ''
+
 
       -# Everyone (wranglers and requesters) gets to add scientific names
       %h2 Scientific names

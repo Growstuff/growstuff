@@ -629,4 +629,47 @@ describe Crop do
       expect(build(:crop, default_diameter: 0.5)).to be_valid
     end
   end
+
+  describe 'its icon' do
+    let(:tomato)  { create(:crop, name: 'tomato') }
+    let(:variety) { create(:crop, name: 'island bay tomato', parent: tomato) }
+
+    it 'has none until one is chosen, or OpenFarm had one' do
+      expect(tomato.svg_icon).to be_nil
+    end
+
+    it "draws the app's icon chosen for it" do
+      tomato.update!(icon: 'tomato')
+      expect(tomato.svg_icon).to eq Rails.root.join('app/assets/images/crops/tomato.svg').read
+    end
+
+    it 'prefers its chosen icon to the one OpenFarm had' do
+      tomato.update!(icon: 'tomato', openfarm_data: { 'attributes' => { 'svg_icon' => '<svg>openfarm</svg>' } })
+      expect(tomato.svg_icon).to include('viewBox="0 0 32 32"')
+    end
+
+    it 'falls back to the one OpenFarm had' do
+      tomato.update!(openfarm_data: { 'attributes' => { 'svg_icon' => '<svg>openfarm</svg>' } })
+      expect(tomato.svg_icon).to eq '<svg>openfarm</svg>'
+    end
+
+    it 'follows its parent crop until it has its own' do
+      tomato.update!(icon: 'tomato')
+      expect(variety.svg_icon).to eq tomato.svg_icon
+
+      variety.update!(icon: 'cherries')
+      expect(variety.svg_icon).to eq described_class.icon_svg('cherries')
+    end
+
+    it "must be one of the app's icons" do
+      expect(build(:crop, icon: 'tomato')).to be_valid
+      expect(build(:crop, icon: 'dragon')).not_to be_valid
+      expect(build(:crop, icon: '')).to be_valid
+    end
+
+    it 'lists the icons there are to choose from' do
+      expect(described_class.icon_names).to include('tomato', 'herb', 'leafy_green')
+      expect(described_class.icon_names).to eq described_class.icon_names.sort
+    end
+  end
 end
