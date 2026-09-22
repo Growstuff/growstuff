@@ -145,6 +145,15 @@
     cursor: pointer;
   }
 
+  // The plant part's own drawing, beside its name, as the server-rendered
+  // picker showed it. Decorative: the name next to it is the label.
+  .plant-part-icon {
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: 0.5rem;
+    vertical-align: -0.35em;
+  }
+
   // The one Enter would choose: solid colour and white text, so it can't be missed.
   .crop-picker-option-active {
     background: #1976d2;
@@ -328,4 +337,173 @@
 
 .when-date {
   width: auto;
+}
+
+// The planting's own page. Kept separate from `.planting`, which is the
+// planting *card* — the card's absolutely positioned badges and quick actions
+// have no business on this page.
+//
+// One spacing scale for the whole page: sections are the same distance apart,
+// headings sit the same distance above their content, and the two columns start
+// at the same height.
+.planting-show {
+  $section-gap: 2rem;
+
+  .row {
+    align-items: flex-start;
+  }
+
+  > .row > [class^="col-"] > *,
+  > .row > [class*=" col-"] > * {
+    margin-bottom: $section-gap;
+  }
+
+  section {
+    margin-bottom: $section-gap;
+
+    > h2 {
+      margin-bottom: 0.75rem;
+    }
+
+    > h3 {
+      margin: 1.25rem 0 0.5rem;
+    }
+  }
+
+  // No side padding: the hero's text starts on the same left edge as every
+  // section below it, so the column has one alignment all the way down.
+  .jumbotron {
+    padding: 1.5rem 0;
+    margin-bottom: $section-gap;
+  }
+
+  // The timeline and harvest months are context for the title, not part of it.
+  .harvest-months {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+
+  // Every fact card in a row is the same height, whatever its sub-line says.
+  .facts .card {
+    min-height: 9.5rem;
+    justify-content: flex-start;
+  }
+
+  // Title and subtitle read as one block, with the badge and the actions menu
+  // pinned to the top right beside them.
+  .planting-identity {
+    min-width: 0;
+
+    h1 {
+      margin-bottom: 0.25rem;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      overflow-wrap: anywhere;
+    }
+  }
+
+  .planting-subtitle {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+  }
+
+  // The three-dot button: quiet by default, so it sits in the corner without
+  // competing with the title. An icon, not a labelled control, so no caret.
+  .planting-actions-toggle {
+    padding: 0.25rem 0.6rem;
+    line-height: 1;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    color: rgba(65, 63, 59, 0.55);
+    font-size: 1.25rem;
+
+    &::after {
+      display: none;
+    }
+
+    &:hover,
+    &:focus,
+    &[aria-expanded="true"] {
+      background: rgba(65, 63, 59, 0.08);
+      box-shadow: none;
+      color: $brown;
+    }
+  }
+
+  // The card grids set their own margins on each card, so the grid itself needs
+  // no extra padding — without this the gap under a heading is doubled.
+  .index-cards {
+    margin: 0 -0.5rem;
+  }
+
+  .facts .card {
+    margin: 0.5rem;
+  }
+
+  // Each section is one bordered block: its green heading bar is the lid, its
+  // content sits under it inside the same border. That is what joins them —
+  // before this the heading and the "add" floated free above loose content.
+  section {
+    background: $white;
+    border: 1px solid rgba(65, 63, 59, 0.15);
+    border-radius: 4px;
+    padding: 0 1rem 1rem;
+  }
+
+  // The heading bar spans the section, so the "add" inside it sits at the
+  // section's own right edge rather than drifting in whitespace.
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin: 0 -1rem 1rem;
+    padding: 0.3rem 1rem;
+    background-color: $green;
+    border-radius: 3px 3px 0 0;
+    color: $white;
+
+    h2 {
+      margin: 0;
+      padding: 0;
+      background: none;
+      box-shadow: none;
+      color: $white;
+    }
+  }
+
+  // Facts and notes bring their own cards, so they get no box of their own.
+  .planting-facts,
+  .planting-notes {
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+
+  // Quiet enough to sit on the heading bar without shouting over the heading.
+  .section-add {
+    flex: 0 0 auto;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    background: transparent;
+    color: $white;
+    font-size: 0.8rem;
+    text-transform: lowercase;
+
+    &:hover,
+    &:focus {
+      background: rgba(255, 255, 255, 0.18);
+      color: $white;
+    }
+  }
+
+  // Buttons that follow a card grid line up with the grid's edge, not the
+  // card's margin.
+  .text-end .btn + .btn {
+    margin-left: 0.5rem;
+  }
+
+  .neighbours .index-cards .card {
+    width: 100%;
+  }
 }

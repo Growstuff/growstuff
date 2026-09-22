@@ -36,7 +36,7 @@ describe "plantings/show" do
     describe "shows planted_from" do
       before { render }
 
-      it { expect(rendered).to have_content 'Grown from' }
+      it { expect(rendered).to have_content 'Quantity' }
       it { expect(rendered).to have_content 'cutting' }
     end
 

@@ -120,6 +120,11 @@ class Planting < ApplicationRecord
     planted_at.present? && planted_at <= Time.zone.today
   end
 
+  # Planted in the future: the member has planned this, but it isn't in the ground yet.
+  def planned?
+    planted_at.present? && planted_at > Time.zone.today
+  end
+
   def growing?
     planted? && !finished?
   end

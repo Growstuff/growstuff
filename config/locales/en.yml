@@ -140,7 +140,7 @@ en:
     plant: Plant
     plant_crop: Plant %{crop_name}
     plant_something_here: Plant something here
-    record_harvest: Record Harvest
+    record_harvest: Record harvest
     save_seeds: Save seeds
     timeline: Timeline
     view: View
@@ -411,6 +411,30 @@ en:
     string: "%{crop} planting in %{garden} by %{owner}"
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
+    show:
+      title: "%{crop} planting by %{owner}"
+      subtitle_html: "planting by %{owner} in %{garden}"
+      meta_description: "%{crop} planted by %{owner} in %{garden}."
+      notes: Notes
+      photos: Photos
+      harvests: Harvests
+      seeds_saved: Seeds saved
+      activities: Activities
+      activities_current: Planned
+      activities_finished: Finished
+      neighbours: World neighbours
+      neighbours_explanation: Other %{crop} plantings at the same latitude.
+      no_photos: No photos yet.
+      no_photos_prompt: Photos come from your Flickr account. Add one to track how this planting grows.
+      no_harvests: No harvests recorded yet.
+      no_harvests_prompt: >
+        Record your harvests here to improve crop predictions, and you'll be able to compare with
+        your garden next season.
+      no_seeds: No seeds saved yet.
+      no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
+      no_activities: Nothing is planned here.
+      more_photos: More photos
+      view_all_plantings: All of %{owner}'s plantings
   posts:
     write_blog_post: Write blog post
     created: Post was successfully created.

@@ -1,30 +1,116 @@
-.seed-card {
-  .text {
-    opacity: 0.95;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    text-align: center;
-    top: 1em;
-    width: 100%;
+// A seed card is drawn as a seed packet: tall and papery, with a torn top edge,
+// a printed frame, a bold crop-name band and the small print along the bottom.
+// Nothing else in a card grid is this shape, so seeds are recognisable before
+// a word of the card is read.
+.seed-card.card {
+  aspect-ratio: 3 / 4;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  border: 1px solid darken($beige, 25%);
+  background: $beige;
+  padding: 0.5rem;
+  position: relative;
+  overflow: hidden;
 
-    h4 {
-      color: $white;
-      background-color: $green;
-      padding: 0;
+  // The tear-off strip across the top of a real packet.
+  .seed-card-tear {
+    height: 0.6rem;
+    margin: -0.5rem -0.5rem 0.4rem;
+    background-image: linear-gradient(135deg, $beige 25%, transparent 25%),
+      linear-gradient(225deg, $beige 25%, transparent 25%);
+    background-size: 0.7rem 0.7rem;
+    background-position: 0 0;
+    background-color: darken($beige, 12%);
+    border-bottom: 1px dashed darken($beige, 30%);
+  }
+
+  // The illustration window, inset from the printed frame rather than bleeding
+  // to the card's edge.
+  .seed-card-window {
+    border: 1px solid $yellow;
+    overflow: hidden;
+    flex: 0 0 auto;
+    position: relative;
+
+    .img-card {
+      height: 110px;
+      display: block;
+    }
+  }
+
+  // The year the seeds were saved, stamped on the packet the way a home-saved
+  // one is written on by hand.
+  .seed-card-year {
+    position: absolute;
+    right: 0.3rem;
+    bottom: 0.3rem;
+    padding: 0.1rem 0.3rem;
+    border: 1px solid $brown;
+    border-radius: 2px;
+    background: rgba(244, 242, 239, 0.9);
+    color: $brown;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transform: rotate(-4deg);
+  }
+
+  // The printed name band. Bolder and more letter-spaced than UI type, the way
+  // packet printing is.
+  .seed-card-band {
+    margin: 0.4rem 0 0.3rem;
+    text-align: center;
+
+    .card-title {
       margin: 0;
+      padding: 0.15rem 0.25rem;
+      background-color: $green;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 1rem;
+
       a {
         color: $white;
       }
+
       a:hover {
         color: $black;
+        background-color: transparent;
       }
     }
 
     h5 {
-      color: $black;
-      background-color: $beige;
+      margin: 0.2rem 0 0;
+      font-size: 0.8rem;
+      color: $brown;
     }
-    color: $black;
+  }
+
+  // The small print, as a packet carries it: one run of short facts, always
+  // rendered so every packet has the same shape.
+  .seed-card-print {
+    margin: auto 0 0;
+    padding: 0.3rem 0 0;
+    list-style: none;
+    border-top: 1px solid darken($beige, 20%);
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: $brown;
+    text-align: center;
+
+    li {
+      display: inline;
+
+      &::after {
+        content: " · ";
+      }
+
+      &:last-child::after {
+        content: "";
+      }
+    }
   }
 }

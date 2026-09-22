@@ -4,15 +4,15 @@
       .col
         %h4
           Planted by
-          = link_to @planting.owner, @planting.owner
-        = link_to "view all #{@planting.owner}'s plantings", member_gardens_path(@planting.owner)
+          = link_to planting.owner, planting.owner
+        = link_to t('plantings.show.view_all_plantings', owner: planting.owner), member_plantings_path(planting.owner)
 
         %p
           Planted in
-          = link_to @planting.garden, @planting.garden
-        - if @planting.garden.location
+          = link_to planting.garden, planting.garden
+        - if planting.garden.location
           %p
             %small
               View other plantings, members and more near
-              = link_to @planting.garden.location, place_path(@planting.garden.location, anchor: "plantings")
-      .col= render "members/avatar", member: @planting.owner
+              = link_to planting.garden.location, place_path(planting.garden.location, anchor: "plantings")
+      .col= render "members/avatar", member: planting.owner

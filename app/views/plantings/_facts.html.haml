@@ -1,61 +1,63 @@
-
+-# Each fact card fills the same four slots: an h3 label (with its edit link),
+-# a strong value holding ONE thing, and a span sub-line. The sub-line always
+-# renders, even when it is a single word, so the cards line up.
+-#
+-# The core cards render for every planting, muted and reading "unknown" when
+-# empty, so one planting's page has the same shape as the next. Cards that do
+-# not apply to this planting come after them.
 .index-cards.facts.plantingfacts
-  - if planting.parent_seed
-    .card.fact-card
-      %h3 Parent seed
-      = render 'seeds/thumbnail', seed: planting.parent_seed
-
   .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
     %h3
       Planted
       = editable :date, planting, :planted_at, display_field: '.planted_at'
-    %strong.plantingfact--weekssinceplanted.planted_at
-      - if planting.planted_at.present?
-        = I18n.t('date.abbr_month_names')[planting.planted_at.month]
-      - else
-        unknown
     - if planting.planted_at.present?
-      %span.planted_at
-        = planting.planted_at.year
+      %strong.planted_at= standard_time_distance planting.planted_at, Time.zone.today
+      %span.planted_at= I18n.l planting.planted_at
+    - else
+      %strong.planted_at unknown
+      %span.planted_at no date recorded
 
-  - if planting.finish_is_predicatable?
-    .card.fact-card
-      %h3 Progress
-      - if planting.age_in_days.to_i < 0
-        %strong Planned
-      - else
-        %strong #{planting.age_in_days}/#{planting.expected_lifespan}
-        %span days
+  .card.fact-card{class: planting.percentage_grown.present? ? '' : 'text-muted'}
+    %h3 Progress
+    - if planting.failed?
+      %strong.plantingfact--progress Failed
+      %span= planting.finished_at.present? ? I18n.l(planting.finished_at) : 'this planting failed'
+    - elsif planting.finished?
+      %strong.plantingfact--progress Done
+      %span
+        - if planting.actual_lifespan.present?
+          = pluralize planting.actual_lifespan, 'day'
+        - else
+          finished
+    - elsif planting.planned?
+      %strong.plantingfact--progress Planned
+      %span for #{I18n.l planting.planted_at}
+    - elsif planting.percentage_grown.present?
+      %strong.plantingfact--progress #{planting.percentage_grown.to_i}%
+      %span
+        - if planting.finish_is_predicatable?
+          day #{planting.age_in_days} of #{planting.expected_lifespan}
+        - else
+          grown
+    - else
+      %strong.plantingfact--progress unknown
+      %span no finish predicted
 
-  .card.fact-card{class: planting.quantity.present? ? '' : 'text-muted'}
+  -# Quantity and the growing method were two cards that both said "seedling".
+  -# One card, one sentence: "3 cuttings". Both fields stay editable from it.
+  .card.fact-card{class: planting.quantity.to_i.positive? ? '' : 'text-muted'}
     %h3
       Quantity
-      %small= editable :text_field, planting, :quantity, display_field: '.plantingfact--quantity'
+      = editable :text_field, planting, :quantity, display_field: '.plantingfact--quantity'
     %strong.plantingfact--quantity
-      - if planting.quantity.to_i.positive?
-        = planting.quantity
-      -else
-        unknown
+      = planting.quantity.to_i.positive? ? planting.quantity : 'unknown'
     %span
-      - if planting.quantity.to_i.positive? && planting.planted_from.present?
-        = planting.planted_from.pluralize(planting.quantity.to_i)
-
-  - unless planting.finished? || planting.failed?
-    .card.fact-card.grid-sizer
-      %h3 Growing
-      %strong= seedling_icon
-      %span
-      - if planting.age_in_days.to_i < 0
-        Planting planned
-      - else
-        Planting is still growing today
-
-  .card.fact-card{class: planting.planted_from.present? ? '' : 'text-muted'}
-    %h3
-      Grown from
+      %span.plantingfact--plantedfrom
+        - if planting.planted_from.present?
+          = planting.planted_from.pluralize(planting.quantity.to_i)
+        - else
+          not recorded
       = editable :select, planting, :planted_from, collection: Planting::PLANTED_FROM_VALUES, display_field: '.plantingfact--plantedfrom'
-    %strong.plantingfact--plantedfrom
-      = planting.planted_from.present? ? planting.planted_from : 'unknown'
 
   .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
     %h3
@@ -63,12 +65,30 @@
       = editable :select, planting, :sunniness, collection: Planting::SUNNINESS_VALUES, display_field: '.plantingfact--sunniness'
     %strong= sunniness_icon(planting.sunniness)
     %span.plantingfact--sunniness
-      = planting.sunniness.blank? ? "not specified" : planting.sunniness
+      = planting.sunniness.presence || 'not specified'
+
+  .card.fact-card{class: planting.overall_rating.present? ? '' : 'text-muted'}
+    %h3 Rating
+    %strong.plantingfact--rating{'aria-hidden' => 'true'}
+      - (1..5).each do |star|
+        = icon(star <= planting.overall_rating.to_f.round ? 'fas' : 'far', 'star')
+    %span.plantingfact--ratingvalue
+      - if planting.overall_rating.present?
+        = "#{number_with_precision planting.overall_rating, precision: 1, strip_insignificant_zeros: true} of 5"
+      - else
+        not rated
+
+  -# Facts that only some plantings have.
+  - if planting.parent_seed
+    .card.fact-card
+      %h3 Parent seed
+      = render 'seeds/thumbnail', seed: planting.parent_seed
 
   - if planting.crop.perennial
     .card.fact-card
       %h3.plantingfact--perennial Perennial
-      %strong=perennial_icon
+      %strong= perennial_icon
+      %span keeps growing year to year
 
   - if planting.child_seeds.size.positive?
     .card.fact-card
@@ -77,21 +97,3 @@
         = link_to planting_seeds_path(planting) do
           = seed_icon
       %span.plantingfact--seedssaved #{pluralize(planting.child_seeds.size, 'packet')} of seed
-
-  - if planting.finished?
-    .card.fact-card
-      %h3 Finished
-      %strong
-        - if planting.finished_at.present?
-          = I18n.t('date.abbr_month_names')[planting.finished_at.month]
-        - else
-          unknown date
-      - if planting.finished_at.present?
-        %span.plantingfact--finish
-          = planting.finished_at.year
-  - if planting.overall_rating.present?
-    .card.fact-card
-      .card-body
-        %h3 Overall Rating
-        %p.card-text
-          %strong= "#{planting.overall_rating}/5"

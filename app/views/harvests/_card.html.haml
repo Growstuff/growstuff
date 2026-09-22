@@ -1,13 +1,22 @@
+-# A harvest is an event: one crop, one plant part, one day. The card says so —
+-# square corners and a warm accent, against the planting card's rounded green.
 - cache harvest do
-  .card
-    = link_to harvest_path(slug: harvest.slug) do
-      = image_tag harvest.thumbnail_url ? harvest.thumbnail_url : placeholder_image, alt: harvest.crop_name, class: 'img-card'
+  .card.harvest-card
+    .harvest-card-photo
+      = link_to harvest_path(slug: harvest.slug) do
+        = image_tag harvest.thumbnail_url || placeholder_image, alt: harvest.crop_name, class: 'img-card'
+      %span.harvest-card-icon{'aria-hidden' => 'true'}= harvest_icon
     .card-body
-      %h5
-        %strong= link_to harvest.crop_name, harvest_path(slug: harvest.slug)
-        %span.badge.rounded-pill= harvest.plant_part_name
-    .card-footer
-      .float-end
+      %h5.harvest-card-title
+        = link_to "#{harvest.crop_name} harvest", harvest_path(slug: harvest.slug)
+      - if harvest.plant_part_name.present?
+        %span.badge.rounded-pill.harvest-card-part= harvest.plant_part_name
+    .card-footer.harvest-card-footer
+      %small
+        - if harvest.harvested_at.present?
+          = "picked #{I18n.l harvest.harvested_at}"
+        - else
+          harvested
+        by
         %span.chip.member-chip
-          = link_to member_path(slug: harvest.owner_slug) do
-            = harvest.owner_login_name
+          = link_to harvest.owner_login_name, member_path(slug: harvest.owner_slug)
