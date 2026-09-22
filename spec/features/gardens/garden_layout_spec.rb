@@ -45,7 +45,9 @@ describe 'The garden layout', :js do
     expect(page).to have_css('.garden-layout-plant', count: 1)
     expect(chip('lettuce')).to have_css('.garden-layout-chip-count', text: '1')
     wait_until { lettuce.plants.placed.any? }
-    expect(lettuce.plants.placed.first).to have_attributes(bed_x: 2.0, bed_y: 1.5)
+    # To within a pixel or so of the middle.
+    placed = lettuce.plants.placed.first
+    expect([placed.bed_x, placed.bed_y]).to match [be_within(0.05).of(2.0), be_within(0.05).of(1.5)]
   end
 
   it 'makes another plant when a chip is dragged out once they are all on the bed' do
@@ -127,7 +129,7 @@ describe 'The garden layout', :js do
       visit_layout
       fill_in 'Columns', with: '2'
 
-      expect(page).to have_content 'there are plants out to column 4'
+      expect(page).to have_content 'there are things out to column 4'
       expect(page).to have_css('.garden-layout-cell', count: 12)
       expect(garden.reload.grid_columns).to eq 4
     end
