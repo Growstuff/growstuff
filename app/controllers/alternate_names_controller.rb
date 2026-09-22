@@ -9,7 +9,9 @@ class AlternateNamesController < ApplicationController
   # GET /alternate_names
   # GET /alternate_names.json
   def index
-    @alternate_names = AlternateName.all.order(:name).paginate(page: params[:page], per_page: 100)
+    @alternate_names = AlternateName.all.order(:name)
+    @alternate_names = @alternate_names.where(crop_id: params[:crop_id]) if params[:crop_id].present?
+    @alternate_names = @alternate_names.paginate(page: params[:page], per_page: 100)
     respond_with(@alternate_names)
   end
 

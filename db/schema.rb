@@ -883,6 +883,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_130000) do
   end
 
   create_table "plantings", id: :serial, force: :cascade do |t|
+    t.integer "alternate_name_id"
     t.datetime "created_at", precision: nil
     t.integer "crop_id", null: false
     t.integer "days_to_first_harvest"
@@ -904,6 +905,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_130000) do
     t.string "slug"
     t.string "sunniness"
     t.datetime "updated_at", precision: nil
+    t.index ["alternate_name_id"], name: "index_plantings_on_alternate_name_id"
     t.index ["crop_id"], name: "index_plantings_on_crop_id"
     t.index ["garden_id"], name: "index_plantings_on_garden_id"
     t.index ["owner_id"], name: "index_plantings_on_owner_id"
@@ -1007,6 +1009,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_130000) do
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
+  add_foreign_key "plantings", "alternate_names", on_delete: :nullify
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plants", "plantings"
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify

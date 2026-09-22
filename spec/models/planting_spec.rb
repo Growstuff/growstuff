@@ -337,6 +337,26 @@ describe Planting do
     end
   end
 
+  context 'alternate name' do
+    let(:alternate) { FactoryBot.create(:alternate_eggplant) }
+    let(:planting) { FactoryBot.build(:planting, crop: alternate.crop) }
+
+    it 'displays the crop name by default' do
+      expect(planting.display_name).to eq 'eggplant'
+    end
+
+    it 'displays the chosen alternate name' do
+      planting.alternate_name = alternate
+      expect(planting.display_name).to eq 'aubergine'
+      expect(planting.to_s).to include 'aubergine'
+    end
+
+    it 'rejects an alternate name from a different crop' do
+      planting.alternate_name = FactoryBot.create(:alternate_name)
+      expect(planting).not_to be_valid
+    end
+  end
+
   context 'quantity' do
     it 'allows integer quantities' do
       @planting = build(:planting, quantity: 99)

@@ -123,7 +123,7 @@
           %ul
             - @super_late.each do |planting|
               %li
-                = link_to planting.crop_name, planting_url(slug: planting.slug)
+                = link_to planting.display_name, planting_url(slug: planting.slug)
                 planted on #{planting.planted_at.to_date}
 
       - if @harvests.any?

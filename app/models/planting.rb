@@ -23,6 +23,7 @@ class Planting < ApplicationRecord
 
   belongs_to :garden
   belongs_to :crop, counter_cache: true
+  belongs_to :alternate_name, optional: true
   has_many :harvests, dependent: :destroy
   has_many :activities, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid.
@@ -79,6 +80,7 @@ class Planting < ApplicationRecord
   ## Validations
   validates :garden, presence: true
   validates :crop, presence: true, approved: { message: :crop_must_be_approved }
+  validate :alternate_name_must_belong_to_crop
   validate :finished_must_be_after_planted
   validate :owner_must_match_garden_owner
   validate :cannot_be_finished_and_failed
@@ -103,9 +105,14 @@ class Planting < ApplicationRecord
     ].join('-').tr(' ', '-').downcase
   end
 
+  # The name the owner wants to see: their chosen alternate name, else the crop's primary name
+  def display_name
+    alternate_name&.name.presence || crop.name
+  end
+
   # stringify as "beet in Skud's backyard" or similar
   def to_s
-    I18n.t('plantings.string', crop: crop.name, garden: garden.name, owner:)
+    I18n.t('plantings.string', crop: display_name, garden: garden.name, owner:)
   end
 
   def finished?
@@ -205,5 +212,11 @@ class Planting < ApplicationRecord
     surplus = plants.unplaced.order(id: :desc).limit(count).ids
     surplus += plants.placed.order(id: :desc).limit(count - surplus.size).ids if surplus.size < count
     Plant.where(id: surplus).delete_all
+  end
+
+  def alternate_name_must_belong_to_crop
+    return if alternate_name.blank? || alternate_name.crop_id == crop_id
+
+    errors.add(:alternate_name, :invalid)
   end
 end
