@@ -63,7 +63,7 @@ class CropsController < ApplicationController
         render
       end
       format.json do
-        render json: @crops.to_a
+        render json: @crops.map { |crop| crop_search_result(crop) }
       end
     end
   end
@@ -177,6 +177,23 @@ class CropsController < ApplicationController
              end.paginate(page: params[:page], per_page: 50)
   end
 
+  # A search hit, plus the alternate name that matched the term when the
+  # crop's own name didn't ("aubergine" finds eggplant)
+  def crop_search_result(crop)
+    result = crop.as_json
+    return result if word_start_match?(result['name'], @term)
+
+    matched = Array(result['alternate_names']).find { |name| word_start_match?(name, @term) }
+    result['matched_alternate_name'] = matched if matched
+    result
+  end
+
+  def word_start_match?(name, term)
+    name = name.to_s.downcase
+    term = term.to_s.downcase.strip
+    name.start_with?(term) || name.split(/[\s-]+/).any? { |word| word.start_with?(term) }
+  end
+
   private
 
   def notifier
@@ -219,7 +236,7 @@ class CropsController < ApplicationController
   def crop_params
     params.require(:crop).permit(
       :name, :en_wikipedia_url, :en_youtube_url,
-      :parent_id, :perennial,
+      :parent_id, :perennial, :icon,
       :request_notes, :reason_for_rejection,
       :rejection_notes,
       :description,

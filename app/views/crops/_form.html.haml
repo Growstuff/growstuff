@@ -17,7 +17,7 @@
       -# Handy link to crop wrangling policy/style guide, shown to wranglers only
       - if can? :wrangle, @crop
         %p
-          %span.help-block
+          %span.form-text
             For detailed crop wrangling guidelines, please consult the
             = link_to "crop wrangling guide", "https://github.com/Growstuff/growstuff/wiki/Crop-Wrangling"
             on the Growstuff wiki.
@@ -25,9 +25,9 @@
       -# Everyone (wranglers and requesters) sees the basic info section
       %h2 Basic information
 
-      .form-group#new_crop
+      .mb-3#new_crop
       = f.text_field :name, required: true
-      %span.help-block
+      %span.form-text
         The common name for the crop, in English (required).
         - if can? :wrangle, @crop
           Wranglers: please ensure this is singular, and capitalize
@@ -36,58 +36,66 @@
       %h2 Lifespan
       %p
         = f.radio_button(:perennial, false, label: 'Annual')
-        %span.help-block Living and reproducing in a single year or less
+        %span.form-text Living and reproducing in a single year or less
       %p
         = f.radio_button(:perennial, true, label: "Perennial")
-        %span.help-block Living more than two years
+        %span.form-text Living more than two years
 
       %h2 Data
       - if @crop.description.blank? || can?(:wrangle, @crop)
         = f.text_area :description, label: 'Description'
         - if @crop.parent
-          %span.help-block Parent: #{@crop.parent.description}
+          %span.form-text Parent: #{@crop.parent.description}
       - if @crop.row_spacing.blank? || can?(:wrangle, @crop)
         = f.number_field :row_spacing, label: 'Row Spacing (cm)', min: 0
         - if @crop.parent
-          %span.help-block Parent: #{@crop.parent.row_spacing}
+          %span.form-text Parent: #{@crop.parent.row_spacing}
       - if @crop.spread.blank? || can?(:wrangle, @crop)
         = f.number_field :spread, label: 'Spread (cm)', min: 0
         - if @crop.parent
-          %span.help-block Parent: #{@crop.parent.spread}
+          %span.form-text Parent: #{@crop.parent.spread}
       - if @crop.height.blank? || can?(:wrangle, @crop)
         = f.number_field :height, label: 'Height (cm)', min: 0
         - if @crop.parent
-          %span.help-block Parent: #{@crop.parent.height}
+          %span.form-text Parent: #{@crop.parent.height}
       - if @crop.sowing_method.blank? || can?(:wrangle, @crop)
         = f.text_field :sowing_method
         - if @crop.parent
-          %span.help-block Parent: #{@crop.parent.sowing_method}
+          %span.form-text Parent: #{@crop.parent.sowing_method}
       - if @crop.sun_requirements.blank? || can?(:wrangle, @crop)
         = f.text_field :sun_requirements
         - if @crop.parent
-          %span.help-block Parent: #{@crop.parent.sun_requirements}
+          %span.form-text Parent: #{@crop.parent.sun_requirements}
       - if @crop.growing_degree_days.blank? || can?(:wrangle, @crop)
         = f.number_field :growing_degree_days, min: 0
         - if @crop.parent
-          %span.help-block Parent: #{@crop.parent.growing_degree_days}
+          %span.form-text Parent: #{@crop.parent.growing_degree_days}
       = f.text_field :public_food_key, label: 'Australian Food Composition Database Public Food Key'
 
       - unless @crop.approved?
         = link_to 'Search wikipedia', "https://en.wikipedia.org/w/index.php?search=#{@crop.name}", target: '_blank'
       - if @crop.en_wikipedia_url.blank? || can?(:wrangle, @crop)
         = f.url_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL'
-        %span.help-block
+        %span.form-text
           Link to the crop's page on the English language Wikipedia (required).
       - if @crop.en_youtube_url.blank? || can?(:wrangle, @crop)
         = f.url_field :en_youtube_url, label: 'YouTube URL'
-        %span.help-block
+        %span.form-text
           Link to a YouTube video about the crop in English.
 
       -# Only crop wranglers see the crop hierarchy (for now)
       - if can? :wrangle, @crop
         = f.select(:parent_id, Crop.order(:name).pluck(:name, :id),
           { include_blank: true, label: 'Parent crop'})
-        %span.help-block Optional. For setting up crop hierarchies for varieties etc.
+        %span.form-text Optional. For setting up crop hierarchies for varieties etc.
+
+        - icon_choices = Crop.icon_names.map { |icon| [icon.humanize, icon] }
+        = f.select(:icon, icon_choices, { include_blank: "None: use the parent crop's", label: 'Icon' })
+        %span.form-text
+          Optional. Shown for this crop and any varieties of it that don't have their own.
+          - if @crop.persisted? && @crop.svg_icon.present?
+            Currently:
+            = image_tag crop_path(@crop, format: 'svg'), class: 'crop-icon', alt: ''
 
 
       -# Everyone (wranglers and requesters) gets to add scientific names
@@ -95,30 +103,30 @@
       = button_tag "+", class: "add-sciname-row", type: "button"
       = button_tag "-", class: "remove-sciname-row", type: "button"
 
-      .form-group#scientific_names
+      .mb-3#scientific_names
         - @crop.scientific_names.each.with_index do |sci, index|
           .template.col-12{ id: "sci_template[#{index + 1}]" }
             .col-2
-              = label_tag :scientific_names, "Scientific name #{index + 1}:", class: 'control-label'
+              = label_tag :scientific_names, "Scientific name #{index + 1}:", class: 'form-label'
             .col-8
               = text_field_tag "sci_name[#{index + 1}]", sci.name, id: "sci_name[#{index + 1}]",
                                                                     class: 'scientific-name-auto-suggest form-control',
                                                                     data: { source_url: gbif_suggest_scientific_names_path }
-              %span.help-block Searches GBIF to determine scientific name of crop.
+              %span.form-text Searches GBIF to determine scientific name of crop.
               = hidden_field_tag "sci_gbif_key[#{index + 1}]", sci.gbif_key, id: "sci_gbif_key[#{index + 1}]",
                                                                               class: 'scientific-name-auto-suggest-id'
       %h2 Alternate names
       = button_tag "+", class: "add-altname-row", type: "button"
       = button_tag "-", class: "remove-altname-row", type: "button"
 
-      .form-group#alternate_names
+      .mb-3#alternate_names
         - @crop.alternate_names.each.with_index do |alt, index|
           .template.col-12{ id: "alt_template[#{index + 1}]" }
             .col-2
-              = label_tag :alternate_names, "Alternate name #{index + 1}:", class: 'control-label'
+              = label_tag :alternate_names, "Alternate name #{index + 1}:", class: 'form-label'
             .col-8
               = text_field_tag "alt_name[#{index + 1}]", alt.name, id: "alt_name[#{index + 1}]", class: 'form-control'
-              %span.help-block Alternate name of crop.
+              %span.form-text Alternate name of crop.
             .col-2
 
       -# This is used for comments from crop requesters.  We need to show it
@@ -141,11 +149,11 @@
         = f.select(:reason_for_rejection, @crop.reasons_for_rejection, include_blank: true)
 
         = f.text_area :rejection_notes, rows: 3
-        %span.help-block
+        %span.form-text
           Please provide additional notes why this crop request was rejected if the above reasons do not apply.
 
     .card-footer
-      .text-right
+      .text-end
         - if @crop.approved?
           = f.submit 'Save'
         - else

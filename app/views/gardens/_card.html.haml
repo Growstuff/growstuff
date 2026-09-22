@@ -21,7 +21,7 @@
         %section
           - if active_plantings.perennial.any?
             %strong Perennials:
-            - active_plantings.perennial.each do |planting|
+            - active_plantings.perennial.limit(10).each do |planting|
               = link_to planting do
                 = crop_icon planting.crop
                 = planting.crop
@@ -32,6 +32,6 @@
 
         %section
           - if active_plantings.annual.any?
-            = render 'plantings/progress_list', plantings: garden.plantings.active.annual
+            = render 'plantings/progress_list', plantings: active_plantings.annual.limit(5)
           - else
             %p No annual plantings

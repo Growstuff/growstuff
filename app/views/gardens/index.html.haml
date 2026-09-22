@@ -14,17 +14,17 @@
 
 .row
   .col-md-2
-    %small
+    %small.d-block.sidebar-inset
       %a{href: "#content"}
         Skip to main content
     = render 'layouts/nav', model: Garden
-    %label
-      = link_to show_inactive_tickbox_path('gardens', owner: @owner, show_all: @show_all) do
-        = check_box_tag 'active', 'all', @show_all
-        include in-active
     - if @owner.present?
       %hr/
       = render @owner
+      .inactive-gardens-link.sidebar-inset.mt-3
+        = link_to 'Inactive gardens', member_inactive_gardens_path(@owner), class: 'd-block'
+        %small.text-muted
+          Gardens no longer in use. Their plantings are kept here as a record of what was grown.
 
   .col-md-10#content
     - if @gardens.empty?
@@ -42,7 +42,7 @@
           .jump
             jump to:
             - @gardens.each do |garden|
-              .badge.badge-primary
+              .badge.text-bg-primary
                 - if @owner.present?
                   = link_to garden.name, member_gardens_path(@owner, anchor: "garden-#{garden.id}")
                 - else

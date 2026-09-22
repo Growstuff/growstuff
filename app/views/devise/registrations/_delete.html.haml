@@ -1,15 +1,15 @@
 = form_for(resource, as: resource_name,
     url: registration_path(resource_name) + '#delete',
-    html: { method: :delete, class: 'form-horizontal' }) do |f|
+    html: { method: :delete }) do |f|
   %br/
   = render 'devise/shared/error_messages', resource: resource
 
   %p Delete your account from #{ENV['GROWSTUFF_SITE_NAME']}.
-  .form-group
-    = f.label :current_password, "Password required to delete", class: 'control-label col-md-2'
+  .row.mb-3
+    = f.label :current_password, "Password required to delete", class: 'col-form-label col-md-2'
     .col-md-4
       = f.password_field :current_password, class: 'form-control', id: 'current_pw_for_delete'
 
-  .form-group
-    .form-actions.col-md-offset-2.col-md-8
+  .row.mb-3
+    .offset-md-2.col-md-8
       = f.submit "Delete", class: 'btn btn-danger'

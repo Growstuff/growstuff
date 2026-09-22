@@ -22,7 +22,7 @@
             .col-md-8.text-muted
               = comment_icon
               on #{message.created_at}
-            .col-md-4.text-right.float-right
+            .col-md-4.text-end.float-end
               = render 'members/tiny', member: message.sender
             .col-12
               %p.text-justify

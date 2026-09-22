@@ -25,6 +25,14 @@
           Can't find what you're looking for?
           = link_to "Request new crops.", new_crop_path
 
+      #planting-alternate-name.mb-3{ class: ('d-none' unless @planting.crop&.alternate_names&.any?),
+                                    data: { source_url: alternate_names_path(format: :json) } }
+        = f.label :alternate_name_id, 'What do you call it?'
+        = f.select :alternate_name_id,
+                   options_from_collection_for_select(@planting.crop&.alternate_names&.order(:name) || [], :id, :name, @planting.alternate_name_id),
+                   { include_blank: @planting.crop&.name || '' }, class: 'form-select'
+        %span.form-text Optional. Your plantings will show this name instead of the crop's main name.
+
       .row
         .col-md-8
           - if @garden_locked
@@ -76,4 +84,4 @@
           = f.check_box :failed, label: t('buttons.mark_as_failed'), title: t('.failed_helper')
 
     .card-footer
-      .text-right= f.submit 'Save'
+      .text-end= f.submit 'Save'

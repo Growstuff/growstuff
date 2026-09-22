@@ -11,13 +11,13 @@
             = link_to harvest_path(harvest), class: 'card-link' do
               = harvest_icon
               #{harvest.owner} harvested #{display_quantity(harvest)}.
-            .float-right= render 'members/location', member: harvest.owner
+            .float-end= render 'members/location', member: harvest.owner
             .harvest-timeago
               %small #{standard_time_distance(harvest.harvested_at, Time.zone.now.to_date)}
       %li.list-group-item= link_to "View all #{crop.name} harvests", crop_harvests_path(crop), class: 'card-link'
       - if crop.approved?
         - if current_member
-          %li.list-group-item= link_to "Harvest #{crop.name}", new_harvest_path(harvest: { crop_id: crop.id }), class: 'btn btn-block'
+          %li.list-group-item= link_to "Harvest #{crop.name}", new_harvest_path(harvest: { crop_id: crop.id }), class: 'btn w-100'
         - else
           %li.list-group-item.active
             = icon 'fas', 'user'

@@ -1,19 +1,31 @@
 import React, {useEffect, useRef, useState} from 'react';
 
+import AddPhotoModal from './AddPhotoModal';
+import EditGardenModal from './EditGardenModal';
+import EditPlantingModal from './EditPlantingModal';
 import GardenCard from './GardenCard';
+import MarkFinishedModal from './MarkFinishedModal';
 import PlantSomethingModal from './PlantSomethingModal';
+import RecordHarvestModal from './RecordHarvestModal';
+import SaveSeedsModal from './SaveSeedsModal';
 
 const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((planting) => planting.id);
 
 // The list of garden cards on the gardens index. Props come from
 // GardensHelper#garden_cards_props. It owns the cards' state so that saving a
-// planting from the "Plant something here" dialog can swap in the garden's
+// planting from the "Add planting" dialog can swap in the garden's
 // updated card, and the new planting appears without a page reload.
-export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl}) {
+export default function GardenCards({gardens: initialGardens, default_icon_url: defaultIconUrl, spade_icon_url: spadeIconUrl, harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl, photo_icon_url: photoIconUrl, finish_icon_url: finishIconUrl}) {
   const [gardens, setGardens] = useState(initialGardens);
   const [plantingIn, setPlantingIn] = useState(null); // the garden the dialog is open for
+  const [editing, setEditing] = useState(null); // the planting the edit dialog is open for
+  const [harvesting, setHarvesting] = useState(null); // the planting the harvest dialog is open for
+  const [savingSeeds, setSavingSeeds] = useState(null); // the planting the save seeds dialog is open for
+  const [addingPhoto, setAddingPhoto] = useState(null); // {label, href}: what the add photo dialog is open for
+  const [finishing, setFinishing] = useState(null); // the planting the mark as finished dialog is open for
+  const [editingGarden, setEditingGarden] = useState(null); // the garden the edit dialog is open for
   const [notice, setNotice] = useState(null);
-  const [highlightedId, setHighlightedId] = useState(null);
+  const [highlight, setHighlight] = useState(null); // {id, kind}: the planting just added or harvested
   const highlightTimer = useRef(null);
 
   // The "jump to" links point at #garden-<id>, but the cards only exist once
@@ -26,18 +38,70 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
 
   useEffect(() => () => clearTimeout(highlightTimer.current), []);
 
+  // The response leaves out the owner (the page already has it); keep ours.
+  function replaceCard(updatedCard) {
+    setGardens((current) => current.map((garden) => (garden.id === updatedCard.id ? {...updatedCard, owner: garden.owner} : garden)));
+  }
+
   function created(updatedCard, crop) {
     const before = gardens.find((garden) => garden.id === updatedCard.id);
     const known = new Set(plantingIds(before));
     const added = plantingIds(updatedCard).find((id) => !known.has(id));
 
-    // The response leaves out the owner (the page already has it); keep ours.
-    setGardens(gardens.map((garden) => (garden.id === updatedCard.id ? {...updatedCard, owner: garden.owner} : garden)));
+    replaceCard(updatedCard);
     setPlantingIn(null);
     setNotice(`Planted ${crop ? crop.name : 'something'} in ${updatedCard.name}.`);
-    setHighlightedId(added);
+    flash(added, 'added');
+  }
+
+  // Picks out a planting for a few seconds, so you can see which one changed.
+  function flash(id, kind) {
+    setHighlight({id, kind});
     clearTimeout(highlightTimer.current);
-    highlightTimer.current = setTimeout(() => setHighlightedId(null), 4000);
+    highlightTimer.current = setTimeout(() => setHighlight(null), 5000);
+  }
+
+  function edited(updatedCard, planting) {
+    replaceCard(updatedCard);
+    setEditing(null);
+    setNotice(`Saved changes to ${planting.crop.name}.`);
+  }
+
+  function harvested(updatedCard, planting) {
+    replaceCard(updatedCard);
+    setHarvesting(null);
+    setNotice(`Recorded a harvest of ${planting.crop.name} in ${updatedCard.name}.`);
+    flash(planting.id, 'harvested');
+  }
+
+  function seedsSaved(seed, planting) {
+    setSavingSeeds(null);
+    setNotice(<>Saved {planting.crop.name} seeds to your stash. <a href={seed.url}>See them</a>.</>);
+  }
+
+  function photoAdded(result, target) {
+    if (result.garden) replaceCard(result.garden); // a garden's picture may now be this one
+    setAddingPhoto(null);
+    setNotice(<>Added a photo to {target.label}. <a href={result.photo.url}>See it</a>.</>);
+  }
+
+  function finished(updatedCard, planting) {
+    replaceCard(updatedCard); // the planting is no longer in progress, so it leaves the card
+    setFinishing(null);
+    setNotice(`Marked ${planting.crop.name} as finished.`);
+  }
+
+  // Saved from the garden's edit dialog. A garden marked inactive is not on this
+  // list, so it leaves it, and its plantings with it.
+  function gardenEdited(updatedCard) {
+    setEditingGarden(null);
+    if (updatedCard.active) {
+      replaceCard(updatedCard);
+      setNotice(`Saved changes to ${updatedCard.name}.`);
+    } else {
+      setGardens((current) => current.filter((garden) => garden.id !== updatedCard.id));
+      setNotice(`${updatedCard.name} is now inactive, and its plantings are finished. You will find it under inactive gardens.`);
+    }
   }
 
   return (
@@ -45,9 +109,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
       {notice && (
         <div className="alert alert-success alert-dismissible" role="status">
           <i className="fa fa-check-circle" aria-hidden="true" /> {notice}
-          <button type="button" className="close" aria-label="Dismiss" onClick={() => setNotice(null)}>
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button type="button" className="btn-close" aria-label="Dismiss" onClick={() => setNotice(null)} />
         </div>
       )}
       {gardens.map((garden) => (
@@ -56,9 +118,64 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           garden={garden}
           defaultIconUrl={defaultIconUrl}
           onPlant={setPlantingIn}
-          highlightedId={highlightedId}
+          highlightedId={highlight && highlight.id}
+          highlightKind={highlight && highlight.kind}
+          onPlantingUpdated={replaceCard}
+          onEditPlanting={setEditing}
+          onHarvestPlanting={setHarvesting}
+          onSaveSeedsPlanting={setSavingSeeds}
+          onAddPhoto={setAddingPhoto}
+          onFinishPlanting={setFinishing}
+          onEditGarden={setEditingGarden}
         />
       ))}
+      {editing && (
+        <EditPlantingModal
+          planting={editing}
+          onClose={() => setEditing(null)}
+          onSaved={(updatedCard) => edited(updatedCard, editing)}
+        />
+      )}
+      {harvesting && (
+        <RecordHarvestModal
+          planting={harvesting}
+          iconUrl={harvestIconUrl}
+          onClose={() => setHarvesting(null)}
+          onSaved={(updatedCard) => harvested(updatedCard, harvesting)}
+        />
+      )}
+      {savingSeeds && (
+        <SaveSeedsModal
+          planting={savingSeeds}
+          iconUrl={seedIconUrl}
+          onClose={() => setSavingSeeds(null)}
+          onSaved={(seed) => seedsSaved(seed, savingSeeds)}
+        />
+      )}
+      {editingGarden && (
+        <EditGardenModal
+          garden={editingGarden}
+          onClose={() => setEditingGarden(null)}
+          onSaved={gardenEdited}
+        />
+      )}
+      {finishing && (
+        <MarkFinishedModal
+          planting={finishing}
+          iconUrl={finishIconUrl}
+          onClose={() => setFinishing(null)}
+          onSaved={(updatedCard) => finished(updatedCard, finishing)}
+        />
+      )}
+      {addingPhoto && (
+        <AddPhotoModal
+          label={addingPhoto.label}
+          newUrl={addingPhoto.href}
+          iconUrl={photoIconUrl}
+          onClose={() => setAddingPhoto(null)}
+          onAdded={(result) => photoAdded(result, addingPhoto)}
+        />
+      )}
       {plantingIn && (
         <PlantSomethingModal
           garden={plantingIn}

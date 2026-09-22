@@ -63,6 +63,7 @@ class PlantingsController < DataController
     # the following are needed to display the form but aren't used
     @crop = Crop.new
     @gardens = @planting.owner.gardens.active.order_by_name
+    render json: PlantingFormSerializer.new(@planting) if request.format.json?
   end
 
   def create
@@ -73,13 +74,15 @@ class PlantingsController < DataController
     # Only into your own gardens. A missing garden is left to the validation.
     authorize! :update, @planting.garden if @planting.garden.present?
     @planting.save
-    return render_created_json if request.format.json?
+    return render_card_json(status: :created) if request.format.json?
 
     respond_with @planting
   end
 
   def update
     @planting.update(planting_params)
+    return render_card_json(status: :ok) if request.format.json?
+
     respond_with @planting
   end
 
@@ -117,11 +120,11 @@ class PlantingsController < DataController
   private
 
   # Used by the React garden cards, which replace the garden's card with the
-  # returned one, so the new planting shows up without a page reload.
-  def render_created_json
-    if @planting.persisted?
+  # returned one, so a new or changed planting shows without a page reload.
+  def render_card_json(status:)
+    if @planting.errors.empty? && @planting.persisted?
       card = GardenCardSerializer.collection([@planting.garden], ability: current_ability, show_owner: false).first
-      render json: { garden: card }, status: :created
+      render json: { garden: card }, status: status
     else
       render json: { errors: @planting.errors }, status: :unprocessable_content
     end
@@ -138,7 +141,7 @@ class PlantingsController < DataController
   def planting_params
     params[:planted_at] = parse_date(params[:planted_at]) if params[:planted_at]
     params.require(:planting).permit(
-      :crop_id, :description, :garden_id, :planted_at,
+      :crop_id, :alternate_name_id, :description, :garden_id, :planted_at,
       :parent_seed_id,
       :quantity, :sunniness, :planted_from, :finished,
       :finished_at, :failed, :overall_rating

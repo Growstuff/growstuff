@@ -4,13 +4,13 @@
     %h1 Resend confirmation instructions
     = form_for(resource, as: resource_name,
         url: confirmation_path(resource_name),
-        html: { method: :post, class: 'form-horizontal', role: 'form' }) do |f|
+        html: { method: :post, role: 'form' }) do |f|
       = render 'devise/shared/error_messages', resource: resource
       %p Enter either your login name or your email address to resend the confirmation email.
 
       = f.text_field :login, class: 'form-control', placeholder: 'email or login name'
-      = f.submit "Resend confirmation instructions", class: 'btn btn-block my-4 btn-primary'
+      = f.submit "Resend confirmation instructions", class: 'btn w-100 my-4 btn-primary'
 
-      .form-group
-        .col-md-offset-2.col-md-8
+      .row.mb-3
+        .offset-md-2.col-md-8
           = render "devise/shared/links"

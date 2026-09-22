@@ -77,6 +77,21 @@ module PredictPlanting
       crop.annual? && planted_at.present? && finish_predicted_at.present?
     end
 
+    # How the planting is getting on, for colouring its progress bar.
+    def progress_state
+      if finished?
+        :finished
+      elsif super_late?
+        :super_late
+      elsif late?
+        :late
+      elsif harvest_time?
+        :harvesting
+      else
+        :growing
+      end
+    end
+
     # Planting has live more then 90 days past predicted finish
     def super_late?
       late? && (finish_predicted_at + 90.days) < Time.zone.today

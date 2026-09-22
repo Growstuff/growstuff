@@ -28,9 +28,8 @@ gem 'rswag-ui'
 
 # CSS framework
 gem "bootstrap", ">= 5.0.0"
-gem 'material-sass', '4.1.1'
 
-# Icons used by bootstrap/material-sass
+# Icon font (Material Icons)
 gem 'material_icons'
 
 # icons
@@ -57,7 +56,6 @@ gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 # Maps
 gem 'leaflet-rails', '>= 1.9.2'
-gem 'rails-assets-leaflet.markercluster', source: 'https://rails-assets.org'
 
 gem 'pg'
 gem 'ruby-units'                   # for unit conversion

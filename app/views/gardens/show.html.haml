@@ -32,7 +32,7 @@
         :markdown
           #{strip_tags markdownify(@garden.description)}
         - unless @garden.description.present?
-          .row-fluid
+          .row
             %p No description available yet.
 
             - if can? :edit, @garden
@@ -49,7 +49,7 @@
       %section.card
         %h2 Garden progress
         .card-body
-          = render 'plantings/progress_list', plantings: @garden.plantings.active
+          = render 'plantings/progress_list', plantings: @garden.plantings.active.limit(10)
 
     %section
       %h2 Current plantings in garden
@@ -63,10 +63,6 @@
         - if can?(:edit, @garden)
           .col-md-12
             = garden_plant_something_button(@garden)
-  
-      - if can?(:destroy, @garden)
-        .dropdown-divider
-        = delete_button(@garden, classes: 'dropdown-item text-danger', message: 'gardens.confirm_delete')
 
     %section
       %h2 Current activities in garden
@@ -174,16 +170,17 @@
 
     - if @garden.owner == current_member
       %p
-        = link_to new_garden_path, class: 'btn btn-default btn-xs' do
+        = link_to new_garden_path, class: 'btn btn-outline-secondary btn-sm' do
           Add New Garden
 
     - if can?(:edit, @garden) && can?(:create, Photo)
       %%p
         = add_photo_button(@garden)
 
-    - if @garden.photos.size.positive?
+    - if @photos.present? && @photos.any?
       %section.photos
         %h2= localize_plural(@garden.photos, Photo)
         .index-cards
-          - @garden.photos.includes(:owner).each do |photo|
+          - @photos.each do |photo|
             = render 'photos/thumbnail', photo: photo
+        = will_paginate @photos
