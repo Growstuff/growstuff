@@ -892,7 +892,7 @@ export default function GardenLayout({
           </h3>
           {plantable && (
             <button type="button" className="btn btn-success btn-sm garden-layout-plant-button" onClick={() => setPlanting(true)}>
-              <i className="fa fa-plus" aria-hidden="true" /> Plant something
+              <i className="fa fa-plus" aria-hidden="true" /> Add a planting
             </button>
           )}
           {plantings.length === 0 ? (

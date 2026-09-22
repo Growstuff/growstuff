@@ -143,9 +143,9 @@ describe 'The garden layout', :js do
     expect(lettuce.reload.plants.count).to eq 2
   end
 
-  it 'opens the planting dialog from Plant something' do
+  it 'opens the planting dialog from Add a planting' do
     visit_layout
-    click_button 'Plant something'
+    click_button 'Add a planting'
 
     within('[role=dialog]') { expect(page).to have_content 'Plant something in Orchard' }
   end
@@ -162,7 +162,7 @@ describe 'The garden layout', :js do
       expect(page).to have_css('.garden-layout-plant')
       expect(page).to have_no_css('[draggable="true"]')
       expect(page).to have_no_field 'Columns'
-      expect(page).to have_no_button 'Plant something'
+      expect(page).to have_no_button 'Add a planting'
       expect(page).to have_no_css('.garden-layout-compost')
     end
   end
