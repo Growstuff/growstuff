@@ -23,4 +23,13 @@ namespace :crops do
       abort "Stopped: #{e.message}"
     end
   end
+
+  desc "Give crops an icon from app/assets/images/crops by their name, where they haven't one. " \
+       "Varieties then follow their parent. DRY_RUN=true to only list what it would do."
+  task assign_icons: :environment do
+    dry_run = ENV['DRY_RUN'] == 'true'
+    assigned = CropIconMatcher.new.call(dry_run:)
+    assigned.each { |crop, icon| puts "#{crop.name} -> #{icon}" }
+    puts "#{dry_run ? 'Would give' : 'Gave'} #{assigned.size} crops an icon."
+  end
 end
