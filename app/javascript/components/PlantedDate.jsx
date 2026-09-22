@@ -73,7 +73,7 @@ export default function PlantedDate({planting, onUpdated}) {
     return (
       <button type="button" className="planting-row-planted planting-date-button" onClick={open} title="Change the planted date">
         {plantedAt ? `Planted ${formatDate(plantedAt)}` : 'Set planted date'}
-        <i className="fa fa-pencil" aria-hidden="true" />
+        <i className="fas fa-pencil" aria-hidden="true" />
       </button>
     );
   }
@@ -91,10 +91,10 @@ export default function PlantedDate({planting, onUpdated}) {
         onKeyDown={onKeyDown}
       />
       <button type="button" className="btn btn-sm btn-link" onClick={save} disabled={saving || !value} aria-label="Save planted date">
-        <i className="fa fa-check" aria-hidden="true" />
+        <i className="fas fa-check" aria-hidden="true" />
       </button>
       <button type="button" className="btn btn-sm btn-link" onClick={cancel} disabled={saving} aria-label="Cancel">
-        <i className="fa fa-times" aria-hidden="true" />
+        <i className="fas fa-times" aria-hidden="true" />
       </button>
       {error && <small className="planting-date-error" role="alert">{error}</small>}
     </span>
