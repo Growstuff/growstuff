@@ -232,6 +232,9 @@ export default function GardenLayout({
   const featureCount = useRef(0);
   // A line's end or an area's corner being dragged, and where it is so far.
   const endDragged = useRef(null);
+  // The bed's edge being dragged, and the size it would be so far.
+  const bedDrag = useRef(null);
+  const [liveBed, setLiveBed] = useState(null);
   const [liveEnd, setLiveEnd] = useState(null);
   // The size last given to a plant of each planting, by planting id, so the
   // next one taken off its chip matches: shrink a chive and the next is as small.
@@ -401,23 +404,76 @@ export default function GardenLayout({
     }, plantsReach);
   }
 
-  // Redraws straight away, and saves once typing pauses, so each keystroke
-  // isn't a request. A shrink that would strand a plant is refused up front,
-  // where it can say which way it's blocked, rather than after a round trip.
+  // Redraws straight away, and saves once changes pause, so each keystroke
+  // isn't a request. A shrink that would strand something on the bed is refused
+  // up front, where it can say which way it's blocked, rather than after a
+  // round trip.
+  function setBedSize(columns, rows) {
+    const far = reach();
+    let blocked = null;
+    if (columns < far.columns) blocked = 'columns';
+    else if (rows < far.rows) blocked = 'rows';
+    if (blocked) {
+      setMessage(`The bed can't be that small: there are things out to ${blocked === 'columns' ? 'column' : 'row'} ${Math.ceil(far[blocked])}. Move them in first.`);
+      return;
+    }
+    setMessage(null);
+    const next = {...garden, grid_columns: columns, grid_rows: rows};
+    setGarden(next);
+    clearTimeout(resizeTimer.current);
+    resizeTimer.current = setTimeout(() => saveSize(next), 600);
+  }
+
+  // From the Columns and Rows boxes.
   function resize(dimension, value) {
     const size = Math.round(Number(value));
     if (!Number.isFinite(size) || size < 1 || size > maxGridSize) return;
 
-    const far = reach();
-    if (size < far[dimension]) {
-      setMessage(`The bed can't be that small: there are plants out to ${dimension === 'columns' ? 'column' : 'row'} ${Math.ceil(far[dimension])}. Move them in first.`);
-      return;
+    setBedSize(dimension === 'columns' ? size : garden.grid_columns, dimension === 'rows' ? size : garden.grid_rows);
+  }
+
+  // Dragging the bed's right edge, bottom edge or corner. The pointer is
+  // measured in cells as they were when the drag began, and the bed only
+  // changes when it's let go: it's sized to fit the window, so redrawing it
+  // mid-drag would shrink the cells under the pointer. Until then a dashed
+  // outline shows the new size.
+  function startBedDrag(event, edge) {
+    event.preventDefault();
+    event.stopPropagation();
+    const rect = soilRef.current.getBoundingClientRect();
+    const cell = rect.width / garden.grid_columns;
+    bedDrag.current = {edge, left: rect.left, top: rect.top, cell};
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setLiveBed({columns: garden.grid_columns, rows: garden.grid_rows, cell});
+  }
+
+  function moveBedDrag(event) {
+    const current = bedDrag.current;
+    if (!current) return;
+    const cells = (distance) => clamp(Math.round(distance / current.cell), 1, maxGridSize);
+    setLiveBed({
+      columns: current.edge === 'bottom' ? garden.grid_columns : cells(event.clientX - current.left),
+      rows: current.edge === 'right' ? garden.grid_rows : cells(event.clientY - current.top),
+      cell: current.cell,
+    });
+  }
+
+  function finishBedDrag() {
+    const current = bedDrag.current;
+    bedDrag.current = null;
+    if (current && liveBed && (liveBed.columns !== garden.grid_columns || liveBed.rows !== garden.grid_rows)) {
+      setBedSize(liveBed.columns, liveBed.rows);
     }
-    setMessage(null);
-    const next = {...garden, [dimension === 'columns' ? 'grid_columns' : 'grid_rows']: size};
-    setGarden(next);
-    clearTimeout(resizeTimer.current);
-    resizeTimer.current = setTimeout(() => saveSize(next), 600);
+    setLiveBed(null);
+  }
+
+  function bedEdgeProps(edge) {
+    return {
+      onPointerDown: (event) => startBedDrag(event, edge),
+      onPointerMove: moveBedDrag,
+      onPointerUp: finishBedDrag,
+      onPointerCancel: finishBedDrag,
+    };
   }
 
   async function saveSize(next) {
@@ -655,7 +711,7 @@ export default function GardenLayout({
       onDragStart: (event) => {
         // Pulling on a plant's resize handle resizes it; it shouldn't also
         // start dragging the plant it belongs to.
-        if (resizing.current || endDragged.current) {
+        if (resizing.current || endDragged.current || bedDrag.current) {
           event.preventDefault();
           return;
         }
@@ -827,6 +883,37 @@ export default function GardenLayout({
             onDragOver={editable ? (event) => event.preventDefault() : undefined}
             onDrop={editable ? dropOnBed : undefined}
           >
+            {/* The bed's edges, on the frame, to drag it bigger or smaller. */}
+            {resizable && (
+              <>
+                <span
+                  className="garden-layout-bed-edge is-right"
+                  role="presentation"
+                  title="Drag to make the bed wider or narrower"
+                  {...bedEdgeProps('right')}
+                />
+                <span
+                  className="garden-layout-bed-edge is-bottom"
+                  role="presentation"
+                  title="Drag to make the bed longer or shorter"
+                  {...bedEdgeProps('bottom')}
+                />
+                <span
+                  className="garden-layout-bed-edge is-corner"
+                  role="presentation"
+                  title="Drag to resize the bed"
+                  {...bedEdgeProps('corner')}
+                />
+              </>
+            )}
+            {liveBed && (
+              <div
+                className="garden-layout-bed-preview"
+                style={{width: liveBed.columns * liveBed.cell, height: liveBed.rows * liveBed.cell}}
+              >
+                <span>{liveBed.columns} × {liveBed.rows}</span>
+              </div>
+            )}
             <div
               className="garden-layout-cells"
               ref={soilRef}
