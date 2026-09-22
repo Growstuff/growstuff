@@ -57,10 +57,11 @@ describe "Planting a crop", :js do
         visit gardens_path
       end
 
-      it "button on index to edit garden" do
+      it "button on index to edit garden opens the form over the list" do
         click_link 'Actions', match: :first
         click_link href: edit_garden_path(garden)
-        expect(page).to have_content 'Edit garden'
+        expect(page).to have_css '[role=dialog]', text: "Edit #{garden.name}"
+        expect(page).to have_current_path(gardens_path)
       end
     end
 

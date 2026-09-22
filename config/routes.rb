@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   end
   match '/members/:id/finish_signup' => 'members#finish_signup', via: %i(get patch), as: :finish_signup
 
-  resources :authentications, only: %i(create destroy)
+  resources :authentications, only: %i(create destroy) do
+    get :connected, on: :collection
+  end
 
   get "home/index"
   get '/community-gardens', to: 'home#community_gardens'
@@ -115,6 +117,8 @@ Rails.application.routes.draw do
   resources :timeline
 
   resources :members, param: :slug do
+    # Before the gardens resource, so "inactive" isn't taken for a garden's id.
+    get 'gardens/inactive' => 'gardens#inactive', as: :inactive_gardens
     resources :gardens
     resources :seeds
     resources :plantings

@@ -19,9 +19,9 @@ export async function getJson(url, {signal} = {}) {
   return {ok: response.ok, status: response.status, data: await parse(response)};
 }
 
-export async function postJson(url, body) {
+async function sendJson(method, url, body) {
   const response = await fetch(url, {
-    method: 'POST',
+    method,
     credentials: 'same-origin',
     headers: {
       'Accept': 'application/json',
@@ -31,4 +31,12 @@ export async function postJson(url, body) {
     body: JSON.stringify(body),
   });
   return {ok: response.ok, status: response.status, data: await parse(response)};
+}
+
+export function postJson(url, body) {
+  return sendJson('POST', url, body);
+}
+
+export function patchJson(url, body) {
+  return sendJson('PATCH', url, body);
 }

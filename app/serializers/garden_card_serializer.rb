@@ -34,7 +34,7 @@ class GardenCardSerializer
     {
       id: @garden.id, name: @garden.name, slug: @garden.slug, active: @garden.active,
       url: routes.garden_path(@garden), image_url: image_url,
-      owner: owner, can_edit: can?(:edit, @garden), actions: garden_actions,
+      owner: owner, can_edit: can?(:edit, @garden), plant_url: plant_url, actions: garden_actions,
       perennials: @plantings.select { |planting| planting.crop.perennial? }.map { |planting| perennial(planting) },
       annuals: @plantings.select { |planting| planting.crop.annual? }.map { |planting| annual(planting) }
     }
@@ -67,7 +67,14 @@ class GardenCardSerializer
     { key: key, label: label, href: href, **options }.compact
   end
 
-  # The same items, in the same order, as gardens/_actions.
+  # Where the card's "Add planting" button goes (the dialog is opened by React,
+  # this is for a ctrl-click). Only for gardens you can plant in.
+  def plant_url
+    routes.new_planting_path(garden_id: @garden.id) if @garden.active && can?(:edit, @garden)
+  end
+
+  # The items of gardens/_actions, in the same order, except "Plant something
+  # here", which is the card's own button.
   def garden_actions
     return [] unless can?(:edit, @garden)
 
@@ -80,7 +87,6 @@ class GardenCardSerializer
 
   def active_garden_actions
     [
-      action(:plant, I18n.t('buttons.plant_something_here'), routes.new_planting_path(garden_id: @garden.id)),
       action(:plan, I18n.t('buttons.new_activity'), routes.new_activity_path(garden_id: @garden.id)),
       action(:deactivate, I18n.t('buttons.mark_as_inactive'), routes.garden_path(@garden, garden: { active: 0 }),
              method: :put, confirm: I18n.t('gardens.confirm_deactivate'))
@@ -113,17 +119,37 @@ class GardenCardSerializer
   end
 
   def perennial(planting)
-    { id: planting.id, url: routes.planting_path(planting), crop: crop_chip(planting) }
+    {
+      id: planting.id, url: routes.planting_path(planting), crop: crop_chip(planting),
+      planted_at: planting.planted_at, today: Time.zone.today, can_edit: can?(:edit, planting),
+      actions: planting_actions(planting)
+    }
   end
 
   def annual(planting)
     {
       id: planting.id, url: routes.planting_path(planting), crop: crop_chip(planting),
-      planted_at: planting.planted_at, percentage_grown: planting.percentage_grown,
+      planted_at: planting.planted_at, today: Time.zone.today, can_edit: can?(:edit, planting),
+      percentage_grown: planting.percentage_grown,
       progress_state: planting.progress_state,
       finish_predicted_label: finish_label(planting), progress_note: progress_note(planting),
-      badges: badges(planting), actions: planting_actions(planting)
+      badges: badges(planting), harvests: harvest_marks(planting), actions: planting_actions(planting)
     }
+  end
+
+  # Where each harvest falls along the planting's progress bar, oldest first, on
+  # the same scale as the bar's fill (age over expected lifespan, 0 to 100).
+  def harvest_marks(planting)
+    lifespan = planting.expected_lifespan.to_f
+    return [] if planting.planted_at.blank? || !lifespan.positive?
+
+    marks = planting.harvests.filter_map do |harvest|
+      next if harvest.harvested_at.blank?
+
+      percent = ((harvest.harvested_at - planting.planted_at).to_f / lifespan * 100).clamp(0, 100)
+      { date: harvest.harvested_at, percent: percent.round(1) }
+    end
+    marks.sort_by { |mark| mark[:date] }
   end
 
   # "Mar 2026", as plantings/_progress shows it.
@@ -169,7 +195,8 @@ class GardenCardSerializer
     end
   end
 
-  # The same items, in the same order, as plantings/_quick_actions.
+  # The same items, in the same order, as plantings/_quick_actions: finishing
+  # goes last, below a divider, as it takes the planting off the list.
   def planting_actions(planting)
     return [] unless can?(:edit, planting)
 
@@ -184,11 +211,11 @@ class GardenCardSerializer
 
   def active_planting_actions(planting)
     [
-      action(:finish, I18n.t('buttons.mark_as_finished'),
-             routes.planting_path(slug: planting.slug, planting: { finished: 1 }), method: :put),
       (action(:harvest, I18n.t('buttons.record_harvest'), routes.new_planting_harvest_path(planting_slug: planting.slug)) if can?(:create,
                                                                                                                                   Harvest)),
-      (action(:seeds, I18n.t('buttons.save_seeds'), routes.new_planting_seed_path(planting_slug: planting.slug)) unless planting.failed?)
+      (action(:seeds, I18n.t('buttons.save_seeds'), routes.new_planting_seed_path(planting_slug: planting.slug)) unless planting.failed?),
+      action(:finish, I18n.t('buttons.mark_as_finished'),
+             routes.planting_path(slug: planting.slug, planting: { finished: 1 }), method: :put, divider: true)
     ].compact
   end
 end

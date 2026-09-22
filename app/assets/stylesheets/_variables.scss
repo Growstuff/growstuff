@@ -47,9 +47,11 @@ $card-border-radius: 2px;
 $card-inner-border-radius: 2px;
 $card-box-shadow: $material-shadow-raised;
 
-// Breadcrumbs as the old skin drew them: padded, with a > divider.
+// Breadcrumbs as the old skin drew them, with a > divider. No side padding: the
+// bar is the same colour as the page, so it only pushed "Home" in from the
+// edge that the heading and content line up with.
 $breadcrumb-padding-y: 0.75rem;
-$breadcrumb-padding-x: 1rem;
+$breadcrumb-padding-x: 0;
 $breadcrumb-divider: quote(">");
 // The sizes the old Material skin gave the display-* classes the site uses (display-3, display-4).
 $display-font-sizes: (

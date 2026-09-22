@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 class GardensController < DataController
+  # Anyone can look at a member's inactive gardens, as they can their current ones.
+  skip_before_action :authenticate_member!, only: :inactive
+  skip_load_and_authorize_resource only: :inactive
+
   def index
     @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
-    @show_all = params[:all] == '1'
     @show_jump_to = params[:member_slug].present? || false
 
     @gardens = @gardens.includes(:owner)
-    @gardens = @gardens.active unless @show_all
+    @gardens = @gardens.active
     if @owner.present?
       @gardens = @gardens.left_joins(:garden_collaborators)
       @gardens = @gardens.where(owner: @owner).or(@gardens.where(garden_collaborators: { member: @owner }))
@@ -15,6 +18,17 @@ class GardensController < DataController
     @gardens = @gardens.where.not(members: { confirmed_at: nil })
       .order(:name).paginate(page: params[:page])
     respond_with(@gardens)
+  end
+
+  # A member's gardens that are no longer active, as a gallery of what they grew.
+  def inactive
+    @owner = Member.confirmed.find_by!(slug: params[:member_slug])
+    owned = Garden.inactive.where(owner: @owner)
+    collaborating = Garden.inactive.where(id: GardenCollaborator.where(member: @owner).select(:garden_id))
+    @gardens = owned.or(collaborating)
+      .includes(:owner, plantings: { crop: { parent: :parent } })
+      .order(updated_at: :desc)
+      .paginate(page: params[:page], per_page: 12)
   end
 
   def show
@@ -34,6 +48,8 @@ class GardensController < DataController
   end
 
   def edit
+    return render json: GardenFormSerializer.new(@garden, member: current_member) if request.format.json?
+
     respond_with(@garden)
   end
 
@@ -47,7 +63,10 @@ class GardensController < DataController
   end
 
   def update
-    flash[:notice] = I18n.t('gardens.updated') if @garden.update(garden_params)
+    saved = @garden.update(garden_params)
+    return render_card_json(saved) if request.format.json?
+
+    flash[:notice] = I18n.t('gardens.updated') if saved
     respond_with(@garden)
   end
 
@@ -68,6 +87,17 @@ class GardensController < DataController
   end
 
   private
+
+  # Used by the React garden cards, which replace the garden's card with the
+  # returned one. No flash: nothing redirects, so it would turn up on the next page.
+  def render_card_json(saved)
+    if saved
+      card = GardenCardSerializer.collection([@garden], ability: current_ability, show_owner: false).first
+      render json: { garden: card }
+    else
+      render json: { errors: @garden.errors }, status: :unprocessable_content
+    end
+  end
 
   def garden_params
     params.require(:garden).permit(

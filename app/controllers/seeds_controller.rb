@@ -46,6 +46,8 @@ class SeedsController < DataController
     else
       @crop = Crop.find_or_initialize_by(id: params[:crop_id])
     end
+    return render json: SeedFormSerializer.new(@planting, member: current_member) if request.format.json? && @planting.present?
+
     respond_with(@seed)
   end
 
@@ -57,7 +59,10 @@ class SeedsController < DataController
     @seed.finished ||= false
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
-    flash[:notice] = t('seeds.added_to_stash', crop: @seed.crop) if @seed.save
+    saved = @seed.save
+    return render_created_json if request.format.json? && @seed.parent_planting.present?
+
+    flash[:notice] = t('seeds.added_to_stash', crop: @seed.crop) if saved
     if params[:return] == 'planting'
       respond_with(@seed, location: @seed.parent_planting)
     else
@@ -76,6 +81,17 @@ class SeedsController < DataController
   end
 
   private
+
+  # Used by the React garden cards, which stay on the page and say the seeds
+  # were saved (with a link to them). No flash: nothing redirects, so it would
+  # turn up on whichever page is loaded next.
+  def render_created_json
+    if @seed.persisted?
+      render json: { seed: { id: @seed.id, url: seed_path(@seed) } }, status: :created
+    else
+      render json: { errors: @seed.errors }, status: :unprocessable_content
+    end
+  end
 
   def seed_params
     params.require(:seed).permit(

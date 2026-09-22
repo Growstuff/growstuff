@@ -4,6 +4,7 @@ require './lib/actions/oauth_signup_action'
 class AuthenticationsController < ApplicationController
   before_action :authenticate_member!
   load_and_authorize_resource
+  skip_load_and_authorize_resource only: :connected
 
   # POST /authentications
   def create
@@ -29,6 +30,14 @@ class AuthenticationsController < ApplicationController
       flash[:notice] = t('messages.auth_failed')
     end
     redirect_to request.env['omniauth.origin'] || edit_member_registration_path
+  end
+
+  # Where the pop-up that connects an account from a dialog ends up (see
+  # AddPhotoModal): it says how it went and closes itself. The dialog notices the
+  # connection by asking the server, so it doesn't depend on this page.
+  def connected
+    @connected = current_member.auth('flickr').present?
+    render layout: false
   end
 
   # DELETE /authentications/1

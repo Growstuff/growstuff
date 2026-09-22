@@ -50,6 +50,12 @@ describe "Gardens#index", :js do
       it "does not link to inactive gardens" do
         expect(page).to have_no_link(inactive_garden.name, href: garden_path(inactive_garden))
       end
+
+      it "no longer has an include in-active tickbox, but links to the inactive gardens" do
+        expect(page).to have_no_text 'include in-active'
+        expect(page).to have_text 'Gardens no longer in use'
+        expect(page).to have_link 'Inactive gardens', href: member_inactive_gardens_path(member)
+      end
     end
 
     context 'with plantings' do
@@ -67,8 +73,12 @@ describe "Gardens#index", :js do
         visit member_gardens_path(member_slug: member.slug)
       end
 
-      it "shows planting in garden" do
-        expect(page).to have_link(planting.crop.name, href: planting_path(planting))
+      it "shows planting in garden, as a chip whose menu leads to it" do
+        expect(page).to have_css('.chip', text: planting.crop.name)
+
+        click_link "Actions for #{planting.crop.name}"
+
+        expect(page).to have_link('View', href: planting_path(planting))
       end
 
       it "does not show finished planting" do
