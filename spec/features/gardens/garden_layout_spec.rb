@@ -133,10 +133,10 @@ describe 'The garden layout', :js do
     end
   end
 
-  it 'clears the bed with Remove all, keeping the plants' do
+  it 'clears the bed with Clear bed, keeping the plants' do
     lettuce.plants.each_with_index { |plant, i| plant.update!(bed_x: i + 0.5, bed_y: 0.5) }
     visit_layout
-    accept_confirm { click_button 'Remove all' }
+    accept_confirm { click_button 'Clear bed' }
 
     expect(page).to have_no_css('.garden-layout-plant')
     wait_until { lettuce.plants.placed.none? }

@@ -366,7 +366,8 @@ export default function GardenLayout({
   // plantings keep their counts; only the arrangement goes, hence the check.
   function clearBed() {
     // eslint-disable-next-line no-alert
-    if (!window.confirm(`Take all ${onGrid.length} plants off the bed? Their positions will be lost.`)) return;
+    if (!window.confirm(`Take all ${onGrid.length} plants off the bed? Their positions will be lost. `
+      + 'Stones, lines, netting and the rest stay where they are.')) return;
 
     save(plantings.map((planting) => ({
       ...planting,
@@ -773,7 +774,7 @@ export default function GardenLayout({
             )}
             {editable && onGrid.length > 0 && (
               <button type="button" className="btn btn-sm btn-outline-danger garden-layout-clear" onClick={clearBed}>
-                Remove all
+                Clear bed
               </button>
             )}
           </div>
