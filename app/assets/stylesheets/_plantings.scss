@@ -182,6 +182,17 @@
   padding: 1.5rem 2rem;
 }
 
+// While the photos are being fetched, hold roughly the height the picker will
+// take, so the dialog doesn't jump open when they arrive, and centre the
+// spinner in that space rather than leaving it in the top corner.
+.plant-dialog-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20rem;
+  padding: 1.5rem 2rem;
+}
+
 // Step 1 of 2 / step 2 of 2.
 .plant-steps {
   display: flex;
@@ -556,6 +567,30 @@
     background: none;
     border: 0;
     padding: 0;
+  }
+
+  // Sidebar sections use the same vocabulary as the main column. Partials
+  // shared with other pages bring their own .card, which inside a section is a
+  // box within a box, so flatten it.
+  .planting-owner,
+  .planting-crop {
+    > .card {
+      margin: 0 -1rem -1rem;
+      border: 0;
+      border-radius: 0;
+    }
+  }
+
+  .planting-owner-avatar img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  // The crop's own photo spans the section, like a section's lid would.
+  .planting-crop .crop-image .img-card {
+    border-radius: 0;
   }
 
   // Quiet enough to sit on the heading bar without shouting over the heading.

@@ -89,7 +89,7 @@ export default function PlantingActions({
       )}
       {open === 'photo' && photo && (
         <AddPhotoModal
-          label={planting.crop.name}
+          label={`${planting.crop.name} planting`}
           newUrl={photo.href}
           iconUrl={photoIconUrl}
           onClose={close}

@@ -423,6 +423,8 @@ en:
       activities_current: Planned
       activities_finished: Finished
       neighbours: World neighbours
+      grower: Grower
+      crop: Crop
       neighbours_explanation: Other %{crop} plantings at the same latitude.
       no_photos: No photos yet.
       no_photos_prompt: Photos come from your Flickr account. Add one to track how this planting grows.

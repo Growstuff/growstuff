@@ -1,18 +1,15 @@
-.card
-  .card-body
-    .row
-      .col
-        %h4
-          Planted by
-          = link_to planting.owner, planting.owner
-        = link_to t('plantings.show.view_all_plantings', owner: planting.owner), member_plantings_path(planting.owner)
-
-        %p
-          Planted in
-          = link_to planting.garden, planting.garden
-        - if planting.garden.location
-          %p
-            %small
-              View other plantings, members and more near
-              = link_to planting.garden.location, place_path(planting.garden.location, anchor: "plantings")
-      .col= render "members/avatar", member: planting.owner
+-# Sidebar content: the section around it supplies the box and the heading.
+.d-flex.align-items-center.gap-3
+  .planting-owner-avatar= render "members/avatar", member: planting.owner
+  %div
+    %p.mb-1
+      %strong= link_to planting.owner, planting.owner
+    %p.mb-0.small
+      grows this in
+      = link_to planting.garden, planting.garden
+- if planting.garden.location
+  %p.mt-3.mb-1.small
+    = link_to planting.garden.location, place_path(planting.garden.location, anchor: "plantings")
+    &mdash; other plantings, members and more nearby
+%p.mb-0.small
+  = link_to t('plantings.show.view_all_plantings', owner: planting.owner), member_plantings_path(planting.owner)

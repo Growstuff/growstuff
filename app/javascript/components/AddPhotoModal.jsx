@@ -129,7 +129,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
   const title = (
     <>
       {iconUrl && <img src={iconUrl} alt="" className="modal-title-icon" />}
-      Add a photo to {label}
+      Add photo to {label}
     </>
   );
 
@@ -141,7 +141,11 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
         </div>
       )}
       {!loadError && !data && (
-        <div className="modal-body" role="status"><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Loading…</div>
+        <div className="modal-body plant-dialog-loading" role="status">
+          <span>
+            <i className="fa fa-spinner fa-spin" aria-hidden="true" /> Loading…
+          </span>
+        </div>
       )}
       {data && (
         <>

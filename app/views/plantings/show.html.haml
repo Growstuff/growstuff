@@ -92,8 +92,15 @@
                 = render "activities/card", activity: activity
 
     .col-md-4.col-12
-      = render 'plantings/owner', planting: @planting
-      = render @planting.crop
+      %section.planting-owner
+        .section-header
+          %h2= t('plantings.show.grower')
+        = render 'plantings/owner', planting: @planting
+
+      %section.planting-crop
+        .section-header
+          %h2= t('plantings.show.crop')
+        = render 'crops/crop', crop: @planting.crop, actions: false
 
       - if @planting.location && @neighbours.any?
         %section.neighbours
