@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_21_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_22_140000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -551,6 +551,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_21_000000) do
     t.integer "growing_degree_days"
     t.integer "harvests_count", default: 0
     t.integer "height"
+    t.string "icon"
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
     t.integer "median_lifespan"
