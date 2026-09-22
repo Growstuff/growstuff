@@ -2,6 +2,14 @@
   color: $red;
 }
 
+// A quiet control, not a raised one: the global .btn shadow makes the heart
+// look like a call to action it isn't.
 .like-btn {
   color: $brown;
+  box-shadow: none;
+
+  &:active,
+  &.active {
+    box-shadow: none;
+  }
 }

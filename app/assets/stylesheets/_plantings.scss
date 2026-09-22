@@ -354,8 +354,28 @@
   }
 
   > .row > [class^="col-"] > *,
-  > .row > [class*=" col-"] > * {
+  > .row > [class*=" col-"] > *,
+  .planting-detail > * {
     margin-bottom: $section-gap;
+  }
+
+  // Everything about this planting — its title, its facts, its harvests,
+  // seeds, photos and planned activities — inside one border, so it reads as
+  // one body of data rather than running into the sidebar beside it.
+  .planting-detail {
+    border: 1px solid rgba(65, 63, 59, 0.35);
+    border-radius: 6px;
+    padding: 0 1.25rem;
+
+    // The border is the outer edge now, so the last section shouldn't leave a
+    // gap below it, and the hero shouldn't add one above.
+    > *:last-child {
+      margin-bottom: 1.25rem;
+    }
+
+    .jumbotron {
+      padding-top: 1.25rem;
+    }
   }
 
   section {
