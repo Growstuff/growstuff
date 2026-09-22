@@ -66,6 +66,14 @@ const FEATURE_TYPES = {
   netting: {name: 'Netting', shape: 'area', faIcon: 'fa-th'},
 };
 
+// How the features are grouped in the toolbar above the bed.
+const FEATURE_GROUPS = [
+  {name: 'Ground', kinds: ['stone', 'path']},
+  {name: 'Water', kinds: ['sprinkler', 'tap', 'dripline']},
+  {name: 'Supports', kinds: ['stake', 'fence', 'trellis', 'netting']},
+  {name: 'Markers', kinds: ['label', 'row']},
+];
+
 function shapeOf(feature) {
   return FEATURE_TYPES[feature.kind]?.shape;
 }
@@ -778,6 +786,36 @@ export default function GardenLayout({
               </button>
             )}
           </div>
+          {/* Everything besides plants, as a row of tiles to drag onto the bed,
+              grouped by what it's for, each named when pointed at. */}
+          {editable && (
+            <div className="garden-layout-toolbar" role="group" aria-label="Garden features to drag onto the bed">
+              {FEATURE_GROUPS.map((group) => (
+                <div key={group.name} className="garden-layout-toolbar-group">
+                  <span className="garden-layout-toolbar-caption">{group.name}</span>
+                  <div className="garden-layout-toolbar-tiles">
+                    {group.kinds.map((kind) => {
+                      const type = FEATURE_TYPES[kind];
+                      const what = kind === 'netting' ? 'netting' : `a ${featureName(kind)}`;
+                      return (
+                        <div
+                          key={kind}
+                          className={`garden-layout-tile${dragging === `new-feature:${kind}` ? ' is-dragging' : ''}`}
+                          title={`${type.name}: drag onto the bed to add ${what}`}
+                          aria-label={type.name}
+                          {...dragProps(`new-feature:${kind}`, {icon: featureIcons[kind], text: type.name, diameter: type.size || 1})}
+                        >
+                          {featureIcons[kind] && <img src={featureIcons[kind]} alt="" />}
+                          {!featureIcons[kind] && kind === 'stake' && <span className="garden-layout-stake-swatch" />}
+                          {!featureIcons[kind] && type.faIcon && <i className={`fa ${type.faIcon}`} aria-hidden="true" />}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           <div
             className={`garden-layout-grid${hovered ? ' is-highlighting' : ''}`}
             // As big as fits: the full width available, unless that would make
@@ -1029,29 +1067,6 @@ export default function GardenLayout({
               })}
             </ul>
           )}
-          {editable && (
-            <>
-              <h3 className="garden-layout-tray-heading garden-layout-features-heading">Garden features</h3>
-              <ul className="garden-layout-tray-list">
-                {Object.entries(FEATURE_TYPES).map(([kind, type]) => (
-                  <li key={kind}>
-                    <div
-                      className={`chip garden-layout-chip garden-layout-feature-chip${dragging === `new-feature:${kind}` ? ' is-dragging' : ''}`}
-                      title={`Drag onto the bed to add ${kind === 'netting' ? 'netting' : `a ${featureName(kind)}`}`}
-                      {...dragProps(`new-feature:${kind}`, {icon: featureIcons[kind], text: type.name, diameter: type.size || 1})}
-                    >
-                      {featureIcons[kind] && <img className="crop-icon" src={featureIcons[kind]} alt="" />}
-                      {!featureIcons[kind] && kind === 'stake' && <span className="garden-layout-stake-swatch" />}
-                      {!featureIcons[kind] && type.faIcon && (
-                        <i className={`fa ${type.faIcon} garden-layout-feature-icon`} aria-hidden="true" />
-                      )}
-                      <span className="garden-layout-chip-name">{type.name}</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
           {planting && (
             <PlantSomethingModal
               garden={garden}
@@ -1061,7 +1076,7 @@ export default function GardenLayout({
             />
           )}
           {editable && !compostSlot && compostBin}
-          {editable && <p className="garden-layout-hint">Drag a crop or a garden feature onto the bed, or a plant back here to lift it. Double-click a label, line or netting to rename it.</p>}
+          {editable && <p className="garden-layout-hint">Drag a crop onto the bed, or a plant back here to lift it. Garden features are above the bed; double-click a label, line or netting to rename it.</p>}
         </aside>
       </div>
       {editable && compostSlot && createPortal(compostBin, compostSlot)}
