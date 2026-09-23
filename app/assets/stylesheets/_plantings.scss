@@ -539,6 +539,13 @@
     font-size: 1.1rem;
   }
 
+  // Menu items are lowercase, as on the garden cards. Done in CSS because the
+  // labels are the shared button translations, which other pages show in
+  // sentence case.
+  .planting-actions .dropdown-item {
+    text-transform: lowercase;
+  }
+
   // The three-dot button: quiet by default, so it sits in the corner without
   // competing with the title. An icon, not a labelled control, so no caret.
   .planting-actions-toggle {

@@ -47,7 +47,14 @@ export default function PlantingActions({
   }
 
   const close = () => setOpen(null);
-  const saved = () => window.location.reload();
+
+  // Close the dialog, then reload on the next tick. Reloading straight from
+  // the save callback tears the page down while the dialog is still finishing
+  // its own update, which leaves the browser wedged mid-navigation.
+  const saved = () => {
+    setOpen(null);
+    setTimeout(() => window.location.reload(), 0);
+  };
 
   // The quiet "add" on each section heading opens the same dialog as the menu
   // item does. Those are server-rendered links, outside this island, so we

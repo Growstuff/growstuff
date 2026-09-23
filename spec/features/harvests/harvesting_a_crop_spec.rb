@@ -65,27 +65,40 @@ describe "Harvesting a crop", :js, :search do
     describe "Harvesting from planting page" do
       let!(:planting) { create(:planting, crop: maize, owner: member, garden: member.gardens.first) }
 
+      # The planting's actions menu opens the same dialog the garden cards use,
+      # rather than taking the member away to a form of its own.
       before do
         visit planting_path(planting)
-        click_link "Record harvest"
-        click_link plant_part.name
+        click_link 'Actions'
+        click_link 'Record harvest'
+        within '[role=dialog]' do
+          find_field('What part did you harvest?').send_keys(plant_part.name)
+          find('[role=option]', text: plant_part.name).click
+        end
       end
 
       it "saves" do
-        # We then navigate to the new_harvest_path, and save.
-        click_button "Save"
+        within '[role=dialog]' do
+          fill_in 'How many?', with: '3'
+          click_button 'Next'
+          click_button 'Next'
+          click_button 'Save harvest'
+        end
 
-        expect(page).to have_content "harvest was successfully created."
-        expect(page).to have_content planting.garden.name
         expect(page).to have_content "maize"
+        expect(Harvest.last).to have_attributes(owner: member, crop: maize, planting: planting,
+                                                plant_part: plant_part, quantity: 3)
       end
 
-      it "updates the planting rating" do
-        find_by_id('harvest_overall_rating').set 4
-        click_button "Save"
-        
-        expect(page).to have_content "harvest was successfully created."
-        expect(planting.reload.overall_rating).to eq 4
+      it "records the harvest against the planting" do
+        within '[role=dialog]' do
+          fill_in 'How many?', with: '1'
+          click_button 'Next'
+          click_button 'Next'
+          click_button 'Save harvest'
+        end
+
+        expect(planting.reload.harvests.count).to eq 1
       end
     end
 

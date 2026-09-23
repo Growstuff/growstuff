@@ -36,7 +36,7 @@ describe 'Adding a photo from a garden card', :js do
       open_from_planting
 
       within '[role=dialog]' do
-        expect(page).to have_content 'Add a photo to lettuce'
+        expect(page).to have_content 'Add photo to lettuce planting'
         expect(page).to have_css '.plant-step-current', text: 'Choose a photo'
         expect(page).to have_content 'Connected to Flickr as Gardener'
         expect(page).to have_select 'Album', options: ['All your recent photos', 'Spring']
@@ -59,7 +59,7 @@ describe 'Adding a photo from a garden card', :js do
       end
 
       expect(page).to have_no_css '[role=dialog]'
-      expect(page).to have_content 'Added a photo to lettuce.'
+      expect(page).to have_content 'Added a photo to lettuce planting.'
       expect(page).to have_link 'See it', href: photo_path(Photo.last)
       expect(page).to have_current_path(gardens_path)
       expect(planting.photos.reload).to contain_exactly(Photo.last)
@@ -85,12 +85,12 @@ describe 'Adding a photo from a garden card', :js do
       end
 
       within '[role=dialog]' do
-        expect(page).to have_content 'Add a photo to Orchard'
+        expect(page).to have_content 'Add photo to Orchard garden'
         find('.photo-picker-photo').click
         click_button 'Add photo'
       end
 
-      expect(page).to have_content 'Added a photo to Orchard.'
+      expect(page).to have_content 'Added a photo to Orchard garden.'
       expect(garden.photos.count).to eq 1
     end
   end

@@ -98,10 +98,15 @@ module PlantingsHelper
   def planting_actions_props(planting)
     {
       planting:         {
-        id:   planting.id,
-        url:  planting_path(planting),
-        crop: { name:     planting.crop.name,
-                icon_url: planting.crop.svg_icon.present? ? crop_path(planting.crop, format: 'svg') : nil }
+        id:         planting.id,
+        url:        planting_path(planting),
+        # The finish and harvest dialogs need these: neither may happen before
+        # the planting was planted, and the server's today is the one that
+        # counts, not the browser's.
+        planted_at: planting.planted_at,
+        today:      Time.zone.today,
+        crop:       { name:     planting.crop.name,
+                      icon_url: planting.crop.svg_icon.present? ? crop_path(planting.crop, format: 'svg') : nil }
       },
       actions:          planting_menu_actions(planting),
       harvest_icon_url: image_path('icons/harvest.svg'),
@@ -122,9 +127,7 @@ module PlantingsHelper
     end
     actions.concat(active_planting_menu_actions(planting)) if planting.active
     actions << planting_delete_action(planting)
-    # Menu items read as lower case across the site, so a menu looks like a list
-    # of things you can do rather than a row of headings.
-    actions.compact.map { |item| item.merge(label: item[:label].downcase) }
+    actions.compact
   end
 
   def active_planting_menu_actions(planting)
