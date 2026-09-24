@@ -17,7 +17,7 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted, high
         <div className="planting-row-chip">
           <PlantingChip planting={planting} defaultIconUrl={defaultIconUrl} highlighted={highlighted && highlightKind === 'added'} handlers={handlers} />
           {highlighted && highlightKind === 'harvested' && (
-            <span className="harvest-recorded-tag"><i className="fa fa-check" aria-hidden="true" /> Harvest recorded</span>
+            <span className="harvest-recorded-tag"><i className="fas fa-check" aria-hidden="true" /> Harvest recorded</span>
           )}
         </div>
         <PlantedDate planting={planting} onUpdated={onUpdated} />

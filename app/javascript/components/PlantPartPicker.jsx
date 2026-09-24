@@ -65,7 +65,7 @@ export default function PlantPartPicker({id, parts, suggestedId, onChoose}) {
     <div className="crop-picker position-relative">
       <label htmlFor={id} className="crop-picker-label">What part did you harvest?</label>
       <div className="crop-picker-field">
-        <i className="fa fa-search crop-picker-icon" aria-hidden="true" />
+        <i className="fas fa-search crop-picker-icon" aria-hidden="true" />
         <input
           id={id}
           type="text"
@@ -95,7 +95,7 @@ export default function PlantPartPicker({id, parts, suggestedId, onChoose}) {
       </div>
       {noMatch && (
         <div className="crop-picker-empty">
-          <i className="fa fa-info-circle" aria-hidden="true" /> No plant parts match &ldquo;{term}&rdquo;.
+          <i className="fas fa-info-circle" aria-hidden="true" /> No plant parts match &ldquo;{term}&rdquo;.
         </div>
       )}
       {showing && (

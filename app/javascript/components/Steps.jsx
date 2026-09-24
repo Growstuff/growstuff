@@ -11,7 +11,7 @@ export default function Steps({steps, current}) {
         return (
           <li key={label} className={`plant-step plant-step-${state}`} aria-current={state === 'current' ? 'step' : undefined}>
             <span className="plant-step-number">
-              {state === 'done' ? <i className="fa fa-check" aria-hidden="true" /> : number}
+              {state === 'done' ? <i className="fas fa-check" aria-hidden="true" /> : number}
             </span>
             {label}
             {state === 'done' && <span className="visually-hidden"> (done)</span>}

@@ -143,7 +143,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
       {!loadError && !data && (
         <div className="modal-body plant-dialog-loading" role="status">
           <span>
-            <i className="fa fa-spinner fa-spin" aria-hidden="true" /> Loading…
+            <i className="fas fa-spinner fa-spin" aria-hidden="true" /> Loading…
           </span>
         </div>
       )}
@@ -165,7 +165,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
                 </button>
                 {waiting && (
                   <div className="photo-picker-waiting" role="status">
-                    <i className="fa fa-spinner fa-spin" aria-hidden="true" />{' '}
+                    <i className="fas fa-spinner fa-spin" aria-hidden="true" />{' '}
                     {blocked ? 'Your browser blocked the window.' : 'Waiting for you to allow access on Flickr…'}{' '}
                     {blocked && <a href={CONNECT_URL} target="_blank" rel="noopener noreferrer">Connect in a new tab</a>}
                     {!blocked && <span className="photo-picker-hint">This picks up on its own once you have.</span>}
@@ -220,7 +220,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
               <>
                 {errors.length > 0 && (
                   <div className="alert alert-danger" role="alert">
-                    <i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
+                    <i className="fas fa-exclamation-triangle" aria-hidden="true" />{' '}
                     <strong>That didn&rsquo;t work.</strong>
                     <ul className="mb-0">{errors.map((message) => <li key={message}>{message}</li>)}</ul>
                     <span>Your choice is kept, so you can press Add photo to try again.</span>
@@ -236,7 +236,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
                       <img src={chosen.preview_url} alt={chosen.title || 'The photo you chose'} className="photo-picker-preview" />
                       <span className="photo-picker-title">{chosen.title}</span>
                       <button type="button" className="btn btn-sm btn-outline-secondary ms-3" onClick={() => setChosen(null)} disabled={saving}>
-                        <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> photo</span>
+                        <i className="fas fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> photo</span>
                       </button>
                     </dd>
                   </dl>
@@ -249,7 +249,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
             <div className="modal-footer">
               <button type="button" className="btn btn-link" onClick={() => setChosen(null)} disabled={saving}>Back</button>
               <button type="button" className="btn btn-success btn-plant" onClick={add} disabled={saving} aria-busy={saving} autoFocus>
-                {saving ? <><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Adding…</> : 'Add photo'}
+                {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Adding…</> : 'Add photo'}
               </button>
             </div>
           )}

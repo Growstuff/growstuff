@@ -36,14 +36,14 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
         <div className="garden-card-header-actions">
           {plantUrl && (
             <a href={plantUrl} className="btn btn-success btn-sm garden-add-planting" onClick={plant}>
-              <i className="fa fa-plus" aria-hidden="true" /> Add planting
+              <i className="fas fa-plus" aria-hidden="true" /> Add planting
               <span className="visually-hidden"> to {name}</span>
             </a>
           )}
           <ActionsMenu
             id={`garden-${id}`}
             actions={actions}
-            label={<i className="fa fa-ellipsis-v" aria-hidden="true" />}
+            label={<i className="fas fa-ellipsis-v" aria-hidden="true" />}
             ariaLabel={`Actions for ${name}`}
             className="btn btn-sm btn-link actions-toggle-dots"
             onSelect={(action, event) => {

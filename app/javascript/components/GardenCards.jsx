@@ -108,7 +108,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
     <>
       {notice && (
         <div className="alert alert-success alert-dismissible" role="status">
-          <i className="fa fa-check-circle" aria-hidden="true" /> {notice}
+          <i className="fas fa-check-circle" aria-hidden="true" /> {notice}
           <button type="button" className="btn-close" aria-label="Dismiss" onClick={() => setNotice(null)} />
         </div>
       )}
