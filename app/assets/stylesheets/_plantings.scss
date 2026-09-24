@@ -694,7 +694,55 @@
     margin-left: 0.5rem;
   }
 
-  .neighbours .index-cards .card {
-    width: 100%;
+  // Neighbours are a list, not a grid: in a narrow column a full planting card
+  // is one huge photo each. A small photo, who grows it and where is enough to
+  // decide whether to go and look.
+  .planting-neighbours-lead {
+    margin-bottom: 0.75rem;
+  }
+
+  .planting-neighbours {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .planting-neighbour {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid rgba(65, 63, 59, 0.12);
+    color: inherit;
+    text-decoration: none;
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    &:hover,
+    &:focus {
+      background: rgba(65, 63, 59, 0.04);
+    }
+  }
+
+  .planting-neighbour-photo {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    border-radius: $card-radius;
+    object-fit: cover;
+  }
+
+  .planting-neighbour-text {
+    min-width: 0;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+
+  .planting-neighbour-where {
+    display: block;
+    color: rgba(65, 63, 59, 0.7);
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
   }
 }

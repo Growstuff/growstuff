@@ -112,7 +112,8 @@
         %section.neighbours
           .section-header
             %h2= t('plantings.show.neighbours')
-          .index-cards
+          %p.text-muted.small.planting-neighbours-lead
+            = t('plantings.show.neighbours_explanation', crop: @planting.crop.name)
+          .planting-neighbours
             - @neighbours.each do |neighbour|
-              = render 'plantings/card', planting: neighbour
-          %p.text-muted= t('plantings.show.neighbours_explanation', crop: @planting.crop.name)
+              = render 'plantings/neighbour', neighbour: neighbour
