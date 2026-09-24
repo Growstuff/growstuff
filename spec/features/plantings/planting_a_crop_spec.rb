@@ -188,7 +188,9 @@ describe "Planting a crop", :js, :search do
       click_link 'Edit'
       within '[role=dialog]' do
         check "Mark as finished"
-        fill_in "Finished date", with: "2015-06-25"
+        # A Date, not a string: Capybara sets a type=date field from a Date,
+        # but types a string into its segments, which lands as nothing.
+        fill_in "Finished date", with: Date.new(2015, 6, 25)
         click_button "Save"
       end
       expect(page).to have_content "Finished"
@@ -316,7 +318,7 @@ describe "Planting a crop", :js, :search do
       it "finishes it on a date you choose" do
         within '[role=dialog]' do
           find('.pill-choice', text: 'Enter date').click
-          fill_in 'Date', with: Time.zone.today.strftime('%Y-%m-%d')
+          fill_in 'Date', with: Time.zone.today
           click_button 'Mark as finished'
         end
 
