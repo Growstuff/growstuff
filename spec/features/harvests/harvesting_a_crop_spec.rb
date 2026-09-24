@@ -85,7 +85,10 @@ describe "Harvesting a crop", :js, :search do
           click_button 'Save harvest'
         end
 
-        expect(page).to have_content "maize"
+        # A waiting assertion first: the dialog saves over JSON and reloads, and
+        # reading the database doesn't retry, so without this we can look
+        # before the save has landed.
+        expect(page).to have_no_content 'No harvests recorded yet.'
         expect(Harvest.last).to have_attributes(owner: member, crop: maize, planting: planting,
                                                 plant_part: plant_part, quantity: 3)
       end
@@ -98,6 +101,7 @@ describe "Harvesting a crop", :js, :search do
           click_button 'Save harvest'
         end
 
+        expect(page).to have_no_content 'No harvests recorded yet.'
         expect(planting.reload.harvests.count).to eq 1
       end
     end
