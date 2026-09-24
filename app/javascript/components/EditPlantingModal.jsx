@@ -91,7 +91,7 @@ export default function EditPlantingModal({planting, onClose, onSaved}) {
         </div>
       )}
       {!loadError && !values && (
-        <div className="modal-body" role="status"><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Loading…</div>
+        <div className="modal-body" role="status"><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Loading…</div>
       )}
       {values && (
         <form onSubmit={save}>
@@ -114,7 +114,7 @@ export default function EditPlantingModal({planting, onClose, onSaved}) {
                 <>
                   <strong>{values.crop.name}</strong>{' '}
                   <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => setChangingCrop(true)}>
-                    <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> crop</span>
+                    <i className="fas fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> crop</span>
                   </button>
                 </>
               )}
@@ -183,7 +183,7 @@ export default function EditPlantingModal({planting, onClose, onSaved}) {
           <div className="modal-footer">
             <button type="button" className="btn btn-link" onClick={onClose} disabled={saving}>Cancel</button>
             <button type="submit" className="btn btn-success" disabled={saving} aria-busy={saving}>
-              {saving ? <><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Save'}
+              {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Save'}
             </button>
           </div>
         </form>
