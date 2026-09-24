@@ -276,8 +276,8 @@ GEM
     ffi (1.17.4)
     ffi (1.17.4-x86_64-linux-gnu)
     flickraw (0.9.10)
-    font-awesome-sass (5.15.1)
-      sassc (>= 1.11)
+    font-awesome-sass (6.7.2)
+      sassc (~> 2.0)
     friendly_id (5.7.0)
       activerecord (>= 4.0.0)
     gbifrb (0.2.0)
@@ -793,7 +793,7 @@ DEPENDENCIES
   faker
   faraday
   flickraw
-  font-awesome-sass
+  font-awesome-sass (~> 6.7)
   friendly_id
   gbifrb
   geocoder

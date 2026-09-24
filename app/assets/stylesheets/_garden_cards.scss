@@ -125,7 +125,10 @@ $garden-card-line: #e6e6e6;
     background: none;
     cursor: pointer;
 
-    .fa {
+    // The icon, whatever style prefix it carries. Keyed on the element rather
+    // than .fa, which stopped matching when Font Awesome 6 dropped the bare
+    // prefix and every icon became .fas, .far or .fab.
+    i {
       margin-left: 0.35rem;
       opacity: 0.5;
     }
@@ -134,7 +137,7 @@ $garden-card-line: #e6e6e6;
     &:focus-visible {
       color: var(--bs-link-color, #0a58ca);
 
-      .fa {
+      i {
         opacity: 1;
       }
     }

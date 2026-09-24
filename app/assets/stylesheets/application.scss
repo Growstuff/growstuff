@@ -9,8 +9,13 @@
 @import "leaflet.markercluster/dist/MarkerCluster";
 @import "leaflet.markercluster/dist/MarkerCluster.Default";
 
-// Font Awesome
-@import "font-awesome-sprockets";
+// Font Awesome. The 6.x gem dropped its _font-awesome-sprockets.scss but its
+// @font-face rules still call fa-font-path(), so we define it here against
+// Sprockets' font-path helper. Its fonts live under assets/fonts/font-awesome.
+@function fa-font-path($path) {
+  @return font-path("font-awesome/#{$path}");
+}
+
 @import "font-awesome";
 @import "material_icons";
 @import "rails_bootstrap_forms";

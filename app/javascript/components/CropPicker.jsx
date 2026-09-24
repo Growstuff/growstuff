@@ -95,7 +95,7 @@ export default function CropPicker({id, onChoose}) {
     <div className="crop-picker position-relative">
       <label htmlFor={id} className="crop-picker-label">What did you plant?</label>
       <div className="crop-picker-field">
-        <i className="fa fa-search crop-picker-icon" aria-hidden="true" />
+        <i className="fas fa-search crop-picker-icon" aria-hidden="true" />
         <input
           id={id}
           type="text"
@@ -113,14 +113,14 @@ export default function CropPicker({id, onChoose}) {
           onChange={(event) => setTerm(event.target.value)}
           onKeyDown={onKeyDown}
         />
-        {searching && <i className="fa fa-spinner fa-spin crop-picker-spinner" aria-hidden="true" />}
+        {searching && <i className="fas fa-spinner fa-spin crop-picker-spinner" aria-hidden="true" />}
       </div>
       <div id={`${id}-status`} className="crop-picker-hint" role="status">
         {hint(searching, open, results.length)}
       </div>
       {noMatch && (
         <div className="crop-picker-empty">
-          <i className="fa fa-info-circle" aria-hidden="true" />{' '}
+          <i className="fas fa-info-circle" aria-hidden="true" />{' '}
           No crops match &ldquo;{term}&rdquo;.{' '}
           <a href="/crops/new" target="_blank" rel="noopener noreferrer">Request a new crop</a>
         </div>
