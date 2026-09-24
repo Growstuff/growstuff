@@ -85,7 +85,10 @@ module ApplicationHelper
   #
   def avatar_uri(member, size = 150)
     return unless member
-    return BLANK_AVATAR if Rails.configuration.x.blank_avatars
+    # Compared against true on purpose: an unset config.x key returns an empty
+    # OrderedOptions, which is truthy, so a plain `if` here blanks avatars in
+    # every environment.
+    return BLANK_AVATAR if Rails.configuration.x.blank_avatars == true
 
     if member.preferred_avatar_uri.present?
       # Some avatars support different sizes
