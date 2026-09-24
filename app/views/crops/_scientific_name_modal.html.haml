@@ -1,0 +1,32 @@
+-# Add or edit one scientific name, in a dialog over the crop page. The form
+-# posts as it always has and the controller sends us back here, so this needs
+-# no JSON endpoint. Opened from the crop's actions menu, or from the name.
+- id = scientific_name.persisted? ? "scientific-name-#{scientific_name.id}" : 'scientific-name-new'
+.modal.fade{ id: id, "aria-hidden" => "true", "aria-labelledby" => "#{id}-title", role: "dialog", tabindex: "-1" }
+  .modal-dialog{ role: "document" }
+    .modal-content
+      = form_for scientific_name do |f|
+        = f.hidden_field :crop_id, value: crop.id
+        .modal-header
+          %h4.modal-title{ id: "#{id}-title" }
+            = scientific_name.persisted? ? "Edit scientific name" : "Add a scientific name for #{crop.name}"
+          %button.btn-close{ "aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button" }
+        .modal-body
+          - if scientific_name.errors.any?
+            .alert.alert-danger{ role: 'alert' }
+              %ul.mb-0
+                - scientific_name.errors.full_messages.each do |message|
+                  %li= message
+          .mb-3
+            = f.label :name, 'Scientific name', class: 'form-label'
+            = f.text_field :name, class: 'form-control', required: true
+          .mb-3
+            = f.label :gbif_key, 'GBIF key', class: 'form-label'
+            = f.text_field :gbif_key, class: 'form-control'
+            %span.form-text The species key from gbif.org, if you have it.
+          .mb-3
+            = f.label :wikidata_id, 'Wikidata ID', class: 'form-label'
+            = f.text_field :wikidata_id, class: 'form-control'
+        .modal-footer
+          %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" } Cancel
+          = f.submit 'Save', class: 'btn btn-primary'

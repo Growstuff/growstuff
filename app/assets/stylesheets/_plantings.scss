@@ -360,47 +360,6 @@
 .planting-show {
   $section-gap: 2rem;
 
-  .row {
-    align-items: flex-start;
-  }
-
-  > .row > [class^="col-"] > *,
-  > .row > [class*=" col-"] > *,
-  .planting-detail > * {
-    margin-bottom: $section-gap;
-  }
-
-  // Everything about this planting — its title, its facts, its harvests,
-  // seeds, photos and planned activities — inside one border, so it reads as
-  // one body of data rather than running into the sidebar beside it.
-  .planting-detail {
-    border: 1px solid rgba(65, 63, 59, 0.35);
-    border-radius: $card-radius;
-    padding: 0 1.25rem;
-
-    // The border is the outer edge now, so the last section shouldn't leave a
-    // gap below it, and the hero shouldn't add one above.
-    > *:last-child {
-      margin-bottom: 1.25rem;
-    }
-
-    .jumbotron {
-      padding-top: 1.25rem;
-    }
-  }
-
-  section {
-    margin-bottom: $section-gap;
-
-    > h2 {
-      margin-bottom: 0.75rem;
-    }
-
-    > h3 {
-      margin: 1.25rem 0 0.5rem;
-    }
-  }
-
   // No side padding: the hero's text starts on the same left edge as every
   // section below it, so the column has one alignment all the way down.
   .jumbotron {
@@ -539,82 +498,13 @@
     font-size: 1.1rem;
   }
 
-  // Menu items are lowercase, as on the garden cards. Done in CSS because the
-  // labels are the shared button translations, which other pages show in
-  // sentence case.
-  .planting-actions .dropdown-item {
-    text-transform: lowercase;
-  }
-
-  // The three-dot button: quiet by default, so it sits in the corner without
-  // competing with the title. An icon, not a labelled control, so no caret.
-  .planting-actions-toggle {
-    padding: 0.25rem 0.6rem;
-    line-height: 1;
-    border: 0;
-    box-shadow: none;
-    background: transparent;
-    color: rgba(65, 63, 59, 0.55);
-    font-size: 1.25rem;
-
-    &::after {
-      display: none;
-    }
-
-    &:hover,
-    &:focus,
-    &[aria-expanded="true"] {
-      background: rgba(65, 63, 59, 0.08);
-      box-shadow: none;
-      color: $brown;
-    }
-  }
-
-  // The card grids set their own margins on each card, so the grid itself needs
-  // no extra padding — without this the gap under a heading is doubled.
-  .index-cards {
-    margin: 0 -0.5rem;
-  }
 
   .facts .card {
     margin: 0.5rem;
   }
 
-  // Each section is one bordered block: its green heading bar is the lid, its
-  // content sits under it inside the same border. That is what joins them —
-  // before this the heading and the "add" floated free above loose content.
-  section {
-    background: $white;
-    border: 1px solid rgba(65, 63, 59, 0.15);
-    border-radius: $card-radius;
-    padding: 0 1rem 1rem;
-  }
-
-  // The heading bar spans the section, so the "add" inside it sits at the
-  // section's own right edge rather than drifting in whitespace.
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin: 0 -1rem 1rem;
-    padding: 0.3rem 1rem;
-    background-color: $green;
-    border-radius: $card-radius $card-radius 0 0;
-    color: $white;
-
-    h2 {
-      margin: 0;
-      padding: 0;
-      background: none;
-      box-shadow: none;
-      color: $white;
-    }
-  }
-
-  // Facts and notes bring their own cards, so they get no box of their own.
-  .planting-facts,
-  .planting-notes {
+  // The facts grid brings its own cards, so it gets no box of its own.
+  .planting-facts {
     background: none;
     border: 0;
     padding: 0;
@@ -668,23 +558,6 @@
       li + li {
         margin-top: 0.25rem;
       }
-    }
-  }
-
-  // Quiet enough to sit on the heading bar without shouting over the heading.
-  .section-add {
-    flex: 0 0 auto;
-    padding: 0.1rem 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    background: transparent;
-    color: $white;
-    font-size: 0.8rem;
-    text-transform: lowercase;
-
-    &:hover,
-    &:focus {
-      background: rgba(255, 255, 255, 0.18);
-      color: $white;
     }
   }
 
@@ -745,4 +618,35 @@
     font-size: 0.8rem;
     overflow-wrap: anywhere;
   }
+}
+
+// Choosing a garden to plant in. One shape per row, so the names line up
+// however tall or wide each garden's photo happens to be.
+.garden-picker-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.garden-picker-photo {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: $card-radius;
+  object-fit: cover;
+}
+
+.garden-picker-text {
+  min-width: 0;
+}
+
+.garden-picker-name {
+  display: block;
+  font-size: 1.1rem;
+}
+
+.garden-picker-note {
+  display: block;
+  color: rgba(65, 63, 59, 0.7);
+  font-size: 0.85rem;
 }

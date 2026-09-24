@@ -1,0 +1,28 @@
+-# Add or edit one alternate name, in a dialog over the crop page. Same shape
+-# as the scientific name dialog.
+- id = alternate_name.persisted? ? "alternate-name-#{alternate_name.id}" : 'alternate-name-new'
+.modal.fade{ id: id, "aria-hidden" => "true", "aria-labelledby" => "#{id}-title", role: "dialog", tabindex: "-1" }
+  .modal-dialog{ role: "document" }
+    .modal-content
+      = form_for alternate_name do |f|
+        = f.hidden_field :crop_id, value: crop.id
+        .modal-header
+          %h4.modal-title{ id: "#{id}-title" }
+            = alternate_name.persisted? ? "Edit alternate name" : "Add another name for #{crop.name}"
+          %button.btn-close{ "aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button" }
+        .modal-body
+          - if alternate_name.errors.any?
+            .alert.alert-danger{ role: 'alert' }
+              %ul.mb-0
+                - alternate_name.errors.full_messages.each do |message|
+                  %li= message
+          .mb-3
+            = f.label :name, 'Name', class: 'form-label'
+            = f.text_field :name, class: 'form-control', required: true
+          .mb-3
+            = f.label :language, 'Language', class: 'form-label'
+            = f.text_field :language, class: 'form-control'
+            %span.form-text What language this name is used in.
+        .modal-footer
+          %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" } Cancel
+          = f.submit 'Save', class: 'btn btn-primary'

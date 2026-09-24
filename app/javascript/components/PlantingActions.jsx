@@ -93,7 +93,7 @@ export default function PlantingActions({
       <ActionsMenu
         id={planting.id}
         actions={actions}
-        className="btn planting-actions-toggle"
+        className="btn record-actions-toggle"
         ariaLabel="Actions"
         label={<i className="fas fa-ellipsis-v" aria-hidden="true" title="Actions" />}
         onSelect={choose}

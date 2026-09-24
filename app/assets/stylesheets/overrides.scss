@@ -568,3 +568,28 @@ ul.thumbnail-buttons {
     margin-top: 0.5rem;
   }
 }
+
+// The record panel: everything that *is* the record — its title, its facts and
+// its sections — inside one subtle border, so it reads as one body of data and
+// the sidebar beside it is visibly not part of it. See DESIGN.md.
+//
+// No background of its own: the page colour shows through, so the white
+// sections inside it still stand out.
+.record-panel {
+  border: 1px solid rgba(65, 63, 59, 0.35);
+  border-radius: $card-radius;
+  padding: 0 1.25rem;
+
+  // The border is the outer edge now, so the last section shouldn't leave a
+  // gap below it, and the hero shouldn't add one above.
+  > *:last-child {
+    margin-bottom: 1.25rem;
+  }
+
+  // The hero sits inside the panel with no side padding of its own, so the
+  // title starts on the same left edge as every section below it.
+  > .jumbotron {
+    padding: 1.25rem 0;
+    margin-bottom: 2rem;
+  }
+}

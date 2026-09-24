@@ -105,3 +105,72 @@
     }
   }
 }
+
+// The crop's names, directly under its title.
+.crop-sci-names {
+  margin-bottom: 0.25rem;
+  font-style: italic;
+  font-size: 1.05rem;
+}
+
+.crop-alt-names {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+
+  .badge {
+    font-weight: normal;
+  }
+}
+
+.crop-parent {
+  margin-bottom: 0.75rem;
+  color: rgba(65, 63, 59, 0.7);
+}
+
+// The hero: identity on one side, the action and headline numbers on the
+// other, so the crop's name doesn't sit alone against a wide empty panel.
+.crop-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem;
+
+  h1 {
+    margin-bottom: 0.25rem;
+  }
+}
+
+.crop-info-main {
+  flex: 1 1 22rem;
+  min-width: 0;
+}
+
+.crop-info-aside {
+  flex: 0 1 14rem;
+  text-align: right;
+}
+
+// The crop at a glance: how much of it the site knows about.
+.crop-stats {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  margin: 1.25rem 0 0;
+  text-align: center;
+
+  dt {
+    font-size: 1.6rem;
+    font-weight: normal;
+    line-height: 1;
+  }
+
+  dd {
+    margin: 0;
+    color: rgba(65, 63, 59, 0.7);
+    font-size: 0.8rem;
+  }
+}
+
+.crop-description {
+  margin-bottom: 0;
+}

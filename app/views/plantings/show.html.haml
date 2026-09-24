@@ -22,10 +22,10 @@
 
 = render 'plantings/transplant', planting: @planting
 
-.planting-show
+.planting-show.record-page
   .row
     .col-md-8.col-12
-      .planting-detail
+      .record-panel.planting-detail
         .jumbotron
           .d-flex.justify-content-between.align-items-start
             .planting-identity
@@ -59,14 +59,12 @@
         %section.planting-facts= render 'facts', planting: @planting
 
         - if @planting.description.present?
+          = cute_icon
           %section.planting-notes
-            .card
-              .card-header
-                %h2= t('plantings.show.notes')
-              .card-body
-                = cute_icon
-                :markdown
-                  #{strip_tags markdownify(@planting.description)}
+            .section-header
+              %h2= t('plantings.show.notes')
+            :markdown
+              #{strip_tags markdownify(@planting.description)}
 
         %section#photos= render 'plantings/photos', photos: @photos, planting: @planting
 

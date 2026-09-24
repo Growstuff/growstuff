@@ -1,0 +1,163 @@
+// The shape every record page shares: two columns, sections as bordered blocks
+// with a green heading bar as the lid, and a quiet "add" inside that bar.
+// See DESIGN.md. Page-specific styling lives in that page's own stylesheet.
+.record-page {
+  $section-gap: 2rem;
+
+  .row {
+    align-items: flex-start;
+  }
+
+  > .row > [class^="col-"] > *,
+  > .row > [class*=" col-"] > *,
+  .record-panel > * {
+    margin-bottom: $section-gap;
+  }
+
+  // Each section is one bordered block: its heading bar is the lid, its content
+  // sits under it inside the same border. That is what joins them — otherwise
+  // the heading and its "add" float free above loose content.
+  section {
+    margin-bottom: $section-gap;
+    background: $white;
+    border: 1px solid rgba(65, 63, 59, 0.15);
+    border-radius: $card-radius;
+    padding: 0 1rem 1rem;
+
+    > h3 {
+      margin: 1.25rem 0 0.5rem;
+    }
+  }
+
+  // The heading bar is the section's lid, so it spans the full width: the
+  // negative margin cancels the section's padding, otherwise the section's
+  // white shows down either side of the green.
+  //
+  // Two forms of it. A section with an action wraps its heading in
+  // .section-header, so the "add" can sit at the section's own right edge; one
+  // without just renders an h2, often from a shared partial. Both get the bar.
+  .section-header,
+  section > h2 {
+    margin: 0 -1rem 1rem;
+    padding: 0.3rem 1rem;
+    background-color: $green;
+    border-radius: $card-radius $card-radius 0 0;
+    color: $white;
+    box-shadow: none;
+
+    // Drawn over the feet of the whimsical icon perched on top.
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+
+    h2 {
+      margin: 0;
+      padding: 0;
+      background: none;
+      box-shadow: none;
+      color: $white;
+    }
+  }
+
+  // Quiet enough to sit on the heading bar without shouting over the heading.
+  .section-add {
+    flex: 0 0 auto;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    background: transparent;
+    color: $white;
+    font-size: 0.8rem;
+    text-transform: lowercase;
+
+    &:hover,
+    &:focus {
+      background: rgba(255, 255, 255, 0.18);
+      color: $white;
+    }
+  }
+
+  // The card grids set their own margins on each card, so the grid itself needs
+  // no extra padding — without this the gap under a heading is doubled.
+  .index-cards {
+    margin: 0 -0.5rem;
+  }
+
+  // A partial shared with other pages brings its own .card; inside a section
+  // that is a box within a box.
+  .section-flush > .card {
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+  }
+
+  // The record's actions menu: a three-dot button in the top right of the
+  // hero. Quiet by default, so it sits in the corner without competing with
+  // the title. An icon, not a labelled control, so no caret.
+  .record-actions-toggle {
+    padding: 0.25rem 0.6rem;
+    line-height: 1;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    color: rgba(65, 63, 59, 0.55);
+    font-size: 1.25rem;
+
+    &::after {
+      display: none;
+    }
+
+    &:hover,
+    &:focus,
+    &[aria-expanded="true"] {
+      background: rgba(65, 63, 59, 0.08);
+      box-shadow: none;
+      color: $brown;
+    }
+  }
+
+  // Menu items are lowercase. Done in CSS because the labels are the shared
+  // button translations, which other pages show in sentence case.
+  .dropdown-item {
+    text-transform: lowercase;
+  }
+
+  // The title block beside the actions menu.
+  .crop-identity,
+  .planting-identity {
+    min-width: 0;
+  }
+
+  // A snail, a cat, a wheelbarrow — standing on top of the green heading bar
+  // below it.
+  //
+  // The icons are drawn inside a square canvas with transparent space under
+  // the animal, so butting the image up against the bar leaves it hovering.
+  // Instead the image is pulled down about a third of its height and the bar
+  // is drawn over it (see the z-index above): the empty part of the canvas
+  // disappears behind the bar and the creature's feet land on its edge,
+  // whatever the individual icon's padding happens to be.
+  img.img-cute {
+    display: block;
+    position: relative;
+    left: 1.25rem;
+    bottom: -1em;
+    margin: 0;
+    width: 3em;
+  }
+
+}
+
+// An emoji standing in for an icon in a heading bar. Sized to the text and
+// nudged onto its baseline; emoji fonts sit a little high.
+.heading-emoji {
+  font-size: 1.1em;
+  line-height: 1;
+  vertical-align: -0.08em;
+  margin-right: 0.15rem;
+}
