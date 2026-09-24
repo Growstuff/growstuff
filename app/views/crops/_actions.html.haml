@@ -1,12 +1,6 @@
+-# Just the one action here: planting this crop is what a crop page is for.
+-# Recording a harvest, saving seeds, posting and marking a planting failed all
+-# belong to a planting you already have, and live on its own page.
 - if crop.approved? && signed_in?
-  - active_plantings = current_member.plantings.where(crop: crop).active
-
-  .btn-group.crop-actions{"aria-label" => "Crop Actions", role: "group"}
+  .crop-actions
     = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)
-    = render 'harvests/modal', harvest: Harvest.new(crop: @crop,  owner: current_member)
-    = render 'seeds/modal', seed: Seed.new(crop: @crop,  owner: current_member)
-    = link_to new_post_path(crop_id: crop.slug), class: 'btn', id: 'post-button' do
-      = post_icon
-      Post
-    - if active_plantings.any?
-      = render 'plantings/failed_modal', crop: crop, active_plantings: active_plantings

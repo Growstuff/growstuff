@@ -24,13 +24,17 @@
   .row
     .col-md-8.col-12
       .jumbotron
-        .d-flex.justify-content-between
-          %h1.display-3
-            = harvest_icon
-            %strong= @harvest.crop
-            %small.text-muted
-              harvested by
-              = @harvest.owner
+        .d-flex.justify-content-between.align-items-start
+          %div
+            %h1.display-3
+              = harvest_icon
+              %strong= t('harvests.show.heading', crop: @harvest.crop.name.titleize)
+            %p.lead.text-muted.mb-0
+              by
+              = link_to @harvest.owner, @harvest.owner
+              - if @harvest.harvested_at.present?
+                = succeed '' do
+                  &middot; #{I18n.l @harvest.harvested_at}
 
         - if @harvest.description.present?
           :markdown

@@ -17,7 +17,7 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
     harvest: onHarvestPlanting,
     seeds: onSaveSeedsPlanting,
     finish: onFinishPlanting,
-    photo: onAddPhoto && ((planting, action) => onAddPhoto({label: planting.crop.name, href: action.href})),
+    photo: onAddPhoto && ((planting, action) => onAddPhoto({label: `${planting.crop.name} planting`, href: action.href})),
   };
   function plant(event) {
     if (onPlant && isPlainClick(event)) {
@@ -50,7 +50,7 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
               if (!isPlainClick(event)) return;
               if (action.key === 'photo' && onAddPhoto) {
                 event.preventDefault();
-                onAddPhoto({label: name, href: action.href});
+                onAddPhoto({label: `${name} garden`, href: action.href});
               } else if (action.key === 'edit' && onEditGarden) {
                 event.preventDefault();
                 onEditGarden(garden);

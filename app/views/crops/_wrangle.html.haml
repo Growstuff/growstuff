@@ -1,24 +1,29 @@
+-# The crop's actions menu: the same three-dot kebab as every other record
+-# page, in the top right of the hero. No "you are a crop wrangler" banner —
+-# seeing the menu at all already tells you that.
 - if can?(:edit, crop) || can?(:destroy, crop)
-  .alert.alert-success{role: "alert"}
-    %p
-      You are a
-      %strong CROP WRANGLER
-    .dropdown.crop-actions
-      %a#crop-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :type => "button", href: '#'} Actions
-      .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-button"}
-        = link_to edit_crop_path(crop), class: 'dropdown-item' do
-          = edit_icon
-          = t('.edit')
+  .dropdown.crop-actions
+    %a#crop-actions-button.btn.record-actions-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", "aria-label" => "Actions", "data-bs-toggle" => "dropdown", href: '#', role: "button" }
+      %i.fas.fa-ellipsis-v{ "aria-hidden" => "true", title: "Actions" }
+    .dropdown-menu.dropdown-menu-end{ "aria-labelledby" => "crop-actions-button" }
+      -# No icons on the items: the words are the list. Delete keeps its icon
+      -# and its red, so the one dangerous item still looks dangerous.
+      = link_to t('.edit'), edit_crop_path(crop), class: 'dropdown-item'
+      %a.dropdown-item{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#scientific-name-new" } Add scientific name
+      %a.dropdown-item{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#alternate-name-new" } Add another name
+      = link_to 'Fetch data from GBIF', crop_gbif_path(crop), method: :post, class: 'dropdown-item'
+      = link_to 'Manage companions', admin_crop_crop_companions_path(crop), class: 'dropdown-item'
+      - if can? :destroy, crop
+        .dropdown-divider
+        = delete_button(crop, classes: 'dropdown-item text-danger')
 
-        = link_to crop_gbif_path(crop), method: :post, class: 'dropdown-item' do
-          = icon 'far', 'update'
-          Fetch data from GBIF
-
-        = link_to admin_crop_crop_companions_path(crop), class: 'dropdown-item' do
-          = icon 'fas', 'leaf'
-          Manage Companions
-
-        - if can? :destroy, crop
-          .dropdown-divider
-          = delete_button(crop, classes: 'dropdown-item text-danger')
-
+  -# The dialogs the menu and the names open. Outside the dropdown, so they are
+  -# not torn down with it when it closes.
+  = render 'crops/scientific_name_modal', crop: crop, scientific_name: ScientificName.new(crop: crop)
+  - crop.scientific_names.each do |sn|
+    - if can? :edit, sn
+      = render 'crops/scientific_name_modal', crop: crop, scientific_name: sn
+  = render 'crops/alternate_name_modal', crop: crop, alternate_name: AlternateName.new(crop: crop)
+  - crop.alternate_names.each do |an|
+    - if can? :edit, an
+      = render 'crops/alternate_name_modal', crop: crop, alternate_name: an

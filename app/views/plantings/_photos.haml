@@ -1,14 +1,16 @@
-%h2 Photos
+.section-header
+  %h2= t('plantings.show.photos')
+  - if can?(:edit, planting) && can?(:create, Photo)
+    = link_to new_photo_path(id: planting.id, type: 'planting'), class: 'btn btn-sm section-add', data: { planting_dialog: 'photo' } do
+      = icon 'fas', 'plus'
+      add
 - if planting.photos.size.positive?
   = render 'photos/gallery', photos: photos
-  - if can?(:edit, planting) && can?(:create, Photo)
-    %p.text-end= add_photo_button(planting)
-  %p.text-end
-    = link_to planting_photos_path(planting), class: 'btn' do
-      = photo_icon
-      more photos
+  -# Only worth offering when the page isn't already showing them all.
+  - if planting.photos.size > photos.size
+    %p.text-end.mb-0
+      = link_to t('plantings.show.more_photos'), planting_photos_path(planting)
 - else
-  %p No photos.
+  %p.text-muted= t('plantings.show.no_photos')
   - if can?(:edit, planting) && can?(:create, Photo)
-    %p Add a photo to visually track growth of this planting, to Flickr, iNaturalist or Pl@ntNet
-    = add_photo_button(planting)
+    %p= t('plantings.show.no_photos_prompt')

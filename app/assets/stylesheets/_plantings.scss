@@ -145,6 +145,15 @@
     cursor: pointer;
   }
 
+  // The plant part's own drawing, beside its name, as the server-rendered
+  // picker showed it. Decorative: the name next to it is the label.
+  .plant-part-icon {
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: 0.5rem;
+    vertical-align: -0.35em;
+  }
+
   // The one Enter would choose: solid colour and white text, so it can't be missed.
   .crop-picker-option-active {
     background: #1976d2;
@@ -170,6 +179,17 @@
 }
 
 .plant-dialog-body {
+  padding: 1.5rem 2rem;
+}
+
+// While the photos are being fetched, hold roughly the height the picker will
+// take, so the dialog doesn't jump open when they arrive, and centre the
+// spinner in that space rather than leaving it in the top corner.
+.plant-dialog-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20rem;
   padding: 1.5rem 2rem;
 }
 
@@ -328,4 +348,305 @@
 
 .when-date {
   width: auto;
+}
+
+// The planting's own page. Kept separate from `.planting`, which is the
+// planting *card* — the card's absolutely positioned badges and quick actions
+// have no business on this page.
+//
+// One spacing scale for the whole page: sections are the same distance apart,
+// headings sit the same distance above their content, and the two columns start
+// at the same height.
+.planting-show {
+  $section-gap: 2rem;
+
+  // No side padding: the hero's text starts on the same left edge as every
+  // section below it, so the column has one alignment all the way down.
+  .jumbotron {
+    padding: 1.5rem 0;
+    margin-bottom: $section-gap;
+  }
+
+  // The timeline and harvest months are context for the title, not part of it.
+  .harvest-months {
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .harvest-months-label {
+    margin-bottom: 0.4rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(65, 63, 59, 0.7);
+  }
+
+  .harvest-months-legend,
+  .harvest-months-empty {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  // Harvest months in the grower's own seasons, three to a season, each group
+  // named and kept together so the year reads as a gardener thinks of it.
+  .harvest-seasons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .harvest-season {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.35rem 0.5rem;
+    border: 1px solid rgba(65, 63, 59, 0.15);
+    border-radius: $card-radius;
+  }
+
+  .harvest-season-name {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(65, 63, 59, 0.7);
+  }
+
+  .harvest-season-months {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  // The rating card's stars are its value slot, so they sit where every other
+  // card's big value does: centred, with the reading beneath them. The card's
+  // own h3 is the label, so the fieldset's legend is hidden rather than
+  // repeating the word.
+  .facts .planting-rating {
+    legend {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .star-rating-stars {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .star-rating-star {
+      font-size: 1.35rem;
+    }
+
+    .star-rating-value {
+      flex: 1 0 100%;
+      margin-left: 0;
+      text-align: center;
+    }
+
+    .btn-link {
+      flex: 1 0 100%;
+      padding: 0;
+    }
+  }
+
+  // Every fact card in a row is the same height, whatever its sub-line says.
+  .facts .card {
+    min-height: 9.5rem;
+    justify-content: flex-start;
+  }
+
+  // Title and subtitle read as one block, with the badge and the actions menu
+  // pinned to the top right beside them.
+  .planting-identity {
+    min-width: 0;
+
+    h1 {
+      margin-bottom: 0;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      overflow-wrap: anywhere;
+    }
+  }
+
+  // The like button sits beside the name it belongs to, at its own size
+  // rather than the title's.
+  .planting-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.25rem;
+
+    .likes .btn {
+      padding: 0.15rem 0.5rem;
+      border: 1px solid rgba(65, 63, 59, 0.2);
+      color: rgba(65, 63, 59, 0.75);
+      font-size: 0.9rem;
+
+      &:hover,
+      &:focus {
+        background: rgba(65, 63, 59, 0.06);
+        color: $brown;
+      }
+    }
+  }
+
+  .planting-subtitle {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+  }
+
+
+  .facts .card {
+    margin: 0.5rem;
+  }
+
+  // The facts grid brings its own cards, so it gets no box of its own.
+  .planting-facts {
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+
+  .planting-owner-avatar img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  // The crop block's photo runs edge to edge under the heading bar, so the
+  // section holds no stray white margins around it.
+  .planting-crop {
+    padding: 0;
+    overflow: hidden;
+
+    > .section-header {
+      margin: 0;
+      border-radius: $card-radius $card-radius 0 0;
+    }
+
+    .planting-crop-photo {
+      display: block;
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .planting-crop-body {
+      padding: 0.75rem 1rem 1rem;
+    }
+
+    .planting-crop-name {
+      margin: 0;
+    }
+
+    .planting-crop-sci {
+      margin: 0 0 0.5rem;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: rgba(65, 63, 59, 0.7);
+    }
+
+    .planting-crop-facts {
+      margin: 0;
+      padding-left: 1.1rem;
+      font-size: 0.85rem;
+
+      li + li {
+        margin-top: 0.25rem;
+      }
+    }
+  }
+
+  // Buttons that follow a card grid line up with the grid's edge, not the
+  // card's margin.
+  .text-end .btn + .btn {
+    margin-left: 0.5rem;
+  }
+
+  // Neighbours are a list, not a grid: in a narrow column a full planting card
+  // is one huge photo each. A small photo, who grows it and where is enough to
+  // decide whether to go and look.
+  .planting-neighbours-lead {
+    margin-bottom: 0.75rem;
+  }
+
+  .planting-neighbours {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .planting-neighbour {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+    border-top: 1px solid rgba(65, 63, 59, 0.12);
+    color: inherit;
+    text-decoration: none;
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    &:hover,
+    &:focus {
+      background: rgba(65, 63, 59, 0.04);
+    }
+  }
+
+  .planting-neighbour-photo {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    border-radius: $card-radius;
+    object-fit: cover;
+  }
+
+  .planting-neighbour-text {
+    min-width: 0;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+
+  .planting-neighbour-where {
+    display: block;
+    color: rgba(65, 63, 59, 0.7);
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+// Choosing a garden to plant in. One shape per row, so the names line up
+// however tall or wide each garden's photo happens to be.
+.garden-picker-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.garden-picker-photo {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: $card-radius;
+  object-fit: cover;
+}
+
+.garden-picker-text {
+  min-width: 0;
+}
+
+.garden-picker-name {
+  display: block;
+  font-size: 1.1rem;
+}
+
+.garden-picker-note {
+  display: block;
+  color: rgba(65, 63, 59, 0.7);
+  font-size: 0.85rem;
 }

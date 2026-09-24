@@ -1,0 +1,21 @@
+-# Transplanting is rare, so it lives in the actions menu rather than taking up
+-# room in the sidebar. The dialog is hidden until that menu item opens it.
+- if can?(:transplant, planting) && planting.active && transplantable_gardens_by_owner(planting).any?
+  #transplant-modal.modal.fade{ "aria-hidden" => "true", "aria-labelledby" => "transplant-modal-title", role: "dialog", tabindex: "-1" }
+    .modal-dialog{ role: "document" }
+      .modal-content
+        = form_tag transplant_planting_path(planting), method: :post do
+          .modal-header
+            %h4#transplant-modal-title.modal-title Transplant #{planting.display_name}
+            %button.btn-close{ "aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button" }
+          .modal-body
+            %p.text-muted
+              This planting is marked finished in
+              = succeed ',' do
+                = planting.garden.name
+              and started again in the garden you choose.
+            = label_tag :garden_id, 'Move this planting to:', class: 'form-label'
+            = select_tag :garden_id, options_from_collection_for_select(transplantable_gardens_by_owner(planting), :id, :name), class: 'form-select'
+          .modal-footer
+            %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" } Cancel
+            = submit_tag 'Transplant', class: 'btn btn-primary'

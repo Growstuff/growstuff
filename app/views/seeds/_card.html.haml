@@ -1,40 +1,32 @@
+-# A seed packet: tall, papery, a printed band and a torn top edge, with the
+-# small print along the bottom the way a real packet carries it.
 - cache seed do
-  - has_details = seed.owner_location || seed.quantity || seed.organic != 'unknown' || seed.gmo != 'unknown' || seed.heirloom != 'unknown'
-  - has_footer = seed.tradable || seed.plant_before
   .card.seed-card
-    = link_to seed_path(slug: seed.slug) do
-      = image_tag(seed.thumbnail_url ? seed.thumbnail_url : placeholder_image, alt: seed.crop_name, class: 'img-card')
-    .text
-      %h4.card-title
-        = link_to seed.crop_name, seed_path(slug: seed.slug)
-      %h5
-        %span.text-muted seeds saved by
-        = seed.owner_login_name
-    -# Only draw the body and footer when there is something in them; empty, they are padded white bars.
-    - if has_details
-      .card-body
-        - if seed.owner_location
-          %h6.small.badge.rounded-pill.badge-location{ title: seed.owner_location }
-            = icon 'fas', 'map-marker'
-            = truncate(seed.owner_location, length: 15, separator: ' ', omission: '... ')
-        %p
-          - if seed.quantity
-            .badge.text-bg-info #{seed.quantity} seeds
-          %ul.small.ps-3
-            - if seed.organic != 'unknown'
-              %li
-                %small.seedtitle--organic= seed.organic
-            - if seed.gmo != 'unknown'
-              %li
-                %small.seedtitle--gmo= seed.gmo
-            - if seed.heirloom != 'unknown'
-              %li
-                %small.seedtitle--heirloom= seed.heirloom
-
-    - if has_footer
-      .card-footer
-        .d-flex.w-100.justify-content-between
-          - if seed.tradable
-            %small Will trade #{seed.tradable_to}
-          - if seed.plant_before
-            %small Plant before #{seed.plant_before}
+    .seed-card-tear{'aria-hidden' => 'true'}
+    .seed-card-window
+      = link_to seed_path(slug: seed.slug) do
+        = image_tag(seed.thumbnail_url || placeholder_image, alt: seed.crop_name, class: 'img-card')
+      -# The year stamp a saved-seed packet carries.
+      - if seed.saved_at
+        %span.seed-card-year saved #{seed.saved_at.year}
+    .seed-card-band
+      %h4.card-title= link_to seed.crop_name, seed_path(slug: seed.slug)
+      %h5 seeds saved by #{seed.owner_login_name}
+    -# Always rendered, so every packet has the same shape, with whatever it has.
+    %ul.seed-card-print
+      - if seed.quantity
+        %li approx. #{pluralize seed.quantity, 'seed'}
+      - if seed.plant_before
+        %li sow before #{I18n.l seed.plant_before}
+      - if seed.organic != 'unknown'
+        %li.seedtitle--organic= seed.organic
+      - if seed.gmo != 'unknown'
+        %li.seedtitle--gmo= seed.gmo
+      - if seed.heirloom != 'unknown'
+        %li.seedtitle--heirloom= seed.heirloom
+      - if seed.tradable
+        %li will trade #{seed.tradable_to}
+      - if seed.owner_location
+        %li{title: seed.owner_location}
+          = icon 'fas', 'map-marker'
+          = truncate(seed.owner_location, length: 15, separator: ' ', omission: '... ')

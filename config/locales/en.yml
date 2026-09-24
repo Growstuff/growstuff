@@ -140,7 +140,7 @@ en:
     plant: Plant
     plant_crop: Plant %{crop_name}
     plant_something_here: Plant something here
-    record_harvest: Record Harvest
+    record_harvest: Record harvest
     save_seeds: Save seeds
     timeline: Timeline
     view: View
@@ -182,6 +182,8 @@ en:
     confirm_deactivate: All plantings associated with this garden will be marked as finished. Are you sure?
     created_prompt_html: "Garden was successfully created. Would you like to <a href=\"%{link}\">plan to weed this garden bed in two weeks</a>?"
   harvests:
+    show:
+      heading: "%{crop} harvest"
     created: Harvest was successfully created.
     harvest_something: Harvest something
     index:
@@ -387,6 +389,11 @@ en:
       finish_helper: >
         An activity is finished when you've completed it, or it's otherwise
         no longer possible.
+  seasons:
+    spring: Spring
+    summer: Summer
+    autumn: Autumn
+    winter: Winter
   plantings:
     badges:
       days_until_finished: days until finished
@@ -411,6 +418,38 @@ en:
     string: "%{crop} planting in %{garden} by %{owner}"
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
+    show:
+      title: "%{crop} planting by %{owner}"
+      heading: "%{crop} planting"
+      meta_description: "%{crop} planted by %{owner} in %{garden}."
+      notes: Notes
+      photos: Photos
+      harvests: Harvests
+      seeds_saved: Seeds saved
+      activities: Activities
+      activities_current: Planned
+      activities_finished: Finished
+      neighbours: World neighbours
+      harvest_months: Harvest months
+      harvest_months_unknown: >
+        Not enough data on this crop at this latitude yet to say when it is
+        usually harvested.
+      harvest_months_legend: Highlighted months are when this crop is usually harvested here.
+      harvest_month_yes: "%{month}, usually harvesting"
+      grower: Grower
+      crop: Crop
+      neighbours_explanation: Other %{crop} plantings at the same latitude.
+      no_photos: No photos yet.
+      no_photos_prompt: Photos come from your Flickr account. Add one to track how this planting grows.
+      no_harvests: No harvests recorded yet.
+      no_harvests_prompt: >
+        Record your harvests here to improve crop predictions, and you'll be able to compare with
+        your garden next season.
+      no_seeds: No seeds saved yet.
+      no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
+      no_activities: Nothing is planned here.
+      more_photos: More photos
+      view_all_plantings: All of %{owner}'s plantings
   posts:
     write_blog_post: Write blog post
     created: Post was successfully created.
@@ -430,6 +469,8 @@ en:
     created: Companion was successfully created.
     deleted: Companion was successfully destroyed.
   seeds:
+    show:
+      heading: "%{crop} seeds"
     form:
       trade_help: >
         Are you interested in trading or swapping seeds with other %{site_name} members?  If you list

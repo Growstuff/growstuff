@@ -1,0 +1,21 @@
+-# When this crop is usually harvested where this planting grows. Grouped into
+-# the grower's own seasons when we know which hemisphere they garden in; a
+-# plain January-to-December row otherwise, rather than guessing at one.
+.harvest-months
+  %p.harvest-months-label= t('plantings.show.harvest_months')
+  - if planting.harvest_months.empty?
+    %p.harvest-months-empty.text-muted.mb-0= t('plantings.show.harvest_months_unknown')
+  - elsif (seasons = seasons_with_months(planting.latitude))
+    .harvest-seasons
+      - seasons.each do |season, months|
+        .harvest-season
+          %span.harvest-season-name= t("seasons.#{season}")
+          .harvest-season-months
+            - months.each do |month|
+              = render 'plantings/harvest_month', planting: planting, month: month
+  - else
+    .harvest-season-months
+      - (1..12).each do |month|
+        = render 'plantings/harvest_month', planting: planting, month: month
+  - if planting.harvest_months.any?
+    %p.harvest-months-legend.text-muted.mb-0= t('plantings.show.harvest_months_legend')

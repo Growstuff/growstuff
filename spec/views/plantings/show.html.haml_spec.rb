@@ -25,7 +25,7 @@ describe "plantings/show" do
     describe "shows the sunniness" do
       before { render }
 
-      it { expect(rendered).to have_content 'Planted in' }
+      it { expect(rendered).to have_content 'grows this in' }
       it { expect(rendered).to have_content 'sun' }
     end
   end
@@ -36,7 +36,7 @@ describe "plantings/show" do
     describe "shows planted_from" do
       before { render }
 
-      it { expect(rendered).to have_content 'Grown from' }
+      it { expect(rendered).to have_content 'Quantity' }
       it { expect(rendered).to have_content 'cutting' }
     end
 
@@ -63,7 +63,8 @@ describe "plantings/show" do
   describe "shows a link to add photos" do
     before { render }
 
-    it { expect(rendered).to have_content "Add photo" }
+    # The section heading carries a quiet "add" that opens the photo dialog.
+    it { expect(rendered).to have_css "[data-planting-dialog='photo']" }
   end
 
   context "no location set" do
