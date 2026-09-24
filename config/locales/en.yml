@@ -84,6 +84,10 @@ en:
         not_a_valid_unit: "%{value} is not a valid unit"
         not_a_valid_area_unit: "%{value} is not a valid area unit"
         no_newlines: must contain no newlines
+        grid_too_small_for_plantings: "is too small: some plantings would fall outside the bed. Move them first."
+        bed_position_incomplete: must have both a column and a row, or neither
+        bed_position_off_grid: would put this plant outside the bed
+        too_many_plants: "a planting can have at most %{limit} plants on the layout"
       models:
         member:
           attributes:

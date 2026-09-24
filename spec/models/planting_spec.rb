@@ -668,4 +668,90 @@ describe Planting do
     expect(planting).not_to be_valid
     expect(planting.errors[:garden]).to be_present
   end
+
+  describe 'its plants' do
+    let(:bed) { create(:garden, owner: garden_owner, name: 'Sunny bed', grid_columns: 4, grid_rows: 3) }
+
+    def planting_of(quantity)
+      create(:planting, crop:, garden: bed, owner: garden_owner, quantity:)
+    end
+
+    # Most plantings never go on a layout, so they get plants only once theirs is used.
+    it "has none until its garden's layout is used, then one per plant" do
+      planting = planting_of(5)
+      expect(planting.plants).to be_empty
+
+      bed.prepare_layout
+      expect(planting.plants.count).to eq 5
+      expect(planting.plants).to all(satisfy { |plant| !plant.placed? })
+    end
+
+    it 'treats a blank quantity as a single plant, so there is something to place' do
+      planting = planting_of(nil)
+      bed.prepare_layout
+
+      expect(planting.plant_count).to eq 1
+      expect(planting.plants.count).to eq 1
+    end
+
+    it 'has none for a quantity of zero, as when every plant has gone to the compost' do
+      planting = planting_of(0)
+      bed.prepare_layout
+
+      expect(planting.plant_count).to eq 0
+      expect(planting.plants).to be_empty
+    end
+
+    it "doesn't make plants when the quantity changes, until it is on a layout" do
+      planting = planting_of(2)
+      planting.update!(quantity: 5)
+
+      expect(planting.plants).to be_empty
+    end
+
+    it 'adds plants when the quantity grows, once it is on a layout' do
+      planting = planting_of(2)
+      bed.prepare_layout
+      planting.update!(quantity: 5)
+
+      expect(planting.plants.count).to eq 5
+    end
+
+    it 'takes the unplaced plants away first when the quantity shrinks' do
+      planting = planting_of(4)
+      bed.prepare_layout
+      placed = planting.plants.first
+      placed.update!(bed_x: 1, bed_y: 1)
+
+      planting.update!(quantity: 2)
+
+      expect(planting.plants.count).to eq 2
+      expect(planting.plants).to include(placed)
+    end
+
+    it 'lifts placed plants only when it has to' do
+      planting = planting_of(3)
+      bed.prepare_layout
+      planting.plants.each_with_index { |plant, i| plant.update!(bed_x: i, bed_y: 0) }
+
+      planting.update!(quantity: 1)
+
+      expect(planting.plants.count).to eq 1
+    end
+
+    it 'stops at the cap, however many the quantity says' do
+      planting = planting_of(Planting::MAX_PLANTS + 50)
+      bed.prepare_layout
+
+      expect(planting.plants.count).to eq Planting::MAX_PLANTS
+      expect(planting).to be_plants_capped
+    end
+
+    it 'destroys its plants with it' do
+      planting = planting_of(3)
+      bed.prepare_layout
+
+      expect { planting.destroy }.to change(Plant, :count).by(-3)
+    end
+  end
 end

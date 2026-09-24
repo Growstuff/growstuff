@@ -17,6 +17,16 @@ describe GardensController do
       get("/gardens/sunny-bed").should route_to("gardens#show", slug: 'sunny-bed')
     end
 
+    it "routes to #layout" do
+      get("/members/fred/gardens/sunny-bed/layout")
+        .should route_to("gardens#layout", member_slug: 'fred', slug: 'sunny-bed')
+    end
+
+    it "routes to #update_layout" do
+      patch("/members/fred/gardens/sunny-bed/layout")
+        .should route_to("gardens#update_layout", member_slug: 'fred', slug: 'sunny-bed')
+    end
+
     it "routes to #edit" do
       get("/gardens/sunny-bed/edit").should route_to("gardens#edit", slug: 'sunny-bed')
     end

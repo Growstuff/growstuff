@@ -21,6 +21,11 @@ describe GardenCardSerializer do
                               url: "/gardens/#{garden.slug}", can_edit: true)
     end
 
+    it 'links to the garden layout, for viewers who cannot edit it too' do
+      expect(card[:layout_url]).to eq("/members/#{member.slug}/gardens/#{garden.slug}/layout")
+      expect(serialize(garden, viewer: other_member)[:layout_url]).to eq(card[:layout_url])
+    end
+
     it 'uses the placeholder image when there is no photo' do
       expect(card[:image_url]).to match(%r{\A/assets/placeholder_600.*\.png\z})
     end

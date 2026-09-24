@@ -33,7 +33,7 @@ class GardenCardSerializer
   def as_json(*)
     {
       id: @garden.id, name: @garden.name, slug: @garden.slug, active: @garden.active,
-      url: routes.garden_path(@garden), image_url: image_url,
+      url: routes.garden_path(@garden), image_url: image_url, layout_url: layout_url,
       owner: owner, can_edit: can?(:edit, @garden), plant_url: plant_url, actions: garden_actions,
       perennials: @plantings.select { |planting| planting.crop.perennial? }.map { |planting| perennial(planting) },
       annuals: @plantings.select { |planting| planting.crop.annual? }.map { |planting| annual(planting) }
@@ -54,6 +54,11 @@ class GardenCardSerializer
     return unless @show_owner
 
     { login_name: @garden.owner.login_name, url: routes.member_path(@garden.owner) }
+  end
+
+  # The map of where things are planted in this bed. Public, like the garden itself.
+  def layout_url
+    routes.layout_member_garden_path(@garden.owner, @garden)
   end
 
   # Photos give a full URL; the placeholder is an asset name.

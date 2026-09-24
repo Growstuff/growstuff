@@ -67,6 +67,9 @@ class Crop < ApplicationRecord
             },
             allow_blank: true
   validates :name, uniqueness: { scope: :approval_status }, if: :pending?
+  validates :default_diameter, allow_nil: true, numericality: {
+    greater_than: 0, less_than_or_equal_to: Plant::MAX_DIAMETER
+  }
   validates :icon, allow_blank: true, inclusion: { in: ->(_) { icon_names } }
 
   # Crop icons that ship with the app: Microsoft's Fluent Emoji (MIT licensed;
@@ -85,6 +88,13 @@ class Crop < ApplicationRecord
 
   def to_s
     name
+  end
+
+  # How many grid cells across one of these plants is drawn on a bed's layout.
+  # Falls back to the parent crop's, as the icon does, so a variety of tomato
+  # follows tomato unless it has its own.
+  def layout_diameter
+    default_diameter || parent&.layout_diameter
   end
 
   # This crop's icon as SVG: the one chosen for it, else the one OpenFarm had,
