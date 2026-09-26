@@ -92,6 +92,8 @@ Rails.application.routes.draw do
     collection do
       get 'requested'
       get 'wrangle'
+      get 'merge'
+      post 'merge'
       get 'hierarchy'
       get 'search'
       get 'data_improvement'
