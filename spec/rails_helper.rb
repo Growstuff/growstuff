@@ -117,20 +117,22 @@ RSpec.configure do |config|
   # Allow just create(:factory) instead of needing to specify FactoryBot.create(:factory)
   config.include FactoryBot::Syntax::Methods
 
-  # Prevent Poltergeist from fetching external URLs during feature tests
+  config.after(:each, :js) do
+    Rails.configuration.x.blank_avatars = false
+  end
+
   config.before(:each, :js) do
     # TODO: Why are we setting this page size then straight afterwards, maximising?
     width = 1920
     height = 1080
     Capybara.current_session.driver.browser.manage.window.resize_to(width, height)
 
-    if page.driver.browser.respond_to?(:url_blacklist)
-      page.driver.browser.url_blacklist = [
-        'gravatar.com',
-        'okfn.org',
-        'googlecode.com'
-      ]
-    end
+    # This used to block gravatar.com and friends through Poltergeist's
+    # url_blacklist. Poltergeist is long gone and Selenium's browser has no
+    # such method, so the guard was always false and the block never ran —
+    # every browser spec has been fetching avatars from gravatar.com for real.
+    # Stand them down instead, so nothing loads late and shifts the page.
+    Rails.configuration.x.blank_avatars = true
 
     # Historically, we wanted to .maximize; but this actually undoes the resize_to step above
     # with chrome headless

@@ -72,7 +72,7 @@ export default function MarkFinishedModal({planting, iconUrl, onClose, onSaved})
         <div className="modal-body plant-dialog-body">
           {errors.length > 0 && (
             <div className="alert alert-danger" role="alert">
-              <i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
+              <i className="fas fa-exclamation-triangle" aria-hidden="true" />{' '}
               <strong>That didn&rsquo;t save.</strong>
               <ul className="mb-0">{errors.map((message) => <li key={message}>{message}</li>)}</ul>
               <span>What you entered is kept, so you can press Mark as finished to try again.</span>
@@ -118,7 +118,7 @@ export default function MarkFinishedModal({planting, iconUrl, onClose, onSaved})
         </div>
         <div className="modal-footer">
           <button type="submit" className="btn btn-success btn-plant" disabled={saving || !finishedAt} aria-busy={saving}>
-            {saving ? <><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Mark as finished'}
+            {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Mark as finished'}
           </button>
         </div>
       </form>

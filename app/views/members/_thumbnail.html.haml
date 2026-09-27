@@ -5,7 +5,7 @@
     / Avatar
     .avatar.mx-auto.white
       = link_to member do
-        = image_tag(avatar_uri(member, 150), class: 'rounded-circle img-fluid', alt: member)
+        = image_tag(avatar_uri(member, 150), class: 'rounded-circle img-fluid', alt: member, width: 150, height: 150)
     .card-body
       / Name
       %h4.card-title

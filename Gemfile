@@ -33,7 +33,7 @@ gem "bootstrap", ">= 5.0.0"
 gem 'material_icons'
 
 # icons
-gem 'font-awesome-sass'
+gem 'font-awesome-sass', '~> 6.7'
 
 gem 'terser'
 

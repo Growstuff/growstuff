@@ -27,6 +27,25 @@
         - if can? :edit, @garden
           = link_to 'Set it to active', edit_garden_path(@garden)
           to plant something in this garden.
+    - if @garden.active
+      -# Points people at the layout page, with a little bed drawn in the same
+      -# soil and timber, so they can see what they'd be getting.
+      = link_to layout_member_garden_path(@garden.owner, @garden), class: 'garden-layout-teaser' do
+        %span.garden-layout-teaser-bed{ 'aria-hidden': 'true' }
+          %span
+          %span
+          %span
+          %span
+        %span.garden-layout-teaser-text
+          %span.badge.text-bg-success New
+          - if can?(:update_layout, @garden)
+            %strong Map out this bed
+            %span Drag your plants onto a picture of the bed, and see what fits where.
+            %span.garden-layout-teaser-cta Try out the new garden layout tool →
+          - else
+            %strong See how this bed is laid out
+            %span Where each plant in this garden is growing, on a map of the bed.
+            %span.garden-layout-teaser-cta Open the garden layout →
     %div
       %p
         :markdown

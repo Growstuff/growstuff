@@ -72,6 +72,12 @@ module ApplicationHelper
     text
   end
 
+  # A 1x1 transparent GIF, standing in for a real avatar when
+  # config.x.blank_avatars is set, which browser specs do: otherwise they fetch
+  # every avatar from gravatar.com for real, and one arriving mid-test moves
+  # whatever sits under it, so clicks land on the wrong thing.
+  BLANK_AVATAR = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+
   #
   # Returns an image uri for a given member.
   #
@@ -79,6 +85,10 @@ module ApplicationHelper
   #
   def avatar_uri(member, size = 150)
     return unless member
+    # Compared against true on purpose: an unset config.x key returns an empty
+    # OrderedOptions, which is truthy, so a plain `if` here blanks avatars in
+    # every environment.
+    return BLANK_AVATAR if Rails.configuration.x.blank_avatars == true
 
     if member.preferred_avatar_uri.present?
       # Some avatars support different sizes

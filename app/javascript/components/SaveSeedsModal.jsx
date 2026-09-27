@@ -88,7 +88,7 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
 
   const change = (toStep, what) => (
     <button type="button" className="btn btn-sm btn-outline-secondary ms-3" onClick={() => setStep(toStep)} disabled={saving}>
-      <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> {what}</span>
+      <i className="fas fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> {what}</span>
     </button>
   );
 
@@ -100,7 +100,7 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
         </div>
       )}
       {!loadError && !values && (
-        <div className="modal-body" role="status"><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Loading…</div>
+        <div className="modal-body" role="status"><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Loading…</div>
       )}
       {values && (
         <form onSubmit={save}>
@@ -108,7 +108,7 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
             <Steps steps={STEPS} current={step} />
             {errors.length > 0 && (
               <div className="alert alert-danger" role="alert">
-                <i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
+                <i className="fas fa-exclamation-triangle" aria-hidden="true" />{' '}
                 <strong>That didn&rsquo;t save.</strong>
                 <ul className="mb-0">{errors.map((message) => <li key={message}>{message}</li>)}</ul>
                 <span>What you entered is kept, so you can press Save seeds to try again.</span>
@@ -136,7 +136,7 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
               <div className="crop-picker">
                 <label htmlFor="save-seeds-quantity" className="crop-picker-label">About how many seeds?</label>
                 <div className="crop-picker-field">
-                  <i className="fa fa-seedling crop-picker-icon" aria-hidden="true" />
+                  <i className="fas fa-seedling crop-picker-icon" aria-hidden="true" />
                   <input
                     id="save-seeds-quantity"
                     type="number"
@@ -226,7 +226,7 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
             {step < STEPS.length && <button type="submit" className="btn btn-success btn-plant">Next</button>}
             {step === STEPS.length && (
               <button type="submit" className="btn btn-success btn-plant" disabled={saving} aria-busy={saving}>
-                {saving ? <><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Save seeds'}
+                {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Save seeds'}
               </button>
             )}
           </div>

@@ -31,7 +31,7 @@ export default function StarRating({id, label, value, onChange}) {
               title={WORDS[number] ? `${number} – ${WORDS[number]}` : `${number} of 5`}
               onMouseEnter={() => setHovered(number)}
             >
-              <i className={`${number <= lit ? 'fa' : 'far'} fa-star`} aria-hidden="true" />
+              <i className={`${number <= lit ? 'fas' : 'far'} fa-star`} aria-hidden="true" />
               <span className="visually-hidden">{number} of 5{WORDS[number] ? `, ${WORDS[number]}` : ''}</span>
             </label>
           </React.Fragment>

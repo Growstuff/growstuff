@@ -42,6 +42,9 @@ describe "A member's inactive gardens" do
     it 'lets them reactivate a garden' do
       click_link 'Mark as active'
 
+      # The link sends the change in the background, so wait for the page to
+      # come back before looking at the garden.
+      expect(page).to have_no_link 'Mark as active'
       expect(retired.reload).to be_active
     end
   end

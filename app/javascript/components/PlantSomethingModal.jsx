@@ -66,7 +66,7 @@ export default function PlantSomethingModal({garden, iconUrl, onClose, onCreated
         <Steps steps={STEPS} current={crop ? 2 : 1} />
         {errors.length > 0 && (
           <div className="alert alert-danger" role="alert">
-            <i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
+            <i className="fas fa-exclamation-triangle" aria-hidden="true" />{' '}
             <strong>That didn&rsquo;t work.</strong>
             <ul className="mb-0">{errors.map((message) => <li key={message}>{message}</li>)}</ul>
             <span>Your choice is kept, so you can press Plant it to try again.</span>
@@ -80,7 +80,7 @@ export default function PlantSomethingModal({garden, iconUrl, onClose, onCreated
               <dd className="crop-confirm-name">
                 {crop.name}
                 <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => setCrop(null)} disabled={saving}>
-                  <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> crop</span>
+                  <i className="fas fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> crop</span>
                 </button>
               </dd>
               <dt>Garden</dt>
@@ -98,7 +98,7 @@ export default function PlantSomethingModal({garden, iconUrl, onClose, onCreated
         <button type="button" className="btn btn-link" onClick={onClose} disabled={saving}>Cancel</button>
         {crop && (
           <button ref={confirmButton} type="button" className="btn btn-success btn-plant" onClick={confirm} disabled={saving} aria-busy={saving}>
-            {saving ? <><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Planting…</> : 'Plant it'}
+            {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Planting…</> : 'Plant it'}
           </button>
         )}
       </div>

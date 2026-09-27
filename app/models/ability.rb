@@ -19,6 +19,7 @@ class Ability
 
     # Everyone can see the charts
     can :timeline, Garden
+    can :layout, Garden
     can :sunniness, Crop
     can :planted_from, Crop
     can :harvested_for, Crop
@@ -101,6 +102,10 @@ class Ability
     can :create,  Garden
     can :update,  Garden, owner_id: member.id
     can :destroy, Garden, owner_id: member.id
+    # Arranging the bed is really editing the plantings in it, so collaborators
+    # can do it too, as they can with the plantings themselves.
+    can :update_layout, Garden, owner_id: member.id
+    can :update_layout, Garden, garden_collaborators: { member_id: member.id }
 
     can :create,  Planting
     can :update,  Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }

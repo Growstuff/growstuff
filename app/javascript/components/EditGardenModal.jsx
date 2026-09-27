@@ -76,7 +76,7 @@ export default function EditGardenModal({garden, onClose, onSaved}) {
         </div>
       )}
       {!loadError && !values && (
-        <div className="modal-body" role="status"><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Loading…</div>
+        <div className="modal-body" role="status"><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Loading…</div>
       )}
       {values && (
         <form onSubmit={save}>
@@ -146,7 +146,7 @@ export default function EditGardenModal({garden, onClose, onSaved}) {
           </div>
           <div className="modal-footer">
             <button type="submit" className="btn btn-success btn-plant" disabled={saving} aria-busy={saving}>
-              {saving ? <><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Save garden'}
+              {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Save garden'}
             </button>
           </div>
         </form>

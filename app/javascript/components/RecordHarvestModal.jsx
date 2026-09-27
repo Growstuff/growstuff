@@ -146,7 +146,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
         </div>
       )}
       {!loadError && !values && (
-        <div className="modal-body" role="status"><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Loading…</div>
+        <div className="modal-body" role="status"><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Loading…</div>
       )}
       {values && step === 1 && (
         <div className="modal-body plant-dialog-body">
@@ -160,7 +160,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
             <Steps steps={STEPS} current={step} />
             {errors.length > 0 && (
               <div className="alert alert-danger" role="alert">
-                <i className="fa fa-exclamation-triangle" aria-hidden="true" />{' '}
+                <i className="fas fa-exclamation-triangle" aria-hidden="true" />{' '}
                 <strong>That didn&rsquo;t save.</strong>
                 <ul className="mb-0">{errors.map((message) => <li key={message}>{message}</li>)}</ul>
                 <span>What you entered is kept, so you can press Save harvest to try again.</span>
@@ -175,7 +175,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
                 <dd className={step === 2 ? 'crop-confirm-name' : undefined}>
                   {part.name}
                   <button type="button" className="btn btn-sm btn-outline-secondary ms-3" onClick={() => setStep(1)} disabled={saving}>
-                    <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> plant part</span>
+                    <i className="fas fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> plant part</span>
                   </button>
                 </dd>
                 {step > 2 && (
@@ -184,7 +184,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
                     <dd>
                       {amount()}
                       <button type="button" className="btn btn-sm btn-outline-secondary ms-3" onClick={() => setStep(2)} disabled={saving}>
-                        <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> amount</span>
+                        <i className="fas fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> amount</span>
                       </button>
                     </dd>
                   </>
@@ -195,7 +195,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
                     <dd>
                       {whenLabel()}
                       <button type="button" className="btn btn-sm btn-outline-secondary ms-3" onClick={() => setStep(3)} disabled={saving}>
-                        <i className="fa fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> when</span>
+                        <i className="fas fa-edit" aria-hidden="true" /> Change<span className="visually-hidden"> when</span>
                       </button>
                     </dd>
                   </>
@@ -316,7 +316,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
             {step < STEPS.length && <button type="submit" className="btn btn-success btn-plant">Next</button>}
             {step === STEPS.length && (
               <button type="submit" className="btn btn-success btn-plant" disabled={saving || !harvestedAt} aria-busy={saving}>
-                {saving ? <><i className="fa fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Save harvest'}
+                {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Save harvest'}
               </button>
             )}
           </div>
