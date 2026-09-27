@@ -210,6 +210,131 @@ describe Garden do
     end
   end
 
+  context 'layout grid' do
+    let(:bed) { create(:garden, owner:, name: 'Sunny bed', grid_columns: 4, grid_rows: 3) }
+
+    it 'defaults to 10 by 10' do
+      expect([garden.grid_columns, garden.grid_rows]).to eq [10, 10]
+      expect(garden.grid_cells).to eq 100
+    end
+
+    it 'must have at least one cell, and no more than the cap' do
+      expect(build(:garden, owner:, grid_columns: 0)).not_to be_valid
+      expect(build(:garden, owner:, grid_rows: 0)).not_to be_valid
+      expect(build(:garden, owner:, grid_columns: Garden::MAX_GRID_SIZE + 1)).not_to be_valid
+      expect(build(:garden, owner:, grid_columns: Garden::MAX_GRID_SIZE)).to be_valid
+    end
+
+    it 'does not shrink out from under a placed plant' do
+      planting = create(:planting, garden: bed, owner:, quantity: 1)
+      bed.prepare_layout
+      planting.plants.first.update!(bed_x: 3, bed_y: 2)
+      bed.grid_columns = 2
+
+      expect(bed).not_to be_valid
+      expect(bed.errors[:base]).to be_present
+    end
+
+    it 'shrinks when nothing is in the way' do
+      planting = create(:planting, garden: bed, owner:, quantity: 1)
+      bed.prepare_layout
+      planting.plants.first.update!(bed_x: 0, bed_y: 0)
+      bed.grid_columns = 2
+
+      expect(bed).to be_valid
+    end
+  end
+
+  describe 'stepping stones, labels and rows' do
+    let(:bed) { create(:garden, owner:, grid_columns: 4, grid_rows: 3) }
+
+    def problems(features)
+      bed.layout_feature_problems(features)
+    end
+
+    it 'takes stones, labels and rows that sit on the bed' do
+      expect(problems([
+                        { 'kind' => 'stone', 'x' => 0.4, 'y' => 2.6 },
+                        { 'kind' => 'sprinkler', 'x' => 2, 'y' => 1.5 },
+                        { 'kind' => 'tap', 'x' => 3.7, 'y' => 0.3 },
+                        { 'kind' => 'stake', 'x' => 1, 'y' => 1 },
+                        { 'kind' => 'path', 'x' => 0, 'y' => 2, 'x2' => 4, 'y2' => 2 },
+                        { 'kind' => 'dripline', 'x' => 0.5, 'y' => 0.5, 'x2' => 0.5, 'y2' => 2.5 },
+                        { 'kind' => 'fence', 'x' => 0, 'y' => 3, 'x2' => 4, 'y2' => 3 },
+                        { 'kind' => 'trellis', 'x' => 3.5, 'y' => 0, 'x2' => 3.5, 'y2' => 3, 'text' => 'beans' },
+                        { 'kind' => 'netting', 'x' => 0.5, 'y' => 0.5, 'x2' => 2.5, 'y2' => 2 },
+                        { 'kind' => 'label', 'x' => 4, 'y' => 0, 'text' => 'path' },
+                        { 'kind' => 'row', 'x' => 0.5, 'y' => 1, 'x2' => 3.5, 'y2' => 1, 'text' => '' }
+                      ])).to be_empty
+    end
+
+    it 'refuses anything off the bed, including the far end of a row' do
+      expect(problems([{ 'kind' => 'stone', 'x' => 4.5, 'y' => 1 }])).to eq ['A garden feature is off the bed']
+      expect(problems([{ 'kind' => 'row', 'x' => 1, 'y' => 1, 'x2' => 9, 'y2' => 1 }])).to be_present
+      expect(problems([{ 'kind' => 'sprinkler', 'x' => 1, 'y' => -1 }])).to be_present
+      expect(problems([{ 'kind' => 'netting', 'x' => 1, 'y' => 1 }])).to be_present
+    end
+
+    it 'refuses things it does not know, empty labels and long names' do
+      expect(problems([{ 'kind' => 'dragon', 'x' => 1, 'y' => 1 }])).to be_present
+      expect(problems([{ 'kind' => 'label', 'x' => 1, 'y' => 1, 'text' => ' ' }])).to be_present
+      expect(problems([{ 'kind' => 'label', 'x' => 1, 'y' => 1, 'text' => 'x' * 41 }])).to be_present
+      expect(problems('not a list')).to be_present
+    end
+
+    it 'has a limit on how many there can be' do
+      stones = Array.new(Garden::MAX_LAYOUT_FEATURES + 1) { { 'kind' => 'stone', 'x' => 1, 'y' => 1 } }
+      expect(problems(stones)).to be_present
+    end
+
+    it 'is checked when the garden is saved' do
+      bed.layout_features = [{ 'kind' => 'stone', 'x' => 10, 'y' => 1 }]
+      expect(bed).not_to be_valid
+    end
+
+    it 'does not shrink the bed out from under one' do
+      bed.update!(layout_features: [{ 'kind' => 'row', 'x' => 0.5, 'y' => 1, 'x2' => 3.5, 'y2' => 1 }])
+      bed.grid_columns = 3
+
+      expect(bed).not_to be_valid
+    end
+  end
+
+  describe '#prepare_layout' do
+    let(:bed) { create(:garden, owner:) }
+
+    it 'gives each planting growing here its plants' do
+      two = create(:planting, garden: bed, owner:, quantity: 2)
+      one = create(:planting, garden: bed, owner:, quantity: nil)
+      bed.prepare_layout
+
+      expect([two.plants.count, one.plants.count]).to eq [2, 1]
+    end
+
+    it 'leaves plantings that already have plants alone, so it can be run again' do
+      planting = create(:planting, garden: bed, owner:, quantity: 2)
+      bed.prepare_layout
+      planting.plants.first.destroy
+
+      expect { bed.prepare_layout }.not_to change(planting.plants, :count)
+    end
+
+    it "doesn't bring back a planting composted down to nothing" do
+      planting = create(:planting, garden: bed, owner:, quantity: 0)
+
+      expect { bed.prepare_layout }.not_to change(planting.plants, :count)
+    end
+
+    it 'skips plantings that are no longer growing, and other gardens' do
+      finished = create(:planting, garden: bed, owner:, quantity: 2, finished: true, finished_at: 1.day.ago)
+      elsewhere = create(:planting, quantity: 2)
+      bed.prepare_layout
+
+      expect(finished.plants).to be_empty
+      expect(elsewhere.plants).to be_empty
+    end
+  end
+
   it 'excludes deleted members' do
     expect(described_class.joins(:owner).all).to include(garden)
     owner.destroy

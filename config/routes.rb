@@ -117,9 +117,17 @@ Rails.application.routes.draw do
   resources :timeline
 
   resources :members, param: :slug do
-    # Before the gardens resource, so "inactive" isn't taken for a garden's id.
+    # Before the gardens resource, so "inactive" isn't taken for a garden's slug.
     get 'gardens/inactive' => 'gardens#inactive', as: :inactive_gardens
-    resources :gardens
+    # param: :slug to match the top-level gardens resource, so the controller's
+    # load_and_authorize_resource (id_param: :slug) finds the garden here too.
+    resources :gardens, param: :slug do
+      member do
+        get 'layout', to: 'gardens#layout'
+        # Same URL, saving the whole arrangement at once. See GardensController#update_layout.
+        patch 'layout', to: 'gardens#update_layout', as: :update_layout
+      end
+    end
     resources :seeds
     resources :plantings
     resources :harvests
