@@ -243,6 +243,11 @@ describe Garden do
 
       expect(bed).to be_valid
     end
+
+    it 'does not trigger geocoding when location has not changed' do
+      expect(bed).not_to receive(:geocode)
+      bed.update!(grid_columns: 6, grid_rows: 5)
+    end
   end
 
   describe 'stepping stones, labels and rows' do
