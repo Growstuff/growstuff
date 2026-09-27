@@ -1,0 +1,981 @@
+// The bed layout map on gardens#layout (rendered by React).
+$garden-layout-line: #d9d4c7;
+// The bed itself: dark soil, timber for the raised frame, twine for the grid.
+$garden-layout-soil: #5b4332;
+$garden-layout-timber: #9c7a54;
+$garden-layout-timber-dark: #86653f;
+$garden-layout-timber-light: #b08d63;
+$garden-layout-twine: rgba(233, 214, 170, 0.3);
+$garden-layout-planting: #cfe3c4;
+$garden-layout-planting-border: #7ba368;
+// Behind the plants, so the cells a planting occupies stay visible without
+// competing with the circles drawn on top of them.
+$garden-layout-footprint: rgba(207, 227, 196, 0.35);
+
+.garden-layout {
+  .garden-layout-message {
+    margin-bottom: 1rem;
+  }
+
+  // The plantings and garden features down the left, then the bed right next to
+  // them, whatever the bed's shape. (The bed sits at the start of its column, so
+  // a sidebar on the right would be left stranded past a tall, narrow bed.)
+  .garden-layout-columns {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  // Not clipped, so the outline of a bed being dragged bigger can show past it.
+  .garden-layout-grid-wrapper {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  // Bed size and clearing, above the bed.
+  .garden-layout-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: #555;
+  }
+
+  .garden-layout-size {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin: 0;
+    }
+
+    input {
+      width: 4.5rem;
+    }
+  }
+
+
+  // The bed: a timber-framed raised bed. Plants are positioned over it rather
+  // than laid out by it, so the grid is a backdrop to measure against, not a
+  // set of slots. The frame is the border, not padding, so the soil fills the
+  // box plants are positioned in and their percentages line up with it.
+  .garden-layout-grid {
+    position: relative;
+    min-width: 12rem;
+    padding: 0;
+    border: 10px solid transparent;
+    border-radius: 6px;
+    // Soil inside, timber in the border: one background clipped to each.
+    background:
+      linear-gradient($garden-layout-soil, $garden-layout-soil) padding-box,
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.18)) border-box,
+      repeating-linear-gradient(90deg, $garden-layout-timber 0 3px, $garden-layout-timber-dark 3px 7px,
+        $garden-layout-timber-light 7px 9px, $garden-layout-timber 9px 14px) border-box;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3), inset 0 2px 5px rgba(0, 0, 0, 0.45);
+  }
+
+  // The bed's right edge, bottom edge and corner, over the timber frame, for
+  // dragging it bigger or smaller. A pale grip shows while the bed is pointed at.
+  .garden-layout-bed-edge {
+    position: absolute;
+    z-index: 3;
+    touch-action: none;
+
+    &::after {
+      position: absolute;
+      content: '';
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 999px;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    &.is-right {
+      top: 0;
+      right: -10px;
+      bottom: 0;
+      width: 10px;
+      cursor: ew-resize;
+
+      &::after {
+        top: calc(50% - 14px);
+        left: 3px;
+        width: 4px;
+        height: 28px;
+      }
+    }
+
+    &.is-bottom {
+      right: 0;
+      bottom: -10px;
+      left: 0;
+      height: 10px;
+      cursor: ns-resize;
+
+      &::after {
+        top: 3px;
+        left: calc(50% - 14px);
+        width: 28px;
+        height: 4px;
+      }
+    }
+
+    &.is-corner {
+      right: -14px;
+      bottom: -14px;
+      width: 18px;
+      height: 18px;
+      cursor: nwse-resize;
+      background: #fff;
+      border: 2px solid #6d4c41;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+  }
+
+  .garden-layout-grid:hover .garden-layout-bed-edge {
+    &::after,
+    &.is-corner {
+      opacity: 1;
+    }
+  }
+
+  // The size the bed is being dragged to, drawn from its top left corner.
+  .garden-layout-bed-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px dashed #fff;
+
+    span {
+      position: absolute;
+      right: 0.35rem;
+      bottom: 0.35rem;
+      padding: 0 0.5rem;
+      font-size: 0.85rem;
+      color: #fff;
+      background: rgba(40, 28, 20, 0.85);
+      border-radius: 999px;
+    }
+  }
+
+  // The soil, with its grid of twine. Specks of lighter grit and darker crumbs
+  // tiled at sizes that don't line up, so it doesn't look like wallpaper, and
+  // shading towards the edges where the frame overhangs it.
+  .garden-layout-cells {
+    display: grid;
+    height: 100%;
+    border-radius: 2px;
+    background-color: $garden-layout-soil;
+    background-image:
+      radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.3)),
+      radial-gradient(circle at 20% 30%, rgba(255, 240, 215, 0.1) 0 1px, transparent 1.6px),
+      radial-gradient(circle at 70% 60%, rgba(0, 0, 0, 0.3) 0 1.5px, transparent 2.2px),
+      radial-gradient(circle at 40% 80%, rgba(255, 230, 200, 0.08) 0 1px, transparent 1.6px),
+      radial-gradient(circle at 85% 15%, rgba(0, 0, 0, 0.22) 0 1px, transparent 1.8px);
+    background-size: 100% 100%, 13px 13px, 17px 17px, 11px 11px, 19px 19px;
+  }
+
+  // One square of the bed, marked out by twine along its right and bottom.
+  .garden-layout-cell {
+    box-shadow: inset -1px -1px 0 $garden-layout-twine;
+  }
+
+  // One plant, centred on its position anywhere over the bed.
+  //
+  // The box is square but the plant is round, and boxes of plants sitting close
+  // together overlap where their circles don't. So the box itself ignores the
+  // pointer and only the circle (hit-tested to its rounded shape) and the resize
+  // handle take it: otherwise grabbing the edge of one plant picks up whichever
+  // neighbour's box is on top. The drag still starts from the box, as the
+  // circle's draggable ancestor.
+  .garden-layout-plant {
+    pointer-events: none;
+
+    .garden-layout-plant-circle,
+    .garden-layout-resize {
+      pointer-events: auto;
+    }
+    // As big as the plant is, however many cells that is, rather than capped
+    // at the size a circle is elsewhere.
+    .garden-layout-plant-circle {
+      max-width: none;
+      max-height: none;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.45);
+    }
+
+      // A planting that shares its icon with another is ringed in its own colour,
+    // with a white edge so the ring stands off the soil.
+    .garden-layout-plant-circle.has-ring {
+      border: 3px solid var(--ring);
+      box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.9), 0 2px 3px rgba(0, 0, 0, 0.45);
+    }
+
+    // Picked out while its planting is pointed at, here or in the sidebar.
+    &.is-highlighted .garden-layout-plant-circle {
+      box-shadow: 0 0 0 3px #fff, 0 0 14px rgba(255, 255, 255, 0.8);
+    }
+
+  // Only offered while the pointer is over the plant, or it's being resized.
+    &:hover .garden-layout-resize,
+    &.is-resizing .garden-layout-resize {
+      opacity: 1;
+    }
+
+    &.is-resizing .garden-layout-plant-circle {
+      outline: 2px dashed rgba(255, 255, 255, 0.7);
+      outline-offset: 2px;
+    }
+
+    position: absolute;
+    display: flex;
+    aspect-ratio: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    transform: translate(-50%, -50%);
+
+    &[draggable="true"] {
+      cursor: grab;
+    }
+
+    &.is-dragging {
+      opacity: 0.4;
+    }
+  }
+
+  // The resize handle: a dot on the circle's edge, down and to the right, where
+  // the edge crosses the diagonal (about 14.6% in from the corner).
+  .garden-layout-resize {
+    position: absolute;
+    right: 14.6%;
+    bottom: 14.6%;
+    width: 12px;
+    height: 12px;
+    cursor: nwse-resize;
+    background: #fff;
+    border: 2px solid $garden-layout-planting-border;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translate(50%, 50%);
+    transition: opacity 0.15s;
+    // Pointer events are captured while resizing, and the browser mustn't
+    // treat the gesture as scrolling on a touch screen.
+    touch-action: none;
+  }
+
+  // Lines and netting are drawn in SVG over the whole bed, in grid cells, one
+  // layer under the plants and one over them. Pointer events go to the
+  // handles, never the drawing, so plants underneath can still be picked up.
+  .garden-layout-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .garden-layout-line line {
+    fill: none;
+  }
+
+  // A row: a dug furrow with a line of twine down it.
+  .garden-layout-line.is-row {
+    .garden-layout-line-body {
+      stroke: rgba(30, 18, 10, 0.55);
+      stroke-width: 0.3;
+      stroke-linecap: round;
+    }
+
+    .garden-layout-line-detail {
+      stroke: $garden-layout-twine;
+      stroke-width: 0.05;
+      stroke-dasharray: 0.15 0.15;
+      stroke-linecap: round;
+    }
+  }
+
+  // A path: a wide strip of pale gravel, speckled.
+  .garden-layout-line.is-path {
+    .garden-layout-line-body {
+      stroke: #cbbfa6;
+      stroke-width: 0.7;
+      stroke-linecap: round;
+    }
+
+    .garden-layout-line-detail {
+      stroke: #a8997e;
+      stroke-width: 0.5;
+      stroke-dasharray: 0.03 0.1;
+      stroke-linecap: round;
+    }
+  }
+
+  // A drip line: a thin blue pipe with an emitter every half cell.
+  .garden-layout-line.is-dripline {
+    .garden-layout-line-body {
+      stroke: #2f7fc1;
+      stroke-width: 0.07;
+      stroke-linecap: round;
+    }
+
+    .garden-layout-line-detail {
+      stroke: #2f7fc1;
+      stroke-width: 0.17;
+      stroke-dasharray: 0 0.5;
+      stroke-linecap: round;
+    }
+  }
+
+  // A fence: a dark rail with a post every cell.
+  .garden-layout-line.is-fence {
+    .garden-layout-line-body {
+      stroke: #3e2a1c;
+      stroke-width: 0.07;
+    }
+
+    .garden-layout-line-detail {
+      stroke: #3e2a1c;
+      stroke-width: 0.22;
+      stroke-dasharray: 0.12 0.88;
+    }
+  }
+
+  // A trellis: a strip of light timber lattice.
+  .garden-layout-line.is-trellis {
+    .garden-layout-line-body {
+      stroke: #c9a36a;
+      stroke-width: 0.22;
+    }
+
+    .garden-layout-line-detail {
+      stroke: #7a5a33;
+      stroke-width: 0.22;
+      stroke-dasharray: 0.03 0.12;
+    }
+  }
+
+  // Netting: a pale mesh, see-through, over the plants it covers.
+  .garden-layout-area.is-netting {
+    stroke: rgba(255, 255, 255, 0.75);
+    stroke-width: 0.04;
+    stroke-dasharray: 0.12 0.06;
+  }
+
+  .garden-layout-netting-mesh {
+    stroke: rgba(255, 255, 255, 0.5);
+    stroke-width: 0.015;
+  }
+
+  // A line's or area's middle: its name, and the handle to move it by.
+  .garden-layout-span-grip {
+    position: absolute;
+    padding: 0 0.45rem;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    color: #fff;
+    white-space: nowrap;
+    background: rgba(40, 28, 20, 0.8);
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+
+    &[draggable="true"] {
+      cursor: grab;
+    }
+  }
+
+  // Its ends or corners, offered while the pointer is over the bed.
+  .garden-layout-span-end {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    cursor: move;
+    background: #fff;
+    border: 2px solid #6d4c41;
+    border-radius: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.15s;
+    touch-action: none;
+  }
+
+  .garden-layout-grid:hover .garden-layout-span-end {
+    opacity: 1;
+  }
+
+  // A point on the bed: stone, sprinkler, tap or stake. Only its shape is
+  // grabbable, not the square box around it.
+  .garden-layout-point {
+    position: absolute;
+    aspect-ratio: 1;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+
+    &[draggable="true"] .garden-layout-point-shape {
+      cursor: grab;
+    }
+  }
+
+  .garden-layout-point-shape {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    border-radius: 50%;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.45);
+
+    img {
+      width: 72%;
+      height: 72%;
+    }
+  }
+
+  // A stepping stone: a flat grey pebble.
+  .garden-layout-point.is-stone .garden-layout-point-shape {
+    background: radial-gradient(circle at 35% 30%, #dcd9d2, #aaa69c 60%, #8b877e);
+    border-radius: 48% 52% 45% 55% / 55% 45% 55% 45%;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5), inset 0 -2px 3px rgba(0, 0, 0, 0.25);
+  }
+
+  // Water: a sprinkler or tap, its icon on a white disc ringed in blue.
+  .garden-layout-point.is-sprinkler .garden-layout-point-shape,
+  .garden-layout-point.is-tap .garden-layout-point-shape {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #4f8fc0;
+  }
+
+  // A stake, seen from above: the round top of a wooden post.
+  .garden-layout-point.is-stake .garden-layout-point-shape,
+  .garden-layout-stake-swatch {
+    background: radial-gradient(circle, #b08a5a 0 25%, #8a653d 26% 45%, #a07a4c 46% 65%, #6f4f2e 66%);
+    border: 1px solid #4a3322;
+  }
+
+  .garden-layout-stake-swatch {
+    display: inline-block;
+    flex: none;
+    width: 14px;
+    height: 14px;
+    margin: 0 5px;
+    border-radius: 50%;
+  }
+
+  // A label, like a plant marker stuck in the soil.
+  .garden-layout-label {
+    position: absolute;
+    padding: 0.05rem 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #3e2a1c;
+    white-space: nowrap;
+    background: rgba(255, 250, 235, 0.95);
+    border: 1px solid rgba(62, 42, 28, 0.4);
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    transform: translate(-50%, -50%);
+
+    &[draggable="true"] {
+      cursor: grab;
+    }
+  }
+
+  .garden-layout-span-grip,
+  .garden-layout-point,
+  .garden-layout-label {
+    &.is-dragging {
+      opacity: 0.4;
+    }
+  }
+
+  // The garden features, as a row of small tiles above the bed, in groups.
+  .garden-layout-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .garden-layout-toolbar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .garden-layout-toolbar-caption {
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: #777;
+    text-transform: uppercase;
+  }
+
+  .garden-layout-toolbar-tiles {
+    display: flex;
+    gap: 0.3rem;
+  }
+
+  .garden-layout-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    color: #3e3a33;
+    cursor: grab;
+    background: #ecebe6;
+    border: 1px solid #cfccc3;
+    border-radius: 6px;
+
+    &:hover {
+      background: #e1dfd7;
+      border-color: #b9b5a9;
+    }
+
+    &.is-dragging {
+      opacity: 0.4;
+    }
+
+    img {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+  }
+
+  // A plant's name, under it, on a dark pill so it reads on the soil.
+  .garden-layout-plant-name {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    max-width: 9rem;
+    margin-top: 1px;
+    padding: 0 0.4rem;
+    overflow: hidden;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    color: #fff;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+    background: rgba(40, 28, 20, 0.75);
+    border-radius: 999px;
+    transform: translateX(-50%);
+  }
+
+  // Everything but the planting being pointed at fades back.
+  .garden-layout-grid.is-highlighting .garden-layout-plant:not(.is-highlighted) {
+    opacity: 0.3;
+  }
+
+  .garden-layout-plant {
+    transition: opacity 0.15s;
+  }
+
+  .garden-layout-chip.is-highlighted {
+    box-shadow: 0 0 0 2px $garden-layout-planting-border;
+  }
+
+  .garden-layout-chip-colour {
+    flex: none;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  }
+
+  // The circle itself, on the bed or waiting in the sidebar.
+  .garden-layout-plant-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    max-width: 2.2rem;
+    max-height: 2.2rem;
+    aspect-ratio: 1;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    background: $garden-layout-planting;
+    border: 1px solid $garden-layout-planting-border;
+    border-radius: 50%;
+
+    &.is-waiting {
+      width: 1.6rem;
+      height: 1.6rem;
+      cursor: grab;
+    }
+
+    &.is-dragging {
+      opacity: 0.4;
+    }
+  }
+
+  // Sized to the circle it sits in rather than fixed, so a plant on the bed and
+  // one waiting in the sidebar both look right.
+  .garden-layout-icon {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+  }
+
+  .garden-layout-crop {
+    font-size: 0.8rem;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
+  // Stays in view as a tall bed is scrolled, scrolling itself if the list of
+  // plantings is long, so there's always something in reach to drag.
+  .garden-layout-tray {
+    position: sticky;
+    top: 1rem;
+    order: -1;
+    flex: 0 0 12rem;
+    align-self: flex-start;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    padding: 0.75rem;
+    border: 1px dashed $garden-layout-line;
+    border-radius: 4px;
+  }
+
+  .garden-layout-tray-heading {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+  }
+
+  .garden-layout-plant-button {
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+
+  .garden-layout-saving {
+    font-weight: normal;
+    color: #666;
+  }
+
+  // A single column of crop chips in the sidebar.
+  .garden-layout-tray-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // A crop chip you drag from; it stays put however many plants you take.
+  // Full width, so the column lines up, with the icon inside the chip's curve:
+  // the shared .chip style tucks its image into 25px of padding with a -25px
+  // margin, which these slimmer chips don't have, so that is undone here.
+  .garden-layout-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: 100%;
+    height: 30px;
+    margin: 0;
+    padding: 0 0.5rem 0 3px;
+    text-decoration: none;
+
+    &[draggable="true"] {
+      cursor: grab;
+    }
+
+    &.is-dragging {
+      opacity: 0.4;
+    }
+
+    img.crop-icon {
+      flex: none;
+      float: none;
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      padding: 2px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+    }
+  }
+
+  .garden-layout-chip-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.85rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .garden-layout-chip-when {
+    font-size: 0.75rem;
+    color: var(--bs-secondary-color);
+  }
+
+  // How many of this planting's plants aren't on the bed yet.
+  .garden-layout-chip-count {
+    flex: none;
+    padding: 0 0.4rem;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    background: var(--bs-success-border-subtle);
+    border-radius: 999px;
+  }
+
+  .garden-layout-tray-empty,
+  .garden-layout-hint {
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    color: #666;
+  }
+
+  // Too narrow for a sidebar: put the tray back under the bed, pills in a row.
+  @media (max-width: 767.98px) {
+    .garden-layout-columns {
+      flex-direction: column;
+    }
+
+    // Under the bed on a phone, so the bed isn't pushed below a long list.
+    .garden-layout-tray {
+      position: static;
+      order: 0;
+      flex: 1 1 auto;
+      align-self: auto;
+      width: 100%;
+      max-height: none;
+    }
+
+    .garden-layout-tray-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+// The slot under "About this garden" that the island draws its compost bin
+// into. Sticky, so the bin is still in reach after scrolling down the bed.
+.garden-layout-compost-slot {
+  position: sticky;
+  top: 1rem;
+  margin-top: 1rem;
+}
+
+// Where plants go to be removed for good, rather than back onto a stack.
+.garden-layout-compost {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  font-size: 0.8rem;
+  color: #5d4037;
+  background: #efebe9;
+  border: 2px dashed #a1887f;
+  border-radius: 6px;
+
+  strong,
+  small {
+    display: block;
+  }
+
+  small {
+    color: #795548;
+  }
+
+  // While a plant is being dragged, so it's obvious where it can go.
+  &.is-ready {
+    background: #d7ccc8;
+    border-color: #6d4c41;
+  }
+}
+
+.garden-layout-compost-icon {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+}
+
+// The copy of a plant flying into the compost bin. Fixed to the window, since
+// it travels from the bed to another column, and ignores the pointer so it
+// can't get in the way of the next drag.
+.garden-layout-compost-ghost {
+  position: fixed;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  pointer-events: none;
+  background: $garden-layout-planting;
+  border: 1px solid $garden-layout-planting-border;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+
+  img {
+    width: 70%;
+    height: 70%;
+  }
+}
+
+// The bin swallowing a plant as it lands.
+.garden-layout-compost.is-gulping .garden-layout-compost-icon {
+  animation: garden-layout-gulp 0.45s ease-out;
+}
+
+@keyframes garden-layout-gulp {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.25) rotate(-8deg); }
+  60% { transform: scale(0.95) rotate(6deg); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-layout-compost.is-gulping .garden-layout-compost-icon {
+    animation: none;
+  }
+}
+
+// The plant being dragged, drawn at its size on the bed and centred on the
+// pointer, which is exactly where it will land. A white ring with a dark edge
+// either side, so it shows up on the soil and the page alike.
+.garden-layout-drag-avatar {
+  position: fixed;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: rgba(207, 227, 196, 0.55);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(0, 0, 0, 0.35), 0 3px 8px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+
+  img {
+    width: 70%;
+    height: 70%;
+    opacity: 0.9;
+  }
+}
+
+// The invitation to the layout page on gardens#show: a small bed in the same
+// soil and timber, with a few plants in it, beside the pitch.
+.garden-layout-teaser {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  color: inherit;
+  text-decoration: none;
+  background: var(--bs-success-bg-subtle);
+  border: 1px solid var(--bs-success-border-subtle);
+  border-radius: 8px;
+  transition: box-shadow 0.15s, transform 0.15s;
+
+  &:hover,
+  &:focus-visible {
+    color: inherit;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+
+    .garden-layout-teaser-cta {
+      text-decoration: underline;
+    }
+  }
+}
+
+.garden-layout-teaser-bed {
+  position: relative;
+  flex: none;
+  width: 5.5rem;
+  height: 4rem;
+  border: 5px solid $garden-layout-timber;
+  border-radius: 4px;
+  background:
+    linear-gradient(90deg, transparent 49%, $garden-layout-twine 49% 51%, transparent 51%),
+    linear-gradient(0deg, transparent 49%, $garden-layout-twine 49% 51%, transparent 51%),
+    $garden-layout-soil;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.45);
+
+  // The plants: a big one, two small and a middling one.
+  span {
+    position: absolute;
+    background: $garden-layout-planting;
+    border: 1px solid $garden-layout-planting-border;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  }
+
+  span:nth-child(1) { top: 12%; left: 10%; width: 45%; aspect-ratio: 1; }
+  span:nth-child(2) { top: 18%; left: 64%; width: 22%; aspect-ratio: 1; }
+  span:nth-child(3) { top: 58%; left: 66%; width: 18%; aspect-ratio: 1; }
+  span:nth-child(4) { top: 62%; left: 38%; width: 26%; aspect-ratio: 1; }
+}
+
+.garden-layout-teaser-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  font-size: 0.9rem;
+
+  strong {
+    font-size: 1.05rem;
+  }
+}
+
+.garden-layout-teaser-cta {
+  font-weight: 600;
+  color: var(--bs-success-text-emphasis);
+}
+
+// On the home page it's the first thing on the page, so a little roomier.
+.garden-layout-teaser-home {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+
+  .garden-layout-teaser-text strong {
+    font-size: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-layout-teaser {
+    transition: none;
+
+    &:hover,
+    &:focus-visible {
+      transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-layout .garden-layout-plant,
+  .garden-layout .garden-layout-span-end,
+  .garden-layout .garden-layout-bed-edge,
+  .garden-layout .garden-layout-bed-edge::after {
+    transition: none;
+  }
+}
+
+// A label or row being dragged: its text, as the ring would show a plant.
+.garden-layout-drag-avatar-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #3e2a1c;
+}

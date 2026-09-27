@@ -8,8 +8,9 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 
 import GardenCards from './components/GardenCards';
+import GardenLayout from './components/GardenLayout';
 
-const components = {GardenCards};
+const components = {GardenCards, GardenLayout};
 
 function mountIslands() {
   document.querySelectorAll('[data-react-component]').forEach((element) => {

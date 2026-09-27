@@ -1,0 +1,14 @@
+-# Tells people about the garden layout tool; see garden_layout_invitation for
+-# who is sent where.
+- invitation = garden_layout_invitation(garden)
+= link_to invitation[:href], class: 'garden-layout-teaser garden-layout-teaser-home' do
+  %span.garden-layout-teaser-bed{ 'aria-hidden': 'true' }
+    %span
+    %span
+    %span
+    %span
+  %span.garden-layout-teaser-text
+    %span.badge.text-bg-success New
+    %strong= invitation[:heading]
+    %span= invitation[:pitch]
+    %span.garden-layout-teaser-cta= invitation[:cta]

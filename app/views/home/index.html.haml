@@ -3,6 +3,8 @@
 - content_for :meta_description do
   Growstuff is a community of food gardeners. Let's learn to grow food together.
 
+= render 'garden_layout_teaser', garden: @layout_garden
+
 - if member_signed_in?
   .row
     .col-lg-8.col-md-12

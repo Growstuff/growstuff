@@ -9,7 +9,7 @@ import PlantingRow from './PlantingRow';
 // planted, as perennials (just names) and annuals (each with its progress).
 // Matches gardens/_card.
 export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto, onFinishPlanting, onEditGarden}) {
-  const {id, name, url, image_url: imageUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
+  const {id, name, url, image_url: imageUrl, layout_url: layoutUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
   const empty = perennials.length === 0 && annuals.length === 0;
   // What each planting's menu items open, for annuals and perennials alike.
   const handlers = {
@@ -34,6 +34,12 @@ export default function GardenCard({garden, defaultIconUrl, onPlant, highlighted
           {owner && <div className="garden-card-owner">owner: <a href={owner.url}>{owner.login_name}</a></div>}
         </div>
         <div className="garden-card-header-actions">
+          {layoutUrl && (
+            <a href={layoutUrl} className="btn btn-outline-success btn-sm garden-card-layout-button">
+              <i className="fa fa-th-large" aria-hidden="true" /> Layout
+              <span className="visually-hidden"> of {name}</span>
+            </a>
+          )}
           {plantUrl && (
             <a href={plantUrl} className="btn btn-success btn-sm garden-add-planting" onClick={plant}>
               <i className="fas fa-plus" aria-hidden="true" /> Add planting

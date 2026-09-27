@@ -607,6 +607,29 @@ describe Crop do
     end
   end
 
+  describe 'its size on a garden layout' do
+    let(:tomato)  { create(:crop, name: 'tomato') }
+    let(:variety) { create(:crop, name: 'island bay tomato', parent: tomato) }
+
+    it 'has none until someone sets it' do
+      expect(tomato.layout_diameter).to be_nil
+    end
+
+    it 'follows its parent crop until it has its own' do
+      tomato.update!(default_diameter: 2)
+      expect(variety.layout_diameter).to eq 2
+
+      variety.update!(default_diameter: 1.5)
+      expect(variety.layout_diameter).to eq 1.5
+    end
+
+    it 'must be more than nothing, and no more than a plant can be drawn' do
+      expect(build(:crop, default_diameter: 0)).not_to be_valid
+      expect(build(:crop, default_diameter: Plant::MAX_DIAMETER + 1)).not_to be_valid
+      expect(build(:crop, default_diameter: 0.5)).to be_valid
+    end
+  end
+
   describe 'its icon' do
     let(:tomato)  { create(:crop, name: 'tomato') }
     let(:variety) { create(:crop, name: 'island bay tomato', parent: tomato) }
