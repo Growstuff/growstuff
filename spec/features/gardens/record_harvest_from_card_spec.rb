@@ -18,7 +18,7 @@ describe 'Recording a harvest from a garden card', :js do
   def open_dialog(crop = 'lettuce')
     within('.planting-row', text: crop) do
       click_link "Actions for #{crop}"
-      click_link 'Record Harvest'
+      click_link 'Record harvest'
     end
   end
 

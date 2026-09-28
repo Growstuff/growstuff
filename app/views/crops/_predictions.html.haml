@@ -1,6 +1,7 @@
 %h2
-  = icon 'fas', 'magic'
-  Predictions
+  -# Decorative: the heading already says what this is.
+  %span.heading-emoji{ 'aria-hidden' => 'true' } 🪄
+  Growing #{crop.name.pluralize}
 .index-cards.facts
   - unless crop.perennial.nil?
     .card.fact-card
@@ -58,3 +59,4 @@
     .card.fact-card
       .card-body.text-center
         %p= link_to "Add more attributes.", edit_crop_path(@crop, anchor: ":~:text=Data")
+  = render 'openfarm_data', crop: crop

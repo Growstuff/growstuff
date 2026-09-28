@@ -1,11 +1,16 @@
-%h2 Harvests
-- if can?(:edit, planting) && !planting.failed
-  = render 'harvests/modal', harvest: Harvest.new(crop: planting.crop, planting: planting)
+.section-header
+  %h2= t('plantings.show.harvests')
+  -# Recording a harvest is in the page's actions menu too; this is the quiet
+  -# affordance in place, and the link behind the menu item.
+  - if can?(:edit, planting) && !planting.failed && can?(:create, Harvest)
+    = link_to new_planting_harvest_path(planting_slug: planting.slug), class: 'btn btn-sm section-add', data: { planting_dialog: 'harvest' } do
+      = icon 'fas', 'plus'
+      add
 - if planting.harvests.empty?
-  %p No harvests recorded
+  %p.text-muted= t('plantings.show.no_harvests')
   - if planting.finished? && can?(:edit, planting) && can?(:create, Harvest)
-    %p Record your harvests here to improve crop predictions, and you'll be able to compare with your garden next season.
+    %p= t('plantings.show.no_harvests_prompt')
 - else
   .index-cards
     - planting.harvests.each do |harvest|
-      = render 'harvests/thumbnail', harvest: harvest
+      = render 'harvests/card', harvest: harvest

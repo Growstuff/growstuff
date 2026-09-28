@@ -40,3 +40,47 @@
     }
   }
 }
+
+// A harvest card, told apart from a planting card at a glance by its warm
+// accent and its icon, not by its shape: every data card shares one corner
+// radius. A harvest is an event — one crop, one plant part, one day — so the
+// date leads the footer where a planting card shows a progress bar.
+.harvest-card.card {
+  border-top: 4px solid $orange;
+  overflow: hidden;
+
+  .harvest-card-photo {
+    position: relative;
+  }
+
+  // The type's own icon, over the photo: the fastest signal there is.
+  .harvest-card-icon {
+    position: absolute;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    padding: 0.2rem 0.35rem;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.85);
+    line-height: 1;
+
+    img {
+      width: 1.5em;
+      height: 1.5em;
+      display: block;
+    }
+  }
+
+  .harvest-card-title {
+    margin-bottom: 0.35rem;
+  }
+
+  .harvest-card-part {
+    background-color: $orange;
+    color: $brown;
+  }
+
+  .harvest-card-footer {
+    background: rgba(255, 165, 0, 0.12);
+    border-top: 1px solid rgba(255, 165, 0, 0.5);
+  }
+}

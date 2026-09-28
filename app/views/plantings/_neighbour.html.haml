@@ -1,0 +1,14 @@
+-# One neighbouring planting, as a compact sidebar row. Not plantings/_card:
+-# that is a card for a grid, and in a narrow column it is one huge photo per
+-# neighbour, with the owner's quick-actions menu floating over it.
+= link_to planting_path(neighbour), class: 'planting-neighbour' do
+  = image_tag neighbour.thumbnail_url || placeholder_image, alt: '', class: 'planting-neighbour-photo'
+  %span.planting-neighbour-text
+    %strong= neighbour.owner_login_name
+    %span.planting-neighbour-where
+      -# The crop is the same for every neighbour, so the useful facts are who
+      -# grows it and where.
+      = neighbour.garden_name
+      - if neighbour.location.present?
+        &middot;
+        = neighbour.location

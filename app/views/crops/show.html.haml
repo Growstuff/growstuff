@@ -25,177 +25,159 @@
   %li.breadcrumb-item.active= link_to @crop.name.capitalize, @crop
 
 = render 'approval_status_message', crop: @crop
-.jumbotron= render 'crops/info'
 
-.row
-  .col-md-9= render 'crops/actions', crop: @crop
-  .col-md-3= render 'wrangle', crop: @crop
-.row
-  .col-md-9
-    %section.prediction
-      = cute_icon
-      = render 'predictions', crop: @crop
-    - if @crop.all_companions.any?
-      - cache [@crop, 'companions'] do
-        %section.companions
-          %h2 Companions
-          - @crop.all_companions.each do |companion|
-            = render 'crops/tiny', crop: companion
+.crop-show.record-page
+  .row
+    .col-md-9
+      -# Everything that is the crop, inside one border. The sidebar beside it
+      -# is context, so it sits outside. See DESIGN.md.
+      .record-panel.crop-detail
+        .jumbotron
+          .d-flex.justify-content-between.align-items-start
+            .crop-identity= render 'crops/info'
+            = render 'wrangle', crop: @crop
 
-    - if crop_or_parent(@crop, :en_youtube_url).present?
-      %section.youtube
-        %h2 Video
-        .ratio.ratio-16x9
-          %iframe{ src: "https://www.youtube.com/embed/#{youtube_video_id(crop_or_parent(@crop, :en_youtube_url))}", allowfullscreen: true }
-    - else
-      - if member_signed_in?
-        %section.youtube
-          %h2 Video
-          %p= link_to "Submit a video.", edit_crop_path(@crop, anchor: ":~:text=Youtube")
 
-    %section.photos
-      = cute_icon
-      = render 'crops/photos', crop: @crop
+        -# Read top to bottom: how to grow it, how members actually grow it,
+        -# what is related to it, what it looks like, where it is, then talk.
+        -# The whimsical icons perch on the bar of the section below them.
+        = cute_icon
+        %section.prediction
+          = render 'predictions', crop: @crop
 
-    - if @crop.plantings.any? or @crop.harvests.any?
-      %section.charts
-        .row
-          - if @crop.sunniness.any?
-            .col-lg-4.col-12
-              %h2 Sunniness
-              = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
-          - if @crop.planted_from.any?
-            .col-lg-4.col-12
-              %h2 Planted from
-              = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
-          - if @crop.harvests.any?
-            .col-lg-4.col-12
-              %h2 Harvested for
-              = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
+        - if @crop.sunniness.any? || @crop.planted_from.any? || @crop.harvests.any?
+          %section.charts
+            .section-header
+              %h2 How members grow #{@crop.name.pluralize}
+            .row
+              - if @crop.sunniness.any?
+                .col-lg-4.col-12
+                  %h3 Sunniness
+                  = pie_chart crop_sunniness_path(@crop, format: :json), legend: "bottom"
+              - if @crop.planted_from.any?
+                .col-lg-4.col-12
+                  %h3 Planted from
+                  = pie_chart crop_planted_from_path(@crop, format: :json), legend: "bottom"
+              - if @crop.harvests.any?
+                .col-lg-4.col-12
+                  %h3 Harvested for
+                  = pie_chart crop_harvested_for_path(@crop, format: :json), legend: "bottom"
 
-    - if @crop.varieties.any?
-      - cache [@crop, 'varieties'] do
-        %section.varieties
-          %h2 Varieties
-          .index-cards
-            = render 'varieties', crop: @crop
+        - if @crop.varieties.any?
+          - cache [@crop, 'varieties'] do
+            %section.varieties
+              %h2 Varieties of #{@crop.name}
+              .index-cards
+                = render 'varieties', crop: @crop
 
-    %section.crop-map
-      %h2
-        = icon 'fas', 'map'
-        Crop Map
-      %p
-        Only plantings by members who have set their locations are shown on this map.
-        - if current_member && current_member.location.blank?
-          = link_to "Set your location.", edit_member_registration_path
-      #cropmap.map
+        - if @crop.all_companions.any?
+          - cache [@crop, 'companions'] do
+            = cute_icon
+            %section.companions
+              %h2 Plant #{@crop.name.pluralize} with
+              .index-cards
+                - @crop.all_companions.each do |companion|
+                  = render 'crops/tiny', crop: companion
 
-    %section.posts= render 'crops/posts', crop: @crop
+        = cute_icon
+        %section.photos
+          = render 'crops/photos', crop: @crop
 
-    = render 'history', crop: @crop
-  .col-md-3
-    = cute_icon
-    .card
-      .card-body
-        %h4 How to grow #{@crop.name.pluralize}
-        = render 'grown_for', crop: @crop
-        - if @crop.parent
-          %hr/
-          %p.parent-crop
-            = @crop.name
-            is a variety of
-            = link_to @crop.parent, @crop.parent
-      .list-group.list-group-flush
-        .list-group-item.list-group-flush.d-flex.justify-content-between.align-items-center
-          = link_to crop_plantings_path(@crop), class: 'card-link' do
-            = planting_icon
-            #{@crop.name.capitalize} plantings
-          %span.badge.text-bg-primary.rounded-pill=@crop.plantings.active.size
-        .list-group-item.d-flex.justify-content-between.align-items-center
-          = link_to crop_harvests_path(@crop), class: 'card-link' do
-            = harvest_icon
-            #{@crop.name.capitalize} harvests
-          %span.badge.text-bg-primary.rounded-pill=@crop.harvests.size
+        - if crop_or_parent(@crop, :en_youtube_url).present?
+          %section.youtube
+            %h2 Video
+            .ratio.ratio-16x9
+              %iframe{ src: "https://www.youtube.com/embed/#{youtube_video_id(crop_or_parent(@crop, :en_youtube_url))}", allowfullscreen: true }
+        - elsif member_signed_in?
+          %section.youtube
+            %h2 Video
+            %p= link_to "Submit a video.", edit_crop_path(@crop, anchor: ":~:text=Youtube")
 
-        .list-group-item.d-flex.justify-content-between.align-items-center
-          = link_to crop_seeds_path(@crop), class: 'card-link' do
-            = seed_icon
-            #{@crop.name.capitalize} seeds
-          %span.badge.text-bg-primary.rounded-pill=@crop.seeds.size
+        %section.crop-map
+          %h2 Where #{@crop.name.pluralize} grow
+          %p.text-muted.small
+            Only plantings by members who have set their locations are shown.
+            - if current_member && current_member.location.blank?
+              = link_to "Set your location.", edit_member_registration_path
+          #cropmap.map
 
-        - if member_signed_in?
-          .list-group-item.d-flex.justify-content-between.align-items-center
-            = link_to member_seeds_path(current_member, crop_slug: @crop.slug) do
-              = display_seed_availability(@current_member, @crop)
+        %section.posts= render 'crops/posts', crop: @crop
 
-      .card-body
-        = render 'scientific_names', crop: @crop
-        = render 'alternate_names', crop: @crop
+        = render 'history', crop: @crop
+    .col-md-3
+      = image_tag crop_image_path(@crop),
+        class: 'img-responsive shadow rounded crop-hero-photo', alt: "Image of #{@crop.name}"
 
-    = render 'plantings', crop: @crop
-    = render 'harvests', crop: @crop
-    = render 'find_seeds', crop: @crop
+      %section.crop-plantings
+        .section-header
+          %h2 Who's planted #{@crop.name.pluralize}
+        = render 'plantings', crop: @crop
 
-    - cache [@crop, 'openfarm_data'] do
-      = render 'openfarm_data', crop: @crop
+      %section.crop-harvests
+        .section-header
+          %h2 #{@crop.name.capitalize} harvests
+        = render 'harvests', crop: @crop
 
-    - cache [@crop, 'nutritional_data'] do
-      = render 'nutritional_data', crop: @crop
+      %section.crop-seeds
+        .section-header
+          %h2 Find #{@crop.name} seeds
+        = render 'find_seeds', crop: @crop
 
-    = cute_icon
-    .card
-      .card-body
-        %h3 Learn more about #{@crop.name.pluralize}
-        %h4.text-muted resources outside #{ENV['GROWSTUFF_SITE_NAME']}
+      - cache [@crop, 'nutritional_data'] do
+        = render 'nutritional_data', crop: @crop
 
-      %ul.list-group.list-group-flush
-        %li.list-group-item
-          = link_to @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer" do
-            = icon 'fas', 'external-link-alt'
-            Wikipedia (English)
-
-        - if @crop.public_food_key.present?
+      %section.crop-learn-more
+        .section-header
+          %h2 Learn more
+        %p.text-muted.small Resources outside #{ENV['GROWSTUFF_SITE_NAME']}.
+        %ul.list-group.list-group-flush
           %li.list-group-item
-            = link_to "https://afcd.foodstandards.gov.au/fooddetails.aspx?PFKID=#{@crop.public_food_key}", target: "_blank", rel: "noopener noreferrer" do
+            = link_to @crop.en_wikipedia_url, target: "_blank", rel: "noopener noreferrer" do
               = icon 'fas', 'external-link-alt'
-              Australian Food Composition Database
+              Wikipedia (English)
 
-        %li.list-group-item
-          = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
-                    target: "_blank",
-                    class: 'card-link',
-                    rel: "noopener noreferrer" do
-            = icon 'fas', 'external-link-alt'
-            Gardenate - Planting reminders
-        - if current_member && current_member.location
+          - if @crop.public_food_key.present?
+            %li.list-group-item
+              = link_to "https://afcd.foodstandards.gov.au/fooddetails.aspx?PFKID=#{@crop.public_food_key}", target: "_blank", rel: "noopener noreferrer" do
+                = icon 'fas', 'external-link-alt'
+                Australian Food Composition Database
+
           %li.list-group-item
-            = link_to 'https://www.google.com/search?q=' + CGI.escape(['Growing', @crop.name, current_member.location].join(' ')),
+            = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
+                      target: "_blank",
+                      class: 'card-link',
+                      rel: "noopener noreferrer" do
+              = icon 'fas', 'external-link-alt'
+              Gardenate - Planting reminders
+          - if current_member && current_member.location
+            %li.list-group-item
+              = link_to 'https://www.google.com/search?q=' + CGI.escape(['Growing', @crop.name, current_member.location].join(' ')),
+                      target: "_blank",
+                      class: 'card-link',
+                      rel: "noopener noreferrer" do
+                = icon 'fas', 'external-link-alt'
+                Google
+
+          %li.list-group-item
+            = link_to 'https://chat.openai.com/?model=gpt-4o&prompt=' + CGI.escape(['How do I grow', @crop.name, "and what grows well with it? What should I plant the next season if practicing crop rotation? Explain why and add links to your sources"].join(' ')),
                     target: "_blank",
                     class: 'card-link',
                     rel: "noopener noreferrer" do
               = icon 'fas', 'external-link-alt'
-              Google
+              ChatGPT
 
-        %li.list-group-item
-          = link_to 'https://chat.openai.com/?model=gpt-4o&prompt=' + CGI.escape(['How do I grow', @crop.name, "and what grows well with it? What should I plant the next season if practicing crop rotation? Explain why and add links to your sources"].join(' ')),
-                  target: "_blank",
-                  class: 'card-link',
-                  rel: "noopener noreferrer" do
-            = icon 'fas', 'external-link-alt'
-            ChatGPT
+          %li.list-group-item
+            = link_to "https://wikihow.com/wikiHowTo?search=#{CGI.escape "grow #{@crop.name}" }",
+                      target: "_blank",
+                      class: 'card-link',
+                      rel: "noopener noreferrer" do
+              = icon 'fas', 'external-link-alt'
+              Wikihow instructions
 
-        %li.list-group-item
-          = link_to "https://wikihow.com/wikiHowTo?search=#{CGI.escape "grow #{@crop.name}" }",
-                    target: "_blank",
-                    class: 'card-link',
-                    rel: "noopener noreferrer" do
-            = icon 'fas', 'external-link-alt'
-            Wikihow instructions
-
-        %li.list-group-item
-          = link_to "https://www.youtube.com/results?search_query=#{CGI.escape "growing #{@crop.name}"}",
-                    target: "_blank",
-                    class: 'card-link',
-                    rel: "noopener noreferrer" do
-            = icon 'fab', 'youtube'
-            YouTube
+          %li.list-group-item
+            = link_to "https://www.youtube.com/results?search_query=#{CGI.escape "growing #{@crop.name}"}",
+                      target: "_blank",
+                      class: 'card-link',
+                      rel: "noopener noreferrer" do
+              = icon 'fab', 'youtube'
+              YouTube

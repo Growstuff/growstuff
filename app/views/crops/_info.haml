@@ -1,31 +1,35 @@
-.row.crop-info
-  .col-md-9
+-# The crop's identity: what it is called, and what it is. Laid out across the
+-# hero rather than stacked down its left edge — the names and description on
+-# one side, the one action and the headline numbers on the other.
+.crop-info
+  .crop-info-main
     %h1
       = crop_icon(@crop)
       %strong.crop-name= @crop.name.titleize
       - unless @crop.approved?
         %span.badge.text-bg-warning= @crop.approval_status
-      %small.text-muted= @crop.default_scientific_name
-    - if crop_or_parent(@crop, :sowing_method).present?
-      %p
-        %strong How to sow #{@crop.name}:
-        = crop_or_parent(@crop, :sowing_method)
-    - if crop_or_parent(@crop, :sun_requirements).present?
-      %p
-        %strong Sun requirement for #{@crop}:
-        Plant in #{crop_or_parent(@crop, :sun_requirements)}
-    %p.text-muted
-      - if !@crop.plantings.empty?
-        #{@crop.name.titleize} has been planted
-        = pluralize(@crop.plantings.size, "time")
-        by #{ENV['GROWSTUFF_SITE_NAME']} members.
-      - else
-        Nobody is growing this yet. You could be the first!
+    = render 'scientific_names', crop: @crop
+    = render 'alternate_names', crop: @crop
+    - if @crop.parent
+      %p.crop-parent.small
+        A variety of
+        = link_to @crop.parent, @crop.parent
     - if crop_or_parent(@crop, :description).present?
-      %p= simple_format crop_or_parent(@crop, :description)
-    - else
-      - if member_signed_in?
-        %p= link_to "Add a description.", edit_crop_path(@crop, anchor: ":~:text=Description")
-  .col-md-3
-    = image_tag crop_image_path(@crop),
-      class: 'img-responsive shadow rounded crop-hero-photo', alt: "Image of #{@crop.name}"
+      = simple_format crop_or_parent(@crop, :description), class: 'crop-description'
+    - elsif member_signed_in?
+      %p.crop-description.text-muted
+        No description yet.
+        = link_to "Add one.", edit_crop_path(@crop, anchor: ":~:text=Description")
+
+  .crop-info-aside
+    = render 'crops/actions', crop: @crop
+    %dl.crop-stats
+      %div
+        %dt= @crop.plantings.size
+        %dd #{'planting'.pluralize(@crop.plantings.size)}
+      %div
+        %dt= @crop.harvests.size
+        %dd #{'harvest'.pluralize(@crop.harvests.size)}
+      %div
+        %dt= @crop.seeds.size
+        %dd #{'seed packet'.pluralize(@crop.seeds.size)}

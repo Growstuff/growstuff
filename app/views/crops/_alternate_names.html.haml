@@ -1,24 +1,10 @@
-.alternate_names
-  %h4 Alternate names
-  - if crop.alternate_names.any?
+-# Also under the name: what this crop is called elsewhere. Wranglers add and
+-# edit them from the crop's actions menu, in a dialog.
+- if crop.alternate_names.any?
+  %p.crop-alt-names
+    %span.text-muted Also known as
     - crop.alternate_names.each do |an|
       - if can? :edit, an
-        .dropdown.planting-actions
-          %a#crop-actions-altnames.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :type => "button", :href => '#'}
-            = "#{an.name} (#{an.language})"
-          .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "crop-actions-altnames"}
-            - if can? :edit, an
-              = link_to edit_alternate_name_path(an), class: 'dropdown-item' do
-                = edit_icon
-                = t('.edit')
-            - if can? :destroy, an
-              = link_to an, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item' do
-                = delete_icon
-                = t('.delete')
+        %a.badge.text-bg-light{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#alternate-name-#{an.id}", title: "Edit #{an.name}" }= "#{an.name} (#{an.language})"
       - else
-        .badge= "#{an.name} (#{an.language})"
-
-
-  %p.text-end
-    - if can? :edit, crop
-      = link_to 'Add', new_alternate_name_path(crop_id: crop.id), class: 'btn btn-outline-secondary btn-sm'
+        %span.badge.text-bg-light= "#{an.name} (#{an.language})"

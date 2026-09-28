@@ -129,6 +129,11 @@ class Planting < ApplicationRecord
     planted_at.present? && planted_at <= Time.zone.today
   end
 
+  # Planted in the future: the member has planned this, but it isn't in the ground yet.
+  def planned?
+    planted_at.present? && planted_at > Time.zone.today
+  end
+
   # How many individual plants this planting is. A blank quantity means nobody
   # said, which we treat as a single plant so it still has something to place;
   # zero is none, as when every plant has gone to the compost.
