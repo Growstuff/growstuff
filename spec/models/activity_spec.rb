@@ -25,6 +25,35 @@ RSpec.describe Activity do
     end
   end
 
+  describe 'status and synchronization' do
+    it 'defaults status to planned for new active activities' do
+      activity = create(:activity, finished: false)
+      expect(activity.status).to eq('planned')
+      expect(activity.finished).to be false
+    end
+
+    it 'sets finished to true when status is done' do
+      activity = create(:activity, status: 'done')
+      expect(activity.finished).to be true
+    end
+
+    it 'sets finished to false when status is in_progress' do
+      activity = create(:activity, status: 'done')
+      activity.update!(status: 'in_progress')
+      expect(activity.finished).to be false
+    end
+
+    it 'filters by planned, in_progress, and done scopes' do
+      planned = create(:activity, status: 'planned')
+      in_progress = create(:activity, status: 'in_progress')
+      done = create(:activity, status: 'done')
+
+      expect(described_class.planned).to contain_exactly(planned)
+      expect(described_class.in_progress).to contain_exactly(in_progress)
+      expect(described_class.done).to contain_exactly(done)
+    end
+  end
+
   describe 'active scope' do
     it 'returns activities that are not finished' do
       active_activity = create(:activity, finished: false)

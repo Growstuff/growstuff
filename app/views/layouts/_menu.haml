@@ -77,6 +77,9 @@
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to member_path(current_member), class: 'dropdown-item' do
             = t('.profile')
+          = link_to my_activities_path, class: 'dropdown-item' do
+            %i.fa.fa-columns.me-1{ "aria-hidden" => "true" }
+            My Activities Board
           = link_to member_activities_path(current_member), class: 'dropdown-item' do
             = t('.activities')
           = link_to member_gardens_path(current_member), class: 'dropdown-item' do
