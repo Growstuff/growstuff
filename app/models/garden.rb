@@ -19,8 +19,8 @@ class Garden < ApplicationRecord
   geocoded_by :location
   before_validation :strip_blanks
   after_validation :cleanup_area
-  after_validation :geocode
-  after_validation :empty_unwanted_geocodes
+  after_validation :geocode, if: :will_save_change_to_location?
+  after_validation :empty_unwanted_geocodes, if: :will_save_change_to_location?
   after_validation :populate_wikidata_info, if: :will_save_change_to_location?
   after_save :mark_inactive_garden_plantings_as_finished
 
