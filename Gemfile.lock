@@ -475,8 +475,8 @@ GEM
       racc
     percy-capybara (5.0.1)
       capybara (>= 3)
-    pg (1.6.3)
-    pg (1.6.3-x86_64-linux)
+    pg (1.7.0)
+    pg (1.7.0-x86_64-linux)
     popper_js (2.11.8)
     pp (0.6.4)
       prettyprint
