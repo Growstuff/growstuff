@@ -1,20 +1,24 @@
 -# The same three-dot kebab as every other record page, in the top right of
 -# the hero. No icons on the items; delete keeps its icon and its red.
 - if can?(:edit, harvest)
-  .dropdown.harvest-actions
-    %a#harvest-actions-button.btn.record-actions-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", "aria-label" => "Actions", "data-bs-toggle" => "dropdown", href: '#', role: "button" }
-      %i.fas.fa-ellipsis-v{ "aria-hidden" => "true", title: "Actions" }
-    .dropdown-menu.dropdown-menu-end{ "aria-labelledby" => "harvest-actions-button" }
-      %a.dropdown-item{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#harvest-edit-modal" }= t('buttons.edit')
-      - if can? :create, Photo
-        = link_to t('buttons.add_photo'), new_photo_path(id: harvest.id, type: 'harvest'), class: 'dropdown-item', data: { photo_dialog: true }
-      .dropdown-divider
-      = delete_button(harvest, classes: 'dropdown-item text-danger')
+  -# One flex item, not three: this sits in the hero's justify-content-between
+  -# row, and a loose modal or island beside the dropdown would be distributed
+  -# across the row and drag the kebab in off the right edge.
+  .record-actions
+    .dropdown.harvest-actions
+      %a#harvest-actions-button.btn.record-actions-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", "aria-label" => "Actions", "data-bs-toggle" => "dropdown", href: '#', role: "button" }
+        %i.fas.fa-ellipsis-v{ "aria-hidden" => "true", title: "Actions" }
+      .dropdown-menu.dropdown-menu-end{ "aria-labelledby" => "harvest-actions-button" }
+        %a.dropdown-item{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#harvest-edit-modal" }= t('buttons.edit')
+        - if can? :create, Photo
+          = link_to t('buttons.add_photo'), new_photo_path(id: harvest.id, type: 'harvest'), class: 'dropdown-item', data: { photo_dialog: true }
+        .dropdown-divider
+        = delete_button(harvest, classes: 'dropdown-item text-danger')
 
-  -# The dialog the Edit item opens. Outside the dropdown, so it is not torn
-  -# down with the menu when it closes.
-  = render 'harvests/edit_modal', harvest: harvest
-  -# Opens the add-photo dialog over the page, for both the menu item above and
-  -# the "add" on the photos heading bar.
-  - if can? :create, Photo
-    = react_component 'PhotoDialog', photo_dialog_props("#{harvest.crop.name} harvest")
+    -# The dialog the Edit item opens. Outside the dropdown, so it is not torn
+    -# down with the menu when it closes.
+    = render 'harvests/edit_modal', harvest: harvest
+    -# Opens the add-photo dialog over the page, for both the menu item above
+    -# and the "add" on the photos heading bar.
+    - if can? :create, Photo
+      = react_component 'PhotoDialog', photo_dialog_props("#{harvest.crop.name} harvest")
