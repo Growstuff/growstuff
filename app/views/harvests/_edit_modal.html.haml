@@ -1,0 +1,40 @@
+-# Editing a harvest in a dialog over the page, rather than sending the member
+-# off to a form of its own. The form posts as it always has, so this needs no
+-# JSON endpoint. Large text comes from .plant-dialog-body, as in the React
+-# dialogs. The crop isn't offered: a harvest's crop comes from its planting.
+#harvest-edit-modal.modal.fade{ "aria-hidden" => "true", "aria-labelledby" => "harvest-edit-title", role: "dialog", tabindex: "-1" }
+  .modal-dialog.modal-lg{ role: "document" }
+    .modal-content
+      = bootstrap_form_for(harvest) do |f|
+        .modal-header
+          %h4#harvest-edit-title.modal-title Edit #{harvest.crop.name} harvest
+          %button.btn-close{ "aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button" }
+        .modal-body.plant-dialog-body
+          - if harvest.errors.any?
+            .alert.alert-danger{ role: 'alert' }
+              %ul.mb-0
+                - harvest.errors.full_messages.each do |message|
+                  %li= message
+          .mb-3
+            = f.date_field :harvested_at,
+                           value: harvest.harvested_at ? harvest.harvested_at.to_fs(:ymd) : '',
+                           label: 'When did you harvest it?'
+          .mb-3
+            = f.form_group :plant_part_id, label: { text: 'What part did you harvest?' } do
+              - PlantPart.order(:name).pluck(:name, :id).each do |name, id|
+                = f.radio_button :plant_part_id, id, label: name, checked: (id == harvest.plant_part_id), inline: true
+          .row.mb-3
+            .col-md-5
+              = f.number_field :quantity, step: 'any', min: 0, label: 'How many?'
+            .col-md-7
+              = f.select :unit, Harvest::UNITS_VALUES, { include_blank: false }, label: 'Counted as'
+          .row.mb-3
+            .col-md-5
+              = f.number_field :weight_quantity, step: 'any', min: 0, label: 'Weighing (in total)'
+            .col-md-7
+              = f.select :weight_unit, Harvest::WEIGHT_UNITS_VALUES, { include_blank: false }, label: 'Weighed in'
+          .mb-3
+            = f.text_area :description, rows: 4, label: 'Notes'
+        .modal-footer
+          %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" } Cancel
+          = f.submit 'Save', class: 'btn btn-primary'

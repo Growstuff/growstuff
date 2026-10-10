@@ -458,21 +458,9 @@
     }
   }
 
-  // A card with nothing in it should read quieter than one with a fact: the
-  // word "unknown" has no business being as loud as a number.
-  .facts .fact-card.text-muted {
-    strong {
-      font-size: 1.2em;
-      font-weight: normal;
-      color: $ink-muted;
-    }
-  }
 
-  // Every fact card in a row is the same height, whatever its sub-line says.
-  .facts .card {
-    min-height: 9.5rem;
-    justify-content: flex-start;
-  }
+
+
 
   // The inline edit form takes the place of the fact's value, inside a card
   // only 170px wide. Without this the control runs past the card's edge and
@@ -512,7 +500,8 @@
   // pinned to the top right beside them.
   // The like button sits beside the name it belongs to, at its own size
   // rather than the title's.
-  .planting-title {
+  .planting-title,
+  .record-title {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -539,12 +528,7 @@
   }
 
 
-  // The facts grid brings its own cards, so it gets no box of its own.
-  .planting-facts {
-    background: none;
-    border: 0;
-    padding: 0;
-  }
+
 
   .planting-owner-avatar img {
     width: 64px;
@@ -553,59 +537,6 @@
     object-fit: cover;
   }
 
-  // The crop block's photo runs edge to edge under the heading bar, so the
-  // section holds no stray white margins around it.
-  .planting-crop {
-    padding: 0;
-    overflow: hidden;
-
-    > .section-header {
-      margin: 0;
-      border-radius: $card-radius $card-radius 0 0;
-    }
-
-    // Inset to the same edge as the text beneath it: edge to edge above an
-    // inset body made the block look like two different cards.
-    .planting-crop-photo {
-      display: block;
-      width: calc(100% - 2rem);
-      height: 150px;
-      margin: 1rem 1rem 0;
-      border-radius: $card-radius;
-      object-fit: cover;
-    }
-
-    .planting-crop-body {
-      padding: 0.75rem 1rem 1rem;
-    }
-
-    .planting-crop-name {
-      margin: 0;
-    }
-
-    .planting-crop-sci {
-      margin: 0 0 0.5rem;
-      font-size: 0.85rem;
-      font-style: italic;
-      color: $ink-muted;
-    }
-
-    .planting-crop-facts {
-      margin: 0;
-      padding-left: 1.1rem;
-      font-size: 0.85rem;
-
-      li + li {
-        margin-top: 0.25rem;
-      }
-    }
-  }
-
-  // Buttons that follow a card grid line up with the grid's edge, not the
-  // card's margin.
-  .text-end .btn + .btn {
-    margin-left: 0.5rem;
-  }
 
   // Neighbours are a list, not a grid: in a narrow column a full planting card
   // is one huge photo each. A small photo, who grows it and where is enough to

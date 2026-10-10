@@ -36,6 +36,79 @@ frontend features. We welcome contributions -- see
 * To set up your development environment, see [Getting started](https://github.com/Growstuff/growstuff/wiki/New-contributor-guide).
 * You may also be interested in our [API](https://github.com/Growstuff/growstuff/wiki/API).
 
+### Running Rails natively against Dockerized services
+
+If you'd rather run `rails server` directly on your machine (instead of
+inside the `web` container) while still using Docker for Postgres and
+Elasticsearch, here's the full setup:
+
+1. **Get the pinned Ruby and Node versions.** [`mise.toml`](mise.toml) pins
+   both (matching `.ruby-version` and the Node 24 used in CI). If you use
+   [mise](https://mise.jdx.dev/), just run:
+
+   ```bash
+   mise install
+   ```
+
+   rbenv/asdf/nvm users can read the versions from `mise.toml` (or
+   `.ruby-version`) and install them the usual way instead.
+
+2. **Start the backing services** (Postgres and Elasticsearch, skipping the
+   `web` container):
+
+   ```bash
+   docker compose up -d db elasticsearch
+   ```
+
+3. **Make the `db` hostname resolve on your host machine.** `config/database.yml`
+   points at host `db`, which only exists inside the Compose network. Add
+   this line to `/etc/hosts` so both Docker and native runs work against the
+   same config:
+
+   ```text
+   127.0.0.1 db
+   ```
+
+4. **Install gems:**
+
+   ```bash
+   bundle install
+   ```
+
+5. **Set up your local config.** The app reads settings like
+   `GROWSTUFF_SITE_NAME` from a git-ignored `.env` file (via `dotenv-rails`).
+   Copy the example to get started:
+
+   ```bash
+   cp env-example .env
+   ```
+
+6. **Install Yarn and JS dependencies.** Yarn isn't bundled with Node —
+   enable it via Node's built-in Corepack, then install:
+
+   ```bash
+   corepack enable
+   yarn install
+   ```
+
+7. **Create and load the database:**
+
+   ```bash
+   bundle exec rails db:create db:schema:load
+   ```
+
+8. **Build the search index** (Elasticsearch starts empty):
+
+   ```bash
+   bundle exec rails runner "Crop.reindex"
+   ```
+
+9. **Start the app:**
+
+   ```bash
+   bundle exec rails s
+   ```
+
 ### For Home Automation enthusiasts
 
 https://github.com/Growstuff/homeassistant-growstuff/

@@ -39,9 +39,11 @@
             .record-identity
               = render 'shared/record_owner', owner: @harvest.owner
               .record-identity-text
-                %h1.display-3
-                  = harvest_icon
-                  %strong= t('harvests.show.heading', crop: @harvest.crop.name.titleize)
+                .record-title
+                  %h1.display-3
+                    = harvest_icon
+                    %strong= t('harvests.show.heading', crop: @harvest.crop.name.titleize)
+                  = render 'likes/likes', object: @harvest
                 %p.lead.mb-0
                   harvested by
                   %strong.record-grower-name= link_to @harvest.owner, @harvest.owner
@@ -49,7 +51,6 @@
                     %span.text-muted
                       &middot;
                       = I18n.l @harvest.harvested_at
-                = render 'likes/likes', object: @harvest
             = render 'harvests/actions', harvest: @harvest
 
           - if @harvest.description.present?
@@ -92,11 +93,17 @@
           - else
             %p.text-muted.mb-0 No photos yet.
 
+        -# Somebody grew this before they picked it. Show the planting as its
+        -# own card — photo, how it is doing, who grows it — so the reader is
+        -# tempted to go and look, rather than handed a bare link.
         - if @harvest.planting.present?
-          %section.harvest-detail
+          %section.harvest-from
             .section-header
               %h2 Harvested from
-            %p.mb-0= link_to @harvest.planting, @harvest.planting
+            .index-cards
+              = render 'plantings/card', planting: @harvest.planting
+            %p.text-muted.small.mb-0
+              See how #{@harvest.owner}'s #{@harvest.crop.name} is getting on.
 
     .col-md-4.col-12
       %section.harvest-crop
