@@ -6,12 +6,9 @@
     = link_to new_planting_seed_path(planting_slug: planting.slug), class: 'btn btn-sm section-add', data: { planting_dialog: 'seeds' } do
       = icon 'fas', 'plus'
       add
-
-- if planting.child_seeds.size.positive?
+- if child_seeds.any?
   .index-cards
-    - planting.child_seeds.each do |seed|
+    - child_seeds.each do |seed|
       = render 'seeds/card', seed: seed
 - else
-  %p.text-muted= t('plantings.show.no_seeds')
-  - if can?(:edit, planting)
-    %p= t('plantings.show.no_seeds_prompt')
+  %p.text-muted.mb-0= t('plantings.show.no_seeds')

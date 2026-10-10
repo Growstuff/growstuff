@@ -15,6 +15,8 @@ describe "plantings/show" do
   before do
     assign(:planting, planting)
     assign(:photos, planting.photos.paginate(page: 1))
+    assign(:harvests, planting.harvests)
+    assign(:child_seeds, planting.child_seeds)
     assign(:neighbours, planting.nearby_same_crop)
     controller.stub(:current_user) { member }
   end
@@ -25,7 +27,7 @@ describe "plantings/show" do
     describe "shows the sunniness" do
       before { render }
 
-      it { expect(rendered).to have_content 'grows this in' }
+      it { expect(rendered).to have_content 'grown by' }
       it { expect(rendered).to have_content 'sun' }
     end
   end

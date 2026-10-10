@@ -378,13 +378,19 @@
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: rgba(65, 63, 59, 0.7);
+    color: $ink-muted;
   }
 
-  .harvest-months-legend,
-  .harvest-months-empty {
+  .harvest-months-legend {
     margin-top: 0.5rem;
     font-size: 0.8rem;
+  }
+
+  // The no-data line sits in the hero's normal flow, with the same spacing as
+  // anything else there — no reserved block above the facts.
+  .harvest-months-empty {
+    margin: 1rem 0 0;
+    font-size: 0.9rem;
   }
 
   // Harvest months in the grower's own seasons, three to a season, each group
@@ -409,7 +415,7 @@
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: rgba(65, 63, 59, 0.7);
+    color: $ink-muted;
   }
 
   .harvest-season-months {
@@ -452,6 +458,16 @@
     }
   }
 
+  // A card with nothing in it should read quieter than one with a fact: the
+  // word "unknown" has no business being as loud as a number.
+  .facts .fact-card.text-muted {
+    strong {
+      font-size: 1.2em;
+      font-weight: normal;
+      color: $ink-muted;
+    }
+  }
+
   // Every fact card in a row is the same height, whatever its sub-line says.
   .facts .card {
     min-height: 9.5rem;
@@ -485,6 +501,59 @@
     .mb-3 {
       margin-bottom: 0 !important;
     }
+  }
+
+  // The planting's own photo, across the top of the panel: this is what the
+  // member grew, so it leads the page when there is one.
+  .planting-hero-photo {
+    display: block;
+    margin: 0 -1.25rem;
+    line-height: 0;
+
+    img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: $card-radius $card-radius 0 0;
+    }
+  }
+
+  // The grower's face leads the hero, at a size that says somebody grew this.
+  .planting-identity {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .planting-identity-text {
+    min-width: 0;
+  }
+
+  .planting-grower-avatar {
+    flex: 0 0 auto;
+    display: block;
+    line-height: 0;
+
+    img {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 1px 3px rgba(65, 63, 59, 0.3);
+    }
+
+    &:hover img,
+    &:focus img {
+      box-shadow: 0 2px 6px rgba(65, 63, 59, 0.45);
+    }
+  }
+
+  .planting-grower-name a {
+    font-weight: 600;
+  }
+
+  .planting-grower-more {
+    margin-top: 0.35rem;
   }
 
   // Title and subtitle read as one block, with the badge and the actions menu
@@ -528,10 +597,6 @@
   }
 
 
-  .facts .card {
-    margin: 0.5rem;
-  }
-
   // The facts grid brings its own cards, so it gets no box of its own.
   .planting-facts {
     background: none;
@@ -557,10 +622,14 @@
       border-radius: $card-radius $card-radius 0 0;
     }
 
+    // Inset to the same edge as the text beneath it: edge to edge above an
+    // inset body made the block look like two different cards.
     .planting-crop-photo {
       display: block;
-      width: 100%;
+      width: calc(100% - 2rem);
       height: 150px;
+      margin: 1rem 1rem 0;
+      border-radius: $card-radius;
       object-fit: cover;
     }
 
@@ -576,7 +645,7 @@
       margin: 0 0 0.5rem;
       font-size: 0.85rem;
       font-style: italic;
-      color: rgba(65, 63, 59, 0.7);
+      color: $ink-muted;
     }
 
     .planting-crop-facts {
@@ -643,7 +712,7 @@
 
   .planting-neighbour-where {
     display: block;
-    color: rgba(65, 63, 59, 0.7);
+    color: $ink-muted;
     font-size: 0.8rem;
     overflow-wrap: anywhere;
   }
@@ -676,6 +745,6 @@
 
 .garden-picker-note {
   display: block;
-  color: rgba(65, 63, 59, 0.7);
+  color: $ink-muted;
   font-size: 0.85rem;
 }

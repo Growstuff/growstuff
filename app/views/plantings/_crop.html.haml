@@ -7,6 +7,11 @@
   - if crop.default_scientific_name.present?
     %p.planting-crop-sci= crop.default_scientific_name
   %ul.planting-crop-facts
+    %li
+      = crop.perennial? ? 'A perennial' : 'An annual'
+      - if crop.annual? && crop.median_lifespan.present?
+        , living about
+        %strong= pluralize crop.median_lifespan, 'day'
     - unless crop.median_days_to_first_harvest.nil?
       %li
         First harvest about
@@ -21,5 +26,4 @@
       %li
         Usually grows for about
         %strong= pluralize crop.median_lifespan, 'day'
-    - if crop.perennial
-      %li A perennial, so it keeps growing year to year
+  %p.mt-3.mb-0.small= link_to "More about #{crop.name}", crop

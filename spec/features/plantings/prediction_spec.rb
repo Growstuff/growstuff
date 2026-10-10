@@ -12,7 +12,7 @@ describe "Display a planting", :js do
       before { visit planting_path(planting) }
 
       it { expect(planting.harvest_months).to eq({}) }
-      it { expect(page).to have_content 'Not enough data on this crop at this latitude yet' }
+      it { expect(page).to have_content 'No harvest months for this crop at this latitude yet' }
     end
 
     describe 'harvests used to predict' do

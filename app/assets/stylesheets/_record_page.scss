@@ -29,6 +29,22 @@
     }
   }
 
+  // The fact cards share the panel's width evenly instead of being fixed at
+  // 170px and leaving a third of the row empty. auto-fit drops a column at a
+  // time as the panel narrows, so a row is never short on the right.
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin: 0;
+
+    .card {
+      width: 100%;
+      max-width: 220px;
+      margin: 0 auto;
+    }
+  }
+
   // A section full of cards gets the page's own ground rather than white.
   // The photo cards are little white polaroids; on a white section they have
   // nothing to sit against and the grid reads as a mess of edges.
@@ -177,4 +193,40 @@
   line-height: 1;
   vertical-align: -0.08em;
   margin-right: 0.15rem;
+}
+
+// The inline edit pencil: one muted style wherever a fact can be edited.
+// It was the orange SVG icon, which shouted louder than the fact it sat beside.
+.edit-link .editable {
+  color: $ink-muted;
+  font-size: 0.75em;
+
+  &:hover,
+  &:focus {
+    color: $brown;
+  }
+}
+
+// Dialogs open over the record itself, not centred across the whole window.
+// The record is in the left column, so a centred dialog half-covers the
+// sidebar and leaves the thing you are editing behind it.
+//
+// Lined up with the container's left edge and capped at the main column's
+// width (two thirds of the container). Below lg the columns stack, so the
+// dialog goes back to Bootstrap's centring.
+@media (min-width: 1200px) {
+  .record-page .modal .modal-dialog,
+  #transplant-modal .modal-dialog {
+    margin-left: calc((100vw - 1140px) / 2);
+    margin-right: auto;
+    max-width: calc(1140px * 2 / 3 - 1rem);
+  }
+}
+
+@media (min-width: 1800px) {
+  .record-page .modal .modal-dialog,
+  #transplant-modal .modal-dialog {
+    margin-left: calc((100vw - 1320px) / 2);
+    max-width: calc(1320px * 2 / 3 - 1rem);
+  }
 }

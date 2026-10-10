@@ -51,13 +51,13 @@
       Quantity
       = editable :text_field, planting, :quantity, display_field: '.fact-quantity'
     .fact-value.fact-quantity
+      -# The sub-line is the unit, so it always names something countable:
+      -# "3 cuttings", or "3 plants" when we don't know how they were started.
+      -# It never reads "1, not recorded".
       %strong.plantingfact--quantity
         = planting.quantity.to_i.positive? ? planting.quantity : 'unknown'
       %span.plantingfact--plantedfrom
-        - if planting.planted_from.present?
-          = planting.planted_from.pluralize(planting.quantity.to_i)
-        - else
-          not recorded
+        = (planting.planted_from.presence || 'plant').pluralize(planting.quantity.to_i)
 
   .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
     %h3

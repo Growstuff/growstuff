@@ -19,7 +19,12 @@ class PlantingsController < DataController
 
   def show
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc).paginate(page: 1, per_page: 12)
-    @harvests = Harvest.where(planting_id: @planting.id).recent
+    # The cards show the owner, the crop and the plant part, so load them with
+    # the records. Not :photos — Photo's owner association carries a condition
+    # on discarded members, which turns the eager load into an INNER JOIN and
+    # drops every harvest that has no photo.
+    @harvests = @planting.harvests.includes(:owner, :crop, :plant_part).recent
+    @child_seeds = @planting.child_seeds.includes(:owner, :crop)
     @current_activities = @planting.activities.current.includes(:owner).order(created_at: :desc)
     @finished_activities = @planting.activities.finished.includes(:owner).order(created_at: :desc)
     @matching_seeds = matching_seeds

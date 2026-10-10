@@ -136,7 +136,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
   return (
     <Modal title={title} titleId="add-photo-title" onClose={onClose}>
       {loadError && (
-        <div className="modal-body">
+        <div className="modal-body plant-dialog-body">
           <div className="alert alert-danger mb-0" role="alert">Couldn&rsquo;t load your photos. Please close this and try again.</div>
         </div>
       )}
@@ -176,9 +176,10 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
 
             {ready && !chosen && (
               <div className="photo-picker">
+                {/* The same big step heading the harvest and seeds dialogs use. */}
+                <h3 className="crop-picker-label">Choose a photo</h3>
                 <p className="photo-picker-hint">
-                  Connected to Flickr as <a href={data.profile_url} target="_blank" rel="noopener noreferrer">{data.name}</a>.
-                  {' '}Choose a photo.
+                  From your Flickr, connected as <a href={data.profile_url} target="_blank" rel="noopener noreferrer">{data.name}</a>.
                 </p>
                 <form className="photo-picker-filters" onSubmit={search}>
                   {data.sets.length > 0 && (

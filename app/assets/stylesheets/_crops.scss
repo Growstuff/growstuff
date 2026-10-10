@@ -124,7 +124,7 @@
 
 .crop-parent {
   margin-bottom: 0.75rem;
-  color: rgba(65, 63, 59, 0.7);
+  color: $ink-muted;
 }
 
 // The hero: identity on one side, the action and headline numbers on the
@@ -176,7 +176,7 @@
 
   dd {
     margin: 0;
-    color: rgba(65, 63, 59, 0.7);
+    color: $ink-muted;
     font-size: 0.8rem;
   }
 }

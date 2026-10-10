@@ -6,11 +6,9 @@
     = link_to new_planting_harvest_path(planting_slug: planting.slug), class: 'btn btn-sm section-add', data: { planting_dialog: 'harvest' } do
       = icon 'fas', 'plus'
       add
-- if planting.harvests.empty?
-  %p.text-muted= t('plantings.show.no_harvests')
-  - if planting.finished? && can?(:edit, planting) && can?(:create, Harvest)
-    %p= t('plantings.show.no_harvests_prompt')
+- if harvests.empty?
+  %p.text-muted.mb-0= t('plantings.show.no_harvests')
 - else
   .index-cards
-    - planting.harvests.each do |harvest|
+    - harvests.each do |harvest|
       = render 'harvests/card', harvest: harvest
