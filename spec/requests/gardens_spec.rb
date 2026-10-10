@@ -335,6 +335,14 @@ describe "Gardens" do
       expect(garden.reload).to have_attributes(grid_columns: 6, grid_rows: 5)
     end
 
+    it 'does not attempt external geocoding when location is unchanged' do
+      garden # force creation of garden record before setting expectation
+      expect_any_instance_of(Garden).not_to receive(:geocode)
+      resize(6, 5)
+      expect(response).to have_http_status(:ok)
+      expect(garden.reload).to have_attributes(grid_columns: 6, grid_rows: 5)
+    end
+
     it "does not shrink the bed out from under a plant" do
       create(:planting, garden:, owner:, quantity: 1)
       garden.prepare_layout
