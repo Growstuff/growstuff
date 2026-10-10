@@ -1,4 +1,8 @@
 -# Sidebar content: the section around it supplies the box and the heading.
+-# "You have N seeds of this crop" lived in the counts list that the hero's
+-# headline numbers replaced; it belongs here, with the rest of the seeds.
+- if member_signed_in?
+  %p.mb-2= link_to display_seed_availability(current_member, crop), member_seeds_path(current_member, crop_slug: crop.slug)
 - if crop.seeds.empty?
   %p.text-muted There are no seeds available to trade on Growstuff right now.
 - else

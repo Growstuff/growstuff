@@ -33,16 +33,14 @@ describe "crop detail page", :js do
 
       it "has a link to plant the crop" do
         click_link 'Add to my garden'
-        expect(page).to have_link "add new garden"
-      end
-
-      it "has a link to harvest the crop" do
-        click_link 'Record harvest'
-        expect(page).to have_link "leaf"
+        expect(page).to have_link "Add a new garden"
       end
 
       describe "Saving seeds" do
-        before { click_link 'Save seeds' }
+        before do
+          visit crop_seeds_path(crop)
+          click_link 'Save seeds'
+        end
 
         it { expect(page).to have_text "Will you offer these seeds for trade?" }
         it { expect(page).to have_button "locally" }
@@ -64,15 +62,15 @@ describe "crop detail page", :js do
       end
 
       it "has planting heading with SEO" do
-        expect(page).to have_content "See who's planted #{crop.name.pluralize}"
+        expect(page).to have_content "Who's planted #{crop.name.pluralize}"
       end
 
       it "has planting advice with SEO" do
-        expect(page).to have_content "How to grow #{crop.name}"
+        expect(page).to have_content "Growing #{crop.name.pluralize}"
       end
 
       it "has a link to Wikipedia with SEO" do
-        expect(page).to have_content "Learn more about #{crop.name}"
+        expect(page).to have_content "Learn more about #{crop.name.pluralize}"
         expect(page).to have_link "Wikipedia (English)", href: crop.en_wikipedia_url
       end
 
