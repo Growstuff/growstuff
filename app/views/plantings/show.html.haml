@@ -29,16 +29,15 @@
         -# If there's a photo of this planting, lead with it. Only a real one:
         -# the placeholder says nothing worth the space.
         - if @planting.default_photo
-          = link_to planting_photos_path(@planting), class: 'planting-hero-photo' do
+          = link_to planting_photos_path(@planting), class: 'record-hero-photo' do
             = image_tag planting_image_path(@planting), alt: "#{@planting.display_name} grown by #{@planting.owner}"
         .jumbotron
           .d-flex.justify-content-between.align-items-start
             -# The grower leads the hero. Somebody grew this; their face belongs
             -# beside it, not tucked into a sidebar block of small links.
-            .planting-identity
-              = link_to @planting.owner, class: 'planting-grower-avatar', title: @planting.owner.to_s do
-                = image_tag avatar_uri(@planting.owner, 300), alt: "#{@planting.owner}", width: 112, height: 112
-              .planting-identity-text
+            .record-identity
+              = render 'shared/record_owner', owner: @planting.owner
+              .record-identity-text
                 .planting-title
                   %h1.display-3
                     = crop_icon(@planting.crop)
@@ -46,7 +45,7 @@
                   = render 'likes/likes', object: @planting
                 %p.lead.planting-subtitle
                   grown by
-                  %strong.planting-grower-name= link_to @planting.owner, @planting.owner
+                  %strong.record-grower-name= link_to @planting.owner, @planting.owner
                   %span.text-muted
                     in
                     = link_to @planting.garden, @planting.garden

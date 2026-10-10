@@ -503,71 +503,13 @@
     }
   }
 
-  // The planting's own photo, across the top of the panel: this is what the
-  // member grew, so it leads the page when there is one.
-  .planting-hero-photo {
-    display: block;
-    margin: 0 -1.25rem;
-    line-height: 0;
-
-    img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-      border-radius: $card-radius $card-radius 0 0;
-    }
-  }
-
   // The grower's face leads the hero, at a size that says somebody grew this.
-  .planting-identity {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
-  }
-
-  .planting-identity-text {
-    min-width: 0;
-  }
-
-  .planting-grower-avatar {
-    flex: 0 0 auto;
-    display: block;
-    line-height: 0;
-
-    img {
-      width: 112px;
-      height: 112px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 1px 3px rgba(65, 63, 59, 0.3);
-    }
-
-    &:hover img,
-    &:focus img {
-      box-shadow: 0 2px 6px rgba(65, 63, 59, 0.45);
-    }
-  }
-
-  .planting-grower-name a {
-    font-weight: 600;
-  }
-
   .planting-grower-more {
     margin-top: 0.35rem;
   }
 
   // Title and subtitle read as one block, with the badge and the actions menu
   // pinned to the top right beside them.
-  .planting-identity {
-    min-width: 0;
-
-    h1 {
-      margin-bottom: 0;
-      font-size: clamp(2rem, 6vw, 3.5rem);
-      overflow-wrap: anywhere;
-    }
-  }
-
   // The like button sits beside the name it belongs to, at its own size
   // rather than the title's.
   .planting-title {

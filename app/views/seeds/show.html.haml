@@ -21,58 +21,69 @@
   %li.breadcrumb-item= link_to @seed.owner, member_seeds_path(@seed.owner)
   %li.breadcrumb-item.active= link_to @seed, @seed
 
-.seed
+.seed-show.record-page
   .row
-    .col-md-9.col-12
-      .jumbotron
-        .d-flex.justify-content-between.align-items-start
-          %div
-            %h1.display-3
-              = crop_icon(@seed.crop)
-              = t('seeds.show.heading', crop: @seed.crop.name.titleize)
-            %p.lead.text-muted.mb-0
-              saved by
-              = link_to @seed.owner, @seed.owner
-          %span.text-muted= I18n.l @seed.created_at.to_date
-        - if @seed.organic != 'unknown'
-          .badge.text-bg-success.seedtitle--organic= @seed.organic
-        - if @seed.gmo != 'unknown'
-          .badge.text-bg-success.seedtitle--gmo= @seed.gmo
-        - if @seed.heirloom != 'unknown'
-          .badge.text-bg-success.seedtitle--heirloom= @seed.heirloom
-        - if @seed.parent_planting
-          %p
-            Saved from planting:
-            = planting_icon
-            = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
-      = render 'seeds/actions', seed: @seed
+    .col-md-8.col-12
+      -# Everything that is this packet of seeds, inside one border. See DESIGN.md.
+      .record-panel.seed-detail
+        .jumbotron
+          .d-flex.justify-content-between.align-items-start
+            .record-identity
+              = render 'shared/record_owner', owner: @seed.owner
+              .record-identity-text
+                %h1.display-3
+                  = crop_icon(@seed.crop)
+                  %strong= t('seeds.show.heading', crop: @seed.crop.name.titleize)
+                %p.lead.mb-0
+                  saved by
+                  %strong.record-grower-name= link_to @seed.owner, @seed.owner
+                  %span.text-muted
+                    &middot;
+                    = I18n.l @seed.created_at.to_date
+                %p.seed-badges.mb-0
+                  - if @seed.organic != 'unknown'
+                    %span.badge.text-bg-success.seedtitle--organic= @seed.organic
+                  - if @seed.gmo != 'unknown'
+                    %span.badge.text-bg-success.seedtitle--gmo= @seed.gmo
+                  - if @seed.heirloom != 'unknown'
+                    %span.badge.text-bg-success.seedtitle--heirloom= @seed.heirloom
+                - if @seed.parent_planting
+                  %p.mb-0.small
+                    Saved from
+                    = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
+            = render 'seeds/actions', seed: @seed
 
-      %section= render 'facts', seed: @seed
+        %section.seed-facts= render 'facts', seed: @seed
 
-      - unless @seed.description.blank?
-        = cute_icon
-        .card.seed--description
-          .card-header
-            %h2 Notes
-          .card-body
+        - unless @seed.description.blank?
+          = cute_icon
+          %section.seed--description
+            .section-header
+              %h2 Notes
             :markdown
               #{strip_tags markdownify(@seed.description)}
 
-      - if current_member
-        - if @seed.tradable && current_member != @seed.owner
-          %p= link_to "Request seeds",
-                      new_message_path(recipient_id: @seed.owner.id,
-                                           subject: "Interested in your #{@seed.crop} seeds"),
-                      class: 'btn btn-primary'
-      - else
-        = render 'shared/signin_signup', to: 'request seeds'
+        - if current_member
+          - if @seed.tradable && current_member != @seed.owner
+            %p= link_to "Request seeds",
+                        new_message_path(recipient_id: @seed.owner.id,
+                                             subject: "Interested in your #{@seed.crop} seeds"),
+                        class: 'btn btn-primary'
+        - else
+          = render 'shared/signin_signup', to: 'request seeds'
 
-      %section.plantings
-        = render 'seeds/descendants', seed: @seed
-      %section.seed-photos
-        - @photos.each do |photo|
-          = render 'photos/hero', photo: photo
+        %section.plantings
+          = render 'seeds/descendants', seed: @seed
 
-    .col-md-3.col-12
-      = render 'seeds/owner'
-      = render @seed.crop
+        - if @photos.any?
+          %section.seed-photos
+            .section-header
+              %h2 Photos
+            - @photos.each do |photo|
+              = render 'photos/hero', photo: photo
+
+    .col-md-4.col-12
+      %section.seed-crop
+        .section-header
+          %h2 Crop
+        = render 'plantings/crop', crop: @seed.crop

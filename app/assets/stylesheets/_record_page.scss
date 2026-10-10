@@ -171,6 +171,63 @@
     margin-top: 1rem;
   }
 
+  // A photo of the record itself, across the top of the panel. This is the
+  // thing the member grew or picked, so it leads the page when there is one.
+  .record-hero-photo {
+    display: block;
+    margin: 0 -1.25rem;
+    line-height: 0;
+
+    img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: $card-radius $card-radius 0 0;
+    }
+  }
+
+  // The member's face, leading the hero at a size that says this is theirs.
+  // Avatars are circles everywhere on the site.
+  .record-grower-avatar {
+    flex: 0 0 auto;
+    display: block;
+    line-height: 0;
+
+    img {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 1px 3px rgba(65, 63, 59, 0.3);
+    }
+
+    &:hover img,
+    &:focus img {
+      box-shadow: 0 2px 6px rgba(65, 63, 59, 0.45);
+    }
+  }
+
+  // Title block beside the avatar.
+  .record-identity {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .record-identity-text {
+    min-width: 0;
+
+    h1 {
+      margin-bottom: 0.25rem;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      overflow-wrap: anywhere;
+    }
+  }
+
+  .record-grower-name a {
+    font-weight: 600;
+  }
+
   // A snail, a cat, a wheelbarrow — standing on top of the green heading bar
   // below it.
   //
