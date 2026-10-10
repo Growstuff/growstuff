@@ -1,83 +1,121 @@
-= content_for :title, "#{@harvest.crop} harvested by #{@harvest.owner}"
-- content_for :meta_description do
-  - if @harvest.description.present?
-    = @harvest.description
-  - else
-    = "#{@harvest.crop} harvested by #{@harvest.owner}."
-- content_for :opengraph do
-  = tag("meta", property: "og:image", content: harvest_image_path(@harvest))
-  = tag("meta", property: "og:image:user_generated", content: "true")
-  = tag("meta", property: "og:title", content: "#{@harvest.crop} harvested by #{@harvest.owner}")
-  = tag("meta", property: "og:type", content: "website")
-  = tag("meta", property: "og:url", content: request.original_url)
-  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+- harvest_title = "#{@harvest.crop} harvested by #{@harvest.owner}"
+= render 'shared/record_meta',
+         title: harvest_title,
+         description: @harvest.description.presence || "#{harvest_title}.",
+         image: harvest_image_path(@harvest),
+         user_generated: true
+
+-# The edit and add-photo dialogs; the latter is a React island.
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
 
 %script{type: "application/ld+json"}
   = crop_jsonld_data(@harvest.crop, full_attributes: false).to_json.html_safe
 
+-# A harvest is a picking off a planting, so the trail descends through
+-# plantings: Home > Plantings > that planting > Harvest. Without a planting
+-# there is no such parent, so it falls back to the owner's harvests. The last
+-# crumb is the word, not the harvest itself, whose to_s is a whole sentence
+-# ("50 individual apples, weighing 3lb").
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Harvests', harvests_path
-  %li.breadcrumb-item= link_to @harvest.owner, member_harvests_path(@harvest.owner)
-  %li.breadcrumb-item.active= link_to @harvest, @harvest
+  - if @harvest.planting.present?
+    %li.breadcrumb-item= link_to 'Plantings', plantings_path
+    %li.breadcrumb-item= link_to @harvest.planting.display_name, @harvest.planting
+  - else
+    %li.breadcrumb-item= link_to 'Harvests', harvests_path
+    %li.breadcrumb-item= link_to @harvest.owner, member_harvests_path(@harvest.owner)
+  %li.breadcrumb-item.active Harvest
 
-.harvest
+.harvest-show.record-page
   .row
     .col-md-8.col-12
-      .jumbotron
-        .d-flex.justify-content-between.align-items-start
-          %div
-            %h1.display-3
-              = harvest_icon
-              %strong= t('harvests.show.heading', crop: @harvest.crop.name.titleize)
-            %p.lead.text-muted.mb-0
-              by
-              = link_to @harvest.owner, @harvest.owner
-              - if @harvest.harvested_at.present?
-                = succeed '' do
-                  &middot; #{I18n.l @harvest.harvested_at}
+      -# Everything that is the harvest, inside one border; the sidebar is
+      -# context and sits outside it. See DESIGN.md.
+      .record-panel.harvest-detail
+        -# A photo of the harvest if there is one, otherwise of the planting it
+        -# came off, otherwise of the crop. Never the placeholder: that says
+        -# nothing worth 260px.
+        - hero_photo = @harvest.default_photo || @harvest.crop.default_photo
+        - if hero_photo
+          = link_to harvest_path(@harvest), class: 'record-hero-photo' do
+            = image_tag(hero_photo.source == 'flickr' ? hero_photo.fullsize_url : hero_photo.thumbnail_url,
+                        alt: "#{@harvest.crop.name} harvested by #{@harvest.owner}")
+        .jumbotron
+          .d-flex.justify-content-between.align-items-start
+            .record-identity
+              = render 'shared/record_owner', owner: @harvest.owner
+              .record-identity-text
+                .record-title
+                  %h1.display-3
+                    = harvest_icon
+                    %strong= t('harvests.show.heading', crop: @harvest.crop.name.titleize)
+                  = render 'likes/likes', object: @harvest
+                %p.lead.mb-0
+                  harvested by
+                  %strong.record-grower-name= link_to @harvest.owner, @harvest.owner
+                  - if @harvest.harvested_at.present?
+                    %span.text-muted
+                      &middot;
+                      = I18n.l @harvest.harvested_at
+                - if @harvest.planting.present?
+                  = render 'shared/record_parent', planting: @harvest.planting, verb: 'picked from'
+            = render 'harvests/actions', harvest: @harvest
 
-        - if @harvest.description.present?
-          :markdown
-            #{strip_tags markdownify(@harvest.description)}
+          - if @harvest.description.present?
+            :markdown
+              #{strip_tags markdownify(@harvest.description)}
 
-      = render partial: 'planting'
-      = render 'likes/likes', object: @harvest
-      = render 'harvests/actions', harvest: @harvest
+        = render partial: 'planting'
 
-    .col-md-4.col-12
-      = render 'harvests/owner', harvest: @harvest
-    .col-md-8.col-12
-      .index-cards.facts
-        - if @harvest.plant_part
-          .card
-            %h3
-              Plant part
-              = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id), display_field: '.harvest-plantpart'
-            %strong.harvest-plantpart= @harvest.plant_part
-        .card
-          %h3
-            Harvested
-            = editable :date, @harvest, :harvested_at, display_field: '.harvested_at'
-          %strong.harvested_at #{standard_time_distance @harvest.harvested_at, Time.zone.now.to_date}
-          %span.harvested_at= I18n.l @harvest.harvested_at
+        %section.harvest-facts
+          .index-cards.facts
+            - if @harvest.plant_part
+              .card.fact-card
+                %h3
+                  Plant part
+                  = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id), display_field: '.harvest-plantpart'
+                %strong.harvest-plantpart= @harvest.plant_part
+            .card.fact-card
+              %h3
+                Harvested
+                = editable :date, @harvest, :harvested_at, display_field: '.fact-harvested'
+              .fact-value.fact-harvested
+                %strong.harvested_at= standard_time_distance @harvest.harvested_at, Time.zone.now.to_date
+                %span.harvested_at= I18n.l @harvest.harvested_at
+            .card.fact-card{ class: @harvest.quantity.present? ? '' : 'text-muted' }
+              %h3
+                Quantity
+                = editable :text_field, @harvest, :quantity, display_field: '.fact-quantity'
+              .fact-value.fact-quantity
+                %strong.quantity= display_quantity(@harvest)
 
-        .card{class: @harvest.quantity.present? ? '' : 'text-muted'}
-          %h3
-            Quantity
-            = editable :text_field, @harvest, :quantity, display_field: '.quantity'
-          %strong.quantity
-            = display_quantity(@harvest)
+        %section#photos
+          .section-header
+            %h2 Photos
+            - if can?(:edit, @harvest) && can?(:create, Photo)
+              = link_to new_photo_path(id: @harvest.id, type: 'harvest'), class: 'btn btn-sm section-add', data: { photo_dialog: true } do
+                = icon 'fas', 'plus'
+                add
+          - if @harvest.photos.any?
+            = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc)
+          - else
+            %p.text-muted.mb-0 No photos yet.
 
-      %section
-        %h2 Photos
-        = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc)
-        = add_photo_button(@harvest)
-      %section.harvest-detail
-        %h2 Detail
+        -# Somebody grew this before they picked it. Show the planting as its
+        -# own card — photo, how it is doing, who grows it — so the reader is
+        -# tempted to go and look, rather than handed a bare link.
         - if @harvest.planting.present?
-          Havested from
-          = link_to @harvest.planting, @harvest.planting
+          %section.harvest-from
+            .section-header
+              %h2 The planting this came from
+            .index-cards
+              = render 'plantings/card', planting: @harvest.planting
+            %p.text-muted.small.mb-0
+              See how #{@harvest.owner}'s #{@harvest.crop.name} is getting on.
 
     .col-md-4.col-12
-      = render @harvest.crop
+      %section.harvest-crop
+        .section-header
+          %h2 Crop
+        = render 'plantings/crop', crop: @harvest.crop
       = render 'crops/nutritional_data', crop: @harvest.crop

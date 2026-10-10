@@ -5,14 +5,17 @@
       %i.fas.fa-pencil-alt{ 'aria-hidden' => 'true' }
       %span.visually-hidden Edit #{field.to_s.humanize.downcase}
 
+  -# The fact card's own h3 already names the field, so the generated label
+  -# would print it a second time right under it. hide_label keeps the label
+  -# in the markup for screen readers and takes it off the screen.
   .hide{id: "form--#{model.id}-#{field.to_s}"}
     = bootstrap_form_for(model) do |f|
       - if field_type == :text_area
-        = f.text_area field
+        = f.text_area field, hide_label: true
       - elsif field_type == :text_field
-        = f.text_field field
+        = f.text_field field, hide_label: true
       - elsif field_type == :select
-        = f.select field, collection
+        = f.select field, collection, hide_label: true
       - elsif field_type == :date
         = f.date_field field,
                  value: model.send(field) ? model.send(field).to_fs(:ymd) : '', label: 'When?'

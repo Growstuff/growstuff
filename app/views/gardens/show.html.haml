@@ -1,205 +1,213 @@
-= content_for :title, "#{@garden.owner}'s #{@garden}"
-
-- content_for :opengraph do
-  = tag("meta", property: "og:image", content: garden_image_path(@garden))
-  - if @garden.description
-    = tag("meta", property: "og:description", content: og_description(@garden.description))
-  = tag("meta", property: "og:title", content: "#{@garden.owner}'s #{@garden}")
-  = tag("meta", property: "og:type", content: "website")
-  = tag("meta", property: "og:url", content: request.original_url)
-  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+- garden_title = "#{@garden.owner}'s #{@garden}"
+= render 'shared/record_meta',
+         title: garden_title,
+         description: @garden.description.presence || "#{garden_title}, on Growstuff.",
+         image: garden_image_path(@garden)
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Gardens', gardens_path
   %li.breadcrumb-item.active= link_to @garden.name, gardens_path(@garden)
 
-.row
-  .col-md-9.col-12
-    %h2.h1
-      %strong= @garden
-  .col-md-3.col-12
-    = render 'gardens/actions', garden: @garden
-.row
-  .col-md-9
-    - unless @garden.active
-      .alert.alert-warning
-        This garden is inactive.
-        - if can? :edit, @garden
-          = link_to 'Set it to active', edit_garden_path(@garden)
-          to plant something in this garden.
-    - if @garden.active
-      -# Points people at the layout page, with a little bed drawn in the same
-      -# soil and timber, so they can see what they'd be getting.
-      = link_to layout_member_garden_path(@garden.owner, @garden), class: 'garden-layout-teaser' do
-        %span.garden-layout-teaser-bed{ 'aria-hidden': 'true' }
-          %span
-          %span
-          %span
-          %span
-        %span.garden-layout-teaser-text
-          %span.badge.text-bg-success New
-          - if can?(:update_layout, @garden)
-            %strong Map out this bed
-            %span Drag your plants onto a picture of the bed, and see what fits where.
-            %span.garden-layout-teaser-cta Try out the new garden layout tool →
-          - else
-            %strong See how this bed is laid out
-            %span Where each plant in this garden is growing, on a map of the bed.
-            %span.garden-layout-teaser-cta Open the garden layout →
-    %div
-      %p
-        :markdown
-          #{strip_tags markdownify(@garden.description)}
-        - unless @garden.description.present?
-          .row
-            %p No description available yet.
-
+.garden-show.record-page
+  .row
+    .col-md-8.col-12
+      -# Everything that is this garden, inside one border. See DESIGN.md.
+      .record-panel.garden-detail
+        .jumbotron
+          .d-flex.justify-content-between.align-items-start
+            .record-identity
+              = render 'shared/record_owner', owner: @garden.owner
+              .record-identity-text
+                %h1.display-3
+                  = garden_icon
+                  %strong= @garden.name
+                %p.lead.mb-0
+                  grown by
+                  %strong.record-grower-name= link_to @garden.owner, @garden.owner
+                  - if @garden.location.present?
+                    %span.text-muted
+                      &middot;
+                      = link_to @garden.location, place_path(@garden.location)
+            = render 'gardens/actions', garden: @garden
+        - unless @garden.active
+          .alert.alert-warning
+            This garden is inactive.
             - if can? :edit, @garden
-              %p
-                Why not
-                = link_to 'tell us more.', edit_garden_path(@garden)
-        - else
-          - if can? :edit, @garden
-            %p
-              Did you want to
-              = link_to 'update this description.', edit_garden_path(@garden)
-
-    - if @garden.plantings.active.any?
-      %section.card
-        %h2 Garden progress
-        .card-body
-          = render 'plantings/progress_list', plantings: @garden.plantings.active.limit(10)
-
-    %section
-      %h2 Current plantings in garden
-      .index-cards
-        - if @current_plantings.size.positive?
-          - @current_plantings.each do |planting|
-            = render "plantings/card", planting: planting
-        - else
-          .col-md-12
-            %p Nothing is currently planted here.
-        - if can?(:edit, @garden)
-          .col-md-12
-            = garden_plant_something_button(@garden)
-
-    %section
-      %h2 Current activities in garden
-      .index-cards
-        - if @current_activities&.size&.positive?
-          - @current_activities.each do |activity|
-            = render "activities/card", activity: activity
-        - else
-          .col-md-12
-            %p Nothing is currently planned here.
-        - if can?(:edit, @garden)
-          .col-md-12
-            = garden_plan_something_button(@garden)
-
-    - if @suggested_companions.any?
-      %section.companions
-        %h2 Suggestioned companions
-        - @suggested_companions.each do |companion|
-          = render 'crops/tiny', crop: companion
-
-    %section= render 'previously'
-
-  .col-md-3
-    .card
-      .card-image
-        = image_tag garden_image_path(@garden), class: 'img-card', alt: 'photo of this garden'
-      .card-body
-        %h4 About this garden
-        %p
-          %strong Owner:
-          = link_to @garden.owner, @garden.owner
-        %p
-          %strong Collaborators:
-          - if can?(:create, GardenCollaborator.new(garden: @garden))
-            = link_to "Manage", garden_garden_collaborators_path(@garden)
-          - elsif current_member.present? && (collab = @garden.garden_collaborators.find_by(member: current_member))
-            = link_to "Leave garden", garden_garden_collaborator_path(@garden, collab), method: :delete, class: 'text-danger', data: { confirm: 'Are you sure you want to leave this garden?' }
-          - if @garden.garden_collaborators.any?
-            %ul
-              - @garden.garden_collaborators.each do |collabator|
-                %li= link_to collabator.member, collabator.member
-          - else
-            None
-
-        - if @garden.location.present?
-          %p
-            %strong Location:
-            = @garden.location
-        - if @garden.area.present?
-          %p
-            %strong Area:
-            = pluralize(@garden.area, @garden.area_unit)
-        - if @garden.garden_type.present?
-          %p
-            %strong Garden type:
-            = @garden.garden_type.name
-
-        - if @garden.location_wikidata_id.present?
-          %hr
-          %p
-            %small
-              Data about this location from 
-              = link_to "wikidata", "https://www.wikidata.org/wiki/#{@garden.location_wikidata_id}", target: '_blank', rel: 'noopener noreferrer'
-
-          %p
-            %strong Highest temperature:
-            - if @garden.highest_temp_c.present?
-              = "#{ @garden.highest_temp_c.round(1) }°C"
-            - else
-              Not known
-          %p
-            %strong Lowest temperature:
-            - if @garden.lowest_temp_c.present?
-              = "#{ @garden.lowest_temp_c.round(1) }°C"
-            - else
-              Not known
-
-        - elsif can?(:edit, @garden) && @garden.location.present?
-          .alert.alert-info
-            %p Wikidata information is missing for this location.
-            = button_to "Fetch Wikidata info", fetch_wikidata_garden_path(@garden), method: :post, class: 'btn btn-info btn-sm'
-
-    .card
-      .card-header
-        %h4 #{@garden.owner}'s gardens
-      .card-body
-        %ul.list-group.list-group-flush
-          - @garden.owner.gardens.active.order_by_name.each do |garden|
-            %li.list-group-item.list-group-flush
-              = garden_icon
-              - if @garden == garden
-                = @garden
+              = link_to 'Set it to active', edit_garden_path(@garden)
+              to plant something in this garden.
+        - if @garden.active
+          -# Points people at the layout page, with a little bed drawn in the same
+          -# soil and timber, so they can see what they'd be getting.
+          = link_to layout_member_garden_path(@garden.owner, @garden), class: 'garden-layout-teaser' do
+            %span.garden-layout-teaser-bed{ 'aria-hidden': 'true' }
+              %span
+              %span
+              %span
+              %span
+            %span.garden-layout-teaser-text
+              %span.badge.text-bg-success New
+              - if can?(:update_layout, @garden)
+                %strong Map out this bed
+                %span Drag your plants onto a picture of the bed, and see what fits where.
+                %span.garden-layout-teaser-cta Try out the new garden layout tool →
               - else
-                = link_to garden, garden_path(garden)
+                %strong See how this bed is laid out
+                %span Where each plant in this garden is growing, on a map of the bed.
+                %span.garden-layout-teaser-cta Open the garden layout →
+        %div
+          %p
+            :markdown
+              #{strip_tags markdownify(@garden.description)}
+            - unless @garden.description.present?
+              .row
+                %p No description available yet.
 
-    - unless @garden.owner.gardens.inactive.empty?
-      %h4 Inactive gardens
-      %ul
-        - @garden.owner.gardens.inactive.order_by_name.each do |othergarden|
-          %li
-            - if @garden == othergarden
-              = @garden.name
+                - if can? :edit, @garden
+                  %p
+                    Why not
+                    = link_to 'tell us more.', edit_garden_path(@garden)
             - else
-              = link_to othergarden, garden_path(othergarden)
+              - if can? :edit, @garden
+                %p
+                  Did you want to
+                  = link_to 'update this description.', edit_garden_path(@garden)
 
-    - if @garden.owner == current_member
-      %p
-        = link_to new_garden_path, class: 'btn btn-outline-secondary btn-sm' do
-          Add New Garden
+        - if @garden.plantings.active.any?
+          %section.card
+            %h2 Garden progress
+            .card-body
+              = render 'plantings/progress_list', plantings: @garden.plantings.active.limit(10)
 
-    - if can?(:edit, @garden) && can?(:create, Photo)
-      %%p
-        = add_photo_button(@garden)
+        %section
+          %h2 Current plantings in garden
+          .index-cards
+            - if @current_plantings.size.positive?
+              - @current_plantings.each do |planting|
+                = render "plantings/card", planting: planting
+            - else
+              .col-md-12
+                %p Nothing is currently planted here.
+            - if can?(:edit, @garden)
+              .col-md-12
+                = garden_plant_something_button(@garden)
 
-    - if @photos.present? && @photos.any?
-      %section.photos
-        %h2= localize_plural(@garden.photos, Photo)
-        .index-cards
-          - @photos.each do |photo|
-            = render 'photos/thumbnail', photo: photo
-        = will_paginate @photos
+        %section
+          %h2 Current activities in garden
+          .index-cards
+            - if @current_activities&.size&.positive?
+              - @current_activities.each do |activity|
+                = render "activities/card", activity: activity
+            - else
+              .col-md-12
+                %p Nothing is currently planned here.
+            - if can?(:edit, @garden)
+              .col-md-12
+                = garden_plan_something_button(@garden)
+
+        - if @suggested_companions.any?
+          %section.companions
+            %h2 Suggestioned companions
+            - @suggested_companions.each do |companion|
+              = render 'crops/tiny', crop: companion
+
+        %section= render 'previously'
+
+    .col-md-3
+      .card
+        .card-image
+          = image_tag garden_image_path(@garden), class: 'img-card', alt: 'photo of this garden'
+        .card-body
+          %h4 About this garden
+          %p
+            %strong Owner:
+            = link_to @garden.owner, @garden.owner
+          %p
+            %strong Collaborators:
+            - if can?(:create, GardenCollaborator.new(garden: @garden))
+              = link_to "Manage", garden_garden_collaborators_path(@garden)
+            - elsif current_member.present? && (collab = @garden.garden_collaborators.find_by(member: current_member))
+              = link_to "Leave garden", garden_garden_collaborator_path(@garden, collab), method: :delete, class: 'text-danger', data: { confirm: 'Are you sure you want to leave this garden?' }
+            - if @garden.garden_collaborators.any?
+              %ul
+                - @garden.garden_collaborators.each do |collabator|
+                  %li= link_to collabator.member, collabator.member
+            - else
+              None
+
+          - if @garden.location.present?
+            %p
+              %strong Location:
+              = @garden.location
+          - if @garden.area.present?
+            %p
+              %strong Area:
+              = pluralize(@garden.area, @garden.area_unit)
+          - if @garden.garden_type.present?
+            %p
+              %strong Garden type:
+              = @garden.garden_type.name
+
+          - if @garden.location_wikidata_id.present?
+            %hr
+            %p
+              %small
+                Data about this location from 
+                = link_to "wikidata", "https://www.wikidata.org/wiki/#{@garden.location_wikidata_id}", target: '_blank', rel: 'noopener noreferrer'
+
+            %p
+              %strong Highest temperature:
+              - if @garden.highest_temp_c.present?
+                = "#{ @garden.highest_temp_c.round(1) }°C"
+              - else
+                Not known
+            %p
+              %strong Lowest temperature:
+              - if @garden.lowest_temp_c.present?
+                = "#{ @garden.lowest_temp_c.round(1) }°C"
+              - else
+                Not known
+
+          - elsif can?(:edit, @garden) && @garden.location.present?
+            .alert.alert-info
+              %p Wikidata information is missing for this location.
+              = button_to "Fetch Wikidata info", fetch_wikidata_garden_path(@garden), method: :post, class: 'btn btn-info btn-sm'
+
+      .card
+        .card-header
+          %h4 #{@garden.owner}'s gardens
+        .card-body
+          %ul.list-group.list-group-flush
+            - @garden.owner.gardens.active.order_by_name.each do |garden|
+              %li.list-group-item.list-group-flush
+                = garden_icon
+                - if @garden == garden
+                  = @garden
+                - else
+                  = link_to garden, garden_path(garden)
+
+      - unless @garden.owner.gardens.inactive.empty?
+        %h4 Inactive gardens
+        %ul
+          - @garden.owner.gardens.inactive.order_by_name.each do |othergarden|
+            %li
+              - if @garden == othergarden
+                = @garden.name
+              - else
+                = link_to othergarden, garden_path(othergarden)
+
+      - if @garden.owner == current_member
+        %p
+          = link_to new_garden_path, class: 'btn btn-outline-secondary btn-sm' do
+            Add New Garden
+
+      - if can?(:edit, @garden) && can?(:create, Photo)
+        %%p
+          = add_photo_button(@garden)
+
+      - if @photos.present? && @photos.any?
+        %section.photos
+          %h2= localize_plural(@garden.photos, Photo)
+          .index-cards
+            - @photos.each do |photo|
+              = render 'photos/thumbnail', photo: photo
+          = will_paginate @photos

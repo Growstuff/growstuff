@@ -1,0 +1,18 @@
+-# Title, description and OpenGraph for one record — a planting, a harvest, a
+-# packet of seed, a garden. One copy, so a link shared anywhere reads the same
+-# whatever kind of record it points at.
+-#
+-# `user_generated` marks the image as a member's own photo rather than our
+-# artwork, which is what og:image:user_generated is for.
+- user_generated = local_assigns.fetch(:user_generated, false)
+= content_for :title, title
+- content_for :meta_description do
+  = description
+- content_for :opengraph do
+  = tag.meta(property: "og:image", content: image)
+  = tag.meta(property: "og:image:user_generated", content: "true") if user_generated
+  = tag.meta(property: "og:title", content: title)
+  = tag.meta(property: "og:description", content: og_description(description))
+  = tag.meta(property: "og:type", content: "website")
+  = tag.meta(property: "og:url", content: request.original_url)
+  = tag.meta(property: "og:site_name", content: ENV.fetch('GROWSTUFF_SITE_NAME', nil))

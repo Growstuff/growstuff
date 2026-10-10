@@ -8,10 +8,13 @@
     %p.planting-crop-sci= crop.default_scientific_name
   %ul.planting-crop-facts
     %li
-      = crop.perennial? ? 'A perennial' : 'An annual'
       - if crop.annual? && crop.median_lifespan.present?
-        , living about
+        = succeed ',' do
+          An annual
+        living about
         %strong= pluralize crop.median_lifespan, 'day'
+      - else
+        = crop.perennial? ? 'A perennial' : 'An annual'
     - unless crop.median_days_to_first_harvest.nil?
       %li
         First harvest about

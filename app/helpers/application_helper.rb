@@ -9,6 +9,13 @@ module ApplicationHelper
     content_tag(:div, '', html_options.merge(data: { react_component: name, props: props.to_json }))
   end
 
+  # What the PhotoDialog island needs: the record's name, for the dialog's
+  # heading and its "add this photo to..." confirmation, and the icon in its
+  # header. The links it opens from carry the rest.
+  def photo_dialog_props(label)
+    { label:, icon_url: image_path('icons/photo.svg') }
+  end
+
   def parse_date(str)
     str ||= '' # Date.parse barfs on nil
     str == '' ? nil : Date.parse(str)
