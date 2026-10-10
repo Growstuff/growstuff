@@ -7,10 +7,14 @@
     .dropdown-menu.dropdown-menu-end{ "aria-labelledby" => "harvest-actions-button" }
       %a.dropdown-item{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#harvest-edit-modal" }= t('buttons.edit')
       - if can? :create, Photo
-        = link_to t('buttons.add_photo'), new_photo_path(id: harvest.id, type: 'harvest'), class: 'dropdown-item'
+        = link_to t('buttons.add_photo'), new_photo_path(id: harvest.id, type: 'harvest'), class: 'dropdown-item', data: { photo_dialog: true }
       .dropdown-divider
       = delete_button(harvest, classes: 'dropdown-item text-danger')
 
   -# The dialog the Edit item opens. Outside the dropdown, so it is not torn
   -# down with the menu when it closes.
   = render 'harvests/edit_modal', harvest: harvest
+  -# Opens the add-photo dialog over the page, for both the menu item above and
+  -# the "add" on the photos heading bar.
+  - if can? :create, Photo
+    = react_component 'PhotoDialog', photo_dialog_props("#{harvest.crop.name} harvest")

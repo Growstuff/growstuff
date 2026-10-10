@@ -12,13 +12,26 @@
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
+-# The edit and add-photo dialogs; the latter is a React island.
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
 %script{type: "application/ld+json"}
   = crop_jsonld_data(@harvest.crop, full_attributes: false).to_json.html_safe
 
+-# A harvest is a picking off a planting, so the trail descends through
+-# plantings: Home > Plantings > that planting > Harvest. Without a planting
+-# there is no such parent, so it falls back to the owner's harvests. The last
+-# crumb is the word, not the harvest itself, whose to_s is a whole sentence
+-# ("50 individual apples, weighing 3lb").
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Harvests', harvests_path
-  %li.breadcrumb-item= link_to @harvest.owner, member_harvests_path(@harvest.owner)
-  %li.breadcrumb-item.active= link_to @harvest, @harvest
+  - if @harvest.planting.present?
+    %li.breadcrumb-item= link_to 'Plantings', plantings_path
+    %li.breadcrumb-item= link_to @harvest.planting.display_name, @harvest.planting
+  - else
+    %li.breadcrumb-item= link_to 'Harvests', harvests_path
+    %li.breadcrumb-item= link_to @harvest.owner, member_harvests_path(@harvest.owner)
+  %li.breadcrumb-item.active Harvest
 
 .harvest-show.record-page
   .row
@@ -51,6 +64,18 @@
                     %span.text-muted
                       &middot;
                       = I18n.l @harvest.harvested_at
+                -# This harvest is one picking off a planting. Say so in the
+                -# hero, with the planting named and linked, so the reader knows
+                -# what they are looking at a part of before scrolling.
+                - if @harvest.planting.present?
+                  %p.record-parent.mb-0
+                    = planting_icon
+                    picked from
+                    = link_to @harvest.planting.display_name, @harvest.planting
+                    - if @harvest.planting.garden.present?
+                      %span.record-parent-where
+                        growing in
+                        = link_to @harvest.planting.garden.name, @harvest.planting.garden
             = render 'harvests/actions', harvest: @harvest
 
           - if @harvest.description.present?
@@ -85,7 +110,7 @@
           .section-header
             %h2 Photos
             - if can?(:edit, @harvest) && can?(:create, Photo)
-              = link_to new_photo_path(id: @harvest.id, type: 'harvest'), class: 'btn btn-sm section-add' do
+              = link_to new_photo_path(id: @harvest.id, type: 'harvest'), class: 'btn btn-sm section-add', data: { photo_dialog: true } do
                 = icon 'fas', 'plus'
                 add
           - if @harvest.photos.any?
@@ -99,7 +124,7 @@
         - if @harvest.planting.present?
           %section.harvest-from
             .section-header
-              %h2 Harvested from
+              %h2 The planting this came from
             .index-cards
               = render 'plantings/card', planting: @harvest.planting
             %p.text-muted.small.mb-0

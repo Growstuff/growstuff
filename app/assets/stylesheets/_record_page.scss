@@ -228,6 +228,34 @@
     font-weight: 600;
   }
 
+  // Where a record came from: the planting a harvest was picked off, the
+  // planting a packet of seed was saved from. Drawn as a line hanging off the
+  // title with a left rule, so it reads as lineage rather than as one more
+  // link in the byline.
+  .record-parent {
+    margin-top: 0.4rem;
+    padding-left: 0.6rem;
+    border-left: 3px solid $green;
+    font-size: 1.05rem;
+    color: $ink-muted;
+
+    a {
+      font-weight: 600;
+    }
+
+    .img-icon {
+      width: 1.3em;
+      height: 1.3em;
+      margin-right: 0.2rem;
+      vertical-align: -0.3em;
+    }
+
+    // Secondary to the planting itself.
+    .record-parent-where {
+      white-space: nowrap;
+    }
+  }
+
   // A card with nothing in it should read quieter than one with a fact: the
   // word "unknown" has no business being as loud as a number.
   .facts .fact-card.text-muted {
