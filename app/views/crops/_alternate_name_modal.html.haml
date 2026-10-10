@@ -21,8 +21,8 @@
             = f.text_field :name, class: 'form-control', required: true
           .mb-3
             = f.label :language, 'Language', class: 'form-label'
-            = f.text_field :language, class: 'form-control'
-            %span.form-text What language this name is used in.
+            -# The same list the full form offers, and a language is required.
+            = f.select :language, I18nData.languages.map { |code, name| [name.split(";").first, code] }, { selected: alternate_name.language || 'en' }, class: 'form-select'
         .modal-footer
           %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" } Cancel
           = f.submit 'Save', class: 'btn btn-primary'
