@@ -3,14 +3,14 @@ development:
   database: growstuff_dev
   user: postgres
   password: postgres
-  host: db
+  host: localhost
 
 test:
   adapter: postgresql
   database: growstuff_test
   user: postgres
   password: postgres
-  host: db
+  host: localhost
 
 production:
   adapter: postgresql

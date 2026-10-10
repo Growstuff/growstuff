@@ -1,7 +1,7 @@
 .predictions {
   .predictions-card {
     background: $white;
-    border-radius: 5%;
+    border-radius: $card-radius;
     border: 1px solid lighten($green, 20%);
     margin: 1em;
     max-width: 250px;

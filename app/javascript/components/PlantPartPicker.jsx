@@ -114,6 +114,9 @@ export default function PlantPartPicker({id, parts, suggestedId, onChoose}) {
               }}
               onMouseEnter={() => setActiveIndex(index)}
             >
+              {part.icon_url && (
+                <img src={part.icon_url} alt="" aria-hidden="true" className="plant-part-icon" />
+              )}
               {part.name}
               {!term.trim() && part.id === suggestedId && <span className="crop-picker-usual"> · usual for this crop</span>}
             </li>

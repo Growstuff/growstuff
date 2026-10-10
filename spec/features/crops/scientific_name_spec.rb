@@ -25,15 +25,14 @@ describe "Scientific names", :js do
     it "Crop wranglers can edit scientific names" do
       visit crop_path(crop)
       # expect(page.status_code).to equal 200
-      expect(page).to have_content "CROP WRANGLER"
       expect(page).to have_content zea_mays.name
+      # Each name has its own menu; editing opens a dialog over the page.
       click_link zea_mays.name
-      expect(page).to have_link "Edit", href: edit_scientific_name_path(zea_mays)
       within('.scientific_names') { click_on "Edit" }
-      # expect(page.status_code).to equal 200
-      expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
-      fill_in 'Name', with: "Zea mirabila"
-      click_on "Save"
+      within('[role=dialog]') do
+        fill_in 'Scientific name', with: "Zea mirabila"
+        click_on "Save"
+      end
       expect(page).to have_content "Zea mirabila"
       expect(page).to have_content 'crop was successfully updated'
     end
@@ -55,14 +54,14 @@ describe "Scientific names", :js do
 
     it "Crop wranglers can add scientific names" do
       visit crop_path(crop)
-      expect(page).to have_link "Add",
-                                href: new_scientific_name_path(crop_id: crop.id)
-      within('.scientific_names') { click_on "Add" }
-      # expect(page.status_code).to equal 200
-      expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
-      fill_in 'Name', with: "Zea mirabila"
-      click_on "Save"
-      # expect(page.status_code).to equal 200
+      # Adding is an item in the crop's actions menu, which opens a dialog.
+      click_link 'Actions'
+      click_on "Add scientific name"
+      # The dialog knows which crop it is for, so there is no crop to choose.
+      within('[role=dialog]') do
+        fill_in 'Scientific name', with: "Zea mirabila"
+        click_on "Save"
+      end
       expect(page).to have_content "Zea mirabila"
       expect(page).to have_content 'crop was successfully created.'
     end

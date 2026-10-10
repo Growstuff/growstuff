@@ -123,3 +123,19 @@
   font-size: 1.1rem;
 }
 
+
+// Photo cards are little polaroids: a white border all round the picture, a
+// deeper lip beneath it where the caption goes, and a soft shadow so they sit
+// on the section's ground rather than merging into it.
+.photo-card.card {
+  padding: 0.5rem 0.5rem 0;
+  box-shadow: 0 1px 3px rgba(65, 63, 59, 0.25);
+
+  .img-card {
+    border-radius: 0;
+  }
+
+  .card-body {
+    padding: 0.5rem 0.25rem 0.75rem;
+  }
+}

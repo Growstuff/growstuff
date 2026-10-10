@@ -1,0 +1,23 @@
+-# Title, description and OpenGraph for one planting. The same sentence
+-# everywhere, so a shared link never reads as a page about the crop.
+- content_for :meta_description do
+  = planting.description.presence || t('plantings.show.meta_description', crop: planting.display_name, owner: planting.owner, garden: planting.garden)
+- content_for :opengraph do
+  = tag("meta", property: "og:image", content: planting_image_path(planting))
+  = tag("meta", property: "og:title", content: title)
+  - if planting.description
+    = tag("meta", property: "og:description", content: og_description(planting.description))
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV.fetch('GROWSTUFF_SITE_NAME', nil))
+  - if planting.overall_rating.present?
+    %script{ type: "application/ld+json" }
+      :plain
+        {
+          "@context": "http://schema.org",
+          "@type": "Rating",
+          "ratingValue": "#{planting.overall_rating}",
+          "bestRating": "5"
+        }
+  %script{ type: "application/ld+json" }
+    = crop_jsonld_data(planting.crop, full_attributes: false).to_json.html_safe

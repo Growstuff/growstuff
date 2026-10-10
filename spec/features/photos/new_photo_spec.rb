@@ -12,9 +12,13 @@ describe "new photo page" do
         visit planting_path(planting)
         click_link 'Actions'
         within '.planting-actions' do
-          click_link('Add photo')
+          click_link 'Add photo'
         end
-        expect(page).to have_text planting.crop.name
+        # The menu opens the add-photo dialog over the planting now, rather
+        # than taking the member away to a page of its own.
+        within '[role=dialog]' do
+          expect(page).to have_text "Add photo to #{planting.crop.name} planting"
+        end
         page.percy_snapshot(page, name: 'Add photo to planting')
       end
     end

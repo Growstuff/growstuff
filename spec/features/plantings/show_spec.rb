@@ -29,7 +29,7 @@ describe "Display a planting", :js do
       let(:planting) { create(:predictable_planting, planted_at: 2.weeks.ago) }
 
       it { expect(page).to have_text '28%' }
-      it { expect(page).to have_text '14/50 days' }
+      it { expect(page).to have_text 'day 14 of 50' }
       it { expect(page).to have_text "Planted #{I18n.l(2.weeks.ago.to_date)}" }
       it { expect(page).to have_text 'Finish expected' }
     end
@@ -83,14 +83,17 @@ describe "Display a planting", :js do
 
       it { expect(page).to have_text 'Is this from one of these plantings? ' }
 
-      describe 'linking to planting' do
+      describe 'linking to the parent seed' do
         before do
           choose "planting_parent_seed_id_#{planting.id}"
           click_button 'save'
         end
 
         it { expect(page).to have_text 'Parent seed' }
-        it { expect(page).to have_link href: planting_path(planting) }
+        # The parent seed card links to the seed. The breadcrumb used to link
+        # to this planting, but the last crumb is the page you are on, so it
+        # is plain text now.
+        it { expect(page).to have_link href: seed_path(seed) }
       end
     end
   end

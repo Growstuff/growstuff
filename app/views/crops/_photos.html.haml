@@ -4,4 +4,5 @@
     %h3 #{@crop.name.capitalize} #{t("activerecord.models.#{model_name.to_s.downcase}.other")}
     = render 'photos/gallery', photos: crop_or_parent(crop, :photos).by_model(model_name).includes(:owner).order(likes_count: :desc).limit(5)
 - if crop.photos.count.positive?
-  = link_to 'more photos »', crop_photos_path(@crop), class: 'btn'
+  .section-footer
+    = link_to 'More photos', crop_photos_path(@crop), class: 'btn btn-outline-secondary btn-sm'
