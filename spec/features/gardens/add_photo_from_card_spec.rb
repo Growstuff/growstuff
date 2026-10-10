@@ -38,7 +38,7 @@ describe 'Adding a photo from a garden card', :js do
       within '[role=dialog]' do
         expect(page).to have_content 'Add photo to lettuce planting'
         expect(page).to have_css '.plant-step-current', text: 'Choose a photo'
-        expect(page).to have_content 'Connected to Flickr as Gardener'
+        expect(page).to have_content 'From your Flickr, connected as Gardener'
         expect(page).to have_select 'Album', options: ['All your recent photos', 'Spring']
         expect(page).to have_css '.photo-picker-photo', count: 1
         expect(page).to have_no_content 'Connect your Flickr account'
