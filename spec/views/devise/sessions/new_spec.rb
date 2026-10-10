@@ -13,8 +13,8 @@ describe 'devise/sessions/new.html.haml', type: "view" do
     end
 
     it 'has some fields' do
-      rendered.should have_content 'Remember me'
-      rendered.should have_content 'Password'
+      expect(rendered).to have_content 'Remember me'
+      expect(rendered).to have_content 'Password'
     end
   end
 end

@@ -11,6 +11,10 @@
 /public
 /node_modules
 
+# JavaScript built by esbuild (yarn build)
+/app/assets/builds/*
+!/app/assets/builds/.keep
+
 # Dev database (if they use sqlite)
 /db/*.sqlite3
 

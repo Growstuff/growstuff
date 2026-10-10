@@ -14,7 +14,7 @@
         .dropdown-divider
         .px-2
           = form_tag transplant_planting_path(planting), method: :post do
-            .form-group
+            .mb-3
               = label_tag :garden_id, 'Transplant to:'
               = select_tag :garden_id, options_from_collection_for_select(transplantable_gardens_by_owner(planting), :id, :name), class: 'form-control form-control-sm'
             = submit_tag 'Transplant', class: 'btn btn-sm btn-primary mt-2'

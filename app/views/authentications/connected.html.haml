@@ -1,0 +1,17 @@
+!!! 5
+%html{lang: 'en'}
+  %head
+    %meta{charset: 'utf-8'}
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
+    %title= @connected ? 'Flickr connected' : 'Flickr not connected'
+    = stylesheet_link_tag 'application'
+  %body.p-4
+    - if @connected
+      %h1 Flickr is connected
+      %p You can close this window and carry on choosing a photo.
+    - else
+      %h1 Flickr was not connected
+      %p You can close this window and try again.
+    %button.btn{type: 'button', onclick: 'window.close()'} Close this window
+    :javascript
+      window.close();

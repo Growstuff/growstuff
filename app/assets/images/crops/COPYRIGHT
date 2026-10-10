@@ -1,0 +1,7 @@
+The SVG icons in this folder are the "Flat" style of Microsoft's Fluent Emoji,
+https://github.com/microsoft/fluentui-emoji, taken from commit 1ffb34c75
+(24 August 2026) and renamed to the emoji's name in lower case, so
+"Ear of corn" is ear_of_corn.svg.
+
+They are Copyright (c) Microsoft Corporation, and used under the MIT License,
+which is in LICENSE alongside them.

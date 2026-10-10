@@ -17,13 +17,16 @@
 
     li.nav-item {
       display: block;
-      a { 
+      // Menus with a chevron: icon, label, chevron. Not the sign in and sign up
+      // buttons, whose labels would be squeezed into the icon's column.
+      a.dropdown-toggle {
         display: grid;
         grid-template-columns: 2em 1fr 2em;
       }
+      // Bootstrap 5's chevron is a border triangle, so it must not be stretched.
       a.dropdown-toggle::after {
-        width: 100%;
-        text-align: right;
+        align-self: center;
+        justify-self: end;
       }
     }
   }

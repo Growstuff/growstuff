@@ -19,6 +19,7 @@ class Ability
 
     # Everyone can see the charts
     can :timeline, Garden
+    can :layout, Garden
     can :sunniness, Crop
     can :planted_from, Crop
     can :harvested_for, Crop
@@ -36,14 +37,10 @@ class Ability
     can :read, Crop, approval_status: "approved"
     # scientific names should only be viewable if associated crop is approved
     cannot :read, ScientificName
-    can :read, ScientificName do |sn|
-      sn.crop.approved?
-    end
+    can :read, ScientificName, crop: { approval_status: "approved" }
     # ... same for alternate names
     cannot :read, AlternateName
-    can :read, AlternateName do |an|
-      an.crop.approved?
-    end
+    can :read, AlternateName, crop: { approval_status: "approved" }
 
     cannot :create, GardenType
     cannot :update, GardenType
@@ -105,46 +102,37 @@ class Ability
     can :create,  Garden
     can :update,  Garden, owner_id: member.id
     can :destroy, Garden, owner_id: member.id
+    # Arranging the bed is really editing the plantings in it, so collaborators
+    # can do it too, as they can with the plantings themselves.
+    can :update_layout, Garden, owner_id: member.id
+    can :update_layout, Garden, garden_collaborators: { member_id: member.id }
 
     can :create,  Planting
     can :update,  Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
     can :destroy, Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
-    can :update, Planting do |planting|
-      planting.garden.garden_collaborators.where(member_id: member.id).any?
-    end
+    can :update,  Planting, garden: { garden_collaborators: { member_id: member.id } }
     can :transplant, Planting, garden: { owner_id: member.id }
-    can :transplant, Planting do |planting|
-      planting.garden.garden_collaborators.where(member_id: member.id).any?
-    end
-    can :destroy, Planting do |planting|
-      planting.garden.garden_collaborators.where(member_id: member.id).any?
-    end
+    can :transplant, Planting, garden: { garden_collaborators: { member_id: member.id } }
+    can :destroy, Planting, garden: { garden_collaborators: { member_id: member.id } }
 
     can :create,  GardenCollaborator, garden: { owner_id: member.id }
     can :update,  GardenCollaborator, garden: { owner_id: member.id }
     can :destroy, GardenCollaborator, garden: { owner_id: member.id }
+    can :destroy, GardenCollaborator, member_id: member.id
 
     can :create,  Activity
     can :update,  Activity, owner_id: member.id
     can :destroy, Activity, owner_id: member.id
-    can :update, Activity do |activity|
-      activity.garden&.garden_collaborators&.where(member_id: member.id)&.any?
-    end
-    can :destroy, Activity do |activity|
-      activity.garden&.garden_collaborators&.where(member_id: member.id)&.any?
-    end
+    can :update,  Activity, garden: { garden_collaborators: { member_id: member.id } }
+    can :destroy, Activity, garden: { garden_collaborators: { member_id: member.id } }
 
     can :create,  Harvest
     can :update,  Harvest, owner_id: member.id
     can :destroy, Harvest, owner_id: member.id
     can :update,  Harvest, owner_id: member.id, planting: { owner_id: member.id }
     can :destroy, Harvest, owner_id: member.id, planting: { owner_id: member.id }
-    can :update, Harvest do |harvest|
-      harvest.planting&.garden&.garden_collaborators&.where(member_id: member.id)&.any?
-    end
-    can :destroy, Harvest do |harvest|
-      harvest.planting&.garden&.garden_collaborators&.where(member_id: member.id)&.any?
-    end
+    can :update,  Harvest, planting: { garden: { garden_collaborators: { member_id: member.id } } }
+    can :destroy, Harvest, planting: { garden: { garden_collaborators: { member_id: member.id } } }
 
     can :create, Photo
     can :update, Photo, owner_id: member.id
@@ -163,6 +151,12 @@ class Ability
 
     can :destroy, Follow
     cannot :destroy, Follow, followed_id: member.id # can't unfollow yourself
+
+    # blocking/unblocking permissions
+    can :create, Block
+    cannot :create, Block, blocked_id: member.id # can't block yourself
+
+    can :destroy, Block, blocker_id: member.id # can only unblock your own blocks
 
     cannot :create, GardenType
     cannot :update, GardenType

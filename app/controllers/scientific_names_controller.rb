@@ -54,7 +54,7 @@ class ScientificNamesController < ApplicationController
   def destroy
     @crop = @scientific_name.crop
     @scientific_name.destroy
-    flash[:notice] = 'Scientific name was successfully deleted.'
+    flash[:notice] = t('scientific_names.deleted')
     respond_with(@crop)
   end
 

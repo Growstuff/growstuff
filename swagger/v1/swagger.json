@@ -9,6 +9,85 @@
     "/crops": {
       "get": {
         "summary": "crops List",
+    "/crops/search": {
+      "get": {
+        "summary": "crops Search",
+        "tags": [
+          "crops"
+        ],
+        "produces": [
+          "application/vnd.api+json"
+        ],
+        "parameters": [
+          {
+            "name": "term",
+            "in": "query",
+            "type": "string",
+            "description": "Search term",
+            "required": true
+          },
+          {
+            "name": "page[number]",
+            "in": "query",
+            "type": "string",
+            "description": "Page num",
+            "required": false
+          },
+          {
+            "name": "page[size]",
+            "in": "query",
+            "type": "string",
+            "description": "Page size",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get search results",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID"
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Type"
+                      },
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "record_count": {
+                      "type": "integer"
+                    },
+                    "page_count": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
         "tags": [
           "crops"
         ],

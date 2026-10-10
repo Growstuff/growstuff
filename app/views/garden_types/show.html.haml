@@ -5,8 +5,8 @@
   - content_for :buttonbar do
     = render 'garden_types/actions', garden_type: @garden_type
 
-- if @garden_type.gardens.uniq.empty?
+- if @garden_type.gardens.distinct.empty?
   %p There are no gardens to display.
 - else
-  - @garden_type.gardens.uniq.each do |garden|
+  - @garden_type.gardens.distinct.each do |garden|
     = render 'gardens/overview', garden: garden

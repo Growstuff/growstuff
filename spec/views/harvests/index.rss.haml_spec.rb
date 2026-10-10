@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'harvests/index.rss.haml', :search do
+describe 'harvests/index.rss.haml' do
   before do
     controller.stub(:current_user) { nil }
     @member = create(:member)
@@ -12,8 +12,7 @@ describe 'harvests/index.rss.haml', :search do
     @harvest2 = create(:harvest, crop: @tomato)
     @harvest3 = create(:harvest, crop: @tomato)
 
-    Harvest.searchkick_index.refresh
-    assign(:harvests, Harvest.search(load: false))
+    assign(:harvests, Harvest.all)
   end
 
   context 'all harvests' do

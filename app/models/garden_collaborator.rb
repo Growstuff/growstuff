@@ -11,7 +11,7 @@ class GardenCollaborator < ApplicationRecord
     return unless member
     return unless garden
 
-    errors.add(:member_id, "cannot be the garden owner") if garden.owner == member
+    errors.add(:member_id, :cannot_be_garden_owner) if garden.owner == member
   end
 
   def member_slug

@@ -14,8 +14,9 @@ class GardenType < ApplicationRecord
     name.gsub!(/[^A-Za-z]/, '')
   end
 
-  def subtitler(garden_type)
-    num = garden_type.gardens.uniq.count
+  def subtitler(garden_type = self)
+    garden_type ||= self
+    num = garden_type.gardens.distinct.count
     s = num > 1 || num.zero? ? "s are" : " is"
     "#{num} garden#{s} using this garden type"
   end

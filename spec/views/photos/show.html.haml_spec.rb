@@ -109,7 +109,7 @@ describe "photos/show" do
     end
 
     it "contains the phrase 'All rights reserved'" do
-      rendered.should have_content "All rights reserved"
+      expect(rendered).to have_content "All rights reserved"
     end
   end
 end

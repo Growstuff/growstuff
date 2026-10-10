@@ -31,7 +31,7 @@ describe "Gardens" do
           before { click_link 'Actions' }
 
           it "has actions on garden" do
-            expect(subject).to have_link 'Plant something here'
+            expect(subject).to have_link 'Add planting'
             expect(subject).to have_link 'Mark as inactive'
             expect(subject).to have_link 'Edit'
             expect(subject).to have_link 'Add photo'

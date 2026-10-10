@@ -7,7 +7,7 @@ class AlternateName < ApplicationRecord
   validates :crop, presence: true
   validates :language, presence: true
 
-  after_commit :reindex
+  after_commit :reindex, if: -> { Searchkick.callbacks? }
 
   delegate :reindex, to: :crop
 end

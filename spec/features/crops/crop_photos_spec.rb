@@ -15,41 +15,44 @@ describe "crop detail page", :js, :search do
   let!(:planting) { create(:planting, crop:, owner: owner_member) }
   let!(:seed)     { create(:seed, crop:, owner: owner_member)     }
 
-  let!(:photo1) { create(:photo, owner: owner_member) }
-  let!(:photo2) { create(:photo, owner: owner_member) }
-  let!(:photo3) { create(:photo, owner: owner_member) }
-  let!(:photo4) { create(:photo, owner: owner_member) }
-  let!(:photo5) { create(:photo, owner: owner_member) }
-  let!(:photo6) { create(:photo, owner: owner_member) }
+  let!(:first_planting_photo)  { create(:photo, owner: owner_member) }
+  let!(:second_planting_photo) { create(:photo, owner: owner_member) }
+  let!(:first_harvest_photo)   { create(:photo, owner: owner_member) }
+  let!(:second_harvest_photo)  { create(:photo, owner: owner_member) }
+  let!(:first_seed_photo)      { create(:photo, owner: owner_member) }
+  let!(:second_seed_photo)     { create(:photo, owner: owner_member) }
 
   before do
-    planting.photos << photo1
-    planting.photos << photo2
-    harvest.photos << photo3
-    harvest.photos << photo4
-    seed.photos << photo5
-    seed.photos << photo6
+    planting.photos << first_planting_photo
+    planting.photos << second_planting_photo
+    harvest.photos << first_harvest_photo
+    harvest.photos << second_harvest_photo
+    seed.photos << first_seed_photo
+    seed.photos << second_seed_photo
     Crop.reindex
     visit crop_path(crop)
-    expect(crop.photos.count).to eq 6
-    expect(crop.photos.by_model(Planting).count).to eq 2
-    expect(page).to have_content 'Photos'
   end
 
   shared_examples "shows photos" do
+    it "shows the photo section" do
+      expect(crop.photos.count).to eq 6
+      expect(crop.photos.by_model(Planting).count).to eq 2
+      expect(page).to have_content 'Photos'
+    end
+
     describe "show planting photos" do
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo1.fullsize_url}')]") }
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo2.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{first_planting_photo.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{second_planting_photo.fullsize_url}')]") }
     end
 
     describe "show harvest photos" do
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo3.fullsize_url}')]") }
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo4.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{first_harvest_photo.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{second_harvest_photo.fullsize_url}')]") }
     end
 
     describe "show seed photos" do
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo5.fullsize_url}')]") }
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo6.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{first_seed_photo.fullsize_url}')]") }
+      it { is_expected.to have_xpath("//img[contains(@src,'#{second_seed_photo.fullsize_url}')]") }
     end
 
     describe "link to more photos" do

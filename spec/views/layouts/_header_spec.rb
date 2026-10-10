@@ -14,24 +14,24 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
 
     it 'has signup/signin links' do
-      rendered.should have_content 'Sign up'
-      rendered.should have_content 'Sign in'
+      expect(rendered).to have_content 'Sign up'
+      expect(rendered).to have_content 'Sign in'
     end
 
     it 'has a Crops link' do
-      rendered.should have_content "Crops"
+      expect(rendered).to have_content "Crops"
     end
 
     it 'has a Seeds link' do
-      rendered.should have_content "Seeds"
+      expect(rendered).to have_content "Seeds"
     end
 
     it 'has a Places link' do
-      rendered.should have_content "Community Map"
+      expect(rendered).to have_content "Community Map"
     end
 
     it 'has a Community section' do
-      rendered.should have_content "Community"
+      expect(rendered).to have_content "Community"
     end
 
     it 'links to members' do
@@ -62,7 +62,7 @@ describe 'layouts/_header.html.haml', type: "view" do
 
     context "login name" do
       it 'has member login name' do
-        rendered.should have_content @member.login_name.to_s
+        expect(rendered).to have_content @member.login_name.to_s
       end
 
       it "shows link to member's gardens" do
@@ -83,20 +83,26 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
 
     it 'shows signout link' do
-      rendered.should have_content 'Sign out'
+      expect(rendered).to have_content 'Sign out'
     end
 
     it 'shows inbox link' do
-      rendered.should have_content 'Inbox'
-      rendered.should_not match(/Inbox \d+/)
+      expect(rendered).to have_content 'Inbox'
+      expect(rendered).not_to match(/Inbox \d+/)
+    end
+  end
+
+  context 'logged in, has notifications' do
+    before do
+      @member = create(:member)
+      create(:notification, recipient: @member)
+      sign_in @member
+      controller.stub(:current_user) { @member }
     end
 
-    context 'has notifications' do
-      it 'shows inbox count' do
-        create(:notification, recipient: @member)
-        render
-        rendered.should have_content 'Inbox 1'
-      end
+    it 'shows inbox count' do
+      render
+      rendered.should have_content 'Inbox 1'
     end
   end
 end

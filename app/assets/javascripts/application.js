@@ -11,14 +11,13 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 // = require leaflet
-// = require leaflet.markercluster
+// = require leaflet.markercluster/dist/leaflet.markercluster
 // = require popper
 // = require jquery
 // = require jquery_ujs
 // = require jquery-ui/widgets/autocomplete
 // = require bootstrap-sprockets
 // = require bootstrap-datepicker
-// = require material
 // = require_tree .
 
 document.addEventListener('DOMContentLoaded', function(event) {

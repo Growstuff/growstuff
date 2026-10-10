@@ -8,11 +8,11 @@ module OpenFarmData
       fetch_attr('main_image_path')
     end
 
-    def svg_icon
-      icon = fetch_attr('svg_icon')
-      return icon if icon.present?
-
-      parent.svg_icon if parent.present?
+    # The icon OpenFarm had for this crop, if any. OpenFarm is gone, so these
+    # are whatever was fetched before it closed; Crop#svg_icon decides which
+    # icon a crop actually gets.
+    def openfarm_svg_icon
+      fetch_attr('svg_icon')
     end
 
     def tags_array

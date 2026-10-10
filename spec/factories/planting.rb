@@ -68,11 +68,5 @@ FactoryBot.define do
         planting.save
       end
     end
-
-    trait :reindex do
-      after(:create) do |planting, _evaluator|
-        planting.reindex(refresh: true)
-      end
-    end
   end
 end

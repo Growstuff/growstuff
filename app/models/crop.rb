@@ -57,19 +57,53 @@ class Crop < ApplicationRecord
   validates :en_wikipedia_url,
             format: {
               with:    %r{\Ahttps?://en\.wikipedia\.org/wiki/[[:alnum:]%_.()-]+\z},
-              message: 'is not a valid English Wikipedia URL'
+              message: :not_a_valid_wikipedia_url
             },
             if:     :approved?
   validates :en_youtube_url,
             format: {
               with:    %r{\A(?:https?://)?(?:www\.)?(?:youtube(?:-nocookie)?\.com/(?:(?:v|e(?:mbed)?)/|\S*?[?&]v=)|youtu\.be/)[a-zA-Z0-9_-]{11}(?:[?&]\S*)?\z},
-              message: 'is not a valid YouTube URL'
+              message: :not_a_valid_youtube_url
             },
             allow_blank: true
   validates :name, uniqueness: { scope: :approval_status }, if: :pending?
+  validates :default_diameter, allow_nil: true, numericality: {
+    greater_than: 0, less_than_or_equal_to: Plant::MAX_DIAMETER
+  }
+  validates :icon, allow_blank: true, inclusion: { in: ->(_) { icon_names } }
+
+  # Crop icons that ship with the app: Microsoft's Fluent Emoji (MIT licensed;
+  # see COPYRIGHT there), one per food plant or flower they draw.
+  ICON_DIR = Rails.root.join('app/assets/images/crops')
+
+  def self.icon_names
+    @icon_names ||= Dir[ICON_DIR.join('*.svg')].map { |path| File.basename(path, '.svg') }.sort
+  end
+
+  # Read once and kept, as crop chips ask for these a lot.
+  def self.icon_svg(name)
+    @icon_svgs ||= {}
+    @icon_svgs[name] ||= ICON_DIR.join("#{name}.svg").read
+  end
 
   def to_s
     name
+  end
+
+  # How many grid cells across one of these plants is drawn on a bed's layout.
+  # Falls back to the parent crop's, as the icon does, so a variety of tomato
+  # follows tomato unless it has its own.
+  def layout_diameter
+    default_diameter || parent&.layout_diameter
+  end
+
+  # This crop's icon as SVG: the one chosen for it, else the one OpenFarm had,
+  # else its parent crop's, so a variety of tomato gets the tomato. Nil when
+  # none of those has one; crops#show then serves a sprout.
+  def svg_icon
+    return self.class.icon_svg(icon) if icon.present?
+
+    openfarm_svg_icon.presence || parent&.svg_icon
   end
 
   def to_param
@@ -165,9 +199,11 @@ class Crop < ApplicationRecord
   end
 
   def all_companions
-    return companions unless parent
-
-    (companions + parent.all_companions).uniq
+    @all_companions ||= if parent
+                          (companions + parent.all_companions).uniq
+                        else
+                          companions
+                        end
   end
 
   before_destroy :destroy_reverse_companionships
@@ -190,12 +226,12 @@ class Crop < ApplicationRecord
     return if rejected?
     return unless reason_for_rejection.present? || rejection_notes.present?
 
-    errors.add(:approval_status, "must be rejected if a reason for rejection is present")
+    errors.add(:approval_status, :rejection_reason_required)
   end
 
   def must_have_meaningful_reason_for_rejection
     return unless reason_for_rejection == "other" && rejection_notes.blank?
 
-    errors.add(:rejection_notes, "must be added if the reason for rejection is \"other\"")
+    errors.add(:rejection_notes, :rejection_notes_required)
   end
 end

@@ -10,9 +10,16 @@ body {
 
 .navbar {
   flex-wrap: nowrap;
-  align-items: flex-start
+  align-items: flex-start;
+  min-height: 3.5rem;
+  padding: 0.625rem 1rem;
 }
 .navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  height: 2.25rem;
+  padding: 0;
+
   .site-name {
     font-family: "Modak", cursive;
     font-size: 3em;
@@ -20,12 +27,18 @@ body {
   }
 
   img {
+    width: auto;
     height: 100%;
   }
 }
 
 #navbar-search {
   padding-left: 1em;
+
+  // Bootstrap 5's input-group shrinks to nothing inside a shrink-to-fit parent.
+  .input-group {
+    min-width: 18rem;
+  }
 
   .input-group {
     input {
@@ -233,10 +246,6 @@ img.avatar {
   z-index: 2;
 }
 
-.progress-bar {
-  border-bottom: 1em solid $progress-bar-color;
-}
-
 ul.associations {
   list-style-type: none;
 }
@@ -357,6 +366,20 @@ ul.thumbnail-buttons {
     padding: 1em;
     text-align: center;
   }
+
+  // A checkbox sits next to its label, in the middle, as the rest of the form does
+  // (Bootstrap 5 floats it to the left edge of the field).
+  .form-check {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-left: 0;
+
+    .form-check-input {
+      float: none;
+      margin: 0.2em 0 0;
+    }
+  }
 }
 .text-muted {
   color: $blue;
@@ -440,4 +463,105 @@ ul.thumbnail-buttons {
 
 .progress-fade:hover::before {
   background: none;
+}
+
+// Bootstrap 5 dropped text-justify.
+.text-justify {
+  text-align: justify;
+}
+
+// Buttons are uppercase, as in the old skin, except link buttons.
+// Bootstrap only draws the button shadow when $enable-shadows is on, so draw it here.
+.btn {
+  box-shadow: var(--bs-btn-box-shadow);
+  text-transform: uppercase;
+
+  &:active,
+  &.active {
+    box-shadow: $btn-active-box-shadow;
+  }
+
+  &:disabled,
+  &.disabled {
+    box-shadow: none;
+  }
+}
+
+.btn-link {
+  text-transform: none;
+}
+
+// A .btn with no colour variant is plain text in Bootstrap 5, so it reads as a
+// link. Draw it as the old skin did: no fill, dark text, raised, darker while hovered.
+.btn:not([class*="btn-"]) {
+  --bs-btn-color: #{$body-color};
+  --bs-btn-hover-color: #{$body-color};
+  --bs-btn-hover-bg: rgba(0, 0, 0, 0.12);
+  --bs-btn-active-color: #{$body-color};
+  --bs-btn-active-bg: rgba(0, 0, 0, 0.12);
+}
+
+// Progress bar colours by state (Planting#progress_state).
+.progress-bar--growing {
+  background-color: var(--bs-info);
+}
+
+.progress-bar--harvesting {
+  background-color: var(--bs-success);
+}
+
+.progress-bar--late {
+  background-color: var(--bs-warning);
+}
+
+.progress-bar--super_late {
+  background-color: var(--bs-danger);
+}
+
+// Grey, not --bs-secondary: the site's secondary colour is its dark blue.
+.progress-bar--finished {
+  background-color: var(--bs-gray-600);
+}
+
+// The card variables drop the card's border, which also drew the line under a
+// header, so put that line back.
+.card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+// Breadcrumb links were grey in the old skin. Bootstrap 5 uses the link green,
+// which is 4.12:1 on the beige page, under the 4.5:1 minimum.
+.breadcrumb-item a {
+  color: #5f5e5c;
+}
+
+// Sidebar text (the skip link, the nav links and button, the blurb) starts where
+// the text inside a card beside it starts, instead of at the card's edge.
+.sidebar-inset {
+  padding-inline: var(--bs-card-spacer-x, 1rem);
+}
+
+.layout-nav {
+  // Links in the link colour and underlined, so they read as links. The page
+  // you are on is bold and not underlined, since it goes nowhere new.
+  .nav-link {
+    padding-block: 0.25rem;
+    color: var(--bs-link-color);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--bs-link-hover-color);
+    }
+
+    &[aria-current="page"] {
+      font-weight: bold;
+      text-decoration: none;
+    }
+  }
+
+  .btn {
+    margin-top: 0.5rem;
+  }
 }

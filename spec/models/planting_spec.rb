@@ -113,6 +113,22 @@ describe Planting do
     end
   end
 
+  describe '#progress_state' do
+    let(:planting) { described_class.new }
+
+    def states(finished: false, super_late: false, late: false, harvest_time: false)
+      allow(planting).to receive_messages(finished?: finished, super_late?: super_late, late?: late,
+                                          harvest_time?: harvest_time)
+      planting.progress_state
+    end
+
+    it { expect(states).to eq :growing }
+    it { expect(states(harvest_time: true)).to eq :harvesting }
+    it { expect(states(late: true, harvest_time: true)).to eq :late }
+    it { expect(states(late: true, super_late: true)).to eq :super_late }
+    it { expect(states(finished: true, late: true)).to eq :finished }
+  end
+
   describe 'planting first harvest preductions' do
     context 'no data' do
       let(:planting) { create(:planting) }
@@ -321,6 +337,26 @@ describe Planting do
     end
   end
 
+  context 'alternate name' do
+    let(:alternate) { FactoryBot.create(:alternate_eggplant) }
+    let(:planting) { FactoryBot.build(:planting, crop: alternate.crop) }
+
+    it 'displays the crop name by default' do
+      expect(planting.display_name).to eq 'eggplant'
+    end
+
+    it 'displays the chosen alternate name' do
+      planting.alternate_name = alternate
+      expect(planting.display_name).to eq 'aubergine'
+      expect(planting.to_s).to include 'aubergine'
+    end
+
+    it 'rejects an alternate name from a different crop' do
+      planting.alternate_name = FactoryBot.create(:alternate_name)
+      expect(planting).not_to be_valid
+    end
+  end
+
   context 'quantity' do
     it 'allows integer quantities' do
       @planting = build(:planting, quantity: 99)
@@ -420,6 +456,25 @@ describe Planting do
       @photo2 = create(:photo, owner: planting.owner)
       planting.photos << @photo2
       expect(planting.default_photo).to eq @photo2
+    end
+
+    describe '#thumbnail_url' do
+      let(:crop_photo) { create(:photo) }
+
+      it 'returns its own default photo if present' do
+        expect(planting.thumbnail_url).to eq photo.fullsize_url
+      end
+
+      it 'falls back to crop default photo if no planting photo is present' do
+        planting_without_photo = create(:planting, crop:)
+        PhotoAssociation.create!(photo: crop_photo, photographable: crop)
+        expect(planting_without_photo.thumbnail_url).to eq crop_photo.fullsize_url
+      end
+
+      it 'returns nil if neither planting nor crop has a photo' do
+        planting_without_photo = create(:planting, crop:)
+        expect(planting_without_photo.thumbnail_url).to be_nil
+      end
     end
   end
 
@@ -596,16 +651,107 @@ describe Planting do
     it { expect(member.plantings.active).not_to include(failed_planting) }
   end
 
-  describe 'homepage', :search do
+  describe 'homepage' do
     subject { described_class.homepage_records(100) }
 
-    let!(:interesting_planting) { create(:planting, :reindex, :with_photo) }
-    let!(:finished_interesting_planting) { create(:finished_planting, :reindex, :with_photo) }
-    let!(:planting) { create(:planting, :reindex) }
-
-    before { described_class.reindex }
+    let!(:interesting_planting) { create(:planting, :with_photo) }
+    let!(:finished_interesting_planting) { create(:finished_planting, :with_photo) }
+    let!(:planting) { create(:planting) }
 
     it { expect(subject.count).to eq 3 }
-    it { expect(subject.map(&:id)).to eq([interesting_planting.id.to_s, finished_interesting_planting.id.to_s, planting.id.to_s]) }
+    it { expect(subject.map(&:id)).to include(interesting_planting.id, finished_interesting_planting.id, planting.id) }
+  end
+
+  it 'is invalid, rather than raising, when it has no garden' do
+    planting = build(:planting, garden: nil)
+
+    expect(planting).not_to be_valid
+    expect(planting.errors[:garden]).to be_present
+  end
+
+  describe 'its plants' do
+    let(:bed) { create(:garden, owner: garden_owner, name: 'Sunny bed', grid_columns: 4, grid_rows: 3) }
+
+    def planting_of(quantity)
+      create(:planting, crop:, garden: bed, owner: garden_owner, quantity:)
+    end
+
+    # Most plantings never go on a layout, so they get plants only once theirs is used.
+    it "has none until its garden's layout is used, then one per plant" do
+      planting = planting_of(5)
+      expect(planting.plants).to be_empty
+
+      bed.prepare_layout
+      expect(planting.plants.count).to eq 5
+      expect(planting.plants).to all(satisfy { |plant| !plant.placed? })
+    end
+
+    it 'treats a blank quantity as a single plant, so there is something to place' do
+      planting = planting_of(nil)
+      bed.prepare_layout
+
+      expect(planting.plant_count).to eq 1
+      expect(planting.plants.count).to eq 1
+    end
+
+    it 'has none for a quantity of zero, as when every plant has gone to the compost' do
+      planting = planting_of(0)
+      bed.prepare_layout
+
+      expect(planting.plant_count).to eq 0
+      expect(planting.plants).to be_empty
+    end
+
+    it "doesn't make plants when the quantity changes, until it is on a layout" do
+      planting = planting_of(2)
+      planting.update!(quantity: 5)
+
+      expect(planting.plants).to be_empty
+    end
+
+    it 'adds plants when the quantity grows, once it is on a layout' do
+      planting = planting_of(2)
+      bed.prepare_layout
+      planting.update!(quantity: 5)
+
+      expect(planting.plants.count).to eq 5
+    end
+
+    it 'takes the unplaced plants away first when the quantity shrinks' do
+      planting = planting_of(4)
+      bed.prepare_layout
+      placed = planting.plants.first
+      placed.update!(bed_x: 1, bed_y: 1)
+
+      planting.update!(quantity: 2)
+
+      expect(planting.plants.count).to eq 2
+      expect(planting.plants).to include(placed)
+    end
+
+    it 'lifts placed plants only when it has to' do
+      planting = planting_of(3)
+      bed.prepare_layout
+      planting.plants.each_with_index { |plant, i| plant.update!(bed_x: i, bed_y: 0) }
+
+      planting.update!(quantity: 1)
+
+      expect(planting.plants.count).to eq 1
+    end
+
+    it 'stops at the cap, however many the quantity says' do
+      planting = planting_of(Planting::MAX_PLANTS + 50)
+      bed.prepare_layout
+
+      expect(planting.plants.count).to eq Planting::MAX_PLANTS
+      expect(planting).to be_plants_capped
+    end
+
+    it 'destroys its plants with it' do
+      planting = planting_of(3)
+      bed.prepare_layout
+
+      expect { planting.destroy }.to change(Plant, :count).by(-3)
+    end
   end
 end

@@ -5,29 +5,40 @@ require 'rails_helper'
 describe 'members/show.rss.haml', type: "view" do
   subject { rendered }
 
-  before do
-    @member = assign(:member, create(:member, login_name: 'callum'))
-    @post1 = create(:post, id: 1, author: @member, body: "This is some text.")
-    @post2 = create(:markdown_post, id: 2, author: @member)
-    assign(:posts, [@post1, @post2])
-    render
+  context 'with a few posts' do
+    before do
+      @member = assign(:member, create(:member, login_name: 'callum'))
+      @post1 = create(:post, id: 1, author: @member, body: "This is some text.")
+      @post2 = create(:markdown_post, id: 2, author: @member)
+      assign(:posts, [@post1, @post2])
+      render
+    end
+
+    it 'shows RSS feed title' do
+      expect(subject).to have_text("callum's recent posts")
+    end
+
+    it 'shows content of posts' do
+      expect(subject).to have_content "This is some text."
+    end
+
+    it 'renders post bodies to HTML and XML-escapes them' do
+      # The variable "rendered" has been entity-replaced and tag-stripped
+      # The literal string output contains "&lt;strong&gt;" etc.
+      expect(subject).to have_content "<strong>strong</strong>"
+    end
+
+    it 'gives the author in the item title' do
+      expect(subject).to have_content "#{@post1.subject} by #{@post1.author}"
+    end
   end
 
-  it 'shows RSS feed title' do
-    expect(subject).to have_text("callum's recent posts")
-  end
-
-  it 'shows content of posts' do
-    expect(subject).to have_content "This is some text."
-  end
-
-  it 'renders post bodies to HTML and XML-escapes them' do
-    # The variable "rendered" has been entity-replaced and tag-stripped
-    # The literal string output contains "&lt;strong&gt;" etc.
-    expect(subject).to have_content "<strong>strong</strong>"
-  end
-
-  it 'gives the author in the item title' do
-    expect(subject).to have_content "#{@post1.subject} by #{@post1.author}"
+  context 'with more than 50 posts' do
+    it 'limits posts in the RSS feed to 50' do
+      member = assign(:member, create(:member))
+      create_list(:post, 55, author: member)
+      render
+      expect(rendered.scan(/<item>/).size).to eq(50)
+    end
   end
 end

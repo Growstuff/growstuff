@@ -16,7 +16,7 @@
           %span
             = box_name
           - if counts['unread'].positive?
-            %span.badge.badge-info=counts['unread']
+            %span.badge.text-bg-info=counts['unread']
 
     .col-md-10
       .list-group
@@ -29,7 +29,7 @@
                 - else
                   %h1.text-muted= icon 'far', 'envelope-open'
               .col-9
-                .text-right.float-right
+                .text-end.float-end
                   - conversation.recipients.each do |member|
                     - if member != current_member
                       = render 'members/tiny', member: member
@@ -51,7 +51,7 @@
                 - else
                   = check_box_tag 'conversation_ids[]', conversation.id, false, class: 'selectable', "aria-label": "Select for deletion"
       .offset-9.col-3
-        = button_tag(type: 'submit', class: 'btn btn-default') do
+        = button_tag(type: 'submit', class: 'btn btn-outline-secondary') do
           = icon 'fas', 'trash-alt'
           = 'Delete'
       - unless @conversations.empty?

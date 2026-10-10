@@ -118,15 +118,15 @@ describe "member profile", :js do
     end
 
     context 'member has activities' do
-      let!(:activity) { create(:activity, owner: member, due_date: 3.days.ago) }
-      let!(:activity2) { create(:activity, :planting, owner: member) }
-      let!(:activity3) { create(:activity, :garden, owner: member) }
+      let!(:past_activity) { create(:activity, owner: member, due_date: 3.days.ago) }
+      let!(:planting_activity) { create(:activity, :planting, owner: member) }
+      let!(:garden_activity) { create(:activity, :garden, owner: member) }
 
       before { visit member_path(member) }
 
-      it { expect(page).to have_link href: activity_path(activity) }
-      it { expect(page).to have_link href: activity_path(activity2) }
-      it { expect(page).to have_link href: activity_path(activity3) }
+      it { expect(page).to have_link href: activity_path(past_activity) }
+      it { expect(page).to have_link href: activity_path(planting_activity) }
+      it { expect(page).to have_link href: activity_path(garden_activity) }
     end
 
     context 'member has seeds' do

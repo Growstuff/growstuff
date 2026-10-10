@@ -10,7 +10,7 @@ require './lib/actions/oauth_signup_action'
 #
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def failure
-    flash[:alert] = "Authentication failed."
+    flash[:alert] = t('messages.auth_failed')
     redirect_to request.env['omniauth.origin'] || "/"
   end
 

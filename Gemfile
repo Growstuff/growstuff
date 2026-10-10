@@ -5,7 +5,9 @@ source 'https://rubygems.org'
 # Match ruby version in .ruby-version
 ruby File.read('.ruby-version')
 
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.1.0'
+
+gem 'csv'
 
 # Keeping old sprockets
 # https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
@@ -16,6 +18,7 @@ gem 'bundler', '>= 2.4.22'
 gem 'coffee-rails'
 gem 'haml'
 gem 'sassc-rails'
+gem 'oauth', '1.1.6' # Explicitly pinned, as the maintainer does huge (400 files, 45k lines) changes in point releases - required manual plus agentic security review.
 
 # API data
 gem 'jsonapi-resources'
@@ -25,13 +28,12 @@ gem 'rswag-ui'
 
 # CSS framework
 gem "bootstrap", ">= 5.0.0"
-gem 'material-sass', '4.1.1'
 
-# Icons used by bootstrap/material-sass
+# Icon font (Material Icons)
 gem 'material_icons'
 
 # icons
-gem 'font-awesome-sass'
+gem 'font-awesome-sass', '~> 6.7'
 
 gem 'terser'
 
@@ -44,6 +46,8 @@ gem 'active_record_union'
 
 gem 'flickraw'
 gem 'jquery-rails'
+# Builds JavaScript (React) with esbuild into app/assets/builds; Sprockets then serves it
+gem 'jsbundling-rails'
 gem 'jquery-ui-rails', github: 'jquery-ui-rails/jquery-ui-rails', tag: 'v7.0.0' # See https://github.com/jquery-ui-rails/jquery-ui-rails/issues/146
 
 gem 'cancancan'                    # for checking member privileges
@@ -52,11 +56,9 @@ gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 # Maps
 gem 'leaflet-rails', '>= 1.9.2'
-gem 'rails-assets-leaflet.markercluster', source: 'https://rails-assets.org'
 
 gem 'pg'
 gem 'ruby-units'                   # for unit conversion
-gem 'unicorn'                      # http server
 
 gem "comfortable_mexican_sofa", git: "https://github.com/restarone/comfortable-mexican-sofa.git"
 
@@ -115,6 +117,8 @@ gem 'discard', '>= 1.2'
 gem 'xmlrpc' # fixes rake error - can be removed if not needed later
 
 gem 'puma'
+
+gem 'rack-attack'
 
 gem 'loofah', '>= 2.19.1'
 gem 'rack-protection', '>= 2.0.1'
@@ -204,5 +208,5 @@ gem "i18n_data", "~> 1.1"
 
 gem "paper_trail", "~> 17.0"
 
-gem 'aws-sdk-s3', '~> 1', '>= 1.114.0'
+gem 'aws-sdk-s3', '~> 1', '>= 1.114.0', require: false
 gem 'sitemap_generator'

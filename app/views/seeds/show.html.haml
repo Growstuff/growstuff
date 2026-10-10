@@ -32,11 +32,11 @@
             seeds
           %span.text-muted= I18n.l @seed.created_at.to_date
         - if @seed.organic != 'unknown'
-          .badge.badge-success.seedtitle--organic= @seed.organic
+          .badge.text-bg-success.seedtitle--organic= @seed.organic
         - if @seed.gmo != 'unknown'
-          .badge.badge-success.seedtitle--gmo= @seed.gmo
+          .badge.text-bg-success.seedtitle--gmo= @seed.gmo
         - if @seed.heirloom != 'unknown'
-          .badge.badge-success.seedtitle--heirloom= @seed.heirloom
+          .badge.text-bg-success.seedtitle--heirloom= @seed.heirloom
         - if @seed.parent_planting
           %p
             Saved from planting:

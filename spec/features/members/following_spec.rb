@@ -23,6 +23,17 @@ describe "follows", :js do
       expect(page).to have_no_link "Unfollow"
     end
 
+    context "when the other member is blocked" do
+      before do
+        member.blocks.create(blocked: other_member)
+        visit member_path(other_member)
+      end
+
+      it "does not have a follow button" do
+        expect(page).to have_no_link "Follow"
+      end
+    end
+
     context "following another member" do
       before { visit member_path(other_member) }
 

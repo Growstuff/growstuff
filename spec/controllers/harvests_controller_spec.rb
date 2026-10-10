@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe HarvestsController, :search do
+describe HarvestsController do
   login_member
 
   def valid_attributes
@@ -15,29 +15,27 @@ describe HarvestsController, :search do
   end
 
   describe "GET index" do
-    let!(:member1)  { create(:member)                                            }
-    let(:member2)   { create(:member)                                            }
-    let(:tomato)    { create(:tomato)                                            }
-    let(:maize)     { create(:maize)                                             }
-    let!(:harvest1) { create(:harvest, owner_id: member1.id, crop_id: tomato.id) }
-    let!(:harvest2) { create(:harvest, owner_id: member2.id, crop_id: maize.id)  }
-
-    before { Harvest.reindex }
+    let!(:first_member)     { create(:member)                                                  }
+    let(:second_member)     { create(:member)                                                  }
+    let(:tomato)            { create(:tomato)                                                  }
+    let(:maize)             { create(:maize)                                                   }
+    let!(:tomato_harvest)   { create(:harvest, owner_id: first_member.id, crop_id: tomato.id)  }
+    let!(:maize_harvest)    { create(:harvest, owner_id: second_member.id, crop_id: maize.id)  }
 
     describe "assigns all harvests as @harvests" do
       before { get :index, params: {} }
 
       it { expect(assigns(:harvests).size).to eq 2 }
-      it { expect(assigns(:harvests)[0].slug).to eq harvest1.slug }
-      it { expect(assigns(:harvests)[1].slug).to eq harvest2.slug }
+      it { expect(assigns(:harvests)).to include(tomato_harvest) }
+      it { expect(assigns(:harvests)).to include(maize_harvest) }
     end
 
     describe "picks up owner from params and shows owner's harvests only" do
-      before { get :index, params: { member_slug: member1.slug } }
+      before { get :index, params: { member_slug: first_member.slug } }
 
-      it { expect(assigns(:owner)).to eq member1 }
+      it { expect(assigns(:owner)).to eq first_member }
       it { expect(assigns(:harvests).size).to eq 1 }
-      it { expect(assigns(:harvests)[0].slug).to eq harvest1.slug }
+      it { expect(assigns(:harvests)[0].slug).to eq tomato_harvest.slug }
     end
 
     describe "picks up crop from params and shows the harvests for the crop only" do
@@ -45,7 +43,7 @@ describe HarvestsController, :search do
 
       it { expect(assigns(:crop)).to eq maize }
       it { expect(assigns(:harvests).size).to eq 1 }
-      it { expect(assigns(:harvests)[0].slug).to eq harvest2.slug }
+      it { expect(assigns(:harvests)[0].slug).to eq maize_harvest.slug }
     end
 
     describe "generates a csv" do
@@ -66,14 +64,53 @@ describe HarvestsController, :search do
   end
 
   describe "GET new" do
-    before { get :new, params: {} }
+    let(:planting) { create(:planting) }
 
-    describe "assigns a new harvest as @harvest" do
-      it { expect(assigns(:harvest)).to be_a_new(Harvest) }
+    describe "when no planting is specified" do
+      before { get :new, params: {} }
+
+      it "assigns a new harvest as @harvest" do
+        expect(assigns(:harvest)).to be_a_new(Harvest)
+      end
+
+      it "sets the date of the harvest to today" do
+        expect(assigns(:harvest).harvested_at).to eq(Time.zone.today)
+      end
     end
 
-    describe "sets the date of the harvest to today" do
-      it { expect(assigns(:harvest).harvested_at).to eq(Time.zone.today) }
+    describe "when planting_slug parameter is provided" do
+      before { get :new, params: { planting_slug: planting.slug } }
+
+      it "assigns @planting" do
+        expect(assigns(:planting)).to eq(planting)
+      end
+
+      it "assigns @crop from the planting" do
+        expect(assigns(:crop)).to eq(planting.crop)
+      end
+
+      it "prefills @harvest with the planting and planting crop" do
+        expect(assigns(:harvest).planting).to eq(planting)
+        expect(assigns(:harvest).crop).to eq(planting.crop)
+        expect(assigns(:harvest).crop_id).to eq(planting.crop_id)
+      end
+    end
+
+    describe "when harvest[planting_id] parameter is provided" do
+      before { get :new, params: { harvest: { planting_id: planting.id } } }
+
+      it "assigns @planting" do
+        expect(assigns(:planting)).to eq(planting)
+      end
+
+      it "assigns @crop from the planting" do
+        expect(assigns(:crop)).to eq(planting.crop)
+      end
+
+      it "prefills @harvest with the planting crop" do
+        expect(assigns(:harvest).crop).to eq(planting.crop)
+        expect(assigns(:harvest).crop_id).to eq(planting.crop_id)
+      end
     end
   end
 
@@ -114,6 +151,21 @@ describe HarvestsController, :search do
         before { post :create, params: { harvest: valid_attributes.merge(planting_id: planting.id) } }
 
         it { expect(Harvest.last.planting.id).to eq(planting.id) }
+      end
+
+      describe "updates planting rating" do
+        let(:planting) { create(:planting, owner_id: member.id, garden: member.gardens.first) }
+
+        it "updates the planting rating when provided" do
+          post :create, params: {
+            harvest: valid_attributes.merge(
+              planting_id:    planting.id,
+              crop_id:        planting.crop_id,
+              overall_rating: 4
+            )
+          }
+          expect(planting.reload.overall_rating).to eq(4)
+        end
       end
     end
 
@@ -170,6 +222,18 @@ describe HarvestsController, :search do
         before { put :update, params: { slug: harvest.to_param, harvest: valid_attributes } }
 
         it { expect(response).to redirect_to(harvest) }
+      end
+
+      describe "updates planting rating" do
+        let(:planting) { create(:planting, owner_id: member.id, garden: member.gardens.first) }
+        let(:harvest) do
+          create(:harvest, valid_attributes.merge(planting_id: planting.id, crop_id: planting.crop_id))
+        end
+
+        it "updates the planting rating when provided" do
+          put :update, params: { slug: harvest.to_param, harvest: { overall_rating: 3 } }
+          expect(planting.reload.overall_rating).to eq(3)
+        end
       end
     end
 

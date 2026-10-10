@@ -1,6 +1,6 @@
 - if member.latitude && member.longitude
   #membermap.member-map
-  %p.text-right
+  %p.text-end
     See other members, plantings, seeds and more near
     = link_to member.location, place_path(member.location, anchor: "members")
 - else

@@ -2,13 +2,20 @@
 
 require 'nokogiri'
 module ApplicationHelper
+  # Renders an empty element for app/javascript/react_islands.jsx to mount the
+  # named React component into, passing it props. The page also needs the
+  # bundle: `= javascript_include_tag 'react_islands', defer: true`.
+  def react_component(name, props = {}, html_options = {})
+    content_tag(:div, '', html_options.merge(data: { react_component: name, props: props.to_json }))
+  end
+
   def parse_date(str)
     str ||= '' # Date.parse barfs on nil
     str == '' ? nil : Date.parse(str)
   end
 
   def build_alert_classes(alert_type = :info)
-    classes = 'alert alert-dismissable '
+    classes = 'alert alert-dismissible '
     case alert_type.to_sym
     when :alert, :danger, :error, :validation_errors
       classes += 'alert-danger'
@@ -59,8 +66,17 @@ module ApplicationHelper
   # of HAML, Tilt, and dynamic compilation with interpolated ruby.
   def markdownify(text)
     translator = Haml::Filters::GrowstuffMarkdown.new
-    translator.expand_members!(translator.expand_crops!(text.to_s))
+    text = text.to_s.dup
+    translator.expand_crops!(text)
+    translator.expand_members!(text)
+    text
   end
+
+  # A 1x1 transparent GIF, standing in for a real avatar when
+  # config.x.blank_avatars is set, which browser specs do: otherwise they fetch
+  # every avatar from gravatar.com for real, and one arriving mid-test moves
+  # whatever sits under it, so clicks land on the wrong thing.
+  BLANK_AVATAR = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 
   #
   # Returns an image uri for a given member.
@@ -69,6 +85,10 @@ module ApplicationHelper
   #
   def avatar_uri(member, size = 150)
     return unless member
+    # Compared against true on purpose: an unset config.x key returns an empty
+    # OrderedOptions, which is truthy, so a plain `if` here blanks avatars in
+    # every environment.
+    return BLANK_AVATAR if Rails.configuration.x.blank_avatars == true
 
     if member.preferred_avatar_uri.present?
       # Some avatars support different sizes

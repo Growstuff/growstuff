@@ -11,3 +11,5 @@
   .tab-pane.active
     %h2= "Crops without #{tabs[@active_tab.to_sym]}"
     = render 'crop_list', crops: @crops
+
+    = will_paginate @crops

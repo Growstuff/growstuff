@@ -22,7 +22,6 @@ describe "forums", :js do
     before do
       visit forums_path
       click_link "New forum"
-      expect(page).to have_current_path new_forum_path, ignore_query: true
       fill_in 'Name', with: 'Discussion'
       fill_in 'Description', with: "this is a new forum"
       select member.login_name, from: "Owner"

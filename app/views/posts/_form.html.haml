@@ -21,7 +21,7 @@
       - else
         = label_tag :body, "What's going on in your food garden?"
       = f.text_area :body, rows: 12
-      %span.help-block= render partial: "shared/markdown_help"
+      %span.form-text= render partial: "shared/markdown_help"
 
       - if @post.forum || @forum
         - forum = @post.forum || @forum
@@ -31,4 +31,4 @@
         .field
           = f.hidden_field :forum_id, value: forum.id
     .card-footer
-      .text-right= f.submit "Post"
+      .text-end= f.submit "Post"

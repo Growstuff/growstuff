@@ -42,4 +42,28 @@ describe CropsHelper do
       end
     end
   end
+
+  describe '#crop_jsonld_data' do
+    let(:crop) { create(:crop, name: 'Tomato') }
+
+    it 'returns schema.org BioChemEntity hash structure' do
+      data = helper.crop_jsonld_data(crop)
+      expect(data[:@context]).to eq('https://schema.org')
+      expect(data[:@type]).to eq('BioChemEntity')
+      expect(data[:name]).to eq('Tomato')
+    end
+
+    it 'caps posts and photos at 50' do
+      # 60 of each, to show the cap of 50 applies
+      # rubocop:disable FactoryBot/ExcessiveCreateList
+      create_list(:post, 60).each { |post| CropPost.create!(post: post, crop: crop) }
+      photos = create_list(:photo, 60)
+      # rubocop:enable FactoryBot/ExcessiveCreateList
+      photos.each { |photo| PhotoAssociation.create!(photo: photo, photographable: crop) }
+
+      data = helper.crop_jsonld_data(crop, full_attributes: true)
+      expect(data[:subjectOf].size).to eq(50)
+      expect(data[:image].size).to eq(50)
+    end
+  end
 end

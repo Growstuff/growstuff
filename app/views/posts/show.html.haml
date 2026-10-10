@@ -35,7 +35,7 @@
   .col-md-8.col-12
     .card.post{ id: "post-#{@post.id}" }
       .card-header
-        %h2.display-3.float-left
+        %h2.display-3.float-start
           = @post.subject
         = render 'posts/actions', post: @post
       .card-body
@@ -46,7 +46,7 @@
 
       .card-footer
         = render 'likes/likes', object: @post
-        .float-right
+        .float-end
           - if can? :create, Comment
             = link_to new_comment_path(comment: { commentable_type: 'Post', commentable_id: @post.id }), class: 'btn' do
               = icon 'fas', 'comment'

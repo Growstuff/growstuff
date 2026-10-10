@@ -43,7 +43,10 @@ class ApplicationController < ActionController::Base
 
   # CanCan error handling
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to request.referer || root_url, alert: exception.message
+    respond_to do |format|
+      format.json { render json: { error: exception.message }, status: :forbidden }
+      format.any { redirect_to request.referer || root_url, alert: exception.message }
+    end
   end
 
   def set_locale
@@ -68,7 +71,7 @@ class ApplicationController < ActionController::Base
                     # profile stuff
                     :bio, :location, :latitude, :longitude,
                     # email settings
-                    :show_email, :newsletter, :send_notification_email, :send_planting_reminder)
+                    :show_email, :newsletter, :send_notification_email, :send_planting_reminder, :send_harvest_reminder)
     end
 
     devise_parameter_sanitizer.permit(:account_update) do |member|
@@ -80,7 +83,7 @@ class ApplicationController < ActionController::Base
                     :bio, :location, :latitude, :longitude,
                     :website_url, :instagram_handle, :facebook_handle, :bluesky_handle, :other_url,
                     # email settings
-                    :show_email, :newsletter, :send_notification_email, :send_planting_reminder,
+                    :show_email, :newsletter, :send_notification_email, :send_planting_reminder, :send_harvest_reminder,
                     # update password
                     :current_password)
     end

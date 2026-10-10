@@ -25,7 +25,7 @@
           - else
             = auto_suggest @harvest, :crop, class: 'form-control', default: @crop
             - unless @planting
-              %span.help-block.col-md-8
+              %span.form-text.col-md-8
                 Can't find what you're looking for?
                 = link_to "Request new crops.", new_crop_path
 
@@ -52,6 +52,17 @@
           = f.select(:weight_unit, Harvest::WEIGHT_UNITS_VALUES, { include_blank: false }, class: 'form-control')
       = f.text_area :description, rows: 6, label: 'Notes'
 
+      - if @planting.present?
+        .row
+          .col-md-12
+            = f.range_field :overall_rating, min: 1, max: 5, value: @planting.overall_rating, include_blank: 'Leave blank', label: 'Overall Rating - Planting', list: "rating-list", title: "How well is the planting going?"
+            %datalist{"id": "rating-list"}
+              %option{"value": "1"} Poor
+              %option{"value": "2"}
+              %option{"value": "3"}
+              %option{"value": "4"}
+              %option{"value": "5"} Great
+
     .card-footer
-      .text-right= f.submit 'Save'
+      .text-end= f.submit 'Save'
 

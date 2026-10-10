@@ -1,5 +1,5 @@
 #navbarSupportedContent.collapse.navbar-collapse
-  %ul.navbar-nav.mr-auto.bg-dark
+  %ul.navbar-nav.me-auto.bg-dark
     - if signed_in?
       %li.nav-item
         = link_to timeline_index_path, method: :get, class: 'nav-link text-white', title: "Timeline" do
@@ -73,7 +73,7 @@
           = image_tag(avatar_uri(current_member, 50), alt: 'Avatar of current member', height: 25, width: 25, aria: { hidden: "true" })
           = current_member.login_name
           - if current_member.unread_count.positive?
-            %span.badge.badge-info= current_member.unread_count
+            %span.badge.text-bg-info= current_member.unread_count
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
           = link_to member_path(current_member), class: 'dropdown-item' do
             = t('.profile')
@@ -94,7 +94,7 @@
             %strong
               = link_to(conversations_path, class: 'dropdown-item') do
                 = t('.inbox')
-                %span.badge.badge-info= current_member.unread_count
+                %span.badge.text-bg-info= current_member.unread_count
           - else
             = link_to t('.inbox'), conversations_path, class: 'dropdown-item'
           .dropdown-divider

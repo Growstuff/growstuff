@@ -1,0 +1,33 @@
+%p Hello #{@member.login_name},
+
+%h2= t('notifier_mailer.harvest_reminder.heading')
+
+%p= t('notifier_mailer.harvest_reminder.intro')
+
+%ul
+  - @plantings.each do |planting|
+    %li
+      = render 'planting', planting: planting
+      (Predicted harvest date: #{planting.first_harvest_predicted_at.to_date})
+
+%p
+  Harvested anything lately?
+  = link_to "Track your harvests here.", new_harvest_url, class: 'btn'
+
+%p
+  Track and predict your entire garden, and keep your garden records up to date at
+  = link_to member_gardens_url(@member), class: 'btn' do
+    your garden overview
+  and on
+  = link_to member_url(@member) do
+    your profile page
+
+%h4
+  See you soon on #{@sitename}!
+
+= render partial: 'signature'
+
+%hr/
+%p
+  Don't want to get these emails any more?
+  = link_to t('notifier_mailer.harvest_reminder.unsubscribe'), unsubscribe_member_url(message: @signed_message)

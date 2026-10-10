@@ -1,0 +1,119 @@
+import React from 'react';
+
+import {isPlainClick} from '../events';
+import ActionsMenu from './ActionsMenu';
+import PlantingChip from './PlantingChip';
+import PlantingRow from './PlantingRow';
+
+// One garden: its name and actions menu (top right), a picture, then what is
+// planted, as perennials (just names) and annuals (each with its progress).
+// Matches gardens/_card.
+export default function GardenCard({garden, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto, onFinishPlanting, onEditGarden}) {
+  const {id, name, url, image_url: imageUrl, layout_url: layoutUrl, owner, actions, plant_url: plantUrl, perennials, annuals} = garden;
+  const empty = perennials.length === 0 && annuals.length === 0;
+  // What each planting's menu items open, for annuals and perennials alike.
+  const handlers = {
+    edit: onEditPlanting,
+    harvest: onHarvestPlanting,
+    seeds: onSaveSeedsPlanting,
+    finish: onFinishPlanting,
+    photo: onAddPhoto && ((planting, action) => onAddPhoto({label: planting.crop.name, href: action.href})),
+  };
+  function plant(event) {
+    if (onPlant && isPlainClick(event)) {
+      event.preventDefault();
+      onPlant(garden);
+    }
+  }
+
+  return (
+    <div className="card garden-card" data-garden-id={id}>
+      <div className="card-header garden-card-header">
+        <div>
+          <h2 className="garden-card-title"><a href={url} name={`garden-${id}`}>{name}</a></h2>
+          {owner && <div className="garden-card-owner">owner: <a href={owner.url}>{owner.login_name}</a></div>}
+        </div>
+        <div className="garden-card-header-actions">
+          {layoutUrl && (
+            <a href={layoutUrl} className="btn btn-outline-success btn-sm garden-card-layout-button">
+              <i className="fa fa-th-large" aria-hidden="true" /> Layout
+              <span className="visually-hidden"> of {name}</span>
+            </a>
+          )}
+          {plantUrl && (
+            <a href={plantUrl} className="btn btn-success btn-sm garden-add-planting" onClick={plant}>
+              <i className="fas fa-plus" aria-hidden="true" /> Add planting
+              <span className="visually-hidden"> to {name}</span>
+            </a>
+          )}
+          <ActionsMenu
+            id={`garden-${id}`}
+            actions={actions}
+            label={<i className="fas fa-ellipsis-v" aria-hidden="true" />}
+            ariaLabel={`Actions for ${name}`}
+            className="btn btn-sm btn-link actions-toggle-dots"
+            onSelect={(action, event) => {
+              if (!isPlainClick(event)) return;
+              if (action.key === 'photo' && onAddPhoto) {
+                event.preventDefault();
+                onAddPhoto({label: name, href: action.href});
+              } else if (action.key === 'edit' && onEditGarden) {
+                event.preventDefault();
+                onEditGarden(garden);
+              }
+            }}
+          />
+        </div>
+      </div>
+      <div className="card-body garden-card-body">
+        <img src={imageUrl} alt={name} className="garden-card-image" />
+        <div className="garden-card-content">
+          {empty ? (
+            <p className="garden-card-none">Nothing planted here yet.</p>
+          ) : (
+            <>
+              <section className="garden-card-section">
+                <h3 className="garden-card-heading">Perennials</h3>
+                {perennials.length > 0 ? (
+                  <div className="garden-card-chips">
+                    {perennials.map((planting) => (
+                      <PlantingChip
+                        key={planting.id}
+                        planting={planting}
+                        defaultIconUrl={defaultIconUrl}
+                        highlighted={planting.id === highlightedId}
+                        handlers={handlers}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="garden-card-none">None</p>
+                )}
+              </section>
+              <section className="garden-card-section">
+                <h3 className="garden-card-heading">Annuals</h3>
+                {annuals.length > 0 ? (
+                  <div className="planting-rows">
+                    {annuals.map((planting) => (
+                      <PlantingRow
+                        key={planting.id}
+                        planting={planting}
+                        defaultIconUrl={defaultIconUrl}
+                        highlighted={planting.id === highlightedId}
+                        highlightKind={highlightKind}
+                        onUpdated={onPlantingUpdated}
+                        handlers={handlers}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="garden-card-none">None</p>
+                )}
+              </section>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

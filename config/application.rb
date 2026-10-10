@@ -2,7 +2,15 @@
 
 require_relative 'boot'
 
-require 'rails/all'
+require 'rails'
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_view/railtie'
+require 'sprockets/railtie'
 ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = "true"
 
 require 'openssl'
@@ -14,7 +22,11 @@ Bundler.require(*Rails.groups)
 module Growstuff
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 8.1
+
+    # Rails 7.1+ requires a coder for `serialize`.
+    # We set YAML as the default for compatibility with gems like Mexican Sofa.
+    config.active_record.default_column_serializer = YAML
 
     I18n.config.enforce_available_locales = true
 
@@ -73,6 +85,8 @@ module Growstuff
     config.newsletter_list_id = ENV.fetch('GROWSTUFF_MAILCHIMP_NEWSLETTER_ID', nil)
 
     # config.active_record.raise_in_transactional_callbacks = true
+    config.middleware.insert_before 0, Rack::Attack
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'

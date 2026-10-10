@@ -1,7 +1,7 @@
 - cache planting do
   .card.planting{class: planting.active ? '' : 'card-finished'}
     = link_to planting_path(slug: planting.slug) do
-      = image_tag planting.thumbnail_url ? planting.thumbnail_url : placeholder_image, class: 'img-card', alt: planting.crop_name
+      = image_tag planting.thumbnail_url ? planting.thumbnail_url : placeholder_image, class: 'img-card', alt: planting.display_name
 
     - if member_signed_in? && current_member.id == planting.owner_id
       = link_to planting_path(slug: planting.slug) do
@@ -28,7 +28,7 @@
                 = delete_button(planting, classes: 'dropdown-item text-danger')
     = link_to planting_path(slug: planting.slug) do
       .card-body.text-center
-        %h4= planting.crop_name
+        %h4= planting.display_name
         .text-center= render 'plantings/badges', planting: planting
         = render 'plantings/progress', planting: planting
     .card-footer

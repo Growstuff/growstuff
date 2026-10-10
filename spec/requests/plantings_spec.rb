@@ -15,7 +15,7 @@ describe "Plantings" do
     before do
       @member = create(:interesting_member)
 
-      @predictable_planting = create(:predictable_planting, owner: @member, planted_at: 1.days.ago, days_to_first_harvest: 10,
+      @predictable_planting = create(:predictable_planting, owner: @member, planted_at: 1.day.ago, days_to_first_harvest: 10,
 days_to_last_harvest: 20)
       @predictable_planting.crop.update(median_days_to_first_harvest: 10)
 
@@ -24,7 +24,6 @@ days_to_last_harvest: 20)
       @finished_planting = create(:finished_planting, owner: @member)
       @annual_planting = create(:annual_planting, owner: @member)
       @perennial_planting = create(:perennial_planting, owner: @member)
-      Planting.reindex
     end
 
     describe "GET /members/x/plantings.ics" do
@@ -34,19 +33,17 @@ days_to_last_harvest: 20)
         calendar = Icalendar::Parser.new(response.body, true).parse.first
         expect(calendar.description[0].to_s).to eq "Plantings by #{@member.login_name}"
         events = calendar.events
-        expect(events.length).to eq 7 # There are 8, but finished plantings aren't included
+        expect(events.length).to eq 7
 
-        # TODO: Better date comparison
-        # Predicted finish should be used
-        expect(events[1].summary.to_s).to include @predictable_planting.crop.name
-        expect(events[1].dtstart.to_datetime.to_i).to be_within(1.second).of @predictable_planting.created_at.to_i
-        expect(events[1].dtend.to_date).to eq @predictable_planting.finish_predicted_at
+        predictable_event = events.find { |e| e.dtend.to_date == @predictable_planting.finish_predicted_at }
+        expect(predictable_event.summary.to_s).to include @predictable_planting.crop.name
+        expect(predictable_event.dtstart.to_datetime.to_i).to be_within(1.second).of @predictable_planting.created_at.to_i
 
         # Actual finish should be used
-        # expect(events[4].dtend.to_date).to be_within(1.second).of @finised_planting.finished_at
+        # expect(events[4].dtend.to_date).to be_within(1.second).of @finished_planting.finished_at
 
         # Otherwise, tomorrow should be used
-        expect(events[3].dtend.to_date).to eq 1.day.from_now.to_date
+        expect(events.map { |e| e.dtend.to_date }).to include 1.day.from_now.to_date
 
         # TBA: Perennial and annual crops predictions of 'next' harvest date don't really fit
 
@@ -86,16 +83,18 @@ days_to_last_harvest: 20)
         data = CSV.parse(response.body, headers: true)
         expect(data.headers).to eq expected_headers
 
-        expect(data[1]["Crop name"]).to eq @predictable_planting.crop.name
-        expect(data[1]["Owner name"]).to eq @member.to_s
-        expect(data[1]["Garden name"]).to eq @predictable_planting.garden.to_s
-        expect(data[1]["Description"]).to eq @predictable_planting.description
-        expect(data[1]["Date planted"]).to eq @predictable_planting.planted_at.to_fs(:db)
-        expect(data[1]["Quantity"].to_i).to eq @predictable_planting.quantity
-        expect(data[1]["Sunniness"]).to eq @predictable_planting.sunniness
-        expect(data[1]["Planted from"]).to eq @predictable_planting.planted_from
-        expect(data[1]["Date added"]).to eq @predictable_planting.created_at.to_fs(:db)
-        expect(data[1]["License"]).to eq "CC-BY-SA Growstuff http://growstuff.org/"
+        row = data.detect { |crop_name| @predictable_planting.id.to_s == crop_name['Id'] }
+
+        expect(row["Crop name"]).to eq @predictable_planting.crop.name
+        expect(row["Owner name"]).to eq @member.to_s
+        expect(row["Garden name"]).to eq @predictable_planting.garden.to_s
+        expect(row["Description"]).to eq @predictable_planting.description
+        expect(row["Date planted"]).to eq @predictable_planting.planted_at.to_fs(:db)
+        expect(row["Quantity"].to_i).to eq @predictable_planting.quantity
+        expect(row["Sunniness"]).to eq @predictable_planting.sunniness
+        expect(row["Planted from"]).to eq @predictable_planting.planted_from
+        expect(row["Date added"]).to eq @predictable_planting.created_at.to_fs(:db)
+        expect(row["License"]).to eq "CC-BY-SA Growstuff http://growstuff.org/"
 
         expect(data.count).to eq 6
       end

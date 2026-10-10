@@ -154,6 +154,13 @@ describe Crop do
 
       it { expect(crop.default_photo).to eq photo }
 
+      it 'caches thumbnail_url string in Rails.cache' do
+        expected_url = photo.source == 'flickr' ? photo.fullsize_url : photo.thumbnail_url
+        expect(crop.thumbnail_url).to eq expected_url
+        cached_value = Rails.cache.read("#{crop.cache_key_with_version}/thumbnail_url")
+        expect(cached_value).to eq expected_url
+      end
+
       include_examples 'has default photo'
     end
 
@@ -297,54 +304,54 @@ describe Crop do
     subject { described_class.interesting }
 
     # first, a couple of candidate crops
-    let(:crop1) { create(:crop) }
-    let(:crop2) { create(:crop) }
+    let(:first_crop) { create(:crop) }
+    let(:second_crop) { create(:crop) }
 
-    let(:crop1_planting) { crop1.plantings.first }
-    let(:crop2_planting) { crop2.plantings.first }
+    let(:first_crop_planting) { first_crop.plantings.first }
+    let(:second_crop_planting) { second_crop.plantings.first }
 
     let(:member) { create(:member, login_name: 'pikachu') }
 
     describe 'lists interesting crops' do
       before do
         # they need 3+ plantings each to be interesting
-        create_list(:planting, 3, crop: crop1, owner: member)
-        create_list(:planting, 3, crop: crop2, owner: member)
+        create_list(:planting, 3, crop: first_crop, owner: member)
+        create_list(:planting, 3, crop: second_crop, owner: member)
         # crops need 3+ photos to be interesting
-        crop1_planting.photos = create_list :photo, 3, owner: member
-        crop2_planting.photos = create_list :photo, 3, owner: member
+        first_crop_planting.photos = create_list :photo, 3, owner: member
+        second_crop_planting.photos = create_list :photo, 3, owner: member
       end
 
-      it { is_expected.to include crop1 }
-      it { is_expected.to include crop2 }
+      it { is_expected.to include first_crop }
+      it { is_expected.to include second_crop }
       it { expect(subject.size).to eq 2 }
     end
 
     describe 'crops without plantings are not interesting' do
       before do
-        # only crop1 has plantings
-        create_list(:planting, 3, crop: crop1, owner: member)
+        # only first_crop has plantings
+        create_list(:planting, 3, crop: first_crop, owner: member)
         # ... and photos
-        crop1_planting.photos = create_list(:photo, 3, owner: member)
+        first_crop_planting.photos = create_list(:photo, 3, owner: member)
       end
 
-      it { is_expected.to include crop1 }
-      it { is_expected.not_to include crop2 }
+      it { is_expected.to include first_crop }
+      it { is_expected.not_to include second_crop }
       it { expect(subject.size).to eq 1 }
     end
 
     describe 'crops without photos are not interesting' do
       before do
         # both crops have plantings
-        create_list(:planting, 3, crop: crop1, owner: member)
-        create_list(:planting, 3, crop: crop2, owner: member)
+        create_list(:planting, 3, crop: first_crop, owner: member)
+        create_list(:planting, 3, crop: second_crop, owner: member)
 
-        # but only crop1 has photos
-        crop1_planting.photos = create_list(:photo, 3, owner: member)
+        # but only first_crop has photos
+        first_crop_planting.photos = create_list(:photo, 3, owner: member)
       end
 
-      it { is_expected.to include crop1 }
-      it { is_expected.not_to include crop2 }
+      it { is_expected.to include first_crop }
+      it { is_expected.not_to include second_crop }
       it { expect(subject.size).to eq 1 }
     end
   end
@@ -558,6 +565,24 @@ describe Crop do
     end
   end
 
+  context 'search_data' do
+    let(:crop) { create(:crop) }
+    let(:member) { create(:member) }
+
+    it 'returns distinct planter IDs' do
+      create_list(:planting, 3, crop:, owner: member)
+      expect(crop.search_data[:planters_ids]).to eq([member.id])
+    end
+
+    it 'uses photo_associations_count for has_photos' do
+      crop.update!(photo_associations_count: 0)
+      expect(crop.search_data[:has_photos]).to be(false)
+
+      crop.update!(photo_associations_count: 2)
+      expect(crop.search_data[:has_photos]).to be(true)
+    end
+  end
+
   context "crop rejections" do
     let!(:rejected_reason) do
       create(:crop, name:                 'tomato',
@@ -579,6 +604,72 @@ describe Crop do
       it "shows rejection notes if reason was other" do
         expect(rejected_other.rejection_explanation).to eq "blah blah blah"
       end
+    end
+  end
+
+  describe 'its size on a garden layout' do
+    let(:tomato)  { create(:crop, name: 'tomato') }
+    let(:variety) { create(:crop, name: 'island bay tomato', parent: tomato) }
+
+    it 'has none until someone sets it' do
+      expect(tomato.layout_diameter).to be_nil
+    end
+
+    it 'follows its parent crop until it has its own' do
+      tomato.update!(default_diameter: 2)
+      expect(variety.layout_diameter).to eq 2
+
+      variety.update!(default_diameter: 1.5)
+      expect(variety.layout_diameter).to eq 1.5
+    end
+
+    it 'must be more than nothing, and no more than a plant can be drawn' do
+      expect(build(:crop, default_diameter: 0)).not_to be_valid
+      expect(build(:crop, default_diameter: Plant::MAX_DIAMETER + 1)).not_to be_valid
+      expect(build(:crop, default_diameter: 0.5)).to be_valid
+    end
+  end
+
+  describe 'its icon' do
+    let(:tomato)  { create(:crop, name: 'tomato') }
+    let(:variety) { create(:crop, name: 'island bay tomato', parent: tomato) }
+
+    it 'has none until one is chosen, or OpenFarm had one' do
+      expect(tomato.svg_icon).to be_nil
+    end
+
+    it "draws the app's icon chosen for it" do
+      tomato.update!(icon: 'tomato')
+      expect(tomato.svg_icon).to eq Rails.root.join('app/assets/images/crops/tomato.svg').read
+    end
+
+    it 'prefers its chosen icon to the one OpenFarm had' do
+      tomato.update!(icon: 'tomato', openfarm_data: { 'attributes' => { 'svg_icon' => '<svg>openfarm</svg>' } })
+      expect(tomato.svg_icon).to include('viewBox="0 0 32 32"')
+    end
+
+    it 'falls back to the one OpenFarm had' do
+      tomato.update!(openfarm_data: { 'attributes' => { 'svg_icon' => '<svg>openfarm</svg>' } })
+      expect(tomato.svg_icon).to eq '<svg>openfarm</svg>'
+    end
+
+    it 'follows its parent crop until it has its own' do
+      tomato.update!(icon: 'tomato')
+      expect(variety.svg_icon).to eq tomato.svg_icon
+
+      variety.update!(icon: 'cherries')
+      expect(variety.svg_icon).to eq described_class.icon_svg('cherries')
+    end
+
+    it "must be one of the app's icons" do
+      expect(build(:crop, icon: 'tomato')).to be_valid
+      expect(build(:crop, icon: 'dragon')).not_to be_valid
+      expect(build(:crop, icon: '')).to be_valid
+    end
+
+    it 'lists the icons there are to choose from' do
+      expect(described_class.icon_names).to include('tomato', 'herb', 'leafy_green')
+      expect(described_class.icon_names).to eq described_class.icon_names.sort
     end
   end
 end

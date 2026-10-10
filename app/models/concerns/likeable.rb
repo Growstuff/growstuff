@@ -9,10 +9,12 @@ module Likeable
   end
 
   def liked_by?(member)
-    liked_by_members_names.include?(member.login_name)
+    return false unless member
+
+    likes.exists?(member_id: member.id)
   end
 
   def liked_by_members_names
-    Member.where(id: likes.pluck(:member_id)).pluck(:login_name)
+    members.pluck(:login_name)
   end
 end

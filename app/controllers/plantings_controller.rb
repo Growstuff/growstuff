@@ -8,26 +8,10 @@ class PlantingsController < DataController
   def index
     @show_all = params[:all] == '1'
 
-    where = {}
-    where['active'] = true unless @show_all
+    @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
+    @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug]
 
-    if params[:member_slug]
-      @owner = Member.find_by(slug: params[:member_slug])
-      where['owner_id'] = @owner.id unless @owner.nil?
-    end
-
-    if params[:crop_slug]
-      @crop = Crop.find_by(slug: params[:crop_slug])
-      where['crop_id'] = @crop.id unless @crop.nil?
-    end
-
-    @plantings = Planting.search(
-      where:,
-      page:     params[:page],
-      limit:    30,
-      boost_by: [:created_at],
-      load:     false
-    )
+    @plantings = plantings
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_fs(:number)}.csv"
     respond_with(@plantings)
@@ -35,7 +19,7 @@ class PlantingsController < DataController
 
   def show
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc)
-    @harvests = Harvest.search(where: { planting_id: @planting.id })
+    @harvests = Harvest.where(planting_id: @planting.id).recent
     @current_activities = @planting.activities.current.includes(:owner).order(created_at: :desc)
     @finished_activities = @planting.activities.finished.includes(:owner).order(created_at: :desc)
     @matching_seeds = matching_seeds
@@ -68,6 +52,8 @@ class PlantingsController < DataController
         owner: current_member,
         id:    params[:garden_id]
       )
+      # Arrived from a garden (e.g. "Plant something here"): no need to ask which.
+      @garden_locked = @planting.garden.present?
     end
 
     respond_with @planting
@@ -77,6 +63,7 @@ class PlantingsController < DataController
     # the following are needed to display the form but aren't used
     @crop = Crop.new
     @gardens = @planting.owner.gardens.active.order_by_name
+    render json: PlantingFormSerializer.new(@planting) if request.format.json?
   end
 
   def create
@@ -84,12 +71,18 @@ class PlantingsController < DataController
     @planting.planted_at = Time.zone.now if @planting.planted_at.blank?
     @planting.owner = current_member
     @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
+    # Only into your own gardens. A missing garden is left to the validation.
+    authorize! :update, @planting.garden if @planting.garden.present?
     @planting.save
+    return render_card_json(status: :created) if request.format.json?
+
     respond_with @planting
   end
 
   def update
     @planting.update(planting_params)
+    return render_card_json(status: :ok) if request.format.json?
+
     respond_with @planting
   end
 
@@ -116,15 +109,26 @@ class PlantingsController < DataController
     new_planting.finished_at = nil
 
     if new_planting.save
-      redirect_to edit_planting_path(new_planting), notice: 'Planting was successfully transplanted.'
+      redirect_to edit_planting_path(new_planting), notice: t('messages.transplant_success')
     else
       # if the save fails, we should probably roll back the finishing of the original planting
       @planting.update(finished: false, finished_at: nil)
-      redirect_to @planting, alert: "There was an error transplanting the planting: #{new_planting.errors.full_messages.to_sentence}"
+      redirect_to @planting, alert: t('messages.transplant_error', errors: new_planting.errors.full_messages.to_sentence)
     end
   end
 
   private
+
+  # Used by the React garden cards, which replace the garden's card with the
+  # returned one, so a new or changed planting shows without a page reload.
+  def render_card_json(status:)
+    if @planting.errors.empty? && @planting.persisted?
+      card = GardenCardSerializer.collection([@planting.garden], ability: current_ability, show_owner: false).first
+      render json: { garden: card }, status: status
+    else
+      render json: { errors: @planting.errors }, status: :unprocessable_content
+    end
+  end
 
   def update_crop_medians
     @planting.crop.update_lifespan_medians if @planting.crop.present?
@@ -137,7 +141,7 @@ class PlantingsController < DataController
   def planting_params
     params[:planted_at] = parse_date(params[:planted_at]) if params[:planted_at]
     params.require(:planting).permit(
-      :crop_id, :description, :garden_id, :planted_at,
+      :crop_id, :alternate_name_id, :description, :garden_id, :planted_at,
       :parent_seed_id,
       :quantity, :sunniness, :planted_from, :finished,
       :finished_at, :failed, :overall_rating
@@ -160,7 +164,7 @@ class PlantingsController < DataController
   end
 
   def matching_seeds
-    Seed.where(crop: @planting.crop, owner: @planting.owner)
+    @matching_seeds ||= Seed.where(crop: @planting.crop, owner: @planting.owner)
       .where('(finished_at IS NULL OR finished_at >= ?)', @planting.planted_at)
       .where('(saved_at IS NULL OR saved_at <= ?)', @planting.planted_at)
   end

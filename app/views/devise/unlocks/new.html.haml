@@ -4,12 +4,11 @@
     = form_for(resource, as: resource_name,
         url: unlock_path(resource_name),
         html: { method: :post,
-        class: 'form-horizontal',
         role: 'form' }) do |f|
 
       %h2 Resend unlock instructions
       = render 'devise/shared/error_messages', resource: resource
       = f.email_field :email, class: 'form-control', placeholder: 'Email'
-      = f.submit "Resend unlock instructions", class: 'btn btn-block my-4 btn-primary'
+      = f.submit "Resend unlock instructions", class: 'btn w-100 my-4 btn-primary'
 
     = render "devise/shared/links"

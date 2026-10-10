@@ -76,7 +76,7 @@ module IconsHelper
   end
 
   def activity_icon
-    icon('fas', 'fa-truck-pickup')
+    icon('fas', 'truck-pickup')
   end
 
   def post_icon

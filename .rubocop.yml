@@ -56,7 +56,6 @@ Style/Documentation:
 # Include: app/**/*.rb, config/**/*.rb, db/**/*.rb, lib/**/*.rb
 Rails/Output:
   Exclude:
-    - 'config/unicorn.rb'
     - 'db/seeds.rb'
 
 Metrics/BlockLength:

@@ -9,13 +9,20 @@ class PhotosController < ApplicationController
   responders :flash
 
   def index
-    @photos = Photo.search(
-      load:     false,
-      boost_by: [:created_at],
-      where:    index_where_clause,
-      page:     params[:page],
-      limit:    Photo.per_page
-    )
+    @photos = if @crop
+                @crop.photos
+              elsif @planting
+                @planting.photos
+              else
+                Photo.all
+              end
+
+    @photos = @photos.includes(:owner)
+                     .order(created_at: :desc)
+                     .paginate(page: params[:page], per_page: Photo.per_page)
+
+    raise ActiveRecord::RecordNotFound if @photos.out_of_bounds?
+
     respond_with(@photos)
   end
 
@@ -31,6 +38,8 @@ class PhotosController < ApplicationController
     @type = params[:type]
     @id = params[:id]
     retrieve_from_flickr
+    return render json: flickr_picker_json if request.format.json?
+
     respond_with @photo
   end
 
@@ -47,7 +56,13 @@ class PhotosController < ApplicationController
       @item.photos << @photo unless @item.photos.include? @photo
       @photo.save! if @photo.present?
     end
+    return render_added_json if request.format.json?
+
     respond_with @photo
+  rescue ActiveRecord::RecordInvalid => e
+    raise unless request.format.json?
+
+    render json: { errors: e.record.errors }, status: :unprocessable_content
   end
 
   def update
@@ -61,6 +76,31 @@ class PhotosController < ApplicationController
   end
 
   private
+
+  # For the React garden cards: what the "add photo" dialog needs to show, as
+  # the page does. Not connected (or the connection has gone stale) sends you to
+  # Flickr; otherwise a page of your photos, with your albums to choose from.
+  def flickr_picker_json
+    connect = { connect_url: '/members/auth/flickr' }
+    return { state: 'connect', **connect } if @flickr_auth.nil?
+    return { state: 'reconnect', **connect } if @please_reconnect_flickr
+
+    {
+      state: 'ready', name: @flickr_auth.name, profile_url: "http://flickr.com/photos/#{@flickr_auth.uid}",
+      sets: (@sets || {}).map { |title, id| { id: id, title: title } },
+      set: @current_set, tag: @current_tag,
+      page: @photos.current_page, total_pages: @photos.total_pages, total: @photos.total_entries,
+      photos: @photos.map { |photo| { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) } }
+    }
+  end
+
+  # The garden's refreshed card too, when the photo went on a garden or one of
+  # its plantings, as a garden's picture may now be this one.
+  def render_added_json
+    garden = @item.is_a?(Garden) ? @item : (@item.garden if @item.respond_to?(:garden))
+    card = GardenCardSerializer.collection([garden], ability: current_ability, show_owner: false).first if garden
+    render json: { photo: { id: @photo.id, url: photo_path(@photo) }, garden: card }, status: :created
+  end
 
   def photo_params
     params.require(:photo).permit(:source_id, :source, :title, :license_name,
@@ -102,29 +142,21 @@ class PhotosController < ApplicationController
     end
 
     @current_set = params[:set]
+    @current_tag = params[:tag]
 
     page = params[:page] || 1
 
     @sets = current_member.flickr_sets
-    photos, total = current_member.flickr_photos(page, @current_set)
+    photos, total = current_member.flickr_photos(page, @current_set, @current_tag)
 
     @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
       pager.replace photos
     end
   end
 
-  def index_where_clause
-    if params[:crop_slug]
-      { crops: @crop.id }
-    elsif params[:planting_id]
-      { planting_id: @planting.id }
-    else
-      {}
-    end
-  end
-
   def set_crop_and_planting
     @crop = Crop.find params[:crop_slug] if params[:crop_slug]
     @planting = Planting.find params[:planting_id] if params[:planting_id]
+    @planting ||= Planting.find params[:planting_slug] if params[:planting_slug]
   end
 end

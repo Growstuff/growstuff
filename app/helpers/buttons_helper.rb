@@ -3,7 +3,7 @@
 module ButtonsHelper
   include IconsHelper
 
-  def garden_plant_something_button(garden, classes: "btn btn-default")
+  def garden_plant_something_button(garden, classes: "btn btn-outline-secondary")
     return unless can? :edit, garden
 
     link_to new_planting_path(garden_id: garden.id), class: classes do
@@ -14,12 +14,12 @@ module ButtonsHelper
   def plant_something_button
     return unless can? :create, Planting
 
-    link_to new_planting_path, class: "btn btn-default" do
+    link_to new_planting_path, class: "btn btn-outline-secondary" do
       planting_icon + ' ' + t('buttons.plant_something')
     end
   end
 
-  def garden_plan_something_button(garden, classes: "btn btn-default")
+  def garden_plan_something_button(garden, classes: "btn btn-outline-secondary")
     return unless can? :edit, garden
 
     link_to new_activity_path(garden_id: garden.id), class: classes do
@@ -30,12 +30,12 @@ module ButtonsHelper
   def plan_something_button
     return unless can? :create, Activity
 
-    link_to new_activity_path, class: "btn btn-default" do
+    link_to new_activity_path, class: "btn btn-outline-secondary" do
       activity_icon + ' ' + t('buttons.new_activity')
     end
   end
 
-  def planting_plan_something_button(planting, classes: "btn btn-default")
+  def planting_plan_something_button(planting, classes: "btn btn-outline-secondary")
     return unless can? :edit, planting
 
     link_to new_activity_path(planting_id: planting.id), class: classes do
@@ -101,7 +101,7 @@ module ButtonsHelper
     end
   end
 
-  def activity_finish_button(activity, classes: 'btn btn-default btn-secondary')
+  def activity_finish_button(activity, classes: 'btn btn-secondary')
     return unless can?(:edit, activity) || activity.finished
 
     link_to activity_path(slug: activity.slug, activity: { finished: 1 }),
@@ -110,7 +110,7 @@ module ButtonsHelper
     end
   end
 
-  def planting_finish_button(planting, classes: 'btn btn-default btn-secondary')
+  def planting_finish_button(planting, classes: 'btn btn-secondary')
     return unless can?(:edit, planting) || planting.finished || planting.failed
 
     link_to planting_path(slug: planting.slug, planting: { finished: 1 }),
@@ -119,7 +119,7 @@ module ButtonsHelper
     end
   end
 
-  def planting_failed_button(planting, classes: 'btn btn-default btn-secondary')
+  def planting_failed_button(planting, classes: 'btn btn-secondary')
     return unless can?(:edit, planting) || planting.finished || planting.failed
 
     link_to planting_path(slug: planting.slug, planting: { failed: 1 }),
@@ -128,7 +128,7 @@ module ButtonsHelper
     end
   end
 
-  def seed_finish_button(seed, classes: 'btn btn-default')
+  def seed_finish_button(seed, classes: 'btn btn-outline-secondary')
     return unless can?(:create, Planting) && seed.active
 
     link_to seed_path(seed, seed: { finished: 1 }), method: :put, class: "#{classes} append-date" do
@@ -136,7 +136,7 @@ module ButtonsHelper
     end
   end
 
-  def planting_harvest_button(planting, classes: 'btn btn-default')
+  def planting_harvest_button(planting, classes: 'btn btn-outline-secondary')
     return unless planting.active && can?(:create, Harvest) && can?(:edit, planting)
 
     link_to new_planting_harvest_path(planting_slug: planting.slug), class: classes do
@@ -144,7 +144,7 @@ module ButtonsHelper
     end
   end
 
-  def planting_save_seeds_button(planting, classes: 'btn btn-default')
+  def planting_save_seeds_button(planting, classes: 'btn btn-outline-secondary')
     return unless can?(:edit, planting) && !planting.failed?
 
     link_to new_planting_seed_path(planting_slug: planting.slug), class: classes do
@@ -152,7 +152,7 @@ module ButtonsHelper
     end
   end
 
-  def add_photo_button(model, classes: "btn btn-default")
+  def add_photo_button(model, classes: "btn btn-outline-secondary")
     return unless can?(:edit, model) && can?(:create, Photo)
 
     link_to new_photo_path(id: model.id, type: model_type_for_photo(model)),
@@ -181,8 +181,8 @@ module ButtonsHelper
     ActiveModel::Name.new(model.class).to_s.downcase
   end
 
-  def button(path, button_title, icon, size = 'btn-xs')
-    link_to path, class: "btn btn-default #{size}" do
+  def button(path, button_title, icon, size = 'btn-sm')
+    link_to path, class: "btn btn-outline-secondary #{size}" do
       icon + ' ' + button_title
     end
   end

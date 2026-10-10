@@ -19,7 +19,7 @@
       = f.text_field :location,
                       value: @garden.location || current_member.location,
                       class: 'form-control', maxlength: 255
-      %span.help-block
+      %span.form-text
         = t('.location_helper')
         - if current_member.location.blank?
           = link_to "Set your location now.", edit_member_registration_path
@@ -36,4 +36,4 @@
             You can mark a garden as inactive if you no longer use it.
             Note: this will mark all plantings in the garden as "finished".
     .card-footer
-      .text-right= f.submit 'Save Garden'
+      .text-end= f.submit 'Save Garden'

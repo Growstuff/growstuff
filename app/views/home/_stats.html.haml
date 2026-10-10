@@ -1,4 +1,6 @@
-- cache("homepage_stats") do
+-# expires_in bounds staleness: expire_fragment only clears the cache of the
+-# process that handled the write, and the cache store may be per process.
+- cache("homepage_stats", expires_in: 12.hours) do
   %p.stats
     = t('.message_html',
      member: link_to(t('.member_linktext', count: Member.confirmed.size.to_i), members_path),

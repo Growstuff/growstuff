@@ -57,6 +57,19 @@ class NotifierMailer < ApplicationMailer
     mail(to: @member.email, subject: @subject) if @member.send_planting_reminder
   end
 
+  def harvest_reminder(member)
+    @member = member
+    @plantings = @member.plantings.active.select(&:harvest_in_next_week?)
+    @sitename = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
+    @subject = I18n.t('notifier_mailer.harvest_reminder.subject', sitename: @sitename)
+
+    # Encrypting
+    message = { member_id: @member.id, type: :send_harvest_reminder }
+    @signed_message = verifier.generate(message)
+
+    mail(to: @member.email, subject: @subject) if @member.send_harvest_reminder
+  end
+
   def new_crop_request(member, request)
     @member = member
     @request = request

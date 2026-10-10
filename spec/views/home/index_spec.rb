@@ -29,16 +29,8 @@ describe 'home/index.html.haml', type: "view" do
     end
 
     it 'show interesting members' do
-      rendered.should have_content @member.login_name
-      rendered.should have_content @member.location
-    end
-  end
-
-  context 'signed in' do
-    before do
-      sign_in @member
-      controller.stub(:current_user) { @member }
-      render
+      expect(rendered).to have_content @member.login_name
+      expect(rendered).to have_content @member.location
     end
   end
 end

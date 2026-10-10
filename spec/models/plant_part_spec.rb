@@ -18,8 +18,8 @@ describe PlantPart do
     @h2 = create(:harvest,
                  crop:       @maize,
                  plant_part: @pp1)
-    @pp1.crops.should include @tomato
-    @pp1.crops.should include @maize
+    expect(@pp1.crops).to include @tomato
+    expect(@pp1.crops).to include @maize
   end
 
   it "doesn't duplicate crops" do
@@ -31,6 +31,6 @@ describe PlantPart do
     @h2 = create(:harvest,
                  crop:       @maize,
                  plant_part: @pp1)
-    @pp1.crops.should eq [@maize]
+    expect(@pp1.crops).to eq [@maize]
   end
 end

@@ -2,15 +2,14 @@
 
 require 'rails_helper'
 
-describe PhotosController, :search do
+describe PhotosController do
   login_member
 
   describe 'GET index' do
     describe 'all photos' do
-      let!(:photo) { create(:photo, :reindex) }
+      let!(:photo) { create(:photo) }
 
       before do
-        Photo.reindex
         get :index
       end
 
@@ -18,31 +17,31 @@ describe PhotosController, :search do
         expect(assigns(:photos).count).to eq 1
         expect(assigns(:photos).first.id).to eq photo.id
       end
+
+      it 'returns 404 not found when page is out of bounds' do
+        get :index, params: { page: 105 }
+        expect(response).to have_http_status(:not_found)
+      end
     end
 
     describe '#index crop photos' do
-      let!(:photo)      { create(:photo, :reindex, owner: member, title: 'no assocations photo') }
-      let!(:crop_photo) { create(:photo, :reindex, owner: member, title: 'photos of planting')   }
-      let!(:planting)   { create(:planting, :reindex, crop:, owner: member) }
-      let!(:crop)       { create(:crop, :reindex) }
+      let!(:photo)      { create(:photo, owner: member, title: 'no assocations photo') }
+      let!(:crop_photo) { create(:photo, owner: member, title: 'photos of planting')   }
+      let!(:crop)       { create(:crop) }
+      let!(:planting)   { create(:planting, crop:, owner: member) }
 
       before do
         planting.photos << crop_photo
-        Photo.reindex
         get :index, params: { crop_slug: crop.to_param }
       end
 
       describe "find photos by crop" do
-        it "has indexed the photos of this crop" do
-          expect(Photo.search).to include crop_photo
-        end
-
         it "assigns crop" do
           expect(assigns(:crop)).to eq crop
         end
 
         it { expect(assigns(:photos).size).to eq 1 }
-        it { expect(assigns(:photos).first.crops).to include crop.id }
+        it { expect(assigns(:photos).first.crops).to include crop }
         it { expect(assigns(:photos).first.id).to eq crop_photo.id }
       end
     end
@@ -60,6 +59,7 @@ describe PhotosController, :search do
       sign_in member
       member.stub(:flickr_photos) { [[], 0] }
       member.stub(:flickr_sets) { { "foo" => "bar" } }
+      member.stub(:flickr_auth_valid?) { true }
       controller.stub(:current_member) { member }
     end
 
@@ -84,6 +84,16 @@ describe PhotosController, :search do
 
       it { expect(assigns(:item)).to eq garden }
       it { expect(flash[:alert]).not_to be_present }
+    end
+
+    describe "filtering by tag" do
+      let(:tag) { "tomato" }
+
+      it "passes the tag to flickr_photos" do
+        expect(member).to receive(:flickr_photos).with(anything, nil, tag).and_return([[], 0])
+        get :new, params: { type: "planting", id: planting.id, tag: tag }
+        expect(assigns(:current_tag)).to eq tag
+      end
     end
   end
 

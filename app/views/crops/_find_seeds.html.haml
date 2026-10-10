@@ -9,12 +9,12 @@
       - crop.seeds.tradable.each do |seed|
         %li.list-group-item
           = link_to "#{seed.owner} will trade #{seed.tradable_to}.", seed_path(seed), class: 'card-link'
-          .float-right= render 'members/location', member: seed.owner
+          .float-end= render 'members/location', member: seed.owner
       %li.list-group-item.d-flex.justify-content-between.align-items-center
         = link_to crop_seeds_path(crop), class: 'card-link' do
           = seed_icon
           View all #{crop.name} seeds
-        %span.badge.badge-primary.badge-pill=crop.seeds.size
+        %span.badge.text-bg-primary.rounded-pill=crop.seeds.size
 
   %ul.list-group
     %li.list-group-item
@@ -31,6 +31,6 @@
             = seed_icon
             List #{crop.name} seeds to trade
       - else
-        %li.list-group-item.active
+        %li.list-group-item.list-group-item-light
           = icon 'fas', 'user'
           = render partial: 'shared/signin_signup', locals: { to: 'list your seeds to trade' }

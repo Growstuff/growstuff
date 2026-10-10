@@ -1,6 +1,6 @@
-= form_tag search_crops_path, method: :get, class: 'form-inline', id: 'navbar-search' do
+= form_tag search_crops_path, method: :get, class: 'd-flex align-items-center', id: 'navbar-search' do
   .input-group
     %input.form-control{name: 'term', "aria-label" => "Search crops", placeholder: "Search crops", type: "search", id: 'term' }/
-    %button.btn.btn-default.text-white{type: "submit"}
+    %button.btn.btn-outline-secondary.text-white{type: "submit"}
       = icon 'fas', 'search'
-      .sr-only Search
+      .visually-hidden Search

@@ -148,6 +148,19 @@ describe Harvest do
     end
   end
 
+  describe '.homepage_records' do
+    it 'returns unique harvests per owner' do
+      member1 = create(:member)
+      member2 = create(:member)
+      create(:harvest, owner: member1, created_at: 1.day.ago)
+      h2 = create(:harvest, owner: member1, created_at: 1.hour.ago)
+      h3 = create(:harvest, owner: member2, created_at: 2.hours.ago)
+
+      records = described_class.homepage_records(5)
+      expect(records).to contain_exactly(h2, h3)
+    end
+  end
+
   context "stringification" do
     let(:crop) { create(:crop, name: "apricot") }
 

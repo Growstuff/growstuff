@@ -13,7 +13,7 @@ describe "crops/_grown_for" do
 
   it 'shows plant parts' do
     render partial: 'crops/grown_for', locals: { crop: }
-    rendered.should have_content plant_path.name
+    expect(rendered).to have_content plant_path.name
     assert_select "a", href: plant_part_path(plant_path)
   end
 end

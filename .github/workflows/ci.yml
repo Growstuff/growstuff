@@ -6,7 +6,7 @@ jobs:
   contributors:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install ruby version specified in .ruby-version
         uses: ruby/setup-ruby@v1
         with:
@@ -53,7 +53,7 @@ jobs:
 
     steps:
       - name: Checkout this repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Configure sysctl limits
         run: |
@@ -76,7 +76,7 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Setup yarn cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -89,7 +89,7 @@ jobs:
           sudo apt-get -y install libpq-dev google-chrome-stable
 
       - name: Install NodeJS
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '24'
 
@@ -100,6 +100,11 @@ jobs:
 
       - name: Install required JS packages
         run: yarn install
+
+      # The React bundle is built, not committed, and pages that load it (e.g.
+      # the gardens index) need it to exist.
+      - name: Build JavaScript
+        run: yarn build
 
       - name: install chrome
         run: sudo apt-get install google-chrome-stable
@@ -113,6 +118,12 @@ jobs:
 
       - name: Run rspec (services)
         run: bundle exec rspec spec/services/ -fd --fail-fast
+
+      - name: Run rspec (helpers)
+        run: bundle exec rspec spec/helpers/ -fd --fail-fast
+
+      - name: Run rspec (serializers)
+        run: bundle exec rspec spec/serializers/ -fd --fail-fast
 
       - name: Run rspec (models)
         run: bundle exec rspec spec/models/ -fd --fail-fast
