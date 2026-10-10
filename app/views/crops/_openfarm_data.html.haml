@@ -1,12 +1,7 @@
 -# The growing facts the predictions cards don't already cover. Fact cards, so
 -# they sit in the same grid rather than as a list of their own in the sidebar.
--# Height, spread, row spacing and degree days are rendered by _predictions.
-- if crop.sowing_method.present?
-  = render 'layouts/fact_card',
-    title: 'Sowing method', value: crop.sowing_method, description: nil
-- if crop.sun_requirements.present?
-  = render 'layouts/fact_card',
-    title: 'Sun', value: crop.sun_requirements, description: nil
+-# Height, spread, row spacing and degree days are rendered by _predictions,
+-# and how to sow it and its sun requirement are in the hero, with the names.
 - if crop.harvests.any?
   - part, frequency = crop.popular_plant_parts.first
   - if part

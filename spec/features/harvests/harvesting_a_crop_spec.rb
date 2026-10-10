@@ -49,19 +49,6 @@ describe "Harvesting a crop", :js, :search do
       end
     end
 
-    describe "Harvesting from crop page" do
-      before do
-        visit crop_path(maize)
-        click_link "Record harvest"
-        click_link plant_part.name
-        # We then navigate to the new_harvest_path, and save.
-        click_button "Save"
-      end
-
-      it { expect(page).to have_content "harvest was successfully created." }
-      it { expect(page).to have_content "maize" }
-    end
-
     describe "Harvesting from planting page" do
       let!(:planting) { create(:planting, crop: maize, owner: member, garden: member.gardens.first) }
 

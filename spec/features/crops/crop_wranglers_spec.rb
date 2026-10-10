@@ -38,7 +38,7 @@ describe "crop wranglers", :js do
         click_link 'Actions'
       end
 
-      it { expect(page).to have_content 'You are a CROP WRANGLER' }
+      # No "you are a crop wrangler" banner: seeing the menu says that.
       it { expect(page).to have_link 'Edit' }
       it { expect(page).to have_link 'Delete' }
     end

@@ -55,8 +55,10 @@ describe "Seeds", :js, :search do
     end
 
     describe "Adding a seed from crop page" do
+      # The crop page's one action is "add to my garden" now; saving seeds for a
+      # crop is offered on that crop's seed list, where the crop card lives.
       before do
-        visit crop_path(maize)
+        visit crop_seeds_path(maize)
         click_link "Save seeds"
       end
 

@@ -132,7 +132,7 @@
 .crop-info {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 1.5rem;
 
   h1 {
@@ -145,9 +145,19 @@
   min-width: 0;
 }
 
+// The numbers sit at the top, the one action at the foot, level with the
+// bottom of the description beside it.
 .crop-info-aside {
+  display: flex;
   flex: 0 1 14rem;
+  flex-direction: column;
+  align-items: flex-end;
   text-align: right;
+
+  .crop-actions {
+    margin-top: auto;
+    padding-top: 1rem;
+  }
 }
 
 // The crop at a glance: how much of it the site knows about.
@@ -155,7 +165,7 @@
   display: flex;
   justify-content: flex-end;
   gap: 1.5rem;
-  margin: 1.25rem 0 0;
+  margin: 0;
   text-align: center;
 
   dt {
@@ -173,4 +183,8 @@
 
 .crop-description {
   margin-bottom: 0;
+}
+
+.crop-attribute {
+  margin-bottom: 0.5rem;
 }

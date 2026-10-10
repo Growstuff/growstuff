@@ -1,10 +1,16 @@
--# Also under the name: what this crop is called elsewhere. Wranglers add and
--# edit them from the crop's actions menu, in a dialog.
+-# Also under the name: what this crop is called elsewhere. Wranglers edit or
+-# delete each one from its own menu; adding is in the crop's actions menu.
 - if crop.alternate_names.any?
-  %p.crop-alt-names
+  .alternate_names.crop-alt-names
     %span.text-muted Also known as
     - crop.alternate_names.each do |an|
       - if can? :edit, an
-        %a.badge.text-bg-light{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#alternate-name-#{an.id}", title: "Edit #{an.name}" }= "#{an.name} (#{an.language})"
+        %span.dropdown.d-inline-block
+          %a.dropdown-toggle.badge.text-bg-light{ "aria-expanded" => "false", "data-bs-toggle" => "dropdown", href: '#', role: "button" }= "#{an.name} (#{an.language})"
+          .dropdown-menu
+            %a.dropdown-item{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#alternate-name-#{an.id}" }= t('.edit')
+            - if can? :destroy, an
+              .dropdown-divider
+              = link_to t('.delete'), an, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item text-danger'
       - else
         %span.badge.text-bg-light= "#{an.name} (#{an.language})"

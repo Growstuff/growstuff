@@ -2,16 +2,11 @@
 %h2 What people are saying about #{crop.name.pluralize}
 
 - if @posts.empty?
-  %p
-    Nobody has posted about #{crop.name.pluralize} yet.
-  %p
-    - if can? :create, Post
-      = link_to "Post something", new_post_path(crop_id: crop.slug), class: 'btn btn-outline-secondary'
-    - else
-      = render partial: "shared/signin_signup",
-              locals: { to: "post your tips and experiences growing #{crop.name.pluralize}" }
+  %p.text-muted Nobody has posted about #{crop.name.pluralize} yet.
+  - unless can? :create, Post
+    = render partial: "shared/signin_signup",
+            locals: { to: "post your tips and experiences growing #{crop.name.pluralize}" }
 - else
-
   = will_paginate @posts
 
   .index-cards
@@ -20,3 +15,8 @@
 
   = will_paginate @posts
 
+-# The action sits at the foot of the section, on the right, whether or not
+-# anyone has posted yet.
+- if can? :create, Post
+  .section-footer
+    = link_to "Post something", new_post_path(crop_id: crop.slug), class: 'btn btn-outline-secondary btn-sm'

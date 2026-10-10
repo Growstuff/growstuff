@@ -133,6 +133,16 @@
     min-width: 0;
   }
 
+  // A section's own action, at the foot on the right: "more photos", "post
+  // something". The heading bar's "add" is for adding to the section; this is
+  // for going further with what is already in it.
+  .section-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
   // A snail, a cat, a wheelbarrow — standing on top of the green heading bar
   // below it.
   //
