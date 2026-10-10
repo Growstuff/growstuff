@@ -458,6 +458,35 @@
     justify-content: flex-start;
   }
 
+  // The inline edit form takes the place of the fact's value, inside a card
+  // only 170px wide. Without this the control runs past the card's edge and
+  // the save button lands on top of the sub-line beneath it.
+  .facts .fact-card form {
+    margin-top: 0.5rem;
+
+    .form-control,
+    .form-select {
+      width: 100%;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    label {
+      margin-bottom: 0.2rem;
+      font-size: 0.8rem;
+    }
+
+    input[type="submit"] {
+      margin-top: 0.5rem;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    .mb-3 {
+      margin-bottom: 0 !important;
+    }
+  }
+
   // Title and subtitle read as one block, with the badge and the actions menu
   // pinned to the top right beside them.
   .planting-identity {

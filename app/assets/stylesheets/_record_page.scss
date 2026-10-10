@@ -29,6 +29,13 @@
     }
   }
 
+  // A section full of cards gets the page's own ground rather than white.
+  // The photo cards are little white polaroids; on a white section they have
+  // nothing to sit against and the grid reads as a mess of edges.
+  section:has(> .index-cards) {
+    background: $beige;
+  }
+
   // The heading bar is the section's lid, so it spans the full width: the
   // negative margin cancels the section's padding, otherwise the section's
   // white shows down either side of the green.

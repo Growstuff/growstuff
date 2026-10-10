@@ -9,13 +9,14 @@
   .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
     %h3
       Planted
-      = editable :date, planting, :planted_at, display_field: '.planted_at'
-    - if planting.planted_at.present?
-      %strong.planted_at= standard_time_distance planting.planted_at, Time.zone.today
-      %span.planted_at= I18n.l planting.planted_at
-    - else
-      %strong.planted_at unknown
-      %span.planted_at no date recorded
+      = editable :date, planting, :planted_at, display_field: '.fact-planted'
+    .fact-value.fact-planted
+      - if planting.planted_at.present?
+        %strong.planted_at= standard_time_distance planting.planted_at, Time.zone.today
+        %span.planted_at= I18n.l planting.planted_at
+      - else
+        %strong.planted_at unknown
+        %span.planted_at no date recorded
 
   .card.fact-card{class: planting.percentage_grown.present? ? '' : 'text-muted'}
     %h3 Progress
@@ -48,24 +49,24 @@
   .card.fact-card{class: planting.quantity.to_i.positive? ? '' : 'text-muted'}
     %h3
       Quantity
-      = editable :text_field, planting, :quantity, display_field: '.plantingfact--quantity'
-    %strong.plantingfact--quantity
-      = planting.quantity.to_i.positive? ? planting.quantity : 'unknown'
-    %span
+      = editable :text_field, planting, :quantity, display_field: '.fact-quantity'
+    .fact-value.fact-quantity
+      %strong.plantingfact--quantity
+        = planting.quantity.to_i.positive? ? planting.quantity : 'unknown'
       %span.plantingfact--plantedfrom
         - if planting.planted_from.present?
           = planting.planted_from.pluralize(planting.quantity.to_i)
         - else
           not recorded
-      = editable :select, planting, :planted_from, collection: Planting::PLANTED_FROM_VALUES, display_field: '.plantingfact--plantedfrom'
 
   .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
     %h3
       Grown in
-      = editable :select, planting, :sunniness, collection: Planting::SUNNINESS_VALUES, display_field: '.plantingfact--sunniness'
-    %strong= sunniness_icon(planting.sunniness)
-    %span.plantingfact--sunniness
-      = planting.sunniness.presence || 'not specified'
+      = editable :select, planting, :sunniness, collection: Planting::SUNNINESS_VALUES, display_field: '.fact-sunniness'
+    .fact-value.fact-sunniness
+      %strong= sunniness_icon(planting.sunniness)
+      %span.plantingfact--sunniness
+        = planting.sunniness.presence || 'not specified'
 
   .card.fact-card{class: planting.overall_rating.present? ? '' : 'text-muted'}
     %h3 Rating
