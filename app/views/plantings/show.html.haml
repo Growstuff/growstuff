@@ -1,7 +1,6 @@
 -# This page is about a planting: one member's crop, in one garden, in one season.
 -# The crop is context in the right-hand column, not the subject of the page.
 - planting_title = t('plantings.show.title', crop: @planting.display_name, owner: @planting.owner)
-= content_for :title, planting_title
 -# The actions menu and its dialogs are a React island.
 - content_for :scripts do
   = javascript_include_tag 'react_islands', defer: true

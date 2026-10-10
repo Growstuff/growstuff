@@ -1,13 +1,8 @@
-= content_for :title, "#{@garden.owner}'s #{@garden}"
-
-- content_for :opengraph do
-  = tag("meta", property: "og:image", content: garden_image_path(@garden))
-  - if @garden.description
-    = tag("meta", property: "og:description", content: og_description(@garden.description))
-  = tag("meta", property: "og:title", content: "#{@garden.owner}'s #{@garden}")
-  = tag("meta", property: "og:type", content: "website")
-  = tag("meta", property: "og:url", content: request.original_url)
-  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+- garden_title = "#{@garden.owner}'s #{@garden}"
+= render 'shared/record_meta',
+         title: garden_title,
+         description: @garden.description.presence || "#{garden_title}, on Growstuff.",
+         image: garden_image_path(@garden)
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Gardens', gardens_path

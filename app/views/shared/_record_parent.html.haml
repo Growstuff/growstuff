@@ -1,0 +1,14 @@
+-# Where a record came from: the planting a harvest was picked off, or the one
+-# a packet of seed was saved from. One line hanging off the title, so the
+-# reader knows what this is part of before scrolling. See DESIGN.md.
+-#
+-# `verb` is the relationship in the record's own words — "picked from",
+-# "saved from".
+%p.record-parent.mb-0
+  = planting_icon
+  = verb
+  = link_to planting.display_name, planting
+  - if planting.garden.present?
+    %span.record-parent-where
+      growing in
+      = link_to planting.garden.name, planting.garden

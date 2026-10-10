@@ -1,15 +1,16 @@
 -# Title, description and OpenGraph for one planting. The same sentence
 -# everywhere, so a shared link never reads as a page about the crop.
-- content_for :meta_description do
-  = planting.description.presence || t('plantings.show.meta_description', crop: planting.display_name, owner: planting.owner, garden: planting.garden)
+-#
+-# The og tags themselves are shared with the other record pages; what is
+-# particular to a planting is its rating and the crop's structured data,
+-# appended below (content_for concatenates).
+- fallback = t('plantings.show.meta_description', crop: planting.display_name,
+                                                  owner: planting.owner, garden: planting.garden)
+= render 'shared/record_meta',
+         title:,
+         description: planting.description.presence || fallback,
+         image:       planting_image_path(planting)
 - content_for :opengraph do
-  = tag("meta", property: "og:image", content: planting_image_path(planting))
-  = tag("meta", property: "og:title", content: title)
-  - if planting.description
-    = tag("meta", property: "og:description", content: og_description(planting.description))
-  = tag("meta", property: "og:type", content: "website")
-  = tag("meta", property: "og:url", content: request.original_url)
-  = tag("meta", property: "og:site_name", content: ENV.fetch('GROWSTUFF_SITE_NAME', nil))
   - if planting.overall_rating.present?
     %script{ type: "application/ld+json" }
       :plain

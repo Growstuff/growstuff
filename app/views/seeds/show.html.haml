@@ -1,17 +1,8 @@
-- content_for :title, "#{@seed.owner}'s #{@seed.crop} seeds"
-- content_for :meta_description do
-  - if @seed.description.present?
-    = @seed.description
-  - else
-    = "Seeds for #{@seed.crop.name}, shared by #{@seed.owner}."
-- content_for :opengraph do
-  = tag("meta", property: "og:image", content: seed_image_path(@seed))
-  - if @seed.description
-    = tag("meta", property: "og:description", content: og_description(@seed.description))
-  = tag("meta", property: "og:image", content: "#{@seed.owner}'s #{@seed.crop} seeds")
-  = tag("meta", property: "og:type", content: "website")
-  = tag("meta", property: "og:url", content: request.original_url)
-  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+- seed_title = "#{@seed.owner}'s #{@seed.crop} seeds"
+= render 'shared/record_meta',
+         title: seed_title,
+         description: @seed.description.presence || "Seeds for #{@seed.crop.name}, shared by #{@seed.owner}.",
+         image: seed_image_path(@seed)
 
 %script{type: "application/ld+json"}
   = crop_jsonld_data(@seed.crop, full_attributes: false).to_json.html_safe
@@ -48,9 +39,7 @@
                   - if @seed.heirloom != 'unknown'
                     %span.badge.text-bg-success.seedtitle--heirloom= @seed.heirloom
                 - if @seed.parent_planting
-                  %p.mb-0.small
-                    Saved from
-                    = link_to @seed.parent_planting, planting_path(@seed.parent_planting)
+                  = render 'shared/record_parent', planting: @seed.parent_planting, verb: 'saved from'
             = render 'seeds/actions', seed: @seed
 
         %section.seed-facts= render 'facts', seed: @seed
