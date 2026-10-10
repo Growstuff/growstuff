@@ -89,8 +89,13 @@
   }
 
   // Quiet enough to sit on the heading bar without shouting over the heading.
+  //
+  // width is explicit because mobile.scss stretches every `section .btn` to
+  // full width; in the heading bar that turns "+ add" into a band across the
+  // whole bar.
   .section-add {
     flex: 0 0 auto;
+    width: auto;
     padding: 0.1rem 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.45);
     background: transparent;
