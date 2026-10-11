@@ -660,7 +660,6 @@ GEM
       rubocop (~> 1.72, >= 1.72.1)
       rubocop-rspec (~> 3.5)
     ruby-progressbar (1.13.0)
-    ruby-units (4.1.0)
     ruby-vips (2.3.0)
       ffi (~> 1.12)
       logger
@@ -851,7 +850,6 @@ DEPENDENCIES
   rubocop-rake
   rubocop-rspec
   rubocop-rspec_rails
-  ruby-units
   sassc-rails
   scout_apm
   searchkick
