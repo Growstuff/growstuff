@@ -65,8 +65,8 @@ describe "Gardens" do
 
           it { is_expected.to have_link 'Edit' }
           it { is_expected.to have_link 'Delete' }
-          it { is_expected.to have_content "Plant something here" }
-          it { is_expected.to have_content "Add photo" }
+          it { is_expected.to have_link "Plant something here" }
+          it { is_expected.to have_link "Add photo" }
         end
       end
 
