@@ -16,7 +16,7 @@ describe "Seeds", :js do
     it {
       click_on "Actions"
 
-      expect(subject).to have_content 'Add photo'
+      expect(subject).to have_link 'Add photo'
     }
 
     # context 'no photos' do
