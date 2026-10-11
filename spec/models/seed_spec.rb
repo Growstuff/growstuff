@@ -156,6 +156,11 @@ describe Seed do
       expect(seed.errors[:plant_before_year]).to be_present
     end
 
+    it 'reads back what was typed when it was not a year, to correct' do
+      seed.plant_before_year = 'next spring'
+      expect(seed.plant_before_year).to eq 'next spring'
+    end
+
     it 'refuses a year outside the sensible range' do
       seed.plant_before_year = '1234'
       expect(seed).not_to be_valid

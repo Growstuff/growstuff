@@ -69,7 +69,9 @@ class Seed < ApplicationRecord
   # stored as the last day of that year — the column stays a date, and the
   # `expired` scope goes on working unchanged.
   def plant_before_year
-    plant_before&.year
+    # What was typed, when it was not a year, so the member sees their own
+    # input beside the error rather than an emptied field.
+    @bad_plant_before_year || plant_before&.year
   end
 
   def plant_before_year=(year)
