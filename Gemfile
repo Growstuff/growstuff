@@ -65,6 +65,7 @@ gem 'sidekiq'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
+gem 'kramdown' # the Markdown engine Tilt picks for Haml's :markdown filter
 
 # Pagination
 gem 'will_paginate'

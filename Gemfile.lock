@@ -346,6 +346,8 @@ GEM
       concurrent-ruby
       railties (>= 4.1)
     jsonapi-swagger (0.8.1)
+    kramdown (2.4.0)
+      rexml
     language_server-protocol (3.17.0.6)
     launchy (3.1.1)
       addressable (~> 2.8)
@@ -782,6 +784,7 @@ DEPENDENCIES
   jsbundling-rails
   jsonapi-resources
   jsonapi-swagger
+  kramdown
   leaflet-rails (>= 1.9.2)
   letter_opener
   listen
