@@ -60,8 +60,6 @@ gem 'leaflet-rails', '>= 1.9.2'
 gem 'pg'
 gem 'ruby-units'                   # for unit conversion
 
-gem "comfortable_mexican_sofa", git: "https://github.com/restarone/comfortable-mexican-sofa.git"
-
 gem 'active_utils'
 gem 'sidekiq'
 
