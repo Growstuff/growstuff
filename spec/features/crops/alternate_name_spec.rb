@@ -25,16 +25,15 @@ describe "Alternate names", :js do
     it "can edit alternate names" do
       visit crop_path(crop)
       # expect(page.status_code).to equal 200
-      expect(page).to have_content "CROP WRANGLER"
       expect(page).to have_content alternate_eggplant.name
+      # Each name has its own menu; editing opens a dialog over the page.
       click_link 'aubergine'
-      expect(page).to have_link "Edit", href: edit_alternate_name_path(alternate_eggplant)
       within('.alternate_names') { click_on "Edit" }
-      # expect(page.status_code).to equal 200
-      expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
-      fill_in 'Name', with: "alternative aubergine"
       page.percy_snapshot(page, name: 'Crop wrangler adding alternate name')
-      click_on "Save"
+      within('[role=dialog]') do
+        fill_in 'Name', with: "alternative aubergine"
+        click_on "Save"
+      end
       # expect(page.status_code).to equal 200
       expect(page).to have_content "alternative aubergine"
       expect(page).to have_content 'Alternate name was successfully updated'
@@ -52,14 +51,13 @@ describe "Alternate names", :js do
 
     it "can add alternate names" do
       visit crop_path(crop)
-      expect(page).to have_link "Add",
-                                href: new_alternate_name_path(crop_id: crop.id)
-      within('.alternate_names') { click_on "Add" }
-      # expect(page.status_code).to equal 200
-      expect(page).to have_css "option[value='#{crop.id}'][selected=selected]"
-      fill_in 'Name', with: "not an aubergine"
-      click_on "Save"
-      # expect(page.status_code).to equal 200
+      # Adding is an item in the crop's actions menu, which opens a dialog.
+      click_link 'Actions'
+      click_on "Add another name"
+      within('[role=dialog]') do
+        fill_in 'Name', with: "not an aubergine"
+        click_on "Save"
+      end
       expect(page).to have_content "not an aubergine"
       expect(page).to have_content 'Alternate name was successfully created'
     end

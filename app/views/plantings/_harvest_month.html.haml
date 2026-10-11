@@ -1,0 +1,6 @@
+- harvesting = planting.harvest_months.keys.include?(month.to_f)
+- name = I18n.t('date.month_names')[month]
+%div{ class: "badge #{harvesting ? 'text-bg-info badge-harvesting' : 'text-muted'}", id: "month-#{month}" }
+  %span{ 'aria-hidden' => 'true' }= I18n.t('date.abbr_month_names')[month]
+  %span.visually-hidden
+    = harvesting ? t('plantings.show.harvest_month_yes', month: name) : name

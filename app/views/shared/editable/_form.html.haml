@@ -1,7 +1,9 @@
 - if can? :edit, model
   %small.edit-link
     %a.editable{"data-form" => "#form--#{model.id}-#{field.to_s}", "data-display": display_field, href: "#", name: "#form--#{model.id}-#{field.to_s}"}
-      = edit_icon
+      -# One muted pencil everywhere, not the orange SVG icon.
+      %i.fas.fa-pencil-alt{ 'aria-hidden' => 'true' }
+      %span.visually-hidden Edit #{field.to_s.humanize.downcase}
 
   .hide{id: "form--#{model.id}-#{field.to_s}"}
     = bootstrap_form_for(model) do |f|
