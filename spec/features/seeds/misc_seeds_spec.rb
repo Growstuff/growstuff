@@ -59,6 +59,7 @@ describe "seeds", :js do
 
       expect(page).to have_current_path seed_path(seed), ignore_query: true
       expect(seed.reload).to have_attributes(quantity: doubled, source: 'traded from another person')
+      expect(find('.seedfacts--source')).to have_content 'traded from another person'
     end
 
     describe "delete seeds" do

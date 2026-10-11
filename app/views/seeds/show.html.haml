@@ -37,11 +37,24 @@
         %section.seed--description
           .section-header
             %h2 Notes
-          - if @seed.description.present?
-            :markdown
-              #{strip_tags markdownify(@seed.description)}
-          - else
-            %p.text-muted.mb-0 No notes yet.
+            -# "edit", not "+ add": there is one note, not a list to add to.
+            - if can?(:edit, @seed)
+              - notes_edit = { href: '#', "data-display" => '.seed-notes-body',
+                               "data-form" => "##{editable_form_id(@seed, :description)}" }
+              %a.btn.btn-sm.section-add.editable{ notes_edit }
+                = icon 'fas', 'pencil-alt'
+                edit
+          -# The trigger lives in the heading bar above, so the partial renders
+          -# the form alone.
+          = render 'shared/editable/form',
+                   field_type: :text_area, model: @seed, field: :description,
+                   display_field: '.seed-notes-body', values: nil, trigger: :none
+          .seed-notes-body
+            - if @seed.description.present?
+              :markdown
+                #{strip_tags markdownify(@seed.description)}
+            - else
+              %p.text-muted.mb-0 No notes yet.
 
         %section.seed-descendants
           .section-header
