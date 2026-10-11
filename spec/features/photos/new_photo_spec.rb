@@ -56,7 +56,11 @@ describe "new photo page" do
         visit seed_path(seed)
         click_link 'Actions'
         first('.seed-actions').click_link('Add photo')
-        expect(page).to have_text seed.to_s
+        # The menu opens the add-photo dialog over the seed now, rather than
+        # taking the member away to a page of its own.
+        within '[role=dialog]' do
+          expect(page).to have_text "Add photo to #{seed.crop.name} seeds"
+        end
       end
     end
   end
