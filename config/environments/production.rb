@@ -65,7 +65,9 @@ Rails.application.configure do
                             socket_failure_delay: 0.2,
                             down_retry_delay:     60 }]
                        else
-                         [:memory_store, { size: Integer(ENV.fetch("RAILS_CACHE_SIZE_MB", "32")).megabytes }]
+                         # The memory store lives inside the web process, so its cap counts against
+                         # the dyno's memory. Keep the whole process below 500 MB (see config/puma.rb).
+                         [:memory_store, { size: Integer(ENV.fetch("RAILS_CACHE_SIZE_MB", "8")).megabytes }]
                        end
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
