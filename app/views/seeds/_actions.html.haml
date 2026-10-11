@@ -1,15 +1,33 @@
+-# The same three-dot kebab as every other record page, in the top right of
+-# the hero. No icons on the items; delete keeps its icon and its red.
 - if can?(:edit, seed)
-  .dropdown.seed-actions
-    %a#seed-actions-button.btn.btn-info.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'}
-      Actions
-    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "seed-actions-button"}
-      - if can?(:create, Planting) && can?(:update, seed) && seed.active
-        = link_to new_planting_path(seed_id: seed), class: 'dropdown-item success-color' do
-          = seed_icon
-          Plant seeds
-      = seed_edit_button(seed, classes: 'dropdown-item')
-      = add_photo_button(seed, classes: 'dropdown-item')
-      - if seed.active
-        = seed_finish_button(seed, classes: 'dropdown-item')
-      .dropdown-divider
-      = delete_button(seed, classes: 'dropdown-item text-danger')
+  -# One flex item, not three: this sits in the hero's justify-content-between
+  -# row, and a loose modal or island beside the dropdown would be distributed
+  -# across the row and drag the kebab in off the right edge.
+  .record-actions
+    .dropdown.seed-actions
+      - toggle = { "aria-expanded" => "false", "aria-haspopup" => "true", "aria-label" => "Actions",
+                   "data-bs-toggle" => "dropdown", href: '#', role: "button" }
+      %a#seed-actions-button.btn.record-actions-toggle{ toggle }
+        %i.fas.fa-ellipsis-v{ "aria-hidden" => "true", title: "Actions" }
+      .dropdown-menu.dropdown-menu-end{ "aria-labelledby" => "seed-actions-button" }
+        %a.dropdown-item{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#seed-edit-modal" }
+          = t('buttons.edit')
+        - if can? :create, Photo
+          - add_photo = new_photo_path(id: seed.id, type: 'seed')
+          = link_to t('buttons.add_photo'), add_photo, class: 'dropdown-item', data: { photo_dialog: true }
+        - if can?(:create, Planting) && can?(:update, seed) && seed.active
+          = link_to 'Plant seeds', new_planting_path(seed_id: seed), class: 'dropdown-item'
+        - if can?(:create, Planting) && seed.active
+          - finish = seed_path(seed, seed: { finished: 1 })
+          = link_to t('buttons.mark_as_finished'), finish, method: :put, class: 'dropdown-item append-date'
+        .dropdown-divider
+        = delete_button(seed, classes: 'dropdown-item text-danger')
+
+    -# The dialog the Edit item opens. Outside the dropdown, so it is not torn
+    -# down with the menu when it closes.
+    = render 'seeds/edit_modal', seed: seed
+    -# Opens the add-photo dialog over the page, for both the menu item above
+    -# and the "add" on the photos heading bar.
+    - if can? :create, Photo
+      = react_component 'PhotoDialog', photo_dialog_props("#{seed.crop.name} seeds")

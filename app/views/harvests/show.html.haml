@@ -73,7 +73,7 @@
               .card.fact-card
                 %h3
                   Plant part
-                  = editable :select, @harvest, :plant_part_id, collection: PlantPart.all.pluck(:name, :id), display_field: '.harvest-plantpart'
+                  = editable :select, @harvest, :plant_part_id, values: PlantPart.all.pluck(:name, :id), display_field: '.harvest-plantpart'
                 %strong.harvest-plantpart= @harvest.plant_part
             .card.fact-card
               %h3

@@ -62,7 +62,7 @@
   .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
     %h3
       Grown in
-      = editable :select, planting, :sunniness, collection: Planting::SUNNINESS_VALUES, display_field: '.fact-sunniness'
+      = editable :select, planting, :sunniness, values: Planting::SUNNINESS_VALUES, display_field: '.fact-sunniness'
     .fact-value.fact-sunniness
       %strong= sunniness_icon(planting.sunniness)
       %span.plantingfact--sunniness
