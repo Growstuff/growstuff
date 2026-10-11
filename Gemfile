@@ -37,12 +37,9 @@ gem 'font-awesome-sass', '~> 6.7'
 
 gem 'terser'
 
-gem 'oj' # Speeds up json
-
 # planting and harvest predictions
 # based on median values for the crop
 gem 'active_median'
-gem 'active_record_union'
 
 gem 'flickraw'
 gem 'jquery-rails'
@@ -62,7 +59,6 @@ gem 'ruby-units'                   # for unit conversion
 
 gem "comfortable_mexican_sofa", git: "https://github.com/restarone/comfortable-mexican-sofa.git"
 
-gem 'active_utils'
 gem 'sidekiq'
 
 # Markdown formatting for updates etc
@@ -114,7 +110,7 @@ gem "responders"
 # allows soft delete. Used for members.
 gem 'discard', '>= 1.2'
 
-gem 'xmlrpc' # fixes rake error - can be removed if not needed later
+gem 'xmlrpc' # gravatar-ultimate requires xmlrpc/client but does not declare the dependency
 
 gem 'puma'
 
@@ -137,8 +133,6 @@ gem 'recaptcha'
 
 # External APIs for data
 gem "gbifrb"
-
-gem "msgpack"
 
 # Pinned due to RAILS_ENV=production bundle exec rake assets:precompile failing with ArgumentError: wrong number of arguments (given 1, expected 0) (ArgumentError)
 # /tmp/build_8301a541/vendor/bundle/ruby/3.3.0/gems/connection_pool-3.0.2/lib/connection_pool.rb:48:in `initialize'
