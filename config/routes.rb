@@ -157,7 +157,6 @@ Rails.application.routes.draw do
   scope :admin do
     get '/' => 'admin#index', as: 'admin'
     get '/newsletter' => 'admin#newsletter', as: 'admin_newsletter'
-    comfy_route :cms_admin, path: '/cms'
   end
 
   namespace :admin do
@@ -183,6 +182,14 @@ Rails.application.routes.draw do
   end
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
-  # CMS stuff  -- must remain LAST
-  comfy_route :cms, path: '/', sitemap: false
+
+  get '/about' => 'pages#about', as: :about
+  get '/policy' => 'pages#policies', as: :policies
+  get '/policy/tos' => 'pages#tos', as: :policy_tos
+  get '/policy/privacy' => 'pages#privacy', as: :policy_privacy
+  get '/policy/api' => 'pages#data_use', as: :policy_data_use
+  get '/policy/community' => 'pages#community_guidelines', as: :policy_community
+  get '/policy/copyright' => 'pages#copyright', as: :policy_copyright
+  get '/support' => 'pages#support', as: :support
+  get '/about/contact' => 'pages#contact', as: :contact
 end

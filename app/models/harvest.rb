@@ -31,6 +31,13 @@ class Harvest < ApplicationRecord
     "oz" => "oz"
   }.freeze
 
+  # Exact definitions of the international avoirdupois units, in kilograms.
+  KG_PER_WEIGHT_UNIT = {
+    "kg" => BigDecimal("1"),
+    "lb" => BigDecimal("0.45359237"),
+    "oz" => BigDecimal("0.028349523125")
+  }.freeze
+
   ##
   ## Triggers
   after_validation :cleanup_quantities
@@ -91,8 +98,7 @@ class Harvest < ApplicationRecord
   def set_si_weight
     return if weight_unit.nil?
 
-    weight_string = "#{weight_quantity} #{weight_unit}"
-    self.si_weight = Unit.new(weight_string).convert_to("kg").to_s("%0.3f").delete(" kg").to_f
+    self.si_weight = (weight_quantity * KG_PER_WEIGHT_UNIT.fetch(weight_unit)).round(3).to_f
   end
 
   def cleanup_quantities

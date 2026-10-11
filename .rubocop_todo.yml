@@ -541,7 +541,6 @@ Rails/I18nLocaleTexts:
     - 'app/controllers/blocks_controller.rb'
     - 'app/controllers/comments_controller.rb'
     - 'app/controllers/messages_controller.rb'
-    - 'config/initializers/comfortable_mexican_sofa.rb'
 
 # Offense count: 1
 # Configuration parameters: IgnoreScopes.

@@ -15,8 +15,8 @@ SitemapGenerator::Sitemap.adapter = SitemapGenerator::AwsSdkAdapter.new(
 SitemapGenerator::Sitemap.create do
   # Add static pages
   add '/about', changefreq: 'monthly'
-  add '/community', changefreq: 'monthly'
-  add '/contact', changefreq: 'monthly'
+  add '/community-gardens', changefreq: 'monthly'
+  add '/about/contact', changefreq: 'monthly'
 
   # Add crops
   Crop.approved.find_each do |crop|

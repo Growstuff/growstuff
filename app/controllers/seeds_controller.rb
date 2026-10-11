@@ -25,9 +25,10 @@ class SeedsController < DataController
     @seeds = @seeds.current unless @show_all
 
     @filename = csv_filename
+    @sort_by_distance = @crop.present? && current_member&.latitude.present? && current_member&.longitude.present?
     @seeds = @seeds.includes(:crop, :owner)
-                   .order(created_at: :desc)
-                   .paginate(page: params[:page], per_page: 30)
+    @seeds = @sort_by_distance ? order_by_distance(@seeds, current_member) : @seeds.order(created_at: :desc)
+    @seeds = @seeds.paginate(page: params[:page], per_page: 30)
 
     respond_with(@seeds)
   end
@@ -81,6 +82,13 @@ class SeedsController < DataController
   end
 
   private
+
+  # Nearest owners first; seeds whose owner has no location go last.
+  def order_by_distance(seeds, member)
+    distance = Geocoder::Sql.approx_distance(member.latitude, member.longitude,
+                                             'members.latitude', 'members.longitude')
+    seeds.order(Arel.sql("members.latitude IS NULL, #{distance} ASC, seeds.created_at DESC"))
+  end
 
   # Used by the React garden cards, which stay on the page and say the seeds
   # were saved (with a link to them). No flash: nothing redirects, so it would
