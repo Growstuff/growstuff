@@ -15,7 +15,9 @@
       - elsif field_type == :text_field
         = f.text_field field, hide_label: true
       - elsif field_type == :select
-        = f.select field, collection, hide_label: true
+        = f.select field, values, hide_label: true
+      - elsif field_type == :number_field
+        = f.number_field field, hide_label: true, min: values&.first, max: values&.last
       - elsif field_type == :date
         = f.date_field field,
                  value: model.send(field) ? model.send(field).to_fs(:ymd) : '', label: 'When?'

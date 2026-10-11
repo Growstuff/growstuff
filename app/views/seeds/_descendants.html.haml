@@ -1,5 +1,8 @@
-- if @seed.child_plantings.any?
-  %h2 Plants grown from these seeds
+-# What grew from this packet. Takes `seed` as a local like every other
+-# partial here, rather than reaching for @seed.
+- if seed.child_plantings.any?
   .index-cards
     - seed.child_plantings.each do |planting|
-      = render 'plantings/thumbnail', planting: planting
+      = render 'plantings/card', planting: planting
+- else
+  %p.text-muted.mb-0 Nothing has been grown from these seeds yet.

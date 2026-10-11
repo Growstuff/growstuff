@@ -10,12 +10,14 @@
   .card.seedfacts--card{class: seed.plant_before.present? ? '' : 'text-muted'}
     %h3
       Plant before
-      = editable :date, seed, :plant_before, display_field: '.seedfacts--plantbefore'
-    %strong.seedfacts--plantbefore
-      - if seed.plant_before.present?
-        = I18n.l(seed.plant_before)
-      - else
-        Unknown
+      = editable :number_field, seed, :plant_before_year,
+                 display_field: '.seedfacts--plantbefore', values: Seed::PLANT_BEFORE_YEARS
+    .fact-value.seedfacts--plantbefore
+      %strong
+        - if seed.plant_before.present?
+          = seed.plant_before.year
+        - else
+          Unknown
 
 
   .card{class: seed.days_until_maturity_max.present? ? '' : 'text-muted'}
@@ -27,7 +29,7 @@
   .card
     %h3
       Will trade
-      = editable :select, seed, :tradable_to, collection: Seed::TRADABLE_TO_VALUES, display_field: '.seedfacts--tradableto'
+      = editable :select, seed, :tradable_to, values: Seed::TRADABLE_TO_VALUES, display_field: '.seedfacts--tradableto'
     %strong.seedfacts--tradableto= seed.tradable_to
     %span
       - if seed.owner.location.blank?

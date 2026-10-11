@@ -17,7 +17,7 @@ describe "Seeds", :js, :search do
       # Modern browsers enforce the required behaviour better than us doing it ourselves.
       it { expect(page).to have_css "label", text: "Crop" }
       it { expect(page).to have_css 'input#seed_quantity' }
-      it { expect(page).to have_css 'input#seed_plant_before' }
+      it { expect(page).to have_css 'input#seed_plant_before_year' }
       it { expect(page).to have_css 'input#seed_days_until_maturity_min' }
       it { expect(page).to have_css 'input#seed_days_until_maturity_max' }
       it { expect(page).to have_css 'label', text: 'Organic?' }
@@ -33,7 +33,7 @@ describe "Seeds", :js, :search do
         select_from_autocomplete "maize"
         within "form#new_seed" do
           fill_in "Quantity", with: 42
-          fill_in "Plant before", with: "2014-06-15"
+          fill_in "Plant before (year)", with: 2014
           fill_in "min", with: 999
           fill_in "max", with: 1999
           select "certified organic", from: "Organic?"
@@ -47,6 +47,7 @@ describe "Seeds", :js, :search do
 
       it { expect(page).to have_content "Successfully added maize seed to your stash" }
       it { expect(find('.seedfacts--quantity')).to have_content "42" }
+      it { expect(find('.seedfacts--plantbefore')).to have_content "2014" }
       it { expect(find('.seedfacts--maturity')).to have_content "999–1999" }
       it { expect(find('.seedtitle--organic')).to have_content "certified organic" }
       it { expect(find('.seedtitle--gmo')).to have_content "non-certified GMO-free" }

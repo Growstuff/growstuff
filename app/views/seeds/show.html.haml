@@ -1,78 +1,75 @@
 - seed_title = "#{@seed.owner}'s #{@seed.crop} seeds"
+- seed_blurb = "Seeds for #{@seed.crop.name}, shared by #{@seed.owner}."
 = render 'shared/record_meta',
-         title: seed_title,
-         description: @seed.description.presence || "Seeds for #{@seed.crop.name}, shared by #{@seed.owner}.",
-         image: seed_image_path(@seed)
+         title:       seed_title,
+         description: @seed.description.presence || seed_blurb,
+         image:       seed_image_path(@seed)
 
-%script{type: "application/ld+json"}
+-# The edit and add-photo dialogs; the latter is a React island.
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
+%script{ type: "application/ld+json" }
   = crop_jsonld_data(@seed.crop, full_attributes: false).to_json.html_safe
 
+-# A packet of seed is usually saved off a planting, so the trail descends
+-# through plantings whenever we know which one. Without a parent there is no
+-# such trail, so it falls back to the owner's seeds.
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Seeds', seeds_path
-  %li.breadcrumb-item= link_to @seed.owner, member_seeds_path(@seed.owner)
-  %li.breadcrumb-item.active= link_to @seed, @seed
+  - if @seed.parent_planting.present?
+    %li.breadcrumb-item= link_to 'Plantings', plantings_path
+    %li.breadcrumb-item= link_to @seed.parent_planting.display_name, @seed.parent_planting
+  - else
+    %li.breadcrumb-item= link_to 'Seeds', seeds_path
+    %li.breadcrumb-item= link_to @seed.owner, member_seeds_path(@seed.owner)
+  %li.breadcrumb-item.active Seeds
 
 .seed-show.record-page
   .row
     .col-md-8.col-12
       -# Everything that is this packet of seeds, inside one border. See DESIGN.md.
       .record-panel.seed-detail
-        .jumbotron
-          .d-flex.justify-content-between.align-items-start
-            .record-identity
-              = render 'shared/record_owner', owner: @seed.owner
-              .record-identity-text
-                %h1.display-3
-                  = crop_icon(@seed.crop)
-                  %strong= t('seeds.show.heading', crop: @seed.crop.name.titleize)
-                %p.lead.mb-0
-                  saved by
-                  %strong.record-grower-name= link_to @seed.owner, @seed.owner
-                  %span.text-muted
-                    &middot;
-                    = I18n.l @seed.created_at.to_date
-                %p.seed-badges.mb-0
-                  - if @seed.organic != 'unknown'
-                    %span.badge.text-bg-success.seedtitle--organic= @seed.organic
-                  - if @seed.gmo != 'unknown'
-                    %span.badge.text-bg-success.seedtitle--gmo= @seed.gmo
-                  - if @seed.heirloom != 'unknown'
-                    %span.badge.text-bg-success.seedtitle--heirloom= @seed.heirloom
-                - if @seed.parent_planting
-                  = render 'shared/record_parent', planting: @seed.parent_planting, verb: 'saved from'
-            = render 'seeds/actions', seed: @seed
+        = render 'seeds/hero', seed: @seed
 
         %section.seed-facts= render 'facts', seed: @seed
 
-        - unless @seed.description.blank?
-          = cute_icon
-          %section.seed--description
-            .section-header
-              %h2 Notes
+        = cute_icon
+        %section.seed--description
+          .section-header
+            %h2 Notes
+          - if @seed.description.present?
             :markdown
               #{strip_tags markdownify(@seed.description)}
+          - else
+            %p.text-muted.mb-0 No notes yet.
 
-        - if current_member
-          - if @seed.tradable && current_member != @seed.owner
-            %p= link_to "Request seeds",
-                        new_message_path(recipient_id: @seed.owner.id,
-                                             subject: "Interested in your #{@seed.crop} seeds"),
-                        class: 'btn btn-primary'
-        - else
-          = render 'shared/signin_signup', to: 'request seeds'
-
-        %section.plantings
+        %section.seed-descendants
+          .section-header
+            %h2 Plants grown from these seeds
+            - if can?(:create, Planting) && can?(:update, @seed) && @seed.active
+              = link_to new_planting_path(seed_id: @seed), class: 'btn btn-sm section-add' do
+                = icon 'fas', 'plus'
+                add
           = render 'seeds/descendants', seed: @seed
 
-        - if @photos.any?
-          %section.seed-photos
-            .section-header
-              %h2 Photos
-            - @photos.each do |photo|
-              = render 'photos/hero', photo: photo
+        %section#photos
+          .section-header
+            %h2 Photos
+            - if can?(:edit, @seed) && can?(:create, Photo)
+              - add_photo = new_photo_path(id: @seed.id, type: 'seed')
+              = link_to add_photo, class: 'btn btn-sm section-add', data: { photo_dialog: true } do
+                = icon 'fas', 'plus'
+                add
+          - if @photos.any?
+            = render 'photos/gallery', photos: @photos
+            = will_paginate @photos
+          - else
+            -# One line. The "+ add" on the heading bar is the invitation.
+            %p.text-muted.mb-0 No photos yet.
 
     .col-md-4.col-12
       %section.seed-crop
         .section-header
           %h2 Crop
         = render 'plantings/crop', crop: @seed.crop
+      = render 'crops/nutritional_data', crop: @seed.crop
