@@ -11,6 +11,13 @@ $orange: #ffa500;
 $yellow: #b2935c;
 $white: #fff;
 
+// One corner radius for every data card and section box.
+$card-radius: 4px;
+
+// Muted text. Darker than it looks it needs to be: at 70% this is 4.11:1 on
+// beige, under the 4.5:1 minimum. At 75% it is 4.69:1.
+$ink-muted: rgba(65, 63, 59, 0.75);
+
 $default-font: "Raleway", "Fira Sans", Helvetica, Arial, sans-serif;
 $black: #000;
 

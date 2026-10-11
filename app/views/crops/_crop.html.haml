@@ -25,7 +25,8 @@
           Last harvest expected
           %strong= crop.median_days_to_last_harvest
           days after planting
-  - if member_signed_in?
+  -# `actions: false` where the page already offers these, as a planting page does.
+  - if member_signed_in? && local_assigns.fetch(:actions, true)
     .card-footer
       .d-flex.btn-group-vertical
         = render 'plantings/modal', planting: Planting.new(crop: crop, owner: current_member)

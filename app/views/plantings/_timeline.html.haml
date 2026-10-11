@@ -23,19 +23,3 @@
             week_number: week_number,
             date_this_week: planting.planted_at + week_number.weeks
     %small (One emojii = 1 week)
-.harvest-months
-  Harvest months:
-  - if planting.harvest_months.empty?
-    %span.text-muted
-      We need more data on this crop in your latitude. There's not enough
-      info yet to predict harvests.
-  - else
-    - (1..12).each do |month|
-      - if planting.harvest_months.keys().include?(month.to_f)
-        .badge.text-bg-info.badge-harvesting{id: "month-#{month}"}
-          = I18n.t('date.abbr_month_names')[month]
-      - else
-        .badge.text-muted{'aria-hidden': "true", id: "month-#{month}"}
-          = I18n.t('date.abbr_month_names')[month]
-  - unless planting.garden.location.blank?
-    in #{link_to planting.garden.location, place_path(planting.garden.location)}

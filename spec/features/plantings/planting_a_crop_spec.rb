@@ -79,7 +79,8 @@ describe "Planting a crop", :js, :search do
         end
 
         expect(page).to have_content "planting was successfully created"
-        expect(page).to have_content "0%"
+        # Planted in the future: planned, rather than 0% grown.
+        expect(page).to have_content "Planned"
       end
 
       it "shows that days before maturity is unknown" do
@@ -170,22 +171,28 @@ describe "Planting a crop", :js, :search do
     it "Editing a planting to add details" do
       visit planting_path(planting)
       click_link 'Actions'
-      click_link "Edit"
-      fill_in "Tell us more about it", with: "Some extra notes"
-      click_button "Save"
-      expect(page).to have_content "planting was successfully updated"
+      click_link 'Edit'
+      within '[role=dialog]' do
+        fill_in "Tell us more about it", with: "Some extra notes"
+        click_button "Save"
+      end
+      # The dialog saves over JSON and the page reloads, so the notes
+      # themselves are the confirmation rather than a flash message.
+      expect(page).to have_content "Some extra notes"
     end
 
     it "Editing a planting to fill in the finished date" do
       visit planting_path(planting)
       expect(page).to have_no_content "Finishes"
-      # click_link(id: 'planting-actions-button')
       click_link 'Actions'
-      click_link "Edit"
-      check "finished"
-      fill_in "Finished date", with: "2015-06-25"
-      click_button "Save"
-      expect(page).to have_content "was successfully updated"
+      click_link 'Edit'
+      within '[role=dialog]' do
+        check "Mark as finished"
+        # A Date, not a string: Capybara sets a type=date field from a Date,
+        # but types a string into its segments, which lands as nothing.
+        fill_in "Finished date", with: Date.new(2015, 6, 25)
+        click_button "Save"
+      end
       expect(page).to have_content "Finished"
     end
 
@@ -218,8 +225,8 @@ describe "Planting a crop", :js, :search do
       end
       expect(page).to have_content "planting was successfully created"
       expect(page).to have_content "Finished"
-      expect(page).to have_content "Aug 2014"
-      expect(page).to have_content "4/5"
+      expect(page).to have_content "2014-08-30"
+      expect(page).to have_content "4 of 5"
 
       # shouldn't be on the page
       visit plantings_path
@@ -235,8 +242,11 @@ describe "Planting a crop", :js, :search do
         other_garden = create(:garden, owner: member, name: 'Backyard')
         visit planting_path(planting)
         click_link 'Actions'
-        select other_garden.name, from: 'Transplant to:'
-        click_on "Transplant"
+        click_link 'Transplant'
+        within '#transplant-modal' do
+          select other_garden.name, from: 'Move this planting to:'
+          click_on "Transplant"
+        end
         expect(page).to have_content "Planting was successfully transplanted"
 
         new_planting = Planting.last
@@ -287,10 +297,33 @@ describe "Planting a crop", :js, :search do
     end
 
     describe "Marking a planting as finished from the show page" do
-      let(:path) { planting_path(planting) }
-      let(:link_text) { "Mark as finished" }
+      # The actions menu opens the mark-finished dialog, which asks when it
+      # finished rather than popping a datepicker over the page.
+      before do
+        visit planting_path(planting)
+        click_link 'Actions'
+        click_link 'Mark as finished'
+      end
 
-      it_behaves_like "append date"
+      it "finishes it today" do
+        within '[role=dialog]' do
+          find('.pill-choice', text: 'Today').click
+          click_button 'Mark as finished'
+        end
+
+        expect(page).to have_content 'Finished'
+        expect(planting.reload.finished_at).to eq Time.zone.today
+      end
+
+      it "finishes it on a date you choose" do
+        within '[role=dialog]' do
+          find('.pill-choice', text: 'Enter date').click
+          fill_in 'Date', with: Time.zone.today
+          click_button 'Mark as finished'
+        end
+
+        expect(page).to have_content 'Finished'
+      end
     end
   end
 end

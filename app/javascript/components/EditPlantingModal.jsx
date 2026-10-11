@@ -95,7 +95,7 @@ export default function EditPlantingModal({planting, onClose, onSaved}) {
       )}
       {values && (
         <form onSubmit={save}>
-          <div className="modal-body edit-planting-body">
+          <div className="modal-body plant-dialog-body edit-planting-body">
             {errors.length > 0 && (
               <div className="alert alert-danger" role="alert">
                 <strong>That didn&rsquo;t save.</strong>

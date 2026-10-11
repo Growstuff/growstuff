@@ -1,5 +1,5 @@
 %section.history
-  %h2 History
+  %h2 Edit history
   .card
     %ul.list-group.list-group-flush
       - crop.versions.reorder(created_at: :desc).each do |version|
