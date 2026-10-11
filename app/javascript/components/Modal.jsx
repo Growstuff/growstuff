@@ -1,11 +1,14 @@
 import React, {useEffect, useRef} from 'react';
+import {createPortal} from 'react-dom';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])';
 
 // A modal dialog using Bootstrap's modal styles, controlled by React (so it
 // doesn't need Bootstrap's modal JavaScript). Focus moves into the dialog and
 // is kept there, Escape and a click on the backdrop close it, and focus goes
-// back to where it was when it closes.
+// back to where it was when it closes. Rendered into document.body, so it
+// sits in front of the page whatever stacking context its caller is in (the
+// sticky sidebar on the garden layout page, for one).
 export default function Modal({title, titleId, onClose, children}) {
   const contentRef = useRef(null);
 
@@ -39,7 +42,7 @@ export default function Modal({title, titleId, onClose, children}) {
     }
   }
 
-  return (
+  return createPortal(
     <>
       <div
         className="modal fade show d-block"
@@ -61,6 +64,7 @@ export default function Modal({title, titleId, onClose, children}) {
         </div>
       </div>
       <div className="modal-backdrop fade show" />
-    </>
+    </>,
+    document.body
   );
 }
