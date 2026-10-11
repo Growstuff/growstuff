@@ -1,0 +1,6 @@
+-# The member whose record this is, leading the hero. Somebody grew, harvested
+-# or saved this; their face belongs beside it, not tucked into a sidebar.
+-#
+-# Takes `owner`, and `subtitle` as a block of the page's own wording.
+= link_to owner, class: 'record-grower-avatar', title: owner.to_s do
+  = image_tag avatar_uri(owner, 300), alt: owner.to_s, width: 112, height: 112
