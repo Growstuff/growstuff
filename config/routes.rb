@@ -140,6 +140,8 @@ Rails.application.routes.draw do
   end
 
   resources :messages
+  get '/my/activities', to: 'activities#mine', as: :my_activities
+  get '/activities/mine', to: 'activities#mine'
   resources :activities, param: :slug
   resources :conversations do
     collection do

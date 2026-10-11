@@ -13,6 +13,11 @@
       = activity_icon
       = title('activities', @owner, nil, @planting)
     = render 'layouts/nav', model: Activity
+    - if member_signed_in?
+      .mb-2
+        = link_to my_activities_path, class: 'btn btn-outline-primary btn-sm w-100' do
+          %i.fa.fa-columns.me-1{ "aria-hidden" => "true" }
+          My Activities Kanban
     = link_to show_inactive_tickbox_path('activities', owner: @owner, crop: nil, show_all: @show_all) do
       = check_box_tag 'active', 'all', @show_all
       include finished activities

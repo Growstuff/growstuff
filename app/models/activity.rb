@@ -12,12 +12,16 @@ class Activity < ApplicationRecord
   friendly_id :activity_slug, use: %i(slugged finders)
 
   CATEGORIES = ["General", "Weeding", "Soil Cultivation", "Fertilizing", "Pruning", "Topical Application/Treating", "Watering"]
+  STATUSES = %w[planned in_progress done].freeze
 
   validates :name, presence: true
   validates :category, inclusion: { in: CATEGORIES }, presence: true
   validates :owner, presence: true
+  validates :status, inclusion: { in: STATUSES }, allow_nil: true
 
   validates :slug, uniqueness: true
+
+  before_validation :sync_status_and_finished
 
   delegate :location, :latitude, :longitude, to: :owner
   delegate :login_name, :slug, :location, to: :owner, prefix: true
@@ -47,6 +51,22 @@ class Activity < ApplicationRecord
   end
 
   scope :active, -> { where(finished: [false, nil]) }
+  scope :planned, -> { where(status: 'planned') }
+  scope :in_progress, -> { where(status: 'in_progress') }
+  scope :done, -> { where(status: 'done') }
+
+  private
+
+  def sync_status_and_finished
+    if status_changed? && status.present?
+      self.finished = (status == 'done')
+    elsif finished_changed?
+      self.status = finished? ? 'done' : 'planned'
+    else
+      self.status ||= finished? ? 'done' : 'planned'
+      self.finished = (status == 'done')
+    end
+  end
 
   def self.homepage_records(limit)
     # Get the latest activity for each owner, then return the latest 'limit' of those

@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class ActivitiesController < DataController
+  skip_load_and_authorize_resource only: :mine
+
+  def mine
+    @activities = current_member.activities.includes(:garden, planting: :crop).order(due_date: :asc, created_at: :desc)
+    respond_with @activities
+  end
+
   def index
     @show_all = params[:all] == '1'
 
@@ -88,7 +95,10 @@ class ActivitiesController < DataController
 
   def update
     @activity.update(activity_params)
-    respond_with @activity
+    respond_to do |format|
+      format.html { respond_with @activity }
+      format.json { render json: @activity }
+    end
   end
 
   def destroy
@@ -100,7 +110,7 @@ class ActivitiesController < DataController
 
   def activity_params
     params.require(:activity).permit(
-      :name, :description, :category, :finished,
+      :name, :description, :category, :finished, :status,
       :garden_id, :planting_id, :due_date,
       :repeat_times, :repeat_weeks
     )

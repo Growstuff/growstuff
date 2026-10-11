@@ -1,0 +1,13 @@
+- title = "My Activities"
+- content_for :title, title
+
+.container-fluid.py-3
+  .row.mb-3
+    .col-12.d-flex.justify-content-between.align-items-center
+      %h1.h3.mb-0
+        %i.fa.fa-tasks.me-2{ "aria-hidden" => "true" }
+        My Activities Board
+
+  = react_component 'ActivitiesKanban', activities_kanban_props(@activities)
+
+= javascript_include_tag 'react_islands', defer: true
