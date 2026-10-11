@@ -44,14 +44,22 @@ describe "seeds", :js do
 
     it "edit seeds" do
       seed = create(:seed, owner: member)
+      doubled = seed.quantity * 2
       visit seed_path(seed)
       click_link 'Actions'
       click_link 'Edit'
-      expect(page).to have_current_path edit_seed_path(seed), ignore_query: true
-      fill_in 'Quantity', with: seed.quantity * 2
-      select 'traded from another person', from: 'Source'
-      click_button 'Save'
+
+      # Editing happens in a dialog over the page now, rather than on a form of
+      # its own, so the member never leaves the seed.
+      within '#seed-edit-modal' do
+        fill_in 'How many seeds?', with: doubled
+        select 'traded from another person', from: 'Where did they come from?'
+        click_button 'Save'
+      end
+
       expect(page).to have_current_path seed_path(seed), ignore_query: true
+      expect(seed.reload).to have_attributes(quantity: doubled, source: 'traded from another person')
+      expect(find('.seedfacts--source')).to have_content 'traded from another person'
     end
 
     describe "delete seeds" do

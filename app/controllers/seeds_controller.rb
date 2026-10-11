@@ -103,7 +103,7 @@ class SeedsController < DataController
 
   def seed_params
     params.require(:seed).permit(
-      :crop_id, :description, :quantity, :plant_before,
+      :crop_id, :description, :quantity, :plant_before, :plant_before_year,
       :parent_planting_id, :saved_at,
       :days_until_maturity_min, :days_until_maturity_max,
       :organic, :gmo, :source,

@@ -11,7 +11,7 @@
         %description
           :escaped
             <p>Quantity: #{seed.quantity ||= 'unknown' }</p>
-            <p>Plant before: #{seed.plant_before ||= 'unknown' }</p>
+            <p>Plant before: #{seed.plant_before_year || 'unknown'}</p>
             <p>Organic? #{seed.organic}</p>
             <p>GMO? #{seed.gmo}</p>
             <p>Heirloom? #{seed.heirloom}</p>

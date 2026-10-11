@@ -132,6 +132,41 @@ describe Seed do
     end
   end
 
+  describe 'plant_before_year' do
+    let(:seed) { create(:seed) }
+
+    it 'reads back the year of the stored date' do
+      seed.update!(plant_before: Date.new(2027, 3, 4))
+      expect(seed.plant_before_year).to eq 2027
+    end
+
+    it 'stores a given year as the last day of it' do
+      seed.update!(plant_before_year: '2027')
+      expect(seed.plant_before).to eq Date.new(2027, 12, 31)
+    end
+
+    it 'clears the date when given nothing' do
+      seed.update!(plant_before_year: '')
+      expect(seed.plant_before).to be_nil
+    end
+
+    it 'refuses something that is not a year' do
+      seed.plant_before_year = 'next spring'
+      expect(seed).not_to be_valid
+      expect(seed.errors[:plant_before_year]).to be_present
+    end
+
+    it 'reads back what was typed when it was not a year, to correct' do
+      seed.plant_before_year = 'next spring'
+      expect(seed.plant_before_year).to eq 'next spring'
+    end
+
+    it 'refuses a year outside the sensible range' do
+      seed.plant_before_year = '1234'
+      expect(seed).not_to be_valid
+    end
+  end
+
   context 'expired' do
     it 'returns seeds with a plant_before date in the past' do
       expired_seed = create(:seed, plant_before: 1.day.ago)

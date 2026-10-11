@@ -30,7 +30,7 @@ describe "Seeds", :js do
 
       let!(:photo) { create(:photo, title: 'hello photo', owner: seed.owner) }
 
-      it { is_expected.to have_xpath("//img[contains(@src,'#{photo.thumbnail_url}')]") }
+      it { is_expected.to have_css "#photo-#{photo.id}" }
       it { is_expected.to have_xpath("//a[contains(@href,'#{photo_path(photo)}')]") }
     end
 
@@ -46,7 +46,7 @@ describe "Seeds", :js do
       let(:oldest_photo) { seed.photos.order(created_at: :desc, id: :desc).last }
 
       it "shows newest photo" do
-        expect(subject).to have_xpath("//img[contains(@src,'#{newest_photo.thumbnail_url}')]")
+        expect(subject).to have_css "#photo-#{newest_photo.id}"
       end
 
       it "links to newest photo" do
@@ -54,7 +54,7 @@ describe "Seeds", :js do
       end
 
       it "does not show oldest photo" do
-        expect(subject).to have_no_xpath("//img[contains(@src,'#{oldest_photo.thumbnail_url}')]")
+        expect(subject).to have_no_css "#photo-#{oldest_photo.id}"
       end
 
       it "does not link to oldest photo" do
