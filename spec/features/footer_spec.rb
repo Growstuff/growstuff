@@ -13,6 +13,14 @@ describe "footer" do
     expect(page).to have_css 'a[href="https://opendefinition.org/ossd/"]'
   end
 
-  # NB: not testing specific content in the footer since I'm going to put them
-  # in the CMS and they'll be variable.
+  it 'links to the policies and help pages' do
+    within 'footer' do
+      expect(page).to have_link 'Terms Of Service', href: '/policy/tos'
+      expect(page).to have_link 'Privacy Policy', href: '/policy/privacy'
+      expect(page).to have_link 'Data Use Policy', href: '/policy/api'
+      expect(page).to have_link 'Community Guidelines', href: '/policy/community'
+      expect(page).to have_link 'Support', href: '/support'
+      expect(page).to have_link 'Contact', href: '/about/contact'
+    end
+  end
 end

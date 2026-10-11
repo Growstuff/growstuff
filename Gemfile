@@ -59,13 +59,12 @@ gem 'leaflet-rails', '>= 1.9.2'
 
 gem 'pg'
 
-gem "comfortable_mexican_sofa", git: "https://github.com/restarone/comfortable-mexican-sofa.git"
-
 gem 'active_utils'
 gem 'sidekiq'
 
 # Markdown formatting for updates etc
 gem 'bluecloth'
+gem 'kramdown' # the Markdown engine Tilt picks for Haml's :markdown filter
 
 # Pagination
 gem 'will_paginate'
