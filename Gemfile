@@ -37,6 +37,13 @@ gem 'font-awesome-sass', '~> 6.7'
 
 gem 'terser'
 
+# JSON pinned until this is resolved across the ecosystem (Oct 26)
+# ArgumentError: unknown keyword: create_additions (ArgumentError)
+#
+#     caller: /home/runner/work/growstuff/growstuff/vendor/bundle/ruby/4.0.0/gems/json-3.0.2/lib/json/common.rb:302
+#     |     Parser.parse(source, options)
+#                 ^^^^^^
+gem 'json', '< 3'
 gem 'oj' # Speeds up json
 
 # planting and harvest predictions
