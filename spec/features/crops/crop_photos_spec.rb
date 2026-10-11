@@ -56,7 +56,7 @@ describe "crop detail page", :js, :search do
     end
 
     describe "link to more photos" do
-      it { is_expected.to have_link "more photos" }
+      it { is_expected.to have_link "More photos" }
     end
   end
 

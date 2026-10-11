@@ -1,9 +1,10 @@
 - data = crop.australian_food_classification_data
 - if data
-  .card
-    .card-body
-      %h4.card-title Nutritional Data
-      %p.card-text A summary of nutritional data per 100g for #{data.food_name}.
+  %section.crop-nutrition
+    .section-header
+      %h2 Nutritional data
+    %div
+      %p.text-muted.small A summary of nutritional data per 100g for #{data.food_name}.
       %table.table.table-sm.table-borderless
         %tbody
           - if data.energy_with_dietary_fibre_equated_kj.to_f > 0
