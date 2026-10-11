@@ -43,6 +43,14 @@
   .col-md-10
     %section
       %h2= title('seeds', @owner, @crop, @planting)
+      - if @crop && !member_signed_in?
+        %p
+          = link_to 'Sign in', new_member_session_path
+          or
+          = link_to 'sign up', new_member_registration_path
+          to see seed traders near you.
+      - elsif @sort_by_distance
+        %p.text-muted Sorted by distance from your location.
       = will_paginate @seeds
       - if @seeds.blank?
         %p No seeds recorded yet
