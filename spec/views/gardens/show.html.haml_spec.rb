@@ -21,6 +21,10 @@ describe "gardens/show" do
       expect(rendered).to have_content @garden.location
     end
 
+    it 'links the breadcrumb to the garden itself' do
+      expect(view.content_for(:breadcrumbs)).to have_link(@garden.name, href: garden_path(@garden))
+    end
+
     it 'shows the area' do
       expect(rendered).to have_content pluralize(@garden.area, @garden.area_unit)
     end
