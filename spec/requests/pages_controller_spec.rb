@@ -9,7 +9,10 @@ describe PagesController do
     '/policy/api'       => 'API and Data Use Policy',
     '/policy/community' => 'Growstuff Community Guidelines',
     '/support'          => 'Support - Frequently Asked Questions',
-    '/about/contact'    => 'Contact'
+    '/about/contact'    => 'Contact',
+    '/about'            => 'About',
+    '/policy'           => 'Policy',
+    '/policy/copyright' => 'Copyright Infringement Policy'
   }.each do |path, heading|
     it "shows #{path}" do
       get path

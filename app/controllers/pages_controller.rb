@@ -4,6 +4,10 @@ class PagesController < ApplicationController
   skip_authorize_resource
   respond_to :html
 
+  def about; end
+
+  def policies; end
+
   def tos; end
 
   def privacy; end
@@ -11,6 +15,8 @@ class PagesController < ApplicationController
   def data_use; end
 
   def community_guidelines; end
+
+  def copyright; end
 
   def support; end
 

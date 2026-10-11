@@ -183,10 +183,13 @@ Rails.application.routes.draw do
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
 
+  get '/about' => 'pages#about', as: :about
+  get '/policy' => 'pages#policies', as: :policies
   get '/policy/tos' => 'pages#tos', as: :policy_tos
   get '/policy/privacy' => 'pages#privacy', as: :policy_privacy
   get '/policy/api' => 'pages#data_use', as: :policy_data_use
   get '/policy/community' => 'pages#community_guidelines', as: :policy_community
+  get '/policy/copyright' => 'pages#copyright', as: :policy_copyright
   get '/support' => 'pages#support', as: :support
   get '/about/contact' => 'pages#contact', as: :contact
 end
