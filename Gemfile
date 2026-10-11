@@ -58,7 +58,6 @@ gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 gem 'leaflet-rails', '>= 1.9.2'
 
 gem 'pg'
-gem 'ruby-units'                   # for unit conversion
 
 gem "comfortable_mexican_sofa", git: "https://github.com/restarone/comfortable-mexican-sofa.git"
 
