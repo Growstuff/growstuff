@@ -27,8 +27,7 @@
             = standard_time_distance(activity.due_date.to_date, Time.zone.now.to_date)
         %div
           %small.text-justify{title: activity.description}= activity.description.truncate(150)
-      %p
-        %ul.list-unstyled
+      %ul.list-unstyled.mb-0
         - if activity.garden_name && activity.garden_slug
           %li
             %small= link_to activity.garden_name, garden_path(slug: activity.garden_slug)
