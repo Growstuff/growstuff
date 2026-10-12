@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import {getJson, patchJson} from '../api';
 import Modal from './Modal';
+import PickerButton from './PickerButton';
 
 function searchMessage(status) {
   if (status === 401) return 'Please sign in again to set your location.';
@@ -91,7 +92,7 @@ export default function LocationPicker({label, buttonClass, searchUrl, saveUrl})
 
   return (
     <>
-      <button type="button" className={buttonClass} onClick={() => setOpen(true)}>{label}</button>
+      <PickerButton label={label} className={buttonClass} onClick={() => setOpen(true)} />
       {open && (
         <Modal title="Tell us where you garden" titleId="location-picker-title" onClose={close}>
           <div className="modal-body">

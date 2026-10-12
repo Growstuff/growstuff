@@ -310,7 +310,7 @@ en:
       tile_photo: of the garden
       tile_photo_title: Add photo
       tile_plant: something new
-      tile_seeds: you have saved
+      tile_seeds: from a plant
       tile_seeds_title: Save seeds
       vs_last_year: vs last year
       years_growing:
@@ -332,6 +332,14 @@ en:
       plantings:
         one: planting
         other: plantings
+    recent_posts:
+      all_posts: All posts
+      all_posts_short: all posts
+      by: by
+      comments:
+        one: 1 comment
+        other: "%{count} comments"
+      title: Recent posts
     recent:
       see_all: See everything
       title: Planted this week

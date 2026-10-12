@@ -1,17 +1,27 @@
 import React, {useState} from 'react';
 
 import Modal from './Modal';
+import PickerButton from './PickerButton';
 import RecordHarvestModal from './RecordHarvestModal';
+import SaveSeedsModal from './SaveSeedsModal';
 
-// A button for recording a harvest from a page that is not about one planting,
-// like the home page. It asks which of your plantings you harvested from, then
-// opens the usual dialog for that planting; once saved the page reloads.
+// What can be done to a planting from a page that is not about one planting,
+// like the home page: the question to ask, and the dialog that does it.
+const ACTIONS = {
+  harvest: {title: 'What did you harvest?', Dialog: RecordHarvestModal},
+  seeds: {title: 'Which plant are you saving seeds from?', Dialog: SaveSeedsModal},
+};
+
+// A button that asks which of your plantings you mean, then opens the usual
+// dialog for that planting (recording a harvest, or saving seeds); once saved
+// the page reloads.
 //
 // plantings: [{id, url, planted_at, ready, crop: {name}}], what is growing, with
 // what is ready to pick first.
-export default function HarvestPicker({label, buttonClass, plantings}) {
+export default function PlantingPicker({action, label, sublabel, buttonClass, plantings}) {
   const [open, setOpen] = useState(false);
   const [planting, setPlanting] = useState(null);
+  const {title, Dialog} = ACTIONS[action];
 
   function close() {
     setOpen(false);
@@ -20,12 +30,12 @@ export default function HarvestPicker({label, buttonClass, plantings}) {
 
   return (
     <>
-      <button type="button" className={buttonClass} onClick={() => setOpen(true)}>{label}</button>
+      <PickerButton label={label} sublabel={sublabel} className={buttonClass} onClick={() => setOpen(true)} />
       {open && !planting && (
-        <Modal title="What did you harvest?" titleId="harvest-picker-title" onClose={close}>
+        <Modal title={title} titleId={`${action}-picker-title`} onClose={close}>
           <div className="modal-body">
             {plantings.length === 0 ? (
-              <p className="mb-0">You have nothing growing to harvest yet. Plant something first.</p>
+              <p className="mb-0">You have nothing growing yet. Plant something first.</p>
             ) : (
               <fieldset className="harvest-picker-list">
                 <legend className="visually-hidden">Your plantings</legend>
@@ -49,7 +59,7 @@ export default function HarvestPicker({label, buttonClass, plantings}) {
         </Modal>
       )}
       {open && planting && (
-        <RecordHarvestModal planting={planting} onClose={close} onSaved={() => window.location.reload()} />
+        <Dialog planting={planting} onClose={close} onSaved={() => window.location.reload()} />
       )}
     </>
   );

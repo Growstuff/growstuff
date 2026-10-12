@@ -15,6 +15,16 @@ module HomeHelper
     end
   end
 
+  # What the planting dialogs on the home page need to know about each planting
+  # the member could pick: where to find it, when it was planted, whether it is
+  # ready, and the crop's name.
+  def planting_picker_props(dashboard)
+    dashboard.harvest_choices.map do |planting|
+      { id: planting.id, url: planting_path(slug: planting.slug), planted_at: planting.planted_at&.iso8601,
+        ready: dashboard.ready.include?(planting), crop: { name: planting.crop_name } }
+    end
+  end
+
   # "October", or "Oct" when abbreviated, for a month number.
   def month_name(month, abbreviated: false)
     I18n.l(Date.new(2000, month, 1), format: abbreviated ? '%b' : '%B')

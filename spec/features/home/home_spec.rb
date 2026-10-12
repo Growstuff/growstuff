@@ -97,6 +97,18 @@ describe "home page" do
       end
     end
 
+    describe 'a member in their first year' do
+      before do
+        create(:planting, owner: member, garden: member.gardens.first, planted_at: 1.month.ago)
+        visit root_path
+      end
+
+      it 'can plant, harvest, save seeds and add a photo in dialogs' do
+        pickers = %w[PlantPicker PlantingPicker PhotoPicker].map { |name| "[data-react-component=\"#{name}\"]" }
+        expect(page).to have_css(pickers.join(', '), minimum: 4, visible: :all)
+      end
+    end
+
     describe 'should say welcome' do
       before do
         member.plantings.destroy_all

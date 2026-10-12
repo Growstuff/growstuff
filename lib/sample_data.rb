@@ -22,7 +22,10 @@ class SampleData
     abort "No approved crops: run rake db:seed first" if @crops.empty?
 
     members = (1..@count).map { |number| member(number) }
-    members.each { |member| fill_garden(member) }
+    members.each do |member|
+      fill_garden(member)
+      fill_posts(member)
+    end
     follow_each_other(members)
     puts "Sample data ready: #{@count} members"
   end
@@ -51,6 +54,16 @@ class SampleData
     rand(0..3).times { harvest(member) }
     rand(1..4).times { seed(member) }
     rand(0..2).times { activity(member, garden) }
+  end
+
+  def fill_posts(member)
+    return if member.posts.any?
+
+    rand(0..2).times do
+      subject = "#{Faker::Lorem.sentence(word_count: 5).chomp('.')}?"
+      post = Post.create!(author: member, subject:, body: Faker::Lorem.paragraph(sentence_count: 3))
+      rand(0..6).times { Comment.create!(commentable: post, author: Member.order('RANDOM()').first, body: Faker::Lorem.sentence) }
+    end
   end
 
   def planting(member, garden)

@@ -137,7 +137,8 @@ $home-muted: rgba(65, 63, 59, 0.75);
   strong { color: $green; font-size: 1.8rem; font-weight: 600; }
 }
 
-.home-recent {
+.home-recent,
+.home-posts {
   padding-top: 32px;
 
   h2 {
@@ -183,6 +184,42 @@ $home-muted: rgba(65, 63, 59, 0.75);
 .home-recent-name { display: block; padding: 10px 10px 2px; font-size: 1.15rem; font-weight: 300; }
 
 .home-recent-by { display: block; padding: 0 10px 10px; font-size: 0.8rem; color: $home-muted; }
+
+.home-posts { padding-top: 44px; }
+
+.home-posts-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.home-post-card {
+  display: flex;
+  flex: 1 1 300px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1px solid rgba(65, 63, 59, 0.15);
+  border-radius: 4px;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
+
+  p { margin: 0; font-size: 0.95rem; line-height: 1.5; color: $home-charcoal; }
+}
+
+.home-post-title { font-size: 1.2rem; font-weight: 500; line-height: 1.25; }
+
+.home-post-by {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: $home-muted;
+}
+
+.home-feed-avatar-small { width: 26px; height: 26px; object-fit: cover; border-radius: 50%; }
+
+.home-post-comments { margin-top: auto; font-size: 0.85rem; }
 
 .home-open {
   @include home-band($home-charcoal);
@@ -296,3 +333,26 @@ $home-muted: rgba(65, 63, 59, 0.75);
 .home-welcome-season { margin: 0.4rem 0 0; color: rgba(65, 63, 59, 0.75); }
 
 .home-welcome-actions { display: flex; gap: 0.6rem; }
+
+// On a phone the stats sit three across, number over label, and the recent
+// strip is two cards wide.
+@include media-breakpoint-down(sm) {
+  .home-stats {
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: space-around;
+    font-size: 0.82rem;
+    text-align: center;
+
+    strong { display: block; font-size: 1.5rem; }
+  }
+
+  .home-recent-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+
+    .card,
+    .home-recent-planting { width: auto; margin: 0; }
+  }
+}

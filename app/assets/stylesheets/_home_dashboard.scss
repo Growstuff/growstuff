@@ -141,18 +141,24 @@ $dash-line: rgba(65, 63, 59, 0.15);
   flex-wrap: wrap;
   gap: 14px;
   margin-bottom: 1.5rem;
+}
 
-  a {
-    flex: 1 1 200px;
-    min-height: 56px;
-    padding: 16px 10px;
-    color: #212121;
-    text-align: center;
-    background: #fff;
-    border: 1px solid $dash-line;
-    border-radius: 4px;
-    box-shadow: 1px 3px 3px 1px #cac1b3;
-  }
+.home-tile-wrap { flex: 1 1 200px; display: flex; }
+
+.home-tile {
+  display: block;
+  flex: 1 1 200px;
+  width: 100%;
+  min-height: 56px;
+  padding: 16px 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #212121;
+  text-align: center;
+  background: #fff;
+  border: 1px solid $dash-line;
+  border-radius: 4px;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
 
   b { display: block; font-size: 1.15rem; color: $green; }
 }
@@ -290,6 +296,10 @@ $dash-line: rgba(65, 63, 59, 0.15);
   &:first-of-type { border-top: 0; }
 }
 
+.home-feed-top { align-items: flex-start; }
+
+.home-post-excerpt { font-size: 0.92rem; color: #413f3b; }
+
 .home-feed-avatar { width: 36px; height: 36px; object-fit: cover; border-radius: 50%; }
 
 .home-following { color: $green; }
@@ -340,7 +350,7 @@ $dash-line: rgba(65, 63, 59, 0.15);
 
 // Anything on the page that is a card you can press lifts and darkens its
 // edge on hover and keyboard focus, so it reads as a button.
-.home-tiles a,
+.home-tile,
 .home-crop,
 .home-bed {
   transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
@@ -356,22 +366,22 @@ $dash-line: rgba(65, 63, 59, 0.15);
   &:focus-visible { outline: 3px solid rgba(87, 128, 60, 0.5); outline-offset: 2px; }
 }
 
-.home-tiles a:hover b,
-.home-tiles a:focus-visible b { text-decoration: underline; }
+.home-tile:hover b,
+.home-tile:focus-visible b { text-decoration: underline; }
 
 .home-crop-go:hover,
 .home-crop-go:focus-visible { color: #fff; background: $green; }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-tiles a,
+  .home-tile,
   .home-crop,
   .home-bed { transition: none; }
 
-  .home-tiles a:hover,
+  .home-tile:hover,
   .home-crop:hover,
   .home-crop:focus-within,
   .home-bed:hover,
-  .home-tiles a:focus-visible { transform: none; }
+  .home-tile:focus-visible { transform: none; }
 }
 
 // "Not for me" on a suggested crop
