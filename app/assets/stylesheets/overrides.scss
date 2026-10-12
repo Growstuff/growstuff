@@ -51,12 +51,22 @@ body {
   .form-control::placeholder { color: $navbar-default-link-color; }
 }
 
-.navbar-search-icon {
+.navbar-search-submit {
   position: absolute;
-  top: 10px;
-  left: 11px;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 34px;
+  height: 36px;
+  padding: 0 0 0 11px;
   color: #6c757d;
-  pointer-events: none;
+  text-align: left;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+
+  &:hover,
+  &:focus-visible { color: #212121; }
 }
 
 // What the bar carries on a phone: who you are or how to join, search, menu.
