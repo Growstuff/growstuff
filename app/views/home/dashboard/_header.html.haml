@@ -1,0 +1,15 @@
+-# The greeting every signed-in variant starts with: who, where and when, and
+-# the two things they most often come here to do.
+.home-welcome
+  = image_tag avatar_uri(current_member, 150), alt: '', class: 'home-welcome-avatar'
+  .home-welcome-text
+    %h1= title
+    - if (conditions = season_summary(current_member))
+      %p.home-welcome-season
+        = conditions
+        - if dashboard.years_growing
+          = " · #{t('home.dashboard.years_growing', count: dashboard.years_growing)}"
+    - elsif dashboard.stage != :new
+      %p.home-welcome-season= render 'home/dashboard/location_picker', label: t('home.dashboard.set_location'), button_class: 'btn btn-link p-0'
+  .home-welcome-actions.d-none.d-md-flex
+    = render 'home/dashboard/quick_actions', dashboard:

@@ -1,0 +1,13 @@
+-# One recent post: its photo, title, author and when, a taste of the text, and the comments.
+.home-post-card
+  = link_to post_path(post), class: 'home-post-photo', tabindex: -1, 'aria-hidden': 'true' do
+    = image_tag post_thumbnail_path(post), alt: ''
+  = link_to post.subject, post_path(post), class: 'home-post-title'
+  .home-post-by
+    = image_tag avatar_uri(post.author, 50), alt: '', class: 'home-feed-avatar-small'
+    %span
+      = t('home.recent_posts.by')
+      = link_to post.author.login_name, member_path(post.author)
+      = " · #{ago_in_words(post.created_at)}"
+  %p= post_stripped_tags(post, length: 170)
+  = link_to t('home.recent_posts.comments', count: post.comments_count), post_path(post, anchor: 'comments'), class: 'home-post-comments'

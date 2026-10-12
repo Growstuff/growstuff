@@ -1,0 +1,19 @@
+- months = dashboard.at_latitude
+- if months
+  = home_section(t('home.dashboard.at_latitude')) do
+    %p.home-section-note= t('home.dashboard.at_latitude_note', band: dashboard.band_label)
+    %table.home-months
+      %thead
+        %tr
+          %th
+          - months.each_with_index do |entry, index|
+            %th{ class: ('home-current-month' if index.zero?) }= month_name(entry[:month])
+      %tbody
+        - { planting: 'planting', harvesting: 'harvesting' }.each do |kind, label|
+          %tr
+            %td= t("home.dashboard.#{label}")
+            - months.each_with_index do |entry, index|
+              %td{ class: ('home-current-month' if index.zero?) }
+                - entry[kind].each do |leader|
+                  = link_to "#{leader[:name]} #{leader[:count]}", crop_path(slug: Crop.find(leader[:crop_id]).slug), class: (kind == :planting ? 'fw-bold' : 'home-section-note')
+                  %br

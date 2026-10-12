@@ -1,0 +1,44 @@
+-# First visit: nothing recorded yet, so say what to do first.
+= render 'home/dashboard/header', dashboard:, title: t('home.index.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+%p.home-lede= t('home.dashboard.first_plant')
+
+= home_section(t('home.dashboard.get_started')) do
+  - steps = [[t('home.dashboard.step_join'), nil, true],
+    [t('home.dashboard.step_location'), :location, dashboard.located?, t('home.dashboard.step_location_note')],
+    [t('home.dashboard.step_plant'), :plant, false, t('home.dashboard.step_plant_note')],
+    [t('home.dashboard.step_photo'), new_photo_path, current_member.photos.any?, t('home.dashboard.step_photo_note')]]
+  - steps.each_with_index do |(label, path, done, note), index|
+    .home-step
+      %span.home-step-number{ class: ('done' if done) }= done ? "✓" : index + 1
+      %div
+        %b= label
+        %small.home-section-note= done ? t('home.dashboard.done') : note
+      - if path == :location && !done
+        = render 'home/dashboard/location_picker', label: t('home.dashboard.step_location_button'), button_class: 'btn btn-success'
+      - elsif path == :plant && !done
+        - garden = dashboard.gardens.first
+        - if garden
+          = react_component('PlantPicker', { label: t('home.dashboard.step_plant_button'), buttonClass: 'btn btn-success', garden: { id: garden.id, name: garden.name } }, class: 'd-inline-block')
+        - else
+          = link_to t('home.dashboard.step_plant_button'), new_planting_path, class: 'btn btn-success'
+      - elsif path && !done
+        = link_to t('home.dashboard.do_it'), path, class: 'btn btn-success'
+
+- crops = dashboard.easy_to_sow
+- if crops.any? || dashboard.dismissed_count.positive? || !dashboard.suggestions_enabled?
+  = home_section(t('home.dashboard.easy_to_sow', month: current_month_name), action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
+    .home-crops
+      = render partial: 'home/dashboard/crop_card', collection: crops, as: :crop, locals: { dashboard: }
+    = render 'home/dashboard/hidden_suggestions', dashboard:
+    - if dashboard.suggestions_enabled?
+      = render 'home/dashboard/suggestion_links'
+
+.row
+  .col-12.col-lg-6= render 'home/dashboard/friends', dashboard:
+  .col-12.col-lg-6
+    = home_section(t('home.dashboard.seeds_near')) do
+      %p.home-section-note= t('home.dashboard.seeds_near_note')
+      .index-cards
+        - Seed.homepage_records(2).each do |seed|
+          = render 'seeds/card', seed: seed
+= render 'home/recent_posts', boxed: true

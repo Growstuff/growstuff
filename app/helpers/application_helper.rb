@@ -16,6 +16,16 @@ module ApplicationHelper
     { label:, icon_url: image_path('icons/photo.svg') }
   end
 
+  # Whether the page being shown is one of these paths or something under one,
+  # for marking which part of the site the top menu's link belongs to. Any
+  # anchor or query on a path is ignored.
+  def current_section?(*paths)
+    paths.any? do |path|
+      base = path.to_s.split(/[#?]/).first
+      request.path == base || request.path.start_with?("#{base}/")
+    end
+  end
+
   def parse_date(str)
     str ||= '' # Date.parse barfs on nil
     str == '' ? nil : Date.parse(str)
@@ -56,10 +66,6 @@ module ApplicationHelper
     return "#{distance_of_time_in_words(from_time, to_time, include_seconds:)} ago" if from_time < to_time
 
     "in #{distance_of_time_in_words(from_time, to_time, include_seconds:)}"
-  end
-
-  def count_github_contibutors
-    File.open(Rails.root.join('CONTRIBUTORS.md')).readlines.grep(/^-/).size
   end
 
   # Produces a cache key for uniquely identifying cached fragments.
@@ -152,10 +158,12 @@ module ApplicationHelper
     return [] if Rails.env.test?
 
     feed_url = 'https://github.com/Growstuff/growstuff/releases.atom'
-    Rails.cache.fetch(feed_url, expires_in: 1.day) do
+    # A failed fetch returns nil, which skip_nil keeps out of the cache.
+    Rails.cache.fetch(feed_url, expires_in: 1.day, skip_nil: true) do
       response = Faraday.get(feed_url)
-      doc = Nokogiri::XML(response.body)
-      doc.xpath('//xmlns:entry').first(2).map do |entry|
+      next unless response.success?
+
+      Nokogiri::XML(response.body).xpath('//xmlns:entry').first(2).map do |entry|
         {
           title: entry.xpath('xmlns:title').text,
           content: entry.xpath('xmlns:content').text,
@@ -163,6 +171,8 @@ module ApplicationHelper
           updated: entry.xpath('xmlns:updated').text
         }
       end
-    end
+    end || []
+  rescue Faraday::Error, Nokogiri::XML::XPath::SyntaxError
+    []
   end
 end

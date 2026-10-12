@@ -14,7 +14,7 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
 
     it 'has signup/signin links' do
-      expect(rendered).to have_content 'Sign up'
+      expect(rendered).to have_content 'Join free'
       expect(rendered).to have_content 'Sign in'
     end
 
@@ -44,6 +44,17 @@ describe 'layouts/_header.html.haml', type: "view" do
 
     it 'links to forums' do
       assert_select("a[href='#{forums_path}']", 'Forums')
+    end
+
+    it 'marks the section you are in' do
+      allow(view.request).to receive(:path).and_return('/crops/basil')
+      render
+      assert_select("a[aria-current='page']", text: 'Crops')
+    end
+
+    it 'marks nothing on the home page' do
+      render
+      assert_select("a[aria-current='page']", count: 0)
     end
 
     it 'has a crop search' do

@@ -2,30 +2,28 @@
 
 require 'rails_helper'
 
+# Plantings and harvests are dated, not timed, so "today" must not turn into
+# "19 hours ago" for someone whose midnight was hours back.
 describe HomeHelper do
-  describe '#garden_layout_invitation' do
-    let(:member) { create(:member) }
-    let(:garden) { create(:garden, owner: member, name: 'Back bed') }
+  include ActiveSupport::Testing::TimeHelpers
 
-    it "sends a member with a garden to that garden's layout" do
-      allow(helper).to receive(:member_signed_in?).and_return(true)
-      invitation = helper.garden_layout_invitation(garden)
+  describe '#ago_in_words' do
+    around { |example| travel_to(Time.zone.local(2026, 10, 12, 19, 30)) { example.run } }
 
-      expect(invitation[:href]).to eq "/members/#{member.slug}/gardens/#{garden.slug}/layout"
-      expect(invitation[:heading]).to eq 'Map out Back bed'
-      expect(invitation[:cta]).to eq 'Try out the new garden layout tool →'
+    it 'says today for a date that is today' do
+      expect(helper.ago_in_words(Date.current)).to eq 'today'
     end
 
-    it 'asks a member with no active garden to add one first' do
-      allow(helper).to receive(:member_signed_in?).and_return(true)
-
-      expect(helper.garden_layout_invitation(nil)).to include(href: '/gardens/new', cta: 'Add a garden →')
+    it 'says yesterday' do
+      expect(helper.ago_in_words(Date.current - 1)).to eq 'yesterday'
     end
 
-    it 'asks someone signed out to sign up' do
-      allow(helper).to receive(:member_signed_in?).and_return(false)
+    it 'counts days for an older date' do
+      expect(helper.ago_in_words(Date.current - 5)).to eq '5 days ago'
+    end
 
-      expect(helper.garden_layout_invitation(nil)).to include(href: '/members/sign_up', cta: 'Sign up to try it →')
+    it 'still counts hours for a time' do
+      expect(helper.ago_in_words(3.hours.ago)).to eq 'about 3 hours ago'
     end
   end
 end

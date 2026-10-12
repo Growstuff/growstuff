@@ -41,6 +41,12 @@
   }
 }
 
+  // In the opened menu the search takes the full width.
+  .navbar-search {
+    flex: 1 1 auto;
+    margin: 0.5rem 0;
+  }
+
   .navbar .navbar-form {
     padding-left: 0;
     padding-right: 0;

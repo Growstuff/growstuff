@@ -35,6 +35,11 @@ module PhotosHelper
     post.default_photo&.fullsize_url || post.crops.first&.default_photo&.fullsize_url || placeholder_image
   end
 
+  # The same picture as post_image_path, at thumbnail size.
+  def post_thumbnail_path(post)
+    post.default_photo&.thumbnail_url || post.crops.first&.default_photo&.thumbnail_url || placeholder_image
+  end
+
   private
 
   def photo_or_placeholder(item)

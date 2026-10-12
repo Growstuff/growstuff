@@ -199,88 +199,193 @@ en:
     updated: Harvest was successfully updated.
   home:
     blurb:
-      already_html: Or %{sign_in} if you already have an account
+      badge: Open source · Open data · Since 2012
+      headline_html: Know what to <strong>grow</strong>,<br>right now, where you live
+      photo_by: by %{login}
       intro: >
-        %{site_name} is a community of food gardeners. %{site_name}'s open source and open data platform
-        can predict when your plantings will be ready to harvest. The more you tell it, the better the predictions.
-      perks: Join now for your free garden journal, harvest predictions, forums, and more.
-      sign_in_linktext: sign in
-      sign_up: Sign up
-    activities:
-      view_all: View all activities
-    crops:
-      our_crops: Some of our crops
-      recently_added: Recently added crops
-      recently_planted: Recently Planted
-      view_all: View all crops
-    discuss:
-      discussion: Discussion
-      forums: Forums
-      view_all: View all posts
+        %{site_name} is a community of food gardeners. Track your garden, find seeds from neighbours,
+        and see what gardeners near you are planting this month.
+      public_note: Everything you record is public open data, including your city.
+      sign_in_linktext: Sign in
+      sign_up: Join free
+    dashboard:
+      add_bed: + bed
+      add_seeds: + seeds
+      all_varieties:
+        one: "%{count} variety"
+        other: All %{count} varieties
+      at_latitude: At your latitude
+      at_latitude_note: Top plantings by gardeners at %{band}
+      bed_counts: "%{plantings} plantings · %{ready} ready"
+      beds: Beds
+      chip_growing: Growing (%{count})
+      chip_ready: Ready (%{count})
+      col_bed: Bed
+      col_maturity: Maturity
+      col_planted: Planted
+      col_plant: Plant
+      col_progress: Progress
+      compared: Compared with last year
+      compared_empty: Plant the same crops as last year and we will compare them here.
+      last_year_planted: Around this time last year you planted %{crops}.
+      compared_note: Same crops, this year and last
+      days:
+        one: "%{count} day"
+        other: "%{count} days"
+      do_it: Do it
+      done: Done
+      easy_to_sow: Easy to sow in %{month} near you
+      first_plant: Let's get your first plant in. It takes about a minute.
+      first_year: Your first year
+      following: following
+      friends: My friends & neighbours
+      friends_empty: Follow some gardeners to see what they are growing.
+      friends_note: People you follow first, then people near you
+      garden_title_html: "<strong>%{name}'s</strong> garden"
+      get_started: Get started
+      growing_now: Growing now
+      harvest_by_month: Harvest by month
+      harvest_by_month_note: "kg harvested: this year (green) and last year (pale)"
+      harvest_soon: Harvest soon
+      harvesting: Harvesting
+      nothing_ready: Nothing is ready yet.
+      no_seeds: No seeds saved yet.
+      hidden_suggestions:
+        one: You've hidden 1 suggested crop.
+        other: You've hidden %{count} suggested crops.
+      not_for_me: Not for me
+      show_hidden: Show them again
+      stop_suggesting: Stop suggesting
+      suggestions_off: Crop suggestions are off.
+      turn_on_suggestions: Turn them back on
+      view_all_suggestions: View all suggestions for %{month}
+      not_for_me_title: Don't suggest %{crop} again
+      novice_lede:
+        one: "%{count} plant growing. Nice start."
+        other: "%{count} plants growing. Nice start."
+      plant_crop: Plant %{crop}
+      plus_harvest: + Harvest
+      plus_plant: + Plant
+      planted_when: planted %{when}
+      ready_now: ready now
+      relative:
+        ago: "%{time} ago"
+        today: today
+        yesterday: yesterday
+      plant_this: Plant this
+      planting: Planting
+      ready: ready
+      ready_title:
+        one: "%{count} planting is ready to harvest"
+        other: "%{count} plantings are ready to harvest"
+      record_harvests: Record harvests
+      see_all: see all
+      see_all_plantings:
+        one: See your planting
+        other: See all %{count} plantings
+      seeds_near: Seeds near you
+      seeds_near_note: Neighbours offering seeds you can start with.
+      seeds_on_hand: Seeds on hand
+      seeds_to_start: Seeds to start this spring
+      sow_body: Gardeners at your latitude are planting it this month.
+      sow_title: Sow %{crop} this %{month}
+      started_in: You started in %{month}. Next, your first harvest and the sowings for the season.
+      stat_harvests: harvests this year
+      stat_kilograms: harvested this year
+      stat_plantings: plantings this year
+      stat_ready: to harvest this week
+      stat_varieties: seed varieties saved
+      step_join: Join Growstuff
+      step_location: Tell us where you garden
+      set_location: Tell us where you garden
+      step_location_button: Set location
+      step_location_note: So advice fits your season and latitude
+      step_photo: Add a photo
+      step_photo_note: Optional, but it makes your garden yours
+      step_plant: Add your first plant
+      step_plant_button: Plant something
+      step_plant_note: Pick from what suits this month
+      this_week: This week
+      tile_harvest: record what you picked
+      tile_photo: of the garden
+      tile_photo_title: Add photo
+      tile_plant: something new
+      tile_seeds: from a plant
+      tile_seeds_title: Save seeds
+      vs_last_year: vs last year
+      years_growing:
+        one: "%{count} year growing"
+        other: "%{count} years growing"
     index:
-      add_seeds: Add seeds
-      edit_profile: Edit profile
       harvest: Harvest
       plant: Plant
-      post: Post
-      recently_added: Recently Added
       welcome: Welcome to %{site_name}, %{member_name}
-    harvests:
-      view_all: View all harvests
-    members:
-      title: Some of our members
-      view_all: View all members
-    open:
-      ad_free_linktext: ad-free
-      api_docs_linktext: API documentation
-      creative_commons_linktext: Creative Commons license
-      get_involved_body_html: >
-        We believe in collaboration, and work closely with our members and the wider food-growing community.
-        Our team includes volunteers from all walks of life and all skill levels. To get involved,
-        visit %{talk_link} or find more information on the %{wiki_link}.
-      get_involved_title: Get Involved
-      open_data_body_html: >
-        We're building a database of crops, planting advice, seed sources, and other information that anyone
-        can use for free, under a %{creative_commons_link}. You can use this data for research, to build apps,
-        or for any purpose at all.  Read more about our %{wiki_link} and %{api_docs_link}.
-      open_data_title: Open Data and APIs
-      open_source_body_html: >
-        %{site_name} is open source software, which means that we share this website's code for free with our
-        community and the world.  We believe that openness, sustainability, and social good go hand in hand.
-        You can read more about %{why} or check out our code on %{github}.
-      open_source_title: Open Source
-
-      support_body_html: Growstuff is independent, %{ad_free} and we have no outside investment.  You can support our work by %{buy_account}.
-      support_title: Support Growstuff
-      talk_linktext: Growstuff Talk
-      why_linktext: why Growstuff is open source
-      wiki_linktext: Growstuff Wiki
-    plantings:
-      recently_planted: Recently Planted
-      view_all: View all plantings
-    seeds:
-      crop: Crop
-      description: Description
-      details: Details
-      from: From location
-      owner: Owner
-      title: Seeds available to trade
-      trade_to: Will trade to
-      unspecified: unspecified
-      view_all: View all seeds
     added_to_stash: Successfully added %{crop} seed to your stash.
     updated: Seed was successfully updated.
     stats:
-      member_linktext: "%{count} members"
-      message_html: So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}; and %{contributors} people have contributed to our code on %{github}!
-      number_crops_linktext: "%{count} crops"
-      number_gardens_linktext: "%{count} gardens"
-      number_plantings_linktext: "%{count} times"
-    pwa_android_steps_html: 1. Tap the three dots in the top right corner of Chrome.<br>2. Tap <strong>Install app</strong> or <strong>Add to Home screen</strong>.
-    pwa_android_title: For Android
-    pwa_ios_steps_html: 1. Tap the <strong>Share</strong> button in Safari.<br>2. Scroll down and tap <strong>Add to Home Screen</strong>'.
-    pwa_ios_title: For iOS (iPhone/iPad)
-    pwa_title: Want to install Growstuff on your phone?
+      crops:
+        one: crop
+        other: crops
+      members:
+        one: gardener
+        other: gardeners
+      plantings:
+        one: planting
+        other: plantings
+    recent_posts:
+      all_posts: All posts
+      all_posts_short: all posts
+      by: by
+      comments:
+        one: 1 comment
+        other: "%{count} comments"
+      title: Recent posts
+    recent:
+      see_all: See everything
+      title: Planted this week
+    releases:
+      find_out_more: Find out more »
+      title: What's new
+    why_join:
+      neighbours:
+        body: Find seeds nearby and see what local gardeners are planting and harvesting now.
+        title: Grow with neighbours
+      open_data:
+        body: Crops, plantings and harvests are shared as open data. Download them, study them, build on them.
+        link: Get the data
+        title: Open data
+      open_intro: Growstuff is a community project. Anyone can read how it works, and everything gardeners record here is free to use.
+      open_source:
+        body: The code is public on GitHub. Report a bug, suggest a feature or help build it.
+        link: View the code
+        title: Open source
+      open_title: Built in the open, since 2012
+      plan:
+        body: Advice for your latitude and season, with one clear next step every week.
+        title: Know what to do this month
+      ready: Ready to start your garden?
+      record:
+        body: Add plantings, harvests, photos and seeds without ever leaving the page.
+        title: Keep it all in one place
+      since:
+        body: Gardeners have been growing, recording and sharing here for over a decade. Not owned by a seed company or an ad network.
+        link: Our story
+        title: Around since 2012
+      title: Why sign in
+  suggestions:
+    index:
+      lede: What gardeners at %{band} are planting this month, most planted first.
+      none: Nothing to suggest right now. Check back next month.
+      not_located: Tell us where you garden and we can suggest what to sow.
+      title: Easy to sow in %{month} near you
+    update:
+      "off": We've stopped suggesting crops.
+      "on": Crop suggestions are back.
+  crop_dismissals:
+    create:
+      dismissed: We won't suggest %{crop} again.
+    destroy_all:
+      restored: Your hidden suggestions are back.
   community_gardens:
     title: Community Gardens on Growstuff
     meta_description: Manage your community garden, track your plantings, and collaborate with other gardeners.
@@ -331,9 +436,11 @@ en:
       toggle_navigation: Toggle Navigation
       your_stuff: Your Stuff
     menu:
+      my_garden: My garden
+      releases: What's new
       sign_in: Sign in
       sign_out: Sign out
-      sign_up: Sign up
+      sign_up: Join free
   links:
     my_gardens: My gardens
 

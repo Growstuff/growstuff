@@ -1,0 +1,26 @@
+-# One thing worth doing this week: pick what is ready, or else sow something
+-# gardeners at this latitude are sowing now.
+- ready = dashboard.ready
+- suggestion = dashboard.suggested_crop if ready.empty?
+- if ready.any? || suggestion
+  .home-this-week
+    - lead = ready.any? ? ready.first : nil
+    = image_tag((lead&.thumbnail_url || suggestion&.default_photo&.thumbnail_url || placeholder_image), alt: '', class: 'home-this-week-photo')
+    .home-this-week-text
+      %small= t('home.dashboard.this_week')
+      - if ready.any?
+        %b= t('home.dashboard.ready_title', count: ready.size)
+        %span= ready.first(5).map(&:crop_name).uniq.to_sentence
+      - else
+        %b= t('home.dashboard.sow_title', crop: suggestion.name, month: current_month_name)
+        %span= t('home.dashboard.sow_body')
+    - if ready.any?
+      = link_to t('home.dashboard.record_harvests'), new_harvest_path, class: 'btn btn-warning'
+    - else
+      .home-this-week-actions
+        = render 'home/dashboard/plant_button', dashboard:, crop: suggestion, label: t('home.dashboard.plant_crop', crop: suggestion.name), button_class: 'btn btn-success'
+        = render 'home/dashboard/not_for_me', crop: suggestion, button_class: 'btn btn-link home-dismiss'
+- if ready.empty?
+  = render 'home/dashboard/hidden_suggestions', dashboard:
+  - if suggestion
+    = render 'home/dashboard/suggestion_links'

@@ -1,0 +1,20 @@
+- content_for :title, t('.title', month: current_month_name)
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
+%h1.mt-3= t('.title', month: current_month_name)
+%p.home-lede= t('.lede', band: @dashboard.band_label) if @dashboard.located?
+
+- if !@dashboard.located?
+  %p= t('.not_located')
+  = render 'home/dashboard/location_picker', label: t('home.dashboard.set_location'), button_class: 'btn btn-success'
+- elsif !@dashboard.suggestions_enabled?
+  = render 'home/dashboard/hidden_suggestions', dashboard: @dashboard
+- else
+  - if @crops.empty?
+    %p= t('.none')
+  .home-crops
+    = render partial: 'home/dashboard/crop_card', collection: @crops, as: :crop, locals: { dashboard: @dashboard }
+  = render 'home/dashboard/hidden_suggestions', dashboard: @dashboard
+  .home-suggestion-links
+    = render 'home/dashboard/stop_suggesting'

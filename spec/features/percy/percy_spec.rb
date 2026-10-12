@@ -228,7 +228,7 @@ rest of the garden.
 
     it 'loads sign up page' do
       visit crops_path # some random page
-      click_link 'Sign up'
+      click_link 'Join free'
       page.percy_snapshot(page, name: "sign-up")
     end
 
@@ -335,11 +335,9 @@ rest of the garden.
     end
 
     describe 'expand menus' do
-      it 'expands crop menu' do
+      it 'expands menus' do
         member.update! login_name: 'percy'
         visit root_path
-        click_on 'Crops'
-        page.percy_snapshot(page, name: "#{prefix}/crops-menu")
         click_on 'Community'
         page.percy_snapshot(page, name: "#{prefix}/community-menu")
         click_on 'percy', class: 'nav-link'
