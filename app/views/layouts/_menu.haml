@@ -1,7 +1,7 @@
 - my_garden_current = member_signed_in? && current_section?(member_gardens_path(current_member))
 - community_current = !my_garden_current && current_section?(places_path, harvests_path, members_path, community_gardens_path, posts_path, forums_path, releases_path)
 #navbarSupportedContent.collapse.navbar-collapse
-  %ul.navbar-nav.me-auto.bg-dark
+  %ul.navbar-nav.me-auto
     - if signed_in?
       %li.nav-item
         = link_to timeline_index_path, method: :get, class: 'nav-link text-white', title: "Timeline" do
@@ -48,18 +48,22 @@
           = link_to t('.forums'), forums_path, class: 'dropdown-item'
           = link_to t('.releases'), releases_path, class: 'dropdown-item'
 
-    - if member_signed_in?
-      - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)
-        %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
-            %span
-            = t('.admin')
-          .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
-            - if current_member.role?(:crop_wrangler)
-              = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
-            - if current_member.role?(:admin)
-              = link_to t('.admin'), admin_path, class: 'dropdown-item'
+    - if member_signed_in? && (current_member.role?(:crop_wrangler) || current_member.role?(:admin))
+      %li.nav-item.dropdown
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+          %span
+          = t('.admin')
+        .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+          - if current_member.role?(:crop_wrangler)
+            = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
+          - if current_member.role?(:admin)
+            = link_to t('.admin'), admin_path, class: 'dropdown-item'
 
+
+  = render 'crops/search_bar'
+
+  %ul.navbar-nav.navbar-user
+    - if member_signed_in?
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
           = image_tag(avatar_uri(current_member, 50), alt: 'Avatar of current member', height: 25, width: 25, aria: { hidden: "true" })
@@ -93,5 +97,5 @@
           = link_to t('.sign_out'), destroy_member_session_path, method: :delete, class: 'dropdown-item'
 
     - else
-      %li.nav-item= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'nav-link'
-      %li.nav-item= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn btn-signup'
+      %li.nav-item.d-none.d-lg-block= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'nav-link'
+      %li.nav-item.d-none.d-lg-block= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn btn-signup'

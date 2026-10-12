@@ -1,6 +1,8 @@
-= form_tag search_crops_path, method: :get, class: 'd-flex align-items-center', id: 'navbar-search' do
-  .input-group
-    %input.form-control{name: 'term', "aria-label" => "Search crops", placeholder: "Search crops", type: "search", id: 'term' }/
-    %button.btn.btn-outline-secondary.text-white{type: "submit"}
-      = icon 'fas', 'search'
-      .visually-hidden Search
+-# The crop search in the top bar: one field with a magnifier inside it, and a
+-# submit button for assistive technology (Enter submits it for everyone else).
+= form_tag search_crops_path, method: :get, class: 'navbar-search', id: 'navbar-search', role: 'search' do
+  %svg.navbar-search-icon{ width: 16, height: 16, viewBox: '0 0 16 16', 'aria-hidden': 'true' }
+    %circle{ cx: 6.5, cy: 6.5, r: 4.5, fill: 'none', stroke: 'currentColor', 'stroke-width': 1.6 }
+    %path{ d: 'M10 10l4 4', stroke: 'currentColor', 'stroke-width': 1.6, 'stroke-linecap': 'round' }
+  %input.form-control{ name: 'term', 'aria-label' => 'Search crops', placeholder: 'Search crops', type: 'search', id: 'term' }/
+  %button.visually-hidden{ type: 'submit' } Search
