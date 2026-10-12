@@ -29,24 +29,23 @@
             = post_icon
             = t('buttons.new_post')
 
-    - cache("everyone-menu", expires_in: 1.week) do
-      %li.nav-item= link_to t('.crops'), crops_path, class: 'nav-link', aria: { current: ('page' if current_section?(crops_path)) }
-      %li.nav-item= link_to t('.seeds'), seeds_path, class: 'nav-link', aria: { current: ('page' if current_section?(seeds_path)) }
-      %li.nav-item= link_to t('.plantings'), plantings_path, class: 'nav-link', aria: { current: ('page' if current_section?(plantings_path)) }
-      - unless member_signed_in?
-        %li.nav-item= link_to t('.gardens'), gardens_path, class: 'nav-link', aria: { current: ('page' if current_section?(gardens_path)) }
-      %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button", "aria-current" => ('page' if community_current)}
-          %span
-          = t('.community')
-        .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
-          = link_to t('.community_map'), places_path, class: 'dropdown-item'
-          = link_to t('.harvests'), harvests_path, class: 'dropdown-item'
-          = link_to t('.browse_members'), members_path, class: 'dropdown-item'
-          = link_to t('.community_gardens'), community_gardens_path, class: 'dropdown-item'
-          = link_to t('.posts'), posts_path, class: 'dropdown-item'
-          = link_to t('.forums'), forums_path, class: 'dropdown-item'
-          = link_to t('.releases'), releases_path, class: 'dropdown-item'
+    %li.nav-item= link_to t('.crops'), crops_path, class: 'nav-link', aria: { current: ('page' if current_section?(crops_path)) }
+    %li.nav-item= link_to t('.seeds'), seeds_path, class: 'nav-link', aria: { current: ('page' if current_section?(seeds_path)) }
+    %li.nav-item= link_to t('.plantings'), plantings_path, class: 'nav-link', aria: { current: ('page' if current_section?(plantings_path)) }
+    - unless member_signed_in?
+      %li.nav-item= link_to t('.gardens'), gardens_path, class: 'nav-link', aria: { current: ('page' if current_section?(gardens_path)) }
+    %li.nav-item.dropdown
+      %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button", "aria-current" => ('page' if community_current)}
+        %span
+        = t('.community')
+      .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+        = link_to t('.community_map'), places_path, class: 'dropdown-item'
+        = link_to t('.harvests'), harvests_path, class: 'dropdown-item'
+        = link_to t('.browse_members'), members_path, class: 'dropdown-item'
+        = link_to t('.community_gardens'), community_gardens_path, class: 'dropdown-item'
+        = link_to t('.posts'), posts_path, class: 'dropdown-item'
+        = link_to t('.forums'), forums_path, class: 'dropdown-item'
+        = link_to t('.releases'), releases_path, class: 'dropdown-item'
 
     - if member_signed_in? && (current_member.role?(:crop_wrangler) || current_member.role?(:admin))
       %li.nav-item.dropdown
