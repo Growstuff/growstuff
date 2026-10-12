@@ -5,6 +5,8 @@ require 'rails_helper'
 # Plantings and harvests are dated, not timed, so "today" must not turn into
 # "19 hours ago" for someone whose midnight was hours back.
 describe HomeHelper do
+  include ActiveSupport::Testing::TimeHelpers
+
   describe '#ago_in_words' do
     around { |example| travel_to(Time.zone.local(2026, 10, 12, 19, 30)) { example.run } }
 
