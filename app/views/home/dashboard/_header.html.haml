@@ -11,7 +11,7 @@
           = " · #{t('home.dashboard.years_growing', count: dashboard.years_growing)}"
     - elsif dashboard.stage != :new
       %p.home-welcome-season= render 'home/dashboard/location_picker', label: t('home.dashboard.set_location'), button_class: 'btn btn-link p-0'
-  .home-welcome-actions
+  .home-welcome-actions.d-none.d-md-flex
     = link_to new_planting_path, class: 'btn btn-success' do
       = planting_icon
       = t('home.index.plant')

@@ -7,6 +7,7 @@
   - content_for :scripts do
     = javascript_include_tag 'react_islands', defer: true
   = render "home/dashboard/#{@dashboard.stage}", dashboard: @dashboard
+  = render 'home/dashboard/action_bar'
 - else
   %section= render 'blurb'
   = render 'recent'

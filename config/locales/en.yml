@@ -264,6 +264,8 @@ en:
         one: "%{count} plant growing. Nice start."
         other: "%{count} plants growing. Nice start."
       plant_crop: Plant %{crop}
+      plus_harvest: + Harvest
+      plus_plant: + Plant
       planted_when: planted %{when}
       ready_now: ready now
       relative:

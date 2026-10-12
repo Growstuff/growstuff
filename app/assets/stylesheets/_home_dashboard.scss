@@ -415,3 +415,22 @@ $dash-line: rgba(65, 63, 59, 0.15);
 }
 
 .home-stop { color: $dash-muted; }
+
+// Plant and harvest, pinned to the bottom of a phone screen
+.home-action-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1020;
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #fff;
+  border-top: 1px solid rgba(65, 63, 59, 0.25);
+  box-shadow: 0 -2px 8px rgba(65, 63, 59, 0.15);
+
+  .btn { flex: 1; padding: 12px; }
+}
+
+.home-action-bar-spacer { height: 84px; }
