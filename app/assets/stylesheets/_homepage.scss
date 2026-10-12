@@ -75,7 +75,7 @@ $home-muted: rgba(65, 63, 59, 0.75);
     strong { font-weight: 700; }
   }
 
-  a:not(.btn) { color: #fff; }
+  a:not(.btn):not(.home-hero-photo) { color: #fff; }
 }
 
 .home-hero-text {

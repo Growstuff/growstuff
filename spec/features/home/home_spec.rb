@@ -41,63 +41,34 @@ describe "home page" do
     it "does not show untradable seeds" do
       expect(subject).to have_no_link href: seed_path(untradable_seed)
     end
-
-    it { is_expected.to have_link 'View all seeds »' }
   end
 
   shared_examples 'show plantings' do
-    describe 'shows plantings section' do
-      it { expect(subject).to have_text 'Recently Planted' }
-      it { expect(subject).to have_link href: planting_path(planting) }
-    end
+    it { expect(subject).to have_link href: planting_path(planting) }
   end
 
-  shared_examples 'show harvests' do
-    describe 'shows harvests section' do
-      it { expect(subject).to have_text 'Recently Harvested' }
-      it { expect(subject).to have_link href: harvest_path(harvest) }
-    end
-  end
-
-  shared_examples "show crops" do
-    describe 'shows crops section' do
-      before { crop.reindex }
-
-      it { is_expected.to have_text 'Some of our crops' }
-      it { is_expected.to have_link href: crop_path(crop) }
-    end
-
-    describe 'shows recently added crops' do
-      it { is_expected.to have_text 'Recently Added' }
-
-      it 'link to newest crops' do
-        expect(subject).to have_link crop.name, href: crop_path(crop)
-      end
-    end
-
-    it 'includes a link to all crops' do
-      expect(subject).to have_link 'View all crops'
-    end
+  shared_examples 'omits sections that are not in the designs' do
+    it { is_expected.to have_no_text 'Some of our crops' }
+    it { is_expected.to have_no_text 'Recently Harvested' }
+    it { is_expected.to have_no_text 'Want to install Growstuff on your phone?' }
   end
 
   context 'when anonymous' do
-    it_behaves_like 'show crops'
     it_behaves_like 'show plantings'
-    it_behaves_like 'show harvests'
     it_behaves_like 'shows seeds'
+    it_behaves_like 'omits sections that are not in the designs'
     it_behaves_like 'is accessible'
     it { is_expected.to have_text 'community of food gardeners' }
+    it { is_expected.to have_text 'Planted this week' }
     it { is_expected.to have_text 'Why sign in' }
     it { is_expected.to have_link 'Join free', href: new_member_registration_path }
-    it { is_expected.to have_text 'Want to install Growstuff on your phone?' }
   end
 
   context "when signed in" do
     include_context 'signed in member'
-    it_behaves_like 'show crops'
     it_behaves_like 'show plantings'
-    it_behaves_like 'show harvests'
     it_behaves_like 'shows seeds'
+    it_behaves_like 'omits sections that are not in the designs'
     it_behaves_like 'is accessible'
 
     describe 'should say welcome' do
