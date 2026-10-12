@@ -5,7 +5,7 @@ class PlacesController < ApplicationController
   before_action :authenticate_member!, only: :suggest
   respond_to :html, :json
 
-  MEMBER_FIELDS = %i[id login_name slug location latitude longitude].freeze
+  MEMBER_FIELDS = %i(id login_name slug location latitude longitude).freeze
 
   def index
     respond_to do |format|

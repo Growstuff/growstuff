@@ -125,14 +125,14 @@ class MemberDashboard
   def planted_this_time_last_year(limit = 5)
     around = @today - 1.year
     member.plantings.where(planted_at: (around - 30.days)..(around + 30.days))
-          .joins(:crop).group('crops.name').order(Arel.sql('COUNT(*) DESC'), 'crops.name').limit(limit).count.keys
+      .joins(:crop).group('crops.name').order(Arel.sql('COUNT(*) DESC'), 'crops.name').limit(limit).count.keys
   end
 
   # People they follow first, then people nearby.
   def activity(limit = 6)
     @activity ||= (events_for(followed_ids, following: true) + events_for(nearby_ids, following: false))
-                  .uniq { |event| [event.member, event.verb, event.subject] }
-                  .first(limit)
+      .uniq { |event| [event.member, event.verb, event.subject] }
+      .first(limit)
   end
 
   # The most planted and harvested crops this month and the next two, by
@@ -141,7 +141,7 @@ class MemberDashboard
     return unless located?
 
     Rails.cache.fetch(['at-latitude', band, @today.month, @today.year], expires_in: 6.hours) do
-      (0...months).map { |offset| month_leaders((@today.month - 1 + offset) % 12 + 1) }
+      (0...months).map { |offset| month_leaders(((@today.month - 1 + offset) % 12) + 1) }
     end
   end
 
@@ -149,7 +149,7 @@ class MemberDashboard
   def band
     @band ||= begin
       centre = (member.latitude / LATITUDE_BAND).round * LATITUDE_BAND
-      (centre - LATITUDE_BAND..centre + LATITUDE_BAND)
+      ((centre - LATITUDE_BAND)..(centre + LATITUDE_BAND))
     end
   end
 
@@ -194,7 +194,8 @@ class MemberDashboard
 
   def monthly_kilograms
     @monthly_kilograms ||= [0, 1].each_with_object({}) do |back, totals|
-      member.harvests.where(harvested_at: year_range(back)).group("EXTRACT(MONTH FROM harvested_at)::int").sum(:si_weight).each do |month, kilos|
+      harvested = member.harvests.where(harvested_at: year_range(back))
+      harvested.group("EXTRACT(MONTH FROM harvested_at)::int").sum(:si_weight).each do |month, kilos|
         totals[[back, month]] = kilos.to_f
       end
     end
@@ -238,7 +239,7 @@ class MemberDashboard
     return [] unless located?
 
     @nearby_ids ||= Member.located.near([member.latitude, member.longitude], NEARBY_KM, units: :km)
-                          .where.not(id: member.id).reorder(nil).limit(40).pluck(:id) - followed_ids
+      .where.not(id: member.id).reorder(nil).limit(40).pluck(:id) - followed_ids
   end
 
   def events_for(ids, following:)
@@ -259,7 +260,7 @@ class MemberDashboard
   def month_leaders(month)
     {
       month:,
-      planting: leaders(Planting, :planted_at, month),
+      planting:   leaders(Planting, :planted_at, month),
       harvesting: leaders(Harvest, :harvested_at, month)
     }
   end
@@ -268,8 +269,8 @@ class MemberDashboard
     scope = model.joins(:crop)
     scope = model == Planting ? scope.joins(:garden) : scope.joins(planting: :garden)
     scope.where(gardens: { latitude: band })
-         .where("EXTRACT(MONTH FROM #{model.table_name}.#{date_column}) = ?", month)
-         .group('crops.id', 'crops.name').order(Arel.sql('COUNT(*) DESC')).limit(limit).count
-         .map { |(crop_id, name), count| { crop_id:, name:, count: } }
+      .where("EXTRACT(MONTH FROM #{model.table_name}.#{date_column}) = ?", month)
+      .group('crops.id', 'crops.name').order(Arel.sql('COUNT(*) DESC')).limit(limit).count
+      .map { |(crop_id, name), count| { crop_id:, name:, count: } }
   end
 end

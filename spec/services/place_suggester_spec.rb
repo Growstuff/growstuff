@@ -7,7 +7,8 @@ describe PlaceSuggester do
     allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
     Geocoder::Lookup::Test.add_stub(
       'Wellington', [
-        { 'coordinates' => [-41.2887, 174.7772], 'name' => 'Wellington', 'address' => { 'state' => 'Wellington', 'country' => 'New Zealand' } },
+        { 'coordinates' => [-41.2887, 174.7772], 'name' => 'Wellington',
+'address' => { 'state' => 'Wellington', 'country' => 'New Zealand' } },
         { 'coordinates' => [26.6, -80.2], 'name' => 'Wellington', 'address' => { 'state' => 'Florida', 'country' => 'United States' } },
         { 'coordinates' => [26.6, -80.2], 'name' => 'Wellington', 'address' => { 'state' => 'Florida', 'country' => 'United States' } }
       ]

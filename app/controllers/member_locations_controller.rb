@@ -10,8 +10,10 @@ class MemberLocationsController < ApplicationController
 
   def update
     place = location_params
-    current_member.update_columns(location: place[:name], latitude: place[:latitude], longitude: place[:longitude])
-    current_member.gardens.where(location: [nil, '']).update_all(location: place[:name], latitude: place[:latitude], longitude: place[:longitude])
+    # Straight to the columns: saving would geocode the name again, and the place already has coordinates.
+    columns = { location: place[:name], latitude: place[:latitude], longitude: place[:longitude] }
+    current_member.update_columns(columns) # rubocop:disable Rails/SkipsModelValidations
+    current_member.gardens.where(location: [nil, '']).update_all(columns) # rubocop:disable Rails/SkipsModelValidations
     render json: { location: place[:name] }
   rescue ArgumentError, ActionController::ParameterMissing
     render json: { errors: { location: ['is not a place we can use'] } }, status: :unprocessable_content

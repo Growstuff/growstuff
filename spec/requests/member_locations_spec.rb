@@ -37,23 +37,25 @@ describe 'Setting where a member gardens' do
 
     it 'refuses coordinates that are not on Earth' do
       save(place.merge(latitude: 120))
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
 
     it 'refuses a place without a name' do
       save(place.merge(name: ''))
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
 
     it 'suggests places for a search' do
-      Geocoder::Lookup::Test.add_stub('Wellington', [{ 'coordinates' => [-41.2887, 174.7772], 'name' => 'Wellington', 'address' => { 'country' => 'New Zealand' } }])
+      Geocoder::Lookup::Test.add_stub('Wellington',
+                                      [{ 'coordinates' => [-41.2887, 174.7772], 'name' => 'Wellington',
+'address' => { 'country' => 'New Zealand' } }])
       get suggest_places_path(format: :json, q: 'Wellington')
       expect(response.parsed_body.pluck('name')).to eq ['Wellington, New Zealand']
     end
 
     it 'suggests nothing for a position that is not a number' do
       get suggest_places_path(format: :json, lat: 'north', lng: 'east')
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(:unprocessable_entity)
     end
   end
 

@@ -112,7 +112,7 @@ describe MemberDashboard do
       chives = create(:crop, name: 'chives')
       create(:planting, owner: member, garden:, crop: chives, planted_at: Date.new(2025, 10, 1))
       2.times { create(:planting, owner: member, garden:, crop: basil, planted_at: Date.new(2025, 10, 20)) }
-      expect(dashboard.planted_this_time_last_year).to eq %w[basil chives]
+      expect(dashboard.planted_this_time_last_year).to eq %w(basil chives)
     end
 
     it 'leaves out what they planted at other times of year' do

@@ -40,6 +40,6 @@ module SeasonsHelper
     season = season_for(member.latitude, date)
     place = member.location.presence
     degrees = "#{member.latitude.to_f.abs.round}°#{member.latitude.to_f.negative? ? 'S' : 'N'}"
-    [[season&.to_s&.capitalize, place].compact.join(' in '), I18n.l(date, format: '%B'), degrees].reject(&:blank?).join(' · ')
+    [[season&.to_s&.capitalize, place].compact.join(' in '), I18n.l(date, format: '%B'), degrees].compact_blank.join(' · ')
   end
 end
