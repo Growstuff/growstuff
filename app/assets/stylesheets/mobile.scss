@@ -41,6 +41,19 @@
   }
 }
 
+  // The search box gives way so the menu toggle stays on screen.
+  .navbar > .nav {
+    min-width: 0;
+  }
+
+  #navbar-search {
+    padding-left: 0.5em;
+
+    .input-group {
+      min-width: 0;
+    }
+  }
+
   .navbar .navbar-form {
     padding-left: 0;
     padding-right: 0;

@@ -43,6 +43,7 @@
           = link_to t('.community_gardens'), community_gardens_path, class: 'dropdown-item'
           = link_to t('.posts'), posts_path, class: 'dropdown-item'
           = link_to t('.forums'), forums_path, class: 'dropdown-item'
+          = link_to t('.releases'), releases_path, class: 'dropdown-item'
 
     - if member_signed_in?
       - if current_member.role?(:crop_wrangler) || current_member.role?(:admin)

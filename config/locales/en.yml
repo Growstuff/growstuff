@@ -297,6 +297,9 @@ en:
         body: Add plantings, harvests, photos and seeds without ever leaving the page.
         title: Keep it all in one place
       title: Why sign in
+    releases:
+      find_out_more: Find out more »
+      title: What's new
     pwa_android_steps_html: 1. Tap the three dots in the top right corner of Chrome.<br>2. Tap <strong>Install app</strong> or <strong>Add to Home screen</strong>.
     pwa_android_title: For Android
     pwa_ios_steps_html: 1. Tap the <strong>Share</strong> button in Safari.<br>2. Scroll down and tap <strong>Add to Home Screen</strong>'.
@@ -353,6 +356,7 @@ en:
       your_stuff: Your Stuff
     menu:
       my_garden: My garden
+      releases: What's new
       sign_in: Sign in
       sign_out: Sign out
       sign_up: Join free

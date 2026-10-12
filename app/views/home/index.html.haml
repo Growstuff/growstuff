@@ -6,22 +6,19 @@
 = render 'garden_layout_teaser', garden: @layout_garden
 
 - if member_signed_in?
-  .row
-    .col-lg-8.col-md-12
-      %h1.display-4= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
-
-      %p= render 'stats', cached: true
-    .col
-      %br
-      %p
-        - if current_member.plantings.active.any?
-          = link_to member_path(current_member, anchor: "content"), class: 'btn btn-dark' do
-            = planting_icon
-            Track my plantings
-      %p
-        = link_to member_gardens_path(current_member, anchor: "content"), class: 'btn btn-dark' do
-          = garden_icon
-          Show me my garden
+  .home-welcome
+    = image_tag avatar_uri(current_member, 150), alt: '', class: 'home-welcome-avatar'
+    .home-welcome-text
+      %h1= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
+      - if (conditions = season_summary(current_member))
+        %p.home-welcome-season= conditions
+    .home-welcome-actions
+      = link_to new_planting_path, class: 'btn btn-success' do
+        = planting_icon
+        = t('.plant')
+      = link_to new_harvest_path, class: 'btn btn-warning' do
+        = harvest_icon
+        = t('.harvest')
 - else
   %section= render 'blurb', cached: true
   = render 'why_join'
@@ -67,7 +64,7 @@
       = cute_icon
       = render 'members', cached: true
 .row
-  .col-12.col-lg-6
+  .col-12
     %section.pwa-install
       = cute_icon
       %h2.text-center= t('home.pwa_title')
@@ -80,5 +77,3 @@
           .card-body
             %h3= t('home.pwa_android_title')
             %p= t('home.pwa_android_steps_html')
-  .col-12.col-lg-6
-    = render 'releases'

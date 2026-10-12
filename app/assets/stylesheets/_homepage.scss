@@ -132,3 +132,30 @@
 
   p { font-size: 1.6rem; font-weight: 600; }
 }
+
+
+// signed-in greeting
+.home-welcome {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+
+  h1 { margin: 0; font-weight: 300; line-height: 1.1; }
+}
+
+.home-welcome-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(65, 63, 59, 0.3);
+}
+
+.home-welcome-text { flex: 1 1 16rem; min-width: 0; }
+
+.home-welcome-season { margin: 0.4rem 0 0; color: rgba(65, 63, 59, 0.75); }
+
+.home-welcome-actions { display: flex; gap: 0.6rem; }

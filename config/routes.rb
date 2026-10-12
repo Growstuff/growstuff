@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   get "home/index"
   get '/community-gardens', to: 'home#community_gardens'
+  get '/releases', to: 'home#releases', as: :releases
   root to: 'home#index'
 
   concern :has_photos do

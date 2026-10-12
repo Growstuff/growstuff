@@ -14,6 +14,8 @@ class HomeController < ApplicationController
 
   def community_gardens; end
 
+  def releases; end
+
   private
 
   # The garden the home page's invitation to the layout tool sends a member to:
