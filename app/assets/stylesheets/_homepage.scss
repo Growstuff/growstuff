@@ -40,3 +40,95 @@
     }
   }
 }
+
+// signed-out landing page
+.home-hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 3rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 4vw, 2rem);
+  background: $green;
+  color: #fff;
+  border-radius: 4px;
+
+  h1 {
+    font-size: clamp(2rem, 7vw, 3rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: #fff;
+
+    strong { font-weight: 700; }
+  }
+
+  a:not(.btn) { color: #fff; }
+}
+
+.home-hero-text {
+  flex: 1 1 24rem;
+  min-width: 0;
+}
+
+.home-hero-badge {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.home-hero-intro { font-size: clamp(1.05rem, 3.5vw, 1.3rem); }
+
+.home-hero-actions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.home-hero-signin { text-decoration: underline; }
+
+.home-hero-note { margin: 1rem 0 0; font-size: 0.9rem; }
+
+.home-hero-stats {
+  flex: 1 1 100%;
+  text-align: center;
+
+  a { color: #fff; }
+}
+
+.home-why {
+  margin-bottom: 2rem;
+
+  h3 { color: $green; font-size: 1.25rem; }
+}
+
+.home-why-cards,
+.home-why-open {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+
+  > * {
+    flex: 1 1 18rem;
+    padding: 1.25rem;
+    background: #fff;
+    border: 1px solid rgba(65, 63, 59, 0.15);
+    border-radius: 4px;
+  }
+}
+
+.home-why-cta {
+  padding: 2rem 1rem;
+  text-align: center;
+  background: rgba(255, 165, 0, 0.12);
+  border: 1px solid rgba(255, 165, 0, 0.5);
+  border-radius: 4px;
+
+  p { font-size: 1.6rem; font-weight: 600; }
+}

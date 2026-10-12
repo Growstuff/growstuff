@@ -23,8 +23,8 @@
           = garden_icon
           Show me my garden
 - else
-  .hidden-xs
-    %section.jumbotron= render 'blurb', cached: true
+  %section= render 'blurb', cached: true
+  = render 'why_join'
 .row
   .col-xl-9.col-12
     %section.crops

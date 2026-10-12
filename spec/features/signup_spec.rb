@@ -5,7 +5,7 @@ require 'rails_helper'
 describe "signup" do
   it "sign up for new account from top menubar" do
     visit crops_path # something other than front page, which has multiple signup links
-    click_link 'Sign up'
+    click_link 'Join free'
     fill_in 'Login name', with: 'person123'
     fill_in 'Email', with: 'gardener@example.com'
     fill_in 'Password', with: 'abc123'
@@ -29,7 +29,7 @@ describe "signup" do
 
   it "sign up for new account without accepting TOS" do
     visit root_path
-    first('.signup a').click # click the 'Sign up' button in the middle of the page
+    first('.home-hero a', text: 'Join free').click
     fill_in 'Login name', with: 'person123'
     fill_in 'Email', with: 'gardener@example.com'
     fill_in 'Password', with: 'abc123'

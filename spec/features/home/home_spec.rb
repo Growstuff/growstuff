@@ -87,6 +87,8 @@ describe "home page" do
     it_behaves_like 'shows seeds'
     it_behaves_like 'is accessible'
     it { is_expected.to have_text 'community of food gardeners' }
+    it { is_expected.to have_text 'Why sign in' }
+    it { is_expected.to have_link 'Join free', href: new_member_registration_path }
     it { is_expected.to have_text 'Want to install Growstuff on your phone?' }
   end
 

@@ -52,11 +52,12 @@ body {
   }
 }
 
-.navbar .btn-signup,
-.navbar .btn-signin {
-  background-color: $green;
-  color: $white;
+.navbar .btn-signup {
+  background-color: $orange;
+  color: $black;
+  font-weight: 600;
   margin: 3px;
+  text-transform: uppercase;
 }
 
 .homepage-blurb .site-name {

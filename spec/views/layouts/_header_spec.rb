@@ -14,7 +14,7 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
 
     it 'has signup/signin links' do
-      expect(rendered).to have_content 'Sign up'
+      expect(rendered).to have_content 'Join free'
       expect(rendered).to have_content 'Sign in'
     end
 

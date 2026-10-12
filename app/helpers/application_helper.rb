@@ -145,10 +145,12 @@ module ApplicationHelper
     return [] if Rails.env.test?
 
     feed_url = 'https://github.com/Growstuff/growstuff/releases.atom'
-    Rails.cache.fetch(feed_url, expires_in: 1.day) do
+    # A failed fetch returns nil, which skip_nil keeps out of the cache.
+    Rails.cache.fetch(feed_url, expires_in: 1.day, skip_nil: true) do
       response = Faraday.get(feed_url)
-      doc = Nokogiri::XML(response.body)
-      doc.xpath('//xmlns:entry').first(2).map do |entry|
+      next unless response.success?
+
+      Nokogiri::XML(response.body).xpath('//xmlns:entry').first(2).map do |entry|
         {
           title: entry.xpath('xmlns:title').text,
           content: entry.xpath('xmlns:content').text,
@@ -156,6 +158,8 @@ module ApplicationHelper
           updated: entry.xpath('xmlns:updated').text
         }
       end
-    end
+    end || []
+  rescue Faraday::Error, Nokogiri::XML::XPath::SyntaxError
+    []
   end
 end
