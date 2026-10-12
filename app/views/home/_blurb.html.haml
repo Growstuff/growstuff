@@ -1,3 +1,4 @@
+- planting = Planting.homepage_records(6).detect { |candidate| candidate.thumbnail_url.present? }
 .home-hero
   .home-hero-text
     %p.home-hero-badge= t('.badge')
@@ -7,4 +8,11 @@
       = link_to(t('.sign_up'), new_member_registration_path, class: 'btn btn-warning btn-lg')
       = link_to(t('.sign_in_linktext'), new_member_session_path, class: 'home-hero-signin')
     %p.home-hero-note= t('.public_note')
-  .home-hero-stats= render 'stats'
+  - if planting
+    = link_to planting_path(slug: planting.slug), class: 'home-hero-photo' do
+      = image_tag planting.thumbnail_url, alt: "Image of #{planting.display_name} by #{planting.owner_login_name}"
+      %span.home-hero-photo-caption
+        = planting.display_name
+        %br
+        %i= t('.photo_by', login: planting.owner_login_name)
+= render 'stats'

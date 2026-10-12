@@ -201,36 +201,20 @@ en:
     blurb:
       badge: Open source · Open data · Since 2012
       headline_html: Know what to <strong>grow</strong>,<br>right now, where you live
+      photo_by: by %{login}
       intro: >
         %{site_name} is a community of food gardeners. Track your garden, find seeds from neighbours,
         and see what gardeners near you are planting this month.
       public_note: Everything you record is public open data, including your city.
       sign_in_linktext: Sign in
       sign_up: Join free
-    activities:
-      view_all: View all activities
-    crops:
-      our_crops: Some of our crops
-      recently_added: Recently added crops
-      recently_planted: Recently Planted
-      view_all: View all crops
-    discuss:
-      discussion: Discussion
-      forums: Forums
-      view_all: View all posts
     index:
       add_seeds: Add seeds
       edit_profile: Edit profile
       harvest: Harvest
       plant: Plant
       post: Post
-      recently_added: Recently Added
       welcome: Welcome to %{site_name}, %{member_name}
-    harvests:
-      view_all: View all harvests
-    members:
-      title: Some of our members
-      view_all: View all members
     open:
       ad_free_linktext: ad-free
       api_docs_linktext: API documentation
@@ -272,23 +256,35 @@ en:
     added_to_stash: Successfully added %{crop} seed to your stash.
     updated: Seed was successfully updated.
     stats:
-      member_linktext: "%{count} members"
-      message_html: So far, %{member} have planted %{number_crops} %{number_plantings} in %{number_gardens}; and %{contributors} people have contributed to our code on %{github}!
-      number_crops_linktext: "%{count} crops"
-      number_gardens_linktext: "%{count} gardens"
-      number_plantings_linktext: "%{count} times"
+      crops:
+        one: crop
+        other: crops
+      members:
+        one: gardener
+        other: gardeners
+      plantings:
+        one: planting
+        other: plantings
+    recent:
+      see_all: See everything
+      title: Planted this week
+    releases:
+      find_out_more: Find out more »
+      title: What's new
     why_join:
+      neighbours:
+        body: Find seeds nearby and see what local gardeners are planting and harvesting now.
+        title: Grow with neighbours
       open_data:
         body: Crops, plantings and harvests are shared as open data. Download them, study them, build on them.
         link: Get the data
         title: Open data
+      open_intro: Growstuff is a community project. Anyone can read how it works, and everything gardeners record here is free to use.
       open_source:
         body: The code is public on GitHub. Report a bug, suggest a feature or help build it.
         link: View the code
         title: Open source
-      neighbours:
-        body: Find seeds nearby and see what local gardeners are planting and harvesting now.
-        title: Grow with neighbours
+      open_title: Built in the open, since 2012
       plan:
         body: Advice for your latitude and season, with one clear next step every week.
         title: Know what to do this month
@@ -297,14 +293,6 @@ en:
         body: Add plantings, harvests, photos and seeds without ever leaving the page.
         title: Keep it all in one place
       title: Why sign in
-    releases:
-      find_out_more: Find out more »
-      title: What's new
-    pwa_android_steps_html: 1. Tap the three dots in the top right corner of Chrome.<br>2. Tap <strong>Install app</strong> or <strong>Add to Home screen</strong>.
-    pwa_android_title: For Android
-    pwa_ios_steps_html: 1. Tap the <strong>Share</strong> button in Safari.<br>2. Scroll down and tap <strong>Add to Home Screen</strong>'.
-    pwa_ios_title: For iOS (iPhone/iPad)
-    pwa_title: Want to install Growstuff on your phone?
   community_gardens:
     title: Community Gardens on Growstuff
     meta_description: Manage your community garden, track your plantings, and collaborate with other gardeners.
