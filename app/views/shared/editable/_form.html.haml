@@ -1,19 +1,36 @@
+-# A field is usually one attribute, but may be a pair edited together — a min
+-# and a max. The first of the pair names the form.
+- fields = Array(field)
+- form_id = editable_form_id(model, field)
+- what = fields.one? ? fields.first.to_s : fields.first.to_s.sub(/_(min|max)\z/, '')
+- trigger = local_assigns.fetch(:trigger, :pencil)
 - if can? :edit, model
-  %small.edit-link
-    %a.editable{"data-form" => "#form--#{model.id}-#{field.to_s}", "data-display": display_field, href: "#", name: "#form--#{model.id}-#{field.to_s}"}
-      -# One muted pencil everywhere, not the orange SVG icon.
-      %i.fas.fa-pencil-alt{ 'aria-hidden' => 'true' }
-      %span.visually-hidden Edit #{field.to_s.humanize.downcase}
+  - if trigger == :pencil
+    %small.edit-link
+      %a.editable{ "data-form" => "##{form_id}", "data-display": display_field, href: "#", name: "##{form_id}" }
+        -# One muted pencil everywhere, not the orange SVG icon.
+        %i.fas.fa-pencil-alt{ 'aria-hidden' => 'true' }
+        %span.visually-hidden Edit #{what.humanize.downcase}
 
-  .hide{id: "form--#{model.id}-#{field.to_s}"}
+  -# The fact card's own h3 already names the field, so the generated label
+  -# would print it a second time right under it. hide_label keeps the label
+  -# in the markup for screen readers and takes it off the screen. A pair is
+  -# the exception: "min" and "max" tell the two apart and the h3 says neither.
+  .hide{ id: form_id }
     = bootstrap_form_for(model) do |f|
       - if field_type == :text_area
-        = f.text_area field
+        = f.text_area field, hide_label: true, rows: 4
       - elsif field_type == :text_field
-        = f.text_field field
+        = f.text_field field, hide_label: true
       - elsif field_type == :select
-        = f.select field, collection
+        = f.select field, values, hide_label: true
+      - elsif field_type == :number_field
+        = f.number_field field, hide_label: true, min: values&.first, max: values&.last
+      - elsif field_type == :number_range
+        .row.g-2
+          .col-6= f.number_field fields.first, label: 'min', min: 0
+          .col-6= f.number_field fields.last, label: 'max', min: 0
       - elsif field_type == :date
         = f.date_field field,
-                 value: model.send(field) ? model.send(field).to_fs(:ymd) : '', label: 'When?'
+                       value: model.send(field) ? model.send(field).to_fs(:ymd) : '', label: 'When?'
       = f.submit :save

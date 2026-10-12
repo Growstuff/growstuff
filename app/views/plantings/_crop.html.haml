@@ -1,29 +1,62 @@
--# The crop behind this planting, as sidebar context. Not crops/_card: that is
--# a card for a grid, and inside a section it fights the section's own box.
+-# The crop behind this record, as sidebar context. Not crops/_card: that is a
+-# card for a grid, and inside a section it fights the section's own box.
+-#
+-# Shared by plantings#show, harvests#show and seeds#show, so it stays about
+-# the crop itself and says nothing about the record beside it.
 = link_to crop_path(crop) do
   = image_tag crop_image_path(crop), alt: "Photo of #{crop.name}", class: 'planting-crop-photo'
 .planting-crop-body
   %h3.planting-crop-name= link_to crop.name.titleize, crop
   - if crop.default_scientific_name.present?
     %p.planting-crop-sci= crop.default_scientific_name
+  - if crop.parent.present?
+    %p.planting-crop-parent
+      a variety of
+      = link_to crop.parent.name.titleize, crop.parent
+
+  -# How much company it is in. Both are counter columns on crops, so this
+  -# costs no extra queries.
+  - if crop.plantings_count.positive? || crop.harvests_count.positive?
+    %ul.crop-stats
+      - if crop.plantings_count.positive?
+        %li
+          %strong= number_with_delimiter crop.plantings_count
+          = 'planting'.pluralize(crop.plantings_count)
+      - if crop.harvests_count.positive?
+        %li
+          %strong= number_with_delimiter crop.harvests_count
+          = 'harvest'.pluralize(crop.harvests_count)
+
   %ul.planting-crop-facts
     %li
-      = crop.perennial? ? 'A perennial' : 'An annual'
+      = icon 'fas', 'seedling'
       - if crop.annual? && crop.median_lifespan.present?
-        , living about
+        = succeed ',' do
+          An annual
+        living about
         %strong= pluralize crop.median_lifespan, 'day'
-    - unless crop.median_days_to_first_harvest.nil?
+      - else
+        = crop.perennial? ? 'A perennial' : 'An annual'
+    - if crop.median_days_to_first_harvest.present?
       %li
+        = icon 'fas', 'carrot'
         First harvest about
         %strong= pluralize crop.median_days_to_first_harvest, 'day'
         after planting
     - if crop.annual? && crop.median_days_to_last_harvest.present?
       %li
+        = icon 'fas', 'calendar-check'
         Last harvest about
         %strong= pluralize crop.median_days_to_last_harvest, 'day'
         after planting
-    - if crop.annual? && crop.median_lifespan.present?
+    -# What growers actually give it, rather than what a book would say.
+    - sun = crop.sunniness.max_by { |_name, count| count }&.first
+    - if sun.present?
       %li
-        Usually grows for about
-        %strong= pluralize crop.median_lifespan, 'day'
-  %p.mt-3.mb-0.small= link_to "More about #{crop.name}", crop
+        = sunniness_icon(sun)
+        Usually grown in
+        %strong= sun
+  .planting-crop-more
+    = link_to crop do
+      More about #{crop.name}
+      = icon 'fas', 'arrow-right'

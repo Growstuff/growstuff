@@ -30,8 +30,8 @@ describe "Planting a crop", :js do
       expect(page).to have_content "This garden is inactive"
 
       click_link 'Actions'
-      expect(page).to have_content "Mark as active"
-      expect(page).to have_no_content "Mark as inactive"
+      expect(page).to have_link "Mark as active"
+      expect(page).to have_no_link "Mark as inactive"
     end
 
     it "List only active gardens" do

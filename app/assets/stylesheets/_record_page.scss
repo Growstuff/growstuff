@@ -171,6 +171,275 @@
     margin-top: 1rem;
   }
 
+  // A photo of the record itself, across the top of the panel. This is the
+  // thing the member grew or picked, so it leads the page when there is one.
+  .record-hero-photo {
+    display: block;
+    margin: 0 -1.25rem;
+    line-height: 0;
+
+    img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: $card-radius $card-radius 0 0;
+    }
+  }
+
+  // The member's face, leading the hero at a size that says this is theirs.
+  // Avatars are circles everywhere on the site.
+  .record-grower-avatar {
+    flex: 0 0 auto;
+    display: block;
+    line-height: 0;
+
+    img {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 1px 3px rgba(65, 63, 59, 0.3);
+    }
+
+    &:hover img,
+    &:focus img {
+      box-shadow: 0 2px 6px rgba(65, 63, 59, 0.45);
+    }
+  }
+
+  // Title block beside the avatar.
+  .record-identity {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .record-identity-text {
+    min-width: 0;
+
+    h1 {
+      margin-bottom: 0.25rem;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      overflow-wrap: anywhere;
+    }
+  }
+
+  .record-grower-name a {
+    font-weight: 600;
+  }
+
+  // Where a record came from: the planting a harvest was picked off, the
+  // planting a packet of seed was saved from. Drawn as a line hanging off the
+  // title with a left rule, so it reads as lineage rather than as one more
+  // link in the byline.
+  .record-parent {
+    margin-top: 0.4rem;
+    padding-left: 0.6rem;
+    border-left: 3px solid $green;
+    font-size: 1.05rem;
+    color: $ink-muted;
+
+    a {
+      font-weight: 600;
+    }
+
+    .img-icon {
+      width: 1.3em;
+      height: 1.3em;
+      margin-right: 0.2rem;
+      vertical-align: -0.3em;
+    }
+
+    // Secondary to the planting itself.
+    .record-parent-where {
+      white-space: nowrap;
+    }
+  }
+
+  // Every fact card in a row is the same height, whatever its sub-line says.
+  .facts .card {
+    min-height: 7.5rem;
+    justify-content: flex-start;
+    padding: 0.75rem 0.6rem;
+  }
+
+  // The fact's name. Small, so a long one like "Days until maturity" takes
+  // two tidy lines rather than crowding the value.
+  .facts .card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.25;
+    color: $ink-muted;
+  }
+
+  // The value. overrides.scss sets 2em, which suits a number like "42" and is
+  // far too big for a phrase like "seed bank or similar institution" — in a
+  // 140px column that breaks mid-word. Sized to fit a phrase, and told to
+  // break between words rather than through them.
+  .facts .card strong {
+    font-size: 1.25rem;
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: auto;
+  }
+
+  // The unit or aside under a value — "seeds", "days", the location.
+  .facts .card .fact-value span {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: $ink-muted;
+  }
+
+  // A card with nothing in it should read quieter than one with a fact: the
+  // word "unknown" has no business being as loud as a number.
+  .facts .card.text-muted strong,
+  .facts .fact-card.text-muted strong {
+    font-size: 1.05rem;
+    font-weight: normal;
+    color: $ink-muted;
+  }
+  // The facts grid brings its own cards, so it gets no box of its own.
+  .planting-facts,
+  .harvest-facts,
+  .seed-facts {
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+  // The crop block's photo runs edge to edge under the heading bar, so the
+  // section holds no stray white margins around it.
+  .planting-crop,
+  .harvest-crop,
+  .seed-crop {
+    padding: 0;
+    overflow: hidden;
+
+    > .section-header {
+      margin: 0;
+      border-radius: $card-radius $card-radius 0 0;
+    }
+
+    // Inset to the same edge as the text beneath it: edge to edge above an
+    // inset body made the block look like two different cards.
+    .planting-crop-photo {
+      display: block;
+      width: calc(100% - 2rem);
+      height: 150px;
+      margin: 1rem 1rem 0;
+      border-radius: $card-radius;
+      object-fit: cover;
+    }
+
+    .planting-crop-body {
+      padding: 0.75rem 1rem 1rem;
+    }
+
+    .planting-crop-name {
+      margin: 0;
+    }
+
+    .planting-crop-sci {
+      margin: 0 0 0.25rem;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: $ink-muted;
+    }
+
+    // "a variety of Tomato" — where this crop sits under another.
+    .planting-crop-parent {
+      margin: 0 0 0.5rem;
+      font-size: 0.8rem;
+      color: $ink-muted;
+    }
+
+    // How much company the crop is in: two quiet counts, side by side, as a
+    // strip between the name and the growing facts.
+    .crop-stats {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        flex: 1 1 0;
+        padding: 0.4rem 0.5rem;
+        border-radius: $card-radius;
+        background: $beige;
+        font-size: 0.75rem;
+        line-height: 1.2;
+        text-align: center;
+        color: $ink-muted;
+      }
+
+      strong {
+        display: block;
+        font-size: 1.15rem;
+        color: $brown;
+      }
+    }
+
+    // The growing facts, each led by its own small icon rather than a bullet.
+    .planting-crop-facts {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.85rem;
+
+      li {
+        position: relative;
+        padding-left: 1.5rem;
+
+        + li {
+          margin-top: 0.4rem;
+          padding-top: 0.4rem;
+          border-top: 1px solid rgba(65, 63, 59, 0.08);
+        }
+      }
+
+      // The icon sits in the gutter, so a fact that wraps lines up under
+      // itself rather than under its icon.
+      .fa,
+      .fas,
+      .far {
+        position: absolute;
+        left: 0;
+        top: 0.15rem;
+        width: 1rem;
+        text-align: center;
+        color: $green;
+      }
+
+      li + li .fa,
+      li + li .fas,
+      li + li .far {
+        top: 0.55rem;
+      }
+    }
+
+    // Sits at the foot of the card, reading as the way out to the crop itself.
+    .planting-crop-more {
+      margin-top: 0.75rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(65, 63, 59, 0.12);
+      font-size: 0.85rem;
+      text-align: right;
+
+      .fa,
+      .fas {
+        margin-left: 0.2rem;
+        font-size: 0.8em;
+      }
+    }
+  }
+
+  // Buttons that follow a card grid line up with the grid's edge, not the
+  // card's margin.
+  .text-end .btn + .btn {
+    margin-left: 0.5rem;
+  }
+
   // A snail, a cat, a wheelbarrow — standing on top of the green heading bar
   // below it.
   //

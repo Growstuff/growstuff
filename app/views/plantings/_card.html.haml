@@ -1,9 +1,15 @@
-- cache planting do
+-# The quick actions below are the owner's own, so the fragment has to vary by
+-# whether the viewer is that owner. Keyed on the planting alone, the first
+-# person to render a card decides what everyone after them sees: a visitor
+-# priming it hides the owner's own controls, and the owner priming it shows
+-# them to strangers.
+- owner_viewing = member_signed_in? && current_member.id == planting.owner_id
+- cache [planting, owner_viewing] do
   .card.planting{class: planting.active ? '' : 'card-finished'}
     = link_to planting_path(slug: planting.slug) do
       = image_tag planting.thumbnail_url ? planting.thumbnail_url : placeholder_image, class: 'img-card', alt: planting.display_name
 
-    - if member_signed_in? && current_member.id == planting.owner_id
+    - if owner_viewing
       = link_to planting_path(slug: planting.slug) do
         .planting-quick-actions
           .dropdown

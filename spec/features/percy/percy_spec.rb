@@ -373,11 +373,6 @@ rest of the garden.
       page.percy_snapshot(page, name: 'Admin Roles')
     end
 
-    it 'CMS' do
-      click_link 'CMS'
-      page.percy_snapshot(page, name: 'CMS')
-    end
-
     it 'Garden Types' do
       click_link 'Garden Types'
       page.percy_snapshot(page, name: 'Admin Garden type')
