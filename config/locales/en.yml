@@ -292,6 +292,10 @@ en:
       record:
         body: Add plantings, harvests, photos and seeds without ever leaving the page.
         title: Keep it all in one place
+      since:
+        body: Gardeners have been growing, recording and sharing here for over a decade. Not owned by a seed company or an ad network.
+        link: Our story
+        title: Around since 2012
       title: Why sign in
   community_gardens:
     title: Community Gardens on Growstuff

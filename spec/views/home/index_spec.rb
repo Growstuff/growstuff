@@ -17,6 +17,10 @@ describe 'home/index.html.haml', type: "view" do
       expect(rendered).to have_content 'Planted this week'
     end
 
+    it 'links to the story of the project' do
+      expect(rendered).to have_link 'Our story', href: about_path
+    end
+
     it 'explains why to sign in' do
       expect(rendered).to have_content 'Why sign in'
     end
