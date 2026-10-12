@@ -33,8 +33,10 @@
                      class: 'add-datepicker', label: 'When were the seeds harvested/saved?'
         .col-12.col-md-4= f.number_field :quantity, label: 'Quantity', min: 1
         .col-12.col-md-4
-          = f.text_field :plant_before, class: 'add-datepicker',
-          value: @seed.plant_before ? @seed.plant_before.to_fs(:ymd) : ''
+          -# Only the year: seed keeps until the end of the season it is
+          -# dated to, so a day would be false precision.
+          = f.number_field :plant_before_year, label: 'Plant before (year)',
+                           min: Seed::PLANT_BEFORE_YEARS.first, max: Seed::PLANT_BEFORE_YEARS.last
 
       .row
         .col-12.col-md-4

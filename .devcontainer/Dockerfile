@@ -29,3 +29,5 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # Make sure this is writable as https://github.com/rubygems/rubygems/issues/6272 was removed
 RUN su root -c "chown -R vscode /usr/local/bundle/cache/"
 RUN su root -c "chmod -R 0777 /usr/local/bundle/gems/"
+RUN su root -c "chmod -R 0777 /usr/local/bundle/extensions/"
+RUN su root -c "chmod -R +t /usr/local/bundle/gems/"

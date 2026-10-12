@@ -1,11 +1,8 @@
 -# expires_in bounds staleness: expire_fragment only clears the cache of the
 -# process that handled the write, and the cache store may be per process.
-- cache("homepage_stats", expires_in: 12.hours) do
-  %p.stats
-    = t('.message_html',
-     member: link_to(t('.member_linktext', count: Member.confirmed.size.to_i), members_path),
-     number_crops: link_to(t('.number_crops_linktext', count: Crop.count.to_i), crops_path),
-     number_plantings: link_to(t('.number_plantings_linktext', count: Planting.count.to_i), plantings_path),
-     number_gardens: link_to(t('.number_gardens_linktext', count: Garden.count.to_i), gardens_path),
-     contributors: link_to(count_github_contibutors, 'https://github.com/Growstuff/growstuff/blob/dev/CONTRIBUTORS.md', target: '_blank', rel: 'noopener'), 
-     github: link_to('GitHub', 'http://github.com/Growstuff/growstuff', target: '_blank', rel: 'noopener'))
+- cache("home_stats", expires_in: 12.hours) do
+  .home-stats
+    - [[Member.confirmed.size, members_path, :members], [Planting.count, plantings_path, :plantings], [Crop.count, crops_path, :crops]].each do |count, path, key|
+      = link_to path, class: 'home-stat' do
+        %strong= number_with_delimiter(count)
+        = t(".#{key}", count: count)

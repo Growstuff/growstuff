@@ -17,7 +17,7 @@
     %p Nothing has been planted here.
 
 - if @finished_activities&.size&.positive?
-  %h2 Finished activities in garden
+  %h2.mt-4 Finished activities in garden
   .index-cards
     - @finished_activities.each do |activity|
       = render "activities/card", activity: activity

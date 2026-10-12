@@ -1,10 +1,3 @@
-// stats shown on homepage. eg. "999 members..."
-.stats {
-  a {
-    font-weight: bold;
-  }
-}
-
 .crops,
 .seeds,
 .members {
@@ -13,9 +6,6 @@
   }
 }
 
-.homepage--list-item {
-  height: 100px;
-}
 .releases {
   .card { 
     .card-header {
@@ -38,5 +28,340 @@
         margin-top: 1em;
       }
     }
+  }
+}
+
+// signed-out landing page. Colours and sizes follow the home page designs
+// (issue #4905); the green and charcoal bands run edge to edge.
+$home-charcoal: #413f3b;
+$home-muted: rgba(65, 63, 59, 0.75);
+
+@mixin home-band($background) {
+  background: $background;
+  box-shadow: 0 0 0 100vmax $background;
+  clip-path: inset(0 -100vmax);
+}
+
+.home-hero {
+  @include home-band($green);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+  align-items: center;
+  margin: 0 0 0;
+  padding: 56px 0;
+  color: #fff;
+
+  h1 {
+    margin: 0 0 16px;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    font-size: clamp(2.2rem, 7vw, 3.4rem);
+    font-weight: 300;
+    line-height: 1.08;
+    color: #fff;
+
+    strong { font-weight: 700; }
+  }
+
+  a:not(.btn):not(.home-hero-photo) { color: #fff; }
+}
+
+.home-hero-text {
+  flex: 1 1 440px;
+  min-width: 0;
+}
+
+.home-hero-badge {
+  display: inline-block;
+  margin: 0 0 18px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.home-hero-intro {
+  max-width: 34rem;
+  margin: 0 0 28px;
+  font-size: clamp(1.05rem, 3.5vw, 1.3rem);
+  line-height: 1.45;
+}
+
+.home-hero-actions {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .btn { padding: 14px 28px; font-size: 16px; }
+}
+
+.home-hero-signin { font-size: 1.05rem; text-decoration: underline; }
+
+.home-hero-note { margin: 16px 0 0; font-size: 0.9rem; }
+
+.home-hero-photo {
+  flex: 0 0 auto;
+  width: 300px;
+  margin: 0 auto;
+  padding: 10px 10px 0;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(33, 33, 33, 0.45);
+  color: #212121;
+  transform: rotate(2.5deg);
+
+  img { display: block; width: 100%; height: 280px; object-fit: cover; }
+
+  i { color: $home-muted; }
+}
+
+.home-hero-photo-caption { display: block; padding: 12px 4px 16px; font-size: 0.95rem; }
+
+.home-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 36px;
+  justify-content: center;
+  padding: 28px 0 8px;
+  color: $home-charcoal;
+  font-size: 1.05rem;
+
+  a { color: $home-charcoal; }
+
+  strong { color: $green; font-size: 1.8rem; font-weight: 600; }
+}
+
+.home-recent,
+.home-posts {
+  padding-top: 32px;
+
+  h2 {
+    margin: 0 0 16px;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    font-size: 1.9rem;
+    font-weight: 400;
+    color: #212121;
+  }
+}
+
+.home-recent-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.home-recent-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  align-items: flex-start;
+
+  // Seed packets bring their own margin; the gap spaces the row.
+  .card { margin: 0; }
+}
+
+.home-recent-planting {
+  width: 190px;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
+  text-align: center;
+
+  img { display: block; width: 100%; height: 150px; object-fit: cover; }
+}
+
+.home-recent-name { display: block; padding: 10px 10px 2px; font-size: 1.15rem; font-weight: 300; }
+
+.home-recent-by { display: block; padding: 0 10px 10px; font-size: 0.8rem; color: $home-muted; }
+
+.home-posts { padding-top: 44px; }
+
+.home-posts-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.home-post-card {
+  display: flex;
+  flex: 1 1 300px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1px solid rgba(65, 63, 59, 0.15);
+  border-radius: 4px;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
+
+  p { margin: 0; font-size: 0.95rem; line-height: 1.5; color: $home-charcoal; }
+}
+
+.home-post-photo {
+  display: block;
+  margin: -18px -20px 4px;
+  overflow: hidden;
+  border-radius: 4px 4px 0 0;
+
+  img { display: block; width: 100%; height: 160px; object-fit: cover; }
+}
+
+.home-post-title { font-size: 1.2rem; font-weight: 500; line-height: 1.25; }
+
+.home-post-by {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: $home-muted;
+}
+
+.home-feed-avatar-small { width: 26px; height: 26px; object-fit: cover; border-radius: 50%; }
+
+.home-post-comments { margin-top: auto; font-size: 0.85rem; }
+
+.home-open {
+  @include home-band($home-charcoal);
+  margin: 44px 0 0;
+  padding: 40px 0;
+  color: #fff;
+
+  h2 {
+    margin: 0 0 6px;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    font-size: 1.9rem;
+    font-weight: 400;
+    color: #fff;
+  }
+
+  > p { max-width: 44rem; margin: 0 0 24px; font-size: 1.1rem; color: rgba(255, 255, 255, 0.85); }
+
+  h3 { margin: 0 0 6px; font-size: 1.3rem; font-weight: 700; color: #a4c98c; }
+
+  a { display: inline-block; margin-top: 12px; color: $orange; font-weight: 600; }
+}
+
+.home-open-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  > * {
+    flex: 1 1 280px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  p { margin: 0; }
+}
+
+.home-why {
+  padding-top: 44px;
+
+  h2 {
+    margin: 0 0 16px;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    font-size: 1.9rem;
+    font-weight: 400;
+    color: #212121;
+  }
+
+  h3 { margin: 0 0 6px; font-size: 1.25rem; font-weight: 600; color: $green; }
+
+  p { margin: 0; line-height: 1.5; color: $home-muted; }
+}
+
+.home-why-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  > * {
+    flex: 1 1 280px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid rgba(65, 63, 59, 0.15);
+    border-radius: 4px;
+    box-shadow: 1px 3px 3px 1px #cac1b3;
+  }
+}
+
+.home-why-cta {
+  margin: 44px 0 56px;
+  padding: 36px 20px;
+  text-align: center;
+  background: rgba(255, 165, 0, 0.12);
+  border: 1px solid rgba(255, 165, 0, 0.5);
+  border-radius: 4px;
+
+  p { margin: 0 0 16px; font-size: 1.8rem; font-weight: 600; color: #212121; }
+
+  .btn { padding: 14px 32px; font-size: 16px; }
+}
+
+
+// signed-in greeting
+.home-welcome {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.75rem 0 1.5rem;
+
+  h1 { margin: 0; font-weight: 300; line-height: 1.1; }
+}
+
+.home-welcome-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(65, 63, 59, 0.3);
+}
+
+.home-welcome-text { flex: 1 1 16rem; min-width: 0; }
+
+.home-welcome-season { margin: 0.4rem 0 0; color: rgba(65, 63, 59, 0.75); }
+
+.home-welcome-actions { display: flex; gap: 0.6rem; }
+
+// On a phone the stats sit three across, number over label, and the recent
+// strip is two cards wide.
+@include media-breakpoint-down(sm) {
+  .home-stats {
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: space-around;
+    font-size: 0.82rem;
+    text-align: center;
+
+    strong { display: block; font-size: 1.5rem; }
+  }
+
+  .home-recent-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+
+    .card,
+    .home-recent-planting { width: auto; margin: 0; }
   }
 }

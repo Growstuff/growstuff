@@ -17,7 +17,7 @@
       - if seed.quantity
         %li approx. #{pluralize seed.quantity, 'seed'}
       - if seed.plant_before
-        %li sow before #{I18n.l seed.plant_before}
+        %li sow before #{seed.plant_before.year}
       - if seed.organic != 'unknown'
         %li.seedtitle--organic= seed.organic
       - if seed.gmo != 'unknown'

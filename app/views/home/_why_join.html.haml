@@ -1,0 +1,27 @@
+%section.home-open
+  %h2= t('.open_title')
+  %p= t('.open_intro')
+  .home-open-cards
+    %div
+      %h3= t('.open_source.title')
+      %p= t('.open_source.body')
+      = link_to t('.open_source.link'), 'https://github.com/Growstuff/growstuff', target: '_blank', rel: 'noopener'
+    %div
+      %h3= t('.open_data.title')
+      %p= t('.open_data.body')
+      = link_to t('.open_data.link'), '/api-docs'
+    %div
+      %h3= t('.since.title')
+      %p= t('.since.body')
+      = link_to t('.since.link'), about_path
+
+%section.home-why
+  %h2= t('.title')
+  .home-why-cards
+    - %w[plan record neighbours].each do |key|
+      .home-why-card
+        %h3= t(".#{key}.title")
+        %p= t(".#{key}.body")
+  .home-why-cta
+    %p= t('.ready')
+    = link_to(t('home.blurb.sign_up'), new_member_registration_path, class: 'btn btn-success btn-lg')

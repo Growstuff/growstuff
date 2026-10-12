@@ -13,14 +13,16 @@ describe 'home/_blurb.html.haml', type: "view" do
       expect(rendered).to have_content 'is a community of food gardeners'
     end
 
-    it 'has signup section' do
-      assert_select "div.signup"
-      assert_select "a", href: new_member_registration_path
+    it 'has a link to join' do
+      expect(rendered).to have_link 'Join free', href: new_member_registration_path
     end
 
     it 'has a link to sign in' do
-      expect(rendered).to have_content "Or sign in if you already have an account"
-      assert_select "a", href: new_member_session_path
+      expect(rendered).to have_link 'Sign in', href: new_member_session_path
+    end
+
+    it 'says the data is public' do
+      expect(rendered).to have_content 'Everything you record is public open data'
     end
   end
 end

@@ -32,35 +32,97 @@ body {
   }
 }
 
-#navbar-search {
-  padding-left: 1em;
+// The crop search in the top bar: a white field with the magnifier inside it.
+.navbar-search {
+  position: relative;
+  flex: 0 1 260px;
+  margin: 0 1rem;
 
-  // Bootstrap 5's input-group shrinks to nothing inside a shrink-to-fit parent.
-  .input-group {
-    min-width: 18rem;
+  .form-control {
+    height: 36px;
+    padding: 0 12px 0 34px;
+    font-size: 0.9rem;
+    color: $black;
+    background-color: $white;
+    border: 0;
+    border-radius: 2px;
   }
 
-  .input-group {
-    input {
-      background-color: $white;
-      color: $black;
-    }
+  .form-control::placeholder { color: $navbar-default-link-color; }
+}
 
-    input::placeholder {
-      color: $navbar-default-link-color;
-    }
+.navbar-search-submit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 34px;
+  height: 36px;
+  padding: 0 0 0 11px;
+  color: #6c757d;
+  text-align: left;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+
+  &:hover,
+  &:focus-visible { color: #212121; }
+}
+
+// What the bar carries on a phone: who you are or how to join, search, menu.
+.navbar-phone {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-left: auto;
+}
+
+.navbar-phone-avatar img { width: 36px; height: 36px; object-fit: cover; border-radius: 50%; }
+
+.navbar-phone-signin { color: #fff; font-size: 0.9rem; }
+
+.navbar .btn.navbar-phone-join { padding: 9px 12px; font-size: 0.8rem; }
+
+.navbar-phone-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: #fff;
+  background: transparent;
+  border: 0;
+}
+
+.navbar .nav-link {
+  white-space: nowrap;
+}
+
+// The top menu: links in soft white, and an orange underline under the one for
+// the part of the site you are in.
+.navbar-nav .nav-link {
+  padding-block: 0.25rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+
+  &:hover,
+  &:focus { color: #fff; }
+
+  &[aria-current="page"] {
+    color: #fff;
+    border-bottom-color: $orange;
   }
 }
 
-.navbar .btn-signup,
-.navbar .btn-signin {
-  background-color: $green;
-  color: $white;
+.navbar .btn-signup {
+  background-color: $orange;
+  color: $black;
+  font-weight: 600;
   margin: 3px;
-}
-
-.homepage-blurb .site-name {
-  font-size: 5em;
+  text-transform: uppercase;
 }
 
 .ellipsis {

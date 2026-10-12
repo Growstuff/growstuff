@@ -27,6 +27,12 @@ Rails.application.routes.draw do
 
   get "home/index"
   get '/community-gardens', to: 'home#community_gardens'
+  get '/releases', to: 'home#releases', as: :releases
+  patch '/my/location', to: 'member_locations#update', as: :member_location
+  get '/suggestions', to: 'suggestions#index', as: :suggestions
+  patch '/my/suggestions', to: 'suggestions#update', as: :my_suggestions
+  post '/my/dismissed_crops', to: 'crop_dismissals#create', as: :crop_dismissals
+  delete '/my/dismissed_crops', to: 'crop_dismissals#destroy_all'
   root to: 'home#index'
 
   concern :has_photos do
@@ -149,6 +155,7 @@ Rails.application.routes.draw do
 
   resources :places, only: %i(index show), param: :place do
     get 'search', on: :collection
+    get 'suggest', on: :collection
   end
 
   get 'auth/:provider/callback' => 'authentications#create'

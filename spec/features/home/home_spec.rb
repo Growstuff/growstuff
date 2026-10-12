@@ -41,65 +41,98 @@ describe "home page" do
     it "does not show untradable seeds" do
       expect(subject).to have_no_link href: seed_path(untradable_seed)
     end
-
-    it { is_expected.to have_link 'View all seeds »' }
   end
 
   shared_examples 'show plantings' do
-    describe 'shows plantings section' do
-      it { expect(subject).to have_text 'Recently Planted' }
-      it { expect(subject).to have_link href: planting_path(planting) }
-    end
+    it { expect(subject).to have_link href: planting_path(planting) }
   end
 
-  shared_examples 'show harvests' do
-    describe 'shows harvests section' do
-      it { expect(subject).to have_text 'Recently Harvested' }
-      it { expect(subject).to have_link href: harvest_path(harvest) }
-    end
-  end
-
-  shared_examples "show crops" do
-    describe 'shows crops section' do
-      before { crop.reindex }
-
-      it { is_expected.to have_text 'Some of our crops' }
-      it { is_expected.to have_link href: crop_path(crop) }
-    end
-
-    describe 'shows recently added crops' do
-      it { is_expected.to have_text 'Recently Added' }
-
-      it 'link to newest crops' do
-        expect(subject).to have_link crop.name, href: crop_path(crop)
-      end
-    end
-
-    it 'includes a link to all crops' do
-      expect(subject).to have_link 'View all crops'
-    end
+  shared_examples 'omits sections that are not in the designs' do
+    it { is_expected.to have_no_text 'Some of our crops' }
+    it { is_expected.to have_no_text 'Recently Harvested' }
+    it { is_expected.to have_no_text 'Want to install Growstuff on your phone?' }
   end
 
   context 'when anonymous' do
-    it_behaves_like 'show crops'
+    describe 'recent posts' do
+      let!(:post) { create(:post, subject: 'What are you sowing?') }
+
+      before { visit root_path }
+
+      it { is_expected.to have_link 'What are you sowing?', href: post_path(post) }
+      it { is_expected.to have_css '.home-post-card .home-post-photo img' }
+    end
+
     it_behaves_like 'show plantings'
-    it_behaves_like 'show harvests'
     it_behaves_like 'shows seeds'
+    it_behaves_like 'omits sections that are not in the designs'
     it_behaves_like 'is accessible'
     it { is_expected.to have_text 'community of food gardeners' }
-    it { is_expected.to have_text 'Want to install Growstuff on your phone?' }
+    it { is_expected.to have_text 'Planted this week' }
+    it { is_expected.to have_text 'Why sign in' }
+    it { is_expected.to have_link 'Join free', href: new_member_registration_path }
   end
 
   context "when signed in" do
     include_context 'signed in member'
-    it_behaves_like 'show crops'
     it_behaves_like 'show plantings'
-    it_behaves_like 'show harvests'
     it_behaves_like 'shows seeds'
+    it_behaves_like 'omits sections that are not in the designs'
     it_behaves_like 'is accessible'
 
+    describe 'a member who has planted before' do
+      before do
+        create(:planting, owner: member, garden: member.gardens.first, planted_at: 2.years.ago)
+        visit root_path
+      end
+
+      it { expect(page).to have_content "#{member.login_name}'s garden" }
+      it { expect(page).to have_content 'Harvest by month' }
+    end
+
+    describe 'a member on their first visit' do
+      before do
+        member.plantings.destroy_all
+        member.update_columns(location: nil, latitude: nil, longitude: nil)
+        visit root_path
+      end
+
+      it 'can set where they garden in a dialog' do
+        expect(page).to have_css('[data-react-component="LocationPicker"]', visible: :all)
+      end
+
+      it 'can plant their first crop in a dialog' do
+        expect(page).to have_css('[data-react-component="PlantPicker"]', visible: :all)
+      end
+    end
+
+    describe 'recent posts' do
+      before do
+        create(:post, subject: 'Slugs in spring')
+        visit root_path
+      end
+
+      it { is_expected.to have_link 'Slugs in spring' }
+      it { is_expected.to have_css '.home-post-card .home-post-photo img' }
+    end
+
+    describe 'a member in their first year' do
+      before do
+        create(:planting, owner: member, garden: member.gardens.first, planted_at: 1.month.ago)
+        visit root_path
+      end
+
+      it 'can plant, harvest, save seeds and add a photo in dialogs' do
+        pickers = %w[PlantPicker PlantingPicker PhotoPicker].map { |name| "[data-react-component=\"#{name}\"]" }
+        expect(page).to have_css(pickers.join(', '), minimum: 4, visible: :all)
+      end
+    end
+
     describe 'should say welcome' do
-      before { visit root_path }
+      before do
+        member.plantings.destroy_all
+        visit root_path
+      end
 
       it { expect(page).to have_content "Welcome to #{ENV.fetch('GROWSTUFF_SITE_NAME', nil)}, #{member.login_name}" }
     end

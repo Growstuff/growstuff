@@ -1,0 +1,15 @@
+-# The latest forum posts as cards: under a plain heading for visitors, in a
+-# green-headed box for members (boxed).
+- posts = Post.preload(:author, :photos, crops: :photos).order(created_at: :desc).limit(3)
+- if posts.any?
+  - if boxed
+    = home_section(t('.title'), action: link_to(t('.all_posts_short'), posts_path, class: 'home-section-add')) do
+      .home-posts-cards
+        = render partial: 'home/post_card', collection: posts, as: :post
+  - else
+    %section.home-posts
+      .home-recent-head
+        %h2= t('.title')
+        = link_to t('.all_posts'), posts_path
+      .home-posts-cards
+        = render partial: 'home/post_card', collection: posts, as: :post

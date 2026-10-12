@@ -256,19 +256,48 @@
     }
   }
 
-  // A card with nothing in it should read quieter than one with a fact: the
-  // word "unknown" has no business being as loud as a number.
-  .facts .fact-card.text-muted {
-    strong {
-      font-size: 1.2em;
-      font-weight: normal;
-      color: $ink-muted;
-    }
-  }
   // Every fact card in a row is the same height, whatever its sub-line says.
   .facts .card {
-    min-height: 9.5rem;
+    min-height: 7.5rem;
     justify-content: flex-start;
+    padding: 0.75rem 0.6rem;
+  }
+
+  // The fact's name. Small, so a long one like "Days until maturity" takes
+  // two tidy lines rather than crowding the value.
+  .facts .card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.25;
+    color: $ink-muted;
+  }
+
+  // The value. overrides.scss sets 2em, which suits a number like "42" and is
+  // far too big for a phrase like "seed bank or similar institution" — in a
+  // 140px column that breaks mid-word. Sized to fit a phrase, and told to
+  // break between words rather than through them.
+  .facts .card strong {
+    font-size: 1.25rem;
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: auto;
+  }
+
+  // The unit or aside under a value — "seeds", "days", the location.
+  .facts .card .fact-value span {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: $ink-muted;
+  }
+
+  // A card with nothing in it should read quieter than one with a fact: the
+  // word "unknown" has no business being as loud as a number.
+  .facts .card.text-muted strong,
+  .facts .fact-card.text-muted strong {
+    font-size: 1.05rem;
+    font-weight: normal;
+    color: $ink-muted;
   }
   // The facts grid brings its own cards, so it gets no box of its own.
   .planting-facts,
@@ -311,19 +340,96 @@
     }
 
     .planting-crop-sci {
-      margin: 0 0 0.5rem;
+      margin: 0 0 0.25rem;
       font-size: 0.85rem;
       font-style: italic;
       color: $ink-muted;
     }
 
+    // "a variety of Tomato" — where this crop sits under another.
+    .planting-crop-parent {
+      margin: 0 0 0.5rem;
+      font-size: 0.8rem;
+      color: $ink-muted;
+    }
+
+    // How much company the crop is in: two quiet counts, side by side, as a
+    // strip between the name and the growing facts.
+    .crop-stats {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        flex: 1 1 0;
+        padding: 0.4rem 0.5rem;
+        border-radius: $card-radius;
+        background: $beige;
+        font-size: 0.75rem;
+        line-height: 1.2;
+        text-align: center;
+        color: $ink-muted;
+      }
+
+      strong {
+        display: block;
+        font-size: 1.15rem;
+        color: $brown;
+      }
+    }
+
+    // The growing facts, each led by its own small icon rather than a bullet.
     .planting-crop-facts {
       margin: 0;
-      padding-left: 1.1rem;
+      padding: 0;
+      list-style: none;
       font-size: 0.85rem;
 
-      li + li {
-        margin-top: 0.25rem;
+      li {
+        position: relative;
+        padding-left: 1.5rem;
+
+        + li {
+          margin-top: 0.4rem;
+          padding-top: 0.4rem;
+          border-top: 1px solid rgba(65, 63, 59, 0.08);
+        }
+      }
+
+      // The icon sits in the gutter, so a fact that wraps lines up under
+      // itself rather than under its icon.
+      .fa,
+      .fas,
+      .far {
+        position: absolute;
+        left: 0;
+        top: 0.15rem;
+        width: 1rem;
+        text-align: center;
+        color: $green;
+      }
+
+      li + li .fa,
+      li + li .fas,
+      li + li .far {
+        top: 0.55rem;
+      }
+    }
+
+    // Sits at the foot of the card, reading as the way out to the crop itself.
+    .planting-crop-more {
+      margin-top: 0.75rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(65, 63, 59, 0.12);
+      font-size: 0.85rem;
+      text-align: right;
+
+      .fa,
+      .fas {
+        margin-left: 0.2rem;
+        font-size: 0.8em;
       }
     }
   }

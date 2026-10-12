@@ -1,0 +1,7 @@
+-# Opens the plant dialog on one crop in the member's garden, or goes to the
+-# plant form when they have no active garden to plant in.
+- garden = dashboard.gardens.first
+- if garden
+  = react_component('PlantPicker', { label:, buttonClass: button_class, garden: { id: garden.id, name: garden.name }, crop: { id: crop.id, name: crop.name } })
+- else
+  = link_to label, new_planting_path(crop_id: crop.id), class: button_class

@@ -1,0 +1,10 @@
+-# How to get suggestions back: all of them if they were switched off, or the
+-# crops they said were not for them.
+- if !dashboard.suggestions_enabled?
+  .home-hidden
+    %span.home-section-note= t('home.dashboard.suggestions_off')
+    = button_to t('home.dashboard.turn_on_suggestions'), my_suggestions_path, method: :patch, params: { suggest: true }, class: 'btn btn-link p-0', form_class: 'd-inline'
+- elsif dashboard.dismissed_count.positive?
+  .home-hidden
+    %span.home-section-note= t('home.dashboard.hidden_suggestions', count: dashboard.dismissed_count)
+    = button_to t('home.dashboard.show_hidden'), crop_dismissals_path, method: :delete, class: 'btn btn-link p-0', form_class: 'd-inline'

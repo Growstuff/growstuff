@@ -48,13 +48,6 @@ class Activity < ApplicationRecord
 
   scope :active, -> { where(finished: [false, nil]) }
 
-  def self.homepage_records(limit)
-    # Get the latest activity for each owner, then return the latest 'limit' of those
-    Activity.where(id: Activity.unscoped.select("DISTINCT ON (owner_id) id").order("owner_id, created_at DESC"))
-            .order(created_at: :desc)
-            .limit(limit)
-  end
-
   def self.reindex(refresh: false); end
 
   def reindex(refresh: false); end

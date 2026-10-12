@@ -3,8 +3,17 @@
 require 'rails_helper'
 
 describe 'home/_stats.html.haml', type: "view" do
-  it 'has activity stats' do
-    render
-    expect(rendered).to have_content "So far, 0 members have planted 0 crops"
+  before { render }
+
+  it 'counts gardeners' do
+    expect(rendered).to have_content "0 gardeners"
+  end
+
+  it 'counts plantings' do
+    expect(rendered).to have_content "0 plantings"
+  end
+
+  it 'counts crops' do
+    expect(rendered).to have_content "0 crops"
   end
 end

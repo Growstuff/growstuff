@@ -2,9 +2,10 @@
 
 class PlacesController < ApplicationController
   skip_authorize_resource
+  before_action :authenticate_member!, only: :suggest
   respond_to :html, :json
 
-  MEMBER_FIELDS = %i[id login_name slug location latitude longitude].freeze
+  MEMBER_FIELDS = %i(id login_name slug location latitude longitude).freeze
 
   def index
     respond_to do |format|
@@ -30,6 +31,22 @@ class PlacesController < ApplicationController
         render json: @nearby_members.as_json(only: MEMBER_FIELDS)
       end
     end
+  end
+
+  # GET /places/suggest.json?q=wellington
+  # GET /places/suggest.json?lat=-41.3&lng=174.8
+  # Named places to choose from, for the dialog that asks where someone gardens.
+  def suggest
+    places = if params[:q].present?
+               PlaceSuggester.search(params[:q])
+             elsif params[:lat].present? && params[:lng].present?
+               PlaceSuggester.reverse(Float(params[:lat]), Float(params[:lng]))
+             else
+               []
+             end
+    render json: places
+  rescue ArgumentError
+    render json: [], status: :unprocessable_content
   end
 
   def search

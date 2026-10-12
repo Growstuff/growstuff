@@ -1,0 +1,8 @@
+-# Plant and harvest, as dialogs over the page: the plant dialog searches for a
+-# crop and plants it in their garden, the harvest one asks which planting.
+- garden = dashboard.gardens.first
+- if garden
+  = react_component('PlantPicker', { label: t('home.dashboard.plus_plant'), buttonClass: 'btn btn-success', garden: { id: garden.id, name: garden.name } }, class: 'home-quick-action')
+- else
+  = link_to t('home.dashboard.plus_plant'), new_planting_path, class: 'btn btn-success home-quick-action'
+= react_component('PlantingPicker', { action: 'harvest', label: t('home.dashboard.plus_harvest'), buttonClass: 'btn btn-warning', plantings: planting_picker_props(dashboard) }, class: 'home-quick-action')
