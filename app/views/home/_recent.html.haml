@@ -3,7 +3,7 @@
   .home-recent-head
     %h2= t('.title')
     = link_to t('.see_all'), plantings_path
-  .home-recent-cards
+  .home-recent-cards.index-cards
     - Planting.homepage_records(6).select { |planting| planting.thumbnail_url.present? }.first(2).each do |planting|
       = link_to planting_path(slug: planting.slug), class: 'home-recent-planting' do
         = image_tag planting.thumbnail_url, alt: "Image of #{planting.display_name} by #{planting.owner_login_name}"
