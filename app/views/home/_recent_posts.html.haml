@@ -1,37 +1,15 @@
--# The latest forum posts: cards for visitors, a list in a green-headed box for members.
+-# The latest forum posts as cards: under a plain heading for visitors, in a
+-# green-headed box for members (boxed).
 - posts = Post.preload(:author, :photos, crops: :photos).order(created_at: :desc).limit(3)
 - if posts.any?
-  - if style == :cards
+  - if boxed
+    = home_section(t('.title'), action: link_to(t('.all_posts_short'), posts_path, class: 'home-section-add')) do
+      .home-posts-cards
+        = render partial: 'home/post_card', collection: posts, as: :post
+  - else
     %section.home-posts
       .home-recent-head
         %h2= t('.title')
         = link_to t('.all_posts'), posts_path
       .home-posts-cards
-        - posts.each do |post|
-          .home-post-card
-            = link_to post_path(post), class: 'home-post-photo', tabindex: -1, 'aria-hidden': 'true' do
-              = image_tag post_thumbnail_path(post), alt: ''
-            = link_to post.subject, post_path(post), class: 'home-post-title'
-            .home-post-by
-              = image_tag avatar_uri(post.author, 50), alt: '', class: 'home-feed-avatar-small'
-              %span
-                = t('.by')
-                = link_to post.author.login_name, member_path(post.author)
-                = " · #{ago_in_words(post.created_at)}"
-            %p= post_stripped_tags(post, length: 170)
-            = link_to t('.comments', count: post.comments_count), post_path(post, anchor: 'comments'), class: 'home-post-comments'
-  - else
-    = home_section(t('.title'), action: link_to(t('.all_posts_short'), posts_path, class: 'home-section-add')) do
-      - posts.each do |post|
-        .home-feed.home-feed-top
-          = image_tag avatar_uri(post.author, 50), alt: '', class: 'home-feed-avatar'
-          %span
-            = link_to post_path(post) do
-              %b= post.subject
-            %br
-            %small.home-section-note
-              = "#{t('.by')} #{post.author.login_name} · #{ago_in_words(post.created_at)} · #{t('.comments', count: post.comments_count)}"
-            %br
-            %span.home-post-excerpt= post_stripped_tags(post, length: 170)
-          = link_to post_path(post), class: 'home-post-thumb', tabindex: -1, 'aria-hidden': 'true' do
-            = image_tag post_thumbnail_path(post), alt: ''
+        = render partial: 'home/post_card', collection: posts, as: :post

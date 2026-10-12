@@ -41,4 +41,4 @@
       .index-cards
         - Seed.homepage_records(2).each do |seed|
           = render 'seeds/card', seed: seed
-= render 'home/recent_posts', style: :list
+= render 'home/recent_posts', boxed: true

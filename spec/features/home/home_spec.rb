@@ -113,7 +113,7 @@ describe "home page" do
       end
 
       it { is_expected.to have_link 'Slugs in spring' }
-      it { is_expected.to have_css '.home-post-thumb img' }
+      it { is_expected.to have_css '.home-post-card .home-post-photo img' }
     end
 
     describe 'a member in their first year' do

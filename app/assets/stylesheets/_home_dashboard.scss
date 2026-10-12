@@ -296,17 +296,6 @@ $dash-line: rgba(65, 63, 59, 0.15);
   &:first-of-type { border-top: 0; }
 }
 
-.home-feed-top { align-items: flex-start; }
-
-.home-post-thumb {
-  flex: none;
-  margin-left: auto;
-
-  img { display: block; width: 72px; height: 72px; object-fit: cover; border-radius: 4px; }
-}
-
-.home-post-excerpt { font-size: 0.92rem; color: #413f3b; }
-
 .home-feed-avatar { width: 36px; height: 36px; object-fit: cover; border-radius: 50%; }
 
 .home-following { color: $green; }
