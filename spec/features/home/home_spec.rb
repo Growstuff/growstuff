@@ -54,6 +54,15 @@ describe "home page" do
   end
 
   context 'when anonymous' do
+    describe 'recent posts' do
+      let!(:post) { create(:post, subject: 'What are you sowing?') }
+
+      before { visit root_path }
+
+      it { is_expected.to have_link 'What are you sowing?', href: post_path(post) }
+      it { is_expected.to have_css '.home-post-card .home-post-photo img' }
+    end
+
     it_behaves_like 'show plantings'
     it_behaves_like 'shows seeds'
     it_behaves_like 'omits sections that are not in the designs'
@@ -95,6 +104,16 @@ describe "home page" do
       it 'can plant their first crop in a dialog' do
         expect(page).to have_css('[data-react-component="PlantPicker"]', visible: :all)
       end
+    end
+
+    describe 'recent posts' do
+      before do
+        create(:post, subject: 'Slugs in spring')
+        visit root_path
+      end
+
+      it { is_expected.to have_link 'Slugs in spring' }
+      it { is_expected.to have_css '.home-post-thumb img' }
     end
 
     describe 'a member in their first year' do

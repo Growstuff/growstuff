@@ -1,5 +1,5 @@
 -# The latest forum posts: cards for visitors, a list in a green-headed box for members.
-- posts = Post.includes(:author).order(created_at: :desc).limit(3)
+- posts = Post.preload(:author, :photos, crops: :photos).order(created_at: :desc).limit(3)
 - if posts.any?
   - if style == :cards
     %section.home-posts
@@ -9,6 +9,8 @@
       .home-posts-cards
         - posts.each do |post|
           .home-post-card
+            = link_to post_path(post), class: 'home-post-photo', tabindex: -1, 'aria-hidden': 'true' do
+              = image_tag post_thumbnail_path(post), alt: ''
             = link_to post.subject, post_path(post), class: 'home-post-title'
             .home-post-by
               = image_tag avatar_uri(post.author, 50), alt: '', class: 'home-feed-avatar-small'
@@ -31,3 +33,5 @@
               = "#{t('.by')} #{post.author.login_name} · #{ago_in_words(post.created_at)} · #{t('.comments', count: post.comments_count)}"
             %br
             %span.home-post-excerpt= post_stripped_tags(post, length: 170)
+          = link_to post_path(post), class: 'home-post-thumb', tabindex: -1, 'aria-hidden': 'true' do
+            = image_tag post_thumbnail_path(post), alt: ''

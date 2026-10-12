@@ -207,6 +207,15 @@ $home-muted: rgba(65, 63, 59, 0.75);
   p { margin: 0; font-size: 0.95rem; line-height: 1.5; color: $home-charcoal; }
 }
 
+.home-post-photo {
+  display: block;
+  margin: -18px -20px 4px;
+  overflow: hidden;
+  border-radius: 4px 4px 0 0;
+
+  img { display: block; width: 100%; height: 160px; object-fit: cover; }
+}
+
 .home-post-title { font-size: 1.2rem; font-weight: 500; line-height: 1.25; }
 
 .home-post-by {
