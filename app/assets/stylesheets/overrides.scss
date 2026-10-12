@@ -56,6 +56,24 @@ body {
   white-space: nowrap;
 }
 
+// The top menu: links in soft white, and an orange underline under the one for
+// the part of the site you are in.
+.navbar-nav .nav-link {
+  padding-block: 0.25rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+
+  &:hover,
+  &:focus { color: #fff; }
+
+  &[aria-current="page"] {
+    color: #fff;
+    border-bottom-color: $orange;
+  }
+}
+
 .navbar .btn-signup {
   background-color: $orange;
   color: $black;

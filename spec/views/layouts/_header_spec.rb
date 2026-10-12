@@ -46,6 +46,17 @@ describe 'layouts/_header.html.haml', type: "view" do
       assert_select("a[href='#{forums_path}']", 'Forums')
     end
 
+    it 'marks the section you are in' do
+      allow(view.request).to receive(:path).and_return('/crops/basil')
+      render
+      assert_select("a[aria-current='page']", text: 'Crops')
+    end
+
+    it 'marks nothing on the home page' do
+      render
+      assert_select("a[aria-current='page']", count: 0)
+    end
+
     it 'has a crop search' do
       assert_select("form[action='#{search_crops_path}']")
       assert_select("input#term")

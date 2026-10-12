@@ -114,6 +114,14 @@ class MemberDashboard
     both.filter_map { |crop_id| sowing_comparison(crop_id) }.first(limit)
   end
 
+  # The crops they planted in the month either side of this date last year,
+  # most planted first.
+  def planted_this_time_last_year(limit = 5)
+    around = @today - 1.year
+    member.plantings.where(planted_at: (around - 30.days)..(around + 30.days))
+          .joins(:crop).group('crops.name').order(Arel.sql('COUNT(*) DESC'), 'crops.name').limit(limit).count.keys
+  end
+
   # People they follow first, then people nearby.
   def activity(limit = 6)
     @activity ||= (events_for(followed_ids, following: true) + events_for(nearby_ids, following: false))

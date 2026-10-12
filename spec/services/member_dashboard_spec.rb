@@ -106,6 +106,21 @@ describe MemberDashboard do
     end
   end
 
+  describe '#planted_this_time_last_year' do
+    it 'names what they planted around now a year ago, most planted first' do
+      basil = create(:crop, name: 'basil')
+      chives = create(:crop, name: 'chives')
+      create(:planting, owner: member, garden:, crop: chives, planted_at: Date.new(2025, 10, 1))
+      2.times { create(:planting, owner: member, garden:, crop: basil, planted_at: Date.new(2025, 10, 20)) }
+      expect(dashboard.planted_this_time_last_year).to eq %w[basil chives]
+    end
+
+    it 'leaves out what they planted at other times of year' do
+      create(:planting, owner: member, garden:, planted_at: Date.new(2025, 3, 1))
+      expect(dashboard.planted_this_time_last_year).to eq []
+    end
+  end
+
   describe '#activity' do
     it 'shows people they follow, marked as followed' do
       friend = create(:member)

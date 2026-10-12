@@ -227,6 +227,7 @@ en:
       col_progress: Progress
       compared: Compared with last year
       compared_empty: Plant the same crops as last year and we will compare them here.
+      last_year_planted: Around this time last year you planted %{crops}.
       compared_note: Same crops, this year and last
       days:
         one: "%{count} day"
@@ -466,7 +467,6 @@ en:
       toggle_navigation: Toggle Navigation
       your_stuff: Your Stuff
     menu:
-      friends: My friends & neighbours
       my_garden: My garden
       releases: What's new
       sign_in: Sign in

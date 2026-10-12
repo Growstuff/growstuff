@@ -74,7 +74,11 @@
       %p.home-section-note= t('home.dashboard.compared_note')
       - comparisons = dashboard.compared_with_last_year
       - if comparisons.empty?
-        %p= t('home.dashboard.compared_empty')
+        - last_year = dashboard.planted_this_time_last_year
+        - if last_year.any?
+          %p= t('home.dashboard.last_year_planted', crops: last_year.to_sentence)
+        - else
+          %p= t('home.dashboard.compared_empty')
       - comparisons.each do |comparison|
         .home-feed
           %span

@@ -16,6 +16,16 @@ module ApplicationHelper
     { label:, icon_url: image_path('icons/photo.svg') }
   end
 
+  # Whether the page being shown is one of these paths or something under one,
+  # for marking which part of the site the top menu's link belongs to. Any
+  # anchor or query on a path is ignored.
+  def current_section?(*paths)
+    paths.any? do |path|
+      base = path.to_s.split(/[#?]/).first
+      request.path == base || request.path.start_with?("#{base}/")
+    end
+  end
+
   def parse_date(str)
     str ||= '' # Date.parse barfs on nil
     str == '' ? nil : Date.parse(str)
