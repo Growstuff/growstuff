@@ -161,10 +161,6 @@ class Harvest < ApplicationRecord
     end
   end
 
-  def self.homepage_records(limit)
-    recent.one_per_owner.limit(limit)
-  end
-
   private
 
   def crop_must_match_planting

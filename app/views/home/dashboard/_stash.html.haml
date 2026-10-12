@@ -1,9 +1,6 @@
 -# Packets they hold, one per crop, with how many varieties of it.
 - stash = dashboard.seeds_on_hand
-%section.home-section
-  .home-section-head
-    %h2= title
-    = link_to t('home.dashboard.add_seeds'), new_seed_path, class: 'home-section-add'
+= home_section(title, action: link_to(t('home.dashboard.add_seeds'), new_seed_path, class: 'home-section-add')) do
   - if stash.empty?
     %p= t('home.dashboard.no_seeds')
   - else

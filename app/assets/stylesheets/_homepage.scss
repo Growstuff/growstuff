@@ -1,10 +1,3 @@
-// stats shown on homepage. eg. "999 members..."
-.stats {
-  a {
-    font-weight: bold;
-  }
-}
-
 .crops,
 .seeds,
 .members {
@@ -13,9 +6,6 @@
   }
 }
 
-.homepage--list-item {
-  height: 100px;
-}
 .releases {
   .card { 
     .card-header {
@@ -288,7 +278,7 @@ $home-muted: rgba(65, 63, 59, 0.75);
   gap: 1rem 1.25rem;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin: 1.75rem 0 1.5rem;
 
   h1 { margin: 0; font-weight: 300; line-height: 1.1; }
 }

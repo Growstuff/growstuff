@@ -1,4 +1,4 @@
-- month = I18n.l(Time.zone.today, format: '%B')
+- month = current_month_name
 - content_for :title, t('.title', month:)
 - content_for :scripts do
   = javascript_include_tag 'react_islands', defer: true
@@ -10,6 +10,12 @@
   %p= t('.not_located')
   = render 'home/dashboard/location_picker', label: t('home.dashboard.set_location'), button_class: 'btn btn-success'
 - elsif !@dashboard.suggestions_enabled?
+  = render 'home/dashboard/hidden_suggestions', dashboard: @dashboard
+- else
+  - if @crops.empty?
+    %p= t('.none')
+  .home-crops
+    = render partial: 'home/dashboard/crop_card', collection: @crops, as: :crop, locals: { dashboard: @dashboard }
   = render 'home/dashboard/hidden_suggestions', dashboard: @dashboard
 - else
   - if @crops.empty?

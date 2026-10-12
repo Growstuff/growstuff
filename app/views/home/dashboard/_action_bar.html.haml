@@ -1,7 +1,4 @@
 -# On a phone, plant and harvest stay at the bottom of the screen.
 .home-action-bar-spacer.d-md-none{ 'aria-hidden': 'true' }
 .home-action-bar.d-md-none
-  = link_to new_planting_path, class: 'btn btn-success' do
-    = t('home.dashboard.plus_plant')
-  = link_to new_harvest_path, class: 'btn btn-warning' do
-    = t('home.dashboard.plus_harvest')
+  = render 'home/dashboard/quick_actions', dashboard:

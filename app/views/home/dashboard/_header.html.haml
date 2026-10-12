@@ -12,9 +12,4 @@
     - elsif dashboard.stage != :new
       %p.home-welcome-season= render 'home/dashboard/location_picker', label: t('home.dashboard.set_location'), button_class: 'btn btn-link p-0'
   .home-welcome-actions.d-none.d-md-flex
-    = link_to new_planting_path, class: 'btn btn-success' do
-      = planting_icon
-      = t('home.index.plant')
-    = link_to new_harvest_path, class: 'btn btn-warning' do
-      = harvest_icon
-      = t('home.index.harvest')
+    = render 'home/dashboard/quick_actions', dashboard:

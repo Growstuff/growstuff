@@ -17,30 +17,22 @@
     %b= t('home.dashboard.tile_photo_title')
     = t('home.dashboard.tile_photo')
 
-%section.home-section
-  .home-section-head
-    %h2= t('home.dashboard.first_year')
+= home_section(t('home.dashboard.first_year')) do
   - started = dashboard.first_planted_on
   .home-year
     - (1..12).each do |month|
       - state = if month == Time.zone.today.month then 'now' elsif month == started.month then 'start' end
-      %span{ class: state }= I18n.l(Date.new(2000, month, 1), format: '%b')
-  %p.home-section-note= t('home.dashboard.started_in', month: I18n.l(started, format: '%B'))
+      %span{ class: state }= month_name(month, abbreviated: true)
+  %p.home-section-note= t('home.dashboard.started_in', month: month_name(started.month))
 
-%section.home-section
-  .home-section-head
-    %h2= t('home.dashboard.growing_now')
-    = link_to t('home.index.plant'), new_planting_path, class: 'home-section-add'
+= home_section(t('home.dashboard.growing_now'), action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
   .home-crops
     - dashboard.growing.first(8).each do |planting|
       = render 'home/dashboard/planting', planting:
 
 .row
   .col-12.col-lg-6
-    %section.home-section
-      .home-section-head
-        %h2= t('home.dashboard.harvest_soon')
-        = link_to t('home.index.harvest'), new_harvest_path, class: 'home-section-add'
+    = home_section(t('home.dashboard.harvest_soon'), action: link_to(t('home.index.harvest'), new_harvest_path, class: 'home-section-add')) do
       - if dashboard.ready.empty?
         %p= t('home.dashboard.nothing_ready')
       .home-crops

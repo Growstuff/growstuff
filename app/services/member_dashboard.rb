@@ -60,6 +60,12 @@ class MemberDashboard
     @ready ||= growing.select(&:harvest_time?)
   end
 
+  # What they could record a harvest from: what is growing, with what is
+  # ready to pick first.
+  def harvest_choices
+    ready + (growing - ready)
+  end
+
   def beds
     counts = growing.group_by(&:garden_id)
     gardens.map do |garden|

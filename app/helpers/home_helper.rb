@@ -1,29 +1,6 @@
 # frozen_string_literal: true
 
 module HomeHelper
-  # What the home page's invitation to the garden layout tool says, and where
-  # it goes. A member is sent straight to the layout of one of their gardens;
-  # without an active garden there's nothing to lay out, so they're asked to
-  # add one first; anyone signed out is asked to sign up.
-  def garden_layout_invitation(garden)
-    if garden.present?
-      { href:    layout_member_garden_path(garden.owner, garden),
-        heading: "Map out #{garden.name}",
-        pitch:   'Drag your plants onto a picture of the bed, and see what fits where.',
-        cta:     'Try out the new garden layout tool →' }
-    elsif member_signed_in?
-      { href:    new_garden_path,
-        heading: 'Map out your garden beds',
-        pitch:   'Add a garden, then drag the plants in it onto a picture of the bed.',
-        cta:     'Add a garden →' }
-    else
-      { href:    new_member_registration_path,
-        heading: 'Map out your garden beds',
-        pitch:   "Lay out what you're growing on a picture of each bed, plant by plant.",
-        cta:     'Sign up to try it →' }
-    end
-  end
-
   # How long ago something happened, in words. Dates have no time of day, and
   # time_ago_in_words reads one as midnight, so something done today would be
   # "19 hours ago"; a date is described by the day instead.
@@ -35,6 +12,26 @@ module HomeHelper
     when ..0 then t('home.dashboard.relative.today')
     when 1 then t('home.dashboard.relative.yesterday')
     else t('home.dashboard.relative.ago', time: distance_of_time_in_words(value.to_date, Time.zone.today))
+    end
+  end
+
+  # "October", or "Oct" when abbreviated, for a month number.
+  def month_name(month, abbreviated: false)
+    I18n.l(Date.new(2000, month, 1), format: abbreviated ? '%b' : '%B')
+  end
+
+  def current_month_name
+    month_name(Time.zone.today.month)
+  end
+
+  # A green-headed white box on the home page: a title, an optional link or
+  # button on the right of the header, and whatever the block holds.
+  def home_section(title, action: nil, &)
+    content_tag(:section, class: 'home-section') do
+      safe_join([
+                  content_tag(:div, class: 'home-section-head') { safe_join([content_tag(:h2, title), action]) },
+                  capture(&)
+                ])
     end
   end
 end

@@ -2,9 +2,7 @@
 = render 'home/dashboard/header', dashboard:, title: t('home.index.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
 %p.home-lede= t('home.dashboard.first_plant')
 
-%section.home-section
-  .home-section-head
-    %h2= t('home.dashboard.get_started')
+= home_section(t('home.dashboard.get_started')) do
   - steps = [[t('home.dashboard.step_join'), nil, true],
     [t('home.dashboard.step_location'), :location, dashboard.located?, t('home.dashboard.step_location_note')],
     [t('home.dashboard.step_plant'), :plant, false, t('home.dashboard.step_plant_note')],
@@ -28,18 +26,9 @@
 
 - crops = dashboard.easy_to_sow
 - if crops.any? || dashboard.dismissed_count.positive? || !dashboard.suggestions_enabled?
-  %section.home-section
-    .home-section-head
-      %h2= t('home.dashboard.easy_to_sow', month: I18n.l(Time.zone.today, format: '%B'))
-      = link_to t('home.index.plant'), new_planting_path, class: 'home-section-add'
+  = home_section(t('home.dashboard.easy_to_sow', month: current_month_name), action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
     .home-crops
-      - crops.each do |crop|
-        .home-crop
-          = link_to crop_path(crop) do
-            = image_tag((crop.default_photo&.thumbnail_url || placeholder_image), alt: crop.name)
-            %span.home-crop-name= crop.name
-          = render 'home/dashboard/plant_button', dashboard:, crop:, label: t('home.dashboard.plant_this'), button_class: 'home-crop-go'
-          = render 'home/dashboard/not_for_me', crop:, button_class: 'home-crop-dismiss'
+      = render partial: 'home/dashboard/crop_card', collection: crops, as: :crop, locals: { dashboard: }
     = render 'home/dashboard/hidden_suggestions', dashboard:
     - if dashboard.suggestions_enabled?
       = render 'home/dashboard/suggestion_links'
@@ -47,9 +36,7 @@
 .row
   .col-12.col-lg-6= render 'home/dashboard/friends', dashboard:
   .col-12.col-lg-6
-    %section.home-section
-      .home-section-head
-        %h2= t('home.dashboard.seeds_near')
+    = home_section(t('home.dashboard.seeds_near')) do
       %p.home-section-note= t('home.dashboard.seeds_near_note')
       .index-cards
         - Seed.homepage_records(2).each do |seed|

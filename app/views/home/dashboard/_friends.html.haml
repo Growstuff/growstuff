@@ -1,7 +1,4 @@
-%section.home-section
-  .home-section-head
-    %h2= t('home.dashboard.friends')
-    = link_to t('home.dashboard.see_all'), timeline_index_path, class: 'home-section-add'
+= home_section(t('home.dashboard.friends'), action: link_to(t('home.dashboard.see_all'), timeline_index_path, class: 'home-section-add')) do
   %p.home-section-note= t('home.dashboard.friends_note')
   - events = dashboard.activity
   - if events.empty?

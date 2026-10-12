@@ -1,4 +1,4 @@
 -# Beside a suggestion: see them all, or stop being offered them.
 .home-suggestion-links
-  = link_to t('home.dashboard.view_all_suggestions', month: I18n.l(Time.zone.today, format: '%B')), suggestions_path
+  = link_to t('home.dashboard.view_all_suggestions', month: current_month_name), suggestions_path
   = render 'home/dashboard/stop_suggesting'

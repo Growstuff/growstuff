@@ -10,9 +10,7 @@
 
 = render 'home/dashboard/this_week', dashboard:
 
-%section.home-section
-  .home-section-head
-    %h2= t('home.dashboard.harvest_by_month')
+= home_section(t('home.dashboard.harvest_by_month')) do
   %p.home-section-note= t('home.dashboard.harvest_by_month_note')
   - months = dashboard.harvest_by_month
   - peak = [months.flat_map { |entry| [entry[:this_year], entry[:last_year]] }.max, 1].max
@@ -22,12 +20,9 @@
         .home-chart-bars
           %span.this-year{ style: "height: #{(entry[:this_year] / peak * 100).round}%", title: "#{entry[:this_year].round(1)} kg" }
           %span.last-year{ style: "height: #{(entry[:last_year] / peak * 100).round}%", title: "#{entry[:last_year].round(1)} kg" }
-        %span{ class: ('now' if entry[:month] == Time.zone.today.month) }= I18n.l(Date.new(2000, entry[:month], 1), format: '%b')
+        %span{ class: ('now' if entry[:month] == Time.zone.today.month) }= month_name(entry[:month], abbreviated: true)
 
-%section.home-section
-  .home-section-head
-    %h2= t('home.dashboard.growing_now')
-    = link_to t('home.index.plant'), new_planting_path, class: 'home-section-add'
+= home_section(t('home.dashboard.growing_now'), action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
   - shown = params[:show] == 'ready' ? dashboard.ready : dashboard.growing
   .home-chips
     = link_to t('home.dashboard.chip_growing', count: dashboard.growing.size), root_path, class: ('on' unless params[:show] == 'ready')
@@ -55,10 +50,7 @@
                 %i{ style: "width: #{planting.harvest_time? ? 100 : planting.percentage_grown.to_i}%" }
   %p= link_to t('home.dashboard.see_all_plantings', count: current_member.plantings.count), member_plantings_path(current_member)
 
-%section.home-section
-  .home-section-head
-    %h2= t('home.dashboard.beds')
-    = link_to t('home.dashboard.add_bed'), new_garden_path, class: 'home-section-add'
+= home_section(t('home.dashboard.beds'), action: link_to(t('home.dashboard.add_bed'), new_garden_path, class: 'home-section-add')) do
   .home-beds
     - dashboard.beds.each do |bed|
       = link_to garden_path(slug: bed[:garden].slug), class: 'home-bed' do
@@ -68,9 +60,7 @@
 .row
   .col-12.col-lg-6= render 'home/dashboard/stash', dashboard:, title: t('home.dashboard.seeds_on_hand')
   .col-12.col-lg-6
-    %section.home-section
-      .home-section-head
-        %h2= t('home.dashboard.compared')
+    = home_section(t('home.dashboard.compared')) do
       %p.home-section-note= t('home.dashboard.compared_note')
       - comparisons = dashboard.compared_with_last_year
       - if comparisons.empty?
