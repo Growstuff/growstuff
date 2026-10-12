@@ -33,7 +33,7 @@ if ENV["CAPYBARA_DRIVER"]
   Capybara.default_driver = ENV["CAPYBARA_DRIVER"].to_sym
   Capybara.javascript_driver = ENV["CAPYBARA_DRIVER"].to_sym
 else
-  Capybara.default_driver = :selenium_chrome_customised_headless
+  # Capybara.default_driver = :selenium_chrome_customised_headless
   Capybara.javascript_driver = :selenium_chrome_customised_headless
 end
 Capybara.enable_aria_label = true
@@ -50,7 +50,7 @@ Capybara.server_port = 8081
 
 # TODO: Find a better home.
 shared_examples 'is accessible' do
-  it "is accessible" do
+  it "is accessible", :js do
     expect(page).to be_axe_clean.skipping('color-contrast', 'heading-order', 'aria-required-children').according_to :wcag2a
   end
 end
