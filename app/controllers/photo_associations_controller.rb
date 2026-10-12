@@ -5,22 +5,28 @@ class PhotoAssociationsController < ApplicationController
   respond_to :json, :html
 
   def destroy
-    raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
+    raise ActiveRecord::RecordNotFound unless Photo::PHOTO_CAPABLE.include?(item_class)
 
-    @photo = Photo.find_by!(id: params[:photo_id], owner: current_member)
-    @item = PhotoAssociation.item(item_id, item_class)
+    @photo = Photo.find(params[:photo_id])
+    @item = item_class.constantize.find(params[:id])
+
+    authorize_deletion!
+
     @item.photos.delete(@photo)
-    # @photo.destroy_if_unused
     respond_with(@photo)
   end
 
   private
 
   def item_class
-    params[:type].capitalize
+    params[:type].to_s.classify
   end
 
-  def item_id
-    params[:id]
+  def authorize_deletion!
+    return if @photo.owner_id == current_member.id
+    return if can?(:edit, @item) || can?(:update, @item) || can?(:destroy, @item)
+    return if current_member.role?(:admin)
+
+    raise ActiveRecord::RecordNotFound
   end
 end
