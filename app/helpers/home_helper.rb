@@ -23,4 +23,18 @@ module HomeHelper
         cta:     'Sign up to try it →' }
     end
   end
+
+  # How long ago something happened, in words. Dates have no time of day, and
+  # time_ago_in_words reads one as midnight, so something done today would be
+  # "19 hours ago"; a date is described by the day instead.
+  def ago_in_words(value)
+    return t('home.dashboard.relative.ago', time: time_ago_in_words(value)) if value.respond_to?(:hour)
+
+    days = (Time.zone.today - value.to_date).to_i
+    case days
+    when ..0 then t('home.dashboard.relative.today')
+    when 1 then t('home.dashboard.relative.yesterday')
+    else t('home.dashboard.relative.ago', time: distance_of_time_in_words(value.to_date, Time.zone.today))
+    end
+  end
 end

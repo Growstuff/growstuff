@@ -9,11 +9,13 @@ import {createRoot} from 'react-dom/client';
 
 import GardenCards from './components/GardenCards';
 import GardenLayout from './components/GardenLayout';
+import LocationPicker from './components/LocationPicker';
 import PhotoDialog from './components/PhotoDialog';
+import PlantPicker from './components/PlantPicker';
 import PlantingActions from './components/PlantingActions';
 import PlantingRating from './components/PlantingRating';
 
-const components = {GardenCards, GardenLayout, PhotoDialog, PlantingActions, PlantingRating};
+const components = {GardenCards, GardenLayout, LocationPicker, PhotoDialog, PlantPicker, PlantingActions, PlantingRating};
 
 function mountIslands() {
   document.querySelectorAll('[data-react-component]').forEach((element) => {

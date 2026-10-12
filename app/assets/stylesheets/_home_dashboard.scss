@@ -1,0 +1,417 @@
+// The signed-in home page. Colours and sizes follow the home page designs
+// (issue #4905): green-headed white sections on the beige page.
+$dash-muted: rgba(65, 63, 59, 0.75);
+$dash-line: rgba(65, 63, 59, 0.15);
+
+.home-lede { margin: 0 0 1.25rem; font-size: 1.05rem; color: #413f3b; }
+
+.home-section {
+  margin-bottom: 1.5rem;
+  padding: 0 20px 20px;
+  background: #fff;
+  border: 1px solid $dash-line;
+  border-radius: 4px;
+
+  h2 { margin: 0; padding: 0; background: none; box-shadow: none; font-size: 1.5rem; font-weight: 400; color: #fff; }
+}
+
+.home-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 -20px 16px;
+  padding: 6px 20px;
+  color: #fff;
+  background: $green;
+  border-radius: 4px 4px 0 0;
+}
+
+.home-section-add {
+  display: inline-block;
+  padding: 3px 10px;
+  color: #fff;
+  font-size: 0.8rem;
+  text-decoration: none;
+  text-transform: lowercase;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 2px;
+
+  &:hover { color: #fff; background: rgba(255, 255, 255, 0.15); }
+}
+
+.home-section-note { color: $dash-muted; }
+
+.home-section .index-cards .card { margin-right: 1rem; }
+
+// First visit: the checklist
+.home-step {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 1px solid $dash-line;
+
+  &:first-of-type { border-top: 0; }
+
+  > div { flex: 1; min-width: 0; }
+
+  b, small { display: block; }
+}
+
+.home-step-number {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  color: #fff;
+  font-weight: 700;
+  line-height: 34px;
+  text-align: center;
+  background: $green;
+  border-radius: 50%;
+
+  &.done { color: #212121; background: #a4c98c; }
+}
+
+.home-crops { display: flex; flex-wrap: wrap; gap: 20px; }
+
+.home-crop {
+  width: 190px;
+  overflow: hidden;
+  text-align: center;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
+
+  img { display: block; width: 100%; height: 140px; object-fit: cover; }
+}
+
+.home-crop-name { display: block; padding: 10px 10px 2px; font-size: 1.15rem; font-weight: 300; }
+
+.home-crop-go {
+  display: block;
+  width: 100%;
+  color: $green;
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border-width: 1px 0 0;
+  border-style: solid;
+  padding: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-top: 1px solid $dash-line;
+}
+
+// The one thing to do this week
+.home-this-week {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 16px 20px;
+  background: rgba(255, 165, 0, 0.12);
+  border: 1px solid rgba(255, 165, 0, 0.5);
+  border-radius: 4px;
+}
+
+.home-this-week-photo {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(65, 63, 59, 0.3);
+}
+
+.home-this-week-text {
+  flex: 1 1 320px;
+
+  small { font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: $dash-muted; }
+
+  b { display: block; margin: 2px 0; font-size: 1.35rem; font-weight: 600; }
+
+  span { color: $dash-muted; }
+}
+
+// First year: quick actions and the year strip
+.home-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 1.5rem;
+
+  a {
+    flex: 1 1 200px;
+    min-height: 56px;
+    padding: 16px 10px;
+    color: #212121;
+    text-align: center;
+    background: #fff;
+    border: 1px solid $dash-line;
+    border-radius: 4px;
+    box-shadow: 1px 3px 3px 1px #cac1b3;
+  }
+
+  b { display: block; font-size: 1.15rem; color: $green; }
+}
+
+.home-year {
+  display: flex;
+  gap: 4px;
+
+  span {
+    flex: 1;
+    padding: 6px 0;
+    color: $dash-muted;
+    font-size: 0.75rem;
+    text-align: center;
+    background: $beige;
+    border-radius: 2px;
+  }
+
+  .start { color: #212121; background: #a4c98c; }
+
+  .now { color: #212121; font-weight: 700; background: $orange; }
+}
+
+// Years of data: numbers, chart, table, beds
+.home-stats-tiles { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 1.25rem; }
+
+.home-stat-tile {
+  flex: 1 1 180px;
+  padding: 12px;
+  text-align: center;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
+
+  b { display: block; font-size: 2rem; font-weight: 400; color: $green; }
+
+  span { font-size: 0.8rem; color: $dash-muted; }
+
+  i { display: block; font-size: 0.75rem; font-style: normal; color: $green; }
+}
+
+.home-chart { display: flex; gap: 10px; height: 150px; align-items: flex-end; }
+
+.home-chart-month {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+
+  span { font-size: 0.7rem; color: $dash-muted; }
+
+  .now { color: #212121; font-weight: 700; }
+}
+
+.home-chart-bars {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 120px;
+
+  span { display: block; width: 14px; min-height: 1px; }
+
+  .this-year { background: $green; }
+
+  .last-year { background: #a4c98c; }
+}
+
+.home-chips {
+  margin-bottom: 0.75rem;
+
+  a {
+    display: inline-block;
+    margin: 0 6px 8px 0;
+    padding: 4px 12px;
+    color: #413f3b;
+    font-size: 0.8rem;
+    border: 1px solid #413f3b;
+    border-radius: 999px;
+
+    &.on { color: #fff; background: $green; border-color: $green; }
+  }
+}
+
+.home-table-scroll { overflow-x: auto; }
+
+.home-table {
+  width: 100%;
+  font-size: 0.92rem;
+  border-collapse: collapse;
+
+  th { padding: 8px; font-weight: 600; color: #413f3b; text-align: left; border-bottom: 1px solid rgba(65, 63, 59, 0.25); }
+
+  td { padding: 8px; vertical-align: middle; border-top: 1px solid $dash-line; }
+
+  img { width: 30px; height: 30px; margin-right: 10px; object-fit: cover; border-radius: 3px; vertical-align: middle; }
+}
+
+.home-bar {
+  display: inline-block;
+  width: 90px;
+  height: 6px;
+  overflow: hidden;
+  vertical-align: middle;
+  background: #e0e0e0;
+  border-radius: 3px;
+
+  i { display: block; height: 100%; background: $green; }
+}
+
+.home-beds { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.home-bed {
+  flex: 1 1 160px;
+  padding: 12px;
+  color: #212121;
+  background: $beige;
+  border: 1px solid $dash-line;
+  border-radius: 4px;
+
+  b { display: block; }
+
+  span { font-size: 0.8rem; color: $dash-muted; }
+}
+
+// Friends and neighbours, and the latitude table
+.home-feed {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid $dash-line;
+
+  &:first-of-type { border-top: 0; }
+}
+
+.home-feed-avatar { width: 36px; height: 36px; object-fit: cover; border-radius: 50%; }
+
+.home-following { color: $green; }
+
+.home-months {
+  width: 100%;
+  font-size: 0.9rem;
+  border-collapse: collapse;
+
+  td, th { padding: 9px 8px; text-align: left; vertical-align: top; border-top: 1px solid $dash-line; }
+
+  th { font-weight: 600; color: #413f3b; border-top: 0; }
+
+  .home-current-month { background: rgba(255, 165, 0, 0.12); }
+}
+
+.home-planting {
+  .home-bar { width: auto; margin: 4px 10px 12px; display: block; }
+
+  .home-bar i { display: block; height: 100%; background: $green; }
+}
+
+.home-planting-when { display: block; padding: 0 10px 8px; font-size: 0.8rem; color: $dash-muted; }
+
+// The "tell us where you garden" dialog
+.location-picker-status { min-height: 1.5rem; }
+
+.location-picker-results {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.location-picker-place {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  border: 1px solid $dash-line;
+  border-radius: 4px;
+
+  & + & { margin-top: 0.5rem; }
+
+  &:has(input:checked) { background: rgba(87, 128, 60, 0.1); border-color: $green; }
+}
+
+// Anything on the page that is a card you can press lifts and darkens its
+// edge on hover and keyboard focus, so it reads as a button.
+.home-tiles a,
+.home-crop,
+.home-bed {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-within {
+    border-color: $green;
+    box-shadow: 1px 6px 8px 1px #b6a894;
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible { outline: 3px solid rgba(87, 128, 60, 0.5); outline-offset: 2px; }
+}
+
+.home-tiles a:hover b,
+.home-tiles a:focus-visible b { text-decoration: underline; }
+
+.home-crop-go:hover,
+.home-crop-go:focus-visible { color: #fff; background: $green; }
+
+@media (prefers-reduced-motion: reduce) {
+  .home-tiles a,
+  .home-crop,
+  .home-bed { transition: none; }
+
+  .home-tiles a:hover,
+  .home-crop:hover,
+  .home-crop:focus-within,
+  .home-bed:hover,
+  .home-tiles a:focus-visible { transform: none; }
+}
+
+// "Not for me" on a suggested crop
+.home-dismiss-form { margin: 0; }
+
+.home-crop-dismiss {
+  display: block;
+  width: 100%;
+  padding: 6px 8px;
+  color: $dash-muted;
+  font-family: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  border-top: 1px solid $dash-line;
+
+  &:hover,
+  &:focus-visible { color: #212121; text-decoration: underline; }
+}
+
+.home-this-week-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  text-align: center;
+}
+
+.home-dismiss { color: $dash-muted; font-size: 0.8rem; }
+
+.home-hidden { margin: 0.75rem 0 0; font-size: 0.85rem; }
+
+.home-suggestion-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  align-items: baseline;
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+}
+
+.home-stop { color: $dash-muted; }

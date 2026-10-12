@@ -1,0 +1,27 @@
+- month = I18n.l(Time.zone.today, format: '%B')
+- content_for :title, t('.title', month:)
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
+%h1.mt-3= t('.title', month:)
+%p.home-lede= t('.lede', band: @dashboard.band_label) if @dashboard.located?
+
+- if !@dashboard.located?
+  %p= t('.not_located')
+  = render 'home/dashboard/location_picker', label: t('home.dashboard.set_location'), button_class: 'btn btn-success'
+- elsif !@dashboard.suggestions_enabled?
+  = render 'home/dashboard/hidden_suggestions', dashboard: @dashboard
+- else
+  - if @crops.empty?
+    %p= t('.none')
+  .home-crops
+    - @crops.each do |crop|
+      .home-crop
+        = link_to crop_path(crop) do
+          = image_tag((crop.default_photo&.thumbnail_url || placeholder_image), alt: crop.name)
+          %span.home-crop-name= crop.name
+        = render 'home/dashboard/plant_button', dashboard: @dashboard, crop:, label: t('home.dashboard.plant_this'), button_class: 'home-crop-go'
+        = render 'home/dashboard/not_for_me', crop:, button_class: 'home-crop-dismiss'
+  = render 'home/dashboard/hidden_suggestions', dashboard: @dashboard
+  .home-suggestion-links
+    = render 'home/dashboard/stop_suggesting'

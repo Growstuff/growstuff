@@ -1,0 +1,8 @@
+-# A planting as a small card: photo, crop, how long ago or "ready", and progress.
+- ready = planting.harvest_time?
+= link_to planting_path(slug: planting.slug), class: 'home-crop home-planting' do
+  = image_tag((planting.thumbnail_url || placeholder_image), alt: planting.crop_name)
+  %span.home-crop-name= planting.crop_name
+  %span.home-planting-when= ready ? t('home.dashboard.ready_now') : t('home.dashboard.planted_when', when: ago_in_words(planting.planted_at || planting.created_at))
+  %span.home-bar{ aria: { hidden: 'true' } }
+    %i{ style: "width: #{ready ? 100 : planting.percentage_grown.to_i}%" }

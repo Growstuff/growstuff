@@ -26,8 +26,11 @@ function errorMessages(status, data) {
 // for a crop and choose it, then confirm what you chose and it is planted in the
 // card's garden (today, with no other details; those can be added later). On
 // success it hands back the garden's updated card.
-export default function PlantSomethingModal({garden, iconUrl, onClose, onCreated}) {
-  const [crop, setCrop] = useState(null); // chosen, waiting for confirmation
+//
+// Pass a crop to start on the confirm step with it already chosen; Change still
+// goes back to the search.
+export default function PlantSomethingModal({garden, iconUrl, crop: chosenCrop = null, onClose, onCreated}) {
+  const [crop, setCrop] = useState(chosenCrop); // chosen, waiting for confirmation
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState([]);
   const confirmButton = useRef(null);

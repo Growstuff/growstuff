@@ -29,7 +29,8 @@ describe "signup" do
 
   it "sign up for new account without accepting TOS" do
     visit root_path
-    first('.home-hero a', text: 'Join free').click
+    first('.home-hero a', text: /join free/i).click
+    expect(page).to have_current_path(new_member_registration_path)
     fill_in 'Login name', with: 'person123'
     fill_in 'Email', with: 'gardener@example.com'
     fill_in 'Password', with: 'abc123'

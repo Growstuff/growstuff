@@ -1,0 +1,22 @@
+%section.home-section
+  .home-section-head
+    %h2= t('home.dashboard.friends')
+    = link_to t('home.dashboard.see_all'), timeline_index_path, class: 'home-section-add'
+  %p.home-section-note= t('home.dashboard.friends_note')
+  - events = dashboard.activity
+  - if events.empty?
+    %p= t('home.dashboard.friends_empty')
+  - events.each do |event|
+    .home-feed
+      = image_tag avatar_uri(event.member, 50), alt: '', class: 'home-feed-avatar'
+      %span
+        = link_to event.member.login_name, member_path(event.member), class: 'fw-bold'
+        - if event.following
+          %small.home-following= t('home.dashboard.following')
+        = event.verb
+        %b= link_to event.subject.name, crop_path(event.subject)
+        %br
+        %small.home-section-note
+          = ago_in_words(event.at || Time.zone.now)
+          - if event.member.location.present?
+            = " · #{event.member.location}"

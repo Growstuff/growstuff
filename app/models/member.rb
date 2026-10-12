@@ -52,6 +52,10 @@ class Member < ApplicationRecord
   has_many :followed, through: :follows
   has_many :followers, through: :inverse_follows, source: :follower
 
+  # Crops they have said they don't want suggested
+  has_many :crop_dismissals, dependent: :destroy
+  has_many :dismissed_crops, through: :crop_dismissals, source: :crop
+
   #
   # Blocking other members
   has_many :blocks, class_name: "Block", foreign_key: "blocker_id", dependent: :destroy,

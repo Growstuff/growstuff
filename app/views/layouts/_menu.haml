@@ -6,6 +6,8 @@
           = image_tag 'icons/notification.svg', class: 'img img-icon', alt: "Notifications"
       %li.nav-item
         = link_to t('.my_garden'), member_gardens_path(current_member, anchor: "content"), class: 'nav-link text-white'
+      %li.nav-item
+        = link_to t('.friends'), timeline_index_path, class: 'nav-link text-white'
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
           = image_tag "icons/gardener.svg", class: 'img img-icon', alt: t('.record'), aria: { hidden: "true" }
@@ -31,7 +33,8 @@
       %li.nav-item= link_to t('.crops'), crops_path, class: 'nav-link'
       %li.nav-item= link_to t('.seeds'), seeds_path, class: 'nav-link'
       %li.nav-item= link_to t('.plantings'), plantings_path, class: 'nav-link'
-      %li.nav-item= link_to t('.gardens'), gardens_path, class: 'nav-link'
+      - unless member_signed_in?
+        %li.nav-item= link_to t('.gardens'), gardens_path, class: 'nav-link'
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
           %span

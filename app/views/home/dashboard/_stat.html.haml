@@ -1,0 +1,5 @@
+.home-stat-tile
+  %b= value
+  %span= label
+  - if local_assigns[:change]&.nonzero?
+    %i= "#{change.positive? ? '+' : ''}#{change}#{local_assigns[:unit]} #{t('home.dashboard.vs_last_year')}"

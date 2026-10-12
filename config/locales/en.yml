@@ -208,6 +208,111 @@ en:
       public_note: Everything you record is public open data, including your city.
       sign_in_linktext: Sign in
       sign_up: Join free
+    dashboard:
+      add_bed: + bed
+      add_seeds: + seeds
+      all_varieties:
+        one: "%{count} variety"
+        other: All %{count} varieties
+      at_latitude: At your latitude
+      at_latitude_note: Top plantings by gardeners at %{band}
+      bed_counts: "%{plantings} plantings · %{ready} ready"
+      beds: Beds
+      chip_growing: Growing (%{count})
+      chip_ready: Ready (%{count})
+      col_bed: Bed
+      col_maturity: Maturity
+      col_planted: Planted
+      col_plant: Plant
+      col_progress: Progress
+      compared: Compared with last year
+      compared_empty: Plant the same crops as last year and we will compare them here.
+      compared_note: Same crops, this year and last
+      days:
+        one: "%{count} day"
+        other: "%{count} days"
+      do_it: Do it
+      done: Done
+      easy_to_sow: Easy to sow in %{month} near you
+      first_plant: Let's get your first plant in. It takes about a minute.
+      first_year: Your first year
+      following: following
+      friends: My friends & neighbours
+      friends_empty: Follow some gardeners to see what they are growing.
+      friends_note: People you follow first, then people near you
+      garden_title_html: "<strong>%{name}'s</strong> garden"
+      get_started: Get started
+      growing_now: Growing now
+      harvest_by_month: Harvest by month
+      harvest_by_month_note: "kg harvested: this year (green) and last year (pale)"
+      harvest_soon: Harvest soon
+      harvesting: Harvesting
+      nothing_ready: Nothing is ready yet.
+      no_seeds: No seeds saved yet.
+      hidden_suggestions:
+        one: You've hidden 1 suggested crop.
+        other: You've hidden %{count} suggested crops.
+      not_for_me: Not for me
+      show_hidden: Show them again
+      stop_suggesting: Stop suggesting
+      suggestions_off: Crop suggestions are off.
+      turn_on_suggestions: Turn them back on
+      view_all_suggestions: View all suggestions for %{month}
+      not_for_me_title: Don't suggest %{crop} again
+      novice_lede:
+        one: "%{count} plant growing. Nice start."
+        other: "%{count} plants growing. Nice start."
+      plant_crop: Plant %{crop}
+      planted_when: planted %{when}
+      ready_now: ready now
+      relative:
+        ago: "%{time} ago"
+        today: today
+        yesterday: yesterday
+      plant_this: Plant this
+      planting: Planting
+      ready: ready
+      ready_title:
+        one: "%{count} planting is ready to harvest"
+        other: "%{count} plantings are ready to harvest"
+      record_harvests: Record harvests
+      see_all: see all
+      see_all_plantings:
+        one: See your planting
+        other: See all %{count} plantings
+      seeds_near: Seeds near you
+      seeds_near_note: Neighbours offering seeds you can start with.
+      seeds_on_hand: Seeds on hand
+      seeds_to_start: Seeds to start this spring
+      sow_body: Gardeners at your latitude are planting it this month.
+      sow_title: Sow %{crop} this %{month}
+      started_in: You started in %{month}. Next, your first harvest and the sowings for the season.
+      stat_harvests: harvests this year
+      stat_kilograms: harvested this year
+      stat_plantings: plantings this year
+      stat_ready: to harvest this week
+      stat_varieties: seed varieties saved
+      step_join: Join Growstuff
+      step_location: Tell us where you garden
+      set_location: Tell us where you garden
+      step_location_button: Set location
+      step_location_note: So advice fits your season and latitude
+      step_photo: Add a photo
+      step_photo_note: Optional, but it makes your garden yours
+      step_plant: Add your first plant
+      step_plant_button: Plant something
+      step_plant_note: Pick from what suits this month
+      this_week: This week
+      tile_harvest: record what you picked
+      tile_photo: of the garden
+      tile_photo_title: Add photo
+      tile_plant: something new
+      tile_seeds: you have saved
+      tile_seeds_title: Save seeds
+      vs_last_year: vs last year
+      years_growing:
+        one: "%{count} year growing"
+        other: "%{count} years growing"
     index:
       add_seeds: Add seeds
       edit_profile: Edit profile
@@ -297,6 +402,20 @@ en:
         link: Our story
         title: Around since 2012
       title: Why sign in
+  suggestions:
+    index:
+      lede: What gardeners at %{band} are planting this month, most planted first.
+      none: Nothing to suggest right now. Check back next month.
+      not_located: Tell us where you garden and we can suggest what to sow.
+      title: Easy to sow in %{month} near you
+    update:
+      "off": We've stopped suggesting crops.
+      "on": Crop suggestions are back.
+  crop_dismissals:
+    create:
+      dismissed: We won't suggest %{crop} again.
+    destroy_all:
+      restored: Your hidden suggestions are back.
   community_gardens:
     title: Community Gardens on Growstuff
     meta_description: Manage your community garden, track your plantings, and collaborate with other gardeners.
@@ -347,6 +466,7 @@ en:
       toggle_navigation: Toggle Navigation
       your_stuff: Your Stuff
     menu:
+      friends: My friends & neighbours
       my_garden: My garden
       releases: What's new
       sign_in: Sign in

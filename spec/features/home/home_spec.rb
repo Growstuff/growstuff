@@ -71,8 +71,37 @@ describe "home page" do
     it_behaves_like 'omits sections that are not in the designs'
     it_behaves_like 'is accessible'
 
+    describe 'a member who has planted before' do
+      before do
+        create(:planting, owner: member, garden: member.gardens.first, planted_at: 2.years.ago)
+        visit root_path
+      end
+
+      it { expect(page).to have_content "#{member.login_name}'s garden" }
+      it { expect(page).to have_content 'Harvest by month' }
+    end
+
+    describe 'a member on their first visit' do
+      before do
+        member.plantings.destroy_all
+        member.update_columns(location: nil, latitude: nil, longitude: nil)
+        visit root_path
+      end
+
+      it 'can set where they garden in a dialog' do
+        expect(page).to have_css('[data-react-component="LocationPicker"]', visible: :all)
+      end
+
+      it 'can plant their first crop in a dialog' do
+        expect(page).to have_css('[data-react-component="PlantPicker"]', visible: :all)
+      end
+    end
+
     describe 'should say welcome' do
-      before { visit root_path }
+      before do
+        member.plantings.destroy_all
+        visit root_path
+      end
 
       it { expect(page).to have_content "Welcome to #{ENV.fetch('GROWSTUFF_SITE_NAME', nil)}, #{member.login_name}" }
     end

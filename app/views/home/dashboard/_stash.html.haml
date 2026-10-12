@@ -1,0 +1,14 @@
+-# Packets they hold, one per crop, with how many varieties of it.
+- stash = dashboard.seeds_on_hand
+%section.home-section
+  .home-section-head
+    %h2= title
+    = link_to t('home.dashboard.add_seeds'), new_seed_path, class: 'home-section-add'
+  - if stash.empty?
+    %p= t('home.dashboard.no_seeds')
+  - else
+    .index-cards
+      - stash.each do |crop, seeds|
+        = render 'seeds/card', seed: seeds.first
+    - if dashboard.seed_varieties > stash.size
+      %p= link_to t('home.dashboard.all_varieties', count: dashboard.seed_varieties), member_seeds_path(current_member)

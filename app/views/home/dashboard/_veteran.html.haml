@@ -1,0 +1,85 @@
+-# Years of data: the numbers, the year's harvest, every bed, and how this year compares.
+= render 'home/dashboard/header', dashboard:, title: t('home.dashboard.garden_title_html', name: current_member.login_name).html_safe
+
+.home-stats-tiles
+  = render 'home/dashboard/stat', value: dashboard.plantings_this_year, label: t('home.dashboard.stat_plantings'), change: dashboard.plantings_this_year - dashboard.plantings_last_year
+  = render 'home/dashboard/stat', value: dashboard.harvests_this_year, label: t('home.dashboard.stat_harvests'), change: dashboard.harvests_this_year - dashboard.harvests_last_year
+  = render 'home/dashboard/stat', value: "#{dashboard.kilograms_this_year} kg", label: t('home.dashboard.stat_kilograms'), change: dashboard.kilograms_this_year - dashboard.kilograms_last_year, unit: ' kg'
+  = render 'home/dashboard/stat', value: dashboard.seed_varieties, label: t('home.dashboard.stat_varieties')
+  = render 'home/dashboard/stat', value: dashboard.ready.size, label: t('home.dashboard.stat_ready')
+
+= render 'home/dashboard/this_week', dashboard:
+
+%section.home-section
+  .home-section-head
+    %h2= t('home.dashboard.harvest_by_month')
+  %p.home-section-note= t('home.dashboard.harvest_by_month_note')
+  - months = dashboard.harvest_by_month
+  - peak = [months.flat_map { |entry| [entry[:this_year], entry[:last_year]] }.max, 1].max
+  .home-chart
+    - months.each do |entry|
+      .home-chart-month
+        .home-chart-bars
+          %span.this-year{ style: "height: #{(entry[:this_year] / peak * 100).round}%", title: "#{entry[:this_year].round(1)} kg" }
+          %span.last-year{ style: "height: #{(entry[:last_year] / peak * 100).round}%", title: "#{entry[:last_year].round(1)} kg" }
+        %span{ class: ('now' if entry[:month] == Time.zone.today.month) }= I18n.l(Date.new(2000, entry[:month], 1), format: '%b')
+
+%section.home-section
+  .home-section-head
+    %h2= t('home.dashboard.growing_now')
+    = link_to t('home.index.plant'), new_planting_path, class: 'home-section-add'
+  - shown = params[:show] == 'ready' ? dashboard.ready : dashboard.growing
+  .home-chips
+    = link_to t('home.dashboard.chip_growing', count: dashboard.growing.size), root_path, class: ('on' unless params[:show] == 'ready')
+    = link_to t('home.dashboard.chip_ready', count: dashboard.ready.size), root_path(show: 'ready'), class: ('on' if params[:show] == 'ready')
+  .home-table-scroll
+    %table.home-table
+      %thead
+        %tr
+          %th= t('home.dashboard.col_plant')
+          %th= t('home.dashboard.col_bed')
+          %th= t('home.dashboard.col_planted')
+          %th= t('home.dashboard.col_maturity')
+          %th= t('home.dashboard.col_progress')
+      %tbody
+        - shown.first(10).each do |planting|
+          %tr
+            %td
+              = image_tag((planting.thumbnail_url || placeholder_image), alt: '')
+              = link_to planting.crop_name, planting_path(slug: planting.slug)
+            %td= planting.garden_name
+            %td= planting.planted_at&.strftime('%b %-d')
+            %td= planting.harvest_time? ? t('home.dashboard.ready') : (planting.crop.median_days_to_first_harvest ? t('home.dashboard.days', count: planting.crop.median_days_to_first_harvest) : '')
+            %td
+              %span.home-bar
+                %i{ style: "width: #{planting.harvest_time? ? 100 : planting.percentage_grown.to_i}%" }
+  %p= link_to t('home.dashboard.see_all_plantings', count: current_member.plantings.count), member_plantings_path(current_member)
+
+%section.home-section
+  .home-section-head
+    %h2= t('home.dashboard.beds')
+    = link_to t('home.dashboard.add_bed'), new_garden_path, class: 'home-section-add'
+  .home-beds
+    - dashboard.beds.each do |bed|
+      = link_to garden_path(slug: bed[:garden].slug), class: 'home-bed' do
+        %b= bed[:garden].name
+        %span= t('home.dashboard.bed_counts', plantings: bed[:plantings], ready: bed[:ready])
+
+.row
+  .col-12.col-lg-6= render 'home/dashboard/stash', dashboard:, title: t('home.dashboard.seeds_on_hand')
+  .col-12.col-lg-6
+    %section.home-section
+      .home-section-head
+        %h2= t('home.dashboard.compared')
+      %p.home-section-note= t('home.dashboard.compared_note')
+      - comparisons = dashboard.compared_with_last_year
+      - if comparisons.empty?
+        %p= t('home.dashboard.compared_empty')
+      - comparisons.each do |comparison|
+        .home-feed
+          %span
+            %b= comparison.crop
+            = comparison.text
+.row
+  .col-12.col-lg-6= render 'home/dashboard/friends', dashboard:
+  .col-12.col-lg-6= render 'home/dashboard/latitude', dashboard:

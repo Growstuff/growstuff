@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_22_150000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_12_210000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -534,6 +534,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_150000) do
     t.index ["crop_a_id", "crop_b_id"], name: "index_crop_companions_on_crop_a_id_and_crop_b_id"
   end
 
+  create_table "crop_dismissals", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "crop_id", null: false
+    t.bigint "member_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crop_id"], name: "index_crop_dismissals_on_crop_id"
+    t.index ["member_id", "crop_id"], name: "index_crop_dismissals_on_member_id_and_crop_id", unique: true
+  end
+
   create_table "crop_posts", id: false, force: :cascade do |t|
     t.integer "crop_id"
     t.integer "post_id"
@@ -790,6 +799,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_150000) do
     t.boolean "show_email"
     t.integer "sign_in_count", default: 0
     t.string "slug"
+    t.boolean "suggest_crops", default: true, null: false
     t.boolean "tos_agreement"
     t.string "unconfirmed_email"
     t.string "unlock_token"
@@ -1005,6 +1015,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_150000) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blocks", "members", column: "blocked_id"
   add_foreign_key "blocks", "members", column: "blocker_id"
+  add_foreign_key "crop_dismissals", "crops"
+  add_foreign_key "crop_dismissals", "members"
   add_foreign_key "harvests", "plantings"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"

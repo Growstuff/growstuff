@@ -37,7 +37,7 @@ body {
 
   // Bootstrap 5's input-group shrinks to nothing inside a shrink-to-fit parent.
   .input-group {
-    min-width: 18rem;
+    min-width: 12rem;
   }
 
   .input-group {
@@ -50,6 +50,10 @@ body {
       color: $navbar-default-link-color;
     }
   }
+}
+
+.navbar .nav-link {
+  white-space: nowrap;
 }
 
 .navbar .btn-signup {

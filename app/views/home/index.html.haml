@@ -3,32 +3,10 @@
 - content_for :meta_description do
   Growstuff is a community of food gardeners. Let's learn to grow food together.
 
-= render 'garden_layout_teaser', garden: @layout_garden
-
 - if member_signed_in?
-  .home-welcome
-    = image_tag avatar_uri(current_member, 150), alt: '', class: 'home-welcome-avatar'
-    .home-welcome-text
-      %h1= t('.welcome', site_name: ENV['GROWSTUFF_SITE_NAME'], member_name: current_member)
-      - if (conditions = season_summary(current_member))
-        %p.home-welcome-season= conditions
-    .home-welcome-actions
-      = link_to new_planting_path, class: 'btn btn-success' do
-        = planting_icon
-        = t('.plant')
-      = link_to new_harvest_path, class: 'btn btn-warning' do
-        = harvest_icon
-        = t('.harvest')
-  .row
-    .col-12.col-md-6
-      %section.plantings
-        = render 'plantings'
-        %p.text-end= link_to "#{t('home.plantings.view_all')} »", plantings_path, class: 'btn w-100'
-    .col-12.col-md-6
-      %section.seeds
-        = render 'seeds'
-        %p.text-end
-          = link_to "#{t('home.seeds.view_all')} »", seeds_path(tradeable_to: ['locally', 'nationally', 'internationally']), class: 'btn w-100'
+  - content_for :scripts do
+    = javascript_include_tag 'react_islands', defer: true
+  = render "home/dashboard/#{@dashboard.stage}", dashboard: @dashboard
 - else
   %section= render 'blurb'
   = render 'recent'

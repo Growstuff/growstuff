@@ -1,0 +1,52 @@
+-# First year of data: their plantings, what to pick, and what to start next.
+= render 'home/dashboard/header', dashboard:, title: t('home.dashboard.garden_title_html', name: current_member.login_name).html_safe
+%p.home-lede= t('home.dashboard.novice_lede', count: dashboard.growing.size, ready: dashboard.ready.first&.crop_name)
+= render 'home/dashboard/this_week', dashboard:
+
+.home-tiles
+  = link_to new_planting_path do
+    %b= t('home.index.plant')
+    = t('home.dashboard.tile_plant')
+  = link_to new_harvest_path do
+    %b= t('home.index.harvest')
+    = t('home.dashboard.tile_harvest')
+  = link_to new_seed_path do
+    %b= t('home.dashboard.tile_seeds_title')
+    = t('home.dashboard.tile_seeds')
+  = link_to new_photo_path do
+    %b= t('home.dashboard.tile_photo_title')
+    = t('home.dashboard.tile_photo')
+
+%section.home-section
+  .home-section-head
+    %h2= t('home.dashboard.first_year')
+  - started = dashboard.first_planted_on
+  .home-year
+    - (1..12).each do |month|
+      - state = if month == Time.zone.today.month then 'now' elsif month == started.month then 'start' end
+      %span{ class: state }= I18n.l(Date.new(2000, month, 1), format: '%b')
+  %p.home-section-note= t('home.dashboard.started_in', month: I18n.l(started, format: '%B'))
+
+%section.home-section
+  .home-section-head
+    %h2= t('home.dashboard.growing_now')
+    = link_to t('home.index.plant'), new_planting_path, class: 'home-section-add'
+  .home-crops
+    - dashboard.growing.first(8).each do |planting|
+      = render 'home/dashboard/planting', planting:
+
+.row
+  .col-12.col-lg-6
+    %section.home-section
+      .home-section-head
+        %h2= t('home.dashboard.harvest_soon')
+        = link_to t('home.index.harvest'), new_harvest_path, class: 'home-section-add'
+      - if dashboard.ready.empty?
+        %p= t('home.dashboard.nothing_ready')
+      .home-crops
+        - dashboard.ready.first(3).each do |planting|
+          = render 'home/dashboard/planting', planting:
+  .col-12.col-lg-6= render 'home/dashboard/stash', dashboard:, title: t('home.dashboard.seeds_to_start')
+.row
+  .col-12.col-lg-6= render 'home/dashboard/friends', dashboard:
+  .col-12.col-lg-6= render 'home/dashboard/latitude', dashboard:
