@@ -52,7 +52,7 @@ class MemberDashboard
   end
 
   def growing
-    @growing ||= member.plantings.current.includes(:crop, :garden, :photos).order(planted_at: :desc).to_a
+    @growing ||= member.plantings.current.includes({ crop: :parent }, :garden, :photos).order(planted_at: :desc).to_a
   end
 
   # Plantings we expect to have something to pick by now.

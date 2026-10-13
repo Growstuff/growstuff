@@ -25,16 +25,19 @@ module HomeHelper
     end
   end
 
-  # What the Growing now table needs: the first ten rows of what is growing and
-  # of what is ready, already worded, so the chips can switch between them in
-  # the browser.
+  # What the Growing now table needs: every planting that is growing, already
+  # worded, with the crop it is a kind of and its bed, so the chips and filters
+  # can narrow them in the browser. The garden filter is left out for someone
+  # with a single garden.
   def growing_table_props(dashboard)
+    plants = dashboard.growing.map { |planting| planting.crop.parent || planting.crop }.uniq.sort_by(&:name)
     {
-      growing: growing_rows(dashboard.growing), ready: growing_rows(dashboard.ready),
-      chips: { growing: t('home.dashboard.chip_growing', count: dashboard.growing.size),
-               ready:   t('home.dashboard.chip_ready', count: dashboard.ready.size) },
+      rows:    growing_rows(dashboard.growing, dashboard.ready),
+      plants:  plants.map { |crop| { id: crop.id, name: crop.name } },
+      gardens: dashboard.gardens.size > 1 ? dashboard.gardens.map { |garden| { id: garden.id, name: garden.name } } : [],
       initial: params[:show] == 'ready' ? 'ready' : 'growing',
-      labels: %i(col_plant col_bed col_planted col_maturity col_progress nothing_ready).index_with { |key| t("home.dashboard.#{key}") }
+      labels:  %i(chip_growing chip_ready col_plant col_bed col_planted col_maturity col_progress nothing_to_show all_plants all_gardens)
+        .index_with { |key| t("home.dashboard.#{key}") }
     }
   end
 
@@ -42,9 +45,9 @@ module HomeHelper
   # wording for each way of measuring them.
   def harvest_chart_props(dashboard)
     {
-      months: dashboard.harvest_by_month.map { |entry| entry.merge(label: month_name(entry[:month], abbreviated: true)) },
+      months:        dashboard.harvest_by_month.map { |entry| entry.merge(label: month_name(entry[:month], abbreviated: true)) },
       current_month: Time.zone.today.month,
-      measures: %i(harvests kilograms).zip(%i(count weight)).map do |measure, key|
+      measures:      %i(harvests kilograms).zip(%i(count weight)).map do |measure, key|
         { key: measure, label: t("home.dashboard.harvest_by_month_#{key}"), note: t("home.dashboard.harvest_by_month_note_#{key}"),
           unit: t("home.dashboard.harvest_by_month_unit_#{key}") }
       end
@@ -73,10 +76,11 @@ module HomeHelper
 
   private
 
-  def growing_rows(plantings)
-    plantings.first(10).map do |planting|
+  def growing_rows(plantings, ready)
+    plantings.map do |planting|
       days = planting.crop.median_days_to_first_harvest
       { id: planting.id, name: planting.crop_name, url: planting_path(slug: planting.slug), garden: planting.garden_name,
+        garden_id: planting.garden_id, plant_id: (planting.crop.parent || planting.crop).id, ready: ready.include?(planting),
         image_url: planting.thumbnail_url || image_path(placeholder_image),
         planted: planting.planted_at&.strftime('%b %-d'),
         maturity: if planting.harvest_time? then t('home.dashboard.ready')
