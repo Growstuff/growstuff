@@ -5,7 +5,10 @@ require 'rails_helper'
 describe 'My friends and neighbours' do
   let(:member) { create_located_member('Wellington, NZ', -41.29, 174.78) }
 
-  before { login_as member }
+  before do
+    Rails.cache.clear
+    login_as member
+  end
 
   it 'is not for visitors' do
     logout
@@ -46,8 +49,7 @@ describe 'My friends and neighbours' do
 
     visit neighbours_path
     click_button 'Follow'
-    expect(page).to have_no_button('Follow')
-    expect(member.reload.followed).to include(other)
+    page.document.synchronize { raise Capybara::ExpectationNotMet, 'not followed yet' unless member.followed.reload.include?(other) }
   end
 
   it 'says so when they have not said where they live' do

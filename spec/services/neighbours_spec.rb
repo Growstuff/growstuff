@@ -8,6 +8,8 @@ describe Neighbours do
   let(:scope) { nil }
   let(:member) { create_located_member('Wellington, NZ', -41.29, 174.78) }
 
+  before { Rails.cache.clear }
+
   def gardener(latitude:, longitude:)
     create_located_member("Somewhere #{SecureRandom.hex(4)}", latitude, longitude)
   end
@@ -144,7 +146,8 @@ describe Neighbours do
 
     it 'says when there are more days to show' do
       create_list(:planting, Neighbours::FEED_EVENTS + 1, owner: friend, garden: friend.gardens.first, planted_at: Date.new(2026, 10, 12))
-      expect([neighbours.feed.flat_map(&:updates).sum { |entry| entry.items.size }, neighbours.more_feed?]).to eq [Neighbours::FEED_EVENTS, true]
+      shown = neighbours.feed.flat_map(&:updates).sum { |entry| entry.items.size }
+      expect([shown, neighbours.more_feed?]).to eq [Neighbours::FEED_EVENTS, true]
       expect(described_class.new(member, offset: Neighbours::FEED_EVENTS).feed.flat_map(&:updates).sum { |entry| entry.items.size }).to eq 1
     end
   end

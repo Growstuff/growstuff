@@ -2,11 +2,12 @@
 
 require 'rails_helper'
 
-describe 'Friends and neighbours feed' do
+describe NeighboursController do
   let(:member) { create(:member) }
   let(:friend) { create(:member, login_name: 'friendly') }
 
   before do
+    Rails.cache.clear
     member.follows.create!(followed: friend)
     sign_in member
   end
