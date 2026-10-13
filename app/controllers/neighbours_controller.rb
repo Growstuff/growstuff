@@ -6,6 +6,7 @@ class NeighboursController < ApplicationController
   before_action :authenticate_member!
 
   def show
+    current_member.feature_seen!(:neighbours)
     @neighbours = Neighbours.new(current_member, scope: params[:scope])
   end
 

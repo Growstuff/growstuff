@@ -36,4 +36,35 @@ describe NeighboursController do
     get neighbours_feed_path
     expect(response).to redirect_to(new_member_session_path)
   end
+
+  describe 'the "New" label' do
+    it 'records the first visit only' do
+      get neighbours_path
+      first = member.reload.feature_first_seen_at(:neighbours)
+      expect(first).to be_within(1.minute).of(Time.current)
+
+      travel_to(2.hours.from_now) { get neighbours_path }
+      expect(member.reload.feature_first_seen_at(:neighbours)).to eq first
+    end
+
+    it 'shows on the first visit, and for a day after' do
+      get neighbours_path
+      expect(response.body).to include('Welcome to your friends and neighbours feed')
+
+      travel_to(23.hours.from_now) { get neighbours_path }
+      expect(response.body).to include('Welcome to your friends and neighbours feed')
+    end
+
+    it 'goes a day after they first open it' do
+      get neighbours_path
+      travel_to(25.hours.from_now) { get neighbours_path }
+      expect(response.body).not_to include('Welcome to your friends and neighbours feed')
+    end
+
+    it 'goes three months after launch for someone who opened it' do
+      travel_to(NeighboursHelper::LAUNCHED_ON + NeighboursHelper::NEW_FOR - 1.hour) { get neighbours_path }
+      travel_to(NeighboursHelper::LAUNCHED_ON + NeighboursHelper::NEW_FOR + 1.hour) { get neighbours_path }
+      expect(response.body).not_to include('Welcome to your friends and neighbours feed')
+    end
+  end
 end

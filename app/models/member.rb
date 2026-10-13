@@ -98,6 +98,20 @@ class Member < ApplicationRecord
     super && !discarded?
   end
 
+  # When they first opened a feature, from settings['features_seen'], or nil.
+  def feature_first_seen_at(feature)
+    seen = settings.dig('features_seen', feature.to_s)
+    Time.zone.parse(seen) if seen
+  end
+
+  # Records the first time only; later visits leave it alone.
+  def feature_seen!(feature)
+    return if feature_first_seen_at(feature)
+
+    seen = settings.fetch('features_seen', {}).merge(feature.to_s => Time.current.iso8601)
+    update_column(:settings, settings.merge('features_seen' => seen)) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   # set up geocoding
   geocoded_by :location
 

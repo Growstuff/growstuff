@@ -2,6 +2,11 @@
 - content_for :title, t('.title')
 - content_for :scripts do
   = javascript_include_tag 'react_islands', defer: true
+- if neighbours_new?
+  .alert.alert-info
+    %h2.h5= t('.welcome.title')
+    %p.mb-0= t('.welcome.body_html', link: link_to(t('.welcome.feedback_link'), contact_path))
+
 .neighbours-head
   %div
     %h1= t('.heading_html')
