@@ -9,6 +9,7 @@ import {createRoot} from 'react-dom/client';
 
 import GardenCards from './components/GardenCards';
 import GardenLayout from './components/GardenLayout';
+import HarvestChart from './components/HarvestChart';
 import LocationPicker from './components/LocationPicker';
 import PhotoDialog from './components/PhotoDialog';
 import PhotoPicker from './components/PhotoPicker';
@@ -17,7 +18,7 @@ import PlantingPicker from './components/PlantingPicker';
 import PlantingActions from './components/PlantingActions';
 import PlantingRating from './components/PlantingRating';
 
-const components = {GardenCards, GardenLayout, LocationPicker, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating};
+const components = {GardenCards, GardenLayout, HarvestChart, LocationPicker, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating};
 
 function mountIslands() {
   document.querySelectorAll('[data-react-component]').forEach((element) => {

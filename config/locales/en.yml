@@ -245,7 +245,12 @@ en:
       get_started: Get started
       growing_now: Growing now
       harvest_by_month: Harvest by month
-      harvest_by_month_note: "kg harvested: this year (green) and last year (pale)"
+      harvest_by_month_count: Harvests
+      harvest_by_month_weight: Weight
+      harvest_by_month_note_count: "harvests recorded: this year (green) and last year (pale)"
+      harvest_by_month_note_weight: "kg harvested: this year (green) and last year (pale). Only harvests with a weight are counted."
+      harvest_by_month_unit_count: harvests
+      harvest_by_month_unit_weight: kg
       harvest_soon: Harvest soon
       harvesting: Harvesting
       nothing_ready: Nothing is ready yet.

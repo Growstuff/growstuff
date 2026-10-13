@@ -11,16 +11,11 @@
 = render 'home/dashboard/this_week', dashboard:
 
 = home_section(t('home.dashboard.harvest_by_month')) do
-  %p.home-section-note= t('home.dashboard.harvest_by_month_note')
-  - months = dashboard.harvest_by_month
-  - peak = [months.flat_map { |entry| [entry[:this_year], entry[:last_year]] }.max, 1].max
-  .home-chart
-    - months.each do |entry|
-      .home-chart-month
-        .home-chart-bars
-          %span.this-year{ style: "height: #{(entry[:this_year] / peak * 100).round}%", title: "#{entry[:this_year].round(1)} kg" }
-          %span.last-year{ style: "height: #{(entry[:last_year] / peak * 100).round}%", title: "#{entry[:last_year].round(1)} kg" }
-        %span{ class: ('now' if entry[:month] == Time.zone.today.month) }= month_name(entry[:month], abbreviated: true)
+  = react_component 'HarvestChart', { months: dashboard.harvest_by_month.map { |entry| entry.merge(label: month_name(entry[:month], abbreviated: true)) },
+                                       current_month: Time.zone.today.month,
+                                       labels: { count: t('home.dashboard.harvest_by_month_count'), weight: t('home.dashboard.harvest_by_month_weight'),
+                                                 note_count: t('home.dashboard.harvest_by_month_note_count'), note_weight: t('home.dashboard.harvest_by_month_note_weight'),
+                                                 unit_count: t('home.dashboard.harvest_by_month_unit_count'), unit_weight: t('home.dashboard.harvest_by_month_unit_weight') } }
 
 = home_section(t('home.dashboard.growing_now'), action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
   - shown = params[:show] == 'ready' ? dashboard.ready : dashboard.growing

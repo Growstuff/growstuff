@@ -107,10 +107,15 @@ class MemberDashboard
     member.seeds.current.includes(:crop, :photos).group_by(&:crop).sort_by { |_crop, seeds| -seeds.size }.first(limit)
   end
 
-  # Kilograms harvested in each month of this year and of last year.
+  # Harvests and kilograms in each month of this year and of last year. Many
+  # harvests are recorded without a weight, so the counts are the fuller picture.
   def harvest_by_month
     @harvest_by_month ||= (1..12).map do |month|
-      { month:, this_year: monthly_kilograms[[0, month]] || 0, last_year: monthly_kilograms[[1, month]] || 0 }
+      {
+        month:,
+        harvests:  { this_year: monthly_totals[[0, month]][:count], last_year: monthly_totals[[1, month]][:count] },
+        kilograms: { this_year: monthly_totals[[0, month]][:kilograms], last_year: monthly_totals[[1, month]][:kilograms] }
+      }
     end
   end
 
@@ -192,12 +197,15 @@ class MemberDashboard
     member.harvests.where(harvested_at: year_range(years_back)).sum(:si_weight).to_f.round
   end
 
-  def monthly_kilograms
-    @monthly_kilograms ||= [0, 1].each_with_object({}) do |back, totals|
-      harvested = member.harvests.where(harvested_at: year_range(back))
-      harvested.group("EXTRACT(MONTH FROM harvested_at)::int").sum(:si_weight).each do |month, kilos|
-        totals[[back, month]] = kilos.to_f
+  def monthly_totals
+    @monthly_totals ||= begin
+      totals = Hash.new { |hash, key| hash[key] = { count: 0, kilograms: 0.0 } }
+      [0, 1].each do |back|
+        harvested = member.harvests.where(harvested_at: year_range(back)).group('EXTRACT(MONTH FROM harvested_at)::int')
+        harvested.count.each { |month, count| totals[[back, month]][:count] = count }
+        harvested.sum(:si_weight).each { |month, kilos| totals[[back, month]][:kilograms] = kilos.to_f }
       end
+      totals
     end
   end
 
