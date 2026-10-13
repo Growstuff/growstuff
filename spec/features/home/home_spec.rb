@@ -90,6 +90,25 @@ describe "home page" do
       it { expect(page).to have_content 'Harvest by month' }
     end
 
+    describe 'stat tiles' do
+      before do
+        create(:planting, owner: member, garden: member.gardens.first, planted_at: 2.years.ago)
+        visit root_path
+      end
+
+      it 'links the ready tile to the growing now section' do
+        expect(page).to have_link 'to harvest this week', href: '#growing-now'
+      end
+
+      it 'has a growing now section to link to' do
+        expect(page).to have_css 'section#growing-now'
+      end
+
+      it 'does not link the plantings tile' do
+        expect(page).to have_no_link 'plantings this year'
+      end
+    end
+
     describe 'a member on their first visit' do
       before do
         member.plantings.destroy_all

@@ -193,11 +193,20 @@ $dash-line: rgba(65, 63, 59, 0.15);
   border-radius: 4px;
   box-shadow: 1px 3px 3px 1px #cac1b3;
 
-  b { display: block; font-size: 2rem; font-weight: 400; color: $green; }
+  b { display: block; font-size: 2rem; font-weight: 400; color: #413f3b; }
 
   span { font-size: 0.8rem; color: $dash-muted; }
 
-  i { display: block; font-size: 0.75rem; font-style: normal; color: $green; }
+  i { display: block; font-size: 0.75rem; font-style: normal; color: $dash-muted; }
+}
+
+// Only tiles that go somewhere look clickable.
+a.home-stat-tile-link {
+  text-decoration: none;
+
+  b { color: $green; text-decoration: underline; }
+
+  &:hover, &:focus { box-shadow: 1px 3px 6px 1px #b3a894; }
 }
 
 .home-chart { display: flex; gap: 10px; height: 150px; align-items: flex-end; }

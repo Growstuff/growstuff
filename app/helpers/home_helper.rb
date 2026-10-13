@@ -64,9 +64,10 @@ module HomeHelper
   end
 
   # A green-headed white box on the home page: a title, an optional link or
-  # button on the right of the header, and whatever the block holds.
-  def home_section(title, action: nil, &)
-    content_tag(:section, class: 'home-section') do
+  # button on the right of the header, and whatever the block holds. Pass id:
+  # to make the section a target for in-page links.
+  def home_section(title, action: nil, id: nil, &)
+    content_tag(:section, id:, class: 'home-section') do
       safe_join([
                   content_tag(:div, class: 'home-section-head') { safe_join([content_tag(:h2, title), action]) },
                   capture(&)
