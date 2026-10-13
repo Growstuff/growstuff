@@ -1,0 +1,6 @@
+= home_section(t('.title')) do
+  .member-cards
+    - neighbours.suggestions.each do |suggestion|
+      - why = suggestion.crops.any? ? t('.why', crops: suggestion.crops.to_sentence) : t('.followed_by', people: suggestion.followed_by.map(&:login_name).to_sentence)
+      = render 'members/card', person: suggestion.member, why:, dismissible: true
+  %p.home-section-note= t('.privacy')

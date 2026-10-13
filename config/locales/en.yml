@@ -394,6 +394,99 @@ en:
       dismissed: We won't suggest %{crop} again.
     destroy_all:
       restored: Your hidden suggestions are back.
+  member_dismissals:
+    create:
+      dismissed: We won't suggest %{name} again.
+  neighbours:
+    audience:
+      all:
+        feed: Following, near you and further out
+        posts: From people you follow and further out
+      anywhere:
+        feed: Gardeners around the world
+        posts: From gardeners around the world
+      following:
+        feed: People you follow
+        posts: From people you follow
+      following_and_near:
+        feed: People you follow and gardeners near you
+        posts: From people you follow and near you
+      near:
+        feed: Gardeners near you
+        posts: From gardeners near you
+      region:
+        feed: Gardeners within 150 km
+        posts: From gardeners within 150 km
+    day:
+      from: from %{time}
+      today: Today · %{date}
+      yesterday: Yesterday · %{date}
+    entry:
+      did_things_html: did <b>%{count} things</b>
+      following: following
+      near: near you
+    feed:
+      earlier: Show earlier days
+      empty: Nothing to show yet.
+      title: Latest from your friends and neighbours
+    item:
+      garden_layout_html: Rearranged the layout of %{garden}
+      harvest_html: Harvested %{crop}
+      planting_html: Planted %{crop}
+      seed_html: Saved %{crop} seeds
+      seed_trade_html: Has %{crop} seeds to trade
+    layout:
+      label: "%{garden}: its layout"
+    photos:
+      added:
+        one: Added a photo
+        other: Added %{count} photos
+      of_html:
+        one: Photo of %{subject}
+        other: "%{count} photos of %{subject}"
+    posts:
+      activity: Most recent activity
+      comments: Comments
+      posted_by: Posted by
+      subject: Subject
+      title: Recent posts
+    reach:
+      few:
+        one: Only %{count} gardener near %{place}.
+        other: Only %{count} gardeners near %{place}.
+      looked_further: So we also looked further out.
+      none: No gardeners near %{place} yet.
+      ring:
+        anywhere: Anywhere
+        near: "%{place}"
+        region: Within %{km} km
+      widened: We widened the search until we found some.
+      you: you
+    show:
+      add_location_html: "%{link} to see gardeners near you."
+      add_location_link: Add where you live
+      heading_html: "<strong>My</strong> friends & neighbours"
+      lede:
+        few: You follow a few people. Showing them first, then those close to you.
+        following: What the gardeners you follow, and the ones near you, are up to.
+        none: You are not following anyone yet, so this shows gardeners near you.
+        widened: Nobody you follow, and nobody close by yet, so we looked further out.
+      scope:
+        anywhere: Anywhere
+        auto: Auto
+        following: People I follow
+        nearby: Nearby
+      title: My friends & neighbours
+    subject:
+      garden: the garden %{name}
+      harvest: a %{crop} harvest
+      planting: a %{crop} planting
+      seed: "%{crop} seeds"
+    suggestions:
+      followed_by: Followed by %{people}
+      privacy: We only use your city, never your exact location. Press × to stop suggesting someone.
+      title: Who to follow
+      why: "Grows the same crops: %{crops}"
   community_gardens:
     title: Community Gardens on Growstuff
     meta_description: Manage your community garden, track your plantings, and collaborate with other gardeners.
@@ -444,6 +537,7 @@ en:
       toggle_navigation: Toggle Navigation
       your_stuff: Your Stuff
     menu:
+      friends_and_neighbours: My friends & neighbours
       my_garden: My garden
       releases: What's new
       sign_in: Sign in
@@ -468,7 +562,13 @@ en:
     unable_to_unlike: Unable to unlike
 
   members:
+    card:
+      not_interested: Stop suggesting %{name}
+      visit: Visit %{name}'s gardens
     edit_profile: Edit profile
+    follow_button:
+      follow: Follow
+      following: Following
     index:
       title: "%{site_name} members"
     signup:

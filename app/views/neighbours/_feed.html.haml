@@ -1,0 +1,6 @@
+= home_section(t('.title'), action: content_tag(:small, t("neighbours.audience.#{neighbours.audience}.feed"), class: 'neighbours-count')) do
+  - if neighbours.feed.empty?
+    %p.home-section-note= t('.empty')
+  = render 'days', neighbours:, after: nil
+  - if neighbours.more_feed?
+    = react_component 'FeedMore', { url: next_feed_path(neighbours), label: t('.earlier') }

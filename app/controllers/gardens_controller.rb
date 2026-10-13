@@ -83,6 +83,7 @@ class GardensController < DataController
       raise ActiveRecord::Rollback if @layout_errors.present?
 
       sync_quantities
+      @garden.update_column(:layout_saved_at, Time.current) # rubocop:disable Rails/SkipsModelValidations
       true
     end
     return render json: { errors: @layout_errors }, status: :unprocessable_content unless saved

@@ -1,4 +1,4 @@
-= home_section(t('home.dashboard.friends'), action: link_to(t('home.dashboard.see_all'), timeline_index_path, class: 'home-section-add')) do
+= home_section(t('home.dashboard.friends'), action: link_to(t('home.dashboard.see_all'), neighbours_path, class: 'home-section-add')) do
   %p.home-section-note= t('home.dashboard.friends_note')
   - events = dashboard.activity
   - if events.empty?

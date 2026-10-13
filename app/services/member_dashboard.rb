@@ -10,7 +10,6 @@ class MemberDashboard
   NEARBY_KM = 150
   LATITUDE_BAND = 5
 
-  Event = Struct.new(:member, :verb, :subject, :at, :following, keyword_init: true)
   Comparison = Struct.new(:crop, :text, keyword_init: true)
 
   attr_reader :member
@@ -135,7 +134,7 @@ class MemberDashboard
 
   # People they follow first, then people nearby.
   def activity(limit = 6)
-    @activity ||= (events_for(followed_ids, following: true) + events_for(nearby_ids, following: false))
+    @activity ||= (RecentActivity.events(followed_ids, following: true) + RecentActivity.events(nearby_ids, following: false))
       .uniq { |event| [event.member, event.verb, event.subject] }
       .first(limit)
   end
@@ -248,21 +247,6 @@ class MemberDashboard
 
     @nearby_ids ||= Member.located.near([member.latitude, member.longitude], NEARBY_KM, units: :km)
       .where.not(id: member.id).reorder(nil).limit(40).pluck(:id) - followed_ids
-  end
-
-  def events_for(ids, following:)
-    return [] if ids.empty?
-
-    events = Planting.where(owner_id: ids).includes(:owner, :crop).order(planted_at: :desc).limit(10).map do |planting|
-      Event.new(member: planting.owner, verb: 'planted', subject: planting.crop, at: planting.planted_at, following:)
-    end
-    events += Harvest.where(owner_id: ids).includes(:owner, :crop).order(harvested_at: :desc).limit(10).map do |harvest|
-      Event.new(member: harvest.owner, verb: 'harvested', subject: harvest.crop, at: harvest.harvested_at, following:)
-    end
-    events += Seed.current.tradable.where(owner_id: ids).includes(:owner, :crop).order(created_at: :desc).limit(5).map do |seed|
-      Event.new(member: seed.owner, verb: 'has seeds to trade:', subject: seed.crop, at: seed.created_at, following:)
-    end
-    events.compact.sort_by { |event| event.at || Time.zone.at(0) }.reverse
   end
 
   def month_leaders(month)

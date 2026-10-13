@@ -1,0 +1,19 @@
+= home_section(t('.title'), action: content_tag(:small, t("neighbours.audience.#{neighbours.audience}.posts"), class: 'neighbours-count')) do
+  .home-table-scroll
+    %table.home-table
+      %thead
+        %tr
+          %th= t('.subject')
+          %th= t('.posted_by')
+          %th= t('.activity')
+          %th= t('.comments')
+      %tbody
+        - neighbours.posts.each do |post|
+          %tr
+            %td= link_to post.subject, post_path(post)
+            %td
+              = link_to post.author.login_name, member_path(post.author)
+              - if neighbours.followed.include?(post.author)
+                %small.home-following= t('home.dashboard.following')
+            %td= ago_in_words(post.recent_activity)
+            %td= post.comment_count

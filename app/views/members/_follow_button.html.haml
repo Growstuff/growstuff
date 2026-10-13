@@ -1,0 +1,5 @@
+- if current_member && current_member != person
+  - if current_member.already_following?(person)
+    %span.member-card-follow.on= t('members.follow_button.following')
+  - elsif can?(:create, Follow)
+    = button_to t('members.follow_button.follow'), follows_path(followed: person), class: 'member-card-follow', form_class: 'd-inline'

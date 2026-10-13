@@ -14,7 +14,7 @@
   = page_entries_info @members
   = will_paginate @members
 
-.index-cards= render @members
+.member-cards= render partial: 'members/card', collection: @members, as: :person
 
 .pagination
   = page_entries_info @members

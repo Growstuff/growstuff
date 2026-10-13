@@ -1,0 +1,59 @@
+// A gardener as a card: avatar, name, where they live, and a follow button.
+// Used for the people suggested on the friends and neighbours page and for
+// browsing members.
+.member-card-top {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+
+  img { flex: none; object-fit: cover; border-radius: 50%; }
+}
+
+.member-card-name {
+  flex: 1;
+  min-width: 0;
+
+  h4 { margin: 0; font-size: 1.1rem; font-weight: 500; }
+
+  span { font-size: 0.85rem; color: rgba(65, 63, 59, 0.75); }
+}
+
+.member-card-follow {
+  &.on { color: #3f5e2b; background: #e4efdc; border-color: #a4c98c; }
+
+
+  padding: 5px 12px;
+  color: $green;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: #fff;
+  border: 1px solid $green;
+  border-radius: 2px;
+}
+
+.member-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 14px;
+}
+
+.member-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(65, 63, 59, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(65, 63, 59, 0.2);
+}
+
+.member-card-foot { display: flex; gap: 8px; align-items: center; justify-content: space-between; font-size: 0.85rem; }
+
+.member-card-why { flex: 1; padding: 6px 8px; margin: 0; font-size: 0.85rem; color: #413f3b; background: #f4f2ef; border-radius: 4px; }
+
+.member-card-dismiss-form { position: absolute; top: 2px; right: 6px; }
+
+.member-card-dismiss { width: 28px; height: 28px; font-size: 1.1rem; line-height: 1; color: rgba(65, 63, 59, 0.5); background: transparent; border: 0; }
+

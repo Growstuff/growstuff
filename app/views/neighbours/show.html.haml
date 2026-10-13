@@ -1,0 +1,28 @@
+- neighbours = @neighbours
+- content_for :title, t('.title')
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+.neighbours-head
+  %div
+    %h1= t('.heading_html')
+    %p.home-lede= t(".lede.#{neighbours.lede}")
+  .home-chips
+    - Neighbours::SCOPES.each do |scope|
+      = link_to t(".scope.#{scope}"), neighbours_path(scope: (scope unless scope == 'auto')), class: ('on' if neighbours.scope == scope)
+
+- if neighbours.shows_nearby? && !neighbours.located?
+  .neighbours-reach
+    = t('.add_location_html', link: link_to(t('.add_location_link'), edit_member_registration_path))
+- elsif neighbours.widened?
+  = render 'reach', neighbours:
+
+- if neighbours.posts.any?
+  = render 'posts', neighbours:
+
+.neighbours-columns
+  .neighbours-main
+    - cache neighbours.cache_key('feed'), expires_in: Neighbours::FEED_CACHE_FOR do
+      = render 'feed', neighbours:
+  - if neighbours.suggestions.any?
+    %aside.neighbours-side
+      = render 'suggestions', neighbours:

@@ -10,17 +10,32 @@ class TimelineService
     query.where(owner_id: [member.followed.pluck(:id)])
   end
 
-  def self.query
-    plantings_query
-      .union_all(harvests_query)
-      .union_all(posts_query)
-      .union_all(comments_query)
-      .union_all(photos_query)
-      .union_all(seeds_query)
-      .union_all(activities_query)
-      .union_all(likes_query)
+  # What the timeline is made of, and the query for each kind of event.
+  EVENT_QUERIES = {
+    planting:      :plantings_query,
+    harvest:       :harvests_query,
+    post:          :posts_query,
+    comment:       :comments_query,
+    photo:         :photos_query,
+    seed:          :seeds_query,
+    activity:      :activities_query,
+    like:          :likes_query,
+    garden_layout: :garden_layouts_query
+  }.freeze
+  DEFAULT_EVENTS = %i(planting harvest post comment photo seed activity like).freeze
+
+  # Events of the given kinds, newest first. Garden layouts are only here when
+  # asked for, since the timeline page has nothing to say about them.
+  def self.query(kinds = DEFAULT_EVENTS)
+    kinds.map { |kind| public_send(EVENT_QUERIES.fetch(kind)) }
+      .reduce { |all, one| all.union_all(one) }
       .where.not(event_at: nil)
       .order(event_at: :desc)
+  end
+
+  def self.garden_layouts_query
+    Garden.where.not(layout_saved_at: nil)
+      .select(:id, "'garden_layout' as event_type", 'gardens.layout_saved_at as event_at', :owner_id, 'null as crop_id')
   end
 
   def self.likes_query
