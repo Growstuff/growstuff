@@ -1,0 +1,7 @@
+-# A sketch of a bed's layout: each plant placed on it as a circle on its grid.
+- plants = garden.placed_plants.limit(120).pluck(:bed_x, :bed_y, :diameter)
+= link_to layout_member_garden_path(owner, garden), class: 'neighbours-layout', aria: { label: t('.label', garden: garden.name) } do
+  %svg{ viewBox: "0 0 #{garden.grid_columns} #{garden.grid_rows}", role: 'img', focusable: 'false', aria: { hidden: 'true' } }
+    %rect.bed{ width: garden.grid_columns, height: garden.grid_rows }
+    - plants.each do |x, y, diameter|
+      %circle{ cx: x, cy: y, r: (diameter || 1) / 2.0 }

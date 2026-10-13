@@ -1,0 +1,6 @@
+-# Days of the feed. `after` is the last day already on the page, so a day that
+-# carries on from it does not get a second heading.
+- neighbours.feed.each_with_index do |day, index|
+  - unless index.zero? && day.day == after
+    %h3.neighbours-day= day_heading(day.day)
+  = render partial: 'neighbours/entry', collection: day.updates, as: :entry

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 20_261_012_210_000) do
+ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -641,6 +641,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_012_210_000) do
     t.float "highest_temp_c"
     t.float "latitude"
     t.jsonb "layout_features", default: [], null: false
+    t.datetime "layout_saved_at"
     t.string "location"
     t.string "location_wikidata_id"
     t.float "longitude"
@@ -757,6 +758,15 @@ ActiveRecord::Schema[8.1].define(version: 20_261_012_210_000) do
   end
 
   create_table "median_functions", id: :serial, force: :cascade do |t|
+  end
+
+  create_table "member_dismissals", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "dismissed_id", null: false
+    t.bigint "member_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dismissed_id"], name: "index_member_dismissals_on_dismissed_id"
+    t.index %w(member_id dismissed_id), name: "index_member_dismissals_on_member_id_and_dismissed_id", unique: true
   end
 
   create_table "members", id: :serial, force: :cascade do |t|
@@ -1023,6 +1033,8 @@ ActiveRecord::Schema[8.1].define(version: 20_261_012_210_000) do
                                                                                 name:   "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "member_dismissals", "members"
+  add_foreign_key "member_dismissals", "members", column: "dismissed_id"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
   add_foreign_key "plantings", "alternate_names", on_delete: :nullify

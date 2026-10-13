@@ -1,0 +1,17 @@
+- place = neighbours.place || t('.you')
+- near = neighbours.rings.first
+.neighbours-reach
+  %div
+    - if near.people.empty?
+      %b= t('.none', place:)
+      = t('.widened')
+    - else
+      %b= t('.few', count: near.people.size, place:)
+      = t('.looked_further')
+  .neighbours-trail
+    - neighbours.rings.each_with_index do |ring, index|
+      - state = ring.people.any? ? 'yes' : nil
+      - state ||= 'no' if ring.searched
+      %span{ class: state }= t(".ring.#{ring.key}", place:, km: Neighbours::RADII_KM.last)
+      - unless index == neighbours.rings.size - 1
+        %span.sep ›

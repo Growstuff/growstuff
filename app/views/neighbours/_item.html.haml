@@ -1,0 +1,10 @@
+- record = item.record
+- case item.type
+- when 'planting'
+  = t('.planting_html', crop: link_to(record.crop.name, polymorphic_path(record)))
+- when 'harvest'
+  = t('.harvest_html', crop: link_to(record.crop.name, polymorphic_path(record)))
+- when 'seed'
+  = t(record.tradable ? '.seed_trade_html' : '.seed_html', crop: link_to(record.crop.name, polymorphic_path(record)))
+- when 'garden_layout'
+  = t('.garden_layout_html', garden: link_to(record.name, polymorphic_path(record)))

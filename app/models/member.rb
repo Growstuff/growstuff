@@ -55,6 +55,7 @@ class Member < ApplicationRecord
   # Crops they have said they don't want suggested
   has_many :crop_dismissals, dependent: :destroy
   has_many :dismissed_crops, through: :crop_dismissals, source: :crop
+  has_many :member_dismissals, dependent: :destroy
 
   #
   # Blocking other members

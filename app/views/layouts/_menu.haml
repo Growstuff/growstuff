@@ -8,6 +8,8 @@
           = image_tag 'icons/notification.svg', class: 'img img-icon', alt: "Notifications"
       %li.nav-item
         = link_to t('.my_garden'), member_gardens_path(current_member, anchor: "content"), class: 'nav-link', aria: { current: ('page' if my_garden_current) }
+      %li.nav-item
+        = link_to t('.friends_and_neighbours'), neighbours_path, class: 'nav-link', aria: { current: ('page' if current_section?(neighbours_path)) }
       %li.nav-item.dropdown
         %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
           = image_tag "icons/gardener.svg", class: 'img img-icon', alt: t('.record'), aria: { hidden: "true" }

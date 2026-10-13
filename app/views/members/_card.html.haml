@@ -1,0 +1,17 @@
+-# A gardener as a card. Pass `why` for a line on why they are shown, and
+-# `dismissible: true` for a × that stops suggesting them.
+- why = local_assigns[:why]
+.member-card
+  - if local_assigns[:dismissible]
+    = button_to '×', member_dismissals_path(member_id: person.id), class: 'member-card-dismiss', form_class: 'member-card-dismiss-form', aria: { label: t('members.card.not_interested', name: person.login_name) }
+  .member-card-top
+    = link_to image_tag(avatar_uri(person, 48), alt: person.login_name, width: 48, height: 48), member_path(person)
+    .member-card-name
+      %h4.login-name= link_to person.login_name, member_path(person)
+      - if person.location.present?
+        %span= person.location
+  - if why
+    %p.member-card-why= why
+  .member-card-foot
+    = link_to t('members.card.visit', name: person.login_name), member_gardens_path(person)
+    = render 'members/follow_button', person:
