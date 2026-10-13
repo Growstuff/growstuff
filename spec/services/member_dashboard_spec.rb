@@ -38,6 +38,13 @@ describe MemberDashboard do
     it 'has twelve months of harvest' do
       expect(dashboard.harvest_by_month.size).to eq 12
     end
+
+    it 'counts harvests in a month even when they have no weight' do
+      planting = create(:planting, owner: member, garden:, planted_at: Date.new(2026, 3, 1))
+      create(:harvest, owner: member, crop: planting.crop, planting:, harvested_at: Date.new(2026, 5, 2), weight_quantity: nil)
+      may = dashboard.harvest_by_month.find { |entry| entry[:month] == 5 }
+      expect([may[:harvests][:this_year], may[:kilograms][:this_year]]).to eq [1, 0.0]
+    end
   end
 
   describe '#band' do

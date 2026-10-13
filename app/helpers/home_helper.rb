@@ -25,6 +25,35 @@ module HomeHelper
     end
   end
 
+  # What the Growing now table needs: every planting that is growing, already
+  # worded, with the crop it is a kind of and its bed, so the chips and filters
+  # can narrow them in the browser. The garden filter is left out for someone
+  # with a single garden.
+  def growing_table_props(dashboard)
+    plants = dashboard.growing.map { |planting| planting.crop.parent || planting.crop }.uniq.sort_by(&:name)
+    {
+      rows:    growing_rows(dashboard.growing, dashboard.ready),
+      plants:  plants.map { |crop| { id: crop.id, name: crop.name } },
+      gardens: dashboard.gardens.size > 1 ? dashboard.gardens.map { |garden| { id: garden.id, name: garden.name } } : [],
+      initial: params[:show] == 'ready' ? 'ready' : 'growing',
+      labels:  %i(chip_growing chip_ready col_plant col_bed col_planted col_maturity col_progress nothing_to_show all_plants all_gardens)
+        .index_with { |key| t("home.dashboard.#{key}") }
+    }
+  end
+
+  # What the Harvest by month chart needs: the totals for each month, and the
+  # wording for each way of measuring them.
+  def harvest_chart_props(dashboard)
+    {
+      months:        dashboard.harvest_by_month.map { |entry| entry.merge(label: month_name(entry[:month], abbreviated: true)) },
+      current_month: Time.zone.today.month,
+      measures:      %i(harvests kilograms).zip(%i(count weight)).map do |measure, key|
+        { key: measure, label: t("home.dashboard.harvest_by_month_#{key}"), note: t("home.dashboard.harvest_by_month_note_#{key}"),
+          unit: t("home.dashboard.harvest_by_month_unit_#{key}") }
+      end
+    }
+  end
+
   # "October", or "Oct" when abbreviated, for a month number.
   def month_name(month, abbreviated: false)
     I18n.l(Date.new(2000, month, 1), format: abbreviated ? '%b' : '%B')
@@ -42,6 +71,23 @@ module HomeHelper
                   content_tag(:div, class: 'home-section-head') { safe_join([content_tag(:h2, title), action]) },
                   capture(&)
                 ])
+    end
+  end
+
+  private
+
+  def growing_rows(plantings, ready)
+    plantings.map do |planting|
+      days = planting.crop.median_days_to_first_harvest
+      { id: planting.id, name: planting.crop_name, url: planting_path(slug: planting.slug), garden: planting.garden_name,
+        garden_id: planting.garden_id, plant_id: (planting.crop.parent || planting.crop).id, ready: ready.include?(planting),
+        image_url: planting.thumbnail_url || image_path(placeholder_image),
+        planted: planting.planted_at&.strftime('%b %-d'),
+        maturity: if planting.harvest_time? then t('home.dashboard.ready')
+                  elsif days then t('home.dashboard.days', count: days)
+                  else ''
+                  end,
+        progress: planting.harvest_time? ? 100 : planting.percentage_grown.to_i }
     end
   end
 end

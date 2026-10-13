@@ -215,6 +215,19 @@ $dash-line: rgba(65, 63, 59, 0.15);
   .now { color: #212121; font-weight: 700; }
 }
 
+.home-chart-toggle { margin-bottom: 0.75rem; }
+
+.home-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 0.75rem;
+
+  .home-chips { margin: 0; }
+
+  select { width: auto; }
+}
+
 .home-chart-bars {
   display: flex;
   gap: 2px;

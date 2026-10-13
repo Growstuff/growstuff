@@ -218,8 +218,10 @@ en:
       at_latitude_note: Top plantings by gardeners at %{band}
       bed_counts: "%{plantings} plantings · %{ready} ready"
       beds: Beds
-      chip_growing: Growing (%{count})
-      chip_ready: Ready (%{count})
+      all_gardens: All gardens
+      all_plants: All plants
+      chip_growing: Growing
+      chip_ready: Ready
       col_bed: Bed
       col_maturity: Maturity
       col_planted: Planted
@@ -245,10 +247,16 @@ en:
       get_started: Get started
       growing_now: Growing now
       harvest_by_month: Harvest by month
-      harvest_by_month_note: "kg harvested: this year (green) and last year (pale)"
+      harvest_by_month_count: Harvests
+      harvest_by_month_weight: Weight
+      harvest_by_month_note_count: "harvests recorded: this year (green) and last year (pale)"
+      harvest_by_month_note_weight: "kg harvested: this year (green) and last year (pale). Only harvests with a weight are counted."
+      harvest_by_month_unit_count: harvests
+      harvest_by_month_unit_weight: kg
       harvest_soon: Harvest soon
       harvesting: Harvesting
       nothing_ready: Nothing is ready yet.
+      nothing_to_show: Nothing matches.
       no_seeds: No seeds saved yet.
       hidden_suggestions:
         one: You've hidden 1 suggested crop.
