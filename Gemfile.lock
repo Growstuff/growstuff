@@ -346,8 +346,8 @@ GEM
       concurrent-ruby
       railties (>= 4.1)
     jsonapi-swagger (0.8.1)
-    kramdown (2.4.0)
-      rexml
+    kramdown (2.5.2)
+      rexml (>= 3.4.4)
     language_server-protocol (3.17.0.6)
     launchy (3.1.1)
       addressable (~> 2.8)
