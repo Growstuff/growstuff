@@ -13,7 +13,7 @@
 = home_section(t('home.dashboard.harvest_by_month')) do
   = react_component 'HarvestChart', harvest_chart_props(dashboard)
 
-= home_section(t('home.dashboard.growing_now'), action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
+= home_section(t('home.dashboard.growing_now'), id: 'growing-now', action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
   = react_component 'GrowingTable', growing_table_props(dashboard)
   %p= link_to t('home.dashboard.see_all_plantings', count: current_member.plantings.count), member_plantings_path(current_member)
 
