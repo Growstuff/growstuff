@@ -123,7 +123,8 @@ Rails.application.routes.draw do
   post 'likes' => 'likes#create'
   delete 'likes' => 'likes#destroy'
 
-  resources :timeline
+  # The timeline became the friends and neighbours page.
+  get '/timeline', to: redirect('/my/neighbours')
 
   resources :members, param: :slug do
     # Before the gardens resource, so "inactive" isn't taken for a garden's slug.

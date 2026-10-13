@@ -4,9 +4,6 @@
   %ul.navbar-nav.me-auto
     - if signed_in?
       %li.nav-item
-        = link_to timeline_index_path, method: :get, class: 'nav-link text-white', title: "Timeline" do
-          = image_tag 'icons/notification.svg', class: 'img img-icon', alt: "Notifications"
-      %li.nav-item
         = link_to t('.my_garden'), member_gardens_path(current_member, anchor: "content"), class: 'nav-link', aria: { current: ('page' if my_garden_current) }
       %li.nav-item
         = link_to t('.friends_and_neighbours'), neighbours_path, class: 'nav-link', aria: { current: ('page' if current_section?(neighbours_path)) }
