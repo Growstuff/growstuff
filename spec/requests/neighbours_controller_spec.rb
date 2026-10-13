@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe NeighboursController do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:member) { create(:member) }
   let(:friend) { create(:member, login_name: 'friendly') }
 
