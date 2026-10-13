@@ -30,6 +30,25 @@ if defined?(JSONAPI)
     end
   end
 
+  # The gem also calls `resources name, options` with the options as a positional hash, which Rails 8.1
+  # deprecates ("resources received a hash argument ..."). Pass them as keywords instead.
+  module ActionDispatch
+    module Routing
+      class Mapper
+        module Resources
+          module KeywordOptions
+            def resources(*args, **options, &)
+              options = args.pop.merge(options) if args.last.is_a?(Hash)
+              super
+            end
+          end
+
+          prepend KeywordOptions
+        end
+      end
+    end
+  end
+
   module JSONAPI
     module RoutingExt
       module Mapper

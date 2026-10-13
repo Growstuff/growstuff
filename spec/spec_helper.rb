@@ -129,6 +129,18 @@ RSpec.configure do |config|
   # show exception that triggers a retry if verbose_retry is set to true
   config.display_try_failure_messages = true
 
+  # Name each feature spec before it runs, and time it afterwards, so a hung browser shows which one
+  config.before :each, type: :feature do |example|
+    @feature_started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    $stdout.puts "  running: #{example.full_description}"
+    $stdout.flush
+  end
+
+  config.after :each, type: :feature do
+    $stdout.puts format("  done in %<seconds>.2fs", seconds: Process.clock_gettime(Process::CLOCK_MONOTONIC) - @feature_started_at)
+    $stdout.flush
+  end
+
   # run retry only on features
   config.around :each, :js do |ex|
     ex.run_with_retry retry: 3
