@@ -25,6 +25,19 @@ module HomeHelper
     end
   end
 
+  # What the Growing now table needs: the first ten rows of what is growing and
+  # of what is ready, already worded, so the chips can switch between them in
+  # the browser.
+  def growing_table_props(dashboard)
+    {
+      growing: growing_rows(dashboard.growing), ready: growing_rows(dashboard.ready),
+      chips: { growing: t('home.dashboard.chip_growing', count: dashboard.growing.size),
+               ready: t('home.dashboard.chip_ready', count: dashboard.ready.size) },
+      initial: params[:show] == 'ready' ? 'ready' : 'growing',
+      labels: %i[col_plant col_bed col_planted col_maturity col_progress nothing_ready].index_with { |key| t("home.dashboard.#{key}") }
+    }
+  end
+
   # "October", or "Oct" when abbreviated, for a month number.
   def month_name(month, abbreviated: false)
     I18n.l(Date.new(2000, month, 1), format: abbreviated ? '%b' : '%B')
@@ -42,6 +55,22 @@ module HomeHelper
                   content_tag(:div, class: 'home-section-head') { safe_join([content_tag(:h2, title), action]) },
                   capture(&)
                 ])
+    end
+  end
+
+  private
+
+  def growing_rows(plantings)
+    plantings.first(10).map do |planting|
+      days = planting.crop.median_days_to_first_harvest
+      { id: planting.id, name: planting.crop_name, url: planting_path(slug: planting.slug), garden: planting.garden_name,
+        image_url: planting.thumbnail_url || image_path(placeholder_image),
+        planted: planting.planted_at&.strftime('%b %-d'),
+        maturity: if planting.harvest_time? then t('home.dashboard.ready')
+                  elsif days then t('home.dashboard.days', count: days)
+                  else ''
+                  end,
+        progress: planting.harvest_time? ? 100 : planting.percentage_grown.to_i }
     end
   end
 end

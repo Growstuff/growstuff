@@ -18,31 +18,7 @@
                                                  unit_count: t('home.dashboard.harvest_by_month_unit_count'), unit_weight: t('home.dashboard.harvest_by_month_unit_weight') } }
 
 = home_section(t('home.dashboard.growing_now'), action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
-  - shown = params[:show] == 'ready' ? dashboard.ready : dashboard.growing
-  .home-chips
-    = link_to t('home.dashboard.chip_growing', count: dashboard.growing.size), root_path, class: ('on' unless params[:show] == 'ready')
-    = link_to t('home.dashboard.chip_ready', count: dashboard.ready.size), root_path(show: 'ready'), class: ('on' if params[:show] == 'ready')
-  .home-table-scroll
-    %table.home-table
-      %thead
-        %tr
-          %th= t('home.dashboard.col_plant')
-          %th= t('home.dashboard.col_bed')
-          %th= t('home.dashboard.col_planted')
-          %th= t('home.dashboard.col_maturity')
-          %th= t('home.dashboard.col_progress')
-      %tbody
-        - shown.first(10).each do |planting|
-          %tr
-            %td
-              = image_tag((planting.thumbnail_url || placeholder_image), alt: '')
-              = link_to planting.crop_name, planting_path(slug: planting.slug)
-            %td= planting.garden_name
-            %td= planting.planted_at&.strftime('%b %-d')
-            %td= planting.harvest_time? ? t('home.dashboard.ready') : (planting.crop.median_days_to_first_harvest ? t('home.dashboard.days', count: planting.crop.median_days_to_first_harvest) : '')
-            %td
-              %span.home-bar
-                %i{ style: "width: #{planting.harvest_time? ? 100 : planting.percentage_grown.to_i}%" }
+  = react_component 'GrowingTable', growing_table_props(dashboard)
   %p= link_to t('home.dashboard.see_all_plantings', count: current_member.plantings.count), member_plantings_path(current_member)
 
 = home_section(t('home.dashboard.beds'), action: link_to(t('home.dashboard.add_bed'), new_garden_path, class: 'home-section-add')) do
