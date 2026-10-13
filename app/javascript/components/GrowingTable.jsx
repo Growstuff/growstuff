@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 
+import ChipToggle from './ChipToggle';
+
 // What the member has growing, or just what is ready to pick, as a table. The
 // chips switch between the two without reloading. `growing` and `ready` are
 // the rows to show, already worded by Rails; `chips` are the
@@ -7,22 +9,14 @@ import React, {useState} from 'react';
 export default function GrowingTable({growing, ready, chips, initial, labels}) {
   const [shown, setShown] = useState(initial);
   const rows = shown === 'ready' ? ready : growing;
+  const options = [
+    {key: 'growing', label: chips.growing, href: '/'},
+    {key: 'ready', label: chips.ready, href: '/?show=ready'}
+  ];
 
   return (
     <>
-      <div className="home-chips" role="group">
-        {['growing', 'ready'].map((key) => (
-          <a
-            key={key}
-            href={key === 'ready' ? '/?show=ready' : '/'}
-            className={shown === key ? 'on' : undefined}
-            aria-pressed={shown === key}
-            onClick={(event) => { event.preventDefault(); setShown(key); }}
-          >
-            {chips[key]}
-          </a>
-        ))}
-      </div>
+      <ChipToggle options={options} value={shown} onChange={setShown} />
       <div className="home-table-scroll">
         <table className="home-table">
           <thead>

@@ -32,9 +32,22 @@ module HomeHelper
     {
       growing: growing_rows(dashboard.growing), ready: growing_rows(dashboard.ready),
       chips: { growing: t('home.dashboard.chip_growing', count: dashboard.growing.size),
-               ready: t('home.dashboard.chip_ready', count: dashboard.ready.size) },
+               ready:   t('home.dashboard.chip_ready', count: dashboard.ready.size) },
       initial: params[:show] == 'ready' ? 'ready' : 'growing',
-      labels: %i[col_plant col_bed col_planted col_maturity col_progress nothing_ready].index_with { |key| t("home.dashboard.#{key}") }
+      labels: %i(col_plant col_bed col_planted col_maturity col_progress nothing_ready).index_with { |key| t("home.dashboard.#{key}") }
+    }
+  end
+
+  # What the Harvest by month chart needs: the totals for each month, and the
+  # wording for each way of measuring them.
+  def harvest_chart_props(dashboard)
+    {
+      months: dashboard.harvest_by_month.map { |entry| entry.merge(label: month_name(entry[:month], abbreviated: true)) },
+      current_month: Time.zone.today.month,
+      measures: %i(harvests kilograms).zip(%i(count weight)).map do |measure, key|
+        { key: measure, label: t("home.dashboard.harvest_by_month_#{key}"), note: t("home.dashboard.harvest_by_month_note_#{key}"),
+          unit: t("home.dashboard.harvest_by_month_unit_#{key}") }
+      end
     }
   end
 

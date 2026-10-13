@@ -11,11 +11,7 @@
 = render 'home/dashboard/this_week', dashboard:
 
 = home_section(t('home.dashboard.harvest_by_month')) do
-  = react_component 'HarvestChart', { months: dashboard.harvest_by_month.map { |entry| entry.merge(label: month_name(entry[:month], abbreviated: true)) },
-                                       current_month: Time.zone.today.month,
-                                       labels: { count: t('home.dashboard.harvest_by_month_count'), weight: t('home.dashboard.harvest_by_month_weight'),
-                                                 note_count: t('home.dashboard.harvest_by_month_note_count'), note_weight: t('home.dashboard.harvest_by_month_note_weight'),
-                                                 unit_count: t('home.dashboard.harvest_by_month_unit_count'), unit_weight: t('home.dashboard.harvest_by_month_unit_weight') } }
+  = react_component 'HarvestChart', harvest_chart_props(dashboard)
 
 = home_section(t('home.dashboard.growing_now'), action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
   = react_component 'GrowingTable', growing_table_props(dashboard)
