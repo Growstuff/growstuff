@@ -82,7 +82,10 @@
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   gap: 8px;
 
+  figure { margin: 0; }
+  a { color: inherit; text-decoration: none; }
   img { display: block; width: 100%; height: 130px; object-fit: cover; border-radius: 3px; }
+  figcaption { font-size: 0.8rem; margin-top: 2px; }
 
   &.one { grid-template-columns: minmax(0, 360px); img { height: 220px; } }
 }

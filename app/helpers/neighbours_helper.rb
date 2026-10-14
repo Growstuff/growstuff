@@ -45,10 +45,24 @@ module NeighboursHelper
   # Pictures for an entry, photos first, each linking to the thing it is of
   # (the planting, rather than the photo) when there is one.
   def entry_images(entry)
-    photos = entry.photos.map { |item| { url: item.record.thumbnail_url, link: item.subject || item.record } }
-    records = entry.others.map(&:record).select { |record| record.respond_to?(:thumbnail_url) }
-    others = records.map { |record| { url: record.thumbnail_url, link: record } }
+    photos = entry.photos.map { |item| image_of(item.record.thumbnail_url, item.subject || item.record) }
+    others = entry.others.map(&:record).map { |record| image_of(own_photo_url(record), record) }
     (photos + others).uniq { |image| image[:url] }.select { |image| image[:url] }.first(PICTURES_SHOWN)
+  end
+
+  # A picture and what it is of, as a caption: "A tomato planting".
+  def image_of(url, link)
+    label = subject_label(link).upcase_first unless link.is_a?(Photo)
+    { url:, link:, label: }
+  end
+
+  # The record's own best photo, never the crop's stand-in that
+  # thumbnail_url falls back to.
+  def own_photo_url(record)
+    photo = record.most_liked_photo if record.respond_to?(:most_liked_photo)
+    return unless photo
+
+    photo.source == 'flickr' ? photo.fullsize_url : photo.thumbnail_url
   end
 
   # "Photo of a tomato planting", "3 photos of a tomato planting": the item

@@ -24,8 +24,11 @@
     - if images.any?
       .neighbours-entry-photos{ class: ('one' if images.one?) }
         - images.each do |image|
-          = link_to polymorphic_path(image[:link]) do
-            = image_tag image[:url], alt: ''
+          %figure
+            = link_to polymorphic_path(image[:link]) do
+              = image_tag image[:url], alt: image[:label].to_s
+              - if image[:label]
+                %figcaption= image[:label]
     - entry.others.select { |item| item.type == 'garden_layout' }.each do |item|
       = render 'layout', garden: item.record, owner:
     - if lines == 1 && (liked = (entry.others.first || entry.photos.first).record).respond_to?(:liked_by?)
