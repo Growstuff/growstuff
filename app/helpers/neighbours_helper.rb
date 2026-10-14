@@ -2,6 +2,19 @@
 
 module NeighboursHelper
   PICTURES_SHOWN = 8
+  LAUNCHED_ON = Date.new(2026, 10, 14)
+  NEW_FOR = 3.months
+  NEW_AFTER_VISIT = 24.hours
+
+  # The "New" badge and welcome banner show until the member has had a day
+  # with the page, or three months after launch. Someone who has never opened
+  # it still sees them after that.
+  def neighbours_new?
+    first_seen = current_member.feature_first_seen_at(:neighbours)
+    return true unless first_seen
+
+    Time.current < first_seen + NEW_AFTER_VISIT && Time.zone.today < LAUNCHED_ON + NEW_FOR
+  end
 
   # "Today · Tue 13 Oct", "Yesterday · Mon 12 Oct", then just "Sun 11 Oct".
   def day_heading(day)

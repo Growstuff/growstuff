@@ -477,6 +477,10 @@ en:
         following: People I follow
         nearby: Nearby
       title: My friends & neighbours
+      welcome:
+        body_html: This page is new and we'd love you to try it out. %{link} and tell us what works, what doesn't, and what you'd like to see.
+        feedback_link: Send us your feedback
+        title: Welcome to your friends and neighbours feed
     subject:
       garden: the garden %{name}
       harvest: a %{crop} harvest
@@ -539,6 +543,7 @@ en:
     menu:
       friends_and_neighbours: My friends & neighbours
       my_garden: My garden
+      new_badge: New
       releases: What's new
       sign_in: Sign in
       sign_out: Sign out

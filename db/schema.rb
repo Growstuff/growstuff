@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_14_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,7 +21,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.bigint "record_id", null: false
     t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index %w(record_type record_id name blob_id), name: "index_active_storage_attachments_uniqueness", unique: true
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -39,7 +39,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
-    t.index %w(blob_id variation_digest), name: "index_active_storage_variant_records_uniqueness", unique: true
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "activities", force: :cascade do |t|
@@ -390,7 +390,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["blocked_id"], name: "index_blocks_on_blocked_id"
-    t.index %w(blocker_id blocked_id), name: "index_blocks_on_blocker_id_and_blocked_id", unique: true
+    t.index ["blocker_id", "blocked_id"], name: "index_blocks_on_blocker_id_and_blocked_id", unique: true
     t.index ["blocker_id"], name: "index_blocks_on_blocker_id"
   end
 
@@ -398,15 +398,14 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.string "categorized_type", null: false
     t.string "label", null: false
     t.integer "site_id", null: false
-    t.index %w(site_id categorized_type label), name: "index_cms_categories_on_site_id_and_cat_type_and_label", unique: true
+    t.index ["site_id", "categorized_type", "label"], name: "index_cms_categories_on_site_id_and_cat_type_and_label", unique: true
   end
 
   create_table "comfy_cms_categorizations", id: :serial, force: :cascade do |t|
     t.integer "categorized_id", null: false
     t.string "categorized_type", null: false
     t.integer "category_id", null: false
-    t.index %w(category_id categorized_type categorized_id), name:   "index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id",
-                                                             unique: true
+    t.index ["category_id", "categorized_type", "categorized_id"], name: "index_cms_categorizations_on_cat_id_and_catd_type_and_catd_id", unique: true
   end
 
   create_table "comfy_cms_files", id: :serial, force: :cascade do |t|
@@ -418,10 +417,10 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.integer "position", default: 0, null: false
     t.integer "site_id", null: false
     t.datetime "updated_at", precision: nil
-    t.index %w(site_id block_id), name: "index_comfy_cms_files_on_site_id_and_block_id"
-    t.index %w(site_id file_file_name), name: "index_comfy_cms_files_on_site_id_and_file_file_name"
-    t.index %w(site_id label), name: "index_comfy_cms_files_on_site_id_and_label"
-    t.index %w(site_id position), name: "index_comfy_cms_files_on_site_id_and_position"
+    t.index ["site_id", "block_id"], name: "index_comfy_cms_files_on_site_id_and_block_id"
+    t.index ["site_id", "file_file_name"], name: "index_comfy_cms_files_on_site_id_and_file_file_name"
+    t.index ["site_id", "label"], name: "index_comfy_cms_files_on_site_id_and_label"
+    t.index ["site_id", "position"], name: "index_comfy_cms_files_on_site_id_and_position"
   end
 
   create_table "comfy_cms_fragments", id: :serial, force: :cascade do |t|
@@ -435,7 +434,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.string "tag", default: "text", null: false
     t.datetime "updated_at", precision: nil
     t.index ["identifier"], name: "index_comfy_cms_fragments_on_identifier"
-    t.index %w(record_id record_type), name: "index_comfy_cms_fragments_on_record_id_and_record_type"
+    t.index ["record_id", "record_type"], name: "index_comfy_cms_fragments_on_record_id_and_record_type"
   end
 
   create_table "comfy_cms_layouts", id: :serial, force: :cascade do |t|
@@ -450,8 +449,8 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.integer "position", default: 0, null: false
     t.integer "site_id", null: false
     t.datetime "updated_at", precision: nil
-    t.index %w(parent_id position), name: "index_comfy_cms_layouts_on_parent_id_and_position"
-    t.index %w(site_id identifier), name: "index_comfy_cms_layouts_on_site_id_and_identifier", unique: true
+    t.index ["parent_id", "position"], name: "index_comfy_cms_layouts_on_parent_id_and_position"
+    t.index ["site_id", "identifier"], name: "index_comfy_cms_layouts_on_site_id_and_identifier", unique: true
   end
 
   create_table "comfy_cms_pages", id: :serial, force: :cascade do |t|
@@ -468,8 +467,8 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.string "slug"
     t.integer "target_page_id"
     t.datetime "updated_at", precision: nil
-    t.index %w(parent_id position), name: "index_comfy_cms_pages_on_parent_id_and_position"
-    t.index %w(site_id full_path), name: "index_comfy_cms_pages_on_site_id_and_full_path"
+    t.index ["parent_id", "position"], name: "index_comfy_cms_pages_on_parent_id_and_position"
+    t.index ["site_id", "full_path"], name: "index_comfy_cms_pages_on_site_id_and_full_path"
   end
 
   create_table "comfy_cms_revisions", id: :serial, force: :cascade do |t|
@@ -477,7 +476,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.text "data"
     t.integer "record_id", null: false
     t.string "record_type", null: false
-    t.index %w(record_type record_id created_at), name: "index_cms_revisions_on_rtype_and_rid_and_created_at"
+    t.index ["record_type", "record_id", "created_at"], name: "index_cms_revisions_on_rtype_and_rid_and_created_at"
   end
 
   create_table "comfy_cms_sites", id: :serial, force: :cascade do |t|
@@ -497,8 +496,8 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.integer "position", default: 0, null: false
     t.integer "site_id", null: false
     t.datetime "updated_at", precision: nil
-    t.index %w(site_id identifier), name: "index_comfy_cms_snippets_on_site_id_and_identifier", unique: true
-    t.index %w(site_id position), name: "index_comfy_cms_snippets_on_site_id_and_position"
+    t.index ["site_id", "identifier"], name: "index_comfy_cms_snippets_on_site_id_and_identifier", unique: true
+    t.index ["site_id", "position"], name: "index_comfy_cms_snippets_on_site_id_and_position"
   end
 
   create_table "comfy_cms_translations", force: :cascade do |t|
@@ -523,7 +522,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.index ["author_id"], name: "index_comments_on_author_id"
-    t.index %w(commentable_type commentable_id), name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
   end
 
   create_table "crop_companions", force: :cascade do |t|
@@ -532,7 +531,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.integer "crop_b_id", null: false
     t.string "source_url"
     t.datetime "updated_at", precision: nil, null: false
-    t.index %w(crop_a_id crop_b_id), name: "index_crop_companions_on_crop_a_id_and_crop_b_id"
+    t.index ["crop_a_id", "crop_b_id"], name: "index_crop_companions_on_crop_a_id_and_crop_b_id"
   end
 
   create_table "crop_dismissals", force: :cascade do |t|
@@ -541,13 +540,13 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.bigint "member_id", null: false
     t.datetime "updated_at", null: false
     t.index ["crop_id"], name: "index_crop_dismissals_on_crop_id"
-    t.index %w(member_id crop_id), name: "index_crop_dismissals_on_member_id_and_crop_id", unique: true
+    t.index ["member_id", "crop_id"], name: "index_crop_dismissals_on_member_id_and_crop_id", unique: true
   end
 
   create_table "crop_posts", id: false, force: :cascade do |t|
     t.integer "crop_id"
     t.integer "post_id"
-    t.index %w(crop_id post_id), name: "index_crop_posts_on_crop_id_and_post_id"
+    t.index ["crop_id", "post_id"], name: "index_crop_posts_on_crop_id_and_post_id"
     t.index ["crop_id"], name: "index_crop_posts_on_crop_id"
   end
 
@@ -596,7 +595,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.integer "followed_id"
     t.integer "follower_id"
     t.datetime "updated_at", precision: nil
-    t.index %w(follower_id followed_id), name: "index_follows_on_follower_id_and_followed_id"
+    t.index ["follower_id", "followed_id"], name: "index_follows_on_follower_id_and_followed_id"
   end
 
   create_table "forums", id: :serial, force: :cascade do |t|
@@ -616,7 +615,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.bigint "member_id"
     t.datetime "updated_at", null: false
     t.index ["garden_id"], name: "index_garden_collaborators_on_garden_id"
-    t.index %w(member_id garden_id), name: "index_garden_collaborators_on_member_id_and_garden_id", unique: true
+    t.index ["member_id", "garden_id"], name: "index_garden_collaborators_on_member_id_and_garden_id", unique: true
     t.index ["member_id"], name: "index_garden_collaborators_on_member_id"
   end
 
@@ -658,7 +657,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
   create_table "gardens_photos", id: false, force: :cascade do |t|
     t.integer "garden_id"
     t.integer "photo_id"
-    t.index %w(garden_id photo_id), name: "index_gardens_photos_on_garden_id_and_photo_id"
+    t.index ["garden_id", "photo_id"], name: "index_gardens_photos_on_garden_id_and_photo_id"
   end
 
   create_table "harvests", id: :serial, force: :cascade do |t|
@@ -686,7 +685,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
   create_table "harvests_photos", id: false, force: :cascade do |t|
     t.integer "harvest_id"
     t.integer "photo_id"
-    t.index %w(harvest_id photo_id), name: "index_harvests_photos_on_harvest_id_and_photo_id"
+    t.index ["harvest_id", "photo_id"], name: "index_harvests_photos_on_harvest_id_and_photo_id"
   end
 
   create_table "likes", id: :serial, force: :cascade do |t|
@@ -697,7 +696,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.integer "member_id"
     t.datetime "updated_at", precision: nil
     t.index ["likeable_id"], name: "index_likes_on_likeable_id"
-    t.index %w(likeable_type likeable_id), name: "index_likes_on_likeable_type_and_likeable_id"
+    t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id"
     t.index ["member_id"], name: "index_likes_on_member_id"
   end
 
@@ -708,7 +707,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.string "unsubscriber_type"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["conversation_id"], name: "index_mailboxer_conversation_opt_outs_on_conversation_id"
-    t.index %w(unsubscriber_id unsubscriber_type), name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type"
+    t.index ["unsubscriber_id", "unsubscriber_type"], name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type"
   end
 
   create_table "mailboxer_conversations", id: :serial, force: :cascade do |t|
@@ -734,9 +733,9 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.string "type"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id"
-    t.index %w(notified_object_id notified_object_type), name: "index_mailboxer_notifications_on_notified_object_id_and_type"
-    t.index %w(notified_object_type notified_object_id), name: "mailboxer_notifications_notified_object"
-    t.index %w(sender_id sender_type), name: "index_mailboxer_notifications_on_sender_id_and_sender_type"
+    t.index ["notified_object_id", "notified_object_type"], name: "index_mailboxer_notifications_on_notified_object_id_and_type"
+    t.index ["notified_object_type", "notified_object_id"], name: "mailboxer_notifications_notified_object"
+    t.index ["sender_id", "sender_type"], name: "index_mailboxer_notifications_on_sender_id_and_sender_type"
     t.index ["type"], name: "index_mailboxer_notifications_on_type"
   end
 
@@ -754,7 +753,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.boolean "trashed", default: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["notification_id"], name: "index_mailboxer_receipts_on_notification_id"
-    t.index %w(receiver_id receiver_type), name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
+    t.index ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
   end
 
   create_table "median_functions", id: :serial, force: :cascade do |t|
@@ -766,7 +765,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.bigint "member_id", null: false
     t.datetime "updated_at", null: false
     t.index ["dismissed_id"], name: "index_member_dismissals_on_dismissed_id"
-    t.index %w(member_id dismissed_id), name: "index_member_dismissals_on_member_id_and_dismissed_id", unique: true
+    t.index ["member_id", "dismissed_id"], name: "index_member_dismissals_on_member_id_and_dismissed_id", unique: true
   end
 
   create_table "members", id: :serial, force: :cascade do |t|
@@ -807,6 +806,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.boolean "send_harvest_reminder", default: true, null: false
     t.boolean "send_notification_email", default: true
     t.boolean "send_planting_reminder", default: true
+    t.jsonb "settings", default: {}, null: false
     t.boolean "show_email"
     t.integer "sign_in_count", default: 0
     t.string "slug"
@@ -827,7 +827,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
   create_table "members_roles", id: false, force: :cascade do |t|
     t.integer "member_id"
     t.integer "role_id"
-    t.index %w(member_id role_id), name: "index_members_roles_on_member_id_and_role_id"
+    t.index ["member_id", "role_id"], name: "index_members_roles_on_member_id_and_role_id"
   end
 
   create_table "notifications", id: :serial, force: :cascade do |t|
@@ -840,7 +840,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.integer "sender_id"
     t.string "subject"
     t.datetime "updated_at", precision: nil
-    t.index %w(notifiable_type notifiable_id), name: "index_notifications_on_notifiable_type_and_notifiable_id"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
     t.index ["recipient_id"], name: "index_notifications_on_recipient_id"
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
   end
@@ -848,7 +848,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
   create_table "orders_products", id: false, force: :cascade do |t|
     t.integer "order_id"
     t.integer "product_id"
-    t.index %w(order_id product_id), name: "index_orders_products_on_order_id_and_product_id"
+    t.index ["order_id", "product_id"], name: "index_orders_products_on_order_id_and_product_id"
   end
 
   create_table "photo_associations", id: :serial, force: :cascade do |t|
@@ -859,8 +859,8 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.string "photographable_type", null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["crop_id"], name: "index_photo_associations_on_crop_id"
-    t.index %w(photographable_id photographable_type photo_id), name: "items_to_photos_idx", unique: true
-    t.index %w(photographable_id photographable_type), name: "photographable_idx"
+    t.index ["photographable_id", "photographable_type", "photo_id"], name: "items_to_photos_idx", unique: true
+    t.index ["photographable_id", "photographable_type"], name: "photographable_idx"
   end
 
   create_table "photos", id: :serial, force: :cascade do |t|
@@ -887,13 +887,13 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
   create_table "photos_plantings", id: false, force: :cascade do |t|
     t.integer "photo_id"
     t.integer "planting_id"
-    t.index %w(photo_id planting_id), name: "index_photos_plantings_on_photo_id_and_planting_id"
+    t.index ["photo_id", "planting_id"], name: "index_photos_plantings_on_photo_id_and_planting_id"
   end
 
   create_table "photos_seeds", id: false, force: :cascade do |t|
     t.integer "photo_id"
     t.integer "seed_id"
-    t.index %w(seed_id photo_id), name: "index_photos_seeds_on_seed_id_and_photo_id"
+    t.index ["seed_id", "photo_id"], name: "index_photos_seeds_on_seed_id_and_photo_id"
   end
 
   create_table "plant_parts", id: :serial, force: :cascade do |t|
@@ -943,7 +943,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.float "diameter"
     t.bigint "planting_id", null: false
     t.datetime "updated_at", null: false
-    t.index %w(planting_id bed_x bed_y), name: "index_plants_on_planting_id_and_bed_x_and_bed_y"
+    t.index ["planting_id", "bed_x", "bed_y"], name: "index_plants_on_planting_id_and_bed_x_and_bed_y"
   end
 
   create_table "posts", id: :serial, force: :cascade do |t|
@@ -956,7 +956,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.string "slug"
     t.string "subject", null: false
     t.datetime "updated_at", precision: nil
-    t.index %w(created_at author_id), name: "index_posts_on_created_at_and_author_id"
+    t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["forum_id"], name: "index_posts_on_forum_id"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
@@ -1019,7 +1019,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
     t.text "object"
     t.text "object_changes"
     t.string "whodunnit"
-    t.index %w(item_type item_id), name: "index_versions_on_item_type_and_item_id"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -1029,8 +1029,7 @@ ActiveRecord::Schema[8.1].define(version: 20_261_013_010_000) do
   add_foreign_key "crop_dismissals", "crops"
   add_foreign_key "crop_dismissals", "members"
   add_foreign_key "harvests", "plantings"
-  add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id",
-                                                                                name:   "mb_opt_outs_on_conversations_id"
+  add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "member_dismissals", "members"
