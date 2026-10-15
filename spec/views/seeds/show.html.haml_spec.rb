@@ -16,6 +16,28 @@ describe "seeds/show" do
     expect(rendered).to have_content seed.crop.name
   end
 
+  describe "the heirloom or hybrid fact" do
+    context "when it is an heirloom" do
+      let(:seed) { create(:seed, heirloom: 'heirloom') }
+
+      it { expect(rendered).to have_css('.seedfacts--heirloom', text: 'Heirloom') }
+      it { expect(rendered).to have_css('h3', text: 'Heirloom or hybrid') }
+    end
+
+    context "when it is a hybrid" do
+      let(:seed) { create(:seed, heirloom: 'hybrid') }
+
+      it { expect(rendered).to have_css('.seedfacts--heirloom', text: 'Hybrid') }
+    end
+
+    context "when it is not known" do
+      let(:seed) { create(:seed, heirloom: 'unknown') }
+
+      it { expect(rendered).to have_css('.seedfacts--heirloom', text: 'Unknown') }
+      it { expect(rendered).to have_css('.card.text-muted .seedfacts--heirloom') }
+    end
+  end
+
   context "tradable" do
     context 'with location' do
       let!(:owner) { create(:london_member) }
