@@ -122,7 +122,7 @@ describe SeedsController do
     let(:followed) { create(:south_pole_member) }
 
     before do
-      Follow.create!(follower: viewer, followed:)
+      create(:follow, follower: viewer, followed:)
       sign_in viewer
     end
 
