@@ -7,6 +7,6 @@
     %span
       = link_to "Open the #{crop.name} page →", crop_path(crop)
       = link_to 'Close ▴', url_for(open: nil, page: nil, anchor: "stack-#{crop.id}")
-  .index-cards
+  .seed-shelf-packets
     - packets.each do |packet|
-      = render 'seeds/card', seed: packet
+      = render 'seeds/packet', seed: packet

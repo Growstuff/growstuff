@@ -8,23 +8,10 @@
 - content_for :title, title('seeds', @owner, @crop, @planting)
 - content_for :meta_description, "Browse and search for seeds."
 
-%header.seed-header
-  %h1
-    = seed_icon
-    = title('seeds', @owner, @crop, @planting)
-  .seed-header-actions
-    - if current_member.present?
-      %ul.nav.nav-pills.seed-scope
-        %li.nav-item= link_to 'Mine', member_seeds_path(current_member), class: ['nav-link', ('active' if @owner == current_member)]
-        %li.nav-item= link_to 'Everyone', seeds_path, class: ['nav-link', ('active' if @owner.blank?)]
-      - if can?(:create, Seed)
-        = link_to 'Add seeds', new_seed_path, class: 'btn btn-primary'
-    - else
-      = render 'shared/signin_signup', to: 'record your seeds'
-- if @owner || @crop
-  = render 'seeds/context'
+= render 'seeds/page_head'
 
-%section
+%section.seed-library
+  = render 'seeds/scope'
   %ul.nav.nav-tabs.seed-tabs
     %li.nav-item
       = link_to url_for(finished: nil, all: nil, page: nil), class: ['nav-link', ('active' unless @show_finished || @show_all)] do
@@ -34,12 +21,7 @@
       = link_to url_for(finished: 1, all: nil, page: nil), class: ['nav-link', ('active' if @show_finished)] do
         Finished
         %small= @finished_count
-  %ul.seed-chips
-    - shared = Seed::TRADABLE_TO_VALUES - ['nowhere']
-    %li= link_to 'All', url_for(tradeable_to: nil, page: nil), class: ['seed-chip', ('active' if params[:tradeable_to].blank?)]
-    %li= link_to 'Shared with others', url_for(tradeable_to: shared, page: nil), class: ['seed-chip', ('active' if params[:tradeable_to].is_a?(Array))]
-    - shared.each do |value|
-      %li= link_to value.capitalize, url_for(tradeable_to: value, page: nil), class: ['seed-chip', ('active' if params[:tradeable_to] == value)]
+  = render 'seeds/toolbar'
   - if @crop && !member_signed_in?
     %p
       = link_to 'Sign in', new_member_session_path
@@ -48,35 +30,29 @@
       to see seed traders near you.
   - elsif @sort_by_distance
     %p.text-muted Sorted by distance from your location.
-  = will_paginate @seeds
-  - if @seeds.blank? && @query.blank?
-    %p No seeds recorded yet
-  = form_tag url_for, method: :get, class: 'seed-search', role: 'search' do
-    - { group: params[:group], view: params[:view], finished: params[:finished] }.compact_blank.each do |name, value|
-      = hidden_field_tag name, value
-    = label_tag :q, 'Search seeds', class: 'visually-hidden'
-    = search_field_tag :q, @query, placeholder: 'Search seeds by crop', class: 'form-control'
-    = submit_tag 'Search', name: nil, class: 'btn btn-primary'
+  - if @everyone && @shared_totals
+    .seed-tip
+      %div
+        %b= "#{pluralize @shared_totals[:packets], 'packet'} from #{pluralize @shared_totals[:gardeners], 'gardener'}."
+        A seed shows here only when the gardener chose to share it. We show a gardener's city, never their address.
+        Each card is one variety, with a stack behind it for the gardeners who have it. Open a card to see them,
+        nearest first, and request seeds from the one you choose.
+  - if @past_count.positive? || params[:past] == '1'
+    = render 'seeds/past_sow_by'
   - if @query.present?
     = render 'seeds/search_summary'
-  .seed-controls
-    %div
-      %span.seed-controls-label Group by
-      .seed-seg{ role: 'group', 'aria-label': 'Group by' }
-        - { 'crop' => 'Crop', 'source' => 'Where from', 'year' => 'Year saved', 'heirloom' => 'Heirloom or hybrid' }.each do |key, label|
-          = link_to label, url_for(group: key, page: nil), class: ('active' if @group_by == key)
-    .seed-seg{ role: 'group', 'aria-label': 'View as' }
-      = link_to 'Cards', url_for(view: nil, page: nil), class: ('active' unless @list_view)
-      = link_to 'List', url_for(view: 'list', page: nil), class: ('active' if @list_view)
   - if @seeds.blank? && @query.present?
     = render 'seeds/none'
+  - elsif @seeds.blank?
+    %p No seeds recorded yet
   - elsif @list_view
     = render 'seeds/list', shelves: @shelves
   - else
-    - @shelves.each do |shelf, seeds|
-      = render 'seeds/shelf', shelf: shelf, seeds: seeds, owned: @owner.present? && @owner == current_member, everyone: @everyone
+    - @shelves.each_with_index do |(shelf, seeds), position|
+      = render 'seeds/shelf', shelf: shelf, seeds: seeds, position: position, owned: @owner.present? && @owner == current_member, everyone: @everyone
 
   = will_paginate @seeds
+  %p.seed-footnote A stack with a ×3 badge is several packets of one crop. Open it to see each packet.
 
   %section.open-data
     %h2 Open Data

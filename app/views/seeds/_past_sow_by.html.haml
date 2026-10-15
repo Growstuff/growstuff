@@ -1,0 +1,13 @@
+-# Seed past its sow-by year often still grows; this says so, and lets a
+-# gardener see which packets they are.
+- if params[:past] == '1'
+  .seed-tip
+    %div
+      %b Showing packets past their sow-by date.
+    = link_to 'Show all', url_for(past: nil, page: nil)
+- else
+  .seed-tip
+    %div
+      %b= "#{pluralize @past_count, 'packet'} #{@past_count == 1 ? 'is' : 'are'} past their sow-by date."
+      Old seed often still grows. Sow a few thickly to find out.
+    = link_to "Show me #{@past_count == 1 ? 'that one' : "those #{@past_count}"}", url_for(past: 1, page: nil)

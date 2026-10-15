@@ -40,4 +40,28 @@ module SeedsHelper
   def nearest_first(packets)
     packets.sort_by { |seed| seed_km(seed) || Float::INFINITY }
   end
+
+  SOURCE_LABELS = {
+    'seed catalogue'                   => 'catalogue',
+    'retail outlet'                    => 'retail outlet',
+    'seed bank or similar institution' => 'seed bank',
+    'traded from another person'       => 'traded',
+    'my own seed saving'               => 'own saving'
+  }.freeze
+
+  # Where a packet came from, in the few words a packet has room for.
+  def seed_source_label(source)
+    SOURCE_LABELS[source]
+  end
+
+  # The year along the foot of a packet: a range for a pile, else when it was
+  # saved or the year to sow it by.
+  def seed_packet_rule(packets)
+    years = packets.filter_map { |seed| (seed.saved_at || seed.plant_before)&.year }
+    return if years.empty?
+    return years.minmax.uniq.join(' – ') if packets.size > 1
+
+    seed = packets.first
+    seed.saved_at ? "saved #{years.first}" : "sow by #{years.first}"
+  end
 end

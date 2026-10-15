@@ -5,25 +5,17 @@
 - crop = nearest.crop
 - open_path = url_for(open: crop.id, page: nil, anchor: "variety-#{crop.id}")
 - opened = (crop.id == @open_crop_id)
+- where = [nearest.owner_login_name, nearest.owner_location&.split(',')&.first].compact_blank.join(' · ')
 .seed-stack.seed-variety{ id: "variety-#{crop.id}", class: ('seed-variety-open' if opened) }
   .seed-stack-pile{ class: ('seed-stack-pile-single' if gardeners == 1) }
     - if @owned_crop_ids.include?(crop.id)
       %span.seed-have-it You have it
-    .card.seed-card
-      .seed-card-tear{ 'aria-hidden' => 'true' }
-      .seed-card-window
-        = link_to image_tag(nearest.thumbnail_url || placeholder_image, alt: crop.name, class: 'img-card'), open_path
-      .seed-card-band
-        %h4.card-title= link_to crop.name, open_path
-        %h5= pluralize gardeners, 'gardener'
-      %ul.seed-card-print
-        - if nearest.heirloom != 'unknown'
-          %li.seedtitle--heirloom= nearest.heirloom
-        %li
-          nearest:
-          = nearest.owner_login_name
-          - if nearest.owner_location.present?
-            · #{truncate(nearest.owner_location.split(',').first, length: 15)}
-          - if (distance = seed_distance(nearest))
-            · #{distance}
-  = link_to (opened ? 'Close ▴' : "#{pluralize gardeners, 'gardener'} ▸ see who"), (opened ? url_for(open: nil, page: nil, anchor: "variety-#{crop.id}") : open_path), class: 'seed-stack-open'
+    .seed-packet
+      .seed-packet-tear{ 'aria-hidden' => 'true' }
+      = link_to image_tag(nearest.thumbnail_url || placeholder_image, alt: crop.name, class: 'seed-packet-window'), open_path
+      %h4.seed-packet-name= link_to crop.name, open_path
+      - if nearest.heirloom != 'unknown'
+        %p
+          %span.seed-pill{ class: "seed-pill-#{nearest.heirloom}" }= nearest.heirloom.capitalize
+      %p.seed-packet-who= link_to (opened ? 'Close ▴' : "#{pluralize gardeners, 'gardener'} ▸ see who"), (opened ? url_for(open: nil, page: nil, anchor: "variety-#{crop.id}") : open_path)
+      .seed-packet-rule= ["nearest: #{where}", seed_distance(nearest)].compact_blank.join(', ')

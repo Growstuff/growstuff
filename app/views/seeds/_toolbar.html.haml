@@ -1,0 +1,30 @@
+-# Search, how to group, and cards or list on one line, then the chips that
+-# narrow what is shown.
+.seed-toolbar
+  = form_tag url_for, method: :get, class: 'seed-search', role: 'search' do
+    - request.query_parameters.slice('group', 'view', 'finished', 'from', 'within', 'scope').compact_blank.each do |name, value|
+      = hidden_field_tag name, value
+    = label_tag :q, 'Search seeds', class: 'visually-hidden'
+    = search_field_tag :q, @query, placeholder: (@everyone ? 'Search all shared seeds' : 'Search seeds'), class: 'form-control'
+  .seed-group-by
+    %span.seed-toolbar-label Group by
+    - { 'crop' => 'Crop', 'source' => 'Where from', 'year' => 'Year saved', 'heirloom' => 'Heirloom or hybrid' }.each do |key, label|
+      = link_to label, url_for(group: key, page: nil), class: ['seed-chip', ('active' if @group_by == key)]
+  .seed-seg{ role: 'group', 'aria-label': 'View as' }
+    = link_to 'Cards', url_for(view: nil, page: nil), class: ('active' unless @list_view)
+    = link_to 'List', url_for(view: 'list', page: nil), class: ('active' if @list_view)
+%ul.seed-chips
+  - if @everyone
+    %li= link_to 'Anywhere', url_for(within: nil, from: nil, page: nil), class: ['seed-chip', ('active' if params[:within].blank? && params[:from].blank?)]
+    - if current_member&.latitude
+      - [50, 10].each do |km|
+        %li= link_to "Within #{km} km", url_for(within: km, page: nil), class: ['seed-chip', ('active' if params[:within].to_i == km)]
+    %li= link_to 'Heirloom only', url_for(from: 'heirloom', page: nil), class: ['seed-chip', ('active' if params[:from] == 'heirloom')]
+    %li= link_to 'Saved by the gardener', url_for(from: 'own', page: nil), class: ['seed-chip', ('active' if params[:from] == 'own')]
+  - else
+    %li= link_to 'All', url_for(from: nil, tradeable_to: nil, page: nil), class: ['seed-chip', ('active' if params[:from].blank? && params[:tradeable_to].blank?)]
+    %li= link_to 'My own saving', url_for(from: 'own', page: nil), class: ['seed-chip', ('active' if params[:from] == 'own')]
+    %li= link_to 'Bought', url_for(from: 'bought', page: nil), class: ['seed-chip', ('active' if params[:from] == 'bought')]
+    %li= link_to 'Traded from a person', url_for(from: 'traded', page: nil), class: ['seed-chip', ('active' if params[:from] == 'traded')]
+    %li= link_to 'Heirloom only', url_for(from: 'heirloom', page: nil), class: ['seed-chip', ('active' if params[:from] == 'heirloom')]
+    %li= link_to 'Shared with others', url_for(from: 'shared', page: nil), class: ['seed-chip', ('active' if params[:from] == 'shared')]

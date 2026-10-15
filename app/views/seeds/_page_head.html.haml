@@ -1,0 +1,32 @@
+-# The top of the page: whose library it is and what is in it, or what this
+-# page is for. A crop's page keeps its crop strip and the ways to plant or save it.
+- if @crop
+  = render 'seeds/context'
+- else
+  %header.seed-head
+    - if @owner
+      = link_to image_tag(avatar_uri(@owner, 72), alt: @owner.login_name, width: 72, height: 72, class: 'seed-head-image'), member_path(@owner)
+    .seed-head-about
+      - if @owner
+        %h1.login-name= link_to "#{@owner.login_name}'s seed library", member_seeds_path(@owner)
+        - if @owner.location.present?
+          .seed-head-sub= @owner.location
+      - elsif @planting
+        %h1= title('seeds', nil, nil, @planting)
+      - else
+        %h1 Seeds
+        .seed-head-sub Seeds that gardeners have chosen to share
+    - if @stats
+      %ul.seed-head-stats
+        %li
+          %b= @stats[:packets]
+          packets
+        %li
+          %b= @stats[:varieties]
+          varieties
+        %li
+          %b= @stats[:crops]
+          crops
+        %li
+          %b= @stats[:own]
+          my own saving
