@@ -159,32 +159,37 @@
 }
 
 // Packets of one variety piled up: two sheets peeking out behind the top one.
+// The sheets belong to the pile, not to the link under it, so they sit exactly
+// behind the card.
 .seed-stack {
-  position: relative;
   display: inline-block;
-  margin: 10px 12px 0 0;
 
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    border: 1px solid darken($beige, 25%);
-    border-radius: 4px;
-    background: darken($beige, 8%);
-  }
-
-  &::before {
-    inset: -5px -6px 5px 6px;
-  }
-
-  &::after {
-    inset: -10px -12px 10px 12px;
-    background: darken($beige, 14%);
-  }
-
-  .seed-card {
+  .seed-stack-pile {
     position: relative;
-    z-index: 1;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      border: 1px solid darken($beige, 25%);
+      border-radius: 4px;
+      background: darken($beige, 8%);
+    }
+
+    &::before {
+      inset: -5px -6px 5px 6px;
+    }
+
+    &::after {
+      inset: -10px -12px 10px 12px;
+      background: darken($beige, 14%);
+    }
+
+    .seed-card {
+      position: relative;
+      z-index: 1;
+    }
   }
 
   .seed-stack-count {
@@ -198,6 +203,15 @@
     color: $black;
     font-size: 0.75rem;
     font-weight: 700;
+    text-decoration: none;
+  }
+
+  .seed-stack-open {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
   }
 }
 
@@ -281,27 +295,32 @@
   }
 }
 
-.seed-context {
-  margin-bottom: 1rem;
-}
-
-// Round filter buttons, as the design has them.
+// Round filter buttons, as the design has them. Named for the seeds page: the
+// site-wide .chip is a fixed-height tag and would clip these.
 .seed-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin: 0 0 1rem;
+  margin: 1rem 0;
   padding: 0;
   list-style: none;
 
-  .chip {
+  .seed-chip {
     display: inline-block;
-    padding: 0.4rem 0.8rem;
+    padding: 0.35rem 0.85rem;
     border: 1px solid $brown;
     border-radius: 999px;
     background: $white;
     color: $brown;
     font-size: 0.88rem;
+    line-height: 1.4;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover {
+      border-color: $green;
+      color: $green;
+    }
 
     &.active {
       border-color: $green;
@@ -311,22 +330,86 @@
   }
 }
 
-.open-data {
-  margin-top: 2rem;
+// Two or more choices joined into one control, the chosen one filled green.
+.seed-seg {
+  display: inline-flex;
+
+  a {
+    padding: 0.4rem 0.85rem;
+    border: 1px solid $green;
+    margin-left: -1px;
+    background: $white;
+    color: $green;
+    font-size: 0.88rem;
+    text-decoration: none;
+
+    &:first-child {
+      margin-left: 0;
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+
+    &.active {
+      background: $green;
+      color: $white;
+      font-weight: 600;
+    }
+  }
 }
 
-// The link under a pile that opens it out.
-.seed-stack {
-  .seed-stack-count {
-    text-decoration: none;
+// Whose seeds, or which crop's, as a slim strip rather than a full card.
+.seed-context {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba($brown, 0.15);
+  border-radius: 4px;
+  background: $white;
+
+  .seed-context-image {
+    border-radius: 50%;
+    object-fit: cover;
   }
 
-  .seed-stack-open {
-    display: block;
-    margin-top: 0.4rem;
-    font-size: 0.85rem;
+  .seed-context-about {
+    flex: 1 1 12rem;
+
+    h2 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+  }
+
+  .seed-context-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.open-data {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba($brown, 0.15);
+
+  h2 {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    color: $brown;
+    font-size: 1rem;
     font-weight: 600;
-    text-align: center;
   }
 }
 

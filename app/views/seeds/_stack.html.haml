@@ -7,6 +7,7 @@
 - else
   - open_path = url_for(open: packets.first.crop_id, page: nil, anchor: "stack-#{packets.first.crop_id}")
   .seed-stack{ id: "stack-#{packets.first.crop_id}" }
-    = link_to "×#{packets.size}", open_path, class: 'seed-stack-count', title: "Open #{packets.size} packets"
-    = render 'seeds/card', seed: packets.first
+    .seed-stack-pile
+      = link_to "×#{packets.size}", open_path, class: 'seed-stack-count', title: "Open #{packets.size} packets"
+      = render 'seeds/card', seed: packets.first
     = link_to "#{packets.size} packets ▸ open", open_path, class: 'seed-stack-open'
