@@ -17,9 +17,9 @@ describe SeedsController do
     describe "sorting by nearness on a crop" do
       let(:crop) { create(:crop) }
       let(:viewer) { create(:london_member) }
-      let!(:far_seed) { create(:seed, crop:, owner: create(:south_pole_member)) }
-      let!(:unlocated_seed) { create(:seed, crop:, owner: create(:member)) }
-      let!(:near_seed) { create(:seed, crop:, owner: create(:london_member)) }
+      let!(:far_seed) { create(:seed, crop:, owner: create(:south_pole_member), tradable_to: 'locally') }
+      let!(:unlocated_seed) { create(:seed, crop:, owner: create(:member), tradable_to: 'locally') }
+      let!(:near_seed) { create(:seed, crop:, owner: create(:london_member), tradable_to: 'locally') }
 
       it 'lists nearest first when signed in with a location' do
         sign_in viewer
