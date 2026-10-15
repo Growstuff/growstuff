@@ -47,6 +47,16 @@
     .fact-value.seedfacts--source
       %strong= source_known ? seed.source : 'Unknown'
 
+  -# Whether it is an heirloom or a hybrid; 'unknown' is the model's own "don't
+  -# know", so it reads as quietly as a blank one would.
+  .card{ class: seed.heirloom_kind ? '' : 'text-muted' }
+    %h3
+      Heirloom or hybrid
+      = editable :select, seed, :heirloom,
+                 values: Seed::HEIRLOOM_VALUES, display_field: '.seedfacts--heirloom'
+    .fact-value.seedfacts--heirloom
+      %strong= seed.heirloom_kind&.capitalize || 'Unknown'
+
   .card
     %h3
       Will trade
