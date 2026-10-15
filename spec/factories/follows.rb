@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :follow do
-    follower
-    followed
+    follower { association :member }
+    followed { association :member }
   end
 end
