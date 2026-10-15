@@ -1,10 +1,5 @@
--# A number with a label. Pass url: to make the whole tile a link.
-- tile = capture do
+.home-stat-tile
   %b= value
   %span= label
   - if local_assigns[:change]&.nonzero?
     %i= "#{change.positive? ? '+' : ''}#{change}#{local_assigns[:unit]} #{t('home.dashboard.vs_last_year')}"
-- if local_assigns[:url]
-  = link_to tile, url, class: 'home-stat-tile home-stat-tile-link'
-- else
-  .home-stat-tile= tile
