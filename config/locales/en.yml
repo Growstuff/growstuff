@@ -291,6 +291,7 @@ en:
       see_all_plantings:
         one: See your planting
         other: See all %{count} plantings
+      see_which: See which ones ↓
       seeds_near: Seeds near you
       seeds_near_note: Neighbours offering seeds you can start with.
       seeds_on_hand: Seeds on hand
@@ -301,7 +302,6 @@ en:
       stat_harvests: harvests this year
       stat_kilograms: harvested this year
       stat_plantings: plantings this year
-      stat_ready: to harvest this week
       stat_varieties: seed varieties saved
       step_join: Join Growstuff
       step_location: Tell us where you garden
