@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SeedsController < DataController
+  GROUPINGS = %w(crop source year heirloom).freeze
+
   def index
     @seeds = Seed.all
 
@@ -35,7 +37,9 @@ class SeedsController < DataController
     @seeds = @seeds.includes({ crop: :parent }, :owner)
     @seeds = @sort_by_distance ? order_by_distance(@seeds, current_member) : @seeds.order(created_at: :desc)
     @seeds = @seeds.paginate(page: params[:page], per_page: 30)
-    @shelves = @seeds.group_by { |seed| seed.crop.parent || seed.crop }
+    @group_by = GROUPINGS.include?(params[:group]) ? params[:group] : 'crop'
+    @list_view = (params[:view] == 'list')
+    @shelves = shelve(@seeds, @group_by)
 
     respond_with(@seeds)
   end
@@ -89,6 +93,20 @@ class SeedsController < DataController
   end
 
   private
+
+  # The page's seeds on shelves: a hash of shelf => seeds, where the shelf is
+  # the parent Crop when grouping by crop, otherwise the label to print.
+  def shelve(seeds, grouping)
+    shelves = seeds.group_by do |seed|
+      case grouping
+      when 'source' then seed.source.presence || 'other/unknown'
+      when 'year' then seed.saved_at&.year&.to_s || 'Year not recorded'
+      when 'heirloom' then seed.heirloom
+      else seed.crop.parent || seed.crop
+      end
+    end
+    shelves.sort_by { |shelf, _| grouping == 'year' ? -shelf.to_i : shelf.to_s.downcase }.to_h
+  end
 
   # Nearest owners first; seeds whose owner has no location go last.
   def order_by_distance(seeds, member)

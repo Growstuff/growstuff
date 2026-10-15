@@ -60,7 +60,19 @@
       = will_paginate @seeds
       - if @seeds.blank?
         %p No seeds recorded yet
-      - @shelves.each do |crop, seeds|
-        = render 'seeds/shelf', crop: crop, seeds: seeds, owned: @owner.present? && @owner == current_member
+      .seed-controls
+        %div
+          %span.seed-controls-label Group by
+          .btn-group.btn-group-sm{ role: 'group', 'aria-label': 'Group by' }
+            - { 'crop' => 'Crop', 'source' => 'Where from', 'year' => 'Year saved', 'heirloom' => 'Heirloom or hybrid' }.each do |key, label|
+              = link_to label, url_for(group: key, page: nil), class: ['btn', 'btn-outline-secondary', ('active' if @group_by == key)]
+        .btn-group.btn-group-sm{ role: 'group', 'aria-label': 'View as' }
+          = link_to 'Cards', url_for(view: nil, page: nil), class: ['btn', 'btn-outline-secondary', ('active' unless @list_view)]
+          = link_to 'List', url_for(view: 'list', page: nil), class: ['btn', 'btn-outline-secondary', ('active' if @list_view)]
+      - if @list_view
+        = render 'seeds/list', shelves: @shelves
+      - else
+        - @shelves.each do |shelf, seeds|
+          = render 'seeds/shelf', shelf: shelf, seeds: seeds, owned: @owner.present? && @owner == current_member
 
       = will_paginate @seeds
