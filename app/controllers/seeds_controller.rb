@@ -22,6 +22,7 @@ class SeedsController < DataController
     end
 
     @seeds = filter(@seeds)
+    @filtered = %i(from within tradeable_to past).any? { |name| params[name].present? }
 
     @query = params[:q].to_s.strip
     @seeds = @seeds.matching(@query) if @query.present?
