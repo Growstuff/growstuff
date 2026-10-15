@@ -5,8 +5,10 @@ module ApplicationHelper
   # Renders an empty element for app/javascript/react_islands.jsx to mount the
   # named React component into, passing it props. The page also needs the
   # bundle: `= javascript_include_tag 'react_islands', defer: true`.
-  def react_component(name, props = {}, html_options = {})
-    content_tag(:div, '', html_options.merge(data: { react_component: name, props: props.to_json }))
+  # A block is the page's own markup for the island, shown until it mounts and
+  # to anyone without JavaScript; the island replaces it.
+  def react_component(name, props = {}, html_options = {}, &block)
+    content_tag(:div, block ? capture(&block) : '', html_options.merge(data: { react_component: name, props: props.to_json }))
   end
 
   # What the PhotoDialog island needs: the record's name, for the dialog's

@@ -1,0 +1,5 @@
+-# Whose packet it is: their avatar, small, beside the packet. Hover for who they
+-# are and how far away.
+- label = [seed.owner_login_name, seed.owner_location&.split(',')&.first, seed_distance(seed)].compact_blank.join(' · ')
+= link_to member_path(seed.owner), class: 'seed-owner', title: label, 'aria-label': label do
+  = image_tag avatar_uri(seed.owner, 32), alt: '', width: 32, height: 32
