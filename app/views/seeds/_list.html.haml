@@ -13,7 +13,7 @@
     %tbody
       %tr.seed-list-shelf
         %th{ colspan: 6 }= shelf.is_a?(Crop) ? link_to(shelf.name, crop_path(shelf)) : shelf.capitalize
-      - seeds.sort_by { |s| [s.crop_name.downcase, s.created_at] }.group_by(&:crop_id).each_value do |packets|
+      - seed_stacks(seeds).each do |packets|
         = render 'seeds/list_row', seed: packets.first, packets: packets
         - if packets.size > 1
           - packets.each do |packet|

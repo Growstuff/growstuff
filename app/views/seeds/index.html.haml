@@ -15,7 +15,7 @@
 
 %section.seed-library
   = render 'seeds/scope'
-  %ul.nav.nav-tabs.seed-tabs
+  %ul.nav.nav-tabs
     %li.nav-item
       = link_to url_for(finished: nil, all: nil, page: nil), class: ['nav-link', ('active' unless @show_finished || @show_all)] do
         In stock

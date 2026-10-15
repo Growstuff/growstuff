@@ -4,7 +4,6 @@
 -# avatar beside it, for seeds on a page of other people's.
 - packets = local_assigns[:packets] || [seed]
 - path = seed_path(slug: seed.slug)
-- past = seed.plant_before.present? && seed.plant_before < Time.zone.today
 - packet = capture do
   .seed-packet
     - if local_assigns[:show_owner] && @owned_crop_ids.include?(seed.crop_id)
@@ -13,10 +12,10 @@
     = link_to image_tag(seed.thumbnail_url || placeholder_image, alt: seed.crop_name, class: 'seed-packet-window'), path
     %h4.seed-packet-name= link_to seed.crop_name, path
     %p= packets.size > 1 ? pluralize(packets.size, 'packet') : seed_source_label(seed.source)
-    - if seed.heirloom != 'unknown'
+    - if seed.heirloom_kind
       %p
-        %span.seed-pill{ class: "seed-pill-#{seed.heirloom}" }= seed.heirloom.capitalize
-    - if past && packets.size == 1
+        %span.seed-pill{ class: "seed-pill-#{seed.heirloom_kind}" }= seed.heirloom_kind.capitalize
+    - if seed.past_sow_by? && packets.size == 1
       %span.seed-packet-stamp Past sow-by
     .seed-packet-rule= seed_packet_rule(packets)
 - if local_assigns[:show_owner]

@@ -1,19 +1,9 @@
 -# Several packets of one variety, piled up with a count on top. One packet is
 -# just the packet. A pile is a React island that opens out where it stands;
--# the markup inside is what shows until it loads, and without JavaScript.
+-# the top packet is what shows until it loads, and without JavaScript.
 - show_owner = local_assigns[:show_owner]
 - if packets.one?
   = render 'seeds/packet', seed: packets.first, show_owner: show_owner
 - else
-  = react_component 'SeedStack', seed_stack_props(packets, open_crop_id: @open_crop_id, show_owner:) do
-    - if packets.first.crop_id == @open_crop_id
-      = render 'seeds/stack_open', packets: packets
-    - else
-      - open_path = url_for(open: packets.first.crop_id, page: nil, anchor: "stack-#{packets.first.crop_id}")
-      .seed-stack{ id: "stack-#{packets.first.crop_id}" }
-        .seed-stack-pile
-          = link_to "×#{packets.size}", open_path, class: 'seed-stack-count', title: "Open #{packets.size} packets"
-          = render 'seeds/packet', seed: packets.first, packets: packets
-        = link_to "#{packets.size} packets ▸ open", open_path, class: 'seed-stack-open'
-        - if show_owner
-          = render 'seeds/owner_badge', seed: packets.first
+  = react_component 'SeedStack', seed_stack_props(packets, show_owner:) do
+    = render 'seeds/packet', seed: packets.first, packets: packets, show_owner: show_owner

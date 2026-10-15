@@ -108,6 +108,16 @@ class Seed < ApplicationRecord
     tradable_to != 'nowhere'
   end
 
+  # Whether the year to sow it by has gone.
+  def past_sow_by?
+    plant_before.present? && plant_before < Time.zone.today
+  end
+
+  # 'heirloom' or 'hybrid', or nil when it isn't known.
+  def heirloom_kind
+    heirloom unless heirloom == 'unknown'
+  end
+
   def seed_slug
     "#{owner.login_name}-#{crop}".downcase.tr(' ', '-')
   end

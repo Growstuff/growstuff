@@ -1,15 +1,11 @@
 -# One shelf of seeds: a green bar naming the group, over the packets stood on
--# it, one for each variety, with several packets of one variety piled in a
--# stack. The first few shelves are open; the rest fold up to their bar.
-- packets = seeds.sort_by { |s| [s.crop_name.downcase, s.created_at] }
--# On someone's own shelf a pile is one variety. On everyone's it is one
--# gardener's packets of a variety, nearest gardener first.
-- stacks = everyone ? nearest_first(packets).group_by { |s| [s.owner_id, s.crop_id] }.values : packets.group_by(&:crop_id).values
-- counts = [pluralize(packets.size, 'packet')]
+-# it, one pile for each variety. The first few shelves are open; the rest fold
+-# up to their bar.
+- stacks = seed_stacks(seeds, by_owner: everyone)
+- counts = [pluralize(seeds.size, 'packet')]
 - counts.unshift pluralize(stacks.map { |stack| stack.first.crop_id }.uniq.size, 'variety', plural: 'varieties') if stacks.size > 1
-- counts << pluralize(packets.map(&:owner_id).uniq.size, 'gardener') if everyone
-- opened = position < 3 || stacks.any? { |stack| stack.first.crop_id == @open_crop_id }
-%details.seed-shelf{ open: opened, id: "shelf-#{shelf.respond_to?(:id) ? shelf.id : shelf.to_s.parameterize}" }
+- counts << pluralize(seeds.map(&:owner_id).uniq.size, 'gardener') if everyone
+%details.seed-shelf{ open: position < 3, id: "shelf-#{shelf.respond_to?(:id) ? shelf.id : shelf.to_s.parameterize}" }
   %summary.seed-shelf-bar
     %h3
       = shelf.is_a?(Crop) ? link_to(shelf.name, crop_path(shelf)) : shelf.capitalize

@@ -19,10 +19,10 @@ const Owner = ({owner}) => owner && (
 
 // Several packets of one variety. Closed, they are a pile with a count on top;
 // opened, the pile spreads out where it stood, one packet each, to pick from.
-// Rails renders the pile as plain links first (see seeds/_stack), so it works
-// before this loads and without JavaScript.
-export default function SeedStack({crop, count, image_url: imageUrl, heirloom, rule, packets, owner, open: initiallyOpen = false}) {
-  const [state, setState] = useState(initiallyOpen ? 'open' : 'closed');
+// Rails renders the top packet first (see seeds/_stack), so there is something
+// to see before this loads and without JavaScript.
+export default function SeedStack({crop, count, image_url: imageUrl, heirloom, rule, packets, owner}) {
+  const [state, setState] = useState('closed');
   const toggle = useRef(null);
   const closeTimer = useRef(null);
 
