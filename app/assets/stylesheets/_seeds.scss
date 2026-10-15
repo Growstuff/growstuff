@@ -259,3 +259,58 @@
     margin: 0 0.25rem;
   }
 }
+
+// The page header: the title, then who's library it is and the way to add to it.
+.seed-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h1 {
+    margin: 0;
+  }
+
+  .seed-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+}
+
+.seed-context {
+  margin-bottom: 1rem;
+}
+
+// Round filter buttons, as the design has them.
+.seed-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+
+  .chip {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid $brown;
+    border-radius: 999px;
+    background: $white;
+    color: $brown;
+    font-size: 0.88rem;
+
+    &.active {
+      border-color: $green;
+      background: $green;
+      color: $white;
+    }
+  }
+}
+
+.open-data {
+  margin-top: 2rem;
+}
