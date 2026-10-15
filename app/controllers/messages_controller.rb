@@ -21,6 +21,9 @@ class MessagesController < ApplicationController
     return if params[:recipient_id].blank?
 
     @recipient = Member.find_by(id: params[:recipient_id])
+    @subject = params[:subject]
+    # A message asking about seeds is attached to them, so the reply can find them.
+    @seed = Seed.find_by(id: params[:seed_id], owner_id: @recipient&.id)
     nil if @recipient.nil?
   end
 
@@ -44,7 +47,10 @@ class MessagesController < ApplicationController
       end
       body = params[:body]
       subject = params[:subject]
-      @conversation = current_member.send_message(recipient, body, subject)
+      receipt = current_member.send_message(recipient, body, subject)
+      @conversation = receipt
+      seed = Seed.find_by(id: params[:seed_id], owner_id: recipient.id)
+      receipt.notification.update(notified_object: seed) if seed
       redirect_to conversations_path(box: 'sentbox')
     end
   end

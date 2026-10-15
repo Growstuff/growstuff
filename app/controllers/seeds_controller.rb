@@ -26,6 +26,11 @@ class SeedsController < DataController
     @query = params[:q].to_s.strip
     @seeds = @seeds.matching(@query) if @query.present?
 
+    # Everyone's seeds are the ones gardeners chose to share.
+    @everyone = @owner.blank? && @planting.blank? && request.format.html?
+    @seeds = @seeds.tradable if @everyone
+    @owned_crop_ids = current_member ? current_member.seeds.current.pluck(:crop_id) : []
+
     @in_stock_count = @seeds.current.count
     @finished_count = @seeds.finished.count
     @show_finished = (params[:finished] == '1')

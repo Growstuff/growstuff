@@ -5,7 +5,7 @@
 - stacks = packets.group_by(&:crop_id).values
 - counts = [pluralize(packets.size, 'packet')]
 - counts.unshift pluralize(stacks.size, 'variety', plural: 'varieties') if stacks.size > 1
-%section.seed-shelf
+%section.seed-shelf{ id: "shelf-#{shelf.respond_to?(:id) ? shelf.id : shelf.to_s.parameterize}" }
   .seed-shelf-bar
     %h3
       = shelf.is_a?(Crop) ? link_to(shelf.name, crop_path(shelf)) : shelf.capitalize
@@ -14,4 +14,9 @@
       = link_to '+ add seeds', new_seed_path(crop_id: shelf.id)
   .seed-shelf-packets.index-cards
     - stacks.each do |stack|
-      = render 'seeds/stack', packets: stack
+      - if everyone
+        = render 'seeds/variety', packets: stack
+      - else
+        = render 'seeds/stack', packets: stack
+    - if everyone && (open = stacks.find { |stack| stack.first.crop_id == @open_crop_id })
+      = render 'seeds/gardeners', packets: open

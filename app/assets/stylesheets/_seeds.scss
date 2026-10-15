@@ -190,6 +190,12 @@
       position: relative;
       z-index: 1;
     }
+
+    // One gardener has no pile behind the packet.
+    &.seed-stack-pile-single::before,
+    &.seed-stack-pile-single::after {
+      display: none;
+    }
   }
 
   .seed-stack-count {
@@ -386,6 +392,12 @@
     }
   }
 
+  .seed-context-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
   .seed-context-stats {
     display: flex;
     flex-wrap: wrap;
@@ -433,5 +445,58 @@
       margin-left: 1rem;
       font-weight: 600;
     }
+  }
+}
+
+// Everyone's seeds: a packet for each variety, "You have it" when the member's
+// own library holds it, and the open variety outlined.
+.seed-variety {
+  .seed-have-it {
+    position: absolute;
+    top: 0.3rem;
+    left: 0.3rem;
+    z-index: 2;
+    padding: 0 0.45rem;
+    border: 1px solid lighten($green, 25%);
+    border-radius: 999px;
+    background: lighten($green, 55%);
+    color: darken($green, 10%);
+    font-size: 0.65rem;
+    font-weight: 700;
+  }
+
+  &.seed-variety-open .seed-card {
+    border: 2px solid $green;
+    box-shadow: 0 0 0 3px rgba($green, 0.25);
+  }
+}
+
+// The gardeners who share a variety, listed under its shelf.
+.seed-gardener-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seed-gardener {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  padding: 0.75rem 0.25rem;
+  border-top: 1px solid rgba($green, 0.2);
+
+  .seed-gardener-image {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .seed-gardener-about {
+    flex: 1 1 12rem;
+  }
+
+  .seed-gardener-trade {
+    flex: 0 0 9rem;
+    font-size: 0.85rem;
   }
 }
