@@ -10,7 +10,9 @@
       %small= t('home.dashboard.this_week')
       - if ready.any?
         %b= t('home.dashboard.ready_title', count: ready.size)
-        %span= ready.first(5).map(&:crop_name).uniq.to_sentence
+        %span
+          = ready.first(5).map(&:crop_name).uniq.to_sentence
+          = link_to t('home.dashboard.see_which'), '#growing-now'
       - else
         %b= t('home.dashboard.sow_title', crop: suggestion.name, month: current_month_name)
         %span= t('home.dashboard.sow_body')

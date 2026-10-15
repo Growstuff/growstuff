@@ -183,30 +183,22 @@ $dash-line: rgba(65, 63, 59, 0.15);
 }
 
 // Years of data: numbers, chart, table, beds
-.home-stats-tiles { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 1.25rem; }
+.home-stats-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0;
+  margin-bottom: 1.25rem;
+}
 
 .home-stat-tile {
-  flex: 1 1 180px;
-  padding: 12px;
-  text-align: center;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: 1px 3px 3px 1px #cac1b3;
+  padding: 10px 12px;
+  border-bottom: 1px solid $dash-line;
 
   b { display: block; font-size: 2rem; font-weight: 400; color: #413f3b; }
 
   span { font-size: 0.8rem; color: $dash-muted; }
 
   i { display: block; font-size: 0.75rem; font-style: normal; color: $dash-muted; }
-}
-
-// Only tiles that go somewhere look clickable.
-a.home-stat-tile-link {
-  text-decoration: none;
-
-  b { color: $green; text-decoration: underline; }
-
-  &:hover, &:focus { box-shadow: 1px 3px 6px 1px #b3a894; }
 }
 
 .home-chart { display: flex; gap: 10px; height: 150px; align-items: flex-end; }
