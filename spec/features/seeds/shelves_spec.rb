@@ -83,4 +83,40 @@ describe "seed shelves" do
       it { expect(page).to have_no_link('+ add seeds') }
     end
   end
+
+  describe "in stock and finished tabs" do
+    let!(:in_stock) { create(:seed, owner:, crop: tomato) }
+    let!(:finished) { create(:seed, owner:, crop: cabbage, finished: true) }
+
+    context "without choosing a tab" do
+      before { visit member_seeds_path(owner) }
+
+      it "shows seeds that are in stock" do
+        expect(page).to have_css('.seed-shelf-bar h3', text: 'tomato')
+      end
+
+      it "hides finished seeds" do
+        expect(page).to have_no_css('.seed-shelf-bar h3', text: 'cabbage')
+      end
+
+      it "counts the finished seeds on their tab" do
+        expect(page).to have_link('Finished 1')
+      end
+    end
+
+    context "when on the finished tab" do
+      before do
+        visit member_seeds_path(owner)
+        click_link 'Finished'
+      end
+
+      it "shows finished seeds" do
+        expect(page).to have_css('.seed-shelf-bar h3', text: 'cabbage')
+      end
+
+      it "hides seeds that are in stock" do
+        expect(page).to have_no_css('.seed-shelf-bar h3', text: 'tomato')
+      end
+    end
+  end
 end
