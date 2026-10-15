@@ -118,7 +118,7 @@ describe "seed shelves" do
 
     it { expect(page).to have_css('.seed-packet', text: /own saving/i) }
     it { expect(page).to have_css('.seed-pill', text: 'Heirloom') }
-    it { expect(page).to have_css('.seed-packet-rule', text: 'saved 2025') }
+    it { expect(page).to have_css('.seed-packet-rule', text: /saved 2025/i) }
   end
 
   describe "page header" do
