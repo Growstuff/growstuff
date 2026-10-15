@@ -72,7 +72,9 @@
           = link_to community_gardens_path, class: 'dropdown-item' do
             = menu_icon(:garden)
             = t('.community_gardens')
-          = link_to t('.posts'), posts_path, class: 'dropdown-item'
+          = link_to posts_path, class: 'dropdown-item' do
+            = menu_icon(:post)
+            = t('.posts')
           = link_to t('.forums'), forums_path, class: 'dropdown-item'
           = link_to t('.releases'), releases_path, class: 'dropdown-item'
 
@@ -137,16 +139,22 @@
               - if neighbours_new?
                 %span.badge.text-bg-success.ms-1= t('.new_badge')
             = link_to member_activities_path(current_member), class: 'dropdown-item' do
+              = menu_icon(:activity)
               = t('.activities')
-            = link_to t('.posts'), member_posts_path(current_member), class: 'dropdown-item'
+            = link_to member_posts_path(current_member), class: 'dropdown-item' do
+              = menu_icon(:post)
+              = t('.posts')
             - if current_member.unread_count.positive?
               .dropdown-divider
               %strong
                 = link_to(conversations_path, class: 'dropdown-item') do
+                  = menu_icon(:inbox)
                   = t('.inbox')
                   %span.badge.text-bg-info= current_member.unread_count
             - else
-              = link_to t('.inbox'), conversations_path, class: 'dropdown-item'
+              = link_to conversations_path, class: 'dropdown-item' do
+                = menu_icon(:inbox)
+                = t('.inbox')
             .dropdown-divider
             = link_to destroy_member_session_path, method: :delete, class: 'dropdown-item' do
               = menu_icon(:sign_out)
