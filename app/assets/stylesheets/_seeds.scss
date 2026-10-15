@@ -113,3 +113,90 @@
     }
   }
 }
+
+// A shelf holds one parent crop's seeds: a green bar naming the crop, over a
+// white board the packets stand on.
+.seed-shelf {
+  margin-bottom: 1.5rem;
+
+  .seed-shelf-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.9rem;
+    border-radius: 4px 4px 0 0;
+    background: $green;
+
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 400;
+    }
+
+    a,
+    small {
+      color: $white;
+    }
+
+    small {
+      margin-left: 0.6rem;
+      opacity: 0.9;
+    }
+
+    > a {
+      font-weight: 600;
+    }
+  }
+
+  .seed-shelf-packets {
+    padding: 1rem;
+    background: $white;
+    border: 1px solid rgba(65, 63, 59, 0.15);
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 3px 3px -1px darken($beige, 12%);
+  }
+}
+
+// Packets of one variety piled up: two sheets peeking out behind the top one.
+.seed-stack {
+  position: relative;
+  display: inline-block;
+  margin: 10px 12px 0 0;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border: 1px solid darken($beige, 25%);
+    border-radius: 4px;
+    background: darken($beige, 8%);
+  }
+
+  &::before {
+    inset: -5px -6px 5px 6px;
+  }
+
+  &::after {
+    inset: -10px -12px 10px 12px;
+    background: darken($beige, 14%);
+  }
+
+  .seed-card {
+    position: relative;
+    z-index: 1;
+  }
+
+  .seed-stack-count {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+    z-index: 2;
+    padding: 0 0.45rem;
+    border-radius: 999px;
+    background: $orange;
+    color: $black;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+}

@@ -1,0 +1,8 @@
+-# Several packets of one variety, piled up with a count on top. One packet is
+-# just the packet.
+- if packets.one?
+  = render 'seeds/card', seed: packets.first
+- else
+  .seed-stack
+    %span.seed-stack-count{ title: "#{packets.size} packets" } ×#{packets.size}
+    = render 'seeds/card', seed: packets.first

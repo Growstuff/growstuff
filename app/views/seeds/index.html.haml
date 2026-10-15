@@ -54,8 +54,7 @@
       = will_paginate @seeds
       - if @seeds.blank?
         %p No seeds recorded yet
-      .index-cards
-        - @seeds.each do |s|
-          = render 'seeds/card', seed: s
+      - @shelves.each do |crop, seeds|
+        = render 'seeds/shelf', crop: crop, seeds: seeds, owned: @owner.present? && @owner == current_member
 
       = will_paginate @seeds

@@ -26,9 +26,10 @@ class SeedsController < DataController
 
     @filename = csv_filename
     @sort_by_distance = @crop.present? && current_member&.latitude.present? && current_member&.longitude.present?
-    @seeds = @seeds.includes(:crop, :owner)
+    @seeds = @seeds.includes({ crop: :parent }, :owner)
     @seeds = @sort_by_distance ? order_by_distance(@seeds, current_member) : @seeds.order(created_at: :desc)
     @seeds = @seeds.paginate(page: params[:page], per_page: 30)
+    @shelves = @seeds.group_by { |seed| seed.crop.parent || seed.crop }
 
     respond_with(@seeds)
   end
