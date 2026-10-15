@@ -1,0 +1,246 @@
+// Below the desktop width the menu is a drawer that slides in from the right,
+// and the + in the top bar slides up a sheet of things to record.
+@include media-breakpoint-up(lg) {
+  #navbarSupportedContent { flex-grow: 1; }
+}
+
+// The drawer and the quick add sheet live inside the sticky bar, so that bar's
+// stacking level is theirs; keep it above the bars pinned to the bottom of a
+// page (z-index 1020), or they cover the end of the menu.
+.navbar.sticky-top { z-index: $zindex-offcanvas; }
+
+.quick-add {
+  height: auto;
+  border-radius: 14px 14px 0 0;
+
+  .offcanvas-body { padding: 0.5rem 0 1rem; }
+}
+
+.quick-add-link,
+#navbarSupportedContent .dropdown-item {
+  display: flex;
+  gap: 0.875rem;
+  align-items: center;
+}
+
+.quick-add-link {
+  min-height: 48px;
+  padding: 0 1rem;
+  color: $black;
+  font-weight: 500;
+  border-bottom: 1px solid rgba($brown, 0.08);
+
+  &:hover,
+  &:focus { background: rgba($green, 0.1); }
+}
+
+// Sign in, as the outlined partner of Join.
+.navbar .btn-signin {
+  color: darken($green, 12%);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: $white;
+  border: 1px solid $green;
+  border-radius: 2px;
+}
+
+// The icons are for the drawer; the bar on a desktop is words only.
+.menu-icon {
+  flex: none;
+  color: $green;
+}
+
+// The words-only bar links on a desktop; the menus under them keep their icons.
+@include media-breakpoint-up(lg) {
+  .nav-link > .menu-icon { display: none; }
+}
+
+// + Add: the green button that opens the things to record.
+.navbar .btn-add {
+  padding: 8px 14px;
+  margin-right: 0.5rem;
+  color: $white;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: $green;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px rgba($black, 0.2);
+
+  &::after { display: none; }
+
+  &:hover,
+  &:focus { color: $white; background: darken($green, 5%); }
+}
+
+// The account menu: a pill with the avatar and name, opening onto a card.
+.navbar .account-pill {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 3px 12px 3px 3px;
+  color: $black;
+  font-weight: 600;
+  background: #a4c98c;
+  border-radius: 999px;
+
+  &:hover,
+  &:focus { color: $black; background: #b6d4a1; }
+
+  img { border-radius: 50%; object-fit: cover; }
+}
+
+.navbar .navbar-user .dropdown-menu {
+  min-width: 240px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(33, 33, 33, 0.35);
+
+  .dropdown-item {
+    min-height: 44px;
+    padding: 0 1rem;
+    border-bottom: 1px solid rgba($brown, 0.08);
+  }
+
+  .account-menu-head {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba($brown, 0.15);
+
+    strong,
+    small { display: block; }
+
+    small { color: rgba($brown, 0.75); font-size: 0.82rem; }
+  }
+}
+
+// A smaller name beside the pear on a phone.
+@include media-breakpoint-down(sm) {
+  .navbar-brand .site-name {
+    margin: 0 0 0 0.25em;
+    font-size: 2em;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  #navbarSupportedContent {
+    --bs-offcanvas-width: min(318px, 100vw);
+
+    .offcanvas-header {
+      gap: 0.75rem;
+      color: $white;
+      background: $brown;
+    }
+
+    .offcanvas-avatar { border-radius: 50%; object-fit: cover; }
+
+    // Join and Sign in, first in the drawer for a visitor.
+    .drawer-join {
+      display: flex;
+      gap: 0.625rem;
+      order: -2;
+      padding: 1rem;
+
+      .btn { flex: 1; margin: 0; }
+    }
+
+    .offcanvas-title {
+      flex: 1;
+
+      small {
+        display: block;
+        color: rgba($white, 0.75);
+        font-size: 0.8rem;
+      }
+    }
+
+    .offcanvas-body {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    // The search first, then what the site offers, then what is mine.
+    .navbar-search {
+      flex: none;
+      order: -1;
+      margin: 0.75rem 1rem;
+
+      .form-control { border: 1px solid rgba($brown, 0.25); }
+    }
+
+    .navbar-nav {
+      --bs-nav-link-color: #{$black};
+      --bs-nav-link-hover-color: #{$black};
+    }
+
+    .nav-link,
+    .dropdown-item {
+      display: flex;
+      gap: 0.875rem;
+      align-items: center;
+      min-height: 48px;
+      padding: 0 1rem;
+      color: $black;
+      font-size: 1.02rem;
+      font-weight: 500;
+      border-bottom: 1px solid rgba($brown, 0.08);
+
+      &:hover,
+      &:focus { color: $black; background: rgba($green, 0.1); }
+    }
+
+    .navbar-nav .nav-link {
+      display: flex;
+      align-items: center;
+      padding-block: 0;
+
+      &[aria-current="page"] {
+        padding-left: calc(1rem - 4px);
+        color: darken($green, 12%);
+        font-weight: 700;
+        background: rgba($green, 0.1);
+        border-bottom-color: rgba($brown, 0.08);
+        border-left: 4px solid $green;
+      }
+    }
+
+    // Dropdowns are just lists here: the toggle is a heading and its links
+    // follow it.
+    .dropdown-toggle {
+      padding-block: 0.875rem 0.375rem;
+      min-height: 0;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba($brown, 0.75);
+      pointer-events: none;
+      border-bottom: 0;
+
+      &::after { display: none; }
+      img { display: none; }
+    }
+
+    .dropdown-menu {
+      position: static;
+      display: block;
+      padding: 0;
+      margin: 0;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .dropdown-divider { margin: 0; }
+
+    .navbar-user { margin-top: auto; border-top: 1px solid rgba($brown, 0.15); }
+
+    .btn-signup { margin: 1rem; }
+  }
+}

@@ -1,0 +1,17 @@
+-# The things a member can record, as links. Used by the Record dropdown on
+-# desktop and the quick add sheet on a phone.
+= link_to new_planting_path, class: link_class do
+  = image_icon('planting-add')
+  = t('buttons.new_planting')
+= link_to new_harvest_path, class: link_class do
+  = image_icon('harvest-add')
+  = t('buttons.new_harvest')
+= link_to new_activity_path, class: link_class do
+  = image_icon('activity-add')
+  = t('buttons.new_activity')
+= link_to new_seed_path, class: link_class do
+  = image_icon('seed-add')
+  = t('buttons.new_seeds')
+= link_to new_post_path, class: link_class do
+  = post_icon
+  = t('buttons.new_post')

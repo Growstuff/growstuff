@@ -1,102 +1,157 @@
 - my_garden_current = member_signed_in? && current_section?(member_gardens_path(current_member))
-- community_current = !my_garden_current && current_section?(places_path, harvests_path, members_path, community_gardens_path, posts_path, forums_path, releases_path)
-#navbarSupportedContent.collapse.navbar-collapse
-  %ul.navbar-nav.me-auto
-    - if signed_in?
-      %li.nav-item
-        = link_to t('.my_garden'), member_gardens_path(current_member, anchor: "content"), class: 'nav-link', aria: { current: ('page' if my_garden_current) }
-      %li.nav-item
-        = link_to neighbours_path, class: 'nav-link', aria: { current: ('page' if current_section?(neighbours_path)) } do
-          = t('.friends_and_neighbours')
-          - if neighbours_new?
-            %span.badge.text-bg-success.ms-1= t('.new_badge')
-      %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
-          = image_tag "icons/gardener.svg", class: 'img img-icon', alt: t('.record'), aria: { hidden: "true" }
-          = t('.record')
-        .dropdown-menu
-          = link_to new_planting_path, class: 'dropdown-item' do
-            = image_icon('planting-add')
-            = t('buttons.new_planting')
-          = link_to new_harvest_path, class: 'dropdown-item' do
-            = image_icon('harvest-add')
-            = t('buttons.new_harvest')
-          = link_to new_activity_path, class: 'dropdown-item' do
-            = image_icon('activity-add')
-            = t('buttons.new_activity')
-          = link_to new_seed_path, class: 'dropdown-item' do
-            = image_icon('seed-add')
-            = t('buttons.new_seeds')
-          = link_to new_post_path, class: 'dropdown-item' do
-            = post_icon
-            = t('buttons.new_post')
-
-    %li.nav-item= link_to t('.crops'), crops_path, class: 'nav-link', aria: { current: ('page' if current_section?(crops_path)) }
-    %li.nav-item= link_to t('.seeds'), seeds_path, class: 'nav-link', aria: { current: ('page' if current_section?(seeds_path)) }
-    %li.nav-item= link_to t('.plantings'), plantings_path, class: 'nav-link', aria: { current: ('page' if current_section?(plantings_path)) }
-    - unless member_signed_in?
-      %li.nav-item= link_to t('.gardens'), gardens_path, class: 'nav-link', aria: { current: ('page' if current_section?(gardens_path)) }
-    %li.nav-item.dropdown
-      %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button", "aria-current" => ('page' if community_current)}
-        %span
-        = t('.community')
-      .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
-        = link_to t('.community_map'), places_path, class: 'dropdown-item'
-        = link_to t('.harvests'), harvests_path, class: 'dropdown-item'
-        = link_to t('.browse_members'), members_path, class: 'dropdown-item'
-        = link_to t('.community_gardens'), community_gardens_path, class: 'dropdown-item'
-        = link_to t('.posts'), posts_path, class: 'dropdown-item'
-        = link_to t('.forums'), forums_path, class: 'dropdown-item'
-        = link_to t('.releases'), releases_path, class: 'dropdown-item'
-
-    - if member_signed_in? && (current_member.role?(:crop_wrangler) || current_member.role?(:admin))
-      %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
-          %span
-          = t('.admin')
-        .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
-          - if current_member.role?(:crop_wrangler)
-            = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
-          - if current_member.role?(:admin)
-            = link_to t('.admin'), admin_path, class: 'dropdown-item'
-
-
-  = render 'crops/search_bar'
-
-  %ul.navbar-nav.navbar-user
+- my_pages_current = member_signed_in? && current_section?(member_path(current_member))
+- community_current = !my_garden_current && !my_pages_current && current_section?(places_path, gardens_path, harvests_path, seeds_path, plantings_path, members_path, community_gardens_path, posts_path, forums_path, releases_path)
+#navbarSupportedContent.offcanvas-lg.offcanvas-end{ tabindex: -1, 'aria-label' => 'Menu' }
+  -# The header and the section headings are only for the drawer a phone or tablet gets.
+  .offcanvas-header.d-lg-none
     - if member_signed_in?
-      %li.nav-item.dropdown
-        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
-          = image_tag(avatar_uri(current_member, 50), alt: 'Avatar of current member', height: 25, width: 25, aria: { hidden: "true" })
-          = current_member.login_name
-          - if current_member.unread_count.positive?
-            %span.badge.text-bg-info= current_member.unread_count
-        .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
-          = link_to member_path(current_member), class: 'dropdown-item' do
-            = t('.profile')
-          = link_to member_activities_path(current_member), class: 'dropdown-item' do
-            = t('.activities')
-          = link_to member_gardens_path(current_member), class: 'dropdown-item' do
-            = t('.gardens')
-          = link_to member_plantings_path(current_member), class: 'dropdown-item' do
-            = t('.plantings')
-          = link_to member_harvests_path(current_member), class: 'dropdown-item' do
-            = t('.harvest')
-          = link_to member_seeds_path(current_member), class: 'dropdown-item' do
-            = t('.seeds')
-          = link_to t('.posts'), member_posts_path(current_member), class: 'dropdown-item'
-
-          - if current_member.unread_count.positive?
-            .dropdown-divider
-            %strong
-              = link_to(conversations_path, class: 'dropdown-item') do
-                = t('.inbox')
-                %span.badge.text-bg-info= current_member.unread_count
-          - else
-            = link_to t('.inbox'), conversations_path, class: 'dropdown-item'
-          .dropdown-divider
-          = link_to t('.sign_out'), destroy_member_session_path, method: :delete, class: 'dropdown-item'
-
+      = image_tag(avatar_uri(current_member, 50), alt: '', height: 44, width: 44, class: 'offcanvas-avatar')
+      .offcanvas-title
+        %strong= current_member.login_name
+        - if current_member.location.present?
+          %small= current_member.location
     - else
-      %li.nav-item.d-none.d-lg-block= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'nav-link'
-      %li.nav-item.d-none.d-lg-block= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn btn-signup'
+      = image_tag('pear.png', alt: '', height: 32, class: 'offcanvas-logo')
+      .offcanvas-title
+        %strong Growstuff
+    %button.btn-close.btn-close-white{ type: 'button', 'aria-label' => t('.close'), 'data-bs-dismiss' => 'offcanvas', 'data-bs-target' => '#navbarSupportedContent' }
+  .offcanvas-body
+    - unless member_signed_in?
+      .drawer-join.d-lg-none
+        = link_to t('.sign_up'), new_member_registration_path, class: 'btn btn-signup'
+        = link_to t('.sign_in'), new_member_session_path, class: 'btn btn-signin'
+    %ul.navbar-nav.me-auto
+      - if signed_in?
+        %li.nav-item
+          = link_to member_gardens_path(current_member, anchor: "content"), class: 'nav-link', aria: { current: ('page' if my_garden_current) } do
+            = menu_icon(:garden)
+            = t('.my_garden')
+        %li.nav-item.d-lg-none
+          = link_to member_plantings_path(current_member), class: 'nav-link', aria: { current: ('page' if current_section?(member_plantings_path(current_member))) } do
+            = menu_icon(:planting)
+            = t('.my_plantings')
+        %li.nav-item.d-lg-none
+          = link_to member_harvests_path(current_member), class: 'nav-link', aria: { current: ('page' if current_section?(member_harvests_path(current_member))) } do
+            = menu_icon(:harvest)
+            = t('.my_harvests')
+        %li.nav-item.d-lg-none
+          = link_to member_seeds_path(current_member), class: 'nav-link', aria: { current: ('page' if current_section?(member_seeds_path(current_member))) } do
+            = menu_icon(:seeds)
+            = t('.my_seeds')
+        %li.nav-item
+          = link_to neighbours_path, class: 'nav-link', aria: { current: ('page' if current_section?(neighbours_path)) } do
+            = menu_icon(:people)
+            = t('.friends_and_neighbours')
+            - if neighbours_new?
+              %span.badge.text-bg-success.ms-1= t('.new_badge')
+      %li.nav-item
+        = link_to crops_path, class: 'nav-link', aria: { current: ('page' if current_section?(crops_path)) } do
+          = menu_icon(:crop)
+          = t('.crops')
+      %li.nav-item.dropdown
+        %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button", "aria-current" => ('page' if community_current)}
+          %span
+          = t('.community')
+        .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+          = link_to t('.community_map'), places_path, class: 'dropdown-item'
+          = link_to harvests_path, class: 'dropdown-item' do
+            = menu_icon(:harvest)
+            = t('.harvests')
+          = link_to gardens_path, class: 'dropdown-item' do
+            = menu_icon(:garden)
+            = t('.gardens')
+          = link_to seeds_path, class: 'dropdown-item' do
+            = menu_icon(:seeds)
+            = t('.seeds')
+          = link_to plantings_path, class: 'dropdown-item' do
+            = menu_icon(:planting)
+            = t('.plantings')
+          = link_to members_path, class: 'dropdown-item' do
+            = menu_icon(:people)
+            = t('.browse_members')
+          = link_to community_gardens_path, class: 'dropdown-item' do
+            = menu_icon(:garden)
+            = t('.community_gardens')
+          = link_to t('.posts'), posts_path, class: 'dropdown-item'
+          = link_to t('.forums'), forums_path, class: 'dropdown-item'
+          = link_to t('.releases'), releases_path, class: 'dropdown-item'
+
+      - unless member_signed_in?
+        -# What a visitor can read about the site; on a desktop these are in the footer.
+        %li.nav-item.dropdown.d-lg-none
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+            = t('.about')
+          .dropdown-menu
+            = link_to about_path, class: 'dropdown-item' do
+              = menu_icon(:crop)
+              = t('.how_it_works')
+            = link_to contact_path, class: 'dropdown-item' do
+              = menu_icon(:people)
+              = t('.help_and_community')
+      - if member_signed_in? && (current_member.role?(:crop_wrangler) || current_member.role?(:admin))
+        %li.nav-item.dropdown
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+            %span
+            = t('.admin')
+          .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+            - if current_member.role?(:crop_wrangler)
+              = link_to t('.crop_wrangling'), wrangle_crops_path, class: 'dropdown-item'
+            - if current_member.role?(:admin)
+              = link_to t('.admin'), admin_path, class: 'dropdown-item'
+
+
+    = render 'crops/search_bar'
+
+    %ul.navbar-nav.navbar-user
+      - if member_signed_in?
+        -# On a phone the + in the top bar does this job.
+        %li.nav-item.dropdown.d-none.d-lg-block
+          %a.btn.btn-add.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+            = t('.add_button')
+          .dropdown-menu.dropdown-menu-end
+            = render 'layouts/add_links', link_class: 'dropdown-item'
+        %li.nav-item.dropdown
+          %a.nav-link.dropdown-toggle.account-pill{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+            = image_tag(avatar_uri(current_member, 50), alt: 'Avatar of current member', height: 30, width: 30, aria: { hidden: "true" })
+            = current_member.login_name
+            - if current_member.unread_count.positive?
+              %span.badge.text-bg-info= current_member.unread_count
+          -# Rows marked for desktop are in the drawer's own list, above, on a phone.
+          .dropdown-menu.dropdown-menu-end{"aria-labelledby" => "navbarDropdown"}
+            = link_to member_path(current_member), class: 'dropdown-item account-menu-head d-none d-lg-block' do
+              %strong= current_member.login_name
+              - if current_member.location.present?
+                %small= current_member.location
+            = link_to member_plantings_path(current_member), class: 'dropdown-item d-none d-lg-flex' do
+              = menu_icon(:planting)
+              = t('.my_plantings')
+            = link_to member_harvests_path(current_member), class: 'dropdown-item d-none d-lg-flex' do
+              = menu_icon(:harvest)
+              = t('.my_harvests')
+            = link_to member_seeds_path(current_member), class: 'dropdown-item d-none d-lg-flex' do
+              = menu_icon(:seeds)
+              = t('.my_seeds')
+            = link_to neighbours_path, class: 'dropdown-item d-none d-lg-flex' do
+              = menu_icon(:people)
+              = t('.friends_and_neighbours')
+              - if neighbours_new?
+                %span.badge.text-bg-success.ms-1= t('.new_badge')
+            = link_to member_activities_path(current_member), class: 'dropdown-item' do
+              = t('.activities')
+            = link_to t('.posts'), member_posts_path(current_member), class: 'dropdown-item'
+            - if current_member.unread_count.positive?
+              .dropdown-divider
+              %strong
+                = link_to(conversations_path, class: 'dropdown-item') do
+                  = t('.inbox')
+                  %span.badge.text-bg-info= current_member.unread_count
+            - else
+              = link_to t('.inbox'), conversations_path, class: 'dropdown-item'
+            .dropdown-divider
+            = link_to destroy_member_session_path, method: :delete, class: 'dropdown-item' do
+              = menu_icon(:sign_out)
+              = t('.sign_out')
+
+      - else
+        %li.nav-item.d-none.d-lg-block= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'nav-link'
+        %li.nav-item.d-none.d-lg-block= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn btn-signup'

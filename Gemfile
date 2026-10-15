@@ -95,7 +95,7 @@ gem 'geocoder'
 # For easy calendar selection
 gem 'bootstrap-datepicker-rails'
 
-# DRY-er easier bootstrap 4 forms
+# DRY-er easier bootstrap 5 forms
 gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Flickr)
