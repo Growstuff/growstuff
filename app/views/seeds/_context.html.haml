@@ -3,7 +3,7 @@
   - if @owner
     = link_to image_tag(avatar_uri(@owner, 72), alt: @owner.login_name, width: 72, height: 72, class: 'seed-context-image'), member_path(@owner)
     .seed-context-about
-      %h2= link_to @owner.login_name, member_path(@owner)
+      %h2.login-name= link_to @owner.login_name, member_path(@owner)
       - if @owner.location.present?
         %span.text-muted= @owner.location
     %ul.seed-context-stats
@@ -14,7 +14,12 @@
       - if @owner.harvests.present?
         %li= link_to localize_plural(@owner.harvests, Harvest), member_harvests_path(@owner)
   - elsif @crop
-    = link_to image_tag(crop_image_path(@crop), alt: "Image of #{@crop.name}", width: 72, height: 72, class: 'seed-context-image'), crop_path(@crop)
+    - crop_image = image_tag(crop_image_path(@crop), alt: "Image of #{@crop.name}", width: 72, height: 72, class: 'seed-context-image')
+    = link_to crop_image, crop_path(@crop)
     .seed-context-about
       %h2= link_to @crop.name, crop_path(@crop)
       %span.text-muted= @crop.default_scientific_name
+    - if member_signed_in?
+      .seed-context-actions
+        = render 'plantings/modal', planting: Planting.new(crop: @crop, owner: current_member)
+        = render 'seeds/modal', seed: Seed.new(crop: @crop, owner: current_member)

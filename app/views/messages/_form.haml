@@ -7,6 +7,11 @@
       = link_to @recipient, @recipient
       = render 'members/tiny', member: @recipient
     = f.hidden_field :recipient_id, value: @recipient.id
+    - if @seed
+      = f.hidden_field :seed_id, value: @seed.id
+      %p
+        About
+        = link_to "#{@seed.crop_name} seeds", seed_path(@seed)
     = f.text_field :subject, value: @subject, class: 'form-control', maxlength: 255, required: true
 
   = f.text_area :body, rows: 12, label: "Type your message here", required: true

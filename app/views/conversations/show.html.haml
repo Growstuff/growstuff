@@ -24,6 +24,10 @@
               on #{message.created_at}
             .col-md-4.text-end.float-end
               = render 'members/tiny', member: message.sender
+            - if message.notified_object.is_a?(Seed)
+              .col-12
+                About
+                = link_to "#{message.notified_object.crop_name} seeds", seed_path(message.notified_object)
             .col-12
               %p.text-justify
                 :markdown

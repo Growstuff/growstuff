@@ -74,7 +74,7 @@
     = render 'seeds/list', shelves: @shelves
   - else
     - @shelves.each do |shelf, seeds|
-      = render 'seeds/shelf', shelf: shelf, seeds: seeds, owned: @owner.present? && @owner == current_member
+      = render 'seeds/shelf', shelf: shelf, seeds: seeds, owned: @owner.present? && @owner == current_member, everyone: @everyone
 
   = will_paginate @seeds
 
