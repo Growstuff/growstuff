@@ -105,7 +105,9 @@ describe SeedsHelper do
     let(:seeds) { create_list(:seed, 2, crop:, heirloom: 'heirloom') }
     let(:show_owner) { false }
 
-    before { allow(helper).to receive(:can?).and_return(false) }
+    before do
+      allow(helper).to receive_messages(can?: false, current_member: nil)
+    end
 
     it { expect(props[:count]).to eq 2 }
     it { expect(props[:crop]).to eq(name: 'Brandywine tomato', path: crop_path(crop)) }

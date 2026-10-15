@@ -85,7 +85,7 @@ describe "everyone's seeds" do
     before do
       create(:seed, owner: gardener, crop: tomato, tradable_to: 'locally')
       create(:seed, owner: other_gardener, crop: create(:crop, name: 'cabbage'), tradable_to: 'locally')
-      create(:follow, follower: member, followed: gardener)
+      Follow.create!(follower: member, followed: gardener)
       visit seeds_path(scope: 'following')
     end
 
