@@ -1,0 +1,5 @@
+-# What the tab a search or filter has not looked in holds, so an empty result
+-# is not read as "none anywhere".
+- if @other_count.positive?
+  #{@other_count} more #{@show_finished ? 'in stock' : 'finished'}.
+  = link_to 'Show them', url_for(finished: (@show_finished ? nil : 1), page: nil)

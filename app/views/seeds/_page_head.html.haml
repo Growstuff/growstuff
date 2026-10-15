@@ -1,34 +1,31 @@
--# The top of the page: whose library it is and what is in it, or what this
--# page is for. A crop's page keeps its crop strip and the ways to plant or save it.
-- if @crop
-  = render 'seeds/context'
-- else
-  %header.seed-head
+-# The top of the page: whose library it is and what is in it, which crop's
+-# seeds these are with the ways to plant or save it, or what the page is for.
+%header.seed-head
+  - if @owner
+    = link_to image_tag(avatar_uri(@owner, 72), alt: @owner.login_name, width: 72, height: 72, class: 'seed-head-image'), member_path(@owner)
+  - elsif @crop
+    = link_to image_tag(crop_image_path(@crop), alt: "Image of #{@crop.name}", width: 72, height: 72, class: 'seed-head-image'), crop_path(@crop)
+  .seed-head-about
     - if @owner
-      = link_to image_tag(avatar_uri(@owner, 72), alt: @owner.login_name, width: 72, height: 72, class: 'seed-head-image'), member_path(@owner)
-    .seed-head-about
-      - if @owner
-        %h1
-          = succeed "'s seed library" do
-            %span.login-name= link_to @owner.login_name, member_path(@owner)
-        - if @owner.location.present?
-          .seed-head-sub= @owner.location
-      - elsif @planting
-        %h1= title('seeds', nil, nil, @planting)
-      - else
-        %h1 Seeds
-        .seed-head-sub Seeds that gardeners have chosen to share
-    - if @stats
-      %ul.seed-head-stats
+      %h1
+        = succeed "'s seed library" do
+          %span.login-name= link_to @owner.login_name, member_path(@owner)
+      .seed-head-sub= @owner.location
+    - elsif @crop
+      %h1= link_to "#{@crop.name} seeds", crop_path(@crop)
+      .seed-head-sub= @crop.default_scientific_name
+    - elsif @planting
+      %h1= title('seeds', nil, nil, @planting)
+    - else
+      %h1 Seeds
+      .seed-head-sub Seeds that gardeners have chosen to share
+  - if @stats
+    %ul.seed-head-stats
+      - { packets: 'packets', varieties: 'varieties', crops: 'crops', own: 'my own saving' }.each do |key, label|
         %li
-          %b= @stats[:packets]
-          packets
-        %li
-          %b= @stats[:varieties]
-          varieties
-        %li
-          %b= @stats[:crops]
-          crops
-        %li
-          %b= @stats[:own]
-          my own saving
+          %b= @stats[key]
+          = label
+  - elsif @crop && member_signed_in?
+    .seed-head-actions
+      = render 'plantings/modal', planting: Planting.new(crop: @crop, owner: current_member)
+      = render 'seeds/modal', seed: Seed.new(crop: @crop, owner: current_member)

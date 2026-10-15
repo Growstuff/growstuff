@@ -66,7 +66,7 @@ describe "seed filters" do
         visit member_seeds_path(owner, q: 'leek')
       end
 
-      it { expect(page).to have_content('There are 1 finished') }
+      it { expect(page).to have_content('1 more finished') }
     end
   end
 

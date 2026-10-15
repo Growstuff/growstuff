@@ -1,13 +1,11 @@
 -# A search with nothing in it. Says where it looked, and where else to try.
-- other_count = @show_finished ? @in_stock_count : @finished_count
 .seed-none
   %h2 No #{@query} seeds #{@owner ? "from #{@owner}" : 'here'}
-  - if other_count.positive?
-    %p
-      There are #{other_count} #{@show_finished ? 'in stock' : 'finished'}.
-      = link_to 'Show them', url_for(finished: (@show_finished ? nil : 1), page: nil)
-  - else
-    %p We looked in stock and in finished packets.
+  %p
+    - if @other_count.positive?
+      = render 'seeds/other_tab'
+    - else
+      We looked in stock and in finished packets.
   .seed-none-actions
     - if @owner.blank? || @owner == current_member
       = link_to "Add #{@query} seeds", new_seed_path, class: 'btn btn-primary'

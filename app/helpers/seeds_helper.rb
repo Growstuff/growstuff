@@ -36,10 +36,21 @@ module SeedsHelper
     "#{km.round} km" if km
   end
 
-  # Packets nearest the signed-in member first; those with no known distance
-  # last, and ties in the order given.
-  def nearest_first(packets)
-    packets.sort_by.with_index { |seed, index| [seed_km(seed) || Float::INFINITY, index] }
+  # Who a packet belongs to, and where, for the avatar beside it.
+  def seed_owner_label(seed)
+    owner = seed.owner
+    [owner.login_name, owner.location&.split(',')&.first, seed_distance(seed)].compact_blank.join(' · ')
+  end
+
+  # A shelf's seeds as piles of packets: on someone's own shelf one pile is a
+  # variety, on everyone's it is one gardener's packets of a variety, nearest
+  # gardener first. Ties keep the order given.
+  def seed_stacks(seeds, by_owner: false)
+    packets = seeds.sort_by { |seed| [seed.crop_name.downcase, seed.created_at] }
+    return packets.group_by(&:crop_id).values unless by_owner
+
+    nearest = packets.sort_by.with_index { |seed, index| [seed_km(seed) || Float::INFINITY, index] }
+    nearest.group_by { |seed| [seed.owner_id, seed.crop_id] }.values
   end
 
   SOURCE_LABELS = {
@@ -66,48 +77,42 @@ module SeedsHelper
     seed.saved_at ? "saved #{years.first}" : "sow by #{years.first}"
   end
 
-  # What the SeedStack island needs to draw a pile of packets of one variety,
-  # open or closed, and to link each packet to its page.
-  def seed_stack_props(packets, open_crop_id: nil, show_owner: false)
+  # What the SeedStack island needs to draw a pile of packets of one variety
+  # and to link each packet to its page.
+  def seed_stack_props(packets, show_owner: false)
     first = packets.first
-    crop = first.crop
     {
-      crop:      { name: crop.name, path: crop_path(crop) },
+      crop:      { name: first.crop.name, path: crop_path(first.crop) },
       count:     packets.size,
       image_url: seed_image_url(first),
-      heirloom:  (first.heirloom unless first.heirloom == 'unknown'),
+      heirloom:  first.heirloom_kind,
       rule:      seed_packet_rule(packets),
-      open:      crop.id == open_crop_id,
       owner:     (seed_owner_props(first) if show_owner),
       packets:   packets.map { |seed| seed_stack_packet_props(seed) }
     }
   end
 
-  # Who a packet belongs to, for the avatar beside it.
   def seed_owner_props(seed)
-    owner = seed.owner
-    where = [owner.location&.split(',')&.first, seed_distance(seed)].compact_blank.join(' · ')
     {
-      name:       owner.login_name,
-      path:       member_path(owner),
-      avatar_url: avatar_uri(owner, 32),
-      label:      [owner.login_name, where].compact_blank.join(' · ')
+      name:       seed.owner.login_name,
+      path:       member_path(seed.owner),
+      avatar_url: avatar_uri(seed.owner, 32),
+      label:      seed_owner_label(seed)
     }
   end
 
   def seed_stack_packet_props(seed)
-    past = seed.plant_before.present? && seed.plant_before < Time.zone.today
     {
       id:        seed.id,
       name:      seed.crop_name,
       path:      seed_path(slug: seed.slug),
       edit_path: (edit_seed_path(slug: seed.slug) if can?(:edit, seed)),
       image_url: seed_image_url(seed),
-      heirloom:  (seed.heirloom unless seed.heirloom == 'unknown'),
+      heirloom:  seed.heirloom_kind,
       when:      seed_packet_when(seed),
       detail:    [(pluralize(seed.quantity, 'seed') if seed.quantity), seed_sharing(seed)].compact.join(' · '),
-      rule:      seed_packet_sow_by(seed, past),
-      past:
+      rule:      seed_packet_sow_by(seed),
+      past:      seed.past_sow_by?
     }
   end
 
@@ -131,9 +136,41 @@ module SeedsHelper
     seed.tradable ? "shared #{seed.tradable_to}" : 'not shared'
   end
 
-  def seed_packet_sow_by(seed, past)
+  def seed_packet_sow_by(seed)
     return unless seed.plant_before
 
-    past ? "past sow-by #{seed.plant_before.year}" : "sow by #{seed.plant_before.year}"
+    year = seed.plant_before.year
+    seed.past_sow_by? ? "past sow-by #{year}" : "sow by #{year}"
+  end
+
+  # A pill that narrows or reorders the seeds shown, filled when it is the
+  # choice in force. Always back to the first page. `css_class` nil for the
+  # joined buttons, which are styled by what holds them.
+  def seed_choice_link(label, active, css_class: 'seed-chip', **url_params)
+    link_to label, url_for(**url_params, page: nil), class: [css_class, ('active' if active)].compact
+  end
+
+  # The chips under the toolbar: [label, url params, whether it is chosen].
+  def seed_filter_chips(everyone:)
+    from = params[:from]
+    if everyone
+      [['Anywhere', { from: nil, within: nil }, from.blank? && params[:within].blank?],
+       *seed_distance_chips,
+       ['Heirloom only', { from: 'heirloom' }, from == 'heirloom'],
+       ['Saved by the gardener', { from: 'own' }, from == 'own']]
+    else
+      [['All', { from: nil, tradeable_to: nil }, from.blank? && params[:tradeable_to].blank?],
+       ['My own saving', { from: 'own' }, from == 'own'],
+       ['Bought', { from: 'bought' }, from == 'bought'],
+       ['Traded from a person', { from: 'traded' }, from == 'traded'],
+       ['Heirloom only', { from: 'heirloom' }, from == 'heirloom'],
+       ['Shared with others', { from: 'shared' }, from == 'shared']]
+    end
+  end
+
+  def seed_distance_chips
+    return [] unless current_member&.latitude
+
+    [50, 10].map { |km| ["Within #{km} km", { within: km }, params[:within].to_i == km] }
   end
 end

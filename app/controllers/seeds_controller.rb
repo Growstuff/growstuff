@@ -34,6 +34,7 @@ class SeedsController < DataController
     @in_stock_count = @seeds.current.count
     @finished_count = @seeds.finished.count
     @show_finished = (params[:finished] == '1')
+    @other_count = @show_finished ? @in_stock_count : @finished_count
     @show_all = (params[:all] == '1')
     @seeds = if @show_all then @seeds
              elsif @show_finished then @seeds.finished
@@ -49,7 +50,6 @@ class SeedsController < DataController
     @seeds = @seeds.paginate(page: params[:page], per_page: 30)
     @group_by = GROUPINGS.include?(params[:group]) ? params[:group] : 'crop'
     @list_view = (params[:view] == 'list')
-    @open_crop_id = params[:open].presence&.to_i
     @shelves = shelve(@seeds, @group_by)
 
     respond_with(@seeds)

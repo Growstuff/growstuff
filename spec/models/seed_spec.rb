@@ -301,4 +301,16 @@ describe Seed do
 
     it { expect(described_class.heirlooms).to contain_exactly(heirloom) }
   end
+
+  describe '#past_sow_by?' do
+    it { expect(build(:seed, plant_before: Date.new(2020, 12, 31))).to be_past_sow_by }
+    it { expect(build(:seed, plant_before: 1.year.from_now.to_date)).not_to be_past_sow_by }
+    it { expect(build(:seed, plant_before: nil)).not_to be_past_sow_by }
+  end
+
+  describe '#heirloom_kind' do
+    it { expect(build(:seed, heirloom: 'heirloom').heirloom_kind).to eq 'heirloom' }
+    it { expect(build(:seed, heirloom: 'hybrid').heirloom_kind).to eq 'hybrid' }
+    it { expect(build(:seed, heirloom: 'unknown').heirloom_kind).to be_nil }
+  end
 end

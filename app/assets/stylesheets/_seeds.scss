@@ -114,8 +114,44 @@
   }
 }
 
-// The top of the page: whose library it is, or what the page is for, with the
-// numbers at the right.
+// ---------------------------------------------------------------------------
+// The seed library page: shelves of small seed packets.
+
+// Paper, as a packet is printed on it, and the green wash behind what is open.
+$seed-paper-edge: darken($beige, 25%);
+$seed-paper-shade: darken($beige, 8%);
+$seed-paper-fold: darken($beige, 14%);
+$seed-wash: lighten($green, 55%);
+$seed-rule: rgba($brown, 0.15);
+
+// Something to pick: outlined, and filled green when it is the one in force.
+@mixin seed-choice($ink: $green) {
+  padding: 0.35rem 0.85rem;
+  border: 1px solid $ink;
+  background: $white;
+  color: $ink;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &.active {
+    border-color: $green;
+    background: $green;
+    color: $white;
+  }
+}
+
+// A page title in the light weight the design uses.
+@mixin seed-title {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+// The top of the page: whose library it is, which crop's seeds these are, or
+// what the page is for, with the numbers or the ways to add at the right.
 .seed-head {
   display: flex;
   flex-wrap: wrap;
@@ -133,10 +169,7 @@
     flex: 1 1 300px;
 
     h1 {
-      margin: 0;
-      font-size: 2.2rem;
-      font-weight: 300;
-      line-height: 1.1;
+      @include seed-title;
     }
 
     h1 a {
@@ -169,38 +202,8 @@
       line-height: 1.1;
     }
   }
-}
 
-// A crop's page: the crop in a slim strip, with the ways to plant or save it.
-.seed-context {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
-  align-items: center;
-  margin: 0 0 1.25rem;
-  padding-top: 1.5rem;
-
-  .seed-context-image {
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .seed-context-about {
-    flex: 1 1 12rem;
-
-    h1 {
-      margin: 0;
-      font-size: 2.2rem;
-      font-weight: 300;
-      line-height: 1.1;
-    }
-
-    h1 a {
-      color: inherit;
-    }
-  }
-
-  .seed-context-actions {
+  .seed-head-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -225,21 +228,12 @@
   border-radius: 999px;
 
   a {
+    @include seed-choice;
     padding: 0.4rem 1rem;
-    border-left: 1px solid $green;
-    background: $white;
-    color: $green;
-    font-size: 0.88rem;
-    text-decoration: none;
-    white-space: nowrap;
+    border-width: 0 0 0 1px;
 
     &:first-child {
-      border-left: 0;
-    }
-
-    &.active {
-      background: $green;
-      color: $white;
+      border-left-width: 0;
     }
   }
 }
@@ -255,7 +249,6 @@
   .seed-search {
     flex: 1 1 240px;
     max-width: 320px;
-    margin: 0;
   }
 
   .seed-group-by {
@@ -276,8 +269,8 @@
   }
 }
 
-// Round filter buttons, as the design has them. Named for the seeds page: the
-// site-wide .chip is a fixed-height tag and would clip these.
+// Round filter buttons. Named for the seeds page: the site-wide .chip is a
+// fixed-height tag and would clip these.
 .seed-chips {
   display: flex;
   flex-wrap: wrap;
@@ -288,41 +281,22 @@
 }
 
 .seed-chip {
-  display: inline-block;
-  padding: 0.35rem 0.85rem;
-  border: 1px solid $brown;
+  @include seed-choice($brown);
   border-radius: 999px;
-  background: $white;
-  color: $brown;
-  font-size: 0.88rem;
-  line-height: 1.4;
-  text-decoration: none;
-  white-space: nowrap;
 
   &:hover {
     border-color: $green;
     color: $green;
   }
-
-  &.active {
-    border-color: $green;
-    background: $green;
-    color: $white;
-  }
 }
 
-// Two choices joined into one control, the chosen one filled green.
+// Two choices joined into one control.
 .seed-seg {
   display: inline-flex;
 
   a {
-    padding: 0.4rem 0.85rem;
-    border: 1px solid $green;
+    @include seed-choice;
     margin-left: -1px;
-    background: $white;
-    color: $green;
-    font-size: 0.88rem;
-    text-decoration: none;
 
     &:first-child {
       margin-left: 0;
@@ -332,22 +306,13 @@
     &:last-child {
       border-radius: 0 2px 2px 0;
     }
-
-    &.active {
-      background: $green;
-      color: $white;
-      font-weight: 600;
-    }
   }
 }
 
-// A word of advice, in the orange of a warning.
-.seed-tip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
-  align-items: center;
-  justify-content: space-between;
+// Something to tell the member, in the orange of a warning or the green of a
+// shelf.
+.seed-tip,
+.seed-search-summary {
   margin-bottom: 1.4rem;
   padding: 0.75rem 1rem;
   border: 1px solid rgba($orange, 0.5);
@@ -355,9 +320,32 @@
   background: rgba($orange, 0.12);
   font-size: 0.9rem;
   line-height: 1.45;
+}
+
+.seed-tip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  justify-content: space-between;
 
   a {
     font-weight: 700;
+  }
+}
+
+.seed-search-summary {
+  margin-bottom: 1rem;
+  border-color: rgba($green, 0.5);
+  background: rgba($green, 0.1);
+}
+
+.seed-none {
+  padding: 2rem 0.5rem;
+  text-align: center;
+
+  .seed-none-actions .btn {
+    margin: 0 0.25rem;
   }
 }
 
@@ -420,21 +408,17 @@
     display: none;
   }
 
-  .seed-shelf-packets,
-  .seed-stack-panel .seed-shelf-packets {
+  .seed-shelf-packets {
     display: flex;
     flex-wrap: wrap;
     gap: 1.25rem 1.1rem;
     align-items: flex-start;
-  }
-
-  > .seed-shelf-packets {
     padding: 1.25rem 1rem 1rem;
-    border: 1px solid rgba($brown, 0.15);
+    border: 1px solid $seed-rule;
     border-top: 0;
     border-radius: 0 0 4px 4px;
     background: $white;
-    box-shadow: 0 3px 3px -1px darken($beige, 12%);
+    box-shadow: 0 3px 3px -1px $seed-paper-shade;
   }
 }
 
@@ -447,16 +431,16 @@
   aspect-ratio: 3 / 4;
   padding: 0.5rem;
   overflow: hidden;
-  border: 1px solid darken($beige, 25%);
+  border: 1px solid $seed-paper-edge;
   border-radius: 4px;
   background: $beige;
-  box-shadow: 1px 3px 3px 1px darken($beige, 12%);
+  box-shadow: 1px 3px 3px 1px $seed-paper-shade;
 
   .seed-packet-tear {
     height: 0.6rem;
     margin: -0.5rem -0.5rem 0.4rem;
     border-bottom: 1px dashed darken($beige, 30%);
-    background: darken($beige, 8%);
+    background: $seed-paper-shade;
   }
 
   .seed-packet-window {
@@ -468,9 +452,11 @@
   }
 
   .seed-packet-name {
+    display: block;
     margin: 0.4rem 0 0.2rem;
     padding: 0.1rem;
     background: $green;
+    color: $white;
     font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -491,14 +477,10 @@
     text-align: center;
   }
 
-  .seed-packet-who a {
-    font-weight: 600;
-  }
-
   .seed-packet-rule {
     margin-top: auto;
     padding-top: 0.25rem;
-    border-top: 1px solid darken($beige, 12%);
+    border-top: 1px solid $seed-paper-shade;
     color: $brown;
     font-size: 0.64rem;
     text-align: center;
@@ -541,8 +523,7 @@
 }
 
 // Packets of one variety piled up: two sheets peeking out behind the top one.
-// The sheets belong to the pile, not to the link under it, so they sit exactly
-// behind the card.
+// The sheets belong to the pile, so they sit exactly behind the packet.
 .seed-stack {
   position: relative;
   display: inline-block;
@@ -555,9 +536,9 @@
       content: "";
       position: absolute;
       z-index: 0;
-      border: 1px solid darken($beige, 25%);
+      border: 1px solid $seed-paper-edge;
       border-radius: 4px;
-      background: darken($beige, 8%);
+      background: $seed-paper-shade;
     }
 
     &::before {
@@ -566,18 +547,12 @@
 
     &::after {
       inset: -10px -12px 10px 12px;
-      background: darken($beige, 14%);
+      background: $seed-paper-fold;
     }
 
     .seed-packet {
       position: relative;
       z-index: 1;
-    }
-
-    // One gardener has no pile behind the packet.
-    &.seed-stack-pile-single::before,
-    &.seed-stack-pile-single::after {
-      display: none;
     }
   }
 
@@ -592,145 +567,6 @@
     color: $black;
     font-size: 0.75rem;
     font-weight: 700;
-    text-decoration: none;
-  }
-
-  .seed-stack-open {
-    display: block;
-    margin-top: 0.75rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-align: center;
-  }
-}
-
-// An opened pile takes the whole row of the shelf, with every packet laid out.
-.seed-stack-panel {
-  flex: 1 1 100%;
-  padding: 0.75rem 1rem 1rem;
-  border: 2px solid $green;
-  border-radius: 6px;
-  background: lighten($green, 55%);
-
-  .seed-stack-panel-head {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.25rem;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-
-    a {
-      margin-left: 1rem;
-      font-weight: 600;
-    }
-  }
-}
-
-// Whose packet it is, on a page of other people's seeds: a small avatar
-// overlapping the packet's corner, with "You have it" when the member already
-// holds the variety.
-.seed-owned {
-  position: relative;
-  display: inline-block;
-}
-
-.seed-owner {
-  position: absolute;
-  bottom: -10px;
-  left: -10px;
-  z-index: 3;
-  width: 32px;
-  height: 32px;
-  overflow: hidden;
-  border: 2px solid $white;
-  border-radius: 50%;
-  background: $white;
-  box-shadow: 0 1px 3px rgba($black, 0.3);
-  transition: transform 0.15s ease;
-
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  &:hover,
-  &:focus-visible {
-    transform: scale(1.12);
-  }
-}
-
-.seed-have-it {
-  position: absolute;
-  top: 0.3rem;
-  left: 0.3rem;
-  z-index: 2;
-  padding: 0 0.45rem;
-  border: 1px solid lighten($green, 25%);
-  border-radius: 999px;
-  background: lighten($green, 55%);
-  color: darken($green, 10%);
-  font-size: 0.65rem;
-  font-weight: 700;
-}
-
-.seed-group .seed-group-owner {
-  margin-left: 0.4rem;
-  font-weight: 400;
-}
-
-// The list view: a green row for each shelf, packets indented under a variety.
-.seed-list {
-  background: $white;
-
-  .seed-list-shelf th {
-    background: $green;
-    color: $white;
-
-    a {
-      color: $white;
-    }
-  }
-
-  .seed-list-packet td:first-child {
-    padding-left: 2rem;
-  }
-}
-
-// Says what a search found, in the green of a shelf.
-.seed-search-summary {
-  margin-bottom: 1rem;
-  padding: 0.75rem 1rem;
-  border: 1px solid rgba($green, 0.5);
-  border-radius: 4px;
-  background: rgba($green, 0.1);
-}
-
-.seed-none {
-  padding: 2rem 0.5rem;
-  text-align: center;
-
-  .seed-none-actions .btn {
-    margin: 0 0.25rem;
-  }
-}
-
-.open-data {
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba($brown, 0.15);
-
-  h2 {
-    margin: 0 0 0.5rem;
-    padding: 0;
-    border: 0;
-    background: none;
-    box-shadow: none;
-    color: $brown;
-    font-size: 1rem;
-    font-weight: 600;
   }
 }
 
@@ -744,16 +580,7 @@
     text-align: center;
     cursor: pointer;
     appearance: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-    .seed-packet-name {
-      display: block;
-      color: $white;
-    }
-
-    .seed-packet-window {
-      width: 100%;
-    }
+    transition: transform 0.2s ease;
   }
 
   .seed-stack-hint {
@@ -818,7 +645,7 @@
   padding: 0.5rem 0.75rem 0.75rem;
   border: 2px solid $green;
   border-radius: 6px;
-  background: lighten($green, 55%);
+  background: $seed-wash;
   animation: seed-group-open 0.28s ease-out both;
   transform-origin: left center;
 
@@ -832,6 +659,11 @@
     b {
       font-size: 1rem;
     }
+  }
+
+  .seed-group-owner {
+    margin-left: 0.4rem;
+    font-weight: 400;
   }
 
   .seed-group-close {
@@ -949,5 +781,89 @@
   .seed-stack-island .seed-stack-pile::after,
   .seed-stack-island .seed-stack-hint i {
     transition: none;
+  }
+}
+
+// Whose packet it is, on a page of other people's seeds: a small avatar
+// overlapping the packet's corner, with "You have it" when the member already
+// holds the variety.
+.seed-owned {
+  position: relative;
+  display: inline-block;
+}
+
+.seed-owner {
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  border: 2px solid $white;
+  border-radius: 50%;
+  background: $white;
+  box-shadow: 0 1px 3px rgba($black, 0.3);
+  transition: transform 0.15s ease;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.12);
+  }
+}
+
+.seed-have-it {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  z-index: 2;
+  padding: 0 0.45rem;
+  border: 1px solid lighten($green, 25%);
+  border-radius: 999px;
+  background: $seed-wash;
+  color: darken($green, 10%);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+// The list view: a green row for each shelf, packets indented under a variety.
+.seed-list {
+  background: $white;
+
+  .seed-list-shelf th {
+    background: $green;
+    color: $white;
+
+    a {
+      color: $white;
+    }
+  }
+
+  .seed-list-packet td:first-child {
+    padding-left: 2rem;
+  }
+}
+
+.open-data {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid $seed-rule;
+
+  h2 {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    color: $brown;
+    font-size: 1rem;
+    font-weight: 600;
   }
 }
