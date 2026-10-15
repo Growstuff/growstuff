@@ -314,3 +314,41 @@
 .open-data {
   margin-top: 2rem;
 }
+
+// The link under a pile that opens it out.
+.seed-stack {
+  .seed-stack-count {
+    text-decoration: none;
+  }
+
+  .seed-stack-open {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+  }
+}
+
+// An opened pile takes the whole row of the shelf, with every packet laid out.
+.seed-stack-panel {
+  flex: 1 1 100%;
+  padding: 0.75rem 1rem 1rem;
+  border: 2px solid $green;
+  border-radius: 6px;
+  background: lighten($green, 55%);
+
+  .seed-stack-panel-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+
+    a {
+      margin-left: 1rem;
+      font-weight: 600;
+    }
+  }
+}
