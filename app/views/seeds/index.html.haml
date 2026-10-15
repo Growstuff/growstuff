@@ -22,11 +22,7 @@
     - else
       = render 'shared/signin_signup', to: 'record your seeds'
 - if @owner || @crop
-  .seed-context
-    - if @owner
-      = render @owner
-    - if @crop
-      = render @crop
+  = render 'seeds/context'
 
 %section
   %ul.nav.nav-tabs.seed-tabs
@@ -40,10 +36,10 @@
         %small= @finished_count
   %ul.seed-chips
     - shared = Seed::TRADABLE_TO_VALUES - ['nowhere']
-    %li= link_to 'All', url_for(tradeable_to: nil, page: nil), class: ['chip', ('active' if params[:tradeable_to].blank?)]
-    %li= link_to 'Shared with others', url_for(tradeable_to: shared, page: nil), class: ['chip', ('active' if params[:tradeable_to].is_a?(Array))]
+    %li= link_to 'All', url_for(tradeable_to: nil, page: nil), class: ['seed-chip', ('active' if params[:tradeable_to].blank?)]
+    %li= link_to 'Shared with others', url_for(tradeable_to: shared, page: nil), class: ['seed-chip', ('active' if params[:tradeable_to].is_a?(Array))]
     - shared.each do |value|
-      %li= link_to value.capitalize, url_for(tradeable_to: value, page: nil), class: ['chip', ('active' if params[:tradeable_to] == value)]
+      %li= link_to value.capitalize, url_for(tradeable_to: value, page: nil), class: ['seed-chip', ('active' if params[:tradeable_to] == value)]
   - if @crop && !member_signed_in?
     %p
       = link_to 'Sign in', new_member_session_path
@@ -66,12 +62,12 @@
   .seed-controls
     %div
       %span.seed-controls-label Group by
-      .btn-group.btn-group-sm{ role: 'group', 'aria-label': 'Group by' }
+      .seed-seg{ role: 'group', 'aria-label': 'Group by' }
         - { 'crop' => 'Crop', 'source' => 'Where from', 'year' => 'Year saved', 'heirloom' => 'Heirloom or hybrid' }.each do |key, label|
-          = link_to label, url_for(group: key, page: nil), class: ['btn', 'btn-outline-secondary', ('active' if @group_by == key)]
-    .btn-group.btn-group-sm{ role: 'group', 'aria-label': 'View as' }
-      = link_to 'Cards', url_for(view: nil, page: nil), class: ['btn', 'btn-outline-secondary', ('active' unless @list_view)]
-      = link_to 'List', url_for(view: 'list', page: nil), class: ['btn', 'btn-outline-secondary', ('active' if @list_view)]
+          = link_to label, url_for(group: key, page: nil), class: ('active' if @group_by == key)
+    .seed-seg{ role: 'group', 'aria-label': 'View as' }
+      = link_to 'Cards', url_for(view: nil, page: nil), class: ('active' unless @list_view)
+      = link_to 'List', url_for(view: 'list', page: nil), class: ('active' if @list_view)
   - if @seeds.blank? && @query.present?
     = render 'seeds/none'
   - elsif @list_view

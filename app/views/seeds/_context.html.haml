@@ -1,0 +1,20 @@
+-# Whose seeds, or which crop's, as a slim strip above the shelves.
+.seed-context
+  - if @owner
+    = link_to image_tag(avatar_uri(@owner, 72), alt: @owner.login_name, width: 72, height: 72, class: 'seed-context-image'), member_path(@owner)
+    .seed-context-about
+      %h2= link_to @owner.login_name, member_path(@owner)
+      - if @owner.location.present?
+        %span.text-muted= @owner.location
+    %ul.seed-context-stats
+      - if @owner.gardens.present?
+        %li= link_to localize_plural(@owner.gardens, Garden), member_gardens_path(@owner)
+      - if @owner.plantings.present?
+        %li= link_to localize_plural(@owner.plantings, Planting), member_plantings_path(@owner)
+      - if @owner.harvests.present?
+        %li= link_to localize_plural(@owner.harvests, Harvest), member_harvests_path(@owner)
+  - elsif @crop
+    = link_to image_tag(crop_image_path(@crop), alt: "Image of #{@crop.name}", width: 72, height: 72, class: 'seed-context-image'), crop_path(@crop)
+    .seed-context-about
+      %h2= link_to @crop.name, crop_path(@crop)
+      %span.text-muted= @crop.default_scientific_name
