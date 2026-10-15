@@ -541,10 +541,24 @@ en:
       toggle_navigation: Toggle Navigation
       your_stuff: Your Stuff
     menu:
+      about: About
+      add: Add
+      cancel: Cancel
+      crops_heading: Crops
+      add_button: "+ Add"
+      close: Close menu
       friends_and_neighbours: My friends & neighbours
+      help_and_community: Help and community
+      how_it_works: How Growstuff works
       my_garden: My garden
+      my_harvests: My harvests
+      my_plantings: My plantings
+      my_seeds: My seeds
       new_badge: New
       releases: What's new
+      search: Search
+      search_placeholder: Search crops
+      search_all: "Search all crops for %{term}"
       sign_in: Sign in
       sign_out: Sign out
       sign_up: Join free

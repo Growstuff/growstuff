@@ -21,8 +21,8 @@ describe "seeds", :js do
     describe "button on front page to add seeds" do
       before do
         visit root_path
-        click_link 'Record'
-        click_link(href: new_seed_path)
+        click_link '+ Add'
+        within('#navbarSupportedContent') { click_link(href: new_seed_path) }
       end
 
       it { expect(page).to have_current_path new_seed_path, ignore_query: true }

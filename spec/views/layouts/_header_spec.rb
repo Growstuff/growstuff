@@ -57,6 +57,10 @@ describe 'layouts/_header.html.haml', type: "view" do
       assert_select("a[aria-current='page']", count: 0)
     end
 
+    it 'has a full screen search for a phone' do
+      assert_select("#phoneSearch input#phone-term")
+    end
+
     it 'has a crop search' do
       assert_select("form[action='#{search_crops_path}']")
       assert_select("input#term")
@@ -76,20 +80,46 @@ describe 'layouts/_header.html.haml', type: "view" do
         expect(rendered).to have_content @member.login_name.to_s
       end
 
-      it "shows link to member's gardens" do
-        assert_select("a[href='#{member_gardens_path(@member)}']", "Gardens")
+      it "shows link to member's garden" do
+        assert_select("a[href='#{member_gardens_path(@member, anchor: 'content')}']", "My garden")
       end
 
-      it "shows link to member's plantings" do
-        assert_select("a[href='#{member_plantings_path(@member)}']", "Plantings")
+      it "shows a My plantings link for the drawer" do
+        assert_select("a[href='#{member_plantings_path(@member)}']", "My plantings")
       end
 
-      it "shows link to member's seeds" do
-        assert_select("a[href='#{member_seeds_path(@member)}']", "Seeds")
+      it "shows a My harvests link for the drawer" do
+        assert_select("a[href='#{member_harvests_path(@member)}']", "My harvests")
+      end
+
+      it "shows a My seeds link for the drawer" do
+        assert_select("a[href='#{member_seeds_path(@member)}']", "My seeds")
       end
 
       it "shows link to member's posts" do
         assert_select("a[href='#{member_posts_path(@member)}']", "Posts")
+      end
+    end
+
+    context "when on the member's own pages" do
+      before do
+        allow(view.request).to receive(:path).and_return("/members/#{@member.slug}/activities")
+        render
+      end
+
+      it 'does not mark Community' do
+        assert_select("a.dropdown-toggle[aria-current='page']", count: 0)
+      end
+    end
+
+    context "when on another member's page" do
+      before do
+        allow(view.request).to receive(:path).and_return('/members/someone-else')
+        render
+      end
+
+      it 'marks Community' do
+        assert_select("a.dropdown-toggle[aria-current='page']", text: /Community/)
       end
     end
 
