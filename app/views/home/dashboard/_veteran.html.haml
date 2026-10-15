@@ -6,7 +6,7 @@
   = render 'home/dashboard/stat', value: dashboard.harvests_this_year, label: t('home.dashboard.stat_harvests'), change: dashboard.harvests_this_year - dashboard.harvests_last_year
   = render 'home/dashboard/stat', value: "#{dashboard.kilograms_this_year} kg", label: t('home.dashboard.stat_kilograms'), change: dashboard.kilograms_this_year - dashboard.kilograms_last_year, unit: ' kg'
   = render 'home/dashboard/stat', value: dashboard.seed_varieties, label: t('home.dashboard.stat_varieties')
-  = render 'home/dashboard/stat', value: dashboard.ready.size, label: t('home.dashboard.stat_ready')
+  = render 'home/dashboard/stat', value: dashboard.ready.size, label: t('home.dashboard.stat_ready'), url: '#growing-now'
 
 = render 'home/dashboard/this_week', dashboard:
 
