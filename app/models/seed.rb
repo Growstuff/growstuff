@@ -62,6 +62,12 @@ class Seed < ApplicationRecord
   scope :has_location, -> { joins(:owner).where.not('members.location': nil) }
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
+  # Seeds of crops named like `query`, and of that crop's varieties: searching
+  # tomato finds Brandywine tomato seeds.
+  scope :matching, lambda { |query|
+    ids = Crop.where('crops.name ILIKE ?', "%#{sanitize_sql_like(query.strip)}%").select(:id)
+    where(crop_id: ids).or(where(crop_id: Crop.where(parent_id: ids).select(:id)))
+  }
   scope :expired, -> { active.where('plant_before < ?', Time.zone.today) }
 
   # "Plant before" only ever means a season, not a day: seed keeps until the

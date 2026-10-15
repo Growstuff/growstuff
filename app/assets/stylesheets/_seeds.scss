@@ -234,3 +234,28 @@
     padding-left: 2rem;
   }
 }
+
+.seed-search {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 28rem;
+  margin-bottom: 1rem;
+}
+
+// Says what a search found, in the green of a shelf.
+.seed-search-summary {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba($green, 0.5);
+  border-radius: 4px;
+  background: rgba($green, 0.1);
+}
+
+.seed-none {
+  padding: 2rem 0.5rem;
+  text-align: center;
+
+  .seed-none-actions .btn {
+    margin: 0 0.25rem;
+  }
+}
