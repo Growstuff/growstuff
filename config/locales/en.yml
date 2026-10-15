@@ -543,6 +543,8 @@ en:
     menu:
       about: About
       add: Add
+      cancel: Cancel
+      crops_heading: Crops
       add_button: "+ Add"
       close: Close menu
       friends_and_neighbours: My friends & neighbours
@@ -554,6 +556,9 @@ en:
       my_seeds: My seeds
       new_badge: New
       releases: What's new
+      search: Search
+      search_placeholder: Search crops
+      search_all: "Search all crops for %{term}"
       sign_in: Sign in
       sign_out: Sign out
       sign_up: Join free

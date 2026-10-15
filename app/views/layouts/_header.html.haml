@@ -5,7 +5,7 @@
       %span.site-name Growstuff
   -# Below the desktop width the bar carries search, add and the menu button; the rest is in the drawer.
   .navbar-phone.d-lg-none
-    %button.navbar-phone-button.navbar-search-toggle{ type: 'button', 'aria-label' => 'Search', 'aria-controls' => 'navbarSupportedContent', 'data-bs-target' => '#navbarSupportedContent', 'data-bs-toggle' => 'offcanvas' }
+    %button.navbar-phone-button.navbar-search-toggle{ type: 'button', 'aria-label' => 'Search', 'aria-controls' => 'phoneSearch', 'data-bs-target' => '#phoneSearch', 'data-bs-toggle' => 'offcanvas' }
       %svg{ width: 22, height: 22, viewBox: '0 0 24 24', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }
         %circle{ cx: 11, cy: 11, r: 6.5 }
         %path{ d: 'M16 16l4.5 4.5' }
@@ -16,5 +16,6 @@
     %button.navbar-toggler{ "aria-controls" => "navbarSupportedContent", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarSupportedContent", "data-bs-toggle" => "offcanvas", type: "button" }
       %span.navbar-toggler-icon
   = render 'layouts/menu'
+  = render 'layouts/phone_search'
   - if member_signed_in?
     = render 'layouts/quick_add'

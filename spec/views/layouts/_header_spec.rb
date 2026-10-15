@@ -57,6 +57,10 @@ describe 'layouts/_header.html.haml', type: "view" do
       assert_select("a[aria-current='page']", count: 0)
     end
 
+    it 'has a full screen search for a phone' do
+      assert_select("#phoneSearch input#phone-term")
+    end
+
     it 'has a crop search' do
       assert_select("form[action='#{search_crops_path}']")
       assert_select("input#term")

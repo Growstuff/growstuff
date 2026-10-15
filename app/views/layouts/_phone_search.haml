@@ -1,0 +1,20 @@
+-# On a phone the magnifier in the top bar opens this full screen search: the
+-# field, then the crops that match as you type.
+#phoneSearch.offcanvas.offcanvas-top.phone-search.d-lg-none{ tabindex: -1, 'aria-label' => t('layouts.menu.search') }
+  = form_tag search_crops_path, method: :get, role: 'search', class: 'phone-search-bar' do
+    .phone-search-field
+      %svg{ width: 20, height: 20, viewBox: '0 0 24 24', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }
+        %circle{ cx: 11, cy: 11, r: 6.5 }
+        %path{ d: 'M16 16l4.5 4.5' }
+      %input.form-control{ name: 'term', id: 'phone-term', type: 'search', autocomplete: 'off', placeholder: t('layouts.menu.search_placeholder'), 'aria-label' => t('layouts.menu.search') }/
+    %button.phone-search-cancel{ type: 'button', 'data-bs-dismiss' => 'offcanvas', 'data-bs-target' => '#phoneSearch' }= t('layouts.menu.cancel')
+  .phone-search-results{ hidden: true, data: { url: search_crops_path(format: :json), 'all-label' => t('layouts.menu.search_all', term: '__term__') } }
+    .phone-search-heading= t('layouts.menu.crops_heading')
+    %div.phone-search-list
+    %a.phone-search-row.phone-search-all{ href: search_crops_path }
+      = menu_icon(:crop)
+      %span
+  %template#phone-search-row
+    %a.phone-search-row{ href: '#' }
+      = menu_icon(:crop)
+      %span
