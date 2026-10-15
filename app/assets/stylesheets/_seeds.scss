@@ -121,7 +121,8 @@
   flex-wrap: wrap;
   gap: 1rem 1.25rem;
   align-items: center;
-  margin: 1rem 0 1.25rem;
+  margin: 0 0 1.25rem;
+  padding-top: 1.5rem;
 
   .seed-head-image {
     border-radius: 50%;
@@ -136,6 +137,10 @@
       font-size: 2.2rem;
       font-weight: 300;
       line-height: 1.1;
+    }
+
+    h1 a {
+      color: inherit;
     }
   }
 
@@ -172,7 +177,8 @@
   flex-wrap: wrap;
   gap: 0.5rem 1.25rem;
   align-items: center;
-  margin: 1rem 0 1.25rem;
+  margin: 0 0 1.25rem;
+  padding-top: 1.5rem;
 
   .seed-context-image {
     border-radius: 50%;
@@ -187,6 +193,10 @@
       font-size: 2.2rem;
       font-weight: 300;
       line-height: 1.1;
+    }
+
+    h1 a {
+      color: inherit;
     }
   }
 
@@ -349,12 +359,6 @@
   a {
     font-weight: 700;
   }
-}
-
-.seed-footnote {
-  margin: 0.5rem 0 0;
-  color: rgba($brown, 0.75);
-  text-align: center;
 }
 
 // A shelf is one group of seeds: a green bar naming it, over a white board the

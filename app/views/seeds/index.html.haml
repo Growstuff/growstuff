@@ -44,7 +44,7 @@
   - if @seeds.blank? && @query.present?
     = render 'seeds/none'
   - elsif @seeds.blank?
-    %p No seeds recorded yet
+    = render 'seeds/empty'
   - elsif @list_view
     = render 'seeds/list', shelves: @shelves
   - else
@@ -52,7 +52,6 @@
       = render 'seeds/shelf', shelf: shelf, seeds: seeds, position: position, owned: @owner.present? && @owner == current_member, everyone: @everyone
 
   = will_paginate @seeds
-  %p.seed-footnote A stack with a ×3 badge is several packets of one crop. Open it to see each packet.
 
   %section.open-data
     %h2 Open Data
