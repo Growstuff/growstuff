@@ -184,7 +184,12 @@ describe SeedsHelper do
   end
 
   describe '#seed_choice_link' do
-    before { allow(helper).to receive(:url_for) { |**params| "/seeds?#{params.compact.to_query}" } }
+    # link_to hands url_for the finished URL again, which must come back as it was.
+    before do
+      allow(helper).to receive(:url_for) do |url = nil, **params|
+        url.is_a?(String) ? url : "/seeds?#{params.compact.to_query}"
+      end
+    end
 
     it { expect(helper.seed_choice_link('Crop', false, group: 'crop')).to have_link('Crop', href: '/seeds?group=crop', class: 'seed-chip') }
     it { expect(helper.seed_choice_link('Crop', true, group: 'crop')).to have_css('a.seed-chip.active') }
