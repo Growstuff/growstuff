@@ -91,8 +91,10 @@ describe "home page" do
     end
 
     describe 'ready banner' do
+      let(:crop) { create(:crop, median_days_to_first_harvest: 20) }
+
       before do
-        create(:planting, owner: member, garden: member.gardens.first, planted_at: 2.years.ago)
+        create(:planting, crop:, owner: member, garden: member.gardens.first, planted_at: 25.days.ago)
         visit root_path
       end
 
