@@ -23,6 +23,9 @@ class SeedsController < DataController
 
     @seeds = @seeds.where(tradable_to: params[:tradeable_to]) if params[:tradeable_to].present?
 
+    @query = params[:q].to_s.strip
+    @seeds = @seeds.matching(@query) if @query.present?
+
     @in_stock_count = @seeds.current.count
     @finished_count = @seeds.finished.count
     @show_finished = (params[:finished] == '1')

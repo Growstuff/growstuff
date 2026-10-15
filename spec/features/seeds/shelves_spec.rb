@@ -157,4 +157,53 @@ describe "seed shelves" do
       expect(page).to have_no_link('+ add seeds')
     end
   end
+
+  describe "searching" do
+    let!(:brandywine_seed) { create(:seed, owner:, crop: brandywine) }
+    let!(:cabbage_seed) { create(:seed, owner:, crop: cabbage) }
+
+    context "when the search matches a parent crop" do
+      before { visit member_seeds_path(owner, q: 'tomato') }
+
+      it "finds seeds of its varieties" do
+        expect(page).to have_css('.seed-card', text: /brandywine tomato/i)
+      end
+
+      it "leaves out other crops" do
+        expect(page).to have_no_css('.seed-card', text: 'cabbage')
+      end
+
+      it "says how many packets it found" do
+        expect(page).to have_css('.seed-search-summary', text: '1 packet of tomato seeds')
+      end
+    end
+
+    context "when the search matches a variety" do
+      before { visit member_seeds_path(owner, q: 'brandy') }
+
+      it { expect(page).to have_css('.seed-card', text: /brandywine tomato/i) }
+    end
+
+    context "when nothing matches" do
+      before { visit member_seeds_path(owner, q: 'leek') }
+
+      it "says there are no seeds of that crop" do
+        expect(page).to have_css('.seed-none h2', text: "No leek seeds from #{owner}")
+      end
+
+      it "offers everyone's seeds of it" do
+        expect(page).to have_link('See leek seeds from everyone', href: seeds_path(q: 'leek'))
+      end
+    end
+
+    context "when the only match is finished" do
+      let!(:leek_seed) { create(:seed, owner:, crop: create(:crop, name: 'leek'), finished: true) }
+
+      before { visit member_seeds_path(owner, q: 'leek') }
+
+      it "points to the finished tab" do
+        expect(page).to have_content('There are 1 finished')
+      end
+    end
+  end
 end
