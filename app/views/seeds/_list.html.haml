@@ -1,0 +1,20 @@
+-# The same shelves as a table: a row naming each shelf, a row for each variety,
+-# and under a variety held in several packets a row for each packet.
+%table.table.table-sm.seed-list
+  %thead
+    %tr
+      %th Crop
+      %th Sow before
+      %th Seeds
+      %th Where from
+      %th Type
+      %th Shared with
+  - shelves.each do |shelf, seeds|
+    %tbody
+      %tr.seed-list-shelf
+        %th{ colspan: 6 }= shelf.is_a?(Crop) ? link_to(shelf.name, crop_path(shelf)) : shelf.capitalize
+      - seeds.sort_by { |s| [s.crop_name.downcase, s.created_at] }.group_by(&:crop_id).each_value do |packets|
+        = render 'seeds/list_row', seed: packets.first, packets: packets
+        - if packets.size > 1
+          - packets.each do |packet|
+            = render 'seeds/list_row', seed: packet, packets: nil

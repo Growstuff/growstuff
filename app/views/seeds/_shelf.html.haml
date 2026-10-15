@@ -1,5 +1,5 @@
--# One parent crop's seeds, the way they sit on a shelf: a green bar naming the
--# crop, then a packet for each variety, with several packets of one variety
+-# One shelf of seeds, the way they sit on a shelf: a green bar naming the
+-# group, then a packet for each variety, with several packets of one variety
 -# piled in a stack.
 - packets = seeds.sort_by { |s| [s.crop_name.downcase, s.created_at] }
 - stacks = packets.group_by(&:crop_id).values
@@ -8,10 +8,10 @@
 %section.seed-shelf
   .seed-shelf-bar
     %h3
-      = link_to crop.name, crop_path(crop)
+      = shelf.is_a?(Crop) ? link_to(shelf.name, crop_path(shelf)) : shelf.capitalize
       %small= counts.join(' · ')
-    - if owned
-      = link_to '+ add seeds', new_seed_path(crop_id: crop.id)
+    - if owned && shelf.is_a?(Crop)
+      = link_to '+ add seeds', new_seed_path(crop_id: shelf.id)
   .seed-shelf-packets.index-cards
     - stacks.each do |stack|
       = render 'seeds/stack', packets: stack

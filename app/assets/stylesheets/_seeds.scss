@@ -200,3 +200,37 @@
     font-weight: 700;
   }
 }
+
+// Group by and Cards/List, on one line above the shelves.
+.seed-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .seed-controls-label {
+    margin-right: 0.5rem;
+    color: $brown;
+    font-size: 0.9rem;
+  }
+}
+
+// The list view: a green row for each shelf, packets indented under a variety.
+.seed-list {
+  background: $white;
+
+  .seed-list-shelf th {
+    background: $green;
+    color: $white;
+
+    a {
+      color: $white;
+    }
+  }
+
+  .seed-list-packet td:first-child {
+    padding-left: 2rem;
+  }
+}

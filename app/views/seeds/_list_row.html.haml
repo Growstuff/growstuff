@@ -1,0 +1,14 @@
+-# A variety's row when `packets` is given, else one packet's row beneath it.
+%tr{ class: ('seed-list-packet' unless packets) }
+  %td
+    - if packets
+      = link_to seed.crop_name, seed_path(slug: seed.slug)
+      - if packets.size > 1
+        %small.text-muted= pluralize packets.size, 'packet'
+    - else
+      %small= link_to (seed.saved_at ? "Saved #{l(seed.saved_at, format: :short)}" : 'Packet'), seed_path(slug: seed.slug)
+  %td= seed.plant_before&.year
+  %td= seed.quantity
+  %td= seed.source&.capitalize
+  %td= seed.heirloom.capitalize unless seed.heirloom == 'unknown'
+  %td= seed.tradable ? seed.tradable_to.capitalize : 'Nobody'

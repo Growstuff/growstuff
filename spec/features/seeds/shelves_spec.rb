@@ -119,4 +119,42 @@ describe "seed shelves" do
       end
     end
   end
+
+  describe "list view" do
+    let!(:brandywine_seeds) { create_list(:seed, 2, owner:, crop: brandywine, saved_at: Date.new(2025, 3, 4)) }
+
+    before { visit member_seeds_path(owner, view: 'list') }
+
+    it "shows a table instead of packets" do
+      expect(page).to have_table(class: 'seed-list')
+    end
+
+    it "has no packet cards" do
+      expect(page).to have_no_css('.seed-card')
+    end
+
+    it "names the parent crop's shelf" do
+      expect(page).to have_css('.seed-list-shelf', text: 'tomato')
+    end
+
+    it "gives a row for each packet of a variety held in several" do
+      expect(page).to have_css('.seed-list-packet', count: 2)
+    end
+  end
+
+  describe "grouping" do
+    before do
+      create(:seed, owner:, crop: tomato, heirloom: 'heirloom')
+      create(:seed, owner:, crop: cabbage, heirloom: 'hybrid')
+      visit member_seeds_path(owner, group: 'heirloom')
+    end
+
+    it "makes a shelf for each value" do
+      expect(page).to have_css('.seed-shelf-bar h3', text: /Heirloom|Hybrid/, count: 2)
+    end
+
+    it "does not offer to add seeds to a shelf that is not a crop" do
+      expect(page).to have_no_link('+ add seeds')
+    end
+  end
 end
