@@ -19,8 +19,9 @@ import PlantPicker from './components/PlantPicker';
 import PlantingPicker from './components/PlantingPicker';
 import PlantingActions from './components/PlantingActions';
 import PlantingRating from './components/PlantingRating';
+import SeedStack from './components/SeedStack';
 
-const components = {FeedMore, GardenCards, GardenLayout, GrowingTable, HarvestChart, LocationPicker, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating};
+const components = {FeedMore, GardenCards, GardenLayout, GrowingTable, HarvestChart, LocationPicker, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, SeedStack};
 
 function mountIslands() {
   document.querySelectorAll('[data-react-component]').forEach((element) => {

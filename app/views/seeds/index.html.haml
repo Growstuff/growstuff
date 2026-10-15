@@ -5,6 +5,9 @@
   - else
     %li.breadcrumb-item.active= link_to 'Seeds', seeds_path
 
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
 - content_for :title, title('seeds', @owner, @crop, @planting)
 - content_for :meta_description, "Browse and search for seeds."
 
@@ -35,8 +38,7 @@
       %div
         %b= "#{pluralize @shared_totals[:packets], 'packet'} from #{pluralize @shared_totals[:gardeners], 'gardener'}."
         A seed shows here only when the gardener chose to share it. We show a gardener's city, never their address.
-        Each card is one variety, with a stack behind it for the gardeners who have it. Open a card to see them,
-        nearest first, and request seeds from the one you choose.
+        Each packet has its gardener's avatar beside it. Open a packet to see the seed and ask for some.
   - if @past_count.positive? || params[:past] == '1'
     = render 'seeds/past_sow_by'
   - if @query.present?

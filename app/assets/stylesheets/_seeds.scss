@@ -482,7 +482,9 @@
     }
   }
 
-  p {
+  p,
+  .seed-packet-line {
+    display: block;
     margin: 0;
     color: $brown;
     font-size: 0.72rem;
@@ -542,6 +544,7 @@
 // The sheets belong to the pile, not to the link under it, so they sit exactly
 // behind the card.
 .seed-stack {
+  position: relative;
   display: inline-block;
 
   .seed-stack-pile {
@@ -624,57 +627,58 @@
   }
 }
 
-// Everyone's seeds: "You have it" when the member's own library holds the
-// variety, and the open variety outlined.
-.seed-variety {
-  .seed-have-it {
-    position: absolute;
-    top: 0.3rem;
-    left: 0.3rem;
-    z-index: 2;
-    padding: 0 0.45rem;
-    border: 1px solid lighten($green, 25%);
-    border-radius: 999px;
-    background: lighten($green, 55%);
-    color: darken($green, 10%);
-    font-size: 0.65rem;
-    font-weight: 700;
-  }
-
-  &.seed-variety-open .seed-packet {
-    border: 2px solid $green;
-    box-shadow: 0 0 0 3px rgba($green, 0.25);
-  }
+// Whose packet it is, on a page of other people's seeds: a small avatar
+// overlapping the packet's corner, with "You have it" when the member already
+// holds the variety.
+.seed-owned {
+  position: relative;
+  display: inline-block;
 }
 
-// The gardeners who share a variety, listed under its shelf.
-.seed-gardener-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+.seed-owner {
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  border: 2px solid $white;
+  border-radius: 50%;
+  background: $white;
+  box-shadow: 0 1px 3px rgba($black, 0.3);
+  transition: transform 0.15s ease;
 
-.seed-gardener {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
-  align-items: center;
-  padding: 0.75rem 0.25rem;
-  border-top: 1px solid rgba($green, 0.2);
-
-  .seed-gardener-image {
-    border-radius: 50%;
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 
-  .seed-gardener-about {
-    flex: 1 1 12rem;
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.12);
   }
+}
 
-  .seed-gardener-trade {
-    flex: 0 0 9rem;
-    font-size: 0.85rem;
-  }
+.seed-have-it {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  z-index: 2;
+  padding: 0 0.45rem;
+  border: 1px solid lighten($green, 25%);
+  border-radius: 999px;
+  background: lighten($green, 55%);
+  color: darken($green, 10%);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.seed-group .seed-group-owner {
+  margin-left: 0.4rem;
+  font-weight: 400;
 }
 
 // The list view: a green row for each shelf, packets indented under a variety.
@@ -727,5 +731,223 @@
     color: $brown;
     font-size: 1rem;
     font-weight: 600;
+  }
+}
+
+// A pile that opens where it stands, as a React island. The sheets behind it
+// slide out when you hover or focus it, and once when the page loads, to say
+// it comes apart.
+.seed-stack-island {
+  .seed-stack-toggle {
+    width: 150px;
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+    appearance: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    .seed-packet-name {
+      display: block;
+      color: $white;
+    }
+
+    .seed-packet-window {
+      width: 100%;
+    }
+  }
+
+  .seed-stack-hint {
+    color: darken($green, 12%);
+    font-weight: 700;
+
+    i {
+      display: inline-block;
+      margin-right: 0.3em;
+      font-style: normal;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  .seed-stack-pile::before,
+  .seed-stack-pile::after {
+    transition: transform 0.25s ease;
+    animation: seed-stack-peek 1.4s 0.9s ease-in-out 1;
+  }
+
+  .seed-stack-pile::after {
+    animation-delay: 1s;
+  }
+
+  &:hover,
+  &:focus-within {
+    .seed-stack-toggle {
+      transform: translateY(-3px);
+    }
+
+    .seed-stack-pile::before {
+      transform: translate(9px, -4px) rotate(2deg);
+    }
+
+    .seed-stack-pile::after {
+      transform: translate(18px, -8px) rotate(4deg);
+    }
+
+    .seed-stack-hint i {
+      transform: translateX(4px);
+    }
+  }
+}
+
+@keyframes seed-stack-peek {
+  0%,
+  100% {
+    transform: none;
+  }
+
+  40% {
+    transform: translate(9px, -4px) rotate(2deg);
+  }
+}
+
+// The opened pile: a green group box in the pile's own place in the shelf, with
+// each packet spread out to choose from. The packets fan out from where the
+// pile was, and fold back into it on close.
+.seed-group {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 0.5rem 0.75rem 0.75rem;
+  border: 2px solid $green;
+  border-radius: 6px;
+  background: lighten($green, 55%);
+  animation: seed-group-open 0.28s ease-out both;
+  transform-origin: left center;
+
+  .seed-group-head {
+    display: flex;
+    gap: 1.25rem;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+
+    b {
+      font-size: 1rem;
+    }
+  }
+
+  .seed-group-close {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $green;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .seed-group-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    align-items: stretch;
+  }
+
+  .seed-group-packet {
+    background: $white;
+    aspect-ratio: auto;
+    animation: seed-packet-spread 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 70ms);
+
+    .seed-packet-detail {
+      margin-top: 0.2rem;
+      font-size: 0.68rem;
+    }
+
+    .seed-packet-rule {
+      margin-top: 0.4rem;
+    }
+  }
+
+  .seed-packet-actions {
+    display: flex;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+
+    .btn {
+      flex: 1;
+      padding: 0.2rem 0;
+      font-size: 0.7rem;
+      text-align: center;
+    }
+  }
+
+  .seed-group-foot {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+
+    a {
+      font-weight: 600;
+    }
+  }
+
+  &.is-closing {
+    animation: seed-group-close 0.26s ease-in both;
+
+    .seed-group-packet {
+      animation: seed-packet-fold 0.26s ease-in both;
+      animation-delay: calc((var(--n) - 1 - var(--i)) * 30ms);
+    }
+  }
+}
+
+@keyframes seed-group-open {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes seed-packet-spread {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--i) * -60px)) rotate(calc(var(--i) * -3deg)) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes seed-group-close {
+  to {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes seed-packet-fold {
+  to {
+    opacity: 0;
+    transform: translateX(calc(var(--i) * -60px)) scale(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seed-group,
+  .seed-group-packet,
+  .seed-stack-island .seed-stack-pile::before,
+  .seed-stack-island .seed-stack-pile::after {
+    animation: none;
+  }
+
+  .seed-stack-island .seed-stack-toggle,
+  .seed-stack-island .seed-stack-pile::before,
+  .seed-stack-island .seed-stack-pile::after,
+  .seed-stack-island .seed-stack-hint i {
+    transition: none;
   }
 }
