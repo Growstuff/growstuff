@@ -42,6 +42,7 @@ class SeedsController < DataController
     @seeds = @seeds.paginate(page: params[:page], per_page: 30)
     @group_by = GROUPINGS.include?(params[:group]) ? params[:group] : 'crop'
     @list_view = (params[:view] == 'list')
+    @open_crop_id = params[:open].presence&.to_i
     @shelves = shelve(@seeds, @group_by)
 
     respond_with(@seeds)

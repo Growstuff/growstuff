@@ -206,4 +206,40 @@ describe "seed shelves" do
       end
     end
   end
+
+  describe "opening a stack" do
+    let!(:seeds) { create_list(:seed, 3, owner:, crop: brandywine) }
+
+    context "when closed" do
+      before { visit member_seeds_path(owner) }
+
+      it "offers to open the stack" do
+        expect(page).to have_link('3 packets ▸ open')
+      end
+
+      it "shows only the top packet" do
+        expect(page).to have_css('.seed-card', count: 1)
+      end
+    end
+
+    context "when open" do
+      before do
+        visit member_seeds_path(owner)
+        click_link '3 packets ▸ open'
+      end
+
+      it "shows every packet" do
+        expect(page).to have_css('.seed-stack-panel .seed-card', count: 3)
+      end
+
+      it "links to the variety's page" do
+        expect(page).to have_link('Open the Brandywine tomato page →', href: crop_path(brandywine))
+      end
+
+      it "closes again" do
+        click_link 'Close ▴'
+        expect(page).to have_no_css('.seed-stack-panel')
+      end
+    end
+  end
 end

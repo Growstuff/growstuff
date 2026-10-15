@@ -1,8 +1,12 @@
 -# Several packets of one variety, piled up with a count on top. One packet is
--# just the packet.
+-# just the packet. Opening a pile lays its packets out in place of it.
 - if packets.one?
   = render 'seeds/card', seed: packets.first
+- elsif packets.first.crop_id == @open_crop_id
+  = render 'seeds/stack_open', packets: packets
 - else
-  .seed-stack
-    %span.seed-stack-count{ title: "#{packets.size} packets" } ×#{packets.size}
+  - open_path = url_for(open: packets.first.crop_id, page: nil, anchor: "stack-#{packets.first.crop_id}")
+  .seed-stack{ id: "stack-#{packets.first.crop_id}" }
+    = link_to "×#{packets.size}", open_path, class: 'seed-stack-count', title: "Open #{packets.size} packets"
     = render 'seeds/card', seed: packets.first
+    = link_to "#{packets.size} packets ▸ open", open_path, class: 'seed-stack-open'
