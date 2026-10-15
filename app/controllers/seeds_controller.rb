@@ -21,15 +21,14 @@ class SeedsController < DataController
       @seeds = @seeds.where(parent_planting_id: @planting.id) if @planting
     end
 
-    @seeds = @seeds.where(tradable_to: params[:tradeable_to]) if params[:tradeable_to].present?
+    @seeds = filter(@seeds)
 
     @query = params[:q].to_s.strip
     @seeds = @seeds.matching(@query) if @query.present?
 
-    # Everyone's seeds are the ones gardeners chose to share.
-    @everyone = @owner.blank? && @planting.blank? && request.format.html?
-    @seeds = @seeds.tradable if @everyone
     @owned_crop_ids = current_member ? current_member.seeds.current.pluck(:crop_id) : []
+    @past_count = @seeds.current.expired.count
+    @seeds = @seeds.expired if params[:past] == '1'
 
     @in_stock_count = @seeds.current.count
     @finished_count = @seeds.finished.count
@@ -39,6 +38,8 @@ class SeedsController < DataController
              elsif @show_finished then @seeds.finished
              else @seeds.current
              end
+    @stats = library_stats(@owner) if @owner
+    @shared_totals = { packets: @seeds.count, gardeners: @seeds.distinct.count(:owner_id) } if @everyone
 
     @filename = csv_filename
     @sort_by_distance = @crop.present? && current_member&.latitude.present? && current_member&.longitude.present?
@@ -102,6 +103,44 @@ class SeedsController < DataController
   end
 
   private
+
+  # The chips and scope switcher above the shelves. Everyone's seeds are the
+  # ones gardeners chose to share.
+  def filter(seeds)
+    @everyone = @owner.blank? && @planting.blank? && request.format.html?
+    seeds = seeds.tradable if @everyone
+    seeds = seeds.where(tradable_to: params[:tradeable_to]) if params[:tradeable_to].present?
+    seeds = seeds.from_source(params[:from]) if Seed::SOURCES_BY_KIND.key?(params[:from])
+    seeds = seeds.heirlooms if params[:from] == 'heirloom'
+    seeds = seeds.tradable if params[:from] == 'shared'
+    seeds = seeds.where(owner_id: scoped_owner_ids) if @everyone && current_member && %w(following near).include?(params[:scope])
+    seeds = seeds.where(owner_id: owner_ids_within(params[:within].to_i)) if @everyone && params[:within].to_i.positive?
+    seeds
+  end
+
+  def scoped_owner_ids
+    return current_member.followed.select(:id) if params[:scope] == 'following'
+
+    owner_ids_within(100)
+  end
+
+  def owner_ids_within(radius)
+    return [] unless current_member&.latitude
+
+    Member.located.near([current_member.latitude, current_member.longitude], radius, units: :km).reorder(nil).pluck(:id)
+  end
+
+  # The numbers at the top of a member's library.
+  def library_stats(owner)
+    seeds = Seed.where(owner_id: owner.id).current.includes(:crop)
+    crops = seeds.map(&:crop)
+    {
+      packets:   seeds.size,
+      varieties: crops.uniq.size,
+      crops:     crops.map { |crop| crop.parent || crop }.uniq.size,
+      own:       seeds.count { |seed| seed.source == 'my own seed saving' }
+    }
+  end
 
   # The page's seeds on shelves: a hash of shelf => seeds, where the shelf is
   # the parent Crop when grouping by crop, otherwise the label to print.

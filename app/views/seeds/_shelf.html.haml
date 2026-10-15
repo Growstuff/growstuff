@@ -1,18 +1,20 @@
--# One shelf of seeds, the way they sit on a shelf: a green bar naming the
--# group, then a packet for each variety, with several packets of one variety
--# piled in a stack.
+-# One shelf of seeds: a green bar naming the group, over the packets stood on
+-# it, one for each variety, with several packets of one variety piled in a
+-# stack. The first few shelves are open; the rest fold up to their bar.
 - packets = seeds.sort_by { |s| [s.crop_name.downcase, s.created_at] }
 - stacks = packets.group_by(&:crop_id).values
 - counts = [pluralize(packets.size, 'packet')]
 - counts.unshift pluralize(stacks.size, 'variety', plural: 'varieties') if stacks.size > 1
-%section.seed-shelf{ id: "shelf-#{shelf.respond_to?(:id) ? shelf.id : shelf.to_s.parameterize}" }
-  .seed-shelf-bar
+- opened = position < 3 || stacks.any? { |stack| stack.first.crop_id == @open_crop_id }
+%details.seed-shelf{ open: opened, id: "shelf-#{shelf.respond_to?(:id) ? shelf.id : shelf.to_s.parameterize}" }
+  %summary.seed-shelf-bar
     %h3
       = shelf.is_a?(Crop) ? link_to(shelf.name, crop_path(shelf)) : shelf.capitalize
       %small= counts.join(' · ')
     - if owned && shelf.is_a?(Crop)
-      = link_to '+ add seeds', new_seed_path(crop_id: shelf.id)
-  .seed-shelf-packets.index-cards
+      = link_to '+ add seeds', new_seed_path(crop_id: shelf.id), class: 'seed-shelf-open-only'
+    %span.seed-shelf-closed-only ▸ Open shelf
+  .seed-shelf-packets
     - stacks.each do |stack|
       - if everyone
         = render 'seeds/variety', packets: stack

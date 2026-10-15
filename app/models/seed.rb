@@ -62,6 +62,15 @@ class Seed < ApplicationRecord
   scope :has_location, -> { joins(:owner).where.not('members.location': nil) }
   scope :recent, -> { order(created_at: :desc) }
   scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
+  # Where seeds came from, as the filter chips name it.
+  SOURCES_BY_KIND = {
+    'own'    => ['my own seed saving'],
+    'bought' => ['seed catalogue', 'retail outlet', 'seed bank or similar institution'],
+    'traded' => ['traded from another person']
+  }.freeze
+  scope :from_source, ->(kind) { where(source: SOURCES_BY_KIND.fetch(kind)) }
+  scope :heirlooms, -> { where(heirloom: 'heirloom') }
+
   # Seeds of crops named like `query`, and of that crop's varieties: searching
   # tomato finds Brandywine tomato seeds.
   scope :matching, lambda { |query|

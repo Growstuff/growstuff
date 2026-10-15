@@ -1,0 +1,13 @@
+-# Whose seeds to look at. Only offered to a signed-in member, since three of
+-# the four depend on who they are.
+- if current_member
+  .seed-scope-row
+    .seed-scope{ role: 'group', 'aria-label': 'Whose seeds' }
+      - mine = @owner == current_member
+      - scope = params[:scope]
+      = link_to 'Mine', member_seeds_path(current_member), class: ('active' if mine)
+      = link_to 'People I follow', seeds_path(scope: 'following'), class: ('active' if @owner.blank? && scope == 'following')
+      = link_to 'Near me', seeds_path(scope: 'near'), class: ('active' if @owner.blank? && scope == 'near')
+      = link_to 'Everyone', seeds_path, class: ('active' if @owner.blank? && scope.blank?)
+    - if can?(:create, Seed)
+      = link_to '+ add seeds', new_seed_path(crop_id: @crop&.id), class: 'btn btn-primary btn-sm'
