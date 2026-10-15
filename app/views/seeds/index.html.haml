@@ -14,9 +14,6 @@
       = seed_icon
       = title('seeds', @owner, @crop, @planting)
     = render 'layouts/nav', model: Seed
-    = link_to show_inactive_tickbox_path('seeds', owner: @owner, crop: @crop, show_all: @show_all) do
-      = check_box_tag 'active', 'all', @show_all
-      include finished
     %hr/
     %section.filters
       %h2 Tradeable
@@ -43,6 +40,15 @@
   .col-md-10
     %section
       %h2= title('seeds', @owner, @crop, @planting)
+      %ul.nav.nav-tabs.seed-tabs
+        %li.nav-item
+          = link_to url_for(finished: nil, all: nil, page: nil), class: ['nav-link', ('active' unless @show_finished || @show_all)] do
+            In stock
+            %small= @in_stock_count
+        %li.nav-item
+          = link_to url_for(finished: 1, all: nil, page: nil), class: ['nav-link', ('active' if @show_finished)] do
+            Finished
+            %small= @finished_count
       - if @crop && !member_signed_in?
         %p
           = link_to 'Sign in', new_member_session_path
