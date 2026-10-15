@@ -8,7 +8,9 @@
       = link_to image_tag(avatar_uri(@owner, 72), alt: @owner.login_name, width: 72, height: 72, class: 'seed-head-image'), member_path(@owner)
     .seed-head-about
       - if @owner
-        %h1.login-name= link_to "#{@owner.login_name}'s seed library", member_seeds_path(@owner)
+        %h1
+          = succeed "'s seed library" do
+            %span.login-name= link_to @owner.login_name, member_path(@owner)
         - if @owner.location.present?
           .seed-head-sub= @owner.location
       - elsif @planting

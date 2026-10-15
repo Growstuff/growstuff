@@ -258,4 +258,47 @@ describe Seed do
     it { expect(subject.count).to eq 1 }
     it { expect(subject.first.id).to eq tradable_seed.id }
   end
+
+  describe '.matching' do
+    let(:tomato) { create(:crop, name: 'tomato') }
+    let(:brandywine) { create(:crop, name: 'Brandywine tomato', parent: tomato) }
+    let!(:variety_seed) { create(:seed, crop: brandywine) }
+    let!(:cabbage_seed) { create(:seed, crop: create(:crop, name: 'cabbage')) }
+
+    it { expect(described_class.matching('tomato')).to contain_exactly(variety_seed) }
+    it { expect(described_class.matching('BRANDY')).to contain_exactly(variety_seed) }
+    it { expect(described_class.matching('  tomato ')).to contain_exactly(variety_seed) }
+    it { expect(described_class.matching('leek')).to be_empty }
+
+    context 'with a parent crop' do
+      let!(:parent_seed) { create(:seed, crop: tomato) }
+
+      it { expect(described_class.matching('tomato')).to contain_exactly(variety_seed, parent_seed) }
+    end
+
+    context 'with characters that mean something to a database search' do
+      it { expect(described_class.matching('100%')).to be_empty }
+    end
+  end
+
+  describe '.from_source' do
+    let!(:own) { create(:seed, source: 'my own seed saving') }
+    let!(:catalogue) { create(:seed, source: 'seed catalogue') }
+    let!(:retail) { create(:seed, source: 'retail outlet') }
+    let!(:bank) { create(:seed, source: 'seed bank or similar institution') }
+    let!(:traded) { create(:seed, source: 'traded from another person') }
+
+    it { expect(described_class.from_source('own')).to contain_exactly(own) }
+    it { expect(described_class.from_source('bought')).to contain_exactly(catalogue, retail, bank) }
+    it { expect(described_class.from_source('traded')).to contain_exactly(traded) }
+    it { expect { described_class.from_source('gifted') }.to raise_error(KeyError) }
+  end
+
+  describe '.heirlooms' do
+    let!(:heirloom) { create(:seed, heirloom: 'heirloom') }
+
+    before { create(:seed, heirloom: 'hybrid') }
+
+    it { expect(described_class.heirlooms).to contain_exactly(heirloom) }
+  end
 end

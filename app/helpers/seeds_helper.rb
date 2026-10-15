@@ -36,9 +36,10 @@ module SeedsHelper
     "#{km.round} km" if km
   end
 
-  # Packets nearest the signed-in member first; those with no known distance last.
+  # Packets nearest the signed-in member first; those with no known distance
+  # last, and ties in the order given.
   def nearest_first(packets)
-    packets.sort_by { |seed| seed_km(seed) || Float::INFINITY }
+    packets.sort_by.with_index { |seed, index| [seed_km(seed) || Float::INFINITY, index] }
   end
 
   SOURCE_LABELS = {
