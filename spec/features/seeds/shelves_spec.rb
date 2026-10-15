@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "seed shelves" do
+describe "seed shelves", :js do
   let(:owner) { create(:member) }
   let(:tomato) { create(:crop, name: 'tomato') }
   let(:brandywine) { create(:crop, name: 'Brandywine tomato', parent: tomato) }
@@ -103,10 +103,15 @@ describe "seed shelves" do
       it { expect(page).to have_no_link('+ add seeds') }
     end
 
-    context "when grouped by year saved without a saved date" do
-      before { visit member_seeds_path(owner, group: 'year') }
+    context "when grouped by year saved" do
+      before do
+        create(:seed, owner:, crop: create(:crop), saved_at: Date.new(2021, 5, 6))
+        visit member_seeds_path(owner, group: 'year')
+      end
 
-      it { expect(page).to have_css('.seed-shelf-bar h3', text: 'Year not recorded') }
+      it { expect(page).to have_css('.seed-shelf-bar h3', text: '2021') }
+      it { expect(page).to have_css('.seed-shelf-bar h3', text: Time.zone.today.year.to_s) }
+      it { expect(page).to have_no_css('.seed-shelf-bar h3', text: 'Year not recorded') }
     end
   end
 

@@ -4,9 +4,6 @@
 // helper); this finds each one and mounts the matching component.
 //
 // To add a component: create it in ./components and register it below.
-import React from 'react';
-import {createRoot} from 'react-dom/client';
-
 import FeedMore from './components/FeedMore';
 import GardenCards from './components/GardenCards';
 import GardenLayout from './components/GardenLayout';
@@ -19,25 +16,14 @@ import PlantPicker from './components/PlantPicker';
 import PlantingPicker from './components/PlantingPicker';
 import PlantingActions from './components/PlantingActions';
 import PlantingRating from './components/PlantingRating';
+import SeedLibrary from './components/SeedLibrary';
 import SeedStack from './components/SeedStack';
+import {mountIslands, registerIslands} from './islands';
 
-const components = {FeedMore, GardenCards, GardenLayout, GrowingTable, HarvestChart, LocationPicker, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, SeedStack};
-
-function mountIslands() {
-  document.querySelectorAll('[data-react-component]').forEach((element) => {
-    const name = element.dataset.reactComponent;
-    const Component = components[name];
-    if (!Component) {
-      console.error(`No React component registered as "${name}"`);
-      return;
-    }
-    const props = JSON.parse(element.dataset.props || '{}');
-    createRoot(element).render(<Component {...props} />);
-  });
-}
+registerIslands({FeedMore, GardenCards, GardenLayout, GrowingTable, HarvestChart, LocationPicker, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, SeedLibrary, SeedStack});
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', mountIslands);
+  document.addEventListener('DOMContentLoaded', () => mountIslands());
 } else {
   mountIslands();
 }

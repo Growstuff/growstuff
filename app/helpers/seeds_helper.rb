@@ -42,6 +42,14 @@ module SeedsHelper
     [owner.login_name, owner.location&.split(',')&.first, seed_distance(seed)].compact_blank.join(' · ')
   end
 
+  # The words that say whose a packet is on a page of other people's seeds:
+  # "Yours", or "from alex" with how far away they are when that is known.
+  def seed_owner_tag(seed)
+    return 'Yours' if seed.owner == current_member
+
+    ["from #{seed.owner_login_name}", seed_distance(seed)].compact.join(' · ')
+  end
+
   # A shelf's seeds as piles of packets: on someone's own shelf one pile is a
   # variety, on everyone's it is one gardener's packets of a variety, nearest
   # gardener first. Ties keep the order given.
@@ -97,7 +105,9 @@ module SeedsHelper
       name:       seed.owner.login_name,
       path:       member_path(seed.owner),
       avatar_url: avatar_uri(seed.owner, 32),
-      label:      seed_owner_label(seed)
+      label:      seed_owner_label(seed),
+      tag:        seed_owner_tag(seed),
+      yours:      seed.owner == current_member
     }
   end
 
@@ -106,7 +116,6 @@ module SeedsHelper
       id:        seed.id,
       name:      seed.crop_name,
       path:      seed_path(slug: seed.slug),
-      edit_path: (edit_seed_path(slug: seed.slug) if can?(:edit, seed)),
       image_url: seed_image_url(seed),
       heirloom:  seed.heirloom_kind,
       when:      seed_packet_when(seed),
@@ -143,34 +152,41 @@ module SeedsHelper
     seed.past_sow_by? ? "past sow-by #{year}" : "sow by #{year}"
   end
 
-  # A pill that narrows or reorders the seeds shown, filled when it is the
-  # choice in force. Always back to the first page. `css_class` nil for the
-  # joined buttons, which are styled by what holds them.
-  def seed_choice_link(label, active, css_class: 'seed-chip', **url_params)
-    link_to label, url_for(**url_params, page: nil), class: [css_class, ('active' if active)].compact
+  # What the SeedLibrary island needs: the controls, and the tabs and results to
+  # start with. Which control is chosen it reads from the address.
+  def seed_library_props(everyone:, crop_search:, search_crop:)
+    {
+      groups:      [%w(crop Crop), ['source', 'Where from'], ['year', 'Year saved'], ['heirloom', 'Heirloom or hybrid']],
+      chips:       seed_filter_chips(everyone:).map { |label, params| { label:, params: } },
+      crop_search:,
+      crop:        search_crop && { name: search_crop.name, slug: search_crop.slug },
+      placeholder: everyone ? 'Search all shared seeds by crop' : 'Search seeds by crop',
+      tabs:        render('seeds/tabs'),
+      html:        render('seeds/results')
+    }
   end
 
-  # The chips under the toolbar: [label, url params, whether it is chosen].
+  # The chips under the toolbar: a label and the params it sets, where nil
+  # takes a param off.
   def seed_filter_chips(everyone:)
-    from = params[:from]
     if everyone
-      [['Anywhere', { from: nil, within: nil }, from.blank? && params[:within].blank?],
+      [['Anywhere', { from: nil, within: nil }],
        *seed_distance_chips,
-       ['Heirloom only', { from: 'heirloom' }, from == 'heirloom'],
-       ['Saved by the gardener', { from: 'own' }, from == 'own']]
+       ['Heirloom only', { from: 'heirloom' }],
+       ['Saved by the gardener', { from: 'own' }]]
     else
-      [['All', { from: nil, tradeable_to: nil }, from.blank? && params[:tradeable_to].blank?],
-       ['My own saving', { from: 'own' }, from == 'own'],
-       ['Bought', { from: 'bought' }, from == 'bought'],
-       ['Traded from a person', { from: 'traded' }, from == 'traded'],
-       ['Heirloom only', { from: 'heirloom' }, from == 'heirloom'],
-       ['Shared with others', { from: 'shared' }, from == 'shared']]
+      [['All', { from: nil, tradeable_to: nil }],
+       ['My own saving', { from: 'own' }],
+       ['Bought', { from: 'bought' }],
+       ['Traded from a person', { from: 'traded' }],
+       ['Heirloom only', { from: 'heirloom' }],
+       ['Shared with others', { from: 'shared' }]]
     end
   end
 
   def seed_distance_chips
     return [] unless current_member&.latitude
 
-    [50, 10].map { |km| ["Within #{km} km", { within: km }, params[:within].to_i == km] }
+    [50, 10].map { |km| ["Within #{km} km", { within: km }] }
   end
 end

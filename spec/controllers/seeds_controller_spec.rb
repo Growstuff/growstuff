@@ -87,6 +87,100 @@ describe SeedsController do
     end
   end
 
+  describe 'GET index of one crop' do
+    let(:tomato) { create(:crop, name: 'tomato') }
+    let(:brandywine) { create(:crop, name: 'Brandywine tomato', parent: tomato) }
+    let!(:variety_seed) { create(:seed, crop: brandywine, tradable_to: 'locally') }
+    let!(:parent_seed) { create(:seed, crop: tomato, tradable_to: 'locally') }
+    let!(:other_seed) { create(:seed, tradable_to: 'locally') }
+
+    context 'when choosing a crop' do
+      before { get :index, params: { crop: tomato.slug } }
+
+      it { expect(assigns(:seeds)).to contain_exactly(variety_seed, parent_seed) }
+      it { expect(assigns(:search_crop)).to eq tomato }
+      it { expect(assigns(:seed_total)).to eq 2 }
+    end
+
+    context 'when the crop does not exist' do
+      before { get :index, params: { crop: 'not-a-crop' } }
+
+      it { expect(assigns(:seeds)).to include(variety_seed, parent_seed, other_seed) }
+      it { expect(assigns(:search_crop)).to be_nil }
+    end
+
+    context 'on a crop\'s own page' do
+      before { get :index, params: { crop_slug: tomato.slug, crop: brandywine.slug } }
+
+      it { expect(assigns(:search_crop)).to be_nil }
+    end
+  end
+
+  describe 'GET index as the results alone' do
+    let(:owner) { create(:member) }
+    let(:tomato) { create(:crop, name: 'tomato') }
+    let(:json) { response.parsed_body }
+
+    before do
+      create(:seed, owner:, crop: tomato)
+      request.headers['X-Seed-Library'] = 'results'
+      get :index, params: { member_slug: owner.slug, crop: tomato.slug }, format: :json
+    end
+
+    it { expect(response.media_type).to eq 'application/json' }
+    it { expect(json['tabs']).to include('In stock') }
+    it { expect(json['results']).to include('seed-shelf') }
+    it { expect(json['results']).not_to include('<html') }
+    it { expect(json['crop']).to eq('name' => 'tomato', 'slug' => tomato.slug) }
+    it { expect(response.headers['Vary']).to include('X-Seed-Library') }
+  end
+
+  describe 'GET index pages of whole piles' do
+    let(:owner) { create(:member) }
+    let(:crops) { %w(apple beet carrot).map { |name| create(:crop, name:) } }
+
+    before do
+      stub_const('SeedsController::PER_PAGE', 2)
+      create_list(:seed, 5, owner:, crop: crops.first)
+      create_list(:seed, 4, owner:, crop: crops.second)
+      create_list(:seed, 3, owner:, crop: crops.third)
+    end
+
+    context 'on the first page' do
+      before { get :index, params: { member_slug: owner.slug } }
+
+      it { expect(assigns(:seeds).size).to eq 9 }
+      it { expect(assigns(:seeds).map(&:crop).uniq).to eq crops.first(2) }
+      it { expect(assigns(:piles).total_entries).to eq 3 }
+    end
+
+    context 'on the second page' do
+      before { get :index, params: { member_slug: owner.slug, page: 2 } }
+
+      it { expect(assigns(:seeds).map(&:crop).uniq).to eq [crops.third] }
+      it { expect(assigns(:seeds).size).to eq 3 }
+    end
+
+    context 'when asking for csv' do
+      before { get :index, params: { member_slug: owner.slug }, format: :csv }
+
+      it { expect(assigns(:piles)).to be_nil }
+      it { expect(assigns(:seeds).size).to eq 12 }
+    end
+  end
+
+  describe 'GET index grouped by year' do
+    let(:owner) { create(:member) }
+
+    before do
+      create(:seed, owner:, saved_at: Date.new(2021, 5, 6))
+      create(:seed, owner:, saved_at: nil)
+      get :index, params: { member_slug: owner.slug, group: 'year' }
+    end
+
+    it { expect(assigns(:shelves).keys).to eq [Time.zone.today.year.to_s, '2021'] }
+  end
+
   describe 'GET index of everyone\'s seeds' do
     let!(:shared_seed) { create(:seed, tradable_to: 'locally') }
     let!(:private_seed) { create(:seed, tradable_to: 'nowhere') }

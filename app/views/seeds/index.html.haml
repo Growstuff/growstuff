@@ -13,47 +13,9 @@
 
 = render 'seeds/page_head'
 
-%section.seed-library
+%section
   = render 'seeds/scope'
-  %ul.nav.nav-tabs
-    %li.nav-item
-      = link_to url_for(finished: nil, all: nil, page: nil), class: ['nav-link', ('active' unless @show_finished || @show_all)] do
-        In stock
-        %small= @in_stock_count
-    %li.nav-item
-      = link_to url_for(finished: 1, all: nil, page: nil), class: ['nav-link', ('active' if @show_finished)] do
-        Finished
-        %small= @finished_count
-  = render 'seeds/toolbar'
-  - if @crop && !member_signed_in?
-    %p
-      = link_to 'Sign in', new_member_session_path
-      or
-      = link_to 'sign up', new_member_registration_path
-      to see seed traders near you.
-  - elsif @sort_by_distance
-    %p.text-muted Sorted by distance from your location.
-  - if @everyone && @shared_totals
-    .seed-tip
-      %div
-        %b= "#{pluralize @shared_totals[:packets], 'packet'} from #{pluralize @shared_totals[:gardeners], 'gardener'}."
-        A seed shows here only when the gardener chose to share it. We show a gardener's city, never their address.
-        Each packet has its gardener's avatar beside it. Open a packet to see the seed and ask for some.
-  - if @past_count.positive? || params[:past] == '1'
-    = render 'seeds/past_sow_by'
-  - if @query.present?
-    = render 'seeds/search_summary'
-  - if @seeds.blank? && @query.present?
-    = render 'seeds/none'
-  - elsif @seeds.blank?
-    = render 'seeds/empty'
-  - elsif @list_view
-    = render 'seeds/list', shelves: @shelves
-  - else
-    - @shelves.each_with_index do |(shelf, seeds), position|
-      = render 'seeds/shelf', shelf: shelf, seeds: seeds, position: position, owned: @owner.present? && @owner == current_member, everyone: @everyone
-
-  = will_paginate @seeds
+  = react_component 'SeedLibrary', seed_library_props(everyone: @everyone, crop_search: @crop.blank?, search_crop: @search_crop)
 
   %section.open-data
     %h2 Open Data

@@ -2,6 +2,8 @@
 
 class SeedsController < DataController
   GROUPINGS = %w(crop source year heirloom).freeze
+  PER_PAGE = 30 # piles of packets on a page of the web page, seeds in the data formats
+  SEED_LIBRARY_HEADER = 'X-Seed-Library'
 
   def index
     @seeds = Seed.all
@@ -24,8 +26,9 @@ class SeedsController < DataController
     @seeds = filter(@seeds)
     @filtered = %i(from within tradeable_to past).any? { |name| params[name].present? }
 
-    @query = params[:q].to_s.strip
-    @seeds = @seeds.matching(@query) if @query.present?
+    # Searching is by choosing a crop, so there is only ever a real one to offer.
+    @search_crop = Crop.find_by(slug: params[:crop]) if params[:crop].present? && @crop.blank?
+    @seeds = @seeds.of_crop(@search_crop) if @search_crop
 
     @owned_crop_ids = current_member ? current_member.seeds.current.pluck(:crop_id) : []
     @past_count = @seeds.current.expired.count
@@ -41,16 +44,25 @@ class SeedsController < DataController
              else @seeds.current
              end
     @stats = library_stats(@owner) if @owner
-    @shared_totals = { packets: @seeds.count, gardeners: @seeds.distinct.count(:owner_id) } if @everyone
+    @seed_total = @seeds.count
+    @shared_totals = { packets: @seed_total, gardeners: @seeds.distinct.count(:owner_id) } if @everyone
 
     @filename = csv_filename
     @sort_by_distance = @crop.present? && current_member&.latitude.present? && current_member&.longitude.present?
     @seeds = @seeds.includes({ crop: :parent }, :owner)
     @seeds = @sort_by_distance ? order_by_distance(@seeds, current_member) : @seeds.order(created_at: :desc)
-    @seeds = @seeds.paginate(page: params[:page], per_page: 30)
+    if page_of_piles?
+      @seeds, @piles = paginate_piles(@seeds)
+    else
+      @seeds = @seeds.paginate(page: params[:page], per_page: PER_PAGE)
+    end
     @group_by = GROUPINGS.include?(params[:group]) ? params[:group] : 'crop'
     @list_view = (params[:view] == 'list')
     @shelves = shelve(@seeds, @group_by)
+
+    # The page and its results are the same address, so caches must tell them apart.
+    response.headers['Vary'] = SEED_LIBRARY_HEADER
+    return render_results if request.headers[SEED_LIBRARY_HEADER] == 'results'
 
     respond_with(@seeds)
   end
@@ -105,6 +117,39 @@ class SeedsController < DataController
 
   private
 
+  # The web page, and the results the seed library fetches for it, come a page
+  # of piles at a time; the data formats come a page of seeds.
+  def page_of_piles?
+    request.format.html? || request.headers[SEED_LIBRARY_HEADER] == 'results'
+  end
+
+  # A page of whole piles: all of one gardener's packets of a crop come on the
+  # same page, never split across two. Returns that page's seeds, and the pager
+  # for its links. `seeds` carries the order they should come in.
+  def paginate_piles(seeds)
+    piles = seeds.reorder(nil).distinct.pluck(:owner_id, :crop_id)
+    crops = Crop.where(id: piles.map(&:last).uniq).includes(:parent).index_by(&:id)
+    piles.sort_by! { |owner_id, crop_id| [(crops[crop_id].parent || crops[crop_id]).name.downcase, crops[crop_id].name.downcase, owner_id] }
+
+    pager = WillPaginate::Collection.create(params[:page] || 1, PER_PAGE, piles.size) do |page|
+      page.replace(piles[page.offset, page.per_page] || [])
+    end
+    on_page = pager.to_set
+    page_seeds = seeds.where(owner_id: on_page.map(&:first), crop_id: on_page.map(&:last))
+    [page_seeds.select { |seed| on_page.include?([seed.owner_id, seed.crop_id]) }, pager]
+  end
+
+  # The seed library fetches its own controls' results alone, as the tabs, the
+  # results and the crop chosen, rather than the whole page.
+  def render_results
+    crop = { name: @search_crop.name, slug: @search_crop.slug } if @search_crop
+    render json: {
+      tabs:    render_to_string(partial: 'seeds/tabs', formats: [:html]),
+      results: render_to_string(partial: 'seeds/results', formats: [:html]),
+      crop:
+    }
+  end
+
   # The chips and scope switcher above the shelves. Everyone's seeds are the
   # ones gardeners chose to share.
   def filter(seeds)
@@ -149,7 +194,7 @@ class SeedsController < DataController
     shelves = seeds.group_by do |seed|
       case grouping
       when 'source' then seed.source.presence || 'other/unknown'
-      when 'year' then seed.saved_at&.year&.to_s || 'Year not recorded'
+      when 'year' then (seed.saved_at || seed.created_at).year.to_s
       when 'heirloom' then seed.heirloom
       else seed.crop.parent || seed.crop
       end

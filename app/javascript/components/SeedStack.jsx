@@ -55,6 +55,7 @@ export default function SeedStack({crop, count, image_url: imageUrl, heirloom, r
             <span className="seed-packet-name">{crop.name}</span>
             <span className="seed-packet-line seed-stack-hint">{count} packets <i aria-hidden="true">▸</i> open</span>
             {heirloom && <span className="seed-packet-line">{pill(heirloom)}</span>}
+            {owner && <span className={`seed-packet-line seed-packet-owner${owner.yours ? ' seed-packet-yours' : ''}`}>{owner.tag}</span>}
             <span className="seed-packet-rule">{rule}</span>
           </button>
         </div>
@@ -71,10 +72,13 @@ export default function SeedStack({crop, count, image_url: imageUrl, heirloom, r
       onKeyDown={(event) => { if (event.key === 'Escape' && state === 'open') close(); }}
     >
       <div className="seed-group-head">
-        <b>
-          {crop.name} · {count} packets
-          {owner && <> <span className="seed-group-owner">by <a href={owner.path}>{owner.name}</a></span></>}
-        </b>
+        <b>{crop.name} · {count} packets</b>
+        {owner && (
+          <a className="seed-group-owner" href={owner.path} title={owner.label}>
+            <img src={owner.avatar_url} alt="" width="24" height="24" />
+            {owner.tag}
+          </a>
+        )}
         <button type="button" className="seed-group-close" aria-expanded="true" onClick={close} disabled={state === 'closing'}>
           Close ▴
         </button>
@@ -90,10 +94,6 @@ export default function SeedStack({crop, count, image_url: imageUrl, heirloom, r
             <p className="seed-packet-detail">{packet.detail}</p>
             {packet.past && <span className="seed-packet-stamp">Past sow-by</span>}
             <div className="seed-packet-rule">{packet.rule}</div>
-            <div className="seed-packet-actions">
-              <a className="btn btn-primary btn-sm" href={packet.path}>View</a>
-              {packet.edit_path && <a className="btn btn-outline-primary btn-sm" href={packet.edit_path}>Edit</a>}
-            </div>
           </article>
         ))}
       </div>

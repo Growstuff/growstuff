@@ -1,0 +1,10 @@
+-# In stock and finished, each with how many there are under the filters in force.
+%ul.nav.nav-tabs
+  %li.nav-item
+    = link_to url_for(finished: nil, all: nil, page: nil), class: ['nav-link', ('active' unless @show_finished || @show_all)] do
+      In stock
+      %small= @in_stock_count
+  %li.nav-item
+    = link_to url_for(finished: 1, all: nil, page: nil), class: ['nav-link', ('active' if @show_finished)] do
+      Finished
+      %small= @finished_count

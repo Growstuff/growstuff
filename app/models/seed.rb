@@ -71,12 +71,9 @@ class Seed < ApplicationRecord
   scope :from_source, ->(kind) { where(source: SOURCES_BY_KIND.fetch(kind)) }
   scope :heirlooms, -> { where(heirloom: 'heirloom') }
 
-  # Seeds of crops named like `query`, and of that crop's varieties: searching
-  # tomato finds Brandywine tomato seeds.
-  scope :matching, lambda { |query|
-    ids = Crop.where('crops.name ILIKE ?', "%#{sanitize_sql_like(query.strip)}%").select(:id)
-    where(crop_id: ids).or(where(crop_id: Crop.where(parent_id: ids).select(:id)))
-  }
+  # Seeds of a crop and of its varieties: choosing tomato finds Brandywine
+  # tomato seeds too.
+  scope :of_crop, ->(crop) { where(crop_id: Crop.where(id: crop.id).or(Crop.where(parent_id: crop.id)).select(:id)) }
   scope :expired, -> { active.where('plant_before < ?', Time.zone.today) }
 
   # "Plant before" only ever means a season, not a day: seed keeps until the

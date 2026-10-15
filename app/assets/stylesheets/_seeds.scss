@@ -251,6 +251,27 @@ $seed-rule: rgba($brown, 0.15);
     max-width: 320px;
   }
 
+  // The crop chosen to look for, with a way to clear it.
+  .seed-crop {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.35rem 0.5rem 0.35rem 0.85rem;
+    border: 1px solid $green;
+    border-radius: 999px;
+    background: $seed-wash;
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  .seed-crop-clear {
+    padding: 0 0.4rem;
+    color: $brown;
+    font-size: 1.1rem;
+    line-height: 1;
+    text-decoration: none;
+  }
+
   .seed-group-by {
     display: flex;
     flex-wrap: wrap;
@@ -349,6 +370,22 @@ $seed-rule: rgba($brown, 0.15);
   }
 }
 
+// The results while the next ones are on their way.
+.seed-results {
+  transition: opacity 0.15s ease;
+
+  &.is-loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seed-results {
+    transition: none;
+  }
+}
+
 // A shelf is one group of seeds: a green bar naming it, over a white board the
 // packets stand on. A shelf folded up is only its bar.
 .seed-shelf {
@@ -428,7 +465,7 @@ $seed-rule: rgba($brown, 0.15);
   display: flex;
   flex-direction: column;
   width: 150px;
-  aspect-ratio: 3 / 4;
+  min-height: 200px;
   padding: 0.5rem;
   overflow: hidden;
   border: 1px solid $seed-paper-edge;
@@ -475,6 +512,18 @@ $seed-rule: rgba($brown, 0.15);
     color: $brown;
     font-size: 0.72rem;
     text-align: center;
+  }
+
+  // Whose it is, on a page of other people's seeds.
+  .seed-packet-owner {
+    margin-top: 0.25rem;
+    color: darken($green, 12%);
+    font-weight: 700;
+
+    &.seed-packet-yours {
+      color: rgba($brown, 0.7);
+      font-weight: 400;
+    }
   }
 
   .seed-packet-rule {
@@ -661,9 +710,20 @@ $seed-rule: rgba($brown, 0.15);
     }
   }
 
+  // The gardener whose packets these are.
   .seed-group-owner {
-    margin-left: 0.4rem;
-    font-weight: 400;
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    margin-right: auto;
+    margin-left: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    img {
+      border-radius: 50%;
+      object-fit: cover;
+    }
   }
 
   .seed-group-close {
@@ -684,7 +744,6 @@ $seed-rule: rgba($brown, 0.15);
 
   .seed-group-packet {
     background: $white;
-    aspect-ratio: auto;
     animation: seed-packet-spread 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) both;
     animation-delay: calc(var(--i) * 70ms);
 
@@ -695,19 +754,6 @@ $seed-rule: rgba($brown, 0.15);
 
     .seed-packet-rule {
       margin-top: 0.4rem;
-    }
-  }
-
-  .seed-packet-actions {
-    display: flex;
-    gap: 0.35rem;
-    margin-top: 0.5rem;
-
-    .btn {
-      flex: 1;
-      padding: 0.2rem 0;
-      font-size: 0.7rem;
-      text-align: center;
     }
   }
 
