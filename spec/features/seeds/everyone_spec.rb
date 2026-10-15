@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "everyone's seeds" do
+describe "everyone's seeds", :js do
   let(:gardener) { create(:member, login_name: 'alex') }
   let(:other_gardener) { create(:member, login_name: 'mere') }
   let(:tomato) { create(:crop, name: 'tomato') }
@@ -56,7 +56,7 @@ describe "everyone's seeds" do
     it { expect(page).to have_css('.seed-owner', count: 2) }
   end
 
-  describe "opening one gardener's stack", :js do
+  describe "opening one gardener's stack" do
     before do
       create_list(:seed, 2, owner: gardener, crop: tomato, tradable_to: 'locally')
       visit seeds_path

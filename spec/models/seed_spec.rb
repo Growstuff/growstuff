@@ -259,26 +259,16 @@ describe Seed do
     it { expect(subject.first.id).to eq tradable_seed.id }
   end
 
-  describe '.matching' do
+  describe '.of_crop' do
     let(:tomato) { create(:crop, name: 'tomato') }
     let(:brandywine) { create(:crop, name: 'Brandywine tomato', parent: tomato) }
     let!(:variety_seed) { create(:seed, crop: brandywine) }
-    let!(:cabbage_seed) { create(:seed, crop: create(:crop, name: 'cabbage')) }
+    let!(:parent_seed) { create(:seed, crop: tomato) }
 
-    it { expect(described_class.matching('tomato')).to contain_exactly(variety_seed) }
-    it { expect(described_class.matching('BRANDY')).to contain_exactly(variety_seed) }
-    it { expect(described_class.matching('  tomato ')).to contain_exactly(variety_seed) }
-    it { expect(described_class.matching('leek')).to be_empty }
+    before { create(:seed, crop: create(:crop, name: 'cabbage')) }
 
-    context 'with a parent crop' do
-      let!(:parent_seed) { create(:seed, crop: tomato) }
-
-      it { expect(described_class.matching('tomato')).to contain_exactly(variety_seed, parent_seed) }
-    end
-
-    context 'with characters that mean something to a database search' do
-      it { expect(described_class.matching('100%')).to be_empty }
-    end
+    it { expect(described_class.of_crop(tomato)).to contain_exactly(variety_seed, parent_seed) }
+    it { expect(described_class.of_crop(brandywine)).to contain_exactly(variety_seed) }
   end
 
   describe '.from_source' do

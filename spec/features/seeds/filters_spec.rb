@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe "seed filters" do
+describe "seed filters", :js do
   let(:owner) { create(:member) }
   let(:tomato) { create(:crop, name: 'tomato') }
   let(:brandywine) { create(:crop, name: 'Brandywine tomato', parent: tomato) }
@@ -33,37 +33,61 @@ describe "seed filters" do
     end
   end
 
-  describe "searching" do
+  describe "choosing a crop" do
     before do
       create(:seed, owner:, crop: brandywine)
       create(:seed, owner:, crop: cabbage)
     end
 
-    context "when the search matches a parent crop" do
-      before { visit member_seeds_path(owner, q: 'tomato') }
+    context "when the crop is a parent" do
+      before { visit member_seeds_path(owner, crop: tomato.slug) }
 
       it { expect(page).to have_css('.seed-packet', text: /brandywine tomato/i) }
       it { expect(page).to have_no_css('.seed-packet', text: /cabbage/i) }
       it { expect(page).to have_css('.seed-search-summary', text: '1 packet of tomato seeds') }
+      it { expect(page).to have_css('.seed-crop', text: 'tomato') }
     end
 
-    context "when the search matches a variety" do
-      before { visit member_seeds_path(owner, q: 'brandy') }
+    context "when the crop is a variety" do
+      before { visit member_seeds_path(owner, crop: brandywine.slug) }
 
       it { expect(page).to have_css('.seed-packet', text: /brandywine tomato/i) }
     end
 
-    context "when nothing matches" do
-      before { visit member_seeds_path(owner, q: 'leek') }
+    context "when the crop does not exist" do
+      before { visit member_seeds_path(owner, crop: 'not-a-crop') }
 
-      it { expect(page).to have_css('.seed-none h2', text: "No leek seeds from #{owner}") }
-      it { expect(page).to have_link('See leek seeds from everyone', href: seeds_path(q: 'leek')) }
+      it { expect(page).to have_css('.seed-packet', count: 2) }
+      it { expect(page).to have_no_css('.seed-crop') }
     end
 
-    context "when the only match is finished" do
+    context "when nothing of the crop is in the library" do
+      let(:leek) { create(:crop, name: 'leek') }
+
+      before { visit member_seeds_path(owner, crop: leek.slug) }
+
+      it { expect(page).to have_css('.seed-none h2', text: "No leek seeds from #{owner}") }
+      it { expect(page).to have_link('See leek seeds from everyone', href: seeds_path(crop: leek.slug)) }
+      it { expect(page).to have_no_link('Add leek seeds') }
+    end
+
+    context "when nothing of the crop is in the library and it is your own" do
+      include_context 'signed in member'
+
+      let(:owner) { member }
+      let(:leek) { create(:crop, name: 'leek') }
+
+      before { visit member_seeds_path(owner, crop: leek.slug) }
+
+      it { expect(page).to have_link('Add leek seeds', href: new_seed_path(crop_id: leek.id)) }
+    end
+
+    context "when the only seeds of the crop are finished" do
+      let(:leek) { create(:crop, name: 'leek') }
+
       before do
-        create(:seed, owner:, crop: create(:crop, name: 'leek'), finished: true)
-        visit member_seeds_path(owner, q: 'leek')
+        create(:seed, owner:, crop: leek, finished: true)
+        visit member_seeds_path(owner, crop: leek.slug)
       end
 
       it { expect(page).to have_content('1 more finished') }

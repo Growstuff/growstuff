@@ -1,5 +1,5 @@
--# What a search found, and what the other tab holds.
+-# What choosing a crop found, and what the other tab holds.
 - if @seeds.present?
   .seed-search-summary
-    %b= "#{pluralize @seeds.total_entries, 'packet'} of #{@query} seeds."
+    %b= "#{pluralize @seed_total, 'packet'} of #{@search_crop.name} seeds."
     = render 'seeds/other_tab'

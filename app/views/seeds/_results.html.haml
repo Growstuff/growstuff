@@ -1,0 +1,32 @@
+-# What the seed library shows under its controls: the notes, then the shelves
+-# or list, then the pages. The seed library fetches this alone when a control
+-# changes.
+- if @crop && !member_signed_in?
+  %p
+    = link_to 'Sign in', new_member_session_path
+    or
+    = link_to 'sign up', new_member_registration_path
+    to see seed traders near you.
+- elsif @sort_by_distance
+  %p.text-muted Sorted by distance from your location.
+- if @everyone && @shared_totals
+  .seed-tip
+    %div
+      %b= "#{pluralize @shared_totals[:packets], 'packet'} from #{pluralize @shared_totals[:gardeners], 'gardener'}."
+      A seed shows here only when the gardener chose to share it. We show a gardener's city, never their address.
+      Each packet has its gardener's avatar beside it. Open a packet to see the seed and ask for some.
+- if @past_count.positive? || params[:past] == '1'
+  = render 'seeds/past_sow_by'
+- if @search_crop
+  = render 'seeds/search_summary'
+- if @seeds.blank? && @search_crop
+  = render 'seeds/none'
+- elsif @seeds.blank?
+  = render 'seeds/empty'
+- elsif @list_view
+  = render 'seeds/list', shelves: @shelves
+- else
+  - @shelves.each_with_index do |(shelf, seeds), position|
+    = render 'seeds/shelf', shelf: shelf, seeds: seeds, position: position, owned: @owner.present? && @owner == current_member, everyone: @everyone
+
+= will_paginate @piles || @seeds

@@ -104,21 +104,14 @@ describe SeedsHelper do
     let(:show_owner) { false }
 
     before do
-      allow(helper).to receive_messages(can?: false, current_member: nil)
+      allow(helper).to receive(:current_member).and_return(nil)
     end
 
     it { expect(props[:count]).to eq 2 }
     it { expect(props[:crop]).to eq(name: 'Brandywine tomato', path: crop_path(crop)) }
     it { expect(props[:heirloom]).to eq 'heirloom' }
     it { expect(props[:packets].size).to eq 2 }
-    it { expect(props[:packets].first[:edit_path]).to be_nil }
     it { expect(props[:owner]).to be_nil }
-
-    context 'when the member can edit' do
-      before { allow(helper).to receive(:can?).with(:edit, anything).and_return(true) }
-
-      it { expect(props[:packets].first[:edit_path]).to eq edit_seed_path(slug: seeds.first.slug) }
-    end
 
     context 'when showing the owner' do
       let(:show_owner) { true }
@@ -183,19 +176,6 @@ describe SeedsHelper do
     end
   end
 
-  describe '#seed_choice_link' do
-    # link_to hands url_for the finished URL again, which must come back as it was.
-    before do
-      allow(helper).to receive(:url_for) do |url = nil, **params|
-        url.is_a?(String) ? url : "/seeds?#{params.compact.to_query}"
-      end
-    end
-
-    it { expect(helper.seed_choice_link('Crop', false, group: 'crop')).to have_link('Crop', href: '/seeds?group=crop', class: 'seed-chip') }
-    it { expect(helper.seed_choice_link('Crop', true, group: 'crop')).to have_css('a.seed-chip.active') }
-    it { expect(helper.seed_choice_link('List', true, css_class: nil, view: 'list')).to have_css('a.active:not(.seed-chip)') }
-  end
-
   describe '#seed_filter_chips' do
     before { allow(helper).to receive(:current_member).and_return(viewer) }
 
@@ -206,13 +186,15 @@ describe SeedsHelper do
       let(:labels) { ['All', 'My own saving', 'Bought', 'Traded from a person', 'Heirloom only', 'Shared with others'] }
 
       it { expect(chips.map(&:first)).to eq labels }
-      it { expect(chips.first.last).to be true }
+      it { expect(chips.first.last).to eq(from: nil, tradeable_to: nil) }
+      it { expect(chips.assoc('Bought').last).to eq(from: 'bought') }
     end
 
     context 'with everyone\'s seeds' do
       let(:chips) { helper.seed_filter_chips(everyone: true) }
 
       it { expect(chips.map(&:first)).to eq ['Anywhere', 'Within 50 km', 'Within 10 km', 'Heirloom only', 'Saved by the gardener'] }
+      it { expect(chips.assoc('Within 10 km').last).to eq(within: 10) }
     end
 
     context 'with everyone\'s seeds when signed out' do
@@ -220,6 +202,44 @@ describe SeedsHelper do
       let(:chips) { helper.seed_filter_chips(everyone: true) }
 
       it { expect(chips.map(&:first)).to eq ['Anywhere', 'Heirloom only', 'Saved by the gardener'] }
+    end
+  end
+
+  describe '#seed_library_props' do
+    subject(:props) { helper.seed_library_props(everyone:, crop_search:, search_crop:) }
+
+    let(:everyone) { false }
+    let(:crop_search) { true }
+    let(:search_crop) { nil }
+
+    before do
+      assign(:seeds, [])
+      assign(:shelves, {})
+      assign(:piles, nil)
+      assign(:past_count, 0)
+      assign(:in_stock_count, 0)
+      assign(:finished_count, 0)
+      allow(helper).to receive(:current_member).and_return(nil)
+      allow(helper).to receive(:render).with('seeds/tabs').and_return('<ul>tabs</ul>')
+      allow(helper).to receive(:render).with('seeds/results').and_return('<p>results</p>')
+    end
+
+    it { expect(props[:groups].map(&:first)).to eq %w(crop source year heirloom) }
+    it { expect(props[:tabs]).to eq '<ul>tabs</ul>' }
+    it { expect(props[:html]).to eq '<p>results</p>' }
+    it { expect(props[:placeholder]).to eq 'Search seeds by crop' }
+    it { expect(props[:crop]).to be_nil }
+
+    context 'with everyone\'s seeds' do
+      let(:everyone) { true }
+
+      it { expect(props[:placeholder]).to eq 'Search all shared seeds by crop' }
+    end
+
+    context 'with a crop chosen' do
+      let(:search_crop) { build(:crop, name: 'tomato', slug: 'tomato') }
+
+      it { expect(props[:crop]).to eq(name: 'tomato', slug: 'tomato') }
     end
   end
 end

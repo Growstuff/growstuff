@@ -17,6 +17,8 @@
         %span.seed-pill{ class: "seed-pill-#{seed.heirloom_kind}" }= seed.heirloom_kind.capitalize
     - if seed.past_sow_by? && packets.size == 1
       %span.seed-packet-stamp Past sow-by
+    - if local_assigns[:show_owner]
+      %p.seed-packet-owner{ class: ('seed-packet-yours' if seed.owner == current_member) }= seed_owner_tag(seed)
     .seed-packet-rule= seed_packet_rule(packets)
 - if local_assigns[:show_owner]
   .seed-owned
