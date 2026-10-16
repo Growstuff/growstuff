@@ -167,11 +167,11 @@ module ButtonsHelper
     end
   end
 
-  def delete_button(model, message: 'are_you_sure', classes: 'btn btn-danger')
+  def delete_button(model, message: 'are_you_sure', classes: 'btn btn-danger', icon: delete_icon)
     return unless can? :destroy, model
 
     link_to model, method: :delete, data: { confirm: t(message) }, class: classes do
-      delete_icon + ' ' + t('buttons.delete')
+      icon + ' ' + t('buttons.delete')
     end
   end
 

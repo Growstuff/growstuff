@@ -1,0 +1,45 @@
+// The actions menu: a three-dot button, quiet by default so it sits in a
+// corner without competing with the title. An icon, not a labelled control, so
+// no caret. Used on every record (see MenusHelper#actions_menu).
+.record-actions-toggle {
+  padding: 0.25rem 0.6rem;
+  line-height: 1;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  color: rgba(65, 63, 59, 0.55);
+  font-size: 1.25rem;
+
+  &::after {
+    display: none;
+  }
+
+  &:hover,
+  &:focus,
+  &[aria-expanded="true"] {
+    background: rgba(65, 63, 59, 0.08);
+    box-shadow: none;
+    color: $brown;
+  }
+}
+
+// Menu items are lowercase. Done in CSS because the labels are the shared
+// button translations, which other pages show in sentence case.
+.actions-menu .dropdown-item,
+.planting-menu .dropdown-item,
+.record-page .dropdown-item {
+  text-transform: lowercase;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  // Delete keeps the red, in a shade dark enough to read on white. Its icon
+  // and its place last under a divider carry it for anyone who can't see red.
+  &.text-danger {
+    color: $danger-text !important;
+
+    .menu-icon {
+      color: inherit;
+    }
+  }
+}

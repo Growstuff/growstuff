@@ -124,37 +124,6 @@
     box-shadow: none;
   }
 
-  // The record's actions menu: a three-dot button in the top right of the
-  // hero. Quiet by default, so it sits in the corner without competing with
-  // the title. An icon, not a labelled control, so no caret.
-  .record-actions-toggle {
-    padding: 0.25rem 0.6rem;
-    line-height: 1;
-    border: 0;
-    box-shadow: none;
-    background: transparent;
-    color: rgba(65, 63, 59, 0.55);
-    font-size: 1.25rem;
-
-    &::after {
-      display: none;
-    }
-
-    &:hover,
-    &:focus,
-    &[aria-expanded="true"] {
-      background: rgba(65, 63, 59, 0.08);
-      box-shadow: none;
-      color: $brown;
-    }
-  }
-
-  // Menu items are lowercase. Done in CSS because the labels are the shared
-  // button translations, which other pages show in sentence case.
-  .dropdown-item {
-    text-transform: lowercase;
-  }
-
   // The title block beside the actions menu.
   .crop-identity,
   .planting-identity {
