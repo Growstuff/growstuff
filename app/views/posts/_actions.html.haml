@@ -1,7 +1,9 @@
 - if can? :edit, post
   = actions_menu('post', classes: 'float-end') do
-    = menu_link_to :edit, t('buttons.edit'), edit_post_path(post)
+    = menu_modal_link :edit, t('buttons.edit'), '#post-edit-modal'
     = menu_add_photo_link(post)
     - if can? :destroy, post
       .dropdown-divider
       = menu_delete_button(post)
+  -# The dialog the Edit item opens.
+  = render 'posts/edit_modal', post:
