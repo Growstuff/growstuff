@@ -8,9 +8,9 @@ describe 'Messages' do
   let(:seed) { create(:seed, owner: recipient, tradable_to: 'locally') }
   let(:subject_line) { "Interested in your #{seed.crop} seeds" }
 
-  before { sign_in member }
-
   describe 'GET new' do
+    before { sign_in member }
+
     context 'when asking about a seed' do
       before { get new_message_path(recipient_id: recipient.id, subject: subject_line, seed_id: seed.id) }
 
@@ -35,6 +35,8 @@ describe 'Messages' do
   end
 
   describe 'POST create' do
+    before { sign_in member }
+
     let(:params) { { recipient_id: recipient.id, subject: subject_line, body: 'Could I have some?', seed_id: seed.id } }
 
     context 'when asking about a seed' do
@@ -61,10 +63,15 @@ describe 'Messages' do
   end
 
   describe 'the conversation about a seed' do
+    let(:conversation) do
+      receipt = member.send_message(recipient, 'Could I have some?', subject_line)
+      receipt.notification.update(notified_object: seed)
+      receipt.conversation
+    end
+
     before do
-      post '/messages', params: { recipient_id: recipient.id, subject: subject_line, body: 'Could I have some?', seed_id: seed.id }
       sign_in recipient
-      get conversation_path(Mailboxer::Conversation.last)
+      get conversation_path(conversation)
     end
 
     it { expect(response.body).to include("About") }
