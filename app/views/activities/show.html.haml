@@ -32,7 +32,7 @@
             #{strip_tags markdownify(@activity.description)}
 
       = render 'likes/likes', object: @activity
-      = render 'activities/actions', activity: @activity
+      = render 'activities/actions', activity: @activity, modal: true
 
     .col-md-4.col-12
       = render 'activities/owner', planting: @activity
