@@ -1,6 +1,22 @@
 # frozen_string_literal: true
 
 module PhotosHelper
+  # The name an add-photo link gives the dialog.
+  def photo_label(model)
+    case model
+    when Seed then "#{model.crop.name} seeds"
+    when Harvest then "#{model.crop.name} harvest"
+    when Garden then "#{model.name} garden"
+    when Planting then model.display_name
+    when Post then model.subject
+    end
+  end
+
+  # The data attributes that make an add-photo link open the dialog.
+  def photo_dialog_data(model)
+    { photo_dialog: true, photo_label: photo_label(model) }
+  end
+
   def crop_image_path(crop)
     thumbnail_url(crop.default_photo)
   end

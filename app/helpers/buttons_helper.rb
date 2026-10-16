@@ -2,6 +2,7 @@
 
 module ButtonsHelper
   include IconsHelper
+  include PhotosHelper
 
   def garden_plant_something_button(garden, classes: "btn btn-outline-secondary")
     return unless can? :edit, garden
