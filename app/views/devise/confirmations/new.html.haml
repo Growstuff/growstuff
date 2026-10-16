@@ -1,16 +1,8 @@
-
-.form-page
-  .card.form-card
-    %h1 Resend confirmation instructions
-    = form_for(resource, as: resource_name,
-        url: confirmation_path(resource_name),
-        html: { method: :post, role: 'form' }) do |f|
-      = render 'devise/shared/error_messages', resource: resource
-      %p Enter either your login name or your email address to resend the confirmation email.
-
-      = f.text_field :login, class: 'form-control', placeholder: 'email or login name'
-      = f.submit "Resend confirmation instructions", class: 'btn w-100 my-4 btn-primary'
-
-      .row.mb-3
-        .offset-md-2.col-md-8
-          = render "devise/shared/links"
+= render 'devise/shared/card', title: 'Resend confirmation instructions' do
+  = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, role: 'form' }) do |f|
+    = render 'devise/shared/error_messages', resource: resource
+    %p Enter either your login name or your email address to resend the confirmation email.
+    .mb-3
+      = f.label :login, 'Login name or email', class: 'form-label fw-semibold'
+      = f.text_field :login, class: 'form-control', autofocus: true
+    = f.submit 'Resend confirmation instructions', class: 'btn btn-success w-100'

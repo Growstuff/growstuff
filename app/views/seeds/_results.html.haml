@@ -3,9 +3,9 @@
 -# changes.
 - if @crop && !member_signed_in?
   %p
-    = link_to 'Sign in', new_member_session_path
+    = link_to 'Sign in', new_member_session_path, data: { auth_dialog: 'sign_in' }
     or
-    = link_to 'sign up', new_member_registration_path
+    = link_to 'sign up', new_member_registration_path, data: { auth_dialog: 'sign_up' }
     to see seed traders near you.
 - elsif @sort_by_distance
   %p.text-muted Sorted by distance from your location.

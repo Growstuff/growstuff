@@ -1,14 +1,9 @@
-- content_for :title, ""
-.form-page
-  .card.form-card
-    = form_for(resource, as: resource_name,
-        url: unlock_path(resource_name),
-        html: { method: :post,
-        role: 'form' }) do |f|
+- content_for :title, 'Resend unlock instructions'
 
-      %h2 Resend unlock instructions
-      = render 'devise/shared/error_messages', resource: resource
-      = f.email_field :email, class: 'form-control', placeholder: 'Email'
-      = f.submit "Resend unlock instructions", class: 'btn w-100 my-4 btn-primary'
-
-    = render "devise/shared/links"
+= render 'devise/shared/card', title: 'Resend unlock instructions' do
+  = form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post, role: 'form' }) do |f|
+    = render 'devise/shared/error_messages', resource: resource
+    .mb-3
+      = f.label :email, 'Email', class: 'form-label fw-semibold'
+      = f.email_field :email, class: 'form-control', autocomplete: 'email', autofocus: true
+    = f.submit 'Resend unlock instructions', class: 'btn btn-success w-100'

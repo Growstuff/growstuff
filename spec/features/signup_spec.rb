@@ -10,7 +10,7 @@ describe "signup" do
     fill_in 'Email', with: 'gardener@example.com'
     fill_in 'Password', with: 'abc123'
     fill_in 'Password confirmation', with: 'abc123'
-    check 'member_tos_agreement'
+    check 'I agree to the Terms of Service'
     click_button 'Sign up'
     expect(page).to have_current_path root_path, ignore_query: true
   end
@@ -22,20 +22,18 @@ describe "signup" do
     fill_in 'Email', with: 'gardener2@example.com'
     fill_in 'Password', with: 'abc123'
     fill_in 'Password confirmation', with: 'abc123'
-    check 'member_tos_agreement'
+    check 'I agree to the Terms of Service'
     click_button 'Sign up'
     expect(page).to have_content 'has already been taken'
   end
 
   it "sign up for new account without accepting TOS" do
-    visit root_path
-    first('.home-hero a', text: /join free/i).click
-    expect(page).to have_current_path(new_member_registration_path)
+    visit new_member_registration_path
     fill_in 'Login name', with: 'person123'
     fill_in 'Email', with: 'gardener@example.com'
     fill_in 'Password', with: 'abc123'
     fill_in 'Password confirmation', with: 'abc123'
-    # do not check 'member_tos_agreement'
+    # do not check 'I agree to the Terms of Service'
     click_button 'Sign up'
     expect(page).to have_current_path members_path, ignore_query: true
   end

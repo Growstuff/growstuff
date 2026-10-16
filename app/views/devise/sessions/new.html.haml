@@ -1,17 +1,13 @@
-
-.form-page
-  %section.card.form-card
-    %h1 Sign in
-    = bootstrap_form_for(resource, as: resource_name,
-        url: session_path(resource_name),
-        html: { class: "text-center border border-light p-5" }) do |f|
-      = f.text_field :login, label: 'Login', required: true
-      = f.password_field :password, type: "password"
-      - if devise_mapping.rememberable?
-        %p
-          = f.check_box :remember_me
-        - if devise_mapping.recoverable? && controller_name != 'passwords'
-          %p= link_to "Forgot password?", new_password_path(resource_name)
-      = f.submit "Sign in", class: 'btn w-100 btn-success'
-
-    = render "devise/shared/links"
+= render 'devise/shared/card', title: 'Sign in' do
+  = form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f|
+    .mb-3
+      = f.label :login, 'Login name or email', class: 'form-label fw-semibold'
+      = f.text_field :login, class: 'form-control', autocomplete: 'username', required: true
+    .mb-3
+      = f.label :password, class: 'form-label fw-semibold'
+      = f.password_field :password, class: 'form-control', autocomplete: 'current-password', required: true
+    - if devise_mapping.rememberable?
+      .form-check.mb-3
+        = f.check_box :remember_me, class: 'form-check-input'
+        = f.label :remember_me, 'Keep me signed in', class: 'form-check-label'
+    = f.submit 'Sign in', class: 'btn btn-success w-100'
