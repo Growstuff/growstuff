@@ -34,12 +34,6 @@ module ButtonsHelper
     end
   end
 
-  def edit_button(path, classes: "btn btn-raised btn-info")
-    link_to path, class: classes do
-      edit_icon + ' ' + t('buttons.edit')
-    end
-  end
-
   def delete_button(model, message: 'are_you_sure', classes: 'btn btn-danger', icon: delete_icon)
     return unless can? :destroy, model
 
@@ -50,11 +44,5 @@ module ButtonsHelper
 
   def model_type_for_photo(model)
     ActiveModel::Name.new(model.class).to_s.downcase
-  end
-
-  def button(path, button_title, icon, size = 'btn-sm')
-    link_to path, class: "btn btn-outline-secondary #{size}" do
-      icon + ' ' + button_title
-    end
   end
 end
