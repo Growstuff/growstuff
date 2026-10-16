@@ -135,6 +135,8 @@ en:
     mark_as_active: Mark as active
     mark_as_finished: Mark as finished
     mark_as_failed: Mark as failed
+    make_nursery: Use as my nursery
+    stop_nursery: Stop using as my nursery
     mark_as_inactive: Mark as inactive
     my_gardens: My Gardens
     new_seeds: New saved seed
@@ -173,6 +175,8 @@ en:
     deleted: Forum was successfully deleted.
   gardens:
     nursery_name: Nursery
+    nursery_made: This garden is now your nursery.
+    nursery_stopped: This garden is no longer your nursery.
     created: Garden was successfully created.
     deleted: Garden was successfully deleted.
     form:
@@ -575,6 +579,7 @@ en:
     unfollowed: "Unfollowed %{name}"
     follow_error: Already following or error while following.
     transplant_success: Planting was successfully transplanted.
+    transplant_quantity: you can move between one and all of the plants
     transplant_error: "There was an error transplanting the planting: %{errors}"
     revert_success: "Reverted to version from %{date}"
     revert_error: "Could not revert to version from %{date}. Errors: %{errors}"

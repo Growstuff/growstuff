@@ -363,6 +363,15 @@ describe Garden do
       it { is_expected.to be_valid }
     end
 
+    describe '#make_nursery!' do
+      let(:garden) { create(:garden, owner:) }
+
+      before { garden.make_nursery! }
+
+      it('makes it the nursery') { expect(garden.reload).to be_nursery }
+      it('replaces the old nursery') { expect(owner.gardens.nurseries).to contain_exactly(garden) }
+    end
+
     it 'is left out of archiving' do
       owner.nursery.update_column(:updated_at, 4.years.ago) # rubocop:disable Rails/SkipsModelValidations
       described_class.archive!

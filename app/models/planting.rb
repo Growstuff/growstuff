@@ -24,6 +24,11 @@ class Planting < ApplicationRecord
   belongs_to :garden
   belongs_to :crop, counter_cache: true
   belongs_to :alternate_name, optional: true
+  # The planting this one was transplanted out of; a nursery batch can be
+  # transplanted into several gardens.
+  belongs_to :transplanted_from, class_name: 'Planting', optional: true, inverse_of: :transplants
+  has_many :transplants, class_name: 'Planting', foreign_key: :transplanted_from_id,
+                         inverse_of: :transplanted_from, dependent: :nullify
   has_many :harvests, dependent: :destroy
   has_many :activities, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid. Made the

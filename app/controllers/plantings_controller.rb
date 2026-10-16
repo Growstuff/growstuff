@@ -96,6 +96,9 @@ class PlantingsController < DataController
     respond_with @planting, location: @planting.garden
   end
 
+  # Moves some or all of a planting to another garden. Moving all of it finishes
+  # the original; moving some leaves the rest where it was, so a batch of
+  # seedlings can go to several gardens.
   def transplant
     # The `load_and_authorize_resource` in DataController will handle finding the
     # planting and authorizing the action.
@@ -103,26 +106,54 @@ class PlantingsController < DataController
     new_garden = Garden.find(params[:garden_id])
     authorize! :update, new_garden
 
-    # Mark original planting as finished
-    @planting.update(finished: true, finished_at: Time.zone.now)
+    moving = transplant_quantity
+    if moving == :invalid
+      return redirect_to @planting, alert: t('messages.transplant_error', errors: t('messages.transplant_quantity'))
+    end
 
-    # Create a new planting
-    new_planting = @planting.dup
-    new_planting.garden = new_garden
-    new_planting.slug = nil # let friendly_id generate a new slug
-    new_planting.finished = false
-    new_planting.finished_at = nil
+    new_planting = build_transplant(new_garden, moving)
+    saved = Planting.transaction do
+      new_planting.save && finish_or_reduce(moving) || raise(ActiveRecord::Rollback)
+    end
 
-    if new_planting.save
+    if saved
       redirect_to edit_planting_path(new_planting), notice: t('messages.transplant_success')
     else
-      # if the save fails, we should probably roll back the finishing of the original planting
-      @planting.update(finished: false, finished_at: nil)
       redirect_to @planting, alert: t('messages.transplant_error', errors: new_planting.errors.full_messages.to_sentence)
     end
   end
 
   private
+
+  # How many are being moved: nil for all of them, or a number short of the
+  # planting's quantity. :invalid if the member asked for none or too many.
+  def transplant_quantity
+    return nil if params[:quantity].blank? || @planting.quantity.nil?
+
+    count = params[:quantity].to_i
+    return :invalid unless count.between?(1, @planting.quantity)
+
+    count < @planting.quantity ? count : nil
+  end
+
+  def build_transplant(garden, moving)
+    @planting.dup.tap do |planting|
+      planting.garden = garden
+      planting.slug = nil # let friendly_id generate a new slug
+      planting.finished = false
+      planting.finished_at = nil
+      planting.transplanted_from = @planting
+      planting.quantity = moving if moving
+    end
+  end
+
+  def finish_or_reduce(moving)
+    if moving
+      @planting.update(quantity: @planting.quantity - moving)
+    else
+      @planting.update(finished: true, finished_at: Time.zone.now)
+    end
+  end
 
   # Used by the React garden cards, which replace the garden's card with the
   # returned one, so a new or changed planting shows without a page reload.

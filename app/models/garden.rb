@@ -102,6 +102,15 @@ class Garden < ApplicationRecord
     end
   end
 
+  # Makes this the owner's nursery. They can only have one, so any garden they
+  # had marked as the nursery before goes back to being an ordinary garden.
+  def make_nursery!
+    transaction do
+      self.class.where(owner_id:, nursery: true).where.not(id:).update_all(nursery: false) # rubocop:disable Rails/SkipsModelValidations
+      update!(nursery: true)
+    end
+  end
+
   def reindex(refresh: false); end
 
   # Deactivate any gardens with no active plantings

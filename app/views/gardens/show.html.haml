@@ -21,6 +21,10 @@
                 %h1.display-3
                   = garden_icon
                   %strong= @garden.name
+                - if @garden.nursery?
+                  %p.mb-1
+                    %span.badge.text-bg-success Nursery
+                    %small.text-muted Seedlings raised here can be transplanted into your gardens.
                 %p.lead.mb-0
                   grown by
                   %strong.record-grower-name= link_to @garden.owner, @garden.owner

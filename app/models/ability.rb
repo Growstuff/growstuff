@@ -105,6 +105,7 @@ class Ability
     # Arranging the bed is really editing the plantings in it, so collaborators
     # can do it too, as they can with the plantings themselves.
     can :update_layout, Garden, owner_id: member.id
+    can %i(make_nursery stop_nursery), Garden, owner_id: member.id
     can :update_layout, Garden, garden_collaborators: { member_id: member.id }
 
     can :create,  Planting

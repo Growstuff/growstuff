@@ -21,6 +21,11 @@
     - if @owner.present?
       %hr/
       = render @owner
+      - if @owner == current_member
+        .nursery-link.sidebar-inset.mt-3
+          = link_to 'Your nursery', nursery_path, class: 'd-block'
+          %small.text-muted
+            Where you raise seedlings before planting them out in a garden.
       .inactive-gardens-link.sidebar-inset.mt-3
         = link_to 'Inactive gardens', member_inactive_gardens_path(@owner), class: 'd-block'
         %small.text-muted

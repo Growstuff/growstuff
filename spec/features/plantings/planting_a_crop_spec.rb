@@ -260,6 +260,7 @@ describe "Planting a crop", :js, :search do
         expect(new_planting.garden).to eq(other_garden)
         expect(new_planting.crop).to eq(planting.crop)
         expect(new_planting.owner).to eq(planting.owner)
+        expect(new_planting.transplanted_from).to eq(planting)
       end
     end
 
