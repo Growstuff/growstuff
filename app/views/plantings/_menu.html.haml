@@ -1,0 +1,20 @@
+-# A planting's actions, for the card and for the row in a progress list: edit,
+-# add photo, the state changes, then delete last under a divider.
+- if can?(:edit, planting)
+  - slug = planting.slug
+  = actions_menu('planting', id: planting.id, align: :start) do
+    - if local_assigns[:view]
+      = menu_link_to :view, t('buttons.view'), planting_path(slug:)
+    = menu_link_to :edit, t('buttons.edit'), edit_planting_path(slug:)
+    = menu_add_photo_link(planting)
+    - if planting.active
+      - if can?(:create, Harvest)
+        = menu_link_to :harvest, t('buttons.record_harvest'), new_planting_harvest_path(planting_slug: slug)
+      - unless planting.failed?
+        = menu_link_to :seeds, t('buttons.save_seeds'), new_planting_seed_path(planting_slug: slug)
+      = menu_link_to :finish, t('buttons.mark_as_finished'), planting_path(slug:, planting: { finished: 1 }),
+                     method: :put, class: 'append-date'
+      = menu_link_to :failed, t('buttons.mark_as_failed'), planting_path(slug:, planting: { failed: 1 }), method: :put
+    - if can?(:destroy, planting)
+      .dropdown-divider
+      = menu_delete_button(planting)

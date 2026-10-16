@@ -23,6 +23,21 @@
   }
 }
 
+// On a card the menu floats over the photo or the card's top corner, so its
+// toggle gets a ground to stay visible on any picture.
+.planting-quick-actions,
+.activity-quick-actions {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  z-index: 2;
+
+  .record-actions-toggle {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+  }
+}
+
 // Menu items are lowercase. Done in CSS because the labels are the shared
 // button translations, which other pages show in sentence case.
 .actions-menu .dropdown-item,

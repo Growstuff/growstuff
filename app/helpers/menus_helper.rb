@@ -3,10 +3,11 @@
 # The three-dot actions menu every record uses. See DESIGN.md.
 module MenusHelper
   # The kebab and its dropdown. `name` names the record ("seed"), giving the
-  # wrapper `.seed-actions` and the toggle `#seed-actions-button`. The block
-  # holds the items.
-  def actions_menu(name, classes: nil, align: :end, &)
-    toggle_id = "#{name}-actions-button"
+  # wrapper `.seed-actions` and the toggle `#seed-actions-button`; a menu that
+  # repeats on a page passes the record's `id` to keep the toggle's id unique.
+  # The block holds the items.
+  def actions_menu(name, id: nil, classes: nil, align: :end, &)
+    toggle_id = [name, id, 'actions-button'].compact.join('-')
     toggle = tag.a(id: toggle_id, href: '#', role: 'button', title: 'Actions', 'aria-label': 'Actions',
                    class: 'btn record-actions-toggle', 'aria-haspopup': 'true', 'aria-expanded': 'false',
                    data: { 'bs-toggle': 'dropdown' }) { tag.i(class: 'fas fa-ellipsis-v', 'aria-hidden': 'true') }
