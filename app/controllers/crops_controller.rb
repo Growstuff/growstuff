@@ -39,6 +39,30 @@ class CropsController < ApplicationController
     respond_with @crops
   end
 
+  def merge
+    authorize! :merge, Crop
+    if request.post?
+      master_crop = Crop.find_by(slug: params[:master_crop_slug])
+      duplicate_crop = Crop.find_by(slug: params[:duplicate_crop_slug])
+
+      if master_crop && duplicate_crop
+        if master_crop == duplicate_crop
+          flash[:alert] = "You cannot merge a crop with itself."
+          render :merge
+        else
+          master_crop.merge_with(duplicate_crop)
+          flash[:notice] = "Successfully merged #{duplicate_crop.name} into #{master_crop.name}."
+          redirect_to wrangle_crops_path
+        end
+      else
+        flash[:alert] = "Could not find one of the crops."
+        render :merge
+      end
+    else
+      # GET request, just render the form
+    end
+  end
+
   def gbif
     @crop = Crop.find(params[:crop_slug])
     @crop.update_gbif_data!
