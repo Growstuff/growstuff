@@ -22,21 +22,21 @@ describe "Planting a crop", :js do
 
     it "Marking a garden as inactive" do
       visit garden_path(garden)
-      click_link 'Actions'
+      within('.garden-actions') { click_link 'Actions' }
       accept_confirm do
         click_link "Mark as inactive"
       end
       expect(page).to have_content "Garden was successfully updated"
       expect(page).to have_content "This garden is inactive"
 
-      click_link 'Actions'
+      within('.garden-actions') { click_link 'Actions' }
       expect(page).to have_link "Mark as active"
       expect(page).to have_no_link "Mark as inactive"
     end
 
     it "List only active gardens" do
       visit garden_path(garden)
-      click_link 'Actions'
+      within('.garden-actions') { click_link 'Actions' }
       accept_confirm do
         click_link "Mark as inactive"
       end
@@ -81,7 +81,7 @@ describe "Planting a crop", :js do
       visit new_garden_path
       fill_in "Name", with: "New garden"
       click_button "Save"
-      click_link 'Actions'
+      within('.garden-actions') { click_link 'Actions' }
       within '.garden-actions' do
         click_link 'Edit'
       end
@@ -96,7 +96,7 @@ describe "Planting a crop", :js do
       fill_in "Name", with: "New garden"
       click_button "Save"
       visit garden_path(Garden.last)
-      click_link 'Actions'
+      within('.garden-actions') { click_link 'Actions' }
       accept_confirm do
         click_link 'Delete'
       end
@@ -107,7 +107,7 @@ describe "Planting a crop", :js do
     describe "Making a planting inactive from garden show" do
       it do
         visit garden_path(garden)
-        click_link(class: 'planting-menu') # quick menu
+        within('.planting-quick-actions') { click_link "Actions for #{planting.display_name}" }
         click_link "Mark as finished"
         find(".datepicker-days td.day", text: "21").click
         expect(page).to have_content 'Finished'

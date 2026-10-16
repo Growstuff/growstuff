@@ -5,7 +5,7 @@
 # saved, its own form page shows why. Render it outside any dropdown, so it
 # isn't torn down with the menu when it closes, and open it with
 # MenusHelper#menu_modal_link. The block gets the form builder and holds the
-# fields. See seeds/_edit_modal for the same shape written out in full.
+# fields; any errors on the record are listed above them.
 module ModalsHelper
   def form_modal(model, id:, title:, submit: 'Save', size: 'lg', &)
     title_id = "#{id}-title"
@@ -23,11 +23,19 @@ module ModalsHelper
       tag.h4(title, id: title_id, class: 'modal-title') +
         tag.button(type: 'button', class: 'btn-close', 'aria-label': 'Close', data: { 'bs-dismiss': 'modal' })
     end
-    body = tag.div(capture(form, &), class: 'modal-body plant-dialog-body')
+    body = tag.div(form_modal_errors(form.object) + capture(form, &), class: 'modal-body plant-dialog-body')
     footer = tag.div(class: 'modal-footer') do
       tag.button('Cancel', type: 'button', class: 'btn btn-secondary', data: { 'bs-dismiss': 'modal' }) +
         form.submit(submit, class: 'btn btn-primary')
     end
     header + body + footer
+  end
+
+  def form_modal_errors(model)
+    return ''.html_safe if model.errors.empty?
+
+    tag.div(role: 'alert', class: 'alert alert-danger') do
+      tag.ul(safe_join(model.errors.full_messages.map { |message| tag.li(message) }), class: 'mb-0')
+    end
   end
 end

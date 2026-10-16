@@ -3,7 +3,11 @@
 -# seeing the menu at all already tells you that.
 - if can?(:edit, crop) || can?(:destroy, crop)
   = actions_menu('crop') do
-    = menu_link_to :edit, t('.edit'), edit_crop_path(crop)
+    - if crop.approved?
+      = menu_modal_link :edit, t('.edit'), '#crop-edit-modal'
+    - else
+      -# A pending crop is approved or rejected on the form page.
+      = menu_link_to :edit, t('.edit'), edit_crop_path(crop)
     = menu_modal_link :add, 'Add scientific name', '#scientific-name-new'
     = menu_modal_link :add, 'Add another name', '#alternate-name-new'
     = menu_link_to :download, 'Fetch data from GBIF', crop_gbif_path(crop), method: :post
@@ -12,6 +16,8 @@
       .dropdown-divider
       = menu_delete_button(crop)
 
+  - if crop.approved?
+    = render 'crops/edit_modal', crop: crop
   -# The dialogs the menu and the names open. Outside the dropdown, so they are
   -# not torn down with it when it closes.
   = render 'crops/scientific_name_modal', crop: crop, scientific_name: ScientificName.new(crop: crop)
