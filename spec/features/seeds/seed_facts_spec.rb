@@ -15,6 +15,7 @@ describe "a seed's facts", :js do
         fact.click_link 'Edit heirloom'
         fact.select 'hybrid'
         fact.click_button 'save'
+        find('.seedfacts--heirloom', text: 'Hybrid') # saved, and the page shows it
       end
 
       it { expect(page).to have_css('.seedfacts--heirloom', text: 'Hybrid') }
