@@ -332,3 +332,56 @@ $garden-card-line: #e6e6e6;
     color: var(--bs-success-text-emphasis);
   }
 }
+
+// The member's nursery, above their garden cards.
+.nursery-panel {
+  margin-bottom: 1.5rem;
+
+  .nursery-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid $garden-card-line;
+  }
+
+  .nursery-panel-title {
+    margin: 0;
+    font-size: 1.4rem;
+    line-height: 1.3;
+  }
+
+  .nursery-panel-subtitle {
+    margin: 0;
+    color: $garden-card-muted;
+    font-size: 0.9rem;
+  }
+
+  .nursery-panel-body {
+    padding: 1rem 1.25rem;
+  }
+
+  .nursery-seedlings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chip {
+      margin: 0;
+    }
+  }
+
+  .nursery-seedling-details {
+    color: $garden-card-muted;
+  }
+}

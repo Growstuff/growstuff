@@ -27,7 +27,7 @@ describe "Nursery" do
       end
 
       it "sows in a dialog" do
-        click_button 'Sow seeds in the nursery'
+        click_button 'Sow seeds'
         expect(page).to have_css '.modal', text: 'Plant something in Nursery'
       end
 

@@ -15,6 +15,24 @@ module GardensHelper
     }
   end
 
+  # The seedlings currently in a nursery, newest sown first.
+  def nursery_seedlings(nursery)
+    return Planting.none unless nursery
+
+    nursery.plantings.current.includes(crop: :parent).order(planted_at: :desc, id: :desc)
+  end
+
+  # "12 seedlings", counting each plant, or that there are none.
+  def nursery_seedling_count(seedlings)
+    return 'No seedlings yet' if seedlings.empty?
+
+    pluralize(seedlings.sum { |seedling| seedling.quantity || 1 }, 'seedling')
+  end
+
+  def nursery_planter_props(nursery)
+    { garden: { id: nursery.id, name: nursery.name }, label: 'Sow seeds', buttonClass: 'btn btn-primary' }
+  end
+
   # "2022–2024 · 12 plantings": when an inactive garden was in use, by its plantings.
   def garden_history_summary(garden)
     plantings = garden.plantings.to_a

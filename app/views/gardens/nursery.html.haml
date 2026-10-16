@@ -17,7 +17,8 @@
         - if @candidates.any?
           = form_tag nursery_path, method: :post do
             = label_tag :garden_slug, 'Which garden?', class: 'form-label'
-            = select_tag :garden_slug, options_from_collection_for_select(@candidates, :slug, :name), class: 'form-select mb-3'
+            = select_tag :garden_slug, options_from_collection_for_select(@candidates, :slug, :name),
+                         class: 'form-select mb-3'
             = submit_tag 'Use this garden as my nursery', class: 'btn btn-primary'
         - else
           %p.card-text.text-muted You don't have another garden to use.
