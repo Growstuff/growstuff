@@ -139,12 +139,23 @@ describe SeedsHelper do
       it { expect(helper.seed_distance(unlocated_seed)).to be_nil }
       it { expect(helper.seed_owner_label(near_seed)).to match(/\Anear · Greenwich · \d+ km\z/) }
       it { expect(helper.seed_owner_label(unlocated_seed)).to eq unlocated_seed.owner.login_name }
+      it { expect(helper.seed_owner_tag(near_seed)).to match(/\Afrom near · \d+ km\z/) }
+      it { expect(helper.seed_owner_tag(unlocated_seed)).to eq "from #{unlocated_seed.owner.login_name}" }
+    end
+
+    context 'when the seed is the member\'s own' do
+      let(:own_seed) { create(:seed, owner: viewer) }
+
+      before { allow(helper).to receive(:current_member).and_return(viewer) }
+
+      it { expect(helper.seed_owner_tag(own_seed)).to eq 'Yours' }
     end
 
     context 'when signed out' do
       before { allow(helper).to receive(:current_member).and_return(nil) }
 
       it { expect(helper.seed_distance(near_seed)).to be_nil }
+      it { expect(helper.seed_owner_tag(near_seed)).to eq 'from near' }
     end
   end
 
