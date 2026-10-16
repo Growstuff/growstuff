@@ -17,22 +17,6 @@ module ApplicationHelper
     { label:, icon_url: image_path('icons/photo.svg') }
   end
 
-  # The name an add-photo link gives the dialog.
-  def photo_label(model)
-    case model
-    when Seed then "#{model.crop.name} seeds"
-    when Harvest then "#{model.crop.name} harvest"
-    when Garden then "#{model.name} garden"
-    when Planting then model.display_name
-    when Post then model.subject
-    end
-  end
-
-  # The data attributes that make an add-photo link open the dialog.
-  def photo_dialog_data(model)
-    { photo_dialog: true, photo_label: photo_label(model) }
-  end
-
   # Whether the page being shown is one of these paths or something under one,
   # for marking which part of the site the top menu's link belongs to. Any
   # anchor or query on a path is ignored.
