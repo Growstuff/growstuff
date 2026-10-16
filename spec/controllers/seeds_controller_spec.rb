@@ -117,6 +117,8 @@ describe SeedsController do
   end
 
   describe 'GET index as the results alone' do
+    render_views
+
     let(:owner) { create(:member) }
     let(:tomato) { create(:crop, name: 'tomato') }
     let(:json) { response.parsed_body }
