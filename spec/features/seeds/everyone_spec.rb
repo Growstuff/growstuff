@@ -42,6 +42,21 @@ describe "everyone's seeds", :js do
     it { expect(page).to have_link(href: member_path(gardener), class: 'seed-owner') }
     it { expect(page).to have_css("a.seed-owner[title*='alex']") }
     it { expect(page).to have_no_text('see who') }
+    it { expect(page).to have_css('.seed-packet-owner', text: 'from alex') }
+    it { expect(page).to have_css('.seed-packet-owner', text: 'from mere') }
+  end
+
+  describe "a packet that is the member's own" do
+    include_context 'signed in member'
+
+    before do
+      create(:seed, owner: member, crop: tomato, tradable_to: 'locally')
+      create(:seed, owner: gardener, crop: tomato, tradable_to: 'locally')
+      visit seeds_path
+    end
+
+    it { expect(page).to have_css('.seed-packet-owner.seed-packet-yours', text: 'Yours') }
+    it { expect(page).to have_css('.seed-packet-owner', text: 'from alex') }
   end
 
   describe "several packets from one gardener" do
@@ -64,7 +79,7 @@ describe "everyone's seeds", :js do
     end
 
     it { expect(page).to have_css('.seed-group .seed-group-packet', count: 2) }
-    it { expect(page).to have_css('.seed-group-owner', text: 'by alex') }
+    it { expect(page).to have_css('.seed-group-owner', text: 'from alex') }
   end
 
   describe "a variety the member already has" do
