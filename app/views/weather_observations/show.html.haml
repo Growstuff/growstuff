@@ -1,0 +1,117 @@
+= content_for :title, "#{@weather_observation.owner}'s #{@weather_observation}"
+
+- content_for :opengraph do
+  - if @weather_observation.weather_type
+    = tag("meta", property: "og:description", content: og_description(@weather_observation.  - if @weather_observation.weather_type))
+  = tag("meta", property: "og:title", content: "#{@weather_observation.owner}'s #{@weather_observation}")
+  = tag("meta", property: "og:type", content: "website")
+  = tag("meta", property: "og:url", content: request.original_url)
+  = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'weather_observations', weather_observations_path
+  %li.breadcrumb-item.active= link_to @weather_observation.weather_type, weather_observations_path(@weather_observation)
+
+.row
+  .col-md-9.col-12
+    %h2.h1
+      %strong= @weather_observation
+  .col-md-3.col-12
+    = render 'weather_observations/actions', weather_observation: @weather_observation
+.row
+    %div
+      %p
+        :growstuff_markdown
+          #{strip_tags @weather_observation.weather_type}
+        - unless @weather_observation.description
+          .row-fluid
+            %p No description available yet.
+
+            - if can? :edit, @weather_observation
+              %p
+                Why not
+                = link_to 'tell us more.', edit_weather_observation_path(@weather_observation)
+
+    - if @weather_observation.plantings.where.not(planted_at: nil).any?
+      %section.card
+        %h2 weather_observation progress
+        .card-body
+          = render 'plantings/progress_list', plantings: @weather_observation.plantings.active
+
+    %section
+      %h2 Current plantings in weather_observation
+      .index-cards
+        - if @current_plantings.size.positive?
+          - @current_plantings.each do |planting|
+            = render "plantings/card", planting: planting
+        - else
+          .col-md-12
+            %p Nothing is currently planted here.
+
+    %section.companions
+      %h2 Suggestioned companions
+      - @suggested_companions.each do |companion|
+        = render 'crops/tiny', crop: companion
+
+    %section= render 'previously'
+
+  .col-md-3
+    .card
+      .card-image
+        = image_tag weather_observation_image_path(@weather_observation), class: 'img-card', alt: 'photo of this weather_observation'
+      .card-body
+        %h4 About this weather_observation
+        %p
+          %strong Owner:
+          = link_to @weather_observation.owner, @weather_observation.owner
+        - if @weather_observation.location.present?
+          %p
+            %strong Location:
+            = @weather_observation.location
+        - if @weather_observation.area.present?
+          %p
+            %strong Area:
+            = pluralize(@weather_observation.area, @weather_observation.area_unit)
+        - if @weather_observation.weather_observation_type.present?
+          %p
+            %strong weather_observation type:
+            = @weather_observation.weather_observation_type.name
+
+    .card
+      .card-header
+        %h4 #{@weather_observation.owner}'s weather_observations
+      .card-body
+        %ul.list-group.list-group-flush
+          - @weather_observation.owner.weather_observations.active.order_by_name.each do |weather_observation|
+            %li.list-group-item.list-group-flush
+              = weather_observation_icon
+              - if @weather_observation == weather_observation
+                = @weather_observation
+              - else
+                = link_to weather_observation, weather_observation_path(weather_observation)
+
+    - unless @weather_observation.owner.weather_observations.inactive.empty?
+      %h4 Inactive weather_observations
+      %ul
+        - @weather_observation.owner.weather_observations.inactive.order_by_name.each do |otherweather_observation|
+          %li
+            - if @weather_observation == otherweather_observation
+              = @weather_observation.name
+            - else
+              = link_to otherweather_observation, weather_observation_path(otherweather_observation)
+
+    - if @weather_observation.owner == current_member
+      %p
+        = link_to new_weather_observation_path, class: 'btn btn-default btn-xs' do
+          Add New weather_observation
+
+    - if can?(:edit, @weather_observation) && can?(:create, Photo)
+      %%p
+        = add_photo_button(@weather_observation)
+
+    - if @weather_observation.photos.size.positive?
+      %section.photos
+        %h2= localize_plural(@weather_observation.photos, Photo)
+        .index-cards
+          - @weather_observation.photos.includes(:owner).each do |photo|
+            = render 'photos/thumbnail', photo: photo
