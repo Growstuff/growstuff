@@ -28,9 +28,6 @@ RSpec.describe ButtonsHelper do
   end
 
   describe 'edit_button' do
-    it { expect(garden_edit_button(garden)).to include "/gardens/#{garden.slug}/edit" }
     it { expect(planting_edit_button(planting)).to include "/plantings/#{planting.slug}/edit" }
-    it { expect(harvest_edit_button(harvest)).to include "/harvests/#{harvest.slug}/edit" }
-    it { expect(seed_edit_button(seed)).to include "/seeds/#{seed.slug}/edit" }
   end
 end

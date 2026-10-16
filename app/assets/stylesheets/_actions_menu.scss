@@ -26,7 +26,6 @@
 // Menu items are lowercase. Done in CSS because the labels are the shared
 // button translations, which other pages show in sentence case.
 .actions-menu .dropdown-item,
-.planting-menu .dropdown-item,
 .record-page .dropdown-item {
   text-transform: lowercase;
   display: flex;
