@@ -1,5 +1,7 @@
-- if can?(:edit, @photo) && can?(:destroy, @photo)
+- if can?(:edit, photo) && can?(:destroy, photo)
   = actions_menu('photo', classes: 'float-end') do
-    = menu_link_to :edit, t('buttons.edit'), edit_photo_path(@photo)
+    = menu_modal_link :edit, t('buttons.edit'), '#photo-edit-modal'
     .dropdown-divider
-    = menu_delete_button(@photo)
+    = menu_delete_button(photo)
+  -# The dialog the Edit item opens.
+  = render 'photos/edit_modal', photo:

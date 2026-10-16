@@ -1,35 +1,7 @@
-.rol
+- content_for :title, 'Edit Photo'
+.row
   .col-md-2= render 'photos/thumbnail', photo: @photo
   .col-md-10
-    - content_for :title, "Edit Photo"
-    = form_for(@photo) do |f|
-      .mb-3
-        = f.label :title
-        = f.text_field :title, placeholder: "title", required: true
-
-      .mb-3
-        = f.label :thumbnail_url
-        = f.url_field :thumbnail_url
-
-      .mb-3
-        = f.label :fullsize_url
-        = f.url_field :fullsize_url
-
-      .mb-3
-        = f.label :link_url
-        = f.url_field :link_url
-
-      .mb-3
-        = f.label :license_name
-        = f.text_field :license_name
-
-      .mb-3
-        = f.label :license_url
-        = f.text_field :license_url
-
-      .mb-3
-        = f.label :date_taken
-        = f.datetime_field :date_taken
-
-      .mb-3
-        = f.submit 'Save', class: 'btn'
+    = bootstrap_form_for(@photo) do |f|
+      = render 'photos/fields', f: f
+      = f.primary 'Save'
