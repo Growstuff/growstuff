@@ -42,7 +42,7 @@
               - notes_edit = { href: '#', "data-display" => '.seed-notes-body',
                                "data-form" => "##{editable_form_id(@seed, :description)}" }
               %a.btn.btn-sm.section-add.editable{ notes_edit }
-                = icon 'fas', 'pencil-alt'
+                = menu_icon(:edit)
                 edit
           -# The trigger lives in the heading bar above, so the partial renders
           -# the form alone.

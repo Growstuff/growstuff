@@ -103,6 +103,13 @@
     font-size: 0.8rem;
     text-transform: lowercase;
 
+    // White on the green bar, at the text's size, not the menu's green 22px.
+    .menu-icon {
+      width: 1em;
+      height: 1em;
+      color: inherit;
+    }
+
     &:hover,
     &:focus {
       background: rgba(255, 255, 255, 0.18);
@@ -443,6 +450,13 @@
 .edit-link .editable {
   color: $ink-muted;
   font-size: 0.75em;
+
+  // The menu icon is green and 22px; here it is the text's colour and size.
+  .menu-icon {
+    width: 1em;
+    height: 1em;
+    color: inherit;
+  }
 
   &:hover,
   &:focus {

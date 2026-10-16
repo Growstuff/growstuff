@@ -9,7 +9,7 @@
     %small.edit-link
       %a.editable{ "data-form" => "##{form_id}", "data-display": display_field, href: "#", name: "##{form_id}" }
         -# One muted pencil everywhere, not the orange SVG icon.
-        %i.fas.fa-pencil-alt{ 'aria-hidden' => 'true' }
+        = menu_icon(:edit)
         %span.visually-hidden Edit #{what.humanize.downcase}
 
   -# The fact card's own h3 already names the field, so the generated label
