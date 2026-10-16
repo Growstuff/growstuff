@@ -1,16 +1,25 @@
 -# Sidebar content: the section around it supplies the box and the heading.
+-# Each row is who planted it, and under that where: this is the crop's own
+-# page, so the crop's name isn't repeated on every line.
 - if crop.plantings.any?
-  %ul.list-group.list-group-flush
+  %ul.list-group.list-group-flush.crop-planting-list
     - crop.plantings.includes(:owner, :garden).order(planted_at: :desc).limit(5).each do |planting|
-      %li.list-group-item
-        = link_to planting_path(planting), class: 'card-link' do
+      %li.list-group-item.crop-planting
+        = link_to planting_path(planting), class: 'crop-planting-owner' do
           = planting_icon
-          = planting
-        .float-end= render 'members/location', member: planting.owner
+          = planting.owner
+        %span.crop-planting-where
+          = planting.garden.name
+          - if planting.owner.location.present?
+            ·
+            = link_to planting.owner.location.truncate(24, separator: ' '), place_path(planting.owner.location)
 - else
   %p.text-muted Nobody has planted this crop yet.
 - if crop.approved?
   - if current_member
-    %p.mb-0= link_to "Plant #{crop.name}", new_planting_path(crop_id: crop.id), class: 'btn btn-secondary btn-sm'
+    -# The dialog is rendered with the crop's actions.
+    %a.btn.btn-secondary.btn-sm{ href: '#', 'data-bs-toggle': 'modal', 'data-bs-target': '#modelPlantingForm' }
+      = menu_icon(:planting)
+      Plant #{crop.name}
   - else
     = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} plantings" }

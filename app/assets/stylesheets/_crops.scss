@@ -188,3 +188,27 @@
 .crop-attribute {
   margin-bottom: 0.5rem;
 }
+
+// "Who's planted": the grower, then where, in two lines.
+.crop-planting-list {
+  margin-bottom: 1rem;
+}
+
+.crop-planting {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.6rem 0;
+}
+
+.crop-planting-owner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.crop-planting-where {
+  padding-left: 1.75rem;
+  color: $ink-muted;
+  font-size: 0.85rem;
+}
