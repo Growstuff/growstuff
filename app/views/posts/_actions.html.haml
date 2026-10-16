@@ -1,8 +1,7 @@
 - if can? :edit, post
   = actions_menu('post', classes: 'float-end') do
     = menu_link_to :edit, t('buttons.edit'), edit_post_path(post)
-    - if can? :create, Photo
-      = menu_link_to :add_photo, t('buttons.add_photo'), new_photo_path(id: post.id, type: 'post')
+    = menu_add_photo_link(post)
     - if can? :destroy, post
       .dropdown-divider
       = menu_delete_button(post)

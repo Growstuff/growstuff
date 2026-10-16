@@ -27,6 +27,13 @@ module MenusHelper
     end
   end
 
+  def menu_add_photo_link(model)
+    return unless can?(:create, Photo)
+
+    menu_link_to :add_photo, t('buttons.add_photo'), new_photo_path(id: model.id, type: model_type_for_photo(model)),
+                 data: photo_dialog_data(model)
+  end
+
   def menu_delete_button(model, **)
     delete_button(model, classes: 'dropdown-item text-danger', icon: menu_icon(:delete), **)
   end

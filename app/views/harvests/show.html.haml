@@ -93,7 +93,7 @@
           .section-header
             %h2 Photos
             - if can?(:edit, @harvest) && can?(:create, Photo)
-              = link_to new_photo_path(id: @harvest.id, type: 'harvest'), class: 'btn btn-sm section-add', data: { photo_dialog: true } do
+              = link_to new_photo_path(id: @harvest.id, type: 'harvest'), class: 'btn btn-sm section-add', data: photo_dialog_data(@harvest) do
                 = icon 'fas', 'plus'
                 add
           - if @harvest.photos.any?

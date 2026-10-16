@@ -93,7 +93,7 @@ module ButtonsHelper
     return unless can?(:edit, model) && can?(:create, Photo)
 
     link_to new_photo_path(id: model.id, type: model_type_for_photo(model)),
-            class: classes do
+            class: classes, data: photo_dialog_data(model) do
       add_photo_icon + ' ' + t('buttons.add_photo')
     end
   end
@@ -111,8 +111,6 @@ module ButtonsHelper
       icon + ' ' + t('buttons.delete')
     end
   end
-
-  private
 
   def model_type_for_photo(model)
     ActiveModel::Name.new(model.class).to_s.downcase
