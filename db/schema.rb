@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_14_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_16_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -646,11 +646,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_000000) do
     t.float "longitude"
     t.float "lowest_temp_c"
     t.string "name", null: false
+    t.boolean "nursery", default: false, null: false
     t.integer "owner_id"
     t.string "slug", null: false
     t.datetime "updated_at", precision: nil
     t.index ["garden_type_id"], name: "index_gardens_on_garden_type_id"
     t.index ["owner_id"], name: "index_gardens_on_owner_id"
+    t.index ["owner_id"], name: "index_gardens_on_owner_id_where_nursery", unique: true, where: "nursery"
     t.index ["slug"], name: "index_gardens_on_slug", unique: true
   end
 

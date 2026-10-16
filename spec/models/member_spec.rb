@@ -397,4 +397,35 @@ describe Member do
       end
     end
   end
+
+  describe '#nursery' do
+    let(:member) { create(:member) }
+
+    it 'makes a nursery garden' do
+      expect(member.nursery).to have_attributes(nursery: true, owner: member, name: 'Nursery')
+    end
+
+    it 'returns the same nursery each time' do
+      first = member.nursery
+      expect(member.nursery).to eq first
+    end
+
+    it 'makes only one nursery' do
+      2.times { member.nursery }
+      expect(member.gardens.nurseries.count).to eq 1
+    end
+
+    it 'does not count the nursery as a second garden' do
+      member.nursery
+      expect(member.has_activity?).to be false
+    end
+
+    context 'when a garden is already called Nursery' do
+      before { create(:garden, owner: member, name: 'Nursery') }
+
+      it 'picks another name' do
+        expect(member.nursery.name).to eq 'Nursery 2'
+      end
+    end
+  end
 end

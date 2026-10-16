@@ -26,10 +26,13 @@ class Garden < ApplicationRecord
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  scope :nurseries, -> { where(nursery: true) }
+  scope :not_nurseries, -> { where(nursery: false) }
   scope :order_by_name, -> { order(Arel.sql("lower(name) asc")) }
 
   validates :location, length: { maximum: 255 }
   validates :slug, uniqueness: true
+  validates :nursery, uniqueness: { scope: :owner_id, message: :one_nursery_per_member }, if: :nursery?
 
   validates :name, uniqueness: { scope: :owner_id }
   validates :name,
@@ -103,7 +106,7 @@ class Garden < ApplicationRecord
 
   # Deactivate any gardens with no active plantings
   def self.archive!(time_limit: 3.years.ago, limit: 1000)
-    Garden.active.where("gardens.updated_at < ?", time_limit).order(updated_at: :asc).limit(limit).each do |active_garden|
+    Garden.active.not_nurseries.where("gardens.updated_at < ?", time_limit).order(updated_at: :asc).limit(limit).each do |active_garden|
       unless active_garden.plantings.active.any?
         active_garden.active = false
         active_garden.save

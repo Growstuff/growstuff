@@ -151,6 +151,12 @@ class Member < ApplicationRecord
   # which can happen sometimes especially with FactoryBot associations
   after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
 
+  # Where this member raises seedlings before planting them out. Made the first
+  # time it's wanted, as most members never need one.
+  def nursery
+    gardens.nurseries.first || create_nursery
+  end
+
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
@@ -219,7 +225,7 @@ class Member < ApplicationRecord
   end
 
   def has_activity?
-    (gardens.exists? && gardens.count > 1) ||
+    (gardens.not_nurseries.exists? && gardens.not_nurseries.count > 1) ||
       plantings.exists? ||
       harvests.exists? ||
       seeds.exists? ||
@@ -237,5 +243,17 @@ class Member < ApplicationRecord
       inverse_follows.exists? ||
       blocks.exists? ||
       inverse_blocks.exists?
+  end
+
+  private
+
+  # The member may already have a garden called "Nursery", and garden names are
+  # unique per member, so number ours until it's free.
+  def create_nursery
+    base = I18n.t('gardens.nursery_name')
+    taken = gardens.pluck(:name)
+    name = base
+    name = "#{base} #{(2..).find { |n| taken.exclude?("#{base} #{n}") }}" if taken.include?(base)
+    gardens.create!(name:, nursery: true)
   end
 end

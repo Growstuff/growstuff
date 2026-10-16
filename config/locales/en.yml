@@ -84,6 +84,7 @@ en:
         not_a_valid_unit: "%{value} is not a valid unit"
         not_a_valid_area_unit: "%{value} is not a valid area unit"
         no_newlines: must contain no newlines
+        one_nursery_per_member: already exists; a member can have only one nursery
         grid_too_small_for_plantings: "is too small: some plantings would fall outside the bed. Move them first."
         bed_position_incomplete: must have both a column and a row, or neither
         bed_position_off_grid: would put this plant outside the bed
@@ -171,6 +172,7 @@ en:
     updated: Forum was successfully updated.
     deleted: Forum was successfully deleted.
   gardens:
+    nursery_name: Nursery
     created: Garden was successfully created.
     deleted: Garden was successfully deleted.
     form:
