@@ -63,22 +63,23 @@ module HomeHelper
     month_name(Time.zone.today.month)
   end
 
-  # A green-headed white box on the home page: a title, an optional link or
-  # button on the right of the header, and whatever the block holds. Pass id:
-  # to make the section a target for in-page links.
   # "Plant something" as a dialog over the page, planting in the member's first
   # garden. A member with no garden yet has nowhere to plant, so they get the
-  # page that asks for one.
-  # Give it a crop to open with that crop already chosen.
-  def plant_picker(dashboard, label:, button_class:, sublabel: nil, wrapper_class: nil, crop: nil)
+  # page that asks for one. Options: sublabel, wrapper_class, and a crop to open
+  # with that crop already chosen.
+  def plant_picker(dashboard, label:, button_class:, **options)
+    crop = options[:crop]
     garden = dashboard.gardens.first
     return link_to(label, new_planting_path(crop_id: crop&.id), class: button_class) unless garden
 
-    props = { label:, sublabel:, buttonClass: button_class, garden: { id: garden.id, name: garden.name } }
+    props = { label:, sublabel: options[:sublabel], buttonClass: button_class, garden: { id: garden.id, name: garden.name } }
     props[:crop] = { id: crop.id, name: crop.name } if crop
-    react_component('PlantPicker', props, class: wrapper_class)
+    react_component('PlantPicker', props, class: options[:wrapper_class])
   end
 
+  # A green-headed white box on the home page: a title, an optional link or
+  # button on the right of the header, and whatever the block holds. Pass id:
+  # to make the section a target for in-page links.
   def home_section(title, action: nil, id: nil, &)
     content_tag(:section, id:, class: 'home-section') do
       safe_join([
