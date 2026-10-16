@@ -4,11 +4,12 @@
 module MenusHelper
   # The kebab and its dropdown. `name` names the record ("seed"), giving the
   # wrapper `.seed-actions` and the toggle `#seed-actions-button`; a menu that
-  # repeats on a page passes the record's `id` to keep the toggle's id unique.
+  # repeats on a page passes the record's `id` to keep the toggle's id unique, and
+  # a `label` that says whose actions they are.
   # The block holds the items.
-  def actions_menu(name, id: nil, classes: nil, align: :end, &)
+  def actions_menu(name, id: nil, label: 'Actions', classes: nil, align: :end, &)
     toggle_id = [name, id, 'actions-button'].compact.join('-')
-    toggle = tag.a(id: toggle_id, href: '#', role: 'button', title: 'Actions', 'aria-label': 'Actions',
+    toggle = tag.a(id: toggle_id, href: '#', role: 'button', title: label, 'aria-label': label,
                    class: 'btn record-actions-toggle', 'aria-haspopup': 'true', 'aria-expanded': 'false',
                    data: { 'bs-toggle': 'dropdown' }) { tag.i(class: 'fas fa-ellipsis-v', 'aria-hidden': 'true') }
     menu = tag.div(capture(&), class: "dropdown-menu dropdown-menu-#{align}", 'aria-labelledby': toggle_id)

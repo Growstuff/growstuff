@@ -2,7 +2,7 @@
 -# add photo, the state changes, then delete last under a divider.
 - if can?(:edit, planting)
   - slug = planting.slug
-  = actions_menu('planting', id: planting.id, align: :start) do
+  = actions_menu('planting', id: planting.id, label: "Actions for #{planting.display_name}", align: :start) do
     - if local_assigns[:view]
       = menu_link_to :view, t('buttons.view'), planting_path(slug:)
     = menu_link_to :edit, t('buttons.edit'), edit_planting_path(slug:)

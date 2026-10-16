@@ -3,48 +3,33 @@
 -# needs no JSON endpoint. Large text comes from .plant-dialog-body, as in the
 -# React dialogs. The crop isn't offered: changing what a packet is would make
 -# it a different packet.
-#seed-edit-modal.modal.fade{ "aria-hidden" => "true", "aria-labelledby" => "seed-edit-title", role: "dialog", tabindex: "-1" }
-  .modal-dialog.modal-lg{ role: "document" }
-    .modal-content
-      = bootstrap_form_for(seed) do |f|
-        .modal-header
-          %h4#seed-edit-title.modal-title Edit #{seed.crop.name} seeds
-          %button.btn-close{ "aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button" }
-        .modal-body.plant-dialog-body
-          - if seed.errors.any?
-            .alert.alert-danger{ role: 'alert' }
-              %ul.mb-0
-                - seed.errors.full_messages.each do |message|
-                  %li= message
-          .row.mb-3
-            .col-md-6
-              = f.date_field :saved_at,
-                             value: seed.saved_at ? seed.saved_at.to_fs(:ymd) : '',
-                             label: 'When were they saved?'
-            .col-md-6
-              = f.number_field :quantity, min: 0, label: 'How many seeds?'
-          .row.mb-3
-            .col-md-6
-              = f.number_field :plant_before_year, label: 'Plant before (year)',
-                               min: Seed::PLANT_BEFORE_YEARS.first, max: Seed::PLANT_BEFORE_YEARS.last
-            .col-md-6
-              = f.select :tradable_to, Seed::TRADABLE_TO_VALUES, { include_blank: false, label: 'Will trade' }
-          .row.mb-3
-            .col-md-6
-              = f.number_field :days_until_maturity_min, min: 1, label: 'Days until maturity (min)'
-            .col-md-6
-              = f.number_field :days_until_maturity_max, min: 1, label: 'Days until maturity (max)'
-          .row.mb-3
-            .col-md-4
-              = f.select :organic, Seed::ORGANIC_VALUES, { include_blank: false, label: 'Organic?' }
-            .col-md-4
-              = f.select :gmo, Seed::GMO_VALUES, { include_blank: false, label: 'GMO?' }
-            .col-md-4
-              = f.select :heirloom, Seed::HEIRLOOM_VALUES, { include_blank: false, label: 'Heirloom?' }
-          .mb-3
-            = f.select :source, Seed::SOURCE_VALUES, { include_blank: false, label: 'Where did they come from?' }
-          .mb-3
-            = f.text_area :description, rows: 4, label: 'Notes'
-        .modal-footer
-          %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" } Cancel
-          = f.submit 'Save', class: 'btn btn-primary'
+= form_modal(seed, id: 'seed-edit-modal', title: "Edit #{seed.crop.name} seeds") do |f|
+  .row.mb-3
+    .col-md-6
+      = f.date_field :saved_at,
+                     value: seed.saved_at ? seed.saved_at.to_fs(:ymd) : '',
+                     label: 'When were they saved?'
+    .col-md-6
+      = f.number_field :quantity, min: 0, label: 'How many seeds?'
+  .row.mb-3
+    .col-md-6
+      = f.number_field :plant_before_year, label: 'Plant before (year)',
+                       min: Seed::PLANT_BEFORE_YEARS.first, max: Seed::PLANT_BEFORE_YEARS.last
+    .col-md-6
+      = f.select :tradable_to, Seed::TRADABLE_TO_VALUES, { include_blank: false, label: 'Will trade' }
+  .row.mb-3
+    .col-md-6
+      = f.number_field :days_until_maturity_min, min: 1, label: 'Days until maturity (min)'
+    .col-md-6
+      = f.number_field :days_until_maturity_max, min: 1, label: 'Days until maturity (max)'
+  .row.mb-3
+    .col-md-4
+      = f.select :organic, Seed::ORGANIC_VALUES, { include_blank: false, label: 'Organic?' }
+    .col-md-4
+      = f.select :gmo, Seed::GMO_VALUES, { include_blank: false, label: 'GMO?' }
+    .col-md-4
+      = f.select :heirloom, Seed::HEIRLOOM_VALUES, { include_blank: false, label: 'Heirloom?' }
+  .mb-3
+    = f.select :source, Seed::SOURCE_VALUES, { include_blank: false, label: 'Where did they come from?' }
+  .mb-3
+    = f.text_area :description, rows: 4, label: 'Notes'
