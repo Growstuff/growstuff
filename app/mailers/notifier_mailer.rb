@@ -2,7 +2,7 @@
 
 class NotifierMailer < ApplicationMailer
   # include NotificationsHelper
-  default from: "Growstuff <#{ENV.fetch('GROWSTUFF_EMAIL', nil)}>"
+  default from: "Growstuff <#{Rails.configuration.x.email[:from]}>"
 
   def verifier
     unless ENV['RAILS_SECRET_TOKEN']
