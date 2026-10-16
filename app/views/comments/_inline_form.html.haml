@@ -1,0 +1,10 @@
+-# Writing a comment on the page itself, under what it is about. It posts as it
+-# always has; if the comment can't be saved, the new-comment page shows why.
+#new-comment.new-comment
+  = bootstrap_form_for(Comment.new(commentable:)) do |f|
+    = f.text_area :body, rows: 4, required: true, label: 'Add a comment'
+    %span.form-text= render 'shared/markdown_help'
+    = f.hidden_field :commentable_id
+    = f.hidden_field :commentable_type
+    .text-end
+      = f.submit 'Post comment', class: 'btn btn-primary'
