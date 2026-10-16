@@ -24,7 +24,7 @@ class GardenFormSerializer
   # As the edit page does: a garden with no location of its own shows the member's.
   def values
     {
-      id: @garden.id, url: Rails.application.routes.url_helpers.garden_path(@garden),
+      id: @garden.id, url: (Rails.application.routes.url_helpers.garden_path(@garden) if @garden.persisted?),
       name: @garden.name, description: @garden.description,
       location: @garden.location.presence || @member.location,
       area: @garden.area, area_unit: @garden.area_unit.presence || Garden::AREA_UNITS_VALUES.values.first,

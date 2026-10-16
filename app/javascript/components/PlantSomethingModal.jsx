@@ -1,9 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import {postJson} from '../api';
+import {daysBefore, localToday} from '../dates';
 import CropPicker from './CropPicker';
 import Modal from './Modal';
 import Steps from './Steps';
+import WhenPicker from './WhenPicker';
 
 const FIELD_NAMES = {crop: 'Crop', garden: 'Garden'};
 const STEPS = ['Choose a crop', 'Confirm'];
@@ -24,13 +26,15 @@ function errorMessages(status, data) {
 
 // "Add planting", as a dialog over the garden cards. Two steps: search
 // for a crop and choose it, then confirm what you chose and it is planted in the
-// card's garden (today, with no other details; those can be added later). On
-// success it hands back the garden's updated card.
+// card's garden (today unless you say otherwise, with no other details; those
+// can be added later). On success it hands back the garden's updated card.
 //
 // Pass a crop to start on the confirm step with it already chosen; Change still
 // goes back to the search.
 export default function PlantSomethingModal({garden, iconUrl, crop: chosenCrop = null, onClose, onCreated}) {
   const [crop, setCrop] = useState(chosenCrop); // chosen, waiting for confirmation
+  const [when, setWhen] = useState('today'); // today, yesterday, or other (a date you enter)
+  const [customDate, setCustomDate] = useState('');
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState([]);
   const confirmButton = useRef(null);
@@ -40,11 +44,21 @@ export default function PlantSomethingModal({garden, iconUrl, crop: chosenCrop =
     if (crop && confirmButton.current) confirmButton.current.focus();
   }, [crop]);
 
+  const today = localToday();
+  const plantedOn = {today, yesterday: daysBefore(today, 1), other: customDate}[when];
+
+  function chooseWhen(choice) {
+    setWhen(choice);
+    if (choice === 'other' && !customDate) setCustomDate(today);
+  }
+
   async function confirm() {
     setSaving(true);
     setErrors([]);
     try {
-      const {ok, status, data} = await postJson('/plantings.json', {planting: {garden_id: garden.id, crop_id: crop.id}});
+      // Today is left to the server, which knows what day it is where it is.
+      const planting = {garden_id: garden.id, crop_id: crop.id, ...(when === 'today' ? {} : {planted_at: plantedOn})};
+      const {ok, status, data} = await postJson('/plantings.json', {planting});
       if (ok) {
         onCreated(data.garden, crop); // closes this dialog
         return;
@@ -88,9 +102,17 @@ export default function PlantSomethingModal({garden, iconUrl, crop: chosenCrop =
               </dd>
               <dt>Garden</dt>
               <dd>{garden.name}</dd>
-              <dt>When</dt>
-              <dd>Today</dd>
             </dl>
+            <WhenPicker
+              id="plant-something"
+              legend="When did you plant it?"
+              when={when}
+              onWhen={chooseWhen}
+              date={customDate}
+              onDate={(event) => setCustomDate(event.target.value)}
+             
+              hint={plantedOn}
+            />
           </div>
         ) : (
           <CropPicker id="planting-crop" onChoose={setCrop} />

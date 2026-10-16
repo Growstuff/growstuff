@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import AddPhotoModal from './AddPhotoModal';
-import EditGardenModal from './EditGardenModal';
+import GardenFormModal from './GardenFormModal';
 import EditPlantingModal from './EditPlantingModal';
 import GardenCard from './GardenCard';
 import MarkFinishedModal from './MarkFinishedModal';
@@ -153,7 +153,7 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
         />
       )}
       {editingGarden && (
-        <EditGardenModal
+        <GardenFormModal
           garden={editingGarden}
           onClose={() => setEditingGarden(null)}
           onSaved={gardenEdited}

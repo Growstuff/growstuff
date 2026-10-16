@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 
 import {getJson, postJson} from '../api';
-import {formatDate} from '../dates';
+import {daysBefore, formatDate} from '../dates';
 import Modal from './Modal';
 import PlantPartPicker from './PlantPartPicker';
 import Steps from './Steps';
+import WhenPicker, {WHEN_CHOICES} from './WhenPicker';
 
 const STEPS = ['Choose a part', 'How much?', 'When?', 'Any notes?'];
-const WHEN_CHOICES = [['today', 'Today'], ['yesterday', 'Yesterday'], ['other', 'Enter date']];
 
 function humanize(field) {
   return field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
@@ -20,13 +20,6 @@ function errorMessages(status, data) {
   }
   if (status === 401) return ['Please sign in again to record this harvest.'];
   return ['Something went wrong saving that. Please try again.'];
-}
-
-// "2026-09-21" a number of days earlier (or later, if negative), as
-// "2026-09-20". Worked out in UTC so the browser's time zone can't shift it.
-function daysBefore(iso, days) {
-  const [year, month, day] = iso.split('-').map(Number);
-  return new Date(Date.UTC(year, month - 1, day - days)).toISOString().slice(0, 10);
 }
 
 // Recording a harvest from a garden card, as a dialog over the list, in steps
@@ -251,42 +244,17 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
             )}
 
             {step === 3 && (
-              <fieldset>
-                <legend className="crop-picker-label step-legend">When did you harvest it?</legend>
-                <div className="pill-choices">
-                  {choices.map(([choice, label]) => (
-                    <React.Fragment key={choice}>
-                      <input
-                        type="radio"
-                        className="visually-hidden"
-                        name="record-harvest-when"
-                        id={`record-harvest-when-${choice}`}
-                        checked={when === choice}
-                        onChange={() => chooseWhen(choice)}
-                        autoFocus={choice === 'today'}
-                      />
-                      <label className="pill-choice" htmlFor={`record-harvest-when-${choice}`}>{label}</label>
-                    </React.Fragment>
-                  ))}
-                </div>
-                {when === 'other' ? (
-                  <div className="mt-3">
-                    <label className="form-label" htmlFor="record-harvest-date">Date</label>
-                    <input
-                      id="record-harvest-date"
-                      type="date"
-                      className="form-control when-date"
-                      value={values.custom_date}
-                      min={earliest}
-                      onChange={set('custom_date')}
-                      required
-                      autoFocus
-                    />
-                  </div>
-                ) : (
-                  <p className="step-hint">{harvestedAt && formatDate(harvestedAt)}</p>
-                )}
-              </fieldset>
+              <WhenPicker
+                id="record-harvest"
+                legend="When did you harvest it?"
+                when={when}
+                onWhen={chooseWhen}
+                date={values.custom_date}
+                onDate={set('custom_date')}
+                choices={choices}
+                min={earliest}
+                hint={harvestedAt}
+              />
             )}
 
             {step === 4 && (

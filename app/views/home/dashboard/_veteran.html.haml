@@ -12,11 +12,11 @@
 = home_section(t('home.dashboard.harvest_by_month')) do
   = react_component 'HarvestChart', harvest_chart_props(dashboard)
 
-= home_section(t('home.dashboard.growing_now'), id: 'growing-now', action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
+= home_section(t('home.dashboard.growing_now'), id: 'growing-now', action: plant_picker(dashboard, label: t('home.index.plant'), button_class: 'home-section-add')) do
   = react_component 'GrowingTable', growing_table_props(dashboard)
   %p= link_to t('home.dashboard.see_all_plantings', count: current_member.plantings.count), member_plantings_path(current_member)
 
-= home_section(t('home.dashboard.beds'), action: link_to(t('home.dashboard.add_bed'), new_garden_path, class: 'home-section-add')) do
+= home_section(t('home.dashboard.beds'), action: react_component('GardenPicker', { label: t('home.dashboard.add_bed'), buttonClass: 'home-section-add' })) do
   .home-beds
     - dashboard.beds.each do |bed|
       = link_to garden_path(slug: bed[:garden].slug), class: 'home-bed' do

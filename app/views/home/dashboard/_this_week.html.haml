@@ -20,7 +20,7 @@
       = link_to t('home.dashboard.record_harvests'), new_harvest_path, class: 'btn btn-warning'
     - else
       .home-this-week-actions
-        = render 'home/dashboard/plant_button', dashboard:, crop: suggestion, label: t('home.dashboard.plant_crop', crop: suggestion.name), button_class: 'btn btn-success'
+        = plant_picker(dashboard, crop: suggestion, label: t('home.dashboard.plant_crop', crop: suggestion.name), button_class: 'btn btn-success')
         = render 'home/dashboard/not_for_me', crop: suggestion, button_class: 'btn btn-link home-dismiss'
 - if ready.empty?
   = render 'home/dashboard/hidden_suggestions', dashboard:
