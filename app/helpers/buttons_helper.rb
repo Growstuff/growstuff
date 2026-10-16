@@ -28,8 +28,7 @@ module ButtonsHelper
   def add_photo_button(model, classes: "btn btn-outline-secondary")
     return unless can?(:edit, model) && can?(:create, Photo)
 
-    link_to new_photo_path(id: model.id, type: model_type_for_photo(model)),
-            class: classes, data: photo_dialog_data(model) do
+    link_to new_photo_path_for(model), class: classes, data: photo_dialog_data(model) do
       add_photo_icon + ' ' + t('buttons.add_photo')
     end
   end
@@ -42,7 +41,8 @@ module ButtonsHelper
     end
   end
 
-  def model_type_for_photo(model)
-    ActiveModel::Name.new(model.class).to_s.downcase
+  # The page (or dialog) for adding a photo of this record.
+  def new_photo_path_for(model)
+    new_photo_path(id: model.id, type: ActiveModel::Name.new(model.class).to_s.downcase)
   end
 end

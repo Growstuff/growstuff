@@ -59,10 +59,6 @@ module IconsHelper
     image_icon 'delete'
   end
 
-  def copy_icon
-    icon('far', 'copy')
-  end
-
   def add_photo_icon
     image_icon 'add-photo'
   end
