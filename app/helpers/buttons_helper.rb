@@ -11,14 +11,6 @@ module ButtonsHelper
     end
   end
 
-  def plant_something_button
-    return unless can? :create, Planting
-
-    link_to new_planting_path, class: "btn btn-outline-secondary" do
-      planting_icon + ' ' + t('buttons.plant_something')
-    end
-  end
-
   def garden_plan_something_button(garden, classes: "btn btn-outline-secondary")
     return unless can? :edit, garden
 
@@ -27,57 +19,10 @@ module ButtonsHelper
     end
   end
 
-  def plan_something_button
-    return unless can? :create, Activity
-
-    link_to new_activity_path, class: "btn btn-outline-secondary" do
-      activity_icon + ' ' + t('buttons.new_activity')
-    end
-  end
-
-  def planting_plan_something_button(planting, classes: "btn btn-outline-secondary")
-    return unless can? :edit, planting
-
-    link_to new_activity_path(planting_id: planting.id), class: classes do
-      activity_icon + ' ' + t('buttons.new_activity')
-    end
-  end
-
   def garden_mark_active_button(garden, classes: 'btn')
     link_to t('buttons.mark_as_active'),
             garden_path(garden, garden: { active: 1 }),
             method: :put, class: classes
-  end
-
-  def garden_mark_inactive_button(garden, classes: 'btn')
-    link_to t('buttons.mark_as_inactive'),
-            garden_path(garden, garden: { active: 0 }),
-            method: :put, class: classes,
-            data: { confirm: I18n.t('gardens.confirm_deactivate') }
-  end
-
-  def create_button(model_to_create, path, icon, label)
-    return unless can?(:create, model_to_create)
-
-    link_to path, class: "btn btn-sm" do
-      icon + ' ' + label
-    end
-  end
-
-  def crop_edit_button(crop)
-    edit_button(edit_crop_path(crop))
-  end
-
-  def seed_edit_button(seed, classes: "btn btn-raised btn-info")
-    edit_button(edit_seed_path(seed), classes:)
-  end
-
-  def harvest_edit_button(harvest, classes: "btn btn-raised btn-info")
-    edit_button(edit_harvest_path(harvest), classes:)
-  end
-
-  def garden_edit_button(garden, classes: "btn btn-raised btn-info")
-    edit_button(edit_garden_path(garden), classes:)
   end
 
   def planting_edit_button(planting, classes: "btn btn-raised btn-info")
@@ -125,14 +70,6 @@ module ButtonsHelper
     link_to planting_path(slug: planting.slug, planting: { failed: 1 }),
             method: :put, class: "#{classes}" do
       finished_icon + ' ' + t('buttons.mark_as_failed')
-    end
-  end
-
-  def seed_finish_button(seed, classes: 'btn btn-outline-secondary')
-    return unless can?(:create, Planting) && seed.active
-
-    link_to seed_path(seed, seed: { finished: 1 }), method: :put, class: "#{classes} append-date" do
-      finished_icon + ' ' + t('buttons.mark_as_finished')
     end
   end
 
