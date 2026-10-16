@@ -175,6 +175,7 @@ en:
     deleted: Forum was successfully deleted.
   gardens:
     nursery_name: Nursery
+    nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
     nursery_made: This garden is now your nursery.
     nursery_stopped: This garden is no longer your nursery.
     created: Garden was successfully created.

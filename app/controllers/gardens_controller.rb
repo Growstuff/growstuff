@@ -4,11 +4,31 @@ class GardensController < DataController
   # Anyone can look at a member's inactive gardens, as they can their current ones.
   # A garden's layout is public in the same way its show page is.
   skip_before_action :authenticate_member!, only: %i(inactive layout)
-  skip_load_and_authorize_resource only: %i(inactive nursery)
+  skip_load_and_authorize_resource only: %i(inactive nursery create_nursery decline_nursery)
 
-  # The member's own nursery, made the first time they go looking for it.
+  # The member's own nursery. A member without one is asked whether they want
+  # one: an existing garden, a new one, or none.
   def nursery
-    redirect_to garden_path(current_member.nursery)
+    nursery = current_member.gardens.nurseries.first
+    return redirect_to garden_path(nursery) if nursery
+
+    @candidates = current_member.gardens.active.not_nurseries.order_by_name
+  end
+
+  def create_nursery
+    garden = params[:garden_slug].present? ? Garden.find(params[:garden_slug]) : nil
+    if garden
+      authorize! :make_nursery, garden
+      garden.make_nursery!
+    else
+      garden = current_member.nursery
+    end
+    redirect_to garden_path(garden), notice: t('gardens.nursery_made')
+  end
+
+  def decline_nursery
+    current_member.decline_nursery!
+    redirect_to member_gardens_path(current_member), notice: t('gardens.nursery_declined')
   end
 
   def index
@@ -18,6 +38,8 @@ class GardensController < DataController
     @gardens = @gardens.includes(:owner)
     @gardens = @gardens.active
     if @owner.present?
+      @nursery = @owner.gardens.nurseries.first
+      @gardens = @gardens.not_nurseries # shown at the top instead
       @gardens = @gardens.left_joins(:garden_collaborators)
       @gardens = @gardens.where(owner: @owner).or(@gardens.where(garden_collaborators: { member: @owner }))
     end

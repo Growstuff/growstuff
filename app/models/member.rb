@@ -112,6 +112,20 @@ class Member < ApplicationRecord
     update_column(:settings, settings.merge('features_seen' => seen)) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  # Whether they've said they don't want a nursery, so we stop asking. Having
+  # one trumps it.
+  def nursery_declined?
+    settings['nursery_declined'] == true && !gardens.nurseries.exists?
+  end
+
+  def decline_nursery!
+    update_column(:settings, settings.merge('nursery_declined' => true)) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def accept_nursery!
+    update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   # set up geocoding
   geocoded_by :location
 
@@ -254,6 +268,7 @@ class Member < ApplicationRecord
     taken = gardens.pluck(:name)
     name = base
     name = "#{base} #{(2..).find { |n| taken.exclude?("#{base} #{n}") }}" if taken.include?(base)
+    accept_nursery!
     gardens.create!(name:, nursery: true)
   end
 end

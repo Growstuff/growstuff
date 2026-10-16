@@ -21,17 +21,21 @@
     - if @owner.present?
       %hr/
       = render @owner
-      - if @owner == current_member
-        .nursery-link.sidebar-inset.mt-3
-          = link_to 'Your nursery', nursery_path, class: 'd-block'
-          %small.text-muted
-            Where you raise seedlings before planting them out in a garden.
+      - if @nursery.nil?
+        .nursery-status.sidebar-inset.mt-3
+          %strong= "#{@owner} has no seedling raising nursery."
+          - if @owner == current_member
+            %small.d-block.text-muted
+              A nursery is where you raise seedlings before planting them out.
+            = link_to (@owner.nursery_declined? ? 'Change this' : 'Set one up'), nursery_path
       .inactive-gardens-link.sidebar-inset.mt-3
         = link_to 'Inactive gardens', member_inactive_gardens_path(@owner), class: 'd-block'
         %small.text-muted
           Gardens no longer in use. Their plantings are kept here as a record of what was grown.
 
   .col-md-10#content
+    - if @owner.present? && (@nursery || (@owner == current_member && !@owner.nursery_declined?))
+      = render 'gardens/nursery_panel', owner: @owner, nursery: @nursery
     - if @gardens.empty?
       %p There are no gardens to display.
       - if can?(:create, Garden) && @owner == current_member

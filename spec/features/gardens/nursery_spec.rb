@@ -5,20 +5,74 @@ require 'rails_helper'
 describe "Nursery" do
   include_context 'signed in member'
 
-  describe "finding it from my gardens" do
+  describe "my gardens page" do
     before { visit member_gardens_path(member) }
 
-    it "links to the nursery" do
-      click_link 'Your nursery'
-      expect(page).to have_css '.badge', text: 'Nursery'
+    context "without a nursery" do
+      it "offers to set one up" do
+        expect(page).to have_link 'Set up a nursery'
+      end
+
+      it "says there is none" do
+        expect(page).to have_content "#{member} has no seedling raising nursery"
+      end
+    end
+
+    context "with seedlings in the nursery" do
+      let(:crop) { create(:crop, name: 'tomato') }
+
+      before do
+        create(:planting, garden: member.nursery, owner: member, crop:, quantity: 6)
+        visit member_gardens_path(member)
+      end
+
+      it "sows in a dialog" do
+        click_button 'Sow seeds in the nursery'
+        expect(page).to have_css '.modal', text: 'Plant something in Nursery'
+      end
+
+      it "lists the seedlings above the gardens" do
+        within('.nursery-panel') { expect(page).to have_link 'tomato' }
+      end
     end
   end
 
-  describe "visiting the nursery" do
-    before { visit nursery_path }
+  describe "choosing a nursery" do
+    before do
+      member.gardens.first.update!(name: 'Backyard')
+      visit nursery_path
+    end
 
-    it "makes the nursery" do
-      expect(member.gardens.nurseries.count).to eq 1
+    it "explains what a nursery is" do
+      expect(page).to have_content 'where you raise seedlings'
+    end
+
+    it "can use an existing garden" do
+      click_button 'Use this garden as my nursery'
+      expect(member.gardens.nurseries.first.name).to eq 'Backyard'
+    end
+
+    it "can make a new nursery" do
+      click_button 'Make a nursery'
+      expect(member.gardens.nurseries.first.name).to eq 'Nursery'
+    end
+
+    it "can opt out" do
+      click_button 'No nursery for me'
+      expect(page).to have_content "#{member} has no seedling raising nursery"
+    end
+
+    it "lets them change their mind" do
+      click_button 'No nursery for me'
+      click_link 'Change this'
+      expect(page).to have_button 'Make a nursery'
+    end
+  end
+
+  describe "visiting my nursery" do
+    before do
+      member.nursery
+      visit nursery_path
     end
 
     it "shows the nursery garden" do

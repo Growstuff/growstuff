@@ -1,0 +1,37 @@
+- content_for :title, 'Your nursery'
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Gardens', gardens_path
+  %li.breadcrumb-item.active Nursery
+
+%h1 Your nursery
+
+.mb-4
+  = render 'gardens/what_is_a_nursery'
+
+.row.row-cols-1.row-cols-md-3.g-3
+  .col
+    .card.h-100
+      .card-body
+        %h2.h5.card-title Use a garden you have
+        - if @candidates.any?
+          = form_tag nursery_path, method: :post do
+            = label_tag :garden_slug, 'Which garden?', class: 'form-label'
+            = select_tag :garden_slug, options_from_collection_for_select(@candidates, :slug, :name), class: 'form-select mb-3'
+            = submit_tag 'Use this garden as my nursery', class: 'btn btn-primary'
+        - else
+          %p.card-text.text-muted You don't have another garden to use.
+  .col
+    .card.h-100
+      .card-body
+        %h2.h5.card-title Make a new one
+        %p.card-text.text-muted We'll make a garden called Nursery just for your seedlings.
+        = button_to 'Make a nursery', nursery_path, method: :post, class: 'btn btn-primary'
+  .col
+    .card.h-100
+      .card-body
+        %h2.h5.card-title I don't need one
+        %p.card-text.text-muted
+          Skip raising seedlings on Growstuff. We won't ask again, and you can change your mind
+          from your gardens page.
+        = button_to 'No nursery for me', decline_nursery_path, method: :post, class: 'btn btn-outline-secondary'

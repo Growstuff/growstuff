@@ -1,0 +1,23 @@
+-# The member's nursery, above their gardens: where seedlings are raised before
+-# they're planted out. A member who hasn't chosen one yet is asked about it.
+- seedlings = nursery ? nursery.plantings.current.includes(:crop).order(planted_at: :desc) : Planting.none
+.card.nursery-panel.mb-4
+  .card-body
+    %h2.h4.card-title
+      = garden_icon
+      = nursery ? link_to(nursery.name, nursery) : 'Nursery'
+    - if nursery.nil?
+      = render 'gardens/what_is_a_nursery'
+      = link_to 'Set up a nursery', nursery_path, class: 'btn btn-primary'
+    - else
+      - if seedlings.empty?
+        %p.card-text.text-muted There are no seedlings in the nursery.
+      - else
+        %ul.list-unstyled
+          - seedlings.each do |seedling|
+            %li
+              = link_to seedling.display_name, seedling
+              - if seedling.quantity.present?
+                %small.text-muted= "× #{seedling.quantity}"
+      - if can?(:edit, nursery)
+        = react_component 'NurseryPlanter', { garden: { id: nursery.id, name: nursery.name }, label: 'Sow seeds in the nursery', buttonClass: 'btn btn-primary' }
