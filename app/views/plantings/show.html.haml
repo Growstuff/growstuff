@@ -14,7 +14,7 @@
 - if @planting.parent_seed.nil? && @matching_seeds && @matching_seeds.any? && @planting.owner == current_member
   .alert.alert-info{role: "alert"}
     = bootstrap_form_for(@planting) do |f|
-      Is this from one of these plantings?
+      Is this from one of these seeds?
       - @matching_seeds.each do |seed|
         = f.radio_button :parent_seed_id, seed.id, label: seed
       = f.submit "save", class: 'btn btn-sm btn-primary'

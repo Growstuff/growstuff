@@ -81,11 +81,11 @@ describe "Display a planting", :js do
       let(:seed) { create(:seed, saved_at: 1.month.ago, owner: member) }
       let(:planting) { create(:planting, planted_at: 1.day.ago, crop: seed.crop, owner: member) }
 
-      it { expect(page).to have_text 'Is this from one of these plantings? ' }
+      it { expect(page).to have_text 'Is this from one of these seeds?' }
 
       describe 'linking to the parent seed' do
         before do
-          choose "planting_parent_seed_id_#{planting.id}"
+          choose "planting_parent_seed_id_#{seed.id}"
           click_button 'save'
         end
 
