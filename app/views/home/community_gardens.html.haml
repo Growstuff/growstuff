@@ -25,7 +25,7 @@
         %h2= t('community_gardens.get_started')
         %p= t('community_gardens.get_started_text')
         %p
-          = link_to t('.sign_up'), new_member_registration_path, class: 'btn btn-success btn-lg'
+          = link_to t('.sign_up'), new_member_registration_path, data: { auth_dialog: 'sign_up' }, class: 'btn btn-success btn-lg'
       .row
         %h2= t('community_gardens.collaborate')
         %p= t('community_gardens.collaborate_text')

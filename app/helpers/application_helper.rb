@@ -17,6 +17,20 @@ module ApplicationHelper
     { label:, icon_url: image_path('icons/photo.svg') }
   end
 
+  # What the AuthDialog island needs: where each dialog's form posts (and the
+  # pages they stand in for), the captcha's site key, and the site's name.
+  def auth_dialog_props
+    {
+      urls: {
+        sign_in_page: new_member_session_path, sign_up_page: new_member_registration_path,
+        sign_in: member_session_path, sign_up: member_registration_path,
+        forgot_password: new_member_password_path
+      },
+      recaptcha_site_key: Recaptcha.configuration.site_key.presence,
+      site_name: ENV.fetch('GROWSTUFF_SITE_NAME', 'Growstuff')
+    }
+  end
+
   # Whether the page being shown is one of these paths or something under one,
   # for marking which part of the site the top menu's link belongs to. Any
   # anchor or query on a path is ignored.

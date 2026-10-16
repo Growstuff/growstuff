@@ -1,5 +1,10 @@
 !!! 5
 %html{ lang: "en", prefix: "og: https://ogp.me/ns#" }
+  -# The sign in and sign up dialogs need the islands bundle on every page a
+  -# visitor can see, and a page that already asked for it must not load it twice.
+  - unless member_signed_in? || content_for(:scripts).to_s.include?('react_islands')
+    - content_for :scripts do
+      = javascript_include_tag 'react_islands', defer: true
   = yield :scripts
   = render "layouts/head"
   %body.d-flex.flex-column.vh-100
@@ -25,9 +30,12 @@
         = render "shared/flash_messages", flash: flash
         %main= yield
 
-    -# Every "add photo" link opens its dialog over the page (see PhotoDialog).
+    -# Every "add photo" link opens its dialog over the page (see PhotoDialog), and
+    -# every sign in and sign up link its own (see AuthDialog).
     - if member_signed_in?
       = react_component 'PhotoDialog', photo_dialog_props
+    - else
+      = react_component 'AuthDialog', auth_dialog_props
 
     %footer.page-footer.font-small.bg-dark.pt-4.mt-auto= render "layouts/footer"
     /

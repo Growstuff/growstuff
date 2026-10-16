@@ -24,4 +24,4 @@
         %p= t(".#{key}.body")
   .home-why-cta
     %p= t('.ready')
-    = link_to(t('home.blurb.sign_up'), new_member_registration_path, class: 'btn btn-success btn-lg')
+    = link_to(t('home.blurb.sign_up'), new_member_registration_path, data: { auth_dialog: 'sign_up' }, class: 'btn btn-success btn-lg')

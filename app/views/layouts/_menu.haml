@@ -18,8 +18,8 @@
   .offcanvas-body
     - unless member_signed_in?
       .drawer-join.d-lg-none
-        = link_to t('.sign_up'), new_member_registration_path, class: 'btn btn-signup'
-        = link_to t('.sign_in'), new_member_session_path, class: 'btn btn-signin'
+        = link_to t('.sign_up'), new_member_registration_path, data: { auth_dialog: 'sign_up' }, class: 'btn btn-signup'
+        = link_to t('.sign_in'), new_member_session_path, data: { auth_dialog: 'sign_in' }, class: 'btn btn-signin'
     %ul.navbar-nav.me-auto
       - if signed_in?
         %li.nav-item
@@ -161,5 +161,5 @@
               = t('.sign_out')
 
       - else
-        %li.nav-item.d-none.d-lg-block= link_to t('.sign_in'), new_member_session_path, id: 'navbar-signin', class: 'nav-link'
-        %li.nav-item.d-none.d-lg-block= link_to t('.sign_up'), new_member_registration_path, id: 'navbar-signup', class: 'btn btn-signup'
+        %li.nav-item.d-none.d-lg-block= link_to t('.sign_in'), new_member_session_path, data: { auth_dialog: 'sign_in' }, id: 'navbar-signin', class: 'nav-link'
+        %li.nav-item.d-none.d-lg-block= link_to t('.sign_up'), new_member_registration_path, data: { auth_dialog: 'sign_up' }, id: 'navbar-signup', class: 'btn btn-signup'

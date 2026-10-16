@@ -56,6 +56,15 @@ class RegistrationsController < Devise::RegistrationsController
 
   private
 
+  # The sign up dialog goes to wherever the server would have redirected. A
+  # failure is the responder's 422 with the model's `errors`.
+  def respond_with(resource, *args, &)
+    options = args.last.is_a?(Hash) ? args.last : {}
+    return render json: { location: options[:location] } if request.format.json? && resource.persisted?
+
+    super
+  end
+
   def sign_up_params
     params.require(:member).permit(:login_name, :email, :tos_agreement, :newsletter, :password, :password_confirmation)
   end
@@ -66,6 +75,12 @@ class RegistrationsController < Devise::RegistrationsController
     self.resource = resource_class.new sign_up_params
     resource.validate # Look for any other validation errors besides reCAPTCHA
     set_minimum_password_length
+
+    if request.format.json?
+      resource.errors.add(:base, flash[:recaptcha_error].presence || 'Please confirm that you are not a robot')
+      flash.discard(:recaptcha_error)
+      return render json: { errors: resource.errors }, status: :unprocessable_entity
+    end
 
     respond_with_navigational(resource) do
       flash.discard(:recaptcha_error) # We need to discard flash to avoid showing it on the next page reload
