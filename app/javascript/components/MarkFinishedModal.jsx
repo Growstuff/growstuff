@@ -1,15 +1,8 @@
 import React, {useState} from 'react';
 
 import {patchJson} from '../api';
-import {formatDate} from '../dates';
+import {daysBefore, formatDate} from '../dates';
 import Modal from './Modal';
-
-// "2026-09-21" a number of days earlier (or later, if negative), as
-// "2026-09-20". Worked out in UTC so the browser's time zone can't shift it.
-function daysBefore(iso, days) {
-  const [year, month, day] = iso.split('-').map(Number);
-  return new Date(Date.UTC(year, month - 1, day - days)).toISOString().slice(0, 10);
-}
 
 function errorMessages(status, data) {
   if (status === 422 && data && data.errors) {
