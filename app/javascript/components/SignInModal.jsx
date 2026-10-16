@@ -40,13 +40,13 @@ export default function SignInModal({urls, onClose, onSwitch}) {
   }
 
   return (
-    <Modal title="Sign in" titleId="sign-in-title" onClose={onClose}>
+    <Modal title="Sign in" titleId="sign-in-title" onClose={onClose} size={null}>
       <form onSubmit={submit} noValidate>
-        <div className="modal-body">
+        <div className="modal-body fs-5">
           <FormErrors messages={errors} />
           <TextField id="sign-in-login" label="Login name or email" autoComplete="username" value={login} onChange={(event) => setLogin(event.target.value)} required />
           <TextField id="sign-in-password" label="Password" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required />
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div className="form-check">
               <input id="sign-in-remember" type="checkbox" className="form-check-input" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
               <label className="form-check-label" htmlFor="sign-in-remember">Keep me signed in</label>
@@ -55,10 +55,10 @@ export default function SignInModal({urls, onClose, onSwitch}) {
           </div>
         </div>
         <div className="modal-footer d-block">
-          <button type="submit" className="btn btn-success w-100" disabled={saving} aria-busy={saving}>
+          <button type="submit" className="btn btn-success btn-lg w-100" disabled={saving} aria-busy={saving}>
             {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Signing in…</> : 'Sign in'}
           </button>
-          <p className="text-center mb-0 mt-3">
+          <p className="text-center fs-5 mb-0 mt-3">
             New here? <a href={urls.sign_up_page} onClick={(event) => { event.preventDefault(); onSwitch(); }}>Join free</a>
           </p>
         </div>

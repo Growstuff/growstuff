@@ -26,7 +26,7 @@ export function TextField({id, label, hint, errors = [], ...inputProps}) {
       <label className="form-label fw-semibold" htmlFor={id}>{label}</label>
       <input
         id={id}
-        className={`form-control${errors.length > 0 ? ' is-invalid' : ''}`}
+        className={`form-control form-control-lg${errors.length > 0 ? ' is-invalid' : ''}`}
         aria-describedby={describedBy}
         aria-invalid={errors.length > 0 || undefined}
         {...inputProps}

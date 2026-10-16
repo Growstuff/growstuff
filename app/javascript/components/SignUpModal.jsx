@@ -68,9 +68,9 @@ export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, 
 
   const on = errors.byField;
   return (
-    <Modal title={`Join ${siteName}`} titleId="sign-up-title" onClose={onClose}>
+    <Modal title={`Join ${siteName}`} titleId="sign-up-title" onClose={onClose} size={null}>
       <form onSubmit={submit} noValidate>
-        <div className="modal-body">
+        <div className="modal-body fs-5">
           <p>Sign up to track your vegetable garden and connect with other local growers.</p>
           <FormErrors messages={errors.other} />
           <TextField id="sign-up-login-name" label="Login name" hint="This is the name that will show on the website." autoComplete="username" value={values.login_name} onChange={set('login_name')} errors={on.login_name} required />
@@ -90,10 +90,10 @@ export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, 
           <p className="form-text mb-0">If you have accessibility issues with the captcha, please contact us via the links in the footer and we will help.</p>
         </div>
         <div className="modal-footer d-block">
-          <button type="submit" className="btn btn-success w-100" disabled={saving} aria-busy={saving}>
+          <button type="submit" className="btn btn-success btn-lg w-100" disabled={saving} aria-busy={saving}>
             {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Joining…</> : 'Sign up'}
           </button>
-          <p className="text-center mb-0 mt-3">
+          <p className="text-center fs-5 mb-0 mt-3">
             Already a member? <a href={urls.sign_in_page} onClick={(event) => { event.preventDefault(); onSwitch(); }}>Sign in</a>
           </p>
         </div>
