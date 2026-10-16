@@ -11,11 +11,26 @@ module ApplicationHelper
     content_tag(:div, block ? capture(&block) : '', html_options.merge(data: { react_component: name, props: props.to_json }))
   end
 
-  # What the PhotoDialog island needs: the record's name, for the dialog's
-  # heading and its "add this photo to..." confirmation, and the icon in its
-  # header. The links it opens from carry the rest.
-  def photo_dialog_props(label)
+  # What the PhotoDialog island needs: a fallback name for the dialog's heading,
+  # and the icon in its header. The links it opens from carry the rest.
+  def photo_dialog_props(label = 'this record')
     { label:, icon_url: image_path('icons/photo.svg') }
+  end
+
+  # The name an add-photo link gives the dialog.
+  def photo_label(model)
+    case model
+    when Seed then "#{model.crop.name} seeds"
+    when Harvest then "#{model.crop.name} harvest"
+    when Garden then "#{model.name} garden"
+    when Planting then model.display_name
+    when Post then model.subject
+    end
+  end
+
+  # The data attributes that make an add-photo link open the dialog.
+  def photo_dialog_data(model)
+    { photo_dialog: true, photo_label: photo_label(model) }
   end
 
   # Whether the page being shown is one of these paths or something under one,

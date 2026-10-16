@@ -9,8 +9,7 @@
       = menu_link_to :planting, t('buttons.mark_as_active'), garden_path(garden, garden: { active: 1 }),
                      method: :put
     = menu_link_to :edit, t('buttons.edit'), edit_garden_path(garden)
-    - if can?(:create, Photo)
-      = menu_link_to :add_photo, t('buttons.add_photo'), new_photo_path(id: garden.id, type: 'garden')
+    = menu_add_photo_link(garden)
     - if can?(:destroy, garden)
       .dropdown-divider
       = menu_delete_button(garden, message: 'gardens.confirm_delete')

@@ -7,9 +7,7 @@
   .record-actions
     = actions_menu('seed') do
       = menu_modal_link(:edit, t('buttons.edit'), '#seed-edit-modal')
-      - if can? :create, Photo
-        = menu_link_to :add_photo, t('buttons.add_photo'), new_photo_path(id: seed.id, type: 'seed'),
-                       data: { photo_dialog: true }
+      = menu_add_photo_link(seed)
       - if can?(:create, Planting) && can?(:update, seed) && seed.active
         = menu_link_to :planting, 'Plant seeds', new_planting_path(seed_id: seed)
       - if can?(:create, Planting) && seed.active
@@ -21,7 +19,3 @@
     -# The dialog the Edit item opens. Outside the dropdown, so it is not torn
     -# down with the menu when it closes.
     = render 'seeds/edit_modal', seed: seed
-    -# Opens the add-photo dialog over the page, for both the menu item above
-    -# and the "add" on the photos heading bar.
-    - if can? :create, Photo
-      = react_component 'PhotoDialog', photo_dialog_props("#{seed.crop.name} seeds")

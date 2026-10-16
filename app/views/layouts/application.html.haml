@@ -25,6 +25,10 @@
         = render "shared/flash_messages", flash: flash
         %main= yield
 
+    -# Every "add photo" link opens its dialog over the page (see PhotoDialog).
+    - if member_signed_in?
+      = react_component 'PhotoDialog', photo_dialog_props
+
     %footer.page-footer.font-small.bg-dark.pt-4.mt-auto= render "layouts/footer"
     /
       Javascripts

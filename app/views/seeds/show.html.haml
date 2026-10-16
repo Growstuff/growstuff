@@ -70,7 +70,7 @@
             %h2 Photos
             - if can?(:edit, @seed) && can?(:create, Photo)
               - add_photo = new_photo_path(id: @seed.id, type: 'seed')
-              = link_to add_photo, class: 'btn btn-sm section-add', data: { photo_dialog: true } do
+              = link_to add_photo, class: 'btn btn-sm section-add', data: photo_dialog_data(@seed) do
                 = icon 'fas', 'plus'
                 add
           - if @photos.any?
