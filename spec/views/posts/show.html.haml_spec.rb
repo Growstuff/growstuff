@@ -120,8 +120,12 @@ describe "posts/show" do
       render
     end
 
-    it 'shows a comment button' do
-      expect(subject).to have_link "Comment", href: new_comment_path(comment: { commentable_type: "Post", commentable_id: post.id })
+    it 'shows a comment button that jumps to the comment form' do
+      expect(subject).to have_link "Comment", href: '#new-comment'
+    end
+
+    it 'shows the comment form on the page' do
+      expect(subject).to have_css "#new-comment form[action='#{comments_path}']"
     end
   end
 end
