@@ -1,13 +1,7 @@
 = render 'devise/shared/card', title: 'Sign in' do
-  = form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f|
-    .mb-3
-      = f.label :login, 'Login name or email', class: 'form-label fw-semibold'
-      = f.text_field :login, class: 'form-control', autocomplete: 'username', required: true
-    .mb-3
-      = f.label :password, class: 'form-label fw-semibold'
-      = f.password_field :password, class: 'form-control', autocomplete: 'current-password', required: true
+  = bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+    = f.text_field :login, label: 'Login name or email', autocomplete: 'username', required: true
+    = f.password_field :password, autocomplete: 'current-password', required: true
     - if devise_mapping.rememberable?
-      .form-check.mb-3
-        = f.check_box :remember_me, class: 'form-check-input'
-        = f.label :remember_me, 'Keep me signed in', class: 'form-check-label'
+      = f.check_box :remember_me, label: 'Keep me signed in'
     = f.submit 'Sign in', class: 'btn btn-success w-100'

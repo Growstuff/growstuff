@@ -1,5 +1,7 @@
-= render 'devise/shared/card', title: "Join #{ENV['GROWSTUFF_SITE_NAME']}" do
-  %p Sign up for a #{ENV['GROWSTUFF_SITE_NAME']} account to track your vegetable garden and connect with other local growers.
+- site_name = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
+
+= render 'devise/shared/card', title: "Join #{site_name}" do
+  %p Sign up for a #{site_name} account to track your vegetable garden and connect with other local growers.
   %p If you have accessibility issues with the captcha, please contact us via the links in the footer and we will help.
 
   = bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { data: { turbo: false } }) do |f|
@@ -7,16 +9,14 @@
 
     = f.text_field :login_name, help: 'This is the name that will show on the website.'
     = f.email_field :email, help: "We'll use this address to contact you (we never spam!)"
-    = f.password_field :password, type: :password
+    = f.password_field :password
     = f.password_field :password_confirmation
 
-    = f.check_box :tos_agreement, label: "I agree to the #{link_to 'Terms of Service', '/policy/tos'}".html_safe
-    = f.check_box :newsletter, checked: true, label: "Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter"
-    %p.form-text= render partial: 'newsletter_blurb'
+    = f.check_box :tos_agreement, label: safe_join(['I agree to the ', link_to('Terms of Service', '/policy/tos')])
+    = f.check_box :newsletter, checked: true, label: "Subscribe to the #{site_name} newsletter"
+    %p.form-text= render 'newsletter_blurb'
 
     = f.submit 'Sign up', class: 'btn w-100 btn-success'
 
-    -# START add reCAPTCHA
     = flash[:recaptcha_error]
     = recaptcha_tags
-    -# END add reCAPTCHA

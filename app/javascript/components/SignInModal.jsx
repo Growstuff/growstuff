@@ -1,13 +1,8 @@
 import React, {useState} from 'react';
 
 import {postJson} from '../api';
-import {FormErrors, TextField} from './AuthFields';
+import {AuthFooter, CheckField, FormErrors, TextField} from './AuthFields';
 import Modal from './Modal';
-
-function failure(status, data) {
-  if (status === 401 && data && data.error) return [data.error];
-  return ['Something went wrong signing in. Please try again.'];
-}
 
 // Signing in, as a dialog over the page the link was on. It posts to Devise's
 // own sessions#create as JSON, and on success reloads that page, now signed in
@@ -32,9 +27,9 @@ export default function SignInModal({urls, onClose, onSwitch}) {
         setTimeout(() => window.location.reload(), 0);
         return;
       }
-      setErrors(failure(status, data));
+      setErrors([status === 401 && data && data.error ? data.error : 'Something went wrong signing in. Please try again.']);
     } catch (error) {
-      setErrors(failure(0, null));
+      setErrors(['Something went wrong signing in. Please try again.']);
     }
     setSaving(false);
   }
@@ -47,21 +42,11 @@ export default function SignInModal({urls, onClose, onSwitch}) {
           <TextField id="sign-in-login" label="Login name or email" autoComplete="username" value={login} onChange={(event) => setLogin(event.target.value)} required />
           <TextField id="sign-in-password" label="Password" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required />
           <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <div className="form-check">
-              <input id="sign-in-remember" type="checkbox" className="form-check-input" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
-              <label className="form-check-label" htmlFor="sign-in-remember">Keep me signed in</label>
-            </div>
+            <CheckField id="sign-in-remember" label="Keep me signed in" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
             <a href={urls.forgot_password}>Forgot password?</a>
           </div>
         </div>
-        <div className="modal-footer d-block">
-          <button type="submit" className="btn btn-success btn-lg w-100" disabled={saving} aria-busy={saving}>
-            {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Signing in…</> : 'Sign in'}
-          </button>
-          <p className="text-center fs-5 mb-0 mt-3">
-            New here? <a href={urls.sign_up_page} onClick={(event) => { event.preventDefault(); onSwitch(); }}>Join free</a>
-          </p>
-        </div>
+        <AuthFooter busy={saving} label="Sign in" busyLabel="Signing in…" prompt="New here?" switchLabel="Join free" switchHref={urls.sign_up_page} onSwitch={onSwitch} />
       </form>
     </Modal>
   );

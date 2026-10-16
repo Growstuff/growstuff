@@ -60,7 +60,7 @@ class RegistrationsController < Devise::RegistrationsController
   # failure is the responder's 422 with the model's `errors`.
   def respond_with(resource, *args, &)
     options = args.last.is_a?(Hash) ? args.last : {}
-    return render json: { location: options[:location] } if request.format.json? && request.post? && resource.persisted?
+    return render json: { location: options[:location] } if request.format.json? && resource.persisted?
 
     super
   end

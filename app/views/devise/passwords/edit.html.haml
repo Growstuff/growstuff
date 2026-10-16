@@ -1,13 +1,9 @@
 - content_for :title, 'Change your password'
 
 = render 'devise/shared/card', title: 'Change your password' do
-  = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, role: 'form' }) do |f|
+  = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
     = render 'devise/shared/error_messages', resource: resource
     = f.hidden_field :reset_password_token
-    .mb-3
-      = f.label :password, 'New password', class: 'form-label fw-semibold'
-      = f.password_field :password, class: 'form-control', autocomplete: 'new-password', autofocus: true
-    .mb-3
-      = f.label :password_confirmation, 'Confirm new password', class: 'form-label fw-semibold'
-      = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'new-password'
+    = f.password_field :password, label: 'New password', autocomplete: 'new-password', autofocus: true
+    = f.password_field :password_confirmation, label: 'Confirm new password', autocomplete: 'new-password'
     = f.submit 'Change my password', class: 'btn btn-success w-100'

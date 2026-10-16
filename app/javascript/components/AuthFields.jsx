@@ -1,21 +1,28 @@
 import React from 'react';
 
-// Devise's error keys, as the field they belong to, for showing each message
-// against its input. Anything else (the captcha, say) is shown above the form.
+const humanize = (key) => key.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
+
+// Devise's `errors` ({field: [messages]}) split into the messages for the
+// fields named, to show against their inputs, and the rest (the captcha, say),
+// to show above the form.
 export function fieldErrors(data, fields) {
-  const errors = data && data.errors ? data.errors : {};
   const byField = {};
   const other = [];
-  Object.entries(errors).forEach(([key, messages]) => {
+  Object.entries((data && data.errors) || {}).forEach(([key, messages]) => {
     messages.forEach((message) => {
       if (fields.includes(key)) {
         byField[key] = [...(byField[key] || []), message];
       } else {
-        other.push(key === 'base' ? message : `${key.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase())} ${message}`);
+        other.push(key === 'base' ? message : `${humanize(key)} ${message}`);
       }
     });
   });
   return {byField, other};
+}
+
+function Errors({id, messages}) {
+  if (messages.length === 0) return null;
+  return <div className="invalid-feedback d-block" id={id}>{messages.join(', ')}</div>;
 }
 
 // A labelled input with its errors under it, wired up for assistive technology.
@@ -32,7 +39,24 @@ export function TextField({id, label, hint, errors = [], ...inputProps}) {
         {...inputProps}
       />
       {hint ? <div className="form-text" id={`${id}-hint`}>{hint}</div> : null}
-      {errors.length > 0 ? <div className="invalid-feedback d-block" id={`${id}-errors`}>{errors.join(', ')}</div> : null}
+      <Errors id={`${id}-errors`} messages={errors} />
+    </div>
+  );
+}
+
+// A checkbox; `label` may contain a link.
+export function CheckField({id, label, errors = [], ...inputProps}) {
+  return (
+    <div className="form-check mb-2">
+      <input
+        id={id}
+        type="checkbox"
+        className={`form-check-input${errors.length > 0 ? ' is-invalid' : ''}`}
+        aria-describedby={errors.length > 0 ? `${id}-errors` : undefined}
+        {...inputProps}
+      />
+      <label className="form-check-label" htmlFor={id}>{label}</label>
+      <Errors id={`${id}-errors`} messages={errors} />
     </div>
   );
 }
@@ -42,6 +66,20 @@ export function FormErrors({messages}) {
   return (
     <div className="alert alert-danger" role="alert">
       {messages.map((message) => <div key={message}>{message}</div>)}
+    </div>
+  );
+}
+
+// The foot of both dialogs: the submit button, and the link across to the other dialog.
+export function AuthFooter({busy, label, busyLabel, prompt, switchLabel, switchHref, onSwitch}) {
+  return (
+    <div className="modal-footer d-block">
+      <button type="submit" className="btn btn-success btn-lg w-100" disabled={busy} aria-busy={busy}>
+        {busy ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> {busyLabel}</> : label}
+      </button>
+      <p className="text-center fs-5 mb-0 mt-3">
+        {prompt} <a href={switchHref} onClick={(event) => { event.preventDefault(); onSwitch(); }}>{switchLabel}</a>
+      </p>
     </div>
   );
 }
