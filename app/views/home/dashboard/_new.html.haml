@@ -16,17 +16,13 @@
       - if path == :location && !done
         = render 'home/dashboard/location_picker', label: t('home.dashboard.step_location_button'), button_class: 'btn btn-success'
       - elsif path == :plant && !done
-        - garden = dashboard.gardens.first
-        - if garden
-          = react_component('PlantPicker', { label: t('home.dashboard.step_plant_button'), buttonClass: 'btn btn-success', garden: { id: garden.id, name: garden.name } }, class: 'd-inline-block')
-        - else
-          = link_to t('home.dashboard.step_plant_button'), new_planting_path, class: 'btn btn-success'
+        = plant_picker(dashboard, label: t('home.dashboard.step_plant_button'), button_class: 'btn btn-success', wrapper_class: 'd-inline-block')
       - elsif path && !done
         = link_to t('home.dashboard.do_it'), path, class: 'btn btn-success'
 
 - crops = dashboard.easy_to_sow
 - if crops.any? || dashboard.dismissed_count.positive? || !dashboard.suggestions_enabled?
-  = home_section(t('home.dashboard.easy_to_sow', month: current_month_name), action: link_to(t('home.index.plant'), new_planting_path, class: 'home-section-add')) do
+  = home_section(t('home.dashboard.easy_to_sow', month: current_month_name), action: plant_picker(dashboard, label: t('home.index.plant'), button_class: 'home-section-add')) do
     .home-crops
       = render partial: 'home/dashboard/crop_card', collection: crops, as: :crop, locals: { dashboard: }
     = render 'home/dashboard/hidden_suggestions', dashboard:

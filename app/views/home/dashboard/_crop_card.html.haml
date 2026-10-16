@@ -3,5 +3,5 @@
   = link_to crop_path(crop) do
     = image_tag((crop.default_photo&.thumbnail_url || placeholder_image), alt: crop.name)
     %span.home-crop-name= crop.name
-  = render 'home/dashboard/plant_button', dashboard:, crop:, label: t('home.dashboard.plant_this'), button_class: 'home-crop-go'
+  = plant_picker(dashboard, crop:, label: t('home.dashboard.plant_this'), button_class: 'home-crop-go')
   = render 'home/dashboard/not_for_me', crop:, button_class: 'home-crop-dismiss'

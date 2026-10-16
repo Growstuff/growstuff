@@ -93,6 +93,8 @@ class GardensController < DataController
 
   def new
     @garden = Garden.new
+    return render json: GardenFormSerializer.new(@garden, member: current_member) if request.format.json?
+
     respond_with(@garden)
   end
 
@@ -104,6 +106,8 @@ class GardensController < DataController
 
   def create
     @garden.owner_id = current_member.id
+    return render_card_json(@garden.save) if request.format.json?
+
     if @garden.save
       link = new_activity_path(name: 'Weed the garden bed', garden_id: @garden.id, due_date: 2.weeks.from_now.to_date)
       flash[:notice] = t('gardens.created_prompt_html', link: link).html_safe
