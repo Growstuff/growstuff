@@ -44,5 +44,11 @@ describe TimelineService do
     it { expect(subject[2].event_type).to eq 'seed' }
     it { expect(subject[3].id).to eq my_post.id }
     it { expect(subject[3].event_type).to eq 'post' }
+
+    it 'excludes future dated harvests' do
+      future_harvest = create(:harvest, owner: friend, harvested_at: 2.days.from_now)
+      harvest_ids = subject.select { |e| e.event_type == 'harvest' }.map(&:id)
+      expect(harvest_ids).not_to include(future_harvest.id)
+    end
   end
 end

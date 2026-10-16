@@ -144,6 +144,11 @@ describe Neighbours do
       expect(neighbours.feed).to be_empty
     end
 
+    it 'excludes future dated harvests' do
+      create(:harvest, owner: friend, harvested_at: 1.day.from_now)
+      expect(neighbours.feed).to be_empty
+    end
+
     it 'says when there are more days to show' do
       create_list(:planting, Neighbours::FEED_EVENTS + 1, owner: friend, garden: friend.gardens.first, planted_at: Date.new(2026, 10, 12))
       shown = neighbours.feed.flat_map(&:updates).sum { |entry| entry.items.size }

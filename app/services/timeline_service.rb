@@ -68,7 +68,7 @@ class TimelineService
   end
 
   def self.harvests_query
-    Harvest.select(
+    Harvest.where('harvested_at <= ?', Time.zone.today).select(
       :id,
       "'harvest' as event_type",
       'harvested_at as event_at',
