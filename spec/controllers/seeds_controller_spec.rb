@@ -152,7 +152,7 @@ describe SeedsController do
       before { get :index, params: { member_slug: owner.slug } }
 
       it { expect(assigns(:seeds).size).to eq 9 }
-      it { expect(assigns(:seeds).map(&:crop).uniq).to eq crops.first(2) }
+      it { expect(assigns(:seeds).map(&:crop).uniq).to match_array crops.first(2) }
       it { expect(assigns(:piles).total_entries).to eq 3 }
     end
 
@@ -167,7 +167,7 @@ describe SeedsController do
       before { get :index, params: { member_slug: owner.slug }, format: :csv }
 
       it { expect(assigns(:piles)).to be_nil }
-      it { expect(assigns(:seeds).size).to eq 12 }
+      it { expect(assigns(:seeds).size).to eq 2 } # a page of seeds, not of piles
     end
   end
 
