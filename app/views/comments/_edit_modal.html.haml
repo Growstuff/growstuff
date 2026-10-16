@@ -1,0 +1,3 @@
+= form_modal(comment, id: "comment-#{comment.id}-edit-modal", title: 'Edit comment') do |f|
+  = f.text_area :body, rows: 6, required: true, label: 'Your comment'
+  %span.form-text= render 'shared/markdown_help'

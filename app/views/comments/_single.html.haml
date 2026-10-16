@@ -5,11 +5,13 @@
         = render "members/tiny", member: comment.author
         - if can?(:edit, comment) || can?(:destroy, comment)
           %hr/
-          = actions_menu('comment', align: :start) do
+          = actions_menu('comment', id: comment.id, align: :start) do
             - if can? :edit, comment
-              = menu_link_to :edit, t('buttons.edit'), edit_comment_path(comment)
+              = menu_modal_link :edit, t('buttons.edit'), "#comment-#{comment.id}-edit-modal"
             - if can? :destroy, comment
               = menu_delete_button(comment)
+          - if can? :edit, comment
+            = render 'comments/edit_modal', comment:
       .col-md-9.border-start
         .comment-meta.text-muted
           Posted by
