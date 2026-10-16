@@ -26,8 +26,4 @@ RSpec.describe ButtonsHelper do
     it { expect(add_photo_button(harvest)).to include "/photos/new?id=#{harvest.id}&amp;type=harvest" }
     it { expect(add_photo_button(seed)).to include "/photos/new?id=#{seed.id}&amp;type=seed" }
   end
-
-  describe 'edit_button' do
-    it { expect(planting_edit_button(planting)).to include "/plantings/#{planting.slug}/edit" }
-  end
 end

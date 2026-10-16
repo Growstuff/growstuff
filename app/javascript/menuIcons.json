@@ -18,5 +18,6 @@
   "download": "<path d=\"M12 4v11M7 11l5 5 5-5\"/><path d=\"M5 20h14\"/>",
   "sign_out": "<path d=\"M10 4H5v16h5\"/><path d=\"M15 8l4 4-4 4M19 12H9\"/>",
   "view": "<path d=\"M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>",
-  "transplant": "<path d=\"M4 12h14M13 7l5 5-5 5\"/><path d=\"M4 20h16\"/>"
+  "transplant": "<path d=\"M4 12h14M13 7l5 5-5 5\"/><path d=\"M4 20h16\"/>",
+  "failed": "<circle cx=\"12\" cy=\"12\" r=\"8\"/><path d=\"M9 9l6 6M15 9l-6 6\"/>"
 }

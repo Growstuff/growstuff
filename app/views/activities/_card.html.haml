@@ -4,21 +4,7 @@
       -# = image_tag activity.thumbnail_url ? activity.thumbnail_url : placeholder_image, class: 'img-card', alt: planting.crop_name
 
     - if member_signed_in? && current_member.id == activity.owner_id
-      = link_to activity_path(slug: activity.slug) do
-        .activity-quick-actions
-          .dropdown
-            %a.activity-menu.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button", href: '#'}
-
-            .dropdown-menu{"aria-labelledby" => "activity-menu"}
-              = activity_edit_button(activity, classes: 'dropdown-item')
-              = activity_copy_button(activity, classes: 'dropdown-item')
-
-              - if activity.active
-                = activity_finish_button(activity, classes: 'dropdown-item')
-
-              - if can? :destroy, activity
-                .dropdown-divider
-                = delete_button(activity, classes: 'dropdown-item text-danger')
+      .activity-quick-actions= render 'activities/actions', activity:
     .card-body
       = link_to activity_path(slug: activity.slug) do
         %h4= activity.name
