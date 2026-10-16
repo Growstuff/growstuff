@@ -1,5 +1,7 @@
 import React from 'react';
 
+import MenuIcon from './MenuIcon';
+
 // A Bootstrap dropdown of links. The server decides the items (label, href,
 // and for non-GET links `method` and `confirm`); we render them with the
 // data-method / data-confirm attributes that jquery_ujs already handles, and
@@ -22,7 +24,7 @@ export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, 
   const buttonId = `actions-${id}`;
 
   return (
-    <div className="dropdown garden-actions">
+    <div className="dropdown garden-actions actions-menu">
       <a
         id={buttonId}
         className={className}
@@ -49,6 +51,7 @@ export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, 
                 if (event.defaultPrevented) handled(event, buttonId);
               }}
             >
+              <MenuIcon name={action.key} />
               {action.label}
             </a>
           </React.Fragment>

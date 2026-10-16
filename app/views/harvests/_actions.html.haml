@@ -1,19 +1,17 @@
 -# The same three-dot kebab as every other record page, in the top right of
--# the hero. No icons on the items; delete keeps its icon and its red.
+-# the hero. Each item carries a green line icon; delete is red.
 - if can?(:edit, harvest)
   -# One flex item, not three: this sits in the hero's justify-content-between
   -# row, and a loose modal or island beside the dropdown would be distributed
   -# across the row and drag the kebab in off the right edge.
   .record-actions
-    .dropdown.harvest-actions
-      %a#harvest-actions-button.btn.record-actions-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", "aria-label" => "Actions", "data-bs-toggle" => "dropdown", href: '#', role: "button" }
-        %i.fas.fa-ellipsis-v{ "aria-hidden" => "true", title: "Actions" }
-      .dropdown-menu.dropdown-menu-end{ "aria-labelledby" => "harvest-actions-button" }
-        %a.dropdown-item{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#harvest-edit-modal" }= t('buttons.edit')
-        - if can? :create, Photo
-          = link_to t('buttons.add_photo'), new_photo_path(id: harvest.id, type: 'harvest'), class: 'dropdown-item', data: { photo_dialog: true }
-        .dropdown-divider
-        = delete_button(harvest, classes: 'dropdown-item text-danger')
+    = actions_menu('harvest') do
+      = menu_modal_link(:edit, t('buttons.edit'), '#harvest-edit-modal')
+      - if can? :create, Photo
+        = menu_link_to :add_photo, t('buttons.add_photo'), new_photo_path(id: harvest.id, type: 'harvest'),
+                       data: { photo_dialog: true }
+      .dropdown-divider
+      = menu_delete_button(harvest)
 
     -# The dialog the Edit item opens. Outside the dropdown, so it is not torn
     -# down with the menu when it closes.

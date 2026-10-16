@@ -5,18 +5,11 @@
         = render "members/tiny", member: comment.author
         - if can?(:edit, comment) || can?(:destroy, comment)
           %hr/
-          .dropdown
-            %button#comment-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", type: "button"} Actions
-            .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "comment-edit-button"}
-              - if can? :edit, comment
-                = link_to edit_comment_path(comment), class: 'dropdown-item' do
-                  = edit_icon
-                  Edit
-              - if can? :destroy, comment
-                = link_to comment, method: :delete,
-                  data: { confirm: 'Are you sure?' }, class: 'dropdown-item text-danger' do
-                  = delete_icon
-                  Delete
+          = actions_menu('comment', align: :start) do
+            - if can? :edit, comment
+              = menu_link_to :edit, t('buttons.edit'), edit_comment_path(comment)
+            - if can? :destroy, comment
+              = menu_delete_button(comment)
       .col-md-9.border-start
         .comment-meta.text-muted
           Posted by

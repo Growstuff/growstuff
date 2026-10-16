@@ -1,14 +1,8 @@
 - if can? :edit, post
-  .dropdown.float-end
-    %button#post-edit-button.btn.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", :type => "button"} Actions
-    .dropdown-menu.dropdown-menu-xs{"aria-labelledby" => "post-edit-button"}
-      - if can? :edit, post
-        = link_to edit_post_path(post), class: 'dropdown-item' do
-          = edit_icon
-          Edit
-      = add_photo_button(post, classes: "dropdown-item")
+  = actions_menu('post', classes: 'float-end') do
+    = menu_link_to :edit, t('buttons.edit'), edit_post_path(post)
+    - if can? :create, Photo
+      = menu_link_to :add_photo, t('buttons.add_photo'), new_photo_path(id: post.id, type: 'post')
+    - if can? :destroy, post
       .dropdown-divider
-      - if can? :delete, post
-        = link_to post_path(post), class: 'dropdown-item text-danger', data: { confirm: 'Are you sure?' } do
-          = delete_icon
-          Delete
+      = menu_delete_button(post)

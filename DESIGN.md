@@ -48,9 +48,11 @@ all is what tells you that.
 - One menu per page. No second dropdown further down, and no loose buttons
   doing the same job.
 - No nested dropdowns and no forms inside the menu.
-- **No icons on the items** — the words are the list, and a column of little
-  pictures beside them is noise. Delete is the exception: it keeps its icon
-  and its red, so the one dangerous item still looks dangerous.
+- **Every item has a green line icon** — the same stroke icons as the menu
+  drawer (`menu_icon`), so an item reads at a glance. Delete keeps its red, in
+  `$danger-text` (`#c62828`, 5.6:1 on white; the brighter `$red` is only 3.3:1).
+  Colour is never the only signal: delete is also last, under a divider, with
+  its own icon and its word.
 - **Items are lower case, done in CSS** (`text-transform: lowercase` on
   `.dropdown-item`). Never by calling `downcase` on the label — those strings
   are buttons elsewhere, where they read as sentence case.
