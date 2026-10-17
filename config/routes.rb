@@ -47,6 +47,8 @@ Rails.application.routes.draw do
   post 'nursery' => 'gardens#create_nursery'
   get 'nursery/plant_out' => 'gardens#plant_out', as: :plant_out_nursery
   post 'nursery/plant_out' => 'gardens#create_plant_out'
+  get 'nursery/planted_out' => 'gardens#planted_out', as: :planted_out_nursery
+  post 'nursery/finish_batches' => 'gardens#finish_batches', as: :finish_nursery_batches
   post 'nursery/decline' => 'gardens#decline_nursery', as: :decline_nursery
 
   resources :gardens, concerns: :has_photos, param: :slug do

@@ -9,7 +9,7 @@ const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), selec
 // back to where it was when it closes. Rendered into document.body, so it
 // sits in front of the page whatever stacking context its caller is in (the
 // sticky sidebar on the garden layout page, for one).
-export default function Modal({title, titleId, onClose, children}) {
+export default function Modal({title, titleId, onClose, children, size = 'modal-lg'}) {
   const contentRef = useRef(null);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function Modal({title, titleId, onClose, children}) {
         onKeyDown={onKeyDown}
         onMouseDown={(event) => event.target === event.currentTarget && onClose()}
       >
-        <div className="modal-dialog modal-lg">
+        <div className={`modal-dialog ${size}`}>
           <div className="modal-content" ref={contentRef} tabIndex="-1">
             <div className="modal-header">
               <h2 className="modal-title h5" id={titleId}>{title}</h2>

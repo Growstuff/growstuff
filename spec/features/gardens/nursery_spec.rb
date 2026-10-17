@@ -113,10 +113,12 @@ describe "Nursery" do
 
     before do
       visit plant_out_nursery_path
+      check "batch_#{tomatoes.id}"
+      check "batch_#{eggplants.id}"
       choose main.name
       fill_in 'How many cherry tomato', with: 4
       click_button 'Plant out'
-      page.assert_text 'Planted out'
+      page.assert_text 'Anything left in the nursery?'
     end
 
     it "plants out the number asked for" do
@@ -137,6 +139,29 @@ describe "Nursery" do
 
     it "finishes a batch that all went out" do
       expect(eggplants.reload).to be_finished
+    end
+  end
+
+  describe "after planting out some of a batch" do
+    let!(:tomatoes) { create(:planting, garden: member.nursery, owner: member, quantity: 6, planted_at: 5.days.ago.to_date) }
+
+    before do
+      visit plant_out_nursery_path
+      check "batch_#{tomatoes.id}"
+      choose member.gardens.first.name
+      fill_in "quantities_#{tomatoes.id}", with: 4
+      click_button 'Plant out'
+    end
+
+    it "says how many are left" do
+      expect(page).to have_content '2 seedlings still in the nursery'
+    end
+
+    it "can mark the rest as done" do
+      choose "died_#{tomatoes.id}"
+      click_button 'Done'
+      page.assert_current_path member_gardens_path(member)
+      expect(tomatoes.reload).to be_failed
     end
   end
 

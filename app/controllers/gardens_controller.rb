@@ -4,7 +4,10 @@ class GardensController < DataController
   # Anyone can look at a member's inactive gardens, as they can their current ones.
   # A garden's layout is public in the same way its show page is.
   skip_before_action :authenticate_member!, only: %i(inactive layout)
-  skip_load_and_authorize_resource only: %i(inactive nursery create_nursery decline_nursery plant_out create_plant_out)
+  NURSERY_ACTIONS = %i(nursery create_nursery decline_nursery plant_out create_plant_out planted_out finish_batches).freeze
+  skip_load_and_authorize_resource only: [:inactive, *NURSERY_ACTIONS]
+  # Why seedlings left in the nursery are finished with, as the plant-out page offers.
+  FINISH_REASONS = { 'discarded' => 'Discarded', 'died' => 'Died', 'gave_away' => 'Gave away' }.freeze
 
   # The member's own nursery. A member without one is asked whether they want
   # one: an existing garden, a new one, or none.
@@ -33,16 +36,38 @@ class GardensController < DataController
   end
 
   def create_plant_out
-    return redirect_to nursery_path unless plant_out_context
+    redirect_to nursery_path unless plant_out_context
+    return if performed?
 
     garden = @gardens.find_by(slug: params[:garden_slug])
+    @planted_batches = []
     planted = garden ? plant_out_into(garden) : 0
     if planted.positive?
-      redirect_to garden_path(garden), notice: t('gardens.planted_out', count: planted, garden: garden.name)
+      redirect_to planted_out_nursery_path(garden: garden.slug, count: planted, batches: @planted_batches.join(','))
     else
       flash.now[:alert] = t(garden ? 'gardens.plant_out_nothing' : 'gardens.plant_out_no_garden')
       render :plant_out, status: :unprocessable_entity
     end
+  end
+
+  # After planting out: anything left of the batches just moved, to be kept in
+  # the nursery or marked done.
+  def planted_out
+    return redirect_to nursery_path unless plant_out_context
+
+    @garden = current_member.gardens.find_by(slug: params[:garden])
+    @count = params[:count].to_i
+    @moved = Planting.where(id: params[:batches].to_s.split(','), garden: @nursery).includes(:crop).order(:planted_at, :id)
+  end
+
+  # Marks batches that have nothing left to plant out as finished, for the
+  # reason given.
+  def finish_batches
+    return redirect_to nursery_path unless plant_out_context
+
+    reasons = params[:done].respond_to?(:to_unsafe_h) ? params[:done].to_unsafe_h : {}
+    @nursery.plantings.where(id: reasons.keys).find_each { |batch| finish_batch(batch, reasons[batch.id.to_s]) }
+    redirect_to member_gardens_path(current_member)
   end
 
   def decline_nursery
@@ -223,14 +248,24 @@ class GardensController < DataController
     Time.zone.today
   end
 
-  # Plants out each batch by the number asked for, and says how many seedlings went.
+  # Plants out each ticked batch by the number asked for, and says how many
+  # seedlings went.
   def plant_out_into(garden)
-    @batches.sum do |batch|
+    @batches.select { |batch| Array(params[:batch_ids]).include?(batch.id.to_s) }.sum do |batch|
       count = params.dig(:quantities, batch.id.to_s).to_i.clamp(0, batch.quantity || 1)
-      next 0 if count.zero?
+      next 0 if count.zero? || !batch.transplant_to(garden, quantity: count, on: @plant_out_on).persisted?
 
-      batch.transplant_to(garden, quantity: count, on: @plant_out_on).persisted? ? count : 0
+      @planted_batches << batch.id
+      count
     end
+  end
+
+  def finish_batch(batch, reason)
+    return unless FINISH_REASONS.key?(reason) || reason == 'done'
+
+    note = FINISH_REASONS[reason]
+    batch.update(finished: reason != 'died', failed: reason == 'died',
+                 description: [batch.description, note && "#{note}: the rest of this sowing."].compact_blank.join("\n\n"))
   end
 
   # Takes every plant off the grid first, so the new arrangement is checked

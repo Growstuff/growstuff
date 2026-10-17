@@ -6,7 +6,7 @@
   %li.breadcrumb-item.active Plant out
 
 %h1 Plant out seedlings
-%p.lead Move seedlings from the nursery into a garden. They keep the date they were sown.
+%p.lead They keep the date they were sown.
 
 - if @batches.empty?
   %p There are no seedlings in the nursery to plant out.
@@ -15,44 +15,50 @@
   %p You need a garden to plant them into.
   = link_to 'Add a garden', new_garden_path, class: 'btn btn-primary'
 - else
-  = form_tag plant_out_nursery_path, method: :post do
+  = form_tag plant_out_nursery_path, method: :post, class: 'plant-out' do
     .card.mb-3
       .card-body
-        .row
-          .col-md-6
-            %fieldset
-              %legend.h6 Into which garden?
-              - @gardens.each do |garden|
-                .form-check
-                  = radio_button_tag :garden_slug, garden.slug, params[:garden_slug] == garden.slug,
-                                     class: 'form-check-input'
-                  = label_tag "garden_slug_#{garden.slug}", garden.name, class: 'form-check-label'
-              = link_to 'A new garden', new_garden_path, class: 'd-inline-block mt-2'
-          .col-md-6
-            %fieldset
-              %legend.h6 When did you plant them out?
-              - [['today', 'Today'], ['yesterday', 'Yesterday'], ['other', 'Pick a date']].each do |value, label|
-                .form-check
-                  = radio_button_tag :when, value, (params[:when] || 'today') == value, class: 'form-check-input'
-                  = label_tag "when_#{value}", label, class: 'form-check-label'
-              = date_field_tag :date, params[:date], class: 'form-control mt-2 w-auto', 'aria-label': 'Date planted out'
+        %h2.h6 1. Which seedlings?
+        %p.form-text
+          Grouped by crop, oldest first. Planting out fewer than you have? The rest stay in the nursery.
+        - @batches.group_by(&:crop).sort_by { |crop, _| crop.name }.each do |crop, batches|
+          .plant-out-crop
+            %h3.plant-out-crop-heading
+              = crop_icon(crop)
+              = crop.name
+              %small.text-muted
+                #{pluralize(batches.size, 'sowing')} · #{pluralize(batches.sum { |batch| batch.quantity || 1 }, 'seedling')}
+          - batches.each do |batch|
+            .plant-out-batch
+              = check_box_tag 'batch_ids[]', batch.id, Array(params[:batch_ids]).include?(batch.id.to_s),
+                              id: "batch_#{batch.id}", class: 'form-check-input plant-out-check'
+              = link_to batch, class: 'plant-out-photo' do
+                = image_tag planting_image_path(batch), alt: "Photo of #{batch.display_name}"
+              %label.plant-out-name{ for: "batch_#{batch.id}" }
+                %strong= batch.display_name
+                %br
+                %small.text-muted
+                  - if batch.planted_at
+                    Sown #{l(batch.planted_at, format: '%a %-d %b')} &middot; #{nursery_day_label(batch.planted_at).split(' · ').last.downcase}
+              %span.text-muted #{batch.quantity || 1} in the nursery
+              %span.plant-out-qty
+                = label_tag "quantities_#{batch.id}", "How many #{batch.display_name}", class: 'visually-hidden'
+                = number_field_tag "quantities[#{batch.id}]", params.dig(:quantities, batch.id.to_s) || batch.quantity || 1,
+                                   min: 1, max: batch.quantity || 1, class: 'form-control'
+                %small.text-muted of #{batch.quantity || 1}
     .card.mb-3
       .card-body
-        %h2.h6 How many of each?
-        - @batches.each do |batch|
-          .row.align-items-center.py-2.border-top
-            .col-md-5
-              %strong= batch.display_name
-              %br
-              - if batch.planted_at
-                %small.text-muted Sown #{l(batch.planted_at, format: '%a %-d %b')}
-            .col-md-3
-              %small.text-muted #{batch.quantity || 1} in the nursery
-            .col-md-4
-              = label_tag "quantities_#{batch.id}", "How many #{batch.display_name}", class: 'visually-hidden'
-              = number_field_tag "quantities[#{batch.id}]", params.dig(:quantities, batch.id.to_s) || batch.quantity || 1,
-                                 min: 0, max: batch.quantity || 1, class: 'form-control w-auto d-inline-block'
-              %small.text-muted of #{batch.quantity || 1}
-        %p.form-text.mt-2 Planting out some of a batch leaves the rest in the nursery. Set a batch to 0 to leave it.
+        %h2.h6 2. Into which garden?
+        - @gardens.each do |garden|
+          .form-check
+            = radio_button_tag :garden_slug, garden.slug, params[:garden_slug] == garden.slug, class: 'form-check-input'
+            = label_tag "garden_slug_#{garden.slug}", garden.name, class: 'form-check-label'
+        = link_to 'A new garden', new_garden_path, class: 'd-inline-block mt-2'
+        %h2.h6.mt-4 3. When?
+        - [['today', 'Today'], ['yesterday', 'Yesterday'], ['other', 'Pick a date']].each do |value, label|
+          .form-check.form-check-inline
+            = radio_button_tag :when, value, (params[:when] || 'today') == value, class: 'form-check-input'
+            = label_tag "when_#{value}", label, class: 'form-check-label'
+        = date_field_tag :date, params[:date], class: 'form-control mt-2 w-auto', 'aria-label': 'Date planted out'
     = submit_tag 'Plant out', class: 'btn btn-primary'
     = link_to 'Cancel', member_gardens_path(current_member), class: 'btn btn-link'
