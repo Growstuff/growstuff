@@ -13,7 +13,7 @@ module Nurseries
       @garden = current_member.gardens.find_by(slug: params[:garden])
       @count = params[:count].to_i
       @moved = @nursery.plantings.current.where(id: params[:batches].to_s.split(',')).includes(:crop).order(:planted_at, :id)
-    redirect_to member_gardens_path(current_member) if @moved.empty?
+      redirect_to member_gardens_path(current_member) if @moved.empty?
     end
 
     def new; end

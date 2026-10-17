@@ -170,7 +170,7 @@ describe "Nursery" do
     end
 
     it "says how many are left" do
-      expect(page).to have_content '2 seedlings still in the nursery'
+      expect(page).to have_content '2 seedlings left in the nursery'
     end
 
     it "can mark the rest as done" do
