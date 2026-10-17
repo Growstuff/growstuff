@@ -109,7 +109,7 @@ class PlantingsController < DataController
     respond_to do |format|
       if @planting.errors.empty?
         format.html { redirect_to @planting, notice: t('messages.transplant_success') }
-        format.json { render json: { url: planting_path(@planting) } }
+        format.json { render json: { url: planting_path(@planting), garden: garden_card(@planting.garden) } }
       else
         format.html { redirect_to @planting, alert: t('messages.transplant_error', errors: @planting.errors.full_messages.to_sentence) }
         format.json { render json: { errors: @planting.errors.to_hash }, status: :unprocessable_content }
@@ -138,11 +138,14 @@ class PlantingsController < DataController
   # returned one, so a new or changed planting shows without a page reload.
   def render_card_json(status:)
     if @planting.errors.empty? && @planting.persisted?
-      card = GardenCardSerializer.collection([@planting.garden], ability: current_ability, show_owner: false).first
-      render json: { garden: card }, status: status
+      render json: { garden: garden_card(@planting.garden) }, status: status
     else
       render json: { errors: @planting.errors }, status: :unprocessable_content
     end
+  end
+
+  def garden_card(garden)
+    GardenCardSerializer.collection([garden], ability: current_ability, show_owner: false).first
   end
 
   def update_crop_medians

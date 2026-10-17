@@ -47,6 +47,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
   const [source, setSource] = useState(seeds.length > 0 ? 'mine' : 'new');
   const [search, setSearch] = useState('');
   const [seed, setSeed] = useState(null);
+  const [choosing, setChoosing] = useState(true); // the list of packets is open, until one is picked
   const [crop, setCrop] = useState(null);
   const [quantity, setQuantity] = useState(6);
   const [saving, setSaving] = useState(false);
@@ -64,6 +65,12 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
     setSource(choice);
     setSeed(null);
     setCrop(null);
+    setChoosing(true);
+  }
+
+  function chooseSeed(packet) {
+    setSeed(packet);
+    setChoosing(false);
   }
 
   async function save(addAnother) {
@@ -85,10 +92,11 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
         setSown(`Sowed ${quantity} ${cropName}.`);
         setSeed(null);
         setCrop(null);
+        setChoosing(true);
       } else if (where === 'garden') {
-        setPlacing({quantity, name: cropName, garden});
+        setPlacing({quantity, name: cropName, garden, saved: data});
       } else {
-        onSown();
+        await onSown(data); // keeps saying so until the page shows it
         return;
       }
     } catch (error) {
@@ -101,11 +109,23 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
   const target = where === 'nursery' ? 'the nursery' : (garden ? garden.name : 'a garden');
   const quantityLabel = source === 'seedlings' ? 'How many seedlings?' : 'How many seeds?';
 
+  // Once a packet is picked the list rolls up to the packet, with a way to reopen it.
   const chooser = source === 'mine' ? (
-    <>
-      <SeedPacketList packets={seeds} search={search} onSearch={setSearch} selected={seed} onChoose={setSeed} sownOn={sownOn} />
-      {seed && <SeedPacket packet={seed} />}
-    </>
+    seed && !choosing ? (
+      <>
+        <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => setChoosing(true)}>Change seeds</button>
+        <SeedPacket packet={seed} />
+      </>
+    ) : (
+      <>
+        {seed && (
+          <button type="button" className="btn btn-sm btn-outline-secondary mb-2" onClick={() => setChoosing(false)}>
+            Keep {seed.name}
+          </button>
+        )}
+        <SeedPacketList packets={seeds} search={search} onSearch={setSearch} selected={seed} onChoose={chooseSeed} sownOn={sownOn} />
+      </>
+    )
   ) : (
     crop ? (
       <>
@@ -117,7 +137,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
 
   if (placing) {
     return (
-      <Modal title="Sow seeds" titleId="sow-seeds-title" onClose={onSown}>
+      <Modal title="Sow seeds" titleId="sow-seeds-title" onClose={() => onSown(placing.saved)}>
         <div className="modal-body plant-dialog-body">
           <div className="alert alert-success" role="status">
             <strong>Sowed {placing.quantity} {placing.name} into {placing.garden.name}.</strong>
@@ -125,7 +145,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
           <h3 className="h5">Where in the garden did you put them?</h3>
           <p>Add it to the garden layout to remember where it is. You can do this later from the garden.</p>
           <a className="btn btn-success" href={`/gardens/${placing.garden.slug}/layout`}>Place on the garden layout</a>{' '}
-          <button type="button" className="btn btn-outline-success" onClick={onSown}>Not now</button>
+          <button type="button" className="btn btn-outline-success" onClick={() => onSown(placing.saved)}>Not now</button>
         </div>
       </Modal>
     );
@@ -198,7 +218,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
           Sow and add another
         </button>
         <button type="button" className="btn btn-success" onClick={() => save(false)} disabled={!ready || saving} aria-busy={saving}>
-          {`Sow into ${target}`}
+          {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Sowing…</> : `Sow into ${target}`}
         </button>
       </div>
     </Modal>

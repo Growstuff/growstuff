@@ -135,6 +135,20 @@ describe "Nursery" do
       within('.modal') { expect(page).to have_css '.seed-packet-label', text: /beetroot/i }
     end
 
+    it "rolls the list up to the packet" do
+      within('.modal') do
+        expect(page).to have_button 'Change seeds'
+        expect(page).to have_no_field 'Which seeds?'
+      end
+    end
+
+    it "brings the list back to change the seeds" do
+      within('.modal') do
+        click_button 'Change seeds'
+        expect(page).to have_field 'Which seeds?'
+      end
+    end
+
     it "does not add the crop's description" do
       within('.modal') { expect(page).to have_no_content 'A sweet red root.' }
     end
@@ -221,6 +235,7 @@ describe "Nursery" do
     before do
       other_garden
       visit member_gardens_path(member)
+      page.execute_script('window.notReloaded = true')
       within('.nursery-panel') { click_link "Actions for #{batch.display_name}" }
       click_link 'Transplant'
       within('.modal') do
@@ -228,6 +243,12 @@ describe "Nursery" do
         click_button 'Transplant'
       end
       page.assert_no_selector '.modal', wait: 10
+    end
+
+    it "shows it in the garden and not the nursery, without reloading the page" do
+      expect(page).to have_css "[data-garden-id='#{other_garden.id}'] .chip", text: batch.display_name, visible: :all
+      expect(page).to have_no_css '.nursery-panel .nursery-batch'
+      expect(page.evaluate_script('window.notReloaded')).to be true
     end
 
     it "moves the batch to the garden" do

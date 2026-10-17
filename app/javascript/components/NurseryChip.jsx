@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {refreshNursery} from '../nurseryPanel';
+import {refreshNursery, showSaved} from '../nurseryPanel';
 import AddPhotoModal from './AddPhotoModal';
 import EditPlantingModal from './EditPlantingModal';
 import PlantingChip from './PlantingChip';
@@ -32,7 +32,7 @@ export default function NurseryChip({planting, default_icon_url: defaultIconUrl,
           planting={planting}
           gardens={gardens}
           onClose={() => setTransplanting(false)}
-          onDone={() => window.location.reload()}
+          onDone={showSaved}
         />
       )}
       {addingPhoto && (

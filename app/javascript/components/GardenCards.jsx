@@ -8,6 +8,7 @@ import MarkFinishedModal from './MarkFinishedModal';
 import PlantSomethingModal from './PlantSomethingModal';
 import RecordHarvestModal from './RecordHarvestModal';
 import SaveSeedsModal from './SaveSeedsModal';
+import {GARDEN_CARD_CHANGED} from '../nurseryPanel';
 
 const plantingIds = (garden) => [...garden.perennials, ...garden.annuals].map((planting) => planting.id);
 
@@ -37,6 +38,14 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
   }, []);
 
   useEffect(() => () => clearTimeout(highlightTimer.current), []);
+
+  // Something saved elsewhere on the page (a seedling transplanted into one of
+  // these gardens) sends the garden's new card, so it shows without a reload.
+  useEffect(() => {
+    const changed = (event) => replaceCard(event.detail);
+    window.addEventListener(GARDEN_CARD_CHANGED, changed);
+    return () => window.removeEventListener(GARDEN_CARD_CHANGED, changed);
+  }, []);
 
   // The response leaves out the owner (the page already has it); keep ours.
   function replaceCard(updatedCard) {

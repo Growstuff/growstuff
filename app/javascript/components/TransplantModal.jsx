@@ -25,7 +25,7 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
       const body = {garden_id: gardenId, ...(when === 'today' ? {} : {date: movedOn})};
       const {ok, status, data} = await postJson(`/plantings/${planting.slug}/transplant.json`, body);
       if (ok) {
-        onDone();
+        await onDone(data); // keeps saying so until the page shows it
         return;
       }
       setErrors(errorMessages(status, data, {forbidden: 'You can\'t transplant into that garden.'}));
@@ -75,6 +75,7 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
             hint={movedOn}
           />
         </div>
+        <div className="visually-hidden" role="status">{saving ? 'Transplanting…' : ''}</div>
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-link" onClick={onClose} disabled={saving}>Cancel</button>
@@ -85,7 +86,7 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
           disabled={saving || !gardenId || !movedOn || movedOn > today}
           aria-busy={saving}
         >
-          Transplant
+          {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Transplanting…</> : 'Transplant'}
         </button>
       </div>
     </Modal>
