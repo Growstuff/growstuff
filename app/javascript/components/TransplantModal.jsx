@@ -22,7 +22,7 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
     setSaving(true);
     setErrors([]);
     try {
-      const body = {garden_id: gardenId, ...(when === 'today' ? {} : {date: movedOn})};
+      const body = {garden_id: gardenId, date: movedOn};
       const {ok, status, data} = await postJson(`/plantings/${planting.slug}/transplant.json`, body);
       if (ok) {
         await onDone(data); // keeps saying so until the page shows it

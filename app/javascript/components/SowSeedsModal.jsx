@@ -102,7 +102,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
         quantity,
         planted_from: source === 'seedlings' ? 'seedling' : 'seed',
         ...(source === 'mine' ? {parent_seed_id: seed.id} : {}),
-        ...(when === 'today' ? {} : {planted_at: sownOn}),
+        planted_at: sownOn,
         ...(note.trim() ? {description: note.trim()} : {}),
       };
       const {ok, status, data} = await postJson('/plantings.json', {planting, ...(source === 'mine' ? {use_seeds: 1} : {})});
