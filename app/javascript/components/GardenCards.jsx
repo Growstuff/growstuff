@@ -112,10 +112,11 @@ export default function GardenCards({gardens: initialGardens, default_icon_url: 
           <button type="button" className="btn-close" aria-label="Dismiss" onClick={() => setNotice(null)} />
         </div>
       )}
-      {gardens.map((garden) => (
+      {gardens.map((garden, index) => (
         <GardenCard
           key={garden.id}
           garden={garden}
+          defaultOpen={index === 0}
           defaultIconUrl={defaultIconUrl}
           onPlant={setPlantingIn}
           highlightedId={highlight && highlight.id}

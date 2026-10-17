@@ -1,52 +1,83 @@
 -# The member's nursery, above their gardens: where seedlings are raised before
--# they're planted out. A member who hasn't chosen one yet is asked about it.
+-# they're planted out. A member who hasn't chosen one yet is asked about it. The
+-# owner can tick batches to plant them out together.
 :ruby
   seedlings = nursery_seedlings(nursery)
   sown_groups = nursery_sown_groups(seedlings)
   planned = nursery_planned(seedlings)
-.card.nursery-panel
-  .nursery-panel-header
-    %div
-      %h2.nursery-panel-title
-        = garden_icon
-        = nursery ? link_to(nursery.name, nursery) : 'Nursery'
+  editable = nursery && can?(:edit, nursery)
+%section.gardens-section.nursery-panel
+  .gardens-section-header
+    %h2= nursery ? link_to(nursery.name, nursery) : 'Nursery'
+    %small
       - if nursery
-        %p.nursery-panel-subtitle
-          #{nursery_seedling_count(seedlings)} &middot; raised here before they go into a garden
-    - if nursery && can?(:edit, nursery)
-      = react_component 'NurseryPlanter', nursery_planter_props(nursery)
-  .nursery-panel-body
-    - if nursery.nil?
+        #{nursery_seedling_count(seedlings)}, raised here before they go into a garden
+      - else
+        Not set up yet
+  - if nursery.nil?
+    .gardens-section-body
+      %h3.h5 Where do you start your seeds?
       = render 'gardens/what_is_a_nursery'
       = link_to 'Set up a nursery', nursery_path, class: 'btn btn-primary'
-    - elsif seedlings.empty?
-      %p.text-muted.mb-0 Sow some seeds and they'll show up here, ready to plant out.
-    - else
-      - sown_groups.each do |(day, got), group|
-        %section.nursery-day
-          .nursery-day-head
-            %b.nursery-day-heading= nursery_day_title(day)
-            %small= nursery_day_subtitle(day, got)
-            - photos = group.filter_map { |seedling| seedling.photos.first }.first(3)
-            - if photos.any?
-              .nursery-day-photos
-                - photos.each do |photo|
-                  = image_tag thumbnail_url(photo), alt: 'Photo of a seed tray'
-          %ul.nursery-seedlings
-            - group.each do |seedling|
-              %li
-                = render 'plantings/tiny', planting: seedling
-                - if seedling.quantity.present?
-                  %small.nursery-seedling-details &times; #{seedling.quantity}
-      - if sown_groups.any? && can?(:edit, nursery)
-        = link_to 'Plant out seedlings', plant_out_nursery_path, class: 'btn btn-outline-success mt-3'
-      - if planned.any?
-        %section.nursery-day.nursery-planned
-          .nursery-day-head
-            %b.nursery-day-heading To sow
-            %small planned
-          %ul.nursery-seedlings
-            - planned.each do |seedling|
-              %li
-                = render 'plantings/tiny', planting: seedling
-                %small.nursery-seedling-details= l(seedling.planted_at, format: '%a %-d %b')
+  - elsif seedlings.empty?
+    .gardens-section-body
+      %p.text-muted.mb-3 Sow some seeds and they'll show up here, ready to plant out.
+      - if can?(:edit, nursery)
+        = react_component 'NurseryPlanter', nursery_planter_props(nursery)
+  - else
+    = form_tag plant_out_nursery_path, method: :get, class: 'nursery-form' do
+      .gardens-section-body
+        - sown_groups.each do |(day, got), group|
+          %section.nursery-day
+            .nursery-day-head
+              %b.nursery-day-heading= nursery_day_title(day)
+              %small= nursery_day_subtitle(day, got)
+              - photos = group.filter_map { |seedling| seedling.photos.first }.first(3)
+              - if photos.any?
+                .nursery-day-photos
+                  - photos.each do |photo|
+                    = image_tag thumbnail_url(photo), alt: 'Photo of a seed tray'
+            %ul.nursery-seedlings
+              - group.each do |seedling|
+                %li
+                  - if editable
+                    %label.chip.crop-chip.nursery-pick
+                      = check_box_tag 'batch_ids[]', seedling.id, false, id: "pick_#{seedling.id}", class: 'nursery-pick-box'
+                      = crop_icon(seedling.crop)
+                      = seedling.display_name
+                      - if seedling.quantity.present?
+                        %small &times; #{seedling.quantity}
+                  - else
+                    = link_to seedling do
+                      .chip.crop-chip
+                        = crop_icon(seedling.crop)
+                        %span
+                          = seedling.display_name
+                          - if seedling.quantity.present?
+                            %small &times; #{seedling.quantity}
+        - if planned.any?
+          %section.nursery-day.nursery-planned
+            .nursery-day-head
+              %b.nursery-day-heading To sow
+              %small planned
+            %ul.nursery-seedlings
+              - planned.each do |seedling|
+                %li
+                  = link_to seedling do
+                    .chip.crop-chip
+                      = crop_icon(seedling.crop)
+                      %span
+                        = seedling.display_name
+                        %small= l(seedling.planted_at, format: '%a %-d %b')
+                  - if editable
+                    = link_to 'Sowed it', planting_path(seedling, planting: { planted_at: Time.zone.today }), method: :put,
+                                          class: 'nursery-sowed-it'
+        - if editable
+          .nursery-add
+            = react_component 'NurseryPlanter', nursery_planter_props(nursery).merge(label: '+ Add', buttonClass: 'btn btn-outline-success')
+      - if editable
+        .nursery-bar
+          %b.nursery-selected-count
+          %span.flex-fill
+          = submit_tag 'Plant out', class: 'btn btn-success'
+          = button_tag 'Clear', type: 'reset', class: 'btn btn-outline-success'

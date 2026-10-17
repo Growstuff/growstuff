@@ -14,7 +14,7 @@ class GardenCardSerializer
     gardens = gardens.to_a
     plantings = Planting.active
       .where(garden_id: gardens.map(&:id))
-      .includes(:harvests, crop: { parent: :parent })
+      .includes(:harvests, :photos, crop: { parent: :parent })
       .order(:planted_at)
       .group_by(&:garden_id)
 
@@ -35,6 +35,7 @@ class GardenCardSerializer
       id: @garden.id, name: @garden.name, slug: @garden.slug, active: @garden.active,
       url: routes.garden_path(@garden), image_url: image_url, layout_url: layout_url,
       owner: owner, can_edit: can?(:edit, @garden), plant_url: plant_url, actions: garden_actions,
+      plantings_count: @plantings.size, harvesting_now: @plantings.count(&:harvest_time?),
       perennials: @plantings.select { |planting| planting.crop.perennial? }.map { |planting| perennial(planting) },
       annuals: @plantings.select { |planting| planting.crop.annual? }.map { |planting| annual(planting) }
     }
@@ -118,6 +119,12 @@ class GardenCardSerializer
                                                                            divider: true)
   end
 
+  # The planting's own photo, if it has one, for the row's thumbnail.
+  def thumb_url(planting)
+    photo = planting.photos.first
+    thumbnail_url(photo) if photo
+  end
+
   def crop_chip(planting)
     crop = planting.crop
     { name: crop.name, icon_url: crop.svg_icon.present? ? routes.crop_path(crop, format: 'svg') : nil }
@@ -135,7 +142,7 @@ class GardenCardSerializer
     {
       id: planting.id, url: routes.planting_path(planting), crop: crop_chip(planting),
       planted_at: planting.planted_at, today: Time.zone.today, can_edit: can?(:edit, planting),
-      percentage_grown: planting.percentage_grown,
+      thumb_url: thumb_url(planting), percentage_grown: planting.percentage_grown,
       progress_state: planting.progress_state,
       finish_predicted_label: finish_label(planting), progress_note: progress_note(planting),
       badges: badges(planting), harvests: harvest_marks(planting), actions: planting_actions(planting)
