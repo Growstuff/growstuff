@@ -1,23 +1,9 @@
-- content_for :title, "Change your password"
+- content_for :title, 'Change your password'
 
-= form_for(resource, as: resource_name,
-    url: password_path(resource_name),
-    html: { method: :put, role: 'form' }) do |f|
-  = render 'devise/shared/error_messages', resource: resource
-  = f.hidden_field :reset_password_token
-
-  .row.mb-3
-    = f.label :password, "New password", class: 'col-form-label col-md-2'
-    .col-md-8
-      = f.password_field :password, class: 'form-control'
-
-  .row.mb-3
-    = f.label :password_confirmation, "Confirm new password", class: 'col-form-label col-md-2'
-    .col-md-8
-      = f.password_field :password_confirmation, class: 'form-control'
-
-  .row.mb-3
-    .offset-md-2.col-md-8
-      = f.submit "Change my password", class: 'btn btn-primary'
-
-= render "devise/shared/links"
+= render 'devise/shared/card', title: 'Change your password' do
+  = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+    = render 'devise/shared/error_messages', resource: resource
+    = f.hidden_field :reset_password_token
+    = f.password_field :password, label: 'New password', autocomplete: 'new-password', autofocus: true
+    = f.password_field :password_confirmation, label: 'Confirm new password', autocomplete: 'new-password'
+    = f.submit 'Change my password', class: 'btn btn-success w-100'

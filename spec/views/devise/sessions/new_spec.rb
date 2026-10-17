@@ -12,9 +12,7 @@ describe 'devise/sessions/new.html.haml', type: "view" do
       render
     end
 
-    it 'has some fields' do
-      expect(rendered).to have_content 'Remember me'
-      expect(rendered).to have_content 'Password'
-    end
+    it { expect(rendered).to have_content 'Keep me signed in' }
+    it { expect(rendered).to have_content 'Password' }
   end
 end

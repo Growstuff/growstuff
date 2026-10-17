@@ -35,7 +35,7 @@ describe "signin" do
 
   it "don't redirect to devise pages after signin" do
     visit new_member_registration_path # devise signup page
-    click_link 'Sign in'
+    within('.form-page') { click_link 'Sign in' }
     login
     expect(page).to have_current_path root_path, ignore_query: true
   end

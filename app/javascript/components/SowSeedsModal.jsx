@@ -146,7 +146,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
   );
 
   return (
-    <Modal title="Sow seeds" titleId="sow-seeds-title" size="modal-xl" onClose={onClose}>
+    <Modal title="Sow seeds" titleId="sow-seeds-title" size="xl" onClose={onClose}>
       <div className="modal-body plant-dialog-body sow-seeds">
         {errors.length > 0 && (
           <div className="alert alert-danger" role="alert">
