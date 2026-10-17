@@ -28,6 +28,15 @@ describe "Nursery" do
         visit member_gardens_path(member)
       end
 
+      it "draws each batch with its crop icon" do
+        within('.nursery-panel') { expect(page).to have_css 'img.crop-icon[src]:not([src=""])' }
+      end
+
+      it "gives each batch the same menu as a planting in a garden" do
+        within('.nursery-panel') { click_link 'Actions for tomato' }
+        expect(page).to have_link(/record harvest/i)
+      end
+
       it "names each batch by its crop, not who planted it where" do
         within('.nursery-panel') { expect(page).to have_no_content 'planting in' }
       end

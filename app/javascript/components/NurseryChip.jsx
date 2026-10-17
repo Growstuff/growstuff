@@ -5,7 +5,7 @@ import PlantingChip from './PlantingChip';
 // One batch in the nursery: the same chip, with its menu, as a planting on a
 // garden card, then how many there are. In edit mode `pick` adds a tick for
 // planting it out; the tick is a plain checkbox in the nursery's form.
-export default function NurseryChip({planting, defaultIconUrl, detail, pick}) {
+export default function NurseryChip({planting, default_icon_url: defaultIconUrl, detail, pick}) {
   return (
     <>
       {pick && (
