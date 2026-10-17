@@ -2,30 +2,31 @@ import React, {useState} from 'react';
 
 import AddPhotoModal from './AddPhotoModal';
 import PlantingChip from './PlantingChip';
+import TransplantModal from './TransplantModal';
 
 // One batch in the nursery: the same chip, with its menu, as a planting on a
-// garden card, then how many there are, all in one pill so a tick belongs to its own
-// batch. "Add photo" opens its dialog over the
-// page, as on a card. In edit mode `pick` adds a tick for planting it out; the
-// tick is a plain checkbox in the nursery's form.
-export default function NurseryChip({planting, default_icon_url: defaultIconUrl, photo_icon_url: photoIconUrl, detail, pick}) {
+// garden card, then how many there are, all in one pill. "Add photo" and
+// "Transplant" open their dialogs over the page, as on a card.
+export default function NurseryChip({planting, default_icon_url: defaultIconUrl, photo_icon_url: photoIconUrl, gardens, detail}) {
   const [addingPhoto, setAddingPhoto] = useState(null); // {label, href}
-  const handlers = {photo: (chosen, action) => setAddingPhoto({label: `${chosen.crop.name} planting`, href: action.href})};
+  const [transplanting, setTransplanting] = useState(false);
+  const handlers = {
+    photo: (chosen, action) => setAddingPhoto({label: `${chosen.crop.name} planting`, href: action.href}),
+    transplant: () => setTransplanting(true),
+  };
 
   return (
     <div className="nursery-batch">
-      {pick && (
-        <input
-          type="checkbox"
-          name="batch_ids[]"
-          value={planting.id}
-          id={`pick_${planting.id}`}
-          className="nursery-pick-box"
-          aria-label={`Plant out ${planting.crop.name}`}
-        />
-      )}
       <PlantingChip planting={planting} defaultIconUrl={defaultIconUrl} handlers={handlers} />
       {detail && <small className="nursery-chip-detail">{detail}</small>}
+      {transplanting && (
+        <TransplantModal
+          planting={planting}
+          gardens={gardens}
+          onClose={() => setTransplanting(false)}
+          onDone={() => window.location.reload()}
+        />
+      )}
       {addingPhoto && (
         <AddPhotoModal
           label={addingPhoto.label}

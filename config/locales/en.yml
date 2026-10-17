@@ -137,7 +137,7 @@ en:
     mark_as_finished: Mark as finished
     mark_as_failed: Mark as failed
     make_nursery: Use as my nursery
-    plant_out: Plant out
+    transplant: Transplant
     stop_nursery: Stop using as my nursery
     mark_as_inactive: Mark as inactive
     my_gardens: My Gardens
@@ -177,11 +177,6 @@ en:
     deleted: Forum was successfully deleted.
   gardens:
     nursery_name: Nursery
-    planted_out:
-      one: Planted out 1 seedling in %{garden}.
-      other: Planted out %{count} seedlings in %{garden}.
-    plant_out_nothing: Choose how many of at least one batch to plant out.
-    plant_out_no_garden: Choose which garden they are going into.
     nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
     nursery_made: This garden is now your nursery.
     nursery_stopped: This garden is no longer your nursery.

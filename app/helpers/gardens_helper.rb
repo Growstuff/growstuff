@@ -57,26 +57,29 @@ module GardensHelper
     pluralize(seedlings.sum { |seedling| seedling.quantity || 1 }, 'seedling')
   end
 
-  # A batch's chip and menu, for the NurseryChip island: how many there are, and
-  # a tick to plant it out while the nursery is edited.
-  def nursery_chip_props(seedling, pick:)
+  # The member's gardens that things can be sown or transplanted into.
+  def nursery_gardens(nursery)
+    nursery.owner.gardens.active.not_nurseries.order_by_name.map { |g| { id: g.id, name: g.name, slug: g.slug } }
+  end
+
+  # A batch's chip and menu, for the NurseryChip island, and how many there are.
+  # "Transplant" is in the menu after "view", for batches that can be moved.
+  def nursery_chip_props(seedling, gardens:)
+    chip = PlantingChipSerializer.new(seedling, ability: card_ability).as_json.merge(slug: seedling.slug, quantity: seedling.quantity)
     {
-      planting:         nursery_chip(seedling),
+      planting:         nursery_chip_with_transplant(chip, seedling, gardens),
+      gardens:          gardens,
       default_icon_url: image_path('icons/planting.svg'),
       photo_icon_url:   image_path('icons/photo.svg'),
-      detail:           ("\u00d7 #{seedling.quantity}" if seedling.quantity),
-      pick:             pick
+      detail:           ("\u00d7 #{seedling.quantity}" if seedling.quantity)
     }
   end
 
-  # The planting's chip, with "Plant out" in its menu after "view", which leads to
-  # choosing the garden they were planted out to.
-  def nursery_chip(seedling)
-    chip = PlantingChipSerializer.new(seedling, ability: card_ability).as_json
-    return chip if chip[:actions].empty?
+  def nursery_chip_with_transplant(chip, seedling, gardens)
+    return chip unless gardens.any? && card_ability.can?(:transplant, seedling)
 
-    plant_out = { key: :transplant, label: I18n.t('buttons.plant_out'), href: new_nursery_plant_out_path(batch_ids: [seedling.id]) }
-    chip.merge(actions: chip[:actions].dup.insert(1, plant_out))
+    transplant = { key: :transplant, label: I18n.t('buttons.transplant'), href: planting_path(seedling) }
+    chip.merge(actions: chip[:actions].dup.insert(1, transplant))
   end
 
   # The sow seeds dialog's props: the nursery, the member's other gardens to sow
@@ -85,7 +88,7 @@ module GardensHelper
     owner = nursery.owner
     {
       garden:      { id: nursery.id, name: nursery.name },
-      gardens:     owner.gardens.active.not_nurseries.order_by_name.map { |g| { id: g.id, name: g.name, slug: g.slug } },
+      gardens:     nursery_gardens(nursery),
       seeds:       owner.seeds.active.includes(:crop, :photos).order(created_at: :desc).limit(200).map { |seed| seed_packet_props(seed) },
       label:       'Sow seeds',
       buttonClass: 'btn btn-primary'

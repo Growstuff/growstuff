@@ -1,15 +1,13 @@
 -# The member's nursery, above their gardens: where seedlings are raised before
 -# they're planted out, by the day they were sown. A member who hasn't chosen one
--# yet is asked about it. The owner can add batches, and "Bulk edit" lets them
--# tick batches to plant out.
+-# yet is asked about it. The owner can add batches.
 :ruby
   seedlings = nursery_seedlings(nursery)
   sown_groups = nursery_sown_groups(seedlings)
+  gardens = nursery_gardens(nursery) if nursery
   editable = nursery && can?(:edit, nursery)
   sow = nursery_planter_props(nursery).merge(label: '+ Add', buttonClass: 'btn btn-outline-success') if editable
 %section.gardens-section.nursery-panel
-  - if editable
-    = check_box_tag 'nursery-edit', 1, false, class: 'nursery-edit-input visually-hidden'
   .gardens-section-header
     %h2= nursery ? link_to(nursery.name, nursery) : 'Nursery'
     %small.nursery-summary
@@ -17,44 +15,32 @@
         #{nursery_seedling_count(seedlings)}, raised here before they go into a garden
       - else
         Not set up yet
-    - if editable
-      %label.nursery-edit-button{ for: 'nursery-edit' }
-        %span.when-viewing Bulk edit
-        %span.when-editing Done
-  - if nursery.nil?
-    .gardens-section-body
+  .gardens-section-body
+    - if nursery.nil?
       %h3.h5 Where do you start your seeds?
       = render 'nurseries/what_is_a_nursery'
       = link_to 'Set up a nursery', nursery_path, class: 'btn btn-primary'
       = button_to 'I don\'t raise seedlings', nursery_decline_path, method: :post, class: 'btn btn-link'
-  - else
-    = form_tag new_nursery_plant_out_path, method: :get, class: 'nursery-form' do
-      .gardens-section-body
-        - sown_groups.each_with_index do |((day, got), group), index|
-          %section.nursery-day
-            .nursery-day-head
-              %b.nursery-day-heading= nursery_day_title(day)
-              %small= nursery_day_subtitle(day, got)
-              - photos = group.filter_map { |seedling| seedling.photos.first }.first(3)
-              - if photos.any?
-                .nursery-day-photos
-                  - photos.each do |photo|
-                    = image_tag thumbnail_url(photo), alt: 'Photo of a seed tray'
-            %ul.nursery-seedlings
-              - group.each do |seedling|
-                %li= react_component 'NurseryChip', nursery_chip_props(seedling, pick: editable)
-              - if editable && index.zero?
-                %li= react_component 'NurseryPlanter', sow
-        - if sown_groups.empty? && editable
-          %section.nursery-day
-            .nursery-day-head
-              %b.nursery-day-heading Sown
-              %small nothing yet
-            %ul.nursery-seedlings
+    - else
+      - sown_groups.each_with_index do |((day, got), group), index|
+        %section.nursery-day
+          .nursery-day-head
+            %b.nursery-day-heading= nursery_day_title(day)
+            %small= nursery_day_subtitle(day, got)
+            - photos = group.filter_map { |seedling| seedling.photos.first }.first(3)
+            - if photos.any?
+              .nursery-day-photos
+                - photos.each do |photo|
+                  = image_tag thumbnail_url(photo), alt: 'Photo of a seed tray'
+          %ul.nursery-seedlings
+            - group.each do |seedling|
+              %li= react_component 'NurseryChip', nursery_chip_props(seedling, gardens:)
+            - if editable && index.zero?
               %li= react_component 'NurseryPlanter', sow
-      - if editable
-        .nursery-bar
-          %b.nursery-selected-count
-          %span.flex-fill
-          = submit_tag 'Plant out', class: 'btn btn-success'
-          = button_tag 'Clear', type: 'reset', class: 'btn btn-outline-success'
+      - if sown_groups.empty? && editable
+        %section.nursery-day
+          .nursery-day-head
+            %b.nursery-day-heading Sown
+            %small nothing yet
+          %ul.nursery-seedlings
+            %li= react_component 'NurseryPlanter', sow

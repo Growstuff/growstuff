@@ -45,8 +45,6 @@ Rails.application.routes.draw do
   # Before the gardens resource, so "nursery" isn't taken for a garden's slug.
   resource :nursery, only: %i(show create) do
     resource :decline, only: :create, module: :nurseries
-    resource :plant_out, only: %i(new create show), module: :nurseries
-    resource :leftovers, only: :create, module: :nurseries
   end
 
   resources :gardens, concerns: :has_photos, param: :slug do

@@ -118,111 +118,6 @@ describe "Nursery" do
     end
   end
 
-  describe "planting out seedlings" do
-    let(:main) { member.gardens.first }
-    let(:tomato) { create(:crop, name: 'cherry tomato') }
-    let(:eggplant) { create(:crop, name: 'eggplant') }
-    let!(:tomatoes) { create(:planting, garden: member.nursery!, owner: member, crop: tomato, quantity: 6, planted_at: 5.days.ago.to_date) }
-    let!(:eggplants) do
-      create(:planting, garden: member.nursery!, owner: member, crop: eggplant, quantity: 3, planted_at: 5.days.ago.to_date)
-    end
-
-    before do
-      visit new_nursery_plant_out_path
-      check "batch_#{tomatoes.id}"
-      check "batch_#{eggplants.id}"
-      choose main.name
-      fill_in 'How many cherry tomato', with: 4
-      click_button 'Plant out'
-      page.assert_text 'What about the rest?'
-    end
-
-    it "plants out the number asked for" do
-      expect(main.plantings.pluck(:crop_id, :quantity)).to contain_exactly([tomato.id, 4], [eggplant.id, 3])
-    end
-
-    it "keeps the sow date" do
-      expect(main.plantings.pluck(:planted_at).uniq).to eq [5.days.ago.to_date]
-    end
-
-    it "records the day they were planted out" do
-      expect(main.plantings.pluck(:transplanted_at).uniq).to eq [Time.zone.today]
-    end
-
-    it "leaves the rest in the nursery" do
-      expect(tomatoes.reload).to have_attributes(quantity: 2, finished: false)
-    end
-
-    it "finishes a batch that all went out" do
-      expect(eggplants.reload).to be_finished
-    end
-  end
-
-  describe "after planting out some of a batch" do
-    let!(:tomatoes) { create(:planting, garden: member.nursery!, owner: member, quantity: 6, planted_at: 5.days.ago.to_date) }
-
-    before do
-      visit new_nursery_plant_out_path
-      check "batch_#{tomatoes.id}"
-      choose member.gardens.first.name
-      fill_in "quantities_#{tomatoes.id}", with: 4
-      click_button 'Plant out'
-    end
-
-    it "says how many are left" do
-      expect(page).to have_content '2 seedlings left in the nursery'
-    end
-
-    it "can mark the rest as done" do
-      choose "died_#{tomatoes.id}"
-      click_button 'Update the nursery'
-      page.assert_current_path member_gardens_path(member)
-      expect(tomatoes.reload).to be_failed
-    end
-  end
-
-  describe "planting out every one of a batch" do
-    let!(:batch) { create(:planting, garden: member.nursery!, owner: member, quantity: 3, planted_at: 2.days.ago.to_date) }
-
-    before do
-      visit new_nursery_plant_out_path
-      check "batch_#{batch.id}"
-      choose member.gardens.first.name
-      click_button 'Plant out'
-    end
-
-    it "goes back to the gardens, with nothing left to ask about" do
-      expect(page).to have_current_path member_gardens_path(member)
-      expect(page).to have_content 'Planted out 3 seedlings'
-    end
-  end
-
-  describe "planting out from a batch's menu" do
-    let!(:batch) { create(:planting, garden: member.nursery!, owner: member, quantity: 3, planted_at: Time.zone.today) }
-
-    before do
-      visit member_gardens_path(member)
-      within('.nursery-panel') { click_link "Actions for #{batch.display_name}" }
-      click_link 'Plant out'
-    end
-
-    it "opens the plant-out page with that batch ticked" do
-      expect(page).to have_checked_field "batch_#{batch.id}"
-    end
-  end
-
-  describe "planting out without choosing a garden" do
-    before do
-      create(:planting, garden: member.nursery!, owner: member, quantity: 2, planted_at: 2.days.ago.to_date)
-      visit new_nursery_plant_out_path
-      click_button 'Plant out'
-    end
-
-    it "asks which garden" do
-      expect(page).to have_content 'Choose which garden they are going into.'
-    end
-  end
-
   describe "choosing a seed packet" do
     let(:crop) { create(:crop, name: 'beetroot', description: 'A sweet red root.') }
 
@@ -293,24 +188,57 @@ describe "Nursery" do
     end
   end
 
-  describe "bulk editing the nursery" do
-    let!(:batch) { create(:planting, garden: member.nursery!, owner: member, quantity: 4, planted_at: Time.zone.today) }
+  describe "transplanting a batch from its menu" do
+    let(:other_garden) { member.gardens.first }
+    let!(:batch) { create(:planting, garden: member.nursery!, owner: member, quantity: 6, planted_at: 3.days.ago.to_date) }
 
-    before { visit member_gardens_path(member) }
-
-    it "hides the ticks until you edit" do
-      expect(page).to have_no_css '.nursery-pick-box'
+    before do
+      other_garden
+      visit member_gardens_path(member)
+      within('.nursery-panel') { click_link "Actions for #{batch.display_name}" }
+      click_link 'Transplant'
+      within('.modal') do
+        choose other_garden.name
+        click_button 'Next'
+      end
     end
 
-    it "shows the ticks when editing" do
-      find('.nursery-edit-button').click
-      expect(page).to have_css '.nursery-pick-box'
+    it "asks whether that was all of them" do
+      expect(page).to have_css '.modal', text: "Was that all of the #{batch.display_name}?"
     end
 
-    it "offers to plant out what is ticked" do
-      find('.nursery-edit-button').click
-      check "pick_#{batch.id}"
-      expect(page).to have_button 'Plant out'
+    context "when that was all of them" do
+      before do
+        within('.modal') { click_button 'Transplant' }
+        page.assert_no_selector '.modal', wait: 10
+      end
+
+      it "plants them in the garden" do
+        expect(other_garden.plantings.pluck(:quantity, :transplanted_from_id)).to eq [[6, batch.id]]
+      end
+
+      it "finishes the batch in the nursery" do
+        expect(batch.reload).to be_finished
+      end
+    end
+
+    context "when only some were transplanted" do
+      before do
+        within('.modal') do
+          choose 'No, only some'
+          fill_in 'How many did you transplant?', with: 2
+          click_button 'Transplant'
+        end
+        page.assert_no_selector '.modal', wait: 10
+      end
+
+      it "plants that many in the garden" do
+        expect(other_garden.plantings.pluck(:quantity)).to eq [2]
+      end
+
+      it "leaves the rest in the nursery" do
+        expect(batch.reload).to have_attributes(quantity: 4, finished: false)
+      end
     end
   end
 

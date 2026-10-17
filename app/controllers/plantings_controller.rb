@@ -107,13 +107,17 @@ class PlantingsController < DataController
     authorize! :update, new_garden
 
     moving = transplant_quantity
-    return redirect_to @planting, alert: t('messages.transplant_error', errors: t('messages.transplant_quantity')) if moving == :invalid
+    new_planting = @planting.transplant_to(new_garden, quantity: moving, on: transplanted_on) unless moving == :invalid
 
-    new_planting = @planting.transplant_to(new_garden, quantity: moving)
-    if new_planting.persisted?
-      redirect_to edit_planting_path(new_planting), notice: t('messages.transplant_success')
-    else
-      redirect_to @planting, alert: t('messages.transplant_error', errors: new_planting.errors.full_messages.to_sentence)
+    respond_to do |format|
+      if new_planting&.persisted?
+        format.html { redirect_to edit_planting_path(new_planting), notice: t('messages.transplant_success') }
+        format.json { render json: { url: planting_path(new_planting) }, status: :created }
+      else
+        errors = new_planting ? new_planting.errors.to_hash : { quantity: [t('messages.transplant_quantity')] }
+        format.html { redirect_to @planting, alert: t('messages.transplant_error', errors: errors.values.flatten.to_sentence) }
+        format.json { render json: { errors: errors }, status: :unprocessable_content }
+      end
     end
   end
 
@@ -125,6 +129,13 @@ class PlantingsController < DataController
     return unless seed&.owner == current_member && seed.quantity && @planting.quantity
 
     seed.update(quantity: [seed.quantity - @planting.quantity, 0].max)
+  end
+
+  # The day they went into the garden: today unless the member says otherwise.
+  def transplanted_on
+    params[:date].present? ? Date.parse(params[:date].to_s) : Time.zone.today
+  rescue Date::Error
+    Time.zone.today
   end
 
   # How many are being moved: nil for all of them, or a number short of the

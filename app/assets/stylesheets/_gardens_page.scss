@@ -250,8 +250,17 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
 }
 
 // The nursery: a section of days, each with the day (and photos of its trays) on
-// the left and what was sown that day as pills on the right. The owner can tick batches, and a bar then plants them out.
+// the left and what was sown that day as pills on the right.
+// The nursery is its own colour, a warm seed-tray brown, so it reads as a different
+// kind of place from the gardens below it.
 .nursery-panel {
+  $nursery-accent: #8c5a2e;
+  $nursery-pale: #f3e6d4;
+
+  .gardens-section-header {
+    background: $nursery-accent;
+  }
+
   .nursery-day {
     display: flex;
     flex-wrap: wrap;
@@ -340,7 +349,7 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
       padding: 0 14px 0 8px;
       border: 2px solid transparent;
       border-radius: 999px;
-      background: #dfe8d4;
+      background: $nursery-pale;
       box-shadow: none;
       color: #212121;
       font-size: 0.92rem;
@@ -360,76 +369,30 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     }
   }
 
-  // Ticking batches and the plant-out bar only show while editing.
-  .nursery-edit-input:not(:checked) ~ .nursery-form .nursery-pick-box {
-    display: none;
-  }
-
-  .nursery-edit-button {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    padding: 0 1rem;
-    border-radius: 2px;
-    background: #fff;
-    color: $gardens-green;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-
-    .when-editing {
-      display: none;
-    }
-  }
-
-  .nursery-edit-input:checked ~ .gardens-section-header .nursery-edit-button {
-    .when-viewing {
-      display: none;
-    }
-
-    .when-editing {
-      display: inline;
-    }
-  }
-
-  .nursery-edit-input:focus-visible ~ .gardens-section-header .nursery-edit-button {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-  }
-
   .nursery-chip-detail {
     color: $gardens-muted;
   }
 
-  // The "+ Add" buttons: a white box with a green outline, as in the designs.
+  // The "+ Add" buttons: a white box with an outline, as in the designs.
   .nursery-seedlings .btn-outline-success {
     min-height: 44px;
+    border-color: $nursery-accent;
+    color: $nursery-accent;
     border-radius: 2px;
     background: #fff;
     font-weight: 600;
     text-transform: uppercase;
   }
 
-  .nursery-pick-box {
-    flex: none;
-    width: 1.2rem;
-    height: 1.2rem;
-    margin: 0;
-    accent-color: $gardens-green;
-  }
-
-  // A batch in the nursery: its tick, pill and count in one pill, so it's plain
-  // which batch a tick belongs to.
+  // A batch in the nursery: its pill, menu and count, in one pill.
   .nursery-batch {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     min-height: 44px;
     padding: 0 14px 0 12px;
-    border: 2px solid transparent;
     border-radius: 999px;
-    background: #dfe8d4;
+    background: $nursery-pale;
 
     .chip {
       min-height: 0;
@@ -437,35 +400,6 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
       border: 0;
       background: none;
     }
-
-    &:has(.nursery-pick-box:checked) {
-      border-color: $gardens-green;
-      background: #e4efdc;
-    }
   }
 
-  .nursery-form {
-    counter-reset: picked;
-  }
-
-  .nursery-pick-box:checked {
-    counter-increment: picked;
-  }
-
-  .nursery-bar {
-    display: none;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 1.1rem;
-    border-top: 1px solid #a4c98c;
-    background: #e4efdc;
-
-    .nursery-selected-count::before {
-      content: counter(picked) " selected";
-    }
-  }
-
-  .nursery-edit-input:checked ~ .nursery-form:has(.nursery-pick-box:checked) .nursery-bar {
-    display: flex;
-  }
 }

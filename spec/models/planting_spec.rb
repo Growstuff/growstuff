@@ -813,33 +813,4 @@ describe Planting do
       end
     end
   end
-
-  describe '#finish_leftovers' do
-    let(:planting) { create(:planting, description: 'Sown on the sill') }
-
-    context 'when they died' do
-      before { planting.finish_leftovers('died') }
-
-      it { expect(planting.reload).to be_failed }
-      it { expect(planting.description).to include 'Sown on the sill', 'Died' }
-    end
-
-    context 'when given away' do
-      before { planting.finish_leftovers('gave_away') }
-
-      it { expect(planting.reload).to be_finished }
-    end
-
-    context 'when it is just done' do
-      before { planting.finish_leftovers('done') }
-
-      it { expect(planting.reload.description).to eq 'Sown on the sill' }
-    end
-
-    context 'with a reason we do not know' do
-      before { planting.finish_leftovers('lost') }
-
-      it { expect(planting.reload).not_to be_finished }
-    end
-  end
 end

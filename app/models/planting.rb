@@ -177,19 +177,6 @@ class Planting < ApplicationRecord
     transplant
   end
 
-  # Why what is left of a sowing won't be planted out. "done" is nothing more than
-  # that; the rest are noted on the planting.
-  LEFTOVER_REASONS = { 'done' => nil, 'discarded' => 'Discarded', 'died' => 'Died', 'gave_away' => 'Gave away' }.freeze
-
-  # Finishes what is left of a sowing that won't be planted out, noting why.
-  def finish_leftovers(reason)
-    return unless LEFTOVER_REASONS.key?(reason)
-
-    note = LEFTOVER_REASONS[reason]
-    update(finished: reason != 'died', failed: reason == 'died',
-           description: [description, note && "#{note}: the rest of this sowing."].compact_blank.join("\n\n"))
-  end
-
   # Sown after the year its seed packet said to plant it by.
   def sown_from_expired_seeds?
     seed_plant_before.present? && planted_at.present? && planted_at > seed_plant_before
