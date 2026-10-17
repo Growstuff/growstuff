@@ -15,22 +15,61 @@ module GardensHelper
     }
   end
 
-  # The seedlings currently in a nursery, newest sown first.
+  # The plantings currently in a nursery, newest sown first.
   def nursery_seedlings(nursery)
-    return Planting.none unless nursery
+    return [] unless nursery
 
-    nursery.plantings.current.includes(crop: :parent).order(planted_at: :desc, id: :desc)
+    nursery.plantings.current.includes(crop: :parent).order(planted_at: :desc, id: :desc).to_a
   end
 
-  # "12 seedlings", counting each plant, or that there are none.
+  # What has been sown, as [day, plantings] pairs, newest day first.
+  def nursery_sown_groups(seedlings)
+    seedlings.reject(&:planned?).group_by { |seedling| seedling.planted_at || seedling.created_at.to_date }
+      .sort_by(&:first).reverse
+  end
+
+  # What is planned but not sown yet, soonest first.
+  def nursery_planned(seedlings)
+    seedlings.select(&:planned?).sort_by(&:planted_at)
+  end
+
+  # "Today", or "Mon 12 Oct · 5 days ago".
+  def nursery_day_label(day)
+    today = Time.zone.today
+    return 'Today' if day == today
+
+    ago = (today - day).to_i
+    "#{l(day, format: '%a %-d %b')} · #{ago == 1 ? 'yesterday' : "#{ago} days ago"}"
+  end
+
+  # "12 seedlings", counting each plant, or that there are none sown yet.
   def nursery_seedling_count(seedlings)
-    return 'No seedlings yet' if seedlings.empty?
+    sown = seedlings.reject(&:planned?)
+    return 'No seedlings yet' if sown.empty?
 
-    pluralize(seedlings.sum { |seedling| seedling.quantity || 1 }, 'seedling')
+    pluralize(sown.sum { |seedling| seedling.quantity || 1 }, 'seedling')
   end
 
+  # The sow seeds dialog's props: the nursery, the member's other gardens to sow
+  # straight into, and their seed packets to sow from.
   def nursery_planter_props(nursery)
-    { garden: { id: nursery.id, name: nursery.name }, label: 'Sow seeds', buttonClass: 'btn btn-primary' }
+    owner = nursery.owner
+    {
+      garden:      { id: nursery.id, name: nursery.name },
+      gardens:     owner.gardens.active.not_nurseries.order_by_name.map { |garden| { id: garden.id, name: garden.name } },
+      seeds:       owner.seeds.active.includes(:crop, :photos).order(created_at: :desc).limit(200).map { |seed| seed_packet_props(seed) },
+      label:       'Sow seeds',
+      buttonClass: 'btn btn-primary'
+    }
+  end
+
+  # A seed packet for the sow dialog, with the photo of it if there is one, as
+  # that is what tells two packets of the same crop apart.
+  def seed_packet_props(seed)
+    photo = seed.photos.first
+    { id: seed.id, crop_id: seed.crop_id, name: seed.crop_name, quantity: seed.quantity,
+      heirloom: seed.heirloom, saved: l(seed.created_at.to_date, format: '%-d %b %Y'),
+      plant_before: seed.plant_before&.iso8601, photo_url: (thumbnail_url(photo) if photo) }
   end
 
   # "2022–2024 · 12 plantings": when an inactive garden was in use, by its plantings.

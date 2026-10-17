@@ -381,7 +381,39 @@ $garden-card-line: #e6e6e6;
     }
   }
 
+  .nursery-day + .nursery-day {
+    margin-top: 1rem;
+  }
+
+  .nursery-day-heading {
+    margin: 0 0 0.5rem;
+    color: $garden-card-muted;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .nursery-planned .chip {
+    opacity: 0.8;
+  }
+
   .nursery-seedling-details {
     color: $garden-card-muted;
   }
+}
+
+// A seed packet in the sow dialog's list: its photo, if it has one, beside what it is.
+.seed-packet {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.seed-packet-photo {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 2px;
+  object-fit: cover;
 }

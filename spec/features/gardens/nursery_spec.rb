@@ -22,18 +22,83 @@ describe "Nursery" do
       let(:crop) { create(:crop, name: 'tomato') }
 
       before do
-        create(:planting, garden: member.nursery, owner: member, crop:, quantity: 6)
+        create(:planting, garden: member.nursery, owner: member, crop:, quantity: 6, planted_at: Time.zone.today)
+        create(:planting, garden: member.nursery, owner: member, crop: create(:crop, name: 'basil'),
+                          planted_at: 1.week.from_now.to_date)
         visit member_gardens_path(member)
+      end
+
+      it "groups them under the day they were sown" do
+        within('.nursery-panel') { expect(page).to have_css '.nursery-day-heading', text: /today/i }
+      end
+
+      it "lists plans to sow later separately" do
+        within('.nursery-planned') { expect(page).to have_link 'basil' }
       end
 
       it "sows in a dialog" do
         click_button 'Sow seeds'
-        expect(page).to have_css '.modal', text: 'Plant something in Nursery'
+        expect(page).to have_css '.modal', text: 'Sow seeds'
       end
 
       it "lists the seedlings above the gardens" do
         within('.nursery-panel') { expect(page).to have_link 'tomato' }
       end
+    end
+  end
+
+  describe "sowing from a seed packet" do
+    let(:crop) { create(:crop, name: 'beetroot') }
+    let!(:packet) { create(:seed, owner: member, crop:, quantity: 120) }
+
+    before do
+      member.nursery
+      visit member_gardens_path(member)
+      click_button 'Sow seeds'
+      within('.modal') do
+        click_button 'beetroot'
+        fill_in 'How many seeds?', with: 6
+        click_button 'Sow into the nursery'
+      end
+      page.assert_no_selector '.modal'
+    end
+
+    it "sows them into the nursery" do
+      expect(member.nursery.plantings.pluck(:crop_id, :quantity, :parent_seed_id)).to eq [[crop.id, 6, packet.id]]
+    end
+
+    it "takes them out of the packet" do
+      expect(packet.reload.quantity).to eq 114
+    end
+  end
+
+  describe "recognising a seed packet by its photo" do
+    let(:packet) { create(:seed, owner: member, crop: create(:crop, name: 'beetroot')) }
+
+    before do
+      packet.photos << create(:photo, owner: member, thumbnail_url: 'https://example.com/packet.jpg')
+      member.nursery
+      visit member_gardens_path(member)
+      click_button 'Sow seeds'
+    end
+
+    it "shows the packet's photo in the list" do
+      expect(page).to have_css "img[alt='Photo of the beetroot packet']"
+    end
+  end
+
+  describe "sowing from expired seeds" do
+    let(:crop) { create(:crop, name: 'beetroot') }
+
+    before do
+      create(:seed, owner: member, crop:, plant_before_year: 2020)
+      member.nursery
+      visit member_gardens_path(member)
+      click_button 'Sow seeds'
+    end
+
+    it "marks the packet as expired in the list" do
+      expect(page).to have_css '.badge', text: 'Expired 2020'
     end
   end
 

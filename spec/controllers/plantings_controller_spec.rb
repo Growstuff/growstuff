@@ -121,6 +121,32 @@ describe PlantingsController do
 
       it { expect(assigns(:planting).owner).to eq subject.current_member }
     end
+
+    describe "sowing from a seed packet" do
+      let(:seed) { create(:seed, owner: member, quantity: 120) }
+      let(:garden) { member.gardens.first }
+      let(:planting_params) { { garden_id: garden.id, parent_seed_id: seed.id, quantity: 6 } }
+
+      context "when asked to use the seeds up" do
+        before { post :create, params: { planting: planting_params, use_seeds: '1' } }
+
+        it { expect(seed.reload.quantity).to eq 114 }
+      end
+
+      context "without asking to use the seeds up" do
+        before { post :create, params: { planting: planting_params } }
+
+        it { expect(seed.reload.quantity).to eq 120 }
+      end
+
+      context "when sowing more than the packet has" do
+        let(:seed) { create(:seed, owner: member, quantity: 4) }
+
+        before { post :create, params: { planting: planting_params, use_seeds: '1' } }
+
+        it { expect(seed.reload.quantity).to eq 0 }
+      end
+    end
   end
 
   describe 'GET :edit' do

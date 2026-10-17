@@ -37,6 +37,7 @@ class Planting < ApplicationRecord
   has_many :plants, dependent: :destroy
 
   # Once a planting is on a layout, keep its plants in step with its quantity.
+  before_create :remember_seed_plant_before
   after_update :sync_plants, if: -> { saved_change_to_quantity? && plants.exists? }
 
   scope :current, -> { where.not(finished: true).where.not(failed: true) }
@@ -158,6 +159,11 @@ class Planting < ApplicationRecord
     quantity.to_i > MAX_PLANTS
   end
 
+  # Sown after the year its seed packet said to plant it by.
+  def sown_from_expired_seeds?
+    seed_plant_before.present? && planted_at.present? && planted_at > seed_plant_before
+  end
+
   def growing?
     planted? && !finished?
   end
@@ -182,6 +188,12 @@ class Planting < ApplicationRecord
   end
 
   private
+
+  # Copied from the packet when the planting is made, as the packet may be
+  # edited or thrown away later.
+  def remember_seed_plant_before
+    self.seed_plant_before ||= parent_seed&.plant_before
+  end
 
   def cannot_be_finished_and_failed
     errors.add(:failed, :failed_and_finished) if finished && failed

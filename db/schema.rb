@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_16_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_17_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -927,6 +927,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_16_010000) do
     t.date "planted_at"
     t.string "planted_from"
     t.integer "quantity"
+    t.date "seed_plant_before"
     t.string "slug"
     t.string "sunniness"
     t.integer "transplanted_from_id"

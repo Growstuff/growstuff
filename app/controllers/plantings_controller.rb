@@ -78,7 +78,7 @@ class PlantingsController < DataController
     @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
     # Only into your own gardens. A missing garden is left to the validation.
     authorize! :update, @planting.garden if @planting.garden.present?
-    @planting.save
+    use_up_seeds if @planting.save && params[:use_seeds].present?
     return render_card_json(status: :created) if request.format.json?
 
     respond_with @planting
@@ -107,13 +107,11 @@ class PlantingsController < DataController
     authorize! :update, new_garden
 
     moving = transplant_quantity
-    if moving == :invalid
-      return redirect_to @planting, alert: t('messages.transplant_error', errors: t('messages.transplant_quantity'))
-    end
+    return redirect_to @planting, alert: t('messages.transplant_error', errors: t('messages.transplant_quantity')) if moving == :invalid
 
     new_planting = build_transplant(new_garden, moving)
     saved = Planting.transaction do
-      new_planting.save && finish_or_reduce(moving) || raise(ActiveRecord::Rollback)
+      (new_planting.save && finish_or_reduce(moving)) || raise(ActiveRecord::Rollback)
     end
 
     if saved
@@ -124,6 +122,14 @@ class PlantingsController < DataController
   end
 
   private
+
+  # Sowing from a packet takes the seeds sown out of it, if it says how many it has.
+  def use_up_seeds
+    seed = @planting.parent_seed
+    return unless seed&.owner == current_member && seed.quantity && @planting.quantity
+
+    seed.update(quantity: [seed.quantity - @planting.quantity, 0].max)
+  end
 
   # How many are being moved: nil for all of them, or a number short of the
   # planting's quantity. :invalid if the member asked for none or too many.

@@ -1,6 +1,9 @@
 -# The member's nursery, above their gardens: where seedlings are raised before
 -# they're planted out. A member who hasn't chosen one yet is asked about it.
-- seedlings = nursery_seedlings(nursery)
+:ruby
+  seedlings = nursery_seedlings(nursery)
+  sown_groups = nursery_sown_groups(seedlings)
+  planned = nursery_planned(seedlings)
 .card.nursery-panel
   .nursery-panel-header
     %div
@@ -17,14 +20,28 @@
       = render 'gardens/what_is_a_nursery'
       = link_to 'Set up a nursery', nursery_path, class: 'btn btn-primary'
     - elsif seedlings.empty?
-      %p.text-muted.mb-0 Sow some seeds and they'll show up here, ready to transplant.
+      %p.text-muted.mb-0 Sow some seeds and they'll show up here, ready to plant out.
     - else
-      %ul.nursery-seedlings
-        - seedlings.each do |seedling|
-          %li
-            = render 'plantings/tiny', planting: seedling
-            %small.nursery-seedling-details
-              - if seedling.quantity.present?
-                &times; #{seedling.quantity}
-              - if seedling.planted_at.present?
-                sown #{l(seedling.planted_at, format: :short)}
+      - sown_groups.each do |day, group|
+        %section.nursery-day
+          %h3.nursery-day-heading= nursery_day_label(day)
+          %ul.nursery-seedlings
+            - group.each do |seedling|
+              %li
+                = render 'plantings/tiny', planting: seedling
+                %small.nursery-seedling-details
+                  - if seedling.quantity.present?
+                    &times; #{seedling.quantity}
+                  - if seedling.planted_from == 'seedling'
+                    &middot; got as seedlings
+                  - if seedling.sown_from_expired_seeds?
+                    &middot; expired seeds
+      - if planned.any?
+        %section.nursery-day.nursery-planned
+          %h3.nursery-day-heading To sow
+          %ul.nursery-seedlings
+            - planned.each do |seedling|
+              %li
+                = render 'plantings/tiny', planting: seedling
+                %small.nursery-seedling-details
+                  planned &middot; #{l(seedling.planted_at, format: '%a %-d %b')}

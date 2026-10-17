@@ -754,4 +754,40 @@ describe Planting do
       expect { planting.destroy }.to change(Plant, :count).by(-3)
     end
   end
+
+  describe 'sowing from expired seeds' do
+    let(:seed) { create(:seed, plant_before_year: 2025) }
+    let(:planting) { create(:planting, parent_seed: seed, planted_at:) }
+
+    context 'when sown after the packet year' do
+      let(:planted_at) { Date.new(2026, 3, 1) }
+
+      it { expect(planting).to be_sown_from_expired_seeds }
+    end
+
+    context 'when sown in the packet year' do
+      let(:planted_at) { Date.new(2025, 6, 1) }
+
+      it { expect(planting).not_to be_sown_from_expired_seeds }
+    end
+
+    context 'without a parent seed' do
+      subject(:planting) { create(:planting, planted_at: Date.new(2026, 3, 1)) }
+
+      it { is_expected.not_to be_sown_from_expired_seeds }
+    end
+
+    context 'when the packet date changes later' do
+      let(:planted_at) { Date.new(2026, 3, 1) }
+
+      before do
+        planting
+        seed.update!(plant_before_year: 2030)
+      end
+
+      it 'remembers the date at the time' do
+        expect(planting.reload).to be_sown_from_expired_seeds
+      end
+    end
+  end
 end
