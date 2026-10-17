@@ -396,6 +396,10 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     outline-offset: 2px;
   }
 
+  .nursery-chip-detail {
+    color: $gardens-muted;
+  }
+
   // The "+ Add" buttons: a white box with a green outline, as in the designs.
   .nursery-seedlings .btn-outline-success {
     min-height: 44px;

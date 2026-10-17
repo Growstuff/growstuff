@@ -40,7 +40,12 @@ class Planting < ApplicationRecord
   before_create :remember_seed_plant_before
   after_update :sync_plants, if: -> { saved_change_to_quantity? && plants.exists? }
 
-  scope :current, -> { where.not(finished: true).where.not(failed: true) }
+  # A planting dated in the future is a plan: it hasn't been sown, so it isn't
+  # counted or listed anywhere but as "to sow" in its owner's nursery.
+  scope :planned, -> { where('plantings.planted_at > ?', Time.zone.today) }
+  scope :sown, -> { where('plantings.planted_at IS NULL OR plantings.planted_at <= ?', Time.zone.today) }
+
+  scope :current, -> { sown.where.not(finished: true).where.not(failed: true) }
 
   #
   # Ancestry of food
@@ -60,7 +65,7 @@ class Planting < ApplicationRecord
       .where.not(gardens: { latitude: nil })
       .where.not(gardens: { longitude: nil })
   }
-  scope :active, -> { where(finished: false, failed: false).where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
+  scope :active, -> { sown.where(finished: false, failed: false).where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
   scope :failed, -> { where(failed: true) }
   scope :annual, -> { joins(:crop).where(crops: { perennial: false }) }
   scope :perennial, -> { joins(:crop).where(crops: { perennial: true }) }

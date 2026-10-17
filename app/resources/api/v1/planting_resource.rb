@@ -7,6 +7,11 @@ module Api
         @model.owner = context[:current_user]
       end
 
+      # Plans aren't sown yet, so they aren't plantings anyone else can see.
+      def self.records(options = {})
+        super.sown
+      end
+
       has_one :garden, always_include_linkage_data: true
       has_one :crop, always_include_linkage_data: true
       has_one :owner, class_name: 'Member', always_include_linkage_data: true

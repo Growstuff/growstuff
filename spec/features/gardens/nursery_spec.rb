@@ -28,6 +28,10 @@ describe "Nursery" do
         visit member_gardens_path(member)
       end
 
+      it "names each batch by its crop, not who planted it where" do
+        within('.nursery-panel') { expect(page).to have_no_content 'planting in' }
+      end
+
       it "groups them under the day they were sown" do
         within('.nursery-panel') { expect(page).to have_css '.nursery-day-heading', text: 'Today' }
       end

@@ -15,7 +15,7 @@ module GardensHelper
     }
   end
 
-  # The plantings currently in a nursery, newest sown first.
+  # What is currently in a nursery, newest sown first.
   def nursery_seedlings(nursery)
     return [] unless nursery
 
@@ -25,14 +25,16 @@ module GardensHelper
   # What has been sown, as [[day, got as seedlings], plantings] pairs, newest
   # day first. Seedlings that were given or bought are a group of their own.
   def nursery_sown_groups(seedlings)
-    seedlings.reject(&:planned?)
+    seedlings
       .group_by { |seedling| [seedling.planted_at || seedling.created_at.to_date, seedling.planted_from == 'seedling'] }
       .sort_by { |(day, got), _| [day, got ? 0 : 1] }.reverse
   end
 
-  # What is planned but not sown yet, soonest first.
-  def nursery_planned(seedlings)
-    seedlings.select(&:planned?).sort_by(&:planted_at)
+  # What the nursery's owner plans to sow, in any garden, soonest first.
+  def nursery_planned(nursery)
+    return [] unless nursery
+
+    nursery.owner.plantings.planned.includes(:crop, :garden).order(:planted_at, :id).to_a
   end
 
   # The bold line of a group: "Today", or "Mon 12 Oct".
@@ -50,12 +52,27 @@ module GardensHelper
     ago == 1 ? 'yesterday' : "#{ago} days ago"
   end
 
+  # When a plan is for, and where if not the nursery: "Sat 24 Oct", "Sat 24 Oct · The Deck".
+  def nursery_plan_detail(planting)
+    [l(planting.planted_at, format: '%a %-d %b'), (planting.garden.name unless planting.garden.nursery?)].compact.join(' · ')
+  end
+
   # "12 seedlings", counting each plant, or that there are none sown yet.
   def nursery_seedling_count(seedlings)
-    sown = seedlings.reject(&:planned?)
-    return 'No seedlings yet' if sown.empty?
+    return 'No seedlings yet' if seedlings.empty?
 
-    pluralize(sown.sum { |seedling| seedling.quantity || 1 }, 'seedling')
+    pluralize(seedlings.sum { |seedling| seedling.quantity || 1 }, 'seedling')
+  end
+
+  # A batch's chip and menu, for the NurseryChip island: how many there are, and
+  # a tick to plant it out while the nursery is edited.
+  def nursery_chip_props(seedling, pick:)
+    {
+      planting:         PlantingChipSerializer.new(seedling, ability: current_ability).as_json,
+      default_icon_url: image_path('icons/planting.svg'),
+      detail:           ("\u00d7 #{seedling.quantity}" if seedling.quantity),
+      pick:             pick
+    }
   end
 
   # The sow seeds dialog's props: the nursery, the member's other gardens to sow

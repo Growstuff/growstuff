@@ -5,7 +5,7 @@
 :ruby
   seedlings = nursery_seedlings(nursery)
   sown_groups = nursery_sown_groups(seedlings)
-  planned = nursery_planned(seedlings)
+  planned = nursery_planned(nursery)
   editable = nursery && can?(:edit, nursery)
   sow = nursery_planter_props(nursery).merge(label: '+ Add', buttonClass: 'btn btn-outline-success') if editable
 %section.gardens-section.nursery-panel
@@ -43,7 +43,7 @@
                     = image_tag thumbnail_url(photo), alt: 'Photo of a seed tray'
             %ul.nursery-seedlings
               - group.each do |seedling|
-                %li= render 'nurseries/seedling_chip', seedling:, pick: editable, link: true, detail: ("× #{seedling.quantity}" if seedling.quantity)
+                %li= react_component 'NurseryChip', nursery_chip_props(seedling, pick: editable)
               - if editable && index.zero?
                 %li= react_component 'NurseryPlanter', sow
         - if sown_groups.empty? && editable
@@ -61,8 +61,7 @@
             %ul.nursery-seedlings
               - planned.each do |seedling|
                 %li
-                  = render 'nurseries/seedling_chip', seedling:, pick: false, link: false,
-                                                      detail: l(seedling.planted_at, format: '%a %-d %b')
+                  = render 'nurseries/plan_chip', planting: seedling, detail: nursery_plan_detail(seedling)
                   - if editable
                     = link_to 'Sowed it', planting_path(seedling, planting: { planted_at: Time.zone.today }), method: :put,
                                           class: 'nursery-plan-action'

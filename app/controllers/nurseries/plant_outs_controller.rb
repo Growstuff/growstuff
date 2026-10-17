@@ -29,7 +29,7 @@ module Nurseries
     private
 
     def set_batches_and_gardens
-      @batches = @nursery.plantings.current.includes(:crop).order(:planted_at, :id).reject(&:planned?)
+      @batches = @nursery.plantings.current.includes(:crop).order(:planted_at, :id)
       @gardens = current_member.gardens.active.not_nurseries.order_by_name
     end
 
