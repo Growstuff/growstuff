@@ -34,7 +34,7 @@ describe "Nursery" do
 
       it "gives each batch the same menu as a planting in a garden" do
         within('.nursery-panel') { click_link 'Actions for tomato' }
-        expect(page).to have_link(/record harvest/i)
+        expect(page).to have_link 'Record harvest'
       end
 
       it "names each batch by its crop, not who planted it where" do
