@@ -1,6 +1,6 @@
 -# The member's nursery, above their gardens: where seedlings are raised before
 -# they're planted out, by the day they were sown. A member who hasn't chosen one
--# yet is asked about it. The owner can add batches, and "Edit nursery" lets them
+-# yet is asked about it. The owner can add batches, and "Bulk edit" lets them
 -# tick batches to plant out.
 :ruby
   seedlings = nursery_seedlings(nursery)
@@ -19,8 +19,8 @@
         Not set up yet
     - if editable
       %label.nursery-edit-button{ for: 'nursery-edit' }
-        %span.when-viewing Edit nursery
-        %span.when-editing Done editing
+        %span.when-viewing Bulk edit
+        %span.when-editing Done
   - if nursery.nil?
     .gardens-section-body
       %h3.h5 Where do you start your seeds?

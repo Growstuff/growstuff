@@ -263,7 +263,7 @@ describe "Nursery" do
     end
   end
 
-  describe "editing the nursery" do
+  describe "bulk editing the nursery" do
     let!(:batch) { create(:planting, garden: member.nursery!, owner: member, quantity: 4, planted_at: Time.zone.today) }
 
     before { visit member_gardens_path(member) }
