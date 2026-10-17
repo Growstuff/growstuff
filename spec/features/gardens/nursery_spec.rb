@@ -67,7 +67,7 @@ describe "Nursery" do
 
   describe "sowing from a seed packet" do
     let(:crop) { create(:crop, name: 'beetroot') }
-    let!(:packet) { create(:seed, owner: member, crop:, quantity: 120) }
+    let!(:packet) { create(:seed, owner: member, crop:, quantity: 120, plant_before: nil) }
 
     before do
       member.nursery!
@@ -76,9 +76,15 @@ describe "Nursery" do
       within('.modal') do
         click_button 'beetroot'
         fill_in 'How many seeds?', with: 6
+        click_button 'Next'
+        fill_in 'Do you have any notes for this planting? (optional)', with: 'Soaked overnight'
         click_button 'Sow into the nursery'
       end
       page.assert_text '6 seedlings', wait: 10
+    end
+
+    it "saves the notes with the planting" do
+      expect(member.nursery!.plantings.first.description).to eq 'Soaked overnight'
     end
 
     it "sows them into the nursery" do
@@ -91,7 +97,7 @@ describe "Nursery" do
   end
 
   describe "recognising a seed packet by its photo" do
-    let(:packet) { create(:seed, owner: member, crop: create(:crop, name: 'beetroot')) }
+    let(:packet) { create(:seed, owner: member, crop: create(:crop, name: 'beetroot'), plant_before: nil) }
 
     before do
       packet.photos << create(:photo, owner: member, thumbnail_url: 'https://example.com/packet.jpg')
@@ -115,8 +121,19 @@ describe "Nursery" do
       open_sow_dialog
     end
 
-    it "marks the packet as expired in the list" do
-      expect(page).to have_css '.badge', text: 'Expired 2020'
+    it "leaves expired packets out of the list" do
+      within('.modal') do
+        expect(page).to have_no_button 'beetroot'
+        expect(page).to have_content '1 expired packet is hidden'
+      end
+    end
+
+    context "when asked to include expired seeds" do
+      before { within('.modal') { check 'Include expired seeds' } }
+
+      it "lists them, marked as expired" do
+        within('.modal') { expect(page).to have_css '.badge', text: 'Expired 2020' }
+      end
     end
   end
 
@@ -124,7 +141,7 @@ describe "Nursery" do
     let(:crop) { create(:crop, name: 'beetroot', description: 'A sweet red root.') }
 
     before do
-      create(:seed, owner: member, crop:)
+      create(:seed, owner: member, crop:, plant_before: nil)
       member.nursery!
       visit member_gardens_path(member)
       open_sow_dialog
@@ -135,17 +152,14 @@ describe "Nursery" do
       within('.modal') { expect(page).to have_css '.seed-packet-label', text: /beetroot/i }
     end
 
-    it "rolls the list up to the packet" do
-      within('.modal') do
-        expect(page).to have_button 'Change seeds'
-        expect(page).to have_no_field 'Which seeds?'
-      end
+    it "goes on to where and when" do
+      within('.modal') { expect(page).to have_content 'Where are you sowing them?' }
     end
 
-    it "brings the list back to change the seeds" do
+    it "goes back to the list to change the seeds" do
       within('.modal') do
         click_button 'Change seeds'
-        expect(page).to have_field 'Which seeds?'
+        expect(page).to have_field 'Search your seeds'
       end
     end
 
@@ -183,13 +197,14 @@ describe "Nursery" do
     let(:garden) { member.gardens.first }
 
     before do
-      create(:seed, owner: member, crop:, quantity: 50)
+      create(:seed, owner: member, crop:, quantity: 50, plant_before: nil)
       member.nursery!
       visit member_gardens_path(member)
       open_sow_dialog
       within('.modal') do
-        find('label', text: 'Straight into a garden').click
         click_button 'beetroot'
+        find('label', text: 'Straight into a garden').click
+        click_button 'Next'
         click_button "Sow into #{garden.name}"
       end
     end
