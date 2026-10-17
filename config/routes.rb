@@ -45,6 +45,8 @@ Rails.application.routes.draw do
   # Before the gardens resource, so "nursery" isn't taken for a garden's slug.
   get 'nursery' => 'gardens#nursery', as: :nursery
   post 'nursery' => 'gardens#create_nursery'
+  get 'nursery/plant_out' => 'gardens#plant_out', as: :plant_out_nursery
+  post 'nursery/plant_out' => 'gardens#create_plant_out'
   post 'nursery/decline' => 'gardens#decline_nursery', as: :decline_nursery
 
   resources :gardens, concerns: :has_photos, param: :slug do

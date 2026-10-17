@@ -102,6 +102,56 @@ describe "Nursery" do
     end
   end
 
+  describe "planting out seedlings" do
+    let(:main) { member.gardens.first }
+    let(:tomato) { create(:crop, name: 'cherry tomato') }
+    let(:eggplant) { create(:crop, name: 'eggplant') }
+    let!(:tomatoes) { create(:planting, garden: member.nursery, owner: member, crop: tomato, quantity: 6, planted_at: 5.days.ago.to_date) }
+    let!(:eggplants) do
+      create(:planting, garden: member.nursery, owner: member, crop: eggplant, quantity: 3, planted_at: 5.days.ago.to_date)
+    end
+
+    before do
+      visit plant_out_nursery_path
+      choose main.name
+      fill_in 'How many cherry tomato', with: 4
+      click_button 'Plant out'
+      page.assert_text 'Planted out'
+    end
+
+    it "plants out the number asked for" do
+      expect(main.plantings.pluck(:crop_id, :quantity)).to contain_exactly([tomato.id, 4], [eggplant.id, 3])
+    end
+
+    it "keeps the sow date" do
+      expect(main.plantings.pluck(:planted_at).uniq).to eq [5.days.ago.to_date]
+    end
+
+    it "records the day they were planted out" do
+      expect(main.plantings.pluck(:transplanted_at).uniq).to eq [Time.zone.today]
+    end
+
+    it "leaves the rest in the nursery" do
+      expect(tomatoes.reload).to have_attributes(quantity: 2, finished: false)
+    end
+
+    it "finishes a batch that all went out" do
+      expect(eggplants.reload).to be_finished
+    end
+  end
+
+  describe "planting out without choosing a garden" do
+    before do
+      create(:planting, garden: member.nursery, owner: member, quantity: 2, planted_at: 2.days.ago.to_date)
+      visit plant_out_nursery_path
+      click_button 'Plant out'
+    end
+
+    it "asks which garden" do
+      expect(page).to have_content 'Choose which garden they are going into.'
+    end
+  end
+
   describe "choosing a nursery" do
     before do
       member.gardens.first.update!(name: 'Backyard')

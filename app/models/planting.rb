@@ -159,6 +159,24 @@ class Planting < ApplicationRecord
     quantity.to_i > MAX_PLANTS
   end
 
+  # Moves some or all of this planting to another garden, as a new planting that
+  # keeps the sow date and records the day it went in. Moving all of it finishes
+  # this one; moving some leaves the rest here. Returns the new planting, which
+  # is unsaved, with errors, if it couldn't be done.
+  def transplant_to(garden, quantity: nil, on: Time.zone.today)
+    moving = quantity if quantity && self.quantity && quantity < self.quantity
+    transplant = dup.tap do |planting|
+      planting.assign_attributes(garden:, slug: nil, finished: false, finished_at: nil,
+                                 transplanted_from: self, transplanted_at: on)
+      planting.quantity = moving if moving
+    end
+    saved = self.class.transaction do
+      (transplant.save && leave_behind(moving, on)) || raise(ActiveRecord::Rollback)
+    end
+    transplant.errors.add(:base, :transplant_failed) unless saved
+    transplant
+  end
+
   # Sown after the year its seed packet said to plant it by.
   def sown_from_expired_seeds?
     seed_plant_before.present? && planted_at.present? && planted_at > seed_plant_before
@@ -188,6 +206,15 @@ class Planting < ApplicationRecord
   end
 
   private
+
+  # What this planting does once some of it has gone: it keeps the remainder, or
+  # is finished if all of it went. A planting can't finish on the day it was
+  # sown, so then it is just marked finished.
+  def leave_behind(moving, on)
+    return update(quantity: quantity - moving) if moving
+
+    update(finished: true, finished_at: (on if planted_at.nil? || on > planted_at))
+  end
 
   # Copied from the packet when the planting is made, as the packet may be
   # edited or thrown away later.

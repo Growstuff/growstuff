@@ -790,4 +790,27 @@ describe Planting do
       end
     end
   end
+
+  describe '#transplant_to' do
+    let(:owner) { create(:member) }
+    let(:garden) { create(:garden, owner:) }
+    let(:planting) { create(:planting, owner:, garden: owner.nursery, quantity: 6, planted_at: Time.zone.today) }
+
+    context 'when moving all of it on the day it was sown' do
+      before { planting.transplant_to(garden) }
+
+      it { expect(planting.reload).to be_finished }
+    end
+
+    context 'when moving some' do
+      subject(:transplant) { planting.transplant_to(garden, quantity: 2) }
+
+      it { is_expected.to have_attributes(quantity: 2, garden:, transplanted_from: planting) }
+
+      it 'leaves the rest' do
+        transplant
+        expect(planting.reload.quantity).to eq 4
+      end
+    end
+  end
 end

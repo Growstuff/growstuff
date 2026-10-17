@@ -36,6 +36,8 @@
                     &middot; got as seedlings
                   - if seedling.sown_from_expired_seeds?
                     &middot; expired seeds
+      - if sown_groups.any? && can?(:edit, nursery)
+        = link_to 'Plant out seedlings', plant_out_nursery_path, class: 'btn btn-outline-success mt-3'
       - if planned.any?
         %section.nursery-day.nursery-planned
           %h3.nursery-day-heading To sow

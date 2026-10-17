@@ -84,6 +84,7 @@ en:
         not_a_valid_unit: "%{value} is not a valid unit"
         not_a_valid_area_unit: "%{value} is not a valid area unit"
         no_newlines: must contain no newlines
+        transplant_failed: could not be transplanted
         one_nursery_per_member: already exists; a member can have only one nursery
         grid_too_small_for_plantings: "is too small: some plantings would fall outside the bed. Move them first."
         bed_position_incomplete: must have both a column and a row, or neither
@@ -175,6 +176,11 @@ en:
     deleted: Forum was successfully deleted.
   gardens:
     nursery_name: Nursery
+    planted_out:
+      one: Planted out 1 seedling in %{garden}.
+      other: Planted out %{count} seedlings in %{garden}.
+    plant_out_nothing: Choose how many of at least one batch to plant out.
+    plant_out_no_garden: Choose which garden they are going into.
     nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
     nursery_made: This garden is now your nursery.
     nursery_stopped: This garden is no longer your nursery.
