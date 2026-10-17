@@ -8,11 +8,13 @@ class GardensController < DataController
 
   def index
     @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
-    @show_jump_to = params[:member_slug].present? || false
 
     @gardens = @gardens.includes(:owner)
     @gardens = @gardens.active
+    @own_gardens = @owner.present? && @owner == current_member
     if @owner.present?
+      @nursery = @owner.nursery
+      @gardens = @gardens.not_nurseries # shown at the top instead
       @gardens = @gardens.left_joins(:garden_collaborators)
       @gardens = @gardens.where(owner: @owner).or(@gardens.where(garden_collaborators: { member: @owner }))
     end
@@ -127,6 +129,17 @@ class GardensController < DataController
     @garden.destroy
     flash[:notice] = I18n.t('gardens.deleted')
     redirect_to(member_gardens_path(@garden.owner))
+  end
+
+  # Lets a member use a garden they already have as their nursery.
+  def make_nursery
+    @garden.make_nursery!
+    redirect_to @garden, notice: t('gardens.nursery_made')
+  end
+
+  def stop_nursery
+    @garden.update!(nursery: false)
+    redirect_to @garden, notice: t('gardens.nursery_stopped')
   end
 
   def fetch_wikidata

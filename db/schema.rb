@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_14_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_17_020000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -646,11 +646,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_000000) do
     t.float "longitude"
     t.float "lowest_temp_c"
     t.string "name", null: false
+    t.boolean "nursery", default: false, null: false
     t.integer "owner_id"
     t.string "slug", null: false
     t.datetime "updated_at", precision: nil
     t.index ["garden_type_id"], name: "index_gardens_on_garden_type_id"
     t.index ["owner_id"], name: "index_gardens_on_owner_id"
+    t.index ["owner_id"], name: "index_gardens_on_owner_id_where_nursery", unique: true, where: "nursery"
     t.index ["slug"], name: "index_gardens_on_slug", unique: true
   end
 
@@ -905,6 +907,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_000000) do
     t.index ["slug"], name: "index_plant_parts_on_slug", unique: true
   end
 
+  create_table "planting_histories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "ended_on", null: false
+    t.bigint "garden_id", null: false
+    t.bigint "planting_id", null: false
+    t.date "started_on"
+    t.datetime "updated_at", null: false
+    t.index ["garden_id"], name: "index_planting_histories_on_garden_id"
+    t.index ["planting_id"], name: "index_planting_histories_on_planting_id"
+  end
+
   create_table "plantings", id: :serial, force: :cascade do |t|
     t.integer "alternate_name_id"
     t.datetime "created_at", precision: nil
@@ -925,6 +938,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_000000) do
     t.date "planted_at"
     t.string "planted_from"
     t.integer "quantity"
+    t.date "seed_plant_before"
     t.string "slug"
     t.string "sunniness"
     t.datetime "updated_at", precision: nil
@@ -1036,6 +1050,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_000000) do
   add_foreign_key "member_dismissals", "members", column: "dismissed_id"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
+  add_foreign_key "planting_histories", "plantings"
   add_foreign_key "plantings", "alternate_names", on_delete: :nullify
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plants", "plantings"

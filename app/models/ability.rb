@@ -23,6 +23,7 @@ class Ability
     can :sunniness, Crop
     can :planted_from, Crop
     can :harvested_for, Crop
+    can :sowing_info, Crop
 
     # except these, which don't make sense if you're not logged in
     cannot :read, Notification
@@ -104,16 +105,20 @@ class Ability
     can :destroy, Garden, owner_id: member.id
     # Arranging the bed is really editing the plantings in it, so collaborators
     # can do it too, as they can with the plantings themselves.
-    can :update_layout, Garden, owner_id: member.id
+    # CanCan tries the rules defined last first, so the collaborator rules come
+    # before the owner's: your own gardens and plantings, the usual case, are then
+    # settled without asking the database about collaborators each time.
     can :update_layout, Garden, garden_collaborators: { member_id: member.id }
+    can :update_layout, Garden, owner_id: member.id
+    can %i(make_nursery stop_nursery), Garden, owner_id: member.id
 
     can :create,  Planting
-    can :update,  Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
-    can :destroy, Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
     can :update,  Planting, garden: { garden_collaborators: { member_id: member.id } }
-    can :transplant, Planting, garden: { owner_id: member.id }
     can :transplant, Planting, garden: { garden_collaborators: { member_id: member.id } }
     can :destroy, Planting, garden: { garden_collaborators: { member_id: member.id } }
+    can :update,  Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
+    can :destroy, Planting, garden: { owner_id: member.id }, crop: { approval_status: 'approved' }
+    can :transplant, Planting, garden: { owner_id: member.id }
 
     can :create,  GardenCollaborator, garden: { owner_id: member.id }
     can :update,  GardenCollaborator, garden: { owner_id: member.id }

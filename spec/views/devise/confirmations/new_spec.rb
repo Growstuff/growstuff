@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 describe 'devise/confirmations/new.html.haml', type: "view" do
   before do
     @view.stub(:resource).and_return(Member.new)

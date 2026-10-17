@@ -9,12 +9,13 @@
 # active plantings for all of them in one go, rather than per garden.
 class GardenCardSerializer
   include PhotosHelper
+  include CardActions
 
   def self.collection(gardens, ability:, show_owner: true)
     gardens = gardens.to_a
     plantings = Planting.active
       .where(garden_id: gardens.map(&:id))
-      .includes(:harvests, crop: { parent: :parent })
+      .includes(:garden, :harvests, :photos, crop: { parent: :parent })
       .order(:planted_at)
       .group_by(&:garden_id)
 
@@ -35,20 +36,13 @@ class GardenCardSerializer
       id: @garden.id, name: @garden.name, slug: @garden.slug, active: @garden.active,
       url: routes.garden_path(@garden), image_url: image_url, layout_url: layout_url,
       owner: owner, can_edit: can?(:edit, @garden), plant_url: plant_url, actions: garden_actions,
+      plantings_count: @plantings.size, harvesting_now: harvesting_now,
       perennials: @plantings.select { |planting| planting.crop.perennial? }.map { |planting| perennial(planting) },
       annuals: @plantings.select { |planting| planting.crop.annual? }.map { |planting| annual(planting) }
     }
   end
 
   private
-
-  def routes
-    Rails.application.routes.url_helpers
-  end
-
-  def can?(*)
-    @ability.can?(*)
-  end
 
   def owner
     return unless @show_owner
@@ -65,11 +59,6 @@ class GardenCardSerializer
   def image_url
     path = garden_image_path(@garden)
     path.start_with?('http') ? path : ActionController::Base.helpers.image_path(path)
-  end
-
-  # options: method (for non-GET links, as jquery_ujs data-method), confirm, divider.
-  def action(key, label, href, **options)
-    { key: key, label: label, href: href, **options }.compact
   end
 
   # Where the card's "Add planting" button goes (the dialog is opened by React,
@@ -103,13 +92,6 @@ class GardenCardSerializer
            method: :put)
   end
 
-  def photo_action(model)
-    return unless can?(:edit, model) && can?(:create, Photo)
-
-    type = ActiveModel::Name.new(model.class).to_s.downcase
-    action(:photo, I18n.t('buttons.add_photo'), routes.new_photo_path(id: model.id, type: type))
-  end
-
   def delete_action
     return unless can?(:destroy, @garden)
 
@@ -118,28 +100,32 @@ class GardenCardSerializer
                                                                            divider: true)
   end
 
-  def crop_chip(planting)
-    crop = planting.crop
-    { name: crop.name, icon_url: crop.svg_icon.present? ? routes.crop_path(crop, format: 'svg') : nil }
+  # The planting's own photo, if it has one, for the row's thumbnail.
+  def thumb_url(planting)
+    photo = planting.photos.first
+    thumbnail_url(photo) if photo
+  end
+
+  # How many plantings the card's badges call "harvesting now".
+  def harvesting_now
+    @plantings.count { |planting| badges(planting).any? { |badge| badge[:kind] == 'harvest' } }
   end
 
   def perennial(planting)
-    {
-      id: planting.id, url: routes.planting_path(planting), crop: crop_chip(planting),
-      planted_at: planting.planted_at, today: Time.zone.today, can_edit: can?(:edit, planting),
-      actions: planting_actions(planting)
-    }
+    chip(planting).merge(planted_at: planting.planted_at, today: Time.zone.today)
   end
 
   def annual(planting)
-    {
-      id: planting.id, url: routes.planting_path(planting), crop: crop_chip(planting),
-      planted_at: planting.planted_at, today: Time.zone.today, can_edit: can?(:edit, planting),
-      percentage_grown: planting.percentage_grown,
+    perennial(planting).merge(
+      thumb_url: thumb_url(planting), percentage_grown: planting.percentage_grown,
       progress_state: planting.progress_state,
       finish_predicted_label: finish_label(planting), progress_note: progress_note(planting),
-      badges: badges(planting), harvests: harvest_marks(planting), actions: planting_actions(planting)
-    }
+      badges: badges(planting), harvests: harvest_marks(planting)
+    )
+  end
+
+  def chip(planting)
+    PlantingChipSerializer.new(planting, ability: @ability).as_json
   end
 
   # Where each harvest falls along the planting's progress bar, oldest first, on
@@ -174,12 +160,15 @@ class GardenCardSerializer
 
   # The same logic as plantings/_badges.
   def badges(planting)
-    return [] if planting.finished?
+    @badges ||= {}
+    @badges[planting.id] ||= begin
+      return [] if planting.finished?
 
-    result = []
-    result << finish_badge(planting) if planting.finish_is_predicatable?
-    result << harvest_badge(planting) unless planting.super_late?
-    result.compact
+      result = []
+      result << finish_badge(planting) if planting.finish_is_predicatable?
+      result << harvest_badge(planting) unless planting.super_late?
+      result.compact
+    end
   end
 
   def finish_badge(planting)
@@ -198,29 +187,5 @@ class GardenCardSerializer
       { kind: 'harvest_soon', label: I18n.t('label.weeks_until_harvest', number: weeks),
         title: 'Predicted weeks until harvest' }
     end
-  end
-
-  # The same items, in the same order, as plantings/_quick_actions: finishing
-  # goes last, below a divider, as it takes the planting off the list.
-  def planting_actions(planting)
-    return [] unless can?(:edit, planting)
-
-    actions = [
-      action(:view, I18n.t('buttons.view'), routes.planting_path(planting)),
-      action(:edit, I18n.t('buttons.edit'), routes.edit_planting_path(planting)),
-      photo_action(planting)
-    ]
-    actions.concat(active_planting_actions(planting)) if planting.active
-    actions.compact
-  end
-
-  def active_planting_actions(planting)
-    [
-      (action(:harvest, I18n.t('buttons.record_harvest'), routes.new_planting_harvest_path(planting_slug: planting.slug)) if can?(:create,
-                                                                                                                                  Harvest)),
-      (action(:seeds, I18n.t('buttons.save_seeds'), routes.new_planting_seed_path(planting_slug: planting.slug)) unless planting.failed?),
-      action(:finish, I18n.t('buttons.mark_as_finished'),
-             routes.planting_path(slug: planting.slug, planting: { finished: 1 }), method: :put, divider: true)
-    ].compact
   end
 end

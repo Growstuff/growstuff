@@ -78,7 +78,7 @@ class PlantingsController < DataController
     @planting.crop = @planting.parent_seed.crop if @planting.parent_seed.present?
     # Only into your own gardens. A missing garden is left to the validation.
     authorize! :update, @planting.garden if @planting.garden.present?
-    @planting.save
+    use_up_seeds if @planting.save && params[:use_seeds].present?
     return render_card_json(status: :created) if request.format.json?
 
     respond_with @planting
@@ -96,6 +96,7 @@ class PlantingsController < DataController
     respond_with @planting, location: @planting.garden
   end
 
+  # Moves the planting to another garden, keeping a record of where it was.
   def transplant
     # The `load_and_authorize_resource` in DataController will handle finding the
     # planting and authorizing the action.
@@ -103,36 +104,48 @@ class PlantingsController < DataController
     new_garden = Garden.find(params[:garden_id])
     authorize! :update, new_garden
 
-    # Mark original planting as finished
-    @planting.update(finished: true, finished_at: Time.zone.now)
+    @planting.transplant_to(new_garden, on: transplanted_on)
 
-    # Create a new planting
-    new_planting = @planting.dup
-    new_planting.garden = new_garden
-    new_planting.slug = nil # let friendly_id generate a new slug
-    new_planting.finished = false
-    new_planting.finished_at = nil
-
-    if new_planting.save
-      redirect_to edit_planting_path(new_planting), notice: t('messages.transplant_success')
-    else
-      # if the save fails, we should probably roll back the finishing of the original planting
-      @planting.update(finished: false, finished_at: nil)
-      redirect_to @planting, alert: t('messages.transplant_error', errors: new_planting.errors.full_messages.to_sentence)
+    respond_to do |format|
+      if @planting.errors.empty?
+        format.html { redirect_to @planting, notice: t('messages.transplant_success') }
+        format.json { render json: { url: planting_path(@planting), garden: garden_card(@planting.garden) } }
+      else
+        format.html { redirect_to @planting, alert: t('messages.transplant_error', errors: @planting.errors.full_messages.to_sentence) }
+        format.json { render json: { errors: @planting.errors.to_hash }, status: :unprocessable_content }
+      end
     end
   end
 
   private
 
+  # Sowing from a packet takes the seeds sown out of it, if it says how many it has.
+  def use_up_seeds
+    seed = @planting.parent_seed
+    return unless seed&.owner == current_member && seed.quantity && @planting.quantity
+
+    seed.update(quantity: [seed.quantity - @planting.quantity, 0].max)
+  end
+
+  # The day they went into the garden: today unless the member says otherwise.
+  def transplanted_on
+    params[:date].present? ? Date.parse(params[:date].to_s) : Time.zone.today
+  rescue Date::Error
+    Time.zone.today
+  end
+
   # Used by the React garden cards, which replace the garden's card with the
   # returned one, so a new or changed planting shows without a page reload.
   def render_card_json(status:)
     if @planting.errors.empty? && @planting.persisted?
-      card = GardenCardSerializer.collection([@planting.garden], ability: current_ability, show_owner: false).first
-      render json: { garden: card }, status: status
+      render json: { garden: garden_card(@planting.garden) }, status: status
     else
       render json: { errors: @planting.errors }, status: :unprocessable_content
     end
+  end
+
+  def garden_card(garden)
+    GardenCardSerializer.collection([garden], ability: current_ability, show_owner: false).first
   end
 
   def update_crop_medians

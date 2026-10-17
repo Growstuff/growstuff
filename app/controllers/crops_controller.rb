@@ -86,6 +86,10 @@ class CropsController < ApplicationController
     end
   end
 
+  def sowing_info
+    render json: CropSowingInfoSerializer.new(@crop, member: current_member)
+  end
+
   def new
     @crop = Crop.new
     @crop.alternate_names.build

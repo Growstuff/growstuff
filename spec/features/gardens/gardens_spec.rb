@@ -14,10 +14,8 @@ describe "Planting a crop", :js do
     it "View gardens" do
       visit gardens_path
       expect(page).to have_content "Everyone's gardens"
-      click_link "My gardens", match: :first
+      visit member_gardens_path(garden.owner)
       expect(page).to have_content "#{garden.owner.login_name}'s gardens"
-      click_link "Everyone's gardens"
-      expect(page).to have_content "Everyone's gardens"
     end
 
     it "Marking a garden as inactive" do

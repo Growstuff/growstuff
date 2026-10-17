@@ -11,11 +11,11 @@ describe 'Planting from a garden card', :js, :search do
 
   before do
     Crop.reindex
-    visit gardens_path
+    visit_gardens_open
   end
 
   def open_plant_dialog(garden_name)
-    within(:css, '.card', text: garden_name) do
+    within(:css, '.garden-card', text: garden_name) do
       click_link 'Add planting'
     end
   end
@@ -64,7 +64,7 @@ describe 'Planting from a garden card', :js, :search do
 
     expect(page).to have_no_css '[role=dialog]'
     expect(page).to have_content 'Planted lettuce in Orchard.'
-    within(:css, '.card', text: 'Orchard') do
+    within(:css, '.garden-card', text: 'Orchard') do
       expect(page).to have_content 'lettuce'
       # Picked out without recolouring the chip (brown with white text) it sits in.
       expect(page).to have_css '.planting-just-added', text: 'lettuce'
@@ -73,7 +73,7 @@ describe 'Planting from a garden card', :js, :search do
       expect(highlight).not_to eq 'rgba(0, 0, 0, 0)'
       expect(page).to have_no_css '.crop-chip[style]'
     end
-    within(:css, '.card', text: 'Balcony') { expect(page).to have_no_content 'lettuce' }
+    within(:css, '.garden-card', text: 'Balcony') { expect(page).to have_no_content 'lettuce' }
     expect(page).to have_current_path(gardens_path)
     expect(Planting.last).to have_attributes(garden: garden, crop: lettuce, owner: member,
                                              planted_at: Time.zone.today)

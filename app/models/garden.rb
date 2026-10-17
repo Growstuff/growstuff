@@ -11,6 +11,7 @@ class Garden < ApplicationRecord
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
   has_many :activities, dependent: :destroy
+  has_many :planting_histories, dependent: :destroy
   has_many :garden_collaborators, dependent: :destroy
 
   belongs_to :garden_type, optional: true
@@ -26,10 +27,13 @@ class Garden < ApplicationRecord
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  scope :nurseries, -> { where(nursery: true) }
+  scope :not_nurseries, -> { where(nursery: false) }
   scope :order_by_name, -> { order(Arel.sql("lower(name) asc")) }
 
   validates :location, length: { maximum: 255 }
   validates :slug, uniqueness: true
+  validates :nursery, uniqueness: { scope: :owner_id, message: :one_nursery_per_member }, if: :nursery?
 
   validates :name, uniqueness: { scope: :owner_id }
   validates :name,
@@ -99,11 +103,21 @@ class Garden < ApplicationRecord
     end
   end
 
+  # Makes this the owner's nursery. They can only have one, so any garden they
+  # had marked as the nursery before goes back to being an ordinary garden.
+  def make_nursery!
+    transaction do
+      self.class.where(owner_id:, nursery: true).where.not(id:).update_all(nursery: false) # rubocop:disable Rails/SkipsModelValidations
+      update!(nursery: true)
+      owner.accept_nursery!
+    end
+  end
+
   def reindex(refresh: false); end
 
   # Deactivate any gardens with no active plantings
   def self.archive!(time_limit: 3.years.ago, limit: 1000)
-    Garden.active.where("gardens.updated_at < ?", time_limit).order(updated_at: :asc).limit(limit).each do |active_garden|
+    Garden.active.not_nurseries.where("gardens.updated_at < ?", time_limit).order(updated_at: :asc).limit(limit).each do |active_garden|
       unless active_garden.plantings.active.any?
         active_garden.active = false
         active_garden.save

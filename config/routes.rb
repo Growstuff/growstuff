@@ -42,9 +42,17 @@ Rails.application.routes.draw do
     resources :photos, only: :index
   end
 
+  # Before the gardens resource, so "nursery" isn't taken for a garden's slug.
+  resource :nursery, only: %i(show create) do
+    get :panel
+    resource :decline, only: :create, module: :nurseries
+  end
+
   resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
     post 'fetch_wikidata' => 'gardens#fetch_wikidata', on: :member
+    post 'make_nursery' => 'gardens#make_nursery', on: :member
+    post 'stop_nursery' => 'gardens#stop_nursery', on: :member
 
     resources :garden_collaborators
   end
@@ -97,6 +105,7 @@ Rails.application.routes.draw do
     get 'planted_from' => 'charts/crops#planted_from', constraints: { format: 'json' }
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
     post :gbif
+    get :sowing_info, on: :member
 
     collection do
       get 'requested'

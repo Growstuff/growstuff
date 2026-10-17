@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   after_action :store_location
   before_action :set_locale
+  around_action :use_browser_time_zone
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   def store_location
@@ -47,6 +48,13 @@ class ApplicationController < ActionController::Base
       format.json { render json: { error: exception.message }, status: :forbidden }
       format.any { redirect_to request.referer || root_url, alert: exception.message }
     end
+  end
+
+  # The member's today isn't always the server's (UTC), so dates are worked out in
+  # the time zone their browser says it is in; see application.js.
+  def use_browser_time_zone(&block)
+    zone = ActiveSupport::TimeZone[cookies[:timezone].to_s]
+    zone ? Time.use_zone(zone, &block) : block.call
   end
 
   def set_locale

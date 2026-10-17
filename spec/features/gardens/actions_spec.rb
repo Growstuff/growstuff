@@ -12,44 +12,34 @@ describe "Gardens" do
     let(:other_member_garden) { create(:garden) }
 
     describe '#index' do
-      shared_examples "has buttons bar at top" do
-        it "has buttons bar at top" do
-          within '.layout-nav' do
-            expect(subject).to have_link 'Add a garden'
-            expect(subject).to have_link 'My gardens'
-            expect(subject).to have_link "Everyone's gardens"
-          end
-        end
-      end
-
       context 'my gardens' do
         before { visit gardens_path(member_slug: member.slug) }
 
-        include_examples "has buttons bar at top"
+        it 'offers to add a garden' do
+          expect(subject).to have_button 'Add a garden'
+        end
 
         context 'with actions menu expanded' do
-          before { click_link 'Actions' }
+          before { click_link "Actions for #{garden.name}" }
 
           it "has actions on garden" do
-            expect(subject).to have_link 'Add planting'
             expect(subject).to have_link 'Mark as inactive'
             expect(subject).to have_link 'Edit'
             expect(subject).to have_link 'Add photo'
             expect(subject).to have_link 'Delete'
           end
         end
-      end
 
-      context 'all gardens' do
-        before { visit gardens_path }
-
-        include_examples "has buttons bar at top"
+        it 'can add a planting' do
+          expect(subject).to have_link 'Add planting'
+        end
       end
 
       context "other member's garden" do
         before { visit gardens_path(member_slug: create(:member).slug) }
 
-        include_examples "has buttons bar at top"
+        it { is_expected.to have_no_button 'Add a garden' }
+
         describe 'does not show actions on other member garden' do
           it { is_expected.to have_no_link 'Actions' }
         end

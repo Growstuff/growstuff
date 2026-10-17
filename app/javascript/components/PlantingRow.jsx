@@ -13,6 +13,11 @@ export default function PlantingRow({planting, defaultIconUrl, highlighted, high
 
   return (
     <div className={`planting-row${highlighted ? ` planting-just-${highlightKind}` : ''}`}>
+      {planting.thumb_url ? (
+        <img className="planting-row-thumb" src={planting.thumb_url} alt={`Photo of ${planting.crop.name}`} />
+      ) : (
+        <span className="planting-row-thumb planting-row-thumb-none" />
+      )}
       <div className="planting-row-crop">
         <div className="planting-row-chip">
           <PlantingChip planting={planting} defaultIconUrl={defaultIconUrl} highlighted={highlighted && highlightKind === 'added'} handlers={handlers} />

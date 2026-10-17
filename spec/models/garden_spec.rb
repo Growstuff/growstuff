@@ -345,4 +345,37 @@ describe Garden do
     owner.destroy
     expect(described_class.joins(:owner).all).not_to include(garden)
   end
+
+  describe 'nursery' do
+    let(:owner) { create(:member) }
+
+    before { create(:garden, owner:, nursery: true) }
+
+    context 'when the owner already has one' do
+      subject(:second) { build(:garden, owner:, nursery: true) }
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'when it is a different owner' do
+      subject(:other) { build(:garden, nursery: true) }
+
+      it { is_expected.to be_valid }
+    end
+
+    describe '#make_nursery!' do
+      let(:garden) { create(:garden, owner:) }
+
+      before { garden.make_nursery! }
+
+      it('makes it the nursery') { expect(garden.reload).to be_nursery }
+      it('replaces the old nursery') { expect(owner.gardens.nurseries).to contain_exactly(garden) }
+    end
+
+    it 'is left out of archiving' do
+      owner.nursery!.update_column(:updated_at, 4.years.ago) # rubocop:disable Rails/SkipsModelValidations
+      described_class.archive!
+      expect(owner.nursery!.reload).to be_active
+    end
+  end
 end
