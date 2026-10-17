@@ -43,7 +43,7 @@
                     = image_tag thumbnail_url(photo), alt: 'Photo of a seed tray'
             %ul.nursery-seedlings
               - group.each do |seedling|
-                %li= render 'nurseries/seedling_chip', seedling:, pick: editable, detail: ("× #{seedling.quantity}" if seedling.quantity)
+                %li= render 'nurseries/seedling_chip', seedling:, pick: editable, link: true, detail: ("× #{seedling.quantity}" if seedling.quantity)
               - if editable && index.zero?
                 %li= react_component 'NurseryPlanter', sow
         - if sown_groups.empty? && editable
@@ -61,10 +61,13 @@
             %ul.nursery-seedlings
               - planned.each do |seedling|
                 %li
-                  = render 'nurseries/seedling_chip', seedling:, pick: false, detail: l(seedling.planted_at, format: '%a %-d %b')
+                  = render 'nurseries/seedling_chip', seedling:, pick: false, link: false,
+                                                      detail: l(seedling.planted_at, format: '%a %-d %b')
                   - if editable
                     = link_to 'Sowed it', planting_path(seedling, planting: { planted_at: Time.zone.today }), method: :put,
-                                          class: 'nursery-sowed-it'
+                                          class: 'nursery-plan-action'
+                    = link_to 'Remove', planting_path(seedling), method: :delete, data: { confirm: 'Remove this plan?' },
+                                        class: 'nursery-plan-action'
               - if editable
                 %li= react_component 'NurseryPlanter', sow.merge(plan: true)
       - if editable

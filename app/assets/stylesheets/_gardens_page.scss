@@ -349,7 +349,7 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     background: #fff;
   }
 
-  .nursery-sowed-it {
+  .nursery-plan-action {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
@@ -359,7 +359,7 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
 
   // Ticking batches, "Sowed it" and the plant-out bar only show while editing.
   .nursery-edit-input:not(:checked) ~ .nursery-form .nursery-pick-box,
-  .nursery-edit-input:not(:checked) ~ .nursery-form .nursery-sowed-it {
+  .nursery-edit-input:not(:checked) ~ .nursery-form .nursery-plan-action {
     display: none;
   }
 

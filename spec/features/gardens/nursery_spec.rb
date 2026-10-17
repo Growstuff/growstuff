@@ -33,7 +33,7 @@ describe "Nursery" do
       end
 
       it "lists plans to sow later separately" do
-        within('.nursery-planned') { expect(page).to have_link 'basil' }
+        within('.nursery-planned') { expect(page).to have_content 'basil' }
       end
 
       it "sows in a dialog" do
@@ -279,7 +279,7 @@ describe "Nursery" do
     end
 
     it "lists it under to sow" do
-      within('.nursery-planned') { expect(page).to have_link 'basil' }
+      within('.nursery-planned') { expect(page).to have_content 'basil' }
     end
   end
 
@@ -304,6 +304,33 @@ describe "Nursery" do
       end
       page.assert_text 'To sow'
       expect(member.nursery.plantings.first.planted_at).to eq Time.zone.today.next_occurring(:saturday)
+    end
+  end
+
+  describe "a planned sowing" do
+    let!(:plan) do
+      create(:planting, garden: member.nursery!, owner: member, crop: create(:crop, name: 'basil'),
+                        planted_at: 1.week.from_now.to_date)
+    end
+
+    before { visit member_gardens_path(member) }
+
+    it "has no planting page to go to yet" do
+      within('.nursery-planned') { expect(page).to have_no_link 'basil' }
+    end
+
+    it "can be marked as sown" do
+      find('.nursery-edit-button').click
+      click_link 'Sowed it'
+      page.assert_current_path planting_path(plan)
+      expect(plan.reload.planted_at).to eq Time.zone.today
+    end
+
+    it "can be removed" do
+      find('.nursery-edit-button').click
+      accept_confirm { click_link 'Remove' }
+      page.assert_no_text 'basil'
+      expect(Planting.exists?(plan.id)).to be false
     end
   end
 
