@@ -5,7 +5,7 @@ module GardensHelper
   # use for crops that have none of their own.
   def garden_cards_props(gardens, owner: nil)
     {
-      gardens:          GardenCardSerializer.collection(gardens, ability: current_ability, show_owner: owner.blank?),
+      gardens:          GardenCardSerializer.collection(gardens, ability: card_ability, show_owner: owner.blank?),
       default_icon_url: image_path('icons/planting.svg'),
       spade_icon_url:   image_path('spade-marker.svg'),
       harvest_icon_url: image_path('icons/harvest.svg'),
@@ -13,6 +13,11 @@ module GardensHelper
       photo_icon_url:   image_path('icons/photo.svg'),
       finish_icon_url:  image_path('icons/finish.svg')
     }
+  end
+
+  # The permissions the cards on this page ask about, each worked out once.
+  def card_ability
+    @card_ability ||= CachedAbility.new(current_ability)
   end
 
   # What is currently in a nursery, newest sown first.
@@ -56,7 +61,7 @@ module GardensHelper
   # a tick to plant it out while the nursery is edited.
   def nursery_chip_props(seedling, pick:)
     {
-      planting:         PlantingChipSerializer.new(seedling, ability: current_ability).as_json,
+      planting:         PlantingChipSerializer.new(seedling, ability: card_ability).as_json,
       default_icon_url: image_path('icons/planting.svg'),
       photo_icon_url:   image_path('icons/photo.svg'),
       detail:           ("\u00d7 #{seedling.quantity}" if seedling.quantity),

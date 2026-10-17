@@ -15,7 +15,7 @@ class GardenCardSerializer
     gardens = gardens.to_a
     plantings = Planting.active
       .where(garden_id: gardens.map(&:id))
-      .includes(:harvests, :photos, crop: { parent: :parent })
+      .includes(:garden, :harvests, :photos, crop: { parent: :parent })
       .order(:planted_at)
       .group_by(&:garden_id)
 
@@ -160,12 +160,15 @@ class GardenCardSerializer
 
   # The same logic as plantings/_badges.
   def badges(planting)
-    return [] if planting.finished?
+    @badges ||= {}
+    @badges[planting.id] ||= begin
+      return [] if planting.finished?
 
-    result = []
-    result << finish_badge(planting) if planting.finish_is_predicatable?
-    result << harvest_badge(planting) unless planting.super_late?
-    result.compact
+      result = []
+      result << finish_badge(planting) if planting.finish_is_predicatable?
+      result << harvest_badge(planting) unless planting.super_late?
+      result.compact
+    end
   end
 
   def finish_badge(planting)
