@@ -34,6 +34,31 @@ $sowing-muted: #666;
   }
 }
 
+// The search over the seed packets: the box fills the row, with the expired
+// checkbox beside it, and what is shown said quietly underneath.
+.seed-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+
+  .seed-search-field {
+    flex: 1 1 18rem;
+    min-width: 0;
+  }
+
+  .seed-search-expired {
+    flex: none;
+    margin: 0;
+  }
+}
+
+.seed-search-hint {
+  margin: 0.5rem 0 0.75rem;
+  color: $sowing-muted;
+  font-size: 0.9rem;
+}
+
 // A seed packet in the sow dialog: its photo, if it has one, beside what it is.
 .seed-packets {
   display: grid;

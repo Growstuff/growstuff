@@ -14,36 +14,38 @@ export default function SeedPacketList({packets, search, onSearch, selected, onC
   return (
     <>
       <label className="crop-picker-label" htmlFor="sow-seed-search">Search your seeds</label>
-      <div className="crop-picker-field">
-        <i className="fas fa-search crop-picker-icon" aria-hidden="true" />
-        <input
-          id="sow-seed-search"
-          type="text"
-          className="crop-picker-input"
-          autoFocus
-          autoComplete="off"
-          placeholder="Start typing a crop name, like tomato"
-          value={search}
-          onChange={(event) => onSearch(event.target.value)}
-        />
+      <div className="seed-search">
+        <div className="crop-picker-field seed-search-field">
+          <i className="fas fa-search crop-picker-icon" aria-hidden="true" />
+          <input
+            id="sow-seed-search"
+            type="text"
+            className="crop-picker-input"
+            autoFocus
+            autoComplete="off"
+            placeholder="Start typing a crop name, like tomato"
+            value={search}
+            onChange={(event) => onSearch(event.target.value)}
+          />
+        </div>
+        <div className="form-check seed-search-expired">
+          <input
+            id="sow-include-expired"
+            type="checkbox"
+            className="form-check-input"
+            checked={includeExpired}
+            onChange={(event) => setIncludeExpired(event.target.checked)}
+          />
+          <label className="form-check-label" htmlFor="sow-include-expired">Include expired seeds</label>
+        </div>
       </div>
-      <div className="form-check mt-2">
-        <input
-          id="sow-include-expired"
-          type="checkbox"
-          className="form-check-input"
-          checked={includeExpired}
-          onChange={(event) => setIncludeExpired(event.target.checked)}
-        />
-        <label className="form-check-label" htmlFor="sow-include-expired">Include expired seeds</label>
-      </div>
-      <div className="crop-picker-hint" role="status">
+      <p className="seed-search-hint" role="status">
         {search.trim()
           ? `${matching.length} of ${packets.length} packets match. Choose one.`
           : `${matching.length} packets. Type a crop name to narrow them down, or choose one.`}
         {hidden > 0 && ` ${hidden} expired ${hidden === 1 ? 'packet is' : 'packets are'} hidden.`}
-      </div>
-      <div className="seed-packets mt-2">
+      </p>
+      <div className="seed-packets">
         {matching.map((packet) => (
           <button
             key={packet.id}
