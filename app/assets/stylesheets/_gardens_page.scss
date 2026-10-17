@@ -378,3 +378,57 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   gap: 8px;
   color: inherit;
 }
+
+// The site's plain `section` and `h2` styles (a green h2 with a shadow, spacing
+// on every section) are for older pages, so switch them off for these sections.
+.gardens-section,
+.gardens-page .nursery-day {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.gardens-section {
+  padding-bottom: 0;
+
+  .gardens-section-header h2 {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+}
+
+.nursery-panel {
+  .nursery-day {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  // `.chip` is a fixed-height pill with its icon pulled out to the left; these
+  // pills size to what is in them, and the icon sits in the flow.
+  .nursery-seedlings {
+    .chip,
+    .nursery-pick {
+      height: auto;
+      line-height: 1.3;
+
+      img {
+        float: none;
+        margin: 0;
+        border-radius: 0;
+      }
+    }
+
+    .nursery-pick-box {
+      flex: none;
+      float: none;
+      position: static;
+      margin: 0;
+    }
+
+    .nursery-pick .chip {
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+  }
+}
