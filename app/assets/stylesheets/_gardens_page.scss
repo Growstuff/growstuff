@@ -74,54 +74,6 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   }
 }
 
-// The nursery: ticks in edit mode, and the bar that plants the ticked ones out.
-.nursery-panel {
-  .nursery-add {
-    margin-top: 0.75rem;
-  }
-
-  .nursery-pick {
-    cursor: pointer;
-    border: 2px solid transparent;
-
-    .nursery-pick-box {
-      width: 1.2rem;
-      height: 1.2rem;
-      accent-color: $gardens-green;
-    }
-
-    &:has(.nursery-pick-box:checked) {
-      border-color: $gardens-green;
-      background: #e4efdc;
-    }
-  }
-
-  .nursery-form {
-    counter-reset: picked;
-  }
-
-  .nursery-pick-box:checked {
-    counter-increment: picked;
-  }
-
-  .nursery-bar {
-    display: none;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 1.1rem;
-    border-top: 1px solid #a4c98c;
-    background: #e4efdc;
-
-    .nursery-selected-count::before {
-      content: counter(picked) " selected";
-    }
-  }
-
-  .nursery-form:has(.nursery-pick-box:checked) .nursery-bar {
-    display: flex;
-  }
-}
-
 // One garden: a row of picture, name and numbers, that opens.
 .garden-card {
   margin: 0;
@@ -214,6 +166,7 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .garden-card-body {
@@ -274,14 +227,33 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   }
 }
 
-// The nursery's days: the day (with photos of that day's trays) on the left, the
-// batches sown that day as pale pills on the right; plans are dashed outlines.
+// The site's plain `section` and `h2` styles (a green h2 with a shadow, spacing
+// on every section) are for older pages, so switch them off for these sections.
+.gardens-section {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.gardens-section {
+  padding-bottom: 0;
+
+  .gardens-section-header h2 {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+}
+
+// The nursery: a section of days, each with the day (and photos of its trays) on
+// the left and what was sown that day as pills on the right. Plans are dashed
+// outlines. The owner can tick batches, and a bar then plants them out.
 .nursery-panel {
   .nursery-day {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
+    margin: 0;
     padding: 0.75rem 0;
     border-top: 1px solid $gardens-line;
 
@@ -311,7 +283,6 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     img {
       width: 44px;
       height: 44px;
-      border: 0;
       border-radius: 3px;
       object-fit: cover;
     }
@@ -321,6 +292,7 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     display: flex;
     flex: 1 1 400px;
     flex-wrap: wrap;
+    align-items: center;
     gap: 8px;
     min-width: 0;
     margin: 0;
@@ -328,14 +300,20 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     list-style: none;
 
     a {
-      text-decoration: none;
-    }
-
-    .chip,
-    .nursery-pick {
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    // `.chip` is a fixed-height pill with its icon pulled out to the left; these
+    // size to what is in them, with the icon in the flow.
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: auto;
       min-height: 44px;
       margin: 0;
       padding: 0 14px 0 8px;
@@ -345,10 +323,14 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
       box-shadow: none;
       color: #212121;
       font-size: 0.92rem;
+      line-height: 1.3;
 
       img {
+        float: none;
         width: 24px;
         height: 24px;
+        margin: 0;
+        border-radius: 0;
       }
 
       small {
@@ -360,75 +342,55 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   .nursery-planned .chip {
     border: 2px dashed $gardens-green;
     background: #fff;
-    opacity: 1;
-  }
-}
-
-.nursery-panel .nursery-sowed-it {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  margin-left: -4px;
-  font-weight: 600;
-}
-
-.nursery-panel .nursery-pick a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: inherit;
-}
-
-// The site's plain `section` and `h2` styles (a green h2 with a shadow, spacing
-// on every section) are for older pages, so switch them off for these sections.
-.gardens-section,
-.gardens-page .nursery-day {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-.gardens-section {
-  padding-bottom: 0;
-
-  .gardens-section-header h2 {
-    padding: 0;
-    background: none;
-    box-shadow: none;
-  }
-}
-
-.nursery-panel {
-  .nursery-day {
-    margin-top: 0;
-    margin-bottom: 0;
   }
 
-  // `.chip` is a fixed-height pill with its icon pulled out to the left; these
-  // pills size to what is in them, and the icon sits in the flow.
-  .nursery-seedlings {
-    .chip,
-    .nursery-pick {
-      height: auto;
-      line-height: 1.3;
+  .nursery-sowed-it {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-left: -4px;
+    font-weight: 600;
+  }
 
-      img {
-        float: none;
-        margin: 0;
-        border-radius: 0;
-      }
-    }
+  .nursery-add {
+    margin-top: 0.75rem;
+  }
 
-    .nursery-pick-box {
-      flex: none;
-      float: none;
-      position: static;
-      margin: 0;
-    }
+  .nursery-pick-box {
+    flex: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin: 0;
+    accent-color: $gardens-green;
+  }
 
-    .nursery-pick .chip {
-      padding: 0;
-      border: 0;
-      background: none;
+  .chip:has(.nursery-pick-box:checked) {
+    border-color: $gardens-green;
+    background: #e4efdc;
+  }
+
+  .nursery-form {
+    counter-reset: picked;
+  }
+
+  .nursery-pick-box:checked {
+    counter-increment: picked;
+  }
+
+  .nursery-bar {
+    display: none;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1.1rem;
+    border-top: 1px solid #a4c98c;
+    background: #e4efdc;
+
+    .nursery-selected-count::before {
+      content: counter(picked) " selected";
     }
+  }
+
+  .nursery-form:has(.nursery-pick-box:checked) .nursery-bar {
+    display: flex;
   }
 }

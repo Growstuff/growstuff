@@ -42,7 +42,7 @@
               - group.each do |seedling|
                 %li
                   - if editable
-                    .chip.crop-chip.nursery-pick
+                    .chip.crop-chip
                       = check_box_tag 'batch_ids[]', seedling.id, false, id: "pick_#{seedling.id}", class: 'nursery-pick-box',
                                                                          'aria-label': "Plant out #{seedling.display_name}"
                       = link_to seedling do
