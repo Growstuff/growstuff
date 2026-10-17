@@ -67,6 +67,11 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     small {
       opacity: 0.9;
     }
+
+    .nursery-summary {
+      flex: 1 1 auto;
+      text-align: center;
+    }
   }
 
   .gardens-section-body {
@@ -352,8 +357,52 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     font-weight: 600;
   }
 
-  .nursery-add {
-    margin-top: 0.75rem;
+  // Ticking batches, "Sowed it" and the plant-out bar only show while editing.
+  .nursery-edit-input:not(:checked) ~ .nursery-form .nursery-pick-box,
+  .nursery-edit-input:not(:checked) ~ .nursery-form .nursery-sowed-it {
+    display: none;
+  }
+
+  .nursery-edit-button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 1rem;
+    border-radius: 2px;
+    background: #fff;
+    color: $gardens-green;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    .when-editing {
+      display: none;
+    }
+  }
+
+  .nursery-edit-input:checked ~ .gardens-section-header .nursery-edit-button {
+    .when-viewing {
+      display: none;
+    }
+
+    .when-editing {
+      display: inline;
+    }
+  }
+
+  .nursery-edit-input:focus-visible ~ .gardens-section-header .nursery-edit-button {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  // The "+ Add" buttons: a white box with a green outline, as in the designs.
+  .nursery-seedlings .btn-outline-success {
+    min-height: 44px;
+    border-radius: 2px;
+    background: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
   .nursery-pick-box {
@@ -390,7 +439,7 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     }
   }
 
-  .nursery-form:has(.nursery-pick-box:checked) .nursery-bar {
+  .nursery-edit-input:checked ~ .nursery-form:has(.nursery-pick-box:checked) .nursery-bar {
     display: flex;
   }
 }

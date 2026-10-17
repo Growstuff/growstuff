@@ -37,7 +37,7 @@ describe "Nursery" do
       end
 
       it "sows in a dialog" do
-        click_button '+ Add'
+        open_sow_dialog
         expect(page).to have_css '.modal', text: 'Sow seeds'
       end
 
@@ -54,7 +54,7 @@ describe "Nursery" do
     before do
       member.nursery!
       visit member_gardens_path(member)
-      click_button 'Sow seeds'
+      open_sow_dialog
       within('.modal') do
         click_button 'beetroot'
         fill_in 'How many seeds?', with: 6
@@ -79,7 +79,7 @@ describe "Nursery" do
       packet.photos << create(:photo, owner: member, thumbnail_url: 'https://example.com/packet.jpg')
       member.nursery!
       visit member_gardens_path(member)
-      click_button 'Sow seeds'
+      open_sow_dialog
     end
 
     it "shows the packet's photo in the list" do
@@ -94,7 +94,7 @@ describe "Nursery" do
       create(:seed, owner: member, crop:, plant_before_year: 2020)
       member.nursery!
       visit member_gardens_path(member)
-      click_button 'Sow seeds'
+      open_sow_dialog
     end
 
     it "marks the packet as expired in the list" do
@@ -184,7 +184,7 @@ describe "Nursery" do
       create(:seed, owner: member, crop:)
       member.nursery!
       visit member_gardens_path(member)
-      click_button 'Sow seeds'
+      open_sow_dialog
       within('.modal') { click_button 'beetroot' }
     end
 
@@ -204,7 +204,7 @@ describe "Nursery" do
       Crop.reindex
       member.nursery!
       visit member_gardens_path(member)
-      click_button 'Sow seeds'
+      open_sow_dialog
       within('.modal') do
         find('label', text: 'New seeds').click
         fill_in 'Which crop?', with: 'beet'
@@ -229,7 +229,7 @@ describe "Nursery" do
       create(:seed, owner: member, crop:, quantity: 50)
       member.nursery!
       visit member_gardens_path(member)
-      click_button 'Sow seeds'
+      open_sow_dialog
       within('.modal') do
         find('label', text: 'Straight into a garden').click
         click_button 'beetroot'
@@ -263,7 +263,7 @@ describe "Nursery" do
       create(:seed, owner: member, crop:)
       member.nursery!
       visit member_gardens_path(member)
-      click_button 'Sow seeds'
+      open_sow_dialog
       within('.modal') do
         find('label', text: 'Enter date').click
         set_date_field('sow-seeds-date', 1.week.from_now.to_date)
@@ -280,6 +280,51 @@ describe "Nursery" do
 
     it "lists it under to sow" do
       within('.nursery-planned') { expect(page).to have_link 'basil' }
+    end
+  end
+
+  describe "planning from the to sow row" do
+    let(:crop) { create(:crop, name: 'basil') }
+
+    before do
+      create(:seed, owner: member, crop:)
+      member.nursery!
+      visit member_gardens_path(member)
+      open_plan_dialog
+    end
+
+    it "opens the plan dialog" do
+      expect(page).to have_css '.modal', text: 'Plan a sowing'
+    end
+
+    it "plans it for the next Saturday" do
+      within('.modal') do
+        click_button 'basil'
+        click_button 'Add to plan'
+      end
+      page.assert_text 'To sow'
+      expect(member.nursery.plantings.first.planted_at).to eq Time.zone.today.next_occurring(:saturday)
+    end
+  end
+
+  describe "editing the nursery" do
+    let!(:batch) { create(:planting, garden: member.nursery!, owner: member, quantity: 4, planted_at: Time.zone.today) }
+
+    before { visit member_gardens_path(member) }
+
+    it "hides the ticks until you edit" do
+      expect(page).to have_no_css '.nursery-pick-box'
+    end
+
+    it "shows the ticks when editing" do
+      find('.nursery-edit-button').click
+      expect(page).to have_css '.nursery-pick-box'
+    end
+
+    it "offers to plant out what is ticked" do
+      find('.nursery-edit-button').click
+      check "pick_#{batch.id}"
+      expect(page).to have_button 'Plant out'
     end
   end
 

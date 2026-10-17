@@ -12,6 +12,15 @@ module FeatureHelpers
     page.all('.garden-card:not([open]) > summary').each(&:click)
   end
 
+  # The first "+ Add" in the nursery sows seeds; the one in "To sow" plans a sowing.
+  def open_sow_dialog
+    first(:button, '+ Add').click
+  end
+
+  def open_plan_dialog
+    all(:button, '+ Add').last.click
+  end
+
   def visit_gardens_open
     visit gardens_path
     open_all_gardens

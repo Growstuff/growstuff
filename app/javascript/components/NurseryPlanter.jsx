@@ -5,7 +5,7 @@ import SowSeedsModal from './SowSeedsModal';
 
 // A button that opens the sow-seeds dialog for the member's nursery, on their
 // gardens page. Once sown the page reloads to show it.
-export default function NurseryPlanter({garden, gardens, seeds, label, buttonClass}) {
+export default function NurseryPlanter({garden, gardens, seeds, plan, label, buttonClass}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -16,6 +16,7 @@ export default function NurseryPlanter({garden, gardens, seeds, label, buttonCla
           nursery={garden}
           gardens={gardens}
           seeds={seeds}
+          plan={plan}
           onClose={() => setOpen(false)}
           onSown={() => window.location.reload()}
         />

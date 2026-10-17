@@ -1,0 +1,13 @@
+-# One batch in the nursery, as a pill linking to its planting. When `pick` it has
+-# a tick for planting it out, shown while the nursery is being edited. `detail`
+-# is the small text after the name: how many, or the day it is planned for.
+.chip.crop-chip
+  - if pick
+    = check_box_tag 'batch_ids[]', seedling.id, false, id: "pick_#{seedling.id}", class: 'nursery-pick-box',
+                                                       'aria-label': "Plant out #{seedling.display_name}"
+  = link_to seedling do
+    = crop_icon(seedling.crop)
+    %span
+      = seedling.display_name
+      - if detail.present?
+        %small= detail
