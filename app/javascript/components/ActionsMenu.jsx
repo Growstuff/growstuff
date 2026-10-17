@@ -18,7 +18,7 @@ function handled(event, buttonId) {
   if (dropdown) dropdown.hide();
 }
 
-export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, className = 'btn dropdown-toggle', menuClassName = 'dropdown-menu-end', onSelect}) {
+export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, href = '#', className = 'btn dropdown-toggle', menuClassName = 'dropdown-menu-end', onSelect}) {
   if (!actions || actions.length === 0) return null;
 
   const buttonId = `actions-${id}`;
@@ -28,7 +28,7 @@ export default function ActionsMenu({id, actions, label = 'Actions', ariaLabel, 
       <a
         id={buttonId}
         className={className}
-        href="#"
+        href={href}
         role="button"
         data-bs-toggle="dropdown"
         aria-expanded="false"
