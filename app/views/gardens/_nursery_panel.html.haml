@@ -22,28 +22,31 @@
     - elsif seedlings.empty?
       %p.text-muted.mb-0 Sow some seeds and they'll show up here, ready to plant out.
     - else
-      - sown_groups.each do |day, group|
+      - sown_groups.each do |(day, got), group|
         %section.nursery-day
-          %h3.nursery-day-heading= nursery_day_label(day)
+          .nursery-day-head
+            %b.nursery-day-heading= nursery_day_title(day)
+            %small= nursery_day_subtitle(day, got)
+            - photos = group.filter_map { |seedling| seedling.photos.first }.first(3)
+            - if photos.any?
+              .nursery-day-photos
+                - photos.each do |photo|
+                  = image_tag thumbnail_url(photo), alt: 'Photo of a seed tray'
           %ul.nursery-seedlings
             - group.each do |seedling|
               %li
                 = render 'plantings/tiny', planting: seedling
-                %small.nursery-seedling-details
-                  - if seedling.quantity.present?
-                    &times; #{seedling.quantity}
-                  - if seedling.planted_from == 'seedling'
-                    &middot; got as seedlings
-                  - if seedling.sown_from_expired_seeds?
-                    &middot; expired seeds
+                - if seedling.quantity.present?
+                  %small.nursery-seedling-details &times; #{seedling.quantity}
       - if sown_groups.any? && can?(:edit, nursery)
         = link_to 'Plant out seedlings', plant_out_nursery_path, class: 'btn btn-outline-success mt-3'
       - if planned.any?
         %section.nursery-day.nursery-planned
-          %h3.nursery-day-heading To sow
+          .nursery-day-head
+            %b.nursery-day-heading To sow
+            %small planned
           %ul.nursery-seedlings
             - planned.each do |seedling|
               %li
                 = render 'plantings/tiny', planting: seedling
-                %small.nursery-seedling-details
-                  planned &middot; #{l(seedling.planted_at, format: '%a %-d %b')}
+                %small.nursery-seedling-details= l(seedling.planted_at, format: '%a %-d %b')

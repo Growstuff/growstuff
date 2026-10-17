@@ -29,7 +29,7 @@ describe "Nursery" do
       end
 
       it "groups them under the day they were sown" do
-        within('.nursery-panel') { expect(page).to have_css '.nursery-day-heading', text: /today/i }
+        within('.nursery-panel') { expect(page).to have_css '.nursery-day-heading', text: 'Today' }
       end
 
       it "lists plans to sow later separately" do
@@ -60,7 +60,7 @@ describe "Nursery" do
         fill_in 'How many seeds?', with: 6
         click_button 'Sow into the nursery'
       end
-      page.assert_no_selector '.modal'
+      page.assert_text '6 seedlings'
     end
 
     it "sows them into the nursery" do
@@ -201,6 +201,68 @@ describe "Nursery" do
     end
   end
 
+  describe "sowing straight into a garden" do
+    let(:crop) { create(:crop, name: 'beetroot') }
+    let(:garden) { member.gardens.first }
+
+    before do
+      create(:seed, owner: member, crop:, quantity: 50)
+      member.nursery
+      visit member_gardens_path(member)
+      click_button 'Sow seeds'
+      within('.modal') do
+        find('label', text: 'Straight into a garden').click
+        click_button 'beetroot'
+        click_button "Sow into #{garden.name}"
+      end
+    end
+
+    it "offers to place it on the garden layout" do
+      expect(page).to have_link 'Place on the garden layout', href: "/gardens/#{garden.slug}/layout"
+    end
+
+    it "plants it in the garden" do
+      page.assert_text 'Where in the garden did you put them?'
+      expect(garden.plantings.pluck(:crop_id)).to eq [crop.id]
+    end
+  end
+
+  # Typing into a date box depends on the browser's locale, so set it as React sees it.
+  def set_date_field(id, date)
+    page.execute_script(<<~JS, id, date.iso8601)
+      const input = document.getElementById(arguments[0]);
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, arguments[1]);
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    JS
+  end
+
+  describe "planning a sowing" do
+    let(:crop) { create(:crop, name: 'basil') }
+
+    before do
+      create(:seed, owner: member, crop:)
+      member.nursery
+      visit member_gardens_path(member)
+      click_button 'Sow seeds'
+      within('.modal') do
+        find('label', text: 'Enter date').click
+        set_date_field('sow-seeds-date', 1.week.from_now.to_date)
+        click_button 'basil'
+        fill_in 'Note (optional)', with: 'Warm window sill first'
+        click_button 'Add to plan'
+      end
+      page.assert_text 'To sow'
+    end
+
+    it "saves a future-dated planting with the note" do
+      expect(member.nursery.plantings.first).to have_attributes(planted_at: 1.week.from_now.to_date, description: 'Warm window sill first')
+    end
+
+    it "lists it under to sow" do
+      within('.nursery-planned') { expect(page).to have_link 'basil' }
+    end
+  end
+
   describe "choosing a nursery" do
     before do
       member.gardens.first.update!(name: 'Backyard')
@@ -213,11 +275,13 @@ describe "Nursery" do
 
     it "can use an existing garden" do
       click_button 'Use this garden as my nursery'
+      page.assert_text 'is now your nursery'
       expect(member.gardens.nurseries.first.name).to eq 'Backyard'
     end
 
     it "can make a new nursery" do
       click_button 'Make a nursery'
+      page.assert_text 'is now your nursery'
       expect(member.gardens.nurseries.first.name).to eq 'Nursery'
     end
 

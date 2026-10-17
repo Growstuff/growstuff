@@ -19,18 +19,35 @@ module GardensHelper
   def nursery_seedlings(nursery)
     return [] unless nursery
 
-    nursery.plantings.current.includes(crop: :parent).order(planted_at: :desc, id: :desc).to_a
+    nursery.plantings.current.includes({ crop: :parent }, :photos).order(planted_at: :desc, id: :desc).to_a
   end
 
-  # What has been sown, as [day, plantings] pairs, newest day first.
+  # What has been sown, as [[day, got as seedlings], plantings] pairs, newest
+  # day first. Seedlings that were given or bought are a group of their own.
   def nursery_sown_groups(seedlings)
-    seedlings.reject(&:planned?).group_by { |seedling| seedling.planted_at || seedling.created_at.to_date }
-      .sort_by(&:first).reverse
+    seedlings.reject(&:planned?)
+      .group_by { |seedling| [seedling.planted_at || seedling.created_at.to_date, seedling.planted_from == 'seedling'] }
+      .sort_by { |(day, got), _| [day, got ? 0 : 1] }.reverse
   end
 
   # What is planned but not sown yet, soonest first.
   def nursery_planned(seedlings)
     seedlings.select(&:planned?).sort_by(&:planted_at)
+  end
+
+  # The bold line of a group: "Today", or "Mon 12 Oct".
+  def nursery_day_title(day)
+    day == Time.zone.today ? 'Today' : l(day, format: '%a %-d %b')
+  end
+
+  # The line under it: today's date, "5 days ago", or that they were got as seedlings.
+  def nursery_day_subtitle(day, got)
+    today = Time.zone.today
+    return 'got as seedlings' if got
+    return l(day, format: '%a %-d %b') if day == today
+
+    ago = (today - day).to_i
+    ago == 1 ? 'yesterday' : "#{ago} days ago"
   end
 
   # "Today", or "Mon 12 Oct · 5 days ago".
@@ -56,7 +73,7 @@ module GardensHelper
     owner = nursery.owner
     {
       garden:      { id: nursery.id, name: nursery.name },
-      gardens:     owner.gardens.active.not_nurseries.order_by_name.map { |garden| { id: garden.id, name: garden.name } },
+      gardens:     owner.gardens.active.not_nurseries.order_by_name.map { |g| { id: g.id, name: g.name, slug: g.slug } },
       seeds:       owner.seeds.active.includes(:crop, :photos).order(created_at: :desc).limit(200).map { |seed| seed_packet_props(seed) },
       label:       'Sow seeds',
       buttonClass: 'btn btn-primary'

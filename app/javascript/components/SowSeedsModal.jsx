@@ -60,6 +60,8 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState([]);
   const [sown, setSown] = useState(null);
+  const [note, setNote] = useState('');
+  const [placing, setPlacing] = useState(null); // sown straight into a garden: offer to place it on the layout
 
   const today = localToday();
   const sownOn = {today, yesterday: daysBefore(today, 1), other: customDate}[when];
@@ -85,6 +87,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
         planted_from: source === 'seedlings' ? 'seedling' : 'seed',
         ...(source === 'mine' ? {parent_seed_id: seed.id} : {}),
         ...(when === 'today' ? {} : {planted_at: sownOn}),
+        ...(planning && note.trim() ? {description: note.trim()} : {}),
       };
       const {ok, status, data} = await postJson('/plantings.json', {planting, ...(source === 'mine' ? {use_seeds: 1} : {})});
       if (!ok) {
@@ -93,6 +96,8 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
         setSown(`Sowed ${quantity} ${cropName}.`);
         setSeed(null);
         setCrop(null);
+      } else if (where === 'garden' && !planning) {
+        setPlacing({quantity, name: cropName, garden});
       } else {
         onSown();
         return;
@@ -103,8 +108,11 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
     setSaving(false);
   }
 
+  const planning = sownOn > today;
   const ready = Boolean(cropId) && Boolean(garden) && quantity > 0 && (when !== 'other' || customDate);
   const target = where === 'nursery' ? 'the nursery' : (garden ? garden.name : 'a garden');
+  const quantityLabel = planning ? 'About how many?' : (source === 'seedlings' ? 'How many seedlings?' : 'How many seeds?');
+  const submitLabel = planning ? 'Add to plan' : `Sow into ${target}`;
 
   const chooser = source === 'mine' ? (
     <>
@@ -124,6 +132,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
               <strong>{packet.name}</strong>
               <span className="seed-packet-badges">
                 {packet.heirloom === 'heirloom' && <span className="badge text-bg-success">Heirloom</span>}
+                {packet.heirloom === 'hybrid' && <span className="badge text-bg-warning">Hybrid</span>}
                 {packet.plant_before && packet.plant_before < sownOn && (
                   <span className="badge text-bg-warning">Expired {packet.plant_before.slice(0, 4)}</span>
                 )}
@@ -144,6 +153,22 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
       </>
     ) : <CropPicker id="sow-crop" label="Which crop?" onChoose={setCrop} />
   );
+
+  if (placing) {
+    return (
+      <Modal title="Sow seeds" titleId="sow-seeds-title" onClose={onSown}>
+        <div className="modal-body plant-dialog-body">
+          <div className="alert alert-success" role="status">
+            <strong>Sowed {placing.quantity} {placing.name} into {placing.garden.name}.</strong>
+          </div>
+          <h3 className="h5">Where in the garden did you put them?</h3>
+          <p>Add it to the garden layout to remember where it is. You can do this later from the garden.</p>
+          <a className="btn btn-success" href={`/gardens/${placing.garden.slug}/layout`}>Place on the garden layout</a>{' '}
+          <button type="button" className="btn btn-outline-success" onClick={onSown}>Not now</button>
+        </div>
+      </Modal>
+    );
+  }
 
   return (
     <Modal title="Sow seeds" titleId="sow-seeds-title" size="xl" onClose={onClose}>
@@ -189,7 +214,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
               ) : <p className="text-muted">You don&rsquo;t have another garden yet.</p>
             )}
             <Choices id="sow-source" legend="Where do the seeds come from?" choices={SOURCES} value={source} onChange={chooseSource} />
-            <label className="form-label mt-4" htmlFor="sow-quantity">{source === 'seedlings' ? 'How many seedlings?' : 'How many seeds?'}</label>
+            <label className="form-label mt-4" htmlFor="sow-quantity">{quantityLabel}</label>
             <input
               id="sow-quantity"
               className="form-control sow-quantity"
@@ -198,8 +223,14 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
               value={quantity}
               onChange={(event) => setQuantity(Math.max(0, parseInt(event.target.value, 10) || 0))}
             />
-            {source === 'mine' && seed && seed.quantity != null && (
+            {source === 'mine' && seed && seed.quantity != null && !planning && (
               <p className="form-text">That packet goes from {seed.quantity} to {Math.max(0, seed.quantity - quantity)}.</p>
+            )}
+            {planning && (
+              <>
+                <label className="form-label mt-3" htmlFor="sow-note">Note (optional)</label>
+                <input id="sow-note" className="form-control" value={note} onChange={(event) => setNote(event.target.value)} />
+              </>
             )}
           </div>
           <div className="sow-chooser">{chooser}</div>
@@ -207,9 +238,11 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-link" onClick={onClose} disabled={saving}>Cancel</button>
-        <button type="button" className="btn btn-outline-success" onClick={() => save(true)} disabled={!ready || saving}>Sow and add another</button>
+        <button type="button" className="btn btn-outline-success" onClick={() => save(true)} disabled={!ready || saving}>
+          {planning ? 'Plan and add another' : 'Sow and add another'}
+        </button>
         <button type="button" className="btn btn-success" onClick={() => save(false)} disabled={!ready || saving} aria-busy={saving}>
-          {`Sow into ${target}`}
+          {submitLabel}
         </button>
       </div>
     </Modal>
