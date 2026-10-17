@@ -15,24 +15,24 @@
   .gardens-page-header
     %div
       %h1= title
-      - if @owner && @owner != current_member
+      - if @owner && !@own_gardens
         %p.gardens-page-owner
           - if @owner.location.present?
             = link_to @owner.location, place_path(@owner.location)
             &middot;
           = link_to 'Profile', @owner
-      - if @owner && @nursery.nil? && (@owner != current_member || @owner.nursery_declined?)
+      - if @owner && @nursery.nil? && (!@own_gardens || @owner.nursery_declined?)
         %p.gardens-page-owner
           #{@owner} has no seedling raising nursery.
-          - if @owner == current_member
+          - if @own_gardens
             = link_to 'Change this', nursery_path
     .gardens-page-actions
-      - if @owner && @owner == current_member
+      - if @own_gardens
         = react_component 'GardenPicker', { label: 'Add a garden', buttonClass: 'btn btn-success' }
       - elsif @owner
         = render 'members/follow_buttons', member: @owner
 
-  - if @owner.present? && (@nursery || (@owner == current_member && !@owner.nursery_declined?))
+  - if @nursery || (@own_gardens && !@owner.nursery_declined?)
     = render 'gardens/nursery_panel', owner: @owner, nursery: @nursery
 
   %section.gardens-section
@@ -42,7 +42,7 @@
     - if @gardens.empty?
       .gardens-section-body
         %p There are no gardens to display.
-        - if can?(:create, Garden) && @owner == current_member
+        - if can?(:create, Garden) && @own_gardens
           = link_to 'Add a garden', new_garden_path, class: 'btn btn-primary'
     - else
       = react_component 'GardenCards', garden_cards_props(@gardens, owner: @owner)

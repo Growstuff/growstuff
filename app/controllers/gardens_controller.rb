@@ -8,10 +8,10 @@ class GardensController < DataController
 
   def index
     @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
-    @show_jump_to = params[:member_slug].present? || false
 
     @gardens = @gardens.includes(:owner)
     @gardens = @gardens.active
+    @own_gardens = @owner.present? && @owner == current_member
     if @owner.present?
       @nursery = @owner.nursery
       @gardens = @gardens.not_nurseries # shown at the top instead

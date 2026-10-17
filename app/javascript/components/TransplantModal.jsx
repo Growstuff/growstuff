@@ -2,17 +2,9 @@ import React, {useState} from 'react';
 
 import {postJson} from '../api';
 import {daysBefore, localToday} from '../dates';
+import {errorMessages} from '../errors';
 import Modal from './Modal';
 import WhenPicker from './WhenPicker';
-
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.values(data.errors).flat();
-    if (messages.length > 0) return messages;
-  }
-  if (status === 403) return ['You can\'t transplant into that garden.'];
-  return ['Something went wrong transplanting. Please try again.'];
-}
 
 // Transplanting seedlings out of the nursery. First where they went and when,
 // then whether that was all of them: if not, how many, and the rest stay in the
@@ -43,7 +35,7 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
         onDone();
         return;
       }
-      setErrors(errorMessages(status, data));
+      setErrors(errorMessages(status, data, {forbidden: 'You can\'t transplant into that garden.'}));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
     }

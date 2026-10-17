@@ -2,10 +2,12 @@ import React, {useState} from 'react';
 
 import {postJson} from '../api';
 import {daysBefore, localToday} from '../dates';
+import {errorMessages} from '../errors';
 import CropDetails from './CropDetails';
 import CropPicker from './CropPicker';
-import SeedPacket from './SeedPacket';
 import Modal from './Modal';
+import SeedPacket from './SeedPacket';
+import SeedPacketList from './SeedPacketList';
 import WhenPicker from './WhenPicker';
 
 const SOURCES = [['mine', 'From my seeds'], ['new', 'New seeds'], ['seedlings', 'Seedlings I got']];
@@ -34,16 +36,6 @@ function Choices({id, legend, choices, value, onChange}) {
   );
 }
 
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${field.replace(/_/g, ' ')} ${m}`));
-    if (messages.length > 0) return messages;
-  }
-  if (status === 403) return ['You can\'t sow into that garden.'];
-  if (status === 401) return ['Please sign in again to sow seeds.'];
-  return ['Something went wrong saving that. Please try again.'];
-}
-
 // "Sow seeds": into the nursery, or straight into a garden, from a packet of
 // your own seeds, new seeds, or seedlings you were given. Sowing from a packet
 // takes the seeds out of it.
@@ -67,7 +59,6 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
   const garden = where === 'nursery' ? nursery : gardens.find((g) => String(g.id) === gardenId);
   const cropId = source === 'mine' ? seed && seed.crop_id : crop && crop.id;
   const cropName = source === 'mine' ? seed && seed.name : crop && crop.name;
-  const matching = seeds.filter((packet) => packet.name.toLowerCase().includes(search.trim().toLowerCase()));
 
   function chooseSource(choice) {
     setSource(choice);
@@ -82,14 +73,14 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
       const planting = {
         garden_id: garden.id,
         crop_id: cropId,
-        ...(quantity > 0 ? {quantity} : {}),
+        quantity,
         planted_from: source === 'seedlings' ? 'seedling' : 'seed',
         ...(source === 'mine' ? {parent_seed_id: seed.id} : {}),
         ...(when === 'today' ? {} : {planted_at: sownOn}),
       };
       const {ok, status, data} = await postJson('/plantings.json', {planting, ...(source === 'mine' ? {use_seeds: 1} : {})});
       if (!ok) {
-        setErrors(errorMessages(status, data));
+        setErrors(errorMessages(status, data, {forbidden: 'You can\'t sow into that garden.', signedOut: 'Please sign in again to sow seeds.'}));
       } else if (addAnother) {
         setSown(`Sowed ${quantity} ${cropName}.`);
         setSeed(null);
@@ -112,33 +103,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
 
   const chooser = source === 'mine' ? (
     <>
-      <label className="form-label" htmlFor="sow-seed-search">Which seeds?</label>
-      <input id="sow-seed-search" className="form-control" type="search" value={search} onChange={(event) => setSearch(event.target.value)} />
-      <div className="seed-packets mt-2">
-        {matching.map((packet) => (
-          <button
-            key={packet.id}
-            type="button"
-            className={`seed-packet-card${seed && seed.id === packet.id ? ' selected' : ''}`}
-            aria-pressed={Boolean(seed && seed.id === packet.id)}
-            onClick={() => setSeed(packet)}
-          >
-            {packet.photo_url && <img className="seed-packet-photo" src={packet.photo_url} alt={`Photo of the ${packet.name} packet`} />}
-            <span className="seed-packet-text">
-              <strong>{packet.name}</strong>
-              <span className="seed-packet-badges">
-                {packet.heirloom === 'heirloom' && <span className="badge text-bg-success">Heirloom</span>}
-                {packet.heirloom === 'hybrid' && <span className="badge text-bg-warning">Hybrid</span>}
-                {packet.plant_before && packet.plant_before < sownOn && (
-                  <span className="badge text-bg-warning">Expired {packet.plant_before.slice(0, 4)}</span>
-                )}
-              </span>
-              <small>Saved {packet.saved}{packet.quantity != null ? ` · ${packet.quantity} seeds` : ''}</small>
-            </span>
-          </button>
-        ))}
-      </div>
-      {matching.length === 0 && <p className="text-muted mb-0">No seed packets match. Choose &ldquo;New seeds&rdquo; to add one.</p>}
+      <SeedPacketList packets={seeds} search={search} onSearch={setSearch} selected={seed} onChoose={setSeed} sownOn={sownOn} />
       {seed && <SeedPacket packet={seed} />}
     </>
   ) : (
