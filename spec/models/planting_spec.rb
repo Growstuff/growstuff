@@ -792,25 +792,55 @@ describe Planting do
   end
 
   describe '#transplant_to' do
+    subject(:moved) { planting.transplant_to(garden, on: Time.zone.today) }
+
     let(:owner) { create(:member) }
     let(:garden) { create(:garden, owner:) }
-    let(:planting) { create(:planting, owner:, garden: owner.nursery!, quantity: 6, planted_at: Time.zone.today) }
+    let(:nursery) { owner.nursery! }
+    let(:planting) { create(:planting, owner:, garden: nursery, quantity: 6, planted_at: 5.days.ago.to_date) }
 
-    context 'when moving all of it on the day it was sown' do
-      before { planting.transplant_to(garden) }
-
-      it { expect(planting.reload).to be_finished }
+    it 'is the same planting, now in the garden' do
+      expect(moved).to eq(planting).and have_attributes(garden:)
     end
 
-    context 'when moving some' do
-      subject(:transplant) { planting.transplant_to(garden, quantity: 2) }
+    it 'keeps its sow date and is not finished' do
+      expect(moved).to have_attributes(planted_at: 5.days.ago.to_date, finished: false)
+    end
 
-      it { is_expected.to have_attributes(quantity: 2, garden:, transplanted_from: planting) }
+    it 'does not make another planting' do
+      planting
+      expect { moved }.not_to change(described_class, :count)
+    end
 
-      it 'leaves the rest' do
-        transplant
-        expect(planting.reload.quantity).to eq 4
+    it 'records the garden it was in, and for which days' do
+      moved
+      expect(planting.histories).to contain_exactly(
+        have_attributes(garden: nursery, started_on: 5.days.ago.to_date, ended_on: Time.zone.today)
+      )
+    end
+
+    context 'when moved again' do
+      let(:third) { create(:garden, owner:) }
+
+      before do
+        planting.transplant_to(garden, on: 2.days.ago.to_date)
+        planting.transplant_to(third, on: Time.zone.today)
       end
+
+      it 'has a record for each garden it left, oldest first' do
+        expect(planting.histories.map(&:garden)).to eq [nursery, garden]
+      end
+
+      it 'says the second garden started when the first was left' do
+        expect(planting.histories.last.started_on).to eq 2.days.ago.to_date
+      end
+    end
+
+    context 'when it cannot be moved' do
+      subject(:moved) { planting.transplant_to(create(:garden)) }
+
+      it { expect(moved.errors).not_to be_empty }
+      it('records nothing') { expect { moved }.not_to change(PlantingHistory, :count) }
     end
   end
 end

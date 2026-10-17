@@ -84,7 +84,6 @@ en:
         not_a_valid_unit: "%{value} is not a valid unit"
         not_a_valid_area_unit: "%{value} is not a valid area unit"
         no_newlines: must contain no newlines
-        transplant_failed: could not be transplanted
         one_nursery_per_member: already exists; a member can have only one nursery
         grid_too_small_for_plantings: "is too small: some plantings would fall outside the bed. Move them first."
         bed_position_incomplete: must have both a column and a row, or neither
@@ -582,7 +581,6 @@ en:
     unfollowed: "Unfollowed %{name}"
     follow_error: Already following or error while following.
     transplant_success: Planting was successfully transplanted.
-    transplant_quantity: you can move between one and all of the plants
     transplant_error: "There was an error transplanting the planting: %{errors}"
     revert_success: "Reverted to version from %{date}"
     revert_error: "Could not revert to version from %{date}. Errors: %{errors}"

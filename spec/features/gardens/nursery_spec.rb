@@ -225,46 +225,22 @@ describe "Nursery" do
       click_link 'Transplant'
       within('.modal') do
         choose other_garden.name
-        click_button 'Next'
+        click_button 'Transplant'
       end
+      page.assert_no_selector '.modal', wait: 10
     end
 
-    it "asks whether that was all of them" do
-      expect(page).to have_css '.modal', text: "Was that all of the #{batch.display_name}?"
+    it "moves the batch to the garden" do
+      expect(batch.reload).to have_attributes(garden: other_garden, quantity: 6, finished: false)
     end
 
-    context "when that was all of them" do
-      before do
-        within('.modal') { click_button 'Transplant' }
-        page.assert_no_selector '.modal', wait: 10
-      end
-
-      it "plants them in the garden" do
-        expect(other_garden.plantings.pluck(:quantity, :transplanted_from_id)).to eq [[6, batch.id]]
-      end
-
-      it "finishes the batch in the nursery" do
-        expect(batch.reload).to be_finished
-      end
+    it "does not make another planting" do
+      expect(Planting.count).to eq 1
     end
 
-    context "when only some were transplanted" do
-      before do
-        within('.modal') do
-          choose 'No, only some'
-          fill_in 'How many did you transplant?', with: 2
-          click_button 'Transplant'
-        end
-        page.assert_no_selector '.modal', wait: 10
-      end
-
-      it "plants that many in the garden" do
-        expect(other_garden.plantings.pluck(:quantity)).to eq [2]
-      end
-
-      it "leaves the rest in the nursery" do
-        expect(batch.reload).to have_attributes(quantity: 4, finished: false)
-      end
+    it "remembers it was in the nursery" do
+      expect(batch.histories.map(&:garden)).to eq [batch.histories.first.garden]
+      expect(batch.histories.first.garden).to be_nursery
     end
   end
 
@@ -349,37 +325,6 @@ describe "Nursery" do
 
     it "stops the old nursery being one" do
       expect(old_nursery.reload).not_to be_nursery
-    end
-  end
-
-  describe "transplanting some seedlings" do
-    let(:nursery) { member.nursery! }
-    let(:backyard) { create(:garden, owner: member, name: 'Backyard') }
-    let!(:seedlings) { create(:planting, garden: nursery, owner: member, quantity: 12) }
-
-    def transplant(count, to:)
-      visit planting_path(seedlings)
-      click_link 'Actions'
-      click_link 'Transplant'
-      within '#transplant-modal' do
-        select to.name, from: 'Move this planting to:'
-        fill_in 'How many?', with: count
-        click_on 'Transplant'
-      end
-      expect(page).to have_content 'successfully transplanted'
-    end
-
-    before do
-      backyard
-      transplant(4, to: backyard)
-    end
-
-    it "plants them in the new garden" do
-      expect(Planting.last).to have_attributes(garden: backyard, quantity: 4, transplanted_from: seedlings)
-    end
-
-    it "leaves the rest in the nursery" do
-      expect(seedlings.reload).to have_attributes(quantity: 8, finished: false)
     end
   end
 end

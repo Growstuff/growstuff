@@ -96,9 +96,7 @@ class PlantingsController < DataController
     respond_with @planting, location: @planting.garden
   end
 
-  # Moves some or all of a planting to another garden. Moving all of it finishes
-  # the original; moving some leaves the rest where it was, so a batch of
-  # seedlings can go to several gardens.
+  # Moves the planting to another garden, keeping a record of where it was.
   def transplant
     # The `load_and_authorize_resource` in DataController will handle finding the
     # planting and authorizing the action.
@@ -106,17 +104,15 @@ class PlantingsController < DataController
     new_garden = Garden.find(params[:garden_id])
     authorize! :update, new_garden
 
-    moving = transplant_quantity
-    new_planting = @planting.transplant_to(new_garden, quantity: moving, on: transplanted_on) unless moving == :invalid
+    @planting.transplant_to(new_garden, on: transplanted_on)
 
     respond_to do |format|
-      if new_planting&.persisted?
-        format.html { redirect_to edit_planting_path(new_planting), notice: t('messages.transplant_success') }
-        format.json { render json: { url: planting_path(new_planting) }, status: :created }
+      if @planting.errors.empty?
+        format.html { redirect_to @planting, notice: t('messages.transplant_success') }
+        format.json { render json: { url: planting_path(@planting) } }
       else
-        errors = new_planting ? new_planting.errors.to_hash : { quantity: [t('messages.transplant_quantity')] }
-        format.html { redirect_to @planting, alert: t('messages.transplant_error', errors: errors.values.flatten.to_sentence) }
-        format.json { render json: { errors: errors }, status: :unprocessable_content }
+        format.html { redirect_to @planting, alert: t('messages.transplant_error', errors: @planting.errors.full_messages.to_sentence) }
+        format.json { render json: { errors: @planting.errors.to_hash }, status: :unprocessable_content }
       end
     end
   end
@@ -136,17 +132,6 @@ class PlantingsController < DataController
     params[:date].present? ? Date.parse(params[:date].to_s) : Time.zone.today
   rescue Date::Error
     Time.zone.today
-  end
-
-  # How many are being moved: nil for all of them, or a number short of the
-  # planting's quantity. :invalid if the member asked for none or too many.
-  def transplant_quantity
-    return nil if params[:quantity].blank? || @planting.quantity.nil?
-
-    count = params[:quantity].to_i
-    return :invalid unless count.between?(1, @planting.quantity)
-
-    count < @planting.quantity ? count : nil
   end
 
   # Used by the React garden cards, which replace the garden's card with the

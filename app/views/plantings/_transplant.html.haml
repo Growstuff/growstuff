@@ -10,22 +10,8 @@
             %button.btn-close{ "aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button" }
           -# Same body class as the React dialogs, so it reads at the same size.
           .modal-body.plant-dialog-body
-            %p.text-muted
-              - if planting.quantity.present? && planting.quantity > 1
-                Move some or all of these plants to the garden you choose. If you move
-                them all, this planting is marked finished in
-                = succeed '.' do
-                  = planting.garden.name
-              - else
-                This planting is marked finished in
-                = succeed ',' do
-                  = planting.garden.name
-                and started again in the garden you choose.
             = label_tag :garden_id, 'Move this planting to:', class: 'form-label'
             = select_tag :garden_id, options_from_collection_for_select(transplantable_gardens_by_owner(planting), :id, :name), class: 'form-select'
-            - if planting.quantity.present? && planting.quantity > 1
-              = label_tag :quantity, 'How many?', class: 'form-label mt-3'
-              = number_field_tag :quantity, planting.quantity, min: 1, max: planting.quantity, class: 'form-control'
           .modal-footer
             %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" } Cancel
             = submit_tag 'Transplant', class: 'btn btn-primary'

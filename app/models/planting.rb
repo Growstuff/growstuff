@@ -24,9 +24,8 @@ class Planting < ApplicationRecord
   belongs_to :garden
   belongs_to :crop, counter_cache: true
   belongs_to :alternate_name, optional: true
-  # The planting this one was transplanted out of; a nursery batch can be
-  # transplanted into several gardens.
-  belongs_to :transplanted_from, class_name: 'Planting', optional: true
+  # The gardens it was in before the one it is in now, oldest first.
+  has_many :histories, -> { order(:ended_on, :id) }, class_name: 'PlantingHistory', dependent: :destroy, inverse_of: :planting
   has_many :harvests, dependent: :destroy
   has_many :activities, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid. Made the
@@ -157,22 +156,14 @@ class Planting < ApplicationRecord
     quantity.to_i > MAX_PLANTS
   end
 
-  # Moves some or all of this planting to another garden, as a new planting that
-  # keeps the sow date and records the day it went in. Moving all of it finishes
-  # this one; moving some leaves the rest here. Returns the new planting, which
-  # is unsaved, with errors, if it couldn't be done.
-  def transplant_to(garden, quantity: nil, on: Time.zone.today)
-    moving = quantity if quantity && self.quantity && quantity < self.quantity
-    transplant = dup.tap do |planting|
-      planting.assign_attributes(garden:, slug: nil, finished: false, finished_at: nil,
-                                 transplanted_from: self, transplanted_at: on)
-      planting.quantity = moving if moving
-    end
-    saved = self.class.transaction do
-      (transplant.save && leave_behind(moving, on)) || raise(ActiveRecord::Rollback)
-    end
-    transplant.errors.add(:base, :transplant_failed) unless saved
-    transplant
+  # Moves this planting into another garden, on the day given, and keeps a record
+  # of the garden it was in. It stays one planting, with its sow date, photos and
+  # harvests, so the crop's averages count it once. If it can't be moved, it has
+  # errors.
+  def transplant_to(garden, on: Time.zone.today)
+    histories.build(garden: self.garden, started_on: histories.filter_map(&:ended_on).max || planted_at, ended_on: on)
+    update(garden:)
+    self
   end
 
   # Sown after the year its seed packet said to plant it by.
@@ -204,15 +195,6 @@ class Planting < ApplicationRecord
   end
 
   private
-
-  # What this planting does once some of it has gone: it keeps the remainder, or
-  # is finished if all of it went. A planting can't finish on the day it was
-  # sown, so then it is just marked finished.
-  def leave_behind(moving, on)
-    return update(quantity: quantity - moving) if moving
-
-    update(finished: true, finished_at: (on if planted_at.nil? || on > planted_at))
-  end
 
   # Copied from the packet when the planting is made, as the packet may be
   # edited or thrown away later.

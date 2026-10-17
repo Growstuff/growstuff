@@ -66,7 +66,7 @@ module GardensHelper
   # "Transplant" is in the menu after "view", for batches that can be moved. You
   # don't harvest or save seeds from seedlings, so those aren't.
   def nursery_chip_props(seedling, gardens:)
-    chip = PlantingChipSerializer.new(seedling, ability: card_ability).as_json.merge(slug: seedling.slug, quantity: seedling.quantity)
+    chip = PlantingChipSerializer.new(seedling, ability: card_ability).as_json.merge(slug: seedling.slug)
     {
       planting:         nursery_chip_with_transplant(chip, seedling, gardens),
       gardens:          gardens,
