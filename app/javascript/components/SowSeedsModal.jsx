@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import {postJson} from '../api';
-import {dayLabel, daysBefore, localToday, nextSaturday} from '../dates';
+import {daysBefore, localToday} from '../dates';
 import CropDetails from './CropDetails';
 import CropPicker from './CropPicker';
 import SeedPacket from './SeedPacket';
@@ -9,7 +9,6 @@ import Modal from './Modal';
 import WhenPicker from './WhenPicker';
 
 const SOURCES = [['mine', 'From my seeds'], ['new', 'New seeds'], ['seedlings', 'Seedlings I got']];
-const PLAN_SOURCES = [['mine', 'From my seeds'], ['new', 'Any crop']];
 
 // A row of radio pills, the same look as the "when" choice.
 function Choices({id, legend, choices, value, onChange}) {
@@ -46,14 +45,10 @@ function errorMessages(status, data) {
 }
 
 // "Sow seeds": into the nursery, or straight into a garden, from a packet of
-// your own seeds, new seeds, or seedlings you were given. A date in the future
-// saves a plan, which the nursery lists as "to sow". Sowing from a packet takes
-// the seeds out of it.
-//
-// With `plan`, it is "Plan a sowing" instead: a day to come, with the crop and
-// roughly how many, and nothing is sown or taken from a packet.
-export default function SowSeedsModal({nursery, gardens, seeds, plan = false, onClose, onSown}) {
-  const [when, setWhen] = useState(plan ? 'saturday' : 'today');
+// your own seeds, new seeds, or seedlings you were given. Sowing from a packet
+// takes the seeds out of it.
+export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}) {
+  const [when, setWhen] = useState('today');
   const [customDate, setCustomDate] = useState('');
   const [where, setWhere] = useState('nursery');
   const [gardenId, setGardenId] = useState(gardens.length > 0 ? String(gardens[0].id) : '');
@@ -65,17 +60,10 @@ export default function SowSeedsModal({nursery, gardens, seeds, plan = false, on
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState([]);
   const [sown, setSown] = useState(null);
-  const [note, setNote] = useState('');
   const [placing, setPlacing] = useState(null); // sown straight into a garden: offer to place it on the layout
 
   const today = localToday();
-  const saturday = nextSaturday(today);
-  const sownOn = {
-    today, yesterday: daysBefore(today, 1), saturday, saturday2: daysBefore(saturday, -7), fortnight: daysBefore(today, -14), other: customDate,
-  }[when];
-  const whenChoices = plan
-    ? [['saturday', dayLabel(saturday)], ['saturday2', dayLabel(daysBefore(saturday, -7))], ['fortnight', 'In two weeks'], ['other', 'Pick a date']]
-    : undefined;
+  const sownOn = {today, yesterday: daysBefore(today, 1), other: customDate}[when];
   const garden = where === 'nursery' ? nursery : gardens.find((g) => String(g.id) === gardenId);
   const cropId = source === 'mine' ? seed && seed.crop_id : crop && crop.id;
   const cropName = source === 'mine' ? seed && seed.name : crop && crop.name;
@@ -98,7 +86,6 @@ export default function SowSeedsModal({nursery, gardens, seeds, plan = false, on
         planted_from: source === 'seedlings' ? 'seedling' : 'seed',
         ...(source === 'mine' ? {parent_seed_id: seed.id} : {}),
         ...(when === 'today' ? {} : {planted_at: sownOn}),
-        ...(planning && note.trim() ? {description: note.trim()} : {}),
       };
       const {ok, status, data} = await postJson('/plantings.json', {planting, ...(source === 'mine' ? {use_seeds: 1} : {})});
       if (!ok) {
@@ -107,7 +94,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, plan = false, on
         setSown(`Sowed ${quantity} ${cropName}.`);
         setSeed(null);
         setCrop(null);
-      } else if (where === 'garden' && !planning) {
+      } else if (where === 'garden') {
         setPlacing({quantity, name: cropName, garden});
       } else {
         onSown();
@@ -119,11 +106,9 @@ export default function SowSeedsModal({nursery, gardens, seeds, plan = false, on
     setSaving(false);
   }
 
-  const planning = plan || sownOn > today;
-  const ready = Boolean(cropId) && Boolean(garden) && (planning || quantity > 0) && (when !== 'other' || customDate);
+  const ready = Boolean(cropId) && Boolean(garden) && quantity > 0 && Boolean(sownOn) && sownOn <= today;
   const target = where === 'nursery' ? 'the nursery' : (garden ? garden.name : 'a garden');
-  const quantityLabel = planning ? 'About how many? (optional)' : (source === 'seedlings' ? 'How many seedlings?' : 'How many seeds?');
-  const submitLabel = planning ? 'Add to plan' : `Sow into ${target}`;
+  const quantityLabel = source === 'seedlings' ? 'How many seedlings?' : 'How many seeds?';
 
   const chooser = source === 'mine' ? (
     <>
@@ -182,7 +167,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, plan = false, on
   }
 
   return (
-    <Modal title={plan ? 'Plan a sowing' : 'Sow seeds'} titleId="sow-seeds-title" size="xl" onClose={onClose}>
+    <Modal title="Sow seeds" titleId="sow-seeds-title" size="xl" onClose={onClose}>
       <div className="modal-body plant-dialog-body sow-seeds">
         {errors.length > 0 && (
           <div className="alert alert-danger" role="alert">
@@ -195,17 +180,17 @@ export default function SowSeedsModal({nursery, gardens, seeds, plan = false, on
           <div className="sow-settings">
             <WhenPicker
               id="sow-seeds"
-              legend={plan ? 'Plan to sow on' : 'When'}
-              choices={whenChoices}
+              legend="When"
+              max={today}
               when={when}
-              onWhen={(choice) => { setWhen(choice); if (choice === 'other' && !customDate) setCustomDate(plan ? saturday : today); }}
+              onWhen={(choice) => { setWhen(choice); if (choice === 'other' && !customDate) setCustomDate(today); }}
               date={customDate}
               onDate={(event) => setCustomDate(event.target.value)}
-              hint={plan ? 'It shows in your nursery as planned until you sow it.' : (sownOn > today ? 'A date in the future saves a plan, not a sowing.' : sownOn)}
+              hint={sownOn > today ? 'Seeds can only be sown up to today.' : sownOn}
             />
             <Choices
               id="sow-where"
-              legend={plan ? 'Sowing into' : 'Where are you sowing them?'}
+              legend="Where are you sowing them?"
               choices={[['nursery', 'Into the nursery'], ['garden', 'Straight into a garden']]}
               value={where}
               onChange={setWhere}
@@ -225,7 +210,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, plan = false, on
                 </>
               ) : <p className="text-muted">You don&rsquo;t have another garden yet.</p>
             )}
-            <Choices id="sow-source" legend={plan ? 'What will you sow?' : 'Where do the seeds come from?'} choices={plan ? PLAN_SOURCES : SOURCES} value={source} onChange={chooseSource} />
+            <Choices id="sow-source" legend="Where do the seeds come from?" choices={SOURCES} value={source} onChange={chooseSource} />
             <label className="form-label mt-4" htmlFor="sow-quantity">{quantityLabel}</label>
             <input
               id="sow-quantity"
@@ -235,14 +220,8 @@ export default function SowSeedsModal({nursery, gardens, seeds, plan = false, on
               value={quantity}
               onChange={(event) => setQuantity(Math.max(0, parseInt(event.target.value, 10) || 0))}
             />
-            {source === 'mine' && seed && seed.quantity != null && !planning && (
+            {source === 'mine' && seed && seed.quantity != null && (
               <p className="form-text">That packet goes from {seed.quantity} to {Math.max(0, seed.quantity - quantity)}.</p>
-            )}
-            {planning && (
-              <>
-                <label className="form-label mt-3" htmlFor="sow-note">Note (optional)</label>
-                <input id="sow-note" className="form-control" value={note} onChange={(event) => setNote(event.target.value)} />
-              </>
             )}
           </div>
           <div className="sow-chooser">{chooser}</div>
@@ -250,13 +229,11 @@ export default function SowSeedsModal({nursery, gardens, seeds, plan = false, on
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-link" onClick={onClose} disabled={saving}>Cancel</button>
-        {!plan && (
-          <button type="button" className="btn btn-outline-success" onClick={() => save(true)} disabled={!ready || saving}>
-            {planning ? 'Plan and add another' : 'Sow and add another'}
-          </button>
-        )}
+        <button type="button" className="btn btn-outline-success" onClick={() => save(true)} disabled={!ready || saving}>
+          Sow and add another
+        </button>
         <button type="button" className="btn btn-success" onClick={() => save(false)} disabled={!ready || saving} aria-busy={saving}>
-          {submitLabel}
+          {`Sow into ${target}`}
         </button>
       </div>
     </Modal>

@@ -250,8 +250,7 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
 }
 
 // The nursery: a section of days, each with the day (and photos of its trays) on
-// the left and what was sown that day as pills on the right. Plans are dashed
-// outlines. The owner can tick batches, and a bar then plants them out.
+// the left and what was sown that day as pills on the right. The owner can tick batches, and a bar then plants them out.
 .nursery-panel {
   .nursery-day {
     display: flex;
@@ -361,22 +360,8 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     }
   }
 
-  .nursery-planned .chip {
-    border: 2px dashed $gardens-green;
-    background: #fff;
-  }
-
-  .nursery-plan-action {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    margin-left: -4px;
-    font-weight: 600;
-  }
-
-  // Ticking batches, "Sowed it" and the plant-out bar only show while editing.
-  .nursery-edit-input:not(:checked) ~ .nursery-form .nursery-pick-box,
-  .nursery-edit-input:not(:checked) ~ .nursery-form .nursery-plan-action {
+  // Ticking batches and the plant-out bar only show while editing.
+  .nursery-edit-input:not(:checked) ~ .nursery-form .nursery-pick-box {
     display: none;
   }
 
@@ -434,9 +419,29 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     accent-color: $gardens-green;
   }
 
-  .chip:has(.nursery-pick-box:checked) {
-    border-color: $gardens-green;
-    background: #e4efdc;
+  // A batch in the nursery: its tick, pill and count in one pill, so it's plain
+  // which batch a tick belongs to.
+  .nursery-batch {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 14px 0 12px;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background: #dfe8d4;
+
+    .chip {
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+
+    &:has(.nursery-pick-box:checked) {
+      border-color: $gardens-green;
+      background: #e4efdc;
+    }
   }
 
   .nursery-form {

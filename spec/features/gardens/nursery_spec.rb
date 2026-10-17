@@ -23,8 +23,6 @@ describe "Nursery" do
 
       before do
         create(:planting, garden: member.nursery!, owner: member, crop:, quantity: 6, planted_at: Time.zone.today)
-        create(:planting, garden: member.nursery!, owner: member, crop: create(:crop, name: 'basil'),
-                          planted_at: 1.week.from_now.to_date)
         visit member_gardens_path(member)
       end
 
@@ -52,10 +50,6 @@ describe "Nursery" do
 
       it "groups them under the day they were sown" do
         within('.nursery-panel') { expect(page).to have_css '.nursery-day-heading', text: 'Today' }
-      end
-
-      it "lists plans to sow later separately" do
-        within('.nursery-planned') { expect(page).to have_content 'basil' }
       end
 
       it "sows in a dialog" do
@@ -266,93 +260,6 @@ describe "Nursery" do
     it "plants it in the garden" do
       page.assert_text 'Where in the garden did you put them?'
       expect(garden.plantings.pluck(:crop_id)).to eq [crop.id]
-    end
-  end
-
-  # Typing into a date box depends on the browser's locale, so set it as React sees it.
-  def set_date_field(id, date)
-    page.execute_script(<<~JS, id, date.iso8601)
-      const input = document.getElementById(arguments[0]);
-      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(input, arguments[1]);
-      input.dispatchEvent(new Event('input', { bubbles: true }));
-    JS
-  end
-
-  describe "planning a sowing" do
-    let(:crop) { create(:crop, name: 'basil') }
-
-    before do
-      create(:seed, owner: member, crop:)
-      member.nursery!
-      visit member_gardens_path(member)
-      open_sow_dialog
-      within('.modal') do
-        find('label', text: 'Enter date').click
-        set_date_field('sow-seeds-date', 1.week.from_now.to_date)
-        click_button 'basil'
-        fill_in 'Note (optional)', with: 'Warm window sill first'
-        click_button 'Add to plan'
-      end
-      page.assert_text 'To sow'
-    end
-
-    it "saves a future-dated planting with the note" do
-      expect(member.nursery!.plantings.first).to have_attributes(planted_at: 1.week.from_now.to_date, description: 'Warm window sill first')
-    end
-
-    it "lists it under to sow" do
-      within('.nursery-planned') { expect(page).to have_content 'basil' }
-    end
-  end
-
-  describe "planning from the to sow row" do
-    let(:crop) { create(:crop, name: 'basil') }
-
-    before do
-      create(:seed, owner: member, crop:)
-      member.nursery!
-      visit member_gardens_path(member)
-      open_plan_dialog
-    end
-
-    it "opens the plan dialog" do
-      expect(page).to have_css '.modal', text: 'Plan a sowing'
-    end
-
-    it "plans it for the next Saturday" do
-      within('.modal') do
-        click_button 'basil'
-        click_button 'Add to plan'
-      end
-      page.assert_text 'To sow'
-      expect(member.nursery.plantings.first.planted_at).to eq Time.zone.today.next_occurring(:saturday)
-    end
-  end
-
-  describe "a planned sowing" do
-    let!(:plan) do
-      create(:planting, garden: member.nursery!, owner: member, crop: create(:crop, name: 'basil'),
-                        planted_at: 1.week.from_now.to_date)
-    end
-
-    before { visit member_gardens_path(member) }
-
-    it "has no planting page to go to yet" do
-      within('.nursery-planned') { expect(page).to have_no_link 'basil' }
-    end
-
-    it "can be marked as sown" do
-      find('.nursery-edit-button').click
-      click_link 'Sowed it'
-      page.assert_current_path planting_path(plan)
-      expect(plan.reload.planted_at).to eq Time.zone.today
-    end
-
-    it "can be removed" do
-      find('.nursery-edit-button').click
-      accept_confirm { click_link 'Remove' }
-      page.assert_no_text 'basil'
-      expect(Planting.exists?(plan.id)).to be false
     end
   end
 

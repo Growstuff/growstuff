@@ -4,7 +4,8 @@ import AddPhotoModal from './AddPhotoModal';
 import PlantingChip from './PlantingChip';
 
 // One batch in the nursery: the same chip, with its menu, as a planting on a
-// garden card, then how many there are. "Add photo" opens its dialog over the
+// garden card, then how many there are, all in one pill so a tick belongs to its own
+// batch. "Add photo" opens its dialog over the
 // page, as on a card. In edit mode `pick` adds a tick for planting it out; the
 // tick is a plain checkbox in the nursery's form.
 export default function NurseryChip({planting, default_icon_url: defaultIconUrl, photo_icon_url: photoIconUrl, detail, pick}) {
@@ -12,7 +13,7 @@ export default function NurseryChip({planting, default_icon_url: defaultIconUrl,
   const handlers = {photo: (chosen, action) => setAddingPhoto({label: `${chosen.crop.name} planting`, href: action.href})};
 
   return (
-    <>
+    <div className="nursery-batch">
       {pick && (
         <input
           type="checkbox"
@@ -34,6 +35,6 @@ export default function NurseryChip({planting, default_icon_url: defaultIconUrl,
           onAdded={() => window.location.reload()} // the day's photos change
         />
       )}
-    </>
+    </div>
   );
 }

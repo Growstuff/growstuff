@@ -10,7 +10,7 @@
     - if member.gardens.present?
       %li.list-group-item
         = link_to localize_plural(member.gardens, Garden), member_gardens_path(member)
-    - if member.plantings.sown.present?
+    - if member.plantings.present?
       %li.list-group-item
         = link_to localize_plural(member.plantings, Planting), member_plantings_path(member)
     - if member.harvests.present?

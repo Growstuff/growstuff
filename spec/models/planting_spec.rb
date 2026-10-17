@@ -842,15 +842,4 @@ describe Planting do
       it { expect(planting.reload).not_to be_finished }
     end
   end
-
-  describe 'planned and sown plantings' do
-    let!(:plan) { create(:planting, planted_at: 1.week.from_now.to_date) }
-    let!(:sown) { create(:planting, planted_at: 1.day.ago.to_date) }
-    let!(:undated) { create(:planting, planted_at: nil) }
-
-    it { expect(described_class.planned).to contain_exactly(plan) }
-    it { expect(described_class.sown).to contain_exactly(sown, undated) }
-    it('leaves plans out of current') { expect(described_class.current).not_to include(plan) }
-    it('leaves plans out of active') { expect(described_class.active).not_to include(plan) }
-  end
 end

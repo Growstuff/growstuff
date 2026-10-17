@@ -18,8 +18,6 @@ class PlantingsController < DataController
   end
 
   def show
-    return render_planned if @planting.planned?
-
     @photos = @planting.photos.includes(:owner).order(date_taken: :desc).paginate(page: 1, per_page: 12)
     # The cards show the owner, the crop and the plant part, so load them with
     # the records. Not :photos — Photo's owner association carries a condition
@@ -121,15 +119,6 @@ class PlantingsController < DataController
 
   private
 
-  # A plan hasn't been sown, so there is nothing of it to see yet beyond who is
-  # planning it.
-  def render_planned
-    respond_to do |format|
-      format.html { render :planned }
-      format.any { head :not_found }
-    end
-  end
-
   # Sowing from a packet takes the seeds sown out of it, if it says how many it has.
   def use_up_seeds
     seed = @planting.parent_seed
@@ -186,7 +175,6 @@ class PlantingsController < DataController
         else
           Planting
         end
-    p = p.sown
     p = p.current unless @show_all
     p.joins(:owner, :crop, :garden)
       .order(created_at: :desc)

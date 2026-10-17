@@ -8,7 +8,7 @@ export const WHEN_CHOICES = [['today', 'Today'], ['yesterday', 'Yesterday'], ['o
 // `when` is today, yesterday or other; `date` is the date typed under other.
 // `choices` can leave out Yesterday; `min` is the earliest date the box takes.
 // `hint` is the date the current choice means, shown under the pills.
-export default function WhenPicker({id, legend, when, onWhen, date, onDate, choices = WHEN_CHOICES, min, hint}) {
+export default function WhenPicker({id, legend, when, onWhen, date, onDate, choices = WHEN_CHOICES, min, max, hint}) {
   return (
     <fieldset>
       <legend className="crop-picker-label step-legend">{legend}</legend>
@@ -37,6 +37,7 @@ export default function WhenPicker({id, legend, when, onWhen, date, onDate, choi
             className="form-control when-date"
             value={date}
             min={min}
+            max={max}
             onChange={onDate}
             required
             autoFocus

@@ -33,7 +33,7 @@ class MemberDashboard
   def first_planted_on
     return @first_planted_on if defined?(@first_planted_on)
 
-    @first_planted_on = member.plantings.sown.minimum(:planted_at)&.to_date
+    @first_planted_on = member.plantings.minimum(:planted_at)&.to_date
   end
 
   def years_growing
@@ -74,11 +74,11 @@ class MemberDashboard
   end
 
   def plantings_this_year
-    member.plantings.sown.where(planted_at: year_range(0)).count
+    member.plantings.where(planted_at: year_range(0)).count
   end
 
   def plantings_last_year
-    member.plantings.sown.where(planted_at: year_range(1)).count
+    member.plantings.where(planted_at: year_range(1)).count
   end
 
   def harvests_this_year
@@ -128,7 +128,7 @@ class MemberDashboard
   # most planted first.
   def planted_this_time_last_year(limit = 5)
     around = @today - 1.year
-    member.plantings.sown.where(planted_at: (around - 30.days)..(around + 30.days))
+    member.plantings.where(planted_at: (around - 30.days)..(around + 30.days))
       .joins(:crop).group('crops.name').order(Arel.sql('COUNT(*) DESC'), 'crops.name').limit(limit).count.keys
   end
 
@@ -209,12 +209,12 @@ class MemberDashboard
   end
 
   def crop_ids_planted_in(years_back)
-    member.plantings.sown.where(planted_at: year_range(years_back)).distinct.pluck(:crop_id)
+    member.plantings.where(planted_at: year_range(years_back)).distinct.pluck(:crop_id)
   end
 
   def sowing_comparison(crop_id)
-    this_year = member.plantings.sown.where(crop_id:, planted_at: year_range(0)).minimum(:planted_at)
-    last_year = member.plantings.sown.where(crop_id:, planted_at: year_range(1)).minimum(:planted_at)
+    this_year = member.plantings.where(crop_id:, planted_at: year_range(0)).minimum(:planted_at)
+    last_year = member.plantings.where(crop_id:, planted_at: year_range(1)).minimum(:planted_at)
     days = this_year.yday - last_year.yday
     return if days.zero?
 

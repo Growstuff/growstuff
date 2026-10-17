@@ -1,11 +1,10 @@
 -# The member's nursery, above their gardens: where seedlings are raised before
--# they're planted out, by the day they were sown, with what is planned to sow
--# after. A member who hasn't chosen one yet is asked about it. The owner can add
--# batches and plans, and "Edit nursery" lets them tick batches to plant out.
+-# they're planted out, by the day they were sown. A member who hasn't chosen one
+-# yet is asked about it. The owner can add batches, and "Edit nursery" lets them
+-# tick batches to plant out.
 :ruby
   seedlings = nursery_seedlings(nursery)
   sown_groups = nursery_sown_groups(seedlings)
-  planned = nursery_planned(nursery)
   editable = nursery && can?(:edit, nursery)
   sow = nursery_planter_props(nursery).merge(label: '+ Add', buttonClass: 'btn btn-outline-success') if editable
 %section.gardens-section.nursery-panel
@@ -53,22 +52,6 @@
               %small nothing yet
             %ul.nursery-seedlings
               %li= react_component 'NurseryPlanter', sow
-        - if planned.any? || editable
-          %section.nursery-day.nursery-planned
-            .nursery-day-head
-              %b.nursery-day-heading To sow
-              %small planned
-            %ul.nursery-seedlings
-              - planned.each do |seedling|
-                %li
-                  = render 'nurseries/plan_chip', planting: seedling, detail: nursery_plan_detail(seedling)
-                  - if editable
-                    = link_to 'Sowed it', planting_path(seedling, planting: { planted_at: Time.zone.today }), method: :put,
-                                          class: 'nursery-plan-action'
-                    = link_to 'Remove', planting_path(seedling), method: :delete, data: { confirm: 'Remove this plan?' },
-                                        class: 'nursery-plan-action'
-              - if editable
-                %li= react_component 'NurseryPlanter', sow.merge(plan: true)
       - if editable
         .nursery-bar
           %b.nursery-selected-count

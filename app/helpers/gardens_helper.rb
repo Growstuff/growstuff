@@ -30,13 +30,6 @@ module GardensHelper
       .sort_by { |(day, got), _| [day, got ? 0 : 1] }.reverse
   end
 
-  # What the nursery's owner plans to sow, in any garden, soonest first.
-  def nursery_planned(nursery)
-    return [] unless nursery
-
-    nursery.owner.plantings.planned.includes(:crop, :garden).order(:planted_at, :id).to_a
-  end
-
   # The bold line of a group: "Today", or "Mon 12 Oct".
   def nursery_day_title(day)
     day == Time.zone.today ? 'Today' : l(day, format: '%a %-d %b')
@@ -50,11 +43,6 @@ module GardensHelper
 
     ago = (today - day).to_i
     ago == 1 ? 'yesterday' : "#{ago} days ago"
-  end
-
-  # When a plan is for, and where if not the nursery: "Sat 24 Oct", "Sat 24 Oct · The Deck".
-  def nursery_plan_detail(planting)
-    [l(planting.planted_at, format: '%a %-d %b'), (planting.garden.name unless planting.garden.nursery?)].compact.join(' · ')
   end
 
   # "12 seedlings", counting each plant, or that there are none sown yet.

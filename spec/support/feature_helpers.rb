@@ -9,16 +9,11 @@ module FeatureHelpers
   # Opens every garden on the gardens list, as only the first starts open.
   def open_all_gardens
     page.assert_selector '.garden-card'
-    page.all('.garden-card:not([open]) > summary').each(&:click)
+    page.find_all('.garden-card:not([open]) > summary').each(&:click)
   end
 
-  # The first "+ Add" in the nursery sows seeds; the one in "To sow" plans a sowing.
   def open_sow_dialog
-    first(:button, '+ Add').click
-  end
-
-  def open_plan_dialog
-    all(:button, '+ Add').last.click
+    click_button '+ Add'
   end
 
   def visit_gardens_open
