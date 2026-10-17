@@ -70,6 +70,7 @@ module GardensHelper
     {
       planting:         PlantingChipSerializer.new(seedling, ability: current_ability).as_json,
       default_icon_url: image_path('icons/planting.svg'),
+      photo_icon_url:   image_path('icons/photo.svg'),
       detail:           ("\u00d7 #{seedling.quantity}" if seedling.quantity),
       pick:             pick
     }

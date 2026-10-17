@@ -37,6 +37,15 @@ describe "Nursery" do
         expect(page).to have_link 'Record harvest'
       end
 
+      it "opens add photo in a dialog over the page" do
+        within('.nursery-panel') do
+          click_link 'Actions for tomato'
+          click_link 'Add photo'
+        end
+        expect(page).to have_css '.modal'
+        expect(page).to have_current_path member_gardens_path(member)
+      end
+
       it "names each batch by its crop, not who planted it where" do
         within('.nursery-panel') { expect(page).to have_no_content 'planting in' }
       end

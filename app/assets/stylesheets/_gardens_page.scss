@@ -311,6 +311,16 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
       gap: 8px;
     }
 
+    // The islands' own elements don't add a box, so a pill, its menu and how many
+    // there are sit in one line with the buttons level with them.
+    [data-react-component] {
+      display: contents;
+    }
+
+    .actions-menu {
+      display: inline-flex;
+    }
+
     a {
       display: inline-flex;
       align-items: center;
