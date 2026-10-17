@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import {postJson} from '../api';
 import {daysBefore, localToday} from '../dates';
+import CropDetails from './CropDetails';
 import CropPicker from './CropPicker';
 import Modal from './Modal';
 import WhenPicker from './WhenPicker';
@@ -133,14 +134,15 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
         ))}
       </div>
       {matching.length === 0 && <p className="text-muted mb-0">No seed packets match. Choose &ldquo;New seeds&rdquo; to add one.</p>}
+      {seed && <CropDetails slug={seed.crop_slug} />}
     </>
   ) : (
     crop ? (
-      <p>
-        <strong>{crop.name}</strong>{' '}
-        <button type="button" className="btn btn-sm btn-outline-secondary" onClick={() => setCrop(null)}>Change crop</button>
-      </p>
-    ) : <CropPicker id="sow-crop" onChoose={setCrop} />
+      <>
+        <button type="button" className="btn btn-sm btn-outline-secondary mb-2" onClick={() => setCrop(null)}>Change crop</button>
+        <CropDetails slug={crop.slug} />
+      </>
+    ) : <CropPicker id="sow-crop" label="Which crop?" onChoose={setCrop} />
   );
 
   return (

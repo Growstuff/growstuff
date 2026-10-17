@@ -177,6 +177,30 @@ describe "Nursery" do
     end
   end
 
+  describe "choosing a crop for new seeds", :search do
+    let!(:crop) { create(:crop, name: 'beetroot', description: 'A sweet red root.', sun_requirements: 'full sun') }
+
+    before do
+      Crop.reindex
+      member.nursery
+      visit member_gardens_path(member)
+      click_button 'Sow seeds'
+      within('.modal') do
+        find('label', text: 'New seeds').click
+        fill_in 'Which crop?', with: 'beet'
+        find('[role=option]', text: 'beetroot').click
+      end
+    end
+
+    it "shows what the crop is" do
+      within('.modal') { expect(page).to have_content 'A sweet red root.' }
+    end
+
+    it "shows how it grows" do
+      within('.modal') { expect(page).to have_content 'full sun' }
+    end
+  end
+
   describe "choosing a nursery" do
     before do
       member.gardens.first.update!(name: 'Backyard')

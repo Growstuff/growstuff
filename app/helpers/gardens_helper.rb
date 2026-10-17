@@ -67,7 +67,7 @@ module GardensHelper
   # that is what tells two packets of the same crop apart.
   def seed_packet_props(seed)
     photo = seed.photos.first
-    { id: seed.id, crop_id: seed.crop_id, name: seed.crop_name, quantity: seed.quantity,
+    { id: seed.id, crop_id: seed.crop_id, crop_slug: seed.crop.slug, name: seed.crop_name, quantity: seed.quantity,
       heirloom: seed.heirloom, saved: l(seed.created_at.to_date, format: '%-d %b %Y'),
       plant_before: seed.plant_before&.iso8601, photo_url: (thumbnail_url(photo) if photo) }
   end

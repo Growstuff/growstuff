@@ -568,3 +568,53 @@ $garden-card-line: #e6e6e6;
     object-fit: cover;
   }
 }
+
+// A chosen crop in the sow dialog: its photo beside what it is and how it grows.
+.crop-details {
+  display: grid;
+  grid-template-columns: minmax(160px, 260px) 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid $garden-card-line;
+  border-radius: 4px;
+  background: #fff;
+
+  .crop-details-photo {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 3px;
+    object-fit: cover;
+  }
+
+  .crop-details-name {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .crop-details-scientific {
+    margin: 0 0 0.5rem;
+    color: $garden-card-muted;
+    font-style: italic;
+  }
+
+  .crop-details-facts {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.25rem 1rem;
+    margin: 0 0 0.75rem;
+
+    dt {
+      color: $garden-card-muted;
+      font-weight: 600;
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
+}
