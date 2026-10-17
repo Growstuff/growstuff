@@ -30,9 +30,11 @@ describe "Nursery" do
         within('.nursery-panel') { expect(page).to have_css 'img.crop-icon[src]:not([src=""])' }
       end
 
-      it "gives each batch the same menu as a planting in a garden" do
+      it "gives each batch a menu without harvest and save seeds, which seedlings don't have" do
         within('.nursery-panel') { click_link 'Actions for tomato' }
-        expect(page).to have_link 'Record harvest'
+        expect(page).to have_link('Mark as finished')
+        expect(page).to have_no_link('Record harvest')
+        expect(page).to have_no_link('Save seeds')
       end
 
       it "opens add photo in a dialog over the page" do
@@ -185,6 +187,30 @@ describe "Nursery" do
     it "plants it in the garden" do
       page.assert_text 'Where in the garden did you put them?'
       expect(garden.plantings.pluck(:crop_id)).to eq [crop.id]
+    end
+  end
+
+  describe "editing a batch from its menu" do
+    let!(:batch) { create(:planting, garden: member.nursery!, owner: member, quantity: 6, planted_at: Time.zone.today) }
+
+    before do
+      visit member_gardens_path(member)
+      within('.nursery-panel') { click_link "Actions for #{batch.display_name}" }
+      click_link 'Edit'
+    end
+
+    it "opens a dialog over the page" do
+      expect(page).to have_css '.modal', text: 'What did you plant?'
+    end
+
+    it "saves, and shows the change, without leaving or reloading the page" do
+      page.execute_script('window.notReloaded = true')
+      within('.modal') do
+        fill_in 'How many?', with: 9
+        click_button 'Save'
+      end
+      expect(page).to have_css '.nursery-panel', text: "\u00d7 9"
+      expect(page.evaluate_script('window.notReloaded')).to be true
     end
   end
 

@@ -63,7 +63,8 @@ module GardensHelper
   end
 
   # A batch's chip and menu, for the NurseryChip island, and how many there are.
-  # "Transplant" is in the menu after "view", for batches that can be moved.
+  # "Transplant" is in the menu after "view", for batches that can be moved. You
+  # don't harvest or save seeds from seedlings, so those aren't.
   def nursery_chip_props(seedling, gardens:)
     chip = PlantingChipSerializer.new(seedling, ability: card_ability).as_json.merge(slug: seedling.slug, quantity: seedling.quantity)
     {
@@ -76,10 +77,11 @@ module GardensHelper
   end
 
   def nursery_chip_with_transplant(chip, seedling, gardens)
-    return chip unless gardens.any? && card_ability.can?(:transplant, seedling)
-
-    transplant = { key: :transplant, label: I18n.t('buttons.transplant'), href: planting_path(seedling) }
-    chip.merge(actions: chip[:actions].dup.insert(1, transplant))
+    actions = chip[:actions].reject { |action| %i(harvest seeds).include?(action[:key]) }
+    if gardens.any? && card_ability.can?(:transplant, seedling)
+      actions.insert([1, actions.size].min, { key: :transplant, label: I18n.t('buttons.transplant'), href: planting_path(seedling) })
+    end
+    chip.merge(actions: actions)
   end
 
   # The sow seeds dialog's props: the nursery, the member's other gardens to sow

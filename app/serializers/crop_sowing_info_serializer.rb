@@ -14,7 +14,7 @@ class CropSowingInfoSerializer
   def as_json(*)
     {
       name:            @crop.name,
-      url:             routes.crop_path(@crop),
+      url:             Rails.application.routes.url_helpers.crop_path(@crop),
       photo_url:       @crop.thumbnail_url,
       scientific_name: @crop.default_scientific_name&.name,
       description:     truncate(@crop.description.to_s, length: 300, separator: ' '),
@@ -31,11 +31,5 @@ class CropSowingInfoSerializer
       your_plantings:  @member.plantings.where(crop: @crop).count,
       your_seeds:      @member.seeds.active.where(crop: @crop).count
     }
-  end
-
-  private
-
-  def routes
-    Rails.application.routes.url_helpers
   end
 end

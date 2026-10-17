@@ -248,7 +248,7 @@ class Member < ApplicationRecord
   end
 
   def has_activity?
-    (gardens.not_nurseries.exists? && gardens.not_nurseries.count > 1) ||
+    gardens.not_nurseries.many? ||
       plantings.exists? ||
       harvests.exists? ||
       seeds.exists? ||

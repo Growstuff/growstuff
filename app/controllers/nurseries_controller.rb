@@ -12,9 +12,18 @@ class NurseriesController < ApplicationController
     @candidates = current_member.gardens.active.not_nurseries.order_by_name
   end
 
+  # Just the nursery on the gardens page, for refreshing it in place after
+  # something is saved in a dialog.
+  def panel
+    render partial: 'gardens/nursery_panel', locals: { nursery: current_member.nursery }
+  end
+
   def create
-    garden = current_member.gardens.find_by!(slug: params[:garden_slug]) if params[:garden_slug].present?
-    garden ? garden.make_nursery! : garden = current_member.nursery!
-    redirect_to garden, notice: t('gardens.nursery_made')
+    nursery = if params[:garden_slug].present?
+                current_member.gardens.find_by!(slug: params[:garden_slug]).tap(&:make_nursery!)
+              else
+                current_member.nursery!
+              end
+    redirect_to nursery, notice: t('gardens.nursery_made')
   end
 end
