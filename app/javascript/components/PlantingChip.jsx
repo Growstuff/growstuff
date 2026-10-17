@@ -18,6 +18,7 @@ export default function PlantingChip({planting, defaultIconUrl, highlighted, han
     <ActionsMenu
       id={`planting-${id}`}
       actions={actions}
+      href={url}
       label={(
         <>
           <img className="crop-icon" src={crop.icon_url || defaultIconUrl} alt="" />
