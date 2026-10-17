@@ -5,8 +5,10 @@
   - if @garden
     = link_to 'View the plantings', garden_path(@garden), class: 'ms-auto'
 
-%h1 Anything left in the nursery?
-%p.lead So the nursery only shows what is still there.
+%h1 What about the rest?
+%p.lead
+  You planted out some of these. Say what happened to the rest, so the nursery only shows
+  seedlings that are still waiting to go in.
 
 = form_tag nursery_leftovers_path, method: :post do
   .card.mb-3
@@ -17,24 +19,19 @@
           %div
             %strong= batch.display_name
             %br
-            %small.text-muted
-              - if batch.finished?
-                All planted out. Nothing left in the nursery.
-              - else
-                #{pluralize(batch.quantity || 1, 'seedling')} still in the nursery
-            - unless batch.finished?
-              .form-check.mt-2
-                = radio_button_tag "done[#{batch.id}]", '', true, id: "left_#{batch.id}", class: 'form-check-input'
-                = label_tag "left_#{batch.id}", class: 'form-check-label' do
-                  #{batch.quantity || 1} still in the nursery. They stay listed until you plant them out.
-              .form-check
-                = radio_button_tag "done[#{batch.id}]", 'done', false, id: "done_#{batch.id}", class: 'form-check-input'
-                = label_tag "done_#{batch.id}", 'That sowing is all done', class: 'form-check-label'
-              .ms-4
-                - Planting::LEFTOVER_REASONS.compact.each do |value, label|
-                  .form-check.form-check-inline
-                    = radio_button_tag "done[#{batch.id}]", value, false, id: "#{value}_#{batch.id}",
-                                       class: 'form-check-input'
-                    = label_tag "#{value}_#{batch.id}", label, class: 'form-check-label'
-  = submit_tag 'Done', class: 'btn btn-primary'
+            %small.text-muted #{pluralize(batch.quantity || 1, 'seedling')} left in the nursery
+            .form-check.mt-2
+              = radio_button_tag "done[#{batch.id}]", '', true, id: "left_#{batch.id}", class: 'form-check-input'
+              = label_tag "left_#{batch.id}", class: 'form-check-label' do
+                Keep them in the nursery, to plant out later
+            .form-check
+              = radio_button_tag "done[#{batch.id}]", 'done', false, id: "done_#{batch.id}", class: 'form-check-input'
+              = label_tag "done_#{batch.id}", 'Finish this sowing: there is nothing more to plant', class: 'form-check-label'
+            .ms-4
+              %small.text-muted or finish it because they were
+              - Planting::LEFTOVER_REASONS.compact.each do |value, label|
+                .form-check.form-check-inline
+                  = radio_button_tag "done[#{batch.id}]", value, false, id: "#{value}_#{batch.id}", class: 'form-check-input'
+                  = label_tag "#{value}_#{batch.id}", label.downcase, class: 'form-check-label'
+  = submit_tag 'Update the nursery', class: 'btn btn-primary'
   = link_to 'Skip, ask me later', member_gardens_path(current_member), class: 'btn btn-link'

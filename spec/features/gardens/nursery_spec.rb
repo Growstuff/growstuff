@@ -134,7 +134,7 @@ describe "Nursery" do
       choose main.name
       fill_in 'How many cherry tomato', with: 4
       click_button 'Plant out'
-      page.assert_text 'Anything left in the nursery?'
+      page.assert_text 'What about the rest?'
     end
 
     it "plants out the number asked for" do
@@ -175,9 +175,39 @@ describe "Nursery" do
 
     it "can mark the rest as done" do
       choose "died_#{tomatoes.id}"
-      click_button 'Done'
+      click_button 'Update the nursery'
       page.assert_current_path member_gardens_path(member)
       expect(tomatoes.reload).to be_failed
+    end
+  end
+
+  describe "planting out every one of a batch" do
+    let!(:batch) { create(:planting, garden: member.nursery!, owner: member, quantity: 3, planted_at: 2.days.ago.to_date) }
+
+    before do
+      visit new_nursery_plant_out_path
+      check "batch_#{batch.id}"
+      choose member.gardens.first.name
+      click_button 'Plant out'
+    end
+
+    it "goes back to the gardens, with nothing left to ask about" do
+      expect(page).to have_current_path member_gardens_path(member)
+      expect(page).to have_content 'Planted out 3 seedlings'
+    end
+  end
+
+  describe "planting out from a batch's menu" do
+    let!(:batch) { create(:planting, garden: member.nursery!, owner: member, quantity: 3, planted_at: Time.zone.today) }
+
+    before do
+      visit member_gardens_path(member)
+      within('.nursery-panel') { click_link "Actions for #{batch.display_name}" }
+      click_link 'Plant out'
+    end
+
+    it "opens the plant-out page with that batch ticked" do
+      expect(page).to have_checked_field "batch_#{batch.id}"
     end
   end
 

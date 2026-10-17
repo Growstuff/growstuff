@@ -12,7 +12,8 @@ module Nurseries
     def show
       @garden = current_member.gardens.find_by(slug: params[:garden])
       @count = params[:count].to_i
-      @moved = @nursery.plantings.where(id: params[:batches].to_s.split(',')).includes(:crop).order(:planted_at, :id)
+      @moved = @nursery.plantings.current.where(id: params[:batches].to_s.split(',')).includes(:crop).order(:planted_at, :id)
+    redirect_to member_gardens_path(current_member) if @moved.empty?
     end
 
     def new; end
@@ -20,7 +21,7 @@ module Nurseries
     def create
       garden = @gardens.find_by(slug: params[:garden_slug])
       transplants = garden ? @nursery.plant_out(quantities, into: garden, on: planted_on) : []
-      return redirect_to after_path(garden, transplants) if transplants.any?
+      return redirect_after(garden, transplants) if transplants.any?
 
       flash.now[:alert] = t(garden ? 'gardens.plant_out_nothing' : 'gardens.plant_out_no_garden')
       render :new, status: :unprocessable_entity
@@ -49,9 +50,14 @@ module Nurseries
       Time.zone.today
     end
 
-    def after_path(garden, transplants)
-      nursery_plant_out_path(garden: garden.slug, count: transplants.sum { |planting| planting.quantity || 1 },
-                             batches: transplants.map(&:transplanted_from_id).join(','))
+    # Straight back to the gardens when every batch went out; otherwise asks what
+    # became of what is left.
+    def redirect_after(garden, transplants)
+      count = transplants.sum { |planting| planting.quantity || 1 }
+      left = @nursery.plantings.current.where(id: transplants.map(&:transplanted_from_id)).ids
+      return redirect_to member_gardens_path(current_member), notice: t('gardens.planted_out', count:, garden: garden.name) if left.empty?
+
+      redirect_to nursery_plant_out_path(garden: garden.slug, count:, batches: left.join(','))
     end
   end
 end

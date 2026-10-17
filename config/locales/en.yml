@@ -137,6 +137,7 @@ en:
     mark_as_finished: Mark as finished
     mark_as_failed: Mark as failed
     make_nursery: Use as my nursery
+    plant_out: Plant out
     stop_nursery: Stop using as my nursery
     mark_as_inactive: Mark as inactive
     my_gardens: My Gardens

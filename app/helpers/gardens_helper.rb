@@ -61,12 +61,22 @@ module GardensHelper
   # a tick to plant it out while the nursery is edited.
   def nursery_chip_props(seedling, pick:)
     {
-      planting:         PlantingChipSerializer.new(seedling, ability: card_ability).as_json,
+      planting:         nursery_chip(seedling),
       default_icon_url: image_path('icons/planting.svg'),
       photo_icon_url:   image_path('icons/photo.svg'),
       detail:           ("\u00d7 #{seedling.quantity}" if seedling.quantity),
       pick:             pick
     }
+  end
+
+  # The planting's chip, with "Plant out" in its menu after "view", which leads to
+  # choosing the garden they were planted out to.
+  def nursery_chip(seedling)
+    chip = PlantingChipSerializer.new(seedling, ability: card_ability).as_json
+    return chip if chip[:actions].empty?
+
+    plant_out = { key: :transplant, label: I18n.t('buttons.plant_out'), href: new_nursery_plant_out_path(batch_ids: [seedling.id]) }
+    chip.merge(actions: chip[:actions].dup.insert(1, plant_out))
   end
 
   # The sow seeds dialog's props: the nursery, the member's other gardens to sow
