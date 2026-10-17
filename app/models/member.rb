@@ -18,6 +18,8 @@ class Member < ApplicationRecord
   has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  # Where they raise seedlings before planting them out.
+  has_one :nursery, -> { nurseries }, class_name: 'Garden', foreign_key: 'owner_id', dependent: nil, inverse_of: :owner
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
@@ -115,7 +117,7 @@ class Member < ApplicationRecord
   # Whether they've said they don't want a nursery, so we stop asking. Having
   # one trumps it.
   def nursery_declined?
-    settings['nursery_declined'] == true && !gardens.nurseries.exists?
+    settings['nursery_declined'] == true && nursery.nil?
   end
 
   def decline_nursery!
@@ -165,10 +167,17 @@ class Member < ApplicationRecord
   # which can happen sometimes especially with FactoryBot associations
   after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
 
-  # Where this member raises seedlings before planting them out. Made the first
-  # time it's wanted, as most members never need one.
-  def nursery
-    gardens.nurseries.first || create_nursery
+  # Their nursery, made the first time it's wanted, as most members never need
+  # one. The member may already have a garden called "Nursery", and garden names
+  # are unique per member, so ours is numbered until it's free.
+  def nursery!
+    return nursery if nursery
+
+    base = I18n.t('gardens.nursery_name')
+    taken = gardens.pluck(:name)
+    name = taken.include?(base) ? "#{base} #{(2..).find { |n| taken.exclude?("#{base} #{n}") }}" : base
+    accept_nursery!
+    create_nursery!(name:)
   end
 
   # allow login via either login_name or email address
@@ -257,18 +266,5 @@ class Member < ApplicationRecord
       inverse_follows.exists? ||
       blocks.exists? ||
       inverse_blocks.exists?
-  end
-
-  private
-
-  # The member may already have a garden called "Nursery", and garden names are
-  # unique per member, so number ours until it's free.
-  def create_nursery
-    base = I18n.t('gardens.nursery_name')
-    taken = gardens.pluck(:name)
-    name = base
-    name = "#{base} #{(2..).find { |n| taken.exclude?("#{base} #{n}") }}" if taken.include?(base)
-    accept_nursery!
-    gardens.create!(name:, nursery: true)
   end
 end

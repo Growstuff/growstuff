@@ -8,7 +8,7 @@
 %h1 Anything left in the nursery?
 %p.lead So the nursery only shows what is still there.
 
-= form_tag finish_nursery_batches_path, method: :post do
+= form_tag nursery_leftovers_path, method: :post do
   .card.mb-3
     .card-body
       - @moved.each do |batch|
@@ -31,7 +31,7 @@
                 = radio_button_tag "done[#{batch.id}]", 'done', false, id: "done_#{batch.id}", class: 'form-check-input'
                 = label_tag "done_#{batch.id}", 'That sowing is all done', class: 'form-check-label'
               .ms-4
-                - { 'discarded' => 'Discarded', 'died' => 'Died', 'gave_away' => 'Gave away' }.each do |value, label|
+                - Planting::LEFTOVER_REASONS.compact.each do |value, label|
                   .form-check.form-check-inline
                     = radio_button_tag "done[#{batch.id}]", value, false, id: "#{value}_#{batch.id}",
                                        class: 'form-check-input'

@@ -15,7 +15,7 @@
   %p You need a garden to plant them into.
   = link_to 'Add a garden', new_garden_path, class: 'btn btn-primary'
 - else
-  = form_tag plant_out_nursery_path, method: :post, class: 'plant-out' do
+  = form_tag nursery_plant_out_path, method: :post, class: 'plant-out' do
     .card.mb-3
       .card-body
         %h2.h6 1. Which seedlings?
@@ -39,7 +39,7 @@
                 %br
                 %small.text-muted
                   - if batch.planted_at
-                    Sown #{l(batch.planted_at, format: '%a %-d %b')} &middot; #{nursery_day_label(batch.planted_at).split(' · ').last.downcase}
+                    Sown #{nursery_day_title(batch.planted_at)} &middot; #{nursery_day_subtitle(batch.planted_at, false)}
               %span.text-muted #{batch.quantity || 1} in the nursery
               %span.plant-out-qty
                 = label_tag "quantities_#{batch.id}", "How many #{batch.display_name}", class: 'visually-hidden'

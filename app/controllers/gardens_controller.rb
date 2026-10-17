@@ -4,76 +4,7 @@ class GardensController < DataController
   # Anyone can look at a member's inactive gardens, as they can their current ones.
   # A garden's layout is public in the same way its show page is.
   skip_before_action :authenticate_member!, only: %i(inactive layout)
-  NURSERY_ACTIONS = %i(nursery create_nursery decline_nursery plant_out create_plant_out planted_out finish_batches).freeze
-  skip_load_and_authorize_resource only: [:inactive, *NURSERY_ACTIONS]
-  # Why seedlings left in the nursery are finished with, as the plant-out page offers.
-  FINISH_REASONS = { 'discarded' => 'Discarded', 'died' => 'Died', 'gave_away' => 'Gave away' }.freeze
-
-  # The member's own nursery. A member without one is asked whether they want
-  # one: an existing garden, a new one, or none.
-  def nursery
-    nursery = current_member.gardens.nurseries.first
-    return redirect_to garden_path(nursery) if nursery
-
-    @candidates = current_member.gardens.active.not_nurseries.order_by_name
-  end
-
-  def create_nursery
-    garden = params[:garden_slug].present? ? Garden.find(params[:garden_slug]) : nil
-    if garden
-      authorize! :make_nursery, garden
-      garden.make_nursery!
-    else
-      garden = current_member.nursery
-    end
-    redirect_to garden_path(garden), notice: t('gardens.nursery_made')
-  end
-
-  # Moving seedlings from the nursery into a garden: which garden, when, and how
-  # many of each batch.
-  def plant_out
-    redirect_to nursery_path unless plant_out_context
-  end
-
-  def create_plant_out
-    redirect_to nursery_path unless plant_out_context
-    return if performed?
-
-    garden = @gardens.find_by(slug: params[:garden_slug])
-    @planted_batches = []
-    planted = garden ? plant_out_into(garden) : 0
-    if planted.positive?
-      redirect_to planted_out_nursery_path(garden: garden.slug, count: planted, batches: @planted_batches.join(','))
-    else
-      flash.now[:alert] = t(garden ? 'gardens.plant_out_nothing' : 'gardens.plant_out_no_garden')
-      render :plant_out, status: :unprocessable_entity
-    end
-  end
-
-  # After planting out: anything left of the batches just moved, to be kept in
-  # the nursery or marked done.
-  def planted_out
-    return redirect_to nursery_path unless plant_out_context
-
-    @garden = current_member.gardens.find_by(slug: params[:garden])
-    @count = params[:count].to_i
-    @moved = Planting.where(id: params[:batches].to_s.split(','), garden: @nursery).includes(:crop).order(:planted_at, :id)
-  end
-
-  # Marks batches that have nothing left to plant out as finished, for the
-  # reason given.
-  def finish_batches
-    return redirect_to nursery_path unless plant_out_context
-
-    reasons = params[:done].respond_to?(:to_unsafe_h) ? params[:done].to_unsafe_h : {}
-    @nursery.plantings.where(id: reasons.keys).find_each { |batch| finish_batch(batch, reasons[batch.id.to_s]) }
-    redirect_to member_gardens_path(current_member)
-  end
-
-  def decline_nursery
-    current_member.decline_nursery!
-    redirect_to member_gardens_path(current_member), notice: t('gardens.nursery_declined')
-  end
+  skip_load_and_authorize_resource only: :inactive
 
   def index
     @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
@@ -82,7 +13,7 @@ class GardensController < DataController
     @gardens = @gardens.includes(:owner)
     @gardens = @gardens.active
     if @owner.present?
-      @nursery = @owner.gardens.nurseries.first
+      @nursery = @owner.nursery
       @gardens = @gardens.not_nurseries # shown at the top instead
       @gardens = @gardens.left_joins(:garden_collaborators)
       @gardens = @gardens.where(owner: @owner).or(@gardens.where(garden_collaborators: { member: @owner }))
@@ -222,51 +153,6 @@ class GardensController < DataController
   end
 
   private
-
-  # The nursery, its batches and the gardens they can go to, or nil if the
-  # member has no nursery.
-  def plant_out_context
-    @nursery = current_member.gardens.nurseries.first
-    return unless @nursery
-
-    @batches = @nursery.plantings.current.includes(:crop).order(:planted_at, :id).reject(&:planned?)
-    @gardens = current_member.gardens.active.not_nurseries.order_by_name
-    @plant_out_on = plant_out_date
-  end
-
-  def plant_out_date
-    case params[:when]
-    when 'yesterday' then Time.zone.yesterday
-    when 'other' then parse_plant_out_date
-    else Time.zone.today
-    end
-  end
-
-  def parse_plant_out_date
-    Date.parse(params[:date].to_s)
-  rescue Date::Error
-    Time.zone.today
-  end
-
-  # Plants out each ticked batch by the number asked for, and says how many
-  # seedlings went.
-  def plant_out_into(garden)
-    @batches.select { |batch| Array(params[:batch_ids]).include?(batch.id.to_s) }.sum do |batch|
-      count = params.dig(:quantities, batch.id.to_s).to_i.clamp(0, batch.quantity || 1)
-      next 0 if count.zero? || !batch.transplant_to(garden, quantity: count, on: @plant_out_on).persisted?
-
-      @planted_batches << batch.id
-      count
-    end
-  end
-
-  def finish_batch(batch, reason)
-    return unless FINISH_REASONS.key?(reason) || reason == 'done'
-
-    note = FINISH_REASONS[reason]
-    batch.update(finished: reason != 'died', failed: reason == 'died',
-                 description: [batch.description, note && "#{note}: the rest of this sowing."].compact_blank.join("\n\n"))
-  end
 
   # Takes every plant off the grid first, so the new arrangement is checked
   # against a clean bed and two plants can swap cells in one save.

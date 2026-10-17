@@ -373,9 +373,34 @@ describe Garden do
     end
 
     it 'is left out of archiving' do
-      owner.nursery.update_column(:updated_at, 4.years.ago) # rubocop:disable Rails/SkipsModelValidations
+      owner.nursery!.update_column(:updated_at, 4.years.ago) # rubocop:disable Rails/SkipsModelValidations
       described_class.archive!
-      expect(owner.nursery.reload).to be_active
+      expect(owner.nursery!.reload).to be_active
+    end
+  end
+
+  describe '#plant_out' do
+    let(:owner) { create(:member) }
+    let(:nursery) { owner.nursery! }
+    let(:garden) { create(:garden, owner:) }
+    let(:tomatoes) { create(:planting, owner:, garden: nursery, quantity: 6, planted_at: 3.days.ago.to_date) }
+    let(:eggplants) { create(:planting, owner:, garden: nursery, quantity: 3, planted_at: 3.days.ago.to_date) }
+
+    context 'with some of a batch and all of another' do
+      subject(:plantings) { nursery.plant_out({ tomatoes => 4, eggplants => 3 }, into: garden) }
+
+      it { expect(plantings.map(&:quantity)).to contain_exactly(4, 3) }
+      it { expect(plantings.map(&:garden).uniq).to eq [garden] }
+    end
+
+    context 'when asked for none' do
+      it { expect(nursery.plant_out({ tomatoes => 0 }, into: garden)).to be_empty }
+    end
+
+    context 'when asked for more than there are' do
+      it 'moves only what there is' do
+        expect(nursery.plant_out({ tomatoes => 20 }, into: garden).first.quantity).to eq 6
+      end
     end
   end
 end

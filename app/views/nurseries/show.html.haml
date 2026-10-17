@@ -7,7 +7,7 @@
 %h1 Your nursery
 
 .mb-4
-  = render 'gardens/what_is_a_nursery'
+  = render 'what_is_a_nursery'
 
 .row.row-cols-1.row-cols-md-3.g-3
   .col
@@ -35,4 +35,4 @@
         %p.card-text.text-muted
           Skip raising seedlings on Growstuff. We won't ask again, and you can change your mind
           from your gardens page.
-        = button_to 'No nursery for me', decline_nursery_path, method: :post, class: 'btn btn-outline-secondary'
+        = button_to 'No nursery for me', nursery_decline_path, method: :post, class: 'btn btn-outline-secondary'

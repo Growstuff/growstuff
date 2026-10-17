@@ -50,15 +50,6 @@ module GardensHelper
     ago == 1 ? 'yesterday' : "#{ago} days ago"
   end
 
-  # "Today", or "Mon 12 Oct · 5 days ago".
-  def nursery_day_label(day)
-    today = Time.zone.today
-    return 'Today' if day == today
-
-    ago = (today - day).to_i
-    "#{l(day, format: '%a %-d %b')} · #{ago == 1 ? 'yesterday' : "#{ago} days ago"}"
-  end
-
   # "12 seedlings", counting each plant, or that there are none sown yet.
   def nursery_seedling_count(seedlings)
     sown = seedlings.reject(&:planned?)

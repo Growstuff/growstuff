@@ -43,13 +43,11 @@ Rails.application.routes.draw do
   end
 
   # Before the gardens resource, so "nursery" isn't taken for a garden's slug.
-  get 'nursery' => 'gardens#nursery', as: :nursery
-  post 'nursery' => 'gardens#create_nursery'
-  get 'nursery/plant_out' => 'gardens#plant_out', as: :plant_out_nursery
-  post 'nursery/plant_out' => 'gardens#create_plant_out'
-  get 'nursery/planted_out' => 'gardens#planted_out', as: :planted_out_nursery
-  post 'nursery/finish_batches' => 'gardens#finish_batches', as: :finish_nursery_batches
-  post 'nursery/decline' => 'gardens#decline_nursery', as: :decline_nursery
+  resource :nursery, only: %i(show create) do
+    resource :decline, only: :create, module: :nurseries
+    resource :plant_out, only: %i(new create show), module: :nurseries
+    resource :leftovers, only: :create, module: :nurseries
+  end
 
   resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }

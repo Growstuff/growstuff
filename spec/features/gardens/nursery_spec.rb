@@ -22,8 +22,8 @@ describe "Nursery" do
       let(:crop) { create(:crop, name: 'tomato') }
 
       before do
-        create(:planting, garden: member.nursery, owner: member, crop:, quantity: 6, planted_at: Time.zone.today)
-        create(:planting, garden: member.nursery, owner: member, crop: create(:crop, name: 'basil'),
+        create(:planting, garden: member.nursery!, owner: member, crop:, quantity: 6, planted_at: Time.zone.today)
+        create(:planting, garden: member.nursery!, owner: member, crop: create(:crop, name: 'basil'),
                           planted_at: 1.week.from_now.to_date)
         visit member_gardens_path(member)
       end
@@ -52,7 +52,7 @@ describe "Nursery" do
     let!(:packet) { create(:seed, owner: member, crop:, quantity: 120) }
 
     before do
-      member.nursery
+      member.nursery!
       visit member_gardens_path(member)
       click_button 'Sow seeds'
       within('.modal') do
@@ -64,7 +64,7 @@ describe "Nursery" do
     end
 
     it "sows them into the nursery" do
-      expect(member.nursery.plantings.pluck(:crop_id, :quantity, :parent_seed_id)).to eq [[crop.id, 6, packet.id]]
+      expect(member.nursery!.plantings.pluck(:crop_id, :quantity, :parent_seed_id)).to eq [[crop.id, 6, packet.id]]
     end
 
     it "takes them out of the packet" do
@@ -77,7 +77,7 @@ describe "Nursery" do
 
     before do
       packet.photos << create(:photo, owner: member, thumbnail_url: 'https://example.com/packet.jpg')
-      member.nursery
+      member.nursery!
       visit member_gardens_path(member)
       click_button 'Sow seeds'
     end
@@ -92,7 +92,7 @@ describe "Nursery" do
 
     before do
       create(:seed, owner: member, crop:, plant_before_year: 2020)
-      member.nursery
+      member.nursery!
       visit member_gardens_path(member)
       click_button 'Sow seeds'
     end
@@ -106,13 +106,13 @@ describe "Nursery" do
     let(:main) { member.gardens.first }
     let(:tomato) { create(:crop, name: 'cherry tomato') }
     let(:eggplant) { create(:crop, name: 'eggplant') }
-    let!(:tomatoes) { create(:planting, garden: member.nursery, owner: member, crop: tomato, quantity: 6, planted_at: 5.days.ago.to_date) }
+    let!(:tomatoes) { create(:planting, garden: member.nursery!, owner: member, crop: tomato, quantity: 6, planted_at: 5.days.ago.to_date) }
     let!(:eggplants) do
-      create(:planting, garden: member.nursery, owner: member, crop: eggplant, quantity: 3, planted_at: 5.days.ago.to_date)
+      create(:planting, garden: member.nursery!, owner: member, crop: eggplant, quantity: 3, planted_at: 5.days.ago.to_date)
     end
 
     before do
-      visit plant_out_nursery_path
+      visit new_nursery_plant_out_path
       check "batch_#{tomatoes.id}"
       check "batch_#{eggplants.id}"
       choose main.name
@@ -143,10 +143,10 @@ describe "Nursery" do
   end
 
   describe "after planting out some of a batch" do
-    let!(:tomatoes) { create(:planting, garden: member.nursery, owner: member, quantity: 6, planted_at: 5.days.ago.to_date) }
+    let!(:tomatoes) { create(:planting, garden: member.nursery!, owner: member, quantity: 6, planted_at: 5.days.ago.to_date) }
 
     before do
-      visit plant_out_nursery_path
+      visit new_nursery_plant_out_path
       check "batch_#{tomatoes.id}"
       choose member.gardens.first.name
       fill_in "quantities_#{tomatoes.id}", with: 4
@@ -167,8 +167,8 @@ describe "Nursery" do
 
   describe "planting out without choosing a garden" do
     before do
-      create(:planting, garden: member.nursery, owner: member, quantity: 2, planted_at: 2.days.ago.to_date)
-      visit plant_out_nursery_path
+      create(:planting, garden: member.nursery!, owner: member, quantity: 2, planted_at: 2.days.ago.to_date)
+      visit new_nursery_plant_out_path
       click_button 'Plant out'
     end
 
@@ -182,7 +182,7 @@ describe "Nursery" do
 
     before do
       create(:seed, owner: member, crop:)
-      member.nursery
+      member.nursery!
       visit member_gardens_path(member)
       click_button 'Sow seeds'
       within('.modal') { click_button 'beetroot' }
@@ -202,7 +202,7 @@ describe "Nursery" do
 
     before do
       Crop.reindex
-      member.nursery
+      member.nursery!
       visit member_gardens_path(member)
       click_button 'Sow seeds'
       within('.modal') do
@@ -227,7 +227,7 @@ describe "Nursery" do
 
     before do
       create(:seed, owner: member, crop:, quantity: 50)
-      member.nursery
+      member.nursery!
       visit member_gardens_path(member)
       click_button 'Sow seeds'
       within('.modal') do
@@ -261,7 +261,7 @@ describe "Nursery" do
 
     before do
       create(:seed, owner: member, crop:)
-      member.nursery
+      member.nursery!
       visit member_gardens_path(member)
       click_button 'Sow seeds'
       within('.modal') do
@@ -275,7 +275,7 @@ describe "Nursery" do
     end
 
     it "saves a future-dated planting with the note" do
-      expect(member.nursery.plantings.first).to have_attributes(planted_at: 1.week.from_now.to_date, description: 'Warm window sill first')
+      expect(member.nursery!.plantings.first).to have_attributes(planted_at: 1.week.from_now.to_date, description: 'Warm window sill first')
     end
 
     it "lists it under to sow" do
@@ -319,12 +319,12 @@ describe "Nursery" do
 
   describe "visiting my nursery" do
     before do
-      member.nursery
+      member.nursery!
       visit nursery_path
     end
 
     it "shows the nursery garden" do
-      expect(page).to have_current_path garden_path(member.nursery)
+      expect(page).to have_current_path garden_path(member.nursery!)
     end
   end
 
@@ -348,7 +348,7 @@ describe "Nursery" do
   end
 
   describe "using a second garden as my nursery" do
-    let!(:old_nursery) { member.nursery }
+    let!(:old_nursery) { member.nursery! }
     let(:garden) { member.gardens.not_nurseries.first }
 
     before do
@@ -368,7 +368,7 @@ describe "Nursery" do
   end
 
   describe "transplanting some seedlings" do
-    let(:nursery) { member.nursery }
+    let(:nursery) { member.nursery! }
     let(:backyard) { create(:garden, owner: member, name: 'Backyard') }
     let!(:seedlings) { create(:planting, garden: nursery, owner: member, quantity: 12) }
 

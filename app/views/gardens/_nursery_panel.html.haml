@@ -17,16 +17,16 @@
   - if nursery.nil?
     .gardens-section-body
       %h3.h5 Where do you start your seeds?
-      = render 'gardens/what_is_a_nursery'
+      = render 'nurseries/what_is_a_nursery'
       = link_to 'Set up a nursery', nursery_path, class: 'btn btn-primary'
-      = button_to 'I don\'t raise seedlings', decline_nursery_path, method: :post, class: 'btn btn-link'
+      = button_to 'I don\'t raise seedlings', nursery_decline_path, method: :post, class: 'btn btn-link'
   - elsif seedlings.empty?
     .gardens-section-body
       %p.text-muted.mb-3 Sow some seeds and they'll show up here, ready to plant out.
       - if can?(:edit, nursery)
         = react_component 'NurseryPlanter', nursery_planter_props(nursery)
   - else
-    = form_tag plant_out_nursery_path, method: :get, class: 'nursery-form' do
+    = form_tag new_nursery_plant_out_path, method: :get, class: 'nursery-form' do
       .gardens-section-body
         - sown_groups.each do |(day, got), group|
           %section.nursery-day

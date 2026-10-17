@@ -112,6 +112,19 @@ class Garden < ApplicationRecord
     end
   end
 
+  # Plants seedlings out of this nursery into another garden. `quantities` maps
+  # each batch (a planting here) to how many of it to move. Returns the new
+  # plantings.
+  def plant_out(quantities, into:, on: Time.zone.today)
+    quantities.filter_map do |batch, count|
+      count = count.clamp(0, batch.quantity || 1)
+      next if count.zero?
+
+      transplant = batch.transplant_to(into, quantity: count, on:)
+      transplant if transplant.persisted?
+    end
+  end
+
   def reindex(refresh: false); end
 
   # Deactivate any gardens with no active plantings

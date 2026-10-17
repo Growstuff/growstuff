@@ -402,21 +402,21 @@ describe Member do
     let(:member) { create(:member) }
 
     it 'makes a nursery garden' do
-      expect(member.nursery).to have_attributes(nursery: true, owner: member, name: 'Nursery')
+      expect(member.nursery!).to have_attributes(nursery: true, owner: member, name: 'Nursery')
     end
 
     it 'returns the same nursery each time' do
-      first = member.nursery
-      expect(member.nursery).to eq first
+      first = member.nursery!
+      expect(member.nursery!).to eq first
     end
 
     it 'makes only one nursery' do
-      2.times { member.nursery }
+      2.times { member.nursery! }
       expect(member.gardens.nurseries.count).to eq 1
     end
 
     it 'does not count the nursery as a second garden' do
-      member.nursery
+      member.nursery!
       expect(member.has_activity?).to be false
     end
 
@@ -424,7 +424,7 @@ describe Member do
       before { create(:garden, owner: member, name: 'Nursery') }
 
       it 'picks another name' do
-        expect(member.nursery.name).to eq 'Nursery 2'
+        expect(member.nursery!.name).to eq 'Nursery 2'
       end
     end
   end
