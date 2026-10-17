@@ -8,10 +8,14 @@ describe 'Editing a garden from its card', :js do
   let!(:garden) { create(:garden, owner: member, name: 'Orchard', description: 'Apples', area: 12, area_unit: 'square metre') }
   let!(:type) { create(:garden_type, name: 'Balcony') }
 
-  before { visit gardens_path }
+  before do
+    visit_gardens_open
+
+    open_all_gardens
+  end
 
   def open_dialog
-    within('.garden-card-header', text: 'Orchard') do
+    within('.garden-card', text: 'Orchard') do
       click_link 'Actions for Orchard'
       click_link 'Edit'
     end
@@ -44,14 +48,14 @@ describe 'Editing a garden from its card', :js do
 
     expect(page).to have_no_css '[role=dialog]'
     expect(page).to have_content 'Saved changes to Back orchard.'
-    expect(page).to have_css '.garden-card-title', text: 'Back orchard'
+    expect(page).to have_css '.garden-card-name', text: 'Back orchard'
     expect(page).to have_current_path(gardens_path)
     expect(garden.reload).to have_attributes(name: 'Back orchard', description: 'Apples and pears', garden_type: type)
   end
 
   it 'says what is wrong, and keeps the dialog, when the garden cannot be saved' do
     create(:garden, owner: member, name: 'Taken')
-    visit gardens_path
+    visit_gardens_open
     open_dialog
 
     within '[role=dialog]' do
@@ -75,7 +79,7 @@ describe 'Editing a garden from its card', :js do
     end
 
     expect(page).to have_content 'Orchard is now inactive, and its plantings are finished.'
-    expect(page).to have_no_css '.garden-card-title', text: 'Orchard'
+    expect(page).to have_no_css '.garden-card-name', text: 'Orchard'
     expect(garden.reload.active).to be false
     expect(garden.plantings.reload).to all(be_finished)
   end

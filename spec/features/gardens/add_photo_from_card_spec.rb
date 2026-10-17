@@ -22,7 +22,7 @@ describe 'Adding a photo from a garden card', :js do
   end
 
   def open_from_planting
-    visit gardens_path
+    visit_gardens_open
     within('.planting-row', text: 'lettuce') do
       click_link 'Actions for lettuce'
       click_link 'Add photo'
@@ -78,8 +78,8 @@ describe 'Adding a photo from a garden card', :js do
     end
 
     it 'opens from the garden menu too, for the garden itself' do
-      visit gardens_path
-      within('.garden-card-header', text: 'Orchard') do
+      visit_gardens_open
+      within('.garden-card', text: 'Orchard') do
         click_link 'Actions for Orchard'
         click_link 'Add photo'
       end
@@ -97,7 +97,7 @@ describe 'Adding a photo from a garden card', :js do
 
   context 'without Flickr connected' do
     it 'connects it in the dialog, in a pop-up, and carries on to choosing a photo' do
-      visit gardens_path
+      visit_gardens_open
       # The real pop-up goes to Flickr; stand in for it and note where it was sent.
       page.execute_script("window.open = function (url) { window.openedUrl = url; return {closed: false, close: function () {}}; }")
       within('.planting-row', text: 'lettuce') do

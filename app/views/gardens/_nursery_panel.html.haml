@@ -19,6 +19,7 @@
       %h3.h5 Where do you start your seeds?
       = render 'gardens/what_is_a_nursery'
       = link_to 'Set up a nursery', nursery_path, class: 'btn btn-primary'
+      = button_to 'I don\'t raise seedlings', decline_nursery_path, method: :post, class: 'btn btn-link'
   - elsif seedlings.empty?
     .gardens-section-body
       %p.text-muted.mb-3 Sow some seeds and they'll show up here, ready to plant out.
@@ -41,12 +42,14 @@
               - group.each do |seedling|
                 %li
                   - if editable
-                    %label.chip.crop-chip.nursery-pick
-                      = check_box_tag 'batch_ids[]', seedling.id, false, id: "pick_#{seedling.id}", class: 'nursery-pick-box'
-                      = crop_icon(seedling.crop)
-                      = seedling.display_name
-                      - if seedling.quantity.present?
-                        %small &times; #{seedling.quantity}
+                    .chip.crop-chip.nursery-pick
+                      = check_box_tag 'batch_ids[]', seedling.id, false, id: "pick_#{seedling.id}", class: 'nursery-pick-box',
+                                                                         'aria-label': "Plant out #{seedling.display_name}"
+                      = link_to seedling do
+                        = crop_icon(seedling.crop)
+                        = seedling.display_name
+                        - if seedling.quantity.present?
+                          %small &times; #{seedling.quantity}
                   - else
                     = link_to seedling do
                       .chip.crop-chip

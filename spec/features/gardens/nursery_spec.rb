@@ -13,8 +13,8 @@ describe "Nursery" do
         expect(page).to have_link 'Set up a nursery'
       end
 
-      it "says there is none" do
-        expect(page).to have_content "#{member} has no seedling raising nursery"
+      it "asks where they start their seeds" do
+        expect(page).to have_content 'Where do you start your seeds?'
       end
     end
 
@@ -37,7 +37,7 @@ describe "Nursery" do
       end
 
       it "sows in a dialog" do
-        click_button 'Sow seeds'
+        click_button '+ Add'
         expect(page).to have_css '.modal', text: 'Sow seeds'
       end
 
@@ -60,7 +60,7 @@ describe "Nursery" do
         fill_in 'How many seeds?', with: 6
         click_button 'Sow into the nursery'
       end
-      page.assert_text '6 seedlings'
+      page.assert_text '6 seedlings', wait: 10
     end
 
     it "sows them into the nursery" do
@@ -174,6 +174,26 @@ describe "Nursery" do
 
     it "asks which garden" do
       expect(page).to have_content 'Choose which garden they are going into.'
+    end
+  end
+
+  describe "choosing a seed packet" do
+    let(:crop) { create(:crop, name: 'beetroot', description: 'A sweet red root.') }
+
+    before do
+      create(:seed, owner: member, crop:)
+      member.nursery
+      visit member_gardens_path(member)
+      click_button 'Sow seeds'
+      within('.modal') { click_button 'beetroot' }
+    end
+
+    it "shows the packet with the crop's name" do
+      within('.modal') { expect(page).to have_css '.seed-packet-label', text: /beetroot/i }
+    end
+
+    it "does not add the crop's description" do
+      within('.modal') { expect(page).to have_no_content 'A sweet red root.' }
     end
   end
 

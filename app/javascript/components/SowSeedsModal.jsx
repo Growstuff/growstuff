@@ -4,6 +4,7 @@ import {postJson} from '../api';
 import {daysBefore, localToday} from '../dates';
 import CropDetails from './CropDetails';
 import CropPicker from './CropPicker';
+import SeedPacket from './SeedPacket';
 import Modal from './Modal';
 import WhenPicker from './WhenPicker';
 
@@ -143,7 +144,7 @@ export default function SowSeedsModal({nursery, gardens, seeds, onClose, onSown}
         ))}
       </div>
       {matching.length === 0 && <p className="text-muted mb-0">No seed packets match. Choose &ldquo;New seeds&rdquo; to add one.</p>}
-      {seed && <CropDetails slug={seed.crop_slug} />}
+      {seed && <SeedPacket packet={seed} />}
     </>
   ) : (
     crop ? (

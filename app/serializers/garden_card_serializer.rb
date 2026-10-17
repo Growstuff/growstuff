@@ -35,7 +35,7 @@ class GardenCardSerializer
       id: @garden.id, name: @garden.name, slug: @garden.slug, active: @garden.active,
       url: routes.garden_path(@garden), image_url: image_url, layout_url: layout_url,
       owner: owner, can_edit: can?(:edit, @garden), plant_url: plant_url, actions: garden_actions,
-      plantings_count: @plantings.size, harvesting_now: @plantings.count(&:harvest_time?),
+      plantings_count: @plantings.size, harvesting_now: harvesting_now,
       perennials: @plantings.select { |planting| planting.crop.perennial? }.map { |planting| perennial(planting) },
       annuals: @plantings.select { |planting| planting.crop.annual? }.map { |planting| annual(planting) }
     }
@@ -123,6 +123,11 @@ class GardenCardSerializer
   def thumb_url(planting)
     photo = planting.photos.first
     thumbnail_url(photo) if photo
+  end
+
+  # How many plantings the card's badges call "harvesting now".
+  def harvesting_now
+    @plantings.count { |planting| badges(planting).any? { |badge| badge[:kind] == 'harvest' } }
   end
 
   def crop_chip(planting)

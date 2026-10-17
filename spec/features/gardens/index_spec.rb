@@ -24,7 +24,8 @@ describe "Gardens#index", :js do
 
       it "links to each garden" do
         member.gardens.each do |garden|
-          expect(page).to have_link(garden.name, href: garden_path(garden))
+          open_all_gardens
+          expect(page).to have_link("Open #{garden.name} ›", href: garden_path(garden))
         end
       end
     end
@@ -44,11 +45,13 @@ describe "Gardens#index", :js do
       end
 
       it "links to active garden" do
-        expect(page).to have_link(active_garden.name, href: garden_path(active_garden))
+        open_all_gardens
+        expect(page).to have_link("Open #{active_garden.name} ›", href: garden_path(active_garden))
       end
 
       it "does not link to inactive gardens" do
-        expect(page).to have_no_link(inactive_garden.name, href: garden_path(inactive_garden))
+        open_all_gardens
+        expect(page).to have_no_link("Open #{inactive_garden.name} ›", href: garden_path(inactive_garden))
       end
 
       it "no longer has an include in-active tickbox, but links to the inactive gardens" do

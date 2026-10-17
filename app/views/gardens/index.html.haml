@@ -21,6 +21,11 @@
             = link_to @owner.location, place_path(@owner.location)
             &middot;
           = link_to 'Profile', @owner
+      - if @owner && @nursery.nil? && (@owner != current_member || @owner.nursery_declined?)
+        %p.gardens-page-owner
+          #{@owner} has no seedling raising nursery.
+          - if @owner == current_member
+            = link_to 'Change this', nursery_path
     .gardens-page-actions
       - if @owner && @owner == current_member
         = react_component 'GardenPicker', { label: 'Add a garden', buttonClass: 'btn btn-success' }

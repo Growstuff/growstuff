@@ -371,3 +371,10 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   margin-left: -4px;
   font-weight: 600;
 }
+
+.nursery-panel .nursery-pick a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+}
