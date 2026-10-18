@@ -1,0 +1,404 @@
+// The gardens list: a member's nursery, then their gardens, each a row that
+// opens. Sections are a green bar over a white panel.
+$gardens-green: #57803c;
+$gardens-pale: #f4f9f0;
+$gardens-line: #dee2e6;
+$gardens-muted: rgba(65, 63, 59, 0.75);
+
+.gardens-page {
+  .gardens-page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+
+    h1 {
+      margin: 0;
+      font-size: 2.6rem;
+      font-weight: 300;
+      line-height: 1.1;
+    }
+  }
+
+  .gardens-page-owner {
+    margin: 0.25rem 0 0;
+    color: $gardens-muted;
+  }
+
+  .gardens-page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
+
+.gardens-section {
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(65, 63, 59, 0.15);
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
+
+  .gardens-section-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 3px 3px 0 0;
+    background: $gardens-green;
+    color: #fff;
+
+    h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 400;
+
+      a {
+        color: #fff;
+      }
+    }
+
+    small {
+      opacity: 0.9;
+    }
+
+    .nursery-summary {
+      flex: 1 1 auto;
+      text-align: center;
+    }
+  }
+
+  .gardens-section-body {
+    padding: 1rem 1.1rem 1.1rem;
+  }
+}
+
+// One garden: a row of picture, name and numbers, that opens.
+.garden-card {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid $gardens-line;
+  border-radius: 0;
+
+  > .garden-card-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: 64px;
+    padding: 0.75rem 1.1rem;
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:hover {
+      background: #faf9f7;
+    }
+  }
+
+  &[open] > .garden-card-summary {
+    background: $gardens-pale;
+  }
+
+  .garden-card-thumb {
+    flex: none;
+    width: 64px;
+    height: 64px;
+    border-radius: 4px;
+    object-fit: cover;
+  }
+
+  .garden-card-name {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    b {
+      font-size: 1.1rem;
+    }
+
+    small {
+      color: $gardens-muted;
+    }
+  }
+
+  .garden-card-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: $gardens-green;
+    transition: transform 0.15s;
+  }
+
+  &[open] .garden-card-chevron {
+    transform: rotate(180deg);
+  }
+
+  .garden-card-panel {
+    padding: 0.5rem 1.1rem 0.75rem;
+    border-top: 1px solid #dfe8d4;
+    background: #fff;
+  }
+
+  .garden-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    padding: 0.25rem 0 0.6rem;
+  }
+
+  .garden-card-layout-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0 1rem;
+    border-radius: 2px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    color: $gardens-green;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .garden-card-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 0;
+  }
+
+  .garden-card-image {
+    flex: none;
+    width: 150px;
+    height: 150px;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+
+  .garden-card-heading {
+    margin: 0 0 0.5rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .garden-card-open {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: 600;
+  }
+
+  // The annual rows: a photo, the crop and when it was planted, then progress.
+  .planting-row {
+    grid-template-columns: 44px minmax(11rem, 270px) minmax(0, 1fr);
+    column-gap: 0.9rem;
+    padding: 0.7rem 0;
+  }
+
+  .planting-row-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 3px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 767px) {
+    .garden-card-body {
+      flex-direction: column;
+    }
+
+    .planting-row {
+      grid-template-columns: 44px 1fr;
+
+      .planting-row-status {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}
+
+// The site's plain `section` and `h2` styles (a green h2 with a shadow, spacing
+// on every section) are for older pages, so switch them off for these sections.
+.gardens-section {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.gardens-section {
+  padding-bottom: 0;
+
+  .gardens-section-header h2 {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+}
+
+// The nursery: a section of days, each with the day (and photos of its trays) on
+// the left and what was sown that day as pills on the right.
+// The nursery is its own colour, a warm seed-tray brown, so it reads as a different
+// kind of place from the gardens below it.
+.nursery-panel {
+  $nursery-accent: #8c5a2e;
+  $nursery-pale: #f3e6d4;
+
+  .gardens-section-header {
+    background: $nursery-accent;
+  }
+
+  .nursery-day {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1rem;
+    margin: 0;
+    padding: 0.75rem 0;
+    border-top: 1px solid $gardens-line;
+
+    &:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+  }
+
+  .nursery-day-head {
+    flex: 0 0 150px;
+
+    b {
+      display: block;
+    }
+
+    small {
+      color: $gardens-muted;
+    }
+  }
+
+  .nursery-day-photos {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+
+    img {
+      width: 44px;
+      height: 44px;
+      border-radius: 3px;
+      object-fit: cover;
+    }
+  }
+
+  .nursery-seedlings {
+    display: flex;
+    flex: 1 1 400px;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    // A pill, its menu and how many there are, in a line.
+    li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    // The islands' own elements don't add a box, so a pill, its menu and how many
+    // there are sit in one line with the buttons level with them.
+    [data-react-component] {
+      display: contents;
+    }
+
+    .actions-menu {
+      display: inline-flex;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    // `.chip` is a fixed-height pill with its icon pulled out to the left; these
+    // size to what is in them, with the icon in the flow.
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: auto;
+      min-height: 44px;
+      margin: 0;
+      padding: 0 14px 0 8px;
+      border: 2px solid transparent;
+      border-radius: 999px;
+      background: $nursery-pale;
+      box-shadow: none;
+      color: #212121;
+      font-size: 0.92rem;
+      line-height: 1.3;
+
+      img {
+        float: none;
+        width: 24px;
+        height: 24px;
+        margin: 0;
+        border-radius: 0;
+      }
+
+      small {
+        color: rgba(65, 63, 59, 0.8);
+      }
+    }
+  }
+
+  .nursery-chip-detail {
+    color: $gardens-muted;
+  }
+
+  // The "+ Add" buttons: a white box with an outline, as in the designs.
+  .nursery-seedlings .btn-outline-success {
+    min-height: 44px;
+    border-color: $nursery-accent;
+    color: $nursery-accent;
+    border-radius: 2px;
+    background: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  // A batch in the nursery: its pill, menu and count, in one pill.
+  .nursery-batch {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 14px 0 12px;
+    border-radius: 999px;
+    background: $nursery-pale;
+
+    .chip {
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+  }
+
+}

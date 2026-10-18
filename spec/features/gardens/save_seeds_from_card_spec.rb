@@ -9,7 +9,11 @@ describe 'Saving seeds from a garden card', :js do
   let!(:lettuce) { create(:annual_crop, name: 'lettuce') }
   let!(:planting) { create(:planting, garden: garden, owner: member, crop: lettuce, planted_at: 10.days.ago) }
 
-  before { visit gardens_path }
+  before do
+    visit_gardens_open
+
+    open_all_gardens
+  end
 
   # The menu shows its items in lowercase (CSS), but links are found by their text.
   def open_dialog

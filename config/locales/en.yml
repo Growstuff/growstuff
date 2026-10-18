@@ -84,6 +84,7 @@ en:
         not_a_valid_unit: "%{value} is not a valid unit"
         not_a_valid_area_unit: "%{value} is not a valid area unit"
         no_newlines: must contain no newlines
+        one_nursery_per_member: already exists; a member can have only one nursery
         grid_too_small_for_plantings: "is too small: some plantings would fall outside the bed. Move them first."
         bed_position_incomplete: must have both a column and a row, or neither
         bed_position_off_grid: would put this plant outside the bed
@@ -134,6 +135,9 @@ en:
     mark_as_active: Mark as active
     mark_as_finished: Mark as finished
     mark_as_failed: Mark as failed
+    make_nursery: Use as my nursery
+    transplant: Transplant
+    stop_nursery: Stop using as my nursery
     mark_as_inactive: Mark as inactive
     my_gardens: My Gardens
     new_seeds: New saved seed
@@ -171,6 +175,10 @@ en:
     updated: Forum was successfully updated.
     deleted: Forum was successfully deleted.
   gardens:
+    nursery_name: Nursery
+    nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
+    nursery_made: This garden is now your nursery.
+    nursery_stopped: This garden is no longer your nursery.
     created: Garden was successfully created.
     deleted: Garden was successfully deleted.
     form:

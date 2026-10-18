@@ -31,3 +31,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
         return new bootstrap.Tooltip(tooltipTrigger2);
     });
   });
+
+// Tell the server which time zone the browser is in, so "today" and "yesterday"
+// are the member's own days.
+try {
+  document.cookie = 'timezone=' + encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone) +
+    '; path=/; max-age=31536000; SameSite=Lax';
+} catch (error) {
+  // No time zone to send: the server's is used.
+}

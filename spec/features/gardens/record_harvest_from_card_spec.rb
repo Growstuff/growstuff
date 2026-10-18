@@ -12,7 +12,11 @@ describe 'Recording a harvest from a garden card', :js do
   let!(:leaf) { create(:plant_part, name: 'leaf') }
   let!(:root) { create(:plant_part, name: 'root') }
 
-  before { visit gardens_path }
+  before do
+    visit_gardens_open
+
+    open_all_gardens
+  end
 
   # The menu shows its items in lowercase (CSS), but links are found by their text.
   def open_dialog(crop = 'lettuce')
@@ -90,7 +94,7 @@ describe 'Recording a harvest from a garden card', :js do
 
   it 'does not offer yesterday for a planting made today' do
     create(:planting, garden: garden, owner: member, crop: kale, planted_at: Time.zone.today)
-    visit gardens_path
+    visit_gardens_open
     open_dialog('kale')
 
     within '[role=dialog]' do
@@ -105,7 +109,7 @@ describe 'Recording a harvest from a garden card', :js do
 
   it 'draws a tick on the planting bar for the harvest' do
     create(:harvest, planting: planting, owner: member, crop: lettuce, plant_part: leaf, harvested_at: 5.days.ago)
-    visit gardens_path
+    visit_gardens_open
 
     within('.planting-row', text: 'lettuce') do
       expect(page).to have_css '.harvest-tick', count: 1, visible: :all

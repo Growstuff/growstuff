@@ -24,6 +24,8 @@ class Planting < ApplicationRecord
   belongs_to :garden
   belongs_to :crop, counter_cache: true
   belongs_to :alternate_name, optional: true
+  # The gardens it was in before the one it is in now, oldest first.
+  has_many :histories, -> { order(:ended_on, :id) }, class_name: 'PlantingHistory', dependent: :destroy, inverse_of: :planting
   has_many :harvests, dependent: :destroy
   has_many :activities, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid. Made the
@@ -32,6 +34,7 @@ class Planting < ApplicationRecord
   has_many :plants, dependent: :destroy
 
   # Once a planting is on a layout, keep its plants in step with its quantity.
+  before_create :remember_seed_plant_before
   after_update :sync_plants, if: -> { saved_change_to_quantity? && plants.exists? }
 
   scope :current, -> { where.not(finished: true).where.not(failed: true) }
@@ -153,6 +156,21 @@ class Planting < ApplicationRecord
     quantity.to_i > MAX_PLANTS
   end
 
+  # Moves this planting into another garden, on the day given, and keeps a record
+  # of the garden it was in. It stays one planting, with its sow date, photos and
+  # harvests, so the crop's averages count it once. If it can't be moved, it has
+  # errors.
+  def transplant_to(garden, on: Time.zone.today)
+    histories.build(garden: self.garden, started_on: histories.filter_map(&:ended_on).max || planted_at, ended_on: on)
+    update(garden:)
+    self
+  end
+
+  # Sown after the year its seed packet said to plant it by.
+  def sown_from_expired_seeds?
+    seed_plant_before.present? && planted_at.present? && planted_at > seed_plant_before
+  end
+
   def growing?
     planted? && !finished?
   end
@@ -177,6 +195,12 @@ class Planting < ApplicationRecord
   end
 
   private
+
+  # Copied from the packet when the planting is made, as the packet may be
+  # edited or thrown away later.
+  def remember_seed_plant_before
+    self.seed_plant_before ||= parent_seed&.plant_before
+  end
 
   def cannot_be_finished_and_failed
     errors.add(:failed, :failed_and_finished) if finished && failed

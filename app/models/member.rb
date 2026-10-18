@@ -18,6 +18,8 @@ class Member < ApplicationRecord
   has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  # Where they raise seedlings before planting them out.
+  has_one :nursery, -> { nurseries }, class_name: 'Garden', foreign_key: 'owner_id', dependent: nil, inverse_of: :owner
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
@@ -112,6 +114,20 @@ class Member < ApplicationRecord
     update_column(:settings, settings.merge('features_seen' => seen)) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  # Whether they've said they don't want a nursery, so we stop asking. Having
+  # one trumps it.
+  def nursery_declined?
+    settings['nursery_declined'] == true && nursery.nil?
+  end
+
+  def decline_nursery!
+    update_column(:settings, settings.merge('nursery_declined' => true)) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def accept_nursery!
+    update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   # set up geocoding
   geocoded_by :location
 
@@ -150,6 +166,19 @@ class Member < ApplicationRecord
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryBot associations
   after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
+
+  # Their nursery, made the first time it's wanted, as most members never need
+  # one. The member may already have a garden called "Nursery", and garden names
+  # are unique per member, so ours is numbered until it's free.
+  def nursery!
+    return nursery if nursery
+
+    base = I18n.t('gardens.nursery_name')
+    taken = gardens.pluck(:name)
+    name = taken.include?(base) ? "#{base} #{(2..).find { |n| taken.exclude?("#{base} #{n}") }}" : base
+    accept_nursery!
+    create_nursery!(name:)
+  end
 
   # allow login via either login_name or email address
   def self.find_first_by_auth_conditions(warden_conditions)
@@ -219,7 +248,7 @@ class Member < ApplicationRecord
   end
 
   def has_activity?
-    (gardens.exists? && gardens.count > 1) ||
+    gardens.not_nurseries.many? ||
       plantings.exists? ||
       harvests.exists? ||
       seeds.exists? ||

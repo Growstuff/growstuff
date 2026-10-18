@@ -90,6 +90,9 @@
     .card.fact-card
       %h3 Parent seed
       = render 'seeds/thumbnail', seed: planting.parent_seed
+      - if planting.sown_from_expired_seeds?
+        %span.text-warning-emphasis
+          Sown from expired seeds (plant before #{planting.seed_plant_before.year})
 
   - if planting.crop.perennial
     .card.fact-card

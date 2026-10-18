@@ -10,7 +10,11 @@ describe 'Marking a planting finished from a garden card', :js do
   let!(:kale) { create(:annual_crop, name: 'kale') }
   let!(:planting) { create(:planting, garden: garden, owner: member, crop: lettuce, planted_at: 10.days.ago) }
 
-  before { visit gardens_path }
+  before do
+    visit_gardens_open
+
+    open_all_gardens
+  end
 
   # The menu shows its items in lowercase (CSS), but links are found by their text.
   def open_dialog(crop = 'lettuce')
@@ -88,7 +92,7 @@ describe 'Marking a planting finished from a garden card', :js do
 
   it 'does not offer today for a planting made today, and starts the dates the day after' do
     create(:planting, garden: garden, owner: member, crop: kale, planted_at: Time.zone.today)
-    visit gardens_path
+    visit_gardens_open
     open_dialog('kale')
 
     within '[role=dialog]' do

@@ -754,4 +754,93 @@ describe Planting do
       expect { planting.destroy }.to change(Plant, :count).by(-3)
     end
   end
+
+  describe 'sowing from expired seeds' do
+    let(:seed) { create(:seed, plant_before_year: 2025) }
+    let(:planting) { create(:planting, parent_seed: seed, planted_at:) }
+
+    context 'when sown after the packet year' do
+      let(:planted_at) { Date.new(2026, 3, 1) }
+
+      it { expect(planting).to be_sown_from_expired_seeds }
+    end
+
+    context 'when sown in the packet year' do
+      let(:planted_at) { Date.new(2025, 6, 1) }
+
+      it { expect(planting).not_to be_sown_from_expired_seeds }
+    end
+
+    context 'without a parent seed' do
+      subject(:planting) { create(:planting, planted_at: Date.new(2026, 3, 1)) }
+
+      it { is_expected.not_to be_sown_from_expired_seeds }
+    end
+
+    context 'when the packet date changes later' do
+      let(:planted_at) { Date.new(2026, 3, 1) }
+
+      before do
+        planting
+        seed.update!(plant_before_year: 2030)
+      end
+
+      it 'remembers the date at the time' do
+        expect(planting.reload).to be_sown_from_expired_seeds
+      end
+    end
+  end
+
+  describe '#transplant_to' do
+    subject(:moved) { planting.transplant_to(garden, on: Time.zone.today) }
+
+    let(:owner) { create(:member) }
+    let(:garden) { create(:garden, owner:) }
+    let(:nursery) { owner.nursery! }
+    let(:planting) { create(:planting, owner:, garden: nursery, quantity: 6, planted_at: 5.days.ago.to_date) }
+
+    it 'is the same planting, now in the garden' do
+      expect(moved).to eq(planting).and have_attributes(garden:)
+    end
+
+    it 'keeps its sow date and is not finished' do
+      expect(moved).to have_attributes(planted_at: 5.days.ago.to_date, finished: false)
+    end
+
+    it 'does not make another planting' do
+      planting
+      expect { moved }.not_to change(described_class, :count)
+    end
+
+    it 'records the garden it was in, and for which days' do
+      moved
+      expect(planting.histories).to contain_exactly(
+        have_attributes(garden: nursery, started_on: 5.days.ago.to_date, ended_on: Time.zone.today)
+      )
+    end
+
+    context 'when moved again' do
+      let(:third) { create(:garden, owner:) }
+
+      before do
+        planting.transplant_to(garden, on: 2.days.ago.to_date)
+        planting.transplant_to(third, on: Time.zone.today)
+      end
+
+      it 'has a record for each garden it left, oldest first' do
+        expect(planting.histories.map(&:garden)).to eq [nursery, garden]
+      end
+
+      it 'says the second garden started when the first was left' do
+        expect(planting.histories.last.started_on).to eq 2.days.ago.to_date
+      end
+    end
+
+    context 'when it cannot be moved' do
+      subject(:moved) { planting.transplant_to(create(:garden)) }
+
+      it { expect(moved.errors).not_to be_empty }
+      it('records nothing') { expect { moved }.not_to change(PlantingHistory, :count) }
+    end
+  end
 end

@@ -6,6 +6,21 @@ module FeatureHelpers
     fill_in field, with: options[:with]
   end
 
+  # Opens every garden on the gardens list, as only the first starts open.
+  def open_all_gardens
+    page.assert_selector '.garden-card'
+    page.find_all('.garden-card:not([open]) > summary').each(&:click)
+  end
+
+  def open_sow_dialog
+    click_button '+ Add'
+  end
+
+  def visit_gardens_open
+    visit gardens_path
+    open_all_gardens
+  end
+
   def select_from_autocomplete(select)
     page.should have_css('ul.ui-autocomplete li.ui-menu-item a')
     selector = %{ul.ui-autocomplete li.ui-menu-item a:contains("#{select}")}
@@ -14,16 +29,19 @@ module FeatureHelpers
 
   shared_context 'signed in member' do
     let(:member) { create(:member) }
+
     include_examples 'sign in'
   end
 
   shared_context 'signed in crop wrangler' do
     let(:member) { create(:crop_wrangling_member) }
+
     include_examples 'sign in'
   end
 
   shared_context 'signed in admin' do
     let(:member) { create(:admin_member) }
+
     include_examples 'sign in'
   end
 

@@ -249,17 +249,12 @@ describe "Planting a crop", :js, :search do
         end
         expect(page).to have_content "Planting was successfully transplanted"
 
-        new_planting = Planting.last
         planting.reload
 
-        # The old planting is finished.
-        expect(planting.finished).to be true
-        expect(planting.finished_at).not_to be_nil
-
-        # The new planting is a continuation of the old one.
-        expect(new_planting.garden).to eq(other_garden)
-        expect(new_planting.crop).to eq(planting.crop)
-        expect(new_planting.owner).to eq(planting.owner)
+        # The planting itself has moved, rather than being copied, and remembers where it was.
+        expect(planting.garden).to eq other_garden
+        expect(Planting.count).to eq 1
+        expect(planting.histories.map(&:garden)).to eq [garden]
       end
     end
 
