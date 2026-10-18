@@ -6,5 +6,11 @@
   = t('.harvest_html', crop: link_to(record.crop.name, polymorphic_path(record)))
 - when 'seed'
   = t(record.tradable ? '.seed_trade_html' : '.seed_html', crop: link_to(record.crop.name, polymorphic_path(record)))
+- when 'activity'
+  = t('.activity_html', name: link_to(record.name, polymorphic_path(record)))
+- when 'planting_finished'
+  = t('.planting_finished_html', crop: link_to(record.crop.name, polymorphic_path(record)))
+- when 'transplant'
+  = t('.transplant_html', crop: link_to(record.planting.crop.name, polymorphic_path(record.planting)), garden: link_to(record.moved_to.name, polymorphic_path(record.moved_to)))
 - when 'garden_layout'
   = t('.garden_layout_html', garden: link_to(record.name, polymorphic_path(record)))

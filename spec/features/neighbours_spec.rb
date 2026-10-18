@@ -29,6 +29,36 @@ describe 'My friends and neighbours' do
     expect(page).to have_css('article', text: /nextdoor.*near you.*Harvested/m)
   end
 
+  it 'shows a friend transplanting a tomato into the big garden' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    tomato = create(:crop, name: 'tomato')
+    planting = create(:planting, owner: friend, garden: friend.gardens.first, crop: tomato, planted_at: 1.week.ago)
+    planting.transplant_to(create(:garden, owner: friend, name: 'Big garden'), on: Time.zone.today)
+
+    visit neighbours_path
+    expect(page).to have_css('article', text: /friendly.*Transplanted tomato into Big garden/m)
+  end
+
+  it 'shows a friend finishing a planting' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    planting = create(:planting, owner: friend, garden: friend.gardens.first, crop: create(:crop, name: 'tomato'), planted_at: 1.month.ago)
+    planting.update!(finished: true, finished_at: Time.zone.today)
+
+    visit neighbours_path
+    expect(page).to have_css('article', text: /friendly.*Finished growing tomato/m)
+  end
+
+  it 'shows a friend planning an activity' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    create(:activity, owner: friend, name: 'Weed the beans', due_date: Time.zone.today)
+
+    visit neighbours_path
+    expect(page).to have_css('article', text: /friendly.*Planned an activity, Weed the beans/m)
+  end
+
   it 'stops suggesting someone who is dismissed' do
     crop = create(:crop)
     create(:planting, owner: member, garden: member.gardens.first, crop:)
