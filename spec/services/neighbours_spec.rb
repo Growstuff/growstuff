@@ -181,5 +181,27 @@ describe Neighbours do
       items = neighbours.feed.flat_map(&:updates).flat_map(&:items)
       expect(items.map { |item| [item.type, item.record] }).to include(['garden_layout', garden])
     end
+
+    it 'has activities people planned' do
+      activity = create(:activity, owner: friend)
+
+      items = neighbours.feed.flat_map(&:updates).flat_map(&:items)
+      expect(items.map { |item| [item.type, item.record] }).to include(['activity', activity])
+    end
+
+    it 'has plantings that were finished' do
+      planting.update!(finished: true, finished_at: Date.new(2026, 10, 5))
+
+      items = neighbours.feed.flat_map(&:updates).flat_map(&:items)
+      expect(items.map { |item| [item.type, item.record] }).to include(['planting_finished', planting])
+    end
+
+    it 'has plantings that were transplanted into another garden' do
+      big_garden = create(:garden, owner: friend)
+      planting.transplant_to(big_garden, on: Date.new(2026, 10, 12))
+
+      items = neighbours.feed.flat_map(&:updates).flat_map(&:items)
+      expect(items.select { |item| item.type == 'transplant' }.map { |item| item.record.moved_to }).to eq [big_garden]
+    end
   end
 end
