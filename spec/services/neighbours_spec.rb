@@ -196,6 +196,13 @@ describe Neighbours do
       expect(items.map { |item| [item.type, item.record] }).to include(['planting_finished', planting])
     end
 
+    it 'has seeds that were finished' do
+      seed = create(:seed, owner: friend, finished: true, finished_at: Date.new(2026, 10, 5))
+
+      items = neighbours.feed.flat_map(&:updates).flat_map(&:items)
+      expect(items.map { |item| [item.type, item.record] }).to include(['seed_finished', seed])
+    end
+
     it 'has plantings that were transplanted into another garden' do
       big_garden = create(:garden, owner: friend)
       planting.transplant_to(big_garden, on: Date.new(2026, 10, 12))

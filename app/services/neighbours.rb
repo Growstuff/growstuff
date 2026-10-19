@@ -13,12 +13,13 @@ class Neighbours
   NEARBY_LIMIT = 100
   SUGGESTIONS_SHOWN = 4
   POSTS_SHOWN = 5
-  FEED_KINDS = %i(planting harvest seed photo garden_layout transplant activity planting_finished).freeze
+  FEED_KINDS = %i(planting harvest seed photo garden_layout transplant activity planting_finished seed_finished).freeze
   FEED_EVENTS = 15
   MAX_OFFSET = 500
   PHOTO_SUBJECTS = %w(Planting Harvest Seed Garden).freeze
-  EVENT_MODELS = { 'planting' => Planting, 'harvest' => Harvest, 'seed' => Seed, 'photo' => Photo, 'garden_layout' => Garden, 'transplant' => PlantingHistory,
-                  'activity' => Activity, 'planting_finished' => Planting }.freeze
+  EVENT_MODELS = { 'planting' => Planting, 'harvest' => Harvest, 'seed' => Seed, 'photo' => Photo, 'garden_layout' => Garden,
+                  'transplant' => PlantingHistory, 'activity' => Activity, 'planting_finished' => Planting,
+                  'seed_finished' => Seed }.freeze
   FEED_CACHE_FOR = 5.minutes
 
   # One band of distance: :near, :region or :anywhere. A ring that was
@@ -136,8 +137,9 @@ class Neighbours
   end
 
   # Days of what people have lately planted, harvested, saved seeds of,
-  # photographed, moved to another garden, planned jobs for, finished growing and rearranged their beds, newest first. One small chunk at a
-  # time, from #offset.
+  # photographed, moved to another garden, planned jobs for, finished growing or
+  # with, and rearranged their beds, newest first. One small chunk at a time,
+  # from #offset.
   def feed
     build_feed unless defined?(@feed)
     @feed
@@ -276,7 +278,7 @@ class Neighbours
   def load_records(rows)
     records = rows.group_by(&:event_type).to_h do |type, group|
       scope = EVENT_MODELS.fetch(type).where(id: group.map(&:id))
-      scope = scope.includes(:crop) if %w(planting harvest seed planting_finished).include?(type)
+      scope = scope.includes(:crop) if %w(planting harvest seed planting_finished seed_finished).include?(type)
       scope = scope.includes(:garden, planting: %i(crop garden histories)) if type == 'transplant'
       [type, scope.index_by(&:id)]
     end
