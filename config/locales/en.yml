@@ -519,6 +519,7 @@ en:
       empty: Nothing to show yet.
       title: Latest from your friends and neighbours
     item:
+      activity_due_html: Planned an activity, %{name}, for %{date}
       activity_html: Planned an activity, %{name}
       garden_layout_html: Rearranged the layout of %{garden}
       harvest_html: Harvested %{crop}

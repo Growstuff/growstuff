@@ -62,10 +62,11 @@ describe 'My friends and neighbours' do
   it 'shows a friend planning an activity' do
     friend = create(:member, login_name: 'friendly')
     member.follows.create!(followed: friend)
-    create(:activity, owner: friend, name: 'Weed the beans', due_date: Time.zone.today)
+    create(:activity, owner: friend, name: 'Weed the beans', due_date: Time.zone.today + 1.month)
 
     visit neighbours_path
-    expect(page).to have_css('article', text: /friendly.*Planned an activity, Weed the beans/m)
+    expect(page).to have_css('article',
+                             text: /friendly.*Planned an activity, Weed the beans, for #{(Time.zone.today + 1.month).strftime('%-d %b')}/m)
   end
 
   it 'shows only their own activity under Me' do

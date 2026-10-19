@@ -19,6 +19,7 @@ class TimelineService
     photo:             :photos_query,
     seed:              :seeds_query,
     activity:          :activities_query,
+    planned_activity:  :planned_activities_query,
     like:              :likes_query,
     garden_layout:     :garden_layouts_query,
     transplant:        :transplants_query,
@@ -29,7 +30,7 @@ class TimelineService
 
   # Events of the given kinds, newest first. Garden layouts are only here when
   # asked for, since the timeline page has nothing to say about them; the same goes
-  # for transplants and finished plantings and seeds.
+  # for transplants, planned activities and finished plantings and seeds.
   def self.query(kinds = DEFAULT_EVENTS)
     kinds.map { |kind| public_send(EVENT_QUERIES.fetch(kind)) }
       .reduce { |all, one| all.union_all(one) }
@@ -43,10 +44,8 @@ class TimelineService
   end
 
   def self.plantings_finished_query
-    Planting.where(failed: [false, nil])
-      .where('plantings.finished_at <= ? OR (plantings.finished_at IS NULL AND plantings.finished = ?)', Time.zone.today, true)
-      .select(:id, "'planting_finished' as event_type", 'COALESCE(plantings.finished_at, plantings.updated_at) as event_at',
-              :owner_id, :crop_id)
+    Planting.where(failed: [false, nil]).where(finished_at: ..Time.zone.today)
+      .select(:id, "'planting_finished' as event_type", 'finished_at as event_at', :owner_id, :crop_id)
   end
 
   def self.seeds_finished_query
@@ -67,6 +66,12 @@ class TimelineService
               "likes.created_at as event_at",
               "likes.member_id as owner_id",
               "null as crop_id")
+  end
+
+  # Activities as the day they were planned rather than the day they are due,
+  # for a feed of what people have done.
+  def self.planned_activities_query
+    Activity.select(:id, "'activity' as event_type", 'activities.created_at as event_at', :owner_id, 'null as crop_id')
   end
 
   def self.activities_query
