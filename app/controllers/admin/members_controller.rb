@@ -10,7 +10,7 @@ module Admin
     def index
       @members = Member.order(:login_name)
       @members = @members.where("login_name ILIKE ?", "%#{search_term}%") if search_term.present?
-      @members = @members.paginate(page: params[:page])
+      @pagy, @members = pagy(@members)
     end
 
     def edit

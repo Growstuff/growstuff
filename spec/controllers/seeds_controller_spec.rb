@@ -153,7 +153,7 @@ describe SeedsController do
 
       it { expect(assigns(:seeds).size).to eq 9 }
       it { expect(assigns(:seeds).map(&:crop).uniq).to match_array crops.first(2) }
-      it { expect(assigns(:piles).total_entries).to eq 3 }
+      it { expect(assigns(:pagy).count).to eq 3 }
     end
 
     context 'on the second page' do

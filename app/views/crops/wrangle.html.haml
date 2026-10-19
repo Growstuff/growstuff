@@ -58,6 +58,6 @@
           = distance_of_time_in_words(c.created_at, Time.zone.now)
           ago.
 
-  = page_entries_info @crops
-  = will_paginate @crops
+  = pagination_info @pagy, "crops"
+  = pagination_nav @pagy
 

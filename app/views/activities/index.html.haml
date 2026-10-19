@@ -36,8 +36,8 @@
 
     %section
       %h2= title('activities', @owner, nil, @planting)
-      = will_paginate @activities
+      = pagination_nav @pagy
       .index-cards
         - @activities.each do |a|
           = render 'activities/card', activity: a
-      = will_paginate @activities
+      = pagination_nav @pagy

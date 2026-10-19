@@ -6,7 +6,7 @@ module Api
       def search
         term = params[:term]
         page = params.dig(:page, :number) || 1
-        per_page = params.dig(:page, :size) || Crop.per_page
+        per_page = params.dig(:page, :size) || Pagy::OPTIONS[:limit]
 
         search_results = CropSearchService.search(
           term,

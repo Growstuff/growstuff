@@ -30,11 +30,11 @@
     instead.
 
 - else
-  = will_paginate @crops
+  = pagination_nav @pagy
 
   .index-cards
     - @crops.each do |crop|
       = render 'crops/thumbnail', crop: crop
 
 
-  = will_paginate @crops
+  = pagination_nav @pagy

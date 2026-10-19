@@ -11,14 +11,14 @@ class PlantingsController < DataController
     @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
     @crop = Crop.find_by(slug: params[:crop_slug]) if params[:crop_slug]
 
-    @plantings = plantings
+    @pagy, @plantings = pagy(plantings)
 
     @filename = "Growstuff-#{specifics}Plantings-#{Time.zone.now.to_fs(:number)}.csv"
     respond_with(@plantings)
   end
 
   def show
-    @photos = @planting.photos.includes(:owner).order(date_taken: :desc).paginate(page: 1, per_page: 12)
+    @photos = @planting.photos.includes(:owner).order(date_taken: :desc).limit(12)
     # The cards show the owner, the crop and the plant part, so load them with
     # the records. Not :photos — Photo's owner association carries a condition
     # on discarded members, which turns the eager load into an INNER JOIN and
@@ -178,7 +178,6 @@ class PlantingsController < DataController
     p.joins(:owner, :crop, :garden)
       .order(created_at: :desc)
       .includes(:crop, :owner, :garden)
-      .paginate(page: params[:page])
   end
 
   def matching_seeds

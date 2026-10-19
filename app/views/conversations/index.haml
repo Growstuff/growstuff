@@ -55,4 +55,4 @@
           = icon 'fas', 'trash-alt'
           = 'Delete'
       - unless @conversations.empty?
-        = will_paginate @conversations
+        = pagination_nav @pagy

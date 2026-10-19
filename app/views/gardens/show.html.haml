@@ -214,4 +214,4 @@
           .index-cards
             - @photos.each do |photo|
               = render 'photos/thumbnail', photo: photo
-          = will_paginate @photos
+          = pagination_nav @pagy

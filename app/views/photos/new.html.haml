@@ -34,8 +34,8 @@
     %h2= @sets.key(@current_set)
 
   .row.pagination
-    .col-md-12= page_entries_info @photos
-    .col-md-12= will_paginate @photos
+    .col-md-12= pagination_info @pagy, "photos"
+    .col-md-12= pagination_nav @pagy
 
   .row
     - @photos.each do |photo|
@@ -46,7 +46,7 @@
           .card-body= photo.title
 
   .row.pagination
-    .col-md-12= will_paginate @photos
+    .col-md-12= pagination_nav @pagy
 - else
   %h2.alert You must connect your account to Flickr to add photos.
 

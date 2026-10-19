@@ -12,7 +12,8 @@ class PlacesController < ApplicationController
       format.html
       # json response is whatever we want to map here
       format.json do
-        members = Member.located.paginate(page: params[:page]).pluck(*MEMBER_FIELDS).map do |row|
+        _pagy, located = pagy(Member.located)
+        members = located.pluck(*MEMBER_FIELDS).map do |row|
           MEMBER_FIELDS.zip(row).to_h
         end
         render json: members

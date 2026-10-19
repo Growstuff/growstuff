@@ -34,4 +34,4 @@
       .row.row-cols-1.row-cols-sm-2.row-cols-lg-3.g-4
         - @gardens.each do |garden|
           .col= render 'gardens/inactive_card', garden: garden
-      .mt-3= will_paginate @gardens
+      .mt-3= pagination_nav @pagy

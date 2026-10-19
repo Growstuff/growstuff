@@ -7,13 +7,13 @@
     = render partial: "shared/signin_signup",
             locals: { to: "post your tips and experiences growing #{crop.name.pluralize}" }
 - else
-  = will_paginate @posts
+  = pagination_nav @pagy
 
   .index-cards
     - @posts.each do |post|
       .card.card-double= render 'posts/preview', post: post
 
-  = will_paginate @posts
+  = pagination_nav @pagy
 
 -# The action sits at the foot of the section, on the right, whether or not
 -# anyone has posted yet.
