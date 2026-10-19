@@ -8,6 +8,8 @@ class Neighbours
   include SeasonsHelper
 
   SCOPES = %w(auto following nearby anywhere me).freeze
+  # Scopes that look at one set of people, so no nearby ones and no suggestions.
+  NARROW_SCOPES = %w(following me).freeze
   RADII_KM = [25, 150].freeze
   WORLD_KM = 20_000
   MIN_NEARBY = 3
@@ -68,7 +70,7 @@ class Neighbours
   end
 
   def shows_nearby?
-    %w(following me).exclude?(scope)
+    NARROW_SCOPES.exclude?(scope)
   end
 
   def located?
@@ -119,7 +121,7 @@ class Neighbours
   # Who the page is about, for its headings: people they follow and people
   # near them, or only one, or nearby once it has widened to somewhere.
   def audience
-    return scope.to_sym if %w(following me).include?(scope)
+    return scope.to_sym if NARROW_SCOPES.include?(scope)
     return (widened? ? :all : :following_and_near) if followed.any? && shows_following?
 
     reach || :near

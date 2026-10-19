@@ -53,6 +53,13 @@ module NeighboursHelper
       .map { |(kind, garden), items| [kind, garden, items] }
   end
 
+  # What someone did in a day, as [kind, sentence] lines: each group of things,
+  # then each photo group.
+  def entry_lines(entry)
+    entry_groups(entry).map { |kind, garden, items| [kind, group_sentence(kind, garden, items)] } +
+      entry.photo_groups.map { |subject, count, alone| ['photo', photo_group_text(subject, count, alone)] }
+  end
+
   # "Harvested tomato and basil", "Planted out kale into The Deck".
   def group_sentence(kind, garden, items)
     things = sentence_of(items.map { |item| group_thing(item) })
@@ -132,8 +139,8 @@ module NeighboursHelper
     record = item.record
     case item.type
     when 'activity'
-      link = link_to(record.name, polymorphic_path(record))
-      record.due_date ? safe_join([link, " (#{t('neighbours.group.due', date: l(record.due_date, format: '%-d %b'))})"]) : link
+      due = t('neighbours.group.due', date: l(record.due_date, format: '%-d %b')) if record.due_date
+      with_details(link_to(record.name, polymorphic_path(record)), due)
     when 'garden_layout' then link_to(record.name, polymorphic_path(record))
     when 'transplant' then link_to(record.planting.crop.name, polymorphic_path(record.planting))
     when 'harvest' then with_details(link_to(record.crop.name, polymorphic_path(record)), harvest_details(record))
@@ -162,10 +169,6 @@ module NeighboursHelper
 
     safe_join([safe_join(links.first(links.size - 1), t('support.array.words_connector')), links.last],
               t('support.array.last_word_connector'))
-  end
-
-  def season_in(hemisphere, start)
-    SEASON_MONTHS.fetch(hemisphere).find { |_season, months| months.include?(start.month) }.first
   end
 
   def subject_label(subject)

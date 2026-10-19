@@ -30,7 +30,13 @@ module SeasonsHelper
   # The season a date falls in for someone at this latitude, or nil when we
   # don't know which hemisphere they are in.
   def season_for(latitude, date = Date.current)
-    seasons_with_months(latitude)&.find { |_season, months| months.include?(date.month) }&.first
+    half = hemisphere(latitude)
+    season_in(half, date) if half
+  end
+
+  # The season a date falls in, in the given hemisphere.
+  def season_in(half, date = Date.current)
+    SEASON_MONTHS.fetch(half).find { |_season, months| months.include?(date.month) }.first
   end
 
   # "Spring in Wellington · October · 41°S", leaving out whatever we don't know.

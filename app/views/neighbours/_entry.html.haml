@@ -1,6 +1,5 @@
 - owner = entry.owner
-- groups = entry_groups(entry)
-- lines = groups.size + entry.photo_groups.size
+- lines = entry_lines(entry)
 - images = entry_images(entry)
 %article.neighbours-entry
   = link_to image_tag(avatar_uri(owner, 48), alt: '', width: 48, height: 48, class: 'neighbours-avatar'), member_path(owner)
@@ -10,26 +9,14 @@
       - if entry.tag
         %span.neighbours-tag{ class: entry.tag }= t(".#{entry.tag}")
       %small= entry_when(entry)
-    - if lines == 1
-      .neighbours-line
-        - if groups.any?
-          - kind, garden, items = groups.first
-          = group_icon(kind)
-          %p= group_sentence(kind, garden, items)
-        - else
-          = group_icon('photo')
-          %p= photo_group_text(*entry.photo_groups.first)
+    - if lines.one?
+      - kind, sentence = lines.first
+      = render 'line', kind:, sentence:
     - else
       %p.neighbours-entry-text= t('.did_things_html', count: entry.items.size)
       %ul.neighbours-entry-list
-        - groups.each do |kind, garden, items|
-          %li.neighbours-line
-            = group_icon(kind)
-            %p= group_sentence(kind, garden, items)
-        - entry.photo_groups.each do |subject, count, alone|
-          %li.neighbours-line
-            = group_icon('photo')
-            %p= photo_group_text(subject, count, alone)
+        - lines.each do |kind, sentence|
+          %li= render 'line', kind:, sentence:
     - if images.any?
       .neighbours-entry-photos{ class: ('one' if images.one?) }
         - images.each do |image|
@@ -37,5 +24,5 @@
             = image_tag image[:url], alt: ''
     - entry.others.select { |item| item.type == 'garden_layout' }.each do |item|
       = render 'layout', garden: item.record, owner:
-    - if lines == 1 && entry.others.size <= 1 && (liked = (entry.others.first || entry.photos.first).record).respond_to?(:liked_by?)
+    - if lines.one? && entry.others.size <= 1 && (liked = (entry.others.first || entry.photos.first).record).respond_to?(:liked_by?)
       .neighbours-entry-actions= render 'likes/likes', object: liked
