@@ -27,11 +27,6 @@ PreCommit:
     enabled: true
     exclude:
       - '**/db/structure.sql'  # Ignore trailing whitespace in generated files
-  CoffeeLint:
-    enabled: true
-    on_fail: warn
-    command: ['npm', 'run', 'coffeelint']
-    required_executable: 'npm'
   HardTabs:
     enabled: true
   AuthorEmail:
