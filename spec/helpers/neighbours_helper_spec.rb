@@ -19,12 +19,17 @@ describe NeighboursHelper do
 
     it 'names the season in the southern hemisphere' do
       neighbours = instance_double(Neighbours, member:, hemispheres: [:southern])
-      expect(helper.season_heading(start, neighbours)).to eq 'Summer 2026'
+      expect(strip_tags(helper.season_heading(start, neighbours)).squish).to eq 'Summer 2026'
     end
 
     it 'names both when the feed spans the world' do
       neighbours = instance_double(Neighbours, member:, hemispheres: %i(southern northern))
-      expect(helper.season_heading(start, neighbours)).to eq 'Summer 2026 · Winter in the northern hemisphere'
+      expect(strip_tags(helper.season_heading(start, neighbours)).squish).to eq 'Summer 2026 · Winter in the northern hemisphere'
+    end
+
+    it 'gives each season its icon' do
+      neighbours = instance_double(Neighbours, member:, hemispheres: %i(southern northern))
+      expect(helper.season_heading(start, neighbours)).to include('fa-sun').and include('fa-snowflake')
     end
 
     it 'is nothing when nobody has said where they live' do

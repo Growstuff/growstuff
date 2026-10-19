@@ -5,8 +5,8 @@
 - neighbours.feed.each_with_index do |day, index|
   - season = season_start(day.day)
   - if season != previous_season && (heading = season_heading(season, neighbours))
-    %h2.neighbours-season= heading
+    %h3.neighbours-season= heading
   - previous_season = season
   - unless index.zero? && day.day == after
-    %h3.neighbours-day= day_heading(day.day)
+    %h4.neighbours-day= day_heading(day.day)
   = render partial: 'neighbours/entry', collection: day.updates, as: :entry
