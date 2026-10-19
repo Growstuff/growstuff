@@ -59,7 +59,6 @@ gem 'jquery-ui-rails', github: 'jquery-ui-rails/jquery-ui-rails', tag: 'v7.0.0' 
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
-gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 # Maps
 gem 'leaflet-rails', '>= 1.9.2'
