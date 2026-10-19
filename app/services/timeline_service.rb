@@ -43,8 +43,10 @@ class TimelineService
   end
 
   def self.plantings_finished_query
-    Planting.where(failed: [false, nil]).where(finished_at: ..Time.zone.today)
-      .select(:id, "'planting_finished' as event_type", 'finished_at as event_at', :owner_id, :crop_id)
+    Planting.where(failed: [false, nil])
+      .where('plantings.finished_at <= ? OR (plantings.finished_at IS NULL AND plantings.finished = ?)', Time.zone.today, true)
+      .select(:id, "'planting_finished' as event_type", 'COALESCE(plantings.finished_at, plantings.updated_at) as event_at',
+              :owner_id, :crop_id)
   end
 
   def self.seeds_finished_query

@@ -236,6 +236,13 @@ describe Neighbours do
       expect(items.map { |item| [item.type, item.record] }).to include(['planting_finished', planting])
     end
 
+    it 'has finished plantings with no finish date, from when they were last updated' do
+      planting.update!(finished: true, finished_at: nil)
+
+      entry = neighbours.feed.flat_map(&:updates).find { |candidate| candidate.items.any? { |item| item.type == 'planting_finished' } }
+      expect(entry.day).to eq planting.reload.updated_at.to_date
+    end
+
     it 'has seeds that were finished' do
       seed = create(:seed, owner: friend, finished: true, finished_at: Date.new(2026, 10, 5))
 
