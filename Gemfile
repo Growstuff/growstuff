@@ -152,7 +152,6 @@ gem "connection_pool", "< 3"
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
-  gem 'memcachier'
 
   gem 'scout_apm' # monitoring
 end
