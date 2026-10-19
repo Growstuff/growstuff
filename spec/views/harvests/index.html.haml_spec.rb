@@ -13,14 +13,14 @@ describe "harvests/index.html.haml" do
     per_page = 2
     total_entries = 2
     harvests = [
-                      create(:harvest,
-                             crop:  @tomato,
-                             owner: @member),
-                      create(:harvest,
-                             crop:       @maize,
-                             plant_part: @pp,
-                             owner:      @member)
-                    ]
+      create(:harvest,
+             crop:  @tomato,
+             owner: @member),
+      create(:harvest,
+             crop:       @maize,
+             plant_part: @pp,
+             owner:      @member)
+    ]
     assign(:pagy, Pagy::Offset.new(count: total_entries, limit: per_page, page:))
     assign(:harvests, harvests)
     render

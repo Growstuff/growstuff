@@ -14,24 +14,24 @@ describe "plantings/index.html.haml" do
     per_page = 3
     total_entries = 3
     plantings = [
-                      create(:planting,
-                             garden:,
-                             crop:   tomato,
-                             owner:  member),
-                      create(:planting,
-                             garden:,
-                             crop:        maize,
-                             owner:       garden.owner,
-                             description: '',
-                             planted_at:  Time.zone.local(2013, 1, 13)),
-                      create(:planting,
-                             garden:,
-                             owner:       garden.owner,
-                             crop:        tomato,
-                             planted_at:  Time.zone.local(2013, 1, 13),
-                             finished_at: Time.zone.local(2013, 1, 20),
-                             finished:    true)
-                    ]
+      create(:planting,
+             garden:,
+             crop:   tomato,
+             owner:  member),
+      create(:planting,
+             garden:,
+             crop:        maize,
+             owner:       garden.owner,
+             description: '',
+             planted_at:  Time.zone.local(2013, 1, 13)),
+      create(:planting,
+             garden:,
+             owner:       garden.owner,
+             crop:        tomato,
+             planted_at:  Time.zone.local(2013, 1, 13),
+             finished_at: Time.zone.local(2013, 1, 20),
+             finished:    true)
+    ]
     assign(:pagy, Pagy::Offset.new(count: total_entries, limit: per_page, page:))
     assign(:plantings, plantings)
     render

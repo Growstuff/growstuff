@@ -86,7 +86,9 @@ class PhotosController < ApplicationController
       sets: (@sets || {}).map { |title, id| { id: id, title: title } },
       set: @current_set, tag: @current_tag,
       page: @pagy.page, total_pages: @pagy.last, total: @pagy.count,
-      photos: @photos.map { |photo| { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) } }
+      photos: @photos.map do |photo|
+        { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) }
+      end
     }
   end
 
