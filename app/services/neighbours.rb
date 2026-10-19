@@ -5,7 +5,9 @@
 # Nearby widens in rings, close by first and then further out, until there are
 # enough people to show.
 class Neighbours
-  SCOPES = %w(auto following nearby anywhere).freeze
+  include SeasonsHelper
+
+  SCOPES = %w(auto following nearby anywhere me).freeze
   RADII_KM = [25, 150].freeze
   WORLD_KM = 20_000
   MIN_NEARBY = 3
@@ -66,7 +68,7 @@ class Neighbours
   end
 
   def shows_nearby?
-    scope != 'following'
+    %w(following me).exclude?(scope)
   end
 
   def located?
@@ -117,7 +119,7 @@ class Neighbours
   # Who the page is about, for its headings: people they follow and people
   # near them, or only one, or nearby once it has widened to somewhere.
   def audience
-    return :following if scope == 'following'
+    return scope.to_sym if %w(following me).include?(scope)
     return (widened? ? :all : :following_and_near) if followed.any? && shows_following?
 
     reach || :near
@@ -125,6 +127,8 @@ class Neighbours
 
   # What to say under the title: what they follow and how nearby went.
   def lede
+    return :me if scope == 'me'
+
     if followed.empty? then nobody_close? ? :widened : :none
     elsif few_followed? then :few
     else :following
@@ -143,6 +147,16 @@ class Neighbours
   def feed
     build_feed unless defined?(@feed)
     @feed
+  end
+
+  # The hemispheres the feed spans, their own first, so each season marker can
+  # name the season in each. Empty when nobody in it has said where they live.
+  def hemispheres
+    @hemispheres ||= begin
+      latitudes = Member.where(id: feed_owner_ids).where.not(latitude: nil).distinct.pluck(Arel.sql('latitude < 0'))
+      theirs = latitudes.map { |south| south ? :southern : :northern }
+      ([hemisphere(member.latitude)] + theirs).compact.uniq
+    end
   end
 
   def more_feed?
@@ -185,6 +199,8 @@ class Neighbours
   end
 
   def feed_owner_ids
+    return [member.id] if scope == 'me'
+
     @feed_owner_ids ||= (shows_following? ? followed_ids : []) + nearby_members.map(&:id)
   end
 

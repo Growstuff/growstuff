@@ -161,6 +161,46 @@ describe Neighbours do
     end
   end
 
+  describe 'with the me scope' do
+    subject(:neighbours) { described_class.new(member, scope: 'me') }
+
+    let(:friend) { create(:member) }
+
+    before { member.follows.create!(followed: friend) }
+
+    it 'has what the member did' do
+      planting = create(:planting, owner: member, garden: member.gardens.first, planted_at: Date.new(2026, 10, 1))
+
+      expect(neighbours.feed.flat_map(&:updates).flat_map(&:items).map(&:record)).to eq [planting]
+    end
+
+    it 'leaves out the people they follow' do
+      create(:planting, owner: friend, garden: friend.gardens.first, planted_at: Date.new(2026, 10, 1))
+
+      expect(neighbours.feed).to be_empty
+    end
+
+    it 'does not look for people nearby' do
+      expect(neighbours.shows_nearby?).to be false
+    end
+  end
+
+  describe '#hemispheres' do
+    it 'has their own first, then the other' do
+      friend = create_located_member('Oslo', 59.9, 10.7)
+      member.follows.create!(followed: friend)
+
+      expect(described_class.new(member).hemispheres).to eq %i(southern northern)
+    end
+
+    it 'has one when everyone is in the same half' do
+      friend = create_located_member('Auckland', -36.85, 174.76)
+      member.follows.create!(followed: friend)
+
+      expect(described_class.new(member).hemispheres).to eq [:southern]
+    end
+  end
+
   describe '#feed photos and layouts' do
     let(:friend) { create(:member) }
     let(:planting) { create(:planting, owner: friend, garden: friend.gardens.first, planted_at: Date.new(2026, 10, 1)) }

@@ -68,6 +68,33 @@ describe 'My friends and neighbours' do
     expect(page).to have_css('article', text: /friendly.*Planned an activity, Weed the beans/m)
   end
 
+  it 'shows only their own activity under Me' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    create(:planting, owner: friend, garden: friend.gardens.first, planted_at: Time.zone.today)
+    create(:harvest, owner: member, harvested_at: Time.zone.today)
+
+    visit neighbours_path(scope: 'me')
+    expect(page).to have_css('article', text: /Harvested/).and have_no_css('article', text: /friendly/)
+  end
+
+  it 'marks where the season changes' do
+    create(:harvest, owner: member, harvested_at: Date.new(2026, 10, 20))
+    create(:harvest, owner: member, harvested_at: Date.new(2026, 8, 20))
+
+    visit neighbours_path(scope: 'me')
+    expect(page).to have_css('h2.neighbours-season', text: 'Spring 2026').and have_css('h2.neighbours-season', text: 'Winter 2026')
+  end
+
+  it 'names the season in the other hemisphere too' do
+    friend = create_located_member('Oslo', 59.9, 10.7, login_name: 'norwegian')
+    member.follows.create!(followed: friend)
+    create(:harvest, owner: friend, harvested_at: Date.new(2026, 10, 20))
+
+    visit neighbours_path
+    expect(page).to have_css('h2.neighbours-season', text: 'Spring 2026 · Autumn in the northern hemisphere')
+  end
+
   it 'stops suggesting someone who is dismissed' do
     crop = create(:crop)
     create(:planting, owner: member, garden: member.gardens.first, crop:)
