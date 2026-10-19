@@ -22,13 +22,14 @@ class TimelineService
     like:              :likes_query,
     garden_layout:     :garden_layouts_query,
     transplant:        :transplants_query,
-    planting_finished: :plantings_finished_query
+    planting_finished: :plantings_finished_query,
+    seed_finished:     :seeds_finished_query
   }.freeze
   DEFAULT_EVENTS = %i(planting harvest post comment photo seed activity like).freeze
 
   # Events of the given kinds, newest first. Garden layouts are only here when
   # asked for, since the timeline page has nothing to say about them; the same goes
-  # for transplants and finished plantings.
+  # for transplants and finished plantings and seeds.
   def self.query(kinds = DEFAULT_EVENTS)
     kinds.map { |kind| public_send(EVENT_QUERIES.fetch(kind)) }
       .reduce { |all, one| all.union_all(one) }
@@ -44,6 +45,11 @@ class TimelineService
   def self.plantings_finished_query
     Planting.where(failed: [false, nil]).where(finished_at: ..Time.zone.today)
       .select(:id, "'planting_finished' as event_type", 'finished_at as event_at', :owner_id, :crop_id)
+  end
+
+  def self.seeds_finished_query
+    Seed.where(finished_at: ..Time.zone.today)
+      .select(:id, "'seed_finished' as event_type", 'seeds.finished_at as event_at', :owner_id, :crop_id)
   end
 
   def self.transplants_query

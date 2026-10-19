@@ -50,6 +50,15 @@ describe 'My friends and neighbours' do
     expect(page).to have_css('article', text: /friendly.*Finished growing tomato/m)
   end
 
+  it 'shows a friend finishing with a packet of seeds' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    create(:seed, owner: friend, crop: create(:crop, name: 'tomato'), finished: true, finished_at: Time.zone.today)
+
+    visit neighbours_path
+    expect(page).to have_css('article', text: /friendly.*Finished with tomato seeds/m)
+  end
+
   it 'shows a friend planning an activity' do
     friend = create(:member, login_name: 'friendly')
     member.follows.create!(followed: friend)

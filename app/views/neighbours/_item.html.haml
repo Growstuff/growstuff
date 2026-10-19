@@ -10,6 +10,8 @@
   = t('.activity_html', name: link_to(record.name, polymorphic_path(record)))
 - when 'planting_finished'
   = t('.planting_finished_html', crop: link_to(record.crop.name, polymorphic_path(record)))
+- when 'seed_finished'
+  = t('.seed_finished_html', crop: link_to(record.crop.name, polymorphic_path(record)))
 - when 'transplant'
   = t('.transplant_html', crop: link_to(record.planting.crop.name, polymorphic_path(record.planting)), garden: link_to(record.moved_to.name, polymorphic_path(record.moved_to)))
 - when 'garden_layout'
