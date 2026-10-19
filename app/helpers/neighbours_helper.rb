@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module NeighboursHelper
+  include SeasonsHelper
+
   PICTURES_SHOWN = 8
   LAUNCHED_ON = Date.new(2026, 10, 14)
   NEW_FOR = 3.months
@@ -23,6 +25,31 @@ module NeighboursHelper
     return t('neighbours.day.today', date:) if day == today
 
     day == today - 1 ? t('neighbours.day.yesterday', date:) : date
+  end
+
+  SEASON_STARTS = [3, 6, 9, 12].freeze
+
+  # The first day of the season a date is in. Both hemispheres change season
+  # on the same days, so this tells us where a marker goes whichever half of
+  # the world someone gardens in.
+  def season_start(date)
+    month = SEASON_STARTS.select { |start| start <= date.month }.max
+    month ? Date.new(date.year, month, 1) : Date.new(date.year - 1, 12, 1)
+  end
+
+  # "Spring 2026", or "Spring 2026 · Autumn in the northern hemisphere" when
+  # the feed has people in both halves of the world. Their own hemisphere is
+  # not named, unless they have not said where they live.
+  def season_heading(start, neighbours)
+    hemispheres = neighbours.hemispheres
+    return if hemispheres.empty?
+
+    mine = hemisphere(neighbours.member.latitude)
+    names = hemispheres.map do |half|
+      season = t("seasons.#{season_in(half, start)}")
+      hemispheres.one? || half == mine ? season : t('neighbours.season.in_hemisphere', season:, hemisphere: t("neighbours.season.#{half}"))
+    end
+    "#{names.first} #{start.year}#{names.drop(1).map { |name| " · #{name}" }.join}"
   end
 
   # Where someone is and when they did it: "Upper Hutt · 2 hours ago", or
@@ -59,6 +86,10 @@ module NeighboursHelper
     else
       t('neighbours.photos.of_html', count:, subject: link_to(subject_label(subject), polymorphic_path(subject)))
     end
+  end
+
+  def season_in(hemisphere, start)
+    SEASON_MONTHS.fetch(hemisphere).find { |_season, months| months.include?(start.month) }.first
   end
 
   def subject_label(subject)

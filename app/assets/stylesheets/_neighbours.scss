@@ -21,6 +21,18 @@
 
 .neighbours-side { flex: 1 1 300px; min-width: 0; }
 
+.neighbours-season {
+  margin: 28px 0 4px;
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  background: #3f5e2b;
+  border-radius: 4px;
+
+  &:first-child { margin-top: 0; }
+}
+
 .neighbours-day {
   display: flex;
   gap: 10px;

@@ -497,6 +497,9 @@ en:
       following_and_near:
         feed: People you follow and gardeners near you
         posts: From people you follow and near you
+      me:
+        feed: Just you
+        posts: From you
       near:
         feed: Gardeners near you
         posts: From gardeners near you
@@ -552,6 +555,10 @@ en:
         region: Within %{km} km
       widened: We widened the search until we found some.
       you: you
+    season:
+      in_hemisphere: "%{season} in the %{hemisphere} hemisphere"
+      northern: northern
+      southern: southern
     show:
       add_location_html: "%{link} to see gardeners near you."
       add_location_link: Add where you live
@@ -559,12 +566,14 @@ en:
       lede:
         few: You follow a few people. Showing them first, then those close to you.
         following: What the gardeners you follow, and the ones near you, are up to.
+        me: Just what you have been up to.
         none: You are not following anyone yet, so this shows gardeners near you.
         widened: Nobody you follow, and nobody close by yet, so we looked further out.
       scope:
         anywhere: Anywhere
         auto: Auto
         following: People I follow
+        me: Me
         nearby: Nearby
       title: My friends & neighbours
       welcome:
