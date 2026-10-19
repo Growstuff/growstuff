@@ -2,6 +2,7 @@
 
 module NeighboursHelper
   include SeasonsHelper
+  include HarvestsHelper
 
   PICTURES_SHOWN = 8
   LAUNCHED_ON = Date.new(2026, 10, 14)
@@ -135,8 +136,24 @@ module NeighboursHelper
       record.due_date ? safe_join([link, " (#{t('neighbours.group.due', date: l(record.due_date, format: '%-d %b'))})"]) : link
     when 'garden_layout' then link_to(record.name, polymorphic_path(record))
     when 'transplant' then link_to(record.planting.crop.name, polymorphic_path(record.planting))
+    when 'harvest' then with_details(link_to(record.crop.name, polymorphic_path(record)), harvest_details(record))
     else link_to(record.crop.name, polymorphic_path(record))
     end
+  end
+
+  def with_details(link, details)
+    details ? safe_join([link, " (#{details})"]) : link
+  end
+
+  # What they said they picked: "2 kg", "3 buckets, weighing 4 kg", "×12".
+  def harvest_details(harvest)
+    count = display_human_quantity(harvest)
+    count = "×#{count}" if count && harvest.unit == 'individual'
+    weight = display_weight(harvest)
+    return count unless weight
+    return weight unless count
+
+    "#{count}, #{t('neighbours.group.weighing', weight:)}"
   end
 
   def sentence_of(links)

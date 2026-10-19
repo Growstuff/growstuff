@@ -532,6 +532,7 @@ en:
       seed_html: Saved %{things} seeds
       seed_trade_html: Has %{things} seeds to trade
       transplant_html: Transplanted %{things} into %{garden}
+      weighing: weighing %{weight}
     layout:
       label: "%{garden}: its layout"
     photos:
