@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Converstions' do
+describe 'Conversations' do
   describe 'DELETE destroy_multiple' do
     let!(:member) { create(:admin_member) }
 
@@ -19,9 +19,10 @@ describe 'Converstions' do
     end
 
     it 'allows users to trash multiple inbox conversations' do
-      first_conversation = create(:notification, recipient: member)
-      second_conversation = create(:notification, recipient: member)
-      conversations_to_trash = [first_conversation.id, second_conversation.id]
+      other_member = create(:member)
+      receipt1 = other_member.send_message(member, 'Body 1', 'Subject 1')
+      receipt2 = other_member.send_message(member, 'Body 2', 'Subject 2')
+      conversations_to_trash = [receipt1.conversation.id, receipt2.conversation.id]
 
       # we dont actually destroy the messages, we move them to the trash folder
       expect do
@@ -34,9 +35,9 @@ describe 'Converstions' do
 
     it 'only deletes conversations for the current user' do
       second_member = create(:admin_member)
-      first_conversation = create(:notification, sender: member, recipient: second_member)
-      second_conversation = create(:notification, sender: member, recipient: second_member)
-      conversations_to_trash = [first_conversation.id, second_conversation.id]
+      receipt1 = member.send_message(second_member, 'Body 1', 'Subject 1')
+      receipt2 = member.send_message(second_member, 'Body 2', 'Subject 2')
+      conversations_to_trash = [receipt1.conversation.id, receipt2.conversation.id]
 
       # we dont actually destroy the messages, we move them to the trash folder
       expect do
@@ -48,9 +49,10 @@ describe 'Converstions' do
     end
 
     it 'allows users to trash multiple sent conversations' do
-      first_conversation = create(:notification, sender: member)
-      second_conversation = create(:notification, sender: member)
-      conversations_to_trash = [first_conversation.id, second_conversation.id]
+      other_member = create(:member)
+      receipt1 = member.send_message(other_member, 'Body 1', 'Subject 1')
+      receipt2 = member.send_message(other_member, 'Body 2', 'Subject 2')
+      conversations_to_trash = [receipt1.conversation.id, receipt2.conversation.id]
 
       # we dont actually destroy the messages, we move them to the trash folder
       expect do
