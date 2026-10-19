@@ -17,11 +17,7 @@ class PhotosController < ApplicationController
                 Photo.all
               end
 
-    @photos = @photos.includes(:owner)
-                     .order(created_at: :desc)
-                     .paginate(page: params[:page], per_page: Photo.per_page)
-
-    raise ActiveRecord::RecordNotFound if @photos.out_of_bounds?
+    @pagy, @photos = pagy(@photos.includes(:owner).order(created_at: :desc), raise_range_error: true)
 
     respond_with(@photos)
   end
@@ -89,8 +85,10 @@ class PhotosController < ApplicationController
       state: 'ready', name: @flickr_auth.name, profile_url: "http://flickr.com/photos/#{@flickr_auth.uid}",
       sets: (@sets || {}).map { |title, id| { id: id, title: title } },
       set: @current_set, tag: @current_tag,
-      page: @photos.current_page, total_pages: @photos.total_pages, total: @photos.total_entries,
-      photos: @photos.map { |photo| { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) } }
+      page: @pagy.page, total_pages: @pagy.last, total: @pagy.count,
+      photos: @photos.map do |photo|
+        { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) }
+      end
     }
   end
 
@@ -144,14 +142,12 @@ class PhotosController < ApplicationController
     @current_set = params[:set]
     @current_tag = params[:tag]
 
-    page = params[:page] || 1
-
     @sets = current_member.flickr_sets
-    photos, total = current_member.flickr_photos(page, @current_set, @current_tag)
+    photos, total = current_member.flickr_photos(page_param, @current_set, @current_tag)
 
-    @photos = WillPaginate::Collection.create(page, 30, total) do |pager|
-      pager.replace photos
-    end
+    # Flickr hands us just the one page, so only the count and the links come from the pager
+    @pagy = pagy(Photo.none, count: total, limit: 30).first
+    @photos = photos
   end
 
   def set_crop_and_planting

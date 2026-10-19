@@ -24,4 +24,4 @@
           - if can? :destroy, plant_part
             = link_to t('buttons.delete'), plant_part, method: :delete, data: { confirm: t(:are_you_sure?) }, class: 'btn btn-outline-secondary btn-sm'
 
-= will_paginate(@plant_parts)
+= pagination_nav(@pagy)

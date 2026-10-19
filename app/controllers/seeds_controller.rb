@@ -52,9 +52,9 @@ class SeedsController < DataController
     @seeds = @seeds.includes({ crop: :parent }, :owner)
     @seeds = @sort_by_distance ? order_by_distance(@seeds, current_member) : @seeds.order(created_at: :desc)
     if page_of_piles?
-      @seeds, @piles = paginate_piles(@seeds)
+      @pagy, @seeds = paginate_piles(@seeds)
     else
-      @seeds = @seeds.paginate(page: params[:page], per_page: PER_PAGE)
+      @pagy, @seeds = pagy(@seeds, limit: PER_PAGE)
     end
     @group_by = GROUPINGS.include?(params[:group]) ? params[:group] : 'crop'
     @list_view = (params[:view] == 'list')
@@ -68,7 +68,7 @@ class SeedsController < DataController
   end
 
   def show
-    @photos = @seed.photos.includes(:owner).order(created_at: :desc, id: :desc).paginate(page: params[:page], per_page: 30)
+    @pagy, @photos = pagy(@seed.photos.includes(:owner).order(created_at: :desc, id: :desc), limit: 30)
     respond_with(@seed)
   end
 
@@ -124,19 +124,17 @@ class SeedsController < DataController
   end
 
   # A page of whole piles: all of one gardener's packets of a crop come on the
-  # same page, never split across two. Returns that page's seeds, and the pager
-  # for its links. `seeds` carries the order they should come in.
+  # same page, never split across two. Returns the pager for its links, and that
+  # page's seeds. `seeds` carries the order they should come in.
   def paginate_piles(seeds)
     piles = seeds.reorder(nil).distinct.pluck(:owner_id, :crop_id)
     crops = Crop.where(id: piles.map(&:last).uniq).includes(:parent).index_by(&:id)
     piles.sort_by! { |owner_id, crop_id| [(crops[crop_id].parent || crops[crop_id]).name.downcase, crops[crop_id].name.downcase, owner_id] }
 
-    pager = WillPaginate::Collection.create(params[:page] || 1, PER_PAGE, piles.size) do |page|
-      page.replace(piles[page.offset, page.per_page] || [])
-    end
-    on_page = pager.to_set
+    pager, page_of_piles = pagy(piles, limit: PER_PAGE)
+    on_page = page_of_piles.to_set
     page_seeds = seeds.where(owner_id: on_page.map(&:first), crop_id: on_page.map(&:last))
-    [page_seeds.select { |seed| on_page.include?([seed.owner_id, seed.crop_id]) }, pager]
+    [pager, page_seeds.select { |seed| on_page.include?([seed.owner_id, seed.crop_id]) }]
   end
 
   # The seed library fetches its own controls' results alone, as the tabs, the

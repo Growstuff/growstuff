@@ -36,7 +36,7 @@ describe CropsController do
         get :data_improvement
         expect(response).to be_successful
         expect(response).to render_template("crops/data_improvement")
-        expect(assigns(:crops).per_page).to eq(50)
+        expect(assigns(:pagy).limit).to eq(50)
       end
     end
   end

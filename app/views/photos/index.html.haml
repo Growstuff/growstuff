@@ -9,11 +9,11 @@
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Photos', photos_path
 
-= will_paginate @photos
+= pagination_nav @pagy
 
 .index-cards
   - @photos.each do |p|
     = render 'photos/card', photo: p
 
-= page_entries_info @photos
-= will_paginate @photos
+= pagination_info @pagy, "photos"
+= pagination_nav @pagy

@@ -39,10 +39,10 @@
 
     %section
       %h2= title('plantings', @owner, @crop, @planting)
-      = will_paginate @plantings
+      = pagination_nav @pagy
       - if @plantings.blank?
         %p No plantings recorded yet
       .index-cards
         - @plantings.each do |p|
           = render 'plantings/card', planting: p
-      = will_paginate @plantings
+      = pagination_nav @pagy

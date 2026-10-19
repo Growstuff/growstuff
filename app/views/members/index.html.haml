@@ -11,11 +11,11 @@
   = f.submit "Show"
 
 .pagination
-  = page_entries_info @members
-  = will_paginate @members
+  = pagination_info @pagy, "members"
+  = pagination_nav @pagy
 
 .member-cards= render partial: 'members/card', collection: @members, as: :person
 
 .pagination
-  = page_entries_info @members
-  = will_paginate @members
+  = pagination_info @pagy, "members"
+  = pagination_nav @pagy

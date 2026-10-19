@@ -5,9 +5,9 @@
 
 %h1 Comments
 
-= will_paginate @comments
+= pagination_nav @pagy
 
 - @comments.each do |comment|
   = render 'single', comment: comment
 
-= will_paginate @comments
+= pagination_nav @pagy

@@ -7,14 +7,15 @@ class ConversationsController < ApplicationController
   before_action :check_current_subject_in_conversation, only: %i(show update destroy)
 
   def index
-    @conversations = case @box
-                     when "inbox"
-                       mailbox.inbox
-                     when "sent"
-                       mailbox.sentbox
-                     else
-                       mailbox.trash
-                     end.paginate(page: params[:page])
+    conversations = case @box
+                    when "inbox"
+                      mailbox.inbox
+                    when "sent"
+                      mailbox.sentbox
+                    else
+                      mailbox.trash
+                    end
+    @pagy, @conversations = pagy(conversations)
 
     respond_with @conversations
   end

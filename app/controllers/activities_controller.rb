@@ -12,7 +12,7 @@ class ActivitiesController < DataController
       @activities = @activities.where(owner_id: @owner.id)
     end
 
-    @activities = @activities.paginate(page: params[:page], per_page: 30)
+    @pagy, @activities = pagy(@activities, limit: 30)
 
     @filename = "Growstuff-#{specifics}Activities-#{Time.zone.now.to_fs(:number)}.csv"
     respond_with(@activities)

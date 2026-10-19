@@ -7,7 +7,7 @@ class MembersController < ApplicationController
 
   def index
     @sort = params[:sort]
-    @members = members
+    @pagy, @members = pagy(members)
     respond_to do |format|
       format.html # index.html.haml
       format.json { render json: @members.to_json(only: member_json_fields) }
@@ -108,6 +108,6 @@ class MembersController < ApplicationController
       Member.recently_joined
     else
       Member.order(:login_name)
-    end.kept.confirmed.paginate(page: params[:page])
+    end.kept.confirmed
   end
 end

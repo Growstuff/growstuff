@@ -10,9 +10,8 @@ describe "members/index" do
     page = 1
     per_page = 2
     total_entries = 2
-    members = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([member, member])
-    end
+    members = [member, member]
+    assign(:pagy, Pagy::Offset.new(count: total_entries, limit: per_page, page:))
     assign(:members, members)
     render
   end

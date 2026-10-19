@@ -8,7 +8,7 @@ describe "seeds/show" do
   before do
     controller.stub(:current_user) { nil }
     assign(:seed, seed)
-    assign(:photos, seed.photos.paginate(page: 1))
+    assign(:photos, seed.photos.limit(36))
     render
   end
 

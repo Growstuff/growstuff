@@ -75,7 +75,7 @@
                 add
           - if @photos.any?
             = render 'photos/gallery', photos: @photos
-            = will_paginate @photos
+            = pagination_nav @pagy
           - else
             -# One line. The "+ add" on the heading bar is the invitation.
             %p.text-muted.mb-0 No photos yet.
