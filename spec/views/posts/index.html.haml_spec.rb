@@ -10,11 +10,11 @@ describe "posts/index" do
     per_page = 2
     total_entries = 2
     posts = [
-                      create(:post, author: @author,
-                                               subject: 'A Post', body: 'This is some text.'),
-                      create(:post, author: @author,
-                                               subject: 'A Post', body: 'This is some text.')
-                    ]
+      create(:post, author: @author,
+                               subject: 'A Post', body: 'This is some text.'),
+      create(:post, author: @author,
+                               subject: 'A Post', body: 'This is some text.')
+    ]
     assign(:pagy, Pagy::Offset.new(count: total_entries, limit: per_page, page:))
     assign(:posts, posts)
     render

@@ -8,9 +8,9 @@ describe "photos/index" do
     per_page = 2
     total_entries = 2
     photos = [
-                      create(:photo),
-                      create(:photo)
-                    ]
+      create(:photo),
+      create(:photo)
+    ]
     assign(:pagy, Pagy::Offset.new(count: total_entries, limit: per_page, page:))
     assign(:photos, photos)
   end
