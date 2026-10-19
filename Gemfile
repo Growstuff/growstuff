@@ -69,7 +69,6 @@ gem 'active_utils'
 gem 'sidekiq'
 
 # Markdown formatting for updates etc
-gem 'bluecloth'
 gem 'kramdown' # the Markdown engine Tilt picks for Haml's :markdown filter
 
 # Pagination
@@ -152,8 +151,6 @@ gem "connection_pool", "< 3"
 group :production do
   gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
-  gem 'memcachier'
-  gem 'rails_12factor' # supresses heroku plugin injection
 
   gem 'scout_apm' # monitoring
 end
@@ -185,9 +182,7 @@ group :development, :test do
   gem 'rubocop-rake'
   gem 'rubocop-rspec'
   gem 'rubocop-rspec_rails'
-  gem 'webrat'                  # provides HTML matchers for view tests
 
-  gem 'crowdin-cli'             # for translations
   gem 'dotenv-rails'
 
   # cli utils
