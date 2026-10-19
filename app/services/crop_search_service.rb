@@ -5,6 +5,6 @@ class CropSearchService
   def self.search(query, page: 1, per_page: 12, current_member: nil)
     Crop.search_by_name(query, member: current_member)
       .includes(:scientific_names, :alternate_names)
-      .paginate(page:, per_page:)
+      .limit(per_page).offset(([page.to_i, 1].max - 1) * per_page)
   end
 end

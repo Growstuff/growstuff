@@ -38,7 +38,7 @@
   %section.gardens-section
     .gardens-section-header
       %h2 Gardens
-      %small= page_entries_info @gardens
+      %small= pagination_info @pagy, "gardens"
     - if @gardens.empty?
       .gardens-section-body
         %p There are no gardens to display.
@@ -49,7 +49,7 @@
       %noscript
         %p The garden cards need JavaScript to display.
       .gardens-section-body
-        = will_paginate @gardens
+        = pagination_nav @pagy
         - if @owner.present?
           = link_to 'Inactive gardens', member_inactive_gardens_path(@owner)
           %small.text-muted Gardens no longer in use, kept as a record of what was grown.

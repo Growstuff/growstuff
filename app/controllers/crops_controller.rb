@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'will_paginate/array'
-
 class CropsController < ApplicationController
   before_action :authenticate_member!, except: %i(index hierarchy search show history)
   load_and_authorize_resource id_param: :slug
@@ -10,17 +8,18 @@ class CropsController < ApplicationController
   responders :flash
 
   def index
-    @crops = Crop.search_by_name(nil).paginate(page: params[:page], per_page: 100)
+    @crops = Crop.search_by_name(nil)
     if request.format.csv? || request.format.rss?
       @crops = @crops.includes(:parent, :scientific_names, :seeds, :harvests, :creator, :plantings)
     end
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
+    @pagy, @crops = pagy(@crops, limit: 100)
     respond_with @crops
   end
 
   def requested
-    @requested = requested_crops.paginate(page: params[:page])
+    @pagy, @requested = pagy(requested_crops)
     respond_with @requested
   end
 
@@ -28,7 +27,7 @@ class CropsController < ApplicationController
     @approval_status = params[:approval_status]
     @all_levels = params[:level] == 'all'
     @query = params[:q].to_s.squish
-    @crops = wrangle_crops.paginate(page: params[:page])
+    @pagy, @crops = pagy(wrangle_crops)
 
     @crop_wranglers = Role.crop_wranglers
     respond_with @crops
@@ -48,10 +47,7 @@ class CropsController < ApplicationController
   def search
     @term = params[:term]
 
-    @crops = CropSearchService.search(@term,
-                                      page:           params[:page],
-                                      per_page:       Crop.per_page,
-                                      current_member:)
+    @pagy, @crops = pagy(Crop.search_by_name(@term, member: current_member).includes(:scientific_names, :alternate_names))
 
     respond_to do |format|
       format.html do
@@ -65,7 +61,7 @@ class CropsController < ApplicationController
 
   # GET /crops/lettuce/history: who changed the crop, and what, newest first.
   def history
-    @versions = @crop.versions.reorder(created_at: :desc, id: :desc).paginate(page: params[:page], per_page: 50)
+    @pagy, @versions = pagy(@crop.versions.reorder(created_at: :desc, id: :desc), limit: 50)
     @version_members = Member.where(id: @versions.filter_map { |version| version.whodunnit&.to_i }).index_by(&:id)
     @version_records = VersionsHelper.preload_records(@versions)
   end
@@ -73,7 +69,7 @@ class CropsController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
+        @pagy, @posts = pagy(@crop.posts.order(created_at: :desc))
         @companions = @crop.companions.approved
         last_version = @crop.versions.reorder(created_at: :desc, id: :desc).first
         @last_edited_at = last_version&.created_at || @crop.updated_at
@@ -157,29 +153,30 @@ class CropsController < ApplicationController
   def data_improvement
     @active_tab = params[:tab] || 'photos'
 
-    @crops = case @active_tab
-             when 'photos'
-               Crop.approved.where(photo_associations_count: 0).order(plantings_count: :desc)
-             when 'descriptions'
-               Crop.approved.where(description: [nil, '']).order(plantings_count: :desc)
-             when 'youtube'
-               Crop.approved.where(en_youtube_url: [nil, '']).order(plantings_count: :desc)
-             when 'alternate_names'
-               Crop.approved.where.missing(:alternate_names).order(plantings_count: :desc)
-             when 'wikidata'
-               crops_with_wikidata = Crop.joins(:scientific_names).where.not(scientific_names: { wikidata_id: nil }).distinct
-               Crop.approved.where.not(id: crops_with_wikidata).order(plantings_count: :desc)
-             when 'row_spacing'
-               Crop.approved.where(row_spacing: nil).order(plantings_count: :desc)
-             when 'sun_requirements'
-               Crop.approved.where(sun_requirements: [nil, '']).order(plantings_count: :desc)
-             when 'height'
-               Crop.approved.where(height: nil).order(plantings_count: :desc)
-             when 'public_food_key'
-               Crop.approved.where(public_food_key: [nil, '']).order(plantings_count: :desc)
-             else
-               Crop.none
-             end.paginate(page: params[:page], per_page: 50)
+    crops = case @active_tab
+            when 'photos'
+              Crop.approved.where(photo_associations_count: 0).order(plantings_count: :desc)
+            when 'descriptions'
+              Crop.approved.where(description: [nil, '']).order(plantings_count: :desc)
+            when 'youtube'
+              Crop.approved.where(en_youtube_url: [nil, '']).order(plantings_count: :desc)
+            when 'alternate_names'
+              Crop.approved.where.missing(:alternate_names).order(plantings_count: :desc)
+            when 'wikidata'
+              crops_with_wikidata = Crop.joins(:scientific_names).where.not(scientific_names: { wikidata_id: nil }).distinct
+              Crop.approved.where.not(id: crops_with_wikidata).order(plantings_count: :desc)
+            when 'row_spacing'
+              Crop.approved.where(row_spacing: nil).order(plantings_count: :desc)
+            when 'sun_requirements'
+              Crop.approved.where(sun_requirements: [nil, '']).order(plantings_count: :desc)
+            when 'height'
+              Crop.approved.where(height: nil).order(plantings_count: :desc)
+            when 'public_food_key'
+              Crop.approved.where(public_food_key: [nil, '']).order(plantings_count: :desc)
+            else
+              Crop.none
+            end
+    @pagy, @crops = pagy(crops, limit: 50)
   end
 
   # A search hit, plus the alternate name that matched the term when the

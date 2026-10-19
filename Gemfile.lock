@@ -395,6 +395,10 @@ GEM
       omniauth (~> 2.0)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
+    pagy (43.8.1)
+      json
+      uri
+      yaml
     paper_trail (17.0.0)
       activerecord (>= 7.1)
       request_store (~> 1.4)
@@ -626,14 +630,12 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    will_paginate (4.0.1)
-    will_paginate-bootstrap-style (0.3.0)
-      will_paginate (~> 4.0, >= 4.0.0)
     xmlrpc (0.3.4)
       rexml
       webrick
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yaml (0.4.0)
     zeitwerk (2.8.3)
 
 PLATFORMS
@@ -694,6 +696,7 @@ DEPENDENCIES
   omniauth (~> 2.1)
   omniauth-flickr (>= 0.0.15)
   omniauth-rails_csrf_protection
+  pagy (~> 43.8)
   paper_trail (~> 17.0)
   percy-capybara (~> 5.0.0)
   pg
@@ -729,8 +732,6 @@ DEPENDENCIES
   timecop
   validate_url
   vcr
-  will_paginate
-  will_paginate-bootstrap-style
   xmlrpc
 
 RUBY VERSION

@@ -13,12 +13,12 @@
 
 %section.crops
   %h2= t('.title')
-  = will_paginate @crops
+  = pagination_nav @pagy
   .index-cards
     - @crops.each do |c|
       = render 'crops/thumbnail', crop: c
 
-  = will_paginate @crops
+  = pagination_nav @pagy
 
 %ul.list-inline
   %li The data on this page is available in the following formats:

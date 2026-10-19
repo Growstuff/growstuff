@@ -6,7 +6,7 @@ class FollowsController < ApplicationController
   skip_load_resource only: :create
 
   def index
-    @follows = @member.followed.paginate(page: params[:page])
+    @pagy, @follows = pagy(@member.followed)
   end
 
   def create
@@ -30,7 +30,7 @@ class FollowsController < ApplicationController
   end
 
   def followers
-    @followers = @member.followers.paginate(page: params[:page])
+    @pagy, @followers = pagy(@member.followers)
   end
 
   private

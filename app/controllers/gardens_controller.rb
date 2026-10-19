@@ -22,8 +22,7 @@ class GardensController < DataController
       @gardens = @gardens.left_joins(:garden_collaborators)
       @gardens = @gardens.where(owner: @owner).or(@gardens.where(garden_collaborators: { member: @owner }))
     end
-    @gardens = @gardens.where.not(members: { confirmed_at: nil })
-      .order(:name).paginate(page: params[:page])
+    @pagy, @gardens = pagy(@gardens.where.not(members: { confirmed_at: nil }).order(:name))
     respond_with(@gardens)
   end
 
@@ -32,10 +31,9 @@ class GardensController < DataController
     @owner = Member.confirmed.find_by!(slug: params[:member_slug])
     owned = Garden.inactive.where(owner: @owner)
     collaborating = Garden.inactive.where(id: GardenCollaborator.where(member: @owner).select(:garden_id))
-    @gardens = owned.or(collaborating)
-      .includes(:owner, plantings: { crop: { parent: :parent } })
-      .order(updated_at: :desc)
-      .paginate(page: params[:page], per_page: 12)
+    @pagy, @gardens = pagy(owned.or(collaborating)
+                             .includes(:owner, plantings: { crop: { parent: :parent } })
+                             .order(updated_at: :desc), limit: 12)
   end
 
   def show

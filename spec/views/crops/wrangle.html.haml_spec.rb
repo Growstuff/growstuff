@@ -11,9 +11,8 @@ describe "crops/wrangle" do
     total_entries = 2
     @tomato = create(:tomato)
     @maize  = create(:maize)
-    crops = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([@tomato, @maize])
-    end
+    crops = [@tomato, @maize]
+    assign(:pagy, Pagy::Offset.new(count: total_entries, limit: per_page, page:))
     assign(:crops, crops)
     assign(:crop_wranglers, Role.crop_wranglers)
   end

@@ -23,7 +23,7 @@ class HarvestsController < DataController
 
     @harvests = @harvests.includes(:crop, :owner, :plant_part)
 
-    @harvests = @harvests.recent.paginate(page: params[:page], per_page: 100)
+    @pagy, @harvests = pagy(@harvests.recent, limit: 100)
 
     @filename = csv_filename
 
@@ -32,7 +32,7 @@ class HarvestsController < DataController
 
   def show
     @matching_plantings = matching_plantings if @harvest.owner == current_member
-    @photos = @harvest.photos.order(created_at: :desc).paginate(page: params[:page])
+    @pagy, @photos = pagy(@harvest.photos.order(created_at: :desc))
     respond_with(@harvest)
   end
 

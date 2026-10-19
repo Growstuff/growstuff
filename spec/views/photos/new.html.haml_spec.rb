@@ -9,9 +9,8 @@ describe "photos/new" do
     page = 1
     per_page = 2
     total_entries = 2
-    photos = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([])
-    end
+    photos = []
+    assign(:pagy, Pagy::Offset.new(count: total_entries, limit: per_page, page:))
     assign(:photos, photos)
     assign(:flickr_auth, create(:flickr_authentication, member: @member))
   end

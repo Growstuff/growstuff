@@ -9,7 +9,7 @@ class Admin::CropsController < ApplicationController
   end
 
   def recently_edited
-    @versions = PaperTrail::Version.where(item_type: 'Crop').order(created_at: :desc, id: :desc).paginate(page: params[:page], per_page: 50)
+    @pagy, @versions = pagy(PaperTrail::Version.where(item_type: 'Crop').order(created_at: :desc, id: :desc), limit: 50)
     member_ids = @versions.map(&:whodunnit).compact.map(&:to_i)
     @members = Member.where(id: member_ids).index_by(&:id)
     @version_records = VersionsHelper.preload_records(@versions)

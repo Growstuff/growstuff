@@ -6,12 +6,14 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token if Rails.env.development? && ENV['CODESPACE_NAME']
 
   include ApplicationHelper
+  include Pagy::Method
 
   after_action :store_location
   before_action :set_locale
   before_action :set_paper_trail_whodunnit
   around_action :use_browser_time_zone
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
+  rescue_from Pagy::RangeError, with: :not_found
 
   # PaperTrail's default looks for current_user; members are current_member here.
   def user_for_paper_trail
@@ -75,6 +77,11 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
+
+  # The page asked for, for searches that take a page number rather than a collection.
+  def page_param
+    [params[:page].to_i, 1].max
+  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) do |member|

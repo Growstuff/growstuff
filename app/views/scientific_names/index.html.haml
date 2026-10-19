@@ -23,4 +23,4 @@
           = link_to t('buttons.delete'), scientific_name, method: :delete, data: { confirm: t(:are_you_sure?) },
             class: 'btn btn-outline-secondary btn-sm'
 
-= will_paginate @scientific_names
+= pagination_nav @pagy

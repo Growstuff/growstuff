@@ -13,8 +13,7 @@ describe "plantings/index.html.haml" do
     page = 1
     per_page = 3
     total_entries = 3
-    plantings = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([
+    plantings = [
                       create(:planting,
                              garden:,
                              crop:   tomato,
@@ -32,8 +31,8 @@ describe "plantings/index.html.haml" do
                              planted_at:  Time.zone.local(2013, 1, 13),
                              finished_at: Time.zone.local(2013, 1, 20),
                              finished:    true)
-                    ])
-    end
+                    ]
+    assign(:pagy, Pagy::Offset.new(count: total_entries, limit: per_page, page:))
     assign(:plantings, plantings)
     render
   end

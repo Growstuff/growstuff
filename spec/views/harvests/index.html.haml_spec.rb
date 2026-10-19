@@ -12,8 +12,7 @@ describe "harvests/index.html.haml" do
     page = 1
     per_page = 2
     total_entries = 2
-    harvests = WillPaginate::Collection.create(page, per_page, total_entries) do |pager|
-      pager.replace([
+    harvests = [
                       create(:harvest,
                              crop:  @tomato,
                              owner: @member),
@@ -21,8 +20,8 @@ describe "harvests/index.html.haml" do
                              crop:       @maize,
                              plant_part: @pp,
                              owner:      @member)
-                    ])
-    end
+                    ]
+    assign(:pagy, Pagy::Offset.new(count: total_entries, limit: per_page, page:))
     assign(:harvests, harvests)
     render
   end

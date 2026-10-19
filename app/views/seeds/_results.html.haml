@@ -29,4 +29,4 @@
   - @shelves.each_with_index do |(shelf, seeds), position|
     = render 'seeds/shelf', shelf: shelf, seeds: seeds, position: position, owned: @owner.present? && @owner == current_member, everyone: @everyone
 
-= will_paginate @piles || @seeds
+= pagination_nav @pagy
