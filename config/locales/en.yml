@@ -518,17 +518,20 @@ en:
       earlier: Show earlier days
       empty: Nothing to show yet.
       title: Latest from your friends and neighbours
-    item:
-      activity_due_html: Planned an activity, %{name}, for %{date}
-      activity_html: Planned an activity, %{name}
-      garden_layout_html: Rearranged the layout of %{garden}
-      harvest_html: Harvested %{crop}
-      planting_finished_html: Finished growing %{crop}
-      planting_html: Planted %{crop}
-      seed_finished_html: Finished with %{crop} seeds
-      seed_html: Saved %{crop} seeds
-      seed_trade_html: Has %{crop} seeds to trade
-      transplant_html: Transplanted %{crop} into %{garden}
+    group:
+      activity_html:
+        one: Planned an activity, %{things}
+        other: Planned %{count} activities, %{things}
+      due: for %{date}
+      garden_layout_html: Rearranged the layout of %{things}
+      harvest_html: Harvested %{things}
+      planted_out_html: Planted out %{things} into %{garden}
+      planting_finished_html: Finished growing %{things}
+      planting_html: Planted %{things}
+      seed_finished_html: Finished with %{things} seeds
+      seed_html: Saved %{things} seeds
+      seed_trade_html: Has %{things} seeds to trade
+      transplant_html: Transplanted %{things} into %{garden}
     layout:
       label: "%{garden}: its layout"
     photos:

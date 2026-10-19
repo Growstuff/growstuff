@@ -79,14 +79,30 @@
 .neighbours-entry-text { margin: 4px 0 8px; }
 
 .neighbours-entry-list {
-  padding-left: 18px;
+  padding: 0;
   margin: 4px 0 10px;
-  column-gap: 32px;
-  columns: 2 280px;
+  list-style: none;
+}
 
-  li { break-inside: avoid; }
+// One kind of thing someone did, with its icon in a soft green disc.
+.neighbours-line {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 6px 0;
 
-  small { color: rgba(65, 63, 59, 0.7); }
+  p { margin: 0; line-height: 1.5; }
+
+  .img-icon {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    background: #e4efdc;
+    border-radius: 50%;
+  }
+
+  svg, i { flex: none; width: 28px; padding: 6px 0; color: #3f5e2b; text-align: center; background: #e4efdc; border-radius: 50%; }
 }
 
 .neighbours-entry-photos {
