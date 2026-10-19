@@ -63,6 +63,27 @@ describe 'My friends and neighbours' do
     expect(page).to have_css('article p', text: /Harvested (tomato and basil|basil and tomato)/)
   end
 
+  it 'says a crop once when it was harvested more than once' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    tomato = create(:crop, name: 'tomato')
+    2.times { create(:harvest, owner: friend, crop: tomato, harvested_at: Time.zone.today, quantity: nil, weight_quantity: nil) }
+
+    visit neighbours_path
+    expect(page).to have_css('article p', text: 'Harvested tomato ×2')
+  end
+
+  it 'lists three things with no comma before the last' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    %w(basil rocket tomato).each do |name|
+      create(:harvest, owner: friend, crop: create(:crop, name:), harvested_at: Time.zone.today, quantity: nil, weight_quantity: nil)
+    end
+
+    visit neighbours_path
+    expect(page).to have_css('article p', text: /Harvested \w+, \w+ and \w+\z/)
+  end
+
   it 'says how much a friend harvested when they said' do
     friend = create(:member, login_name: 'friendly')
     member.follows.create!(followed: friend)
@@ -117,7 +138,7 @@ describe 'My friends and neighbours' do
     create(:harvest, owner: member, harvested_at: Date.new(2026, 8, 20))
 
     visit neighbours_path(scope: 'me')
-    expect(page).to have_css('h2.neighbours-season', text: 'Spring 2026').and have_css('h2.neighbours-season', text: 'Winter 2026')
+    expect(page).to have_css('h3.neighbours-season', text: 'Spring 2026').and have_css('h3.neighbours-season', text: 'Winter 2026')
   end
 
   it 'names the season in the other hemisphere too' do
@@ -126,7 +147,7 @@ describe 'My friends and neighbours' do
     create(:harvest, owner: friend, harvested_at: Date.new(2026, 10, 20))
 
     visit neighbours_path
-    expect(page).to have_css('h2.neighbours-season', text: 'Spring 2026 · Autumn in the northern hemisphere')
+    expect(page).to have_css('h3.neighbours-season', text: 'Spring 2026 · Autumn in the northern hemisphere')
   end
 
   it 'stops suggesting someone who is dismissed' do

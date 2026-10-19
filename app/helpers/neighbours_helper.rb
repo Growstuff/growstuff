@@ -62,7 +62,7 @@ module NeighboursHelper
 
   # "Harvested tomato and basil", "Planted out kale into The Deck".
   def group_sentence(kind, garden, items)
-    things = sentence_of(items.map { |item| group_thing(item) })
+    things = sentence_of(group_things(items))
     t("neighbours.group.#{kind}_html", things:, count: items.size, garden: (link_to(garden.name, polymorphic_path(garden)) if garden))
   end
 
@@ -76,19 +76,28 @@ module NeighboursHelper
     month ? Date.new(date.year, month, 1) : Date.new(date.year - 1, 12, 1)
   end
 
+  SEASON_ICONS = { spring: 'seedling', summer: 'sun', autumn: 'leaf', winter: 'snowflake' }.freeze
+
   # "Spring 2026", or "Spring 2026 · Autumn in the northern hemisphere" when
-  # the feed has people in both halves of the world. Their own hemisphere is
-  # not named, unless they have not said where they live.
+  # the feed has people in both halves of the world, each with its season's
+  # icon. Their own hemisphere is not named, unless they have not said where
+  # they live.
   def season_heading(start, neighbours)
     hemispheres = neighbours.hemispheres
     return if hemispheres.empty?
 
     mine = hemisphere(neighbours.member.latitude)
-    names = hemispheres.map do |half|
-      season = t("seasons.#{season_in(half, start)}")
-      hemispheres.one? || half == mine ? season : t('neighbours.season.in_hemisphere', season:, hemisphere: t("neighbours.season.#{half}"))
+    names = hemispheres.each_with_index.map do |half, index|
+      season = season_in(half, start)
+      name = t("seasons.#{season}")
+      name = "#{name} #{start.year}" if index.zero?
+      unless hemispheres.one? || half == mine
+        name = t('neighbours.season.in_hemisphere', season:     name,
+                                                    hemisphere: t("neighbours.season.#{half}"))
+      end
+      safe_join([icon('fas', SEASON_ICONS.fetch(season)), name], ' ')
     end
-    "#{names.first} #{start.year}#{names.drop(1).map { |name| " · #{name}" }.join}"
+    safe_join(names, ' · ')
   end
 
   # Where someone is and when they did it: "Upper Hutt · 2 hours ago", or
@@ -135,21 +144,31 @@ module NeighboursHelper
     end
   end
 
-  def group_thing(item)
-    record = item.record
-    case item.type
-    when 'activity'
-      due = t('neighbours.group.due', date: l(record.due_date, format: '%-d %b')) if record.due_date
-      with_details(link_to(record.name, polymorphic_path(record)), due)
-    when 'garden_layout' then link_to(record.name, polymorphic_path(record))
-    when 'transplant' then link_to(record.planting.crop.name, polymorphic_path(record.planting))
-    when 'harvest' then with_details(link_to(record.crop.name, polymorphic_path(record)), harvest_details(record))
-    else link_to(record.crop.name, polymorphic_path(record))
+  # The things in a group as links, the same thing said once: "capsicum ×6".
+  # Things are the same when they have the same name and details.
+  def group_things(items)
+    items.group_by { |item| [thing_name(item), thing_details(item)] }.map do |(name, details), same|
+      link = link_to(name, polymorphic_path(thing_record(same.first)))
+      link = safe_join([link, " (#{details})"]) if details
+      same.one? ? link : safe_join([link, " ×#{same.size}"])
     end
   end
 
-  def with_details(link, details)
-    details ? safe_join([link, " (#{details})"]) : link
+  def thing_record(item)
+    item.type == 'transplant' ? item.record.planting : item.record
+  end
+
+  def thing_name(item)
+    record = thing_record(item)
+    %w(activity garden_layout).include?(item.type) ? record.name : record.crop.name
+  end
+
+  def thing_details(item)
+    record = item.record
+    case item.type
+    when 'harvest' then harvest_details(record)
+    when 'activity' then t('neighbours.group.due', date: l(record.due_date, format: '%-d %b')) if record.due_date
+    end
   end
 
   # What they said they picked: "2 kg", "3 buckets, weighing 4 kg", "×12".
@@ -165,10 +184,10 @@ module NeighboursHelper
 
   def sentence_of(links)
     return links.first if links.one?
-    return safe_join(links, t('support.array.two_words_connector')) if links.size == 2
 
-    safe_join([safe_join(links.first(links.size - 1), t('support.array.words_connector')), links.last],
-              t('support.array.last_word_connector'))
+    # No comma before the last one: "basil, rocket and tomato".
+    and_word = t('support.array.two_words_connector')
+    safe_join([safe_join(links.first(links.size - 1), t('support.array.words_connector')), links.last], and_word)
   end
 
   def subject_label(subject)
