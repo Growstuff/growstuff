@@ -184,7 +184,6 @@ group :development, :test do
   gem 'rubocop-rspec'
   gem 'rubocop-rspec_rails'
 
-  gem 'crowdin-cli'             # for translations
   gem 'dotenv-rails'
 
   # cli utils
