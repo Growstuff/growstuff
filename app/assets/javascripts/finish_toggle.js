@@ -2,21 +2,24 @@
 // marked unfinished, and repopulates the field with a cached value
 // when marking unfinished is undone.
 
-jQuery(function () {
+document.addEventListener('DOMContentLoaded', function () {
   ['planting', 'seed'].forEach(function (model) {
+    const checkbox = document.getElementById(`${model}_finished`);
+    if (!checkbox) return;
+
     let previousValue = '';
 
-    $(`#${model}_finished`).on('click', function () {
-      const finished = $(`#${model}_finished_at`);
-      if (this.checked) {
+    checkbox.addEventListener('click', function () {
+      const finished = document.getElementById(`${model}_finished_at`);
+      if (checkbox.checked) {
         if (previousValue.length) {
-          finished.val(previousValue);
+          finished.value = previousValue;
         } else {
-          finished.trigger('focus');
+          finished.focus();
         }
       } else {
-        previousValue = finished.val();
-        finished.val('');
+        previousValue = finished.value;
+        finished.value = '';
       }
     });
   });
