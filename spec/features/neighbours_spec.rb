@@ -55,10 +55,22 @@ describe 'My friends and neighbours' do
   it 'lists what a friend harvested in one sentence' do
     friend = create(:member, login_name: 'friendly')
     member.follows.create!(followed: friend)
-    %w(tomato basil).each { |name| create(:harvest, owner: friend, crop: create(:crop, name:), harvested_at: Time.zone.today) }
+    %w(tomato basil).each do |name|
+      create(:harvest, owner: friend, crop: create(:crop, name:), harvested_at: Time.zone.today, quantity: nil, weight_quantity: nil)
+    end
 
     visit neighbours_path
     expect(page).to have_css('article p', text: /Harvested (tomato and basil|basil and tomato)/)
+  end
+
+  it 'says how much a friend harvested when they said' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    create(:harvest, owner: friend, crop: create(:crop, name: 'tomato'), harvested_at: Time.zone.today,
+                     quantity: 3, unit: 'bunch', weight_quantity: 2, weight_unit: 'kg')
+
+    visit neighbours_path
+    expect(page).to have_css('article p', text: /Harvested tomato \(3 bunches, weighing 2 kg\)/)
   end
 
   it 'shows a friend finishing a planting' do
