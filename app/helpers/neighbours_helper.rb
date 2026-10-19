@@ -38,7 +38,7 @@ module NeighboursHelper
     when 'harvest' then harvest_icon
     when 'transplant', 'planted_out' then growing_icon
     when 'planting_finished', 'seed_finished' then finished_icon
-    when 'activity' then activity_icon
+    when 'activity' then icon('fas', 'calendar-days')
     when 'garden_layout' then garden_icon
     when 'photo' then photo_icon
     end
