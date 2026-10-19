@@ -235,6 +235,14 @@ describe Neighbours do
       expect(neighbours.feed.first.day).to eq Time.zone.today
     end
 
+    it 'gives dates no time of day, whatever zone the database reads in' do
+      create(:harvest, owner: friend, harvested_at: Date.new(2026, 10, 5))
+
+      Time.use_zone('Pacific/Auckland') do
+        expect(neighbours.feed.flat_map(&:updates).flat_map(&:items).map(&:at)).to all(be_nil)
+      end
+    end
+
     it 'has plantings that were finished' do
       planting.update!(finished: true, finished_at: Date.new(2026, 10, 5))
 

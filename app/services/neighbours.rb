@@ -327,15 +327,16 @@ class Neighbours
     Item.new(type: row.event_type, record:, at:, subject: records['photo_subjects'][row.id])
   end
 
-  # Dates come through the timeline as midnight, so they have no time of day.
+  # Dates come through the timeline as midnight, in whatever zone the database
+  # connection reads times in, so they have no time of day.
   def midnight?(time)
-    !time.respond_to?(:hour) || time.utc.seconds_since_midnight.zero?
+    !time.respond_to?(:hour) || time.seconds_since_midnight.zero?
   end
 
   def day_of(time)
     return time.to_date unless time.respond_to?(:hour)
 
-    midnight?(time) ? time.utc.to_date : time.in_time_zone.to_date
+    midnight?(time) ? time.to_date : time.in_time_zone.to_date
   end
 
   def tag_for(owner_id)

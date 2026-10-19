@@ -1,5 +1,6 @@
 - owner = entry.owner
-- lines = entry.others.size + entry.photo_groups.size
+- groups = entry_groups(entry)
+- lines = groups.size + entry.photo_groups.size
 - images = entry_images(entry)
 %article.neighbours-entry
   = link_to image_tag(avatar_uri(owner, 48), alt: '', width: 48, height: 48, class: 'neighbours-avatar'), member_path(owner)
@@ -10,17 +11,25 @@
         %span.neighbours-tag{ class: entry.tag }= t(".#{entry.tag}")
       %small= entry_when(entry)
     - if lines == 1
-      %p.neighbours-entry-text= entry.others.any? ? render('item', item: entry.others.first, owner:) : photo_group_text(*entry.photo_groups.first)
+      .neighbours-line
+        - if groups.any?
+          - kind, garden, items = groups.first
+          = group_icon(kind)
+          %p= group_sentence(kind, garden, items)
+        - else
+          = group_icon('photo')
+          %p= photo_group_text(*entry.photo_groups.first)
     - else
-      %p.neighbours-entry-text= t('.did_things_html', count: lines)
+      %p.neighbours-entry-text= t('.did_things_html', count: entry.items.size)
       %ul.neighbours-entry-list
-        - entry.others.each do |item|
-          %li
-            = render 'item', item:, owner:
-            - if item.at
-              %small= item.at.strftime('%-l:%M%P')
+        - groups.each do |kind, garden, items|
+          %li.neighbours-line
+            = group_icon(kind)
+            %p= group_sentence(kind, garden, items)
         - entry.photo_groups.each do |subject, count, alone|
-          %li= photo_group_text(subject, count, alone)
+          %li.neighbours-line
+            = group_icon('photo')
+            %p= photo_group_text(subject, count, alone)
     - if images.any?
       .neighbours-entry-photos{ class: ('one' if images.one?) }
         - images.each do |image|
@@ -28,5 +37,5 @@
             = image_tag image[:url], alt: ''
     - entry.others.select { |item| item.type == 'garden_layout' }.each do |item|
       = render 'layout', garden: item.record, owner:
-    - if lines == 1 && (liked = (entry.others.first || entry.photos.first).record).respond_to?(:liked_by?)
+    - if lines == 1 && entry.others.size <= 1 && (liked = (entry.others.first || entry.photos.first).record).respond_to?(:liked_by?)
       .neighbours-entry-actions= render 'likes/likes', object: liked

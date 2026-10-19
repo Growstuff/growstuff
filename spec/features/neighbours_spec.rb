@@ -40,6 +40,27 @@ describe 'My friends and neighbours' do
     expect(page).to have_css('article', text: /friendly.*Transplanted tomato into Big garden/m)
   end
 
+  it 'says planted out when the planting came from the nursery' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    nursery = friend.gardens.first
+    nursery.update!(nursery: true)
+    planting = create(:planting, owner: friend, garden: nursery, crop: create(:crop, name: 'tomato'), planted_at: 1.week.ago)
+    planting.transplant_to(create(:garden, owner: friend, name: 'The Deck'), on: Time.zone.today)
+
+    visit neighbours_path
+    expect(page).to have_css('article', text: /friendly.*Planted out tomato into The Deck/m)
+  end
+
+  it 'lists what a friend harvested in one sentence' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    %w(tomato basil).each { |name| create(:harvest, owner: friend, crop: create(:crop, name:), harvested_at: Time.zone.today) }
+
+    visit neighbours_path
+    expect(page).to have_css('article p', text: /Harvested (tomato and basil|basil and tomato)/)
+  end
+
   it 'shows a friend finishing a planting' do
     friend = create(:member, login_name: 'friendly')
     member.follows.create!(followed: friend)
@@ -64,9 +85,9 @@ describe 'My friends and neighbours' do
     member.follows.create!(followed: friend)
     create(:activity, owner: friend, name: 'Weed the beans', due_date: Time.zone.today + 1.month)
 
+    due = (Time.zone.today + 1.month).strftime('%-d %b')
     visit neighbours_path
-    expect(page).to have_css('article',
-                             text: /friendly.*Planned an activity, Weed the beans, for #{(Time.zone.today + 1.month).strftime('%-d %b')}/m)
+    expect(page).to have_css('article', text: /friendly.*Planned an activity, Weed the beans \(for #{due}\)/m)
   end
 
   it 'shows only their own activity under Me' do

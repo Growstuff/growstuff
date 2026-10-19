@@ -27,6 +27,37 @@ module NeighboursHelper
     day == today - 1 ? t('neighbours.day.yesterday', date:) : date
   end
 
+  GROUP_ORDER = %w(planting seed seed_trade harvest transplant planted_out planting_finished seed_finished activity garden_layout).freeze
+
+  # The icon that goes with each kind of thing someone did.
+  def group_icon(kind)
+    case kind
+    when 'planting' then planting_icon
+    when 'seed', 'seed_trade' then seed_icon
+    when 'harvest' then harvest_icon
+    when 'transplant', 'planted_out' then growing_icon
+    when 'planting_finished', 'seed_finished' then finished_icon
+    when 'activity' then activity_icon
+    when 'garden_layout' then garden_icon
+    when 'photo' then photo_icon
+    end
+  end
+
+  # What someone did in a day, as [kind, garden, items]: everything they
+  # planted together, everything they harvested together, and so on. Moves are
+  # grouped by where they went, and "planted out" when they came from the nursery.
+  def entry_groups(entry)
+    entry.others.group_by { |item| group_key(item) }
+      .sort_by.with_index { |((kind, _garden), _items), index| [GROUP_ORDER.index(kind), index] }
+      .map { |(kind, garden), items| [kind, garden, items] }
+  end
+
+  # "Harvested tomato and basil", "Planted out kale into The Deck".
+  def group_sentence(kind, garden, items)
+    things = sentence_of(items.map { |item| group_thing(item) })
+    t("neighbours.group.#{kind}_html", things:, count: items.size, garden: (link_to(garden.name, polymorphic_path(garden)) if garden))
+  end
+
   SEASON_STARTS = [3, 6, 9, 12].freeze
 
   # The first day of the season a date is in. Both hemispheres change season
@@ -86,6 +117,34 @@ module NeighboursHelper
     else
       t('neighbours.photos.of_html', count:, subject: link_to(subject_label(subject), polymorphic_path(subject)))
     end
+  end
+
+  def group_key(item)
+    case item.type
+    when 'seed' then [item.record.tradable ? 'seed_trade' : 'seed']
+    when 'transplant' then [item.record.garden.nursery? ? 'planted_out' : 'transplant', item.record.moved_to]
+    else [item.type]
+    end
+  end
+
+  def group_thing(item)
+    record = item.record
+    case item.type
+    when 'activity'
+      link = link_to(record.name, polymorphic_path(record))
+      record.due_date ? safe_join([link, " (#{t('neighbours.group.due', date: l(record.due_date, format: '%-d %b'))})"]) : link
+    when 'garden_layout' then link_to(record.name, polymorphic_path(record))
+    when 'transplant' then link_to(record.planting.crop.name, polymorphic_path(record.planting))
+    else link_to(record.crop.name, polymorphic_path(record))
+    end
+  end
+
+  def sentence_of(links)
+    return links.first if links.one?
+    return safe_join(links, t('support.array.two_words_connector')) if links.size == 2
+
+    safe_join([safe_join(links.first(links.size - 1), t('support.array.words_connector')), links.last],
+              t('support.array.last_word_connector'))
   end
 
   def season_in(hemisphere, start)
