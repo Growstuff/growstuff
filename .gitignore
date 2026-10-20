@@ -11,7 +11,7 @@
 /public
 /node_modules
 
-# JavaScript built by esbuild (yarn build)
+# JavaScript and CSS built by esbuild and Sass (yarn build, yarn build:css)
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
