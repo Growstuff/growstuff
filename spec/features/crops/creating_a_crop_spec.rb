@@ -9,14 +9,14 @@ describe "Crop", :js do
       within "form#new_crop" do
         fill_in "crop_name", with: "Philippine flower"
         fill_in "en_wikipedia_url", with: "https://en.wikipedia.org/wiki/Jasminum_sambac"
-        click_button class: "add-sciname-row"
+        click_button "Add scientific name"
         fill_in "sci_name[1]", with: "Jasminum sambac 1"
         fill_in "sci_name[2]", with: "Jasminum sambac 2"
         fill_in "alt_name[1]", with: "Sampaguita"
-        click_button class: "add-altname-row"
-        click_button class: "add-altname-row"
+        click_button "Add alternate name"
+        click_button "Add alternate name"
         fill_in "alt_name[2]", with: "Manol"
-        click_button class: "add-altname-row"
+        click_button "Add alternate name"
         fill_in "alt_name[3]", with: "Jazmin"
         fill_in "alt_name[4]", with: "Matsurika"
 
