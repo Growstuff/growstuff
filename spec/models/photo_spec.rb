@@ -201,18 +201,6 @@ describe Photo do
       harvest.photos << harvest_photo
       planting.photos << planting_photo
       seed.photos << seed_photo
-
-      # harvest_photo.reload
-      # harvest.reload
-      # # harvest.reindex
-
-      # planting_photo.reload
-      # planting.reload
-      # # planting.reindex
-
-      # seed_photo.reload
-      # seed.reload
-      # seed.reindex
     end
 
     describe 'relationships' do
