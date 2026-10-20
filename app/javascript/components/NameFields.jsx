@@ -10,7 +10,7 @@ import React, {useRef, useState} from 'react';
 // buttons' class names (`add-<stem>-row`, `remove-<stem>-row`).
 export default function NameFields({names, field, noun, buttonClass, help, renderInput}) {
   const nextKey = useRef(0);
-  const newRow = (value = '') => ({key: nextKey.current++, value});
+  const newRow = (value) => ({key: nextKey.current++, value: value ?? ''}); // a new crop's blank name is null
   const [rows, setRows] = useState(() => (names.length ? names : ['']).map(newRow));
 
   const change = (key, value) => setRows(rows.map((row) => (row.key === key ? {...row, value} : row)));
