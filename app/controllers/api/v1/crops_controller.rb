@@ -11,7 +11,8 @@ module Api
         search_results = CropSearchService.search(
           term,
           page:     page,
-          per_page: per_page
+          per_page: per_page,
+          load:     true
         )
 
         resources = search_results.map do |crop|
@@ -27,7 +28,7 @@ module Api
         render json: {
           data: data,
           meta: {
-            record_count: search_results.total_entries,
+            record_count: search_results.total_count,
             page_count:   search_results.total_pages
           }
         }
