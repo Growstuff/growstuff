@@ -100,19 +100,18 @@
         %span.form-text Searches GBIF to determine scientific name of crop.
         = hidden_field_tag "sci_gbif_key[#{index + 1}]", sci.gbif_key, id: "sci_gbif_key[#{index + 1}]",
                                                                         class: 'scientific-name-auto-suggest-id'
+-# The alternate name fields are a React island, which adds and removes rows;
+-# the plain fields inside are what shows until it mounts, or without JavaScript.
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
 %h2 Alternate names
-= button_tag "+", class: "add-altname-row", type: "button"
-= button_tag "-", class: "remove-altname-row", type: "button"
-
-.mb-3#alternate_names
-  - crop.alternate_names.each.with_index do |alt, index|
-    .template.col-12{ id: "alt_template[#{index + 1}]" }
-      .col-2
-        = label_tag :alternate_names, "Alternate name #{index + 1}:", class: 'form-label'
-      .col-8
+= react_component 'AlternateNames', { names: crop.alternate_names.map(&:name) } do
+  .mb-3
+    - crop.alternate_names.each.with_index do |alt, index|
+      .mb-2
+        = label_tag "alt_name[#{index + 1}]", "Alternate name #{index + 1}:", class: 'form-label'
         = text_field_tag "alt_name[#{index + 1}]", alt.name, id: "alt_name[#{index + 1}]", class: 'form-control'
-        %span.form-text Alternate name of crop.
-      .col-2
+    %span.form-text Alternate name of crop.
 
 -# This is used for comments from crop requesters.  We need to show it
 -# to everyone, but we don't include it on new crops from wranglers.
