@@ -7,7 +7,7 @@
   %h1
     Crops matching "#{@term}"
     - if @crops
-      %span.text-muted Found #{@crops.size} total
+      %span.text-muted Found #{@crops.total_entries} total
 - else
   - content_for :title, "Crop search"
   %h1 Crop search

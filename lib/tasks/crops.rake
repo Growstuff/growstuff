@@ -3,7 +3,7 @@
 namespace :crops do
   desc "Copy approved crops from production (or SOURCE_URL) into the local database, gently. " \
        "Options: SOURCE_URL, PAGE_SIZE=50 (the server may cap this), DELAY=2 (seconds between requests), " \
-       "MAX_PAGES, REINDEX=false"
+       "MAX_PAGES"
   task pull_from_production: :environment do
     abort "Refusing to pull crops into a production database." if Rails.env.production?
 
@@ -11,8 +11,7 @@ namespace :crops do
       source_url: ENV.fetch('SOURCE_URL', RemoteApiClient::DEFAULT_SOURCE_URL),
       page_size:  ENV.fetch('PAGE_SIZE', 50).to_i,
       delay:      ENV.fetch('DELAY', 2).to_f,
-      max_pages:  ENV['MAX_PAGES']&.to_i,
-      reindex:    ENV['REINDEX'] != 'false'
+      max_pages:  ENV['MAX_PAGES']&.to_i
     }
 
     puts "Pulling crops from #{options[:source_url]} (#{options[:delay]}s between requests)"

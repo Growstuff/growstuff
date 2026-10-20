@@ -10,10 +10,6 @@ RSpec.describe 'Crops Search' do
   let!(:apple)   { create(:crop, name: 'Apple', approval_status: 'approved') }
 
   describe 'GET /api/v1/crops/search' do
-    before do
-      Crop.reindex
-    end
-
     it 'returns crops matching the search term' do
       get '/api/v1/crops/search', params: { term: 'Cabbage' }, headers: headers
       expect(response).to have_http_status(:ok)

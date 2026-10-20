@@ -2,7 +2,6 @@
 
 module FeatureHelpers
   def fill_autocomplete(field, options = {})
-    Crop.reindex
     fill_in field, with: options[:with]
   end
 

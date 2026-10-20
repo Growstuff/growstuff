@@ -5,8 +5,6 @@ class ScientificName < ApplicationRecord
   belongs_to :creator, class_name: 'Member', inverse_of: :created_scientific_names
   validates :name, presence: true
   validates :crop, presence: true
-  after_commit :reindex, if: -> { Searchkick.callbacks? }
-  delegate :reindex, to: :crop
 
   def to_s
     name

@@ -16,8 +16,8 @@ gem "sprockets", "<4"
 gem 'bundler', '>= 2.4.22'
 
 gem 'haml'
-gem 'sassc-rails'
 gem 'oauth', '1.1.6' # Explicitly pinned, as the maintainer does huge (400 files, 45k lines) changes in point releases - required manual plus agentic security review.
+gem 'sassc-rails'
 
 # API data
 gem 'jsonapi-resources'
@@ -53,8 +53,8 @@ gem 'active_record_union'
 gem 'flickraw'
 gem 'jquery-rails'
 # Builds JavaScript (React) with esbuild into app/assets/builds; Sprockets then serves it
-gem 'jsbundling-rails'
 gem 'jquery-ui-rails', github: 'jquery-ui-rails/jquery-ui-rails', tag: 'v7.0.0' # See https://github.com/jquery-ui-rails/jquery-ui-rails/issues/146
+gem 'jsbundling-rails'
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
@@ -103,10 +103,6 @@ gem 'omniauth-flickr', '>= 0.0.15'
 # Pretty charts
 gem "chartkick"
 
-# clever elastic search
-gem 'elasticsearch', '~> 7.0.0'
-gem 'searchkick'
-
 gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
@@ -149,7 +145,6 @@ gem "msgpack"
 gem "connection_pool", "< 3"
 
 group :production do
-  gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
 
   gem 'scout_apm' # monitoring

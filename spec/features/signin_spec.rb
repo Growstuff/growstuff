@@ -7,10 +7,7 @@ describe "signin" do
   let(:recipient)    { create(:member)                             }
   let(:wrangler)     { create(:crop_wrangling_member)              }
 
-  before do
-    crop = create(:tomato)
-    crop.reindex
-  end
+  before { create(:tomato) }
 
   def login
     fill_in 'Login', with: member.login_name

@@ -8,11 +8,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      elasticsearch:
-        condition: service_healthy
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/growstuff_prod
-      ELASTICSEARCH_URL: http://elasticsearch:9200/
       RAILS_ENV: production
       RAILS_LOG_TO_STDOUT: "true"
       RAILS_SERVE_STATIC_FILES: "true"
@@ -44,33 +41,6 @@ services:
       timeout: 5s
       retries: 5
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
-    container_name: elasticsearch
-    restart: unless-stopped
-    environment:
-      - xpack.security.enabled=false
-      - discovery.type=single-node
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    cap_add:
-      - IPC_LOCK
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200 | grep tagline"]
-      interval: 10s
-      timeout: 10s
-      retries: 120
-    volumes:
-      - esdata01:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-      - 9300:9300
 
 volumes:
   postgres-data:
-  esdata01:
