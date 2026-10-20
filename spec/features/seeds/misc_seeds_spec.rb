@@ -57,9 +57,10 @@ describe "seeds", :js do
         click_button 'Save'
       end
 
-      expect(page).to have_current_path seed_path(seed), ignore_query: true
+      # The page is already the seed's, so wait for the saved value to show
+      # before looking at the database.
+      expect(page).to have_css '.seedfacts--source', text: 'traded from another person'
       expect(seed.reload).to have_attributes(quantity: doubled, source: 'traded from another person')
-      expect(find('.seedfacts--source')).to have_content 'traded from another person'
     end
 
     describe "delete seeds" do

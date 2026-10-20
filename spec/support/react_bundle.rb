@@ -11,8 +11,8 @@ RSpec.configure do |config|
     builds = Rails.root.join('app/assets/builds')
     {
       'react_islands.js' => 'build',
-      'application.js' => 'build',
-      'application.css' => 'build:css'
+      'application.js'   => 'build',
+      'application.css'  => 'build:css'
     }.each do |bundle, script|
       next if builds.join(bundle).exist?
 
