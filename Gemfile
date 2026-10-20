@@ -15,7 +15,6 @@ gem "sprockets", "<4"
 
 gem 'bundler', '>= 2.4.22'
 
-gem 'coffee-rails'
 gem 'haml'
 gem 'sassc-rails'
 gem 'oauth', '1.1.6' # Explicitly pinned, as the maintainer does huge (400 files, 45k lines) changes in point releases - required manual plus agentic security review.

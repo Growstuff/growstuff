@@ -20,7 +20,6 @@
     "yarn": ">=0.25.2"
   },
   "devDependencies": {
-    "@coffeelint/cli": "^3.0.0",
     "@percy/cli": "^1.0.0-beta.76",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",
