@@ -18,12 +18,13 @@ export default function GbifNameInput({id, name, value, onChange, url}) {
   const [matches, setMatches] = useState([]);
   const [activeIndex, setActiveIndex] = useState(-1);
   const chosen = useRef(null); // the name last chosen, which needs no search
+  const typed = useRef(false); // names already on the form are not searched for
   const open = matches.length > 0;
   const active = activeIndex >= 0 ? matches[activeIndex] : null;
 
   useEffect(() => {
     const term = value.trim();
-    if (term.length < MIN_LENGTH || term === chosen.current) {
+    if (!typed.current || term.length < MIN_LENGTH || term === chosen.current) {
       setMatches([]);
       return undefined;
     }
@@ -81,7 +82,10 @@ export default function GbifNameInput({id, name, value, onChange, url}) {
         aria-activedescendant={active ? `${id}-match-${activeIndex}` : undefined}
         autoComplete="off"
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) => {
+          typed.current = true;
+          onChange(event.target.value);
+        }}
         onKeyDown={onKeyDown}
         onBlur={() => setMatches([])}
       />
