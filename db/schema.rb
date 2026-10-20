@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_21_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -69,10 +69,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_000000) do
     t.integer "crop_id", null: false
     t.string "language"
     t.string "name", null: false
+    t.virtual "normalised_name", type: :text, as: "translate(lower((name)::text), 'àáâãäåāçćčèéêëēėęìíîïīįłñńòóôõöøōùúûüūýÿžźż'::text, 'aaaaaaaccceeeeeeeiiiiiilnnooooooouuuuuyyzzz'::text)", stored: true
     t.datetime "updated_at", precision: nil
     t.index ["creator_id"], name: "index_alternate_names_on_creator_id"
     t.index ["crop_id"], name: "index_alternate_names_on_crop_id"
     t.index ["language"], name: "index_alternate_names_on_language"
+    t.index ["normalised_name"], name: "index_alternate_names_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "australian_food_classification_data", force: :cascade do |t|
@@ -568,6 +570,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_000000) do
     t.integer "median_days_to_last_harvest"
     t.integer "median_lifespan"
     t.string "name", null: false
+    t.virtual "normalised_name", type: :text, as: "translate(lower((name)::text), 'àáâãäåāçćčèéêëēėęìíîïīįłñńòóôõöøōùúûüūýÿžźż'::text, 'aaaaaaaccceeeeeeeiiiiiilnnooooooouuuuuyyzzz'::text)", stored: true
     t.jsonb "openfarm_data"
     t.integer "parent_id"
     t.boolean "perennial", default: false
@@ -586,6 +589,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_000000) do
     t.datetime "updated_at", precision: nil
     t.index ["creator_id"], name: "index_crops_on_creator_id"
     t.index ["name"], name: "index_crops_on_name"
+    t.index ["normalised_name"], name: "index_crops_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["parent_id"], name: "index_crops_on_parent_id"
     t.index ["public_food_key"], name: "index_crops_on_public_food_key"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
@@ -994,10 +998,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_000000) do
     t.string "gbif_rank"
     t.string "gbif_status"
     t.string "name", null: false
+    t.virtual "normalised_name", type: :text, as: "translate(lower((name)::text), 'àáâãäåāçćčèéêëēėęìíîïīįłñńòóôõöøōùúûüūýÿžźż'::text, 'aaaaaaaccceeeeeeeiiiiiilnnooooooouuuuuyyzzz'::text)", stored: true
     t.datetime "updated_at", precision: nil
     t.string "wikidata_id"
     t.index ["creator_id"], name: "index_scientific_names_on_creator_id"
     t.index ["crop_id"], name: "index_scientific_names_on_crop_id"
+    t.index ["normalised_name"], name: "index_scientific_names_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
