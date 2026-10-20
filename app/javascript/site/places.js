@@ -1,9 +1,8 @@
-if (document.getElementById("placesmap") !== null) {
+const placesMapElement = document.getElementById("placesmap");
+if (placesMapElement !== null) {
   var places_base_path = "/places";
   var nominatim_base_url = 'https://nominatim.openstreetmap.org/search/';
-  var nominatim_user_agent_email = "<%= Rails.env == 'test' ? 0 : Rails.application.config.user_agent_email %>";
-
-  L.Icon.Default.imagePath = '/assets'
+  var nominatim_user_agent_email = placesMapElement.dataset.userAgentEmail;
 
   var placesmap;
 
@@ -39,7 +38,7 @@ function showMap(placesmap) {
 
   // Icon documentation: https://leafletjs.com/reference-1.5.0.html#icon
   var default_marker_icon = L.icon({
-    iconUrl: "<%=image_url('spade-marker.svg')%>",
+    iconUrl: placesMapElement.dataset.markerIcon,
     iconSize: [48, 48],
     iconAnchor: [24, 48],
     popupAnchor: [0, -46],

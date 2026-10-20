@@ -3,4 +3,4 @@
 %h2=t(".title", site_name: ENV['GROWSTUFF_SITE_NAME'])
 
 = render partial: 'search_form'
-#placesmap.map
+#placesmap.map{ data: places_map_data }

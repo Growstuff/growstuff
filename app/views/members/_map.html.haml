@@ -1,5 +1,5 @@
 - if member.latitude && member.longitude
-  #membermap.member-map
+  #membermap.member-map{ data: { marker_icon: image_path('spade-marker.svg') } }
   %p.text-end
     See other members, plantings, seeds and more near
     = link_to member.location, place_path(member.location, anchor: "members")

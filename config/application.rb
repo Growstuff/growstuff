@@ -10,7 +10,6 @@ require 'active_storage/engine'
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'action_view/railtie'
-require 'sprockets/railtie'
 ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = "true"
 
 require 'openssl'
@@ -54,14 +53,9 @@ module Growstuff
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 
-    # Enable the asset pipeline
-    config.assets.enabled = true
-
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
-
-    # Don't try to connect to the database when precompiling assets
-    config.assets.initialize_on_precompile = true
+    # The Sass sources are compiled by `yarn build:css` into app/assets/builds,
+    # so Propshaft should not serve them as they are.
+    config.assets.excluded_paths = [Rails.root.join('app/assets/stylesheets')]
 
     config.generators do |g|
       g.template_engine  :haml

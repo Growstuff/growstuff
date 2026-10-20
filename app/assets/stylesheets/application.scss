@@ -1,24 +1,34 @@
 // Import original variables so they can be used in overrides
 
 @import "variables";
-@import "bootstrap";
+@import "bootstrap/scss/bootstrap";
 
-@import "jquery-ui/autocomplete";
-@import "bootstrap-datepicker";
-@import "leaflet";
+@import "jquery-ui/themes/base/core";
+@import "jquery-ui/themes/base/menu";
+@import "jquery-ui/themes/base/autocomplete";
+@import "bootstrap-datepicker/dist/css/bootstrap-datepicker3";
+@import "leaflet/dist/leaflet";
 @import "leaflet.markercluster/dist/MarkerCluster";
 @import "leaflet.markercluster/dist/MarkerCluster.Default";
 
-// Font Awesome. The 6.x gem dropped its _font-awesome-sprockets.scss but its
-// @font-face rules still call fa-font-path(), so we define it here against
-// Sprockets' font-path helper. Its fonts live under assets/fonts/font-awesome.
-@function fa-font-path($path) {
-  @return font-path("font-awesome/#{$path}");
+// Font Awesome. `yarn build:css` copies its webfonts next to the built CSS.
+$fa-font-path: "webfonts";
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/solid";
+@import "@fortawesome/fontawesome-free/scss/regular";
+@import "@fortawesome/fontawesome-free/scss/brands";
+
+// Selects for rails date/time fields (bootstrap_form) sit inline.
+.rails-bootstrap-forms-date-select select,
+.rails-bootstrap-forms-time-select select,
+.rails-bootstrap-forms-datetime-select select {
+  display: inline-block;
+  width: auto;
 }
 
-@import "font-awesome";
-@import "material_icons";
-@import "rails_bootstrap_forms";
+.rails-bootstrap-forms-error-summary {
+  margin-top: 10px;
+}
 
 @import "overrides";
 @import "navbar_drawer";
