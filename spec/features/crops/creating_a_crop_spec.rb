@@ -5,6 +5,9 @@ require 'rails_helper'
 describe "Crop", :js do
   shared_context 'fill in form' do
     before do
+      # Typing a scientific name asks GBIF for suggestions after a short delay;
+      # answer that here rather than reach the real GBIF API.
+      allow(GbifService).to receive(:new).and_return(instance_double(GbifService, suggest: []))
       visit new_crop_path
       within "form#new_crop" do
         fill_in "crop_name", with: "Philippine flower"

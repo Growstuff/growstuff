@@ -93,6 +93,7 @@ describe 'Name fields on the crop form', :js do
     end
 
     it 'chooses the highlighted match with the keyboard' do
+      expect(page).to have_css '[role=option]', count: 2
       find_by_id('sci_name[1]').send_keys(:down, :enter)
       expect(page).to have_field 'sci_name[1]', with: 'Zea mays'
     end
