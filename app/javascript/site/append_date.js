@@ -5,7 +5,8 @@
 jQuery(function () {
   const el = $('.append-date');
 
-  el.datepicker({ format: 'yyyy-mm-dd' });
+  // A link is not an input, so the picker must be told to pop up, not sit inline.
+  el.datepicker({ format: 'yyyy-mm-dd', isInline: false });
 
   el.on('click', function (e) {
     e.stopPropagation();
