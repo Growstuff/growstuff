@@ -11,6 +11,12 @@
       .card-header
         %h2.display-3= @commentable.subject
       .card-body= render "photos/card", photo: @commentable || @comment.commentable, subject: true
+- elsif @commentable.is_a?(Planting)
+  %section.blog-post
+    .card.planting{ id: "planting-#{@commentable.id}" }
+      .card-header
+        %h2.display-3= @commentable.subject
+      .card-body= render "plantings/card", planting: @commentable || @comment.commentable
 
 = render partial: "comments/comments", locals: { commentable: @commentable || @comment.commentable }
 
