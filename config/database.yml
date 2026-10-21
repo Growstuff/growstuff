@@ -4,6 +4,9 @@ development:
   user: postgres
   password: postgres
   host: localhost
+  variables:
+    # Crop search (SearchCrops) relies on this threshold for the <% operator.
+    pg_trgm.word_similarity_threshold: 0.35
 
 test:
   adapter: postgresql
@@ -11,6 +14,9 @@ test:
   user: postgres
   password: postgres
   host: localhost
+  variables:
+    # Crop search (SearchCrops) relies on this threshold for the <% operator.
+    pg_trgm.word_similarity_threshold: 0.35
 
 production:
   adapter: postgresql
@@ -20,6 +26,9 @@ production:
   username: growstuff
   host: localhost
   password: thisisnottherealpassword
+  variables:
+    # Crop search (SearchCrops) relies on this threshold for the <% operator.
+    pg_trgm.word_similarity_threshold: 0.35
 
 staging:
   adapter: postgresql
@@ -29,3 +38,6 @@ staging:
   username: growstuff
   host: localhost
   password: thisisnottherealpassword
+  variables:
+    # Crop search (SearchCrops) relies on this threshold for the <% operator.
+    pg_trgm.word_similarity_threshold: 0.35

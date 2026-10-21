@@ -1,15 +1,22 @@
 # frozen_string_literal: true
 
-# The React bundle (app/assets/builds/react_islands.js) is built by esbuild, not
-# committed. Pages that load it fail to render without it, so build it once if
-# it is missing: a fresh checkout's specs then don't fail with 'The asset
-# "react_islands.js" is not present in the asset pipeline'. (After changing the
-# JavaScript, run `yarn build`, or keep `yarn build:watch` running.)
+# The JavaScript and CSS bundles (app/assets/builds) are built by esbuild and
+# Sass, not committed. Pages fail to render without them, so build them once if
+# they are missing: a fresh checkout's specs then don't fail with 'The asset
+# "application.css" was not found'. (After changing the JavaScript or CSS, run
+# `yarn build` and `yarn build:css`, or keep `yarn build:watch` and
+# `yarn build:css:watch` running.)
 RSpec.configure do |config|
   config.before(:suite) do
-    bundle = Rails.root.join('app/assets/builds/react_islands.js')
-    next if bundle.exist?
+    builds = Rails.root.join('app/assets/builds')
+    {
+      'react_islands.js' => 'build',
+      'application.js'   => 'build',
+      'application.css'  => 'build:css'
+    }.each do |bundle, script|
+      next if builds.join(bundle).exist?
 
-    system('yarn', 'build', chdir: Rails.root.to_s) || raise('yarn build failed; run `yarn install` first')
+      system('yarn', script, chdir: Rails.root.to_s) || raise("yarn #{script} failed; run `yarn install` first")
+    end
   end
 end

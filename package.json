@@ -4,25 +4,46 @@
   "description": "Growstuff Linters",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild app/javascript/react_islands.jsx --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets",
-    "build:watch": "yarn build --watch=forever"
+    "build": "esbuild app/javascript/application.js app/javascript/charts.js app/javascript/react_islands.jsx --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets $([ \"$NODE_ENV\" = production ] && echo --minify)",
+    "build:watch": "yarn build --watch=forever",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "build:css": "sass app/assets/stylesheets/application.scss:app/assets/builds/application.css --no-source-map --load-path=node_modules --quiet-deps --silence-deprecation=import,global-builtin,color-functions && mkdir -p app/assets/builds/webfonts && cp node_modules/@fortawesome/fontawesome-free/webfonts/*.woff2 app/assets/builds/webfonts/",
+    "build:css:watch": "yarn build:css --watch"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.8",
+    "bootstrap-datepicker": "^1.10.1",
+    "chart.js": "^4.5.1",
+    "chartkick": "^5.0.1",
     "esbuild": "^0.28.2",
+    "jquery": "^3.7.1",
+    "jquery-ui": "^1.14.2",
+    "jquery-ujs": "^1.2.3",
+    "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "sass": "^1.105.2"
   },
   "engines": {
     "node": ">=6.0.0",
     "yarn": ">=0.25.2"
   },
   "devDependencies": {
-    "@coffeelint/cli": "^3.0.0",
     "@percy/cli": "^1.0.0-beta.76",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
     "csslint": "^1.0.5",
     "eslint": "^10.0.0",
-    "eslint-config-google": "^0.9.1"
+    "eslint-config-google": "^0.9.1",
+    "jsdom": "^30.1.3",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
   },
   "repository": {
     "type": "git",

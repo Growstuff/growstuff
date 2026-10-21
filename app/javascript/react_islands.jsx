@@ -4,6 +4,7 @@
 // helper); this finds each one and mounts the matching component.
 //
 // To add a component: create it in ./components and register it below.
+import AlternateNames from './components/AlternateNames';
 import AuthDialog from './components/AuthDialog';
 import FeedMore from './components/FeedMore';
 import GardenCards from './components/GardenCards';
@@ -21,10 +22,11 @@ import PlantingPicker from './components/PlantingPicker';
 import PlantingActions from './components/PlantingActions';
 import PlantingRating from './components/PlantingRating';
 import SeedLibrary from './components/SeedLibrary';
+import ScientificNames from './components/ScientificNames';
 import SeedStack from './components/SeedStack';
 import {mountIslands, registerIslands} from './islands';
 
-registerIslands({AuthDialog, FeedMore, GardenCards, GardenLayout, GardenPicker, GrowingTable, HarvestChart, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, SeedLibrary, SeedStack});
+registerIslands({AlternateNames, AuthDialog, FeedMore, GardenCards, GardenLayout, GardenPicker, GrowingTable, HarvestChart, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, ScientificNames, SeedLibrary, SeedStack});
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => mountIslands());

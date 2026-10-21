@@ -1,7 +1,18 @@
 # frozen_string_literal: true
 
 module IconsHelper
-  include FontAwesome::Sass::Rails::ViewHelpers
+  # A Font Awesome icon: `icon 'fas', 'heart'`, optionally followed by text and
+  # HTML options.
+  def icon(style, name, text = nil, html_options = {})
+    text, html_options = nil, text if text.is_a?(Hash)
+
+    html_options = html_options.merge(class: ["#{style} fa-#{name}", html_options[:class]].compact.join(' '))
+    html_options['aria-hidden'] ||= true
+
+    html = content_tag(:i, nil, html_options)
+    html << ' ' << text.to_s unless text.blank?
+    html
+  end
 
   def icon_for_model(event_model)
     send("#{event_model}_icon")

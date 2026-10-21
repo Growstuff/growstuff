@@ -10,10 +10,10 @@ class CropsController < ApplicationController
   responders :flash
 
   def index
-    @crops = Crop.search('*', boost_by: %i(plantings_count harvests_count),
-                              limit:    100,
-                              page:     params[:page],
-                              load:     (request.format.csv? || request.format.rss? ? { include: %i(parent scientific_names seeds harvests creator plantings) } : false))
+    @crops = Crop.search_by_name(nil).paginate(page: params[:page], per_page: 100)
+    if request.format.csv? || request.format.rss?
+      @crops = @crops.includes(:parent, :scientific_names, :seeds, :harvests, :creator, :plantings)
+    end
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
     respond_with @crops
@@ -184,10 +184,10 @@ class CropsController < ApplicationController
   # A search hit, plus the alternate name that matched the term when the
   # crop's own name didn't ("aubergine" finds eggplant)
   def crop_search_result(crop)
-    result = crop.as_json
-    return result if word_start_match?(result['name'], @term)
+    result = crop.as_json(only: %i(id name slug))
+    return result if word_start_match?(crop.name, @term)
 
-    matched = Array(result['alternate_names']).find { |name| word_start_match?(name, @term) }
+    matched = crop.alternate_names.map(&:name).find { |name| word_start_match?(name, @term) }
     result['matched_alternate_name'] = matched if matched
     result
   end

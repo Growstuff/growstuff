@@ -1,8 +1,8 @@
-if (document.getElementById("membermap") !== null) {
-  L.Icon.Default.imagePath = '/assets';
+const memberMapElement = document.getElementById("membermap");
+if (memberMapElement !== null) {
 
   var default_marker_icon = L.icon({
-    iconUrl: "<%=image_url('spade-marker.svg')%>",
+    iconUrl: memberMapElement.dataset.markerIcon,
     iconSize: [48, 48],
     iconAnchor: [24, 48],
     popupAnchor: [0, -46],

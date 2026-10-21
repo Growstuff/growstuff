@@ -18,6 +18,19 @@ jobs:
       - name: Check contributors
         run: |
           bundle exec script/check_contributors_md.rb
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install NodeJS
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: yarn
+      - name: Install JavaScript packages
+        run: yarn install --frozen-lockfile
+      - name: Run JavaScript tests
+        run: yarn test
   rspec:
     runs-on: ubuntu-latest
     services:
@@ -101,10 +114,10 @@ jobs:
       - name: Install required JS packages
         run: yarn install
 
-      # The React bundle is built, not committed, and pages that load it (e.g.
-      # the gardens index) need it to exist.
-      - name: Build JavaScript
-        run: yarn build
+      # The JavaScript and CSS bundles are built, not committed, and pages
+      # need them to exist.
+      - name: Build JavaScript and CSS
+        run: yarn build && yarn build:css
 
       - name: install chrome
         run: sudo apt-get install google-chrome-stable

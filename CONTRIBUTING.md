@@ -18,6 +18,9 @@ checks before being merged. You can run tests locally as follows:
    `my_spec.rb`. RSpec will output a list of command-lines in this form for all
    failing tests so you can easily re-run particular ones.
  - `rspec --only-failures` to re-run all Ruby tests that failed last time.
+ - `yarn test` to run the JavaScript tests (Vitest and Testing Library). They live next to
+   the code as `*.test.js` and `*.test.jsx` under `app/javascript`; `yarn test:watch`
+   re-runs them as you edit.
 
 Growstuff runs several linters and checkers before a change is merged. These
 run from overcommit. To automatically run the same linters yourself you can

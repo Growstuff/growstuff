@@ -9,15 +9,15 @@ gem 'rails', '~> 8.1.0'
 
 gem 'csv'
 
-# Keeping old sprockets
-# https://github.com/rails/sprockets-rails/issues/444#issuecomment-637817050
-gem "sprockets", "<4"
+# Asset pipeline: Propshaft serves and fingerprints what esbuild (JavaScript)
+# and Sass (CSS) build into app/assets/builds; npm supplies the front-end libraries.
+gem 'propshaft'
+gem 'jsbundling-rails'
+gem 'cssbundling-rails'
 
 gem 'bundler', '>= 2.4.22'
 
-gem 'coffee-rails'
 gem 'haml'
-gem 'sassc-rails'
 gem 'oauth', '1.1.6' # Explicitly pinned, as the maintainer does huge (400 files, 45k lines) changes in point releases - required manual plus agentic security review.
 
 # API data
@@ -25,17 +25,6 @@ gem 'jsonapi-resources'
 gem 'jsonapi-swagger'
 gem 'rswag-api'
 gem 'rswag-ui'
-
-# CSS framework
-gem "bootstrap", ">= 5.0.0"
-
-# Icon font (Material Icons)
-gem 'material_icons'
-
-# icons
-gem 'font-awesome-sass', '~> 6.7'
-
-gem 'terser'
 
 # JSON pinned until this is resolved across the ecosystem (Oct 26)
 # ArgumentError: unknown keyword: create_additions (ArgumentError)
@@ -52,16 +41,9 @@ gem 'active_median'
 gem 'active_record_union'
 
 gem 'flickraw'
-gem 'jquery-rails'
-# Builds JavaScript (React) with esbuild into app/assets/builds; Sprockets then serves it
-gem 'jsbundling-rails'
-gem 'jquery-ui-rails', github: 'jquery-ui-rails/jquery-ui-rails', tag: 'v7.0.0' # See https://github.com/jquery-ui-rails/jquery-ui-rails/issues/146
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
-
-# Maps
-gem 'leaflet-rails', '>= 1.9.2'
 
 gem 'pg'
 
@@ -89,9 +71,6 @@ gem 'gravatar-ultimate'
 
 # For geolocation
 gem 'geocoder'
-
-# For easy calendar selection
-gem 'bootstrap-datepicker-rails'
 
 # DRY-er easier bootstrap 5 forms
 gem "bootstrap_form", ">= 4.5.0"
