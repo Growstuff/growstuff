@@ -39,8 +39,7 @@ frontend features. We welcome contributions -- see
 ### Running Rails natively against Dockerized services
 
 If you'd rather run `rails server` directly on your machine (instead of
-inside the `web` container) while still using Docker for Postgres and
-Elasticsearch, here's the full setup:
+inside the `web` container) while still using Docker for Postgres, here's the full setup:
 
 1. **Get the pinned Ruby and Node versions.** [`mise.toml`](mise.toml) pins
    both (matching `.ruby-version` and the Node 24 used in CI). If you use
@@ -53,11 +52,11 @@ Elasticsearch, here's the full setup:
    rbenv/asdf/nvm users can read the versions from `mise.toml` (or
    `.ruby-version`) and install them the usual way instead.
 
-2. **Start the backing services** (Postgres and Elasticsearch, skipping the
+2. **Start the backing services** (Postgres, skipping the
    `web` container):
 
    ```bash
-   docker compose up -d db elasticsearch
+   docker compose up -d db
    ```
 
 3. **Make the `db` hostname resolve on your host machine.** `config/database.yml`
@@ -97,13 +96,7 @@ Elasticsearch, here's the full setup:
    bundle exec rails db:create db:schema:load
    ```
 
-8. **Build the search index** (Elasticsearch starts empty):
-
-   ```bash
-   bundle exec rails runner "Crop.reindex"
-   ```
-
-9. **Start the app:**
+8. **Start the app:**
 
    ```bash
    bundle exec rails s

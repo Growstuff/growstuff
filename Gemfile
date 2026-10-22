@@ -83,9 +83,6 @@ gem 'omniauth-flickr', '>= 0.0.15'
 # Pretty charts
 gem "chartkick"
 
-# clever elastic search
-gem 'elasticsearch', '~> 7.0.0'
-gem 'searchkick'
 
 gem "hashie", ">= 3.5.3"
 
@@ -129,7 +126,6 @@ gem "msgpack"
 gem "connection_pool", "< 3"
 
 group :production do
-  gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
 
   gem 'scout_apm' # monitoring

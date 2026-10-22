@@ -3,7 +3,7 @@
 require "rails_helper"
 require 'custom_matchers'
 
-describe "Planting a crop", :js, :search do
+describe "Planting a crop", :js do
   let!(:maize) { create(:maize) }
   let(:garden) { create(:garden, owner: member, name: 'Orchard') }
   let!(:planting) do

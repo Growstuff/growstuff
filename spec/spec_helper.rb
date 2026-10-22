@@ -21,7 +21,7 @@ require 'rspec/rebound'
 require 'vcr'
 
 VCR.configure do |c|
-  c.ignore_host "elasticsearch", "localhost"
+  c.ignore_host "localhost"
   c.cassette_library_dir = 'spec/cassettes'
   c.hook_into :faraday
   c.configure_rspec_metadata!
@@ -41,30 +41,6 @@ RSpec.configure do |config|
     #   # => "be bigger than 2"
     expectations.syntax = %i(should expect)
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
-  end
-
-  def index_everything
-    # reindex models
-    Crop.reindex
-  rescue Faraday::ConnectionFailed, Elasticsearch::Transport::Transport::Error
-    nil
-  end
-
-  config.before(:suite) do
-    index_everything
-
-    # and disable callbacks
-    Searchkick.disable_callbacks
-  end
-
-  config.around(:each, :search) do |example|
-    Searchkick.callbacks(true) do
-      index_everything
-
-      example.run
-
-      index_everything
-    end
   end
 
   # rspec-mocks config goes here. You can use an alternate test double

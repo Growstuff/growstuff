@@ -12,9 +12,8 @@ class CropImportService
   DEFAULT_SOURCE_URL = RemoteApiClient::DEFAULT_SOURCE_URL
   CROPS_PATH = '/api/v1/crops'
 
-  def initialize(max_pages: nil, reindex: true, out: $stdout, client: nil, **client_options)
+  def initialize(max_pages: nil, out: $stdout, client: nil, **client_options)
     @max_pages = max_pages
-    @reindex = reindex
     @out = out
     @client = client || RemoteApiClient.new(out: out, **client_options)
     @stats = Hash.new(0)
@@ -23,14 +22,11 @@ class CropImportService
   end
 
   def call
-    # Skip per-record Elasticsearch updates; we reindex once at the end.
-    Searchkick.callbacks(false) { import_pages }
+    import_pages
     link_parents
     @stats
   rescue RemoteApiClient::Aborted => e
     raise Aborted, "#{e.message} Re-running is safe: crops already imported are just updated."
-  ensure
-    Crop.reindex if @reindex
   end
 
   # Imports a single JSON:API crop resource, returning the local Crop, or nil

@@ -6,9 +6,6 @@
     "postdeploy": "bundle exec rails db:seed"
   },
   "env": {
-    "GROWSTUFF_ELASTICSEARCH": {
-      "required": true
-    },
     "GROWSTUFF_FACEBOOK_KEY": {
       "required": true
     },
@@ -37,7 +34,6 @@
     }
   },
   "addons": [
-    "bonsai",
     "heroku-postgresql",
     "memcachier",
     "newrelic",
