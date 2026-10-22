@@ -26,14 +26,18 @@ class CropsController < ApplicationController
 
   def wrangle
     @approval_status = params[:approval_status]
-    @crops = case @approval_status
-             when "pending"
-               Crop.pending_approval
-             when "rejected"
-               Crop.rejected
-             else
-               Crop.recent
-             end.includes(:scientific_names, :alternate_names, :varieties, :creator, :requester).paginate(page: params[:page])
+    @all_levels = params[:level] == 'all'
+    crops = case @approval_status
+            when "pending"
+              Crop.pending_approval
+            when "rejected"
+              Crop.rejected
+            else
+              Crop.approved
+            end
+    crops = crops.where(parent_id: nil) unless @all_levels
+    @crops = crops.includes(:scientific_names, :alternate_names, :varieties, :creator, :requester)
+      .order(Arel.sql('lower(crops.name)'), :id).paginate(page: params[:page])
 
     @crop_wranglers = Role.crop_wranglers
     respond_with @crops
