@@ -46,4 +46,47 @@ describe CropsController, '#wrangle' do
       expect(response.body).not_to include('Apple')
     end
   end
+
+  context 'when searching' do
+    let!(:other_variety) { create(:crop, name: 'beefsteak', parent: tomato) }
+    let!(:pending) { create(:crop_request, name: 'purple tomato') }
+
+    before { get wrangle_crops_path(q: 'tomato') }
+
+    it 'finds the crop' do
+      expect(response.body).to have_link('tomato', href: edit_crop_path(tomato))
+    end
+
+    it 'finds its varieties, though they have a parent' do
+      expect(response.body).to include('cherry tomato')
+    end
+
+    it 'leaves out crops that do not match' do
+      expect(response.body).not_to include('Apple')
+    end
+
+    it 'leaves out pending crops on the approved tab' do
+      expect(response.body).not_to include('purple tomato')
+    end
+
+    it 'puts the crop named exactly the term first' do
+      expect(response.body.index(edit_crop_path(tomato))).to be < response.body.index(edit_crop_path(cherry))
+    end
+
+    it 'finds a crop by its scientific name' do
+      create(:scientific_name, crop: apple, name: 'Malus domestica')
+      get wrangle_crops_path(q: 'malus')
+      expect(response.body).to include('Apple')
+    end
+  end
+
+  context 'when searching pending crops' do
+    let!(:pending) { create(:crop_request, name: 'purple tomato') }
+
+    before { get wrangle_crops_path(q: 'tomato', approval_status: 'pending') }
+
+    it 'finds the pending crop' do
+      expect(response.body).to include('purple tomato')
+    end
+  end
 end

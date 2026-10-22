@@ -16,18 +16,31 @@
 %section
   %h2 Crops
 
+  = form_with url: wrangle_crops_path, method: :get, class: 'row g-2 my-3', role: 'search' do |f|
+    = hidden_field_tag :approval_status, @approval_status if @approval_status.present?
+    = hidden_field_tag :level, 'all' if @all_levels
+    .col-sm-8.col-md-6
+      = f.search_field :q, value: @query, class: 'form-control', placeholder: 'Search crops by name', 'aria-label': 'Search crops'
+    .col-auto
+      = f.submit 'Search', class: 'btn btn-primary', name: nil
+      - if @query.present?
+        = link_to 'Clear', wrangle_crops_path(approval_status: @approval_status, level: ('all' if @all_levels)), class: 'btn btn-link'
+
+  - carry = { q: @query.presence, level: ('all' if @all_levels && @query.blank?) }
   - tabs = [['Approved', nil], ['Pending approval', 'pending'], ['Rejected', 'rejected']]
   %ul.nav.nav-tabs{ role: 'tablist' }
     %li.nav-item= link_to 'Recently edited', admin_crops_path, class: 'nav-link'
     - tabs.each do |label, status|
       %li.nav-item
-        = link_to label, wrangle_crops_path(approval_status: status, level: ('all' if @all_levels)), class: ['nav-link', ('active' if @approval_status.presence == status)]
+        = link_to label, wrangle_crops_path(carry.merge(approval_status: status)), class: ['nav-link', ('active' if @approval_status.presence == status)]
 
-  %ul.nav.nav-pills.my-3
-    %li.nav-item
-      = link_to 'Top level crops', wrangle_crops_path(approval_status: @approval_status), class: ['nav-link', ('active' unless @all_levels)]
-    %li.nav-item
-      = link_to 'All crops', wrangle_crops_path(approval_status: @approval_status, level: 'all'), class: ['nav-link', ('active' if @all_levels)]
+  -# A search looks at every level, so the choice only matters without one.
+  - if @query.blank?
+    %ul.nav.nav-pills.my-3
+      %li.nav-item
+        = link_to 'Top level crops', wrangle_crops_path(approval_status: @approval_status), class: ['nav-link', ('active' unless @all_levels)]
+      %li.nav-item
+        = link_to 'All crops', wrangle_crops_path(approval_status: @approval_status, level: 'all'), class: ['nav-link', ('active' if @all_levels)]
 
   .table-responsive
     %table.table.table-striped.table-bordered.table-sm.align-middle.wrangle-table{ id: @approval_status.blank? ? 'approved-crops' : "#{@approval_status}-crops" }

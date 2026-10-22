@@ -39,6 +39,19 @@ module SearchCrops
     # Only the search queries read it.
     self.ignored_columns += %w(normalised_name)
 
+    # Crops of any status whose name, an alternate name or a scientific name
+    # matches the term, with the match's score as `matches.score`.
+    scope :matching_name, lambda { |term|
+      joins("INNER JOIN (#{SearchCrops.matches_sql(term.to_s.squish)}) matches ON matches.crop_id = crops.id")
+    }
+
+    # For crops from `matching_name`: the crop named exactly the term first, then
+    # by the search's own rank (see rank_sql).
+    scope :best_match_first, lambda { |term, member: nil|
+      exact = sanitize_sql_array(['lower(crops.name) = ?', SearchCrops.normalise(term.to_s.squish)])
+      order(Arel.sql("#{exact} DESC"), Arel.sql("#{SearchCrops.rank_sql(member)} DESC"))
+    }
+
     # Approved crops matching the term, best first. A blank term matches them all.
     # Crops with more plantings rank higher, and so do crops the member has planted.
     scope :search_by_name, lambda { |term, member: nil|
@@ -46,7 +59,7 @@ module SearchCrops
       next approved.order(Arel.sql(SearchCrops.popularity_sql)) if term.blank?
 
       approved
-        .joins("INNER JOIN (#{SearchCrops.matches_sql(term)}) matches ON matches.crop_id = crops.id")
+        .matching_name(term)
         .order(Arel.sql("#{SearchCrops.rank_sql(member)} DESC"), :name)
     }
   end
