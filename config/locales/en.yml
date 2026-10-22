@@ -445,6 +445,9 @@ en:
       empty: Nothing to show yet.
       title: Latest from your friends and neighbours
     group:
+      job_finished_html:
+        one: Finished a job, %{things}
+        other: Finished %{count} jobs, %{things}
       job_html:
         one: Planned a job, %{things}
         other: Planned %{count} jobs, %{things}

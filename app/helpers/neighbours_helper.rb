@@ -28,7 +28,12 @@ module NeighboursHelper
     day == today - 1 ? t('neighbours.day.yesterday', date:) : date
   end
 
-  GROUP_ORDER = %w(planting seed seed_trade harvest transplant planted_out planting_finished seed_finished job garden_layout).freeze
+  # Planned and finished jobs, which have a name of their own and no page.
+  JOB_TYPES = %w(job job_finished).freeze
+  NAMED_TYPES = (JOB_TYPES + %w(garden_layout)).freeze
+
+  GROUP_ORDER = %w(planting seed seed_trade harvest transplant planted_out planting_finished seed_finished
+                   job_finished job garden_layout).freeze
 
   # The icon that goes with each kind of thing someone did.
   def group_icon(kind)
@@ -37,7 +42,7 @@ module NeighboursHelper
     when 'seed', 'seed_trade' then seed_icon
     when 'harvest' then harvest_icon
     when 'transplant', 'planted_out' then growing_icon
-    when 'planting_finished', 'seed_finished' then finished_icon
+    when 'planting_finished', 'seed_finished', 'job_finished' then finished_icon
     when 'job' then icon('fas', 'calendar-days')
     when 'garden_layout' then garden_icon
     when 'photo' then photo_icon
@@ -156,7 +161,7 @@ module NeighboursHelper
 
   # Jobs have no page of their own, so they link to their owner's list.
   def thing_path(item)
-    item.type == 'job' ? member_jobs_path(item.record.owner) : polymorphic_path(thing_record(item))
+    JOB_TYPES.include?(item.type) ? member_jobs_path(item.record.owner) : polymorphic_path(thing_record(item))
   end
 
   def thing_record(item)
@@ -165,7 +170,7 @@ module NeighboursHelper
 
   def thing_name(item)
     record = thing_record(item)
-    %w(job garden_layout).include?(item.type) ? record.name : record.crop.name
+    NAMED_TYPES.include?(item.type) ? record.name : record.crop.name
   end
 
   def thing_details(item)
