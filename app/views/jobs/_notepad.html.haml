@@ -16,4 +16,4 @@
     %button.notepad-link-remove{ type: 'button', 'aria-label': t('jobs.pad.remove_link') } ×
   %p.notepad-note= t('jobs.pad.public_note') + ' ' + t('jobs.pad.link_hint')
 
-  #notepad-groups= render 'jobs/notepad_groups', groups:
+  #notepad-groups{ data: { celebrations: job_celebrations.to_json } }= render 'jobs/notepad_groups', groups:

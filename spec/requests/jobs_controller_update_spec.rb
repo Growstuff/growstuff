@@ -30,4 +30,16 @@ describe JobsController, '#update' do
       expect(job.reload.due_date).to be_nil
     end
   end
+
+  context 'when crossing a job off from the notepad' do
+    before { patch job_path(slug: job.slug), params: { job: { finished: '1' } }, headers: }
+
+    it 'finishes the job' do
+      expect(job.reload).to be_finished
+    end
+
+    it 'says how many jobs are done this week' do
+      expect(response.headers['X-Jobs-Done-This-Week']).to eq '1'
+    end
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_22_030000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_22_040000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -682,6 +682,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_22_030000) do
     t.string "description"
     t.date "due_date"
     t.boolean "finished"
+    t.datetime "finished_at"
     t.bigint "garden_id"
     t.bigint "jobbable_id"
     t.string "jobbable_type"

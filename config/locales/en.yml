@@ -646,6 +646,24 @@ en:
       unknown: Unknown
   jobs:
     plan_something: Plan something
+    celebrate:
+      crossed_off: Crossed off "%{name}"
+      undo: Undo
+      done:
+        one: 1 job done this week.
+        other: "%{count} jobs done this week."
+      one:
+        lead: Nice one!
+        note: The snail is impressed, and slightly jealous.
+      two:
+        lead: Two in a row!
+        note: The snail is picking up speed.
+      three:
+        lead: Hat-trick!
+        note: The snail has stopped to watch.
+      many:
+        lead: On a roll!
+        note: The snail has called the other snails.
     due:
       last: last %{day}
     suggestions:

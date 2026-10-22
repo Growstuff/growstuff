@@ -3,6 +3,9 @@
 // the notepad's groups after each change. If anything goes wrong the page is
 // loaded the ordinary way, so nothing is lost.
 
+import {celebrate, hide} from './job_celebration';
+import {nextStreak, undoStreak} from './job_streak';
+
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('.notepad-add');
   const groups = document.getElementById('notepad-groups');
@@ -12,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const token = document.querySelector('meta[name="csrf-token"]');
   const kinds = JSON.parse(form.dataset.kinds);
 
-  // Sends a change to the server and shows the groups it sends back.
+  // Sends a change to the server and shows the groups it sends back. Resolves
+  // with how many jobs are done this week.
   const send = function (url, body) {
     return fetch(url, {
       method: 'POST',
@@ -25,12 +29,62 @@ document.addEventListener('DOMContentLoaded', function () {
     })
       .then(function (response) {
         if (!response.ok) throw new Error(response.status);
-        return response.text();
-      })
-      .then(function (html) {
-        groups.innerHTML = html;
+        const done = response.headers.get('X-Jobs-Done-This-Week');
+        return response.text().then(function (html) {
+          groups.innerHTML = html;
+          return Number(done);
+        });
       });
   };
+
+  // ---- Crossing a job off, or putting it back
+
+  const words = JSON.parse(groups.dataset.celebrations);
+  let streak = 0;
+  let lastAt = null;
+
+  const setFinished = function (url, finished) {
+    const body = new FormData();
+    body.append('_method', 'patch');
+    body.append('job[finished]', finished ? '1' : '0');
+    return send(url, body);
+  };
+
+  groups.addEventListener('submit', function (event) {
+    const tick = event.target.closest('.notepad-tick');
+    if (!tick) return;
+    event.preventDefault();
+
+    const finishing = tick.querySelector('input[name="job[finished]"]').value === '1';
+    const name = tick.closest('.notepad-job').querySelector('.notepad-name').textContent;
+    const box = tick.getBoundingClientRect();
+    const url = tick.action;
+
+    send(url, new FormData(tick))
+      .then(function (done) {
+        if (!finishing) {
+          streak = undoStreak(streak);
+          return hide();
+        }
+
+        streak = nextStreak(streak, lastAt, Date.now());
+        lastAt = Date.now();
+        celebrate({
+          words: words,
+          name: name,
+          done: done,
+          streak: streak,
+          origin: {x: box.left + box.width / 2, y: box.top + box.height / 2},
+          onUndo: function () {
+            streak = undoStreak(streak);
+            setFinished(url, false).catch(function () { window.location.reload(); });
+          },
+        });
+      })
+      .catch(function () {
+        tick.submit();
+      });
+  });
 
   // ---- Adding a job
 

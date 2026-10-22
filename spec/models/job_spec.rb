@@ -77,4 +77,37 @@ RSpec.describe Job do
       expect(job.jobbable).to eq crop
     end
   end
+
+  describe '#finished_at' do
+    let(:job) { create(:job, finished: false) }
+
+    it 'is set when the job is crossed off' do
+      job.update!(finished: true)
+      expect(job.finished_at).to be_within(1.minute).of(Time.zone.now)
+    end
+
+    it 'is cleared when the job is put back' do
+      job.update!(finished: true)
+      job.update!(finished: false)
+      expect(job.finished_at).to be_nil
+    end
+
+    it 'is left alone when something else changes' do
+      job.update!(finished: true)
+      expect { job.update!(name: 'Another name') }.not_to(change { job.reload.finished_at })
+    end
+  end
+
+  describe '.finished_this_week' do
+    let!(:this_week) { create(:job, finished: true) }
+
+    before do
+      create(:job, finished: false)
+      create(:job, finished: true).update_column(:finished_at, 2.weeks.ago) # rubocop:disable Rails/SkipsModelValidations
+    end
+
+    it 'has the jobs crossed off since the week began' do
+      expect(described_class.finished_this_week).to eq [this_week]
+    end
+  end
 end

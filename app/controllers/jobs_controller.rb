@@ -77,6 +77,7 @@ class JobsController < DataController
   def render_notepad(status)
     @owner = current_member
     load_notepad
+    response.set_header('X-Jobs-Done-This-Week', current_member.jobs.finished_this_week.count.to_s)
     render partial: 'jobs/notepad_groups', locals: { groups: @job_groups }, status:
   end
 

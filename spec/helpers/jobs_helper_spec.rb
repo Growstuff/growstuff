@@ -28,4 +28,20 @@ describe JobsHelper do
   it 'gives the date for a job further off' do
     expect(label(Date.new(2026, 11, 3))).to eq 'Tue 3 Nov'
   end
+
+  describe '#job_celebrations' do
+    subject(:words) { helper.job_celebrations }
+
+    it 'has a message for each size of streak' do
+      expect(words[:levels].keys).to eq %w(one two three many)
+    end
+
+    it 'leaves the job\'s name for the script to fill in' do
+      expect(words[:crossed_off]).to include('{name}')
+    end
+
+    it 'leaves the count for the script to fill in' do
+      expect(words[:done][:other]).to include('{count}')
+    end
+  end
 end

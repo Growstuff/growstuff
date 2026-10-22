@@ -17,6 +17,21 @@ module JobsHelper
     end
   end
 
+  # What the notepad's script says when a job is crossed off. The count is filled
+  # in by the script, which knows it only once the server has answered.
+  def job_celebrations
+    levels = %w(one two three many).index_with do |level|
+      { lead: t("jobs.celebrate.#{level}.lead"), note: t("jobs.celebrate.#{level}.note") }
+    end
+
+    # The name and count are left as tokens for the script to fill in.
+    name = '%{name}' # rubocop:disable Style/FormatStringToken
+    count = '%{count}' # rubocop:disable Style/FormatStringToken
+
+    { levels:, crossed_off: t('jobs.celebrate.crossed_off', name:), undo: t('jobs.celebrate.undo'),
+      done: { one: t('jobs.celebrate.done.one'), other: t('jobs.celebrate.done.other', count:) } }
+  end
+
   def job_overdue?(job, today = Time.zone.today)
     job.due_date.present? && job.due_date < today && !job.finished
   end

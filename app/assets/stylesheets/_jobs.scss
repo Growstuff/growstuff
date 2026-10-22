@@ -318,3 +318,139 @@
     line-height: 1;
   }
 }
+
+// Crossing a job off: flowers blooming out of the tick box, a row of them
+// growing along the bottom of the page for a streak, and a sticky note with an
+// Undo toast in the corner. They sit outside the notepad, on the page.
+.notepad-flower {
+  position: fixed;
+  z-index: 1080;
+  margin: -12px 0 0 -12px;
+  pointer-events: none;
+  animation: notepad-bloom 1.4s ease-out forwards;
+}
+
+@keyframes notepad-bloom {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.2) rotate(0);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1) rotate(var(--rot));
+  }
+}
+
+// A stem with a flower on top, growing up from the bottom edge.
+.notepad-sprout {
+  position: fixed;
+  z-index: 1079;
+  bottom: 0;
+  width: 3px;
+  height: var(--height);
+  background: #57803c;
+  border-radius: 2px 2px 0 0;
+  pointer-events: none;
+  transform-origin: bottom;
+  animation: notepad-sprout 0.9s ease-out backwards;
+
+  > span {
+    position: absolute;
+    top: -15px;
+    left: -13.5px;
+  }
+}
+
+@keyframes notepad-sprout {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+#notepad-celebration {
+  position: fixed;
+  z-index: 1080;
+  left: 18px;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: calc(100vw - 36px);
+}
+
+.notepad-celebration-note {
+  position: relative;
+  min-width: 300px;
+  padding: 14px 20px 12px;
+  background: #fff3a8;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  color: #3b3a36;
+  transform: rotate(-2deg);
+
+  .tape {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 84px;
+    height: 26px;
+    margin-left: -42px;
+    background: rgba(255, 165, 0, 0.45);
+    transform: rotate(-3deg);
+  }
+}
+
+.notepad-celebration-lead {
+  color: #3f5e2b;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.notepad-celebration-sub {
+  color: #6b5a00;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.notepad-toast {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  padding: 6px 8px 6px 16px;
+  background: $brown;
+  border-radius: $card-radius;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+  color: $white;
+
+  button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 10px;
+    border: 0;
+    background: transparent;
+    color: $orange;
+    font-weight: 700;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notepad-flower,
+  .notepad-sprout {
+    display: none;
+  }
+}
