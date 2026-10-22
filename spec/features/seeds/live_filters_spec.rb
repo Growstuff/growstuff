@@ -29,7 +29,6 @@ describe "changing the seeds shown without reloading", :js do
 
   context "when choosing a crop" do
     before do
-      Crop.reindex # the search finds only crops that are indexed
       fill_in 'Search seeds by crop', with: 'tom'
       find('.crop-picker-option', text: 'tomato').click
     end

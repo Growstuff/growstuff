@@ -47,8 +47,4 @@ class Activity < ApplicationRecord
   end
 
   scope :active, -> { where(finished: [false, nil]) }
-
-  def self.reindex(refresh: false); end
-
-  def reindex(refresh: false); end
 end

@@ -31,6 +31,4 @@ config/database.yml
 
 # Files that are created on Travis
 cc-test-reporter
-elasticsearch-*.deb
-elasticsearch-*.deb.sha512
 

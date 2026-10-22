@@ -34,7 +34,7 @@ class MemberImportService
     @active_only = active_only
     @out = out
     @client = client || RemoteApiClient.new(out: out, **client_options)
-    @crop_importer = CropImportService.new(client: @client, out: out, reindex: false)
+    @crop_importer = CropImportService.new(client: @client, out: out)
     @stats = Hash.new(0)
     @crops_by_remote_id = {}
   end

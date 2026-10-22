@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe "crop detail page", :js, :search do
+describe "crop detail page", :js do
   subject { page }
 
   let!(:owner_member) { create(:member) }
 
-  let!(:crop) { create(:crop, :reindex) }
+  let!(:crop) { create(:crop) }
 
   let(:plant_part) { create(:plant_part, name: 'fruit') }
 
@@ -29,7 +29,6 @@ describe "crop detail page", :js, :search do
     harvest.photos << second_harvest_photo
     seed.photos << first_seed_photo
     seed.photos << second_seed_photo
-    Crop.reindex
     visit crop_path(crop)
   end
 

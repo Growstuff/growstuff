@@ -9,7 +9,7 @@ describe CropImportService, type: :service do
   let(:sleeps) { [] }
   let(:out) { StringIO.new }
   let(:options) do
-    { connection: connection, page_size: 2, delay: 1, backoff: 5, reindex: false, out: out,
+    { connection: connection, page_size: 2, delay: 1, backoff: 5, out: out,
       sleeper: ->(seconds) { sleeps << seconds } }
   end
 

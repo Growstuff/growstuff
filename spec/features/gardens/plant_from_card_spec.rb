@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Planting from a garden card', :js, :search do
+describe 'Planting from a garden card', :js do
   include_context 'signed in member'
 
   let!(:garden) { create(:garden, owner: member, name: 'Orchard') }
@@ -10,7 +10,6 @@ describe 'Planting from a garden card', :js, :search do
   let!(:lettuce) { create(:annual_crop, name: 'lettuce') }
 
   before do
-    Crop.reindex
     visit_gardens_open
   end
 
@@ -107,7 +106,6 @@ describe 'Planting from a garden card', :js, :search do
     let!(:leaf_lettuce) { create(:annual_crop, name: 'leaf lettuce') }
 
     before do
-      Crop.reindex
       open_plant_dialog('Orchard')
       search_for 'lettuce'
       expect(page).to have_css '[role=option]', count: 2
