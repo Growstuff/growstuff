@@ -106,6 +106,10 @@ en:
               handle_format: should be a handle, not a URL
             bluesky_handle:
               handle_format: should be a handle, not a URL
+        crop_job_step:
+          attributes:
+            external_uri:
+              url_format: "must start with http:// or https://"
         seed:
           attributes:
             tradable_to:
