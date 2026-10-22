@@ -35,21 +35,27 @@ class CommentsController < ApplicationController
     @commentable = @comment.commentable
     @comment.author = current_member
     @comment.save
-    respond_with @comment, location: @commentable
+    respond_with @comment, location: commentable_location(@commentable)
   end
 
   def update
     @comment.update(body: comment_params['body'])
-    respond_with @comment, location: @comment.commentable
+    respond_with @comment, location: commentable_location(@comment.commentable)
   end
 
   def destroy
     @commentable = @comment.commentable
     @comment.destroy
-    respond_with(@commentable)
+    respond_with(@commentable, location: commentable_location(@commentable))
   end
 
   private
+
+  def commentable_location(commentable)
+    return nil unless commentable
+
+    polymorphic_path(commentable, anchor: 'comments')
+  end
 
   def find_commentable
     return unless params[:comment]
