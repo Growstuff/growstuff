@@ -3,18 +3,21 @@
 require 'rails_helper'
 
 RSpec.describe Job do
-  describe 'active scope' do
-    it 'returns jobs that are not finished' do
-      active_job = create(:job, finished: false)
-      finished_job = create(:job, finished: true)
+  include ActiveSupport::Testing::TimeHelpers
 
-      expect(described_class.active).to include(active_job)
-      expect(described_class.active).not_to include(finished_job)
+  describe '.active' do
+    subject(:active) { described_class.active }
+
+    it 'has jobs that are not finished' do
+      expect(active).to include(create(:job, finished: false))
     end
 
-    it 'treats nil finished as active' do
-      job = create(:job, finished: nil)
-      expect(described_class.active).to include(job)
+    it 'has jobs that were never crossed off or put back' do
+      expect(active).to include(create(:job, finished: nil))
+    end
+
+    it 'leaves out jobs that are finished' do
+      expect(active).not_to include(create(:job, finished: true))
     end
   end
 
@@ -63,18 +66,25 @@ RSpec.describe Job do
   end
 
   describe '#planting_id=' do
+    subject(:job) { build(:job, jobbable:) }
+
+    let(:jobbable) { create(:crop) }
     let(:planting) { create(:planting) }
 
-    it 'makes the job about that planting' do
-      job = build(:job, planting_id: planting.id)
-      expect(job.jobbable).to eq planting
+    context 'with a planting\'s id' do
+      before { job.planting_id = planting.id }
+
+      it 'makes the job about that planting' do
+        expect(job.jobbable).to eq planting
+      end
     end
 
-    it 'leaves a job about a crop alone when the form chooses no planting' do
-      crop = create(:crop)
-      job = build(:job, jobbable: crop)
-      job.planting_id = ''
-      expect(job.jobbable).to eq crop
+    context 'with no id, as when the form chooses no planting' do
+      before { job.planting_id = '' }
+
+      it 'leaves a job about a crop alone' do
+        expect(job.jobbable).to eq jobbable
+      end
     end
   end
 
@@ -99,15 +109,19 @@ RSpec.describe Job do
   end
 
   describe '.finished_this_week' do
-    let!(:this_week) { create(:job, finished: true) }
-
-    before do
-      create(:job, finished: false)
-      create(:job, finished: true).update_column(:finished_at, 2.weeks.ago) # rubocop:disable Rails/SkipsModelValidations
-    end
+    subject(:finished) { described_class.finished_this_week }
 
     it 'has the jobs crossed off since the week began' do
-      expect(described_class.finished_this_week).to eq [this_week]
+      expect(finished).to include(create(:job, finished: true))
+    end
+
+    it 'leaves out jobs crossed off earlier' do
+      earlier = travel_to(2.weeks.ago) { create(:job, finished: true) }
+      expect(finished).not_to include(earlier)
+    end
+
+    it 'leaves out jobs not crossed off' do
+      expect(finished).not_to include(create(:job, finished: false))
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_23_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_23_010000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -888,6 +888,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_000000) do
   create_table "photo_associations", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.integer "crop_id"
+    t.string "moment"
     t.integer "photo_id", null: false
     t.integer "photographable_id", null: false
     t.string "photographable_type", null: false

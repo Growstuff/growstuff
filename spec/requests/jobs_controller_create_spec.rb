@@ -38,8 +38,11 @@ describe JobsController, '#create' do
       expect(member.jobs.find_by(name: 'Net the berries').garden).to eq garden
     end
 
-    it 'sends back only the garden\'s jobs' do
+    it 'sends back the garden\'s jobs' do
       expect(page).to have_css('.notepad-name', text: 'Net the berries')
+    end
+
+    it 'leaves out the jobs elsewhere' do
       expect(page).to have_no_css('.notepad-name', text: 'Elsewhere')
     end
 

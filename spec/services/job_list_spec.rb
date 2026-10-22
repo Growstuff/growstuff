@@ -38,6 +38,14 @@ describe JobList do
     expect(group(:soon).jobs).to eq [next_week]
   end
 
+  it 'puts jobs without a day in Some day' do
+    expect(group(:someday).jobs).to eq [no_day]
+  end
+
+  it 'cannot drop a job on Overdue' do
+    expect(group(:overdue)).not_to be_droppable
+  end
+
   context 'with a crossed off job that was due before today' do
     let(:done) { build(:job, due_date: Date.new(2026, 10, 14), finished: true) }
     let(:done_later) { build(:job, due_date: Date.new(2026, 10, 18), finished: true) }
@@ -111,14 +119,6 @@ describe JobList do
     it 'keeps it in Today' do
       expect(group(:today).jobs).to eq [due_today]
     end
-  end
-
-  it 'cannot drop a job on Overdue' do
-    expect(group(:overdue)).not_to be_droppable
-  end
-
-  it 'puts jobs without a day in Some day' do
-    expect(group(:someday).jobs).to eq [no_day]
   end
 
   context 'without any jobs' do

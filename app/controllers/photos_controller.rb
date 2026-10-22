@@ -53,8 +53,8 @@ class PhotosController < ApplicationController
       @item = item_to_link_to
       raise "Could not find this #{type} owned by you" unless @item
 
-      @item.photos << @photo unless @item.photos.include? @photo
       @photo.save! if @photo.present?
+      link_photo_to_item
     end
     return render_added_json if request.format.json?
 
@@ -105,6 +105,14 @@ class PhotosController < ApplicationController
   def photo_params
     params.require(:photo).permit(:source_id, :source, :title, :license_name,
                                   :license_url, :thumbnail_url, :fullsize_url, :link_url, :date_taken)
+  end
+
+  # Attaches the photo to the item. A photo for a job can say when it was taken,
+  # before the job or after, as `moment`.
+  def link_photo_to_item
+    association = @item.photo_associations.find_or_initialize_by(photo: @photo)
+    association.moment = params[:moment] if params[:moment].present?
+    association.save!
   end
 
   # Item with photos attached

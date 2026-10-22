@@ -214,6 +214,14 @@ describe Neighbours do
       expect(entry.photo_groups.map { |subject, count, alone| [subject, count, alone] }).to eq [[planting, 2, false]]
     end
 
+    it 'says a photo is of the job it is attached to' do
+      job = create(:job, owner: friend)
+      job.photos << create(:photo, owner: friend)
+
+      entry = neighbours.feed.flat_map(&:updates).find { |candidate| candidate.photos.any? }
+      expect(entry.photo_groups.map { |subject, count, alone| [subject, count, alone] }).to eq [[job, 1, false]]
+    end
+
     it 'has gardens whose layout was saved' do
       garden = friend.gardens.first
       garden.update!(layout_saved_at: Time.zone.local(2026, 10, 12, 9, 30))
