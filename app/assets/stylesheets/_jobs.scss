@@ -373,7 +373,17 @@
     font-size: 1.1rem;
     line-height: 1;
   }
+
+  // With reduced motion the snail keeps still. This sits in the notepad's block,
+  // so it is as specific as the rule that moves the snail.
+  @media (prefers-reduced-motion: reduce) {
+    .notepad-snail-body {
+      left: 8%;
+      animation: none;
+    }
+  }
 }
+
 
 // Crossing a job off: flowers blooming out of the tick box, a row of them
 // growing along the bottom of the page for a streak, and a sticky note with an
@@ -508,11 +518,6 @@
   .notepad-flower,
   .notepad-sprout {
     display: none;
-  }
-
-  .notepad-snail-body {
-    left: 8%;
-    animation: none;
   }
 }
 

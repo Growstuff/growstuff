@@ -26,9 +26,19 @@ document.addEventListener('DOMContentLoaded', function () {
     if (caption) caption.textContent = done > 0 ? words.slow + ' ' + doneText(words, done) : words.slow;
   };
 
+  // The tick box or menu button with focus in the list, as the job it belongs to
+  // and which control it is, so its replacement can be focused when the list is
+  // drawn again.
+  const focusedControl = function () {
+    const el = document.activeElement;
+    const row = el && groups.contains(el) ? el.closest('.notepad-job') : null;
+    const selector = row && ['.notepad-box', '.record-actions-toggle'].find(function (candidate) { return el.matches(candidate); });
+    return selector ? {id: row.dataset.id, selector: selector} : null;
+  };
+
   // Sends a change to the server and shows the groups it sends back. Resolves
   // with how many jobs are done this week.
-  const send = function (url, body) {
+  const transmit = function (url, body) {
     return fetch(url, {
       method: 'POST',
       body: body,
@@ -42,11 +52,23 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!response.ok) throw new Error(response.status);
         const done = response.headers.get('X-Jobs-Done-This-Week');
         return response.text().then(function (html) {
+          const focused = focusedControl();
           groups.innerHTML = html;
           showDone(Number(done));
+          const again = focused && groups.querySelector('.notepad-job[data-id="' + focused.id + '"] ' + focused.selector);
+          if (again) again.focus();
           return Number(done);
         });
       });
+  };
+
+  // Changes are sent one at a time, in the order they were made. Sent together,
+  // an older answer could arrive last and put an older list, and count, on show.
+  let queue = Promise.resolve();
+  const send = function (url, body) {
+    const sent = queue.then(function () { return transmit(url, body); });
+    queue = sent.catch(function () {});
+    return sent;
   };
 
   // ---- Crossing a job off, or putting it back
