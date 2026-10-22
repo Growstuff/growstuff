@@ -96,6 +96,7 @@ describe('a notepad on a garden\'s page', () => {
     await start();
     document.querySelector('.notepad-add input[type="text"]').value = 'Net the berries';
     submit(document.querySelector('.notepad-add'));
+    await flush();
 
     expect(fetchMock.mock.calls[0][1].body.get('garden_id')).toBe('7');
   });
@@ -105,6 +106,7 @@ describe('a notepad on a garden\'s page', () => {
     await start();
     document.querySelector('.notepad-add input[type="text"]').value = 'Net the berries';
     submit(document.querySelector('.notepad-add'));
+    await flush();
 
     expect(fetchMock.mock.calls[0][1].body.has('garden_id')).toBe(false);
   });
@@ -641,6 +643,7 @@ describe('@ suggestions', () => {
       await type(editBox(), 'Water the @tom');
       press(editBox(), 'Enter');
       press(editBox(), 'Enter');
+      await vi.advanceTimersByTimeAsync(10);
 
       const [url, options_] = saves()[0];
       expect(url).toBe('/jobs/water');
