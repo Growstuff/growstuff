@@ -9,7 +9,7 @@
 # crossed off in the page being looked at are pinned: they stay where they were
 # until the page is loaded again, so a tick never makes a row jump.
 class JobList
-  Group = Struct.new(:key, :jobs, :from, :to, :droppable, :drop_date) do
+  Group = Struct.new(:key, :jobs, :from, :to, :droppable, :drop_date, keyword_init: true) do
     alias_method :droppable?, :droppable
   end
 
@@ -34,12 +34,12 @@ class JobList
     week, soon = later.partition { |job| ((@today + 1.day)..week_end).cover?(job.due_date) }
 
     [
-      (Group.new(:overdue, overdue, nil, nil, false, nil) if overdue.any?),
-      Group.new(:today, now, @today, nil, true, @today),
-      (Group.new(:week, week, @today + 1.day, week_end, true, week_end) if week_end > @today),
-      (Group.new(:soon, soon, nil, nil, false, nil) if soon.any?),
-      Group.new(:someday, someday, nil, nil, true, nil),
-      (Group.new(:done, done, nil, nil, false, nil) if done.any?)
+      (Group.new(key: :overdue, jobs: overdue) if overdue.any?),
+      Group.new(key: :today, jobs: now, from: @today, droppable: true, drop_date: @today),
+      (Group.new(key: :week, jobs: week, from: @today + 1.day, to: week_end, droppable: true, drop_date: week_end) if week_end > @today),
+      (Group.new(key: :soon, jobs: soon) if soon.any?),
+      Group.new(key: :someday, jobs: someday, droppable: true),
+      (Group.new(key: :done, jobs: done) if done.any?)
     ].compact
   end
 

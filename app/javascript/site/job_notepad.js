@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const addLabel = addButton.value;
   const token = document.querySelector('meta[name="csrf-token"]');
   const kinds = JSON.parse(form.dataset.kinds);
+  // A suggestion's kind (planting, seed or crop) is its type, lower case.
+  const kindOf = function (item) { return item.jobbable_type.toLowerCase(); };
   const words = JSON.parse(groups.dataset.celebrations);
   const reload = function () { window.location.reload(); };
 
@@ -59,17 +61,18 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   };
 
+  // Changes one or more of a job's settings, such as {finished: '1'}.
+  const patchJob = function (url, attributes) {
+    const body = new FormData();
+    body.append('_method', 'patch');
+    Object.keys(attributes).forEach(function (key) { body.append('job[' + key + ']', attributes[key]); });
+    return send(url, body);
+  };
+
   // ---- Crossing a job off, or putting it back
 
   let streak = 0;
   let lastAt = null;
-
-  const setFinished = function (url, finished) {
-    const body = new FormData();
-    body.append('_method', 'patch');
-    body.append('job[finished]', finished ? '1' : '0');
-    return send(url, body);
-  };
 
   groups.addEventListener('submit', function (event) {
     const tick = event.target.closest('.notepad-tick');
@@ -103,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
           onUndo: function () {
             streak = undoStreak(streak);
             kept.delete(id);
-            setFinished(url, false).catch(reload);
+            patchJob(url, {finished: '0'}).catch(reload);
           },
         });
       })
@@ -148,12 +151,9 @@ document.addEventListener('DOMContentLoaded', function () {
       const typed = box.value.trim();
       if (typed === '' || typed === original) return stop();
 
-      const body = new FormData();
-      body.append('_method', 'patch');
-      body.append('job[name]', typed);
       row.classList.add('saving');
       box.readOnly = true;
-      send(row.dataset.url, body).catch(function () {
+      patchJob(row.dataset.url, {name: typed}).catch(function () {
         finished = false;
         box.readOnly = false;
         row.classList.remove('saving');
@@ -292,10 +292,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!dragged || !group) return;
     event.preventDefault();
 
-    const body = new FormData();
-    body.append('_method', 'patch');
-    body.append('job[due_date]', group.dataset.drop === 'none' ? '' : group.dataset.drop);
-
     // Show the job in its new place at once, marked as saving, so the drop is seen
     // to have worked while the server catches up. The list then replaces it.
     const row = dragged;
@@ -304,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function () {
     group.appendChild(row);
     markSaving(row);
 
-    send(row.dataset.url, body).catch(reload);
+    patchJob(row.dataset.url, {due_date: group.dataset.drop === 'none' ? '' : group.dataset.drop}).catch(reload);
   });
 
   // ---- Linking a job: typing @ and a crop name offers your plantings and seeds
@@ -352,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     typeField.value = item.jobbable_type;
     idField.value = item.jobbable_id;
-    link.querySelector('.notepad-link-text').textContent = kinds[item.kind] + ': ' + item.label;
+    link.querySelector('.notepad-link-text').textContent = kinds[kindOf(item)] + ': ' + item.label;
     link.hidden = false;
     close();
     input.focus();
@@ -370,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function () {
       icon.src = item.icon_url;
       icon.alt = '';
       option.appendChild(icon);
-      [['kind', 'span', kinds[item.kind]], ['', 'span', item.label], ['', 'small', item.detail]].forEach(function (part) {
+      [['kind', 'span', kinds[kindOf(item)]], ['', 'span', item.label], ['', 'small', item.detail]].forEach(function (part) {
         if (!part[2]) return;
         const el = document.createElement(part[1]);
         el.className = part[0];

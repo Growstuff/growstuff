@@ -24,19 +24,19 @@ class JobSuggestionsController < ApplicationController
 
     plantings.map { |planting| planting_suggestion(planting) } +
       seeds.map { |seed| seed_suggestion(seed) } +
-      [{ kind: 'crop', jobbable_type: 'Crop', jobbable_id: crop.id, crop_name: crop.name, label: crop.name,
+      [{ jobbable_type: 'Crop', jobbable_id: crop.id, crop_name: crop.name, label: crop.name,
          detail: t('jobs.suggestions.the_crop'), icon_url: icon_url(crop) }]
   end
 
   def planting_suggestion(planting)
     detail = t('jobs.suggestions.planted', date: l(planting.planted_at, format: '%-d %b')) if planting.planted_at
-    { kind: 'planting', jobbable_type: 'Planting', jobbable_id: planting.id, crop_name: planting.crop.name,
+    { jobbable_type: 'Planting', jobbable_id: planting.id, crop_name: planting.crop.name,
       label: [planting.crop.name, planting.garden&.name].compact.join(', '), detail:, icon_url: icon_url(planting.crop) }
   end
 
   def seed_suggestion(seed)
     detail = t('jobs.suggestions.saved', year: seed.saved_at.year) if seed.saved_at
-    { kind: 'seed', jobbable_type: 'Seed', jobbable_id: seed.id, crop_name: seed.crop.name,
+    { jobbable_type: 'Seed', jobbable_id: seed.id, crop_name: seed.crop.name,
       label: t('jobs.suggestions.seeds', crop: seed.crop.name), detail:, icon_url: icon_url(seed.crop) }
   end
 
