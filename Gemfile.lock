@@ -210,6 +210,8 @@ GEM
     ffi (1.17.4)
     ffi (1.17.4-x86_64-linux-gnu)
     flickraw (0.9.10)
+    foreman (0.90.0)
+      thor (~> 1.4)
     friendly_id (5.7.0)
       activerecord (>= 4.0.0)
     gbifrb (0.2.0)
@@ -659,6 +661,7 @@ DEPENDENCIES
   faker
   faraday
   flickraw
+  foreman
   friendly_id
   gbifrb
   geocoder
