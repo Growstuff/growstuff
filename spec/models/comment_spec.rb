@@ -16,9 +16,16 @@ describe Comment do
   end
 
   context "notifications" do
-    it "sends a notification when a comment is posted" do
+    it "sends a notification when a comment is posted on a post" do
       expect do
         create(:comment)
+      end.to change(Notification, :count).by(1)
+    end
+
+    it "sends a notification when a comment is posted on a planting" do
+      planting = create(:planting)
+      expect do
+        create(:comment, commentable: planting)
       end.to change(Notification, :count).by(1)
     end
 
