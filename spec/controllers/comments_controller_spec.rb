@@ -33,8 +33,9 @@ describe CommentsController do
 
   describe "GET new" do
     let(:post) { create(:post) }
+    let(:planting) { create(:planting) }
 
-    describe "with valid params" do
+    describe "with valid post params" do
       before do
         get :new, params: {
           comment: { commentable_id: post.id, commentable_type: "Post" }
@@ -45,6 +46,24 @@ describe CommentsController do
 
       it "picks up post from params" do
         expect(assigns(:commentable)).to eq(post)
+      end
+
+      it "assigns the old comments as @comments" do
+        expect(assigns(:comments)).to eq [old_comment]
+      end
+    end
+
+    describe "with valid planting params" do
+      let!(:old_comment) { create(:comment, commentable: planting) }
+
+      before do
+        get :new, params: {
+          comment: { commentable_id: planting.to_param, commentable_type: "Planting" }
+        }
+      end
+
+      it "picks up planting from params" do
+        expect(assigns(:commentable)).to eq(planting)
       end
 
       it "assigns the old comments as @comments" do
@@ -76,6 +95,25 @@ describe CommentsController do
       let(:comment) { create(:comment, commentable: post) }
 
       it { expect(response).not_to be_successful }
+    end
+  end
+
+  describe "POST create" do
+    let(:planting) { create(:planting) }
+
+    it "creates a comment on a planting" do
+      expect do
+        post :create, params: {
+          comment: {
+            commentable_id: planting.id,
+            commentable_type: "Planting",
+            body: "Great planting!"
+          }
+        }
+      end.to change(Comment, :count).by(1)
+
+      expect(response).to redirect_to(planting)
+      expect(Comment.last.commentable).to eq(planting)
     end
   end
 

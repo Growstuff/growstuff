@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_21_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_21_062937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -926,6 +926,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_21_000000) do
 
   create_table "plantings", id: :serial, force: :cascade do |t|
     t.integer "alternate_name_id"
+    t.integer "comments_count", default: 0
     t.datetime "created_at", precision: nil
     t.integer "crop_id", null: false
     t.integer "days_to_first_harvest"
