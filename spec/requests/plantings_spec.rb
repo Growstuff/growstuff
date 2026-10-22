@@ -3,6 +3,17 @@
 require 'rails_helper'
 
 describe "Plantings" do
+  describe "GET /plantings/:id" do
+    let(:planting) { create(:planting) }
+    let!(:comment) { create(:comment, commentable: planting, body: "Looking very healthy!") }
+
+    it "renders the planting page with comments" do
+      get planting_path(planting)
+      expect(response.status).to eq(200)
+      expect(response.body).to include("Looking very healthy!")
+    end
+  end
+
   describe "GET /plantings" do
     it "works! (now write some real specs)" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
