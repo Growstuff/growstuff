@@ -81,7 +81,6 @@ rest of the garden.
       maize:    'https://farm66.staticflickr.com/65535/46739264475_7cb55b2cbb_q.jpg'
     }.each do |crop_type, photo_url|
       crop = create(crop_type, creator: someone_else)
-      crop.reindex
       owner = create(:interesting_member, login_name: crop_type.to_s.reverse, email: "#{crop.name}@example.com")
       planting = create(:planting, crop:, owner:, garden: owner.gardens.first)
       photo = create(:photo, owner:,

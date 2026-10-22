@@ -27,7 +27,4 @@ FactoryBot.define do
   trait :no_description do
     description { "" }
   end
-
-  trait :reindex do
-  end
 end

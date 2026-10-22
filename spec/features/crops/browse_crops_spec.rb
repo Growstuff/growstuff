@@ -2,15 +2,14 @@
 
 require 'rails_helper'
 
-describe "browse crops", :search do
-  let!(:tomato)         { create(:tomato, :reindex)        }
-  let!(:maize)          { create(:maize, :reindex)         }
-  let!(:pending_crop)   { create(:crop_request, :reindex)  }
-  let!(:rejected_crop)  { create(:rejected_crop, :reindex) }
+describe "browse crops" do
+  let!(:tomato)         { create(:tomato)        }
+  let!(:maize)          { create(:maize)         }
+  let!(:pending_crop)   { create(:crop_request)  }
+  let!(:rejected_crop)  { create(:rejected_crop) }
 
   shared_examples 'shows crops' do
     before do
-      Crop.reindex
       visit crops_path
     end
 

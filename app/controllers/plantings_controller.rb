@@ -30,7 +30,6 @@ class PlantingsController < DataController
     @matching_seeds = matching_seeds
     @crop = @planting.crop
 
-    # TODO: use elastic search long/lat
     @neighbours = @planting.nearby_same_crop
       .where.not(id: @planting.id)
       .includes(:owner, :crop, :garden)

@@ -79,8 +79,6 @@ describe CropsController do
       let!(:tomato) { create(:tomato) }
       let!(:maize)  { create(:maize) }
 
-      before { Crop.reindex }
-
       describe 'search form page' do
         before { get :search }
 
@@ -99,7 +97,6 @@ describe CropsController do
         let!(:aubergine) { create(:alternate_eggplant) }
 
         before do
-          Crop.reindex
           get :search, params: { term: 'aubergine' }, format: :json
         end
 
@@ -125,7 +122,6 @@ describe CropsController do
   describe "GET CSV" do
     let!(:tomato) { create(:tomato, en_wikipedia_url: "https://en.wikipedia.org/wiki/Tomato") }
     before do
-      Crop.reindex
       get :index, format: "csv"
     end
 

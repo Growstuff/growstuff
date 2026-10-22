@@ -26,9 +26,6 @@ FileUtils.chdir APP_ROOT do
   FileUtils.cp 'config/database.yml.example', 'config/database.yml' unless File.exist?('config/database.yml')
   FileUtils.cp 'env-example', '.env' unless File.exist?('.env')
 
-  puts "\n== Checking for elastic search =="
-  system! 'script/check_elasticsearch.sh'
-
   puts "\n== Preparing database =="
   system! 'bin/rails db:prepare'
 

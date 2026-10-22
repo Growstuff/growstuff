@@ -168,11 +168,10 @@ describe "Nursery" do
     end
   end
 
-  describe "choosing a crop for new seeds", :search do
+  describe "choosing a crop for new seeds" do
     let!(:crop) { create(:crop, name: 'beetroot', description: 'A sweet red root.', sun_requirements: 'full sun') }
 
     before do
-      Crop.reindex
       member.nursery!
       visit member_gardens_path(member)
       open_sow_dialog

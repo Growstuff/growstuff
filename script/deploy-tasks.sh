@@ -16,5 +16,3 @@ rails assets:precompile
 
 # One-off tasks
 
-# echo "2015-01-30 - build Elasticsearch index"
-# rake growstuff:oneoff:elasticsearch_create_index
