@@ -12,14 +12,11 @@
     %h1.h2
       = job_icon
       Jobs
-    - if can?(:create, Job)
-      = link_to new_job_path, class: 'btn btn-primary d-block mb-3' do
-        = t('jobs.pad.add')
     - if member_signed_in?
       %nav.list-group.mb-3{ 'aria-label': 'Jobs' }
         = link_to t('jobs.pad.my_jobs'), member_jobs_path(current_member), class: ['list-group-item', ('active' if @owner == current_member)]
         = link_to t('jobs.pad.everyones_jobs'), jobs_path, class: ['list-group-item', ('active' if @owner.blank?)]
-    - unless @job_groups || @done
+    - unless @job_groups
       = link_to show_inactive_tickbox_path('jobs', owner: @owner, crop: nil, show_all: @show_all) do
         = check_box_tag 'active', 'all', @show_all
         include finished jobs
@@ -41,7 +38,7 @@
 
   .col-md-9
     - if @owner.present? && @owner == current_member
-      = render 'jobs/notepad', owner: @owner, jobs: @jobs, groups: @job_groups, done: @done
+      = render 'jobs/notepad', owner: @owner, groups: @job_groups
     - else
       %section
         %h2= title('jobs', @owner, nil, @planting)

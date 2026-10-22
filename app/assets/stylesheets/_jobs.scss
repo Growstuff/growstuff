@@ -20,32 +20,34 @@
     }
   }
 
-  .notepad-tabs {
-    display: inline-flex;
-    margin: 0.75rem 1.1rem 0;
-    border: 1px solid $green;
-    border-radius: $card-radius;
-    overflow: hidden;
-  }
-
-  .notepad-tab {
+  // One line to type a job into; Enter adds it.
+  .notepad-add {
     display: flex;
     align-items: center;
-    min-height: 44px;
-    padding: 0 1.1rem;
+    gap: 0.5rem;
+    margin: 0.75rem 1.1rem 0;
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      min-height: 44px;
+      padding: 0 0.75rem;
+      border: 1px solid #757575;
+      border-radius: 2px;
+    }
+  }
+
+  .notepad-add-plus {
     color: $green;
-    background: $white;
-    text-decoration: none;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    width: 1.2rem;
+    text-align: center;
+  }
 
-    & + .notepad-tab {
-      border-left: 1px solid $green;
-    }
-
-    &.active {
-      background: $green;
-      color: $white;
-      font-weight: 600;
-    }
+  .notepad-add-button {
+    min-height: 44px;
   }
 
   .notepad-note,
@@ -100,17 +102,57 @@
     }
   }
 
-  .notepad-box {
+  // The tick box is a button in a form, so it works without JavaScript. The
+  // button is the 44px target; the box is drawn inside it.
+  .notepad-tick {
     flex: none;
-    width: 22px;
-    height: 22px;
-    border: 2px solid #757575;
-    border-radius: 3px;
-    background: $white;
+    margin: 0;
+  }
 
-    &.checked {
+  .notepad-box {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 11px;
+      left: 11px;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #757575;
+      border-radius: 3px;
+      background: $white;
+    }
+
+    &:hover::before {
+      border-color: $green;
+    }
+
+    &:focus-visible {
+      outline: 3px solid $orange;
+      outline-offset: -2px;
+    }
+
+    &.checked::before {
       background: #e4efdc;
       border-color: $green;
+    }
+
+    &.checked::after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 17px;
+      width: 6px;
+      height: 11px;
+      border: solid $green;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
     }
   }
 

@@ -25,17 +25,38 @@ describe 'Own jobs notepad' do
       expect(page).to have_css('.notepad-heading', text: 'Some day')
     end
 
-    it 'leaves out finished jobs' do
-      expect(page).to have_no_content('Pull the beans')
+    it 'keeps finished jobs in the list, ticked' do
+      expect(page).to have_css('.notepad-job.done', text: 'Pull the beans')
     end
 
     it "leaves out other members' jobs" do
       expect(page).to have_no_content('Somebody else job')
     end
 
-    it 'shows finished jobs under Done' do
-      click_link 'Done'
-      expect(page).to have_css('.notepad-job.done', text: 'Pull the beans')
+    it 'keeps a job in the list when it is crossed off' do
+      click_button 'Cross off: Net the berries'
+      expect(page).to have_css('.notepad-job.done', text: 'Net the berries')
+    end
+
+    it 'puts a job back on the list' do
+      click_button 'Put back on the list: Pull the beans'
+      expect(page).to have_css('.notepad-job:not(.done)', text: 'Pull the beans')
+    end
+  end
+
+  context 'when adding a job' do
+    before do
+      visit member_jobs_path(member)
+      fill_in 'Add a job', with: 'Sow the peas'
+      click_button 'Add'
+    end
+
+    it 'adds it to the list' do
+      expect(page).to have_css('.notepad-job', text: 'Sow the peas')
+    end
+
+    it 'is the member\'s job' do
+      expect(member.jobs.pluck(:name)).to eq ['Sow the peas']
     end
   end
 

@@ -58,6 +58,8 @@ class JobsController < DataController
     @job.owner = current_member
     @job.due_date ||= Date.today
 
+    return add_to_notepad if request.xhr?
+
     if @job.save
       if params[:repeat_times].to_i > 0
         repeat_times = params[:repeat_times].to_i
@@ -98,15 +100,20 @@ class JobsController < DataController
     @owner.present? && @owner == current_member && request.format.html?
   end
 
+  # Adding a job from the notepad sends back the notepad's groups, so the page
+  # can show the new job without reloading.
+  def add_to_notepad
+    return head :unprocessable_entity unless @job.save
+
+    @owner = current_member
+    load_notepad
+    render partial: 'jobs/notepad_groups', locals: { groups: @job_groups }, status: :created
+  end
+
   def load_notepad
-    @done = params[:tab] == 'done'
-    scope = Job.where(owner: @owner).includes(:garden, planting: :crop)
-    if @done
-      @jobs = scope.finished.order(updated_at: :desc).limit(30)
-    else
-      @jobs = scope.active.order(Arel.sql('due_date IS NULL'), :due_date, :created_at)
-      @job_groups = JobList.new(@jobs).groups
-    end
+    @jobs = Job.where(owner: @owner).includes(:garden, planting: :crop)
+               .order(Arel.sql('finished IS TRUE'), Arel.sql('due_date IS NULL'), :due_date, :created_at)
+    @job_groups = JobList.new(@jobs).groups
   end
 
   def job_params

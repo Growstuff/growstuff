@@ -213,6 +213,8 @@ en:
       intro: >
         %{site_name} is a community of food gardeners. Track your garden, find seeds from neighbours,
         and see what gardeners near you are planting this month.
+      cross_off: "Cross off: %{job}"
+      uncross: "Put back on the list: %{job}"
       public_note: Everything you record is public open data, including your city.
       sign_in_linktext: Sign in
       sign_up: Join free
@@ -243,7 +245,6 @@ en:
         one: "%{count} day"
         other: "%{count} days"
       do_it: Do it
-      done: Done
       easy_to_sow: Easy to sow in %{month} near you
       first_plant: Let's get your first plant in. It takes about a minute.
       first_year: Your first year
@@ -649,12 +650,11 @@ en:
       was: was %{day}
     pad:
       title: "%{owner}'s jobs"
-      to_do: To do
       done: Done
       add: Add a job
+      add_button: Add
       public_note: Jobs are public, so don't put private info here.
       empty: Nothing to do. Add a job to start your list.
-      empty_done: Nothing crossed off yet.
       my_jobs: My jobs
       everyones_jobs: Everyone's jobs
       weekend: This weekend

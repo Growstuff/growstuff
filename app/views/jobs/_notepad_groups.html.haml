@@ -1,0 +1,14 @@
+-# The groups of jobs in the notepad. Also what adding a job sends back.
+- if groups.empty?
+  %p.notepad-empty= t('jobs.pad.empty')
+- else
+  - groups.each do |group|
+    .notepad-group
+      .notepad-heading
+        %h2= t("jobs.pad.#{group.key}")
+        - if group.from
+          %small= "#{l(group.from, format: '%a %-d')} & #{l(group.to, format: '%a %-d %b')}"
+        - elsif group.key == :someday
+          %small= t('jobs.pad.someday_note')
+      - group.jobs.each do |job|
+        = render 'jobs/notepad_row', job:
