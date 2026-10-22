@@ -25,7 +25,7 @@ class JobsController < DataController
   def new
     @job = Job.new(
       owner:    current_member,
-      due_date: Date.today
+      due_date: Time.zone.today
     )
     @job.name = params[:name] if params[:name]
     @job.description = params[:description] if params[:description]
@@ -56,7 +56,7 @@ class JobsController < DataController
   def create
     @job = Job.new(job_params)
     @job.owner = current_member
-    @job.due_date ||= Date.today
+    @job.due_date ||= Time.zone.today
 
     if request.xhr?
       return head :unprocessable_entity unless @job.save
@@ -119,7 +119,7 @@ class JobsController < DataController
   end
 
   def load_notepad
-    @jobs = Job.where(owner: @owner).includes(:garden, planting: :crop)
+    @jobs = Job.where(owner: @owner).includes(:garden, planting: %i(crop garden))
       .order(Arel.sql('finished IS TRUE'), Arel.sql('due_date IS NULL'), :due_date, :created_at)
     @job_groups = JobList.new(@jobs).groups
   end

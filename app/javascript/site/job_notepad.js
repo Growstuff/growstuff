@@ -1,6 +1,7 @@
 // Adds a job to the notepad without reloading the page: the server sends back
-// the notepad's groups with the new job in them. If anything goes wrong the form
-// is submitted the ordinary way, so nothing is lost.
+// the notepad's groups with the new job in them. If anything goes wrong the job
+// stays in the box and a message says so: the request is not sent again, since
+// the first may have worked and a second would add the job twice.
 
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('.notepad-add');
@@ -8,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!form || !groups) return;
 
   const input = form.querySelector('input[type="text"]');
+  const failure = document.getElementById('notepad-add-failed');
   const token = document.querySelector('meta[name="csrf-token"]');
   let adding = false;
 
@@ -15,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     if (adding || !input.value.trim()) return;
     adding = true;
+    failure.hidden = true;
+    const submitted = input.value;
 
     fetch(form.action, {
       method: 'POST',
@@ -31,12 +35,14 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .then(function (html) {
         groups.innerHTML = html;
-        input.value = '';
+        // Typing the next job while this one was sent is not to be lost.
+        if (input.value === submitted) input.value = '';
         input.focus();
         adding = false;
       })
       .catch(function () {
-        form.submit();
+        failure.hidden = false;
+        adding = false;
       });
   });
 });

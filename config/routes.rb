@@ -151,7 +151,7 @@ Rails.application.routes.draw do
     resources :plantings
     resources :harvests
     resources :posts
-    resources :jobs
+    resources :jobs, except: :show
 
     resources :follows
     get 'followers' => 'follows#followers'
