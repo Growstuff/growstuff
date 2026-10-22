@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const name = row.querySelector('.notepad-name').textContent;
     const id = row.dataset.id;
     if (finishing) kept.add(id); else kept.delete(id);
+    markSaving(row);
     const box = tick.getBoundingClientRect();
     const url = tick.action;
 
@@ -110,6 +111,13 @@ document.addEventListener('DOMContentLoaded', function () {
         tick.submit();
       });
   });
+
+  // A row waiting for the server: dimmed, with a spinner, and not to be touched.
+  const markSaving = function (row) {
+    row.classList.add('saving');
+    row.setAttribute('aria-busy', 'true');
+    row.draggable = false;
+  };
 
   // ---- Editing a job's name in place
 
@@ -143,8 +151,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const body = new FormData();
       body.append('_method', 'patch');
       body.append('job[name]', typed);
+      row.classList.add('saving');
+      box.readOnly = true;
       send(row.dataset.url, body).catch(function () {
         finished = false;
+        box.readOnly = false;
+        row.classList.remove('saving');
         row.classList.add('error');
         box.focus();
       });
@@ -284,7 +296,15 @@ document.addEventListener('DOMContentLoaded', function () {
     body.append('_method', 'patch');
     body.append('job[due_date]', group.dataset.drop === 'none' ? '' : group.dataset.drop);
 
-    send(dragged.dataset.url, body).catch(reload);
+    // Show the job in its new place at once, marked as saving, so the drop is seen
+    // to have worked while the server catches up. The list then replaces it.
+    const row = dragged;
+    const hint = group.querySelector('.notepad-drop-hint');
+    if (hint) hint.remove();
+    group.appendChild(row);
+    markSaving(row);
+
+    send(row.dataset.url, body).catch(reload);
   });
 
   // ---- Linking a job: typing @ and a crop name offers your plantings and seeds

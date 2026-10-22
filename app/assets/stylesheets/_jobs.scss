@@ -131,6 +131,24 @@
     color: $danger-text;
   }
 
+  // A row waiting for the server, whether it was dropped, ticked or renamed.
+  .notepad-job.saving {
+    opacity: 0.6;
+    pointer-events: none;
+
+    &::after {
+      content: "";
+      flex: none;
+      width: 1rem;
+      height: 1rem;
+      margin-right: 0.5rem;
+      border: 2px solid #a4c98c;
+      border-top-color: $green;
+      border-radius: 50%;
+      animation: notepad-spin 0.8s linear infinite;
+    }
+  }
+
   .notepad-job.dragging {
     opacity: 0.4;
   }
@@ -615,7 +633,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .notepad-spinner {
+  .notepad-spinner,
+  .notepad-job.saving::after {
     animation: none;
   }
 }
