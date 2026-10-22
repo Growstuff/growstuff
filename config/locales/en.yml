@@ -680,6 +680,8 @@ en:
       uncross: "Put back on the list: %{job}"
       add: Add a job
       add_button: Add
+      adding_button: Adding…
+      adding: "Adding “%{name}”…"
       edit_label: Job name
       edit_hint: Enter to save, Esc to cancel
       add_failed: That job may not have been added. Check your list before you try again.

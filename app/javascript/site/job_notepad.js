@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const input = form.querySelector('input[type="text"]');
   const failure = document.getElementById('notepad-add-failed');
+  const saving = document.getElementById('notepad-add-saving');
+  const addButton = form.querySelector('input[type="submit"]');
+  const addLabel = addButton.value;
   const token = document.querySelector('meta[name="csrf-token"]');
   const kinds = JSON.parse(form.dataset.kinds);
   const words = JSON.parse(groups.dataset.celebrations);
@@ -189,12 +192,32 @@ document.addEventListener('DOMContentLoaded', function () {
     link.hidden = true;
   };
 
+  // While a job is on its way, the form says so, so Enter isn't pressed again. The
+  // box stays open to type the next job in, but it can't be sent until this is.
+  const showSaving = function (name) {
+    form.classList.add('saving');
+    form.setAttribute('aria-busy', 'true');
+    addButton.disabled = true;
+    addButton.value = addButton.dataset.savingLabel;
+    saving.querySelector('.notepad-add-saving-text').textContent = saving.dataset.template.replace('%{name}', name);
+    saving.hidden = false;
+  };
+
+  const hideSaving = function () {
+    form.classList.remove('saving');
+    form.removeAttribute('aria-busy');
+    addButton.disabled = false;
+    addButton.value = addLabel;
+    saving.hidden = true;
+  };
+
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     if (adding || !input.value.trim()) return;
     adding = true;
     failure.hidden = true;
     const submitted = input.value;
+    showSaving(submitted);
 
     send(form.action, new FormData(form))
       .then(function () {
@@ -205,10 +228,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         input.focus();
         adding = false;
+        hideSaving();
       })
       .catch(function () {
         failure.hidden = false;
         adding = false;
+        hideSaving();
       });
   });
 

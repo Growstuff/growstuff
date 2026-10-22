@@ -55,7 +55,8 @@ describe JobsHelper do
     end
 
     it 'is when it was crossed off, not when it was due, once it is' do
-      expect(date_label(due_date: Date.new(2026, 10, 24), finished: true, finished_at: Time.zone.local(2026, 10, 20, 9))).to eq 'done last Tuesday'
+      crossed_off = date_label(due_date: Date.new(2026, 10, 24), finished: true, finished_at: Time.zone.local(2026, 10, 20, 9))
+      expect(crossed_off).to eq 'done last Tuesday'
     end
 
     it 'says today for a job crossed off today' do

@@ -47,6 +47,35 @@
     text-align: center;
   }
 
+  // While a job is on its way: a line says so, with a spinner, and the button
+  // is held until it has landed.
+  .notepad-add-saving {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.4rem 1.1rem 0 2.8rem;
+    color: #3f5e2b;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .notepad-spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #a4c98c;
+    border-top-color: $green;
+    border-radius: 50%;
+    animation: notepad-spin 0.8s linear infinite;
+  }
+
+  .notepad-add.saving .notepad-add-button {
+    opacity: 0.7;
+  }
+
   .notepad-add-button {
     min-height: 44px;
   }
@@ -576,5 +605,17 @@
   100% {
     left: calc(100% - 72px);
     opacity: 0;
+  }
+}
+
+@keyframes notepad-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notepad-spinner {
+    animation: none;
   }
 }
