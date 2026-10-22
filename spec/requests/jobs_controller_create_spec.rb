@@ -25,6 +25,28 @@ describe JobsController, '#create' do
     end
   end
 
+  context 'with a planting of the member\'s to link to' do
+    let(:planting) { create(:planting, owner: member) }
+
+    before do
+      post jobs_path, params: { job: { name: 'Stake the tomatoes', jobbable_type: 'Planting', jobbable_id: planting.id } }, headers:
+    end
+
+    it 'links the job to the planting' do
+      expect(member.jobs.first.planting).to eq planting
+    end
+  end
+
+  context 'with something else to link to' do
+    before do
+      post jobs_path, params: { job: { name: 'Water', jobbable_type: 'Member', jobbable_id: member.id } }, headers:
+    end
+
+    it 'rejects it' do
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
   context 'without a name' do
     before { post jobs_path, params: { job: { name: '' } }, headers: }
 

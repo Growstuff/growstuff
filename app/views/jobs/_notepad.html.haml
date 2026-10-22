@@ -3,10 +3,17 @@
 .notepad
   .notepad-title
     %h1= t('jobs.pad.title', owner: owner.login_name)
-  = form_with url: jobs_path, scope: :job, class: 'notepad-add' do |f|
+  = form_with url: jobs_path, scope: :job, class: 'notepad-add', data: { suggestions_url: job_suggestions_path } do |f|
     %span.notepad-add-plus{ 'aria-hidden': 'true' } +
-    = f.text_field :name, required: true, autofocus: true, autocomplete: 'off', placeholder: t('jobs.pad.add'), 'aria-label': t('jobs.pad.add')
+    = f.text_field :name, required: true, autofocus: true, autocomplete: 'off', placeholder: t('jobs.pad.add'), 'aria-label': t('jobs.pad.add'),
+      role: 'combobox', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'aria-controls': 'notepad-suggestions'
     = f.submit t('jobs.pad.add_button'), class: 'btn btn-primary notepad-add-button'
-  %p.notepad-note= t('jobs.pad.public_note')
+    = f.hidden_field :jobbable_type, id: 'notepad-jobbable-type'
+    = f.hidden_field :jobbable_id, id: 'notepad-jobbable-id'
+    %ul.notepad-suggestions{ id: 'notepad-suggestions', role: 'listbox', 'aria-label': t('jobs.pad.link_hint'), hidden: true }
+  .notepad-link{ id: 'notepad-link', hidden: true }
+    %span.notepad-link-text
+    %button.notepad-link-remove{ type: 'button', 'aria-label': t('jobs.pad.remove_link', what: '') } ×
+  %p.notepad-note= t('jobs.pad.public_note') + ' ' + t('jobs.pad.link_hint')
 
   #notepad-groups= render 'jobs/notepad_groups', groups:

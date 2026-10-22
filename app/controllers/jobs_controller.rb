@@ -119,7 +119,7 @@ class JobsController < DataController
   end
 
   def load_notepad
-    @jobs = Job.where(owner: @owner).includes(:garden, planting: :crop)
+    @jobs = Job.where(owner: @owner).includes(:garden, :jobbable)
       .order(Arel.sql('finished IS TRUE'), Arel.sql('due_date IS NULL'), :due_date, :created_at)
     @job_groups = JobList.new(@jobs).groups
   end
@@ -127,7 +127,7 @@ class JobsController < DataController
   def job_params
     params.require(:job).permit(
       :name, :description, :finished,
-      :garden_id, :planting_id, :due_date,
+      :garden_id, :planting_id, :jobbable_type, :jobbable_id, :due_date,
       :repeat_times, :repeat_weeks
     )
   end

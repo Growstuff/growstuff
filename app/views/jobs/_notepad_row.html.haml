@@ -7,12 +7,21 @@
     = link_to garden_path(job.garden), class: 'notepad-chip garden' do
       %span.kind= t('jobs.pad.garden')
       = job.garden.name
-  - if job.planting
-    = link_to planting_path(job.planting), class: 'notepad-chip' do
+  - case job.jobbable
+  - when Planting
+    = link_to planting_path(job.jobbable), class: 'notepad-chip' do
       %span.kind= t('jobs.pad.planting')
-      = job.planting.crop_name
-      - if job.garden.blank? && job.planting.garden
-        %span.in= t('jobs.pad.in_garden', garden: job.planting.garden.name)
+      = job.jobbable.crop_name
+      - if job.garden.blank? && job.jobbable.garden
+        %span.in= t('jobs.pad.in_garden', garden: job.jobbable.garden.name)
+  - when Seed
+    = link_to seed_path(job.jobbable), class: 'notepad-chip' do
+      %span.kind= t('jobs.pad.seeds')
+      = job.jobbable.crop.name
+  - when Crop
+    = link_to crop_path(job.jobbable), class: 'notepad-chip' do
+      %span.kind= t('jobs.pad.crop')
+      = job.jobbable.name
   - if job.due_date
     %span.notepad-due{ class: ('late' if job_overdue?(job)) }= job_due_label(job)
   .notepad-menu= render 'jobs/actions', job:

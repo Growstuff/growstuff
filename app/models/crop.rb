@@ -7,6 +7,7 @@ class Crop < ApplicationRecord
   include OpenFarmData
   include GbifData
   include SearchCrops
+  include Jobbable
 
   friendly_id :name, use: %i(slugged finders)
 
