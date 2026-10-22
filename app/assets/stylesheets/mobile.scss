@@ -8,7 +8,9 @@
   }
 
   // The container has no padding here for a row's negative margins to cancel out.
-  main > .row {
+  main > .row,
+  main > form > .row,
+  main > .record-page > .row {
     margin-right: 0;
     margin-left: 0;
   }
