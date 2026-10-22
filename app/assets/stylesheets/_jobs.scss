@@ -22,6 +22,7 @@
 
   // One line to type a job into; Enter adds it.
   .notepad-add {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -241,10 +242,6 @@
   }
 
   // The @ suggestions drop down from the line you type in.
-  .notepad-add {
-    position: relative;
-  }
-
   .notepad-suggestions {
     position: absolute;
     top: 100%;
@@ -266,11 +263,10 @@
 
   .notepad-suggestion {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.6rem;
     min-height: 44px;
     padding: 0.4rem 0.9rem;
-    align-items: center;
     cursor: pointer;
 
     &.active,

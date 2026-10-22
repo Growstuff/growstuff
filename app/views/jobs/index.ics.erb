@@ -7,25 +7,25 @@ cal.description = "Jobs by #{@owner.login_name}"
   event = Icalendar::Event.new
 
   lines = []
-  lines << "Garden: #{job['garden_name'] ? job['garden_name'] : 'N/A' }"
-  lines << "Planting: #{job['planting_name'] ? job['planting_name'] : 'N/A' }"
+  lines << "Garden: #{job.garden_name || 'N/A'}"
+  lines << "Planting: #{job.planting_name || 'N/A'}"
 
   lines << job.description
-  finish_date = Date.parse(job['due_date']) rescue nil
+  finish_date = job.due_date
 
-  event.dtstart     = Time.at(job['created_at'])
+  event.dtstart     = job.created_at
   event.dtend       = finish_date || 1.day.from_now
-  event.summary     = job['name']
+  event.summary     = job.name
   event.description = lines.join("\n")
   event.ip_class    = "PUBLIC"
 
   cal.add_event(event)
 
-  if finish_date && finish_date > Date.today
+  if finish_date && finish_date > Time.zone.today
     todo = Icalendar::Todo.new
-    todo.dtstart = finish_date || Date.today
+    todo.dtstart = finish_date
     todo.due = finish_date
-    todo.summary     = job['name']
+    todo.summary     = job.name
     todo.description = lines.join("\n")
 
     cal.add_todo(todo)

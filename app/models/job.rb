@@ -4,7 +4,6 @@ class Job < ApplicationRecord
   extend FriendlyId
   include Ownable
   include Finishable
-  include Likeable
 
   belongs_to :garden, optional: true
   belongs_to :jobbable, polymorphic: true, optional: true
@@ -22,6 +21,7 @@ class Job < ApplicationRecord
 
   delegate :location, :latitude, :longitude, to: :owner
   delegate :login_name, :slug, :location, to: :owner, prefix: true
+  delegate :name, to: :garden, prefix: true, allow_nil: true
 
   def job_slug
     "#{owner.login_name}-#{name}-#{id}".downcase.tr(' ', '-')
@@ -31,40 +31,29 @@ class Job < ApplicationRecord
     name
   end
 
-  def garden_name
-    garden&.name
+  scope :active, -> { where(finished: [false, nil]) }
+
+  # The planting a job is about, if it is about one. The form, Copy and the API
+  # speak of plantings; the link itself is the jobbable.
+  def planting
+    jobbable if jobbable_type == 'Planting'
   end
 
-  def garden_slug
-    garden&.slug
+  def planting=(planting)
+    self.jobbable = planting
+  end
+
+  def planting_id
+    jobbable_id if jobbable_type == 'Planting'
+  end
+
+  # Nothing chosen on the form leaves the job about whatever it was about.
+  def planting_id=(id)
+    self.jobbable = Planting.find_by(id:) if id.present?
   end
 
   def planting_name
-    planting&.crop&.name
-  end
-
-  def planting_slug
-    planting&.crop&.slug
-  end
-
-  scope :active, -> { where(finished: [false, nil]) }
-
-  # The planting, seeds or crop the job is about, each nil when it is about
-  # something else. Setting one replaces what the job was about.
-  %w(Crop Planting Seed).each do |type|
-    name = type.underscore
-
-    define_method(name) { jobbable if jobbable_type == type }
-    define_method("#{name}=") { |record| self.jobbable = record }
-    define_method("#{name}_id") { jobbable_id if jobbable_type == type }
-    define_method("#{name}_id=") do |id|
-      self.jobbable = id.present? ? type.constantize.find_by(id:) : nil
-    end
-  end
-
-  # The crop the job is about, or the crop of the planting or seeds it is about.
-  def about_crop
-    jobbable.is_a?(Crop) ? jobbable : jobbable&.crop
+    planting&.crop_name
   end
 
   private

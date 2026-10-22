@@ -31,10 +31,6 @@ RSpec.describe Job do
       it 'is about that planting' do
         expect(job.planting).to eq jobbable
       end
-
-      it 'is about the planting\'s crop' do
-        expect(job.about_crop).to eq jobbable.crop
-      end
     end
 
     context 'with some of the owner\'s seeds' do
@@ -47,10 +43,6 @@ RSpec.describe Job do
       let(:jobbable) { create(:crop) }
 
       it { is_expected.to be_valid }
-
-      it 'is about that crop' do
-        expect(job.crop).to eq jobbable
-      end
 
       it 'is not about a planting' do
         expect(job.planting).to be_nil
@@ -76,6 +68,13 @@ RSpec.describe Job do
     it 'makes the job about that planting' do
       job = build(:job, planting_id: planting.id)
       expect(job.jobbable).to eq planting
+    end
+
+    it 'leaves a job about a crop alone when the form chooses no planting' do
+      crop = create(:crop)
+      job = build(:job, jobbable: crop)
+      job.planting_id = ''
+      expect(job.jobbable).to eq crop
     end
   end
 end

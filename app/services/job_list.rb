@@ -32,6 +32,8 @@ class JobList
     ].compact
   end
 
+  private
+
   def week_end
     self.class.week_end(@today)
   end

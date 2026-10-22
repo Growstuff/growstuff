@@ -673,7 +673,7 @@ en:
       crop: Crop
       seeds: Seeds
       link_hint: Type @ and a crop name to link this job to it.
-      remove_link: Remove link to %{what}
+      remove_link: Remove link
       planting: Planting
       in_garden: in %{garden}
     index:

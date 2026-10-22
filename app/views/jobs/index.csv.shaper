@@ -18,7 +18,7 @@ csv.headers :id,
 
     csv.cell :id
 
-    csv.cell :name, a.description
+    csv.cell :name
     csv.cell :description, a.description
 
     csv.cell :owner_id, a.owner_id

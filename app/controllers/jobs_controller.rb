@@ -23,71 +23,33 @@ class JobsController < DataController
   end
 
   def new
-    @job = Job.new(
-      owner:    current_member,
-      due_date: Date.today
-    )
-    @job.name = params[:name] if params[:name]
-    @job.description = params[:description] if params[:description]
-    @job.due_date = params[:due_date] if params[:due_date]
-    if params[:garden_id]
-      @job.garden = Garden.find_by(
-        owner: current_member,
-        id:    params[:garden_id]
-      )
-    end
-
-    if params[:planting_id]
-      @job.planting = Planting.find_by(
-        owner: current_member,
-        id:    params[:planting_id]
-      )
-    end
+    @job = Job.new(new_job_params.to_h.reverse_merge(due_date: Time.zone.today))
+    @job.owner = current_member
+    @job.garden = nil unless @job.garden&.owner == current_member
+    @job.planting = nil unless @job.planting&.owner == current_member
 
     respond_with @job
-  end
-
-  def edit
-    # the following are needed to display the form but aren't used
-    @gardens = @job.owner.gardens.active.order_by_name
-    @plantings = @job.owner.plantings.active
   end
 
   def create
     @job = Job.new(job_params)
     @job.owner = current_member
-    @job.due_date ||= Date.today
+    @job.due_date ||= Time.zone.today
+    saved = @job.save
 
-    if request.xhr?
-      return head :unprocessable_entity unless @job.save
+    return render_notepad(:created) if request.xhr? && saved
+    return head :unprocessable_entity if request.xhr?
 
-      return render_notepad(:created)
-    end
-
-    if @job.save
-      if params[:repeat_times].to_i > 0
-        repeat_times = params[:repeat_times].to_i
-        repeat_weeks = params[:repeat_weeks].to_i
-
-        repeat_times.times do |i|
-          new_job = @job.dup
-          new_job.due_date = @job.due_date + (i + 1) * repeat_weeks.weeks
-          new_job.save
-        end
-      end
-    end
-
+    repeat if saved
     respond_with @job, location: after_save_path
   end
 
   def update
-    if request.xhr?
-      return head :unprocessable_entity unless @job.update(job_params)
+    updated = @job.update(job_params)
 
-      return render_notepad(:ok)
-    end
+    return render_notepad(:ok) if request.xhr? && updated
+    return head :unprocessable_entity if request.xhr?
 
-    @job.update(job_params)
     respond_with @job, location: after_save_path
   end
 
@@ -125,11 +87,22 @@ class JobsController < DataController
   end
 
   def job_params
-    params.require(:job).permit(
-      :name, :description, :finished,
-      :garden_id, :planting_id, :jobbable_type, :jobbable_id, :due_date,
-      :repeat_times, :repeat_weeks
-    )
+    params.require(:job).permit(:name, :description, :finished, :due_date,
+                                :garden_id, :planting_id, :jobbable_type, :jobbable_id)
+  end
+
+  # What a link to "new job" can fill in ahead of time, as Copy does.
+  def new_job_params
+    params.permit(:name, :description, :due_date, :garden_id, :planting_id)
+  end
+
+  # "Repeat how many times, every how many weeks" on the form: copies of the job
+  # on later days.
+  def repeat
+    weeks = params[:repeat_weeks].to_i.weeks
+    params[:repeat_times].to_i.times do |i|
+      @job.dup.tap { |copy| copy.due_date = @job.due_date + ((i + 1) * weeks) }.save
+    end
   end
 
   def specifics

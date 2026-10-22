@@ -1,6 +1,7 @@
-// Adds a job to the notepad without reloading the page: the server sends back
-// the notepad's groups with the new job in them. If anything goes wrong the form
-// is submitted the ordinary way, so nothing is lost.
+// The jobs notepad: adding a job, moving it between days, and linking it to a
+// crop, planting or seeds, all without reloading the page. The server sends back
+// the notepad's groups after each change. If anything goes wrong the page is
+// loaded the ordinary way, so nothing is lost.
 
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('.notepad-add');
@@ -9,87 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const input = form.querySelector('input[type="text"]');
   const token = document.querySelector('meta[name="csrf-token"]');
-  let adding = false;
+  const kinds = JSON.parse(form.dataset.kinds);
 
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    if (adding || !input.value.trim()) return;
-    adding = true;
-
-    fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-Token': token ? token.content : '',
-      },
-      credentials: 'same-origin',
-    })
-      .then(function (response) {
-        if (!response.ok) throw new Error(response.status);
-        return response.text();
-      })
-      .then(function (html) {
-        groups.innerHTML = html;
-        input.value = '';
-        if (window.jobNotepadClearLink) window.jobNotepadClearLink();
-        input.focus();
-        adding = false;
-      })
-      .catch(function () {
-        form.submit();
-      });
-  });
-});
-
-// Dragging a job into Today, This week or Some day gives it that day. Each group
-// says which day in data-drop ("none" for no day). The row menu does the same
-// for keyboard and touch.
-document.addEventListener('DOMContentLoaded', function () {
-  const groups = document.getElementById('notepad-groups');
-  if (!groups) return;
-
-  const token = document.querySelector('meta[name="csrf-token"]');
-  let dragged = null;
-
-  const dropTarget = function (event) {
-    const group = event.target.closest('.notepad-group');
-    return group && group.dataset.drop ? group : null;
-  };
-
-  groups.addEventListener('dragstart', function (event) {
-    const row = event.target.closest('.notepad-job');
-    if (!row) return;
-    dragged = row;
-    row.classList.add('dragging');
-    event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/plain', row.dataset.url);
-  });
-
-  groups.addEventListener('dragend', function () {
-    if (dragged) dragged.classList.remove('dragging');
-    dragged = null;
-    groups.querySelectorAll('.drop-over').forEach(function (el) { el.classList.remove('drop-over'); });
-  });
-
-  groups.addEventListener('dragover', function (event) {
-    const group = dropTarget(event);
-    if (!dragged || !group) return;
-    event.preventDefault();
-    groups.querySelectorAll('.drop-over').forEach(function (el) { el.classList.remove('drop-over'); });
-    group.classList.add('drop-over');
-  });
-
-  groups.addEventListener('drop', function (event) {
-    const group = dropTarget(event);
-    if (!dragged || !group) return;
-    event.preventDefault();
-
-    const body = new FormData();
-    body.append('_method', 'patch');
-    body.append('job[due_date]', group.dataset.drop === 'none' ? '' : group.dataset.drop);
-
-    fetch(dragged.dataset.url, {
+  // Sends a change to the server and shows the groups it sends back.
+  const send = function (url, body) {
+    return fetch(url, {
       method: 'POST',
       body: body,
       headers: {
@@ -104,30 +29,99 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .then(function (html) {
         groups.innerHTML = html;
-      })
-      .catch(function () {
-        window.location.reload();
       });
-  });
-});
+  };
 
-// Typing @ and a crop name offers your plantings and seeds of it, then the crop.
-// Picking one swaps the @ text for the crop's name and links the job to it.
-document.addEventListener('DOMContentLoaded', function () {
-  const form = document.querySelector('.notepad-add');
-  if (!form || !form.dataset.suggestionsUrl) return;
+  // ---- Adding a job
 
-  const input = form.querySelector('input[type="text"]');
-  const list = document.getElementById('notepad-suggestions');
   const link = document.getElementById('notepad-link');
   const typeField = document.getElementById('notepad-jobbable-type');
   const idField = document.getElementById('notepad-jobbable-id');
+  let adding = false;
+
+  const clearLink = function () {
+    typeField.value = '';
+    idField.value = '';
+    link.hidden = true;
+  };
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (adding || !input.value.trim()) return;
+    adding = true;
+
+    send(form.action, new FormData(form))
+      .then(function () {
+        input.value = '';
+        clearLink();
+        input.focus();
+        adding = false;
+      })
+      .catch(function () {
+        form.submit();
+      });
+  });
+
+  // ---- Moving a job to a day
+
+  // Each group says which day a job dropped in it gets, in data-drop ("none" for
+  // no day). The row menu does the same for keyboard and touch.
+  let dragged = null;
+
+  const dropTarget = function (event) {
+    const group = event.target.closest('.notepad-group');
+    return group && group.dataset.drop ? group : null;
+  };
+
+  const clearDropTargets = function () {
+    groups.querySelectorAll('.drop-over').forEach(function (el) { el.classList.remove('drop-over'); });
+  };
+
+  groups.addEventListener('dragstart', function (event) {
+    const row = event.target.closest('.notepad-job');
+    if (!row) return;
+    dragged = row;
+    row.classList.add('dragging');
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/plain', row.dataset.url);
+  });
+
+  groups.addEventListener('dragend', function () {
+    if (dragged) dragged.classList.remove('dragging');
+    dragged = null;
+    clearDropTargets();
+  });
+
+  groups.addEventListener('dragover', function (event) {
+    const group = dropTarget(event);
+    if (!dragged || !group) return;
+    event.preventDefault();
+    clearDropTargets();
+    group.classList.add('drop-over');
+  });
+
+  groups.addEventListener('drop', function (event) {
+    const group = dropTarget(event);
+    if (!dragged || !group) return;
+    event.preventDefault();
+
+    const body = new FormData();
+    body.append('_method', 'patch');
+    body.append('job[due_date]', group.dataset.drop === 'none' ? '' : group.dataset.drop);
+
+    send(dragged.dataset.url, body).catch(function () {
+      window.location.reload();
+    });
+  });
+
+  // ---- Linking a job: typing @ and a crop name offers your plantings and seeds
+  // of it, then the crop. Picking one swaps the @ text for the crop's name.
+
+  const list = document.getElementById('notepad-suggestions');
   let items = [];
   let active = -1;
   let timer = null;
-  let request = 0;
-
-  const kindNames = { planting: 'Planting', seed: 'Seeds', crop: 'Crop' };
+  let latest = 0;
 
   const close = function () {
     items = [];
@@ -148,11 +142,27 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   // The @ and the letters after it, up to the cursor.
-  const token = function () {
+  const mention = function () {
     const before = input.value.slice(0, input.selectionStart);
     const match = /(^|\s)@([^@]*)$/.exec(before);
     if (!match) return null;
     return { start: match.index + match[1].length, query: match[2].trim() };
+  };
+
+  const pick = function (item) {
+    const found = mention();
+    if (found) {
+      const rest = input.value.slice(input.selectionStart).replace(/^\s+/, '');
+      const text = input.value.slice(0, found.start) + item.crop_name + ' ';
+      input.value = text + rest;
+      input.setSelectionRange(text.length, text.length);
+    }
+    typeField.value = item.jobbable_type;
+    idField.value = item.jobbable_id;
+    link.querySelector('.notepad-link-text').textContent = kinds[item.kind] + ': ' + item.label;
+    link.hidden = false;
+    close();
+    input.focus();
   };
 
   const render = function () {
@@ -162,18 +172,13 @@ document.addEventListener('DOMContentLoaded', function () {
       option.id = 'notepad-suggestion-' + i;
       option.setAttribute('role', 'option');
       option.className = 'notepad-suggestion';
-      const kind = document.createElement('span');
-      kind.className = 'kind';
-      kind.textContent = kindNames[item.kind];
-      const label = document.createElement('span');
-      label.textContent = item.label;
-      option.appendChild(kind);
-      option.appendChild(label);
-      if (item.detail) {
-        const detail = document.createElement('small');
-        detail.textContent = item.detail;
-        option.appendChild(detail);
-      }
+      [['kind', 'span', kinds[item.kind]], ['', 'span', item.label], ['', 'small', item.detail]].forEach(function (part) {
+        if (!part[2]) return;
+        const el = document.createElement(part[1]);
+        el.className = part[0];
+        el.textContent = part[2];
+        option.appendChild(el);
+      });
       // mousedown, so the pick happens before the input loses focus.
       option.addEventListener('mousedown', function (event) {
         event.preventDefault();
@@ -186,47 +191,18 @@ document.addEventListener('DOMContentLoaded', function () {
     setActive(items.length ? 0 : -1);
   };
 
-  const clearLink = function () {
-    typeField.value = '';
-    idField.value = '';
-    link.hidden = true;
-  };
-  window.jobNotepadClearLink = clearLink;
-
-  const showLink = function (item) {
-    clearLink();
-    typeField.value = item.jobbable_type;
-    idField.value = item.jobbable_id;
-    link.querySelector('.notepad-link-text').textContent = kindNames[item.kind] + ': ' + item.label;
-    link.querySelector('button').setAttribute('aria-label', 'Remove link to ' + item.label);
-    link.hidden = false;
-  };
-
-  const pick = function (item) {
-    const found = token();
-    if (found) {
-      const rest = input.value.slice(input.selectionStart);
-      const text = input.value.slice(0, found.start) + item.crop_name + ' ';
-      input.value = text + rest.replace(/^\s+/, '');
-      input.setSelectionRange(text.length, text.length);
-    }
-    showLink(item);
-    close();
-    input.focus();
-  };
-
   const search = function () {
-    const found = token();
+    const found = mention();
     if (!found || !found.query) return close();
 
-    const id = ++request;
+    const id = ++latest;
     fetch(form.dataset.suggestionsUrl + '?q=' + encodeURIComponent(found.query), {
       headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json' },
       credentials: 'same-origin',
     })
       .then(function (response) { return response.ok ? response.json() : []; })
       .then(function (results) {
-        if (id !== request) return;
+        if (id !== latest) return;
         items = results;
         render();
       })
@@ -238,6 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
     timer = setTimeout(search, 150);
   });
 
+  // Capturing, so Enter picks a suggestion instead of submitting the form.
   input.addEventListener('keydown', function (event) {
     if (list.hidden) return;
     if (event.key === 'ArrowDown') {
