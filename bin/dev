@@ -1,2 +1,19 @@
 #!/usr/bin/env ruby
-exec "./bin/rails", "server", *ARGV
+
+ENV["PORT"] ||= "3000"
+
+# Guard against running as root in Docker/podman containers
+if Process.uid.zero? && ENV["ALLOW_ROOT"].nil?
+  puts "bin/dev should not be run as root. Set ALLOW_ROOT=1 to override."
+  exit 1
+end
+
+if system("which overmind > /dev/null 2>&1")
+  exec "overmind", "start", "-f", "Procfile.dev", *ARGV
+elsif system("which hivemind > /dev/null 2>&1")
+  exec "hivemind", "Procfile.dev", *ARGV
+elsif system("which foreman > /dev/null 2>&1")
+  exec "foreman", "start", "-f", "Procfile.dev", *ARGV
+else
+  exec "bundle", "exec", "foreman", "start", "-f", "Procfile.dev", *ARGV
+end
