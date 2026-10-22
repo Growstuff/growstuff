@@ -1,4 +1,4 @@
-.notepad-job{ class: ('done' if job.finished), draggable: 'true', data: { url: job_path(job) } }
+.notepad-job{ class: ('done' if job.finished), draggable: 'true', data: { url: job_path(job), id: job.id } }
   - label = t(job.finished ? 'jobs.pad.uncross' : 'jobs.pad.cross_off', job: job.name)
   = button_to '', job_path(job), method: :patch, params: { job: { finished: job.finished ? 0 : 1 } },
     class: ['notepad-box', ('checked' if job.finished)], form_class: 'notepad-tick', title: label, 'aria-label': label
@@ -23,6 +23,7 @@
     = link_to crop_path(job.jobbable), class: 'notepad-chip' do
       %span.kind= t('jobs.pad.crop')
       = job.jobbable.name
-  - if job.due_date
-    %span.notepad-due{ class: ('late' if job_overdue?(job)) }= job_due_label(job)
+  - date_label = job_date_label(job)
+  - if date_label
+    %span.notepad-due{ class: ('late' if job_overdue?(job)) }= date_label
   .notepad-menu= render 'jobs/actions', job:, inline_edit: true

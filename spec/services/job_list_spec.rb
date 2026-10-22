@@ -60,6 +60,33 @@ describe JobList do
     end
   end
 
+  context 'with a job crossed off in the page being looked at' do
+    subject(:list) { described_class.new(jobs, today:, pinned: [just_ticked.id]) }
+
+    let(:just_ticked) { create(:job, due_date: Date.new(2026, 10, 14), finished: true) }
+    let(:ticked_before) { create(:job, due_date: Date.new(2026, 10, 15), finished: true) }
+    let(:jobs) { [just_ticked, ticked_before] }
+
+    it 'leaves it where its day puts it' do
+      expect(group(:overdue).jobs).to eq [just_ticked]
+    end
+
+    it 'still moves the others that are crossed off to Done' do
+      expect(group(:done).jobs).to eq [ticked_before]
+    end
+  end
+
+  context 'with crossed off jobs that say when they were crossed off' do
+    let(:first) { build(:job, due_date: Date.new(2026, 10, 18), finished: true, finished_at: Time.zone.local(2026, 10, 20)) }
+    let(:last) { build(:job, due_date: Date.new(2026, 10, 14), finished: true, finished_at: Time.zone.local(2026, 10, 21)) }
+    let(:undated) { build(:job, due_date: nil, finished: true, finished_at: Time.zone.local(2026, 10, 19)) }
+    let(:jobs) { [first, undated, last] }
+
+    it 'puts the one crossed off last first, whatever its day' do
+      expect(group(:done).jobs).to eq [last, first, undated]
+    end
+  end
+
   context 'with a crossed off job that has no day' do
     let(:done_past) { build(:job, due_date: Date.new(2026, 10, 18), finished: true) }
     let(:done_undated) { build(:job, due_date: nil, finished: true) }

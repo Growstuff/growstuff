@@ -5,8 +5,9 @@
 # places to drop a job; each says which day a job dropped in it gets. Overdue,
 # soon and done have no day of their own, so nothing is dropped there. A job
 # crossed off stays where its day puts it, unless it has no day or that day has
-# gone: then it moves to the bottom, to done, the latest day first and the ones
-# without a day after.
+# gone: then it moves to the bottom, to done, the one finished last first. Jobs
+# crossed off in the page being looked at are pinned: they stay where they were
+# until the page is loaded again, so a tick never makes a row jump.
 class JobList
   Group = Struct.new(:key, :jobs, :from, :to, :droppable, :drop_date) do
     alias_method :droppable?, :droppable
@@ -17,17 +18,18 @@ class JobList
     today.end_of_week(:monday)
   end
 
-  def initialize(jobs, today: Time.zone.today)
+  def initialize(jobs, today: Time.zone.today, pinned: [])
     @jobs = jobs
     @today = today
+    @pinned = pinned
   end
 
   def groups
     dated, undated = @jobs.partition(&:due_date)
     past, current = dated.partition { |job| job.due_date < @today }
-    done_past, overdue = past.partition(&:finished)
-    done_undated, someday = undated.partition(&:finished)
-    done = done_past.reverse + done_undated.reverse
+    done_past, overdue = past.partition { |job| settled?(job) }
+    done_undated, someday = undated.partition { |job| settled?(job) }
+    done = (done_past + done_undated).sort_by { |job| done_time(job) }.reverse
     now, later = current.partition { |job| job.due_date == @today }
     week, soon = later.partition { |job| ((@today + 1.day)..week_end).cover?(job.due_date) }
 
@@ -42,6 +44,17 @@ class JobList
   end
 
   private
+
+  # When a job was crossed off, or if that wasn't recorded, when it was due. Jobs
+  # with neither are the oldest.
+  def done_time(job)
+    job.finished_at || job.due_date&.in_time_zone || Time.zone.at(0)
+  end
+
+  # Crossed off, and so ready to move to done.
+  def settled?(job)
+    job.finished && @pinned.exclude?(job.id)
+  end
 
   def week_end
     self.class.week_end(@today)

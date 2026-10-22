@@ -85,8 +85,14 @@ class JobsController < DataController
     @jobs = Job.where(owner: @owner).includes(:garden, :jobbable)
       .order(Arel.sql('due_date IS NULL'), :due_date, :created_at, :id)
     preload_jobbables(@jobs)
-    @job_groups = JobList.new(@jobs).groups
+    @job_groups = JobList.new(@jobs, pinned: pinned_ids).groups
     @done_this_week = @jobs.finished_this_week.count
+  end
+
+  # The jobs the page has crossed off since it loaded, which stay where they are
+  # until it is loaded again.
+  def pinned_ids
+    Array(params[:keep]).map(&:to_i)
   end
 
   # The notepad shows a planting's crop and garden and a seed's crop. Rails can't

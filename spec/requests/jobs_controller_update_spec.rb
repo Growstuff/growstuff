@@ -66,4 +66,24 @@ describe JobsController, '#update' do
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
+
+  context 'when crossing off an overdue job, with the page keeping it where it is' do
+    let(:job) { create(:job, owner: member, name: 'Late one', due_date: 3.days.ago.to_date) }
+
+    before { patch job_path(job), params: { job: { finished: '1' }, keep: [job.id] }, headers: }
+
+    it 'leaves it in Overdue' do
+      expect(Capybara.string(response.body)).to have_css('.notepad-group-overdue', text: 'Late one')
+    end
+  end
+
+  context 'when crossing off an overdue job, from a page that has not kept it' do
+    let(:job) { create(:job, owner: member, name: 'Late one', due_date: 3.days.ago.to_date) }
+
+    before { patch job_path(job), params: { job: { finished: '1' } }, headers: }
+
+    it 'moves it to Done' do
+      expect(Capybara.string(response.body)).to have_css('.notepad-group-done', text: 'Late one')
+    end
+  end
 end

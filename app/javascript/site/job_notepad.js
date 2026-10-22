@@ -27,9 +27,15 @@ document.addEventListener('DOMContentLoaded', function () {
     if (caption) caption.textContent = done > 0 ? words.slow + ' ' + doneText(words, done) : words.slow;
   };
 
+  // The jobs crossed off since the page loaded. Each request says so, so the
+  // server leaves them where they are and a tick never makes a row jump. They
+  // move to Done when the page is loaded again.
+  const kept = new Set();
+
   // Sends a change to the server and shows the groups it sends back. Resolves
   // with how many jobs are done this week.
   const send = function (url, body) {
+    kept.forEach(function (id) { body.append('keep[]', id); });
     return fetch(url, {
       method: 'POST',
       body: body,
@@ -68,7 +74,10 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
 
     const finishing = tick.querySelector('input[name="job[finished]"]').value === '1';
-    const name = tick.closest('.notepad-job').querySelector('.notepad-name').textContent;
+    const row = tick.closest('.notepad-job');
+    const name = row.querySelector('.notepad-name').textContent;
+    const id = row.dataset.id;
+    if (finishing) kept.add(id); else kept.delete(id);
     const box = tick.getBoundingClientRect();
     const url = tick.action;
 
@@ -89,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
           origin: {x: box.left + box.width / 2, y: box.top + box.height / 2},
           onUndo: function () {
             streak = undoStreak(streak);
+            kept.delete(id);
             setFinished(url, false).catch(reload);
           },
         });

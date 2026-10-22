@@ -688,6 +688,8 @@ en:
       everyones_jobs: Everyone's jobs
       overdue: Overdue
       done: Done
+      done_on: done %{day}
+      done_today: done today
       today: Today
       week: This week
       soon: Soon

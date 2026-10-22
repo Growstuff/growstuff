@@ -22,6 +22,18 @@ describe 'jobs/_notepad_row' do
     expect(rendered).to have_link('Edit', href: edit_job_path(job), visible: :all)
   end
 
+  context 'when crossed off' do
+    let(:job) { create(:job, due_date: Date.new(2020, 1, 6), finished: true) }
+
+    it 'shows when it was crossed off, not when it was due' do
+      expect(rendered).to have_css('.notepad-due', text: /\Adone /)
+    end
+  end
+
+  it 'has no Mark as finished in its menu, as it has a tick box' do
+    expect(rendered).to have_no_link('Mark as finished', visible: :all)
+  end
+
   it 'has a hint for editing, hidden until then' do
     expect(rendered).to have_css('.notepad-edit-hint[hidden]', text: 'Enter to save', visible: :all)
   end
