@@ -4,7 +4,7 @@
     class: ['notepad-box', ('checked' if job.finished)], form_class: 'notepad-tick', title: label, 'aria-label': label
   %span.notepad-name{ data: { edit_label: t('jobs.pad.edit_label') } }= job.name
   %span.notepad-edit-hint{ hidden: true }= t('jobs.pad.edit_hint')
-  - if job.garden
+  - if job.garden && !local_assigns[:in_garden]
     = link_to garden_path(job.garden), class: 'notepad-chip garden' do
       %span.kind= t('jobs.pad.garden')
       = job.garden.name

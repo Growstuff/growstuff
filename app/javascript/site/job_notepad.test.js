@@ -89,6 +89,27 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
+describe('a notepad on a garden\'s page', () => {
+  it('says which garden every request is for', async () => {
+    fetchMock.mockReturnValue(new Promise(() => {}));
+    document.getElementById('notepad-groups').dataset.gardenId = '7';
+    await start();
+    document.querySelector('.notepad-add input[type="text"]').value = 'Net the berries';
+    submit(document.querySelector('.notepad-add'));
+
+    expect(fetchMock.mock.calls[0][1].body.get('garden_id')).toBe('7');
+  });
+
+  it('says nothing of a garden on the jobs page', async () => {
+    fetchMock.mockReturnValue(new Promise(() => {}));
+    await start();
+    document.querySelector('.notepad-add input[type="text"]').value = 'Net the berries';
+    submit(document.querySelector('.notepad-add'));
+
+    expect(fetchMock.mock.calls[0][1].body.has('garden_id')).toBe(false);
+  });
+});
+
 describe('adding a job', () => {
   const type = (text) => {
     document.querySelector('.notepad-add input[type="text"]').value = text;

@@ -679,6 +679,7 @@ en:
       seeds: "%{crop} seeds"
     pad:
       title: "%{owner}'s jobs"
+      garden_title: "Jobs in %{garden}"
       cross_off: "Cross off: %{job}"
       uncross: "Put back on the list: %{job}"
       add: Add a job

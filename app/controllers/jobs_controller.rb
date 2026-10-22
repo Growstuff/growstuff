@@ -79,30 +79,24 @@ class JobsController < DataController
     @owner = current_member
     load_notepad
     response.set_header('X-Jobs-Done-This-Week', @done_this_week.to_s)
-    render partial: 'jobs/notepad_groups', locals: { groups: @job_groups }, status:
+    render partial: 'jobs/notepad_groups', locals: { groups: @job_groups, in_garden: garden.present? }, status:
   end
 
   def load_notepad
-    @jobs = Job.where(owner: @owner).includes(:garden, :jobbable)
-      .order(Arel.sql('due_date IS NULL'), :due_date, :created_at, :id)
-    preload_jobbables(@jobs)
-    @job_groups = JobList.new(@jobs, pinned: pinned_ids).groups
-    @done_this_week = @jobs.finished_this_week.count
+    notepad = JobsNotepad.new(@owner, garden:, pinned: pinned_ids)
+    @job_groups = notepad.groups
+    @done_this_week = notepad.done_this_week
+  end
+
+  # The garden a notepad on a garden's page is for, if it is.
+  def garden
+    Garden.find_by(id: params[:garden_id]) if params[:garden_id].present?
   end
 
   # The jobs the page has crossed off since it loaded, which stay where they are
   # until it is loaded again.
   def pinned_ids
     Array(params[:keep]).map(&:to_i)
-  end
-
-  # The notepad shows a planting's crop and garden and a seed's crop. Rails can't
-  # load through a link that may be a crop, planting or seed, so each kind is
-  # loaded on its own, in one query rather than one per job.
-  def preload_jobbables(jobs)
-    linked = jobs.filter_map(&:jobbable)
-    ActiveRecord::Associations::Preloader.new(records: linked.grep(Planting), associations: %i(crop garden)).call
-    ActiveRecord::Associations::Preloader.new(records: linked.grep(Seed), associations: :crop).call
   end
 
   def job_params

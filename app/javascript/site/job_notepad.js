@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // with how many jobs are done this week.
   const send = function (url, body) {
     kept.forEach(function (id) { body.append('keep[]', id); });
+    if (groups.dataset.gardenId) body.append('garden_id', groups.dataset.gardenId);
     return fetch(url, {
       method: 'POST',
       body: body,

@@ -25,6 +25,29 @@ describe JobsController, '#create' do
     end
   end
 
+  context 'when adding from a garden\'s to-do list' do
+    let(:garden) { create(:garden, owner: member) }
+    let(:page) { Capybara.string(response.body) }
+
+    before do
+      create(:job, owner: member, name: 'Elsewhere')
+      post jobs_path, params: { job: { name: 'Net the berries', garden_id: garden.id }, garden_id: garden.id }, headers:
+    end
+
+    it 'adds the job to the garden' do
+      expect(member.jobs.find_by(name: 'Net the berries').garden).to eq garden
+    end
+
+    it 'sends back only the garden\'s jobs' do
+      expect(page).to have_css('.notepad-name', text: 'Net the berries')
+      expect(page).to have_no_css('.notepad-name', text: 'Elsewhere')
+    end
+
+    it 'leaves out the garden chip, as they are all for it' do
+      expect(page).to have_no_css('.notepad-chip.garden')
+    end
+  end
+
   context 'with the link left empty, as the notepad sends it' do
     before { post jobs_path, params: { job: { name: 'Sow the peas', jobbable_type: '', jobbable_id: '' } }, headers: }
 

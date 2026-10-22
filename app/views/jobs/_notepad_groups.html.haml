@@ -12,4 +12,4 @@
     - if group.jobs.empty?
       %p.notepad-drop-hint= t('jobs.pad.drop_here')
     - group.jobs.each do |job|
-      = render 'jobs/notepad_row', job:
+      = render 'jobs/notepad_row', job:, in_garden: local_assigns[:in_garden]

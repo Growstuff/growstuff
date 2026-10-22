@@ -25,7 +25,7 @@ class PlantingsController < DataController
     # drops every harvest that has no photo.
     @harvests = @planting.harvests.includes(:owner, :crop, :plant_part).recent
     @child_seeds = @planting.child_seeds.includes(:owner, :crop)
-    @current_jobs = @planting.jobs.current.includes(:owner).order(created_at: :desc)
+    @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
     @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
     @matching_seeds = matching_seeds
     @crop = @planting.crop
