@@ -8,6 +8,7 @@
     - if job.active
       = menu_link_to :finish, t('buttons.mark_as_finished'), finish_path, method: :put, class: 'append-date'
     = menu_link_to :job, t('jobs.pad.move_today'), job_path(slug: job.slug, job: { due_date: Time.zone.today }), method: :put
-    = menu_link_to :job, t('jobs.pad.move_week'), job_path(slug: job.slug, job: { due_date: JobList.week_end(Time.zone.today) }), method: :put
+    - if JobList.week_end(Time.zone.today) > Time.zone.today
+      = menu_link_to :job, t('jobs.pad.move_week'), job_path(slug: job.slug, job: { due_date: JobList.week_end(Time.zone.today) }), method: :put
     .dropdown-divider
     = menu_delete_button(job)

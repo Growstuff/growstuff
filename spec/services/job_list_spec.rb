@@ -63,4 +63,13 @@ describe JobList do
       expect(group(:soon)).not_to be_droppable
     end
   end
+
+  context 'when today is Sunday' do
+    let(:today) { Date.new(2026, 10, 25) }
+    let(:jobs) { [due_today] }
+
+    it 'has no This week, as none of the week is left' do
+      expect(list.groups.map(&:key)).to eq %i(today someday)
+    end
+  end
 end

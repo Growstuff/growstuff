@@ -1,7 +1,9 @@
 // The jobs notepad: adding a job, moving it between days, and linking it to a
 // crop, planting or seeds, all without reloading the page. The server sends back
-// the notepad's groups after each change. If anything goes wrong the page is
-// loaded the ordinary way, so nothing is lost.
+// the notepad's groups after each change. If adding a job goes wrong, the job
+// stays in the box and a message says so: it is not sent again, since the first
+// may have worked and a second would add the job twice. A move or a tick that
+// goes wrong reloads the page, which shows how things stand.
 
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('.notepad-add');
@@ -9,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!form || !groups) return;
 
   const input = form.querySelector('input[type="text"]');
+  const failure = document.getElementById('notepad-add-failed');
   const token = document.querySelector('meta[name="csrf-token"]');
   const kinds = JSON.parse(form.dataset.kinds);
 
@@ -49,16 +52,22 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     if (adding || !input.value.trim()) return;
     adding = true;
+    failure.hidden = true;
+    const submitted = input.value;
 
     send(form.action, new FormData(form))
       .then(function () {
-        input.value = '';
-        clearLink();
+        // Typing the next job while this one was sent is not to be lost.
+        if (input.value === submitted) {
+          input.value = '';
+          clearLink();
+        }
         input.focus();
         adding = false;
       })
       .catch(function () {
-        form.submit();
+        failure.hidden = false;
+        adding = false;
       });
   });
 

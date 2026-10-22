@@ -26,7 +26,7 @@ class JobList
 
     [
       Group.new(:today, now, @today, nil, true, @today),
-      Group.new(:week, week, @today + 1.day, week_end, true, week_end),
+      (Group.new(:week, week, @today + 1.day, week_end, true, week_end) if week_end > @today),
       (Group.new(:soon, soon, nil, nil, false, nil) if soon.any?),
       Group.new(:someday, someday, nil, nil, true, nil)
     ].compact
