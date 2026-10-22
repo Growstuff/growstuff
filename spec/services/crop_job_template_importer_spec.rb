@@ -30,6 +30,23 @@ describe CropJobTemplateImporter do
       end
     end
 
+    context 'with a step that has a link' do
+      let(:template) { super().merge('steps' => [step.merge('external_uri' => 'https://example.com/staking')]) }
+
+      it 'keeps the link' do
+        importer.import(data)
+        expect(tomato.crop_job_templates.first.steps.first.external_uri).to eq 'https://example.com/staking'
+      end
+    end
+
+    context 'with a link that is not a web address' do
+      let(:template) { super().merge('steps' => [step.merge('external_uri' => 'example.com')]) }
+
+      it 'says what is wrong' do
+        expect { importer.import(data) }.to raise_error(described_class::Invalid, /must start with http/)
+      end
+    end
+
     context 'with several steps' do
       let(:template) { super().merge('steps' => %w(First Second Third).map { |name| step.merge('name' => name) }) }
 
