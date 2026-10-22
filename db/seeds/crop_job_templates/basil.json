@@ -1,0 +1,19 @@
+{
+  "crop": "basil",
+  "templates": [
+    {
+      "name": "Growing basil",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds indoors", "amount": 6, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Harden off the seedlings", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Pinch out the growing tips", "amount": 3, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Pick leaves regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Pinch off flower buds", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Pull out finished plants", "amount": 12, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

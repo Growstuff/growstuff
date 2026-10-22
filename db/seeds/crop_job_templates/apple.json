@@ -1,0 +1,20 @@
+{
+  "crop": "apple",
+  "templates": [
+    {
+      "name": "Growing apples",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig a wide hole and add compost", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Stake and tie the young tree", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Water the young tree", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Mulch around the trunk", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Prune to shape the tree", "amount": 12, "unit": "months", "direction": "after", "anchor": "planting_out"},
+        {"name": "Thin the fruit", "amount": 4, "unit": "weeks", "direction": "before", "anchor": "first_harvest"},
+        {"name": "Pick ripe apples", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Prune after the leaves fall", "amount": 6, "unit": "months", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

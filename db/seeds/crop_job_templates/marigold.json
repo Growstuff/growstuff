@@ -1,0 +1,18 @@
+{
+  "crop": "marigold",
+  "templates": [
+    {
+      "name": "Growing marigolds",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds in trays", "amount": 6, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Harden off the seedlings", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Pick off the dead flowers", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Collect seed heads", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Pull out finished plants", "amount": 12, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

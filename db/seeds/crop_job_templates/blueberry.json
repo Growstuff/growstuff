@@ -1,0 +1,19 @@
+{
+  "crop": "blueberry",
+  "templates": [
+    {
+      "name": "Growing blueberries",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Prepare acidic, well-drained soil", "amount": 4, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Mulch with pine bark", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Feed with acid-loving plant food", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "monthly"},
+        {"name": "Net the bushes against birds", "amount": 2, "unit": "weeks", "direction": "before", "anchor": "first_harvest"},
+        {"name": "Pick ripe berries", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Prune out old stems", "amount": 6, "unit": "months", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "crop": "coriander",
+  "templates": [
+    {
+      "name": "Growing coriander",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig compost into the bed", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "sowing"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "weekly"},
+        {"name": "Thin the seedlings", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "sowing"},
+        {"name": "Sow another batch", "amount": 3, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "monthly"},
+        {"name": "Pick leaves regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Collect seeds from plants left to flower", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Pull out finished plants", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

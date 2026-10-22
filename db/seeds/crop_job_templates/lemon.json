@@ -1,0 +1,18 @@
+{
+  "crop": "lemon",
+  "templates": [
+    {
+      "name": "Growing lemons",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig compost into the planting hole", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water deeply", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Mulch around the tree", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Feed with citrus fertiliser", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "monthly"},
+        {"name": "Pick ripe lemons", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "fortnightly"},
+        {"name": "Prune lightly after harvest", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}
