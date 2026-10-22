@@ -141,6 +141,7 @@ describe('adding a job', () => {
     type('Sow the peas');
     submit(document.querySelector('.notepad-add'));
     submit(document.querySelector('.notepad-add'));
+    await flush();
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
@@ -150,6 +151,7 @@ describe('adding a job', () => {
     await start();
     type('Sow the peas');
     submit(document.querySelector('.notepad-add'));
+    await flush();
 
     const [url, options] = fetchMock.mock.calls[0];
     expect([url, options.headers['X-CSRF-Token'], options.headers['X-Requested-With']]).toEqual(['http://localhost:3000/jobs', 'token-123', 'XMLHttpRequest']);
@@ -256,6 +258,7 @@ describe('dropping a job on a day', () => {
     fetchMock.mockReturnValue(new Promise(() => {}));
     await start();
     drop(document.querySelector('.notepad-job[data-id="2"]'), groupFor('2026-10-23'));
+    await flush();
 
     const [url, options] = fetchMock.mock.calls[0];
     expect([url, options.body.get('_method'), options.body.get('job[due_date]')]).toEqual(['/jobs/weed', 'patch', '2026-10-23']);
@@ -265,6 +268,7 @@ describe('dropping a job on a day', () => {
     fetchMock.mockReturnValue(new Promise(() => {}));
     await start();
     drop(document.querySelector('.notepad-job[data-id="1"]'), groupFor('none'));
+    await flush();
 
     expect(fetchMock.mock.calls[0][1].body.get('job[due_date]')).toBe('');
   });
@@ -305,6 +309,7 @@ describe('crossing a job off', () => {
     fetchMock.mockResolvedValue(answer());
     await start();
     submit(tick(1));
+    await flush();
 
     expect(keepers(0)).toEqual(['1']);
   });
@@ -316,6 +321,7 @@ describe('crossing a job off', () => {
     await flush();
     document.querySelector('.notepad-add input[type="text"]').value = 'Another';
     submit(document.querySelector('.notepad-add'));
+    await flush();
 
     expect(keepers(1)).toEqual(['1']);
   });
@@ -327,8 +333,63 @@ describe('crossing a job off', () => {
     await flush();
     tick(1).querySelector('input[name="job[finished]"]').value = '0';
     submit(tick(1));
+    await flush();
 
     expect(keepers(1)).toEqual([]);
+  });
+
+  it('sends changes one at a time, in the order they were made', async () => {
+    let finishFirst;
+    fetchMock
+      .mockReturnValueOnce(new Promise((resolve) => { finishFirst = resolve; }))
+      .mockResolvedValue(answer());
+    await start();
+    submit(tick(1));
+    submit(tick(2));
+    await flush();
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    finishFirst(answer(`<div class="notepad-group">${row(1, 'Water')}${row(2, 'Weed')}</div>`));
+    await flush();
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock.mock.calls[0][0]).toMatch(/\/jobs\/water$/);
+    expect(fetchMock.mock.calls[1][0]).toMatch(/\/jobs\/weed$/);
+  });
+
+  it('goes on with the next change when one fails', async () => {
+    fetchMock
+      .mockResolvedValueOnce({ok: false, status: 500, headers: {get: () => null}, text: () => Promise.resolve('')})
+      .mockResolvedValue(answer());
+    await start();
+    submit(tick(1));
+    submit(tick(2));
+    await flush();
+    await flush();
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('puts focus back on the tick box once the list is drawn again', async () => {
+    fetchMock.mockResolvedValue(answer(`<div class="notepad-group">${row(1, 'Water')}${row(2, 'Weed')}</div>`));
+    await start();
+    tick(1).querySelector('button').focus();
+    submit(tick(1));
+    await flush();
+
+    expect(document.activeElement).toBe(tick(1).querySelector('button'));
+  });
+
+  it('does not take focus back from elsewhere', async () => {
+    fetchMock.mockResolvedValue(answer(`<div class="notepad-group">${row(1, 'Water')}</div>`));
+    await start();
+    tick(1).querySelector('button').focus();
+    submit(tick(1));
+    document.querySelector('.notepad-add input[type="text"]').focus();
+    await flush();
+
+    expect(document.activeElement).toBe(document.querySelector('.notepad-add input[type="text"]'));
   });
 
   it('shows how many jobs are done this week', async () => {
@@ -390,6 +451,7 @@ describe('editing a job in place', () => {
     open();
     box().value = 'Water the beans';
     key('Enter');
+    await flush();
 
     const [url, options] = fetchMock.mock.calls[0];
     expect([url, options.body.get('_method'), options.body.get('job[name]')]).toEqual(['/jobs/water', 'patch', 'Water the beans']);
@@ -412,6 +474,7 @@ describe('editing a job in place', () => {
     open();
     box().value = 'Water the beans';
     box().dispatchEvent(new Event('blur'));
+    await flush();
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });

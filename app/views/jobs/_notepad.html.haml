@@ -27,8 +27,8 @@
   %p.notepad-note= t('jobs.pad.public_note') + ' ' + t('jobs.pad.link_hint')
 
   #notepad-groups{ data: { celebrations: job_celebrations.to_json, garden_id: garden&.id } }= render 'jobs/notepad_groups', groups:, in_garden: garden.present?
-  .notepad-snail{ 'aria-hidden': 'true' }
-    .notepad-snail-track
+  .notepad-snail
+    .notepad-snail-track{ 'aria-hidden': 'true' }
       %span.notepad-snail-trail
       %svg.notepad-snail-body{ width: 72, height: 48, viewBox: '0 0 72 48' }
         %path{ d: 'M4 42 C2 33 12 31 22 33 L58 33 C65 33 69 38 66 42 Z', fill: '#c7b89b' }
