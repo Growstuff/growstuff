@@ -44,6 +44,14 @@ describe 'Own jobs notepad' do
     end
   end
 
+  context 'with the page loaded' do
+    before { visit member_jobs_path(member) }
+
+    it 'does not disable the Add button when the form is submitted' do
+      expect(page).to have_css('input.notepad-add-button:not([data-disable-with])')
+    end
+  end
+
   context 'when adding a job' do
     before do
       visit member_jobs_path(member)

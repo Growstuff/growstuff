@@ -25,6 +25,18 @@ describe JobsController, '#create' do
     end
   end
 
+  context 'with the link left empty, as the notepad sends it' do
+    before { post jobs_path, params: { job: { name: 'Sow the peas', jobbable_type: '', jobbable_id: '' } }, headers: }
+
+    it 'creates the job' do
+      expect(member.jobs.pluck(:name)).to eq ['Sow the peas']
+    end
+
+    it 'links it to nothing' do
+      expect(member.jobs.first.jobbable).to be_nil
+    end
+  end
+
   context 'with a planting of the member\'s to link to' do
     let(:planting) { create(:planting, owner: member) }
 

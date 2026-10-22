@@ -16,6 +16,8 @@ class Job < ApplicationRecord
   validates :owner, presence: true
 
   validates :slug, uniqueness: true
+  # The add form sends these empty when the job is not linked to anything.
+  normalizes :jobbable_type, with: ->(type) { type.presence }
   validates :jobbable_type, inclusion: { in: JOBBABLE_TYPES }, allow_nil: true
   validate :jobbable_is_the_owners, if: -> { jobbable_id_changed? || jobbable_type_changed? }
 
