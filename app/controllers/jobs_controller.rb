@@ -83,7 +83,7 @@ class JobsController < DataController
 
   def load_notepad
     @jobs = Job.where(owner: @owner).includes(:garden, :jobbable)
-      .order(Arel.sql('finished IS TRUE'), Arel.sql('due_date IS NULL'), :due_date, :created_at)
+      .order(Arel.sql('due_date IS NULL'), :due_date, :created_at, :id)
     @job_groups = JobList.new(@jobs).groups
     @done_this_week = @jobs.finished_this_week.count
   end
