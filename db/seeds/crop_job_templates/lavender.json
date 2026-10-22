@@ -1,0 +1,16 @@
+{
+  "crop": "lavender",
+  "templates": [
+    {
+      "name": "Growing lavender",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Water until established", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Pick flower stems", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Cut back after flowering", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Replace old woody plants", "amount": 72, "unit": "months", "direction": "after", "anchor": "planting_out"}
+      ]
+    }
+  ]
+}

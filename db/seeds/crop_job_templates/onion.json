@@ -1,0 +1,20 @@
+{
+  "crop": "onion",
+  "templates": [
+    {
+      "name": "Growing onions",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds in trays", "amount": 8, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Dig compost into the bed", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Weed around the plants", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Feed with a nitrogen fertiliser", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "monthly"},
+        {"name": "Stop watering as the tops fall over", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "first_harvest"},
+        {"name": "Lift the bulbs", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Dry the bulbs in an airy place", "amount": 1, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "crop": "beet",
+  "templates": [
+    {
+      "name": "Growing beetroot",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig the bed fine and stone free", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "sowing"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "weekly"},
+        {"name": "Thin the seedlings", "amount": 3, "unit": "weeks", "direction": "after", "anchor": "sowing"},
+        {"name": "Weed between the rows", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "fortnightly"},
+        {"name": "Start pulling young beets", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Lift the rest of the crop", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

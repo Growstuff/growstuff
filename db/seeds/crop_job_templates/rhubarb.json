@@ -1,0 +1,19 @@
+{
+  "crop": "rhubarb",
+  "templates": [
+    {
+      "name": "Growing rhubarb",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig plenty of compost into the bed", "amount": 2, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Mulch around the crowns", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Pick the stalks", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Cut off any flower stalks", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "fortnightly"},
+        {"name": "Feed and mulch the crowns", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Divide the crowns", "amount": 60, "unit": "months", "direction": "after", "anchor": "planting_out"}
+      ]
+    }
+  ]
+}

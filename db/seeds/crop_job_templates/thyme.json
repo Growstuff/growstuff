@@ -1,0 +1,18 @@
+{
+  "crop": "thyme",
+  "templates": [
+    {
+      "name": "Growing thyme",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds in trays", "amount": 8, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water until established", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Pick sprigs", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "fortnightly"},
+        {"name": "Trim after flowering", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Trim back old growth", "amount": 12, "unit": "months", "direction": "after", "anchor": "planting_out"},
+        {"name": "Replace woody plants", "amount": 48, "unit": "months", "direction": "after", "anchor": "planting_out"}
+      ]
+    }
+  ]
+}

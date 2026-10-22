@@ -1,0 +1,21 @@
+{
+  "crop": "garlic",
+  "templates": [
+    {
+      "name": "Growing garlic",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig compost into the bed", "amount": 2, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Mulch the bed", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Weed around the plants", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "monthly"},
+        {"name": "Water in dry weather", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Snip off the flower stems", "amount": 3, "unit": "weeks", "direction": "before", "anchor": "first_harvest"},
+        {"name": "Stop watering", "amount": 2, "unit": "weeks", "direction": "before", "anchor": "first_harvest"},
+        {"name": "Lift the bulbs", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Dry the bulbs in a shaded, airy place", "amount": 1, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Keep the best bulbs for replanting", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}
