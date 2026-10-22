@@ -44,6 +44,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_000000) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "activities", force: :cascade do |t|
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.string "description"
+    t.date "due_date"
+    t.boolean "finished"
+    t.bigint "garden_id"
+    t.integer "likes_count", default: 0
+    t.string "name"
+    t.bigint "owner_id"
+    t.bigint "planting_id"
+    t.string "slug"
+    t.datetime "updated_at", null: false
+    t.index ["garden_id"], name: "index_activities_on_garden_id"
+    t.index ["owner_id"], name: "index_activities_on_owner_id"
+    t.index ["planting_id"], name: "index_activities_on_planting_id"
+    t.index ["slug"], name: "index_activities_on_slug", unique: true
+  end
+
   create_table "alternate_names", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil
     t.integer "creator_id", null: false
@@ -702,24 +721,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_000000) do
     t.index ["harvest_id", "photo_id"], name: "index_harvests_photos_on_harvest_id_and_photo_id"
   end
 
-  create_table "jobs", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "description"
-    t.date "due_date"
-    t.boolean "finished"
-    t.bigint "garden_id"
-    t.integer "likes_count", default: 0
-    t.string "name"
-    t.bigint "owner_id"
-    t.bigint "planting_id"
-    t.string "slug"
-    t.datetime "updated_at", null: false
-    t.index ["garden_id"], name: "index_jobs_on_garden_id"
-    t.index ["owner_id"], name: "index_jobs_on_owner_id"
-    t.index ["planting_id"], name: "index_jobs_on_planting_id"
-    t.index ["slug"], name: "index_jobs_on_slug", unique: true
-  end
-
   create_table "likes", id: :serial, force: :cascade do |t|
     t.string "categories", array: true
     t.datetime "created_at", precision: nil
@@ -801,6 +802,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_000000) do
   end
 
   create_table "members", id: :serial, force: :cascade do |t|
+    t.integer "activities_count"
     t.text "bio"
     t.string "bluesky_handle"
     t.datetime "confirmation_sent_at", precision: nil
@@ -818,7 +820,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_000000) do
     t.integer "gardens_count"
     t.integer "harvests_count"
     t.string "instagram_handle"
-    t.integer "jobs_count"
     t.datetime "last_sign_in_at", precision: nil
     t.string "last_sign_in_ip"
     t.float "latitude"
