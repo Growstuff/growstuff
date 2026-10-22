@@ -1,1 +1,1 @@
-#{link_to event_model.member, event_model.member} liked #{link_to event_model.likeable.class.name.downcase, event_model.likeable}
+#{link_to event_model.member, event_model.member} liked #{link_to event_model.likeable.class.name.downcase, (event_model.likeable.is_a?(Job) ? member_jobs_path(event_model.likeable.owner) : event_model.likeable)}

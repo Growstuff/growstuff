@@ -148,7 +148,7 @@ en:
     new_planting: New planting
     new_post: Write new post
     new_harvest: New harvest
-    new_activity: Plan activity
+    new_job: Add a job
     plant: Plant
     plant_crop: Plant %{crop_name}
     plant_something_here: Plant something here
@@ -445,9 +445,9 @@ en:
       empty: Nothing to show yet.
       title: Latest from your friends and neighbours
     group:
-      activity_html:
-        one: Planned an activity, %{things}
-        other: Planned %{count} activities, %{things}
+      job_html:
+        one: Planned a job, %{things}
+        other: Planned %{count} jobs, %{things}
       due: for %{date}
       garden_layout_html: Rearranged the layout of %{things}
       harvest_html: Harvested %{things}
@@ -542,7 +542,7 @@ en:
     data: 'The data on this page is available in the following formats:'
   layouts:
     header:
-      activities: Activities
+      jobs: Jobs
       account: Account
       admin: Admin
       browse_crops: Browse Crops
@@ -647,15 +647,38 @@ en:
       not_enough_data: Not enough data
       perennial: Perennial
       unknown: Unknown
-  activities:
+  jobs:
     plan_something: Plan something
+    due:
+      last: last %{day}
+    pad:
+      title: "%{owner}'s jobs"
+      cross_off: "Cross off: %{job}"
+      uncross: "Put back on the list: %{job}"
+      add: Add a job
+      add_button: Add
+      add_failed: That job may not have been added. Check your list before you try again.
+      public_note: Jobs are public, so don't put private info here.
+      my_jobs: My jobs
+      everyones_jobs: Everyone's jobs
+      today: Today
+      week: This week
+      soon: Soon
+      someday: Some day
+      drop_here: Drag a job here.
+      move_today: Today
+      move_week: This week
+      someday_note: a wishlist, nothing committed
+      garden: Garden
+      planting: Planting
+      in_garden: in %{garden}
     index:
       title:
-        default: Everyone's activities
-        owner_activities: "%{owner}'s activities"
+        default: Everyone's jobs
+        owner_jobs: "%{owner}'s jobs"
     form:
       finish_helper: >
-        An activity is finished when you've completed it, or it's otherwise
+        A job is finished when you've completed it, or it's otherwise
         no longer possible.
   seasons:
     spring: Spring
@@ -694,9 +717,9 @@ en:
       photos: Photos
       harvests: Harvests
       seeds_saved: Seeds saved
-      activities: Activities
-      activities_current: Planned
-      activities_finished: Finished
+      jobs: Jobs
+      jobs_current: Planned
+      jobs_finished: Finished
       neighbours: World neighbours
       harvest_months: Harvest months
       harvest_months_unknown: No harvest months for this crop at this latitude yet.
@@ -713,7 +736,7 @@ en:
         your garden next season.
       no_seeds: No seeds saved yet.
       no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
-      no_activities: Nothing is planned here.
+      no_jobs: Nothing is planned here.
       more_photos: More photos
       view_all_plantings: All of %{owner}'s plantings
   posts:

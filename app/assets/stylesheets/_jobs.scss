@@ -1,0 +1,242 @@
+// A member's own jobs, as a notepad: a green title bar, then rows ruled like a
+// list. See the garden notepad design.
+.notepad {
+  background: $white;
+  border: 1px solid rgba(65, 63, 59, 0.15);
+  border-radius: $card-radius;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
+  overflow: hidden;
+  padding-bottom: 1rem;
+
+  .notepad-title {
+    background: $green;
+    padding: 0.5rem 1.1rem;
+
+    h1 {
+      color: $white;
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin: 0;
+    }
+  }
+
+  // One line to type a job into; Enter adds it.
+  .notepad-add {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.75rem 1.1rem 0;
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      min-height: 44px;
+      padding: 0 0.75rem;
+      border: 1px solid #757575;
+      border-radius: 2px;
+    }
+  }
+
+  .notepad-add-plus {
+    color: $green;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    width: 1.2rem;
+    text-align: center;
+  }
+
+  .notepad-add-button {
+    min-height: 44px;
+  }
+
+  .notepad-note,
+  .notepad-empty {
+    color: $ink-muted;
+    font-size: 0.9rem;
+    margin: 0.75rem 1.1rem 0;
+  }
+
+  .notepad-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    padding: 0.9rem 1.1rem 0.4rem;
+    border-top: 1px solid #dee2e6;
+
+    h2 {
+      color: #3f5e2b;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    small {
+      color: $ink-muted;
+    }
+  }
+
+  .notepad-drop-hint {
+    color: $ink-muted;
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0.5rem 1.1rem 0.75rem;
+  }
+
+  .notepad-group.drop-over {
+    background: #f4f9f0;
+    outline: 2px dashed $green;
+    outline-offset: -2px;
+  }
+
+  .notepad-job[draggable="true"] {
+    cursor: grab;
+  }
+
+  .notepad-job.dragging {
+    opacity: 0.4;
+  }
+
+  .notepad-job {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.6rem;
+    min-height: 52px;
+    padding: 0.1rem 0.5rem 0.1rem 1.1rem;
+    border-top: 1px solid #eef0ea;
+
+    &:hover {
+      background: #faf9f7;
+    }
+
+    &.done {
+      opacity: 0.6;
+
+      .notepad-name {
+        color: #757575;
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  // The tick box is a button in a form, so it works without JavaScript. The
+  // button is the 44px target; the box is drawn inside it.
+  .notepad-tick {
+    flex: none;
+    margin: 0;
+  }
+
+  .notepad-box {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 11px;
+      left: 11px;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #757575;
+      border-radius: 3px;
+      background: $white;
+    }
+
+    &:hover::before {
+      border-color: $green;
+    }
+
+    &:focus-visible {
+      outline: 3px solid $orange;
+      outline-offset: -2px;
+    }
+
+    &.checked::before {
+      background: #e4efdc;
+      border-color: $green;
+    }
+
+    &.checked::after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 17px;
+      width: 6px;
+      height: 11px;
+      border: solid $green;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  .notepad-name {
+    color: #212121;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .notepad-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 28px;
+    padding: 0 0.75rem;
+    border-radius: 999px;
+    background: #dfe8d4;
+    color: #3f5e2b;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    &.garden {
+      background: #f3e7cf;
+      color: #6b4f1d;
+    }
+
+    .kind {
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+
+    .in {
+      font-weight: 500;
+    }
+  }
+
+  .notepad-due {
+    margin-left: auto;
+    color: #3f5e2b;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &.late {
+      color: $danger-text;
+    }
+  }
+
+  // The menu sits at the right edge. After a due label that label has already
+  // pushed it there; without one the menu pushes itself.
+  .notepad-menu {
+    margin-left: auto;
+
+    .record-actions-toggle {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  }
+
+  .notepad-due + .notepad-menu {
+    margin-left: 0;
+  }
+}

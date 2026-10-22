@@ -1,0 +1,15 @@
+-# The groups of jobs in the notepad. Also what adding or moving a job sends back.
+- groups.each do |group|
+  .notepad-group{ data: { drop: (group.droppable ? group.drop_date.to_s.presence || 'none' : nil) } }
+    .notepad-heading
+      %h2= t("jobs.pad.#{group.key}")
+      - if group.key == :today
+        %small= l(group.from, format: '%a %-d %b')
+      - elsif group.key == :week && group.from <= group.to
+        %small= "#{l(group.from, format: '%a %-d')} – #{l(group.to, format: '%a %-d %b')}"
+      - elsif group.key == :someday
+        %small= t('jobs.pad.someday_note')
+    - if group.jobs.empty?
+      %p.notepad-drop-hint= t('jobs.pad.drop_here')
+    - group.jobs.each do |job|
+      = render 'jobs/notepad_row', job:

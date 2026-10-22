@@ -81,7 +81,7 @@ class GardenCardSerializer
 
   def active_garden_actions
     [
-      action(:plan, I18n.t('buttons.new_activity'), routes.new_activity_path(garden_id: @garden.id)),
+      action(:plan, I18n.t('buttons.new_job'), routes.new_job_path(garden_id: @garden.id)),
       action(:deactivate, I18n.t('buttons.mark_as_inactive'), routes.garden_path(@garden, garden: { active: 0 }),
              method: :put, confirm: I18n.t('gardens.confirm_deactivate'))
     ]
