@@ -448,3 +448,166 @@ describe('editing a job in place', () => {
     expect(water().classList.contains('saving')).toBe(false);
   });
 });
+
+describe('@ suggestions', () => {
+  const tomato = {
+    jobbable_type: 'Planting', jobbable_id: 42, crop_name: 'tomato', label: 'tomato', detail: 'planted 3 Oct', icon_url: '/crops/tomato.svg',
+  };
+
+  // The suggestions come back for the one kind of request, and anything else is a save.
+  const suggestionsThenSaves = () => {
+    fetchMock.mockImplementation((url) => (
+      url.includes('/jobs/suggestions') ?
+        Promise.resolve({ok: true, json: () => Promise.resolve([tomato])}) :
+        Promise.resolve(answer())
+    ));
+  };
+
+  const type = async (box, text) => {
+    box.value = text;
+    box.dispatchEvent(new Event('input', {bubbles: true}));
+    await vi.advanceTimersByTimeAsync(200);
+  };
+
+  const press = (box, name) => {
+    const event = new KeyboardEvent('keydown', {key: name, bubbles: true, cancelable: true});
+    box.dispatchEvent(event);
+    return event;
+  };
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    suggestionsThenSaves();
+  });
+
+  describe('in the add box', () => {
+    const addBox = () => document.querySelector('.notepad-add input[type="text"]');
+    const options = () => document.getElementById('notepad-suggestions');
+
+    it('offers suggestions once @ and a crop name are typed', async () => {
+      await start();
+      await type(addBox(), 'prune the @tom');
+
+      expect(options().hidden).toBe(false);
+      expect(options().textContent).toContain('tomato');
+    });
+
+    it('asks for nothing for a bare @', async () => {
+      await start();
+      await type(addBox(), 'prune the @');
+
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('asks for the crop name typed', async () => {
+      await start();
+      await type(addBox(), 'prune the @tom');
+
+      expect(fetchMock.mock.calls[0][0]).toBe('/jobs/suggestions?q=tom');
+    });
+
+    it('asks only for plants in the garden, on a garden\'s page', async () => {
+      document.getElementById('notepad-groups').dataset.gardenId = '7';
+      await start();
+      await type(addBox(), 'prune the @tom');
+
+      expect(fetchMock.mock.calls[0][0]).toBe('/jobs/suggestions?q=tom&garden_id=7');
+    });
+
+    it('swaps the @ text for the crop name on Enter, and shows the link', async () => {
+      await start();
+      await type(addBox(), 'prune the @tom');
+      const event = press(addBox(), 'Enter');
+
+      expect(addBox().value).toBe('prune the tomato ');
+      expect(event.defaultPrevented).toBe(true);
+      expect(document.getElementById('notepad-jobbable-type').value).toBe('Planting');
+      expect(document.getElementById('notepad-jobbable-id').value).toBe('42');
+      expect(document.getElementById('notepad-link').hidden).toBe(false);
+      expect(options().hidden).toBe(true);
+    });
+
+    it('closes the list on Escape', async () => {
+      await start();
+      await type(addBox(), 'prune the @tom');
+      press(addBox(), 'Escape');
+
+      expect(options().hidden).toBe(true);
+    });
+  });
+
+  describe('in the box a job is edited in', () => {
+    const water = () => document.querySelector('.notepad-job[data-id="1"]');
+    const editBox = () => water().querySelector('.notepad-name-input');
+    const options = () => document.getElementById('notepad-edit-suggestions');
+    const edit = async () => {
+      await start();
+      water().querySelector('[data-notepad-edit]').dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+    };
+    const saves = () => fetchMock.mock.calls.filter(([url]) => !url.includes('/jobs/suggestions'));
+
+    it('offers suggestions there too', async () => {
+      await edit();
+      await type(editBox(), 'Water the @tom');
+
+      expect(options().hidden).toBe(false);
+      expect(options().textContent).toContain('tomato');
+    });
+
+    it('asks only for plants in the garden, on a garden\'s page', async () => {
+      document.getElementById('notepad-groups').dataset.gardenId = '7';
+      await edit();
+      await type(editBox(), 'Water the @tom');
+
+      expect(fetchMock.mock.calls[0][0]).toContain('garden_id=7');
+    });
+
+    it('swaps the @ text for the crop name, shows the link, and does not save yet', async () => {
+      await edit();
+      await type(editBox(), 'Water the @tom');
+      press(editBox(), 'Enter');
+
+      expect(editBox().value).toBe('Water the tomato ');
+      expect(water().querySelector('.notepad-edit-link').textContent).toContain('Planting: tomato');
+      expect(saves()).toHaveLength(0);
+      expect(water().classList.contains('editing')).toBe(true);
+    });
+
+    it('saves the link with the name', async () => {
+      await edit();
+      await type(editBox(), 'Water the @tom');
+      press(editBox(), 'Enter');
+      press(editBox(), 'Enter');
+
+      const [url, options_] = saves()[0];
+      expect(url).toBe('/jobs/water');
+      expect(options_.body.get('job[name]')).toBe('Water the tomato');
+      expect(options_.body.get('job[jobbable_type]')).toBe('Planting');
+      expect(options_.body.get('job[jobbable_id]')).toBe('42');
+    });
+
+    it('closes the list on Escape, and cancels the edit on the next', async () => {
+      await edit();
+      await type(editBox(), 'Water the @tom');
+      press(editBox(), 'Escape');
+
+      expect(options().hidden).toBe(true);
+      expect(water().classList.contains('editing')).toBe(true);
+
+      press(editBox(), 'Escape');
+      expect(water().classList.contains('editing')).toBe(false);
+      expect(saves()).toHaveLength(0);
+    });
+
+    it('clears the list and the link when the edit is cancelled', async () => {
+      await edit();
+      await type(editBox(), 'Water the @tom');
+      press(editBox(), 'Enter');
+      press(editBox(), 'Escape');
+
+      expect(document.getElementById('notepad-edit-suggestions')).toBeNull();
+      expect(water().querySelector('.notepad-edit-link')).toBeNull();
+    });
+  });
+});
+
