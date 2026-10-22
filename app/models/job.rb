@@ -10,11 +10,12 @@ class Job < ApplicationRecord
 
   JOBBABLE_TYPES = %w(Crop Planting Seed).freeze
 
+  scope :active, -> { where(finished: [false, nil]) }
+  scope :finished_this_week, -> { where(finished: true, finished_at: Time.zone.now.beginning_of_week..) }
+
   friendly_id :job_slug, use: %i(slugged finders)
 
   validates :name, presence: true
-  validates :owner, presence: true
-
   validates :slug, uniqueness: true
   # The add form sends these empty when the job is not linked to anything.
   normalizes :jobbable_type, with: ->(type) { type.presence }
@@ -23,8 +24,7 @@ class Job < ApplicationRecord
 
   before_save :stamp_finished_at, if: :finished_changed?
 
-  delegate :location, :latitude, :longitude, to: :owner
-  delegate :login_name, :slug, :location, to: :owner, prefix: true
+  delegate :login_name, :slug, to: :owner, prefix: true
   delegate :name, to: :garden, prefix: true, allow_nil: true
 
   def job_slug
@@ -34,9 +34,6 @@ class Job < ApplicationRecord
   def to_s
     name
   end
-
-  scope :active, -> { where(finished: [false, nil]) }
-  scope :finished_this_week, -> { where(finished: true, finished_at: Time.zone.now.beginning_of_week..) }
 
   # The planting a job is about, if it is about one. The form, Copy and the API
   # speak of plantings; the link itself is the jobbable.

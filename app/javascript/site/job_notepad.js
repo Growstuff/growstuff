@@ -3,7 +3,7 @@
 // the notepad's groups after each change. If anything goes wrong the page is
 // loaded the ordinary way, so nothing is lost.
 
-import {celebrate, fill, hide} from './job_celebration';
+import {celebrate, doneText, hide} from './job_celebration';
 import {nextStreak, undoStreak} from './job_streak';
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -14,6 +14,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const input = form.querySelector('input[type="text"]');
   const token = document.querySelector('meta[name="csrf-token"]');
   const kinds = JSON.parse(form.dataset.kinds);
+  const words = JSON.parse(groups.dataset.celebrations);
+  const reload = function () { window.location.reload(); };
+
+  // The line beside the snail says how many jobs are done this week.
+  const caption = document.getElementById('notepad-snail-caption');
+  const showDone = function (done) {
+    if (caption) caption.textContent = done > 0 ? words.slow + ' ' + doneText(words, done) : words.slow;
+  };
 
   // Sends a change to the server and shows the groups it sends back. Resolves
   // with how many jobs are done this week.
@@ -40,15 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ---- Crossing a job off, or putting it back
 
-  const words = JSON.parse(groups.dataset.celebrations);
-
-  // The line beside the snail says how many jobs are done this week.
-  const caption = document.getElementById('notepad-snail-caption');
-  const showDone = function (done) {
-    if (!caption) return;
-    const count = fill(done === 1 ? words.done.one : words.done.other, {count: done});
-    caption.textContent = done > 0 ? words.slow + ' ' + count : words.slow;
-  };
   let streak = 0;
   let lastAt = null;
 
@@ -86,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
           origin: {x: box.left + box.width / 2, y: box.top + box.height / 2},
           onUndo: function () {
             streak = undoStreak(streak);
-            setFinished(url, false).catch(function () { window.location.reload(); });
+            setFinished(url, false).catch(reload);
           },
         });
       })
@@ -172,9 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
     body.append('_method', 'patch');
     body.append('job[due_date]', group.dataset.drop === 'none' ? '' : group.dataset.drop);
 
-    send(dragged.dataset.url, body).catch(function () {
-      window.location.reload();
-    });
+    send(dragged.dataset.url, body).catch(reload);
   });
 
   // ---- Linking a job: typing @ and a crop name offers your plantings and seeds

@@ -14,8 +14,17 @@ const reducedMotion = function () {
   return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 };
 
-export const fill = function (template, values) {
+const fill = function (template, values) {
   return template.replace(/%\{(\w+)\}/g, function (_, key) { return values[key]; });
+};
+
+// "3 jobs done this week.", from the page's one and other forms.
+export const doneText = function (words, done) {
+  return fill(Number(done) === 1 ? words.done.one : words.done.other, {count: done});
+};
+
+const removeSprouts = function () {
+  document.querySelectorAll('.notepad-sprout').forEach(function (sprout) { sprout.remove(); });
 };
 
 // A flower: five petals round a centre. Only our own colours go in the markup.
@@ -59,7 +68,7 @@ const bloom = function (origin, streak) {
 // Flowers growing up from the bottom of the page, one more for each job in a
 // row. They stay until the note goes.
 const grow = function (streak) {
-  document.querySelectorAll('.notepad-sprout').forEach(function (el) { el.remove(); });
+  removeSprouts();
   if (reducedMotion()) return;
 
   for (let i = 0; i < sproutCount(streak); i++) {
@@ -127,7 +136,7 @@ export function hide() {
   clearTimeout(timer);
   const el = document.getElementById('notepad-celebration');
   if (el) el.innerHTML = '';
-  document.querySelectorAll('.notepad-sprout').forEach(function (sprout) { sprout.remove(); });
+  removeSprouts();
 }
 
 // words: the strings from the page. name: the job. done: how many are done this
@@ -139,8 +148,7 @@ export function celebrate({words, name, done, streak, origin, onUndo}) {
 
   const el = panel();
   el.innerHTML = '';
-  const count = fill(Number(done) === 1 ? words.done.one : words.done.other, {count: done});
-  el.appendChild(sticky(words.levels[levelFor(streak)], count));
+  el.appendChild(sticky(words.levels[levelFor(streak)], doneText(words, done)));
   el.appendChild(toast(fill(words.crossed_off, {name: name}), words.undo, onUndo));
 
   clearTimeout(timer);
