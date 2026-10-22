@@ -112,7 +112,7 @@ describe CommentsController do
         }
       end.to change(Comment, :count).by(1)
 
-      expect(response).to redirect_to(planting)
+      expect(response).to redirect_to(planting_path(planting, anchor: 'comments'))
       expect(Comment.last.commentable).to eq(planting)
     end
   end
@@ -124,7 +124,7 @@ describe CommentsController do
       let(:comment) { create(:comment, author: member) }
 
       it "redirects to the comment's post" do
-        expect(response).to redirect_to(comment.commentable)
+        expect(response).to redirect_to(post_path(comment.commentable, anchor: 'comments'))
       end
     end
 
@@ -154,7 +154,7 @@ describe CommentsController do
       let(:comment) { create(:comment, author: member) }
 
       it "redirects to the post the comment was on" do
-        expect(response).to redirect_to(comment.commentable)
+        expect(response).to redirect_to(post_path(comment.commentable, anchor: 'comments'))
       end
     end
 
