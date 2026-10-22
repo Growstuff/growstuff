@@ -25,6 +25,21 @@ describe CropsController, '#wrangle' do
     end
   end
 
+  context 'with job templates' do
+    before do
+      create_list(:crop_job_template, 2, crop: tomato)
+      get wrangle_crops_path
+    end
+
+    it 'links a crop to its job templates, with how many' do
+      expect(Capybara.string(response.body)).to have_link('2 templates', href: admin_crop_crop_job_templates_path(tomato))
+    end
+
+    it 'offers to add one to a crop with none' do
+      expect(Capybara.string(response.body)).to have_link('Add', href: new_admin_crop_crop_job_template_path(apple))
+    end
+  end
+
   context 'when showing all crops' do
     before { get wrangle_crops_path(level: 'all') }
 
@@ -54,7 +69,7 @@ describe CropsController, '#wrangle' do
     before { get wrangle_crops_path(q: 'tomato') }
 
     it 'finds the crop' do
-      expect(response.body).to have_link('tomato', href: edit_crop_path(tomato))
+      expect(Capybara.string(response.body)).to have_link('tomato', href: edit_crop_path(tomato))
     end
 
     it 'finds its varieties, though they have a parent' do
