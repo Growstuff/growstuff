@@ -26,6 +26,7 @@ class Crop < ApplicationRecord
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
   has_many :crop_companions, foreign_key: :crop_a_id, dependent: :delete_all, inverse_of: :crop_a
   has_many :companions, through: :crop_companions, source: :crop_b, class_name: 'Crop'
+  has_many :crop_job_templates, dependent: :destroy
   has_many :crop_posts, dependent: :delete_all
   has_many :posts, through: :crop_posts, dependent: :delete_all
   has_one :australian_food_classification_data,

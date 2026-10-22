@@ -1,0 +1,13 @@
+-# A member's own jobs as a notepad: grouped by when, with what each is about.
+-# Crossed off jobs stay where they are, ticked.
+.notepad
+  .notepad-title
+    %h1= t('jobs.pad.title', owner: owner.login_name)
+  = form_with url: jobs_path, scope: :job, class: 'notepad-add' do |f|
+    %span.notepad-add-plus{ 'aria-hidden': 'true' } +
+    = f.text_field :name, required: true, autofocus: true, autocomplete: 'off', placeholder: t('jobs.pad.add'), 'aria-label': t('jobs.pad.add')
+    = f.submit t('jobs.pad.add_button'), class: 'btn btn-primary notepad-add-button'
+  %p.notepad-add-failed.text-danger.mx-3{ id: 'notepad-add-failed', role: 'alert', hidden: true }= t('jobs.pad.add_failed')
+  %p.notepad-note= t('jobs.pad.public_note')
+
+  #notepad-groups= render 'jobs/notepad_groups', groups:

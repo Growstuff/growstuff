@@ -138,9 +138,9 @@
               = t('.friends_and_neighbours')
               - if neighbours_new?
                 %span.badge.text-bg-success.ms-1= t('.new_badge')
-            = link_to member_activities_path(current_member), class: 'dropdown-item' do
-              = menu_icon(:activity)
-              = t('.activities')
+            = link_to member_jobs_path(current_member), class: 'dropdown-item' do
+              = menu_icon(:job)
+              = t('.jobs')
             = link_to member_posts_path(current_member), class: 'dropdown-item' do
               = menu_icon(:post)
               = t('.posts')

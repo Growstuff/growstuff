@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_21_062937) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_23_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -42,25 +42,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_21_062937) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "activities", force: :cascade do |t|
-    t.string "category"
-    t.datetime "created_at", null: false
-    t.string "description"
-    t.date "due_date"
-    t.boolean "finished"
-    t.bigint "garden_id"
-    t.integer "likes_count", default: 0
-    t.string "name"
-    t.bigint "owner_id"
-    t.bigint "planting_id"
-    t.string "slug"
-    t.datetime "updated_at", null: false
-    t.index ["garden_id"], name: "index_activities_on_garden_id"
-    t.index ["owner_id"], name: "index_activities_on_owner_id"
-    t.index ["planting_id"], name: "index_activities_on_planting_id"
-    t.index ["slug"], name: "index_activities_on_slug", unique: true
   end
 
   create_table "alternate_names", id: :serial, force: :cascade do |t|
@@ -547,6 +528,31 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_21_062937) do
     t.index ["member_id", "crop_id"], name: "index_crop_dismissals_on_member_id_and_crop_id", unique: true
   end
 
+  create_table "crop_job_steps", force: :cascade do |t|
+    t.string "anchor", default: "planting_out", null: false
+    t.datetime "created_at", null: false
+    t.bigint "crop_job_template_id", null: false
+    t.string "direction", default: "after", null: false
+    t.string "external_uri"
+    t.string "name", null: false
+    t.integer "offset_amount", default: 0, null: false
+    t.string "offset_unit", default: "weeks", null: false
+    t.integer "position", default: 0, null: false
+    t.string "repeat", default: "once", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crop_job_template_id"], name: "index_crop_job_steps_on_crop_job_template_id"
+  end
+
+  create_table "crop_job_templates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "crop_id", null: false
+    t.string "name", null: false
+    t.string "season", default: "any", null: false
+    t.string "status", default: "draft", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crop_id"], name: "index_crop_job_templates_on_crop_id"
+  end
+
   create_table "crop_posts", id: false, force: :cascade do |t|
     t.integer "crop_id"
     t.integer "post_id"
@@ -696,6 +702,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_21_062937) do
     t.index ["harvest_id", "photo_id"], name: "index_harvests_photos_on_harvest_id_and_photo_id"
   end
 
+  create_table "jobs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "description"
+    t.date "due_date"
+    t.boolean "finished"
+    t.bigint "garden_id"
+    t.integer "likes_count", default: 0
+    t.string "name"
+    t.bigint "owner_id"
+    t.bigint "planting_id"
+    t.string "slug"
+    t.datetime "updated_at", null: false
+    t.index ["garden_id"], name: "index_jobs_on_garden_id"
+    t.index ["owner_id"], name: "index_jobs_on_owner_id"
+    t.index ["planting_id"], name: "index_jobs_on_planting_id"
+    t.index ["slug"], name: "index_jobs_on_slug", unique: true
+  end
+
   create_table "likes", id: :serial, force: :cascade do |t|
     t.string "categories", array: true
     t.datetime "created_at", precision: nil
@@ -777,7 +801,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_21_062937) do
   end
 
   create_table "members", id: :serial, force: :cascade do |t|
-    t.integer "activities_count"
     t.text "bio"
     t.string "bluesky_handle"
     t.datetime "confirmation_sent_at", precision: nil
@@ -795,6 +818,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_21_062937) do
     t.integer "gardens_count"
     t.integer "harvests_count"
     t.string "instagram_handle"
+    t.integer "jobs_count"
     t.datetime "last_sign_in_at", precision: nil
     t.string "last_sign_in_ip"
     t.float "latitude"
@@ -1051,6 +1075,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_21_062937) do
   add_foreign_key "blocks", "members", column: "blocker_id"
   add_foreign_key "crop_dismissals", "crops"
   add_foreign_key "crop_dismissals", "members"
+  add_foreign_key "crop_job_steps", "crop_job_templates"
+  add_foreign_key "crop_job_templates", "crops"
   add_foreign_key "harvests", "plantings"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"

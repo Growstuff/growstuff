@@ -23,7 +23,7 @@ class Member < ApplicationRecord
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
-  has_many :activities, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_many :jobs, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_and_belongs_to_many :roles
   has_many :notifications, foreign_key: 'recipient_id', inverse_of: :recipient
   has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender, class_name: "Notification"
@@ -254,7 +254,7 @@ class Member < ApplicationRecord
       seeds.exists? ||
       photos.exists? ||
       forums.exists? ||
-      activities.exists? ||
+      jobs.exists? ||
       posts.exists? ||
       comments.exists? ||
       requested_crops.exists? ||
