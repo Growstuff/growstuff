@@ -58,7 +58,11 @@ class JobsController < DataController
     @job.owner = current_member
     @job.due_date ||= Date.today
 
-    return add_to_notepad if request.xhr?
+    if request.xhr?
+      return head :unprocessable_entity unless @job.save
+
+      return render_notepad(:created)
+    end
 
     if @job.save
       if params[:repeat_times].to_i > 0
@@ -77,6 +81,12 @@ class JobsController < DataController
   end
 
   def update
+    if request.xhr?
+      return head :unprocessable_entity unless @job.update(job_params)
+
+      return render_notepad(:ok)
+    end
+
     @job.update(job_params)
     respond_with @job, location: after_save_path
   end
@@ -100,19 +110,17 @@ class JobsController < DataController
     @owner.present? && @owner == current_member && request.format.html?
   end
 
-  # Adding a job from the notepad sends back the notepad's groups, so the page
-  # can show the new job without reloading.
-  def add_to_notepad
-    return head :unprocessable_entity unless @job.save
-
+  # Adding or moving a job from the notepad sends back the notepad's groups, so
+  # the page can show the change without reloading.
+  def render_notepad(status)
     @owner = current_member
     load_notepad
-    render partial: 'jobs/notepad_groups', locals: { groups: @job_groups }, status: :created
+    render partial: 'jobs/notepad_groups', locals: { groups: @job_groups }, status:
   end
 
   def load_notepad
     @jobs = Job.where(owner: @owner).includes(:garden, planting: :crop)
-               .order(Arel.sql('finished IS TRUE'), Arel.sql('due_date IS NULL'), :due_date, :created_at)
+      .order(Arel.sql('finished IS TRUE'), Arel.sql('due_date IS NULL'), :due_date, :created_at)
     @job_groups = JobList.new(@jobs).groups
   end
 

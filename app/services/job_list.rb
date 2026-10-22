@@ -1,35 +1,36 @@
 # frozen_string_literal: true
 
-# A member's jobs laid out as a notepad: what is for this weekend, what is soon,
-# and what has no day yet. Finished jobs are a list of their own.
+# A member's jobs laid out as a notepad: today, the rest of this week, soon, and
+# some day. Today, this week and some day are always there, as places to drop a
+# job; each says which day a job dropped in it gets. Soon has no day of its own,
+# so nothing is dropped there.
 class JobList
-  Group = Struct.new(:key, :jobs, :from, :to)
+  Group = Struct.new(:key, :jobs, :from, :to, :droppable, :drop_date)
+
+  # The last day of the week, a Sunday.
+  def self.week_end(today)
+    today.end_of_week(:monday)
+  end
 
   def initialize(jobs, today: Time.zone.today)
     @jobs = jobs
     @today = today
   end
 
-  # The groups that have any jobs, in the order they are shown.
   def groups
     dated, someday = @jobs.partition(&:due_date)
-    weekend, soon = dated.partition { |job| weekend?(job.due_date) }
+    now, later = dated.partition { |job| job.due_date == @today }
+    week, soon = later.partition { |job| ((@today + 1.day)..week_end).cover?(job.due_date) }
+
     [
-      Group.new(:weekend, weekend, *weekend_days),
-      Group.new(:soon, soon),
-      Group.new(:someday, someday)
-    ].select { |group| group.jobs.any? }
+      Group.new(:today, now, @today, nil, true, @today),
+      Group.new(:week, week, @today + 1.day, week_end, true, week_end),
+      (Group.new(:soon, soon, nil, nil, false, nil) if soon.any?),
+      Group.new(:someday, someday, nil, nil, true, nil)
+    ].compact
   end
 
-  # The Saturday and Sunday this weekend: the one coming, or the one going on.
-  def weekend_days
-    saturday = @today.saturday? || @today.sunday? ? @today.beginning_of_week(:monday) + 5.days : @today.next_occurring(:saturday)
-    [saturday, saturday + 1.day]
-  end
-
-  private
-
-  def weekend?(date)
-    weekend_days.include?(date)
+  def week_end
+    self.class.week_end(@today)
   end
 end

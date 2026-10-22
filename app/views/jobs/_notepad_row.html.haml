@@ -1,4 +1,4 @@
-.notepad-job{ class: ('done' if job.finished) }
+.notepad-job{ class: ('done' if job.finished), draggable: 'true', data: { url: job_path(slug: job.slug) } }
   - label = t(job.finished ? 'jobs.pad.uncross' : 'jobs.pad.cross_off', job: job.name)
   = button_to '', job_path(slug: job.slug), method: :patch, params: { job: { finished: job.finished ? 0 : 1 } },
     class: ['notepad-box', ('checked' if job.finished)], form_class: 'notepad-tick', title: label, 'aria-label': label

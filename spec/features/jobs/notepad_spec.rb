@@ -63,8 +63,12 @@ describe 'Own jobs notepad' do
   context 'without jobs' do
     before { visit member_jobs_path(member) }
 
-    it 'invites the member to add one' do
-      expect(page).to have_content('Add a job to start your list.')
+    it 'still has places to put jobs' do
+      expect(page).to have_css('.notepad-group', count: 3)
+    end
+
+    it 'says where to drag a job' do
+      expect(page).to have_content('Drag a job here.', count: 3)
     end
   end
 

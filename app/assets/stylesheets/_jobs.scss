@@ -79,6 +79,27 @@
     }
   }
 
+  .notepad-drop-hint {
+    color: $ink-muted;
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0.5rem 1.1rem 0.75rem;
+  }
+
+  .notepad-group.drop-over {
+    background: #f4f9f0;
+    outline: 2px dashed $green;
+    outline-offset: -2px;
+  }
+
+  .notepad-job[draggable="true"] {
+    cursor: grab;
+  }
+
+  .notepad-job.dragging {
+    opacity: 0.4;
+  }
+
   .notepad-job {
     display: flex;
     flex-wrap: wrap;
@@ -204,10 +225,18 @@
     }
   }
 
+  // The menu sits at the right edge. After a due label that label has already
+  // pushed it there; without one the menu pushes itself.
   .notepad-menu {
+    margin-left: auto;
+
     .record-actions-toggle {
       min-width: 44px;
       min-height: 44px;
     }
+  }
+
+  .notepad-due + .notepad-menu {
+    margin-left: 0;
   }
 }

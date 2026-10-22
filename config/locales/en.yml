@@ -647,19 +647,22 @@ en:
   jobs:
     plan_something: Plan something
     due:
-      was: was %{day}
+      last: last %{day}
     pad:
       title: "%{owner}'s jobs"
       done: Done
       add: Add a job
       add_button: Add
       public_note: Jobs are public, so don't put private info here.
-      empty: Nothing to do. Add a job to start your list.
       my_jobs: My jobs
       everyones_jobs: Everyone's jobs
-      weekend: This weekend
+      today: Today
+      week: This week
       soon: Soon
       someday: Some day
+      drop_here: Drag a job here.
+      move_today: Today
+      move_week: This week
       someday_note: a wishlist, nothing committed
       garden: Garden
       planting: Planting
