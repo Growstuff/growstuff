@@ -42,4 +42,28 @@ describe JobsController, '#update' do
       expect(response.headers['X-Jobs-Done-This-Week']).to eq '1'
     end
   end
+
+  context 'when renaming a job from the notepad' do
+    before { patch job_path(job), params: { job: { name: 'Sow the beans' } }, headers: }
+
+    it 'saves the new name' do
+      expect(job.reload.name).to eq 'Sow the beans'
+    end
+
+    it 'sends back the groups with the new name' do
+      expect(response.body).to include('Sow the beans')
+    end
+  end
+
+  context 'when renaming a job to nothing' do
+    before { patch job_path(job), params: { job: { name: '' } }, headers: }
+
+    it 'keeps the name' do
+      expect(job.reload.name).not_to be_blank
+    end
+
+    it 'says it failed' do
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
 end

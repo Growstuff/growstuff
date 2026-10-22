@@ -3,7 +3,8 @@
                                    garden_id: job.garden_id, planting_id: job.planting_id, due_date: job.due_date)
   - update_path = ->(attributes) { job_path(job, job: attributes) }
   = actions_menu('job', id: job.id) do
-    = menu_link_to :edit, t('buttons.edit'), edit_job_path(job)
+    -# On the notepad the script edits the row in place; the link is for when it can't.
+    = menu_link_to :edit, t('buttons.edit'), edit_job_path(job), data: { notepad_edit: local_assigns[:inline_edit].presence }
     = menu_link_to :copy, t('buttons.copy'), copy_path
     - if job.active
       = menu_link_to :finish, t('buttons.mark_as_finished'), update_path.call(finished: 1), method: :put, class: 'append-date'

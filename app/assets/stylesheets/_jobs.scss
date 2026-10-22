@@ -124,6 +124,44 @@
     }
   }
 
+  // A job being edited in place: the row is lifted off the list like a note, and
+  // its name is a box to type in.
+  .notepad-job.editing {
+    background: #fffbe6;
+    box-shadow: inset 0 0 0 2px $green;
+    opacity: 1;
+
+    .notepad-name-input {
+      flex: 1 1 14rem;
+      min-width: 0;
+      min-height: 44px;
+      padding: 0 0.6rem;
+      border: 1px solid $green;
+      border-radius: 2px;
+      background: $white;
+      color: #212121;
+      font-weight: 500;
+    }
+
+    &.error {
+      box-shadow: inset 0 0 0 2px $danger-text;
+
+      .notepad-name-input {
+        border-color: $danger-text;
+      }
+    }
+  }
+
+  .notepad-edit-hint {
+    color: $ink-muted;
+    font-size: 0.8rem;
+    margin-left: auto;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
   // The tick box is a button in a form, so it works without JavaScript. The
   // button is the 44px target; the box is drawn inside it.
   .notepad-tick {

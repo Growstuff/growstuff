@@ -3,7 +3,8 @@
 // the notepad's groups after each change. If adding a job goes wrong, the job
 // stays in the box and a message says so: it is not sent again, since the first
 // may have worked and a second would add the job twice. A move or a tick that
-// goes wrong reloads the page, which shows how things stand.
+// goes wrong reloads the page, which shows how things stand. Choosing Edit in a
+// job's menu turns its name into a box to type in; Enter saves, Esc cancels.
 
 import {celebrate, doneText, hide} from './job_celebration';
 import {nextStreak, undoStreak} from './job_streak';
@@ -95,6 +96,74 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(function () {
         tick.submit();
       });
+  });
+
+  // ---- Editing a job's name in place
+
+  // The row can't be dragged while it is being edited, or the text couldn't be
+  // selected. If saving fails the box stays, so what was typed is not lost.
+  const startEditing = function (row) {
+    if (row.classList.contains('editing')) return;
+
+    const name = row.querySelector('.notepad-name');
+    const original = name.textContent;
+    const box = document.createElement('input');
+    box.type = 'text';
+    box.className = 'notepad-name-input';
+    box.value = original;
+    box.setAttribute('aria-label', name.dataset.editLabel);
+    let finished = false;
+
+    const stop = function () {
+      finished = true;
+      box.remove();
+      name.hidden = false;
+      row.classList.remove('editing', 'error');
+      row.querySelector('.notepad-edit-hint').hidden = true;
+      row.draggable = true;
+    };
+
+    const save = function () {
+      const typed = box.value.trim();
+      if (typed === '' || typed === original) return stop();
+
+      const body = new FormData();
+      body.append('_method', 'patch');
+      body.append('job[name]', typed);
+      send(row.dataset.url, body).catch(function () {
+        finished = false;
+        row.classList.add('error');
+        box.focus();
+      });
+    };
+
+    box.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        box.blur();
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        stop();
+      }
+    });
+    box.addEventListener('blur', function () {
+      if (!finished) save();
+    });
+
+    row.classList.add('editing');
+    row.draggable = false;
+    row.querySelector('.notepad-edit-hint').hidden = false;
+    name.hidden = true;
+    name.after(box);
+    box.focus();
+    box.select();
+  };
+
+  groups.addEventListener('click', function (event) {
+    const edit = event.target.closest('[data-notepad-edit]');
+    if (!edit) return;
+    event.preventDefault();
+    startEditing(edit.closest('.notepad-job'));
   });
 
   // ---- Adding a job
