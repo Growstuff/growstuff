@@ -1,7 +1,5 @@
 csv.headers :id,
-  :growstuff_url,
   :name,
-  :category,
   :description,
   :owner_id,
   :owner_name,
@@ -15,14 +13,12 @@ csv.headers :id,
   :last_modified,
   :license
 
-@activities.each do |a|
-  csv.row a do |csv, activity|
+@jobs.each do |a|
+  csv.row a do |csv, job|
 
     csv.cell :id
-    csv.cell :growstuff_url, activity_url(a.slug)
 
     csv.cell :name, a.description
-    csv.cell :category, a.description
     csv.cell :description, a.description
 
     csv.cell :owner_id, a.owner_id

@@ -4,19 +4,19 @@
       %h1.h2-responsive.text-center
         = planting_icon
         %strong=yield :title
-  = bootstrap_form_for(@activity) do |f|
+  = bootstrap_form_for(@job) do |f|
     .card-body
-      - if @activity.errors.any?
+      - if @job.errors.any?
         #error_explanation
           %h2
-            = pluralize(@activity.errors.size, "error")
-            prohibited this activity from being saved:
+            = pluralize(@job.errors.size, "error")
+            prohibited this job from being saved:
           %ul
-            - @activity.errors.full_messages.each do |msg|
+            - @job.errors.full_messages.each do |msg|
               %li= msg
 
-      = render 'activities/fields', f:, activity: @activity
-      - if @activity.new_record?
+      = render 'jobs/fields', f:, job: @job
+      - if @job.new_record?
         .row
           .col-md-6
             = label_tag :repeat_times, 'Repeat how many times?'

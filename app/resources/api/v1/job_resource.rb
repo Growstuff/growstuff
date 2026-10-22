@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class ActivityResource < BaseResource
+    class JobResource < BaseResource
       before_create do
         @model.owner = context[:current_user]
       end
@@ -13,7 +13,6 @@ module Api
 
       attribute :name
       attribute :description
-      attribute :category
       attribute :finished
       attribute :due_date
 
@@ -23,7 +22,6 @@ module Api
       filter :garden_id
       filter :planting
       filter :planting_id
-      filter :category
     end
   end
 end

@@ -1,24 +1,23 @@
 <%
-# TODO Refactor to a Activity <-> Ical view class?
+# TODO Refactor to a Job <-> Ical view class?
 cal = Icalendar::Calendar.new
-cal.description = "Activities by #{@owner.login_name}"
-@activities.each do |activity|
+cal.description = "Jobs by #{@owner.login_name}"
+@jobs.each do |job|
 
   event = Icalendar::Event.new
 
   lines = []
-  lines << "Garden: #{activity['garden_name'] ? activity['garden_name'] : 'N/A' }"
-  lines << "Planting: #{activity['planting_name'] ? activity['planting_name'] : 'N/A' }"
+  lines << "Garden: #{job['garden_name'] ? job['garden_name'] : 'N/A' }"
+  lines << "Planting: #{job['planting_name'] ? job['planting_name'] : 'N/A' }"
 
-  lines << activity.description
-  finish_date = Date.parse(activity['due_date']) rescue nil
+  lines << job.description
+  finish_date = Date.parse(job['due_date']) rescue nil
 
-  event.dtstart     = Time.at(activity['created_at'])
+  event.dtstart     = Time.at(job['created_at'])
   event.dtend       = finish_date || 1.day.from_now
-  event.summary     = "#{activity['name']} - #{activity['category']}"
+  event.summary     = job['name']
   event.description = lines.join("\n")
   event.ip_class    = "PUBLIC"
-  event.url = activity_url(slug: activity['slug'])
 
   cal.add_event(event)
 
@@ -26,7 +25,7 @@ cal.description = "Activities by #{@owner.login_name}"
     todo = Icalendar::Todo.new
     todo.dtstart = finish_date || Date.today
     todo.due = finish_date
-    todo.summary     = "#{activity['name']} - #{activity['category']}"
+    todo.summary     = job['name']
     todo.description = lines.join("\n")
 
     cal.add_todo(todo)

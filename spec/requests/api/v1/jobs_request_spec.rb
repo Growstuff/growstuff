@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Activities' do
+RSpec.describe 'Jobs' do
   subject { JSON.parse response.body }
 
   let(:member) { create(:member) }
@@ -12,51 +12,42 @@ RSpec.describe 'Activities' do
   end
   let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
   let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
-  let!(:activity) { create(:activity, owner: member, garden: create(:garden, owner: member), planting: create(:planting, owner: member)) }
-  let!(:activity2) { create(:activity) }
+  let!(:job) { create(:job, owner: member, garden: create(:garden, owner: member), planting: create(:planting, owner: member)) }
+  let!(:job2) { create(:job) }
 
   it '#index' do
-    get('/api/v1/activities', params: {}, headers:)
+    get('/api/v1/jobs', params: {}, headers:)
     expect(subject['data'].size).to eq(2)
   end
 
   it '#show' do
-    get("/api/v1/activities/#{activity.id}", params: {}, headers:)
-    expect(subject['data']['id']).to eq(activity.id.to_s)
+    get("/api/v1/jobs/#{job.id}", params: {}, headers:)
+    expect(subject['data']['id']).to eq(job.id.to_s)
   end
 
   context 'filtering' do
     it 'filters by owner' do
-      get("/api/v1/activities?filter[owner-id]=#{activity.owner.id}", params: {}, headers:)
+      get("/api/v1/jobs?filter[owner-id]=#{job.owner.id}", params: {}, headers:)
 
       expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(activity.id.to_s)
+      expect(subject['data'][0]['id']).to eq(job.id.to_s)
     end
 
     it 'filters by garden' do
-      get("/api/v1/activities?filter[garden-id]=#{activity.garden.id}", params: {}, headers:)
+      get("/api/v1/jobs?filter[garden-id]=#{job.garden.id}", params: {}, headers:)
 
       expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(activity.id.to_s)
+      expect(subject['data'][0]['id']).to eq(job.id.to_s)
     end
 
     it 'filters by planting' do
-      get("/api/v1/activities?filter[planting-id]=#{activity.planting.id}", params: {}, headers:)
+      get("/api/v1/jobs?filter[planting-id]=#{job.planting.id}", params: {}, headers:)
 
       expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(activity.id.to_s)
-    end
-
-    it 'filters by category' do
-      get("/api/v1/activities?filter[category]=#{activity.category}", params: {}, headers:)
-
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(2)
-      expect(subject['data'][0]['id']).to eq(activity.id.to_s)
-      expect(subject['data'][1]['id']).to eq(activity2.id.to_s)
+      expect(subject['data'][0]['id']).to eq(job.id.to_s)
     end
   end
 
@@ -64,8 +55,8 @@ RSpec.describe 'Activities' do
     let(:params) do
       {
         'data' => {
-          'type' => 'activities',
-          'id' => activity.id.to_s,
+          'type' => 'jobs',
+          'id' => job.id.to_s,
           'attributes' => {
             'description' => 'A new description',
             'finished' => true,
@@ -75,8 +66,8 @@ RSpec.describe 'Activities' do
       }
     end
 
-    it 'updates the activity' do
-      patch "/api/v1/activities/#{activity.id}", params: params.to_json, headers: auth_headers
+    it 'updates the job' do
+      patch "/api/v1/jobs/#{job.id}", params: params.to_json, headers: auth_headers
 
       expect(response).to have_http_status(:ok)
 
@@ -86,10 +77,10 @@ RSpec.describe 'Activities' do
       expect(subject['data']['attributes']['due-date']).to eq('2025-10-31')
 
       # Check database
-      activity.reload
-      expect(activity.description).to eq('A new description')
-      expect(activity.finished).to eq(true)
-      expect(activity.due_date.to_s).to eq('2025-10-31')
+      job.reload
+      expect(job.description).to eq('A new description')
+      expect(job.finished).to eq(true)
+      expect(job.due_date.to_s).to eq('2025-10-31')
     end
   end
 end

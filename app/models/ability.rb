@@ -125,11 +125,11 @@ class Ability
     can :destroy, GardenCollaborator, garden: { owner_id: member.id }
     can :destroy, GardenCollaborator, member_id: member.id
 
-    can :create,  Activity
-    can :update,  Activity, owner_id: member.id
-    can :destroy, Activity, owner_id: member.id
-    can :update,  Activity, garden: { garden_collaborators: { member_id: member.id } }
-    can :destroy, Activity, garden: { garden_collaborators: { member_id: member.id } }
+    can :create,  Job
+    can :update,  Job, owner_id: member.id
+    can :destroy, Job, owner_id: member.id
+    can :update,  Job, garden: { garden_collaborators: { member_id: member.id } }
+    can :destroy, Job, garden: { garden_collaborators: { member_id: member.id } }
 
     can :create,  Harvest
     can :update,  Harvest, owner_id: member.id

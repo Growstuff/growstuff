@@ -17,12 +17,12 @@ class Neighbours
   NEARBY_LIMIT = 100
   SUGGESTIONS_SHOWN = 4
   POSTS_SHOWN = 5
-  FEED_KINDS = %i(planting harvest seed photo garden_layout transplant planned_activity planting_finished seed_finished).freeze
+  FEED_KINDS = %i(planting harvest seed photo garden_layout transplant planned_job planting_finished seed_finished).freeze
   FEED_EVENTS = 15
   MAX_OFFSET = 500
   PHOTO_SUBJECTS = %w(Planting Harvest Seed Garden).freeze
   EVENT_MODELS = { 'planting' => Planting, 'harvest' => Harvest, 'seed' => Seed, 'photo' => Photo, 'garden_layout' => Garden,
-                  'transplant' => PlantingHistory, 'activity' => Activity, 'planting_finished' => Planting,
+                  'transplant' => PlantingHistory, 'job' => Job, 'planting_finished' => Planting,
                   'seed_finished' => Seed }.freeze
   FEED_CACHE_FOR = 5.minutes
 

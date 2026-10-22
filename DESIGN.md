@@ -97,7 +97,7 @@ Every section that can take a new record carries the same control: a small
   white text, smaller than the heading. It sits on the green without competing
   with it, and fills slightly on hover and focus.
 - **The same control everywhere** — harvests, seeds saved, photos. A section
-  with nothing to add (activities) simply has no button, and its bar is
+  with nothing to add (jobs) simply has no button, and its bar is
   otherwise identical.
 - **It opens the dialog**, and its `href` is the fallback for a ctrl-click or
   a member without JavaScript.
@@ -109,7 +109,7 @@ showing.
 ## The record panel
 
 Everything that *is* the record — its title, its facts, its photos, its
-harvests, its planned activities — sits inside one subtle bordered panel. The
+harvests, its planned jobs — sits inside one subtle bordered panel. The
 sidebar sits outside it.
 
 ```

@@ -1,106 +1,117 @@
 # frozen_string_literal: true
 
-class ActivitiesController < DataController
+class JobsController < DataController
   def index
     @show_all = params[:all] == '1'
 
-    @activities = Activity.includes(:owner).order(created_at: :desc)
-    @activities = @activities.active unless @show_all
+    @jobs = Job.includes(:owner).order(created_at: :desc)
+    @jobs = @jobs.active unless @show_all
 
     if params[:member_slug].present?
       @owner = Member.find_by!(slug: params[:member_slug])
-      @activities = @activities.where(owner_id: @owner.id)
+      @jobs = @jobs.where(owner_id: @owner.id)
     end
 
-    @activities = @activities.paginate(page: params[:page], per_page: 30)
-
-    @filename = "Growstuff-#{specifics}Activities-#{Time.zone.now.to_fs(:number)}.csv"
-    respond_with(@activities)
-  end
-
-  def show
-    if @activity.finished? && @activity.owner == current_member && (@activity.updated_at + 2.weeks) > Time.now
-      @repeat_link = new_activity_path(
-        name:        @activity.name,
-        garden_id:   @activity.garden_id,
-        planting_id: @activity.planting_id,
-        category:    @activity.category,
-        description: @activity.description,
-        due_date:    2.weeks.from_now.to_date
-      )
+    if notepad?
+      load_notepad
+    else
+      @jobs = @jobs.paginate(page: params[:page], per_page: 30)
     end
 
-    respond_with @activity
+    @filename = "Growstuff-#{specifics}Jobs-#{Time.zone.now.to_fs(:number)}.csv"
+    respond_with(@jobs)
   end
 
   def new
-    @activity = Activity.new(
+    @job = Job.new(
       owner:    current_member,
       due_date: Date.today
     )
-    @activity.name = params[:name] if params[:name]
-    @activity.description = params[:description] if params[:description]
-    @activity.category = params[:category] if params[:category]
-    @activity.due_date = params[:due_date] if params[:due_date]
+    @job.name = params[:name] if params[:name]
+    @job.description = params[:description] if params[:description]
+    @job.due_date = params[:due_date] if params[:due_date]
     if params[:garden_id]
-      @activity.garden = Garden.find_by(
+      @job.garden = Garden.find_by(
         owner: current_member,
         id:    params[:garden_id]
       )
     end
 
     if params[:planting_id]
-      @activity.planting = Planting.find_by(
+      @job.planting = Planting.find_by(
         owner: current_member,
         id:    params[:planting_id]
       )
     end
 
-    respond_with @activity
+    respond_with @job
   end
 
   def edit
     # the following are needed to display the form but aren't used
-    @gardens = @activity.owner.gardens.active.order_by_name
-    @plantings = @activity.owner.plantings.active
+    @gardens = @job.owner.gardens.active.order_by_name
+    @plantings = @job.owner.plantings.active
   end
 
   def create
-    @activity = Activity.new(activity_params)
-    @activity.owner = current_member
-    @activity.due_date ||= Date.today
+    @job = Job.new(job_params)
+    @job.owner = current_member
+    @job.due_date ||= Date.today
 
-    if @activity.save
+    if @job.save
       if params[:repeat_times].to_i > 0
         repeat_times = params[:repeat_times].to_i
         repeat_weeks = params[:repeat_weeks].to_i
 
         repeat_times.times do |i|
-          new_activity = @activity.dup
-          new_activity.due_date = @activity.due_date + (i + 1) * repeat_weeks.weeks
-          new_activity.save
+          new_job = @job.dup
+          new_job.due_date = @job.due_date + (i + 1) * repeat_weeks.weeks
+          new_job.save
         end
       end
     end
 
-    respond_with @activity
+    respond_with @job, location: after_save_path
   end
 
   def update
-    @activity.update(activity_params)
-    respond_with @activity
+    @job.update(job_params)
+    respond_with @job, location: after_save_path
   end
 
   def destroy
-    @activity.destroy
-    respond_with @activity, location: @activity.garden
+    @job.destroy
+    respond_with @job, location: after_save_path
   end
 
   private
 
-  def activity_params
-    params.require(:activity).permit(
-      :name, :description, :category, :finished,
+  # There is no page for a single job: saving or deleting one goes back to the
+  # list it is on.
+  def after_save_path
+    member_jobs_path(@job.owner)
+  end
+
+  # A member looking at their own jobs sees them as a notepad. The data formats,
+  # and anyone else's jobs, are lists.
+  def notepad?
+    @owner.present? && @owner == current_member && request.format.html?
+  end
+
+  def load_notepad
+    @done = params[:tab] == 'done'
+    scope = Job.where(owner: @owner).includes(:garden, planting: :crop)
+    if @done
+      @jobs = scope.finished.order(updated_at: :desc).limit(30)
+    else
+      @jobs = scope.active.order(Arel.sql('due_date IS NULL'), :due_date, :created_at)
+      @job_groups = JobList.new(@jobs).groups
+    end
+  end
+
+  def job_params
+    params.require(:job).permit(
+      :name, :description, :finished,
       :garden_id, :planting_id, :due_date,
       :repeat_times, :repeat_weeks
     )

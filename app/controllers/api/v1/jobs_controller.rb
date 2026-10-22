@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class ActivitiesController < BaseController
+    class JobsController < BaseController
     end
   end
 end

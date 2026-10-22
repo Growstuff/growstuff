@@ -1,43 +1,52 @@
-- content_for :title, title('activities', @owner, nil, @planting)
+- content_for :title, title('jobs', @owner, nil, @planting)
 
 - content_for :breadcrumbs do
   - if @owner
-    %li.breadcrumb-item= link_to 'Activities', activities_path
-    %li.breadcrumb-item.active= link_to "#{@owner}'s activities", member_activities_path(@owner)
+    %li.breadcrumb-item= link_to 'Jobs', jobs_path
+    %li.breadcrumb-item.active= link_to "#{@owner}'s jobs", member_jobs_path(@owner)
   - else
-    %li.breadcrumb-item.active= link_to 'Activities', activities_path
+    %li.breadcrumb-item.active= link_to 'Jobs', jobs_path
 
 .row
-  .col-md-2
-    %h1
-      = activity_icon
-      = title('activities', @owner, nil, @planting)
-    = render 'layouts/nav', model: Activity
-    = link_to show_inactive_tickbox_path('activities', owner: @owner, crop: nil, show_all: @show_all) do
-      = check_box_tag 'active', 'all', @show_all
-      include finished activities
-    %hr
-    - if @owner.present?
+  .col-md-3
+    %h1.h2
+      = job_icon
+      Jobs
+    - if can?(:create, Job)
+      = link_to new_job_path, class: 'btn btn-primary d-block mb-3' do
+        = t('jobs.pad.add')
+    - if member_signed_in?
+      %nav.list-group.mb-3{ 'aria-label': 'Jobs' }
+        = link_to t('jobs.pad.my_jobs'), member_jobs_path(current_member), class: ['list-group-item', ('active' if @owner == current_member)]
+        = link_to t('jobs.pad.everyones_jobs'), jobs_path, class: ['list-group-item', ('active' if @owner.blank?)]
+    - unless @job_groups || @done
+      = link_to show_inactive_tickbox_path('jobs', owner: @owner, crop: nil, show_all: @show_all) do
+        = check_box_tag 'active', 'all', @show_all
+        include finished jobs
+    - if @owner.present? && @owner != current_member
+      %hr
       = render @owner, cached: true
 
-    %section.open-data
+    %section.open-data.mt-3
       %h2 Open Data
       %p= t('label.data')
       - ['csv', 'json', 'rss'].each do |format|
         .badge.text-bg-info
-          = link_to (@owner ? member_activities_path(@owner, format: format) : activities_path(format: format)) do
+          = link_to (@owner ? member_jobs_path(@owner, format: format) : jobs_path(format: format)) do
             = icon 'fas', format.to_s
             = format.upcase
       - if @owner
-        .badge.text-bg-info= link_to "iCal", member_activities_path(@owner, format: 'ics', protocol: 'webcal', only_path: false)
+        .badge.text-bg-info= link_to "iCal", member_jobs_path(@owner, format: 'ics', protocol: 'webcal', only_path: false)
       .badge.text-bg-success= link_to 'API Methods', '/api-docs'
 
-  .col-md-10
-
-    %section
-      %h2= title('activities', @owner, nil, @planting)
-      = will_paginate @activities
-      .index-cards
-        - @activities.each do |a|
-          = render 'activities/card', activity: a
-      = will_paginate @activities
+  .col-md-9
+    - if @owner.present? && @owner == current_member
+      = render 'jobs/notepad', owner: @owner, jobs: @jobs, groups: @job_groups, done: @done
+    - else
+      %section
+        %h2= title('jobs', @owner, nil, @planting)
+        = will_paginate @jobs
+        .index-cards
+          - @jobs.each do |a|
+            = render 'jobs/card', job: a
+        = will_paginate @jobs

@@ -1,27 +1,23 @@
-- cache activity do
-  .card.activity{class: activity.active ? '' : 'card-finished'}
-    = link_to activity_path(slug: activity.slug) do
-      -# = image_tag activity.thumbnail_url ? activity.thumbnail_url : placeholder_image, class: 'img-card', alt: planting.crop_name
-
-    - if member_signed_in? && current_member.id == activity.owner_id
-      .activity-quick-actions= render 'activities/actions', activity:
+- cache job do
+  .card.job{class: job.active ? '' : 'card-finished'}
+    - if member_signed_in? && current_member.id == job.owner_id
+      .job-quick-actions= render 'jobs/actions', job:
     .card-body
-      = link_to activity_path(slug: activity.slug) do
-        %h4= activity.name
-        - if activity.due_date
-          %small.due-date{title: activity.due_date}
-            = standard_time_distance(activity.due_date.to_date, Time.zone.now.to_date)
-        %div
-          %small.text-justify{title: activity.description}= activity.description.truncate(150)
+      %h4= job.name
+      - if job.due_date
+        %small.due-date{title: job.due_date}
+          = standard_time_distance(job.due_date.to_date, Time.zone.now.to_date)
+      %div
+        %small.text-justify{title: job.description}= job.description.to_s.truncate(150)
       %ul.list-unstyled.mb-0
-        - if activity.garden_name && activity.garden_slug
+        - if job.garden_name && job.garden_slug
           %li
-            %small= link_to activity.garden_name, garden_path(slug: activity.garden_slug)
-        - if activity.planting_name && activity.planting_slug
+            %small= link_to job.garden_name, garden_path(slug: job.garden_slug)
+        - if job.planting_name && job.planting_slug
           %li
-            %small= link_to activity.planting_name, planting_path(slug: activity.planting_slug)
+            %small= link_to job.planting_name, planting_path(slug: job.planting_slug)
 
     .card-footer
       %small.chip.member-chip
-        = link_to member_path(slug: activity.owner_slug) do
-          = activity.owner_login_name
+        = link_to member_path(slug: job.owner_slug) do
+          = job.owner_login_name

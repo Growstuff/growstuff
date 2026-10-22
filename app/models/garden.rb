@@ -10,7 +10,7 @@ class Garden < ApplicationRecord
 
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
-  has_many :activities, dependent: :destroy
+  has_many :jobs, dependent: :destroy
   has_many :planting_histories, dependent: :destroy
   has_many :garden_collaborators, dependent: :destroy
 

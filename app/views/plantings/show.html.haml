@@ -85,30 +85,30 @@
         %section#seeds.descendants
           = render 'plantings/descendants', planting: @planting, child_seeds: @child_seeds
 
-        %section#activities
+        %section#jobs
           -# Same shape as every other section: one heading bar, one "+ add",
           -# and no sub-heading above an empty list.
           .section-header
-            %h2= t('plantings.show.activities')
-            - if can?(:edit, @planting) && can?(:create, Activity)
-              = link_to new_activity_path(garden_id: @planting.garden_id, planting_id: @planting.id), class: 'btn btn-sm section-add' do
+            %h2= t('plantings.show.jobs')
+            - if can?(:edit, @planting) && can?(:create, Job)
+              = link_to new_job_path(garden_id: @planting.garden_id, planting_id: @planting.id), class: 'btn btn-sm section-add' do
                 = icon 'fas', 'plus'
                 add
           - if @cultivate_soil_link
             .alert.alert-info
               This was the last planting recently in this bed. Would you like to cultivate the soil soon?
               = link_to 'Cultivate soil', @cultivate_soil_link, class: 'btn btn-secondary btn-sm ms-2'
-          - if @current_activities&.size&.positive?
+          - if @current_jobs&.size&.positive?
             .index-cards
-              - @current_activities.each do |activity|
-                = render "activities/card", activity: activity
+              - @current_jobs.each do |job|
+                = render "jobs/card", job: job
           - else
-            %p.text-muted.mb-0= t('plantings.show.no_activities')
-          - if @finished_activities&.size&.positive?
-            %h3= t('plantings.show.activities_finished')
+            %p.text-muted.mb-0= t('plantings.show.no_jobs')
+          - if @finished_jobs&.size&.positive?
+            %h3= t('plantings.show.jobs_finished')
             .index-cards
-              - @finished_activities.each do |activity|
-                = render "activities/card", activity: activity
+              - @finished_jobs.each do |job|
+                = render "jobs/card", job: job
 
     .col-md-4.col-12
       %section.planting-crop

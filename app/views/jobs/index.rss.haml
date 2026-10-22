@@ -2,19 +2,18 @@
 %rss{ version: 2.0 }
   %channel
     %title
-      Recent activities from #{@owner ? @owner : 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})
-    %link= activities_url
-    - @activities.each do |activity|
+      Recent jobs from #{@owner ? @owner : 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})
+    %link= jobs_url
+    - @jobs.each do |job|
       %item
-        %title #{activity['name']}
-        %pubdate= activity['created_at'].to_fs(:rfc822)
+        %title #{job['name']}
+        %pubdate= job['created_at'].to_fs(:rfc822)
         %description
           :escaped
-            <p>Category: #{activity['category']}</p>
-            <p>Due Date: #{activity['due_date'] ? activity['due_date'] : 'unknown' }</p>
-            <p>Garden: #{activity['garden_name'] ? activity['garden_name'] : 'N/A' }</p>
-            <p>Planting: #{activity['planting_name'] ? activity['planting_name'] : 'N/A' }</p>
+            <p>Due Date: #{job['due_date'] ? job['due_date'] : 'unknown' }</p>
+            <p>Garden: #{job['garden_name'] ? job['garden_name'] : 'N/A' }</p>
+            <p>Planting: #{job['planting_name'] ? job['planting_name'] : 'N/A' }</p>
           :escaped_markdown
-            #{ strip_tags markdownify(activity['description']) }
-        %link= activity_url(slug: activity['slug'])
-        %guid= activity_url(slug: activity['slug'])
+            #{ strip_tags markdownify(job['description']) }
+        %link= member_jobs_url(job.owner)
+        %guid{ isPermaLink: 'false' }= "job-#{job['id']}"

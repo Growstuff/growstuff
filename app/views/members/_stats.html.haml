@@ -22,9 +22,9 @@
     - if member.posts.present?
       %li.list-group-item
         = link_to localize_plural(member.posts, Post), member_posts_path(member)
-    - if member.activities.present?
+    - if member.jobs.present?
       %li.list-group-item
-        = link_to localize_plural(member.plantings, Activity), member_activities_path(member)
+        = link_to localize_plural(member.plantings, Job), member_jobs_path(member)
     - if member.followed.present?
       %li.list-group-item
         = link_to localize_plural(member.followed, Follow), member_follows_path(member)

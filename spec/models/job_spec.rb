@@ -2,19 +2,19 @@
 
 require 'rails_helper'
 
-RSpec.describe Activity do
+RSpec.describe Job do
   describe 'active scope' do
-    it 'returns activities that are not finished' do
-      active_activity = create(:activity, finished: false)
-      finished_activity = create(:activity, finished: true)
+    it 'returns jobs that are not finished' do
+      active_job = create(:job, finished: false)
+      finished_job = create(:job, finished: true)
 
-      expect(described_class.active).to include(active_activity)
-      expect(described_class.active).not_to include(finished_activity)
+      expect(described_class.active).to include(active_job)
+      expect(described_class.active).not_to include(finished_job)
     end
 
     it 'treats nil finished as active' do
-      activity = create(:activity, finished: nil)
-      expect(described_class.active).to include(activity)
+      job = create(:job, finished: nil)
+      expect(described_class.active).to include(job)
     end
   end
 end

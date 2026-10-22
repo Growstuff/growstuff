@@ -53,7 +53,7 @@ class SampleData
     rand(6..16).times { planting(member, garden) }
     rand(0..3).times { harvest(member) }
     rand(1..4).times { seed(member) }
-    rand(0..2).times { activity(member, garden) }
+    rand(0..2).times { job(member, garden) }
   end
 
   def fill_posts(member)
@@ -97,11 +97,11 @@ class SampleData
     seed.photos << photo(member, "seed-#{seed.id}")
   end
 
-  def activity(member, garden)
-    Activity.create!(
+  def job(member, garden)
+    Job.create!(
       owner: member, garden:, due_date: rand(-10..30).days.from_now.to_date,
       name: "#{Faker::Verb.base.capitalize} the #{Faker::Food.vegetables.downcase}",
-      category: "Weeding", description: Faker::Lorem.sentence
+      description: Faker::Lorem.sentence
     )
   end
 
