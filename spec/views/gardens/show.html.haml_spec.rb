@@ -41,8 +41,52 @@ describe "gardens/show" do
       expect(rendered).to have_content @planting.crop.name
     end
 
-    it 'points people at the garden layout' do
+    it 'points people at the garden layout teaser with New indicator when garden has no layout' do
       assert_select "a.garden-layout-teaser[href=?]", layout_member_garden_path(@owner, @garden)
+      expect(rendered).to have_content "New"
+      expect(rendered).to have_content "Map out this bed"
+      expect(rendered).to have_content "Try out the new garden layout tool"
+    end
+  end
+
+  context 'when the garden is active and has a layout' do
+    before do
+      @owner = create(:member)
+      controller.stub(:current_user) { @owner }
+      @garden = create(:garden, owner: @owner, layout_saved_at: Time.current)
+      @planting = create(:planting, garden: @garden, owner: @garden.owner)
+      assign(:garden, @garden)
+      assign(:current_plantings, [@planting])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows the layout SVG preview and edit controls without New badge' do
+      assert_select "a.garden-layout-teaser[href=?]", layout_member_garden_path(@owner, @garden)
+      assert_select "svg.garden-layout-teaser-svg"
+      expect(rendered).not_to have_content "New"
+      expect(rendered).to have_content "Garden layout"
+      expect(rendered).to have_content "Edit layout →"
+    end
+  end
+
+  context 'when viewing another member active garden with a layout' do
+    before do
+      @owner = create(:member)
+      @viewer = create(:member)
+      controller.stub(:current_user) { @viewer }
+      @garden = create(:garden, owner: @owner, layout_saved_at: Time.current)
+      assign(:garden, @garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows view layout controls' do
+      expect(rendered).to have_content "Garden layout"
+      expect(rendered).to have_content "View layout →"
     end
   end
 

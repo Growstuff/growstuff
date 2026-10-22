@@ -910,6 +910,7 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     linear-gradient(0deg, transparent 49%, $garden-layout-twine 49% 51%, transparent 51%),
     $garden-layout-soil;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
 
   // The plants: a big one, two small and a middling one.
   span {
@@ -924,6 +925,32 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   span:nth-child(2) { top: 18%; left: 64%; width: 22%; aspect-ratio: 1; }
   span:nth-child(3) { top: 58%; left: 66%; width: 18%; aspect-ratio: 1; }
   span:nth-child(4) { top: 62%; left: 38%; width: 26%; aspect-ratio: 1; }
+}
+
+.garden-layout-teaser-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  .placed-plant {
+    fill: $garden-layout-planting;
+    stroke: $garden-layout-planting-border;
+    stroke-width: 0.1;
+  }
+
+  .feature-point {
+    fill: rgba(255, 250, 235, 0.9);
+    stroke: #8b877e;
+    stroke-width: 0.08;
+  }
+
+  .feature-line {
+    stroke: $garden-layout-twine;
+    stroke-width: 0.15;
+    stroke-linecap: round;
+  }
 }
 
 .garden-layout-teaser-text {

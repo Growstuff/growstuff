@@ -141,6 +141,10 @@ class Garden < ApplicationRecord
     grid_columns * grid_rows
   end
 
+  def has_layout?
+    layout_saved_at.present? || placed_plants.any? || layout_features.present?
+  end
+
   # What's wrong with a list of layout features, if anything, as messages. Used
   # by the layout's save as well as by validation, so a drag can be checked
   # without a full save (which would geocode the garden every time).
