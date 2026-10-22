@@ -161,16 +161,6 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    min-height: 44px;
-    padding: 0 1rem;
-    border-radius: 2px;
-    background: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-    color: $gardens-green;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    white-space: nowrap;
   }
 
   .garden-card-body {
