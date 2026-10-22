@@ -56,6 +56,7 @@
           %th.text-end Scientific names
           %th.text-end Alternate names
           %th.text-end Child crops
+          %th.text-end Job templates
           %th Updated
           - if @approval_status == 'pending'
             %th Requested by
@@ -78,6 +79,11 @@
             %td.text-end= crop.scientific_names.size
             %td.text-end= crop.alternate_names.size
             %td.text-end= crop.varieties.size
+            %td.text-end
+              - if crop.crop_job_templates.any?
+                = link_to pluralize(crop.crop_job_templates.size, 'template'), admin_crop_crop_job_templates_path(crop)
+              - else
+                = link_to 'Add', new_admin_crop_crop_job_template_path(crop)
             %td
               = time_ago_in_words(crop.updated_at)
               ago

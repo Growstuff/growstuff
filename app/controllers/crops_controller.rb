@@ -211,7 +211,7 @@ class CropsController < ApplicationController
       crops = crops.where(parent_id: nil)
     end
 
-    crops.includes(:scientific_names, :alternate_names, :varieties, :creator, :requester)
+    crops.includes(:scientific_names, :alternate_names, :varieties, :crop_job_templates, :creator, :requester)
       .order(Arel.sql('lower(crops.name)'), :id)
   end
 
