@@ -5,7 +5,9 @@
 # job; each says which day a job dropped in it gets. Soon has no day of its own,
 # so nothing is dropped there.
 class JobList
-  Group = Struct.new(:key, :jobs, :from, :to, :droppable, :drop_date)
+  Group = Struct.new(:key, :jobs, :from, :to, :droppable, :drop_date) do
+    alias_method :droppable?, :droppable
+  end
 
   # The last day of the week, a Sunday.
   def self.week_end(today)
