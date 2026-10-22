@@ -133,6 +133,7 @@ end
 
 group :development do
   gem 'better_errors'
+  gem 'foreman'
   gem 'letter_opener'
   gem 'listen'
 end

@@ -99,8 +99,10 @@ inside the `web` container) while still using Docker for Postgres, here's the fu
 8. **Start the app:**
 
    ```bash
-   bundle exec rails s
+   bin/dev
    ```
+
+   `bin/dev` uses `Procfile.dev` (via Foreman, Overmind, or Hivemind) to run the Rails server together with asset compilation watchers (`yarn build:watch` and `yarn build:css:watch`). Assets are automatically compiled on changes, so manually precompiling assets (`rails assets:precompile`) is not required in development.
 
 ### For Home Automation enthusiasts
 
