@@ -469,7 +469,8 @@ $notepad-trail: #a4c98c;
     line-height: 1;
   }
 
-  // With reduced motion the snail and the spinners keep still.
+  // With reduced motion the snail and the spinners keep still. This sits in the
+  // notepad's block, so it is as specific as the rules that move them.
   @media (prefers-reduced-motion: reduce) {
     .notepad-snail-body {
       left: 8%;
