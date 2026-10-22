@@ -15,6 +15,7 @@
   .notepad-link{ id: 'notepad-link', hidden: true }
     %span.notepad-link-text
     %button.notepad-link-remove{ type: 'button', 'aria-label': t('jobs.pad.remove_link') } ×
+  %p.notepad-add-failed.text-danger.mx-3{ id: 'notepad-add-failed', role: 'alert', hidden: true }= t('jobs.pad.add_failed')
   %p.notepad-note= t('jobs.pad.public_note') + ' ' + t('jobs.pad.link_hint')
 
   #notepad-groups{ data: { celebrations: job_celebrations.to_json } }= render 'jobs/notepad_groups', groups:

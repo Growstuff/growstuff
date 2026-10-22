@@ -84,8 +84,18 @@ class JobsController < DataController
   def load_notepad
     @jobs = Job.where(owner: @owner).includes(:garden, :jobbable)
       .order(Arel.sql('due_date IS NULL'), :due_date, :created_at, :id)
+    preload_jobbables(@jobs)
     @job_groups = JobList.new(@jobs).groups
     @done_this_week = @jobs.finished_this_week.count
+  end
+
+  # The notepad shows a planting's crop and garden and a seed's crop. Rails can't
+  # load through a link that may be a crop, planting or seed, so each kind is
+  # loaded on its own, in one query rather than one per job.
+  def preload_jobbables(jobs)
+    linked = jobs.filter_map(&:jobbable)
+    ActiveRecord::Associations::Preloader.new(records: linked.grep(Planting), associations: %i(crop garden)).call
+    ActiveRecord::Associations::Preloader.new(records: linked.grep(Seed), associations: :crop).call
   end
 
   def job_params
