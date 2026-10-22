@@ -222,15 +222,15 @@ describe Neighbours do
       expect(items.map { |item| [item.type, item.record] }).to include(['garden_layout', garden])
     end
 
-    it 'has activities people planned' do
-      activity = create(:activity, owner: friend)
+    it 'has jobs people planned' do
+      job = create(:job, owner: friend)
 
       items = neighbours.feed.flat_map(&:updates).flat_map(&:items)
-      expect(items.map { |item| [item.type, item.record] }).to include(['activity', activity])
+      expect(items.map { |item| [item.type, item.record] }).to include(['job', job])
     end
 
-    it 'dates an activity by when it was planned, not when it is due' do
-      create(:activity, owner: friend, due_date: Time.zone.today + 1.month)
+    it 'dates a job by when it was planned, not when it is due' do
+      create(:job, owner: friend, due_date: Time.zone.today + 1.month)
 
       expect(neighbours.feed.first.day).to eq Time.zone.today
     end

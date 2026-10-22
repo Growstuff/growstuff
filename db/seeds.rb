@@ -112,14 +112,13 @@ def load_test_users
       planting.photos << photo
     end
 
-    # Create an activity by the member
+    # Create a job by the member
     3.times do |_n|
-      Activity.create!(
+      Job.create!(
         owner_id:    @user.id,
         garden_id:   @user.gardens.first.id,
         due_date:    Time.zone.today,
         name:        Faker::Book.title,
-        category:    "Weeding",
         description: Faker::Lorem.paragraphs.join("\n")
       )
     end

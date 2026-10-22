@@ -18,7 +18,7 @@ RSpec.describe 'Members' do
         "photos"    => photos_as_json_api,
         "plantings" => plantings_as_json_api,
         "seeds"     => seeds_as_json_api,
-        "activities" => activities_as_json_api
+        "jobs" => jobs_as_json_api
       } }
   end
 
@@ -42,10 +42,10 @@ RSpec.describe 'Members' do
                    "related" => "#{resource_url}/seeds" } }
   end
 
-  let(:activities_as_json_api) do
+  let(:jobs_as_json_api) do
     { "links" =>
-                 { "self"    => "#{resource_url}/relationships/activities",
-                   "related" => "#{resource_url}/activities" } }
+                 { "self"    => "#{resource_url}/relationships/jobs",
+                   "related" => "#{resource_url}/jobs" } }
   end
 
   let(:plantings_as_json_api) do
@@ -81,7 +81,7 @@ RSpec.describe 'Members' do
     it { expect(subject['data']['relationships']).to include("seeds" => seeds_as_json_api) }
     it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
     it { expect(subject['data']['relationships']).to include("photos" => photos_as_json_api) }
-    it { expect(subject['data']['relationships']).to include("activities" => activities_as_json_api) }
+    it { expect(subject['data']['relationships']).to include("jobs" => jobs_as_json_api) }
     it { expect(subject['data']).to eq(member_encoded_as_json_api) }
   end
 

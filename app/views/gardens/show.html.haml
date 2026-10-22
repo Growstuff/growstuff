@@ -115,11 +115,11 @@
                 = garden_plant_something_button(@garden)
 
         %section
-          %h2 Current activities in garden
+          %h2 Current jobs in garden
           .index-cards
-            - if @current_activities&.size&.positive?
-              - @current_activities.each do |activity|
-                = render "activities/card", activity: activity
+            - if @current_jobs&.size&.positive?
+              - @current_jobs.each do |job|
+                = render "jobs/card", job: job
             - else
               .col-md-12
                 %p Nothing is currently planned here.

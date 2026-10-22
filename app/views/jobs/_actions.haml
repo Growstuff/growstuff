@@ -1,0 +1,14 @@
+- if can?(:edit, job)
+  - copy_path = new_job_path(name: job.name, description: job.description,
+                                   garden_id: job.garden_id, planting_id: job.planting_id, due_date: job.due_date)
+  - finish_path = job_path(slug: job.slug, job: { finished: 1 })
+  = actions_menu('job', id: job.id) do
+    = menu_link_to :edit, t('buttons.edit'), edit_job_path(slug: job.slug)
+    = menu_link_to :copy, t('buttons.copy'), copy_path
+    - if job.active
+      = menu_link_to :finish, t('buttons.mark_as_finished'), finish_path, method: :put, class: 'append-date'
+    = menu_link_to :job, t('jobs.pad.move_today'), job_path(slug: job.slug, job: { due_date: Time.zone.today }), method: :put
+    - if JobList.week_end(Time.zone.today) > Time.zone.today
+      = menu_link_to :job, t('jobs.pad.move_week'), job_path(slug: job.slug, job: { due_date: JobList.week_end(Time.zone.today) }), method: :put
+    .dropdown-divider
+    = menu_delete_button(job)

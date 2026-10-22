@@ -117,16 +117,16 @@ describe "member profile", :js do
       it { expect(page).to have_no_link href: planting_path(no_planted_at_planting) }
     end
 
-    context 'member has activities' do
-      let!(:past_activity) { create(:activity, owner: member, due_date: 3.days.ago) }
-      let!(:planting_activity) { create(:activity, :planting, owner: member) }
-      let!(:garden_activity) { create(:activity, :garden, owner: member) }
+    context 'member has jobs' do
+      let!(:past_job) { create(:job, owner: member, name: 'Prune the vines', due_date: 3.days.ago) }
+      let!(:planting_job) { create(:job, :planting, owner: member, name: 'Stake the tomatoes') }
+      let!(:garden_job) { create(:job, :garden, owner: member, name: 'Spread the compost') }
 
       before { visit member_path(member) }
 
-      it { expect(page).to have_link href: activity_path(past_activity) }
-      it { expect(page).to have_link href: activity_path(planting_activity) }
-      it { expect(page).to have_link href: activity_path(garden_activity) }
+      it { expect(page).to have_content past_job.name }
+      it { expect(page).to have_content planting_job.name }
+      it { expect(page).to have_content garden_job.name }
     end
 
     context 'member has seeds' do
