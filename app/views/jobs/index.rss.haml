@@ -6,14 +6,14 @@
     %link= jobs_url
     - @jobs.each do |job|
       %item
-        %title #{job['name']}
-        %pubdate= job['created_at'].to_fs(:rfc822)
+        %title= job.name
+        %pubdate= job.created_at.to_fs(:rfc822)
         %description
           :escaped
-            <p>Due Date: #{job['due_date'] ? job['due_date'] : 'unknown' }</p>
-            <p>Garden: #{job['garden_name'] ? job['garden_name'] : 'N/A' }</p>
-            <p>Planting: #{job['planting_name'] ? job['planting_name'] : 'N/A' }</p>
+            <p>Due Date: #{job.due_date || 'unknown'}</p>
+            <p>Garden: #{job.garden_name || 'N/A'}</p>
+            <p>Planting: #{job.planting_name || 'N/A'}</p>
           :escaped_markdown
-            #{ strip_tags markdownify(job['description']) }
+            #{strip_tags markdownify(job.description)}
         %link= member_jobs_url(job.owner)
-        %guid{ isPermaLink: 'false' }= "job-#{job['id']}"
+        %guid{ isPermaLink: 'false' } job-#{job.id}

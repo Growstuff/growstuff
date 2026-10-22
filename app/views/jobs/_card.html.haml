@@ -10,12 +10,12 @@
       %div
         %small.text-justify{title: job.description}= job.description.to_s.truncate(150)
       %ul.list-unstyled.mb-0
-        - if job.garden_name && job.garden_slug
+        - if job.garden
           %li
-            %small= link_to job.garden_name, garden_path(slug: job.garden_slug)
-        - if job.planting_name && job.planting_slug
+            %small= link_to job.garden_name, garden_path(job.garden)
+        - if job.planting
           %li
-            %small= link_to job.planting_name, planting_path(slug: job.planting_slug)
+            %small= link_to job.planting_name, planting_path(job.planting)
 
     .card-footer
       %small.chip.member-chip

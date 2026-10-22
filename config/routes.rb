@@ -159,6 +159,7 @@ Rails.application.routes.draw do
   end
 
   resources :messages
+  get 'jobs/suggestions' => 'job_suggestions#index', as: :job_suggestions
   resources :jobs, param: :slug, except: :show
   resources :conversations do
     collection do

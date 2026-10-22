@@ -651,6 +651,11 @@ en:
     plan_something: Plan something
     due:
       last: last %{day}
+    suggestions:
+      the_crop: the crop
+      planted: planted %{date}
+      saved: saved %{year}
+      seeds: "%{crop} seeds"
     pad:
       title: "%{owner}'s jobs"
       cross_off: "Cross off: %{job}"
@@ -670,6 +675,10 @@ en:
       move_week: This week
       someday_note: a wishlist, nothing committed
       garden: Garden
+      crop: Crop
+      seeds: Seeds
+      link_hint: Type @ and a crop name to link this job to it.
+      remove_link: Remove link
       planting: Planting
       in_garden: in %{garden}
     index:

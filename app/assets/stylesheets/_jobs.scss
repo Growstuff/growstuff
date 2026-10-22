@@ -22,6 +22,7 @@
 
   // One line to type a job into; Enter adds it.
   .notepad-add {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -238,5 +239,92 @@
 
   .notepad-due + .notepad-menu {
     margin-left: 0;
+  }
+
+  // The @ suggestions drop down from the line you type in.
+  .notepad-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 1.7rem;
+    right: 5.5rem;
+    z-index: 10;
+    margin: 2px 0 0;
+    padding: 0.25rem 0;
+    list-style: none;
+    background: $white;
+    border: 1.5px solid #c0b5a3;
+    border-radius: 6px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .notepad-suggestion {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      background: #e4efdc;
+    }
+
+    .notepad-suggestion-icon {
+      flex: none;
+      width: 32px;
+      height: 32px;
+      padding: 3px;
+      background: #dfe8d4;
+      border-radius: 3px;
+      object-fit: contain;
+    }
+
+    .kind {
+      min-width: 4.5rem;
+      color: #3f5e2b;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    small {
+      margin-left: auto;
+      color: $ink-muted;
+    }
+  }
+
+  // The link picked for the job being typed, until it is added.
+  .notepad-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.4rem 1.1rem 0 2.8rem;
+    padding: 0 0.25rem 0 0.75rem;
+    min-height: 32px;
+    border-radius: 999px;
+    background: #dfe8d4;
+    color: #3f5e2b;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .notepad-link-remove {
+    min-width: 32px;
+    min-height: 32px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 1.1rem;
+    line-height: 1;
   }
 }

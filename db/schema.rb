@@ -708,15 +708,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_000000) do
     t.date "due_date"
     t.boolean "finished"
     t.bigint "garden_id"
+    t.bigint "jobbable_id"
+    t.string "jobbable_type"
     t.integer "likes_count", default: 0
     t.string "name"
     t.bigint "owner_id"
-    t.bigint "planting_id"
     t.string "slug"
     t.datetime "updated_at", null: false
     t.index ["garden_id"], name: "index_jobs_on_garden_id"
+    t.index ["jobbable_type", "jobbable_id"], name: "index_jobs_on_jobbable"
     t.index ["owner_id"], name: "index_jobs_on_owner_id"
-    t.index ["planting_id"], name: "index_jobs_on_planting_id"
     t.index ["slug"], name: "index_jobs_on_slug", unique: true
   end
 

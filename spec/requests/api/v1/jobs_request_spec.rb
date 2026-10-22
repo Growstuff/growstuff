@@ -42,8 +42,8 @@ RSpec.describe 'Jobs' do
       expect(subject['data'][0]['id']).to eq(job.id.to_s)
     end
 
-    it 'filters by planting' do
-      get("/api/v1/jobs?filter[planting-id]=#{job.planting.id}", params: {}, headers:)
+    it 'filters by what the job is about' do
+      get("/api/v1/jobs?filter[jobbable-type]=Planting&filter[jobbable-id]=#{job.planting.id}", params: {}, headers:)
 
       expect(response).to have_http_status(:ok)
       expect(subject['data'].size).to eq(1)
