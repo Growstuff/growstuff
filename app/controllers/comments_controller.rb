@@ -54,10 +54,13 @@ class CommentsController < ApplicationController
   def find_commentable
     return unless params[:comment]
 
-    if params[:comment][:commentable_type] == 'Photo'
+    case params[:comment][:commentable_type]
+    when 'Photo'
       Photo.find(params[:comment][:commentable_id])
-    elsif params[:comment][:commentable_type] == 'Post'
+    when 'Post'
       Post.find(params[:comment][:commentable_id])
+    when 'Planting'
+      Planting.friendly.find(params[:comment][:commentable_id])
     end
   end
 

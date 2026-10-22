@@ -925,6 +925,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_22_020000) do
 
   create_table "plantings", id: :serial, force: :cascade do |t|
     t.integer "alternate_name_id"
+    t.integer "comments_count", default: 0
     t.datetime "created_at", precision: nil
     t.integer "crop_id", null: false
     t.integer "days_to_first_harvest"
