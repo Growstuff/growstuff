@@ -2,7 +2,7 @@
   = actions_menu('garden') do
     - if garden.active
       = menu_link_to :planting, t('buttons.plant_something_here'), new_planting_path(garden_id: garden.id)
-      = menu_link_to :activity, t('buttons.new_activity'), new_activity_path(garden_id: garden.id)
+      = menu_link_to :job, t('buttons.new_job'), new_job_path(garden_id: garden.id)
       - if garden.nursery?
         = menu_link_to :garden, t('buttons.stop_nursery'), stop_nursery_garden_path(garden), method: :post
       - else

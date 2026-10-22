@@ -5,7 +5,7 @@ $(document).ready(function() {
    * Handles the result of an ajax call and updates UI
    *
    * @param {object} data JSON data from ajax response
-   * @param {string} type object type (ie: post, activity, etc)
+   * @param {string} type object type (ie: post, job, etc)
    */
   var likeableSuccess = function(data, type) {
     var target = '.' + type + '-' + data.id;
@@ -31,8 +31,8 @@ $(document).ready(function() {
     likeableSuccess(data, 'post');
   });
 
-  $('.activity-like').on('ajax:success', function(event, data) {
-    likeableSuccess(data, 'activity');
+  $('.job-like').on('ajax:success', function(event, data) {
+    likeableSuccess(data, 'job');
   });
 
   $('.planting-like').on('ajax:success', function(event, data) {

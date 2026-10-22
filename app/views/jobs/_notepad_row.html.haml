@@ -1,0 +1,18 @@
+.notepad-job{ class: ('done' if job.finished), draggable: 'true', data: { url: job_path(slug: job.slug) } }
+  - label = t(job.finished ? 'jobs.pad.uncross' : 'jobs.pad.cross_off', job: job.name)
+  = button_to '', job_path(slug: job.slug), method: :patch, params: { job: { finished: job.finished ? 0 : 1 } },
+    class: ['notepad-box', ('checked' if job.finished)], form_class: 'notepad-tick', title: label, 'aria-label': label
+  %span.notepad-name= job.name
+  - if job.garden
+    = link_to garden_path(job.garden), class: 'notepad-chip garden' do
+      %span.kind= t('jobs.pad.garden')
+      = job.garden.name
+  - if job.planting
+    = link_to planting_path(job.planting), class: 'notepad-chip' do
+      %span.kind= t('jobs.pad.planting')
+      = job.planting.crop_name
+      - if job.garden.blank? && job.planting.garden
+        %span.in= t('jobs.pad.in_garden', garden: job.planting.garden.name)
+  - if job.due_date
+    %span.notepad-due{ class: ('late' if job_overdue?(job)) }= job_due_label(job)
+  .notepad-menu= render 'jobs/actions', job:

@@ -5,7 +5,7 @@
   "seeds": "<path d=\"M12 3c4 3 6 7 6 10a6 6 0 0 1-12 0c0-3 2-7 6-10z\"/>",
   "people": "<circle cx=\"9\" cy=\"8\" r=\"3\"/><path d=\"M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6\"/><circle cx=\"17\" cy=\"9\" r=\"2.5\"/><path d=\"M17 14c2.5 0 4 2 4 5\"/>",
   "crop": "<path d=\"M5 19C5 10 10 5 20 4c0 10-5 15-14 15z\"/><path d=\"M5 19l8-8\"/>",
-  "activity": "<rect x=\"4\" y=\"5\" width=\"16\" height=\"15\" rx=\"2\"/><path d=\"M4 10h16M9 3v4M15 3v4\"/>",
+  "job": "<rect x=\"4\" y=\"5\" width=\"16\" height=\"15\" rx=\"2\"/><path d=\"M4 10h16M9 3v4M15 3v4\"/>",
   "post": "<path d=\"M5 4h14v16H5z\"/><path d=\"M8 9h8M8 13h8M8 17h5\"/>",
   "inbox": "<path d=\"M4 13l2-8h12l2 8\"/><path d=\"M4 13v6h16v-6h-5l-1 2h-4l-1-2z\"/>",
   "edit": "<path d=\"M4 20l1-4L16 5l3 3L8 19z\"/><path d=\"M14 7l3 3\"/>",

@@ -15,8 +15,8 @@ module ButtonsHelper
   def garden_plan_something_button(garden, classes: "btn btn-outline-secondary")
     return unless can? :edit, garden
 
-    link_to new_activity_path(garden_id: garden.id), class: classes do
-      activity_icon + ' ' + t('buttons.new_activity')
+    link_to new_job_path(garden_id: garden.id), class: classes do
+      job_icon + ' ' + t('buttons.new_job')
     end
   end
 

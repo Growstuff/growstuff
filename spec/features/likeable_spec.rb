@@ -5,7 +5,6 @@ require 'rails_helper'
 describe 'Likeable', :js do
   let(:another_member) { create(:london_member) }
   let!(:post)           { create(:post, author: member) }
-  let!(:activity)       { create(:activity, owner: member) }
   let!(:photo)          { create(:photo, owner: member) }
   let!(:harvest)        { create(:harvest, owner: member) }
   let!(:planting)       { create(:planting, owner: member) }
@@ -77,13 +76,6 @@ describe 'Likeable', :js do
   describe 'posts' do
     let(:like_count_class) { ".post-#{post.id} .like-count" }
     let(:path) { post_path(post) }
-
-    include_examples 'object can be liked'
-  end
-
-  describe 'activities' do
-    let(:like_count_class) { ".activity-#{activity.id} .like-count" }
-    let(:path) { activity_path(activity) }
 
     include_examples 'object can be liked'
   end

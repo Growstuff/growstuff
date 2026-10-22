@@ -1,0 +1,33 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+describe JobsController, '#update' do
+  let(:member) { create(:member) }
+  let(:job) { create(:job, owner: member, due_date: nil) }
+  let(:headers) { { 'X-Requested-With' => 'XMLHttpRequest' } }
+
+  before { sign_in member }
+
+  context 'when moving a job to a day from the notepad' do
+    before { patch job_path(slug: job.slug), params: { job: { due_date: '2026-10-24' } }, headers: }
+
+    it 'gives it the day' do
+      expect(job.reload.due_date).to eq Date.new(2026, 10, 24)
+    end
+
+    it 'sends back the groups' do
+      expect(response.body).to include(job.name)
+    end
+  end
+
+  context 'when moving a job to no day' do
+    let(:job) { create(:job, owner: member, due_date: Date.new(2026, 10, 24)) }
+
+    before { patch job_path(slug: job.slug), params: { job: { due_date: '' } }, headers: }
+
+    it 'clears the day' do
+      expect(job.reload.due_date).to be_nil
+    end
+  end
+end

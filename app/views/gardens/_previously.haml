@@ -16,8 +16,8 @@
   .col-md-12
     %p Nothing has been planted here.
 
-- if @finished_activities&.size&.positive?
-  %h2.mt-4 Finished activities in garden
+- if @finished_jobs&.size&.positive?
+  %h2.mt-4 Finished jobs in garden
   .index-cards
-    - @finished_activities.each do |activity|
-      = render "activities/card", activity: activity
+    - @finished_jobs.each do |job|
+      = render "jobs/card", job: job
