@@ -4,6 +4,7 @@ class Job < ApplicationRecord
   extend FriendlyId
   include Ownable
   include Finishable
+  include PhotoCapable
 
   belongs_to :garden, optional: true
   belongs_to :jobbable, polymorphic: true, optional: true
@@ -52,6 +53,13 @@ class Job < ApplicationRecord
   # Nothing chosen on the form leaves the job about whatever it was about.
   def planting_id=(id)
     self.jobbable = Planting.find_by(id:) if id.present?
+  end
+
+  # The photo taken before or after the job was done, if there is one. Of those
+  # with the moment, the first added. Uses the loaded photos, so a list of jobs
+  # can load them all at once.
+  def photo_at(moment)
+    photo_associations.select { |association| association.moment == moment }.min_by(&:id)&.photo
   end
 
   def planting_name

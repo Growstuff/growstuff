@@ -43,6 +43,39 @@ describe 'jobs/_notepad_row' do
     end
   end
 
+  %w(before after).each do |moment|
+    it "has a menu item for a #{moment} photo, which opens the add-photo dialog" do
+      link = "a[href='#{new_photo_path(id: job.id, type: 'job', moment:)}'][data-photo-dialog]"
+      expect(rendered).to have_css(link, text: "Add a#{'n' if moment == 'after'} #{moment} photo", visible: :all)
+    end
+  end
+
+  it 'shows no photos for a job that has none' do
+    expect(rendered).to have_no_css('.notepad-photo')
+  end
+
+  context 'with a before and an after photo' do
+    let(:job) do
+      create(:job).tap do |job|
+        job.photo_associations.create!(photo: create(:photo, owner: job.owner, title: 'Net on'), moment: 'before')
+        job.photo_associations.create!(photo: create(:photo, owner: job.owner, title: 'Net off'), moment: 'after')
+      end
+    end
+
+    it 'shows both' do
+      expect(rendered).to have_css('.notepad-photo', count: 2)
+    end
+
+    it 'says which is which' do
+      expect(rendered).to have_css('.notepad-photo', text: 'Before').and have_css('.notepad-photo', text: 'After')
+    end
+
+    it 'links each to its photo' do
+      photo = job.photo_at('before')
+      expect(rendered).to have_link(href: photo_path(photo), title: 'Before photo: Net on')
+    end
+  end
+
   it 'has no Mark as finished in its menu, as it has a tick box' do
     expect(rendered).to have_no_link('Mark as finished', visible: :all)
   end

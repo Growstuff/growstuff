@@ -3,6 +3,24 @@
 require 'rails_helper'
 
 describe NeighboursHelper do
+  describe '#subject_path' do
+    it 'is the owner\'s list of jobs, for a job' do
+      job = create(:job)
+      expect(helper.subject_path(job)).to eq member_jobs_path(job.owner)
+    end
+
+    it 'is its own page, for anything else' do
+      planting = create(:planting)
+      expect(helper.subject_path(planting)).to eq planting_path(planting)
+    end
+  end
+
+  describe '#subject_label' do
+    it 'names the job' do
+      expect(helper.subject_label(build(:job, name: 'Net the berries'))).to eq 'the job Net the berries'
+    end
+  end
+
   describe '#season_start' do
     it 'is the first of the month a season begins in' do
       expect(helper.season_start(Date.new(2026, 10, 20))).to eq Date.new(2026, 9, 1)

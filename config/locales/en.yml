@@ -517,6 +517,7 @@ en:
     subject:
       garden: the garden %{name}
       harvest: a %{crop} harvest
+      job: the job %{name}
       planting: a %{crop} planting
       seed: "%{crop} seeds"
     suggestions:
@@ -694,6 +695,12 @@ en:
       my_jobs: My jobs
       everyones_jobs: Everyone's jobs
       overdue: Overdue
+      before: Before
+      after: After
+      photo_of_before: "Before photo: %{title}"
+      photo_of_after: "After photo: %{title}"
+      photo_before: Add a before photo
+      photo_after: Add an after photo
       done: Done
       done_on: done %{day}
       done_today: done today

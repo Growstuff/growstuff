@@ -236,3 +236,9 @@
             - @photos.each do |photo|
               = render 'photos/thumbnail', photo: photo
           = will_paginate @photos
+
+-# The to-do list's menu opens the add-photo dialog over the page, a React island.
+-# Last, so it can see whether something above has asked for it already.
+- if @notepad && !content_for(:scripts).to_s.include?('react_islands')
+  - content_for :scripts do
+    = javascript_include_tag 'react_islands', defer: true

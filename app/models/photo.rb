@@ -4,7 +4,7 @@ class Photo < ApplicationRecord
   include Likeable
   include Ownable
 
-  PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop).freeze
+  PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop Job).freeze
 
   has_many :photo_associations, dependent: :delete_all, inverse_of: :photo
   has_many :comments, as: :commentable, dependent: :destroy

@@ -20,7 +20,7 @@ class Neighbours
   FEED_KINDS = %i(planting harvest seed photo garden_layout transplant planned_job job_finished planting_finished seed_finished).freeze
   FEED_EVENTS = 15
   MAX_OFFSET = 500
-  PHOTO_SUBJECTS = %w(Planting Harvest Seed Garden).freeze
+  PHOTO_SUBJECTS = %w(Planting Harvest Seed Garden Job).freeze
   EVENT_MODELS = { 'planting' => Planting, 'harvest' => Harvest, 'seed' => Seed, 'photo' => Photo, 'garden_layout' => Garden,
                   'transplant' => PlantingHistory, 'job' => Job, 'job_finished' => Job, 'planting_finished' => Planting,
                   'seed_finished' => Seed }.freeze
@@ -313,7 +313,7 @@ class Neighbours
                                                                                                    :photographable_id)
     subjects = links.group_by { |_photo_id, type, _id| type }.to_h do |type, group|
       model = type.constantize
-      model = model.includes(:crop) unless type == 'Garden'
+      model = model.includes(:crop) unless %w(Garden Job).include?(type)
       [type, model.where(id: group.map(&:last)).index_by(&:id)]
     end
     links.sort_by { |_photo_id, type, _id| PHOTO_SUBJECTS.index(type) }.each_with_object({}) do |(photo_id, type, id), found|
