@@ -38,4 +38,29 @@ describe 'Layout on a phone', :js, :phone do
 
     it_behaves_like 'fits the screen'
   end
+
+  context 'with a crop page' do
+    before { visit crop_path(create(:tomato)) }
+
+    it_behaves_like 'fits the screen'
+  end
+
+  context 'with a planting page' do
+    before do
+      planting = create(:planting, owner: member, garden: member.gardens.first, planted_at: 3.years.ago)
+      create(:harvest, owner: member, crop: planting.crop, planting:, harvested_at: 1.month.ago)
+      visit planting_path(planting)
+    end
+
+    it_behaves_like 'fits the screen'
+  end
+
+  context 'with the inbox' do
+    before do
+      login_as member
+      visit conversations_path
+    end
+
+    it_behaves_like 'fits the screen'
+  end
 end
