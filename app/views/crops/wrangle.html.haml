@@ -16,15 +16,21 @@
 %section
   %h2 Crops
 
-  - tabs = [['Recently added', nil], ['Pending approval', 'pending'], ['Rejected', 'rejected']]
+  - tabs = [['Approved', nil], ['Pending approval', 'pending'], ['Rejected', 'rejected']]
   %ul.nav.nav-tabs{ role: 'tablist' }
     %li.nav-item= link_to 'Recently edited', admin_crops_path, class: 'nav-link'
     - tabs.each do |label, status|
       %li.nav-item
-        = link_to label, wrangle_crops_path(approval_status: status), class: ['nav-link', ('active' if @approval_status.presence == status)]
+        = link_to label, wrangle_crops_path(approval_status: status, level: ('all' if @all_levels)), class: ['nav-link', ('active' if @approval_status.presence == status)]
+
+  %ul.nav.nav-pills.my-3
+    %li.nav-item
+      = link_to 'Top level crops', wrangle_crops_path(approval_status: @approval_status), class: ['nav-link', ('active' unless @all_levels)]
+    %li.nav-item
+      = link_to 'All crops', wrangle_crops_path(approval_status: @approval_status, level: 'all'), class: ['nav-link', ('active' if @all_levels)]
 
   .table-responsive
-    %table.table.table-striped.table-bordered.table-sm.align-middle.wrangle-table{ id: @approval_status.blank? ? 'recently-added-crops' : "#{@approval_status}-crops" }
+    %table.table.table-striped.table-bordered.table-sm.align-middle.wrangle-table{ id: @approval_status.blank? ? 'approved-crops' : "#{@approval_status}-crops" }
       %thead
         %tr
           %th Name
