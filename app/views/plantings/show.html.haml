@@ -110,6 +110,11 @@
               - @finished_jobs.each do |job|
                 = render "jobs/card", job: job
 
+        %section#comments.comments
+          = render "comments/comments", commentable: @planting
+          - if can? :create, Comment
+            = render "comments/inline_form", commentable: @planting
+
     .col-md-4.col-12
       %section.planting-crop
         .section-header

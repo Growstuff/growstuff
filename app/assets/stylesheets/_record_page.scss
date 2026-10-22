@@ -14,6 +14,12 @@
     margin-bottom: $section-gap;
   }
 
+  // Override nested card styling for now.
+  .comment {
+    border: 1px solid lightgray;
+    box-shadow: none !important;
+  }
+
   // Each section is one bordered block: its heading bar is the lid, its content
   // sits under it inside the same border. That is what joins them — otherwise
   // the heading and its "add" float free above loose content.
