@@ -35,6 +35,10 @@ describe GardensController, '#show' do
       expect(page).to have_no_css('.notepad-name', text: 'Someone else\'s job')
     end
 
+    it 'links to all their jobs' do
+      expect(page).to have_link('See all your jobs', href: member_jobs_path(owner))
+    end
+
     it 'adds new jobs to the garden' do
       expect(page).to have_css(".notepad-add input[name='job[garden_id]'][value='#{garden.id}']", visible: :all)
     end
