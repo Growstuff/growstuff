@@ -24,11 +24,23 @@ $notepad-trail: #a4c98c;
   overflow: hidden;
   padding-bottom: 1rem;
 
+  // The site makes every h2 inside a section a green banner with a shadow. On a
+  // garden's page the notepad sits in a section, so its headings take that
+  // back: they are plain text, on the white of the notepad or its green bar.
+  .notepad-title h1,
+  .notepad-title h2,
+  .notepad-heading h2 {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+
   .notepad-title {
     background: $green;
     padding: 0.5rem 1.1rem;
 
-    h1 {
+    h1,
+    h2 {
       color: $white;
       font-size: 1.4rem;
       font-weight: 400;
@@ -101,7 +113,6 @@ $notepad-trail: #a4c98c;
     display: flex;
     align-items: baseline;
     gap: 0.6rem;
-    margin-top: 1rem;
     padding: 0.9rem 1.1rem 0.4rem;
     border-top: 1px solid #dee2e6;
 
