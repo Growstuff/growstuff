@@ -18,8 +18,9 @@ class TimelineService
     comment:           :comments_query,
     photo:             :photos_query,
     seed:              :seeds_query,
-    job:          :jobs_query,
-    planned_job:  :planned_jobs_query,
+    job:               :jobs_query,
+    planned_job:       :planned_jobs_query,
+    job_finished:      :jobs_finished_query,
     like:              :likes_query,
     garden_layout:     :garden_layouts_query,
     transplant:        :transplants_query,
@@ -30,7 +31,7 @@ class TimelineService
 
   # Events of the given kinds, newest first. Garden layouts are only here when
   # asked for, since the timeline page has nothing to say about them; the same goes
-  # for transplants, planned jobs and finished plantings and seeds.
+  # for transplants, planned and finished jobs, and finished plantings and seeds.
   def self.query(kinds = DEFAULT_EVENTS)
     kinds.map { |kind| public_send(EVENT_QUERIES.fetch(kind)) }
       .reduce { |all, one| all.union_all(one) }
@@ -66,6 +67,12 @@ class TimelineService
               "likes.created_at as event_at",
               "likes.member_id as owner_id",
               "null as crop_id")
+  end
+
+  # Jobs as the day they were crossed off.
+  def self.jobs_finished_query
+    Job.where(finished: true).where.not(finished_at: nil)
+      .select(:id, "'job_finished' as event_type", 'jobs.finished_at as event_at', :owner_id, 'null as crop_id')
   end
 
   # Jobs as the day they were planned rather than the day they are due,

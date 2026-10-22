@@ -123,6 +123,15 @@ describe 'My friends and neighbours' do
     expect(page).to have_css('article', text: /friendly.*Planned a job, Weed the beans \(for #{due}\)/m)
   end
 
+  it 'shows a friend finishing a job' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    create(:job, owner: friend, name: 'Net the berries', finished: true)
+
+    visit neighbours_path
+    expect(page).to have_css('article', text: /friendly.*Finished a job, Net the berries/m)
+  end
+
   it 'shows only their own job under Me' do
     friend = create(:member, login_name: 'friendly')
     member.follows.create!(followed: friend)
