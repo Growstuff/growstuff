@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # One job in a template. When it falls is an offset from an anchor event in the
-# planting: "2 weeks after planting out", "1 month before first harvest".
+# planting: "2 weeks after planting out", "1 month before first harvest". It can
+# point to a page, its external_uri, that says more about how to do it.
 class CropJobStep < ApplicationRecord
   belongs_to :crop_job_template
 
@@ -12,6 +13,7 @@ class CropJobStep < ApplicationRecord
 
   validates :name, presence: true
   validates :offset_amount, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :external_uri, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
 
   # The offset as a duration, negative for a step before its anchor.
   def offset
