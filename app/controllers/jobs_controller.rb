@@ -77,7 +77,7 @@ class JobsController < DataController
   def render_notepad(status)
     @owner = current_member
     load_notepad
-    response.set_header('X-Jobs-Done-This-Week', current_member.jobs.finished_this_week.count.to_s)
+    response.set_header('X-Jobs-Done-This-Week', @done_this_week.to_s)
     render partial: 'jobs/notepad_groups', locals: { groups: @job_groups }, status:
   end
 
@@ -85,6 +85,7 @@ class JobsController < DataController
     @jobs = Job.where(owner: @owner).includes(:garden, :jobbable)
       .order(Arel.sql('finished IS TRUE'), Arel.sql('due_date IS NULL'), :due_date, :created_at)
     @job_groups = JobList.new(@jobs).groups
+    @done_this_week = @jobs.finished_this_week.count
   end
 
   def job_params

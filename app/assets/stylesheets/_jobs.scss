@@ -241,6 +241,52 @@
     margin-left: 0;
   }
 
+  // A snail crawling along a trail at the foot of the page, and how many jobs
+  // are done this week.
+  .notepad-snail {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 64px;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1.1rem;
+    background: #f4f9f0;
+    border-top: 1px solid #dfe8d4;
+    overflow: hidden;
+  }
+
+  .notepad-snail-track {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 90px;
+    height: 48px;
+  }
+
+  .notepad-snail-trail {
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+    left: 0;
+    height: 0;
+    border-top: 2px dotted #a4c98c;
+  }
+
+  .notepad-snail-body {
+    position: absolute;
+    bottom: 4px;
+    left: 8%;
+    transform: scaleX(-1);
+    animation: notepad-snail-crawl 45s linear infinite;
+  }
+
+  .notepad-snail-caption {
+    flex: 0 1 auto;
+    color: #3f5e2b;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: right;
+  }
+
   // The @ suggestions drop down from the line you type in.
   .notepad-suggestions {
     position: absolute;
@@ -452,5 +498,30 @@
   .notepad-flower,
   .notepad-sprout {
     display: none;
+  }
+
+  .notepad-snail-body {
+    left: 8%;
+    animation: none;
+  }
+}
+
+@keyframes notepad-snail-crawl {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+
+  6% {
+    opacity: 1;
+  }
+
+  94% {
+    opacity: 1;
+  }
+
+  100% {
+    left: calc(100% - 72px);
+    opacity: 0;
   }
 }

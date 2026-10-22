@@ -14,7 +14,7 @@ const reducedMotion = function () {
   return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 };
 
-const fill = function (template, values) {
+export const fill = function (template, values) {
   return template.replace(/%\{(\w+)\}/g, function (_, key) { return values[key]; });
 };
 

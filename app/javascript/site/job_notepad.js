@@ -3,7 +3,7 @@
 // the notepad's groups after each change. If anything goes wrong the page is
 // loaded the ordinary way, so nothing is lost.
 
-import {celebrate, hide} from './job_celebration';
+import {celebrate, fill, hide} from './job_celebration';
 import {nextStreak, undoStreak} from './job_streak';
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const done = response.headers.get('X-Jobs-Done-This-Week');
         return response.text().then(function (html) {
           groups.innerHTML = html;
+          showDone(Number(done));
           return Number(done);
         });
       });
@@ -40,6 +41,14 @@ document.addEventListener('DOMContentLoaded', function () {
   // ---- Crossing a job off, or putting it back
 
   const words = JSON.parse(groups.dataset.celebrations);
+
+  // The line beside the snail says how many jobs are done this week.
+  const caption = document.getElementById('notepad-snail-caption');
+  const showDone = function (done) {
+    if (!caption) return;
+    const count = fill(done === 1 ? words.done.one : words.done.other, {count: done});
+    caption.textContent = done > 0 ? words.slow + ' ' + count : words.slow;
+  };
   let streak = 0;
   let lastAt = null;
 

@@ -38,7 +38,7 @@
 
   .col-md-9
     - if @owner.present? && @owner == current_member
-      = render 'jobs/notepad', owner: @owner, groups: @job_groups
+      = render 'jobs/notepad', owner: @owner, groups: @job_groups, done_this_week: @done_this_week
     - else
       %section
         %h2= title('jobs', @owner, nil, @planting)
