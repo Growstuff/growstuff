@@ -33,7 +33,7 @@ class CropsController < ApplicationController
                Crop.rejected
              else
                Crop.recent
-             end.paginate(page: params[:page])
+             end.includes(:scientific_names, :alternate_names, :varieties, :creator, :requester).paginate(page: params[:page])
 
     @crop_wranglers = Role.crop_wranglers
     respond_with @crops

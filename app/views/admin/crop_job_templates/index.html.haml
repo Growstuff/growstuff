@@ -1,0 +1,40 @@
+- content_for :title, "Job templates for #{@crop.name}"
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item= link_to 'Crops', wrangle_crops_path
+  %li.breadcrumb-item= link_to @crop.name, @crop
+  %li.breadcrumb-item.active Job templates
+
+%h1= "Job templates for #{@crop.name}"
+%p.text-muted
+  Steps here are suggested to gardeners when they plant this crop. Dates are worked out from the planting, so one
+  template fits every garden.
+
+= link_to 'New job template', new_admin_crop_crop_job_template_path(@crop), class: 'btn btn-primary mb-3'
+
+- if @templates.empty?
+  %p= "No job templates for #{@crop.name} yet."
+- else
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Applies to
+        %th Season
+        %th Steps
+        %th Status
+        %th
+    %tbody
+      - @templates.each do |template|
+        %tr
+          %td= link_to template.name, edit_admin_crop_crop_job_template_path(@crop, template)
+          %td= template.crop == @crop ? t('crop_job_templates.options.applies_to_all', crop: @crop.name) : t('crop_job_templates.options.applies_to_one', crop: template.crop.name)
+          %td= crop_job_option(:season, template.season)
+          %td= template.steps.size
+          %td
+            %span.badge{ class: template.published? ? 'text-bg-success' : 'text-bg-secondary' }= crop_job_option(:status, template.status)
+          %td.text-end
+            = link_to 'Edit', edit_admin_crop_crop_job_template_path(@crop, template), class: 'btn btn-sm btn-outline-secondary'
+            = link_to 'Delete', admin_crop_crop_job_template_path(@crop, template), method: :delete,
+              data: { confirm: "Delete #{template.name}?" }, class: 'btn btn-sm btn-outline-danger'

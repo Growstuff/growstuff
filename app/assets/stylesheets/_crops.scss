@@ -205,3 +205,8 @@
   color: $ink-muted;
   font-size: 0.85rem;
 }
+
+// The crop wrangling table, on white so it reads against the page.
+.wrangle-table {
+  --bs-table-bg: #{$white};
+}
