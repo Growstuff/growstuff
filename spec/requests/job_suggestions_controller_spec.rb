@@ -23,6 +23,10 @@ describe JobSuggestionsController do
       expect(suggestions.first['jobbable_id']).to eq planting.id
     end
 
+    it 'gives each suggestion the crop\'s icon' do
+      expect(suggestions.pluck('icon_url').uniq).to eq [crop_path(carrot, format: 'svg')]
+    end
+
     it 'says which seeds' do
       expect(suggestions.second['jobbable_id']).to eq seed.id
     end

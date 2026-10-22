@@ -235,6 +235,11 @@ document.addEventListener('DOMContentLoaded', function () {
       option.id = 'notepad-suggestion-' + i;
       option.setAttribute('role', 'option');
       option.className = 'notepad-suggestion';
+      const icon = document.createElement('img');
+      icon.className = 'notepad-suggestion-icon';
+      icon.src = item.icon_url;
+      icon.alt = '';
+      option.appendChild(icon);
       [['kind', 'span', kinds[item.kind]], ['', 'span', item.label], ['', 'small', item.detail]].forEach(function (part) {
         if (!part[2]) return;
         const el = document.createElement(part[1]);

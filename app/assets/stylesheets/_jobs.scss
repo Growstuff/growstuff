@@ -320,6 +320,16 @@
       background: #e4efdc;
     }
 
+    .notepad-suggestion-icon {
+      flex: none;
+      width: 32px;
+      height: 32px;
+      padding: 3px;
+      background: #dfe8d4;
+      border-radius: 3px;
+      object-fit: contain;
+    }
+
     .kind {
       min-width: 4.5rem;
       color: #3f5e2b;

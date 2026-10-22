@@ -16,7 +16,8 @@ FactoryBot.define do
 
     trait :planting do
       description { "Stake tomato" }
-      planting
+      # A job can only be about its owner's own planting.
+      planting { association :planting, owner: }
     end
   end
 end
