@@ -16,48 +16,55 @@
 %section
   %h2 Crops
 
-  %ul#myTab.nav.nav-tabs{role: "tablist"}
-    %li.nav-item
-      %a#home-tab.nav-link{ href: admin_crops_path, role: "tab", class: ''}
-        Recently edited
-    %li.nav-item
-      %a#home-tab.nav-link{ href: wrangle_crops_path, role: "tab", class: @approval_status.blank? ? 'active' : ''}
-        Recently added
-    %li.nav-item
-      %a#profile-tab.nav-link{ href: wrangle_crops_path(approval_status: "pending"), role: "tab", class: @approval_status == "pending" ? 'active' : ''}
-        Pending approval
-    %li.nav-item
-      %a#contact-tab.nav-link{ href: wrangle_crops_path(approval_status: "rejected"), role: "tab", class: @approval_status == "rejected" ? 'active' : ''} Rejected
+  - tabs = [['Recently added', nil], ['Pending approval', 'pending'], ['Rejected', 'rejected']]
+  %ul.nav.nav-tabs{ role: 'tablist' }
+    %li.nav-item= link_to 'Recently edited', admin_crops_path, class: 'nav-link'
+    - tabs.each do |label, status|
+      %li.nav-item
+        = link_to label, wrangle_crops_path(approval_status: status), class: ['nav-link', ('active' if @approval_status.presence == status)]
 
-  %table.table.table-striped.table-bordered.table-sm{id: @approval_status.blank? ? 'recently-added-crops' : "#{@approval_status}-crops" }
-    %tr
-      %th System name
-      %th English Wikipedia URL
-      %th Scientific names
-      %th Requested by
-      - if @approval_status == "rejected"
-        %th Rejected by
-      - if @approval_status != "rejected" && @approval_status != "pending"
-        %th Added by
-      %th When
-    - @crops.each do |c|
-      %tr
-        %td
-          = link_to edit_crop_path(c) do
-            = icon 'fas', 'seedling'
-            = c.name
-        %td= link_to c.en_wikipedia_url, c.en_wikipedia_url
-        %td
-          - c.scientific_names.each do |s|
-            = link_to s.name, s
-            %br/
-        %td= c.requester.present? ? (link_to c.requester, c.requester) : "N/A"
-        - unless @approval_status == "pending"
-          %td= c.creator.present? ? (link_to c.creator, c.creator) : "N/A"
-        %td
-          = distance_of_time_in_words(c.created_at, Time.zone.now)
-          ago.
+  .table-responsive
+    %table.table.table-striped.table-bordered.table-sm.align-middle.wrangle-table{ id: @approval_status.blank? ? 'recently-added-crops' : "#{@approval_status}-crops" }
+      %thead
+        %tr
+          %th Name
+          %th Icon
+          %th.text-end Height
+          %th.text-end Spread
+          %th.text-end Row spacing
+          %th.text-end Growing degree days
+          %th YouTube
+          %th.text-end Scientific names
+          %th.text-end Alternate names
+          %th.text-end Child crops
+          %th Updated
+          - if @approval_status == 'pending'
+            %th Requested by
+          - elsif @approval_status == 'rejected'
+            %th Rejected by
+          - else
+            %th Added by
+      %tbody
+        - @crops.each do |crop|
+          %tr
+            %td
+              = link_to edit_crop_path(crop) do
+                = crop.name
+            %td= crop_icon(crop)
+            %td.text-end= crop.height
+            %td.text-end= crop.spread
+            %td.text-end= crop.row_spacing
+            %td.text-end= crop.growing_degree_days
+            %td= crop.en_youtube_url.present? ? 'Yes' : '-'
+            %td.text-end= crop.scientific_names.size
+            %td.text-end= crop.alternate_names.size
+            %td.text-end= crop.varieties.size
+            %td
+              = time_ago_in_words(crop.updated_at)
+              ago
+            %td
+              - person = @approval_status == 'pending' ? crop.requester : crop.creator
+              = person.present? ? link_to(person, person) : 'N/A'
 
   = page_entries_info @crops
   = will_paginate @crops
-

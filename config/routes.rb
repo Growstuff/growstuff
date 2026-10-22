@@ -184,6 +184,7 @@ Rails.application.routes.draw do
     resources :roles
     resources :crops, param: :slug do
       resources :crop_companions
+      resources :crop_job_templates, path: 'job_templates', except: :show
     end
   end
 

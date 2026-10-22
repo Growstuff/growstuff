@@ -1,0 +1,25 @@
+-# What a gardener would be offered, from the saved template.
+.card
+  .card-body
+    %h2.h5 Preview
+    = form_with url: edit_admin_crop_crop_job_template_path(crop, template), method: :get, class: 'mb-3' do |f|
+      = f.label :planting_out_on, 'If someone plants out on', class: 'form-label'
+      .input-group
+        = f.date_field :planting_out_on, value: planting_out_on, class: 'form-control'
+        = f.submit 'Show', class: 'btn btn-outline-secondary', name: nil
+    - entries = CropJobSchedule.new(template, planting_out_on:).entries
+    - if entries.empty?
+      %p.text-muted Add steps and save to see them here.
+    - else
+      %ul.list-unstyled.mb-0
+        - entries.each do |entry|
+          %li.mb-2
+            %strong= entry.step.name
+            %br
+            %small.text-muted
+              - if entry.date.nil?
+                = "Depends on the first harvest, which isn't known for #{crop.name}."
+              - elsif entry.past?
+                = "Already past, so people won't be asked (#{l(entry.date, format: '%a %-d %b')})."
+              - else
+                = "#{entry.step.repeat_once? ? '' : "#{crop_job_option(:repeat, entry.step.repeat)}, "}from #{l(entry.date, format: '%a %-d %b')}"

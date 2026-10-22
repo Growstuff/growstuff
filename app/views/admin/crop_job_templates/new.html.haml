@@ -1,0 +1,4 @@
+- content_for :title, "New job template for #{@crop.name}"
+
+= render 'header', crop: @crop, title: 'New job template'
+= render 'form', crop: @crop, template: @template
