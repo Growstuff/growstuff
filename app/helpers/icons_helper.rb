@@ -79,7 +79,7 @@ module IconsHelper
   end
 
   def job_icon
-    icon('fas', 'truck-pickup')
+    icon('fas', 'note-sticky')
   end
 
   def post_icon

@@ -97,6 +97,11 @@
     cursor: grab;
   }
 
+  // Overdue stands out, in a colour that passes on white.
+  .notepad-group-overdue .notepad-heading h2 {
+    color: $danger-text;
+  }
+
   .notepad-job.dragging {
     opacity: 0.4;
   }

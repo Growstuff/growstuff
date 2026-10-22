@@ -686,6 +686,8 @@ en:
       public_note: Jobs are public, so don't put private info here.
       my_jobs: My jobs
       everyones_jobs: Everyone's jobs
+      overdue: Overdue
+      done: Done
       today: Today
       week: This week
       soon: Soon
