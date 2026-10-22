@@ -43,5 +43,6 @@ Templates are written as `draft`, for a crop wrangler to check and publish.
 - A step's `unit` is `days`, `weeks` or `months`; `direction` is `before` or `after`; `anchor` is
   `sowing`, `planting_out` or `first_harvest`; `repeat` is `once`, `weekly`, `fortnightly` or `monthly`.
   Leave out what you don't need: `amount` is 0, `unit` weeks, `direction` after, `anchor` planting_out
-  and `repeat` once.
+  and `repeat` once. A step can also have an `external_uri`: a web address (starting with `http://` or
+  `https://`) with more on how to do it.
 - Steps keep the order written.

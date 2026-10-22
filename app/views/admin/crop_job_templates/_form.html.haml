@@ -21,6 +21,7 @@
         %thead
           %tr
             %th What to do
+            %th More info link
             %th{ colspan: 2 } How long
             %th{ colspan: 2 } From
             %th Repeat
@@ -31,6 +32,7 @@
               %td
                 = sf.hidden_field :position, value: sf.index
                 = sf.text_field :name, hide_label: true, placeholder: 'Stake or cage the plants'
+              %td= sf.url_field :external_uri, hide_label: true, placeholder: 'https://'
               %td= sf.number_field :offset_amount, hide_label: true, min: 0, class: 'text-end'
               %td= sf.select :offset_unit, crop_job_options(:offset_unit, CropJobStep.offset_units.keys), hide_label: true
               %td= sf.select :direction, crop_job_options(:direction, CropJobStep.directions.keys), hide_label: true

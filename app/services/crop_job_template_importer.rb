@@ -15,15 +15,15 @@ require 'json'
 #         "status": "draft",               (draft, published)
 #         "steps": [
 #           { "name": "Sow seeds indoors", "amount": 6, "unit": "weeks", "direction": "before",
-#             "anchor": "planting_out", "repeat": "once" }
+#             "anchor": "planting_out", "repeat": "once", "external_uri": "https://example.com/sowing" }
 #         ]
 #       }
 #     ]
 #   }
 #
 # A step's amount defaults to 0, its unit to weeks, its direction to after, its
-# anchor to planting_out and its repeat to once. Steps are kept in the order
-# written.
+# anchor to planting_out and its repeat to once. A step can have an external_uri,
+# a web address with more on how to do it. Steps are kept in the order written.
 #
 # Templates are only ever added: one that is already there, by crop and name, is
 # left alone, so what a crop wrangler has changed is not undone by seeding again.
@@ -31,7 +31,7 @@ class CropJobTemplateImporter
   class Invalid < StandardError; end
 
   STEP_ATTRIBUTES = { 'name' => :name, 'amount' => :offset_amount, 'unit' => :offset_unit, 'direction' => :direction,
-                      'anchor' => :anchor, 'repeat' => :repeat }.freeze
+                      'anchor' => :anchor, 'repeat' => :repeat, 'external_uri' => :external_uri }.freeze
 
   def initialize(out: $stdout)
     @out = out

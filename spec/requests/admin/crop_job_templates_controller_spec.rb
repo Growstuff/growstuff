@@ -62,6 +62,32 @@ describe Admin::CropJobTemplatesController do
       end
     end
 
+    context 'with a step that has a link' do
+      before do
+        post admin_crop_crop_job_templates_path(crop),
+             params: { crop_job_template: { name: 'Tomato jobs', steps_attributes: { '0' => step.merge(external_uri: 'https://example.com/staking') } } }
+      end
+
+      it 'saves the link' do
+        expect(crop.crop_job_templates.first.steps.first.external_uri).to eq 'https://example.com/staking'
+      end
+    end
+
+    context 'with a step whose link is not a web address' do
+      before do
+        post admin_crop_crop_job_templates_path(crop),
+             params: { crop_job_template: { name: 'Tomato jobs', steps_attributes: { '0' => step.merge(external_uri: 'example.com') } } }
+      end
+
+      it 'shows the form again' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'creates nothing' do
+        expect(CropJobTemplate.count).to eq 0
+      end
+    end
+
     context 'when for one of the crop\'s varieties' do
       before { post admin_crop_crop_job_templates_path(crop), params: { crop_job_template: { name: 'Cherry jobs', crop_id: variety.id } } }
 
@@ -110,10 +136,17 @@ describe Admin::CropJobTemplatesController do
   describe '#edit' do
     let(:template) { create(:crop_job_template, crop:) }
 
-    before { get edit_admin_crop_crop_job_template_path(crop, template), params: { planting_out_on: '2026-12-01' } }
+    before do
+      create(:crop_job_step, crop_job_template: template, name: 'Stake', external_uri: 'https://example.com/staking')
+      get edit_admin_crop_crop_job_template_path(crop, template), params: { planting_out_on: '2026-12-01' }
+    end
 
     it 'shows the form' do
       expect(response).to have_http_status(:ok)
+    end
+
+    it 'links a step with an address to it, in the preview' do
+      expect(Capybara.string(response.body)).to have_link('More info', href: 'https://example.com/staking')
     end
   end
 

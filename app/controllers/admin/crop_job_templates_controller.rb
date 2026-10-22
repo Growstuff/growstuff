@@ -88,7 +88,7 @@ module Admin
     def template_params
       permitted = params.require(:crop_job_template).permit(
         :name, :crop_id, :season, :status,
-        steps_attributes: %i(id name offset_amount offset_unit direction anchor repeat position _destroy)
+        steps_attributes: %i(id name external_uri offset_amount offset_unit direction anchor repeat position _destroy)
       )
       permitted[:crop_id] = @crop.id unless crop_ids.include?(permitted[:crop_id].to_i)
       permitted
