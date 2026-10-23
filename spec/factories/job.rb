@@ -14,6 +14,12 @@ FactoryBot.define do
       garden
     end
 
+    # Done before the time a job was crossed off was recorded: only its due date says when.
+    trait :finished_without_time do
+      finished { true }
+      after(:create) { |job| job.update_columns(finished_at: nil) } # rubocop:disable Rails/SkipsModelValidations
+    end
+
     trait :planting do
       description { "Stake tomato" }
       # A job can only be about its owner's own planting.

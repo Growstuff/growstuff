@@ -13,17 +13,18 @@ class ApplyCropJobTemplate
 
   # The jobs made, in the order of the template's steps.
   def call
-    return [] if @planting.planted_at.blank?
-
-    entries.filter_map { |entry| create_job(entry) }
+    pending.filter_map { |entry| create_job(entry) }
   end
 
-  private
+  # The schedule entries a call would make jobs for.
+  def pending
+    return [] if @planting.planted_at.blank?
 
-  def entries
     schedule = CropJobSchedule.new(@template, planting_out_on: @planting.planted_at.to_date, today: @today)
     schedule.entries.select { |entry| entry.date && !entry.past? && applied_step_ids.exclude?(entry.step.id) }
   end
+
+  private
 
   # Steps of the template that already have a job for this planting.
   def applied_step_ids
