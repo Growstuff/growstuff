@@ -58,6 +58,7 @@ class Member < ApplicationRecord
   has_many :crop_dismissals, dependent: :destroy
   has_many :dismissed_crops, through: :crop_dismissals, source: :crop
   has_many :member_dismissals, dependent: :destroy
+  has_many :job_idea_dismissals, dependent: :destroy
 
   #
   # Blocking other members
