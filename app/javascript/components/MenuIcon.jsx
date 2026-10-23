@@ -3,7 +3,7 @@ import React from 'react';
 import ICONS from '../menuIcons.json';
 
 // An action's `key` is not always the icon's name.
-const ALIASES = {photo: 'add_photo', plan: 'activity', deactivate: 'archive', activate: 'planting'};
+const ALIASES = {photo: 'add_photo', plan: 'job', deactivate: 'archive', activate: 'planting'};
 
 // The green line icon of an actions menu item. The drawings are shared with the
 // server-rendered menus (see MENU_ICONS in app/helpers/icons_helper.rb).

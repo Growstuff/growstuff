@@ -1,0 +1,19 @@
+{
+  "crop": "lettuce",
+  "templates": [
+    {
+      "name": "Growing lettuce",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds in trays", "amount": 3, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Dig compost into the bed", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Weed around the seedlings", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Sow another batch for a continuous harvest", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "monthly"},
+        {"name": "Start picking the outer leaves", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Pull out plants that have bolted", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

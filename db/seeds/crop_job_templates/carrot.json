@@ -1,0 +1,18 @@
+{
+  "crop": "carrot",
+  "templates": [
+    {
+      "name": "Growing carrots",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig the bed fine and stone free", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "sowing"},
+        {"name": "Keep the seed bed moist", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "weekly"},
+        {"name": "Thin the seedlings", "amount": 3, "unit": "weeks", "direction": "after", "anchor": "sowing"},
+        {"name": "Weed between the rows", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "fortnightly"},
+        {"name": "Start pulling young carrots", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Lift the rest of the crop", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

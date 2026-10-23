@@ -41,6 +41,14 @@ namespace :growstuff do
     puts "Finished loading crops"
   end
 
+  desc "Add the crop job templates in db/seeds/crop_job_templates, or in the files given"
+  # usage: rake growstuff:import_crop_job_templates [file=path.json]
+  task import_crop_job_templates: :environment do
+    files = ENV['file'] ? [ENV.fetch('file')] : Rails.root.glob('db/seeds/crop_job_templates/*.json')
+    stats = CropJobTemplateImporter.new.import_files(files)
+    puts stats.inspect
+  end
+
   desc "Send planting reminder email"
   # usage: rake growstuff:send_planting_reminder
 

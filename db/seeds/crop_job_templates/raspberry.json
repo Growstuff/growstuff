@@ -1,0 +1,18 @@
+{
+  "crop": "raspberry",
+  "templates": [
+    {
+      "name": "Growing raspberries",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig compost into the bed", "amount": 2, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Mulch around the canes", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Tie the canes to a support", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Pick ripe fruit", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Cut the fruited canes to the ground", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

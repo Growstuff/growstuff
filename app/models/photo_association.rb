@@ -5,6 +5,12 @@ class PhotoAssociation < ApplicationRecord
   belongs_to :crop, optional: true, touch: true # , counter_cache: true
   belongs_to :photographable, polymorphic: true, touch: true
 
+  # When a photo was taken, for a job: before it was done, or after.
+  MOMENTS = %w(before after).freeze
+
+  normalizes :moment, with: ->(moment) { moment.presence }
+  validates :moment, inclusion: { in: MOMENTS }, allow_nil: true
+
   validate :photo_and_item_have_same_owner
   validate :crop_present
 

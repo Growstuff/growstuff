@@ -106,6 +106,10 @@ en:
               handle_format: should be a handle, not a URL
             bluesky_handle:
               handle_format: should be a handle, not a URL
+        crop_job_step:
+          attributes:
+            external_uri:
+              url_format: "must start with http:// or https://"
         seed:
           attributes:
             tradable_to:
@@ -144,7 +148,7 @@ en:
     new_planting: New planting
     new_post: Write new post
     new_harvest: New harvest
-    new_activity: Plan activity
+    new_job: Add a job
     plant: Plant
     plant_crop: Plant %{crop_name}
     plant_something_here: Plant something here
@@ -441,9 +445,12 @@ en:
       empty: Nothing to show yet.
       title: Latest from your friends and neighbours
     group:
-      activity_html:
-        one: Planned an activity, %{things}
-        other: Planned %{count} activities, %{things}
+      job_finished_html:
+        one: Finished a job, %{things}
+        other: Finished %{count} jobs, %{things}
+      job_html:
+        one: Planned a job, %{things}
+        other: Planned %{count} jobs, %{things}
       due: for %{date}
       garden_layout_html: Rearranged the layout of %{things}
       harvest_html: Harvested %{things}
@@ -510,6 +517,7 @@ en:
     subject:
       garden: the garden %{name}
       harvest: a %{crop} harvest
+      job: the job %{name}
       planting: a %{crop} planting
       seed: "%{crop} seeds"
     suggestions:
@@ -537,8 +545,19 @@ en:
     harvesting_now: harvesting now
     data: 'The data on this page is available in the following formats:'
   layouts:
+    footer:
+      about: About
+      open_source: Open Source
+      growstuff_team: Growstuff Team
+      get_involved: Get Involved
+      terms_of_service: Terms Of Service
+      privacy_policy: Privacy Policy
+      data_use_policy: Data Use Policy
+      community_guidelines: Community Guidelines
+      support: Support
+      contact: Contact
     header:
-      activities: Activities
+      jobs: Jobs
       account: Account
       admin: Admin
       browse_crops: Browse Crops
@@ -643,16 +662,113 @@ en:
       not_enough_data: Not enough data
       perennial: Perennial
       unknown: Unknown
-  activities:
+  jobs:
     plan_something: Plan something
+    celebrate:
+      crossed_off: Crossed off "%{name}"
+      undo: Undo
+      done:
+        one: 1 job done this week.
+        other: "%{count} jobs done this week."
+      one:
+        lead: Nice one!
+        note: The snail is impressed, and slightly jealous.
+      two:
+        lead: Two in a row!
+        note: The snail is picking up speed.
+      three:
+        lead: Hat-trick!
+        note: The snail has stopped to watch.
+      many:
+        lead: On a roll!
+        note: The snail has called the other snails.
+    due:
+      last: last %{day}
+    suggestions:
+      the_crop: the crop
+      planted: planted %{date}
+      saved: saved %{year}
+      seeds: "%{crop} seeds"
+    pad:
+      title: "%{owner}'s jobs"
+      garden_title: "Jobs in %{garden}"
+      all_jobs: See all your jobs
+      cross_off: "Cross off: %{job}"
+      uncross: "Put back on the list: %{job}"
+      add: Add a job
+      add_button: Add
+      adding_button: Adding…
+      adding: "Adding “%{name}”…"
+      edit_label: Job name
+      edit_hint: Enter to save, Esc to cancel
+      add_failed: That job may not have been added. Check your list before you try again.
+      public_note: Jobs are public, so don't put private info here.
+      my_jobs: My jobs
+      everyones_jobs: Everyone's jobs
+      overdue: Overdue
+      before: Before
+      after: After
+      photo_of_before: "Before photo: %{title}"
+      photo_of_after: "After photo: %{title}"
+      photo_before: Add a before photo
+      photo_after: Add an after photo
+      done: Done
+      done_on: done %{day}
+      done_today: done today
+      today: Today
+      week: This week
+      soon: Soon
+      someday: Some day
+      drop_here: Drag a job here.
+      slow: Slow and steady.
+      move_today: Today
+      move_week: This week
+      someday_note: a wishlist, nothing committed
+      garden: Garden
+      crop: Crop
+      seeds: Seeds
+      link_hint: Type @ and a crop name to link this job to it.
+      remove_link: Remove link
+      planting: Planting
+      in_garden: in %{garden}
     index:
       title:
-        default: Everyone's activities
-        owner_activities: "%{owner}'s activities"
+        default: Everyone's jobs
+        owner_jobs: "%{owner}'s jobs"
     form:
       finish_helper: >
-        An activity is finished when you've completed it, or it's otherwise
+        A job is finished when you've completed it, or it's otherwise
         no longer possible.
+  crop_job_templates:
+    created: Job template created.
+    saved: Job template saved.
+    deleted: Job template deleted.
+    options:
+      applies_to_all: All %{crop} varieties
+      applies_to_one: "%{crop} only"
+      season:
+        any: Any time
+        spring_summer: Spring and summer
+        autumn_winter: Autumn and winter
+      status:
+        draft: Draft
+        published: Published
+      offset_unit:
+        days: days
+        weeks: weeks
+        months: months
+      direction:
+        after: after
+        before: before
+      anchor:
+        sowing: sowing
+        planting_out: planting out
+        first_harvest: first harvest
+      repeat:
+        once: once
+        weekly: every week
+        fortnightly: every 2 weeks
+        monthly: every month
   seasons:
     spring: Spring
     summer: Summer
@@ -690,9 +806,9 @@ en:
       photos: Photos
       harvests: Harvests
       seeds_saved: Seeds saved
-      activities: Activities
-      activities_current: Planned
-      activities_finished: Finished
+      jobs: Jobs
+      jobs_current: Planned
+      jobs_finished: Finished
       neighbours: World neighbours
       harvest_months: Harvest months
       harvest_months_unknown: No harvest months for this crop at this latitude yet.
@@ -709,7 +825,7 @@ en:
         your garden next season.
       no_seeds: No seeds saved yet.
       no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
-      no_activities: Nothing is planned here.
+      no_jobs: Nothing is planned here.
       more_photos: More photos
       view_all_plantings: All of %{owner}'s plantings
   posts:

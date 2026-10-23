@@ -1,0 +1,726 @@
+// Greens that recur in the notepad: dark leaf for headings and links, a pale
+// tile for chips, a light trail for dotted lines and spinners.
+$notepad-leaf: #3f5e2b;
+$notepad-tile: #dfe8d4;
+$notepad-trail: #a4c98c;
+
+// A spinner: a ring with one green side, turning.
+@mixin notepad-spinner($size) {
+  width: $size;
+  height: $size;
+  border: 2px solid $notepad-trail;
+  border-top-color: $green;
+  border-radius: 50%;
+  animation: notepad-spin 0.8s linear infinite;
+}
+
+// A member's own jobs, as a notepad: a green title bar, then rows ruled like a
+// list. See the garden notepad design.
+.notepad {
+  background: $white;
+  border: 1px solid rgba(65, 63, 59, 0.15);
+  border-radius: $card-radius;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
+  overflow: hidden;
+  padding-bottom: 1rem;
+
+  // The site makes every h2 inside a section a green banner with a shadow. On a
+  // garden's page the notepad sits in a section, so its headings take that
+  // back: they are plain text, on the white of the notepad or its green bar.
+  .notepad-title h1,
+  .notepad-title h2,
+  .notepad-heading h2 {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .notepad-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    background: $green;
+    padding: 0.5rem 1.1rem;
+
+    h1,
+    h2 {
+      color: $white;
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin: 0;
+    }
+  }
+
+  // On a garden's page, the way to all of a member's jobs, in the title bar.
+  .notepad-all-jobs {
+    color: $white;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    white-space: nowrap;
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  // One line to type a job into; Enter adds it.
+  .notepad-add {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.75rem 1.1rem 0;
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      min-height: 44px;
+      padding: 0 0.75rem;
+      border: 1px solid #757575;
+      border-radius: 2px;
+    }
+  }
+
+  .notepad-add-plus {
+    color: $green;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    width: 1.2rem;
+    text-align: center;
+  }
+
+  // While a job is on its way: a line says so, with a spinner, and the button
+  // is held until it has landed.
+  .notepad-add-saving {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.4rem 1.1rem 0 2.8rem;
+    color: $notepad-leaf;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .notepad-spinner {
+    @include notepad-spinner(1rem);
+  }
+
+  .notepad-add.saving .notepad-add-button {
+    opacity: 0.7;
+  }
+
+  .notepad-add-button {
+    min-height: 44px;
+  }
+
+  .notepad-note {
+    color: $ink-muted;
+    font-size: 0.9rem;
+    margin: 0.75rem 1.1rem 0;
+  }
+
+  .notepad-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.9rem 1.1rem 0.4rem;
+    border-top: 1px solid #dee2e6;
+
+    h2 {
+      color: $notepad-leaf;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    small {
+      color: $ink-muted;
+    }
+  }
+
+  .notepad-drop-hint {
+    color: $ink-muted;
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0.5rem 1.1rem 0.75rem;
+  }
+
+  .notepad-group.drop-over {
+    background: #f4f9f0;
+    outline: 2px dashed $green;
+    outline-offset: -2px;
+  }
+
+  .notepad-job[draggable="true"] {
+    cursor: grab;
+  }
+
+  // Overdue stands out, in a colour that passes on white.
+  .notepad-group-overdue .notepad-heading h2 {
+    color: $danger-text;
+  }
+
+  // A photo of a job, taken before or after: a small picture, named underneath.
+  .notepad-photo {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    color: $ink-muted;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    img {
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+  }
+
+  // A row waiting for the server, whether it was dropped, ticked or renamed.
+  .notepad-job.saving {
+    opacity: 0.6;
+    pointer-events: none;
+
+    &::after {
+      content: "";
+      flex: none;
+      margin-right: 0.5rem;
+      @include notepad-spinner(1rem);
+    }
+  }
+
+  .notepad-job.dragging {
+    opacity: 0.4;
+  }
+
+  .notepad-job {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.6rem;
+    min-height: 52px;
+    padding: 0.1rem 0.5rem 0.1rem 1.1rem;
+    border-top: 1px solid #eef0ea;
+
+    &:hover {
+      background: #faf9f7;
+    }
+
+    // A crossed off job fades, but not its menu: opacity on the row would fade
+    // the dropdown that opens from it too.
+    &.done {
+      > :not(.notepad-menu) {
+        opacity: 0.6;
+      }
+
+      .notepad-name {
+        color: #757575;
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  // A job being edited in place: the row is lifted off the list like a note, and
+  // its name is a box to type in.
+  .notepad-job.editing {
+    position: relative;
+    background: #fffbe6;
+    box-shadow: inset 0 0 0 2px $green;
+    opacity: 1;
+
+    .notepad-name-input {
+      flex: 1 1 14rem;
+      min-width: 0;
+      min-height: 44px;
+      padding: 0 0.6rem;
+      border: 1px solid $green;
+      border-radius: 2px;
+      background: $white;
+      color: #212121;
+      font-weight: 500;
+    }
+
+    &.error {
+      box-shadow: inset 0 0 0 2px $danger-text;
+
+      .notepad-name-input {
+        border-color: $danger-text;
+      }
+    }
+  }
+
+  .notepad-edit-hint {
+    color: $ink-muted;
+    font-size: 0.8rem;
+    margin-left: auto;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The tick box is a button in a form, so it works without JavaScript. The
+  // button is the 44px target; the box is drawn inside it.
+  .notepad-tick {
+    flex: none;
+    margin: 0;
+  }
+
+  .notepad-box {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 11px;
+      left: 11px;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #757575;
+      border-radius: 3px;
+      background: $white;
+    }
+
+    &:hover::before {
+      border-color: $green;
+    }
+
+    &:focus-visible {
+      outline: 3px solid $orange;
+      outline-offset: -2px;
+    }
+
+    &.checked::before {
+      background: #e4efdc;
+      border-color: $green;
+    }
+
+    &.checked::after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 17px;
+      width: 6px;
+      height: 11px;
+      border: solid $green;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  .notepad-name {
+    color: #212121;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .notepad-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 28px;
+    padding: 0 0.75rem;
+    border-radius: 999px;
+    background: $notepad-tile;
+    color: $notepad-leaf;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    &.garden {
+      background: #f3e7cf;
+      color: #6b4f1d;
+    }
+
+    .kind {
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+
+    .in {
+      font-weight: 500;
+    }
+  }
+
+  .notepad-due {
+    margin-left: auto;
+    color: $notepad-leaf;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &.late {
+      color: $danger-text;
+    }
+  }
+
+  // The menu sits at the right edge. After a due label that label has already
+  // pushed it there; without one the menu pushes itself.
+  .notepad-menu {
+    margin-left: auto;
+
+    .record-actions-toggle {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  }
+
+  .notepad-due + .notepad-menu {
+    margin-left: 0;
+  }
+
+  // A snail crawling along a trail at the foot of the page, and how many jobs
+  // are done this week.
+  .notepad-snail {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 64px;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1.1rem;
+    background: #f4f9f0;
+    border-top: 1px solid $notepad-tile;
+    overflow: hidden;
+  }
+
+  .notepad-snail-track {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 90px;
+    height: 48px;
+  }
+
+  .notepad-snail-trail {
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+    left: 0;
+    height: 0;
+    border-top: 2px dotted $notepad-trail;
+  }
+
+  .notepad-snail-body {
+    position: absolute;
+    bottom: 4px;
+    left: 8%;
+    transform: scaleX(-1);
+    animation: notepad-snail-crawl 45s linear infinite;
+  }
+
+  .notepad-snail-caption {
+    flex: 0 1 auto;
+    color: $notepad-leaf;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  // The @ suggestions drop down from the line you type in.
+  .notepad-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 1.7rem;
+    right: 5.5rem;
+    z-index: 10;
+    margin: 2px 0 0;
+    padding: 0.25rem 0;
+    list-style: none;
+    background: $white;
+    border: 1.5px solid #c0b5a3;
+    border-radius: 6px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .notepad-suggestion {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      background: #e4efdc;
+    }
+
+    .notepad-suggestion-icon {
+      flex: none;
+      width: 32px;
+      height: 32px;
+      padding: 3px;
+      background: $notepad-tile;
+      border-radius: 3px;
+      object-fit: contain;
+    }
+
+    .kind {
+      min-width: 4.5rem;
+      color: $notepad-leaf;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    small {
+      margin-left: auto;
+      color: $ink-muted;
+    }
+  }
+
+  // Suggestions for a job being edited drop down under its row, level with its box.
+  .notepad-job .notepad-suggestions {
+    left: 3.5rem;
+    right: 3.5rem;
+  }
+
+  // The link picked for a job being edited, beside its box until it is saved.
+  .notepad-edit-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 0.75rem;
+    border-radius: 999px;
+    background: $notepad-tile;
+    color: $notepad-leaf;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The link picked for the job being typed, until it is added.
+  .notepad-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.4rem 1.1rem 0 2.8rem;
+    padding: 0 0.25rem 0 0.75rem;
+    min-height: 32px;
+    border-radius: 999px;
+    background: $notepad-tile;
+    color: $notepad-leaf;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .notepad-link-remove {
+    min-width: 32px;
+    min-height: 32px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  // With reduced motion the snail and the spinners keep still. This sits in the
+  // notepad's block, so it is as specific as the rules that move them.
+  @media (prefers-reduced-motion: reduce) {
+    .notepad-snail-body {
+      left: 8%;
+    }
+
+    .notepad-snail-body,
+    .notepad-spinner,
+    .notepad-job.saving::after {
+      animation: none;
+    }
+  }
+}
+
+
+// Crossing a job off: flowers blooming out of the tick box, a row of them
+// growing along the bottom of the page for a streak, and a sticky note with an
+// Undo toast in the corner. They sit outside the notepad, on the page.
+.notepad-flower {
+  position: fixed;
+  z-index: 1080;
+  margin: -12px 0 0 -12px;
+  pointer-events: none;
+  animation: notepad-bloom 1.4s ease-out forwards;
+}
+
+@keyframes notepad-bloom {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.2) rotate(0);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1) rotate(var(--rot));
+  }
+}
+
+// A stem with a flower on top, growing up from the bottom edge.
+.notepad-sprout {
+  position: fixed;
+  z-index: 1079;
+  bottom: 0;
+  width: 3px;
+  height: var(--height);
+  background: #57803c;
+  border-radius: 2px 2px 0 0;
+  pointer-events: none;
+  transform-origin: bottom;
+  animation: notepad-sprout 0.9s ease-out backwards;
+
+  > span {
+    position: absolute;
+    top: -15px;
+    left: -13.5px;
+  }
+}
+
+@keyframes notepad-sprout {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+#notepad-celebration {
+  position: fixed;
+  z-index: 1080;
+  left: 18px;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: calc(100vw - 36px);
+}
+
+.notepad-celebration-note {
+  position: relative;
+  min-width: 300px;
+  padding: 14px 20px 12px;
+  background: #fff3a8;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  color: #3b3a36;
+  transform: rotate(-2deg);
+
+  .tape {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 84px;
+    height: 26px;
+    margin-left: -42px;
+    background: rgba(255, 165, 0, 0.45);
+    transform: rotate(-3deg);
+  }
+}
+
+.notepad-celebration-lead {
+  color: $notepad-leaf;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.notepad-celebration-sub {
+  color: #6b5a00;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.notepad-toast {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  padding: 6px 8px 6px 16px;
+  background: $brown;
+  border-radius: $card-radius;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+  color: $white;
+
+  button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 10px;
+    border: 0;
+    background: transparent;
+    color: $orange;
+    font-weight: 700;
+  }
+}
+
+// With reduced motion there are no flowers. (The snail and spinners are still,
+// in the notepad's own block above.)
+@media (prefers-reduced-motion: reduce) {
+  .notepad-flower,
+  .notepad-sprout {
+    display: none;
+  }
+}
+
+@keyframes notepad-snail-crawl {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+
+  6% {
+    opacity: 1;
+  }
+
+  94% {
+    opacity: 1;
+  }
+
+  100% {
+    left: calc(100% - 72px);
+    opacity: 0;
+  }
+}
+
+@keyframes notepad-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

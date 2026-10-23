@@ -1,0 +1,19 @@
+{
+  "crop": "pea",
+  "templates": [
+    {
+      "name": "Growing peas",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig the bed and add compost", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "sowing"},
+        {"name": "Put up supports for the vines", "amount": 1, "unit": "weeks", "direction": "after", "anchor": "sowing"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "weekly"},
+        {"name": "Weed gently by hand", "amount": 3, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "fortnightly"},
+        {"name": "Tie in the shoots", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "fortnightly"},
+        {"name": "Pick pods regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Pull out finished vines and dig in the roots", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

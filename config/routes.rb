@@ -151,7 +151,7 @@ Rails.application.routes.draw do
     resources :plantings
     resources :harvests
     resources :posts
-    resources :activities
+    resources :jobs, except: :show
 
     resources :follows
     get 'followers' => 'follows#followers'
@@ -159,7 +159,8 @@ Rails.application.routes.draw do
   end
 
   resources :messages
-  resources :activities, param: :slug
+  get 'jobs/suggestions' => 'job_suggestions#index', as: :job_suggestions
+  resources :jobs, param: :slug, except: :show
   resources :conversations do
     collection do
       delete 'destroy_multiple'
@@ -184,12 +185,13 @@ Rails.application.routes.draw do
     resources :roles
     resources :crops, param: :slug do
       resources :crop_companions
+      resources :crop_job_templates, path: 'job_templates', except: :show
     end
   end
 
   namespace :api do
     namespace :v1 do
-      jsonapi_resources :activities
+      jsonapi_resources :jobs
       get "crops/search", to: "crops#search"
       jsonapi_resources :crops
       jsonapi_resources :gardens

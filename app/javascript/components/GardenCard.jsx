@@ -49,7 +49,7 @@ export default function GardenCard({garden, defaultOpen, defaultIconUrl, onPlant
       <div className="garden-card-panel">
         <div className="garden-card-actions">
           {layoutUrl && (
-            <a href={layoutUrl} className="garden-card-layout-button">
+            <a href={layoutUrl} className="btn btn-outline-success garden-card-layout-button">
               <i className="fa fa-th-large" aria-hidden="true" /> Layout
               <span className="visually-hidden"> of {name}</span>
             </a>

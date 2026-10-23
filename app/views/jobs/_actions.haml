@@ -1,0 +1,19 @@
+- if can?(:edit, job)
+  - copy_path = new_job_path(name: job.name, description: job.description,
+                                   garden_id: job.garden_id, planting_id: job.planting_id, due_date: job.due_date)
+  - update_path = ->(attributes) { job_path(job, job: attributes) }
+  = actions_menu('job', id: job.id) do
+    -# On the notepad the script edits the row in place; the link is for when it can't.
+    = menu_link_to :edit, t('buttons.edit'), edit_job_path(job), data: { notepad_edit: local_assigns[:inline_edit].presence }
+    = menu_link_to :copy, t('buttons.copy'), copy_path
+    - if local_assigns[:inline_edit] && can?(:create, Photo)
+      - PhotoAssociation::MOMENTS.each do |moment|
+        = menu_link_to :add_photo, t("jobs.pad.photo_#{moment}"), new_photo_path(id: job.id, type: 'job', moment:), data: photo_dialog_data(job)
+    -# The notepad has a tick box for this.
+    - if job.active && !local_assigns[:inline_edit]
+      = menu_link_to :finish, t('buttons.mark_as_finished'), update_path.call(finished: 1), method: :put, class: 'append-date'
+    = menu_link_to :job, t('jobs.pad.move_today'), update_path.call(due_date: Time.zone.today), method: :put
+    - if JobList.week_end(Time.zone.today) > Time.zone.today
+      = menu_link_to :job, t('jobs.pad.move_week'), update_path.call(due_date: JobList.week_end(Time.zone.today)), method: :put
+    .dropdown-divider
+    = menu_delete_button(job)

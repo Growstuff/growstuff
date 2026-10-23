@@ -1,0 +1,19 @@
+{
+  "crop": "celery",
+  "templates": [
+    {
+      "name": "Growing celery",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds indoors", "amount": 10, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Harden off the seedlings", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Dig compost into the bed", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water deeply", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Mulch to hold moisture", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Feed with liquid fertiliser", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Pick the outer stalks", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"}
+      ]
+    }
+  ]
+}

@@ -26,14 +26,9 @@ class CropsController < ApplicationController
 
   def wrangle
     @approval_status = params[:approval_status]
-    @crops = case @approval_status
-             when "pending"
-               Crop.pending_approval
-             when "rejected"
-               Crop.rejected
-             else
-               Crop.recent
-             end.paginate(page: params[:page])
+    @all_levels = params[:level] == 'all'
+    @query = params[:q].to_s.squish
+    @crops = wrangle_crops.paginate(page: params[:page])
 
     @crop_wranglers = Role.crop_wranglers
     respond_with @crops
@@ -199,6 +194,26 @@ class CropsController < ApplicationController
   end
 
   private
+
+  # The crops on the wrangling page: the tab's, then either the ones matching a
+  # search, from every level and best match first, or the top level ones unless
+  # all are asked for. By name otherwise.
+  def wrangle_crops
+    crops = case @approval_status
+            when "pending" then Crop.pending_approval
+            when "rejected" then Crop.rejected
+            else Crop.approved
+            end
+
+    if @query.present?
+      crops = crops.matching_name(@query).best_match_first(@query)
+    elsif !@all_levels
+      crops = crops.where(parent_id: nil)
+    end
+
+    crops.includes(:scientific_names, :alternate_names, :varieties, :crop_job_templates, :creator, :requester)
+      .order(Arel.sql('lower(crops.name)'), :id)
+  end
 
   def notifier
     case @crop.approval_status

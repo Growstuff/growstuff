@@ -1,0 +1,18 @@
+{
+  "crop": "radish",
+  "templates": [
+    {
+      "name": "Growing radishes",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig the bed fine", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "sowing"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "weekly"},
+        {"name": "Thin the seedlings", "amount": 1, "unit": "weeks", "direction": "after", "anchor": "sowing"},
+        {"name": "Sow another batch", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "sowing", "repeat": "fortnightly"},
+        {"name": "Pull the radishes", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Pull out plants that have bolted", "amount": 3, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}
