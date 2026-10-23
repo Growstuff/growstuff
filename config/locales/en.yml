@@ -666,6 +666,9 @@ en:
   job_ideas:
     title: Ideas for now
     card_title: Ideas for now
+    count:
+      one: 1 idea for you
+      other: "%{count} ideas for you"
     footer: Counts come from public jobs and plantings. Adding an idea puts it under Some day, so you decide the day. "Not for me" hides it for a year, or snooze it to see it sooner.
     filter:
       mine: what I did before
