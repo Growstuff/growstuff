@@ -25,6 +25,26 @@ describe JobsController, '#create' do
     end
   end
 
+  context 'with an action and the crop to do it to' do
+    let(:crop) { create(:crop) }
+
+    let(:job) { { name: 'Plant tomato', action: 'plant', jobbable_type: 'Crop', jobbable_id: crop.id } }
+
+    before { post jobs_path, params: { job: }, headers: }
+
+    it 'remembers the action' do
+      expect(member.jobs.find_by(name: 'Plant tomato')).to be_action_plant
+    end
+  end
+
+  context 'with an action that does not go with the job' do
+    before { post jobs_path, params: { job: { name: 'Plant tomato', action: 'plant' } }, headers: }
+
+    it 'responds with unprocessable entity' do
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
   context 'when adding from a garden\'s to-do list' do
     let(:garden) { create(:garden, owner: member) }
     let(:page) { Capybara.string(response.body) }
