@@ -4,7 +4,7 @@
     - on = @skipped.exclude?(name)
     = link_to job_idea_switch_path(name, @skipped), class: ['idea-filter', ('off' unless on)] do
       = on ? '✓' : '+'
-      = t("job_ideas.filter.#{name}", km: JobIdeas::Nearby::RADIUS_KM)
+      = t("job_ideas.filter.#{name}")
 - if @ideas.empty?
   %p.idea-none= t('job_ideas.none')
 - job_idea_sections(@ideas).each do |section, ideas|
