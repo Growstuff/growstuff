@@ -850,3 +850,70 @@ $notepad-trail: #a4c98c;
     }
   }
 }
+
+// The yellow box over a member's jobs that says there are ideas for them.
+.notepad .notepad-ideas {
+  align-items: center;
+  background: #fff3a8;
+  border: 1px solid #e0c94a;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.12);
+  color: #413f3b;
+  display: flex;
+  gap: 0.75rem;
+  margin: 0.5rem 1.1rem 0.25rem;
+  min-height: 52px;
+  padding: 0.4rem 0.9rem;
+  text-decoration: none;
+
+  &:hover {
+    background: #ffee8a;
+    color: #413f3b;
+  }
+
+  svg {
+    color: #8a5600;
+    flex: none;
+  }
+
+  .notepad-ideas-text {
+    flex: 1;
+    font-weight: 600;
+  }
+
+  .notepad-ideas-go {
+    color: $notepad-leaf;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+}
+
+// The jobs a template idea would add, listed under it before they are added.
+.job-ideas .idea-preview {
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+
+  summary {
+    color: $notepad-leaf;
+    cursor: pointer;
+    font-weight: 600;
+    min-height: 32px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0.25rem 0 0;
+    padding: 0;
+  }
+
+  li {
+    border-top: 1px solid #eef0ea;
+    padding: 0.25rem 0;
+  }
+
+  .idea-preview-day {
+    color: $ink-muted;
+    display: inline-block;
+    min-width: 3.5rem;
+  }
+}

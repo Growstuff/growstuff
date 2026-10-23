@@ -25,6 +25,9 @@
     %span.notepad-add-saving-text
   %p.notepad-add-failed.text-danger.mx-3{ id: 'notepad-add-failed', role: 'alert', hidden: true }= t('jobs.pad.add_failed')
   %p.notepad-note= t('jobs.pad.public_note') + ' ' + t('jobs.pad.link_hint')
+  - banner = !garden && local_assigns.fetch(:ideas_banner, true)
+  - ideas = job_ideas_count(owner) if banner
+  = render 'jobs/ideas_banner', count: ideas if ideas&.positive?
 
   #notepad-groups{ data: { celebrations: job_celebrations.to_json, garden_id: garden&.id } }= render 'jobs/notepad_groups', groups:, in_garden: garden.present?
   .notepad-snail

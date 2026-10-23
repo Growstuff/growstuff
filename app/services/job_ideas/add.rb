@@ -14,7 +14,7 @@ class JobIdeas
     # The jobs made.
     def call
       case @idea.kind
-      when :template then ApplyCropJobTemplate.new(@idea.template, @idea.planting, today: @today).call
+      when :template then add_template
       when :past_planting then [make(I18n.t('job_ideas.job.plant', crop: @idea.crop.name), @idea.crop, action: 'plant')]
       when :harvest then [harvest_job]
       else [make(@idea.name, @idea.crop)]
@@ -22,6 +22,14 @@ class JobIdeas
     end
 
     private
+
+    # The template's jobs for the planting. Then the idea is put away, or the
+    # template would come back for the next planting of the crop.
+    def add_template
+      jobs = ApplyCropJobTemplate.new(@idea.template, @idea.planting, today: @today).call
+      JobIdeaDismissal.dismiss!(@member, @idea.key)
+      jobs
+    end
 
     def harvest_job
       make(I18n.t('job_ideas.job.harvest', crop: @idea.crop.name), @idea.planting, action: 'harvest', garden: @idea.planting.garden)

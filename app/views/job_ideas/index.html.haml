@@ -21,10 +21,8 @@
       = link_to t('jobs.pad.everyones_jobs'), jobs_path, class: 'list-group-item'
   .col-lg-9
     .row
-      .col-xl-6.mb-4
-        = render 'jobs/notepad', owner: current_member, groups: @job_groups, done_this_week: @done_this_week,
-          autofocus: false
-      .col-xl-6.mb-4
+      -# First when the columns stack, so the ideas are not left below a long notepad.
+      .col-xl-6.mb-4.order-first.order-xl-last
         .notepad.job-ideas
           .notepad-title
             %h2= t('job_ideas.card_title')
@@ -45,3 +43,6 @@
           - if @more.positive?
             %p.idea-more= t('job_ideas.more', count: @more)
           %p.notepad-note= t('job_ideas.footer')
+      .col-xl-6.mb-4
+        = render 'jobs/notepad', owner: current_member, groups: @job_groups, done_this_week: @done_this_week,
+          autofocus: false, ideas_banner: false

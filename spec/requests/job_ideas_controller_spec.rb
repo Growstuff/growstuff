@@ -30,6 +30,10 @@ describe JobIdeasController do
       expect(response.body).to include('You did this on 28 Oct.')
     end
 
+    it 'does not point to itself with the yellow box' do
+      expect(Capybara.string(response.body)).to have_no_css('.notepad-ideas')
+    end
+
     it 'shows the notepad beside the ideas' do
       expect(response.body).to include('notepad-groups')
     end
@@ -44,6 +48,31 @@ describe JobIdeasController do
 
     it 'leaves out what that source suggests' do
       expect(Capybara.string(response.body)).to have_no_css('.job-ideas', text: 'Snip off scapes')
+    end
+  end
+
+  describe 'GET /job_ideas with a template for a crop they grow' do
+    let(:page) { Capybara.string(response.body) }
+    let(:tomato) { create(:crop, name: 'tomato') }
+    let(:template) { create(:crop_job_template, crop: tomato, status: 'published') }
+
+    before do
+      create(:planting, owner: member, crop: tomato, planted_at: today - 1.day)
+      create(:crop_job_step, crop_job_template: template, name: 'Stake', offset_amount: 2)
+      create(:crop_job_step, crop_job_template: template, name: 'Feed', offset_amount: 4)
+      get job_ideas_path
+    end
+
+    it 'offers to add all its jobs' do
+      expect(page).to have_button('Add all 2')
+    end
+
+    it 'lists the jobs before they are added' do
+      expect(page).to have_css('.idea-preview li', count: 2, visible: :all)
+    end
+
+    it 'gives each job\'s day' do
+      expect(page).to have_css('.idea-preview li', text: '5 Nov Stake', visible: :all)
     end
   end
 
