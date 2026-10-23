@@ -9,5 +9,6 @@
     = button_to add, job_ideas_path, params: { key: idea.key }, class: 'btn btn-primary btn-sm'
     - JobIdeaDismissal::SNOOZES.each_key do |length|
       - label = t("job_ideas.snooze.#{length}")
-      = button_to label, hide_job_ideas_path, params: { key: idea.key, length: }, class: 'btn btn-outline-secondary btn-sm'
+      - options = { params: { key: idea.key, length: }, class: 'btn btn-outline-secondary btn-sm' }
+      = button_to label, hide_job_ideas_path, options
     = button_to t('job_ideas.dismiss'), hide_job_ideas_path, params: { key: idea.key }, class: 'btn btn-link btn-sm'
