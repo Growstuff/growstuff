@@ -6,48 +6,48 @@
           %li
             = link_to 'https://github.com/Growstuff/growstuff/wiki' do
               = icon 'fas', 'question'
-              About
+              = t('.about')
           %li
             = link_to 'https://github.com/Growstuff/growstuff' do
               = icon 'fab', 'github'
-              Open Source
+              = t('.open_source')
           %li
             = link_to 'https://github.com/Growstuff/growstuff/graphs/contributors' do
               = icon 'fas', 'users'
-              Growstuff Team
+              = t('.growstuff_team')
           %li
             = link_to 'https://github.com/Growstuff/growstuff/wiki' do
               = icon 'fas', 'people-carry'
-              Get Involved
+              = t('.get_involved')
       .col-md-4#footer2
         %ul
           %li
             = link_to policy_tos_path do
               = icon 'fas', 'file'
-              Terms Of Service
+              = t('.terms_of_service')
           %li
             = link_to policy_privacy_path do
               = icon 'fas', 'user-secret'
-              Privacy Policy
+              = t('.privacy_policy')
           %li
             = link_to policy_data_use_path do
               = icon 'fas', 'database'
-              Data Use Policy
+              = t('.data_use_policy')
           %li
             = link_to policy_community_path do
               = icon 'fas', 'heart'
-              Community Guidelines
+              = t('.community_guidelines')
       .col-md-4#footer3
         .badge.text-bg-success= link_to 'API', '/api-docs'
         %ul
           %li
             = link_to support_path do
               = icon 'fas', 'hands-helping'
-              Support
+              = t('.support')
           %li
             = link_to contact_path do
               = icon 'fas', 'envelope'
-              Contact
+              = t('.contact')
           %li
             = link_to 'https://ko-fi.com/jennyscottthompson', target: '_blank', rel: 'noopener' do
               = icon 'fas', 'dollar-sign'
