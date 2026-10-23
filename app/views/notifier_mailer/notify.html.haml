@@ -16,8 +16,9 @@
     #{strip_tags markdownify(@notification.body)}
 
 %p
-  = link_to "Reply to this message", @reply_link
-  %br/
+  = link_to "Reply to this message", @reply_link, class: 'btn'
+
+%p
   = link_to "View this message in your inbox", notification_url(@notification)
   %br/
   = link_to "Unsubscribe from direct message notifications", unsubscribe_member_url(@signed_message)

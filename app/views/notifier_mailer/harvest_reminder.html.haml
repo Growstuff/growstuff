@@ -10,15 +10,16 @@
       = render 'planting', planting: planting
       (Predicted harvest date: #{planting.first_harvest_predicted_at.to_date})
 
+%p Harvested anything lately?
 %p
-  Harvested anything lately?
   = link_to "Track your harvests here.", new_harvest_url, class: 'btn'
 
+%p Track and predict your entire garden, and keep your garden records up to date at
 %p
-  Track and predict your entire garden, and keep your garden records up to date at
   = link_to member_gardens_url(@member), class: 'btn' do
-    your garden overview
-  and on
+    Your garden overview
+%p
+  or on
   = link_to member_url(@member) do
     your profile page
 
