@@ -7,7 +7,7 @@ class NeighboursController < ApplicationController
 
   def show
     current_member.feature_seen!(:neighbours)
-    @neighbours = Neighbours.new(current_member, scope: params[:scope])
+    @neighbours = Neighbours.new(current_member, scope: params[:scope], limit: Neighbours::FIRST_FEED_EVENTS)
   end
 
   # The next small chunk of the feed, for "Show earlier days": its HTML, and
