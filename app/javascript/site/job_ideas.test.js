@@ -15,7 +15,6 @@ const idea = (key, name) => `
 const page = () => `
   <meta name="csrf-token" content="token-123">
   <a href="/job_ideas" data-job-ideas-open>Ideas</a>
-  <span data-ideas-badge>2</span>
   <a class="notepad-ideas" href="/job_ideas"><span class="notepad-ideas-text">We have 2</span></a>
   <div id="notepad-groups"><div class="notepad-job" data-id="1">Water</div></div>
   <div class="modal" id="job-ideas-modal" data-url="/job_ideas"><div id="job-ideas-body"></div></div>`;
@@ -129,11 +128,6 @@ describe('choosing an idea', () => {
   it('puts the ideas that are left in the overlay', async () => {
     await choose();
     expect(Array.from(body().querySelectorAll('.idea')).map((el) => el.dataset.key)).toEqual(['b']);
-  });
-
-  it('updates the count on the link', async () => {
-    await choose();
-    expect(document.querySelector('[data-ideas-badge]').textContent).toBe('1');
   });
 
   it('updates the words in the box', async () => {

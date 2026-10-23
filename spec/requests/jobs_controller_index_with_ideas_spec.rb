@@ -17,10 +17,6 @@ describe JobsController, '#index with ideas' do
       get member_jobs_path(member)
     end
 
-    it 'shows how many beside the link to them' do
-      expect(page).to have_css('a[href="/job_ideas"] .badge', text: '1')
-    end
-
     it 'says so in a yellow box over the jobs' do
       expect(page).to have_css('.notepad-ideas', text: 'We have 1 suggested job for you this week')
     end
@@ -37,16 +33,12 @@ describe JobsController, '#index with ideas' do
   context 'when there are none' do
     before { get member_jobs_path(member) }
 
-    it 'shows the link without a count' do
-      expect(page).to have_link(href: '/job_ideas')
+    it 'has no box of links beside the jobs' do
+      expect(page).to have_no_css('nav[aria-label="Jobs"]')
     end
 
     it 'shows no yellow box' do
       expect(page).to have_no_css('.notepad-ideas')
-    end
-
-    it 'shows no count' do
-      expect(page).to have_no_css('a[href="/job_ideas"] .badge')
     end
   end
 end

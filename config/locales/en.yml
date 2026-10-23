@@ -674,9 +674,6 @@ en:
     added_to_jobs:
       one: Added 1 job to your list
       other: Added %{count} jobs to your list
-    count:
-      one: 1 idea for you
-      other: "%{count} ideas for you"
     footer: Counts come from public jobs and plantings. Adding an idea puts it under Some day, so you decide the day. "Not for me" hides it for a year, or snooze it to see it sooner.
     filter:
       mine: what I did before
@@ -787,9 +784,6 @@ en:
       edit_hint: Enter to save, Esc to cancel
       add_failed: That job may not have been added. Check your list before you try again.
       public_note: Jobs are public, so don't put private info here.
-      my_jobs: My jobs
-      ideas: Ideas for now
-      everyones_jobs: Everyone's jobs
       overdue: Overdue
       before: Before
       after: After
