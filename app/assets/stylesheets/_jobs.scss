@@ -851,8 +851,9 @@ $notepad-trail: #a4c98c;
   }
 }
 
-// The yellow box over a member's jobs that says there are ideas for them.
-.notepad .notepad-ideas {
+// The yellow box that says there are ideas for a member: over their jobs, or on
+// the front page.
+.notepad-ideas {
   align-items: center;
   background: #fff3a8;
   border: 1px solid #e0c94a;
@@ -861,7 +862,6 @@ $notepad-trail: #a4c98c;
   color: #413f3b;
   display: flex;
   gap: 0.75rem;
-  margin: 0.5rem 1.1rem 0.25rem;
   min-height: 52px;
   padding: 0.4rem 0.9rem;
   text-decoration: none;
@@ -890,6 +890,14 @@ $notepad-trail: #a4c98c;
     font-weight: 700;
     white-space: nowrap;
   }
+}
+
+.notepad .notepad-ideas {
+  margin: 0.5rem 1.1rem 0.25rem;
+}
+
+.home-ideas {
+  margin-bottom: 1rem;
 }
 
 // The jobs a template idea would add, listed under it before they are added.

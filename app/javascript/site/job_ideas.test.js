@@ -88,6 +88,32 @@ describe('opening', () => {
   });
 });
 
+describe('arriving with the ideas to show', () => {
+  afterEach(() => window.history.replaceState(null, '', '/'));
+
+  it('opens the overlay', async () => {
+    window.history.replaceState(null, '', '/members/brenda/jobs?ideas=1');
+    fetchMock.mockResolvedValue(html(idea('a', 'Snip')));
+    await start();
+    await flush();
+    expect(show).toHaveBeenCalled();
+  });
+
+  it('takes the ideas out of the address, so a reload does not open it again', async () => {
+    window.history.replaceState(null, '', '/members/brenda/jobs?ideas=1');
+    fetchMock.mockResolvedValue(html(idea('a', 'Snip')));
+    await start();
+    expect(window.location.search).toBe('');
+  });
+
+  it('does not open the overlay without it', async () => {
+    fetchMock.mockResolvedValue(html(idea('a', 'Snip')));
+    await start();
+    await flush();
+    expect(show).not.toHaveBeenCalled();
+  });
+});
+
 describe('choosing an idea', () => {
   const added = {
     added: [{id: 7, name: 'Plant tomato', due: null}], added_label: 'Added 1 job to your list', count: 1, banner: 'We have 1',
