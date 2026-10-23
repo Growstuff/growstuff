@@ -14,7 +14,7 @@ class JobIdeas
 
     def ideas
       planted.group_by(&:crop_id).filter_map do |crop_id, plantings|
-        next if planted_since.include?(crop_id)
+        next if planted_since.include?(crop_id) || to_plant.include?(crop_id)
 
         latest = plantings.max_by(&:planted_at)
         Idea.new(kind: :past_planting, key: "past_planting:#{crop_id}", name: latest.crop.name, crop: latest.crop,
@@ -27,6 +27,11 @@ class JobIdeas
     def planted
       plantings = @member.plantings.annual.where.not(failed: true).includes(:crop)
       past_windows.map { |window| plantings.where(planted_at: window) }.reduce(:or)
+    end
+
+    # The crops they already have an open job to plant.
+    def to_plant
+      @to_plant ||= @member.jobs.active.action_plant.where(jobbable_type: 'Crop').pluck(:jobbable_id)
     end
 
     # The crops they have planted since the last fortnight, so are already growing.

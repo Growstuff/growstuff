@@ -8,10 +8,10 @@ describe JobIdeas::Community do
   subject(:ideas) { described_class.new(member, today).ideas }
 
   let(:today) { Date.new(2026, 10, 23) }
-  let(:member) { create(:member) }
+  let(:member) { create(:london_member) }
   let(:crop) { create(:crop) }
   let(:done_on) { Date.new(2026, 10, 20) }
-  let(:gardeners) { create_list(:member, 3) }
+  let(:gardeners) { create_list(:edinburgh_member, 3) }
 
   before do
     create(:planting, owner: member, crop:)
@@ -45,8 +45,20 @@ describe JobIdeas::Community do
     expect(ideas.first.key).to eq "community:mound up potatoes:#{crop.id}"
   end
 
+  context 'with gardeners in the other hemisphere' do
+    let(:gardeners) { create_list(:south_pole_member, 3) }
+
+    it { is_expected.to be_empty }
+  end
+
+  context 'when the member has not said where they are' do
+    let(:member) { create(:member) }
+
+    it { is_expected.to be_empty }
+  end
+
   context 'with only two gardeners' do
-    let(:gardeners) { create_list(:member, 2) }
+    let(:gardeners) { create_list(:edinburgh_member, 2) }
 
     it { is_expected.to be_empty }
   end

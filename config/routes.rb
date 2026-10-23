@@ -160,6 +160,9 @@ Rails.application.routes.draw do
 
   resources :messages
   get 'jobs/suggestions' => 'job_suggestions#index', as: :job_suggestions
+  resources :job_ideas, only: %i(index create) do
+    post :hide, on: :collection
+  end
   resources :jobs, param: :slug, except: :show
   resources :conversations do
     collection do

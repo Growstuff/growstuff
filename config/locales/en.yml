@@ -663,6 +663,59 @@ en:
       not_enough_data: Not enough data
       perennial: Perennial
       unknown: Unknown
+  job_ideas:
+    title: Ideas for now
+    intro: Jobs you might like to add, from your own garden, other gardeners, and crop guides. Adding one puts it under Some day, so you decide the day.
+    none: Nothing to suggest right now. Check back as the season changes.
+    back: Back to your jobs
+    add:
+      one: Add
+      other: Add all %{count}
+    dismiss: Not for me
+    snooze:
+      week: Snooze a week
+      month: Snooze a month
+    more:
+      one: 1 more idea waiting.
+      other: "%{count} more ideas waiting."
+    added: Added "%{name}" to your jobs.
+    gone: That idea is no longer on offer.
+    hidden:
+      week: Snoozed for a week.
+      month: Snoozed for a month.
+      dismissed: Hidden. It may come back with the season.
+    job:
+      plant: Plant %{crop}
+      harvest: Harvest %{crop}
+    reason:
+      template:
+        one: "A guide for %{crop}: 1 job to add to your planting."
+        other: "A guide for %{crop}: %{count} jobs to add to your planting."
+      past_job:
+        one: "You did this on %{day}."
+        other: "You did this at this time of year in %{count} years, last on %{day}."
+      past_planting:
+        one: "You planted this on %{day}."
+        other: "You planted this at this time of year in %{count} years, last on %{day}."
+      harvest_predicted: "Ready around %{day}, going by how long it usually takes."
+      harvest_harvested: "You last harvested from it on %{day}."
+      community_of:
+        now:
+          one: "1 of %{of} gardeners growing %{crop} did this lately."
+          other: "%{count} of %{of} gardeners growing %{crop} did this lately."
+        earlier:
+          one: "1 of %{of} gardeners growing %{crop} did this at this time of year before."
+          other: "%{count} of %{of} gardeners growing %{crop} did this at this time of year before."
+      community:
+        now:
+          other: "%{count} gardeners growing %{crop} did this lately."
+        earlier:
+          other: "%{count} gardeners growing %{crop} did this at this time of year before."
+      nearby:
+        now:
+          other: "%{count} gardeners nearby did this lately."
+        earlier:
+          other: "%{count} gardeners nearby did this at this time of year before."
   jobs:
     plan_something: Plan something
     celebrate:
@@ -705,6 +758,7 @@ en:
       add_failed: That job may not have been added. Check your list before you try again.
       public_note: Jobs are public, so don't put private info here.
       my_jobs: My jobs
+      ideas: Ideas for now
       everyones_jobs: Everyone's jobs
       overdue: Overdue
       before: Before

@@ -1,0 +1,21 @@
+- content_for :title, t('job_ideas.title')
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to t('jobs.pad.title', owner: current_member.login_name), member_jobs_path(current_member)
+  %li.breadcrumb-item.active= link_to t('job_ideas.title'), job_ideas_path
+
+.row
+  .col-md-9.mx-auto
+    %h1.h2
+      = job_icon
+      = t('job_ideas.title')
+    %p.text-muted= t('job_ideas.intro')
+
+    - if @ideas.empty?
+      %p= t('job_ideas.none')
+    - else
+      %ul.list-group.mb-3
+        = render partial: 'job_ideas/idea', collection: @ideas, as: :idea
+      - if @more.positive?
+        %p.text-muted= t('job_ideas.more', count: @more)
+    = link_to t('job_ideas.back'), member_jobs_path(current_member)
