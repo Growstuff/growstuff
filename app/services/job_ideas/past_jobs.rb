@@ -27,18 +27,15 @@ class JobIdeas
     # Each job with the day it was done. A job finished before the time was
     # recorded was done on the day it was due.
     def done_jobs
-      jobs = past_windows.map { |window| finished_in(window) }.reduce(:or)
-      jobs.includes(:jobbable).map { |job| [job, job.finished_at&.to_date || job.due_date] }
+      jobs = finished_in(@member.jobs.where(finished: true, crop_job_step_id: nil), past_windows).includes(:jobbable).to_a
+      preload_crops(jobs)
+      jobs.map { |job| [job, job.finished_at&.to_date || job.due_date] }
     end
 
-    def finished_in(window)
-      @member.jobs.where(finished: true, crop_job_step_id: nil)
-        .where('jobs.finished_at BETWEEN ? AND ? OR (jobs.finished_at IS NULL AND jobs.due_date BETWEEN ? AND ?)',
-               window.first.beginning_of_day, window.last.end_of_day, window.first, window.last)
-    end
-
-    def open_names
-      @open_names ||= @member.jobs.active.pluck(:name).map(&:downcase)
+    # The crop of every planting and seed a job is about, in one go.
+    def preload_crops(jobs)
+      about = jobs.filter_map(&:jobbable).grep_v(Crop)
+      ActiveRecord::Associations::Preloader.new(records: about, associations: :crop).call
     end
 
     def key_for(job)

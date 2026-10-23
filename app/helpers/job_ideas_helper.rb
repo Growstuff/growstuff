@@ -1,15 +1,6 @@
 # frozen_string_literal: true
 
 module JobIdeasHelper
-  # How many ideas a member has, for the count beside the link to them. It looks
-  # at other people's jobs, so it is kept for a few minutes, and changes at once
-  # when they hide an idea.
-  def job_ideas_count(member)
-    hidden = member.job_idea_dismissals.maximum(:updated_at)
-    changed = member.jobs.maximum(:updated_at)
-    Rails.cache.fetch(['job_ideas_count', member.id, hidden, changed], expires_in: 10.minutes) { JobIdeas.new(member).ideas.size }
-  end
-
   # What an idea would add, as the member would read it.
   def job_idea_title(idea)
     case idea.kind
@@ -23,7 +14,7 @@ module JobIdeasHelper
   def job_idea_reason(idea)
     day = idea.on && l(idea.on, format: '%-d %b')
     case idea.kind
-    when :template then t('job_ideas.reason.template', count: idea.job_count, steps: job_idea_steps(idea), crop: idea.crop.name, day:)
+    when :template then t('job_ideas.reason.template', count: idea.schedule.size, steps: job_idea_steps(idea), crop: idea.crop.name, day:)
     when :past_job, :past_planting then t("job_ideas.reason.#{idea.kind}", count: idea.years, day:)
     when :harvest then t("job_ideas.reason.harvest_#{idea.period}", day:)
     else community_reason(idea, day)

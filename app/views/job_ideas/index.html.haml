@@ -18,7 +18,7 @@
       .col-xl-6.mb-4.order-first.order-xl-last
         .notepad.job-ideas
           .notepad-title
-            %h2= t('job_ideas.card_title')
+            %h2= t('job_ideas.title')
           = render 'job_ideas/list'
       .col-xl-6.mb-4
         = render 'jobs/notepad', owner: current_member, groups: @job_groups, done_this_week: @done_this_week,

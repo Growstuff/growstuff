@@ -9,9 +9,11 @@ class JobIdeas
     private
 
     def owner_ids
-      return [] unless @member.latitude && @member.longitude
-
-      Member.confirmed.located.near([@member.latitude, @member.longitude], RADIUS_KM, units: :km).reorder(nil).pluck(:id)
+      @owner_ids ||= if @member.latitude && @member.longitude
+                       Member.confirmed.located.near([@member.latitude, @member.longitude], RADIUS_KM, units: :km).reorder(nil).pluck(:id)
+                     else
+                       []
+                     end
     end
 
     def kind

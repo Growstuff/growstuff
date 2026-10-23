@@ -146,6 +146,12 @@ describe('choosing an idea', () => {
     expect(document.querySelector('.notepad-ideas').hidden).toBe(true);
   });
 
+  it('does not send the choice again once the server has answered', async () => {
+    await choose();
+    const form = body().querySelector('.idea-form');
+    expect(form === null || form.submit === HTMLFormElement.prototype.submit).toBe(true);
+  });
+
   it('sends the choice the ordinary way if it could not be sent', async () => {
     fetchMock.mockResolvedValueOnce(html(idea('a', 'Snip'))).mockRejectedValueOnce(new Error('offline'));
     await start();

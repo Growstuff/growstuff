@@ -665,7 +665,6 @@ en:
       unknown: Unknown
   job_ideas:
     title: Ideas for now
-    card_title: Ideas for now
     banner:
       one: We have 1 suggested job for you this week
       other: We have %{count} suggested jobs for you this week
@@ -691,7 +690,6 @@ en:
       nearby: Near you
       nearby_note: "%{place} and %{km} km around"
     none: Nothing to suggest right now. Check back as the season changes.
-    back: Back to your jobs
     add: "+ Add"
     add_all: Add all %{count}
     preview:

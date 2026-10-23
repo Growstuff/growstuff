@@ -5,12 +5,16 @@
 # same time of year; nobody if the member has not said where they are.
 class JobIdeas
   class Community < OthersJobs
+    include SeasonsHelper
+
     private
 
     def owner_ids
-      return [] unless @member.latitude
-
-      Member.confirmed.located.where(@member.latitude.negative? ? 'latitude < 0' : 'latitude >= 0').pluck(:id)
+      @owner_ids ||= case hemisphere(@member.latitude)
+                     when :southern then Member.confirmed.located.where('latitude < 0').pluck(:id)
+                     when :northern then Member.confirmed.located.where('latitude >= 0').pluck(:id)
+                     else []
+                     end
     end
 
     def crop_ids
@@ -21,10 +25,8 @@ class JobIdeas
       :community
     end
 
-    def growing(crop)
-      return unless crop
-
-      growers[crop.id] || 0
+    def growing(crop_id)
+      growers[crop_id] || 0 if crop_id
     end
 
     def growers

@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // arrive.
   const showJobs = function (data) {
     const groups = document.getElementById('notepad-groups');
-    if (!groups) return;
+    if (!groups || !data.groups) return;
     const added = new Set(data.added.map(function (job) { return String(job.id); }));
     groups.innerHTML = data.groups;
     groups.querySelectorAll('.notepad-job').forEach(function (row) {
@@ -92,25 +92,39 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   };
 
-  const choose = function (form) {
-    const row = form.closest('.idea');
-    if (row) row.classList.add('idea-working');
+  // Sends the choice. Rejects only if it could not be sent, or the answer was no
+  // good: then it is safe to send it again the ordinary way.
+  const send = function (form) {
     return request(form.action, {method: 'POST', body: new FormData(form), headers: {Accept: 'application/json'}})
       .then(ok)
-      .then(function (response) { return response.json(); })
-      .then(function (data) {
+      .then(function (response) { return response.json(); });
+  };
+
+  // Shows what the server did. If that goes wrong the choice was made all the
+  // same, so the page is loaded again to show how things stand.
+  const show = function (form, data) {
+    const row = form.closest('.idea');
+    return Promise.resolve()
+      .then(function () {
         showCount(data);
         showJobs(data);
         if (data.added.length && row) {
           row.replaceChildren(addedBlock(data));
           row.classList.remove('idea-working');
           row.classList.add('idea-confirmed');
-          return wait(Math.min(2600, 1100 + data.added.length * 140)).then(function () { return data; });
+          return wait(Math.min(2600, 1100 + data.added.length * 140));
         }
         if (row) row.classList.add('idea-leaving');
-        return wait(350).then(function () { return data; });
+        return wait(350);
       })
-      .then(function (data) { showList(data.list); });
+      .then(function () { showList(data.list); })
+      .catch(function () { window.location.reload(); });
+  };
+
+  const choose = function (form) {
+    const row = form.closest('.idea');
+    if (row) row.classList.add('idea-working');
+    return send(form).then(function (data) { return show(form, data); }, function () { form.submit(); });
   };
 
   document.querySelectorAll('[data-job-ideas-open]').forEach(function (link) {
@@ -132,6 +146,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = event.target.closest('.idea-form');
     if (!form) return;
     event.preventDefault();
-    choose(form).catch(function () { form.submit(); });
+    choose(form);
   });
 });
