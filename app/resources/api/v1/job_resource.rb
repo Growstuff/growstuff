@@ -16,6 +16,7 @@ module Api
       attribute :due_date
       attribute :jobbable_type
       attribute :jobbable_id
+      attribute :action
 
       filter :owner
       filter :owner_id

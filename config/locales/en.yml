@@ -74,6 +74,7 @@ en:
         same_crop_required: must be the same crop
         harvest_after_planted: cannot be harvested before planting
         cannot_be_garden_owner: cannot be the garden owner
+        cannot_be_about_that: does not go with what the job is about
         same_owner_required: "of harvest must be the same as planting, or a collaborator on that garden"
         photo_owner_mismatch: must have same owner as item it links to
         calculate_crop_failed: failed to calculate crop
@@ -545,6 +546,17 @@ en:
     harvesting_now: harvesting now
     data: 'The data on this page is available in the following formats:'
   layouts:
+    footer:
+      about: About
+      open_source: Open Source
+      growstuff_team: Growstuff Team
+      get_involved: Get Involved
+      terms_of_service: Terms Of Service
+      privacy_policy: Privacy Policy
+      data_use_policy: Data Use Policy
+      community_guidelines: Community Guidelines
+      support: Support
+      contact: Contact
     header:
       jobs: Jobs
       account: Account
@@ -651,6 +663,84 @@ en:
       not_enough_data: Not enough data
       perennial: Perennial
       unknown: Unknown
+  job_ideas:
+    title: Ideas for now
+    banner:
+      one: We have 1 suggested job for you this week
+      other: We have %{count} suggested jobs for you this week
+    banner_go: See ideas →
+    done: Done
+    added_to_jobs:
+      one: Added 1 job to your list
+      other: Added %{count} jobs to your list
+    footer: Counts come from public jobs and plantings. Adding an idea puts it under Some day, so you decide the day. "Not for me" hides it for a year, or snooze it to see it sooner.
+    filter:
+      mine: what I did before
+      community: people growing what I grow
+      nearby: near me, within %{km} km
+    section:
+      templates: Templates
+      templates_note: for plantings you have
+      this_time: At this time of year
+      this_time_note: from your jobs and plantings
+      harvest: Ready to harvest
+      harvest_note: in your garden
+      community: People growing what you grow
+      community_note: public jobs
+      nearby: Near you
+      nearby_note: "%{place} and %{km} km around"
+    none: Nothing to suggest right now. Check back as the season changes.
+    add: "+ Add"
+    add_all: Add all %{count}
+    preview:
+      one: See the job
+      other: See the %{count} jobs
+    dismiss: Not for me
+    snooze:
+      label: Snooze
+      week: A week
+      month: A month
+    more:
+      one: 1 more idea waiting.
+      other: "%{count} more ideas waiting."
+    added: Added "%{name}" to your jobs.
+    gone: That idea is no longer on offer.
+    hidden:
+      week: Snoozed for a week.
+      month: Snoozed for a month.
+      dismissed: Hidden. It may come back with the season.
+    job:
+      plant: Plant %{crop}
+      harvest: Harvest %{crop}
+    reason:
+      template:
+        one: "1 job: %{steps}. For your %{crop} planted on %{day}."
+        other: "%{count} jobs: %{steps}. For your %{crop} planted on %{day}."
+      past_job:
+        one: "You did this on %{day}."
+        other: "You did this at this time of year in %{count} years, last on %{day}."
+      past_planting:
+        one: "You planted this on %{day}."
+        other: "You planted this at this time of year in %{count} years, last on %{day}."
+      harvest_predicted: "Ready around %{day}, going by how long it usually takes."
+      harvest_harvested: "You last harvested from it on %{day}."
+      community_of:
+        now:
+          one: "1 of %{of} gardeners growing %{crop} did this lately."
+          other: "%{count} of %{of} gardeners growing %{crop} did this lately."
+        earlier:
+          one: "1 of %{of} gardeners growing %{crop} did this at this time of year before."
+          other: "%{count} of %{of} gardeners growing %{crop} did this at this time of year before."
+      community:
+        now:
+          other: "%{count} gardeners growing %{crop} did this lately."
+        earlier:
+          other: "%{count} gardeners growing %{crop} did this at this time of year before."
+      nearby:
+        now:
+          other: "%{count} gardeners nearby did this lately."
+        earlier:
+          other: "%{count} gardeners nearby did this at this time of year before."
   jobs:
     plan_something: Plan something
     celebrate:
@@ -692,8 +782,6 @@ en:
       edit_hint: Enter to save, Esc to cancel
       add_failed: That job may not have been added. Check your list before you try again.
       public_note: Jobs are public, so don't put private info here.
-      my_jobs: My jobs
-      everyones_jobs: Everyone's jobs
       overdue: Overdue
       before: Before
       after: After

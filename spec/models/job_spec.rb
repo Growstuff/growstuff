@@ -21,6 +21,89 @@ RSpec.describe Job do
     end
   end
 
+  describe '#crop_job_step' do
+    subject(:job) { create(:job, crop_job_step: step) }
+
+    let(:step) { create(:crop_job_step) }
+
+    it 'is the template step the job was made from' do
+      expect(job.reload.crop_job_step).to eq step
+    end
+
+    it 'is optional' do
+      expect(build(:job, crop_job_step: nil)).to be_valid
+    end
+
+    context 'when the step is deleted' do
+      before do
+        job
+        step.destroy
+      end
+
+      it 'leaves the job' do
+        expect(job.reload.crop_job_step).to be_nil
+      end
+    end
+  end
+
+  describe '#action' do
+    subject(:job) { build(:job, owner:, action:, jobbable:) }
+
+    let(:owner) { create(:member) }
+    let(:action) { 'plant' }
+    let(:jobbable) { create(:crop) }
+
+    it { is_expected.to be_valid }
+
+    it 'is optional' do
+      expect(build(:job, action: nil)).to be_valid
+    end
+
+    context 'with an action that does not exist' do
+      let(:action) { 'bury' }
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'when planting seeds' do
+      let(:jobbable) { create(:seed, owner:) }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'when planting a planting' do
+      let(:jobbable) { create(:planting, owner:) }
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'when planting with nothing to plant' do
+      let(:jobbable) { nil }
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'when harvesting a crop' do
+      let(:action) { 'harvest' }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'when harvesting a planting' do
+      let(:action) { 'harvest' }
+      let(:jobbable) { create(:planting, owner:) }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'when harvesting seeds' do
+      let(:action) { 'harvest' }
+      let(:jobbable) { create(:seed, owner:) }
+
+      it { is_expected.not_to be_valid }
+    end
+  end
+
   describe '#jobbable' do
     subject(:job) { build(:job, owner:, jobbable:) }
 

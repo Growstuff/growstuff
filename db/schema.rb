@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_23_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_23_050000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -702,8 +702,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_010000) do
     t.index ["harvest_id", "photo_id"], name: "index_harvests_photos_on_harvest_id_and_photo_id"
   end
 
-  create_table "jobs", force: :cascade do |t|
+  create_table "job_idea_dismissals", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.datetime "hidden_until", null: false
+    t.string "key", null: false
+    t.bigint "member_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id", "key"], name: "index_job_idea_dismissals_on_member_id_and_key", unique: true
+    t.index ["member_id"], name: "index_job_idea_dismissals_on_member_id"
+  end
+
+  create_table "jobs", force: :cascade do |t|
+    t.string "action"
+    t.datetime "created_at", null: false
+    t.bigint "crop_job_step_id"
     t.string "description"
     t.date "due_date"
     t.boolean "finished"
@@ -716,6 +728,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_010000) do
     t.bigint "owner_id"
     t.string "slug"
     t.datetime "updated_at", null: false
+    t.index ["crop_job_step_id"], name: "index_jobs_on_crop_job_step_id"
     t.index ["garden_id"], name: "index_jobs_on_garden_id"
     t.index ["jobbable_type", "jobbable_id"], name: "index_jobs_on_jobbable"
     t.index ["owner_id"], name: "index_jobs_on_owner_id"
@@ -1081,6 +1094,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_010000) do
   add_foreign_key "crop_job_steps", "crop_job_templates"
   add_foreign_key "crop_job_templates", "crops"
   add_foreign_key "harvests", "plantings"
+  add_foreign_key "job_idea_dismissals", "members"
+  add_foreign_key "jobs", "crop_job_steps", on_delete: :nullify
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"

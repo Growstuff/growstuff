@@ -8,8 +8,15 @@ class Job < ApplicationRecord
 
   belongs_to :garden, optional: true
   belongs_to :jobbable, polymorphic: true, optional: true
+  # The template step this job was made from, if it was.
+  belongs_to :crop_job_step, optional: true
 
   JOBBABLE_TYPES = %w(Crop Planting Seed).freeze
+  # What each action can be about: plant a crop or the seeds of it, harvest a crop
+  # or a planting of it.
+  ACTION_JOBBABLES = { 'plant' => %w(Crop Seed), 'harvest' => %w(Crop Planting) }.freeze
+
+  enum :action, ACTION_JOBBABLES.keys.index_with(&:itself), prefix: true, validate: { allow_nil: true }
 
   scope :active, -> { where(finished: [false, nil]) }
   scope :finished_this_week, -> { where(finished: true, finished_at: Time.zone.now.beginning_of_week..) }
@@ -21,6 +28,7 @@ class Job < ApplicationRecord
   # The add form sends these empty when the job is not linked to anything.
   normalizes :jobbable_type, with: ->(type) { type.presence }
   validates :jobbable_type, inclusion: { in: JOBBABLE_TYPES }, allow_nil: true
+  validate :action_goes_with_jobbable, if: :action
   validate :jobbable_is_the_owners, if: -> { jobbable_id_changed? || jobbable_type_changed? }
 
   before_save :stamp_finished_at, if: :finished_changed?
@@ -70,6 +78,10 @@ class Job < ApplicationRecord
 
   def stamp_finished_at
     self.finished_at = (Time.zone.now if finished)
+  end
+
+  def action_goes_with_jobbable
+    errors.add(:action, :cannot_be_about_that) unless ACTION_JOBBABLES.fetch(action, []).include?(jobbable_type)
   end
 
   # Plantings and seeds are a member's own. A job can't be about someone else's.

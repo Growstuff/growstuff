@@ -724,3 +724,300 @@ $notepad-trail: #a4c98c;
     transform: rotate(360deg);
   }
 }
+
+// The ideas card beside the notepad: toggle chips, then each section's ideas, an
+// icon and what it is on the left, what to do with it on the right.
+.job-ideas {
+  .idea-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 0.8rem 1.1rem 0;
+  }
+
+  .idea-filter {
+    align-items: center;
+    background: $notepad-tile;
+    border: 1px dashed transparent;
+    border-radius: 999px;
+    color: $notepad-leaf;
+    display: inline-flex;
+    font-size: 0.85rem;
+    font-weight: 600;
+    gap: 0.35rem;
+    min-height: 44px;
+    padding: 0 1rem;
+    text-decoration: none;
+
+    &.off {
+      background: $white;
+      border-color: $notepad-trail;
+      color: $ink-muted;
+    }
+  }
+
+  .idea-none,
+  .idea-more {
+    color: $ink-muted;
+    margin: 1rem 1.1rem 0;
+  }
+
+  .idea {
+    align-items: flex-start;
+    border-top: 1px solid #eef0ea;
+    display: flex;
+    gap: 0.9rem;
+    padding: 0.8rem 1.1rem;
+  }
+
+  .idea-icon {
+    color: $green;
+    flex: none;
+    margin-top: 0.15rem;
+  }
+
+  .idea-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .idea-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.35rem;
+  }
+
+  .idea-why {
+    color: $ink-muted;
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+  }
+
+  .idea-actions {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 6.5rem;
+  }
+
+  .idea-add {
+    background: $white;
+    border: 1px solid $green;
+    border-radius: 2px;
+    color: $green;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-height: 44px;
+    padding: 0 0.9rem;
+    text-transform: uppercase;
+
+    &:hover {
+      background: $notepad-tile;
+    }
+  }
+
+  .idea-later {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    justify-content: center;
+  }
+
+  .idea-link,
+  .idea-snooze summary {
+    background: none;
+    border: 0;
+    color: $ink-muted;
+    cursor: pointer;
+    font-size: 0.8rem;
+    min-height: 32px;
+    padding: 0;
+  }
+
+  .idea-snooze {
+    position: relative;
+
+    summary {
+      align-items: center;
+      display: inline-flex;
+    }
+
+    form {
+      display: block;
+    }
+  }
+}
+
+// The yellow box over a member's jobs that says there are ideas for them.
+.notepad .notepad-ideas {
+  align-items: center;
+  background: #fff3a8;
+  border: 1px solid #e0c94a;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.12);
+  color: #413f3b;
+  display: flex;
+  gap: 0.75rem;
+  margin: 0.5rem 1.1rem 0.25rem;
+  min-height: 52px;
+  padding: 0.4rem 0.9rem;
+  text-decoration: none;
+
+  &[hidden] {
+    display: none;
+  }
+
+  &:hover {
+    background: #ffee8a;
+    color: #413f3b;
+  }
+
+  svg {
+    color: #8a5600;
+    flex: none;
+  }
+
+  .notepad-ideas-text {
+    flex: 1;
+    font-weight: 600;
+  }
+
+  .notepad-ideas-go {
+    color: $notepad-leaf;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+}
+
+// The jobs a template idea would add, listed under it before they are added.
+.job-ideas .idea-preview {
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+
+  summary {
+    color: $notepad-leaf;
+    cursor: pointer;
+    font-weight: 600;
+    min-height: 32px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0.25rem 0 0;
+    padding: 0;
+  }
+
+  li {
+    border-top: 1px solid #eef0ea;
+    padding: 0.25rem 0;
+  }
+
+  .idea-preview-day {
+    color: $ink-muted;
+    display: inline-block;
+    min-width: 3.5rem;
+  }
+}
+
+// The ideas as an overlay, and the motion in it: a chosen idea turns into the
+// jobs it made, which appear one after another, then it makes way for the next.
+// The jobs it made also slide into the notepad behind.
+.modal .notepad.job-ideas {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding-bottom: 0.5rem;
+}
+
+.job-ideas {
+  .idea {
+    overflow: hidden;
+  }
+
+  .idea-working {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .idea-leaving {
+    animation: idea-out 0.35s ease forwards;
+  }
+
+  .idea-entering {
+    animation: idea-in 0.45s ease both;
+  }
+
+  .idea-confirmed {
+    background: #f4f9f0;
+  }
+
+  .idea-added {
+    flex: 1;
+  }
+
+  .idea-added-label {
+    color: $notepad-leaf;
+    font-weight: 700;
+    margin: 0 0 0.4rem;
+  }
+
+  .idea-added ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .idea-added li {
+    animation: idea-job-in 0.4s ease both;
+    background: $notepad-tile;
+    border-radius: 999px;
+    color: $notepad-leaf;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.15rem 0.75rem;
+  }
+}
+
+.notepad-job.just-added {
+  animation: job-in 0.5s ease both, job-glow 2.6s ease-out both;
+}
+
+@keyframes idea-out {
+  from { max-height: 200px; opacity: 1; }
+  to { max-height: 0; opacity: 0; padding-bottom: 0; padding-top: 0; }
+}
+
+@keyframes idea-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes idea-job-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.9); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes job-in {
+  from { opacity: 0; transform: translateY(-14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes job-glow {
+  from { background-color: #ffe98a; }
+  to { background-color: transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .job-ideas .idea-leaving,
+  .job-ideas .idea-entering,
+  .job-ideas .idea-added li,
+  .notepad-job.just-added {
+    animation: none;
+  }
+}
