@@ -150,6 +150,20 @@ describe Neighbours do
       expect([shown, neighbours.more_feed?]).to eq [Neighbours::FEED_EVENTS, true]
       expect(described_class.new(member, offset: Neighbours::FEED_EVENTS).feed.flat_map(&:updates).sum { |entry| entry.items.size }).to eq 1
     end
+
+    context 'with a larger limit' do
+      subject(:larger) { described_class.new(member, limit: Neighbours::FEED_EVENTS + 5) }
+
+      before { create_list(:planting, Neighbours::FEED_EVENTS + 5, owner: friend, garden: friend.gardens.first, planted_at: Date.new(2026, 10, 12)) }
+
+      it 'shows that many events' do
+        expect(larger.feed.flat_map(&:updates).sum { |entry| entry.items.size }).to eq Neighbours::FEED_EVENTS + 5
+      end
+
+      it 'carries on after them' do
+        expect(larger.next_offset).to eq Neighbours::FEED_EVENTS + 5
+      end
+    end
   end
 
   describe '#lede' do
