@@ -63,7 +63,7 @@ describe JobSuggestionsController do
     end
   end
 
-  context 'in a garden\'s to-do list' do
+  context 'when in a garden\'s to-do list' do
     let(:garden) { create(:garden, owner: member) }
     let(:other_garden) { create(:garden, owner: member) }
     let!(:here) { create(:planting, owner: member, crop: carrot, garden:) }
@@ -87,7 +87,7 @@ describe JobSuggestionsController do
     end
   end
 
-  context 'in a garden with no such plant' do
+  context 'when in a garden with no such plant' do
     let(:garden) { create(:garden, owner: member) }
 
     before do

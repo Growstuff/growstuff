@@ -5,28 +5,30 @@ require 'rails_helper'
 describe JobsHelper do
   let(:today) { Date.new(2026, 10, 21) }
 
-  def label(due_date)
-    helper.job_due_label(build(:job, due_date:), today)
-  end
+  describe '#job_due_label' do
+    def label(due_date)
+      helper.job_due_label(build(:job, due_date:), today)
+    end
 
-  it 'gives no label without a day' do
-    expect(label(nil)).to be_nil
-  end
+    it 'gives no label without a day' do
+      expect(label(nil)).to be_nil
+    end
 
-  it 'names the weekday for a job in the next few days' do
-    expect(label(Date.new(2026, 10, 24))).to eq 'Sat'
-  end
+    it 'names the weekday for a job in the next few days' do
+      expect(label(Date.new(2026, 10, 24))).to eq 'Sat'
+    end
 
-  it 'names the weekday for a job from the past week' do
-    expect(label(Date.new(2026, 10, 20))).to eq 'last Tuesday'
-  end
+    it 'names the weekday for a job from the past week' do
+      expect(label(Date.new(2026, 10, 20))).to eq 'last Tuesday'
+    end
 
-  it 'gives the date for a job from longer ago' do
-    expect(label(Date.new(2026, 10, 10))).to eq 'Sat 10 Oct'
-  end
+    it 'gives the date for a job from longer ago' do
+      expect(label(Date.new(2026, 10, 10))).to eq 'Sat 10 Oct'
+    end
 
-  it 'gives the date for a job further off' do
-    expect(label(Date.new(2026, 11, 3))).to eq 'Tue 3 Nov'
+    it 'gives the date for a job further off' do
+      expect(label(Date.new(2026, 11, 3))).to eq 'Tue 3 Nov'
+    end
   end
 
   describe '#job_celebrations' do

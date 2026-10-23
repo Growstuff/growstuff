@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module NeighboursHelper
+module NeighboursHelper # rubocop:disable Metrics/ModuleLength
   include SeasonsHelper
   include HarvestsHelper
 
@@ -135,9 +135,9 @@ module NeighboursHelper
   # rather than the photo is the interesting part, so that is what links.
   def photo_group_text(subject, count, alone)
     if alone
-      link_to t('neighbours.photos.added', count:), polymorphic_path(subject)
+      link_to t('neighbours.photos.added', count:), subject_path(subject)
     else
-      t('neighbours.photos.of_html', count:, subject: link_to(subject_label(subject), polymorphic_path(subject)))
+      t('neighbours.photos.of_html', count:, subject: link_to(subject_label(subject), subject_path(subject)))
     end
   end
 
@@ -162,6 +162,12 @@ module NeighboursHelper
   # Jobs have no page of their own, so they link to their owner's list.
   def thing_path(item)
     JOB_TYPES.include?(item.type) ? member_jobs_path(item.record.owner) : polymorphic_path(thing_record(item))
+  end
+
+  # Where something a photo is of is: its own page, or for a job, which has none,
+  # its owner's list of jobs.
+  def subject_path(subject)
+    subject.is_a?(Job) ? member_jobs_path(subject.owner) : polymorphic_path(subject)
   end
 
   def thing_record(item)
@@ -203,6 +209,7 @@ module NeighboursHelper
   def subject_label(subject)
     case subject
     when Garden then t('neighbours.subject.garden', name: subject.name)
+    when Job then t('neighbours.subject.job', name: subject.name)
     else t("neighbours.subject.#{subject.class.name.downcase}", crop: subject.crop.name)
     end
   end

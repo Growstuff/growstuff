@@ -168,6 +168,27 @@ $notepad-trail: #a4c98c;
     color: $danger-text;
   }
 
+  // A photo of a job, taken before or after: a small picture, named underneath.
+  .notepad-photo {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    color: $ink-muted;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    img {
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+  }
+
   // A row waiting for the server, whether it was dropped, ticked or renamed.
   .notepad-job.saving {
     opacity: 0.6;
