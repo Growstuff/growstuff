@@ -44,4 +44,35 @@ describe JobsHelper do
       expect(words[:done][:other]).to include('{count}')
     end
   end
+
+  describe '#job_date_label' do
+    def date_label(**attributes)
+      helper.job_date_label(build(:job, **attributes), today)
+    end
+
+    it 'is the day it is due, for a job not crossed off' do
+      expect(date_label(due_date: Date.new(2026, 10, 24))).to eq 'Sat'
+    end
+
+    it 'is when it was crossed off, not when it was due, once it is' do
+      crossed_off = date_label(due_date: Date.new(2026, 10, 24), finished: true, finished_at: Time.zone.local(2026, 10, 20, 9))
+      expect(crossed_off).to eq 'done last Tuesday'
+    end
+
+    it 'says today for a job crossed off today' do
+      expect(date_label(finished: true, finished_at: Time.zone.local(2026, 10, 21, 9))).to eq 'done today'
+    end
+
+    it 'gives the date for a job crossed off longer ago' do
+      expect(date_label(finished: true, finished_at: Time.zone.local(2026, 10, 10, 9))).to eq 'done Sat 10 Oct'
+    end
+
+    it 'is the day it was due, for a job crossed off before that was recorded' do
+      expect(date_label(due_date: Date.new(2026, 10, 20), finished: true, finished_at: nil)).to eq 'last Tuesday'
+    end
+
+    it 'is nothing for a job with no day' do
+      expect(date_label(due_date: nil)).to be_nil
+    end
+  end
 end

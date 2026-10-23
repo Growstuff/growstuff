@@ -1,4 +1,4 @@
-- content_for :title, title('jobs', @owner, nil, @planting)
+- content_for :title, title('jobs', @owner, nil, nil)
 
 - content_for :breadcrumbs do
   - if @owner
@@ -41,7 +41,7 @@
       = render 'jobs/notepad', owner: @owner, groups: @job_groups, done_this_week: @done_this_week
     - else
       %section
-        %h2= title('jobs', @owner, nil, @planting)
+        %h2= title('jobs', @owner, nil, nil)
         = will_paginate @jobs
         .index-cards
           - @jobs.each do |a|

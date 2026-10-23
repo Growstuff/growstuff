@@ -1,3 +1,19 @@
+// Greens that recur in the notepad: dark leaf for headings and links, a pale
+// tile for chips, a light trail for dotted lines and spinners.
+$notepad-leaf: #3f5e2b;
+$notepad-tile: #dfe8d4;
+$notepad-trail: #a4c98c;
+
+// A spinner: a ring with one green side, turning.
+@mixin notepad-spinner($size) {
+  width: $size;
+  height: $size;
+  border: 2px solid $notepad-trail;
+  border-top-color: $green;
+  border-radius: 50%;
+  animation: notepad-spin 0.8s linear infinite;
+}
+
 // A member's own jobs, as a notepad: a green title bar, then rows ruled like a
 // list. See the garden notepad design.
 .notepad {
@@ -47,12 +63,35 @@
     text-align: center;
   }
 
+  // While a job is on its way: a line says so, with a spinner, and the button
+  // is held until it has landed.
+  .notepad-add-saving {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.4rem 1.1rem 0 2.8rem;
+    color: $notepad-leaf;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .notepad-spinner {
+    @include notepad-spinner(1rem);
+  }
+
+  .notepad-add.saving .notepad-add-button {
+    opacity: 0.7;
+  }
+
   .notepad-add-button {
     min-height: 44px;
   }
 
-  .notepad-note,
-  .notepad-empty {
+  .notepad-note {
     color: $ink-muted;
     font-size: 0.9rem;
     margin: 0.75rem 1.1rem 0;
@@ -67,7 +106,7 @@
     border-top: 1px solid #dee2e6;
 
     h2 {
-      color: #3f5e2b;
+      color: $notepad-leaf;
       font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.08em;
@@ -97,6 +136,24 @@
     cursor: grab;
   }
 
+  // Overdue stands out, in a colour that passes on white.
+  .notepad-group-overdue .notepad-heading h2 {
+    color: $danger-text;
+  }
+
+  // A row waiting for the server, whether it was dropped, ticked or renamed.
+  .notepad-job.saving {
+    opacity: 0.6;
+    pointer-events: none;
+
+    &::after {
+      content: "";
+      flex: none;
+      margin-right: 0.5rem;
+      @include notepad-spinner(1rem);
+    }
+  }
+
   .notepad-job.dragging {
     opacity: 0.4;
   }
@@ -121,6 +178,44 @@
         color: #757575;
         text-decoration: line-through;
       }
+    }
+  }
+
+  // A job being edited in place: the row is lifted off the list like a note, and
+  // its name is a box to type in.
+  .notepad-job.editing {
+    background: #fffbe6;
+    box-shadow: inset 0 0 0 2px $green;
+    opacity: 1;
+
+    .notepad-name-input {
+      flex: 1 1 14rem;
+      min-width: 0;
+      min-height: 44px;
+      padding: 0 0.6rem;
+      border: 1px solid $green;
+      border-radius: 2px;
+      background: $white;
+      color: #212121;
+      font-weight: 500;
+    }
+
+    &.error {
+      box-shadow: inset 0 0 0 2px $danger-text;
+
+      .notepad-name-input {
+        border-color: $danger-text;
+      }
+    }
+  }
+
+  .notepad-edit-hint {
+    color: $ink-muted;
+    font-size: 0.8rem;
+    margin-left: auto;
+
+    &[hidden] {
+      display: none;
     }
   }
 
@@ -191,8 +286,8 @@
     min-height: 28px;
     padding: 0 0.75rem;
     border-radius: 999px;
-    background: #dfe8d4;
-    color: #3f5e2b;
+    background: $notepad-tile;
+    color: $notepad-leaf;
     font-size: 0.8rem;
     font-weight: 600;
     text-decoration: none;
@@ -216,7 +311,7 @@
 
   .notepad-due {
     margin-left: auto;
-    color: #3f5e2b;
+    color: $notepad-leaf;
     font-size: 0.85rem;
     font-weight: 600;
     white-space: nowrap;
@@ -251,7 +346,7 @@
     margin-top: 0.75rem;
     padding: 0.5rem 1.1rem;
     background: #f4f9f0;
-    border-top: 1px solid #dfe8d4;
+    border-top: 1px solid $notepad-tile;
     overflow: hidden;
   }
 
@@ -268,7 +363,7 @@
     bottom: 6px;
     left: 0;
     height: 0;
-    border-top: 2px dotted #a4c98c;
+    border-top: 2px dotted $notepad-trail;
   }
 
   .notepad-snail-body {
@@ -281,7 +376,7 @@
 
   .notepad-snail-caption {
     flex: 0 1 auto;
-    color: #3f5e2b;
+    color: $notepad-leaf;
     font-size: 0.9rem;
     font-weight: 600;
     text-align: right;
@@ -325,14 +420,14 @@
       width: 32px;
       height: 32px;
       padding: 3px;
-      background: #dfe8d4;
+      background: $notepad-tile;
       border-radius: 3px;
       object-fit: contain;
     }
 
     .kind {
       min-width: 4.5rem;
-      color: #3f5e2b;
+      color: $notepad-leaf;
       font-size: 0.62rem;
       font-weight: 700;
       letter-spacing: 0.06em;
@@ -354,8 +449,8 @@
     padding: 0 0.25rem 0 0.75rem;
     min-height: 32px;
     border-radius: 999px;
-    background: #dfe8d4;
-    color: #3f5e2b;
+    background: $notepad-tile;
+    color: $notepad-leaf;
     font-size: 0.85rem;
     font-weight: 600;
 
@@ -374,11 +469,16 @@
     line-height: 1;
   }
 
-  // With reduced motion the snail keeps still. This sits in the notepad's block,
-  // so it is as specific as the rule that moves the snail.
+  // With reduced motion the snail and the spinners keep still. This sits in the
+  // notepad's block, so it is as specific as the rules that move them.
   @media (prefers-reduced-motion: reduce) {
     .notepad-snail-body {
       left: 8%;
+    }
+
+    .notepad-snail-body,
+    .notepad-spinner,
+    .notepad-job.saving::after {
       animation: none;
     }
   }
@@ -480,7 +580,7 @@
 }
 
 .notepad-celebration-lead {
-  color: #3f5e2b;
+  color: $notepad-leaf;
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.2;
@@ -514,6 +614,8 @@
   }
 }
 
+// With reduced motion there are no flowers. (The snail and spinners are still,
+// in the notepad's own block above.)
 @media (prefers-reduced-motion: reduce) {
   .notepad-flower,
   .notepad-sprout {
@@ -538,5 +640,11 @@
   100% {
     left: calc(100% - 72px);
     opacity: 0;
+  }
+}
+
+@keyframes notepad-spin {
+  to {
+    transform: rotate(360deg);
   }
 }

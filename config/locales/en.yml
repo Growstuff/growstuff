@@ -680,10 +680,18 @@ en:
       uncross: "Put back on the list: %{job}"
       add: Add a job
       add_button: Add
+      adding_button: Adding…
+      adding: "Adding “%{name}”…"
+      edit_label: Job name
+      edit_hint: Enter to save, Esc to cancel
       add_failed: That job may not have been added. Check your list before you try again.
       public_note: Jobs are public, so don't put private info here.
       my_jobs: My jobs
       everyones_jobs: Everyone's jobs
+      overdue: Overdue
+      done: Done
+      done_on: done %{day}
+      done_today: done today
       today: Today
       week: This week
       soon: Soon

@@ -1,13 +1,25 @@
 # frozen_string_literal: true
 
 module JobsHelper
-  # When a job is due, as it would be said on a notepad: "Sat" for the next few
-  # days, "last Tuesday" when it was in the past week, and the date for anything
-  # further off or further back.
-  def job_due_label(job, today = Time.zone.today)
-    date = job.due_date
-    return if date.blank?
+  # The day shown beside a job: when it is due, or, once it is crossed off, when
+  # that was ("done last Tuesday"). A job crossed off before the day was recorded
+  # shows the day it was due.
+  def job_date_label(job, today = Time.zone.today)
+    return job_due_label(job, today) unless job.finished && job.finished_at
 
+    day = job.finished_at.to_date
+    day == today ? t('jobs.pad.done_today') : t('jobs.pad.done_on', day: job_day_label(day, today))
+  end
+
+  # When a job is due, as it would be said on a notepad.
+  def job_due_label(job, today = Time.zone.today)
+    job_day_label(job.due_date, today) if job.due_date.present?
+  end
+
+  # A day as it would be said on a notepad: "Sat" for the next few days, "last
+  # Tuesday" when it was in the past week, and the date for anything further off
+  # or further back.
+  def job_day_label(date, today = Time.zone.today)
     if date.between?(today - 6.days, today - 1.day)
       t('jobs.due.last', day: l(date, format: '%A'))
     elsif date.between?(today, today + 6.days)

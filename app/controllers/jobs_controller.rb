@@ -3,19 +3,12 @@
 class JobsController < DataController
   def index
     @show_all = params[:all] == '1'
-
-    @jobs = Job.includes(:owner).order(created_at: :desc)
-    @jobs = @jobs.active unless @show_all
-
-    if params[:member_slug].present?
-      @owner = Member.find_by!(slug: params[:member_slug])
-      @jobs = @jobs.where(owner_id: @owner.id)
-    end
+    @owner = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
 
     if notepad?
       load_notepad
     else
-      @jobs = @jobs.paginate(page: params[:page], per_page: 30)
+      @jobs = listed_jobs.paginate(page: params[:page], per_page: 30)
     end
 
     @filename = "Growstuff-#{specifics}Jobs-#{Time.zone.now.to_fs(:number)}.csv"
@@ -66,6 +59,14 @@ class JobsController < DataController
     member_jobs_path(@job.owner)
   end
 
+  # The jobs in a list: open ones, newest first, unless finished ones are asked
+  # for, and one member's if the list is theirs.
+  def listed_jobs
+    jobs = Job.includes(:owner).order(created_at: :desc)
+    jobs = jobs.active unless @show_all
+    @owner ? jobs.where(owner: @owner) : jobs
+  end
+
   # A member looking at their own jobs sees them as a notepad. The data formats,
   # and anyone else's jobs, are lists.
   def notepad?
@@ -85,8 +86,14 @@ class JobsController < DataController
     @jobs = Job.where(owner: @owner).includes(:garden, :jobbable)
       .order(Arel.sql('due_date IS NULL'), :due_date, :created_at, :id)
     preload_jobbables(@jobs)
-    @job_groups = JobList.new(@jobs).groups
+    @job_groups = JobList.new(@jobs, pinned: pinned_ids).groups
     @done_this_week = @jobs.finished_this_week.count
+  end
+
+  # The jobs the page has crossed off since it loaded, which stay where they are
+  # until it is loaded again.
+  def pinned_ids
+    Array(params[:keep]).map(&:to_i)
   end
 
   # The notepad shows a planting's crop and garden and a seed's crop. Rails can't

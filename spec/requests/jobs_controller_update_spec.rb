@@ -42,4 +42,48 @@ describe JobsController, '#update' do
       expect(response.headers['X-Jobs-Done-This-Week']).to eq '1'
     end
   end
+
+  context 'when renaming a job from the notepad' do
+    before { patch job_path(job), params: { job: { name: 'Sow the beans' } }, headers: }
+
+    it 'saves the new name' do
+      expect(job.reload.name).to eq 'Sow the beans'
+    end
+
+    it 'sends back the groups with the new name' do
+      expect(response.body).to include('Sow the beans')
+    end
+  end
+
+  context 'when renaming a job to nothing' do
+    before { patch job_path(job), params: { job: { name: '' } }, headers: }
+
+    it 'keeps the name' do
+      expect(job.reload.name).not_to be_blank
+    end
+
+    it 'says it failed' do
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  context 'when crossing off an overdue job, with the page keeping it where it is' do
+    let(:job) { create(:job, owner: member, name: 'Late one', due_date: 3.days.ago.to_date) }
+
+    before { patch job_path(job), params: { job: { finished: '1' }, keep: [job.id] }, headers: }
+
+    it 'leaves it in Overdue' do
+      expect(Capybara.string(response.body)).to have_css('.notepad-group-overdue', text: 'Late one')
+    end
+  end
+
+  context 'when crossing off an overdue job, from a page that has not kept it' do
+    let(:job) { create(:job, owner: member, name: 'Late one', due_date: 3.days.ago.to_date) }
+
+    before { patch job_path(job), params: { job: { finished: '1' } }, headers: }
+
+    it 'moves it to Done' do
+      expect(Capybara.string(response.body)).to have_css('.notepad-group-done', text: 'Late one')
+    end
+  end
 end
