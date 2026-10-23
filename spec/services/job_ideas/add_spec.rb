@@ -8,7 +8,7 @@ describe JobIdeas::Add do
   let(:member) { create(:member) }
   let(:crop) { create(:crop, name: 'tomato') }
   let(:planting) { create(:planting, owner: member, crop:, planted_at: Date.new(2026, 10, 20)) }
-  let(:idea) { JobIdeas::Idea.new(kind:, crop:, planting:, name: 'Mound up', template:) }
+  let(:idea) { JobIdeas::Idea.new(kind:, crop:, planting:, name: 'Mound up', template:, key: 'template:1') }
   let(:template) { nil }
 
   context 'with a harvest' do
@@ -43,6 +43,11 @@ describe JobIdeas::Add do
 
     it 'makes the jobs from its steps' do
       expect(added.map(&:name)).to eq ['Stake']
+    end
+
+    it 'puts the idea away so it does not come back for another planting' do
+      added
+      expect(member.job_idea_dismissals.hiding.pluck(:key)).to eq [idea.key]
     end
   end
 

@@ -655,6 +655,10 @@ en:
   job_ideas:
     title: Ideas for now
     card_title: Ideas for now
+    banner:
+      one: We have 1 suggested job for you this week
+      other: We have %{count} suggested jobs for you this week
+    banner_go: See ideas →
     count:
       one: 1 idea for you
       other: "%{count} ideas for you"
@@ -678,6 +682,9 @@ en:
     back: Back to your jobs
     add: "+ Add"
     add_all: Add all %{count}
+    preview:
+      one: See the job
+      other: See the %{count} jobs
     dismiss: Not for me
     snooze:
       label: Snooze
@@ -697,8 +704,8 @@ en:
       harvest: Harvest %{crop}
     reason:
       template:
-        one: "1 job: %{steps}. For your %{crop}."
-        other: "%{count} jobs: %{steps}. For your %{crop}."
+        one: "1 job: %{steps}. For your %{crop} planted on %{day}."
+        other: "%{count} jobs: %{steps}. For your %{crop} planted on %{day}."
       past_job:
         one: "You did this on %{day}."
         other: "You did this at this time of year in %{count} years, last on %{day}."

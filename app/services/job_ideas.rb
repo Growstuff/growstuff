@@ -9,12 +9,13 @@ class JobIdeas
   SHOWN = 5
 
   # kind is where the idea came from. job_count is how many jobs a template would
-  # add; on is the latest day it was done or planted at this time of year, and
+  # add, and schedule those jobs, with their days; on is the latest day it was done or planted at this time of year, and
   # years how many years it was. From other gardeners, gardeners is how many did
   # it, of how many grow the crop, now or in earlier years, as period says. For
   # a harvest, on is the day it was last harvested from, or if never, the day it
   # was expected to be ready, as period says.
-  Idea = Struct.new(:kind, :key, :name, :crop, :planting, :template, :job_count, :on, :years, :gardeners, :of, :period, keyword_init: true)
+  Idea = Struct.new(:kind, :key, :name, :crop, :planting, :template, :schedule, :job_count, :on, :years, :gardeners, :of, :period,
+                    keyword_init: true)
 
   # Sources a member can switch off, by name, and the ones each name stands for.
   # Templates and harvests are the member's own garden, so they are always on.

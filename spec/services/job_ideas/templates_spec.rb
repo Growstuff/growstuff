@@ -28,8 +28,42 @@ describe JobIdeas::Templates do
     expect(ideas.first.job_count).to eq 2
   end
 
-  it 'keys the idea by template and planting' do
-    expect(ideas.first.key).to eq "template:#{template.id}:#{planting.id}"
+  it 'keys the idea by template' do
+    expect(ideas.first.key).to eq "template:#{template.id}"
+  end
+
+  it 'lists the jobs it would add' do
+    expect(ideas.first.schedule.map { |entry| entry.step.name }).to eq %w(Stake Feed)
+  end
+
+  it 'gives the day of each job' do
+    expect(ideas.first.schedule.map(&:date)).to eq [Date.new(2026, 11, 3), Date.new(2026, 11, 17)]
+  end
+
+  context 'with several plantings of the crop' do
+    let!(:earlier) { create(:planting, owner: member, crop: planting.crop, planted_at: Date.new(2026, 10, 10)) }
+
+    it 'has one idea for the template' do
+      expect(ideas.size).to eq 1
+    end
+
+    it 'is for the latest planting' do
+      expect(ideas.first.planting).to eq planting
+    end
+
+    it 'counts the jobs for that planting only' do
+      expect(ideas.first.job_count).to eq 2
+    end
+  end
+
+  context 'when the latest planting has no jobs left to add' do
+    let!(:earlier) { create(:planting, owner: member, crop: planting.crop, planted_at: Date.new(2026, 10, 10)) }
+
+    before { ApplyCropJobTemplate.new(template, planting, today:).call }
+
+    it 'is for an earlier one' do
+      expect(ideas.first.planting).to eq earlier
+    end
   end
 
   context 'with a draft template' do

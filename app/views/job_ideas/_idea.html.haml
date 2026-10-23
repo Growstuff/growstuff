@@ -18,6 +18,14 @@
         = image_tag crop_path(crop, format: 'svg'), alt: '', width: 18, height: 18
         = crop.name
     .idea-why= job_idea_reason(idea)
+    - if idea.schedule
+      %details.idea-preview
+        %summary= t('job_ideas.preview', count: idea.schedule.size)
+        %ul
+          - idea.schedule.each do |entry|
+            %li
+              %span.idea-preview-day= l(entry.date, format: '%-d %b')
+              = entry.step.name
   .idea-actions
     - add = idea.kind == :template ? t('job_ideas.add_all', count: idea.job_count) : t('job_ideas.add')
     = button_to add, job_ideas_path(skip:), params: { key: idea.key }, class: 'idea-add'

@@ -27,7 +27,7 @@ module JobIdeasHelper
   def job_idea_reason(idea)
     day = idea.on && l(idea.on, format: '%-d %b')
     case idea.kind
-    when :template then t('job_ideas.reason.template', count: idea.job_count, steps: job_idea_steps(idea), crop: idea.crop.name)
+    when :template then t('job_ideas.reason.template', count: idea.job_count, steps: job_idea_steps(idea), crop: idea.crop.name, day:)
     when :past_job, :past_planting then t("job_ideas.reason.#{idea.kind}", count: idea.years, day:)
     when :harvest then t("job_ideas.reason.harvest_#{idea.period}", day:)
     else community_reason(idea, day)
