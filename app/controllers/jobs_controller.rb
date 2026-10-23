@@ -77,14 +77,16 @@ class JobsController < DataController
   def render_notepad(status)
     @owner = current_member
     load_notepad
+    response.set_header('X-Jobs-Done-This-Week', @done_this_week.to_s)
     render partial: 'jobs/notepad_groups', locals: { groups: @job_groups }, status:
   end
 
   def load_notepad
     @jobs = Job.where(owner: @owner).includes(:garden, :jobbable)
-      .order(Arel.sql('finished IS TRUE'), Arel.sql('due_date IS NULL'), :due_date, :created_at)
+      .order(Arel.sql('due_date IS NULL'), :due_date, :created_at, :id)
     preload_jobbables(@jobs)
     @job_groups = JobList.new(@jobs).groups
+    @done_this_week = @jobs.finished_this_week.count
   end
 
   # The notepad shows a planting's crop and garden and a seed's crop. Rails can't

@@ -10,19 +10,21 @@ class Job < ApplicationRecord
 
   JOBBABLE_TYPES = %w(Crop Planting Seed).freeze
 
+  scope :active, -> { where(finished: [false, nil]) }
+  scope :finished_this_week, -> { where(finished: true, finished_at: Time.zone.now.beginning_of_week..) }
+
   friendly_id :job_slug, use: %i(slugged finders)
 
   validates :name, presence: true
-  validates :owner, presence: true
-
   validates :slug, uniqueness: true
   # The add form sends these empty when the job is not linked to anything.
   normalizes :jobbable_type, with: ->(type) { type.presence }
   validates :jobbable_type, inclusion: { in: JOBBABLE_TYPES }, allow_nil: true
   validate :jobbable_is_the_owners, if: -> { jobbable_id_changed? || jobbable_type_changed? }
 
-  delegate :location, :latitude, :longitude, to: :owner
-  delegate :login_name, :slug, :location, to: :owner, prefix: true
+  before_save :stamp_finished_at, if: :finished_changed?
+
+  delegate :login_name, :slug, to: :owner, prefix: true
   delegate :name, to: :garden, prefix: true, allow_nil: true
 
   def job_slug
@@ -32,8 +34,6 @@ class Job < ApplicationRecord
   def to_s
     name
   end
-
-  scope :active, -> { where(finished: [false, nil]) }
 
   # The planting a job is about, if it is about one. The form, Copy and the API
   # speak of plantings; the link itself is the jobbable.
@@ -59,6 +59,10 @@ class Job < ApplicationRecord
   end
 
   private
+
+  def stamp_finished_at
+    self.finished_at = (Time.zone.now if finished)
+  end
 
   # Plantings and seeds are a member's own. A job can't be about someone else's.
   def jobbable_is_the_owners

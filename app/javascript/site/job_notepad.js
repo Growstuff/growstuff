@@ -5,6 +5,9 @@
 // may have worked and a second would add the job twice. A move or a tick that
 // goes wrong reloads the page, which shows how things stand.
 
+import {celebrate, doneText, hide} from './job_celebration';
+import {nextStreak, undoStreak} from './job_streak';
+
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('.notepad-add');
   const groups = document.getElementById('notepad-groups');
@@ -14,9 +17,28 @@ document.addEventListener('DOMContentLoaded', function () {
   const failure = document.getElementById('notepad-add-failed');
   const token = document.querySelector('meta[name="csrf-token"]');
   const kinds = JSON.parse(form.dataset.kinds);
+  const words = JSON.parse(groups.dataset.celebrations);
+  const reload = function () { window.location.reload(); };
 
-  // Sends a change to the server and shows the groups it sends back.
-  const send = function (url, body) {
+  // The line beside the snail says how many jobs are done this week.
+  const caption = document.getElementById('notepad-snail-caption');
+  const showDone = function (done) {
+    if (caption) caption.textContent = done > 0 ? words.slow + ' ' + doneText(words, done) : words.slow;
+  };
+
+  // The tick box or menu button with focus in the list, as the job it belongs to
+  // and which control it is, so its replacement can be focused when the list is
+  // drawn again.
+  const focusedControl = function () {
+    const el = document.activeElement;
+    const row = el && groups.contains(el) ? el.closest('.notepad-job') : null;
+    const selector = row && ['.notepad-box', '.record-actions-toggle'].find(function (candidate) { return el.matches(candidate); });
+    return selector ? {id: row.dataset.id, selector: selector} : null;
+  };
+
+  // Sends a change to the server and shows the groups it sends back. Resolves
+  // with how many jobs are done this week.
+  const transmit = function (url, body) {
     return fetch(url, {
       method: 'POST',
       body: body,
@@ -28,12 +50,74 @@ document.addEventListener('DOMContentLoaded', function () {
     })
       .then(function (response) {
         if (!response.ok) throw new Error(response.status);
-        return response.text();
-      })
-      .then(function (html) {
-        groups.innerHTML = html;
+        const done = response.headers.get('X-Jobs-Done-This-Week');
+        return response.text().then(function (html) {
+          const focused = focusedControl();
+          groups.innerHTML = html;
+          showDone(Number(done));
+          const again = focused && groups.querySelector('.notepad-job[data-id="' + focused.id + '"] ' + focused.selector);
+          if (again) again.focus();
+          return Number(done);
+        });
       });
   };
+
+  // Changes are sent one at a time, in the order they were made. Sent together,
+  // an older answer could arrive last and put an older list, and count, on show.
+  let queue = Promise.resolve();
+  const send = function (url, body) {
+    const sent = queue.then(function () { return transmit(url, body); });
+    queue = sent.catch(function () {});
+    return sent;
+  };
+
+  // ---- Crossing a job off, or putting it back
+
+  let streak = 0;
+  let lastAt = null;
+
+  const setFinished = function (url, finished) {
+    const body = new FormData();
+    body.append('_method', 'patch');
+    body.append('job[finished]', finished ? '1' : '0');
+    return send(url, body);
+  };
+
+  groups.addEventListener('submit', function (event) {
+    const tick = event.target.closest('.notepad-tick');
+    if (!tick) return;
+    event.preventDefault();
+
+    const finishing = tick.querySelector('input[name="job[finished]"]').value === '1';
+    const name = tick.closest('.notepad-job').querySelector('.notepad-name').textContent;
+    const box = tick.getBoundingClientRect();
+    const url = tick.action;
+
+    send(url, new FormData(tick))
+      .then(function (done) {
+        if (!finishing) {
+          streak = undoStreak(streak);
+          return hide();
+        }
+
+        streak = nextStreak(streak, lastAt, Date.now());
+        lastAt = Date.now();
+        celebrate({
+          words: words,
+          name: name,
+          done: done,
+          streak: streak,
+          origin: {x: box.left + box.width / 2, y: box.top + box.height / 2},
+          onUndo: function () {
+            streak = undoStreak(streak);
+            setFinished(url, false).catch(reload);
+          },
+        });
+      })
+      .catch(function () {
+        tick.submit();
+      });
+  });
 
   // ---- Adding a job
 
@@ -118,9 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
     body.append('_method', 'patch');
     body.append('job[due_date]', group.dataset.drop === 'none' ? '' : group.dataset.drop);
 
-    send(dragged.dataset.url, body).catch(function () {
-      window.location.reload();
-    });
+    send(dragged.dataset.url, body).catch(reload);
   });
 
   // ---- Linking a job: typing @ and a crop name offers your plantings and seeds

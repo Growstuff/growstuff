@@ -52,6 +52,33 @@ describe 'Own jobs notepad' do
     end
   end
 
+  context 'with several jobs due on the same day' do
+    let(:names) { page.all('.notepad-name').map(&:text) }
+
+    before do
+      %w(First Second Third).each_with_index do |name, i|
+        create(:job, owner: member, name:, due_date: Time.zone.today, created_at: (3 - i).minutes.ago)
+      end
+      visit member_jobs_path(member)
+      click_button 'Cross off: First'
+    end
+
+    it 'keeps them in the same order when one is crossed off' do
+      expect(names).to eq %w(First Second Third)
+    end
+  end
+
+  context 'with a job crossed off this week' do
+    before do
+      create(:job, owner: member, finished: true)
+      visit member_jobs_path(member)
+    end
+
+    it 'tells how many jobs are done this week' do
+      expect(page).to have_css('.notepad-snail-caption', text: 'Slow and steady. 1 job done this week.', visible: :all)
+    end
+  end
+
   context 'when adding a job' do
     before do
       visit member_jobs_path(member)
@@ -70,6 +97,10 @@ describe 'Own jobs notepad' do
 
   context 'without jobs' do
     before { visit member_jobs_path(member) }
+
+    it 'has just the snail\'s encouragement' do
+      expect(page).to have_css('.notepad-snail-caption', text: /\ASlow and steady\.\z/, visible: :all)
+    end
 
     it 'still has places to put jobs' do
       expect(page).to have_css('.notepad-group', count: 3)
