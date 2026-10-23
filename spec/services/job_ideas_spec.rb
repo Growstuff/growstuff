@@ -21,8 +21,8 @@ describe JobIdeas do
     it { is_expected.to be_empty }
   end
 
-  context 'when that was over a month ago' do
-    before { create(:job_idea_dismissal, member:, key: 'past_job:snip off scapes:', updated_at: 2.months.ago) }
+  context 'when the time it was hidden for has passed' do
+    before { create(:job_idea_dismissal, member:, key: 'past_job:snip off scapes:', hidden_until: 1.day.ago) }
 
     it 'has the idea again' do
       expect(ideas.size).to eq 1
