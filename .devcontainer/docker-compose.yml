@@ -46,4 +46,3 @@ volumes:
   postgres-data:
   certs:
     driver: local
-    driver: local
