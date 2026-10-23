@@ -37,6 +37,14 @@ describe JobsController, '#index with ideas' do
       expect(page).to have_no_css('nav[aria-label="Jobs"]')
     end
 
+    it 'has no open data box beside the jobs' do
+      expect(page).to have_no_css('.open-data')
+    end
+
+    it 'takes the whole width for the jobs' do
+      expect(page).to have_css('.col-12 .notepad')
+    end
+
     it 'shows no yellow box' do
       expect(page).to have_no_css('.notepad-ideas')
     end
