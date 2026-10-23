@@ -30,7 +30,15 @@ jobs:
       - name: Install JavaScript packages
         run: yarn install --frozen-lockfile
       - name: Run JavaScript tests
-        run: yarn test
+        run: yarn test:coverage
+      - name: Upload JavaScript coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage/lcov.info
+          flags: javascript
+          fail_ci_if_error: false
   rspec:
     runs-on: ubuntu-latest
     services:
@@ -139,3 +147,12 @@ jobs:
 
       - name: Run rspec (request)
         run: bundle exec rspec spec/requests/ -fd --fail-fast
+
+      - name: Upload Ruby coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage/coverage.json
+          flags: ruby
+          fail_ci_if_error: false
