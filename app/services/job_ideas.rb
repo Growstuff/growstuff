@@ -11,7 +11,9 @@ class JobIdeas
   # kind is where the idea came from. job_count is how many jobs a template would
   # add; on is the latest day it was done or planted at this time of year, and
   # years how many years it was. From other gardeners, gardeners is how many did
-  # it, of how many grow the crop, now or in earlier years, as period says.
+  # it, of how many grow the crop, now or in earlier years, as period says. For
+  # a harvest, on is the day it was last harvested from, or if never, the day it
+  # was expected to be ready, as period says.
   Idea = Struct.new(:kind, :key, :name, :crop, :planting, :template, :job_count, :on, :years, :gardeners, :of, :period, keyword_init: true)
 
   def initialize(member, today: Time.zone.today)
@@ -42,7 +44,7 @@ class JobIdeas
 
   def sources
     [JobIdeas::Templates.new(@member, @today), JobIdeas::PastJobs.new(@member, @today),
-     JobIdeas::PastPlantings.new(@member, @today), JobIdeas::Community.new(@member, @today),
+     JobIdeas::PastPlantings.new(@member, @today), JobIdeas::Harvest.new(@member, @today), JobIdeas::Community.new(@member, @today),
      JobIdeas::Nearby.new(@member, @today)]
   end
 
