@@ -692,7 +692,8 @@ en:
     filter:
       mine: what I did before
       community: people growing what I grow
-      nearby: near me, within %{km} km
+      nearby: near me
+      world: world neighbours
     section:
       templates: Templates
       templates_note: for plantings you have
@@ -703,7 +704,9 @@ en:
       community: People growing what you grow
       community_note: public jobs
       nearby: Near you
-      nearby_note: "%{place} and %{km} km around"
+      nearby_note: "%{place} and around"
+      world: World neighbours
+      world_note: gardeners at your latitude, anywhere
     none: Nothing to suggest right now. Check back as the season changes.
     add: "+ Add"
     add_all: Add all %{count}
@@ -756,6 +759,11 @@ en:
           other: "%{count} gardeners nearby did this lately."
         earlier:
           other: "%{count} gardeners nearby did this at this time of year before."
+      world:
+        now:
+          other: "%{count} gardeners at your latitude did this lately."
+        earlier:
+          other: "%{count} gardeners at your latitude did this at this time of year."
   jobs:
     plan_something: Plan something
     celebrate:

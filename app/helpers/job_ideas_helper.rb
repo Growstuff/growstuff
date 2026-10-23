@@ -24,7 +24,7 @@ module JobIdeasHelper
   # The sections of the ideas, in order: the kinds of idea each holds.
   JOB_IDEA_SECTIONS = {
     templates: %i(template), this_time: %i(past_job past_planting), harvest: %i(harvest),
-    community: %i(community), nearby: %i(nearby)
+    community: %i(community), nearby: %i(nearby), world: %i(world)
   }.freeze
 
   # The shown ideas under their sections, those with none left out.
@@ -38,7 +38,7 @@ module JobIdeasHelper
   # What a section says after its heading. Nearby is named for where the member is.
   def job_idea_section_note(section, member)
     place = member.location.to_s.split(',').first.to_s.strip
-    return t('job_ideas.section.nearby_note', place:, km: JobIdeas::Nearby::RADIUS_KM) if section == :nearby && place.present?
+    return t('job_ideas.section.nearby_note', place:) if section == :nearby && place.present?
 
     t("job_ideas.section.#{section}_note")
   end
