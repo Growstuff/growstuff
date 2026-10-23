@@ -62,4 +62,41 @@ describe JobSuggestionsController do
       expect(response).to redirect_to(new_member_session_path)
     end
   end
+
+  context 'in a garden\'s to-do list' do
+    let(:garden) { create(:garden, owner: member) }
+    let(:other_garden) { create(:garden, owner: member) }
+    let!(:here) { create(:planting, owner: member, crop: carrot, garden:) }
+    let!(:there) { create(:planting, owner: member, crop: carrot, garden: other_garden) }
+
+    before do
+      create(:seed, owner: member, crop: carrot)
+      get job_suggestions_path, params: { q: 'carr', garden_id: garden.id }
+    end
+
+    it 'offers only plantings' do
+      expect(suggestions.pluck('jobbable_type')).to eq ['Planting']
+    end
+
+    it 'offers only the ones in that garden' do
+      expect(suggestions.pluck('jobbable_id')).to eq [here.id]
+    end
+
+    it 'does not say which garden, as they are all in it' do
+      expect(suggestions.first['label']).to eq 'carrot'
+    end
+  end
+
+  context 'in a garden with no such plant' do
+    let(:garden) { create(:garden, owner: member) }
+
+    before do
+      create(:planting, owner: member, crop: carrot)
+      get job_suggestions_path, params: { q: 'carr', garden_id: garden.id }
+    end
+
+    it 'offers nothing' do
+      expect(suggestions).to eq []
+    end
+  end
 end

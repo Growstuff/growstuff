@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // with how many jobs are done this week.
   const transmit = function (url, body) {
     kept.forEach(function (id) { body.append('keep[]', id); });
+    if (groups.dataset.gardenId) body.append('garden_id', groups.dataset.gardenId);
     return fetch(url, {
       method: 'POST',
       body: body,
@@ -159,10 +160,24 @@ document.addEventListener('DOMContentLoaded', function () {
     box.value = original;
     box.setAttribute('aria-label', name.dataset.editLabel);
     let finished = false;
+    let chosen = null;
+
+    // Typing @ and a crop name here offers links too. The list drops down under
+    // the row, and the link picked is shown beside the box until it is saved.
+    const options = document.createElement('ul');
+    options.id = 'notepad-edit-suggestions';
+    options.className = 'notepad-suggestions';
+    options.setAttribute('role', 'listbox');
+    options.hidden = true;
+    const chip = document.createElement('span');
+    chip.className = 'notepad-edit-link';
+    chip.hidden = true;
 
     const stop = function () {
       finished = true;
       box.remove();
+      options.remove();
+      chip.remove();
       name.hidden = false;
       row.classList.remove('editing', 'error');
       row.querySelector('.notepad-edit-hint').hidden = true;
@@ -171,11 +186,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const save = function () {
       const typed = box.value.trim();
-      if (typed === '' || typed === original) return stop();
+      if (typed === '' || (typed === original && !chosen)) return stop();
+
+      const changes = {name: typed};
+      if (chosen) Object.assign(changes, {jobbable_type: chosen.jobbable_type, jobbable_id: chosen.jobbable_id});
 
       row.classList.add('saving');
       box.readOnly = true;
-      patchJob(row.dataset.url, {name: typed}).catch(function () {
+      patchJob(row.dataset.url, changes).catch(function () {
         finished = false;
         box.readOnly = false;
         row.classList.remove('saving');
@@ -183,6 +201,12 @@ document.addEventListener('DOMContentLoaded', function () {
         box.focus();
       });
     };
+
+    suggestions(box, options, function (item) {
+      chosen = item;
+      chip.textContent = kinds[kindOf(item)] + ': ' + item.label;
+      chip.hidden = false;
+    });
 
     box.addEventListener('keydown', function (event) {
       if (event.key === 'Enter') {
@@ -202,6 +226,8 @@ document.addEventListener('DOMContentLoaded', function () {
     row.querySelector('.notepad-edit-hint').hidden = false;
     name.hidden = true;
     name.after(box);
+    box.after(chip);
+    row.appendChild(options);
     box.focus();
     box.select();
   };
@@ -326,130 +352,148 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // ---- Linking a job: typing @ and a crop name offers your plantings and seeds
-  // of it, then the crop. Picking one swaps the @ text for the crop's name.
+  // of it, then the crop. Picking one swaps the @ text for the crop's name. This
+  // works in the add box and in the box a job's name is edited in.
 
-  const list = document.getElementById('notepad-suggestions');
-  let items = [];
-  let active = -1;
-  let timer = null;
-  let latest = 0;
+  // Offers suggestions under a text box, listed in the given element. What to do
+  // with the one picked is up to onPick.
+  const suggestions = function (box, list, onPick) {
+    let items = [];
+    let active = -1;
+    let timer = null;
+    let latest = 0;
 
-  const close = function () {
-    items = [];
-    active = -1;
-    list.hidden = true;
-    list.innerHTML = '';
-    input.setAttribute('aria-expanded', 'false');
-    input.removeAttribute('aria-activedescendant');
-  };
+    box.setAttribute('role', 'combobox');
+    box.setAttribute('aria-autocomplete', 'list');
+    box.setAttribute('aria-controls', list.id);
+    box.setAttribute('aria-expanded', 'false');
 
-  const setActive = function (index) {
-    active = index;
-    Array.prototype.forEach.call(list.children, function (option, i) {
-      option.setAttribute('aria-selected', i === index ? 'true' : 'false');
-      option.classList.toggle('active', i === index);
+    const close = function () {
+      items = [];
+      active = -1;
+      list.hidden = true;
+      list.innerHTML = '';
+      box.setAttribute('aria-expanded', 'false');
+      box.removeAttribute('aria-activedescendant');
+    };
+
+    const setActive = function (index) {
+      active = index;
+      Array.prototype.forEach.call(list.children, function (option, i) {
+        option.setAttribute('aria-selected', i === index ? 'true' : 'false');
+        option.classList.toggle('active', i === index);
+      });
+      if (index >= 0) box.setAttribute('aria-activedescendant', list.children[index].id);
+    };
+
+    // The @ and the letters after it, up to the cursor.
+    const mention = function () {
+      const before = box.value.slice(0, box.selectionStart);
+      const match = /(^|\s)@([^@]*)$/.exec(before);
+      if (!match) return null;
+      return {start: match.index + match[1].length, query: match[2].trim()};
+    };
+
+    const pick = function (item) {
+      const found = mention();
+      if (found) {
+        const rest = box.value.slice(box.selectionStart).replace(/^\s+/, '');
+        const text = box.value.slice(0, found.start) + item.crop_name + ' ';
+        box.value = text + rest;
+        box.setSelectionRange(text.length, text.length);
+      }
+      close();
+      onPick(item);
+      box.focus();
+    };
+
+    const render = function () {
+      list.innerHTML = '';
+      items.forEach(function (item, i) {
+        const option = document.createElement('li');
+        option.id = list.id + '-' + i;
+        option.setAttribute('role', 'option');
+        option.className = 'notepad-suggestion';
+        const icon = document.createElement('img');
+        icon.className = 'notepad-suggestion-icon';
+        icon.src = item.icon_url;
+        icon.alt = '';
+        option.appendChild(icon);
+        [['kind', 'span', kinds[kindOf(item)]], ['', 'span', item.label], ['', 'small', item.detail]].forEach(function (part) {
+          if (!part[2]) return;
+          const el = document.createElement(part[1]);
+          el.className = part[0];
+          el.textContent = part[2];
+          option.appendChild(el);
+        });
+        // mousedown, so the pick happens before the box loses focus.
+        option.addEventListener('mousedown', function (event) {
+          event.preventDefault();
+          pick(item);
+        });
+        list.appendChild(option);
+      });
+      list.hidden = items.length === 0;
+      box.setAttribute('aria-expanded', items.length ? 'true' : 'false');
+      setActive(items.length ? 0 : -1);
+    };
+
+    const search = function () {
+      const found = mention();
+      if (!found || !found.query) return close();
+
+      const id = ++latest;
+      const garden = groups.dataset.gardenId ? '&garden_id=' + encodeURIComponent(groups.dataset.gardenId) : '';
+      fetch(form.dataset.suggestionsUrl + '?q=' + encodeURIComponent(found.query) + garden, {
+        headers: {'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json'},
+        credentials: 'same-origin',
+      })
+        .then(function (response) { return response.ok ? response.json() : []; })
+        .then(function (results) {
+          if (id !== latest) return;
+          items = results;
+          render();
+        })
+        .catch(close);
+    };
+
+    box.addEventListener('input', function () {
+      clearTimeout(timer);
+      timer = setTimeout(search, 150);
     });
-    if (index >= 0) input.setAttribute('aria-activedescendant', list.children[index].id);
+
+    // Capturing, and before the box's own keys, so Enter picks a suggestion
+    // instead of submitting or saving, and Escape closes the list first.
+    box.addEventListener('keydown', function (event) {
+      if (list.hidden) return;
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        setActive((active + 1) % items.length);
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        setActive((active - 1 + items.length) % items.length);
+      } else if (event.key === 'Enter' || event.key === 'Tab') {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (items[active]) pick(items[active]);
+      } else if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        close();
+      }
+    }, true);
+
+    box.addEventListener('blur', close);
   };
 
-  // The @ and the letters after it, up to the cursor.
-  const mention = function () {
-    const before = input.value.slice(0, input.selectionStart);
-    const match = /(^|\s)@([^@]*)$/.exec(before);
-    if (!match) return null;
-    return { start: match.index + match[1].length, query: match[2].trim() };
-  };
-
-  const pick = function (item) {
-    const found = mention();
-    if (found) {
-      const rest = input.value.slice(input.selectionStart).replace(/^\s+/, '');
-      const text = input.value.slice(0, found.start) + item.crop_name + ' ';
-      input.value = text + rest;
-      input.setSelectionRange(text.length, text.length);
-    }
+  // Linking a job being added: the link is shown in a chip, until it is added.
+  suggestions(input, document.getElementById('notepad-suggestions'), function (item) {
     typeField.value = item.jobbable_type;
     idField.value = item.jobbable_id;
     link.querySelector('.notepad-link-text').textContent = kinds[kindOf(item)] + ': ' + item.label;
     link.hidden = false;
-    close();
-    input.focus();
-  };
-
-  const render = function () {
-    list.innerHTML = '';
-    items.forEach(function (item, i) {
-      const option = document.createElement('li');
-      option.id = 'notepad-suggestion-' + i;
-      option.setAttribute('role', 'option');
-      option.className = 'notepad-suggestion';
-      const icon = document.createElement('img');
-      icon.className = 'notepad-suggestion-icon';
-      icon.src = item.icon_url;
-      icon.alt = '';
-      option.appendChild(icon);
-      [['kind', 'span', kinds[kindOf(item)]], ['', 'span', item.label], ['', 'small', item.detail]].forEach(function (part) {
-        if (!part[2]) return;
-        const el = document.createElement(part[1]);
-        el.className = part[0];
-        el.textContent = part[2];
-        option.appendChild(el);
-      });
-      // mousedown, so the pick happens before the input loses focus.
-      option.addEventListener('mousedown', function (event) {
-        event.preventDefault();
-        pick(item);
-      });
-      list.appendChild(option);
-    });
-    list.hidden = items.length === 0;
-    input.setAttribute('aria-expanded', items.length ? 'true' : 'false');
-    setActive(items.length ? 0 : -1);
-  };
-
-  const search = function () {
-    const found = mention();
-    if (!found || !found.query) return close();
-
-    const id = ++latest;
-    fetch(form.dataset.suggestionsUrl + '?q=' + encodeURIComponent(found.query), {
-      headers: { 'X-Requested-With': 'XMLHttpRequest', Accept: 'application/json' },
-      credentials: 'same-origin',
-    })
-      .then(function (response) { return response.ok ? response.json() : []; })
-      .then(function (results) {
-        if (id !== latest) return;
-        items = results;
-        render();
-      })
-      .catch(close);
-  };
-
-  input.addEventListener('input', function () {
-    clearTimeout(timer);
-    timer = setTimeout(search, 150);
   });
 
-  // Capturing, so Enter picks a suggestion instead of submitting the form.
-  input.addEventListener('keydown', function (event) {
-    if (list.hidden) return;
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      setActive((active + 1) % items.length);
-    } else if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      setActive((active - 1 + items.length) % items.length);
-    } else if (event.key === 'Enter' || event.key === 'Tab') {
-      event.preventDefault();
-      event.stopPropagation();
-      if (items[active]) pick(items[active]);
-    } else if (event.key === 'Escape') {
-      event.preventDefault();
-      close();
-    }
-  }, true);
-
-  input.addEventListener('blur', close);
   link.querySelector('button').addEventListener('click', function () {
     clearLink();
     input.focus();

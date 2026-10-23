@@ -22,6 +22,19 @@ describe 'jobs/_notepad_row' do
     expect(rendered).to have_link('Edit', href: edit_job_path(job), visible: :all)
   end
 
+  context 'with a garden' do
+    let(:job) { create(:job, garden: create(:garden, name: 'Berries garden')) }
+
+    it 'shows the garden, on the jobs page' do
+      expect(rendered).to have_css('.notepad-chip.garden', text: 'Berries garden')
+    end
+
+    it 'does not repeat the garden, when shown on that garden\'s own page' do
+      on_gardens_page = view.render(partial: 'jobs/notepad_row', locals: { job:, in_garden: true })
+      expect(Capybara.string(on_gardens_page)).to have_no_css('.notepad-chip.garden')
+    end
+  end
+
   context 'when crossed off' do
     let(:job) { create(:job, due_date: Date.new(2020, 1, 6), finished: true) }
 

@@ -24,15 +24,43 @@ $notepad-trail: #a4c98c;
   overflow: hidden;
   padding-bottom: 1rem;
 
+  // The site makes every h2 inside a section a green banner with a shadow. On a
+  // garden's page the notepad sits in a section, so its headings take that
+  // back: they are plain text, on the white of the notepad or its green bar.
+  .notepad-title h1,
+  .notepad-title h2,
+  .notepad-heading h2 {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+
   .notepad-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
     background: $green;
     padding: 0.5rem 1.1rem;
 
-    h1 {
+    h1,
+    h2 {
       color: $white;
       font-size: 1.4rem;
       font-weight: 400;
       margin: 0;
+    }
+  }
+
+  // On a garden's page, the way to all of a member's jobs, in the title bar.
+  .notepad-all-jobs {
+    color: $white;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    white-space: nowrap;
+
+    &:hover {
+      color: $white;
     }
   }
 
@@ -101,7 +129,6 @@ $notepad-trail: #a4c98c;
     display: flex;
     align-items: baseline;
     gap: 0.6rem;
-    margin-top: 1rem;
     padding: 0.9rem 1.1rem 0.4rem;
     border-top: 1px solid #dee2e6;
 
@@ -171,8 +198,12 @@ $notepad-trail: #a4c98c;
       background: #faf9f7;
     }
 
+    // A crossed off job fades, but not its menu: opacity on the row would fade
+    // the dropdown that opens from it too.
     &.done {
-      opacity: 0.6;
+      > :not(.notepad-menu) {
+        opacity: 0.6;
+      }
 
       .notepad-name {
         color: #757575;
@@ -184,6 +215,7 @@ $notepad-trail: #a4c98c;
   // A job being edited in place: the row is lifted off the list like a note, and
   // its name is a box to type in.
   .notepad-job.editing {
+    position: relative;
     background: #fffbe6;
     box-shadow: inset 0 0 0 2px $green;
     opacity: 1;
@@ -437,6 +469,29 @@ $notepad-trail: #a4c98c;
     small {
       margin-left: auto;
       color: $ink-muted;
+    }
+  }
+
+  // Suggestions for a job being edited drop down under its row, level with its box.
+  .notepad-job .notepad-suggestions {
+    left: 3.5rem;
+    right: 3.5rem;
+  }
+
+  // The link picked for a job being edited, beside its box until it is saved.
+  .notepad-edit-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 0.75rem;
+    border-radius: 999px;
+    background: $notepad-tile;
+    color: $notepad-leaf;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    &[hidden] {
+      display: none;
     }
   }
 
