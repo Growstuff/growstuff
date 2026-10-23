@@ -214,7 +214,7 @@
   .navbar-brand .site-name { font-size: 0.9em; }
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(lg) {
   #navbarSupportedContent {
     --bs-offcanvas-width: min(318px, 100vw);
 
