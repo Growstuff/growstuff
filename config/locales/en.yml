@@ -728,6 +728,36 @@ en:
       finish_helper: >
         A job is finished when you've completed it, or it's otherwise
         no longer possible.
+  crop_job_templates:
+    created: Job template created.
+    saved: Job template saved.
+    deleted: Job template deleted.
+    options:
+      applies_to_all: All %{crop} varieties
+      applies_to_one: "%{crop} only"
+      season:
+        any: Any time
+        spring_summer: Spring and summer
+        autumn_winter: Autumn and winter
+      status:
+        draft: Draft
+        published: Published
+      offset_unit:
+        days: days
+        weeks: weeks
+        months: months
+      direction:
+        after: after
+        before: before
+      anchor:
+        sowing: sowing
+        planting_out: planting out
+        first_harvest: first harvest
+      repeat:
+        once: once
+        weekly: every week
+        fortnightly: every 2 weeks
+        monthly: every month
   seasons:
     spring: Spring
     summer: Summer

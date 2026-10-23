@@ -1,0 +1,19 @@
+{
+  "crop": "sunflower",
+  "templates": [
+    {
+      "name": "Growing sunflowers",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds in pots", "amount": 3, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Dig compost into a sunny spot", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Stake tall plants", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Water deeply", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Feed with fertiliser", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "monthly"},
+        {"name": "Cut the flower heads", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Pull out the stalks", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

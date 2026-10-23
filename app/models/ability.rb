@@ -75,6 +75,7 @@ class Ability
       can :wrangle, Crop
       can :manage, Crop
       can :manage, CropCompanion
+      can :manage, CropJobTemplate
       can :manage, ScientificName
       can :manage, AlternateName
       can :openfarm, Crop

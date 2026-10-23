@@ -12,6 +12,7 @@
     = menu_modal_link :add, 'Add another name', '#alternate-name-new'
     = menu_link_to :download, 'Fetch data from GBIF', crop_gbif_path(crop), method: :post
     = menu_link_to :people, 'Manage companions', admin_crop_crop_companions_path(crop)
+    = menu_link_to :finish, 'Job templates', admin_crop_crop_job_templates_path(crop)
     - if can? :destroy, crop
       .dropdown-divider
       = menu_delete_button(crop)

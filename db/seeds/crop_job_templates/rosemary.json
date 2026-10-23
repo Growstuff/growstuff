@@ -1,0 +1,17 @@
+{
+  "crop": "rosemary",
+  "templates": [
+    {
+      "name": "Growing rosemary",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Water until established", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Pinch out the tips to make it bushy", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Pick sprigs", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "fortnightly"},
+        {"name": "Trim after flowering", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Take cuttings to make new plants", "amount": 6, "unit": "months", "direction": "after", "anchor": "planting_out"}
+      ]
+    }
+  ]
+}

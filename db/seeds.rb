@@ -11,6 +11,7 @@ def load_data
     load_roles
     create_cropbot
     load_crops
+    load_crop_job_templates
     load_plant_parts
 
     # We don't load these in an environment except development to
@@ -23,6 +24,13 @@ def load_data
   end
 
   puts "Done!"
+end
+
+def load_crop_job_templates
+  puts "Loading crop job templates..."
+  files = Rails.root.glob("db/seeds/crop_job_templates/*.json")
+  stats = CropJobTemplateImporter.new.import_files(files)
+  puts "Finished loading crop job templates: #{stats.to_a.map { |key, count| "#{count} #{key}" }.to_sentence.presence || 'none'}"
 end
 
 def load_crops

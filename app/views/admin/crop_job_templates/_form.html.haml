@@ -1,0 +1,57 @@
+-# A crop's job template and its steps. "Add a step" shows the form again with a
+-# blank step, saving nothing.
+- url = template.persisted? ? admin_crop_crop_job_template_path(crop, template) : admin_crop_crop_job_templates_path(crop)
+= bootstrap_form_for template, url:, as: :crop_job_template do |f|
+  = f.alert_message 'Please fix the errors below.'
+
+  .card.mb-3
+    .card-body
+      = f.text_field :name, label: 'Template name', required: true
+      .row
+        .col-md-6
+          = f.select :crop_id, crop_job_applies_to_options(crop), label: 'Applies to', help: 'Varieties are children of the crop.'
+        .col-md-6
+          = f.select :season, crop_job_options(:season, CropJobTemplate.seasons.keys), label: 'Season',
+            help: 'Hides it in the wrong season.'
+
+  .card.mb-3
+    .card-body
+      %h2.h5 Steps
+      %table.table.table-sm.align-middle
+        %thead
+          %tr
+            %th What to do
+            %th More info link
+            %th{ colspan: 2 } How long
+            %th{ colspan: 2 } From
+            %th Repeat
+            %th
+        %tbody
+          = f.fields_for :steps do |sf|
+            %tr
+              %td
+                = sf.hidden_field :position, value: sf.index
+                = sf.text_field :name, hide_label: true, placeholder: 'Stake or cage the plants'
+              %td= sf.url_field :external_uri, hide_label: true, placeholder: 'https://'
+              %td= sf.number_field :offset_amount, hide_label: true, min: 0, class: 'text-end'
+              %td= sf.select :offset_unit, crop_job_options(:offset_unit, CropJobStep.offset_units.keys), hide_label: true
+              %td= sf.select :direction, crop_job_options(:direction, CropJobStep.directions.keys), hide_label: true
+              %td= sf.select :anchor, crop_job_options(:anchor, CropJobStep.anchors.keys), hide_label: true
+              %td= sf.select :repeat, crop_job_options(:repeat, CropJobStep.repeats.keys), hide_label: true
+              %td
+                - if sf.object.persisted?
+                  = sf.check_box :_destroy, label: 'Remove'
+      = f.button '+ Add a step', name: 'commit', value: 'add_step', class: 'btn btn-outline-secondary', formnovalidate: true
+
+  .card.mb-3
+    .card-body
+      %h2.h5 Publish
+      = f.collection_radio_buttons :status, crop_job_options(:status, CropJobTemplate.statuses.keys).map(&:reverse), :first, :last,
+        label: 'Status'
+      %p.form-text
+        Draft: only crop wranglers can see it. Published: offered to gardeners who plant #{crop.name.pluralize}.
+        Jobs from a template are added under Some day, linked to the planting. Gardeners can change or delete any of
+        them. Keep wording generic and public.
+
+  = f.primary 'Save template'
+  = link_to 'Cancel', admin_crop_crop_job_templates_path(crop), class: 'btn btn-link'

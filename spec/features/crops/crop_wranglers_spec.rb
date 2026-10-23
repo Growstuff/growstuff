@@ -27,7 +27,7 @@ describe "crop wranglers", :js do
       visit root_path
       click_link 'Admin'
       click_link 'Crop Wrangling'
-      within '#recently-added-crops' do
+      within '#approved-crops' do
         expect(page).to have_content crops.first.creator.login_name.to_s
       end
     end

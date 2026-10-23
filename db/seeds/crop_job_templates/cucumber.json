@@ -1,0 +1,20 @@
+{
+  "crop": "cucumber",
+  "templates": [
+    {
+      "name": "Growing cucumbers",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds indoors", "amount": 4, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Harden off the seedlings", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Put up a trellis or net", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water deeply", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Mulch around the plants", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Feed with liquid fertiliser", "amount": 5, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Pick fruit regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Pull out finished plants", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}
