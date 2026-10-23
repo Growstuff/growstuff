@@ -79,6 +79,7 @@ describe "Planting a crop", :js do
       visit new_garden_path
       fill_in "Name", with: "New garden"
       click_button "Save"
+      expect(page).to have_content "Garden was successfully created"
       within('.garden-actions') { click_link 'Actions' }
       within '.garden-actions' do
         click_link 'Edit'
@@ -93,7 +94,7 @@ describe "Planting a crop", :js do
       visit new_garden_path
       fill_in "Name", with: "New garden"
       click_button "Save"
-      visit garden_path(Garden.last)
+      expect(page).to have_content "Garden was successfully created"
       within('.garden-actions') { click_link 'Actions' }
       accept_confirm do
         click_link 'Delete'
