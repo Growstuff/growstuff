@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 class JobIdeas
-  # The time of year a source looks back to: the fortnight starting on today's day
-  # in each of the years before, as far back as MAX_YEARS. Also what the sources
-  # share about jobs, which are finished in a window and which the member already
-  # has open.
+  # The time of year a source looks back to: in each of the years before, as far
+  # back as MAX_YEARS, from three weeks before today's day to three weeks after it.
+  # People do the same things a few weeks either side from one year to the next,
+  # and what was due a little earlier may not have been done yet. Also what the
+  # sources share about jobs, which are finished in a window and which the member
+  # already has open.
   module PastYears
-    WINDOW = 14.days
+    BEFORE = 3.weeks
+    AFTER = 3.weeks
     MAX_YEARS = 5
     # Done in the window by the time it was crossed off or, if that was not
     # recorded, the day it was due.
@@ -16,7 +19,7 @@ class JobIdeas
 
     # One range of days for each earlier year, the most recent first.
     def past_windows
-      (1..MAX_YEARS).map { |years| (@today - years.years)..(@today - years.years + WINDOW) }
+      (1..MAX_YEARS).map { |years| (@today - years.years - BEFORE)..(@today - years.years + AFTER) }
     end
 
     # The finished jobs in `jobs` that were done in any of the windows.

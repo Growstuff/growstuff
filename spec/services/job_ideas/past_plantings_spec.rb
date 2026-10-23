@@ -41,6 +41,20 @@ describe JobIdeas::PastPlantings do
     it { is_expected.to be_empty }
   end
 
+  context 'with a planting two weeks before this day' do
+    let(:planted_at) { Date.new(2025, 10, 9) }
+
+    it 'has an idea for it' do
+      expect(ideas.map(&:crop)).to eq [crop]
+    end
+  end
+
+  context 'with a planting more than three weeks after this day' do
+    let(:planted_at) { Date.new(2025, 11, 20) }
+
+    it { is_expected.to be_empty }
+  end
+
   context 'with a planting a month earlier' do
     let(:planted_at) { Date.new(2025, 9, 20) }
 

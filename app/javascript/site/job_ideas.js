@@ -127,6 +127,14 @@ document.addEventListener('DOMContentLoaded', function () {
     return send(form).then(function (data) { return show(form, data); }, function () { form.submit(); });
   };
 
+  // Sent here from the front page, with the ideas to show.
+  const url = new URL(window.location.href);
+  if (url.searchParams.has('ideas')) {
+    url.searchParams.delete('ideas');
+    window.history.replaceState(null, '', url.pathname + url.search + url.hash);
+    load(modal.dataset.url).then(open).catch(function () {});
+  }
+
   document.querySelectorAll('[data-job-ideas-open]').forEach(function (link) {
     link.addEventListener('click', function (event) {
       if (event.metaKey || event.ctrlKey || event.shiftKey) return;

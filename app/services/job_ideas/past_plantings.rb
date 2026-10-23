@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Annual crops a member planted at this time of year in earlier years, and has not
-# planted since. A crop planted in several years is one idea, dated the latest
+# planted since last year's time. A crop planted in several years is one idea, dated the latest
 # time.
 class JobIdeas
   class PastPlantings
@@ -35,9 +35,9 @@ class JobIdeas
       @to_plant ||= @member.jobs.active.action_plant.where(jobbable_type: 'Crop').pluck(:jobbable_id)
     end
 
-    # The crops they have planted since the last fortnight, so are already growing.
+    # The crops they have planted since this time last year, so are already growing.
     def planted_since
-      @planted_since ||= @member.plantings.where(planted_at: (@today - 1.year + WINDOW + 1.day)..).pluck(:crop_id)
+      @planted_since ||= @member.plantings.where(planted_at: (@today - 1.year + AFTER + 1.day)..).pluck(:crop_id)
     end
   end
 end

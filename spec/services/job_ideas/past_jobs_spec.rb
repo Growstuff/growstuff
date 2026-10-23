@@ -50,6 +50,20 @@ describe JobIdeas::PastJobs do
     it { is_expected.to be_empty }
   end
 
+  context 'with a job done two weeks before this day' do
+    let(:done_on) { Date.new(2025, 10, 9) }
+
+    it 'has an idea for it' do
+      expect(ideas.map(&:name)).to eq ['Snip off scapes']
+    end
+  end
+
+  context 'with a job done more than three weeks after this day' do
+    let(:done_on) { Date.new(2025, 11, 20) }
+
+    it { is_expected.to be_empty }
+  end
+
   context 'with a job done a month earlier' do
     let(:done_on) { Date.new(2025, 9, 20) }
 
