@@ -803,6 +803,12 @@ en:
       adding: "Adding “%{name}”…"
       edit_label: Job name
       edit_hint: Enter to save, Esc to cancel
+      show_later:
+        one: Show 1 job coming up
+        other: Show %{count} jobs coming up
+      show_older:
+        one: Show 1 older done job
+        other: Show %{count} older done jobs
       add_failed: That job may not have been added. Check your list before you try again.
       public_note: Jobs are public, so don't put private info here.
       overdue: Overdue
@@ -817,12 +823,19 @@ en:
       done_today: done today
       today: Today
       week: This week
-      soon: Soon
+      weekend: This weekend
+      next_weekend: Next weekend
+      later: Later
       someday: Some day
       drop_here: Drag a job here.
       slow: Slow and steady.
       move_today: Today
-      move_week: This week
+      change_day: Change the day
+      set_day: Set a day
+      change_date: Change date…
+      move_tomorrow: Tomorrow
+      move_weekend: This weekend
+      move_later: Later
       someday_note: a wishlist, nothing committed
       garden: Garden
       crop: Crop
