@@ -8,5 +8,12 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['app/javascript/**/*.test.{js,jsx}'],
     setupFiles: ['app/javascript/test/setup.js'],
+    // `yarn test:coverage`; CI uploads coverage/lcov.info to Codecov.
+    coverage: {
+      provider: 'v8',
+      reporter: ['text-summary', 'lcov'],
+      include: ['app/javascript/**/*.{js,jsx}'],
+      exclude: ['app/javascript/**/*.test.{js,jsx}', 'app/javascript/test/**'],
+    },
   },
 });

@@ -91,3 +91,12 @@ jobs:
         with:
           name: screenshots
           path: tmp/screenshots
+
+      - name: Upload Ruby coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage/coverage.json
+          flags: ruby
+          fail_ci_if_error: false

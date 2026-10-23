@@ -1,0 +1,21 @@
+# Pull requests must cover the lines they add or change, in Ruby and JavaScript.
+coverage:
+  status:
+    patch:
+      default:
+        target: 80%
+    project:
+      default:
+        informational: true
+
+flags:
+  ruby:
+    paths:
+      - app/
+      - lib/
+  javascript:
+    paths:
+      - app/javascript/
+
+comment:
+  layout: "condensed_header, diff, flags"
