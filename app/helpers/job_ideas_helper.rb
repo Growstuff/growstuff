@@ -6,12 +6,14 @@ module JobIdeasHelper
   # when they hide an idea.
   def job_ideas_count(member)
     hidden = member.job_idea_dismissals.maximum(:updated_at)
-    Rails.cache.fetch(['job_ideas_count', member.id, hidden], expires_in: 10.minutes) { JobIdeas.new(member).ideas.size }
+    changed = member.jobs.maximum(:updated_at)
+    Rails.cache.fetch(['job_ideas_count', member.id, hidden, changed], expires_in: 10.minutes) { JobIdeas.new(member).ideas.size }
   end
 
   # The orange count beside the link to the ideas.
   def job_ideas_badge(count)
-    tag.span(count, class: 'badge rounded-pill text-bg-warning float-end', title: t('job_ideas.count', count:))
+    tag.span(count, class: 'badge rounded-pill text-bg-warning float-end', title: t('job_ideas.count', count:),
+                    data: { ideas_badge: true }, hidden: count.zero?)
   end
 
   # What an idea would add, as the member would read it.

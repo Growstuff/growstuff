@@ -25,6 +25,10 @@ describe JobsController, '#index with ideas' do
       expect(page).to have_css('.notepad-ideas', text: 'We have 1 suggested job for you this week')
     end
 
+    it 'has the overlay the links open' do
+      expect(page).to have_css('#job-ideas-modal #job-ideas-body', visible: :all)
+    end
+
     it 'links the box to the ideas' do
       expect(page).to have_link(href: '/job_ideas', class: 'notepad-ideas')
     end

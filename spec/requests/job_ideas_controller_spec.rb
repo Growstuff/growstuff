@@ -76,6 +76,63 @@ describe JobIdeasController do
     end
   end
 
+  describe 'GET /job_ideas from the overlay' do
+    before { get job_ideas_path, headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
+
+    it 'sends the ideas' do
+      expect(response.body).to include('Snip off scapes')
+    end
+
+    it 'sends no page around them' do
+      expect(response.body).not_to include('<html')
+    end
+  end
+
+  describe 'POST /job_ideas from the overlay' do
+    let(:json) { response.parsed_body }
+    let(:crop_key) { "past_job:snip off scapes:#{crop.id}" }
+
+    before { post job_ideas_path, params: { key: crop_key }, headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
+
+    it 'adds the job' do
+      expect(member.jobs.active.pluck(:name)).to eq ['Snip off scapes']
+    end
+
+    it 'says what was added' do
+      expect(json['added'].pluck('name')).to eq ['Snip off scapes']
+    end
+
+    it 'sends the ideas that are left' do
+      expect(json['list']).not_to include('Snip off scapes')
+    end
+
+    it 'sends the jobs as they now are' do
+      expect(json['groups']).to include('Snip off scapes')
+    end
+
+    it 'sends how many ideas there are' do
+      expect(json['count']).to eq 0
+    end
+
+    it 'says it in words' do
+      expect(json['added_label']).to eq 'Added 1 job to your list'
+    end
+  end
+
+  describe 'POST /job_ideas/hide from the overlay' do
+    let(:params) { { key: "past_job:snip off scapes:#{crop.id}", length: 'week' } }
+
+    before { post hide_job_ideas_path, params:, headers: { 'X-Requested-With' => 'XMLHttpRequest' } }
+
+    it 'adds nothing' do
+      expect(response.parsed_body['added']).to be_empty
+    end
+
+    it 'sends the ideas that are left' do
+      expect(response.parsed_body['list']).not_to include('Snip off scapes')
+    end
+  end
+
   describe 'GET /job_ideas when signed out' do
     before do
       sign_out member

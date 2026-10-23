@@ -20,7 +20,7 @@
     - if member_signed_in?
       %nav.list-group.mb-3{ 'aria-label': 'Jobs' }
         = link_to t('jobs.pad.my_jobs'), member_jobs_path(current_member), class: ['list-group-item', ('active' if @owner == current_member)]
-        = link_to job_ideas_path, class: 'list-group-item' do
+        = link_to job_ideas_path, class: 'list-group-item', data: { job_ideas_open: true } do
           = t('jobs.pad.ideas')
           - ideas = job_ideas_count(current_member)
           = job_ideas_badge(ideas) if ideas.positive?

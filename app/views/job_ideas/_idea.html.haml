@@ -1,6 +1,6 @@
 -# One suggested job: what it is, why, and what can be done with it.
 - crop = idea.crop
-.idea
+.idea{ data: { key: idea.key } }
   %span.idea-icon{ 'aria-hidden': 'true' }
     %svg{ width: 28, height: 28, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8,
           'stroke-linecap': 'round', 'stroke-linejoin': 'round' }
@@ -28,11 +28,12 @@
               = entry.step.name
   .idea-actions
     - add = idea.kind == :template ? t('job_ideas.add_all', count: idea.job_count) : t('job_ideas.add')
-    = button_to add, job_ideas_path(skip:), params: { key: idea.key }, class: 'idea-add'
+    = button_to add, job_ideas_path(skip:), params: { key: idea.key }, class: 'idea-add', form_class: 'idea-form'
     .idea-later
-      = button_to t('job_ideas.dismiss'), hide_job_ideas_path(skip:), params: { key: idea.key }, class: 'idea-link'
+      - dismiss = { params: { key: idea.key }, class: 'idea-link', form_class: 'idea-form' }
+      = button_to t('job_ideas.dismiss'), hide_job_ideas_path(skip:), dismiss
       %details.idea-snooze
         %summary= t('job_ideas.snooze.label')
         - JobIdeaDismissal::SNOOZES.each_key do |length|
-          - params = { key: idea.key, length: }
-          = button_to t("job_ideas.snooze.#{length}"), hide_job_ideas_path(skip:), params:, class: 'idea-link'
+          - snooze = { params: { key: idea.key, length: }, class: 'idea-link', form_class: 'idea-form' }
+          = button_to t("job_ideas.snooze.#{length}"), hide_job_ideas_path(skip:), snooze

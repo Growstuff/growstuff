@@ -1,0 +1,13 @@
+-# The ideas as an overlay over the jobs, opened from the links to them. Choosing one
+-# adds it to the notepad behind, and the next takes its place.
+.modal.fade#job-ideas-modal{ tabindex: -1, 'aria-labelledby': 'job-ideas-title', 'aria-hidden': 'true',
+                             data: { url: job_ideas_path } }
+  .modal-dialog.modal-dialog-scrollable.modal-lg
+    .modal-content
+      .modal-header
+        %h2.modal-title#job-ideas-title= t('job_ideas.card_title')
+        %button.btn-close{ type: 'button', data: { bs_dismiss: 'modal' }, 'aria-label': t('job_ideas.done') }
+      .modal-body.p-0
+        .notepad.job-ideas#job-ideas-body{ 'aria-live': 'polite' }
+      .modal-footer
+        %button.btn.btn-primary{ type: 'button', data: { bs_dismiss: 'modal' } }= t('job_ideas.done')

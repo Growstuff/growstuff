@@ -26,23 +26,7 @@
         .notepad.job-ideas
           .notepad-title
             %h2= t('job_ideas.card_title')
-          .idea-filters
-            - { 'mine' => 'mine', 'community' => 'community', 'nearby' => 'nearby' }.each_key do |name|
-              - on = @skipped.exclude?(name)
-              = link_to job_idea_switch_path(name, @skipped), class: ['idea-filter', ('off' unless on)] do
-                = on ? '✓' : '+'
-                = t("job_ideas.filter.#{name}", km: JobIdeas::Nearby::RADIUS_KM)
-          - if @ideas.empty?
-            %p.idea-none= t('job_ideas.none')
-          - job_idea_sections(@ideas).each do |section, ideas|
-            .notepad-group
-              .notepad-heading
-                %h2= t("job_ideas.section.#{section}")
-                %small= job_idea_section_note(section, current_member)
-              = render partial: 'job_ideas/idea', collection: ideas, as: :idea, locals: { skip: @skipped }
-          - if @more.positive?
-            %p.idea-more= t('job_ideas.more', count: @more)
-          %p.notepad-note= t('job_ideas.footer')
+          = render 'job_ideas/list'
       .col-xl-6.mb-4
         = render 'jobs/notepad', owner: current_member, groups: @job_groups, done_this_week: @done_this_week,
           autofocus: false, ideas_banner: false

@@ -659,6 +659,10 @@ en:
       one: We have 1 suggested job for you this week
       other: We have %{count} suggested jobs for you this week
     banner_go: See ideas →
+    done: Done
+    added_to_jobs:
+      one: Added 1 job to your list
+      other: Added %{count} jobs to your list
     count:
       one: 1 idea for you
       other: "%{count} ideas for you"
