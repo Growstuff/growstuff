@@ -14,6 +14,10 @@ class CropJobTemplate < ApplicationRecord
 
   validates :name, presence: true
 
+  # Those written for the crop itself or, if it is a variety, for the crop it
+  # is a variety of.
+  scope :for_crop, ->(crop) { where(crop_id: [crop.id, crop.parent_id].compact) }
+
   accepts_nested_attributes_for :steps, allow_destroy: true, reject_if: :all_blank
 
   def to_s

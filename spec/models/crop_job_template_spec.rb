@@ -43,4 +43,27 @@ describe CropJobTemplate do
       expect { template.destroy }.to change(CropJobStep, :count).by(-2)
     end
   end
+
+  describe '.for_crop' do
+    subject(:found) { described_class.for_crop(crop) }
+
+    let(:parent) { create(:crop) }
+    let(:crop) { create(:crop, parent:) }
+
+    it 'has templates written for the crop' do
+      expect(found).to include(create(:crop_job_template, crop:))
+    end
+
+    it 'has templates written for its parent' do
+      expect(found).to include(create(:crop_job_template, crop: parent))
+    end
+
+    it 'leaves out templates for other crops' do
+      expect(found).not_to include(create(:crop_job_template))
+    end
+
+    it 'leaves out templates for a sibling variety' do
+      expect(found).not_to include(create(:crop_job_template, crop: create(:crop, parent:)))
+    end
+  end
 end
