@@ -24,6 +24,8 @@ class JobIdeas
     end
 
     def idea_for(planting)
+      return if to_harvest.include?(planting.id)
+
       last = last_harvest(planting)
       return if last && last > @today - RECENTLY
 
@@ -32,6 +34,11 @@ class JobIdeas
 
       Idea.new(kind: :harvest, key: "harvest:#{planting.id}", name: planting.crop.name, crop: planting.crop, planting:,
                on: last || expected, period: last ? :harvested : :predicted)
+    end
+
+    # The plantings they already have an open job to harvest.
+    def to_harvest
+      @to_harvest ||= @member.jobs.active.action_harvest.where(jobbable_type: 'Planting').pluck(:jobbable_id)
     end
 
     def last_harvest(planting)

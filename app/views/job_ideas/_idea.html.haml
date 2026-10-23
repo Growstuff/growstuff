@@ -1,0 +1,13 @@
+-# One suggested job: what it is, why, and what can be done with it.
+%li.list-group-item.d-flex.flex-wrap.align-items-center.gap-3
+  .flex-grow-1
+    %strong= job_idea_title(idea)
+    = link_to idea.crop.name, crop_path(idea.crop), class: 'badge text-bg-success ms-2' if idea.crop
+    .small.text-muted= job_idea_reason(idea)
+  .d-flex.flex-wrap.align-items-center.gap-2
+    - add = t('job_ideas.add', count: idea.job_count || 1)
+    = button_to add, job_ideas_path, params: { key: idea.key }, class: 'btn btn-primary btn-sm'
+    - JobIdeaDismissal::SNOOZES.each_key do |length|
+      - label = t("job_ideas.snooze.#{length}")
+      = button_to label, hide_job_ideas_path, params: { key: idea.key, length: }, class: 'btn btn-outline-secondary btn-sm'
+    = button_to t('job_ideas.dismiss'), hide_job_ideas_path, params: { key: idea.key }, class: 'btn btn-link btn-sm'

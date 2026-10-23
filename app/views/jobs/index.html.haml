@@ -20,6 +20,7 @@
     - if member_signed_in?
       %nav.list-group.mb-3{ 'aria-label': 'Jobs' }
         = link_to t('jobs.pad.my_jobs'), member_jobs_path(current_member), class: ['list-group-item', ('active' if @owner == current_member)]
+        = link_to t('jobs.pad.ideas'), job_ideas_path, class: 'list-group-item'
         = link_to t('jobs.pad.everyones_jobs'), jobs_path, class: ['list-group-item', ('active' if @owner.blank?)]
     - unless @job_groups
       = link_to show_inactive_tickbox_path('jobs', owner: @owner, crop: nil, show_all: @show_all) do

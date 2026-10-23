@@ -1,0 +1,43 @@
+# frozen_string_literal: true
+
+# A few jobs to suggest to a member, and what they can do with each: add it to
+# their jobs, snooze it, or say it is not for them.
+class JobIdeasController < ApplicationController
+  before_action :authenticate_member!
+
+  def index
+    @ideas = job_ideas.shown
+    @more = job_ideas.more
+  end
+
+  def create
+    idea = find_idea
+    return redirect_to(job_ideas_path, alert: t('job_ideas.gone')) unless idea
+
+    JobIdeas::Add.new(current_member, idea).call
+    redirect_to job_ideas_path, notice: t('job_ideas.added', name: idea.name)
+  end
+
+  def hide
+    key = params.require(:key)
+    length = params[:length].to_s
+    if JobIdeaDismissal::SNOOZES.key?(length)
+      JobIdeaDismissal.snooze!(current_member, key, length)
+    else
+      JobIdeaDismissal.dismiss!(current_member, key)
+    end
+    redirect_to job_ideas_path, notice: t("job_ideas.hidden.#{JobIdeaDismissal::SNOOZES.key?(length) ? length : 'dismissed'}")
+  end
+
+  private
+
+  def job_ideas
+    @job_ideas ||= JobIdeas.new(current_member)
+  end
+
+  # The idea asked for, as the member would be offered it now. Anything else, or
+  # an idea no longer on offer, is not made into a job.
+  def find_idea
+    job_ideas.ideas.find { |idea| idea.key == params[:key] }
+  end
+end

@@ -97,4 +97,10 @@ describe JobIdeas::Harvest do
       expect(ideas.map(&:planting)).to eq [planting]
     end
   end
+
+  context 'when the member already has a job to harvest it' do
+    before { create(:job, owner: member, name: 'Harvest', action: 'harvest', jobbable: planting) }
+
+    it { is_expected.to be_empty }
+  end
 end

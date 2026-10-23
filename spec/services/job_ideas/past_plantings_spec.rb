@@ -90,4 +90,10 @@ describe JobIdeas::PastPlantings do
       expect(ideas.first.years).to eq 2
     end
   end
+
+  context 'when the member already has a job to plant the crop' do
+    before { create(:job, owner: member, name: 'Plant', action: 'plant', jobbable: crop) }
+
+    it { is_expected.to be_empty }
+  end
 end
