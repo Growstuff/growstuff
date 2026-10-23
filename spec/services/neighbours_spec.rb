@@ -229,6 +229,28 @@ describe Neighbours do
       expect(items.map { |item| [item.type, item.record] }).to include(['job', job])
     end
 
+    it 'has jobs people finished' do
+      job = create(:job, owner: friend, finished: true)
+
+      items = neighbours.feed.flat_map(&:updates).flat_map(&:items)
+      expect(items.map { |item| [item.type, item.record] }).to include(['job_finished', job])
+    end
+
+    it 'leaves out a job that is not finished as a finished job' do
+      create(:job, owner: friend, finished: false)
+
+      items = neighbours.feed.flat_map(&:updates).flat_map(&:items)
+      expect(items.map(&:type)).not_to include('job_finished')
+    end
+
+    it 'dates a finished job by when it was crossed off, not when it was due' do
+      job = create(:job, owner: friend, due_date: Time.zone.today - 1.month, finished: true)
+      job.update_column(:finished_at, Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+
+      days = neighbours.feed.select { |day| day.updates.flat_map(&:items).any? { |item| item.type == 'job_finished' } }
+      expect(days.first.day).to eq Time.zone.today
+    end
+
     it 'dates a job by when it was planned, not when it is due' do
       create(:job, owner: friend, due_date: Time.zone.today + 1.month)
 
