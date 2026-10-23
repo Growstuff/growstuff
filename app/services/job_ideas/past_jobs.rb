@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# Jobs a member finished at this time of year in earlier years: in the fortnight
-# starting on today's day. Left out are jobs they already have open, and jobs made
+# Jobs a member finished at this time of year in earlier years. Left out are jobs they already have open, and jobs made
 # from a template, which has its own idea. A job done in several years is one
 # idea, dated the latest time.
 class JobIdeas
