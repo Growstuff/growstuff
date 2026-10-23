@@ -9,17 +9,10 @@
   %li.breadcrumb-item.active= link_to t('job_ideas.title'), job_ideas_path
 
 .row
-  .col-lg-3
+  .col-12
     %h1.h2
       = job_icon
       Jobs
-    %nav.list-group.mb-3{ 'aria-label': 'Jobs' }
-      = link_to t('jobs.pad.my_jobs'), member_jobs_path(current_member), class: 'list-group-item'
-      = link_to job_ideas_path, class: 'list-group-item active', 'aria-current': 'page' do
-        = t('jobs.pad.ideas')
-        = job_ideas_badge(@ideas.size + @more)
-      = link_to t('jobs.pad.everyones_jobs'), jobs_path, class: 'list-group-item'
-  .col-lg-9
     .row
       -# First when the columns stack, so the ideas are not left below a long notepad.
       .col-xl-6.mb-4.order-first.order-xl-last

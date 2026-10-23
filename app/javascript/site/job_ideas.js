@@ -71,12 +71,8 @@ document.addEventListener('DOMContentLoaded', function () {
     window.bootstrap.Modal.getOrCreateInstance(modal).show();
   };
 
-  // How many ideas there are, wherever it is said: the links' counts and the box.
+  // How many ideas there are, in the box over the jobs.
   const showCount = function (data) {
-    document.querySelectorAll('[data-ideas-badge]').forEach(function (badge) {
-      badge.textContent = data.count;
-      badge.hidden = data.count === 0;
-    });
     document.querySelectorAll('.notepad-ideas').forEach(function (box) {
       const text = box.querySelector('.notepad-ideas-text');
       if (text) text.textContent = data.banner;

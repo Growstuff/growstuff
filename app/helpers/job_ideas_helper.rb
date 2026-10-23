@@ -10,12 +10,6 @@ module JobIdeasHelper
     Rails.cache.fetch(['job_ideas_count', member.id, hidden, changed], expires_in: 10.minutes) { JobIdeas.new(member).ideas.size }
   end
 
-  # The orange count beside the link to the ideas.
-  def job_ideas_badge(count)
-    tag.span(count, class: 'badge rounded-pill text-bg-warning float-end', title: t('job_ideas.count', count:),
-                    data: { ideas_badge: true }, hidden: count.zero?)
-  end
-
   # What an idea would add, as the member would read it.
   def job_idea_title(idea)
     case idea.kind
