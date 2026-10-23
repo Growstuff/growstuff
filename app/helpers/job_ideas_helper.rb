@@ -1,6 +1,19 @@
 # frozen_string_literal: true
 
 module JobIdeasHelper
+  # How many ideas a member has, for the count beside the link to them. It looks
+  # at other people's jobs, so it is kept for a few minutes, and changes at once
+  # when they hide an idea.
+  def job_ideas_count(member)
+    hidden = member.job_idea_dismissals.maximum(:updated_at)
+    Rails.cache.fetch(['job_ideas_count', member.id, hidden], expires_in: 10.minutes) { JobIdeas.new(member).ideas.size }
+  end
+
+  # The orange count beside the link to the ideas.
+  def job_ideas_badge(count)
+    tag.span(count, class: 'badge rounded-pill text-bg-warning float-end', title: t('job_ideas.count', count:))
+  end
+
   # What an idea would add, as the member would read it.
   def job_idea_title(idea)
     case idea.kind
