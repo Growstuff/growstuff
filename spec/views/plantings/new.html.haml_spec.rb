@@ -5,7 +5,7 @@ require 'rails_helper'
 describe "plantings/new" do
   before do
     @member = create(:member)
-    controller.stub(:current_user) { @member }
+    allow(controller).to receive(:current_user) { @member }
 
     # create gardens and crops to populate dropdowns
     @garden_a = create(:garden, owner: @member)

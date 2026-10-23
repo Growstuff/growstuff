@@ -1,13 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'rake'
 
 describe 'members:cleanup_inactive' do
-  before :all do
-    Rails.application.load_tasks
-  end
-
   let(:cleanup_task) { Rake::Task['members:cleanup_inactive'] }
 
   before do

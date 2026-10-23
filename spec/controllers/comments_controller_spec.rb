@@ -9,12 +9,11 @@ describe CommentsController do
 
   before do
     sign_in member
-    controller.stub(:current_member) { member }
+    allow(controller).to receive(:current_member) { member }
   end
 
   def valid_attributes
-    @post = create(:post)
-    { post_id: @post.id, body: "some text" }
+    { post_id: create(:post).id, body: "some text" }
   end
 
   describe "GET RSS feed" do
@@ -105,9 +104,9 @@ describe CommentsController do
       expect do
         post :create, params: {
           comment: {
-            commentable_id: planting.id,
+            commentable_id:   planting.id,
             commentable_type: "Planting",
-            body: "Great planting!"
+            body:             "Great planting!"
           }
         }
       end.to change(Comment, :count).by(1)

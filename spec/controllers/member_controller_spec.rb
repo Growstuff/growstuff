@@ -3,15 +3,13 @@
 require 'rails_helper'
 
 describe MembersController do
-  before do
-    @member = create(:member)
-    @flickr_auth = create(:flickr_authentication, member: @member)
-  end
+  let!(:member) { create(:member) }
+  let!(:flickr_auth) { create(:flickr_authentication, member: member) }
 
   describe "GET index" do
     it "assigns only confirmed members as @members" do
       get :index, params: {}
-      expect(assigns(:members)).to eq([@member])
+      expect(assigns(:members)).to eq([member])
     end
   end
 
@@ -24,13 +22,13 @@ describe MembersController do
 
   describe "GET show" do
     it "provides JSON for member profile" do
-      get :show, params: { slug: @member.to_param }, format: 'json'
+      get :show, params: { slug: member.to_param }, format: 'json'
       expect(response).to be_successful
     end
 
-    it "assigns @flickr_auth" do
-      get :show, params: { slug: @member.to_param }
-      expect(assigns(:flickr_auth)).to eq(@flickr_auth)
+    it "assigns flickr_auth" do
+      get :show, params: { slug: member.to_param }
+      expect(assigns(:flickr_auth)).to eq(flickr_auth)
     end
 
     it "doesn't show completely nonsense members" do
@@ -39,15 +37,15 @@ describe MembersController do
     end
 
     it "doesn't show unconfirmed members" do
-      @member2 = create(:unconfirmed_member)
-      get :show, params: { slug: @member2.id }
+      member2 = create(:unconfirmed_member)
+      get :show, params: { slug: member2.id }
       expect(response).to have_http_status(:not_found)
     end
   end
 
   describe "GET member's RSS feed" do
     describe "returns an RSS feed" do
-      before { get :show, params: { slug: @member.to_param }, format: "rss" }
+      before { get :show, params: { slug: member.to_param }, format: "rss" }
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template("members/show") }

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "comments/new" do
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     @post = create(:post, body: 'tena koutou ki te ao')
     @comment = create(:comment, commentable: @post)
     assign(:comment, @comment)

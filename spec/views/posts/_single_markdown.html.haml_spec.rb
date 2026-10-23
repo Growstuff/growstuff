@@ -10,7 +10,7 @@ describe "posts/_single markdown body" do
 
   let(:post) { create(:post, body:) }
 
-  before { controller.stub(:current_user) { nil } }
+  before { allow(controller).to receive(:current_user).and_return(nil) }
 
   context "with bold text" do
     let(:body) { "This is **strong** text" }

@@ -9,11 +9,7 @@ describe GbifService, :vcr, type: :service do
   let(:gbif_service) { described_class.new }
 
   # TODO: Find places where we should just use dependency injection to insert the cropbot user.
-  before do
-    # don't use 'let' for this -- we need to actually create it,
-    # regardless of whether it's used.
-    @cropbot = create(:cropbot)
-  end
+  let!(:cropbot) { create(:cropbot) }
 
   describe "#fetch" do
     it "fetches a given key" do

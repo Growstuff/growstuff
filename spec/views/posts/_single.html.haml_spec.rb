@@ -9,7 +9,7 @@ describe "posts/_single" do
 
   before do
     @post = create(:post)
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
   end
 
   context "when the number of comments doesn't matter" do
@@ -30,7 +30,7 @@ describe "posts/_single" do
     before do
       @member = create(:member)
       sign_in @member
-      controller.stub(:current_user) { @member }
+      allow(controller).to receive(:current_user) { @member }
       render_post
     end
 
@@ -47,7 +47,7 @@ describe "posts/_single" do
     before do
       @member = create(:member)
       sign_in @member
-      controller.stub(:current_user) { @member }
+      allow(controller).to receive(:current_user) { @member }
       @post = create(:post, author: @member)
       @post.update(body: "I am updated")
       render_post
@@ -66,7 +66,7 @@ describe "posts/_single" do
     before do
       @member = create(:member)
       sign_in @member
-      controller.stub(:current_user) { @member }
+      allow(controller).to receive(:current_user) { @member }
       @post = create(:post, author: @member)
       @comment = create(:comment, commentable: @post)
       @comment.update(body: "I've been updated")
@@ -86,7 +86,7 @@ describe "posts/_single" do
     before do
       @member = create(:member)
       sign_in @member
-      controller.stub(:current_user) { @member }
+      allow(controller).to receive(:current_user) { @member }
       @post = create(:post, author: @member)
       @post.update(updated_at: @post.created_at)
       render_post
@@ -101,7 +101,7 @@ describe "posts/_single" do
     before do
       @member = create(:member)
       sign_in @member
-      controller.stub(:current_user) { @member }
+      allow(controller).to receive(:current_user) { @member }
       @post = create(:post, author: @member)
       @comment = create(:comment, commentable: @post)
       @comment.update(updated_at: @comment.created_at)

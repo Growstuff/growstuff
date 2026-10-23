@@ -1,13 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'rake'
 
 describe 'wikidata:import_alternate_names' do
-  before :all do
-    Rails.application.load_tasks
-  end
-
   before do
     Rake::Task['wikidata:import_alternate_names'].reenable
   end

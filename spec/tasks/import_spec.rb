@@ -1,13 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'rake'
 
 describe 'import:australian_food_classification_data' do
-  before :all do
-    Rails.application.load_tasks
-  end
-
   it "imports the data from the CSV file" do
     Rake::Task['import:australian_food_classification_data'].invoke
     expect(AustralianFoodClassificationData.count).to eq(2)

@@ -8,7 +8,7 @@ describe "garden_types/show" do
   let!(:garden_type) { create(:garden_type, name: "Hot Sauce") }
 
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     assign(:garden_type, garden_type)
     render
   end

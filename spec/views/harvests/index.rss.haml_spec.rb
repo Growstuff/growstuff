@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'harvests/index.rss.haml' do
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     @member = create(:member)
     @tomato = create(:tomato)
 

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'layouts/application.html.haml', type: "view" do
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
   end
 
   it 'includes the analytics code' do

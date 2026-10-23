@@ -19,17 +19,17 @@ describe Notification do
 
   it "has a scope for unread" do
     expect(described_class.unread).to eq [notification]
-    @n2 = create(:notification, read: true)
+    create(:notification, read: true)
     expect(described_class.unread).to eq [notification]
-    @n3 = create(:notification, read: false)
-    expect(described_class.unread).to include @n3
+    n3 = create(:notification, read: false)
+    expect(described_class.unread).to include n3
     expect(described_class.unread).to include notification
   end
 
   it "sends email if asked" do
-    @notification2 = create(:notification)
-    @notification2.send_message
-    expect(ActionMailer::Base.deliveries.last&.to).to eq [@notification2.recipient.email]
+    notification2 = create(:notification)
+    notification2.send_message
+    expect(ActionMailer::Base.deliveries.last&.to).to eq [notification2.recipient.email]
   end
 
   it "doesn't send email to people who don't want it" do
@@ -38,8 +38,8 @@ describe Notification do
   end
 
   it "sends email on creation" do
-    @notification2 = create(:notification)
-    expect(ActionMailer::Base.deliveries.last&.to).to eq [@notification2.recipient.email]
+    notification2 = create(:notification)
+    expect(ActionMailer::Base.deliveries.last&.to).to eq [notification2.recipient.email]
   end
 
   it "replaces missing subjects with (no subject)" do

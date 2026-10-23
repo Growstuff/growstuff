@@ -40,10 +40,6 @@ module OverflowHelpers
   def resize_to_phone
     page.driver.browser.manage.window.resize_to(PHONE[:width], PHONE[:height])
   end
-
-  def horizontal_overflow
-    page.evaluate_script("(() => { #{FIND_OVERFLOWING} })()")
-  end
 end
 
 RSpec::Matchers.define :have_no_horizontal_overflow do

@@ -8,8 +8,9 @@ describe "newsletter subscribers", :js do
   let(:subscriber) { create(:newsletter_recipient_member) }
 
   describe "navigating to newsletter subscribers admin with js" do
+    let!(:subscriber) { subscriber }
+
     before do
-      @subscriber = subscriber
       visit admin_path
       within 'nav#member_admin' do
         click_link "Newsletter subscribers"
@@ -17,6 +18,6 @@ describe "newsletter subscribers", :js do
     end
 
     it { expect(page).to have_current_path admin_newsletter_path, ignore_query: true }
-    it { expect(page).to have_content @subscriber.email }
+    it { expect(page).to have_content subscriber.email }
   end
 end

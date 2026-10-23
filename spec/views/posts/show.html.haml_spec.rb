@@ -8,7 +8,7 @@ describe "posts/show" do
   let(:author) { create(:member, login_name: 'mary') }
 
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     assign(:post, post)
   end
 
@@ -43,13 +43,13 @@ describe "posts/show" do
     describe 'script tag in post body' do
       let(:post) { create(:post, author:, body: "<script>alert('hakker!')</script>") }
 
-      it { is_expected.to have_no_selector('script') }
+      it { is_expected.to have_no_css('script') }
     end
 
     describe 'script tag in post title' do
       let(:post) { create(:post, author:, subject: "<script>alert('hakker!')</script>") }
 
-      it { is_expected.to have_no_selector('script') }
+      it { is_expected.to have_no_css('script') }
     end
 
     describe 'has an anchor to the comments' do
@@ -116,7 +116,7 @@ describe "posts/show" do
 
     before do
       sign_in author
-      controller.stub(:current_user) { author }
+      allow(controller).to receive(:current_user) { author }
       render
     end
 

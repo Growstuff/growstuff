@@ -1,27 +1,42 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 describe 'devise/shared/_links.haml', type: "view" do
-  def devise_mapping(register, recover, confirm, lock, oauth)
-    dm = double("mappings")
-    dm.stub(registerable?: register)
-    dm.stub(recoverable?: recover)
-    dm.stub(confirmable?: confirm)
-    dm.stub(lockable?: lock)
-    dm.stub(omniauthable?: oauth)
-    dm
+  let(:controller_name) { 'anything but sessions' }
+  let(:enabled) { [] }
+  let(:mapping) do
+    double("mappings", %i(registerable? recoverable? confirmable? lockable? omniauthable?).index_with { |option| enabled.include?(option) })
   end
 
-  it 'has a sign-in link if not in sessions' do
-    @view.stub(:controller_name).and_return("anything but sessions")
-    @view.stub(:resource_name).and_return("member")
-    @view.stub(devise_mapping: devise_mapping(false, false, false, false, false))
+  before do
+    allow(view).to receive_messages(controller_name:, resource_name: "member", devise_mapping: mapping)
     render
   end
 
-  it "does not have a sign-in link if in sessions" do
-    @view.stub(:controller_name).and_return("sessions")
-    @view.stub(:resource_name).and_return("member")
-    @view.stub(devise_mapping: devise_mapping(false, false, false, false, false))
-    render
+  context 'when not in sessions' do
+    it { expect(rendered).to have_link 'Sign in' }
+  end
+
+  context 'when in sessions' do
+    let(:controller_name) { 'sessions' }
+
+    it { expect(rendered).to have_no_link 'Sign in' }
+  end
+
+  {
+    registerable?: 'Join free',
+    recoverable?:  'Forgot your password?',
+    confirmable?:  "Didn't receive confirmation instructions?"
+  }.each do |option, link|
+    context "when #{option.to_s.chomp('?')}" do
+      let(:enabled) { [option] }
+
+      it { expect(rendered).to have_link link }
+    end
+
+    context "when not #{option.to_s.chomp('?')}" do
+      it { expect(rendered).to have_no_link link }
+    end
   end
 end

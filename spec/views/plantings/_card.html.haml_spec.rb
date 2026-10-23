@@ -19,7 +19,7 @@ describe "plantings/_card" do
 
   def render_card_as(member)
     # can? reads through the controller's current_user, as elsewhere here.
-    controller.stub(:current_user) { member }
+    allow(controller).to receive(:current_user) { member }
     allow(view).to receive_messages(member_signed_in?: member.present?, current_member: member)
     # `rendered` accumulates across renders within an example, so take what
     # this render itself returned.

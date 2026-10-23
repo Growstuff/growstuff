@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "posts/index" do
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     @author = create(:member)
     page = 1
     per_page = 2

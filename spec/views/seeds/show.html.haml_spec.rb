@@ -6,7 +6,7 @@ describe "seeds/show" do
   let(:seed) { create(:seed) }
 
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     assign(:seed, seed)
     assign(:photos, seed.photos.paginate(page: 1))
     render
@@ -48,7 +48,7 @@ describe "seeds/show" do
         assign(:seed, seed)
         # NOTE: current_member is not the owner of this seed
         sign_in member
-        controller.stub(:current_user) { member }
+        allow(controller).to receive(:current_user) { member }
         render
       end
 
@@ -73,7 +73,7 @@ describe "seeds/show" do
 
       before do
         sign_in owner
-        controller.stub(:current_user) { owner }
+        allow(controller).to receive(:current_user) { owner }
         assign(:seed, seed)
         render
       end

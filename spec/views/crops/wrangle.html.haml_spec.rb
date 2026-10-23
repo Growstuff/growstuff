@@ -5,7 +5,7 @@ require 'rails_helper'
 describe "crops/wrangle" do
   before do
     @member = create(:crop_wrangling_member)
-    controller.stub(:current_user) { @member }
+    allow(controller).to receive(:current_user) { @member }
     page = 1
     per_page = 2
     total_entries = 2

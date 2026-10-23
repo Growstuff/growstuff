@@ -211,27 +211,25 @@ RSpec.describe 'Plantings' do
   end
 
   describe "by member/owner" do
-    before :each do
-      @member1 = planting.owner
-      @planting2 = create(:planting, owner: create(:owner))
-      @member2 = @planting2.owner
-    end
+    let(:member1) { planting.owner }
+    let(:planting2) { create(:planting, owner: create(:owner)) }
+    let(:member2) { planting2.owner }
 
     describe "#show" do
       it "locates the correct member" do
-        get "/api/v1/plantings?filter[owner-id]=#{@member1.id}"
+        get "/api/v1/plantings?filter[owner-id]=#{member1.id}"
         expect(JSON.parse(response.body)['data'][0]['id']).to eq(planting.id.to_s)
 
-        get "/api/v1/plantings?filter[owner-id]=#{@member2.id}"
-        expect(JSON.parse(response.body)['data'][0]['id']).to eq(@planting2.id.to_s)
+        get "/api/v1/plantings?filter[owner-id]=#{member2.id}"
+        expect(JSON.parse(response.body)['data'][0]['id']).to eq(planting2.id.to_s)
 
         pending "The below should be identical to the above, but aren't."
 
-        get "/api/v1/members/#{@member1.id}/plantings"
+        get "/api/v1/members/#{member1.id}/plantings"
         expect(JSON.parse(response.body)['data'][0]['id']).to eq(planting.id.to_s)
 
-        get "/api/v1/members/#{@member2.id}/plantings"
-        expect(JSON.parse(response.body)['data'][0]['id']).to eq(@planting2.id.to_s)
+        get "/api/v1/members/#{member2.id}/plantings"
+        expect(JSON.parse(response.body)['data'][0]['id']).to eq(planting2.id.to_s)
       end
     end
   end

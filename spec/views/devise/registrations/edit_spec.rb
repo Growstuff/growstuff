@@ -5,13 +5,10 @@ require 'rails_helper'
 describe 'devise/registrations/edit.html.haml', type: "view" do
   context "logged in" do
     before do
-      controller.stub(:current_user) { nil }
+      allow(controller).to receive(:current_user).and_return(nil)
       @member = create(:member)
-      controller.stub(:current_member) { @member }
-      @view.stub(:resource).and_return(@member)
-      @view.stub(:resource_name).and_return("member")
-      @view.stub(:resource_class).and_return(Member)
-      @view.stub(:devise_mapping).and_return(Devise.mappings[:member])
+      allow(controller).to receive(:current_member) { @member }
+      allow(@view).to receive_messages(resource: @member, resource_name: "member", resource_class: Member, devise_mapping: Devise.mappings[:member])
     end
 
     it 'has some fields' do

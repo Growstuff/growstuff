@@ -8,7 +8,7 @@ describe "seeds/new" do
 
   before do
     sign_in member
-    controller.stub(:current_user) { @member }
+    allow(controller).to receive(:current_user) { @member }
     assign(:seed, seed)
     render
   end

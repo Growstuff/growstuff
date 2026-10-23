@@ -7,8 +7,7 @@ require 'haml/helpers'
 
 describe 'Haml::Filters::Escaped_Markdown' do
   it 'is registered as the handler for :escaped_markdown' do
-    Haml::Filters.registered[:escaped_markdown].should ==
-      Haml::Filters::EscapedMarkdown
+    expect(Haml::Filters.registered[:escaped_markdown]).to eq Haml::Filters::EscapedMarkdown
   end
 
   it 'converts Markdown to escaped HTML' do
@@ -21,13 +20,13 @@ describe 'Haml::Filters::Escaped_Markdown' do
   end
 
   it 'converts quick crop links' do
-    @crop = create(:crop)
+    crop = create(:crop)
     template = <<~HTML
       :escaped_markdown
-        [#{@crop.name}](crop)
+        [#{crop.name}](crop)
     HTML
     rendered = render_haml(template)
-    expect(rendered).to match(/&lt;a href=&quot;/)
+    expect(rendered).to include('&lt;a href=&quot;')
   end
 
   def render_haml(haml)

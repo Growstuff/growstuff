@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "harvests/index.html.haml" do
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     @member = create(:member)
     @tomato = create(:tomato)
     @maize  = create(:maize)
@@ -37,12 +37,12 @@ describe "harvests/index.html.haml" do
   it "displays member's name in title" do
     assign(:owner, @member)
     render
-    view.content_for(:title).should have_content @member.login_name
+    expect(view.content_for(:title)).to have_content @member.login_name
   end
 
   it "displays crop's name in title" do
     assign(:crop, @tomato)
     render
-    view.content_for(:title).should have_content @tomato.name
+    expect(view.content_for(:title)).to have_content @tomato.name
   end
 end

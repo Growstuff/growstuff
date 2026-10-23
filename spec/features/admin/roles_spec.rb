@@ -33,10 +33,11 @@ describe "roles", :js do
   end
 
   describe 'editing role' do
+    let!(:role) { role }
+
     before do
-      @role = role
       visit admin_roles_path
-      click_link 'Edit', href: edit_admin_role_path(@role)
+      click_link 'Edit', href: edit_admin_role_path(role)
       fill_in 'Description', with: 'Something else'
       click_button 'Save'
       role.reload
@@ -48,11 +49,12 @@ describe "roles", :js do
   end
 
   describe 'deleting role' do
+    let!(:role) { role }
+
     before do
-      @role = role
       visit admin_roles_path
       accept_confirm do
-        click_link 'Delete', href: admin_role_path(@role)
+        click_link 'Delete', href: admin_role_path(role)
       end
     end
 

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "posts/edit" do
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     @author = create(:member)
     @post = assign(:post, create(:post, author: @author))
   end

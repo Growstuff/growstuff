@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'posts/show.rss.haml' do
   context 'with comments' do
     before do
-      controller.stub(:current_user) { nil }
+      allow(controller).to receive(:current_user).and_return(nil)
       @author = create(:member)
       @post = create(:post)
       create(:comment, author: @author, commentable: @post)
@@ -34,12 +34,12 @@ describe 'posts/show.rss.haml' do
 
   context 'with more than 50 comments' do
     it 'limits comments in the RSS feed to 50' do
-      controller.stub(:current_user) { nil }
+      allow(controller).to receive(:current_user).and_return(nil)
       author = create(:member)
       post = assign(:post, create(:post))
       create_list(:comment, 55, author: author, commentable: post)
       render
-      expect(rendered.scan(/<item>/).size).to eq(50)
+      expect(rendered.scan('<item>').size).to eq(50)
     end
   end
 end

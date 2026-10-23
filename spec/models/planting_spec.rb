@@ -286,20 +286,20 @@ describe Planting do
   end
 
   it 'has an owner' do
-    planting.owner.should be_an_instance_of Member
+    expect(planting.owner).to be_an_instance_of Member
   end
 
   it "generates a location" do
-    planting.location.should eq garden.location
+    expect(planting.location).to eq garden.location
   end
 
   it "has a slug" do
-    planting.slug.should match(/^hatupatu-springfield-community-garden-tomato$/)
+    expect(planting.slug).to match(/^hatupatu-springfield-community-garden-tomato$/)
   end
 
   it 'sorts in reverse creation order' do
-    @planting2 = create(:planting)
-    described_class.first.should eq @planting2
+    planting2 = create(:planting)
+    expect(described_class.first).to eq planting2
   end
 
   describe '#planted?' do
@@ -321,19 +321,19 @@ describe Planting do
 
   context 'delegation' do
     it 'system name' do
-      planting.crop_name.should eq planting.crop.name
+      expect(planting.crop_name).to eq planting.crop.name
     end
 
     it 'wikipedia url' do
-      planting.crop_en_wikipedia_url.should eq planting.crop.en_wikipedia_url
+      expect(planting.crop_en_wikipedia_url).to eq planting.crop.en_wikipedia_url
     end
 
     it 'default scientific name' do
-      planting.crop_default_scientific_name.should eq planting.crop.default_scientific_name
+      expect(planting.crop_default_scientific_name).to eq planting.crop.default_scientific_name
     end
 
     it 'plantings count' do
-      planting.crop_plantings_count.should eq planting.crop.plantings_count
+      expect(planting.crop_plantings_count).to eq planting.crop.plantings_count
     end
   end
 
@@ -359,25 +359,25 @@ describe Planting do
 
   context 'quantity' do
     it 'allows integer quantities' do
-      @planting = build(:planting, quantity: 99)
-      @planting.should be_valid
+      planting = build(:planting, quantity: 99)
+      expect(planting).to be_valid
     end
 
     it "doesn't allow decimal quantities" do
-      @planting = build(:planting, quantity: 99.9)
-      @planting.should_not be_valid
+      planting = build(:planting, quantity: 99.9)
+      expect(planting).not_to be_valid
     end
 
     it "doesn't allow non-numeric quantities" do
-      @planting = build(:planting, quantity: 'foo')
-      @planting.should_not be_valid
+      planting = build(:planting, quantity: 'foo')
+      expect(planting).not_to be_valid
     end
 
     it "allows blank quantities" do
-      @planting = build(:planting, quantity: nil)
-      @planting.should be_valid
-      @planting = build(:planting, quantity: '')
-      @planting.should be_valid
+      planting = build(:planting, quantity: nil)
+      expect(planting).to be_valid
+      planting = build(:planting, quantity: '')
+      expect(planting).to be_valid
     end
   end
 
@@ -385,27 +385,27 @@ describe Planting do
     let(:planting) { create(:sunny_planting) }
 
     it 'has a sunniness value' do
-      planting.sunniness.should eq 'sun'
+      expect(planting.sunniness).to eq 'sun'
     end
 
     it 'all three valid sunniness values should work' do
       ['sun', 'shade', 'semi-shade', nil, ''].each do |s|
-        @planting = build(:planting, sunniness: s)
-        @planting.should be_valid
+        planting = build(:planting, sunniness: s)
+        expect(planting).to be_valid
       end
     end
 
     it 'refuses invalid sunniness values' do
-      @planting = build(:planting, sunniness: 'not valid')
-      @planting.should_not be_valid
-      @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
+      planting = build(:planting, sunniness: 'not valid')
+      expect(planting).not_to be_valid
+      expect(planting.errors[:sunniness]).to include("not valid is not a valid sunniness value")
     end
   end
 
   context 'planted from' do
     it 'has a planted_from value' do
-      @planting = create(:seed_planting)
-      @planting.planted_from.should eq 'seed'
+      planting = create(:seed_planting)
+      expect(planting.planted_from).to eq 'seed'
     end
 
     it 'all valid planted_from values should work' do
@@ -414,15 +414,15 @@ describe Planting do
         'runner', 'bare root plant', 'advanced plant',
         'graft', 'layering', 'bulb', 'root/tuber', nil, ''
       ].each do |p|
-        @planting = build(:planting, planted_from: p)
-        @planting.should be_valid
+        planting = build(:planting, planted_from: p)
+        expect(planting).to be_valid
       end
     end
 
     it 'refuses invalid planted_from values' do
-      @planting = build(:planting, planted_from: 'not valid')
-      @planting.should_not be_valid
-      @planting.errors[:planted_from].should include("not valid is not a valid planting method")
+      planting = build(:planting, planted_from: 'not valid')
+      expect(planting).not_to be_valid
+      expect(planting.errors[:planted_from]).to include("not valid is not a valid planting method")
     end
   end
 
@@ -453,9 +453,9 @@ describe Planting do
     end
 
     it 'chooses the most recent photo' do
-      @photo2 = create(:photo, owner: planting.owner)
-      planting.photos << @photo2
-      expect(planting.default_photo).to eq @photo2
+      photo2 = create(:photo, owner: planting.owner)
+      planting.photos << photo2
+      expect(planting.default_photo).to eq photo2
     end
 
     describe '#thumbnail_url' do
@@ -480,56 +480,54 @@ describe Planting do
 
   context 'interesting plantings' do
     describe 'picks up interesting plantings' do
-      before do
-        # plantings have members created implicitly for them
-        # each member is different, hence these are all interesting
-        @planting1 = create(:planting, :with_photo, planted_at: 5.days.ago)
-        @planting2 = create(:planting, :with_photo, planted_at: 4.days.ago)
-        @planting3 = create(:planting, :with_photo, planted_at: 3.days.ago)
-        @planting4 = create(:planting, :with_photo, planted_at: 2.days.ago)
-      end
+      # plantings have members created implicitly for them
+      # each member is different, hence these are all interesting
+      let!(:planting1) { create(:planting, :with_photo, planted_at: 5.days.ago) }
+      let!(:planting2) { create(:planting, :with_photo, planted_at: 4.days.ago) }
+      let!(:planting3) { create(:planting, :with_photo, planted_at: 3.days.ago) }
+      let!(:planting4) { create(:planting, :with_photo, planted_at: 2.days.ago) }
 
-      it { expect(described_class.interesting).to eq([@planting4, @planting3, @planting2, @planting1]) }
+      it { expect(described_class.interesting).to eq([planting4, planting3, planting2, planting1]) }
     end
 
     context "default arguments" do
       it 'ignores plantings without photos' do
         # first, an interesting planting
-        @planting = create(:planting)
-        @planting.photos << create(:photo, owner: @planting.owner)
-        @planting.save
+        planting = create(:planting)
+        planting.photos << create(:photo, owner: planting.owner)
+        planting.save
 
         # this one doesn't have a photo
-        @no_photo_planting = create(:planting)
+        no_photo_planting = create(:planting)
 
-        expect(described_class.interesting).to include @planting
-        expect(described_class.interesting).not_to include @no_photo_planting
+        expect(described_class.interesting).to include planting
+        expect(described_class.interesting).not_to include no_photo_planting
       end
 
       it 'ignores plantings with the same owner' do
         # this planting is older
-        @planting1 = create(:planting, created_at: 1.day.ago)
-        @planting1.photos << create(:photo, owner_id: @planting1.owner_id)
-        @planting1.save
+        planting1 = create(:planting, created_at: 1.day.ago)
+        planting1.photos << create(:photo, owner_id: planting1.owner_id)
+        planting1.save
 
         # this one is newer, and has the same owner, through the garden
-        @planting2 = create(:planting,
-                            created_at: 1.minute.ago,
-                            garden:     @planting1.garden,
-                            owner:      @planting1.owner)
-        @planting2.photos << create(:photo, owner: @planting2.owner)
-        @planting2.save
+        planting2 = create(:planting,
+                           created_at: 1.minute.ago,
+                           garden:     planting1.garden,
+                           owner:      planting1.owner)
+        planting2.photos << create(:photo, owner: planting2.owner)
+        planting2.save
 
         # result: the newer one is interesting, the older one isn't
-        expect(described_class.interesting).to include @planting2
-        expect(described_class.interesting).not_to include @planting1
+        expect(described_class.interesting).to include planting2
+        expect(described_class.interesting).not_to include planting1
       end
     end
 
     context "with howmany argument" do
       it "only returns the number asked for" do
-        @plantings = create_list(:planting, 10)
-        @plantings.each do |p|
+        plantings = create_list(:planting, 10)
+        plantings.each do |p|
           p.photos << create(:photo, owner: p.owner)
         end
         expect(described_class.interesting.limit(3).count).to eq 3
@@ -539,39 +537,39 @@ describe Planting do
 
   context "finished" do
     it 'has finished fields' do
-      @planting = create(:finished_planting)
-      @planting.finished.should be true
-      @planting.finished_at.should be_an_instance_of Date
+      planting = create(:finished_planting)
+      expect(planting.finished).to be true
+      expect(planting.finished_at).to be_an_instance_of Date
     end
 
     it 'has finished scope' do
-      @p = create(:planting)
-      @f = create(:finished_planting)
-      described_class.finished.should include @f
-      described_class.finished.should_not include @p
+      p = create(:planting)
+      f = create(:finished_planting)
+      expect(described_class.finished).to include f
+      expect(described_class.finished).not_to include p
     end
 
     it 'has current scope' do
-      @p = create(:planting)
-      @f = create(:finished_planting)
-      described_class.current.should include @p
-      described_class.current.should_not include @f
+      p = create(:planting)
+      f = create(:finished_planting)
+      expect(described_class.current).to include p
+      expect(described_class.current).not_to include f
     end
 
     context "finished date validation" do
       it 'requires finished date after planting date' do
-        @f = build(:finished_planting, planted_at: '2014-01-01', finished_at: '2013-01-01')
-        @f.should_not be_valid
+        f = build(:finished_planting, planted_at: '2014-01-01', finished_at: '2013-01-01')
+        expect(f).not_to be_valid
       end
 
       it 'allows just the planted date' do
-        @f = build(:planting, planted_at: '2013-01-01', finished_at: nil)
-        @f.should be_valid
+        f = build(:planting, planted_at: '2013-01-01', finished_at: nil)
+        expect(f).to be_valid
       end
 
       it 'allows just the finished date' do
-        @f = build(:planting, finished_at: '2013-01-01', planted_at: nil)
-        @f.should be_valid
+        f = build(:planting, finished_at: '2013-01-01', planted_at: nil)
+        expect(f).to be_valid
       end
     end
   end
@@ -584,27 +582,27 @@ describe Planting do
     end
 
     it 'has a failed scope' do
-      @p = create(:planting)
-      @f = create(:planting, failed: true)
-      described_class.failed.should include @f
-      described_class.failed.should_not include @p
+      p = create(:planting)
+      f = create(:planting, failed: true)
+      expect(described_class.failed).to include f
+      expect(described_class.failed).not_to include p
     end
 
     it 'is not included in the active scope' do
-      @p = create(:planting)
-      @f = create(:planting, failed: true)
-      described_class.active.should include @p
-      described_class.active.should_not include @f
+      p = create(:planting)
+      f = create(:planting, failed: true)
+      expect(described_class.active).to include p
+      expect(described_class.active).not_to include f
     end
 
     it 'cannot be finished and failed' do
-      @f = build(:planting, finished: true, failed: true)
-      @f.should_not be_valid
+      f = build(:planting, finished: true, failed: true)
+      expect(f).not_to be_valid
     end
 
     it 'is not finished' do
-      @f = build(:planting, finished: true, failed: true)
-      expect(@f.finished?).to be false
+      f = build(:planting, finished: true, failed: true)
+      expect(f.finished?).to be false
     end
   end
 

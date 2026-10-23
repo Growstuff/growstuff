@@ -6,7 +6,7 @@ describe 'admin/index.html.haml', type: "view" do
   before do
     @member = create(:admin_member)
     sign_in @member
-    controller.stub(:current_user) { @member }
+    allow(controller).to receive(:current_user) { @member }
     render
   end
 

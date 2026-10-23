@@ -8,7 +8,7 @@ describe "harvests/show" do
   let!(:harvest) { create(:harvest) }
 
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     assign(:harvest, harvest)
     assign(:photos, harvest.photos.paginate(page: 1))
     render

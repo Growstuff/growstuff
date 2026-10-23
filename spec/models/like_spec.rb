@@ -8,20 +8,18 @@ describe Like do
   let(:photo)  { create(:photo) }
 
   context 'existing like' do
-    before do
-      @like = Like.create(member:, likeable: post)
-    end
+    let!(:like) { Like.create(member:, likeable: post) }
 
     it 'is valid' do
-      expect(@like).to be_valid
+      expect(like).to be_valid
     end
 
     it 'belongs to a member' do
-      expect(@like.member).to be_an_instance_of Member
+      expect(like.member).to be_an_instance_of Member
     end
 
     it 'belongs to a likeable item' do
-      expect(@like).to respond_to :likeable
+      expect(like).to respond_to :likeable
     end
   end
 

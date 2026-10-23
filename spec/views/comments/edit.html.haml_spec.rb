@@ -6,7 +6,7 @@ describe "comments/edit" do
   let(:comment) { create(:comment) }
 
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     assign(:comment, comment)
     assign(:commentable, comment.commentable)
   end

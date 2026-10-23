@@ -12,122 +12,104 @@ describe Seed do
 
   it "has a slug" do
     seed.save
-    expect(seed.slug).to match(/tamateapokaiwhenua-magic-bean/)
+    expect(seed.slug).to include('tamateapokaiwhenua-magic-bean')
   end
 
-  context 'quantity' do
-    it 'allows integer quantities' do
-      @seed = build(:seed, quantity: 99)
-      expect(@seed).to be_valid
-    end
+  describe 'quantity' do
+    [99, 0].each do |quantity|
+      context "with #{quantity}" do
+        subject { build(:seed, quantity:) }
 
-    it "doesn't allow decimal quantities" do
-      @seed = build(:seed, quantity: 99.9)
-      expect(@seed).not_to be_valid
-    end
-
-    it "doesn't allow non-numeric quantities" do
-      @seed = build(:seed, quantity: 'foo')
-      expect(@seed).not_to be_valid
-    end
-
-    it "allows blank quantities" do
-      @seed = build(:seed, quantity: nil)
-      expect(@seed).to be_valid
-      @seed = build(:seed, quantity: '')
-      expect(@seed).to be_valid
-    end
-  end
-
-  context 'tradable' do
-    it 'all valid tradable_to values should work' do
-      %w(nowhere locally nationally internationally).each do |t|
-        @seed = build(:seed, tradable_to: t)
-        expect(@seed).to be_valid
+        it { is_expected.to be_valid }
       end
     end
 
-    it 'refuses invalid tradable_to values' do
-      @seed = build(:seed, tradable_to: 'not valid')
-      expect(@seed).not_to be_valid
-      expect(@seed.errors[:tradable_to]).to include(
-        "You may only trade seed nowhere, locally, " \
-        "nationally, or internationally"
-      )
+    [nil, ''].each do |quantity|
+      context "with #{quantity.inspect}" do
+        subject { build(:seed, quantity:) }
+
+        it { is_expected.to be_valid }
+      end
     end
 
-    it 'does not allow nil or blank values' do
-      @seed = build(:seed, tradable_to: nil)
-      expect(@seed).not_to be_valid
-      @seed = build(:seed, tradable_to: '')
-      expect(@seed).not_to be_valid
-    end
+    [99.9, 'foo'].each do |quantity|
+      context "with #{quantity.inspect}" do
+        subject { build(:seed, quantity:) }
 
-    it 'tradable gives the right answers' do
-      @seed = create(:seed, tradable_to: 'nowhere')
-      expect(@seed.tradable).to be false
-      @seed = create(:seed, tradable_to: 'locally')
-      expect(@seed.tradable).to be true
-      @seed = create(:seed, tradable_to: 'nationally')
-      expect(@seed.tradable).to be true
-      @seed = create(:seed, tradable_to: 'internationally')
-      expect(@seed.tradable).to be true
-    end
-
-    it 'recognises a tradable seed' do
-      expect(create(:tradable_seed).tradable).to be true
-    end
-
-    it 'recognises an untradable seed' do
-      expect(create(:untradable_seed).tradable).to be false
-    end
-
-    it 'scopes correctly' do
-      @tradable = create(:tradable_seed)
-      @untradable = create(:untradable_seed)
-      expect(described_class.tradable).to include @tradable
-      expect(described_class.tradable).not_to include @untradable
+        it { is_expected.not_to be_valid }
+      end
     end
   end
 
-  context 'organic, gmo, heirloom' do
-    it 'all valid organic values should work' do
-      ['certified organic', 'non-certified organic',
-       'conventional/non-organic', 'unknown'].each do |t|
-        @seed = build(:seed, organic: t)
-        expect(@seed).to be_valid
+  describe 'tradable_to' do
+    %w(nowhere locally nationally internationally).each do |tradable_to|
+      context "with #{tradable_to}" do
+        subject(:seed) { build(:seed, tradable_to:) }
+
+        it { is_expected.to be_valid }
+
+        it 'derives tradable from it' do
+          expect(seed.tradable).to be(tradable_to != 'nowhere')
+        end
       end
     end
 
-    it 'all valid GMO values should work' do
-      ['certified GMO-free', 'non-certified GMO-free',
-       'GMO', 'unknown'].each do |t|
-        @seed = build(:seed, gmo: t)
-        expect(@seed).to be_valid
+    context 'with an unknown value' do
+      subject(:seed) { build(:seed, tradable_to: 'not valid') }
+
+      it { is_expected.not_to be_valid }
+
+      it 'explains the allowed values' do
+        seed.valid?
+        expect(seed.errors[:tradable_to]).to include(
+          "You may only trade seed nowhere, locally, " \
+          "nationally, or internationally"
+        )
       end
     end
 
-    it 'all valid heirloom values should work' do
-      %w(heirloom hybrid unknown).each do |t|
-        @seed = build(:seed, heirloom: t)
-        expect(@seed).to be_valid
+    [nil, ''].each do |tradable_to|
+      context "with #{tradable_to.inspect}" do
+        subject { build(:seed, tradable_to:) }
+
+        it { is_expected.not_to be_valid }
       end
     end
 
-    it 'refuses invalid organic/GMO/heirloom values' do
-      %i(organic gmo heirloom).each do |field|
-        @seed = build(:seed, field => 'not valid')
-        expect(@seed).not_to be_valid
-        expect(@seed.errors[field]).not_to be_empty
-      end
-    end
+    describe '.tradable' do
+      let!(:tradable) { create(:tradable_seed) }
+      let!(:untradable) { create(:untradable_seed) }
 
-    it 'does not allow nil or blank values' do
-      %i(organic gmo heirloom).each do |field|
-        @seed = build(:seed, field => nil)
-        expect(@seed).not_to be_valid
-        @seed = build(:seed, field => '')
-        expect(@seed).not_to be_valid
+      it { expect(described_class.tradable).to include tradable }
+      it { expect(described_class.tradable).not_to include untradable }
+    end
+  end
+
+  {
+    organic:  ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'],
+    gmo:      ['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown'],
+    heirloom: %w(heirloom hybrid unknown)
+  }.each do |field, values|
+    describe field.to_s do
+      values.each do |value|
+        context "with #{value}" do
+          subject { build(:seed, field => value) }
+
+          it { is_expected.to be_valid }
+        end
+      end
+
+      ['not valid', nil, ''].each do |value|
+        context "with #{value.inspect}" do
+          subject(:seed) { build(:seed, field => value) }
+
+          it { is_expected.not_to be_valid }
+
+          it 'has an error on the field' do
+            seed.valid?
+            expect(seed.errors[field]).not_to be_empty
+          end
+        end
       end
     end
   end
@@ -187,16 +169,16 @@ describe Seed do
       # 1) be tradable
       # 2) the owner must have a location set
 
-      @located_member = create(:london_member)
-      @seed1 = create(:tradable_seed, owner: @located_member)
-      @seed2 = create(:seed, owner: @located_member)
-      @seed3 = create(:tradable_seed)
-      @seed4 = create(:seed)
+      located_member = create(:london_member)
+      seed1 = create(:tradable_seed, owner: located_member)
+      seed2 = create(:seed, owner: located_member)
+      seed3 = create(:tradable_seed)
+      seed4 = create(:seed)
 
-      expect(described_class.interesting).to include @seed1
-      expect(described_class.interesting).not_to include @seed2
-      expect(described_class.interesting).not_to include @seed3
-      expect(described_class.interesting).not_to include @seed4
+      expect(described_class.interesting).to include seed1
+      expect(described_class.interesting).not_to include seed2
+      expect(described_class.interesting).not_to include seed3
+      expect(described_class.interesting).not_to include seed4
       expect(described_class.interesting.size).to eq 1
     end
   end

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'home/index.html.haml', type: "view" do
   context 'logged out' do
     before do
-      controller.stub(:current_user) { nil }
+      allow(controller).to receive(:current_user).and_return(nil)
       render
     end
 

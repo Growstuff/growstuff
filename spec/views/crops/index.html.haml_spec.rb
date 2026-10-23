@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "crops/index.html.haml" do
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     page = 1
     per_page = 2
     total_entries = 2

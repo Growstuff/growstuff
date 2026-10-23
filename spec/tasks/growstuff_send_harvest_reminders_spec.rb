@@ -1,14 +1,9 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'rake'
 
 describe 'growstuff:send_harvest_reminders' do
   include ActiveJob::TestHelper
-
-  before :all do
-    Rails.application.load_tasks
-  end
 
   before do
     Rake::Task['growstuff:send_harvest_reminders'].reenable

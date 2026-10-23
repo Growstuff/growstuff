@@ -6,14 +6,14 @@ describe "places/show" do
   before do
     @member = create(:london_member)
     @nearby_members = [create(:member)]
-    controller.stub(:current_user) { @member }
-    controller.stub(:current_member) { @member }
+    allow(controller).to receive(:current_user) { @member }
+    allow(controller).to receive(:current_member) { @member }
     @place = @member.location
     render
   end
 
   it "shows the selected place" do
-    view.content_for(:title).should match @place
+    expect(view.content_for(:title)).to match @place
   end
 
   it "shows the selected place in the textbox" do

@@ -9,7 +9,7 @@ describe "posts/new" do
     assign(:post, create(:post, author:))
     # assign(:forum, Forum.new)
     sign_in author
-    controller.stub(:current_user) { author }
+    allow(controller).to receive(:current_user) { author }
     render
   end
 

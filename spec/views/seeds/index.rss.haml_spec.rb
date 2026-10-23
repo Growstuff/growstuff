@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'seeds/index.rss.haml' do
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
   end
 
   shared_examples 'displays seed in rss feed' do

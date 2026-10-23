@@ -18,7 +18,7 @@ describe "plantings/show" do
     assign(:harvests, planting.harvests)
     assign(:child_seeds, planting.child_seeds)
     assign(:neighbours, planting.nearby_same_crop)
-    controller.stub(:current_user) { member }
+    allow(controller).to receive(:current_user) { member }
   end
 
   context 'sunniness' do
@@ -73,11 +73,11 @@ describe "plantings/show" do
     before { render }
 
     it "renders the quantity planted" do
-      expect(rendered).to match(/3/)
+      expect(rendered).to include('3')
     end
 
     it "renders the description" do
-      expect(rendered).to match(/This is a/)
+      expect(rendered).to include('This is a')
     end
 
     it "renders markdown in the description" do

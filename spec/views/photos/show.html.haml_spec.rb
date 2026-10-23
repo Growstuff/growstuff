@@ -54,7 +54,7 @@ describe "photos/show" do
 
   context "signed in as owner" do
     before do
-      controller.stub(:current_user) { member }
+      allow(controller).to receive(:current_user) { member }
       render
     end
 
@@ -67,7 +67,7 @@ describe "photos/show" do
 
   context "signed in as another member" do
     before do
-      controller.stub(:current_user) { create(:member) }
+      allow(controller).to receive(:current_user) { create(:member) }
       render
     end
 
@@ -77,7 +77,7 @@ describe "photos/show" do
 
   context "not signed in" do
     before do
-      controller.stub(:current_user) { nil }
+      allow(controller).to receive(:current_user).and_return(nil)
       render
     end
 
@@ -87,7 +87,7 @@ describe "photos/show" do
 
   context "CC-licensed photo" do
     before do
-      controller.stub(:current_user) { nil }
+      allow(controller).to receive(:current_user).and_return(nil)
       @photo.harvests << harvest
       @photo.plantings << planting
       @photo.seeds << seed
@@ -103,7 +103,7 @@ describe "photos/show" do
 
   context "unlicensed photo" do
     before do
-      controller.stub(:current_user) { nil }
+      allow(controller).to receive(:current_user).and_return(nil)
       @photo = assign(:photo, create(:unlicensed_photo))
       render
     end

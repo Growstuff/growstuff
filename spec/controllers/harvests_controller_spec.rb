@@ -172,7 +172,7 @@ describe HarvestsController do
     describe "with invalid params" do
       it "assigns a newly created but unsaved harvest as @harvest" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Harvest.any_instance.stub(:save).and_return(false)
+        allow(Harvest.any_instance).to receive(:save).and_return(false)
         post :create, params: { harvest: { "crop_id" => "invalid value" } }
         expect(assigns(:harvest)).to be_a_new(Harvest)
       end
@@ -241,7 +241,7 @@ describe HarvestsController do
       it "assigns the harvest as @harvest" do
         harvest = Harvest.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Harvest.any_instance.stub(:save).and_return(false)
+        allow(Harvest.any_instance).to receive(:save).and_return(false)
         put :update, params: { slug: harvest.to_param, harvest: { "crop_id" => "invalid value" } }
         expect(assigns(:harvest)).to eq(harvest)
       end

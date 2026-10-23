@@ -6,7 +6,7 @@ describe "garden_types/new" do
   before do
     @owner = create(:admin_member)
     sign_in @owner
-    controller.stub(:current_user) { @owner }
+    allow(controller).to receive(:current_user) { @owner }
     @garden_type = assign(:garden_type, create(:garden_type))
     render
   end

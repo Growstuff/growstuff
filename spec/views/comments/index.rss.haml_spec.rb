@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'comments/index.rss.haml' do
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     @author = create(:member)
     @post = create(:post)
     assign(:comments, [
@@ -24,7 +24,7 @@ describe 'comments/index.rss.haml' do
 
   it 'escapes html for link to post' do
     # it's then unescaped by 'render' so we don't actually look for &lt;
-    rendered.to_s.should have_content '<a href='
+    expect(rendered.to_s).to have_content '<a href='
   end
 
   it 'shows content of comments' do

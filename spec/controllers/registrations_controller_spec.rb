@@ -3,23 +3,24 @@
 require 'rails_helper'
 
 describe RegistrationsController do
+  let!(:member) { create(:member) }
+
   before do
-    @member = create(:member)
-    sign_in @member
-    controller.stub(:current_user) { @member }
-    controller.stub(:devise_mapping).and_return(Devise.mappings[:member])
+    sign_in member
+    allow(controller).to receive(:current_user) { member }
+    allow(controller).to receive(:devise_mapping).and_return(Devise.mappings[:member])
   end
 
   describe "GET edit" do
-    it "assigns the requested member as @member" do
+    it "assigns the requested member as member" do
       get :edit
-      assigns(:member).should eq(@member)
+      expect(assigns(:member)).to eq(member)
     end
 
     it "picks up the flickr auth" do
-      @auth = create(:flickr_authentication, member: @member)
+      auth = create(:flickr_authentication, member: member)
       get :edit
-      assigns(:flickr_auth).should eq @auth
+      expect(assigns(:flickr_auth)).to eq auth
     end
   end
 end

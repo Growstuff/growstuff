@@ -11,7 +11,7 @@ describe "crops/show" do
     sign_in @member
     @current_member = @member
     @harvest = create(:harvest, owner: @member)
-    controller.stub(:current_user) { @member }
+    allow(controller).to receive(:current_user) { @member }
     assign(:version_members, {})
   end
 

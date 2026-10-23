@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "forums/show" do
   before do
-    controller.stub(:current_user) { nil }
+    allow(controller).to receive(:current_user).and_return(nil)
     @forum = assign(:forum, create(:forum))
   end
 

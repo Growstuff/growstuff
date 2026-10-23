@@ -34,26 +34,28 @@ describe "plant parts", :js do
   end
 
   describe 'editing plant part' do
+    let!(:plant_part) { plant_part }
+
     before do
-      @plant_part = plant_part
       visit plant_parts_path
-      click_link 'Edit', href: edit_plant_part_path(@plant_part)
+      click_link 'Edit', href: edit_plant_part_path(plant_part)
       fill_in 'Name', with: 'Something else'
       click_button 'Save'
       plant_part.reload
     end
 
-    it { expect(page).to have_current_path plant_part_path(@plant_part), ignore_query: true }
+    it { expect(page).to have_current_path plant_part_path(plant_part), ignore_query: true }
     it { expect(page).to have_content 'Plant part was successfully updated' }
     it { expect(page).to have_content 'Something Else' }
   end
 
   describe 'deleting plant part' do
+    let!(:plant_part) { plant_part }
+
     before do
-      @plant_part = plant_part
       visit plant_parts_path
       accept_confirm do
-        click_link 'Delete', href: plant_part_path(@plant_part)
+        click_link 'Delete', href: plant_part_path(plant_part)
       end
     end
 

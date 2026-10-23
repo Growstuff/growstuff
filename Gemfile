@@ -11,9 +11,9 @@ gem 'csv'
 
 # Asset pipeline: Propshaft serves and fingerprints what esbuild (JavaScript)
 # and Sass (CSS) build into app/assets/builds; npm supplies the front-end libraries.
-gem 'propshaft'
-gem 'jsbundling-rails'
 gem 'cssbundling-rails'
+gem 'jsbundling-rails'
+gem 'propshaft'
 
 gem 'bundler', '>= 2.4.22'
 
@@ -83,7 +83,6 @@ gem 'omniauth-flickr', '>= 0.0.15'
 # Pretty charts
 gem "chartkick"
 
-
 gem "hashie", ">= 3.5.3"
 
 gem 'rake', '>= 10.0.0'
@@ -144,7 +143,6 @@ group :development, :test do
   gem 'capybara'                # integration tests
   gem 'capybara-email'          # integration tests for email
   gem 'capybara-screenshot'     # for test debugging
-  gem 'database_cleaner'
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language

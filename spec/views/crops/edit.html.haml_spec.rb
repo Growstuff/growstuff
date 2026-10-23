@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe "crops/edit" do
   before do
-    controller.stub(:current_user) do
+    allow(controller).to receive(:current_user) do
       create(:crop_wrangling_member)
     end
     @crop = create(:maize)

@@ -6,7 +6,7 @@ describe "gardens/show" do
   context 'when the garden is active' do
     before do
       @owner = create(:member)
-      controller.stub(:current_user) { @owner }
+      allow(controller).to receive(:current_user) { @owner }
       @garden = create(:garden, owner: @owner)
       @planting = create(:planting, garden: @garden, owner: @garden.owner)
       @suggested_companions = create_list(:crop, 4)
@@ -52,7 +52,7 @@ describe "gardens/show" do
   context 'when the garden is active and has a layout' do
     before do
       @owner = create(:member)
-      controller.stub(:current_user) { @owner }
+      allow(controller).to receive(:current_user) { @owner }
       @garden = create(:garden, owner: @owner, layout_saved_at: Time.current)
       @planting = create(:planting, garden: @garden, owner: @garden.owner)
       assign(:garden, @garden)
@@ -65,7 +65,7 @@ describe "gardens/show" do
     it 'shows the layout SVG preview and edit controls without New badge' do
       assert_select "a.garden-layout-teaser[href=?]", layout_member_garden_path(@owner, @garden)
       assert_select "svg.garden-layout-teaser-svg"
-      expect(rendered).not_to have_content "New"
+      expect(rendered).to have_no_content "New"
       expect(rendered).to have_content "Garden layout"
       expect(rendered).to have_content "Edit layout →"
     end
@@ -75,7 +75,7 @@ describe "gardens/show" do
     before do
       @owner = create(:member)
       @viewer = create(:member)
-      controller.stub(:current_user) { @viewer }
+      allow(controller).to receive(:current_user) { @viewer }
       @garden = create(:garden, owner: @owner, layout_saved_at: Time.current)
       assign(:garden, @garden)
       assign(:current_plantings, [])
@@ -93,7 +93,7 @@ describe "gardens/show" do
   context 'when the garden is inactive' do
     it "doesn't offer the layout, as nothing is growing there to place" do
       garden = create(:inactive_garden)
-      controller.stub(:current_user) { garden.owner }
+      allow(controller).to receive(:current_user) { garden.owner }
       assign(:garden, garden)
       assign(:current_plantings, [])
       assign(:finished_plantings, [])

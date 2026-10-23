@@ -25,7 +25,7 @@ describe "plantings/edit" do
   context "logged in" do
     before do
       sign_in @member
-      controller.stub(:current_user) { @member }
+      allow(controller).to receive(:current_user) { @member }
       render
     end
 

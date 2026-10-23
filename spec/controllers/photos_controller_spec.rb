@@ -57,10 +57,8 @@ describe PhotosController do
 
     before do
       sign_in member
-      member.stub(:flickr_photos) { [[], 0] }
-      member.stub(:flickr_sets) { { "foo" => "bar" } }
-      member.stub(:flickr_auth_valid?) { true }
-      controller.stub(:current_member) { member }
+      allow(member).to receive_messages(flickr_photos: [[], 0], flickr_sets: { "foo" => "bar" }, flickr_auth_valid?: true)
+      allow(controller).to receive(:current_member) { member }
     end
 
     describe "planting photos" do
@@ -99,12 +97,12 @@ describe PhotosController do
 
   describe "POST create" do
     before do
-      Photo.any_instance.stub(:flickr_metadata).and_return(title:         "A Heartbreaking work of staggering genius",
-                                                           license_name:  "CC-BY",
-                                                           license_url:   "http://example.com/aybpl",
-                                                           thumbnail_url: "http://example.com/thumb.jpg",
-                                                           fullsize_url:  "http://example.com/full.jpg",
-                                                           link_url:      "http://example.com")
+      allow(Photo.any_instance).to receive(:flickr_metadata).and_return(title:         "A Heartbreaking work of staggering genius",
+                                                                        license_name:  "CC-BY",
+                                                                        license_url:   "http://example.com/aybpl",
+                                                                        thumbnail_url: "http://example.com/thumb.jpg",
+                                                                        fullsize_url:  "http://example.com/full.jpg",
+                                                                        link_url:      "http://example.com")
     end
 
     let(:member)   { create(:member)                                  }
@@ -114,7 +112,7 @@ describe PhotosController do
     let(:photo)    { create(:photo, owner: member)                    }
 
     describe "with valid params" do
-      before { controller.stub(:current_member) { member } }
+      before { allow(controller).to receive(:current_member) { member } }
 
       describe "attaches the photo to a planting" do
         before do
@@ -145,7 +143,7 @@ describe PhotosController do
       it "attaches the photo to a harvest" do
         post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: harvest.id }
         expect(flash[:alert]).not_to be_present
-        Photo.last.harvests.first.should eq harvest
+        expect(Photo.last.harvests.first).to eq harvest
       end
 
       describe "doesn't attach a photo to a harvest twice" do
@@ -183,7 +181,7 @@ describe PhotosController do
     end
 
     describe "with matching owners" do
-      before { controller.stub(:current_member) { member } }
+      before { allow(controller).to receive(:current_member) { member } }
 
       describe "creates the planting/photo link" do
         let(:planting) { create(:planting, garden:, owner: member) }

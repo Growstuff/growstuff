@@ -7,7 +7,7 @@ describe "gardens/edit" do
     before do
       @owner = create(:member)
       sign_in @owner
-      controller.stub(:current_user) { @owner }
+      allow(controller).to receive(:current_user) { @owner }
       @garden = assign(:garden, create(:garden, owner: @owner))
       render
     end

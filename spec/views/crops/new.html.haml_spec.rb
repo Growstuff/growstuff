@@ -11,7 +11,7 @@ describe "crops/new" do
     assign(:crop, @crop)
     @member = create(:crop_wrangling_member)
     sign_in @member
-    controller.stub(:current_user) { @member }
+    allow(controller).to receive(:current_user) { @member }
     render
   end
 

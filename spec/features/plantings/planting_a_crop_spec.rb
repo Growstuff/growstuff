@@ -57,12 +57,12 @@ describe "Planting a crop", :js do
     end
 
     describe "Progress bar status on planting creation" do
+      let!(:a_past_date) { 15.days.ago.strftime("%Y-%m-%d") }
+      let!(:right_now) { Time.zone.today.strftime("%Y-%m-%d") }
+      let!(:a_future_date) { 1.year.from_now.strftime("%Y-%m-%d") }
+
       before do
         visit new_planting_path
-
-        @a_past_date = 15.days.ago.strftime("%Y-%m-%d")
-        @right_now = Time.zone.today.strftime("%Y-%m-%d")
-        @a_future_date = 1.year.from_now.strftime("%Y-%m-%d")
       end
 
       it "shows that it is not planted yet" do
@@ -70,7 +70,7 @@ describe "Planting a crop", :js do
         select_from_autocomplete "maize"
         within "form#new_planting" do
           choose 'Garden'
-          fill_in "When", with: @a_future_date
+          fill_in "When", with: a_future_date
           fill_in "How many?", with: 42
           select "cutting", from: "Planted from"
           select "semi-shade", from: "Sun or shade?"
@@ -88,7 +88,7 @@ describe "Planting a crop", :js do
         select_from_autocomplete "maize"
         within "form#new_planting" do
           choose 'Garden'
-          fill_in "When", with: @a_past_date
+          fill_in "When", with: a_past_date
           fill_in "How many?", with: 42
           select "cutting", from: "Planted from"
           select "semi-shade", from: "Sun or shade?"
@@ -106,13 +106,13 @@ describe "Planting a crop", :js do
         select_from_autocomplete "maize"
         within "form#new_planting" do
           choose 'Garden'
-          fill_in "When", with: @right_now
+          fill_in "When", with: right_now
           fill_in "How many?", with: 42
           select "cutting", from: "Planted from"
           select "semi-shade", from: "Sun or shade?"
           fill_in "When?", with: '2013-03-10'
           fill_in "Tell us more about it", with: "It's rad."
-          fill_in "Finished date", with: @a_future_date
+          fill_in "Finished date", with: a_future_date
           click_button "Save"
         end
 
@@ -127,7 +127,7 @@ describe "Planting a crop", :js do
         select_from_autocomplete "maize"
         within "form#new_planting" do
           choose 'Garden'
-          fill_in "When", with: @right_now
+          fill_in "When", with: right_now
           fill_in "How many?", with: 42
           select "cutting", from: "Planted from"
           select "semi-shade", from: "Sun or shade?"
@@ -145,13 +145,13 @@ describe "Planting a crop", :js do
         select_from_autocomplete "maize"
         within "form#new_planting" do
           choose 'Garden'
-          fill_in "When", with: @a_past_date
+          fill_in "When", with: a_past_date
           fill_in "How many?", with: 42
           select "cutting", from: "Planted from"
           select "semi-shade", from: "Sun or shade?"
           choose 'Garden'
           fill_in "Tell us more about it", with: "It's rad."
-          fill_in "Finished date", with: @right_now
+          fill_in "Finished date", with: right_now
           click_button "Save"
         end
 

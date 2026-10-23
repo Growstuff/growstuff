@@ -7,24 +7,24 @@ describe Crop do
     let(:crop) { create(:tomato) }
 
     it 'saves a basic crop' do
-      crop.save.should be(true)
+      expect(crop.save).to be(true)
     end
 
     it 'is fetchable from the database' do
       crop.save
-      @crop2 = described_class.find_by(name: 'tomato')
-      @crop2.en_wikipedia_url.should eq("http://en.wikipedia.org/wiki/Tomato")
-      @crop2.slug.should eq("tomato")
+      crop2 = described_class.find_by(name: 'tomato')
+      expect(crop2.en_wikipedia_url).to eq("http://en.wikipedia.org/wiki/Tomato")
+      expect(crop2.slug).to eq("tomato")
     end
 
     it 'stringifies as the system name' do
       crop.save
-      crop.to_s.should eq('tomato')
+      expect(crop.to_s).to eq('tomato')
     end
 
     it 'has a creator' do
       crop.save
-      crop.creator.should be_an_instance_of Member
+      expect(crop.creator).to be_an_instance_of Member
     end
   end
 
@@ -36,13 +36,11 @@ describe Crop do
   end
 
   context 'ordering' do
-    before do
-      @uppercase = create(:uppercasecrop, created_at: 1.minute.ago)
-      @lowercase = create(:lowercasecrop, created_at: 2.days.ago)
-    end
+    let!(:uppercase) { create(:uppercasecrop, created_at: 1.minute.ago) }
+    let!(:lowercase) { create(:lowercasecrop, created_at: 2.days.ago) }
 
     it 'recent scope sorts by creation date' do
-      described_class.recent.first.should == @uppercase
+      expect(described_class.recent.first).to eq uppercase
     end
   end
 
@@ -63,19 +61,19 @@ describe Crop do
   end
 
   it 'finds a default scientific name' do
-    @crop = create(:tomato)
-    expect(@crop.default_scientific_name).to be_nil
-    @sn = create(:solanum_lycopersicum, crop: @crop)
-    @crop.reload
-    expect(@crop.default_scientific_name.to_s).to eq @sn.name
+    crop = create(:tomato)
+    expect(crop.default_scientific_name).to be_nil
+    sn = create(:solanum_lycopersicum, crop: crop)
+    crop.reload
+    expect(crop.default_scientific_name.to_s).to eq sn.name
   end
 
   it 'counts plantings' do
-    @crop = create(:tomato)
-    expect(@crop.plantings.size).to eq 0
-    @planting = create(:planting, crop: @crop)
-    @crop.reload
-    expect(@crop.plantings.size).to eq 1
+    crop = create(:tomato)
+    expect(crop.plantings.size).to eq 0
+    create(:planting, crop: crop)
+    crop.reload
+    expect(crop.plantings.size).to eq 1
   end
 
   context "wikipedia url" do
@@ -126,16 +124,16 @@ describe Crop do
 
   context 'varieties' do
     it 'has a crop hierarchy' do
-      @tomato = create(:tomato)
-      @roma = create(:roma, parent_id: @tomato.id)
-      expect(@roma.parent).to eq @tomato
-      expect(@tomato.varieties).to eq [@roma]
+      tomato = create(:tomato)
+      roma = create(:roma, parent_id: tomato.id)
+      expect(roma.parent).to eq tomato
+      expect(tomato.varieties).to eq [roma]
     end
 
     it 'toplevel scope works' do
-      @tomato = create(:tomato)
-      @roma = create(:roma, parent_id: @tomato.id)
-      expect(described_class.toplevel).to eq [@tomato]
+      tomato = create(:tomato)
+      create(:roma, parent_id: tomato.id)
+      expect(described_class.toplevel).to eq [tomato]
     end
   end
 
@@ -224,7 +222,7 @@ describe Crop do
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
       create(:shady_planting, crop:)
-      crop.sunniness.should be_an_instance_of Hash
+      expect(crop.sunniness).to be_an_instance_of Hash
     end
 
     it 'counts each sunniness value' do
@@ -232,14 +230,14 @@ describe Crop do
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
       create(:shady_planting, crop:)
-      crop.sunniness.should == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
+      expect(crop.sunniness).to eq({ 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 })
     end
 
     it 'ignores unused sunniness values' do
       create(:sunny_planting, crop:)
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
-      crop.sunniness.should == { 'sun' => 2, 'semi-shade' => 1 }
+      expect(crop.sunniness).to eq({ 'sun' => 2, 'semi-shade' => 1 })
     end
   end
 
@@ -251,7 +249,7 @@ describe Crop do
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
       create(:cutting_planting, crop:)
-      crop.planted_from.should be_an_instance_of Hash
+      expect(crop.planted_from).to be_an_instance_of Hash
     end
 
     it 'counts each planted_from value' do
@@ -259,14 +257,14 @@ describe Crop do
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
       create(:cutting_planting, crop:)
-      crop.planted_from.should == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
+      expect(crop.planted_from).to eq({ 'seed' => 2, 'seedling' => 1, 'cutting' => 1 })
     end
 
     it 'ignores unused planted_from values' do
       create(:seed_planting, crop:)
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
-      crop.planted_from.should == { 'seed' => 2, 'seedling' => 1 }
+      expect(crop.planted_from).to eq({ 'seed' => 2, 'seedling' => 1 })
     end
   end
 
@@ -274,29 +272,29 @@ describe Crop do
     let(:crop) { create(:tomato) }
 
     it 'returns a hash of plant_part values' do
-      crop.popular_plant_parts.should be_an_instance_of Hash
+      expect(crop.popular_plant_parts).to be_an_instance_of Hash
     end
 
     it 'counts each plant_part value' do
-      @fruit = create(:plant_part)
-      @seed = create(:plant_part, name: 'seed')
-      @root = create(:plant_part, name: 'root')
-      @bulb = create(:plant_part, name: 'bulb')
-      @harvest1 = create(:harvest,
-                         crop:,
-                         plant_part: @fruit)
-      @harvest2 = create(:harvest,
-                         crop:,
-                         plant_part: @fruit)
-      @harvest3 = create(:harvest,
-                         crop:,
-                         plant_part: @seed)
-      @harvest4 = create(:harvest,
-                         crop:,
-                         plant_part: @root)
-      crop.popular_plant_parts.should == { [@fruit.id, @fruit.name] => 2,
-                                           [@seed.id, @seed.name]   => 1,
-                                           [@root.id, @root.name]   => 1 }
+      fruit = create(:plant_part)
+      seed = create(:plant_part, name: 'seed')
+      root = create(:plant_part, name: 'root')
+      create(:plant_part, name: 'bulb')
+      create(:harvest,
+             crop:,
+             plant_part: fruit)
+      create(:harvest,
+             crop:,
+             plant_part: fruit)
+      create(:harvest,
+             crop:,
+             plant_part: seed)
+      create(:harvest,
+             crop:,
+             plant_part: root)
+      expect(crop.popular_plant_parts).to eq({ [fruit.id, fruit.name] => 2,
+                                               [seed.id, seed.name]   => 1,
+                                               [root.id, root.name]   => 1 })
     end
   end
 
@@ -366,19 +364,15 @@ describe Crop do
   end
 
   it "doesn't duplicate plant_parts" do
-    @maize = create(:maize)
-    @pp1 = create(:plant_part)
-    @h1 = create(:harvest, crop: @maize, plant_part: @pp1)
-    @h2 = create(:harvest, crop: @maize, plant_part: @pp1)
-    expect(@maize.plant_parts).to eq [@pp1]
+    maize = create(:maize)
+    pp1 = create(:plant_part)
+    create(:harvest, crop: maize, plant_part: pp1)
+    create(:harvest, crop: maize, plant_part: pp1)
+    expect(maize.plant_parts).to eq [pp1]
   end
 
   context "csv loading" do
-    before do
-      # don't use 'let' for this -- we need to actually create it,
-      # regardless of whether it's used.
-      @cropbot = create(:cropbot)
-    end
+    let!(:cropbot) { create(:cropbot) }
 
     context "scientific names" do
       it "adds a scientific name to a crop that has none" do
@@ -476,7 +470,7 @@ describe Crop do
 
       expect(tomato.name).to eq "tomato"
       expect(tomato.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
-      expect(tomato.creator).to eq @cropbot
+      expect(tomato.creator).to eq cropbot
     end
 
     it "loads a crop with a scientific name" do
@@ -527,7 +521,7 @@ describe Crop do
       loaded = described_class.last
       expect(loaded.name).to eq "tomato"
       expect(loaded.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
-      expect(loaded.creator).to eq @cropbot
+      expect(loaded.creator).to eq cropbot
     end
   end
 

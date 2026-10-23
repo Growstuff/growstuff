@@ -8,7 +8,7 @@ describe "forums/index" do
   let(:second_forum) { create(:forum) }
 
   before do
-    controller.stub(:current_user) { admin }
+    allow(controller).to receive(:current_user) { admin }
     assign(:forums, [first_forum, second_forum])
   end
 
