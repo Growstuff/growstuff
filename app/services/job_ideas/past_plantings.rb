@@ -35,7 +35,7 @@ class JobIdeas
       @to_plant ||= @member.jobs.active.action_plant.where(jobbable_type: 'Crop').pluck(:jobbable_id)
     end
 
-    # The crops they have planted since the last fortnight, so are already growing.
+    # The crops they have planted since this time last year, so are already growing.
     def planted_since
       @planted_since ||= @member.plantings.where(planted_at: (@today - 1.year + AFTER + 1.day)..).pluck(:crop_id)
     end
