@@ -3,9 +3,10 @@
 require 'rails_helper'
 require 'capybara/email/rspec'
 
-describe "Planting reminder email", :js do
+describe "Planting reminder email" do
   let(:member) { create(:member) }
   let(:mail)   { NotifierMailer.planting_reminder(member) }
+  let(:mail_body) { mail.body.encoded }
 
   # Unfortunately, we can't use the default url options for ActionMailer as configured in
   # test.rb, since this isn't a mailer spec.
@@ -19,11 +20,11 @@ describe "Planting reminder email", :js do
 
   context "when member has no plantings" do
     it "tells you to track your plantings" do
-      expect(mail).to have_content "planting your first crop"
+      expect(mail_body).to have_content "planting your first crop"
     end
 
     it "doesn't list plantings" do
-      expect(mail).to have_no_content "Progress report"
+      expect(mail_body).not_to have_css("section.progress")
     end
   end
 
@@ -34,16 +35,16 @@ describe "Planting reminder email", :js do
     let!(:older_planting)  { create(:predictable_planting, planted_at: 30.days.ago, garden: member.gardens.first, owner: member) }
 
     describe "lists plantings" do
-      it { expect(mail).to have_content "Progress report" }
-      it { expect(mail).to have_link recent_planting.crop.to_s, href: planting_url(recent_planting) }
-      it { expect(mail).to have_link older_planting.crop.to_s, href: planting_url(older_planting) }
-      it { expect(mail).to have_content "keep your garden records up to date" }
+      it { expect(mail_body).to have_content "Progress report" }
+      it { expect(mail_body).to have_link recent_planting.crop.to_s, href: planting_url(recent_planting) }
+      it { expect(mail_body).to have_link older_planting.crop.to_s, href: planting_url(older_planting) }
+      it { expect(mail_body).to have_content "keep your garden records up to date" }
     end
   end
 
   context "when member has no harvests" do
     it "doesn't list plantings" do
-      expect(mail).to have_no_content "Ready to harvest"
+      expect(mail_body).to have_no_content "Ready to harvest"
     end
   end
 
@@ -56,10 +57,10 @@ describe "Planting reminder email", :js do
     let!(:older_harvest)   { create(:harvest, owner: member, planting: older_planting, harvested_at: 3.days.ago) }
 
     describe "lists planting that are ready for harvest" do
-      it { expect(mail).to have_content "Ready to harvest" }
-      it { expect(mail).to have_link recent_planting.crop.name, href: planting_url(recent_planting) }
-      it { expect(mail).to have_link older_planting.crop.name, href: planting_url(older_planting) }
-      it { expect(mail).to have_content "Harvested anything lately?" }
+      it { expect(mail_body).to have_content "Ready to harvest" }
+      it { expect(mail_body).to have_link recent_planting.crop.name, href: planting_url(recent_planting) }
+      it { expect(mail_body).to have_link older_planting.crop.name, href: planting_url(older_planting) }
+      it { expect(mail_body).to have_content "Harvested anything lately?" }
     end
   end
 end
