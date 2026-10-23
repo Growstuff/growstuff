@@ -12,17 +12,17 @@ describe JobIdeas do
 
   it 'has the ideas from each source' do
     create(:planting, owner: member, crop: create(:crop, perennial: false), planted_at: Date.new(2025, 10, 28))
-    expect(ideas.map(&:kind)).to match_array(%i(last_year planted_last_year))
+    expect(ideas.map(&:kind)).to match_array(%i(past_job past_planting))
   end
 
   context 'when the member said it is not for them' do
-    before { create(:job_idea_dismissal, member:, key: 'last_year:snip off scapes:') }
+    before { create(:job_idea_dismissal, member:, key: 'past_job:snip off scapes:') }
 
     it { is_expected.to be_empty }
   end
 
   context 'when that was over a month ago' do
-    before { create(:job_idea_dismissal, member:, key: 'last_year:snip off scapes:', updated_at: 2.months.ago) }
+    before { create(:job_idea_dismissal, member:, key: 'past_job:snip off scapes:', updated_at: 2.months.ago) }
 
     it 'has the idea again' do
       expect(ideas.size).to eq 1

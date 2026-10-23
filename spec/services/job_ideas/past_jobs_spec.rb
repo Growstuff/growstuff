@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe JobIdeas::LastYear do
+describe JobIdeas::PastJobs do
   include ActiveSupport::Testing::TimeHelpers
 
   subject(:ideas) { described_class.new(member, today).ideas }
@@ -30,6 +30,24 @@ describe JobIdeas::LastYear do
     job.update!(finished: false)
     travel_to(Time.zone.local(2025, 10, 25, 12)) { job.update!(finished: true) }
     expect(ideas.first.on).to eq Date.new(2025, 10, 25)
+  end
+
+  it 'counts the years it was done' do
+    expect(ideas.first.years).to eq 1
+  end
+
+  context 'with a job done two years ago' do
+    let(:done_on) { Date.new(2024, 10, 30) }
+
+    it 'has an idea for it' do
+      expect(ideas.map(&:name)).to eq ['Snip off scapes']
+    end
+  end
+
+  context 'with a job done more than five years ago' do
+    let(:done_on) { Date.new(2020, 10, 28) }
+
+    it { is_expected.to be_empty }
   end
 
   context 'with a job done a month earlier' do
@@ -62,11 +80,33 @@ describe JobIdeas::LastYear do
     it { is_expected.to be_empty }
   end
 
-  context 'with the same job done twice' do
+  context 'with the same job done twice in one year' do
     before { create(:job, :finished_without_time, owner: member, name: 'Snip off scapes', due_date: done_on + 3.days, jobbable: crop) }
 
     it 'has one idea' do
       expect(ideas.size).to eq 1
+    end
+
+    it 'counts the year once' do
+      expect(ideas.first.years).to eq 1
+    end
+  end
+
+  context 'with the same job done in an earlier year too' do
+    before do
+      create(:job, :finished_without_time, owner: member, name: 'Snip off scapes', due_date: Date.new(2024, 10, 26), jobbable: crop)
+    end
+
+    it 'has one idea' do
+      expect(ideas.size).to eq 1
+    end
+
+    it 'dates it the latest time' do
+      expect(ideas.first.on).to eq done_on
+    end
+
+    it 'counts the years' do
+      expect(ideas.first.years).to eq 2
     end
   end
 end

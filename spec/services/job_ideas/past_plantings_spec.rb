@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe JobIdeas::PlantedLastYear do
+describe JobIdeas::PastPlantings do
   subject(:ideas) { described_class.new(member, today).ideas }
 
   let(:today) { Date.new(2026, 10, 23) }
@@ -19,12 +19,30 @@ describe JobIdeas::PlantedLastYear do
     expect(ideas.first.on).to eq planted_at
   end
 
-  it 'is about last year\'s planting' do
+  it 'is about the planting it was last done' do
     expect(ideas.first.planting).to eq planting
   end
 
   it 'keys the idea by crop' do
-    expect(ideas.first.key).to eq "planted_last_year:#{crop.id}"
+    expect(ideas.first.key).to eq "past_planting:#{crop.id}"
+  end
+
+  it 'counts the years it was planted' do
+    expect(ideas.first.years).to eq 1
+  end
+
+  context 'with a planting two years ago' do
+    let(:planted_at) { Date.new(2024, 10, 30) }
+
+    it 'has an idea for it' do
+      expect(ideas.map(&:crop)).to eq [crop]
+    end
+  end
+
+  context 'with a planting more than five years ago' do
+    let(:planted_at) { Date.new(2020, 10, 28) }
+
+    it { is_expected.to be_empty }
   end
 
   context 'with a planting a month earlier' do
@@ -57,11 +75,19 @@ describe JobIdeas::PlantedLastYear do
     it { is_expected.to be_empty }
   end
 
-  context 'when the crop was planted twice then' do
-    before { create(:planting, owner: member, crop:, planted_at: planted_at + 3.days) }
+  context 'when the crop was planted in an earlier year too' do
+    before { create(:planting, owner: member, crop:, planted_at: Date.new(2024, 10, 26)) }
 
     it 'has one idea' do
       expect(ideas.size).to eq 1
+    end
+
+    it 'dates it the latest time' do
+      expect(ideas.first.on).to eq planted_at
+    end
+
+    it 'counts the years' do
+      expect(ideas.first.years).to eq 2
     end
   end
 end
