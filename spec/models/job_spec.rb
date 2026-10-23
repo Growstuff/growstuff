@@ -21,6 +21,31 @@ RSpec.describe Job do
     end
   end
 
+  describe '#crop_job_step' do
+    subject(:job) { create(:job, crop_job_step: step) }
+
+    let(:step) { create(:crop_job_step) }
+
+    it 'is the template step the job was made from' do
+      expect(job.reload.crop_job_step).to eq step
+    end
+
+    it 'is optional' do
+      expect(build(:job, crop_job_step: nil)).to be_valid
+    end
+
+    context 'when the step is deleted' do
+      before do
+        job
+        step.destroy
+      end
+
+      it 'leaves the job' do
+        expect(job.reload.crop_job_step).to be_nil
+      end
+    end
+  end
+
   describe '#jobbable' do
     subject(:job) { build(:job, owner:, jobbable:) }
 

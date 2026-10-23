@@ -5,6 +5,7 @@
 # point to a page, its external_uri, that says more about how to do it.
 class CropJobStep < ApplicationRecord
   belongs_to :crop_job_template
+  has_many :jobs, dependent: :nullify
 
   enum :offset_unit, { days: 'days', weeks: 'weeks', months: 'months' }, prefix: true, validate: true
   enum :direction, { after: 'after', before: 'before' }, prefix: true, validate: true
