@@ -11,7 +11,8 @@ describe JobIdeas do
   before { create(:job, :finished_without_time, owner: member, name: 'Snip off scapes', due_date: Date.new(2025, 10, 28)) }
 
   it 'has the ideas from each source' do
-    expect(ideas.map(&:kind)).to eq [:last_year]
+    create(:planting, owner: member, crop: create(:crop, perennial: false), planted_at: Date.new(2025, 10, 28))
+    expect(ideas.map(&:kind)).to match_array(%i(last_year planted_last_year))
   end
 
   context 'when the member said it is not for them' do
