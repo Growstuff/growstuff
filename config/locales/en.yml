@@ -545,6 +545,17 @@ en:
     harvesting_now: harvesting now
     data: 'The data on this page is available in the following formats:'
   layouts:
+    footer:
+      about: About
+      open_source: Open Source
+      growstuff_team: Growstuff Team
+      get_involved: Get Involved
+      terms_of_service: Terms Of Service
+      privacy_policy: Privacy Policy
+      data_use_policy: Data Use Policy
+      community_guidelines: Community Guidelines
+      support: Support
+      contact: Contact
     header:
       jobs: Jobs
       account: Account
