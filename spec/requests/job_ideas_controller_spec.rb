@@ -23,11 +23,27 @@ describe JobIdeasController do
     end
 
     it 'suggests the job' do
-      expect(response.body).to include('Snip off scapes')
+      expect(Capybara.string(response.body)).to have_css('.job-ideas', text: 'Snip off scapes')
     end
 
     it 'says why' do
       expect(response.body).to include('You did this on 28 Oct.')
+    end
+
+    it 'shows the notepad beside the ideas' do
+      expect(response.body).to include('notepad-groups')
+    end
+
+    it 'names the section' do
+      expect(response.body).to include('At this time of year')
+    end
+  end
+
+  describe 'GET /job_ideas with a source switched off' do
+    before { get job_ideas_path(skip: ['mine']) }
+
+    it 'leaves out what that source suggests' do
+      expect(Capybara.string(response.body)).to have_no_css('.job-ideas', text: 'Snip off scapes')
     end
   end
 
@@ -107,7 +123,7 @@ describe JobIdeasController do
     it 'stops suggesting it' do
       post hide_job_ideas_path, params: { key: }
       get job_ideas_path
-      expect(response.body).not_to include('Snip off scapes')
+      expect(Capybara.string(response.body)).to have_no_css('.job-ideas', text: 'Snip off scapes')
     end
   end
 end

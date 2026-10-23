@@ -724,3 +724,129 @@ $notepad-trail: #a4c98c;
     transform: rotate(360deg);
   }
 }
+
+// The ideas card beside the notepad: toggle chips, then each section's ideas, an
+// icon and what it is on the left, what to do with it on the right.
+.job-ideas {
+  .idea-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 0.8rem 1.1rem 0;
+  }
+
+  .idea-filter {
+    align-items: center;
+    background: $notepad-tile;
+    border: 1px dashed transparent;
+    border-radius: 999px;
+    color: $notepad-leaf;
+    display: inline-flex;
+    font-size: 0.85rem;
+    font-weight: 600;
+    gap: 0.35rem;
+    min-height: 44px;
+    padding: 0 1rem;
+    text-decoration: none;
+
+    &.off {
+      background: $white;
+      border-color: $notepad-trail;
+      color: $ink-muted;
+    }
+  }
+
+  .idea-none,
+  .idea-more {
+    color: $ink-muted;
+    margin: 1rem 1.1rem 0;
+  }
+
+  .idea {
+    align-items: flex-start;
+    border-top: 1px solid #eef0ea;
+    display: flex;
+    gap: 0.9rem;
+    padding: 0.8rem 1.1rem;
+  }
+
+  .idea-icon {
+    color: $green;
+    flex: none;
+    margin-top: 0.15rem;
+  }
+
+  .idea-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .idea-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.35rem;
+  }
+
+  .idea-why {
+    color: $ink-muted;
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+  }
+
+  .idea-actions {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 6.5rem;
+  }
+
+  .idea-add {
+    background: $white;
+    border: 1px solid $green;
+    border-radius: 2px;
+    color: $green;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-height: 44px;
+    padding: 0 0.9rem;
+    text-transform: uppercase;
+
+    &:hover {
+      background: $notepad-tile;
+    }
+  }
+
+  .idea-later {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    justify-content: center;
+  }
+
+  .idea-link,
+  .idea-snooze summary {
+    background: none;
+    border: 0;
+    color: $ink-muted;
+    cursor: pointer;
+    font-size: 0.8rem;
+    min-height: 32px;
+    padding: 0;
+  }
+
+  .idea-snooze {
+    position: relative;
+
+    summary {
+      align-items: center;
+      display: inline-flex;
+    }
+
+    form {
+      display: block;
+    }
+  }
+}

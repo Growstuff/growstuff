@@ -1,21 +1,47 @@
 - content_for :title, t('job_ideas.title')
 
+-# The notepad on this page is the same one as on the jobs page.
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to t('jobs.pad.title', owner: current_member.login_name), member_jobs_path(current_member)
+  %li.breadcrumb-item= link_to 'Jobs', jobs_path
   %li.breadcrumb-item.active= link_to t('job_ideas.title'), job_ideas_path
 
 .row
-  .col-md-9.mx-auto
+  .col-lg-3
     %h1.h2
       = job_icon
-      = t('job_ideas.title')
-    %p.text-muted= t('job_ideas.intro')
-
-    - if @ideas.empty?
-      %p= t('job_ideas.none')
-    - else
-      %ul.list-group.mb-3
-        = render partial: 'job_ideas/idea', collection: @ideas, as: :idea
-      - if @more.positive?
-        %p.text-muted= t('job_ideas.more', count: @more)
-    = link_to t('job_ideas.back'), member_jobs_path(current_member)
+      Jobs
+    %nav.list-group.mb-3{ 'aria-label': 'Jobs' }
+      = link_to t('jobs.pad.my_jobs'), member_jobs_path(current_member), class: 'list-group-item'
+      = link_to job_ideas_path, class: 'list-group-item active', 'aria-current': 'page' do
+        = t('jobs.pad.ideas')
+        %span.badge.rounded-pill.text-bg-warning.float-end= @ideas.size + @more
+      = link_to t('jobs.pad.everyones_jobs'), jobs_path, class: 'list-group-item'
+  .col-lg-9
+    .row
+      .col-xl-6.mb-4
+        = render 'jobs/notepad', owner: current_member, groups: @job_groups, done_this_week: @done_this_week,
+          autofocus: false
+      .col-xl-6.mb-4
+        .notepad.job-ideas
+          .notepad-title
+            %h2= t('job_ideas.card_title')
+          .idea-filters
+            - { 'mine' => 'mine', 'community' => 'community', 'nearby' => 'nearby' }.each_key do |name|
+              - on = @skipped.exclude?(name)
+              = link_to job_idea_switch_path(name, @skipped), class: ['idea-filter', ('off' unless on)] do
+                = on ? '✓' : '+'
+                = t("job_ideas.filter.#{name}", km: JobIdeas::Nearby::RADIUS_KM)
+          - if @ideas.empty?
+            %p.idea-none= t('job_ideas.none')
+          - job_idea_sections(@ideas).each do |section, ideas|
+            .notepad-group
+              .notepad-heading
+                %h2= t("job_ideas.section.#{section}")
+                %small= job_idea_section_note(section, current_member)
+              = render partial: 'job_ideas/idea', collection: ideas, as: :idea, locals: { skip: @skipped }
+          - if @more.positive?
+            %p.idea-more= t('job_ideas.more', count: @more)
+          %p.notepad-note= t('job_ideas.footer')

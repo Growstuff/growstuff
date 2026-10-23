@@ -16,9 +16,14 @@ class JobIdeas
   # was expected to be ready, as period says.
   Idea = Struct.new(:kind, :key, :name, :crop, :planting, :template, :job_count, :on, :years, :gardeners, :of, :period, keyword_init: true)
 
-  def initialize(member, today: Time.zone.today)
+  # Sources a member can switch off, by name, and the ones each name stands for.
+  # Templates and harvests are the member's own garden, so they are always on.
+  SWITCHES = { 'mine' => %i(past_jobs past_plantings), 'community' => %i(community), 'nearby' => %i(nearby) }.freeze
+
+  def initialize(member, today: Time.zone.today, skip: [])
     @member = member
     @today = today
+    @skipped = SWITCHES.values_at(*Array(skip)).flatten.compact
   end
 
   # Every idea not hidden, one source at a time in turn, so no one source fills
@@ -43,9 +48,10 @@ class JobIdeas
   end
 
   def sources
-    [JobIdeas::Templates.new(@member, @today), JobIdeas::PastJobs.new(@member, @today),
-     JobIdeas::PastPlantings.new(@member, @today), JobIdeas::Harvest.new(@member, @today), JobIdeas::Community.new(@member, @today),
-     JobIdeas::Nearby.new(@member, @today)]
+    {
+      templates: JobIdeas::Templates, past_jobs: JobIdeas::PastJobs, past_plantings: JobIdeas::PastPlantings,
+      harvest: JobIdeas::Harvest, community: JobIdeas::Community, nearby: JobIdeas::Nearby
+    }.except(*@skipped).values.map { |source| source.new(@member, @today) }
   end
 
   def hidden_keys
