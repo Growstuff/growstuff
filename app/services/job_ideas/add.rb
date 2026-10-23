@@ -27,7 +27,7 @@ class JobIdeas
     # template would come back for the next planting of the crop.
     def add_template
       jobs = ApplyCropJobTemplate.new(@idea.template, @idea.planting, today: @today).call
-      JobIdeaDismissal.dismiss!(@member, @idea.key)
+      JobIdeaDismissal.hide!(@member, @idea.key)
       jobs
     end
 

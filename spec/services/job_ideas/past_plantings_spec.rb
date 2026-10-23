@@ -19,10 +19,6 @@ describe JobIdeas::PastPlantings do
     expect(ideas.first.on).to eq planted_at
   end
 
-  it 'is about the planting it was last done' do
-    expect(ideas.first.planting).to eq planting
-  end
-
   it 'keys the idea by crop' do
     expect(ideas.first.key).to eq "past_planting:#{crop.id}"
   end

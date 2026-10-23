@@ -8,18 +8,31 @@ class JobIdeas
   # How many ideas are suggested at a time.
   SHOWN = 5
 
-  # kind is where the idea came from. job_count is how many jobs a template would
-  # add, and schedule those jobs, with their days; on is the latest day it was done or planted at this time of year, and
-  # years how many years it was. From other gardeners, gardeners is how many did
-  # it, of how many grow the crop, now or in earlier years, as period says. For
-  # a harvest, on is the day it was last harvested from, or if never, the day it
-  # was expected to be ready, as period says.
-  Idea = Struct.new(:kind, :key, :name, :crop, :planting, :template, :schedule, :job_count, :on, :years, :gardeners, :of, :period,
+  # Where an idea came from is its kind. The rest is what the kind has to say:
+  # - planting and template: the planting it is for; a template idea also has the
+  #   template and its schedule, the jobs it would add with their days
+  # - on: the latest day it was done or planted at this time of year, and years how
+  #   many years; for a harvest, the day it was last harvested from or, if never,
+  #   expected to be ready, as period says
+  # - gardeners: from other gardeners, how many did it, of how many grow the crop,
+  #   now or in earlier years, as period says
+  Idea = Struct.new(:kind, :key, :name, :crop, :planting, :template, :schedule, :on, :years, :gardeners, :of, :period,
                     keyword_init: true)
 
   # Sources a member can switch off, by name, and the ones each name stands for.
   # Templates and harvests are the member's own garden, so they are always on.
   SWITCHES = { 'mine' => %i(past_jobs past_plantings), 'community' => %i(community), 'nearby' => %i(nearby) }.freeze
+
+  # How many ideas a member has, for the box over their jobs. It looks at other
+  # people's jobs, so it is kept for a few minutes, until the member adds or hides
+  # an idea.
+  def self.count_for(member)
+    Rails.cache.fetch(['job_ideas_count', member.id], expires_in: 10.minutes) { new(member).ideas.size }
+  end
+
+  def self.forget_count(member)
+    Rails.cache.delete(['job_ideas_count', member.id])
+  end
 
   def initialize(member, today: Time.zone.today, skip: [])
     @member = member
@@ -56,6 +69,6 @@ class JobIdeas
   end
 
   def hidden_keys
-    @hidden_keys ||= @member.job_idea_dismissals.hiding.pluck(:key)
+    @hidden_keys ||= @member.job_idea_dismissals.hiding.pluck(:key).to_set
   end
 end

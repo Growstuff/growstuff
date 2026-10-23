@@ -17,8 +17,9 @@ class JobIdeas
         next if planted_since.include?(crop_id) || to_plant.include?(crop_id)
 
         latest = plantings.max_by(&:planted_at)
+        years = plantings.map { |planting| planting.planted_at.year }.uniq.size
         Idea.new(kind: :past_planting, key: "past_planting:#{crop_id}", name: latest.crop.name, crop: latest.crop,
-                 planting: latest, on: latest.planted_at, years: plantings.map { |planting| planting.planted_at.year }.uniq.size)
+                 on: latest.planted_at, years:)
       end
     end
 

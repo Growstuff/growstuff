@@ -27,7 +27,7 @@
               %span.idea-preview-day= l(entry.date, format: '%-d %b')
               = entry.step.name
   .idea-actions
-    - add = idea.kind == :template ? t('job_ideas.add_all', count: idea.job_count) : t('job_ideas.add')
+    - add = idea.kind == :template ? t('job_ideas.add_all', count: idea.schedule.size) : t('job_ideas.add')
     = button_to add, job_ideas_path(skip:), params: { key: idea.key }, class: 'idea-add', form_class: 'idea-form'
     .idea-later
       - dismiss = { params: { key: idea.key }, class: 'idea-link', form_class: 'idea-form' }

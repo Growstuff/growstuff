@@ -20,10 +20,6 @@ class JobIdeaDismissal < ApplicationRecord
     dismissal
   end
 
-  def self.dismiss!(member, key)
-    hide!(member, key)
-  end
-
   # For one of SNOOZES, named.
   def self.snooze!(member, key, length)
     hide!(member, key, SNOOZES.fetch(length))

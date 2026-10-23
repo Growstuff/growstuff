@@ -27,7 +27,7 @@ class JobIdeasController < ApplicationController
     key = params.require(:key)
     length = params[:length].to_s
     snoozed = JobIdeaDismissal::SNOOZES.key?(length)
-    snoozed ? JobIdeaDismissal.snooze!(current_member, key, length) : JobIdeaDismissal.dismiss!(current_member, key)
+    snoozed ? JobIdeaDismissal.snooze!(current_member, key, length) : JobIdeaDismissal.hide!(current_member, key)
     changed([], t("job_ideas.hidden.#{snoozed ? length : 'dismissed'}"))
   end
 
@@ -57,17 +57,23 @@ class JobIdeasController < ApplicationController
   def changed(added, notice)
     return redirect_to(job_ideas_path(skip: skipped), notice:) unless request.xhr?
 
+    JobIdeas.forget_count(current_member)
     @job_ideas = nil
     load_ideas
     render json: overlay_json(added)
   end
 
+  # The member's jobs, as they now are, to show those that were added.
+  def jobs_groups
+    groups = JobsNotepad.new(current_member).groups
+    render_to_string(partial: 'jobs/notepad_groups', formats: [:html], locals: { groups:, in_garden: false })
+  end
+
   def overlay_json(added)
-    notepad = JobsNotepad.new(current_member)
     count = @ideas.size + @more
     {
       list: render_to_string(partial: 'job_ideas/list', formats: [:html]),
-      groups: render_to_string(partial: 'jobs/notepad_groups', formats: [:html], locals: { groups: notepad.groups, in_garden: false }),
+      groups: (jobs_groups if added.any?),
       count:, banner: t('job_ideas.banner', count:), added_label: t('job_ideas.added_to_jobs', count: added.size),
       added: added.map { |job| { id: job.id, name: job.name, due: (l(job.due_date, format: '%-d %b') if job.due_date) } }
     }

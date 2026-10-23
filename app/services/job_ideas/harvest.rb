@@ -14,13 +14,15 @@ class JobIdeas
     end
 
     def ideas
-      plantings.filter_map { |planting| idea_for(planting) }
+      found = plantings.to_a
+      @last_harvests = ::Harvest.where(planting_id: found.map(&:id)).group(:planting_id).maximum(:harvested_at)
+      found.filter_map { |planting| idea_for(planting) }
     end
 
     private
 
     def plantings
-      @member.plantings.active.annual.where.not(planted_at: nil).preload(:crop, :harvests)
+      @member.plantings.active.annual.where.not(planted_at: nil).preload(:crop)
     end
 
     def idea_for(planting)
@@ -42,7 +44,7 @@ class JobIdeas
     end
 
     def last_harvest(planting)
-      planting.harvests.filter_map(&:harvested_at).max&.to_date
+      @last_harvests[planting.id]&.to_date
     end
 
     def expected_on(planting)

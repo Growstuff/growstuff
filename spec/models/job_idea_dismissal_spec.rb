@@ -24,8 +24,8 @@ describe JobIdeaDismissal do
     end
   end
 
-  describe '.dismiss!' do
-    before { described_class.dismiss!(member, key) }
+  describe '.hide!' do
+    before { described_class.hide!(member, key) }
 
     it 'hides the idea' do
       expect(hidden_keys).to eq [key]
@@ -61,7 +61,7 @@ describe JobIdeaDismissal do
     end
 
     it 'does not keep two for the same idea' do
-      described_class.dismiss!(member, key)
+      described_class.hide!(member, key)
       expect(member.job_idea_dismissals.count).to eq 1
     end
   end

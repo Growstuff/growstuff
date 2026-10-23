@@ -15,7 +15,7 @@ class JobIdeas
       by_template.map do |template, found|
         planting, entries = found.max_by { |planting, _entries| [planting.planted_at, planting.id] }
         Idea.new(kind: :template, key: "template:#{template.id}", name: template.name, crop: template.crop, planting:, template:,
-                 schedule: entries, job_count: entries.size, on: planting.planted_at.to_date)
+                 schedule: entries, on: planting.planted_at.to_date)
       end
     end
 

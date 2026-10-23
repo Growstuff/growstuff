@@ -25,7 +25,7 @@ describe JobIdeas::Templates do
   end
 
   it 'counts the jobs it would add' do
-    expect(ideas.first.job_count).to eq 2
+    expect(ideas.first.schedule.size).to eq 2
   end
 
   it 'keys the idea by template' do
@@ -52,7 +52,7 @@ describe JobIdeas::Templates do
     end
 
     it 'counts the jobs for that planting only' do
-      expect(ideas.first.job_count).to eq 2
+      expect(ideas.first.schedule.size).to eq 2
     end
   end
 
