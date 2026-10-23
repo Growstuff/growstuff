@@ -28,6 +28,7 @@
   - banner = !garden && local_assigns.fetch(:ideas_banner, true)
   - ideas = job_ideas_count(owner) if banner
   = render 'jobs/ideas_banner', count: ideas if ideas&.positive?
+  = render 'jobs/ideas_modal' if banner
 
   #notepad-groups{ data: { celebrations: job_celebrations.to_json, garden_id: garden&.id } }= render 'jobs/notepad_groups', groups:, in_garden: garden.present?
   .notepad-snail

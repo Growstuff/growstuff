@@ -66,6 +66,24 @@ describe JobIdeas::Templates do
     end
   end
 
+  context 'with a planting of a variety of the crop the template is for' do
+    let(:variety) { create(:crop, parent: planting.crop) }
+    let(:planting) { create(:planting, owner: member, planted_at: Date.new(2026, 10, 20)) }
+    let!(:own) { create(:planting, owner: member, crop: variety, planted_at: Date.new(2026, 10, 21)) }
+
+    it 'is for the variety\'s planting, the latest' do
+      expect(ideas.first.planting).to eq own
+    end
+
+    it 'is still one idea for the template' do
+      expect(ideas.size).to eq 1
+    end
+
+    it 'is about the crop the template is for' do
+      expect(ideas.first.crop).to eq planting.crop
+    end
+  end
+
   context 'with a draft template' do
     let(:status) { 'draft' }
 
