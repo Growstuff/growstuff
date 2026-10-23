@@ -16,6 +16,18 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+# Coverage is measured in CI, where it is uploaded to Codecov, which checks that
+# new and changed lines are covered. Locally: COVERAGE=1 bundle exec rspec
+if ENV['CI'] || ENV['COVERAGE']
+  require 'simplecov'
+  # Each rspec run in a job adds to one merged result, so give each its own name.
+  SimpleCov.command_name "rspec-#{Process.pid}"
+  SimpleCov.start 'rails' do
+    enable_coverage :branch
+    add_filter %r{^/spec/}
+  end
+end
+
 require 'percy/capybara'
 require 'rspec/rebound'
 require 'vcr'
