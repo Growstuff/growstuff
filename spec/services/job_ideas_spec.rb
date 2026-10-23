@@ -54,4 +54,14 @@ describe JobIdeas do
       expect(described_class.new(member, today:).shown.map(&:kind).first(2)).to eq %i(past_job past_planting)
     end
   end
+
+  describe 'with a source skipped' do
+    it 'leaves out its ideas' do
+      expect(described_class.new(member, today:, skip: ['mine']).ideas).to be_empty
+    end
+
+    it 'ignores a name that is not a source' do
+      expect(described_class.new(member, today:, skip: ['nonsense']).ideas.size).to eq 1
+    end
+  end
 end

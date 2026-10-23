@@ -654,16 +654,32 @@ en:
       unknown: Unknown
   job_ideas:
     title: Ideas for now
-    intro: Jobs you might like to add, from your own garden, other gardeners, and crop guides. Adding one puts it under Some day, so you decide the day.
+    card_title: Ideas for now
+    footer: Counts come from public jobs and plantings. Adding an idea puts it under Some day, so you decide the day. "Not for me" hides it for a year, or snooze it to see it sooner.
+    filter:
+      mine: what I did before
+      community: people growing what I grow
+      nearby: near me, within %{km} km
+    section:
+      templates: Templates
+      templates_note: for plantings you have
+      this_time: At this time of year
+      this_time_note: from your jobs and plantings
+      harvest: Ready to harvest
+      harvest_note: in your garden
+      community: People growing what you grow
+      community_note: public jobs
+      nearby: Near you
+      nearby_note: "%{place} and %{km} km around"
     none: Nothing to suggest right now. Check back as the season changes.
     back: Back to your jobs
-    add:
-      one: Add
-      other: Add all %{count}
+    add: "+ Add"
+    add_all: Add all %{count}
     dismiss: Not for me
     snooze:
-      week: Snooze a week
-      month: Snooze a month
+      label: Snooze
+      week: A week
+      month: A month
     more:
       one: 1 more idea waiting.
       other: "%{count} more ideas waiting."
@@ -678,8 +694,8 @@ en:
       harvest: Harvest %{crop}
     reason:
       template:
-        one: "A guide for %{crop}: 1 job to add to your planting."
-        other: "A guide for %{crop}: %{count} jobs to add to your planting."
+        one: "1 job: %{steps}. For your %{crop}."
+        other: "%{count} jobs: %{steps}. For your %{crop}."
       past_job:
         one: "You did this on %{day}."
         other: "You did this at this time of year in %{count} years, last on %{day}."
