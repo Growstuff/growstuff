@@ -8,6 +8,8 @@ class Job < ApplicationRecord
 
   belongs_to :garden, optional: true
   belongs_to :jobbable, polymorphic: true, optional: true
+  # The template step this job was made from, if it was.
+  belongs_to :crop_job_step, optional: true
 
   JOBBABLE_TYPES = %w(Crop Planting Seed).freeze
 
