@@ -1,5 +1,13 @@
 # Notes for coding agents
 
+## UI changes
+
+Where possible if creating a pull request, include screenshots or other visual test evidence if your changes are design oriented.
+
+## Dependencies
+
+Do not commit or publish changes to ruby versions, gemfiles data or similar if you have had to make changes to the application to run in your sandbox environment/a user has not asked you to.
+
 ## Specs
 
 Follow the layout advice at https://www.betterspecs.org/:

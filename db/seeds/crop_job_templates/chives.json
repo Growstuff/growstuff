@@ -1,0 +1,17 @@
+{
+  "crop": "chives",
+  "templates": [
+    {
+      "name": "Growing chives",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds in trays", "amount": 8, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Cut the leaves", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "fortnightly"},
+        {"name": "Cut back the flower stems", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Divide the clumps", "amount": 36, "unit": "months", "direction": "after", "anchor": "planting_out"}
+      ]
+    }
+  ]
+}

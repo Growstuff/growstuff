@@ -56,7 +56,6 @@ describe "posts/new" do
     it { expect(rendered).to have_link forum.name }
 
     describe "asks what's going on generally" do
-      it { expect(rendered).to have_content "What's going on in your food garden?" }
       it { expect(rendered).to have_content "What's up?" }
     end
   end

@@ -5,6 +5,7 @@ class Seed < ApplicationRecord
   include PhotoCapable
   include Finishable
   include Ownable
+  include Jobbable
 
   friendly_id :seed_slug, use: %i(slugged finders)
 

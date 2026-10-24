@@ -1,0 +1,18 @@
+{
+  "crop": "asparagus",
+  "templates": [
+    {
+      "name": "Growing asparagus",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig a trench and fill it with compost", "amount": 2, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Mulch the bed", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Cut down the yellow ferns", "amount": 9, "unit": "months", "direction": "after", "anchor": "planting_out"},
+        {"name": "Pick the spears", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Stop picking and let the ferns grow", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

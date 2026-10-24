@@ -201,7 +201,7 @@ $dash-line: rgba(65, 63, 59, 0.15);
   i { display: block; font-size: 0.75rem; font-style: normal; color: $dash-muted; }
 }
 
-.home-chart { display: flex; gap: 10px; height: 150px; align-items: flex-end; }
+.home-chart { display: flex; gap: 4px; height: 150px; align-items: flex-end; }
 
 .home-chart-month {
   display: flex;
@@ -209,6 +209,7 @@ $dash-line: rgba(65, 63, 59, 0.15);
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+  min-width: 0;
   height: 100%;
 
   span { font-size: 0.7rem; color: $dash-muted; }
@@ -233,9 +234,11 @@ $dash-line: rgba(65, 63, 59, 0.15);
   display: flex;
   gap: 2px;
   align-items: flex-end;
+  width: 100%;
+  max-width: 30px;
   height: 120px;
 
-  span { display: block; width: 14px; min-height: 1px; }
+  span { display: block; flex: 1; min-width: 0; min-height: 1px; }
 
   .this-year { background: $green; }
 

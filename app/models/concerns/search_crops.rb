@@ -39,49 +39,18 @@ module SearchCrops
     # Only the search queries read it.
     self.ignored_columns += %w(normalised_name)
 
-    ####################################
-    # Elastic search configuration. Nothing searches the index any more, but it
-    # is still kept up to date.
-    searchkick word_start:     %i(name description alternate_names scientific_names),
-               searchable:     %i(name descriptions alternate_names scientific_names),
-               case_sensitive: false,
-               merge_mappings: true,
-               settings:       { number_of_shards: 1, number_of_replicas: 0 },
-               mappings:       {
-                 properties: {
-                   created_at:      { type: :integer },
-                   plantings_count: { type: :integer },
-                   harvests_count:  { type: :integer },
-                   photos_count:    { type: :integer }
-                 }
-               }
+    # Crops of any status whose name, an alternate name or a scientific name
+    # matches the term, with the match's score as `matches.score`.
+    scope :matching_name, lambda { |term|
+      joins("INNER JOIN (#{SearchCrops.matches_sql(term.to_s.squish)}) matches ON matches.crop_id = crops.id")
+    }
 
-    # Special scope to control if it's in the search index
-    scope :search_import, -> { approved }
-
-    def should_index?
-      approved?
-    end
-
-    def search_data
-      {
-        name:,
-        description:,
-        slug:,
-        alternate_names:  alternate_names.pluck(:name),
-        scientific_names: scientific_names.pluck(:name),
-        photos_count:     photo_associations_count,
-        # boost the crops that are planted the most
-        plantings_count:,
-        harvests_count:,
-        # boost this crop for these members
-        planters_ids:     plantings.distinct.pluck(:owner_id),
-        has_photos:       photo_associations_count.positive?,
-        thumbnail_url:,
-        scientific_name:  default_scientific_name&.name,
-        created_at:       created_at.to_i
-      }
-    end
+    # For crops from `matching_name`: the crop named exactly the term first, then
+    # by the search's own rank (see rank_sql).
+    scope :best_match_first, lambda { |term, member: nil|
+      exact = sanitize_sql_array(['lower(crops.name) = ?', SearchCrops.normalise(term.to_s.squish)])
+      order(Arel.sql("#{exact} DESC"), Arel.sql("#{SearchCrops.rank_sql(member)} DESC"))
+    }
 
     # Approved crops matching the term, best first. A blank term matches them all.
     # Crops with more plantings rank higher, and so do crops the member has planted.
@@ -90,7 +59,7 @@ module SearchCrops
       next approved.order(Arel.sql(SearchCrops.popularity_sql)) if term.blank?
 
       approved
-        .joins("INNER JOIN (#{SearchCrops.matches_sql(term)}) matches ON matches.crop_id = crops.id")
+        .matching_name(term)
         .order(Arel.sql("#{SearchCrops.rank_sql(member)} DESC"), :name)
     }
   end

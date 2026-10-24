@@ -1,0 +1,19 @@
+{
+  "crop": "parsley",
+  "templates": [
+    {
+      "name": "Growing parsley",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds in trays", "amount": 6, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Harden off the seedlings", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Weed around the plants", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "monthly"},
+        {"name": "Pick leaves regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Feed with liquid fertiliser", "amount": 8, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "monthly"},
+        {"name": "Replace with young plants", "amount": 24, "unit": "months", "direction": "after", "anchor": "planting_out"}
+      ]
+    }
+  ]
+}

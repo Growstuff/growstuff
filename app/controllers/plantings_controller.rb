@@ -25,20 +25,19 @@ class PlantingsController < DataController
     # drops every harvest that has no photo.
     @harvests = @planting.harvests.includes(:owner, :crop, :plant_part).recent
     @child_seeds = @planting.child_seeds.includes(:owner, :crop)
-    @current_activities = @planting.activities.current.includes(:owner).order(created_at: :desc)
-    @finished_activities = @planting.activities.finished.includes(:owner).order(created_at: :desc)
+    @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
+    @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
     @matching_seeds = matching_seeds
     @crop = @planting.crop
 
-    # TODO: use elastic search long/lat
     @neighbours = @planting.nearby_same_crop
       .where.not(id: @planting.id)
       .includes(:owner, :crop, :garden)
       .limit(6)
 
     if @planting.finished? && @planting.garden.plantings.current.none? && (@planting.updated_at + 2.weeks) > Time.zone.now
-      @cultivate_soil_link = new_activity_path(name: 'Cultivate soil', garden_id: @planting.garden_id, category: "Soil Cultivation",
-                                               description: "Recently finished #{@planting.crop.name} planting. Prepare for next planting.")
+      @cultivate_soil_link = new_job_path(name: 'Cultivate soil', garden_id: @planting.garden_id,
+                                          description: "Recently finished #{@planting.crop.name} planting. Prepare for next planting.")
     end
 
     respond_with @planting

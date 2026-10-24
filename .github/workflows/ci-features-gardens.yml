@@ -28,7 +28,6 @@ jobs:
       CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/growstuff_test
       DEVISE_SECRET_KEY: secret
-      ELASTIC_SEARCH_VERSION: "7.5.1-amd64"
       GROWSTUFF_EMAIL: "noreply@test.growstuff.org"
       GROWSTUFF_FLICKR_KEY: secretkey"
       GROWSTUFF_FLICKR_SECRET: secretsecret
@@ -39,18 +38,6 @@ jobs:
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v7
-
-      - name: Configure sysctl limits
-        run: |
-          sudo swapoff -a
-          sudo sysctl -w vm.swappiness=1
-          sudo sysctl -w fs.file-max=262144
-          sudo sysctl -w vm.max_map_count=262144
-
-      - name: Start Elasticsearch
-        uses: elastic/elastic-github-actions/elasticsearch@master
-        with:
-          stack-version: 7.5.1
 
       ##
       # Cache Yarn modules
@@ -95,9 +82,6 @@ jobs:
       - name: precompile assets
         run: bundle exec rails assets:precompile
 
-      - name: index into elastic search
-        run: bundle exec rails search:reindex
-
       - name: Run rspec (gardens/)
         run: bundle exec rspec spec/features/gardens/ -fd -t ~@flaky
 
@@ -107,3 +91,12 @@ jobs:
         with:
           name: screenshots
           path: tmp/screenshots
+
+      - name: Upload Ruby coverage to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage/coverage.json
+          flags: ruby
+          fail_ci_if_error: false

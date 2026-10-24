@@ -1,0 +1,25 @@
+- content_for :title, t('job_ideas.title')
+
+-# The notepad on this page is the same one as on the jobs page.
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Jobs', jobs_path
+  %li.breadcrumb-item.active= link_to t('job_ideas.title'), job_ideas_path
+
+.row
+  .col-12
+    %h1.h2
+      = job_icon
+      Jobs
+    .row
+      -# First when the columns stack, so the ideas are not left below a long notepad.
+      .col-xl-6.mb-4.order-first.order-xl-last
+        .notepad.job-ideas
+          .notepad-title
+            %h2= t('job_ideas.title')
+          = render 'job_ideas/list'
+      .col-xl-6.mb-4
+        = render 'jobs/notepad', owner: current_member, groups: @job_groups, done_this_week: @done_this_week,
+          autofocus: false, ideas_banner: false

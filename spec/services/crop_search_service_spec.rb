@@ -27,7 +27,6 @@ RSpec.describe CropSearchService, type: :service do
 
         # Child record
         create(:crop, name: 'portobello', parent: mushroom)
-        Crop.reindex
       end
 
       describe 'finds exact match' do
@@ -61,7 +60,6 @@ RSpec.describe CropSearchService, type: :service do
             # Having plantings should bring these crops to the top of the search results
             create_list(:planting, 10, crop: white)
             create_list(:planting, 4, crop: shitake)
-            Crop.reindex
           end
 
           it { expect(subject.first).to eq 'white mushroom' }
@@ -78,7 +76,6 @@ RSpec.describe CropSearchService, type: :service do
             create(:planting, crop: oyster, owner:)
             create(:planting, crop: oyster, owner:)
             create(:planting, crop: shitake, owner:)
-            Crop.reindex
           end
 
           it { expect(subject.first).to eq oyster.name }

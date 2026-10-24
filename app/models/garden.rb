@@ -10,7 +10,7 @@ class Garden < ApplicationRecord
 
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
-  has_many :activities, dependent: :destroy
+  has_many :jobs, dependent: :destroy
   has_many :planting_histories, dependent: :destroy
   has_many :garden_collaborators, dependent: :destroy
 
@@ -113,8 +113,6 @@ class Garden < ApplicationRecord
     end
   end
 
-  def reindex(refresh: false); end
-
   # Deactivate any gardens with no active plantings
   def self.archive!(time_limit: 3.years.ago, limit: 1000)
     Garden.active.not_nurseries.where("gardens.updated_at < ?", time_limit).order(updated_at: :asc).limit(limit).each do |active_garden|
@@ -141,6 +139,10 @@ class Garden < ApplicationRecord
   # How many cells the bed's layout grid has, for callers that just want the size.
   def grid_cells
     grid_columns * grid_rows
+  end
+
+  def has_layout?
+    layout_saved_at.present? || placed_plants.any? || layout_features.present?
   end
 
   # What's wrong with a list of layout features, if anything, as messages. Used

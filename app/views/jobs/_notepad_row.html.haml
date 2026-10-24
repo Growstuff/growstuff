@@ -1,0 +1,33 @@
+.notepad-job{ class: ('done' if job.finished), draggable: 'true', data: { url: job_path(job), id: job.id } }
+  - label = t(job.finished ? 'jobs.pad.uncross' : 'jobs.pad.cross_off', job: job.name)
+  = button_to '', job_path(job), method: :patch, params: { job: { finished: job.finished ? 0 : 1 } },
+    class: ['notepad-box', ('checked' if job.finished)], form_class: 'notepad-tick', title: label, 'aria-label': label
+  %span.notepad-name{ data: { edit_label: t('jobs.pad.edit_label') } }= job.name
+  %span.notepad-edit-hint{ hidden: true }= t('jobs.pad.edit_hint')
+  - if job.garden && !local_assigns[:in_garden]
+    = link_to garden_path(job.garden), class: 'notepad-chip garden' do
+      %span.kind= t('jobs.pad.garden')
+      = job.garden.name
+  - case job.jobbable
+  - when Planting
+    = link_to planting_path(job.jobbable), class: 'notepad-chip' do
+      %span.kind= t('jobs.pad.planting')
+      = job.jobbable.crop_name
+      - if job.garden.blank? && job.jobbable.garden
+        %span.in= t('jobs.pad.in_garden', garden: job.jobbable.garden.name)
+  - when Seed
+    = link_to seed_path(job.jobbable), class: 'notepad-chip' do
+      %span.kind= t('jobs.pad.seeds')
+      = job.jobbable.crop.name
+  - when Crop
+    = link_to crop_path(job.jobbable), class: 'notepad-chip' do
+      %span.kind= t('jobs.pad.crop')
+      = job.jobbable.name
+  - date_label = job_date_label(job)
+  - PhotoAssociation::MOMENTS.index_with { |moment| job.photo_at(moment) }.compact.each do |moment, photo|
+    = link_to photo_path(photo), class: 'notepad-photo', title: t("jobs.pad.photo_of_#{moment}", title: photo.title) do
+      = image_tag photo.thumbnail_url, alt: t("jobs.pad.photo_of_#{moment}", title: photo.title)
+      %span.notepad-photo-moment= t("jobs.pad.#{moment}")
+  - if date_label
+    %span.notepad-due{ class: ('late' if job_overdue?(job)) }= date_label
+  .notepad-menu= render 'jobs/actions', job:, inline_edit: true

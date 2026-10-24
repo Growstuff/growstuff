@@ -2,8 +2,17 @@
 // Extra small devices (portrait phones, less than 576px)
 @include media-breakpoint-down(md) {
   .container {
+    max-width: calc(100% - 4px);
     margin: 2px;
     padding: 0;
+  }
+
+  // The container has no padding here for a row's negative margins to cancel out.
+  main > .row,
+  main > form > .row,
+  main > .record-page > .row {
+    margin-right: 0;
+    margin-left: 0;
   }
 
   #maincontainer {

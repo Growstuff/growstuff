@@ -40,24 +40,43 @@
               = link_to 'Set it to active', edit_garden_path(@garden)
               to plant something in this garden.
         - if @garden.active
-          -# Points people at the layout page, with a little bed drawn in the same
-          -# soil and timber, so they can see what they'd be getting.
+          -# Points people at the layout page, showing either the current bed map or a teaser to create one.
           = link_to layout_member_garden_path(@garden.owner, @garden), class: 'garden-layout-teaser' do
             %span.garden-layout-teaser-bed{ 'aria-hidden': 'true' }
-              %span
-              %span
-              %span
-              %span
-            %span.garden-layout-teaser-text
-              %span.badge.text-bg-success New
-              - if can?(:update_layout, @garden)
-                %strong Map out this bed
-                %span Drag your plants onto a picture of the bed, and see what fits where.
-                %span.garden-layout-teaser-cta Try out the new garden layout tool →
+              - if @garden.has_layout?
+                %svg{ viewBox: "0 0 #{@garden.grid_columns} #{@garden.grid_rows}", class: 'garden-layout-teaser-svg' }
+                  - if @garden.layout_features.present?
+                    - @garden.layout_features.each do |feature|
+                      - if feature['x2'].present? && feature['y2'].present?
+                        %line{ x1: feature['x'], y1: feature['y'], x2: feature['x2'], y2: feature['y2'], class: "feature-line #{feature['kind']}" }
+                      - else
+                        %circle{ cx: feature['x'], cy: feature['y'], r: 0.3, class: "feature-point #{feature['kind']}" }
+                  - @garden.placed_plants.pluck(:bed_x, :bed_y, :diameter).each do |x, y, diameter|
+                    %circle{ cx: x, cy: y, r: (diameter || 1) / 2.0, class: 'placed-plant' }
               - else
-                %strong See how this bed is laid out
-                %span Where each plant in this garden is growing, on a map of the bed.
-                %span.garden-layout-teaser-cta Open the garden layout →
+                %span
+                %span
+                %span
+                %span
+            %span.garden-layout-teaser-text
+              - if @garden.has_layout?
+                %strong Garden layout
+                - if can?(:update_layout, @garden)
+                  %span View or update where plants are positioned in this bed.
+                  %span.garden-layout-teaser-cta Edit layout →
+                - else
+                  %span Where each plant in this garden is growing, on a map of the bed.
+                  %span.garden-layout-teaser-cta View layout →
+              - else
+                %span.badge.text-bg-success New
+                - if can?(:update_layout, @garden)
+                  %strong Map out this bed
+                  %span Drag your plants onto a picture of the bed, and see what fits where.
+                  %span.garden-layout-teaser-cta Try out the new garden layout tool →
+                - else
+                  %strong See how this bed is laid out
+                  %span Where each plant in this garden is growing, on a map of the bed.
+                  %span.garden-layout-teaser-cta Open the garden layout →
         %div
           %p
             :markdown
@@ -95,18 +114,20 @@
               .col-md-12
                 = garden_plant_something_button(@garden)
 
-        %section
-          %h2 Current activities in garden
-          .index-cards
-            - if @current_activities&.size&.positive?
-              - @current_activities.each do |activity|
-                = render "activities/card", activity: activity
-            - else
-              .col-md-12
-                %p Nothing is currently planned here.
-            - if can?(:edit, @garden)
-              .col-md-12
-                = garden_plan_something_button(@garden)
+        - if @notepad
+          %section
+            = render 'jobs/notepad', owner: current_member, garden: @garden, groups: @notepad.groups, done_this_week: @notepad.done_this_week,
+              autofocus: false
+        - else
+          %section
+            %h2 Current jobs in garden
+            .index-cards
+              - if @current_jobs&.size&.positive?
+                - @current_jobs.each do |job|
+                  = render "jobs/card", job: job
+              - else
+                .col-md-12
+                  %p Nothing is currently planned here.
 
         - if @suggested_companions.any?
           %section.companions
@@ -215,3 +236,9 @@
             - @photos.each do |photo|
               = render 'photos/thumbnail', photo: photo
           = will_paginate @photos
+
+-# The to-do list's menu opens the add-photo dialog over the page, a React island.
+-# Last, so it can see whether something above has asked for it already.
+- if @notepad && !content_for(:scripts).to_s.include?('react_islands')
+  - content_for :scripts do
+    = javascript_include_tag 'react_islands', defer: true

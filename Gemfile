@@ -82,9 +82,6 @@ gem 'omniauth-flickr', '>= 0.0.15'
 # Pretty charts
 gem "chartkick"
 
-# clever elastic search
-gem 'elasticsearch', '~> 7.0.0'
-gem 'searchkick'
 
 gem "hashie", ">= 3.5.3"
 
@@ -128,7 +125,6 @@ gem "msgpack"
 gem "connection_pool", "< 3"
 
 group :production do
-  gem 'bonsai-elasticsearch-rails' # Integration with Bonsa-Elasticsearch on heroku
   gem 'dalli'
 
   gem 'scout_apm' # monitoring
@@ -136,17 +132,18 @@ end
 
 group :development do
   gem 'better_errors'
+  gem 'foreman'
   gem 'letter_opener'
   gem 'listen'
 end
 
 group :development, :test do
   gem 'bullet'                  # performance tuning by finding unnecesary queries
-  gem 'byebug'                  # debugging
   gem 'capybara'                # integration tests
   gem 'capybara-email'          # integration tests for email
   gem 'capybara-screenshot'     # for test debugging
   gem 'database_cleaner'
+  gem 'debug', platforms: %i(mri windows), require: 'debug/prelude' # debugging
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
@@ -188,3 +185,5 @@ gem "paper_trail", "~> 17.0"
 
 gem 'aws-sdk-s3', '~> 1', '>= 1.114.0', require: false
 gem 'sitemap_generator'
+
+gem "simplecov", "~> 1.3", group: :test, require: false

@@ -246,35 +246,35 @@ describe Ability do
     end
   end
 
-  context 'activities' do
-    let(:activity) { create(:activity, owner: member) }
-    let(:other_activity) { create(:activity) }
+  context 'jobs' do
+    let(:job) { create(:job, owner: member) }
+    let(:other_job) { create(:job) }
 
-    it 'can create an activity' do
-      ability.should be_able_to(:create, Activity)
+    it 'can create a job' do
+      ability.should be_able_to(:create, Job)
     end
 
-    it 'can manage their own activity' do
-      ability.should be_able_to(:update, activity)
-      ability.should be_able_to(:destroy, activity)
+    it 'can manage their own job' do
+      ability.should be_able_to(:update, job)
+      ability.should be_able_to(:destroy, job)
     end
 
-    it "can't manage another member's activity" do
-      ability.should_not be_able_to(:update, other_activity)
-      ability.should_not be_able_to(:destroy, other_activity)
+    it "can't manage another member's job" do
+      ability.should_not be_able_to(:update, other_job)
+      ability.should_not be_able_to(:destroy, other_job)
     end
 
     context 'garden collaborator' do
       let(:garden) { create(:garden) }
-      let(:activity_in_garden) { create(:activity, garden:) }
+      let(:job_in_garden) { create(:job, garden:) }
 
       before do
         garden.garden_collaborators.create(member:)
       end
 
-      it 'can manage activities in a garden they collaborate on' do
-        ability.should be_able_to(:update, activity_in_garden)
-        ability.should be_able_to(:destroy, activity_in_garden)
+      it 'can manage jobs in a garden they collaborate on' do
+        ability.should be_able_to(:update, job_in_garden)
+        ability.should be_able_to(:destroy, job_in_garden)
       end
     end
   end

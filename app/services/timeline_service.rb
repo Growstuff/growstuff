@@ -18,19 +18,20 @@ class TimelineService
     comment:           :comments_query,
     photo:             :photos_query,
     seed:              :seeds_query,
-    activity:          :activities_query,
-    planned_activity:  :planned_activities_query,
+    job:               :jobs_query,
+    planned_job:       :planned_jobs_query,
+    job_finished:      :jobs_finished_query,
     like:              :likes_query,
     garden_layout:     :garden_layouts_query,
     transplant:        :transplants_query,
     planting_finished: :plantings_finished_query,
     seed_finished:     :seeds_finished_query
   }.freeze
-  DEFAULT_EVENTS = %i(planting harvest post comment photo seed activity like).freeze
+  DEFAULT_EVENTS = %i(planting harvest post comment photo seed job like).freeze
 
   # Events of the given kinds, newest first. Garden layouts are only here when
   # asked for, since the timeline page has nothing to say about them; the same goes
-  # for transplants, planned activities and finished plantings and seeds.
+  # for transplants, planned and finished jobs, and finished plantings and seeds.
   def self.query(kinds = DEFAULT_EVENTS)
     kinds.map { |kind| public_send(EVENT_QUERIES.fetch(kind)) }
       .reduce { |all, one| all.union_all(one) }
@@ -68,17 +69,23 @@ class TimelineService
               "null as crop_id")
   end
 
-  # Activities as the day they were planned rather than the day they are due,
-  # for a feed of what people have done.
-  def self.planned_activities_query
-    Activity.select(:id, "'activity' as event_type", 'activities.created_at as event_at', :owner_id, 'null as crop_id')
+  # Jobs as the day they were crossed off.
+  def self.jobs_finished_query
+    Job.where(finished: true).where.not(finished_at: nil)
+      .select(:id, "'job_finished' as event_type", 'jobs.finished_at as event_at', :owner_id, 'null as crop_id')
   end
 
-  def self.activities_query
-    Activity.select(
+  # Jobs as the day they were planned rather than the day they are due,
+  # for a feed of what people have done.
+  def self.planned_jobs_query
+    Job.select(:id, "'job' as event_type", 'jobs.created_at as event_at', :owner_id, 'null as crop_id')
+  end
+
+  def self.jobs_query
+    Job.select(
       :id,
-      "'activity' as event_type",
-      'COALESCE(activities.due_date, activities.created_at) as event_at',
+      "'job' as event_type",
+      'COALESCE(jobs.due_date, jobs.created_at) as event_at',
       :owner_id,
       'null as crop_id'
     )

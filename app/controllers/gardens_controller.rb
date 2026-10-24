@@ -36,8 +36,7 @@ class GardensController < DataController
 
   def show
     @current_plantings = @garden.plantings.current.where.not(failed: true).includes(:crop, :owner).order(planted_at: :desc)
-    @current_activities = @garden.activities.current.includes(:owner).order(created_at: :desc)
-    @finished_activities = @garden.activities.finished.includes(:owner).order(created_at: :desc)
+    load_jobs
     @finished_plantings = @garden.plantings.finished.includes(:crop)
     @suggested_companions = Crop.approved.where(
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
@@ -111,7 +110,7 @@ class GardensController < DataController
     return render_card_json(@garden.save) if request.format.json?
 
     if @garden.save
-      link = new_activity_path(name: 'Weed the garden bed', garden_id: @garden.id, due_date: 2.weeks.from_now.to_date)
+      link = new_job_path(name: 'Weed the garden bed', garden_id: @garden.id, due_date: 2.weeks.from_now.to_date)
       flash[:notice] = t('gardens.created_prompt_html', link: link).html_safe
     end
     respond_with(@garden)
@@ -153,6 +152,17 @@ class GardensController < DataController
   end
 
   private
+
+  # A member who can look after the garden gets a to-do list of their own jobs
+  # for it. Everyone else sees the jobs people have planned there, as cards.
+  def load_jobs
+    if member_signed_in? && can?(:edit, @garden)
+      @notepad = JobsNotepad.new(current_member, garden: @garden)
+    else
+      @current_jobs = @garden.jobs.active.includes(:owner).order(created_at: :desc)
+      @finished_jobs = @garden.jobs.finished.includes(:owner).order(created_at: :desc)
+    end
+  end
 
   # Takes every plant off the grid first, so the new arrangement is checked
   # against a clean bed and two plants can swap cells in one save.

@@ -1,0 +1,6 @@
+-# A yellow bar over the front page when there are job ideas to look at. It leads to
+-# their jobs, with the ideas showing.
+- count = JobIdeas.count_for(current_member)
+- if count.positive?
+  .home-ideas
+    = render 'jobs/ideas_banner', count: count, href: member_jobs_path(current_member, ideas: 1), open: false

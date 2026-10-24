@@ -22,4 +22,33 @@ describe RegistrationsController do
       assigns(:flickr_auth).should eq @auth
     end
   end
+
+  describe "POST regenerate_api_token" do
+    it "generates or regenerates an API token for the current member" do
+      expect do
+        post :regenerate_api_token
+      end.to change { @member.reload.api_token }.from(nil)
+      expect(response).to redirect_to(edit_member_registration_path + '#apps')
+    end
+  end
+
+  describe "DELETE destroy_api_token" do
+    it "destroys the API token for the current member" do
+      @member.regenerate_api_token
+      expect do
+        delete :destroy_api_token
+      end.to change { @member.reload.api_token }.to(nil)
+      expect(response).to redirect_to(edit_member_registration_path + '#apps')
+    end
+
+    it "does not destroy other members' API tokens" do
+      other_member = create(:member)
+      other_member.regenerate_api_token
+      other_token = other_member.api_token
+
+      delete :destroy_api_token
+
+      expect(other_member.reload.api_token).to eq(other_token)
+    end
+  end
 end

@@ -33,8 +33,9 @@ describe CommentsController do
 
   describe "GET new" do
     let(:post) { create(:post) }
+    let(:planting) { create(:planting) }
 
-    describe "with valid params" do
+    describe "with valid post params" do
       before do
         get :new, params: {
           comment: { commentable_id: post.id, commentable_type: "Post" }
@@ -45,6 +46,24 @@ describe CommentsController do
 
       it "picks up post from params" do
         expect(assigns(:commentable)).to eq(post)
+      end
+
+      it "assigns the old comments as @comments" do
+        expect(assigns(:comments)).to eq [old_comment]
+      end
+    end
+
+    describe "with valid planting params" do
+      let!(:old_comment) { create(:comment, commentable: planting) }
+
+      before do
+        get :new, params: {
+          comment: { commentable_id: planting.to_param, commentable_type: "Planting" }
+        }
+      end
+
+      it "picks up planting from params" do
+        expect(assigns(:commentable)).to eq(planting)
       end
 
       it "assigns the old comments as @comments" do
@@ -79,6 +98,25 @@ describe CommentsController do
     end
   end
 
+  describe "POST create" do
+    let(:planting) { create(:planting) }
+
+    it "creates a comment on a planting" do
+      expect do
+        post :create, params: {
+          comment: {
+            commentable_id: planting.id,
+            commentable_type: "Planting",
+            body: "Great planting!"
+          }
+        }
+      end.to change(Comment, :count).by(1)
+
+      expect(response).to redirect_to(planting_path(planting, anchor: 'comments'))
+      expect(Comment.last.commentable).to eq(planting)
+    end
+  end
+
   describe "PUT update" do
     before { put :update, params: { id: comment.to_param, comment: valid_attributes } }
 
@@ -86,7 +124,7 @@ describe CommentsController do
       let(:comment) { create(:comment, author: member) }
 
       it "redirects to the comment's post" do
-        expect(response).to redirect_to(comment.commentable)
+        expect(response).to redirect_to(post_path(comment.commentable, anchor: 'comments'))
       end
     end
 
@@ -116,7 +154,7 @@ describe CommentsController do
       let(:comment) { create(:comment, author: member) }
 
       it "redirects to the post the comment was on" do
-        expect(response).to redirect_to(comment.commentable)
+        expect(response).to redirect_to(post_path(comment.commentable, anchor: 'comments'))
       end
     end
 

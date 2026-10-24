@@ -8,6 +8,7 @@
     "build:watch": "yarn build --watch=forever",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "build:css": "sass app/assets/stylesheets/application.scss:app/assets/builds/application.css --no-source-map --load-path=node_modules --quiet-deps --silence-deprecation=import,global-builtin,color-functions && mkdir -p app/assets/builds/webfonts && cp node_modules/@fortawesome/fontawesome-free/webfonts/*.woff2 app/assets/builds/webfonts/",
     "build:css:watch": "yarn build:css --watch"
   },
@@ -33,11 +34,12 @@
     "yarn": ">=0.25.2"
   },
   "devDependencies": {
-    "@percy/cli": "^1.0.0-beta.76",
+    "@percy/cli": "^1.32.12",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",
+    "@vitest/coverage-v8": "^5.0.5",
     "csslint": "^1.0.5",
     "eslint": "^10.0.0",
     "eslint-config-google": "^0.9.1",

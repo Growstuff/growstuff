@@ -22,7 +22,7 @@ class Member < ApplicationRecord
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
-  has_many :activities, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_many :jobs, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_and_belongs_to_many :roles
   has_many :notifications, foreign_key: 'recipient_id', inverse_of: :recipient
   has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender, class_name: "Notification"
@@ -34,12 +34,16 @@ class Member < ApplicationRecord
   end
 
   def regenerate_api_token
-    api_token.destroy if api_token?
+    destroy_api_token
     create_api_token(
       provider: 'api',
       uid:      id,
       token:    SecureRandom.hex(16)
     )
+  end
+
+  def destroy_api_token
+    api_token.destroy if api_token?
   end
   has_many :photos, inverse_of: :owner
   has_many :likes, dependent: :destroy
@@ -57,6 +61,7 @@ class Member < ApplicationRecord
   has_many :crop_dismissals, dependent: :destroy
   has_many :dismissed_crops, through: :crop_dismissals, source: :crop
   has_many :member_dismissals, dependent: :destroy
+  has_many :job_idea_dismissals, dependent: :destroy
 
   #
   # Blocking other members
@@ -253,7 +258,7 @@ class Member < ApplicationRecord
       seeds.exists? ||
       photos.exists? ||
       forums.exists? ||
-      activities.exists? ||
+      jobs.exists? ||
       posts.exists? ||
       comments.exists? ||
       requested_crops.exists? ||

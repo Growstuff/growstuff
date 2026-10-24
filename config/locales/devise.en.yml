@@ -55,6 +55,7 @@ en:
         link to finalize confirming your new email address.
       destroyed: 'Bye! Your account was successfully cancelled. We hope to see you again soon.'
       api_token_regenerated: 'Your API token has been regenerated.'
+      api_token_destroyed: 'Your API token has been deleted.'
     unlocks:
       send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
       unlocked: 'Your account has been unlocked successfully. Please sign in to continue.'
@@ -64,8 +65,8 @@ en:
       failure: 'Could not authenticate you from %{kind} because "%{reason}".'
     mailer:
       confirmation_instructions:
-        subject: 'Welcome to Growstuff. Please confirm your account.'
+        subject: 'Welcome to %{site_name}. Please confirm your account.'
       reset_password_instructions:
-        subject: 'Growstuff password reset instructions'
+        subject: '%{site_name} password reset instructions'
       unlock_instructions:
-        subject: 'Unlock your Growstuff account'
+        subject: 'Unlock your %{site_name} account'

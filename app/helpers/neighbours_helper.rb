@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module NeighboursHelper
+module NeighboursHelper # rubocop:disable Metrics/ModuleLength
   include SeasonsHelper
   include HarvestsHelper
 
@@ -28,7 +28,12 @@ module NeighboursHelper
     day == today - 1 ? t('neighbours.day.yesterday', date:) : date
   end
 
-  GROUP_ORDER = %w(planting seed seed_trade harvest transplant planted_out planting_finished seed_finished activity garden_layout).freeze
+  # Planned and finished jobs, which have a name of their own and no page.
+  JOB_TYPES = %w(job job_finished).freeze
+  NAMED_TYPES = (JOB_TYPES + %w(garden_layout)).freeze
+
+  GROUP_ORDER = %w(planting seed seed_trade harvest transplant planted_out planting_finished seed_finished
+                   job_finished job garden_layout).freeze
 
   # The icon that goes with each kind of thing someone did.
   def group_icon(kind)
@@ -37,8 +42,8 @@ module NeighboursHelper
     when 'seed', 'seed_trade' then seed_icon
     when 'harvest' then harvest_icon
     when 'transplant', 'planted_out' then growing_icon
-    when 'planting_finished', 'seed_finished' then finished_icon
-    when 'activity' then icon('fas', 'calendar-days')
+    when 'planting_finished', 'seed_finished', 'job_finished' then finished_icon
+    when 'job' then icon('fas', 'calendar-days')
     when 'garden_layout' then garden_icon
     when 'photo' then photo_icon
     end
@@ -130,9 +135,9 @@ module NeighboursHelper
   # rather than the photo is the interesting part, so that is what links.
   def photo_group_text(subject, count, alone)
     if alone
-      link_to t('neighbours.photos.added', count:), polymorphic_path(subject)
+      link_to t('neighbours.photos.added', count:), subject_path(subject)
     else
-      t('neighbours.photos.of_html', count:, subject: link_to(subject_label(subject), polymorphic_path(subject)))
+      t('neighbours.photos.of_html', count:, subject: link_to(subject_label(subject), subject_path(subject)))
     end
   end
 
@@ -148,10 +153,21 @@ module NeighboursHelper
   # Things are the same when they have the same name and details.
   def group_things(items)
     items.group_by { |item| [thing_name(item), thing_details(item)] }.map do |(name, details), same|
-      link = link_to(name, polymorphic_path(thing_record(same.first)))
+      link = link_to(name, thing_path(same.first))
       link = safe_join([link, " (#{details})"]) if details
       same.one? ? link : safe_join([link, " ×#{same.size}"])
     end
+  end
+
+  # Jobs have no page of their own, so they link to their owner's list.
+  def thing_path(item)
+    JOB_TYPES.include?(item.type) ? member_jobs_path(item.record.owner) : polymorphic_path(thing_record(item))
+  end
+
+  # Where something a photo is of is: its own page, or for a job, which has none,
+  # its owner's list of jobs.
+  def subject_path(subject)
+    subject.is_a?(Job) ? member_jobs_path(subject.owner) : polymorphic_path(subject)
   end
 
   def thing_record(item)
@@ -160,14 +176,14 @@ module NeighboursHelper
 
   def thing_name(item)
     record = thing_record(item)
-    %w(activity garden_layout).include?(item.type) ? record.name : record.crop.name
+    NAMED_TYPES.include?(item.type) ? record.name : record.crop.name
   end
 
   def thing_details(item)
     record = item.record
     case item.type
     when 'harvest' then harvest_details(record)
-    when 'activity' then t('neighbours.group.due', date: l(record.due_date, format: '%-d %b')) if record.due_date
+    when 'job' then t('neighbours.group.due', date: l(record.due_date, format: '%-d %b')) if record.due_date
     end
   end
 
@@ -193,6 +209,7 @@ module NeighboursHelper
   def subject_label(subject)
     case subject
     when Garden then t('neighbours.subject.garden', name: subject.name)
+    when Job then t('neighbours.subject.job', name: subject.name)
     else t("neighbours.subject.#{subject.class.name.downcase}", crop: subject.crop.name)
     end
   end

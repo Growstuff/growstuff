@@ -1,0 +1,8 @@
+- content_for :title, "Edit #{@template.name}"
+
+= render 'header', crop: @crop, title: @template.name
+.row
+  .col-lg-8
+    = render 'form', crop: @crop, template: @template
+  .col-lg-4
+    = render 'preview', crop: @crop, template: @template, planting_out_on: @planting_out_on

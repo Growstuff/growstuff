@@ -1,0 +1,41 @@
+-# A member's own jobs as a notepad: grouped by when, with what each is about.
+-# Crossed off jobs stay where they are, ticked. With a garden, it is the jobs for
+-# that garden, on the garden's page.
+- garden = local_assigns[:garden]
+.notepad
+  .notepad-title
+    = content_tag(garden ? :h2 : :h1, garden ? t('jobs.pad.garden_title', garden: garden.name) : t('jobs.pad.title', owner: owner.login_name))
+    - if garden
+      = link_to t('jobs.pad.all_jobs'), member_jobs_path(owner), class: 'notepad-all-jobs'
+  = form_with url: jobs_path, scope: :job, class: 'notepad-add', data: { suggestions_url: job_suggestions_path, kinds: { planting: t('jobs.pad.planting'), seed: t('jobs.pad.seeds'), crop: t('jobs.pad.crop') }.to_json } do |f|
+    %span.notepad-add-plus{ 'aria-hidden': 'true' } +
+    = f.text_field :name, required: true, autofocus: local_assigns.fetch(:autofocus, true), autocomplete: 'off', placeholder: t('jobs.pad.add'), 'aria-label': t('jobs.pad.add'),
+      role: 'combobox', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'aria-controls': 'notepad-suggestions'
+    -# The script sends the job without reloading, so the button must not stay disabled.
+    = f.submit t('jobs.pad.add_button'), class: 'btn btn-primary notepad-add-button', data: { disable_with: false, saving_label: t('jobs.pad.adding_button') }
+    = f.hidden_field :garden_id, value: garden.id if garden
+    = f.hidden_field :jobbable_type, id: 'notepad-jobbable-type'
+    = f.hidden_field :jobbable_id, id: 'notepad-jobbable-id'
+    %ul.notepad-suggestions{ id: 'notepad-suggestions', role: 'listbox', 'aria-label': t('jobs.pad.link_hint'), hidden: true }
+  .notepad-link{ id: 'notepad-link', hidden: true }
+    %span.notepad-link-text
+    %button.notepad-link-remove{ type: 'button', 'aria-label': t('jobs.pad.remove_link') } ×
+  %p.notepad-add-saving{ id: 'notepad-add-saving', role: 'status', hidden: true, data: { template: t('jobs.pad.adding', name: '%{name}') } }
+    %span.notepad-spinner{ 'aria-hidden': 'true' }
+    %span.notepad-add-saving-text
+  %p.notepad-add-failed.text-danger.mx-3{ id: 'notepad-add-failed', role: 'alert', hidden: true }= t('jobs.pad.add_failed')
+  %p.notepad-note= t('jobs.pad.public_note') + ' ' + t('jobs.pad.link_hint')
+  = render 'jobs/ideas', owner: owner unless garden || !local_assigns.fetch(:ideas_banner, true)
+
+  #notepad-groups{ data: { celebrations: job_celebrations.to_json, garden_id: garden&.id } }= render 'jobs/notepad_groups', groups:, in_garden: garden.present?
+  .notepad-snail
+    .notepad-snail-track{ 'aria-hidden': 'true' }
+      %span.notepad-snail-trail
+      %svg.notepad-snail-body{ width: 72, height: 48, viewBox: '0 0 72 48' }
+        %path{ d: 'M4 42 C2 33 12 31 22 33 L58 33 C65 33 69 38 66 42 Z', fill: '#c7b89b' }
+        %circle{ cx: 42, cy: 22, r: 16, fill: '#d9a066', stroke: '#8a5a2b', 'stroke-width': 2 }
+        %path{ d: 'M42 22 c3 -1 6 1 5 4 s-6 6 -11 3 s-4 -11 3 -14 s14 1 14 9', fill: 'none', stroke: '#8a5a2b', 'stroke-width': 2 }
+        %path{ d: 'M10 33 L7 20 M17 33 L17 19', stroke: '#c7b89b', 'stroke-width': 3, 'stroke-linecap': 'round' }
+        %circle{ cx: 7, cy: 19, r: 2.6, fill: '#212121' }
+        %circle{ cx: 17, cy: 18, r: 2.6, fill: '#212121' }
+    %span#notepad-snail-caption.notepad-snail-caption= job_snail_caption(done_this_week)

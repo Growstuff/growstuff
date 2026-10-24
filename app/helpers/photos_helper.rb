@@ -9,6 +9,7 @@ module PhotosHelper
     when Garden then "#{model.name} garden"
     when Planting then model.display_name
     when Post then model.subject
+    when Job then model.name
     end
   end
 

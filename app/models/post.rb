@@ -63,8 +63,6 @@ class Post < ApplicationRecord
     subject
   end
 
-  def reindex(refresh: false); end
-
   private
 
   def update_crop_posts_association

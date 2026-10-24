@@ -78,8 +78,8 @@ module IconsHelper
     image_icon 'photo'
   end
 
-  def activity_icon
-    icon('fas', 'truck-pickup')
+  def job_icon
+    icon('fas', 'note-sticky')
   end
 
   def post_icon

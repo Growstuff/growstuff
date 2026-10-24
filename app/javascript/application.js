@@ -13,6 +13,8 @@ import './site/cropmap';
 import './site/datepicker';
 import './site/editable';
 import './site/finish_toggle';
+import './site/job_ideas';
+import './site/job_notepad';
 import './site/likes';
 import './site/members';
 import './site/navbar_search';

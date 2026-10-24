@@ -113,17 +113,26 @@ describe 'My friends and neighbours' do
     expect(page).to have_css('article', text: /friendly.*Finished with tomato seeds/m)
   end
 
-  it 'shows a friend planning an activity' do
+  it 'shows a friend planning a job' do
     friend = create(:member, login_name: 'friendly')
     member.follows.create!(followed: friend)
-    create(:activity, owner: friend, name: 'Weed the beans', due_date: Time.zone.today + 1.month)
+    create(:job, owner: friend, name: 'Weed the beans', due_date: Time.zone.today + 1.month)
 
     due = (Time.zone.today + 1.month).strftime('%-d %b')
     visit neighbours_path
-    expect(page).to have_css('article', text: /friendly.*Planned an activity, Weed the beans \(for #{due}\)/m)
+    expect(page).to have_css('article', text: /friendly.*Planned a job, Weed the beans \(for #{due}\)/m)
   end
 
-  it 'shows only their own activity under Me' do
+  it 'shows a friend finishing a job' do
+    friend = create(:member, login_name: 'friendly')
+    member.follows.create!(followed: friend)
+    create(:job, owner: friend, name: 'Net the berries', finished: true)
+
+    visit neighbours_path
+    expect(page).to have_css('article', text: /friendly.*Finished a job, Net the berries/m)
+  end
+
+  it 'shows only their own job under Me' do
     friend = create(:member, login_name: 'friendly')
     member.follows.create!(followed: friend)
     create(:planting, owner: friend, garden: friend.gardens.first, planted_at: Time.zone.today)

@@ -1,0 +1,20 @@
+{
+  "crop": "strawberry",
+  "templates": [
+    {
+      "name": "Growing strawberries",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Dig compost into the bed", "amount": 2, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Water the new plants", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Mulch with straw", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Feed with fertiliser", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "monthly"},
+        {"name": "Net the plants against birds", "amount": 2, "unit": "weeks", "direction": "before", "anchor": "first_harvest"},
+        {"name": "Pick ripe fruit", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Cut back old leaves and remove runners", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Replant with young plants", "amount": 36, "unit": "months", "direction": "after", "anchor": "planting_out"}
+      ]
+    }
+  ]
+}

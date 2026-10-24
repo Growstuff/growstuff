@@ -305,6 +305,31 @@ describe Garden do
     end
   end
 
+  describe '#has_layout?' do
+    let(:bed) { create(:garden, owner:) }
+
+    it 'returns false when layout has not been used or saved' do
+      expect(bed.has_layout?).to be false
+    end
+
+    it 'returns true when layout_saved_at is present' do
+      bed.layout_saved_at = Time.current
+      expect(bed.has_layout?).to be true
+    end
+
+    it 'returns true when layout_features are present' do
+      bed.layout_features = [{ 'kind' => 'stone', 'x' => 1, 'y' => 1 }]
+      expect(bed.has_layout?).to be true
+    end
+
+    it 'returns true when there are placed plants' do
+      planting = create(:planting, garden: bed, owner:, quantity: 1)
+      bed.prepare_layout
+      planting.plants.first.update!(bed_x: 1, bed_y: 1)
+      expect(bed.has_layout?).to be true
+    end
+  end
+
   describe '#prepare_layout' do
     let(:bed) { create(:garden, owner:) }
 

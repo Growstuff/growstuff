@@ -1,0 +1,20 @@
+{
+  "crop": "potato",
+  "templates": [
+    {
+      "name": "Growing potatoes",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sit seed potatoes in the light to sprout", "amount": 4, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Dig compost into the bed", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Earth up the shoots", "amount": 3, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Check the leaves for blight", "amount": 5, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Water in dry weather", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Dig the first new potatoes", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Lift the main crop", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "first_harvest"},
+        {"name": "Dry the potatoes and store them in the dark", "amount": 7, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

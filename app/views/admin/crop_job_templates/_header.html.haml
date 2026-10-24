@@ -1,0 +1,11 @@
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item= link_to 'Crops', wrangle_crops_path
+  %li.breadcrumb-item= link_to crop.name, crop
+  %li.breadcrumb-item= link_to 'Job templates', admin_crop_crop_job_templates_path(crop)
+  %li.breadcrumb-item.active= title
+
+%h1 Job template for a crop
+%p.text-muted
+  Steps here are suggested to gardeners when they plant this crop. Dates are worked out from the planting, so one
+  template fits every garden.

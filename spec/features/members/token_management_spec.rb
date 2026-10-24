@@ -34,5 +34,14 @@ describe "member token management", :js do
       expect(page).to have_content("Your API token is")
       expect(member.reload.api_token.token).not_to eq(old_token)
     end
+
+    it "can delete an API token" do
+      expect(page).to have_content("Your API token is")
+      accept_confirm do
+        click_on "Delete API Token"
+      end
+      expect(page).to have_no_content("Your API token is")
+      expect(member.reload.api_token).to be_nil
+    end
   end
 end

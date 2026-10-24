@@ -8,6 +8,7 @@ class Planting < ApplicationRecord
   include PredictPlanting
   include PredictHarvest
   include Likeable
+  include Jobbable
 
   friendly_id :planting_slug, use: %i(slugged finders)
 
@@ -27,7 +28,7 @@ class Planting < ApplicationRecord
   # The gardens it was in before the one it is in now, oldest first.
   has_many :histories, -> { order(:ended_on, :id) }, class_name: 'PlantingHistory', dependent: :destroy, inverse_of: :planting
   has_many :harvests, dependent: :destroy
-  has_many :activities, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid. Made the
   # first time the garden's layout is used (Garden#prepare_layout), not for every
   # planting, as most plantings never go on a layout.
@@ -101,6 +102,14 @@ class Planting < ApplicationRecord
   validates :overall_rating, allow_blank: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5
   }
+
+  def subject
+    to_s
+  end
+
+  def author
+    owner
+  end
 
   def planting_slug
     [

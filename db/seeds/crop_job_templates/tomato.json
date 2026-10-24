@@ -1,0 +1,20 @@
+{
+  "crop": "tomato",
+  "templates": [
+    {
+      "name": "Growing tomatoes",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds indoors", "amount": 6, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Harden off the seedlings", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Stake or cage the plants", "amount": 1, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Water deeply", "amount": 2, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Pinch out side shoots", "amount": 3, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Feed with tomato fertiliser", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Check for first ripe fruit", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "first_harvest"},
+        {"name": "Pull out finished plants", "amount": 4, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}

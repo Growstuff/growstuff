@@ -1,0 +1,19 @@
+{
+  "crop": "capsicum",
+  "templates": [
+    {
+      "name": "Growing capsicums",
+      "season": "any",
+      "status": "draft",
+      "steps": [
+        {"name": "Sow seeds indoors", "amount": 8, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Harden off the seedlings", "amount": 1, "unit": "weeks", "direction": "before", "anchor": "planting_out"},
+        {"name": "Stake the plants", "amount": 3, "unit": "weeks", "direction": "after", "anchor": "planting_out"},
+        {"name": "Water regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "weekly"},
+        {"name": "Feed with liquid fertiliser", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "planting_out", "repeat": "fortnightly"},
+        {"name": "Pick fruit regularly", "amount": 0, "unit": "weeks", "direction": "after", "anchor": "first_harvest", "repeat": "weekly"},
+        {"name": "Pull out finished plants", "amount": 6, "unit": "weeks", "direction": "after", "anchor": "first_harvest"}
+      ]
+    }
+  ]
+}
