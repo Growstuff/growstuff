@@ -8,8 +8,10 @@ module Admin
     responders :flash
 
     def index
-      @members = Member.order(:login_name)
-      @members = @members.where("login_name ILIKE ?", "%#{search_term}%") if search_term.present?
+      @status = params[:status] == 'deactivated' ? 'deactivated' : 'active'
+      @members = @status == 'deactivated' ? Member.discarded : Member.kept
+      @members = @members.includes(:roles).order(created_at: :desc)
+      @members = @members.where("login_name ILIKE ? OR email ILIKE ?", "%#{search_term}%", "%#{search_term}%") if search_term.present?
       @members = @members.paginate(page: params[:page])
     end
 
@@ -27,6 +29,26 @@ module Admin
     def destroy
       @member = Member.find_by!(slug: params[:slug])
       @member.discard
+      redirect_to admin_members_path(status: params[:status])
+    end
+
+    def restore
+      @member = Member.find_by!(slug: params[:slug])
+      @member.undiscard
+      redirect_to admin_members_path(status: 'deactivated')
+    end
+
+    def bulk_ban
+      member_ids = params[:member_ids]
+      if member_ids.present? && member_ids.is_a?(Array)
+        members_to_ban = Member.kept.where(id: member_ids)
+        # Prevent admins from self-banning via bulk ban
+        members_to_ban = members_to_ban.where.not(id: current_member.id)
+        members_to_ban.find_each(&:discard)
+        flash[:notice] = "Selected members have been banned."
+      else
+        flash[:alert] = "No members were selected."
+      end
       redirect_to admin_members_path
     end
 

@@ -12,8 +12,8 @@
     -# The notepad has a tick box for this.
     - if job.active && !local_assigns[:inline_edit]
       = menu_link_to :finish, t('buttons.mark_as_finished'), update_path.call(finished: 1), method: :put, class: 'append-date'
-    = menu_link_to :job, t('jobs.pad.move_today'), update_path.call(due_date: Time.zone.today), method: :put
-    - if JobList.week_end(Time.zone.today) > Time.zone.today
-      = menu_link_to :job, t('jobs.pad.move_week'), update_path.call(due_date: JobList.week_end(Time.zone.today)), method: :put
+    -# On the notepad these are under the job's day.
+    - unless local_assigns[:inline_edit]
+      = render('jobs/reschedule', job:)
     .dropdown-divider
     = menu_delete_button(job)
