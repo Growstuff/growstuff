@@ -35,7 +35,6 @@
             %th{scope: "col"} Confirmed
             %th{scope: "col"} Last Login
             %th{scope: "col"} Bio
-            %th{scope: "col"} Instagram
             %th{scope: "col"} Roles
             %th{scope: "col"} Photos
             %th{scope: "col"} Plantings
@@ -66,9 +65,6 @@
               %td
                 - if member.bio.present?
                   %small{title: member.bio}= truncate(member.bio, length: 255)
-              %td
-                - if member.instagram_handle.present?
-                  %small= member.instagram_handle
               %td
                 - if member.roles.any?
                   %small= member.roles.map(&:name).join(', ')
