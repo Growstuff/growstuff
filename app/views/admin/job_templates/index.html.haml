@@ -1,0 +1,42 @@
+- content_for :title, 'Crop job templates'
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active Crop job templates
+
+%h1 Crop job templates
+%p.text-muted
+  Every crop's job templates. Gardeners are only offered the published ones, so drafts are waiting for a crop
+  wrangler to check them.
+
+%ul.nav.nav-tabs.mb-3
+  %li.nav-item
+    = link_to 'All', admin_job_templates_path, class: "nav-link #{'active' if @status.nil?}"
+  - CropJobTemplate.statuses.each_key do |status|
+    %li.nav-item
+      = link_to crop_job_option(:status, status), admin_job_templates_path(status:),
+        class: "nav-link #{'active' if @status == status}"
+
+- if @templates.empty?
+  %p No job templates here.
+- else
+  %table.table
+    %thead
+      %tr
+        %th Crop
+        %th Name
+        %th Season
+        %th Steps
+        %th Status
+    %tbody
+      - @templates.each do |template|
+        - crop = template.crop.parent || template.crop
+        %tr
+          %td= link_to template.crop.name, admin_crop_crop_job_templates_path(crop)
+          %td= link_to template.name, edit_admin_crop_crop_job_template_path(crop, template)
+          %td= crop_job_option(:season, template.season)
+          %td= template.steps.size
+          %td
+            - badge = template.published? ? 'text-bg-success' : 'text-bg-secondary'
+            %span.badge{ class: badge }= crop_job_option(:status, template.status)
+  = will_paginate @templates
