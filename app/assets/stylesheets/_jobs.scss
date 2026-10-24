@@ -119,6 +119,10 @@ $notepad-trail: #a4c98c;
     min-height: 44px;
   }
 
+  .notepad-hide-done {
+    margin: 0 1rem 0.5rem;
+  }
+
   .notepad-note {
     color: $ink-muted;
     font-size: 0.9rem;
