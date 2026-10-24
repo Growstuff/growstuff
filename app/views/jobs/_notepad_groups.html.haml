@@ -17,9 +17,8 @@
         %small= t('jobs.pad.someday_note')
       - if summary.present?
         .weather-summary.text-muted.small.mt-1
-          %span.weather-text= summary[:brief_description]
           %button.btn.btn-link.btn-sm.p-0.ms-1.text-muted.weather-details-btn{ type: 'button', 'data-bs-toggle' => 'modal', 'data-bs-target' => "#weather-modal-#{group.key}" }
-            (details)
+            = summary[:brief_description]
         .modal.fade{ id: "weather-modal-#{group.key}", tabindex: "-1", 'aria-labelledby' => "weather-modal-label-#{group.key}", 'aria-hidden' => 'true' }
           .modal-dialog
             .modal-content
