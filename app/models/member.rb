@@ -6,7 +6,6 @@ class Member < ApplicationRecord
   acts_as_messageable # messages can be sent to this model
   include Geocodable
   include MemberFlickr
-  include MemberNewsletter
 
   extend FriendlyId
 

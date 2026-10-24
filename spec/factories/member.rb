@@ -20,10 +20,6 @@ FactoryBot.define do
       tos_agreement { false }
     end
 
-    factory :newsletter_recipient_member do
-      newsletter { true }
-    end
-
     factory :no_bio_member do
       bio { nil }
     end

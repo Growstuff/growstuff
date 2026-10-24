@@ -181,7 +181,6 @@ Rails.application.routes.draw do
 
   scope :admin do
     get '/' => 'admin#index', as: 'admin'
-    get '/newsletter' => 'admin#newsletter', as: 'admin_newsletter'
   end
 
   namespace :admin do
