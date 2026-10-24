@@ -2,9 +2,11 @@
 
 # A crop's suggested jobs, offered to gardeners who plant it. It belongs to the
 # crop it is written for and applies to that crop's varieties too. Only
-# published templates are offered.
+# published templates are offered. Its creator is the member who wrote it;
+# templates loaded from the seed files have none.
 class CropJobTemplate < ApplicationRecord
   belongs_to :crop
+  belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crop_job_templates
   has_many :steps, -> { order(:position, :id) }, class_name: 'CropJobStep', dependent: :destroy, inverse_of: :crop_job_template
 
   # Which months a season is depends on the gardener's hemisphere, so it is
