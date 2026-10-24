@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_24_031447) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_24_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -550,6 +550,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_24_031447) do
     t.string "season", default: "any", null: false
     t.string "status", default: "draft", null: false
     t.datetime "updated_at", null: false
+    t.bigint "creator_id"
+    t.index ["creator_id"], name: "index_crop_job_templates_on_creator_id"
     t.index ["crop_id"], name: "index_crop_job_templates_on_crop_id"
   end
 
@@ -1109,6 +1111,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_24_031447) do
   add_foreign_key "crop_dismissals", "members"
   add_foreign_key "crop_job_steps", "crop_job_templates"
   add_foreign_key "crop_job_templates", "crops"
+  add_foreign_key "crop_job_templates", "members", column: "creator_id"
   add_foreign_key "harvests", "plantings"
   add_foreign_key "job_idea_dismissals", "members"
   add_foreign_key "jobs", "crop_job_steps", on_delete: :nullify
