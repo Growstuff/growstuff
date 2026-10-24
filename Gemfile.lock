@@ -129,8 +129,6 @@ GEM
     bullet (8.3.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
-    byebug (13.0.0)
-      reline (>= 0.6.0)
     cancancan (3.7.0)
     capybara (3.40.0)
       addressable
@@ -177,6 +175,9 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     date (3.6.0)
+    debug (1.11.1)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     devise (5.0.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -643,7 +644,6 @@ DEPENDENCIES
   bootstrap_form (>= 4.5.0)
   bullet
   bundler (>= 2.4.22)
-  byebug
   cancancan
   capybara
   capybara-email
@@ -655,6 +655,7 @@ DEPENDENCIES
   csv_shaper
   dalli
   database_cleaner
+  debug
   devise
   discard (>= 1.2)
   dotenv-rails
