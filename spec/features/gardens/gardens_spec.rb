@@ -108,7 +108,6 @@ describe "Planting a crop", :js do
         visit garden_path(garden)
         within('.planting-quick-actions') { click_link "Actions for #{planting.display_name}" }
         click_link "Mark as finished"
-        find(".datepicker-days td.day", text: "21").click
         expect(page).to have_content 'Finished'
       end
     end

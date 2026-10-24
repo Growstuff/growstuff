@@ -4,13 +4,10 @@ import './globals';
 
 import 'jquery-ujs';
 import 'jquery-ui/dist/jquery-ui';
-import 'bootstrap-datepicker';
 import 'leaflet.markercluster';
 
-import './site/append_date';
 import './site/auto_suggest';
 import './site/cropmap';
-import './site/datepicker';
 import './site/editable';
 import './site/finish_toggle';
 import './site/job_ideas';
