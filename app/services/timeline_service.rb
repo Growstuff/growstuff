@@ -18,7 +18,6 @@ class TimelineService
     comment:           :comments_query,
     photo:             :photos_query,
     seed:              :seeds_query,
-    job:               :jobs_query,
     planned_job:       :planned_jobs_query,
     job_finished:      :jobs_finished_query,
     like:              :likes_query,
@@ -27,11 +26,11 @@ class TimelineService
     planting_finished: :plantings_finished_query,
     seed_finished:     :seeds_finished_query
   }.freeze
-  DEFAULT_EVENTS = %i(planting harvest post comment photo seed job like).freeze
+  DEFAULT_EVENTS = %i(planting harvest post comment photo seed planned_job job_finished like).freeze
 
   # Events of the given kinds, newest first. Garden layouts are only here when
   # asked for, since the timeline page has nothing to say about them; the same goes
-  # for transplants, planned and finished jobs, and finished plantings and seeds.
+  # for transplants, and finished plantings and seeds.
   def self.query(kinds = DEFAULT_EVENTS)
     kinds.map { |kind| public_send(EVENT_QUERIES.fetch(kind)) }
       .reduce { |all, one| all.union_all(one) }
@@ -79,16 +78,6 @@ class TimelineService
   # for a feed of what people have done.
   def self.planned_jobs_query
     Job.select(:id, "'job' as event_type", 'jobs.created_at as event_at', :owner_id, 'null as crop_id')
-  end
-
-  def self.jobs_query
-    Job.select(
-      :id,
-      "'job' as event_type",
-      'COALESCE(jobs.due_date, jobs.created_at) as event_at',
-      :owner_id,
-      'null as crop_id'
-    )
   end
 
   def self.plantings_query
