@@ -405,9 +405,28 @@ $notepad-trail: #a4c98c;
     position: relative;
     margin-left: auto;
 
+    // A day you can change looks like a button: outlined, with a small arrow.
     .notepad-due {
       margin-left: 0;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid currentcolor;
+      border-radius: 1rem;
       text-decoration: none;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        margin-left: 0.4em;
+        vertical-align: 0.15em;
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-left: 0.3em solid transparent;
+      }
+
+      &:hover,
+      &:focus-visible {
+        background: rgba(0, 0, 0, 0.06);
+      }
 
       &.unset {
         color: $ink-muted;
