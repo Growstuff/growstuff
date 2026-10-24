@@ -8,7 +8,7 @@ module Api
 
       before_action :authenticate_member_from_token!
       before_action :enforce_member_for_write_operations!, only: %i(create update destroy)
-      before_action :check_resource_type, only: %i(create update)
+      before_action :check_resource_type, :reject_nested_writes, only: %i(create update)
       rescue_from CanCan::AccessDenied do
         head :forbidden
       end
@@ -22,7 +22,7 @@ module Api
         Graphiti::Errors::InvalidRequest, Graphiti::Errors::StatNotFound
       ].freeze
       rescue_from(*BAD_REQUEST_ERRORS) { |error| render_error(:bad_request, error.message) }
-      rescue_from(Graphiti::Errors::RecordNotFound) { |error| render_error(:not_found, error.message) }
+      rescue_from(Graphiti::Errors::RecordNotFound, ActiveRecord::RecordNotFound) { |error| render_error(:not_found, error.message) }
 
       def index
         render jsonapi: resource_class.all(params)
@@ -39,6 +39,8 @@ module Api
 
       def update
         resource = resource_class.find(params)
+        # As it is now; the resource hook then checks what it would become.
+        authorize! :update, resource.data
         render_write resource, resource.update_attributes
       end
 
@@ -55,6 +57,16 @@ module Api
       end
 
       private
+
+      # Graphiti lets a request create, change or delete related records alongside the one it is about. Only the one
+      # the request is about has been authorised, so related records can be linked to, by id, and nothing more.
+      def reject_nested_writes
+        links = (params.dig(:data, :relationships)&.values || []).flat_map { |relationship| [relationship[:data]].flatten.compact }
+        return unless params[:included].present? || links.any? { |link| link[:method].present? || link[:'temp-id'].present? }
+
+        render_error(:bad_request, 'Related records can be linked to by id, but not created, changed or deleted in the same request.',
+                     title: 'Invalid request')
+      end
 
       def render_write(resource, saved, status: :ok)
         saved ? render(jsonapi: resource, status: status) : render(jsonapi_errors: resource)

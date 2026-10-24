@@ -23,6 +23,7 @@ class ApplicationResource < Graphiti::Resource
     next unless written?(record)
 
     record.owner = context.current_user if record.new_record?
+    linked_records_exist!(record)
     context.authorize!(record.new_record? ? :create : :update, record)
   end
 
@@ -34,6 +35,15 @@ class ApplicationResource < Graphiti::Resource
     record.instance_of?(context.resource_class.model)
   end
 
+  # A foreign key that points at nothing is a request for something that is not there, not a server error.
+  def linked_records_exist!(record)
+    record.class.reflect_on_all_associations(:belongs_to).reject(&:polymorphic?).each do |association|
+      next if record[association.foreign_key].blank? || record.association(association.name).reader
+
+      raise ActiveRecord::RecordNotFound, "Couldn't find #{association.klass.name} with id #{record[association.foreign_key]}"
+    end
+  end
+
   # Photos are attached to plantings, gardens and harvests through the polymorphic photo_associations table.
   # This is the `photos` relationship of one of those; filter[photo_id] on that resource is how photos link back.
   def self.photos_of(type)
@@ -41,7 +51,9 @@ class ApplicationResource < Graphiti::Resource
     has_many :photos, resource: PhotoResource, foreign_key: column,
                       base_scope: -> { Photo.by_model(type).select("photos.*, photo_associations.photographable_id AS #{column}") }
     filter :photo_id, :integer do
-      eq { |scope, ids| scope.joins(:photo_associations).where(photo_associations: { photo_id: ids }) }
+      eq do |scope, ids|
+        scope.where(id: PhotoAssociation.where(photographable_type: type, photo_id: ids).select(:photographable_id))
+      end
     end
   end
 
@@ -50,10 +62,13 @@ class ApplicationResource < Graphiti::Resource
     model = type.constantize
     has_many type.underscore.pluralize.to_sym, foreign_key: :photo_id,
                                                base_scope:  lambda {
-                                                 model.joins(:photo_associations).select("#{model.table_name}.*, photo_associations.photo_id AS photo_id")
+                                                 model.joins(:photo_associations)
+                                                   .select("#{model.table_name}.*, photo_associations.photo_id AS photo_id")
                                                }
     filter :"#{type.underscore}_id", :integer do
-      eq { |scope, ids| scope.by_model(type).where(photo_associations: { photographable_id: ids }) }
+      eq do |scope, ids|
+        scope.where(id: PhotoAssociation.where(photographable_type: type, photographable_id: ids).select(:photo_id))
+      end
     end
   end
 

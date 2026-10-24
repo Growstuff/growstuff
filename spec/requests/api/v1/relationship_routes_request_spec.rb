@@ -85,4 +85,31 @@ RSpec.describe 'API related resources' do
       end
     end
   end
+
+  describe 'related photos when a record has several' do
+    let(:other_photo) { create(:photo, owner: member) }
+    let(:photo) { create(:photo, owner: member) }
+    let(:second_planting) { create(:planting, owner: member, garden: garden, crop: planting.crop) }
+
+    before do
+      [photo, other_photo].each { |p| planting.photos << p }
+      second_planting.photos << photo
+    end
+
+    # A page of two is two records, however many photos or plantings each matches.
+    it 'pages plantings rather than their photos' do
+      get "/api/v1/plantings?filter[photo_id]=#{photo.id},#{other_photo.id}&page[size]=2", headers: read_headers
+      expect(ids).to contain_exactly(planting.id.to_s, second_planting.id.to_s)
+    end
+
+    it 'pages photos rather than their plantings' do
+      get "/api/v1/photos?filter[planting_id]=#{planting.id},#{second_planting.id}&page[size]=2", headers: read_headers
+      expect(ids).to contain_exactly(photo.id.to_s, other_photo.id.to_s)
+    end
+
+    it 'pages photos rather than their crop\'s associations' do
+      get "/api/v1/photos?filter[crop_id]=#{planting.crop_id}&page[size]=2", headers: read_headers
+      expect(ids).to contain_exactly(photo.id.to_s, other_photo.id.to_s)
+    end
+  end
 end

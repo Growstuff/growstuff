@@ -63,4 +63,64 @@ RSpec.describe 'API ownership of written records' do
       expect(Harvest.last.harvested_at).to eq(Time.zone.today)
     end
   end
+
+  describe 'taking over another member\'s job by linking it to a garden you collaborate on' do
+    let(:job) { create(:job, owner: other_member) }
+    let(:garden) { create(:garden, owner: other_member) }
+
+    before do
+      create(:garden_collaborator, garden: garden, member: member)
+      patch "/api/v1/jobs/#{job.id}",
+            params:  { data: { type: 'jobs', id: job.id.to_s, attributes: { name: 'Mine now' },
+                               relationships: { garden: { data: { type: 'gardens', id: garden.id.to_s } } } } }.to_json,
+            headers: auth_headers
+    end
+
+    it { expect(response).to have_http_status(:forbidden) }
+
+    it 'leaves the job alone' do
+      expect(job.reload).to have_attributes(name: 'Admire', garden_id: nil)
+    end
+  end
+
+  describe 'changing another member\'s garden through your own job' do
+    let(:job) { create(:job, owner: member) }
+    let(:garden) { create(:garden, owner: other_member, name: 'Theirs') }
+
+    before do
+      patch "/api/v1/jobs/#{job.id}",
+            params:  { data:     { type: 'jobs', id: job.id.to_s,
+                                   relationships: { garden: { data: { type: 'gardens', id: garden.id.to_s, method: 'update' } } } },
+                       included: [{ type: 'gardens', id: garden.id.to_s, attributes: { name: 'Hijacked' } }] }.to_json,
+            headers: auth_headers
+    end
+
+    it { expect(response).to have_http_status(:bad_request) }
+
+    it 'leaves the garden alone' do
+      expect(garden.reload.name).to eq('Theirs')
+    end
+  end
+
+  describe 'linking to a record that does not exist' do
+    before do
+      create(:plant_part)
+      post_resource 'harvests', relationships: { planting: { data: { type: 'plantings', id: '0' } } }
+    end
+
+    it { expect(response).to have_http_status(:not_found) }
+
+    it 'creates nothing' do
+      expect(Harvest.count).to eq(0)
+    end
+  end
+
+  describe 'linking to a record that does not exist through an attribute' do
+    before do
+      create(:plant_part)
+      post_resource 'harvests', attributes: { 'planting-id' => 0 }
+    end
+
+    it { expect(response).to have_http_status(:not_found) }
+  end
 end

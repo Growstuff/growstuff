@@ -12,7 +12,7 @@ class PhotoResource < ApplicationResource
   filter_only :owner_id, :integer
 
   filter :crop_id, :integer do
-    eq { |scope, ids| scope.joins(:photo_associations).where(photo_associations: { crop_id: ids }) }
+    eq { |scope, ids| scope.where(id: PhotoAssociation.where(crop_id: ids).select(:photo_id)) }
   end
 
   belongs_to :owner, resource: MemberResource
