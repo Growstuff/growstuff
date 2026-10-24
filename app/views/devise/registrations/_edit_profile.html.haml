@@ -11,6 +11,12 @@
       %span.form-text This will be displayed on a map. You can be as detailed or vague as you like.
 
   .row.mb-3
+    = f.label :temperature_unit, 'Temperature unit', class: 'col-form-label col-md-2'
+    .col-md-8
+      = f.select :temperature_unit, [['Auto-detect (based on location)', ''], ['Celsius (°C)', 'celsius'], ['Fahrenheit (°F)', 'fahrenheit']], { selected: resource.temperature_preference.to_s }, { class: 'form-select' }
+      %span.form-text Preferred temperature unit for weather forecasts.
+
+  .row.mb-3
     = f.label :bio, class: 'col-form-label col-md-2'
     .col-md-8
       = f.text_area :bio, rows: 6, class: 'form-control', placeholder: "I'm am XYZ gardener interested in A, B, C"

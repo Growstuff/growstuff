@@ -1,5 +1,11 @@
 -# The groups of jobs in the notepad. Also what adding or moving a job sends back.
+- weather = local_assigns[:weather_forecast] || @weather_forecast
 - groups.each do |group|
+  - summary = nil
+  - if weather && %i(today weekend next_weekend).include?(group.key)
+    - from = group.from
+    - to = group.key == :today ? group.from : group.to
+    - summary = weather.summary_for(from, to) if from.present? && to.present?
   .notepad-group{ class: "notepad-group-#{group.key}", data: { drop: (group.droppable ? group.drop_date.to_s.presence || 'none' : nil) } }
     .notepad-heading
       %h2= t("jobs.pad.#{group.key}")
@@ -9,6 +15,41 @@
         %small= "#{l(group.from, format: '%a %-d')} – #{l(group.to, format: '%a %-d %b')}"
       - elsif group.key == :someday
         %small= t('jobs.pad.someday_note')
+      - if summary.present?
+        .weather-summary.text-muted.small.mt-1.ms-auto
+          %button.btn.btn-link.btn-sm.p-0.ms-1.text-muted.weather-details-btn{ type: 'button', 'data-bs-toggle' => 'modal', 'data-bs-target' => "#weather-modal-#{group.key}" }
+            = summary[:brief_description]
+        .modal.fade{ id: "weather-modal-#{group.key}", tabindex: "-1", 'aria-labelledby' => "weather-modal-label-#{group.key}", 'aria-hidden' => 'true' }
+          .modal-dialog
+            .modal-content
+              .modal-header
+                %h5.modal-title{ id: "weather-modal-label-#{group.key}" }
+                  Weather Forecast:
+                  = t("jobs.pad.#{group.key}")
+                %button.btn-close{ type: "button", 'data-bs-dismiss' => 'modal', 'aria-label' => 'Close' }
+              .modal-body
+                %table.table.table-sm
+                  %thead
+                    %tr
+                      %th Date
+                      %th High / Low
+                      %th Condition
+                      %th Precip
+                      %th Wind
+                  %tbody
+                    - summary[:daily_details].each do |day|
+                      %tr
+                        %td= l(day[:date], format: '%a %-d %b')
+                        %td= "#{day[:high_temp]} / #{day[:low_temp]}"
+                        %td= day[:condition]
+                        %td= day[:precip_sum]&.positive? ? "#{day[:precip_sum]}mm (#{day[:precip_prob]}%)" : 'None'
+                        %td= day[:wind_speed] ? "#{day[:wind_speed]} km/h" : '-'
+                .mt-3.text-muted.small
+                  = summary[:attribution_text]
+                  •
+                  = link_to 'CC-BY Open-Meteo', summary[:attribution_url], target: '_blank', rel: 'noopener noreferrer'
+              .modal-footer
+                %button.btn.btn-secondary{ type: 'button', 'data-bs-dismiss' => 'modal' } Close
     - if group.jobs.empty?
       %p.notepad-drop-hint= t('jobs.pad.drop_here')
     -# Later is rolled up until asked for: it is not for today's list.

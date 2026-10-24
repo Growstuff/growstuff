@@ -79,13 +79,14 @@ class JobsController < DataController
     @owner = current_member
     load_notepad
     response.set_header('X-Jobs-Done-This-Week', @done_this_week.to_s)
-    render partial: 'jobs/notepad_groups', locals: { groups: @job_groups, in_garden: garden.present? }, status:
+    render partial: 'jobs/notepad_groups', locals: { groups: @job_groups, in_garden: garden.present?, weather_forecast: @weather_forecast }, status:
   end
 
   def load_notepad
     notepad = JobsNotepad.new(@owner, garden:, pinned: pinned_ids)
     @job_groups = notepad.groups
     @done_this_week = notepad.done_this_week
+    @weather_forecast = WeatherService.forecast_for(@owner)
   end
 
   # The garden a notepad on a garden's page is for, if it is.
