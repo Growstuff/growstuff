@@ -31,6 +31,7 @@ class Ability
 
     # and nobody should be able to view this except admins
     cannot :read, Role
+    cannot :read, PhotoLibraryAccess
 
     # nobody should be able to view unapproved crops unless they
     # are wranglers or admins
@@ -143,6 +144,12 @@ class Ability
     can :create, Photo
     can :update, Photo, owner_id: member.id
     can :destroy, Photo, owner_id: member.id
+
+    # Uploading a photo to the Growstuff photo library, rather than linking one
+    # hosted elsewhere, needs an admin's approval. Members ask for it themselves.
+    can :upload, Photo if member.photo_library_approved?
+    can :read, PhotoLibraryAccess, member_id: member.id
+    can :create, PhotoLibraryAccess, member_id: member.id
 
     can :create,  Seed
     can :update,  Seed, owner_id: member.id

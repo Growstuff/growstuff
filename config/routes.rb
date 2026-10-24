@@ -159,6 +159,9 @@ Rails.application.routes.draw do
     resources :blocks, only: %i(create destroy)
   end
 
+  resource :photo_library_access, only: :create
+  get 'photo_library/*key' => 'photo_library_files#show', as: :photo_library_file, format: false
+
   resources :messages
   get 'jobs/suggestions' => 'job_suggestions#index', as: :job_suggestions
   resources :job_ideas, only: %i(index create) do
@@ -187,6 +190,13 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :members, param: :slug
     resources :roles
+    resources :photo_library_accesses, only: :index do
+      member do
+        post :approve
+        post :refuse
+        post :revoke
+      end
+    end
     resources :crops, param: :slug do
       resources :crop_companions
       resources :crop_job_templates, path: 'job_templates', except: :show

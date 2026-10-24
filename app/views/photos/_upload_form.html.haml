@@ -1,0 +1,15 @@
+%section.mb-4
+  %h2= t('.heading')
+  - if can?(:upload, Photo)
+    = bootstrap_form_with model: Photo.new, url: photos_path(type: @type, id: @id, moment: params[:moment]),
+                          local: true do |f|
+      = f.file_field :upload, direct_upload: true, label: t('.file'), required: true,
+                              accept: PhotoLibrary::CONTENT_TYPES.join(',')
+      = f.text_field :title, label: t('.title'), required: true
+      = f.select :license_name, PhotoLibrary::LICENSES.keys, label: t('.license')
+      = f.check_box :rights_confirmed, label: t('.rights_confirmed'), required: true
+      = f.submit t('.submit'), class: 'btn btn-primary'
+  - elsif current_member.photo_library_status == 'requested'
+    %p= t('.requested')
+  - else
+    %p= t('.not_approved', link: link_to(t('.ask_link'), "#{edit_member_registration_path}#photos")).html_safe

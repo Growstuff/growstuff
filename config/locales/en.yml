@@ -78,6 +78,8 @@ en:
         same_owner_required: "of harvest must be the same as planting, or a collaborator on that garden"
         photo_owner_mismatch: must have same owner as item it links to
         calculate_crop_failed: failed to calculate crop
+        invalid_type: must be a JPEG, PNG, WebP or HEIC photo
+        too_big: must be no bigger than 20 MB
         not_a_valid_wikipedia_url: is not a valid English Wikipedia URL
         not_a_valid_youtube_url: is not a valid YouTube URL
         not_a_valid_sunniness: "%{value} is not a valid sunniness value"
@@ -658,6 +660,17 @@ en:
     unsubscribed: You have been unsubscribed from %{email_type} emails.
     welcome: Welcome
   photos:
+    uploaded: Thanks! Your photo will appear in a moment.
+    upload_form:
+      heading: Upload from your device
+      file: Photo
+      title: Title
+      license: Licence
+      rights_confirmed: I took this photo, or I have the right to share it under this licence.
+      submit: Upload photo
+      not_approved: To upload photos from your device, %{link}.
+      ask_link: ask for access to the photo library
+      requested: You've asked to upload photos from your device. An admin will look at your request.
     show:
       garden: garden named "%{garden}" by %{owner}
       harvest: "%{crop} harvest by %{owner}"

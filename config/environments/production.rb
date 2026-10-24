@@ -33,6 +33,11 @@ Rails.application.configure do
   # config.action_cable.url = 'wss://example.com/cable'
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
+  # Uploaded photos go to the photo library bucket in S3. See config/storage.yml.
+  # The S3 client can't be built without a bucket, so until one is set the app
+  # boots with files on disk, which a Heroku dyno loses when it restarts.
+  config.active_storage.service = ENV['GROWSTUFF_PHOTO_LIBRARY_BUCKET'].present? ? :amazon : :local
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 

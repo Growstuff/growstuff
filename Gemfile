@@ -185,6 +185,8 @@ gem "i18n_data", "~> 1.1"
 gem "paper_trail", "~> 17.0"
 
 gem 'aws-sdk-s3', '~> 1', '>= 1.114.0', require: false
+# Resizing uploaded photos and stripping their location, with libvips
+gem 'image_processing', '~> 1.14'
 gem 'sitemap_generator'
 
 gem "simplecov", "~> 1.3", group: :test, require: false
