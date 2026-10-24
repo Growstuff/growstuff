@@ -4,7 +4,7 @@
   - if member.website_url.present?
     %p
       = icon 'fas', 'globe', class: 'fa-fw'
-      = link_to "Website", member.website_url, target: '_blank', rel: 'noopener noreferrer'
+      = link_to "Website", member.website_url, target: '_blank', rel: (member.plantings.empty? ? 'noopener noreferrer nofollow' : 'noopener noreferrer')
 
   - if member.instagram_handle.present?
     %p
