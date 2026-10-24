@@ -9,10 +9,6 @@ RSpec.describe 'API crop filtering' do
   let!(:pending_crop) { create(:crop, name: 'Pending crop', approval_status: 'pending') }
   let!(:rejected) { create(:crop, name: 'Rejected crop', approval_status: 'rejected', reason_for_rejection: 'Not a crop') }
 
-  def ids
-    json['data'].pluck('id')
-  end
-
   context 'without a filter' do
     before { get '/api/v1/crops', headers: read_headers }
 

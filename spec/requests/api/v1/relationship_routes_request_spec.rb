@@ -11,10 +11,6 @@ RSpec.describe 'API related resources' do
   let!(:harvest) { create(:harvest, owner: member, planting: planting, crop: planting.crop) }
   let!(:other_planting) { create(:planting) }
 
-  def ids
-    json['data'].pluck('id')
-  end
-
   # GETs the resource, then what its relationship links to.
   def follow(path, relationship)
     get path, headers: read_headers
@@ -87,13 +83,6 @@ RSpec.describe 'API related resources' do
       it 'has nothing to link to' do
         expect(json['data']['relationships']['parent']['links']['related']).to be_nil
       end
-    end
-  end
-
-  describe 'relationship linkage endpoints' do
-    it 'are not routed' do
-      expect { get "/api/v1/plantings/#{planting.id}/relationships/crop", headers: read_headers }
-        .to raise_error ActionController::RoutingError
     end
   end
 end

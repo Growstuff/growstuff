@@ -8,6 +8,9 @@ class ApplicationResource < Graphiti::Resource
   self.default_page_size = 10
   self.max_page_size = 100
 
+  # Pages need an order to be pages of the same list.
+  self.default_sort = [{ id: :asc }]
+
   # The adapter pages with Kaminari, which this app doesn't use.
   paginate do |scope, current_page, per_page, _context, offset|
     scope.limit(per_page).offset(offset || ((current_page - 1) * per_page))
@@ -28,7 +31,7 @@ class ApplicationResource < Graphiti::Resource
   end
 
   def written?(record)
-    record.instance_of?(context.send(:resource_class).model)
+    record.instance_of?(context.resource_class.model)
   end
 
   # Photos are attached to plantings, gardens and harvests through the polymorphic photo_associations table.
@@ -46,10 +49,17 @@ class ApplicationResource < Graphiti::Resource
   def self.photographed(type)
     model = type.constantize
     has_many type.underscore.pluralize.to_sym, foreign_key: :photo_id,
-                                               base_scope: -> { model.joins(:photo_associations).select("#{model.table_name}.*, photo_associations.photo_id AS photo_id") }
+                                               base_scope:  lambda {
+                                                 model.joins(:photo_associations).select("#{model.table_name}.*, photo_associations.photo_id AS photo_id")
+                                               }
     filter :"#{type.underscore}_id", :integer do
       eq { |scope, ids| scope.by_model(type).where(photo_associations: { photographable_id: ids }) }
     end
+  end
+
+  # Worked out by the model, so not something the database can filter or sort by.
+  def self.computed_attribute(name, type, &)
+    attribute(name, type, writable: false, filterable: false, sortable: false, &)
   end
 
   # A column that can be filtered on but isn't in the response.

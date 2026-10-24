@@ -14,18 +14,18 @@ class PlantingResource < ApplicationResource
   attribute :planted_from, :string
 
   # Predictions
-  attribute :expected_lifespan, :integer, writable: false
-  attribute :finish_predicted_at, :date, writable: false
-  attribute :first_harvest_date, :date, writable: false
-  attribute :last_harvest_date, :date, writable: false
+  computed_attribute :expected_lifespan, :integer
+  computed_attribute :finish_predicted_at, :date
+  computed_attribute :first_harvest_date, :date
+  computed_attribute :last_harvest_date, :date
 
-  attribute :longitude, :float, writable: false
-  attribute :latitude, :float, writable: false
-  attribute :location, :string, writable: false
-  attribute :percentage_grown, :float, writable: false
-  attribute :crop_name, :string, writable: false
-  attribute :crop_slug, :string, writable: false
-  attribute :thumbnail, :string, writable: false do
+  computed_attribute :longitude, :float
+  computed_attribute :latitude, :float
+  computed_attribute :location, :string
+  computed_attribute :percentage_grown, :float
+  computed_attribute :crop_name, :string
+  computed_attribute :crop_slug, :string
+  computed_attribute :thumbnail, :string do
     @object.default_photo&.thumbnail_url
   end
 

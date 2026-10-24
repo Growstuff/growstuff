@@ -55,8 +55,8 @@ class ApiDocs
   def paths
     @schema[:endpoints].each_with_object({}) do |(path, endpoint), paths|
       actions = endpoint[:actions].transform_values { |action| @resources[action[:resource]] }
-      collection = actions.slice(:index, :create, :search).map { |name, resource| [verb(name), operation(name, resource, path)] }
-      member = actions.slice(:show, :update, :destroy).map { |name, resource| [verb(name), operation(name, resource, path)] }
+      collection = actions.slice(:index, :create, :search).map { |name, resource| [verb(name), operation(name, resource)] }
+      member = actions.slice(:show, :update, :destroy).map { |name, resource| [verb(name), operation(name, resource)] }
       paths[path.to_s] = collection.to_h if collection.any?
       paths["#{path}/{id}"] = member.to_h.merge(parameters: [id_parameter]) if member.any?
     end
@@ -66,7 +66,7 @@ class ApiDocs
     { index: :get, search: :get, show: :get, create: :post, update: :patch, destroy: :delete }.fetch(action)
   end
 
-  def operation(action, resource, path)
+  def operation(action, resource)
     type = resource[:type]
     operation = { tags: [type], summary: summary(action, type), responses: responses(action, resource) }
     operation[:parameters] = parameters(action, resource)

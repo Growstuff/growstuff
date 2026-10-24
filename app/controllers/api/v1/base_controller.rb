@@ -18,7 +18,8 @@ module Api
         Graphiti::Errors::UnsupportedPageSize, Graphiti::Errors::UnsupportedPagination,
         Graphiti::Errors::UnsupportedSort, Graphiti::Errors::UnsupportedOperator,
         Graphiti::Errors::InvalidFilterValue, Graphiti::Errors::InvalidInclude,
-        Graphiti::Errors::UnknownAttribute, Graphiti::Errors::StatNotFound
+        Graphiti::Errors::UnknownAttribute, Graphiti::Errors::InvalidAttributeAccess,
+        Graphiti::Errors::InvalidRequest, Graphiti::Errors::StatNotFound
       ].freeze
       rescue_from(*BAD_REQUEST_ERRORS) { |error| render_error(:bad_request, error.message) }
       rescue_from(Graphiti::Errors::RecordNotFound) { |error| render_error(:not_found, error.message) }
@@ -46,14 +47,14 @@ module Api
         resource.destroy ? head(:no_content) : render(jsonapi_errors: resource)
       end
 
-      # Public so that resources, which Graphiti gives this controller as their context, can see who is writing.
+      # Public, as Graphiti gives resources this controller as their context, so that they can see who is writing what.
       attr_reader :current_user
-
-      private
 
       def resource_class
         @resource_class ||= "#{controller_name.singularize.camelize}Resource".constantize
       end
+
+      private
 
       def render_write(resource, saved, status: :ok)
         saved ? render(jsonapi: resource, status: status) : render(jsonapi_errors: resource)

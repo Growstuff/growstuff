@@ -58,6 +58,22 @@ RSpec.describe 'API pagination' do
     end
   end
 
+  context 'with page[offset] that is not a whole number of pages' do
+    before { get '/api/v1/crops?page[limit]=5&page[offset]=3&sort=id', headers: read_headers }
+
+    it 'starts after that many records' do
+      expect(ids).to eq(crops.sort_by(&:id).slice(3, 5).map { |crop| crop.id.to_s })
+    end
+  end
+
+  context 'with page[number] and page[size]' do
+    before { get '/api/v1/crops?page[number]=2&page[size]=5&sort=id', headers: read_headers }
+
+    it 'returns that page' do
+      expect(ids).to eq(crops.sort_by(&:id).slice(5, 5).map { |crop| crop.id.to_s })
+    end
+  end
+
   context 'with page[limit] over the maximum' do
     before { get '/api/v1/crops?page[limit]=1000', headers: read_headers }
 

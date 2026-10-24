@@ -15,6 +15,11 @@ RSpec.shared_context 'with an API member' do
   def json
     JSON.parse(response.body)
   end
+
+  # The ids of the resources in the response.
+  def ids
+    json['data'].pluck('id')
+  end
 end
 
 module ApiLinkHelpers

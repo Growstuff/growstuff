@@ -12,10 +12,6 @@ RSpec.describe 'API relationship filters' do
   let!(:job) { create(:job, owner: member, garden: garden) }
   let!(:other_planting) { create(:planting) }
 
-  def ids
-    json['data'].pluck('id')
-  end
-
   describe 'plantings by owner' do
     before { get "/api/v1/plantings?filter[owner]=#{member.id}", headers: read_headers }
 

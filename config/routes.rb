@@ -200,7 +200,8 @@ Rails.application.routes.draw do
   # What can be done to each is declared by its resource, which is also where the API docs read it from.
   scope path: ApplicationResource.endpoint_namespace, module: 'api/v1', as: :api_v1, defaults: { format: :jsonapi } do
     get 'crops/search', to: 'crops#search'
-    [CropResource, GardenResource, HarvestResource, JobResource, MemberResource, PhotoResource, PlantingResource, SeedResource].each do |resource|
+    [CropResource, GardenResource, HarvestResource, JobResource,
+     MemberResource, PhotoResource, PlantingResource, SeedResource].each do |resource|
       resources resource.type, only: resource.endpoint[:actions]
     end
   end

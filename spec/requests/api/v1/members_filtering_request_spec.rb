@@ -8,10 +8,6 @@ RSpec.describe 'API member filtering' do
   let!(:member) { create(:member) }
   let!(:other_member) { create(:member) }
 
-  def ids
-    json['data'].pluck('id')
-  end
-
   context 'with filter[slug]' do
     before { get "/api/v1/members?filter[slug]=#{member.slug}", headers: read_headers }
 

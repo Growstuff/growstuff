@@ -31,6 +31,12 @@ RSpec.describe 'API errors' do
     end
   end
 
+  describe 'a filter on a computed attribute' do
+    before { get '/api/v1/plantings?filter[crop-name]=beans', headers: read_headers }
+
+    it { expect(response).to have_http_status(:bad_request) }
+  end
+
   describe 'a page size over the maximum' do
     before { get '/api/v1/plantings?page[limit]=101', headers: read_headers }
 
@@ -54,6 +60,30 @@ RSpec.describe 'API errors' do
     it 'does not create the garden' do
       expect(Garden.where(name: '')).to be_empty
     end
+  end
+
+  describe 'a write that sets an attribute that does not exist' do
+    before do
+      token
+      post '/api/v1/gardens', params:  { data: { type: 'gardens', attributes: { name: 'A new garden', nonsense: 1 } } }.to_json,
+                              headers: auth_headers
+    end
+
+    it { expect(response).to have_http_status(:bad_request) }
+
+    it 'does not create the garden' do
+      expect(Garden.where(name: 'A new garden')).to be_empty
+    end
+  end
+
+  describe 'a write that sets an attribute that cannot be written' do
+    before do
+      token
+      post '/api/v1/gardens', params:  { data: { type: 'gardens', attributes: { name: 'A new garden', slug: 'mine' } } }.to_json,
+                              headers: auth_headers
+    end
+
+    it { expect(response).to have_http_status(:bad_request) }
   end
 
   describe 'a resource of the wrong type' do

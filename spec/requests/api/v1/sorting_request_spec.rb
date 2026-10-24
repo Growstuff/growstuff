@@ -62,6 +62,20 @@ RSpec.describe 'API sorting' do
     end
   end
 
+  context 'without sort' do
+    before { get '/api/v1/crops', headers: read_headers }
+
+    it 'orders by id' do
+      expect(json['data'].pluck('id')).to eq([cherry, apple, banana].map { |crop| crop.id.to_s })
+    end
+  end
+
+  context 'with a computed attribute' do
+    before { get '/api/v1/plantings?sort=crop-name', headers: read_headers }
+
+    it { expect(response).to have_http_status(:bad_request) }
+  end
+
   context 'with a field that cannot be sorted on' do
     before { get '/api/v1/crops?sort=nonsense', headers: read_headers }
 

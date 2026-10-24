@@ -71,121 +71,6 @@ RSpec.describe 'Plantings' do
     expect(subject['data']).to eq(planting_encoded_as_json_api)
   end
 
-  describe '#create' do
-    let!(:member) { create(:member) }
-    let(:token) do
-      member.regenerate_api_token
-      member.api_token.token
-    end
-    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
-    let(:crop) { create(:crop) }
-    let(:garden) { create(:garden, owner: member) }
-    let(:planting_params) do
-      {
-        data: {
-          type:          'plantings',
-          attributes:    {
-            description: 'My API plantings'
-          },
-          relationships: {
-            crop:   { data: { type: 'crops', id: crop.id } },
-            garden: { data: { type: 'gardens', id: garden.id } }
-          }
-        }
-      }.to_json
-    end
-
-    it 'returns 401 Unauthorized without a token' do
-      post '/api/v1/plantings', params: planting_params, headers: headers
-      expect(response).to have_http_status(:unauthorized)
-    end
-
-    it 'returns 201 Created with a valid token' do
-      post '/api/v1/plantings', params: planting_params, headers: auth_headers
-
-      expect(response).to have_http_status(:created)
-      expect(member.plantings.count).to eq(1)
-    end
-  end
-
-  describe '#update' do
-    let!(:member) { create(:member) }
-    let(:token) do
-      member.regenerate_api_token
-      member.api_token.token
-    end
-    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
-    let(:planting) { create(:planting, owner: member) }
-    let(:other_member_planting) { create(:planting) }
-    let(:update_params) do
-      {
-        data: {
-          type:       'plantings',
-          id:         planting.id.to_s,
-          attributes: {
-            description: 'An updated planting'
-          }
-        }
-      }.to_json
-    end
-
-    it 'returns 401 Unauthorized without a token' do
-      patch "/api/v1/plantings/#{planting.id}", params: update_params, headers: headers
-      expect(response).to have_http_status(:unauthorized)
-    end
-
-    it 'returns 200 OK with a valid token for own planting' do
-      patch "/api/v1/plantings/#{planting.id}", params: update_params, headers: auth_headers
-
-      expect(response).to have_http_status(:ok)
-      expect(planting.reload.description).to eq('An updated planting')
-    end
-
-    it 'returns 403 Forbidden for another member\'s planting' do
-      update_params_for_other = {
-        data: {
-          type:       'plantings',
-          id:         other_member_planting.id.to_s,
-          attributes: {
-            description: 'An updated planting'
-          }
-        }
-      }.to_json
-      patch "/api/v1/plantings/#{other_member_planting.id}", params: update_params_for_other, headers: auth_headers
-      expect(response).to have_http_status(:forbidden)
-    end
-  end
-
-  describe '#delete' do
-    let!(:member) { create(:member) }
-    let(:token) do
-      member.regenerate_api_token
-      member.api_token.token
-    end
-    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
-    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
-    let!(:planting) { create(:planting, owner: member) }
-    let(:other_member_planting) { create(:planting) }
-
-    it 'returns 401 Unauthorized without a token' do
-      delete "/api/v1/plantings/#{planting.id}", headers: headers
-      expect(response).to have_http_status(:unauthorized)
-    end
-
-    it 'returns 204 No Content with a valid token for own planting' do
-      delete "/api/v1/plantings/#{planting.id}", headers: auth_headers
-      expect(response).to have_http_status(:no_content)
-      expect(Garden.find_by(id: planting.id)).to be_nil
-    end
-
-    it 'returns 403 Forbidden for another member\'s planting' do
-      delete "/api/v1/plantings/#{other_member_planting.id}", headers: auth_headers
-      expect(response).to have_http_status(:forbidden)
-    end
-  end
-
   describe "by member/owner" do
     before :each do
       @member1 = planting.owner
@@ -235,5 +120,17 @@ RSpec.describe 'Plantings' do
       expect(subject['data'].size).to eq(2)
       expect(subject['data'][0]['id']).to eq(planting.id.to_s)
     end
+  end
+
+  it_behaves_like 'a resource members can write', 'plantings' do
+    let(:garden) { create(:garden, owner: member) }
+    let(:create_params) do
+      { attributes:    { description: 'My API planting' },
+        relationships: { crop:   { data: { type: 'crops', id: create(:crop).id.to_s } },
+                         garden: { data: { type: 'gardens', id: garden.id.to_s } } } }
+    end
+    let(:own_record) { create(:planting, owner: member, garden: garden) }
+    let(:other_record) { create(:planting) }
+    let(:changes) { { description: 'An updated planting' } }
   end
 end
