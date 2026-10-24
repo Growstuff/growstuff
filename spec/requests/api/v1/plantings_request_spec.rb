@@ -10,7 +10,6 @@ RSpec.describe 'Plantings' do
   let(:planting_encoded_as_json_api) do
     { "id"            => planting.id.to_s,
       "type"          => "plantings",
-      "links"         => { "self" => resource_url },
       "attributes"    => attributes,
       "relationships" => {
         "garden"   => garden_as_json_api,
@@ -21,37 +20,14 @@ RSpec.describe 'Plantings' do
       } }
   end
 
-  let(:resource_url) { "http://www.example.com/api/v1/plantings/#{planting.id}" }
+  let(:harvests_as_json_api) { related_link("harvests?filter[planting_id]=#{planting.id}") }
 
-  let(:harvests_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/harvests",
-                   "related" => "#{resource_url}/harvests" } }
-  end
+  let(:photos_as_json_api) { related_link("photos?filter[planting_id]=#{planting.id}") }
 
-  let(:photos_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/photos",
-                   "related" => "#{resource_url}/photos" } }
-  end
+  let(:owner_as_json_api) { related_link("members/#{planting.owner_id}") }
 
-  let(:owner_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/owner",
-                   "related" => "#{resource_url}/owner" } }
-  end
-
-  let(:crop_as_json_api) do
-    { "links" =>
-                 { "self"    =>
-                                "#{resource_url}/relationships/crop",
-                   "related" => "#{resource_url}/crop" } }
-  end
-  let(:garden_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/garden",
-                   "related" => "#{resource_url}/garden" } }
-  end
+  let(:crop_as_json_api) { related_link("crops/#{planting.crop_id}") }
+  let(:garden_as_json_api) { related_link("gardens/#{planting.garden_id}") }
 
   let(:attributes) do
     {
@@ -223,14 +199,6 @@ RSpec.describe 'Plantings' do
         expect(JSON.parse(response.body)['data'][0]['id']).to eq(planting.id.to_s)
 
         get "/api/v1/plantings?filter[owner-id]=#{@member2.id}"
-        expect(JSON.parse(response.body)['data'][0]['id']).to eq(@planting2.id.to_s)
-
-        pending "The below should be identical to the above, but aren't."
-
-        get "/api/v1/members/#{@member1.id}/plantings"
-        expect(JSON.parse(response.body)['data'][0]['id']).to eq(planting.id.to_s)
-
-        get "/api/v1/members/#{@member2.id}/plantings"
         expect(JSON.parse(response.body)['data'][0]['id']).to eq(@planting2.id.to_s)
       end
     end

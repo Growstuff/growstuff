@@ -21,7 +21,6 @@ RSpec.describe 'API ownership of written records' do
 
   describe 'creating a garden that names another owner' do
     before do
-      pending 'the API lets the request choose the owner of a new garden'
       post_resource '/api/v1/gardens', 'gardens', attributes: { name: 'Mine' }, relationships: owner_relationship
     end
 
@@ -75,7 +74,6 @@ RSpec.describe 'API ownership of written records' do
 
   describe 'creating a seed that names another owner' do
     before do
-      pending 'the API lets the request choose the owner of a new seed'
       post_resource '/api/v1/seeds', 'seeds',
                     relationships: owner_relationship.merge(crop: { data: { type: 'crops', id: crop.id.to_s } })
     end
@@ -87,7 +85,6 @@ RSpec.describe 'API ownership of written records' do
 
   describe 'creating a job that names another owner' do
     before do
-      pending 'the API lets the request choose the owner of a new job'
       post_resource '/api/v1/jobs', 'jobs', attributes: { name: 'Water the beans' }, relationships: owner_relationship
     end
 
@@ -148,7 +145,6 @@ RSpec.describe 'API ownership of written records' do
     let!(:garden) { create(:garden, owner: member) }
 
     before do
-      pending 'the API lets an update give a garden to another member'
       patch "/api/v1/gardens/#{garden.id}",
             params:  { data: { type: 'gardens', id: garden.id.to_s, relationships: owner_relationship } }.to_json,
             headers: auth_headers

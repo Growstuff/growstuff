@@ -192,6 +192,23 @@ GEM
       dotenv (= 3.2.0)
       railties (>= 6.1)
     drb (2.2.3)
+    dry-core (1.2.0)
+      concurrent-ruby (~> 1.0)
+      logger
+      zeitwerk (~> 2.6)
+    dry-inflector (1.3.1)
+    dry-logic (1.6.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-types (1.9.1)
+      bigdecimal (>= 3.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0)
+      dry-inflector (~> 1.0)
+      dry-logic (~> 1.4)
+      zeitwerk (~> 2.6)
     dumb_delegator (1.1.0)
     erb (6.0.7)
     erubi (1.13.1)
@@ -208,7 +225,6 @@ GEM
       logger
     faraday-net_http (3.5.0)
       net-http (~> 0.5)
-    ffi (1.17.4)
     ffi (1.17.4-x86_64-linux-gnu)
     flickraw (0.9.10)
     flipper (1.4.2)
@@ -229,6 +245,20 @@ GEM
       multi_json (>= 1.9.0)
     globalid (1.4.0)
       activesupport (>= 6.1)
+    graphiti (1.13.5)
+      activesupport (>= 5.2)
+      concurrent-ruby (>= 1.2, < 2.0)
+      dry-types (>= 0.15.0, < 2.0)
+      graphiti_errors (~> 1.1.0)
+      jsonapi-renderer (~> 0.2, >= 0.2.2)
+      jsonapi-serializable (~> 0.3.0)
+      ostruct (>= 0.5)
+    graphiti-rails (0.4.2)
+      graphiti (~> 1.2, < 2.a)
+      railties (>= 5.0)
+      rescue_registry (~> 1.0)
+    graphiti_errors (1.1.3)
+      jsonapi-serializable (~> 0.1)
     gravatar-ultimate (2.0.0)
       activesupport (>= 2.3.14)
       rack
@@ -293,11 +323,9 @@ GEM
     json-schema (6.2.0)
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
-    jsonapi-resources (0.10.7)
-      activerecord (>= 4.1)
-      concurrent-ruby
-      railties (>= 4.1)
-    jsonapi-swagger (0.8.1)
+    jsonapi-renderer (0.2.2)
+    jsonapi-serializable (0.3.1)
+      jsonapi-renderer (~> 0.2.0)
     kramdown (2.5.2)
       rexml (>= 3.4.4)
     language_server-protocol (3.17.0.6)
@@ -331,7 +359,6 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
@@ -351,9 +378,6 @@ GEM
     net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
-    nokogiri (1.19.4)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.6)
@@ -390,7 +414,6 @@ GEM
       racc
     percy-capybara (5.0.1)
       capybara (>= 3)
-    pg (1.7.0)
     pg (1.7.0-x86_64-linux)
     pp (0.6.4)
       prettyprint
@@ -483,6 +506,8 @@ GEM
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
+    rescue_registry (1.1.0)
+      activesupport (>= 7.1)
     responders (3.2.1)
       actionpack (>= 7.0)
       railties (>= 7.0)
@@ -635,7 +660,6 @@ GEM
     zeitwerk (2.8.3)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES
@@ -674,6 +698,7 @@ DEPENDENCIES
   gbifrb
   geocoder
   gibbon (~> 1.2.0)
+  graphiti-rails (~> 0.4)
   gravatar-ultimate
   haml
   haml-rails
@@ -684,8 +709,6 @@ DEPENDENCIES
   icalendar
   jsbundling-rails
   json (< 3)
-  jsonapi-resources
-  jsonapi-swagger
   kramdown
   letter_opener
   listen

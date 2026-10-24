@@ -10,7 +10,6 @@ RSpec.describe 'Seeds' do
   let(:seed_encoded_as_json_api) do
     { "id"            => seed.id.to_s,
       "type"          => "seeds",
-      "links"         => { "self" => resource_url },
       "attributes"    => attributes,
       "relationships" => {
         "owner" => owner_as_json_api,
@@ -18,19 +17,9 @@ RSpec.describe 'Seeds' do
       } }
   end
 
-  let(:resource_url) { "http://www.example.com/api/v1/seeds/#{seed.id}" }
+  let(:owner_as_json_api) { related_link("members/#{seed.owner_id}") }
 
-  let(:owner_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/owner",
-                   "related" => "#{resource_url}/owner" } }
-  end
-
-  let(:crop_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/crop",
-                   "related" => "#{resource_url}/crop" } }
-  end
+  let(:crop_as_json_api) { related_link("crops/#{seed.crop_id}") }
 
   let(:attributes) do
     {

@@ -16,3 +16,14 @@ RSpec.shared_context 'with an API member' do
     JSON.parse(response.body)
   end
 end
+
+module ApiLinkHelpers
+  # How a resource links to what it is related to.
+  def related_link(path)
+    { 'links' => { 'related' => "http://www.example.com/api/v1/#{path}" } }
+  end
+end
+
+RSpec.configure do |config|
+  config.include ApiLinkHelpers, file_path: %r{spec/requests/api}
+end

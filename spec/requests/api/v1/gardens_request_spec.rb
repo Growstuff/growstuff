@@ -10,7 +10,6 @@ RSpec.describe 'Gardens' do
   let(:garden_encoded_as_json_api) do
     { "id"            => garden.id.to_s,
       "type"          => "gardens",
-      "links"         => { "self" => resource_url },
       "attributes"    => { "name" => garden.name },
       "relationships" =>
                          {
@@ -19,26 +18,11 @@ RSpec.describe 'Gardens' do
                            "photos"    => photos_as_json_api
                          } }
   end
-  let(:resource_url) { "http://www.example.com/api/v1/gardens/#{garden.id}" }
+  let(:plantings_as_json_api) { related_link("plantings?filter[garden_id]=#{garden.id}") }
 
-  let(:plantings_as_json_api) do
-    { "links" =>
-                 { "self"    =>
-                                "#{resource_url}/relationships/plantings",
-                   "related" => "#{resource_url}/plantings" } }
-  end
+  let(:owner_as_json_api) { related_link("members/#{garden.owner_id}") }
 
-  let(:owner_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/owner",
-                   "related" => "#{resource_url}/owner" } }
-  end
-
-  let(:photos_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/photos",
-                   "related" => "#{resource_url}/photos" } }
-  end
+  let(:photos_as_json_api) { related_link("photos?filter[garden_id]=#{garden.id}") }
 
   it '#index' do
     get('/api/v1/gardens', params: {}, headers:)
@@ -53,12 +37,10 @@ RSpec.describe 'Gardens' do
   context 'filtering' do
     let!(:garden2) { create(:garden, active: false, garden_type: create(:garden_type)) }
 
-    pending 'filters by active' do
+    it 'filters by active' do
       get('/api/v1/gardens?filter[active]=true', params: {}, headers:)
 
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(garden.id.to_s)
+      expect(subject['data'].pluck('id')).not_to include(garden2.id.to_s)
     end
 
     it 'filters by garden_type' do

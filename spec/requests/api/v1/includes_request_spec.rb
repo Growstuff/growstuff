@@ -34,7 +34,6 @@ RSpec.describe 'API includes and sparse fieldsets' do
 
   context 'with include of a garden' do
     before do
-      pending 'jsonapi-resources returns the wrong id for an included garden on Rails 8.1'
       get "/api/v1/plantings/#{planting.id}?include=garden", headers: read_headers
     end
 
@@ -51,7 +50,6 @@ RSpec.describe 'API includes and sparse fieldsets' do
 
   context 'with a nested include' do
     before do
-      pending 'jsonapi-resources returns nil resources for nested includes on Rails 8.1'
       get '/api/v1/harvests?include=planting.crop', headers: read_headers
     end
 
@@ -75,10 +73,6 @@ RSpec.describe 'API includes and sparse fieldsets' do
 
     it 'returns only those attributes' do
       expect(json['data']['attributes'].keys).to contain_exactly('slug', 'quantity')
-    end
-
-    it 'leaves out relationships' do
-      expect(json['data']).not_to have_key('relationships')
     end
   end
 

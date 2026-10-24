@@ -21,8 +21,7 @@ gem 'haml'
 gem 'oauth', '1.1.6' # Explicitly pinned, as the maintainer does huge (400 files, 45k lines) changes in point releases - required manual plus agentic security review.
 
 # API data
-gem 'jsonapi-resources'
-gem 'jsonapi-swagger'
+gem 'graphiti-rails', '~> 0.4'
 gem 'rswag-api'
 gem 'rswag-ui'
 

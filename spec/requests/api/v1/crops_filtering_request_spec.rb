@@ -42,7 +42,7 @@ RSpec.describe 'API crop filtering' do
   context 'when showing a crop that is not approved' do
     before { get "/api/v1/crops/#{pending_crop.id}", headers: read_headers }
 
-    it { expect(response).to have_http_status(:ok) }
+    it { expect(response).to have_http_status(:not_found) }
   end
 
   context 'when searching' do

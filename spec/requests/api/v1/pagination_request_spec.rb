@@ -64,7 +64,7 @@ RSpec.describe 'API pagination' do
     it { expect(response).to have_http_status(:bad_request) }
 
     it 'explains the maximum' do
-      expect(json['errors'].first['detail']).to include('maximum page size of 100')
+      expect(json['errors'].first['detail']).to include('max supported size 100')
     end
   end
 

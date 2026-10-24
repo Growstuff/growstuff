@@ -197,18 +197,16 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :api do
-    namespace :v1 do
-      jsonapi_resources :jobs
-      get "crops/search", to: "crops#search"
-      jsonapi_resources :crops
-      jsonapi_resources :gardens
-      jsonapi_resources :harvests
-      jsonapi_resources :members
-      jsonapi_resources :photos
-      jsonapi_resources :plantings
-      jsonapi_resources :seeds
-    end
+  scope path: ApplicationResource.endpoint_namespace, module: 'api/v1', as: :api_v1, defaults: { format: :jsonapi } do
+    resources :jobs
+    get 'crops/search', to: 'crops#search'
+    resources :crops, only: %i(index show)
+    resources :gardens
+    resources :harvests
+    resources :members, only: %i(index show)
+    resources :photos, only: %i(index show)
+    resources :plantings
+    resources :seeds
   end
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'
