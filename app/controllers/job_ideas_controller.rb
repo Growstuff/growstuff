@@ -4,9 +4,10 @@
 # their jobs, snooze it, or say it is not for them. On the page, or as an overlay
 # on their jobs, where each choice is sent without leaving and answered with the
 # ideas that are left, the jobs that were added and the member's jobs as they now
-# are.
+# are. Only while admins have the job ideas feature switched on.
 class JobIdeasController < ApplicationController
   before_action :authenticate_member!
+  before_action { raise ActiveRecord::RecordNotFound unless Feature.enabled?(:job_ideas) }
 
   def index
     load_ideas
