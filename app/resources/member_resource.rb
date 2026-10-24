@@ -2,10 +2,10 @@
 
 class MemberResource < ApplicationResource
   self.model = Member
-  primary_endpoint '/members', %i(index show)
+  read_only
 
-  attribute :login_name, :string, writable: false
-  attribute :slug, :string, writable: false
+  attribute :login_name, :string
+  attribute :slug, :string
 
   has_many :gardens, foreign_key: :owner_id
   has_many :plantings, foreign_key: :owner_id

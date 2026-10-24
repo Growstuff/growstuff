@@ -2,19 +2,18 @@
 
 class PhotoResource < ApplicationResource
   self.model = Photo
-  primary_endpoint '/photos', %i(index show)
+  read_only
 
-  attribute :thumbnail_url, :string, writable: false
-  attribute :fullsize_url, :string, writable: false
-  attribute :license_name, :string, writable: false
-  attribute :link_url, :string, writable: false
-  attribute :title, :string, writable: false
-  filter_only :owner_id, :integer
+  attribute :thumbnail_url, :string
+  attribute :fullsize_url, :string
+  attribute :license_name, :string
+  attribute :link_url, :string
+  attribute :title, :string
 
   filter :crop_id, :integer do
     eq { |scope, ids| scope.where(id: PhotoAssociation.where(crop_id: ids).select(:photo_id)) }
   end
 
-  belongs_to :owner, resource: MemberResource
+  owned
   %w(Planting Garden Harvest).each { |type| photographed type }
 end

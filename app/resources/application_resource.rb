@@ -31,19 +31,6 @@ class ApplicationResource < Graphiti::Resource
     context.authorize!(:destroy, record) if written?(record)
   end
 
-  def written?(record)
-    record.instance_of?(context.resource_class.model)
-  end
-
-  # A foreign key that points at nothing is a request for something that is not there, not a server error.
-  def linked_records_exist!(record)
-    record.class.reflect_on_all_associations(:belongs_to).reject(&:polymorphic?).each do |association|
-      next if record[association.foreign_key].blank? || record.association(association.name).reader
-
-      raise ActiveRecord::RecordNotFound, "Couldn't find #{association.klass.name} with id #{record[association.foreign_key]}"
-    end
-  end
-
   # Photos are attached to plantings, gardens and harvests through the polymorphic photo_associations table.
   # This is the `photos` relationship of one of those; filter[photo_id] on that resource is how photos link back.
   def self.photos_of(type)
@@ -80,5 +67,31 @@ class ApplicationResource < Graphiti::Resource
   # A column that can be filtered on but isn't in the response.
   def self.filter_only(name, type)
     attribute name, type, readable: false, writable: false
+  end
+
+  # Read only: it can be listed and shown, and nothing else.
+  def self.read_only
+    primary_endpoint "/#{type}", %i(index show)
+  end
+
+  # The member a record belongs to. It is the member holding the token that wrote it, so it is never set by a request.
+  def self.owned
+    filter_only :owner_id, :integer
+    belongs_to :owner, resource: MemberResource
+  end
+
+  private
+
+  def written?(record)
+    record.instance_of?(context.resource_class.model)
+  end
+
+  # A foreign key that points at nothing is a request for something that is not there, not a server error.
+  def linked_records_exist!(record)
+    record.class.reflect_on_all_associations(:belongs_to).reject(&:polymorphic?).each do |association|
+      next if record[association.foreign_key].blank? || record.association(association.name).reader
+
+      raise ActiveRecord::RecordNotFound, "Couldn't find #{association.klass.name} with id #{record[association.foreign_key]}"
+    end
   end
 end

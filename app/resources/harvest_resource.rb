@@ -12,12 +12,11 @@ class HarvestResource < ApplicationResource
 
   attribute :crop_id, :integer, readable: false
   attribute :planting_id, :integer, readable: false
-  filter_only :owner_id, :integer
   filter_only :plant_part_id, :integer
 
   belongs_to :crop
   belongs_to :planting
-  belongs_to :owner, resource: MemberResource
+  owned
   photos_of 'Harvest'
 
   before_save do |harvest|

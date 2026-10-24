@@ -31,7 +31,6 @@ class PlantingResource < ApplicationResource
 
   attribute :crop_id, :integer, readable: false
   attribute :garden_id, :integer, readable: false
-  filter_only :owner_id, :integer
 
   filter :active, :boolean do
     eq { |scope, value| value ? scope.active : scope }
@@ -42,7 +41,7 @@ class PlantingResource < ApplicationResource
 
   belongs_to :garden
   belongs_to :crop
-  belongs_to :owner, resource: MemberResource
+  owned
   has_many :harvests
   photos_of 'Planting'
 end

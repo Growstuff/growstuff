@@ -39,7 +39,7 @@ module Api
 
       def update
         resource = resource_class.find(params)
-        # As it is now; the resource hook then checks what it would become.
+        # The record as it is; the resource then checks what the changes would make of it.
         authorize! :update, resource.data
         render_write resource, resource.update_attributes
       end
@@ -89,12 +89,7 @@ module Api
 
       def authenticate_member_from_token!
         authenticate_with_http_token do |token, _options|
-          auth = Authentication.find_by(token: token, provider: 'api')
-          if auth.present?
-            @current_user = auth.member
-
-            return true
-          end
+          @current_user = Authentication.find_by(token: token, provider: 'api')&.member
         end
       end
     end

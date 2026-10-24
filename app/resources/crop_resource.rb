@@ -2,15 +2,15 @@
 
 class CropResource < ApplicationResource
   self.model = Crop
-  primary_endpoint '/crops', %i(index show)
+  read_only
   secondary_endpoint '/crops/search', [:search]
 
-  attribute :name, :string, writable: false
-  attribute :en_wikipedia_url, :string, writable: false
-  attribute :perennial, :boolean, writable: false
-  attribute :median_lifespan, :integer, writable: false
-  attribute :median_days_to_first_harvest, :integer, writable: false
-  attribute :median_days_to_last_harvest, :integer, writable: false
+  attribute :name, :string
+  attribute :en_wikipedia_url, :string
+  attribute :perennial, :boolean
+  attribute :median_lifespan, :integer
+  attribute :median_days_to_first_harvest, :integer
+  attribute :median_days_to_last_harvest, :integer
   filter_only :approval_status, :string
 
   default_filter :approval_status do |scope|

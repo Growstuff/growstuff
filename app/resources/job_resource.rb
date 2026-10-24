@@ -12,8 +12,7 @@ class JobResource < ApplicationResource
   attribute :action, :string
 
   attribute :garden_id, :integer, readable: false
-  filter_only :owner_id, :integer
 
   belongs_to :garden
-  belongs_to :owner, resource: MemberResource
+  owned
 end

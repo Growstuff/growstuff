@@ -98,7 +98,7 @@ Rails.application.configure do
   ActionMailer::Base.delivery_method = :smtp
 
   config.host = ENV.fetch('HOST', nil)
-  config.x.api_base_url = "https://#{config.host}" if config.host.present? && ENV['API_BASE_URL'].blank?
+  config.x.api_base_url = ENV.fetch('API_BASE_URL') { "https://#{config.host}" }
   config.analytics_code = <<-GET_CLICKY_SCRIPT
     <script src="//static.getclicky.com/js" type="text/javascript"></script>
     <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>
