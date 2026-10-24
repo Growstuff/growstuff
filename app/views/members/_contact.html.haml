@@ -24,7 +24,7 @@
   - if member.other_url.present?
     %p
       = icon 'fas', 'link', class: 'fa-fw'
-      = link_to "More...", member.other_url, target: '_blank', rel: 'noopener noreferrer'
+      = link_to "More...", member.other_url, target: '_blank', rel: (member.plantings.empty? ? 'noopener noreferrer nofollow' : 'noopener noreferrer')
 
   - if flickr_auth
     %p
