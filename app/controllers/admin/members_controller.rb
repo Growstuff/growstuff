@@ -10,7 +10,7 @@ module Admin
     def index
       @status = params[:status] == 'deactivated' ? 'deactivated' : 'active'
       @members = @status == 'deactivated' ? Member.discarded : Member.kept
-      @members = @members.includes(:roles).order(:login_name)
+      @members = @members.includes(:roles).order(created_at: :desc)
       @members = @members.where("login_name ILIKE ? OR email ILIKE ?", "%#{search_term}%", "%#{search_term}%") if search_term.present?
       @members = @members.paginate(page: params[:page])
     end
