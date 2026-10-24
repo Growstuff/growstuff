@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get '/api-docs/v1/swagger.json', to: 'api/docs#show', defaults: { format: :json }
   mount Rswag::Ui::Engine => '/api-docs'
-  mount Rswag::Api::Engine => '/api-docs'
   get '/robots.txt' => 'robots#robots'
   get '/dont-crawl-me' => proc { [403, { 'Content-Type' => 'text/plain' }, ['Forbidden']] }
 
@@ -197,17 +197,12 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :api do
-    namespace :v1 do
-      jsonapi_resources :jobs
-      get "crops/search", to: "crops#search"
-      jsonapi_resources :crops
-      jsonapi_resources :gardens
-      jsonapi_resources :harvests
-      jsonapi_resources :members
-      jsonapi_resources :photos
-      jsonapi_resources :plantings
-      jsonapi_resources :seeds
+  # What can be done to each is declared by its resource, which is also where the API docs read it from.
+  scope path: ApplicationResource.endpoint_namespace, module: 'api/v1', as: :api_v1, defaults: { format: :jsonapi } do
+    get 'crops/search', to: 'crops#search'
+    [CropResource, GardenResource, HarvestResource, JobResource,
+     MemberResource, PhotoResource, PlantingResource, SeedResource].each do |resource|
+      resources resource.type, only: resource.endpoint[:actions]
     end
   end
 

@@ -50,6 +50,9 @@ module Growstuff
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
+    # Where the API says it lives, for the links in its responses.
+    config.x.api_base_url = ENV.fetch('API_BASE_URL', 'http://localhost:3000')
+
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 
