@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // move to Done when the page is loaded again.
   const kept = new Set();
 
+  // Hide done moves the jobs crossed off since the page loaded down to Done,
+  // as loading the page again would. It is only there when there are some.
+  const hideDoneButton = document.getElementById('notepad-hide-done');
+
   // The tick box or menu button with focus in the list, as the job it belongs to
   // and which control it is, so its replacement can be focused when the list is
   // drawn again.
@@ -50,10 +54,12 @@ document.addEventListener('DOMContentLoaded', function () {
   // Sends a change to the server and shows the groups it sends back. Resolves
   // with how many jobs are done this week.
   const transmit = function (url, body) {
-    kept.forEach(function (id) { body.append('keep[]', id); });
-    if (groups.dataset.gardenId) body.append('garden_id', groups.dataset.gardenId);
+    if (body) {
+      kept.forEach(function (id) { body.append('keep[]', id); });
+      if (groups.dataset.gardenId) body.append('garden_id', groups.dataset.gardenId);
+    }
     return fetch(url, {
-      method: 'POST',
+      method: body ? 'POST' : 'GET',
       body: body,
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -67,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return response.text().then(function (html) {
           const focused = focusedControl();
           groups.innerHTML = html;
+          if (hideDoneButton) hideDoneButton.hidden = kept.size === 0;
           showDone(Number(done));
           const again = focused && groups.querySelector('.notepad-job[data-id="' + focused.id + '"] ' + focused.selector);
           if (again) again.focus();
@@ -91,6 +98,13 @@ document.addEventListener('DOMContentLoaded', function () {
     Object.keys(attributes).forEach(function (key) { body.append('job[' + key + ']', attributes[key]); });
     return send(url, body);
   };
+
+  if (hideDoneButton) hideDoneButton.addEventListener('click', function () {
+    kept.clear();
+    const url = new URL(hideDoneButton.dataset.url, window.location.origin);
+    if (groups.dataset.gardenId) url.searchParams.set('garden_id', groups.dataset.gardenId);
+    send(url.toString(), null).catch(reload);
+  });
 
   // ---- Crossing a job off, or putting it back
 
