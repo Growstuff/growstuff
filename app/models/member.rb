@@ -133,6 +133,30 @@ class Member < ApplicationRecord
     update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  def temperature_preference
+    (settings || {})['temperature_unit']
+  end
+
+  def temperature_unit
+    pref = temperature_preference
+    return pref if pref.present? && %w(celsius fahrenheit).include?(pref)
+
+    us_location? ? 'fahrenheit' : 'celsius'
+  end
+
+  def temperature_unit=(value)
+    val = value.presence&.downcase
+    val = nil unless %w(celsius fahrenheit).include?(val)
+    self.settings = (settings || {}).merge('temperature_unit' => val)
+  end
+
+  def us_location?
+    return false if location.blank?
+
+    us_pattern = /(?:\b(USA|U\.S\.A\.|United States|U\.S\.)\b|,\s*(AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)\b)/i
+    location.match?(us_pattern)
+  end
+
   # set up geocoding
   geocoded_by :location
 

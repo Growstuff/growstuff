@@ -398,6 +398,64 @@ describe Member do
     end
   end
 
+  describe 'temperature preferences and location' do
+    let(:member) { create(:member) }
+
+    describe '#us_location?' do
+      it 'identifies US locations' do
+        member.location = 'San Francisco, CA'
+        expect(member.us_location?).to be true
+
+        member.location = 'New York, NY, USA'
+        expect(member.us_location?).to be true
+
+        member.location = 'Portland, OR'
+        expect(member.us_location?).to be true
+      end
+
+      it 'returns false for non-US locations' do
+        member.location = 'London, UK'
+        expect(member.us_location?).to be false
+
+        member.location = 'Melbourne, Australia'
+        expect(member.us_location?).to be false
+
+        member.location = ''
+        expect(member.us_location?).to be false
+      end
+    end
+
+    describe '#temperature_unit' do
+      it 'defaults to fahrenheit for US members' do
+        member.location = 'Seattle, WA, USA'
+        expect(member.temperature_unit).to eq 'fahrenheit'
+      end
+
+      it 'defaults to celsius for non-US members' do
+        member.location = 'Auckland, NZ'
+        expect(member.temperature_unit).to eq 'celsius'
+      end
+
+      it 'defaults to celsius when location is not set' do
+        member.location = ''
+        expect(member.temperature_unit).to eq 'celsius'
+      end
+
+      it 'respects explicitly chosen temperature preference' do
+        member.location = 'Auckland, NZ'
+        member.temperature_unit = 'fahrenheit'
+        expect(member.temperature_unit).to eq 'fahrenheit'
+        expect(member.temperature_preference).to eq 'fahrenheit'
+
+        member.temperature_unit = 'celsius'
+        expect(member.temperature_unit).to eq 'celsius'
+
+        member.temperature_unit = ''
+        expect(member.temperature_preference).to be_nil
+      end
+    end
+  end
+
   describe '#nursery' do
     let(:member) { create(:member) }
 

@@ -27,7 +27,7 @@
   %p.notepad-note= t('jobs.pad.public_note') + ' ' + t('jobs.pad.link_hint')
   = render 'jobs/ideas', owner: owner unless garden || !local_assigns.fetch(:ideas_banner, true)
 
-  #notepad-groups{ data: { celebrations: job_celebrations.to_json, garden_id: garden&.id } }= render 'jobs/notepad_groups', groups:, in_garden: garden.present?
+  #notepad-groups{ data: { celebrations: job_celebrations.to_json, garden_id: garden&.id } }= render 'jobs/notepad_groups', groups:, in_garden: garden.present?, weather_forecast: @weather_forecast
   .notepad-snail
     .notepad-snail-track{ 'aria-hidden': 'true' }
       %span.notepad-snail-trail

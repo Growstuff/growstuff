@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
                     # terms of service
                     :tos_agreement,
                     # profile stuff
-                    :bio, :location, :latitude, :longitude,
+                    :bio, :location, :latitude, :longitude, :temperature_unit,
                     :website_url, :instagram_handle, :facebook_handle, :bluesky_handle, :other_url,
                     # email settings
                     :show_email, :newsletter, :send_notification_email, :send_planting_reminder, :send_harvest_reminder,
