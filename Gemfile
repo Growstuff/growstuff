@@ -22,7 +22,6 @@ gem 'oauth', '1.1.6' # Explicitly pinned, as the maintainer does huge (400 files
 
 # API data
 gem 'graphiti-rails', '~> 0.4'
-gem 'rswag-api'
 gem 'rswag-ui'
 
 # JSON pinned until this is resolved across the ecosystem (Oct 26)

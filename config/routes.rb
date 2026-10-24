@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get '/api-docs/v1/swagger.json', to: 'api/docs#show', defaults: { format: :json }
   mount Rswag::Ui::Engine => '/api-docs'
-  mount Rswag::Api::Engine => '/api-docs'
   get '/robots.txt' => 'robots#robots'
   get '/dont-crawl-me' => proc { [403, { 'Content-Type' => 'text/plain' }, ['Forbidden']] }
 
