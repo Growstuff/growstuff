@@ -1,4 +1,4 @@
-export function initFlashMessages(delay = 3000) {
+export function initFlashMessages(delay = 2000) {
   const flashContainer = document.querySelector('.flash-messages');
   if (!flashContainer) return;
 
