@@ -25,18 +25,35 @@ module Api
       attr_reader :current_user
 
       def enforce_member_for_write_operations!
-        head :unauthorized unless current_user
+        return head :unauthorized unless current_user
+        return unless @oauth_scopes && !@oauth_scopes.exists?(:write)
+
+        response.set_header('WWW-Authenticate', 'Bearer error="insufficient_scope", scope="write"')
+        head :forbidden
       end
 
+      # A member's own API token, or an OAuth token from an app they signed in to.
       def authenticate_member_from_token!
-        authenticate_with_http_token do |token, _options|
-          auth = Authentication.find_by(token: token, provider: 'api')
-          if auth.present?
-            @current_user = auth.member
+        @current_user = member_from_api_token || member_from_oauth_token
+      end
 
-            return true
-          end
+      def member_from_api_token
+        authenticate_with_http_token do |token, _options|
+          Authentication.find_by(token:, provider: 'api')&.member
         end
+      end
+
+      # The member an OAuth token is for, if it is still good. What the token may do
+      # is its scope: `read` to read, and `write` to change anything.
+      def member_from_oauth_token
+        token = Doorkeeper.authenticate(request)
+        return unless token&.accessible?
+
+        member = Member.kept.find_by(id: token.resource_owner_id)
+        return unless member&.active_for_authentication?
+
+        @oauth_scopes = token.scopes
+        member
       end
     end
   end
