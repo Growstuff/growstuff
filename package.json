@@ -30,7 +30,7 @@
     "sass": "^1.105.2"
   },
   "engines": {
-    "node": ">=6.0.0",
+    "node": "24.x",
     "yarn": ">=0.25.2"
   },
   "devDependencies": {

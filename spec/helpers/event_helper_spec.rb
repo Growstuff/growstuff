@@ -54,6 +54,41 @@ RSpec.describe EventHelper do
     it { expect(event_description(event)).to have_text "took a photo" }
   end
 
+  describe 'jobs' do
+    let(:job) { create(:job, name: 'Weed the beds', due_date:) }
+    let(:due_date) { nil }
+    let(:event) { OpenStruct.new(id: job.id, event_type: 'job') }
+
+    it { expect(subject).to eq job }
+    it { expect(event_description(event)).to have_text 'plans to do “Weed the beds”' }
+
+    context 'when due later' do
+      let(:due_date) { 3.months.from_now.to_date }
+
+      it { expect(event_description(event)).to have_text "(due #{l(due_date, format: '%a %-d %b')})" }
+    end
+
+    context 'when overdue' do
+      let(:due_date) { 1.month.ago.to_date }
+
+      it { expect(event_description(event)).to have_no_text 'due' }
+    end
+
+    context 'when finished' do
+      let(:job) { create(:job, name: 'Weed the beds', finished: true) }
+
+      it { expect(event_description(event)).to have_text 'planned to do “Weed the beds”' }
+    end
+  end
+
+  describe 'finished jobs' do
+    let(:job) { create(:job, name: 'Weed the beds', finished: true) }
+    let(:event) { OpenStruct.new(id: job.id, event_type: 'job_finished') }
+
+    it { expect(subject).to eq job }
+    it { expect(event_description(event)).to have_text 'did “Weed the beds”' }
+  end
+
   describe 'in_weeks' do
     it { expect(in_weeks(14)).to eq 2 }
     it { expect(in_weeks(15)).to eq 2 }

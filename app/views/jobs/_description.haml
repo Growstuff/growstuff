@@ -1,4 +1,9 @@
-#{event_model.name}
+- if event_model.finished
+  planned to do “#{event_model.name}”
+- else
+  plans to do “#{event_model.name}”
+  - if event_model.due_date && event_model.due_date >= Time.zone.today
+    (due #{job_due_label(event_model)})
 
 - if event_model.planting
   %span on #{link_to event_model.planting, event_model.planting}

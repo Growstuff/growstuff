@@ -125,6 +125,13 @@ $notepad-trail: #a4c98c;
     margin: 0.75rem 1.1rem 0;
   }
 
+  .notepad-older summary {
+    color: $ink-muted;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.4rem 1.1rem;
+  }
+
   .notepad-heading {
     display: flex;
     align-items: baseline;
@@ -385,8 +392,35 @@ $notepad-trail: #a4c98c;
     }
   }
 
-  .notepad-due + .notepad-menu {
+  .notepad-due + .notepad-menu,
+  .notepad-day + .notepad-menu {
     margin-left: 0;
+  }
+
+  .notepad-day {
+    position: relative;
+    margin-left: auto;
+
+    .notepad-due {
+      margin-left: 0;
+      text-decoration: none;
+
+      &.unset {
+        color: $ink-muted;
+        font-weight: 400;
+      }
+    }
+  }
+
+  // The browser's calendar opens from this, beside the day; it is never seen itself.
+  .notepad-date-input {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
   }
 
   // A snail crawling along a trail at the foot of the page, and how many jobs

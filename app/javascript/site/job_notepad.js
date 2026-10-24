@@ -239,6 +239,25 @@ document.addEventListener('DOMContentLoaded', function () {
     startEditing(edit.closest('.notepad-job'));
   });
 
+  // ---- Picking a day from the browser's calendar
+
+  // "Change date" opens the browser's own calendar, which marks today, beside the
+  // job's day. Picking a day moves the job there.
+  groups.addEventListener('click', function (event) {
+    const change = event.target.closest('[data-notepad-change-date]');
+    if (!change) return;
+    event.preventDefault();
+    const input = change.closest('.notepad-day').querySelector('.notepad-date-input');
+    if (input.showPicker) input.showPicker();
+    else input.focus();
+  });
+
+  groups.addEventListener('change', function (event) {
+    const input = event.target.closest('.notepad-date-input');
+    if (!input || !input.value) return;
+    patchJob(input.closest('.notepad-job').dataset.url, {due_date: input.value}).catch(reload);
+  });
+
   // ---- Adding a job
 
   const link = document.getElementById('notepad-link');

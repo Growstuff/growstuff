@@ -24,7 +24,7 @@ if ENV['CI'] || ENV['COVERAGE']
   SimpleCov.command_name "rspec-#{Process.pid}"
   SimpleCov.start 'rails' do
     enable_coverage :branch
-    add_filter %r{^/spec/}
+    skip %r{^/spec/}
   end
 end
 
