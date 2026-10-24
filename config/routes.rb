@@ -160,6 +160,7 @@ Rails.application.routes.draw do
   end
 
   resource :photo_library_access, only: :create
+  get 'photo_library/*key' => 'photo_library_files#show', as: :photo_library_file, format: false
 
   resources :messages
   get 'jobs/suggestions' => 'job_suggestions#index', as: :job_suggestions
