@@ -545,12 +545,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_24_100000) do
 
   create_table "crop_job_templates", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "creator_id"
     t.bigint "crop_id", null: false
     t.string "name", null: false
     t.string "season", default: "any", null: false
     t.string "status", default: "draft", null: false
     t.datetime "updated_at", null: false
-    t.bigint "creator_id"
     t.index ["creator_id"], name: "index_crop_job_templates_on_creator_id"
     t.index ["crop_id"], name: "index_crop_job_templates_on_crop_id"
   end
