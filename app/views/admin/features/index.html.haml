@@ -1,0 +1,31 @@
+- content_for :title, t('.title')
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active= link_to t('.title'), admin_features_path
+
+%p= t('.intro')
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th= t('.feature')
+      %th= t('.state')
+      %th
+  %tbody
+    - @features.each do |feature|
+      %tr{ id: "feature-#{feature.name}" }
+        %td
+          %strong= t("admin.features.names.#{feature.name}")
+          %br
+          %span.text-muted= t("admin.features.descriptions.#{feature.name}")
+        %td
+          - if feature.enabled?
+            %span.badge.bg-success= t('.on')
+          - else
+            %span.badge.bg-secondary= t('.off')
+        %td
+          - on = feature.enabled?
+          = button_to t(on ? '.switch_off' : '.switch_on'), admin_feature_path(feature),
+                      method: :patch, params: { enabled: !on },
+                      class: ['btn btn-sm', on ? 'btn-outline-secondary' : 'btn-primary']

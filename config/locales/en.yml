@@ -123,6 +123,24 @@ en:
               heirloom_inclusion: "You must say whether the seeds are heirloom, hybrid, or unknown"
             source:
               source_inclusion: "You must say where the seeds are from, or that you don't know"
+  admin:
+    features:
+      descriptions:
+        job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
+      index:
+        feature: Feature
+        intro: Switch features on or off for everyone.
+        'off': 'Off'
+        'on': 'On'
+        state: State
+        switch_off: Switch off
+        switch_on: Switch on
+        title: Features
+      names:
+        job_ideas: Job ideas
+      update:
+        'off': "%{feature} is now off."
+        'on': "%{feature} is now on."
   application_helper:
     title:
       title:
