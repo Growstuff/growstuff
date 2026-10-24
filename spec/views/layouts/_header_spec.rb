@@ -133,6 +133,37 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
   end
 
+  context 'when logged in as a crop wrangler' do
+    let(:wrangler) { create(:crop_wrangling_member) }
+
+    before do
+      sign_in wrangler
+      controller.stub(:current_user) { wrangler }
+    end
+
+    context 'when in the admin section' do
+      before do
+        allow(view.request).to receive(:path).and_return('/admin/job_templates')
+        render
+      end
+
+      it 'marks Admin' do
+        assert_select("a.dropdown-toggle[aria-current='page']", text: /Admin/)
+      end
+    end
+
+    context 'when wrangling crops' do
+      before do
+        allow(view.request).to receive(:path).and_return('/crops/wrangle')
+        render
+      end
+
+      it 'marks only Admin' do
+        assert_select("a[aria-current='page']", count: 1, text: /Admin/)
+      end
+    end
+  end
+
   context 'logged in, has notifications' do
     before do
       @member = create(:member)
