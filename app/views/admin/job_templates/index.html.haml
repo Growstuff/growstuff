@@ -15,7 +15,7 @@
   - CropJobTemplate.statuses.each_key do |status|
     %li.nav-item
       = link_to crop_job_option(:status, status), admin_job_templates_path(status:),
-        class: "nav-link #{'active' if @status == status}"
+                class: "nav-link #{'active' if @status == status}"
 
 - if @templates.empty?
   %p No job templates here.
