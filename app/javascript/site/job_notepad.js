@@ -6,6 +6,7 @@
 // goes wrong reloads the page, which shows how things stand. Choosing Edit in a
 // job's menu turns its name into a box to type in; Enter saves, Esc cancels.
 
+import {csrfToken} from '../api';
 import {celebrate, doneText, hide} from './job_celebration';
 import {nextStreak, undoStreak} from './job_streak';
 
@@ -19,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const saving = document.getElementById('notepad-add-saving');
   const addButton = form.querySelector('input[type="submit"]');
   const addLabel = addButton.value;
-  const token = document.querySelector('meta[name="csrf-token"]');
   const kinds = JSON.parse(form.dataset.kinds);
   // A suggestion's kind (planting, seed or crop) is its type, lower case.
   const kindOf = function (item) { return item.jobbable_type.toLowerCase(); };
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
       body: body,
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-Token': token ? token.content : '',
+        'X-CSRF-Token': csrfToken(),
       },
       credentials: 'same-origin',
     })
