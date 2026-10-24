@@ -20,10 +20,8 @@ module Api
         Graphiti::Errors::InvalidFilterValue, Graphiti::Errors::InvalidInclude,
         Graphiti::Errors::UnknownAttribute, Graphiti::Errors::StatNotFound
       ].freeze
-      rescue_from(*BAD_REQUEST_ERRORS) { |error| render_error(error, :bad_request) }
-      rescue_from(Graphiti::Errors::RecordNotFound) { |error| render_error(error, :not_found) }
-
-      class_attribute :resource_class
+      rescue_from(*BAD_REQUEST_ERRORS) { |error| render_error(:bad_request, error.message) }
+      rescue_from(Graphiti::Errors::RecordNotFound) { |error| render_error(:not_found, error.message) }
 
       def index
         render jsonapi: resource_class.all(params)
@@ -35,48 +33,41 @@ module Api
 
       def create
         resource = resource_class.build(params)
-        if resource.save
-          render jsonapi: resource, status: :created
-        else
-          render jsonapi_errors: resource
-        end
+        render_write resource, resource.save, status: :created
       end
 
       def update
         resource = resource_class.find(params)
-        if resource.update_attributes
-          render jsonapi: resource
-        else
-          render jsonapi_errors: resource
-        end
+        render_write resource, resource.update_attributes
       end
 
       def destroy
         resource = resource_class.find(params)
-        authorize! :destroy, resource.data
-        if resource.destroy
-          head :no_content
-        else
-          render jsonapi_errors: resource
-        end
+        resource.destroy ? head(:no_content) : render(jsonapi_errors: resource)
       end
 
+      # Public so that resources, which Graphiti gives this controller as their context, can see who is writing.
       attr_reader :current_user
 
       private
 
-      def check_resource_type
-        return if params.dig(:data, :type) == resource_class.type.to_s
-
-        type = params.dig(:data, :type)
-        render json: { errors: [{ status: '400', title: 'Invalid resource', detail: "#{type} is not a valid resource." }] },
-               status: :bad_request, content_type: Mime[:jsonapi]
+      def resource_class
+        @resource_class ||= "#{controller_name.singularize.camelize}Resource".constantize
       end
 
-      def render_error(error, status)
+      def render_write(resource, saved, status: :ok)
+        saved ? render(jsonapi: resource, status: status) : render(jsonapi_errors: resource)
+      end
+
+      def check_resource_type
+        type = params.dig(:data, :type)
+        render_error(:bad_request, "#{type} is not a valid resource.", title: 'Invalid resource') unless type == resource_class.type.to_s
+      end
+
+      def render_error(status, detail, title: nil)
         code = Rack::Utils.status_code(status)
-        render json: { errors: [{ status: code.to_s, title: Rack::Utils::HTTP_STATUS_CODES[code], detail: error.message }] },
-               status: status, content_type: Mime[:jsonapi]
+        title ||= Rack::Utils::HTTP_STATUS_CODES[code]
+        render json: { errors: [{ status: code.to_s, title: title, detail: detail }] }, status: status, content_type: Mime[:jsonapi]
       end
 
       def enforce_member_for_write_operations!

@@ -3,10 +3,6 @@
 class GardenResource < ApplicationResource
   self.model = Garden
 
-  filter :photo_id, :integer do
-    eq { |scope, ids| scope.joins(:photo_associations).where(photo_associations: { photo_id: ids }) }
-  end
-
   attribute :name, :string
   filter_only :slug, :string
   filter_only :active, :boolean

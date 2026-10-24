@@ -3,10 +3,6 @@
 class PlantingResource < ApplicationResource
   self.model = Planting
 
-  filter :photo_id, :integer do
-    eq { |scope, ids| scope.joins(:photo_associations).where(photo_associations: { photo_id: ids }) }
-  end
-
   attribute :slug, :string, writable: false
   attribute :planted_at, :date
   attribute :failed, :boolean

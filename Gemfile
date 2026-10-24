@@ -151,7 +151,6 @@ group :development, :test do
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
-  gem 'rswag-specs'
   gem 'rubocop-capybara'
   gem 'rubocop-factory_bot'
   gem 'rubocop-rails'

@@ -197,16 +197,12 @@ Rails.application.routes.draw do
     end
   end
 
+  # What can be done to each is declared by its resource, which is also where the API docs read it from.
   scope path: ApplicationResource.endpoint_namespace, module: 'api/v1', as: :api_v1, defaults: { format: :jsonapi } do
-    resources :jobs
     get 'crops/search', to: 'crops#search'
-    resources :crops, only: %i(index show)
-    resources :gardens
-    resources :harvests
-    resources :members, only: %i(index show)
-    resources :photos, only: %i(index show)
-    resources :plantings
-    resources :seeds
+    [CropResource, GardenResource, HarvestResource, JobResource, MemberResource, PhotoResource, PlantingResource, SeedResource].each do |resource|
+      resources resource.type, only: resource.endpoint[:actions]
+    end
   end
 
   get '/.well-known/acme-challenge/:id' => 'pages#letsencrypt'

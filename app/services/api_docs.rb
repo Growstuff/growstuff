@@ -69,7 +69,7 @@ class ApiDocs
   def operation(action, resource, path)
     type = resource[:type]
     operation = { tags: [type], summary: summary(action, type), responses: responses(action, resource) }
-    operation[:parameters] = parameters(action, resource, path)
+    operation[:parameters] = parameters(action, resource)
     operation[:security] = [{ bearerAuth: [] }] if %i(create update destroy).include?(action)
     operation[:requestBody] = request_body(resource) if %i(create update).include?(action)
     operation.compact
@@ -80,7 +80,7 @@ class ApiDocs
       create: "Create one of #{type}", update: "Change one of #{type}", destroy: "Delete one of #{type}" }.fetch(action)
   end
 
-  def parameters(action, resource, _path)
+  def parameters(action, resource)
     case action
     when :index then filter_parameters(resource) + [sort_parameter(resource), include_parameter(resource)] + page_parameters(resource)
     when :search then [term_parameter] + page_parameters(resource)

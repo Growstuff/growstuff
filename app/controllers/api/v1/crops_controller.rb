@@ -3,8 +3,6 @@
 module Api
   module V1
     class CropsController < BaseController
-      self.resource_class = CropResource
-
       def search
         proxy = CropResource.all(params.merge(stats: { total: :count }), Crop.search_by_name(params[:term]))
         total = proxy.stats[:total][:count]

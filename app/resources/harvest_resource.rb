@@ -3,10 +3,6 @@
 class HarvestResource < ApplicationResource
   self.model = Harvest
 
-  filter :photo_id, :integer do
-    eq { |scope, ids| scope.joins(:photo_associations).where(photo_associations: { photo_id: ids }) }
-  end
-
   attribute :harvested_at, :date
   attribute :description, :string
   attribute :unit, :string
