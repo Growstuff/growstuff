@@ -57,7 +57,7 @@ describe JobsController, '#index with ideas', flipper: :job_ideas do
     it 'renders the weather description and details modal' do
       expect(page).to have_css('.weather-summary', text: '22°C / 12°C, Clear sky')
       expect(page).to have_css('#weather-modal-today', visible: :all)
-      expect(page).to have_link('Learn more on Open-Meteo', href: 'https://open-meteo.com/en/licence')
+      expect(page).to have_link('CC-BYgit Open-Meteo', href: 'https://open-meteo.com/en/licence')
     end
   end
 
