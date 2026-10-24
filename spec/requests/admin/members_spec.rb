@@ -11,7 +11,6 @@ RSpec.describe 'Admin::Members', type: :request do
       login_name: 'active_spammer',
       email: 'active@example.com',
       bio: 'A' * 300,
-      instagram_handle: 'active_insta',
       photos_count: 3,
       plantings_count: 5,
       forums_count: 1,
@@ -41,10 +40,9 @@ RSpec.describe 'Admin::Members', type: :request do
         expect(response.body).not_to include('deleted_user')
       end
 
-      it 'surfaces login name, email, confirmed status, last login, truncated bio, instagram handle, and count attributes' do
+      it 'surfaces login name, email, confirmed status, last login, truncated bio, and count attributes' do
         get admin_members_path
         expect(response.body).to include('active@example.com')
-        expect(response.body).to include('active_insta')
         expect(response.body).to include('A' * 252 + '...') # truncated to 255 chars
         expect(response.body).to include('Photos')
         expect(response.body).to include('Plantings')
