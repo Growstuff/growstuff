@@ -14,25 +14,22 @@ describe "members list" do
       visit members_path
     end
 
-    it "default alphabetical sort" do
+    it "default recently joined sort" do
       expect(page).to have_css "#sort"
       expect(page).to have_css "form"
+      expect(subject.first).to have_text testingname.login_name
+      expect(subject.last).to have_text archaeopteryx.login_name
+    end
+
+    it "alphabetical sort" do
+      expect(page).to have_css "#sort"
+      expect(page).to have_css "form"
+      select("alphabetically", from: 'sort')
       click_button('Show')
       # "Show" reloads the whole page. Wait for the new page before reading the list.
       expect(page).to have_current_path(/sort=alpha/)
       expect(subject.first).to have_text archaeopteryx.login_name
       expect(subject.last).to have_text zephyrosaurus.login_name
-    end
-
-    it "recently joined sort" do
-      expect(page).to have_css "#sort"
-      expect(page).to have_css "form"
-      select("recently", from: 'sort')
-      click_button('Show')
-      # "Show" reloads the whole page. Wait for the new page before reading the list.
-      expect(page).to have_current_path(/sort=recently_joined/)
-      expect(subject.first).to have_text testingname.login_name
-      expect(subject.last).to have_text archaeopteryx.login_name
     end
   end
 end

@@ -6,7 +6,7 @@ class MembersController < ApplicationController
   respond_to :html, :json, :rss
 
   def index
-    @sort = params[:sort]
+    @sort = params[:sort] || 'recently_joined'
     @members = members
     respond_to do |format|
       format.html # index.html.haml
@@ -104,10 +104,10 @@ class MembersController < ApplicationController
   end
 
   def members
-    if @sort == 'recently_joined'
-      Member.recently_joined
-    else
+    if @sort == 'alpha'
       Member.order(:login_name)
+    else
+      Member.recently_joined
     end.kept.confirmed.paginate(page: params[:page])
   end
 end

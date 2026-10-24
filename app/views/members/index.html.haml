@@ -6,7 +6,7 @@
 = bootstrap_form_tag(url: members_path, method: :get, layout: :inline) do |f|
   = f.select "sort",
         options_for_select({ "alphabetically": 'alpha', "recently joined": "recently_joined" },
-                                      @sort || 'alpha'),
+                                      @sort || 'recently_joined'),
         label: 'Sort by'
   = f.submit "Show"
 
