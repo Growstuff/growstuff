@@ -1,0 +1,20 @@
+%p
+  Hello
+  = @member.login_name
+  ,
+
+%p
+  = @access.member.login_name
+  has asked to upload photos to the
+  = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
+  photo library.
+
+- if @access.request_message.present?
+  %blockquote= @access.request_message
+
+%p
+  As an admin, you can
+  = link_to "approve or refuse this request", admin_photo_library_accesses_url
+  \.
+
+= render partial: 'signature'

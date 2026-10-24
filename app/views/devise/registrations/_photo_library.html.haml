@@ -1,0 +1,23 @@
+%br/
+%p
+  You can always add a photo you host elsewhere, such as on Flickr.
+  To upload photos straight from your device to #{ENV.fetch('GROWSTUFF_SITE_NAME', nil)},
+  ask for access to the photo library.
+
+- case current_member.photo_library_status
+- when 'approved'
+  %p.alert.alert-success You can upload photos from your device.
+- when 'requested'
+  %p.alert.alert-info You've asked to upload photos. An admin will look at your request.
+- else
+  - if current_member.photo_library_status == 'refused'
+    %p.alert.alert-warning Your request to upload photos was refused.
+  - elsif current_member.photo_library_status == 'revoked'
+    %p.alert.alert-warning Your access to upload photos was taken away.
+  - if current_member.photo_library_access&.note.present?
+    %blockquote= current_member.photo_library_access.note
+  = form_with model: PhotoLibraryAccess.new, url: photo_library_access_path do |f|
+    .mb-3
+      = f.label :request_message, "Tell us a bit about the photos you'd like to share (optional)", class: 'form-label'
+      = f.text_area :request_message, class: 'form-control', rows: 3, maxlength: 1000
+    = f.submit "Ask to upload photos", class: 'btn btn-primary'

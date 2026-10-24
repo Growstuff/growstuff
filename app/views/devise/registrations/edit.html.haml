@@ -16,6 +16,8 @@
     %li.nav-item
       %a#apps-tab.nav-link{"aria-controls" => "apps", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#apps", role: "tab"} Apps
     %li.nav-item
+      %a#photos-tab.nav-link{"aria-controls" => "photos", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#photos", role: "tab"} Photos
+    %li.nav-item
       %a#password-tab.nav-link{"aria-controls" => "password", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#password", role: "tab"} Password
     %li.nav-item
       %a#delete-tab.nav-link.text-danger{"aria-controls" => "delete", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#delete", role: "tab"} Delete Account
@@ -27,6 +29,8 @@
         = render partial: 'edit_email'
       #apps.tab-pane.fade{"aria-labelledby" => "apps-tab", role: "tabpanel"}
         = render partial: 'edit_apps'
+      #photos.tab-pane.fade{"aria-labelledby" => "photos-tab", role: "tabpanel"}
+        = render partial: 'photo_library'
       #password.tab-pane.fade{"aria-labelledby" => "password-tab", role: "tabpanel"}
         = render partial: 'edit_password'
       #delete.tab-pane.fade{"aria-labelledby" => "delete-tab", role: "tabpanel"}
