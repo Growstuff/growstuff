@@ -2,32 +2,145 @@
   %li.breadcrumb-item= link_to 'Admin', admin_path
   %li.breadcrumb-item.active= link_to 'Members', admin_members_path
 
-.row
+.row.mb-3
   .col-md-6
     = bootstrap_form_tag url: admin_members_path, method: :get, layout: :horizontal do |f|
+      = hidden_field_tag :status, @status
       .input-group
         %span.input-group-text= icon 'fas', 'user'
-        = f.text_field(:q, 'aria-label': 'search members', placeholder: 'search members', hide_label: true)
+        = f.text_field(:q, value: params[:q], 'aria-label': 'search members', placeholder: 'search members', hide_label: true)
         = f.submit 'search', class: 'btn btn-secondary'
 
-%table.table.table-striped
-  %thead
-    %tr
-      %th{scope: "col"} #
-      %th{scope: "col"} Login Name
-  - @members.each do |member|
-    %tr
-      %td= render 'members/tiny', member: member
-      %td= member.login_name
-      %td
-        %ul
-          - member.roles.pluck(:name).each do |r|
-            %li= r
-      %td
-        = link_to edit_admin_member_path(member), class: 'btn' do
-          = edit_icon
-        = link_to admin_member_path(member), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-light text-danger' do
-          = icon 'fas', 'ban'
-          Ban member
+%ul.nav.nav-tabs.mb-3
+  %li.nav-item
+    = link_to 'Active', admin_members_path(status: 'active', q: params[:q]), class: "nav-link #{@status == 'active' ? 'active' : ''}"
+  %li.nav-item
+    = link_to 'Deactivated', admin_members_path(status: 'deactivated', q: params[:q]), class: "nav-link #{@status == 'deactivated' ? 'active' : ''}"
+
+- if @status == 'active'
+  = form_tag bulk_ban_admin_members_path, method: :post, id: 'bulk_ban_form' do
+    .d-flex.justify-content-between.align-items-center.mb-2
+      %div
+        = submit_tag 'Bulk Ban Selected', class: 'btn btn-danger btn-sm', data: { confirm: 'Are you sure you want to ban the selected members?' }
+
+    .table-responsive
+      %table.table.table-striped.table-sm.align-middle
+        %thead
+          %tr
+            %th{scope: "col"}
+              %input#select_all_members{type: "checkbox", onclick: "document.querySelectorAll('.member-select-checkbox').forEach(cb => cb.checked = this.checked);"}
+            %th{scope: "col"} #
+            %th{scope: "col"} Login Name
+            %th{scope: "col"} Email
+            %th{scope: "col"} Confirmed
+            %th{scope: "col"} Last Login
+            %th{scope: "col"} Bio
+            %th{scope: "col"} Instagram
+            %th{scope: "col"} Roles
+            %th{scope: "col"} Photos
+            %th{scope: "col"} Plantings
+            %th{scope: "col"} Forums
+            %th{scope: "col"} Gardens
+            %th{scope: "col"} Harvests
+            %th{scope: "col"} Jobs
+            %th{scope: "col"} Actions
+        %tbody
+          - @members.each do |member|
+            %tr
+              %td
+                - unless member.id == current_member.id
+                  = check_box_tag "member_ids[]", member.id, false, class: 'member-select-checkbox'
+              %td= render 'members/tiny', member: member
+              %td= link_to member.login_name, member
+              %td= member.email
+              %td
+                - if member.confirmed?
+                  %span.badge.bg-success Yes
+                - else
+                  %span.badge.bg-secondary No
+              %td
+                - if member.last_sign_in_at.present?
+                  %small= l(member.last_sign_in_at, format: :short)
+                - else
+                  %small.text-muted Never
+              %td
+                - if member.bio.present?
+                  %small{title: member.bio}= truncate(member.bio, length: 255)
+              %td
+                - if member.instagram_handle.present?
+                  %small= member.instagram_handle
+              %td
+                - if member.roles.any?
+                  %small= member.roles.map(&:name).join(', ')
+              %td= member.photos_count || 0
+              %td= member.plantings_count || 0
+              %td= member.forums_count || 0
+              %td= member.gardens_count || 0
+              %td= member.harvests_count || 0
+              %td= member.jobs_count || 0
+              %td
+                .btn-group.btn-group-sm
+                  = link_to edit_admin_member_path(member), class: 'btn btn-outline-secondary', title: 'Edit roles' do
+                    = edit_icon
+                  - unless member.id == current_member.id
+                    = link_to admin_member_path(member, status: @status), method: :delete, data: { confirm: 'Are you sure you want to ban this member?' }, class: 'btn btn-outline-danger', title: 'Ban member' do
+                      = icon 'fas', 'ban'
+
+- else
+  .table-responsive
+    %table.table.table-striped.table-sm.align-middle
+      %thead
+        %tr
+          %th{scope: "col"} #
+          %th{scope: "col"} Login Name
+          %th{scope: "col"} Email
+          %th{scope: "col"} Confirmed
+          %th{scope: "col"} Last Login
+          %th{scope: "col"} Bio
+          %th{scope: "col"} Instagram
+          %th{scope: "col"} Roles
+          %th{scope: "col"} Photos
+          %th{scope: "col"} Plantings
+          %th{scope: "col"} Forums
+          %th{scope: "col"} Gardens
+          %th{scope: "col"} Harvests
+          %th{scope: "col"} Jobs
+          %th{scope: "col"} Actions
+      %tbody
+        - @members.each do |member|
+          %tr
+            %td= render 'members/tiny', member: member
+            %td= member.login_name
+            %td= member.email
+            %td
+              - if member.confirmed?
+                %span.badge.bg-success Yes
+              - else
+                %span.badge.bg-secondary No
+            %td
+              - if member.last_sign_in_at.present?
+                %small= l(member.last_sign_in_at, format: :short)
+              - else
+                %small.text-muted Never
+            %td
+              - if member.bio.present?
+                %small{title: member.bio}= truncate(member.bio, length: 255)
+            %td
+              - if member.instagram_handle.present?
+                %small= member.instagram_handle
+            %td
+              - if member.roles.any?
+                %small= member.roles.map(&:name).join(', ')
+            %td= member.photos_count || 0
+            %td= member.plantings_count || 0
+            %td= member.forums_count || 0
+            %td= member.gardens_count || 0
+            %td= member.harvests_count || 0
+            %td= member.jobs_count || 0
+            %td
+              = link_to restore_admin_member_path(member), method: :post, data: { confirm: 'Restore this member?' }, class: 'btn btn-sm btn-outline-success', title: 'Restore member' do
+                = icon 'fas', 'undo'
+                Restore
+
 = page_entries_info @members
 = will_paginate @members

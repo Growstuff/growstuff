@@ -185,7 +185,10 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :members, param: :slug
+    resources :members, param: :slug do
+      post :bulk_ban, on: :collection
+      post :restore, on: :member
+    end
     resources :roles
     resources :crops, param: :slug do
       resources :crop_companions
