@@ -8,7 +8,7 @@ describe PhotoUploadJob do
 
   let(:photo) do
     Photo.build_upload(owner: create(:member), upload: fixture_file_upload(file, content_type),
-                       title: 'Tomatoes', license_name: 'CC-BY').tap(&:save!)
+                       title: 'Tomatoes', license_name: 'CC BY 4.0', rights_confirmed: true).tap(&:save!)
   end
   let(:file) { 'garden_with_location.jpg' }
   let(:content_type) { 'image/jpeg' }

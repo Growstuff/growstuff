@@ -6,7 +6,8 @@ describe Photo do
   include ActiveJob::TestHelper
 
   subject(:photo) do
-    described_class.build_upload(owner: create(:member), upload:, title: 'Tomatoes', license_name: 'CC-BY')
+    described_class.build_upload(owner: create(:member), upload:, title: 'Tomatoes',
+                                 license_name: 'CC BY-SA 4.0', rights_confirmed: true)
   end
 
   let(:upload) { fixture_file_upload('garden_with_location.jpg', 'image/jpeg') }
@@ -54,6 +55,27 @@ describe Photo do
 
     it 'is invalid' do
       expect(photo.tap(&:valid?).errors[:upload]).to include 'must be a JPEG, PNG, WebP or HEIC photo'
+    end
+  end
+
+  context 'with a licence not on the list' do
+    subject(:photo) do
+      described_class.build_upload(owner: create(:member), upload:, title: 'T', license_name: 'All rights reserved',
+                                   rights_confirmed: true)
+    end
+
+    it 'is invalid' do
+      expect(photo.tap(&:valid?).errors[:license_name]).to be_present
+    end
+  end
+
+  context 'without confirming the right to share it' do
+    subject(:photo) do
+      described_class.build_upload(owner: create(:member), upload:, title: 'T', license_name: 'CC BY 4.0')
+    end
+
+    it 'is invalid' do
+      expect(photo.tap(&:valid?).errors[:rights_confirmed]).to be_present
     end
   end
 

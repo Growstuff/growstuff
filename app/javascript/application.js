@@ -3,6 +3,7 @@
 import './globals';
 
 import 'jquery-ujs';
+import * as ActiveStorage from '@rails/activestorage';
 import 'jquery-ui/dist/jquery-ui';
 import 'bootstrap-datepicker';
 import 'leaflet.markercluster';
@@ -21,6 +22,10 @@ import './site/navbar_search';
 import './site/places';
 import './site/planting_alternate_name';
 import './site/tab_navigation';
+
+// Photos uploaded to the photo library go from the browser straight to
+// storage, not through the app: file fields marked direct_upload.
+ActiveStorage.start();
 
 document.addEventListener('DOMContentLoaded', function() {
   var popoverTrigger = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));

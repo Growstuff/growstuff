@@ -30,6 +30,10 @@ class Photo < ApplicationRecord
   validates :license_name, presence: true # Should assert this is one of CC-BY, CC-BY-NC, etc
   validates :license_url,  url: true, allow_blank: true
   validates :upload, presence: true, on: :create, if: :uploaded?
+  validates :license_name, inclusion: { in: PhotoLibrary::LICENSES.keys }, on: :create, if: :uploaded?
+  # The member says they took the photo, or may share it under the licence.
+  attribute :rights_confirmed, :boolean
+  validates :rights_confirmed, acceptance: { allow_nil: false }, on: :create, if: :uploaded?
   validate :upload_acceptable, on: :create, if: :uploaded?
 
   after_create :link_to_own_page, if: :uploaded?
@@ -55,6 +59,7 @@ class Photo < ApplicationRecord
   def self.build_upload(owner:, upload:, **attributes)
     token = SecureRandom.base36(24)
     new(owner:, source: 'upload', source_id: token, **attributes).tap do |photo|
+      photo.license_url = PhotoLibrary::LICENSES[photo.license_name]
       photo.upload.attach(upload)
       photo.fullsize_url = PhotoLibrary.url(PhotoLibrary.key(token, :fullsize))
       photo.thumbnail_url = PhotoLibrary.url(PhotoLibrary.key(token, :thumbnail))

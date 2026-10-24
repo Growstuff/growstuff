@@ -14,6 +14,15 @@ module PhotoLibrary
     thumbnail: { resize_to_fill: [300, 300] }
   }.freeze
 
+  # The licences a member can choose for a photo they upload. The first, the
+  # one the site's own data uses, is the default.
+  LICENSES = {
+    'CC BY-SA 4.0' => 'https://creativecommons.org/licenses/by-sa/4.0/',
+    'CC BY 4.0'    => 'https://creativecommons.org/licenses/by/4.0/',
+    'CC BY-NC 4.0' => 'https://creativecommons.org/licenses/by-nc/4.0/',
+    'CC0 1.0'      => 'https://creativecommons.org/publicdomain/zero/1.0/'
+  }.freeze
+
   CONTENT_TYPES = %w(image/jpeg image/png image/webp image/heic image/heif).freeze
   MAX_FILE_SIZE = 20.megabytes
   # Bigger than any phone camera, small enough that one photo can't take all

@@ -48,6 +48,8 @@ class PhotosController < ApplicationController
   end
 
   def create
+    return create_upload if params.dig(:photo, :upload).present?
+
     ActiveRecord::Base.transaction do
       @photo = find_or_create_photo_from_flickr_photo
       @item = item_to_link_to
@@ -105,6 +107,30 @@ class PhotosController < ApplicationController
   def photo_params
     params.require(:photo).permit(:source_id, :source, :title, :license_name,
                                   :license_url, :thumbnail_url, :fullsize_url, :link_url, :date_taken)
+  end
+
+  # A photo uploaded to the photo library: `upload` is the signed id of the
+  # file the browser has already sent to storage.
+  def create_upload
+    authorize! :upload, Photo
+    @item = item_to_link_to
+    @photo = Photo.build_upload(owner: current_member, **upload_params.to_h.symbolize_keys)
+    ActiveRecord::Base.transaction do
+      @photo.save!
+      link_photo_to_item
+    end
+    return render_added_json if request.format.json?
+
+    redirect_to @item, notice: t('photos.uploaded')
+  rescue ActiveRecord::RecordInvalid => e
+    return render json: { errors: e.record.errors }, status: :unprocessable_content if request.format.json?
+
+    redirect_to new_photo_path(type: params[:type], id: params[:id], moment: params[:moment]),
+                alert: e.record.errors.full_messages.to_sentence
+  end
+
+  def upload_params
+    params.require(:photo).permit(:upload, :title, :license_name, :rights_confirmed)
   end
 
   # Attaches the photo to the item. A photo for a job can say when it was taken,

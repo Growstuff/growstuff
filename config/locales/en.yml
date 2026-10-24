@@ -660,6 +660,17 @@ en:
     unsubscribed: You have been unsubscribed from %{email_type} emails.
     welcome: Welcome
   photos:
+    uploaded: Thanks! Your photo will appear in a moment.
+    upload_form:
+      heading: Upload from your device
+      file: Photo
+      title: Title
+      license: Licence
+      rights_confirmed: I took this photo, or I have the right to share it under this licence.
+      submit: Upload photo
+      not_approved: To upload photos from your device, %{link}.
+      ask_link: ask for access to the photo library
+      requested: You've asked to upload photos from your device. An admin will look at your request.
     show:
       garden: garden named "%{garden}" by %{owner}
       harvest: "%{crop} harvest by %{owner}"
