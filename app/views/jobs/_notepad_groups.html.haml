@@ -47,7 +47,7 @@
                 .mt-3.text-muted.small
                   = summary[:attribution_text]
                   •
-                  = link_to 'Learn more on Open-Meteo', summary[:attribution_url], target: '_blank', rel: 'noopener noreferrer'
+                  = link_to 'CC-BY Open-Meteo', summary[:attribution_url], target: '_blank', rel: 'noopener noreferrer'
               .modal-footer
                 %button.btn.btn-secondary{ type: 'button', 'data-bs-dismiss' => 'modal' } Close
     - if group.jobs.empty?
