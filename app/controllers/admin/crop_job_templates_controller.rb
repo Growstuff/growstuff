@@ -10,7 +10,7 @@ module Admin
     before_action :set_template, only: %i(edit update destroy)
 
     def index
-      @templates = CropJobTemplate.where(crop_id: crop_ids).includes(:crop, :steps).order(:name)
+      @templates = CropJobTemplate.where(crop_id: crop_ids).includes(:crop, :creator, :steps).order(:name)
     end
 
     def new
@@ -24,7 +24,7 @@ module Admin
     end
 
     def create
-      @template = CropJobTemplate.new(template_params)
+      @template = CropJobTemplate.new(template_params.merge(creator: current_member))
       return render_with_another_step(:new) if add_step?
 
       if @template.save

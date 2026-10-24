@@ -22,6 +22,7 @@
         %th Name
         %th Applies to
         %th Season
+        %th Written by
         %th Steps
         %th Status
         %th
@@ -31,6 +32,7 @@
           %td= link_to template.name, edit_admin_crop_crop_job_template_path(@crop, template)
           %td= template.crop == @crop ? t('crop_job_templates.options.applies_to_all', crop: @crop.name) : t('crop_job_templates.options.applies_to_one', crop: template.crop.name)
           %td= crop_job_option(:season, template.season)
+          %td= template.creator ? link_to(template.creator, template.creator) : 'Seed data'
           %td= template.steps.size
           %td
             %span.badge{ class: template.published? ? 'text-bg-success' : 'text-bg-secondary' }= crop_job_option(:status, template.status)

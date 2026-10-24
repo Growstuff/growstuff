@@ -5,9 +5,10 @@ require 'rails_helper'
 describe Admin::JobTemplatesController do
   let(:tomato) { create(:crop, name: 'tomato') }
   let(:cherry) { create(:crop, name: 'cherry tomato', parent: tomato) }
+  let(:author) { create(:member, login_name: 'template_author') }
 
   before do
-    create(:crop_job_template, crop: tomato, name: 'Growing tomatoes', status: 'published')
+    create(:crop_job_template, crop: tomato, name: 'Growing tomatoes', status: 'published', creator: author)
     create(:crop_job_template, crop: cherry, name: 'Growing cherry tomatoes')
     create(:crop_job_template, name: 'Growing something else')
   end
@@ -21,6 +22,10 @@ describe Admin::JobTemplatesController do
 
         it 'lists every crop\'s templates' do
           expect(response.body).to include('Growing tomatoes', 'Growing cherry tomatoes', 'Growing something else')
+        end
+
+        it 'shows who wrote a template' do
+          expect(response.body).to include('template_author')
         end
 
         it 'links a variety\'s template to its parent crop\'s templates' do
