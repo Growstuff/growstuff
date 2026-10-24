@@ -359,6 +359,17 @@ footer {
   z-index: $highest-level;
 }
 
+.flash-messages {
+  position: sticky;
+  top: 4rem;
+  z-index: $zindex-sticky;
+  margin-bottom: 1rem;
+
+  .alert {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
 .alert {
   a {
     font-weight: 800;
