@@ -14,5 +14,6 @@ class JobResource < ApplicationResource
   attribute :garden_id, :integer, readable: false
 
   belongs_to :garden
+  needs_writable_garden
   owned
 end

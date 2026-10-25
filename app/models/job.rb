@@ -84,10 +84,12 @@ class Job < ApplicationRecord
     errors.add(:action, :cannot_be_about_that) unless ACTION_JOBBABLES.fetch(action, []).include?(jobbable_type)
   end
 
-  # Plantings and seeds are a member's own. A job can't be about someone else's.
+  # A job about something is about something that is there. Plantings and seeds are a member's own: a job can't
+  # be about someone else's.
   def jobbable_is_the_owners
-    return unless JOBBABLE_TYPES.include?(jobbable_type) && jobbable.respond_to?(:owner_id)
+    return unless JOBBABLE_TYPES.include?(jobbable_type)
+    return errors.add(:jobbable, :required) if jobbable.nil?
 
-    errors.add(:jobbable, :invalid) if jobbable.owner_id != owner_id
+    errors.add(:jobbable, :invalid) if jobbable.respond_to?(:owner_id) && jobbable.owner_id != owner_id
   end
 end

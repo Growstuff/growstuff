@@ -40,6 +40,7 @@ class PlantingResource < ApplicationResource
   end
 
   belongs_to :garden
+  needs_writable_garden
   belongs_to :crop
   owned
   has_many :harvests

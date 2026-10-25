@@ -64,6 +64,14 @@ class ApplicationResource < Graphiti::Resource
     attribute(name, type, writable: false, filterable: false, sortable: false, &)
   end
 
+  # Records are put into a garden by someone who can change that garden, as on the website. Being a collaborator
+  # is not enough, and the model's own checks do not ask, so a garden that is only linked to has to be authorised.
+  def self.needs_writable_garden
+    before_save do |record|
+      context.authorize!(:update, record.garden) if written?(record) && record.garden && record.garden_id_changed?
+    end
+  end
+
   # A column that can be filtered on but isn't in the response.
   def self.filter_only(name, type)
     attribute name, type, readable: false, writable: false
