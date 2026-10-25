@@ -841,6 +841,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_050000) do
     t.datetime "locked_at", precision: nil
     t.string "login_name"
     t.float "longitude"
+    t.boolean "newsletter"
     t.string "other_url"
     t.integer "photos_count"
     t.integer "plantings_count"
