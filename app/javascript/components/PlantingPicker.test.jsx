@@ -52,9 +52,9 @@ describe('PlantingPicker', () => {
     expect(screen.getByRole('button', {name: 'Something else'})).toBeInTheDocument();
   });
 
-  it('does not offer something else when saving seeds', async () => {
+  it('offers something else when saving seeds', async () => {
     await open('seeds');
-    expect(screen.queryByRole('button', {name: 'Something else'})).not.toBeInTheDocument();
+    expect(screen.getByRole('button', {name: 'Something else'})).toBeInTheDocument();
   });
 
   it('uses small tiles for more than twelve plantings', async () => {
