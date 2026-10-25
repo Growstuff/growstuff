@@ -337,7 +337,17 @@ $notepad-trail: #a4c98c;
     }
   }
 
+  // The name takes the room beside the tick box and wraps there; a very long
+  // one is clipped after three lines.
   .notepad-name {
+    flex: 1 1 8rem;
+    min-width: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    overflow-wrap: anywhere;
     color: #212121;
     font-weight: 500;
     text-decoration: none;
