@@ -7,13 +7,17 @@ updates:
     time: "07:00"
   open-pull-requests-limit: 20
   versioning-strategy: lockfile-only
+  groups:
+    minor-and-patch:
+      update-types:
+      - minor
+      - patch
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
     interval: daily
     time: "07:00"
   open-pull-requests-limit: 10
-
 - package-ecosystem: npm
   directory: "/"
   schedule:
@@ -25,3 +29,30 @@ updates:
       update-types:
       - minor
       - patch
+- package-ecosystem: docker
+  directories:
+  - "/"
+  - "/.devcontainer"
+  schedule:
+    interval: daily
+    time: "07:00"
+  ignore:
+  - dependency-name: ruby
+    update-types:
+    - version-update:semver-major
+    - version-update:semver-minor
+  - dependency-name: mcr.microsoft.com/devcontainers/ruby
+    update-types:
+    - version-update:semver-major
+    - version-update:semver-minor
+- package-ecosystem: docker-compose
+  directories:
+  - "/"
+  - "/.devcontainer"
+  schedule:
+    interval: daily
+    time: "07:00"
+  ignore:
+  - dependency-name: postgres
+    update-types:
+    - version-update:semver-major
