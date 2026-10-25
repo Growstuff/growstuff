@@ -127,6 +127,19 @@ describe JobList do
   context 'with a crossed off job due today' do
     let(:due_today) { build(:job, due_date: today, finished: true) }
 
+    it 'puts it in Done' do
+      expect(group(:done).jobs).to eq [due_today]
+    end
+
+    it 'leaves Today without it' do
+      expect(group(:today).jobs).to be_empty
+    end
+  end
+
+  context 'with a crossed off job due today that is pinned' do
+    let(:due_today) { build_stubbed(:job, due_date: today, finished: true) }
+    let(:list) { described_class.new(jobs, today:, pinned: [due_today.id]) }
+
     it 'keeps it in Today' do
       expect(group(:today).jobs).to eq [due_today]
     end

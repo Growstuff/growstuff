@@ -44,6 +44,7 @@ gem 'flickraw'
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
+gem 'flipper-active_record'        # feature flags admins switch on and off
 
 gem 'pg'
 

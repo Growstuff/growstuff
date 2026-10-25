@@ -82,6 +82,10 @@ module IconsHelper
     icon('fas', 'note-sticky')
   end
 
+  def job_finished_icon
+    finished_icon
+  end
+
   def post_icon
     image_icon 'post'
   end

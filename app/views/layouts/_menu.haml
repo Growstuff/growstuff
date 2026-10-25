@@ -1,5 +1,7 @@
 - my_garden_current = member_signed_in? && current_section?(member_gardens_path(current_member))
 - my_pages_current = member_signed_in? && current_section?(member_path(current_member))
+- admin_current = current_section?(admin_path, wrangle_crops_path)
+- crops_current = !admin_current && current_section?(crops_path)
 - community_current = !my_garden_current && !my_pages_current && current_section?(places_path, gardens_path, harvests_path, seeds_path, plantings_path, members_path, community_gardens_path, posts_path, forums_path, releases_path)
 #navbarSupportedContent.offcanvas-lg.offcanvas-end{ tabindex: -1, 'aria-label' => 'Menu' }
   -# The header and the section headings are only for the drawer a phone or tablet gets.
@@ -45,7 +47,7 @@
             - if neighbours_new?
               %span.badge.text-bg-success.ms-1= t('.new_badge')
       %li.nav-item
-        = link_to crops_path, class: 'nav-link', aria: { current: ('page' if current_section?(crops_path)) } do
+        = link_to crops_path, class: 'nav-link', aria: { current: ('page' if crops_current) } do
           = menu_icon(:crop)
           = t('.crops')
       %li.nav-item.dropdown
@@ -92,7 +94,7 @@
               = t('.help_and_community')
       - if member_signed_in? && (current_member.role?(:crop_wrangler) || current_member.role?(:admin))
         %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-bs-toggle" => "dropdown", href: "#", role: "button", "aria-current" => ('page' if admin_current)}
             %span
             = t('.admin')
           .dropdown-menu{"aria-labelledby" => "navbarDropdown"}

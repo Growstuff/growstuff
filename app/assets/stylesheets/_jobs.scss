@@ -119,6 +119,10 @@ $notepad-trail: #a4c98c;
     min-height: 44px;
   }
 
+  .notepad-hide-done {
+    margin: 0 1rem 0.5rem;
+  }
+
   .notepad-note {
     color: $ink-muted;
     font-size: 0.9rem;
@@ -384,9 +388,14 @@ $notepad-trail: #a4c98c;
   // The menu sits at the right edge. After a due label that label has already
   // pushed it there; without one the menu pushes itself.
   .notepad-menu {
+    display: flex;
+    align-items: center;
     margin-left: auto;
 
     .record-actions-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       min-width: 44px;
       min-height: 44px;
     }
@@ -399,11 +408,33 @@ $notepad-trail: #a4c98c;
 
   .notepad-day {
     position: relative;
+    display: flex;
+    align-items: center;
     margin-left: auto;
 
+    // A day you can change looks like a button: outlined, with a small arrow.
     .notepad-due {
       margin-left: 0;
+      padding: 0.2rem 0.6rem;
+      line-height: 1.2;
+      border: 1px solid currentcolor;
+      border-radius: 1rem;
       text-decoration: none;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        margin-left: 0.4em;
+        vertical-align: 0.15em;
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-left: 0.3em solid transparent;
+      }
+
+      &:hover,
+      &:focus-visible {
+        background: rgba(0, 0, 0, 0.06);
+      }
 
       &.unset {
         color: $ink-muted;
