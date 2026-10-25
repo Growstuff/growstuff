@@ -32,7 +32,7 @@ function errorMessages(status, data) {
 //
 // Without a planting, give it a crop instead: for seeds you bought as much as
 // ones you saved, so it also asks which. The form comes from /seeds/new.json?crop_id=.
-export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, onClose, onSaved}) {
+export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, lead = [], source: knownSource, onBack, onClose, onSaved}) {
   const crop = chosenCrop || planting.crop;
   const [form, setForm] = useState(null); // {crop, parent_planting_id, saved_at, tradable_to_values, location, settings_url}
   const [values, setValues] = useState(null);
@@ -49,7 +49,7 @@ export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, onC
         const {ok, data} = await getJson(formUrl, {signal: controller.signal});
         if (!ok) throw new Error('load failed');
         setForm(data);
-        setValues({quantity: '', tradable_to: 'nowhere', description: '', source: SOURCES.saved});
+        setValues({quantity: '', tradable_to: 'nowhere', description: '', source: SOURCES[knownSource || 'saved']});
       } catch (error) {
         if (error.name !== 'AbortError') setLoadError(true);
       }
@@ -111,7 +111,7 @@ export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, onC
       {values && (
         <form onSubmit={save}>
           <div className="modal-body plant-dialog-body">
-            <Steps steps={STEPS} current={step} />
+            <Steps steps={[...lead, ...STEPS]} current={lead.length + step} />
             {errors.length > 0 && (
               <div className="alert alert-danger" role="alert">
                 <i className="fas fa-exclamation-triangle" aria-hidden="true" />{' '}
@@ -140,7 +140,7 @@ export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, onC
 
             {step === 1 && (
               <div className="crop-picker">
-                {!planting && (
+                {!planting && !knownSource && (
                   <fieldset className="mb-3">
                     <legend className="crop-picker-label step-legend">Where are they from?</legend>
                     <div className="pill-choices">
@@ -251,6 +251,7 @@ export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, onC
           </div>
           <div className="modal-footer">
             {step > 1 && <button type="button" className="btn btn-link" onClick={() => setStep(step - 1)} disabled={saving}>Back</button>}
+            {step === 1 && onBack && <button type="button" className="btn btn-link" onClick={onBack} disabled={saving}>Back</button>}
             {step < STEPS.length && <button type="submit" className="btn btn-success btn-plant">Next</button>}
             {step === STEPS.length && (
               <button type="submit" className="btn btn-success btn-plant" disabled={saving} aria-busy={saving}>
@@ -263,3 +264,6 @@ export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, onC
     </Modal>
   );
 }
+
+// Shown with the steps before it, in the picker that opens it.
+SaveSeedsModal.STEPS = STEPS;

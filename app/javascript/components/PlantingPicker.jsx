@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import CropPicker from './CropPicker';
 import Modal from './Modal';
 import PickerButton from './PickerButton';
+import Steps from './Steps';
 import RecordHarvestModal from './RecordHarvestModal';
 import SaveSeedsModal from './SaveSeedsModal';
 
@@ -12,7 +13,7 @@ const BIG_TILES = 12; // up to this many plantings get big tiles, more get small
 
 const ACTIONS = {
   harvest: {title: 'What did you harvest?', hint: 'These are your plantings. Choose the one you harvested from, or Something else for anything not listed.', elseTitle: 'What else did you harvest?', Dialog: RecordHarvestModal},
-  seeds: {title: 'Which plant are you saving seeds from?', hint: 'Only choose a planting if the seeds came from that plant. If you bought tomato seeds from a shop, don\u2019t pick your tomato planting. Choose Something else.', elseTitle: 'Which seeds are you adding?', Dialog: SaveSeedsModal},
+  seeds: {title: 'Which plant are you saving seeds from?', hint: 'Choose the plant you saved the seeds from.', elseTitle: 'Which seeds are you adding?', Dialog: SaveSeedsModal},
 };
 
 // A button that asks which of your plantings you mean, then opens the usual
@@ -25,6 +26,7 @@ export default function PlantingPicker({action, label, sublabel, buttonClass, pl
   const [open, setOpen] = useState(false);
   const [planting, setPlanting] = useState(null);
   const [somethingElse, setElse] = useState(false); // a crop that is not one of the plantings
+  const [fromPlanting, setFromPlanting] = useState(false); // seeds: yes, they were saved from one of the plantings
   const [crop, setCrop] = useState(null); // the crop chosen for seeds, with no planting
   const {title, hint, elseTitle, Dialog} = ACTIONS[action];
 
@@ -33,22 +35,52 @@ export default function PlantingPicker({action, label, sublabel, buttonClass, pl
     setPlanting(null);
     setElse(false);
     setCrop(null);
+    setFromPlanting(false);
   }
+
+  // The steps before the dialog's own, so the progress shows the whole way through.
+  const choose = somethingElse ? 'Which crop?' : 'Which plant?';
+  const lead = action === 'seeds' ? ['Where from?', choose] : [choose];
+  const stepsBefore = (current) => <Steps steps={[...lead, ...(Dialog.STEPS || [])]} current={current} />;
+  const askingSource = action === 'seeds' && !fromPlanting && !somethingElse; // seeds start with: from a plant of yours?
 
   return (
     <>
       <PickerButton label={label} sublabel={sublabel} className={buttonClass} onClick={() => setOpen(true)} />
-      {open && !planting && !somethingElse && !crop && (
+      {open && askingSource && !planting && !crop && (
+        <Modal title="Where did these seeds come from?" titleId="seeds-source-title" onClose={close}>
+          <div className="modal-body">
+            {stepsBefore(1)}
+            <div className="planting-tiles">
+              <button type="button" className="planting-tile" onClick={() => setFromPlanting(true)}>
+                <i className="fas fa-seedling planting-tile-photo" aria-hidden="true" />
+                <span className="planting-tile-name">Seeds I saved from my plants</span>
+              </button>
+              <button type="button" className="planting-tile" onClick={() => setElse(true)}>
+                <i className="fas fa-shopping-basket planting-tile-photo" aria-hidden="true" />
+                <span className="planting-tile-name">Seeds I bought</span>
+              </button>
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-link" onClick={close}>Cancel</button>
+          </div>
+        </Modal>
+      )}
+      {open && !askingSource && !planting && !somethingElse && !crop && (
         <Modal title={title} titleId={`${action}-picker-title`} onClose={close}>
           <div className="modal-body">
+            {stepsBefore(lead.length)}
             {plantings.length === 0 && <p>You have nothing growing yet.</p>}
             {plantings.length > 0 && <p>{hint}</p>}
             <fieldset className={`planting-tiles${plantings.length > BIG_TILES ? ' planting-tiles-small' : ''}`}>
               <legend className="visually-hidden">Your plantings</legend>
-              <button type="button" className="planting-tile planting-tile-other" onClick={() => setElse(true)}>
-                <i className="fas fa-plus planting-tile-photo" aria-hidden="true" />
-                <span className="planting-tile-name">Something else</span>
-              </button>
+              {action === 'harvest' && (
+                <button type="button" className="planting-tile planting-tile-other" onClick={() => setElse(true)}>
+                  <i className="fas fa-plus planting-tile-photo" aria-hidden="true" />
+                  <span className="planting-tile-name">Something else</span>
+                </button>
+              )}
               {plantings.map((candidate) => (
                 <button
                   key={candidate.id}
@@ -65,6 +97,7 @@ export default function PlantingPicker({action, label, sublabel, buttonClass, pl
             </fieldset>
           </div>
           <div className="modal-footer">
+            {action === 'seeds' && <button type="button" className="btn btn-link" onClick={() => setFromPlanting(false)}>Back</button>}
             <button type="button" className="btn btn-link" onClick={close}>Cancel</button>
           </div>
         </Modal>
@@ -72,13 +105,13 @@ export default function PlantingPicker({action, label, sublabel, buttonClass, pl
       {open && somethingElse && !crop && (
         <Modal title={elseTitle} titleId={`${action}-else-title`} onClose={close}>
           <div className="modal-body">
+            {stepsBefore(lead.length)}
             <CropPicker
               id={`${action}-else-crop`}
               label="Which crop?"
               placeholder="Start typing a crop name"
               onChoose={(chosen) => {
-                if (action === 'harvest') window.location.assign(`/harvests/new?harvest[crop_id]=${chosen.id}`);
-                else setCrop(chosen);
+                setCrop(chosen);
               }}
             />
           </div>
@@ -87,9 +120,9 @@ export default function PlantingPicker({action, label, sublabel, buttonClass, pl
           </div>
         </Modal>
       )}
-      {open && crop && <SaveSeedsModal crop={crop} onClose={close} onSaved={() => window.location.reload()} />}
+      {open && crop && <Dialog crop={crop} source={action === 'seeds' ? 'bought' : undefined} lead={lead} onBack={() => setCrop(null)} onClose={close} onSaved={() => window.location.reload()} />}
       {open && planting && (
-        <Dialog planting={planting} onClose={close} onSaved={() => window.location.reload()} />
+        <Dialog planting={planting} lead={lead} onBack={() => setPlanting(null)} onClose={close} onSaved={() => window.location.reload()} />
       )}
     </>
   );

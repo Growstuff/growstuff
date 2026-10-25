@@ -29,7 +29,12 @@ function errorMessages(status, data) {
 // It loads that, and the choices, from /plantings/:slug/harvests/new.json, saves
 // with POST /harvests.json, and hands the refreshed garden card to onSaved, so
 // the planting's badges follow and the page is never left.
-export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}) {
+//
+// Without a planting, give it a crop instead, for a harvest that is not from
+// one of your plantings. The form then comes from /harvests/new.json?crop_id=.
+export default function RecordHarvestModal({planting, crop: chosenCrop, iconUrl, lead = [], onBack, onClose, onSaved}) {
+  const crop = chosenCrop || planting.crop;
+  const formUrl = planting ? `${planting.url}/harvests/new.json` : `/harvests/new.json?crop_id=${crop.id}`;
   const [form, setForm] = useState(null); // {planting_id, plant_parts, plant_part_id (the usual one), units, weight_units, ...}
   const [values, setValues] = useState(null);
   const [part, setPart] = useState(null); // step 1's answer
@@ -43,7 +48,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
     const controller = new AbortController();
     (async () => {
       try {
-        const {ok, data} = await getJson(`${planting.url}/harvests/new.json`, {signal: controller.signal});
+        const {ok, data} = await getJson(formUrl, {signal: controller.signal});
         if (!ok) throw new Error('load failed');
         setForm(data);
         setValues({
@@ -59,7 +64,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
       }
     })();
     return () => controller.abort();
-  }, [planting.url]);
+  }, [formUrl]);
 
   const set = (field) => (event) => setValues((current) => ({...current, [field]: event.target.value}));
 
@@ -70,7 +75,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
   // A harvest has to come after the planting (the server checks), so there is
   // nothing to offer before that: no Yesterday for a planting made yesterday
   // or today, and the date box starts the day after it was planted.
-  const plantedOn = planting.planted_at;
+  const plantedOn = planting?.planted_at;
   const choices = WHEN_CHOICES.filter(([choice]) => choice !== 'yesterday' || !plantedOn || (today && daysBefore(today, 1) > plantedOn));
   const earliest = plantedOn ? daysBefore(plantedOn, -1) : undefined;
 
@@ -111,7 +116,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
     try {
       const {custom_date: customDate, ...fields} = values;
       const {ok, status, data} = await postJson('/harvests.json', {
-        harvest: {planting_id: form.planting_id, plant_part_id: part.id, harvested_at: harvestedAt, ...fields},
+        harvest: {planting_id: form.planting_id, crop_id: crop.id, plant_part_id: part.id, harvested_at: harvestedAt, ...fields},
       });
       if (ok) {
         onSaved(data.garden); // closes this dialog
@@ -127,12 +132,12 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
   const title = (
     <>
       {iconUrl && <img src={iconUrl} alt="" className="modal-title-icon" />}
-      Record a harvest of {planting.crop.name}
+      Record a harvest of {crop.name}
     </>
   );
 
   return (
-    <Modal title={title} titleId={`record-harvest-title-${planting.id}`} onClose={onClose}>
+    <Modal title={title} titleId={`record-harvest-title-${planting?.id || crop.id}`} onClose={onClose}>
       {loadError && (
         <div className="modal-body">
           <div className="alert alert-danger mb-0" role="alert">Couldn&rsquo;t load the harvest form. Please close this and try again.</div>
@@ -143,14 +148,14 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
       )}
       {values && step === 1 && (
         <div className="modal-body plant-dialog-body">
-          <Steps steps={STEPS} current={1} />
+          <Steps steps={[...lead, ...STEPS]} current={lead.length + 1} />
           <PlantPartPicker id="record-harvest-part" parts={form.plant_parts} suggestedId={form.plant_part_id} onChoose={choosePart} />
         </div>
       )}
       {values && step > 1 && (
         <form onSubmit={save}>
           <div className="modal-body plant-dialog-body">
-            <Steps steps={STEPS} current={step} />
+            <Steps steps={[...lead, ...STEPS]} current={lead.length + step} />
             {errors.length > 0 && (
               <div className="alert alert-danger" role="alert">
                 <i className="fas fa-exclamation-triangle" aria-hidden="true" />{' '}
@@ -163,7 +168,7 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
             <div className="crop-confirm mb-4">
               <dl className="crop-confirm-details">
                 <dt>Crop</dt>
-                <dd>{planting.crop.name}</dd>
+                <dd>{crop.name}</dd>
                 <dt>Part</dt>
                 <dd className={step === 2 ? 'crop-confirm-name' : undefined}>
                   {part.name}
@@ -280,7 +285,8 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
             )}
           </div>
           <div className="modal-footer">
-            {step > 2 && <button type="button" className="btn btn-link" onClick={() => setStep(step - 1)} disabled={saving}>Back</button>}
+            {step > 1 && <button type="button" className="btn btn-link" onClick={() => setStep(step - 1)} disabled={saving}>Back</button>}
+            {step === 1 && onBack && <button type="button" className="btn btn-link" onClick={onBack} disabled={saving}>Back</button>}
             {step < STEPS.length && <button type="submit" className="btn btn-success btn-plant">Next</button>}
             {step === STEPS.length && (
               <button type="submit" className="btn btn-success btn-plant" disabled={saving || !harvestedAt} aria-busy={saving}>
@@ -293,3 +299,6 @@ export default function RecordHarvestModal({planting, iconUrl, onClose, onSaved}
     </Modal>
   );
 }
+
+// Shown with the steps before it, in the picker that opens it.
+RecordHarvestModal.STEPS = STEPS;
