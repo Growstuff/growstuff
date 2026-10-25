@@ -123,4 +123,23 @@ RSpec.describe 'API ownership of written records' do
 
     it { expect(response).to have_http_status(:not_found) }
   end
+
+  describe 'moving another member\'s planting into your garden through a list of links' do
+    let(:garden) { create(:garden, owner: member) }
+    let(:planting) { create(:planting, owner: other_member) }
+
+    before do
+      create(:garden_collaborator, garden: garden, member: other_member)
+      patch "/api/v1/gardens/#{garden.id}",
+            params:  { data: { type: 'gardens', id: garden.id.to_s,
+                               relationships: { plantings: { data: [{ type: 'plantings', id: planting.id.to_s }] } } } }.to_json,
+            headers: auth_headers
+    end
+
+    it { expect(response).to have_http_status(:bad_request) }
+
+    it 'leaves the planting where it was' do
+      expect { planting.reload }.not_to change(planting, :garden_id)
+    end
+  end
 end

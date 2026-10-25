@@ -8,7 +8,7 @@ module Api
 
       before_action :authenticate_member_from_token!
       before_action :enforce_member_for_write_operations!, only: %i(create update destroy)
-      before_action :check_resource_type, :reject_nested_writes, only: %i(create update)
+      before_action :check_request_body, only: %i(create update)
       rescue_from CanCan::AccessDenied do
         head :forbidden
       end
@@ -58,23 +58,37 @@ module Api
 
       private
 
-      # Graphiti lets a request create, change or delete related records alongside the one it is about. Only the one
-      # the request is about has been authorised, so related records can be linked to, by id, and nothing more.
-      def reject_nested_writes
-        links = (params.dig(:data, :relationships)&.values || []).flat_map { |relationship| [relationship[:data]].flatten.compact }
-        return unless params[:included].present? || links.any? { |link| link[:method].present? || link[:'temp-id'].present? }
+      def check_request_body
+        problem = request_body_problem
+        render_error(:bad_request, problem, title: 'Invalid request') if problem
+      end
 
-        render_error(:bad_request, 'Related records can be linked to by id, but not created, changed or deleted in the same request.',
-                     title: 'Invalid request')
+      def request_body_problem
+        data = params[:data]
+        return 'The request needs a data object.' unless data.respond_to?(:key?)
+        return "#{data[:type]} is not a valid resource." unless data[:type] == resource_class.type.to_s
+        return 'Attributes must be an object.' unless data[:attributes].nil? || data[:attributes].respond_to?(:key?)
+
+        'Related records can only be linked to by id, one at a time.' unless params[:included].blank? && links_only?(data[:relationships])
+      end
+
+      # Graphiti lets a request create, change or delete related records alongside the one it is about, and set the
+      # foreign keys of a list of them. Only the record the request is about is authorised, so a relationship may
+      # only point this record at one other, by id.
+      def links_only?(relationships)
+        relationships.nil? ||
+          (relationships.respond_to?(:each_pair) && relationships.each_pair.all? { |name, link| to_one_link?(name, link) })
+      end
+
+      def to_one_link?(name, relationship)
+        return false unless relationship.respond_to?(:key?) && resource_class.sideloads[name.to_sym]&.type == :belongs_to
+
+        link = relationship[:data]
+        link.nil? || (link.respond_to?(:keys) && (link.keys - %w(type id)).empty?)
       end
 
       def render_write(resource, saved, status: :ok)
         saved ? render(jsonapi: resource, status: status) : render(jsonapi_errors: resource)
-      end
-
-      def check_resource_type
-        type = params.dig(:data, :type)
-        render_error(:bad_request, "#{type} is not a valid resource.", title: 'Invalid resource') unless type == resource_class.type.to_s
       end
 
       def render_error(status, detail, title: nil)

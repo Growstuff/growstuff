@@ -18,8 +18,8 @@ class PhotosController < ApplicationController
               end
 
     @photos = @photos.includes(:owner)
-                     .order(created_at: :desc)
-                     .paginate(page: params[:page], per_page: Photo.per_page)
+      .order(created_at: :desc)
+      .paginate(page: params[:page], per_page: Photo.per_page)
 
     raise ActiveRecord::RecordNotFound if @photos.out_of_bounds?
 
@@ -90,7 +90,9 @@ class PhotosController < ApplicationController
       sets: (@sets || {}).map { |title, id| { id: id, title: title } },
       set: @current_set, tag: @current_tag,
       page: @photos.current_page, total_pages: @photos.total_pages, total: @photos.total_entries,
-      photos: @photos.map { |photo| { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) } }
+      photos: @photos.map do |photo|
+        { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) }
+      end
     }
   end
 

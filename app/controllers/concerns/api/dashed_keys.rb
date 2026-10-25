@@ -19,9 +19,14 @@ module Api
       params[:sort] = params[:sort].split(',').map { |field| underscore_field(field) }.join(',') if params[:sort].is_a?(String)
       underscore_fields
       underscore_page_limit
-      return unless params.dig(:data, :attributes).respond_to?(:transform_keys)
+      underscore_attributes
+    end
 
-      params[:data][:attributes] = params[:data][:attributes].transform_keys(&:underscore)
+    def underscore_attributes
+      data = params[:data]
+      return unless data.respond_to?(:key?) && data[:attributes].respond_to?(:transform_keys)
+
+      data[:attributes] = data[:attributes].transform_keys(&:underscore)
     end
 
     # filter[crop]=1 has always meant the same as filter[crop_id]=1.

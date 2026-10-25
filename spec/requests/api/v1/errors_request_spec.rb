@@ -86,6 +86,31 @@ RSpec.describe 'API errors' do
     it { expect(response).to have_http_status(:bad_request) }
   end
 
+  describe 'a write with a body that is not shaped like JSON:API' do
+    {
+      'data that is not an object'           => { data: 'x' },
+      'attributes that are not an object'    => { data: { type: 'gardens', attributes: 'x' } },
+      'relationships that are not an object' => { data: { type: 'gardens', relationships: 'x' } },
+      'a relationship that is not an object' => { data: { type: 'gardens', relationships: { owner: '1' } } },
+      'a link that is not an object'         => { data: { type: 'gardens', relationships: { owner: { data: '1' } } } },
+      'a list of links for a to-one'         => { data: { type:          'gardens',
+                                                          relationships: { owner: { data: [{ type: 'members', id: '1' }] } } } },
+      'a link with attributes'               => { data: { type:          'gardens',
+                                                          relationships: { owner: { data: { type: 'members', id: '1',
+attributes: { x: 1 } } } } } },
+      'no data'                              => {}
+    }.each do |label, body|
+      context "with #{label}" do
+        before do
+          token
+          post '/api/v1/gardens', params: body.to_json, headers: auth_headers
+        end
+
+        it { expect(response).to have_http_status(:bad_request) }
+      end
+    end
+  end
+
   describe 'a resource of the wrong type' do
     before do
       post '/api/v1/gardens',
