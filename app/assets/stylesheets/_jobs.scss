@@ -14,6 +14,14 @@ $notepad-trail: #a4c98c;
   animation: notepad-spin 0.8s linear infinite;
 }
 
+// A pale green pill: chips, the link picked for a job, and the jobs an idea made.
+@mixin notepad-pill {
+  background: $notepad-tile;
+  border-radius: 999px;
+  color: $notepad-leaf;
+  font-weight: 600;
+}
+
 // A member's own jobs, as a notepad: a green title bar, then rows ruled like a
 // list. See the garden notepad design.
 .notepad {
@@ -337,7 +345,17 @@ $notepad-trail: #a4c98c;
     }
   }
 
+  // The name takes the room beside the tick box and wraps there; a very long
+  // one is clipped after three lines.
   .notepad-name {
+    flex: 1 1 8rem;
+    min-width: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    overflow-wrap: anywhere;
     color: #212121;
     font-weight: 500;
     text-decoration: none;
@@ -349,11 +367,8 @@ $notepad-trail: #a4c98c;
     gap: 0.35rem;
     min-height: 28px;
     padding: 0 0.75rem;
-    border-radius: 999px;
-    background: $notepad-tile;
-    color: $notepad-leaf;
+    @include notepad-pill;
     font-size: 0.8rem;
-    font-weight: 600;
     text-decoration: none;
 
     &.garden {
@@ -570,11 +585,8 @@ $notepad-trail: #a4c98c;
     align-items: center;
     min-height: 28px;
     padding: 0 0.75rem;
-    border-radius: 999px;
-    background: $notepad-tile;
-    color: $notepad-leaf;
+    @include notepad-pill;
     font-size: 0.8rem;
-    font-weight: 600;
 
     &[hidden] {
       display: none;
@@ -589,11 +601,8 @@ $notepad-trail: #a4c98c;
     margin: 0.4rem 1.1rem 0 2.8rem;
     padding: 0 0.25rem 0 0.75rem;
     min-height: 32px;
-    border-radius: 999px;
-    background: $notepad-tile;
-    color: $notepad-leaf;
+    @include notepad-pill;
     font-size: 0.85rem;
-    font-weight: 600;
 
     &[hidden] {
       display: none;
@@ -624,7 +633,6 @@ $notepad-trail: #a4c98c;
     }
   }
 }
-
 
 // Crossing a job off: flowers blooming out of the tick box, a row of them
 // growing along the bottom of the page for a streak, and a sticky note with an
@@ -1048,11 +1056,8 @@ $notepad-trail: #a4c98c;
 
   .idea-added li {
     animation: idea-job-in 0.4s ease both;
-    background: $notepad-tile;
-    border-radius: 999px;
-    color: $notepad-leaf;
+    @include notepad-pill;
     font-size: 0.85rem;
-    font-weight: 600;
     padding: 0.15rem 0.75rem;
   }
 }

@@ -47,7 +47,7 @@ module ApplicationHelper
   end
 
   def build_alert_classes(alert_type = :info)
-    classes = 'alert alert-dismissible '
+    classes = 'alert alert-dismissible fade show '
     case alert_type.to_sym
     when :alert, :danger, :error, :validation_errors
       classes += 'alert-danger'
