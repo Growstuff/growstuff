@@ -21,7 +21,8 @@ module HomeHelper
   def planting_picker_props(dashboard)
     dashboard.harvest_choices.map do |planting|
       { id: planting.id, url: planting_path(slug: planting.slug), planted_at: planting.planted_at&.iso8601,
-        ready: dashboard.ready.include?(planting), crop: { name: planting.crop_name } }
+        ready: dashboard.ready.include?(planting), crop: { name: planting.crop_name },
+        garden: planting.garden&.name, thumbnail: planting.thumbnail_url || placeholder_image }
     end
   end
 

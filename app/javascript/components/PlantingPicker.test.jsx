@@ -42,6 +42,27 @@ describe('PlantingPicker', () => {
     expect(screen.getAllByRole('button', {name: /Tomato|Kale/})).toHaveLength(2);
   });
 
+  it('shows the garden', async () => {
+    await open('seeds', [{id: 1, crop: {name: 'Tomato'}, garden: 'Back bed'}]);
+    expect(screen.getByText('Back bed')).toBeInTheDocument();
+  });
+
+  it('offers something else when harvesting', async () => {
+    await open('harvest');
+    expect(screen.getByRole('button', {name: 'Something else'})).toBeInTheDocument();
+  });
+
+  it('does not offer something else when saving seeds', async () => {
+    await open('seeds');
+    expect(screen.queryByRole('button', {name: 'Something else'})).not.toBeInTheDocument();
+  });
+
+  it('uses small tiles for more than twelve plantings', async () => {
+    const many = Array.from({length: 13}, (_, index) => ({id: index, crop: {name: `Crop ${index}`}}));
+    await open('harvest', many);
+    expect(screen.getByRole('group', {name: 'Your plantings'})).toHaveClass('planting-tiles-small');
+  });
+
   it('badges what is ready', async () => {
     await open('harvest');
     expect(screen.getByText('ready')).toBeInTheDocument();

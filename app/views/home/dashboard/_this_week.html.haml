@@ -17,7 +17,7 @@
         %b= t('home.dashboard.sow_title', crop: suggestion.name, month: current_month_name)
         %span= t('home.dashboard.sow_body')
     - if ready.any?
-      = link_to t('home.dashboard.record_harvests'), new_harvest_path, class: 'btn btn-warning'
+      = react_component('PlantingPicker', { action: 'harvest', label: t('home.dashboard.record_harvests'), buttonClass: 'btn btn-warning', plantings: planting_picker_props(dashboard) })
     - else
       .home-this-week-actions
         = plant_picker(dashboard, crop: suggestion, label: t('home.dashboard.plant_crop', crop: suggestion.name), button_class: 'btn btn-success')

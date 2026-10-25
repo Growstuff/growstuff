@@ -4,6 +4,7 @@ import {getJson, postJson} from '../api';
 import Modal from './Modal';
 import Steps from './Steps';
 
+const SOURCES = {saved: 'my own seed saving', bought: 'retail outlet'};
 const STEPS = ['How many?', 'Trade?', 'Any notes?'];
 const QUICK_AMOUNTS = [10, 50, 100, 500, 1000];
 const TRADE_LABELS = {nowhere: 'Not for trade', locally: 'Locally', nationally: 'Nationally', internationally: 'Internationally'};
@@ -28,9 +29,14 @@ function errorMessages(status, data) {
 // (organic, source and so on) can be filled in later on the seed itself.
 // It loads those, and the choices, from /plantings/:slug/seeds/new.json, saves with
 // POST /seeds.json, and hands the new seed's link to onSaved, so the page is never left.
-export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
+//
+// Without a planting, give it a crop instead: for seeds you bought as much as
+// ones you saved, so it also asks which. The form comes from /seeds/new.json?crop_id=.
+export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, onClose, onSaved}) {
+  const crop = chosenCrop || planting.crop;
   const [form, setForm] = useState(null); // {crop, parent_planting_id, saved_at, tradable_to_values, location, settings_url}
   const [values, setValues] = useState(null);
+  const formUrl = planting ? `${planting.url}/seeds/new.json` : `/seeds/new.json?crop_id=${crop.id}`;
   const [step, setStep] = useState(1);
   const [loadError, setLoadError] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -40,16 +46,16 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
     const controller = new AbortController();
     (async () => {
       try {
-        const {ok, data} = await getJson(`${planting.url}/seeds/new.json`, {signal: controller.signal});
+        const {ok, data} = await getJson(formUrl, {signal: controller.signal});
         if (!ok) throw new Error('load failed');
         setForm(data);
-        setValues({quantity: '', tradable_to: 'nowhere', description: ''});
+        setValues({quantity: '', tradable_to: 'nowhere', description: '', source: SOURCES.saved});
       } catch (error) {
         if (error.name !== 'AbortError') setLoadError(true);
       }
     })();
     return () => controller.abort();
-  }, [planting.url]);
+  }, [formUrl]);
 
   const set = (field) => (event) => setValues((current) => ({...current, [field]: event.target.value}));
 
@@ -66,7 +72,7 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
     setErrors([]);
     try {
       const {ok, status, data} = await postJson('/seeds.json', {
-        seed: {parent_planting_id: form.parent_planting_id, saved_at: form.saved_at, ...values},
+        seed: {crop_id: crop.id, parent_planting_id: form.parent_planting_id, saved_at: form.saved_at, ...values},
       });
       if (ok) {
         onSaved(data.seed); // closes this dialog
@@ -82,7 +88,7 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
   const title = (
     <>
       {iconUrl && <img src={iconUrl} alt="" className="modal-title-icon" />}
-      Save {planting.crop.name} seeds
+      Save {crop.name} seeds
     </>
   );
 
@@ -93,7 +99,7 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
   );
 
   return (
-    <Modal title={title} titleId={`save-seeds-title-${planting.id}`} onClose={onClose}>
+    <Modal title={title} titleId={`save-seeds-title-${crop.id}`} onClose={onClose}>
       {loadError && (
         <div className="modal-body">
           <div className="alert alert-danger mb-0" role="alert">Couldn&rsquo;t load the seed form. Please close this and try again.</div>
@@ -119,7 +125,7 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
               <div className="crop-confirm mb-4">
                 <dl className="crop-confirm-details">
                   <dt>Crop</dt>
-                  <dd>{planting.crop.name}</dd>
+                  <dd>{crop.name}</dd>
                   <dt>Amount</dt>
                   <dd>{amount()}{change(1, 'amount')}</dd>
                   {step > 2 && (
@@ -134,6 +140,28 @@ export default function SaveSeedsModal({planting, iconUrl, onClose, onSaved}) {
 
             {step === 1 && (
               <div className="crop-picker">
+                {!planting && (
+                  <fieldset className="mb-3">
+                    <legend className="crop-picker-label step-legend">Where are they from?</legend>
+                    <div className="pill-choices">
+                      {Object.entries(SOURCES).map(([key, source]) => (
+                        <React.Fragment key={key}>
+                          <input
+                            type="radio"
+                            className="visually-hidden"
+                            name="save-seeds-source"
+                            id={`save-seeds-source-${key}`}
+                            checked={values.source === source}
+                            onChange={() => setValues((current) => ({...current, source}))}
+                          />
+                          <label className="pill-choice" htmlFor={`save-seeds-source-${key}`}>
+                            {key === 'saved' ? 'I saved them' : 'I bought them'}
+                          </label>
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  </fieldset>
+                )}
                 <label htmlFor="save-seeds-quantity" className="crop-picker-label">About how many seeds?</label>
                 <div className="crop-picker-field">
                   <i className="fas fa-seedling crop-picker-icon" aria-hidden="true" />

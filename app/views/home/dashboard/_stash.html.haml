@@ -1,6 +1,7 @@
 -# Packets they hold, one per crop, with how many varieties of it.
 - stash = dashboard.seeds_on_hand
-= home_section(title, action: link_to(t('home.dashboard.add_seeds'), new_seed_path, class: 'home-section-add')) do
+= home_section(title, action: react_component('AddSeedsPicker', { label: t('home.dashboard.add_seeds'), buttonClass: 'home-section-add' })) do
+  %p.home-section-note= t('home.dashboard.seeds_note')
   - if stash.empty?
     %p= t('home.dashboard.no_seeds')
   - else
@@ -9,3 +10,5 @@
         = render 'seeds/card', seed: seeds.first
     - if dashboard.seed_varieties > stash.size
       %p= link_to t('home.dashboard.all_varieties', count: dashboard.seed_varieties), member_seeds_path(current_member)
+  - if stash.any?
+    %p= link_to t('home.dashboard.view_seed_library'), member_seeds_path(current_member)

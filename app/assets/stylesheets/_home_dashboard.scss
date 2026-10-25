@@ -462,26 +462,29 @@ $dash-line: rgba(65, 63, 59, 0.15);
 
 .home-welcome-actions .home-quick-action { display: inline-block; }
 
-// Which planting you harvested, in the harvest dialog
-.harvest-picker-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+// Which planting you mean, in the harvest and save seeds dialogs: a tile for
+// each, big ones for a few plantings and small ones for many
+.planting-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  gap: 0.75rem;
   margin: 0;
   padding: 0;
   border: 0;
 }
 
-.harvest-picker-planting {
+.planting-tiles-small { grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr)); gap: 0.5rem; }
+
+.planting-tile {
   display: flex;
-  gap: 0.75rem;
+  flex-direction: column;
+  gap: 0.25rem;
   align-items: center;
-  justify-content: space-between;
-  min-height: 44px;
-  padding: 0.5rem 0.75rem;
+  justify-content: flex-start;
+  padding: 0.75rem 0.5rem;
   font-family: inherit;
   color: inherit;
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   background: #fff;
   border: 1px solid $dash-line;
@@ -489,4 +492,23 @@ $dash-line: rgba(65, 63, 59, 0.15);
 
   &:hover,
   &:focus-visible { background: rgba(87, 128, 60, 0.1); border-color: $green; }
+}
+
+.planting-tile-photo {
+  width: 4rem;
+  height: 4rem;
+  font-size: 2rem;
+  line-height: 4rem;
+  color: $green;
+  text-align: center;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.planting-tile-name { font-weight: bold; }
+.planting-tile-garden { font-size: 0.85em; color: #666; }
+
+.planting-tiles-small {
+  .planting-tile { padding: 0.5rem 0.25rem; font-size: 0.85em; }
+  .planting-tile-photo { width: 2.75rem; height: 2.75rem; font-size: 1.25rem; line-height: 2.75rem; }
 }
