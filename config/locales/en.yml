@@ -827,6 +827,7 @@ en:
       show_older:
         one: Show 1 older done job
         other: Show %{count} older done jobs
+      hide_done: Hide done
       add_failed: That job may not have been added. Check your list before you try again.
       public_note: Jobs are public, so don't put private info here.
       overdue: Overdue
