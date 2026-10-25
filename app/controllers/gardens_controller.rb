@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class GardensController < DataController
+  ARCHIVED_JOBS_SHOWN = 10
+
   # Anyone can look at a member's inactive gardens, as they can their current ones.
   # A garden's layout is public in the same way its show page is.
   skip_before_action :authenticate_member!, only: %i(inactive layout)
@@ -156,12 +158,22 @@ class GardensController < DataController
   # A member who can look after the garden gets a to-do list of their own jobs
   # for it. Everyone else sees the jobs people have planned there, as cards.
   def load_jobs
-    if member_signed_in? && can?(:edit, @garden)
+    if !@garden.active
+      load_archived_jobs
+    elsif member_signed_in? && can?(:edit, @garden)
       @notepad = JobsNotepad.new(current_member, garden: @garden)
     else
       @current_jobs = @garden.jobs.active.includes(:owner).order(created_at: :desc)
       @finished_jobs = @garden.jobs.finished.includes(:owner).order(created_at: :desc)
     end
+  end
+
+  # An archived garden keeps a plain record of its jobs, newest first, with
+  # only the first few until asked for the rest.
+  def load_archived_jobs
+    jobs = @garden.jobs.includes(:owner, :jobbable, photo_associations: :photo).order(created_at: :desc, id: :desc)
+    @archived_jobs_total = jobs.count
+    @archived_jobs = params[:all_jobs] == '1' ? jobs : jobs.limit(ARCHIVED_JOBS_SHOWN)
   end
 
   # Takes every plant off the grid first, so the new arrangement is checked

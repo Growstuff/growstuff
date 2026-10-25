@@ -114,7 +114,9 @@
               .col-md-12
                 = garden_plant_something_button(@garden)
 
-        - if @notepad
+        - if @archived_jobs
+          %section= render 'archived_jobs', jobs: @archived_jobs, total: @archived_jobs_total
+        - elsif @notepad
           %section
             = render 'jobs/notepad', owner: current_member, garden: @garden, groups: @notepad.groups, done_this_week: @notepad.done_this_week,
               autofocus: false

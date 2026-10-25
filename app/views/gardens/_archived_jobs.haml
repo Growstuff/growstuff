@@ -1,0 +1,28 @@
+%h2 Jobs in this garden
+- if jobs.any?
+  %ul.list-unstyled.archived-jobs
+    - jobs.each do |job|
+      %li.mb-2
+        %strong= job.name
+        - if job.finished
+          %span.badge.text-bg-success Done
+          - if job.finished_at
+            %small.text-muted= job.finished_at.to_date.to_fs(:long)
+        - elsif job.due_date
+          %small.text-muted Due #{job.due_date.to_date.to_fs(:long)}
+        - if job.planting
+          %small
+            on
+            = link_to job.planting_name, planting_path(job.planting)
+        - if job.photos.any?
+          %small.text-muted
+            = icon 'fas', 'camera'
+            = pluralize(job.photos.size, 'photo')
+        %small.text-muted by #{job.owner_login_name}
+        - if job.description.present?
+          %div
+            %small= job.description.to_s.truncate(150)
+  - if total > jobs.size
+    %p= link_to "View all #{total} jobs", garden_path(@garden, all_jobs: 1)
+- else
+  %p Nothing was planned here.
