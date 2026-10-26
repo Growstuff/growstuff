@@ -1,0 +1,13 @@
+-# What could be sown now, with a button on each to plant it in this garden.
+- crops = dashboard.easy_to_sow(4)
+- if !dashboard.located?
+  %section.garden-suggestions
+    %h2= t('.title')
+    %p= t('suggestions.index.not_located')
+    = link_to t('home.dashboard.set_location'), suggestions_path, class: 'btn btn-success'
+- elsif crops.any?
+  %section.garden-suggestions
+    %h2= t('.title')
+    .home-crops
+      = render partial: 'home/dashboard/crop_card', collection: crops, as: :crop, locals: { dashboard:, garden: }
+    %p.mt-2= link_to t('.more'), suggestions_path

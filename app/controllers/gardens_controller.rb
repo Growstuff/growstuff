@@ -42,6 +42,7 @@ class GardensController < DataController
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
     @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).paginate(page: params[:page])
+    @dashboard = MemberDashboard.new(current_member) if @garden.active && can?(:edit, @garden)
     respond_with(@garden)
   end
 

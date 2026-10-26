@@ -66,15 +66,17 @@ module HomeHelper
 
   # "Plant something" as a dialog over the page, planting in the member's first
   # garden, or in the one they choose when they have several. A member with no garden yet has nowhere to plant, so they get the
-  # page that asks for one. Options: sublabel, wrapper_class, and a crop to open
-  # with that crop already chosen.
+  # page that asks for one. Options: sublabel, wrapper_class, a crop to open
+  # with that crop already chosen, and a garden to plant in, with no choice.
   def plant_picker(dashboard, label:, button_class:, **options)
     crop = options[:crop]
-    garden = dashboard.gardens.first
+    chosen = options[:garden]
+    garden = chosen || dashboard.gardens.first
     return link_to(label, new_planting_path(crop_id: crop&.id), class: button_class) unless garden
 
+    gardens = chosen ? [chosen] : dashboard.gardens
     props = { label:, sublabel: options[:sublabel], buttonClass: button_class, garden: { id: garden.id, name: garden.name },
-             gardens: dashboard.gardens.map { |each| { id: each.id, name: each.name } } }
+             gardens: gardens.map { |each| { id: each.id, name: each.name } } }
     props[:crop] = { id: crop.id, name: crop.name } if crop
     react_component('PlantPicker', props, class: options[:wrapper_class])
   end

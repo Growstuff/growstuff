@@ -202,6 +202,9 @@ en:
     updated: Forum was successfully updated.
     deleted: Forum was successfully deleted.
   gardens:
+    suggestions:
+      more: See more suggestions
+      title: What to plant now
     nursery_name: Nursery
     nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
     nursery_made: This garden is now your nursery.
@@ -574,6 +577,8 @@ en:
     harvesting_now: harvesting now
     data: 'The data on this page is available in the following formats:'
   layouts:
+    nav:
+      suggest_something: Suggest something
     footer:
       about: About
       open_source: Open Source
@@ -618,6 +623,7 @@ en:
       about: About
       activities: Activities
       add: Add
+      all_crops: All crops
       add_button: "+ Add"
       admin: Admin
       browse_members: Browse Members
@@ -630,7 +636,7 @@ en:
       crops: Crops
       crops_heading: Crops
       forums: Forums
-      friends_and_neighbours: My friends & neighbours
+      friends_and_neighbours: Friends & neighbours
       gardens: Gardens
       harvests: Harvests
       help_and_community: Help and community
@@ -638,9 +644,11 @@ en:
       inbox: Inbox
       my_garden: My garden
       my_harvests: My harvests
+      my_jobs: My jobs
       my_plantings: My plantings
       my_seeds: My seeds
       new_badge: New
+      planting_suggestions: Planting suggestions
       plantings: Plantings
       posts: Posts
       releases: What's new
