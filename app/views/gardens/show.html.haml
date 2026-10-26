@@ -101,6 +101,9 @@
             .card-body
               = render 'plantings/progress_list', plantings: @garden.plantings.active.limit(10)
 
+        - if @dashboard
+          = render 'gardens/suggestions', garden: @garden, dashboard: @dashboard
+
         %section
           %h2 Current plantings in garden
           .index-cards
