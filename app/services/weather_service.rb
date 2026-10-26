@@ -76,8 +76,18 @@ class WeatherService
         forecast_days: 16,
         timezone: 'auto'
       )
+
       url = URI("https://api.open-meteo.com/v1/forecast?#{query}")
-      response = Net::HTTP.get_response(url)
+      # Typical response time is < 100ms for this API, longer indicates some kind of outage
+      response = Net::HTTP.start(
+        url.host,
+        url.port,
+        use_ssl: url.scheme == "https",
+        open_timeout: 5,
+        read_timeout: 5
+      ) do |http|
+        http.get(url.request_uri)
+      end
       response.is_a?(Net::HTTPSuccess) ? JSON.parse(response.body) : nil
     end
   rescue StandardError => e
