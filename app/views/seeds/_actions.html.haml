@@ -12,7 +12,7 @@
         = menu_link_to :planting, 'Plant seeds', new_planting_path(seed_id: seed)
       - if can?(:create, Planting) && seed.active
         = menu_link_to :finish, t('buttons.mark_as_finished'), seed_path(seed, seed: { finished: 1 }),
-                       method: :put, class: 'append-date'
+                       method: :put
       .dropdown-divider
       = menu_delete_button(seed)
 
