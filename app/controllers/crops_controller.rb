@@ -130,10 +130,8 @@ class CropsController < ApplicationController
       recreate_names('alt_name', 'alternate')
       recreate_names('sci_name', 'scientific')
 
-      if @crop.approval_status_changed?(from: "pending", to: "approved")
-        notifier.deliver_now!
-        @crop.update_gbif_data!
-      end
+      notify_requester if @crop.approval_status_previously_changed?(from: "pending")
+      @crop.update_gbif_data! if @crop.approval_status_previously_changed?(from: "pending", to: "approved")
     else
       @crop.approval_status = @crop.approval_status_was
     end
@@ -215,12 +213,14 @@ class CropsController < ApplicationController
       .order(Arel.sql('lower(crops.name)'), :id)
   end
 
-  def notifier
+  def notify_requester
+    return unless @crop.requester
+
     case @crop.approval_status
     when "approved"
-      NotifierMailer.crop_request_approved(@crop.requester, @crop)
+      NotifierMailer.crop_request_approved(@crop.requester, @crop).deliver_now!
     when "rejected"
-      NotifierMailer.crop_request_rejected(@crop.requester, @crop)
+      NotifierMailer.crop_request_rejected(@crop.requester, @crop).deliver_now!
     end
   end
 
