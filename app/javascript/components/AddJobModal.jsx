@@ -5,7 +5,7 @@ import {daysBefore, localToday} from '../dates';
 import Modal from './Modal';
 import WhenPicker from './WhenPicker';
 
-const WHEN_CHOICES = [['today', 'Today'], ['tomorrow', 'Tomorrow'], ['other', 'Enter date']];
+const WHEN_CHOICES = [['today', 'Today'], ['tomorrow', 'Tomorrow'], ['other', 'Another day']];
 
 function humanize(field) {
   return field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
@@ -20,15 +20,12 @@ function errorMessages(status, data) {
   return ['Something went wrong saving that. Please try again.'];
 }
 
-// Adding a job, as a dialog over the page: what needs doing, when, in which
-// garden if they have more than one, and any notes. Saves with POST /jobs.json
-// and hands the job to onSaved.
-//
-// gardens: [{id, name}], their gardens.
-export default function AddJobModal({gardens = [], onClose, onSaved}) {
+// Adding a job, as a dialog over the page: what needs doing, when, and a note
+// if they want one. Saves with POST /jobs.json and hands the job to onSaved.
+export default function AddJobModal({onClose, onSaved}) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [gardenId, setGardenId] = useState('');
+  const [noting, setNoting] = useState(false); // the notes box is open
   const [when, setWhen] = useState('today');
   const [customDate, setCustomDate] = useState('');
   const [saving, setSaving] = useState(false);
@@ -48,7 +45,7 @@ export default function AddJobModal({gardens = [], onClose, onSaved}) {
     setErrors([]);
     try {
       const {ok, status, data} = await postJson('/jobs.json', {
-        job: {name, description, due_date: dueOn, garden_id: gardenId || undefined},
+        job: {name, description, due_date: dueOn},
       });
       if (ok) {
         onSaved(data);
@@ -72,50 +69,52 @@ export default function AddJobModal({gardens = [], onClose, onSaved}) {
               <ul className="mb-0">{errors.map((message) => <li key={message}>{message}</li>)}</ul>
             </div>
           )}
-          <div className="mb-4">
-            <label htmlFor="add-job-name" className="crop-picker-label">What needs doing?</label>
+          <div className="mb-3">
+            <label htmlFor="add-job-name" className="visually-hidden">What needs doing?</label>
             <input
               id="add-job-name"
-              className="form-control"
-              placeholder="Water the seedlings, build a trellis…"
+              className="form-control form-control-lg"
+              placeholder="What needs doing?"
+              aria-describedby="add-job-hint"
               value={name}
               onChange={(event) => setName(event.target.value)}
               required
               autoFocus
             />
+            <p id="add-job-hint" className="step-hint mb-0 mt-2">Water the seedlings, build a trellis for the peas…</p>
           </div>
-          <div className="mb-4">
-            <WhenPicker
-              id="add-job"
-              legend="When?"
-              choices={WHEN_CHOICES}
-              when={when}
-              onWhen={chooseWhen}
-              date={customDate}
-              onDate={(event) => setCustomDate(event.target.value)}
-              hint={dueOn}
-            />
-          </div>
-          {gardens.length > 1 && (
-            <div className="mb-4">
-              <label htmlFor="add-job-garden" className="crop-picker-label">Which garden?</label>
-              <select id="add-job-garden" className="form-select" value={gardenId} onChange={(event) => setGardenId(event.target.value)}>
-                <option value="">Any garden</option>
-                {gardens.map((garden) => <option key={garden.id} value={garden.id}>{garden.name}</option>)}
-              </select>
-            </div>
-          )}
-          <label htmlFor="add-job-notes" className="crop-picker-label">Any notes?</label>
-          <textarea
-            id="add-job-notes"
-            className="form-control"
-            rows="3"
-            placeholder="Optional."
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
+          <WhenPicker
+            id="add-job"
+            legend="When?"
+            hideLegend
+            choices={WHEN_CHOICES}
+            when={when}
+            onWhen={chooseWhen}
+            date={customDate}
+            onDate={(event) => setCustomDate(event.target.value)}
+            hint={dueOn}
           />
+          {noting ? (
+            <div className="mt-3">
+              <label htmlFor="add-job-notes" className="visually-hidden">Notes</label>
+              <textarea
+                id="add-job-notes"
+                className="form-control"
+                rows="3"
+                placeholder="Note"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                autoFocus
+              />
+            </div>
+          ) : (
+            <button type="button" className="btn btn-link ps-0 mt-2" onClick={() => setNoting(true)}>
+              <i className="fas fa-plus" aria-hidden="true" /> Add a note
+            </button>
+          )}
         </div>
         <div className="modal-footer">
+          <span className="me-auto step-hint"><i className="fas fa-globe" aria-hidden="true" /> Jobs are public</span>
           <button type="button" className="btn btn-link" onClick={onClose} disabled={saving}>Cancel</button>
           <button type="submit" className="btn btn-success btn-plant" disabled={saving} aria-busy={saving}>
             {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Saving…</> : 'Add job'}

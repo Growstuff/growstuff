@@ -11,8 +11,6 @@ function stubFetch(response) {
   return fetch;
 }
 
-const gardens = [{id: 3, name: 'Back yard'}, {id: 4, name: 'Balcony'}];
-
 function setup(props = {}) {
   const onSaved = vi.fn();
   render(<AddJobModal onClose={vi.fn()} onSaved={onSaved} {...props} />);
@@ -57,13 +55,23 @@ describe('AddJobModal', () => {
     expect(await screen.findByText("Name can't be blank")).toBeInTheDocument();
   });
 
-  it('asks which garden when there are several', () => {
-    setup({gardens});
-    expect(screen.getByLabelText('Which garden?')).toBeInTheDocument();
+  it('hides the notes until asked', () => {
+    setup();
+    expect(screen.queryByLabelText('Notes')).not.toBeInTheDocument();
   });
 
-  it('does not ask which garden when there is one', () => {
-    setup({gardens: [gardens[0]]});
-    expect(screen.queryByLabelText('Which garden?')).not.toBeInTheDocument();
+  it('saves a note', async () => {
+    const fetch = stubFetch({ok: true, data: {}});
+    setup();
+    await userEvent.type(screen.getByLabelText('What needs doing?'), 'Water');
+    await userEvent.click(screen.getByRole('button', {name: 'Add a note'}));
+    await userEvent.type(screen.getByLabelText('Notes'), 'Before noon');
+    await userEvent.click(screen.getByRole('button', {name: 'Add job'}));
+    expect(body(fetch).description).toBe('Before noon');
+  });
+
+  it('says jobs are public', () => {
+    setup();
+    expect(screen.getByText('Jobs are public')).toBeInTheDocument();
   });
 });

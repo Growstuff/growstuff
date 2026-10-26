@@ -12,4 +12,4 @@
     = link_to new_photo_path, class: 'home-tile' do
       %b= t('home.dashboard.tile_photo_title')
       = t('home.dashboard.tile_photo')
-  = react_component('JobPicker', { label: t('home.dashboard.tile_job_title'), sublabel: t('home.dashboard.tile_job'), buttonClass: 'home-tile', gardens: dashboard.gardens.map { |each| { id: each.id, name: each.name } } }, class: 'home-tile-wrap')
+  = react_component('JobPicker', { label: t('home.dashboard.tile_job_title'), sublabel: t('home.dashboard.tile_job'), buttonClass: 'home-tile' }, class: 'home-tile-wrap')
