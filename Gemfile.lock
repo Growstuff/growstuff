@@ -225,6 +225,7 @@ GEM
       logger
     faraday-net_http (3.5.0)
       net-http (~> 0.5)
+    ffi (1.17.4)
     ffi (1.17.4-x86_64-linux-gnu)
     flickraw (0.9.10)
     flipper (1.4.2)
@@ -349,6 +350,7 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
@@ -366,6 +368,9 @@ GEM
     net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
+    nokogiri (1.19.4)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.6)
@@ -402,6 +407,7 @@ GEM
       racc
     percy-capybara (5.0.1)
       capybara (>= 3)
+    pg (1.7.0)
     pg (1.7.0-x86_64-linux)
     pp (0.6.4)
       prettyprint
@@ -632,6 +638,7 @@ GEM
     zeitwerk (2.8.3)
 
 PLATFORMS
+  ruby
   x86_64-linux
 
 DEPENDENCIES
