@@ -59,6 +59,7 @@ gem 'will_paginate-bootstrap-style'
 
 # user signup/login/etc
 gem 'devise'
+gem 'doorkeeper', '~> 5.8' # OAuth 2 provider, so apps such as the Android app can sign members in
 
 # nicely formatted URLs
 gem 'friendly_id'

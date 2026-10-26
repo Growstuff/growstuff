@@ -28,6 +28,11 @@ class Member < ApplicationRecord
   has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender, class_name: "Notification"
   has_many :authentications, dependent: :destroy
   has_one :api_token, -> { where(provider: 'api') }, class_name: 'Authentication', dependent: :destroy
+  # Apps a member has signed in to, with OAuth (see config/initializers/doorkeeper.rb).
+  has_many :oauth_access_grants, class_name: 'Doorkeeper::AccessGrant', foreign_key: :resource_owner_id,
+                                 inverse_of: false, dependent: :delete_all
+  has_many :oauth_access_tokens, class_name: 'Doorkeeper::AccessToken', foreign_key: :resource_owner_id,
+                                 inverse_of: false, dependent: :delete_all
 
   def api_token?
     api_token.present?
