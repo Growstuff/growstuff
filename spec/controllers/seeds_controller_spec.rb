@@ -279,7 +279,7 @@ describe SeedsController do
     before { sign_in owner }
 
     it 'updates seed and sets flash notice' do
-      patch :update, params: { id: seed.id, seed: { description: 'Updated seed notes' } }
+      patch :update, params: { slug: seed.to_param, seed: { description: 'Updated seed notes' } }
       expect(flash[:notice]).to eq('Seed was successfully updated.')
     end
   end
