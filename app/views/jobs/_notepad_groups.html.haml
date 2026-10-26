@@ -1,6 +1,6 @@
 -# The groups of jobs in the notepad. Also what adding or moving a job sends back.
 - groups.each do |group|
-  .notepad-group{ id: "notepad-#{group.key}", class: "notepad-group-#{group.key}", data: { drop: (group.droppable ? group.drop_date.to_s.presence || 'none' : nil) } }
+  .notepad-group{ class: "notepad-group-#{group.key}", data: { drop: (group.droppable ? group.drop_date.to_s.presence || 'none' : nil) } }
     .notepad-heading
       %h2= t("jobs.pad.#{group.key}")
       - if group.key == :today

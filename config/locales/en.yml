@@ -311,8 +311,6 @@ en:
       plus_harvest: + Harvest
       plus_plant: + Plant
       plus_job: + Plan a job
-      save_for_later: Add to my wishlist
-      save_for_later_title: Adds "Plant %{crop}" to the Some day list in your jobs, with no date
       planted_when: planted %{when}
       ready_now: ready now
       relative:
@@ -432,10 +430,6 @@ en:
     update:
       "off": We've stopped suggesting crops.
       "on": Crop suggestions are back.
-  wishlist_jobs:
-    create:
-      job_name: Plant %{crop}
-      saved: Added "%{job}" to the Some day list in your jobs.
   crop_dismissals:
     create:
       dismissed: We won't suggest %{crop} again.
