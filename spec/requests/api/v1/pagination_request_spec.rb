@@ -96,6 +96,14 @@ RSpec.describe 'API pagination' do
     end
   end
 
+  describe 'following links.next from an offset that is not a whole number of pages' do
+    let(:all_ids) { ids_from_following_next('/api/v1/crops?page[limit]=5&page[offset]=3&sort=id') }
+
+    it 'visits every record after the offset, once' do
+      expect(all_ids).to eq(crops.sort_by(&:id).drop(3).map { |crop| crop.id.to_s })
+    end
+  end
+
   describe 'with a filter' do
     before { get "/api/v1/crops?filter[id]=#{crops.first.id}&page[limit]=5", headers: read_headers }
 

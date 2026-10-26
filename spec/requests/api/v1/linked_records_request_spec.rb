@@ -71,9 +71,10 @@ relationships: { garden: link('gardens', their_garden.id) } } }.to_json,
   end
 
   describe 'changing a planting in a garden you collaborate on' do
-    let(:planting) { create(:planting, owner: member, garden: own_garden) }
+    let(:planting) { create(:planting, owner: other_member, garden: their_garden) }
 
     before do
+      create(:garden_collaborator, garden: their_garden, member: member)
       patch "/api/v1/plantings/#{planting.id}",
             params:  { data: { type: 'plantings', id: planting.id.to_s, attributes: { description: 'Doing well' } } }.to_json,
             headers: auth_headers

@@ -13,7 +13,7 @@ class ApplicationResource < Graphiti::Resource
 
   # The adapter pages with Kaminari, which this app doesn't use.
   paginate do |scope, current_page, per_page, _context, offset|
-    scope.limit(per_page).offset(offset || ((current_page - 1) * per_page))
+    scope.limit(per_page).offset(offset.to_i + ((current_page - 1) * per_page))
   end
 
   # Writes belong to the member holding the token, and are theirs to make. The hooks run once the attributes are
