@@ -57,6 +57,8 @@ $dash-line: rgba(65, 63, 59, 0.15);
   > div { flex: 1; min-width: 0; }
 
   b, small { display: block; }
+
+  .btn { flex: none; width: auto; }
 }
 
 .home-step-number {
