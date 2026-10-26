@@ -14,8 +14,4 @@ describe 'admin/index.html.haml', type: "view" do
     assert_select "a", href: admin_roles_path
     assert_select "a", href: forums_path
   end
-
-  it "has a link to newsletter subscribers" do
-    expect(rendered).to have_content "Newsletter subscribers"
-  end
 end

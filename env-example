@@ -31,15 +31,6 @@ RAILS_SECRET_TOKEN="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 # name that appears on the site, eg. in page titles
 GROWSTUFF_SITE_NAME="Growstuff (dev)"
 
-# Mailchimp is used for subscribing/unsubscribing people from the newsletter
-# To fetch list IDs using Gibbon (and thus find the ID of your newsletter):
-#   $ rails c
-#   Gibbon::API.api_key = '...'
-#   gb = Gibbon::API.new
-#   puts gb.lists.list.to_yaml
-GROWSTUFF_MAILCHIMP_APIKEY=""
-GROWSTUFF_MAILCHIMP_NEWSLETTER_ID=""
-
 # Used for connecting member accounts to Flickr
 # Get Flickr key from http://www.flickr.com/services/apps/create/apply/
 GROWSTUFF_FLICKR_KEY=""
