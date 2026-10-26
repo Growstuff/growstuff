@@ -1,6 +1,6 @@
 -# Packets they hold, one per crop, with how many varieties of it.
 - stash = dashboard.seeds_on_hand
-= home_section(title, action: react_component('AddSeedsPicker', { label: t('home.dashboard.add_seeds'), buttonClass: 'home-section-add' })) do
+= home_section(title, action: react_component('PlantingPicker', { action: 'seeds', label: t('home.dashboard.add_seeds'), buttonClass: 'home-section-add', plantings: planting_picker_props(dashboard) })) do
   %p.home-section-note= t('home.dashboard.seeds_note')
   - if stash.empty?
     %p= t('home.dashboard.no_seeds')
