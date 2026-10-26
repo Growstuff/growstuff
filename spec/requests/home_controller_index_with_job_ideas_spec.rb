@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe HomeController, '#index with job ideas' do
+describe HomeController, '#index with job ideas', flipper: :job_ideas do
   let(:member) { create(:member) }
   let(:page) { Capybara.string(response.body) }
 
@@ -27,6 +27,17 @@ describe HomeController, '#index with job ideas' do
 
     it 'does not open the overlay, which is not on this page' do
       expect(page).to have_no_css('[data-job-ideas-open]')
+    end
+  end
+
+  context 'when job ideas are switched off', flipper: [] do
+    before do
+      create(:job, :finished_without_time, owner: member, name: 'Snip off scapes', due_date: Date.current - 1.year + 2.days)
+      get root_path
+    end
+
+    it 'has no yellow bar' do
+      expect(page).to have_no_css('.notepad-ideas')
     end
   end
 

@@ -28,6 +28,16 @@
     = link_to photo_path(photo), class: 'notepad-photo', title: t("jobs.pad.photo_of_#{moment}", title: photo.title) do
       = image_tag photo.thumbnail_url, alt: t("jobs.pad.photo_of_#{moment}", title: photo.title)
       %span.notepad-photo-moment= t("jobs.pad.#{moment}")
-  - if date_label
+  - if job.finished
+    - if date_label
+      %span.notepad-due{ class: ('late' if job_overdue?(job)) }= date_label
+  - elsif can?(:edit, job)
+    -# The day is a menu: move the job to a day, or pick one from a calendar.
+    .dropdown.notepad-day
+      %a.notepad-due{ href: '#', role: 'button', class: [('late' if job_overdue?(job)), ('unset' unless date_label)], 'aria-haspopup': 'true', 'aria-expanded': 'false',
+                      title: t('jobs.pad.change_day'), data: { 'bs-toggle': 'dropdown' } }= date_label || t('jobs.pad.set_day')
+      .dropdown-menu.dropdown-menu-end= render 'jobs/reschedule', job:, inline_edit: true
+      %input.notepad-date-input{ type: 'date', value: job.due_date&.to_fs(:ymd), tabindex: -1, 'aria-label': t('jobs.pad.change_date') }
+  - elsif date_label
     %span.notepad-due{ class: ('late' if job_overdue?(job)) }= date_label
   .notepad-menu= render 'jobs/actions', job:, inline_edit: true

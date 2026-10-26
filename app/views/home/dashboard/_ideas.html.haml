@@ -1,6 +1,6 @@
 -# A yellow bar over the front page when there are job ideas to look at. It leads to
--# their jobs, with the ideas showing.
-- count = JobIdeas.count_for(current_member)
+-# their jobs, with the ideas showing. Only while the job ideas feature is on.
+- count = Feature.enabled?(:job_ideas) ? JobIdeas.count_for(current_member) : 0
 - if count.positive?
   .home-ideas
     = render 'jobs/ideas_banner', count: count, href: member_jobs_path(current_member, ideas: 1), open: false

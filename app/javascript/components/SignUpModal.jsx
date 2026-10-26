@@ -13,7 +13,7 @@ const FAILED = {byField: {}, other: ['Something went wrong joining. Please try a
 // JSON, shows the server's errors against their fields, and on success goes to
 // wherever the server would have sent the new member.
 export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, onSwitch}) {
-  const [values, setValues] = useState({login_name: '', email: '', password: '', password_confirmation: '', tos_agreement: false, newsletter: true});
+  const [values, setValues] = useState({login_name: '', email: '', password: '', password_confirmation: '', tos_agreement: false});
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({byField: {}, other: []});
   const captcha = useRecaptcha(recaptchaSiteKey);
@@ -64,7 +64,6 @@ export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, 
           <div className="row align-items-center">
             <div className="col-md-6">
               <CheckField id="sign-up-tos" label={<>I agree to the <a href="/policy/tos" target="_blank" rel="noreferrer">Terms of Service</a></>} checked={values.tos_agreement} onChange={set('tos_agreement')} errors={on.tos_agreement} />
-              <CheckField id="sign-up-newsletter" label={`Subscribe to the ${siteName} newsletter`} checked={values.newsletter} onChange={set('newsletter')} />
             </div>
             {recaptchaSiteKey ? <div className="col-md-6 mt-3 mt-md-0"><div ref={captcha.ref} /></div> : null}
           </div>

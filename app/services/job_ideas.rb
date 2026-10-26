@@ -21,7 +21,7 @@ class JobIdeas
 
   # Sources a member can switch off, by name, and the ones each name stands for.
   # Templates and harvests are the member's own garden, so they are always on.
-  SWITCHES = { 'mine' => %i(past_jobs past_plantings), 'community' => %i(community), 'nearby' => %i(nearby) }.freeze
+  SWITCHES = { 'mine' => %i(past_jobs past_plantings), 'community' => %i(community), 'nearby' => %i(nearby), 'world' => %i(world) }.freeze
 
   # How many ideas a member has, for the box over their jobs. It looks at other
   # people's jobs, so it is kept for a few minutes, until the member adds or hides
@@ -64,7 +64,8 @@ class JobIdeas
   def sources
     {
       templates: JobIdeas::Templates, past_jobs: JobIdeas::PastJobs, past_plantings: JobIdeas::PastPlantings,
-      harvest: JobIdeas::Harvest, community: JobIdeas::Community, nearby: JobIdeas::Nearby
+      harvest: JobIdeas::Harvest, community: JobIdeas::Community, nearby: JobIdeas::Nearby,
+      world: JobIdeas::World
     }.except(*@skipped).values.map { |source| source.new(@member, @today) }
   end
 

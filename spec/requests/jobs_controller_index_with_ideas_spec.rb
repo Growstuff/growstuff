@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe JobsController, '#index with ideas' do
+describe JobsController, '#index with ideas', flipper: :job_ideas do
   let(:member) { create(:member) }
   let(:page) { Capybara.string(response.body) }
 
@@ -27,6 +27,21 @@ describe JobsController, '#index with ideas' do
 
     it 'links the box to the ideas' do
       expect(page).to have_link(href: '/job_ideas', class: 'notepad-ideas')
+    end
+  end
+
+  context 'when job ideas are switched off', flipper: [] do
+    before do
+      create(:job, :finished_without_time, owner: member, name: 'Snip off scapes', due_date: Date.current - 1.year + 2.days)
+      get member_jobs_path(member)
+    end
+
+    it 'shows no yellow box' do
+      expect(page).to have_no_css('.notepad-ideas')
+    end
+
+    it 'has no overlay' do
+      expect(page).to have_no_css('#job-ideas-modal', visible: :all)
     end
   end
 

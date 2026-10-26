@@ -28,13 +28,5 @@
         I agree to the
         = succeed "." do
           = link_to 'Terms of Service', "#{root_url}/policy/tos"
-  .mb-3
-    .offset-md-2.col-md-8.checkbox
-      %label
-        = f.check_box :newsletter, checked: true
-        Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
-      .help-inline
-        = render partial: 'devise/registrations/newsletter_blurb'
-
   .actions
     = f.submit 'Continue', class: 'btn btn-primary'

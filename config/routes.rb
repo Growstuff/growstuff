@@ -184,11 +184,13 @@ Rails.application.routes.draw do
 
   scope :admin do
     get '/' => 'admin#index', as: 'admin'
-    get '/newsletter' => 'admin#newsletter', as: 'admin_newsletter'
   end
 
   namespace :admin do
-    resources :members, param: :slug
+    resources :members, param: :slug do
+      post :bulk_ban, on: :collection
+      post :restore, on: :member
+    end
     resources :roles
     resources :photo_library_accesses, only: :index do
       member do
@@ -197,6 +199,8 @@ Rails.application.routes.draw do
         post :revoke
       end
     end
+    resources :features, only: %i(index update)
+    resources :job_templates, only: :index
     resources :crops, param: :slug do
       resources :crop_companions
       resources :crop_job_templates, path: 'job_templates', except: :show

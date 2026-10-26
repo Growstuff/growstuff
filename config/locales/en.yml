@@ -125,6 +125,24 @@ en:
               heirloom_inclusion: "You must say whether the seeds are heirloom, hybrid, or unknown"
             source:
               source_inclusion: "You must say where the seeds are from, or that you don't know"
+  admin:
+    features:
+      descriptions:
+        job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
+      index:
+        feature: Feature
+        intro: Switch features on or off for everyone.
+        'off': 'Off'
+        'on': 'On'
+        state: State
+        switch_off: Switch off
+        switch_on: Switch on
+        title: Features
+      names:
+        job_ideas: Job ideas
+      update:
+        'off': "%{feature} is now off."
+        'on': "%{feature} is now on."
   application_helper:
     title:
       title:
@@ -705,7 +723,8 @@ en:
     filter:
       mine: what I did before
       community: people growing what I grow
-      nearby: near me, within %{km} km
+      nearby: near me
+      world: world neighbours
     section:
       templates: Templates
       templates_note: for plantings you have
@@ -716,7 +735,9 @@ en:
       community: People growing what you grow
       community_note: public jobs
       nearby: Near you
-      nearby_note: "%{place} and %{km} km around"
+      nearby_note: "%{place} and around"
+      world: World neighbours
+      world_note: gardeners at your latitude, anywhere
     none: Nothing to suggest right now. Check back as the season changes.
     add: "+ Add"
     add_all: Add all %{count}
@@ -769,6 +790,11 @@ en:
           other: "%{count} gardeners nearby did this lately."
         earlier:
           other: "%{count} gardeners nearby did this at this time of year before."
+      world:
+        now:
+          other: "%{count} gardeners at your latitude did this lately."
+        earlier:
+          other: "%{count} gardeners at your latitude did this at this time of year."
   jobs:
     plan_something: Plan something
     celebrate:
@@ -808,6 +834,13 @@ en:
       adding: "Adding “%{name}”…"
       edit_label: Job name
       edit_hint: Enter to save, Esc to cancel
+      show_later:
+        one: Show 1 job coming up
+        other: Show %{count} jobs coming up
+      show_older:
+        one: Show 1 older done job
+        other: Show %{count} older done jobs
+      hide_done: Hide done
       add_failed: That job may not have been added. Check your list before you try again.
       public_note: Jobs are public, so don't put private info here.
       overdue: Overdue
@@ -822,12 +855,19 @@ en:
       done_today: done today
       today: Today
       week: This week
-      soon: Soon
+      weekend: This weekend
+      next_weekend: Next weekend
+      later: Later
       someday: Some day
       drop_here: Drag a job here.
       slow: Slow and steady.
       move_today: Today
-      move_week: This week
+      change_day: Change the day
+      set_day: Set a day
+      change_date: Change date…
+      move_tomorrow: Tomorrow
+      move_weekend: This weekend
+      move_later: Later
       someday_note: a wishlist, nothing committed
       garden: Garden
       crop: Crop

@@ -57,6 +57,10 @@ describe Admin::CropJobTemplatesController do
         expect(crop.crop_job_templates.first).to be_draft
       end
 
+      it 'records who wrote it' do
+        expect(crop.crop_job_templates.first.creator).to eq wrangler
+      end
+
       it 'goes back to the list' do
         expect(response).to redirect_to(admin_crop_crop_job_templates_path(crop))
       end

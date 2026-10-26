@@ -30,6 +30,18 @@ describe TimelineService do
     it { expect(subject.first.event_type).to eq 'seed' }
     it { expect(subject.second.id).to eq my_post.id }
     it { expect(subject.second.event_type).to eq 'post' }
+
+    context 'with a job due later' do
+      let!(:my_job) { create(:job, owner: member, due_date: 3.months.from_now, created_at: 5.days.ago) }
+
+      it { expect(subject.second.id).to eq my_job.id }
+    end
+
+    context 'with a finished job' do
+      let!(:my_job) { create(:job, owner: member, finished: true, created_at: 5.days.ago) }
+
+      it { expect(subject.first.event_type).to eq 'job_finished' }
+    end
   end
 
   describe "everyone's timeline" do

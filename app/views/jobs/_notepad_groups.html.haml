@@ -5,11 +5,21 @@
       %h2= t("jobs.pad.#{group.key}")
       - if group.key == :today
         %small= l(group.from, format: '%a %-d %b')
-      - elsif group.key == :week && group.from <= group.to
+      - elsif %i(week weekend next_weekend).include?(group.key) && group.from <= group.to
         %small= "#{l(group.from, format: '%a %-d')} – #{l(group.to, format: '%a %-d %b')}"
       - elsif group.key == :someday
         %small= t('jobs.pad.someday_note')
     - if group.jobs.empty?
       %p.notepad-drop-hint= t('jobs.pad.drop_here')
-    - group.jobs.each do |job|
-      = render 'jobs/notepad_row', job:, in_garden: local_assigns[:in_garden]
+    -# Later is rolled up until asked for: it is not for today's list.
+    - row_for = ->(job) { render 'jobs/notepad_row', job:, in_garden: local_assigns[:in_garden] }
+    - if group.key == :later && group.jobs.any?
+      %details.notepad-older
+        %summary= t('jobs.pad.show_later', count: group.jobs.size)
+        = safe_join(group.shown.map(&row_for))
+    - else
+      = safe_join(group.shown.map(&row_for))
+    - if group.older.any?
+      %details.notepad-older
+        %summary= t('jobs.pad.show_older', count: group.older.size)
+        = safe_join(group.older.map(&row_for))

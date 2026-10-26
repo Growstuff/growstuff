@@ -6,6 +6,7 @@
 // goes wrong reloads the page, which shows how things stand. Choosing Edit in a
 // job's menu turns its name into a box to type in; Enter saves, Esc cancels.
 
+import {csrfToken} from '../api';
 import {celebrate, doneText, hide} from './job_celebration';
 import {nextStreak, undoStreak} from './job_streak';
 
@@ -19,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const saving = document.getElementById('notepad-add-saving');
   const addButton = form.querySelector('input[type="submit"]');
   const addLabel = addButton.value;
-  const token = document.querySelector('meta[name="csrf-token"]');
   const kinds = JSON.parse(form.dataset.kinds);
   // A suggestion's kind (planting, seed or crop) is its type, lower case.
   const kindOf = function (item) { return item.jobbable_type.toLowerCase(); };
@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // move to Done when the page is loaded again.
   const kept = new Set();
 
+  // Hide done moves the jobs crossed off since the page loaded down to Done,
+  // as loading the page again would. It is only there when there are some.
+  const hideDoneButton = document.getElementById('notepad-hide-done');
+
   // The tick box or menu button with focus in the list, as the job it belongs to
   // and which control it is, so its replacement can be focused when the list is
   // drawn again.
@@ -50,14 +54,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // Sends a change to the server and shows the groups it sends back. Resolves
   // with how many jobs are done this week.
   const transmit = function (url, body) {
-    kept.forEach(function (id) { body.append('keep[]', id); });
-    if (groups.dataset.gardenId) body.append('garden_id', groups.dataset.gardenId);
+    if (body) {
+      kept.forEach(function (id) { body.append('keep[]', id); });
+      if (groups.dataset.gardenId) body.append('garden_id', groups.dataset.gardenId);
+    }
     return fetch(url, {
-      method: 'POST',
+      method: body ? 'POST' : 'GET',
       body: body,
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-Token': token ? token.content : '',
+        'X-CSRF-Token': csrfToken(),
       },
       credentials: 'same-origin',
     })
@@ -67,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return response.text().then(function (html) {
           const focused = focusedControl();
           groups.innerHTML = html;
+          if (hideDoneButton) hideDoneButton.hidden = kept.size === 0;
           showDone(Number(done));
           const again = focused && groups.querySelector('.notepad-job[data-id="' + focused.id + '"] ' + focused.selector);
           if (again) again.focus();
@@ -91,6 +98,13 @@ document.addEventListener('DOMContentLoaded', function () {
     Object.keys(attributes).forEach(function (key) { body.append('job[' + key + ']', attributes[key]); });
     return send(url, body);
   };
+
+  if (hideDoneButton) hideDoneButton.addEventListener('click', function () {
+    kept.clear();
+    const url = new URL(hideDoneButton.dataset.url, window.location.origin);
+    if (groups.dataset.gardenId) url.searchParams.set('garden_id', groups.dataset.gardenId);
+    send(url.toString(), null).catch(reload);
+  });
 
   // ---- Crossing a job off, or putting it back
 
@@ -237,6 +251,25 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!edit) return;
     event.preventDefault();
     startEditing(edit.closest('.notepad-job'));
+  });
+
+  // ---- Picking a day from the browser's calendar
+
+  // "Change date" opens the browser's own calendar, which marks today, beside the
+  // job's day. Picking a day moves the job there.
+  groups.addEventListener('click', function (event) {
+    const change = event.target.closest('[data-notepad-change-date]');
+    if (!change) return;
+    event.preventDefault();
+    const input = change.closest('.notepad-day').querySelector('.notepad-date-input');
+    if (input.showPicker) input.showPicker();
+    else input.focus();
+  });
+
+  groups.addEventListener('change', function (event) {
+    const input = event.target.closest('.notepad-date-input');
+    if (!input || !input.value) return;
+    patchJob(input.closest('.notepad-job').dataset.url, {due_date: input.value}).catch(reload);
   });
 
   // ---- Adding a job

@@ -15,6 +15,7 @@
       .card-body
         %nav.nav#site_admin
           %li= link_to "Roles", admin_roles_path, class: 'nav-link'
+          %li= link_to t('admin.features.index.title'), admin_features_path, class: 'nav-link'
           %li= link_to "Forums", forums_path, class: 'nav-link'
           %li= link_to t('.garden_types'), garden_types_path, class: 'nav-link'
 
@@ -30,6 +31,7 @@
           %li= link_to "Alternate names", alternate_names_path, class: 'nav-link'
           %li= link_to "Scientific names", scientific_names_path, class: 'nav-link'
           %li= link_to "Plant parts", plant_parts_path, class: 'nav-link'
+          %li= link_to "Crop job templates", admin_job_templates_path, class: 'nav-link'
 
   .col-md-4
     .card
@@ -39,6 +41,5 @@
           Member admin
       .card-body
         %nav.nav#member_admin
-          %li= link_to "Newsletter subscribers", admin_newsletter_path, class: 'nav-link'
           %li= link_to "Members", admin_members_path, class: 'nav-link'
           %li= link_to "Photo library access", admin_photo_library_accesses_path, class: 'nav-link'
