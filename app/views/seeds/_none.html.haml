@@ -8,6 +8,6 @@
       We looked in stock and in finished packets.
   .seed-none-actions
     - if @owner.blank? || @owner == current_member
-      = link_to "Add #{@search_crop.name} seeds", new_seed_path(crop_id: @search_crop.id), class: 'btn btn-primary'
+      = link_to "Add #{@search_crop.name} seeds", new_seed_path(crop_id: @search_crop.id), class: 'btn btn-primary', data: { record_dialog: 'seeds', crop_id: @search_crop.id, crop_name: @search_crop.name }
     - if @owner.present?
       = link_to "See #{@search_crop.name} seeds from everyone", seeds_path(crop: @search_crop.slug), class: 'btn btn-outline-primary'

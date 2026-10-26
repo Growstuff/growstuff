@@ -3,13 +3,13 @@
 = link_to new_planting_path, class: link_class do
   = image_icon('planting-add')
   = t('buttons.new_planting')
-= link_to new_harvest_path, class: link_class do
+= link_to new_harvest_path, class: link_class, data: { record_dialog: 'harvest' } do
   = image_icon('harvest-add')
   = t('buttons.new_harvest')
 = link_to new_job_path, class: link_class do
   = image_icon('job-add')
   = t('buttons.new_job')
-= link_to new_seed_path, class: link_class do
+= link_to new_seed_path, class: link_class, data: { record_dialog: 'seeds' } do
   = image_icon('seed-add')
   = t('buttons.new_seeds')
 = link_to new_post_path, class: link_class do
