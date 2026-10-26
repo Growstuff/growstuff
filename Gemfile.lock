@@ -224,9 +224,6 @@ GEM
     geocoder (1.8.6)
       base64 (>= 0.1.0)
       csv (>= 3.0.0)
-    gibbon (1.2.1)
-      httparty
-      multi_json (>= 1.9.0)
     globalid (1.4.0)
       activesupport (>= 6.1)
     gravatar-ultimate (2.0.0)
@@ -252,10 +249,6 @@ GEM
       logger
     highline (3.1.2)
       reline
-    httparty (0.24.0)
-      csv
-      mini_mime (>= 1.0.0)
-      multi_xml (>= 0.5.2)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     i18n-tasks (1.1.2)
@@ -337,8 +330,6 @@ GEM
       prism (~> 1.5)
     msgpack (1.8.5)
     multi_json (1.19.1)
-    multi_xml (0.8.1)
-      bigdecimal (>= 3.1, < 5)
     net-http (0.9.1)
       uri (>= 0.11.1)
     net-imap (0.6.8)
@@ -673,7 +664,6 @@ DEPENDENCIES
   friendly_id
   gbifrb
   geocoder
-  gibbon (~> 1.2.0)
   gravatar-ultimate
   haml
   haml-rails
