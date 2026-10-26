@@ -23,6 +23,11 @@ RSpec.shared_context 'with an API member' do
 end
 
 module ApiLinkHelpers
+  # A relationship that points at one record, as a request has it.
+  def link_to(type, id)
+    { data: { type: type, id: id.to_s } }
+  end
+
   # How a resource links to what it is related to.
   def related_link(path)
     { 'links' => { 'related' => "http://www.example.com/api/v1/#{path}" } }

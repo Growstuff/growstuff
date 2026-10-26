@@ -10,7 +10,7 @@ RSpec.describe 'API dashed names' do
   let!(:planting) { create(:planting, owner: member, garden: garden, planted_from: 'seed', planted_at: '2020-02-03') }
   let(:crop) { create(:crop) }
   let(:planting_relationships) do
-    { crop: { data: { type: 'crops', id: crop.id.to_s } }, garden: { data: { type: 'gardens', id: garden.id.to_s } } }
+    { crop: link_to('crops', crop.id), garden: link_to('gardens', garden.id) }
   end
 
   def post_planting(attributes)

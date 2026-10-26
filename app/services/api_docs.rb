@@ -192,13 +192,17 @@ class ApiDocs
   end
 
   def readable_attributes(resource)
-    attributes = resource[:attributes].select { |name, attribute| attribute[:readable] && name != :id }
-    { type: 'object', properties: attributes.to_h { |name, attribute| [dashed(name), attribute_schema(attribute).merge(nullable: true)] } }
+    attributes_schema(resource, nullable: true) { |attribute| attribute[:readable] }
   end
 
   def writable_attributes(resource)
-    attributes = resource[:attributes].select { |name, attribute| attribute[:readable] && attribute[:writable] && name != :id }
-    { type: 'object', properties: attributes.to_h { |name, attribute| [dashed(name), attribute_schema(attribute)] } }
+    attributes_schema(resource) { |attribute| attribute[:readable] && attribute[:writable] }
+  end
+
+  # The `id` is the resource's own, not one of its attributes. Anything can be empty in a response, but not in a request.
+  def attributes_schema(resource, nullable: false)
+    chosen = resource[:attributes].select { |name, attribute| name != :id && yield(attribute) }
+    { type: 'object', properties: chosen.to_h { |name, attribute| [dashed(name), attribute_schema(attribute, nullable: nullable)] } }
   end
 
   # A belongs_to is written through its foreign key, which the API shows only as a relationship.
@@ -223,8 +227,8 @@ class ApiDocs
     } } } }
   end
 
-  def attribute_schema(attribute)
-    scalar(attribute[:type]).merge(description: attribute[:description]).compact
+  def attribute_schema(attribute, nullable:)
+    scalar(attribute[:type]).merge(description: attribute[:description], nullable: (true if nullable)).compact
   end
 
   def scalar(type)

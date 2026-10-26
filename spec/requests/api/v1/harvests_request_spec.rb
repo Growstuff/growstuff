@@ -93,7 +93,7 @@ RSpec.describe 'Harvests' do
     let(:planting) { create(:planting, owner: member, garden: create(:garden, owner: member)) }
     let(:create_params) do
       { attributes:    { description: 'My API harvest' },
-        relationships: { planting: { data: { type: 'plantings', id: planting.id.to_s } } } }
+        relationships: { planting: link_to('plantings', planting.id) } }
     end
     let(:own_record) { create(:harvest, owner: member) }
     let(:other_record) { create(:harvest) }

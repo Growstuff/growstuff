@@ -7,7 +7,7 @@ RSpec.describe 'API ownership of written records' do
   include_context 'with an API member'
 
   let(:other_member) { create(:member) }
-  let(:owner_relationship) { { owner: { data: { type: 'members', id: other_member.id.to_s } } } }
+  let(:owner_relationship) { { owner: link_to('members', other_member.id) } }
 
   def post_resource(type, attributes: {}, relationships: {})
     post "/api/v1/#{type}", params: { data: { type:, attributes:, relationships: } }.to_json, headers: auth_headers
@@ -17,7 +17,7 @@ RSpec.describe 'API ownership of written records' do
     {
       'gardens' => -> { { attributes: { name: 'Mine' } } },
       'jobs'    => -> { { attributes: { name: 'Water the beans' } } },
-      'seeds'   => -> { { relationships: { crop: { data: { type: 'crops', id: create(:crop).id.to_s } } } } }
+      'seeds'   => -> { { relationships: { crop: link_to('crops', create(:crop).id) } } }
     }.each do |type, data|
       context "with #{type}" do
         before do
@@ -55,7 +55,7 @@ RSpec.describe 'API ownership of written records' do
 
     before do
       create(:plant_part)
-      post_resource 'harvests', relationships: { planting: { data: { type: 'plantings', id: planting.id.to_s } } }
+      post_resource 'harvests', relationships: { planting: link_to('plantings', planting.id) }
     end
 
     it 'takes the crop from the planting' do
@@ -75,7 +75,7 @@ RSpec.describe 'API ownership of written records' do
       create(:garden_collaborator, garden: garden, member: member)
       patch "/api/v1/jobs/#{job.id}",
             params:  { data: { type: 'jobs', id: job.id.to_s, attributes: { name: 'Mine now' },
-                               relationships: { garden: { data: { type: 'gardens', id: garden.id.to_s } } } } }.to_json,
+                               relationships: { garden: link_to('gardens', garden.id) } } }.to_json,
             headers: auth_headers
     end
 
@@ -108,7 +108,7 @@ RSpec.describe 'API ownership of written records' do
   describe 'linking to a record that does not exist' do
     before do
       create(:plant_part)
-      post_resource 'harvests', relationships: { planting: { data: { type: 'plantings', id: '0' } } }
+      post_resource 'harvests', relationships: { planting: link_to('plantings', 0) }
     end
 
     it { expect(response).to have_http_status(:not_found) }

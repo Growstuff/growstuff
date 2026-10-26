@@ -16,7 +16,7 @@ module Api
 
     def underscore_request_keys
       underscore_filters
-      params[:sort] = params[:sort].split(',').map { |field| underscore_field(field) }.join(',') if params[:sort].is_a?(String)
+      params[:sort] = params[:sort].split(',').map { |field| underscore_field(field) }.join(',') if params[:sort]
       underscore_fields
       underscore_page_limit
       underscore_attributes
@@ -32,7 +32,7 @@ module Api
     # filter[crop]=1 has always meant the same as filter[crop_id]=1.
     def underscore_filters
       filters = params[:filter]
-      return unless filters.respond_to?(:transform_keys)
+      return unless filters
 
       params[:filter] = filters.transform_keys do |name|
         name = name.underscore
@@ -50,7 +50,7 @@ module Api
     end
 
     def underscore_fields
-      return unless params[:fields].respond_to?(:transform_values)
+      return unless params[:fields]
 
       params[:fields] = params[:fields].transform_values { |names| names.to_s.underscore }
     end
@@ -59,7 +59,7 @@ module Api
     # `page[offset]`. An offset that lands on a page boundary is the same as a page number.
     def underscore_page_limit
       page = params[:page]
-      return unless page.respond_to?(:key?) && page.key?(:limit)
+      return unless page&.key?(:limit)
 
       size = page.delete(:limit).to_i
       page[:size] = size

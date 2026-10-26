@@ -107,7 +107,7 @@ RSpec.describe 'Seeds' do
   it_behaves_like 'a resource members can write', 'seeds' do
     let(:create_params) do
       { attributes:    { description: 'My API seed' },
-        relationships: { crop: { data: { type: 'crops', id: create(:crop).id.to_s } } } }
+        relationships: { crop: link_to('crops', create(:crop).id) } }
     end
     let(:own_record) { create(:seed, owner: member) }
     let(:other_record) { create(:seed) }

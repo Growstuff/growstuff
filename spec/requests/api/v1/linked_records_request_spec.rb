@@ -11,20 +11,16 @@ RSpec.describe 'API linking records' do
   let(:their_garden) { create(:garden, owner: other_member) }
   let(:crop) { create(:crop) }
 
-  def link(type, id)
-    { data: { type: type, id: id.to_s } }
-  end
-
   def post_planting(garden)
     post '/api/v1/plantings',
          params:  { data: { type:          'plantings',
-                            relationships: { crop: link('crops', crop.id), garden: link('gardens', garden.id) } } }.to_json,
+                            relationships: { crop: link_to('crops', crop.id), garden: link_to('gardens', garden.id) } } }.to_json,
          headers: auth_headers
   end
 
   def post_job(attributes: {}, relationships: {})
-    post '/api/v1/jobs', params:  { data: { type: 'jobs', attributes: { name: 'Water' }.merge(attributes), relationships: relationships } }.to_json,
-                         headers: auth_headers
+    data = { type: 'jobs', attributes: { name: 'Water' }.merge(attributes), relationships: relationships }
+    post '/api/v1/jobs', params: { data: }.to_json, headers: auth_headers
   end
 
   describe 'planting in your own garden' do
@@ -59,7 +55,7 @@ RSpec.describe 'API linking records' do
       create(:garden_collaborator, garden: their_garden, member: member)
       patch "/api/v1/plantings/#{planting.id}",
             params:  { data: { type: 'plantings', id: planting.id.to_s,
-relationships: { garden: link('gardens', their_garden.id) } } }.to_json,
+relationships: { garden: link_to('gardens', their_garden.id) } } }.to_json,
             headers: auth_headers
     end
 
@@ -84,13 +80,13 @@ relationships: { garden: link('gardens', their_garden.id) } } }.to_json,
   end
 
   describe 'a job in your own garden' do
-    before { post_job(relationships: { garden: link('gardens', own_garden.id) }) }
+    before { post_job(relationships: { garden: link_to('gardens', own_garden.id) }) }
 
     it { expect(response).to have_http_status(:created) }
   end
 
   describe 'a job in someone else\'s garden' do
-    before { post_job(relationships: { garden: link('gardens', their_garden.id) }) }
+    before { post_job(relationships: { garden: link_to('gardens', their_garden.id) }) }
 
     it { expect(response).to have_http_status(:forbidden) }
 

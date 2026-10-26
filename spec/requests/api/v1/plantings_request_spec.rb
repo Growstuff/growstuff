@@ -61,6 +61,19 @@ RSpec.describe 'Plantings' do
     expect(subject['data']).to include(planting_encoded_as_json_api)
   end
 
+  describe 'the thumbnail' do
+    let(:photo) { create(:photo, owner: planting.owner) }
+
+    before do
+      planting.photos << photo
+      get "/api/v1/plantings/#{planting.id}", headers:
+    end
+
+    it 'is the thumbnail of its photo' do
+      expect(subject['data']['attributes']['thumbnail']).to eq(photo.thumbnail_url)
+    end
+  end
+
   it '#show' do
     get("/api/v1/plantings/#{planting.id}", params: {}, headers:)
     expect(subject['data']['relationships']).to include("garden" => garden_as_json_api)
@@ -126,8 +139,8 @@ RSpec.describe 'Plantings' do
     let(:garden) { create(:garden, owner: member) }
     let(:create_params) do
       { attributes:    { description: 'My API planting' },
-        relationships: { crop:   { data: { type: 'crops', id: create(:crop).id.to_s } },
-                         garden: { data: { type: 'gardens', id: garden.id.to_s } } } }
+        relationships: { crop:   link_to('crops', create(:crop).id),
+                         garden: link_to('gardens', garden.id) } }
     end
     let(:own_record) { create(:planting, owner: member, garden: garden) }
     let(:other_record) { create(:planting) }
