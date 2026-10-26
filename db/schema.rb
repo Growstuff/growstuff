@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_24_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -859,7 +859,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_24_100000) do
     t.datetime "locked_at", precision: nil
     t.string "login_name"
     t.float "longitude"
-    t.boolean "newsletter"
+    t.boolean "newsletter", comment: "From when we had a newsletter. Unused now, kept in case we bring it back."
     t.string "other_url"
     t.integer "photos_count"
     t.integer "plantings_count"

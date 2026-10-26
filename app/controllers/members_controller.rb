@@ -92,7 +92,7 @@ class MembersController < ApplicationController
   }.freeze
 
   def member_params
-    params.require(:member).permit(:login_name, :tos_agreement, :email, :newsletter, :send_harvest_reminder)
+    params.require(:member).permit(:login_name, :tos_agreement, :email, :send_harvest_reminder)
   end
 
   def member_json_fields
