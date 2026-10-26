@@ -47,19 +47,20 @@
           %li
             = render 'planting', planting: planting
             planted on #{planting.planted_at.to_date}
+%p Harvested anything lately?
 %p
-  Harvested anything lately?
   = link_to "Track your harvests here.", new_harvest_url, class: 'btn'
 
+%p Want to track and predict a planting in your garden?
 %p
-  Want to track and predict a planting in your garden?
   = link_to "Add a planting.", new_planting_url, class: 'btn'
 
+%p Track and predict your entire garden, and keep your garden records up to date at
 %p
-  Track and predict your entire garden, and keep your garden records up to date at
   = link_to member_gardens_url(@member), class: 'btn' do
-    your garden overview
-  and on
+    Your garden overview
+%p
+  or on
   = link_to member_url(@member) do
     your profile page
 
@@ -72,4 +73,3 @@
 %p
   Don't want to get these emails any more?
   = link_to "Unsubscribe from planting reminders", unsubscribe_member_url(@signed_message)
-
