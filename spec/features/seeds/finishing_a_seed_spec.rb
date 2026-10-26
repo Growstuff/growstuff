@@ -8,7 +8,7 @@ describe 'Finishing a seed', :js do
   describe 'with the finished checkbox on the form' do
     before do
       visit new_seed_path
-      find_by_id('seed_finished_at').set('2014-08-30')
+      find_by_id('seed_finished_at').set(Date.strptime('2014-08-30'))
       check 'Mark as finished'
       uncheck 'Mark as finished'
     end
