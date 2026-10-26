@@ -3,7 +3,7 @@
 # The features admins can switch on and off, kept in Flipper. Each is off until
 # an admin switches it on.
 class Feature
-  NAMES = %i(job_ideas).freeze
+  NAMES = %i(job_ideas enable_planting_reminders).freeze
 
   attr_reader :name
 

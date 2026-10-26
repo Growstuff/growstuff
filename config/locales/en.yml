@@ -127,6 +127,7 @@ en:
     features:
       descriptions:
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
+        enable_planting_reminders: Sends the weekly planting reminder emails to members who want them.
       index:
         feature: Feature
         intro: Switch features on or off for everyone.
@@ -138,6 +139,7 @@ en:
         title: Features
       names:
         job_ideas: Job ideas
+        enable_planting_reminders: Planting reminders
       update:
         'off': "%{feature} is now off."
         'on': "%{feature} is now on."
