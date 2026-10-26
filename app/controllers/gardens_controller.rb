@@ -171,7 +171,7 @@ class GardensController < DataController
   # An archived garden keeps a plain record of its jobs, newest first, with
   # only the first few until asked for the rest.
   def load_archived_jobs
-    jobs = @garden.jobs.includes(:owner, :jobbable, photo_associations: :photo).order(created_at: :desc, id: :desc)
+    jobs = @garden.jobs.includes(:owner, photo_associations: :photo).order(created_at: :desc, id: :desc)
     @archived_jobs_total = jobs.count
     @archived_jobs = params[:all_jobs] == '1' ? jobs : jobs.limit(ARCHIVED_JOBS_SHOWN)
   end
