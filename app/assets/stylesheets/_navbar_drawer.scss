@@ -224,6 +224,21 @@
       background: $brown;
     }
 
+    .offcanvas-member-link {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex: 1;
+      min-width: 0;
+      color: inherit;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        color: inherit;
+      }
+    }
+
     .offcanvas-avatar { border-radius: 50%; object-fit: cover; }
 
     // Join and Sign in, first in the drawer for a visitor.
