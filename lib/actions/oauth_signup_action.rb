@@ -63,6 +63,8 @@ class Growstuff::OauthSignupAction
     case auth['provider']
     when 'flickr'
       auth['info']['name']
+    when 'mastodon'
+      auth.dig('info', 'nickname') || auth.dig('info', 'name')
     else
       auth['info']['name']
     end

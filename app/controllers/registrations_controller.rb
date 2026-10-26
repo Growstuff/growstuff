@@ -7,6 +7,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def edit
     @flickr_auth = current_member.auth('flickr')
+    @mastodon_auths = current_member.authentications.where(provider: 'mastodon')
     render "edit"
   end
 
