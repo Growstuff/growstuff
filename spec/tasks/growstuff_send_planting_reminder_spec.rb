@@ -4,10 +4,8 @@ require 'rails_helper'
 require 'rake'
 
 describe 'growstuff:send_planting_reminder', flipper: :enable_planting_reminders do
-  include ActiveJob::TestHelper
-
   before :all do
-    Rails.application.load_tasks
+    Rails.application.load_tasks unless Rake::Task.task_defined?('growstuff:send_planting_reminder')
   end
 
   before do
@@ -24,21 +22,21 @@ describe 'growstuff:send_planting_reminder', flipper: :enable_planting_reminders
     Rake::Task['growstuff:send_planting_reminder'].invoke
   end
 
-  it 'enqueues a reminder on Monday' do
-    expect { send_reminders }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+  it 'sends a reminder on Monday' do
+    expect { send_reminders }.to change { ActionMailer::Base.deliveries.count }.by(1)
   end
 
   context 'when planting reminders are switched off', flipper: [] do
-    it 'enqueues nothing' do
-      expect { send_reminders }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
+    it 'sends nothing' do
+      expect { send_reminders }.not_to(change { ActionMailer::Base.deliveries.count })
     end
   end
 
   context 'when it is not Monday' do
     let(:day) { monday + 1.day }
 
-    it 'enqueues nothing' do
-      expect { send_reminders }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
+    it 'sends nothing' do
+      expect { send_reminders }.not_to(change { ActionMailer::Base.deliveries.count })
     end
   end
 end
