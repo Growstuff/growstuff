@@ -201,10 +201,10 @@ describe "Planting a crop", :js do
       select_from_autocomplete "maize"
       choose(member.gardens.first.name)
       within "form#new_planting" do
-        fill_in "When?", with: "2014-07-01"
+        fill_in "When?", with: Date.strptime("2014-07-01")
         check "Mark as finished"
         find_by_id('planting_overall_rating').set 4
-        fill_in "Finished date", with: "2014-08-30"
+        fill_in "Finished date", with: Date.strptime("2014-08-30")
         uncheck 'Mark as finished'
       end
 
