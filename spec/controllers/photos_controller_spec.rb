@@ -231,5 +231,39 @@ describe PhotosController do
         expect(Photo.last.harvests.first).not_to eq another_harvest
       end
     end
+
+    describe "with Pixelfed photo source" do
+      before { controller.stub(:current_member) { member } }
+
+      let(:pixelfed_url) { 'https://pixelfed.example.com/p/alice/123456789' }
+      let(:pixelfed_metadata) do
+        {
+          source: 'pixelfed',
+          source_id: pixelfed_url,
+          title: 'Pixelfed Harvest',
+          fullsize_url: 'https://pixelfed.example.com/full.jpg',
+          thumbnail_url: 'https://pixelfed.example.com/thumb.jpg',
+          link_url: pixelfed_url,
+          license_name: 'CC-BY'
+        }
+      end
+
+      before do
+        allow(PixelfedService).to receive(:extract_metadata).with(pixelfed_url).and_return(pixelfed_metadata)
+      end
+
+      it "creates and attaches a Pixelfed photo to a planting" do
+        post :create, params: {
+          photo: { source: 'pixelfed', pixelfed_url: pixelfed_url },
+          type: "planting", id: planting.id
+        }
+
+        created_photo = Photo.last
+        expect(created_photo.source).to eq 'pixelfed'
+        expect(created_photo.source_id).to eq pixelfed_url
+        expect(created_photo.title).to eq 'Pixelfed Harvest'
+        expect(created_photo.plantings.first).to eq planting
+      end
+    end
   end
 end

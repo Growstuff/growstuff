@@ -49,7 +49,7 @@ class PhotosController < ApplicationController
 
   def create
     ActiveRecord::Base.transaction do
-      @photo = find_or_create_photo_from_flickr_photo
+      @photo = find_or_create_photo
       @item = item_to_link_to
       raise "Could not find this #{type} owned by you" unless @item
 
@@ -63,6 +63,10 @@ class PhotosController < ApplicationController
     raise unless request.format.json?
 
     render json: { errors: e.record.errors }, status: :unprocessable_content
+  rescue PixelfedService::Error => e
+    raise unless request.format.json?
+
+    render json: { errors: { pixelfed: [e.message] } }, status: :unprocessable_content
   end
 
   def update
@@ -104,7 +108,7 @@ class PhotosController < ApplicationController
 
   def photo_params
     params.require(:photo).permit(:source_id, :source, :title, :license_name,
-                                  :license_url, :thumbnail_url, :fullsize_url, :link_url, :date_taken)
+                                  :license_url, :thumbnail_url, :fullsize_url, :link_url, :date_taken, :pixelfed_url)
   end
 
   # Attaches the photo to the item. A photo for a job can say when it was taken,
@@ -128,6 +132,27 @@ class PhotosController < ApplicationController
 
   #
   # Flickr retrieval
+  def find_or_create_photo
+    if photo_params[:source] == 'pixelfed' || params[:pixelfed_url].present? || params.dig(:photo, :pixelfed_url).present?
+      find_or_create_photo_from_pixelfed
+    else
+      find_or_create_photo_from_flickr_photo
+    end
+  end
+
+  def find_or_create_photo_from_pixelfed
+    input = params[:pixelfed_url] || params.dig(:photo, :pixelfed_url) || photo_params[:source_id]
+    metadata = PixelfedService.extract_metadata(input)
+
+    photo = Photo.find_or_initialize_by(
+      source_id: metadata[:source_id],
+      source: 'pixelfed'
+    )
+    photo.assign_attributes(metadata)
+    photo.owner_id = current_member.id
+    photo
+  end
+
   def find_or_create_photo_from_flickr_photo
     photo = Photo.find_or_initialize_by(
       source_id: photo_params[:source_id],

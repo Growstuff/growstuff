@@ -86,4 +86,28 @@ describe PhotosController, '#create' do
       expect(job.photo_associations.pluck(:moment)).to eq ['after']
     end
   end
+
+  context 'with a pixelfed photo' do
+    let(:pixelfed_url) { 'https://pixelfed.social/p/gardener/987654321' }
+
+    before do
+      allow(PixelfedService).to receive(:extract_metadata).with(pixelfed_url).and_return(
+        source: 'pixelfed',
+        source_id: pixelfed_url,
+        title: 'Pixelfed Garden Note',
+        fullsize_url: 'http://example.com/pixelfed_full.jpg',
+        thumbnail_url: 'http://example.com/pixelfed_thumb.jpg',
+        link_url: pixelfed_url,
+        license_name: 'CC-BY'
+      )
+
+      query = { type: 'job', id: job.id }.to_query
+      post "/photos.json?#{query}", params: { photo: { source: 'pixelfed', pixelfed_url: pixelfed_url } }.to_json, headers: json_headers
+    end
+
+    it 'attaches the pixelfed photo to the job' do
+      expect(job.photos.pluck(:title)).to eq ['Pixelfed Garden Note']
+      expect(job.photos.first.source).to eq 'pixelfed'
+    end
+  end
 end
