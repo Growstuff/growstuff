@@ -18,7 +18,8 @@
       - elsif path == :plant && !done
         = plant_picker(dashboard, label: t('home.dashboard.step_plant_button'), button_class: 'btn btn-success', wrapper_class: 'd-inline-block')
       - elsif path && !done
-        = link_to t('home.dashboard.do_it'), path, class: 'btn btn-success'
+        .d-inline-block
+          = link_to t('home.dashboard.do_it'), path, class: 'btn btn-success'
 
 - crops = dashboard.easy_to_sow
 - if crops.any? || dashboard.dismissed_count.positive? || !dashboard.suggestions_enabled?

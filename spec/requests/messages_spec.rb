@@ -62,10 +62,10 @@ describe 'Messages' do
     end
   end
 
-  describe 'the conversation about a seed' do
+  describe 'the conversation about a topic' do
     let(:conversation) do
       receipt = member.send_message(recipient, 'Could I have some?', subject_line)
-      receipt.notification.update(notified_object: seed)
+      receipt.notification.update(notified_object: topic)
       receipt.conversation
     end
 
@@ -74,7 +74,20 @@ describe 'Messages' do
       get conversation_path(conversation)
     end
 
-    it { expect(response.body).to include("About") }
-    it { expect(response.body).to include(seed_path(seed)) }
+    context 'when topic is a seed' do
+      let(:topic) { seed }
+
+      it { expect(response.body).to include("About") }
+      it { expect(response.body).to include(seed_path(seed)) }
+      it { expect(response.body).to include(seed.to_s) }
+    end
+
+    context 'when topic is another notified object' do
+      let(:topic) { create(:planting) }
+
+      it { expect(response.body).to include("About") }
+      it { expect(response.body).to include(planting_path(topic)) }
+      it { expect(response.body).to include(topic.to_s) }
+    end
   end
 end

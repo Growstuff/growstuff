@@ -19,7 +19,7 @@
     "chart.js": "^4.6.1",
     "chartkick": "^5.0.1",
     "esbuild": "^0.28.2",
-    "jquery": "^3.7.1",
+    "jquery": "^4.0.0",
     "jquery-ui": "^1.14.2",
     "jquery-ujs": "^1.2.3",
     "leaflet": "^1.9.4",

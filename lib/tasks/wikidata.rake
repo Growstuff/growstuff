@@ -6,7 +6,7 @@ require 'json'
 namespace :wikidata do
   desc "Imports alternate names from Wikidata"
   task import_alternate_names: :environment do
-    creator = Member.find_by(admin: true)
+    creator = Member.find_by!(login_name: 'cropbot')
     unless creator
       puts "Could not find an admin member to assign as creator."
       return

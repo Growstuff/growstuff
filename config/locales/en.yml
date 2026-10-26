@@ -302,6 +302,7 @@ en:
       suggestions_off: Crop suggestions are off.
       turn_on_suggestions: Turn them back on
       view_all_suggestions: View all suggestions for %{month}
+      view_seed_library: View your seed library
       not_for_me_title: Don't suggest %{crop} again
       novice_lede:
         one: "%{count} plant growing. Nice start."
@@ -309,6 +310,7 @@ en:
       plant_crop: Plant %{crop}
       plus_harvest: + Harvest
       plus_plant: + Plant
+      plus_job: + Plan a job
       planted_when: planted %{when}
       ready_now: ready now
       relative:
@@ -329,9 +331,11 @@ en:
       see_which: See which ones ↓
       seeds_near: Seeds near you
       seeds_near_note: Neighbours offering seeds you can start with.
+      seeds_note: Record the seeds you buy or save yourself. Both go into your seed library.
       seeds_on_hand: Seeds on hand
       seeds_to_start: Seeds to start this spring
       sow_body: Gardeners at your latitude are planting it this month.
+      sow_harvest: Planted today, it would be ready to harvest around %{date}.
       sow_title: Sow %{crop} this %{month}
       started_in: You started in %{month}. Next, your first harvest and the sowings for the season.
       stat_harvests: harvests this year
@@ -350,6 +354,8 @@ en:
       step_plant_note: Pick from what suits this month
       this_week: This week
       tile_harvest: record what you picked
+      tile_job: plan a task for your garden
+      tile_job_title: Add job
       tile_photo: of the garden
       tile_photo_title: Add photo
       tile_plant: something new
@@ -1000,6 +1006,7 @@ en:
     save_seeds: Save seeds
     string: "%{crop} seeds belonging to %{owner}"
     added_to_stash: Successfully added %{crop} seed to your stash.
+    updated: Seed was successfully updated.
   unauthorized:
     create:
       all: Please sign in or sign up to create a %{subject}.

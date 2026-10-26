@@ -71,7 +71,7 @@ class HarvestsController < DataController
     @planting = @harvest.planting
     @crop = @harvest.crop
     update_planting_rating if @harvest.save
-    return render_card_json if request.format.json? && @planting.present?
+    return render_card_json if request.format.json?
 
     if params[:return] == 'planting'
       respond_with(@harvest, location: @harvest.planting)
@@ -96,7 +96,9 @@ class HarvestsController < DataController
   # returned one, so the planting's badges and predictions follow the harvest
   # without a page reload.
   def render_card_json
-    if @harvest.persisted?
+    if @harvest.persisted? && @planting.blank?
+      render json: { harvest: { id: @harvest.id, url: harvest_path(@harvest) } }, status: :created
+    elsif @harvest.persisted?
       card = GardenCardSerializer.collection([@planting.garden], ability: current_ability, show_owner: false).first
       render json: { garden: card }, status: :created
     else

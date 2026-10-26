@@ -58,6 +58,9 @@ Rails.application.routes.draw do
     resources :garden_collaborators
   end
 
+  # What the record harvest and save seeds dialogs offer to choose from.
+  get 'planting_picker' => 'planting_pickers#show', as: :planting_picker
+
   resources :plantings, concerns: :has_photos, param: :slug do
     resources :harvests
     resources :seeds

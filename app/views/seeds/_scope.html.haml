@@ -10,4 +10,4 @@
       = link_to 'Near me', seeds_path(scope: 'near'), class: ('active' if @owner.blank? && scope == 'near')
       = link_to 'Everyone', seeds_path, class: ('active' if @owner.blank? && scope.blank?)
     - if can?(:create, Seed)
-      = link_to '+ add seeds', new_seed_path(crop_id: @crop&.id), class: 'btn btn-primary btn-sm'
+      = link_to '+ add seeds', new_seed_path(crop_id: @crop&.id), class: 'btn btn-primary btn-sm', data: { record_dialog: 'seeds', crop_id: @crop&.id, crop_name: @crop&.name }
