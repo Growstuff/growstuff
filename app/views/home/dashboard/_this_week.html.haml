@@ -16,6 +16,8 @@
       - else
         %b= t('home.dashboard.sow_title', crop: suggestion.name, month: current_month_name)
         %span= t('home.dashboard.sow_body')
+        - if suggestion.median_days_to_first_harvest
+          %span= t('home.dashboard.sow_harvest', date: l(Time.zone.today + suggestion.median_days_to_first_harvest, format: '%-d %B'))
     - if ready.any?
       = react_component('PlantingPicker', { action: 'harvest', label: t('home.dashboard.record_harvests'), buttonClass: 'btn btn-warning', plantings: planting_picker_props(dashboard) })
     - else

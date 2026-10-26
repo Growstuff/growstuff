@@ -310,6 +310,9 @@ en:
       plant_crop: Plant %{crop}
       plus_harvest: + Harvest
       plus_plant: + Plant
+      plus_job: + Plan a job
+      save_for_later: Add to my wishlist
+      save_for_later_title: Adds "Plant %{crop}" to the Some day list in your jobs, with no date
       planted_when: planted %{when}
       ready_now: ready now
       relative:
@@ -334,6 +337,7 @@ en:
       seeds_on_hand: Seeds on hand
       seeds_to_start: Seeds to start this spring
       sow_body: Gardeners at your latitude are planting it this month.
+      sow_harvest: Planted today, it would be ready to harvest around %{date}.
       sow_title: Sow %{crop} this %{month}
       started_in: You started in %{month}. Next, your first harvest and the sowings for the season.
       stat_harvests: harvests this year
@@ -352,6 +356,8 @@ en:
       step_plant_note: Pick from what suits this month
       this_week: This week
       tile_harvest: record what you picked
+      tile_job: plan a task for your garden
+      tile_job_title: Add job
       tile_photo: of the garden
       tile_photo_title: Add photo
       tile_plant: something new
@@ -426,6 +432,10 @@ en:
     update:
       "off": We've stopped suggesting crops.
       "on": Crop suggestions are back.
+  wishlist_jobs:
+    create:
+      job_name: Plant %{crop}
+      saved: Added "%{job}" to the Some day list in your jobs.
   crop_dismissals:
     create:
       dismissed: We won't suggest %{crop} again.

@@ -37,8 +37,8 @@ function errorMessages(status, data) {
 // It loads those, and the choices, from /plantings/:slug/seeds/new.json, saves with
 // POST /seeds.json, and hands the new seed's link to onSaved, so the page is never left.
 //
-// Without a planting, give it a crop instead: for seeds you bought as much as
-// ones you saved, so it also asks which. The form comes from /seeds/new.json?crop_id=.
+// Without a planting, give it a crop instead, and where the seeds came from as
+// source (a key of SOURCES, saved unless said). The form comes from /seeds/new.json?crop_id=.
 export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, lead = [], source: knownSource, onBack, onClose, onSaved}) {
   const crop = chosenCrop || planting.crop;
   const [form, setForm] = useState(null); // {crop, parent_planting_id, saved_at, tradable_to_values, location, settings_url}
@@ -147,28 +147,6 @@ export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, lea
 
             {step === 1 && (
               <div className="crop-picker">
-                {!planting && !knownSource && (
-                  <fieldset className="mb-3">
-                    <legend className="crop-picker-label step-legend">Where are they from?</legend>
-                    <div className="pill-choices">
-                      {Object.entries(SOURCES).filter(([key]) => key === 'saved' || key === 'bought').map(([key, source]) => (
-                        <React.Fragment key={key}>
-                          <input
-                            type="radio"
-                            className="visually-hidden"
-                            name="save-seeds-source"
-                            id={`save-seeds-source-${key}`}
-                            checked={values.source === source}
-                            onChange={() => setValues((current) => ({...current, source}))}
-                          />
-                          <label className="pill-choice" htmlFor={`save-seeds-source-${key}`}>
-                            {key === 'saved' ? 'I saved them' : 'I bought them'}
-                          </label>
-                        </React.Fragment>
-                      ))}
-                    </div>
-                  </fieldset>
-                )}
                 <label htmlFor="save-seeds-quantity" className="crop-picker-label">About how many seeds?</label>
                 <div className="crop-picker-field">
                   <i className="fas fa-seedling crop-picker-icon" aria-hidden="true" />

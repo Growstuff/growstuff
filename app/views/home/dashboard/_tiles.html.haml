@@ -1,4 +1,4 @@
--# Plant, harvest, save seeds and add a photo, as big buttons.
+-# Plant, harvest, save seeds, add a photo and add a job, as big buttons.
 .home-tiles
   - garden = dashboard.gardens.first
   - garden_props = garden && { id: garden.id, name: garden.name }
@@ -12,3 +12,4 @@
     = link_to new_photo_path, class: 'home-tile' do
       %b= t('home.dashboard.tile_photo_title')
       = t('home.dashboard.tile_photo')
+  = react_component('JobPicker', { label: t('home.dashboard.tile_job_title'), sublabel: t('home.dashboard.tile_job'), buttonClass: 'home-tile', gardens: dashboard.gardens.map { |each| { id: each.id, name: each.name } } }, class: 'home-tile-wrap')

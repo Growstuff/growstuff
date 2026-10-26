@@ -12,6 +12,7 @@ import GardenLayout from './components/GardenLayout';
 import GardenPicker from './components/GardenPicker';
 import GrowingTable from './components/GrowingTable';
 import HarvestChart from './components/HarvestChart';
+import JobPicker from './components/JobPicker';
 import LocationPicker from './components/LocationPicker';
 import NurseryChip from './components/NurseryChip';
 import NurseryPlanter from './components/NurseryPlanter';
@@ -27,7 +28,7 @@ import ScientificNames from './components/ScientificNames';
 import SeedStack from './components/SeedStack';
 import {mountIslands, registerIslands} from './islands';
 
-registerIslands({AlternateNames, AuthDialog, FeedMore, GardenCards, GardenLayout, GardenPicker, GrowingTable, HarvestChart, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, RecordDialog, ScientificNames, SeedLibrary, SeedStack});
+registerIslands({AlternateNames, AuthDialog, FeedMore, GardenCards, GardenLayout, GardenPicker, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, RecordDialog, ScientificNames, SeedLibrary, SeedStack});
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => mountIslands());

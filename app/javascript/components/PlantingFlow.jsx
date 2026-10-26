@@ -33,7 +33,7 @@ const ACTIONS = {
 // with what is ready to pick first.
 // crop: {id, name}, when the crop is already known: only its plantings are offered, and
 // the crop is not asked for again.
-export default function PlantingFlow({action, plantings: all, crop: knownCrop, onClose: closed}) {
+export default function PlantingFlow({action, plantings: all, crop: knownCrop, onClose}) {
   const plantings = knownCrop ? all.filter((candidate) => candidate.crop.id === knownCrop.id) : all;
   const [planting, setPlanting] = useState(null);
   const [somethingElse, setElse] = useState(action === 'harvest' && !!knownCrop && plantings.length === 0); // a crop that is not one of the plantings
@@ -42,8 +42,6 @@ export default function PlantingFlow({action, plantings: all, crop: knownCrop, o
   const [chosenCrop, setCrop] = useState(null); // the crop chosen with no planting
   const crop = chosenCrop || (somethingElse ? knownCrop : null);
   const {title, hint, elseTitle, Dialog} = ACTIONS[action];
-
-  const close = closed;
 
   // Back out of the crop's dialog, to the step before it.
   function backFromCrop() {
@@ -63,7 +61,7 @@ export default function PlantingFlow({action, plantings: all, crop: knownCrop, o
   return (
     <>
       {askingSource && !planting && !crop && (
-        <Modal title="Where did these seeds come from?" titleId="seeds-source-title" onClose={close}>
+        <Modal title="Where did these seeds come from?" titleId="seeds-source-title" onClose={onClose}>
           <div className="modal-body">
             {stepsBefore(1)}
             <div className="planting-tiles">
@@ -80,12 +78,12 @@ export default function PlantingFlow({action, plantings: all, crop: knownCrop, o
             </div>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-link" onClick={close}>Cancel</button>
+            <button type="button" className="btn btn-link" onClick={onClose}>Cancel</button>
           </div>
         </Modal>
       )}
       {!askingSource && !planting && !somethingElse && !crop && (
-        <Modal title={title} titleId={`${action}-picker-title`} onClose={close}>
+        <Modal title={title} titleId={`${action}-picker-title`} onClose={onClose}>
           <div className="modal-body">
             {stepsBefore(lead.length)}
             {plantings.length === 0 && <p>You have nothing growing yet.</p>}
@@ -115,12 +113,12 @@ export default function PlantingFlow({action, plantings: all, crop: knownCrop, o
           </div>
           <div className="modal-footer">
             {action === 'seeds' && <button type="button" className="btn btn-link" onClick={() => setFromPlanting(false)}>Back</button>}
-            <button type="button" className="btn btn-link" onClick={close}>Cancel</button>
+            <button type="button" className="btn btn-link" onClick={onClose}>Cancel</button>
           </div>
         </Modal>
       )}
       {somethingElse && !crop && (
-        <Modal title={elseTitle} titleId={`${action}-else-title`} onClose={close}>
+        <Modal title={elseTitle} titleId={`${action}-else-title`} onClose={onClose}>
           <div className="modal-body">
             {stepsBefore(lead.length)}
             <CropPicker
@@ -137,9 +135,9 @@ export default function PlantingFlow({action, plantings: all, crop: knownCrop, o
           </div>
         </Modal>
       )}
-      {crop && <Dialog crop={crop} source={action === 'seeds' ? source : undefined} lead={lead} onBack={action === 'harvest' && plantings.length === 0 ? undefined : backFromCrop} onClose={close} onSaved={() => window.location.reload()} />}
+      {crop && <Dialog crop={crop} source={action === 'seeds' ? source : undefined} lead={lead} onBack={action === 'harvest' && plantings.length === 0 ? undefined : backFromCrop} onClose={onClose} onSaved={() => window.location.reload()} />}
       {planting && (
-        <Dialog planting={planting} lead={lead} onBack={() => setPlanting(null)} onClose={close} onSaved={() => window.location.reload()} />
+        <Dialog planting={planting} lead={lead} onBack={() => setPlanting(null)} onClose={onClose} onSaved={() => window.location.reload()} />
       )}
     </>
   );

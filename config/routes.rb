@@ -33,8 +33,7 @@ Rails.application.routes.draw do
   get '/suggestions', to: 'suggestions#index', as: :suggestions
   patch '/my/suggestions', to: 'suggestions#update', as: :my_suggestions
   post '/my/dismissed_crops', to: 'crop_dismissals#create', as: :crop_dismissals
-  delete '/my/dismissed_crops', to: 'crop_dismissals#destroy_all'
-  get '/my/neighbours', to: 'neighbours#show', as: :neighbours
+  delete '/my/dismissed_crops', to: 'crop_dismissals#destroy_all'  get '/my/neighbours', to: 'neighbours#show', as: :neighbours
   get '/my/neighbours/feed', to: 'neighbours#feed', as: :neighbours_feed
   post '/my/dismissed_members', to: 'member_dismissals#create', as: :member_dismissals
   root to: 'home#index'
