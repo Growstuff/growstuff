@@ -7,11 +7,12 @@
   -# The header and the section headings are only for the drawer a phone or tablet gets.
   .offcanvas-header.d-lg-none
     - if member_signed_in?
-      = image_tag(avatar_uri(current_member, 50), alt: '', height: 44, width: 44, class: 'offcanvas-avatar')
-      .offcanvas-title
-        %strong= current_member.login_name
-        - if current_member.location.present?
-          %small= current_member.location
+      = link_to member_path(current_member), class: 'offcanvas-member-link' do
+        = image_tag(avatar_uri(current_member, 50), alt: '', height: 44, width: 44, class: 'offcanvas-avatar')
+        .offcanvas-title
+          %strong= current_member.login_name
+          - if current_member.location.present?
+            %small= current_member.location
     - else
       = image_tag('pear.png', alt: '', height: 32, class: 'offcanvas-logo')
       .offcanvas-title
