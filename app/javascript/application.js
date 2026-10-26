@@ -21,8 +21,10 @@ import './site/navbar_search';
 import './site/places';
 import './site/planting_alternate_name';
 import './site/tab_navigation';
+import { initFlashMessages } from './site/flash_messages';
 
 document.addEventListener('DOMContentLoaded', function() {
+  initFlashMessages();
   var popoverTrigger = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
   popoverTrigger.map(function(popoverTrigger2) {
     return new bootstrap.Popover(popoverTrigger2);

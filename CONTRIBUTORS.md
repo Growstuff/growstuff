@@ -98,8 +98,9 @@ submit the change with your pull request.
  
 ## Bots
 
-### Security and Dependency Updates
+### Agents, Security and Dependency Updates
 - `codefactor-io[bot]`
 - DeppBot / [deppbot](https://github.com/deppbot)
 - `dependabot[bot]` [dependabot](https://github.com/dependabot-bot) / [dependabot-preview](https://github.com/apps/dependabot-preview)
 - [google-labs-jules[bot]](https://github.com/apps/google-labs-jules)
+- Copilot

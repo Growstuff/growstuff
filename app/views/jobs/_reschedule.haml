@@ -1,0 +1,10 @@
+-# The ways to move a job to another day. On the notepad they sit under the job's day.
+- update_path = ->(attributes) { job_path(job, job: attributes) }
+= menu_link_to :job, t('jobs.pad.move_today'), update_path.call(due_date: Time.zone.today), method: :put
+= menu_link_to :job, t('jobs.pad.move_tomorrow'), update_path.call(due_date: Time.zone.tomorrow), method: :put
+- if JobList.weekend_start(Time.zone.today) > Time.zone.tomorrow
+  = menu_link_to :job, t('jobs.pad.move_weekend'), update_path.call(due_date: JobList.weekend_start(Time.zone.today)), method: :put
+= menu_link_to :job, t('jobs.pad.move_later'), update_path.call(due_date: JobList.later_date(Time.zone.today)), method: :put
+-# On the notepad the script opens the browser's own calendar, which marks today.
+- if local_assigns[:inline_edit]
+  = menu_link_to :job, t('jobs.pad.change_date'), edit_job_path(job), data: { notepad_change_date: true }

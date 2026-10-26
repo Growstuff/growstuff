@@ -1,5 +1,6 @@
 -# The ideas over a member's jobs: the yellow box that says there are some, if there
--# are, and the overlay it opens.
-- count = JobIdeas.count_for(owner)
-= render 'jobs/ideas_banner', count: count if count.positive?
-= render 'jobs/ideas_modal'
+-# are, and the overlay it opens. Only while the job ideas feature is on.
+- if Feature.enabled?(:job_ideas)
+  - count = JobIdeas.count_for(owner)
+  = render 'jobs/ideas_banner', count: count if count.positive?
+  = render 'jobs/ideas_modal'

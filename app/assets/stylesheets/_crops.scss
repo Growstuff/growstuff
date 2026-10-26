@@ -206,7 +206,9 @@
   font-size: 0.85rem;
 }
 
-// The crop wrangling table, on white so it reads against the page.
-.wrangle-table {
+// The crop wrangling and job template tables, on white so they read against the
+// page.
+.wrangle-table,
+.job-templates-table {
   --bs-table-bg: #{$white};
 }

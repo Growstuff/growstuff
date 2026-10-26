@@ -7,6 +7,7 @@ class JobsController < DataController
 
     if notepad?
       load_notepad
+      return render_groups(:ok) if request.xhr?
     else
       @jobs = listed_jobs.paginate(page: params[:page], per_page: 30)
     end
@@ -78,6 +79,10 @@ class JobsController < DataController
   def render_notepad(status)
     @owner = current_member
     load_notepad
+    render_groups(status)
+  end
+
+  def render_groups(status)
     response.set_header('X-Jobs-Done-This-Week', @done_this_week.to_s)
     render partial: 'jobs/notepad_groups', locals: { groups: @job_groups, in_garden: garden.present? }, status:
   end

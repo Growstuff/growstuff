@@ -44,7 +44,7 @@ gem 'flickraw'
 
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
-gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
+gem 'flipper-active_record'        # feature flags admins switch on and off
 
 gem 'pg'
 
@@ -140,11 +140,11 @@ end
 
 group :development, :test do
   gem 'bullet'                  # performance tuning by finding unnecesary queries
-  gem 'byebug'                  # debugging
   gem 'capybara'                # integration tests
   gem 'capybara-email'          # integration tests for email
   gem 'capybara-screenshot'     # for test debugging
   gem 'database_cleaner'
+  gem 'debug', platforms: %i(mri windows), require: 'debug/prelude' # debugging
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language

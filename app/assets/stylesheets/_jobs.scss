@@ -14,6 +14,14 @@ $notepad-trail: #a4c98c;
   animation: notepad-spin 0.8s linear infinite;
 }
 
+// A pale green pill: chips, the link picked for a job, and the jobs an idea made.
+@mixin notepad-pill {
+  background: $notepad-tile;
+  border-radius: 999px;
+  color: $notepad-leaf;
+  font-weight: 600;
+}
+
 // A member's own jobs, as a notepad: a green title bar, then rows ruled like a
 // list. See the garden notepad design.
 .notepad {
@@ -119,10 +127,21 @@ $notepad-trail: #a4c98c;
     min-height: 44px;
   }
 
+  .notepad-hide-done {
+    margin: 0 1rem 0.5rem;
+  }
+
   .notepad-note {
     color: $ink-muted;
     font-size: 0.9rem;
     margin: 0.75rem 1.1rem 0;
+  }
+
+  .notepad-older summary {
+    color: $ink-muted;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.4rem 1.1rem;
   }
 
   .notepad-heading {
@@ -326,7 +345,17 @@ $notepad-trail: #a4c98c;
     }
   }
 
+  // The name takes the room beside the tick box and wraps there; a very long
+  // one is clipped after three lines.
   .notepad-name {
+    flex: 1 1 8rem;
+    min-width: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    overflow-wrap: anywhere;
     color: #212121;
     font-weight: 500;
     text-decoration: none;
@@ -338,11 +367,8 @@ $notepad-trail: #a4c98c;
     gap: 0.35rem;
     min-height: 28px;
     padding: 0 0.75rem;
-    border-radius: 999px;
-    background: $notepad-tile;
-    color: $notepad-leaf;
+    @include notepad-pill;
     font-size: 0.8rem;
-    font-weight: 600;
     text-decoration: none;
 
     &.garden {
@@ -377,16 +403,70 @@ $notepad-trail: #a4c98c;
   // The menu sits at the right edge. After a due label that label has already
   // pushed it there; without one the menu pushes itself.
   .notepad-menu {
+    display: flex;
+    align-items: center;
     margin-left: auto;
 
     .record-actions-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       min-width: 44px;
       min-height: 44px;
     }
   }
 
-  .notepad-due + .notepad-menu {
+  .notepad-due + .notepad-menu,
+  .notepad-day + .notepad-menu {
     margin-left: 0;
+  }
+
+  .notepad-day {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+
+    // A day you can change looks like a button: outlined, with a small arrow.
+    .notepad-due {
+      margin-left: 0;
+      padding: 0.2rem 0.6rem;
+      line-height: 1.2;
+      border: 1px solid currentcolor;
+      border-radius: 1rem;
+      text-decoration: none;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        margin-left: 0.4em;
+        vertical-align: 0.15em;
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-left: 0.3em solid transparent;
+      }
+
+      &:hover,
+      &:focus-visible {
+        background: rgba(0, 0, 0, 0.06);
+      }
+
+      &.unset {
+        color: $ink-muted;
+        font-weight: 400;
+      }
+    }
+  }
+
+  // The browser's calendar opens from this, beside the day; it is never seen itself.
+  .notepad-date-input {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
   }
 
   // A snail crawling along a trail at the foot of the page, and how many jobs
@@ -505,11 +585,8 @@ $notepad-trail: #a4c98c;
     align-items: center;
     min-height: 28px;
     padding: 0 0.75rem;
-    border-radius: 999px;
-    background: $notepad-tile;
-    color: $notepad-leaf;
+    @include notepad-pill;
     font-size: 0.8rem;
-    font-weight: 600;
 
     &[hidden] {
       display: none;
@@ -524,11 +601,8 @@ $notepad-trail: #a4c98c;
     margin: 0.4rem 1.1rem 0 2.8rem;
     padding: 0 0.25rem 0 0.75rem;
     min-height: 32px;
-    border-radius: 999px;
-    background: $notepad-tile;
-    color: $notepad-leaf;
+    @include notepad-pill;
     font-size: 0.85rem;
-    font-weight: 600;
 
     &[hidden] {
       display: none;
@@ -559,7 +633,6 @@ $notepad-trail: #a4c98c;
     }
   }
 }
-
 
 // Crossing a job off: flowers blooming out of the tick box, a row of them
 // growing along the bottom of the page for a streak, and a sticky note with an
@@ -983,11 +1056,8 @@ $notepad-trail: #a4c98c;
 
   .idea-added li {
     animation: idea-job-in 0.4s ease both;
-    background: $notepad-tile;
-    border-radius: 999px;
-    color: $notepad-leaf;
+    @include notepad-pill;
     font-size: 0.85rem;
-    font-weight: 600;
     padding: 0.15rem 0.75rem;
   }
 }

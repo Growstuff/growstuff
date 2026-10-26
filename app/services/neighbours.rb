@@ -19,6 +19,7 @@ class Neighbours
   POSTS_SHOWN = 5
   FEED_KINDS = %i(planting harvest seed photo garden_layout transplant planned_job job_finished planting_finished seed_finished).freeze
   FEED_EVENTS = 15
+  FIRST_FEED_EVENTS = 300
   MAX_OFFSET = 500
   PHOTO_SUBJECTS = %w(Planting Harvest Seed Garden Job).freeze
   EVENT_MODELS = { 'planting' => Planting, 'harvest' => Harvest, 'seed' => Seed, 'photo' => Photo, 'garden_layout' => Garden,
@@ -53,12 +54,13 @@ class Neighbours
   end
   Day = Struct.new(:day, :updates, keyword_init: true)
 
-  attr_reader :member, :scope, :offset
+  attr_reader :member, :scope, :offset, :limit
 
-  def initialize(member, scope: nil, offset: 0)
+  def initialize(member, scope: nil, offset: 0, limit: FEED_EVENTS)
     @member = member
     @scope = SCOPES.include?(scope) ? scope : 'auto'
     @offset = offset.to_i.clamp(0, MAX_OFFSET)
+    @limit = limit
   end
 
   def shows_following?
@@ -167,7 +169,7 @@ class Neighbours
   end
 
   def next_offset
-    offset + FEED_EVENTS
+    offset + limit
   end
 
   # Names a cached piece of the page for this member. It changes with who they
@@ -273,14 +275,14 @@ class Neighbours
 
   def build_feed
     rows = feed_rows
-    @more_feed = rows.size > FEED_EVENTS
-    @feed = days_of(rows.first(FEED_EVENTS))
+    @more_feed = rows.size > limit
+    @feed = days_of(rows.first(limit))
   end
 
   def feed_rows
     return [] if feed_owner_ids.empty?
 
-    TimelineService.query(FEED_KINDS).where(owner_id: feed_owner_ids).offset(offset).limit(FEED_EVENTS + 1).to_a
+    TimelineService.query(FEED_KINDS).where(owner_id: feed_owner_ids).offset(offset).limit(limit + 1).to_a
   end
 
   def days_of(rows)

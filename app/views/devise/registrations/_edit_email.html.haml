@@ -35,14 +35,6 @@
         Receive regular reminders of upcoming harvests.
 
   .row.mb-3
-    .offset-md-2.col-md-8.checkbox
-      %label
-        = f.check_box :newsletter
-        Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']} newsletter
-      .form-text
-        = render partial: 'newsletter_blurb'
-
-  .row.mb-3
     .offset-md-2.col-md-8
       = f.submit "Save", class: 'btn btn-primary'
       = f.hidden_field(:tos_agreement, value: true)

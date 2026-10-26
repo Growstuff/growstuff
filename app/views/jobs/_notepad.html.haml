@@ -27,6 +27,7 @@
   %p.notepad-note= t('jobs.pad.public_note') + ' ' + t('jobs.pad.link_hint')
   = render 'jobs/ideas', owner: owner unless garden || !local_assigns.fetch(:ideas_banner, true)
 
+  %button.btn.btn-sm.btn-outline-secondary.notepad-hide-done{ id: 'notepad-hide-done', type: 'button', hidden: true, data: { url: member_jobs_path(owner) } }= t('jobs.pad.hide_done')
   #notepad-groups{ data: { celebrations: job_celebrations.to_json, garden_id: garden&.id } }= render 'jobs/notepad_groups', groups:, in_garden: garden.present?
   .notepad-snail
     .notepad-snail-track{ 'aria-hidden': 'true' }

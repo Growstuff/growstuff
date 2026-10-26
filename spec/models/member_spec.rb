@@ -100,15 +100,6 @@ describe Member do
     end
   end
 
-  context 'newsletter scope' do
-    it 'finds newsletter recipients' do
-      regular_member = create(:member)
-      newsletter_member = create(:newsletter_recipient_member)
-      Member.wants_newsletter.should include newsletter_member
-      Member.wants_newsletter.should_not include regular_member
-    end
-  end
-
   context 'same :login_name' do
     it "does not allow two members with the same login_name" do
       create(:member, login_name: "bob")
@@ -339,21 +330,6 @@ describe Member do
     end
   end
 
-  context 'subscriptions' do
-    let(:member) { create(:member) }
-    let(:gb) { instance_double("Gibbon::API.new") }
-
-    it 'subscribes to the newsletter' do
-      expect(gb).to receive_message_chain('lists.subscribe')
-      member.newsletter_subscribe(gb, true)
-    end
-
-    it 'unsubscribes from the newsletter' do
-      expect(gb).to receive_message_chain('lists.unsubscribe')
-      member.newsletter_unsubscribe(gb, true)
-    end
-  end
-
   context 'member deleted' do
     let(:member) { create(:member) }
 
@@ -365,14 +341,8 @@ describe Member do
       it { expect(Member.located).not_to include(member) }
       it { expect(Member.recently_signed_in).not_to include(member) }
       it { expect(Member.recently_joined).not_to include(member) }
-      it { expect(Member.wants_newsletter).not_to include(member) }
       it { expect(Member.interesting).not_to include(member) }
       it { expect(Member.has_plantings).not_to include(member) }
-    end
-
-    it "unsubscribes from mailing list" do
-      expect(member).to receive(:newsletter_unsubscribe).and_return(true)
-      member.destroy
     end
 
     context "deleted admin member" do
