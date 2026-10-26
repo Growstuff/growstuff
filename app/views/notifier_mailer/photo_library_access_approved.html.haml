@@ -1,0 +1,11 @@
+%p Hello #{@member.login_name},
+
+%p
+  You can now upload photos from your device to
+  = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
+  \. Thank you for sharing your garden with us!
+
+- if @access.note.present?
+  %blockquote= @access.note
+
+= render partial: 'signature'

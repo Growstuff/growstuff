@@ -28,6 +28,7 @@ class Member < ApplicationRecord
   has_many :sent_notifications, foreign_key: 'sender_id', inverse_of: :sender, class_name: "Notification"
   has_many :authentications, dependent: :destroy
   has_one :api_token, -> { where(provider: 'api') }, class_name: 'Authentication', dependent: :destroy
+  has_one :photo_library_access, dependent: :destroy
 
   def api_token?
     api_token.present?
@@ -209,6 +210,15 @@ class Member < ApplicationRecord
 
   def role?(role_sym)
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
+  end
+
+  # "none" until the member asks, then one of PhotoLibraryAccess::STATUSES.
+  def photo_library_status
+    photo_library_access&.status || 'none'
+  end
+
+  def photo_library_approved?
+    photo_library_status == 'approved'
   end
 
   def auth(provider)

@@ -6,13 +6,16 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-# amazon:
-#   service: S3
-#   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
-#   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-#   region: us-east-1
-#   bucket: your_own_bucket
+# The Growstuff photo library: photos members upload from their device.
+# Private as a whole, as a photo as sent can hold where it was taken. The
+# bucket's policy lets anyone read keys under photos/, where the versions
+# without that go (see PhotoLibrary), so their addresses never change.
+amazon:
+  service: S3
+  access_key_id: <%= ENV.fetch('GROWSTUFF_PHOTO_LIBRARY_ACCESS_KEY', nil) %>
+  secret_access_key: <%= ENV.fetch('GROWSTUFF_PHOTO_LIBRARY_SECRET_KEY', nil) %>
+  region: ap-southeast-2
+  bucket: <%= ENV.fetch('GROWSTUFF_PHOTO_LIBRARY_BUCKET', nil) %>
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:

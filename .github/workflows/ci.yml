@@ -94,7 +94,7 @@ jobs:
 
       - name: Install required OS packages
         run: |
-          sudo apt-get -y install libpq-dev google-chrome-stable
+          sudo apt-get -y install libpq-dev google-chrome-stable libvips42t64
 
       - name: Install NodeJS
         uses: actions/setup-node@v7
@@ -135,6 +135,9 @@ jobs:
 
       - name: Run rspec (models)
         run: bundle exec rspec spec/models/ -fd --fail-fast
+
+      - name: Run rspec (jobs)
+        run: bundle exec rspec spec/jobs/ -fd --fail-fast
 
       - name: Run rspec (controllers)
         run: bundle exec rspec spec/controllers/ -fd --fail-fast

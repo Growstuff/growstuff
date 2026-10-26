@@ -672,6 +672,7 @@ DEPENDENCIES
   i18n-tasks
   i18n_data (~> 1.1)
   icalendar
+  image_processing (~> 1.14)
   jsbundling-rails
   json (< 3)
   jsonapi-resources

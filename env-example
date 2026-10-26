@@ -49,3 +49,9 @@ MAILGUN_SMTP_SERVER=""
 # In production, replace them with real ones
 RECAPTCHA_SITE_KEY="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 RECAPTCHA_SECRET_KEY="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+
+# The photo library: an S3 bucket in ap-southeast-2 (Sydney) for photos members
+# upload. Only used in production; development and test store files on disk.
+GROWSTUFF_PHOTO_LIBRARY_BUCKET=""
+GROWSTUFF_PHOTO_LIBRARY_ACCESS_KEY=""
+GROWSTUFF_PHOTO_LIBRARY_SECRET_KEY=""

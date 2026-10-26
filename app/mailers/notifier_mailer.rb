@@ -87,4 +87,16 @@ class NotifierMailer < ApplicationMailer
     @crop = crop
     mail(to: @member.email, subject: "#{crop.name.capitalize} has been rejected")
   end
+
+  def new_photo_library_request(admin, access)
+    @member = admin
+    @access = access
+    mail(to: @member.email, subject: "#{access.member.login_name} has asked to upload photos")
+  end
+
+  def photo_library_access_approved(access)
+    @member = access.member
+    @access = access
+    mail(to: @member.email, subject: "You can now upload photos to #{ENV.fetch('GROWSTUFF_SITE_NAME', nil)}")
+  end
 end

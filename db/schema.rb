@@ -929,6 +929,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
     t.index ["photographable_id", "photographable_type"], name: "photographable_idx"
   end
 
+  create_table "photo_library_accesses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "decided_at"
+    t.bigint "decided_by_id"
+    t.bigint "member_id", null: false
+    t.text "note"
+    t.text "request_message"
+    t.string "status", default: "requested", null: false
+    t.datetime "updated_at", null: false
+    t.index ["decided_by_id"], name: "index_photo_library_accesses_on_decided_by_id"
+    t.index ["member_id"], name: "index_photo_library_accesses_on_member_id", unique: true
+    t.index ["status"], name: "index_photo_library_accesses_on_status"
+  end
+
   create_table "photos", id: :serial, force: :cascade do |t|
     t.integer "comments_count", default: 0
     t.datetime "created_at", precision: nil
@@ -1122,6 +1136,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
   add_foreign_key "member_dismissals", "members", column: "dismissed_id"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
+  add_foreign_key "photo_library_accesses", "members"
+  add_foreign_key "photo_library_accesses", "members", column: "decided_by_id", on_delete: :nullify
   add_foreign_key "planting_histories", "plantings"
   add_foreign_key "plantings", "alternate_names", on_delete: :nullify
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify

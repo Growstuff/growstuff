@@ -1,0 +1,54 @@
+- content_for :title, "Photo library access"
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active= link_to 'Photo library access', admin_photo_library_accesses_path
+
+%h1 Photo library access
+
+%p Members who can upload photos from their device to the Growstuff photo library.
+
+%ul.nav.nav-tabs
+  - PhotoLibraryAccess::STATUSES.each do |status|
+    %li.nav-item
+      = link_to status.capitalize, admin_photo_library_accesses_path(status:),
+                class: ['nav-link', ('active' if status == @status)]
+
+- if @accesses.empty?
+  %p.mt-3 Nobody here.
+- else
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Member
+        %th Asked
+        %th Message
+        %th Decided
+        %th
+    %tbody
+      - @accesses.each do |access|
+        %tr
+          %td= link_to access.member.login_name, access.member
+          %td= l access.created_at.to_date
+          %td= access.request_message
+          %td
+            - if access.decided_by
+              #{access.decided_by.login_name}, #{l access.decided_at.to_date}
+              - if access.note.present?
+                %br/
+                %small= access.note
+          %td
+            - unless access.approved?
+              = form_with url: approve_admin_photo_library_access_path(access), class: 'mb-2' do |f|
+                = f.text_field :note,
+                               class:       'form-control form-control-sm mb-1',
+                               placeholder: 'Note to the member (optional)'
+                = f.submit 'Approve', class: 'btn btn-sm btn-primary'
+            - if access.requested?
+              = button_to 'Refuse', refuse_admin_photo_library_access_path(access),
+                          class: 'btn btn-sm btn-outline-secondary'
+            - if access.approved?
+              = button_to 'Revoke', revoke_admin_photo_library_access_path(access),
+                          class: 'btn btn-sm btn-outline-danger', data: { confirm: t(:are_you_sure?) }
+
+  = will_paginate(@accesses)
