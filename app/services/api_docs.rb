@@ -71,7 +71,7 @@ class ApiDocs
     operation = { tags: [type], summary: summary(action, type), responses: responses(action, resource) }
     operation[:parameters] = parameters(action, resource)
     operation[:security] = [{ bearerAuth: [] }] if %i(create update destroy).include?(action)
-    operation[:requestBody] = request_body(resource) if %i(create update).include?(action)
+    operation[:requestBody] = request_body(action, resource) if %i(create update).include?(action)
     operation.compact
   end
 
@@ -105,7 +105,9 @@ class ApiDocs
           "`#{op}`"
         end.to_sentence}."
       end
-      { name: "filter[#{dashed(name)}]", in: 'query', required: false, schema: scalar(filter[:type]), description: description }
+      # Filters that take a list are strings; those that take one value (booleans) are that value.
+      schema = filter[:single] ? scalar(filter[:type]) : { type: 'string' }
+      { name: "filter[#{dashed(name)}]", in: 'query', required: false, schema: schema, description: description }
     end
   end
 
@@ -162,12 +164,14 @@ class ApiDocs
       } } } } }
   end
 
-  def request_body(resource)
+  # Changing a record says which one, as well as what it is.
+  def request_body(action, resource)
+    properties = { type: { type: 'string', enum: [resource[:type]] }, attributes: writable_attributes(resource),
+                   relationships: writable_relationships(resource) }
+    properties[:id] = { type: 'string' } if action == :update
+    required = action == :update ? %w(type id) : %w(type)
     { required: true, content: { 'application/vnd.api+json' => { schema: { type: 'object', properties: {
-      data: { type: 'object', required: ['type'], properties: {
-        type: { type: 'string', enum: [resource[:type]] }, attributes: writable_attributes(resource),
-        relationships: writable_relationships(resource)
-      }.compact }
+      data: { type: 'object', required: required, properties: properties.compact }
     } } } } }
   end
 
@@ -189,7 +193,7 @@ class ApiDocs
 
   def readable_attributes(resource)
     attributes = resource[:attributes].select { |name, attribute| attribute[:readable] && name != :id }
-    { type: 'object', properties: attributes.to_h { |name, attribute| [dashed(name), attribute_schema(attribute)] } }
+    { type: 'object', properties: attributes.to_h { |name, attribute| [dashed(name), attribute_schema(attribute).merge(nullable: true)] } }
   end
 
   def writable_attributes(resource)

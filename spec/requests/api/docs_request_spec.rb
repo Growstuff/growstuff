@@ -91,6 +91,44 @@ RSpec.describe 'API docs' do
     it 'documents paging' do
       expect(parameter_names(list)).to include('page[number]', 'page[size]')
     end
+
+    it 'types filters that take a list as strings, as in filter[id]=1,3' do
+      expect(list['parameters'].find { |p| p['name'] == 'filter[id]' }['schema']).to eq('type' => 'string')
+    end
+
+    it 'types filters that take one value by that value' do
+      expect(list['parameters'].find { |p| p['name'] == 'filter[active]' }['schema']).to eq('type' => 'boolean')
+    end
+  end
+
+  describe 'attributes that can be empty' do
+    let(:crop) { docs.dig('components', 'schemas', 'Crop', 'properties', 'attributes', 'properties') }
+
+    it 'are nullable in responses' do
+      expect(crop['median-lifespan']['nullable']).to be(true)
+    end
+  end
+
+  describe 'the body of a request' do
+    def body_data(operation)
+      operation['requestBody']['content']['application/vnd.api+json']['schema']['properties']['data']
+    end
+
+    it 'needs only a type to create' do
+      expect(body_data(operations('/api/v1/plantings')['post'])['required']).to eq(['type'])
+    end
+
+    it 'needs a type and an id to change' do
+      expect(body_data(operations('/api/v1/plantings/{id}')['patch'])['required']).to eq(%w(type id))
+    end
+
+    it 'describes the id it needs to change' do
+      expect(body_data(operations('/api/v1/plantings/{id}')['patch'])['properties']).to include('id')
+    end
+
+    it 'has no id when creating' do
+      expect(body_data(operations('/api/v1/plantings')['post'])['properties']).not_to include('id')
+    end
   end
 
   it 'documents searching crops' do
