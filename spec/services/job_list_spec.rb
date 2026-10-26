@@ -5,11 +5,14 @@ require 'rails_helper'
 describe JobList do
   subject(:list) { described_class.new(jobs, today:) }
 
-  # A Wednesday, so the rest of the week is Thursday to Sunday the 25th.
+  # A Wednesday, so the rest of the week is Thursday and Friday, then the weekend
+  # of the 24th and 25th.
   let(:today) { Date.new(2026, 10, 21) }
-  let(:jobs) { [due_today, saturday, next_week, overdue, no_day] }
+  let(:jobs) { [due_today, thursday, saturday, next_saturday, next_week, overdue, no_day] }
+  let(:thursday) { build(:job, due_date: Date.new(2026, 10, 22)) }
   let(:due_today) { build(:job, due_date: today) }
   let(:saturday) { build(:job, due_date: Date.new(2026, 10, 24)) }
+  let(:next_saturday) { build(:job, due_date: Date.new(2026, 10, 31)) }
   let(:next_week) { build(:job, due_date: Date.new(2026, 10, 28)) }
   let(:overdue) { build(:job, due_date: Date.new(2026, 10, 19)) }
   let(:no_day) { build(:job, due_date: nil) }
@@ -19,7 +22,7 @@ describe JobList do
   end
 
   it 'shows the groups in order' do
-    expect(list.groups.map(&:key)).to eq %i(overdue today week soon someday)
+    expect(list.groups.map(&:key)).to eq %i(overdue today week weekend next_weekend later someday)
   end
 
   it 'puts jobs due today in Today' do
@@ -27,15 +30,23 @@ describe JobList do
   end
 
   it 'puts jobs for the rest of the week in This week' do
-    expect(group(:week).jobs).to eq [saturday]
+    expect(group(:week).jobs).to eq [thursday]
+  end
+
+  it 'puts jobs for Saturday and Sunday in This weekend' do
+    expect(group(:weekend).jobs).to eq [saturday]
+  end
+
+  it 'puts jobs for the weekend after in Next weekend' do
+    expect(group(:next_weekend).jobs).to eq [next_saturday]
   end
 
   it 'puts jobs from before today in Overdue' do
     expect(group(:overdue).jobs).to eq [overdue]
   end
 
-  it 'puts jobs for after this week in Soon' do
-    expect(group(:soon).jobs).to eq [next_week]
+  it 'puts jobs for after next weekend in Later' do
+    expect(group(:later).jobs).to eq [next_week]
   end
 
   it 'puts jobs without a day in Some day' do
@@ -52,7 +63,7 @@ describe JobList do
     let(:jobs) { [due_today, overdue, done, done_later] }
 
     it 'puts it in Done, at the bottom' do
-      expect(list.groups.map(&:key)).to eq %i(overdue today week someday done)
+      expect(list.groups.map(&:key)).to eq %i(overdue today week weekend next_weekend later someday done)
     end
 
     it 'leaves it out of Overdue' do
@@ -116,6 +127,19 @@ describe JobList do
   context 'with a crossed off job due today' do
     let(:due_today) { build(:job, due_date: today, finished: true) }
 
+    it 'puts it in Done' do
+      expect(group(:done).jobs).to eq [due_today]
+    end
+
+    it 'leaves Today without it' do
+      expect(group(:today).jobs).to be_empty
+    end
+  end
+
+  context 'with a crossed off job due today that is pinned' do
+    let(:due_today) { build_stubbed(:job, due_date: today, finished: true) }
+    let(:list) { described_class.new(jobs, today:, pinned: [due_today.id]) }
+
     it 'keeps it in Today' do
       expect(group(:today).jobs).to eq [due_today]
     end
@@ -125,7 +149,7 @@ describe JobList do
     let(:jobs) { [] }
 
     it 'still has places to drop one' do
-      expect(list.groups.map(&:key)).to eq %i(today week someday)
+      expect(list.groups.map(&:key)).to eq %i(today week weekend next_weekend later someday)
     end
   end
 
@@ -134,16 +158,24 @@ describe JobList do
       expect(group(:today).drop_date).to eq today
     end
 
-    it 'is the Sunday for This week' do
-      expect(group(:week).drop_date).to eq Date.new(2026, 10, 25)
+    it 'is the Friday for This week' do
+      expect(group(:week).drop_date).to eq Date.new(2026, 10, 23)
+    end
+
+    it 'is the Saturday for This weekend' do
+      expect(group(:weekend).drop_date).to eq Date.new(2026, 10, 24)
+    end
+
+    it 'is the next Saturday for Next weekend' do
+      expect(group(:next_weekend).drop_date).to eq Date.new(2026, 10, 31)
     end
 
     it 'is no day for Some day' do
       expect(group(:someday).drop_date).to be_nil
     end
 
-    it 'is nothing for Soon' do
-      expect(group(:soon)).not_to be_droppable
+    it 'is three weeks out for Later' do
+      expect(group(:later).drop_date).to eq Date.new(2026, 11, 11)
     end
   end
 
@@ -151,8 +183,29 @@ describe JobList do
     let(:today) { Date.new(2026, 10, 25) }
     let(:jobs) { [due_today] }
 
-    it 'has no This week, as none of the week is left' do
-      expect(list.groups.map(&:key)).to eq %i(today someday)
+    it 'has no This week or This weekend, as none of the week is left' do
+      expect(list.groups.map(&:key)).to eq %i(today next_weekend later someday)
+    end
+  end
+
+  context 'when today is Saturday' do
+    let(:today) { Date.new(2026, 10, 24) }
+    let(:jobs) { [] }
+
+    it 'drops on Sunday for This weekend' do
+      expect(group(:weekend).drop_date).to eq Date.new(2026, 10, 25)
+    end
+  end
+
+  context 'with more than five crossed off jobs' do
+    let(:jobs) { Array.new(7) { |i| build(:job, due_date: today - (i + 1).days, finished: true) } }
+
+    it 'shows the five most recently done' do
+      expect(group(:done).shown).to eq jobs.first(5)
+    end
+
+    it 'keeps the rest as older' do
+      expect(group(:done).older).to eq jobs.last(2)
     end
   end
 end

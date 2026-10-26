@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe JobIdeasController do
+describe JobIdeasController, flipper: :job_ideas do
   include ActiveSupport::Testing::TimeHelpers
 
   let(:member) { create(:member) }
@@ -141,6 +141,14 @@ describe JobIdeasController do
 
     it 'sends them to sign in' do
       expect(response).to redirect_to(new_member_session_path)
+    end
+  end
+
+  describe 'GET /job_ideas when job ideas are switched off', flipper: [] do
+    before { get job_ideas_path }
+
+    it 'is not found' do
+      expect(response).to have_http_status(:not_found)
     end
   end
 

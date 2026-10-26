@@ -1,4 +1,4 @@
-FROM ruby:4.0.7-trixie
+FROM ruby:4.0.9-trixie
 
 # Install system dependencies
 RUN apt-get update -qq && \
@@ -10,7 +10,7 @@ RUN apt-get update -qq && \
     gnupg2 \
     shared-mime-info \
     libvips \
-    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && npm install -g yarn \
     && apt-get clean \
