@@ -1000,6 +1000,7 @@ en:
     save_seeds: Save seeds
     string: "%{crop} seeds belonging to %{owner}"
     added_to_stash: Successfully added %{crop} seed to your stash.
+    updated: Seed was successfully updated.
   unauthorized:
     create:
       all: Please sign in or sign up to create a %{subject}.
