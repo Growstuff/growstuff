@@ -3,6 +3,10 @@
 namespace :photos do
   desc 'Removes references to photos that dont exist anymore (404)'
   task prune_404s: :environment do
+    # Heroku scheduler only lets us run things daily, so this checks
+    # Run on the 1st of each month
+    next unless Time.zone.today.day == 1
+
     puts 'Checking for broken photo links...'
     Photo.find_each do |photo|
       puts "Checking #{photo.fullsize_url}..."

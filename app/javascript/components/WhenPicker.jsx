@@ -7,11 +7,12 @@ export const WHEN_CHOICES = [['today', 'Today'], ['yesterday', 'Yesterday'], ['o
 // Today, Yesterday or Enter date, as pills with a date box under Enter date.
 // `when` is today, yesterday or other; `date` is the date typed under other.
 // `choices` can leave out Yesterday; `min` is the earliest date the box takes.
-// `hint` is the date the current choice means, shown under the pills.
-export default function WhenPicker({id, legend, when, onWhen, date, onDate, choices = WHEN_CHOICES, min, max, hint}) {
+// `hint` is the date the current choice means, shown under the pills; `hideLegend`
+// keeps the legend for screen readers only.
+export default function WhenPicker({id, legend, when, onWhen, date, onDate, choices = WHEN_CHOICES, min, max, hint, hideLegend = false}) {
   return (
     <fieldset>
-      <legend className="crop-picker-label step-legend">{legend}</legend>
+      <legend className={`crop-picker-label step-legend${hideLegend ? ' visually-hidden' : ''}`}>{legend}</legend>
       <div className="pill-choices">
         {choices.map(([choice, label]) => (
           <React.Fragment key={choice}>

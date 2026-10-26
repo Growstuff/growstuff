@@ -25,8 +25,8 @@ describe "seeds", :js do
         within('#navbarSupportedContent') { click_link(href: new_seed_path) }
       end
 
-      it { expect(page).to have_current_path new_seed_path, ignore_query: true }
-      it { expect(page).to have_content 'Save seeds' }
+      it { expect(page).to have_css '[role=dialog]', text: 'Where did these seeds come from?' }
+      it { expect(page).to have_current_path root_path, ignore_query: true }
     end
 
     describe "Clicking link to owner's profile" do

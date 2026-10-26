@@ -60,9 +60,9 @@ describe "Planting a crop", :js do
       before do
         visit new_planting_path
 
-        @a_past_date = 15.days.ago.strftime("%Y-%m-%d")
-        @right_now = Time.zone.today.strftime("%Y-%m-%d")
-        @a_future_date = 1.year.from_now.strftime("%Y-%m-%d")
+        @a_past_date = Date.strptime(15.days.ago.strftime("%Y-%m-%d"))
+        @right_now = Date.strptime(Time.zone.today.strftime("%Y-%m-%d"))
+        @a_future_date = Date.strptime(1.year.from_now.strftime("%Y-%m-%d"))
       end
 
       it "shows that it is not planted yet" do
@@ -110,7 +110,7 @@ describe "Planting a crop", :js do
           fill_in "How many?", with: 42
           select "cutting", from: "Planted from"
           select "semi-shade", from: "Sun or shade?"
-          fill_in "When?", with: '2013-03-10'
+          fill_in "When?", with: Date.strptime('2013-03-10')
           fill_in "Tell us more about it", with: "It's rad."
           fill_in "Finished date", with: @a_future_date
           click_button "Save"
@@ -201,10 +201,10 @@ describe "Planting a crop", :js do
       select_from_autocomplete "maize"
       choose(member.gardens.first.name)
       within "form#new_planting" do
-        fill_in "When?", with: "2014-07-01"
+        fill_in "When?", with: Date.strptime("2014-07-01")
         check "Mark as finished"
         find_by_id('planting_overall_rating').set 4
-        fill_in "Finished date", with: "2014-08-30"
+        fill_in "Finished date", with: Date.strptime("2014-08-30")
         uncheck 'Mark as finished'
       end
 
