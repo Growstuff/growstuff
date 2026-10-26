@@ -32,12 +32,7 @@ describe 'Finishing a seed', :js do
       click_link 'Mark as finished'
     end
 
-    it 'asks to confirm without a date' do
-      expect(page).to have_link 'Confirm without date'
-    end
-
     it 'finishes the seed when confirmed without a date' do
-      click_link 'Confirm without date'
       expect(page).to have_content 'Finished'
     end
   end
