@@ -202,9 +202,11 @@ en:
     updated: Forum was successfully updated.
     deleted: Forum was successfully deleted.
   gardens:
-    suggestions:
-      more: See more suggestions
-      title: What to plant now
+    show:
+      suggested_plantings:
+        one: We have %{count} suggested planting to add here
+        other: We have %{count} suggested plantings to add here
+      suggested_plantings_go: See them →
     nursery_name: Nursery
     nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
     nursery_made: This garden is now your nursery.

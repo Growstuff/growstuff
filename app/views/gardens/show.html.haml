@@ -101,9 +101,6 @@
             .card-body
               = render 'plantings/progress_list', plantings: @garden.plantings.active.limit(10)
 
-        - if @dashboard
-          = render 'gardens/suggestions', garden: @garden, dashboard: @dashboard
-
         %section
           %h2 Current plantings in garden
           .index-cards
@@ -116,6 +113,10 @@
             - if can?(:edit, @garden)
               .col-md-12
                 = garden_plant_something_button(@garden)
+            - if @suggestion_count&.positive?
+              .col-md-12
+                = render 'jobs/ideas_banner', href: suggestions_path, open: false,
+                  text: t('.suggested_plantings', count: @suggestion_count), go: t('.suggested_plantings_go')
 
         - if @notepad
           %section

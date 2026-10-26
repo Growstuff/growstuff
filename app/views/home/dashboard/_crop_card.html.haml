@@ -1,8 +1,7 @@
 -# A crop that could be sown now: its photo, a button to plant it, and a way to say it is not for them.
--# Pass garden to plant in that garden rather than the member's first.
 .home-crop
   = link_to crop_path(crop) do
     = image_tag((crop.default_photo&.thumbnail_url || placeholder_image), alt: crop.name)
     %span.home-crop-name= crop.name
-  = plant_picker(dashboard, crop:, garden: local_assigns[:garden], label: t('home.dashboard.plant_this'), button_class: 'home-crop-go')
+  = plant_picker(dashboard, crop:, label: t('home.dashboard.plant_this'), button_class: 'home-crop-go')
   = render 'home/dashboard/not_for_me', crop:, button_class: 'home-crop-dismiss'
