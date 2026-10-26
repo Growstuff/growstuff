@@ -76,6 +76,12 @@ describe('PlantingPicker', () => {
     expect(screen.getByRole('dialog', {name: 'Which seeds are you adding?'})).toBeInTheDocument();
   });
 
+  it.each(['Ordered from a seed catalogue', 'From a seed bank or library', 'Traded with someone', 'Somewhere else, or not sure'])('offers %s as a source of seeds', async (name) => {
+    await open('seeds');
+    await userEvent.click(screen.getByRole('button', {name}));
+    expect(screen.getByRole('dialog', {name: 'Which seeds are you adding?'})).toBeInTheDocument();
+  });
+
   it('does not offer something else when saving seeds from a plant', async () => {
     await open('seeds');
     await userEvent.click(screen.getByRole('button', {name: 'Seeds I saved from my plants'}));

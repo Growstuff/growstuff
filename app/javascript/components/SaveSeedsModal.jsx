@@ -4,7 +4,14 @@ import {getJson, postJson} from '../api';
 import Modal from './Modal';
 import Steps from './Steps';
 
-const SOURCES = {saved: 'my own seed saving', bought: 'retail outlet'};
+const SOURCES = {
+  saved: 'my own seed saving',
+  bought: 'retail outlet',
+  catalogue: 'seed catalogue',
+  seedbank: 'seed bank or similar institution',
+  traded: 'traded from another person',
+  other: 'other/unknown',
+};
 const STEPS = ['How many?', 'Trade?', 'Any notes?'];
 const QUICK_AMOUNTS = [10, 50, 100, 500, 1000];
 const TRADE_LABELS = {nowhere: 'Not for trade', locally: 'Locally', nationally: 'Nationally', internationally: 'Internationally'};
@@ -144,7 +151,7 @@ export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, lea
                   <fieldset className="mb-3">
                     <legend className="crop-picker-label step-legend">Where are they from?</legend>
                     <div className="pill-choices">
-                      {Object.entries(SOURCES).map(([key, source]) => (
+                      {Object.entries(SOURCES).filter(([key]) => key === 'saved' || key === 'bought').map(([key, source]) => (
                         <React.Fragment key={key}>
                           <input
                             type="radio"

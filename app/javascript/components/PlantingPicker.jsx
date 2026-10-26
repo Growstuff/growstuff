@@ -11,6 +11,16 @@ import SaveSeedsModal from './SaveSeedsModal';
 // like the home page: the question to ask, and the dialog that does it.
 const BIG_TILES = 12; // up to this many plantings get big tiles, more get small ones
 
+// Where seeds that were not saved from one of your plants can have come from;
+// the keys are SaveSeedsModal's SOURCES.
+const SOURCE_TILES = [
+  {key: 'bought', icon: 'shopping-basket', name: 'Seeds I bought'},
+  {key: 'catalogue', icon: 'book-open', name: 'Ordered from a seed catalogue'},
+  {key: 'seedbank', icon: 'landmark', name: 'From a seed bank or library'},
+  {key: 'traded', icon: 'exchange-alt', name: 'Traded with someone'},
+  {key: 'other', icon: 'question', name: 'Somewhere else, or not sure'},
+];
+
 const ACTIONS = {
   harvest: {title: 'What did you harvest?', hint: 'These are your plantings. Choose the one you harvested from, or Something else for anything not listed.', elseTitle: 'What else did you harvest?', Dialog: RecordHarvestModal},
   seeds: {title: 'Which plant are you saving seeds from?', hint: 'Choose the plant you saved the seeds from.', elseTitle: 'Which seeds are you adding?', Dialog: SaveSeedsModal},
@@ -27,6 +37,7 @@ export default function PlantingPicker({action, label, sublabel, buttonClass, pl
   const [planting, setPlanting] = useState(null);
   const [somethingElse, setElse] = useState(false); // a crop that is not one of the plantings
   const [fromPlanting, setFromPlanting] = useState(false); // seeds: yes, they were saved from one of the plantings
+  const [source, setSource] = useState(null); // seeds: where the ones that were not saved from a plant came from
   const [crop, setCrop] = useState(null); // the crop chosen for seeds, with no planting
   const {title, hint, elseTitle, Dialog} = ACTIONS[action];
 
@@ -35,6 +46,7 @@ export default function PlantingPicker({action, label, sublabel, buttonClass, pl
     setPlanting(null);
     setElse(false);
     setCrop(null);
+    setSource(null);
     setFromPlanting(false);
   }
 
@@ -56,10 +68,12 @@ export default function PlantingPicker({action, label, sublabel, buttonClass, pl
                 <i className="fas fa-seedling planting-tile-photo" aria-hidden="true" />
                 <span className="planting-tile-name">Seeds I saved from my plants</span>
               </button>
-              <button type="button" className="planting-tile" onClick={() => setElse(true)}>
-                <i className="fas fa-shopping-basket planting-tile-photo" aria-hidden="true" />
-                <span className="planting-tile-name">Seeds I bought</span>
-              </button>
+              {SOURCE_TILES.map(({key, icon, name}) => (
+                <button key={key} type="button" className="planting-tile" onClick={() => { setSource(key); setElse(true); }}>
+                  <i className={`fas fa-${icon} planting-tile-photo`} aria-hidden="true" />
+                  <span className="planting-tile-name">{name}</span>
+                </button>
+              ))}
             </div>
           </div>
           <div className="modal-footer">
@@ -116,11 +130,11 @@ export default function PlantingPicker({action, label, sublabel, buttonClass, pl
             />
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-link" onClick={() => setElse(false)}>Back</button>
+            <button type="button" className="btn btn-link" onClick={() => { setElse(false); setSource(null); }}>Back</button>
           </div>
         </Modal>
       )}
-      {open && crop && <Dialog crop={crop} source={action === 'seeds' ? 'bought' : undefined} lead={lead} onBack={() => setCrop(null)} onClose={close} onSaved={() => window.location.reload()} />}
+      {open && crop && <Dialog crop={crop} source={action === 'seeds' ? source : undefined} lead={lead} onBack={() => setCrop(null)} onClose={close} onSaved={() => window.location.reload()} />}
       {open && planting && (
         <Dialog planting={planting} lead={lead} onBack={() => setPlanting(null)} onClose={close} onSaved={() => window.location.reload()} />
       )}
