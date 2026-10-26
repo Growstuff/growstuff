@@ -21,7 +21,7 @@ module HomeHelper
   def planting_picker_props(dashboard)
     dashboard.harvest_choices.map do |planting|
       { id: planting.id, url: planting_path(slug: planting.slug), planted_at: planting.planted_at&.iso8601,
-        ready: dashboard.ready.include?(planting), crop: { name: planting.crop_name },
+        ready: dashboard.ready.include?(planting), crop: { id: planting.crop_id, name: planting.crop_name },
         garden: planting.garden&.name, thumbnail: planting.thumbnail_url || placeholder_image }
     end
   end
@@ -65,7 +65,7 @@ module HomeHelper
   end
 
   # "Plant something" as a dialog over the page, planting in the member's first
-  # garden. A member with no garden yet has nowhere to plant, so they get the
+  # garden, or in the one they choose when they have several. A member with no garden yet has nowhere to plant, so they get the
   # page that asks for one. Options: sublabel, wrapper_class, and a crop to open
   # with that crop already chosen.
   def plant_picker(dashboard, label:, button_class:, **options)
@@ -73,7 +73,8 @@ module HomeHelper
     garden = dashboard.gardens.first
     return link_to(label, new_planting_path(crop_id: crop&.id), class: button_class) unless garden
 
-    props = { label:, sublabel: options[:sublabel], buttonClass: button_class, garden: { id: garden.id, name: garden.name } }
+    props = { label:, sublabel: options[:sublabel], buttonClass: button_class, garden: { id: garden.id, name: garden.name },
+             gardens: dashboard.gardens.map { |each| { id: each.id, name: each.name } } }
     props[:crop] = { id: crop.id, name: crop.name } if crop
     react_component('PlantPicker', props, class: options[:wrapper_class])
   end
