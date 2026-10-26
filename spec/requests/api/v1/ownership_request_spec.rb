@@ -26,8 +26,11 @@ RSpec.describe 'API ownership of written records' do
                               relationships: owner_relationship.merge(given[:relationships] || {})
         end
 
+        it { expect(response).to have_http_status(:created) }
+
+        # Not `.last`: a member comes with a garden, which would pass for a request that created nothing.
         it 'is owned by the token holder' do
-          expect(type.classify.constantize.last.owner).to eq(member)
+          expect(type.classify.constantize.find(json['data']['id']).owner).to eq(member)
         end
       end
     end

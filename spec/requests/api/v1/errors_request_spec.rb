@@ -37,6 +37,21 @@ RSpec.describe 'API errors' do
     it { expect(response).to have_http_status(:bad_request) }
   end
 
+  describe 'a query that is not shaped like JSON:API' do
+    %w(
+      page[limit][x]=5 page[limit][]=5 page[offset][x]=1 page[size][x]=5 page[number][x]=1
+      page[limit]=abc page[limit]=-3 page[limit]=0 page[offset]=abc page[offset]=-1 page[size]=0 page[number]=0 page[number]=abc
+      page=5 sort[x]=1 sort[]=name include[]=plantings filter=5 filter[]=1 fields=x stats=1 extra_fields=x
+      filter[id]=abc
+    ).each do |query|
+      context "with #{query}" do
+        before { get "/api/v1/crops?#{query}", headers: read_headers }
+
+        it { expect(response).to have_http_status(:bad_request) }
+      end
+    end
+  end
+
   describe 'a page size over the maximum' do
     before { get '/api/v1/plantings?page[limit]=101', headers: read_headers }
 

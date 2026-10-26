@@ -4,6 +4,9 @@ module Api
   module V1
     class BaseController < ActionController::API
       include ActionController::HttpAuthentication::Token::ControllerMethods
+
+      # First, so that nothing below meets a query that is not shaped as it expects.
+      before_action :check_query_shape
       include DashedKeys
 
       before_action :authenticate_member_from_token!
@@ -19,7 +22,8 @@ module Api
         Graphiti::Errors::UnsupportedSort, Graphiti::Errors::UnsupportedOperator,
         Graphiti::Errors::InvalidFilterValue, Graphiti::Errors::InvalidInclude,
         Graphiti::Errors::UnknownAttribute, Graphiti::Errors::InvalidAttributeAccess,
-        Graphiti::Errors::InvalidRequest, Graphiti::Errors::StatNotFound
+        Graphiti::Errors::InvalidRequest, Graphiti::Errors::StatNotFound,
+        Graphiti::Errors::TypecastFailed
       ].freeze
       rescue_from(*BAD_REQUEST_ERRORS) { |error| render_error(:bad_request, error.message) }
       rescue_from(Graphiti::Errors::RecordNotFound, ActiveRecord::RecordNotFound) { |error| render_error(:not_found, error.message) }
@@ -57,6 +61,36 @@ module Api
       end
 
       private
+
+      # What goes in the query, by what shape it has: `page[number]=2` is an object, `sort=name` is text.
+      QUERY_OBJECTS = %i(page filter fields extra_fields stats).freeze
+      QUERY_TEXT = %i(sort include).freeze
+      # The least each page number or size can be.
+      PAGE_MINIMUMS = { number: 1, size: 1, limit: 1, offset: 0 }.freeze
+      private_constant :QUERY_OBJECTS, :QUERY_TEXT, :PAGE_MINIMUMS
+
+      def check_query_shape
+        problem = query_problem
+        render_error(:bad_request, problem, title: 'Invalid query') if problem
+      end
+
+      def query_problem
+        QUERY_OBJECTS.each do |name|
+          return "#{name} must be given as #{name}[name]=value." unless params[name].nil? || params[name].respond_to?(:key?)
+        end
+        QUERY_TEXT.each { |name| return "#{name} must be text." unless params[name].nil? || params[name].is_a?(String) }
+        page_problem(params[:page]) if params[:page]
+      end
+
+      def page_problem(page)
+        PAGE_MINIMUMS.each do |name, minimum|
+          value = page[name]
+          next if value.nil? || (value.is_a?(String) && value.match?(/\A\d+\z/) && value.to_i >= minimum)
+
+          return "page[#{name}] must be a whole number, #{minimum} or more."
+        end
+        nil
+      end
 
       def check_request_body
         problem = request_body_problem
