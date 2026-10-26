@@ -18,13 +18,13 @@
         %span= t('home.dashboard.sow_body')
         - if suggestion.median_days_to_first_harvest
           %span= t('home.dashboard.sow_harvest', date: l(Time.zone.today + suggestion.median_days_to_first_harvest, format: '%-d %B'))
+        = render 'home/dashboard/suggestion_links'
     - if ready.any?
       = react_component('PlantingPicker', { action: 'harvest', label: t('home.dashboard.record_harvests'), buttonClass: 'btn btn-warning', plantings: planting_picker_props(dashboard) })
     - else
       .home-this-week-actions
         = plant_picker(dashboard, crop: suggestion, label: t('home.dashboard.plant_crop', crop: suggestion.name), button_class: 'btn btn-success')
         = render 'home/dashboard/not_for_me', crop: suggestion, button_class: 'btn btn-link home-dismiss'
-- if ready.empty?
+-# Only the way back from switching suggestions off; the crops they hid stay hidden.
+- if ready.empty? && !dashboard.suggestions_enabled?
   = render 'home/dashboard/hidden_suggestions', dashboard:
-  - if suggestion
-    = render 'home/dashboard/suggestion_links'
