@@ -168,12 +168,6 @@ GEM
       csv
     dalli (5.2.2)
       logger
-    database_cleaner (2.1.0)
-      database_cleaner-active_record (>= 2, < 3)
-    database_cleaner-active_record (2.2.0)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0.0)
-    database_cleaner-core (2.0.1)
     date (3.6.0)
     debug (1.11.1)
       irb (~> 1.10)
@@ -276,7 +270,7 @@ GEM
       rainbow
       rubocop (>= 1.0)
       sysexits (~> 1.1)
-    hashie (5.1.0)
+    hashie (5.2.0)
       logger
     highline (3.1.2)
       reline
@@ -661,7 +655,6 @@ DEPENDENCIES
   csv
   csv_shaper
   dalli
-  database_cleaner
   debug
   devise
   discard (>= 1.2)
