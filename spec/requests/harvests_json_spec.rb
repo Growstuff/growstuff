@@ -38,6 +38,12 @@ describe 'Recording a harvest as JSON' do
       expect(form['weight_units'].pluck('value')).to eq %w(kg lb oz)
     end
 
+    it 'gives a form for a crop with no planting' do
+      get "/harvests/new.json?crop_id=#{crop.id}", headers: { 'ACCEPT' => 'application/json' }
+
+      expect(response.parsed_body).to include('crop' => { 'id' => crop.id, 'name' => 'lettuce' }, 'planting_id' => nil)
+    end
+
     it 'has no plant part chosen when the crop has never been harvested' do
       get "/plantings/#{planting.slug}/harvests/new.json", headers: { 'ACCEPT' => 'application/json' }
 
@@ -47,6 +53,15 @@ describe 'Recording a harvest as JSON' do
 
   context 'when signed in' do
     before { sign_in member }
+
+    it 'records a harvest of a crop with no planting and returns a link to it' do
+      expect do
+        post '/harvests.json', params:  { harvest: { crop_id: crop.id, plant_part_id: leaf.id, harvested_at: '2026-06-01',
+                                                     quantity: 3, unit: 'individual' } }.to_json,
+                               headers: json_headers
+      end.to change(member.harvests, :count).by(1)
+      expect(response).to have_http_status(:created)
+    end
 
     it "records the harvest and returns the garden's updated card" do
       expect { record_harvest }.to change { planting.harvests.count }.by(1)

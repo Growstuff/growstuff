@@ -272,4 +272,15 @@ describe SeedsController do
       it { expect(assigns(:planting)).to eq(planting) }
     end
   end
+
+  describe 'PATCH update' do
+    let!(:seed) { create(:seed, owner:) }
+
+    before { sign_in owner }
+
+    it 'updates seed and sets flash notice' do
+      patch :update, params: { slug: seed.to_param, seed: { description: 'Updated seed notes' } }
+      expect(flash[:notice]).to eq('Seed was successfully updated.')
+    end
+  end
 end

@@ -49,7 +49,6 @@ gem 'flipper-active_record'        # feature flags admins switch on and off
 gem 'pg'
 
 gem 'active_utils'
-gem 'sidekiq'
 
 # Markdown formatting for updates etc
 gem 'kramdown' # the Markdown engine Tilt picks for Haml's :markdown filter
@@ -120,11 +119,6 @@ gem "gbifrb"
 
 gem "msgpack"
 
-# Pinned due to RAILS_ENV=production bundle exec rake assets:precompile failing with ArgumentError: wrong number of arguments (given 1, expected 0) (ArgumentError)
-# /tmp/build_8301a541/vendor/bundle/ruby/3.3.0/gems/connection_pool-3.0.2/lib/connection_pool.rb:48:in `initialize'
-# /tmp/build_8301a541/vendor/bundle/ruby/3.3.0/gems/activesupport-7.2.3/lib/active_support/cache/mem_cache_store.rb:63:in `new'
-gem "connection_pool", "< 3"
-
 group :production do
   gem 'dalli'
 
@@ -143,7 +137,6 @@ group :development, :test do
   gem 'capybara'                # integration tests
   gem 'capybara-email'          # integration tests for email
   gem 'capybara-screenshot'     # for test debugging
-  gem 'database_cleaner'
   gem 'debug', platforms: %i(mri windows), require: 'debug/prelude' # debugging
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'

@@ -109,4 +109,31 @@ describe('PlantSomethingModal', () => {
     await plant();
     expect(await screen.findByText(/Couldn't reach the server/)).toBeInTheDocument();
   });
+
+
+  describe('with several gardens', () => {
+    const gardens = [{id: 3, name: 'Back yard'}, {id: 4, name: 'Balcony'}];
+    const chooseCrop = () => userEvent.click(screen.getByRole('button', {name: 'Pick tomato'}));
+
+    it('asks which garden after the crop', async () => {
+      setup({garden: undefined, gardens});
+      await chooseCrop();
+      expect(screen.getByRole('button', {name: 'Balcony'})).toBeInTheDocument();
+    });
+
+    it('has no Plant it button until a garden is chosen', async () => {
+      setup({garden: undefined, gardens});
+      await chooseCrop();
+      expect(screen.queryByRole('button', {name: 'Plant it'})).not.toBeInTheDocument();
+    });
+
+    it('plants in the garden chosen', async () => {
+      const fetch = stubFetch({ok: true, data: {garden: {}}});
+      setup({garden: undefined, gardens});
+      await chooseCrop();
+      await userEvent.click(screen.getByRole('button', {name: 'Balcony'}));
+      await plant();
+      expect(JSON.parse(fetch.mock.calls[0][1].body).planting.garden_id).toBe(4);
+    });
+  });
 });

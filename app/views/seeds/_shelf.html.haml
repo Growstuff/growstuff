@@ -11,7 +11,7 @@
       = shelf.is_a?(Crop) ? link_to(shelf.name, crop_path(shelf)) : shelf.capitalize
       %small= counts.join(' · ')
     - if owned && shelf.is_a?(Crop)
-      = link_to '+ add seeds', new_seed_path(crop_id: shelf.id), class: 'seed-shelf-open-only'
+      = link_to '+ add seeds', new_seed_path(crop_id: shelf.id), class: 'seed-shelf-open-only', data: { record_dialog: 'seeds', crop_id: shelf.id, crop_name: shelf.name }
     %span.seed-shelf-closed-only ▸ Open shelf
   .seed-shelf-packets
     - stacks.each do |stack|
