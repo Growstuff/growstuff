@@ -217,4 +217,75 @@ describe('PostEditor', () => {
       await waitFor(() => expect(hidden(container).value).toMatch(/@/));
     });
   });
+  describe('photos in the text', () => {
+    const photos = [{id: 5, title: 'Seed jar', thumbnail_url: '/t.jpg', fullsize_url: '/jar.jpg'}];
+    const markdown = 'Before\n\n![Day two](photo:5/half)\n\nAfter';
+
+    it('shows a photo with its caption', async () => {
+      await setup({value: markdown, photos});
+      expect(await screen.findByRole('img', {name: 'Day two'})).toHaveAttribute('src', '/jar.jpg');
+    });
+
+    it('marks the current size', async () => {
+      await setup({value: markdown, photos});
+      expect(await screen.findByRole('button', {name: 'Half', pressed: true})).toBeInTheDocument();
+    });
+
+    it('keeps the photo as written when switching tabs', async () => {
+      const {container} = await setup({value: markdown, photos});
+      await screen.findByRole('img', {name: 'Day two'});
+      await userEvent.click(screen.getByRole('tab', {name: 'Markdown'}));
+      await userEvent.click(screen.getByRole('tab', {name: 'Write'}));
+      expect(hidden(container)).toHaveValue(markdown);
+    });
+
+    it('changes the size in the markdown', async () => {
+      const {container} = await setup({value: markdown, photos});
+      await userEvent.click(await screen.findByRole('button', {name: 'Pair'}));
+      await waitFor(() => expect(hidden(container).value).toContain('(photo:5/pair)'));
+    });
+
+    it('changes the caption in the markdown', async () => {
+      const {container} = await setup({value: markdown, photos});
+      const caption = await screen.findByLabelText('Caption');
+      await userEvent.clear(caption);
+      await userEvent.type(caption, 'Fresh');
+      await waitFor(() => expect(hidden(container).value).toContain('![Fresh](photo:5/half)'));
+    });
+
+    it('removes the photo from the text', async () => {
+      const {container} = await setup({value: markdown, photos});
+      await userEvent.click(await screen.findByRole('button', {name: 'Remove'}));
+      await waitFor(() => expect(hidden(container).value).not.toContain('photo:5'));
+    });
+
+    it('marks the card photo', async () => {
+      await setup({value: markdown, photos, cardPhotoId: 5});
+      expect(await screen.findByRole('button', {name: '★ Card photo', pressed: true})).toBeInTheDocument();
+    });
+
+    it('draws a placeholder for a photo it does not know', async () => {
+      await setup({value: '![x](photo:99)'});
+      expect(await screen.findByText('Photo 99')).toBeInTheDocument();
+    });
+
+    it('offers the Flickr photo button only to those who can add photos', async () => {
+      await setup();
+      expect(screen.queryByRole('button', {name: 'Flickr photo'})).not.toBeInTheDocument();
+    });
+
+    it('asks for a title and text before picking a photo for a new draft', async () => {
+      await setup({canAddPhoto: true, autosave: {createUrl: '/posts', updateUrl: null, subjectId: 'post_subject'}});
+      await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+      expect(await screen.findByText(/Add a title and some text first/)).toBeInTheDocument();
+    });
+
+    it('opens the Flickr picker for a post that exists', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ok: true, status: 200, json: async () => ({state: 'ready', photos: [], sets: []})}));
+      await setup({canAddPhoto: true, postPath: '/posts/a-post'});
+      await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+      expect(await screen.findByRole('dialog')).toBeInTheDocument();
+      vi.unstubAllGlobals();
+    });
+  });
 });

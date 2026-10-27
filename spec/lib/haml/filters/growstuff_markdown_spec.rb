@@ -77,6 +77,44 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     end
   end
 
+  describe 'photos' do
+    let(:photo) { create(:photo) }
+    let(:text) { "Before\n\n![A jar](photo:#{photo.id}/half)\n\nAfter" }
+
+    context 'with figures' do
+      subject { markdownify(text, figures: true) }
+
+      it { is_expected.to include %(<div class="post-figure post-figure-half">) }
+      it { is_expected.to include %(<img src="#{photo.fullsize_url}" alt="A jar">) }
+      it { is_expected.to include '<p class="post-figure-caption">A jar</p>' }
+      it { is_expected.to include %(<a href="#{Rails.application.routes.url_helpers.photo_path(photo)}">) }
+    end
+
+    context 'with a caption containing html' do
+      subject { markdownify(text.sub('A jar', 'a "b" & c'), figures: true) }
+
+      it { is_expected.to include 'alt="a &quot;b&quot; &amp; c"' }
+    end
+
+    context 'without figures' do
+      subject { markdownify(text) }
+
+      it { is_expected.to eq "Before\n\n\n\nAfter" }
+    end
+
+    context 'when the photo does not exist' do
+      subject { markdownify("![x](photo:0)", figures: true) }
+
+      it { is_expected.to eq '' }
+    end
+
+    context 'with no size' do
+      subject { markdownify("![](photo:#{photo.id})", figures: true) }
+
+      it { is_expected.to include 'post-figure-wide' }
+    end
+  end
+
   it "converts normal markdown" do
     string = "**foo**"
     rendered = render_haml(haml_template(string))

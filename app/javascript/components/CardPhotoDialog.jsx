@@ -57,8 +57,10 @@ export default function CardPhotoDialog({
                       />
                       <span className="card-photo-polaroid">
                         <img src={photo.thumbnail_url} alt="" />
-                        <span>{photo.title}</span>
+                        <span>{photo.id === selectedId && <b className="card-photo-star">★ </b>}{photo.title}</span>
                       </span>
+                      {/* Not colour alone: the chosen photo is also tagged and heavily outlined. */}
+                      <span className="card-photo-tick">✓ Selected</span>
                     </label>
                   ))}
                 </div>

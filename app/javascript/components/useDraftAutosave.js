@@ -13,8 +13,8 @@ function savedAt() {
 // yet is created on the first save, after which the form is pointed at it so
 // that submitting it later updates the draft rather than making another.
 // Nothing is saved until there is both a title and a body, which a post needs.
-// Returns the status line to show: '', 'Saving…', '✓ Draft saved 10:21 am', or
-// an error.
+// Returns {status, saveNow}: the status line to show ('', 'Saving…', '✓ Draft
+// saved 10:21 am', or an error), and a function that saves straight away.
 export default function useDraftAutosave(markdown, autosave) {
   const [status, setStatus] = useState('');
   const url = useRef(autosave && autosave.updateUrl);
@@ -32,6 +32,37 @@ export default function useDraftAutosave(markdown, autosave) {
     return () => input.removeEventListener('input', onInput);
   }, [subjectId]);
 
+  // Saves the draft now: updates it, or creates it the first time. Resolves to
+  // the draft's address, or null when it has no title or body yet or could not
+  // be saved.
+  async function save() {
+    const config = latest.current.autosave;
+    const input = document.getElementById(config.subjectId);
+    const subject = input ? input.value.trim() : '';
+    const body = latest.current.markdown;
+    if (!subject || !body) return url.current;
+
+    const form = input.form;
+    const forum = form && form.querySelector('[name="post[forum_id]"]');
+    const payload = {post: {subject, body, draft: true}};
+    if (forum && forum.value) payload.post.forum_id = forum.value;
+
+    setStatus('Saving…');
+    const result = url.current
+      ? await patchJson(url.current, payload)
+      : await postJson(config.createUrl, payload);
+    if (!result.ok) {
+      setStatus('Could not save the draft. Your work is still here.');
+      return url.current;
+    }
+    if (!url.current && result.data) {
+      url.current = `${config.createUrl}/${result.data.slug || result.data.id}`;
+      pointFormAt(form, url.current);
+    }
+    setStatus(`✓ Draft saved ${savedAt()}`);
+    return url.current;
+  }
+
   useEffect(() => {
     if (!autosave) return undefined;
     if (first.current) {
@@ -39,36 +70,12 @@ export default function useDraftAutosave(markdown, autosave) {
       return undefined;
     }
 
-    const timer = setTimeout(async () => {
-      const input = document.getElementById(autosave.subjectId);
-      const subject = input ? input.value.trim() : '';
-      const body = latest.current.markdown;
-      if (!subject || !body) return;
-
-      const form = input.form;
-      const forum = form && form.querySelector('[name="post[forum_id]"]');
-      const payload = {post: {subject, body, draft: true}};
-      if (forum && forum.value) payload.post.forum_id = forum.value;
-
-      setStatus('Saving…');
-      const result = url.current
-        ? await patchJson(url.current, payload)
-        : await postJson(autosave.createUrl, payload);
-      if (!result.ok) {
-        setStatus('Could not save the draft. Your work is still here.');
-        return;
-      }
-      if (!url.current && result.data) {
-        url.current = `${autosave.createUrl}/${result.data.slug || result.data.id}`;
-        pointFormAt(form, url.current);
-      }
-      setStatus(`✓ Draft saved ${savedAt()}`);
-    }, DELAY);
+    const timer = setTimeout(save, DELAY);
 
     return () => clearTimeout(timer);
   }, [markdown, subjectTick]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return status;
+  return {status, saveNow: save};
 }
 
 function pointFormAt(form, url) {
