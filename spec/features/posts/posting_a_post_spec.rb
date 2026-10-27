@@ -9,7 +9,7 @@ describe 'Post a post' do
 
     it "creating a post" do
       fill_in "post_subject", with: "Testing"
-      fill_in "post_body", with: "This is a sample test"
+      find("#post_body").send_keys("This is a sample test")
       click_button "Post"
       expect(page).to have_content "Post was successfully created"
       expect(page).to have_content "Posted by"
