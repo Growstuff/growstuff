@@ -6,6 +6,8 @@
   %strong
     = link_to post do
       = post.subject
+    - if post.draft?
+      %span.badge.text-bg-warning Draft
 %p
   by
   = succeed "," do

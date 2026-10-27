@@ -2,39 +2,84 @@
 - content_for :scripts do
   = javascript_include_tag 'react_islands', defer: true
 
-.card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
-  = bootstrap_form_for(@post) do |f|
-    .card-header
-      - if content_for? :title
-        %h1.h2-responsive.text-center
-          %strong=yield :title
-      - if @post.errors.any?
-        #error_explanation
-          %h2
-            = pluralize(@post.errors.size, "error")
-            prohibited this post from being saved:
-          %ul
-            - @post.errors.full_messages.each do |msg|
-              %li= msg
+- draft = @post.new_record? || @post.draft?
+- autosave = { createUrl: posts_path, updateUrl: (post_path(@post) if @post.persisted?), subjectId: 'post_subject' }
 
-    .card-body
-      = f.text_field :subject, autofocus: 'autofocus', maxlength: 255
+= bootstrap_form_for(@post) do |f|
+  .row
+    .col-lg-8.mb-3
+      .card.white.z-depth-1
+        .card-header
+          - if content_for? :title
+            %h1.h2-responsive
+              %strong=yield :title
+          - if draft
+            %span.badge.text-bg-warning.me-2 Draft
+            %span.text-muted.small Only you can see this draft until you publish it.
+          - if @post.errors.any?
+            #error_explanation
+              %h2
+                = pluralize(@post.errors.size, "error")
+                prohibited this post from being saved:
+              %ul
+                - @post.errors.full_messages.each do |msg|
+                  %li= msg
 
-      - if @post.forum || @forum
-        = label_tag :body, "What's up?"
-      - else
-        = label_tag :body, "What's going on in your food garden?"
-      -# Falls back to the plain textarea if the editor script does not load.
-      = react_component('PostEditor', { name: 'post[body]', value: @post.body.to_s }) do
-        = f.text_area :body, rows: 12, label: false
-      %span.form-text= render partial: "shared/markdown_help"
+        .card-body
+          = f.text_field :subject, autofocus: 'autofocus', maxlength: 255
 
-      - if @post.forum || @forum
-        - forum = @post.forum || @forum
-        %p
-          This post will be posted in the forum
-          = link_to forum.name, forum
-        .field
-          = f.hidden_field :forum_id, value: forum.id
-    .card-footer
-      .text-end= f.submit "Post"
+          - if @post.forum || @forum
+            = label_tag :body, "What's up?"
+          - else
+            = label_tag :body, "What's going on in your food garden?"
+          -# Falls back to the plain textarea if the editor script does not load.
+          - editor_props = { name: 'post[body]', value: @post.body.to_s, previewUrl: preview_posts_path }
+          - editor_props[:autosave] = autosave if draft
+          = react_component('PostEditor', editor_props) do
+            = f.text_area :body, rows: 12, label: false
+          %span.form-text= render partial: "shared/markdown_help"
+
+          - if @post.forum || @forum
+            - forum = @post.forum || @forum
+            %p
+              This post will be posted in the forum
+              = link_to forum.name, forum
+            .field
+              = f.hidden_field :forum_id, value: forum.id
+
+    - if @post.persisted?
+      .col-lg-4
+        %section.card.mb-3{ 'aria-label': 'Card photo' }
+          .card-header
+            %h2.h5.mb-0 Card photo
+          .card-body
+            - if (card_photo = @post.default_photo)
+              = image_tag card_photo.thumbnail_url, class: 'img-fluid mb-2', alt: card_photo.title
+              %p.text-muted.small Shown on the posts list, your page and shared links.
+            - else
+              %p.text-muted.small Add a photo, then choose which one stands for this post.
+            - if @post.photos.any?
+              = react_component('CardPhotoDialog', card_photo_dialog_props(@post))
+
+        %section.card.mb-3{ 'aria-label': 'Photos in this post' }
+          .card-header.d-flex.justify-content-between
+            %h2.h5.mb-0 Photos
+            = menu_add_photo_link(@post) || ''
+          .card-body.index-cards
+            - @post.photos.each do |photo|
+              = render 'photos/thumbnail', photo: photo
+
+  .post-save-bar.d-flex.flex-wrap.align-items-center.gap-2
+    %p.text-muted.small.mb-0.me-auto
+      - if draft
+        Saved automatically as you work. Close this page and pick it up later from your posts.
+    - if draft && @post.persisted?
+      = link_to 'Discard draft', post_path(@post), method: :delete, data: { confirm: t('are_you_sure') },
+        class: 'btn btn-outline-danger'
+    - if @post.persisted?
+      = link_to 'Close', post_path(@post), class: 'btn btn-outline-secondary'
+    - if draft
+      = button_tag 'Save draft', name: 'post[draft]', value: 'true', class: 'btn btn-outline-primary'
+      = button_tag 'Publish post', name: 'post[draft]', value: 'false', class: 'btn btn-primary'
+    - else
+      = f.submit 'Save changes', class: 'btn btn-primary'

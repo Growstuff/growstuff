@@ -10,9 +10,32 @@ describe 'Post a post' do
     it "creating a post" do
       fill_in "post_subject", with: "Testing"
       find(".post-editor-content").send_keys("This is a sample test")
-      click_button "Post"
+      click_button "Publish post"
       expect(page).to have_content "Post was successfully created"
       expect(page).to have_content "Posted by"
+    end
+
+    context "saving a draft" do
+      before do
+        fill_in "post_subject", with: "Half written"
+        find(".post-editor-content").send_keys("Not finished")
+        click_button "Save draft"
+      end
+
+      it "keeps it as a draft" do
+        expect(page).to have_content "Draft was saved"
+      end
+
+      it "labels it a draft" do
+        expect(page).to have_css ".badge", text: "Draft"
+      end
+
+      it "publishes it from the editor" do
+        click_link "Actions"
+        click_link "Edit"
+        click_button "Publish post"
+        expect(page).to have_no_css ".badge", text: "Draft"
+      end
     end
 
     context "editing a post" do
@@ -31,7 +54,7 @@ describe 'Post a post' do
 
       it "saving edit" do
         fill_in "post_subject", with: "Testing Edit"
-        click_button "Post"
+        click_button "Save changes"
         expect(page).to have_content "Post was successfully updated"
         expect(page).to have_content "edited at"
       end

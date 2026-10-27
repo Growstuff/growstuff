@@ -67,3 +67,123 @@
     font-family: monospace;
   }
 }
+
+// The photo that leads a post's page.
+.post-card-photo {
+  img {
+    display: block;
+    width: 100%;
+    max-height: 260px;
+    object-fit: cover;
+  }
+}
+
+// "More from this author" in the post sidebar.
+.more-from-author {
+  .post-compact {
+    text-decoration: none;
+  }
+
+  .post-compact-photo {
+    width: 56px;
+    height: 56px;
+    flex: none;
+    object-fit: cover;
+    border-radius: 2px;
+  }
+}
+
+// The choices in the card photo dialog.
+.card-photo-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  background: #f4f2ef;
+  border: 1px solid rgba(65, 63, 59, .15);
+  border-radius: 4px;
+}
+
+.card-photo-choice {
+  position: relative;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .card-photo-polaroid {
+    display: block;
+    padding: 6px 6px 0;
+    background: #fff;
+    font-size: 12px;
+    box-shadow: 0 1px 3px rgba(65, 63, 59, .25);
+    outline: 3px solid transparent;
+    outline-offset: 2px;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+    }
+
+    span {
+      display: block;
+      padding: 6px 2px 8px;
+    }
+  }
+
+  input:checked + .card-photo-polaroid {
+    outline-color: #57803c;
+  }
+
+  input:focus-visible + .card-photo-polaroid {
+    outline-color: #2f4365;
+  }
+}
+
+.card-photo-preview {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+
+  img {
+    width: 200px;
+    height: 130px;
+    flex: none;
+    object-fit: cover;
+    border-radius: 2px;
+  }
+}
+
+.post-card-photo-change {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px 0;
+}
+
+.post-editor {
+  .post-editor-preview {
+    min-height: 320px;
+    padding: 16px 20px;
+  }
+}
+
+// Saving and publishing, always in reach at the foot of the editor page.
+.post-save-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  margin-top: 24px;
+  padding: 12px 16px;
+  background: #fff;
+  border-top: 1px solid rgba(65, 63, 59, .35);
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, .08);
+}

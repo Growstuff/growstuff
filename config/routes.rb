@@ -83,6 +83,7 @@ Rails.application.routes.draw do
 
   resources :posts do
     get 'author/:author' => 'posts#index', as: 'by_author', on: :collection
+    post :preview, on: :collection
   end
 
   resources :scientific_names do
