@@ -99,7 +99,9 @@ class PhotosController < ApplicationController
   def render_added_json
     garden = @item.is_a?(Garden) ? @item : (@item.garden if @item.respond_to?(:garden))
     card = GardenCardSerializer.collection([garden], ability: current_ability, show_owner: false).first if garden
-    render json: { photo: { id: @photo.id, url: photo_path(@photo) }, garden: card }, status: :created
+    photo = { id: @photo.id, url: photo_path(@photo), title: @photo.title,
+              thumbnail_url: @photo.thumbnail_url, fullsize_url: @photo.fullsize_url }
+    render json: { photo:, garden: card }, status: :created
   end
 
   def photo_params

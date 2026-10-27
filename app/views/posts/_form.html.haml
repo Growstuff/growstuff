@@ -7,8 +7,7 @@
 
 = bootstrap_form_for(@post, html: { class: 'post-edit-page' }) do |f|
   .row
-    -# Full width until there is a sidebar (card photo and photos) to share with.
-    %div{ class: ['col-12', ('col-lg-8' if @post.persisted?), 'mb-3'] }
+    .col-12.col-lg-8.mb-3
       .card.white.z-depth-1
         .card-header
           - if content_for? :title
@@ -34,7 +33,9 @@
           - else
             = label_tag :body, "What's going on in your food garden?"
           -# Falls back to the plain textarea if the editor script does not load.
-          - editor_props = { name: 'post[body]', value: @post.body.to_s, previewUrl: preview_posts_path }
+          - editor_props = { name: 'post[body]', value: @post.body.to_s, previewUrl: preview_posts_path,
+            canAddPhoto: can?(:create, Photo), photos: post_photo_props(@post), cardPhotoId: @post.card_photo_id,
+            postPath: (post_path(@post) if @post.persisted?) }
           - editor_props[:autosave] = autosave if draft
           = react_component('PostEditor', editor_props) do
             = f.text_area :body, rows: 12, label: false
@@ -54,6 +55,13 @@
             .field
               = f.hidden_field :forum_id, value: forum.id
 
+    - if @post.new_record?
+      .col-lg-4
+        %section.card.mb-3{ 'aria-label': 'Photos' }
+          .card-body
+            %p.text-muted.small.mb-0
+              Use <strong>+ Flickr photo</strong> in the toolbar to put a photo in your post. Once you have a title and
+              some text your draft is saved, and its card photo and photos appear here when you next open it.
     - if @post.persisted?
       .col-lg-4
         %section.card.mb-3{ 'aria-label': 'Card photo' }

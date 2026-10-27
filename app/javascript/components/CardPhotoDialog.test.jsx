@@ -87,4 +87,14 @@ describe('CardPhotoDialog', () => {
     await openDialog();
     expect(screen.queryByRole('link', {name: /Flickr/})).not.toBeInTheDocument();
   });
+
+  it('tags the chosen photo as selected', async () => {
+    await openDialog({selectedId: 2});
+    expect(screen.getAllByText('✓ Selected')).toHaveLength(2); // shown by CSS only for the checked one
+  });
+
+  it('stars the current card photo', async () => {
+    await openDialog({selectedId: 2});
+    expect(screen.getByRole('radio', {name: /★\s*Drying on a plate/})).toBeInTheDocument();
+  });
 });

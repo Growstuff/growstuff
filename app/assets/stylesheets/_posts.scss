@@ -141,7 +141,29 @@
   }
 
   input:checked + .card-photo-polaroid {
-    outline-color: #57803c;
+    outline-color: #212121;
+  }
+
+  .card-photo-star {
+    color: #57803c;
+  }
+
+  .card-photo-tick {
+    display: none;
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #212121;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+  }
+
+  input:checked ~ .card-photo-tick {
+    display: inline-flex;
   }
 
   input:focus-visible + .card-photo-polaroid {
@@ -243,5 +265,94 @@
     padding: 8px 14px;
     border-top: 1px solid rgba(65, 63, 59, .15);
     font-size: 12px;
+  }
+}
+
+// Photos placed in a post's text, on the post page.
+.post-content .post-figure {
+  margin: 22px 0;
+  padding: 8px 8px 0;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(65, 63, 59, .25);
+  max-width: 720px;
+
+  img {
+    display: block;
+    width: 100%;
+  }
+
+  .post-figure-caption {
+    margin: 0;
+    padding: 8px 4px 10px;
+    font-size: 13px;
+    color: #413f3b;
+  }
+
+  &.post-figure-half {
+    max-width: 350px;
+  }
+
+  // Two pair photos in a row sit side by side.
+  &.post-figure-pair {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(50% - 10px);
+    max-width: 350px;
+    margin-right: 16px;
+  }
+}
+
+// A photo in the editor: the polaroid, with its controls beside it.
+.photo-figure {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+  margin: 20px 0 8px;
+
+  &.photo-figure-selected .photo-figure-picture {
+    outline: 2px solid #2f4365;
+    outline-offset: 4px;
+  }
+
+  .photo-figure-picture {
+    flex: 1 1 320px;
+    max-width: 460px;
+  }
+
+  .photo-figure-half,
+  .photo-figure-pair {
+    max-width: 230px;
+  }
+
+  .photo-figure-polaroid {
+    padding: 8px 8px 0;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(65, 63, 59, .25);
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .photo-figure-missing {
+    padding: 40px 0;
+    text-align: center;
+    background: #f4f2ef;
+  }
+
+  .photo-figure-caption {
+    padding: 8px 4px 10px;
+    font-size: 13px;
+    color: #413f3b;
+  }
+
+  .photo-figure-controls {
+    flex: 1 1 220px;
+    padding: 12px 14px;
+    background: #f4f2ef;
+    border: 1px solid rgba(65, 63, 59, .15);
+    border-radius: 2px;
   }
 }

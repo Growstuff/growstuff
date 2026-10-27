@@ -19,4 +19,4 @@
 = link_to "Permalink", @post
 
 :markdown
-  #{ strip_tags markdownify(@post.body) }
+  #{ markdownify(strip_tags(@post.body), figures: true) }
