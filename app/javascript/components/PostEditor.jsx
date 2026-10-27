@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import {EditorContent, useEditor, useEditorState} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import {Markdown} from '@tiptap/markdown';
 
 import {csrfToken} from '../api';
+import LinkSuggestionList from './LinkSuggestionList';
+import {createLinkChip, createLinkSearch} from './linkChip';
 import useDraftAutosave from './useDraftAutosave';
 
 const BLOCKS = [
@@ -85,8 +87,18 @@ function Toolbar({editor}) {
       >
         ❝ Quote
       </ToolButton>
+      {/* Typing @ opens the list of things to link to, so this just types it. */}
+      <ToolButton label="Link to…" onClick={() => editor.chain().focus().insertContent('@').run()}>
+        @ Link to…
+      </ToolButton>
     </div>
   );
+}
+
+const search = createLinkSearch();
+
+function suggestionState(props) {
+  return {items: props.items, selected: 0, rect: props.clientRect && props.clientRect(), command: props.command};
 }
 
 // A rich text editor for a post body that stores markdown, so people can
@@ -116,8 +128,34 @@ export default function PostEditor({name, value = '', id = 'post_body', autosave
     setPreviewHtml(response.ok ? await response.text() : '<p>The preview could not be loaded.</p>');
   }
 
+  // The matches after an @ ({items, selected, rect, command}), or null.
+  const [suggest, setSuggest] = useState(null);
+  const suggestRef = useRef(null);
+  suggestRef.current = suggest;
+
+  const linkChip = useMemo(() => createLinkChip({
+    suggestion: {
+      items: ({query}) => search(query),
+      render: () => ({
+        onStart: (props) => setSuggest(suggestionState(props)),
+        onUpdate: (props) => setSuggest(suggestionState(props)),
+        onKeyDown: ({event}) => {
+          const current = suggestRef.current;
+          if (!current || current.items.length === 0) return false;
+          const count = current.items.length;
+          if (event.key === 'ArrowDown') setSuggest({...current, selected: (current.selected + 1) % count});
+          else if (event.key === 'ArrowUp') setSuggest({...current, selected: (current.selected + count - 1) % count});
+          else if (event.key === 'Enter') current.command(current.items[current.selected]);
+          else return false;
+          return true;
+        },
+        onExit: () => setSuggest(null),
+      }),
+    },
+  }), []);
+
   const editor = useEditor({
-    extensions: [StarterKit, Markdown],
+    extensions: [StarterKit, Markdown, linkChip],
     content: value,
     contentType: 'markdown',
     onUpdate: ({editor: e}) => setMarkdown(e.getMarkdown().trim()),
@@ -157,6 +195,14 @@ export default function PostEditor({name, value = '', id = 'post_body', autosave
           <>
             <Toolbar editor={editor} />
             <EditorContent editor={editor} id={id} />
+            {suggest && (
+              <LinkSuggestionList
+                items={suggest.items}
+                selected={suggest.selected}
+                rect={suggest.rect}
+                onChoose={suggest.command}
+              />
+            )}
           </>
         )}
         {tab === 'preview' && (

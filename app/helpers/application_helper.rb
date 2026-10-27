@@ -96,6 +96,7 @@ module ApplicationHelper
     translator = Haml::Filters::GrowstuffMarkdown.new
     text = text.to_s.dup
     translator.expand_crops!(text)
+    translator.expand_plantings!(text)
     translator.expand_members!(text)
     text
   end

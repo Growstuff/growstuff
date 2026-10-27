@@ -187,3 +187,61 @@
   border-top: 1px solid rgba(65, 63, 59, .35);
   box-shadow: 0 -2px 6px rgba(0, 0, 0, .08);
 }
+
+// The editor page: the form, its sidebar and the save bar share one width.
+.post-edit-page {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+// Links to crops, members and plantings in the editor, and the list for choosing them.
+.post-editor-content .link-chip {
+  padding: 0 8px;
+  border: 1px solid rgba(65, 63, 59, .15);
+  border-radius: 999px;
+  background: #e8f5e9;
+  color: #413f3b;
+  font-weight: 600;
+  cursor: default;
+
+  &.ProseMirror-selectednode {
+    outline: 2px solid #2f4365;
+  }
+}
+
+.link-suggestions {
+  z-index: 1080;
+  width: 340px;
+  max-height: 340px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid rgba(65, 63, 59, .15);
+  border-radius: 4px;
+
+  .link-suggestions-group {
+    padding: 6px 14px;
+    background: #f4f2ef;
+    border-bottom: 1px solid rgba(65, 63, 59, .15);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #413f3b;
+  }
+
+  .link-suggestions-item {
+    padding: 8px 14px;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      background: #f4f2ef;
+    }
+  }
+
+  .link-suggestions-hint {
+    padding: 8px 14px;
+    border-top: 1px solid rgba(65, 63, 59, .15);
+    font-size: 12px;
+  }
+}

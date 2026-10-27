@@ -123,4 +123,33 @@ describe "Posts" do
       expect(response.body).not_to include '<script'
     end
   end
+
+  describe 'GET /posts/link_suggestions' do
+    subject(:json) { response.parsed_body }
+
+    let(:member) { create(:member) }
+    let!(:friend) { create(:member, login_name: 'pumpkinfan') }
+    let(:crop) { create(:crop, name: 'pumpkin') }
+    let!(:mine) { create(:planting, owner: member, crop:) }
+
+    before do
+      create(:planting, crop:) # someone else's
+      sign_in member
+      get link_suggestions_posts_path(format: :json), params: { term: 'pump' }
+    end
+
+    it 'finds members by login name' do
+      expect(json['members']).to eq [{ 'name' => 'pumpkinfan' }]
+    end
+
+    it 'finds only the writers own plantings' do
+      expect(json['plantings'].pluck('slug')).to eq [mine.slug]
+    end
+
+    context 'without a term' do
+      before { get link_suggestions_posts_path(format: :json) }
+
+      it { expect(json).to eq('members' => [], 'plantings' => []) }
+    end
+  end
 end

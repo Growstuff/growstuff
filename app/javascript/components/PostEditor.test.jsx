@@ -51,7 +51,7 @@ describe('PostEditor', () => {
   it('lists the formatting buttons', async () => {
     await setup();
     const names = screen.getAllByRole('button').map((b) => b.getAttribute('aria-label'));
-    expect(names).toEqual(['Bold', 'Italic', 'Link', 'Bulleted list', 'Quote']);
+    expect(names).toEqual(['Bold', 'Italic', 'Link', 'Bulleted list', 'Quote', 'Link to…']);
   });
 
   it('updates the markdown when a list is started', async () => {
@@ -172,6 +172,49 @@ describe('PostEditor', () => {
       await userEvent.type(screen.getByRole('textbox', {name: 'Post body as markdown'}), 'words');
       await new Promise((resolve) => setTimeout(resolve, 1800));
       expect(patch).not.toHaveBeenCalled();
+    });
+  });
+  describe('links to crops, members and plantings', () => {
+    const roundTrip = async (markdown) => {
+      const {container} = await setup({value: markdown});
+      await userEvent.click(screen.getByRole('tab', {name: 'Markdown'}));
+      await userEvent.click(screen.getByRole('tab', {name: 'Write'}));
+      return hidden(container);
+    };
+
+    it('shows a crop link as a chip', async () => {
+      await setup({value: 'Grow [tomato](crop) here'});
+      expect(await screen.findByText('@tomato')).toHaveClass('link-chip-crop');
+    });
+
+    it('shows a member link as a chip', async () => {
+      await setup({value: 'Thanks [jane](member)'});
+      expect(await screen.findByText('@jane')).toHaveClass('link-chip-member');
+    });
+
+    it('shows a planting link as a chip', async () => {
+      await setup({value: 'See [my tomato](planting:jane-garden-tomato)'});
+      expect(await screen.findByText('@my tomato')).toHaveClass('link-chip-planting');
+    });
+
+    it('keeps a member link as written', async () => {
+      expect(await roundTrip('Thanks [jane](member)')).toHaveValue('Thanks [jane](member)');
+    });
+
+    it('keeps a planting link as written', async () => {
+      expect(await roundTrip('See [my tomato](planting:jane-garden-tomato)')).toHaveValue(
+        'See [my tomato](planting:jane-garden-tomato)'
+      );
+    });
+
+    it('leaves ordinary links alone', async () => {
+      expect(await roundTrip('A [link](http://example.com) here')).toHaveValue('A [link](http://example.com) here');
+    });
+
+    it('types an @ from the Link to button', async () => {
+      const {container} = await setup();
+      await userEvent.click(screen.getByRole('button', {name: 'Link to…'}));
+      await waitFor(() => expect(hidden(container).value).toMatch(/@/));
     });
   });
 });
