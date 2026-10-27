@@ -15,6 +15,25 @@ describe 'Post a post' do
       expect(page).to have_content "Posted by"
     end
 
+    context "linking to a crop" do
+      let!(:crop) { create(:crop, name: 'pumpkin') }
+
+      before do
+        fill_in "post_subject", with: "Pumpkins"
+        find(".post-editor-content").send_keys("I love @pum")
+      end
+
+      it "offers matching crops" do
+        expect(page).to have_css "[role=option]", text: "pumpkin"
+      end
+
+      it "links the chosen crop" do
+        find("[role=option]", text: "pumpkin").click
+        click_button "Publish post"
+        expect(page).to have_link "pumpkin", href: crop_path(crop)
+      end
+    end
+
     context "saving a draft" do
       before do
         fill_in "post_subject", with: "Half written"

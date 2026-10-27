@@ -5,9 +5,10 @@
 - draft = @post.new_record? || @post.draft?
 - autosave = { createUrl: posts_path, updateUrl: (post_path(@post) if @post.persisted?), subjectId: 'post_subject' }
 
-= bootstrap_form_for(@post) do |f|
+= bootstrap_form_for(@post, html: { class: 'post-edit-page' }) do |f|
   .row
-    .col-lg-8.mb-3
+    -# Full width until there is a sidebar (card photo and photos) to share with.
+    %div{ class: ['col-12', ('col-lg-8' if @post.persisted?), 'mb-3'] }
       .card.white.z-depth-1
         .card-header
           - if content_for? :title
@@ -37,7 +38,13 @@
           - editor_props[:autosave] = autosave if draft
           = react_component('PostEditor', editor_props) do
             = f.text_area :body, rows: 12, label: false
-          %span.form-text= render partial: "shared/markdown_help"
+          %span.form-text
+            Use the buttons above to format your text. Type
+            %strong @
+            to link to a crop, a member or one of your plantings.
+            For anything else, the
+            %strong Markdown
+            tab shows the raw text.
 
           - if @post.forum || @forum
             - forum = @post.forum || @forum

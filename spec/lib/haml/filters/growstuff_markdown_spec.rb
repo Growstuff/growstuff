@@ -52,6 +52,31 @@ describe 'Haml::Filters::Growstuff_Markdown' do
     expect(rendered).to match(/#{output_link(tomato)} #{output_link(maize)}/)
   end
 
+  describe 'planting links' do
+    subject { markdownify(text) }
+
+    let(:planting) { create(:planting) }
+    let(:url) { Rails.application.routes.url_helpers.planting_url(planting, only_path: true) }
+
+    context 'with a planting that exists' do
+      let(:text) { "See [my tomato](planting:#{planting.slug})" }
+
+      it { is_expected.to eq "See [my tomato](#{url})" }
+    end
+
+    context 'with a planting that does not exist' do
+      let(:text) { 'See [my tomato](planting:nowhere)' }
+
+      it { is_expected.to eq 'See my tomato' }
+    end
+
+    context 'when escaped' do
+      let(:text) { "\\[my tomato](planting:#{planting.slug})" }
+
+      it { is_expected.to eq text }
+    end
+  end
+
   it "converts normal markdown" do
     string = "**foo**"
     rendered = render_haml(haml_template(string))

@@ -6,6 +6,7 @@ class Haml::Filters
     CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
     MEMBER_AT_REGEX = /(?<!\\)(@\w+)/
+    PLANTING_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(planting:([\w-]+)\)/
     MEMBER_COMBINED_REGEX = Regexp.union(MEMBER_REGEX, MEMBER_AT_REGEX)
     MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=@\w+)/
     HOST = Rails.application.config.host
@@ -17,6 +18,16 @@ class Haml::Filters
         # find crop case-insensitively
         crop = Crop.where('lower(name) = ?', crop_str.downcase).first
         crop_link crop, crop_str
+      end
+      text
+    end
+
+    def expand_plantings!(text)
+      # turn [my tomato](planting:skud-backyard-tomato) into [my tomato](/plantings/skud-backyard-tomato)
+      text.gsub!(PLANTING_REGEX) do
+        link_text = Regexp.last_match(1)
+        planting = Planting.find_by(slug: Regexp.last_match(2))
+        planting_link planting, link_text
       end
       text
     end
@@ -46,6 +57,15 @@ class Haml::Filters
     def crop_link(crop, link_text)
       if crop
         url = Rails.application.routes.url_helpers.crop_url(crop, only_path: true)
+        "[#{link_text}](#{url})"
+      else
+        link_text
+      end
+    end
+
+    def planting_link(planting, link_text)
+      if planting
+        url = Rails.application.routes.url_helpers.planting_url(planting, only_path: true)
         "[#{link_text}](#{url})"
       else
         link_text
