@@ -65,12 +65,26 @@ describe('CardPhotoDialog', () => {
 
   it('asks for a photo first when the post has none', async () => {
     await openDialog({photos: []});
-    expect(screen.getByText(/Add a photo to this post first/)).toBeInTheDocument();
+    expect(screen.getByText(/Pick a photo from Flickr for this post first/)).toBeInTheDocument();
   });
 
   it('closes on Cancel', async () => {
     const user = await openDialog();
     await user.click(screen.getByRole('button', {name: 'Cancel'}));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+  it('says where the photos come from', async () => {
+    await openDialog();
+    expect(screen.getByText(/Photos come from your Flickr account/)).toBeInTheDocument();
+  });
+
+  it('links to the page photo dialog for another photo', async () => {
+    await openDialog({addPhotoUrl: '/photos/new?id=7&type=post'});
+    expect(screen.getByRole('link', {name: 'Pick a different photo from Flickr'})).toHaveAttribute('data-photo-dialog');
+  });
+
+  it('offers no other photo link without an address', async () => {
+    await openDialog();
+    expect(screen.queryByRole('link', {name: /Flickr/})).not.toBeInTheDocument();
   });
 });
