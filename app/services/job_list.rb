@@ -30,6 +30,11 @@ class JobList
     today.end_of_week(:monday)
   end
 
+  # The day a job moved to This week gets: Friday of the current week.
+  def self.week_date(today)
+    week_end(today) - 2.days
+  end
+
   # The first day of the weekend still to come: tomorrow, if today is the Saturday.
   def self.weekend_start(today)
     [week_end(today) - 1.day, today + 1.day].max
@@ -90,7 +95,7 @@ class JobList
   end
 
   def friday
-    week_end - 2.days
+    self.class.week_date(@today)
   end
 
   def saturday
