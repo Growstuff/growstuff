@@ -492,6 +492,7 @@ en:
       transplant_html: Transplanted %{things} into %{garden}
       weighing: weighing %{weight}
     layout:
+      crop: "%{crop} ×%{count}"
       label: "%{garden}: its layout"
     photos:
       added:
@@ -772,25 +773,31 @@ en:
       harvest_harvested: "You last harvested from it on %{day}."
       community_of:
         now:
-          one: "1 of %{of} gardeners growing %{crop} did this lately."
-          other: "%{count} of %{of} gardeners growing %{crop} did this lately."
+          one: "1 of %{of} gardeners growing %{crop} has this planned this month."
+          other: "%{count} of %{of} gardeners growing %{crop} have this planned this month."
         earlier:
           one: "1 of %{of} gardeners growing %{crop} did this at this time of year before."
           other: "%{count} of %{of} gardeners growing %{crop} did this at this time of year before."
       community:
         now:
-          other: "%{count} gardeners growing %{crop} did this lately."
+          one: "1 gardener growing %{crop} has this planned this month."
+          other: "%{count} gardeners growing %{crop} have this planned this month."
         earlier:
+          one: "1 gardener growing %{crop} did this at this time of year before."
           other: "%{count} gardeners growing %{crop} did this at this time of year before."
       nearby:
         now:
-          other: "%{count} gardeners nearby did this lately."
+          one: "1 gardener nearby has this planned this month."
+          other: "%{count} gardeners nearby have this planned this month."
         earlier:
+          one: "1 gardener nearby did this at this time of year before."
           other: "%{count} gardeners nearby did this at this time of year before."
       world:
         now:
-          other: "%{count} gardeners at your latitude did this lately."
+          one: "1 gardener at your latitude has this planned this month."
+          other: "%{count} gardeners at your latitude have this planned this month."
         earlier:
+          one: "1 gardener at your latitude did this at this time of year."
           other: "%{count} gardeners at your latitude did this at this time of year."
   jobs:
     plan_something: Plan something
