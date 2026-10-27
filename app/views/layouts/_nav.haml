@@ -11,6 +11,9 @@
       - if can?(:create, model)
         = link_to url_for([model, action: :new]), class: 'btn' do
           Add a #{model.model_name.human}
+      - if model == Planting
+        = link_to suggestions_path, class: 'btn' do
+          = t('.suggest_something')
   - else
     = render 'shared/signin_signup', to: "record your #{model.to_s.pluralize.downcase}"
 

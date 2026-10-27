@@ -39,6 +39,10 @@
             - if can? :edit, @garden
               = link_to 'Set it to active', edit_garden_path(@garden)
               to plant something in this garden.
+        - if @suggestion_count&.positive?
+          .mb-3
+            = render 'jobs/ideas_banner', href: suggestions_path, open: false,
+              text: t('.suggested_plantings', count: @suggestion_count), go: t('.suggested_plantings_go')
         - if @garden.active
           -# Points people at the layout page, showing either the current bed map or a teaser to create one.
           = link_to layout_member_garden_path(@garden.owner, @garden), class: 'garden-layout-teaser' do
@@ -102,7 +106,12 @@
               = render 'plantings/progress_list', plantings: @garden.plantings.active.limit(10)
 
         %section
-          %h2 Current plantings in garden
+          .section-header
+            %h2 Current plantings in garden
+            - if can?(:edit, @garden)
+              = link_to new_planting_path(garden_id: @garden.id), class: 'btn btn-sm section-add' do
+                = icon 'fas', 'plus'
+                add
           .index-cards
             - if @current_plantings.size.positive?
               - @current_plantings.each do |planting|
@@ -110,9 +119,6 @@
             - else
               .col-md-12
                 %p Nothing is currently planted here.
-            - if can?(:edit, @garden)
-              .col-md-12
-                = garden_plant_something_button(@garden)
 
         - if @notepad
           %section

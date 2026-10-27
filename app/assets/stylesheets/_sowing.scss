@@ -53,6 +53,11 @@ $sowing-muted: #666;
   }
 }
 
+.crop-picker .seed-search-label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
 .seed-search-hint {
   margin: 0.5rem 0 0.75rem;
   color: $sowing-muted;

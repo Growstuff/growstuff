@@ -4,14 +4,6 @@ module ButtonsHelper
   include IconsHelper
   include PhotosHelper
 
-  def garden_plant_something_button(garden, classes: "btn btn-outline-secondary")
-    return unless can? :edit, garden
-
-    link_to new_planting_path(garden_id: garden.id), class: classes do
-      planting_icon + ' ' + t('buttons.plant_something_here')
-    end
-  end
-
   def garden_plan_something_button(garden, classes: "btn btn-outline-secondary")
     return unless can? :edit, garden
 
