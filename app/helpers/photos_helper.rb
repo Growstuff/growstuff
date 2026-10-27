@@ -66,6 +66,8 @@ module PhotosHelper
       excerpt:    truncate(strip_tags(markdownify(post.body)), length: 90, separator: ' '),
       byline:     "by #{post.author} · #{l(post.created_at.to_date, format: :short)}",
       selectedId: post.card_photo_id,
+      addPhotoUrl: new_photo_path_for(post),
+      addPhotoLabel: photo_label(post),
       photos:     post.photos.map { |p| { id: p.id, title: p.title, thumbnail_url: p.thumbnail_url, fullsize_url: p.fullsize_url } }
     }
   end

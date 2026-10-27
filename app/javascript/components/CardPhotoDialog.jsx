@@ -7,7 +7,9 @@ import Modal from './Modal';
 // the photo that stands for the post on the posts list, an author's page and
 // shared links. The photos are the post's own. Saving reloads, because the
 // page is server rendered.
-export default function CardPhotoDialog({url, photos, selectedId = null, subject, excerpt = '', byline = ''}) {
+export default function CardPhotoDialog({
+  url, photos, selectedId = null, subject, excerpt = '', byline = '', addPhotoUrl = null, addPhotoLabel = '',
+}) {
   const [open, setOpen] = useState(false);
   const [chosenId, setChosenId] = useState(selectedId || (photos[0] && photos[0].id));
   const [saving, setSaving] = useState(false);
@@ -36,11 +38,11 @@ export default function CardPhotoDialog({url, photos, selectedId = null, subject
         <Modal title={`Card photo for “${subject}”`} titleId="card-photo-title" onClose={() => setOpen(false)}>
           <div className="modal-body">
             <p className="text-muted">
-              This photo stands for your post wherever it appears as a card: the posts list, your page and links shared
-              elsewhere.
+              Photos come from your Flickr account. This photo stands for your post wherever it appears as a card: the
+              posts list, your page and links shared elsewhere.
             </p>
             {photos.length === 0 ? (
-              <p>Add a photo to this post first, then you can choose it here.</p>
+              <p>Pick a photo from Flickr for this post first, then you can choose it here.</p>
             ) : (
               <fieldset>
                 <legend className="h6 text-uppercase">Photos in this post</legend>
@@ -61,6 +63,21 @@ export default function CardPhotoDialog({url, photos, selectedId = null, subject
                   ))}
                 </div>
               </fieldset>
+            )}
+            {addPhotoUrl && (
+              <p className="mt-2">
+                {/* The page's photo dialog opens from any [data-photo-dialog] link. */}
+                <a
+                  href={addPhotoUrl}
+                  className="btn btn-sm btn-outline-secondary me-2"
+                  data-photo-dialog
+                  data-photo-label={addPhotoLabel}
+                  onClick={() => setOpen(false)}
+                >
+                  Pick a different photo from Flickr
+                </a>
+                <span className="text-muted small">Or leave it empty and the first photo is used.</span>
+              </p>
             )}
             {chosen && (
               <>

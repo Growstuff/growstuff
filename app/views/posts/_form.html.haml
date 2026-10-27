@@ -71,10 +71,14 @@
         %section.card.mb-3{ 'aria-label': 'Photos in this post' }
           .card-header.d-flex.justify-content-between
             %h2.h5.mb-0 Photos
-            = menu_add_photo_link(@post) || ''
-          .card-body.index-cards
-            - @post.photos.each do |photo|
-              = render 'photos/thumbnail', photo: photo
+            - if can?(:create, Photo)
+              = link_to 'pick from flickr', new_photo_path_for(@post), data: photo_dialog_data(@post),
+                class: 'btn btn-sm btn-outline-secondary'
+          .card-body
+            .index-cards
+              - @post.photos.each do |photo|
+                = render 'photos/thumbnail', photo: photo
+            %p.text-muted.small.mb-0 These are photos from your Flickr account.
 
   .post-save-bar.d-flex.flex-wrap.align-items-center.gap-2
     %p.text-muted.small.mb-0.me-auto
