@@ -596,6 +596,7 @@ en:
       move_later: Later
       move_today: Today
       move_tomorrow: Tomorrow
+      move_week: This week
       move_weekend: This weekend
       next_weekend: Next weekend
       overdue: Overdue
