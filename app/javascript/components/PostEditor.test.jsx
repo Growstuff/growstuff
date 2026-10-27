@@ -1,6 +1,8 @@
 import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {beforeAll, describe, expect, it} from 'vitest';
+import {afterEach, beforeAll, describe, expect, it, vi} from 'vitest';
+
+import * as api from '../api';
 
 import PostEditor from './PostEditor';
 
@@ -102,6 +104,74 @@ describe('PostEditor', () => {
       await userEvent.click(screen.getByRole('tab', {name: 'Markdown'}));
       await userEvent.click(screen.getByRole('tab', {name: 'Write'}));
       expect(hidden(container)).toHaveValue('Grow [tomato](crop) here');
+    });
+  });
+  describe('Preview tab', () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    it('is not offered without a preview address', async () => {
+      await setup();
+      expect(screen.queryByRole('tab', {name: 'Preview'})).not.toBeInTheDocument();
+    });
+
+    it('shows the body as the server renders it', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ok: true, text: async () => '<p>Rendered <strong>body</strong></p>'}));
+      await setup({value: 'Hello', previewUrl: '/posts/preview'});
+      await userEvent.click(screen.getByRole('tab', {name: 'Preview'}));
+      expect(await screen.findByText('body')).toBeInTheDocument();
+      vi.unstubAllGlobals();
+    });
+  });
+
+  describe('autosave', () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+      vi.useRealTimers();
+    });
+
+    const autosave = {createUrl: '/posts', updateUrl: '/posts/a-draft', subjectId: 'post_subject'};
+
+    async function typeBody(text) {
+      const {container} = await setup({autosave});
+      const input = document.createElement('input');
+      input.id = 'post_subject';
+      input.value = 'A title';
+      document.body.appendChild(input);
+      await userEvent.click(screen.getByRole('tab', {name: 'Markdown'}));
+      await userEvent.type(screen.getByRole('textbox', {name: 'Post body as markdown'}), text);
+      return {container, input};
+    }
+
+    it('saves the draft after typing stops', async () => {
+      const patch = vi.spyOn(api, 'patchJson').mockResolvedValue({ok: true, status: 200, data: null});
+      const {input} = await typeBody('words');
+      await waitFor(() => expect(patch).toHaveBeenCalledWith(
+        '/posts/a-draft', {post: {subject: 'A title', body: 'words', draft: true}}
+      ), {timeout: 3000});
+      input.remove();
+    });
+
+    it('says when the draft is saved', async () => {
+      vi.spyOn(api, 'patchJson').mockResolvedValue({ok: true, status: 200, data: null});
+      const {input} = await typeBody('words');
+      expect(await screen.findByText(/Draft saved/, {}, {timeout: 3000})).toBeInTheDocument();
+      input.remove();
+    });
+
+    it('says when saving fails', async () => {
+      vi.spyOn(api, 'patchJson').mockResolvedValue({ok: false, status: 500, data: null});
+      const {input} = await typeBody('words');
+      expect(await screen.findByText(/Could not save the draft/, {}, {timeout: 3000})).toBeInTheDocument();
+      input.remove();
+    });
+
+    it('does not save without a title', async () => {
+      const patch = vi.spyOn(api, 'patchJson').mockResolvedValue({ok: true, status: 200, data: null});
+      await setup({autosave});
+      await userEvent.click(screen.getByRole('tab', {name: 'Markdown'}));
+      await userEvent.type(screen.getByRole('textbox', {name: 'Post body as markdown'}), 'words');
+      await new Promise((resolve) => setTimeout(resolve, 1800));
+      expect(patch).not.toHaveBeenCalled();
     });
   });
 });

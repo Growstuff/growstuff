@@ -3,6 +3,9 @@ import {EditorContent, useEditor, useEditorState} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import {Markdown} from '@tiptap/markdown';
 
+import {csrfToken} from '../api';
+import useDraftAutosave from './useDraftAutosave';
+
 const BLOCKS = [
   {value: 'paragraph', label: 'Paragraph'},
   {value: 'h2', label: 'Heading'},
@@ -90,9 +93,28 @@ function Toolbar({editor}) {
 // format without knowing it. The Markdown tab shows and edits the raw text.
 // The markdown goes in a hidden field called `name`, so the surrounding form
 // submits it as it would a textarea.
-export default function PostEditor({name, value = '', id = 'post_body'}) {
+//
+// With `autosave` (see useDraftAutosave) the post is saved as a draft as it is
+// written. With `previewUrl` a Preview tab shows the body as the site will
+// render it.
+export default function PostEditor({name, value = '', id = 'post_body', autosave = null, previewUrl = null}) {
   const [markdown, setMarkdown] = useState(value);
   const [tab, setTab] = useState('write');
+  const [previewHtml, setPreviewHtml] = useState('');
+  const status = useDraftAutosave(markdown, autosave);
+
+  const tabs = [['write', 'Write'], previewUrl && ['preview', 'Preview'], ['markdown', 'Markdown']].filter(Boolean);
+
+  async function loadPreview() {
+    setPreviewHtml('');
+    const response = await fetch(previewUrl, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken()},
+      body: JSON.stringify({body: markdown}),
+    });
+    setPreviewHtml(response.ok ? await response.text() : '<p>The preview could not be loaded.</p>');
+  }
 
   const editor = useEditor({
     extensions: [StarterKit, Markdown],
@@ -106,6 +128,7 @@ export default function PostEditor({name, value = '', id = 'post_body'}) {
     if (next === 'write' && editor) {
       editor.commands.setContent(markdown, {contentType: 'markdown'});
     }
+    if (next === 'preview') loadPreview();
     setTab(next);
   };
 
@@ -113,7 +136,7 @@ export default function PostEditor({name, value = '', id = 'post_body'}) {
     <div className="post-editor">
       <input type="hidden" name={name} value={markdown} />
       <div className="post-editor-tabs" role="tablist">
-        {[['write', 'Write'], ['markdown', 'Markdown']].map(([key, label]) => (
+        {tabs.map(([key, label]) => (
           <button
             key={key}
             type="button"
@@ -125,6 +148,9 @@ export default function PostEditor({name, value = '', id = 'post_body'}) {
             {label}
           </button>
         ))}
+        <span className="post-editor-status text-muted small ms-auto align-self-end" role="status" aria-live="polite">
+          {status}
+        </span>
       </div>
       <div className="post-editor-panel">
         {tab === 'write' && editor && (
@@ -132,6 +158,10 @@ export default function PostEditor({name, value = '', id = 'post_body'}) {
             <Toolbar editor={editor} />
             <EditorContent editor={editor} id={id} />
           </>
+        )}
+        {tab === 'preview' && (
+          // The server renders (and sanitises) the markdown, as it does for a posted post.
+          <div className="post-editor-preview post-content" dangerouslySetInnerHTML={{__html: previewHtml}} />
         )}
         {tab === 'markdown' && (
           <textarea

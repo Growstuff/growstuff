@@ -123,7 +123,10 @@ class PhotosController < ApplicationController
     item_class = params[:type].capitalize
     raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
 
-    item_class.constantize.find(params[:id])
+    klass = item_class.constantize
+    # A draft post is still its author's to add photos to.
+    klass = klass.with_drafts if klass.respond_to?(:with_drafts)
+    klass.find(params[:id])
   end
 
   #

@@ -2,7 +2,8 @@
 
 class PostsController < ApplicationController
   before_action :authenticate_member!, except: %i(index show)
-  load_and_authorize_resource
+  before_action :find_post, only: %i(show edit update destroy)
+  load_and_authorize_resource except: :preview
   responders :flash
   respond_to :html, :json
   respond_to :rss, only: %i(index show)
@@ -14,7 +15,6 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.includes(:author).find(params[:id])
     respond_with(@post)
   end
 
@@ -30,15 +30,24 @@ class PostsController < ApplicationController
 
   def edit; end
 
+  # The body as it will look when posted, for the editor's Preview tab.
+  def preview
+    authorize! :create, Post
+    render partial: 'posts/body', formats: [:html], locals: { body: params[:body].to_s }
+  end
+
   def create
     params[:post][:author_id] = current_member.id
     @post = Post.new(post_params)
-    flash[:notice] = t('posts.created') if @post.save
+    flash[:notice] = t(@post.draft? ? 'posts.draft_saved' : 'posts.created') if @post.save
     respond_with(@post)
   end
 
   def update
-    flash[:notice] = t('posts.updated') if @post.update(post_params)
+    was_draft = @post.draft?
+    if @post.update(post_params)
+      flash[:notice] = t(was_draft && @post.published? ? 'posts.created' : 'posts.updated')
+    end
     respond_with(@post)
   end
 
@@ -49,13 +58,28 @@ class PostsController < ApplicationController
 
   private
 
+  # A draft is only its author's: to anyone else it does not exist.
+  def find_post
+    @post = Post.with_drafts.includes(:author).find(params[:id])
+    raise ActiveRecord::RecordNotFound if @post.draft? && @post.author != current_member
+  end
+
   def post_params
-    params.require(:post).permit(:body, :subject, :author_id, :forum_id)
+    params.require(:post).permit(:body, :subject, :author_id, :forum_id, :card_photo_id, :draft)
+  end
+
+  # All of their own posts with drafts among them, or only the drafts.
+  def own_posts
+    return @author.posts unless @author == current_member
+
+    mine = Post.with_drafts.where(author: @author)
+    params[:drafts].present? ? mine.where(published_at: nil) : mine
   end
 
   def posts
     if @author
-      @author.posts
+      # Members see their own drafts on their own page.
+      own_posts
     else
       Post
     end.order(created_at: :desc)
