@@ -24,6 +24,7 @@ describe 'Post a post' do
 
       it "reaches the edit page from the post's actions menu" do
         visit post_path(existing_post)
+        click_link "Actions"
         click_link "Edit"
         expect(page).to have_current_path(edit_post_path(existing_post))
       end
