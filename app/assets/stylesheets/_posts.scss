@@ -3,3 +3,67 @@
     max-width: 100%;
   }
 }
+
+// The rich text editor on the post form (PostEditor island).
+.post-editor {
+  .post-editor-tabs {
+    display: flex;
+    gap: 2px;
+  }
+
+  .post-editor-tab {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 2px 2px 0 0;
+    padding: 6px 16px;
+    color: rgba(65, 63, 59, .75);
+
+    &.active {
+      background: #fff;
+      border-color: rgba(65, 63, 59, .35);
+      border-bottom-color: #fff;
+      margin-bottom: -1px;
+      color: #212121;
+      font-weight: 600;
+    }
+  }
+
+  .post-editor-panel {
+    border: 1px solid rgba(65, 63, 59, .35);
+    border-radius: 0 2px 2px 2px;
+    background: #fff;
+  }
+
+  .post-editor-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px;
+    background: #f4f2ef;
+    border-bottom: 1px solid rgba(65, 63, 59, .15);
+  }
+
+  .post-editor-block {
+    width: auto;
+  }
+
+  .post-editor-content {
+    min-height: 320px;
+    padding: 16px 20px;
+    outline: none;
+
+    &:focus-visible {
+      box-shadow: inset 0 0 0 2px #2f4365;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .post-editor-raw {
+    border: 0;
+    font-family: monospace;
+  }
+}

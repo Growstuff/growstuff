@@ -1,3 +1,7 @@
+-# The body editor is a React island.
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
 .card.col-md-8.col-lg-7.mx-auto.float-none.white.z-depth-1.py-2.px-2
   = bootstrap_form_for(@post) do |f|
     .card-header
@@ -20,7 +24,9 @@
         = label_tag :body, "What's up?"
       - else
         = label_tag :body, "What's going on in your food garden?"
-      = f.text_area :body, rows: 12
+      -# Falls back to the plain textarea if the editor script does not load.
+      = react_component('PostEditor', { name: 'post[body]', value: @post.body.to_s }) do
+        = f.text_area :body, rows: 12, label: false
       %span.form-text= render partial: "shared/markdown_help"
 
       - if @post.forum || @forum
