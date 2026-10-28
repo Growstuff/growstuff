@@ -5,10 +5,7 @@ namespace :packets do
   # usage: rake packets:needing_ocr LIMIT=5
   task needing_ocr: :environment do
     limit = ENV.fetch('LIMIT', nil).to_i
-    associations = PhotoAssociation.of_packets
-                                   .joins('INNER JOIN seeds ON seeds.id = photo_associations.photographable_id')
-                                   .where(seeds: { packet_text: [nil, ''] })
-                                   .includes(:photo).order(:photo_id, :id)
+    associations = PhotoAssociation.awaiting_text.includes(:photo).order(:photo_id, :id)
     associations = associations.limit(limit) if limit.positive?
 
     associations.each do |association|

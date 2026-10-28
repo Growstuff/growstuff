@@ -60,6 +60,12 @@ class Seed < ApplicationRecord
     photo_associations.find_by(label: side)&.photo
   end
 
+  # Which side of the packet a photo of this seed is of, if it is of one. Uses
+  # the loaded photo associations, so a page of photos reads them once.
+  def label_of(photo)
+    photo_associations.find { |association| association.photo_id == photo.id }&.label
+  end
+
   # The packet's front, if there is a photo of it. Otherwise the most liked
   # photo that is not of the back.
   def default_photo

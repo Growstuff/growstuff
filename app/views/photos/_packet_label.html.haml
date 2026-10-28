@@ -1,13 +1,11 @@
 -# On a seed's own page: whether each of its photos is of the packet, and which
 -# side. Everyone sees what it is; the seed's owner can change it.
-- label = seed.photo_associations.find { |association| association.photo_id == photo.id }&.label
-- label_path = ->(choice) { photo_association_path(photo_id: photo.id, type: 'seed', id: seed.id, label: choice) }
+- label = seed.label_of(photo)
 .packet-label.small.mt-1
   - if label
     %span.badge.text-bg-secondary= t("seeds.packet.label_#{label}")
   - if can?(:update, seed)
-    - choices = PhotoAssociation::LABELS['Seed'].without(label)
-    - choices.each do |choice|
-      = link_to t("seeds.packet.mark_#{choice}"), label_path.call(choice), method: :patch, class: 'me-2'
-    - if label
-      = link_to t('seeds.packet.not_packet'), label_path.call(''), method: :patch, class: 'me-2'
+    - PhotoAssociation::LABELS['Seed'].without(label).each do |choice|
+      = link_to t("seeds.packet.mark_#{choice}"), packet_label_path(seed, photo, choice), method: :patch, class: 'me-2'
+    - not_packet_path = packet_label_path(seed, photo, '')
+    = link_to t('seeds.packet.not_packet'), not_packet_path, method: :patch, class: 'me-2' if label

@@ -21,4 +21,17 @@ describe Seed, '#packet_photo' do
 
     it('is nothing') { expect(seed.packet_photo('back')).to be_nil }
   end
+
+  describe '#label_of' do
+    it('is front for the front') { expect(seed.reload.label_of(front)).to eq 'front' }
+    it('is back for the back') { expect(seed.reload.label_of(back)).to eq 'back' }
+
+    it('is nothing for a photo that is not of the packet') do
+      expect(seed.reload.label_of(seed.photos.reject { |photo| [front, back].include?(photo) }.first)).to be_nil
+    end
+
+    it('is nothing for a photo that is not of this seed') do
+      expect(seed.reload.label_of(create(:photo, owner: seed.owner))).to be_nil
+    end
+  end
 end

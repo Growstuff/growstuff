@@ -31,12 +31,12 @@ Needs only the python3 standard library, and whatever OCR command is used.
 
 import argparse
 import json
+import os
 import re
 import shlex
 import subprocess
 import sys
 import tempfile
-import os
 import urllib.error
 import urllib.request
 
