@@ -1,11 +1,16 @@
--# On a seed's own page: whether each of its photos is of the packet, and which
--# side. Everyone sees what it is; the seed's owner can change it.
+-# On a seed's own page: which side of the packet each of its photos is of, if it
+-# is of one. The seed's owner chooses with the buttons, the current choice
+-# being the lit one; everyone else sees what it is.
 - label = seed.label_of(photo)
-.packet-label.small.mt-1
-  - if label
-    %span.badge.text-bg-secondary= t("seeds.packet.label_#{label}")
+.packet-label.mt-2
   - if can?(:update, seed)
-    - PhotoAssociation::LABELS['Seed'].without(label).each do |choice|
-      = link_to t("seeds.packet.mark_#{choice}"), packet_label_path(seed, photo, choice), method: :patch, class: 'me-2'
-    - not_packet_path = packet_label_path(seed, photo, '')
-    = link_to t('seeds.packet.not_packet'), not_packet_path, method: :patch, class: 'me-2' if label
+    .btn-group.btn-group-sm{ role: 'group', 'aria-label': t('seeds.packet.group') }
+      - [*PhotoAssociation::LABELS['Seed'], nil].each do |choice|
+        - words = t("seeds.packet.choice_#{choice || 'none'}")
+        - if choice == label
+          %span.btn.btn-secondary.active{ 'aria-current': 'true' }= words
+        - else
+          - path = packet_label_path(seed, photo, choice.to_s)
+          = link_to words, path, method: :patch, class: 'btn btn-outline-secondary'
+  - elsif label
+    %span.badge.text-bg-secondary= t("seeds.packet.label_#{label}")
