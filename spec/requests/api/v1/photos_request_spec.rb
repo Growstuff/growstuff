@@ -16,8 +16,7 @@ RSpec.describe 'Photos' do
         "owner"     => owner_as_json_api,
         "plantings" => plantings_as_json_api,
         "harvests"  => harvests_as_json_api,
-        "gardens"   => gardens_as_json_api,
-        "seeds"     => seeds_as_json_api
+        "gardens"   => gardens_as_json_api
       } }
   end
 
@@ -41,12 +40,6 @@ RSpec.describe 'Photos' do
                    "related" => "#{resource_url}/gardens" } }
   end
 
-  let(:seeds_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/seeds",
-                   "related" => "#{resource_url}/seeds" } }
-  end
-
   let(:plantings_as_json_api) do
     { "links" =>
                  { "self"    =>
@@ -60,7 +53,8 @@ RSpec.describe 'Photos' do
       "fullsize-url"  => photo.fullsize_url,
       "link-url"      => photo.link_url,
       "license-name"  => photo.license_name,
-      "title"         => photo.title
+      "title"         => photo.title,
+      "seed-ids"      => []
     }
   end
 
@@ -98,6 +92,10 @@ RSpec.describe 'Photos' do
       let(:label) { 'back' }
 
       it('finds the back') { expect(ids).to eq [back.id.to_s] }
+
+      it('says which seed it is of') do
+        expect(JSON.parse(response.body)['data'].first['attributes']['seed-ids']).to eq [seed.id]
+      end
     end
 
     context 'with front and back' do
