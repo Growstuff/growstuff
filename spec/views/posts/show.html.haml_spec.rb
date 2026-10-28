@@ -25,6 +25,8 @@ describe "posts/show" do
       # shouldn't show the subject on a single post page
       # (it appears in the title/h1 via the layout, not via this view)
       it { is_expected.to have_no_text('An Update') }
+      # shouldn't show shareon buttons when not logged in
+      it { is_expected.to have_no_css '.shareon' }
     end
 
     describe "should parse markdown into html" do
@@ -126,6 +128,17 @@ describe "posts/show" do
 
     it 'shows the comment form on the page' do
       expect(subject).to have_css "#new-comment form[action='#{comments_path}']"
+    end
+
+    it 'shows the shareon share buttons' do
+      expect(subject).to have_css '.shareon a.bluesky'
+      expect(subject).to have_css '.shareon a.fediverse'
+      expect(subject).to have_css '.shareon a.mastodon'
+      expect(subject).to have_css '.shareon a.telegram'
+      expect(subject).to have_css '.shareon a.copy-url'
+      expect(subject).to have_css '.shareon a.email'
+      expect(subject).to have_css '.shareon a.print'
+      expect(subject).to have_css '.shareon a.web-share'
     end
   end
 

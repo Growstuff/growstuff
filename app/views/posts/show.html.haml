@@ -56,6 +56,16 @@
 
       .card-footer
         = render 'likes/likes', object: @post
+        - if current_member
+          .shareon.mt-2
+            %a.bluesky
+            %a.fediverse
+            %a.mastodon
+            %a.telegram
+            %a.copy-url
+            %a.email
+            %a.print
+            %a.web-share
         .float-end
           - if can? :create, Comment
             = link_to '#new-comment', class: 'btn' do

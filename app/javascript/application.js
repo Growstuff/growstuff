@@ -17,6 +17,7 @@ import './site/members';
 import './site/navbar_search';
 import './site/places';
 import './site/planting_alternate_name';
+import './site/shareon';
 import './site/tab_navigation';
 import { initFlashMessages } from './site/flash_messages';
 
