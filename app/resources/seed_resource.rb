@@ -17,4 +17,5 @@ class SeedResource < ApplicationResource
 
   belongs_to :crop
   owned
+  photos_of 'Seed'
 end

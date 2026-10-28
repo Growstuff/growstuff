@@ -1,24 +1,25 @@
 #!/usr/bin/env python3
 """Read the text on photos of seed packets that haven't been read yet.
 
-Takes a list of photos, one JSON object per line, from Growstuff's
-`rake packets:needing_ocr` (the photos labelled front or back of a seed packet
-whose seed has no text from the packet yet, oldest first). Downloads each one,
-runs an OCR command on it, and prints the same object with the text added:
+Asks a Growstuff server's API for the photos labelled front or back of a seed
+packet whose seed has no text from the packet yet, oldest first. Downloads each
+one, runs an OCR command on it, and prints one JSON object per photo on stdout:
 
-    {"photo_id": "118", "seed_ids": [10], "label": "back", "image_url": "...", "text": "..."}
+    {"photo_id": "118", "seed_ids": ["10"], "label": "back", "image_url": "...", "text": "..."}
 
 Progress and errors go to stderr. Nothing is uploaded: for now this only reads.
 
-    bin/rails packets:needing_ocr LIMIT=5 | python3 script/ocr/read_packets.py
+The server comes from the environment, so the same command works against dev or
+production:
 
-or from a saved list:
+    GROWSTUFF_URL=http://localhost:3000 script/ocr/read_packets.py --limit 5
 
-    bin/rails packets:needing_ocr > photos.jsonl
-    python3 script/ocr/read_packets.py --photos photos.jsonl --limit 3 > text.jsonl
+    GROWSTUFF_URL        the server (default https://www.growstuff.org)
+    GROWSTUFF_API_TOKEN  an API token, sent if set. Reading doesn't need one;
+                         saving the text will.
 
-    --photos FILE    the list of photos (default: standard input)
-    --limit N        read only the first N photos of the list
+    --limit N        read only the first N photos (the oldest that need it)
+    --list           only list the photos that need reading, without reading them
     --ocr-command    the OCR tool to run on each image, {image} being its path.
                      Default "tesseract {image} stdout"; any command that prints
                      the text works, so other engines can be tried the same way.
@@ -38,11 +39,49 @@ import subprocess
 import sys
 import tempfile
 import urllib.error
+import urllib.parse
 import urllib.request
 
+DEFAULT_URL = "https://www.growstuff.org"
+PAGE_SIZE = 100  # the most the API gives in a page
 
-def fetch(url):
-    return urllib.request.urlopen(urllib.request.Request(url), timeout=60)
+
+def fetch(url, token=None, accept=None):
+    request = urllib.request.Request(url)
+    if token:
+        request.add_header("Authorization", f"Token token={token}")
+    if accept:
+        request.add_header("Accept", accept)
+    return urllib.request.urlopen(request, timeout=60)
+
+
+def photos_needing_ocr(base_url, token, limit=None):
+    """Yield the photos of seed packets with no text yet, oldest first.
+
+    Pages are asked for by number, not by following the API's own links, which
+    point at the address the API is configured with and not necessarily at this
+    server."""
+    size = min(limit or PAGE_SIZE, PAGE_SIZE)
+    count = 0
+    for number in range(1, 10_000):
+        query = urllib.parse.urlencode(
+            {"filter[needs_ocr]": "true", "include": "seeds", "page[size]": size, "page[number]": number}
+        )
+        with fetch(f"{base_url}/api/v1/photos?{query}", token, "application/vnd.api+json") as response:
+            page = json.load(response)
+        for photo in page["data"]:
+            if limit is not None and count >= limit:
+                return
+            count += 1
+            seeds = (photo.get("relationships", {}).get("seeds") or {}).get("data") or []
+            yield {
+                "photo_id": photo["id"],
+                "seed_ids": [seed["id"] for seed in seeds],
+                "label": photo["attributes"]["label"],
+                "image_url": photo["attributes"]["fullsize-url"],
+            }
+        if len(page["data"]) < size:
+            return
 
 
 def larger(url):
@@ -87,19 +126,11 @@ def ocr(command, path):
     return subprocess.run(arguments, capture_output=True, text=True, check=True).stdout
 
 
-def read_photos(source):
-    for number, line in enumerate(source, 1):
-        if line.strip():
-            try:
-                yield json.loads(line)
-            except json.JSONDecodeError:
-                sys.exit(f"Line {number} of the list of photos is not JSON: {line.strip()[:80]}")
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("--photos", metavar="FILE", help="the list of photos, one JSON object per line (default: stdin)")
-    parser.add_argument("--limit", "-n", type=int, help="read only the first N photos of the list")
+    parser.add_argument("--base-url", default=os.environ.get("GROWSTUFF_URL", DEFAULT_URL))
+    parser.add_argument("--limit", "-n", type=int, help="read only the first N photos (the oldest)")
+    parser.add_argument("--list", action="store_true", help="list the photos that need reading, without reading them")
     parser.add_argument("--ocr-command", default="tesseract {image} stdout")
     parser.add_argument("--keep-images", metavar="DIR", help="keep the downloaded images in this directory")
     parser.add_argument("--clean", action="store_true", help="tidy each image before reading it")
@@ -107,30 +138,36 @@ def main():
 
     if args.limit is not None and args.limit < 1:
         sys.exit("--limit must be at least 1.")
-    if args.photos is None and sys.stdin.isatty():
-        sys.exit("Give it a list of photos: bin/rails packets:needing_ocr | python3 script/ocr/read_packets.py")
     if args.keep_images:
         os.makedirs(args.keep_images, exist_ok=True)
 
-    source = open(args.photos) if args.photos else sys.stdin
+    base_url = args.base_url.rstrip("/")
+    token = os.environ.get("GROWSTUFF_API_TOKEN")
+    print(f"Server: {base_url}", file=sys.stderr)
     count = 0
-    for photo in read_photos(source):
-        if args.limit is not None and count >= args.limit:
-            break
-        count += 1
-        with tempfile.TemporaryDirectory() as scratch:
-            directory = args.keep_images or scratch
-            path, used_url = download(photo["image_url"], directory, f"photo-{photo['photo_id']}")
-            if path is None:
-                print(f"photo {photo['photo_id']}: could not download {photo['image_url']}", file=sys.stderr)
+    try:
+        for photo in photos_needing_ocr(base_url, token, args.limit):
+            count += 1
+            if args.list:
+                print(json.dumps(photo), flush=True)
                 continue
-            try:
-                text = ocr(args.ocr_command, clean(path) if args.clean else path)
-            except (OSError, subprocess.CalledProcessError) as error:
-                sys.exit(f"The OCR command failed on photo {photo['photo_id']}: {error}")
-        print(json.dumps({**photo, "image_url": used_url, "text": text}), flush=True)
-        print(f"photo {photo['photo_id']} ({photo.get('label')}): {len(text.split())} words", file=sys.stderr)
-    print(f"{count} photo(s) read.", file=sys.stderr)
+            with tempfile.TemporaryDirectory() as scratch:
+                directory = args.keep_images or scratch
+                path, used_url = download(photo["image_url"], directory, f"photo-{photo['photo_id']}")
+                if path is None:
+                    print(f"photo {photo['photo_id']}: could not download {photo['image_url']}", file=sys.stderr)
+                    continue
+                try:
+                    text = ocr(args.ocr_command, clean(path) if args.clean else path)
+                except (OSError, subprocess.CalledProcessError) as error:
+                    sys.exit(f"The OCR command failed on photo {photo['photo_id']}: {error}")
+            print(json.dumps({**photo, "image_url": used_url, "text": text}), flush=True)
+            print(f"photo {photo['photo_id']} ({photo['label']}): {len(text.split())} words", file=sys.stderr)
+    except urllib.error.HTTPError as error:
+        sys.exit(f"The server said {error.code} {error.reason} for {error.url}")
+    except (urllib.error.URLError, TimeoutError) as error:
+        sys.exit(f"Could not reach {base_url}: {getattr(error, 'reason', error)}")
+    print(f"{count} photo(s) {'listed' if args.list else 'read'}.", file=sys.stderr)
 
 
 if __name__ == "__main__":
