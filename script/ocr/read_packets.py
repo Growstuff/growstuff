@@ -23,6 +23,8 @@ or from a saved list:
                      Default "tesseract {image} stdout"; any command that prints
                      the text works, so other engines can be tried the same way.
     --keep-images D  keep the downloaded images in directory D, to try tools on
+    --clean          tidy each image before reading it: for faint, tilted or dark
+                     packets that read as nothing (needs Pillow and numpy)
 
 Needs only the python3 standard library, and whatever OCR command is used.
 """
@@ -61,6 +63,24 @@ def download(url, directory, name):
     return None, None
 
 
+def clean(path):
+    """Use only the red channel, where dark ink on orange or brown paper has the
+    most contrast, divide out the uneven lighting, and double the size."""
+    try:
+        import numpy
+        from PIL import Image, ImageFilter
+    except ImportError:
+        sys.exit("--clean needs Pillow and numpy: sudo apt install python3-pil python3-numpy")
+    red = Image.open(path).convert("RGB").split()[0]
+    big = red.resize((red.width * 2, red.height * 2), Image.LANCZOS)
+    pixels = numpy.asarray(big).astype("float32")
+    lighting = numpy.asarray(big.filter(ImageFilter.GaussianBlur(30))).astype("float32")
+    tidy = numpy.clip(pixels / numpy.maximum(lighting, 1) * 200, 0, 255).astype("uint8")
+    cleaned = os.path.splitext(path)[0] + "-clean.png"
+    Image.fromarray(tidy).save(cleaned)
+    return cleaned
+
+
 def ocr(command, path):
     arguments = [part.replace("{image}", path) for part in shlex.split(command)]
     return subprocess.run(arguments, capture_output=True, text=True, check=True).stdout
@@ -81,6 +101,7 @@ def main():
     parser.add_argument("--limit", "-n", type=int, help="read only the first N photos of the list")
     parser.add_argument("--ocr-command", default="tesseract {image} stdout")
     parser.add_argument("--keep-images", metavar="DIR", help="keep the downloaded images in this directory")
+    parser.add_argument("--clean", action="store_true", help="tidy each image before reading it")
     args = parser.parse_args()
 
     if args.limit is not None and args.limit < 1:
@@ -103,7 +124,7 @@ def main():
                 print(f"photo {photo['photo_id']}: could not download {photo['image_url']}", file=sys.stderr)
                 continue
             try:
-                text = ocr(args.ocr_command, path)
+                text = ocr(args.ocr_command, clean(path) if args.clean else path)
             except (OSError, subprocess.CalledProcessError) as error:
                 sys.exit(f"The OCR command failed on photo {photo['photo_id']}: {error}")
         print(json.dumps({**photo, "image_url": used_url, "text": text}), flush=True)
