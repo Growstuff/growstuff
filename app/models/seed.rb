@@ -55,9 +55,11 @@ class Seed < ApplicationRecord
 
   #
   # Photos
-  # The photo of one side of the packet, front or back, if there is one.
+  # The photo of one side of the packet, front or back, if there is one. When a
+  # side has been photographed again, the newest photo. The older one keeps its
+  # label, as it is still a photo of a packet, and not of the crop.
   def packet_photo(side)
-    photo_associations.find_by(label: side)&.photo
+    photo_associations.where(label: side).order(:id).last&.photo
   end
 
   # Which side of the packet a photo of this seed is of, if it is of one. Uses

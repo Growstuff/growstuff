@@ -205,6 +205,13 @@ describe Crop do
         it('is still not the default photo') { expect(crop.default_photo).to be_nil }
       end
 
+      context 'with the packet photographed again, so a newer photo has the label' do
+        before { seed.photo_associations.create!(photo: create(:photo, owner: seed.owner), label: 'back') }
+
+        it('still leaves out the older packet photo') { expect(crop.photos).not_to include(packet_photo) }
+        it('leaves out the newer one too') { expect(crop.photos).to be_empty }
+      end
+
       context 'with a photo of the seeds too' do
         let!(:seed_photo) { create(:photo, owner: seed.owner) }
 

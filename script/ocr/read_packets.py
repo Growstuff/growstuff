@@ -54,12 +54,13 @@ def download(url, directory, name):
     for candidate in dict.fromkeys([larger(url), url]):
         try:
             with fetch(candidate) as response:
-                path = os.path.join(directory, name + os.path.splitext(candidate)[1])
-                with open(path, "wb") as f:
-                    f.write(response.read())
-                return path, candidate
-        except urllib.error.HTTPError:
+                image = response.read()
+        except (urllib.error.URLError, TimeoutError):  # HTTP errors are URLErrors too
             continue
+        path = os.path.join(directory, name + os.path.splitext(candidate)[1])
+        with open(path, "wb") as f:
+            f.write(image)
+        return path, candidate
     return None, None
 
 

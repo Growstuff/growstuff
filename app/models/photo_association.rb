@@ -22,7 +22,6 @@ class PhotoAssociation < ApplicationRecord
   ##
   ## Triggers
   before_validation :set_crop
-  before_save :take_label_from_other_photos, if: :seed_label?
 
   # Photos of a seed packet say what the packet says, not what the crop looks
   # like, so a photo labelled as one is left out of a crop's own photos.
@@ -36,15 +35,6 @@ class PhotoAssociation < ApplicationRecord
   end
 
   private
-
-  def seed_label?
-    label? && photographable_type == 'Seed'
-  end
-
-  # A seed has one photo of each side of its packet: the newest one wins.
-  def take_label_from_other_photos
-    photographable.photo_associations.where(label:).where.not(id:).update_all(label: nil) # rubocop:disable Rails/SkipsModelValidations
-  end
 
   def set_crop
     if %w(Planting Seed Harvest).include?(photographable_type)

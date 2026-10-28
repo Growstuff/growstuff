@@ -37,6 +37,7 @@ class PhotosController < ApplicationController
     @item = item_to_link_to
     @type = params[:type]
     @id = params[:id]
+    @label = params[:label]
     retrieve_from_flickr
     return render json: flickr_picker_json if request.format.json?
 

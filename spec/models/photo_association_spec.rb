@@ -76,25 +76,15 @@ describe PhotoAssociation do
 
   describe 'a seed packet label' do
     let(:seed) { create(:seed) }
-    let(:photo) { create(:photo, owner: seed.owner) }
-    let(:association) { seed.photo_associations.build(photo:, label: 'front') }
+    let!(:earlier) { seed.photo_associations.create!(photo: create(:photo, owner: seed.owner), label: 'front') }
+    let(:later) { seed.photo_associations.create!(photo: create(:photo, owner: seed.owner), label: 'front') }
 
-    context 'when the seed already has a photo of that side' do
-      let!(:earlier) { seed.photo_associations.create!(photo: create(:photo, owner: seed.owner), label: 'front') }
-
-      before { association.save! }
-
-      it('takes the label from the earlier photo') { expect(earlier.reload.label).to be_nil }
-      it('keeps the label on the new photo') { expect(association.reload.label).to eq 'front' }
+    it('is kept by the earlier photo when the side is photographed again') do
+      later
+      expect(earlier.reload.label).to eq 'front'
     end
 
-    context 'when the seed has a photo of the other side' do
-      let!(:other) { seed.photo_associations.create!(photo: create(:photo, owner: seed.owner), label: 'back') }
-
-      before { association.save! }
-
-      it('leaves it alone') { expect(other.reload.label).to eq 'back' }
-    end
+    it('is on the later photo too') { expect(later.reload.label).to eq 'front' }
   end
 
   context 'when the photo is someone else\'s' do

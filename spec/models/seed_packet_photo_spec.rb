@@ -16,6 +16,14 @@ describe Seed, '#packet_photo' do
   it('is the front') { expect(seed.packet_photo('front')).to eq front }
   it('is the back') { expect(seed.packet_photo('back')).to eq back }
 
+  context 'with the front photographed again' do
+    let(:newer_front) { create(:photo, owner: seed.owner) }
+
+    before { seed.photo_associations.create!(photo: newer_front, label: 'front') }
+
+    it('is the newer photo') { expect(seed.packet_photo('front')).to eq newer_front }
+  end
+
   context 'without a photo of that side' do
     before { seed.photo_associations.where(label: 'back').destroy_all }
 
