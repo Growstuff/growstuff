@@ -34,8 +34,11 @@ class Post < ApplicationRecord
 
   #
   # Validations
-  validates :subject, presence: true, length: { maximum: 255 }
-  validates :body, presence: true
+  # A draft can be saved blank (a photo needs a saved post to go on); a post
+  # being published needs both.
+  validates :subject, presence: true, if: :publishing?
+  validates :subject, length: { maximum: 255 }
+  validates :body, presence: true, if: :publishing?
   validate :card_photo_is_in_post, if: :card_photo_id?
 
   WORDS_PER_MINUTE = 200
@@ -59,6 +62,11 @@ class Post < ApplicationRecord
 
   def more_from_author(limit = 3)
     author.posts.where.not(id:).order(created_at: :desc).limit(limit)
+  end
+
+  # A draft's address follows its title until it is published.
+  def should_generate_new_friendly_id?
+    slug.blank? || (draft? && subject_changed?)
   end
 
   def author_date_subject
@@ -98,11 +106,17 @@ class Post < ApplicationRecord
 
   private
 
-  def set_published_at
-    return if published? || draft == true
-    return unless new_record? || draft == false
+  # Being published by this save: a published post stays so, a new one is
+  # unless it is a draft, and a draft is when asked with `draft: false`.
+  def publishing?
+    return true if published?
+    return false if draft == true
 
-    self.published_at = Time.current
+    new_record? || draft == false
+  end
+
+  def set_published_at
+    self.published_at = Time.current if !published? && publishing?
   end
 
   def card_photo_is_in_post

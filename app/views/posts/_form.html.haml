@@ -3,7 +3,7 @@
   = javascript_include_tag 'react_islands', defer: true
 
 - draft = @post.new_record? || @post.draft?
-- autosave = { createUrl: posts_path, updateUrl: (post_path(@post) if @post.persisted?), subjectId: 'post_subject' }
+- autosave = { createUrl: posts_path, updateUrl: (post_path(@post.id) if @post.persisted?), subjectId: 'post_subject' }
 
 = bootstrap_form_for(@post, html: { class: 'post-edit-page' }) do |f|
   .row
@@ -35,7 +35,7 @@
           -# Falls back to the plain textarea if the editor script does not load.
           - editor_props = { name: 'post[body]', value: @post.body.to_s, previewUrl: preview_posts_path,
             canAddPhoto: can?(:create, Photo), photos: post_photo_props(@post), cardPhotoId: @post.card_photo_id,
-            postPath: (post_path(@post) if @post.persisted?) }
+            postPath: (post_path(@post.id) if @post.persisted?) }
           - editor_props[:autosave] = autosave if draft
           = react_component('PostEditor', editor_props) do
             = f.text_area :body, rows: 12, label: false
@@ -60,8 +60,8 @@
         %section.card.mb-3{ 'aria-label': 'Photos' }
           .card-body
             %p.text-muted.small.mb-0
-              Use <strong>+ Flickr photo</strong> in the toolbar to put a photo in your post. Once you have a title and
-              some text your draft is saved, and its card photo and photos appear here when you next open it.
+              Use <strong>+ Flickr photo</strong> in the toolbar to put a photo in your post. Its card photo and photos
+              appear here when you next open the draft.
     - if @post.persisted?
       .col-lg-4
         %section.card.mb-3{ 'aria-label': 'Card photo' }

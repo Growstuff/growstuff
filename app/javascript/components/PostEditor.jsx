@@ -154,7 +154,7 @@ export default function PostEditor({
     setNotice('');
     const path = await ensurePostPath();
     if (!path) {
-      setNotice('Add a title and some text first, then pick a photo.');
+      setNotice('The draft could not be saved, so a photo cannot be added yet. Try again.');
       return;
     }
     setPickerUrl(`/photos/new?type=post&id=${path.split('/').pop()}`);

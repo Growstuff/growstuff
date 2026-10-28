@@ -181,15 +181,26 @@ describe('PostEditor', () => {
       input.remove();
     });
 
-    it('does not save without a title', async () => {
+    it('saves a draft with text but no title yet', async () => {
       const patch = vi.spyOn(api, 'patchJson').mockResolvedValue({ok: true, status: 200, data: null});
       await setup({autosave});
       await userEvent.click(screen.getByRole('tab', {name: 'Markdown'}));
       await userEvent.type(screen.getByRole('textbox', {name: 'Post body as markdown'}), 'words');
+      await waitFor(() => expect(patch).toHaveBeenCalledWith(
+        '/posts/a-draft', {post: {subject: '', body: 'words', draft: true}}
+      ), {timeout: 3000});
+    });
+
+    it('does not save when nothing is written', async () => {
+      const patch = vi.spyOn(api, 'patchJson').mockResolvedValue({ok: true, status: 200, data: null});
+      await setup({autosave});
+      await userEvent.click(screen.getByRole('tab', {name: 'Markdown'}));
+      await userEvent.click(screen.getByRole('tab', {name: 'Write'}));
       await new Promise((resolve) => setTimeout(resolve, 1800));
       expect(patch).not.toHaveBeenCalled();
     });
   });
+
   describe('links to crops, members and plantings', () => {
     const roundTrip = async (markdown) => {
       const {container} = await setup({value: markdown});
@@ -233,6 +244,7 @@ describe('PostEditor', () => {
       await waitFor(() => expect(hidden(container).value).toMatch(/@/));
     });
   });
+
   describe('photos in the text', () => {
     const photos = [{id: 5, title: 'Seed jar', thumbnail_url: '/t.jpg', fullsize_url: '/jar.jpg'}];
     const markdown = 'Before\n\n![Day two](photo:5/half)\n\nAfter';
@@ -290,10 +302,26 @@ describe('PostEditor', () => {
       expect(screen.queryByRole('button', {name: 'Flickr photo'})).not.toBeInTheDocument();
     });
 
-    it('asks for a title and text before picking a photo for a new draft', async () => {
+    it('saves a blank new draft so a photo has a post to go on', async () => {
+      const create = vi.spyOn(api, 'postJson').mockResolvedValue({ok: true, status: 201, data: {id: 12}});
       await setup({canAddPhoto: true, autosave: {createUrl: '/posts', updateUrl: null, subjectId: 'post_subject'}});
       await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
-      expect(await screen.findByText(/Add a title and some text first/)).toBeInTheDocument();
+      await waitFor(() => expect(create).toHaveBeenCalledWith('/posts', {post: {subject: '', body: '', draft: true}}));
+      create.mockRestore();
+    });
+
+    it('opens the picker once the draft is saved', async () => {
+      vi.spyOn(api, 'postJson').mockResolvedValue({ok: true, status: 201, data: {id: 12}});
+      await setup({canAddPhoto: true, autosave: {createUrl: '/posts', updateUrl: null, subjectId: 'post_subject'}});
+      await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+      expect(await screen.findByRole('dialog')).toBeInTheDocument();
+    });
+
+    it('says so when the draft cannot be saved', async () => {
+      vi.spyOn(api, 'postJson').mockResolvedValue({ok: false, status: 500, data: null});
+      await setup({canAddPhoto: true, autosave: {createUrl: '/posts', updateUrl: null, subjectId: 'post_subject'}});
+      await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+      expect(await screen.findByText(/could not be saved, so a photo cannot be added/)).toBeInTheDocument();
     });
 
     it('opens the Flickr picker for a post that exists', async () => {

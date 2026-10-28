@@ -5,7 +5,7 @@
 %h4.fw-bold.mb-3
   %strong
     = link_to post do
-      = post.subject
+      = post.subject.presence || t('posts.untitled')
     - if post.draft?
       %span.badge.text-bg-warning Draft
 %p
