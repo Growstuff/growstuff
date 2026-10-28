@@ -194,6 +194,12 @@
     display: flex;
     align-items: flex-start;
     gap: 1.25rem;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .record-actions {
+    flex: 0 0 auto;
   }
 
   .record-identity-text {
@@ -235,6 +241,32 @@
     // Secondary to the planting itself.
     .record-parent-where {
       white-space: nowrap;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .record-identity {
+      gap: 0.75rem;
+    }
+
+    .record-grower-avatar img {
+      width: 56px;
+      height: 56px;
+    }
+
+    .record-parent-where {
+      white-space: normal;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .record-identity {
+      gap: 0.5rem;
+    }
+
+    .record-grower-avatar img {
+      width: 48px;
+      height: 48px;
     }
   }
 
