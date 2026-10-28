@@ -66,10 +66,19 @@ async function readText(urls, report) {
   }
 }
 
+// What to tell the member once it has read the packet: what it filled in, or
+// why it did not.
+export function resultMessage(found, filled) {
+  if (filled.length) return `Filled in ${filled.join(', ')}. Check them against the packet before you save.`;
+  if (Object.keys(found).length) return 'Found details on the packet, but those fields already have something in them, so nothing was changed.';
+  return 'Could not find anything it knows how to read on this packet. Small, stamped or very decorative print is hard for it. What it did read is below.';
+}
+
 async function readPacket(button) {
   const reader = button.closest('[data-packet-reader]');
   const status = reader.querySelector('.packet-reader-status');
   const spinner = reader.querySelector('.packet-reader-spinner');
+  const seen = reader.querySelector('.packet-reader-text');
   const { packetCrop: crop } = reader.dataset;
   button.disabled = true;
   spinner.classList.remove('d-none');
@@ -77,10 +86,11 @@ async function readPacket(button) {
     const text = await readText(JSON.parse(reader.dataset.packetReader), (message) => {
       status.textContent = message;
     });
-    const filled = fillBlankFields(button.closest('form'), parsePacketText(text, { crop }));
-    status.textContent = filled.length
-      ? `Filled in ${filled.join(', ')}. Check them against the packet before you save.`
-      : 'Nothing new found on the packet, or those fields are already filled in.';
+    const found = parsePacketText(text, { crop });
+    const filled = fillBlankFields(button.closest('form'), found);
+    status.textContent = resultMessage(found, filled);
+    seen.querySelector('pre').textContent = text.trim() || '(no text)';
+    seen.classList.remove('d-none');
   } catch (error) {
     status.textContent = 'Could not read the photos of the packet.';
   } finally {

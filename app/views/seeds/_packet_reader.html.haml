@@ -5,4 +5,8 @@
   .mb-3{ data: { packet_reader: urls.to_json, packet_crop: seed.crop.name } }
     %button.btn.btn-outline-secondary{ type: 'button', data: { packet_read: '' } } Read the packet
     %span.packet-reader-spinner.spinner-border.spinner-border-sm.text-secondary.ms-2.d-none{ 'aria-hidden': 'true' }
-    %span.packet-reader-status.text-muted.ms-2{ role: 'status', 'aria-live': 'polite' }
+    .packet-reader-status.text-muted.mt-2{ role: 'status', 'aria-live': 'polite' }
+    -# What the reader saw, so a packet it could not use is not a mystery.
+    %details.packet-reader-text.small.mt-2.d-none
+      %summary What the reader saw
+      %pre.mb-0.mt-1.text-muted

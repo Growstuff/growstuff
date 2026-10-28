@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { fillBlankFields, progressMessage } from './packet_reader';
+import { fillBlankFields, progressMessage, resultMessage } from './packet_reader';
 
 describe('fillBlankFields', () => {
   let form;
@@ -56,5 +56,19 @@ describe('progressMessage', () => {
 
   it('says nothing about steps that take no time', () => {
     expect(progressMessage('initializing api', 1, 1, 1)).toBeNull();
+  });
+});
+
+describe('resultMessage', () => {
+  it('says what it filled in', () => {
+    expect(resultMessage({ quantity: 15 }, ['quantity'])).toMatch(/^Filled in quantity\. Check them/);
+  });
+
+  it('says why nothing changed, when it found things but the fields were full', () => {
+    expect(resultMessage({ quantity: 15 }, [])).toMatch(/already have something/);
+  });
+
+  it('says it found nothing, and points to what it read', () => {
+    expect(resultMessage({}, [])).toMatch(/Could not find anything.*below/);
   });
 });
