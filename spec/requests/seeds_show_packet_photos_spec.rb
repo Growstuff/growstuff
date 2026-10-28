@@ -26,10 +26,11 @@ describe SeedsController, '#show' do
   context 'with the text read from the packet' do
     before do
       seed.update!(packet_text: 'Sow by: December 2026')
+      sign_in seed.owner
       get seed_path(seed)
     end
 
-    it('shows it') { expect(response.body).to include('Sow by: December 2026') }
+    it('does not show it yet') { expect(response.body).not_to include('Sow by: December 2026') }
   end
 
   context 'when someone else looks' do

@@ -1078,7 +1078,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_28_020000) do
     t.text "heirloom", default: "unknown"
     t.text "organic", default: "unknown"
     t.integer "owner_id", null: false
-    t.text "packet_text", comment: "What reading the photos of the packet found, for the member to check."
+    t.text "packet_text", comment: "Text read from the packet's photos by the OCR script. Not shown to members yet."
     t.integer "parent_planting_id"
     t.date "plant_before"
     t.integer "quantity"
