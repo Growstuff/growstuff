@@ -12,14 +12,17 @@ RSpec.describe 'Seeds' do
       "type"          => "seeds",
       "attributes"    => attributes,
       "relationships" => {
-        "owner" => owner_as_json_api,
-        "crop"  => crop_as_json_api
+        "owner"  => owner_as_json_api,
+        "crop"   => crop_as_json_api,
+        "photos" => photos_as_json_api
       } }
   end
 
   let(:owner_as_json_api) { related_link("members/#{seed.owner_id}") }
 
   let(:crop_as_json_api) { related_link("crops/#{seed.crop_id}") }
+
+  let(:photos_as_json_api) { related_link("photos?filter[seed_id]=#{seed.id}") }
 
   let(:attributes) do
     {
