@@ -18,12 +18,6 @@ module PhotosHelper
     { photo_dialog: true, photo_label: photo_label(model) }
   end
 
-  # The addresses of the photos of a seed's packet, front then back: what the
-  # packet reader reads.
-  def packet_image_urls(seed)
-    PhotoAssociation::LABELS['Seed'].filter_map { |side| seed.packet_photo(side)&.fullsize_url }
-  end
-
   def crop_image_path(crop)
     thumbnail_url(crop.default_photo)
   end

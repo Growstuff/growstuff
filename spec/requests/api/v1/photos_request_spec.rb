@@ -53,8 +53,7 @@ RSpec.describe 'Photos' do
       "fullsize-url"  => photo.fullsize_url,
       "link-url"      => photo.link_url,
       "license-name"  => photo.license_name,
-      "title"         => photo.title,
-      "seed-ids"      => []
+      "title"         => photo.title
     }
   end
 
@@ -72,37 +71,6 @@ RSpec.describe 'Photos' do
     it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
     it { expect(subject['data']['relationships']).to include("owner" => owner_as_json_api) }
     it { expect(subject['data']).to eq(photo_encoded_as_json_api) }
-  end
-
-  describe 'filtering by label' do
-    let(:seed) { create(:seed) }
-    let(:front) { create(:photo, owner: seed.owner) }
-    let(:back) { create(:photo, owner: seed.owner) }
-    let(:plain) { create(:photo, owner: seed.owner) }
-    let(:ids) { JSON.parse(response.body)['data'].pluck('id') }
-
-    before do
-      seed.photo_associations.create!(photo: front, label: 'front')
-      seed.photo_associations.create!(photo: back, label: 'back')
-      seed.photo_associations.create!(photo: plain)
-      get '/api/v1/photos', params: { filter: { label: } }, headers:
-    end
-
-    context 'with back' do
-      let(:label) { 'back' }
-
-      it('finds the back') { expect(ids).to eq [back.id.to_s] }
-
-      it('says which seed it is of') do
-        expect(JSON.parse(response.body)['data'].first['attributes']['seed-ids']).to eq [seed.id]
-      end
-    end
-
-    context 'with front and back' do
-      let(:label) { 'front,back' }
-
-      it('finds both sides') { expect(ids).to contain_exactly(front.id.to_s, back.id.to_s) }
-    end
   end
 
   it '#create' do

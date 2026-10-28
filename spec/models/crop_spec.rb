@@ -196,6 +196,15 @@ describe Crop do
       it('is not the default photo') { expect(crop.default_photo).to be_nil }
       it('does not make the crop interesting') { expect(described_class.has_photos).not_to include(crop) }
 
+      context 'with the same photo on another seed, with no label there' do
+        let(:other_seed) { create(:seed, crop:, owner: seed.owner) }
+
+        before { other_seed.photos << packet_photo }
+
+        it('is still not one of the crop photos') { expect(crop.photos).not_to include(packet_photo) }
+        it('is still not the default photo') { expect(crop.default_photo).to be_nil }
+      end
+
       context 'with a photo of the seeds too' do
         let!(:seed_photo) { create(:photo, owner: seed.owner) }
 

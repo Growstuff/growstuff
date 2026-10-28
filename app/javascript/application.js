@@ -15,7 +15,6 @@ import './site/job_notepad';
 import './site/likes';
 import './site/members';
 import './site/navbar_search';
-import './site/packet_reader';
 import './site/places';
 import './site/planting_alternate_name';
 import './site/tab_navigation';

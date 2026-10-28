@@ -68,7 +68,7 @@
           = f.select(:source, Seed::SOURCE_VALUES, { label: 'Source?', wrapper: { class: 'required' }, required: true }, default: 'unknown')
       = f.text_area :description, rows: 6
       = f.text_area :packet_text, rows: 6, label: 'Text from the packet',
-                    help: 'Typed or pasted from the packet. On the seed page, "Read the packet" fills this in from its photos.'
+                    help: 'The text printed on the packet, typed or pasted.'
 
       %hr/
       =  t('.trade_help', site_name: ENV['GROWSTUFF_SITE_NAME'])

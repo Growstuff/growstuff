@@ -42,10 +42,7 @@ RSpec.describe 'Seeds' do
       "days-until-maturity-max" => seed.days_until_maturity_max,
       "organic"                 => seed.organic,
       "gmo"                     => seed.gmo,
-      "heirloom"                => seed.heirloom,
-      "variety"                 => seed.variety,
-      "batch-number"            => seed.batch_number,
-      "row-spacing"             => seed.row_spacing
+      "heirloom"                => seed.heirloom
     }
   end
 

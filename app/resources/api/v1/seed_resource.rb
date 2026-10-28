@@ -19,9 +19,6 @@ module Api
       attribute :organic
       attribute :gmo
       attribute :heirloom
-      attribute :variety
-      attribute :batch_number
-      attribute :row_spacing
 
       filter :owner
       filter :owner_id
