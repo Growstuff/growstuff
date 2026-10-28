@@ -82,6 +82,11 @@ describe "Posts" do
         expect(draft.reload).to be_draft
       end
 
+      it 'creates a blank draft for a photo to go on' do
+        post posts_path(format: :json), params: { post: { subject: '', body: '', draft: true } }
+        expect(response).to have_http_status :created
+      end
+
       it 'creates a draft from an autosave' do
         post posts_path(format: :json), params: { post: { subject: 'Auto', body: 'saved', draft: true } }
         expect(Post.with_drafts.find_by(subject: 'Auto')).to be_draft

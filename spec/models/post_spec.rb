@@ -278,6 +278,44 @@ describe Post do
       it { expect(draft).to be_draft }
     end
 
+    context 'when saved blank' do
+      subject(:blank) { build(:post, author: member, subject: '', body: '', draft: true) }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'when published blank' do
+      subject(:blank) { build(:post, author: member, subject: '', body: '', draft: false) }
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'when a blank draft is published' do
+      before { draft.update(subject: '', body: '', draft: true) }
+
+      it 'is rejected' do
+        expect(draft.update(draft: false)).to be false
+      end
+    end
+
+    context 'when its title changes' do
+      before { draft.update!(subject: 'A better title', draft: true) }
+
+      it 'follows the title in its address' do
+        expect(draft.slug).to end_with 'a-better-title'
+      end
+    end
+
+    context 'when published and its title changes' do
+      let(:post) { create(:post, author: member) }
+
+      before { post.update!(subject: 'Something else') }
+
+      it 'keeps its address' do
+        expect { post.reload }.not_to change(post, :slug)
+      end
+    end
+
     it 'does not notify mentioned members' do
       mentioned = create(:member)
       create(:post, author: member, draft: true, body: "hello @#{mentioned.login_name}")

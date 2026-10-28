@@ -966,6 +966,7 @@ en:
     read_time:
       one: 1 min read
       other: "%{count} min read"
+    untitled: Untitled post
     updated: Post was successfully updated.
     write_blog_post: Write blog post
   scientific_names:

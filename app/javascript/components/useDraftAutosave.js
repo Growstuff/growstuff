@@ -12,7 +12,8 @@ function savedAt() {
 // `autosave` is {createUrl, updateUrl, subjectId}: a post that does not exist
 // yet is created on the first save, after which the form is pointed at it so
 // that submitting it later updates the draft rather than making another.
-// Nothing is saved until there is both a title and a body, which a post needs.
+// Typing saves nothing until there is a title or some text; a photo is placed
+// by saving straight away (`saveNow`), blank or not, as it needs a post to go on.
 // Returns {status, saveNow}: the status line to show ('', 'Saving…', '✓ Draft
 // saved 10:21 am', or an error), and a function that saves straight away.
 export default function useDraftAutosave(markdown, autosave) {
@@ -33,16 +34,16 @@ export default function useDraftAutosave(markdown, autosave) {
   }, [subjectId]);
 
   // Saves the draft now: updates it, or creates it the first time. Resolves to
-  // the draft's address, or null when it has no title or body yet or could not
-  // be saved.
-  async function save() {
+  // the draft's address, or null when it could not be saved. Unless `force`,
+  // a draft with no title and no text is left unsaved.
+  async function save(force = false) {
     const config = latest.current.autosave;
     const input = document.getElementById(config.subjectId);
     const subject = input ? input.value.trim() : '';
     const body = latest.current.markdown;
-    if (!subject || !body) return url.current;
+    if (!force && !subject && !body) return url.current;
 
-    const form = input.form;
+    const form = input && input.form;
     const forum = form && form.querySelector('[name="post[forum_id]"]');
     const payload = {post: {subject, body, draft: true}};
     if (forum && forum.value) payload.post.forum_id = forum.value;
@@ -53,10 +54,11 @@ export default function useDraftAutosave(markdown, autosave) {
       : await postJson(config.createUrl, payload);
     if (!result.ok) {
       setStatus('Could not save the draft. Your work is still here.');
-      return url.current;
+      return url.current; // null for a draft that was never saved
     }
     if (!url.current && result.data) {
-      url.current = `${config.createUrl}/${result.data.slug || result.data.id}`;
+      // By id: a draft's slug follows its title, so it can change.
+      url.current = `${config.createUrl}/${result.data.id}`;
       pointFormAt(form, url.current);
     }
     setStatus(`✓ Draft saved ${savedAt()}`);
@@ -70,12 +72,12 @@ export default function useDraftAutosave(markdown, autosave) {
       return undefined;
     }
 
-    const timer = setTimeout(save, DELAY);
+    const timer = setTimeout(() => save(false), DELAY);
 
     return () => clearTimeout(timer);
   }, [markdown, subjectTick]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return {status, saveNow: save};
+  return {status, saveNow: () => save(true)};
 }
 
 function pointFormAt(form, url) {
