@@ -197,6 +197,39 @@ describe CropsController do
     end
   end
 
+  describe 'UPDATE' do
+    subject { patch :update, params: crop_params }
+
+    let!(:crop) { create(:crop, description: 'Old description') }
+    let!(:scientific_name) do
+      create(:scientific_name, crop: crop, name: 'Solanum lycopersicum', gbif_key: 12345, wikidata_id: 'Q1387')
+    end
+
+    let(:crop_params) do
+      {
+        slug: crop.to_param,
+        crop: { description: 'Updated description' }
+      }
+    end
+
+    context 'wrangler' do
+      include_context 'login as wrangler'
+
+      it 'updates crop attributes' do
+        subject
+        expect(crop.reload.description).to eq('Updated description')
+      end
+
+      it 'retains existing scientific names with gbif and wikidata info intact' do
+        expect { subject }.not_to change(ScientificName, :count)
+        scientific_name.reload
+        expect(scientific_name.name).to eq('Solanum lycopersicum')
+        expect(scientific_name.gbif_key).to eq(12345)
+        expect(scientific_name.wikidata_id).to eq('Q1387')
+      end
+    end
+  end
+
   describe 'DELETE destroy' do
     subject { delete :destroy, params: { slug: crop.to_param } }
 

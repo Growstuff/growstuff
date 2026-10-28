@@ -18,8 +18,8 @@ class PhotosController < ApplicationController
               end
 
     @photos = @photos.includes(:owner)
-                     .order(created_at: :desc)
-                     .paginate(page: params[:page], per_page: Photo.per_page)
+      .order(created_at: :desc)
+      .paginate(page: params[:page], per_page: Photo.per_page)
 
     raise ActiveRecord::RecordNotFound if @photos.out_of_bounds?
 
@@ -37,6 +37,7 @@ class PhotosController < ApplicationController
     @item = item_to_link_to
     @type = params[:type]
     @id = params[:id]
+    @label = params[:label]
     retrieve_from_flickr
     return render json: flickr_picker_json if request.format.json?
 
@@ -90,7 +91,9 @@ class PhotosController < ApplicationController
       sets: (@sets || {}).map { |title, id| { id: id, title: title } },
       set: @current_set, tag: @current_tag,
       page: @photos.current_page, total_pages: @photos.total_pages, total: @photos.total_entries,
-      photos: @photos.map { |photo| { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) } }
+      photos: @photos.map do |photo|
+        { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) }
+      end
     }
   end
 
@@ -109,11 +112,11 @@ class PhotosController < ApplicationController
                                   :license_url, :thumbnail_url, :fullsize_url, :link_url, :date_taken)
   end
 
-  # Attaches the photo to the item. A photo for a job can say when it was taken,
-  # before the job or after, as `moment`.
+  # Attaches the photo to the item. A photo can say what part of the item it is
+  # of, as `label`: before or after for a job, front or back for a seed packet.
   def link_photo_to_item
     association = @item.photo_associations.find_or_initialize_by(photo: @photo)
-    association.moment = params[:moment] if params[:moment].present?
+    association.label = params[:label] if params[:label].present?
     association.save!
   end
 
