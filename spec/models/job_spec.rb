@@ -146,6 +146,27 @@ RSpec.describe Job do
 
       it { is_expected.not_to be_valid }
     end
+
+    context 'with a planting that is not there' do
+      let(:jobbable) { nil }
+
+      before { job.assign_attributes(jobbable_type: 'Planting', jobbable_id: 0) }
+
+      it { is_expected.not_to be_valid }
+
+      it 'says the job needs something to be about' do
+        job.validate
+        expect(job.errors[:jobbable]).to eq ['must exist']
+      end
+    end
+
+    context 'with a type and no id' do
+      let(:jobbable) { nil }
+
+      before { job.assign_attributes(jobbable_type: 'Crop', jobbable_id: nil) }
+
+      it { is_expected.not_to be_valid }
+    end
   end
 
   describe '#planting_id=' do
