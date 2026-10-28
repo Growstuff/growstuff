@@ -78,11 +78,14 @@ describe PixelfedService do
 
     context 'with a URL input' do
       let(:url) { 'https://pixelfed.example.com/p/alice/123456789' }
+      let(:faraday_response) do
+        instance_double(Faraday::Response, success?: true, status: 200, body: activity_pub_object.to_json)
+      end
 
       before do
-        stub_request(:get, url)
-          .with(headers: { 'Accept' => 'application/activity+json, application/ld+json; profile="https://www.w3.org/ns/activitystreams"' })
-          .to_return(status: 200, body: activity_pub_object.to_json, headers: { 'Content-Type' => 'application/activity+json' })
+        allow(Faraday).to receive(:get)
+          .with(url, nil, PixelfedService::ACTIVITY_PUB_HEADERS)
+          .and_return(faraday_response)
       end
 
       it 'fetches the URL and extracts metadata' do
