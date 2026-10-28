@@ -92,10 +92,16 @@ module ApplicationHelper
 
   # A helper to replace the complex template compilation mess
   # of HAML, Tilt, and dynamic compilation with interpolated ruby.
-  def markdownify(text)
+  #
+  # Photos placed in a post are only drawn with `figures: true`, which is for
+  # the post itself, and must be given text that has already had its tags
+  # stripped, as the figures are HTML.
+  def markdownify(text, figures: false)
     translator = Haml::Filters::GrowstuffMarkdown.new
     text = text.to_s.dup
+    translator.expand_photos!(text, figures:)
     translator.expand_crops!(text)
+    translator.expand_plantings!(text)
     translator.expand_members!(text)
     text
   end

@@ -179,4 +179,153 @@ describe Post do
     member.destroy
     expect(described_class.joins(:author).all).not_to include(post)
   end
+
+  describe '#default_photo' do
+    subject { post.default_photo }
+
+    let(:post) { create(:post, author: member) }
+    let(:liked) { create(:photo, owner: member, likes_count: 5) }
+    let(:chosen) { create(:photo, owner: member) }
+
+    before do
+      post.photos << liked
+      post.photos << chosen
+    end
+
+    context 'without a card photo' do
+      it { is_expected.to eq liked }
+    end
+
+    context 'with a card photo' do
+      before { post.update!(card_photo: chosen) }
+
+      it { is_expected.to eq chosen }
+    end
+  end
+
+  describe 'card photo validation' do
+    subject(:post) { build(:post, author: member, card_photo: photo) }
+
+    context 'when the photo is not in the post' do
+      let(:photo) { create(:photo, owner: member) }
+
+      it { is_expected.not_to be_valid }
+    end
+  end
+
+  describe '#read_time_minutes' do
+    subject { build(:post, body: ('word ' * words)).read_time_minutes }
+
+    context 'with a short body' do
+      let(:words) { 10 }
+
+      it { is_expected.to eq 1 }
+    end
+
+    context 'with a long body' do
+      let(:words) { 450 }
+
+      it { is_expected.to eq 3 }
+    end
+  end
+
+  describe '#more_from_author' do
+    subject { post.more_from_author }
+
+    let(:post) { create(:post, author: member) }
+    let!(:other) { create(:post, author: member) }
+
+    before { create(:post) }
+
+    it { is_expected.to eq [other] }
+  end
+
+  describe 'drafts' do
+    let(:draft) { create(:post, author: member, draft: true) }
+
+    it 'has no published date' do
+      expect(draft.published_at).to be_nil
+    end
+
+    it 'is a draft' do
+      expect(draft).to be_draft
+    end
+
+    it 'is left out of the default scope' do
+      draft
+      expect(described_class.all).not_to include draft
+    end
+
+    it 'is found with drafts' do
+      expect(described_class.with_drafts).to include draft
+    end
+
+    context 'when published' do
+      before { draft.update!(draft: false) }
+
+      it { expect(draft).to be_published }
+    end
+
+    context 'when saved again as a draft' do
+      before { draft.update!(subject: 'New subject', draft: true) }
+
+      it { expect(draft).to be_draft }
+    end
+
+    context 'when saved with no draft setting' do
+      before { draft.update!(subject: 'New subject') }
+
+      it { expect(draft).to be_draft }
+    end
+
+    context 'when saved blank' do
+      subject(:blank) { build(:post, author: member, subject: '', body: '', draft: true) }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'when published blank' do
+      subject(:blank) { build(:post, author: member, subject: '', body: '', draft: false) }
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'when a blank draft is published' do
+      before { draft.update(subject: '', body: '', draft: true) }
+
+      it 'is rejected' do
+        expect(draft.update(draft: false)).to be false
+      end
+    end
+
+    context 'when its title changes' do
+      before { draft.update!(subject: 'A better title', draft: true) }
+
+      it 'follows the title in its address' do
+        expect(draft.slug).to end_with 'a-better-title'
+      end
+    end
+
+    context 'when published and its title changes' do
+      let(:post) { create(:post, author: member) }
+
+      before { post.update!(subject: 'Something else') }
+
+      it 'keeps its address' do
+        expect { post.reload }.not_to change(post, :slug)
+      end
+    end
+
+    it 'does not notify mentioned members' do
+      mentioned = create(:member)
+      create(:post, author: member, draft: true, body: "hello @#{mentioned.login_name}")
+      expect(Notification.where(recipient: mentioned)).to be_empty
+    end
+
+    it 'notifies mentioned members once it is published' do
+      mentioned = create(:member)
+      create(:post, author: member, draft: true, body: "hello @#{mentioned.login_name}").update!(draft: false)
+      expect(Notification.where(recipient: mentioned).count).to eq 1
+    end
+  end
 end

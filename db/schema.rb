@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_27_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1028,15 +1028,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
   create_table "posts", id: :serial, force: :cascade do |t|
     t.integer "author_id", null: false
     t.text "body", null: false
+    t.bigint "card_photo_id"
     t.integer "comments_count", default: 0
     t.datetime "created_at", precision: nil
     t.integer "forum_id"
     t.integer "likes_count", default: 0
+    t.datetime "published_at"
     t.string "slug"
     t.string "subject", null: false
     t.datetime "updated_at", precision: nil
+    t.index ["card_photo_id"], name: "index_posts_on_card_photo_id"
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["forum_id"], name: "index_posts_on_forum_id"
+    t.index ["published_at"], name: "index_posts_on_published_at"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
@@ -1126,5 +1130,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
   add_foreign_key "plantings", "alternate_names", on_delete: :nullify
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plants", "plantings"
+  add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end

@@ -718,6 +718,7 @@ en:
       sign_out: Sign out
       sign_up: Join free
     nav:
+      my_drafts: My drafts
       suggest_something: Suggest something
   links:
     my_gardens: My gardens
@@ -956,10 +957,16 @@ en:
   posts:
     created: Post was successfully created.
     deleted: Post was deleted.
+    draft_saved: Draft was saved.
     index:
       title:
         author_posts: "%{author} posts"
         default: Everyone's posts
+    more_from: More from %{author}
+    read_time:
+      one: 1 min read
+      other: "%{count} min read"
+    untitled: Untitled post
     updated: Post was successfully updated.
     write_blog_post: Write blog post
   scientific_names:
