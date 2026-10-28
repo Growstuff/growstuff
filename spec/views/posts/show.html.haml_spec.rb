@@ -128,4 +128,56 @@ describe "posts/show" do
       expect(subject).to have_css "#new-comment form[action='#{comments_path}']"
     end
   end
+
+  context 'with a card photo' do
+    let(:post) { create(:post, author:) }
+    let(:photo) { create(:photo, owner: author) }
+
+    before do
+      post.photos << photo
+      post.update!(card_photo: photo)
+      render
+    end
+
+    it 'leads the post with the photo' do
+      expect(subject).to have_css ".post-card-photo img[src='#{photo.fullsize_url}']"
+    end
+  end
+
+  context 'without any photo' do
+    let(:post) { create(:post, author:) }
+
+    before { render }
+
+    it { is_expected.to have_no_css '.post-card-photo' }
+  end
+
+  context 'when the author has other posts' do
+    let(:post) { create(:post, author:) }
+
+    before do
+      create(:post, author:, subject: 'Spring sowing')
+      render
+    end
+
+    it 'lists them in the sidebar' do
+      expect(subject).to have_css '.more-from-author', text: 'Spring sowing'
+    end
+  end
+
+  context 'when the author has no other posts' do
+    let(:post) { create(:post, author:) }
+
+    before { render }
+
+    it { is_expected.to have_no_css '.more-from-author' }
+  end
+
+  context 'with a short body' do
+    let(:post) { create(:post, author:, body: 'hello there') }
+
+    before { render }
+
+    it { is_expected.to have_text '1 min read' }
+  end
 end

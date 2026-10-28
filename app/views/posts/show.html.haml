@@ -34,9 +34,19 @@
 .row.record-page
   .col-md-8.col-12
     .card.post{ id: "post-#{@post.id}" }
+      - if (card_photo = @post.default_photo)
+        .post-card-photo
+          = image_tag card_photo.fullsize_url, alt: card_photo.title
+      - if can?(:update, @post) && @post.photos.any?
+        - content_for :scripts do
+          = javascript_include_tag 'react_islands', defer: true
+        .post-card-photo-change
+          = react_component('CardPhotoDialog', card_photo_dialog_props(@post))
       .card-header
         %h2.display-3.float-start
           = @post.subject
+          - if @post.draft?
+            %span.badge.text-bg-warning.fs-6 Draft
         = render 'posts/actions', post: @post
       .card-body
         .post-content= render 'posts/single', post: @post
@@ -59,6 +69,17 @@
 
   .col-md-4.col-12
     = render @post.author
+    - more = @post.more_from_author
+    - if more.any?
+      %section.more-from-author
+        %h2= t('posts.more_from', author: @post.author)
+        - more.each do |other|
+          = link_to other, class: 'post-compact d-flex gap-2 mb-2' do
+            = image_tag post_thumbnail_path(other), class: 'post-compact-photo', alt: ''
+            %span
+              %strong= other.subject
+              %br
+              %small.text-muted= l(other.created_at.to_date, format: :short)
     - unless @post.crops.approved.empty?
       %section.crops
         %h2 Crops mentioned in this post

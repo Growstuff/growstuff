@@ -63,6 +63,26 @@ module PhotosHelper
     post.default_photo&.thumbnail_url || post.crops.first&.default_photo&.thumbnail_url || placeholder_image
   end
 
+  # What the CardPhotoDialog island needs: where to save the choice, the post's
+  # photos, and enough of the post to draw how its card will look.
+  def card_photo_dialog_props(post)
+    {
+      url:           post_path(post),
+      subject:       post.subject,
+      excerpt:       truncate(strip_tags(markdownify(post.body)), length: 90, separator: ' '),
+      byline:        "by #{post.author} · #{l(post.created_at.to_date, format: :short)}",
+      selectedId:    post.card_photo_id,
+      addPhotoUrl:   new_photo_path_for(post),
+      addPhotoLabel: photo_label(post),
+      photos:        post.photos.map { |p| { id: p.id, title: p.title, thumbnail_url: p.thumbnail_url, fullsize_url: p.fullsize_url } }
+    }
+  end
+
+  # A post's photos, as the editor's islands draw them.
+  def post_photo_props(post)
+    post.photos.map { |p| { id: p.id, title: p.title, thumbnail_url: p.thumbnail_url, fullsize_url: p.fullsize_url } }
+  end
+
   private
 
   def photo_or_placeholder(item)

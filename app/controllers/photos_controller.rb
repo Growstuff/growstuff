@@ -100,7 +100,9 @@ class PhotosController < ApplicationController
   def render_added_json
     garden = @item.is_a?(Garden) ? @item : (@item.garden if @item.respond_to?(:garden))
     card = GardenCardSerializer.collection([garden], ability: current_ability, show_owner: false).first if garden
-    render json: { photo: { id: @photo.id, url: photo_path(@photo) }, garden: card }, status: :created
+    photo = { id: @photo.id, url: photo_path(@photo), title: @photo.title,
+              thumbnail_url: @photo.thumbnail_url, fullsize_url: @photo.fullsize_url }
+    render json: { photo:, garden: card }, status: :created
   end
 
   def photo_params
@@ -124,7 +126,10 @@ class PhotosController < ApplicationController
     item_class = params[:type].capitalize
     raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
 
-    item_class.constantize.find(params[:id])
+    klass = item_class.constantize
+    # A draft post is still its author's to add photos to.
+    klass = klass.with_drafts if klass.respond_to?(:with_drafts)
+    klass.find(params[:id])
   end
 
   #

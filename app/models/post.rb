@@ -11,22 +11,63 @@ class Post < ApplicationRecord
   # Relationships
   belongs_to :author, class_name: 'Member', inverse_of: :posts
   belongs_to :forum, optional: true
+  belongs_to :card_photo, class_name: 'Photo', optional: true, inverse_of: false
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :crop_posts, dependent: :delete_all
   has_many :crops, through: :crop_posts
   has_many :notifications, as: :notifiable, dependent: :destroy
 
-  after_create :send_notification
   #
   # Triggers
+  before_save :set_published_at
   after_save :update_crop_posts_association
+  after_save :send_notification, if: -> { saved_change_to_published_at? && published? }
 
-  default_scope { joins(:author).merge(Member.kept) } # Ensures the owner still exists
+  # Drafts have no published_at and are left out of every list and lookup, so
+  # they cannot leak. The author's own pages ask for them with `with_drafts`.
+  default_scope { joins(:author).merge(Member.kept).where.not(published_at: nil) } # Kept: ensures the owner still exists
+  scope :with_drafts, -> { unscope(where: :published_at) }
+
+  # Not stored. `true` saves a draft, `false` publishes one, and nil (the
+  # default) publishes a new post and leaves an existing one as it is.
+  attribute :draft, :boolean
 
   #
   # Validations
-  validates :subject, presence: true, length: { maximum: 255 }
-  validates :body, presence: true
+  # A draft can be saved blank (a photo needs a saved post to go on); a post
+  # being published needs both.
+  validates :subject, presence: true, if: :publishing?
+  validates :subject, length: { maximum: 255 }
+  validates :body, presence: true, if: :publishing?
+  validate :card_photo_is_in_post, if: :card_photo_id?
+
+  WORDS_PER_MINUTE = 200
+
+  # The card photo the author chose, else the most liked photo on the post.
+  def default_photo
+    card_photo || most_liked_photo
+  end
+
+  def published?
+    published_at.present?
+  end
+
+  def draft?
+    !published?
+  end
+
+  def read_time_minutes
+    [(body.to_s.split.size.to_f / WORDS_PER_MINUTE).ceil, 1].max
+  end
+
+  def more_from_author(limit = 3)
+    author.posts.where.not(id:).order(created_at: :desc).limit(limit)
+  end
+
+  # A draft's address follows its title until it is published.
+  def should_generate_new_friendly_id?
+    slug.blank? || (draft? && subject_changed?)
+  end
 
   def author_date_subject
     return unless author
@@ -64,6 +105,23 @@ class Post < ApplicationRecord
   end
 
   private
+
+  # Being published by this save: a published post stays so, a new one is
+  # unless it is a draft, and a draft is when asked with `draft: false`.
+  def publishing?
+    return true if published?
+    return false if draft == true
+
+    new_record? || draft == false
+  end
+
+  def set_published_at
+    self.published_at = Time.current if !published? && publishing?
+  end
+
+  def card_photo_is_in_post
+    errors.add(:card_photo, :invalid) unless photos.exists?(card_photo_id)
+  end
 
   def update_crop_posts_association
     crops.clear

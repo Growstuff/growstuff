@@ -4,8 +4,12 @@
       / %h2.card-title #{model} links
       - mine = url_for([current_member, model])
       - everyones = url_for(model)
-      = link_to mine, class: 'nav-link tab', aria: { current: ('page' if current_page?(mine)) } do
+      = link_to mine, class: 'nav-link tab', aria: { current: ('page' if current_page?(mine) && params[:drafts].blank?) } do
         My #{model.model_name.human.pluralize}
+      - if model == Post
+        - drafts = member_posts_path(current_member, drafts: 1)
+        = link_to drafts, class: 'nav-link tab', aria: { current: ('page' if params[:drafts].present?) } do
+          = t('.my_drafts')
       = link_to everyones, class: 'nav-link tab', aria: { current: ('page' if current_page?(everyones)) } do
         Everyone's #{model.model_name.human.pluralize}
       - if can?(:create, model)
