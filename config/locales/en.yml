@@ -877,6 +877,9 @@ en:
       intro: 'Based on our predictions, the following plantings in your garden are likely to be ready for harvest within the next week:'
       subject: Upcoming harvests in your garden - %{sitename}
       unsubscribe: Unsubscribe from harvest reminders
+  photo_associations:
+    update:
+      updated: Photo updated.
   photos:
     show:
       crop: "%{crop}"
@@ -984,6 +987,11 @@ en:
         default: Everyone's seeds
         owner_seeds: "%{owner} seeds"
     packet:
+      label_back: Back of packet
+      label_front: Front of packet
+      mark_back: Mark as back of packet
+      mark_front: Mark as front of packet
+      not_packet: Not a packet
       photo_back: Add a photo of the back of the packet
       photo_front: Add a photo of the front of the packet
     save_seeds: Save seeds
