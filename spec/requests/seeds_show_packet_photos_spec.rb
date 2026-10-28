@@ -23,6 +23,15 @@ describe SeedsController, '#show' do
     it('does not offer what it already is') { expect(response.body).not_to include('Mark as back of packet') }
   end
 
+  context 'with the text read from the packet' do
+    before do
+      seed.update!(packet_text: 'Sow by: December 2026')
+      get seed_path(seed)
+    end
+
+    it('shows it') { expect(response.body).to include('Sow by: December 2026') }
+  end
+
   context 'when someone else looks' do
     before do
       sign_in create(:member)

@@ -40,6 +40,7 @@ class Seed < ApplicationRecord
   validates :row_spacing, allow_nil:    true,
                           numericality: { only_integer: true, greater_than: 0 }
   validates :variety, :batch_number, length: { maximum: 100 }
+  validates :packet_text, length: { maximum: 20_000 }
   validate :plant_before_year_is_a_year
   validates :tradable_to, allow_blank: false,
                           inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }

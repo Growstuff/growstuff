@@ -12,13 +12,23 @@ function firstMatch(text, patterns) {
   return null;
 }
 
+// The line that holds the Latin name: one in brackets, or one that starts with
+// the genus of a scientific name the crop is known by (OCR garbles the rest).
+function latinNameLine(lines, scientificNames) {
+  const bracketed = lines.findIndex((line) => /\(\s*[A-Z][a-z]+\s+[a-z]+\s*\)/.test(line));
+  if (bracketed !== -1) return bracketed;
+  const genera = scientificNames.map((name) => name.trim().split(/\s+/)[0].toLowerCase()).filter((genus) => genus.length >= 4);
+  return lines.findIndex((line, i) => i > 0 && genera.some((genus) => line.toLowerCase().replace(/^\W+/, '').startsWith(genus.slice(0, 5))));
+}
+
 // The line above the Latin name, which is where packets put the variety:
 //   TOMATO
 //   Island Bay Italian
 //   NZ Heritage            (Lycopersicon lycopersicum)
-function variety(text, crop) {
+function variety(text, crop, scientificNames) {
   const lines = text.split('\n').map((line) => line.trim()).filter(Boolean);
-  const latin = lines.findIndex((line) => /\(\s*[A-Z][a-z]+\s+[a-z]+\s*\)/.test(line));
+  const latin = latinNameLine(lines, scientificNames);
+  if (latin < 1) return null;
   for (let i = latin - 1; i >= Math.max(latin - 2, 0); i--) {
     const name = lines[i].replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, '');
     if (name.length < 3 || name.length > 60 || (name.match(/[A-Za-z]/g) || []).length < 3) continue;
@@ -29,8 +39,10 @@ function variety(text, crop) {
 }
 
 // Returns only the facts found, named as the seed's own attributes:
-// quantity, plantBeforeYear, daysMin, daysMax, rowSpacing, batchNumber, variety.
-export function parsePacketText(text, { crop } = {}) {
+// quantity, plantBeforeYear, daysMin, daysMax, rowSpacing, batchNumber, variety,
+// heirloom, organic. `crop` is the crop's name, and `scientificNames` the Latin
+// names it goes by, to find the variety by.
+export function parsePacketText(text, { crop, scientificNames = [] } = {}) {
   const found = {};
 
   const quantity = firstMatch(text, [/approx\.?:?\s*(\d[\d,]*)/i, /(\d[\d,]*)\s+seeds?\b/i]);
@@ -64,8 +76,13 @@ export function parsePacketText(text, { crop } = {}) {
   const batch = text.match(/batch\s*(?:number|no\.?|#)?\W*((?=[A-Z0-9]*\d)[A-Z0-9]{4,})/i);
   if (batch) found.batchNumber = batch[1];
 
-  const name = variety(text, crop);
+  const name = variety(text, crop, scientificNames);
   if (name) found.variety = name;
+
+  if (/heirloom/i.test(text)) found.heirloom = 'heirloom';
+
+  const organic = text.match(/(non[-\s]?)?certified\s+organic/i);
+  if (organic && !organic[1]) found.organic = 'certified organic';
 
   return found;
 }

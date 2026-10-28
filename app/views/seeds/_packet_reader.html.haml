@@ -2,11 +2,8 @@
 -# what it finds, in the blanks of the form it is in. See packet_reader.js.
 - urls = packet_image_urls(seed)
 - if urls.any?
-  .mb-3{ data: { packet_reader: urls.to_json, packet_crop: seed.crop.name } }
+  .mb-3{ data: { packet_reader: urls.to_json, packet_crop: seed.crop.name,
+                  packet_scientific: seed.crop.scientific_names.map(&:name).to_json } }
     %button.btn.btn-outline-secondary{ type: 'button', data: { packet_read: '' } } Read the packet
     %span.packet-reader-spinner.spinner-border.spinner-border-sm.text-secondary.ms-2.d-none{ 'aria-hidden': 'true' }
     .packet-reader-status.text-muted.mt-2{ role: 'status', 'aria-live': 'polite' }
-    -# What the reader saw, so a packet it could not use is not a mystery.
-    %details.packet-reader-text.small.mt-2.d-none
-      %summary What the reader saw
-      %pre.mb-0.mt-1.text-muted

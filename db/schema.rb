@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_28_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_28_020000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1150,6 +1150,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_28_010000) do
     t.string "variety"
     t.string "batch_number"
     t.integer "row_spacing", comment: "Centimetres between rows, as printed on the packet."
+    t.text "packet_text", comment: "What reading the photos of the packet found, for the member to check."
     t.index ["crop_id"], name: "index_seeds_on_crop_id"
     t.index ["owner_id"], name: "index_seeds_on_owner_id"
     t.index ["parent_planting_id"], name: "index_seeds_on_parent_planting_id"

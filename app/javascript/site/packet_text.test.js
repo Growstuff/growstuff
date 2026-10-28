@@ -30,7 +30,40 @@ Batch number: LYIG0403
 | Sow by: December 2026 i
 `;
 
+// A cabbage packet whose Latin name has no brackets, and is cut short.
+const CABBAGE = `
+Danish Ballhead
+Brassica olerace
+HEIRLOOM SEEDS
+Packet Size. Home Carden
+CONTAINS APPROX. 150 SEEDS
+Code: 4341
+`;
+
 describe('parsePacketText', () => {
+  describe('with a cabbage packet, given the crop\'s scientific names', () => {
+    const found = parsePacketText(CABBAGE, { crop: 'Cabbage', scientificNames: ['Brassica oleracea'] });
+
+    it('finds the variety above the Latin name', () => expect(found.variety).toBe('Danish Ballhead'));
+    it('finds the seed count', () => expect(found.quantity).toBe(150));
+    it('finds that it is an heirloom', () => expect(found.heirloom).toBe('heirloom'));
+    it('does not take a product code for a batch number', () => expect(found.batchNumber).toBeUndefined());
+  });
+
+  describe('with that packet, but no scientific names', () => {
+    it('does not guess the variety', () => {
+      expect(parsePacketText(CABBAGE, { crop: 'Cabbage' }).variety).toBeUndefined();
+    });
+  });
+
+  describe('with certified organic seed', () => {
+    it('says so', () => expect(parsePacketText('Certified organic seed').organic).toBe('certified organic'));
+  });
+
+  describe('with non-certified organic seed', () => {
+    it('does not call it certified', () => expect(parsePacketText('Non-certified organic').organic).toBeUndefined());
+  });
+
   describe('with a barley packet', () => {
     const found = parsePacketText(BARLEY, { crop: 'Barley' });
 

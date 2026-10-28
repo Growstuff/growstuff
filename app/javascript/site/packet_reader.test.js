@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { fillBlankFields, progressMessage, resultMessage } from './packet_reader';
+import { fillBlankFields, fillPacketText, progressMessage, resultMessage } from './packet_reader';
 
 describe('fillBlankFields', () => {
   let form;
@@ -36,6 +36,20 @@ describe('fillBlankFields', () => {
     expect(fillBlankFields(form, found)).toEqual(['variety', 'days to maturity']);
   });
 
+  it('answers a choice left at unknown', () => {
+    document.body.innerHTML = '<form><select name="seed[heirloom]"><option>unknown</option><option>heirloom</option></select></form>';
+    const select = document.querySelector('select');
+    fillBlankFields(document.querySelector('form'), { heirloom: 'heirloom' });
+    expect(select.value).toBe('heirloom');
+  });
+
+  it('leaves a choice that has been answered', () => {
+    document.body.innerHTML = '<form><select name="seed[heirloom]"><option>unknown</option><option>heirloom</option><option selected>hybrid</option></select></form>';
+    const select = document.querySelector('select');
+    fillBlankFields(document.querySelector('form'), { heirloom: 'heirloom' });
+    expect(select.value).toBe('hybrid');
+  });
+
   it('skips what the form has no field for', () => {
     expect(fillBlankFields(form, { rowSpacing: 50 })).toEqual([]);
   });
@@ -68,7 +82,48 @@ describe('resultMessage', () => {
     expect(resultMessage({ quantity: 15 }, [])).toMatch(/already have something/);
   });
 
-  it('says it found nothing, and points to what it read', () => {
-    expect(resultMessage({}, [])).toMatch(/Could not find anything.*below/);
+  it('says it found nothing, and points to the text it read', () => {
+    expect(resultMessage({}, [], true)).toMatch(/Could not pick out any details.*Text from the packet/);
+  });
+
+  it('says it read no text at all, when it did not', () => {
+    expect(resultMessage({}, [], false)).toBe('Could not read any text on the photos of the packet.');
+  });
+
+  it('says where the text went, alongside what it filled in', () => {
+    expect(resultMessage({ quantity: 15 }, ['quantity'], true)).toMatch(/Filled in quantity\..*Text from the packet/);
+  });
+});
+
+describe('fillPacketText', () => {
+  let form;
+
+  beforeEach(() => {
+    document.body.innerHTML = '<form><textarea name="seed[packet_text]">old</textarea></form>';
+    form = document.querySelector('form');
+  });
+
+  it('puts the text in the box, replacing what was there', () => {
+    fillPacketText(form, '  Sow by: December 2026  \n');
+    expect(form.querySelector('textarea').value).toBe('Sow by: December 2026');
+  });
+
+  it('marks the box', () => {
+    fillPacketText(form, 'text');
+    expect(form.querySelector('textarea').classList).toContain('packet-reader-filled');
+  });
+
+  it('leaves the box alone when nothing was read', () => {
+    fillPacketText(form, '   ');
+    expect(form.querySelector('textarea').value).toBe('old');
+  });
+
+  it('says whether it saved anything', () => {
+    expect(fillPacketText(form, 'text')).toBe(true);
+  });
+
+  it('has nowhere to put it when the form has no such box', () => {
+    document.body.innerHTML = '<form></form>';
+    expect(fillPacketText(document.querySelector('form'), 'text')).toBe(false);
   });
 });
