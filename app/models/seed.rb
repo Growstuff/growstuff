@@ -37,6 +37,9 @@ class Seed < ApplicationRecord
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :days_until_maturity_max, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :row_spacing, allow_nil:    true,
+                          numericality: { only_integer: true, greater_than: 0 }
+  validates :variety, :batch_number, length: { maximum: 100 }
   validate :plant_before_year_is_a_year
   validates :tradable_to, allow_blank: false,
                           inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }
@@ -63,8 +66,7 @@ class Seed < ApplicationRecord
   end
 
   def most_liked_photo
-    photos.merge(PhotoAssociation.where(label: [nil, 'front']))
-          .order(likes_count: :desc, created_at: :desc).first
+    photos.merge(PhotoAssociation.where(label: [nil, 'front'])).order(likes_count: :desc, created_at: :desc).first
   end
 
   #

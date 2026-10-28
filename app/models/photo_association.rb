@@ -24,6 +24,10 @@ class PhotoAssociation < ApplicationRecord
   before_validation :set_crop
   before_save :take_label_from_other_photos, if: :seed_label?
 
+  # Photos of a seed packet say what the packet says, not what the crop looks
+  # like, so they are left out of a crop's own photos.
+  scope :not_of_packets, -> { where.not(photographable_type: 'Seed').or(where(label: nil)) }
+
   def self.item(item_id, item_type)
     find_by!(photographable_id: item_id, photographable_type: item_type).photographable
   end

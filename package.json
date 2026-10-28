@@ -31,7 +31,8 @@
     "leaflet.markercluster": "^1.5.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "sass": "^1.106.1"
+    "sass": "^1.106.1",
+    "tesseract.js": "^7.0.0"
   },
   "engines": {
     "node": "24.x",

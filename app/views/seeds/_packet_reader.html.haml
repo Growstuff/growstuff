@@ -1,0 +1,8 @@
+-# The button that reads the photos of the packet in the browser and fills in
+-# what it finds, in the blanks of the form it is in. See packet_reader.js.
+- urls = packet_image_urls(seed)
+- if urls.any?
+  .mb-3{ data: { packet_reader: urls.to_json, packet_crop: seed.crop.name } }
+    %button.btn.btn-outline-secondary{ type: 'button', data: { packet_read: '' } } Read the packet
+    %span.packet-reader-spinner.spinner-border.spinner-border-sm.text-secondary.ms-2.d-none{ 'aria-hidden': 'true' }
+    %span.packet-reader-status.text-muted.ms-2{ role: 'status', 'aria-live': 'polite' }

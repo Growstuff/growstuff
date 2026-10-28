@@ -913,3 +913,8 @@ $seed-rule: rgba($brown, 0.15);
     font-weight: 600;
   }
 }
+
+// A field the packet reader filled in, until the member has had a look at it.
+.packet-reader-filled {
+  background-color: #fff8d6;
+}
