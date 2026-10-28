@@ -6,6 +6,21 @@ import * as api from '../api';
 
 import PostEditor from './PostEditor';
 
+// The Flickr picker has its own tests. Here it just hands back the next photo.
+let nextPhoto = 6;
+vi.mock('./AddPhotoModal', () => ({
+  default: ({onAdded}) => (
+    <div role="dialog" aria-label="Add photo">
+      <button type="button" onClick={() => {
+        const id = nextPhoto++;
+        onAdded({photo: {id, title: `Photo ${id}`, thumbnail_url: '/t.jpg', fullsize_url: '/f.jpg'}});
+      }}>
+        Add one
+      </button>
+    </div>
+  ),
+}));
+
 const hidden = (container) => container.querySelector('input[type="hidden"]');
 
 async function setup(props = {}) {
@@ -21,6 +36,7 @@ describe('PostEditor', () => {
     Range.prototype.getClientRects = rects;
     Range.prototype.getBoundingClientRect = () => ({top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0});
     Element.prototype.getClientRects = rects;
+    document.elementFromPoint = () => null;
   });
 
   it('submits the markdown under the given name', async () => {
@@ -241,7 +257,7 @@ describe('PostEditor', () => {
 
     it('changes the size in the markdown', async () => {
       const {container} = await setup({value: markdown, photos});
-      await userEvent.click(await screen.findByRole('button', {name: 'Pair'}));
+      await userEvent.click(await screen.findByRole('button', {name: 'Side by side'}));
       await waitFor(() => expect(hidden(container).value).toContain('(photo:5/pair)'));
     });
 
@@ -281,11 +297,28 @@ describe('PostEditor', () => {
     });
 
     it('opens the Flickr picker for a post that exists', async () => {
-      vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ok: true, status: 200, json: async () => ({state: 'ready', photos: [], sets: []})}));
       await setup({canAddPhoto: true, postPath: '/posts/a-post'});
       await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
       expect(await screen.findByRole('dialog')).toBeInTheDocument();
-      vi.unstubAllGlobals();
+    });
+
+    it('puts a picked photo in the text', async () => {
+      const {container} = await setup({canAddPhoto: true, postPath: '/posts/a-post'});
+      await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+      await userEvent.click(await screen.findByRole('button', {name: 'Add one'}));
+      await waitFor(() => expect(hidden(container).value).toMatch(/\(photo:\d+\/wide\)/));
+    });
+
+    it('keeps the first photo when a second is picked while it is selected', async () => {
+      const {container} = await setup({canAddPhoto: true, postPath: '/posts/a-post', value: 'Words'});
+      for (let i = 0; i < 2; i += 1) {
+        await userEvent.click(screen.getByRole('button', {name: 'Flickr photo'}));
+        await userEvent.click(await screen.findByRole('button', {name: 'Add one'}));
+        await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+        // Clicking a photo in the text selects it, as it is right after being placed.
+        await userEvent.click(await screen.findByRole('img', {name: `Photo ${nextPhoto - 1}`}));
+      }
+      await waitFor(() => expect(hidden(container).value.match(/photo:\d+/g)).toHaveLength(2));
     });
   });
 });
