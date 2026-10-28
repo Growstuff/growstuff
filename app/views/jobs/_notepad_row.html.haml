@@ -24,7 +24,7 @@
       %span.kind= t('jobs.pad.crop')
       = job.jobbable.name
   - date_label = job_date_label(job)
-  - PhotoAssociation::LABELS['Job'].index_with { |moment| job.photo_at(moment) }.compact.each do |moment, photo|
+  - PhotoAssociation::MOMENTS.index_with { |moment| job.photo_at(moment) }.compact.each do |moment, photo|
     = link_to photo_path(photo), class: 'notepad-photo', title: t("jobs.pad.photo_of_#{moment}", title: photo.title) do
       = image_tag photo.thumbnail_url, alt: t("jobs.pad.photo_of_#{moment}", title: photo.title)
       %span.notepad-photo-moment= t("jobs.pad.#{moment}")

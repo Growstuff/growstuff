@@ -11,22 +11,6 @@
       %strong= seed.quantity.presence || "not specified"
       %span seeds
 
-  -# What the packet prints besides the crop.
-  .card{ class: seed.variety.present? ? '' : 'text-muted' }
-    %h3
-      Variety
-      = editable :text_field, seed, :variety, display_field: '.seedfacts--variety'
-    .fact-value.seedfacts--variety
-      %strong= seed.variety.presence || 'not specified'
-
-  .card{ class: seed.row_spacing.present? ? '' : 'text-muted' }
-    %h3
-      Row spacing
-      = editable :number_field, seed, :row_spacing, display_field: '.seedfacts--rowspacing'
-    .fact-value.seedfacts--rowspacing
-      %strong= seed.row_spacing.presence || 'not specified'
-      %span cm
-
   -# A packet records the year its seed was saved, like a hand-written one.
   .card{ class: seed.saved_at.present? ? '' : 'text-muted' }
     %h3

@@ -39,36 +39,4 @@ describe "photos/new" do
       assert_select "h2", "foo" # the name of the set
     end
   end
-
-  context "when picking a photo of a seed packet's front" do
-    let(:photo) { Struct.new(:id, :title, :farm, :server, :secret).new('1', 'Radish', 66, '65535', 'abc') }
-
-    before do
-      assign(:type, 'seed')
-      assign(:id, '5')
-      assign(:label, 'front')
-      assign(:photos, WillPaginate::Collection.create(1, 2, 1) { |pager| pager.replace([photo]) })
-      render
-    end
-
-    it "carries the label in the search form" do
-      assert_select "form input[type=hidden][name=label][value=front]"
-    end
-
-    it "carries the label in the link that adds the photo" do
-      assert_select "a[data-method=post][href*='label=front']"
-    end
-  end
-
-  context "when picking a photo with no label" do
-    before do
-      assign(:type, 'seed')
-      assign(:id, '5')
-      render
-    end
-
-    it "does not add a label to the search form" do
-      assert_select "form input[name=label]", false
-    end
-  end
 end

@@ -10,6 +10,7 @@ RSpec.describe 'Harvests' do
   let(:harvest_encoded_as_json_api) do
     { "id"            => harvest.id.to_s,
       "type"          => "harvests",
+      "links"         => { "self" => resource_url },
       "attributes"    => attributes,
       "relationships" => {
         "crop"     => crop_as_json_api,
@@ -19,13 +20,33 @@ RSpec.describe 'Harvests' do
       } }
   end
 
-  let(:crop_as_json_api) { related_link("crops/#{harvest.crop_id}") }
+  let(:resource_url) { "http://www.example.com/api/v1/harvests/#{harvest.id}" }
 
-  let(:owner_as_json_api) { related_link("members/#{harvest.owner_id}") }
+  let(:crop_as_json_api) do
+    { "links" =>
+                 { "self"    =>
+                                "#{resource_url}/relationships/crop",
+                   "related" => "#{resource_url}/crop" } }
+  end
 
-  let(:planting_as_json_api) { { 'links' => { 'related' => nil } } }
+  let(:owner_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/owner",
+                   "related" => "#{resource_url}/owner" } }
+  end
 
-  let(:photos_as_json_api) { related_link("photos?filter[harvest_id]=#{harvest.id}") }
+  let(:planting_as_json_api) do
+    { "links" =>
+                 { "self"    =>
+                                "#{resource_url}/relationships/planting",
+                   "related" => "#{resource_url}/planting" } }
+  end
+
+  let(:photos_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/photos",
+                   "related" => "#{resource_url}/photos" } }
+  end
 
   let(:attributes) do
     {
@@ -89,16 +110,119 @@ RSpec.describe 'Harvests' do
     end
   end
 
-  it_behaves_like 'a resource members can write', 'harvests' do
-    let(:planting) { create(:planting, owner: member, garden: create(:garden, owner: member)) }
-    let(:create_params) do
-      { attributes:    { description: 'My API harvest' },
-        relationships: { planting: link_to('plantings', planting.id) } }
+  describe '#create' do
+    let!(:member) { create(:member) }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
     end
-    let(:own_record) { create(:harvest, owner: member) }
-    let(:other_record) { create(:harvest) }
-    let(:changes) { { description: 'An updated harvest' } }
+    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
+    let(:crop) { create(:crop) }
+    let(:planting) { create(:planting, owner: member) }
+    let(:plant_part) { create(:plant_part) }
+    let(:harvest_params) do
+      {
+        data: {
+          type:          'harvests',
+          attributes:    {
+            description: 'My API harvests'
+          },
+          relationships: {
+            planting: { data: { type: 'plantings', id: planting.id } }
+            # plant_part: { data: { type: 'plant_parts', id: plant_part.id } }
+          }
+        }
+      }.to_json
+    end
 
-    before { create(:plant_part) }
+    it 'returns 401 Unauthorized without a token' do
+      post '/api/v1/harvests', params: harvest_params, headers: headers
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns 201 Created with a valid token' do
+      post '/api/v1/harvests', params: harvest_params, headers: auth_headers
+
+      expect(response).to have_http_status(:created)
+      expect(member.harvests.count).to eq(1)
+    end
+  end
+
+  describe '#update' do
+    let!(:member) { create(:member) }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
+    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
+    let(:harvest) { create(:harvest, owner: member) }
+    let(:other_member_harvest) { create(:harvest) }
+    let(:update_params) do
+      {
+        data: {
+          type:       'harvests',
+          id:         harvest.id.to_s,
+          attributes: {
+            description: 'An updated harvest'
+          }
+        }
+      }.to_json
+    end
+
+    it 'returns 401 Unauthorized without a token' do
+      patch "/api/v1/harvests/#{harvest.id}", params: update_params, headers: headers
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns 200 OK with a valid token for own harvest' do
+      patch "/api/v1/harvests/#{harvest.id}", params: update_params, headers: auth_headers
+
+      expect(response).to have_http_status(:ok)
+      expect(harvest.reload.description).to eq('An updated harvest')
+    end
+
+    it 'returns 403 Forbidden for another member\'s harvest' do
+      update_params_for_other = {
+        data: {
+          type:       'harvests',
+          id:         other_member_harvest.id.to_s,
+          attributes: {
+            description: 'An updated harvest'
+          }
+        }
+      }.to_json
+      patch "/api/v1/harvests/#{other_member_harvest.id}", params: update_params_for_other, headers: auth_headers
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
+  describe '#delete' do
+    let!(:member) { create(:member) }
+    let(:token) do
+      member.regenerate_api_token
+      member.api_token.token
+    end
+    let(:headers) { { 'Accept' => 'application/vnd.api+json', 'Content-Type' => 'application/vnd.api+json' } }
+    let(:auth_headers) { headers.merge('Authorization' => "Bearer #{token}") }
+    let!(:harvest) { create(:harvest, owner: member) }
+    let(:other_member_harvest) { create(:harvest) }
+
+    it 'returns 401 Unauthorized without a token' do
+      delete "/api/v1/harvests/#{harvest.id}", headers: headers
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns 204 No Content with a valid token for own harvest' do
+      delete "/api/v1/harvests/#{harvest.id}", headers: auth_headers
+      expect(response).to have_http_status(:no_content)
+      expect(Garden.find_by(id: harvest.id)).to be_nil
+    end
+
+    it 'returns 403 Forbidden for another member\'s harvest' do
+      delete "/api/v1/harvests/#{other_member_harvest.id}", headers: auth_headers
+      expect(response).to have_http_status(:forbidden)
+    end
   end
 end

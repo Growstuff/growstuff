@@ -18,12 +18,6 @@ module PhotosHelper
     { photo_dialog: true, photo_label: photo_label(model) }
   end
 
-  # The link that sets which side of a seed's packet a photo of it is of; an
-  # empty label says it is not of the packet.
-  def packet_label_path(seed, photo, label)
-    photo_association_path(photo_id: photo.id, type: 'seed', id: seed.id, label:)
-  end
-
   def crop_image_path(crop)
     thumbnail_url(crop.default_photo)
   end

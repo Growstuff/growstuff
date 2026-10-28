@@ -28,7 +28,6 @@
       = f.text_field :tag, value: @current_tag, label: "or search by tag"
       = hidden_field_tag :type, @type
       = hidden_field_tag :id, @id
-      = hidden_field_tag :label, @label if @label.present?
       = f.submit "Search", class: "btn btn-success"
 
   - if @sets && @current_set
@@ -42,7 +41,7 @@
     - @photos.each do |photo|
       .col-md-2.col-6
         .card
-          = link_to photos_path(photo: { source_id: photo.id, source: 'flickr' }, id: @id, type: @type, label: @label.presence), method: :post do
+          = link_to photos_path(photo: { source_id: photo.id, source: 'flickr' }, id: @id, type: @type ), method: :post do
             = image_tag(FlickRaw.url_z(photo), alt: photo.title, class: 'img img-card')
           .card-body= photo.title
 

@@ -11,8 +11,8 @@ describe PhotosController, '#create' do
   let(:job) { create(:job, owner: member) }
   let(:json_headers) { { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' } }
 
-  def add_photo(label: nil)
-    query = { type: 'job', id: job.id, label: }.compact.to_query
+  def add_photo(moment: nil)
+    query = { type: 'job', id: job.id, moment: }.compact.to_query
     post "/photos.json?#{query}", params: { photo: { source_id: '1234', source: 'flickr' } }.to_json, headers: json_headers
   end
 
@@ -24,15 +24,15 @@ describe PhotosController, '#create' do
     end
   end
 
-  context 'with a label of before' do
-    before { add_photo(label: 'before') }
+  context 'with a moment of before' do
+    before { add_photo(moment: 'before') }
 
     it 'puts the photo on the job' do
       expect(job.photos.pluck(:title)).to eq ['Net on']
     end
 
-    it 'gives the label before' do
-      expect(job.photo_associations.pluck(:label)).to eq ['before']
+    it 'says it was taken before' do
+      expect(job.photo_associations.pluck(:moment)).to eq ['before']
     end
 
     it 'answers that it was created' do
@@ -40,15 +40,15 @@ describe PhotosController, '#create' do
     end
   end
 
-  context 'with a label of after' do
-    before { add_photo(label: 'after') }
+  context 'with a moment of after' do
+    before { add_photo(moment: 'after') }
 
-    it 'gives the label after' do
-      expect(job.photo_associations.pluck(:label)).to eq ['after']
+    it 'says it was taken after' do
+      expect(job.photo_associations.pluck(:moment)).to eq ['after']
     end
   end
 
-  context 'without a label' do
+  context 'without a moment' do
     before { add_photo }
 
     it 'puts the photo on the job' do
@@ -56,12 +56,12 @@ describe PhotosController, '#create' do
     end
 
     it 'says nothing of when it was taken' do
-      expect(job.photo_associations.pluck(:label)).to eq [nil]
+      expect(job.photo_associations.pluck(:moment)).to eq [nil]
     end
   end
 
-  context 'with a label that is not allowed' do
-    before { add_photo(label: 'during') }
+  context 'with a moment that is not allowed' do
+    before { add_photo(moment: 'during') }
 
     it 'adds nothing' do
       expect(job.photos.count).to eq 0
@@ -75,7 +75,7 @@ describe PhotosController, '#create' do
   context 'when the photo is already on the job' do
     before do
       add_photo
-      add_photo(label: 'after')
+      add_photo(moment: 'after')
     end
 
     it 'does not add it again' do
@@ -83,7 +83,7 @@ describe PhotosController, '#create' do
     end
 
     it 'says when it was taken' do
-      expect(job.photo_associations.pluck(:label)).to eq ['after']
+      expect(job.photo_associations.pluck(:moment)).to eq ['after']
     end
   end
 end

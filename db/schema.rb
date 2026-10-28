@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_28_020000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_27_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -919,7 +919,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_28_020000) do
   create_table "photo_associations", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.integer "crop_id"
-    t.string "label"
+    t.string "moment"
     t.integer "photo_id", null: false
     t.integer "photographable_id", null: false
     t.string "photographable_type", null: false
@@ -1070,7 +1070,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_28_020000) do
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
-    t.string "batch_number"
     t.datetime "created_at", precision: nil
     t.integer "crop_id", null: false
     t.integer "days_until_maturity_max"
@@ -1082,17 +1081,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_28_020000) do
     t.text "heirloom", default: "unknown"
     t.text "organic", default: "unknown"
     t.integer "owner_id", null: false
-    t.text "packet_text", comment: "Text read from the packet's photos by the OCR script. Not shown to members yet."
     t.integer "parent_planting_id"
     t.date "plant_before"
     t.integer "quantity"
-    t.integer "row_spacing", comment: "Centimetres between rows, as printed on the packet."
     t.date "saved_at"
     t.string "slug"
     t.string "source"
     t.string "tradable_to", default: "nowhere"
     t.datetime "updated_at", precision: nil
-    t.string "variety"
     t.index ["crop_id"], name: "index_seeds_on_crop_id"
     t.index ["owner_id"], name: "index_seeds_on_owner_id"
     t.index ["parent_planting_id"], name: "index_seeds_on_parent_planting_id"

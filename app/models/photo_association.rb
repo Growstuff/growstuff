@@ -5,16 +5,11 @@ class PhotoAssociation < ApplicationRecord
   belongs_to :crop, optional: true, touch: true # , counter_cache: true
   belongs_to :photographable, polymorphic: true, touch: true
 
-  # What part of the item a photo is of, for the items that have parts: a job's
-  # photo from before or after it was done, the front or back of a seed packet.
-  # Most photos have no label.
-  LABELS = {
-    'Job'  => %w(before after),
-    'Seed' => %w(front back)
-  }.freeze
+  # When a photo was taken, for a job: before it was done, or after.
+  MOMENTS = %w(before after).freeze
 
-  normalizes :label, with: ->(label) { label.presence }
-  validates :label, inclusion: { in: ->(association) { LABELS.fetch(association.photographable_type, []) } }, allow_nil: true
+  normalizes :moment, with: ->(moment) { moment.presence }
+  validates :moment, inclusion: { in: MOMENTS }, allow_nil: true
 
   validate :photo_and_item_have_same_owner
   validate :crop_present
@@ -22,13 +17,6 @@ class PhotoAssociation < ApplicationRecord
   ##
   ## Triggers
   before_validation :set_crop
-
-  # Photos of a seed packet say what the packet says, not what the crop looks
-  # like, so a photo labelled as one is left out of a crop's own photos.
-  scope :of_packets, -> { where(photographable_type: 'Seed').where.not(label: nil) }
-  # Those of a seed that has no text from its packet yet, which is what still
-  # needs reading.
-  scope :awaiting_text, -> { of_packets.where(photographable_id: Seed.unscoped.where(packet_text: [nil, '']).select(:id)) }
 
   def self.item(item_id, item_type)
     find_by!(photographable_id: item_id, photographable_type: item_type).photographable

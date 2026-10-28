@@ -22,7 +22,7 @@ class Crop < ApplicationRecord
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy
   has_many :photo_associations, dependent: :delete_all, inverse_of: :crop
-  has_many :photos, -> { where.not(id: PhotoAssociation.of_packets.select(:photo_id)) }, through: :photo_associations
+  has_many :photos, through: :photo_associations
   has_many :plant_parts, -> { joins_members.distinct.order("plant_parts.name") }, through: :harvests
   has_many :varieties, class_name: 'Crop', foreign_key: 'parent_id', dependent: :nullify, inverse_of: :parent
   has_many :crop_companions, foreign_key: :crop_a_id, dependent: :delete_all, inverse_of: :crop_a

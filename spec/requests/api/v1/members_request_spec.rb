@@ -10,6 +10,7 @@ RSpec.describe 'Members' do
   let(:member_encoded_as_json_api) do
     { "id"            => member.id.to_s,
       "type"          => "members",
+      "links"         => { "self" => resource_url },
       "attributes"    => attributes,
       "relationships" => {
         "gardens"   => gardens_as_json_api,
@@ -21,16 +22,43 @@ RSpec.describe 'Members' do
       } }
   end
 
-  let(:harvests_as_json_api) { related_link("harvests?filter[owner_id]=#{member.id}") }
+  let(:resource_url) { "http://www.example.com/api/v1/members/#{member.id}" }
 
-  let(:photos_as_json_api) { related_link("photos?filter[owner_id]=#{member.id}") }
+  let(:harvests_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/harvests",
+                   "related" => "#{resource_url}/harvests" } }
+  end
 
-  let(:seeds_as_json_api) { related_link("seeds?filter[owner_id]=#{member.id}") }
+  let(:photos_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/photos",
+                   "related" => "#{resource_url}/photos" } }
+  end
 
-  let(:jobs_as_json_api) { related_link("jobs?filter[owner_id]=#{member.id}") }
+  let(:seeds_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/seeds",
+                   "related" => "#{resource_url}/seeds" } }
+  end
 
-  let(:plantings_as_json_api) { related_link("plantings?filter[owner_id]=#{member.id}") }
-  let(:gardens_as_json_api) { related_link("gardens?filter[owner_id]=#{member.id}") }
+  let(:jobs_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/jobs",
+                   "related" => "#{resource_url}/jobs" } }
+  end
+
+  let(:plantings_as_json_api) do
+    { "links" =>
+                 { "self"    =>
+                                "#{resource_url}/relationships/plantings",
+                   "related" => "#{resource_url}/plantings" } }
+  end
+  let(:gardens_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/gardens",
+                   "related" => "#{resource_url}/gardens" } }
+  end
 
   let(:attributes) do
     {

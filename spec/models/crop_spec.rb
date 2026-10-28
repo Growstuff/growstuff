@@ -186,41 +186,6 @@ describe Crop do
       end
     end
 
-    context 'with a photo of a seed packet' do
-      let(:seed) { create(:seed, crop:) }
-      let!(:packet_photo) { create(:photo, owner: seed.owner, likes_count: 10) }
-
-      before { seed.photo_associations.create!(photo: packet_photo, label: 'back') }
-
-      it('is not one of the crop photos') { expect(crop.photos).not_to include(packet_photo) }
-      it('is not the default photo') { expect(crop.default_photo).to be_nil }
-      it('does not make the crop interesting') { expect(described_class.has_photos).not_to include(crop) }
-
-      context 'with the same photo on another seed, with no label there' do
-        let(:other_seed) { create(:seed, crop:, owner: seed.owner) }
-
-        before { other_seed.photos << packet_photo }
-
-        it('is still not one of the crop photos') { expect(crop.photos).not_to include(packet_photo) }
-        it('is still not the default photo') { expect(crop.default_photo).to be_nil }
-      end
-
-      context 'with the packet photographed again, so a newer photo has the label' do
-        before { seed.photo_associations.create!(photo: create(:photo, owner: seed.owner), label: 'back') }
-
-        it('still leaves out the older packet photo') { expect(crop.photos).not_to include(packet_photo) }
-        it('leaves out the newer one too') { expect(crop.photos).to be_empty }
-      end
-
-      context 'with a photo of the seeds too' do
-        let!(:seed_photo) { create(:photo, owner: seed.owner) }
-
-        before { seed.photos << seed_photo }
-
-        it('has the photo of the seeds') { expect(crop.photos).to contain_exactly(seed_photo) }
-      end
-    end
-
     context 'with no plantings or harvests' do
       it 'has no default photo' do
         expect(crop.default_photo).to be_nil

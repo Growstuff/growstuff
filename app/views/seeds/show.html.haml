@@ -74,7 +74,7 @@
                 = icon 'fas', 'plus'
                 add
           - if @photos.any?
-            = render 'photos/gallery', photos: @photos, item: @seed
+            = render 'photos/gallery', photos: @photos
             = will_paginate @photos
           - else
             -# One line. The "+ add" on the heading bar is the invitation.

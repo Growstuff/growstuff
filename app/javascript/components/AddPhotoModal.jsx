@@ -23,13 +23,13 @@ function errorMessages(status, data) {
 // connection has expired) the first step connects it, here, in a pop-up; the dialog
 // notices when that has happened. Then choose a photo (by album or tag, a page at a
 // time), confirm it, and it is added and the page refreshed, so the page is never
-// left. `newUrl` is the menu item's own link, /photos/new?type=..&id=..[&label=..].
+// left. `newUrl` is the menu item's own link, /photos/new?type=..&id=..[&moment=..].
 export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}) {
   const target = new URL(newUrl, window.location.origin).searchParams;
   const type = target.get('type');
   const id = target.get('id');
-  const photoLabel = target.get('label'); // what part it is of: a job's before or after, a seed packet's front or back
-  const createUrl = `/photos.json?${new URLSearchParams(photoLabel ? {type, id, label: photoLabel} : {type, id})}`;
+  const moment = target.get('moment'); // for a job's photo: before, or after
+  const createUrl = `/photos.json?${new URLSearchParams(moment ? {type, id, moment} : {type, id})}`;
 
   const [data, setData] = useState(null); // {state: connect | reconnect | ready, photos, sets, page, total_pages, ...}
   const [filters, setFilters] = useState({set: '', tag: '', page: 1});

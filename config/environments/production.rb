@@ -98,9 +98,6 @@ Rails.application.configure do
   ActionMailer::Base.delivery_method = :smtp
 
   config.host = ENV.fetch('HOST', nil)
-  # Where the API says it lives: API_BASE_URL if it is set (see config/application.rb), otherwise this site. With
-  # neither, the default from config/application.rb stands.
-  config.x.api_base_url = "https://#{config.host}" if config.host.present? && ENV['API_BASE_URL'].blank?
   config.analytics_code = <<-GET_CLICKY_SCRIPT
     <script src="//static.getclicky.com/js" type="text/javascript"></script>
     <script type="text/javascript">try{ clicky.init(100594260); }catch(e){}</script>

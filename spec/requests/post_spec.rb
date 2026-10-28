@@ -6,7 +6,7 @@ describe "Posts" do
   describe "GET /posts" do
     it "works! (now write some real specs)" do
       get posts_path
-      response.status.should be(200)
+      expect(response).to have_http_status :ok
     end
   end
 

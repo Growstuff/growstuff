@@ -55,12 +55,12 @@ RSpec.describe 'Jobs' do
     let(:params) do
       {
         'data' => {
-          'type'       => 'jobs',
-          'id'         => job.id.to_s,
+          'type' => 'jobs',
+          'id' => job.id.to_s,
           'attributes' => {
             'description' => 'A new description',
-            'finished'    => true,
-            'due-date'    => '2025-10-31'
+            'finished' => true,
+            'due-date' => '2025-10-31'
           }
         }
       }
@@ -82,12 +82,5 @@ RSpec.describe 'Jobs' do
       expect(job.finished).to eq(true)
       expect(job.due_date.to_s).to eq('2025-10-31')
     end
-  end
-
-  it_behaves_like 'a resource members can write', 'jobs' do
-    let(:create_params) { { attributes: { name: 'Water the beans' } } }
-    let(:own_record) { create(:job, owner: member) }
-    let(:other_record) { create(:job) }
-    let(:changes) { { description: 'Water them well' } }
   end
 end
