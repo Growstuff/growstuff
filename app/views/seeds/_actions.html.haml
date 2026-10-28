@@ -8,6 +8,8 @@
     = actions_menu('seed') do
       = menu_modal_link(:edit, t('buttons.edit'), '#seed-edit-modal')
       = menu_add_photo_link(seed)
+      - PhotoAssociation::LABELS['Seed'].each do |side|
+        = menu_add_photo_link(seed, text: t("seeds.packet.photo_#{side}"), label: side)
       - if can?(:create, Planting) && can?(:update, seed) && seed.active
         = menu_link_to :planting, 'Plant seeds', new_planting_path(seed_id: seed)
       - if can?(:create, Planting) && seed.active

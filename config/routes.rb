@@ -96,7 +96,7 @@ Rails.application.routes.draw do
   resources :plant_parts
   resources :photos
 
-  resources :photo_associations, only: :destroy
+  resources :photo_associations, only: %i(update destroy)
 
   resources :crops, param: :slug, concerns: :has_photos do
     get 'harvests' => 'harvests#index'

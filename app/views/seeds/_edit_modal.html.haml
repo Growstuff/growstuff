@@ -19,9 +19,17 @@
       = f.select :tradable_to, Seed::TRADABLE_TO_VALUES, { include_blank: false, label: 'Will trade' }
   .row.mb-3
     .col-md-6
+      = f.text_field :variety, label: 'Variety'
+    .col-md-6
+      = f.text_field :batch_number, label: 'Batch number'
+  .row.mb-3
+    .col-md-6
       = f.number_field :days_until_maturity_min, min: 1, label: 'Days until maturity (min)'
     .col-md-6
       = f.number_field :days_until_maturity_max, min: 1, label: 'Days until maturity (max)'
+  .row.mb-3
+    .col-md-6
+      = f.number_field :row_spacing, min: 1, label: 'Row spacing (cm)'
   .row.mb-3
     .col-md-4
       = f.select :organic, Seed::ORGANIC_VALUES, { include_blank: false, label: 'Organic?' }

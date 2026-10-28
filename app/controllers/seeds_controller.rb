@@ -225,6 +225,7 @@ class SeedsController < DataController
       :crop_id, :description, :quantity, :plant_before, :plant_before_year,
       :parent_planting_id, :saved_at,
       :days_until_maturity_min, :days_until_maturity_max,
+      :variety, :batch_number, :row_spacing,
       :organic, :gmo, :source,
       :heirloom, :tradable_to, :slug,
       :finished, :finished_at

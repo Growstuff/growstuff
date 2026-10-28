@@ -37,6 +37,7 @@ class PhotosController < ApplicationController
     @item = item_to_link_to
     @type = params[:type]
     @id = params[:id]
+    @label = params[:label]
     retrieve_from_flickr
     return render json: flickr_picker_json if request.format.json?
 
@@ -111,11 +112,11 @@ class PhotosController < ApplicationController
                                   :license_url, :thumbnail_url, :fullsize_url, :link_url, :date_taken)
   end
 
-  # Attaches the photo to the item. A photo for a job can say when it was taken,
-  # before the job or after, as `moment`.
+  # Attaches the photo to the item. A photo can say what part of the item it is
+  # of, as `label`: before or after for a job, front or back for a seed packet.
   def link_photo_to_item
     association = @item.photo_associations.find_or_initialize_by(photo: @photo)
-    association.moment = params[:moment] if params[:moment].present?
+    association.label = params[:label] if params[:label].present?
     association.save!
   end
 

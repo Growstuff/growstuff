@@ -64,10 +64,10 @@ class Job < ApplicationRecord
   end
 
   # The photo taken before or after the job was done, if there is one. Of those
-  # with the moment, the first added. Uses the loaded photos, so a list of jobs
+  # with the label, the first added. Uses the loaded photos, so a list of jobs
   # can load them all at once.
   def photo_at(moment)
-    photo_associations.select { |association| association.moment == moment }.min_by(&:id)&.photo
+    photo_associations.select { |association| association.label == moment }.min_by(&:id)&.photo
   end
 
   def planting_name

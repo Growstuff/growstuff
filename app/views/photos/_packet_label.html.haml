@@ -1,0 +1,16 @@
+-# On a seed's own page: which side of the packet each of its photos is of, if it
+-# is of one. The seed's owner chooses with the buttons, the current choice
+-# being the lit one; everyone else sees what it is.
+- label = seed.label_of(photo)
+.packet-label.mt-2
+  - if can?(:update, seed)
+    .btn-group.btn-group-sm{ role: 'group', 'aria-label': t('seeds.packet.group') }
+      - [*PhotoAssociation::LABELS['Seed'], nil].each do |choice|
+        - words = t("seeds.packet.choice_#{choice || 'none'}")
+        - if choice == label
+          %span.btn.btn-secondary.active{ 'aria-current': 'true' }= words
+        - else
+          - path = packet_label_path(seed, photo, choice.to_s)
+          = link_to words, path, method: :patch, class: 'btn btn-outline-secondary'
+  - elsif label
+    %span.badge.text-bg-secondary= t("seeds.packet.label_#{label}")
