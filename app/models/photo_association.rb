@@ -5,11 +5,16 @@ class PhotoAssociation < ApplicationRecord
   belongs_to :crop, optional: true, touch: true # , counter_cache: true
   belongs_to :photographable, polymorphic: true, touch: true
 
-  # When a photo was taken, for a job: before it was done, or after.
-  MOMENTS = %w(before after).freeze
+  # What part of the item a photo is of, for the items that have parts: a job's
+  # photo from before or after it was done, the front or back of a seed packet.
+  # Most photos have no label.
+  LABELS = {
+    'Job'  => %w(before after),
+    'Seed' => %w(front back)
+  }.freeze
 
-  normalizes :moment, with: ->(moment) { moment.presence }
-  validates :moment, inclusion: { in: MOMENTS }, allow_nil: true
+  normalizes :label, with: ->(label) { label.presence }
+  validates :label, inclusion: { in: ->(association) { LABELS.fetch(association.photographable_type, []) } }, allow_nil: true
 
   validate :photo_and_item_have_same_owner
   validate :crop_present
@@ -17,12 +22,22 @@ class PhotoAssociation < ApplicationRecord
   ##
   ## Triggers
   before_validation :set_crop
+  before_save :take_label_from_other_photos, if: :seed_label?
 
   def self.item(item_id, item_type)
     find_by!(photographable_id: item_id, photographable_type: item_type).photographable
   end
 
   private
+
+  def seed_label?
+    label? && photographable_type == 'Seed'
+  end
+
+  # A seed has one photo of each side of its packet: the newest one wins.
+  def take_label_from_other_photos
+    photographable.photo_associations.where(label:).where.not(id:).update_all(label: nil) # rubocop:disable Rails/SkipsModelValidations
+  end
 
   def set_crop
     if %w(Planting Seed Harvest).include?(photographable_type)

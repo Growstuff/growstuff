@@ -50,6 +50,24 @@ class Seed < ApplicationRecord
                      inclusion:   { in: SOURCE_VALUES, message: :source_inclusion }
 
   #
+  # Photos
+  # The photo of one side of the packet, front or back, if there is one.
+  def packet_photo(side)
+    photo_associations.find_by(label: side)&.photo
+  end
+
+  # The packet's front, if there is a photo of it. Otherwise the most liked
+  # photo that is not of the back.
+  def default_photo
+    packet_photo('front') || most_liked_photo
+  end
+
+  def most_liked_photo
+    photos.merge(PhotoAssociation.where(label: [nil, 'front']))
+          .order(likes_count: :desc, created_at: :desc).first
+  end
+
+  #
   # Delegations
   delegate :name, to: :crop, prefix: true
   delegate :location, :latitude, :longitude, to: :owner

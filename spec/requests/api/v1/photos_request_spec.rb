@@ -16,7 +16,8 @@ RSpec.describe 'Photos' do
         "owner"     => owner_as_json_api,
         "plantings" => plantings_as_json_api,
         "harvests"  => harvests_as_json_api,
-        "gardens"   => gardens_as_json_api
+        "gardens"   => gardens_as_json_api,
+        "seeds"     => seeds_as_json_api
       } }
   end
 
@@ -38,6 +39,12 @@ RSpec.describe 'Photos' do
     { "links" =>
                  { "self"    => "#{resource_url}/relationships/gardens",
                    "related" => "#{resource_url}/gardens" } }
+  end
+
+  let(:seeds_as_json_api) do
+    { "links" =>
+                 { "self"    => "#{resource_url}/relationships/seeds",
+                   "related" => "#{resource_url}/seeds" } }
   end
 
   let(:plantings_as_json_api) do
@@ -71,6 +78,33 @@ RSpec.describe 'Photos' do
     it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
     it { expect(subject['data']['relationships']).to include("owner" => owner_as_json_api) }
     it { expect(subject['data']).to eq(photo_encoded_as_json_api) }
+  end
+
+  describe 'filtering by label' do
+    let(:seed) { create(:seed) }
+    let(:front) { create(:photo, owner: seed.owner) }
+    let(:back) { create(:photo, owner: seed.owner) }
+    let(:plain) { create(:photo, owner: seed.owner) }
+    let(:ids) { JSON.parse(response.body)['data'].pluck('id') }
+
+    before do
+      seed.photo_associations.create!(photo: front, label: 'front')
+      seed.photo_associations.create!(photo: back, label: 'back')
+      seed.photo_associations.create!(photo: plain)
+      get '/api/v1/photos', params: { filter: { label: } }, headers:
+    end
+
+    context 'with back' do
+      let(:label) { 'back' }
+
+      it('finds the back') { expect(ids).to eq [back.id.to_s] }
+    end
+
+    context 'with front and back' do
+      let(:label) { 'front,back' }
+
+      it('finds both sides') { expect(ids).to contain_exactly(front.id.to_s, back.id.to_s) }
+    end
   end
 
   it '#create' do

@@ -983,6 +983,9 @@ en:
         crop_seeds: Everyone's %{crop} seeds
         default: Everyone's seeds
         owner_seeds: "%{owner} seeds"
+    packet:
+      photo_back: Add a photo of the back of the packet
+      photo_front: Add a photo of the front of the packet
     save_seeds: Save seeds
     show:
       heading: "%{crop} seeds"
