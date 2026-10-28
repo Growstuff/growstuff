@@ -348,6 +348,14 @@
     color: #413f3b;
   }
 
+  .photo-figure-size {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
   .photo-figure-controls {
     flex: 1 1 220px;
     padding: 12px 14px;

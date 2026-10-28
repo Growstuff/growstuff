@@ -2,7 +2,18 @@ import React, {useState} from 'react';
 import {Node} from '@tiptap/core';
 import {NodeViewWrapper, ReactNodeViewRenderer} from '@tiptap/react';
 
-const SIZES = [['wide', 'Wide'], ['half', 'Half'], ['pair', 'Pair']];
+// What each size looks like, as a tiny picture, so it never rests on words alone.
+const SIZES = [
+  ['wide', 'Wide', <rect key="a" x="1" y="1" width="22" height="12" rx="1" fill="currentColor" />],
+  ['half', 'Half', [
+    <rect key="a" x="1" y="1" width="13" height="12" rx="1" fill="currentColor" />,
+    <path key="b" d="M17 4h6M17 7h6M17 10h6" stroke="currentColor" strokeWidth="1.5" opacity=".6" />,
+  ]],
+  ['pair', 'Side by side', [
+    <rect key="a" x="1" y="1" width="10" height="12" rx="1" fill="currentColor" />,
+    <rect key="b" x="13" y="1" width="10" height="12" rx="1" fill="currentColor" />,
+  ]],
+];
 
 // ![caption](photo:123) or ![caption](photo:123/half), alone on its line, as
 // the server reads it (see Haml::Filters::GrowstuffMarkdown).
@@ -42,21 +53,23 @@ function PhotoFigureView({node, updateAttributes, deleteNode, selected, extensio
             onChange={(event) => updateAttributes({caption: clean(event.target.value)})}
           />
         </label>
-        <div className="d-flex align-items-center gap-2 my-2">
-          <span className="fw-bold small">Size</span>
-          <div className="btn-group btn-group-sm" role="group" aria-label="Size">
-            {SIZES.map(([value, label]) => (
+        <div className="my-2">
+          <span className="fw-bold small d-block mb-1" id={`size-${photoId}`}>How big in the post</span>
+          <div className="btn-group btn-group-sm d-flex" role="group" aria-labelledby={`size-${photoId}`}>
+            {SIZES.map(([value, label, shapes]) => (
               <button
                 key={value}
                 type="button"
-                className={`btn btn-outline-secondary${size === value ? ' active' : ''}`}
+                className={`btn btn-outline-secondary photo-figure-size${size === value ? ' active' : ''}`}
                 aria-pressed={size === value}
                 onClick={() => updateAttributes({size: value})}
               >
+                <svg width="24" height="14" viewBox="0 0 24 14" aria-hidden="true">{shapes}</svg>
                 {label}
               </button>
             ))}
           </div>
+          <span className="text-muted small">Side by side sits this photo next to the one after it.</span>
         </div>
         <div className="d-flex gap-2">
           <button

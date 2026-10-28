@@ -163,10 +163,15 @@ export default function PostEditor({
   function photoAdded({photo}) {
     setPickerUrl(null);
     photoList.current = [...photoList.current, photo];
-    editorRef.current
+    // After the current line, or after the photo that is selected: inserting
+    // over a selected photo would replace it, and only one could ever be added.
+    const editor = editorRef.current;
+    const {selection} = editor.state;
+    const position = selection.node ? selection.to : selection.from;
+    editor
       .chain()
       .focus()
-      .insertContent({type: 'photoFigure', attrs: {photoId: photo.id, caption: photo.title, size: 'wide'}})
+      .insertContentAt(position, {type: 'photoFigure', attrs: {photoId: photo.id, caption: photo.title, size: 'wide'}})
       .run();
   }
 
