@@ -1,19 +1,15 @@
 # frozen_string_literal: true
 
-# Jobs other gardeners finished, now and at this time of year in earlier years,
-# when enough of them did the same one. Only finished jobs count, and only those
-# the gardeners made themselves, not from a template. The same job is the same
-# name, whatever the case, about the same crop. A subclass says whose jobs to look
+# Jobs other gardeners have planned for this month, finished or not, and those they
+# finished at this time of year in earlier years. Only those the gardeners made
+# themselves count, not from a template. The same job is the same name, whatever
+# the case, about the same crop. A subclass says whose jobs to look
 # at, and which crops, with #owner_ids and #crop_ids.
 class JobIdeas
   class OthersJobs
     include PastYears
 
-    # Fewer gardeners than this is not a trend, just someone's job.
-    MIN_GARDENERS = 3
     MAX_IDEAS = 5
-    # What counts as lately, as opposed to at this time of year before.
-    LATELY = 14.days
     CROP_ID = "COALESCE(CASE WHEN jobs.jobbable_type = 'Crop' THEN jobs.jobbable_id END, plantings.crop_id, seeds.crop_id)"
     Row = Struct.new(:name, :owner_id, :crop_id, :on)
 
@@ -57,10 +53,10 @@ class JobIdeas
       rows.group_by { |row| [row.name.downcase, row.crop_id] }.filter_map do |(name, crop_id), group|
         next if open_names.include?(name)
 
-        now, earlier = group.partition { |row| row.on > @today - LATELY }
+        now, earlier = group.partition { |row| this_month.cover?(row.on) }
         owners = [now, earlier].map { |found| found.map(&:owner_id).uniq.size }
-        period, gardeners = owners.first >= MIN_GARDENERS ? [:now, owners.first] : [:earlier, owners.last]
-        next if gardeners < MIN_GARDENERS
+        period, gardeners = owners.first.positive? ? [:now, owners.first] : [:earlier, owners.last]
+        next if gardeners.zero?
 
         { name: group.first.name, crop_id:, period:, gardeners:, on: group.map(&:on).max }
       end
@@ -72,14 +68,18 @@ class JobIdeas
     end
 
     def rows
-      jobs = Job.where(finished: true, crop_job_step_id: nil).where.not(owner_id: left_out_ids)
+      jobs = Job.where(crop_job_step_id: nil).where.not(owner_id: left_out_ids)
       jobs = jobs.where(owner_id: owner_ids) if owner_ids
       jobs = jobs.where("#{CROP_ID} IN (?)", crop_ids) if crop_ids
-      finished_in(jobs.joins("LEFT JOIN plantings ON jobs.jobbable_type = 'Planting' AND plantings.id = jobs.jobbable_id")
-                      .joins("LEFT JOIN seeds ON jobs.jobbable_type = 'Seed' AND seeds.id = jobs.jobbable_id"),
-                  [(@today - LATELY)..@today] + past_windows)
+      jobs = jobs.joins("LEFT JOIN plantings ON jobs.jobbable_type = 'Planting' AND plantings.id = jobs.jobbable_id")
+        .joins("LEFT JOIN seeds ON jobs.jobbable_type = 'Seed' AND seeds.id = jobs.jobbable_id")
+      finished_in(jobs.where(finished: true), past_windows).or(jobs.where(due_date: this_month))
         .pluck('jobs.name', 'jobs.owner_id', 'jobs.finished_at', 'jobs.due_date', Arel.sql(CROP_ID))
         .map { |name, owner_id, finished_at, due_date, crop_id| Row.new(name, owner_id, crop_id, finished_at&.to_date || due_date) }
+    end
+
+    def this_month
+      @today.all_month
     end
 
     # Themselves, and the people they have blocked.

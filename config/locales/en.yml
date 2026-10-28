@@ -484,23 +484,27 @@ en:
     reason:
       community:
         earlier:
+          one: 1 gardener growing %{crop} did this at this time of year before.
           other: "%{count} gardeners growing %{crop} did this at this time of year before."
         now:
-          other: "%{count} gardeners growing %{crop} did this lately."
+          one: 1 gardener growing %{crop} has this planned this month.
+          other: "%{count} gardeners growing %{crop} have this planned this month."
       community_of:
         earlier:
           one: 1 of %{of} gardeners growing %{crop} did this at this time of year before.
           other: "%{count} of %{of} gardeners growing %{crop} did this at this time of year before."
         now:
-          one: 1 of %{of} gardeners growing %{crop} did this lately.
-          other: "%{count} of %{of} gardeners growing %{crop} did this lately."
+          one: 1 of %{of} gardeners growing %{crop} has this planned this month.
+          other: "%{count} of %{of} gardeners growing %{crop} have this planned this month."
       harvest_harvested: You last harvested from it on %{day}.
       harvest_predicted: Ready around %{day}, going by how long it usually takes.
       nearby:
         earlier:
+          one: 1 gardener nearby did this at this time of year before.
           other: "%{count} gardeners nearby did this at this time of year before."
         now:
-          other: "%{count} gardeners nearby did this lately."
+          one: 1 gardener nearby has this planned this month.
+          other: "%{count} gardeners nearby have this planned this month."
       past_job:
         one: You did this on %{day}.
         other: You did this at this time of year in %{count} years, last on %{day}.
@@ -512,9 +516,11 @@ en:
         other: "%{count} jobs: %{steps}. For your %{crop} planted on %{day}."
       world:
         earlier:
+          one: 1 gardener at your latitude did this at this time of year.
           other: "%{count} gardeners at your latitude did this at this time of year."
         now:
-          other: "%{count} gardeners at your latitude did this lately."
+          one: 1 gardener at your latitude has this planned this month.
+          other: "%{count} gardeners at your latitude have this planned this month."
     section:
       community: People growing what you grow
       community_note: public jobs
@@ -590,6 +596,7 @@ en:
       move_later: Later
       move_today: Today
       move_tomorrow: Tomorrow
+      move_week: This week
       move_weekend: This weekend
       next_weekend: Next weekend
       overdue: Overdue
@@ -802,6 +809,7 @@ en:
       transplant_html: Transplanted %{things} into %{garden}
       weighing: weighing %{weight}
     layout:
+      crop: "%{crop} ×%{count}"
       label: "%{garden}: its layout"
     photos:
       added:

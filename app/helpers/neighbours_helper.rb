@@ -19,7 +19,28 @@ module NeighboursHelper # rubocop:disable Metrics/ModuleLength
     Time.current < first_seen + NEW_AFTER_VISIT && Time.zone.today < LAUNCHED_ON + NEW_FOR
   end
 
-  # "Today · Tue 13 Oct", "Yesterday · Mon 12 Oct", then just "Sun 11 Oct".
+  LAYOUT_PLANTS_SHOWN = 120
+  # A plant narrower than this share of the bed's width is too small to make
+  # out an icon in the feed, so it is drawn as a dot.
+  LAYOUT_ICON_MIN_SHARE = 0.06
+
+  LayoutPlant = Struct.new(:x, :y, :diameter, :crop, :icon, keyword_init: true)
+
+  # The placed plants of a garden's bed, widest first so the small ones are
+  # drawn on top of the big ones, each with its crop. The crop's size is used
+  # when the plant has not been resized, as on the layout page.
+  def layout_plants(garden)
+    placed = garden.placed_plants.includes(planting: { crop: { parent: :parent } }).limit(LAYOUT_PLANTS_SHOWN)
+    plants = placed.map do |plant|
+      crop = plant.planting.crop
+      diameter = plant.diameter || crop.layout_diameter || 1
+      LayoutPlant.new(x: plant.bed_x, y: plant.bed_y, diameter:, crop:,
+                      icon: diameter >= garden.grid_columns * LAYOUT_ICON_MIN_SHARE)
+    end
+    plants.sort_by { |plant| -plant.diameter }
+  end
+
+  # "Today · Tue 13 Oct","Yesterday · Mon 12 Oct", then just "Sun 11 Oct".
   def day_heading(day)
     date = l(day, format: '%a %-d %b')
     today = Time.zone.today
