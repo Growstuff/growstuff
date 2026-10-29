@@ -32,4 +32,21 @@ describe "a seed's facts", :js do
       it { expect(page).to have_no_link('Edit heirloom') }
     end
   end
+
+  describe "the organic fact" do
+    let(:seed) { create(:seed, owner:, organic: 'unknown') }
+    let(:organic) { find('.fact-row', text: 'Organic') }
+
+    before do
+      login_as owner
+      visit seed_path(seed)
+      organic.click_link 'Edit organic'
+      organic.select 'certified organic'
+      organic.click_button 'save'
+      find('.seedfacts--organic', text: 'Certified organic') # saved, and the page shows it
+    end
+
+    it { expect(page).to have_css('.seedfacts--organic', text: 'Certified organic') }
+    it { expect(seed.reload.organic).to eq 'certified organic' }
+  end
 end

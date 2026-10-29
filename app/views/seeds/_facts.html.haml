@@ -19,6 +19,11 @@
           %strong= seed.variety.presence || 'not specified'
 
         = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'Batch number', display: 'batchnumber', muted: seed.batch_number.blank?,
+                           edit: [:text_field, :batch_number] } do
+          %strong= seed.batch_number.presence || 'not specified'
+
+        = render layout: 'seeds/fact_row',
                  locals: { seed:, label: 'Quantity', display: 'quantity', muted: seed.quantity.blank?,
                            edit: [:text_field, :quantity] } do
           %strong= seed.quantity.presence || 'not specified'
@@ -46,6 +51,19 @@
                  locals: { seed:, label: 'Heirloom or hybrid', display: 'heirloom', muted: seed.heirloom_kind.blank?,
                            edit: [:select, :heirloom], values: Seed::HEIRLOOM_VALUES } do
           %strong= seed.heirloom_kind&.capitalize || 'Unknown'
+
+        -# What the packet claims. 'unknown' is the model's own "don't know", so it reads quietly.
+        - organic = seed.organic.presence || 'unknown'
+        = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'Organic', display: 'organic', muted: organic == 'unknown',
+                           edit: [:select, :organic], values: Seed::ORGANIC_VALUES } do
+          %strong= organic.upcase_first
+
+        - gmo = seed.gmo.presence || 'unknown'
+        = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'GMO', display: 'gmo', muted: gmo == 'unknown',
+                           edit: [:select, :gmo], values: Seed::GMO_VALUES } do
+          %strong= gmo.upcase_first
 
         -# A packet records the year its seed was saved, like a hand-written one.
         = render layout: 'seeds/fact_row',
