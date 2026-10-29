@@ -3,23 +3,6 @@
   = f.select :problem_type, Problem::PROBLEM_TYPES, { prompt: "Select a type" }, required: true
   = f.text_area :description
 
-  %h3.mt-4 Scientific Names
-  = f.fields_for :scientific_names do |sn_form|
-    .row.mb-2
-      .col-md-3= sn_form.text_field :name, label: "Scientific Name"
-      .col-md-3= sn_form.text_field :gbif_key, label: "GBIF Key"
-      .col-md-3= sn_form.text_field :wikidata_id, label: "Wikidata ID"
-      .col-md-3.d-flex.align-items-center
-        = sn_form.check_box :_destroy, label: "Remove"
-
-  %h3.mt-4 Alternate Names
-  = f.fields_for :alternate_names do |an_form|
-    .row.mb-2
-      .col-md-4= an_form.text_field :name, label: "Alternate Name"
-      .col-md-4= an_form.text_field :language, label: "Language", value: an_form.object.language || "EN"
-      .col-md-4.d-flex.align-items-center
-        = an_form.check_box :_destroy, label: "Remove"
-
   .form-actions.mt-4
     = f.submit class: 'btn btn-primary'
     = link_to 'Cancel', admin_problems_path, class: 'btn btn-secondary ms-2'
