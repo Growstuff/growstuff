@@ -1,0 +1,17 @@
+-# The months to sow in, as twelve chips to tick, as many as the packet says. Where the
+-# grower's hemisphere is known the seasons are shortcuts that tick a season's
+-# months at once; where it isn't there are none, rather than a guess. The prefix
+-# keeps the ids apart where the page has more than one of these.
+- seasons = season_months(model.owner.latitude)
+.sow-months{ data: { sow_months: '' } }
+  = hidden_field_tag 'seed[sow_months][]', '', id: nil
+  .sow-months-chips
+    - (1..12).each do |month|
+      - id = "#{prefix}-sow-month-#{month}"
+      = check_box_tag 'seed[sow_months][]', month, model.sow_months.include?(month), id: id, class: 'btn-check'
+      = label_tag id, Date::ABBR_MONTHNAMES[month], class: 'btn btn-outline-secondary btn-sm'
+  - if seasons
+    .sow-months-seasons
+      %span.text-muted Tick a season:
+      - seasons.each do |name, months|
+        %button.btn.btn-link.btn-sm{ type: 'button', data: { sow_months_season: months.join(',') } }= name

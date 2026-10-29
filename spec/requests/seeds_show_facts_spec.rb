@@ -26,7 +26,10 @@ describe SeedsController, '#show' do
 
     before { get seed_path(seed) }
 
-    it('says the batch number is not specified') { expect(page).to have_css('.fact-row.text-muted .seedfacts--batchnumber', text: 'not specified') }
+    it('says the batch number is not specified') do
+      expect(page).to have_css('.fact-row.text-muted .seedfacts--batchnumber', text: 'not specified')
+    end
+
     it('says organic is unknown, quietly') { expect(page).to have_css('.fact-row.text-muted .seedfacts--organic', text: 'Unknown') }
     it('says GMO is unknown, quietly') { expect(page).to have_css('.fact-row.text-muted .seedfacts--gmo', text: 'Unknown') }
   end
@@ -38,12 +41,19 @@ describe SeedsController, '#show' do
     end
 
     it('has a pencil for each of the new facts') do
-      expect(%w(batch\ number organic gmo).map { |field| page.has_css?('.fact-row a.editable', text: "Edit #{field}", visible: :all) }).to all(be true)
+      pencils = page.all('.fact-row a.editable', visible: :all).map { |pencil| pencil.text(:all).strip }
+      expect(pencils).to include('Edit batch number', 'Edit organic', 'Edit gmo')
     end
 
     it('edits the batch number as text') { expect(page).to have_css('.fact-row input[name="seed[batch_number]"]', visible: :all) }
-    it('edits organic as a choice') { expect(page).to have_css('.fact-row select[name="seed[organic]"] option', count: Seed::ORGANIC_VALUES.size, visible: :all) }
-    it('edits GMO as a choice') { expect(page).to have_css('.fact-row select[name="seed[gmo]"] option', count: Seed::GMO_VALUES.size, visible: :all) }
+
+    it('edits organic as a choice') do
+      expect(page).to have_css('.fact-row select[name="seed[organic]"] option', count: Seed::ORGANIC_VALUES.size, visible: :all)
+    end
+
+    it('edits GMO as a choice') do
+      expect(page).to have_css('.fact-row select[name="seed[gmo]"] option', count: Seed::GMO_VALUES.size, visible: :all)
+    end
   end
 
   context 'when someone else looks' do
