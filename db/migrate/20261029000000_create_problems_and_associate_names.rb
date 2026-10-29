@@ -15,7 +15,6 @@ class CreateProblemsAndAssociateNames < ActiveRecord::Migration[8.1]
     # Make crop_id optional
     change_column_null :scientific_names, :crop_id, true
     change_column_null :alternate_names, :crop_id, true
-    change_column_null :alternate_names, :creator_id, true
 
     # Add polymorphic columns
     add_column :scientific_names, :subject_type, :string unless column_exists?(:scientific_names, :subject_type)

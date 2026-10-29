@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Problem, type: :model do
+  let(:member) { create(:member) }
+
   describe 'validations' do
     it 'is valid with valid attributes' do
       problem = build(:problem)
@@ -39,19 +41,19 @@ RSpec.describe Problem, type: :model do
     let(:problem) { create(:problem) }
 
     it 'can have scientific names' do
-      sciname = problem.scientific_names.create!(name: 'Phytophthora infestans', gbif_key: 3203584, wikidata_id: 'Q152917')
+      sciname = problem.scientific_names.create!(name: 'Phytophthora infestans', gbif_key: 3203584, wikidata_id: 'Q152917', creator: member)
       expect(problem.scientific_names).to include(sciname)
       expect(sciname.gbif_id).to eq(3203584)
     end
 
     it 'can have alternate names' do
-      altname = problem.alternate_names.create!(name: 'Late Blight', language: 'EN')
+      altname = problem.alternate_names.create!(name: 'Late Blight', language: 'EN', creator: member)
       expect(problem.alternate_names).to include(altname)
     end
 
     it 'destroys associated scientific and alternate names when destroyed' do
-      problem.scientific_names.create!(name: 'Test Sci Name')
-      problem.alternate_names.create!(name: 'Test Alt Name')
+      problem.scientific_names.create!(name: 'Test Sci Name', creator: member)
+      problem.alternate_names.create!(name: 'Test Alt Name', creator: member)
 
       expect { problem.destroy }.to change(ScientificName, :count).by(-1).and change(AlternateName, :count).by(-1)
     end
