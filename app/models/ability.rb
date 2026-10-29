@@ -31,6 +31,8 @@ class Ability
 
     # and nobody should be able to view this except admins
     cannot :read, Role
+    cannot :read, Problem
+    cannot :manage, Problem
 
     # nobody should be able to view unapproved crops unless they
     # are wranglers or admins
