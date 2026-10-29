@@ -27,13 +27,31 @@ describe SeedsController, '#show' do
   end
 
   context 'with the text read from the packet' do
+    let(:page) { Capybara.string(response.body) }
+    let(:text) { "Approx 15 seeds per packet\nSow by: December 2026" }
+
     before do
-      seed.update!(packet_text: 'Sow by: December 2026')
-      sign_in seed.owner
+      seed.update!(packet_text: text)
       get seed_path(seed)
     end
 
-    it('does not show it yet') { expect(response.body).not_to include('Sow by: December 2026') }
+    it('shows it, folded away, to anyone') { expect(page).to have_css('details summary', text: 'Text from the packet') }
+    it('keeps its lines') { expect(page.find('details pre', visible: :all).native.text).to eq text }
+
+    context 'when the text has markup in it' do
+      let(:text) { '<script>alert(1)</script> Sow by: 2026' }
+
+      it('shows the markup as text, not as markup') { expect(page).to have_no_css('details script', visible: :all) }
+      it('still shows what it said') { expect(page.find('details pre', visible: :all).native.text).to eq text }
+    end
+  end
+
+  context 'without text read from the packet' do
+    let(:page) { Capybara.string(response.body) }
+
+    before { get seed_path(seed) }
+
+    it('has no section for it') { expect(page).to have_no_css('details', text: 'Text from the packet') }
   end
 
   context 'when someone else looks' do
