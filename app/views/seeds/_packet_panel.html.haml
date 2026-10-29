@@ -1,0 +1,41 @@
+-# What the packet says, beside the facts of the packet sheet: its photos, whole and
+-# large enough to read, and our attempt to read it as text, kept behind a button
+-# because it is a program's guess and the photos are the evidence. Nothing is
+-# drawn for a seed with neither.
+- sides = PhotoAssociation::LABELS['Seed'].index_with { |side| seed.packet_photo(side) }.compact
+- if sides.any? || seed.packet_text.present?
+  - photos_id = "seed-packet-photos-#{seed.id}"
+  - text_id = "seed-packet-text-#{seed.id}"
+  %section.seed-packet-panel
+    .section-header
+      %h2 From the packet
+    - if sides.any?
+      -# Front and back take turns, so each can be as big as the panel; a click zooms to
+      -# full size to read the small print.
+      - if sides.size > 1
+        %ul.nav.nav-pills.seed-packet-switch{ role: 'tablist' }
+          - sides.each_key.with_index do |side, index|
+            %li.nav-item{ role: 'presentation' }
+              %button.nav-link{ class: ('active' if index.zero?), type: 'button', role: 'tab',
+                                'aria-selected': index.zero?.to_s,
+                                data: { 'bs-toggle': 'tab', 'bs-target': "##{photos_id}-#{side}" } }= t("seeds.packet.choice_#{side}")
+      .tab-content.seed-packet-photos
+        - sides.each_with_index do |(side, photo), index|
+          .tab-pane.fade{ id: "#{photos_id}-#{side}", class: ('show active' if index.zero?), role: 'tabpanel' }
+            = link_to photo_path(photo), title: t("seeds.packet.label_#{side}") do
+              = image_tag photo.source == 'flickr' ? photo.fullsize_url : photo.thumbnail_url,
+                          alt: t("seeds.packet.label_#{side}"), class: 'img-fluid',
+                          data: { large: photo_large_url(photo) }
+    -# Said plainly as an attempt: it is read by a program, and where the print is
+    -# decorative or the photo poor it reads nonsense beside the real details.
+    - if seed.packet_text.present?
+      %button.btn.btn-sm.btn-outline-secondary.seed-packet-text-toggle.collapsed{ type: 'button',
+                                                                                 'aria-expanded': 'false',
+                                                                                 'aria-controls': text_id,
+                                                                                 data: { 'bs-toggle': 'collapse', 'bs-target': "##{text_id}" } }
+        %span.when-hidden Show our attempt to read the packet
+        %span.when-shown Hide our attempt to read the packet
+      .collapse{ id: text_id }
+        %h3.seed-packet-text-label{ id: "#{text_id}-label" } Our attempt to read the packet
+        %p.seed-packet-text-note Read automatically from the photos, so it makes mistakes. Check it against the packet.
+        %pre.seed-packet-text{ 'aria-labelledby': "#{text_id}-label" }= seed.packet_text

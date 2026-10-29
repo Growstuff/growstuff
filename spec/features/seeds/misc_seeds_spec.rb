@@ -49,9 +49,9 @@ describe "seeds", :js do
       click_link 'Actions'
       click_link 'Edit'
 
-      # Editing happens in a dialog over the page now, rather than on a form of
-      # its own, so the member never leaves the seed.
-      within '#seed-edit-modal' do
+      # Editing happens in the packet sheet, in the place of the list of facts,
+      # rather than on a form of its own, so the member never leaves the seed.
+      within '.packet-sheet-form' do
         fill_in 'How many seeds?', with: doubled
         select 'traded from another person', from: 'Where did they come from?'
         click_button 'Save'
@@ -59,7 +59,8 @@ describe "seeds", :js do
 
       # The page is already the seed's, so wait for the saved value to show
       # before looking at the database.
-      expect(page).to have_css '.seedfacts--source', text: 'traded from another person'
+      # This seed has no photo to hang a ribbon on, so its source is a badge.
+      expect(page).to have_css '.seed-badges .seed-source-badge', text: 'Traded'
       expect(seed.reload).to have_attributes(quantity: doubled, source: 'traded from another person')
     end
 
