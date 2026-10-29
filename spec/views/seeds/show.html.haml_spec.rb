@@ -21,7 +21,7 @@ describe "seeds/show" do
       let(:seed) { create(:seed, heirloom: 'heirloom') }
 
       it { expect(rendered).to have_css('.seedfacts--heirloom', text: 'Heirloom') }
-      it { expect(rendered).to have_css('h3', text: 'Heirloom or hybrid') }
+      it { expect(rendered).to have_css('dt', text: 'Heirloom or hybrid') }
     end
 
     context "when it is a hybrid" do
@@ -34,7 +34,7 @@ describe "seeds/show" do
       let(:seed) { create(:seed, heirloom: 'unknown') }
 
       it { expect(rendered).to have_css('.seedfacts--heirloom', text: 'Unknown') }
-      it { expect(rendered).to have_css('.card.text-muted .seedfacts--heirloom') }
+      it { expect(rendered).to have_css('.fact-row.text-muted .seedfacts--heirloom') }
     end
   end
 
