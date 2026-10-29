@@ -3094,6 +3094,11 @@ semver@^7.0.0, semver@^7.3.8, semver@^7.6.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.5.tgz#39b646037dd50c14fb451e7e4cac58ed8b863f69"
   integrity sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==
 
+shareon@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/shareon/-/shareon-2.8.1.tgz#059c63355159578eacd3619d64ba186aaf629e10"
+  integrity sha512-x1/ssgy3VyrAJP/miLlbdxXJ7xILjUVhe7dZbZfDeswIxfLMLEW9cyXKHBdxGDGwFOS7RlGKCQtEq716D4BlZg==
+
 shebang-command@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-2.0.0.tgz#ccd0af4f8835fbdc265b82461aaf0c36663f34ea"
