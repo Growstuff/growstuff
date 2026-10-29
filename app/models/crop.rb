@@ -21,8 +21,8 @@ class Crop < ApplicationRecord
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
   belongs_to :ecocrop_record, class_name: 'EcocropData', foreign_key: :ecocrop_data_id, optional: true, inverse_of: :crops
-  has_many :scientific_names, dependent: :delete_all
-  has_many :alternate_names, dependent: :delete_all
+  has_many :scientific_names, as: :subject, dependent: :delete_all
+  has_many :alternate_names, as: :subject, dependent: :delete_all
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy

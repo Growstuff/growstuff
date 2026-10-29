@@ -3,8 +3,8 @@
 class Problem < ApplicationRecord
   PROBLEM_TYPES = %w(Disease Pest General).freeze
 
-  has_many :scientific_names, dependent: :destroy
-  has_many :alternate_names, dependent: :destroy
+  has_many :scientific_names, as: :subject, dependent: :destroy
+  has_many :alternate_names, as: :subject, dependent: :destroy
 
   accepts_nested_attributes_for :scientific_names, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :alternate_names, allow_destroy: true, reject_if: :all_blank
