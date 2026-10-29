@@ -1,0 +1,12 @@
+-# One line of the packet sheet: what the fact is, its value, and its pencil. The
+-# value is the block. It sits in a .fact-value wrapper so opening the inline form
+-# hides the whole of it, the unit word included, rather than leaving "seeds" or
+-# "days" stranded beside the form.
+-# edit is the field type and field for the pencil, or nothing for a fact that
+-# is not edited here.
+.fact-row{ class: ('text-muted' if local_assigns[:muted]) }
+  %dt= label
+  %dd
+    .fact-value{ class: ("seedfacts--#{display}" if local_assigns[:display]) }= yield
+    - if local_assigns[:edit]
+      = editable edit.first, seed, edit.last, display_field: ".seedfacts--#{display}", values: local_assigns[:values]

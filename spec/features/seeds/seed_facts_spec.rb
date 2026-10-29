@@ -5,7 +5,7 @@ require 'rails_helper'
 describe "a seed's facts", :js do
   let(:seed) { create(:seed, owner:, heirloom: 'unknown') }
   let(:owner) { create(:member) }
-  let(:fact) { find('.card', text: 'Heirloom or hybrid') }
+  let(:fact) { find('.fact-row', text: 'Heirloom or hybrid') }
 
   describe "the heirloom or hybrid fact" do
     context "when signed in as the owner" do

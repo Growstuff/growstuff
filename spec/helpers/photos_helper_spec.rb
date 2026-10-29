@@ -94,4 +94,20 @@ describe PhotosHelper do
       it { is_expected.to eq seed_photo.fullsize_url }
     end
   end
+
+  describe '#photo_large_url' do
+    subject { helper.photo_large_url(photo) }
+
+    context 'with a Flickr photo' do
+      let(:photo) { build(:photo, source: 'flickr', fullsize_url: 'https://farm66.staticflickr.com/65535/123_abc_z.jpg') }
+
+      it { is_expected.to eq 'https://farm66.staticflickr.com/65535/123_abc_b.jpg' }
+    end
+
+    context 'with a photo from anywhere else' do
+      let(:photo) { build(:photo, source: 'upload', fullsize_url: 'https://example.com/photo_z.jpg') }
+
+      it('has only the one size') { is_expected.to eq 'https://example.com/photo_z.jpg' }
+    end
+  end
 end
