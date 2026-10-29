@@ -32,12 +32,16 @@ module Admin
     end
 
     def create
-      @problem = Problem.create(problem_params)
+      @problem = Problem.new(problem_params)
+      assign_creators(@problem)
+      @problem.save
       respond_with @problem, location: admin_problems_path
     end
 
     def update
-      @problem.update(problem_params)
+      @problem.attributes = problem_params
+      assign_creators(@problem)
+      @problem.save
       respond_with @problem, location: admin_problems_path
     end
 
@@ -47,6 +51,13 @@ module Admin
     end
 
     private
+
+    def assign_creators(problem)
+      return unless current_member
+
+      problem.scientific_names.each { |sn| sn.creator ||= current_member }
+      problem.alternate_names.each { |an| an.creator ||= current_member }
+    end
 
     def ensure_feature_enabled!
       raise ActiveRecord::RecordNotFound unless Feature.enabled?(:problems)

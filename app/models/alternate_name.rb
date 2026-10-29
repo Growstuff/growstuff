@@ -7,7 +7,7 @@ class AlternateName < ApplicationRecord
   belongs_to :subject, polymorphic: true, optional: true
   belongs_to :crop, optional: true
   belongs_to :problem, optional: true
-  belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_alternate_names
+  belongs_to :creator, class_name: 'Member', inverse_of: :created_alternate_names
 
   before_validation :sync_subject_and_crop
 
