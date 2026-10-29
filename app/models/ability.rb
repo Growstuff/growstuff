@@ -41,9 +41,11 @@ class Ability
     # scientific names should only be viewable if associated crop is approved
     cannot :read, ScientificName
     can :read, ScientificName, crop: { approval_status: "approved" }
+    can :read, ScientificName, subject_type: "Problem"
     # ... same for alternate names
     cannot :read, AlternateName
     can :read, AlternateName, crop: { approval_status: "approved" }
+    can :read, AlternateName, subject_type: "Problem"
 
     cannot :create, GardenType
     cannot :update, GardenType

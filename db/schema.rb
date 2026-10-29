@@ -53,11 +53,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_000000) do
     t.virtual "normalised_name", type: :text, as: "translate(lower((name)::text), 'àáâãäåāçćčèéêëēėęìíîïīįłñńòóôõöøōùúûüūýÿžźż'::text, 'aaaaaaaccceeeeeeeiiiiiilnnooooooouuuuuyyzzz'::text)", stored: true
     t.datetime "updated_at", precision: nil
     t.bigint "problem_id"
+    t.string "subject_type"
+    t.bigint "subject_id"
     t.index ["creator_id"], name: "index_alternate_names_on_creator_id"
     t.index ["crop_id"], name: "index_alternate_names_on_crop_id"
     t.index ["language"], name: "index_alternate_names_on_language"
     t.index ["normalised_name"], name: "index_alternate_names_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["problem_id"], name: "index_alternate_names_on_problem_id"
+    t.index ["subject_type", "subject_id"], name: "index_alternate_names_on_subject_type_and_subject_id"
   end
 
   create_table "australian_food_classification_data", force: :cascade do |t|
@@ -1075,10 +1078,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_000000) do
     t.datetime "updated_at", precision: nil
     t.string "wikidata_id"
     t.bigint "problem_id"
+    t.string "subject_type"
+    t.bigint "subject_id"
     t.index ["creator_id"], name: "index_scientific_names_on_creator_id"
     t.index ["crop_id"], name: "index_scientific_names_on_crop_id"
     t.index ["normalised_name"], name: "index_scientific_names_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["problem_id"], name: "index_scientific_names_on_problem_id"
+    t.index ["subject_type", "subject_id"], name: "index_scientific_names_on_subject_type_and_subject_id"
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
