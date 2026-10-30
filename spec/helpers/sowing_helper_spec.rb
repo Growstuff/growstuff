@@ -39,6 +39,14 @@ describe SowingHelper do
     it('has spring in September to November in the southern hemisphere') { expect(helper.season_months(-41.3)['Spring']).to eq [9, 10, 11] }
     it('has summer round the year end in the southern hemisphere') { expect(helper.season_months(-41.3)['Summer']).to eq [12, 1, 2] }
     it('covers every month once, in either hemisphere') { expect(helper.season_months(-41.3).values.flatten.sort).to eq (1..12).to_a }
+
+    it('has each season six months on in the southern hemisphere, as it has to be') do
+      six_months_on = described_class::NORTHERN_SEASONS.transform_values do |months|
+        months.map { |month| ((month + 5) % 12) + 1 }
+      end
+      expect(described_class::SOUTHERN_SEASONS).to eq(six_months_on)
+    end
+
     it('guesses nothing where the hemisphere is not known') { expect(helper.season_months(nil)).to be_nil }
   end
 end
