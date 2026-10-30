@@ -49,6 +49,10 @@ describe "gardens/show" do
       assert_select 'a.editable[data-display=?]', '.garden-title'
     end
 
+    it 'opens the plant dialog from the add on the plantings' do
+      assert_select '[data-react-component=GardenPlanter]'
+    end
+
     it 'shows the area unit' do
       expect(rendered).to have_content 'acres'
     end

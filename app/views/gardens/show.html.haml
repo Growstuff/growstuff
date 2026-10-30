@@ -103,9 +103,12 @@
           .section-header
             %h2 Current plantings in garden
             - if can?(:edit, @garden)
-              = link_to new_planting_path(garden_id: @garden.id), class: 'btn btn-sm section-add' do
-                = icon 'fas', 'plus'
-                add
+              -# The plant something dialog, a React island. The link is what shows without scripts.
+              = react_component 'GardenPlanter', { garden: { id: @garden.id, name: @garden.name }, buttonClass: 'btn btn-sm section-add',
+                                                   iconUrl: image_path('icons/planting.svg') } do
+                = link_to new_planting_path(garden_id: @garden.id), class: 'btn btn-sm section-add' do
+                  = icon 'fas', 'plus'
+                  add
           .index-cards
             - if @current_plantings.size.positive?
               - @current_plantings.each do |planting|
@@ -177,7 +180,7 @@
               - elsif current_member.present? && (collab = @garden.garden_collaborators.find_by(member: current_member))
                 = link_to "Leave garden", garden_garden_collaborator_path(@garden, collab), method: :delete, class: 'text-danger float-end', data: { confirm: 'Are you sure you want to leave this garden?' }
             - if @garden.garden_collaborators.any?
-              - @garden.garden_collaborators.includes(:member).each do |collaborator|
+              - @garden.garden_collaborators.includes(:member).find_each do |collaborator|
                 .garden-person
                   = image_tag avatar_uri(collaborator.member, 80), alt: '', class: 'garden-person-avatar', width: 40, height: 40
                   = link_to collaborator.member, collaborator.member
@@ -237,8 +240,9 @@
           = link_to new_garden_path, class: 'btn btn-outline-secondary btn-sm' do
             Add New Garden
 
--# The to-do list's menu opens the add-photo dialog over the page, a React island.
+-# The to-do list's menu opens the add-photo dialog over the page, and the plantings'
+-# add opens the plant dialog: both React islands.
 -# Last, so it can see whether something above has asked for it already.
-- if @notepad && !content_for(:scripts).to_s.include?('react_islands')
+- if (@notepad || can?(:edit, @garden)) && !content_for(:scripts).to_s.include?('react_islands')
   - content_for :scripts do
     = javascript_include_tag 'react_islands', defer: true

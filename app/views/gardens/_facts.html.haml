@@ -27,8 +27,7 @@
     .card.fact-card{ class: garden.garden_type.present? ? '' : 'text-muted' }
       %h3
         Type
-        = editable :select, garden, :garden_type_id, display_field: '.fact-type-value',
-                   values: GardenType.order(:name).pluck(:name, :id)
+        = editable :select, garden, :garden_type_id, display_field: '.fact-type-value', values: GardenType.order(:name).pluck(:name, :id)
       .fact-value.fact-type-value
         %strong.fact-type= garden.garden_type&.name || 'unknown'
         %span garden type
