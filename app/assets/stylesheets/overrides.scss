@@ -236,7 +236,7 @@ section {
 .card {
   margin-bottom: 1em;
 
-  a:hover {
+  a:not(.shareon *):hover {
     background-color: $beige;
     color: $blue;
   }

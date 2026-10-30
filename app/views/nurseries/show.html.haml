@@ -1,10 +1,10 @@
-- content_for :title, 'Your nursery'
+- content_for :title, t('.title')
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Gardens', gardens_path
-  %li.breadcrumb-item.active Nursery
+  %li.breadcrumb-item= link_to t('layouts.menu.gardens'), gardens_path
+  %li.breadcrumb-item.active= t('gardens.nursery_name')
 
-%h1 Your nursery
+%h1= t('.title')
 
 .mb-4
   = render 'what_is_a_nursery'
@@ -13,25 +13,25 @@
   .col
     .card.h-100
       .card-body
-        %h2.h5.card-title Use a garden you have
+        %h2.h5.card-title= t('.use_existing')
         - if @candidates.any?
           = form_tag nursery_path, method: :post do
-            = label_tag :garden_slug, 'Which garden?', class: 'form-label'
+            = label_tag :garden_slug, t('.which_garden'), class: 'form-label'
             = select_tag :garden_slug, options_from_collection_for_select(@candidates, :slug, :name),
                          class: 'form-select mb-3'
-            = submit_tag 'Use this garden as my nursery', class: 'btn btn-primary'
+            = submit_tag t('.use_this_garden'), class: 'btn btn-primary'
         - else
-          %p.card-text.text-muted You don't have another garden to use.
+          %p.card-text.text-muted= t('.no_other_garden')
   .col
     .card.h-100
       .card-body
-        %h2.h5.card-title Make a new one
-        %p.card-text.text-muted We'll make a garden called Nursery just for your seedlings.
-        = button_to 'Make a nursery', nursery_path, method: :post, class: 'btn btn-primary'
+        %h2.h5.card-title= t('.make_new')
+        %p.card-text.text-muted= t('.make_new_text')
+        = button_to t('.make_a_nursery'), nursery_path, method: :post, class: 'btn btn-primary'
   .col
     .card.h-100
       .card-body
-        %h2.h5.card-title I don't need one
+        %h2.h5.card-title= t('.dont_need')
         %p.card-text.text-muted
           Skip raising seedlings on Growstuff. We won't ask again, and you can change your mind
           from your gardens page.

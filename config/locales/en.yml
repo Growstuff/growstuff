@@ -878,6 +878,19 @@ en:
       intro: 'Based on our predictions, the following plantings in your garden are likely to be ready for harvest within the next week:'
       subject: Upcoming harvests in your garden - %{sitename}
       unsubscribe: Unsubscribe from harvest reminders
+  nurseries:
+    what_is_a_nursery:
+      description_html: "A <strong>nursery</strong> is where you raise seedlings: seeds sown in trays or pots before they go into a garden. Sow your seeds in the nursery, then transplant them into one garden, or split a batch between several, when they are ready."
+    show:
+      title: Your nursery
+      use_existing: Use a garden you have
+      which_garden: Which garden?
+      use_this_garden: Use this garden as my nursery
+      no_other_garden: You don't have another garden to use.
+      make_new: Make a new one
+      make_new_text: We'll make a garden called Nursery just for your seedlings.
+      make_a_nursery: Make a nursery
+      dont_need: I don't need one
   photo_associations:
     update:
       updated: Photo updated.
