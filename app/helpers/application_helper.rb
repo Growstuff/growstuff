@@ -198,9 +198,9 @@ module ApplicationHelper
 
     if member&.distance_unit == 'customary'
       miles = km * 0.621371
-      "#{miles.round(1)} mi"
+      "#{miles.round} mi"
     else
-      "#{km.round(1)} km"
+      "#{km.round} km"
     end
   end
 
