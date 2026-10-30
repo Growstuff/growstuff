@@ -50,6 +50,11 @@ module Growstuff
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
+    # Where the API says it lives, for the links in its responses.
+    # In a Codespace that is the forwarded address, as for config.host in the development environment.
+    default_api_base_url = ENV['CODESPACE_NAME'] ? "https://#{ENV['CODESPACE_NAME']}-3000.app.github.dev" : 'http://localhost:3000'
+    config.x.api_base_url = ENV.fetch('API_BASE_URL', default_api_base_url)
+
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 

@@ -37,6 +37,10 @@ class Seed < ApplicationRecord
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :days_until_maturity_max, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :row_spacing, allow_nil:    true,
+                          numericality: { only_integer: true, greater_than: 0 }
+  validates :variety, :batch_number, length: { maximum: 100 }
+  validates :packet_text, length: { maximum: 20_000 }
   validate :plant_before_year_is_a_year
   validates :tradable_to, allow_blank: false,
                           inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }
@@ -48,6 +52,31 @@ class Seed < ApplicationRecord
                        inclusion:   { in: HEIRLOOM_VALUES, message: :heirloom_inclusion }
   validates :source, allow_blank: true,
                      inclusion:   { in: SOURCE_VALUES, message: :source_inclusion }
+
+  #
+  # Photos
+  # The photo of one side of the packet, front or back, if there is one. When a
+  # side has been photographed again, the newest photo. The older one keeps its
+  # label, as it is still a photo of a packet, and not of the crop.
+  def packet_photo(side)
+    photo_associations.where(label: side).order(:id).last&.photo
+  end
+
+  # Which side of the packet a photo of this seed is of, if it is of one. Uses
+  # the loaded photo associations, so a page of photos reads them once.
+  def label_of(photo)
+    photo_associations.find { |association| association.photo_id == photo.id }&.label
+  end
+
+  # The packet's front, if there is a photo of it. Otherwise the most liked
+  # photo that is not of the back.
+  def default_photo
+    packet_photo('front') || most_liked_photo
+  end
+
+  def most_liked_photo
+    photos.merge(PhotoAssociation.where(label: [nil, 'front'])).order(likes_count: :desc, created_at: :desc).first
+  end
 
   #
   # Delegations

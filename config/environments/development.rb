@@ -68,8 +68,6 @@ Rails.application.configure do
 
   config.action_controller.action_on_unpermitted_parameters = :raise
 
-  config.active_job.queue_adapter = :sidekiq
-
   config.after_initialize do
     Bullet.enable = true
     Bullet.rails_logger = true

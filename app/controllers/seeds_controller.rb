@@ -81,7 +81,7 @@ class SeedsController < DataController
     else
       @crop = Crop.find_or_initialize_by(id: params[:crop_id])
     end
-    return render json: SeedFormSerializer.new(@planting, member: current_member) if request.format.json? && @planting.present?
+    return render json: SeedFormSerializer.new(@planting, member: current_member, crop: @crop) if request.format.json? && (@planting || @crop&.persisted?)
 
     respond_with(@seed)
   end
@@ -95,7 +95,7 @@ class SeedsController < DataController
     @seed.owner = current_member
     @seed.crop = @seed.parent_planting.crop if @seed.parent_planting
     saved = @seed.save
-    return render_created_json if request.format.json? && @seed.parent_planting.present?
+    return render_created_json if request.format.json?
 
     flash[:notice] = t('seeds.added_to_stash', crop: @seed.crop) if saved
     if params[:return] == 'planting'
@@ -225,6 +225,7 @@ class SeedsController < DataController
       :crop_id, :description, :quantity, :plant_before, :plant_before_year,
       :parent_planting_id, :saved_at,
       :days_until_maturity_min, :days_until_maturity_max,
+      :variety, :batch_number, :row_spacing,
       :organic, :gmo, :source,
       :heirloom, :tradable_to, :slug,
       :finished, :finished_at

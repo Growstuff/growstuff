@@ -68,12 +68,19 @@ describe 'Adding a photo as JSON' do
         end
       end
 
+      it 'returns what the editor needs to draw the photo' do
+        add_photo
+        expect(response.parsed_body['photo']).to include(
+          'title' => 'Cabbage', 'thumbnail_url' => 'http://example.com/t.jpg', 'fullsize_url' => 'http://example.com/f.jpg'
+        )
+      end
+
       it "puts the photo on the planting and returns the garden's refreshed card" do
         expect { add_photo }.to change { planting.photos.count }.by(1)
 
         expect(response).to have_http_status(:created)
         photo = planting.photos.last
-        expect(response.parsed_body['photo']).to eq('id' => photo.id, 'url' => "/photos/#{photo.id}")
+        expect(response.parsed_body['photo']).to include('id' => photo.id, 'url' => "/photos/#{photo.id}")
         expect(response.parsed_body.dig('garden', 'id')).to eq garden.id
         expect(photo).to have_attributes(owner: member, source: 'flickr', source_id: '1234', title: 'Cabbage')
       end

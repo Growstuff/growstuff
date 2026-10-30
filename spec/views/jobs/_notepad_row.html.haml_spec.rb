@@ -45,7 +45,7 @@ describe 'jobs/_notepad_row' do
 
   %w(before after).each do |moment|
     it "has a menu item for a #{moment} photo, which opens the add-photo dialog" do
-      link = "a[href='#{new_photo_path(id: job.id, type: 'job', moment:)}'][data-photo-dialog]"
+      link = "a[href='#{new_photo_path(id: job.id, type: 'job', label: moment)}'][data-photo-dialog]"
       expect(rendered).to have_css(link, text: "Add a#{'n' if moment == 'after'} #{moment} photo", visible: :all)
     end
   end
@@ -57,8 +57,8 @@ describe 'jobs/_notepad_row' do
   context 'with a before and an after photo' do
     let(:job) do
       create(:job).tap do |job|
-        job.photo_associations.create!(photo: create(:photo, owner: job.owner, title: 'Net on'), moment: 'before')
-        job.photo_associations.create!(photo: create(:photo, owner: job.owner, title: 'Net off'), moment: 'after')
+        job.photo_associations.create!(photo: create(:photo, owner: job.owner, title: 'Net on'), label: 'before')
+        job.photo_associations.create!(photo: create(:photo, owner: job.owner, title: 'Net off'), label: 'after')
       end
     end
 

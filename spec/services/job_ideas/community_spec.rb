@@ -57,8 +57,32 @@ describe JobIdeas::Community do
     it { is_expected.to be_empty }
   end
 
-  context 'with only two gardeners' do
-    let(:gardeners) { create_list(:edinburgh_member, 2) }
+  context 'with a single gardener' do
+    let(:gardeners) { create_list(:edinburgh_member, 1) }
+
+    it 'has an idea for what they did' do
+      expect(ideas.map(&:gardeners)).to eq [1]
+    end
+  end
+
+  context 'when they have not done it yet but plan it for this month' do
+    before { Job.update_all(finished: false, finished_at: nil, due_date: Date.new(2026, 10, 30)) } # rubocop:disable Rails/SkipsModelValidations
+
+    it 'says it was now' do
+      expect(ideas.first.period).to eq :now
+    end
+  end
+
+  context 'when they plan it for another month' do
+    before { Job.update_all(finished: false, finished_at: nil, due_date: Date.new(2026, 11, 2)) } # rubocop:disable Rails/SkipsModelValidations
+
+    it { is_expected.to be_empty }
+  end
+
+  context 'when they planned it at this time in earlier years but did not do it' do
+    let(:done_on) { Date.new(2025, 10, 24) }
+
+    before { Job.update_all(finished: false, finished_at: nil) } # rubocop:disable Rails/SkipsModelValidations
 
     it { is_expected.to be_empty }
   end
@@ -105,6 +129,14 @@ describe JobIdeas::Community do
 
   context 'when the member has blocked one of them' do
     before { Block.create!(blocker: member, blocked: gardeners.first) }
+
+    it 'leaves them out of the count' do
+      expect(ideas.first.gardeners).to eq 2
+    end
+  end
+
+  context 'when the member has blocked all of them' do
+    before { gardeners.each { |gardener| Block.create!(blocker: member, blocked: gardener) } }
 
     it { is_expected.to be_empty }
   end

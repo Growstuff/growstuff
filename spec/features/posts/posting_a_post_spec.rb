@@ -9,10 +9,66 @@ describe 'Post a post' do
 
     it "creating a post" do
       fill_in "post_subject", with: "Testing"
-      fill_in "post_body", with: "This is a sample test"
-      click_button "Post"
+      find(".post-editor-content").send_keys("This is a sample test")
+      click_button "Publish post"
       expect(page).to have_content "Post was successfully created"
       expect(page).to have_content "Posted by"
+    end
+
+    context "linking to a crop" do
+      let!(:crop) { create(:crop, name: 'pumpkin') }
+
+      before do
+        fill_in "post_subject", with: "Pumpkins"
+        find(".post-editor-content").send_keys("I love @pum")
+      end
+
+      it "offers matching crops" do
+        expect(page).to have_css "[role=option]", text: "pumpkin"
+      end
+
+      it "links the chosen crop" do
+        find("[role=option]", text: "pumpkin").click
+        click_button "Publish post"
+        expect(page).to have_link "pumpkin", href: crop_path(crop)
+      end
+    end
+
+    context "adding a Flickr photo" do
+      it "opens the photo dialog for a draft with a title and text" do
+        fill_in "post_subject", with: "Photos"
+        find(".post-editor-content").send_keys("Some words")
+        click_button "Flickr photo"
+        expect(page).to have_css "[role=dialog]", text: "Add photo"
+      end
+
+      it "opens the photo dialog even before anything is written" do
+        click_button "Flickr photo"
+        expect(page).to have_css "[role=dialog]", text: "Add photo"
+      end
+    end
+
+    context "saving a draft" do
+      before do
+        fill_in "post_subject", with: "Half written"
+        find(".post-editor-content").send_keys("Not finished")
+        click_button "Save draft"
+      end
+
+      it "keeps it as a draft" do
+        expect(page).to have_content "Draft was saved"
+      end
+
+      it "labels it a draft" do
+        expect(page).to have_css ".badge", text: "Draft"
+      end
+
+      it "publishes it from the editor" do
+        click_link "Actions"
+        click_link "Edit"
+        click_button "Publish post"
+        expect(page).to have_no_css ".badge", text: "Draft"
+      end
     end
 
     context "editing a post" do
@@ -22,9 +78,16 @@ describe 'Post a post' do
         visit edit_post_path(existing_post)
       end
 
+      it "reaches the edit page from the post's actions menu" do
+        visit post_path(existing_post)
+        click_link "Actions"
+        click_link "Edit"
+        expect(page).to have_current_path(edit_post_path(existing_post))
+      end
+
       it "saving edit" do
         fill_in "post_subject", with: "Testing Edit"
-        click_button "Post"
+        click_button "Save changes"
         expect(page).to have_content "Post was successfully updated"
         expect(page).to have_content "edited at"
       end

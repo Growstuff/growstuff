@@ -4,13 +4,20 @@
       / %h2.card-title #{model} links
       - mine = url_for([current_member, model])
       - everyones = url_for(model)
-      = link_to mine, class: 'nav-link tab', aria: { current: ('page' if current_page?(mine)) } do
+      = link_to mine, class: 'nav-link tab', aria: { current: ('page' if current_page?(mine) && params[:drafts].blank?) } do
         My #{model.model_name.human.pluralize}
+      - if model == Post
+        - drafts = member_posts_path(current_member, drafts: 1)
+        = link_to drafts, class: 'nav-link tab', aria: { current: ('page' if params[:drafts].present?) } do
+          = t('.my_drafts')
       = link_to everyones, class: 'nav-link tab', aria: { current: ('page' if current_page?(everyones)) } do
         Everyone's #{model.model_name.human.pluralize}
       - if can?(:create, model)
         = link_to url_for([model, action: :new]), class: 'btn' do
           Add a #{model.model_name.human}
+      - if model == Planting
+        = link_to suggestions_path, class: 'btn' do
+          = t('.suggest_something')
   - else
     = render 'shared/signin_signup', to: "record your #{model.to_s.pluralize.downcase}"
 

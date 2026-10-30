@@ -34,7 +34,7 @@ describe('AddPhotoModal', () => {
   });
 
   it('says when a job\'s photo was taken', async () => {
-    await addPhoto('/photos/new?type=job&id=5&moment=before');
-    expect(fetch).toHaveBeenLastCalledWith('/photos.json?type=job&id=5&moment=before', expect.anything());
+    await addPhoto('/photos/new?type=job&id=5&label=before');
+    expect(fetch).toHaveBeenLastCalledWith('/photos.json?type=job&id=5&label=before', expect.anything());
   });
 });

@@ -44,6 +44,7 @@ class GardensController < DataController
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
     @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).paginate(page: params[:page])
+    @suggestion_count = MemberDashboard.new(current_member).easy_to_sow(40).size if @garden.active && @garden.owner == current_member
     respond_with(@garden)
   end
 

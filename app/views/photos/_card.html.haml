@@ -11,3 +11,5 @@
       %small.text-muted
         %time{datetime: photo.date_taken}= I18n.l(photo.date_taken.to_date)
     = render 'photos/likes', photo: photo
+    - if local_assigns[:item].is_a?(Seed)
+      = render 'photos/packet_label', photo: photo, seed: item

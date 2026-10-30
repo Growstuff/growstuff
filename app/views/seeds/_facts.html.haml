@@ -1,85 +1,87 @@
--# Each fact card fills the same slots: an h3 naming the fact with its edit
--# pencil, then the value. The value sits in a .fact-value wrapper so opening
--# the inline form hides the whole of it — the unit word included — rather
--# than leaving "seeds" or "days" stranded beside the form.
-.index-cards.facts.seedfacts
-  .card{ class: seed.quantity.present? ? '' : 'text-muted' }
-    %h3
-      Quantity
-      = editable :text_field, seed, :quantity, display_field: '.seedfacts--quantity'
-    .fact-value.seedfacts--quantity
-      %strong= seed.quantity.presence || "not specified"
-      %span seeds
+-# The packet sheet: the facts of a packet of seed as a plain list, with what the
+-# packet itself says beside it, so the one can be checked against the other. The
+-# pencils edit a fact in its place; "Edit all" swaps the whole list for a form,
+-# in the same place, and the packet stays beside it. Where the packet came from
+-# is the ribbon on the hero photo, not a row here. See DESIGN.md.
+- panel = render('seeds/packet_panel', seed: seed)
+.packet-sheet.row{ data: { packet_sheet: '' } }
+  %div{ class: panel.present? ? 'col-lg-6' : 'col-12' }
+    %section.packet-sheet-main
+      .section-header
+        %h2 The packet
+        - if can?(:edit, seed)
+          %button.btn.btn-sm.section-add.packet-sheet-edit-all{ type: 'button', data: { packet_sheet_edit: '' } } Edit all
 
-  -# A packet records the year its seed was saved, like a hand-written one.
-  .card{ class: seed.saved_at.present? ? '' : 'text-muted' }
-    %h3
-      Year saved
-      = editable :date, seed, :saved_at, display_field: '.seedfacts--savedat'
-    .fact-value.seedfacts--savedat
-      %strong= seed.saved_at.present? ? seed.saved_at.year : 'Unknown'
+      %dl.packet-facts
+        = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'Variety', display: 'variety', muted: seed.variety.blank?,
+                           edit: [:text_field, :variety] } do
+          %strong= seed.variety.presence || 'not specified'
 
-  .card{ class: seed.plant_before.present? ? '' : 'text-muted' }
-    %h3
-      Plant before
-      = editable :number_field, seed, :plant_before_year,
-                 display_field: '.seedfacts--plantbefore', values: Seed::PLANT_BEFORE_YEARS
-    .fact-value.seedfacts--plantbefore
-      %strong= seed.plant_before.present? ? seed.plant_before.year : 'Unknown'
+        = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'Quantity', display: 'quantity', muted: seed.quantity.blank?,
+                           edit: [:text_field, :quantity] } do
+          %strong= seed.quantity.presence || 'not specified'
+          %span seeds
 
-  .card{ class: seed.days_until_maturity_max.present? ? '' : 'text-muted' }
-    %h3
-      Days until maturity
-      = editable :number_range, seed, %i(days_until_maturity_min days_until_maturity_max),
-                 display_field: '.seedfacts--maturity'
-    .fact-value.seedfacts--maturity
-      %strong= render partial: 'days_until_maturity', locals: { seed: seed }
-      %span days
+        = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'Days until maturity', display: 'maturity',
+                           muted: seed.days_until_maturity_max.blank?,
+                           edit: [:number_range, %i(days_until_maturity_min days_until_maturity_max)] } do
+          %strong= render partial: 'days_until_maturity', locals: { seed: seed }
+          %span days
 
-  -# Where the packet came from. 'other/unknown' is the model's own "don't
-  -# know", so it reads as quietly as a blank one would.
-  - source_known = seed.source.present? && seed.source != 'other/unknown'
-  .card{ class: source_known ? '' : 'text-muted' }
-    %h3
-      Seed source
-      = editable :select, seed, :source,
-                 values: Seed::SOURCE_VALUES, display_field: '.seedfacts--source'
-    .fact-value.seedfacts--source
-      %strong= source_known ? seed.source : 'Unknown'
+        = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'Row spacing', display: 'rowspacing', muted: seed.row_spacing.blank?,
+                           edit: [:number_field, :row_spacing] } do
+          %strong= seed.row_spacing.presence || 'not specified'
+          %span cm
 
-  -# Whether it is an heirloom or a hybrid; 'unknown' is the model's own "don't
-  -# know", so it reads as quietly as a blank one would.
-  .card{ class: seed.heirloom_kind ? '' : 'text-muted' }
-    %h3
-      Heirloom or hybrid
-      = editable :select, seed, :heirloom,
-                 values: Seed::HEIRLOOM_VALUES, display_field: '.seedfacts--heirloom'
-    .fact-value.seedfacts--heirloom
-      %strong= seed.heirloom_kind&.capitalize || 'Unknown'
+        = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'Plant before', display: 'plantbefore', muted: seed.plant_before.blank?,
+                           edit: [:number_field, :plant_before_year], values: Seed::PLANT_BEFORE_YEARS } do
+          %strong= seed.plant_before.present? ? seed.plant_before.year : 'Unknown'
 
-  .card
-    %h3
-      Will trade
-      = editable :select, seed, :tradable_to,
-                 values: Seed::TRADABLE_TO_VALUES, display_field: '.seedfacts--tradableto'
-    .fact-value.seedfacts--tradableto
-      %strong= seed.tradable_to
-      %span
-        - if seed.owner.location.blank?
-          (from unspecified location)
-          - if current_member == seed.owner
-            = link_to "Set Location", edit_registration_path(current_member), class: 'btn btn-outline-secondary btn-sm'
-        - else
-          (from #{link_to seed.owner.location, place_path(seed.owner.location, anchor: "seeds")})
+        = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'Heirloom or hybrid', display: 'heirloom', muted: seed.heirloom_kind.blank?,
+                           edit: [:select, :heirloom], values: Seed::HEIRLOOM_VALUES } do
+          %strong= seed.heirloom_kind&.capitalize || 'Unknown'
 
-  - if seed.finished_at.present? || seed.finished?
-    .card
-      %h3 Finished
-      .fact-value
-        %strong
-          - if seed.finished_at.present?
-            = I18n.t('date.abbr_month_names')[seed.finished_at.month]
-          - elsif seed.finished?
-            = finished_icon
-        - if seed.finished_at.present?
-          %span= seed.finished_at.year
+        -# A packet records the year its seed was saved, like a hand-written one.
+        = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'Year saved', display: 'savedat', muted: seed.saved_at.blank?,
+                           edit: [:date, :saved_at] } do
+          %strong= seed.saved_at.present? ? seed.saved_at.year : 'Unknown'
+
+        = render layout: 'seeds/fact_row',
+                 locals: { seed:, label: 'Will trade', display: 'tradableto',
+                           edit: [:select, :tradable_to], values: Seed::TRADABLE_TO_VALUES } do
+          %strong= seed.tradable_to
+          %span
+            - if seed.owner.location.blank?
+              (from unspecified location)
+              - if current_member == seed.owner
+                = link_to 'Set Location', edit_registration_path(current_member), class: 'btn btn-outline-secondary btn-sm'
+            - else
+              (from #{link_to seed.owner.location, place_path(seed.owner.location, anchor: 'seeds')})
+
+        - if seed.finished_at.present? || seed.finished?
+          = render layout: 'seeds/fact_row', locals: { seed:, label: 'Finished' } do
+            %strong
+              - if seed.finished_at.present?
+                = I18n.t('date.abbr_month_names')[seed.finished_at.month]
+              - elsif seed.finished?
+                = finished_icon
+            - if seed.finished_at.present?
+              %span= seed.finished_at.year
+
+      - if can?(:edit, seed)
+        = bootstrap_form_for(seed, html: { class: 'packet-sheet-form' }) do |f|
+          = render 'seeds/edit_fields', f: f, seed: seed
+          .packet-sheet-form-actions
+            = f.submit 'Save', class: 'btn btn-primary'
+            %button.btn.btn-secondary{ type: 'button', data: { packet_sheet_cancel: '' } } Cancel
+
+  - if panel.present?
+    .col-lg-6
+      = panel
