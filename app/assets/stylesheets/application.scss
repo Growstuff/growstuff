@@ -9,6 +9,7 @@
 @import "leaflet/dist/leaflet";
 @import "leaflet.markercluster/dist/MarkerCluster";
 @import "leaflet.markercluster/dist/MarkerCluster.Default";
+@import "shareon/dist/shareon.min";
 
 // Font Awesome. `yarn build:css` copies its webfonts next to the built CSS.
 $fa-font-path: "webfonts";
