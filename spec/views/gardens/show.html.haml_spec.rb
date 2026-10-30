@@ -146,6 +146,30 @@ describe "gardens/show" do
     end
   end
 
+  context 'when the garden has more photos than the page shows' do
+    let(:garden) { create(:garden) }
+    let(:photos) { create_list(:photo, 2, owner: garden.owner) }
+
+    before do
+      photos.each { |photo| garden.photos << photo }
+      controller.stub(:current_user) { garden.owner }
+      assign(:garden, garden)
+      assign(:photos, [photos.first])
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows the photos section with an add link' do
+      assert_select '.photos .section-add'
+    end
+
+    it 'links to the rest of the photos' do
+      assert_select '.photos a[href=?]', garden_photos_path(garden), text: 'More photos'
+    end
+  end
+
   context 'when the garden is inactive' do
     it "doesn't offer the layout, as nothing is growing there to place" do
       garden = create(:inactive_garden)

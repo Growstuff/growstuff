@@ -137,6 +137,23 @@
                 .col-md-12
                   %p Nothing is currently planned here.
 
+        - if @photos.present? || can?(:edit, @garden)
+          %section.photos
+            .section-header
+              %h2 Photos
+              - if can?(:edit, @garden) && can?(:create, Photo)
+                = link_to new_photo_path_for(@garden), class: 'btn btn-sm section-add', data: photo_dialog_data(@garden) do
+                  = icon 'fas', 'plus'
+                  add
+            - if @photos.present?
+              .index-cards
+                - @photos.each do |photo|
+                  = render 'photos/thumbnail', photo: photo
+              - if @garden.photos.size > @photos.size
+                %p= link_to 'More photos', garden_photos_path(@garden)
+            - else
+              %p No photos yet.
+
         - if @suggested_companions.any?
           %section.companions
             %h2 Suggestioned companions
@@ -224,18 +241,6 @@
         %p
           = link_to new_garden_path, class: 'btn btn-outline-secondary btn-sm' do
             Add New Garden
-
-      - if can?(:edit, @garden) && can?(:create, Photo)
-        %%p
-          = add_photo_button(@garden)
-
-      - if @photos.present? && @photos.any?
-        %section.photos
-          %h2= localize_plural(@garden.photos, Photo)
-          .index-cards
-            - @photos.each do |photo|
-              = render 'photos/thumbnail', photo: photo
-          = will_paginate @photos
 
 -# The to-do list's menu opens the add-photo dialog over the page, a React island.
 -# Last, so it can see whether something above has asked for it already.

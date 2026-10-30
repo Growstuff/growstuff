@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class GardensController < DataController
+  # How many photos the garden page shows before it links to the rest.
+  PHOTOS_SHOWN = 6
+
   # Anyone can look at a member's inactive gardens, as they can their current ones.
   # A garden's layout is public in the same way its show page is.
   skip_before_action :authenticate_member!, only: %i(inactive layout)
@@ -41,7 +44,7 @@ class GardensController < DataController
     @suggested_companions = Crop.approved.where(
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
-    @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).paginate(page: params[:page])
+    @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).limit(PHOTOS_SHOWN)
     @suggestion_count = MemberDashboard.new(current_member).easy_to_sow(40).size if @garden.active && @garden.owner == current_member
     respond_with(@garden)
   end
