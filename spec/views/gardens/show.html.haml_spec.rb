@@ -37,6 +37,18 @@ describe "gardens/show" do
       assert_select '.fact-area', text: '23'
     end
 
+    it 'lets the owner edit the description inline' do
+      assert_select '.garden-description + .edit-link a.editable'
+    end
+
+    it 'lets the owner edit the area inline' do
+      assert_select '.fact-card a.editable[data-display=?]', '.fact-area-value'
+    end
+
+    it 'lets the owner rename the garden inline' do
+      assert_select 'a.editable[data-display=?]', '.garden-title'
+    end
+
     it 'shows the area unit' do
       expect(rendered).to have_content 'acres'
     end
@@ -163,6 +175,10 @@ describe "gardens/show" do
 
     it 'shows the photos section with an add link' do
       assert_select '.photos .section-add'
+    end
+
+    it 'counts the photos beside the garden picture' do
+      assert_select '.card-image + .card-body a[href=?]', garden_photos_path(garden), text: '2 photos'
     end
 
     it 'links to the rest of the photos' do

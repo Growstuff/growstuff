@@ -18,9 +18,10 @@
             .record-identity
               = render 'shared/record_owner', owner: @garden.owner
               .record-identity-text
-                %h1.display-3
+                %h1.display-3.garden-title
                   = garden_icon
                   %strong= @garden.name
+                = editable :text_field, @garden, :name, display_field: '.garden-title'
                 - if @garden.nursery?
                   %p.mb-1
                     %span.badge.text-bg-success Nursery
@@ -88,22 +89,13 @@
                   %span Where each plant in this garden is growing, on a map of the bed.
                   %span.garden-layout-teaser-cta Open the garden layout →
         %div
-          %p
-            :markdown
-              #{strip_tags markdownify(@garden.description)}
-            - unless @garden.description.present?
-              .row
-                %p No description available yet.
-
-                - if can? :edit, @garden
-                  %p
-                    Why not
-                    = link_to 'tell us more.', edit_garden_path(@garden)
+          .garden-description
+            - if @garden.description.present?
+              :markdown
+                #{strip_tags markdownify(@garden.description)}
             - else
-              - if can? :edit, @garden
-                %p
-                  Did you want to
-                  = link_to 'update this description.', edit_garden_path(@garden)
+              %p.text-muted No description available yet.
+          = editable :text_area, @garden, :description, display_field: '.garden-description'
 
         = render 'gardens/facts', garden: @garden, growing_now: @current_plantings.size
 
@@ -166,6 +158,9 @@
       .card
         .card-image
           = image_tag garden_image_path(@garden), class: 'img-card', alt: 'photo of this garden'
+        - if @garden.photos.size.positive?
+          .card-body.pb-0
+            %small= link_to pluralize(@garden.photos.size, 'photo'), garden_photos_path(@garden)
         .card-body
           %h4 About this garden
           .garden-person
