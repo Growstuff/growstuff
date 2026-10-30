@@ -113,6 +113,10 @@ describe "gardens/show" do
       render
     end
 
+    it 'marks the jobs as public' do
+      assert_select '.garden-jobs-public', text: 'Public'
+    end
+
     it 'offers to follow the owner' do
       assert_select '.record-grower-follow .member-card-follow'
     end

@@ -123,7 +123,9 @@
               autofocus: false
         - else
           %section
-            %h2 Current jobs in garden
+            .section-header
+              %h2 Current jobs in garden
+              %span.badge.text-bg-light.garden-jobs-public{ title: t('jobs.pad.public_note') } Public
             .index-cards
               - if @current_jobs&.size&.positive?
                 - @current_jobs.each do |job|
