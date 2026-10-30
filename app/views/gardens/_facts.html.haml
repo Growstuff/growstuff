@@ -1,6 +1,7 @@
 -# The garden at a glance. Area renders only when known, so a garden nobody has
 -# measured doesn't show a row of "unknown". Whoever may edit the garden gets a
 -# pencil on area and type, and a type tile even when none is set.
+- garden_type_choices = GardenType.order(:name).pluck(:name, :id) if can?(:edit, garden)
 .index-cards.facts.gardenfacts
   .card.fact-card
     %h3 Growing now
@@ -27,7 +28,7 @@
     .card.fact-card{ class: garden.garden_type.present? ? '' : 'text-muted' }
       %h3
         Type
-        = editable :select, garden, :garden_type_id, display_field: '.fact-type-value', values: GardenType.order(:name).pluck(:name, :id)
+        = editable :select, garden, :garden_type_id, display_field: '.fact-type-value', values: garden_type_choices
       .fact-value.fact-type-value
         %strong.fact-type= garden.garden_type&.name || 'unknown'
         %span garden type
