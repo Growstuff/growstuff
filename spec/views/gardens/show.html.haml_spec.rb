@@ -127,6 +127,29 @@ describe "gardens/show" do
     end
   end
 
+  context 'when the member has a jobs notepad on their garden' do
+    let(:garden) { create(:garden) }
+
+    before do
+      controller.stub(:current_user) { garden.owner }
+      allow(view).to receive(:current_member).and_return(garden.owner)
+      assign(:garden, garden)
+      assign(:notepad, JobsNotepad.new(garden.owner, garden: garden))
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'is not wrapped in a second bordered section' do
+      assert_select 'section .notepad', count: 0
+    end
+
+    it 'titles the notepad with the garden' do
+      assert_select '.notepad .notepad-title h2', text: "Jobs in #{garden.name}"
+    end
+  end
+
   context 'when the garden has a collaborator' do
     let(:garden) { create(:garden) }
     let(:collaborator) { create(:member) }

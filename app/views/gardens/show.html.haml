@@ -118,7 +118,8 @@
                 %p Nothing is currently planted here.
 
         - if @notepad
-          %section
+          -# Not a section: the notepad is its own bordered block, with its own green bar.
+          .garden-notepad
             = render 'jobs/notepad', owner: current_member, garden: @garden, groups: @notepad.groups, done_this_week: @notepad.done_this_week,
               autofocus: false
         - else
