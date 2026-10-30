@@ -100,6 +100,7 @@ describe "gardens/show" do
       @owner = create(:member)
       @viewer = create(:member)
       controller.stub(:current_user) { @viewer }
+      allow(view).to receive(:current_member).and_return(@viewer)
       @garden = create(:garden, owner: @owner, layout_saved_at: Time.current)
       assign(:garden, @garden)
       assign(:current_plantings, [])
