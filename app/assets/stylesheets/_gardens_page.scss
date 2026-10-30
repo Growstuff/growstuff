@@ -392,3 +392,50 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   }
 
 }
+
+// On a garden's page the edit pencil sits inline beside what it edits, as a
+// round quiet button with a touch-sized target, not the 0.75em link it is on
+// the planting facts.
+.garden-show {
+  // The title or description, then its pencil; the form takes the whole row
+  // when the pencil opens it.
+  .garden-edit-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+
+    > [id^="form--"] {
+      flex: 1 0 100%;
+    }
+  }
+
+  .garden-description {
+    max-width: 70ch;
+  }
+
+  .edit-link {
+    font-size: inherit;
+  }
+
+  .edit-link .editable {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 50%;
+    font-size: inherit;
+
+    .menu-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  // Beside a fact's name the pencil stays small, as in the design.
+  .fact-card h3 .edit-link .editable .menu-icon {
+    width: 12px;
+    height: 12px;
+  }
+}

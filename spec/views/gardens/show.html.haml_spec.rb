@@ -38,7 +38,7 @@ describe "gardens/show" do
     end
 
     it 'lets the owner edit the description inline' do
-      assert_select '.garden-description + .edit-link a.editable'
+      assert_select '.garden-edit-row .garden-description + .edit-link a.editable'
     end
 
     it 'lets the owner edit the area inline' do
