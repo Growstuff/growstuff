@@ -106,6 +106,32 @@ class Member < ApplicationRecord
     super && !discarded?
   end
 
+  def us_location?
+    return false if location.blank?
+
+    location.match?(/\b(US|USA|United States|United States of America)\b/i)
+  end
+
+  def temperature_unit
+    settings['temperature_unit'].presence || (us_location? ? 'fahrenheit' : 'celsius')
+  end
+
+  def temperature_unit=(val)
+    return if val.blank?
+
+    self.settings = (settings || {}).merge('temperature_unit' => val.to_s)
+  end
+
+  def distance_unit
+    settings['distance_unit'].presence || (us_location? ? 'customary' : 'metric')
+  end
+
+  def distance_unit=(val)
+    return if val.blank?
+
+    self.settings = (settings || {}).merge('distance_unit' => val.to_s)
+  end
+
   # When they first opened a feature, from settings['features_seen'], or nil.
   def feature_first_seen_at(feature)
     seen = settings.dig('features_seen', feature.to_s)

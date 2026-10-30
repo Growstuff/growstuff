@@ -90,6 +90,7 @@ class ApplicationController < ActionController::Base
                     # profile stuff
                     :bio, :location, :latitude, :longitude,
                     :website_url, :instagram_handle, :facebook_handle, :bluesky_handle, :other_url,
+                    :temperature_unit, :distance_unit,
                     # email settings
                     :show_email, :send_notification_email, :send_planting_reminder, :send_harvest_reminder,
                     # update password

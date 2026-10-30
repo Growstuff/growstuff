@@ -41,6 +41,16 @@
       = f.url_field :other_url, class: 'form-control', placeholder: "https://you.example.com/"
 
   .row.mb-3
+    = f.label :temperature_unit, 'Temperature unit', class: 'col-form-label col-md-2'
+    .col-md-8
+      = f.select :temperature_unit, options_for_select([['Celsius (°C)', 'celsius'], ['Fahrenheit (°F)', 'fahrenheit']], resource.temperature_unit), {}, class: 'form-select'
+
+  .row.mb-3
+    = f.label :distance_unit, 'Distance/Measurement unit', class: 'col-form-label col-md-2'
+    .col-md-8
+      = f.select :distance_unit, options_for_select([['Metric (cm, m, km)', 'metric'], ['US Customary (in, ft, mi)', 'customary']], resource.distance_unit), {}, class: 'form-select'
+
+  .row.mb-3
     %label.form-label.col-md-2
       Profile picture
     .col-md-8

@@ -30,10 +30,10 @@ module SeedsHelper
     )
   end
 
-  # How far away that is, such as "12 km".
+  # How far away that is, such as "12 km" or "7 mi".
   def seed_distance(seed)
     km = seed_km(seed)
-    "#{km.round} km" if km
+    display_distance_km(km) if km
   end
 
   # Who a packet belongs to, and where, for the avatar beside it.

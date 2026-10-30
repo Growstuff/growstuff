@@ -45,13 +45,13 @@
       description: "#{'week'.pluralize(in_weeks(crop.median_days_to_last_harvest))} after planting"
   - if crop.height.present?
     = render 'layouts/fact_card',
-      title: 'Height', value: "#{crop.height}cm", description: nil
+      title: 'Height', value: display_distance_cm(crop.height), description: nil
   - if crop.spread.present?
     = render 'layouts/fact_card',
-      title: 'Spread', value: "#{crop.spread}cm", description: nil
+      title: 'Spread', value: display_distance_cm(crop.spread), description: nil
   - if crop.row_spacing.present?
     = render 'layouts/fact_card',
-      title: 'Row Spacing', value: "#{crop.row_spacing}cm", description: nil
+      title: 'Row Spacing', value: display_distance_cm(crop.row_spacing), description: nil
   - if crop.growing_degree_days.present?
     = render 'layouts/fact_card',
       title: 'Growing Degree Days', value: crop.growing_degree_days, description: nil

@@ -8,9 +8,9 @@ function facts(info) {
     ['Sun', info.sun],
     ['Sow', info.sowing_method],
     ['Days to first harvest', info.days_to_harvest],
-    ['Row spacing', info.row_spacing_cm && `${info.row_spacing_cm} cm`],
-    ['Spread', info.spread_cm && `${info.spread_cm} cm`],
-    ['Height', info.height_cm && `${info.height_cm} cm`],
+    ['Row spacing', info.row_spacing_formatted || (info.row_spacing_cm && `${info.row_spacing_cm} cm`)],
+    ['Spread', info.spread_formatted || (info.spread_cm && `${info.spread_cm} cm`)],
+    ['Height', info.height_formatted || (info.height_cm && `${info.height_cm} cm`)],
     ['Usually planted from', info.usually_from],
   ];
   return rows.filter(([, value]) => value);

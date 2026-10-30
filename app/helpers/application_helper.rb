@@ -171,6 +171,39 @@ module ApplicationHelper
     end
   end
 
+  def display_temperature(temp_c, member: current_member)
+    return nil if temp_c.nil?
+
+    if member&.temperature_unit == 'fahrenheit'
+      temp_f = (temp_c * 9.0 / 5.0) + 32
+      "#{temp_f.round(1)}°F"
+    else
+      "#{temp_c.round(1)}°C"
+    end
+  end
+
+  def display_distance_cm(cm, member: current_member)
+    return nil if cm.nil?
+
+    if member&.distance_unit == 'customary'
+      inches = cm / 2.54
+      "#{inches.round(1)} in"
+    else
+      "#{cm} cm"
+    end
+  end
+
+  def display_distance_km(km, member: current_member)
+    return nil if km.nil?
+
+    if member&.distance_unit == 'customary'
+      miles = km * 0.621371
+      "#{miles.round(1)} mi"
+    else
+      "#{km.round(1)} km"
+    end
+  end
+
   def og_description(description)
     strip_tags(description).split(' ')[0..20].join(' ')
   end

@@ -48,6 +48,13 @@ describe('CropDetails', () => {
     expect(await screen.findByText('120 cm')).toBeInTheDocument();
   });
 
+  it('uses formatted size strings when provided', async () => {
+    stubInfo({...info, height_formatted: '47.2 in', row_spacing_formatted: '19.7 in'});
+    render(<CropDetails slug="tomato" />);
+    expect(await screen.findByText('47.2 in')).toBeInTheDocument();
+    expect(await screen.findByText('19.7 in')).toBeInTheDocument();
+  });
+
   it('leaves out facts it does not have', async () => {
     stubInfo(info);
     render(<CropDetails slug="tomato" />);

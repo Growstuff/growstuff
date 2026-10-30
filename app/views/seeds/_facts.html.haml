@@ -34,8 +34,10 @@
         = render layout: 'seeds/fact_row',
                  locals: { seed:, label: 'Row spacing', display: 'rowspacing', muted: seed.row_spacing.blank?,
                            edit: [:number_field, :row_spacing] } do
-          %strong= seed.row_spacing.presence || 'not specified'
-          %span cm
+          - if seed.row_spacing.present?
+            %strong= display_distance_cm(seed.row_spacing)
+          - else
+            %strong not specified
 
         = render layout: 'seeds/fact_row',
                  locals: { seed:, label: 'Plant before', display: 'plantbefore', muted: seed.plant_before.blank?,

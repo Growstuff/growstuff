@@ -11,6 +11,8 @@ class CropSowingInfoSerializer
     @member = member
   end
 
+  include ApplicationHelper
+
   def as_json(*)
     {
       name:            @crop.name,
@@ -25,6 +27,9 @@ class CropSowingInfoSerializer
       row_spacing_cm:  @crop.row_spacing,
       spread_cm:       @crop.spread,
       height_cm:       @crop.height,
+      row_spacing_formatted: display_distance_cm(@crop.row_spacing, member: @member),
+      spread_formatted:      display_distance_cm(@crop.spread, member: @member),
+      height_formatted:      display_distance_cm(@crop.height, member: @member),
       days_to_harvest: @crop.median_days_to_first_harvest,
       grown_by:        @crop.plantings_count,
       usually_from:    @crop.planted_from.max_by { |_, count| count }&.first,
