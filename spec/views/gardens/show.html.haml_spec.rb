@@ -25,8 +25,20 @@ describe "gardens/show" do
       expect(view.content_for(:breadcrumbs)).to have_link(@garden.name, href: garden_path(@garden))
     end
 
+    it 'shows how many plantings are growing now' do
+      assert_select '.fact-growing', text: '1'
+    end
+
+    it 'shows harvests this year' do
+      assert_select '.fact-harvested', text: '0'
+    end
+
     it 'shows the area' do
-      expect(rendered).to have_content pluralize(@garden.area, @garden.area_unit)
+      assert_select '.fact-area', text: '23'
+    end
+
+    it 'shows the area unit' do
+      expect(rendered).to have_content 'acres'
     end
 
     it 'shows the description' do
@@ -84,9 +96,53 @@ describe "gardens/show" do
       render
     end
 
+    it 'offers to follow the owner' do
+      assert_select '.record-grower-follow .member-card-follow'
+    end
+
     it 'shows view layout controls' do
       expect(rendered).to have_content "Garden layout"
       expect(rendered).to have_content "View layout →"
+    end
+  end
+
+  context 'when the garden has a collaborator' do
+    let(:garden) { create(:garden) }
+    let(:collaborator) { create(:member) }
+
+    before do
+      create(:garden_collaborator, garden: garden, member: collaborator)
+      controller.stub(:current_user) { garden.owner }
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'links the collaborator' do
+      assert_select '.garden-collaborators a[href=?]', member_path(collaborator)
+    end
+
+    it 'shows the collaborator avatar' do
+      assert_select '.garden-collaborators img.garden-person-avatar'
+    end
+  end
+
+  context 'when the garden has wikidata temperatures' do
+    let(:garden) { create(:garden, location_wikidata_id: 'Q1', highest_temp_c: 31.4, lowest_temp_c: 3.1) }
+
+    before do
+      controller.stub(:current_user) { garden.owner }
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows both temperatures on one line' do
+      assert_select '.garden-temperatures', text: /hottest 31\.4°C, coldest 3\.1°C/
     end
   end
 

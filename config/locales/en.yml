@@ -243,6 +243,7 @@ en:
       no_plantings: no plantings
       plantingsthumbnail: plantings/thumbnail
     show:
+      km_from_you: about %{km} km from you
       suggested_plantings:
         one: We have %{count} suggested planting to add here
         other: We have %{count} suggested plantings to add here

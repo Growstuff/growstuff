@@ -20,6 +20,19 @@ module GardensHelper
     @card_ability ||= CachedAbility.new(current_ability)
   end
 
+  # How far the signed-in member is from a garden, such as "about 4 km from
+  # you". Nothing when either has no location, or it is the member's own garden.
+  def garden_distance(garden)
+    return if current_member.blank? || garden.owner == current_member
+    return unless current_member.latitude && garden.latitude
+
+    km = Geocoder::Calculations.distance_between(
+      [current_member.latitude, current_member.longitude],
+      [garden.latitude, garden.longitude], units: :km
+    )
+    t('gardens.show.km_from_you', km: km.round)
+  end
+
   # What is currently in a nursery, newest sown first.
   def nursery_seedlings(nursery)
     return [] unless nursery

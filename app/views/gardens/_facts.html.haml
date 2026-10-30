@@ -1,0 +1,28 @@
+-# The garden at a glance. Area and type render only when known, so a garden
+-# nobody has measured doesn't show a row of "unknown".
+.index-cards.facts.gardenfacts
+  .card.fact-card
+    %h3 Growing now
+    .fact-value
+      %strong.fact-growing= growing_now
+      %span= 'planting'.pluralize(growing_now)
+
+  .card.fact-card
+    %h3 Harvested
+    .fact-value
+      %strong.fact-harvested= garden.harvests_this_year_count
+      %span times this year
+
+  - if garden.area.present?
+    .card.fact-card
+      %h3 Area
+      .fact-value
+        %strong.fact-area= number_with_precision(garden.area, precision: 2, strip_insignificant_zeros: true)
+        %span= garden.area_unit.to_s.pluralize(garden.area)
+
+  - if garden.garden_type.present?
+    .card.fact-card
+      %h3 Type
+      .fact-value
+        %strong.fact-type= garden.garden_type.name
+        %span garden type

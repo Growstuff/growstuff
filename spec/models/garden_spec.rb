@@ -305,6 +305,25 @@ describe Garden do
     end
   end
 
+  describe '#harvests_this_year_count' do
+    subject(:count) { garden.harvests_this_year_count }
+
+    let(:garden) { create(:garden) }
+    let(:planting) { create(:planting, garden: garden, owner: garden.owner) }
+
+    context 'with a harvest this year' do
+      before { create(:harvest, planting: planting, owner: garden.owner, harvested_at: Time.zone.today) }
+
+      it { is_expected.to eq 1 }
+    end
+
+    context 'with a harvest last year' do
+      before { create(:harvest, planting: planting, owner: garden.owner, harvested_at: 1.year.ago) }
+
+      it { is_expected.to eq 0 }
+    end
+  end
+
   describe '#has_layout?' do
     let(:bed) { create(:garden, owner:) }
 

@@ -10,6 +10,7 @@ class Garden < ApplicationRecord
 
   has_many :plantings, dependent: :destroy
   has_many :crops, through: :plantings
+  has_many :harvests, through: :plantings
   has_many :jobs, dependent: :destroy
   has_many :planting_histories, dependent: :destroy
   has_many :garden_collaborators, dependent: :destroy
@@ -139,6 +140,10 @@ class Garden < ApplicationRecord
   # How many cells the bed's layout grid has, for callers that just want the size.
   def grid_cells
     grid_columns * grid_rows
+  end
+
+  def harvests_this_year_count
+    harvests.where(harvested_at: Time.zone.today.all_year).count
   end
 
   def has_layout?
