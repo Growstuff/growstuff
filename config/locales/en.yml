@@ -265,7 +265,6 @@ en:
       plants_placed:
         one: "%{count} plant placed on the bed"
         other: "%{count} plants placed on the bed"
-      see_how: See how this bed is laid out
       view_layout: view layout
       view_layout_label: View the bed layout
       where_each: Where each plant in this garden is growing, on a map of the bed.

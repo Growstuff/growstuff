@@ -257,7 +257,7 @@ describe "gardens/show" do
   end
 
   context 'when nobody is signed in' do
-    let(:garden) { create(:garden, latitude: -41.29, longitude: 174.78) }
+    let(:garden) { create(:garden, latitude: -41.29, longitude: 174.78, layout_saved_at: Time.current) }
 
     before do
       controller.stub(:current_user) { nil }
@@ -326,6 +326,105 @@ describe "gardens/show" do
 
     it 'says they follow the owner' do
       assert_select '.record-grower-follow .on', text: /You follow #{owner}/
+    end
+  end
+
+  context 'when nothing has finished growing in the garden' do
+    let(:garden) { create(:garden) }
+
+    before do
+      controller.stub(:current_user) { garden.owner }
+      allow(view).to receive_messages(current_member: garden.owner, member_signed_in?: true)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'leaves out what was previously planted' do
+      expect(rendered).to have_no_content 'Previously planted'
+    end
+
+    it 'leaves out the section for it' do
+      assert_select '.garden-previously', count: 0
+    end
+  end
+
+  context 'when something has finished growing in the garden' do
+    let(:garden) { create(:garden) }
+    let(:finished) { create(:planting, garden:, owner: garden.owner, planted_at: Date.new(2024, 5, 1), finished: true, finished_at: Date.new(2024, 8, 1)) }
+
+    before do
+      controller.stub(:current_user) { garden.owner }
+      allow(view).to receive_messages(current_member: garden.owner, member_signed_in?: true)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [finished])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'says what was previously planted' do
+      assert_select '.garden-previously h2', text: 'Previously planted in this garden'
+    end
+
+    it 'puts it under the year it was planted' do
+      assert_select '.garden-previously h4', text: '2024'
+    end
+  end
+
+  context 'when the garden is active and we know where it is' do
+    let(:garden) { create(:garden, latitude: -41.29, longitude: 174.78) }
+
+    before do
+      controller.stub(:current_user) { garden.owner }
+      allow(view).to receive_messages(current_member: garden.owner, member_signed_in?: true)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows the season there, to a signed in member too' do
+      assert_select '.garden-season', text: /\A(Spring|Summer|Autumn|Winter)\z/
+    end
+  end
+
+  context 'when an inactive garden has a known location' do
+    let(:garden) { create(:inactive_garden, latitude: -41.29, longitude: 174.78) }
+
+    before do
+      controller.stub(:current_user) { garden.owner }
+      allow(view).to receive_messages(current_member: garden.owner, member_signed_in?: true)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'leaves out the season' do
+      assert_select '.garden-season', count: 0
+    end
+  end
+
+  context 'when someone else is looking at a garden with no saved layout' do
+    let(:garden) { create(:garden) }
+
+    before do
+      controller.stub(:current_user) { create(:member) }
+      allow(view).to receive_messages(current_member: create(:member), member_signed_in?: true)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'leaves out the layout section' do
+      assert_select '.garden-layout-section', count: 0
     end
   end
 

@@ -1,9 +1,10 @@
--# The bed map, in its own section: it leads to the layout page.
-- if @garden.active
-  -# Its own page, so a section that leads there: the current bed map, or a teaser to create one.
+-# The bed map, in its own section: it leads to the layout page. Someone who
+-# can't arrange the bed has nothing to see until a layout is saved, so they get
+-# no section; whoever can gets a teaser to make one.
+- can_arrange = can?(:update_layout, @garden)
+- has_layout = @garden.has_layout?
+- if @garden.active && (has_layout || can_arrange)
   - layout_path = layout_member_garden_path(@garden.owner, @garden)
-  - can_arrange = can?(:update_layout, @garden)
-  - has_layout = @garden.has_layout?
   - placed_plants = has_layout ? @garden.placed_plants.pluck(:bed_x, :bed_y, :diameter) : []
   %section.garden-layout-section
     .section-header
@@ -39,6 +40,3 @@
             %span.badge.text-bg-success= t('.new')
             = t('.map_out')
           %p.text-muted= t('.map_out_text')
-        - else
-          %p.garden-layout-headline= t('.see_how')
-          %p.text-muted= t('.where_each')

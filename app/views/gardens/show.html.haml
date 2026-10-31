@@ -40,7 +40,7 @@
                 - details = [(link_to(@garden.location, place_path(@garden.location)) if @garden.location.present?), @garden.garden_type&.name,
                              (pluralize(number_with_precision(@garden.area, precision: 2, strip_insignificant_zeros: true), @garden.area_unit) if @garden.area.present?),
                              garden_distance(@garden)].compact
-                - season = season_for(@garden.latitude) unless member_signed_in?
+                - season = season_for(@garden.latitude) if @garden.active
                 - if details.any? || season
                   %p.garden-meta.text-muted
                     = safe_join(details, ' · ')
@@ -99,7 +99,8 @@
             - @suggested_companions.each do |companion|
               = render 'crops/tiny', crop: companion
 
-        %section.garden-previously= render 'previously'
+        - if @finished_plantings.any? || @finished_jobs&.size&.positive?
+          %section.garden-previously= render 'previously'
 
     .col-md-4.col-12
       %section.garden-about
