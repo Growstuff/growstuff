@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_31_030000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_31_050000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -939,6 +939,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_030000) do
     t.string "license_url"
     t.integer "likes_count", default: 0
     t.string "link_url", null: false
+    t.datetime "ocr_at", comment: "When ocr_text was read."
+    t.string "ocr_engine", comment: "The software that read ocr_text, with its version, so photos it read can be read again."
+    t.text "ocr_text", comment: "The text read from the photo of a label, such as the front or back of a seed packet."
     t.integer "owner_id", null: false
     t.string "source"
     t.string "source_id"
@@ -1095,7 +1098,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_030000) do
     t.text "how_to_sow", comment: "How the packet says to sow it, in its words."
     t.text "organic", default: "unknown"
     t.integer "owner_id", null: false
-    t.text "packet_text", comment: "Text read from the packet's photos by the OCR script. Not shown to members yet."
     t.integer "parent_planting_id"
     t.date "plant_before"
     t.integer "quantity"
