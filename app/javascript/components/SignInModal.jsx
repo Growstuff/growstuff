@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import {postJson} from '../api';
-import {AuthFooter, CheckField, FormErrors, TextField} from './AuthFields';
+import {AuthFooter, BlueskyForm, CheckField, FormErrors, TextField} from './AuthFields';
 import Modal from './Modal';
 
 // Signing in, as a dialog over the page the link was on. It posts to Devise's
@@ -48,6 +48,7 @@ export default function SignInModal({urls, onClose, onSwitch}) {
         </div>
         <AuthFooter busy={saving} label="Sign in" busyLabel="Signing in…" prompt="New here?" switchLabel="Join free" switchHref={urls.sign_up_page} onSwitch={onSwitch} />
       </form>
+      <BlueskyForm url={urls.bluesky} idPrefix="sign-in" />
     </Modal>
   );
 }
