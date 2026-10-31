@@ -18,6 +18,26 @@ describe "Planting reminder email" do
     expect(mail).to have_content "Hello"
   end
 
+  context "when features were added since we last emailed the member" do
+    before { member.update_columns(planting_reminder_sent_at: 1.year.ago) }
+
+    it "says there are new features to tell them about" do
+      expect(mail_body).to have_content "We have 4 new features to tell you about"
+    end
+
+    it "tells them about the features" do
+      expect(mail_body).to have_link "Seed library", href: seeds_url
+    end
+  end
+
+  context "when nothing was added since we last emailed the member" do
+    before { member.update_columns(planting_reminder_sent_at: 1.minute.ago) }
+
+    it "leaves out new features" do
+      expect(mail_body).to have_no_content "New since we last emailed you"
+    end
+  end
+
   context "when member has no location" do
     before { member.update_columns(latitude: nil, longitude: nil) }
 

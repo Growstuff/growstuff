@@ -15,6 +15,12 @@ class PlantingReminderOutlook
     @today = today
   end
 
+  # What we've added since we last emailed them. Someone who has never had a reminder is counted from when they
+  # joined, so a new member isn't told about what was there when they arrived.
+  def new_features
+    NewFeatures.since(@member.planting_reminder_sent_at || @member.created_at)
+  end
+
   def located?
     @member.latitude.present? && @member.longitude.present?
   end

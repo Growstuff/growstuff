@@ -26,6 +26,10 @@ describe 'growstuff:send_planting_reminder', flipper: :enable_planting_reminders
     expect { send_reminders }.to change { ActionMailer::Base.deliveries.count }.by(1)
   end
 
+  it 'records when the reminder was sent' do
+    expect { send_reminders }.to change { member.reload.planting_reminder_sent_at }.from(nil)
+  end
+
   context 'when planting reminders are switched off', flipper: [] do
     it 'sends nothing' do
       expect { send_reminders }.not_to(change { ActionMailer::Base.deliveries.count })

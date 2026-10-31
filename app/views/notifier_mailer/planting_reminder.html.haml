@@ -2,6 +2,9 @@
 
 %h2 Your Weekly #{@sitename} progress report
 
+- if @outlook.new_features.any?
+  = render 'whats_new', features: @outlook.new_features
+
 = render 'outlook', outlook: @outlook
 
 - if @member.plantings.empty?
