@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import {postJson} from '../api';
-import {AuthFooter, CheckField, FormErrors, TextField, fieldErrors} from './AuthFields';
+import {AuthFooter, BlueskyForm, CheckField, FormErrors, TextField, fieldErrors} from './AuthFields';
 import Modal from './Modal';
 import useRecaptcha from './useRecaptcha';
 
@@ -71,6 +71,7 @@ export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, 
         </div>
         <AuthFooter busy={saving} label="Sign up" busyLabel="Joining…" prompt="Already a member?" switchLabel="Sign in" switchHref={urls.sign_in_page} onSwitch={onSwitch} />
       </form>
+      <BlueskyForm url={urls.bluesky} idPrefix="sign-up" />
     </Modal>
   );
 }

@@ -124,6 +124,20 @@ describe 'Signing in with Bluesky' do
       expect(response.body).to include('Bluesky handle')
     end
 
+    it 'offers Bluesky to the sign in dialog when a signing key is configured' do
+      allow(Atproto::ClientConfig).to receive(:private_key).and_return(Atproto::Jws.generate_key)
+      get root_path
+
+      expect(response.body).to include('/members/auth/bluesky')
+    end
+
+    it 'keeps Bluesky off the forgotten password page' do
+      allow(Atproto::ClientConfig).to receive(:private_key).and_return(Atproto::Jws.generate_key)
+      get new_member_password_path
+
+      expect(response.body).not_to include('Bluesky handle')
+    end
+
     it 'hides Bluesky without a signing key' do
       get new_member_session_path
 
