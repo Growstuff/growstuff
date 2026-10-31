@@ -2,15 +2,16 @@
 -# whole expected lifespan. The data fills the part already lived.
 - days = weather_axis_days(planting)
 - seasons = weather_seasons(planting.latitude, from: planting.planted_at, days:)
+- now = weather_now(planting, days)
 .weather-charts
   %figure
     %figcaption
       = t('plantings.show.weather_temperature_chart')
       %span.badge.text-bg-success.ms-1= t('plantings.show.weather_new')
-    = weather_temperature_chart(readings, from: planting.planted_at, days:, seasons:, expected:)
+    = weather_temperature_chart(readings, from: planting.planted_at, days:, seasons:, expected:, now:)
   %figure
     %figcaption= t('plantings.show.weather_rain_chart')
-    = weather_rain_chart(readings, from: planting.planted_at, days:, seasons:, expected:)
+    = weather_rain_chart(readings, from: planting.planted_at, days:, seasons:, expected:, now:)
 = weather_season_strip(seasons, days)
 - if expected.any?
   %p.weather-expected-note.small.text-muted= t('plantings.show.weather_expected_note')
