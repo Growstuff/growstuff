@@ -8,6 +8,7 @@ module Atproto
 
     HANDLE_FORMAT = /\A([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]([a-z0-9-]{0,61}[a-z0-9])?\z/
     DID_FORMAT = /\Adid:(plc:[a-z2-7]{24}|web:[a-z0-9.-]+)\z/
+    DEFAULT_DOMAIN = 'bsky.social'
     PLC_DIRECTORY = 'https://plc.directory'
     HANDLE_RESOLVER = 'https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle'
 
@@ -19,6 +20,7 @@ module Atproto
 
     def initialize(input)
       @handle = input.to_s.strip.delete_prefix('@').downcase
+      @handle += ".#{DEFAULT_DOMAIN}" if @handle.present? && @handle.exclude?('.')
     end
 
     def resolve

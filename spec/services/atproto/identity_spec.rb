@@ -20,6 +20,14 @@ describe Atproto::Identity do
     it('finds the DID') { expect(identity.did).to eq(did) }
     it('finds the PDS') { expect(identity.pds).to eq('https://pds.test') }
 
+    context 'with a handle that has no domain' do
+      subject(:identity) { described_class.resolve('alice') }
+
+      it 'assumes bsky.social' do
+        expect(identity.handle).to eq('alice.bsky.social')
+      end
+    end
+
     context 'when the DID document names a different handle' do
       before { document['alsoKnownAs'] = ['at://mallory.example'] }
 
