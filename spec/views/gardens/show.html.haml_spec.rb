@@ -187,6 +187,46 @@ describe "gardens/show" do
     end
   end
 
+  context 'when a garden with no collaborators is looked at by someone else' do
+    let(:garden) { create(:garden) }
+
+    before do
+      controller.stub(:current_user) { create(:member) }
+      allow(view).to receive_messages(current_member: create(:member), member_signed_in?: true)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'leaves out the collaborators' do
+      assert_select '.garden-collaborators', count: 0
+    end
+  end
+
+  context 'when the owner has no collaborators yet' do
+    let(:garden) { create(:garden) }
+
+    before do
+      controller.stub(:current_user) { garden.owner }
+      allow(view).to receive_messages(current_member: garden.owner, member_signed_in?: true)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'still offers to manage them' do
+      assert_select '.garden-collaborators a[href=?]', garden_garden_collaborators_path(garden), text: 'Manage'
+    end
+
+    it 'does not say there are none' do
+      assert_select '.garden-collaborators', text: /None/, count: 0
+    end
+  end
+
   context 'when the garden has a collaborator' do
     let(:garden) { create(:garden) }
     let(:collaborator) { create(:member) }

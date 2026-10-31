@@ -313,7 +313,6 @@ en:
       manage: Manage
       new_garden: "+ New garden"
       no_description: No description available yet.
-      none: None
       nursery: nursery
       owner: Owner
       owner_gardens: "%{owner}'s gardens"

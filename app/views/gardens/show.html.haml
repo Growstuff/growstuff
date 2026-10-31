@@ -114,21 +114,22 @@
               %strong= link_to @garden.owner, @garden.owner
               - if @garden.owner == current_member
                 %span.text-muted= t('.you')
-          .garden-collaborators
-            .garden-side-row
-              %strong= t('.collaborators')
-              - if can?(:create, GardenCollaborator.new(garden: @garden))
-                = link_to t('.manage'), garden_garden_collaborators_path(@garden)
-              - elsif current_member.present? && (collab = @garden.garden_collaborators.find_by(member: current_member))
-                = link_to t('.leave'), garden_garden_collaborator_path(@garden, collab), method: :delete, class: 'text-danger',
-                  data: { confirm: t('.leave_confirm') }
-            - if @garden.garden_collaborators.any?
-              - @garden.garden_collaborators.includes(:member).find_each do |collaborator|
+          -# Only when there is someone to show, or the owner can add someone.
+          - collaborators = @garden.garden_collaborators.includes(:member).to_a
+          - can_manage = can?(:create, GardenCollaborator.new(garden: @garden))
+          - if collaborators.any? || can_manage
+            .garden-collaborators
+              .garden-side-row
+                %strong= t('.collaborators')
+                - if can_manage
+                  = link_to t('.manage'), garden_garden_collaborators_path(@garden)
+                - elsif (collab = collaborators.find { |collaborator| collaborator.member_id == current_member&.id })
+                  = link_to t('.leave'), garden_garden_collaborator_path(@garden, collab), method: :delete, class: 'text-danger',
+                    data: { confirm: t('.leave_confirm') }
+              - collaborators.each do |collaborator|
                 .garden-person.garden-person-small
                   = image_tag avatar_uri(collaborator.member, 48), alt: '', class: 'garden-person-avatar', width: 24, height: 24
                   = link_to collaborator.member, collaborator.member
-            - else
-              %p.text-muted.mb-0= t('.none')
           - if @garden.location.present?
             %div
               %strong= t('.location')
