@@ -12,7 +12,7 @@
   .index-cards
     - if @current_plantings.size.positive?
       - @current_plantings.each do |planting|
-        = render "plantings/card", planting: planting
+        = render "plantings/garden_card", planting: planting
     - else
       .col-md-12
         %p Nothing is currently planted here.

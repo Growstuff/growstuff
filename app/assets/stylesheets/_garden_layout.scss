@@ -871,8 +871,8 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   }
 }
 
-// The layout section on gardens#show: a small bed in the same soil and timber,
-// with the member's plants in it, beside a line about it. The map leads to the
+// The layout section on gardens#show: a small bed with the member's plants in
+// it, beside a line about it. The map leads to the
 // layout page, as does the section's own link.
 .garden-layout-body {
   display: flex;
@@ -910,22 +910,17 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   flex: none;
   width: 5.5rem;
   height: 4rem;
-  border: 5px solid $garden-layout-timber;
-  border-radius: 4px;
-  background:
-    linear-gradient(90deg, transparent 49%, $garden-layout-twine 49% 51%, transparent 51%),
-    linear-gradient(0deg, transparent 49%, $garden-layout-twine 49% 51%, transparent 51%),
-    $garden-layout-soil;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.45);
+  border: 3px solid #6d4c41;
+  border-radius: 3px;
+  background: #ecebe6;
   overflow: hidden;
 
-  // The plants: a big one, two small and a middling one.
+  // The plants, when there is no map yet: a big one, two small and a middling one.
   span {
     position: absolute;
-    background: $garden-layout-planting;
-    border: 1px solid $garden-layout-planting-border;
+    background: #cfe3c4;
+    border: 1px solid #6d4c41;
     border-radius: 50%;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
   }
 
   span:nth-child(1) { top: 12%; left: 10%; width: 45%; aspect-ratio: 1; }
@@ -942,19 +937,19 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   height: 100%;
 
   .placed-plant {
-    fill: $garden-layout-planting;
-    stroke: $garden-layout-planting-border;
+    fill: #cfe3c4;
+    stroke: #6d4c41;
     stroke-width: 0.1;
   }
 
   .feature-point {
-    fill: rgba(255, 250, 235, 0.9);
+    fill: #fff;
     stroke: #8b877e;
     stroke-width: 0.08;
   }
 
   .feature-line {
-    stroke: $garden-layout-twine;
+    stroke: #d9d4c7;
     stroke-width: 0.15;
     stroke-linecap: round;
   }

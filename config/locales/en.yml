@@ -225,6 +225,10 @@ en:
       title: Forums
     updated: Forum was successfully updated.
   gardens:
+    actions:
+      add_photo: Add photo from Flickr
+      make_nursery: Make this a nursery
+      new_job: New job
     confirm_deactivate: All plantings associated with this garden will be marked as finished. Are you sure?
     confirm_delete: All plantings associated with this garden will also be deleted. Are you sure?
     created: Garden was successfully created.

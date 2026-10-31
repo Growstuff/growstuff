@@ -38,6 +38,19 @@ describe JobsNotepad do
     end
   end
 
+  context 'without a member' do
+    subject(:notepad) { described_class.new(nil, garden: berries) }
+
+    it 'has everyone\'s jobs for the garden' do
+      create(:job, garden: berries, name: 'A collaborator\'s job', due_date: Time.zone.today)
+      expect(names).to contain_exactly('Net the berries', 'A collaborator\'s job')
+    end
+
+    it 'leaves out jobs for other gardens' do
+      expect(names).not_to include('Sharpen the secateurs')
+    end
+  end
+
   describe '#done_this_week' do
     it 'counts the jobs crossed off this week' do
       in_berries.update!(finished: true)

@@ -26,6 +26,18 @@ describe "gardens/show" do
       expect(view.content_for(:breadcrumbs)).to have_link(@garden.name, href: garden_path(@garden))
     end
 
+    it 'shows the planting as a garden card' do
+      assert_select '.garden-planting .garden-planting-name', text: @planting.display_name
+    end
+
+    it 'credits the planting to its grower' do
+      assert_select '.garden-planting .garden-planting-by a[href=?]', member_path(@owner)
+    end
+
+    it 'lists the actions in the order the design has them' do
+      expect(rendered).to match(/Edit.*Add photo from Flickr.*Plant something here.*New job.*Make this a nursery.*Mark as inactive/m)
+    end
+
     it 'leaves out the sign-up banner' do
       assert_select '.garden-join-banner', count: 0
     end
@@ -249,6 +261,8 @@ describe "gardens/show" do
     before do
       controller.stub(:current_user) { nil }
       allow(view).to receive_messages(member_signed_in?: false, current_member: nil)
+      create(:job, garden: garden, name: 'Sow the beans', due_date: Time.zone.today)
+      assign(:public_jobs, JobsNotepad.new(nil, garden: garden))
       assign(:garden, garden)
       assign(:current_plantings, [])
       assign(:finished_plantings, [])
@@ -262,6 +276,14 @@ describe "gardens/show" do
 
     it 'asks them to sign in to follow the owner' do
       assert_select '.record-grower-follow a[aria-label=?]', "Sign in to follow #{garden.owner}"
+    end
+
+    it 'lists the garden\'s jobs' do
+      assert_select '.garden-notepad .notepad-job .notepad-name', text: 'Sow the beans'
+    end
+
+    it 'has no tick boxes on the jobs' do
+      assert_select '.garden-notepad .notepad-box', count: 0
     end
 
     it 'names the season where the garden is' do

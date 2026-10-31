@@ -163,7 +163,7 @@ class GardensController < DataController
     if member_signed_in? && can?(:edit, @garden)
       @notepad = JobsNotepad.new(current_member, garden: @garden)
     else
-      @current_jobs = @garden.jobs.active.includes(:owner).order(created_at: :desc)
+      @public_jobs = JobsNotepad.new(nil, garden: @garden)
       @finished_jobs = @garden.jobs.finished.includes(:owner).order(created_at: :desc)
     end
   end

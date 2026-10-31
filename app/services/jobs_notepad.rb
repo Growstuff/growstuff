@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # A member's jobs, ready to show as a notepad: on their jobs page, or, with a
-# garden, just their jobs for that garden, on the garden's page.
+# garden, just their jobs for that garden, on the garden's page. With no member,
+# a garden's jobs from everyone, for a visitor who is only looking.
 class JobsNotepad
   def initialize(member, garden: nil, pinned: [])
     @member = member
@@ -28,7 +29,7 @@ class JobsNotepad
   end
 
   def scope
-    jobs = Job.where(owner: @member)
+    jobs = @member ? Job.where(owner: @member) : Job.all
     @garden ? jobs.where(garden: @garden) : jobs
   end
 

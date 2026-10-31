@@ -818,3 +818,153 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     color: #212121;
   }
 }
+
+// A planting on the garden's page, as the design has it: a square photo with
+// the menu and the status on it, then the name, how far along, and who planted it.
+.garden-show .garden-planting {
+  overflow: visible;
+  padding: 0;
+  border: 0;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
+
+  .garden-planting-photo {
+    position: relative;
+    background: #e8f5e9;
+    border-radius: 4px 4px 0 0;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 4px 4px 0 0;
+      object-fit: cover;
+    }
+
+    .planting-quick-actions {
+      top: 8px;
+      left: 8px;
+
+      .record-actions-toggle {
+        width: 32px;
+        height: 32px;
+        background: #fff;
+        border: 1px solid rgba(65, 63, 59, 0.15);
+      }
+    }
+
+    // The status badges sit along the bottom of the photo.
+    .planting-badges {
+      position: absolute;
+      top: auto;
+      right: 8px;
+      bottom: 8px;
+      left: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 12px;
+
+      .badge {
+        padding: 2px 10px;
+        background: #bbdefb !important;
+        border: 1px solid rgba(65, 63, 59, 0.3);
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #212121;
+      }
+
+      .badge-harvest {
+        background: #cfe3c4 !important;
+      }
+
+      .badge-late,
+      .badge-super-late {
+        background: #ffa500 !important;
+      }
+    }
+  }
+
+  .garden-planting-body {
+    padding: 10px 12px 6px;
+    text-align: center;
+  }
+
+  .garden-planting-name {
+    font-size: 17px;
+    font-weight: 300;
+  }
+
+  .garden-planting-variety {
+    min-height: 19px;
+    font-size: 13px;
+  }
+
+  .garden-planting-progress {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 12px 8px;
+    font-size: 13px;
+
+    .progress {
+      flex: 1 0 100%;
+      height: 10px;
+      margin-bottom: 4px;
+      background: #e0e0e0;
+      border-radius: 5px;
+    }
+
+    .float-start,
+    .float-end {
+      float: none !important;
+    }
+  }
+
+  .garden-planting-by {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding: 8px 12px;
+    border-top: 1px solid rgba(65, 63, 59, 0.15);
+    font-size: 13px;
+
+    .garden-planting-avatar {
+      border-radius: 50%;
+      flex: none;
+    }
+  }
+}
+
+// The garden's photos as polaroids: a white frame, a square picture, a caption.
+.garden-show .garden-photos .thumbnail {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 8px 0;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(65, 63, 59, 0.5);
+
+  img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0 !important;
+    object-fit: cover;
+  }
+
+  .text {
+    min-height: 36px;
+    padding: 10px 4px;
+    font-size: 13px;
+  }
+
+  .text br,
+  .text small {
+    display: none;
+  }
+
+  .text p {
+    margin: 0;
+  }
+}

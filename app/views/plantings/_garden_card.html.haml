@@ -1,0 +1,23 @@
+-# A planting on its garden's page: the menu and the status sit on the photo, the
+-# name, progress and grower under it. Other pages keep plantings/card.
+-#
+-# The menu is the owner's own, so the fragment varies by whether the viewer is
+-# that owner, as plantings/card does.
+- owner_viewing = member_signed_in? && current_member.id == planting.owner_id
+- cache ['garden-card', planting, owner_viewing] do
+  .card.planting.garden-planting{ class: planting.active ? '' : 'card-finished' }
+    .garden-planting-photo
+      = link_to planting_path(slug: planting.slug), 'aria-label': planting.display_name, tabindex: -1 do
+        = image_tag planting.thumbnail_url || placeholder_image, class: 'img-card', alt: ''
+      - if owner_viewing
+        .planting-quick-actions= render 'plantings/menu', planting:
+      = render 'plantings/badges', planting: planting
+    .garden-planting-body
+      = link_to planting.display_name, planting_path(slug: planting.slug), class: 'garden-planting-name'
+      .garden-planting-variety.text-muted= planting.crop.name if planting.alternate_name.present?
+    .garden-planting-progress= render 'plantings/progress', planting: planting
+    .garden-planting-by
+      = image_tag avatar_uri(planting.owner, 48), alt: '', class: 'garden-planting-avatar', width: 24, height: 24
+      %span.text-muted
+        by
+        = link_to planting.owner, planting.owner
