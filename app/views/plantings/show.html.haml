@@ -65,8 +65,8 @@
               = render 'plantings/actions', planting: @planting
 
           = render 'timeline', planting: @planting
-          - if @weather.any?
-            #weather.planting-weather= render 'plantings/weather', planting: @planting, readings: @weather, expected: @expected_weather
+          - if @weather.present?
+            #weather.planting-weather= render 'plantings/weather', planting: @planting, readings: @weather, expected: @expected_weather.to_a
           - elsif Feature.enabled?(:planting_weather) && !@planting.in_nursery? && @planting.planted? && @planting.latitude.blank? && can?(:edit, @planting.garden)
             -# Without a location there is no weather to show; only someone who can set one is asked to.
             = render 'plantings/weather_location_prompt', garden: @planting.garden
