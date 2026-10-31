@@ -311,11 +311,11 @@ GEM
     json-schema (6.2.0)
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
-    jwt (3.3.0)
-      base64
     jsonapi-renderer (0.2.2)
     jsonapi-serializable (0.3.1)
       jsonapi-renderer (~> 0.2.0)
+    jwt (3.3.0)
+      base64
     kramdown (2.5.2)
       rexml (>= 3.4.4)
     language_server-protocol (3.17.0.6)
