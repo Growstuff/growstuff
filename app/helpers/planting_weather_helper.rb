@@ -30,20 +30,17 @@ module PlantingWeatherHelper
      ("lows down to #{summary[:coldest]}" if summary[:coldest])].compact.to_sentence.presence
   end
 
-  # How many days the weather charts' X axis spans, from the planting date: the same stretch as the
-  # progress bar above them, which is the crop's expected lifespan, plus the last day itself. A planting
-  # still growing past its due date runs on to today, so its weather isn't cut off. With no known lifespan the
-  # axis runs from planting to finishing, or today.
+  # How many days the weather charts' X axis spans, from the first day of weather: the same stretch as the progress
+  # bar above them, which is the crop's expected lifespan, plus the last day itself. A planting still growing past its due
+  # date runs on to today, so its weather isn't cut off, and one planted over a year ago shows only its last year.
   def weather_axis_days(planting)
-    last_day = planting.weather_due_on || [planting.finished_at, Time.zone.today].compact.min
-    last_day = [last_day, Time.zone.today].max unless planting.finished_at
-    [(last_day - planting.planted_at).to_i, 0].max + 1
+    [(planting.weather_axis_last_day - planting.weather_first_day).to_i, 0].max + 1
   end
 
   # Today, for the charts' "now" line: only while the planting is still in progress and today is on the axis.
   def weather_now(planting, days)
     today = Time.zone.today
-    today if planting.growing? && !planting.failed? && today.between?(planting.planted_at, planting.planted_at + days - 1)
+    today if planting.growing? && !planting.failed? && today.between?(planting.weather_first_day, planting.weather_first_day + days - 1)
   end
 
   # The seasons along the chart axis for a garden at this latitude: [{ season:, first:, last: }], where

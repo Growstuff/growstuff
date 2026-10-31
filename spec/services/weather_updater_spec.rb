@@ -101,6 +101,20 @@ describe WeatherUpdater, type: :service do
     end
   end
 
+  context 'with a perennial planted years ago' do
+    before { create(:planting, garden:, owner: garden.owner, planted_at: today - 800) }
+
+    it 'fetches its latest weather' do
+      updater.update_all
+      expect(WeatherReading.maximum(:date)).to eq today - WeatherUpdater::LAG_DAYS
+    end
+
+    it 'fetches no more than its last year' do
+      updater.update_all
+      expect(WeatherReading.minimum(:date)).to eq today - Planting::WEATHER_WINDOW_DAYS
+    end
+  end
+
   context 'with a planting finished long ago' do
     before { create(:planting, garden:, owner: garden.owner, planted_at: today - 100, finished: true, finished_at: today - 60) }
 
