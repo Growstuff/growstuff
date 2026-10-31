@@ -893,8 +893,8 @@ describe Planting do
 
       before { ((today - 10)..today).each { |date| create(:weather_reading, date:) } }
 
-      it 'stops at the day it was due' do
-        expect(readings.maximum(:date)).to eq today - 7
+      it 'carries on to today' do
+        expect(readings.maximum(:date)).to eq today
       end
     end
   end
