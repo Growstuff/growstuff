@@ -356,6 +356,7 @@ zh:
       photo_by: 通过 %{login}
       public_note: 您记录的所有内容都是公开的开放数据，包括您所在的城市。
       sign_in_linktext: 登入
+      sign_in_bluesky: 使用 Bluesky 登入
       sign_up: 免费加入
     dashboard:
       add_bed: + 床

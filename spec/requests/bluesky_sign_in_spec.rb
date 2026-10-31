@@ -124,7 +124,14 @@ describe 'Signing in with Bluesky' do
       expect(response.body).to include('Bluesky handle')
     end
 
-    it 'offers Bluesky to the sign in dialog when a signing key is configured' do
+    it 'links to the Bluesky dialog from the home page when a signing key is configured' do
+      allow(Atproto::ClientConfig).to receive(:private_key).and_return(Atproto::Jws.generate_key)
+      get root_path
+
+      expect(response.body).to include('data-auth-dialog="bluesky"')
+    end
+
+    it 'passes the dialog where to post the handle' do
       allow(Atproto::ClientConfig).to receive(:private_key).and_return(Atproto::Jws.generate_key)
       get root_path
 
@@ -142,6 +149,12 @@ describe 'Signing in with Bluesky' do
       get new_member_session_path
 
       expect(response.body).not_to include('Bluesky handle')
+    end
+
+    it 'has no Bluesky link on the home page without a signing key' do
+      get root_path
+
+      expect(response.body).not_to include('data-auth-dialog="bluesky"')
     end
   end
 end

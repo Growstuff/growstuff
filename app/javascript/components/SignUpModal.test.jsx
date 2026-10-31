@@ -85,16 +85,4 @@ describe('SignUpModal', () => {
       expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong joining');
     });
   });
-
-  describe('with Bluesky switched on', () => {
-    it('posts a handle to the server', () => {
-      setup({urls: {...urls, bluesky: '/members/auth/bluesky'}});
-      expect(screen.getByLabelText('Bluesky handle').closest('form')).toHaveAttribute('action', '/members/auth/bluesky');
-    });
-  });
-
-  it('offers no Bluesky form without the server switching it on', () => {
-    setup();
-    expect(screen.queryByLabelText('Bluesky handle')).toBeNull();
-  });
 });

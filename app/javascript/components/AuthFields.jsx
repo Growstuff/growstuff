@@ -1,7 +1,5 @@
 import React from 'react';
 
-import {csrfToken} from '../api';
-
 const humanize = (key) => key.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
 
 // Devise's `errors` ({field: [messages]}) split into the messages for the
@@ -83,22 +81,5 @@ export function AuthFooter({busy, label, busyLabel, prompt, switchLabel, switchH
         {prompt} <a href={switchHref} onClick={(event) => { event.preventDefault(); onSwitch(); }}>{switchLabel}</a>
       </p>
     </div>
-  );
-}
-
-// Sign in with Bluesky. A form of its own that posts straight to the server
-// (the handle decides where the member is sent, so it can't go through the
-// dialog's JSON calls), and is drawn only when the server has it switched on.
-export function BlueskyForm({url, idPrefix}) {
-  if (!url) return null;
-  return (
-    <form method="post" action={url} className="modal-body border-top fs-5">
-      <input type="hidden" name="authenticity_token" value={csrfToken()} />
-      <label className="form-label fw-semibold" htmlFor={`${idPrefix}-bluesky-handle`}>Bluesky handle</label>
-      <div className="input-group input-group-lg">
-        <input id={`${idPrefix}-bluesky-handle`} name="handle" className="form-control" placeholder="alice.bsky.social" autoComplete="username" autoCapitalize="none" spellCheck={false} required />
-        <button type="submit" className="btn btn-outline-dark"><i className="fab fa-bluesky" aria-hidden="true" /> Continue with Bluesky</button>
-      </div>
-    </form>
   );
 }

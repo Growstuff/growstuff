@@ -103,6 +103,15 @@ $home-muted: rgba(65, 63, 59, 0.75);
 
 .home-hero-signin { font-size: 1.05rem; text-decoration: underline; }
 
+// Bluesky's butterfly in its own blue, on white so it reads on the green hero.
+.bluesky-icon {
+  color: #1185fe;
+  background: #fff;
+  border-radius: 50%;
+  padding: 0.3em;
+  font-size: 0.9em;
+}
+
 .home-hero-note { margin: 16px 0 0; font-size: 0.9rem; }
 
 .home-hero-photo {
