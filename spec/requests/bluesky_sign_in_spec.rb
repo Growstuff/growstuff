@@ -33,10 +33,33 @@ describe 'Signing in with Bluesky' do
       expect(Member.last.email).to be_nil
     end
 
-    it 'suggests the handle as the login name' do
+    it 'suggests the part of the handle before the first dot as the login name' do
       callback
 
-      expect(Member.last.login_name).to eq('alice_bsky_social')
+      expect(Member.last.login_name).to eq('alice')
+    end
+
+    context 'when that name is taken' do
+      before { create(:member, login_name: 'alice') }
+
+      it 'adds more of the handle' do
+        callback
+
+        expect(Member.last.login_name).to eq('alice_bsky')
+      end
+    end
+
+    context 'when that name and the next are taken' do
+      before do
+        create(:member, login_name: 'alice')
+        create(:member, login_name: 'alice_bsky')
+      end
+
+      it 'uses the whole handle' do
+        callback
+
+        expect(Member.last.login_name).to eq('alice_bsky_social')
+      end
     end
 
     it 'remembers the handle on the profile' do

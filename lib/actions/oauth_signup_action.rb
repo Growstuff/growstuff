@@ -32,12 +32,7 @@ class Growstuff::OauthSignupAction
       m.email_optional = m.email.blank? && Authentication::EMAIL_OPTIONAL_PROVIDERS.include?(auth.provider)
       m.password = Devise.friendly_token[0, 20]
 
-      # First, try the nickname or friendly generate from the email
-      m.login_name = login_name_from(auth)
-
-      # Do we have a collision with an existing account? Generate a 20 character long random name
-      # so the user can update it later
-      m.login_name = Devise.friendly_token[0, 20] if Member.where(login_name: m.login_name).any?
+      m.login_name = available_login_name(auth)
       m.preferred_avatar_uri = auth.info.image # assuming the user model has an image
       m.bluesky_handle = auth.info.handle if auth.provider == 'bluesky'
       m.skip_confirmation!
@@ -74,11 +69,23 @@ class Growstuff::OauthSignupAction
     @member_created
   end
 
-  # A login name that passes Member's validation: handles like alice.bsky.social
-  # have dots, and an email's local part can have anything.
-  def login_name_from(auth)
-    name = (auth.info.nickname.presence || auth.info.email.to_s.split("@").first).to_s.gsub(/[^A-Za-z0-9]+/, '_')
-    name.first(25).presence || Devise.friendly_token[0, 20]
+  # The shortest name that is free. From a nickname such as a Bluesky handle,
+  # alice.bsky.social, that is alice; only if it is taken do we add more of the
+  # handle (alice_bsky, then alice_bsky_social). With none free, a random name
+  # so the member can choose their own.
+  def available_login_name(auth)
+    login_name_candidates(auth).find { |name| login_name_free?(name) } || Devise.friendly_token[0, 20]
+  end
+
+  # Names that pass Member's validation, shortest first: the parts of a nickname
+  # (or an email's local part) before each dot, joined up.
+  def login_name_candidates(auth)
+    parts = (auth.info.nickname.presence || auth.info.email.to_s.split("@").first).to_s.split('.')
+    (1..parts.size).map { |count| parts.first(count).join('_').gsub(/[^A-Za-z0-9]+/, '_').first(25) }.select { |name| name.length >= 2 }
+  end
+
+  def login_name_free?(name)
+    Member.where('lower(login_name) = ?', name.downcase).none? && Member::RESERVED_LOGIN_NAMES.exclude?(name.downcase)
   end
 
   def determine_name(auth)
