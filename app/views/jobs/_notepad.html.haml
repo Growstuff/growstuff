@@ -4,7 +4,7 @@
 - garden = local_assigns[:garden]
 .notepad
   .notepad-title
-    = content_tag(garden ? :h2 : :h1, garden ? t('jobs.pad.garden_title', garden: garden.name) : t('jobs.pad.title', owner: owner.login_name))
+    = content_tag(garden ? :h2 : :h1, garden ? t('jobs.pad.garden_title') : t('jobs.pad.title', owner: owner.login_name))
     - if garden
       = link_to t('jobs.pad.all_jobs'), member_jobs_path(owner), class: 'notepad-all-jobs'
   = form_with url: jobs_path, scope: :job, class: 'notepad-add', data: { suggestions_url: job_suggestions_path, kinds: { planting: t('jobs.pad.planting'), seed: t('jobs.pad.seeds'), crop: t('jobs.pad.crop') }.to_json } do |f|

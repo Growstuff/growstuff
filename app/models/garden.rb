@@ -146,6 +146,11 @@ class Garden < ApplicationRecord
     harvests.where(harvested_at: Time.zone.today.all_year).count
   end
 
+  # Where each plant stands on the bed, as [x, y, diameter], to draw the map.
+  def placed_plant_positions
+    placed_plants.pluck(:bed_x, :bed_y, :diameter)
+  end
+
   def has_layout?
     layout_saved_at.present? || placed_plants.any? || layout_features.present?
   end

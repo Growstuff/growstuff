@@ -863,4 +863,23 @@ describe Planting do
       it('records nothing') { expect { moved }.not_to change(PlantingHistory, :count) }
     end
   end
+
+  describe '.growing_counts_by_garden' do
+    let(:garden) { create(:garden) }
+    let(:other) { create(:garden) }
+
+    before do
+      create_list(:planting, 2, garden:, owner: garden.owner)
+      create(:planting, garden:, owner: garden.owner, finished: true)
+      create(:planting, garden: other, owner: other.owner)
+    end
+
+    it 'counts the plantings still growing in each garden' do
+      expect(described_class.growing_counts_by_garden([garden.id, other.id])).to eq(garden.id => 2, other.id => 1)
+    end
+
+    it 'leaves out gardens it was not asked about' do
+      expect(described_class.growing_counts_by_garden([garden.id])).not_to have_key(other.id)
+    end
+  end
 end

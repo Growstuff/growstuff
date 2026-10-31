@@ -8,6 +8,6 @@
   .garden-notepad
     .notepad
       .notepad-title
-        %h2= t('jobs.pad.garden_title', garden: @garden.name)
+        %h2= t('jobs.pad.garden_title')
         %span.badge.text-bg-light.garden-jobs-public{ title: t('jobs.pad.public_note') }= t('.public')
       = render 'jobs/notepad_groups', groups: @public_jobs&.groups || [], in_garden: true, readonly: true

@@ -129,4 +129,30 @@ describe GardensHelper do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '#garden_details' do
+    subject(:details) { helper.garden_details(garden) }
+
+    let(:garden) { build_stubbed(:garden, location: 'Wellington', area: 24, area_unit: 'square metre', garden_type: build_stubbed(:garden_type, name: 'Backyard')) }
+
+    before { allow(helper).to receive(:current_member).and_return(nil) }
+
+    it 'joins the location, type and area' do
+      expect(details).to eq '<a href="/places/Wellington">Wellington</a> · Backyard · 24 square metres'
+    end
+
+    context 'with nothing known' do
+      let(:garden) { build_stubbed(:garden, location: nil, area: nil, area_unit: nil, garden_type: nil) }
+
+      it { is_expected.to eq '' }
+    end
+  end
+
+  describe '#garden_type_options' do
+    it 'lists the types by name, with their ids' do
+      zed = create(:garden_type, name: 'Zed')
+      ant = create(:garden_type, name: 'Ant')
+      expect(helper.garden_type_options).to eq [['Ant', ant.id], ['Zed', zed.id]]
+    end
+  end
 end

@@ -1,6 +1,19 @@
 # frozen_string_literal: true
 
 module GardensHelper
+  # The line under a garden's name: where it is, what kind, how big, and how far
+  # from the person looking, whichever of those are known.
+  def garden_details(garden)
+    location = link_to(garden.location, place_path(garden.location)) if garden.location.present?
+    area = pluralize(number_with_precision(garden.area, precision: 2, strip_insignificant_zeros: true), garden.area_unit) if garden.area.present?
+    safe_join([location, garden.garden_type&.name, area, garden_distance(garden)].compact, ' · ')
+  end
+
+  # The garden types to choose from, as name and id.
+  def garden_type_options
+    GardenType.order(:name).pluck(:name, :id)
+  end
+
   # Props for the GardenCards React island: a card per garden, plus the icon to
   # use for crops that have none of their own.
   def garden_cards_props(gardens, owner: nil)

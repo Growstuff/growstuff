@@ -40,10 +40,10 @@ class GardensController < DataController
   def show
     # Loaded now, so the page can count and loop over them without asking again.
     @current_plantings = @garden.plantings.current.where.not(failed: true)
-      .includes(:alternate_name, :crop, :owner, :photos).order(planted_at: :desc).load
+      .includes(:alternate_name, :crop, :owner).preload(:photos).order(planted_at: :desc).load
     load_jobs
-    @finished_plantings = @garden.plantings.finished.includes(crop: { parent: :parent })
-    @suggested_companions = Crop.approved.includes(parent: :parent).where(
+    @finished_plantings = @garden.plantings.finished.preload(crop: { parent: :parent })
+    @suggested_companions = Crop.approved.preload(parent: :parent).where(
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
     @photo_count = @garden.photos.count

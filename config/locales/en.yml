@@ -253,7 +253,7 @@ en:
       heading: Growstuff is where people share what they grow
       join: Join free
       sign_in: Sign in
-      text: A free, open-source site run by volunteers. Keep a record of what you plant and harvest, swap seeds with people near you, and see what is growing in gardens like this one.
+      text: Growstuff guides you through growing your own food, suggesting what to plant and how to tend your garden. See what other people at your latitude are doing as the seasons unfold.
     layout_section:
       drag_plants: Drag plants around the map to see what fits where.
       edit_layout: edit layout
@@ -295,8 +295,6 @@ en:
       collaborators: Collaborators
       companions_heading: Suggested companions
       fetch_wikidata: Fetch Wikidata info
-      follow: Follow %{owner}
-      follow_sign_in: Sign in to follow %{owner}
       garden_of: garden of
       growing_count: "%{count} growing"
       hero_caption:
@@ -673,7 +671,7 @@ en:
       edit_hint: Enter to save, Esc to cancel
       edit_label: Job name
       garden: Garden
-      garden_title: Jobs in %{garden}
+      garden_title: Jobs to do in this garden
       hide_done: Hide done
       in_garden: in %{garden}
       later: Later
@@ -819,7 +817,7 @@ en:
       follow: Follow
       follow_named: Follow %{name}
       following: Following
-      following_named: Following %{name}
+      following_named: You follow %{name}
     index:
       title: "%{site_name} members"
     signup:

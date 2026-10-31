@@ -183,7 +183,7 @@ describe "gardens/show" do
     end
 
     it 'titles the notepad with the garden' do
-      assert_select '.notepad .notepad-title h2', text: "Jobs in #{garden.name}"
+      assert_select '.notepad .notepad-title h2', text: 'Jobs to do in this garden'
     end
   end
 
@@ -275,8 +275,8 @@ describe "gardens/show" do
       assert_select '.garden-join-banner h2', text: 'Growstuff is where people share what they grow'
     end
 
-    it 'asks them to sign in to follow the owner' do
-      assert_select '.record-grower-follow a[aria-label=?]', "Sign in to follow #{garden.owner}"
+    it 'has no follow button' do
+      assert_select '.record-grower-follow', count: 0
     end
 
     it 'lists the garden\'s jobs' do
@@ -301,6 +301,31 @@ describe "gardens/show" do
 
     it 'shows the growing now section before the layout' do
       assert_select '.garden-plantings ~ .garden-layout-section'
+    end
+  end
+
+  context 'when the viewer already follows the owner' do
+    let(:owner) { create(:member) }
+    let(:viewer) { create(:member) }
+    let(:garden) { create(:garden, owner:) }
+
+    before do
+      create(:follow, follower: viewer, followed: owner)
+      controller.stub(:current_user) { viewer }
+      allow(view).to receive_messages(current_member: viewer, member_signed_in?: true)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows a ticked box' do
+      assert_select '.record-grower-follow .on i.fa-square-check'
+    end
+
+    it 'says they follow the owner' do
+      assert_select '.record-grower-follow .on', text: /You follow #{owner}/
     end
   end
 

@@ -305,6 +305,14 @@ describe Garden do
     end
   end
 
+  describe '#placed_plant_positions' do
+    let(:garden) { create(:garden) }
+
+    it 'has none for a bed with nothing placed' do
+      expect(garden.placed_plant_positions).to eq []
+    end
+  end
+
   describe '#harvests_this_year_count' do
     subject(:count) { garden.harvests_this_year_count }
 
