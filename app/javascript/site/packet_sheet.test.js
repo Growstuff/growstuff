@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { initPacketSheet, setEditing, toggleZoom } from './packet_sheet';
+import { initPacketSheet, setEditing, toggleSeason, toggleZoom } from './packet_sheet';
 
 describe('the packet sheet', () => {
   let sheet;
@@ -99,6 +99,59 @@ describe('the packet sheet', () => {
       link.dispatchEvent(click);
       expect(click.defaultPrevented).toBe(false);
     });
+  });
+
+  describe('the season shortcuts for the months to sow in', () => {
+    let months;
+
+    beforeEach(() => {
+      document.body.insertAdjacentHTML('beforeend', `
+        <div data-sow-months>
+          ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((m) => `<input type="checkbox" value="${m}">`).join('')}
+          <button type="button" id="spring" data-sow-months-season="9,10,11">Spring</button>
+        </div>`);
+      months = document.querySelector('[data-sow-months]');
+    });
+
+    const ticked = () => [...months.querySelectorAll('input:checked')].map((box) => Number(box.value));
+
+    it('ticks the months of a season', () => {
+      toggleSeason(months, ['9', '10', '11']);
+      expect(ticked()).toEqual([9, 10, 11]);
+    });
+
+    it('leaves the months already ticked', () => {
+      months.querySelector('[value="2"]').checked = true;
+      toggleSeason(months, ['9', '10', '11']);
+      expect(ticked()).toEqual([2, 9, 10, 11]);
+    });
+
+    it('unticks a season whose months are all ticked, so it can be undone', () => {
+      toggleSeason(months, ['9', '10', '11']);
+      toggleSeason(months, ['9', '10', '11']);
+      expect(ticked()).toEqual([]);
+    });
+
+    it('ticks the rest of a season that is partly ticked', () => {
+      months.querySelector('[value="9"]').checked = true;
+      toggleSeason(months, ['9', '10', '11']);
+      expect(ticked()).toEqual([9, 10, 11]);
+    });
+
+    it('works from the shortcut button', () => {
+      initPacketSheet();
+      document.getElementById('spring').click();
+      expect(ticked()).toEqual([9, 10, 11]);
+    });
+  });
+
+  it('is wired once, however many times it is asked, so clicks are not undone', () => {
+    document.body.insertAdjacentHTML('beforeend', `
+      <div data-sow-months><input type="checkbox" value="9"><button type="button" id="once" data-sow-months-season="9">Spring</button></div>`);
+    initPacketSheet();
+    initPacketSheet();
+    document.getElementById('once').click();
+    expect(document.querySelector('[data-sow-months] input').checked).toBe(true);
   });
 
   describe('the buttons', () => {

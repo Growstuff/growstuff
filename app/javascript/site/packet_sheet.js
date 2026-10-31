@@ -25,8 +25,29 @@ export function toggleZoom(link) {
   }
 }
 
+// The month chips come with the seasons as shortcuts, where the grower's hemisphere is known.
+// A season ticks its months, those already ticked staying; ticking one whose months are all
+// ticked unticks them, so it can be undone.
+export function toggleSeason(container, months) {
+  const boxes = months.map((month) => container.querySelector(`input[type=checkbox][value="${month}"]`)).filter(Boolean);
+  const allOn = boxes.every((box) => box.checked);
+  boxes.forEach((box) => { box.checked = !allOn; });
+}
+
+// Wired once to a page, however many times it is asked: two listeners would undo each other's clicks.
+const wired = new WeakSet();
+
 export function initPacketSheet(root = document) {
+  if (wired.has(root)) return;
+  wired.add(root);
+
   root.addEventListener('click', (event) => {
+    const season = event.target.closest('[data-sow-months-season]');
+    if (season) {
+      toggleSeason(season.closest('[data-sow-months]'), season.dataset.sowMonthsSeason.split(','));
+      return;
+    }
+
     const photo = event.target.closest('.seed-packet-photos a');
     if (photo && !(event.ctrlKey || event.metaKey || event.shiftKey)) {
       event.preventDefault();

@@ -1,0 +1,11 @@
+-# What the packet says about sowing, for the forms that edit all of a packet at once.
+.mb-3
+  %label.form-label When to sow
+  = render 'seeds/sow_months_field', model: seed, prefix: prefix
+.row.mb-3
+  .col-md-6
+    = f.number_field :germination_days_min, min: 0, label: 'Germination (min days)'
+  .col-md-6
+    = f.number_field :germination_days_max, min: 0, label: 'Germination (max days)'
+.mb-3
+  = f.text_area :how_to_sow, rows: 3, label: 'How to sow'
