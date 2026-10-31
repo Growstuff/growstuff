@@ -27,7 +27,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if current_member
       @authentication = action.establish_authentication(auth, current_member)
       flash[:notice] = t('messages.auth_success')
-      return redirect_to request.env['omniauth.origin'] || edit_member_registration_path + '#apps'
+      return redirect_to request.env['omniauth.origin'] || (edit_member_registration_path + '#apps')
     end
 
     existing_auth = Authentication.find_by(provider: auth['provider'], uid: auth['uid'])

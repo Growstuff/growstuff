@@ -210,22 +210,20 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
-  # migration: mastodon_clients(domain:string unique, client_id:string, client_secret:text)
-  # encrypt client_secret (Rails `encrypts :client_secret`)
 
-config.omniauth :mastodon,
-  scope: 'read:accounts',
-  credentials: lambda { |domain, callback_url|
-    domain = domain.to_s.downcase.strip
-    client = MastodonClient.find_by(domain: domain)
-    return [client.client_id, client.client_secret] if client
+  config.omniauth :mastodon,
+                  scope:       'read:accounts',
+                  credentials: lambda { |domain, callback_url|
+                    domain = domain.to_s.downcase.strip
+                    client = MastodonClient.find_by(domain: domain)
+                    return [client.client_id, client.client_secret] if client
 
-    app = MastodonRegistration.call(domain, callback_url) # POST https://#{domain}/api/v1/apps
-    client = MastodonClient.create!(domain: domain,
-                                    client_id: app['client_id'],
-                                    client_secret: app['client_secret'])
-    [client.client_id, client.client_secret]
-  }
+                    app = MastodonRegistration.call(domain, callback_url) # POST https://#{domain}/api/v1/apps
+                    client = MastodonClient.create!(domain:        domain,
+                                                    client_id:     app['client_id'],
+                                                    client_secret: app['client_secret'])
+                    [client.client_id, client.client_secret]
+                  }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
