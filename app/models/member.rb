@@ -226,6 +226,36 @@ class Member < ApplicationRecord
 
   # Removing it would leave them with no way to sign in: no email to reset a
   # password by, and no other provider.
+  # The home page's to-do list: a name we suggested and they haven't confirmed,
+  # no email (until they decline), and an email we haven't had confirmed.
+  def username_unconfirmed?
+    settings['username'] == 'unconfirmed'
+  end
+
+  def confirm_username!
+    update_column(:settings, settings.merge('username' => 'confirmed')) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def email_declined?
+    settings['email_declined'] == true
+  end
+
+  def decline_email!
+    update_column(:settings, settings.merge('email_declined' => true)) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def email_missing?
+    email.blank? && unconfirmed_email.blank?
+  end
+
+  def email_unconfirmed?
+    unconfirmed_email.present? || (email.present? && !confirmed?)
+  end
+
+  def setup_todo?
+    username_unconfirmed? || email_unconfirmed? || (email_missing? && !email_declined?)
+  end
+
   def last_sign_in_method?(authentication)
     return false unless email.blank? && Authentication::EMAIL_OPTIONAL_PROVIDERS.include?(authentication.provider)
 

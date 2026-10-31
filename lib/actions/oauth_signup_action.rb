@@ -27,6 +27,7 @@ class Growstuff::OauthSignupAction
   def build_member(auth, tos_agreement: nil)
     Member.new do |m|
       m.tos_agreement = tos_agreement
+      m.settings = m.settings.merge('username' => 'unconfirmed') # they confirm it on the home page
       m.email = auth.info.email.presence
       m.email_optional = m.email.blank? && Authentication::EMAIL_OPTIONAL_PROVIDERS.include?(auth.provider)
       m.password = Devise.friendly_token[0, 20]

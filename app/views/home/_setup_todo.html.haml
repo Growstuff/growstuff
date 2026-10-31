@@ -1,0 +1,30 @@
+-# What a member still has to do to finish joining: confirm the name they were
+-# given, say whether they want to add an email, and confirm it.
+- member = current_member
+= home_section(t('home.dashboard.todo')) do
+  - if member.username_unconfirmed?
+    .home-step
+      %span.home-step-number 1
+      %div
+        %b= t('home.dashboard.todo_name')
+        %small.home-section-note= t('home.dashboard.todo_name_note')
+      = form_with model: member, scope: :member, url: member_name_path, method: :patch, class: 'd-flex gap-2' do |f|
+        = f.text_field :login_name, class: 'form-control', required: true, autocomplete: 'username', 'aria-label': t('home.dashboard.todo_name')
+        = f.submit t('home.dashboard.todo_name_save'), class: 'btn btn-success'
+  - if member.email_missing? && !member.email_declined?
+    .home-step
+      %span.home-step-number= member.username_unconfirmed? ? 2 : 1
+      %div
+        %b= t('home.dashboard.todo_email')
+        %small.home-section-note= t('home.dashboard.todo_email_note')
+      = form_with model: member, scope: :member, url: member_email_path, method: :patch, class: 'd-flex gap-2' do |f|
+        = f.email_field :email, class: 'form-control', required: true, placeholder: 'you@example.com', autocomplete: 'email', 'aria-label': t('home.dashboard.todo_email')
+        = f.submit t('home.dashboard.todo_email_save'), class: 'btn btn-success'
+      = button_to t('home.dashboard.todo_email_decline'), decline_member_email_path, class: 'btn btn-outline-secondary'
+  - if member.email_unconfirmed?
+    .home-step
+      %span.home-step-number !
+      %div
+        %b= t('home.dashboard.todo_confirm')
+        %small.home-section-note= t('home.dashboard.todo_confirm_note', email: member.unconfirmed_email.presence || member.email)
+      = button_to t('home.dashboard.todo_confirm_resend'), resend_member_email_path, class: 'btn btn-success'
