@@ -71,8 +71,8 @@ module PlantingWeatherHelper
 
     low = values.min
     scale = { low:, span: [values.max - low, 1].max, step: WEATHER_CHART_WIDTH.to_f / days }
-    lines = safe_join([weather_temperature_lines(readings, from:, scale:),
-                       weather_temperature_lines(readings.last(1) + expected, from:, css: 'weather-expected', scale:)])
+    lines = weather_temperature_lines(readings, from:, scale:)
+    lines += weather_temperature_lines(readings.last(1) + expected, from:, css: 'weather-expected', scale:) if expected.any?
     observed = readings.flat_map { |reading| [reading.temp_max_c, reading.temp_min_c] }.compact
     alt = t('plantings.show.weather_temperature_chart_alt', low:  weather_degrees(observed.min || values.min),
                                                             high: weather_degrees(observed.max || values.max))
