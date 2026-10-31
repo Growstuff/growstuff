@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     get :connected, on: :collection
   end
 
+  get Atproto::ClientConfig::METADATA_PATH => 'oauth_client_metadata#show', as: :oauth_client_metadata
+
   get "home/index"
   get '/community-gardens', to: 'home#community_gardens'
   get '/releases', to: 'home#releases', as: :releases

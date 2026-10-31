@@ -91,15 +91,25 @@ class Member < ApplicationRecord
   scope :recently_joined, -> { reorder(confirmed_at: :desc) }
   scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
-  scope :wants_reminders, -> { where(send_planting_reminder: true) }
-  scope :wants_harvest_reminders, -> { where(send_harvest_reminder: true) }
+  scope :with_email, -> { where.not(email: nil) }
+  scope :wants_reminders, -> { with_email.where(send_planting_reminder: true) }
+  scope :wants_harvest_reminders, -> { with_email.where(send_harvest_reminder: true) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :timeoutable, :omniauthable
+         :confirmable, :lockable, :timeoutable, :omniauthable,
+         omniauth_providers: Authentication::SIGN_IN_PROVIDERS.keys.map(&:to_sym)
+
+  # Set while signing someone up through a provider that gave us no email.
+  attr_accessor :email_optional
+
+  # Devise's validatable asks this before insisting on an email.
+  def email_required?
+    !(email_optional || authentications.exists?(provider: Authentication::EMAIL_OPTIONAL_PROVIDERS))
+  end
 
   # discarded (deleted) member cannot log in
   def active_for_authentication?
@@ -204,11 +214,19 @@ class Member < ApplicationRecord
   end
 
   def mailboxer_email(_messageable)
-    send_notification_email ? email : false
+    send_notification_email && email.present? ? email : false
   end
 
   def role?(role_sym)
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
+  end
+
+  # Removing it would leave them with no way to sign in: no email to reset a
+  # password by, and no other provider.
+  def last_sign_in_method?(authentication)
+    return false unless email.blank? && Authentication::EMAIL_OPTIONAL_PROVIDERS.include?(authentication.provider)
+
+    authentications.where(provider: Authentication::EMAIL_OPTIONAL_PROVIDERS).where.not(id: authentication.id).none?
   end
 
   def auth(provider)
