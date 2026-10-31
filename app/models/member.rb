@@ -258,6 +258,11 @@ class Member < ApplicationRecord
     blocks.find_by(blocked_id: member.id) if already_blocking?(member)
   end
 
+  def update_spam_score!
+    score = UserBehaviourDetectionService.score_for(self)
+    update_column(:spam_score, score) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   def has_activity?
     gardens.not_nurseries.many? ||
       plantings.exists? ||

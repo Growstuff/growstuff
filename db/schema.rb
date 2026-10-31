@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_31_050000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_31_060000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -875,6 +875,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_050000) do
     t.boolean "show_email"
     t.integer "sign_in_count", default: 0
     t.string "slug"
+    t.integer "spam_score", default: 0, null: false
     t.boolean "suggest_crops", default: true, null: false
     t.boolean "tos_agreement"
     t.string "unconfirmed_email"

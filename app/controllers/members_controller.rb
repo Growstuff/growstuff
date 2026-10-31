@@ -81,6 +81,7 @@ class MembersController < ApplicationController
     return unless request.patch? && params[:member]
 
     if @member.update(member_params)
+      @member.update_spam_score!
       @member.skip_reconfirmation!
       bypass_sign_in(@member)
       redirect_to root_path, notice: I18n.t('members.welcome')
