@@ -843,4 +843,28 @@ describe Planting do
       it('records nothing') { expect { moved }.not_to change(PlantingHistory, :count) }
     end
   end
+
+  describe '#weather_readings' do
+    subject(:readings) { planting.weather_readings }
+
+    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+    let(:planting) do
+      create(:planting, garden:, owner: garden.owner, planted_at: Date.new(2026, 10, 1), finished: true, finished_at: Date.new(2026, 10, 3))
+    end
+
+    before do
+      (Date.new(2026, 9, 30)..Date.new(2026, 10, 5)).each { |date| create(:weather_reading, date:) }
+      create(:weather_reading, date: Date.new(2026, 10, 2), latitude: 51.5, longitude: 0.0)
+    end
+
+    it 'covers planting to finishing' do
+      expect(readings.map(&:date)).to eq((Date.new(2026, 10, 1)..Date.new(2026, 10, 3)).to_a)
+    end
+
+    context 'when the garden has no location' do
+      before { garden.update_columns(latitude: nil, longitude: nil) } # rubocop:disable Rails/SkipsModelValidations
+
+      it { is_expected.to be_empty }
+    end
+  end
 end

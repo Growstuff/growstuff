@@ -969,6 +969,21 @@ en:
       seeds_saved: Seeds saved
       title: "%{crop} planting by %{owner}"
       view_all_plantings: All of %{owner}'s plantings
+      weather_coldest: Coldest night
+      weather_credit_html: Weather for the area around the garden, modelled and not measured in it, a few days behind. Data from %{link} (CC BY 4.0).
+      weather_days: Days
+      weather_hottest: Hottest day
+      weather_rain: Rain
+      weather_rain_chart: Daily rainfall
+      weather_rain_chart_alt: 'Daily rainfall over %{count} days, up to %{max} mm in a day.'
+      weather_season_autumn: Autumn
+      weather_season_spring: Spring
+      weather_season_summer: Summer
+      weather_season_winter: Winter
+      weather_set_location: Set a garden location to get temperature and rainfall data
+      weather_soil_temp: Soil temperature
+      weather_temperature_chart: Daily high and low
+      weather_temperature_chart_alt: 'Daily high and low temperature, from %{low} to %{high}.'
     string: "%{crop} planting in %{garden} by %{owner}"
   posts:
     created: Post was successfully created.

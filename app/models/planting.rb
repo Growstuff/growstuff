@@ -184,6 +184,15 @@ class Planting < ApplicationRecord
     planted? && !finished?
   end
 
+  # The weather this planting grew through, day by day: the readings for its garden's grid cell,
+  # from planting to finishing (or today). Empty when the garden has no location.
+  def weather_readings
+    return WeatherReading.none if latitude.blank? || longitude.blank? || planted_at.blank?
+
+    WeatherReading.at(*WeatherReading.grid_point(latitude, longitude))
+      .between(planted_at, [finished_at, Time.zone.today].compact.min).order(:date)
+  end
+
   def nearby_same_crop
     return @nearby_same_crop if defined?(@nearby_same_crop)
 

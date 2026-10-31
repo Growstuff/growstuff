@@ -1,0 +1,18 @@
+-# The weather so far, on the same X axis as the progress bar above: from the planting date, for the crop's
+-# whole expected lifespan. The data fills the part already lived.
+- days = weather_axis_days(planting)
+- seasons = weather_seasons(planting.latitude, from: planting.planted_at, days:)
+.weather-charts
+  %figure
+    %figcaption= t('plantings.show.weather_temperature_chart')
+    = weather_temperature_chart(readings, from: planting.planted_at, days:, seasons:)
+  %figure
+    %figcaption= t('plantings.show.weather_rain_chart')
+    = weather_rain_chart(readings, from: planting.planted_at, days:, seasons:)
+= weather_season_strip(seasons, days)
+%dl.weather-summary
+  - weather_summary(readings).each do |key, value|
+    .weather-figure
+      %dt= t("plantings.show.weather_#{key}")
+      %dd= value
+%p.text-muted.small.mb-0= t('plantings.show.weather_credit_html', link: link_to('Open-Meteo.com', 'https://open-meteo.com/'))

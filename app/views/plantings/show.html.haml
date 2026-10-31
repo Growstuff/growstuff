@@ -65,6 +65,12 @@
               = render 'plantings/actions', planting: @planting
 
           = render 'timeline', planting: @planting
+          - if @weather.any?
+            #weather.planting-weather= render 'plantings/weather', planting: @planting, readings: @weather
+          - elsif @planting.planted? && @planting.latitude.blank? && can?(:edit, @planting.garden)
+            -# Without a location there is no weather to show; only someone who can set one is asked to.
+            %p.planting-weather-prompt.small
+              = link_to t('plantings.show.weather_set_location'), edit_garden_path(@planting.garden)
           = render 'harvest_months', planting: @planting
 
         %section.planting-facts= render 'facts', planting: @planting

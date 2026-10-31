@@ -27,6 +27,7 @@ class PlantingsController < DataController
     @child_seeds = @planting.child_seeds.includes(:owner, :crop)
     @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
     @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
+    @weather = @planting.weather_readings.to_a
     @matching_seeds = matching_seeds
     @crop = @planting.crop
 

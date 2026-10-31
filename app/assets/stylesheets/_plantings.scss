@@ -520,3 +520,102 @@
   color: $ink-muted;
   font-size: 0.85rem;
 }
+
+// The weather a planting grew through.
+.planting-weather {
+  .weather-summary {
+    display: flex;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .weather-figure {
+    dt {
+      color: $ink-muted;
+      font-size: 0.8rem;
+      font-weight: normal;
+    }
+
+    dd {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+
+  figure {
+    margin-bottom: 0.75rem;
+  }
+
+  figcaption {
+    color: $ink-muted;
+    font-size: 0.8rem;
+  }
+
+  .weather-chart {
+    background: $white;
+    border-radius: $card-radius;
+    display: block;
+    height: 80px;
+    width: 100%;
+  }
+
+  .weather-rain rect:not(.weather-season) {
+    fill: $blue;
+  }
+
+  // Seasons: a faint tint behind the data, and the same colours in the strip of names under the charts.
+  .season-spring {
+    fill: $green;
+    background: rgba($green, 0.14);
+  }
+
+  .season-summer {
+    fill: $orange;
+    background: rgba($orange, 0.16);
+  }
+
+  .season-autumn {
+    fill: $yellow;
+    background: rgba($yellow, 0.18);
+  }
+
+  .season-winter {
+    fill: $blue;
+    background: rgba($blue, 0.1);
+  }
+
+  .weather-season {
+    fill-opacity: 0.14;
+  }
+
+  .weather-seasons {
+    display: flex;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+
+    span {
+      color: $ink-muted;
+      overflow: hidden;
+      padding: 0 0.25rem;
+      text-overflow: clip;
+      white-space: nowrap;
+    }
+  }
+
+  .weather-temperature polyline {
+    fill: none;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .weather-high {
+    stroke: $danger-text;
+  }
+
+  .weather-low {
+    stroke: $blue;
+  }
+}

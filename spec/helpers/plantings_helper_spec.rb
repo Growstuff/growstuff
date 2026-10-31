@@ -64,4 +64,68 @@ describe PlantingsHelper do
       end
     end
   end
+
+  describe '#weather_summary' do
+    subject(:summary) { helper.weather_summary(readings) }
+
+    let(:readings) do
+      [build(:weather_reading, rainfall_mm: 2.0, temp_max_c: 15.0, temp_min_c: 8.0),
+       build(:weather_reading, rainfall_mm: 3.5, temp_max_c: 19.0, temp_min_c: 6.0)]
+    end
+
+    it { expect(summary[:rain]).to eq '6 mm' }
+    it { expect(summary[:hottest]).to eq '19.0°C' }
+    it { expect(summary[:coldest]).to eq '6.0°C' }
+    it { expect(summary[:days]).to eq 2 }
+
+    it 'leaves out soil temperature when there is none' do
+      expect(summary).not_to have_key(:soil_temp)
+    end
+  end
+
+  describe '#weather_rain_chart' do
+    let(:from) { Date.new(2026, 10, 1) }
+
+    it 'draws a bar for each rainy day' do
+      readings = [build(:weather_reading, date: from, rainfall_mm: 2.0), build(:weather_reading, date: from + 1, rainfall_mm: 0.0)]
+      expect(helper.weather_rain_chart(readings, from:, days: 10).scan('<rect').size).to eq 1
+    end
+
+    it 'places a bar by its date along the axis' do
+      readings = [build(:weather_reading, date: from + 5, rainfall_mm: 2.0)]
+      expect(helper.weather_rain_chart(readings, from:, days: 10)).to include 'x="300.0"'
+    end
+  end
+
+  describe '#weather_temperature_chart' do
+    it 'draws the high and the low' do
+      chart = helper.weather_temperature_chart([build(:weather_reading)], from: Date.new(2026, 10, 1), days: 10)
+      expect(chart.scan('<polyline').size).to eq 2
+    end
+  end
+
+  describe '#weather_axis_days' do
+    it 'spans the crop lifespan when the planting is on time' do
+      expect(helper.weather_axis_days(instance_double(Planting, expected_lifespan: 100, age_in_days: 40))).to eq 100
+    end
+
+    it 'spans the age when the planting is running late' do
+      expect(helper.weather_axis_days(instance_double(Planting, expected_lifespan: 100, age_in_days: 130))).to eq 130
+    end
+  end
+
+  describe '#weather_seasons' do
+    it 'splits the axis into the seasons it passes through, southern hemisphere' do
+      seasons = helper.weather_seasons(-41.3, from: Date.new(2026, 8, 25), days: 20)
+      expect(seasons).to eq [{ season: :winter, first: 0, last: 6 }, { season: :spring, first: 7, last: 19 }]
+    end
+
+    it 'uses the northern seasons north of the equator' do
+      expect(helper.weather_seasons(51.5, from: Date.new(2026, 8, 25), days: 3).pluck(:season)).to eq [:summer]
+    end
+
+    it 'is empty when we do not know where the garden is' do
+      expect(helper.weather_seasons(nil, from: Date.new(2026, 8, 25), days: 3)).to be_empty
+    end
+  end
 end
