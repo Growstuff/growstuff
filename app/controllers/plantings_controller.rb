@@ -27,8 +27,7 @@ class PlantingsController < DataController
     @child_seeds = @planting.child_seeds.includes(:owner, :crop)
     @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
     @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
-    @weather = @planting.weather_readings.to_a
-    @expected_weather = @planting.expected_weather_readings
+    load_weather
     @matching_seeds = matching_seeds
     @crop = @planting.crop
 
@@ -119,6 +118,13 @@ class PlantingsController < DataController
   end
 
   private
+
+  # Behind the planting_weather feature switch, so a switched-off site does none of the work.
+  def load_weather
+    enabled = Feature.enabled?(:planting_weather)
+    @weather = enabled ? @planting.weather_readings.to_a : []
+    @expected_weather = enabled ? @planting.expected_weather_readings : []
+  end
 
   # Sowing from a packet takes the seeds sown out of it, if it says how many it has.
   def use_up_seeds
