@@ -13,8 +13,6 @@ class WeatherUpdater
 
   # ERA5 trails real time by about five days.
   LAG_DAYS = 5
-  # Only the first year of a planting's life, so a decade-old planting nobody finished costs no more.
-  MAX_PLANTING_DAYS = 366
   # How far back the first fetch for a new place reaches. History fills in the rest.
   CURRENT_DAYS = 30
   CHUNK_DAYS = 366
@@ -63,7 +61,7 @@ class WeatherUpdater
   end
 
   def planting_range(planting)
-    [[history_start(planting), FIRST_DAY].max, [planting.finished_at, last_day(planting), @today - LAG_DAYS].compact.min]
+    [[first_day(planting), FIRST_DAY].max, [planting.finished_at, @today - LAG_DAYS].compact.min]
   end
 
   # Joins stretches of dates that overlap or touch, and leaves the rest apart.
@@ -77,9 +75,11 @@ class WeatherUpdater
     end
   end
 
-  # A planting is followed for as long as it grows, up to a year, even past the day it was due.
-  def last_day(planting)
-    planting.planted_at + MAX_PLANTING_DAYS
+  # A planting is followed from the day it was planted, but only for its last year, so a decade-old perennial costs
+  # no more than one planted last year. A recent one also gets the year before it started, as below.
+  def first_day(planting)
+    shown_from = planting.weather_first_day(@today)
+    shown_from > planting.planted_at ? shown_from : history_start(planting)
   end
 
   # A planting still growing is shown the rest of its life as last year's weather for the same days,

@@ -1064,7 +1064,7 @@ zh:
       weather_location_intro: 我们用它来显示这里的种植所经历的温度和降雨量。您花园的城市或地区是公共的，就像花园的其他部分一样。
       weather_location_title: 这个花园在哪里？
       weather_new: 新的
-      weather_pending: 我们正在加载该花园区域的天气。它是在一夜之间收集的，因此应该会在一天左右的时间内出现。
+      weather_pending: 我们正在加载该花园区域的天气。它是在一夜之间收集的，并且大约滞后五天，因此新种植的前几天的天气会在种下几天后出现。
       weather_rain: 雨
       weather_rain_chart: 每日降雨量
       weather_rain_chart_alt: 日降雨量超过 %{count} 天，一天可达 %{max} 毫米。

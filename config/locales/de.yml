@@ -1064,7 +1064,7 @@ de:
       weather_location_intro: Wir verwenden dies, um die Temperatur und die Niederschläge anzuzeigen, die die Pflanzungen hier durchlaufen haben. Die Stadt oder Region Ihres Gartens ist öffentlich, wie der Rest des Gartens.
       weather_location_title: Wo ist dieser Garten?
       weather_new: Neu
-      weather_pending: Wir laden das Wetter für den Bereich dieses Gartens. Es wird über Nacht gesammelt, also sollte es innerhalb eines Tages oder so erscheinen.
+      weather_pending: Wir laden das Wetter für den Bereich dieses Gartens. Es wird über Nacht gesammelt und liegt etwa fünf Tage zurück, daher erscheinen die ersten Tage einer neuen Pflanzung einige Tage nach dem Pflanzen.
       weather_rain: Regnerisch
       weather_rain_chart: Tägliche Niederschläge
       weather_rain_chart_alt: Täglicher Niederschlag über %{count} Tage, bis zu %{max} mm an einem Tag.

@@ -1064,7 +1064,7 @@ es:
       weather_location_intro: Usamos esto para mostrar la temperatura y las precipitaciones por las que han pasado las plantaciones aquí. La ciudad o región de su jardín es pública, como el resto del jardín.
       weather_location_title: ¿Dónde está este jardín?
       weather_new: Nuevo
-      weather_pending: Estamos cargando el clima para la zona de este jardín. Se recolecta durante la noche, por lo que debería aparecer aproximadamente en aproximadamente un día.
+      weather_pending: Estamos cargando el clima para la zona de este jardín. Se recolecta durante la noche y va unos cinco días por detrás, así que los primeros días de una siembra nueva aparecen unos días después de sembrarla.
       weather_rain: Lluvia
       weather_rain_chart: Lluvia diaria
       weather_rain_chart_alt: Precipitaciones diarias durante %{count} días, hasta %{max} mm en un día.
