@@ -147,6 +147,8 @@ class Member < ApplicationRecord
     update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  RESERVED_LOGIN_NAMES = %w(growstuff admin moderator staff nearby).freeze
+
   # set up geocoding
   geocoded_by :location
 
@@ -163,7 +165,7 @@ class Member < ApplicationRecord
               minimum: 2, maximum: 25, message: :login_name_length
             },
             exclusion:  {
-              in: %w(growstuff admin moderator staff nearby), message: :login_name_reserved
+              in: RESERVED_LOGIN_NAMES, message: :login_name_reserved
             },
             format:     {
               with: /\A\w+\z/, message: :login_name_format
