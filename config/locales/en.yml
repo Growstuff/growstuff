@@ -981,6 +981,8 @@ en:
       make_new_text: We'll make a garden called Nursery just for your seedlings.
       make_a_nursery: Make a nursery
       dont_need: I don't need one
+      dont_need_text: "Skip raising seedlings on Growstuff. We won't ask again, and you can change your mind from your gardens page."
+      no_nursery_for_me: No nursery for me
   photo_associations:
     update:
       updated: Photo updated.
