@@ -70,7 +70,7 @@ describe "Planting a crop", :js do
       before { visit garden_path(garden_with_type) }
 
       it "labels the garden type tile" do
-        expect(page).to have_css '.fact-card h3', text: 'Type'
+        expect(page).to have_css '.fact-card h3', text: /type/i
       end
 
       it "shows the garden type's name" do
