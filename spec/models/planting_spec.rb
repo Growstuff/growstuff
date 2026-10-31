@@ -902,7 +902,10 @@ describe Planting do
       let(:today) { Time.zone.today }
       let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: today - 800) }
 
-      before { ((today - 400)..today).each { |date| create(:weather_reading, date:) } }
+      before do
+        WeatherReading.delete_all
+        ((today - 400)..today).each { |date| create(:weather_reading, date:) }
+      end
 
       it 'starts a year before today' do
         expect(readings.minimum(:date)).to eq today - 365
