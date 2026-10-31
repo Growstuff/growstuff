@@ -460,4 +460,12 @@ describe Member do
       end
     end
   end
+
+  describe 'email' do
+    it 'stores a blank email as NULL so several members can have none' do
+      member = build(:member, email: '  ')
+
+      expect(member.email).to be_nil
+    end
+  end
 end

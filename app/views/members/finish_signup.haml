@@ -1,32 +1,23 @@
-- content_for :title, "Join Growstuff"
+- site_name = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
+- content_for :title, "Join #{site_name}"
+- email_missing = current_member.email.blank?
 
-%p Sign up for a Growstuff account to track your veggie garden and connect with other local growers.
+= render 'devise/shared/card', title: "Welcome to #{site_name}", links: false do
+  %p Nearly there. Choose the name that will show on the website.
 
-= form_for(current_member, as: 'member', url: finish_signup_path(current_member), html: { role: 'form' }) do |f|
-  - if @show_errors && current_member.errors.any?
-    .alert.alert-danger
-      - current_member.errors.full_messages.each do |msg|
-        = msg
-        %br
+  = bootstrap_form_for(current_member, as: 'member', url: finish_signup_path(current_member), html: { data: { turbo: false } }) do |f|
+    - if @show_errors
+      = render 'devise/shared/error_messages', resource: current_member
 
-  .mb-3
-    = f.label :login_name
-    .controls
-      = f.text_field :login_name, autofocus: true, class: 'form-control input-lg'
-      %p.form-text Choose a login name
+    = f.text_field :login_name, autofocus: true, help: 'This is the name that will show on the website. You can change it later.'
 
-  .mb-3
-    = f.label :email
-    .controls
-      = f.text_field :email, class: 'form-control input-lg', placeholder: 'Example: email@me.com'
-      %p.form-text Please confirm your email address.
+    - if email_missing
+      = f.email_field :email, label: 'Email (optional)', placeholder: 'you@example.com',
+                              help: "Add one if you'd like planting reminders. We'll send a link to confirm it, and we never spam."
+    - else
+      = f.email_field :email, help: "We'll use this address to contact you (we never spam!)"
 
-  .mb-3
-    .offset-md-2.col-md-8.checkbox
-      %label
-        = f.check_box :tos_agreement
-        I agree to the
-        = succeed "." do
-          = link_to 'Terms of Service', "#{root_url}/policy/tos"
-  .actions
-    = f.submit 'Continue', class: 'btn btn-primary'
+    - unless current_member.tos_agreement
+      = f.check_box :tos_agreement, label: safe_join(['I agree to the ', link_to('Terms of Service', '/policy/tos')])
+
+    = f.submit 'Continue', class: 'btn w-100 btn-success'

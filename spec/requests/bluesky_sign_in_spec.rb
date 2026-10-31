@@ -16,7 +16,9 @@ describe 'Signing in with Bluesky' do
 
   after { OmniAuth.config.mock_auth[:bluesky] = nil }
 
-  def callback
+  # Starting from the form, which is where the Terms of Service get agreed to.
+  def callback(tos: '1')
+    post '/members/auth/bluesky', params: { handle: 'alice.bsky.social', tos_agreement: tos }
     get '/members/auth/bluesky/callback'
   end
 
@@ -55,6 +57,22 @@ describe 'Signing in with Bluesky' do
       expect(response).to redirect_to(finish_signup_url(Member.last))
     end
 
+    it 'records that they agreed to the terms' do
+      callback
+
+      expect(Member.last.tos_agreement).to be(true)
+    end
+
+    it 'does not make a member who has not agreed to the terms' do
+      expect { callback(tos: nil) }.not_to change(Member, :count)
+    end
+
+    it 'sends them back to the terms when they have not agreed' do
+      callback(tos: nil)
+
+      expect(flash[:alert]).to eq(I18n.t('messages.tos_required'))
+    end
+
     it 'does not log them in as another member who also has no email' do
       other = create(:member)
       other.update_column(:email, nil) # rubocop:disable Rails/SkipsModelValidations
@@ -70,6 +88,10 @@ describe 'Signing in with Bluesky' do
 
     it 'does not create another member' do
       expect { callback }.not_to change(Member, :count)
+    end
+
+    it 'signs them in without asking for the terms again' do
+      expect { callback(tos: nil) }.not_to change(Member, :count)
     end
 
     it 'follows a changed handle' do

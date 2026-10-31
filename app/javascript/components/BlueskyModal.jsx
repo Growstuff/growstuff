@@ -26,6 +26,12 @@ export default function BlueskyModal({urls, onClose}) {
           <label className="form-label fw-semibold" htmlFor="bluesky-handle">Bluesky handle</label>
           <input id="bluesky-handle" name="handle" className="form-control form-control-lg" placeholder="alice.bsky.social" autoComplete="username" autoCapitalize="none" spellCheck={false} required />
           <div className="form-text">We only ask who you are. We can't post for you.</div>
+          <div className="form-check mt-3">
+            <input id="bluesky-tos" name="tos_agreement" type="checkbox" value="1" className="form-check-input" required />
+            <label className="form-check-label" htmlFor="bluesky-tos">
+              I agree to the <a href="/policy/tos" target="_blank" rel="noreferrer">Terms of Service</a>
+            </label>
+          </div>
         </div>
         <div className="modal-footer d-block">
           <button type="submit" className="btn btn-success btn-lg w-100" disabled={busy} aria-busy={busy}>

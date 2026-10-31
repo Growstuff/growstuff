@@ -10,8 +10,8 @@ class Growstuff::OauthSignupAction
   # As a side affect, this method sets the @member_created
   # variable
   #
-  def find_or_create_from_authorization(auth)
-    member = existing_member(auth) || build_member(auth)
+  def find_or_create_from_authorization(auth, tos_agreement: nil)
+    member = existing_member(auth) || build_member(auth, tos_agreement:)
     member.save!
 
     member
@@ -24,8 +24,9 @@ class Growstuff::OauthSignupAction
       (Member.kept.find_by(email: auth.info.email) if auth.info.email.present?)
   end
 
-  def build_member(auth)
+  def build_member(auth, tos_agreement: nil)
     Member.new do |m|
+      m.tos_agreement = tos_agreement
       m.email = auth.info.email.presence
       m.email_optional = m.email.blank? && Authentication::EMAIL_OPTIONAL_PROVIDERS.include?(auth.provider)
       m.password = Devise.friendly_token[0, 20]

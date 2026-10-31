@@ -40,7 +40,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     return redirect_to request.env['omniauth.origin'] || edit_member_registration_path unless auth
     return connect_to_current_member(action, auth) if current_member
 
-    member = action.find_or_create_from_authorization(auth)
+    return refuse_without_terms unless action.existing_member(auth) || terms_agreed?
+
+    member = action.find_or_create_from_authorization(auth, tos_agreement: terms_agreed? || nil)
     @authentication = action.establish_authentication(auth, member)
 
     if action.member_created?
@@ -53,6 +55,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect member, event: :authentication # this will throw if @user is not activated
       set_flash_message(:notice, :success, kind: auth['provider']) if is_navigational_format?
     end
+  end
+
+  # What they ticked on the form before leaving for the provider, which OmniAuth keeps for the way back.
+  def terms_agreed?
+    request.env['omniauth.params']&.dig('tos_agreement') == '1'
+  end
+
+  def refuse_without_terms
+    redirect_to request.env['omniauth.origin'] || new_member_registration_path, alert: t('messages.tos_required')
   end
 
   # Someone already signed in is adding this account to their own, not signing in as someone else.
