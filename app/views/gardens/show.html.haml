@@ -9,6 +9,8 @@
   %li.breadcrumb-item.active= link_to @garden.name, garden_path(@garden)
 
 .garden-show.record-page
+  - unless member_signed_in?
+    = render 'gardens/join_banner'
   .row
     .col-md-8.col-12
       -# Everything that is this garden, inside one border. See DESIGN.md.
@@ -38,12 +40,20 @@
                 - details = [(link_to(@garden.location, place_path(@garden.location)) if @garden.location.present?), @garden.garden_type&.name,
                              (pluralize(number_with_precision(@garden.area, precision: 2, strip_insignificant_zeros: true), @garden.area_unit) if @garden.area.present?),
                              garden_distance(@garden)].compact
-                - if details.any?
-                  %p.garden-meta.text-muted= safe_join(details, ' · ')
+                - season = season_for(@garden.latitude) unless member_signed_in?
+                - if details.any? || season
+                  %p.garden-meta.text-muted
+                    = safe_join(details, ' · ')
+                    - if season
+                      %span.garden-season{ title: 'The season where this garden is' }= season.to_s.capitalize
                 %p.garden-owner-link= link_to "All of #{@garden.owner}'s gardens", member_gardens_path(@garden.owner)
             .garden-hero-actions
               .record-grower-follow
-                = render 'members/follow_button', person: @garden.owner
+                - if member_signed_in?
+                  = render 'members/follow_button', person: @garden.owner
+                - else
+                  = link_to "+ Follow #{@garden.owner}", new_member_session_path, class: 'btn btn-success',
+                    data: { auth_dialog: 'sign_in' }, 'aria-label': "Sign in to follow #{@garden.owner}"
               = render 'gardens/actions', garden: @garden
         - unless @garden.active
           .alert.alert-warning
@@ -67,104 +77,24 @@
                 %p.text-muted No description available yet.
             = editable :text_area, @garden, :description, display_field: '.garden-description'
 
-        - if @garden.active
-          -# Its own page, so a section that leads there: the current bed map, or a teaser to create one.
-          - layout_path = layout_member_garden_path(@garden.owner, @garden)
-          - can_arrange = can?(:update_layout, @garden)
-          - placed_plants = @garden.placed_plants.pluck(:bed_x, :bed_y, :diameter)
-          %section.garden-layout-section
-            .section-header
-              %h2 Layout
-              = link_to layout_path, class: 'btn btn-sm section-add',
-                'aria-label': (can_arrange ? 'Edit the bed layout' : 'View the bed layout') do
-                = can_arrange ? 'edit layout' : 'view layout'
-            .garden-layout-body
-              = link_to layout_path, class: 'garden-layout-map', tabindex: -1, 'aria-hidden': 'true' do
-                %span.garden-layout-teaser-bed
-                  - if @garden.has_layout?
-                    %svg{ viewBox: "0 0 #{@garden.grid_columns} #{@garden.grid_rows}", class: 'garden-layout-teaser-svg' }
-                      - if @garden.layout_features.present?
-                        - @garden.layout_features.each do |feature|
-                          - if feature['x2'].present? && feature['y2'].present?
-                            %line{ x1: feature['x'], y1: feature['y'], x2: feature['x2'], y2: feature['y2'], class: "feature-line #{feature['kind']}" }
-                          - else
-                            %circle{ cx: feature['x'], cy: feature['y'], r: 0.3, class: "feature-point #{feature['kind']}" }
-                      - placed_plants.each do |x, y, diameter|
-                        %circle{ cx: x, cy: y, r: (diameter || 1) / 2.0, class: 'placed-plant' }
-                  - else
-                    %span
-                    %span
-                    %span
-                    %span
-              .garden-layout-text
-                - if @garden.has_layout?
-                  %p.garden-layout-headline= pluralize(placed_plants.size, 'plant') + ' placed on the bed'
-                  %p.text-muted
-                    - if can_arrange
-                      Drag plants around the map to see what fits where.
-                    - else
-                      Where each plant in this garden is growing, on a map of the bed.
-                - elsif can_arrange
-                  %p.garden-layout-headline
-                    %span.badge.text-bg-success New
-                    Map out this bed
-                  %p.text-muted Drag your plants onto a picture of the bed, and see what fits where.
-                - else
-                  %p.garden-layout-headline See how this bed is laid out
-                  %p.text-muted Where each plant in this garden is growing, on a map of the bed.
+        - unless member_signed_in?
+          .garden-join-prompt
+            %p
+              %strong Growing something nearby?
+              Join free to follow #{@garden.owner} and keep a record of your own garden.
+            = link_to 'Join free', new_member_registration_path, class: 'btn btn-success', data: { auth_dialog: 'sign_up' }
 
-        %section.garden-plantings
-          .section-header
-            %h2 Growing now
-            - if can?(:edit, @garden)
-              -# The plant something dialog, a React island. The link is what shows without scripts.
-              = react_component 'GardenPlanter', { garden: { id: @garden.id, name: @garden.name }, buttonClass: 'btn btn-sm section-add',
-                                                   iconUrl: image_path('icons/planting.svg') } do
-                = link_to new_planting_path(garden_id: @garden.id), class: 'btn btn-sm section-add' do
-                  = icon 'fas', 'plus'
-                  add
-          .index-cards
-            - if @current_plantings.size.positive?
-              - @current_plantings.each do |planting|
-                = render "plantings/card", planting: planting
-            - else
-              .col-md-12
-                %p Nothing is currently planted here.
-
-        - if @notepad
-          -# Not a section: the notepad is its own bordered block, with its own green bar.
-          .garden-notepad
-            = render 'jobs/notepad', owner: current_member, garden: @garden, groups: @notepad.groups, done_this_week: @notepad.done_this_week,
-              autofocus: false
+        -# What a visitor is here to see comes first; the owner's own tools lead for them.
+        - if can?(:edit, @garden)
+          = render 'gardens/layout_section'
+          = render 'gardens/plantings_section'
+          = render 'gardens/jobs_section'
+          = render 'gardens/photos_section'
         - else
-          %section
-            .section-header
-              %h2 Current jobs in garden
-              %span.badge.text-bg-light.garden-jobs-public{ title: t('jobs.pad.public_note') } Public
-            .index-cards
-              - if @current_jobs&.size&.positive?
-                - @current_jobs.each do |job|
-                  = render "jobs/card", job: job
-              - else
-                .col-md-12
-                  %p Nothing is currently planned here.
-
-        - if @photos.present? || can?(:edit, @garden)
-          %section.photos.garden-photos
-            .section-header
-              %h2 Photos
-              - if can?(:edit, @garden) && can?(:create, Photo)
-                = link_to new_photo_path_for(@garden), class: 'btn btn-sm section-add', data: photo_dialog_data(@garden) do
-                  = icon 'fas', 'plus'
-                  add
-            - if @photos.present?
-              .index-cards
-                - @photos.each do |photo|
-                  = render 'photos/thumbnail', photo: photo
-              - if @garden.photos.size > @photos.size
-                .garden-more-photos= link_to 'More photos', garden_photos_path(@garden)
-            - else
-              %p No photos yet.
+          = render 'gardens/plantings_section'
+          = render 'gardens/layout_section'
+          = render 'gardens/photos_section'
+          = render 'gardens/jobs_section'
 
         - if @suggested_companions.any?
           %section.companions
@@ -244,6 +174,17 @@
             - if @garden.owner == current_member
               = link_to new_garden_path, class: 'btn btn-outline-secondary btn-sm' do
                 + New garden
+
+      - unless member_signed_in?
+        %section.garden-start
+          .section-header
+            %h2 Start your own garden
+          .garden-side-body
+            %p.mb-0 Plant, harvest and save seeds in one place, and see what grows well near you.
+            = link_to 'Join free', new_member_registration_path, class: 'btn btn-success align-self-start', data: { auth_dialog: 'sign_up' }
+            %p.mb-0.small
+              Already a member?
+              = link_to 'Sign in', new_member_session_path, data: { auth_dialog: 'sign_in' }
 
 -# The to-do list's menu opens the add-photo dialog over the page, and the plantings'
 -# add opens the plant dialog: both React islands.

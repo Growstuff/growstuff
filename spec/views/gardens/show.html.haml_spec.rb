@@ -7,6 +7,7 @@ describe "gardens/show" do
     before do
       @owner = create(:member)
       controller.stub(:current_user) { @owner }
+      allow(view).to receive_messages(member_signed_in?: true, current_member: @owner)
       @garden = create(:garden, owner: @owner)
       @planting = create(:planting, garden: @garden, owner: @garden.owner)
       @suggested_companions = create_list(:crop, 4)
@@ -23,6 +24,14 @@ describe "gardens/show" do
 
     it 'links the breadcrumb to the garden itself' do
       expect(view.content_for(:breadcrumbs)).to have_link(@garden.name, href: garden_path(@garden))
+    end
+
+    it 'leaves out the sign-up banner' do
+      assert_select '.garden-join-banner', count: 0
+    end
+
+    it 'puts the layout before growing now for the owner' do
+      assert_select '.garden-layout-section ~ .garden-plantings'
     end
 
     it 'shows how many plantings are growing now' do
@@ -121,7 +130,7 @@ describe "gardens/show" do
       @owner = create(:member)
       @viewer = create(:member)
       controller.stub(:current_user) { @viewer }
-      allow(view).to receive(:current_member).and_return(@viewer)
+      allow(view).to receive_messages(current_member: @viewer, member_signed_in?: true)
       @garden = create(:garden, owner: @owner, layout_saved_at: Time.current)
       assign(:garden, @garden)
       assign(:current_plantings, [])
@@ -231,6 +240,44 @@ describe "gardens/show" do
 
     it 'links to the rest of the photos' do
       assert_select '.photos a[href=?]', garden_photos_path(garden), text: 'More photos'
+    end
+  end
+
+  context 'when nobody is signed in' do
+    let(:garden) { create(:garden, latitude: -41.29, longitude: 174.78) }
+
+    before do
+      controller.stub(:current_user) { nil }
+      allow(view).to receive_messages(member_signed_in?: false, current_member: nil)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'says what Growstuff is' do
+      assert_select '.garden-join-banner h2', text: 'Growstuff is where people share what they grow'
+    end
+
+    it 'asks them to sign in to follow the owner' do
+      assert_select '.record-grower-follow a[aria-label=?]', "Sign in to follow #{garden.owner}"
+    end
+
+    it 'names the season where the garden is' do
+      assert_select '.garden-season', text: /\A(Spring|Summer|Autumn|Winter)\z/
+    end
+
+    it 'invites them to join, near the description' do
+      assert_select '.garden-join-prompt a', text: 'Join free'
+    end
+
+    it 'offers to start their own garden' do
+      assert_select '.garden-start .section-header h2', text: 'Start your own garden'
+    end
+
+    it 'shows the growing now section before the layout' do
+      assert_select '.garden-plantings ~ .garden-layout-section'
     end
   end
 

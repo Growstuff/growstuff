@@ -1,0 +1,18 @@
+-# The garden's jobs: the member's own notepad, or the public list for everyone else.
+- if @notepad
+  -# Not a section: the notepad is its own bordered block, with its own green bar.
+  .garden-notepad
+    = render 'jobs/notepad', owner: current_member, garden: @garden, groups: @notepad.groups, done_this_week: @notepad.done_this_week,
+      autofocus: false
+- else
+  %section
+    .section-header
+      %h2 Current jobs in garden
+      %span.badge.text-bg-light.garden-jobs-public{ title: t('jobs.pad.public_note') } Public
+    .index-cards
+      - if @current_jobs&.size&.positive?
+        - @current_jobs.each do |job|
+          = render "jobs/card", job: job
+      - else
+        .col-md-12
+          %p Nothing is currently planned here.

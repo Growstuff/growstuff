@@ -750,3 +750,71 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     color: #212121;
   }
 }
+
+// For someone without an account: what the site is, and a way in.
+.garden-show {
+  .garden-join-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 32px;
+    margin: 16px 0;
+    padding: 20px 24px;
+    background: $white;
+    border: 1px solid rgba(65, 63, 59, 0.15);
+    border-radius: 4px;
+
+    .garden-join-banner-text {
+      flex: 1 1 480px;
+      min-width: 0;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 150%;
+      font-weight: 500;
+    }
+
+    p {
+      max-width: 64ch;
+      margin: 6px 0 0;
+    }
+
+    .garden-join-banner-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+  }
+
+  .garden-join-prompt {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    padding: 16px 20px;
+    background: #e8f5e9;
+    border: 1px solid rgba(65, 63, 59, 0.15);
+    border-radius: 4px;
+
+    p {
+      flex: 1 1 320px;
+      margin: 0;
+    }
+  }
+
+  .garden-season {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0 10px;
+    background: #e8f5e9;
+    border: 1px solid rgba(65, 63, 59, 0.3);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #212121;
+  }
+}
