@@ -7,9 +7,10 @@
     [t('home.dashboard.step_location'), :location, dashboard.located?, t('home.dashboard.step_location_note')],
     [t('home.dashboard.step_plant'), :plant, false, t('home.dashboard.step_plant_note')],
     [t('home.dashboard.step_photo'), new_photo_path, current_member.photos.any?, t('home.dashboard.step_photo_note')]]
+  - todo_count = current_member.setup_rows_count
   - steps.each_with_index do |(label, path, done, note), index|
     .home-step
-      %span.home-step-number{ class: ('done' if done) }= done ? "✓" : index + 1
+      %span.home-step-number{ class: ('done' if done) }= done ? "✓" : index + 1 + (index.positive? ? todo_count : 0)
       %div
         %b= label
         %small.home-section-note= done ? t('home.dashboard.done') : note
@@ -20,6 +21,8 @@
       - elsif path && !done
         .d-inline-block
           = link_to t('home.dashboard.do_it'), path, class: 'btn btn-success'
+    - if index.zero?
+      = render 'home/setup_todo_steps', start: 2
 
 - crops = dashboard.easy_to_sow
 - if crops.any? || dashboard.dismissed_count.positive? || !dashboard.suggestions_enabled?

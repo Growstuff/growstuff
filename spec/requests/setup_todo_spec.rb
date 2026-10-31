@@ -82,10 +82,40 @@ describe 'Setup to-do list' do
       expect(member.reload).to be_email_declined
     end
 
-    it 'stops asking for an email' do
+    it 'keeps the step on the list, as done' do
       get root_path
 
-      expect(response.body).not_to include('Add your email address')
+      expect(response.body).to include("You chose not to add one")
+    end
+
+    it 'offers a link to change their mind' do
+      get root_path
+
+      expect(response.body).to include('Changed your mind?')
+    end
+
+    it 'keeps the email form hidden until they follow it' do
+      get root_path
+
+      expect(response.body).not_to include('Save email')
+    end
+
+    it 'shows the email form once they change their mind' do
+      get root_path(add_email: 1)
+
+      expect(response.body).to include('Save email')
+    end
+
+    it 'lets them say no thanks again' do
+      get root_path(add_email: 1)
+
+      expect(response.body).to include('No thanks')
+    end
+
+    it 'does not offer No thanks while the form is hidden' do
+      get root_path
+
+      expect(response.body).not_to include('No thanks')
     end
   end
 
