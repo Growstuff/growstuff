@@ -22,6 +22,17 @@ describe 'Unsubscribing from emails' do
     it { expect(member.reload.send_planting_reminder).to be false }
     it { expect(member.reload.send_harvest_reminder).to be true }
     it { expect(member.reload.send_notification_email).to be true }
+    it { expect(ReminderEvent.where(member:, kind: 'planting_reminder', event: 'unsubscribed').count).to eq 1 }
+  end
+
+  context 'when the planting reminder link is followed twice' do
+    let(:mail) { NotifierMailer.planting_reminder(member) }
+
+    before do
+      2.times { unsubscribe_via(mail, 'Unsubscribe from planting reminders') }
+    end
+
+    it { expect(ReminderEvent.where(member:, event: 'unsubscribed').count).to eq 1 }
   end
 
   context 'with the link in the harvest reminder' do
@@ -34,6 +45,7 @@ describe 'Unsubscribing from emails' do
 
     it { expect(member.reload.send_harvest_reminder).to be false }
     it { expect(member.reload.send_planting_reminder).to be true }
+    it { expect(ReminderEvent.where(member:, kind: 'harvest_reminder', event: 'unsubscribed').count).to eq 1 }
   end
 
   context 'with a signed message for a column that is not an email setting' do

@@ -65,6 +65,7 @@ class MembersController < ApplicationController
     @type = decrypted_message[:type].to_sym
     raise ActiveSupport::MessageVerifier::InvalidSignature unless EMAIL_TYPE_STRING.key?(@type)
 
+    record_unsubscribe if @member[@type]
     @member.update(@type => false)
 
     flash.now[:notice] = I18n.t('members.unsubscribed', email_type: EMAIL_TYPE_STRING[@type])
@@ -87,6 +88,13 @@ class MembersController < ApplicationController
   end
 
   private
+
+  # Counted only the first time, so following the link again isn't a second unsubscribe. Direct message
+  # notifications aren't reminders, so they aren't counted.
+  def record_unsubscribe
+    kind = @type.to_s.delete_prefix('send_')
+    ReminderEvent.unsubscribed!(@member, kind) if ReminderEvent::KINDS.include?(kind)
+  end
 
   EMAIL_TYPE_STRING = {
     send_notification_email: "direct message notifications",

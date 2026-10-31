@@ -61,6 +61,7 @@ namespace :growstuff do
 
         NotifierMailer.planting_reminder(m).deliver_now
         m.update_column(:planting_reminder_sent_at, Time.zone.now) # rubocop:disable Rails/SkipsModelValidations
+        ReminderEvent.sent!(m, :planting_reminder)
       end
     end
   end
@@ -75,6 +76,7 @@ namespace :growstuff do
       Member.confirmed.wants_harvest_reminders.find_each do |m|
         if m.plantings.active.any?(&:harvest_in_next_week?)
           NotifierMailer.harvest_reminder(m).deliver_now
+          ReminderEvent.sent!(m, :harvest_reminder)
         end
       end
     end
