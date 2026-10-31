@@ -51,10 +51,16 @@ describe 'Signing in with Bluesky' do
       expect(Member.last.auth('bluesky').uid).to eq(did)
     end
 
-    it 'asks them to finish signing up' do
+    it 'sends them to the home page, where the to-do list finishes the job' do
       callback
 
-      expect(response).to redirect_to(finish_signup_url(Member.last))
+      expect(response).to redirect_to(root_path)
+    end
+
+    it 'leaves their name unconfirmed' do
+      callback
+
+      expect(Member.last).to be_username_unconfirmed
     end
 
     it 'records that they agreed to the terms' do

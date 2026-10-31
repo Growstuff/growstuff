@@ -32,6 +32,10 @@ Rails.application.routes.draw do
   get '/community-gardens', to: 'home#community_gardens'
   get '/releases', to: 'home#releases', as: :releases
   patch '/my/location', to: 'member_locations#update', as: :member_location
+  patch '/my/name', to: 'member_names#update', as: :member_name
+  patch '/my/email', to: 'member_emails#update', as: :member_email
+  post '/my/email/decline', to: 'member_emails#decline', as: :decline_member_email
+  post '/my/email/resend', to: 'member_emails#resend', as: :resend_member_email
   get '/suggestions', to: 'suggestions#index', as: :suggestions
   patch '/my/suggestions', to: 'suggestions#update', as: :my_suggestions
   post '/my/dismissed_crops', to: 'crop_dismissals#create', as: :crop_dismissals

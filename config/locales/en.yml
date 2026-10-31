@@ -474,6 +474,17 @@ en:
       tile_plant: something new
       tile_seeds: from a plant
       tile_seeds_title: Save seeds
+      todo: To do
+      todo_confirm: Confirm your email address
+      todo_confirm_note: We sent a link to %{email}. Follow it so we know it's yours.
+      todo_confirm_resend: Send it again
+      todo_email: Add your email address
+      todo_email_decline: No thanks
+      todo_email_note: Without one we can't send you notifications or planting reminders, or let you reset your password. We'll email a link to confirm it.
+      todo_email_save: Save email
+      todo_name: Confirm your name
+      todo_name_note: This is the name that shows on the website. We suggested one, and you can change it.
+      todo_name_save: Save name
       turn_on_suggestions: Turn them back on
       view_all_suggestions: View all suggestions for %{month}
       view_seed_library: View your seed library
@@ -814,6 +825,18 @@ en:
   member_dismissals:
     create:
       dismissed: We won't suggest %{name} again.
+  member_emails:
+    decline:
+      declined: Okay. We won't ask again, but you won't get notifications from us until you add an email in your account settings.
+    resend:
+      sent: We've sent the link again.
+      wait: We sent it a moment ago. Give it a minute, and check your spam folder.
+    update:
+      blank: Please enter an email address.
+      sent: We've sent a link to your email address. Follow it to confirm it.
+  member_names:
+    update:
+      saved: Thanks, your name is set.
   members:
     card:
       not_interested: Stop suggesting %{name}

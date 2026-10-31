@@ -50,7 +50,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
       session["devise.#{auth['provider']}_data"] = request.env["omniauth.auth"]
       sign_in member
-      redirect_to finish_signup_url(member)
+      redirect_to root_path, notice: t('members.welcome')
     else
       sign_in_and_redirect member, event: :authentication # this will throw if @user is not activated
       set_flash_message(:notice, :success, kind: auth['provider']) if is_navigational_format?

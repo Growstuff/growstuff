@@ -103,13 +103,21 @@ $home-muted: rgba(65, 63, 59, 0.75);
 
 .home-hero-signin { font-size: 1.05rem; text-decoration: underline; }
 
-// Bluesky's butterfly in its own blue, on white so it reads on the green hero.
+// Bluesky's butterfly in its own blue, in a white round badge so it reads on the
+// green hero. A fixed square keeps the circle round and the butterfly centred.
 .bluesky-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9em;
+  height: 1.9em;
+  margin-right: 0.25em;
+  font-size: 0.85em;
+  line-height: 1;
   color: #1185fe;
+  vertical-align: middle;
   background: #fff;
   border-radius: 50%;
-  padding: 0.3em;
-  font-size: 0.9em;
 }
 
 .home-hero-note { margin: 16px 0 0; font-size: 0.9rem; }
