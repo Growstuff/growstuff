@@ -4,7 +4,7 @@ require 'rails_helper'
 
 # The dialog on a planting that asks where its garden is: it looks places up with
 # GET /places/suggest and saves the one they pick with PATCH /gardens/:slug/location.
-describe 'Setting where a garden is' do
+describe GardenLocationsController do
   include Devise::Test::IntegrationHelpers
 
   let(:owner) { create(:member) }

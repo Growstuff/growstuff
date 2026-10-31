@@ -34,6 +34,27 @@ describe 'Weather on a planting', flipper: :planting_weather do
     end
 
     it { expect(page).to have_button 'Set a garden location to get temperature and rainfall data' }
+
+    context 'when they open the prompt' do
+      before { click_button 'Set a garden location to get temperature and rainfall data' }
+
+      it { expect(page).to have_css '[role=dialog]', text: 'Where is this garden?' }
+      it { expect(page).to have_no_button(/from my profile/) }
+    end
+  end
+
+  context 'when the owner has a place on their profile' do
+    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: nil, longitude: nil) } } # rubocop:disable Rails/SkipsModelValidations
+    let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: Date.new(2026, 10, 1)) }
+
+    before do
+      garden.owner.update_columns(location: 'Wellington, New Zealand', latitude: -41.2887, longitude: 174.7772) # rubocop:disable Rails/SkipsModelValidations
+      sign_in garden.owner
+      visit planting_path(planting)
+      click_button 'Set a garden location to get temperature and rainfall data'
+    end
+
+    it { expect(page).to have_button 'Use Wellington, New Zealand from my profile' }
   end
 
   context 'when the garden has no location and the viewer is a visitor' do
