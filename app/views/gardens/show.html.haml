@@ -1,16 +1,13 @@
 - garden_title = "#{@garden.owner}'s #{@garden}"
-= render 'shared/record_meta',
-         title: garden_title,
-         description: @garden.description.presence || "#{garden_title}, on Growstuff.",
-         image: garden_image_path(@garden)
+- description = @garden.description.presence || "#{garden_title}, on Growstuff."
+= render 'shared/record_meta', title: garden_title, description:, image: garden_image_path(@garden)
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Gardens', gardens_path
   %li.breadcrumb-item.active= link_to @garden.name, garden_path(@garden)
 
 .garden-show.record-page
-  - unless member_signed_in?
-    = render 'gardens/join_banner'
+  = render 'gardens/join_banner' unless member_signed_in?
   .row
     .col-md-8.col-12
       -# Everything that is this garden, inside one border. See DESIGN.md.
@@ -28,8 +25,7 @@
               text: t('.suggested_plantings', count: @suggestion_count), go: t('.suggested_plantings_go')
         = render 'gardens/facts', garden: @garden, growing_now: @current_plantings.size
         = render 'gardens/description', garden: @garden
-        - unless member_signed_in?
-          = render 'gardens/join_prompt', garden: @garden
+        = render 'gardens/join_prompt', garden: @garden unless member_signed_in?
 
         -# What a visitor is here to see comes first; the owner's own tools lead for them.
         - if can?(:edit, @garden)
@@ -43,20 +39,18 @@
           = render 'gardens/photos_section'
           = render 'gardens/jobs_section'
 
-        - if @suggested_companions.any?
-          = render 'gardens/companions', companions: @suggested_companions
+        = render 'gardens/companions', companions: @suggested_companions if @suggested_companions.any?
         - if @finished_plantings.any? || @finished_jobs&.size&.positive?
           %section.garden-previously= render 'previously'
 
     .col-md-4.col-12
       = render 'gardens/about', garden: @garden
       = render 'gardens/owner_gardens', garden: @garden
-      - unless member_signed_in?
-        = render 'gardens/start'
+      = render 'gardens/start' unless member_signed_in?
 
 -# The to-do list's menu opens the add-photo dialog over the page, and the plantings'
 -# add opens the plant dialog: both React islands.
 -# Last, so it can see whether something above has asked for it already.
-- if (@notepad || can?(:edit, @garden)) && !content_for(:scripts).to_s.include?('react_islands')
+- if (@notepad || can?(:edit, @garden)) && content_for(:scripts).to_s.exclude?('react_islands')
   - content_for :scripts do
     = javascript_include_tag 'react_islands', defer: true

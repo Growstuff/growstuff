@@ -5,13 +5,33 @@ module GardensHelper
   # from the person looking, whichever of those are known.
   def garden_details(garden)
     location = link_to(garden.location, place_path(garden.location)) if garden.location.present?
-    area = pluralize(number_with_precision(garden.area, precision: 2, strip_insignificant_zeros: true), garden.area_unit) if garden.area.present?
-    safe_join([location, garden.garden_type&.name, area, garden_distance(garden)].compact, ' · ')
+    safe_join([location, garden.garden_type&.name, garden_area(garden), garden_distance(garden)].compact, ' · ')
+  end
+
+  # How big the garden is, such as "24 square metres", when it has been measured.
+  def garden_area(garden)
+    return if garden.area.blank?
+
+    pluralize(number_with_precision(garden.area, precision: 2, strip_insignificant_zeros: true), garden.area_unit)
   end
 
   # A temperature as degrees, or that it is not known.
   def temperature_text(celsius)
     celsius.present? ? "#{celsius.round(1)}°C" : t('gardens.about.temperature_unknown')
+  end
+
+  # The garden's hottest and coldest, as the sentence that credits Wikidata.
+  def garden_temperatures(garden)
+    url = "https://www.wikidata.org/wiki/#{garden.location_wikidata_id}"
+    source = link_to('Wikidata', url, target: '_blank', rel: 'noopener noreferrer')
+    hottest = temperature_text(garden.highest_temp_c)
+    coldest = temperature_text(garden.lowest_temp_c)
+    t('gardens.about.temperatures_html', source:, hottest:, coldest:)
+  end
+
+  # What the GardenPlanter island needs to open the planting dialog for a garden.
+  def garden_planter_props(garden)
+    { garden: { id: garden.id, name: garden.name }, buttonClass: 'btn btn-sm section-add', iconUrl: image_path('icons/planting.svg') }
   end
 
   # The garden types to choose from, as name and id.

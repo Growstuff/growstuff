@@ -13,18 +13,18 @@ module ApplicationHelper
 
   # A link to sign in or sign up. They open the dialog where the page has it,
   # and go to the page without it.
-  def sign_in_link(text, **options)
-    link_to text, new_member_session_path, **options, data: { auth_dialog: 'sign_in' }
+  def sign_in_link(text, **)
+    link_to(text, new_member_session_path, **, data: { auth_dialog: 'sign_in' })
   end
 
-  def sign_up_link(text, **options)
-    link_to text, new_member_registration_path, **options, data: { auth_dialog: 'sign_up' }
+  def sign_up_link(text, **)
+    link_to(text, new_member_registration_path, **, data: { auth_dialog: 'sign_up' })
   end
 
   # A member's avatar as a decoration beside their name, drawn at `size` pixels
   # from a picture twice that for dense screens.
-  def avatar_image(member, size, **options)
-    image_tag avatar_uri(member, size * 2), alt: '', width: size, height: size, **options
+  def avatar_image(member, size, **)
+    image_tag(avatar_uri(member, size * 2), alt: '', width: size, height: size, **)
   end
 
   # What the PhotoDialog island needs: a fallback name for the dialog's heading,

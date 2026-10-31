@@ -11,5 +11,7 @@
     - else
       %span.member-card-follow.on= t('members.follow_button.following')
   - elsif can?(:create, Follow)
-    - label = named ? t('members.follow_button.follow_named', name: person) : t('members.follow_button.follow')
-    = button_to label, follows_path(followed: person), class: local_assigns.fetch(:button_class, 'member-card-follow'), form_class: 'd-inline'
+    :ruby
+      label = t(named ? 'members.follow_button.follow_named' : 'members.follow_button.follow', name: person)
+      button_class = local_assigns.fetch(:button_class, 'member-card-follow')
+    = button_to label, follows_path(followed: person), class: button_class, form_class: 'd-inline'

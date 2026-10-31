@@ -4,27 +4,29 @@
 - can_arrange = can?(:update_layout, @garden)
 - has_layout = @garden.has_layout?
 - if @garden.active && (has_layout || can_arrange)
-  - layout_path = layout_member_garden_path(@garden.owner, @garden)
-  - placed_plants = has_layout ? @garden.placed_plant_positions : []
+  :ruby
+    layout_path = layout_member_garden_path(@garden.owner, @garden)
+    placed_plants = has_layout ? @garden.placed_plant_positions : []
+    link_label = t(can_arrange ? '.edit_layout_label' : '.view_layout_label')
+    link_text = t(can_arrange ? '.edit_layout' : '.view_layout')
   %section.garden-layout-section
     .section-header
       %h2= t('.heading')
-      = link_to layout_path, class: 'btn btn-sm section-add',
-        'aria-label': t(can_arrange ? '.edit_layout_label' : '.view_layout_label') do
-        = t(can_arrange ? '.edit_layout' : '.view_layout')
+      = link_to link_text, layout_path, class: 'btn btn-sm section-add', 'aria-label': link_label
     .garden-layout-body
       = link_to layout_path, class: 'garden-layout-map', tabindex: -1, 'aria-hidden': 'true' do
         %span.garden-layout-teaser-bed
           - if has_layout
-            %svg{ viewBox: "0 0 #{@garden.grid_columns} #{@garden.grid_rows}", class: 'garden-layout-teaser-svg' }
+            %svg.garden-layout-teaser-svg{ viewBox: "0 0 #{@garden.grid_columns} #{@garden.grid_rows}" }
               - if @garden.layout_features.present?
                 - @garden.layout_features.each do |feature|
                   - if feature['x2'].present? && feature['y2'].present?
-                    %line{ x1: feature['x'], y1: feature['y'], x2: feature['x2'], y2: feature['y2'], class: "feature-line #{feature['kind']}" }
+                    %line{ class: ['feature-line', feature['kind']], x1: feature['x'], y1: feature['y'],
+                           x2: feature['x2'], y2: feature['y2'] }
                   - else
-                    %circle{ cx: feature['x'], cy: feature['y'], r: 0.3, class: "feature-point #{feature['kind']}" }
+                    %circle{ class: ['feature-point', feature['kind']], cx: feature['x'], cy: feature['y'], r: 0.3 }
               - placed_plants.each do |x, y, diameter|
-                %circle{ cx: x, cy: y, r: (diameter || 1) / 2.0, class: 'placed-plant' }
+                %circle.placed-plant{ cx: x, cy: y, r: (diameter || 1) / 2.0 }
           - else
             %span
             %span
