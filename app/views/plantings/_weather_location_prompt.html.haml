@@ -1,0 +1,9 @@
+-# Asks whoever can edit the garden where it is, so its plantings can show the weather there. It is the dialog
+-# members use to say where they garden (see LocationPicker.jsx), offering their own place from their profile.
+- profile = current_member.location.present? && current_member.latitude.present? && current_member.longitude.present?
+- profile_place = profile ? { name: current_member.location, latitude: current_member.latitude, longitude: current_member.longitude } : nil
+%p.planting-weather-prompt.small
+  = react_component('LocationPicker', { label: t('plantings.show.weather_set_location'), buttonClass: 'btn btn-link p-0',
+    searchUrl: suggest_places_path(format: :json), saveUrl: garden_location_path(garden, format: :json),
+    title: t('plantings.show.weather_location_title'), intro: t('plantings.show.weather_location_intro'), profilePlace: profile_place },
+    class: 'd-inline-block')

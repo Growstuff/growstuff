@@ -119,9 +119,9 @@ class PlantingsController < DataController
 
   private
 
-  # Behind the planting_weather feature switch, so a switched-off site does none of the work.
+  # Behind the planting_weather feature switch, and not for seedlings still in the nursery, so we do none of the work for them.
   def load_weather
-    enabled = Feature.enabled?(:planting_weather)
+    enabled = Feature.enabled?(:planting_weather) && !@planting.in_nursery?
     @weather = enabled ? @planting.weather_readings.to_a : []
     @expected_weather = enabled ? @planting.expected_weather_readings : []
   end

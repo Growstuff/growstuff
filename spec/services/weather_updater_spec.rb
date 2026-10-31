@@ -152,6 +152,17 @@ describe WeatherUpdater, type: :service do
     end
   end
 
+  context 'with a planting in a nursery' do
+    before do
+      nursery = create(:garden, nursery: true).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } # rubocop:disable Rails/SkipsModelValidations
+      create(:planting, garden: nursery, owner: nursery.owner, planted_at: today - 10)
+    end
+
+    it 'saves nothing' do
+      expect { updater.update_all }.not_to change(WeatherReading, :count)
+    end
+  end
+
   context 'with a garden without a location' do
     before do
       bare = garden_at(nil, nil)

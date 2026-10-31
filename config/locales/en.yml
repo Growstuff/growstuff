@@ -1066,6 +1066,8 @@ en:
       weather_days: Days
       weather_expected_note: The dotted lines and bars are expected weather, last year's data for the same days moved forward a year. They are not observed.
       weather_hottest: Hottest day
+      weather_location_intro: We use this to show the temperature and rainfall the plantings here have been through. Your garden's city or region is public, like the rest of the garden.
+      weather_location_title: Where is this garden?
       weather_new: New
       weather_rain: Rain
       weather_rain_chart: Daily rainfall

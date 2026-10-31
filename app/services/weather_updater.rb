@@ -52,10 +52,11 @@ class WeatherUpdater
   end
 
   # Plantings growing, or finished recently enough that their last days may not be in yet, in gardens with a location.
+  # Nurseries are left out: seedlings there have no climate to show.
   def plantings
     Planting.where.not(failed: true).where(planted_at: ..@today)
       .where('plantings.finished IS NOT TRUE OR plantings.finished_at >= ?', @today - RECENT_FINISH_DAYS)
-      .joins(:garden).merge(Garden.where.not(latitude: nil).where.not(longitude: nil))
+      .joins(:garden).merge(Garden.where.not(latitude: nil).where.not(longitude: nil).where(nursery: false))
       .includes(:garden, crop: :parent)
   end
 

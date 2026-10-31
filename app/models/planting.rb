@@ -184,6 +184,11 @@ class Planting < ApplicationRecord
     planted? && !finished?
   end
 
+  # Still in the nursery, which is somewhere seedlings are raised before they go out: it has no climate of its own to show.
+  def in_nursery?
+    garden.nursery?
+  end
+
   # The weather this planting grew through, day by day: the readings for its garden's grid cell,
   # from planting to finishing, today or its due date, whichever comes first. Empty when the garden has no location.
   def weather_readings
