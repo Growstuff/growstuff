@@ -121,9 +121,39 @@ key.
    `heroku config:set` in production). Use a different key for each
    environment and never commit it.
 
-Bluesky has to be able to fetch the metadata URL, so trying it locally needs a
-public tunnel, with the app opened through the tunnel's address. Without the
-key the button is hidden and the metadata URL returns 404.
+Without the key the button is hidden and the metadata URL returns 404.
+
+#### Trying it locally
+
+Bluesky refuses `localhost` as a callback address and has to fetch the
+metadata URL itself, so it only works through a public HTTPS tunnel such as
+[ngrok](https://ngrok.com/). The free plan is enough.
+
+1. Start a tunnel to the Rails port:
+
+   ```bash
+   ngrok http 3000
+   ```
+
+   Note the `https://….ngrok-free.dev` address it prints.
+
+2. Rails blocks hosts it doesn't know about, so allow the tunnel's hostname
+   (no `https://`) when you start the server. Put it in `.env` or your shell
+   rather than in `config/environments/development.rb`:
+
+   ```bash
+   RAILS_DEVELOPMENT_HOSTS=your-name.ngrok-free.dev bin/dev
+   ```
+
+3. Open the app at the tunnel's address, not `localhost`. The client ID and
+   callback URL are built from the address in your browser. ngrok's free plan
+   shows a "Visit Site" page the first time; click through it.
+
+4. Check `/oauth/client-metadata.json` loads at that address, then use
+   **Sign in with Bluesky** on the home page.
+
+If it fails, the generic message hides the reason; look for
+`(bluesky) Authentication failure!` in the server output.
 
 ### For Home Automation enthusiasts
 
