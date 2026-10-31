@@ -25,7 +25,11 @@ module PhotoCapable
       end
     end
 
+    # Chosen in Ruby when the photos are already loaded, so a page of records
+    # that preloaded them doesn't ask for each one's best again.
     def most_liked_photo
+      return photos.max_by { |photo| [photo.likes_count.to_i, photo.created_at] } if photos.loaded?
+
       photos.order(likes_count: :desc, created_at: :desc).first
     end
   end
