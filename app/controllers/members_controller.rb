@@ -58,10 +58,13 @@ class MembersController < ApplicationController
 
   def unsubscribe
     verifier = ActiveSupport::MessageVerifier.new(ENV.fetch('RAILS_SECRET_TOKEN', nil))
-    decrypted_message = verifier.verify(params[:message])
+    # The message is JSON, so its keys and the type come back as strings.
+    decrypted_message = verifier.verify(params[:message]).with_indifferent_access
 
     @member = Member.find(decrypted_message[:member_id])
-    @type = decrypted_message[:type]
+    @type = decrypted_message[:type].to_sym
+    raise ActiveSupport::MessageVerifier::InvalidSignature unless EMAIL_TYPE_STRING.key?(@type)
+
     @member.update(@type => false)
 
     flash.now[:notice] = I18n.t('members.unsubscribed', email_type: EMAIL_TYPE_STRING[@type])
