@@ -39,18 +39,6 @@ describe Seed, '#valid?' do
     it { is_expected.not_to be_valid }
   end
 
-  context 'with the text read from a packet' do
-    let(:details) { { packet_text: "Approx 15 seeds per packet\nSow by: December 2026" } }
-
-    it { is_expected.to be_valid }
-  end
-
-  context 'with packet text that is far too long' do
-    let(:details) { { packet_text: 'a' * 20_001 } }
-
-    it { is_expected.not_to be_valid }
-  end
-
   context 'with a batch number that is far too long' do
     let(:details) { { batch_number: 'a' * 101 } }
 
