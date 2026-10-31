@@ -80,6 +80,11 @@ class Photo < ApplicationRecord
     update(flickr_metadata)
   end
 
+  def set_pixelfed_metadata!(input)
+    metadata = PixelfedService.extract_metadata(input)
+    update(metadata)
+  end
+
   def to_s
     "#{title} by #{owner.login_name}"
   end
