@@ -295,7 +295,7 @@ en:
       collaborators: Collaborators
       companions_heading: Suggested companions
       fetch_wikidata: Fetch Wikidata info
-      follow: "+ Follow %{owner}"
+      follow: Follow %{owner}
       follow_sign_in: Sign in to follow %{owner}
       garden_of: garden of
       growing_count: "%{count} growing"
@@ -817,7 +817,9 @@ en:
     edit_profile: Edit profile
     follow_button:
       follow: Follow
+      follow_named: Follow %{name}
       following: Following
+      following_named: Following %{name}
     index:
       title: "%{site_name} members"
     signup:

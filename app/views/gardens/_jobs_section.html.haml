@@ -2,8 +2,7 @@
 - if @notepad
   -# Not a section: the notepad is its own bordered block, with its own green bar.
   .garden-notepad
-    = render 'jobs/notepad', owner: current_member, garden: @garden, groups: @notepad.groups, done_this_week: @notepad.done_this_week,
-      autofocus: false
+    = render 'jobs/notepad', owner: current_member, garden: @garden, groups: @notepad.groups, autofocus: false
 - else
   -# Public, and only to look at.
   .garden-notepad

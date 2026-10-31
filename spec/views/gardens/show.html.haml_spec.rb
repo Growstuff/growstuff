@@ -156,7 +156,7 @@ describe "gardens/show" do
     end
 
     it 'offers to follow the owner' do
-      assert_select '.record-grower-follow .member-card-follow'
+      assert_select '.record-grower-follow button', text: "Follow #{@owner}"
     end
 
     it 'offers to view the layout' do

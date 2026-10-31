@@ -50,7 +50,7 @@
             .garden-hero-actions
               .record-grower-follow
                 - if member_signed_in?
-                  = render 'members/follow_button', person: @garden.owner
+                  = render 'members/follow_button', person: @garden.owner, named: true, button_class: 'btn btn-success'
                 - else
                   = link_to t('.follow', owner: @garden.owner), new_member_session_path, class: 'btn btn-success',
                     data: { auth_dialog: 'sign_in' }, 'aria-label': t('.follow_sign_in', owner: @garden.owner)
