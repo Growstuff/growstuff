@@ -1,6 +1,44 @@
 # frozen_string_literal: true
 
 module GardensHelper
+  # The line under a garden's name: where it is, what kind, how big, and how far
+  # from the person looking, whichever of those are known.
+  def garden_details(garden)
+    location = link_to(garden.location, place_path(garden.location)) if garden.location.present?
+    safe_join([location, garden.garden_type&.name, garden_area(garden), garden_distance(garden)].compact, ' · ')
+  end
+
+  # How big the garden is, such as "24 square metres", when it has been measured.
+  def garden_area(garden)
+    return if garden.area.blank?
+
+    pluralize(number_with_precision(garden.area, precision: 2, strip_insignificant_zeros: true), garden.area_unit)
+  end
+
+  # A temperature as degrees, or that it is not known.
+  def temperature_text(celsius)
+    celsius.present? ? "#{celsius.round(1)}°C" : t('gardens.about.temperature_unknown')
+  end
+
+  # The garden's hottest and coldest, as the sentence that credits Wikidata.
+  def garden_temperatures(garden)
+    url = "https://www.wikidata.org/wiki/#{garden.location_wikidata_id}"
+    source = link_to('Wikidata', url, target: '_blank', rel: 'noopener noreferrer')
+    hottest = temperature_text(garden.highest_temp_c)
+    coldest = temperature_text(garden.lowest_temp_c)
+    t('gardens.about.temperatures_html', source:, hottest:, coldest:)
+  end
+
+  # What the GardenPlanter island needs to open the planting dialog for a garden.
+  def garden_planter_props(garden)
+    { garden: { id: garden.id, name: garden.name }, buttonClass: 'btn btn-sm section-add', iconUrl: image_path('icons/planting.svg') }
+  end
+
+  # The garden types to choose from, as name and id.
+  def garden_type_options
+    GardenType.order(:name).pluck(:name, :id)
+  end
+
   # Props for the GardenCards React island: a card per garden, plus the icon to
   # use for crops that have none of their own.
   def garden_cards_props(gardens, owner: nil)
@@ -18,6 +56,19 @@ module GardensHelper
   # The permissions the cards on this page ask about, each worked out once.
   def card_ability
     @card_ability ||= CachedAbility.new(current_ability)
+  end
+
+  # How far the signed-in member is from a garden, such as "about 4 km from
+  # you". Nothing when either has no location, or it is the member's own garden.
+  def garden_distance(garden)
+    return if current_member.blank? || garden.owner == current_member
+    return unless current_member.latitude && garden.latitude
+
+    km = Geocoder::Calculations.distance_between(
+      [current_member.latitude, current_member.longitude],
+      [garden.latitude, garden.longitude], units: :km
+    )
+    t('gardens.show.km_from_you', km: km.round)
   end
 
   # What is currently in a nursery, newest sown first.

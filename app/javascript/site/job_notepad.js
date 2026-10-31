@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'X-CSRF-Token': csrfToken(),
+        Accept: 'text/html',
       },
       credentials: 'same-origin',
     })

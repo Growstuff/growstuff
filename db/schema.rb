@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_28_020000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1078,8 +1078,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_28_020000) do
     t.text "description"
     t.boolean "finished", default: false
     t.date "finished_at"
+    t.integer "germination_days_max"
+    t.integer "germination_days_min"
     t.text "gmo", default: "unknown"
     t.text "heirloom", default: "unknown"
+    t.text "how_to_sow", comment: "How the packet says to sow it, in its words."
     t.text "organic", default: "unknown"
     t.integer "owner_id", null: false
     t.text "packet_text", comment: "Text read from the packet's photos by the OCR script. Not shown to members yet."
@@ -1089,6 +1092,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_28_020000) do
     t.integer "row_spacing", comment: "Centimetres between rows, as printed on the packet."
     t.date "saved_at"
     t.string "slug"
+    t.integer "sow_months", default: [], null: false, comment: "The months, 1 to 12, the packet says to sow in. Empty when it says nothing.", array: true
     t.string "source"
     t.string "tradable_to", default: "nowhere"
     t.datetime "updated_at", precision: nil

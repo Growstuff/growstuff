@@ -871,30 +871,37 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   }
 }
 
-// The invitation to the layout page on gardens#show: a small bed in the same
-// soil and timber, with a few plants in it, beside the pitch.
-.garden-layout-teaser {
+// The layout section on gardens#show: a small bed with the member's plants in
+// it, beside a line about it. The map leads to the
+// layout page, as does the section's own link.
+.garden-layout-body {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
-  margin: 0 0 1.25rem;
-  padding: 0.85rem 1rem;
-  color: inherit;
-  text-decoration: none;
-  background: var(--bs-success-bg-subtle);
-  border: 1px solid var(--bs-success-border-subtle);
-  border-radius: 8px;
-  transition: box-shadow 0.15s, transform 0.15s;
+  gap: 1.25rem;
+  padding-bottom: 0.5rem;
 
-  &:hover,
-  &:focus-visible {
-    color: inherit;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    transform: translateY(-1px);
+  .garden-layout-map {
+    flex: none;
+    max-width: 100%;
+  }
 
-    .garden-layout-teaser-cta {
-      text-decoration: underline;
+  .garden-layout-text {
+    flex: 1 1 15rem;
+
+    p {
+      margin: 0;
     }
+  }
+
+  .garden-layout-headline {
+    font-weight: 600;
+  }
+
+  .garden-layout-teaser-bed {
+    display: block;
+    width: 12rem;
+    height: 8rem;
   }
 }
 
@@ -903,22 +910,17 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   flex: none;
   width: 5.5rem;
   height: 4rem;
-  border: 5px solid $garden-layout-timber;
-  border-radius: 4px;
-  background:
-    linear-gradient(90deg, transparent 49%, $garden-layout-twine 49% 51%, transparent 51%),
-    linear-gradient(0deg, transparent 49%, $garden-layout-twine 49% 51%, transparent 51%),
-    $garden-layout-soil;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.45);
+  border: 3px solid #6d4c41;
+  border-radius: 3px;
+  background: #ecebe6;
   overflow: hidden;
 
-  // The plants: a big one, two small and a middling one.
+  // The plants, when there is no map yet: a big one, two small and a middling one.
   span {
     position: absolute;
-    background: $garden-layout-planting;
-    border: 1px solid $garden-layout-planting-border;
+    background: #cfe3c4;
+    border: 1px solid #6d4c41;
     border-radius: 50%;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
   }
 
   span:nth-child(1) { top: 12%; left: 10%; width: 45%; aspect-ratio: 1; }
@@ -935,49 +937,21 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   height: 100%;
 
   .placed-plant {
-    fill: $garden-layout-planting;
-    stroke: $garden-layout-planting-border;
+    fill: #cfe3c4;
+    stroke: #6d4c41;
     stroke-width: 0.1;
   }
 
   .feature-point {
-    fill: rgba(255, 250, 235, 0.9);
+    fill: #fff;
     stroke: #8b877e;
     stroke-width: 0.08;
   }
 
   .feature-line {
-    stroke: $garden-layout-twine;
+    stroke: #d9d4c7;
     stroke-width: 0.15;
     stroke-linecap: round;
-  }
-}
-
-.garden-layout-teaser-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.15rem;
-  font-size: 0.9rem;
-
-  strong {
-    font-size: 1.05rem;
-  }
-}
-
-.garden-layout-teaser-cta {
-  font-weight: 600;
-  color: var(--bs-success-text-emphasis);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .garden-layout-teaser {
-    transition: none;
-
-    &:hover,
-    &:focus-visible {
-      transform: none;
-    }
   }
 }
 

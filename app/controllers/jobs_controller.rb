@@ -71,7 +71,7 @@ class JobsController < DataController
   # A member looking at their own jobs sees them as a notepad. The data formats,
   # and anyone else's jobs, are lists.
   def notepad?
-    @owner.present? && @owner == current_member && request.format.html?
+    @owner.present? && @owner == current_member && (request.format.html? || request.format.all? || request.xhr?)
   end
 
   # Adding or moving a job from the notepad sends back the notepad's groups, so
