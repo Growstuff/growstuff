@@ -1,0 +1,9 @@
+-# What we've added since we last emailed this member; see NewFeatures.
+%section.whats-new
+  %h2 New since we last emailed you
+  %p We have #{pluralize(features.size, 'new feature')} to tell you about:
+  %ul
+    - features.each do |feature|
+      %li
+        %b= link_to feature.title, public_send("#{feature.path}_url")
+        &ndash; #{feature.description}

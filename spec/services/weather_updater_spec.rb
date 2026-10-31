@@ -95,9 +95,9 @@ describe WeatherUpdater, type: :service do
   context 'with a planting running late' do
     before { create(:planting, crop: create(:crop, median_lifespan: 20), garden:, owner: garden.owner, planted_at: today - 100) }
 
-    it 'stops fetching at the day it was due' do
+    it 'carries on fetching while it grows' do
       updater.update_all
-      expect(WeatherReading.maximum(:date)).to eq today - 80
+      expect(WeatherReading.maximum(:date)).to eq today - WeatherUpdater::LAG_DAYS
     end
   end
 

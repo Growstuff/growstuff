@@ -8,7 +8,7 @@
 
   %p the token has expired or been revoked.
 
-  = link_to '/members/auth/flickr', class: "btn btn-lg" do
+  = button_to '/members/auth/flickr', class: "btn btn-lg" do
     = icon 'fab', 'flickr'
     Reconnect Flickr
 
@@ -52,6 +52,6 @@
   %h2.alert You must connect your account to Flickr to add photos.
 
   %p
-    = link_to '/members/auth/flickr', class: :btn do
+    = button_to '/members/auth/flickr', class: :btn do
       = icon 'fab', 'flickr'
       connect to Flickr

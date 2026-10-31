@@ -1,0 +1,35 @@
+- content_for :title, 'Reminder emails'
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active= link_to 'Reminder emails', admin_reminder_stats_path
+
+%p Reminder emails sent and unsubscribes, by week. Counting began when this page was added, so earlier weeks are empty.
+
+- @reminders.each do |reminder|
+  %section{ id: reminder[:kind] }
+    %h2= reminder[:title]
+    %p
+      - if reminder[:enabled]
+        %span.badge.bg-success On
+      - else
+        %span.badge.bg-secondary Off
+      Last sent:
+      %strong.last-sent= reminder[:last_sent_on] ? l(reminder[:last_sent_on].to_date, format: :long) : 'never'
+      &middot; Subscribed:
+      %strong.subscribed= reminder[:subscribed]
+      &middot; Opted out:
+      %strong.opted-out= reminder[:opted_out]
+
+    %table.table.table-striped.table-sm
+      %thead
+        %tr
+          %th Week starting
+          %th Sent
+          %th Unsubscribed
+      %tbody
+        - reminder[:weeks].each do |week, counts|
+          %tr
+            %td= l(week, format: :long)
+            %td.sent= counts['sent']
+            %td.unsubscribed= counts['unsubscribed']

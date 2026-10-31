@@ -213,11 +213,17 @@ class Planting < ApplicationRecord
   end
 
   # The weather this planting grew through, day by day: the readings for its garden's grid cell,
-  # from planting to finishing, today or its due date, whichever comes first. Empty when the garden has no location.
+  # from planting to finishing, or to today while it is still growing, even past its due date. Empty when the
+  # garden has no location.
   def weather_readings
     return WeatherReading.none unless weather_located? && planted_at.present?
 
-    weather_cell_readings.between(planted_at, [finished_at, Time.zone.today, weather_due_on].compact.min).order(:date)
+    weather_cell_readings.between(planted_at, weather_last_day).order(:date)
+  end
+
+  # The last day of weather to show: today for a planting still growing, and the day it finished for one that has.
+  def weather_last_day(today = Time.zone.today)
+    [finished_at, today].compact.min
   end
 
   # For a planting still growing: the weather the rest of its life will probably bring, as the readings
