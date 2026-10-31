@@ -77,9 +77,9 @@ class WeatherUpdater
     end
   end
 
-  # A planting is shown no further than its due date, or a year if we don't know when that is.
+  # A planting is followed for as long as it grows, up to a year, even past the day it was due.
   def last_day(planting)
-    [planting.weather_due_on, planting.planted_at + MAX_PLANTING_DAYS].compact.min
+    planting.planted_at + MAX_PLANTING_DAYS
   end
 
   # A planting still growing is shown the rest of its life as last year's weather for the same days,

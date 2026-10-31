@@ -3,7 +3,8 @@
 -# because it is a program's guess and the photos are the evidence. Nothing is
 -# drawn for a seed with neither.
 - sides = PhotoAssociation::LABELS['Seed'].index_with { |side| seed.packet_photo(side) }.compact
-- if sides.any? || seed.packet_text.present?
+- texts = seed.packet_texts
+- if sides.any? || texts.any?
   - photos_id = "seed-packet-photos-#{seed.id}"
   - text_id = "seed-packet-text-#{seed.id}"
   %section.seed-packet-panel
@@ -28,7 +29,7 @@
                           data: { large: photo_large_url(photo) }
     -# Said plainly as an attempt: it is read by a program, and where the print is
     -# decorative or the photo poor it reads nonsense beside the real details.
-    - if seed.packet_text.present?
+    - if texts.any?
       %button.btn.btn-sm.btn-outline-secondary.seed-packet-text-toggle.collapsed{ type: 'button',
                                                                                  'aria-expanded': 'false',
                                                                                  'aria-controls': text_id,
@@ -38,4 +39,7 @@
       .collapse{ id: text_id }
         %h3.seed-packet-text-label{ id: "#{text_id}-label" } Our attempt to read the packet
         %p.seed-packet-text-note Read automatically from the photos, so it makes mistakes. Check it against the packet.
-        %pre.seed-packet-text{ 'aria-labelledby': "#{text_id}-label" }= seed.packet_text
+        - texts.each do |side, text|
+          - if texts.size > 1
+            %h4.seed-packet-text-side{ id: "#{text_id}-#{side}" }= t("seeds.packet.choice_#{side}")
+          %pre.seed-packet-text{ 'aria-labelledby': texts.size > 1 ? "#{text_id}-#{side}" : "#{text_id}-label" }= text

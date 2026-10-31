@@ -26,9 +26,6 @@ class PhotoAssociation < ApplicationRecord
   # Photos of a seed packet say what the packet says, not what the crop looks
   # like, so a photo labelled as one is left out of a crop's own photos.
   scope :of_packets, -> { where(photographable_type: 'Seed').where.not(label: nil) }
-  # Those of a seed that has no text from its packet yet, which is what still
-  # needs reading.
-  scope :awaiting_text, -> { of_packets.where(photographable_id: Seed.unscoped.where(packet_text: [nil, '']).select(:id)) }
 
   def self.item(item_id, item_type)
     find_by!(photographable_id: item_id, photographable_type: item_type).photographable
