@@ -687,7 +687,6 @@ DEPENDENCIES
   msgpack
   oauth (= 1.1.6)
   omniauth (~> 2.1)
-  omniauth-rails_csrf_protection
   omniauth-flickr (>= 0.0.15)
   omniauth-rails_csrf_protection
   paper_trail (~> 17.0)
@@ -721,6 +720,7 @@ DEPENDENCIES
   selenium-webdriver
   simplecov (~> 1.3)
   sitemap_generator
+  ssrf_filter
   timecop
   validate_url
   vcr

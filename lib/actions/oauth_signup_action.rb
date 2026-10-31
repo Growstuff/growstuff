@@ -11,25 +11,37 @@ class Growstuff::OauthSignupAction
   # variable
   #
   def find_or_create_from_authorization(auth)
-    member ||= Member.kept.where(email: auth.info.email).first_or_create do |m|
-      m.email = auth.info.email
+    member = existing_member(auth) || build_member(auth)
+    member.save!
+
+    member
+  end
+
+  def existing_member(auth)
+    by_authentication = Authentication.where(provider: auth.provider, uid: auth.uid).select(:member_id)
+    # Never match on a blank email: that would hand someone else's account to anyone without one.
+    Member.kept.find_by(id: by_authentication) ||
+      (Member.kept.find_by(email: auth.info.email) if auth.info.email.present?)
+  end
+
+  def build_member(auth)
+    Member.new do |m|
+      m.email = auth.info.email.presence
+      m.email_optional = m.email.blank? && Authentication::EMAIL_OPTIONAL_PROVIDERS.include?(auth.provider)
       m.password = Devise.friendly_token[0, 20]
 
       # First, try the nickname or friendly generate from the email
-      m.login_name = auth.info.nickname || auth.info.email.split("@").first.gsub(/[^A-Za-z]+/, '_').underscore
+      m.login_name = login_name_from(auth)
 
       # Do we have a collision with an existing account? Generate a 20 character long random name
       # so the user can update it later
       m.login_name = Devise.friendly_token[0, 20] if Member.where(login_name: m.login_name).any?
       m.preferred_avatar_uri = auth.info.image # assuming the user model has an image
+      m.bluesky_handle = auth.info.handle if auth.provider == 'bluesky'
       m.skip_confirmation!
 
       @member_created = true
     end
-
-    member.save!
-
-    member
   end
 
   #
@@ -41,7 +53,7 @@ class Growstuff::OauthSignupAction
   def establish_authentication(auth, member)
     name = determine_name(auth)
 
-    member.authentications
+    authentication = member.authentications
       .create_with(
         name:,
         token:  auth['credentials']['token'],
@@ -50,13 +62,21 @@ class Growstuff::OauthSignupAction
       .find_or_create_by(
         provider:  auth['provider'],
         uid:       auth['uid'],
-        name:,
         member_id: member.id
       )
+    authentication.update(name:) if authentication.persisted? && authentication.name != name
+    authentication
   end
 
   def member_created?
     @member_created
+  end
+
+  # A login name that passes Member's validation: handles like alice.bsky.social
+  # have dots, and an email's local part can have anything.
+  def login_name_from(auth)
+    name = (auth.info.nickname.presence || auth.info.email.to_s.split("@").first).to_s.gsub(/[^A-Za-z0-9]+/, '_')
+    name.first(25).presence || Devise.friendly_token[0, 20]
   end
 
   def determine_name(auth)

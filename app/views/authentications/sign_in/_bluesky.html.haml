@@ -1,0 +1,8 @@
+= form_with url: member_bluesky_omniauth_authorize_path, class: 'mb-3' do |f|
+  = f.label :handle, 'Bluesky handle', class: 'form-label'
+  .input-group
+    = f.text_field :handle, placeholder: 'alice.bsky.social', class: 'form-control', required: true,
+                            autocomplete: 'username', autocapitalize: 'none', spellcheck: false
+    = f.button class: 'btn btn-outline-dark' do
+      = icon 'fab', 'bluesky'
+      = label

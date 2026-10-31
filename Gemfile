@@ -104,6 +104,7 @@ gem 'rack-protection', '>= 2.0.1'
 gem 'mailboxer', '>= 0.15.1'
 
 gem 'faraday'
+gem 'ssrf_filter'
 
 gem 'rack-cors'
 
