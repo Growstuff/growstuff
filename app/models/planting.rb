@@ -18,6 +18,8 @@ class Planting < ApplicationRecord
   MAX_PLANTS = 100
   # How long a finished planting stays in the daily weather update: its last days of weather trail real time.
   WEATHER_FINISHED_DAYS = 30
+  # The weather shown, and collected, goes back no further than this from the last day, however long ago it was planted.
+  WEATHER_WINDOW_DAYS = 365
   PLANTED_FROM_VALUES = [
     'seed', 'seedling', 'cutting', 'root division', 'runner',
     'bulb', 'root/tuber', 'bare root plant', 'advanced plant',
@@ -212,18 +214,30 @@ class Planting < ApplicationRecord
     planted_at + expected_lifespan.to_i if planted_at.present? && expected_lifespan.present?
   end
 
-  # The weather this planting grew through, day by day: the readings for its garden's grid cell,
-  # from planting to finishing, or to today while it is still growing, even past its due date. Empty when the
-  # garden has no location.
+  # The weather this planting grew through, day by day: the readings for its garden's grid cell, for the last year of
+  # its life to date, up to today while it is still growing, even past its due date. Empty when the garden has no location.
   def weather_readings
     return WeatherReading.none unless weather_located? && planted_at.present?
 
-    weather_cell_readings.between(planted_at, weather_last_day).order(:date)
+    weather_cell_readings.between(weather_first_day, weather_last_day).order(:date)
   end
 
-  # The last day of weather to show: today for a planting still growing, and the day it finished for one that has.
+  # The last day of weather so far: today for a planting still growing, the day it finished for one that has, and for one
+  # that failed, the day it was due if that has passed, as we stop following a failed planting.
   def weather_last_day(today = Time.zone.today)
-    [finished_at, today].compact.min
+    return [finished_at, today].min if finished_at
+
+    failed? ? [weather_due_on, today].compact.min : today
+  end
+
+  # The first day of weather to show: the day it was planted, or a year before the last day, for one planted longer ago.
+  def weather_first_day(today = Time.zone.today)
+    [planted_at, weather_last_day(today) - WEATHER_WINDOW_DAYS].max
+  end
+
+  # The last day on the weather charts' axis: the last day of weather so far, or the day it is due, if later.
+  def weather_axis_last_day(today = Time.zone.today)
+    [weather_due_on, weather_last_day(today)].compact.max
   end
 
   # For a planting still growing: the weather the rest of its life will probably bring, as the readings
@@ -233,7 +247,7 @@ class Planting < ApplicationRecord
     due = weather_due_on
     return [] if finished? || failed? || due.nil? || !weather_located?
 
-    from = (after || (planted_at - 1)) + 1
+    from = (after || (weather_first_day - 1)) + 1
     return [] if from > due
 
     weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, due.prev_year).order(:date).map do |reading|
