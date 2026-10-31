@@ -23,11 +23,17 @@ class Comment < ApplicationRecord
     end
   end
 
+  after_save :update_author_spam_score
+
   def to_s
     "#{author.login_name} commented on #{commentable.subject}"
   end
 
   private
+
+  def update_author_spam_score
+    author&.update_spam_score!
+  end
 
   def author_is_not_blocked
     return unless author

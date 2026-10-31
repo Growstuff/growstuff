@@ -418,4 +418,46 @@ describe Member do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '#ban! and #banned?' do
+    let(:member) { create(:member) }
+
+    it 'marks the member as banned' do
+      member.ban!
+      expect(member.banned?).to be true
+    end
+  end
+
+  describe '#update_spam_score!' do
+    let(:member) { create(:member) }
+
+    context 'when spam score reaches the maximum score' do
+      before do
+        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(100)
+      end
+
+      it 'updates the spam score' do
+        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(100)
+      end
+
+      it 'bans the member' do
+        expect { member.update_spam_score! }.to change { member.reload.banned? }.from(false).to(true)
+      end
+    end
+
+    context 'when spam score is below the maximum score' do
+      before do
+        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(75)
+      end
+
+      it 'updates the spam score' do
+        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(75)
+      end
+
+      it 'does not ban the member' do
+        member.update_spam_score!
+        expect(member.reload.banned?).to be false
+      end
+    end
+  end
 end

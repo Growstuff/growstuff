@@ -140,6 +140,12 @@ RSpec.describe UserBehaviourDetectionService, type: :service do
     end
   end
 
+  describe 'MAX_SCORE' do
+    it 'is set to 100' do
+      expect(described_class::MAX_SCORE).to eq(100)
+    end
+  end
+
   describe '.score_for' do
     it 'delegates to instance score' do
       expect(described_class.score_for(member)).to eq(0)
