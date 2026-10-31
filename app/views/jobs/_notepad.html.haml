@@ -4,7 +4,7 @@
 - garden = local_assigns[:garden]
 .notepad
   .notepad-title
-    = content_tag(garden ? :h2 : :h1, garden ? t('jobs.pad.garden_title', garden: garden.name) : t('jobs.pad.title', owner: owner.login_name))
+    = content_tag(garden ? :h2 : :h1, garden ? t('jobs.pad.garden_title') : t('jobs.pad.title', owner: owner.login_name))
     - if garden
       = link_to t('jobs.pad.all_jobs'), member_jobs_path(owner), class: 'notepad-all-jobs'
   = form_with url: jobs_path, scope: :job, class: 'notepad-add', data: { suggestions_url: job_suggestions_path, kinds: { planting: t('jobs.pad.planting'), seed: t('jobs.pad.seeds'), crop: t('jobs.pad.crop') }.to_json } do |f|
@@ -29,14 +29,16 @@
 
   %button.btn.btn-sm.btn-outline-secondary.notepad-hide-done{ id: 'notepad-hide-done', type: 'button', hidden: true, data: { url: member_jobs_path(owner) } }= t('jobs.pad.hide_done')
   #notepad-groups{ data: { celebrations: job_celebrations.to_json, garden_id: garden&.id } }= render 'jobs/notepad_groups', groups:, in_garden: garden.present?
-  .notepad-snail
-    .notepad-snail-track{ 'aria-hidden': 'true' }
-      %span.notepad-snail-trail
-      %svg.notepad-snail-body{ width: 72, height: 48, viewBox: '0 0 72 48' }
-        %path{ d: 'M4 42 C2 33 12 31 22 33 L58 33 C65 33 69 38 66 42 Z', fill: '#c7b89b' }
-        %circle{ cx: 42, cy: 22, r: 16, fill: '#d9a066', stroke: '#8a5a2b', 'stroke-width': 2 }
-        %path{ d: 'M42 22 c3 -1 6 1 5 4 s-6 6 -11 3 s-4 -11 3 -14 s14 1 14 9', fill: 'none', stroke: '#8a5a2b', 'stroke-width': 2 }
-        %path{ d: 'M10 33 L7 20 M17 33 L17 19', stroke: '#c7b89b', 'stroke-width': 3, 'stroke-linecap': 'round' }
-        %circle{ cx: 7, cy: 19, r: 2.6, fill: '#212121' }
-        %circle{ cx: 17, cy: 18, r: 2.6, fill: '#212121' }
-    %span#notepad-snail-caption.notepad-snail-caption= job_snail_caption(done_this_week)
+  -# The snail keeps the jobs pages company; on a garden's page the list is just the list.
+  - unless garden
+    .notepad-snail
+      .notepad-snail-track{ 'aria-hidden': 'true' }
+        %span.notepad-snail-trail
+        %svg.notepad-snail-body{ width: 72, height: 48, viewBox: '0 0 72 48' }
+          %path{ d: 'M4 42 C2 33 12 31 22 33 L58 33 C65 33 69 38 66 42 Z', fill: '#c7b89b' }
+          %circle{ cx: 42, cy: 22, r: 16, fill: '#d9a066', stroke: '#8a5a2b', 'stroke-width': 2 }
+          %path{ d: 'M42 22 c3 -1 6 1 5 4 s-6 6 -11 3 s-4 -11 3 -14 s14 1 14 9', fill: 'none', stroke: '#8a5a2b', 'stroke-width': 2 }
+          %path{ d: 'M10 33 L7 20 M17 33 L17 19', stroke: '#c7b89b', 'stroke-width': 3, 'stroke-linecap': 'round' }
+          %circle{ cx: 7, cy: 19, r: 2.6, fill: '#212121' }
+          %circle{ cx: 17, cy: 18, r: 2.6, fill: '#212121' }
+      %span#notepad-snail-caption.notepad-snail-caption= job_snail_caption(done_this_week)

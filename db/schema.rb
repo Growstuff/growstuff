@@ -1116,22 +1116,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_010000) do
   end
 
   create_table "weather_readings", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.date "date", null: false
-    t.float "evapotranspiration_mm", comment: "Reference evapotranspiration: how much water a lawn would lose."
-    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
-    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
-    t.float "radiation_mj_m2", comment: "Sunlight energy reaching the ground."
-    t.float "rainfall_mm"
-    t.string "source", null: false, comment: "Where the reading came from, e.g. open-meteo."
-    t.float "temp_max_c"
-    t.float "temp_min_c"
-    t.datetime "updated_at", null: false
-    t.float "wind_max_kmh"
-    t.index ["latitude", "longitude", "date"], name: "index_weather_readings_on_latitude_and_longitude_and_date", unique: true
-  end
-
-  create_table "weather_readings", force: :cascade do |t|
     t.float "cloud_cover_percent"
     t.datetime "created_at", null: false
     t.date "date", null: false

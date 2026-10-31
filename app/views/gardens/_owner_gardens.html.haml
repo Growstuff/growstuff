@@ -1,0 +1,23 @@
+-# The owner's other gardens, with what is growing in each, and the way on to
+-# their inactive ones.
+:ruby
+  owner_gardens = garden.owner.gardens.active.order_by_name.to_a
+  growing_counts = Planting.growing_counts_by_garden(owner_gardens.map(&:id))
+  inactive_count = garden.owner.gardens.inactive.count
+  inactive_path = member_inactive_gardens_path(garden.owner)
+  mine = garden.owner == current_member
+%section.garden-gardens
+  .section-header
+    %h2= t('.heading', owner: garden.owner)
+  %ul.garden-list
+    - owner_gardens.each do |other|
+      %li
+        - if garden == other
+          %strong= other
+        - else
+          = link_to other, garden_path(other)
+        %span.text-muted= other.nursery? ? t('.nursery') : t('.growing_count', count: growing_counts.fetch(other.id, 0))
+  - if inactive_count.positive? || mine
+    .garden-list-footer
+      = link_to t('.inactive_gardens', count: inactive_count), inactive_path if inactive_count.positive?
+      = link_to t('.new_garden'), new_garden_path, class: 'btn btn-outline-secondary btn-sm' if mine

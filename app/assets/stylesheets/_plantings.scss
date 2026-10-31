@@ -28,20 +28,6 @@
     top: 0;
   }
 
-  .planting-thumbnail-photo {
-    height: 150px;
-  }
-
-  dl.planting-attributes {
-    dt {
-      text-align: left;
-    }
-
-    dd {
-      margin-left: auto;
-    }
-  }
-
   .card-footer {
     max-height: 2em;
     -webkit-line-clamp: 1;
@@ -415,18 +401,6 @@
     margin-bottom: 0;
     font-size: 1.1rem;
   }
-
-
-
-
-  .planting-owner-avatar img {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-
   // Neighbours are a list, not a grid: in a narrow column a full planting card
   // is one huge photo each. A small photo, who grows it and where is enough to
   // decide whether to go and look.

@@ -221,6 +221,11 @@ class Planting < ApplicationRecord
                         end
   end
 
+  # How many plantings are growing in each of the gardens, by garden id.
+  def self.growing_counts_by_garden(garden_ids)
+    current.where(garden_id: garden_ids).group(:garden_id).count
+  end
+
   def self.homepage_records(limit)
     recent.one_per_owner.limit(limit)
   end
