@@ -14,4 +14,4 @@
       - if @garden.photos.size > @photos.size
         .garden-more-photos= link_to t('.more'), garden_photos_path(@garden)
     - else
-      %p= t('.none')
+      %p.garden-empty= t('.none')

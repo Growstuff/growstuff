@@ -15,4 +15,4 @@
         = render "plantings/garden_card", planting: planting
     - else
       .col-md-12
-        %p= t('.nothing_planted')
+        %p.garden-empty= t('.nothing_planted')
