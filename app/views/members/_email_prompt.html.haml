@@ -1,0 +1,10 @@
+-# Shown to a member on their own profile when they have no email we can use.
+.alert.alert-info{ role: 'status' }
+  - if member.pending_reconfirmation?
+    %strong We're waiting for you to confirm your email address.
+    We sent a link to #{member.unconfirmed_email}. Follow it and we'll start sending you reminders.
+  - else
+    %strong You haven't set an email address.
+    Add one to get planting reminders and to be able to reset your password.
+    We'll send you a link to confirm it first, because we can't take your word for it.
+    = link_to 'Add your email', edit_member_registration_path(anchor: 'email'), class: 'alert-link'

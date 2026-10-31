@@ -21,6 +21,16 @@ module ApplicationHelper
     link_to(text, new_member_registration_path, **, data: { auth_dialog: 'sign_up' })
   end
 
+  # A link to sign in with Bluesky, when it is switched on. It opens its dialog
+  # where the page has it, and goes to the sign in page, which has the form,
+  # without.
+  def bluesky_link(text, **)
+    return unless Authentication.enabled_sign_in_providers.include?('bluesky')
+
+    link_to(safe_join([icon('fab', 'bluesky', class: 'bluesky-icon'), text], ' '), new_member_session_path, **,
+            data: { auth_dialog: 'bluesky' })
+  end
+
   # A member's avatar as a decoration beside their name, drawn at `size` pixels
   # from a picture twice that for dense screens.
   def avatar_image(member, size, **)
@@ -40,7 +50,8 @@ module ApplicationHelper
       urls: {
         sign_in_page: new_member_session_path, sign_up_page: new_member_registration_path,
         sign_in: member_session_path, sign_up: member_registration_path,
-        forgot_password: new_member_password_path
+        forgot_password: new_member_password_path,
+        bluesky: (member_bluesky_omniauth_authorize_path if Authentication.enabled_sign_in_providers.include?('bluesky'))
       },
       recaptcha_site_key: Recaptcha.configuration.site_key.presence,
       site_name: ENV.fetch('GROWSTUFF_SITE_NAME', 'Growstuff')
@@ -152,9 +163,9 @@ module ApplicationHelper
       return uri.to_s
     end
 
-    Gravatar.new(member.email).image_url(size:,
-                                         default: :identicon,
-                                         ssl:     true)
+    Gravatar.new(member.email.to_s).image_url(size:,
+                                              default: :identicon,
+                                              ssl:     true)
   end
 
   # Returns a string with the quantity and the right pluralization for a

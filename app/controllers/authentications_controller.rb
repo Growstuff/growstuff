@@ -42,6 +42,10 @@ class AuthenticationsController < ApplicationController
 
   # DELETE /authentications/1
   def destroy
+    if current_member.last_sign_in_method?(@authentication)
+      return redirect_to edit_member_registration_path, alert: t('messages.auth_last_sign_in')
+    end
+
     @authentication.destroy
 
     respond_to do |format|

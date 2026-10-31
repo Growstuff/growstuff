@@ -91,15 +91,28 @@ class Member < ApplicationRecord
   scope :recently_joined, -> { reorder(confirmed_at: :desc) }
   scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
-  scope :wants_reminders, -> { where(send_planting_reminder: true) }
-  scope :wants_harvest_reminders, -> { where(send_harvest_reminder: true) }
+  scope :with_email, -> { where.not(email: nil) }
+  scope :wants_reminders, -> { with_email.where(send_planting_reminder: true) }
+  scope :wants_harvest_reminders, -> { with_email.where(send_harvest_reminder: true) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :timeoutable, :omniauthable
+         :confirmable, :lockable, :timeoutable, :omniauthable,
+         omniauth_providers: Authentication::SIGN_IN_PROVIDERS.keys.map(&:to_sym)
+
+  # A form's empty email field arrives as "", but only NULL may repeat in the unique index.
+  normalizes :email, with: ->(email) { email.strip.presence }
+
+  # Set while signing someone up through a provider that gave us no email.
+  attr_accessor :email_optional
+
+  # Devise's validatable asks this before insisting on an email.
+  def email_required?
+    !(email_optional || authentications.exists?(provider: Authentication::EMAIL_OPTIONAL_PROVIDERS))
+  end
 
   # discarded (deleted) member cannot log in
   def active_for_authentication?
@@ -134,6 +147,8 @@ class Member < ApplicationRecord
     update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  RESERVED_LOGIN_NAMES = %w(growstuff admin moderator staff nearby).freeze
+
   # set up geocoding
   geocoded_by :location
 
@@ -150,7 +165,7 @@ class Member < ApplicationRecord
               minimum: 2, maximum: 25, message: :login_name_length
             },
             exclusion:  {
-              in: %w(growstuff admin moderator staff nearby), message: :login_name_reserved
+              in: RESERVED_LOGIN_NAMES, message: :login_name_reserved
             },
             format:     {
               with: /\A\w+\z/, message: :login_name_format
@@ -204,11 +219,78 @@ class Member < ApplicationRecord
   end
 
   def mailboxer_email(_messageable)
-    send_notification_email ? email : false
+    send_notification_email && email.present? ? email : false
   end
 
   def role?(role_sym)
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
+  end
+
+  # Removing it would leave them with no way to sign in: no email to reset a
+  # password by, and no other provider.
+  # The home page's to-do list: a name we suggested and they haven't confirmed,
+  # no email (until they decline), and an email we haven't had confirmed.
+  def username_unconfirmed?
+    settings['username'] == 'unconfirmed'
+  end
+
+  def confirm_username!
+    update_column(:settings, settings.merge('username' => 'confirmed')) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def email_declined?
+    settings['email_declined'] == true
+  end
+
+  def decline_email!
+    update_column(:settings, settings.merge('email_declined' => true)) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def email_missing?
+    email.blank? && unconfirmed_email.blank?
+  end
+
+  def email_unconfirmed?
+    unconfirmed_email.present? || (email.present? && !confirmed?)
+  end
+
+  # Members who joined through a provider have a name to confirm, and anyone
+  # without an email has the question of whether to add one.
+  def username_step?
+    settings.key?('username')
+  end
+
+  def email_step?
+    email_missing?
+  end
+
+  # Confirming an email is a step for everyone who hasn't said no to having
+  # one: still to come before they've added it, and done once it's confirmed.
+  def confirm_email_step?
+    !email_declined? && (email_missing? || email_unconfirmed? || username_step?)
+  end
+
+  def email_confirmed_step?
+    email.present? && !email_unconfirmed?
+  end
+
+  # Every row the Get started list shows for this, finished or not.
+  def setup_rows_count
+    [username_step?, email_step?, confirm_email_step?].count(true)
+  end
+
+  def setup_todo_count
+    [username_unconfirmed?, email_missing? && !email_declined?, email_unconfirmed?].count(true)
+  end
+
+  def setup_todo?
+    setup_todo_count.positive?
+  end
+
+  def last_sign_in_method?(authentication)
+    return false unless email.blank? && Authentication::EMAIL_OPTIONAL_PROVIDERS.include?(authentication.provider)
+
+    authentications.where(provider: Authentication::EMAIL_OPTIONAL_PROVIDERS).where.not(id: authentication.id).none?
   end
 
   def auth(provider)

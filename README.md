@@ -104,6 +104,57 @@ inside the `web` container) while still using Docker for Postgres, here's the fu
 
    `bin/dev` uses `Procfile.dev` (via Foreman, Overmind, or Hivemind) to run the Rails server together with asset compilation watchers (`yarn build:watch` and `yarn build:css:watch`). Assets are automatically compiled on changes, so manually precompiling assets (`rails assets:precompile`) is not required in development.
 
+### Sign in with Bluesky
+
+The "Continue with Bluesky" button only appears once the app has a signing key.
+Bluesky has no client ID or secret to register: our client ID is the URL of
+`/oauth/client-metadata.json`, and requests to Bluesky are signed with an ES256
+key.
+
+1. Generate a key:
+
+   ```bash
+   bundle exec rake atproto:generate_key
+   ```
+
+2. Set the output as `GROWSTUFF_ATPROTO_PRIVATE_KEY` (in `.env` locally, or
+   `heroku config:set` in production). Use a different key for each
+   environment and never commit it.
+
+Without the key the button is hidden and the metadata URL returns 404.
+
+#### Trying it locally
+
+Bluesky refuses `localhost` as a callback address and has to fetch the
+metadata URL itself, so it only works through a public HTTPS tunnel such as
+[ngrok](https://ngrok.com/). The free plan is enough.
+
+1. Start a tunnel to the Rails port:
+
+   ```bash
+   ngrok http 3000
+   ```
+
+   Note the `https://….ngrok-free.dev` address it prints.
+
+2. Rails blocks hosts it doesn't know about, so allow the tunnel's hostname
+   (no `https://`) when you start the server. Put it in `.env` or your shell
+   rather than in `config/environments/development.rb`:
+
+   ```bash
+   RAILS_DEVELOPMENT_HOSTS=your-name.ngrok-free.dev bin/dev
+   ```
+
+3. Open the app at the tunnel's address, not `localhost`. The client ID and
+   callback URL are built from the address in your browser. ngrok's free plan
+   shows a "Visit Site" page the first time; click through it.
+
+4. Check `/oauth/client-metadata.json` loads at that address, then use
+   **Sign in with Bluesky** on the home page.
+
+If it fails, the generic message hides the reason; look for
+`(bluesky) Authentication failure!` in the server output.
+
 ### For Home Automation enthusiasts
 
 https://github.com/Growstuff/homeassistant-growstuff/

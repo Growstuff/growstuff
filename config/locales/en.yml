@@ -357,6 +357,7 @@ en:
       photo_by: by %{login}
       public_note: Everything you record is public open data, including your city.
       sign_in_linktext: Sign in
+      sign_in_bluesky: Sign in with Bluesky
       sign_up: Join free
     dashboard:
       add_bed: "+ bed"
@@ -473,6 +474,23 @@ en:
       tile_plant: something new
       tile_seeds: from a plant
       tile_seeds_title: Save seeds
+      todo: To do
+      todo_confirm: Confirm your email address
+      todo_confirm_note: We sent a link to %{email}. Follow it so we know it's yours.
+      todo_confirm_resend: Send it again
+      todo_confirm_waiting: Once you've added an email address we'll send you a link to confirm it.
+      todo_email: Add your email address
+      todo_email_decline: No thanks
+      todo_email_add: Add email
+      todo_email_changed_mind: Changed your mind?
+      todo_email_error: We couldn't save that just now. Please try again.
+      todo_email_declined: You chose not to add one, so we won't send you notifications or planting reminders.
+      todo_email_note: Without one we can't send you notifications or planting reminders, or let you reset your password. We'll email a link to confirm it.
+      todo_email_save: Save email
+      todo_email_skipped: Skipped
+      todo_name: Confirm your name
+      todo_name_note: This is the name that shows on the website. We suggested one, and you can change it.
+      todo_name_save: Save name
       turn_on_suggestions: Turn them back on
       view_all_suggestions: View all suggestions for %{month}
       view_seed_library: View your seed library
@@ -813,6 +831,18 @@ en:
   member_dismissals:
     create:
       dismissed: We won't suggest %{name} again.
+  member_emails:
+    decline:
+      declined: Okay. We won't ask again, but you won't get notifications from us until you add an email in your account settings.
+    resend:
+      sent: We've sent the link again.
+      wait: We sent it a moment ago. Give it a minute, and check your spam folder.
+    update:
+      blank: Please enter an email address.
+      sent: We've sent a link to your email address. Follow it to confirm it.
+  member_names:
+    update:
+      saved: Thanks, your name is set.
   members:
     card:
       not_interested: Stop suggesting %{name}
@@ -831,8 +861,15 @@ en:
       error: We're sorry, there was an error updating your settings.
     unsubscribed: You have been unsubscribed from %{email_type} emails.
     welcome: Welcome
+    confirm_email: We've sent a link to your email address. Follow it to start getting reminders.
   messages:
     auth_failed: Authentication failed.
+    auth_taken: That account is already connected to another member.
+    auth_last_sign_in: This is the only way you can sign in. Add an email address and password first.
+    tos_required: Please agree to the Terms of Service to join, then try again.
+    bluesky_declined: Bluesky didn't approve that sign in. Please try again.
+    bluesky_expired: That took too long, so Bluesky let the sign in expire. Please try again, and finish within a few minutes.
+    bluesky_failed: We couldn't sign you in with Bluesky. Check your handle and try again.
     auth_success: Authentication successful.
     crops_waiting: There are crops waiting to be wrangled.
     follow_error: Already following or error while following.
