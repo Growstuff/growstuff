@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class GardensController < DataController
+  # How many photos the garden page shows before it links to the rest.
+  PHOTOS_SHOWN = 6
+
   # Anyone can look at a member's inactive gardens, as they can their current ones.
   # A garden's layout is public in the same way its show page is.
   skip_before_action :authenticate_member!, only: %i(inactive layout)
@@ -35,13 +38,16 @@ class GardensController < DataController
   end
 
   def show
-    @current_plantings = @garden.plantings.current.where.not(failed: true).includes(:crop, :owner).order(planted_at: :desc)
+    # Loaded now, so the page can count and loop over them without asking again.
+    @current_plantings = @garden.plantings.current.where.not(failed: true)
+      .includes(:alternate_name, :crop, :owner).preload(:photos).order(planted_at: :desc).load
     load_jobs
-    @finished_plantings = @garden.plantings.finished.includes(:crop)
-    @suggested_companions = Crop.approved.where(
+    @finished_plantings = @garden.plantings.finished.preload(crop: { parent: :parent }).load
+    @suggested_companions = Crop.approved.preload(parent: :parent).where(
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
-    @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).paginate(page: params[:page])
+    @photo_count = @garden.photos.count
+    @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).limit(PHOTOS_SHOWN)
     @suggestion_count = MemberDashboard.new(current_member).easy_to_sow(40).size if @garden.active && @garden.owner == current_member
     respond_with(@garden)
   end
@@ -160,7 +166,7 @@ class GardensController < DataController
     if member_signed_in? && can?(:edit, @garden)
       @notepad = JobsNotepad.new(current_member, garden: @garden)
     else
-      @current_jobs = @garden.jobs.active.includes(:owner).order(created_at: :desc)
+      @public_jobs = JobsNotepad.new(nil, garden: @garden)
       @finished_jobs = @garden.jobs.finished.includes(:owner).order(created_at: :desc)
     end
   end

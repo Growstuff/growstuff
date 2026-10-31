@@ -1,0 +1,34 @@
+-# The garden at a glance. Area renders only when known, so a garden nobody has
+-# measured doesn't show a row of "unknown". Whoever may edit the garden gets a
+-# pencil on area and type, and a type tile even when none is set.
+- garden_type_choices = garden_type_options if can?(:edit, garden)
+.index-cards.facts.gardenfacts
+  .card.fact-card
+    %h3= t('.growing_now')
+    .fact-value
+      %strong.fact-growing= growing_now
+      %span= t('.plantings', count: growing_now)
+
+  .card.fact-card
+    %h3= t('.harvested')
+    .fact-value
+      %strong.fact-harvested= garden.harvests_this_year_count
+      %span= t('.harvests_this_year')
+
+  - if garden.area.present?
+    .card.fact-card
+      %h3
+        = t('.area')
+        = editable :number_field, garden, :area, display_field: '.fact-area-value'
+      .fact-value.fact-area-value
+        %strong.fact-area= number_with_precision(garden.area, precision: 2, strip_insignificant_zeros: true)
+        %span= garden.area_unit.to_s.pluralize(garden.area)
+
+  - if garden.garden_type.present? || can?(:edit, garden)
+    .card.fact-card{ class: garden.garden_type.present? ? '' : 'text-muted' }
+      %h3
+        = t('.type')
+        = editable :select, garden, :garden_type_id, display_field: '.fact-type-value', values: garden_type_choices
+      .fact-value.fact-type-value
+        %strong.fact-type= garden.garden_type&.name || t('.unknown')
+        %span= t('.garden_type')
