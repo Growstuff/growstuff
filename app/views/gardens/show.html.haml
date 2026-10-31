@@ -51,6 +51,18 @@
           .mb-3
             = render 'jobs/ideas_banner', href: suggestions_path, open: false,
               text: t('.suggested_plantings', count: @suggestion_count), go: t('.suggested_plantings_go')
+        = render 'gardens/facts', garden: @garden, growing_now: @current_plantings.size
+
+        .garden-description-block
+          .garden-edit-row
+            .garden-description
+              - if @garden.description.present?
+                :markdown
+                  #{strip_tags markdownify(@garden.description)}
+              - else
+                %p.text-muted No description available yet.
+            = editable :text_area, @garden, :description, display_field: '.garden-description'
+
         - if @garden.active
           -# Its own page, so a section that leads there: the current bed map, or a teaser to create one.
           - layout_path = layout_member_garden_path(@garden.owner, @garden)
@@ -96,18 +108,6 @@
                 - else
                   %p.garden-layout-headline See how this bed is laid out
                   %p.text-muted Where each plant in this garden is growing, on a map of the bed.
-
-        .garden-description-block
-          .garden-edit-row
-            .garden-description
-              - if @garden.description.present?
-                :markdown
-                  #{strip_tags markdownify(@garden.description)}
-              - else
-                %p.text-muted No description available yet.
-            = editable :text_area, @garden, :description, display_field: '.garden-description'
-
-        = render 'gardens/facts', garden: @garden, growing_now: @current_plantings.size
 
         %section
           .section-header

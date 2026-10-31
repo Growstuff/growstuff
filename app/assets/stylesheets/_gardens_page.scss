@@ -441,26 +441,21 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
 }
 
 // The facts row fills the panel edge to edge, in line with the sections around
-// it, rather than the shared 220px cards centred in their columns.
+// it, rather than the shared 220px cards centred in their columns. The
+// description follows it, so the gap below is a short one.
 .garden-show .gardenfacts {
   gap: 1rem;
   padding: 0;
   margin-left: 0;
   margin-right: 0;
   margin-top: 0;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 
   .card {
     max-width: none;
     margin: 0;
     padding: 0.75rem 0.5rem;
   }
-}
-
-// The description is part of the same block as the facts, so it sits closer to
-// them than to the sections above.
-.garden-show .garden-description-block {
-  margin-bottom: 1rem;
 }
 
 .garden-show .garden-layout-body {

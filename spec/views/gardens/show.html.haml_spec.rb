@@ -69,6 +69,10 @@ describe "gardens/show" do
       expect(rendered).to have_content @planting.crop.name
     end
 
+    it 'puts the facts above the layout' do
+      assert_select '.gardenfacts ~ .garden-layout-section'
+    end
+
     it 'leads to the layout page from the section bar' do
       assert_select ".garden-layout-section .section-header a[href=?]", layout_member_garden_path(@owner, @garden), text: 'edit layout'
     end
