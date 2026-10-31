@@ -22,8 +22,8 @@ describe WeatherUpdater, type: :service do
   context 'with an active planting in a garden with a location' do
     before { create(:planting, garden:, owner: garden.owner, planted_at: today - 10) }
 
-    it 'saves a reading for each day up to the lag' do
-      expect { updater.update_all }.to change(WeatherReading, :count).by(6)
+    it 'saves a reading for each day from a year before planting up to the lag' do
+      expect { updater.update_all }.to change(WeatherReading, :count).by(371)
     end
 
     it 'records where the reading came from' do
@@ -37,7 +37,7 @@ describe WeatherUpdater, type: :service do
     end
 
     it 'only asks for days it lacks on a second run' do
-      expect(client).to(receive(:daily).once { |from:, to:, **| (from..to).index_with { day } })
+      expect(client).to(receive(:daily).twice { |from:, to:, **| (from..to).index_with { day } })
       2.times { updater.update_all }
     end
   end
@@ -49,8 +49,8 @@ describe WeatherUpdater, type: :service do
       create(:planting, garden: other, owner: other.owner, planted_at: today - 10)
     end
 
-    it 'makes one request' do
-      expect(client).to(receive(:daily).once { |from:, to:, **| (from..to).index_with { day } })
+    it 'asks once for current weather and once for history' do
+      expect(client).to(receive(:daily).twice { |from:, to:, **| (from..to).index_with { day } })
       updater.update_all
     end
   end
@@ -59,7 +59,7 @@ describe WeatherUpdater, type: :service do
     before { create(:planting, garden:, owner: garden.owner, planted_at: today - 100) }
 
     it 'fills in history when the budget allows' do
-      expect { updater.update_all }.to change(WeatherReading, :count).by(96)
+      expect { updater.update_all }.to change(WeatherReading, :count).by(461)
     end
 
     context 'with a budget for current weather only' do
@@ -79,8 +79,16 @@ describe WeatherUpdater, type: :service do
   context 'with a planting from years ago still marked active' do
     before { create(:planting, garden:, owner: garden.owner, planted_at: today - 4000) }
 
-    it 'saves only its first year' do
-      expect { updater.update_all }.to change(WeatherReading, :count).by(367)
+    it 'saves its first year, and the year before' do
+      expect { updater.update_all }.to change(WeatherReading, :count).by(732)
+    end
+  end
+
+  context 'with a planting still growing' do
+    before { create(:planting, garden:, owner: garden.owner, planted_at: today - 10) }
+
+    it 'also fetches the year before it started' do
+      expect { updater.update_all }.to change { WeatherReading.exists?(date: today - 10 - 200) }.to(true)
     end
   end
 

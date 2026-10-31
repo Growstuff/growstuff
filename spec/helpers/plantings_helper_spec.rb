@@ -128,4 +128,22 @@ describe PlantingsHelper do
       expect(helper.weather_seasons(nil, from: Date.new(2026, 8, 25), days: 3)).to be_empty
     end
   end
+
+  describe 'expected weather' do
+    let(:from) { Date.new(2026, 10, 1) }
+    let(:observed) { [build(:weather_reading, date: from, rainfall_mm: 2.0)] }
+    let(:expected) { [build(:weather_reading, date: from + 1, rainfall_mm: 4.0)] }
+
+    it 'draws expected rain as paler bars' do
+      expect(helper.weather_rain_chart(observed, from:, days: 10, expected:).scan('class="weather-expected"').size).to eq 1
+    end
+
+    it 'draws expected temperature as paler lines, high and low' do
+      expect(helper.weather_temperature_chart(observed, from:, days: 10, expected:).scan('weather-expected').size).to eq 2
+    end
+
+    it 'draws no expected lines when there is nothing expected' do
+      expect(helper.weather_temperature_chart(observed, from:, days: 10)).not_to include 'weather-expected'
+    end
+  end
 end

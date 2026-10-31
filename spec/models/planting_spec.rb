@@ -867,4 +867,34 @@ describe Planting do
       it { is_expected.to be_empty }
     end
   end
+
+  describe '#expected_weather_readings' do
+    subject(:expected) { planting.expected_weather_readings }
+
+    let(:today) { Time.zone.today }
+    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+    let(:crop) { create(:crop, median_lifespan: 10) }
+    let(:planting) { create(:planting, crop:, garden:, owner: garden.owner, planted_at: today - 4) }
+
+    before do
+      create(:weather_reading, date: today - 3)
+      create(:weather_reading, date: (today + 2).prev_year, rainfall_mm: 7.0)
+    end
+
+    it 'moves last year\'s readings forward a year' do
+      expect(expected.map(&:date)).to eq [today + 2]
+    end
+
+    it 'carries last year\'s values' do
+      expect(expected.first.rainfall_mm).to eq 7.0
+    end
+
+    context 'when the planting is finished' do
+      let(:planting) do
+        create(:planting, crop:, garden:, owner: garden.owner, planted_at: today - 4, finished: true, finished_at: today - 1)
+      end
+
+      it { is_expected.to be_empty }
+    end
+  end
 end

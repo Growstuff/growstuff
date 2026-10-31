@@ -1,111 +1,159 @@
 # frozen_string_literal: true
 
 module PlantingsHelper
-  include SeasonsHelper
+  include PlantingWeatherHelper
 
-  WEATHER_CHART_WIDTH = 600
-  WEATHER_CHART_HEIGHT = 80
+  def display_finished(planting)
+    if planting.finished_at.present?
+      planting.finished_at
+    elsif planting.finished
+      "Yes (no date specified)"
+    else
+      "(no date specified)"
+    end
+  end
 
-  # The headline figures for a run of weather readings, as text, leaving out any we have no data for.
-  def weather_summary(readings)
-    rain = readings.filter_map(&:rainfall_mm)
-    hottest = readings.filter_map(&:temp_max_c).max
-    coldest = readings.filter_map(&:temp_min_c).min
-    soil = readings.filter_map(&:soil_temp_c)
+  def display_planted_from(planting)
+    planting.planted_from.presence || "not specified"
+  end
+
+  def display_planting_quantity(planting)
+    planting.quantity.presence || "not specified"
+  end
+
+  def display_planting(planting)
+    if planting.quantity.to_i > 0 && planting.planted_from.present?
+      "#{planting.owner} planted #{pluralize(planting.quantity, planting.planted_from)}."
+    elsif planting.quantity.to_i > 0
+      "#{planting.owner} planted #{pluralize(planting.quantity, 'unit')}."
+    elsif planting.planted_from.present?
+      "#{planting.owner} planted #{planting.planted_from.pluralize}."
+    else
+      "#{planting.owner} planted #{planting.crop}."
+    end
+  end
+
+  def days_from_now_to_finished(planting)
+    return unless planting.finish_is_predicatable?
+
+    (planting.finish_predicted_at - Time.zone.today).to_i
+  end
+
+  def days_from_now_to_first_harvest(planting)
+    return unless planting.planted_at.present? && planting.first_harvest_predicted_at.present?
+
+    (planting.first_harvest_predicted_at - Time.zone.today).to_i
+  end
+
+  # Returns a list of gardens the planting can be transplanted to
+  # based on the planting's owner.
+  def transplantable_gardens_by_owner(planting)
+    @transplantable_gardens ||= {}
+    cache_key = planting.id || planting.object_id
+    @transplantable_gardens[cache_key] ||= begin
+      garden_ids = planting.owner.gardens.select(:id).to_a + GardenCollaborator.where(member_id: planting.owner.id).select(:garden_id).to_a
+
+      Garden.active.where.not(id: planting.garden_id).where(id: garden_ids)
+    end
+  end
+
+  def days_from_now_to_last_harvest(planting)
+    return unless planting.planted_at.present? && planting.last_harvest_predicted_at.present?
+
+    (planting.last_harvest_predicted_at - Time.zone.today).to_i
+  end
+
+  def planting_classes(planting)
+    classes = []
+    classes << 'planting-growing' if planting.growing?
+    classes << 'planting-finished' if planting.finished?
+    classes << 'planting-harvest-time' if planting.harvest_time?
+    classes << 'planting-late' if planting.late?
+    classes << 'planting-super-late' if planting.super_late?
+    classes.join(' ')
+  end
+
+  def planting_status(planting)
+    if planting.crop.perennial
+      t 'planting.status.perennial'
+    elsif planting.finished?
+      t 'planting.status.finished'
+    elsif !planting.finish_is_predicatable?
+      t 'planting.status.not_enough_data'
+    elsif planting.harvest_time?
+      t 'planting.status.harvesting'
+    elsif planting.late?
+      t 'planting.status.late'
+    elsif planting.growing?
+      t 'planting.status.growing'
+    elsif !planting.planted?
+      t 'planting.status.not planted'
+    else
+      t 'planting.status.unknown'
+    end
+  end
+
+  # What the PlantingActions island needs: the planting itself, the menu items
+  # (the server still decides labels, links and permissions), and the icons the
+  # dialogs show in their headers. Mirrors GardenCardSerializer#planting_actions
+  # so the menu is the same on a card and on the planting's own page.
+  def planting_actions_props(planting)
     {
-      rain:      ("#{number_with_precision(rain.sum, precision: 0, delimiter: ',')} mm" if rain.any?),
-      hottest:   (weather_degrees(hottest) if hottest),
-      coldest:   (weather_degrees(coldest) if coldest),
-      soil_temp: (weather_degrees(soil.sum / soil.size) if soil.any?),
-      days:      readings.size
-    }.compact
+      planting:         {
+        id:         planting.id,
+        url:        planting_path(planting),
+        # The finish and harvest dialogs need these: neither may happen before
+        # the planting was planted, and the server's today is the one that
+        # counts, not the browser's.
+        planted_at: planting.planted_at,
+        today:      Time.zone.today,
+        crop:       { name:     planting.crop.name,
+                      icon_url: planting.crop.svg_icon.present? ? crop_path(planting.crop, format: 'svg') : nil }
+      },
+      actions:          planting_menu_actions(planting),
+      harvest_icon_url: image_path('icons/harvest.svg'),
+      seed_icon_url:    image_path('icons/seeds.svg'),
+      photo_icon_url:   image_path('icons/photo.svg'),
+      finish_icon_url:  image_path('icons/finish.svg')
+    }
   end
 
-  # How many days the weather charts' X axis spans, from the planting date: the same stretch as the
-  # progress bar above them, which is the crop's expected lifespan, or longer when the planting is running late.
-  def weather_axis_days(planting)
-    [planting.expected_lifespan.to_i, planting.age_in_days.to_i, 1].max
-  end
+  # Edit, add photo, the state changes, then delete last below a divider.
+  def planting_menu_actions(planting)
+    return [] unless can?(:edit, planting)
 
-  # The seasons along the chart axis for a garden at this latitude: [{ season:, first:, last: }], where
-  # first and last are the days (0 is `from`) each one covers. Empty when we don't know the hemisphere.
-  def weather_seasons(latitude, from:, days:)
-    half = hemisphere(latitude)
-    return [] unless half
-
-    (0...days).chunk_while { |a, b| season_in(half, from + a) == season_in(half, from + b) }.map do |run|
-      { season: season_in(half, from + run.first), first: run.first, last: run.last }
+    actions = [{ key: 'edit', label: t('buttons.edit'), href: edit_planting_path(planting) }]
+    if can?(:create, Photo)
+      actions << { key: 'photo', label: t('buttons.add_photo'),
+                   href: new_photo_path(id: planting.id, type: 'planting') }
     end
+    actions.concat(active_planting_menu_actions(planting)) if planting.active
+    actions << planting_delete_action(planting)
+    actions.compact
   end
 
-  def weather_degrees(celsius)
-    "#{celsius.round(1)}°C"
-  end
-
-  # Daily rainfall as bars, placed by date along an axis that starts on `from` and runs for `days`.
-  def weather_rain_chart(readings, from:, days:, seasons: [])
-    top = [readings.filter_map(&:rainfall_mm).max.to_f, 1].max
-    step = WEATHER_CHART_WIDTH.to_f / days
-    bars = readings.filter_map do |reading|
-      next unless reading.rainfall_mm&.positive?
-
-      height = (reading.rainfall_mm / top * WEATHER_CHART_HEIGHT).round(1)
-      tag.rect(x: ((reading.date - from) * step).round(2), y: WEATHER_CHART_HEIGHT - height,
-               width: [step, 0.6].max.round(2), height:)
+  def active_planting_menu_actions(planting)
+    actions = []
+    if can?(:create, Harvest)
+      actions << { key: 'harvest', label: t('buttons.record_harvest'),
+                   href: new_planting_harvest_path(planting_slug: planting.slug) }
     end
-    weather_chart(safe_join(bars), t('plantings.show.weather_rain_chart_alt', max: top.round, count: readings.size), 'weather-rain',
-                  seasons:, days:)
-  end
-
-  # The daily high and low as two lines, on the same axis.
-  def weather_temperature_chart(readings, from:, days:, seasons: [])
-    values = readings.flat_map { |reading| [reading.temp_max_c, reading.temp_min_c] }.compact
-    return if values.empty?
-
-    low = values.min
-    span = [values.max - low, 1].max
-    lines = { 'weather-high' => :temp_max_c, 'weather-low' => :temp_min_c }.map do |css, column|
-      tag.polyline(class: css, points: weather_line_points(readings, column, from:, step: WEATHER_CHART_WIDTH.to_f / days,
-                                                    height_of: ->(value) { (value - low) / span * WEATHER_CHART_HEIGHT }))
+    unless planting.failed?
+      actions << { key: 'seeds', label: t('buttons.save_seeds'),
+                   href: new_planting_seed_path(planting_slug: planting.slug) }
     end
-    alt = t('plantings.show.weather_temperature_chart_alt', low: weather_degrees(values.min), high: weather_degrees(values.max))
-    weather_chart(safe_join(lines), alt, 'weather-temperature', seasons:, days:)
-  end
-
-  # The "x,y" points of one line, placed by date. `height_of` turns a value into its distance from the bottom.
-  def weather_line_points(readings, column, from:, step:, height_of:)
-    readings.filter_map do |reading|
-      value = reading.public_send(column)
-      next unless value
-
-      "#{((reading.date - from) * step).round(1)},#{(WEATHER_CHART_HEIGHT - height_of.call(value)).round(1)}"
-    end.join(' ')
-  end
-
-  # A faint band behind the chart for each season, so the weather can be read against the year.
-  def weather_season_bands(seasons, days)
-    step = WEATHER_CHART_WIDTH.to_f / days
-    safe_join(seasons.map do |band|
-      tag.rect(class: "weather-season season-#{band[:season]}", x: (band[:first] * step).round(2), y: 0,
-               width: ((band[:last] - band[:first] + 1) * step).round(2), height: WEATHER_CHART_HEIGHT)
-    end)
-  end
-
-  # The seasons' names, laid out under the charts to the same widths as their bands.
-  def weather_season_strip(seasons, days)
-    return if seasons.empty?
-
-    tag.div(class: 'weather-seasons', aria: { hidden: true }) do
-      safe_join(seasons.map do |band|
-        width = ((band[:last] - band[:first] + 1) * 100.0 / days).round(2)
-        tag.span(t("plantings.show.weather_season_#{band[:season]}"), class: "season-#{band[:season]}", style: "width: #{width}%")
-      end)
+    actions << { key: 'finish', label: t('buttons.mark_as_finished'),
+                 href: planting_path(slug: planting.slug, planting: { finished: 1 }), method: 'put' }
+    if can?(:transplant, planting) && transplantable_gardens_by_owner(planting).any?
+      actions << { key: 'transplant', label: 'Transplant', href: '#transplant-modal' }
     end
+    actions
   end
 
-  def weather_chart(content, description, css, seasons:, days:)
-    tag.svg(safe_join([weather_season_bands(seasons, days), content]), class: "weather-chart #{css}",
-                                                                      viewBox: "0 0 #{WEATHER_CHART_WIDTH} #{WEATHER_CHART_HEIGHT}",
-                                                                      preserveAspectRatio: 'none', role: 'img', 'aria-label': description)
+  def planting_delete_action(planting)
+    return unless can?(:destroy, planting)
+
+    { key: 'delete', label: t('buttons.delete'), href: planting_path(planting),
+      method: 'delete', confirm: t('are_you_sure'), divider: true }
   end
 end

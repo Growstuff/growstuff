@@ -5,11 +5,13 @@
 .weather-charts
   %figure
     %figcaption= t('plantings.show.weather_temperature_chart')
-    = weather_temperature_chart(readings, from: planting.planted_at, days:, seasons:)
+    = weather_temperature_chart(readings, from: planting.planted_at, days:, seasons:, expected:)
   %figure
     %figcaption= t('plantings.show.weather_rain_chart')
-    = weather_rain_chart(readings, from: planting.planted_at, days:, seasons:)
+    = weather_rain_chart(readings, from: planting.planted_at, days:, seasons:, expected:)
 = weather_season_strip(seasons, days)
+- if expected.any?
+  %p.weather-expected-note.small.text-muted= t('plantings.show.weather_expected_note')
 %dl.weather-summary
   - weather_summary(readings).each do |key, value|
     .weather-figure

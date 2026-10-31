@@ -50,9 +50,15 @@ class WeatherUpdater
   def build_cell(latitude, longitude, plantings)
     latest_available = @today - LAG_DAYS
     ranges = plantings.map do |planting|
-      [planting.planted_at, [planting.finished_at, planting.planted_at + MAX_PLANTING_DAYS, latest_available].compact.min]
+      [history_start(planting), [planting.finished_at, planting.planted_at + MAX_PLANTING_DAYS, latest_available].compact.min]
     end
     Cell.new(latitude, longitude, [ranges.map(&:first).min, FIRST_DAY].max, ranges.map(&:last).max, plantings.size)
+  end
+
+  # A planting still growing is shown the rest of its life as last year's weather for the same days,
+  # so we also want the year before it started.
+  def history_start(planting)
+    planting.finished? ? planting.planted_at : planting.planted_at.prev_year
   end
 
   def fetch_current(cell)

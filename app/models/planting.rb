@@ -193,6 +193,19 @@ class Planting < ApplicationRecord
       .between(planted_at, [finished_at, Time.zone.today].compact.min).order(:date)
   end
 
+  # For a planting still growing: the weather the rest of its life will probably bring, as the readings
+  # for the same days a year earlier, moved forward a year. A prediction, not an observation.
+  def expected_weather_readings
+    return [] if finished? || failed? || planted_at.blank? || expected_lifespan.blank? || latitude.blank? || longitude.blank?
+
+    from = (weather_readings.maximum(:date) || (planted_at - 1)) + 1
+    to = planted_at + expected_lifespan.to_i
+    return [] if from > to
+
+    WeatherReading.at(*WeatherReading.grid_point(latitude, longitude)).between(from.prev_year, to.prev_year).order(:date)
+      .map { |reading| reading.dup.tap { |expected| expected.date = reading.date.next_year } }
+  end
+
   def nearby_same_crop
     return @nearby_same_crop if defined?(@nearby_same_crop)
 

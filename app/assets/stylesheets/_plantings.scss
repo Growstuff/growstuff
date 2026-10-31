@@ -566,6 +566,30 @@
     fill: $blue;
   }
 
+  // A prediction, from the same days last year: dotted, and paler. Lines are dots; bars are hollow with a dotted outline.
+  .weather-expected {
+    opacity: 0.7;
+  }
+
+  .weather-temperature polyline.weather-expected {
+    stroke-dasharray: 0.5 6;
+    stroke-linecap: round;
+    stroke-width: 3;
+  }
+
+  .weather-rain rect.weather-expected {
+    fill: $blue;
+    fill-opacity: 0.15;
+    stroke: $blue;
+    stroke-dasharray: 2 2;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .weather-expected-note {
+    margin-bottom: 0.25rem;
+  }
+
   // Seasons: a faint tint behind the data, and the same colours in the strip of names under the charts.
   .season-spring {
     fill: $green;
