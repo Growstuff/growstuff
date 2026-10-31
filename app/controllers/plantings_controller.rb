@@ -129,8 +129,9 @@ class PlantingsController < DataController
   end
 
   # What the page says about weather: the charts, a request for a location from whoever can give one, or that it is on its way.
+  # A planting with nothing observed yet still gets charts when there is last year's weather to expect.
   def weather_status
-    return :charts if @weather.any?
+    return :charts if @weather.any? || @expected_weather.any?
     return :pending if @planting.weather_pending?
 
     :needs_location if @planting.planted? && !@planting.weather_located? && can?(:edit, @planting.garden)
