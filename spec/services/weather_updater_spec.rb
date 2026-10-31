@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe WeatherUpdater, type: :service do
-  subject(:updater) { described_class.new(client:, today:, delay: 0) }
+  subject(:updater) { described_class.new(client:, today:, seconds_per_call: 0) }
 
   let(:today) { Date.new(2026, 10, 31) }
   let(:client) { instance_double(OpenMeteoClient) }
@@ -63,7 +63,7 @@ describe WeatherUpdater, type: :service do
     end
 
     context 'with a budget for current weather only' do
-      subject(:updater) { described_class.new(client:, today:, delay: 0, budget: 6) }
+      subject(:updater) { described_class.new(client:, today:, seconds_per_call: 0, budget: 6) }
 
       it 'saves the current days and no history' do
         expect { updater.update_all }.to change(WeatherReading, :count).by(30)

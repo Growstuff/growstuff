@@ -18,16 +18,19 @@ class WeatherUpdater
   CURRENT_DAYS = 30
   CHUNK_DAYS = 366
   FIRST_DAY = Date.new(1940, 1, 1) # where ERA5 starts
-  # Open-Meteo's free tier allows 10,000 calls a day; leave room for retries and by-hand runs.
-  DAILY_BUDGET = 8000
+  # Open-Meteo's free tier allows 10,000 calls a day, 5,000 an hour and 600 a minute. A run, once a day, stays
+  # under the hourly limit, which leaves room for retries and by-hand runs.
+  DAILY_BUDGET = 4500
+  # 600 calls a minute is a tenth of a second per call.
+  SECONDS_PER_CALL = 0.1
 
   attr_reader :calls_used
 
-  def initialize(client: OpenMeteoClient.new, today: Time.zone.today, budget: DAILY_BUDGET, delay: 0.2)
+  def initialize(client: OpenMeteoClient.new, today: Time.zone.today, budget: DAILY_BUDGET, seconds_per_call: SECONDS_PER_CALL)
     @client = client
     @today = today
     @budget = budget
-    @delay = delay
+    @seconds_per_call = seconds_per_call
     @calls_used = 0
   end
 
@@ -93,11 +96,16 @@ class WeatherUpdater
     return 0 if from > to || @calls_used + cost > @budget
 
     @calls_used += cost
-    sleep(@delay) if @delay.positive?
+    pause(cost)
     save(cell, @client.daily(latitude: cell.latitude, longitude: cell.longitude, from:, to:))
   rescue OpenMeteoClient::Error => e
     Rails.logger.warn("WeatherUpdater: #{cell.latitude},#{cell.longitude}: #{e.message}")
     0
+  end
+
+  # Wait long enough that heavy requests, a year of history being about 60 calls, stay inside the per-minute limit.
+  def pause(cost)
+    sleep(cost * @seconds_per_call) if @seconds_per_call.positive?
   end
 
   # Open-Meteo counts a request for more than 10 variables, or more than 2 weeks, as several calls.

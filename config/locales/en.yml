@@ -970,9 +970,9 @@ en:
       title: "%{crop} planting by %{owner}"
       view_all_plantings: All of %{owner}'s plantings
       weather_coldest: Coldest night
-      weather_credit_html: Weather for the area around the garden, modelled and not measured in it, a few days behind. Data from %{link} (CC BY 4.0).
+      weather_credit_html: "%{open_meteo} (%{licence}). Contains modified Copernicus Climate Change Service information. The weather is modelled for the area around the garden, not measured in it, and runs a few days behind. The totals, charts and expected weather are our adaptation of that data."
       weather_days: Days
-      weather_expected_note: The paler lines and bars are expected weather, from the same days last year. They are not observed.
+      weather_expected_note: The dotted lines and bars are expected weather, last year's data for the same days moved forward a year. They are not observed.
       weather_hottest: Hottest day
       weather_rain: Rain
       weather_rain_chart: Daily rainfall

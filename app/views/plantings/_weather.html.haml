@@ -17,4 +17,5 @@
     .weather-figure
       %dt= t("plantings.show.weather_#{key}")
       %dd= value
-%p.text-muted.small.mb-0= t('plantings.show.weather_credit_html', link: link_to('Open-Meteo.com', 'https://open-meteo.com/'))
+%p.text-muted.small.mb-0= t('plantings.show.weather_credit_html', open_meteo: link_to('Weather data by Open-Meteo.com', 'https://open-meteo.com/'),
+                                                                  licence: link_to('CC BY 4.0', 'https://creativecommons.org/licenses/by/4.0/'))

@@ -16,7 +16,8 @@ describe 'Weather on a planting' do
     end
 
     it { expect(page).to have_css '#weather', text: '4 mm' }
-    it { expect(page).to have_link 'Open-Meteo.com' }
+    it { expect(page).to have_link 'Weather data by Open-Meteo.com', href: 'https://open-meteo.com/' }
+    it { expect(page).to have_link 'CC BY 4.0', href: 'https://creativecommons.org/licenses/by/4.0/' }
   end
 
   context 'without readings' do
