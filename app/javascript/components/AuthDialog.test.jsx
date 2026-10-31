@@ -11,6 +11,7 @@ function setup() {
       <>
         <a href="/members/sign_in" data-auth-dialog="sign_in">Log in</a>
         <a href="/members/sign_up" data-auth-dialog="sign_up">Join</a>
+        <a href="/members/sign_in" data-auth-dialog="bluesky">Bluesky</a>
         <a href="/about">About</a>
         <AuthDialog urls={urls} site_name="Growstuff" />
       </>,
@@ -33,6 +34,12 @@ describe('AuthDialog', () => {
     setup();
     await userEvent.click(screen.getByRole('link', {name: 'Join'}));
     expect(screen.getByRole('dialog', {name: 'Join Growstuff'})).toBeInTheDocument();
+  });
+
+  it('opens the Bluesky dialog from a Bluesky link', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Bluesky'}));
+    expect(screen.getByRole('dialog', {name: 'Sign in with Bluesky'})).toBeInTheDocument();
   });
 
   it('ignores other links', async () => {

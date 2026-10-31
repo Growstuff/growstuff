@@ -357,6 +357,7 @@ en:
       photo_by: by %{login}
       public_note: Everything you record is public open data, including your city.
       sign_in_linktext: Sign in
+      sign_in_bluesky: Sign in with Bluesky
       sign_up: Join free
     dashboard:
       add_bed: "+ bed"

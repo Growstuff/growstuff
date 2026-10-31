@@ -21,6 +21,16 @@ module ApplicationHelper
     link_to(text, new_member_registration_path, **, data: { auth_dialog: 'sign_up' })
   end
 
+  # A link to sign in with Bluesky, when it is switched on. It opens its dialog
+  # where the page has it, and goes to the sign in page, which has the form,
+  # without.
+  def bluesky_link(text, **)
+    return unless Authentication.enabled_sign_in_providers.include?('bluesky')
+
+    link_to(safe_join([icon('fab', 'bluesky', class: 'bluesky-icon'), text], ' '), new_member_session_path, **,
+            data: { auth_dialog: 'bluesky' })
+  end
+
   # A member's avatar as a decoration beside their name, drawn at `size` pixels
   # from a picture twice that for dense screens.
   def avatar_image(member, size, **)
