@@ -16,6 +16,8 @@ class Planting < ApplicationRecord
   SUNNINESS_VALUES = %w(sun semi-shade shade).freeze
   # The most individual plants the layout grid will draw for one planting.
   MAX_PLANTS = 100
+  # How long a finished planting stays in the daily weather update: its last days of weather trail real time.
+  WEATHER_FINISHED_DAYS = 30
   PLANTED_FROM_VALUES = [
     'seed', 'seedling', 'cutting', 'root division', 'runner',
     'bulb', 'root/tuber', 'bare root plant', 'advanced plant',
@@ -39,6 +41,13 @@ class Planting < ApplicationRecord
   after_update :sync_plants, if: -> { saved_change_to_quantity? && plants.exists? }
 
   scope :current, -> { where.not(finished: true).where.not(failed: true) }
+  # The plantings the daily weather update collects for: planted, in a garden with a place that isn't a nursery, and
+  # still growing or finished recently enough that their last days, which lag, may not be in yet.
+  scope :weather_tracked, lambda { |today = Time.zone.today|
+    where.not(failed: true).where(planted_at: ..today)
+      .where('plantings.finished IS NOT TRUE OR plantings.finished_at >= ?', today - WEATHER_FINISHED_DAYS)
+      .joins(:garden).merge(Garden.where.not(latitude: nil).where.not(longitude: nil).where(nursery: false))
+  }
 
   #
   # Ancestry of food
@@ -184,6 +193,51 @@ class Planting < ApplicationRecord
     planted? && !finished?
   end
 
+  # Still in the nursery, which is somewhere seedlings are raised before they go out: it has no climate of its own to show.
+  def in_nursery?
+    garden.nursery?
+  end
+
+  def weather_located?
+    latitude.present? && longitude.present?
+  end
+
+  # The weather isn't here yet but will be: this is a planting the daily update collects weather for.
+  def weather_pending?
+    self.class.weather_tracked.exists?(id)
+  end
+
+  # The day this planting is due, from its crop's expected lifespan, or nil when we don't know it.
+  def weather_due_on
+    planted_at + expected_lifespan.to_i if planted_at.present? && expected_lifespan.present?
+  end
+
+  # The weather this planting grew through, day by day: the readings for its garden's grid cell,
+  # from planting to finishing, today or its due date, whichever comes first. Empty when the garden has no location.
+  def weather_readings
+    return WeatherReading.none unless weather_located? && planted_at.present?
+
+    weather_cell_readings.between(planted_at, [finished_at, Time.zone.today, weather_due_on].compact.min).order(:date)
+  end
+
+  # For a planting still growing: the weather the rest of its life will probably bring, as the readings
+  # for the same days a year earlier, moved forward a year. A prediction, not an observation. `after` is the
+  # newest day already observed, when the caller has it.
+  def expected_weather_readings(after: weather_readings.maximum(:date))
+    due = weather_due_on
+    return [] if finished? || failed? || due.nil? || !weather_located?
+
+    from = (after || (planted_at - 1)) + 1
+    return [] if from > due
+
+    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, due.prev_year).order(:date).map do |reading|
+      reading.tap do
+        reading.date = reading.date.next_year
+        reading.readonly!
+      end
+    end
+  end
+
   def nearby_same_crop
     return @nearby_same_crop if defined?(@nearby_same_crop)
 
@@ -209,6 +263,11 @@ class Planting < ApplicationRecord
   end
 
   private
+
+  # Daily weather for the grid cell this planting's garden is in.
+  def weather_cell_readings
+    WeatherReading.at(*WeatherReading.grid_point(latitude, longitude))
+  end
 
   # Copied from the packet when the planting is made, as the packet may be
   # edited or thrown away later.

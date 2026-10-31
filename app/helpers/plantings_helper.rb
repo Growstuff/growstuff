@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module PlantingsHelper
+  include PlantingWeatherHelper
+
   def display_finished(planting)
     if planting.finished_at.present?
       planting.finished_at

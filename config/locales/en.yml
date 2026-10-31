@@ -98,6 +98,7 @@ en:
         enable_harvest_reminders: Sends the weekly harvest reminder emails to members who want them.
         enable_planting_reminders: Sends the weekly planting reminder emails to members who want them.
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
+        planting_weather: Temperature and rainfall charts on each planting, from daily weather for the garden's area.
       index:
         feature: Feature
         intro: Switch features on or off for everyone.
@@ -111,6 +112,7 @@ en:
         enable_harvest_reminders: Harvest reminders
         enable_planting_reminders: Planting reminders
         job_ideas: Job ideas
+        planting_weather: Planting weather
       update:
         'off': "%{feature} is now off."
         'on': "%{feature} is now on."
@@ -1059,6 +1061,24 @@ en:
       seeds_saved: Seeds saved
       title: "%{crop} planting by %{owner}"
       view_all_plantings: All of %{owner}'s plantings
+      weather_coldest: Coldest night
+      weather_credit_html: "%{open_meteo} (%{licence}). Contains modified Copernicus Climate Change Service information. The weather is modelled for the area around the garden, not measured in it, and runs a few days behind. The totals, charts and expected weather are our adaptation of that data."
+      weather_credit_licence: CC BY 4.0
+      weather_credit_source: Weather data by Open-Meteo.com
+      weather_days: Days
+      weather_expected_note: The dotted lines and bars are expected weather, last year's data for the same days moved forward a year. They are not observed.
+      weather_hottest: Hottest day
+      weather_location_intro: We use this to show the temperature and rainfall the plantings here have been through. Your garden's city or region is public, like the rest of the garden.
+      weather_location_title: Where is this garden?
+      weather_new: New
+      weather_pending: We're loading the weather for this garden's area. It's collected overnight, so it should appear within a day or so.
+      weather_rain: Rain
+      weather_rain_chart: Daily rainfall
+      weather_rain_chart_alt: 'Daily rainfall over %{count} days, up to %{max} mm in a day.'
+      weather_set_location: Set a garden location to get temperature and rainfall data
+      weather_soil_temp: Soil temperature
+      weather_temperature_chart: Daily high and low
+      weather_temperature_chart_alt: 'Daily high and low temperature, from %{low} to %{high}.'
     string: "%{crop} planting in %{garden} by %{owner}"
   posts:
     created: Post was successfully created.

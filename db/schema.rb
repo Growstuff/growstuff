@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_31_010000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1113,6 +1113,40 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
     t.text "object_changes"
     t.string "whodunnit"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
+  create_table "weather_readings", force: :cascade do |t|
+    t.float "cloud_cover_percent"
+    t.datetime "created_at", null: false
+    t.date "date", null: false
+    t.float "daylight_seconds"
+    t.float "dew_point_c"
+    t.float "evapotranspiration_mm", comment: "Reference evapotranspiration: how much water a lawn would lose."
+    t.float "feels_like_max_c", comment: "What the day felt like, with wind and humidity."
+    t.float "feels_like_mean_c"
+    t.float "feels_like_min_c"
+    t.float "humidity_percent"
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "precipitation_hours"
+    t.float "pressure_hpa"
+    t.float "radiation_mj_m2", comment: "Sunlight energy reaching the ground."
+    t.float "rainfall_mm"
+    t.float "snowfall_cm"
+    t.float "soil_moisture_m3_m3", comment: "Water in the top 7cm of soil, as a fraction of its volume."
+    t.float "soil_temp_c", comment: "Mean temperature of the top 7cm of soil."
+    t.string "source", null: false, comment: "Where the reading came from, e.g. open-meteo."
+    t.float "sunshine_seconds"
+    t.float "temp_max_c"
+    t.float "temp_mean_c"
+    t.float "temp_min_c"
+    t.datetime "updated_at", null: false
+    t.float "vapour_pressure_deficit_kpa", comment: "How thirsty the air is; high values stress plants."
+    t.integer "weather_code", comment: "WMO code for the day, e.g. 2 is partly cloudy."
+    t.float "wind_direction_degrees", comment: "Where the wind blew from, 0 to 360."
+    t.float "wind_gust_max_kmh"
+    t.float "wind_max_kmh"
+    t.index ["latitude", "longitude", "date"], name: "index_weather_readings_on_latitude_and_longitude_and_date", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

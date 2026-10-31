@@ -65,6 +65,14 @@
               = render 'plantings/actions', planting: @planting
 
           = render 'timeline', planting: @planting
+          - case @weather_status
+          - when :charts
+            .planting-weather#weather
+              = render 'plantings/weather', planting: @planting, readings: @weather, expected: @expected_weather
+          - when :needs_location
+            = render 'plantings/weather_location_prompt', garden: @planting.garden
+          - when :pending
+            %p.small.text-muted= t('plantings.show.weather_pending')
           = render 'harvest_months', planting: @planting
 
         %section.planting-facts= render 'facts', planting: @planting
