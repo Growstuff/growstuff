@@ -70,6 +70,8 @@
           - elsif Feature.enabled?(:planting_weather) && !@planting.in_nursery? && @planting.planted? && @planting.latitude.blank? && can?(:edit, @planting.garden)
             -# Without a location there is no weather to show; only someone who can set one is asked to.
             = render 'plantings/weather_location_prompt', garden: @planting.garden
+          - elsif Feature.enabled?(:planting_weather) && @planting.weather_pending?
+            %p.planting-weather-pending.small.text-muted= t('plantings.show.weather_pending')
           = render 'harvest_months', planting: @planting
 
         %section.planting-facts= render 'facts', planting: @planting

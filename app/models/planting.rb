@@ -189,6 +189,14 @@ class Planting < ApplicationRecord
     garden.nursery?
   end
 
+  # The weather isn't here yet but will be: we know where the garden is and the daily update collects weather for
+  # plantings like this one. It doesn't for seedlings in a nursery, failed plantings, or ones finished a while ago.
+  def weather_pending?
+    return false unless planted? && !failed? && !in_nursery? && latitude.present? && longitude.present?
+
+    !finished? || (finished_at.present? && finished_at >= Time.zone.today - WeatherUpdater::RECENT_FINISH_DAYS)
+  end
+
   # The weather this planting grew through, day by day: the readings for its garden's grid cell,
   # from planting to finishing, today or its due date, whichever comes first. Empty when the garden has no location.
   def weather_readings

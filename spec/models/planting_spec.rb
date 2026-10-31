@@ -947,4 +947,44 @@ describe Planting do
       expect(described_class.growing_counts_by_garden([garden.id])).not_to have_key(other.id)
     end
   end
+
+  describe '#weather_pending?' do
+    subject(:pending) { planting.weather_pending? }
+
+    let(:today) { Time.zone.today }
+    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+    let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: today - 3) }
+
+    it { is_expected.to be true }
+
+    context 'when the garden has no location' do
+      before { garden.update_columns(latitude: nil, longitude: nil) } # rubocop:disable Rails/SkipsModelValidations
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the garden is a nursery' do
+      before { garden.update_columns(nursery: true) } # rubocop:disable Rails/SkipsModelValidations
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the planting is not planted yet' do
+      let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: today + 5) }
+
+      it { is_expected.to be false }
+    end
+
+    context 'when the planting finished a few days ago' do
+      let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: today - 20, finished: true, finished_at: today - 3) }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when the planting finished long ago' do
+      let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: today - 200, finished: true, finished_at: today - 100) }
+
+      it { is_expected.to be false }
+    end
+  end
 end

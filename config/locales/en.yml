@@ -1069,6 +1069,7 @@ en:
       weather_location_intro: We use this to show the temperature and rainfall the plantings here have been through. Your garden's city or region is public, like the rest of the garden.
       weather_location_title: Where is this garden?
       weather_new: New
+      weather_pending: We're loading the weather for this garden's area. It's collected overnight, so it should appear within a day or so.
       weather_rain: Rain
       weather_rain_chart: Daily rainfall
       weather_rain_chart_alt: 'Daily rainfall over %{count} days, up to %{max} mm in a day.'

@@ -22,6 +22,7 @@ describe 'Weather on a planting', flipper: :planting_weather do
 
   context 'without readings' do
     it { expect(page).to have_no_css '#weather' }
+    it { expect(page).to have_text "We're loading the weather for this garden's area" }
   end
 
   context 'when the garden has no location and the viewer owns it' do
