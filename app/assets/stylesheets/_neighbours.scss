@@ -114,15 +114,30 @@
 }
 
 .neighbours-layout {
-  display: block;
-  max-width: 220px;
+  max-width: 320px;
   margin-top: 8px;
+
+  a { display: block; }
 
   svg { display: block; width: 100%; height: auto; border: 1px solid #a4c98c; border-radius: 3px; }
 
   .bed { fill: #f4efe6; }
 
-  circle { fill: rgba(87, 128, 60, 0.75); stroke: #3f5e2b; stroke-width: 0.08; }
+  circle { fill: rgba(205, 226, 190, 0.9); stroke: #5f8a46; stroke-width: 0.08; }
+
+  .feature-line { stroke: #a89880; stroke-width: 0.3; stroke-linecap: round; }
+
+  circle.feature-point { fill: #a89880; stroke: none; }
+}
+
+.neighbours-layout-crops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  padding: 0;
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  list-style: none;
 }
 
 .neighbours-entry-actions { margin-top: 8px; font-size: 0.85rem; }

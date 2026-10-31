@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -919,7 +919,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
   create_table "photo_associations", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.integer "crop_id"
-    t.string "moment"
+    t.string "label"
     t.integer "photo_id", null: false
     t.integer "photographable_id", null: false
     t.string "photographable_type", null: false
@@ -1028,15 +1028,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
   create_table "posts", id: :serial, force: :cascade do |t|
     t.integer "author_id", null: false
     t.text "body", null: false
+    t.bigint "card_photo_id"
     t.integer "comments_count", default: 0
     t.datetime "created_at", precision: nil
     t.integer "forum_id"
     t.integer "likes_count", default: 0
+    t.datetime "published_at"
     t.string "slug"
     t.string "subject", null: false
     t.datetime "updated_at", precision: nil
+    t.index ["card_photo_id"], name: "index_posts_on_card_photo_id"
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["forum_id"], name: "index_posts_on_forum_id"
+    t.index ["published_at"], name: "index_posts_on_published_at"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
@@ -1066,6 +1070,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
+    t.string "batch_number"
     t.datetime "created_at", precision: nil
     t.integer "crop_id", null: false
     t.integer "days_until_maturity_max"
@@ -1073,18 +1078,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
     t.text "description"
     t.boolean "finished", default: false
     t.date "finished_at"
+    t.integer "germination_days_max"
+    t.integer "germination_days_min"
     t.text "gmo", default: "unknown"
     t.text "heirloom", default: "unknown"
+    t.text "how_to_sow", comment: "How the packet says to sow it, in its words."
     t.text "organic", default: "unknown"
     t.integer "owner_id", null: false
+    t.text "packet_text", comment: "Text read from the packet's photos by the OCR script. Not shown to members yet."
     t.integer "parent_planting_id"
     t.date "plant_before"
     t.integer "quantity"
+    t.integer "row_spacing", comment: "Centimetres between rows, as printed on the packet."
     t.date "saved_at"
     t.string "slug"
+    t.integer "sow_months", default: [], null: false, comment: "The months, 1 to 12, the packet says to sow in. Empty when it says nothing.", array: true
     t.string "source"
     t.string "tradable_to", default: "nowhere"
     t.datetime "updated_at", precision: nil
+    t.string "variety"
     t.index ["crop_id"], name: "index_seeds_on_crop_id"
     t.index ["owner_id"], name: "index_seeds_on_owner_id"
     t.index ["parent_planting_id"], name: "index_seeds_on_parent_planting_id"
@@ -1126,5 +1138,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_25_000000) do
   add_foreign_key "plantings", "alternate_names", on_delete: :nullify
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plants", "plantings"
+  add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end

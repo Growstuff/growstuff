@@ -21,9 +21,7 @@ gem 'haml'
 gem 'oauth', '1.1.6' # Explicitly pinned, as the maintainer does huge (400 files, 45k lines) changes in point releases - required manual plus agentic security review.
 
 # API data
-gem 'jsonapi-resources'
-gem 'jsonapi-swagger'
-gem 'rswag-api'
+gem 'graphiti-rails', '~> 0.4'
 gem 'rswag-ui'
 
 # JSON pinned until this is resolved across the ecosystem (Oct 26)
@@ -137,7 +135,6 @@ group :development, :test do
   gem 'capybara'                # integration tests
   gem 'capybara-email'          # integration tests for email
   gem 'capybara-screenshot'     # for test debugging
-  gem 'database_cleaner'
   gem 'debug', platforms: %i(mri windows), require: 'debug/prelude' # debugging
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
@@ -146,7 +143,6 @@ group :development, :test do
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
-  gem 'rswag-specs'
   gem 'rubocop-capybara'
   gem 'rubocop-factory_bot'
   gem 'rubocop-rails'

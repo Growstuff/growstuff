@@ -55,4 +55,30 @@ describe NeighboursHelper do
       expect(helper.season_heading(start, neighbours)).to be_nil
     end
   end
+
+  describe '#layout_plants' do
+    subject(:plants) { helper.layout_plants(garden) }
+
+    let(:garden) { create(:garden, grid_columns: 20, grid_rows: 10) }
+    let(:crop) { create(:crop, default_diameter: 4) }
+    let(:planting) { create(:planting, garden:, owner: garden.owner, crop:, quantity: 1) }
+
+    before { planting.plants.first_or_create!.update!(bed_x: 5, bed_y: 5) }
+
+    it 'sizes a plant by its crop when it has not been resized' do
+      expect(plants.map(&:diameter)).to eq [4]
+    end
+
+    it 'gives a large plant an icon' do
+      expect(plants.map(&:icon)).to eq [true]
+    end
+
+    context 'with a plant too small to see an icon' do
+      let(:crop) { create(:crop, default_diameter: 1) }
+
+      it 'draws it as a dot' do
+        expect(plants.map(&:icon)).to eq [false]
+      end
+    end
+  end
 end

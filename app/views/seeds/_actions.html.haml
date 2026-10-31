@@ -6,8 +6,10 @@
   -# across the row and drag the kebab in off the right edge.
   .record-actions
     = actions_menu('seed') do
-      = menu_modal_link(:edit, t('buttons.edit'), '#seed-edit-modal')
+      = menu_link_to :edit, t('buttons.edit'), edit_seed_path(seed), data: { packet_sheet_edit: '' }
       = menu_add_photo_link(seed)
+      - PhotoAssociation::LABELS['Seed'].each do |side|
+        = menu_add_photo_link(seed, text: t("seeds.packet.photo_#{side}"), label: side)
       - if can?(:create, Planting) && can?(:update, seed) && seed.active
         = menu_link_to :planting, 'Plant seeds', new_planting_path(seed_id: seed)
       - if can?(:create, Planting) && seed.active
@@ -16,6 +18,3 @@
       .dropdown-divider
       = menu_delete_button(seed)
 
-    -# The dialog the Edit item opens. Outside the dropdown, so it is not torn
-    -# down with the menu when it closes.
-    = render 'seeds/edit_modal', seed: seed

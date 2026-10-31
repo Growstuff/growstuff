@@ -18,8 +18,8 @@ class PhotosController < ApplicationController
               end
 
     @photos = @photos.includes(:owner)
-                     .order(created_at: :desc)
-                     .paginate(page: params[:page], per_page: Photo.per_page)
+      .order(created_at: :desc)
+      .paginate(page: params[:page], per_page: Photo.per_page)
 
     raise ActiveRecord::RecordNotFound if @photos.out_of_bounds?
 
@@ -37,6 +37,7 @@ class PhotosController < ApplicationController
     @item = item_to_link_to
     @type = params[:type]
     @id = params[:id]
+    @label = params[:label]
     retrieve_from_flickr
     return render json: flickr_picker_json if request.format.json?
 
@@ -90,7 +91,9 @@ class PhotosController < ApplicationController
       sets: (@sets || {}).map { |title, id| { id: id, title: title } },
       set: @current_set, tag: @current_tag,
       page: @photos.current_page, total_pages: @photos.total_pages, total: @photos.total_entries,
-      photos: @photos.map { |photo| { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) } }
+      photos: @photos.map do |photo|
+        { id: photo.id, title: photo.title, thumb_url: FlickRaw.url_n(photo), preview_url: FlickRaw.url_z(photo) }
+      end
     }
   end
 
@@ -99,7 +102,9 @@ class PhotosController < ApplicationController
   def render_added_json
     garden = @item.is_a?(Garden) ? @item : (@item.garden if @item.respond_to?(:garden))
     card = GardenCardSerializer.collection([garden], ability: current_ability, show_owner: false).first if garden
-    render json: { photo: { id: @photo.id, url: photo_path(@photo) }, garden: card }, status: :created
+    photo = { id: @photo.id, url: photo_path(@photo), title: @photo.title,
+              thumbnail_url: @photo.thumbnail_url, fullsize_url: @photo.fullsize_url }
+    render json: { photo:, garden: card }, status: :created
   end
 
   def photo_params
@@ -107,11 +112,11 @@ class PhotosController < ApplicationController
                                   :license_url, :thumbnail_url, :fullsize_url, :link_url, :date_taken)
   end
 
-  # Attaches the photo to the item. A photo for a job can say when it was taken,
-  # before the job or after, as `moment`.
+  # Attaches the photo to the item. A photo can say what part of the item it is
+  # of, as `label`: before or after for a job, front or back for a seed packet.
   def link_photo_to_item
     association = @item.photo_associations.find_or_initialize_by(photo: @photo)
-    association.moment = params[:moment] if params[:moment].present?
+    association.label = params[:label] if params[:label].present?
     association.save!
   end
 
@@ -123,7 +128,10 @@ class PhotosController < ApplicationController
     item_class = params[:type].capitalize
     raise "Photos not supported" unless Photo::PHOTO_CAPABLE.include? item_class
 
-    item_class.constantize.find(params[:id])
+    klass = item_class.constantize
+    # A draft post is still its author's to add photos to.
+    klass = klass.with_drafts if klass.respond_to?(:with_drafts)
+    klass.find(params[:id])
   end
 
   #

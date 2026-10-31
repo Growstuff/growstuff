@@ -10,42 +10,25 @@ RSpec.describe 'Photos' do
   let(:photo_encoded_as_json_api) do
     { "id"            => photo.id.to_s,
       "type"          => "photos",
-      "links"         => { "self" => resource_url },
       "attributes"    => attributes,
       "relationships" => {
         "owner"     => owner_as_json_api,
         "plantings" => plantings_as_json_api,
         "harvests"  => harvests_as_json_api,
-        "gardens"   => gardens_as_json_api
+        "gardens"   => gardens_as_json_api,
+        "seeds"     => seeds_as_json_api
       } }
   end
 
-  let(:resource_url) { "http://www.example.com/api/v1/photos/#{photo.id}" }
+  let(:owner_as_json_api) { related_link("members/#{photo.owner_id}") }
 
-  let(:owner_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/owner",
-                   "related" => "#{resource_url}/owner" } }
-  end
+  let(:harvests_as_json_api) { related_link("harvests?filter[photo_id]=#{photo.id}") }
 
-  let(:harvests_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/harvests",
-                   "related" => "#{resource_url}/harvests" } }
-  end
+  let(:gardens_as_json_api) { related_link("gardens?filter[photo_id]=#{photo.id}") }
 
-  let(:gardens_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/gardens",
-                   "related" => "#{resource_url}/gardens" } }
-  end
+  let(:plantings_as_json_api) { related_link("plantings?filter[photo_id]=#{photo.id}") }
 
-  let(:plantings_as_json_api) do
-    { "links" =>
-                 { "self"    =>
-                                "#{resource_url}/relationships/plantings",
-                   "related" => "#{resource_url}/plantings" } }
-  end
+  let(:seeds_as_json_api) { related_link("seeds?filter[photo_id]=#{photo.id}") }
 
   let(:attributes) do
     {
@@ -53,7 +36,8 @@ RSpec.describe 'Photos' do
       "fullsize-url"  => photo.fullsize_url,
       "link-url"      => photo.link_url,
       "license-name"  => photo.license_name,
-      "title"         => photo.title
+      "title"         => photo.title,
+      "label"         => nil
     }
   end
 
@@ -71,6 +55,39 @@ RSpec.describe 'Photos' do
     it { expect(subject['data']['relationships']).to include("harvests" => harvests_as_json_api) }
     it { expect(subject['data']['relationships']).to include("owner" => owner_as_json_api) }
     it { expect(subject['data']).to eq(photo_encoded_as_json_api) }
+  end
+
+  describe 'a photo of a seed packet' do
+    let(:seed) { create(:seed) }
+    let(:back) { create(:photo, owner: seed.owner) }
+    let(:data) { subject['data'] }
+
+    before { seed.photo_associations.create!(photo: back, label: 'back') }
+
+    it 'says which side it is' do
+      get "/api/v1/photos/#{back.id}", headers: headers
+      expect(data['attributes']['label']).to eq 'back'
+    end
+
+    it 'says which seed it is of, when asked' do
+      get "/api/v1/photos/#{back.id}", params: { include: 'seeds' }, headers: headers
+      expect(data['relationships']['seeds']['data']).to eq [{ 'type' => 'seeds', 'id' => seed.id.to_s }]
+    end
+  end
+
+  describe 'filtering by needs_ocr' do
+    let(:seed) { create(:seed) }
+    let(:read_seed) { create(:seed, packet_text: 'Sow by: December 2026') }
+    let!(:needing) { create(:photo, owner: seed.owner).tap { |photo| seed.photo_associations.create!(photo:, label: 'back') } }
+    let(:ids) { subject['data'].pluck('id') }
+
+    before do
+      read_seed.photo_associations.create!(photo: create(:photo, owner: read_seed.owner), label: 'back')
+      seed.photo_associations.create!(photo: create(:photo, owner: seed.owner))
+      get '/api/v1/photos', params: { filter: { needs_ocr: 'true' } }, headers:
+    end
+
+    it('finds the packet photo whose seed has no text') { expect(ids).to eq [needing.id.to_s] }
   end
 
   it '#create' do

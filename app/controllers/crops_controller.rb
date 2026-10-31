@@ -95,7 +95,6 @@ class CropsController < ApplicationController
 
   def edit
     @crop.alternate_names.build if @crop.alternate_names.blank?
-    @crop.scientific_names.build if @crop.scientific_names.blank?
   end
 
   def create
@@ -128,7 +127,6 @@ class CropsController < ApplicationController
 
     if @crop.update(crop_params)
       recreate_names('alt_name', 'alternate')
-      recreate_names('sci_name', 'scientific')
 
       if @crop.approval_status_changed?(from: "pending", to: "approved")
         notifier.deliver_now!

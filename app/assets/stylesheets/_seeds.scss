@@ -913,3 +913,281 @@ $seed-rule: rgba($brown, 0.15);
     font-weight: 600;
   }
 }
+
+// The packet sheet: the facts of a packet of seed as a plain list, with what the
+// packet itself says beside it, so the one can be checked against the other.
+.packet-sheet {
+  margin-bottom: 1.25rem;
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.packet-facts {
+  margin: 0;
+
+  .fact-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.45rem 0.25rem;
+    border-bottom: 1px solid rgba($brown, 0.1);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &.text-muted strong {
+      font-weight: 400;
+    }
+  }
+
+  dt {
+    flex: 0 0 8.5rem;
+    margin: 0;
+    font-weight: 400;
+    color: $ink-muted;
+  }
+
+  dd {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+  }
+
+  // The value, its unit, and its pencil share a line; opening the pencil's form
+  // hides the value and puts the form there instead.
+  .fact-value,
+  .edit-link {
+    display: inline;
+  }
+
+  .fact-value span {
+    margin-left: 0.25rem;
+    color: $ink-muted;
+  }
+
+  .edit-link {
+    margin-left: 0.35rem;
+  }
+}
+
+// "Edit all" swaps the list for a form in the same place.
+.packet-sheet-form {
+  display: none;
+  padding: 1rem 0.25rem 0;
+}
+
+.packet-sheet-form-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.packet-sheet.is-editing {
+  .packet-facts,
+  .packet-sheet-edit-all {
+    display: none;
+  }
+
+  .packet-sheet-form {
+    display: block;
+  }
+}
+
+// What the packet says: its photos, big enough to read, and our attempt to read it
+// as text behind a button. The photo fits the panel; a click shows it full size,
+// scrolling inside the panel.
+.seed-packet-panel {
+  margin-bottom: 1.25rem;
+
+  .seed-packet-switch {
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+
+    .nav-link {
+      padding: 0.15rem 0.75rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  .seed-packet-photos {
+    margin-bottom: 0.75rem;
+
+    a {
+      display: block;
+      cursor: zoom-in;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-height: 32rem;
+      object-fit: contain;
+      border-radius: 0.25rem;
+      background: rgba($brown, 0.05);
+    }
+
+    &.is-zoomed {
+      max-height: 70vh;
+      overflow: auto;
+
+      a {
+        cursor: zoom-out;
+      }
+
+      img {
+        width: auto;
+        max-width: none;
+        max-height: none;
+      }
+    }
+  }
+
+  // One button, whose words say what it will do.
+  .seed-packet-text-toggle {
+    width: 100%;
+    margin-bottom: 0.75rem;
+
+    .when-shown {
+      display: none;
+    }
+
+    &:not(.collapsed) {
+      .when-hidden {
+        display: none;
+      }
+
+      .when-shown {
+        display: inline;
+      }
+    }
+  }
+
+  .seed-packet-text-label {
+    margin: 0 0 0.15rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .seed-packet-text-note {
+    margin: 0 0 0.5rem;
+    color: $ink-muted;
+    font-size: 0.8rem;
+  }
+
+  .seed-packet-text {
+    margin: 0;
+    max-height: 50vh;
+    overflow: auto;
+    font-size: 0.8rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
+
+// The hero photo, with where the packet came from as a ribbon on it. The frame is
+// the photo's own box, so the ribbon can be a button for the grower: a button
+// cannot live inside the photo's link.
+.record-hero-photo-frame {
+  position: relative;
+  margin: 0 -1.25rem;
+
+  > a.record-hero-photo {
+    margin: 0;
+  }
+}
+
+// A different ribbon for each source, from the palette. The fold under its right
+// end is the same colour, darker.
+.seed-source-ribbon {
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  padding: 0.3rem 0.9rem 0.3rem 1rem;
+  border: 0;
+  border-radius: 3px 0 0 3px;
+  box-shadow: 0 2px 4px rgba($black, 0.3);
+  color: $white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 0;
+    border-left: 0.6rem solid transparent;
+    border-top: 0.45rem solid var(--ribbon-fold);
+  }
+}
+
+@mixin seed-source-ribbon($kind, $colour, $text: $white) {
+  .seed-source-ribbon--#{$kind} {
+    --ribbon-fold: #{darken($colour, 14%)};
+    background: $colour;
+    color: $text;
+  }
+}
+
+@include seed-source-ribbon('saved', $green);
+@include seed-source-ribbon('bought', $blue);
+@include seed-source-ribbon('catalogue', $yellow);
+@include seed-source-ribbon('bank', $brown);
+@include seed-source-ribbon('traded', $orange, $brown);
+
+// For the grower the ribbon is a button that opens the choices. Where the source is
+// not known there is a faint one, to say there is something to set.
+.seed-source-menu {
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  z-index: 2;
+
+  .seed-source-ribbon {
+    position: relative;
+    top: 0;
+    cursor: pointer;
+  }
+
+  .dropdown-menu {
+    margin-top: 0.6rem;
+  }
+}
+
+.seed-source-ribbon--unset {
+  --ribbon-fold: transparent;
+  border: 1px dashed rgba($brown, 0.5);
+  background: rgba($white, 0.85);
+  color: $ink-muted;
+  font-weight: 400;
+}
+
+.seed-source-badge.seed-source-toggle {
+  position: static;
+  cursor: pointer;
+}
+
+// The months to sow in, as chips to tick, with the seasons as shortcuts.
+.sow-months {
+  .sow-months-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .sow-months-seasons {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+  }
+}
+
+// How the packet says to sow it keeps the lines it was written in.
+.packet-facts .how-to-sow {
+  font-weight: 400;
+  white-space: pre-line;
+}

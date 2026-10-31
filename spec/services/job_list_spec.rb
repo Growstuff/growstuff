@@ -153,6 +153,12 @@ describe JobList do
     end
   end
 
+  describe '.week_date' do
+    it 'is the Friday for This week' do
+      expect(described_class.week_date(today)).to eq Date.new(2026, 10, 23)
+    end
+  end
+
   describe 'the day a dropped job gets' do
     it 'is today for Today' do
       expect(group(:today).drop_date).to eq today

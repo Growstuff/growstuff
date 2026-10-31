@@ -6,6 +6,7 @@
 // To add a component: create it in ./components and register it below.
 import AlternateNames from './components/AlternateNames';
 import AuthDialog from './components/AuthDialog';
+import CardPhotoDialog from './components/CardPhotoDialog';
 import FeedMore from './components/FeedMore';
 import GardenCards from './components/GardenCards';
 import GardenLayout from './components/GardenLayout';
@@ -23,12 +24,13 @@ import RecordDialog from './components/RecordDialog';
 import PlantingPicker from './components/PlantingPicker';
 import PlantingActions from './components/PlantingActions';
 import PlantingRating from './components/PlantingRating';
+import PostEditor from './components/PostEditor';
 import SeedLibrary from './components/SeedLibrary';
 import ScientificNames from './components/ScientificNames';
 import SeedStack from './components/SeedStack';
 import {mountIslands, registerIslands} from './islands';
 
-registerIslands({AlternateNames, AuthDialog, FeedMore, GardenCards, GardenLayout, GardenPicker, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, RecordDialog, ScientificNames, SeedLibrary, SeedStack});
+registerIslands({AlternateNames, AuthDialog, CardPhotoDialog, FeedMore, GardenCards, GardenLayout, GardenPicker, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, PostEditor, RecordDialog, ScientificNames, SeedLibrary, SeedStack});
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => mountIslands());

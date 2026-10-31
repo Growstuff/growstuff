@@ -42,8 +42,8 @@ class MembersController < ApplicationController
     end
 
     @harvests = Harvest.where(owner_id: @member.id)
-                       .recent
-                       .limit(16)
+      .recent
+      .limit(16)
 
     respond_to do |format|
       format.html # show.html.haml

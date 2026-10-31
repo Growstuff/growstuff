@@ -8,9 +8,6 @@ describe "crops/edit" do
       create(:crop_wrangling_member)
     end
     @crop = create(:maize)
-    3.times do
-      @crop.scientific_names.build
-    end
     assign(:crop, @crop)
     render
   end
