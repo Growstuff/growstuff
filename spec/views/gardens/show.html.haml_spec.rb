@@ -236,6 +236,7 @@ describe "gardens/show" do
       controller.stub(:current_user) { garden.owner }
       assign(:garden, garden)
       assign(:photos, [photos.first])
+      assign(:photo_count, 2)
       assign(:current_plantings, [])
       assign(:finished_plantings, [])
       assign(:suggested_companions, [])

@@ -38,12 +38,15 @@ class GardensController < DataController
   end
 
   def show
-    @current_plantings = @garden.plantings.current.where.not(failed: true).includes(:crop, :owner).order(planted_at: :desc)
+    # Loaded now, so the page can count and loop over them without asking again.
+    @current_plantings = @garden.plantings.current.where.not(failed: true)
+      .includes(:alternate_name, :crop, :owner, :photos).order(planted_at: :desc).load
     load_jobs
-    @finished_plantings = @garden.plantings.finished.includes(:crop)
-    @suggested_companions = Crop.approved.where(
+    @finished_plantings = @garden.plantings.finished.includes(crop: { parent: :parent })
+    @suggested_companions = Crop.approved.includes(parent: :parent).where(
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
+    @photo_count = @garden.photos.count
     @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).limit(PHOTOS_SHOWN)
     @suggestion_count = MemberDashboard.new(current_member).easy_to_sow(40).size if @garden.active && @garden.owner == current_member
     respond_with(@garden)

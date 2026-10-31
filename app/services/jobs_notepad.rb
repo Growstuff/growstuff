@@ -22,7 +22,7 @@ class JobsNotepad
   private
 
   def jobs
-    @jobs ||= scope.includes(:garden, :jobbable, photo_associations: :photo)
+    @jobs ||= scope.includes({ garden: :garden_collaborators }, :jobbable, photo_associations: :photo)
       .order(Arel.sql('due_date IS NULL'), :due_date, :created_at, :id).to_a.tap do |jobs|
       preload_jobbables(jobs)
     end

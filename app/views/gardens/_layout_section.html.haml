@@ -3,7 +3,8 @@
   -# Its own page, so a section that leads there: the current bed map, or a teaser to create one.
   - layout_path = layout_member_garden_path(@garden.owner, @garden)
   - can_arrange = can?(:update_layout, @garden)
-  - placed_plants = @garden.placed_plants.pluck(:bed_x, :bed_y, :diameter)
+  - has_layout = @garden.has_layout?
+  - placed_plants = has_layout ? @garden.placed_plants.pluck(:bed_x, :bed_y, :diameter) : []
   %section.garden-layout-section
     .section-header
       %h2= t('.heading')
@@ -13,7 +14,7 @@
     .garden-layout-body
       = link_to layout_path, class: 'garden-layout-map', tabindex: -1, 'aria-hidden': 'true' do
         %span.garden-layout-teaser-bed
-          - if @garden.has_layout?
+          - if has_layout
             %svg{ viewBox: "0 0 #{@garden.grid_columns} #{@garden.grid_rows}", class: 'garden-layout-teaser-svg' }
               - if @garden.layout_features.present?
                 - @garden.layout_features.each do |feature|
@@ -29,7 +30,7 @@
             %span
             %span
       .garden-layout-text
-        - if @garden.has_layout?
+        - if has_layout
           %p.garden-layout-headline= t('.plants_placed', count: placed_plants.size)
           %p.text-muted
             = t(can_arrange ? '.drag_plants' : '.where_each')

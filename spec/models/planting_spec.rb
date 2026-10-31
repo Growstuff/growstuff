@@ -458,6 +458,26 @@ describe Planting do
       expect(planting.default_photo).to eq @photo2
     end
 
+    context 'with the photos preloaded' do
+      subject(:loaded) { described_class.includes(:photos).find(planting.id) }
+
+      let!(:liked) { create(:photo, owner: planting.owner, likes_count: 3).tap { |photo| planting.photos << photo } }
+
+      before { create(:photo, owner: planting.owner).tap { |photo| planting.photos << photo } }
+
+      it 'has loaded them' do
+        expect(loaded.photos).to be_loaded
+      end
+
+      it 'chooses the most liked photo' do
+        expect(loaded.default_photo).to eq liked
+      end
+
+      it 'chooses the same photo the database would' do
+        expect(loaded.default_photo).to eq planting.default_photo
+      end
+    end
+
     describe '#thumbnail_url' do
       let(:crop_photo) { create(:photo) }
 

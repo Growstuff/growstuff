@@ -16,10 +16,10 @@
       -# Everything that is this garden, inside one border. See DESIGN.md.
       .record-panel.garden-detail
         -# The garden's photo leads the panel, when it has one.
-        - if @garden.photos.any?
+        - if @photo_count.to_i.positive?
           = link_to garden_photos_path(@garden), class: 'garden-hero', 'aria-label': t('.hero_label', garden: @garden.name) do
             = image_tag garden_image_path(@garden), alt: ''
-            %span.garden-hero-caption= t('.hero_caption', count: @garden.photos.size)
+            %span.garden-hero-caption= t('.hero_caption', count: @photo_count)
         .jumbotron
           .d-flex.justify-content-between.align-items-start
             .record-identity

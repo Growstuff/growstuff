@@ -28,6 +28,11 @@ describe JobsNotepad do
   context 'with a garden' do
     let(:garden) { berries }
 
+    it 'loads the garden\'s collaborators with the jobs, for the permission checks' do
+      job = notepad.groups.flat_map(&:jobs).first
+      expect(job.garden.association(:garden_collaborators)).to be_loaded
+    end
+
     it 'has only the member\'s jobs for it' do
       expect(names).to eq ['Net the berries']
     end

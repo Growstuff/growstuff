@@ -11,7 +11,7 @@
       .index-cards
         - @photos.each do |photo|
           = render 'photos/thumbnail', photo: photo
-      - if @garden.photos.size > @photos.size
+      - if @photo_count.to_i > @photos.size
         .garden-more-photos= link_to t('.more'), garden_photos_path(@garden)
     - else
       %p.garden-empty= t('.none')
