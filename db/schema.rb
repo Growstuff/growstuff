@@ -875,6 +875,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_010000) do
     t.boolean "show_email"
     t.integer "sign_in_count", default: 0
     t.string "slug"
+    t.integer "spam_score", default: 0, null: false
     t.boolean "suggest_crops", default: true, null: false
     t.boolean "tos_agreement"
     t.string "unconfirmed_email"

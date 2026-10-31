@@ -3,8 +3,8 @@
 module Admin
   module MembersHelper
     def spam_score_badge(member)
+      score = member.respond_to?(:spam_score) && member.spam_score.present? && member.spam_score > 0 ? member.spam_score : UserBehaviourDetectionService.score_for(member)
       service = UserBehaviourDetectionService.new(member)
-      score = service.score
       reasons = service.reasons
 
       badge_class = if score >= 50
