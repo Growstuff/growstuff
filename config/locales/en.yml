@@ -1064,6 +1064,7 @@ en:
       weather_days: Days
       weather_expected_note: The dotted lines and bars are expected weather, last year's data for the same days moved forward a year. They are not observed.
       weather_hottest: Hottest day
+      weather_new: New
       weather_rain: Rain
       weather_rain_chart: Daily rainfall
       weather_rain_chart_alt: 'Daily rainfall over %{count} days, up to %{max} mm in a day.'

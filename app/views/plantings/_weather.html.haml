@@ -4,7 +4,9 @@
 - seasons = weather_seasons(planting.latitude, from: planting.planted_at, days:)
 .weather-charts
   %figure
-    %figcaption= t('plantings.show.weather_temperature_chart')
+    %figcaption
+      = t('plantings.show.weather_temperature_chart')
+      %span.badge.text-bg-success.ms-1= t('plantings.show.weather_new')
     = weather_temperature_chart(readings, from: planting.planted_at, days:, seasons:, expected:)
   %figure
     %figcaption= t('plantings.show.weather_rain_chart')
