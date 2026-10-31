@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_31_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_31_030000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -881,6 +881,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_010000) do
     t.string "unlock_token"
     t.datetime "updated_at", precision: nil
     t.string "website_url"
+    t.datetime "planting_reminder_sent_at", comment: "When we last sent the weekly planting reminder, so we can tell who has not heard from us in a while."
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true
@@ -1044,6 +1045,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_010000) do
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
+  create_table "reminder_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "event", null: false, comment: "What happened: sent or unsubscribed."
+    t.string "kind", null: false, comment: "Which reminder: planting_reminder or harvest_reminder."
+    t.bigint "member_id", null: false
+    t.index ["kind", "event", "created_at"], name: "index_reminder_events_on_kind_and_event_and_created_at"
+    t.index ["member_id"], name: "index_reminder_events_on_member_id"
+  end
+
   create_table "roles", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil
     t.text "description"
@@ -1173,5 +1183,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_010000) do
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plants", "plantings"
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
+  add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end

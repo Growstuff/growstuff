@@ -23,6 +23,14 @@ module PlantingWeatherHelper
     }.compact
   end
 
+  # The figures in a summary, as a phrase, leaving out any we have no data for: "7 mm of rain, highs up to 16.5°C and
+  # lows down to 6.5°C". Nil when we have none of them. `weather_summary` leaves out what is missing.
+  def weather_figures(summary)
+    [("#{summary[:rain]} of rain" if summary[:rain]),
+     ("highs up to #{summary[:hottest]}" if summary[:hottest]),
+     ("lows down to #{summary[:coldest]}" if summary[:coldest])].compact.to_sentence.presence
+  end
+
   # How many days the weather charts' X axis spans, from the planting date: the same stretch as the
   # progress bar above them, which is the crop's expected lifespan, plus the last day itself. A planting
   # running late is shown only up to its due date, so the two stay lined up. With no known lifespan the

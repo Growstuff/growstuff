@@ -196,6 +196,7 @@ Rails.application.routes.draw do
     end
     resources :roles
     resources :features, only: %i(index update)
+    resources :reminder_stats, only: :index
     resources :job_templates, only: :index
     resources :crops, param: :slug do
       resources :crop_companions
