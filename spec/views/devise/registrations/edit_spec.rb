@@ -57,9 +57,9 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
 
     context 'other sites section' do
       context 'not connected to flickr' do
-        it 'has a link to connect' do
+        it 'has a button to connect' do
           render
-          assert_select "a", "Connect to Flickr"
+          expect(rendered).to have_button 'Connect to Flickr'
         end
       end
 
