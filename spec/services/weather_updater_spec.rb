@@ -92,11 +92,63 @@ describe WeatherUpdater, type: :service do
     end
   end
 
-  context 'with a finished planting' do
-    before { create(:planting, garden:, owner: garden.owner, planted_at: today - 10, finished: true, finished_at: today - 5) }
+  context 'with a planting running late' do
+    before { create(:planting, crop: create(:crop, median_lifespan: 20), garden:, owner: garden.owner, planted_at: today - 100) }
+
+    it 'stops fetching at the day it was due' do
+      updater.update_all
+      expect(WeatherReading.maximum(:date)).to eq today - 80
+    end
+  end
+
+  context 'with a planting finished long ago' do
+    before { create(:planting, garden:, owner: garden.owner, planted_at: today - 100, finished: true, finished_at: today - 60) }
 
     it 'saves nothing' do
       expect { updater.update_all }.not_to change(WeatherReading, :count)
+    end
+  end
+
+  context 'with a planting that finished a few days ago' do
+    before { create(:planting, garden:, owner: garden.owner, planted_at: today - 10, finished: true, finished_at: today - 5) }
+
+    it 'still collects its last days' do
+      expect { updater.update_all }.to change(WeatherReading, :count).by(6)
+    end
+  end
+
+  context 'when a planting finishes between runs' do
+    let!(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: today - 10) }
+
+    it 'collects the days up to its finish date on a later run' do
+      updater.update_all
+      planting.update!(finished: true, finished_at: today - 2)
+      described_class.new(client:, today: today + 6, seconds_per_call: 0).update_all
+      expect(WeatherReading.maximum(:date)).to eq today - 2
+    end
+  end
+
+  context 'with a planting whose finish date is still to come' do
+    before { create(:planting, garden:, owner: garden.owner, planted_at: today - 10, finished_at: today + 30) }
+
+    it 'saves its readings' do
+      expect { updater.update_all }.to change(WeatherReading, :count).by(371)
+    end
+  end
+
+  context 'with an old planting and a new one in the same grid cell' do
+    before do
+      create(:planting, garden:, owner: garden.owner, planted_at: today - 4000)
+      create(:planting, garden:, owner: garden.owner, planted_at: today - 10)
+    end
+
+    it 'saves each planting\'s own stretch' do
+      expect { updater.update_all }.to change(WeatherReading, :count).by(732 + 371)
+    end
+
+    it 'leaves out the years between them' do
+      updater.update_all
+      expect(WeatherReading.where(date: (today - 2000)..(today - 1000))).to be_empty
     end
   end
 

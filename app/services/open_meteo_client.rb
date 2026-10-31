@@ -11,7 +11,7 @@ class OpenMeteoClient
 
   # Open-Meteo's name for each daily value, and the WeatherReading column it fills.
   VARIABLES = {
-    'precipitation_sum'              => :rainfall_mm,
+    'rain_sum'                       => :rainfall_mm,
     'temperature_2m_max'             => :temp_max_c,
     'temperature_2m_min'             => :temp_min_c,
     'et0_fao_evapotranspiration'     => :evapotranspiration_mm,

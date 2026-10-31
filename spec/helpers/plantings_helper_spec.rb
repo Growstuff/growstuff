@@ -91,6 +91,11 @@ describe PlantingsHelper do
       expect(helper.weather_rain_chart(readings, from:, days: 10).scan('<rect').size).to eq 1
     end
 
+    it 'keeps a bar for the last day of the axis inside the chart' do
+      readings = [build(:weather_reading, date: from + 3, rainfall_mm: 2.0)]
+      expect(helper.weather_rain_chart(readings, from:, days: 4)).to include('x="450.0"', 'width="150.0"')
+    end
+
     it 'places a bar by its date along the axis' do
       readings = [build(:weather_reading, date: from + 5, rainfall_mm: 2.0)]
       expect(helper.weather_rain_chart(readings, from:, days: 10)).to include 'x="300.0"'
@@ -105,12 +110,20 @@ describe PlantingsHelper do
   end
 
   describe '#weather_axis_days' do
-    it 'spans the crop lifespan when the planting is on time' do
-      expect(helper.weather_axis_days(instance_double(Planting, expected_lifespan: 100, age_in_days: 40))).to eq 100
+    let(:planted_at) { Date.new(2026, 10, 1) }
+
+    it 'spans the crop lifespan, and its last day' do
+      expect(helper.weather_axis_days(instance_double(Planting, expected_lifespan: 100, planted_at:, finished_at: nil))).to eq 101
     end
 
-    it 'spans the age when the planting is running late' do
-      expect(helper.weather_axis_days(instance_double(Planting, expected_lifespan: 100, age_in_days: 130))).to eq 130
+    it 'stays at the lifespan when the planting is running late' do
+      planting = instance_double(Planting, expected_lifespan: 100, planted_at: Time.zone.today - 130, finished_at: nil)
+      expect(helper.weather_axis_days(planting)).to eq 101
+    end
+
+    it 'runs from planting to finishing without a known lifespan' do
+      planting = instance_double(Planting, expected_lifespan: nil, planted_at:, finished_at: planted_at + 2)
+      expect(helper.weather_axis_days(planting)).to eq 3
     end
   end
 

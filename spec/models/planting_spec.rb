@@ -886,6 +886,17 @@ describe Planting do
 
       it { is_expected.to be_empty }
     end
+
+    context 'when the planting is running late' do
+      let(:today) { Time.zone.today }
+      let(:planting) { create(:planting, crop: create(:crop, median_lifespan: 3), garden:, owner: garden.owner, planted_at: today - 10) }
+
+      before { ((today - 10)..today).each { |date| create(:weather_reading, date:) } }
+
+      it 'stops at the day it was due' do
+        expect(readings.maximum(:date)).to eq today - 7
+      end
+    end
   end
 
   describe '#expected_weather_readings' do

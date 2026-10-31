@@ -23,9 +23,13 @@ module PlantingWeatherHelper
   end
 
   # How many days the weather charts' X axis spans, from the planting date: the same stretch as the
-  # progress bar above them, which is the crop's expected lifespan, or longer when the planting is running late.
+  # progress bar above them, which is the crop's expected lifespan, plus the last day itself. A planting
+  # running late is shown only up to its due date, so the two stay lined up. With no known lifespan the
+  # axis runs from planting to finishing, or today.
   def weather_axis_days(planting)
-    [planting.expected_lifespan.to_i, planting.age_in_days.to_i, 1].max
+    days = planting.expected_lifespan.to_i
+    days = ([planting.finished_at, Time.zone.today].compact.min - planting.planted_at).to_i if days.zero?
+    [days, 0].max + 1
   end
 
   # The seasons along the chart axis for a garden at this latitude: [{ season:, first:, last: }], where
