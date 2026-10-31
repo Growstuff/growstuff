@@ -1,10 +1,8 @@
 -# What Growstuff is, for someone who arrives at a garden without an account.
 .garden-join-banner{ role: 'region', 'aria-labelledby': 'what-is-growstuff' }
   .garden-join-banner-text
-    %h2#what-is-growstuff Growstuff is where people share what they grow
-    %p
-      A free, open-source site run by volunteers. Keep a record of what you plant and harvest,
-      swap seeds with people near you, and see what is growing in gardens like this one.
+    %h2#what-is-growstuff= t('.heading')
+    %p= t('.text')
   .garden-join-banner-actions
-    = link_to 'Join free', new_member_registration_path, class: 'btn btn-success', data: { auth_dialog: 'sign_up' }
-    = link_to 'Sign in', new_member_session_path, data: { auth_dialog: 'sign_in' }
+    = link_to t('.join'), new_member_registration_path, class: 'btn btn-success', data: { auth_dialog: 'sign_up' }
+    = link_to t('.sign_in'), new_member_session_path, data: { auth_dialog: 'sign_in' }

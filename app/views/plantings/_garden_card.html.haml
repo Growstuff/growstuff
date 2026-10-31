@@ -19,5 +19,5 @@
     .garden-planting-by
       = image_tag avatar_uri(planting.owner, 48), alt: '', class: 'garden-planting-avatar', width: 24, height: 24
       %span.text-muted
-        by
+        = t('.by')
         = link_to planting.owner, planting.owner

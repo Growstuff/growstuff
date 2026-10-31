@@ -4,21 +4,21 @@
 - garden_type_choices = GardenType.order(:name).pluck(:name, :id) if can?(:edit, garden)
 .index-cards.facts.gardenfacts
   .card.fact-card
-    %h3 Growing now
+    %h3= t('.growing_now')
     .fact-value
       %strong.fact-growing= growing_now
-      %span= 'planting'.pluralize(growing_now)
+      %span= t('.plantings', count: growing_now)
 
   .card.fact-card
-    %h3 Harvested
+    %h3= t('.harvested')
     .fact-value
       %strong.fact-harvested= garden.harvests_this_year_count
-      %span times this year
+      %span= t('.harvests_this_year')
 
   - if garden.area.present?
     .card.fact-card
       %h3
-        Area
+        = t('.area')
         = editable :number_field, garden, :area, display_field: '.fact-area-value'
       .fact-value.fact-area-value
         %strong.fact-area= number_with_precision(garden.area, precision: 2, strip_insignificant_zeros: true)
@@ -27,8 +27,8 @@
   - if garden.garden_type.present? || can?(:edit, garden)
     .card.fact-card{ class: garden.garden_type.present? ? '' : 'text-muted' }
       %h3
-        Type
+        = t('.type')
         = editable :select, garden, :garden_type_id, display_field: '.fact-type-value', values: garden_type_choices
       .fact-value.fact-type-value
-        %strong.fact-type= garden.garden_type&.name || 'unknown'
-        %span garden type
+        %strong.fact-type= garden.garden_type&.name || t('.unknown')
+        %span= t('.garden_type')

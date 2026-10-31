@@ -234,8 +234,41 @@ en:
     created: Garden was successfully created.
     created_prompt_html: Garden was successfully created. Would you like to <a href="%{link}">plan to weed this garden bed in two weeks</a>?
     deleted: Garden was successfully deleted.
+    facts:
+      area: Area
+      garden_type: garden type
+      growing_now: Growing now
+      harvested: Harvested
+      harvests_this_year: times this year
+      plantings:
+        one: planting
+        other: plantings
+      type: Type
+      unknown: unknown
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
+    jobs_section:
+      public: Public
+    join_banner:
+      heading: Growstuff is where people share what they grow
+      join: Join free
+      sign_in: Sign in
+      text: A free, open-source site run by volunteers. Keep a record of what you plant and harvest, swap seeds with people near you, and see what is growing in gardens like this one.
+    layout_section:
+      drag_plants: Drag plants around the map to see what fits where.
+      edit_layout: edit layout
+      edit_layout_label: Edit the bed layout
+      heading: Layout
+      map_out: Map out this bed
+      map_out_text: Drag your plants onto a picture of the bed, and see what fits where.
+      new: New
+      plants_placed:
+        one: "%{count} plant placed on the bed"
+        other: "%{count} plants placed on the bed"
+      see_how: See how this bed is laid out
+      view_layout: view layout
+      view_layout_label: View the bed layout
+      where_each: Where each plant in this garden is growing, on a map of the bed.
     location: "%{owner}'s %{garden}"
     nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
     nursery_made: This garden is now your nursery.
@@ -246,12 +279,59 @@ en:
       gardensphoto: gardens/photo
       no_plantings: no plantings
       plantingsthumbnail: plantings/thumbnail
+    photos_section:
+      add: add
+      heading: Photos
+      more: More photos
+      none: No photos yet.
+    plantings_section:
+      add: add
+      heading: Growing now
+      nothing_planted: Nothing is currently planted here.
     show:
+      about_heading: About this garden
+      all_gardens: All of %{owner}'s gardens
+      already_member: Already a member?
+      collaborators: Collaborators
+      companions_heading: Suggested companions
+      fetch_wikidata: Fetch Wikidata info
+      follow: "+ Follow %{owner}"
+      follow_sign_in: Sign in to follow %{owner}
+      garden_of: garden of
+      growing_count: "%{count} growing"
+      hero_caption:
+        one: Photo of the garden · %{count} photo
+        other: Photo of the garden · %{count} photos
+      hero_label: Photos of %{garden}
+      inactive_gardens:
+        one: "%{count} inactive garden"
+        other: "%{count} inactive gardens"
+      join: Join free
+      join_prompt_text: Join free to follow %{owner} and keep a record of your own garden.
+      join_prompt_title: Growing something nearby?
       km_from_you: about %{km} km from you
+      leave: Leave garden
+      leave_confirm: Are you sure you want to leave this garden?
+      location: Location
+      manage: Manage
+      new_garden: "+ New garden"
+      no_description: No description available yet.
+      none: None
+      nursery: nursery
+      owner: Owner
+      owner_gardens: "%{owner}'s gardens"
+      season_title: The season where this garden is
+      sign_in: Sign in
+      start_heading: Start your own garden
+      start_text: Plant, harvest and save seeds in one place, and see what grows well near you.
       suggested_plantings:
         one: We have %{count} suggested planting to add here
         other: We have %{count} suggested plantings to add here
       suggested_plantings_go: See them →
+      temperature_unknown: not known
+      temperatures_html: 'Local temperatures from %{source}: hottest %{hottest}, coldest %{coldest}.'
+      wikidata_missing: Wikidata information is missing for this location.
+      you: "(you)"
     updated: Garden was successfully updated.
   harvests:
     created: Harvest was successfully created.
@@ -935,6 +1015,8 @@ en:
       finish_helper: 'A planting is finished when you''ve harvested all of the crop, or it dies, or it''s otherwise no longer growing in your garden.
 
         '
+    garden_card:
+      by: by
     index:
       title:
         crop_plantings: Everyone's %{crop} plantings

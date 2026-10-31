@@ -6,10 +6,10 @@
   - placed_plants = @garden.placed_plants.pluck(:bed_x, :bed_y, :diameter)
   %section.garden-layout-section
     .section-header
-      %h2 Layout
+      %h2= t('.heading')
       = link_to layout_path, class: 'btn btn-sm section-add',
-        'aria-label': (can_arrange ? 'Edit the bed layout' : 'View the bed layout') do
-        = can_arrange ? 'edit layout' : 'view layout'
+        'aria-label': t(can_arrange ? '.edit_layout_label' : '.view_layout_label') do
+        = t(can_arrange ? '.edit_layout' : '.view_layout')
     .garden-layout-body
       = link_to layout_path, class: 'garden-layout-map', tabindex: -1, 'aria-hidden': 'true' do
         %span.garden-layout-teaser-bed
@@ -30,17 +30,14 @@
             %span
       .garden-layout-text
         - if @garden.has_layout?
-          %p.garden-layout-headline= pluralize(placed_plants.size, 'plant') + ' placed on the bed'
+          %p.garden-layout-headline= t('.plants_placed', count: placed_plants.size)
           %p.text-muted
-            - if can_arrange
-              Drag plants around the map to see what fits where.
-            - else
-              Where each plant in this garden is growing, on a map of the bed.
+            = t(can_arrange ? '.drag_plants' : '.where_each')
         - elsif can_arrange
           %p.garden-layout-headline
-            %span.badge.text-bg-success New
-            Map out this bed
-          %p.text-muted Drag your plants onto a picture of the bed, and see what fits where.
+            %span.badge.text-bg-success= t('.new')
+            = t('.map_out')
+          %p.text-muted= t('.map_out_text')
         - else
-          %p.garden-layout-headline See how this bed is laid out
-          %p.text-muted Where each plant in this garden is growing, on a map of the bed.
+          %p.garden-layout-headline= t('.see_how')
+          %p.text-muted= t('.where_each')
