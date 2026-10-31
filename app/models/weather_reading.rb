@@ -4,6 +4,8 @@
 class WeatherReading < ApplicationRecord
   # The width of an ERA5 cell, in degrees. Gardens closer together than this share data.
   GRID_DEGREES = 0.25
+  # The columns a planting page draws, so it loads just those and not all twenty-odd.
+  CHARTED = %i(date rainfall_mm temp_max_c temp_min_c soil_temp_c).freeze
 
   validates :latitude, :longitude, :date, :source, presence: true
   validates :date, uniqueness: { scope: %i(latitude longitude) }
@@ -19,4 +21,6 @@ class WeatherReading < ApplicationRecord
   def self.snap(degrees)
     ((degrees / GRID_DEGREES).round * GRID_DEGREES).round(2)
   end
+
+  private_class_method :snap
 end

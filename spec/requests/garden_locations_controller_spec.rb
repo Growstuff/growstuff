@@ -38,6 +38,11 @@ describe GardenLocationsController do
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
+    it 'refuses a place without coordinates' do
+      save(place.except(:latitude, :longitude))
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
     it 'refuses a place without a name' do
       save(place.merge(name: ''))
       expect(response).to have_http_status(:unprocessable_entity)

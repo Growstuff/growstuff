@@ -532,7 +532,7 @@
     background: $white;
     border-radius: $card-radius;
     display: block;
-    height: 80px;
+    height: 80px; // WEATHER_CHART_HEIGHT in PlantingWeatherHelper
     width: 100%;
   }
 

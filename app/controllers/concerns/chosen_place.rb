@@ -6,16 +6,27 @@
 module ChosenPlace
   extend ActiveSupport::Concern
 
+  # Raised for anything the dialog could not have sent.
+  class Invalid < StandardError; end
+
+  included do
+    rescue_from Invalid, ActionController::ParameterMissing do
+      render json: { errors: { location: ['is not a place we can use'] } }, status: :unprocessable_content
+    end
+  end
+
   private
 
-  # { name:, latitude:, longitude: }, or an ArgumentError / ActionController::ParameterMissing.
+  # The columns to save: { location:, latitude:, longitude: }.
   def chosen_place
     raw = params.require(:location).permit(:name, :latitude, :longitude)
     name = raw[:name].to_s.squish
     latitude = Float(raw[:latitude])
     longitude = Float(raw[:longitude])
-    raise ArgumentError unless name.present? && name.length <= 255 && latitude.between?(-90, 90) && longitude.between?(-180, 180)
+    raise Invalid unless name.present? && name.length <= 255 && latitude.between?(-90, 90) && longitude.between?(-180, 180)
 
-    { name:, latitude:, longitude: }
+    { location: name, latitude:, longitude: }
+  rescue ArgumentError, TypeError
+    raise Invalid
   end
 end

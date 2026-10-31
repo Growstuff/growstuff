@@ -14,9 +14,7 @@ class GardenLocationsController < ApplicationController
     authorize! :update, garden
     place = chosen_place
     # Straight to the columns: saving would geocode the name again, and the place already has coordinates.
-    garden.update_columns(location: place[:name], latitude: place[:latitude], longitude: place[:longitude]) # rubocop:disable Rails/SkipsModelValidations
-    render json: { location: place[:name] }
-  rescue ArgumentError, ActionController::ParameterMissing
-    render json: { errors: { location: ['is not a place we can use'] } }, status: :unprocessable_content
+    garden.update_columns(place) # rubocop:disable Rails/SkipsModelValidations
+    render json: { location: place[:location] }
   end
 end

@@ -113,16 +113,11 @@ describe PlantingsHelper do
     let(:planted_at) { Date.new(2026, 10, 1) }
 
     it 'spans the crop lifespan, and its last day' do
-      expect(helper.weather_axis_days(instance_double(Planting, expected_lifespan: 100, planted_at:, finished_at: nil))).to eq 101
-    end
-
-    it 'stays at the lifespan when the planting is running late' do
-      planting = instance_double(Planting, expected_lifespan: 100, planted_at: Time.zone.today - 130, finished_at: nil)
-      expect(helper.weather_axis_days(planting)).to eq 101
+      expect(helper.weather_axis_days(instance_double(Planting, weather_due_on: planted_at + 100, planted_at:, finished_at: nil))).to eq 101
     end
 
     it 'runs from planting to finishing without a known lifespan' do
-      planting = instance_double(Planting, expected_lifespan: nil, planted_at:, finished_at: planted_at + 2)
+      planting = instance_double(Planting, weather_due_on: nil, planted_at:, finished_at: planted_at + 2)
       expect(helper.weather_axis_days(planting)).to eq 3
     end
   end

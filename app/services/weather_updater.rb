@@ -9,7 +9,7 @@
 # only stretches that overlap are joined, so an old planting and a new one in the same cell don't pay
 # for the years between them.
 class WeatherUpdater
-  Cell = Struct.new(:latitude, :longitude, :ranges, :plantings)
+  Cell = Struct.new(:latitude, :longitude, :ranges, :planting_count)
 
   # ERA5 trails real time by about five days.
   LAG_DAYS = 5
@@ -18,14 +18,15 @@ class WeatherUpdater
   # How far back the first fetch for a new place reaches. History fills in the rest.
   CURRENT_DAYS = 30
   CHUNK_DAYS = 366
-  # A planting that has finished is kept until its last days, which lag, have been collected.
-  RECENT_FINISH_DAYS = 30
   FIRST_DAY = Date.new(1940, 1, 1) # where ERA5 starts
   # Open-Meteo's free tier allows 10,000 calls a day, 5,000 an hour and 600 a minute. A run, once a day, stays
   # under the hourly limit, which leaves room for retries and by-hand runs.
   DAILY_BUDGET = 4500
   # 600 calls a minute is a tenth of a second per call.
   SECONDS_PER_CALL = 0.1
+  # Open-Meteo counts a request for more than 10 variables, or more than 2 weeks, as several calls.
+  VARIABLES_PER_CALL = 10.0
+  DAYS_PER_CALL = 14.0
 
   attr_reader :calls_used
 
@@ -48,16 +49,12 @@ class WeatherUpdater
   def cells_by_busiest
     cells = plantings.group_by { |planting| WeatherReading.grid_point(planting.garden.latitude, planting.garden.longitude) }
       .map { |(latitude, longitude), grouped| build_cell(latitude, longitude, grouped) }
-    cells.reject { |cell| cell.ranges.empty? }.sort_by { |cell| -cell.plantings }
+    cells.reject { |cell| cell.ranges.empty? }.sort_by { |cell| -cell.planting_count }
   end
 
-  # Plantings growing, or finished recently enough that their last days may not be in yet, in gardens with a location.
-  # Nurseries are left out: seedlings there have no climate to show.
+  # See Planting.weather_tracked. Nurseries are left out: seedlings there have no climate to show.
   def plantings
-    Planting.where.not(failed: true).where(planted_at: ..@today)
-      .where('plantings.finished IS NOT TRUE OR plantings.finished_at >= ?', @today - RECENT_FINISH_DAYS)
-      .joins(:garden).merge(Garden.where.not(latitude: nil).where.not(longitude: nil).where(nursery: false))
-      .includes(:garden, crop: :parent)
+    Planting.weather_tracked(@today).includes(:garden, crop: :parent)
   end
 
   def build_cell(latitude, longitude, grouped)
@@ -82,7 +79,7 @@ class WeatherUpdater
 
   # A planting is shown no further than its due date, or a year if we don't know when that is.
   def last_day(planting)
-    planting.planted_at + [planting.expected_lifespan&.to_i, MAX_PLANTING_DAYS].compact.min
+    [planting.weather_due_on, planting.planted_at + MAX_PLANTING_DAYS].compact.min
   end
 
   # A planting still growing is shown the rest of its life as last year's weather for the same days,
@@ -106,13 +103,17 @@ class WeatherUpdater
     end
   end
 
-  # Passes over the cells, one more year of history for each stretch, until the budget or the history runs out.
+  # Passes over the stretches, one more year of history for each, until the budget or the history runs out.
+  # A stretch that adds nothing, because it is complete, failed or the budget is spent, is left out of later passes.
   def backfill(cells)
+    pending = cells.flat_map { |cell| cell.ranges.map { |range| [cell, range] } }
     saved = 0
-    loop do
-      added = cells.sum { |cell| cell.ranges.sum { |range| fetch_older(cell, range) } }
-      saved += added
-      break if added.zero?
+    until pending.empty?
+      pending = pending.select do |cell, range|
+        added = fetch_older(cell, range)
+        saved += added
+        added.positive?
+      end
     end
     saved
   end
@@ -148,15 +149,17 @@ class WeatherUpdater
     sleep(cost * @seconds_per_call) if @seconds_per_call.positive?
   end
 
-  # Open-Meteo counts a request for more than 10 variables, or more than 2 weeks, as several calls.
   def call_cost(from, to)
-    [(to - from + 1) / 14.0, 1].max * [OpenMeteoClient::VARIABLES.size / 10.0, 1].max
+    [(to - from + 1) / DAYS_PER_CALL, 1].max * [OpenMeteoClient::VARIABLES.size / VARIABLES_PER_CALL, 1].max
   end
 
+  # One statement for the whole stretch. Every row needs every column, so any value Open-Meteo lacked is nil.
   def save(cell, days)
-    days.each do |date, values|
-      WeatherReading.find_or_initialize_by(latitude: cell.latitude, longitude: cell.longitude, date:)
-        .update!(values.merge(source: OpenMeteoClient::SOURCE))
-    end.size
+    blank = OpenMeteoClient::VARIABLES.values.index_with(nil)
+    rows = days.map do |date, values|
+      blank.merge(values).merge(latitude: cell.latitude, longitude: cell.longitude, date:, source: OpenMeteoClient::SOURCE)
+    end
+    WeatherReading.upsert_all(rows, unique_by: %i(latitude longitude date)) if rows.any? # rubocop:disable Rails/SkipsModelValidations
+    rows.size
   end
 end
