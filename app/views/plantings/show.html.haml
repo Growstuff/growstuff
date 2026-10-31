@@ -67,7 +67,8 @@
           = render 'timeline', planting: @planting
           - case @weather_status
           - when :charts
-            #weather.planting-weather= render 'plantings/weather', planting: @planting, readings: @weather, expected: @expected_weather
+            .planting-weather#weather
+              = render 'plantings/weather', planting: @planting, readings: @weather, expected: @expected_weather
           - when :needs_location
             = render 'plantings/weather_location_prompt', garden: @planting.garden
           - when :pending
