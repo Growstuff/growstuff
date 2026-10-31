@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require './lib/omniauth/growstuff_mastodon'
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -212,18 +214,9 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
 
   config.omniauth :mastodon,
-                  scope:       'read:accounts',
-                  credentials: lambda { |domain, callback_url|
-                    domain = domain.to_s.downcase.strip
-                    client = MastodonClient.find_by(domain: domain)
-                    return [client.client_id, client.client_secret] if client
-
-                    app = MastodonRegistration.call(domain, callback_url) # POST https://#{domain}/api/v1/apps
-                    client = MastodonClient.create!(domain:        domain,
-                                                    client_id:     app['client_id'],
-                                                    client_secret: app['client_secret'])
-                    [client.client_id, client.client_secret]
-                  }
+                   strategy_class: OmniAuth::Strategies::GrowstuffMastodon,
+                   scope:          OmniAuth::Strategies::GrowstuffMastodon::SCOPE,
+                   credentials:    ->(domain, callback_url) { MastodonClientService.new.credentials_for(domain, callback_url) } 
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
