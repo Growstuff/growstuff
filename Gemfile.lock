@@ -84,11 +84,11 @@ GEM
       uri (>= 0.13.1)
     addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
-    anonymous_loader (0.1.3)
-      version_gem (~> 1.1, >= 1.1.14)
+    anonymous_loader (0.1.5)
+      version_gem (~> 1.1, >= 1.1.17)
     ast (2.4.3)
-    auth-sanitizer (0.2.3)
-      version_gem (~> 1.1, >= 1.1.14)
+    auth-sanitizer (0.2.5)
+      version_gem (~> 1.1, >= 1.1.16)
     aws-eventstream (1.4.1)
     aws-partitions (1.1298.0)
     aws-sdk-core (3.260.0)
@@ -344,12 +344,11 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
     msgpack (1.8.5)
-    multi_json (1.19.1)
+    multi_json (1.21.2)
     net-http (0.10.0)
       net-protocol (>= 0.3.0)
       uri (>= 0.11.1)
@@ -363,9 +362,6 @@ GEM
     net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
-    nokogiri (1.19.4)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.6)
@@ -382,15 +378,22 @@ GEM
     oj (3.17.7)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
-    omniauth (1.9.2)
-      hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
+    omniauth (2.3.1)
+      hashie (>= 3.5.2)
+      logger
+      rack (>= 2.2.8)
+      rack-protection (>= 2.2.0)
     omniauth-flickr (0.0.20)
       multi_json (~> 1.12)
       omniauth-oauth (~> 1.0)
-    omniauth-oauth (1.1.0)
+    omniauth-oauth (1.3.0)
+      cgi
       oauth
-      omniauth (~> 1.0)
+      omniauth (~> 2.3, >= 2.3.1)
+      rack (>= 1.6.2, < 4)
+    omniauth-rails_csrf_protection (2.0.1)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
     paper_trail (17.0.0)
@@ -421,7 +424,7 @@ GEM
       nio4r (~> 2.0)
     query_diet (0.7.3)
     racc (1.8.1)
-    rack (2.2.24)
+    rack (2.2.25)
     rack-attack (6.8.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.2)
@@ -588,9 +591,9 @@ GEM
     simplecov (1.3.2)
     sitemap_generator (7.1.1)
       builder (~> 3.0)
-    snaky_hash (2.0.7)
+    snaky_hash (2.0.9)
       hashie (>= 0.1.0, < 6)
-      version_gem (~> 1.1, >= 1.1.14)
+      version_gem (~> 1.1, >= 1.1.16)
     ssrf_filter (1.5.0)
     sysexits (1.2.0)
     temple (0.10.7)
@@ -613,7 +616,7 @@ GEM
       activemodel (>= 3.0.0)
       public_suffix
     vcr (6.4.0)
-    version_gem (1.1.15)
+    version_gem (1.1.17)
     warden (1.2.9)
       rack (>= 2.0.9)
     webrick (1.9.2)
@@ -633,7 +636,6 @@ GEM
     zeitwerk (2.8.3)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES
@@ -688,8 +690,9 @@ DEPENDENCIES
   msgpack
   oauth (= 1.1.6)
   oj
-  omniauth (~> 1.3)
+  omniauth (~> 2.1)
   omniauth-flickr (>= 0.0.15)
+  omniauth-rails_csrf_protection
   paper_trail (~> 17.0)
   percy-capybara (~> 5.0.0)
   pg
