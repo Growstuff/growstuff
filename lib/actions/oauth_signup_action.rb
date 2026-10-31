@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Growstuff::OauthSignupAction
+  class InvalidAuthorization < StandardError; end
+
   #
   # Inspects the omniauth information
   # and determines if we have an existing member
@@ -49,10 +51,20 @@ class Growstuff::OauthSignupAction
       )
       .find_or_create_by(
         provider:  auth['provider'],
-        uid:       auth['uid'],
+        uid:       uid_for(auth),
         name:,
         member_id: member.id
       )
+  end
+
+  # What identifies this account to us.
+  #
+  # Mastodon's uid is a number that is only unique on one server: user 111 on one
+  # server is not user 111 on another. So we add the server's domain.
+  def uid_for(auth)
+    return auth['uid'] unless auth['provider'] == 'mastodon'
+
+    "#{auth['uid']}@#{mastodon_domain(auth)}"
   end
 
   def member_created?
@@ -63,8 +75,22 @@ class Growstuff::OauthSignupAction
     case auth['provider']
     when 'flickr'
       auth['info']['name']
+    when 'mastodon'
+      "@#{auth.dig('info', 'nickname') || auth.dig('info', 'name')}@#{mastodon_domain(auth)}"
     else
       auth['info']['name']
     end
+  end
+
+  private
+
+  # The server the account lives on, from the address of its profile page.
+  def mastodon_domain(auth)
+    host = URI.parse(auth.dig('info', 'urls', 'Profile').to_s).host
+    raise InvalidAuthorization, 'Mastodon did not say which server the account is on' if host.blank?
+
+    host.downcase
+  rescue URI::InvalidURIError
+    raise InvalidAuthorization, 'Mastodon gave a profile address we could not read'
   end
 end

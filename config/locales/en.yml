@@ -830,12 +830,15 @@ en:
     unsubscribed: You have been unsubscribed from %{email_type} emails.
     welcome: Welcome
   messages:
+    auth_already_linked: That account is already connected to another Growstuff member.
     auth_failed: Authentication failed.
     auth_success: Authentication successful.
     crops_waiting: There are crops waiting to be wrangled.
     follow_error: Already following or error while following.
     followed: Followed %{name}
     invalid_location: Please enter a valid location
+    mastodon_instance_invalid: We couldn't connect to that Mastodon server. Check the address, which looks like you@mastodon.social, and try again.
+    mastodon_needs_account: We don't know that Mastodon account yet. Join Growstuff or sign in, then connect Mastodon from your account settings.
     revert_error: 'Could not revert to version from %{date}. Errors: %{errors}'
     revert_success: Reverted to version from %{date}
     transplant_error: 'There was an error transplanting the planting: %{errors}'

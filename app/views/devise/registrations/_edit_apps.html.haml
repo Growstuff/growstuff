@@ -19,6 +19,34 @@
   .row
     .col-md-12
       %p
+        = icon 'fab', 'mastodon', class: 'fa-2x align-middle me-1'
+        - if @mastodon_auths&.any?
+          Connected Mastodon accounts:
+          %ul.mt-2
+            - @mastodon_auths.each do |mastodon_auth|
+              %li.mb-2
+                = mastodon_auth.name || mastodon_auth.uid
+                = link_to "Disconnect", mastodon_auth,
+                          data: { confirm: "Are you sure you want to remove this Mastodon connection?" },
+                          method: :delete, class: "remove btn btn-danger btn-sm ms-2"
+          %p= link_to 'Connect another Mastodon account', omniauth_authorize_path(:member, :mastodon), method: :post, class: 'btn btn-outline-primary', data: { turbo: false }
+        - else
+          Connect your Mastodon account to sign in with it and show it on your profile.
+      -# These two controls belong to the #mastodon-connect form at the foot of this
+      -# partial. HTML doesn't allow a form inside this one, so they point at it with `form`.
+      .row.g-2.align-items-center
+        .col-auto
+          = label_tag :identifier, 'Your Mastodon address', class: 'visually-hidden'
+          = text_field_tag :identifier, nil, form: 'mastodon-connect', placeholder: 'you@mastodon.social',
+                           class: 'form-control', required: true, autocomplete: 'off'
+        .col-auto
+          = submit_tag(@mastodon_auths&.any? ? 'Connect another account' : 'Connect to Mastodon',
+                       form: 'mastodon-connect', name: nil, class: 'btn btn-primary')
+
+  %hr
+  .row
+    .col-md-12
+      %p
         = image_tag "icons/post.svg", size: "32x32", alt: 'API logo'
         - if current_member.api_token?
           Your API token is
@@ -31,3 +59,7 @@
                     method: :delete, class: "remove btn btn-danger"
         - else
           = link_to 'Generate API Token', regenerate_api_token_path, method: :post, class: 'btn btn-primary'
+
+-# See the Mastodon controls above. Any server can be chosen, so the address is asked for here.
+= form_with url: omniauth_authorize_path(:member, :mastodon), method: :post, id: 'mastodon-connect', local: true, data: { turbo: false } do
+  -# The fields are up in the settings form; see above.

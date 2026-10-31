@@ -24,11 +24,18 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     return redirect_to request.env['omniauth.origin'] || edit_member_registration_path unless auth
 
-    member = action.find_or_create_from_authorization(auth)
+    if current_member
+      @authentication = action.establish_authentication(auth, current_member)
+      flash[:notice] = t('messages.auth_success')
+      return redirect_to request.env['omniauth.origin'] || (edit_member_registration_path + '#apps')
+    end
+
+    existing_auth = Authentication.find_by(provider: auth['provider'], uid: auth['uid'])
+    member = existing_auth&.member || action.find_or_create_from_authorization(auth)
     @authentication = action.establish_authentication(auth, member)
 
     if action.member_created?
-      raise "Invalid provider" unless %w(flickr).index(auth['provider'].to_s)
+      raise "Invalid provider" unless %w(flickr mastodon).include?(auth['provider'].to_s)
 
       session["devise.#{auth['provider']}_data"] = request.env["omniauth.auth"]
       sign_in member
