@@ -225,10 +225,10 @@ class SeedsController < DataController
       :crop_id, :description, :quantity, :plant_before, :plant_before_year,
       :parent_planting_id, :saved_at,
       :days_until_maturity_min, :days_until_maturity_max,
-      :variety, :batch_number, :row_spacing,
+      :variety, :batch_number, :row_spacing, :how_to_sow, :germination_days_min, :germination_days_max,
       :organic, :gmo, :source,
       :heirloom, :tradable_to, :slug,
-      :finished, :finished_at
+      :finished, :finished_at, sow_months: []
     )
   end
 

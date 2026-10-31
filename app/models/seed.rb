@@ -27,6 +27,9 @@ class Seed < ApplicationRecord
                              foreign_key: 'parent_seed_id', dependent: :nullify,
                              inverse_of: :parent_seed # children
 
+  # The months a form sends: a blank from its hidden field, strings, repeats, any order.
+  normalizes :sow_months, with: ->(months) { Array(months).compact_blank.map(&:to_i).uniq.sort }
+
   #
   # Validations
   validates :crop, approved: true
@@ -37,6 +40,12 @@ class Seed < ApplicationRecord
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :days_until_maturity_max, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :germination_days_min, allow_nil:    true,
+                                   numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :germination_days_max, allow_nil:    true,
+                                   numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :how_to_sow, length: { maximum: 2_000 }
+  validate :sow_months_are_months
   validates :row_spacing, allow_nil:    true,
                           numericality: { only_integer: true, greater_than: 0 }
   validates :variety, :batch_number, length: { maximum: 100 }
@@ -161,6 +170,10 @@ class Seed < ApplicationRecord
   end
 
   private
+
+  def sow_months_are_months
+    errors.add(:sow_months, :inclusion) unless sow_months.all? { |month| (1..12).cover?(month) }
+  end
 
   def plant_before_year_is_a_year
     return if @bad_plant_before_year.blank?
