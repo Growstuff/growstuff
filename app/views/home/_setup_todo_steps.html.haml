@@ -19,10 +19,16 @@
 - if member.email_step? && (!member.email_declined? || show_done)
   - number += 1
   - adding = !member.email_declined? || params[:add_email].present?
-  .home-step
+  - props = { number:, declined: member.email_declined?, urls: { update: member_email_path, decline: decline_member_email_path },
+    labels: { title: t('home.dashboard.todo_email'), note: t('home.dashboard.todo_email_note'), declined: t('home.dashboard.todo_email_declined'),
+              changed_mind: t('home.dashboard.todo_email_changed_mind'), save: t('home.dashboard.todo_email_save'), add: t('home.dashboard.todo_email_add'),
+              decline: t('home.dashboard.todo_email_decline'), skipped: t('home.dashboard.todo_email_skipped'),
+              error: t('home.dashboard.todo_email_error') } }
+  -# Asking for an email, and changing your mind, happen in place (see EmailStep). The markup inside is for without JavaScript.
+  = react_component 'EmailStep', props, { class: 'home-step' } do
     %span.home-step-number{ class: ('skipped' if member.email_declined?) }
       - if member.email_declined?
-        = icon 'fas', 'forward-step', 'aria-hidden': false, 'aria-label': 'Skipped', title: 'Skipped'
+        = icon 'fas', 'forward-step', 'aria-hidden': false, 'aria-label': t('home.dashboard.todo_email_skipped'), title: t('home.dashboard.todo_email_skipped')
       - else
         = number
     %div
@@ -38,11 +44,19 @@
         = f.email_field :email, class: 'form-control', required: true, placeholder: 'you@example.com', autocomplete: 'email', 'aria-label': t('home.dashboard.todo_email')
         = f.submit t('home.dashboard.todo_email_save'), class: 'btn btn-success'
       = button_to t('home.dashboard.todo_email_decline'), decline_member_email_path, class: 'btn btn-outline-secondary'
-- if member.email_unconfirmed?
+- if member.confirm_email_step? && (!member.email_confirmed_step? || show_done)
   - number += 1
+  - waiting = member.email_missing?
   .home-step
-    %span.home-step-number= number
+    %span.home-step-number{ class: ('done' if member.email_confirmed_step?) }= member.email_confirmed_step? ? '✓' : number
     %div
       %b= t('home.dashboard.todo_confirm')
-      %small.home-section-note= t('home.dashboard.todo_confirm_note', email: member.unconfirmed_email.presence || member.email)
-    = button_to t('home.dashboard.todo_confirm_resend'), resend_member_email_path, class: 'btn btn-success'
+      %small.home-section-note
+        - if member.email_confirmed_step?
+          = t('home.dashboard.done')
+        - elsif waiting
+          = t('home.dashboard.todo_confirm_waiting')
+        - else
+          = t('home.dashboard.todo_confirm_note', email: member.unconfirmed_email.presence || member.email)
+    - if member.email_unconfirmed?
+      = button_to t('home.dashboard.todo_confirm_resend'), resend_member_email_path, class: 'btn btn-success'

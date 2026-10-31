@@ -21,7 +21,10 @@ class MemberEmailsController < ApplicationController
 
   def decline
     current_member.decline_email!
-    redirect_to root_path, notice: t('.declined')
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: t('.declined') }
+      format.json { head :no_content }
+    end
   end
 
   def resend

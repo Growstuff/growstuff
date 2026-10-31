@@ -478,12 +478,16 @@ en:
       todo_confirm: Confirm your email address
       todo_confirm_note: We sent a link to %{email}. Follow it so we know it's yours.
       todo_confirm_resend: Send it again
+      todo_confirm_waiting: Once you've added an email address we'll send you a link to confirm it.
       todo_email: Add your email address
       todo_email_decline: No thanks
+      todo_email_add: Add email
       todo_email_changed_mind: Changed your mind?
+      todo_email_error: We couldn't save that just now. Please try again.
       todo_email_declined: You chose not to add one, so we won't send you notifications or planting reminders.
       todo_email_note: Without one we can't send you notifications or planting reminders, or let you reset your password. We'll email a link to confirm it.
       todo_email_save: Save email
+      todo_email_skipped: Skipped
       todo_name: Confirm your name
       todo_name_note: This is the name that shows on the website. We suggested one, and you can change it.
       todo_name_save: Save name
