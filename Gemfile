@@ -31,7 +31,6 @@ gem 'rswag-ui'
 #     |     Parser.parse(source, options)
 #                 ^^^^^^
 gem 'json', '< 3'
-gem 'oj' # Speeds up json
 
 # planting and harvest predictions
 # based on median values for the crop
