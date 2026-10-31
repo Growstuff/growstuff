@@ -871,30 +871,37 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
   }
 }
 
-// The invitation to the layout page on gardens#show: a small bed in the same
-// soil and timber, with a few plants in it, beside the pitch.
-.garden-layout-teaser {
+// The layout section on gardens#show: a small bed in the same soil and timber,
+// with the member's plants in it, beside a line about it. The map leads to the
+// layout page, as does the section's own link.
+.garden-layout-body {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
-  margin: 0 0 1.25rem;
-  padding: 0.85rem 1rem;
-  color: inherit;
-  text-decoration: none;
-  background: var(--bs-success-bg-subtle);
-  border: 1px solid var(--bs-success-border-subtle);
-  border-radius: 8px;
-  transition: box-shadow 0.15s, transform 0.15s;
+  gap: 1.25rem;
+  padding-bottom: 0.5rem;
 
-  &:hover,
-  &:focus-visible {
-    color: inherit;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    transform: translateY(-1px);
+  .garden-layout-map {
+    flex: none;
+    max-width: 100%;
+  }
 
-    .garden-layout-teaser-cta {
-      text-decoration: underline;
+  .garden-layout-text {
+    flex: 1 1 15rem;
+
+    p {
+      margin: 0;
     }
+  }
+
+  .garden-layout-headline {
+    font-weight: 600;
+  }
+
+  .garden-layout-teaser-bed {
+    display: block;
+    width: 12rem;
+    height: 8rem;
   }
 }
 
@@ -950,34 +957,6 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     stroke: $garden-layout-twine;
     stroke-width: 0.15;
     stroke-linecap: round;
-  }
-}
-
-.garden-layout-teaser-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.15rem;
-  font-size: 0.9rem;
-
-  strong {
-    font-size: 1.05rem;
-  }
-}
-
-.garden-layout-teaser-cta {
-  font-weight: 600;
-  color: var(--bs-success-text-emphasis);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .garden-layout-teaser {
-    transition: none;
-
-    &:hover,
-    &:focus-visible {
-      transform: none;
-    }
   }
 }
 

@@ -439,3 +439,48 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     height: 12px;
   }
 }
+
+// The facts row fills the panel edge to edge, in line with the sections around
+// it, rather than the shared 220px cards centred in their columns.
+.garden-show .gardenfacts {
+  gap: 1rem;
+  padding: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 2rem;
+
+  .card {
+    max-width: none;
+    margin: 0;
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+// The description is part of the same block as the facts, so it sits closer to
+// them than to the sections above.
+.garden-show .garden-description-block {
+  margin-bottom: 1rem;
+}
+
+.garden-show .garden-layout-body {
+  font-size: 1rem;
+
+  .garden-layout-headline {
+    font-size: 1.1rem;
+  }
+}
+
+// The link on a section's bar, such as "add" or "edit layout", is a touch-sized
+// target, as in the design.
+.garden-show .section-header .section-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 32px;
+}
+
+// The people in "About this garden" sit close together, under their heading.
+.garden-show .garden-collaborators p {
+  margin-bottom: 0.5rem;
+}

@@ -69,11 +69,16 @@ describe "gardens/show" do
       expect(rendered).to have_content @planting.crop.name
     end
 
-    it 'points people at the garden layout teaser with New indicator when garden has no layout' do
-      assert_select "a.garden-layout-teaser[href=?]", layout_member_garden_path(@owner, @garden)
-      expect(rendered).to have_content "New"
+    it 'leads to the layout page from the section bar' do
+      assert_select ".garden-layout-section .section-header a[href=?]", layout_member_garden_path(@owner, @garden), text: 'edit layout'
+    end
+
+    it 'pitches the layout tool with a New badge when the garden has no layout' do
+      assert_select ".garden-layout-section .badge", text: 'New'
+    end
+
+    it 'invites the owner to map out the bed' do
       expect(rendered).to have_content "Map out this bed"
-      expect(rendered).to have_content "Try out the new garden layout tool"
     end
   end
 
@@ -90,12 +95,20 @@ describe "gardens/show" do
       render
     end
 
-    it 'shows the layout SVG preview and edit controls without New badge' do
-      assert_select "a.garden-layout-teaser[href=?]", layout_member_garden_path(@owner, @garden)
-      assert_select "svg.garden-layout-teaser-svg"
-      expect(rendered).not_to have_content "New"
-      expect(rendered).to have_content "Garden layout"
-      expect(rendered).to have_content "Edit layout →"
+    it 'shows the bed map' do
+      assert_select ".garden-layout-section svg.garden-layout-teaser-svg"
+    end
+
+    it 'counts the plants placed on the bed' do
+      assert_select ".garden-layout-headline", text: '0 plants placed on the bed'
+    end
+
+    it 'has no New badge' do
+      assert_select ".garden-layout-section .badge", count: 0
+    end
+
+    it 'offers to edit the layout' do
+      assert_select ".garden-layout-section .section-add", text: 'edit layout'
     end
   end
 
@@ -121,9 +134,8 @@ describe "gardens/show" do
       assert_select '.record-grower-follow .member-card-follow'
     end
 
-    it 'shows view layout controls' do
-      expect(rendered).to have_content "Garden layout"
-      expect(rendered).to have_content "View layout →"
+    it 'offers to view the layout' do
+      assert_select ".garden-layout-section .section-add", text: 'view layout'
     end
   end
 
@@ -228,7 +240,7 @@ describe "gardens/show" do
       assign(:suggested_companions, [])
       render
 
-      assert_select "a.garden-layout-teaser", count: 0
+      assert_select ".garden-layout-section", count: 0
     end
   end
 end
