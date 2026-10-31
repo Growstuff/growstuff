@@ -65,7 +65,32 @@ describe "Planting reminder email" do
     end
 
     it "gives the recent rain" do
-      expect(mail_body).to have_content "it rained 7 mm"
+      expect(mail_body).to have_content "7 mm of rain"
+    end
+
+    it "gives the dates the weather is from" do
+      date = Time.zone.today - 3
+      expect(mail_body).to have_content "From #{date.day} #{date.strftime('%B')} to #{date.day} #{date.strftime('%B')}"
+    end
+
+    context "when the readings have only a temperature" do
+      before { WeatherReading.update_all(rainfall_mm: nil, temp_min_c: nil) } # rubocop:disable Rails/SkipsModelValidations
+
+      it "gives what there is, without blanks" do
+        expect(mail_body).to have_content "highs up to 15.0°C."
+      end
+
+      it "leaves out the rain" do
+        expect(mail_body).to have_no_content "of rain"
+      end
+    end
+
+    context "when the readings have no figures" do
+      before { WeatherReading.update_all(rainfall_mm: nil, temp_min_c: nil, temp_max_c: nil) } # rubocop:disable Rails/SkipsModelValidations
+
+      it "leaves out the weather sentence" do
+        expect(mail_body).to have_no_content "From "
+      end
     end
 
     it "doesn't ask for their location" do

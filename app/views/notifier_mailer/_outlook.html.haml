@@ -10,16 +10,12 @@
     - if outlook.soil
       - soil = weather_summary([outlook.soil])[:soil_temp]
       %p The soil was #{soil} on #{l(outlook.soil.date, format: '%-d %B')}.
-    - if outlook.recent.any?
-      - recent = weather_summary(outlook.recent)
+    - if outlook.recent.any? && (figures = weather_figures(weather_summary(outlook.recent)))
       %p
-        Over the last #{pluralize(recent[:days], 'day')} it rained #{recent[:rain]},
-        with highs up to #{recent[:hottest]} and lows down to #{recent[:coldest]}.
-    - if outlook.expected.any?
-      - expected = weather_summary(outlook.expected)
-      %p
-        If the next two weeks are like last year's, expect about #{expected[:rain]} of rain,
-        with highs up to #{expected[:hottest]} and lows down to #{expected[:coldest]}.
+        From #{l(outlook.recent.first.date, format: '%-d %B')} to #{l(outlook.recent.last.date, format: '%-d %B')}:
+        #{figures}.
+    - if outlook.expected.any? && (figures = weather_figures(weather_summary(outlook.expected)))
+      %p If the next two weeks are like last year's, expect #{figures}.
     - if outlook.crops.any?
       %h3 Worth sowing now
       %p Gardeners at your latitude are planting these at the moment:

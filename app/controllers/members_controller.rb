@@ -65,8 +65,11 @@ class MembersController < ApplicationController
     @type = decrypted_message[:type].to_sym
     raise ActiveSupport::MessageVerifier::InvalidSignature unless EMAIL_TYPE_STRING.key?(@type)
 
-    record_unsubscribe if @member[@type]
-    @member.update(@type => false)
+    # Locked, so two requests on the same link can't both see it still on and count it twice.
+    @member.with_lock do
+      record_unsubscribe if @member[@type]
+      @member.update(@type => false)
+    end
 
     flash.now[:notice] = I18n.t('members.unsubscribed', email_type: EMAIL_TYPE_STRING[@type])
   rescue ActiveSupport::MessageVerifier::InvalidSignature

@@ -21,11 +21,12 @@ class ReminderEvent < ApplicationRecord
     create!(member:, kind: kind.to_s, event: 'unsubscribed', created_at: Time.zone.now)
   end
 
-  # How many of each event in each of the last `weeks` weeks (starting Monday), as { week_start => { 'sent' => n,
-  # 'unsubscribed' => n } }, newest week first. Weeks with nothing in them are left in, as zeros.
-  def self.weekly(kind, weeks: 12, today: Time.zone.today)
+  # How many of each event in each of the last `weeks` weeks (starting Monday, in UTC), as { week_start => { 'sent' => n,
+  # 'unsubscribed' => n } }, newest week first. Weeks with nothing in them are left in, as zeros. UTC throughout, because
+  # that is how the database groups them, whatever time zone the viewer is in.
+  def self.weekly(kind, weeks: 12, today: Time.now.utc.to_date)
     first = today.beginning_of_week - (weeks - 1).weeks
-    counts = of_kind(kind).where(created_at: first.beginning_of_day..).group("date_trunc('week', created_at)::date", :event).count
+    counts = of_kind(kind).where(created_at: first.in_time_zone('UTC')..).group("date_trunc('week', created_at)::date", :event).count
     (0...weeks).map { |back| today.beginning_of_week - back.weeks }.index_with do |week|
       EVENTS.index_with { |event| counts.fetch([week, event], 0) }
     end
