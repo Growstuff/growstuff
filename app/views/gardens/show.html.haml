@@ -15,43 +15,7 @@
     .col-md-8.col-12
       -# Everything that is this garden, inside one border. See DESIGN.md.
       .record-panel.garden-detail
-        -# The garden's photo leads the panel, when it has one.
-        - if @photo_count.to_i.positive?
-          = link_to garden_photos_path(@garden), class: 'garden-hero', 'aria-label': t('.hero_label', garden: @garden.name) do
-            = image_tag garden_image_path(@garden), alt: ''
-            %span.garden-hero-caption= t('.hero_caption', count: @photo_count)
-        .jumbotron
-          .d-flex.justify-content-between.align-items-start
-            .record-identity
-              = render 'shared/record_owner', owner: @garden.owner
-              .record-identity-text
-                .garden-edit-row
-                  %h1.garden-title
-                    = garden_icon
-                    = @garden.name
-                  = editable :text_field, @garden, :name, display_field: '.garden-title'
-                - if @garden.nursery?
-                  %p.mb-1
-                    %span.badge.text-bg-success Nursery
-                    %small.text-muted Seedlings raised here can be transplanted into your gardens.
-                %p.garden-grower
-                  = t('.garden_of')
-                  %strong.record-grower-name= link_to @garden.owner, @garden.owner
-                - details = [(link_to(@garden.location, place_path(@garden.location)) if @garden.location.present?), @garden.garden_type&.name,
-                             (pluralize(number_with_precision(@garden.area, precision: 2, strip_insignificant_zeros: true), @garden.area_unit) if @garden.area.present?),
-                             garden_distance(@garden)].compact
-                - season = season_for(@garden.latitude) if @garden.active
-                - if details.any? || season
-                  %p.garden-meta.text-muted
-                    = safe_join(details, ' · ')
-                    - if season
-                      %span.garden-season{ title: t('.season_title') }= season.to_s.capitalize
-                %p.garden-owner-link= link_to t('.all_gardens', owner: @garden.owner), member_gardens_path(@garden.owner)
-            .garden-hero-actions
-              - if member_signed_in?
-                .record-grower-follow
-                  = render 'members/follow_button', person: @garden.owner, named: true, button_class: 'btn btn-success'
-              = render 'gardens/actions', garden: @garden
+        = render 'gardens/header', garden: @garden, photo_count: @photo_count
         - unless @garden.active
           .alert.alert-warning
             This garden is inactive.
@@ -63,23 +27,9 @@
             = render 'jobs/ideas_banner', href: suggestions_path, open: false,
               text: t('.suggested_plantings', count: @suggestion_count), go: t('.suggested_plantings_go')
         = render 'gardens/facts', garden: @garden, growing_now: @current_plantings.size
-
-        .garden-description-block
-          .garden-edit-row
-            .garden-description
-              - if @garden.description.present?
-                :markdown
-                  #{strip_tags markdownify(@garden.description)}
-              - else
-                %p.text-muted= t('.no_description')
-            = editable :text_area, @garden, :description, display_field: '.garden-description'
-
+        = render 'gardens/description', garden: @garden
         - unless member_signed_in?
-          .garden-join-prompt
-            %p
-              %strong= t('.join_prompt_title')
-              = t('.join_prompt_text', owner: @garden.owner)
-            = link_to t('.join'), new_member_registration_path, class: 'btn btn-success', data: { auth_dialog: 'sign_up' }
+          = render 'gardens/join_prompt', garden: @garden
 
         -# What a visitor is here to see comes first; the owner's own tools lead for them.
         - if can?(:edit, @garden)
@@ -94,91 +44,15 @@
           = render 'gardens/jobs_section'
 
         - if @suggested_companions.any?
-          %section.companions
-            %h2= t('.companions_heading')
-            - @suggested_companions.each do |companion|
-              = render 'crops/tiny', crop: companion
-
+          = render 'gardens/companions', companions: @suggested_companions
         - if @finished_plantings.any? || @finished_jobs&.size&.positive?
           %section.garden-previously= render 'previously'
 
     .col-md-4.col-12
-      %section.garden-about
-        .section-header
-          %h2= t('.about_heading')
-        .garden-side-body
-          .garden-person
-            = image_tag avatar_uri(@garden.owner, 88), alt: '', class: 'garden-person-avatar', width: 44, height: 44
-            %div
-              %small.text-muted.d-block= t('.owner')
-              %strong= link_to @garden.owner, @garden.owner
-              - if @garden.owner == current_member
-                %span.text-muted= t('.you')
-          -# Only when there is someone to show, or the owner can add someone.
-          - collaborators = @garden.garden_collaborators.includes(:member).to_a
-          - can_manage = can?(:create, GardenCollaborator.new(garden: @garden))
-          - if collaborators.any? || can_manage
-            .garden-collaborators
-              .garden-side-row
-                %strong= t('.collaborators')
-                - if can_manage
-                  = link_to t('.manage'), garden_garden_collaborators_path(@garden)
-                - elsif (collab = collaborators.find { |collaborator| collaborator.member_id == current_member&.id })
-                  = link_to t('.leave'), garden_garden_collaborator_path(@garden, collab), method: :delete, class: 'text-danger',
-                    data: { confirm: t('.leave_confirm') }
-              - collaborators.each do |collaborator|
-                .garden-person.garden-person-small
-                  = image_tag avatar_uri(collaborator.member, 48), alt: '', class: 'garden-person-avatar', width: 24, height: 24
-                  = link_to collaborator.member, collaborator.member
-          - if @garden.location.present?
-            %div
-              %strong= t('.location')
-              %br
-              = @garden.location
-              - if garden_distance(@garden)
-                %br
-                %small.text-muted= garden_distance(@garden)
-          - if @garden.location_wikidata_id.present?
-            - source = link_to('Wikidata', "https://www.wikidata.org/wiki/#{@garden.location_wikidata_id}", target: '_blank', rel: 'noopener noreferrer')
-            - hottest = @garden.highest_temp_c.present? ? "#{@garden.highest_temp_c.round(1)}°C" : t('.temperature_unknown')
-            - coldest = @garden.lowest_temp_c.present? ? "#{@garden.lowest_temp_c.round(1)}°C" : t('.temperature_unknown')
-            %p.garden-temperatures.text-muted= t('.temperatures_html', source:, hottest:, coldest:)
-          - elsif can?(:edit, @garden) && @garden.location.present?
-            .alert.alert-info.mb-0
-              %p= t('.wikidata_missing')
-              = button_to t('.fetch_wikidata'), fetch_wikidata_garden_path(@garden), method: :post, class: 'btn btn-info btn-sm'
-
-      - owner_gardens = @garden.owner.gardens.active.order_by_name.to_a
-      - growing_counts = Planting.current.where(garden_id: owner_gardens.map(&:id)).group(:garden_id).count
-      - inactive_count = @garden.owner.gardens.inactive.count
-      %section.garden-gardens
-        .section-header
-          %h2= t('.owner_gardens', owner: @garden.owner)
-        %ul.garden-list
-          - owner_gardens.each do |garden|
-            %li
-              - if @garden == garden
-                %strong= garden
-              - else
-                = link_to garden, garden_path(garden)
-              %span.text-muted= garden.nursery? ? t('.nursery') : t('.growing_count', count: growing_counts.fetch(garden.id, 0))
-        - if inactive_count.positive? || @garden.owner == current_member
-          .garden-list-footer
-            - if inactive_count.positive?
-              = link_to t('.inactive_gardens', count: inactive_count), member_inactive_gardens_path(@garden.owner)
-            - if @garden.owner == current_member
-              = link_to t('.new_garden'), new_garden_path, class: 'btn btn-outline-secondary btn-sm'
-
+      = render 'gardens/about', garden: @garden
+      = render 'gardens/owner_gardens', garden: @garden
       - unless member_signed_in?
-        %section.garden-start
-          .section-header
-            %h2= t('.start_heading')
-          .garden-side-body
-            %p.mb-0= t('.start_text')
-            = link_to t('.join'), new_member_registration_path, class: 'btn btn-success align-self-start', data: { auth_dialog: 'sign_up' }
-            %p.mb-0.small
-              = t('.already_member')
-              = link_to t('.sign_in'), new_member_session_path, data: { auth_dialog: 'sign_in' }
+        = render 'gardens/start'
 
 -# The to-do list's menu opens the add-photo dialog over the page, and the plantings'
 -# add opens the plant dialog: both React islands.

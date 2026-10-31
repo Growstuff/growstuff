@@ -1,0 +1,45 @@
+-# Who the garden belongs to, who helps with it, and where it is.
+%section.garden-about
+  .section-header
+    %h2= t('.heading')
+  .garden-side-body
+    .garden-person
+      = avatar_image garden.owner, 44, class: 'garden-person-avatar'
+      %div
+        %small.text-muted.d-block= t('.owner')
+        %strong= link_to garden.owner, garden.owner
+        - if garden.owner == current_member
+          %span.text-muted= t('.you')
+    -# Only when there is someone to show, or the owner can add someone.
+    - collaborators = garden.garden_collaborators.includes(:member).to_a
+    - can_manage = can?(:create, GardenCollaborator.new(garden:))
+    - if collaborators.any? || can_manage
+      .garden-collaborators
+        .garden-side-row
+          %strong= t('.collaborators')
+          - if can_manage
+            = link_to t('.manage'), garden_garden_collaborators_path(garden)
+          - elsif (collab = collaborators.find { |collaborator| collaborator.member_id == current_member&.id })
+            = link_to t('.leave'), garden_garden_collaborator_path(garden, collab), method: :delete, class: 'text-danger',
+              data: { confirm: t('.leave_confirm') }
+        - collaborators.each do |collaborator|
+          .garden-person.garden-person-small
+            = avatar_image collaborator.member, 24, class: 'garden-person-avatar'
+            = link_to collaborator.member, collaborator.member
+    - if garden.location.present?
+      - distance = garden_distance(garden)
+      %div
+        %strong= t('.location')
+        %br
+        = garden.location
+        - if distance
+          %br
+          %small.text-muted= distance
+    - if garden.location_wikidata_id.present?
+      - source = link_to('Wikidata', "https://www.wikidata.org/wiki/#{garden.location_wikidata_id}", target: '_blank', rel: 'noopener noreferrer')
+      %p.garden-temperatures.text-muted
+        = t('.temperatures_html', source:, hottest: temperature_text(garden.highest_temp_c), coldest: temperature_text(garden.lowest_temp_c))
+    - elsif can?(:edit, garden) && garden.location.present?
+      .alert.alert-info.mb-0
+        %p= t('.wikidata_missing')
+        = button_to t('.fetch_wikidata'), fetch_wikidata_garden_path(garden), method: :post, class: 'btn btn-info btn-sm'

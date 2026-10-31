@@ -1,0 +1,36 @@
+-# The top of a garden's panel: its photo when it has one, then its name, who
+-# grows it and what they can do.
+- if photo_count.to_i.positive?
+  = link_to garden_photos_path(garden), class: 'garden-hero', 'aria-label': t('.hero_label', garden: garden.name) do
+    = image_tag garden_image_path(garden), alt: ''
+    %span.garden-hero-caption= t('.hero_caption', count: photo_count)
+.jumbotron
+  .d-flex.justify-content-between.align-items-start
+    .record-identity
+      = render 'shared/record_owner', owner: garden.owner
+      .record-identity-text
+        .garden-edit-row
+          %h1.garden-title
+            = garden_icon
+            = garden.name
+          = editable :text_field, garden, :name, display_field: '.garden-title'
+        - if garden.nursery?
+          %p.mb-1
+            %span.badge.text-bg-success Nursery
+            %small.text-muted Seedlings raised here can be transplanted into your gardens.
+        %p.garden-grower
+          = t('.garden_of')
+          %strong.record-grower-name= link_to garden.owner, garden.owner
+        - details = garden_details(garden)
+        - season = season_for(garden.latitude) if garden.active
+        - if details.present? || season
+          %p.garden-meta.text-muted
+            = details
+            - if season
+              %span.garden-season{ title: t('.season_title') }= season.to_s.capitalize
+        %p.garden-owner-link= link_to t('.all_gardens', owner: garden.owner), member_gardens_path(garden.owner)
+    .garden-hero-actions
+      - if member_signed_in?
+        .record-grower-follow
+          = render 'members/follow_button', person: garden.owner, named: true, button_class: 'btn btn-success'
+      = render 'gardens/actions', garden: garden

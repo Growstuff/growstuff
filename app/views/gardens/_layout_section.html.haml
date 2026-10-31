@@ -5,7 +5,7 @@
 - has_layout = @garden.has_layout?
 - if @garden.active && (has_layout || can_arrange)
   - layout_path = layout_member_garden_path(@garden.owner, @garden)
-  - placed_plants = has_layout ? @garden.placed_plants.pluck(:bed_x, :bed_y, :diameter) : []
+  - placed_plants = has_layout ? @garden.placed_plant_positions : []
   %section.garden-layout-section
     .section-header
       %h2= t('.heading')

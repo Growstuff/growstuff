@@ -4,5 +4,5 @@
     %h2#what-is-growstuff= t('.heading')
     %p= t('.text')
   .garden-join-banner-actions
-    = link_to t('.join'), new_member_registration_path, class: 'btn btn-success', data: { auth_dialog: 'sign_up' }
-    = link_to t('.sign_in'), new_member_session_path, data: { auth_dialog: 'sign_in' }
+    = sign_up_link t('gardens.sign_up'), class: 'btn btn-success'
+    = sign_in_link t('gardens.sign_in')

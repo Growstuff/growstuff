@@ -155,4 +155,14 @@ describe GardensHelper do
       expect(helper.garden_type_options).to eq [['Ant', ant.id], ['Zed', zed.id]]
     end
   end
+
+  describe '#temperature_text' do
+    it 'rounds to a tenth of a degree' do
+      expect(helper.temperature_text(31.44)).to eq '31.4°C'
+    end
+
+    it 'says when it is not known' do
+      expect(helper.temperature_text(nil)).to eq 'not known'
+    end
+  end
 end

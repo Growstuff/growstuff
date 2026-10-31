@@ -9,6 +9,11 @@ module GardensHelper
     safe_join([location, garden.garden_type&.name, area, garden_distance(garden)].compact, ' · ')
   end
 
+  # A temperature as degrees, or that it is not known.
+  def temperature_text(celsius)
+    celsius.present? ? "#{celsius.round(1)}°C" : t('gardens.about.temperature_unknown')
+  end
+
   # The garden types to choose from, as name and id.
   def garden_type_options
     GardenType.order(:name).pluck(:name, :id)
