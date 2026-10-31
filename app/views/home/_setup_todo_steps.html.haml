@@ -1,0 +1,48 @@
+-# The steps for finishing joining, as rows of a checklist: confirm the name
+-# they were given, say whether they want to add an email, and confirm it.
+-# Locals: start, the number the first row takes; show_done (default true) to keep
+-# the rows they have finished, as the Get started list does.
+- member = current_member
+- number = start - 1
+- show_done = local_assigns.fetch(:show_done, true)
+- if member.username_step? && (member.username_unconfirmed? || show_done)
+  - number += 1
+  .home-step
+    %span.home-step-number{ class: ('done' unless member.username_unconfirmed?) }= member.username_unconfirmed? ? number : '✓'
+    %div
+      %b= t('home.dashboard.todo_name')
+      %small.home-section-note= member.username_unconfirmed? ? t('home.dashboard.todo_name_note') : t('home.dashboard.done')
+    - if member.username_unconfirmed?
+      = form_with model: member, scope: :member, url: member_name_path, method: :patch, class: 'd-flex gap-2' do |f|
+        = f.text_field :login_name, class: 'form-control', required: true, autocomplete: 'username', 'aria-label': t('home.dashboard.todo_name')
+        = f.submit t('home.dashboard.todo_name_save'), class: 'btn btn-success'
+- if member.email_step? && (!member.email_declined? || show_done)
+  - number += 1
+  - adding = !member.email_declined? || params[:add_email].present?
+  .home-step
+    %span.home-step-number{ class: ('skipped' if member.email_declined?) }
+      - if member.email_declined?
+        = icon 'fas', 'forward-step', 'aria-hidden': false, 'aria-label': 'Skipped', title: 'Skipped'
+      - else
+        = number
+    %div
+      %b= t('home.dashboard.todo_email')
+      %small.home-section-note
+        - if member.email_declined?
+          = t('home.dashboard.todo_email_declined')
+          = link_to t('home.dashboard.todo_email_changed_mind'), root_path(add_email: 1)
+        - else
+          = t('home.dashboard.todo_email_note')
+    - if adding
+      = form_with model: member, scope: :member, url: member_email_path, method: :patch, class: 'd-flex gap-2' do |f|
+        = f.email_field :email, class: 'form-control', required: true, placeholder: 'you@example.com', autocomplete: 'email', 'aria-label': t('home.dashboard.todo_email')
+        = f.submit t('home.dashboard.todo_email_save'), class: 'btn btn-success'
+      = button_to t('home.dashboard.todo_email_decline'), decline_member_email_path, class: 'btn btn-outline-secondary'
+- if member.email_unconfirmed?
+  - number += 1
+  .home-step
+    %span.home-step-number= number
+    %div
+      %b= t('home.dashboard.todo_confirm')
+      %small.home-section-note= t('home.dashboard.todo_confirm_note', email: member.unconfirmed_email.presence || member.email)
+    = button_to t('home.dashboard.todo_confirm_resend'), resend_member_email_path, class: 'btn btn-success'

@@ -254,8 +254,27 @@ class Member < ApplicationRecord
     unconfirmed_email.present? || (email.present? && !confirmed?)
   end
 
+  # Members who joined through a provider have a name to confirm, and anyone
+  # without an email has the question of whether to add one.
+  def username_step?
+    settings.key?('username')
+  end
+
+  def email_step?
+    email_missing?
+  end
+
+  # Every row the Get started list shows for this, finished or not.
+  def setup_rows_count
+    [username_step?, email_step?, email_unconfirmed?].count(true)
+  end
+
+  def setup_todo_count
+    [username_unconfirmed?, email_missing? && !email_declined?, email_unconfirmed?].count(true)
+  end
+
   def setup_todo?
-    username_unconfirmed? || email_unconfirmed? || (email_missing? && !email_declined?)
+    setup_todo_count.positive?
   end
 
   def last_sign_in_method?(authentication)

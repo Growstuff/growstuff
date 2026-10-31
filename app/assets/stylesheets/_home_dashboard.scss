@@ -73,6 +73,7 @@ $dash-line: rgba(65, 63, 59, 0.15);
   border-radius: 50%;
 
   &.done { color: #212121; background: #a4c98c; }
+  &.skipped { font-size: 0.85rem; color: #212121; background: #d9d6cf; }
 }
 
 .home-crops { display: flex; flex-wrap: wrap; gap: 20px; }

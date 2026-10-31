@@ -480,6 +480,8 @@ en:
       todo_confirm_resend: Send it again
       todo_email: Add your email address
       todo_email_decline: No thanks
+      todo_email_changed_mind: Changed your mind?
+      todo_email_declined: You chose not to add one, so we won't send you notifications or planting reminders.
       todo_email_note: Without one we can't send you notifications or planting reminders, or let you reset your password. We'll email a link to confirm it.
       todo_email_save: Save email
       todo_name: Confirm your name
