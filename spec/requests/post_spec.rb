@@ -53,18 +53,18 @@ describe "Posts" do
 
       it 'lists the draft on their own page' do
         get member_posts_path(member_slug: member.slug)
-        expect(response.body).to include draft.subject
+        expect(response.body).to include CGI.escapeHTML(draft.subject)
       end
 
       it 'lists the draft under their drafts' do
         get member_posts_path(member_slug: member.slug, drafts: 1)
-        expect(response.body).to include draft.subject
+        expect(response.body).to include CGI.escapeHTML(draft.subject)
       end
 
       it 'leaves published posts out of their drafts' do
         published = create(:post, author: member)
         get member_posts_path(member_slug: member.slug, drafts: 1)
-        expect(response.body).not_to include published.subject
+        expect(response.body).not_to include CGI.escapeHTML(published.subject)
       end
 
       it 'links to their drafts from the sidebar' do
@@ -103,14 +103,14 @@ describe "Posts" do
 
       it 'does not list the draft on the author page' do
         get member_posts_path(member_slug: member.slug)
-        expect(response.body).not_to include draft.subject
+        expect(response.body).not_to include CGI.escapeHTML(draft.subject)
       end
     end
 
     context 'when signed out' do
       it 'does not list the draft' do
         get posts_path
-        expect(response.body).not_to include draft.subject
+        expect(response.body).not_to include CGI.escapeHTML(draft.subject)
       end
     end
   end

@@ -122,4 +122,51 @@ describe('LocationPicker', () => {
     await userEvent.click(screen.getByRole('button', {name: 'Cancel'}));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
+
+  describe('for a garden', () => {
+    const profilePlace = {name: 'Wellington, NZ', latitude: -41.3, longitude: 174.8};
+
+    async function openForGarden(props = {}) {
+      render(
+        <LocationPicker label="Set location" searchUrl="/places" saveUrl="/gardens/g/location"
+          title="Where is this garden?" intro="Shows the weather here." {...props} />
+      );
+      await userEvent.click(screen.getByRole('button', {name: 'Set location'}));
+    }
+
+    it('uses the title it is given', async () => {
+      await openForGarden();
+      expect(screen.getByRole('dialog', {name: 'Where is this garden?'})).toBeInTheDocument();
+    });
+
+    it('uses the intro it is given', async () => {
+      await openForGarden();
+      expect(screen.getByText('Shows the weather here.')).toBeInTheDocument();
+    });
+
+    it('offers no profile place without one', async () => {
+      await openForGarden();
+      expect(screen.queryByRole('button', {name: /from my profile/})).not.toBeInTheDocument();
+    });
+
+    it('offers the profile place when there is one', async () => {
+      await openForGarden({profilePlace});
+      expect(screen.getByRole('button', {name: 'Use Wellington, NZ from my profile'})).toBeInTheDocument();
+    });
+
+    it('chooses the profile place ready to save', async () => {
+      await openForGarden({profilePlace});
+      await userEvent.click(screen.getByRole('button', {name: 'Use Wellington, NZ from my profile'}));
+      expect(screen.getByRole('button', {name: 'Save location'})).toBeEnabled();
+    });
+
+    it('saves the profile place to the garden', async () => {
+      const fetch = stubFetch({data: {}});
+      vi.stubGlobal('location', {...window.location, reload: vi.fn()});
+      await openForGarden({profilePlace});
+      await userEvent.click(screen.getByRole('button', {name: 'Use Wellington, NZ from my profile'}));
+      await userEvent.click(screen.getByRole('button', {name: 'Save location'}));
+      expect(fetch).toHaveBeenCalledWith('/gardens/g/location', expect.objectContaining({method: 'PATCH'}));
+    });
+  });
 });

@@ -24,6 +24,12 @@ module PhotosHelper
     photo_association_path(photo_id: photo.id, type: 'seed', id: seed.id, label:)
   end
 
+  # The big copy of a photo, to read small print on: Flickr's 1024px size where the
+  # photo is Flickr's, as `_z` is only 640px. Anything else has just the one size.
+  def photo_large_url(photo)
+    photo.source == 'flickr' ? photo.fullsize_url.sub(/_z(\.\w+)\z/, '_b\1') : photo.fullsize_url
+  end
+
   def crop_image_path(crop)
     thumbnail_url(crop.default_photo)
   end

@@ -27,6 +27,7 @@ class PlantingsController < DataController
     @child_seeds = @planting.child_seeds.includes(:owner, :crop)
     @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
     @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
+    load_weather
     @matching_seeds = matching_seeds
     @crop = @planting.crop
 
@@ -117,6 +118,23 @@ class PlantingsController < DataController
   end
 
   private
+
+  # Behind the planting_weather feature switch, and not for seedlings still in the nursery, so we do none of the work for them.
+  def load_weather
+    return unless Feature.enabled?(:planting_weather) && !@planting.in_nursery?
+
+    @weather = @planting.weather_readings.select(*WeatherReading::CHARTED).to_a
+    @expected_weather = @planting.expected_weather_readings(after: @weather.last&.date)
+    @weather_status = weather_status
+  end
+
+  # What the page says about weather: the charts, a request for a location from whoever can give one, or that it is on its way.
+  def weather_status
+    return :charts if @weather.any?
+    return :pending if @planting.weather_pending?
+
+    :needs_location if @planting.planted? && !@planting.weather_located? && can?(:edit, @planting.garden)
+  end
 
   # Sowing from a packet takes the seeds sown out of it, if it says how many it has.
   def use_up_seeds

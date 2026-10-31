@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class NotifierMailer < ApplicationMailer
-  # include NotificationsHelper
   default from: "Growstuff <#{ENV.fetch('GROWSTUFF_EMAIL', nil)}>"
+  helper PlantingWeatherHelper
 
   def verifier
     unless ENV['RAILS_SECRET_TOKEN']
@@ -13,18 +13,6 @@ class NotifierMailer < ApplicationMailer
     ActiveSupport::MessageVerifier.new(ENV.fetch('RAILS_SECRET_TOKEN', nil))
   end
 
-  def notify(notification)
-    @notification = notification
-    @reply_link = reply_link(@notification)
-
-    # Encrypting
-    message = { member_id: @notification.recipient.id, type: :send_notification_email }
-    @signed_message = verifier.generate(message)
-
-    mail(to:      @notification.recipient.email,
-         subject: @notification.subject)
-  end
-
   def planting_reminder(member)
     @member = member
     @sitename = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
@@ -33,6 +21,7 @@ class NotifierMailer < ApplicationMailer
     @super_late = []
     @harvesting = []
     @others = []
+    @outlook = PlantingReminderOutlook.new(@member)
 
     @member.plantings.active.annual.each do |planting|
       if planting.finish_is_predicatable?

@@ -1,0 +1,6 @@
+-# For someone without an account, under what they have just read about the garden.
+.garden-join-prompt
+  %p
+    %strong= t('.title')
+    = t('.text', owner: garden.owner)
+  = sign_up_link t('gardens.sign_up'), class: 'btn btn-success'

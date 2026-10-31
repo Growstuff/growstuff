@@ -56,6 +56,7 @@
 
       .row
         .col-md-6= f.number_field :row_spacing, label: 'Row spacing', append: 'cm', min: 1
+      = render 'seeds/sowing_fields', f: f, seed: @seed, prefix: 'page'
 
       .row
         .col-md-3

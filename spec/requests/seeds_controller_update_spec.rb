@@ -24,4 +24,27 @@ describe SeedsController, '#update' do
     patch seed_path(seed), params: { seed: { packet_text: 'typed by a member' } }
     expect(seed.reload.packet_text).to be_nil
   end
+
+  describe 'the sowing facts' do
+    before do
+      patch seed_path(seed), params: { seed: { sow_months: ['', '10', '11', '2'], how_to_sow: 'Direct sow, 2cm deep.',
+                                               germination_days_min: '7', germination_days_max: '14' } }
+      seed.reload
+    end
+
+    it('saves the months to sow in, once each, in calendar order') { expect(seed.sow_months).to eq [2, 10, 11] }
+    it('saves how to sow') { expect(seed.how_to_sow).to eq 'Direct sow, 2cm deep.' }
+    it('saves the germination range') { expect([seed.germination_days_min, seed.germination_days_max]).to eq [7, 14] }
+  end
+
+  describe 'clearing the months to sow in' do
+    let(:seed) { create(:seed, sow_months: [3, 4]) }
+
+    before do
+      patch seed_path(seed), params: { seed: { sow_months: [''] } }
+      seed.reload
+    end
+
+    it('leaves none') { expect(seed.sow_months).to eq [] }
+  end
 end

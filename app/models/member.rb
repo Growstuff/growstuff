@@ -227,6 +227,11 @@ class Member < ApplicationRecord
     where(["lower(login_name) = :value", { value: login.downcase }])
   end
 
+  # Where they say they garden, as the location dialog takes it, or nil when they haven't said.
+  def located_place
+    { name: location, latitude:, longitude: } if location.present? && latitude.present? && longitude.present?
+  end
+
   def self.nearest_to(place, limit = 50)
     return Member.none if place.blank?
 

@@ -98,4 +98,91 @@ describe GardensHelper do
       expect(result).to eq output
     end
   end
+
+  describe '#garden_distance' do
+    subject(:distance) { helper.garden_distance(garden) }
+
+    let(:viewer) { build_stubbed(:member, latitude: -41.29, longitude: 174.78) }
+    let(:garden) { build_stubbed(:garden, latitude: -36.85, longitude: 174.76) }
+
+    before { allow(helper).to receive(:current_member).and_return(viewer) }
+
+    context 'when both have a location' do
+      it { is_expected.to match(/\Aabout \d+ km from you\z/) }
+    end
+
+    context 'when the garden has no location' do
+      let(:garden) { build_stubbed(:garden, latitude: nil, longitude: nil) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the viewer owns the garden' do
+      let(:garden) { build_stubbed(:garden, owner: viewer, latitude: -36.85, longitude: 174.76) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when nobody is signed in' do
+      let(:viewer) { nil }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#garden_details' do
+    subject(:details) { helper.garden_details(garden) }
+
+    let(:garden) { build_stubbed(:garden, location: 'Wellington', area: 24, area_unit: 'square metre', garden_type: build_stubbed(:garden_type, name: 'Backyard')) }
+
+    before { allow(helper).to receive(:current_member).and_return(nil) }
+
+    it 'joins the location, type and area' do
+      expect(details).to eq '<a href="/places/Wellington">Wellington</a> · Backyard · 24 square metres'
+    end
+
+    context 'with nothing known' do
+      let(:garden) { build_stubbed(:garden, location: nil, area: nil, area_unit: nil, garden_type: nil) }
+
+      it { is_expected.to eq '' }
+    end
+  end
+
+  describe '#garden_type_options' do
+    it 'lists the types by name, with their ids' do
+      zed = create(:garden_type, name: 'Zed')
+      ant = create(:garden_type, name: 'Ant')
+      expect(helper.garden_type_options).to eq [['Ant', ant.id], ['Zed', zed.id]]
+    end
+  end
+
+  describe '#temperature_text' do
+    it 'rounds to a tenth of a degree' do
+      expect(helper.temperature_text(31.44)).to eq '31.4°C'
+    end
+
+    it 'says when it is not known' do
+      expect(helper.temperature_text(nil)).to eq 'not known'
+    end
+  end
+
+  describe '#garden_temperatures' do
+    let(:garden) { build_stubbed(:garden, location_wikidata_id: 'Q1', highest_temp_c: 31.4, lowest_temp_c: nil) }
+
+    it 'says the hottest and coldest, crediting Wikidata' do
+      expect(helper.garden_temperatures(garden)).to include('hottest 31.4°C, coldest not known')
+    end
+
+    it 'links to the Wikidata entry' do
+      expect(helper.garden_temperatures(garden)).to include('href="https://www.wikidata.org/wiki/Q1"')
+    end
+  end
+
+  describe '#garden_planter_props' do
+    let(:garden) { build_stubbed(:garden) }
+
+    it 'names the garden the dialog plants in' do
+      expect(helper.garden_planter_props(garden)[:garden]).to eq(id: garden.id, name: garden.name)
+    end
+  end
 end

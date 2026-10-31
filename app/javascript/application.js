@@ -15,8 +15,10 @@ import './site/job_notepad';
 import './site/likes';
 import './site/members';
 import './site/navbar_search';
+import './site/packet_sheet';
 import './site/places';
 import './site/planting_alternate_name';
+import './site/shareon';
 import './site/tab_navigation';
 import { initFlashMessages } from './site/flash_messages';
 

@@ -127,6 +127,27 @@ describe "posts/show" do
     it 'shows the comment form on the page' do
       expect(subject).to have_css "#new-comment form[action='#{comments_path}']"
     end
+
+    it 'renders Shareon buttons for signed in members' do
+      expect(subject).to have_css '.shareon a.bluesky'
+      expect(subject).to have_css '.shareon a.fediverse'
+      expect(subject).to have_css '.shareon a.mastodon'
+      expect(subject).to have_css '.shareon a.telegram'
+      expect(subject).to have_css '.shareon a.copy-url'
+      expect(subject).to have_css '.shareon a.email'
+      expect(subject).to have_css '.shareon a.print'
+      expect(subject).to have_css '.shareon a.web-share'
+    end
+  end
+
+  context "signed out" do
+    let(:post) { create(:post, author:) }
+
+    before { render }
+
+    it 'does not render Shareon buttons for guest users' do
+      expect(subject).to have_no_css '.shareon'
+    end
   end
 
   context 'with a card photo' do

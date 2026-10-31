@@ -398,4 +398,24 @@ describe Member do
       end
     end
   end
+
+  describe '#located_place' do
+    subject(:place) { member.located_place }
+
+    let(:member) { build(:member, location: 'Wellington, New Zealand', latitude: -41.2887, longitude: 174.7772) }
+
+    it { is_expected.to eq(name: 'Wellington, New Zealand', latitude: -41.2887, longitude: 174.7772) }
+
+    context 'without coordinates' do
+      let(:member) { build(:member, location: 'Wellington, New Zealand', latitude: nil, longitude: nil) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'without a location' do
+      let(:member) { build(:member, location: '', latitude: -41.2887, longitude: 174.7772) }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end

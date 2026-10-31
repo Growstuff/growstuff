@@ -56,6 +56,7 @@ Rails.application.routes.draw do
     post 'stop_nursery' => 'gardens#stop_nursery', on: :member
 
     resources :garden_collaborators
+    resource :location, only: :update, controller: 'garden_locations'
   end
 
   # What the record harvest and save seeds dialogs offer to choose from.
@@ -195,6 +196,7 @@ Rails.application.routes.draw do
     end
     resources :roles
     resources :features, only: %i(index update)
+    resources :reminder_stats, only: :index
     resources :job_templates, only: :index
     resources :problems
     resources :crops, param: :slug do

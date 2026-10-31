@@ -58,11 +58,18 @@ class MembersController < ApplicationController
 
   def unsubscribe
     verifier = ActiveSupport::MessageVerifier.new(ENV.fetch('RAILS_SECRET_TOKEN', nil))
-    decrypted_message = verifier.verify(params[:message])
+    # The message is JSON, so its keys and the type come back as strings.
+    decrypted_message = verifier.verify(params[:message]).with_indifferent_access
 
     @member = Member.find(decrypted_message[:member_id])
-    @type = decrypted_message[:type]
-    @member.update(@type => false)
+    @type = decrypted_message[:type].to_sym
+    raise ActiveSupport::MessageVerifier::InvalidSignature unless EMAIL_TYPE_STRING.key?(@type)
+
+    # Locked, so two requests on the same link can't both see it still on and count it twice.
+    @member.with_lock do
+      record_unsubscribe if @member[@type]
+      @member.update(@type => false)
+    end
 
     flash.now[:notice] = I18n.t('members.unsubscribed', email_type: EMAIL_TYPE_STRING[@type])
   rescue ActiveSupport::MessageVerifier::InvalidSignature
@@ -84,6 +91,13 @@ class MembersController < ApplicationController
   end
 
   private
+
+  # Counted only the first time, so following the link again isn't a second unsubscribe. Direct message
+  # notifications aren't reminders, so they aren't counted.
+  def record_unsubscribe
+    kind = @type.to_s.delete_prefix('send_')
+    ReminderEvent.unsubscribed!(@member, kind) if ReminderEvent::KINDS.include?(kind)
+  end
 
   EMAIL_TYPE_STRING = {
     send_notification_email: "direct message notifications",

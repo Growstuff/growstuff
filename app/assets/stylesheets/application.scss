@@ -1,3 +1,8 @@
+// Font Awesome. `yarn build:css` copies its webfonts next to the built CSS.
+@use "@fortawesome/fontawesome-free/scss/variables" with (
+  $font-path: "webfonts"
+);
+
 // Import original variables so they can be used in overrides
 
 @import "variables";
@@ -9,9 +14,7 @@
 @import "leaflet/dist/leaflet";
 @import "leaflet.markercluster/dist/MarkerCluster";
 @import "leaflet.markercluster/dist/MarkerCluster.Default";
-
-// Font Awesome. `yarn build:css` copies its webfonts next to the built CSS.
-$fa-font-path: "webfonts";
+@import "shareon/dist/shareon.min";
 @import "@fortawesome/fontawesome-free/scss/fontawesome";
 @import "@fortawesome/fontawesome-free/scss/solid";
 @import "@fortawesome/fontawesome-free/scss/regular";
