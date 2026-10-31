@@ -15,11 +15,21 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
-    flash[:alert] = request.env['omniauth.strategy']&.name == 'bluesky' ? t('messages.bluesky_failed') : t('messages.auth_failed')
+    flash[:alert] = failure_message
     redirect_to request.env['omniauth.origin'] || "/"
   end
 
   private
+
+  def failure_message
+    return t('messages.auth_failed') unless request.env['omniauth.strategy']&.name == 'bluesky'
+
+    case request.env['omniauth.error.type']
+    when :request_expired then t('messages.bluesky_expired')
+    when :access_denied then t('messages.bluesky_declined')
+    else t('messages.bluesky_failed')
+    end
+  end
 
   def create
     auth = request.env['omniauth.auth']

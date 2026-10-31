@@ -42,4 +42,26 @@ describe 'Starting to sign in with Bluesky' do
       expect(flash[:alert]).to eq(I18n.t('messages.bluesky_failed'))
     end
   end
+
+  context 'when Bluesky sends them back with an error' do
+    let(:description) { 'This request has expired' }
+
+    before do
+      allow(client).to receive(:begin_authorization).and_return(['https://auth.test/authorize', { 'state' => 's' }])
+      post member_bluesky_omniauth_authorize_path, params: { handle: 'alice.bsky.social' }
+      get member_bluesky_omniauth_callback_path, params: { error: 'access_denied', error_description: description }
+    end
+
+    it 'tells them it took too long when the request expired' do
+      expect(flash[:alert]).to eq(I18n.t('messages.bluesky_expired'))
+    end
+
+    context 'when they declined' do
+      let(:description) { 'User denied access' }
+
+      it 'says Bluesky did not approve it' do
+        expect(flash[:alert]).to eq(I18n.t('messages.bluesky_declined'))
+      end
+    end
+  end
 end

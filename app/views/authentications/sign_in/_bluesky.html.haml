@@ -3,6 +3,6 @@
   .input-group
     = f.text_field :handle, placeholder: 'alice.bsky.social', class: 'form-control', required: true,
                             autocomplete: 'username', autocapitalize: 'none', spellcheck: false
-    = f.button class: 'btn btn-outline-dark' do
+    = f.button class: 'btn btn-outline-dark', data: { disable_with: '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Contacting Bluesky…' } do
       = icon 'fab', 'bluesky', class: 'bluesky-icon'
       = label

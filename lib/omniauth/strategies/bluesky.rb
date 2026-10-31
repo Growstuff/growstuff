@@ -33,6 +33,7 @@ module OmniAuth
       def callback_phase
         pending = session.delete('atproto')
         return fail!(:session_expired) unless pending
+        return fail!(bluesky_error_type, OmniAuth::Error.new(request.params['error_description'])) if request.params['error'].present?
 
         @identity = client.complete(pending, request.params)
         super
@@ -41,6 +42,11 @@ module OmniAuth
       end
 
       private
+
+      # Bluesky lets a pending approval lapse after a few minutes and says so.
+      def bluesky_error_type
+        request.params['error_description'].to_s.match?(/expired/i) ? :request_expired : :access_denied
+      end
 
       def client
         Atproto::OauthClient.new(Atproto::ClientConfig.new(full_host))
