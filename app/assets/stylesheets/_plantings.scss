@@ -532,7 +532,7 @@
     background: $white;
     border-radius: $card-radius;
     display: block;
-    height: 80px; // WEATHER_CHART_HEIGHT in PlantingWeatherHelper
+    height: 80px; // WEATHER_CHART_HEIGHT in WeatherChartFrameHelper
     width: 100%;
   }
 
@@ -605,6 +605,58 @@
 
   .weather-temperature polyline {
     fill: none;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .weather-chart-frame {
+    position: relative;
+  }
+
+  // The Y axis: its numbers down the chart's left edge, over the data, and a line across the middle.
+  .weather-axis span {
+    background: rgba($white, 0.7);
+    border-radius: 3px;
+    color: $ink-muted;
+    font-size: 0.7rem;
+    left: 0;
+    line-height: 1;
+    padding: 0.1rem 0.2rem;
+    position: absolute;
+    transform: translateY(-50%);
+
+    &:first-child {
+      transform: none;
+    }
+
+    &:last-child {
+      transform: translateY(-100%);
+    }
+  }
+
+  .weather-grid {
+    stroke: rgba($black, 0.12);
+    vector-effect: non-scaling-stroke;
+  }
+
+  // The latest reading, beside the line. Its left edge is the line's position.
+  .weather-now-label {
+    background: rgba($white, 0.85);
+    border-radius: 3px;
+    font-size: 0.7rem;
+    padding: 0 0.25rem;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+
+    &--before {
+      transform: translateX(-100%);
+    }
+  }
+
+  // Today, while the planting is in progress: everything left of it happened, everything right is expected.
+  .weather-now {
+    stroke: $black;
     stroke-width: 2;
     vector-effect: non-scaling-stroke;
   }
