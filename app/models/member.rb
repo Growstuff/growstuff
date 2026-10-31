@@ -103,6 +103,9 @@ class Member < ApplicationRecord
          :confirmable, :lockable, :timeoutable, :omniauthable,
          omniauth_providers: Authentication::SIGN_IN_PROVIDERS.keys.map(&:to_sym)
 
+  # A form's empty email field arrives as "", but only NULL may repeat in the unique index.
+  normalizes :email, with: ->(email) { email.strip.presence }
+
   # Set while signing someone up through a provider that gave us no email.
   attr_accessor :email_optional
 

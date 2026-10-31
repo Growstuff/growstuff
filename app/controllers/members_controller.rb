@@ -84,7 +84,7 @@ class MembersController < ApplicationController
       @member.update_spam_score!
       @member.skip_reconfirmation!
       bypass_sign_in(@member)
-      redirect_to root_path, notice: I18n.t('members.welcome')
+      redirect_to root_path, notice: welcome_message
     else
       flash[:alert] = I18n.t('members.signup.error')
       @show_errors = true
@@ -92,6 +92,13 @@ class MembersController < ApplicationController
   end
 
   private
+
+  # Someone who gave an email is waiting on its confirmation link before it counts.
+  def welcome_message
+    return I18n.t('members.welcome') unless @member.pending_reconfirmation?
+
+    "#{I18n.t('members.welcome')}. #{I18n.t('members.confirm_email')}"
+  end
 
   # Counted only the first time, so following the link again isn't a second unsubscribe. Direct message
   # notifications aren't reminders, so they aren't counted.

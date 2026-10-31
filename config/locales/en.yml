@@ -832,10 +832,12 @@ en:
       error: We're sorry, there was an error updating your settings.
     unsubscribed: You have been unsubscribed from %{email_type} emails.
     welcome: Welcome
+    confirm_email: We've sent a link to your email address. Follow it to start getting reminders.
   messages:
     auth_failed: Authentication failed.
     auth_taken: That account is already connected to another member.
     auth_last_sign_in: This is the only way you can sign in. Add an email address and password first.
+    tos_required: Please agree to the Terms of Service to join, then try again.
     bluesky_declined: Bluesky didn't approve that sign in. Please try again.
     bluesky_expired: That took too long, so Bluesky let the sign in expire. Please try again, and finish within a few minutes.
     bluesky_failed: We couldn't sign you in with Bluesky. Check your handle and try again.

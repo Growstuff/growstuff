@@ -1,3 +1,5 @@
+-# Locals: label for the button, and tos (default true) to ask for the Terms of
+-# Service first, which is how someone new joins.
 = form_with url: member_bluesky_omniauth_authorize_path, class: 'mb-3' do |f|
   = f.label :handle, 'Bluesky handle', class: 'form-label'
   .input-group
@@ -6,3 +8,9 @@
     = f.button class: 'btn btn-outline-dark', data: { disable_with: '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Contacting Bluesky…' } do
       = icon 'fab', 'bluesky', class: 'bluesky-icon'
       = label
+  - if local_assigns.fetch(:tos, true)
+    .form-check.mt-2
+      = f.check_box :tos_agreement, { class: 'form-check-input', required: true }, '1', nil
+      = f.label :tos_agreement, class: 'form-check-label' do
+        I agree to the
+        = link_to 'Terms of Service', '/policy/tos', target: '_blank', rel: 'noopener'

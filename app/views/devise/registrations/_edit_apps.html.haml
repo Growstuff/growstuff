@@ -23,7 +23,7 @@
                   data: { confirm: "Are you sure you want to remove this connection?" },
                   method: :delete, class: "remove btn btn-danger"
     - elsif Authentication.enabled_sign_in_providers.include?('bluesky')
-      = render 'authentications/sign_in/bluesky', label: 'Connect to Bluesky'
+      = render 'authentications/sign_in/bluesky', label: 'Connect to Bluesky', tos: false
 %hr
 .row
   .col-md-12
