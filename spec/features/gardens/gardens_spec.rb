@@ -67,11 +67,14 @@ describe "Planting a crop", :js do
       let(:garden_type) { create(:garden_type) }
       let(:garden_with_type) { create(:garden, garden_type:) }
 
-      it "Shows a garden type for a garden" do
-        visit garden_path(garden_with_type)
+      before { visit garden_path(garden_with_type) }
 
-        expect(page).to have_content "Garden type"
-        expect(page).to have_content garden_type.name
+      it "labels the garden type tile" do
+        expect(page).to have_css '.fact-card h3', text: 'Type'
+      end
+
+      it "shows the garden type's name" do
+        expect(page).to have_css '.fact-type', text: garden_type.name
       end
     end
 
