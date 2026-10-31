@@ -897,6 +897,37 @@ describe Planting do
         expect(readings.maximum(:date)).to eq today
       end
     end
+
+    context 'when the planting is over a year old' do
+      let(:today) { Time.zone.today }
+      let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: today - 800) }
+
+      before do
+        WeatherReading.delete_all
+        ((today - 400)..today).each { |date| create(:weather_reading, date:) }
+      end
+
+      it 'starts a year before today' do
+        expect(readings.minimum(:date)).to eq today - 365
+      end
+    end
+  end
+
+  describe '#weather_last_day' do
+    let(:today) { Date.new(2026, 10, 31) }
+
+    it 'is today for a planting still growing' do
+      expect(build(:planting, planted_at: today - 20).weather_last_day(today)).to eq today
+    end
+
+    it 'is the finishing day for a finished planting' do
+      expect(build(:planting, planted_at: today - 20, finished: true, finished_at: today - 5).weather_last_day(today)).to eq today - 5
+    end
+
+    it 'is the due day for a failed planting that is past it' do
+      planting = build(:planting, crop: create(:crop, median_lifespan: 10), planted_at: today - 20, failed: true)
+      expect(planting.weather_last_day(today)).to eq today - 10
+    end
   end
 
   describe '#expected_weather_readings' do

@@ -1066,7 +1066,7 @@ fr:
       weather_location_intro: Nous l'utilisons pour montrer la température et les précipitations que les plantations ici ont traversées. La ville ou la région de votre jardin est publique, comme le reste du jardin.
       weather_location_title: Où est ce jardin ?
       weather_new: Nouveau
-      weather_pending: Nous chargeons la météo pour la zone de ce jardin. Il est collecté pendant la nuit, il devrait donc apparaître dans un jour ou deux.
+      weather_pending: Nous chargeons la météo pour la zone de ce jardin. Elle est collectée pendant la nuit et accuse environ cinq jours de retard, donc les premiers jours d'une nouvelle plantation apparaissent quelques jours après sa plantation.
       weather_rain: Pluie
       weather_rain_chart: Pluviométrie quotidienne
       weather_rain_chart_alt: Pluviométrie journalière sur jours %{count}, jusqu'à %{max} mm en une journée.

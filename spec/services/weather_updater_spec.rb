@@ -79,8 +79,13 @@ describe WeatherUpdater, type: :service do
   context 'with a planting from years ago still marked active' do
     before { create(:planting, garden:, owner: garden.owner, planted_at: today - 4000) }
 
-    it 'saves its first year, and the year before' do
-      expect { updater.update_all }.to change(WeatherReading, :count).by(732)
+    it 'saves only its last year' do
+      expect { updater.update_all }.to change(WeatherReading, :count).by(361)
+    end
+
+    it 'saves up to the lag' do
+      updater.update_all
+      expect(WeatherReading.maximum(:date)).to eq today - WeatherUpdater::LAG_DAYS
     end
   end
 
@@ -142,8 +147,8 @@ describe WeatherUpdater, type: :service do
       create(:planting, garden:, owner: garden.owner, planted_at: today - 10)
     end
 
-    it 'saves each planting\'s own stretch' do
-      expect { updater.update_all }.to change(WeatherReading, :count).by(732 + 371)
+    it 'saves the old one\'s last year and the new one\'s stretch, joined' do
+      expect { updater.update_all }.to change(WeatherReading, :count).by(371)
     end
 
     it 'leaves out the years between them' do

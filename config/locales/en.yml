@@ -1112,7 +1112,7 @@ en:
       weather_new: New
       weather_now_rain: 'Latest, %{date}: %{rain}'
       weather_now_temperature: 'Latest, %{date}: %{high} / %{low}'
-      weather_pending: We're loading the weather for this garden's area. It's collected overnight, so it should appear within a day or so.
+      weather_pending: We're loading the weather for this garden's area. It's collected overnight and runs about five days behind, so the first days of a new planting appear a few days after it's planted.
       weather_rain: Rain
       weather_rain_chart: Daily rainfall
       weather_rain_chart_alt: 'Daily rainfall over %{count} days, up to %{max} mm in a day.'
