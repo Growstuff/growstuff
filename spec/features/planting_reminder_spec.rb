@@ -18,6 +18,41 @@ describe "Planting reminder email" do
     expect(mail).to have_content "Hello"
   end
 
+  context "when member has no location" do
+    before { member.update_columns(latitude: nil, longitude: nil) }
+
+    it "asks for their location" do
+      expect(mail_body).to have_link "Set your location", href: root_url
+    end
+
+    it "leaves out the season" do
+      expect(mail_body).to have_no_content "Your garden right now"
+    end
+  end
+
+  context "when member has a location" do
+    before do
+      member.update_columns(latitude: -41.3, longitude: 174.7)
+      create(:weather_reading, date: Time.zone.today - 3, rainfall_mm: 7.0, soil_temp_c: 12.0)
+    end
+
+    it "gives the season" do
+      expect(mail_body).to have_content "Your garden right now"
+    end
+
+    it "gives the soil temperature" do
+      expect(mail_body).to have_content "The soil was 12.0°C"
+    end
+
+    it "gives the recent rain" do
+      expect(mail_body).to have_content "it rained 7 mm"
+    end
+
+    it "doesn't ask for their location" do
+      expect(mail_body).to have_no_link "Set your location"
+    end
+  end
+
   context "when member has no plantings" do
     it "tells you to track your plantings" do
       expect(mail_body).to have_content "planting your first crop"
@@ -39,6 +74,14 @@ describe "Planting reminder email" do
       it { expect(mail_body).to have_link recent_planting.crop.to_s, href: planting_url(recent_planting) }
       it { expect(mail_body).to have_link older_planting.crop.to_s, href: planting_url(older_planting) }
       it { expect(mail_body).to have_content "keep your garden records up to date" }
+    end
+  end
+
+  context "when member has a planting past its finish date" do
+    let!(:late_planting) { create(:predictable_planting, planted_at: 70.days.ago, garden: member.gardens.first, owner: member) }
+
+    it "asks them to log in and say if they stopped growing it" do
+      expect(mail_body).to have_link "Log in", href: new_member_session_url
     end
   end
 

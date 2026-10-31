@@ -3,6 +3,7 @@
 class NotifierMailer < ApplicationMailer
   # include NotificationsHelper
   default from: "Growstuff <#{ENV.fetch('GROWSTUFF_EMAIL', nil)}>"
+  helper PlantingWeatherHelper
 
   def verifier
     unless ENV['RAILS_SECRET_TOKEN']
@@ -33,6 +34,7 @@ class NotifierMailer < ApplicationMailer
     @super_late = []
     @harvesting = []
     @others = []
+    @outlook = PlantingReminderOutlook.new(@member)
 
     @member.plantings.active.annual.each do |planting|
       if planting.finish_is_predicatable?

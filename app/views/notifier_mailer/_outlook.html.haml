@@ -1,0 +1,35 @@
+-# Season, weather and crops to sow for where the member gardens, or else a nudge to say where that is.
+- if outlook.located?
+  %section.outlook
+    %h2 Your garden right now
+    %p
+      It's
+      %b= outlook.season
+      - if outlook.place
+        in #{outlook.place}.
+    - if outlook.soil
+      - soil = weather_summary([outlook.soil])[:soil_temp]
+      %p The soil was #{soil} on #{l(outlook.soil.date, format: '%-d %B')}.
+    - if outlook.recent.any?
+      - recent = weather_summary(outlook.recent)
+      %p
+        Over the last #{pluralize(recent[:days], 'day')} it rained #{recent[:rain]},
+        with highs up to #{recent[:hottest]} and lows down to #{recent[:coldest]}.
+    - if outlook.expected.any?
+      - expected = weather_summary(outlook.expected)
+      %p
+        If the next two weeks are like last year's, expect about #{expected[:rain]} of rain,
+        with highs up to #{expected[:hottest]} and lows down to #{expected[:coldest]}.
+    - if outlook.crops.any?
+      %h3 Worth sowing now
+      %p Gardeners at your latitude are planting these at the moment:
+      %ul
+        - outlook.crops.each do |crop|
+          %li= link_to crop.name, crop_url(crop)
+- else
+  %section.outlook
+    %p
+      Tell us where you garden and this email will add your local season, the weather
+      and what to sow.
+    %p
+      = link_to "Set your location", root_url, class: 'btn'

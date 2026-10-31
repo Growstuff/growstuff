@@ -2,6 +2,8 @@
 
 %h2 Your Weekly #{@sitename} progress report
 
+= render 'outlook', outlook: @outlook
+
 - if @member.plantings.empty?
   %p
     #{@sitename} lets you track what food you're growing
@@ -33,6 +35,8 @@
       %h2 Late
       %p
         These plantings are at the end of their lifecycle.
+        #{link_to 'Log in', new_member_session_url} and let us know if you're not growing them anymore,
+        and we'll stop tracking them.
       %ul
         - @late.each do |planting|
           %li= render 'planting', planting: planting
@@ -49,11 +53,11 @@
             planted on #{planting.planted_at.to_date}
 %p Harvested anything lately?
 %p
-  = link_to "Track your harvests here.", new_harvest_url, class: 'btn'
+  = link_to "Open your dashboard to record a harvest.", root_url, class: 'btn'
 
 %p Want to track and predict a planting in your garden?
 %p
-  = link_to "Add a planting.", new_planting_url, class: 'btn'
+  = link_to "Open your dashboard to add a planting.", root_url, class: 'btn'
 
 %p Track and predict your entire garden, and keep your garden records up to date at
 %p
