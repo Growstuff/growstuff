@@ -22,6 +22,7 @@ class Post < ApplicationRecord
   before_save :set_published_at
   after_save :update_crop_posts_association
   after_save :send_notification, if: -> { saved_change_to_published_at? && published? }
+  after_save :update_author_spam_score
 
   # Drafts have no published_at and are left out of every list and lookup, so
   # they cannot leak. The author's own pages ask for them with `with_drafts`.
@@ -132,6 +133,10 @@ class Post < ApplicationRecord
       # create association
       crops << crop if crop && crops.exclude?(crop)
     end
+  end
+
+  def update_author_spam_score
+    author&.update_spam_score!
   end
 
   def send_notification

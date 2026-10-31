@@ -258,9 +258,16 @@ class Member < ApplicationRecord
     blocks.find_by(blocked_id: member.id) if already_blocking?(member)
   end
 
+  alias_method :banned?, :discarded?
+
+  def ban!
+    discard
+  end
+
   def update_spam_score!
     score = UserBehaviourDetectionService.score_for(self)
     update_column(:spam_score, score) # rubocop:disable Rails/SkipsModelValidations
+    ban! if score >= UserBehaviourDetectionService::MAX_SCORE
   end
 
   def has_activity?

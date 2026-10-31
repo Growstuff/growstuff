@@ -75,4 +75,14 @@ describe Comment do
       described_class.post_order.should eq [@c1, @c2]
     end
   end
+
+  describe 'updating author spam score' do
+    let(:member) { create(:member) }
+    let(:post) { create(:post) }
+
+    it 'triggers update_spam_score! on author after save' do
+      expect(member).to receive(:update_spam_score!)
+      create(:comment, author: member, commentable: post)
+    end
+  end
 end

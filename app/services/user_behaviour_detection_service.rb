@@ -2,6 +2,8 @@
 
 # Evaluates recent activity of a member for spam behavior and calculates a spam score.
 class UserBehaviourDetectionService
+  MAX_SCORE = 100
+
   SPAM_KEYWORDS = [
     'sports betting',
     'betting',
@@ -33,7 +35,7 @@ class UserBehaviourDetectionService
     points += unconfirmed_email_penalty
     points += spam_keywords_penalty
 
-    points.clamp(0, 100)
+    points.clamp(0, MAX_SCORE)
   end
 
   def reasons
