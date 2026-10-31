@@ -10,7 +10,7 @@ describe 'Planting from the garden page', :js do
 
   before do
     visit garden_path(garden)
-    within('section', text: 'Current plantings in garden') { click_button 'add' }
+    within('section.garden-plantings') { click_button 'add' }
   end
 
   it 'opens the plant dialog over the page' do

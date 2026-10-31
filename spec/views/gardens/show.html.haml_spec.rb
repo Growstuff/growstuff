@@ -225,8 +225,8 @@ describe "gardens/show" do
       assert_select '.photos .section-add'
     end
 
-    it 'counts the photos beside the garden picture' do
-      assert_select '.card-image + .card-body a[href=?]', garden_photos_path(garden), text: '2 photos'
+    it 'leads the panel with the garden photo, counting the photos' do
+      assert_select '.garden-detail > a.garden-hero[href=?]', garden_photos_path(garden), text: /2 photos/
     end
 
     it 'links to the rest of the photos' do

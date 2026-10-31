@@ -440,21 +440,238 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   }
 }
 
-// The facts row fills the panel edge to edge, in line with the sections around
-// it, rather than the shared 220px cards centred in their columns. The
-// description follows it, so the gap below is a short one.
-.garden-show .gardenfacts {
-  gap: 1rem;
+// The garden's photo leads the panel, edge to edge across the top.
+.garden-show .garden-detail > .garden-hero {
+  display: block;
+  position: relative;
+  height: 260px;
+  margin: 0 -1.25rem;
+  background: #cfe3c4;
+  border-radius: 3px 3px 0 0;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .garden-hero-caption {
+    position: absolute;
+    left: 16px;
+    bottom: 12px;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.92);
+    color: #212121;
+    border-radius: 2px;
+    font-size: 13px;
+  }
+}
+
+.garden-show {
+  .record-identity-text .garden-title {
+    margin: 0;
+    font-size: clamp(1.75rem, 5vw, 2.8125rem);
+    font-weight: 300;
+    line-height: 1.15;
+  }
+
+  .garden-grower {
+    margin: 4px 0 0;
+    font-size: 18px;
+  }
+
+  .garden-meta {
+    margin: 2px 0 0;
+  }
+
+  .garden-owner-link {
+    margin: 6px 0 0;
+    font-size: 13px;
+  }
+
+  // The follow button and the actions menu share the hero's top right.
+  .garden-hero-actions {
+    display: flex;
+    align-items: center;
+    flex: none;
+    gap: 0.5rem;
+  }
+}
+
+// The facts: flat, one value each, in cards that stay a sensible width.
+.garden-show .garden-detail .gardenfacts {
+  gap: 16px;
+  margin: 0 0 1.25rem;
   padding: 0;
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  margin-bottom: 1rem;
 
   .card {
-    max-width: none;
+    max-width: 220px;
+    min-height: 0;
     margin: 0;
-    padding: 0.75rem 0.5rem;
+    padding: 12px 8px;
+    border: 1px solid rgba(65, 63, 59, 0.15);
+    box-shadow: none;
+    text-align: center;
+  }
+
+  .card h3 {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(65, 63, 59, 0.75);
+  }
+
+  .card strong {
+    display: block;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .card .fact-value span {
+    font-size: 13px;
+    color: rgba(65, 63, 59, 0.75);
+  }
+}
+
+.garden-show .garden-description-block {
+  margin-bottom: 0;
+}
+
+// A section's bar is a fixed height with the title at the design's size.
+.garden-show .section-header {
+  min-height: 44px;
+
+  h2 {
+    font-size: 21px;
+    font-weight: 400;
+  }
+}
+
+// "add", "edit layout" and the like on a bar: a thin white outline.
+.garden-show .section-header .section-add {
+  padding: 4px 12px;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  font-size: 13px;
+}
+
+// A section whose content is cards sits on the page's own ground, edge to edge
+// under its bar, and fills the width with a grid.
+.garden-show {
+  .garden-plantings,
+  .garden-photos {
+    .section-header {
+      margin-bottom: 0;
+    }
+
+    .index-cards {
+      display: grid;
+      gap: 16px;
+      margin: 0 -1rem;
+      padding: 16px;
+    }
+  }
+
+  .garden-plantings .index-cards {
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+
+    .card {
+      width: 100%;
+      margin: 0;
+    }
+  }
+
+  .garden-photos .index-cards {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+
+  .garden-more-photos {
+    margin: 0 -1rem -1rem;
+    padding: 8px 16px;
+    border-top: 1px solid rgba(65, 63, 59, 0.15);
+    font-size: 13px;
+    text-align: right;
+  }
+}
+
+// The sidebar's sections: who, and the owner's other gardens.
+.garden-show {
+  .garden-side-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .garden-person {
+    margin-bottom: 0;
+  }
+
+  .garden-person-small {
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .garden-side-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+      font-size: 13px;
+    }
+  }
+
+  .garden-temperatures {
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid rgba(65, 63, 59, 0.15);
+    font-size: 13px;
+  }
+
+  .garden-gardens .section-header {
+    margin-bottom: 0;
+  }
+
+  .garden-list {
+    margin: 0 -1rem;
+    padding: 4px 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 16px;
+      border-bottom: 1px solid rgba(65, 63, 59, 0.15);
+    }
+
+    li:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  .garden-list-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0 -1rem -1rem;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(65, 63, 59, 0.15);
+
+    a:not(.btn) {
+      font-size: 13px;
+    }
+
+    .btn {
+      min-height: 36px;
+      padding: 4px 12px;
+      font-size: 13px;
+    }
   }
 }
 
