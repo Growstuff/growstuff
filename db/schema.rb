@@ -46,16 +46,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_050000) do
 
   create_table "alternate_names", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil
-    t.integer "creator_id", null: false
-    t.integer "crop_id", null: false
+    t.integer "creator_id"
+    t.integer "crop_id"
     t.string "language"
     t.string "name", null: false
     t.virtual "normalised_name", type: :text, as: "translate(lower((name)::text), 'àáâãäåāçćčèéêëēėęìíîïīįłñńòóôõöøōùúûüūýÿžźż'::text, 'aaaaaaaccceeeeeeeiiiiiilnnooooooouuuuuyyzzz'::text)", stored: true
     t.datetime "updated_at", precision: nil
+    t.bigint "problem_id"
+    t.string "subject_type"
+    t.bigint "subject_id"
     t.index ["creator_id"], name: "index_alternate_names_on_creator_id"
     t.index ["crop_id"], name: "index_alternate_names_on_crop_id"
     t.index ["language"], name: "index_alternate_names_on_language"
     t.index ["normalised_name"], name: "index_alternate_names_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
+    t.index ["problem_id"], name: "index_alternate_names_on_problem_id"
+    t.index ["subject_type", "subject_id"], name: "index_alternate_names_on_subject_type_and_subject_id"
   end
 
   create_table "australian_food_classification_data", force: :cascade do |t|
@@ -1048,6 +1053,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_050000) do
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
+  create_table "problems", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.string "problem_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "reminder_events", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "event", null: false, comment: "What happened: sent or unsubscribed."
@@ -1069,7 +1082,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_050000) do
   create_table "scientific_names", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil
     t.integer "creator_id"
-    t.integer "crop_id", null: false
+    t.integer "crop_id"
     t.integer "gbif_key"
     t.string "gbif_rank"
     t.string "gbif_status"
@@ -1077,9 +1090,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_050000) do
     t.virtual "normalised_name", type: :text, as: "translate(lower((name)::text), 'àáâãäåāçćčèéêëēėęìíîïīįłñńòóôõöøōùúûüūýÿžźż'::text, 'aaaaaaaccceeeeeeeiiiiiilnnooooooouuuuuyyzzz'::text)", stored: true
     t.datetime "updated_at", precision: nil
     t.string "wikidata_id"
+    t.bigint "problem_id"
+    t.string "subject_type"
+    t.bigint "subject_id"
     t.index ["creator_id"], name: "index_scientific_names_on_creator_id"
     t.index ["crop_id"], name: "index_scientific_names_on_crop_id"
     t.index ["normalised_name"], name: "index_scientific_names_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
+    t.index ["problem_id"], name: "index_scientific_names_on_problem_id"
+    t.index ["subject_type", "subject_id"], name: "index_scientific_names_on_subject_type_and_subject_id"
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
@@ -1163,6 +1181,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_050000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "alternate_names", "problems"
   add_foreign_key "blocks", "members", column: "blocked_id"
   add_foreign_key "blocks", "members", column: "blocker_id"
   add_foreign_key "crop_dismissals", "crops"
@@ -1185,6 +1204,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_31_050000) do
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plants", "plantings"
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
+  add_foreign_key "scientific_names", "problems"
   add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end

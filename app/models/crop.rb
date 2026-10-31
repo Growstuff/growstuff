@@ -16,8 +16,8 @@ class Crop < ApplicationRecord
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
-  has_many :scientific_names, dependent: :delete_all
-  has_many :alternate_names, dependent: :delete_all
+  has_many :scientific_names, as: :subject, dependent: :delete_all
+  has_many :alternate_names, as: :subject, dependent: :delete_all
   has_many :plantings, dependent: :destroy
   has_many :seeds, dependent: :destroy
   has_many :harvests, dependent: :destroy

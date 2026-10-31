@@ -198,6 +198,7 @@ Rails.application.routes.draw do
     resources :features, only: %i(index update)
     resources :reminder_stats, only: :index
     resources :job_templates, only: :index
+    resources :problems
     resources :crops, param: :slug do
       resources :crop_companions
       resources :crop_job_templates, path: 'job_templates', except: :show
