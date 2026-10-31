@@ -104,6 +104,27 @@ inside the `web` container) while still using Docker for Postgres, here's the fu
 
    `bin/dev` uses `Procfile.dev` (via Foreman, Overmind, or Hivemind) to run the Rails server together with asset compilation watchers (`yarn build:watch` and `yarn build:css:watch`). Assets are automatically compiled on changes, so manually precompiling assets (`rails assets:precompile`) is not required in development.
 
+### Sign in with Bluesky
+
+The "Continue with Bluesky" button only appears once the app has a signing key.
+Bluesky has no client ID or secret to register: our client ID is the URL of
+`/oauth/client-metadata.json`, and requests to Bluesky are signed with an ES256
+key.
+
+1. Generate a key:
+
+   ```bash
+   bundle exec rake atproto:generate_key
+   ```
+
+2. Set the output as `GROWSTUFF_ATPROTO_PRIVATE_KEY` (in `.env` locally, or
+   `heroku config:set` in production). Use a different key for each
+   environment and never commit it.
+
+Bluesky has to be able to fetch the metadata URL, so trying it locally needs a
+public tunnel, with the app opened through the tunnel's address. Without the
+key the button is hidden and the metadata URL returns 404.
+
 ### For Home Automation enthusiasts
 
 https://github.com/Growstuff/homeassistant-growstuff/
