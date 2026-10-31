@@ -696,3 +696,57 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
 .garden-show .garden-collaborators p {
   margin-bottom: 0.5rem;
 }
+
+// The jobs notepad on a garden's page, as the design has it: a bucket is a row
+// with its name on the left and its jobs beside it.
+.garden-show .garden-notepad .notepad {
+  box-shadow: none;
+  border-color: rgba(65, 63, 59, 0.15);
+
+  .notepad-group {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    column-gap: 16px;
+    align-items: baseline;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(65, 63, 59, 0.15);
+
+    > * {
+      grid-column: 2;
+    }
+
+    > .notepad-heading {
+      grid-column: 1;
+      grid-row: 1 / span 40;
+      flex-direction: column;
+      gap: 0;
+      padding: 0;
+      border-top: 0;
+    }
+  }
+
+  .notepad-drop-hint {
+    padding: 0;
+  }
+}
+
+// What was planted here before: a pill for each crop, under its year.
+.garden-show .garden-previously {
+  h4 {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 120%;
+    font-weight: 500;
+  }
+
+  .crop-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 8px 8px 0;
+    padding: 4px 14px;
+    background: #e8f5e9;
+    border-radius: 999px;
+    text-decoration: none;
+    color: #212121;
+  }
+}
