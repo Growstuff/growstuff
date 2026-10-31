@@ -264,9 +264,19 @@ class Member < ApplicationRecord
     email_missing?
   end
 
+  # Confirming an email is a step for everyone who hasn't said no to having
+  # one: still to come before they've added it, and done once it's confirmed.
+  def confirm_email_step?
+    !email_declined? && (email_missing? || email_unconfirmed? || username_step?)
+  end
+
+  def email_confirmed_step?
+    email.present? && !email_unconfirmed?
+  end
+
   # Every row the Get started list shows for this, finished or not.
   def setup_rows_count
-    [username_step?, email_step?, email_unconfirmed?].count(true)
+    [username_step?, email_step?, confirm_email_step?].count(true)
   end
 
   def setup_todo_count

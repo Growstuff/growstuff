@@ -6,7 +6,7 @@
   - steps = [[t('home.dashboard.step_join'), nil, true],
     [t('home.dashboard.step_location'), :location, dashboard.located?, t('home.dashboard.step_location_note')],
     [t('home.dashboard.step_plant'), :plant, false, t('home.dashboard.step_plant_note')],
-    [t('home.dashboard.step_photo'), new_photo_path, current_member.photos.any?, t('home.dashboard.step_photo_note')]]
+    [t('home.dashboard.step_photo'), (new_photo_path(type: 'garden', id: dashboard.gardens.first.id) if dashboard.gardens.any?), current_member.photos.any?, t('home.dashboard.step_photo_note')]]
   - todo_count = current_member.setup_rows_count
   - steps.each_with_index do |(label, path, done, note), index|
     .home-step

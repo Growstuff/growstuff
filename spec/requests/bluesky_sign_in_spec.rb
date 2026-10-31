@@ -208,4 +208,32 @@ describe 'Signing in with Bluesky' do
       expect(response.body).not_to include('data-auth-dialog="bluesky"')
     end
   end
+
+  describe 'the account settings page' do
+    let(:member) { create(:member) }
+
+    before do
+      allow(Atproto::ClientConfig).to receive(:private_key).and_return(Atproto::Jws.generate_key)
+      sign_in member
+    end
+
+    it 'offers to connect Bluesky' do
+      get edit_member_registration_path
+
+      expect(response.body).to include('Connect to Bluesky')
+    end
+
+    it 'does not ask for the Terms of Service again when connecting' do
+      get edit_member_registration_path
+
+      expect(response.parsed_body.css('form[action="/members/auth/bluesky"] input[name=tos_agreement]')).to be_empty
+    end
+
+    it 'offers to disconnect once connected' do
+      create(:authentication, member:, provider: 'bluesky', uid: did, name: 'alice.bsky.social')
+      get edit_member_registration_path
+
+      expect(response.body).to include('You are connected to Bluesky as')
+    end
+  end
 end
