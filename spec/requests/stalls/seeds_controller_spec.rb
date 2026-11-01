@@ -78,6 +78,48 @@ describe Stalls::SeedsController, flipper: :garden_stall do
       end
     end
 
+    context 'with a new packet' do
+      let(:crop) { create(:crop, name: 'carrot') }
+
+      before { post stall_seeds_path, params: { seed: { crop_id: crop.id, variety: 'Nantes', quantity: '40' } } }
+
+      it 'records the packet in their seed library' do
+        expect(owner.seeds.find_by(crop:, variety: 'Nantes').quantity).to eq(40)
+      end
+
+      it 'puts it on the stall' do
+        expect(stall.seeds.map(&:variety)).to eq(['Nantes'])
+      end
+
+      it 'marks it as will trade' do
+        expect(stall.seeds.first.tradable).to be(true)
+      end
+    end
+
+    context 'with a new packet and a ticked one' do
+      before { post stall_seeds_path, params: { seed_ids: [shared.id], seed: { crop_id: kale.id } } }
+
+      it 'puts both on the stall' do
+        expect(stall.seeds.size).to eq(2)
+      end
+    end
+
+    context 'with a new packet that has no crop' do
+      before { post stall_seeds_path, params: { seed: { variety: 'Nantes' } } }
+
+      it 'asks again' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'says the crop is missing' do
+        expect(Capybara.string(response.body)).to have_css('.alert-danger', text: /Crop/)
+      end
+
+      it 'leaves the stall empty' do
+        expect(stall.seeds).to be_empty
+      end
+    end
+
     context 'with another member\'s packet' do
       before { post stall_seeds_path, params: { seed_ids: [create(:seed).id] } }
 

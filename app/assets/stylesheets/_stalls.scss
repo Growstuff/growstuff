@@ -706,6 +706,10 @@ $stall-label: #fff8e1;
 
 .stall-about-brand {
   margin: 0;
+  padding: 0;
+  // Every h2 on the site has a green bar behind it; this one is green itself.
+  background: none;
+  box-shadow: none;
   color: $green;
   font-family: Modak, cursive;
   font-size: 2.1rem;
@@ -732,5 +736,24 @@ $stall-label: #fff8e1;
       margin-right: -0.9rem;
       margin-left: -0.9rem;
     }
+  }
+}
+
+// "Add a seed packet you haven't recorded yet", opened out in place.
+.stall-new-packet {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba($brown, 0.35);
+  border-radius: $card-radius;
+
+  summary {
+    min-height: 32px;
+    color: $green;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &[open] summary {
+    margin-bottom: 1rem;
   }
 }
