@@ -50,6 +50,23 @@ describe StallsController, flipper: :garden_stall do
       end
     end
 
+    context 'when there are packets on the stall' do
+      before do
+        stall = create(:stall, :open, member: owner)
+        stall.put_seeds_on!([create(:seed, owner:, crop: create(:crop, name: 'rocket'))])
+        sign_in owner
+        get member_stall_path(owner)
+      end
+
+      it 'shows the seed tin' do
+        expect(Capybara.string(response.body)).to have_css('.stall-section .seed-card', text: 'rocket')
+      end
+
+      it 'lets the owner take a packet off' do
+        expect(Capybara.string(response.body)).to have_button('Take off the stall')
+      end
+    end
+
     context 'when a visitor looks at an open stall' do
       before do
         create(:stall, :open, member: owner)

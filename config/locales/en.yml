@@ -1208,13 +1208,56 @@ en:
       text: Share spare seedlings and seeds with friends. You choose what and who, offers close after 4 weeks, and no addresses are kept.
     owner:
       garden_of: Garden of
+      link: Link to your stall
+      profile: See %{name}'s profile
+    seed_tin:
+      add: "+ add"
+      heading: In the seed tin
+      packets:
+        one: 1 packet
+        other: "%{count} packets"
+      take_off: Take off the stall
+    seeds:
+      choice:
+        not_trading: Not trading yet
+        quantity:
+          one: approx. 1 seed
+          other: approx. %{count} seeds
+        saved: saved %{year}
+        sow_before: sow before %{year}
+      create:
+        added:
+          one: 1 packet is on your stall.
+          other: "%{count} packets are on your stall."
+        none: Tick the packets you want to put on the stall.
+      destroy:
+        removed: Taken off the stall. It's still in your seed library.
+      new:
+        add: Add to the stall
+        breadcrumb: Add seeds
+        cancel: Cancel
+        intro: Pick seeds to put on the stall, from your seed library.
+        no_matches: No seeds match "%{query}".
+        none_left: Every packet you have is on the stall already.
+        others:
+          one: Other seeds in your library (1)
+          other: Other seeds in your library (%{count})
+        ready:
+          one: Marked "will trade" (1)
+          other: Marked "will trade" (%{count})
+        record_new: Add a seed packet you haven't recorded yet
+        search: Search your seeds
+        search_button: Search
+        search_placeholder: Crop or variety, for example tomato
+        title: Add seeds to your stall
+        will_mark: Putting a packet on the stall marks it "will trade" in your seed library, so friends can see it there too. Taking it off the stall leaves it marked.
     show:
       breadcrumb: Garden stall
+      add_seeds: Add seeds
       close: Close the stall
       coming_soon: Coming soon
       first_heading: Your stall is open. What goes on it first?
       first_intro: You can add more any time. Nothing shows to friends until something is on the table.
-      link_is: Your link is %{url}
       open: Open my stall
       open_heading: Open a garden stall
       open_intro: Got spare seedlings or seeds? Put them on a stall and share the link with your friends. Give them away or swap.

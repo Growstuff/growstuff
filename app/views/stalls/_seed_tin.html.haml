@@ -1,0 +1,17 @@
+-# The packets on the stall, as seed packet cards on the table. The owner can add
+-# more, or take one off.
+%section.stall-section{ 'aria-labelledby': 'stall-tin-h' }
+  .stall-section-header
+    %h2#stall-tin-h= t('.heading')
+    %span= t('.packets', count: stall.seeds.size)
+    = link_to t('.add'), new_stall_seed_path, class: 'stall-add' if owner
+  .stall-section-body
+    .stall-packets-grid
+      - stall.seeds.includes(:crop).find_each do |seed|
+        .stall-tin-item
+          = render 'seeds/card', seed: seed
+          - if owner
+            = button_to stall_seed_path(seed), method: :delete, class: 'stall-take-off', title: t('.take_off') do
+              = icon 'fas', 'xmark'
+              %span.visually-hidden= t('.take_off')
+    .stall-tabletop{ 'aria-hidden': 'true' }
