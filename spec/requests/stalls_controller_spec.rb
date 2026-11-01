@@ -38,6 +38,18 @@ describe StallsController, flipper: :garden_stall do
       end
     end
 
+    context 'when the owner has just opened the stall' do
+      before do
+        sign_in owner
+        post stall_opening_path
+        follow_redirect!
+      end
+
+      it 'rolls the shutter up' do
+        expect(Capybara.string(response.body)).to have_css('.stall-opening')
+      end
+    end
+
     context 'when a visitor looks at an open stall' do
       before do
         create(:stall, :open, member: owner)

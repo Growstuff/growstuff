@@ -13,7 +13,7 @@ class StallsController < ApplicationController
     @stall = @member.stall || @member.build_stall
     raise ActiveRecord::RecordNotFound unless @stall.open? || @owner
 
-    # The shutter rolls up the first time the owner sees it open.
-    @opening = flash[:stall_opened].present?
+    # The shutter rolls up when the owner arrives from opening it.
+    @opening = @owner && @stall.open? && flash.notice.present?
   end
 end
