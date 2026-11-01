@@ -4,11 +4,19 @@
   %br/
   = render 'devise/shared/error_messages', resource: resource
 
+  -# Only places we found can be saved, so the location is set in its dialog,
+  -# not typed here. Choosing a place saves it and reloads the page.
   .row.mb-3
-    = f.label :location, 'Your location', class: 'col-form-label col-md-2'
+    %span.col-form-label.col-md-2 Your location
     .col-md-8
-      = f.text_field :location, autocomplete: "off", class: 'form-control'
-      %span.form-text This will be displayed on a map. You can be as detailed or vague as you like.
+      - link = 'btn btn-link p-0 align-baseline'
+      %p.mb-0
+        - if resource.location.present?
+          %strong= resource.location
+          = render 'home/dashboard/location_picker', label: 'Change', button_class: link
+        - else
+          = render 'home/dashboard/location_picker', label: 'Set your location', button_class: link
+      %span.form-text Pick from the places we find, so you're in the right spot on the map. A region is fine.
 
   .row.mb-3
     = f.label :bio, class: 'col-form-label col-md-2'
