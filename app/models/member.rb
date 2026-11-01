@@ -300,6 +300,17 @@ class Member < ApplicationRecord
     authentications.where(provider: Authentication::EMAIL_OPTIONAL_PROVIDERS).where.not(id: authentication.id).none?
   end
 
+  # The name of the place they garden in, as the location dialog wrote it:
+  # "Wellington, Wellington Region, New Zealand" is Wellington. Nothing more
+  # precise than that is ever shown.
+  def location_place
+    location.to_s.split(',').first.to_s.squish.presence
+  end
+
+  def located?
+    location.present? && latitude.present? && longitude.present?
+  end
+
   def auth(provider)
     authentications.find_by(provider:)
   end

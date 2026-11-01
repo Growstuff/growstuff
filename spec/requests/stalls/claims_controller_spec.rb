@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Stalls::ClaimsController, flipper: :garden_stall do
   let(:stall_seed) { create(:stall_seed) }
   let(:owner) { stall_seed.stall.member }
-  let(:friend) { create(:member) }
+  let(:friend) { create_located_member('Sydney, New South Wales, Australia', -33.87, 151.2) }
 
   describe 'POST /stall_seeds/:id/claim' do
     context 'when signed in as a friend' do
@@ -24,6 +24,26 @@ describe Stalls::ClaimsController, flipper: :garden_stall do
 
       it 'goes back to the stall' do
         expect(response).to redirect_to(member_stall_path(owner))
+      end
+    end
+
+    context 'when the stall is for people nearby and the friend is far away' do
+      let(:stall_seed) do
+        owner = create_located_member('Wellington, Wellington Region, New Zealand', -41.29, 174.78)
+        create(:stall_seed, stall: create(:stall, :open, member: owner, claim_area: 'region'))
+      end
+
+      before do
+        sign_in friend
+        post stall_seed_claim_path(stall_seed)
+      end
+
+      it 'does not claim it' do
+        expect(stall_seed.reload.claim).to be_nil
+      end
+
+      it 'says the stall is for people near Wellington' do
+        expect(flash.alert).to include('only for people near Wellington')
       end
     end
 
