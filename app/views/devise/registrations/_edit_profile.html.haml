@@ -49,6 +49,16 @@
     .col-md-8
       = f.url_field :other_url, class: 'form-control', placeholder: "https://you.example.com/"
 
+  - mastodon_auths = resource.authentications.where(provider: 'mastodon')
+  - if mastodon_auths.any?
+    .row.mb-3
+      #mastodon-profiles-label.col-form-label.col-md-2 Mastodon
+      .col-md-8
+        %ul.list-unstyled.mb-1.pt-2{ 'aria-labelledby' => 'mastodon-profiles-label' }
+          - mastodon_auths.each do |authentication|
+            %li= authentication.name.presence || authentication.uid
+        .form-text Linked accounts are read-only here. Manage them in the Apps tab.
+
   .row.mb-3
     %label.form-label.col-md-2
       Profile picture

@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/Growstuff/omniauth-mastodon.git
+  revision: c8eaea528ce00b2c53096420018bd5a80d6a9986
+  branch: master
+  specs:
+    omniauth-mastodon (0.9.3)
+      i18n
+      omniauth (>= 1, < 3)
+      omniauth-oauth2
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -311,6 +321,8 @@ GEM
     jsonapi-renderer (0.2.2)
     jsonapi-serializable (0.3.1)
       jsonapi-renderer (~> 0.2.0)
+    jwt (3.3.0)
+      base64
     kramdown (2.5.2)
       rexml (>= 3.4.4)
     language_server-protocol (3.17.0.6)
@@ -349,6 +361,8 @@ GEM
       prism (~> 1.5)
     msgpack (1.8.5)
     multi_json (1.21.2)
+    multi_xml (0.9.1)
+      bigdecimal (>= 3.1, < 5)
     net-http (0.10.0)
       net-protocol (>= 0.3.0)
       uri (>= 0.11.1)
@@ -375,6 +389,16 @@ GEM
       anonymous_loader (~> 0.1, >= 0.1.3)
       auth-sanitizer (~> 0.2, >= 0.2.3)
       version_gem (~> 1.1, >= 1.1.14)
+    oauth2 (2.1.0)
+      anonymous_loader (~> 0.1, >= 0.1.5)
+      auth-sanitizer (~> 0.2, >= 0.2.5)
+      faraday (>= 0.17.3, < 4.0)
+      jwt (>= 1.0, < 4.0)
+      logger (~> 1.2)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0, >= 2.0.9)
+      version_gem (~> 1.1, >= 1.1.17)
     omniauth (2.3.1)
       hashie (>= 3.5.2)
       logger
@@ -388,6 +412,9 @@ GEM
       oauth
       omniauth (~> 2.3, >= 2.3.1)
       rack (>= 1.6.2, < 4)
+    omniauth-oauth2 (1.10.0)
+      oauth2 (>= 2.0.2, < 3)
+      omniauth (~> 2.3, >= 2.3.1)
     omniauth-rails_csrf_protection (2.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
@@ -688,6 +715,7 @@ DEPENDENCIES
   oauth (= 1.1.6)
   omniauth (~> 2.1)
   omniauth-flickr (>= 0.0.15)
+  omniauth-mastodon!
   omniauth-rails_csrf_protection
   paper_trail (~> 17.0)
   percy-capybara (~> 5.0.0)

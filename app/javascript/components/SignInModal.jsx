@@ -8,7 +8,7 @@ import Modal from './Modal';
 // own sessions#create as JSON, and on success reloads that page, now signed in
 // (and showing Devise's "Signed in successfully"). A wrong login or password
 // keeps the dialog open with the message.
-export default function SignInModal({urls, onClose, onSwitch, onBluesky}) {
+export default function SignInModal({urls, onClose, onSwitch, onBluesky, onMastodon}) {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
@@ -46,7 +46,7 @@ export default function SignInModal({urls, onClose, onSwitch, onBluesky}) {
             <a href={urls.forgot_password}>Forgot password?</a>
           </div>
         </div>
-        <AuthFooter busy={saving} label="Sign in" busyLabel="Signing in…" prompt="New here?" switchLabel="Join free" switchHref={urls.sign_up_page} onSwitch={onSwitch} onBluesky={onBluesky} />
+        <AuthFooter busy={saving} label="Sign in" busyLabel="Signing in…" prompt="New here?" switchLabel="Join free" switchHref={urls.sign_up_page} onSwitch={onSwitch} onBluesky={onBluesky} onMastodon={onMastodon} />
       </form>
     </Modal>
   );

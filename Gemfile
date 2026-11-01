@@ -11,9 +11,9 @@ gem 'csv'
 
 # Asset pipeline: Propshaft serves and fingerprints what esbuild (JavaScript)
 # and Sass (CSS) build into app/assets/builds; npm supplies the front-end libraries.
-gem 'propshaft'
-gem 'jsbundling-rails'
 gem 'cssbundling-rails'
+gem 'jsbundling-rails'
+gem 'propshaft'
 
 gem 'bundler', '>= 2.4.22'
 
@@ -79,7 +79,6 @@ gem 'omniauth-rails_csrf_protection'
 
 # Pretty charts
 gem "chartkick"
-
 
 gem "hashie", ">= 3.5.3"
 
@@ -179,3 +178,6 @@ gem 'aws-sdk-s3', '~> 1', '>= 1.114.0', require: false
 gem 'sitemap_generator'
 
 gem "simplecov", "~> 1.3", group: :test, require: false
+
+# Pinned until https://github.com/mastodon/omniauth-mastodon/pull/10 is merged
+gem "omniauth-mastodon", git: "https://github.com/Growstuff/omniauth-mastodon.git", branch: "master"

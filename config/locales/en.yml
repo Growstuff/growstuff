@@ -872,6 +872,7 @@ en:
     welcome: Welcome
     confirm_email: We've sent a link to your email address. Follow it to start getting reminders.
   messages:
+    auth_already_linked: That account is already connected to another Growstuff member.
     auth_failed: Authentication failed.
     auth_taken: That account is already connected to another member.
     auth_last_sign_in: This is the only way you can sign in. Add an email address and password first.
@@ -884,6 +885,8 @@ en:
     follow_error: Already following or error while following.
     followed: Followed %{name}
     invalid_location: Please enter a valid location
+    mastodon_instance_invalid: We couldn't connect to that Mastodon server. Check the address, which looks like you@mastodon.social, and try again.
+    mastodon_needs_account: We don't know that Mastodon account yet. Join Growstuff or sign in, then connect Mastodon from your account settings.
     location_cleared: Location removed.
     location_unplaced_html: We can't find "%{location}" on the map. <a href="%{link}">Choose your location from the list</a> so we can show you what's growing near you.
     revert_error: 'Could not revert to version from %{date}. Errors: %{errors}'

@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import BlueskyModal from './BlueskyModal';
+import MastodonModal from './MastodonModal';
 import SignInModal from './SignInModal';
 import SignUpModal from './SignUpModal';
 
@@ -31,12 +32,16 @@ export default function AuthDialog({urls, recaptcha_site_key: recaptchaSiteKey, 
   }, []);
 
   const onBluesky = urls.bluesky ? () => setOpened('bluesky') : undefined;
+  const onMastodon = urls.mastodon ? () => setOpened('mastodon') : undefined;
 
   if (opened === 'sign_in') {
-    return <SignInModal urls={urls} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_up')} onBluesky={onBluesky} />;
+    return <SignInModal urls={urls} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_up')} onBluesky={onBluesky} onMastodon={onMastodon} />;
   }
   if (opened === 'sign_up') {
-    return <SignUpModal urls={urls} recaptchaSiteKey={recaptchaSiteKey} siteName={siteName} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_in')} onBluesky={onBluesky} />;
+    return <SignUpModal urls={urls} recaptchaSiteKey={recaptchaSiteKey} siteName={siteName} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_in')} onBluesky={onBluesky} onMastodon={onMastodon} />;
+  }
+  if (opened === 'mastodon') {
+    return <MastodonModal urls={urls} onClose={() => setOpened(null)} />;
   }
   if (opened === 'bluesky') {
     return <BlueskyModal urls={urls} onClose={() => setOpened(null)} />;
