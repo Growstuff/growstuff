@@ -26,13 +26,13 @@ class Stall < ApplicationRecord
     update!(opened_at: nil)
   end
 
-  # Puts packets on the stall. A packet that isn't marked "will trade" is, so
+  # Puts packets on the stall, as free or as a swap. A packet that isn't marked "will trade" is, so
   # what friends see on the stall matches what they see in the seed library.
-  def put_seeds_on!(packets)
+  def put_seeds_on!(packets, offer: :free)
     transaction do
       packets.each do |seed|
         seed.update!(tradable_to: WILL_TRADE) unless seed.tradable
-        stall_seeds.find_or_create_by!(seed:)
+        stall_seeds.find_or_create_by!(seed:) { |stall_seed| stall_seed.offer = offer }
       end
     end
   end
