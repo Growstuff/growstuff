@@ -77,7 +77,7 @@ class ApplicationController < ActionController::Base
                     # terms of service
                     :tos_agreement,
                     # profile stuff
-                    :bio, :location, :latitude, :longitude,
+                    :bio,
                     # email settings
                     :show_email, :send_notification_email, :send_planting_reminder, :send_harvest_reminder)
     end
@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
                     # terms of service
                     :tos_agreement,
                     # profile stuff
-                    :bio, :location, :latitude, :longitude,
+                    :bio,
                     :website_url, :instagram_handle, :facebook_handle, :bluesky_handle, :other_url,
                     # email settings
                     :show_email, :send_notification_email, :send_planting_reminder, :send_harvest_reminder,
