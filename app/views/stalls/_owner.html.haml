@@ -1,0 +1,7 @@
+-# Whose stall this is: their avatar (always a circle) and name.
+.stall-owner
+  = link_to member, class: 'stall-owner-avatar', title: member.to_s do
+    = image_tag avatar_uri(member, 128), alt: member.to_s, width: 64, height: 64
+  %p.stall-owner-name
+    = t('stalls.owner.garden_of')
+    %strong= link_to member, member

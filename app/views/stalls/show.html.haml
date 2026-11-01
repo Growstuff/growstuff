@@ -5,12 +5,8 @@
   %li.breadcrumb-item.active= t('.breadcrumb')
 
 .stall-page
-  .record-identity.mb-4
-    = render 'shared/record_owner', owner: @member
-    .record-identity-text
-      %p.garden-grower
-        = t('.garden_of')
-        %strong.record-grower-name= link_to @member, @member
+  -# Closed, the owner is on the shutter instead.
+  = render 'stalls/owner', member: @member if @stall.open?
 
   = render 'stalls/stall', member: @member, open: @stall.open?, opening: @opening
 
