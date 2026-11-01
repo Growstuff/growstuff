@@ -1,0 +1,32 @@
+- content_for :title, t('.title')
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to t('layouts.menu.gardens'), gardens_path
+  %li.breadcrumb-item= link_to t('stalls.show.breadcrumb'), member_stall_path(current_member)
+  %li.breadcrumb-item.active= t('.breadcrumb')
+
+.stall-page
+  %h1= t('.title')
+  %p= t('.intro')
+
+  = form_with url: new_stall_seed_path, method: :get, class: 'mb-3' do
+    = label_tag :q, t('.search'), class: 'form-label fw-bold'
+    .input-group
+      = search_field_tag :q, @query, placeholder: t('.search_placeholder'), class: 'form-control'
+      = submit_tag t('.search_button'), name: nil, class: 'btn btn-secondary'
+
+  = form_with url: stall_seeds_path do
+    - { ready: @ready, others: @others }.each do |group, packets|
+      - next if packets.empty?
+
+      %h2.h5.mt-3= t(".#{group}", count: packets.size)
+      .stall-packets
+        = render partial: 'stalls/seeds/choice', collection: packets, as: :seed
+    - if @ready.empty? && @others.empty?
+      %p.text-muted= @query.present? ? t('.no_matches', query: @query) : t('.none_left')
+    - if @others.any?
+      %p.stall-note= t('.will_mark')
+    %p= link_to t('.record_new'), new_seed_path
+    .d-flex.flex-wrap.gap-3
+      = submit_tag t('.add'), class: 'btn btn-primary'
+      = link_to t('.cancel'), member_stall_path(current_member), class: 'btn btn-secondary'

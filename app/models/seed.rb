@@ -23,6 +23,7 @@ class Seed < ApplicationRecord
   belongs_to :crop
   belongs_to :parent_planting, class_name: 'Planting',
                                optional: true, inverse_of: :child_seeds # parent
+  has_many :stall_seeds, dependent: :destroy
   has_many :child_plantings, class_name: 'Planting',
                              foreign_key: 'parent_seed_id', dependent: :nullify,
                              inverse_of: :parent_seed # children
