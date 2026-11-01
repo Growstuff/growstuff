@@ -1,0 +1,20 @@
+-# What a friend can do with a packet: claim it, or, once it's claimed, see who has
+-# it. Their own claim they can give back.
+- claim = stall_seed.claim
+- if claim
+  .stall-ribbon
+    %strong= t('.claimed')
+    = render 'stalls/claimer', member: claim.member
+  = tag.p t('.note', note: claim.note), class: 'stall-claim-note' if owner && claim.note.present?
+  - mine = claim.member == current_member
+  = button_to t('.undo'), stall_seed_claim_path(stall_seed), class: 'btn btn-secondary btn-sm', method: :delete if mine
+- elsif !owner
+  - if member_signed_in?
+    %details.stall-claim
+      %summary.btn.btn-primary= t('.claim')
+      = form_with url: stall_seed_claim_path(stall_seed) do
+        = label_tag "note_#{stall_seed.id}", t('.note_label'), class: 'form-label fw-bold'
+        = text_area_tag :note, nil, id: "note_#{stall_seed.id}", rows: 2, maxlength: 500, class: 'form-control mb-2'
+        = submit_tag t('.confirm'), class: 'btn btn-primary btn-sm'
+  - else
+    = sign_in_link t('.sign_in'), class: 'btn btn-secondary stall-claim-sign-in'
