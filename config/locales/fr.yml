@@ -208,6 +208,16 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    scientific_name_modal:
+      add_title: Ajouter un nom scientifique pour %{crop}
+      cancel: Annuler
+      close: Fermer
+      edit_title: Modifier le nom scientifique
+      gbif_hint: La clé d'espèce de gbif.org, si vous l'avez.
+      gbif_key: Clé GBIF
+      name: Nom scientifique
+      save: Enregistrer
+      wikidata_id: Identifiant Wikidata
     index:
       subtitle: '%{crops_size} total'
       title: Parcourir les cultures
