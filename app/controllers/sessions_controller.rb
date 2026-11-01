@@ -7,10 +7,15 @@ class SessionsController < Devise::SessionsController
     super do |_resource|
       flash[:notice] = t('devise.sessions.signed_in') if request.format.json?
       flash[:alert] = t('messages.crops_waiting') if Crop.pending_approval.present? && current_member.role?(:crop_wrangler)
+      flash[:alert] = location_prompt if current_member.location_unplaced? && request.format.html?
     end
   end
 
   private
+
+  def location_prompt
+    t('messages.location_unplaced_html', location: ERB::Util.h(current_member.location), link: edit_member_registration_path)
+  end
 
   # The sign in dialog reloads the page it was opened over, so a success needs
   # no body. A failure is Devise's own 401 with an `error` message.

@@ -314,6 +314,11 @@ class Member < ApplicationRecord
     { name: location, latitude:, longitude: } if location.present? && latitude.present? && longitude.present?
   end
 
+  # They typed a location, but it never found a place on the map.
+  def location_unplaced?
+    location.present? && located_place.nil?
+  end
+
   def self.nearest_to(place, limit = 50)
     return Member.none if place.blank?
 
