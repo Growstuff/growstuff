@@ -57,6 +57,11 @@ Rails.application.routes.draw do
     resources :seeds, only: %i(new create destroy), module: :stalls
   end
 
+  # A friend claiming a packet on someone's stall, or changing their mind.
+  resources :stall_seeds, only: [] do
+    resource :claim, only: %i(create destroy), module: :stalls
+  end
+
   resource :nursery, only: %i(show create) do
     get :panel
     resource :decline, only: :create, module: :nurseries
