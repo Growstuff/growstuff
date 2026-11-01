@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_01_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_01_020000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1117,6 +1117,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_010000) do
     t.index ["source"], name: "index_seeds_on_source"
   end
 
+  create_table "stall_seeds", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "seed_id", null: false
+    t.bigint "stall_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["seed_id", "stall_id"], name: "index_stall_seeds_on_seed_id_and_stall_id", unique: true
+    t.index ["stall_id"], name: "index_stall_seeds_on_stall_id"
+  end
+
   create_table "stalls", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "member_id", null: false
@@ -1196,5 +1205,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_010000) do
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
   add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
+  add_foreign_key "stall_seeds", "seeds"
+  add_foreign_key "stall_seeds", "stalls"
   add_foreign_key "stalls", "members"
 end
