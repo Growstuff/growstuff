@@ -13,9 +13,11 @@ describe 'Starting to sign in with Mastodon' do
   after { OmniAuth.config.test_mode = true }
 
   context 'with a valid Mastodon address' do
+    let(:identifier) { ['alice', 'mastodon.social'].join('@') }
+
     before do
       allow(client_service).to receive(:credentials_for).and_return(%w(client-id client-secret))
-      post member_mastodon_omniauth_authorize_path, params: { identifier: ['alice', 'mastodon.social'].join('@'), tos_agreement: '1' }
+      post member_mastodon_omniauth_authorize_path, params: { identifier:, tos_agreement: '1' }
     end
 
     it 'sends the member to their server' do
@@ -24,6 +26,14 @@ describe 'Starting to sign in with Mastodon' do
 
     it 'only requests permission to read account information' do
       expect(Rack::Utils.parse_query(URI.parse(response.location).query)['scope']).to eq 'read:accounts'
+    end
+
+    context 'with a leading @' do
+      let(:identifier) { ['@alice', 'mastodon.social'].join('@') }
+
+      it 'registers with the account server rather than the username' do
+        expect(client_service).to have_received(:credentials_for).with('mastodon.social', anything)
+      end
     end
   end
 
@@ -86,6 +96,32 @@ describe 'Starting to sign in with Mastodon' do
       follow_redirect! if response.redirect?
 
       expect(flash[:alert]).to eq I18n.t('messages.mastodon_instance_invalid')
+    end
+  end
+
+  context 'when the callback state does not match' do
+    before do
+      allow(client_service).to receive(:credentials_for).and_return(%w(client-id client-secret))
+      post member_mastodon_omniauth_authorize_path, params: { identifier: ['alice', 'mastodon.social'].join('@') }
+    end
+
+    it 'refuses the callback' do
+      get member_mastodon_omniauth_callback_path, params: { code: 'untrusted-code', state: 'wrong-state' }
+
+      expect(flash[:alert]).to eq I18n.t('messages.mastodon_failed')
+    end
+  end
+
+  context 'when authorization is declined' do
+    before do
+      allow(client_service).to receive(:credentials_for).and_return(%w(client-id client-secret))
+      post member_mastodon_omniauth_authorize_path, params: { identifier: ['alice', 'mastodon.social'].join('@') }
+      state = Rack::Utils.parse_query(URI.parse(response.location).query)['state']
+      get member_mastodon_omniauth_callback_path, params: { error: 'access_denied', state: }
+    end
+
+    it 'explains that authorization was not approved' do
+      expect(flash[:alert]).to eq I18n.t('messages.mastodon_declined')
     end
   end
 end
