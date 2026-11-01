@@ -20,6 +20,10 @@ describe Stalls::OpeningsController, flipper: :garden_stall do
       it 'goes to the stall' do
         expect(response).to redirect_to(member_stall_path(owner))
       end
+
+      it 'says it is open' do
+        expect(flash.notice).to eq('Your garden stall is open.')
+      end
     end
 
     context 'when signed in as someone else' do
