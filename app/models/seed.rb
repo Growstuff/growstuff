@@ -49,7 +49,6 @@ class Seed < ApplicationRecord
   validates :row_spacing, allow_nil:    true,
                           numericality: { only_integer: true, greater_than: 0 }
   validates :variety, :batch_number, length: { maximum: 100 }
-  validates :packet_text, length: { maximum: 20_000 }
   validate :plant_before_year_is_a_year
   validates :tradable_to, allow_blank: false,
                           inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }
@@ -69,6 +68,11 @@ class Seed < ApplicationRecord
   # label, as it is still a photo of a packet, and not of the crop.
   def packet_photo(side)
     photo_associations.where(label: side).order(:id).last&.photo
+  end
+
+  # The text read from each side of the packet, for the sides that have any.
+  def packet_texts
+    PhotoAssociation::LABELS['Seed'].index_with { |side| packet_photo(side)&.ocr_text }.compact_blank
   end
 
   # Which side of the packet a photo of this seed is of, if it is of one. Uses

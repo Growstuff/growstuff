@@ -7,10 +7,12 @@
 import AlternateNames from './components/AlternateNames';
 import AuthDialog from './components/AuthDialog';
 import CardPhotoDialog from './components/CardPhotoDialog';
+import EmailStep from './components/EmailStep';
 import FeedMore from './components/FeedMore';
 import GardenCards from './components/GardenCards';
 import GardenLayout from './components/GardenLayout';
 import GardenPicker from './components/GardenPicker';
+import GardenPlanter from './components/GardenPlanter';
 import GrowingTable from './components/GrowingTable';
 import HarvestChart from './components/HarvestChart';
 import JobPicker from './components/JobPicker';
@@ -30,7 +32,7 @@ import ScientificNames from './components/ScientificNames';
 import SeedStack from './components/SeedStack';
 import {mountIslands, registerIslands} from './islands';
 
-registerIslands({AlternateNames, AuthDialog, CardPhotoDialog, FeedMore, GardenCards, GardenLayout, GardenPicker, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, PostEditor, RecordDialog, ScientificNames, SeedLibrary, SeedStack});
+registerIslands({AlternateNames, AuthDialog, CardPhotoDialog, EmailStep, FeedMore, GardenCards, GardenLayout, GardenPicker, GardenPlanter, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingRating, PostEditor, RecordDialog, ScientificNames, SeedLibrary, SeedStack});
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => mountIslands());

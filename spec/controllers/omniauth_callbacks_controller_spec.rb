@@ -42,7 +42,7 @@ describe OmniauthCallbacksController, type: :controller do
 
       it 'explains why' do
         get :mastodon
-        expect(flash[:alert]).to eq I18n.t('messages.mastodon_needs_account')
+        expect(flash[:alert]).to eq I18n.t('messages.tos_required')
       end
 
       it 'does not create a member' do
@@ -99,6 +99,19 @@ describe OmniauthCallbacksController, type: :controller do
           expect { get :mastodon }.to change { member.authentications.count }.by(1)
         end
       end
+
+      context 'with this account already connected under an old name' do
+        before { create(:mastodon_authentication, member:, uid: ['111', 'mastodon.social'].join('@'), name: 'Old name') }
+
+        it 'reuses the existing connection' do
+          expect { get :mastodon }.not_to(change { member.authentications.count })
+        end
+
+        it 'updates the displayed name' do
+          get :mastodon
+          expect(member.authentications.last.name).to eq ['@alice', 'mastodon.social'].join('@')
+        end
+      end
     end
 
     context 'when signed in, but someone else has already connected that account' do
@@ -115,7 +128,25 @@ describe OmniauthCallbacksController, type: :controller do
 
       it 'says so' do
         get :mastodon
-        expect(flash[:alert]).to eq I18n.t('messages.auth_already_linked')
+        expect(flash[:alert]).to eq I18n.t('messages.auth_taken')
+      end
+    end
+
+    context 'when joining with terms accepted' do
+      before { request.env['omniauth.params'] = { 'tos_agreement' => '1' } }
+
+      it 'creates a member without an email' do
+        expect { get :mastodon }.to change(Member, :count).by(1)
+      end
+
+      it 'signs the new member in' do
+        get :mastodon
+        expect(controller.current_member).to be_present
+      end
+
+      it 'records agreement to the terms' do
+        get :mastodon
+        expect(controller.current_member.tos_agreement).to be true
       end
     end
 

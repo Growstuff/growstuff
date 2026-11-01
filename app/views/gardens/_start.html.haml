@@ -1,0 +1,10 @@
+-# For someone without an account: a way in, beside the garden they are looking at.
+%section.garden-start
+  .section-header
+    %h2= t('.heading')
+  .garden-side-body
+    %p.mb-0= t('.text')
+    = sign_up_link t('gardens.sign_up'), class: 'btn btn-success align-self-start'
+    %p.mb-0.small
+      = t('.already_member')
+      = sign_in_link t('gardens.sign_in')

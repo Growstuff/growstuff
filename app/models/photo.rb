@@ -23,6 +23,7 @@ class Photo < ApplicationRecord
   validates :title, presence: true
   validates :license_name, presence: true # Should assert this is one of CC-BY, CC-BY-NC, etc
   validates :license_url,  url: true, allow_blank: true
+  validates :ocr_text, length: { maximum: 20_000 }
 
   # creates a relationship for each assignee type
   PHOTO_CAPABLE.each do |type|
@@ -36,6 +37,10 @@ class Photo < ApplicationRecord
   scope :by_model, lambda { |model_name|
     joins(:photo_associations).where(photo_associations: { photographable_type: model_name.to_s })
   }
+
+  # Photos of a label, such as the front or back of a seed packet, that have not been read yet, which is what the
+  # OCR script reads.
+  scope :awaiting_ocr, -> { where(id: PhotoAssociation.of_packets.select(:photo_id)).where(ocr_text: [nil, '']) }
 
   delegate :login_name, :slug, to: :owner, prefix: true
 

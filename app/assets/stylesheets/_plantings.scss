@@ -28,20 +28,6 @@
     top: 0;
   }
 
-  .planting-thumbnail-photo {
-    height: 150px;
-  }
-
-  dl.planting-attributes {
-    dt {
-      text-align: left;
-    }
-
-    dd {
-      margin-left: auto;
-    }
-  }
-
   .card-footer {
     max-height: 2em;
     -webkit-line-clamp: 1;
@@ -415,18 +401,6 @@
     margin-bottom: 0;
     font-size: 1.1rem;
   }
-
-
-
-
-  .planting-owner-avatar img {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-
   // Neighbours are a list, not a grid: in a narrow column a full planting card
   // is one huge photo each. A small photo, who grows it and where is enough to
   // decide whether to go and look.
@@ -519,4 +493,179 @@
   display: block;
   color: $ink-muted;
   font-size: 0.85rem;
+}
+
+// The weather a planting grew through.
+.planting-weather {
+  .weather-summary {
+    display: flex;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .weather-figure {
+    dt {
+      color: $ink-muted;
+      font-size: 0.8rem;
+      font-weight: normal;
+    }
+
+    dd {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+
+  figure {
+    margin-bottom: 0.75rem;
+  }
+
+  figcaption {
+    color: $ink-muted;
+    font-size: 0.8rem;
+  }
+
+  .weather-chart {
+    background: $white;
+    border-radius: $card-radius;
+    display: block;
+    height: 80px; // WEATHER_CHART_HEIGHT in WeatherChartFrameHelper
+    width: 100%;
+  }
+
+  .weather-rain rect:not(.weather-season) {
+    fill: $blue;
+  }
+
+  // A prediction, from the same days last year: dotted, and paler. Lines are dots; bars are hollow with a dotted outline.
+  .weather-expected {
+    opacity: 0.7;
+  }
+
+  .weather-temperature polyline.weather-expected {
+    stroke-dasharray: 0.5 6;
+    stroke-linecap: round;
+    stroke-width: 3;
+  }
+
+  .weather-rain rect.weather-expected {
+    fill: $blue;
+    fill-opacity: 0.15;
+    stroke: $blue;
+    stroke-dasharray: 2 2;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .weather-expected-note {
+    margin-bottom: 0.25rem;
+  }
+
+  // Seasons: a faint tint behind the data, and the same colours in the strip of names under the charts.
+  .season-spring {
+    fill: $green;
+    background: rgba($green, 0.14);
+  }
+
+  .season-summer {
+    fill: $orange;
+    background: rgba($orange, 0.16);
+  }
+
+  .season-autumn {
+    fill: $yellow;
+    background: rgba($yellow, 0.18);
+  }
+
+  .season-winter {
+    fill: $blue;
+    background: rgba($blue, 0.1);
+  }
+
+  .weather-season {
+    fill-opacity: 0.14;
+  }
+
+  .weather-seasons {
+    display: flex;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+
+    span {
+      color: $ink-muted;
+      overflow: hidden;
+      padding: 0 0.25rem;
+      text-overflow: clip;
+      white-space: nowrap;
+    }
+  }
+
+  .weather-temperature polyline {
+    fill: none;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .weather-chart-frame {
+    position: relative;
+  }
+
+  // The Y axis: its numbers down the chart's left edge, over the data, and a line across the middle.
+  .weather-axis span {
+    background: rgba($white, 0.7);
+    border-radius: 3px;
+    color: $ink-muted;
+    font-size: 0.7rem;
+    left: 0;
+    line-height: 1;
+    padding: 0.1rem 0.2rem;
+    position: absolute;
+    transform: translateY(-50%);
+
+    &:first-child {
+      transform: none;
+    }
+
+    &:last-child {
+      transform: translateY(-100%);
+    }
+  }
+
+  .weather-grid {
+    stroke: rgba($black, 0.12);
+    vector-effect: non-scaling-stroke;
+  }
+
+  // The latest reading, beside the line. Its left edge is the line's position.
+  .weather-now-label {
+    background: rgba($white, 0.85);
+    border-radius: 3px;
+    font-size: 0.7rem;
+    padding: 0 0.25rem;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+
+    &--before {
+      transform: translateX(-100%);
+    }
+  }
+
+  // Today, while the planting is in progress: everything left of it happened, everything right is expected.
+  .weather-now {
+    stroke: $black;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .weather-high {
+    stroke: $danger-text;
+  }
+
+  .weather-low {
+    stroke: $blue;
+  }
 }

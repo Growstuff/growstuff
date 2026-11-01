@@ -32,7 +32,5 @@
     .card.h-100
       .card-body
         %h2.h5.card-title= t('.dont_need')
-        %p.card-text.text-muted
-          Skip raising seedlings on Growstuff. We won't ask again, and you can change your mind
-          from your gardens page.
-        = button_to 'No nursery for me', nursery_decline_path, method: :post, class: 'btn btn-outline-secondary'
+        %p.card-text.text-muted= t('.dont_need_text')
+        = button_to t('.no_nursery_for_me'), nursery_decline_path, method: :post, class: 'btn btn-outline-secondary'

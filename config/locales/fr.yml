@@ -1,0 +1,1144 @@
+fr:
+  activerecord:
+    errors:
+      messages:
+        bed_position_incomplete: doit avoir à la fois une colonne et une ligne, ou aucun des deux
+        bed_position_off_grid: mettrait cette plante à l'extérieur du lit
+        calculate_crop_failed: échec du calcul de la récolte
+        cannot_be_about_that: ne correspond pas à l'objet du travail
+        cannot_be_garden_owner: ne peut pas être le propriétaire du jardin
+        crop_must_be_approved: doit être présent et exister dans notre base de données
+        crop_not_found: doit être présent et exister dans notre base de données
+        failed_and_finished: ne peut pas être vrai si la plantation est également terminée
+        finished_after_planted: doit être postérieure à la date de plantation
+        grid_too_small_for_plantings: 'est trop petit : certaines plantations tomberaient à l''extérieur du lit. Déplacez-les d''abord.'
+        harvest_after_planted: ne peut pas être récolté avant la plantation
+        no_newlines: ne doit contenir aucune nouvelle ligne
+        not_a_valid_area_unit: '%{value} n''est pas une unité de zone valide'
+        not_a_valid_planting_method: '%{value} n''est pas une méthode de plantation valide'
+        not_a_valid_sunniness: '%{value} n''est pas une valeur d''ensoleillement valide'
+        not_a_valid_unit: '%{value} n''est pas une unité valide'
+        not_a_valid_wikipedia_url: n'est pas une URL Wikipédia en anglais valide
+        not_a_valid_youtube_url: n'est pas une URL valide
+        one_nursery_per_member: existe déjà ; un membre ne peut avoir qu'une seule crèche
+        photo_owner_mismatch: doit avoir le même propriétaire que l'élément auquel il renvoie
+        rejection_notes_required: doit être ajouté si la raison du rejet est « autre »
+        rejection_reason_required: doit être rejeté si un motif de rejet est présent
+        same_crop_required: doivent être les mêmes.
+        same_owner_required: de récolte doit être le même que la plantation, ou un collaborateur sur ce jardin
+        too_many_plants: une plantation peut avoir au plus des plantes %{limit} sur la mise en page
+      models:
+        crop_job_step:
+          attributes:
+            external_uri:
+              url_format: Doit commencer par http:// ou https://
+        member:
+          attributes:
+            bluesky_handle:
+              handle_format: doit être un handle, pas une URL
+            facebook_handle:
+              handle_format: doit être un handle, pas une URL
+            instagram_handle:
+              handle_format: doit être un handle, pas une URL
+            login_name:
+              login_name_format: ne peut inclure que des lettres, des chiffres ou des traits de soulignement
+              login_name_length: doit comporter entre 2 et 25 caractères
+              login_name_reserved: est réservé
+            other_url:
+              url_format: Doit commencer par http:// ou https://
+            website_url:
+              url_format: Doit commencer par http:// ou https://
+        seed:
+          attributes:
+            gmo:
+              gmo_inclusion: Vous devez dire si les semences sont génétiquement modifiées ou non, ou que vous ne savez pas
+            heirloom:
+              heirloom_inclusion: Vous devez dire si les graines sont héréditaires, hybrides ou inconnues
+            organic:
+              organic_inclusion: Vous devez dire si les graines sont biologiques ou non, ou que vous ne savez pas
+            source:
+              source_inclusion: Vous devez dire d'où viennent les graines, ou que vous ne savez pas
+            tradable_to:
+              tradable_to_inclusion: Vous ne pouvez commercialiser des semences nulle part, localement, nationalement ou internationalement
+    models:
+      comment:
+        one: commentaire
+        other: commentaires
+      crop:
+        one: culture
+        other: agricoles
+      follow:
+        one: suivre
+        other: suivis
+      garden:
+        one: jardin
+        other: suspendus
+      harvest:
+        one: récolte/récolter/cru/moisson/fruit/vendanger /faire la moisson
+        other: Récolte
+      member:
+        one: membre
+        other: membres
+      photo:
+        one: photo
+        other: photos
+      planting:
+        one: plantées
+        other: Plantations
+      post:
+        one: post
+        other: articles
+      seed:
+        one: la graine
+        other: sésame
+  admin:
+    features:
+      descriptions:
+        enable_harvest_reminders: Envoie les e-mails hebdomadaires de rappel de récolte aux membres qui le souhaitent.
+        enable_planting_reminders: Envoie les e-mails hebdomadaires de rappel de plantation aux membres qui le souhaitent.
+        job_ideas: Emplois suggérés pour les membres, à partir de leurs emplois et plantations passés, des modèles de cultures et de ce que font les jardiniers à proximité.
+        planting_weather: Graphiques de température et de précipitations sur chaque plantation, à partir de la météo quotidienne pour la zone du jardin.
+      index:
+        feature: Fonctionnalité
+        intro: Activez ou désactivez les fonctionnalités pour tout le monde.
+        'off': Arrêt
+        'on': Marche
+        state: État
+        switch_off: Éteindre
+        switch_on: Allumer
+        title: Caractéristiques
+      names:
+        enable_harvest_reminders: Rappels de récolte
+        enable_planting_reminders: Rappels de plantation
+        job_ideas: Idées d'emploi
+        planting_weather: Temps de plantation
+      update:
+        'off': '%{feature} est maintenant désactivé.'
+        'on': '%{feature} est maintenant activé.'
+  alternate_names:
+    created: Le nom alternatif a été créé avec succès.
+    deleted: L'autre nom a été supprimé avec succès.
+    updated: Le nom alternatif a été mis à jour avec succès.
+  application_helper:
+    title:
+      title:
+        default: Par défaut
+  are_you_sure: Êtes-vous sûr ?
+  buttons:
+    add: Ajouter
+    add_photo: Ajouter une photo
+    add_seed_to_stash: Ajouter des graines %{crop_name} à stocker
+    copy: Copier
+    delete: Effacer
+    edit: editer
+    harvest: Récolte
+    harvest_crop: Récolte %{crop_name}
+    like: J'aime
+    make_nursery: Utiliser comme pépinière
+    mark_as_active: Marquer comme actif ?
+    mark_as_failed: Marque comme échoué
+    mark_as_finished: Marquer comme terminé
+    mark_as_inactive: Marquer comme inactif
+    my_gardens: Mes jardins
+    new_harvest: Nouvelle Récolte!
+    new_job: Ajouter un métier
+    new_planting: plantation nouvelle
+    new_post: Écrire nouvelle note
+    new_seeds: Nouvelle graine enregistrée
+    plant: Installation
+    plant_crop: Usine %{crop_name}
+    plant_something_here: Plantez quelque chose ici
+    record_harvest: récolte record
+    save_seeds: Gérer les semences
+    stop_nursery: Arrêtez de l'utiliser comme chambre d'enfant
+    timeline: Calendrier
+    total_likes: Total de « J’aime »
+    transplant: Plant repiqué
+    unlike: Supprimer "j'aime"
+    view: Afficher
+    write_blog_post: Ecrire un article de blog
+  community_gardens:
+    collaborate: Collaborer avec votre équipe
+    collaborate_text: Invitez d'autres jardiniers à collaborer sur vos parcelles de jardin. Partagez le travail, partagez la récolte et grandissez ensemble en tant que communauté.
+    features_title: Caractéristiques des jardins communautaires
+    get_started: Commencez dès aujourd’hui
+    get_started_text: L'inscription à Growstuff est gratuite et facile. Créez un compte pour commencer à suivre votre jardin dès aujourd'hui.
+    header: Jardins communautaires
+    lead: Growstuff est open source et l'endroit idéal pour gérer votre jardin communautaire. Suivez vos plantations, célébrez vos récoltes et collaborez avec vos collègues jardiniers, le tout au même endroit.
+    learn_more: En savoir plus sur Kew Gardens
+    meta_description: Gérez votre jardin communautaire, suivez vos plantations et collaborez avec d'autres jardiniers.
+    sign_up: Inscrivez-vous gratuitement
+    title: Jardins communautaires sur Growstuff
+  crop_companions:
+    created: Le compagnon a été créé avec succès.
+    deleted: Le compagnon a été détruit avec succès.
+  crop_dismissals:
+    create:
+      dismissed: Nous ne suggérerons plus %{crop}.
+    destroy_all:
+      restored: Vos suggestions cachées sont de retour.
+  crop_job_templates:
+    created: Modèle créé. Error message
+    deleted: Modèle supprimé
+    options:
+      anchor:
+        first_harvest: Premières vendanges.
+        planting_out: création de forêts pérennes
+        sowing: ensemencement
+      applies_to_all: Toutes les variétés %{crop}
+      applies_to_one: '%{crop} uniquement'
+      direction:
+        after: après
+        before: avant
+      offset_unit:
+        days: jours
+        months: mois
+        weeks: semaines
+      repeat:
+        fortnightly: toutes les 2 semaines
+        monthly: tous les mois
+        once: une fois que
+        weekly: chaque semaine
+      season:
+        any: 'À tout moment '
+        autumn_winter: Sardaigne en Automne et en Hiver
+        spring_summer: Le printemps et l'été
+      status:
+        draft: Brouillon
+        published: Publié
+    saved: Modèle sauvegardé.
+  crops:
+    index:
+      subtitle: '%{crops_size} total'
+      title: Parcourir les cultures
+    requested:
+      link: Vous avez des cultures %{number_crops} en attente d'approbation
+      subtitle: En attente d’approbation
+      title: Cultures demandées
+    search: Rechercher des cultures
+  edit_crop: Modifier le rognage
+  forms:
+    optional: (Facultatif)
+  forums:
+    created: Le forum a été créé avec succès.
+    deleted: Le forum a été supprimé avec succès.
+    index:
+      title: Forums
+    updated: Le forum a été mis à jour avec succès.
+  gardens:
+    about:
+      collaborators: collaborateurs
+      fetch_wikidata: Récupérer les informations de Wikidata
+      heading: À propos de ce jardin
+      leave: Quitter le jardin
+      leave_confirm: Voulez-vous vraiment quitter cette page ?
+      location: Emplacement
+      manage: Gérer
+      owner: Responsable
+      temperature_unknown: vous ne saviez pas
+      temperatures_html: 'Températures locales de %{source} : %{hottest} le plus chaud, %{coldest} le plus froid.'
+      wikidata_missing: Les informations de Wikidata sont manquantes pour cet emplacement.
+      you: (vous)
+    actions:
+      add_photo: Ajouter une photo depuis Flickr
+      make_nursery: Faites-en une pépinière
+      new_job: Nouvel emploi
+    companions:
+      heading: Compagnons suggérés
+    confirm_deactivate: Toutes les plantations associées à ce jardin seront marquées comme terminées. Êtes-vous sûr ?
+    confirm_delete: Toutes les plantations associées à ce jardin seront également supprimées. Êtes-vous sûr ?
+    created: Le jardin a été créé avec succès.
+    created_prompt_html: Le jardin a été créé avec succès. Souhaitez-vous <a href="%{link}">désherber ce lit de jardin dans deux semaines</a> ?
+    deleted: Le jardin a été supprimé avec succès.
+    description:
+      no_description: Pas de description disponible.
+    facts:
+      area: Superficie
+      garden_type: type de jardin
+      growing_now: Grandir maintenant
+      harvested: Prélèvement
+      harvests_this_year: fois cette année
+      plantings:
+        one: plantées
+        other: Plantations
+      type: Type
+      unknown: inconnu
+    form:
+      location_helper: Si vous avez défini un emplacement dans votre profil, il sera utilisé lors de la création d'un nouveau jardin.
+    header:
+      all_gardens: Tous les jardins de %{owner}
+      garden_of: Jardin de ?
+      hero_caption:
+        one: Photo du jardin · %{count} photo
+        other: Photo du jardin · %{count} photos
+      hero_label: Photos de %{garden}
+      season_title: La saison où ce jardin est
+    jobs_section:
+      public: Partenariat public-privé
+    join_banner:
+      heading: Growstuff est l'endroit où les gens partagent ce qu'ils cultivent
+      text: Growstuff vous guide dans la culture de votre propre nourriture, en vous suggérant ce qu'il faut planter et comment entretenir votre jardin. Découvrez ce que font les autres personnes à votre latitude au fil des saisons.
+    join_prompt:
+      text: Inscrivez-vous gratuitement pour suivre %{owner} et garder une trace de votre propre jardin.
+      title: Vous cultivez quelque chose à proximité ?
+    layout_section:
+      drag_plants: Faites glisser les plantes autour de la carte pour voir ce qui convient où.
+      edit_layout: Modifier la disposition
+      edit_layout_label: Modification de la mise en page
+      heading: Structure
+      map_out: Planifiez ce lit
+      map_out_text: Faites glisser vos plantes sur une image du lit et voyez ce qui convient.
+      new: Nouveau
+      plants_placed:
+        one: Plante %{count} posée sur le lit
+        other: Plantes %{count} placées sur le lit
+      view_layout: Voir la mise en forme
+      view_layout_label: Voir la disposition du lit
+      where_each: Où pousse chaque plante de ce jardin, sur une carte du lit.
+    location: '%{owner} %{garden}'
+    nursery_declined: D'accord, nous ne poserons plus de questions sur une crèche. Vous pouvez en configurer un plus tard à partir de votre page Jardins.
+    nursery_made: Ce jardin est maintenant votre pépinière.
+    nursery_name: Pouponnière
+    nursery_stopped: Ce jardin n'est plus votre pépinière.
+    overview:
+      gardensactions: jardins/actions
+      gardensphoto: jardins/photo
+      no_plantings: aucune plantation
+      plantingsthumbnail: plantations/vignette
+    owner_gardens:
+      growing_count: '%{count} Growing'
+      heading: Jardins de %{owner}
+      inactive_gardens:
+        one: '%{count} jardin inactif'
+        other: Jardins inactifs %{count}
+      new_garden: + Nouveau jardin
+      nursery: nursery, chambre d'enfant, crèche, garderie
+    photos_section:
+      add: ajouter
+      heading: Photos
+      more: Plus de photos
+      none: Pas encore de photo
+    plantings_section:
+      add: ajouter
+      heading: Grandir maintenant
+      nothing_planted: Rien n'est actuellement planté ici.
+    show:
+      km_from_you: à environ %{km} km de chez vous
+      suggested_plantings:
+        one: Nous avons %{count} suggéré de planter pour ajouter ici
+        other: Nous avons des plantations suggérées par %{count} à ajouter ici
+      suggested_plantings_go: 'les voir. '
+    sign_in: Se connecter
+    sign_up: S'inscrire gratuitement
+    start:
+      already_member: Vous êtes déjà membre?
+      heading: Créez votre propre jardin
+      text: Plantez, récoltez et conservez les graines en un seul endroit, et voyez ce qui pousse bien près de chez vous.
+    updated: Le jardin a été mis à jour avec succès.
+  harvests:
+    created: La récolte a été créée avec succès.
+    harvest_something: Récolter quelque chose
+    index:
+      title:
+        crop_harvests: Les récoltes %{crop} DE chacun
+        default: Les récoltes de chacun
+        owner_harvests: Récoltes de %{owner}
+        planting_harvests: Récoltes de %{planting}
+    show:
+      heading: Récolte %{crop}
+    updated: La récolte a été mise à jour avec succès.
+  home:
+    added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
+    blurb:
+      badge: Open source · Open data · Depuis 2012
+      headline_html: Sachez quoi <strong>cultiver</strong>,<br>dès maintenant, où vous vivez
+      intro: '%{site_name} est une communauté de food gardeners. Suivez votre jardin, trouvez des graines chez les voisins et voyez quels jardiniers près de chez vous plantent ce mois-ci.'
+      photo_by: par %{login}
+      public_note: Tout ce que vous enregistrez est des données ouvertes publiques, y compris votre ville.
+      sign_in_linktext: Se connecter
+      sign_in_bluesky: Se connecter avec Bluesky
+      sign_up: S'inscrire gratuitement
+    dashboard:
+      add_bed: Base
+      add_seeds: SEMENCES
+      all_gardens: Tous les jardins
+      all_plants: Toutes installations
+      all_varieties:
+        one: Variété %{count}
+        other: Toutes les variétés %{count}
+      at_latitude: À votre latitude
+      at_latitude_note: Les meilleures plantations par les jardiniers à %{band}
+      bed_counts: '%{plantings} plantations · %{ready} prêt'
+      beds: Lits
+      chip_growing: En progrès
+      chip_ready: Terminé
+      col_bed: Lit
+      col_maturity: Maturité
+      col_plant: Installation
+      col_planted: Viabilité
+      col_progress: |
+        Progrès
+      compared: Par rapport à l'année dernière
+      compared_empty: Plantez les mêmes cultures que l'année dernière et nous les comparerons ici.
+      compared_note: Mêmes cultures, cette année et la dernière
+      days:
+        one: Jour %{count}
+        other: '%{count} jours'
+      do_it: À faire
+      done: Effectué
+      easy_to_sow: Facile à semer dans %{month} près de chez vous
+      first_plant: Faisons entrer votre première plante. Cela prend environ une minute.
+      first_year: ' de remise la première année'
+      following: suivre
+      friends: Mes amis et voisins
+      friends_empty: Suivez quelques jardiniers pour voir ce qu'ils cultivent.
+      friends_note: Les gens que vous suivez en premier, puis les gens près de chez vous
+      garden_title_html: <strong>Le jardin de</strong> %{name}
+      get_started: Pour commencer
+      growing_now: Grandir maintenant
+      harvest_by_month: Récolte par mois
+      harvest_by_month_count: Récolte
+      harvest_by_month_note_count: 'récoltes enregistrées : cette année (vert) et l''année dernière (pâle)'
+      harvest_by_month_note_weight: 'kg récoltés : cette année (vert) et l''année dernière (pâle). Seules les récoltes avec un poids sont comptées.'
+      harvest_by_month_unit_count: Récolte
+      harvest_by_month_unit_weight: kg
+      harvest_by_month_weight: Poids
+      harvest_soon: Récolte prochaine
+      harvesting: Récolte des olives
+      hidden_suggestions:
+        one: Vous avez masqué 1 culture suggérée.
+        other: Vous avez masqué les cultures suggérées par %{count}.
+      last_year_planted: À peu près à la même époque l'année dernière, vous avez planté %{crops}.
+      no_seeds: Aucune graine sauvegardée pour le moment.
+      not_for_me: 'Pas pour moi '
+      not_for_me_title: Ne plus suggérer %{crop}
+      nothing_ready: Rien n'est encore prêt.
+      nothing_to_show: Aucune chose ne va avec elle.
+      novice_lede:
+        one: '%{count} plante EN croissance. Bon départ.'
+        other: '%{count} plantes EN croissance. Bon début.'
+      plant_crop: Usine %{crop}
+      plant_this: Planter ceci
+      planted_when: planted %{when}
+      planting: Planting
+      plus_harvest: récolte/récolter/cru/moisson/fruit/vendanger /faire la moisson
+      plus_job: + Planifier une mission
+      plus_plant: Installation
+      ready: prêt
+      ready_now: Prêt maintenant
+      ready_title:
+        one: La plantation %{count} est prête à la récolte
+        other: Les plantations %{count} sont prêtes à être récoltées
+      record_harvests: Enregistrement des récoltes
+      relative:
+        ago: Il y a %{time}
+        today: aujourd'hui
+        yesterday: hier
+      see_all: tous les formulaires
+      see_all_plantings:
+        one: Voir votre plantation
+        other: Voir toutes les plantations %{count}
+      see_which: Tu vois lesquelles ?
+      seeds_near: Graines près de chez vous
+      seeds_near_note: Voisins offrant des graines avec lesquelles vous pouvez commencer.
+      seeds_note: Enregistrez les graines que vous achetez ou économisez vous-même. Les deux vont dans votre bibliothèque de semences.
+      seeds_on_hand: Graines à portée de main
+      seeds_to_start: Les semences commenceront ce printemps
+      set_location: Dites-nous où vous jardinez
+      show_hidden: Les montrer à nouveau
+      sow_body: Les jardiniers à votre latitude le plantent ce mois-ci.
+      sow_harvest: Plantée aujourd'hui, elle serait prête à récolter autour de %{date}.
+      sow_title: Sow %{crop} this %{month}
+      started_in: Vous avez commencé dans %{month}. Ensuite, votre première récolte et les semis de la saison.
+      stat_harvests: récoltes cette année
+      stat_kilograms: récolté cette année
+      stat_plantings: plantations cette année
+      stat_varieties: variétés de semences sauvegardées
+      step_join: Rejoignez Growstuff
+      step_location: Dites-nous où vous jardinez
+      step_location_button: Actualiser la localisation
+      step_location_note: Des conseils adaptés à votre saison et à votre latitude
+      step_photo: Ajouter une remarque
+      step_photo_note: Facultatif, mais cela fait de votre jardin le vôtre
+      step_plant: Ajoutez votre première plante
+      step_plant_button: Planter quelque chose
+      step_plant_note: Choisissez parmi ce qui vous convient ce mois-ci
+      stop_suggesting: Arrêtez de suggérer
+      suggestions_off: Les suggestions de cultures sont désactivées.
+      this_week: Cette semaine
+      tile_harvest: enregistrez ce que vous avez choisi
+      tile_job: planifier une tâche pour votre jardin
+      tile_job_title: Ajouter un emploi
+      tile_photo: avec deux lits dans la tour au jardin
+      tile_photo_title: Ajouter une photo
+      tile_plant: quelque chose de nouveau.
+      tile_seeds: d'une plante
+      tile_seeds_title: Gérer les semences
+      turn_on_suggestions: Réactiver le partage
+      view_all_suggestions: Voir toutes les suggestions pour %{month}
+      view_seed_library: Afficher votre bibliothèque Seed
+      vs_last_year: l'an dernier
+      years_growing:
+        one: '%{count} année DE croissance'
+        other: '%{count} années croissantes'
+    index:
+      harvest: Récolte
+      plant: Installation
+      welcome: Bienvenue à %{site_name}, %{member_name}
+    recent:
+      see_all: Voir tout
+      title: Plantée cette semaine
+    recent_posts:
+      all_posts: Toutes les publications
+      all_posts_short: tous les articles
+      by: par
+      comments:
+        one: 1 commentaire
+        other: Commentaires %{count}
+      title: Publications récentes
+    releases:
+      find_out_more: En savoir plus »
+      title: Quoi de neuf
+    stats:
+      crops:
+        one: culture
+        other: agricoles
+      members:
+        one: jardinier
+        other: jardiniers
+      plantings:
+        one: plantées
+        other: Plantations
+    updated: Seed a été mis à jour avec succès.
+    why_join:
+      neighbours:
+        body: Trouvez des graines à proximité et voyez ce que les jardiniers locaux plantent et récoltent maintenant.
+        title: Grandir avec ses voisins
+      open_data:
+        body: Les cultures, les plantations et les récoltes sont partagées en tant que données ouvertes. Téléchargez-les, étudiez-les, développez-les.
+        link: Obtenir les données.
+        title: Données ouvertes
+      open_intro: Growstuff est un projet communautaire. Tout le monde peut lire comment cela fonctionne, et tout ce que les jardiniers enregistrent ici est gratuit.
+      open_source:
+        body: Le code est public sur GitHub. Signalez un bug, suggérez une fonctionnalité ou aidez à la créer.
+        link: Voir le code
+        title: Open source
+      open_title: Construit à l'air libre, depuis 2012
+      plan:
+        body: Des conseils pour votre latitude et votre saison, avec une prochaine étape claire chaque semaine.
+        title: Savoir quoi faire ce mois-ci
+      ready: Prêt à commencer votre jardin ?
+      record:
+        body: Ajoutez des plantations, des récoltes, des photos et des graines sans jamais quitter la page.
+        title: Conservez tout au même endroit
+      since:
+        body: Les jardiniers grandissent, enregistrent et partagent ici depuis plus d'une décennie. Ne pas appartenir à une société de semences ou à un réseau publicitaire.
+        link: Notre histoire
+        title: Autour depuis 2012
+      title: Pourquoi accéder??
+  job_ideas:
+    add: + Ajouter
+    add_all: Ajouter tous les %{count}
+    added: Ajout de « %{name} » à vos missions.
+    added_to_jobs:
+      one: Ajout d'une mission à votre liste
+      other: Ajout de tâches %{count} à votre liste
+    banner:
+      one: Nous avons 1 emploi suggéré pour vous cette semaine
+      other: Nous avons %{count} suggéré des emplois pour vous cette semaine
+    banner_go: Voir IDÉES.
+    dismiss: 'Pas pour moi '
+    done: Effectué
+    filter:
+      community: personnes qui cultivent ce que je cultive
+      mine: ce que j'ai fait avant
+      nearby: près de chez moi
+      world: voisins du monde
+    footer: Les chiffres proviennent des emplois publics et des plantations. L'ajout d'une idée la place sous Un jour, de sorte que vous décidez du jour. « Pas pour moi » le cache pendant un an, ou le met en veille pour le voir plus tôt.
+    gone: Cette idée n'est plus proposée.
+    hidden:
+      dismissed: Caché. Il peut revenir avec la saison.
+      month: Mise en pause pendant un mois.
+      week: J'ai dormi pendant une semaine.
+    job:
+      harvest: Récolte %{crop}
+      plant: Usine %{crop}
+    more:
+      one: Encore 1 idée en attente.
+      other: '%{count} D''autres idées vous attendent.'
+    none: Rien à suggérer pour le moment. Revenez au fur et à mesure que la saison change.
+    preview:
+      one: Voir le poste
+      other: Voir les jobs %{count}
+    reason:
+      community:
+        earlier:
+          one: 1 jardinier cultivant %{crop} l'a fait à cette période de l'année précédente.
+          other: Les jardiniers %{count} qui cultivent %{crop} l'ont fait à cette période de l'année précédente.
+        now:
+          one: 1 jardinier cultivant %{crop} a prévu cela ce mois-ci.
+          other: Les jardiniers de %{count} qui cultivent %{crop} ont prévu cela ce mois-ci.
+      community_of:
+        earlier:
+          one: 1 des jardiniers %{of} cultivant %{crop} l'a fait à cette période de l'année précédente.
+          other: '%{count} des jardiniers %{of} cultivant %{crop} l''a fait à cette période de l''année précédente.'
+        now:
+          one: 1 des jardiniers %{of} cultivant %{crop} a planifié cela ce mois-ci.
+          other: '%{count} de %{of} Les jardiniers qui cultivent %{crop} ont prévu cela ce mois-ci.'
+      harvest_harvested: Vous en avez récolté la dernière fois sur %{day}.
+      harvest_predicted: Prêt autour de %{day}, en fonction du temps que cela prend habituellement.
+      nearby:
+        earlier:
+          one: 1 jardinier à proximité l'a fait à cette période de l'année précédente.
+          other: Les jardiniers de %{count} à proximité l'ont fait à cette période de l'année précédente.
+        now:
+          one: 1 jardinier à proximité a prévu cela ce mois-ci.
+          other: Les jardiniers de %{count} à proximité ont prévu cela ce mois-ci.
+      past_job:
+        one: Vous l'avez fait sur %{day}.
+        other: Vous l'avez fait à cette période de l'année dans les années %{count}, dernière sur %{day}.
+      past_planting:
+        one: Vous avez planté ceci sur %{day}.
+        other: Vous avez planté ceci à cette période de l'année dans les années %{count}, dernier sur %{day}.
+      template:
+        one: '1 job : %{steps}. Pour votre %{crop} planté sur %{day}.'
+        other: '%{count} jobs : %{steps}. Pour votre %{crop} plantée sur %{day}.'
+      world:
+        earlier:
+          one: 1 jardinier à votre latitude l'a fait à cette période de l'année.
+          other: Les jardiniers de %{count} à votre latitude l'ont fait à cette période de l'année.
+        now:
+          one: 1 jardinier à votre latitude a prévu cela ce mois-ci.
+          other: Les jardiniers de %{count} à votre latitude ont prévu cela ce mois-ci.
+    section:
+      community: Les gens cultivent ce que vous cultivez
+      community_note: Offres d'emplois
+      harvest: 'La récolte:'
+      harvest_note: 'Dans votre jardin:'
+      nearby: proche de chez vous
+      nearby_note: '%{place} et alentours'
+      templates: Modèles
+      templates_note: pour les plantations que vous avez
+      this_time: À cette période de l'année
+      this_time_note: de vos emplois et de vos plantations
+      world: Voisins du monde
+      world_note: jardiniers à votre latitude, n'importe où
+    snooze:
+      label: Répétition d’alarme
+      month: Un mois
+      week: Une semaine
+    title: Idées pour l'instant
+  jobs:
+    celebrate:
+      crossed_off: Barré "%{name}"
+      done:
+        one: 1 travail effectué cette semaine.
+        other: Tâches %{count} effectuées cette semaine.
+      many:
+        lead: Sur votre lancée !
+        note: L'escargot a appelé les autres escargots.
+      one:
+        lead: 'Bien joué ! '
+        note: L'escargot est impressionné et légèrement jaloux.
+      three:
+        lead: Coup du chapeau
+        note: L'escargot s'est arrêté pour regarder.
+      two:
+        lead: Deux en lignes!
+        note: L'escargot prend de la vitesse.
+      undo: Annuler
+    due:
+      last: last %{day}
+    form:
+      finish_helper: Une tâche est terminée lorsque vous l'avez terminée, sinon ce n'est plus possible.
+    index:
+      title:
+        default: Le travail de tout le monde
+        owner_jobs: Emplois de %{owner}
+    pad:
+      add: Ajouter un métier
+      add_button: Ajouter
+      add_failed: Cette offre d'emploi n'a peut-être pas été ajoutée. Vérifiez votre liste avant de réessayer.
+      adding: Ajout de « %{name} »…
+      adding_button: Ajout en cours…
+      after: Après des
+      all_jobs: Voir toutes vos offres d'emploi
+      before: Avant
+      change_date: Changer de date
+      change_day: Changer le jour
+      crop: Crop
+      cross_off: 'Cross off : %{job}'
+      done: Effectué
+      done_on: done %{day}
+      done_today: Fait aujourd’hui
+      drop_here: Faites glisser un travail ici.
+      edit_hint: Entrée pour sauver, ESC pour annuler.
+      edit_label: Intitulé de poste
+      garden: Jardin
+      garden_title: Emplois à faire dans ce jardin
+      hide_done: Masquer terminé
+      in_garden: à %{garden}
+      later: Plus tard
+      link_hint: Tapez @ et un nom de recadrage pour lier ce travail à celui-ci.
+      move_later: Plus tard
+      move_today: Aujourd’hui
+      move_tomorrow: Demain
+      move_week: Cette semaine
+      move_weekend: Ce week-end
+      next_weekend: Prochaine semaine
+      overdue: Impayé
+      photo_after: Ajouter une photo après
+      photo_before: Ajoutez une photo avant
+      photo_of_after: 'Après photo : %{title}'
+      photo_of_before: 'Avant photo : %{title}'
+      planting: Planting
+      public_note: Les offres d'emploi sont publiques, alors ne mettez pas d'informations privées ici.
+      remove_link: Supprimer le lien
+      seeds: Puces
+      set_day: Choisissez le jour
+      show_later:
+        one: Afficher 1 mission à venir
+        other: Afficher les tâches %{count} à venir
+      show_older:
+        one: Afficher 1 tâche terminée plus ancienne
+        other: Afficher les travaux %{count} plus anciens
+      slow: Lent et régulier
+      someday: Someday
+      someday_note: une liste de souhaits, rien d'engagé
+      title: Emplois de %{owner}
+      today: Aujourd’hui
+      uncross: 'Remise sur la liste : %{job}'
+      week: Cette semaine
+      weekend: Ce week-end
+    plan_something: Planifier quelque chose
+    suggestions:
+      planted: planted %{date}
+      saved: enregistré %{year}
+      seeds: '%{crop} Seeds'
+      the_crop: la récolte
+  label:
+    data: 'Les données de cette page sont disponibles dans les formats suivants :'
+    days_until_finished: '%{number} jours'
+    days_until_harvest: '%{number} jours'
+    harvesting_now: Récolte des olives
+    weeks_until_finished: '%{number} semaines'
+    weeks_until_harvest: '%{number} semaines avant LA récolte'
+  layouts:
+    footer:
+      about: À propos
+      community_guidelines: Orientations communautaires
+      contact: Contact
+      data_use_policy: Politique d'utilisation des données
+      get_involved: S’impliquer
+      growstuff_team: Équipe Growstuff
+      open_source: Open Source
+      privacy_policy: Politique de Confidentialité
+      support: Soutien
+      terms_of_service: Conditions d'utilisation
+    header:
+      account: Client en Compte
+      admin: Admin
+      browse_crops: Parcourir les cultures
+      browse_members: 'Les inscrits pour l''instant :'
+      community: Communauté
+      community_gardens: Jardins communautaires
+      community_map: La carte de la communauté
+      crop_wrangling: Crop Wrangling
+      crops: Plante cultivée
+      current_memberlogin_name: '%{current_memberlogin_name}'
+      forums: Forums
+      garden_type: Type de jardin
+      garden_types: Types de jardin
+      gardens: Jardins
+      harvest: Récolte
+      harvests: Récolte
+      inbox: Messages
+      inbox_unread: Boîte de réception (%{unread_count})
+      jobs: Postes disponibles
+      plantings: Plantations
+      posts: Articles
+      profile: Chronologie du profil
+      record: Dossier
+      seeds: Puces
+      skip: Menu de navigation
+      support_growstuff: Support Growstuff
+      toggle_navigation: Navigation à bascule
+      your_stuff: vos trucs
+    menu:
+      about: À propos
+      activities: Activités
+      add: Ajouter
+      add_button: + Ajouter
+      admin: Admin
+      all_crops: Toutes cultures
+      browse_members: 'Les inscrits pour l''instant :'
+      cancel: Annuler
+      close: Fermer le Menu
+      community: Communauté
+      community_gardens: Jardins communautaires
+      community_map: La carte de la communauté
+      crop_wrangling: Crop Wrangling
+      crops: Plante cultivée
+      crops_heading: Plante cultivée
+      forums: Forums
+      friends_and_neighbours: Amis et voisins
+      gardens: Jardins
+      harvests: Récolte
+      help_and_community: Aide et communauté
+      how_it_works: Fonctionnement de Growstuff
+      inbox: Messages
+      my_garden: Mon extérieur
+      my_harvests: Mes récoltes
+      my_jobs: Mes annonces
+      my_plantings: Mes plantations
+      my_seeds: Mes semences
+      new_badge: Nouveau
+      planting_suggestions: Suggestions de plantation
+      plantings: Plantations
+      posts: Articles
+      releases: Quoi de neuf
+      search: Rechercher
+      search_all: Rechercher %{term} dans toutes les cultures
+      search_placeholder: Rechercher des cultures
+      seeds: Puces
+      sign_in: Se connecter
+      sign_out: Se déconnecter
+      sign_up: S'inscrire gratuitement
+    nav:
+      my_drafts: Mes brouillons
+      suggest_something: Faire une suggestion
+  links:
+    my_gardens: Mes jardins
+  member_dismissals:
+    create:
+      dismissed: Nous ne suggérerons plus %{name}.
+  members:
+    card:
+      not_interested: Arrêter de suggérer %{name}
+      visit: Visitez les jardins de %{name}
+    edit_profile: Modifier le profil
+    follow_button:
+      follow: Suivre
+      follow_named: Suivre %{name}
+      following: Suivi
+      following_named: Vous suivez %{name}
+    index:
+      title: Membres %{site_name}
+    signup:
+      error: Échec de l'inscription
+    unsubscribe:
+      error: Nous sommes désolés, une erreur s'est produite lors de la mise à jour de vos paramètres.
+    unsubscribed: Vous avez été désabonné des e-mails %{email_type}.
+    welcome: Accueil
+  messages:
+    auth_failed: Echec de l'authentification.
+    auth_success: Authentification réussie.
+    crops_waiting: Il y a des cultures qui attendent d'être disputées.
+    follow_error: Déjà suivi ou erreur lors du suivi.
+    followed: Suivi %{name}
+    invalid_location: S'il vous plaît entrer un lieu valide
+    revert_error: 'Impossible de revenir à la version de %{date}. Erreurs : %{errors}'
+    revert_success: Rétabli à la version de %{date}
+    transplant_error: 'Une erreur s''est produite lors de la transplantation de la plantation : %{errors}'
+    transplant_success: La plantation a été transplantée avec succès.
+    unable_to_like: 'Impossible d''aimer. '
+    unable_to_unlike: Incapable de différencier
+    unfollowed: Unfollowed %{name}
+  neighbours:
+    audience:
+      all:
+        feed: Suivre, près de chez vous et plus loin
+        posts: Des personnes que vous suivez et plus loin
+      anywhere:
+        feed: Jardiniers du monde entier
+        posts: du monde entier,
+      following:
+        feed: Personnes que vous suivez
+        posts: Personnes que vous suivez
+      following_and_near:
+        feed: Les personnes que vous suivez et les jardiniers près de chez vous
+        posts: Des personnes que vous suivez et près de chez vous
+      me:
+        feed: Juste moi-même
+        posts: De vous
+      near:
+        feed: Jardiniers près de chez vous
+        posts: Des jardiniers près de chez vous
+      region:
+        feed: Jardiniers à moins de 150 km
+        posts: Des jardiniers à moins de 150 km
+    day:
+      from: de %{time}
+      today: Aujourd'hui · %{date}
+      yesterday: Hier · %{date}
+    entry:
+      did_things_html: a fait <b>des choses %{count}</b>
+      following: suivre
+      near: proche de chez vous
+    feed:
+      earlier: Afficher les jours précédents
+      empty: Rien à afficher.
+      title: Dernières nouvelles de vos amis et voisins
+    group:
+      due: pour %{date}
+      garden_layout_html: Réaménagement de la disposition de %{things}
+      harvest_html: '%{things} récolté'
+      job_finished_html:
+        one: J'ai terminé un travail, %{things}
+        other: Travaux %{count} terminés, %{things}
+      job_html:
+        one: Planifié un travail, %{things}
+        other: Emplois %{count} prévus, %{things}
+      planted_out_html: Plantation de %{things} dans %{garden}
+      planting_finished_html: Fini de cultiver %{things}
+      planting_html: Planted %{things}
+      seed_finished_html: Fini avec des graines %{things}
+      seed_html: Graines %{things} sauvegardées
+      seed_trade_html: A des semences %{things} à échanger
+      transplant_html: '%{things} transplanté dans %{garden}'
+      weighing: pesage %{weight}
+    layout:
+      crop: '%{crop} ×%{count}'
+      label: '%{garden} : son agencement'
+    photos:
+      added:
+        one: la azouté in foto
+        other: Ajout de photos %{count}
+      of_html:
+        one: Photo de %{subject}
+        other: '%{count} photos de %{subject}'
+    posts:
+      activity: Activité récente
+      comments: Commentaires
+      posted_by: Posté par
+      subject: Sujet
+      title: Publications récentes
+    reach:
+      few:
+        one: Uniquement jardinier %{count} près de %{place}.
+        other: Seulement les jardiniers %{count} près de %{place}.
+      looked_further: Nous avons donc aussi cherché plus loin.
+      none: Pas encore de jardiniers à proximité de %{place}.
+      ring:
+        anywhere: N'importe où
+        near: '%{place}'
+        region: À %{km} km
+      widened: Nous avons élargi la recherche jusqu'à ce que nous en trouvions.
+      you: vous
+    season:
+      in_hemisphere: '%{season} dans l''hémisphère %{hemisphere}'
+      northern: du nord
+      southern: zone de
+    show:
+      add_location_html: '%{link} pour voir les jardiniers près de chez vous.'
+      add_location_link: Votre lieu de residence
+      heading_html: <strong>Mes</strong> amis et voisins
+      lede:
+        few: Vous suivez quelques personnes. Les montrer d'abord, puis ceux qui vous sont proches.
+        following: Ce que font les jardiniers que vous suivez et ceux qui sont près de chez vous.
+        me: Exactement ce que vous avez fait.
+        none: Vous ne suivez encore personne, alors cela montre les jardiniers près de chez vous.
+        widened: Personne que vous suivez, et personne à proximité encore, alors nous avons regardé plus loin.
+      scope:
+        anywhere: N'importe où
+        auto: 'Auto '
+        following: Les personnes que je suis
+        me: Me concernant
+        nearby: À proximité
+      title: Mes amis et voisins
+      welcome:
+        body_html: Cette page est nouvelle et nous aimerions que vous l'essayiez. %{link} et dites-nous ce qui fonctionne, ce qui ne fonctionne pas et ce que vous aimeriez voir.
+        feedback_link: Envoyez-nous vos commentaires
+        title: Bienvenue dans le flux de vos amis et voisins
+    subject:
+      garden: lE jardin %{name}
+      harvest: une récolte %{crop}
+      job: le job %{name}
+      planting: a %{crop} planting
+      seed: '%{crop} seeds'
+    suggestions:
+      followed_by: Suivi de %{people}
+      privacy: Nous n'utilisons que votre ville, jamais votre emplacement exact. Appuyez sur × pour arrêter de suggérer quelqu'un.
+      title: Who to follow
+      why: 'Cultive les mêmes cultures : %{crops}'
+  notifier_mailer:
+    harvest_reminder:
+      heading: Récoltes à venir dans votre jardin
+      intro: 'D''après nos prévisions, les plantations suivantes dans votre jardin sont susceptibles d''être prêtes pour la récolte au cours de la semaine prochaine :'
+      subject: Récoltes à venir dans votre jardin - %{sitename}
+      unsubscribe: Se désabonner des rappels de récolte
+  nurseries:
+    what_is_a_nursery:
+      description_html: 'Une <strong>pépinière</strong> est l''endroit où vous cultivez des semis : des graines semées dans des plateaux ou des pots avant d''entrer dans un jardin. Semer vos graines dans la pépinière, puis les transplanter dans un jardin, ou diviser un lot entre plusieurs, quand elles sont prêtes.'
+    show:
+      title: Votre pépinière
+      use_existing: Utilisez un jardin que vous avez
+      which_garden: Quel jardin ?
+      use_this_garden: Utiliser ce jardin comme pépinière
+      no_other_garden: Vous n'avez pas d'autre jardin à utiliser.
+      make_new: Créez-en un nouveau
+      make_new_text: Nous allons faire un jardin appelé Nursery juste pour vos semis.
+      make_a_nursery: Une crêche
+      dont_need: Je n'en ai pas besoin.
+      dont_need_text: Évitez de faire pousser des semis sur Growstuff. Nous ne vous le demanderons plus et vous pouvez changer d'avis à partir de votre page Jardins.
+      no_nursery_for_me: Pas de crèche pour moi
+  photo_associations:
+    update:
+      updated: Photo mise à jour
+  photos:
+    show:
+      crop: '%{crop}'
+      garden: jardin nommé « %{garden} » par %{owner}
+      harvest: '%{crop} récolte par %{owner}'
+      planting: '%{planting}'
+      seed: '%{seed}'
+      thing_by: A %{thing} par %{owner}
+  places:
+    index:
+      title: Carte de la communauté %{site_name}
+  planting:
+    status:
+      finished: Clôturée
+      growing: En progrès
+      harvesting: Récolte des olives
+      late: En retard
+      not planted: Non planté
+      not_enough_data: Pas assez de données
+      perennial: Pérenne
+      unknown: Inconnu
+  plantings:
+    badges:
+      days_until_finished: jours jusqu'à la fin
+      days_until_harvest: jours jusqu'à la récolte
+      harvesting_now: Récolte des olives
+      late_finishing: finition tardive
+      sharedbuttonsfinish_planting: shared/buttons/finish_planting
+      super_late: super tard
+    form:
+      failed_helper: Marquez cette plantation comme ayant échoué si elle est morte ou si elle a été retirée sans aucune récolte.
+      finish_helper: Une plantation est terminée lorsque vous avez récolté toute la récolte, ou qu'elle meurt, ou qu'elle ne pousse plus dans votre jardin.
+    garden_card:
+      by: par
+    index:
+      title:
+        crop_plantings: Les plantations %{crop} de chacun
+        default: Les plantations de tout le monde
+        owner_plantings: Les plantations de %{owner}
+      view_owners_profile: Voir le profil de %{owner} >>
+    plant_something: Planter quelque chose
+    progress:
+      progress_0_not_planted_yet: 'Progrès : 0 % - pas encore planté'
+    show:
+      crop: Crop
+      grower: Cultivateur
+      harvest_month_yes: '%{month}, habituellement la récolte'
+      harvest_months: Mois de récolte
+      harvest_months_legend: Les mois mis en évidence sont ceux où cette culture est généralement récoltée ici.
+      harvest_months_unknown: Pas encore de mois de récolte pour cette culture à cette latitude.
+      harvests: Récolte
+      heading: Plantation %{crop}
+      jobs: Postes disponibles
+      jobs_current: Planifié
+      jobs_finished: Clôturée
+      meta_description: '%{crop} planté par %{owner} à %{garden}.'
+      more_photos: Plus de photos
+      neighbours: Voisins du monde
+      neighbours_explanation: Autres plantations %{crop} à la même latitude.
+      no_harvests: Aucune récolte enregistrée pour le moment.
+      no_harvests_prompt: Enregistrez vos récoltes ici pour améliorer les prévisions de récolte, et vous pourrez comparer avec votre jardin la saison prochaine.
+      no_jobs: Rien n'est prévu ici.
+      no_photos: Pas encore de photo
+      no_photos_prompt: Les photos proviennent de votre compte Flickr. Ajoutez-en un pour suivre la croissance de cette plantation.
+      no_seeds: Aucune graine sauvegardée pour le moment.
+      no_seeds_prompt: Conservez les graines de cette plantation pour les semer la saison prochaine ou pour les échanger avec d'autres membres.
+      notes: Notes
+      photos: Photos
+      seeds_saved: Graines sauvegardées
+      title: '%{crop} plantation par %{owner}'
+      view_all_plantings: Toutes les plantations de %{owner}
+      weather_coldest: Nuit la plus froide
+      weather_credit_html: '%{open_meteo} (%{licence}). Contient des informations modifiées du service Copernicus sur le changement climatique. Le temps est modélisé pour la zone autour du jardin, non mesuré en elle, et court quelques jours en arrière. Les totaux, les graphiques et les prévisions météorologiques sont notre adaptation de ces données.'
+      weather_credit_licence: CC BY 4.0
+      weather_credit_source: Données météorologiques par Open-Meteo.com
+      weather_days: Jours
+      weather_expected_note: Les lignes pointillées et les barres sont des prévisions météorologiques, les données de l'année dernière pour les mêmes jours ont avancé d'un an. Ils ne sont pas observés.
+      weather_hottest: Jour le plus chaud
+      weather_location_intro: Nous l'utilisons pour montrer la température et les précipitations que les plantations ici ont traversées. La ville ou la région de votre jardin est publique, comme le reste du jardin.
+      weather_location_title: Où est ce jardin ?
+      weather_new: Nouveau
+      weather_pending: Nous chargeons la météo pour la zone de ce jardin. Elle est collectée pendant la nuit et accuse environ cinq jours de retard, donc les premiers jours d'une nouvelle plantation apparaissent quelques jours après sa plantation.
+      weather_rain: Pluie
+      weather_rain_chart: Pluviométrie quotidienne
+      weather_rain_chart_alt: Pluviométrie journalière sur jours %{count}, jusqu'à %{max} mm en une journée.
+      weather_set_location: Définissez un emplacement de jardin pour obtenir des données sur la température et les précipitations
+      weather_soil_temp: Température du sol
+      weather_temperature_chart: Haut / bas quotidien
+      weather_temperature_chart_alt: Température quotidienne haute et basse, de %{low} à %{high}.
+    string: Plantation de %{crop} à %{garden} par %{owner}
+  posts:
+    created: La publication a été bien créée
+    deleted: Ta publication a été supprimée.
+    draft_saved: Le brouillon a été enregistré.
+    index:
+      title:
+        author_posts: Postes %{author}
+        default: Les publications de tout le monde
+    more_from: Plus de %{author}
+    read_time:
+      one: 1 min de lecture
+      other: '%{count} lecture min'
+    untitled: Publication sans titre
+    updated: L'article a été mis à jour avec succès.
+    write_blog_post: Ecrire un article de blog
+  scientific_names:
+    deleted: Le nom scientifique a été supprimé avec succès.
+  seasons:
+    autumn: L'automne
+    spring: Ressort
+    summer: Été
+    winter: L'hiver
+  seeds:
+    added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
+    form:
+      finish_helper: Les graines sont terminées lorsque vous les avez toutes plantées ou que vous les avez toutes échangées.
+      trade_help: Êtes-vous intéressé par le commerce ou l'échange de semences avec d'autres membres de %{site_name} ?  Si vous indiquez que vos graines sont disponibles pour le commerce, d'autres membres peuvent vous contacter pour demander des graines.  Vous pouvez énumérer toutes les conditions ou autres informations dans la description ci-dessus.
+    index:
+      title:
+        crop_seeds: Les graines %{crop} DE chacun
+        default: Les semences de tout le monde
+        owner_seeds: '%{owner} Seeds'
+    packet:
+      choice_back: Retour
+      choice_front: Avant
+      choice_none: Aucune
+      group: Photo du paquet
+      label_back: Verso du paquet
+      label_front: Recto du paquet
+      photo_back: Ajoutez une photo du dos du paquet
+      photo_front: Ajoutez une photo du recto du paquet
+    save_seeds: Gérer les semences
+    show:
+      heading: '%{crop} Seeds'
+    string: Graines %{crop} appartenant à %{owner}
+    updated: Seed a été mis à jour avec succès.
+  suggestions:
+    index:
+      lede: Ce que les jardiniers de %{band} plantent ce mois-ci, la plupart plantés en premier.
+      none: Rien à suggérer pour le moment. Revenez le mois prochain.
+      not_located: Dites-nous où vous jardinez et nous pouvons vous suggérer quoi semer.
+      title: Facile à semer dans %{month} près de chez vous
+    update:
+      'off': Nous avons cessé de suggérer des cultures.
+      'on': Les suggestions de cultures sont de retour.
+  unauthorized:
+    create:
+      all: Veuillez vous connecter ou vous inscrire pour créer un %{subject}.
+      garden_type: Non autorisé. Seuls les administrateurs peuvent créer des types de jardin.
+      notification: Veuillez vous connecter pour envoyer un message.
+      planting: Please sign in or sign up to plant something.
+      post: Veuillez vous connecter ou vous inscrire pour publier.
+      seed: Please sign in or sign up to add seeds.
+    manage:
+      all: Non autorisé à %{action} %{subject}.
+    read:
+      notification: Vous devez être connecté pour afficher les notifications.

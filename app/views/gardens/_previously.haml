@@ -1,23 +1,21 @@
-%h2 Previously planted in this garden
-
+-# What came before in this garden: finished plantings under their year, then
+-# finished jobs. Each part is only here when there is something for it.
+- dated, undated = @finished_plantings.partition(&:planted_at)
 - if @finished_plantings.any?
-  - year = nil
-  - @finished_plantings.where.not(planted_at: nil).order(planted_at: :desc).each do |planting|
-    - if year != planting.planted_at.year
-      - year = planting.planted_at.year
-      %h4= year
-    = render "plantings/tiny",  planting: planting
+  %h2 Previously planted in this garden
 
-  - if @finished_plantings.where(planted_at: nil).any?
+  - dated.sort_by(&:planted_at).reverse.group_by { |planting| planting.planted_at.year }.each do |year, plantings|
+    %h4= year
+    - plantings.each do |planting|
+      = render 'plantings/tiny', planting:
+
+  - if undated.any?
     %h4 Unknown year
-    - @finished_plantings.where(planted_at: nil).each do |planting|
-      = render "plantings/tiny",  planting: planting
-- else
-  .col-md-12
-    %p Nothing has been planted here.
+    - undated.each do |planting|
+      = render 'plantings/tiny', planting:
 
 - if @finished_jobs&.size&.positive?
-  %h2.mt-4 Finished jobs in garden
+  %h2{ class: ('mt-4' if @finished_plantings.any?) } Finished jobs in garden
   .index-cards
     - @finished_jobs.each do |job|
-      = render "jobs/card", job: job
+      = render 'jobs/card', job: job

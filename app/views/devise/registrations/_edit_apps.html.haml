@@ -1,20 +1,29 @@
-= form_for(resource, as: resource_name,
-    url: registration_path(resource_name) + '#apps',
-    html: { method: :put }) do |_f|
-  %br/
-  = render 'devise/shared/error_messages', resource: resource
-  .row
-    .col-md-12
+%br/
+.row
+  .col-md-12
+    %p
+      = image_tag "flickr_32.png", size: "32x32", alt: 'Flickr logo'
+      - if @flickr_auth
+        You are connected to Flickr as
+        = link_to @flickr_auth.name, "https://flickr.com/photos/#{@flickr_auth.uid}"
+        = link_to "Disconnect", @flickr_auth,
+                  confirm: "Are you sure you want to remove this connection?",
+                  method: :delete, class: "remove btn btn-danger"
+      - else
+        = button_to 'Connect to Flickr', '/members/auth/flickr', class: 'btn'
+%hr
+.row
+  .col-md-12
+    - if (bluesky_auth = current_member.auth('bluesky'))
       %p
-        = image_tag "flickr_32.png", size: "32x32", alt: 'Flickr logo'
-        - if @flickr_auth
-          You are connected to Flickr as
-          = link_to @flickr_auth.name, "https://flickr.com/photos/#{@flickr_auth.uid}"
-          = link_to "Disconnect", @flickr_auth,
-                    confirm: "Are you sure you want to remove this connection?",
-                    method: :delete, class: "remove btn btn-danger"
-        - else
-          = link_to 'Connect to Flickr', '/members/auth/flickr', class: 'btn'
+        = icon 'fab', 'bluesky'
+        You are connected to Bluesky as
+        = link_to "@#{bluesky_auth.name}", "https://bsky.app/profile/#{bluesky_auth.uid}"
+        = link_to "Disconnect", bluesky_auth,
+                  data: { confirm: "Are you sure you want to remove this connection?" },
+                  method: :delete, class: "remove btn btn-danger"
+    - elsif Authentication.enabled_sign_in_providers.include?('bluesky')
+      = render 'authentications/sign_in/bluesky', label: 'Connect to Bluesky', tos: false
   %hr
   .row
     .col-md-12
@@ -29,7 +38,6 @@
                 = link_to "Disconnect", mastodon_auth,
                           data: { confirm: "Are you sure you want to remove this Mastodon connection?" },
                           method: :delete, class: "remove btn btn-danger btn-sm ms-2"
-          %p= link_to 'Connect another Mastodon account', omniauth_authorize_path(:member, :mastodon), method: :post, class: 'btn btn-outline-primary', data: { turbo: false }
         - else
           Connect your Mastodon account to sign in with it and show it on your profile.
       -# These two controls belong to the #mastodon-connect form at the foot of this

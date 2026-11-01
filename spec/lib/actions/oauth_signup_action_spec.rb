@@ -10,13 +10,13 @@ describe 'Growstuff::OauthSignupAction' do
 
   describe '#determine_name' do
     it 'returns nickname for mastodon if present' do
-      auth = OmniAuth::AuthHash.new('provider' => 'mastodon', 'info' => { 'nickname' => '@alice@mastodon.social', 'name' => 'Alice' })
+      auth = OmniAuth::AuthHash.new('provider' => 'mastodon', 'info' => { 'nickname' => 'alice', 'name' => 'Alice', 'urls' => { 'Profile' => 'https://mastodon.social/@alice' } })
       expect(@action.determine_name(auth)).to eq('@alice@mastodon.social')
     end
 
     it 'returns name for mastodon if nickname is absent' do
-      auth = OmniAuth::AuthHash.new('provider' => 'mastodon', 'info' => { 'name' => 'Alice' })
-      expect(@action.determine_name(auth)).to eq('Alice')
+      auth = OmniAuth::AuthHash.new('provider' => 'mastodon', 'info' => { 'name' => 'Alice', 'urls' => { 'Profile' => 'https://mastodon.social/@alice' } })
+      expect(@action.determine_name(auth)).to eq('@Alice@mastodon.social')
     end
   end
 

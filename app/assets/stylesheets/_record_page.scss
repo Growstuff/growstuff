@@ -129,17 +129,8 @@
     margin: 0 -0.5rem;
   }
 
-  // A partial shared with other pages brings its own .card; inside a section
-  // that is a box within a box.
-  .section-flush > .card {
-    margin: 0;
-    border: 0;
-    box-shadow: none;
-  }
-
   // The title block beside the actions menu.
-  .crop-identity,
-  .planting-identity {
+  .crop-identity {
     min-width: 0;
   }
 

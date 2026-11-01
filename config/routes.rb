@@ -26,10 +26,16 @@ Rails.application.routes.draw do
     get :connected, on: :collection
   end
 
+  get Atproto::ClientConfig::METADATA_PATH => 'oauth_client_metadata#show', as: :oauth_client_metadata
+
   get "home/index"
   get '/community-gardens', to: 'home#community_gardens'
   get '/releases', to: 'home#releases', as: :releases
   patch '/my/location', to: 'member_locations#update', as: :member_location
+  patch '/my/name', to: 'member_names#update', as: :member_name
+  patch '/my/email', to: 'member_emails#update', as: :member_email
+  post '/my/email/decline', to: 'member_emails#decline', as: :decline_member_email
+  post '/my/email/resend', to: 'member_emails#resend', as: :resend_member_email
   get '/suggestions', to: 'suggestions#index', as: :suggestions
   patch '/my/suggestions', to: 'suggestions#update', as: :my_suggestions
   post '/my/dismissed_crops', to: 'crop_dismissals#create', as: :crop_dismissals
@@ -56,6 +62,7 @@ Rails.application.routes.draw do
     post 'stop_nursery' => 'gardens#stop_nursery', on: :member
 
     resources :garden_collaborators
+    resource :location, only: :update, controller: 'garden_locations'
   end
 
   # What the record harvest and save seeds dialogs offer to choose from.
@@ -195,6 +202,7 @@ Rails.application.routes.draw do
     end
     resources :roles
     resources :features, only: %i(index update)
+    resources :reminder_stats, only: :index
     resources :job_templates, only: :index
     resources :crops, param: :slug do
       resources :crop_companions

@@ -28,6 +28,11 @@ describe JobsNotepad do
   context 'with a garden' do
     let(:garden) { berries }
 
+    it 'loads the garden\'s collaborators with the jobs, for the permission checks' do
+      job = notepad.groups.flat_map(&:jobs).first
+      expect(job.garden.association(:garden_collaborators)).to be_loaded
+    end
+
     it 'has only the member\'s jobs for it' do
       expect(names).to eq ['Net the berries']
     end
@@ -35,6 +40,19 @@ describe JobsNotepad do
     it 'leaves out other members\' jobs for it, though they are in it' do
       create(:job, garden: berries, name: 'A collaborator\'s job')
       expect(names).to eq ['Net the berries']
+    end
+  end
+
+  context 'without a member' do
+    subject(:notepad) { described_class.new(nil, garden: berries) }
+
+    it 'has everyone\'s jobs for the garden' do
+      create(:job, garden: berries, name: 'A collaborator\'s job', due_date: Time.zone.today)
+      expect(names).to contain_exactly('Net the berries', 'A collaborator\'s job')
+    end
+
+    it 'leaves out jobs for other gardens' do
+      expect(names).not_to include('Sharpen the secateurs')
     end
   end
 

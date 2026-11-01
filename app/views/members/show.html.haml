@@ -19,6 +19,9 @@
   %li.breadcrumb-item= link_to 'Members', members_path
   %li.breadcrumb-item.active= link_to @member.login_name, member_path(@member)
 
+- if member_signed_in? && current_member == @member && @member.email.blank?
+  = render 'email_prompt', member: @member
+
 .row
   .col-md-2
     .card

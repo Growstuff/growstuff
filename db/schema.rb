@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -843,7 +843,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
     t.datetime "current_sign_in_at", precision: nil
     t.string "current_sign_in_ip"
     t.datetime "discarded_at", precision: nil
-    t.string "email", default: "", null: false
+    t.string "email"
     t.string "encrypted_password", default: "", null: false
     t.string "facebook_handle"
     t.integer "failed_attempts", default: 0
@@ -875,12 +875,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
     t.boolean "show_email"
     t.integer "sign_in_count", default: 0
     t.string "slug"
+    t.integer "spam_score", default: 0, null: false
     t.boolean "suggest_crops", default: true, null: false
     t.boolean "tos_agreement"
     t.string "unconfirmed_email"
     t.string "unlock_token"
     t.datetime "updated_at", precision: nil
     t.string "website_url"
+    t.datetime "planting_reminder_sent_at", comment: "When we last sent the weekly planting reminder, so we can tell who has not heard from us in a while."
     t.index ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["email"], name: "index_members_on_email", unique: true
@@ -938,6 +940,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
     t.string "license_url"
     t.integer "likes_count", default: 0
     t.string "link_url", null: false
+    t.datetime "ocr_at", comment: "When ocr_text was read."
+    t.string "ocr_engine", comment: "The software that read ocr_text, with its version, so photos it read can be read again."
+    t.text "ocr_text", comment: "The text read from the photo of a label, such as the front or back of a seed packet."
     t.integer "owner_id", null: false
     t.string "source"
     t.string "source_id"
@@ -1044,6 +1049,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
+  create_table "reminder_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "event", null: false, comment: "What happened: sent or unsubscribed."
+    t.string "kind", null: false, comment: "Which reminder: planting_reminder or harvest_reminder."
+    t.bigint "member_id", null: false
+    t.index ["kind", "event", "created_at"], name: "index_reminder_events_on_kind_and_event_and_created_at"
+    t.index ["member_id"], name: "index_reminder_events_on_member_id"
+  end
+
   create_table "roles", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil
     t.text "description"
@@ -1085,7 +1099,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
     t.text "how_to_sow", comment: "How the packet says to sow it, in its words."
     t.text "organic", default: "unknown"
     t.integer "owner_id", null: false
-    t.text "packet_text", comment: "Text read from the packet's photos by the OCR script. Not shown to members yet."
     t.integer "parent_planting_id"
     t.date "plant_before"
     t.integer "quantity"
@@ -1115,6 +1128,40 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  create_table "weather_readings", force: :cascade do |t|
+    t.float "cloud_cover_percent"
+    t.datetime "created_at", null: false
+    t.date "date", null: false
+    t.float "daylight_seconds"
+    t.float "dew_point_c"
+    t.float "evapotranspiration_mm", comment: "Reference evapotranspiration: how much water a lawn would lose."
+    t.float "feels_like_max_c", comment: "What the day felt like, with wind and humidity."
+    t.float "feels_like_mean_c"
+    t.float "feels_like_min_c"
+    t.float "humidity_percent"
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "precipitation_hours"
+    t.float "pressure_hpa"
+    t.float "radiation_mj_m2", comment: "Sunlight energy reaching the ground."
+    t.float "rainfall_mm"
+    t.float "snowfall_cm"
+    t.float "soil_moisture_m3_m3", comment: "Water in the top 7cm of soil, as a fraction of its volume."
+    t.float "soil_temp_c", comment: "Mean temperature of the top 7cm of soil."
+    t.string "source", null: false, comment: "Where the reading came from, e.g. open-meteo."
+    t.float "sunshine_seconds"
+    t.float "temp_max_c"
+    t.float "temp_mean_c"
+    t.float "temp_min_c"
+    t.datetime "updated_at", null: false
+    t.float "vapour_pressure_deficit_kpa", comment: "How thirsty the air is; high values stress plants."
+    t.integer "weather_code", comment: "WMO code for the day, e.g. 2 is partly cloudy."
+    t.float "wind_direction_degrees", comment: "Where the wind blew from, 0 to 360."
+    t.float "wind_gust_max_kmh"
+    t.float "wind_max_kmh"
+    t.index ["latitude", "longitude", "date"], name: "index_weather_readings_on_latitude_and_longitude_and_date", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blocks", "members", column: "blocked_id"
@@ -1139,5 +1186,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_010000) do
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plants", "plantings"
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
+  add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
 end

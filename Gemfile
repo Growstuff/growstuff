@@ -11,9 +11,9 @@ gem 'csv'
 
 # Asset pipeline: Propshaft serves and fingerprints what esbuild (JavaScript)
 # and Sass (CSS) build into app/assets/builds; npm supplies the front-end libraries.
-gem 'propshaft'
-gem 'jsbundling-rails'
 gem 'cssbundling-rails'
+gem 'jsbundling-rails'
+gem 'propshaft'
 
 gem 'bundler', '>= 2.4.22'
 
@@ -31,7 +31,6 @@ gem 'rswag-ui'
 #     |     Parser.parse(source, options)
 #                 ^^^^^^
 gem 'json', '< 3'
-gem 'oj' # Speeds up json
 
 # planting and harvest predictions
 # based on median values for the crop
@@ -74,12 +73,12 @@ gem 'geocoder'
 gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Flickr)
-gem 'omniauth', '~> 1.3'
+gem 'omniauth', '~> 2.1'
 gem 'omniauth-flickr', '>= 0.0.15'
+gem 'omniauth-rails_csrf_protection'
 
 # Pretty charts
 gem "chartkick"
-
 
 gem "hashie", ">= 3.5.3"
 
@@ -104,6 +103,7 @@ gem 'rack-protection', '>= 2.0.1'
 gem 'mailboxer', '>= 0.15.1'
 
 gem 'faraday'
+gem 'ssrf_filter'
 
 gem 'rack-cors'
 
@@ -179,4 +179,5 @@ gem 'sitemap_generator'
 
 gem "simplecov", "~> 1.3", group: :test, require: false
 
-gem "omniauth-mastodon"
+# Pinned until https://github.com/mastodon/omniauth-mastodon/pull/10 is merged
+gem "omniauth-mastodon", git: "https://github.com/Growstuff/omniauth-mastodon.git", branch: "master"

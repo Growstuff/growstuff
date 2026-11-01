@@ -30,6 +30,7 @@ class RegistrationsController < Devise::RegistrationsController
     end
 
     if successfully_updated
+      @member.update_spam_score!
       set_flash_message :notice, :updated
       # Sign in the member bypassing validation in case their password changed
       sign_in @member, bypass: true
