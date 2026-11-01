@@ -47,4 +47,20 @@ describe "crops/show" do
     render
     expect(rendered).to have_content "Harvested for"
   end
+
+  context "when the crop is a variety with no photos of its own and its parent has photos" do
+    let(:parent_crop) { create(:crop, name: "Potato") }
+    let(:variety) { create(:crop, name: "Rua Potato", parent: parent_crop) }
+    let(:parent_photo) { create(:photo, owner: @member) }
+
+    before do
+      PhotoAssociation.create!(photo: parent_photo, photographable: parent_crop)
+      assign(:crop, variety)
+    end
+
+    it "does not render the parent crop's photos" do
+      render
+      expect(rendered).to have_no_xpath("//img[contains(@src,'#{parent_photo.fullsize_url}')]")
+    end
+  end
 end
