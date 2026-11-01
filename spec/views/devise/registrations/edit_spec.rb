@@ -55,6 +55,36 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       end
     end
 
+    context 'with linked Mastodon profiles' do
+      let(:first_name) { ['@alice', 'mastodon.social'].join('@') }
+      let(:second_name) { ['@gardener', 'example.social'].join('@') }
+
+      before do
+        create(:mastodon_authentication, member: @member, name: first_name)
+        create(:mastodon_authentication, member: @member, uid: ['222', 'example.social'].join('@'), name: second_name)
+        render
+      end
+
+      it 'shows all linked profiles in the profile tab' do
+        expect(rendered).to have_css('#profile ul[aria-labelledby="mastodon-profiles-label"] li', text: /#{Regexp.escape(first_name)}|#{Regexp.escape(second_name)}/, count: 2)
+      end
+
+      it 'does not provide editable Mastodon fields in the profile tab' do
+        expect(rendered).not_to have_css('#profile input[name*="mastodon"]')
+      end
+
+      it 'explains where to manage connections' do
+        expect(rendered).to have_css('#profile .form-text', text: 'Linked accounts are read-only here. Manage them in the Apps tab.')
+      end
+    end
+
+    context 'without linked Mastodon profiles' do
+      it 'does not show a Mastodon profile list' do
+        render
+        expect(rendered).not_to have_css('#profile ul[aria-labelledby="mastodon-profiles-label"]')
+      end
+    end
+
     context 'other sites section' do
       context 'not connected to flickr' do
         it 'has a button to connect' do

@@ -27,6 +27,55 @@ describe 'Starting to sign in with Mastodon' do
     end
   end
 
+  context 'with CSRF protection behind the Codespaces development proxy' do
+    around do |example|
+      original_protection = ActionController::Base.allow_forgery_protection
+      original_origin_check = ActionController::Base.forgery_protection_origin_check
+      ActionController::Base.allow_forgery_protection = true
+      ActionController::Base.forgery_protection_origin_check = false
+      example.run
+    ensure
+      ActionController::Base.allow_forgery_protection = original_protection
+      ActionController::Base.forgery_protection_origin_check = original_origin_check
+    end
+
+    let(:headers) { { 'HTTP_ORIGIN' => 'https://localhost:3000' } }
+    let(:identifier) { ['alice', 'mastodon.social'].join('@') }
+
+    before do
+      host! 'example-3000.app.github.dev'
+      https!
+      allow(client_service).to receive(:credentials_for).and_return(%w(client-id client-secret))
+    end
+
+    it 'accepts the token rendered by the form despite the rewritten origin' do
+      get new_member_session_path
+      form = Nokogiri::HTML(response.body).at_css('form[action="/members/auth/mastodon"]')
+      token = form.at_css('input[name="authenticity_token"]')['value']
+
+      post member_mastodon_omniauth_authorize_path, params: { identifier:, authenticity_token: token }, headers: headers
+
+      expect(URI.parse(response.location).host).to eq 'mastodon.social'
+    end
+
+    it 'rejects a request without an authenticity token' do
+      post member_mastodon_omniauth_authorize_path, params: { identifier: }, headers: headers
+
+      expect(client_service).not_to have_received(:credentials_for)
+    end
+
+    it 'rejects the rewritten origin when origin checking is enabled even with a valid token' do
+      ActionController::Base.forgery_protection_origin_check = true
+      get new_member_session_path
+      form = Nokogiri::HTML(response.body).at_css('form[action="/members/auth/mastodon"]')
+      token = form.at_css('input[name="authenticity_token"]')['value']
+
+      post member_mastodon_omniauth_authorize_path, params: { identifier:, authenticity_token: token }, headers: headers
+
+      expect(client_service).not_to have_received(:credentials_for)
+    end
+  end
+
   context 'when the server cannot be reached' do
     before do
       allow(client_service).to receive(:credentials_for).and_raise(MastodonClientService::Error, 'unreachable')
