@@ -2,23 +2,11 @@ import React, {useState} from 'react';
 
 import {postJson} from '../api';
 import {daysBefore, localToday} from '../dates';
+import {errorMessages} from '../errors';
 import Modal from './Modal';
 import WhenPicker from './WhenPicker';
 
 const WHEN_CHOICES = [['today', 'Today'], ['tomorrow', 'Tomorrow'], ['other', 'Another day']];
-
-function humanize(field) {
-  return field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
-}
-
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${humanize(field)} ${m}`));
-    if (messages.length > 0) return messages;
-  }
-  if (status === 401) return ['Please sign in again to add this job.'];
-  return ['Something went wrong saving that. Please try again.'];
-}
 
 // Adding a job, as a dialog over the page: what needs doing, when, and a note
 // if they want one. Saves with POST /jobs.json and hands the job to onSaved.
@@ -51,7 +39,7 @@ export default function AddJobModal({onClose, onSaved}) {
         onSaved(data);
         return;
       }
-      setErrors(errorMessages(status, data));
+      setErrors(errorMessages(status, data, {signedOut: 'Please sign in again to add this job.'}));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
     }

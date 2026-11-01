@@ -2,25 +2,13 @@ import React, {useEffect, useState} from 'react';
 
 import {getJson, postJson} from '../api';
 import {daysBefore, formatDate} from '../dates';
+import {errorMessages} from '../errors';
 import Modal from './Modal';
 import PlantPartPicker from './PlantPartPicker';
 import Steps from './Steps';
 import WhenPicker, {WHEN_CHOICES} from './WhenPicker';
 
 const STEPS = ['Choose a part', 'How much?', 'When?', 'Any notes?'];
-
-function humanize(field) {
-  return field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
-}
-
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${humanize(field)} ${m}`));
-    if (messages.length > 0) return messages;
-  }
-  if (status === 401) return ['Please sign in again to record this harvest.'];
-  return ['Something went wrong saving that. Please try again.'];
-}
 
 // Recording a harvest from a garden card, as a dialog over the list, in steps
 // like the Add planting dialog: which part of the plant you harvested, how
@@ -122,7 +110,7 @@ export default function RecordHarvestModal({planting, crop: chosenCrop, iconUrl,
         onSaved(data.garden); // closes this dialog
         return;
       }
-      setErrors(errorMessages(status, data));
+      setErrors(errorMessages(status, data, {signedOut: 'Please sign in again to record this harvest.'}));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
     }
