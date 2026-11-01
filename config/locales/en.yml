@@ -97,6 +97,7 @@ en:
       descriptions:
         enable_harvest_reminders: Sends the weekly harvest reminder emails to members who want them.
         enable_planting_reminders: Sends the weekly planting reminder emails to members who want them.
+        garden_stall: A page where members offer spare seedlings and seeds to friends. Switch on once all the parts are deployed.
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
         planting_weather: Temperature and rainfall charts on each planting, from daily weather for the garden's area.
       index:
@@ -111,6 +112,7 @@ en:
       names:
         enable_harvest_reminders: Harvest reminders
         enable_planting_reminders: Planting reminders
+        garden_stall: Garden stall
         job_ideas: Job ideas
         planting_weather: Planting weather
       update:
@@ -1192,6 +1194,46 @@ en:
       heading: "%{crop} seeds"
     string: "%{crop} seeds belonging to %{owner}"
     updated: Seed was successfully updated.
+  stalls:
+    openings:
+      destroy:
+        closed: Your garden stall is closed.
+    card:
+      go: Go to your stall
+      heading: Garden stall
+      open: Open a garden stall
+      open_text: Your garden stall is open for friends.
+      text: Share spare seedlings and seeds with friends. You choose what and who, offers close after 4 weeks, and no addresses are kept.
+    show:
+      breadcrumb: Garden stall
+      close: Close the stall
+      coming_soon: Coming soon
+      first_heading: Your stall is open. What goes on it first?
+      first_intro: You can add more any time. Nothing shows to friends until something is on the table.
+      garden_of: Garden of
+      link_is: Your link is %{url}
+      open: Open my stall
+      open_heading: Open a garden stall
+      open_intro: Got spare seedlings or seeds? Put them on a stall and share the link with your friends. Give them away or swap.
+      points:
+        choose_what: You choose what goes on the table.
+        choose_where: 'You choose where friends can be: your region, your country or anywhere.'
+        choose_who: 'You choose who can bagsy: anyone signed in, or only people you follow.'
+        expiry: Offers close after 4 weeks, so the stall never goes stale.
+        privacy: Growstuff keeps no addresses. Friends message you to arrange pick-up.
+      seedlings: Seedlings
+      seedlings_text: Plants you've raised that need a home.
+      seeds: Seeds
+      seeds_text: Packets you've saved and will trade.
+      title: "%{name}'s garden stall"
+    stall:
+      closed: Closed for now
+      sign: "%{name}'s garden stall"
+      spots:
+        more: anything else
+        seedlings: seedlings here
+        seeds: seeds here
+      tagline: Seedlings and seeds for friends. Free, or swap.
   suggestions:
     index:
       lede: What gardeners at %{band} are planting this month, most planted first.
