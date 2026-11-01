@@ -1,7 +1,19 @@
--# Whose stall this is: their avatar (always a circle) and name.
-.stall-owner
+-# Whose stall this is: their avatar (always a circle) and name. Large, under the
+-# sign, with where they are and the stall's link for its owner; small on the shutter.
+- large = local_assigns.fetch(:large, false)
+- size = large ? 112 : 64
+.stall-owner{ class: ('stall-owner-large' if large) }
   = link_to member, class: 'stall-owner-avatar', title: member.to_s do
-    = image_tag avatar_uri(member, 128), alt: member.to_s, width: 64, height: 64
-  %p.stall-owner-name
-    = t('stalls.owner.garden_of')
-    %strong= link_to member, member
+    = image_tag avatar_uri(member, size * 2), alt: member.to_s, width: size, height: size
+  - if large
+    .stall-owner-details
+      %p.stall-owner-name= link_to member, member
+      %p.text-muted.mb-0= member.location if member.location.present?
+      %p.mb-0= link_to t('stalls.owner.profile', name: member), member
+      - if local_assigns[:url]
+        = label_tag :stall_link, t('stalls.owner.link'), class: 'visually-hidden'
+        = text_field_tag :stall_link, url, readonly: true, class: 'form-control stall-link'
+  - else
+    %p.stall-owner-name
+      = t('stalls.owner.garden_of')
+      %strong= link_to member, member

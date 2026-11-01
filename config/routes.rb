@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   # Opening and closing your own garden stall.
   resource :stall, only: [] do
     resource :opening, only: %i(create destroy), module: :stalls
+    resources :seeds, only: %i(new create destroy), module: :stalls
   end
 
   resource :nursery, only: %i(show create) do
