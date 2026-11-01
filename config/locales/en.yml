@@ -1196,6 +1196,8 @@ en:
     updated: Seed was successfully updated.
   stalls:
     openings:
+      create:
+        opened: Your garden stall is open.
       destroy:
         closed: Your garden stall is closed.
     card:
@@ -1204,13 +1206,14 @@ en:
       open: Open a garden stall
       open_text: Your garden stall is open for friends.
       text: Share spare seedlings and seeds with friends. You choose what and who, offers close after 4 weeks, and no addresses are kept.
+    owner:
+      garden_of: Garden of
     show:
       breadcrumb: Garden stall
       close: Close the stall
       coming_soon: Coming soon
       first_heading: Your stall is open. What goes on it first?
       first_intro: You can add more any time. Nothing shows to friends until something is on the table.
-      garden_of: Garden of
       link_is: Your link is %{url}
       open: Open my stall
       open_heading: Open a garden stall
