@@ -337,6 +337,15 @@ es:
     updated: El jardín se actualizó con éxito.
   harvests:
     created: La cosecha se creó con éxito.
+    edit_modal:
+      harvested_at: '¿Cuándo lo cosechaste?'
+      notes: Notas
+      plant_part: '¿Qué parte cosechaste?'
+      quantity: '¿Cuántos?'
+      title: Editar cosecha de %{crop}
+      unit: Contado como
+      weight_quantity: Pesando (en total)
+      weight_unit: Pesado en
     harvest_something: Cosechar algo
     index:
       title:

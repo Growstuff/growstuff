@@ -59,6 +59,28 @@ describe 'Setting where a member gardens' do
     end
   end
 
+  describe 'clearing it' do
+    before do
+      member.update_columns(location: 'Wellington, New Zealand', latitude: -41.2887, longitude: 174.7772) # rubocop:disable Rails/SkipsModelValidations
+      sign_in member
+    end
+
+    it 'removes the place and its coordinates' do
+      delete member_location_path
+      expect(member.reload).to have_attributes(location: nil, latitude: nil, longitude: nil)
+    end
+
+    it 'removes it from the profile form\'s Remove button' do
+      post member_location_path, params: { _method: 'delete' }
+      expect(member.reload.location).to be_nil
+    end
+
+    it 'goes back to the profile form' do
+      delete member_location_path
+      expect(response).to redirect_to(edit_member_registration_path)
+    end
+  end
+
   context 'when signed out' do
     it 'does not save a place' do
       save(place)

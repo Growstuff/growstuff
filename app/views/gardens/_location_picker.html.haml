@@ -1,0 +1,5 @@
+-# The dialog for choosing where a garden is, offering the member's own place from their profile.
+- props = { label:, buttonClass: button_class, searchUrl: suggest_places_path(format: :json),
+  saveUrl: garden_location_path(garden, format: :json), profilePlace: current_member.located_place,
+  displayId: local_assigns[:display_id], icon: local_assigns[:icon] }
+= react_component('LocationPicker', props, class: 'd-inline-block')

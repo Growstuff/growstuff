@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 import {getJson, postJson} from '../api';
+import {errorMessages} from '../errors';
 import Modal from './Modal';
 import Steps from './Steps';
 
@@ -16,19 +17,6 @@ const STEPS = ['How many?', 'Trade?', 'Any notes?'];
 const QUICK_AMOUNTS = [10, 50, 100, 500, 1000];
 const TRADE_LABELS = {nowhere: 'Not for trade', locally: 'Locally', nationally: 'Nationally', internationally: 'Internationally'};
 const tradeLabel = (value) => TRADE_LABELS[value] || value;
-
-function humanize(field) {
-  return field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
-}
-
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${humanize(field)} ${m}`));
-    if (messages.length > 0) return messages;
-  }
-  if (status === 401) return ['Please sign in again to save these seeds.'];
-  return ['Something went wrong saving that. Please try again.'];
-}
 
 // Saving seeds from a planting, as a dialog over the garden list, in steps like
 // the record harvest dialog: about how many, whether to offer them for trade,
@@ -85,7 +73,7 @@ export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, lea
         onSaved(data.seed); // closes this dialog
         return;
       }
-      setErrors(errorMessages(status, data));
+      setErrors(errorMessages(status, data, {signedOut: 'Please sign in again to save these seeds.'}));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
     }

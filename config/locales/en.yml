@@ -338,6 +338,15 @@ en:
     updated: Garden was successfully updated.
   harvests:
     created: Harvest was successfully created.
+    edit_modal:
+      harvested_at: When did you harvest it?
+      notes: Notes
+      plant_part: What part did you harvest?
+      quantity: How many?
+      title: Edit %{crop} harvest
+      unit: Counted as
+      weight_quantity: Weighing (in total)
+      weight_unit: Weighed in
     harvest_something: Harvest something
     index:
       title:
@@ -878,6 +887,8 @@ en:
     invalid_location: Please enter a valid location
     mastodon_instance_invalid: We couldn't connect to that Mastodon server. Check the address, which looks like you@mastodon.social, and try again.
     mastodon_needs_account: We don't know that Mastodon account yet. Join Growstuff or sign in, then connect Mastodon from your account settings.
+    location_cleared: Location removed.
+    location_unplaced_html: We can't find "%{location}" on the map. <a href="%{link}">Choose your location from the list</a> so we can show you what's growing near you.
     revert_error: 'Could not revert to version from %{date}. Errors: %{errors}'
     revert_success: Reverted to version from %{date}
     transplant_error: 'There was an error transplanting the planting: %{errors}'

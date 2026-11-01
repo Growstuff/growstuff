@@ -1,6 +1,6 @@
 import React from 'react';
 
-const humanize = (key) => key.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
+import {humanize} from '../errors';
 
 // Devise's `errors` ({field: [messages]}) split into the messages for the
 // fields named, to show against their inputs, and the rest (the captcha, say),

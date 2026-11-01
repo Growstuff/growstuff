@@ -1,21 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
 import {getJson, patchJson, postJson} from '../api';
+import {errorMessages} from '../errors';
 import Modal from './Modal';
-
-function humanize(field) {
-  return field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
-}
-
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${humanize(field)} ${m}`));
-    if (messages.length > 0) return messages;
-  }
-  if (status === 401) return ['Please sign in again to save this garden.'];
-  if (status === 403) return ['You can\'t change this garden.'];
-  return ['Something went wrong saving that. Please try again.'];
-}
 
 // The same fields as the garden form page, in a dialog over the page. Given a
 // garden it edits it: loads the current values from /gardens/:slug/edit.json
@@ -54,15 +41,15 @@ export default function GardenFormModal({garden = null, onClose, onSaved}) {
     event.preventDefault();
     setSaving(true);
     setErrors([]);
-    const {name, description, location, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active} = values;
+    const {name, description, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active} = values;
     try {
-      const body = {garden: {name, description, location, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active}};
+      const body = {garden: {name, description, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active}};
       const {ok, status, data} = isNew ? await postJson('/gardens.json', body) : await patchJson(garden.url, body);
       if (ok) {
         onSaved(data.garden); // closes this dialog
         return;
       }
-      setErrors(errorMessages(status, data));
+      setErrors(errorMessages(status, data, {signedOut: 'Please sign in again to save this garden.', forbidden: 'You can\'t change this garden.'}));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
     }
@@ -107,12 +94,12 @@ export default function GardenFormModal({garden = null, onClose, onSaved}) {
             </div>
 
             <div className="mb-3">
-              <label className="form-label" htmlFor="edit-garden-location">Location</label>
-              <input id="edit-garden-location" type="text" className="form-control" maxLength="255" aria-describedby="edit-garden-location-help" value={values.location || ''} onChange={set('location')} />
-              <div id="edit-garden-location-help" className="form-text">
-                {form.location_help}{' '}
-                <a href={form.settings_url} target="_blank" rel="noopener noreferrer">{form.member_has_location ? 'Change your location.' : 'Set your location now.'}</a>
-              </div>
+              <span className="form-label d-block">Location</span>
+              <p className="mb-0">
+                {values.location ? <strong>{values.location}</strong> : 'Not set'}{' '}
+                {values.url && <a href={`${values.url}/edit`}>Change or remove</a>}
+              </p>
+              <div className="form-text">{form.location_help}</div>
             </div>
 
             <div className="row g-3 mb-3">
