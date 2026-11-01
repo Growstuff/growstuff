@@ -10,8 +10,7 @@ module Stalls
 
     def create
       current_member.stall!.open!
-      flash[:stall_opened] = true
-      redirect_to member_stall_path(current_member)
+      redirect_to member_stall_path(current_member), notice: t('.opened')
     end
 
     def destroy
