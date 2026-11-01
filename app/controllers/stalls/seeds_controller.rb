@@ -23,7 +23,7 @@ module Stalls
       packets = current_member.seeds.where(id: params[:seed_ids])
       return redirect_to new_stall_seed_path, alert: t('.none') if packets.empty?
 
-      @stall.put_seeds_on!(packets)
+      @stall.put_seeds_on!(packets, offer: params[:offer].presence_in(StallSeed.offers.keys) || :free)
       redirect_to member_stall_path(current_member), notice: t('.added', count: packets.size)
     end
 
