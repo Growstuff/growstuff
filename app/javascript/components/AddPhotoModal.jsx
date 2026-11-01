@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 import {csrfToken, getJson, postJson} from '../api';
+import {errorMessages} from '../errors';
 import Modal from './Modal';
 import Steps from './Steps';
 
@@ -20,15 +21,6 @@ function ConnectFields() {
   );
 }
 const POLL_MS = 2000;
-
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase())} ${m}`));
-    if (messages.length > 0) return messages;
-  }
-  if (status === 401) return ['Please sign in again to add this photo.'];
-  return ['Something went wrong adding that photo. Please try again.'];
-}
 
 // Adding a photo to a planting, garden, job or the like, as a dialog over the page. The
 // photos are the member's own, from Flickr, so if Flickr isn't connected (or the
@@ -130,7 +122,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
         onAdded(result); // closes this dialog
         return;
       }
-      setErrors(errorMessages(status, result));
+      setErrors(errorMessages(status, result, {signedOut: 'Please sign in again to add this photo.', fallback: 'Something went wrong adding that photo. Please try again.'}));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
     }

@@ -2,17 +2,8 @@ import React, {useState} from 'react';
 
 import {patchJson} from '../api';
 import {daysBefore, formatDate} from '../dates';
+import {errorMessages} from '../errors';
 import Modal from './Modal';
-
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase())} ${m}`));
-    if (messages.length > 0) return messages;
-  }
-  if (status === 401) return ['Please sign in again to mark this as finished.'];
-  if (status === 403) return ['You can\'t change this planting.'];
-  return ['Something went wrong saving that. Please try again.'];
-}
 
 // Marking a planting finished, from a garden card, as a dialog over the list:
 // one question, when it finished, which is today unless you say otherwise. It
@@ -45,7 +36,7 @@ export default function MarkFinishedModal({planting, iconUrl, onClose, onSaved})
         onSaved(data.garden); // closes this dialog
         return;
       }
-      setErrors(errorMessages(status, data));
+      setErrors(errorMessages(status, data, {signedOut: 'Please sign in again to mark this as finished.', forbidden: 'You can\'t change this planting.'}));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
     }
