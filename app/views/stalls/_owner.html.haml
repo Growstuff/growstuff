@@ -13,6 +13,13 @@
       - if local_assigns[:url]
         = label_tag :stall_link, t('stalls.owner.link'), class: 'visually-hidden'
         = text_field_tag :stall_link, url, readonly: true, class: 'form-control stall-link'
+      -# Bluesky, the fediverse and the rest: shareon fills these in.
+      .shareon.mt-2{ data: { title: t('stalls.show.title', name: member) } }
+        %a.bluesky
+        %a.fediverse
+        %a.mastodon
+        %a.copy-url
+        %a.web-share
   - else
     %p.stall-owner-name
       = t('stalls.owner.garden_of')

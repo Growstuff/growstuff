@@ -1,0 +1,9 @@
+-# For someone who arrives at a stall without an account: what Growstuff is, kept
+-# small so the stall stays the focus.
+%section.stall-about{ 'aria-labelledby': 'stall-about-h' }
+  %div
+    %h2.stall-about-brand#stall-about-h Growstuff
+    %p= t('.text', name: member)
+  .stall-about-actions
+    = sign_up_link t('stalls.about_growstuff.join'), class: 'btn btn-success'
+    = sign_in_link t('stalls.about_growstuff.sign_in')
