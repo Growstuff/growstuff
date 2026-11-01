@@ -1225,6 +1225,8 @@ en:
         add: Add to the stall
         breadcrumb: Add seeds
         cancel: Cancel
+        cant_find: Can't find the crop?
+        crop: Crop
         intro: Pick seeds to put on the stall, from your seed library.
         offer: What are you offering them as?
         offers:
@@ -1238,11 +1240,15 @@ en:
         ready:
           one: Marked "will trade" (1)
           other: Marked "will trade" (%{count})
+        new_note: It is saved in your seed library too, and goes on the stall with the packets you ticked.
+        quantity: Approx. how many seeds
         record_new: Add a seed packet you haven't recorded yet
+        request_crop: Request a new crop.
         search: Search your seeds
         search_button: Search
         search_placeholder: Crop or variety, for example tomato
         title: Add seeds to your stall
+        variety: Variety
         will_mark: Putting a packet that isn't marked "will trade" on the stall marks it "will trade" in your seed library, so friends can see it there too. Taking it off the stall leaves it marked.
         your_seeds: Your seeds
     show:

@@ -34,7 +34,27 @@
           %p.text-muted= @query.present? ? t('.no_matches', query: @query) : t('.none_left')
       - if @others.any?
         %p.stall-note= t('.will_mark')
-      %p.mb-0= link_to t('.record_new'), new_seed_path
+      %details.stall-new-packet{ open: @new_seed.errors.any? }
+        %summary= t('.record_new')
+        - if @new_seed.errors.any?
+          .alert.alert-danger
+            %ul.mb-0
+              - @new_seed.errors.full_messages.each do |message|
+                %li= message
+        .mb-3
+          = label_tag :crop, t('.crop'), class: 'form-label fw-bold'
+          = auto_suggest @new_seed, :crop, class: 'form-control'
+          %small.text-muted
+            = t('.cant_find')
+            = link_to t('.request_crop'), new_crop_path
+        .row
+          .col-12.col-md-8.mb-3
+            = label_tag 'seed_variety', t('.variety'), class: 'form-label fw-bold'
+            = text_field_tag 'seed[variety]', @new_seed.variety, class: 'form-control'
+          .col-12.col-md-4.mb-3
+            = label_tag 'seed_quantity', t('.quantity'), class: 'form-label fw-bold'
+            = number_field_tag 'seed[quantity]', @new_seed.quantity, min: 1, class: 'form-control'
+        %small.text-muted= t('.new_note')
       %fieldset.stall-offer
         %legend= t('.offer')
         - StallSeed.offers.each_key do |offer|
