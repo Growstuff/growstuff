@@ -81,8 +81,36 @@ describe StallsController, flipper: :garden_stall do
         expect(response.body).to include("#{owner}&#39;s garden stall")
       end
 
+      it 'has a share image for Bluesky and the fediverse' do
+        expect(Capybara.string(response.body)).to have_css('meta[property="og:image"][content*="stall-card"]', visible: :all)
+      end
+
+      it 'has a share title with the name' do
+        expect(Capybara.string(response.body)).to have_css("meta[property='og:title'][content=\"#{owner}'s garden stall\"]", visible: :all)
+      end
+
+      it 'has links to share it' do
+        expect(Capybara.string(response.body)).to have_css('.shareon a.bluesky')
+      end
+
+      it 'tells them what Growstuff is' do
+        expect(Capybara.string(response.body)).to have_css('.stall-about', text: 'A community for growing food')
+      end
+
       it 'has no button to close it' do
         expect(Capybara.string(response.body)).to have_no_button('Close the stall')
+      end
+    end
+
+    context 'when a member looks at an open stall' do
+      before do
+        create(:stall, :open, member: owner)
+        sign_in visitor
+        get member_stall_path(owner)
+      end
+
+      it 'leaves out the note about Growstuff' do
+        expect(Capybara.string(response.body)).to have_no_css('.stall-about')
       end
     end
 

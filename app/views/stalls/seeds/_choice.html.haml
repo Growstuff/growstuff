@@ -1,11 +1,15 @@
--# One packet to tick: its crop and variety, and the small print from its card.
+-# One packet to tick: a little packet, its crop and variety, and the small print
+-# from its card.
 %label.stall-packet{ for: "stall-seed-#{seed.id}" }
   = check_box_tag 'seed_ids[]', seed.id, false, id: "stall-seed-#{seed.id}"
+  %span.stall-packet-icon{ 'aria-hidden': 'true' }
+    %span.stall-packet-window
   %span.stall-packet-text
-    %strong= seed.crop_name
-    - if seed.variety.present?
-      %span= seed.variety
-    %small.text-muted
+    %strong
+      = seed.crop_name
+      - if seed.variety.present?
+        %span.stall-packet-variety · #{seed.variety}
+    %small
       = [(t('.saved', year: seed.saved_at.year) if seed.saved_at),
          (t('.quantity', count: seed.quantity) if seed.quantity),
          (t('.sow_before', year: seed.plant_before.year) if seed.plant_before)].compact.join(' · ')

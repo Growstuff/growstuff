@@ -1,4 +1,5 @@
-- content_for :title, t('.title', name: @member)
+= render 'shared/record_meta', title: t('.title', name: @member), image: image_url('stall-card.png'),
+  description: t('.description', name: @member, count: @stall.seeds.size)
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to t('layouts.menu.gardens'), gardens_path
@@ -12,6 +13,8 @@
     = render 'stalls/owner', member: @member, large: true, url: (member_stall_url(@member) if @owner)
 
   = render 'stalls/seed_tin', stall: @stall, owner: @owner if @stall.seeds.any?
+
+  = render 'stalls/about_growstuff', member: @member if @stall.open? && !member_signed_in?
 
   - if @owner
     - if @stall.open?
