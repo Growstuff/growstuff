@@ -17,6 +17,7 @@ class Member < ApplicationRecord
   has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_one :stall, dependent: :destroy
   # Where they raise seedlings before planting them out.
   has_one :nursery, -> { nurseries }, class_name: 'Garden', foreign_key: 'owner_id', dependent: nil, inverse_of: :owner
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
@@ -187,6 +188,11 @@ class Member < ApplicationRecord
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryBot associations
   after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
+
+  # Their stall, made the first time they open it.
+  def stall!
+    stall || create_stall!
+  end
 
   # Their nursery, made the first time it's wanted, as most members never need
   # one. The member may already have a garden called "Nursery", and garden names

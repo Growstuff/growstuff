@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_01_010000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1117,6 +1117,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
     t.index ["source"], name: "index_seeds_on_source"
   end
 
+  create_table "stalls", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "member_id", null: false
+    t.datetime "opened_at"
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_stalls_on_member_id", unique: true
+  end
+
   create_table "versions", force: :cascade do |t|
     t.datetime "created_at"
     t.string "event", null: false
@@ -1188,4 +1196,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
   add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
+  add_foreign_key "stalls", "members"
 end

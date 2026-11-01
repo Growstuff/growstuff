@@ -1,0 +1,41 @@
+- content_for :title, t('.title', name: @member)
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to t('layouts.menu.gardens'), gardens_path
+  %li.breadcrumb-item.active= t('.breadcrumb')
+
+.stall-page
+  .record-identity.mb-4
+    = render 'shared/record_owner', owner: @member
+    .record-identity-text
+      %p.garden-grower
+        = t('.garden_of')
+        %strong.record-grower-name= link_to @member, @member
+
+  = render 'stalls/stall', member: @member, open: @stall.open?, opening: @opening
+
+  - if @owner
+    - if @stall.open?
+      %section.stall-panel{ 'aria-labelledby': 'stall-first-h', class: ('stall-reveal-delayed' if @opening) }
+        %h1#stall-first-h= t('.first_heading')
+        %p.text-muted= t('.first_intro')
+        .stall-choices
+          %button.stall-choice{ type: 'button', disabled: true }
+            %strong= t('.seedlings')
+            %span= t('.seedlings_text')
+            %span.stall-choice-soon= t('.coming_soon')
+          %button.stall-choice{ type: 'button', disabled: true }
+            %strong= t('.seeds')
+            %span= t('.seeds_text')
+            %span.stall-choice-soon= t('.coming_soon')
+        .d-flex.flex-wrap.gap-3.align-items-center.mt-3
+          = button_to t('.close'), stall_opening_path, method: :delete, class: 'btn btn-secondary'
+          %span.text-muted= t('.link_is', url: member_stall_url(@member))
+    - else
+      %section.stall-panel{ 'aria-labelledby': 'stall-open-h' }
+        %h1#stall-open-h= t('.open_heading')
+        %p= t('.open_intro')
+        %ul
+          - %i(choose_what choose_who choose_where expiry privacy).each do |point|
+            %li= t(".points.#{point}")
+        = button_to t('.open'), stall_opening_path, class: 'btn btn-primary btn-lg'
