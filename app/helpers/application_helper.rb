@@ -31,6 +31,13 @@ module ApplicationHelper
             data: { auth_dialog: 'bluesky' })
   end
 
+  def mastodon_link(text, **)
+    return unless Authentication.enabled_sign_in_providers.include?('mastodon')
+
+    link_to(safe_join([icon('fab', 'mastodon'), text], ' '), new_member_session_path, **,
+            data: { auth_dialog: 'mastodon' })
+  end
+
   # A member's avatar as a decoration beside their name, drawn at `size` pixels
   # from a picture twice that for dense screens.
   def avatar_image(member, size, **)

@@ -5,16 +5,16 @@ import MastodonModal from './MastodonModal';
 import SignInModal from './SignInModal';
 import SignUpModal from './SignUpModal';
 
-// The sign in, sign up and Bluesky dialogs for every server-rendered link to them.
+// The sign in, sign up and federated account dialogs for server-rendered links.
 // Nothing of its own is drawn: it listens for clicks on any
-// [data-auth-dialog="sign_in"], "sign_up" or "bluesky" link (the menu,
+// [data-auth-dialog="sign_in"], "sign_up", "bluesky" or "mastodon" link (the menu,
 // the home page's buttons) and opens that dialog over the page. The layout
 // mounts it once, for visitors who aren't signed in.
 //
 // The link's own href is the page for the same thing, so it stays the
 // fallback without JavaScript.
 export default function AuthDialog({urls, recaptcha_site_key: recaptchaSiteKey, site_name: siteName}) {
-  const [opened, setOpened] = useState(null); // 'sign_in', 'sign_up', 'bluesky' or null
+  const [opened, setOpened] = useState(null);
   const open = useRef(null);
   open.current = setOpened;
 

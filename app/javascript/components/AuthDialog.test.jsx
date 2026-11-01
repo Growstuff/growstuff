@@ -4,7 +4,7 @@ import {describe, expect, it} from 'vitest';
 
 import AuthDialog from './AuthDialog';
 
-const urls = {sign_in: '/s', sign_up: '/u', forgot_password: '/f', sign_in_page: '/si', sign_up_page: '/su', bluesky: '/b'};
+const urls = {sign_in: '/s', sign_up: '/u', forgot_password: '/f', sign_in_page: '/si', sign_up_page: '/su', bluesky: '/b', mastodon: '/m'};
 
 function setup(pageUrls = urls) {
   render(
@@ -12,6 +12,7 @@ function setup(pageUrls = urls) {
         <a href="/members/sign_in" data-auth-dialog="sign_in">Log in</a>
         <a href="/members/sign_up" data-auth-dialog="sign_up">Join</a>
         <a href="/members/sign_in" data-auth-dialog="bluesky">Bluesky</a>
+        <a href="/members/sign_in" data-auth-dialog="mastodon">Mastodon</a>
         <a href="/about">About</a>
         <AuthDialog urls={pageUrls} site_name="Growstuff" />
       </>,
@@ -66,6 +67,32 @@ describe('AuthDialog', () => {
     setup();
     await userEvent.click(screen.getByRole('link', {name: 'About'}));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('opens Mastodon from a Mastodon link', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Mastodon'}));
+    expect(screen.getByRole('dialog', {name: 'Sign in with Mastodon'})).toBeInTheDocument();
+  });
+
+  it('moves from sign in to Mastodon', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
+    await userEvent.click(screen.getByRole('button', {name: 'Continue with Mastodon'}));
+    expect(screen.getByRole('dialog', {name: 'Sign in with Mastodon'})).toBeInTheDocument();
+  });
+
+  it('moves from sign up to Mastodon', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Join'}));
+    await userEvent.click(screen.getByRole('button', {name: 'Continue with Mastodon'}));
+    expect(screen.getByRole('dialog', {name: 'Sign in with Mastodon'})).toBeInTheDocument();
+  });
+
+  it('hides Mastodon when it is switched off', async () => {
+    setup({...urls, mastodon: null});
+    await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
+    expect(screen.queryByRole('button', {name: 'Continue with Mastodon'})).not.toBeInTheDocument();
   });
 
   it('leaves a ctrl-click to open in a new tab', () => {

@@ -29,7 +29,9 @@ export default function MastodonModal({urls, onClose}) {
         </div>
         <div className="modal-footer d-block">
           <button type="submit" className="btn btn-success btn-lg w-100" disabled={busy} aria-busy={busy}>
-            {busy ? 'Contacting Mastodon, one moment…' : 'Continue with Mastodon'}
+            {busy ?
+              <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Contacting Mastodon, one moment…</> :
+              <><i className="fab fa-mastodon" aria-hidden="true" /> Continue with Mastodon</>}
           </button>
         </div>
       </form>
