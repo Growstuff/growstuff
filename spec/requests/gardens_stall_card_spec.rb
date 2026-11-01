@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe GardensController, 'garden stall card', flipper: :garden_stall do
+describe GardensController, '#show', flipper: :garden_stall do
   let(:owner) { create(:member) }
   let(:nursery) { create(:garden, owner:, nursery: true) }
 
