@@ -54,6 +54,10 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
         assert_select "input[id=member_location]", count: 0
       end
 
+      it 'has a button that removes the location' do
+        assert_select "button[formaction='#{member_location_path}'][name=_method][value=delete]"
+      end
+
       it 'loads the script that makes the location link work' do
         render
         expect(view.content_for(:scripts)).to include('react_islands')

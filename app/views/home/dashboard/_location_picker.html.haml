@@ -1,2 +1,5 @@
 -# The dialog for saying where you garden; see LocationPicker.jsx.
-= react_component('LocationPicker', { label:, buttonClass: button_class, searchUrl: suggest_places_path(format: :json), saveUrl: member_location_path(format: :json) }, class: 'd-inline-block')
+-# Pass display_id to stay on the page and show the place there.
+- props = { label:, buttonClass: button_class, searchUrl: suggest_places_path(format: :json),
+  saveUrl: member_location_path(format: :json), displayId: local_assigns[:display_id] }
+= react_component('LocationPicker', props, class: 'd-inline-block')
