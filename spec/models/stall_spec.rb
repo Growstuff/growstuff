@@ -47,8 +47,22 @@ describe Stall do
       expect(shared_seed.reload.tradable_to).to eq('nationally')
     end
 
+    it 'offers them free by default' do
+      expect(stall.stall_seeds.map(&:offer).uniq).to eq(['free'])
+    end
+
     it 'does not put a packet on twice' do
       expect { stall.put_seeds_on!([shared_seed]) }.not_to change(stall.stall_seeds, :count)
+    end
+  end
+
+  describe '#put_seeds_on! as a swap' do
+    subject(:stall) { create(:stall, :open) }
+
+    before { stall.put_seeds_on!([create(:seed, owner: stall.member)], offer: :swap) }
+
+    it 'offers them as a swap' do
+      expect(stall.stall_seeds.first).to be_swap
     end
   end
 end

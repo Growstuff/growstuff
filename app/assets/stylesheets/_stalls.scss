@@ -484,3 +484,74 @@ $stall-label: #fff8e1;
   background: $white;
   cursor: pointer;
 }
+
+// "Free" and "swap" are words as well as colours, so neither relies on colour alone.
+.stall-offer-tag {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+  align-items: baseline;
+  margin-top: 0.6rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  color: $white;
+  line-height: 1.3;
+
+  strong {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+.stall-offer-free {
+  background: $green;
+}
+
+.stall-offer-swap {
+  background: $blue;
+}
+
+.stall-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  .stall-offer-tag {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+.stall-offer {
+  margin: 1rem 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+.stall-offer-choice {
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  min-height: 44px;
+  margin-right: 0.75rem;
+  padding: 0 0.9rem;
+  border: 1px solid #757575;
+  border-radius: $card-radius;
+  background: $white;
+  cursor: pointer;
+
+  &:has(input:checked) {
+    border: 2px solid $green;
+  }
+}

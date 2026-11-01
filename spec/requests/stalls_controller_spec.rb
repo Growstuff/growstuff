@@ -62,6 +62,10 @@ describe StallsController, flipper: :garden_stall do
         expect(Capybara.string(response.body)).to have_css('.stall-section .seed-card', text: 'rocket')
       end
 
+      it 'says the packet is free' do
+        expect(Capybara.string(response.body)).to have_css('.stall-tin-item .stall-offer-free', text: 'Free')
+      end
+
       it 'lets the owner take a packet off' do
         expect(Capybara.string(response.body)).to have_button('Take off the stall')
       end

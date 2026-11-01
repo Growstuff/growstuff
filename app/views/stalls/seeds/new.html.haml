@@ -27,6 +27,12 @@
     - if @others.any?
       %p.stall-note= t('.will_mark')
     %p= link_to t('.record_new'), new_seed_path
+    %fieldset.stall-offer
+      %legend= t('.offer')
+      - StallSeed.offers.each_key do |offer|
+        = label_tag "offer_#{offer}", class: 'stall-offer-choice' do
+          = radio_button_tag :offer, offer, offer == 'free'
+          = t(".offers.#{offer}")
     .d-flex.flex-wrap.gap-3
       = submit_tag t('.add'), class: 'btn btn-primary'
       = link_to t('.cancel'), member_stall_path(current_member), class: 'btn btn-secondary'

@@ -2,6 +2,9 @@
 
 # A packet of seed from the member's library, offered on their stall.
 class StallSeed < ApplicationRecord
+  # Given away, or swapped for seeds of the friend's own.
+  enum :offer, { free: 'free', swap: 'swap' }, default: :free
+
   belongs_to :stall
   belongs_to :seed
 
