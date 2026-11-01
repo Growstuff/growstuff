@@ -1,0 +1,105 @@
+- data = crop.ecocrop_data
+- if data
+  %section.crop-ecocrop
+    .section-header
+      %h2 Ecological requirements
+    %div
+      %p.text-muted.small
+        Data from the FAO EcoCrop database for
+        %em= data.scientificname
+        - if data.auth.present?
+          = data.auth
+      %table.table.table-sm.table-borderless
+        %tbody
+          - if data.famname.present?
+            %tr
+              %th Family / Taxonomy
+              %td= data.famname
+          - if data.topmn.present? || data.topmx.present?
+            %tr
+              %th Optimal temperature
+              %td= "#{data.topmn || '?'} - #{data.topmx || '?'} °C"
+          - if data.tmin.present? || data.tmax.present?
+            %tr
+              %th Absolute temperature
+              %td= "#{data.tmin || '?'} - #{data.tmax || '?'} °C"
+          - if data.ktmp.present? || data.ktmpr.present?
+            %tr
+              %th Killing temperature
+              %td
+                - parts = []
+                - parts << "growth: #{data.ktmp} °C" if data.ktmp.present?
+                - parts << "rest: #{data.ktmpr} °C" if data.ktmpr.present?
+                = parts.join(', ')
+          - if data.ropmn.present? || data.ropmx.present?
+            %tr
+              %th Optimal rainfall
+              %td= "#{data.ropmn || '?'} - #{data.ropmx || '?'} mm/year"
+          - if data.rmin.present? || data.rmax.present?
+            %tr
+              %th Absolute rainfall
+              %td= "#{data.rmin || '?'} - #{data.rmax || '?'} mm/year"
+          - if data.phopmn.present? || data.phopmx.present?
+            %tr
+              %th Optimal soil pH
+              %td= "#{data.phopmn || '?'} - #{data.phopmx || '?'}"
+          - if data.phmin.present? || data.phmax.present?
+            %tr
+              %th Absolute soil pH
+              %td= "#{data.phmin || '?'} - #{data.phmax || '?'}"
+          - if data.gmin.present? || data.gmax.present?
+            %tr
+              %th Crop cycle
+              %td= "#{data.gmin || '?'} - #{data.gmax || '?'} days"
+          - if data.altmx.present?
+            %tr
+              %th Max altitude
+              %td= "#{data.altmx} m"
+          - if data.lifo.present? && data.lifo.any?
+            %tr
+              %th Life form
+              %td= data.lifo.join(', ')
+          - if data.lispa.present? && data.lispa.any?
+            %tr
+              %th Life span
+              %td= data.lispa.join(', ')
+          - if data.habi.present? && data.habi.any?
+            %tr
+              %th Habit
+              %td= data.habi.join(', ')
+          - if data.dep.present?
+            %tr
+              %th Optimal soil depth
+              %td= data.dep
+          - if data.text.present? && data.text.any?
+            %tr
+              %th Optimal soil texture
+              %td= data.text.join(', ')
+          - if data.fer.present?
+            %tr
+              %th Optimal soil fertility
+              %td= data.fer
+          - if data.dra.present? && data.dra.any?
+            %tr
+              %th Optimal soil drainage
+              %td= data.dra.join(', ')
+          - if data.sal.present?
+            %tr
+              %th Optimal soil salinity
+              %td= data.sal
+          - if data.photo.present? && data.photo.any?
+            %tr
+              %th Photoperiod
+              %td= data.photo.join(', ')
+          - if data.liopmn.present? || data.liopmx.present?
+            %tr
+              %th Optimal light
+              %td= [data.liopmn, data.liopmx].compact.uniq.join(' to ')
+
+    .card-footer.text-muted.small
+      %p.mb-2
+        Licensed under
+        = link_to "CC-BY-4.0", "https://creativecommons.org/licenses/by/4.0/", target: "_blank", rel: "noopener noreferrer"
+        \.
+      %p.mb-0.citation
+        Food and Agriculture Organization of the United Nations (2025) ECOCROP, the crop ecological requirements database. Version 1. https://data.apps.fao.org/catalog/dataset/ecocrop. Accessed through the CGIAR Climate Action Data Hub, https://cgiar-climate-data-hub.github.io/catalog/ecocrop_1/.
