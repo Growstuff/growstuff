@@ -30,11 +30,13 @@ export default function AuthDialog({urls, recaptcha_site_key: recaptchaSiteKey, 
     return () => document.removeEventListener('click', onClick);
   }, []);
 
+  const onBluesky = urls.bluesky ? () => setOpened('bluesky') : undefined;
+
   if (opened === 'sign_in') {
-    return <SignInModal urls={urls} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_up')} />;
+    return <SignInModal urls={urls} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_up')} onBluesky={onBluesky} />;
   }
   if (opened === 'sign_up') {
-    return <SignUpModal urls={urls} recaptchaSiteKey={recaptchaSiteKey} siteName={siteName} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_in')} />;
+    return <SignUpModal urls={urls} recaptchaSiteKey={recaptchaSiteKey} siteName={siteName} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_in')} onBluesky={onBluesky} />;
   }
   if (opened === 'bluesky') {
     return <BlueskyModal urls={urls} onClose={() => setOpened(null)} />;

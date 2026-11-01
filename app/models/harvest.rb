@@ -61,7 +61,7 @@ class Harvest < ApplicationRecord
 
   delegate :name, :slug, to: :crop, prefix: true
   delegate :login_name, :slug, to: :owner, prefix: true
-  delegate :name, to: :plant_part, prefix: true
+  delegate :name, to: :plant_part, prefix: true, allow_nil: true
 
   ##
   ## Validations
