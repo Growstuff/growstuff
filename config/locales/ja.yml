@@ -1,5 +1,15 @@
 ---
 ja:
+  harvests:
+    edit_modal:
+      harvested_at: いつ収穫しましたか？
+      notes: メモ
+      plant_part: どの部分を収穫しましたか？
+      quantity: いくつ？
+      title: '%{crop}の収穫を編集'
+      unit: 単位
+      weight_quantity: 重さ（合計）
+      weight_unit: 重量単位
   home:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
