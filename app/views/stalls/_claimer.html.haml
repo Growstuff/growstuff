@@ -1,0 +1,9 @@
+-# Who claimed a packet, as the ribbon names them: their Bluesky handle with a
+-# butterfly, or their Growstuff login with their avatar.
+%span.stall-claimer
+  - if member.bluesky? && member.bluesky_handle.present?
+    = icon 'fab', 'bluesky'
+    = link_to "@#{member.bluesky_handle}", "https://bsky.app/profile/#{member.bluesky_handle}"
+  - else
+    = image_tag avatar_uri(member, 48), alt: '', width: 18, height: 18, class: 'stall-claimer-avatar'
+    = link_to member, member

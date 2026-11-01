@@ -7,6 +7,7 @@ class StallSeed < ApplicationRecord
 
   belongs_to :stall
   belongs_to :seed
+  has_one :claim, dependent: :destroy
 
   validates :seed_id, uniqueness: { scope: :stall_id }
   validate :seed_is_the_members

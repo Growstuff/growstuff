@@ -757,3 +757,79 @@ $stall-label: #fff8e1;
     margin-bottom: 1rem;
   }
 }
+
+// The ribbon across the corner of a claimed packet.
+.stall-ribbon {
+  position: absolute;
+  top: 30px;
+  right: -10px;
+  z-index: 3;
+  padding: 3px 12px;
+  border: 2px solid $stall-outline;
+  background: $orange;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.45);
+  color: #212121;
+  font-size: 12px;
+  font-weight: 600;
+
+  strong {
+    display: block;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  // The fold under the end of the ribbon.
+  &::after {
+    position: absolute;
+    top: 100%;
+    right: -2px;
+    border-top: 8px solid $stall-outline;
+    border-left: 10px solid transparent;
+    content: "";
+  }
+}
+
+.stall-claimer {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.stall-claimer-avatar {
+  border-radius: 50%;
+}
+
+.stall-claim {
+  margin-top: 0.75rem;
+
+  summary {
+    display: block;
+    width: 100%;
+    list-style: none;
+    text-align: center;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  form {
+    margin-top: 0.6rem;
+  }
+}
+
+.stall-claim-sign-in {
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.stall-claim-note {
+  margin: 0.5rem 0 0;
+  color: $ink-muted;
+  font-style: italic;
+}
