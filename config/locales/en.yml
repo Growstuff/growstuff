@@ -367,6 +367,7 @@ en:
       public_note: Everything you record is public open data, including your city.
       sign_in_linktext: Sign in
       sign_in_bluesky: Sign in with Bluesky
+      sign_in_mastodon: Sign in with Mastodon
       sign_up: Join free
     dashboard:
       add_bed: "+ bed"
@@ -878,6 +879,8 @@ en:
     auth_last_sign_in: This is the only way you can sign in. Add an email address and password first.
     tos_required: Please agree to the Terms of Service to join, then try again.
     bluesky_declined: Bluesky didn't approve that sign in. Please try again.
+    mastodon_declined: Mastodon didn't approve that sign in. Please try again.
+    mastodon_failed: We couldn't sign you in with Mastodon. Please try again.
     bluesky_expired: That took too long, so Bluesky let the sign in expire. Please try again, and finish within a few minutes.
     bluesky_failed: We couldn't sign you in with Bluesky. Check your handle and try again.
     auth_success: Authentication successful.

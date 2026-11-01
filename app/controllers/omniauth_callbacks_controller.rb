@@ -23,6 +23,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def failure_message
     return t('messages.mastodon_instance_invalid') if request.env['omniauth.error.type'] == :invalid_instance
+    if request.env['omniauth.strategy']&.name == 'mastodon'
+      return t(request.env['omniauth.error.type'] == :access_denied ? 'messages.mastodon_declined' : 'messages.mastodon_failed')
+    end
 
     return t('messages.auth_failed') unless request.env['omniauth.strategy']&.name == 'bluesky'
 
