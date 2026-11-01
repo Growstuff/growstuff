@@ -18,7 +18,7 @@
           %p.mb-1
             %span.badge.text-bg-success Nursery
             %small.text-muted Seedlings raised here can be transplanted into your gardens.
-        %p.garden-grower
+        .garden-grower
           = t('.garden_of')
           %strong.record-grower-name= link_to garden.owner, garden.owner
           - if member_signed_in?
