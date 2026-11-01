@@ -18,6 +18,7 @@ class Member < ApplicationRecord
   has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_one :stall, dependent: :destroy
+  has_many :claims, dependent: :destroy
   # Where they raise seedlings before planting them out.
   has_one :nursery, -> { nurseries }, class_name: 'Garden', foreign_key: 'owner_id', dependent: nil, inverse_of: :owner
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
@@ -301,6 +302,11 @@ class Member < ApplicationRecord
 
   def auth(provider)
     authentications.find_by(provider:)
+  end
+
+  # Whether they sign in with Bluesky, which is how they are known on a stall.
+  def bluesky?
+    authentications.any? { |authentication| authentication.provider == 'bluesky' }
   end
 
   def unread_count
