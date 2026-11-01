@@ -21,6 +21,9 @@
         %p.garden-grower
           = t('.garden_of')
           %strong.record-grower-name= link_to garden.owner, garden.owner
+          - if member_signed_in?
+            %span.record-grower-follow
+              = render 'members/follow_button', person: garden.owner, named: true, button_class: 'btn btn-success'
         - details = garden_details(garden)
         - season = season_for(garden.latitude) if garden.active
         - if details.present? || season
@@ -30,7 +33,4 @@
               %span.garden-season{ title: t('.season_title') }= season.to_s.capitalize
         %p.garden-owner-link= link_to t('.all_gardens', owner: garden.owner), member_gardens_path(garden.owner)
     .garden-hero-actions
-      - if member_signed_in?
-        .record-grower-follow
-          = render 'members/follow_button', person: garden.owner, named: true, button_class: 'btn btn-success'
       = render 'gardens/actions', garden: garden

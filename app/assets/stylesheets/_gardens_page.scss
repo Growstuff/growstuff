@@ -477,8 +477,27 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   }
 
   .garden-grower {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
     margin: 4px 0 0;
     font-size: 18px;
+
+    .record-grower-follow {
+      display: inline-flex;
+      align-items: center;
+
+      .btn {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.85rem;
+        line-height: 1.2;
+      }
+
+      .member-card-follow {
+        font-size: 0.85rem;
+      }
+    }
   }
 
   .garden-meta {
@@ -490,7 +509,7 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
     font-size: 13px;
   }
 
-  // The follow button and the actions menu share the hero's top right.
+  // The actions menu at the hero's top right.
   .garden-hero-actions {
     display: flex;
     align-items: center;
