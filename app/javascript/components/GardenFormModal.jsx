@@ -41,9 +41,9 @@ export default function GardenFormModal({garden = null, onClose, onSaved}) {
     event.preventDefault();
     setSaving(true);
     setErrors([]);
-    const {name, description, location, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active} = values;
+    const {name, description, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active} = values;
     try {
-      const body = {garden: {name, description, location, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active}};
+      const body = {garden: {name, description, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active}};
       const {ok, status, data} = isNew ? await postJson('/gardens.json', body) : await patchJson(garden.url, body);
       if (ok) {
         onSaved(data.garden); // closes this dialog
@@ -94,12 +94,12 @@ export default function GardenFormModal({garden = null, onClose, onSaved}) {
             </div>
 
             <div className="mb-3">
-              <label className="form-label" htmlFor="edit-garden-location">Location</label>
-              <input id="edit-garden-location" type="text" className="form-control" maxLength="255" aria-describedby="edit-garden-location-help" value={values.location || ''} onChange={set('location')} />
-              <div id="edit-garden-location-help" className="form-text">
-                {form.location_help}{' '}
-                <a href={form.settings_url} target="_blank" rel="noopener noreferrer">{form.member_has_location ? 'Change your location.' : 'Set your location now.'}</a>
-              </div>
+              <span className="form-label d-block">Location</span>
+              <p className="mb-0">
+                {values.location ? <strong>{values.location}</strong> : 'Not set'}{' '}
+                {values.url && <a href={`${values.url}/edit`}>Change or remove</a>}
+              </p>
+              <div className="form-text">{form.location_help}</div>
             </div>
 
             <div className="row g-3 mb-3">
