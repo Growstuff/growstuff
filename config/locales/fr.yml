@@ -337,6 +337,15 @@ fr:
     updated: Le jardin a été mis à jour avec succès.
   harvests:
     created: La récolte a été créée avec succès.
+    edit_modal:
+      harvested_at: Quand l'avez-vous récolté ?
+      notes: Notes
+      plant_part: Quelle partie avez-vous récoltée ?
+      quantity: Combien ?
+      title: Modifier la récolte de %{crop}
+      unit: Compté comme
+      weight_quantity: Pesant (au total)
+      weight_unit: Pesé en
     harvest_something: Récolter quelque chose
     index:
       title:

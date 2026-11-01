@@ -337,6 +337,15 @@ zh:
     updated: 花园已成功更新。
   harvests:
     created: 收获成功创建。
+    edit_modal:
+      harvested_at: 你什么时候收获的？
+      notes: 笔记
+      plant_part: 你收获了哪个部位？
+      quantity: 数量？
+      title: 编辑%{crop}收获
+      unit: 计件单位
+      weight_quantity: 重量（总计）
+      weight_unit: 称重单位
     harvest_something: 收获一些东西
     index:
       title:

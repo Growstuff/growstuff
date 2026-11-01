@@ -338,6 +338,15 @@ en:
     updated: Garden was successfully updated.
   harvests:
     created: Harvest was successfully created.
+    edit_modal:
+      harvested_at: When did you harvest it?
+      notes: Notes
+      plant_part: What part did you harvest?
+      quantity: How many?
+      title: Edit %{crop} harvest
+      unit: Counted as
+      weight_quantity: Weighing (in total)
+      weight_unit: Weighed in
     harvest_something: Harvest something
     index:
       title:

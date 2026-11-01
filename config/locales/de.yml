@@ -337,6 +337,15 @@ de:
     updated: Der Garten wurde erfolgreich aktualisiert.
   harvests:
     created: Harvest wurde erfolgreich erstellt.
+    edit_modal:
+      harvested_at: Wann hast du geerntet?
+      notes: Notizen
+      plant_part: Welchen Pflanzenteil hast du geerntet?
+      quantity: Wie viele?
+      title: '%{crop}-Ernte bearbeiten'
+      unit: Gezählt als
+      weight_quantity: Gewicht (insgesamt)
+      weight_unit: Gewogen in
     harvest_something: Etwas ernten
     index:
       title:
