@@ -62,6 +62,22 @@ describe Stalls::SeedsController, flipper: :garden_stall do
       end
     end
 
+    context 'when offering them as a swap' do
+      before { post stall_seeds_path, params: { seed_ids: [shared.id], offer: 'swap' } }
+
+      it 'offers the packet as a swap' do
+        expect(stall.stall_seeds.first).to be_swap
+      end
+    end
+
+    context 'with an offer that is not one' do
+      before { post stall_seeds_path, params: { seed_ids: [shared.id], offer: 'sell' } }
+
+      it 'offers the packet free' do
+        expect(stall.stall_seeds.first).to be_free
+      end
+    end
+
     context 'with another member\'s packet' do
       before { post stall_seeds_path, params: { seed_ids: [create(:seed).id] } }
 

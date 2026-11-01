@@ -1195,6 +1195,11 @@ en:
     string: "%{crop} seeds belonging to %{owner}"
     updated: Seed was successfully updated.
   stalls:
+    offers:
+      free: Free
+      free_text: Yours for the asking
+      swap: Swap
+      swap_text: Bring seeds of your own
     openings:
       create:
         opened: Your garden stall is open.
@@ -1213,6 +1218,7 @@ en:
     seed_tin:
       add: "+ add"
       heading: In the seed tin
+      legend: Each packet says whether it's free or a swap.
       packets:
         one: 1 packet
         other: "%{count} packets"
@@ -1237,6 +1243,10 @@ en:
         breadcrumb: Add seeds
         cancel: Cancel
         intro: Pick seeds to put on the stall, from your seed library.
+        offer: What are you offering them as?
+        offers:
+          free: Give away
+          swap: Swap or trade
         no_matches: No seeds match "%{query}".
         none_left: Every packet you have is on the stall already.
         others:
