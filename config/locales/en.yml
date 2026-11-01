@@ -884,6 +884,7 @@ en:
     follow_error: Already following or error while following.
     followed: Followed %{name}
     invalid_location: Please enter a valid location
+    location_cleared: Location removed.
     location_unplaced_html: We can't find "%{location}" on the map. <a href="%{link}">Choose your location from the list</a> so we can show you what's growing near you.
     revert_error: 'Could not revert to version from %{date}. Errors: %{errors}'
     revert_success: Reverted to version from %{date}

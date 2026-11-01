@@ -5,17 +5,17 @@
   = render 'devise/shared/error_messages', resource: resource
 
   -# Only places we found can be saved, so the location is set in its dialog,
-  -# not typed here. Choosing a place saves it and reloads the page.
+  -# not typed here.
   .row.mb-3
     %span.col-form-label.col-md-2 Your location
     .col-md-8
       - link = 'btn btn-link p-0 align-baseline'
+      -# The form's own edits may be waiting, so the dialog fills the place in here rather than reloading,
+      -# and Remove is a button of this form (a form can't hold another) that submits to the delete route.
       %p.mb-0
-        - if resource.location.present?
-          %strong= resource.location
-          = render 'home/dashboard/location_picker', label: 'Change', button_class: link
-        - else
-          = render 'home/dashboard/location_picker', label: 'Set your location', button_class: link
+        %strong#profile-location= resource.location.presence || 'Not set'
+        = render 'home/dashboard/location_picker', label: 'Change', button_class: link, display_id: 'profile-location'
+        %button{ type: 'submit', class: link, formaction: member_location_path, formmethod: 'post', name: '_method', value: 'delete' } Remove
       %span.form-text Pick from the places we find, so you're in the right spot on the map. A region is fine.
 
   .row.mb-3
