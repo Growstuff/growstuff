@@ -1,0 +1,15 @@
+-# Where the garden is. Only places we found can be saved, so it is set in the dialog (see LocationPicker.jsx),
+-# which needs a garden that already exists; a new garden starts at its owner's place.
+.mb-3
+  %span.form-label.d-block Location
+  - if garden.persisted?
+    - link = 'btn btn-link p-0 align-baseline'
+    -# The form's own edits may be waiting, so the dialog fills the place in here rather than reloading,
+    -# and Remove is a button of this form (a form can't hold another) that submits to the delete route.
+    %p.mb-0
+      %strong#garden-location= garden.location.presence || 'Not set'
+      = render 'gardens/location_picker', garden:, label: 'Change', button_class: link, display_id: 'garden-location'
+      %button{ type: 'submit', class: link, formaction: garden_location_path(garden), formmethod: 'post', name: '_method', value: 'delete' } Remove
+  - else
+    %p.mb-0= current_member.location.presence || 'Not set'
+  %span.form-text= t('gardens.form.location_helper')
