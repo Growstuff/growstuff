@@ -12,6 +12,8 @@
   - if @stall.open?
     = render 'stalls/owner', member: @member, large: true, url: (member_stall_url(@member) if @owner)
 
+  = render 'stalls/terms', stall: @stall if @stall.open?
+
   = render 'stalls/seed_tin', stall: @stall, owner: @owner if @stall.seeds.any?
 
   = render 'stalls/about_growstuff', member: @member if @stall.open? && !member_signed_in?
@@ -31,6 +33,7 @@
               %strong= t('.seeds')
               %span= t('.seeds_text')
               %span.stall-choice-add= t('.add_seeds')
+      = render 'stalls/settings', stall: @stall
       .mt-3
         = button_to t('.close'), stall_opening_path, method: :delete, class: 'btn btn-secondary'
     - else

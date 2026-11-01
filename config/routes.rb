@@ -52,7 +52,7 @@ Rails.application.routes.draw do
 
   # Before the gardens resource, so "nursery" isn't taken for a garden's slug.
   # Opening and closing your own garden stall.
-  resource :stall, only: [] do
+  resource :stall, only: :update do
     resource :opening, only: %i(create destroy), module: :stalls
     resources :seeds, only: %i(new create destroy), module: :stalls
   end

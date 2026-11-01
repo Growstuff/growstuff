@@ -10,11 +10,26 @@
   = button_to t('.undo'), stall_seed_claim_path(stall_seed), class: 'btn btn-secondary btn-sm', method: :delete if mine
 - elsif !owner
   - if member_signed_in?
-    %details.stall-claim
-      %summary.btn.btn-primary= t('.claim')
-      = form_with url: stall_seed_claim_path(stall_seed) do
-        = label_tag "note_#{stall_seed.id}", t('.note_label'), class: 'form-label fw-bold'
-        = text_area_tag :note, nil, id: "note_#{stall_seed.id}", rows: 2, maxlength: 500, class: 'form-control mb-2'
-        = submit_tag t('.confirm'), class: 'btn btn-primary btn-sm'
+    - stall = stall_seed.stall
+    - check = stall.area_check(current_member)
+    - if %i(outside owner_unplaced).include?(check)
+      %button.stall-claim-blocked{ type: 'button', 'aria-disabled': 'true' }
+        = check == :outside ? t('.outside', place: stall.area_name) : t('.owner_unplaced')
+      = link_to t('.set_place'), edit_member_registration_path, class: 'stall-set-place' if check == :outside
+    - else
+      %details.stall-claim
+        %summary.btn.btn-primary= t('.claim')
+        = form_with url: stall_seed_claim_path(stall_seed) do
+          - if stall.postage?
+            %p.stall-note= t('.postage', owner: stall.member)
+          = label_tag "note_#{stall_seed.id}", t('.note_label'), class: 'form-label fw-bold'
+          = text_area_tag :note, nil, id: "note_#{stall_seed.id}", rows: 2, maxlength: 500, class: 'form-control mb-2',
+            placeholder: t('.note_placeholder')
+          - if check == :ask
+            %label.stall-here
+              = check_box_tag :here, '1', false, id: "here_#{stall_seed.id}"
+              = t('.here', place: stall.area_name)
+            %p.stall-set-place= link_to t('.set_place_ask'), edit_member_registration_path
+          = submit_tag t('.confirm'), class: 'btn btn-primary btn-sm'
   - else
     = sign_in_link t('.sign_in'), class: 'btn btn-secondary stall-claim-sign-in'
