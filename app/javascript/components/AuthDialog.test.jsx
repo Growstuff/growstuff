@@ -4,16 +4,16 @@ import {describe, expect, it} from 'vitest';
 
 import AuthDialog from './AuthDialog';
 
-const urls = {sign_in: '/s', sign_up: '/u', forgot_password: '/f', sign_in_page: '/si', sign_up_page: '/su'};
+const urls = {sign_in: '/s', sign_up: '/u', forgot_password: '/f', sign_in_page: '/si', sign_up_page: '/su', bluesky: '/b'};
 
-function setup() {
+function setup(pageUrls = urls) {
   render(
       <>
         <a href="/members/sign_in" data-auth-dialog="sign_in">Log in</a>
         <a href="/members/sign_up" data-auth-dialog="sign_up">Join</a>
         <a href="/members/sign_in" data-auth-dialog="bluesky">Bluesky</a>
         <a href="/about">About</a>
-        <AuthDialog urls={urls} site_name="Growstuff" />
+        <AuthDialog urls={pageUrls} site_name="Growstuff" />
       </>,
   );
 }
@@ -40,6 +40,26 @@ describe('AuthDialog', () => {
     setup();
     await userEvent.click(screen.getByRole('link', {name: 'Bluesky'}));
     expect(screen.getByRole('dialog', {name: 'Sign in with Bluesky'})).toBeInTheDocument();
+  });
+
+  it('moves from the sign in dialog to Bluesky', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
+    await userEvent.click(screen.getByRole('button', {name: 'Continue with Bluesky'}));
+    expect(screen.getByRole('dialog', {name: 'Sign in with Bluesky'})).toBeInTheDocument();
+  });
+
+  it('moves from the sign up dialog to Bluesky', async () => {
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Join'}));
+    await userEvent.click(screen.getByRole('button', {name: 'Continue with Bluesky'}));
+    expect(screen.getByRole('dialog', {name: 'Sign in with Bluesky'})).toBeInTheDocument();
+  });
+
+  it('offers no Bluesky button when it is switched off', async () => {
+    setup({...urls, bluesky: null});
+    await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
+    expect(screen.queryByRole('button', {name: 'Continue with Bluesky'})).not.toBeInTheDocument();
   });
 
   it('ignores other links', async () => {
