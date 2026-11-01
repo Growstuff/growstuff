@@ -14,5 +14,6 @@
         - %i(seedlings seeds more).each do |spot|
           .stall-spot= t(".spots.#{spot}")
       .stall-tabletop
-  .stall-shutter{ 'aria-hidden': 'true' }
+  .stall-shutter
+    = render 'stalls/owner', member: member
     %span.stall-shutter-sign= t('.closed')
