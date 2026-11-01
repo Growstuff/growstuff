@@ -9,7 +9,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "build:css": "sass app/assets/stylesheets/application.scss:app/assets/builds/application.css --no-source-map --load-path=node_modules --quiet-deps --silence-deprecation=import,global-builtin,color-functions && mkdir -p app/assets/builds/webfonts && cp node_modules/@fortawesome/fontawesome-free/webfonts/*.woff2 app/assets/builds/webfonts/",
+    "build:css": "sass app/assets/stylesheets/application.scss:app/assets/builds/application.css --no-source-map --load-path=node_modules --quiet-deps --silence-deprecation=import,global-builtin,color-functions && mkdir -p app/assets/builds/webfonts app/assets/builds/images && cp node_modules/@fortawesome/fontawesome-free/webfonts/*.woff2 app/assets/builds/webfonts/ && cp node_modules/leaflet/dist/images/* app/assets/builds/images/",
     "build:css:watch": "yarn build:css --watch"
   },
   "dependencies": {
