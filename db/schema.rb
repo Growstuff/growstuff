@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_02_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -602,6 +602,68 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
     t.index ["public_food_key"], name: "index_crops_on_public_food_key"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
+  end
+
+  create_table "ecocrop_data", force: :cascade do |t|
+    t.integer "ecoportcode"
+    t.string "scientificname"
+    t.string "auth"
+    t.string "famname"
+    t.string "syno", default: [], array: true
+    t.string "comname", default: [], array: true
+    t.string "lifo", default: [], array: true
+    t.string "habi", default: [], array: true
+    t.string "lispa", default: [], array: true
+    t.string "phys", default: [], array: true
+    t.string "cat", default: [], array: true
+    t.string "plat", default: [], array: true
+    t.string "prosy", default: [], array: true
+    t.integer "topmn"
+    t.integer "topmx"
+    t.integer "tmin"
+    t.integer "tmax"
+    t.integer "ktmp"
+    t.integer "ktmpr"
+    t.integer "ropmn"
+    t.integer "ropmx"
+    t.integer "rmin"
+    t.integer "rmax"
+    t.integer "gmin"
+    t.integer "gmax"
+    t.decimal "phopmn"
+    t.decimal "phopmx"
+    t.decimal "phmin"
+    t.decimal "phmax"
+    t.decimal "latopmn"
+    t.decimal "latopmx"
+    t.decimal "latmn"
+    t.decimal "latmx"
+    t.integer "altmx"
+    t.string "liopmn"
+    t.string "liopmx"
+    t.string "limn"
+    t.string "limx"
+    t.string "dep"
+    t.string "depr"
+    t.string "text", default: [], array: true
+    t.string "textr", default: [], array: true
+    t.string "fer"
+    t.string "ferr"
+    t.string "tox"
+    t.string "toxr"
+    t.string "sal"
+    t.string "salr"
+    t.string "dra", default: [], array: true
+    t.string "drar", default: [], array: true
+    t.string "photo", default: [], array: true
+    t.string "cliz", default: [], array: true
+    t.string "abitol", default: [], array: true
+    t.string "abisus", default: [], array: true
+    t.string "intri", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ecoportcode"], name: "index_ecocrop_data_on_ecoportcode", unique: true
+    t.index ["scientificname"], name: "index_ecocrop_data_on_scientificname"
   end
 
   create_table "flipper_features", force: :cascade do |t|

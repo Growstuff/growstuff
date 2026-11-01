@@ -126,6 +126,9 @@
       - cache [@crop, 'nutritional_data'] do
         = render 'nutritional_data', crop: @crop
 
+      - cache [@crop, 'ecocrop_data'] do
+        = render 'ecocrop_data', crop: @crop
+
       %section.crop-learn-more
         .section-header
           %h2 Learn more about #{@crop.name.pluralize}
