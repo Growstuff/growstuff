@@ -10,7 +10,7 @@ module Stalls
     before_action :load_stall_seed
 
     def create
-      claim = Claim.new(stall_seed: @stall_seed, member: current_member, note: params[:note].presence)
+      claim = Claim.new(stall_seed: @stall_seed, member: current_member, note: params[:note].presence, here: params[:here])
       if claim.save
         redirect_to stall_path, notice: t('.claimed', crop: @stall_seed.seed.crop_name)
       else

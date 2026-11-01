@@ -22,7 +22,10 @@ en:
         not_a_valid_unit: "%{value} is not a valid unit"
         not_a_valid_wikipedia_url: is not a valid English Wikipedia URL
         not_a_valid_youtube_url: is not a valid YouTube URL
+        not_confirmed_in_area: Tick that you're in %{place}.
         one_nursery_per_member: already exists; a member can have only one nursery
+        outside_area: This stall is only for people near %{place}.
+        owner_unplaced: The gardener hasn't said where they are yet.
         photo_owner_mismatch: must have same owner as item it links to
         rejection_notes_required: must be added if the reason for rejection is "other"
         rejection_reason_required: must be rejected if a reason for rejection is present
@@ -1211,13 +1214,20 @@ en:
       claim: Claim
       claimed: Claimed
       confirm: Claim it
+      here: I'm in %{place}
       note: 'Note: %{note}'
       note_label: A note for the gardener (optional)
+      note_placeholder: Say thanks, and what you could offer in return
+      outside: Only for people near %{place}
+      set_place: Not right? Set where you garden.
+      owner_unplaced: The gardener hasn't said where they are yet
+      postage: "%{owner} may ask you to pay for postage."
+      set_place_ask: Or set where you garden in your profile, so it's checked for you.
       sign_in: Sign in to claim
       undo: Undo my claim
     claims:
       create:
-        claimed: "%{crop} is claimed. It's yours; message the gardener to arrange pick-up."
+        claimed: "%{crop} is claimed. It's yours; message the gardener to arrange pick-up or postage."
       destroy:
         undone: You've given back the %{crop}.
     offers:
@@ -1287,6 +1297,18 @@ en:
         variety: Variety
         will_mark: Putting a packet that isn't marked "will trade" on the stall marks it "will trade" in your seed library, so friends can see it there too. Taking it off the stall leaves it marked.
         your_seeds: Your seeds
+    settings:
+      areas:
+        anywhere: Anywhere
+        region: Only people near %{place}
+      heading: Who can claim
+      postage: I may ask friends to pay for postage
+      save: Save
+      set_place: Set where you garden.
+      unplaced: Say where you garden so friends nearby can claim. Until you do, nobody can.
+      where: Where friends can be
+      where_help: Based on the place on your Growstuff profile, and only ever shown as a place name. Bluesky friends say where they are when they claim. No street address is shown or asked for.
+      your_place: where you garden
     show:
       breadcrumb: Garden stall
       add_seeds: Add seeds
@@ -1303,10 +1325,10 @@ en:
       open_intro: Got spare seedlings or seeds? Put them on a stall and share the link with your friends. Give them away or swap.
       points:
         choose_what: You choose what goes on the table.
-        choose_where: 'You choose where friends can be: your region, your country or anywhere.'
+        choose_where: 'You choose where friends can be: near you, or anywhere.'
         choose_who: 'You choose who can claim: anyone signed in, or only people you follow.'
         expiry: Offers close after 4 weeks, so the stall never goes stale.
-        privacy: Growstuff keeps no addresses. Friends message you to arrange pick-up.
+        privacy: Growstuff keeps no addresses. Friends message you to arrange pick-up or postage.
       seedlings: Seedlings
       seedlings_text: Plants you've raised that need a home.
       seeds: Seeds
@@ -1320,6 +1342,16 @@ en:
         seedlings: seedlings here
         seeds: seeds here
       tagline: Seedlings and seeds for friends. Free, or swap.
+    terms:
+      anywhere: Anyone signed in can claim.
+      heading: Who can claim
+      manners: It's free, but it's good manners to offer something in return, such as some of your own seeds, or just a thank you.
+      no_money: Growstuff doesn't handle any money or addresses. Message the gardener to arrange pick-up or postage.
+      postage: "%{owner} may ask you to pay for postage."
+      region: Claiming is only for people near %{place}.
+      unplaced: "%{owner} hasn't said where they are yet, so nobody can claim for now."
+    update:
+      updated: Saved.
   suggestions:
     index:
       lede: What gardeners at %{band} are planting this month, most planted first.

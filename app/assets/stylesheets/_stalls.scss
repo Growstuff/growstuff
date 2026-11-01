@@ -614,15 +614,17 @@ $stall-label: #fff8e1;
 }
 
 // "Free" and "swap" are words as well as colours, so neither relies on colour alone.
+// A label, not a button: pale, outlined and left-aligned, where buttons are solid
+// and full width.
 .stall-offer-tag {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
   gap: 0 0.5rem;
   align-items: baseline;
   margin-top: 0.6rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 2px;
-  color: $white;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid;
+  border-radius: 999px;
   line-height: 1.3;
 
   strong {
@@ -633,11 +635,15 @@ $stall-label: #fff8e1;
 }
 
 .stall-offer-free {
-  background: $green;
+  border-color: $green;
+  background: #e8f5e9;
+  color: #2e5a1a;
 }
 
 .stall-offer-swap {
-  background: $blue;
+  border-color: $blue;
+  background: #e3e8f2;
+  color: $blue;
 }
 
 .stall-legend {
@@ -832,4 +838,90 @@ $stall-label: #fff8e1;
   margin: 0.5rem 0 0;
   color: $ink-muted;
   font-style: italic;
+}
+
+// Who can claim, said plainly: where, what's asked, and what Growstuff doesn't do.
+.stall-terms {
+  margin-top: 2rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid $stall-outline;
+  border-radius: 4px 16px 16px 4px;
+  background: $stall-label;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+  }
+
+  .fa-solid,
+  .fas {
+    flex: none;
+    width: 1.2em;
+    text-align: center;
+  }
+}
+
+.stall-settings {
+  margin-top: 2rem;
+
+  h2 {
+    margin: 0 0 0.75rem;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    color: inherit;
+    font-size: 125%;
+  }
+
+  fieldset {
+    margin: 0 0 0.75rem;
+    padding: 0;
+    border: 0;
+  }
+
+  legend {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+// A packet this friend can't claim: said on the button, not just greyed out.
+.stall-claim-blocked {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 0.75rem;
+  padding: 0 0.6rem;
+  border: 1px solid #757575;
+  border-radius: 2px;
+  background: #e0e0e0;
+  color: $brown;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-transform: uppercase;
+  cursor: not-allowed;
+}
+
+.stall-here {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+}
+
+.stall-set-place {
+  display: block;
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
 }
