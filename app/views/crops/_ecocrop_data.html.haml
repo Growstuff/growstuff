@@ -101,5 +101,10 @@
         Licensed under
         = link_to "CC-BY-4.0", "https://creativecommons.org/licenses/by/4.0/", target: "_blank", rel: "noopener noreferrer"
         \.
-      %p.mb-0.citation
-        Food and Agriculture Organization of the United Nations (2025) ECOCROP, the crop ecological requirements database. Version 1. https://data.apps.fao.org/catalog/dataset/ecocrop. Accessed through the CGIAR Climate Action Data Hub, https://cgiar-climate-data-hub.github.io/catalog/ecocrop_1/.
+      %p.mb-0.citation.small
+        Food and Agriculture Organization of the United Nations (2025) ECOCROP, the crop ecological requirements database. Version 1.
+        = succeed "." do
+          = link_to "https://data.apps.fao.org/catalog/dataset/ecocrop", "https://data.apps.fao.org/catalog/dataset/ecocrop", target: "_blank", rel: "noopener noreferrer"
+        Accessed through the CGIAR Climate Action Data Hub,
+        = succeed "." do
+          = link_to "https://cgiar-climate-data-hub.github.io/catalog/ecocrop_1/", "https://cgiar-climate-data-hub.github.io/catalog/ecocrop_1/", target: "_blank", rel: "noopener noreferrer"
