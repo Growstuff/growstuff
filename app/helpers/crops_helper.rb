@@ -31,7 +31,7 @@ module CropsHelper
     return @seed_availability_cache[cache_key] if @seed_availability_cache.key?(cache_key)
 
     @seed_availability_cache[cache_key] = begin
-      seeds = member.seeds.where(crop:)
+      seeds = member.seeds.active.where(crop:)
 
       if seeds.none?
         "You don't have any seeds of this crop."
