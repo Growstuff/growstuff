@@ -33,9 +33,13 @@
       = link_to flickr_auth.name, "https://flickr.com/photos/#{flickr_auth.uid}", target: '_blank', rel: 'noopener noreferrer'
 
   - mastodon_auths.each do |m_auth|
+    - username, domain = (m_auth.name.presence || m_auth.uid).delete_prefix('@').split('@', 2)
     %p
       = icon 'fab', 'mastodon', class: 'fa-fw'
-      = m_auth.name || m_auth.uid
+      - if domain.present?
+        = link_to username, "https://#{domain}/@#{username}", target: '_blank', rel: 'noopener noreferrer'
+      - else
+        = username
 
   - if member.show_email
     %p
