@@ -209,6 +209,14 @@ en:
         published: Published
     saved: Job template saved.
   crops:
+    alternate_name_modal:
+      add_title: Add another name for %{crop}
+      cancel: Cancel
+      close: Close
+      edit_title: Edit alternate name
+      language: Language
+      name: Name
+      save: Save
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops

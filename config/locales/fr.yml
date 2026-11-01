@@ -208,6 +208,14 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    alternate_name_modal:
+      add_title: Ajouter un autre nom pour %{crop}
+      cancel: Annuler
+      close: Fermer
+      edit_title: Modifier le nom alternatif
+      language: Langue
+      name: Nom
+      save: Enregistrer
     index:
       subtitle: '%{crops_size} total'
       title: Parcourir les cultures

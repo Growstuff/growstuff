@@ -208,6 +208,14 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    alternate_name_modal:
+      add_title: Añadir otro nombre para %{crop}
+      cancel: Cancelar
+      close: Cerrar
+      edit_title: Editar nombre alternativo
+      language: Idioma
+      name: Nombre
+      save: Guardar
     index:
       subtitle: '%{crops_size} total'
       title: Explorar cultivos

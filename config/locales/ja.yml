@@ -1,5 +1,14 @@
 ---
 ja:
+  crops:
+    alternate_name_modal:
+      add_title: '%{crop}の別名を追加'
+      cancel: キャンセル
+      close: 閉じる
+      edit_title: 別名を編集
+      language: 言語
+      name: 名前
+      save: 保存
   harvests:
     edit_modal:
       harvested_at: いつ収穫しましたか？
