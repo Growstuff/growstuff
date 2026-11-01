@@ -9,14 +9,15 @@
   .row.mb-3
     %span.col-form-label.col-md-2 Your location
     .col-md-8
-      - link = 'btn btn-link p-0 align-baseline'
       -# The form's own edits may be waiting, so the dialog fills the place in here rather than reloading,
       -# and Remove is a button of this form (a form can't hold another) that submits to the delete route.
-      %p.mb-0
+      .d-flex.flex-wrap.align-items-center.gap-2
+        %span= icon 'fas', 'map-marker'
         %strong#profile-location= resource.location.presence || 'Not set'
-        = render 'home/dashboard/location_picker', label: 'Change', button_class: link, display_id: 'profile-location'
-        %button{ type: 'submit', class: link, formaction: member_location_path, formmethod: 'post', name: '_method', value: 'delete' } Remove
-      %span.form-text Pick from the places we find, so you're in the right spot on the map. A region is fine.
+        = render 'home/dashboard/location_picker', label: 'Change', button_class: 'btn btn-sm btn-outline-secondary', icon: 'fas fa-pen', display_id: 'profile-location'
+        %button.btn.btn-sm.btn-outline-danger{ type: 'submit', formaction: member_location_path, formmethod: 'post', name: '_method', value: 'delete' }
+          = icon 'fas', 'trash', 'Remove'
+      %span.form-text.d-block.mt-1 Pick from the places we find, so you're in the right spot on the map. A region is fine.
 
   .row.mb-3
     = f.label :bio, class: 'col-form-label col-md-2'
