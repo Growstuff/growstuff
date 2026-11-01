@@ -1,0 +1,10 @@
+- content_for :title, "New Problem"
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item= link_to 'Problems', admin_problems_path
+  %li.breadcrumb-item.active New
+
+%h1 New Problem
+
+= render 'form'

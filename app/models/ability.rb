@@ -31,6 +31,8 @@ class Ability
 
     # and nobody should be able to view this except admins
     cannot :read, Role
+    cannot :read, Problem
+    cannot :manage, Problem
 
     # nobody should be able to view unapproved crops unless they
     # are wranglers or admins
@@ -39,9 +41,11 @@ class Ability
     # scientific names should only be viewable if associated crop is approved
     cannot :read, ScientificName
     can :read, ScientificName, crop: { approval_status: "approved" }
+    can :read, ScientificName, subject_type: "Problem"
     # ... same for alternate names
     cannot :read, AlternateName
     can :read, AlternateName, crop: { approval_status: "approved" }
+    can :read, AlternateName, subject_type: "Problem"
 
     cannot :create, GardenType
     cannot :update, GardenType
