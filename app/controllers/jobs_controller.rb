@@ -63,9 +63,9 @@ class JobsController < DataController
   # The jobs in a list: open ones, newest first, unless finished ones are asked
   # for, and one member's if the list is theirs.
   def listed_jobs
-    jobs = Job.includes(:owner).order(created_at: :desc)
-    jobs = jobs.active unless @show_all
-    @owner ? jobs.for_member(@owner) : jobs
+    jobs = @owner ? Job.for_member(@owner) : Job.all
+    jobs = jobs.includes(:owner).order('jobs.created_at' => :desc)
+    @show_all ? jobs : jobs.active
   end
 
   # A member looking at their own jobs sees them as a notepad. The data formats,

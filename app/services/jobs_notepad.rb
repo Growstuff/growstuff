@@ -30,8 +30,7 @@ class JobsNotepad
 
   def scope
     if @garden
-      jobs = Job.for_garden(@garden)
-      @member ? jobs.for_member(@member) : jobs
+      Job.for_garden(@garden)
     elsif @member
       Job.for_member(@member)
     else

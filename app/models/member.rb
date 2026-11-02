@@ -340,7 +340,8 @@ class Member < ApplicationRecord
   end
 
   def accessible_gardens
-    Garden.where(owner: self).or(Garden.where(id: collaborating_gardens.select(:id)))
+    collab_ids = GardenCollaborator.where(member_id: id).select(:garden_id)
+    Garden.where(owner_id: id).or(Garden.where(id: collab_ids))
   end
 
   def already_blocking?(member)

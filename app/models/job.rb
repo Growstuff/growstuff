@@ -23,14 +23,17 @@ class Job < ApplicationRecord
   scope :for_member, ->(member) {
     return all unless member
 
-    garden_ids = member.accessible_gardens.select(:id)
-    where(owner: member)
-      .or(where(garden_id: garden_ids))
-      .or(where(jobbable_type: 'Planting', jobbable_id: Planting.where(garden_id: garden_ids).select(:id)))
+    garden_ids = member.accessible_gardens.select('gardens.id')
+    planting_ids = Planting.unscoped.where(garden_id: garden_ids).select('plantings.id')
+
+    where(jobs: { owner_id: member.id })
+      .or(where(jobs: { garden_id: garden_ids }))
+      .or(where(jobs: { jobbable_type: 'Planting', jobbable_id: planting_ids }))
   }
   scope :for_garden, ->(garden) {
-    where(garden:)
-      .or(where(jobbable_type: 'Planting', jobbable_id: garden.plantings.select(:id)))
+    planting_ids = Planting.unscoped.where(garden_id: garden.id).select('plantings.id')
+    where(jobs: { garden_id: garden.id })
+      .or(where(jobs: { jobbable_type: 'Planting', jobbable_id: planting_ids }))
   }
 
   friendly_id :job_slug, use: %i(slugged finders)
