@@ -19,6 +19,8 @@ class Member < ApplicationRecord
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   # Where they raise seedlings before planting them out.
   has_one :nursery, -> { nurseries }, class_name: 'Garden', foreign_key: 'owner_id', dependent: nil, inverse_of: :owner
+  has_many :garden_collaborators, dependent: :destroy
+  has_many :collaborating_gardens, through: :garden_collaborators, source: :garden
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
@@ -335,6 +337,10 @@ class Member < ApplicationRecord
 
   def get_follow(member)
     follows.find_by(followed_id: member.id) if already_following?(member)
+  end
+
+  def accessible_gardens
+    Garden.where(owner: self).or(Garden.where(id: collaborating_gardens.select(:id)))
   end
 
   def already_blocking?(member)

@@ -20,6 +20,18 @@ class Job < ApplicationRecord
 
   scope :active, -> { where(finished: [false, nil]) }
   scope :finished_this_week, -> { where(finished: true, finished_at: Time.zone.now.beginning_of_week..) }
+  scope :for_member, ->(member) {
+    return all unless member
+
+    garden_ids = member.accessible_gardens.select(:id)
+    where(owner: member)
+      .or(where(garden_id: garden_ids))
+      .or(where(jobbable_type: 'Planting', jobbable_id: Planting.where(garden_id: garden_ids).select(:id)))
+  }
+  scope :for_garden, ->(garden) {
+    where(garden:)
+      .or(where(jobbable_type: 'Planting', jobbable_id: garden.plantings.select(:id)))
+  }
 
   friendly_id :job_slug, use: %i(slugged finders)
 
@@ -31,6 +43,7 @@ class Job < ApplicationRecord
   validate :action_goes_with_jobbable, if: :action
   validate :jobbable_is_the_owners, if: -> { jobbable_id_changed? || jobbable_type_changed? }
 
+  before_validation :set_garden_from_planting
   before_save :stamp_finished_at, if: :finished_changed?
 
   delegate :login_name, :slug, to: :owner, prefix: true
@@ -76,6 +89,10 @@ class Job < ApplicationRecord
 
   private
 
+  def set_garden_from_planting
+    self.garden ||= planting.garden if planting
+  end
+
   def stamp_finished_at
     self.finished_at = (Time.zone.now if finished)
   end
@@ -85,11 +102,21 @@ class Job < ApplicationRecord
   end
 
   # A job about something is about something that is there. Plantings and seeds are a member's own: a job can't
-  # be about someone else's.
+  # be about someone else's. Plantings in gardens the member collaborates on or owns are also allowed.
   def jobbable_is_the_owners
     return unless JOBBABLE_TYPES.include?(jobbable_type)
     return errors.add(:jobbable, :required) if jobbable.nil?
 
-    errors.add(:jobbable, :invalid) if jobbable.respond_to?(:owner_id) && jobbable.owner_id != owner_id
+    if jobbable.is_a?(Planting)
+      return if jobbable.owner_id == owner_id ||
+                jobbable.garden&.owner_id == owner_id ||
+                jobbable.garden&.garden_collaborators&.where(member_id: owner_id)&.exists?
+    elsif jobbable.respond_to?(:owner_id) && jobbable.owner_id == owner_id
+      return
+    elsif !jobbable.respond_to?(:owner_id)
+      return
+    end
+
+    errors.add(:jobbable, :invalid)
   end
 end

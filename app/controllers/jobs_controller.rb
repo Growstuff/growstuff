@@ -19,8 +19,8 @@ class JobsController < DataController
   def new
     @job = Job.new(new_job_params.to_h.reverse_merge(due_date: Time.zone.today))
     @job.owner = current_member
-    @job.garden = nil unless @job.garden&.owner == current_member
-    @job.planting = nil unless @job.planting&.owner == current_member
+    @job.garden = nil unless @job.garden && current_member.accessible_gardens.exists?(@job.garden.id)
+    @job.planting = nil unless @job.planting && current_member.accessible_gardens.exists?(@job.planting.garden_id)
 
     respond_with @job
   end
@@ -57,7 +57,7 @@ class JobsController < DataController
   # There is no page for a single job: saving or deleting one goes back to the
   # list it is on.
   def after_save_path
-    member_jobs_path(@job.owner)
+    member_jobs_path(current_member || @job.owner)
   end
 
   # The jobs in a list: open ones, newest first, unless finished ones are asked
@@ -65,7 +65,7 @@ class JobsController < DataController
   def listed_jobs
     jobs = Job.includes(:owner).order(created_at: :desc)
     jobs = jobs.active unless @show_all
-    @owner ? jobs.where(owner: @owner) : jobs
+    @owner ? jobs.for_member(@owner) : jobs
   end
 
   # A member looking at their own jobs sees them as a notepad. The data formats,

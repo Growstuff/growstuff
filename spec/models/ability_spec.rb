@@ -295,6 +295,20 @@ describe Ability do
         ability.should be_able_to(:destroy, job_in_garden)
       end
     end
+
+    context 'garden owner' do
+      let(:garden) { create(:garden, owner: member) }
+      let(:collaborator) { create(:member) }
+      let(:job_in_garden) { create(:job, owner: collaborator, garden:) }
+
+      it 'can update jobs in their garden created by collaborators' do
+        expect(ability).to be_able_to(:update, job_in_garden)
+      end
+
+      it 'can destroy jobs in their garden created by collaborators' do
+        expect(ability).to be_able_to(:destroy, job_in_garden)
+      end
+    end
   end
 
   context 'seeds' do

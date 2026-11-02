@@ -22,15 +22,21 @@ class JobsNotepad
   private
 
   def jobs
-    @jobs ||= scope.includes({ garden: :garden_collaborators }, :jobbable, photo_associations: :photo)
+    @jobs ||= scope.includes({ garden: :garden_collaborators }, :owner, :jobbable, photo_associations: :photo)
       .order(Arel.sql('due_date IS NULL'), :due_date, :created_at, :id).to_a.tap do |jobs|
       preload_jobbables(jobs)
     end
   end
 
   def scope
-    jobs = @member ? Job.where(owner: @member) : Job.all
-    @garden ? jobs.where(garden: @garden) : jobs
+    if @garden
+      jobs = Job.for_garden(@garden)
+      @member ? jobs.for_member(@member) : jobs
+    elsif @member
+      Job.for_member(@member)
+    else
+      Job.all
+    end
   end
 
   # The notepad shows a planting's crop and garden and a seed's crop. Rails can't

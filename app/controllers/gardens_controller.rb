@@ -166,7 +166,7 @@ class GardensController < DataController
   # A member who can look after the garden gets a to-do list of their own jobs
   # for it. Everyone else sees the jobs people have planned there, as cards.
   def load_jobs
-    if member_signed_in? && can?(:edit, @garden)
+    if member_signed_in? && (can?(:edit, @garden) || can?(:update_layout, @garden))
       @notepad = JobsNotepad.new(current_member, garden: @garden)
     else
       @public_jobs = JobsNotepad.new(nil, garden: @garden)

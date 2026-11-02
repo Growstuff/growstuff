@@ -141,6 +141,22 @@ RSpec.describe Job do
       it { is_expected.not_to be_valid }
     end
 
+    context 'with a planting in a garden the owner collaborates on' do
+      let(:garden) { create(:garden) }
+      let(:jobbable) { create(:planting, garden:) }
+
+      before { create(:garden_collaborator, garden:, member: owner) }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'with a planting in a garden the owner owns, planted by a collaborator' do
+      let(:garden) { create(:garden, owner:) }
+      let(:jobbable) { create(:planting, garden:, owner: create(:member)) }
+
+      it { is_expected.to be_valid }
+    end
+
     context 'with something that cannot have jobs' do
       let(:jobbable) { create(:garden, owner:) }
 
@@ -209,6 +225,44 @@ RSpec.describe Job do
     it 'is left alone when something else changes' do
       job.update!(finished: true)
       expect { job.update!(name: 'Another name') }.not_to(change { job.reload.finished_at })
+    end
+  end
+
+  describe 'setting garden from planting' do
+    let(:owner) { create(:member) }
+    let(:garden) { create(:garden, owner:) }
+    let(:planting) { create(:planting, garden:, owner:) }
+    let(:job) { build(:job, owner:, jobbable: planting, garden: nil) }
+
+    it 'sets the garden from the planting' do
+      job.validate
+      expect(job.garden).to eq garden
+    end
+  end
+
+  describe '.for_member' do
+    subject(:jobs) { described_class.for_member(owner) }
+
+    let(:owner) { create(:member) }
+    let(:collaborated_garden) { create(:garden) }
+    let!(:own_job) { create(:job, owner:) }
+    let!(:garden_job) { create(:job, garden: collaborated_garden) }
+    let!(:other_job) { create(:job) }
+
+    before do
+      create(:garden_collaborator, garden: collaborated_garden, member: owner)
+    end
+
+    it 'includes own jobs' do
+      expect(jobs).to include(own_job)
+    end
+
+    it 'includes jobs for gardens where member is collaborator' do
+      expect(jobs).to include(garden_job)
+    end
+
+    it 'leaves out jobs from unrelated members' do
+      expect(jobs).not_to include(other_job)
     end
   end
 
