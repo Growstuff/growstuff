@@ -5,34 +5,62 @@
   %li.breadcrumb-item= link_to t('stalls.show.breadcrumb'), member_stall_path(current_member)
   %li.breadcrumb-item.active= t('.breadcrumb')
 
-.stall-page
-  %h1= t('.title')
-  %p= t('.intro')
+-# The design's dialog, as a page: a card with a title bar, the packets to tick and
+-# a footer with the buttons.
+.stall-dialog
+  .stall-dialog-header
+    %h1= t('.title')
+    = link_to member_stall_path(current_member), class: 'stall-dialog-close', title: t('.cancel') do
+      = icon 'fas', 'xmark'
+      %span.visually-hidden= t('.cancel')
 
-  = form_with url: new_stall_seed_path, method: :get, class: 'mb-3' do
-    = label_tag :q, t('.search'), class: 'form-label fw-bold'
-    .input-group
-      = search_field_tag :q, @query, placeholder: t('.search_placeholder'), class: 'form-control'
-      = submit_tag t('.search_button'), name: nil, class: 'btn btn-secondary'
+  .stall-dialog-body
+    %p= t('.intro')
+    = form_with url: new_stall_seed_path, method: :get do
+      = label_tag :q, t('.search'), class: 'form-label fw-bold'
+      .stall-search
+        = icon 'fas', 'magnifying-glass'
+        = search_field_tag :q, @query, placeholder: t('.search_placeholder'), class: 'form-control'
 
   = form_with url: stall_seeds_path do
-    - { ready: @ready, others: @others }.each do |group, packets|
-      - next if packets.empty?
+    .stall-dialog-body
+      .stall-packets{ role: 'group', 'aria-label': t('.your_seeds'), tabindex: 0 }
+        - { ready: @ready, others: @others }.each do |group, packets|
+          - next if packets.empty?
 
-      %h2.h5.mt-3= t(".#{group}", count: packets.size)
-      .stall-packets
-        = render partial: 'stalls/seeds/choice', collection: packets, as: :seed
-    - if @ready.empty? && @others.empty?
-      %p.text-muted= @query.present? ? t('.no_matches', query: @query) : t('.none_left')
-    - if @others.any?
-      %p.stall-note= t('.will_mark')
-    %p= link_to t('.record_new'), new_seed_path
-    %fieldset.stall-offer
-      %legend= t('.offer')
-      - StallSeed.offers.each_key do |offer|
-        = label_tag "offer_#{offer}", class: 'stall-offer-choice' do
-          = radio_button_tag :offer, offer, offer == 'free'
-          = t(".offers.#{offer}")
-    .d-flex.flex-wrap.gap-3
-      = submit_tag t('.add'), class: 'btn btn-primary'
+          %h2.h5= t(".#{group}", count: packets.size)
+          = render partial: 'stalls/seeds/choice', collection: packets, as: :seed
+        - if @ready.empty? && @others.empty?
+          %p.text-muted= @query.present? ? t('.no_matches', query: @query) : t('.none_left')
+      - if @others.any?
+        %p.stall-note= t('.will_mark')
+      %details.stall-new-packet{ open: @new_seed.errors.any? }
+        %summary= t('.record_new')
+        - if @new_seed.errors.any?
+          .alert.alert-danger
+            %ul.mb-0
+              - @new_seed.errors.full_messages.each do |message|
+                %li= message
+        .mb-3
+          = label_tag :crop, t('.crop'), class: 'form-label fw-bold'
+          = auto_suggest @new_seed, :crop, class: 'form-control'
+          %small.text-muted
+            = t('.cant_find')
+            = link_to t('.request_crop'), new_crop_path
+        .row
+          .col-12.col-md-8.mb-3
+            = label_tag 'seed_variety', t('.variety'), class: 'form-label fw-bold'
+            = text_field_tag 'seed[variety]', @new_seed.variety, class: 'form-control'
+          .col-12.col-md-4.mb-3
+            = label_tag 'seed_quantity', t('.quantity'), class: 'form-label fw-bold'
+            = number_field_tag 'seed[quantity]', @new_seed.quantity, min: 1, class: 'form-control'
+        %small.text-muted= t('.new_note')
+      %fieldset.stall-offer
+        %legend= t('.offer')
+        - StallSeed.offers.each_key do |offer|
+          = label_tag "offer_#{offer}", class: 'stall-offer-choice' do
+            = radio_button_tag :offer, offer, offer == 'free'
+            = t(".offers.#{offer}")
+    .stall-dialog-footer
       = link_to t('.cancel'), member_stall_path(current_member), class: 'btn btn-secondary'
+      = submit_tag t('.add'), class: 'btn btn-primary'

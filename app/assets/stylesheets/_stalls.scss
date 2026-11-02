@@ -322,10 +322,83 @@ $stall-label: #fff8e1;
   text-transform: uppercase;
 }
 
+.stall-dialog {
+  max-width: 744px;
+  margin: 1.5rem auto;
+  border-radius: 2px;
+  background: $white;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 3px rgba(0, 0, 0, 0.12), 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow: clip;
+}
+
+.stall-dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.6rem 0.6rem 1.4rem;
+  border-bottom: 1px solid rgba($brown, 0.15);
+
+  h1 {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 150%;
+    font-weight: 500;
+  }
+}
+
+.stall-dialog-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: $body-color;
+}
+
+.stall-dialog-body {
+  padding: 1.4rem;
+}
+
+.stall-dialog-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding: 0.9rem 1.4rem;
+  border-top: 1px solid rgba($brown, 0.15);
+  background: $beige;
+}
+
+.stall-search {
+  position: relative;
+
+  .fa-magnifying-glass {
+    position: absolute;
+    top: 14px;
+    left: 12px;
+    color: #6c757d;
+  }
+
+  input {
+    height: 44px;
+    padding-left: 2.2rem;
+    font-size: 1rem;
+  }
+}
+
 .stall-packets {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  max-height: 380px;
+  margin-bottom: 1rem;
+  padding: 2px;
+  overflow-y: auto;
+
+  h2 {
+    margin: 0.5rem 0 0;
+    font-weight: 500;
+  }
 }
 
 .stall-packet {
@@ -352,17 +425,69 @@ $stall-label: #fff8e1;
   }
 }
 
+// A tiny seed packet: torn top, a window, a green band.
+.stall-packet-icon {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  width: 42px;
+  height: 54px;
+  border: 1px solid #c0b5a3;
+  border-radius: 3px;
+  background: $beige;
+  overflow: clip;
+
+  &::before {
+    height: 6px;
+    border-bottom: 1px dashed #b6a894;
+    background: #dbd5cb;
+    content: "";
+  }
+
+  &::after {
+    height: 10px;
+    margin-top: auto;
+    background: $green;
+    content: "";
+  }
+}
+
+.stall-packet-window {
+  height: 18px;
+  margin: 4px 4px 0;
+  border: 1px solid $yellow;
+  background: #e8f5e9;
+}
+
 .stall-packet-text {
   display: flex;
   flex: 1;
   flex-direction: column;
   min-width: 0;
+
+  strong {
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  small {
+    color: $brown;
+    text-transform: uppercase;
+  }
+}
+
+.stall-packet-variety {
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .stall-packet-flag {
+  flex: none;
   padding: 2px 10px;
   border: 1px dashed $brown;
   border-radius: 999px;
+  background: $white;
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -399,7 +524,7 @@ $stall-label: #fff8e1;
   }
 
   .stall-link {
-    max-width: 22rem;
+    width: min(100%, 32rem);
     margin-top: 0.6rem;
   }
 }
@@ -462,7 +587,10 @@ $stall-label: #fff8e1;
 
 .stall-packets-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  // Columns keep their size however few packets there are, as a lone one would
+  // otherwise fill the row, and its tall card the page.
+  grid-template-columns: repeat(auto-fill, minmax(170px, 220px));
+  justify-content: start;
   gap: 30px 20px;
 }
 
@@ -553,5 +681,79 @@ $stall-label: #fff8e1;
 
   &:has(input:checked) {
     border: 2px solid $green;
+  }
+}
+
+// What Growstuff is, for a visitor without an account. Small, so the stall
+// stays the focus.
+.stall-about {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2.25rem;
+  padding: 1.1rem 1.4rem;
+  border-radius: $card-radius;
+  background: $white;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 3px 4px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.2);
+
+  p {
+    max-width: 64ch;
+    margin: 0.4rem 0 0;
+  }
+}
+
+.stall-about-brand {
+  margin: 0;
+  padding: 0;
+  // Every h2 on the site has a green bar behind it; this one is green itself.
+  background: none;
+  box-shadow: none;
+  color: $green;
+  font-family: Modak, cursive;
+  font-size: 2.1rem;
+  line-height: 1;
+}
+
+.stall-about-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+// A phone: the owner block stacks, and the sign and sections use the width.
+@media (max-width: 576px) {
+  .stall-owner-large {
+    align-items: flex-start;
+  }
+
+  .stall-section-body {
+    padding-right: 0.9rem;
+    padding-left: 0.9rem;
+
+    .stall-tabletop {
+      margin-right: -0.9rem;
+      margin-left: -0.9rem;
+    }
+  }
+}
+
+// "Add a seed packet you haven't recorded yet", opened out in place.
+.stall-new-packet {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba($brown, 0.35);
+  border-radius: $card-radius;
+
+  summary {
+    min-height: 32px;
+    color: $green;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &[open] summary {
+    margin-bottom: 1rem;
   }
 }
