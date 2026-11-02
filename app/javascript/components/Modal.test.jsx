@@ -118,6 +118,29 @@ describe('Modal', () => {
       trigger.remove();
       offcanvas.remove();
     });
+
+    it('gives focus back to the trigger when opened from a responsive offcanvas drawer', () => {
+      const trigger = document.createElement('button');
+      trigger.setAttribute('data-bs-target', '#navbarSupportedContent');
+      document.body.appendChild(trigger);
+
+      const offcanvas = document.createElement('div');
+      offcanvas.id = 'navbarSupportedContent';
+      offcanvas.className = 'offcanvas-lg offcanvas-end';
+      const link = document.createElement('a');
+      link.href = '#';
+      offcanvas.appendChild(link);
+      document.body.appendChild(offcanvas);
+
+      link.focus();
+      const {unmount} = render(<Modal title="x" titleId="x" onClose={vi.fn()}><p>hi</p></Modal>);
+      unmount();
+
+      expect(trigger).toHaveFocus();
+
+      trigger.remove();
+      offcanvas.remove();
+    });
   });
 
   describe('when an offcanvas is open', () => {
@@ -133,6 +156,28 @@ describe('Modal', () => {
       const offcanvas = document.createElement('div');
       offcanvas.id = 'quickAdd';
       offcanvas.className = 'offcanvas show';
+      document.body.appendChild(offcanvas);
+
+      render(<Modal title="x" titleId="x" onClose={vi.fn()}><p>hi</p></Modal>);
+
+      expect(hide).toHaveBeenCalled();
+
+      offcanvas.remove();
+      delete window.bootstrap;
+    });
+
+    it('closes an open responsive offcanvas (like offcanvas-lg) on mount', () => {
+      const hide = vi.fn();
+      window.bootstrap = {
+        Offcanvas: {
+          getInstance: vi.fn(() => ({hide})),
+          getOrCreateInstance: vi.fn(() => ({hide})),
+        },
+      };
+
+      const offcanvas = document.createElement('div');
+      offcanvas.id = 'navbarSupportedContent';
+      offcanvas.className = 'offcanvas-lg offcanvas-end show';
       document.body.appendChild(offcanvas);
 
       render(<Modal title="x" titleId="x" onClose={vi.fn()}><p>hi</p></Modal>);

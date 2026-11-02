@@ -1,6 +1,6 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 
 import AuthDialog from './AuthDialog';
 
@@ -86,5 +86,27 @@ describe('AuthDialog', () => {
     await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
     await userEvent.click(screen.getByRole('button', {name: 'Close'}));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('closes an open offcanvas when an auth link is clicked', async () => {
+    const hide = vi.fn();
+    window.bootstrap = {
+      Offcanvas: {
+        getInstance: vi.fn(() => ({hide})),
+        getOrCreateInstance: vi.fn(() => ({hide})),
+      },
+    };
+
+    const offcanvas = document.createElement('div');
+    offcanvas.id = 'navbarSupportedContent';
+    offcanvas.className = 'offcanvas-lg offcanvas-end show';
+    document.body.appendChild(offcanvas);
+
+    setup();
+    await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
+
+    expect(hide).toHaveBeenCalled();
+    offcanvas.remove();
+    delete window.bootstrap;
   });
 });
