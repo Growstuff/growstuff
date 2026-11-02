@@ -70,4 +70,68 @@ describe CropsController, '#show sections' do
       it { is_expected.to have_no_link('Add more attributes') }
     end
   end
+
+  describe 'the facts' do
+    before { get crop_path(crop) }
+
+    it { is_expected.to have_css('.prediction h2', text: 'Tomato facts') }
+    it { is_expected.to have_no_css('.prediction h2', text: 'Growing tomatoes') }
+  end
+
+  describe 'the lifespan card' do
+    before do
+      crop.update!(perennial:, median_lifespan:)
+      get crop_path(crop)
+    end
+
+    let(:median_lifespan) { 91 }
+
+    context 'with an annual with a median lifespan of 13 weeks' do
+      let(:perennial) { false }
+
+      it { is_expected.to have_css('.lifespan-card h3', text: 'Annual') }
+      it { is_expected.to have_css('.lifespan-card .crop-median-lifespan', text: '13 weeks median lifespan') }
+      it { is_expected.to have_css('.lifespan-card .fa-calendar') }
+      it { is_expected.to have_no_css('.lifespan-card svg') }
+    end
+
+    context 'with an annual with a week or less' do
+      let(:perennial) { false }
+      let(:median_lifespan) { 0 }
+
+      it { is_expected.to have_css('.lifespan-card', text: "We don't have enough data yet") }
+      it { is_expected.to have_no_css('.lifespan-card', text: '0 weeks') }
+    end
+
+    context 'with an annual with no median lifespan' do
+      let(:perennial) { false }
+      let(:median_lifespan) { nil }
+
+      it { is_expected.to have_no_css('.crop-median-lifespan') }
+    end
+
+    context 'with a perennial' do
+      let(:perennial) { true }
+
+      it { is_expected.to have_css('.lifespan-card h3', text: 'Perennial') }
+      it { is_expected.to have_no_css('.crop-median-lifespan') }
+    end
+  end
+
+  describe 'the jobs section' do
+    before do
+      create(:crop_job_step, crop_job_template: create(:crop_job_template, crop:, status: 'published'))
+      get crop_path(crop)
+    end
+
+    it { is_expected.to have_css('section.crop-jobs h2', text: 'Growing tomatoes') }
+    it { is_expected.to have_css('section.crop-jobs .crop-job-templates') }
+    it { is_expected.to have_no_css('section.prediction .crop-job-templates') }
+  end
+
+  describe 'a crop with no job templates' do
+    before { get crop_path(crop) }
+
+    it { is_expected.to have_no_css('section.crop-jobs') }
+  end
 end

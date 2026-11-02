@@ -1202,6 +1202,14 @@ $notepad-trail: #a4c98c;
 
 .crop-job-add {
   margin: 0.25rem 0 1rem;
+
+  // White on the button, as in the heading bars, not the menu's green.
+  > .menu-icon,
+  .btn > .menu-icon {
+    color: inherit;
+    margin-right: 0.4rem;
+    vertical-align: text-bottom;
+  }
 }
 
 // The day to plant on, above the button that adds the jobs.

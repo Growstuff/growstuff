@@ -62,7 +62,7 @@ describe CropsController, '#show job templates' do
         get crop_path(crop)
       end
 
-      it { is_expected.to have_no_css('button.dropdown-item') }
+      it { is_expected.to have_no_button(class: 'dropdown-item') }
       it { is_expected.to have_css('button.crop-job-add[data-bs-target="#crop-jobs-modal"]') }
     end
 
@@ -84,7 +84,6 @@ describe CropsController, '#show job templates' do
       get crop_path(crop)
     end
 
-    it { is_expected.to have_no_css('.crop-job-templates .dropdown-menu') }
     it { is_expected.to have_css('button.crop-job-add[data-bs-target="#crop-jobs-modal"]', text: 'Add tomato growing jobs to my jobs') }
     it { is_expected.to have_no_css('.crop-job-templates .dropdown-menu') }
     it { is_expected.to have_css('#crop-jobs-modal form') }

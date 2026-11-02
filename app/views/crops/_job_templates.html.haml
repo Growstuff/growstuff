@@ -25,32 +25,39 @@
       - adder = AddCropJobs.new(current_member, crop)
       - if adder.pending?
         - open_plantings = adder.open_plantings
+        - modal = { 'data-bs-toggle': 'modal', 'data-bs-target': '#crop-jobs-modal' }
         - if open_plantings.empty?
           -# No planting to add them to, so go straight to asking which day to plant.
-          %button.btn.btn-secondary.crop-job-add{ type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': '#crop-jobs-modal' }
+          %button.btn.btn-secondary.crop-job-add{ type: 'button', **modal }
+            = menu_icon(:job)
             = t('crop_jobs.add', crop: crop.name)
         - else
           .dropdown.crop-job-add
-            %button.btn.btn-secondary.dropdown-toggle{ type: 'button', 'data-bs-toggle': 'dropdown', 'aria-expanded': 'false' }
+            %button.btn.btn-secondary.dropdown-toggle{ type: 'button', 'data-bs-toggle': 'dropdown',
+                                                       'aria-expanded': 'false' }
+              = menu_icon(:job)
               = t('crop_jobs.add', crop: crop.name)
             %ul.dropdown-menu
               - open_plantings.each do |planting|
                 - planted = l(planting.planted_at.to_date, format: '%-d %b %Y')
+                - name = planting.garden&.name
+                - label = t('crop_jobs.add_to_planting', crop: planting.crop.name, garden: name, date: planted)
                 %li
                   = button_to crop_jobs_path(crop), params: { planting_id: planting.id }, class: 'dropdown-item' do
-                    = t('crop_jobs.add_to_planting', crop: planting.crop.name, garden: planting.garden&.name, date: planted)
+                    = menu_icon(:planting)
+                    = label
               - if adder.to_come?
                 %li
                   %hr.dropdown-divider
                 %li
-                  %button.dropdown-item{ type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': '#crop-jobs-modal' }
+                  %button.dropdown-item{ type: 'button', **modal }
+                    = menu_icon(:add)
                     = t('crop_jobs.new_planting', crop: crop.name)
       - else
         %p.crop-job-added.text-muted
           = t('crop_jobs.already_added', crop: crop.name)
           = link_to t('crop_jobs.see_jobs'), jobs_path
-      - if adder.to_come?
-        = render 'job_modal', crop: crop
+      = render 'job_modal', crop: crop if adder.to_come?
     - else
       %p.crop-job-signup
         = link_to 'Sign up to track these tasks and get other suggestions.',
