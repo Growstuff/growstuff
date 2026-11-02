@@ -29,7 +29,7 @@
   - carry = { q: @query.presence, level: ('all' if @all_levels && @query.blank?) }
   - tabs = [['Approved', nil], ['Pending approval', 'pending'], ['Rejected', 'rejected']]
   %ul.nav.nav-tabs{ role: 'tablist' }
-    %li.nav-item= link_to 'Recently edited', admin_crops_path, class: 'nav-link'
+    %li.nav-item= link_to 'Recently edited', recently_edited_admin_crops_path, class: 'nav-link'
     - tabs.each do |label, status|
       %li.nav-item
         = link_to label, wrangle_crops_path(carry.merge(approval_status: status)), class: ['nav-link', ('active' if @approval_status.presence == status)]

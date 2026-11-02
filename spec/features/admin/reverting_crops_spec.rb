@@ -17,7 +17,7 @@ RSpec.feature 'Reverting crops' do
     end
 
     scenario 'Admin reverts a crop' do
-      visit admin_crops_path
+      visit recently_edited_admin_crops_path
       click_link 'Revert', match: :first
       expect(page).to have_content('Reverted to version from')
       crop.reload
@@ -31,7 +31,7 @@ RSpec.feature 'Reverting crops' do
     end
 
     scenario 'Member cannot revert a crop' do
-      visit admin_crops_path
+      visit recently_edited_admin_crops_path
       expect(page).to have_no_link('Revert')
     end
   end
