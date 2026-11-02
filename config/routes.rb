@@ -134,6 +134,7 @@ Rails.application.routes.draw do
     resources :crops, only: [] do
       get :recently_edited, on: :collection
     end
+    resource :crop_merge, only: %i(show create), path: 'crops/merge'
     resources :versions, only: [] do
       post :revert, on: :member, as: :revert
     end
