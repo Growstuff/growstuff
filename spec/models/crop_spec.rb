@@ -621,6 +621,24 @@ describe Crop do
       it "shows rejection notes if reason was other" do
         expect(rejected_other.rejection_explanation).to eq "blah blah blah"
       end
+
+      it "releases the slug on rejection" do
+        expect(rejected_reason.slug).to match(/^tomato-rejected-/)
+      end
+
+      it "releases the slug when an existing crop is rejected" do
+        pending_crop = create(:crop, name: 'kūmara', approval_status: 'pending')
+        expect(pending_crop.slug).to eq('kumara')
+        pending_crop.update!(approval_status: 'rejected', reason_for_rejection: 'not edible')
+        expect(pending_crop.reload.slug).to eq("kumara-rejected-#{pending_crop.id}")
+      end
+
+      it "allows a new crop to claim the released slug" do
+        pending_crop = create(:crop, name: 'kūmara', approval_status: 'pending')
+        pending_crop.update!(approval_status: 'rejected', reason_for_rejection: 'not edible')
+        new_crop = create(:crop, name: 'kūmara')
+        expect(new_crop.slug).to eq('kumara')
+      end
     end
   end
 
