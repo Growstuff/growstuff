@@ -11,7 +11,7 @@ describe CropsController, '#show job templates' do
 
   before { get crop_path(crop) }
 
-  it { is_expected.to have_css('.crop-job-templates h3', text: 'Tomato jobs') }
+  it { is_expected.to have_no_css('.crop-job-templates h3') }
   it { is_expected.to have_css('.crop-job-step', text: 'Stake or cage the plants') }
   it { is_expected.to have_css('.crop-job-step', text: '2 weeks after planting out') }
 
@@ -95,6 +95,23 @@ describe CropsController, '#show job templates' do
     it { is_expected.to have_no_css('.crop-job-add') }
   end
 
+  context 'with two templates' do
+    before do
+      create(:crop_job_step, crop_job_template: create(:crop_job_template, crop:, name: 'Early jobs', status: 'published'))
+      get crop_path(crop)
+    end
+
+    it { is_expected.to have_css('.crop-job-templates h3', text: 'Early jobs') }
+    it { is_expected.to have_css('.crop-job-templates h3', text: 'Tomato jobs') }
+  end
+
+  context 'with a template for part of the year' do
+    let(:template) { create(:crop_job_template, crop:, name: 'Tomato jobs', status: 'published', season: 'spring_summer') }
+
+    it { is_expected.to have_css('.crop-job-templates h3', text: 'Tomato jobs') }
+    it { is_expected.to have_css('.crop-notepad-season', text: 'Spring and summer') }
+  end
+
   context 'with a draft template' do
     let(:template) { create(:crop_job_template, crop:, name: 'Tomato jobs', status: 'draft') }
 
@@ -106,7 +123,7 @@ describe CropsController, '#show job templates' do
 
     before { get crop_path(variety) }
 
-    it { is_expected.to have_css('.crop-job-templates h3', text: 'Tomato jobs') }
+    it { is_expected.to have_no_css('.crop-job-templates h3') }
   end
 
   context 'with a template for another crop' do

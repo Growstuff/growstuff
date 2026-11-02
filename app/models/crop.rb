@@ -189,6 +189,18 @@ class Crop < ApplicationRecord
     reason_for_rejection
   end
 
+  # The seed packets of this crop and of its varieties that give a figure for a
+  # packet fact such as row_spacing. A packet that leaves it blank, or says zero,
+  # gives none.
+  def seeds_with(attribute)
+    Seed.of_crop(self).where.not(attribute => [nil, 0])
+  end
+
+  # The median of that figure across those packets, or nil when there are none.
+  def seed_median(attribute)
+    seeds_with(attribute).median(attribute)
+  end
+
   def update_medians
     plantings.each(&:update_harvest_days!)
     update_lifespan_medians

@@ -11,26 +11,24 @@
     .card.fact-card.lifespan-card
       .card-body.text-center
         %h3
-          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution', class: 'crop-longevity' do
+          Lifespan
+          = editable :select, crop, :perennial, display_field: '.lifespan-display', values: [['Annual', false], ['Perennial', true]]
+        .lifespan-display
+          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution', class: 'lifespan-word' do
             = crop.perennial? ? 'Perennial' : 'Annual'
-        - if crop.perennial?
-          %small living more than two years
-        - else
-          %small living and reproducing in a single year or less
-          - if crop.median_lifespan.present?
-            - weeks = in_weeks(crop.median_lifespan)
-            .crop-median-lifespan
-              %i.far.fa-calendar.fa-2x.amber-text{ 'aria-hidden': 'true' }
-              - if weeks > 1
-                %strong #{weeks} #{'week'.pluralize(weeks)}
-                %small median lifespan
-              - else
-                %small.text-muted We don't have enough data yet on the median lifespan.
-        - if can? :wrangle, @crop
-          %small.edit-link
-            = bootstrap_form_for(@crop) do |f|
-              = f.hidden_field :perennial, value: crop.annual?
-              = f.submit :toggle
+          - if crop.perennial?
+            %small living more than two years
+          - else
+            %small living and reproducing in a single year or less
+            - if crop.median_lifespan.present?
+              - weeks = in_weeks(crop.median_lifespan)
+              .crop-median-lifespan
+                %i.far.fa-calendar.fa-2x.amber-text{ 'aria-hidden': 'true' }
+                - if weeks > 1
+                  %strong #{weeks} #{'week'.pluralize(weeks)}
+                  %small median lifespan
+                - else
+                  %small.text-muted We don't have enough data yet on the median lifespan.
 
   - if crop.median_days_to_first_harvest.present?
     = render 'layouts/fact_card',
@@ -48,9 +46,14 @@
   - if crop.spread.present?
     = render 'layouts/fact_card',
       title: 'Spread', value: "#{crop.spread}cm", description: nil
-  - if crop.row_spacing.present?
+  -# Members' seed packets say what the crop needs, if the crop itself doesn't: their median.
+  - packets_spacing = crop.seed_median(:row_spacing)
+  - if packets_spacing || crop.row_spacing.present?
+    - spacing = packets_spacing || crop.row_spacing
+    - packets = crop.seeds_with(:row_spacing).count if packets_spacing
     = render 'layouts/fact_card',
-      title: 'Row Spacing', value: "#{crop.row_spacing}cm", description: nil
+      title: 'Row Spacing', value: "#{number_with_precision(spacing, precision: 1, strip_insignificant_zeros: true)}cm",
+      description: (packets ? "median of #{pluralize(packets, 'seed packet')}" : nil)
   - if crop.growing_degree_days.present?
     = render 'layouts/fact_card',
       title: 'Growing Degree Days', value: crop.growing_degree_days, description: nil
