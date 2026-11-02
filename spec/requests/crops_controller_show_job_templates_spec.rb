@@ -42,6 +42,38 @@ describe CropsController, '#show job templates' do
     it { is_expected.to have_link('See your jobs.', href: jobs_path) }
   end
 
+  context 'when signed in with a planting of a variety' do
+    let(:member) { create(:member) }
+    let(:variety) { create(:crop, name: 'cherry tomato', parent: crop) }
+    let!(:planting) { create(:planting, crop: variety, owner: member, planted_at: Time.zone.today) }
+
+    before do
+      sign_in member
+      get crop_path(crop)
+    end
+
+    it { is_expected.to have_css('.crop-job-planting', text: 'cherry tomato') }
+    it { is_expected.to have_button('Add to this planting') }
+
+    context 'when the planting already has the jobs' do
+      before do
+        AddCropJobs.new(member, crop, planting:).call
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_no_css('.crop-job-planting') }
+    end
+  end
+
+  context 'when signed in without a planting' do
+    before do
+      sign_in create(:member)
+      get crop_path(crop)
+    end
+
+    it { is_expected.to have_no_css('.crop-job-plantings') }
+  end
+
   context 'when signed out, there is no button to add the jobs' do
     it { is_expected.to have_no_button('Add tomato growing jobs to my jobs') }
   end

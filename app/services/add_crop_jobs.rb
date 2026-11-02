@@ -4,12 +4,21 @@
 # crop (or a variety of it) the jobs fall on the days its template says, as when
 # they are offered as ideas. Without one there is no day to count from, so each
 # step becomes a job under Some day, to be given a day when the member plants.
-# Adding again makes no job twice.
+# Adding again makes no job twice. Given a planting, the jobs are counted from that
+# one instead of the latest.
 class AddCropJobs
-  def initialize(member, crop, today: Time.zone.today)
+  def initialize(member, crop, planting: nil, today: Time.zone.today)
     @member = member
     @crop = crop
+    @planting = planting
     @today = today
+  end
+
+  # The member's plantings that have a day to count from, of the crop or of a
+  # variety of it, the latest first.
+  def plantings
+    @member.plantings.active.where.not(planted_at: nil).where(crop_id: [@crop.id, *@crop.varieties.select(:id)])
+      .includes(:crop, :garden).order(planted_at: :desc, id: :desc)
   end
 
   # The jobs made.
@@ -28,12 +37,9 @@ class AddCropJobs
     CropJobTemplate.published.for_crop(@crop).includes(:steps).order(:name)
   end
 
-  # The member's latest planting of the crop that has a day to count from.
+  # The planting asked for, or else the member's latest.
   def planting
-    return @planting if defined?(@planting)
-
-    @planting = @member.plantings.active.where.not(planted_at: nil)
-      .where(crop_id: [@crop.id, *@crop.varieties.select(:id)]).order(planted_at: :desc, id: :desc).first
+    @planting ||= plantings.first
   end
 
   def from_planting(template)
