@@ -123,6 +123,7 @@ Rails.application.routes.draw do
     get 'seeds' => 'seeds#index'
 
     get 'places' => 'places#index'
+    post 'jobs' => 'crop_jobs#create', as: 'jobs'
     get 'members' => 'members#index'
 
     # Charts json
