@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import BlueskyModal from './BlueskyModal';
+import {closeOpenOffcanvases} from './Modal';
 import SignInModal from './SignInModal';
 import SignUpModal from './SignUpModal';
 
@@ -23,6 +24,7 @@ export default function AuthDialog({urls, recaptcha_site_key: recaptchaSiteKey, 
       const trigger = event.target.closest('[data-auth-dialog]');
       if (!trigger) return;
       event.preventDefault();
+      closeOpenOffcanvases(trigger);
       open.current(trigger.dataset.authDialog);
     }
 
