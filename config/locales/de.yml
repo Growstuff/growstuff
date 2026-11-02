@@ -229,6 +229,10 @@ de:
     index:
       subtitle: '%{crops_size} insgesamt'
       title: Durchsuchen Sie Pflanzen
+    join_banner:
+      heading: Growstuff ist eine kostenlose, von der Community betriebene Website für Menschen, die Lebensmittel anbauen.
+      prompt: Melden Sie sich an, um Ihre eigenen %{crops} aufzuzeichnen.
+      text: Behalten Sie im Auge, was Sie pflanzen und ernten, finden Sie Saatgut zum Tauschen und sehen Sie, was in Ihrer Nähe wächst.
     requested:
       link: Sie haben %{number_crops} Kulturen, die auf die Genehmigung warten
       subtitle: Genehmigung ausstehend

@@ -237,6 +237,10 @@ en:
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops
+    join_banner:
+      heading: Growstuff is a free, community-run site for people who grow food.
+      prompt: Join to record your own %{crops}.
+      text: Keep track of what you plant and harvest, find seeds to swap, and see what is growing near you.
     requested:
       link: You have %{number_crops} crops awaiting approval
       subtitle: Pending approval

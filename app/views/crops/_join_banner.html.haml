@@ -1,9 +1,9 @@
 -# Shown to visitors who are not signed in: what Growstuff is, and an invitation to join.
 .crop-join-banner.d-flex.flex-wrap.align-items-center.justify-content-between.gap-3
   .crop-join-text
-    %strong Growstuff is a free, community-run site for people who grow food.
-    Keep track of what you plant and harvest, find seeds to swap, and see what is growing near you.
-    Join to record your own #{crop.name.pluralize}.
+    %strong= t('.heading')
+    = t('.text')
+    = t('.prompt', crops: crop.name.pluralize)
   .crop-join-actions.text-nowrap
     - sign_up = { data: { auth_dialog: 'sign_up' }, class: 'btn btn-signup' }
     - sign_in = { data: { auth_dialog: 'sign_in' }, class: 'ms-2' }

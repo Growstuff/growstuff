@@ -19,6 +19,10 @@ ja:
       name: 学名
       save: 保存
       wikidata_id: Wikidata ID
+    join_banner:
+      heading: Growstuffは作物を育てる人々のための無料のコミュニティ運営サイトです。
+      prompt: 参加してあなた自身の%{crops}を記録しましょう。
+      text: 植えたものや収穫したものを記録し、交換する種を見つけ、近くで何が育っているかを確認しましょう。
   harvests:
     edit_modal:
       harvested_at: いつ収穫しましたか？
