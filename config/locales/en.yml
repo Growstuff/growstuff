@@ -217,13 +217,21 @@ en:
     saved: Job template saved.
   crop_jobs:
     add: Add %{crop} growing jobs to my jobs
-    add_to_planting: Add to this planting
+    add_to_planting: Add to %{crop} in %{garden}, planted %{date}
     added:
       one: Added 1 %{crop} job to your jobs.
       other: Added %{count} %{crop} jobs to your jobs.
     already_added: Your jobs already have the %{crop} growing jobs.
-    planting: in %{garden}, planted %{date}
-    plantings_heading: Or add them to a planting you already have
+    new:
+      add_anyway: Add them anyway
+      cancel: Cancel
+      intro: The jobs are counted from the day you plant. One that would already be past is due today.
+      out_of_season: "%{template} is for %{season}, and %{date} is outside that where you are."
+      out_of_season_ask: Do you want to add the jobs anyway, or pick another day?
+      planting_on: When do you want to plant %{crop}?
+      submit: Add these jobs
+      title: Add %{crop} growing jobs
+    new_planting: A new %{crop} planting I'm going to do
     see_jobs: See your jobs.
   crops:
     approval_status_message:

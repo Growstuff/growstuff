@@ -1,0 +1,28 @@
+- content_for :title, t('crop_jobs.new.title', crop: @crop.name)
+
+%h1= t('crop_jobs.new.title', crop: @crop.name)
+
+.crop-job-start-page
+  - if @out_of_season.present?
+    .alert.alert-warning.crop-job-season-warning
+      - @out_of_season.each do |template|
+        %p
+          = t('crop_jobs.new.out_of_season', template: template.name, season: crop_job_option(:season, template.season).downcase,
+                                             date: l(@planting_on, format: '%-d %b'))
+      %p= t('crop_jobs.new.out_of_season_ask')
+  = form_with url: crop_jobs_path(@crop), class: 'crop-job-start' do |form|
+    = form.label :planting_on, t('crop_jobs.new.planting_on', crop: @crop.name)
+    = form.date_field :planting_on, value: @planting_on, min: Time.zone.today, class: 'form-control'
+    - if @out_of_season.present?
+      = form.hidden_field :confirm, value: '1'
+    = form.submit t(@out_of_season.present? ? 'crop_jobs.new.add_anyway' : 'crop_jobs.new.submit'), class: 'btn btn-primary'
+    = link_to t('crop_jobs.new.cancel'), crop_path(@crop), class: 'btn btn-link'
+  %p.text-muted= t('crop_jobs.new.intro')
+
+  - @adder.templates.each do |template|
+    %h2.h5= template.name
+    %ol
+      - template.steps.each do |step|
+        %li
+          = step.name
+          %small.text-muted= crop_job_when(step)
