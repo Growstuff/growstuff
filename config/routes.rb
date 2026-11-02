@@ -131,6 +131,7 @@ Rails.application.routes.draw do
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
     post :gbif
     get :sowing_info, on: :member
+    get :history, on: :member
 
     collection do
       get 'requested'
