@@ -49,6 +49,10 @@ describe Admin::CropMergesController do
         it 'lists the crop to choose as the duplicate' do
           expect(page).to have_link('Choose', href: admin_crop_merge_path(duplicate_id: duplicate.id))
         end
+
+        it 'shows each crop id, as names can match' do
+          expect(page).to have_text("##{duplicate.id}")
+        end
       end
 
       context 'when the search finds nothing' do
@@ -84,17 +88,37 @@ describe Admin::CropMergesController do
       end
 
       context 'with both crops chosen' do
-        before do
-          create(:planting, crop: duplicate)
-          get admin_crop_merge_path(duplicate_id: duplicate.id, target_id: target.id)
+        let!(:planting) { create(:planting, crop: duplicate) }
+
+        before { get admin_crop_merge_path(duplicate_id: duplicate.id, target_id: target.id) }
+
+        it 'offers to merge, naming both crops by id' do
+          expect(page).to have_button("Merge habanero (##{duplicate.id}) into habanero pepper (##{target.id})")
         end
 
-        it 'offers to merge' do
-          expect(page).to have_button('Merge habanero into habanero pepper')
+        it 'marks the duplicate for deletion' do
+          expect(page).to have_css('#confirm-step del', text: "habanero ##{duplicate.id}")
         end
 
-        it 'counts the plantings that move' do
-          expect(page).to have_css('#confirm-step tr', text: /Plantings\s+1/)
+        it 'shows the day each crop was added' do
+          expect(page).to have_css('#confirm-step', text: "added #{target.created_at.strftime('%-d %b %Y')}")
+        end
+
+        it 'says which crop is being kept by age' do
+          expect(page).to have_text('You are keeping the newer crop.')
+        end
+
+        it 'heads the plantings with their count' do
+          expect(page).to have_css('#confirm-step h3', text: 'Plantings (1)')
+        end
+
+        it 'lists the planting with an arrow to the crop it moves to' do
+          item = /#{Regexp.escape(planting.to_s)}\s+→\s+habanero pepper\s+##{target.id}/
+          expect(page).to have_css('#confirm-step .merge-plan li', text: item)
+        end
+
+        it 'offers to swap the crops' do
+          expect(page).to have_link('Swap', href: admin_crop_merge_path(duplicate_id: target.id, target_id: duplicate.id))
         end
       end
 
