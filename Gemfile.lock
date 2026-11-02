@@ -235,6 +235,8 @@ GEM
     geocoder (1.8.6)
       base64 (>= 0.1.0)
       csv (>= 3.0.0)
+    herringbone (0.9.1)
+      bigdecimal
     globalid (1.4.0)
       activesupport (>= 6.1)
     graphiti (1.13.5)
@@ -676,6 +678,7 @@ DEPENDENCIES
   haml-rails
   haml_lint (>= 0.25.1)
   hashie (>= 3.5.3)
+  herringbone
   i18n-tasks
   i18n_data (~> 1.1)
   icalendar

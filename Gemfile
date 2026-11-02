@@ -117,6 +117,7 @@ gem 'recaptcha'
 gem "gbifrb"
 
 gem "msgpack"
+gem "herringbone"
 
 group :production do
   gem 'dalli'

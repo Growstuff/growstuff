@@ -329,7 +329,7 @@ namespace :import do
   task ecocrop_data: :environment do
     require 'open-uri'
     require 'tempfile'
-    require 'json'
+    require 'herringbone'
 
     url = ENV.fetch('ECOCROP_URL', 'https://digital-atlas.s3.amazonaws.com/cdh/data/ecocrop/ecocrop.parquet')
     puts "Downloading EcoCrop data from #{url}..."
@@ -342,31 +342,24 @@ namespace :import do
       end
       temp_file.flush
 
-      py_script = <<~PYTHON
-        import sys, json, pyarrow.parquet as pq
-        table = pq.read_table(sys.argv[1])
-        print(json.dumps(table.to_pylist()))
-      PYTHON
-
-      rows = nil
-      IO.popen(['python3', '-c', py_script, temp_file.path]) do |io|
-        rows = JSON.parse(io.read)
-      end
-
-      puts "Importing #{rows.length} EcoCrop records into ecocrop_data..."
-
       now = Time.current
       attribute_keys = EcocropData.column_names.map(&:to_sym) - %i(id created_at updated_at)
+      records_to_upsert = []
 
-      records_to_upsert = rows.map do |row|
-        attrs = {}
-        attribute_keys.each do |key|
-          key_s = key.to_s
-          attrs[key] = row[key_s] if row.key?(key_s)
+      File.open(temp_file.path, 'rb') do |file|
+        reader = Herringbone::Reader.new(file)
+        puts "Importing #{reader.num_rows} EcoCrop records into ecocrop_data..."
+
+        reader.each_row do |row|
+          attrs = {}
+          attribute_keys.each do |key|
+            key_s = key.to_s
+            attrs[key] = row[key_s] if row.key?(key_s)
+          end
+          attrs[:created_at] = now
+          attrs[:updated_at] = now
+          records_to_upsert << attrs
         end
-        attrs[:created_at] = now
-        attrs[:updated_at] = now
-        attrs
       end
 
       EcocropData.upsert_all( # rubocop:disable Rails/SkipsModelValidations
