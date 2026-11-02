@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_01_030000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_01_050000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -377,6 +377,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_030000) do
     t.index ["blocked_id"], name: "index_blocks_on_blocked_id"
     t.index ["blocker_id", "blocked_id"], name: "index_blocks_on_blocker_id_and_blocked_id", unique: true
     t.index ["blocker_id"], name: "index_blocks_on_blocker_id"
+  end
+
+  create_table "claims", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "member_id", null: false
+    t.text "note"
+    t.bigint "stall_seed_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_claims_on_member_id"
+    t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
   end
 
   create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
@@ -1128,9 +1138,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_030000) do
   end
 
   create_table "stalls", force: :cascade do |t|
+    t.string "claim_area", default: "region", null: false
     t.datetime "created_at", null: false
     t.bigint "member_id", null: false
     t.datetime "opened_at"
+    t.boolean "postage", default: false, null: false
     t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_stalls_on_member_id", unique: true
   end
@@ -1184,6 +1196,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_030000) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blocks", "members", column: "blocked_id"
   add_foreign_key "blocks", "members", column: "blocker_id"
+  add_foreign_key "claims", "members"
+  add_foreign_key "claims", "stall_seeds"
   add_foreign_key "crop_dismissals", "crops"
   add_foreign_key "crop_dismissals", "members"
   add_foreign_key "crop_job_steps", "crop_job_templates"

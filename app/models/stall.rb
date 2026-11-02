@@ -8,6 +8,11 @@ class Stall < ApplicationRecord
   # being marked as tradable already.
   WILL_TRADE = 'locally'
 
+  # How far from the owner a friend can be and still claim: near them (as
+  # far as Neighbours counts as their region), or anywhere.
+  enum :claim_area, { region: 'region', anywhere: 'anywhere' }, default: :region, validate: true
+  NEARBY_KM = Neighbours::RADII_KM.last
+
   belongs_to :member
   has_many :stall_seeds, dependent: :destroy
   has_many :seeds, through: :stall_seeds
@@ -35,5 +40,30 @@ class Stall < ApplicationRecord
         stall_seeds.find_or_create_by!(seed:) { |stall_seed| stall_seed.offer = offer }
       end
     end
+  end
+
+  # Where friends can be, as friends read it: "Wellington", or nil for anywhere.
+  def area_name
+    member.location_place if region?
+  end
+
+  # Whether a friend is in the area the owner has chosen:
+  #   :ok             they are
+  #   :outside        their profile puts them somewhere else
+  #   :ask            their profile doesn't say, so they say it themselves
+  #   :owner_unplaced the owner hasn't said where they are, so it can't be checked
+  def area_check(friend)
+    return :ok if anywhere?
+    return :owner_unplaced unless member.located?
+    return :ask unless friend.located?
+
+    near?(friend) ? :ok : :outside
+  end
+
+  private
+
+  def near?(friend)
+    Geocoder::Calculations.distance_between([member.latitude, member.longitude], [friend.latitude, friend.longitude],
+                                            units: :km) <= NEARBY_KM
   end
 end

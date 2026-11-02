@@ -102,6 +102,71 @@ describe StallsController, flipper: :garden_stall do
       end
     end
 
+    context 'when a packet is on the stall' do
+      let(:stall_seed) { create(:stall_seed, stall: create(:stall, :open, member: owner, claim_area: 'anywhere')) }
+      let(:friend) { create(:member) }
+
+      before { stall_seed }
+
+      it 'asks a visitor to sign in to claim' do
+        get member_stall_path(owner)
+        expect(Capybara.string(response.body)).to have_link('Sign in to claim')
+      end
+
+      it 'lets a member claim it' do
+        sign_in friend
+        get member_stall_path(owner)
+        expect(Capybara.string(response.body)).to have_css('.stall-claim summary', text: 'Claim')
+      end
+
+      it 'does not offer the owner a claim' do
+        sign_in owner
+        get member_stall_path(owner)
+        expect(Capybara.string(response.body)).to have_no_css('.stall-claim')
+      end
+
+      context 'when it has been claimed' do
+        before do
+          create(:claim, stall_seed:, member: friend)
+          sign_in friend
+          get member_stall_path(owner)
+        end
+
+        it 'shows the ribbon with their name' do
+          expect(Capybara.string(response.body)).to have_css('.stall-ribbon', text: friend.login_name)
+        end
+
+        it 'lets them undo it' do
+          expect(Capybara.string(response.body)).to have_button('Undo my claim')
+        end
+
+        it 'takes the claim button away' do
+          expect(Capybara.string(response.body)).to have_no_css('.stall-claim')
+        end
+      end
+    end
+
+    context 'when the stall is only for people nearby' do
+      before do
+        Geocoder::Lookup::Test.add_stub('Wellington, Wellington Region, New Zealand', [{ 'coordinates' => [-41.29, 174.78] }])
+        owner.update!(location: 'Wellington, Wellington Region, New Zealand')
+        create(:stall, :open, member: owner, claim_area: 'region', postage: true)
+        get member_stall_path(owner)
+      end
+
+      it 'says who can claim' do
+        expect(Capybara.string(response.body)).to have_css('.stall-terms', text: 'only for people near Wellington')
+      end
+
+      it 'says the gardener may ask for postage' do
+        expect(Capybara.string(response.body)).to have_css('.stall-terms', text: 'may ask you to pay for postage')
+      end
+
+      it 'reminds them to offer something in return' do
+        expect(Capybara.string(response.body)).to have_css('.stall-terms', text: 'offer something in return')
+      end
+    end
+
     context 'when a member looks at an open stall' do
       before do
         create(:stall, :open, member: owner)

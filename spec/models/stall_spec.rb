@@ -65,4 +65,51 @@ describe Stall do
       expect(stall.stall_seeds.first).to be_swap
     end
   end
+
+  describe '#area_check' do
+    subject(:check) { stall.area_check(friend) }
+
+    let(:wellington) { create_located_member('Wellington, Wellington Region, New Zealand', -41.29, 174.78) }
+    let(:stall) { create(:stall, :open, member: wellington, claim_area:) }
+    let(:claim_area) { 'region' }
+
+    context 'when the friend lives nearby' do
+      let(:friend) { create_located_member('Lower Hutt, Wellington Region, New Zealand', -41.21, 174.9) }
+
+      it { is_expected.to eq(:ok) }
+    end
+
+    context 'when locations are written differently' do
+      let(:wellington) { create_located_member('porirua, wellington', -41.13, 174.84) }
+      let(:friend) { create_located_member('wellington, new zealand', -41.29, 174.78) }
+
+      it { is_expected.to eq(:ok) }
+    end
+
+    context 'when the friend lives far away' do
+      let(:friend) { create_located_member('Auckland, Auckland, New Zealand', -36.85, 174.76) }
+
+      it { is_expected.to eq(:outside) }
+    end
+
+    context 'when the friend has not said where they are' do
+      let(:friend) { create(:member, location: nil, latitude: nil, longitude: nil) }
+
+      it { is_expected.to eq(:ask) }
+    end
+
+    context 'when the stall is open to anywhere' do
+      let(:claim_area) { 'anywhere' }
+      let(:friend) { create(:member, location: nil, latitude: nil, longitude: nil) }
+
+      it { is_expected.to eq(:ok) }
+    end
+
+    context 'when the owner has not said where they are' do
+      let(:stall) { create(:stall, :open, member: create(:member, location: nil, latitude: nil, longitude: nil)) }
+      let(:friend) { wellington }
+
+      it { is_expected.to eq(:owner_unplaced) }
+    end
+  end
 end

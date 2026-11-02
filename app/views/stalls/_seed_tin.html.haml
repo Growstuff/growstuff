@@ -1,6 +1,6 @@
 -# The packets on the stall, as seed packet cards on the table, each saying in
 -# words and colour whether it is free or a swap. The owner can add more, or take
--# one off.
+-# one off. A friend can claim a packet; it is theirs straight away.
 %section.stall-section{ 'aria-labelledby': 'stall-tin-h' }
   .stall-section-header
     %h2#stall-tin-h= t('.heading')
@@ -12,13 +12,14 @@
       %span.stall-offer-tag.stall-offer-swap= t('stalls.offers.swap')
       = t('.legend')
     .stall-packets-grid
-      - stall.stall_seeds.includes(seed: :crop).find_each do |stall_seed|
+      - stall.stall_seeds.includes(:seed, claim: { member: :authentications }).find_each do |stall_seed|
         - seed = stall_seed.seed
         .stall-tin-item
           = render 'seeds/card', seed: seed
           .stall-offer-tag{ class: "stall-offer-#{stall_seed.offer}" }
             %strong= t("stalls.offers.#{stall_seed.offer}")
             %span= t("stalls.offers.#{stall_seed.offer}_text")
+          = render 'stalls/claim', stall_seed:, owner:
           - if owner
             = button_to stall_seed_path(seed), method: :delete, class: 'stall-take-off', title: t('.take_off') do
               = icon 'fas', 'xmark'
