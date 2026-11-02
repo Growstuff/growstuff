@@ -33,4 +33,41 @@ describe CropsController, '#show sections' do
 
     it { is_expected.to have_css('section.photos') }
   end
+
+  describe 'the link to add more attributes' do
+    context 'when signed out' do
+      before { get crop_path(crop) }
+
+      it { is_expected.to have_no_link('Add more attributes') }
+    end
+
+    context 'when signed in as an ordinary member' do
+      before do
+        sign_in create(:member)
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_no_link('Add more attributes') }
+    end
+
+    context 'when signed in as a crop wrangler' do
+      before do
+        sign_in create(:crop_wrangling_member)
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_css('.section-header a.section-add', text: 'Add more attributes') }
+    end
+
+    context 'when a crop wrangler views a crop with every attribute' do
+      let(:crop) { create(:tomato, height: 100, spread: 50, row_spacing: 30, growing_degree_days: 1000) }
+
+      before do
+        sign_in create(:crop_wrangling_member)
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_no_link('Add more attributes') }
+    end
+  end
 end

@@ -1,25 +1,27 @@
 -# The step-by-step jobs members are offered when they plant this crop: its own
--# templates and, for a variety, those of the crop it is a variety of.
+-# templates and, for a variety, those of the crop it is a variety of. Drawn as a
+-# notepad, like the jobs a member gets from them.
 - templates = CropJobTemplate.published.for_crop(crop).includes(:steps).order(:name)
 - if templates.any?
   .crop-job-templates
     - templates.each do |template|
-      %h3
-        = template.name
-        - unless template.season_any?
-          %small.text-muted= crop_job_option(:season, template.season)
-      %ol.crop-job-steps
-        - template.steps.each do |step|
-          %li.crop-job-step
-            - if step.external_uri.present?
-              = link_to step.name, step.external_uri, rel: 'nofollow noopener', target: '_blank'
-            - else
-              = step.name
-            %small.text-muted
-              = crop_job_when(step)
+      .crop-notepad
+        .crop-notepad-title
+          %h3= template.name
+          - unless template.season_any?
+            %span.crop-notepad-season= crop_job_option(:season, template.season)
+        %ol.crop-notepad-steps
+          - template.steps.each do |step|
+            %li.crop-job-step
+              %span.crop-notepad-box{ 'aria-hidden': 'true' }
+              %span.crop-notepad-name
+                - if step.external_uri.present?
+                  = link_to step.name, step.external_uri, rel: 'nofollow noopener', target: '_blank'
+                - else
+                  = step.name
+              %span.crop-notepad-when= crop_job_when(step)
               - unless step.repeat_once?
-                ·
-                = crop_job_option(:repeat, step.repeat)
+                %span.crop-notepad-repeat= crop_job_option(:repeat, step.repeat)
     - unless member_signed_in?
       %p.crop-job-signup
         = link_to 'Sign up to track these tasks and get other suggestions.',

@@ -1099,3 +1099,103 @@ $notepad-trail: #a4c98c;
     animation: none;
   }
 }
+
+// A crop's jobs, drawn like the jobs notepad: a green title bar, then ruled rows
+// with an empty box to tick. Only for reading, so the boxes do nothing.
+.crop-job-templates {
+  margin-top: 1.5rem;
+}
+
+.crop-notepad {
+  background: $white;
+  border: 1px solid rgba(65, 63, 59, 0.15);
+  border-radius: $card-radius;
+  box-shadow: 1px 3px 3px 1px #cac1b3;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  padding-bottom: 0.5rem;
+}
+
+.crop-notepad-title {
+  align-items: baseline;
+  background: $green;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 0.5rem 1.1rem;
+
+  // The site makes headings in a section green banners with a shadow; this one
+  // is plain text on the notepad's own bar.
+  h3 {
+    background: none;
+    box-shadow: none;
+    color: $white;
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.crop-notepad-season {
+  color: $white;
+  font-size: 0.85rem;
+}
+
+.crop-notepad-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.crop-job-step {
+  align-items: center;
+  border-top: 1px solid #eef0ea;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.6rem;
+  min-height: 48px;
+  padding: 0.25rem 1.1rem;
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  &:hover {
+    background: #faf9f7;
+  }
+}
+
+.crop-notepad-box {
+  background: $white;
+  border: 2px solid #757575;
+  border-radius: 3px;
+  flex: none;
+  height: 22px;
+  width: 22px;
+}
+
+.crop-notepad-name {
+  flex: 1 1 12rem;
+  font-size: 1.05rem;
+}
+
+.crop-notepad-when,
+.crop-notepad-repeat {
+  background: $notepad-tile;
+  border-radius: 999px;
+  color: $notepad-leaf;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.15rem 0.75rem;
+  white-space: nowrap;
+}
+
+.crop-notepad-repeat {
+  background: #f3e7cf;
+  color: #6b4f1d;
+}
+
+.crop-job-signup {
+  font-weight: 600;
+}

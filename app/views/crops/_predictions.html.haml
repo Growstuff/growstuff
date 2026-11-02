@@ -1,7 +1,11 @@
-%h2
-  -# Decorative: the heading already says what this is.
-  %span.heading-emoji{ 'aria-hidden' => 'true' } 🪄
-  Growing #{crop.name.pluralize}
+- missing_attributes = !crop.height.present? || !crop.spread.present? || !crop.row_spacing.present? || !crop.growing_degree_days.present?
+.section-header
+  %h2
+    -# Decorative: the heading already says what this is.
+    %span.heading-emoji{ 'aria-hidden' => 'true' } 🪄
+    Growing #{crop.name.pluralize}
+  - if can?(:wrangle, crop) && missing_attributes
+    = link_to 'Add more attributes', edit_crop_path(crop, anchor: ":~:text=Data"), class: 'btn btn-sm section-add'
 .index-cards.facts
   - unless crop.perennial.nil?
     .card.fact-card
@@ -55,8 +59,4 @@
   - if crop.growing_degree_days.present?
     = render 'layouts/fact_card',
       title: 'Growing Degree Days', value: crop.growing_degree_days, description: nil
-  - if member_signed_in? && (!crop.height.present? || !crop.spread.present? || !crop.row_spacing.present? || !crop.growing_degree_days.present?)
-    .card.fact-card
-      .card-body.text-center
-        %p= link_to "Add more attributes.", edit_crop_path(@crop, anchor: ":~:text=Data")
   = render 'openfarm_data', crop: crop
