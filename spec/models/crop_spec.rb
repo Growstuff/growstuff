@@ -707,4 +707,56 @@ describe Crop do
       expect(described_class.icon_names).to eq described_class.icon_names.sort
     end
   end
+
+  describe 'facts from seed packets' do
+    subject(:crop) { create(:tomato) }
+
+    let(:variety) { create(:crop, name: 'cherry tomato', parent: crop) }
+
+    describe '#seed_median' do
+      it { expect(crop.seed_median(:row_spacing)).to be_nil }
+
+      context 'with packets that give a row spacing' do
+        before do
+          create(:seed, crop:, row_spacing: 30)
+          create(:seed, crop:, row_spacing: 60)
+          create(:seed, crop:, row_spacing: 90)
+        end
+
+        it { expect(crop.seed_median(:row_spacing)).to eq 60 }
+      end
+
+      context 'with an even number of packets' do
+        before do
+          create(:seed, crop:, row_spacing: 30)
+          create(:seed, crop:, row_spacing: 50)
+        end
+
+        it { expect(crop.seed_median(:row_spacing)).to eq 40 }
+      end
+
+      context 'with a packet that leaves it blank, or says zero' do
+        before do
+          create(:seed, crop:, row_spacing: 30)
+          create(:seed, crop:, row_spacing: nil)
+          create(:seed, crop:).update_column(:row_spacing, 0) # rubocop:disable Rails/SkipsModelValidations
+        end
+
+        it { expect(crop.seed_median(:row_spacing)).to eq 30 }
+        it { expect(crop.seeds_with(:row_spacing).count).to eq 1 }
+      end
+
+      context 'with a packet of a variety' do
+        before { create(:seed, crop: variety, row_spacing: 45) }
+
+        it { expect(crop.seed_median(:row_spacing)).to eq 45 }
+      end
+
+      context 'with a packet of another crop' do
+        before { create(:seed, crop: create(:crop, name: 'carrot'), row_spacing: 10) }
+
+        it { expect(crop.seed_median(:row_spacing)).to be_nil }
+      end
+    end
+  end
 end

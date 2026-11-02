@@ -89,7 +89,7 @@ describe CropsController, '#show sections' do
     context 'with an annual with a median lifespan of 13 weeks' do
       let(:perennial) { false }
 
-      it { is_expected.to have_css('.lifespan-card h3', text: 'Annual') }
+      it { is_expected.to have_css('.lifespan-card .lifespan-word', text: 'Annual') }
       it { is_expected.to have_css('.lifespan-card .crop-median-lifespan', text: '13 weeks median lifespan') }
       it { is_expected.to have_css('.lifespan-card .fa-calendar') }
       it { is_expected.to have_no_css('.lifespan-card svg') }
@@ -113,7 +113,7 @@ describe CropsController, '#show sections' do
     context 'with a perennial' do
       let(:perennial) { true }
 
-      it { is_expected.to have_css('.lifespan-card h3', text: 'Perennial') }
+      it { is_expected.to have_css('.lifespan-card .lifespan-word', text: 'Perennial') }
       it { is_expected.to have_no_css('.crop-median-lifespan') }
     end
   end
@@ -133,5 +133,56 @@ describe CropsController, '#show sections' do
     before { get crop_path(crop) }
 
     it { is_expected.to have_no_css('section.crop-jobs') }
+  end
+
+  describe 'changing whether the crop is annual or perennial' do
+    context 'when signed in as a crop wrangler' do
+      before do
+        sign_in create(:crop_wrangling_member)
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_css('.lifespan-card .edit-link a.editable') }
+      it { is_expected.to have_css('.lifespan-card select[name="crop[perennial]"]', visible: :all) }
+      it { is_expected.to have_no_css('.lifespan-card input[type="submit"][value="toggle"]', visible: :all) }
+    end
+
+    context 'when signed in as an ordinary member' do
+      before do
+        sign_in create(:member)
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_no_css('.lifespan-card .edit-link') }
+      it { is_expected.to have_no_css('.lifespan-card select', visible: :all) }
+    end
+  end
+
+  describe 'the row spacing card' do
+    context 'with seed packets that give a row spacing' do
+      before do
+        create(:seed, crop:, row_spacing: 30)
+        create(:seed, crop:, row_spacing: 60)
+        create(:seed, crop:, row_spacing: nil)
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_css('.fact-card', text: 'Row Spacing 45cm median of 2 seed packets') }
+    end
+
+    context 'with a crop row spacing and no packets that give one' do
+      let(:crop) { create(:tomato, row_spacing: 25) }
+
+      before { get crop_path(crop) }
+
+      it { is_expected.to have_css('.fact-card', text: 'Row Spacing 25cm') }
+      it { is_expected.to have_no_css('.fact-card', text: 'median of') }
+    end
+
+    context 'with neither' do
+      before { get crop_path(crop) }
+
+      it { is_expected.to have_no_css('.fact-card', text: 'Row Spacing') }
+    end
   end
 end

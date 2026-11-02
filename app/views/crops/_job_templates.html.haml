@@ -6,10 +6,13 @@
   .crop-job-templates
     - templates.each do |template|
       .crop-notepad
-        .crop-notepad-title
-          %h3= template.name
-          - unless template.season_any?
-            %span.crop-notepad-season= crop_job_option(:season, template.season)
+        -# The section's heading already says what this is: a template's own name is
+        -# only needed to tell several apart, or to say it is for part of the year.
+        - if templates.size > 1 || !template.season_any?
+          .crop-notepad-title
+            %h3= template.name
+            - unless template.season_any?
+              %span.crop-notepad-season= crop_job_option(:season, template.season)
         %ol.crop-notepad-steps
           - template.steps.each do |step|
             %li.crop-job-step

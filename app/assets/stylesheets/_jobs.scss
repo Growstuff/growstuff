@@ -1107,38 +1107,32 @@ $notepad-trail: #a4c98c;
 }
 
 .crop-notepad {
-  background: $white;
-  border: 1px solid rgba(65, 63, 59, 0.15);
-  border-radius: $card-radius;
-  box-shadow: 1px 3px 3px 1px #cac1b3;
   margin-bottom: 1rem;
-  overflow: hidden;
-  padding-bottom: 0.5rem;
 }
 
+// Only shown to tell several templates apart, or to say a template is for part of the
+// year, so it is a subheading, not a second bar inside the section's.
 .crop-notepad-title {
   align-items: baseline;
-  background: $green;
   display: flex;
   gap: 1rem;
   justify-content: space-between;
-  padding: 0.5rem 1.1rem;
+  margin-bottom: 0.25rem;
 
-  // The site makes headings in a section green banners with a shadow; this one
-  // is plain text on the notepad's own bar.
+  // The site makes headings in a section green banners with a shadow; this one is plain.
   h3 {
     background: none;
     box-shadow: none;
-    color: $white;
-    font-size: 1.3rem;
-    font-weight: 400;
+    color: $notepad-leaf;
+    font-size: 1.1rem;
+    font-weight: 700;
     margin: 0;
     padding: 0;
   }
 }
 
 .crop-notepad-season {
-  color: $white;
+  color: $ink-muted;
   font-size: 0.85rem;
 }
 
@@ -1203,13 +1197,13 @@ $notepad-trail: #a4c98c;
 .crop-job-add {
   margin: 0.25rem 0 1rem;
 
-  // White on the button, as in the heading bars, not the menu's green.
-  > .menu-icon,
-  .btn > .menu-icon {
-    color: inherit;
-    margin-right: 0.4rem;
-    vertical-align: text-bottom;
-  }
+}
+
+// White on the button, as in the heading bars, not the menu's green.
+.record-page .crop-job-add .menu-icon {
+  color: inherit;
+  margin-right: 0.4rem;
+  vertical-align: text-bottom;
 }
 
 // The day to plant on, above the button that adds the jobs.
