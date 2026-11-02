@@ -17,6 +17,11 @@ class AddCropJobs
     templates.flat_map { |template| planting ? from_planting(template) : from_crop(template) }
   end
 
+  # Whether a call would make any jobs: false once the member has them all, or when there are none to add.
+  def pending?
+    templates.any? { |template| planting ? planting_entries(template).any? : steps_without_jobs(template).any? }
+  end
+
   private
 
   def templates
@@ -35,10 +40,18 @@ class AddCropJobs
     ApplyCropJobTemplate.new(template, planting, today: @today).call
   end
 
+  def planting_entries(template)
+    ApplyCropJobTemplate.new(template, planting, today: @today).pending
+  end
+
   def from_crop(template)
-    done = Job.where(owner: @member, jobbable: @crop, crop_job_step: template.steps).pluck(:crop_job_step_id)
-    template.steps.reject { |step| done.include?(step.id) }.map do |step|
+    steps_without_jobs(template).map do |step|
       @member.jobs.create!(name: step.name, jobbable: @crop, crop_job_step: step)
     end
+  end
+
+  def steps_without_jobs(template)
+    done = Job.where(owner: @member, jobbable: @crop, crop_job_step: template.steps).pluck(:crop_job_step_id)
+    template.steps.reject { |step| done.include?(step.id) }
   end
 end

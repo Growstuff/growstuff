@@ -60,4 +60,31 @@ describe AddCropJobs do
 
     it { expect(jobs).to be_empty }
   end
+
+  describe '#pending?' do
+    subject(:service) { described_class.new(member, crop, today:) }
+
+    it { is_expected.to be_pending }
+
+    context 'when the jobs have been added' do
+      before { service.call }
+
+      it { is_expected.not_to be_pending }
+    end
+
+    context 'with a planting, when the jobs have been added' do
+      before do
+        create(:planting, crop:, owner: member, planted_at: today)
+        service.call
+      end
+
+      it { is_expected.not_to be_pending }
+    end
+
+    context 'when the crop has no templates' do
+      subject(:service) { described_class.new(member, create(:crop, name: 'carrot'), today:) }
+
+      it { is_expected.not_to be_pending }
+    end
+  end
 end

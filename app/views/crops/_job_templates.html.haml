@@ -22,7 +22,12 @@
               - unless step.repeat_once?
                 %span.crop-notepad-repeat= crop_job_option(:repeat, step.repeat)
     - if member_signed_in?
-      = button_to t('crop_jobs.add', crop: crop.name), crop_jobs_path(crop), class: 'btn btn-secondary crop-job-add'
+      - if AddCropJobs.new(current_member, crop).pending?
+        = button_to t('crop_jobs.add', crop: crop.name), crop_jobs_path(crop), class: 'btn btn-secondary crop-job-add'
+      - else
+        %p.crop-job-added.text-muted
+          = t('crop_jobs.already_added', crop: crop.name)
+          = link_to t('crop_jobs.see_jobs'), jobs_path
     - else
       %p.crop-job-signup
         = link_to 'Sign up to track these tasks and get other suggestions.',

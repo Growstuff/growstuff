@@ -221,6 +221,7 @@ en:
       one: Added 1 %{crop} job to your jobs.
       other: Added %{count} %{crop} jobs to your jobs.
     already_added: Your jobs already have the %{crop} growing jobs.
+    see_jobs: See your jobs.
   crops:
     approval_status_message:
       pending_title: "This crop is currently pending approval."
