@@ -65,7 +65,7 @@ describe JobsNotepad do
 
     it 'includes jobs for plantings in the collaborated garden' do
       planting = create(:planting, garden: community_garden, owner: community_garden.owner)
-      create(:job, jobbable: planting, name: 'Stake shared tomatoes', due_date: Time.zone.today)
+      create(:job, owner: community_garden.owner, jobbable: planting, name: 'Stake shared tomatoes', due_date: Time.zone.today)
       expect(names).to include('Stake shared tomatoes')
     end
 
