@@ -379,6 +379,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_000000) do
     t.index ["blocker_id"], name: "index_blocks_on_blocker_id"
   end
 
+  create_table "claims", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "member_id", null: false
+    t.text "note"
+    t.bigint "stall_seed_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_claims_on_member_id"
+    t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
+  end
+
   create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
     t.string "categorized_type", null: false
     t.string "label", null: false
@@ -1179,6 +1189,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_000000) do
     t.index ["source"], name: "index_seeds_on_source"
   end
 
+  create_table "stall_seeds", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "offer", default: "free", null: false
+    t.bigint "seed_id", null: false
+    t.bigint "stall_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["seed_id", "stall_id"], name: "index_stall_seeds_on_seed_id_and_stall_id", unique: true
+    t.index ["stall_id"], name: "index_stall_seeds_on_stall_id"
+  end
+
+  create_table "stalls", force: :cascade do |t|
+    t.string "claim_area", default: "region", null: false
+    t.datetime "created_at", null: false
+    t.bigint "member_id", null: false
+    t.datetime "opened_at"
+    t.boolean "postage", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_stalls_on_member_id", unique: true
+  end
+
   create_table "versions", force: :cascade do |t|
     t.datetime "created_at"
     t.string "event", null: false
@@ -1228,6 +1258,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_000000) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blocks", "members", column: "blocked_id"
   add_foreign_key "blocks", "members", column: "blocker_id"
+  add_foreign_key "claims", "members"
+  add_foreign_key "claims", "stall_seeds"
   add_foreign_key "crop_dismissals", "crops"
   add_foreign_key "crop_dismissals", "members"
   add_foreign_key "crop_job_steps", "crop_job_templates"
@@ -1250,4 +1282,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_000000) do
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
   add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
+  add_foreign_key "stall_seeds", "seeds"
+  add_foreign_key "stall_seeds", "stalls"
+  add_foreign_key "stalls", "members"
 end

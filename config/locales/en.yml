@@ -8,6 +8,7 @@ en:
         calculate_crop_failed: failed to calculate crop
         cannot_be_about_that: does not go with what the job is about
         cannot_be_garden_owner: cannot be the garden owner
+        cannot_be_stall_owner: cannot be the owner of the stall
         crop_must_be_approved: must be present and exist in our database
         crop_not_found: must be present and exist in our database
         failed_and_finished: can't be true if planting is also finished
@@ -21,12 +22,16 @@ en:
         not_a_valid_unit: "%{value} is not a valid unit"
         not_a_valid_wikipedia_url: is not a valid English Wikipedia URL
         not_a_valid_youtube_url: is not a valid YouTube URL
+        not_confirmed_in_area: Tick that you're in %{place}.
         one_nursery_per_member: already exists; a member can have only one nursery
+        outside_area: This stall is only for people near %{place}.
+        owner_unplaced: The gardener hasn't said where they are yet.
         photo_owner_mismatch: must have same owner as item it links to
         rejection_notes_required: must be added if the reason for rejection is "other"
         rejection_reason_required: must be rejected if a reason for rejection is present
         same_crop_required: must be the same crop
         same_owner_required: of harvest must be the same as planting, or a collaborator on that garden
+        stall_closed: The stall is closed.
         too_many_plants: a planting can have at most %{limit} plants on the layout
       models:
         crop_job_step:
@@ -97,6 +102,7 @@ en:
       descriptions:
         enable_harvest_reminders: Sends the weekly harvest reminder emails to members who want them.
         enable_planting_reminders: Sends the weekly planting reminder emails to members who want them.
+        garden_stall: A page where members offer spare seedlings and seeds to friends. Switch on once all the parts are deployed.
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
         planting_weather: Temperature and rainfall charts on each planting, from daily weather for the garden's area.
       index:
@@ -111,6 +117,7 @@ en:
       names:
         enable_harvest_reminders: Harvest reminders
         enable_planting_reminders: Planting reminders
+        garden_stall: Garden stall
         job_ideas: Job ideas
         planting_weather: Planting weather
       update:
@@ -209,6 +216,24 @@ en:
         published: Published
     saved: Job template saved.
   crops:
+    alternate_name_modal:
+      add_title: Add another name for %{crop}
+      cancel: Cancel
+      close: Close
+      edit_title: Edit alternate name
+      language: Language
+      name: Name
+      save: Save
+    scientific_name_modal:
+      add_title: Add a scientific name for %{crop}
+      cancel: Cancel
+      close: Close
+      edit_title: Edit scientific name
+      gbif_hint: The species key from gbif.org, if you have it.
+      gbif_key: GBIF key
+      name: Scientific name
+      save: Save
+      wikidata_id: Wikidata ID
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops
@@ -1182,6 +1207,159 @@ en:
       heading: "%{crop} seeds"
     string: "%{crop} seeds belonging to %{owner}"
     updated: Seed was successfully updated.
+  stalls:
+    about_growstuff:
+      join: Join free
+      sign_in: Sign in
+      text: A community for growing food. Record what you plant and harvest, and swap seeds and tips with other gardeners. Join free, or sign in, to get in touch with %{name} about what's on the stall.
+    card:
+      go: Go to your stall
+      heading: Garden stall
+      open: Open a garden stall
+      open_text: Your garden stall is open for friends.
+      text: Share spare seedlings and seeds with friends. You choose what and who, offers close after 4 weeks, and no addresses are kept.
+    claim:
+      claim: Claim
+      claimed: Claimed
+      confirm: Claim it
+      here: I'm in %{place}
+      note: 'Note: %{note}'
+      note_label: A note for the gardener (optional)
+      note_placeholder: Say thanks, and what you could offer in return
+      outside: Only for people near %{place}
+      set_place: Not right? Set where you garden.
+      owner_unplaced: The gardener hasn't said where they are yet
+      postage: "%{owner} may ask you to pay for postage."
+      set_place_ask: Or set where you garden in your profile, so it's checked for you.
+      sign_in: Sign in to claim
+      undo: Undo my claim
+    claims:
+      create:
+        claimed: "%{crop} is claimed. It's yours; message the gardener to arrange pick-up or postage."
+      destroy:
+        undone: You've given back the %{crop}.
+    offers:
+      free: Free
+      free_text: Yours for the asking
+      swap: Swap
+      swap_text: Bring seeds of your own
+    openings:
+      create:
+        opened: Your garden stall is open.
+      destroy:
+        closed: Your garden stall is closed.
+    owner:
+      garden_of: Garden of
+      link: Link to your stall
+      profile: See %{name}'s profile
+    seed_tin:
+      add: "+ add"
+      heading: In the seed tin
+      legend: Each packet says whether it's free or a swap.
+      packets:
+        one: 1 packet
+        other: "%{count} packets"
+      take_off: Take off the stall
+    seeds:
+      choice:
+        not_trading: Not trading yet
+        quantity:
+          one: approx. 1 seed
+          other: approx. %{count} seeds
+        saved: saved %{year}
+        sow_before: sow before %{year}
+      create:
+        added:
+          one: 1 packet is on your stall.
+          other: "%{count} packets are on your stall."
+        none: Tick the packets you want to put on the stall.
+      destroy:
+        removed: Taken off the stall. It's still in your seed library.
+      new:
+        add: Add to the stall
+        breadcrumb: Add seeds
+        cancel: Cancel
+        cant_find: Can't find the crop?
+        crop: Crop
+        intro: Pick seeds to put on the stall, from your seed library.
+        offer: What are you offering them as?
+        offers:
+          free: Give away
+          swap: Swap or trade
+        no_matches: No seeds match "%{query}".
+        none_left: Every packet you have is on the stall already.
+        others:
+          one: Other seeds in your library (1)
+          other: Other seeds in your library (%{count})
+        ready:
+          one: Marked "will trade" (1)
+          other: Marked "will trade" (%{count})
+        new_note: It is saved in your seed library too, and goes on the stall with the packets you ticked.
+        quantity: Approx. how many seeds
+        record_new: Add a seed packet you haven't recorded yet
+        request_crop: Request a new crop.
+        search: Search your seeds
+        search_button: Search
+        search_placeholder: Crop or variety, for example tomato
+        title: Add seeds to your stall
+        variety: Variety
+        will_mark: Putting a packet that isn't marked "will trade" on the stall marks it "will trade" in your seed library, so friends can see it there too. Taking it off the stall leaves it marked.
+        your_seeds: Your seeds
+    settings:
+      areas:
+        anywhere: Anywhere
+        region: Only people near %{place}
+      heading: Who can claim
+      postage: I may ask friends to pay for postage
+      save: Save
+      set_place: Set where you garden.
+      unplaced: Say where you garden so friends nearby can claim. Until you do, nobody can.
+      where: Where friends can be
+      where_help: Based on the place on your Growstuff profile, and only ever shown as a place name. Bluesky friends say where they are when they claim. No street address is shown or asked for.
+      your_place: where you garden
+    show:
+      breadcrumb: Garden stall
+      add_seeds: Add seeds
+      close: Close the stall
+      coming_soon: Coming soon
+      description:
+        one: Spare seeds from %{name}'s garden on Growstuff. 1 packet is up for grabs, free or to swap.
+        other: Spare seeds from %{name}'s garden on Growstuff. %{count} packets are up for grabs, free or to swap.
+        zero: Spare seedlings and seeds from %{name}'s garden on Growstuff, free or to swap.
+      first_heading: Your stall is open. What goes on it first?
+      first_intro: You can add more any time. Nothing shows to friends until something is on the table.
+      open: Open my stall
+      open_heading: Open a garden stall
+      open_intro: Got spare seedlings or seeds? Put them on a stall and share the link with your friends. Give them away or swap.
+      points:
+        choose_what: You choose what goes on the table.
+        choose_where: 'You choose where friends can be: near you, or anywhere.'
+        choose_who: 'You choose who can claim: anyone signed in, or only people you follow.'
+        expiry: Offers close after 4 weeks, so the stall never goes stale.
+        privacy: Growstuff keeps no addresses. Friends message you to arrange pick-up or postage.
+      seedlings: Seedlings
+      seedlings_text: Plants you've raised that need a home.
+      seeds: Seeds
+      seeds_text: Packets you've saved and will trade.
+      title: "%{name}'s garden stall"
+    stall:
+      closed: Closed for now
+      sign: "%{name}'s garden stall"
+      spots:
+        more: anything else
+        seedlings: seedlings here
+        seeds: seeds here
+      tagline: Seedlings and seeds for friends. Free, or swap.
+    terms:
+      anywhere: Anyone signed in can claim.
+      heading: Who can claim
+      manners: It's free, but it's good manners to offer something in return, such as some of your own seeds, or just a thank you.
+      no_money: Growstuff doesn't handle any money or addresses. Message the gardener to arrange pick-up or postage.
+      postage: "%{owner} may ask you to pay for postage."
+      region: Claiming is only for people near %{place}.
+      unplaced: "%{owner} hasn't said where they are yet, so nobody can claim for now."
+    update:
+      updated: Saved.
   suggestions:
     index:
       lede: What gardeners at %{band} are planting this month, most planted first.
