@@ -34,4 +34,28 @@ describe CropJobsController, '#create' do
       it { expect(flash[:notice]).to eq 'Your jobs already have the tomato growing jobs.' }
     end
   end
+
+  context 'when signed in and choosing a planting' do
+    let(:member) { create(:member) }
+    let(:variety) { create(:crop, name: 'cherry tomato', parent: crop) }
+    let!(:latest) { create(:planting, crop:, owner: member, planted_at: Time.zone.today) }
+    let!(:of_variety) { create(:planting, crop: variety, owner: member, planted_at: 1.day.ago) }
+
+    before { sign_in member }
+
+    it 'adds the jobs to the planting of a variety' do
+      post crop_jobs_path(crop), params: { planting_id: of_variety.id }
+      expect(member.jobs.map(&:jobbable).uniq).to eq [of_variety]
+    end
+
+    it 'does not use somebody else\'s planting' do
+      post crop_jobs_path(crop), params: { planting_id: create(:planting, crop:, planted_at: Time.zone.today).id }
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'does not make jobs for somebody else\'s planting' do
+      post crop_jobs_path(crop), params: { planting_id: create(:planting, crop:, planted_at: Time.zone.today).id }
+      expect(Job.count).to eq 0
+    end
+  end
 end

@@ -87,4 +87,31 @@ describe AddCropJobs do
       it { is_expected.not_to be_pending }
     end
   end
+
+  describe '#plantings' do
+    subject { described_class.new(member, crop, today:).plantings }
+
+    let(:variety) { create(:crop, name: 'cherry tomato', parent: crop) }
+    let!(:own) { create(:planting, crop:, owner: member, planted_at: today - 1.week) }
+    let!(:of_variety) { create(:planting, crop: variety, owner: member, planted_at: today) }
+
+    before do
+      create(:planting, crop:, planted_at: today)
+      create(:planting, crop: create(:crop, name: 'carrot'), owner: member, planted_at: today)
+      create(:planting, crop:, owner: member, planted_at: nil)
+    end
+
+    it { is_expected.to eq [of_variety, own] }
+  end
+
+  context 'with a planting chosen' do
+    subject(:jobs) { described_class.new(member, crop, planting: older, today:).call }
+
+    let!(:older) { create(:planting, crop:, owner: member, planted_at: today - 1.week) }
+
+    before { create(:planting, crop:, owner: member, planted_at: today) }
+
+    it { expect(jobs.map(&:jobbable)).to all(eq older) }
+    it { expect(jobs.map(&:due_date)).to eq [today - 1.week + 2.weeks, today - 1.week + 4.weeks] }
+  end
 end

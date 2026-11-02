@@ -22,12 +22,25 @@
               - unless step.repeat_once?
                 %span.crop-notepad-repeat= crop_job_option(:repeat, step.repeat)
     - if member_signed_in?
-      - if AddCropJobs.new(current_member, crop).pending?
+      - adder = AddCropJobs.new(current_member, crop)
+      - if adder.pending?
         = button_to t('crop_jobs.add', crop: crop.name), crop_jobs_path(crop), class: 'btn btn-secondary crop-job-add'
       - else
         %p.crop-job-added.text-muted
           = t('crop_jobs.already_added', crop: crop.name)
           = link_to t('crop_jobs.see_jobs'), jobs_path
+      - open_plantings = adder.plantings.select { |planting| AddCropJobs.new(current_member, crop, planting:).pending? }
+      - if open_plantings.any?
+        %h4.crop-job-plantings-heading= t('crop_jobs.plantings_heading')
+        %ul.crop-job-plantings
+          - open_plantings.each do |planting|
+            %li.crop-job-planting
+              %span.crop-job-planting-name
+                = link_to planting.crop.name, planting_path(planting)
+                - planted = l(planting.planted_at.to_date, format: '%-d %b %Y')
+                %small.text-muted= t('crop_jobs.planting', garden: planting.garden&.name, date: planted)
+              = button_to t('crop_jobs.add_to_planting'), crop_jobs_path(crop),
+                          params: { planting_id: planting.id }, class: 'btn btn-outline-secondary btn-sm'
     - else
       %p.crop-job-signup
         = link_to 'Sign up to track these tasks and get other suggestions.',

@@ -217,10 +217,13 @@ en:
     saved: Job template saved.
   crop_jobs:
     add: Add %{crop} growing jobs to my jobs
+    add_to_planting: Add to this planting
     added:
       one: Added 1 %{crop} job to your jobs.
       other: Added %{count} %{crop} jobs to your jobs.
     already_added: Your jobs already have the %{crop} growing jobs.
+    planting: in %{garden}, planted %{date}
+    plantings_heading: Or add them to a planting you already have
     see_jobs: See your jobs.
   crops:
     approval_status_message:
