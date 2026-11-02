@@ -54,7 +54,14 @@
         = cute_icon
         %section.prediction
           = render 'predictions', crop: @crop
-          = render 'job_templates', crop: @crop
+
+        - if CropJobTemplate.published.for_crop(@crop).exists?
+          %section.crop-jobs
+            %h2
+              -# Decorative: the heading already says what this is.
+              %span.heading-emoji{ 'aria-hidden' => 'true' } 🪄
+              Growing #{@crop.name.pluralize}
+            = render 'job_templates', crop: @crop
 
         - if @crop.sunniness.any? || @crop.planted_from.any? || @crop.harvests.any?
           %section.charts

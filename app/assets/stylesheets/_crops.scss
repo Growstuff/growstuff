@@ -228,3 +228,12 @@
     text-transform: uppercase;
   }
 }
+
+// An annual's median lifespan, under the word annual.
+.crop-median-lifespan {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 0.75rem;
+}

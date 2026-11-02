@@ -75,7 +75,7 @@ class AddCropJobs
   # its own is left without one.
   def due_dates(template)
     entries = CropJobSchedule.new(template, planting_out_on: @planting_on, today: @today).entries
-    entries.to_h { |entry| [entry.step.id, (entry.date && [entry.date, @today].max)] }
+    entries.to_h { |entry| [entry.step.id, entry.date && [entry.date, @today].max] }
   end
 
   def steps_without_jobs(template)
