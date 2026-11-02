@@ -131,7 +131,9 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :crops, only: [:index]
+    resources :crops, only: [] do
+      get :recently_edited, on: :collection
+    end
     resources :versions, only: [] do
       post :revert, on: :member, as: :revert
     end

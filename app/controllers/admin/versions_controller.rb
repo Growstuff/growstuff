@@ -9,9 +9,9 @@ module Admin
       @version = PaperTrail::Version.find(params[:id])
       @object = @version.reify
       if @object.save
-        redirect_to admin_crops_path, notice: t('messages.revert_success', date: @version.created_at.strftime('%B %d, %Y'))
+        redirect_to recently_edited_admin_crops_path, notice: t('messages.revert_success', date: @version.created_at.strftime('%B %d, %Y'))
       else
-        redirect_to admin_crops_path, alert: t('messages.revert_error', date: @version.created_at.strftime('%B %d, %Y'), errors: @object.errors.full_messages.to_sentence)
+        redirect_to recently_edited_admin_crops_path, alert: t('messages.revert_error', date: @version.created_at.strftime('%B %d, %Y'), errors: @object.errors.full_messages.to_sentence)
       end
     end
 
