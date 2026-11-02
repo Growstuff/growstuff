@@ -53,6 +53,7 @@ describe "crops/show" do
       EcocropData.create!(
         ecoportcode:    1234,
         scientificname: "Zea mays",
+        famname:        "Magnoliopsida:Asteridae:Solanales:Solanaceae",
         topmn:          18,
         topmx:          32,
         ropmn:          600,
@@ -66,6 +67,14 @@ describe "crops/show" do
       expect(rendered).to have_content "Ecological requirements"
       expect(rendered).to have_content "Optimal temperature"
       expect(rendered).to have_content "18 - 32 °C"
+    end
+
+    it "renders the taxonomy with line breaks instead of colons" do
+      render
+      expect(rendered).to have_content "Magnoliopsida"
+      expect(rendered).to have_content "Solanaceae"
+      expect(rendered).to have_no_content "Magnoliopsida:Asteridae"
+      expect(rendered).to include("Magnoliopsida<br>Asteridae<br>Solanales<br>Solanaceae")
     end
 
     it "renders the CC-BY-4.0 license link" do
