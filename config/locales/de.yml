@@ -843,6 +843,12 @@ de:
       not_interested: Hören Sie auf, %{name} vorzuschlagen
       visit: Besuchen Sie die Gärten von %{name}
     edit_profile: Profil bearbeiten
+    email_prompt:
+      add_email: Fügen Sie Ihre E-Mail hinzu
+      unset_body: Fügen Sie eine hinzu, um Pflanzerinnerungen zu erhalten und Ihr Passwort zurücksetzen zu können. Wir senden Ihnen zuerst einen Bestätigungslink, da wir sichergehen müssen.
+      unset_title: Sie haben keine E-Mail-Adresse festgelegt.
+      waiting_body: Wir haben einen Link an %{email} gesendet. Folgen Sie ihm, und wir beginnen mit dem Senden von Erinnerungen.
+      waiting_title: Wir warten darauf, dass Sie Ihre E-Mail-Adresse bestätigen.
     follow_button:
       follow: Folgen
       follow_named: Folgen Sie %{name}

@@ -843,6 +843,12 @@ zh:
       not_interested: 停止建议 %{name}
       visit: 参观 %{name} 的花园
     edit_profile: 编辑个人资料
+    email_prompt:
+      add_email: 添加您的电子邮箱
+      unset_body: 添加一个邮箱以接收种植提醒并能够重置密码。我们会先向您发送一个确认链接，以核实邮箱有效性。
+      unset_title: 您尚未设置电子邮箱地址。
+      waiting_body: 我们已向 %{email} 发送了链接。通过该链接确认后，我们将开始向您发送提醒。
+      waiting_title: 我们正在等待您确认电子邮箱地址。
     follow_button:
       follow: 跟随
       follow_named: 关注 %{name}
