@@ -74,7 +74,7 @@ module PlantingWeatherHelper
 
   # The daily high and low as two lines, on the same axis. `expected` continues them, dashed and paler,
   # from the last observed day.
-  def weather_temperature_chart(readings, from:, days:, seasons: [], expected: [], now: nil) # rubocop:disable Metrics/ParameterLists
+  def weather_temperature_chart(readings, from:, days:, seasons: [], expected: [], now: nil, ecocrop: nil) # rubocop:disable Metrics/ParameterLists
     observed = weather_temperatures(readings)
     values = observed + weather_temperatures(expected)
     return if values.empty?
@@ -87,7 +87,8 @@ module PlantingWeatherHelper
     range = observed.presence || values
     alt = t('plantings.show.weather_temperature_chart_alt', low: weather_degrees(range.min), high: weather_degrees(range.max))
     ticks = [[0, weather_tick(high, '°')], [0.5, weather_tick((low + high) / 2.0, '°')], [1, weather_tick(low, '°')]]
-    weather_chart(safe_join([weather_season_bands(seasons, days), lines]), alt, 'weather-temperature',
+    bands = [weather_season_bands(seasons, days), weather_ecocrop_temperature_bands(ecocrop, scale:), lines]
+    weather_chart(safe_join(bands), alt, 'weather-temperature',
                   now: [weather_now_x(now, from, days), weather_now_temperatures(readings.last)], ticks:)
   end
 
@@ -139,6 +140,39 @@ module PlantingWeatherHelper
 
       "#{((reading.date - from) * step).round(1)},#{(WEATHER_CHART_HEIGHT - height_of.call(value)).round(1)}"
     end.join(' ')
+  end
+
+  # Background bands showing EcoCrop temperature suitability: faint orange outside optimal, faint red outside maximums.
+  def weather_ecocrop_temperature_bands(ecocrop, scale:)
+    return unless ecocrop
+
+    bands = []
+    # Outside maximums (red)
+    bands << weather_temp_band(ecocrop.tmax, scale[:low] + scale[:span], scale, 'weather-temp-extreme') if ecocrop.tmax
+    bands << weather_temp_band(scale[:low], ecocrop.tmin, scale, 'weather-temp-extreme') if ecocrop.tmin
+
+    # Outside optimal (orange)
+    bands << weather_temp_band(ecocrop.topmx, ecocrop.tmax || (scale[:low] + scale[:span]), scale, 'weather-temp-suboptimal') if ecocrop.topmx
+    bands << weather_temp_band(ecocrop.tmin || scale[:low], ecocrop.topmn, scale, 'weather-temp-suboptimal') if ecocrop.topmn
+
+    safe_join(bands.compact)
+  end
+
+  def weather_temp_band(bottom_temp, top_temp, scale, css)
+    return if bottom_temp >= top_temp
+
+    chart_top = scale[:low] + scale[:span]
+    chart_bottom = scale[:low]
+    band_bottom = [bottom_temp, chart_bottom].max
+    band_top = [top_temp, chart_top].min
+    return if band_bottom >= band_top
+
+    y_top = WEATHER_CHART_HEIGHT - ((band_top - chart_bottom) / scale[:span] * WEATHER_CHART_HEIGHT)
+    y_bottom = WEATHER_CHART_HEIGHT - ((band_bottom - chart_bottom) / scale[:span] * WEATHER_CHART_HEIGHT)
+    height = (y_bottom - y_top).round(2)
+    return unless height.positive?
+
+    tag.rect(class: css, x: 0, y: y_top.round(2), width: WEATHER_CHART_WIDTH, height:)
   end
 
   # A faint band behind the chart for each season, so the weather can be read against the year.
