@@ -29,6 +29,19 @@ describe CropsController, '#show job templates' do
     it { is_expected.to have_button('Add tomato growing jobs to my jobs') }
   end
 
+  context 'when signed in and the jobs are already in their jobs' do
+    before do
+      member = create(:member)
+      sign_in member
+      AddCropJobs.new(member, crop).call
+      get crop_path(crop)
+    end
+
+    it { is_expected.to have_no_button('Add tomato growing jobs to my jobs') }
+    it { is_expected.to have_css('.crop-job-added', text: 'Your jobs already have the tomato growing jobs.') }
+    it { is_expected.to have_link('See your jobs.', href: jobs_path) }
+  end
+
   context 'when signed out, there is no button to add the jobs' do
     it { is_expected.to have_no_button('Add tomato growing jobs to my jobs') }
   end
