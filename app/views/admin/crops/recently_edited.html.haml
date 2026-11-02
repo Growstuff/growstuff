@@ -19,7 +19,7 @@
 
   %ul#myTab.nav.nav-tabs{role: "tablist"}
     %li.nav-item
-      %a#home-tab.nav-link{ href: admin_crops_path, role: "tab", class: 'active'}
+      %a#home-tab.nav-link{ href: recently_edited_admin_crops_path, role: "tab", class: 'active'}
         Recently edited
     %li.nav-item
       %a#home-tab.nav-link{ href: wrangle_crops_path, role: "tab"}
@@ -44,13 +44,17 @@
                 - else
                   = link_to crop.name, crop
                 %small.text-muted= "was #{version.event}d"
+                - member = @members[version.whodunnit.to_i]
+                %small.text-muted
+                  by
+                  - if member
+                    = link_to member.login_name, member
+                  - else
+                    unknown
               .d-inline-block
                 %small.me-2= time_ago_in_words(version.created_at) + " ago"
                 - if can?(:wrangle, Crop)
                   = link_to "Revert", revert_admin_version_path(version), method: :post, class: "btn btn-sm btn-outline-danger"
-            - member = @members[version.whodunnit.to_i]
-            - if member
-              %p.mb-1
-                Made by
-                = link_to member.name, member
             = render 'shared/version_changeset', version: version
+
+  = will_paginate @versions
