@@ -200,6 +200,28 @@ class Crop < ApplicationRecord
     where(["lower(crops.name) = :value", { value: name.downcase }])
   end
 
+  # Ids of this crop and every variety below it, however deep, so a tomato's
+  # page can include a striped heirloom tomato's plantings and photos.
+  def self_and_descendant_ids
+    ids = [id]
+    level = ids
+    while level.any?
+      level = Crop.where(parent_id: level).where.not(id: ids).pluck(:id)
+      ids += level
+    end
+    ids
+  end
+
+  def plantings_with_varieties
+    Planting.where(crop_id: self_and_descendant_ids)
+  end
+
+  # Like photos, but also those of the varieties. Photos of seed packets are still left out.
+  def photos_with_varieties
+    Photo.where(id: PhotoAssociation.where(crop_id: self_and_descendant_ids).select(:photo_id))
+      .where.not(id: PhotoAssociation.of_packets.select(:photo_id))
+  end
+
   def all_companions
     @all_companions ||= if parent
                           (companions + parent.all_companions).uniq

@@ -1,13 +1,20 @@
 -# Sidebar content: the section around it supplies the box and the heading.
 -# Each row is who planted it, and under that where: this is the crop's own
--# page, so the crop's name isn't repeated on every line.
-- if crop.plantings.any?
+-# page, so the crop's name is only shown for a planting of one of its varieties.
+-# A member appears once, with their latest planting, so one keen grower
+-# doesn't fill the list.
+- plantings = crop.plantings_with_varieties
+- if plantings.any?
   %ul.list-group.list-group-flush.crop-planting-list
-    - crop.plantings.includes(:owner, :garden).order(planted_at: :desc).limit(5).each do |planting|
+    - latest = plantings.includes(:owner, :garden, :crop).order(planted_at: :desc).limit(50).to_a
+    - latest.uniq(&:owner_id).first(5).each do |planting|
       %li.list-group-item.crop-planting
         = link_to planting_path(planting), class: 'crop-planting-owner' do
           = planting_icon
           = planting.owner
+        - if planting.crop != crop
+          %span.crop-planting-variety
+            = link_to planting.crop.name, crop_path(planting.crop)
         %span.crop-planting-where
           = planting.garden.name
           - if planting.owner.location.present?
