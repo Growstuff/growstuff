@@ -229,6 +229,10 @@ es:
     index:
       subtitle: '%{crops_size} total'
       title: Explorar cultivos
+    join_banner:
+      heading: Growstuff es un sitio gratuito administrado por la comunidad para personas que cultivan alimentos.
+      prompt: Únase para registrar sus propios %{crops}.
+      text: Lleve un registro de lo que siembra y cosecha, busque semillas para intercambiar y vea lo que crece cerca de usted.
     requested:
       link: Tienes cultivos %{number_crops} pendientes de aprobación
       subtitle: Pendiente de aprobación

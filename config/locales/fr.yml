@@ -229,6 +229,10 @@ fr:
     index:
       subtitle: '%{crops_size} total'
       title: Parcourir les cultures
+    join_banner:
+      heading: Growstuff est un site gratuit géré par la communauté pour les personnes qui cultivent des aliments.
+      prompt: Inscrivez-vous pour enregistrer vos propres %{crops}.
+      text: Gardez une trace de ce que vous plantez et récoltez, trouvez des graines à échanger et découvrez ce qui pousse près de chez vous.
     requested:
       link: Vous avez des cultures %{number_crops} en attente d'approbation
       subtitle: En attente d’approbation

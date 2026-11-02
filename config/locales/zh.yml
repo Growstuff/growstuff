@@ -229,6 +229,10 @@ zh:
     index:
       subtitle: '%{crops_size} 总计'
       title: 浏览农作物
+    join_banner:
+      heading: Growstuff 是一个免费的、由社区运营的网站，面向种植食物的人们。
+      prompt: 注册即可记录您自己的 %{crops}。
+      text: 记录您种植和收获的内容，寻找种子进行交换，并了解您附近种植的植物。
     requested:
       link: 您有 %{number_crops} 作物等待批准
       subtitle: 待批准
