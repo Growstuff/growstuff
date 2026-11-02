@@ -12,7 +12,7 @@ describe "crops/show" do
     @current_member = @member
     @harvest = create(:harvest, owner: @member)
     controller.stub(:current_user) { @member }
-    assign(:version_members, {})
+    assign(:last_edited_at, @crop.updated_at)
   end
 
   it "hides sunniness block if no sunniness" do
