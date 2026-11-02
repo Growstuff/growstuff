@@ -208,6 +208,14 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    alternate_name_modal:
+      add_title: Weiteren Namen für %{crop} hinzufügen
+      cancel: Abbrechen
+      close: Schließen
+      edit_title: Alternativen Namen bearbeiten
+      language: Sprache
+      name: Name
+      save: Speichern
     scientific_name_modal:
       add_title: Wissenschaftlichen Namen für %{crop} hinzufügen
       cancel: Abbrechen
