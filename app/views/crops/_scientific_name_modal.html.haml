@@ -9,8 +9,8 @@
         = f.hidden_field :crop_id, value: crop.id
         .modal-header
           %h4.modal-title{ id: "#{id}-title" }
-            = scientific_name.persisted? ? "Edit scientific name" : "Add a scientific name for #{crop.name}"
-          %button.btn-close{ "aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button" }
+            = scientific_name.persisted? ? t('.edit_title') : t('.add_title', crop: crop.name)
+          %button.btn-close{ "aria-label" => t('.close'), "data-bs-dismiss" => "modal", type: "button" }
         .modal-body
           - if scientific_name.errors.any?
             .alert.alert-danger{ role: 'alert' }
@@ -18,15 +18,15 @@
                 - scientific_name.errors.full_messages.each do |message|
                   %li= message
           .mb-3
-            = f.label :name, 'Scientific name', class: 'form-label'
+            = f.label :name, t('.name'), class: 'form-label'
             = f.text_field :name, class: 'form-control', required: true
           .mb-3
-            = f.label :gbif_key, 'GBIF key', class: 'form-label'
+            = f.label :gbif_key, t('.gbif_key'), class: 'form-label'
             = f.text_field :gbif_key, class: 'form-control'
-            %span.form-text The species key from gbif.org, if you have it.
+            %span.form-text= t('.gbif_hint')
           .mb-3
-            = f.label :wikidata_id, 'Wikidata ID', class: 'form-label'
+            = f.label :wikidata_id, t('.wikidata_id'), class: 'form-label'
             = f.text_field :wikidata_id, class: 'form-control'
         .modal-footer
-          %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" } Cancel
-          = f.submit 'Save', class: 'btn btn-primary'
+          %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" }= t('.cancel')
+          = f.submit t('.save'), class: 'btn btn-primary'

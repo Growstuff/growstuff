@@ -208,6 +208,16 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    scientific_name_modal:
+      add_title: Añadir un nombre científico para %{crop}
+      cancel: Cancelar
+      close: Cerrar
+      edit_title: Editar nombre científico
+      gbif_hint: La clave de especie de gbif.org, si la tienes.
+      gbif_key: Clave GBIF
+      name: Nombre científico
+      save: Guardar
+      wikidata_id: ID de Wikidata
     index:
       subtitle: '%{crops_size} total'
       title: Explorar cultivos
