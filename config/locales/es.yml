@@ -843,6 +843,12 @@ es:
       not_interested: Deja de sugerir %{name}
       visit: Visita los jardines de %{name}
     edit_profile: Editar perfil
+    email_prompt:
+      add_email: Añade tu correo electrónico
+      unset_body: Añade uno para recibir recordatorios de siembra y poder restablecer tu contraseña. Primero te enviaremos un enlace para confirmarlo, ya que debemos asegurarnos.
+      unset_title: No has configurado una dirección de correo electrónico.
+      waiting_body: Enviamos un enlace a %{email}. Síguelo y empezaremos a enviarte recordatorios.
+      waiting_title: Estamos esperando a que confirmes tu dirección de correo electrónico.
     follow_button:
       follow: Seguir
       follow_named: Seguir %{name}

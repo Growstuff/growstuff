@@ -32,3 +32,10 @@ ja:
   home:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
+  members:
+    email_prompt:
+      add_email: メールアドレスを追加
+      unset_body: 植え付けのリマインダーを受け取ったりパスワードをリセットできるように、メールアドレスを追加してください。確認のため、最初にリンクを送信します。
+      unset_title: メールアドレスが設定されていません。
+      waiting_body: '%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。'
+      waiting_title: メールアドレスの確認をお待ちしています。

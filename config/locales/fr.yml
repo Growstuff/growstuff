@@ -844,6 +844,12 @@ fr:
       not_interested: Arrêter de suggérer %{name}
       visit: Visitez les jardins de %{name}
     edit_profile: Modifier le profil
+    email_prompt:
+      add_email: Ajouter votre adresse e-mail
+      unset_body: Ajoutez-en une pour recevoir des rappels de plantation et pouvoir réinitialiser votre mot de passe. Nous vous enverrons d'abord un lien de confirmation, car nous devons nous en assurer.
+      unset_title: Vous n'avez pas défini d'adresse e-mail.
+      waiting_body: Nous avons envoyé un lien à %{email}. Suivez-le et nous commencerons à vous envoyer des rappels.
+      waiting_title: Nous attendons que vous confirmiez votre adresse e-mail.
     follow_button:
       follow: Suivre
       follow_named: Suivre %{name}
