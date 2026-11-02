@@ -1,0 +1,56 @@
+- content_for :title, "Merge crops"
+
+%h1 Merge crops
+
+%p.text-muted
+  Pick the duplicate crop, then the crop to keep. Its plantings, seeds, harvests, photos, varieties
+  and names move to the crop you keep, and the duplicate is deleted.
+
+%nav.nav
+  = link_to 'Crop wrangling', wrangle_crops_path, class: 'nav-link'
+
+%section.card.mb-3#duplicate-step
+  .card-body
+    %h2.h5 1. The duplicate (this crop will be deleted)
+    - if @duplicate
+      %p
+        %strong= link_to @duplicate.name, @duplicate
+        = link_to 'Change', admin_crop_merge_path(target_id: @target&.id), class: 'btn btn-sm btn-link'
+    - else
+      = render 'search', label: 'Search for the duplicate crop', param: :duplicate_id,
+        chosen: @target, query: @query, matches: @matches
+
+- if @duplicate
+  %section.card.mb-3#target-step
+    .card-body
+      %h2.h5 2. The crop to keep
+      - if @target
+        %p
+          %strong= link_to @target.name, @target
+          = link_to 'Change', admin_crop_merge_path(duplicate_id: @duplicate.id), class: 'btn btn-sm btn-link'
+      - else
+        = render 'search', label: 'Search for the crop to keep', param: :target_id,
+          chosen: @duplicate, query: @query, matches: @matches
+
+- if @duplicate && @target
+  %section.card.mb-3#confirm-step
+    .card-body
+      %h2.h5 3. Merge
+      %p
+        These move from
+        %strong= @duplicate.name
+        to
+        %strong #{@target.name}:
+      %table.table.table-sm.w-auto
+        %tbody
+          - @moves.each do |label, count|
+            %tr
+              %th.fw-normal= label
+              %td.text-end= count
+      %p The duplicate's name is added to the crop you keep as an alternate name.
+      :ruby
+        sentence = "Merge #{@duplicate.name} into #{@target.name}"
+        ids = { duplicate_id: @duplicate.id, target_id: @target.id }
+        confirmation = "#{sentence}? The duplicate is deleted."
+      = button_to sentence, admin_crop_merge_path, params: ids, class: 'btn btn-danger',
+        form: { data: { confirm: confirmation } }
