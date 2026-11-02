@@ -3,6 +3,26 @@ import React, {useEffect, useRef, useState} from 'react';
 import {getJson} from '../api';
 import PlantingFlow from './PlantingFlow';
 
+function closeOpenOffcanvases(trigger) {
+  const container = trigger?.closest?.('.offcanvas');
+  if (container) {
+    const toggle = document.querySelector(`[data-bs-target="#${container.id}"], [href="#${container.id}"]`);
+    if (toggle && toggle.focus) toggle.focus();
+  }
+
+  const openOffcanvases = Array.from(document.querySelectorAll('.offcanvas.show'));
+  const targets = new Set(container ? [container, ...openOffcanvases] : openOffcanvases);
+
+  targets.forEach((el) => {
+    if (window.bootstrap?.Offcanvas) {
+      const instance = window.bootstrap.Offcanvas.getInstance(el) || window.bootstrap.Offcanvas.getOrCreateInstance(el);
+      instance.hide();
+    } else {
+      el.classList.remove('show');
+    }
+  });
+}
+
 // The record harvest and save seeds dialogs for every server-rendered link to
 // the full form. Nothing of its own is drawn: it listens for clicks on any
 // [data-record-dialog="harvest"] or [data-record-dialog="seeds"] link on the
@@ -37,6 +57,7 @@ export default function RecordDialog({plantings_url: plantingsUrl}) {
       const trigger = event.target.closest('[data-record-dialog]');
       if (!trigger) return;
       event.preventDefault();
+      closeOpenOffcanvases(trigger);
       open.current(trigger);
     }
 

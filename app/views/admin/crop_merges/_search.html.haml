@@ -1,0 +1,27 @@
+-# Search for a crop, then choose it. `chosen` is the crop already picked for the other step, if any;
+-# `param` is the parameter this step sets.
+= form_with url: admin_crop_merge_path, method: :get, class: 'row g-2 my-2', role: 'search' do |f|
+  = hidden_field_tag :duplicate_id, chosen.id if chosen && param == :target_id
+  = hidden_field_tag :target_id, chosen.id if chosen && param == :duplicate_id
+  .col-sm-8.col-md-6
+    = f.search_field :q, value: query, class: 'form-control', placeholder: 'Search crops by name', 'aria-label': label
+  .col-auto
+    = f.submit 'Search', class: 'btn btn-primary', name: nil
+
+- other = param == :duplicate_id ? :target_id : :duplicate_id
+- if query.present? && matches
+  - if matches.empty?
+    %p.text-muted No crops match "#{query}".
+  - else
+    %ul.list-group.mb-2
+      - matches.each do |crop|
+        %li.list-group-item.d-flex.justify-content-between.align-items-center
+          %span
+            = crop_with_id(crop)
+            - if crop.parent
+              %small.text-muted (#{crop.parent.name})
+            - unless crop.approved?
+              %span.badge.bg-secondary= crop.approval_status
+            %small.text-muted= pluralize(crop.plantings_count, 'planting')
+          - choose_path = admin_crop_merge_path({ param => crop.id, other => chosen&.id }.compact)
+          = link_to 'Choose', choose_path, class: 'btn btn-sm btn-outline-primary'

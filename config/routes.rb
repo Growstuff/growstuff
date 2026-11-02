@@ -51,6 +51,17 @@ Rails.application.routes.draw do
   end
 
   # Before the gardens resource, so "nursery" isn't taken for a garden's slug.
+  # Opening and closing your own garden stall.
+  resource :stall, only: :update do
+    resource :opening, only: %i(create destroy), module: :stalls
+    resources :seeds, only: %i(new create destroy), module: :stalls
+  end
+
+  # A friend claiming a packet on someone's stall, or changing their mind.
+  resources :stall_seeds, only: [] do
+    resource :claim, only: %i(create destroy), module: :stalls
+  end
+
   resource :nursery, only: %i(show create) do
     get :panel
     resource :decline, only: :create, module: :nurseries
@@ -131,7 +142,10 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :crops, only: [:index]
+    resources :crops, only: [] do
+      get :recently_edited, on: :collection
+    end
+    resource :crop_merge, only: %i(show create), path: 'crops/merge'
     resources :versions, only: [] do
       post :revert, on: :member, as: :revert
     end
@@ -150,6 +164,7 @@ Rails.application.routes.draw do
   get '/timeline', to: redirect('/my/neighbours')
 
   resources :members, param: :slug do
+    resource :stall, only: :show
     # Before the gardens resource, so "inactive" isn't taken for a garden's slug.
     get 'gardens/inactive' => 'gardens#inactive', as: :inactive_gardens
     # param: :slug to match the top-level gardens resource, so the controller's

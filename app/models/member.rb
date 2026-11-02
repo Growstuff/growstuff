@@ -17,6 +17,8 @@ class Member < ApplicationRecord
   has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_one :stall, dependent: :destroy
+  has_many :claims, dependent: :destroy
   # Where they raise seedlings before planting them out.
   has_one :nursery, -> { nurseries }, class_name: 'Garden', foreign_key: 'owner_id', dependent: nil, inverse_of: :owner
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
@@ -188,6 +190,11 @@ class Member < ApplicationRecord
   # which can happen sometimes especially with FactoryBot associations
   after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
 
+  # Their stall, made the first time they open it.
+  def stall!
+    stall || create_stall!
+  end
+
   # Their nursery, made the first time it's wanted, as most members never need
   # one. The member may already have a garden called "Nursery", and garden names
   # are unique per member, so ours is numbered until it's free.
@@ -293,8 +300,24 @@ class Member < ApplicationRecord
     authentications.where(provider: Authentication::EMAIL_OPTIONAL_PROVIDERS).where.not(id: authentication.id).none?
   end
 
+  # The name of the place they garden in, as the location dialog wrote it:
+  # "Wellington, Wellington Region, New Zealand" is Wellington. Nothing more
+  # precise than that is ever shown.
+  def location_place
+    location.to_s.split(',').first.to_s.squish.presence
+  end
+
+  def located?
+    location.present? && latitude.present? && longitude.present?
+  end
+
   def auth(provider)
     authentications.find_by(provider:)
+  end
+
+  # Whether they sign in with Bluesky, which is how they are known on a stall.
+  def bluesky?
+    authentications.any? { |authentication| authentication.provider == 'bluesky' }
   end
 
   def unread_count
