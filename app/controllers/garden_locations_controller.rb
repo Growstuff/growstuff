@@ -17,4 +17,14 @@ class GardenLocationsController < ApplicationController
     garden.update_columns(place) # rubocop:disable Rails/SkipsModelValidations
     render json: { location: place[:location] }
   end
+
+  def destroy
+    garden = Garden.friendly.find(params[:garden_slug])
+    authorize! :update, garden
+    garden.update_columns(location: nil, latitude: nil, longitude: nil, location_wikidata_id: nil) # rubocop:disable Rails/SkipsModelValidations
+    respond_to do |format|
+      format.json { head :no_content }
+      format.html { redirect_back_or_to edit_garden_path(garden), notice: t('messages.location_cleared') }
+    end
+  end
 end

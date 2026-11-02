@@ -450,18 +450,40 @@ $dash-line: rgba(65, 63, 59, 0.15);
   left: 0;
   z-index: 1020;
   display: flex;
-  gap: 10px;
-  padding: 12px 16px;
+  align-items: stretch;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
   background: #fff;
   border-top: 1px solid rgba(65, 63, 59, 0.25);
   box-shadow: 0 -2px 8px rgba(65, 63, 59, 0.15);
 
-  .home-quick-action { flex: 1; }
+  .home-quick-action {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+  }
 
-  .btn { width: 100%; padding: 12px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    padding: 8px 6px;
+    font-size: clamp(0.78rem, 3.2vw, 0.9rem);
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+
+    @media (max-width: 380px) {
+      padding: 8px 4px;
+      font-size: 0.75rem;
+    }
+  }
 }
 
-.home-action-bar-spacer { height: 84px; }
+.home-action-bar-spacer { height: calc(70px + env(safe-area-inset-bottom, 0px)); }
 
 .home-welcome-actions .home-quick-action { display: inline-block; }
 

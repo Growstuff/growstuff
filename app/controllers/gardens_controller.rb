@@ -114,6 +114,9 @@ class GardensController < DataController
 
   def create
     @garden.owner_id = current_member.id
+    # A new garden starts where its owner gardens; the garden's own place is chosen in the dialog afterwards.
+    place = current_member.located_place
+    @garden.assign_attributes(location: place[:name], latitude: place[:latitude], longitude: place[:longitude]) if place
     return render_card_json(@garden.save) if request.format.json?
 
     if @garden.save
@@ -305,8 +308,8 @@ class GardensController < DataController
   def garden_params
     params.require(:garden).permit(
       :name, :slug, :description, :active,
-      :location, :latitude, :longitude, :area, :area_unit, :garden_type_id,
-      :location_wikidata_id, :lowest_temp_c, :highest_temp_c,
+      :area, :area_unit, :garden_type_id,
+      :lowest_temp_c, :highest_temp_c,
       :grid_columns, :grid_rows
     )
   end

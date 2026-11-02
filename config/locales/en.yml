@@ -209,6 +209,16 @@ en:
         published: Published
     saved: Job template saved.
   crops:
+    scientific_name_modal:
+      add_title: Add a scientific name for %{crop}
+      cancel: Cancel
+      close: Close
+      edit_title: Edit scientific name
+      gbif_hint: The species key from gbif.org, if you have it.
+      gbif_key: GBIF key
+      name: Scientific name
+      save: Save
+      wikidata_id: Wikidata ID
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops
@@ -338,6 +348,15 @@ en:
     updated: Garden was successfully updated.
   harvests:
     created: Harvest was successfully created.
+    edit_modal:
+      harvested_at: When did you harvest it?
+      notes: Notes
+      plant_part: What part did you harvest?
+      quantity: How many?
+      title: Edit %{crop} harvest
+      unit: Counted as
+      weight_quantity: Weighing (in total)
+      weight_unit: Weighed in
     harvest_something: Harvest something
     index:
       title:
@@ -875,6 +894,8 @@ en:
     follow_error: Already following or error while following.
     followed: Followed %{name}
     invalid_location: Please enter a valid location
+    location_cleared: Location removed.
+    location_unplaced_html: We can't find "%{location}" on the map. <a href="%{link}">Choose your location from the list</a> so we can show you what's growing near you.
     revert_error: 'Could not revert to version from %{date}. Errors: %{errors}'
     revert_success: Reverted to version from %{date}
     transplant_error: 'There was an error transplanting the planting: %{errors}'

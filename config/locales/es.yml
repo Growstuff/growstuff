@@ -208,6 +208,16 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    scientific_name_modal:
+      add_title: Añadir un nombre científico para %{crop}
+      cancel: Cancelar
+      close: Cerrar
+      edit_title: Editar nombre científico
+      gbif_hint: La clave de especie de gbif.org, si la tienes.
+      gbif_key: Clave GBIF
+      name: Nombre científico
+      save: Guardar
+      wikidata_id: ID de Wikidata
     index:
       subtitle: '%{crops_size} total'
       title: Explorar cultivos
@@ -337,6 +347,15 @@ es:
     updated: El jardín se actualizó con éxito.
   harvests:
     created: La cosecha se creó con éxito.
+    edit_modal:
+      harvested_at: '¿Cuándo lo cosechaste?'
+      notes: Notas
+      plant_part: '¿Qué parte cosechaste?'
+      quantity: '¿Cuántos?'
+      title: Editar cosecha de %{crop}
+      unit: Contado como
+      weight_quantity: Pesando (en total)
+      weight_unit: Pesado en
     harvest_something: Cosechar algo
     index:
       title:

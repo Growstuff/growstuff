@@ -208,6 +208,16 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    scientific_name_modal:
+      add_title: 为%{crop}添加学名
+      cancel: 取消
+      close: 关闭
+      edit_title: 编辑学名
+      gbif_hint: gbif.org 上的物种编号（如果有）。
+      gbif_key: GBIF 编号
+      name: 学名
+      save: 保存
+      wikidata_id: 维基数据 ID
     index:
       subtitle: '%{crops_size} 总计'
       title: 浏览农作物
@@ -337,6 +347,15 @@ zh:
     updated: 花园已成功更新。
   harvests:
     created: 收获成功创建。
+    edit_modal:
+      harvested_at: 你什么时候收获的？
+      notes: 笔记
+      plant_part: 你收获了哪个部位？
+      quantity: 数量？
+      title: 编辑%{crop}收获
+      unit: 计件单位
+      weight_quantity: 重量（总计）
+      weight_unit: 称重单位
     harvest_something: 收获一些东西
     index:
       title:

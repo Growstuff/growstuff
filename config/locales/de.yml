@@ -208,6 +208,16 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    scientific_name_modal:
+      add_title: Wissenschaftlichen Namen für %{crop} hinzufügen
+      cancel: Abbrechen
+      close: Schließen
+      edit_title: Wissenschaftlichen Namen bearbeiten
+      gbif_hint: Der Artenschlüssel von gbif.org, falls vorhanden.
+      gbif_key: GBIF-Schlüssel
+      name: Wissenschaftlicher Name
+      save: Speichern
+      wikidata_id: Wikidata-ID
     index:
       subtitle: '%{crops_size} insgesamt'
       title: Durchsuchen Sie Pflanzen
@@ -337,6 +347,15 @@ de:
     updated: Der Garten wurde erfolgreich aktualisiert.
   harvests:
     created: Harvest wurde erfolgreich erstellt.
+    edit_modal:
+      harvested_at: Wann hast du geerntet?
+      notes: Notizen
+      plant_part: Welchen Pflanzenteil hast du geerntet?
+      quantity: Wie viele?
+      title: '%{crop}-Ernte bearbeiten'
+      unit: Gezählt als
+      weight_quantity: Gewicht (insgesamt)
+      weight_unit: Gewogen in
     harvest_something: Etwas ernten
     index:
       title:

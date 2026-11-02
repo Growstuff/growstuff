@@ -4,12 +4,18 @@
   - if content_for?(:opengraph)
     = yield(:opengraph)
   - else
-    = tag("meta", property: "og:image", content: image_url('facebook-thumbnail.png'))
+    = tag("meta", property: "og:image", content: image_url('og-card.png'))
+    = tag("meta", property: "og:image:width", content: "1200")
+    = tag("meta", property: "og:image:height", content: "630")
+    = tag("meta", property: "og:image:alt", content: "Growstuff, a community of food gardeners: a pear with a sunflower, a snail, a ladybird, a watering can and a cat.")
     = tag("meta", property: "og:title",
           content: (content_for?(:title) ? yield(:title) + " - " : "") + ENV['GROWSTUFF_SITE_NAME'])
+    = tag("meta", property: "og:description",
+          content: (content_for?(:meta_description) ? og_description(yield(:meta_description)) : "Growstuff is a community of food gardeners. Let's learn to grow food together. All our data is open data."))
     = tag("meta", property: "og:type", content: "website")
-    = tag("meta", property: "og:url", content: root_url)
+    = tag("meta", property: "og:url", content: request.original_url)
     = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
+  = tag("meta", name: "twitter:card", content: "summary_large_image")
 
   - if content_for?(:member_rss_login_name) && content_for(:member_rss_slug)
     = auto_discovery_link_tag(:rss,
