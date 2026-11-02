@@ -15,7 +15,7 @@ module Admin
       @target = nil if @target == @duplicate
       @query = params[:q].to_s.squish
       @matches = matching_crops if @query.present? && (@duplicate.nil? || @target.nil?)
-      @moves = CropMerger.new(@duplicate, @target, member: current_member).moves if @duplicate && @target
+      @plan = CropMerger.new(@duplicate, @target, member: current_member).plan if @duplicate && @target
     end
 
     def create

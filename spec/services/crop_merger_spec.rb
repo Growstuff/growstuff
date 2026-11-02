@@ -254,14 +254,75 @@ describe CropMerger do
     end
   end
 
-  describe '#moves' do
-    before do
-      create(:planting, crop: duplicate)
-      create(:planting, crop: duplicate)
+  describe '#plan' do
+    subject(:plan) { merger.plan }
+
+    context 'with nothing attached to the duplicate' do
+      it { is_expected.to be_empty }
     end
 
-    it 'counts what would move' do
-      expect(merger.moves).to include('Plantings' => 2)
+    context 'with plantings' do
+      let!(:planting) { create(:planting, crop: duplicate) }
+
+      it 'lists the group' do
+        expect(plan.map(&:label)).to eq ['Plantings']
+      end
+
+      it 'lists the planting that would move' do
+        expect(plan.first.moving).to eq [planting]
+      end
+
+      it 'counts them' do
+        expect(plan.first.total).to eq 1
+      end
+    end
+
+    context 'with more plantings than are shown' do
+      before { create_list(:planting, described_class::SHOWN + 1, crop: duplicate) }
+
+      it 'shows only some' do
+        expect(plan.first.moving.size).to eq described_class::SHOWN
+      end
+
+      it 'still counts them all' do
+        expect(plan.first.total).to eq described_class::SHOWN + 1
+      end
+    end
+
+    context 'with a scientific name the target already has' do
+      before do
+        create(:scientific_name, crop: duplicate, name: 'Capsicum chinense')
+        create(:scientific_name, crop: target, name: 'capsicum chinense')
+      end
+
+      it 'leaves it behind' do
+        expect(plan.first.skipped.map(&:name)).to eq ['Capsicum chinense']
+      end
+
+      it 'moves nothing' do
+        expect(plan.first.total).to eq 0
+      end
+    end
+
+    context 'with a variety of the duplicate' do
+      let!(:variety) { create(:crop, name: 'habanero orange', parent: duplicate) }
+
+      it 'lists it' do
+        expect(plan.first.moving).to eq [variety]
+      end
+    end
+
+    context 'with a companion that would pair the target with itself' do
+      before { CropCompanion.create!(crop_a: duplicate, crop_b: target) }
+
+      it 'leaves it behind' do
+        expect(plan.first.skipped.size).to eq 1
+      end
+    end
+
+    it 'changes nothing' do
+      create(:planting, crop: duplicate)
+      expect { plan }.not_to change(Planting, :count)
     end
   end
 end
