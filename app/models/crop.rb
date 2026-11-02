@@ -208,9 +208,22 @@ class Crop < ApplicationRecord
                         end
   end
 
+  before_validation :release_slug, if: :rejected?
   before_destroy :destroy_reverse_companionships
 
+  def should_generate_new_friendly_id?
+    slug.blank? || (!rejected? && name_changed?)
+  end
+
   private
+
+  def release_slug
+    return if slug.blank?
+    return if slug.include?('-rejected-')
+
+    suffix = id || SecureRandom.hex(4)
+    self.slug = "#{slug}-rejected-#{suffix}"
+  end
 
   def destroy_reverse_companionships
     CropCompanion.where(crop_b: self).destroy_all

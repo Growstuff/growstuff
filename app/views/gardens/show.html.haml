@@ -23,6 +23,7 @@
           .mb-3
             = render 'jobs/ideas_banner', href: suggestions_path, open: false,
               text: t('.suggested_plantings', count: @suggestion_count), go: t('.suggested_plantings_go')
+        = render 'stalls/card', member: @garden.owner if @garden.nursery?
         = render 'gardens/facts', garden: @garden, growing_now: @current_plantings.size
         = render 'gardens/description', garden: @garden
         = render 'gardens/join_prompt', garden: @garden unless member_signed_in?

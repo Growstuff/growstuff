@@ -1,0 +1,46 @@
+= render 'shared/record_meta', title: t('.title', name: @member), image: image_url('stall-card.png'),
+  description: t('.description', name: @member, count: @stall.seeds.size)
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to t('layouts.menu.gardens'), gardens_path
+  %li.breadcrumb-item.active= t('.breadcrumb')
+
+.stall-page
+  = render 'stalls/stall', member: @member, open: @stall.open?, opening: @opening, stocked: @stall.seeds.any?
+
+  -# Closed, the owner is on the shutter instead.
+  - if @stall.open?
+    = render 'stalls/owner', member: @member, large: true, url: (member_stall_url(@member) if @owner)
+
+  = render 'stalls/terms', stall: @stall if @stall.open?
+
+  = render 'stalls/seed_tin', stall: @stall, owner: @owner if @stall.seeds.any?
+
+  = render 'stalls/about_growstuff', member: @member if @stall.open? && !member_signed_in?
+
+  - if @owner
+    - if @stall.open?
+      - if @stall.seeds.empty?
+        %section.stall-panel{ 'aria-labelledby': 'stall-first-h', class: ('stall-reveal-delayed' if @opening) }
+          %h1#stall-first-h= t('.first_heading')
+          %p.text-muted= t('.first_intro')
+          .stall-choices
+            %button.stall-choice{ type: 'button', disabled: true }
+              %strong= t('.seedlings')
+              %span= t('.seedlings_text')
+              %span.stall-choice-soon= t('.coming_soon')
+            = link_to new_stall_seed_path, class: 'stall-choice' do
+              %strong= t('.seeds')
+              %span= t('.seeds_text')
+              %span.stall-choice-add= t('.add_seeds')
+      = render 'stalls/settings', stall: @stall
+      .mt-3
+        = button_to t('.close'), stall_opening_path, method: :delete, class: 'btn btn-secondary'
+    - else
+      %section.stall-panel{ 'aria-labelledby': 'stall-open-h' }
+        %h1#stall-open-h= t('.open_heading')
+        %p= t('.open_intro')
+        %ul
+          - %i(choose_what choose_who choose_where expiry privacy).each do |point|
+            %li= t(".points.#{point}")
+        = button_to t('.open'), stall_opening_path, class: 'btn btn-primary btn-lg'

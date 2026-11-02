@@ -1,0 +1,20 @@
+-# The owner choosing who can claim: where friends can be, and whether they may be
+-# asked to pay for postage.
+%section.stall-panel.stall-settings{ 'aria-labelledby': 'stall-settings-h' }
+  %h2#stall-settings-h= t('.heading')
+  = form_with model: stall, url: stall_path, method: :patch do |f|
+    %fieldset
+      %legend= t('.where')
+      - Stall.claim_areas.each_key do |area|
+        = f.label "claim_area_#{area}", class: 'stall-offer-choice' do
+          = f.radio_button :claim_area, area
+          = t(".areas.#{area}", place: stall.member.location_place || t('.your_place'))
+      %p.text-muted= t('.where_help')
+    - unless stall.member.located?
+      %p.stall-note
+        = t('.unplaced')
+        = link_to t('.set_place'), edit_member_registration_path
+    %label.stall-offer-choice
+      = f.check_box :postage
+      = t('.postage')
+    %p= f.submit t('.save'), class: 'btn btn-primary'
