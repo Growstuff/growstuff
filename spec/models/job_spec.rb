@@ -143,7 +143,7 @@ RSpec.describe Job do
 
     context 'with a planting in a garden the owner collaborates on' do
       let(:garden) { create(:garden) }
-      let(:jobbable) { create(:planting, garden:) }
+      let(:jobbable) { create(:planting, garden:, owner: garden.owner) }
 
       before { create(:garden_collaborator, garden:, member: owner) }
 
@@ -152,7 +152,10 @@ RSpec.describe Job do
 
     context 'with a planting in a garden the owner owns, planted by a collaborator' do
       let(:garden) { create(:garden, owner:) }
-      let(:jobbable) { create(:planting, garden:, owner: create(:member)) }
+      let(:collaborator) { create(:member) }
+      let(:jobbable) { create(:planting, garden:, owner: collaborator) }
+
+      before { create(:garden_collaborator, garden:, member: collaborator) }
 
       it { is_expected.to be_valid }
     end
