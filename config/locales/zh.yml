@@ -216,6 +216,16 @@ zh:
       language: 语言
       name: 名称
       save: 保存
+    scientific_name_modal:
+      add_title: 为%{crop}添加学名
+      cancel: 取消
+      close: 关闭
+      edit_title: 编辑学名
+      gbif_hint: gbif.org 上的物种编号（如果有）。
+      gbif_key: GBIF 编号
+      name: 学名
+      save: 保存
+      wikidata_id: 维基数据 ID
     index:
       subtitle: '%{crops_size} 总计'
       title: 浏览农作物

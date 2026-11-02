@@ -49,6 +49,31 @@ describe GardenLocationsController do
     end
   end
 
+  context 'when clearing it as the owner' do
+    before do
+      garden.update_columns(location: 'Wellington, New Zealand', latitude: -41.2887, longitude: 174.7772) # rubocop:disable Rails/SkipsModelValidations
+      sign_in owner
+      delete garden_location_path(garden)
+    end
+
+    it 'removes the place and its coordinates' do
+      expect(garden.reload).to have_attributes(location: nil, latitude: nil, longitude: nil)
+    end
+
+    it 'goes back to the garden form' do
+      expect(response).to redirect_to(edit_garden_path(garden))
+    end
+  end
+
+  context 'when clearing it as someone else' do
+    before { sign_in create(:member) }
+
+    it 'does not change the garden' do
+      garden.update_columns(location: 'Dunedin') # rubocop:disable Rails/SkipsModelValidations
+      expect { delete garden_location_path(garden) }.not_to(change { garden.reload.location })
+    end
+  end
+
   context 'when signed in as someone else' do
     before { sign_in create(:member) }
 

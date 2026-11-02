@@ -216,6 +216,16 @@ de:
       language: Sprache
       name: Name
       save: Speichern
+    scientific_name_modal:
+      add_title: Wissenschaftlichen Namen für %{crop} hinzufügen
+      cancel: Abbrechen
+      close: Schließen
+      edit_title: Wissenschaftlichen Namen bearbeiten
+      gbif_hint: Der Artenschlüssel von gbif.org, falls vorhanden.
+      gbif_key: GBIF-Schlüssel
+      name: Wissenschaftlicher Name
+      save: Speichern
+      wikidata_id: Wikidata-ID
     index:
       subtitle: '%{crops_size} insgesamt'
       title: Durchsuchen Sie Pflanzen

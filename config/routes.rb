@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get '/community-gardens', to: 'home#community_gardens'
   get '/releases', to: 'home#releases', as: :releases
   patch '/my/location', to: 'member_locations#update', as: :member_location
+  delete '/my/location', to: 'member_locations#destroy'
   patch '/my/name', to: 'member_names#update', as: :member_name
   patch '/my/email', to: 'member_emails#update', as: :member_email
   post '/my/email/decline', to: 'member_emails#decline', as: :decline_member_email
@@ -62,7 +63,7 @@ Rails.application.routes.draw do
     post 'stop_nursery' => 'gardens#stop_nursery', on: :member
 
     resources :garden_collaborators
-    resource :location, only: :update, controller: 'garden_locations'
+    resource :location, only: %i(update destroy), controller: 'garden_locations'
   end
 
   # What the record harvest and save seeds dialogs offer to choose from.
