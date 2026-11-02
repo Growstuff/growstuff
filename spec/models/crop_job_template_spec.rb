@@ -66,4 +66,35 @@ describe CropJobTemplate do
       expect(found).not_to include(create(:crop_job_template, crop: create(:crop, parent:)))
     end
   end
+
+  describe '#in_season?' do
+    subject(:template) { build(:crop_job_template, season:) }
+
+    let(:southern) { -41.3 }
+    let(:northern) { 51.5 }
+
+    context 'when it is for spring and summer' do
+      let(:season) { 'spring_summer' }
+
+      it { expect(template.in_season?(Date.new(2026, 10, 10), southern)).to be true }
+      it { expect(template.in_season?(Date.new(2026, 6, 10), southern)).to be false }
+      it { expect(template.in_season?(Date.new(2026, 6, 10), northern)).to be true }
+      it { expect(template.in_season?(Date.new(2026, 10, 10), northern)).to be false }
+      it { expect(template.in_season?(Date.new(2026, 6, 10), nil)).to be true }
+    end
+
+    context 'when it is for autumn and winter' do
+      let(:season) { 'autumn_winter' }
+
+      it { expect(template.in_season?(Date.new(2026, 6, 10), southern)).to be true }
+      it { expect(template.in_season?(Date.new(2026, 12, 10), southern)).to be false }
+    end
+
+    context 'when it is for any time' do
+      let(:season) { 'any' }
+
+      it { expect(template.in_season?(Date.new(2026, 6, 10), southern)).to be true }
+      it { expect(template.season_months(southern)).to be_nil }
+    end
+  end
 end

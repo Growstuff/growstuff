@@ -26,7 +26,7 @@ describe CropsController, '#show job templates' do
     end
 
     it { is_expected.to have_no_css('.crop-job-signup') }
-    it { is_expected.to have_button('Add tomato growing jobs to my jobs') }
+    it { is_expected.to have_css('.crop-job-add') }
   end
 
   context 'when signed in and the jobs are already in their jobs' do
@@ -37,7 +37,7 @@ describe CropsController, '#show job templates' do
       get crop_path(crop)
     end
 
-    it { is_expected.to have_no_button('Add tomato growing jobs to my jobs') }
+    it { is_expected.to have_no_css('.crop-job-add') }
     it { is_expected.to have_css('.crop-job-added', text: 'Your jobs already have the tomato growing jobs.') }
     it { is_expected.to have_link('See your jobs.', href: jobs_path) }
   end
@@ -52,8 +52,9 @@ describe CropsController, '#show job templates' do
       get crop_path(crop)
     end
 
-    it { is_expected.to have_css('.crop-job-planting', text: 'cherry tomato') }
-    it { is_expected.to have_button('Add to this planting') }
+    it { is_expected.to have_css('.dropdown-toggle', text: 'Add tomato growing jobs to my jobs') }
+    it { is_expected.to have_css('.dropdown-menu button.dropdown-item', text: 'Add to cherry tomato in') }
+    it { is_expected.to have_css('.dropdown-item[data-bs-target="#crop-jobs-modal"]', text: 'A new tomato planting I\'m going to do') }
 
     context 'when the planting already has the jobs' do
       before do
@@ -61,7 +62,19 @@ describe CropsController, '#show job templates' do
         get crop_path(crop)
       end
 
-      it { is_expected.to have_no_css('.crop-job-planting') }
+      it { is_expected.to have_no_css('button.dropdown-item') }
+      it { is_expected.to have_css('button.crop-job-add[data-bs-target="#crop-jobs-modal"]') }
+    end
+
+    context 'when the jobs are in for the planting and for one to come' do
+      before do
+        AddCropJobs.new(member, crop, planting:).call
+        AddCropJobs.new(member, crop).call
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_css('.crop-job-added') }
+      it { is_expected.to have_no_css('.crop-job-templates .dropdown-toggle') }
     end
   end
 
@@ -71,11 +84,16 @@ describe CropsController, '#show job templates' do
       get crop_path(crop)
     end
 
-    it { is_expected.to have_no_css('.crop-job-plantings') }
+    it { is_expected.to have_no_css('.crop-job-templates .dropdown-menu') }
+    it { is_expected.to have_css('button.crop-job-add[data-bs-target="#crop-jobs-modal"]', text: 'Add tomato growing jobs to my jobs') }
+    it { is_expected.to have_no_css('.crop-job-templates .dropdown-menu') }
+    it { is_expected.to have_css('#crop-jobs-modal form') }
+    it { is_expected.to have_field('When do you want to plant tomato?', with: AddCropJobs.default_planting_on.iso8601) }
+    it { is_expected.to have_css('#crop-jobs-modal ol.crop-job-modal-steps li', text: 'Stake or cage the plants') }
   end
 
   context 'when signed out, there is no button to add the jobs' do
-    it { is_expected.to have_no_button('Add tomato growing jobs to my jobs') }
+    it { is_expected.to have_no_css('.crop-job-add') }
   end
 
   context 'with a draft template' do
