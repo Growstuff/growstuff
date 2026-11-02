@@ -1,0 +1,19 @@
+-# The stall itself: awning, sign and table. Closed, it is boarded up behind a
+-# shutter. Just opened, the pieces animate in; see _stalls.scss.
+- name = t('.sign', name: member)
+%section.stall{ 'aria-label': name, class: [('stall-closed' unless open), ('stall-opening' if opening)] }
+  .stall-awning{ 'aria-hidden': 'true' }
+    - 12.times do |i|
+      %span{ class: (i.even? ? 'stall-stripe-green' : 'stall-stripe-white') }
+  .stall-body
+    .stall-sign
+      %p.stall-sign-name= name
+      %p.stall-sign-text= t('.tagline')
+    .stall-table
+      .stall-spots{ 'aria-hidden': 'true' }
+        - %i(seedlings seeds more).each do |spot|
+          .stall-spot= t(".spots.#{spot}")
+      .stall-tabletop
+  .stall-shutter
+    = render 'stalls/owner', member: member
+    %span.stall-shutter-sign= t('.closed')
