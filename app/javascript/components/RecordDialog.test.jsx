@@ -64,4 +64,26 @@ describe('RecordDialog', () => {
     await userEvent.click(screen.getByRole('link', {name: 'Add seeds'}));
     await waitFor(() => expect(location.href).toBe('/seeds/new'));
   });
+
+  it('closes an open offcanvas when a link is clicked', async () => {
+    const hide = vi.fn();
+    window.bootstrap = {
+      Offcanvas: {
+        getInstance: vi.fn(() => ({hide})),
+        getOrCreateInstance: vi.fn(() => ({hide})),
+      },
+    };
+
+    const offcanvas = document.createElement('div');
+    offcanvas.id = 'quickAdd';
+    offcanvas.className = 'offcanvas show';
+    document.body.appendChild(offcanvas);
+
+    links();
+    await userEvent.click(screen.getByRole('link', {name: 'Add seeds'}));
+
+    expect(hide).toHaveBeenCalled();
+    offcanvas.remove();
+    delete window.bootstrap;
+  });
 });
