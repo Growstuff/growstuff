@@ -15,12 +15,12 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
     "@popperjs/core": "^2.11.8",
-    "@tiptap/core": "^3.32.0",
-    "@tiptap/markdown": "^3.32.0",
-    "@tiptap/pm": "^3.32.0",
-    "@tiptap/react": "^3.32.0",
-    "@tiptap/starter-kit": "^3.32.0",
-    "@tiptap/suggestion": "^3.32.0",
+    "@tiptap/core": "^3.32.1",
+    "@tiptap/markdown": "^3.32.1",
+    "@tiptap/pm": "^3.32.1",
+    "@tiptap/react": "^3.32.1",
+    "@tiptap/starter-kit": "^3.32.1",
+    "@tiptap/suggestion": "^3.32.1",
     "bootstrap": "^5.3.8",
     "chart.js": "^4.6.1",
     "chartkick": "^5.0.1",
@@ -32,7 +32,7 @@
     "leaflet.markercluster": "^1.5.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "sass": "^1.106.1",
+    "sass": "^1.107.0",
     "shareon": "^2.8.1"
   },
   "engines": {
