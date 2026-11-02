@@ -13,7 +13,6 @@
         %ol.crop-notepad-steps
           - template.steps.each do |step|
             %li.crop-job-step
-              %span.crop-notepad-box{ 'aria-hidden': 'true' }
               %span.crop-notepad-name
                 - if step.external_uri.present?
                   = link_to step.name, step.external_uri, rel: 'nofollow noopener', target: '_blank'
@@ -22,7 +21,9 @@
               %span.crop-notepad-when= crop_job_when(step)
               - unless step.repeat_once?
                 %span.crop-notepad-repeat= crop_job_option(:repeat, step.repeat)
-    - unless member_signed_in?
+    - if member_signed_in?
+      = button_to t('crop_jobs.add', crop: crop.name), crop_jobs_path(crop), class: 'btn btn-secondary crop-job-add'
+    - else
       %p.crop-job-signup
         = link_to 'Sign up to track these tasks and get other suggestions.',
                   new_member_registration_path, data: { auth_dialog: 'sign_up' }

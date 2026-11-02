@@ -26,6 +26,11 @@ describe CropsController, '#show job templates' do
     end
 
     it { is_expected.to have_no_css('.crop-job-signup') }
+    it { is_expected.to have_button('Add tomato growing jobs to my jobs') }
+  end
+
+  context 'when signed out, there is no button to add the jobs' do
+    it { is_expected.to have_no_button('Add tomato growing jobs to my jobs') }
   end
 
   context 'with a draft template' do
