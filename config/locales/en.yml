@@ -890,6 +890,11 @@ en:
     card:
       not_interested: Stop suggesting %{name}
       visit: Visit %{name}'s gardens
+    contact:
+      flickr_logo: Flickr logo
+      heading: Contact
+      more: More...
+      website: Website
     edit_profile: Edit profile
     email_prompt:
       add_email: Add your email
