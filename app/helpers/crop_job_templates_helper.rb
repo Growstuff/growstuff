@@ -16,8 +16,11 @@ module CropJobTemplatesHelper
       crop.varieties.order(:name).map { |variety| [t('crop_job_templates.options.applies_to_one', crop: variety.name), variety.id] }
   end
 
-  # "2 weeks after planting out", for a step.
+  # "2 weeks after planting out", for a step, or "at sowing" when it is on the day.
   def crop_job_when(step)
-    "#{step.offset_amount} #{step.offset_unit} #{step.direction} #{crop_job_option(:anchor, step.anchor)}"
+    anchor = crop_job_option(:anchor, step.anchor)
+    return "at #{anchor}" if step.offset_amount.zero?
+
+    "#{pluralize(step.offset_amount, step.offset_unit.singularize)} #{step.direction} #{anchor}"
   end
 end
