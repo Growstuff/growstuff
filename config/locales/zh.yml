@@ -208,6 +208,14 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    alternate_name_modal:
+      add_title: 为%{crop}添加别名
+      cancel: 取消
+      close: 关闭
+      edit_title: 编辑别名
+      language: 语言
+      name: 名称
+      save: 保存
     scientific_name_modal:
       add_title: 为%{crop}添加学名
       cancel: 取消
