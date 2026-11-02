@@ -116,6 +116,15 @@ class Crop < ApplicationRecord
     scientific_names.first
   end
 
+  def ecocrop_data
+    # Match against any of the crop's scientific names, starting with default
+    scientific_names.each do |sn|
+      record = EcocropData.by_scientific_name(sn.name)
+      return record if record.present?
+    end
+    nil
+  end
+
   # returns hash indicating whether this crop is grown in
   # sun/semi-shade/shade
   # key: sunniness (eg. 'sun')
