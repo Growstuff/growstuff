@@ -885,4 +885,43 @@ describe Crop do
       expect(crop.sow_months_northern).to eq [3, 4, 5]
     end
   end
+
+  describe '.with_parents' do
+    let!(:parent) { create(:crop, name: 'tomato') }
+    let!(:variety) { create(:crop, name: 'cherry tomato', parent:) }
+
+    before { create(:crop, name: 'carrot') }
+
+    it { expect(described_class.where(id: variety.id).with_parents).to contain_exactly(parent, variety) }
+    it { expect(described_class.where(id: parent.id).with_parents).to contain_exactly(parent) }
+  end
+
+  describe '.update_all_seed_medians' do
+    let(:parent) { create(:crop, name: 'tomato') }
+    let(:variety) { create(:crop, name: 'cherry tomato', parent:) }
+
+    before do
+      create(:seed, crop: variety, row_spacing: 40)
+      parent.update_columns(median_row_spacing: nil) # rubocop:disable Rails/SkipsModelValidations
+      variety.update_columns(median_row_spacing: nil) # rubocop:disable Rails/SkipsModelValidations
+      described_class.update_all_seed_medians
+    end
+
+    it { expect(variety.reload.median_row_spacing).to eq 40 }
+    it { expect(parent.reload.median_row_spacing).to eq 40 }
+  end
+
+  describe 'its history, with months to sow' do
+    subject(:crop) { create(:tomato) }
+
+    before do
+      crop.update!(sow_months: [9, 10])
+      crop.update!(sow_months: [11], description: 'Changed')
+    end
+
+    it 'can be reverted to the version with the earlier months' do
+      crop.update!(sow_months: [1, 2], description: 'Changed again')
+      expect(crop.versions.last.reify.sow_months).to eq [11]
+    end
+  end
 end

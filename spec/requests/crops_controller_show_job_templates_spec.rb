@@ -78,6 +78,20 @@ describe CropsController, '#show job templates' do
     end
   end
 
+  context 'when signed in as a member in the southern hemisphere, with a template for spring and summer' do
+    let(:template) { create(:crop_job_template, crop:, name: 'Tomato jobs', status: 'published', season: 'spring_summer') }
+
+    before do
+      sign_in create_located_member('Wellington, Wellington Region, New Zealand', -41.29, 174.78)
+      get crop_path(crop)
+    end
+
+    it 'gives the dialog the months the template is for' do
+      seasons = JSON.parse(page.find('#crop-jobs-modal form')['data-crop-job-seasons'])
+      expect(seasons).to eq [{ 'name' => 'Tomato jobs', 'season' => 'spring and summer', 'months' => [1, 2, 9, 10, 11, 12] }]
+    end
+  end
+
   context 'when signed in without a planting' do
     before do
       sign_in create(:member)

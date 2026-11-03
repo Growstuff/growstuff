@@ -5,8 +5,7 @@
 class BackfillCropSeedMedians < ActiveRecord::Migration[8.1]
   def up
     Crop.reset_column_information
-    with_seeds = Crop.where(id: Seed.unscoped.select(:crop_id))
-    with_seeds.or(Crop.where(id: with_seeds.select(:parent_id))).find_each(&:update_seed_medians)
+    Crop.update_all_seed_medians
   end
 
   def down

@@ -6,7 +6,6 @@ const seasons = [{ name: 'Tomato jobs', season: 'spring and summer', months: [9,
 describe('initCropJobSeason', () => {
   let field;
   let warning;
-  let confirm;
   let submit;
 
   const pick = (value) => {
@@ -21,13 +20,11 @@ describe('initCropJobSeason', () => {
         <input type="date" data-crop-job-date value="2026-11-07">
         <small data-crop-job-when></small>
         <div data-crop-job-warning hidden></div>
-        <input type="hidden" data-crop-job-confirm disabled>
         <input type="submit" data-crop-job-submit value="Add these jobs"
                data-label="Add these jobs" data-anyway-label="Add them anyway">
       </form>`;
     field = document.querySelector('[data-crop-job-date]');
     warning = document.querySelector('[data-crop-job-warning]');
-    confirm = document.querySelector('[data-crop-job-confirm]');
     submit = document.querySelector('[data-crop-job-submit]');
     initCropJobSeason();
   });
@@ -44,11 +41,6 @@ describe('initCropJobSeason', () => {
   it('shows the warning once the day is outside the season', () => {
     pick('2026-06-13');
     expect(warning.hidden).toBe(false);
-  });
-
-  it('sends that they agreed once the day is outside the season', () => {
-    pick('2026-06-13');
-    expect(confirm.disabled).toBe(false);
   });
 
   it('offers to add them anyway', () => {

@@ -34,12 +34,6 @@ class CropJobTemplate < ApplicationRecord
     SeasonsHelper::SEASON_MONTHS[latitude.to_f.negative? ? :southern : :northern].slice(*seasons).values.flatten.sort
   end
 
-  # Whether a day is in this template's season for a grower at this latitude.
-  def in_season?(date, latitude)
-    months = season_months(latitude)
-    months.nil? || months.include?(date.month)
-  end
-
   def to_s
     name
   end

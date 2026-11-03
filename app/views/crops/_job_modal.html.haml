@@ -2,21 +2,20 @@
 -# crop's jobs for that planting. A template for part of the year says so here
 -# when the day is outside it: crop_job_season.js reads the seasons from the form.
 - adder = AddCropJobs.new(current_member, crop)
-- planting_on = AddCropJobs.default_planting_on
-- seasons = adder.templates.filter_map do |template|
-  - months = template.season_months(current_member.latitude)
-  - { name: template.name, season: crop_job_option(:season, template.season).downcase, months: } if months
-.modal.fade#crop-jobs-modal{ 'aria-hidden': 'true', 'aria-labelledby': 'crop-jobs-modal-title', role: 'dialog', tabindex: '-1' }
+- seasons = crop_job_seasons(adder.templates, current_member.latitude)
+.modal.fade#crop-jobs-modal{ 'aria-hidden': 'true', 'aria-labelledby': 'crop-jobs-modal-title',
+                             role: 'dialog', tabindex: '-1' }
   .modal-dialog{ role: 'document' }
     .modal-content
-      = form_with url: crop_jobs_path(crop), data: { crop_job_seasons: seasons.to_json,
-                                                     crop_job_warning_text: t('crop_jobs.new.out_of_season') } do |form|
+      - form_data = { crop_job_seasons: seasons.to_json, crop_job_warning_text: t('crop_jobs.new.out_of_season') }
+      = form_with url: crop_jobs_path(crop), data: form_data do |form|
         .modal-header
           %h4.modal-title#crop-jobs-modal-title= t('crop_jobs.new.title', crop: crop.name)
           %button.btn-close{ 'aria-label': t('crop_jobs.new.cancel'), 'data-bs-dismiss': 'modal', type: 'button' }
         .modal-body
           = form.label :planting_on, t('crop_jobs.new.planting_on', crop: crop.name), class: 'form-label'
-          = form.date_field :planting_on, value: planting_on, min: Time.zone.today, class: 'form-control', data: { crop_job_date: '' }
+          = form.date_field :planting_on, value: AddCropJobs.default_planting_on, min: Time.zone.today,
+                                          class: 'form-control', data: { crop_job_date: '' }
           %small.form-text.text-muted{ data: { crop_job_when: '' } }
           .alert.alert-warning.mt-3.crop-job-season-warning{ hidden: true, data: { crop_job_warning: '' } }
           %p.text-muted.mt-3= t('crop_jobs.new.intro')
@@ -29,6 +28,6 @@
                   %small.text-muted= crop_job_when(step)
         .modal-footer
           %button.btn.btn-secondary{ 'data-bs-dismiss': 'modal', type: 'button' }= t('crop_jobs.new.cancel')
-          = form.hidden_field :confirm, value: '1', disabled: true, data: { crop_job_confirm: '' }
-          = form.submit t('crop_jobs.new.submit'), class: 'btn btn-primary',
-                        data: { crop_job_submit: '', label: t('crop_jobs.new.submit'), anyway_label: t('crop_jobs.new.add_anyway') }
+          - label = t('crop_jobs.new.submit')
+          - submit_data = { crop_job_submit: '', label:, anyway_label: t('crop_jobs.new.add_anyway') }
+          = form.submit label, class: 'btn btn-primary', data: submit_data

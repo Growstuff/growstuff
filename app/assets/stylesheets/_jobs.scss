@@ -1100,8 +1100,7 @@ $notepad-trail: #a4c98c;
   }
 }
 
-// A crop's jobs, drawn like the jobs notepad: a green title bar, then ruled rows
-// with an empty box to tick. Only for reading, so the boxes do nothing.
+// A crop's jobs on its page: ruled, numbered rows, each with when it falls.
 .crop-job-templates {
   margin-top: 1.5rem;
 }
@@ -1196,7 +1195,6 @@ $notepad-trail: #a4c98c;
 
 .crop-job-add {
   margin: 0.25rem 0 1rem;
-
 }
 
 // White on the button, as in the heading bars, not the menu's green.
@@ -1204,24 +1202,6 @@ $notepad-trail: #a4c98c;
   color: inherit;
   margin-right: 0.4rem;
   vertical-align: text-bottom;
-}
-
-// The day to plant on, above the button that adds the jobs.
-.crop-job-start {
-  align-items: flex-end;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 0.75rem;
-  margin: 0.25rem 0 1rem;
-
-  label {
-    flex: 1 0 100%;
-    font-weight: 600;
-  }
-
-  .form-control {
-    width: auto;
-  }
 }
 
 // The steps in the dialog that adds a crop's jobs: a plain numbered list.

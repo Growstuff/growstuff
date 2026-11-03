@@ -29,4 +29,16 @@ describe CropJobTemplatesHelper do
       it { is_expected.to eq 'at first harvest' }
     end
   end
+
+  describe '#crop_job_seasons' do
+    let(:template) { build(:crop_job_template, name: 'Tomato jobs', season: 'spring_summer') }
+
+    it 'gives the months and the season for a template made for part of the year' do
+      expect(helper.crop_job_seasons([template], -41.3))
+        .to eq [{ name: 'Tomato jobs', season: 'spring and summer', months: [1, 2, 9, 10, 11, 12] }]
+    end
+
+    it { expect(helper.crop_job_seasons([template], nil)).to eq [] }
+    it { expect(helper.crop_job_seasons([build(:crop_job_template, season: 'any')], -41.3)).to eq [] }
+  end
 end
