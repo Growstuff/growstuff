@@ -51,6 +51,11 @@ class Seed < ApplicationRecord
                           numericality: { only_integer: true, greater_than: 0 }
   validates :variety, :batch_number, length: { maximum: 100 }
   validate :plant_before_year_is_a_year
+
+  # What packets say about a crop is kept on the crop, and on the crop it is a variety of.
+  MEDIAN_FIELDS = %w(crop_id row_spacing sow_months germination_days_min germination_days_max
+                     days_until_maturity_min days_until_maturity_max).freeze
+  after_commit :update_crop_medians, on: %i(create update destroy)
   validates :tradable_to, allow_blank: false,
                           inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }
   validates :organic, allow_blank: false,
@@ -175,6 +180,13 @@ class Seed < ApplicationRecord
   end
 
   private
+
+  def update_crop_medians
+    return unless destroyed? || previously_new_record? || saved_changes.keys.intersect?(MEDIAN_FIELDS)
+
+    crop_ids = [crop_id, saved_change_to_crop_id&.first].compact
+    Crop.where(id: crop_ids).or(Crop.where(id: Crop.where(id: crop_ids).select(:parent_id))).find_each(&:update_seed_medians)
+  end
 
   def sow_months_are_months
     errors.add(:sow_months, :inclusion) unless sow_months.all? { |month| (1..12).cover?(month) }

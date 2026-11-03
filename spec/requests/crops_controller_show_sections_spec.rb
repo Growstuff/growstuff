@@ -167,7 +167,7 @@ describe CropsController, '#show sections' do
         get crop_path(crop)
       end
 
-      it { is_expected.to have_css('.fact-card', text: 'Row Spacing 45cm median of 2 seed packets') }
+      it { is_expected.to have_css('.fact-card', text: "Row Spacing 45cm median of members' seed packets") }
     end
 
     context 'with a crop row spacing and no packets that give one' do
@@ -183,6 +183,87 @@ describe CropsController, '#show sections' do
       before { get crop_path(crop) }
 
       it { is_expected.to have_no_css('.fact-card', text: 'Row Spacing') }
+    end
+  end
+
+  describe 'the months to sow card' do
+    let(:wellington) { create_located_member('Wellington, Wellington Region, New Zealand', -41.29, 174.78) }
+    let(:london) { create_located_member('London, England', 51.5, -0.12) }
+
+    context 'with packets from both hemispheres' do
+      before do
+        create(:seed, crop:, owner: wellington, sow_months: [9, 10, 11])
+        create(:seed, crop:, owner: london, sow_months: [3, 4, 5])
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_css('.sow-months-card .crop-sow-hemisphere', text: 'Southern hemisphere Sep–Nov') }
+      it { is_expected.to have_css('.sow-months-card .crop-sow-hemisphere', text: 'Northern hemisphere Mar–May') }
+    end
+
+    context 'with a packet that says nothing about months' do
+      before do
+        create(:seed, crop:, owner: wellington, sow_months: [])
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_no_css('.sow-months-card') }
+    end
+  end
+
+  describe 'the growing facts a wrangler set, and the medians beside them' do
+    context 'with a figure set and a median' do
+      before do
+        crop.update!(germination_days_min: 5, germination_days_max: 10)
+        crop.update_columns(median_germination_days_min: 7, median_germination_days_max: 12) # rubocop:disable Rails/SkipsModelValidations
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_css('.growing-fact strong', text: '5–10 days') }
+      it { is_expected.to have_css('.growing-fact .crop-fact-median', text: "Members' seed packets: 7–12 days") }
+    end
+
+    context 'with a median only' do
+      before do
+        crop.update_columns(median_days_until_maturity_min: 59.6, median_days_until_maturity_max: 80) # rubocop:disable Rails/SkipsModelValidations
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_css('.growing-fact strong', text: '60–80 days') }
+      it { is_expected.to have_css('.growing-fact .crop-fact-median', text: "median of members' seed packets") }
+    end
+
+    context 'with a figure only' do
+      before do
+        crop.update!(days_until_maturity_min: 60, days_until_maturity_max: 80)
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_css('.growing-fact strong', text: '60–80 days') }
+      it { is_expected.to have_no_css('.growing-fact .crop-fact-median') }
+    end
+
+    context 'with months set and a median' do
+      before do
+        crop.update!(sow_months: [9, 10, 11])
+        crop.update_columns(median_sow_months: [10, 11]) # rubocop:disable Rails/SkipsModelValidations
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_css('.sow-months-card .crop-sow-hemisphere', text: 'Southern hemisphere Sep–Nov') }
+      it { is_expected.to have_css('.sow-months-card .crop-sow-hemisphere', text: 'Northern hemisphere Mar–May') }
+      it { is_expected.to have_css('.sow-months-card .crop-fact-median', text: "Members' seed packets: Oct–Nov south, Apr–May north") }
+    end
+
+    context 'with a row spacing set and a median' do
+      before do
+        crop.update!(row_spacing: 25)
+        create(:seed, crop:, row_spacing: 30)
+        get crop_path(crop)
+      end
+
+      it { is_expected.to have_css('.growing-fact strong', text: '25cm') }
+      it { is_expected.to have_css('.growing-fact .crop-fact-median', text: "Members' seed packets: 30cm") }
     end
   end
 end
