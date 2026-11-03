@@ -10,7 +10,7 @@ describe "signup" do
     fill_in 'Email', with: 'gardener@example.com'
     fill_in 'Password', with: 'abc123'
     fill_in 'Password confirmation', with: 'abc123'
-    check 'I agree to the Terms of Service'
+    check 'I agree to the Terms of Service', match: :first
     click_button 'Sign up'
     expect(page).to have_current_path root_path, ignore_query: true
   end
@@ -22,7 +22,7 @@ describe "signup" do
     fill_in 'Email', with: 'gardener2@example.com'
     fill_in 'Password', with: 'abc123'
     fill_in 'Password confirmation', with: 'abc123'
-    check 'I agree to the Terms of Service'
+    check 'I agree to the Terms of Service', match: :first
     click_button 'Sign up'
     expect(page).to have_content 'has already been taken'
   end
