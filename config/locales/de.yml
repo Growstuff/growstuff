@@ -208,6 +208,12 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    harvests:
+      empty: Niemand hat diese Kultur bisher geerntet.
+      harvest_crop: "%{crop} ernten"
+      harvested: "%{owner} hat %{quantity} geerntet."
+      track_harvests: "Ihre %{crop}-Ernten zu verfolgen"
+      view_all: Alle Ernten von %{crop} anzeigen
     nutritional_data:
       carbohydrate: Kohlenhydrate
       energy: Energie

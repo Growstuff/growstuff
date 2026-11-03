@@ -1,6 +1,12 @@
 ---
 ja:
   crops:
+    harvests:
+      empty: この作物はまだ誰にも収穫されていません。
+      harvest_crop: "%{crop}を収穫する"
+      harvested: "%{owner}が%{quantity}を収穫しました。"
+      track_harvests: "%{crop}の収穫を記録する"
+      view_all: "%{crop}の収穫をすべて見る"
     nutritional_data:
       carbohydrate: 炭水化物
       energy: エネルギー

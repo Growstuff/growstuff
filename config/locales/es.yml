@@ -208,6 +208,12 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    harvests:
+      empty: Nadie ha cosechado este cultivo todavía.
+      harvest_crop: Cosechar %{crop}
+      harvested: "%{owner} cosechó %{quantity}."
+      track_harvests: registrar tus cosechas de %{crop}
+      view_all: Ver todas las cosechas de %{crop}
     nutritional_data:
       carbohydrate: Carbohidratos
       energy: Energía

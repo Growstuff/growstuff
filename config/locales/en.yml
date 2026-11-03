@@ -233,6 +233,12 @@ en:
     new_planting: A new %{crop} planting I'm going to do
     see_jobs: See your jobs.
   crops:
+    harvests:
+      empty: Nobody has harvested this crop yet.
+      harvest_crop: Harvest %{crop}
+      harvested: "%{owner} harvested %{quantity}."
+      track_harvests: track your %{crop} harvests
+      view_all: View all %{crop} harvests
     nutritional_data:
       carbohydrate: Carbohydrate
       energy: Energy
