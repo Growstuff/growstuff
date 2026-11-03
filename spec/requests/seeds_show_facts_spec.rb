@@ -64,4 +64,31 @@ describe SeedsController, '#show' do
 
     it('has no pencils') { expect(page).to have_no_css('.fact-row a.editable', visible: :all) }
   end
+
+  context 'when bought from retail' do
+    let(:seed) { create(:seed, source: 'retail outlet', brand: 'Yates', barcode: '9310428001017') }
+
+    before { get seed_path(seed) }
+
+    it('lists the brand') { expect(page).to have_css('.fact-row .seedfacts--brand', text: 'Yates') }
+    it('lists the barcode') { expect(page).to have_css('.fact-row .seedfacts--barcode', text: '9310428001017') }
+  end
+
+  context 'when bought from retail but brand and barcode are blank' do
+    let(:seed) { create(:seed, source: 'retail outlet', brand: nil, barcode: nil) }
+
+    before { get seed_path(seed) }
+
+    it('says the brand is not specified') { expect(page).to have_css('.fact-row.text-muted .seedfacts--brand', text: 'not specified') }
+    it('says the barcode is not specified') { expect(page).to have_css('.fact-row.text-muted .seedfacts--barcode', text: 'not specified') }
+  end
+
+  context 'when not bought from retail' do
+    let(:seed) { create(:seed, source: 'my own seed saving', brand: 'Yates', barcode: '9310428001017') }
+
+    before { get seed_path(seed) }
+
+    it('does not show the brand row') { expect(page).to have_no_css('.seedfacts--brand') }
+    it('does not show the barcode row') { expect(page).to have_no_css('.seedfacts--barcode') }
+  end
 end

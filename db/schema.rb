@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_02_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_03_050000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1156,7 +1156,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_000000) do
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
+    t.string "barcode"
     t.string "batch_number"
+    t.string "brand"
     t.datetime "created_at", precision: nil
     t.integer "crop_id", null: false
     t.integer "days_until_maturity_max"

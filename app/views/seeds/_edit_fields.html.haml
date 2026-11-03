@@ -19,6 +19,11 @@
     = f.text_field :variety, label: 'Variety'
   .col-md-6
     = f.text_field :batch_number, label: 'Batch number'
+.row.mb-3.seed-retail-fields{ data: { retail_only: '' }, style: (seed.bought_from_retail? ? nil : 'display: none;') }
+  .col-md-6
+    = f.text_field :brand, label: 'Brand'
+  .col-md-6
+    = f.text_field :barcode, label: 'Barcode'
 .row.mb-3
   .col-md-6
     = f.number_field :days_until_maturity_min, min: 1, label: 'Days until maturity (min)'
