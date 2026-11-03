@@ -208,6 +208,11 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    approval_status_message:
+      pending_title: "Este cultivo está pendiente de aprobación."
+      rejected_message: "Este cultivo fue rechazado por la siguiente razón: %{reason}"
+      request_notes: "Notas de la solicitud: %{notes}"
+      requested_by: "Este cultivo fue solicitado por %{requester} hace %{time_ago}."
     alternate_name_modal:
       add_title: Añadir otro nombre para %{crop}
       cancel: Cancelar
@@ -229,6 +234,10 @@ es:
     index:
       subtitle: '%{crops_size} total'
       title: Explorar cultivos
+    join_banner:
+      heading: Growstuff es un sitio gratuito administrado por la comunidad para personas que cultivan alimentos.
+      prompt: Únase para registrar sus propios %{crops}.
+      text: Lleve un registro de lo que siembra y cosecha, busque semillas para intercambiar y vea lo que crece cerca de usted.
     requested:
       link: Tienes cultivos %{number_crops} pendientes de aprobación
       subtitle: Pendiente de aprobación
@@ -842,7 +851,18 @@ es:
     card:
       not_interested: Deja de sugerir %{name}
       visit: Visita los jardines de %{name}
+    contact:
+      flickr_logo: Logo de Flickr
+      heading: Contacto
+      more: Más...
+      website: Sitio web
     edit_profile: Editar perfil
+    email_prompt:
+      add_email: Añade tu correo electrónico
+      unset_body: Añade uno para recibir recordatorios de siembra y poder restablecer tu contraseña. Primero te enviaremos un enlace para confirmarlo, ya que debemos asegurarnos.
+      unset_title: No has configurado una dirección de correo electrónico.
+      waiting_body: Enviamos un enlace a %{email}. Síguelo y empezaremos a enviarte recordatorios.
+      waiting_title: Estamos esperando a que confirmes tu dirección de correo electrónico.
     follow_button:
       follow: Seguir
       follow_named: Seguir %{name}
@@ -1123,6 +1143,11 @@ es:
     spring: Primavera
     summer: Verano
     winter: Invierno
+  stalls:
+    about_growstuff:
+      join: Únete gratis
+      sign_in: Iniciar sesión
+      text: Una comunidad para cultivar alimentos. Registra lo que siembras y cosechas, e intercambia semillas y consejos con otros jardineros. Únete gratis o inicia sesión para ponerte en contacto con %{name} sobre lo que hay en el puesto.
   seeds:
     added_to_stash: Se agregó con éxito la semilla %{crop} a tu alijo.
     form:

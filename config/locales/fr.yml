@@ -208,6 +208,11 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    approval_status_message:
+      pending_title: "Cette culture est actuellement en attente d'approbation."
+      rejected_message: "Cette culture a été rejetée pour la raison suivante : %{reason}"
+      request_notes: "Notes de la demande : %{notes}"
+      requested_by: "Cette culture a été demandée par %{requester} il y a %{time_ago}."
     alternate_name_modal:
       add_title: Ajouter un autre nom pour %{crop}
       cancel: Annuler
@@ -229,6 +234,10 @@ fr:
     index:
       subtitle: '%{crops_size} total'
       title: Parcourir les cultures
+    join_banner:
+      heading: Growstuff est un site gratuit géré par la communauté pour les personnes qui cultivent des aliments.
+      prompt: Inscrivez-vous pour enregistrer vos propres %{crops}.
+      text: Gardez une trace de ce que vous plantez et récoltez, trouvez des graines à échanger et découvrez ce qui pousse près de chez vous.
     requested:
       link: Vous avez des cultures %{number_crops} en attente d'approbation
       subtitle: En attente d’approbation
@@ -843,7 +852,18 @@ fr:
     card:
       not_interested: Arrêter de suggérer %{name}
       visit: Visitez les jardins de %{name}
+    contact:
+      flickr_logo: Logo Flickr
+      heading: Contact
+      more: Plus...
+      website: Site web
     edit_profile: Modifier le profil
+    email_prompt:
+      add_email: Ajouter votre adresse e-mail
+      unset_body: Ajoutez-en une pour recevoir des rappels de plantation et pouvoir réinitialiser votre mot de passe. Nous vous enverrons d'abord un lien de confirmation, car nous devons nous en assurer.
+      unset_title: Vous n'avez pas défini d'adresse e-mail.
+      waiting_body: Nous avons envoyé un lien à %{email}. Suivez-le et nous commencerons à vous envoyer des rappels.
+      waiting_title: Nous attendons que vous confirmiez votre adresse e-mail.
     follow_button:
       follow: Suivre
       follow_named: Suivre %{name}
@@ -1124,6 +1144,11 @@ fr:
     spring: Ressort
     summer: Été
     winter: L'hiver
+  stalls:
+    about_growstuff:
+      join: Rejoindre gratuitement
+      sign_in: Se connecter
+      text: Une communauté pour faire pousser des aliments. Notez ce que vous plantez et récoltez, et échangez des graines et des astuces avec d'autres jardiniers. Rejoignez-nous gratuitement ou connectez-vous pour contacter %{name} au sujet de son stand.
   seeds:
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
     form:

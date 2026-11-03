@@ -216,6 +216,11 @@ en:
         published: Published
     saved: Job template saved.
   crops:
+    approval_status_message:
+      pending_title: "This crop is currently pending approval."
+      rejected_message: "This crop was rejected for the following reason: %{reason}"
+      request_notes: "Request notes: %{notes}"
+      requested_by: "This crop was requested by %{requester} %{time_ago} ago."
     alternate_name_modal:
       add_title: Add another name for %{crop}
       cancel: Cancel
@@ -237,6 +242,10 @@ en:
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops
+    join_banner:
+      heading: Growstuff is a free, community-run site for people who grow food.
+      prompt: Join to record your own %{crops}.
+      text: Keep track of what you plant and harvest, find seeds to swap, and see what is growing near you.
     requested:
       link: You have %{number_crops} crops awaiting approval
       subtitle: Pending approval
@@ -881,7 +890,18 @@ en:
     card:
       not_interested: Stop suggesting %{name}
       visit: Visit %{name}'s gardens
+    contact:
+      flickr_logo: Flickr logo
+      heading: Contact
+      more: More...
+      website: Website
     edit_profile: Edit profile
+    email_prompt:
+      add_email: Add your email
+      unset_body: Add one to get planting reminders and to be able to reset your password. We'll send you a link to confirm it first, because we can't take your word for it.
+      unset_title: You haven't set an email address.
+      waiting_body: We sent a link to %{email}. Follow it and we'll start sending you reminders.
+      waiting_title: We're waiting for you to confirm your email address.
     follow_button:
       follow: Follow
       follow_named: Follow %{name}

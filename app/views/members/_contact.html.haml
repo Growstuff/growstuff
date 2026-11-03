@@ -1,11 +1,11 @@
 - mastodon_auths ||= member.authentications.where(provider: 'mastodon')
 - if member.website_url.present? || member.instagram_handle.present? || member.facebook_handle.present? || member.bluesky_handle.present? || member.other_url.present? || flickr_auth || mastodon_auths.any? || member.show_email
-  %h4 Contact
+  %h4= t('.heading')
 
   - if member.website_url.present?
     %p
       = icon 'fas', 'globe', class: 'fa-fw'
-      = link_to "Website", member.website_url, target: '_blank', rel: (member.plantings.empty? ? 'noopener noreferrer nofollow' : 'noopener noreferrer')
+      = link_to t('.website'), member.website_url, target: '_blank', rel: (member.plantings.empty? ? 'noopener noreferrer nofollow' : 'noopener noreferrer')
 
   - if member.instagram_handle.present?
     %p
@@ -25,11 +25,11 @@
   - if member.other_url.present?
     %p
       = icon 'fas', 'link', class: 'fa-fw'
-      = link_to "More...", member.other_url, target: '_blank', rel: (member.plantings.empty? ? 'noopener noreferrer nofollow' : 'noopener noreferrer')
+      = link_to t('.more'), member.other_url, target: '_blank', rel: (member.plantings.empty? ? 'noopener noreferrer nofollow' : 'noopener noreferrer')
 
   - if flickr_auth
     %p
-      = image_tag "flickr_32.png", size: "32x32", alt: 'Flickr logo'
+      = image_tag "flickr_32.png", size: "32x32", alt: t('.flickr_logo')
       = link_to flickr_auth.name, "https://flickr.com/photos/#{flickr_auth.uid}", target: '_blank', rel: 'noopener noreferrer'
 
   - mastodon_auths.each do |m_auth|

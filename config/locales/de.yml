@@ -208,6 +208,11 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    approval_status_message:
+      pending_title: "Diese Kultur wartet derzeit auf Genehmigung."
+      rejected_message: "Diese Kultur wurde aus folgendem Grund abgelehnt: %{reason}"
+      request_notes: "Hinweise zur Anfrage: %{notes}"
+      requested_by: "Diese Kultur wurde vor %{time_ago} von %{requester} beantragt."
     alternate_name_modal:
       add_title: Weiteren Namen für %{crop} hinzufügen
       cancel: Abbrechen
@@ -229,6 +234,10 @@ de:
     index:
       subtitle: '%{crops_size} insgesamt'
       title: Durchsuchen Sie Pflanzen
+    join_banner:
+      heading: Growstuff ist eine kostenlose, von der Community betriebene Website für Menschen, die Lebensmittel anbauen.
+      prompt: Melden Sie sich an, um Ihre eigenen %{crops} aufzuzeichnen.
+      text: Behalten Sie im Auge, was Sie pflanzen und ernten, finden Sie Saatgut zum Tauschen und sehen Sie, was in Ihrer Nähe wächst.
     requested:
       link: Sie haben %{number_crops} Kulturen, die auf die Genehmigung warten
       subtitle: Genehmigung ausstehend
@@ -842,7 +851,18 @@ de:
     card:
       not_interested: Hören Sie auf, %{name} vorzuschlagen
       visit: Besuchen Sie die Gärten von %{name}
+    contact:
+      flickr_logo: Flickr-Logo
+      heading: Kontakt
+      more: Mehr...
+      website: Website
     edit_profile: Profil bearbeiten
+    email_prompt:
+      add_email: Fügen Sie Ihre E-Mail hinzu
+      unset_body: Fügen Sie eine hinzu, um Pflanzerinnerungen zu erhalten und Ihr Passwort zurücksetzen zu können. Wir senden Ihnen zuerst einen Bestätigungslink, da wir sichergehen müssen.
+      unset_title: Sie haben keine E-Mail-Adresse festgelegt.
+      waiting_body: Wir haben einen Link an %{email} gesendet. Folgen Sie ihm, und wir beginnen mit dem Senden von Erinnerungen.
+      waiting_title: Wir warten darauf, dass Sie Ihre E-Mail-Adresse bestätigen.
     follow_button:
       follow: Folgen
       follow_named: Folgen Sie %{name}
@@ -1123,6 +1143,11 @@ de:
     spring: Feder
     summer: Sommer
     winter: Winter
+  stalls:
+    about_growstuff:
+      join: Kostenlos anmelden
+      sign_in: Anmelden
+      text: Eine Community für den Lebensmittelanbau. Halten Sie fest, was Sie pflanzen und ernten, und tauschen Sie Saatgut sowie Tipps mit anderen Gärtnern aus. Treten Sie kostenlos bei oder melden Sie sich an, um mit %{name} über das Angebot auf dem Stand in Kontakt zu treten.
   seeds:
     added_to_stash: '%{crop} Seed wurde erfolgreich zu deinem Vorrat hinzugefügt.'
     form:

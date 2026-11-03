@@ -13,11 +13,11 @@ class Rack::Attack
   ### Throttle Config ###
 
   if Rails.env.production?
-    # Throttle requests for members' data to 15 per minute per IP, on both the
+    # Throttle requests for members' data to 20 per minute per IP, on both the
     # HTML routes and their /api/v1 equivalents.
     restricted_routes = %r{^(/api/v1)?/(jobs|plantings|harvests|members)(/|$)}
 
-    throttle('req/ip/restricted_routes', limit: 15, period: 1.minute) do |req|
+    throttle('req/ip/restricted_routes', limit: 20, period: 1.minute) do |req|
       req.ip if req.path.match?(restricted_routes)
     end
 

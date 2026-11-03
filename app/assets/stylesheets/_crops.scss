@@ -212,3 +212,19 @@
 .job-templates-table {
   --bs-table-bg: #{$white};
 }
+
+// Shown to visitors who are not signed in, between a crop's description and its facts.
+.crop-join-banner {
+  margin: 1rem 0;
+  padding: 1rem 1.25rem;
+  background-color: $white;
+  border-left: 0.35rem solid $orange;
+  box-shadow: 1px 1px 1px 1px darken($beige, 20%);
+
+  .btn-signup {
+    background-color: $orange;
+    color: $black;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
