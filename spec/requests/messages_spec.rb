@@ -44,7 +44,7 @@ describe 'Messages' do
 
       it { expect(Mailboxer::Message.last.notified_object).to eq seed }
       it { expect(Mailboxer::Conversation.last.subject).to eq subject_line }
-      it { expect(response).to redirect_to conversations_path(box: 'sentbox') }
+      it { expect(response).to redirect_to conversations_path(box: 'sent') }
     end
 
     context 'when the seed is not the recipient\'s' do
@@ -59,6 +59,93 @@ describe 'Messages' do
       before { post '/messages', params: params.except(:seed_id) }
 
       it { expect(Mailboxer::Message.last.notified_object).to be_nil }
+    end
+
+    context 'with an empty body' do
+      before { post '/messages', params: params.merge(body: '') }
+
+      it 'returns a validation failure' do
+        expect(response).to have_http_status(:unprocessable_content)
+      end
+
+      it 'shows the validation error' do
+        expect(Capybara.string(response.body)).to have_content("Body can't be blank")
+      end
+
+      it 'does not create a conversation' do
+        expect(Mailboxer::Conversation.count).to eq 0
+      end
+    end
+
+    context 'when replying to a conversation' do
+      let(:conversation) { member.send_message(recipient, 'Hello', 'Seeds').conversation }
+      let(:reply_params) { { conversation_id: conversation.id, body: 'A reply' } }
+
+      it 'delivers a participant\'s reply' do
+        conversation
+        expect { post '/messages', params: reply_params }.to change { conversation.messages.count }.by(1)
+      end
+
+      context 'when a recipient has blocked the sender' do
+        before do
+          conversation
+          recipient.blocks.create!(blocked: member)
+        end
+
+        it 'does not deliver the reply' do
+          expect { post '/messages', params: reply_params }.not_to change(Mailboxer::Message, :count)
+        end
+
+        it 'explains why the reply was rejected' do
+          post '/messages', params: reply_params
+          expect(flash[:error]).to include('has blocked you')
+        end
+      end
+
+      context 'when the sender is not a participant' do
+        before do
+          conversation
+          sign_in create(:member)
+        end
+
+        it 'rejects the request' do
+          post '/messages', params: reply_params
+          expect(response).to have_http_status(:forbidden)
+        end
+
+        it 'does not create a message' do
+          expect { post '/messages', params: reply_params }.not_to change(Mailboxer::Message, :count)
+        end
+
+        it 'does not create a receipt' do
+          expect { post '/messages', params: reply_params }.not_to change(Mailboxer::Receipt, :count)
+        end
+      end
+
+      context 'with an empty reply' do
+        before { post '/messages', params: reply_params.merge(body: '') }
+
+        it 'returns a validation failure' do
+          expect(response).to have_http_status(:unprocessable_content)
+        end
+
+        it 'keeps the original message' do
+          expect(conversation.messages.count).to eq 1
+        end
+      end
+    end
+
+    context 'when the recipient has blocked the sender' do
+      before { recipient.blocks.create!(blocked: member) }
+
+      it 'does not deliver a message' do
+        expect { post '/messages', params: }.not_to change(Mailboxer::Message, :count)
+      end
+
+      it 'explains why the message was rejected' do
+        post '/messages', params: params
+        expect(flash[:error]).to include('has blocked you')
+      end
     end
   end
 
