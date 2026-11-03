@@ -8,33 +8,33 @@
   %div{ class: panel.present? ? 'col-lg-6' : 'col-12' }
     %section.packet-sheet-main
       .section-header
-        %h2 The packet
+        %h2= t('.heading')
         - if can?(:edit, seed)
-          %button.btn.btn-sm.section-add.packet-sheet-edit-all{ type: 'button', data: { packet_sheet_edit: '' } } Edit all
+          %button.btn.btn-sm.section-add.packet-sheet-edit-all{ type: 'button', data: { packet_sheet_edit: '' } }= t('.edit_all')
 
       %dl.packet-facts
         = render 'seeds/packet_facts', seed: seed
 
         -# A packet records the year its seed was saved, like a hand-written one.
         = render layout: 'seeds/fact_row',
-                 locals: { seed:, label: 'Year saved', display: 'savedat', muted: seed.saved_at.blank?,
+                 locals: { seed:, label: t('.year_saved'), display: 'savedat', muted: seed.saved_at.blank?,
                            edit: [:date, :saved_at] } do
-          %strong= seed.saved_at.present? ? seed.saved_at.year : 'Unknown'
+          %strong= seed.saved_at.present? ? seed.saved_at.year : t('.unknown')
 
         = render layout: 'seeds/fact_row',
-                 locals: { seed:, label: 'Will trade', display: 'tradableto',
+                 locals: { seed:, label: t('.will_trade'), display: 'tradableto',
                            edit: [:select, :tradable_to], values: Seed::TRADABLE_TO_VALUES } do
           %strong= seed.tradable_to
           %span
             - if seed.owner.location.blank?
-              (from unspecified location)
+              = t('.from_unspecified_location')
               - if current_member == seed.owner
-                = link_to 'Set Location', edit_registration_path(current_member), class: 'btn btn-outline-secondary btn-sm'
+                = link_to t('.set_location'), edit_registration_path(current_member), class: 'btn btn-outline-secondary btn-sm'
             - else
-              (from #{link_to seed.owner.location, place_path(seed.owner.location, anchor: 'seeds')})
+              = t('.from_location_html', location: link_to(seed.owner.location, place_path(seed.owner.location, anchor: 'seeds')))
 
         - if seed.finished_at.present? || seed.finished?
-          = render layout: 'seeds/fact_row', locals: { seed:, label: 'Finished' } do
+          = render layout: 'seeds/fact_row', locals: { seed:, label: t('.finished') } do
             %strong
               - if seed.finished_at.present?
                 = I18n.t('date.abbr_month_names')[seed.finished_at.month]
@@ -47,8 +47,8 @@
         = bootstrap_form_for(seed, html: { class: 'packet-sheet-form' }) do |f|
           = render 'seeds/edit_fields', f: f, seed: seed
           .packet-sheet-form-actions
-            = f.submit 'Save', class: 'btn btn-primary'
-            %button.btn.btn-secondary{ type: 'button', data: { packet_sheet_cancel: '' } } Cancel
+            = f.submit t('.save'), class: 'btn btn-primary'
+            %button.btn.btn-secondary{ type: 'button', data: { packet_sheet_cancel: '' } }= t('.cancel')
 
   - if panel.present?
     .col-lg-6
