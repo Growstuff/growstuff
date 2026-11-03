@@ -1246,6 +1246,18 @@ en:
     winter: Winter
   seeds:
     added_to_stash: Successfully added %{crop} seed to your stash.
+    facts:
+      cancel: Cancel
+      edit_all: Edit all
+      finished: Finished
+      from_location_html: "(from %{location})"
+      from_unspecified_location: "(from unspecified location)"
+      heading: The packet
+      save: Save
+      set_location: Set Location
+      unknown: Unknown
+      will_trade: Will trade
+      year_saved: Year saved
     form:
       finish_helper: 'Seeds are finished when you''ve planted them all, or you''ve traded them all away.
 

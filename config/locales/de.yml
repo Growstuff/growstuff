@@ -1178,6 +1178,18 @@ de:
       text: Eine Community für den Lebensmittelanbau. Halten Sie fest, was Sie pflanzen und ernten, und tauschen Sie Saatgut sowie Tipps mit anderen Gärtnern aus. Treten Sie kostenlos bei oder melden Sie sich an, um mit %{name} über das Angebot auf dem Stand in Kontakt zu treten.
   seeds:
     added_to_stash: '%{crop} Seed wurde erfolgreich zu deinem Vorrat hinzugefügt.'
+    facts:
+      cancel: Abbrechen
+      edit_all: Alle bearbeiten
+      finished: Beendet
+      from_location_html: "(aus %{location})"
+      from_unspecified_location: "(von nicht angegebenem Ort)"
+      heading: Das Päckchen
+      save: Speichern
+      set_location: Ort festlegen
+      unknown: Unbekannt
+      will_trade: Tauschangebot
+      year_saved: Gespeichertes Jahr
     form:
       finish_helper: Samen sind fertig, wenn Sie sie alle gepflanzt haben, oder Sie haben sie alle weggetauscht.
       trade_help: Sind Sie daran interessiert, Saatgut mit anderen %{site_name}-Mitgliedern zu handeln oder auszutauschen?  Wenn Sie Ihr Saatgut als für den Handel verfügbar auflisten, können sich andere Mitglieder mit Ihnen in Verbindung setzen, um Saatgut anzufordern.  Sie können alle Bedingungen oder andere Informationen in der obigen Beschreibung auflisten.
