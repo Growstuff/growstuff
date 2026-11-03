@@ -57,7 +57,8 @@ function Choice({params, search, active, className, onChoose, children}) {
 // again, which Rails renders (seeds/_tabs, seeds/_results) and this puts in
 // place. Links in the tabs and results that stay on this page, such as the
 // pages, do the same. Back and forward work.
-export default function SeedLibrary({tabs: initialTabs, html: initialHtml, groups, filters, sow_now: sowNow, gardeners, months = [], clear = {}, crop: initialCrop, crop_search: cropSearch, placeholder}) {
+export default function SeedLibrary({scope: initialScope, tabs: initialTabs, html: initialHtml, groups, filters, sow_now: sowNow, gardeners, months = [], clear = {}, crop: initialCrop, crop_search: cropSearch, placeholder}) {
+  const [scope, setScope] = useState(initialScope);
   const [tabs, setTabs] = useState(initialTabs);
   const [html, setHtml] = useState(initialHtml);
   const [search, setSearch] = useState(window.location.search);
@@ -88,6 +89,7 @@ export default function SeedLibrary({tabs: initialTabs, html: initialHtml, group
 
       const body = await response.json();
       unmountIslands(results.current);
+      setScope(body.scope);
       setTabs(body.tabs);
       setHtml(body.results);
       setCrop(body.crop);
@@ -118,7 +120,7 @@ export default function SeedLibrary({tabs: initialTabs, html: initialHtml, group
 
   // A link that changes what is shown, in whichever look the control has.
   const choice = (params, label, active, className) => (
-    <Choice key={label} params={params} search={search} active={active} className={className} onChoose={show}>{label}</Choice>
+    <Choice key={label} params={params} search={pendingSearch} active={active} className={className} onChoose={show}>{label}</Choice>
   );
   // A filter chip: choosing it adds that filter to the others in force, and
   // choosing it again takes it off.
@@ -133,10 +135,20 @@ export default function SeedLibrary({tabs: initialTabs, html: initialHtml, group
   const chooseGardener = (name) => {
     if ((query.get('gardener') || '') !== name.trim()) show(addressWith({gardener: name.trim() || null}, search));
   };
+  // The address as it will be once a gardener typed but not yet entered is
+  // counted, so choosing another control does not lose the name.
+  const pendingSearch = (() => {
+    if (!gardeners) return search;
+    const pending = new URLSearchParams(search);
+    if (gardener.trim()) pending.set('gardener', gardener.trim());
+    else pending.delete('gardener');
+    return pending.size ? `?${pending}` : '';
+  })();
   const filtering = Object.keys(clear).some((key) => query.has(key));
 
   return (
     <>
+      <div dangerouslySetInnerHTML={{__html: scope}} onClick={onContentClick} />
       <div dangerouslySetInnerHTML={{__html: tabs}} onClick={onContentClick} />
       <div className="seed-filters">
         <div className="seed-filter-row">
@@ -147,7 +159,7 @@ export default function SeedLibrary({tabs: initialTabs, html: initialHtml, group
                 {crop ? (
                   <span className="seed-crop">
                     {crop.name}
-                    <Choice params={{crop: null}} search={search} className="seed-crop-clear" onChoose={show}>
+                    <Choice params={{crop: null}} search={pendingSearch} className="seed-crop-clear" onChoose={show}>
                       <span aria-hidden="true">×</span>
                       <span className="visually-hidden">Clear crop</span>
                     </Choice>
@@ -159,14 +171,14 @@ export default function SeedLibrary({tabs: initialTabs, html: initialHtml, group
                     autoFocus={false}
                     label="Search seeds by crop"
                     placeholder={placeholder}
-                    onChoose={(chosen) => show(addressWith({crop: chosen.slug}, search))}
+                    onChoose={(chosen) => show(addressWith({crop: chosen.slug}, pendingSearch))}
                   />
                 )}
               </div>
             </div>
           )}
           {filtering && (
-            <Choice params={clear} search={search} className="seed-clear" onChoose={show}>Clear all filters</Choice>
+            <Choice params={clear} search={pendingSearch} className="seed-clear" onChoose={show}>Clear all filters</Choice>
           )}
         </div>
         <div className="seed-filter-row">
@@ -176,7 +188,7 @@ export default function SeedLibrary({tabs: initialTabs, html: initialHtml, group
               id="seed-month"
               className="seed-month form-select form-select-sm"
               value={query.get('sow_month') || ''}
-              onChange={(event) => show(addressWith({sow_month: event.target.value || null}, search))}
+              onChange={(event) => show(addressWith({sow_month: event.target.value || null}, pendingSearch))}
             >
               <option value="">Any month</option>
               <option value="now">{sowNow || 'Sow now'}</option>

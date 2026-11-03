@@ -10,6 +10,7 @@ vi.mock('./CropPicker', () => ({
 }));
 
 const props = {
+  scope: '<nav class="seed-scope"><a href="/seeds?from=retail">Everyone</a></nav>',
   tabs: '<nav><a href="/seeds?tab=mine">Mine</a></nav>',
   html: '<p>First results</p><ul class="pagination"><li><a href="/seeds?page=2">2</a></li></ul>',
   groups: [['crop', 'Crop'], ['year', 'Year']],
@@ -33,7 +34,7 @@ const props = {
   placeholder: 'Find a crop',
 };
 
-function stubFetch(body = {tabs: '<nav />', results: '<p>Next results</p>', crop: null}) {
+function stubFetch(body = {scope: '<nav class="seed-scope"><a href="/seeds">Everyone</a></nav>', tabs: '<nav />', results: '<p>Next results</p>', crop: null}) {
   const fetch = vi.fn(async () => ({ok: true, status: 200, json: async () => body}));
   vi.stubGlobal('fetch', fetch);
   return fetch;
@@ -158,6 +159,26 @@ describe('SeedLibrary', () => {
     it('labels the month to sow filter', () => {
       setup();
       expect(screen.getByLabelText('Month to sow')).toBeInTheDocument();
+    });
+
+    it('shows the scope Rails rendered', () => {
+      setup();
+      expect(screen.getByRole('link', {name: 'Everyone'})).toHaveAttribute('href', '/seeds?from=retail');
+    });
+
+    it('shows the new scope when the results change', async () => {
+      stubFetch({scope: '<a href="/seeds?from=bought">Everyone now</a>', tabs: '<nav />', results: '<p>Next</p>', crop: null});
+      setup();
+      await userEvent.click(screen.getByRole('link', {name: 'Bought'}));
+      expect(await screen.findByRole('link', {name: 'Everyone now'})).toBeInTheDocument();
+    });
+
+    it('keeps a gardener typed but not entered when another filter is chosen', async () => {
+      const fetch = stubFetch();
+      setup();
+      await userEvent.type(screen.getByLabelText('Gardener'), 'Fiona');
+      await userEvent.click(screen.getByRole('link', {name: 'Bought'}));
+      expect(fetch).toHaveBeenLastCalledWith('/seeds?gardener=Fiona&from=bought', expect.anything());
     });
 
     it('labels the planted filter', () => {

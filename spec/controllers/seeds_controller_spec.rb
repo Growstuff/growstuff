@@ -141,6 +141,21 @@ describe SeedsController do
       it { expect(assigns(:seeds).size).to eq Seed.sown_in(Seed.sow_now_months).count }
     end
 
+    context 'when the seed library fetches its results' do
+      let(:friend) { create(:member, login_name: 'Fiona') }
+      let!(:shared_seed) { create(:seed, crop:, owner: friend, tradable_to: 'locally') }
+
+      before do
+        create(:seed, crop:, owner: friend, tradable_to: 'nowhere')
+        create(:seed, crop:, owner: create(:member), tradable_to: 'locally')
+        request.headers['X-Seed-Library'] = 'results'
+        get :index, params: { gardener: 'fiona' }, format: :json
+      end
+
+      it { expect(assigns(:seeds)).to contain_exactly(shared_seed) }
+      it { expect(response.parsed_body.keys).to include('scope', 'tabs', 'results') }
+    end
+
     context 'when choosing a gardener by name' do
       let(:friend) { create(:member, login_name: 'Fiona') }
       let!(:friend_seed) { create(:seed, crop:, owner: friend, tradable_to: 'locally') }
