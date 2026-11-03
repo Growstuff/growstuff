@@ -32,3 +32,4 @@ config/database.yml
 # Files that are created on Travis
 cc-test-reporter
 
+.envrc

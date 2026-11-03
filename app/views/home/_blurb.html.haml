@@ -7,6 +7,7 @@
     .home-hero-actions
       = link_to(t('.sign_up'), new_member_registration_path, data: { auth_dialog: 'sign_up' }, class: 'btn btn-warning btn-lg')
       = link_to(t('.sign_in_linktext'), new_member_session_path, data: { auth_dialog: 'sign_in' }, class: 'home-hero-signin')
+      = bluesky_link(t('.sign_in_bluesky'), class: 'home-hero-signin')
     %p.home-hero-note= t('.public_note')
   - if planting
     = link_to planting_path(slug: planting.slug), class: 'home-hero-photo' do

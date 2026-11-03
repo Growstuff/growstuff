@@ -35,6 +35,26 @@
   = f.number_field :row_spacing, label: 'Row Spacing (cm)', min: 0
   - if crop.parent
     %span.form-text Parent: #{crop.parent.row_spacing}
+- if can?(:wrangle, crop)
+  -# How the crop is grown, as a wrangler sets it. The page shows these first and the
+  -# medians of members' seed packets beside them.
+  %h3.h5 Growing
+  .row
+    .col-md-6= f.number_field :germination_days_min, label: 'Germination, at least (days)', min: 0
+    .col-md-6= f.number_field :germination_days_max, label: 'Germination, at most (days)', min: 0
+  .row
+    .col-md-6= f.number_field :days_until_maturity_min, label: 'Days until maturity, at least', min: 0
+    .col-md-6= f.number_field :days_until_maturity_max, label: 'Days until maturity, at most', min: 0
+  %fieldset.mb-3
+    %legend.h6 Months to sow
+    %p.form-text Tick the months for the southern hemisphere: the northern hemisphere is six months on.
+    .sow-months
+      = hidden_field_tag 'crop[sow_months][]', '', id: nil
+      .sow-months-chips
+        - (1..12).each do |month|
+          - id = "crop-sow-month-#{month}"
+          = check_box_tag 'crop[sow_months][]', month, crop.sow_months.include?(month), id: id, class: 'btn-check'
+          = label_tag id, Date::ABBR_MONTHNAMES[month], class: 'btn btn-outline-secondary btn-sm'
 - if crop.spread.blank? || can?(:wrangle, crop)
   = f.number_field :spread, label: 'Spread (cm)', min: 0
   - if crop.parent

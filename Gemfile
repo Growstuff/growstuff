@@ -31,7 +31,6 @@ gem 'rswag-ui'
 #     |     Parser.parse(source, options)
 #                 ^^^^^^
 gem 'json', '< 3'
-gem 'oj' # Speeds up json
 
 # planting and harvest predictions
 # based on median values for the crop
@@ -74,8 +73,9 @@ gem 'geocoder'
 gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Flickr)
-gem 'omniauth', '~> 1.3'
+gem 'omniauth', '~> 2.1'
 gem 'omniauth-flickr', '>= 0.0.15'
+gem 'omniauth-rails_csrf_protection'
 
 # Pretty charts
 gem "chartkick"
@@ -104,6 +104,7 @@ gem 'rack-protection', '>= 2.0.1'
 gem 'mailboxer', '>= 0.15.1'
 
 gem 'faraday'
+gem 'ssrf_filter'
 
 gem 'rack-cors'
 
@@ -116,6 +117,7 @@ gem 'recaptcha'
 gem "gbifrb"
 
 gem "msgpack"
+gem "herringbone"
 
 group :production do
   gem 'dalli'

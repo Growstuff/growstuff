@@ -1,5 +1,60 @@
 ---
 ja:
+  crops:
+    approval_status_message:
+      pending_title: "この作物は現在承認待ちです。"
+      rejected_message: "この作物は次の理由で却下されました: %{reason}"
+      request_notes: "リクエストのメモ: %{notes}"
+      requested_by: "この作物は %{time_ago}前に %{requester} によってリクエストされました。"
+    alternate_name_modal:
+      add_title: '%{crop}の別名を追加'
+      cancel: キャンセル
+      close: 閉じる
+      edit_title: 別名を編集
+      language: 言語
+      name: 名前
+      save: 保存
+    scientific_name_modal:
+      add_title: '%{crop}の学名を追加'
+      cancel: キャンセル
+      close: 閉じる
+      edit_title: 学名を編集
+      gbif_hint: gbif.orgの種キー（ある場合）。
+      gbif_key: GBIFキー
+      name: 学名
+      save: 保存
+      wikidata_id: Wikidata ID
+    join_banner:
+      heading: Growstuffは作物を育てる人々のための無料のコミュニティ運営サイトです。
+      prompt: 参加してあなた自身の%{crops}を記録しましょう。
+      text: 植えたものや収穫したものを記録し、交換する種を見つけ、近くで何が育っているかを確認しましょう。
+  harvests:
+    edit_modal:
+      harvested_at: いつ収穫しましたか？
+      notes: メモ
+      plant_part: どの部分を収穫しましたか？
+      quantity: いくつ？
+      title: '%{crop}の収穫を編集'
+      unit: 単位
+      weight_quantity: 重さ（合計）
+      weight_unit: 重量単位
   home:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
+  members:
+    contact:
+      flickr_logo: Flickrロゴ
+      heading: 連絡先
+      more: その他...
+      website: ウェブサイト
+    email_prompt:
+      add_email: メールアドレスを追加
+      unset_body: 植え付けのリマインダーを受け取ったりパスワードをリセットできるように、メールアドレスを追加してください。確認のため、最初にリンクを送信します。
+      unset_title: メールアドレスが設定されていません。
+      waiting_body: '%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。'
+      waiting_title: メールアドレスの確認をお待ちしています。
+  stalls:
+    about_growstuff:
+      join: 無料で参加
+      sign_in: ログイン
+      text: 食物を育てるためのコミュニティです。植えたものや収穫したものを記録し、他のガーデナーと種やヒントを交換しましょう。無料で参加するかログインして、%{name}に出品内容について問い合わせましょう。

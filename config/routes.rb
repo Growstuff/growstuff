@@ -26,10 +26,17 @@ Rails.application.routes.draw do
     get :connected, on: :collection
   end
 
+  get Atproto::ClientConfig::METADATA_PATH => 'oauth_client_metadata#show', as: :oauth_client_metadata
+
   get "home/index"
   get '/community-gardens', to: 'home#community_gardens'
   get '/releases', to: 'home#releases', as: :releases
   patch '/my/location', to: 'member_locations#update', as: :member_location
+  delete '/my/location', to: 'member_locations#destroy'
+  patch '/my/name', to: 'member_names#update', as: :member_name
+  patch '/my/email', to: 'member_emails#update', as: :member_email
+  post '/my/email/decline', to: 'member_emails#decline', as: :decline_member_email
+  post '/my/email/resend', to: 'member_emails#resend', as: :resend_member_email
   get '/suggestions', to: 'suggestions#index', as: :suggestions
   patch '/my/suggestions', to: 'suggestions#update', as: :my_suggestions
   post '/my/dismissed_crops', to: 'crop_dismissals#create', as: :crop_dismissals
@@ -44,6 +51,17 @@ Rails.application.routes.draw do
   end
 
   # Before the gardens resource, so "nursery" isn't taken for a garden's slug.
+  # Opening and closing your own garden stall.
+  resource :stall, only: :update do
+    resource :opening, only: %i(create destroy), module: :stalls
+    resources :seeds, only: %i(new create destroy), module: :stalls
+  end
+
+  # A friend claiming a packet on someone's stall, or changing their mind.
+  resources :stall_seeds, only: [] do
+    resource :claim, only: %i(create destroy), module: :stalls
+  end
+
   resource :nursery, only: %i(show create) do
     get :panel
     resource :decline, only: :create, module: :nurseries
@@ -56,6 +74,7 @@ Rails.application.routes.draw do
     post 'stop_nursery' => 'gardens#stop_nursery', on: :member
 
     resources :garden_collaborators
+    resource :location, only: %i(update destroy), controller: 'garden_locations'
   end
 
   # What the record harvest and save seeds dialogs offer to choose from.
@@ -104,6 +123,7 @@ Rails.application.routes.draw do
     get 'seeds' => 'seeds#index'
 
     get 'places' => 'places#index'
+    resources :jobs, only: :create, controller: 'crop_jobs'
     get 'members' => 'members#index'
 
     # Charts json
@@ -112,6 +132,7 @@ Rails.application.routes.draw do
     get 'harvested_for' => 'charts/crops#harvested_for', constraints: { format: 'json' }
     post :gbif
     get :sowing_info, on: :member
+    get :history, on: :member
 
     collection do
       get 'requested'
@@ -123,7 +144,10 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :crops, only: [:index]
+    resources :crops, only: [] do
+      get :recently_edited, on: :collection
+    end
+    resource :crop_merge, only: %i(show create), path: 'crops/merge'
     resources :versions, only: [] do
       post :revert, on: :member, as: :revert
     end
@@ -142,6 +166,7 @@ Rails.application.routes.draw do
   get '/timeline', to: redirect('/my/neighbours')
 
   resources :members, param: :slug do
+    resource :stall, only: :show
     # Before the gardens resource, so "inactive" isn't taken for a garden's slug.
     get 'gardens/inactive' => 'gardens#inactive', as: :inactive_gardens
     # param: :slug to match the top-level gardens resource, so the controller's
@@ -195,6 +220,7 @@ Rails.application.routes.draw do
     end
     resources :roles
     resources :features, only: %i(index update)
+    resources :reminder_stats, only: :index
     resources :job_templates, only: :index
     resources :crops, param: :slug do
       resources :crop_companions

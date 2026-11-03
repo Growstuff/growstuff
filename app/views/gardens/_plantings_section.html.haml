@@ -1,0 +1,17 @@
+-# What is growing in this garden now, as cards.
+%section.garden-plantings
+  .section-header
+    %h2= t('.heading')
+    - if can?(:edit, @garden)
+      -# The plant something dialog, a React island. The link is what shows without scripts.
+      = react_component 'GardenPlanter', garden_planter_props(@garden) do
+        = link_to new_planting_path(garden_id: @garden.id), class: 'btn btn-sm section-add' do
+          = icon 'fas', 'plus'
+          = t('.add')
+  .index-cards
+    - if @current_plantings.size.positive?
+      - @current_plantings.each do |planting|
+        = render "plantings/garden_card", planting: planting
+    - else
+      .col-md-12
+        %p.garden-empty= t('.nothing_planted')

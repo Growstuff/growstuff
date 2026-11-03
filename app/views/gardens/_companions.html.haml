@@ -1,0 +1,5 @@
+-# Crops that grow well beside what is planted in the garden.
+%section.companions
+  %h2= t('.heading')
+  - companions.each do |companion|
+    = render 'crops/tiny', crop: companion

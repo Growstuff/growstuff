@@ -107,7 +107,7 @@ class SeedsController < DataController
 
   def update
     flash[:notice] = t('seeds.updated') if @seed.update(seed_params)
-    respond_with(@seed)
+    respond_with(@seed, location: seed_path(@seed, anchor: seed_section_anchor))
   end
 
   def destroy
@@ -220,15 +220,19 @@ class SeedsController < DataController
     end
   end
 
+  def seed_section_anchor
+    params[:seed]&.keys == ['description'] ? 'notes' : 'facts'
+  end
+
   def seed_params
     params.require(:seed).permit(
       :crop_id, :description, :quantity, :plant_before, :plant_before_year,
       :parent_planting_id, :saved_at,
       :days_until_maturity_min, :days_until_maturity_max,
-      :variety, :batch_number, :row_spacing,
+      :variety, :batch_number, :row_spacing, :how_to_sow, :germination_days_min, :germination_days_max,
       :organic, :gmo, :source,
       :heirloom, :tradable_to, :slug,
-      :finished, :finished_at
+      :finished, :finished_at, sow_months: []
     )
   end
 

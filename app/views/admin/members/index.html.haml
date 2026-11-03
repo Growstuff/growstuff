@@ -33,6 +33,7 @@
             %th{scope: "col"} Login Name
             %th{scope: "col"} Email
             %th{scope: "col"} Confirmed
+            %th{scope: "col"} Spam Score
             %th{scope: "col"} Last Login
             %th{scope: "col"} Bio
             %th{scope: "col"} Roles
@@ -57,6 +58,7 @@
                   %span.badge.bg-success Yes
                 - else
                   %span.badge.bg-secondary No
+              %td= spam_score_badge(member)
               %td
                 - if member.last_sign_in_at.present?
                   %small= l(member.last_sign_in_at, format: :short)
@@ -91,6 +93,7 @@
           %th{scope: "col"} Login Name
           %th{scope: "col"} Email
           %th{scope: "col"} Confirmed
+          %th{scope: "col"} Spam Score
           %th{scope: "col"} Last Login
           %th{scope: "col"} Bio
           %th{scope: "col"} Instagram
@@ -113,6 +116,7 @@
                 %span.badge.bg-success Yes
               - else
                 %span.badge.bg-secondary No
+            %td= spam_score_badge(member)
             %td
               - if member.last_sign_in_at.present?
                 %small= l(member.last_sign_in_at, format: :short)

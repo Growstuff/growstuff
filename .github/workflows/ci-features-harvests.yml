@@ -90,7 +90,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: screenshots
-          path: tmp/screenshots
+          path: tmp/capybara/
 
       - name: Upload Ruby coverage to Codecov
         if: ${{ !cancelled() }}

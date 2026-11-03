@@ -271,3 +271,17 @@ $garden-card-line: #e6e6e6;
     color: var(--bs-success-text-emphasis);
   }
 }
+
+// A person in the garden's "About" card: their face, then their name.
+.garden-person {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+
+  .garden-person-avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    flex: none;
+  }
+}

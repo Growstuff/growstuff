@@ -93,6 +93,20 @@ describe('LocationPicker', () => {
     }));
   });
 
+  it('shows the saved place in place of reloading when given somewhere to show it', async () => {
+    stubFetch({data: [places[0]]}, {data: {}});
+    const reload = vi.fn();
+    vi.stubGlobal('location', {...window.location, reload});
+    document.body.insertAdjacentHTML('beforeend', '<strong id="shown">Not set</strong>');
+    render(<LocationPicker label="Set location" searchUrl="/places" saveUrl="/location" displayId="shown" />);
+    await userEvent.click(screen.getByRole('button', {name: 'Set location'}));
+    await search('Wellington');
+    await screen.findByRole('radio');
+    await userEvent.click(screen.getByRole('button', {name: 'Save location'}));
+    await vi.waitFor(() => expect(document.getElementById('shown')).toHaveTextContent('Wellington, NZ'));
+    expect(reload).not.toHaveBeenCalled();
+  });
+
   it('says when saving fails', async () => {
     stubFetch({data: [places[0]]}, {ok: false, status: 500});
     await open();
@@ -121,5 +135,52 @@ describe('LocationPicker', () => {
     await open();
     await userEvent.click(screen.getByRole('button', {name: 'Cancel'}));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  describe('for a garden', () => {
+    const profilePlace = {name: 'Wellington, NZ', latitude: -41.3, longitude: 174.8};
+
+    async function openForGarden(props = {}) {
+      render(
+        <LocationPicker label="Set location" searchUrl="/places" saveUrl="/gardens/g/location"
+          title="Where is this garden?" intro="Shows the weather here." {...props} />
+      );
+      await userEvent.click(screen.getByRole('button', {name: 'Set location'}));
+    }
+
+    it('uses the title it is given', async () => {
+      await openForGarden();
+      expect(screen.getByRole('dialog', {name: 'Where is this garden?'})).toBeInTheDocument();
+    });
+
+    it('uses the intro it is given', async () => {
+      await openForGarden();
+      expect(screen.getByText('Shows the weather here.')).toBeInTheDocument();
+    });
+
+    it('offers no profile place without one', async () => {
+      await openForGarden();
+      expect(screen.queryByRole('button', {name: /from my profile/})).not.toBeInTheDocument();
+    });
+
+    it('offers the profile place when there is one', async () => {
+      await openForGarden({profilePlace});
+      expect(screen.getByRole('button', {name: 'Use Wellington, NZ from my profile'})).toBeInTheDocument();
+    });
+
+    it('chooses the profile place ready to save', async () => {
+      await openForGarden({profilePlace});
+      await userEvent.click(screen.getByRole('button', {name: 'Use Wellington, NZ from my profile'}));
+      expect(screen.getByRole('button', {name: 'Save location'})).toBeEnabled();
+    });
+
+    it('saves the profile place to the garden', async () => {
+      const fetch = stubFetch({data: {}});
+      vi.stubGlobal('location', {...window.location, reload: vi.fn()});
+      await openForGarden({profilePlace});
+      await userEvent.click(screen.getByRole('button', {name: 'Use Wellington, NZ from my profile'}));
+      await userEvent.click(screen.getByRole('button', {name: 'Save location'}));
+      expect(fetch).toHaveBeenCalledWith('/gardens/g/location', expect.objectContaining({method: 'PATCH'}));
+    });
   });
 });

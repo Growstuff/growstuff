@@ -9,8 +9,14 @@ class ApplicationController < ActionController::Base
 
   after_action :store_location
   before_action :set_locale
+  before_action :set_paper_trail_whodunnit
   around_action :use_browser_time_zone
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
+  # PaperTrail's default looks for current_user; members are current_member here.
+  def user_for_paper_trail
+    current_member&.id
+  end
 
   def store_location
     unless request.path.in?(["/members/sign_in",
@@ -77,7 +83,7 @@ class ApplicationController < ActionController::Base
                     # terms of service
                     :tos_agreement,
                     # profile stuff
-                    :bio, :location, :latitude, :longitude,
+                    :bio,
                     # email settings
                     :show_email, :send_notification_email, :send_planting_reminder, :send_harvest_reminder)
     end
@@ -88,7 +94,7 @@ class ApplicationController < ActionController::Base
                     # terms of service
                     :tos_agreement,
                     # profile stuff
-                    :bio, :location, :latitude, :longitude,
+                    :bio,
                     :website_url, :instagram_handle, :facebook_handle, :bluesky_handle, :other_url,
                     # email settings
                     :show_email, :send_notification_email, :send_planting_reminder, :send_harvest_reminder,

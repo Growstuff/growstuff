@@ -98,8 +98,11 @@ describe 'Adding a photo from a garden card', :js do
   context 'without Flickr connected' do
     it 'connects it in the dialog, in a pop-up, and carries on to choosing a photo' do
       visit_gardens_open
-      # The real pop-up goes to Flickr; stand in for it and note where it was sent.
-      page.execute_script("window.open = function (url) { window.openedUrl = url; return {closed: false, close: function () {}}; }")
+      # The real pop-up goes to Flickr; stand in for it and note where its form was posted.
+      page.execute_script(<<~JS)
+        window.open = function () { return {closed: false, close: function () {}}; };
+        HTMLFormElement.prototype.submit = function () { window.submittedTo = this.getAttribute('action'); };
+      JS
       within('.planting-row', text: 'lettuce') do
         click_link 'Actions for lettuce'
         click_link 'Add photo'
@@ -113,7 +116,7 @@ describe 'Adding a photo from a garden card', :js do
 
         expect(page).to have_content 'Waiting for you to allow access on Flickr'
       end
-      expect(page.evaluate_script('window.openedUrl')).to eq "/members/auth/flickr?origin=#{ERB::Util.url_encode('/authentications/connected')}"
+      expect(page.evaluate_script('window.submittedTo')).to eq '/members/auth/flickr'
 
       create(:flickr_authentication, member: member, name: 'Gardener') # what the pop-up would have done
 

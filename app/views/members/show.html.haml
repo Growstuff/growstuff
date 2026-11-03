@@ -19,6 +19,9 @@
   %li.breadcrumb-item= link_to 'Members', members_path
   %li.breadcrumb-item.active= link_to @member.login_name, member_path(@member)
 
+- if member_signed_in? && current_member == @member && @member.email.blank?
+  = render 'email_prompt', member: @member
+
 .row
   .col-md-2
     .card
@@ -85,6 +88,7 @@
         = render "contact", member: @member, flickr_auth: @flickr_auth
 
   .col-md-10#content
+    = render 'stalls/card', member: @member
     .row
       %section.order-3.order-md-1.col-12= render "map", member: @member
       - if @harvesting.size.positive? 

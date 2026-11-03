@@ -25,6 +25,17 @@ describe 'growstuff:send_harvest_reminders', flipper: :enable_harvest_reminders 
     end.to change { ActionMailer::Base.deliveries.count }.by(1)
   end
 
+  it "counts the send" do
+    wednesday = Time.zone.today.beginning_of_week + 2.days
+    allow(Time.zone).to receive(:today).and_return(wednesday)
+    member = create(:member, send_harvest_reminder: true, confirmed_at: 1.day.ago)
+    create(:planting, owner: member, crop: create(:crop, median_days_to_first_harvest: 20), planted_at: wednesday - 15.days)
+
+    expect do
+      Rake::Task['growstuff:send_harvest_reminders'].invoke
+    end.to change { ReminderEvent.of_kind(:harvest_reminder).where(event: 'sent').count }.by(1)
+  end
+
   it "does not send harvest reminders on non-Wednesdays" do
     monday = Time.zone.today.beginning_of_week
     allow(Time.zone).to receive(:today).and_return(monday)

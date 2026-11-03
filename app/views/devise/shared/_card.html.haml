@@ -1,11 +1,13 @@
 -# A Devise page laid out the way the sign in and sign up dialogs are: a header
 -# with the title, the form in the body, and the links to the other Devise pages
--# in the footer. Locals: title, and a block for the body.
+-# in the footer. Locals: title, and a block for the body; `links: false` leaves
+-# the footer out (for someone already signed in).
 .form-page
   .modal-content.form-card
     .modal-header
       %h1.modal-title.h5= title
     .modal-body
       = yield
-    .modal-footer.d-block
-      = render 'devise/shared/links'
+    - if local_assigns.fetch(:links, true)
+      .modal-footer.d-block
+        = render 'devise/shared/links'

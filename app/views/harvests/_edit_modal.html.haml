@@ -2,24 +2,24 @@
 -# off to a form of its own. The form posts as it always has, so this needs no
 -# JSON endpoint. Large text comes from .plant-dialog-body, as in the React
 -# dialogs. The crop isn't offered: a harvest's crop comes from its planting.
-= form_modal(harvest, id: 'harvest-edit-modal', title: "Edit #{harvest.crop.name} harvest") do |f|
+= form_modal(harvest, id: 'harvest-edit-modal', title: t('.title', crop: harvest.crop.name)) do |f|
   .mb-3
     = f.date_field :harvested_at,
                    value: harvest.harvested_at ? harvest.harvested_at.to_fs(:ymd) : '',
-                   label: 'When did you harvest it?'
+                   label: t('.harvested_at')
   .mb-3
-    = f.form_group :plant_part_id, label: { text: 'What part did you harvest?' } do
+    = f.form_group :plant_part_id, label: { text: t('.plant_part') } do
       - PlantPart.order(:name).pluck(:name, :id).each do |name, id|
         = f.radio_button :plant_part_id, id, label: name, checked: (id == harvest.plant_part_id), inline: true
   .row.mb-3
     .col-md-5
-      = f.number_field :quantity, step: 'any', min: 0, label: 'How many?'
+      = f.number_field :quantity, step: 'any', min: 0, label: t('.quantity')
     .col-md-7
-      = f.select :unit, Harvest::UNITS_VALUES, { include_blank: false, label: 'Counted as' }
+      = f.select :unit, Harvest::UNITS_VALUES, { include_blank: false, label: t('.unit') }
   .row.mb-3
     .col-md-5
-      = f.number_field :weight_quantity, step: 'any', min: 0, label: 'Weighing (in total)'
+      = f.number_field :weight_quantity, step: 'any', min: 0, label: t('.weight_quantity')
     .col-md-7
-      = f.select :weight_unit, Harvest::WEIGHT_UNITS_VALUES, { include_blank: false, label: 'Weighed in' }
+      = f.select :weight_unit, Harvest::WEIGHT_UNITS_VALUES, { include_blank: false, label: t('.weight_unit') }
   .mb-3
-    = f.text_area :description, rows: 4, label: 'Notes'
+    = f.text_area :description, rows: 4, label: t('.notes')
