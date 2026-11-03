@@ -208,6 +208,11 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    approval_status_message:
+      pending_title: "Este cultivo está pendiente de aprobación."
+      rejected_message: "Este cultivo fue rechazado por la siguiente razón: %{reason}"
+      request_notes: "Notas de la solicitud: %{notes}"
+      requested_by: "Este cultivo fue solicitado por %{requester} hace %{time_ago}."
     alternate_name_modal:
       add_title: Añadir otro nombre para %{crop}
       cancel: Cancelar

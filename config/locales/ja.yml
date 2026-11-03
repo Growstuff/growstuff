@@ -1,6 +1,11 @@
 ---
 ja:
   crops:
+    approval_status_message:
+      pending_title: "この作物は現在承認待ちです。"
+      rejected_message: "この作物は次の理由で却下されました: %{reason}"
+      request_notes: "リクエストのメモ: %{notes}"
+      requested_by: "この作物は %{time_ago}前に %{requester} によってリクエストされました。"
     alternate_name_modal:
       add_title: '%{crop}の別名を追加'
       cancel: キャンセル

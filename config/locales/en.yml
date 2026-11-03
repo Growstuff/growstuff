@@ -216,6 +216,11 @@ en:
         published: Published
     saved: Job template saved.
   crops:
+    approval_status_message:
+      pending_title: "This crop is currently pending approval."
+      rejected_message: "This crop was rejected for the following reason: %{reason}"
+      request_notes: "Request notes: %{notes}"
+      requested_by: "This crop was requested by %{requester} %{time_ago} ago."
     alternate_name_modal:
       add_title: Add another name for %{crop}
       cancel: Cancel

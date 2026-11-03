@@ -208,6 +208,11 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    approval_status_message:
+      pending_title: "该作物目前正在等待审核。"
+      rejected_message: "该作物因以下原因被拒绝：%{reason}"
+      request_notes: "请求备注：%{notes}"
+      requested_by: "该作物由 %{requester} 在 %{time_ago}前请求添加。"
     alternate_name_modal:
       add_title: 为%{crop}添加别名
       cancel: 取消

@@ -208,6 +208,11 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    approval_status_message:
+      pending_title: "Cette culture est actuellement en attente d'approbation."
+      rejected_message: "Cette culture a été rejetée pour la raison suivante : %{reason}"
+      request_notes: "Notes de la demande : %{notes}"
+      requested_by: "Cette culture a été demandée par %{requester} il y a %{time_ago}."
     alternate_name_modal:
       add_title: Ajouter un autre nom pour %{crop}
       cancel: Annuler
