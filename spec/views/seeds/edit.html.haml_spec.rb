@@ -20,6 +20,8 @@ describe "seeds/edit" do
       assert_select "textarea#seed_description", name: "seed[description]"
       assert_select "input#seed_quantity", name: "seed[quantity]"
       assert_select "select#seed_tradable_to", name: "seed[tradable_to]"
+      assert_select "input#seed_brand", name: "seed[brand]"
+      assert_select "input#seed_barcode", name: "seed[barcode]"
     end
   end
 

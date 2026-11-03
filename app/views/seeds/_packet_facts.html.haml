@@ -10,6 +10,17 @@
                    edit: [:text_field, :batch_number] } do
   %strong= seed.batch_number.presence || 'not specified'
 
+- if seed.bought_from_retail?
+  = render layout: 'seeds/fact_row',
+           locals: { seed:, label: 'Brand', display: 'brand', muted: seed.brand.blank?,
+                     edit: [:text_field, :brand] } do
+    %strong= seed.brand.presence || 'not specified'
+
+  = render layout: 'seeds/fact_row',
+           locals: { seed:, label: 'Barcode', display: 'barcode', muted: seed.barcode.blank?,
+                     edit: [:text_field, :barcode] } do
+    %strong= seed.barcode.presence || 'not specified'
+
 = render layout: 'seeds/fact_row',
          locals: { seed:, label: 'Quantity', display: 'quantity', muted: seed.quantity.blank?,
                    edit: [:text_field, :quantity] } do

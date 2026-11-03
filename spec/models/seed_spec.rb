@@ -303,4 +303,29 @@ describe Seed do
     it { expect(build(:seed, heirloom: 'hybrid').heirloom_kind).to eq 'hybrid' }
     it { expect(build(:seed, heirloom: 'unknown').heirloom_kind).to be_nil }
   end
+
+  describe '#bought_from_retail?' do
+    it { expect(build(:seed, source: 'retail outlet')).to be_bought_from_retail }
+    it { expect(build(:seed, source: 'my own seed saving')).not_to be_bought_from_retail }
+    it { expect(build(:seed, source: 'seed catalogue')).not_to be_bought_from_retail }
+  end
+
+  context 'brand and barcode' do
+    it 'allows valid brand and barcode' do
+      seed = build(:seed, brand: 'Yates', barcode: '9310428001017')
+      expect(seed).to be_valid
+    end
+
+    it 'refuses brand that is too long' do
+      seed = build(:seed, brand: 'a' * 101)
+      expect(seed).not_to be_valid
+      expect(seed.errors[:brand]).to be_present
+    end
+
+    it 'refuses barcode that is too long' do
+      seed = build(:seed, barcode: '1' * 101)
+      expect(seed).not_to be_valid
+      expect(seed.errors[:barcode]).to be_present
+    end
+  end
 end
