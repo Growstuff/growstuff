@@ -34,9 +34,7 @@ namespace :crops do
 
   desc "Work out the medians from seed packets (row spacing, months to sow) for every crop that has packets."
   task update_seed_medians: :environment do
-    with_seeds = Crop.where(id: Seed.unscoped.select(:crop_id))
-    crops = with_seeds.or(Crop.where(id: with_seeds.select(:parent_id)))
-    crops.find_each(&:update_seed_medians)
-    puts "Updated #{crops.count} crops"
+    Crop.update_all_seed_medians
+    puts "Updated the crops with seed packets"
   end
 end

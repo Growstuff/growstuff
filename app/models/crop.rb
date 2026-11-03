@@ -11,6 +11,9 @@ class Crop < ApplicationRecord
 
   friendly_id :name, use: %i(slugged finders)
 
+  # The ranges a crop wrangler sets and members' seed packets give, which the crop keeps the median of.
+  PACKET_RANGES = %i(germination_days_min germination_days_max days_until_maturity_min days_until_maturity_max).freeze
+
   ##
   ## Relationships
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
@@ -69,8 +72,6 @@ class Crop < ApplicationRecord
             },
             allow_blank: true
   validates :name, uniqueness: { scope: :approval_status }, if: :pending?
-  # The ranges a crop wrangler sets and members' seed packets give, which the crop keeps the median of.
-  PACKET_RANGES = %i(germination_days_min germination_days_max days_until_maturity_min days_until_maturity_max).freeze
   validates(*PACKET_RANGES, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true)
   normalizes :sow_months, with: ->(months) { Array(months).compact_blank.map(&:to_i).uniq.sort }
   validate :sow_months_are_months
@@ -225,11 +226,11 @@ class Crop < ApplicationRecord
 
   # The months to sow in the northern hemisphere: the southern ones, six months on.
   def sow_months_northern
-    sow_months.map { |month| opposite_month(month) }.sort
+    opposite_months(sow_months)
   end
 
   def median_sow_months_northern
-    median_sow_months.map { |month| opposite_month(month) }.sort
+    opposite_months(median_sow_months)
   end
 
   # Keeps the medians from seed packets on the crop, so the crop page needn't work
@@ -262,6 +263,18 @@ class Crop < ApplicationRecord
     where(["lower(crops.name) = :value", { value: name.downcase }])
   end
 
+  # These crops and the crops they are varieties of.
+  def self.with_parents
+    crops = all
+    crops.or(unscoped.where(id: crops.select(:parent_id)))
+  end
+
+  # Works out the medians from seed packets for every crop that has packets, and the
+  # crops they are varieties of.
+  def self.update_all_seed_medians
+    where(id: Seed.unscoped.select(:crop_id)).with_parents.find_each(&:update_seed_medians)
+  end
+
   def all_companions
     @all_companions ||= if parent
                           (companions + parent.all_companions).uniq
@@ -282,6 +295,10 @@ class Crop < ApplicationRecord
   # The same part of the year in the other hemisphere: March is September.
   def opposite_month(month)
     ((month + 5) % 12) + 1
+  end
+
+  def opposite_months(months)
+    months.map { |month| opposite_month(month) }.sort
   end
 
   def release_slug

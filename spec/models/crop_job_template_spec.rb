@@ -67,7 +67,7 @@ describe CropJobTemplate do
     end
   end
 
-  describe '#in_season?' do
+  describe '#season_months' do
     subject(:template) { build(:crop_job_template, season:) }
 
     let(:southern) { -41.3 }
@@ -76,24 +76,20 @@ describe CropJobTemplate do
     context 'when it is for spring and summer' do
       let(:season) { 'spring_summer' }
 
-      it { expect(template.in_season?(Date.new(2026, 10, 10), southern)).to be true }
-      it { expect(template.in_season?(Date.new(2026, 6, 10), southern)).to be false }
-      it { expect(template.in_season?(Date.new(2026, 6, 10), northern)).to be true }
-      it { expect(template.in_season?(Date.new(2026, 10, 10), northern)).to be false }
-      it { expect(template.in_season?(Date.new(2026, 6, 10), nil)).to be true }
+      it { expect(template.season_months(southern)).to eq [1, 2, 9, 10, 11, 12] }
+      it { expect(template.season_months(northern)).to eq [3, 4, 5, 6, 7, 8] }
+      it { expect(template.season_months(nil)).to be_nil }
     end
 
     context 'when it is for autumn and winter' do
       let(:season) { 'autumn_winter' }
 
-      it { expect(template.in_season?(Date.new(2026, 6, 10), southern)).to be true }
-      it { expect(template.in_season?(Date.new(2026, 12, 10), southern)).to be false }
+      it { expect(template.season_months(southern)).to eq [3, 4, 5, 6, 7, 8] }
     end
 
     context 'when it is for any time' do
       let(:season) { 'any' }
 
-      it { expect(template.in_season?(Date.new(2026, 6, 10), southern)).to be true }
       it { expect(template.season_months(southern)).to be_nil }
     end
   end

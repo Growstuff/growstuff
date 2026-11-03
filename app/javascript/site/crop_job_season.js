@@ -22,10 +22,9 @@ export function describeDay(value, today = new Date()) {
   return `${date.toLocaleDateString(undefined, { weekday: 'long' })}, ${when}`;
 }
 
-export function updateSeasonWarning(form) {
+function updateSeasonWarning(form) {
   const field = form.querySelector('[data-crop-job-date]');
   const warning = form.querySelector('[data-crop-job-warning]');
-  const confirm = form.querySelector('[data-crop-job-confirm]');
   const submit = form.querySelector('[data-crop-job-submit]');
   if (!field || !warning) return;
 
@@ -48,7 +47,6 @@ export function updateSeasonWarning(form) {
     })
   );
   warning.hidden = outside.length === 0;
-  if (confirm) confirm.disabled = outside.length === 0;
   if (submit) submit.value = outside.length ? submit.dataset.anywayLabel : submit.dataset.label;
 }
 

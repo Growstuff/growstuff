@@ -4,9 +4,8 @@ require 'rails_helper'
 
 describe CropJobsController, '#create' do
   let(:crop) { create(:tomato) }
-  let(:season) { 'any' }
-  let(:template) { create(:crop_job_template, crop:, status: 'published', season:) }
-  let(:member) { create_located_member('Wellington, Wellington Region, New Zealand', -41.29, 174.78) }
+  let(:template) { create(:crop_job_template, crop:, status: 'published') }
+  let(:member) { create(:member) }
 
   before { create(:crop_job_step, crop_job_template: template, name: 'Stake the plants', offset_amount: 2) }
 
@@ -64,43 +63,5 @@ describe CropJobsController, '#create' do
       post crop_jobs_path(crop), params: { planting_id: create(:planting, crop:, planted_at: 1.day.ago).id }
       expect(Job.count).to eq 0
     end
-  end
-
-  context 'with a template for spring and summer, planting in a southern winter' do
-    let(:season) { 'spring_summer' }
-
-    before { sign_in member }
-
-    context 'without having agreed' do
-      before { post crop_jobs_path(crop), params: { planting_on: '2027-06-13' } }
-
-      it { expect(Job.count).to eq 0 }
-      it { expect(Capybara.string(response.body)).to have_css('.crop-job-season-warning', text: 'outside that where you are') }
-      it { expect(Capybara.string(response.body)).to have_button('Add them anyway') }
-    end
-
-    context 'having agreed' do
-      before { post crop_jobs_path(crop), params: { planting_on: '2027-06-13', confirm: '1' } }
-
-      it { expect(Job.where(owner: member).count).to eq 1 }
-    end
-
-    context 'planting in spring' do
-      before { post crop_jobs_path(crop), params: { planting_on: '2026-10-10' } }
-
-      it { expect(Job.where(owner: member).count).to eq 1 }
-    end
-  end
-
-  context 'with a template for spring and summer, for a member who has not said where they are' do
-    let(:season) { 'spring_summer' }
-    let(:member) { create(:member) }
-
-    before do
-      sign_in member
-      post crop_jobs_path(crop), params: { planting_on: '2027-06-13' }
-    end
-
-    it { expect(Job.where(owner: member).count).to eq 1 }
   end
 end

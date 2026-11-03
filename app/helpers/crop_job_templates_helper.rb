@@ -23,4 +23,14 @@ module CropJobTemplatesHelper
 
     "#{pluralize(step.offset_amount, step.offset_unit.singularize)} #{step.direction} #{anchor}"
   end
+
+  # The seasons the add-jobs dialog warns about: for each template made for part of
+  # the year, the months it is for where the member is. None where they haven't said
+  # where they live, so there is nothing to warn about.
+  def crop_job_seasons(templates, latitude)
+    templates.filter_map do |template|
+      months = template.season_months(latitude)
+      { name: template.name, season: crop_job_option(:season, template.season).downcase, months: } if months
+    end
+  end
 end

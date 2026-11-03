@@ -13,6 +13,9 @@ class Seed < ApplicationRecord
   ORGANIC_VALUES = ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'].freeze
   GMO_VALUES = ['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown'].freeze
   HEIRLOOM_VALUES = %w(heirloom hybrid unknown).freeze
+  # What a packet says that the crop keeps the median of.
+  MEDIAN_FIELDS = %w(crop_id row_spacing sow_months germination_days_min germination_days_max
+                     days_until_maturity_min days_until_maturity_max).freeze
   SOURCE_VALUES = ['seed catalogue', 'retail outlet', 'seed bank or similar institution',
                    'traded from another person', 'my own seed saving', 'other/unknown'].freeze
   # A seed packet dated outside this is a typo, not a plan.
@@ -47,15 +50,13 @@ class Seed < ApplicationRecord
                                    numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :how_to_sow, length: { maximum: 2_000 }
   validate :sow_months_are_months
+
+  # What packets say about a crop is kept on the crop, and on the crop it is a variety of.
+  after_commit :update_crop_medians, on: %i(create update destroy)
   validates :row_spacing, allow_nil:    true,
                           numericality: { only_integer: true, greater_than: 0 }
   validates :variety, :batch_number, length: { maximum: 100 }
   validate :plant_before_year_is_a_year
-
-  # What packets say about a crop is kept on the crop, and on the crop it is a variety of.
-  MEDIAN_FIELDS = %w(crop_id row_spacing sow_months germination_days_min germination_days_max
-                     days_until_maturity_min days_until_maturity_max).freeze
-  after_commit :update_crop_medians, on: %i(create update destroy)
   validates :tradable_to, allow_blank: false,
                           inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }
   validates :organic, allow_blank: false,
@@ -184,8 +185,7 @@ class Seed < ApplicationRecord
   def update_crop_medians
     return unless destroyed? || previously_new_record? || saved_changes.keys.intersect?(MEDIAN_FIELDS)
 
-    crop_ids = [crop_id, saved_change_to_crop_id&.first].compact
-    Crop.where(id: crop_ids).or(Crop.where(id: Crop.where(id: crop_ids).select(:parent_id))).find_each(&:update_seed_medians)
+    Crop.where(id: [crop_id, saved_change_to_crop_id&.first].compact).with_parents.find_each(&:update_seed_medians)
   end
 
   def sow_months_are_months
