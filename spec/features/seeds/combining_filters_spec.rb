@@ -15,7 +15,7 @@ describe "combining seed library filters" do
     create(:seed, owner: member, crop: kale, source: 'my own seed saving', heirloom: 'heirloom')
   end
 
-  context "with bought and heirloom both chosen" do
+  context "with retail outlet and heirloom both chosen" do
     before { visit member_seeds_path(member, from: 'retail', heirloom: 'heirloom') }
 
     it { expect(page).to have_css('.seed-shelf-bar h3', text: 'tomato') }
@@ -26,7 +26,7 @@ describe "combining seed library filters" do
   end
 
   context "when grouping with filters chosen" do
-    before { visit member_seeds_path(member, from: 'bought', heirloom: 'heirloom', group: 'source') }
+    before { visit member_seeds_path(member, from: 'retail', heirloom: 'heirloom', group: 'source') }
 
     it { expect(page).to have_css('.seed-shelf-bar h3', text: 'Retail outlet', count: 1) }
     it { expect(page).to have_no_css('.seed-shelf-bar h3', text: 'My own seed saving') }
@@ -34,39 +34,39 @@ describe "combining seed library filters" do
 
   context "when filtered and choosing the finished tab" do
     before do
-      visit member_seeds_path(member, from: 'bought', group: 'year')
+      visit member_seeds_path(member, from: 'retail', group: 'year')
       click_link 'Finished'
     end
 
-    it { expect(page).to have_current_path member_seeds_path(member, from: 'bought', group: 'year', finished: 1) }
+    it { expect(page).to have_current_path member_seeds_path(member, from: 'retail', group: 'year', finished: 1) }
   end
 
   context "when filtered and choosing past sow-by" do
     before do
       create(:seed, owner: member, crop: tomato, source: 'retail outlet', plant_before: Date.new(2020, 12, 31))
-      visit member_seeds_path(member, from: 'bought')
+      visit member_seeds_path(member, from: 'retail')
       click_link 'Show me'
     end
 
-    it { expect(page).to have_current_path member_seeds_path(member, from: 'bought', past: 1) }
+    it { expect(page).to have_current_path member_seeds_path(member, from: 'retail', past: 1) }
   end
 
   context "when filtered and choosing everyone" do
     before do
-      visit member_seeds_path(member, from: 'bought', heirloom: 'heirloom', group: 'year')
+      visit member_seeds_path(member, from: 'retail', heirloom: 'heirloom', group: 'year')
       click_link 'Everyone'
     end
 
-    it { expect(page).to have_current_path seeds_path(from: 'bought', heirloom: 'heirloom', group: 'year') }
+    it { expect(page).to have_current_path seeds_path(from: 'retail', heirloom: 'heirloom', group: 'year') }
   end
 
   context "when choosing mine after choosing a distance" do
     before do
-      visit seeds_path(within: 50, from: 'bought', heirloom: 'heirloom')
+      visit seeds_path(within: 50, from: 'retail', heirloom: 'heirloom')
       click_link 'Mine'
     end
 
-    it { expect(page).to have_current_path member_seeds_path(member, from: 'bought', heirloom: 'heirloom') }
+    it { expect(page).to have_current_path member_seeds_path(member, from: 'retail', heirloom: 'heirloom') }
   end
 
   context "when viewing my own seeds" do
@@ -78,17 +78,17 @@ describe "combining seed library filters" do
 
   context "when filtered and choosing mine" do
     before do
-      visit seeds_path(from: 'bought', scope: 'following')
+      visit seeds_path(from: 'retail', scope: 'following')
       click_link 'Mine'
     end
 
-    it { expect(page).to have_current_path member_seeds_path(member, from: 'bought') }
+    it { expect(page).to have_current_path member_seeds_path(member, from: 'retail') }
   end
 
   context "when filtered by a source and sowing month" do
     before do
       create(:seed, owner: member, crop: cabbage, source: 'retail outlet', sow_months: [9, 10])
-      visit member_seeds_path(member, from: 'bought', sow_month: 9)
+      visit member_seeds_path(member, from: 'retail', sow_month: 9)
     end
 
     it { expect(page).to have_css('.seed-shelf-bar h3', text: 'cabbage') }

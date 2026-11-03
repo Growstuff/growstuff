@@ -115,7 +115,6 @@ class Seed < ApplicationRecord
   # Where seeds came from, as the filter chips name it.
   SOURCES_BY_KIND = {
     'own'       => ['my own seed saving'],
-    'bought'    => ['seed catalogue', 'retail outlet', 'seed bank or similar institution'],
     'catalogue' => ['seed catalogue'],
     'retail'    => ['retail outlet'],
     'bank'      => ['seed bank or similar institution'],
@@ -123,6 +122,13 @@ class Seed < ApplicationRecord
   }.freeze
   scope :from_source, ->(kind) { where(source: SOURCES_BY_KIND.fetch(kind)) }
   scope :sown_in, ->(months) { where('seeds.sow_months && ARRAY[?]::integer[]', Array(months)) }
+  scope :planted, -> { where(id: Planting.select(:parent_seed_id)) }
+  scope :not_planted, -> { where.missing(:child_plantings) }
+
+  # Seeds of a crop and of its varieties: choosing tomato finds Brandywine
+  # tomato seeds too.
+  scope :of_crop, ->(crop) { where(crop_id: Crop.where(id: crop.id).or(Crop.where(parent_id: crop.id)).select(:id)) }
+  scope :expired, -> { active.where('plant_before < ?', Time.zone.today) }
 
   # In the last days of a month it is already time to sow for the next one.
   SOW_NOW_NEXT_MONTH_DAYS = 10
@@ -133,14 +139,6 @@ class Seed < ApplicationRecord
     months << today.next_month.month if today.day > today.end_of_month.day - SOW_NOW_NEXT_MONTH_DAYS
     months
   end
-  scope :planted, -> { where(id: Planting.where.not(parent_seed_id: nil).select(:parent_seed_id)) }
-  scope :not_planted, -> { where.not(id: Planting.where.not(parent_seed_id: nil).select(:parent_seed_id)) }
-  scope :heirlooms, -> { where(heirloom: 'heirloom') }
-
-  # Seeds of a crop and of its varieties: choosing tomato finds Brandywine
-  # tomato seeds too.
-  scope :of_crop, ->(crop) { where(crop_id: Crop.where(id: crop.id).or(Crop.where(parent_id: crop.id)).select(:id)) }
-  scope :expired, -> { active.where('plant_before < ?', Time.zone.today) }
 
   # "Plant before" only ever means a season, not a day: seed keeps until the
   # end of the year it is dated to. So members give the year alone, and it is
