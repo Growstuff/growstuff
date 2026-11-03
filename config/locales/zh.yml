@@ -1133,6 +1133,11 @@ zh:
     spring: 春天
     summer: 夏天
     winter: 冬天
+  stalls:
+    about_growstuff:
+      join: 免费加入
+      sign_in: 登录
+      text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
   seeds:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
     form:

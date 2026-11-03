@@ -1133,6 +1133,11 @@ de:
     spring: Feder
     summer: Sommer
     winter: Winter
+  stalls:
+    about_growstuff:
+      join: Kostenlos anmelden
+      sign_in: Anmelden
+      text: Eine Community für den Lebensmittelanbau. Halten Sie fest, was Sie pflanzen und ernten, und tauschen Sie Saatgut sowie Tipps mit anderen Gärtnern aus. Treten Sie kostenlos bei oder melden Sie sich an, um mit %{name} über das Angebot auf dem Stand in Kontakt zu treten.
   seeds:
     added_to_stash: '%{crop} Seed wurde erfolgreich zu deinem Vorrat hinzugefügt.'
     form:
