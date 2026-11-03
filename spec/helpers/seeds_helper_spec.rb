@@ -187,6 +187,18 @@ describe SeedsHelper do
     end
   end
 
+  describe '#seed_variety' do
+    it { expect(helper.seed_variety([build(:seed, variety: 'Moneymaker')])).to eq 'Moneymaker' }
+    it { expect(helper.seed_variety([build(:seed, variety: 'Roma'), build(:seed, variety: 'Roma')])).to eq 'Roma' }
+    it { expect(helper.seed_variety([build(:seed, variety: 'Roma'), build(:seed, variety: 'Oxheart')])).to eq 'Roma and Oxheart' }
+    it { expect(helper.seed_variety([build(:seed, variety: ''), build(:seed, variety: nil)])).to be_nil }
+  end
+
+  describe '#seed_shelf_title' do
+    it { expect(helper.seed_shelf_title('year saved')).to eq 'Year saved' }
+    it { expect(helper.seed_shelf_title(create(:member, login_name: 'Fiona'))).to have_link('Fiona') }
+  end
+
   describe '#seed_library_props' do
     subject(:props) { helper.seed_library_props(everyone:, crop_search:, search_crop:) }
 

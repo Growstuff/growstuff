@@ -555,6 +555,16 @@ $seed-rule: rgba($brown, 0.15);
     object-fit: cover;
   }
 
+  .seed-packet-variety {
+    margin: 0;
+    overflow: hidden;
+    color: rgba($brown, 0.8);
+    font-size: 0.8rem;
+    font-style: italic;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .seed-packet-name {
     display: block;
     margin: 0.4rem 0 0.2rem;

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module SeedsHelper
+  include SeedFiltersHelper
+
   def display_seed_quantity(seed)
     if seed.quantity.nil?
       'seeds'
@@ -85,12 +87,29 @@ module SeedsHelper
     seed.saved_at ? "saved #{years.first}" : "sow by #{years.first}"
   end
 
+  # A shelf's name: a crop or a gardener links to its page, any other group is
+  # the words for it.
+  def seed_shelf_title(shelf)
+    case shelf
+    when Crop then link_to(shelf.name, crop_path(shelf))
+    when Member then link_to(shelf.login_name, member_path(shelf))
+    else shelf.capitalize
+    end
+  end
+
+  # The variety names on a pile of packets, such as "Moneymaker", or nil when
+  # none of them has one.
+  def seed_variety(packets)
+    packets.filter_map { |seed| seed.variety.presence }.uniq.to_sentence.presence
+  end
+
   # What the SeedStack island needs to draw a pile of packets of one variety
   # and to link each packet to its page.
   def seed_stack_props(packets, show_owner: false)
     first = packets.first
     {
       crop:      { name: first.crop.name, path: crop_path(first.crop) },
+      variety:   seed_variety(packets),
       count:     packets.size,
       image_url: seed_image_url(first),
       heirloom:  first.heirloom_kind,
@@ -115,6 +134,7 @@ module SeedsHelper
     {
       id:        seed.id,
       name:      seed.crop_name,
+      variety:   seed.variety.presence,
       path:      seed_path(slug: seed.slug),
       image_url: seed_image_url(seed),
       heirloom:  seed.heirloom_kind,
@@ -160,7 +180,7 @@ module SeedsHelper
   # start with. Which control is chosen it reads from the address.
   def seed_library_props(everyone:, crop_search:, search_crop:)
     {
-      groups:      SEED_GROUPS,
+      groups:      everyone ? SEED_GROUPS + [%w(gardener Gardener)] : SEED_GROUPS,
       filters:     seed_filter_groups(everyone:),
       sow_now:     "Sow now (#{Seed.sow_now_months.map { |month| Date::MONTHNAMES[month] }.join(' & ')})",
       gardeners:   (seed_friend_names if everyone),

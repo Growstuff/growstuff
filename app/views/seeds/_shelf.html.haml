@@ -8,7 +8,7 @@
 %details.seed-shelf{ open: position < 3, id: "shelf-#{shelf.respond_to?(:id) ? shelf.id : shelf.to_s.parameterize}" }
   %summary.seed-shelf-bar
     %h3
-      = shelf.is_a?(Crop) ? link_to(shelf.name, crop_path(shelf)) : shelf.capitalize
+      = seed_shelf_title(shelf)
       %small= counts.join(' · ')
     - if owned && shelf.is_a?(Crop)
       = link_to '+ add seeds', new_seed_path(crop_id: shelf.id), class: 'seed-shelf-open-only', data: { record_dialog: 'seeds', crop_id: shelf.id, crop_name: shelf.name }

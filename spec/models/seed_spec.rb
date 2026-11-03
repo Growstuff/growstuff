@@ -294,6 +294,11 @@ describe Seed do
 
     it { expect(described_class.planted).to contain_exactly(planted_seed) }
     it { expect(described_class.not_planted).to contain_exactly(unplanted_seed) }
+
+    # Plantings have finished columns too, so the join must not make them ambiguous.
+    it { expect(described_class.not_planted.active).to contain_exactly(unplanted_seed) }
+    it { expect(described_class.not_planted.current.finished).to be_empty }
+    it { expect(described_class.not_planted.expired).to contain_exactly(unplanted_seed) }
   end
 
   describe '#past_sow_by?' do
