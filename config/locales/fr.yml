@@ -1089,6 +1089,37 @@ fr:
       late_finishing: finition tardive
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super tard
+    facts:
+      day_progress: "jour %{age} sur %{lifespan}"
+      done: Terminé
+      failed: Échoué
+      finished: terminé
+      grown: poussé
+      grown_in: Cultivé en
+      lifespan_days:
+        one: 1 jour
+        other: "%{count} jours"
+      no_date_recorded: aucune date enregistrée
+      no_finish_predicted: aucune fin prévue
+      not_rated: non évalué
+      not_specified: non spécifié
+      packets_of_seed:
+        one: 1 sachet de graines
+        other: "%{count} sachets de graines"
+      parent_seed: Graine d'origine
+      perennial: Vivace
+      perennial_description: continue de pousser d'année en année
+      planned: Prévu
+      planned_for: "pour le %{date}"
+      planted: Planté
+      planting_failed: cette plantation a échoué
+      progress: Progrès
+      quantity: Quantité
+      rating: Évaluation
+      rating_of_5: "%{rating} sur 5"
+      seeds_saved: Graines récoltées
+      sown_from_expired: "Semé à partir de graines périmées (à planter avant %{year})"
+      unknown: inconnu
     form:
       failed_helper: Marquez cette plantation comme ayant échoué si elle est morte ou si elle a été retirée sans aucune récolte.
       finish_helper: Une plantation est terminée lorsque vous avez récolté toute la récolte, ou qu'elle meurt, ou qu'elle ne pousse plus dans votre jardin.

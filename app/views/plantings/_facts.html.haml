@@ -8,68 +8,68 @@
 .index-cards.facts.plantingfacts
   .card.fact-card{class: planting.planted_at.present? ? '' : 'text-muted'}
     %h3
-      Planted
+      = t('.planted')
       = editable :date, planting, :planted_at, display_field: '.fact-planted'
     .fact-value.fact-planted
       - if planting.planted_at.present?
         %strong.planted_at= standard_time_distance planting.planted_at, Time.zone.today
         %span.planted_at= I18n.l planting.planted_at
       - else
-        %strong.planted_at unknown
-        %span.planted_at no date recorded
+        %strong.planted_at= t('.unknown')
+        %span.planted_at= t('.no_date_recorded')
 
   .card.fact-card{class: planting.percentage_grown.present? ? '' : 'text-muted'}
-    %h3 Progress
+    %h3= t('.progress')
     - if planting.failed?
-      %strong.plantingfact--progress Failed
-      %span= planting.finished_at.present? ? I18n.l(planting.finished_at) : 'this planting failed'
+      %strong.plantingfact--progress= t('.failed')
+      %span= planting.finished_at.present? ? I18n.l(planting.finished_at) : t('.planting_failed')
     - elsif planting.finished?
-      %strong.plantingfact--progress Done
+      %strong.plantingfact--progress= t('.done')
       %span
         - if planting.actual_lifespan.present?
-          = pluralize planting.actual_lifespan, 'day'
+          = t('.lifespan_days', count: planting.actual_lifespan)
         - else
-          finished
+          = t('.finished')
     - elsif planting.planned?
-      %strong.plantingfact--progress Planned
-      %span for #{I18n.l planting.planted_at}
+      %strong.plantingfact--progress= t('.planned')
+      %span= t('.planned_for', date: I18n.l(planting.planted_at))
     - elsif planting.percentage_grown.present?
       %strong.plantingfact--progress #{planting.percentage_grown.to_i}%
       %span
         - if planting.finish_is_predicatable?
-          day #{planting.age_in_days} of #{planting.expected_lifespan}
+          = t('.day_progress', age: planting.age_in_days, lifespan: planting.expected_lifespan)
         - else
-          grown
+          = t('.grown')
     - else
-      %strong.plantingfact--progress unknown
-      %span no finish predicted
+      %strong.plantingfact--progress= t('.unknown')
+      %span= t('.no_finish_predicted')
 
   -# Quantity and the growing method were two cards that both said "seedling".
   -# One card, one sentence: "3 cuttings". Both fields stay editable from it.
   .card.fact-card{class: planting.quantity.to_i.positive? ? '' : 'text-muted'}
     %h3
-      Quantity
+      = t('.quantity')
       = editable :text_field, planting, :quantity, display_field: '.fact-quantity'
     .fact-value.fact-quantity
       -# The sub-line is the unit, so it always names something countable:
       -# "3 cuttings", or "3 plants" when we don't know how they were started.
       -# It never reads "1, not recorded".
       %strong.plantingfact--quantity
-        = planting.quantity.to_i.positive? ? planting.quantity : 'unknown'
+        = planting.quantity.to_i.positive? ? planting.quantity : t('.unknown')
       %span.plantingfact--plantedfrom
         = (planting.planted_from.presence || 'plant').pluralize(planting.quantity.to_i)
 
   .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
     %h3
-      Grown in
+      = t('.grown_in')
       = editable :select, planting, :sunniness, values: Planting::SUNNINESS_VALUES, display_field: '.fact-sunniness'
     .fact-value.fact-sunniness
       %strong= sunniness_icon(planting.sunniness)
       %span.plantingfact--sunniness
-        = planting.sunniness.presence || 'not specified'
+        = planting.sunniness.presence || t('.not_specified')
 
   .card.fact-card{class: planting.overall_rating.present? ? '' : 'text-muted'}
-    %h3 Rating
+    %h3= t('.rating')
     -# The stars are the edit control for whoever owns the planting: click one
     -# to rate it. This is the one fact card the pencil doesn't suit.
     - if can?(:edit, planting)
@@ -81,29 +81,29 @@
           = icon(star <= planting.overall_rating.to_f.round ? 'fas' : 'far', 'star')
       %span.plantingfact--ratingvalue
         - if planting.overall_rating.present?
-          = "#{number_with_precision planting.overall_rating, precision: 1, strip_insignificant_zeros: true} of 5"
+          = t('.rating_of_5', rating: number_with_precision(planting.overall_rating, precision: 1, strip_insignificant_zeros: true))
         - else
-          not rated
+          = t('.not_rated')
 
   -# Facts that only some plantings have.
   - if planting.parent_seed
     .card.fact-card
-      %h3 Parent seed
+      %h3= t('.parent_seed')
       = render 'seeds/thumbnail', seed: planting.parent_seed
       - if planting.sown_from_expired_seeds?
         %span.text-warning-emphasis
-          Sown from expired seeds (plant before #{planting.seed_plant_before.year})
+          = t('.sown_from_expired', year: planting.seed_plant_before.year)
 
   - if planting.crop.perennial
     .card.fact-card
-      %h3.plantingfact--perennial Perennial
+      %h3.plantingfact--perennial= t('.perennial')
       %strong= perennial_icon
-      %span keeps growing year to year
+      %span= t('.perennial_description')
 
   - if planting.child_seeds.size.positive?
     .card.fact-card
-      %h3 Seeds saved
+      %h3= t('.seeds_saved')
       %strong
         = link_to planting_seeds_path(planting) do
           = seed_icon
-      %span.plantingfact--seedssaved #{pluralize(planting.child_seeds.size, 'packet')} of seed
+      %span.plantingfact--seedssaved= t('.packets_of_seed', count: planting.child_seeds.size)

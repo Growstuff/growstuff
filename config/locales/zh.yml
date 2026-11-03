@@ -1086,6 +1086,37 @@ zh:
       late_finishing: 后期整理
       sharedbuttonsfinish_planting: 共享/按钮/finish_planting
       super_late: 超级晚了
+    facts:
+      day_progress: "第 %{age} 天，共 %{lifespan} 天"
+      done: 已完成
+      failed: 失败
+      finished: 已结束
+      grown: 已生长
+      grown_in: 生长于
+      lifespan_days:
+        one: 1 天
+        other: "%{count} 天"
+      no_date_recorded: 未记录日期
+      no_finish_predicted: 未预测结束时间
+      not_rated: 未评分
+      not_specified: 未指定
+      packets_of_seed:
+        one: 1 包种子
+        other: "%{count} 包种子"
+      parent_seed: 母株种子
+      perennial: 多年生
+      perennial_description: 年复一年持续生长
+      planned: 已计划
+      planned_for: "计划于 %{date}"
+      planted: 已种植
+      planting_failed: 该种植已失败
+      progress: 进度
+      quantity: 数量
+      rating: 评分
+      rating_of_5: "%{rating} / 5 分"
+      seeds_saved: 已留种
+      sown_from_expired: "使用过期种子播种（请在 %{year} 年前种植）"
+      unknown: 未知
     form:
       failed_helper: 如果该种植死亡或在没有任何收获的情况下被移除，则将其标记为失败。
       finish_helper: 当你收获了所有的作物，或者它死了，或者它不再在你的花园里生长时，种植就完成了。
