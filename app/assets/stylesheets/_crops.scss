@@ -232,7 +232,8 @@
 // Annual or perennial is the point of the lifespan card, so it is the biggest thing in it.
 .lifespan-word {
   display: block;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  white-space: nowrap;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 0.25rem;
