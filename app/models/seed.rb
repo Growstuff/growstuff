@@ -114,11 +114,27 @@ class Seed < ApplicationRecord
   scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
   # Where seeds came from, as the filter chips name it.
   SOURCES_BY_KIND = {
-    'own'    => ['my own seed saving'],
-    'bought' => ['seed catalogue', 'retail outlet', 'seed bank or similar institution'],
-    'traded' => ['traded from another person']
+    'own'       => ['my own seed saving'],
+    'bought'    => ['seed catalogue', 'retail outlet', 'seed bank or similar institution'],
+    'catalogue' => ['seed catalogue'],
+    'retail'    => ['retail outlet'],
+    'bank'      => ['seed bank or similar institution'],
+    'traded'    => ['traded from another person']
   }.freeze
   scope :from_source, ->(kind) { where(source: SOURCES_BY_KIND.fetch(kind)) }
+  scope :sown_in, ->(months) { where('seeds.sow_months && ARRAY[?]::integer[]', Array(months)) }
+
+  # In the last days of a month it is already time to sow for the next one.
+  SOW_NOW_NEXT_MONTH_DAYS = 10
+
+  # The months "sow now" means: this one, and next once this one is nearly over.
+  def self.sow_now_months(today = Time.zone.today)
+    months = [today.month]
+    months << today.next_month.month if today.day > today.end_of_month.day - SOW_NOW_NEXT_MONTH_DAYS
+    months
+  end
+  scope :planted, -> { where(id: Planting.where.not(parent_seed_id: nil).select(:parent_seed_id)) }
+  scope :not_planted, -> { where.not(id: Planting.where.not(parent_seed_id: nil).select(:parent_seed_id)) }
   scope :heirlooms, -> { where(heirloom: 'heirloom') }
 
   # Seeds of a crop and of its varieties: choosing tomato finds Brandywine

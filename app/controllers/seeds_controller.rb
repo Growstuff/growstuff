@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class SeedsController < DataController
-  GROUPINGS = %w(crop source year heirloom).freeze
+  GROUPINGS = %w(crop source year use_by heirloom).freeze
   PER_PAGE = 30 # piles of packets on a page of the web page, seeds in the data formats
+  NO_USE_BY = 'no use-by date'
   SEED_LIBRARY_HEADER = 'X-Seed-Library'
 
   def index
@@ -15,7 +16,7 @@ class SeedsController < DataController
 
     if params[:crop_slug].present?
       @crop = Crop.find_by(slug: params[:crop_slug])
-      @seeds = @seeds.where(crop_id: @crop.id) if @crop
+      @seeds = @seeds.of_crop(@crop) if @crop
     end
 
     if params[:planting_id].present?
@@ -24,7 +25,7 @@ class SeedsController < DataController
     end
 
     @seeds = filter(@seeds)
-    @filtered = %i(from within tradeable_to past).any? { |name| params[name].present? }
+    @filtered = %i(from heirloom shared planted gardener sow_month within tradeable_to past).any? { |name| params[name].present? }
 
     # Searching is by choosing a crop, so there is only ever a real one to offer.
     @search_crop = Crop.find_by(slug: params[:crop]) if params[:crop].present? && @crop.blank?
@@ -156,12 +157,30 @@ class SeedsController < DataController
     @everyone = @owner.blank? && @planting.blank? && request.format.html?
     seeds = seeds.tradable if @everyone
     seeds = seeds.where(tradable_to: params[:tradeable_to]) if params[:tradeable_to].present?
+    seeds = seeds.planted if params[:planted] == 'yes'
+    seeds = seeds.not_planted if params[:planted] == 'no'
+    seeds = seeds.sown_in(sow_months) if sow_months
+    seeds = seeds.where(owner_id: gardener_ids) if @everyone && params[:gardener].present?
     seeds = seeds.from_source(params[:from]) if Seed::SOURCES_BY_KIND.key?(params[:from])
+    seeds = seeds.where(heirloom: params[:heirloom]) if %w(heirloom hybrid).include?(params[:heirloom])
     seeds = seeds.heirlooms if params[:from] == 'heirloom'
-    seeds = seeds.tradable if params[:from] == 'shared'
+    seeds = seeds.tradable if params[:shared].present? || params[:from] == 'shared'
     seeds = seeds.where(owner_id: scoped_owner_ids) if @everyone && current_member && %w(following near).include?(params[:scope])
     seeds = seeds.where(owner_id: owner_ids_within(params[:within].to_i)) if @everyone && params[:within].to_i.positive?
     seeds
+  end
+
+  # The months asked for with "month to sow", or nil for any month.
+  def sow_months
+    return Seed.sow_now_months if params[:sow_month] == 'now'
+
+    month = params[:sow_month].to_i
+    [month] if (1..12).cover?(month)
+  end
+
+  # A gardener looked for by their name, whatever case it is typed in.
+  def gardener_ids
+    Member.where('lower(members.login_name) = ?', params[:gardener].to_s.strip.downcase).select(:id)
   end
 
   def scoped_owner_ids
@@ -195,11 +214,22 @@ class SeedsController < DataController
       case grouping
       when 'source' then seed.source.presence || 'other/unknown'
       when 'year' then (seed.saved_at || seed.created_at).year.to_s
+      when 'use_by' then seed.plant_before&.year&.to_s || NO_USE_BY
       when 'heirloom' then seed.heirloom
       else seed.crop.parent || seed.crop
       end
     end
-    shelves.sort_by { |shelf, _| grouping == 'year' ? -shelf.to_i : shelf.to_s.downcase }.to_h
+    shelves.sort_by { |shelf, _| shelf_order(shelf, grouping) }.to_h
+  end
+
+  # Newest year saved first; soonest use-by year first, with the packets that
+  # have none last; otherwise by name.
+  def shelf_order(shelf, grouping)
+    case grouping
+    when 'year' then -shelf.to_i
+    when 'use_by' then shelf == NO_USE_BY ? Float::INFINITY : shelf.to_i
+    else shelf.to_s.downcase
+    end
   end
 
   # Nearest owners first; seeds whose owner has no location go last.
