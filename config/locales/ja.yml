@@ -1,6 +1,17 @@
 ---
 ja:
   crops:
+    nutritional_data:
+      carbohydrate: 炭水化物
+      energy: エネルギー
+      fat_total: 脂質（合計）
+      fibre: 食物繊維
+      protein: たんぱく質
+      see_more: 詳細を見る
+      sodium: ナトリウム
+      sugars: "- 糖質"
+      summary: "%{food_name}の100gあたりの栄養データ概要。"
+      title: 栄養データ
     approval_status_message:
       pending_title: "この作物は現在承認待ちです。"
       rejected_message: "この作物は次の理由で却下されました: %{reason}"
@@ -28,6 +39,11 @@ ja:
       heading: Growstuffは作物を育てる人々のための無料のコミュニティ運営サイトです。
       prompt: 参加してあなた自身の%{crops}を記録しましょう。
       text: 植えたものや収穫したものを記録し、交換する種を見つけ、近くで何が育っているかを確認しましょう。
+  gardens:
+    inactive_card:
+      grown_here: ここで栽培
+      image_alt: "%{name}の画像"
+      more_crops: "他 %{count} 件"
   harvests:
     edit_modal:
       harvested_at: いつ収穫しましたか？

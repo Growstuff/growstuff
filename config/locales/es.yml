@@ -208,6 +208,17 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    nutritional_data:
+      carbohydrate: Carbohidratos
+      energy: Energía
+      fat_total: Grasas totales
+      fibre: Fibra
+      protein: Proteínas
+      see_more: Ver más
+      sodium: Sodio
+      sugars: "- Azúcares"
+      summary: "Resumen de información nutricional por cada 100 g de %{food_name}."
+      title: Información nutricional
     approval_status_message:
       pending_title: "Este cultivo está pendiente de aprobación."
       rejected_message: "Este cultivo fue rechazado por la siguiente razón: %{reason}"
@@ -292,6 +303,12 @@ es:
       unknown: desconocido
     form:
       location_helper: Si tiene una ubicación configurada en su perfil, se utilizará cuando cree un nuevo jardín.
+    inactive_card:
+      grown_here: Cultivado aquí
+      image_alt: "Imagen de %{name}"
+      more_crops:
+        one: "y %{count} más"
+        other: "y %{count} más"
     header:
       all_gardens: Todos los jardines de %{owner}
       garden_of: jardín de

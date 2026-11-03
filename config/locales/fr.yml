@@ -208,6 +208,17 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    nutritional_data:
+      carbohydrate: Glucides
+      energy: Énergie
+      fat_total: Lipides totaux
+      fibre: Fibres alimentaires
+      protein: Protéines
+      see_more: Voir plus
+      sodium: Sodium
+      sugars: "- dont sucres"
+      summary: "Résumé des valeurs nutritionnelles pour 100 g de %{food_name}."
+      title: Données nutritionnelles
     approval_status_message:
       pending_title: "Cette culture est actuellement en attente d'approbation."
       rejected_message: "Cette culture a été rejetée pour la raison suivante : %{reason}"
@@ -292,6 +303,12 @@ fr:
       unknown: inconnu
     form:
       location_helper: Si vous avez défini un emplacement dans votre profil, il sera utilisé lors de la création d'un nouveau jardin.
+    inactive_card:
+      grown_here: Cultivé ici
+      image_alt: "Image de %{name}"
+      more_crops:
+        one: "et %{count} de plus"
+        other: "et %{count} de plus"
     header:
       all_gardens: Tous les jardins de %{owner}
       garden_of: Jardin de ?

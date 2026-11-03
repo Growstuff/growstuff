@@ -208,6 +208,17 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    nutritional_data:
+      carbohydrate: 碳水化合物
+      energy: 能量
+      fat_total: 总脂肪
+      fibre: 膳食纤维
+      protein: 蛋白质
+      see_more: 查看更多
+      sodium: 钠
+      sugars: "- 糖"
+      summary: "%{food_name} 每 100 克的营养数据摘要。"
+      title: 营养数据
     approval_status_message:
       pending_title: "该作物目前正在等待审核。"
       rejected_message: "该作物因以下原因被拒绝：%{reason}"
@@ -292,6 +303,10 @@ zh:
       unknown: 未知
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
+    inactive_card:
+      grown_here: 在此种植
+      image_alt: "%{name}的照片"
+      more_crops: "以及其他 %{count} 种"
     header:
       all_gardens: '%{owner} 的所有花园'
       garden_of: 的花园

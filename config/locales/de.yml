@@ -208,6 +208,17 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    nutritional_data:
+      carbohydrate: Kohlenhydrate
+      energy: Energie
+      fat_total: Fett gesamt
+      fibre: Ballaststoffe
+      protein: Eiweiß
+      see_more: Mehr anzeigen
+      sodium: Natrium
+      sugars: "- davon Zucker"
+      summary: "Eine Zusammenfassung der Nährwertdaten pro 100 g für %{food_name}."
+      title: Nährwertdaten
     approval_status_message:
       pending_title: "Diese Kultur wartet derzeit auf Genehmigung."
       rejected_message: "Diese Kultur wurde aus folgendem Grund abgelehnt: %{reason}"
@@ -292,6 +303,12 @@ de:
       unknown: unbekannt
     form:
       location_helper: Wenn Sie in Ihrem Profil einen Standort festgelegt haben, wird dieser beim Erstellen eines neuen Gartens verwendet.
+    inactive_card:
+      grown_here: Hier angebaut
+      image_alt: "Bild von %{name}"
+      more_crops:
+        one: "und %{count} weitere"
+        other: "und %{count} weitere"
     header:
       all_gardens: Alle Gärten von %{owner}
       garden_of: Garten von
