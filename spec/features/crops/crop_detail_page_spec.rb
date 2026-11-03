@@ -65,8 +65,8 @@ describe "crop detail page", :js do
         expect(page).to have_content "Who's planted #{crop.name.pluralize}"
       end
 
-      it "has planting advice with SEO" do
-        expect(page).to have_content "Growing #{crop.name.pluralize}"
+      it "has facts heading with SEO" do
+        expect(page).to have_content "#{crop.name.capitalize} facts"
       end
 
       it "has a link to Wikipedia with SEO" do
@@ -142,7 +142,7 @@ describe "crop detail page", :js do
       end
 
       it "predicts lifespan" do
-        expect(subject).to have_text "Median lifespan"
+        expect(subject).to have_text "median lifespan"
         expect(subject).to have_text "14 weeks"
       end
 

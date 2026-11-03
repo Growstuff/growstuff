@@ -16,8 +16,21 @@ module CropJobTemplatesHelper
       crop.varieties.order(:name).map { |variety| [t('crop_job_templates.options.applies_to_one', crop: variety.name), variety.id] }
   end
 
-  # "2 weeks after planting out", for a step.
+  # "2 weeks after planting out", for a step, or "at sowing" when it is on the day.
   def crop_job_when(step)
-    "#{step.offset_amount} #{step.offset_unit} #{step.direction} #{crop_job_option(:anchor, step.anchor)}"
+    anchor = crop_job_option(:anchor, step.anchor)
+    return "at #{anchor}" if step.offset_amount.zero?
+
+    "#{pluralize(step.offset_amount, step.offset_unit.singularize)} #{step.direction} #{anchor}"
+  end
+
+  # The seasons the add-jobs dialog warns about: for each template made for part of
+  # the year, the months it is for where the member is. None where they haven't said
+  # where they live, so there is nothing to warn about.
+  def crop_job_seasons(templates, latitude)
+    templates.filter_map do |template|
+      months = template.season_months(latitude)
+      { name: template.name, season: crop_job_option(:season, template.season).downcase, months: } if months
+    end
   end
 end

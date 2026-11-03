@@ -31,4 +31,10 @@ namespace :crops do
     assigned.each { |crop, icon| puts "#{crop.name} -> #{icon}" }
     puts "#{dry_run ? 'Would give' : 'Gave'} #{assigned.size} crops an icon."
   end
+
+  desc "Work out the medians from seed packets (row spacing, months to sow) for every crop that has packets."
+  task update_seed_medians: :environment do
+    Crop.update_all_seed_medians
+    puts "Updated the crops with seed packets"
+  end
 end
