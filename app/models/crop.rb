@@ -69,6 +69,11 @@ class Crop < ApplicationRecord
             },
             allow_blank: true
   validates :name, uniqueness: { scope: :approval_status }, if: :pending?
+  # The ranges a crop wrangler sets and members' seed packets give, which the crop keeps the median of.
+  PACKET_RANGES = %i(germination_days_min germination_days_max days_until_maturity_min days_until_maturity_max).freeze
+  validates(*PACKET_RANGES, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true)
+  normalizes :sow_months, with: ->(months) { Array(months).compact_blank.map(&:to_i).uniq.sort }
+  validate :sow_months_are_months
   validates :default_diameter, allow_nil: true, numericality: {
     greater_than: 0, less_than_or_equal_to: Plant::MAX_DIAMETER
   }
@@ -201,6 +206,42 @@ class Crop < ApplicationRecord
     seeds_with(attribute).median(attribute)
   end
 
+  # The months to sow in, from the seed packets of this crop and of its varieties,
+  # for the southern hemisphere, as the seasons are opposite: the northern months
+  # are six months on from them. A packet's months are the owner's, so a northern
+  # packet is moved six months to compare with the southern ones, and the months at
+  # least half of the packets give are the answer. Packets whose owner hasn't said
+  # where they live can't say which hemisphere they mean, and are left out. Empty
+  # when no packet says anything.
+  def seed_sow_months
+    rows = Seed.of_crop(self).joins(:owner).where.not(members: { latitude: nil })
+      .where('cardinality(seeds.sow_months) > 0').pluck('seeds.sow_months', 'members.latitude')
+    counts = Hash.new(0)
+    rows.each do |months, latitude|
+      months.map { |month| latitude.negative? ? month : opposite_month(month) }.uniq.each { |month| counts[month] += 1 }
+    end
+    counts.select { |_month, count| count * 2 >= rows.size }.keys.sort
+  end
+
+  # The months to sow in the northern hemisphere: the southern ones, six months on.
+  def sow_months_northern
+    sow_months.map { |month| opposite_month(month) }.sort
+  end
+
+  def median_sow_months_northern
+    median_sow_months.map { |month| opposite_month(month) }.sort
+  end
+
+  # Keeps the medians from seed packets on the crop, so the crop page needn't work
+  # them out each time. Written without callbacks or history: they are figures
+  # worked out from the packets, not someone's edit of the crop.
+  def update_seed_medians
+    update_columns( # rubocop:disable Rails/SkipsModelValidations
+      median_row_spacing: seed_median(:row_spacing), median_sow_months: seed_sow_months,
+      **PACKET_RANGES.index_with { |attribute| seed_median(attribute) }.transform_keys { |attribute| :"median_#{attribute}" }
+    )
+  end
+
   def update_medians
     plantings.each(&:update_harvest_days!)
     update_lifespan_medians
@@ -238,6 +279,11 @@ class Crop < ApplicationRecord
 
   private
 
+  # The same part of the year in the other hemisphere: March is September.
+  def opposite_month(month)
+    ((month + 5) % 12) + 1
+  end
+
   def release_slug
     return if slug.blank?
     return if slug.include?('-rejected-')
@@ -263,6 +309,10 @@ class Crop < ApplicationRecord
     return unless reason_for_rejection.present? || rejection_notes.present?
 
     errors.add(:approval_status, :rejection_reason_required)
+  end
+
+  def sow_months_are_months
+    errors.add(:sow_months, :inclusion) unless sow_months.all? { |month| (1..12).cover?(month) }
   end
 
   def must_have_meaningful_reason_for_rejection

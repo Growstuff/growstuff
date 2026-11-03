@@ -713,6 +713,106 @@ describe Crop do
 
     let(:variety) { create(:crop, name: 'cherry tomato', parent: crop) }
 
+    describe '#seed_sow_months' do
+      let(:wellington) { create_located_member('Wellington, Wellington Region, New Zealand', -41.29, 174.78) }
+      let(:london) { create_located_member('London, England', 51.5, -0.12) }
+
+      it { expect(crop.seed_sow_months).to eq [] }
+
+      context 'with southern packets' do
+        before do
+          create(:seed, crop:, owner: wellington, sow_months: [9, 10])
+          create(:seed, crop:, owner: wellington, sow_months: [10, 11])
+        end
+
+        it { expect(crop.seed_sow_months).to eq [9, 10, 11] }
+      end
+
+      context 'with a northern packet, moved six months' do
+        before { create(:seed, crop:, owner: london, sow_months: [3, 4, 5]) }
+
+        it { expect(crop.seed_sow_months).to eq [9, 10, 11] }
+      end
+
+      context 'with months only some of the packets give' do
+        before do
+          create(:seed, crop:, owner: wellington, sow_months: [9, 10])
+          create(:seed, crop:, owner: wellington, sow_months: [10])
+          create(:seed, crop:, owner: london, sow_months: [4])
+        end
+
+        it { expect(crop.seed_sow_months).to eq [10] }
+      end
+
+      context 'with a packet whose owner has not said where they live' do
+        before { create(:seed, crop:, owner: create(:member), sow_months: [1, 2]) }
+
+        it { expect(crop.seed_sow_months).to eq [] }
+      end
+    end
+
+    describe 'kept on the crop' do
+      let(:wellington) { create_located_member('Wellington, Wellington Region, New Zealand', -41.29, 174.78) }
+
+      it 'is updated when a packet is saved' do
+        create(:seed, crop:, owner: wellington, row_spacing: 40, sow_months: [9])
+        expect(crop.reload).to have_attributes(median_row_spacing: 40, median_sow_months: [9])
+      end
+
+      it 'is updated on the crop it is a variety of' do
+        create(:seed, crop: variety, owner: wellington, row_spacing: 40)
+        expect(crop.reload.median_row_spacing).to eq 40
+      end
+
+      it 'is updated when a packet changes' do
+        seed = create(:seed, crop:, owner: wellington, row_spacing: 40)
+        seed.update!(row_spacing: 20)
+        expect(crop.reload.median_row_spacing).to eq 20
+      end
+
+      it 'is updated when a packet\'s germination changes' do
+        seed = create(:seed, crop:, owner: wellington, germination_days_min: 4)
+        seed.update!(germination_days_min: 8)
+        expect(crop.reload.median_germination_days_min).to eq 8
+      end
+
+      it 'is updated when a packet goes' do
+        create(:seed, crop:, owner: wellington, row_spacing: 40).destroy
+        expect(crop.reload.median_row_spacing).to be_nil
+      end
+
+      it 'is updated on both crops when a packet moves' do
+        seed = create(:seed, crop:, owner: wellington, row_spacing: 40)
+        other = create(:crop, name: 'carrot')
+        seed.update!(crop: other)
+        expect([crop.reload.median_row_spacing, other.reload.median_row_spacing]).to eq [nil, 40]
+      end
+
+      it 'leaves no trace in the crop\'s history' do
+        expect { create(:seed, crop:, owner: wellington, row_spacing: 40) }.not_to(change { crop.versions.count })
+      end
+    end
+
+    describe 'germination and maturity medians' do
+      before do
+        create(:seed, crop:, germination_days_min: 4, germination_days_max: 10, days_until_maturity_min: 60)
+        create(:seed, crop:, germination_days_min: 6, germination_days_max: 14)
+        crop.update_seed_medians
+        crop.reload
+      end
+
+      it { expect(crop.median_germination_days_min).to eq 5 }
+      it { expect(crop.median_germination_days_max).to eq 12 }
+      it { expect(crop.median_days_until_maturity_min).to eq 60 }
+      it { expect(crop.median_days_until_maturity_max).to be_nil }
+    end
+
+    describe '#median_sow_months_northern' do
+      before { crop.update!(median_sow_months: [9, 10, 11]) }
+
+      it { expect(crop.median_sow_months_northern).to eq [3, 4, 5] }
+    end
+
     describe '#seed_median' do
       it { expect(crop.seed_median(:row_spacing)).to be_nil }
 
@@ -757,6 +857,32 @@ describe Crop do
 
         it { expect(crop.seed_median(:row_spacing)).to be_nil }
       end
+    end
+  end
+
+  describe 'growing facts set by a wrangler' do
+    subject(:crop) { build(:tomato) }
+
+    it { is_expected.to be_valid }
+
+    it 'is not valid with a negative number of days' do
+      crop.germination_days_min = -1
+      expect(crop).not_to be_valid
+    end
+
+    it 'is not valid with a month that is not one' do
+      crop.sow_months = [13]
+      expect(crop).not_to be_valid
+    end
+
+    it 'keeps the months sorted, once each, without blanks' do
+      crop.sow_months = ['', '10', '9', '10']
+      expect(crop.sow_months).to eq [9, 10]
+    end
+
+    it 'gives the same months for the northern hemisphere, six months on' do
+      crop.sow_months = [9, 10, 11]
+      expect(crop.sow_months_northern).to eq [3, 4, 5]
     end
   end
 end

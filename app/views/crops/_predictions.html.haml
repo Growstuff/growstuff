@@ -46,14 +46,7 @@
   - if crop.spread.present?
     = render 'layouts/fact_card',
       title: 'Spread', value: "#{crop.spread}cm", description: nil
-  -# Members' seed packets say what the crop needs, if the crop itself doesn't: their median.
-  - packets_spacing = crop.seed_median(:row_spacing)
-  - if packets_spacing || crop.row_spacing.present?
-    - spacing = packets_spacing || crop.row_spacing
-    - packets = crop.seeds_with(:row_spacing).count if packets_spacing
-    = render 'layouts/fact_card',
-      title: 'Row Spacing', value: "#{number_with_precision(spacing, precision: 1, strip_insignificant_zeros: true)}cm",
-      description: (packets ? "median of #{pluralize(packets, 'seed packet')}" : nil)
+  = render 'crops/growing_facts', crop: crop
   - if crop.growing_degree_days.present?
     = render 'layouts/fact_card',
       title: 'Growing Degree Days', value: crop.growing_degree_days, description: nil

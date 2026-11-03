@@ -268,6 +268,8 @@ class CropsController < ApplicationController
       :public_food_key,
       :row_spacing, :spread, :height,
       :sowing_method, :sun_requirements, :growing_degree_days,
+      :germination_days_min, :germination_days_max, :days_until_maturity_min, :days_until_maturity_max,
+      sow_months: [],
       scientific_names_attributes: %i(scientific_name _destroy id)
     )
   end

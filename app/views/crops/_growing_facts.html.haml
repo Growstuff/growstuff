@@ -1,0 +1,36 @@
+-# How the crop is grown. What a crop wrangler has set is the figure to go by, big;
+-# beside it, smaller, the median of members' seed packets on Growstuff. Where the
+-# wranglers have set nothing, the median stands in, and says what it is.
+- growing_facts(crop).each do |fact|
+  = render 'crops/growing_fact', fact
+
+-# Months are opposite either side of the equator, so both hemispheres are shown.
+- if crop.sow_months.any? || crop.median_sow_months.any?
+  .card.fact-card.growing-fact.sow-months-card
+    .card-body.text-center
+      %h3 When to sow
+      - if crop.sow_months.any?
+        .crop-sow-hemisphere
+          %small Southern hemisphere
+          %strong= sow_months_text(crop.sow_months)
+        .crop-sow-hemisphere
+          %small Northern hemisphere
+          %strong= sow_months_text(crop.sow_months_northern)
+        - if crop.median_sow_months.any?
+          %small.crop-fact-median
+            = menu_icon(:seeds)
+            Members' seed packets:
+            = sow_months_text(crop.median_sow_months)
+            south,
+            = sow_months_text(crop.median_sow_months_northern)
+            north
+      - else
+        .crop-sow-hemisphere
+          %small Southern hemisphere
+          %strong= sow_months_text(crop.median_sow_months)
+        .crop-sow-hemisphere
+          %small Northern hemisphere
+          %strong= sow_months_text(crop.median_sow_months_northern)
+        %small.crop-fact-median
+          = menu_icon(:seeds)
+          median of members' seed packets
