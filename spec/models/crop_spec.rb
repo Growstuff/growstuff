@@ -924,4 +924,18 @@ describe Crop do
       expect(crop.versions.last.reify.sow_months).to eq [11]
     end
   end
+
+  describe '#published_job_templates' do
+    let(:parent) { create(:crop, name: 'tomato') }
+    let(:variety) { create(:crop, name: 'cherry tomato', parent:) }
+    let!(:published) { create(:crop_job_template, crop: parent, status: 'published') }
+
+    before do
+      create(:crop_job_template, crop: parent, status: 'draft')
+      create(:crop_job_template, status: 'published')
+    end
+
+    it { expect(parent.published_job_templates).to contain_exactly(published) }
+    it { expect(variety.published_job_templates).to contain_exactly(published) }
+  end
 end

@@ -51,7 +51,7 @@ class AddCropJobs
   end
 
   def templates
-    CropJobTemplate.published.for_crop(@crop).includes(:steps).order(:name)
+    @crop.published_job_templates.includes(:steps).order(:name)
   end
 
   private

@@ -55,7 +55,7 @@
         %section.prediction
           = render 'predictions', crop: @crop
 
-        - if CropJobTemplate.published.for_crop(@crop).exists?
+        - if @crop.published_job_templates.exists?
           %section.crop-jobs
             %h2
               -# Decorative: the heading already says what this is.

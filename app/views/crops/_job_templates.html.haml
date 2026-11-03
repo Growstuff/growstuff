@@ -1,7 +1,7 @@
 -# The step-by-step jobs members are offered when they plant this crop: its own
 -# templates and, for a variety, those of the crop it is a variety of. Drawn as a
 -# notepad, like the jobs a member gets from them.
-- templates = CropJobTemplate.published.for_crop(crop).includes(:steps).order(:name)
+- templates = crop.published_job_templates.includes(:steps).order(:name)
 - if templates.any?
   .crop-job-templates
     - templates.each do |template|
@@ -60,7 +60,7 @@
         %p.crop-job-added.text-muted
           = t('crop_jobs.already_added', crop: crop.name)
           = link_to t('crop_jobs.see_jobs'), jobs_path
-      = render 'job_modal', crop: crop if adder.to_come?
+      = render 'job_modal', crop: crop, adder: adder if adder.to_come?
     - else
       %p.crop-job-signup
         = link_to 'Sign up to track these tasks and get other suggestions.',

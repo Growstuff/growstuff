@@ -24,7 +24,7 @@ class JobIdeas
     # For each template, the plantings it still has jobs to add to, and those jobs.
     def by_template
       plantings.each_with_object(Hash.new { |hash, template| hash[template] = {} }) do |planting, found|
-        CropJobTemplate.published.for_crop(planting.crop).includes(:steps, :crop).find_each do |template|
+        planting.crop.published_job_templates.includes(:steps, :crop).find_each do |template|
           entries = ApplyCropJobTemplate.new(template, planting, today: @today).pending
           found[template][planting] = entries if entries.any?
         end
