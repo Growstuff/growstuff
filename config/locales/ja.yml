@@ -39,6 +39,11 @@ ja:
       heading: Growstuffは作物を育てる人々のための無料のコミュニティ運営サイトです。
       prompt: 参加してあなた自身の%{crops}を記録しましょう。
       text: 植えたものや収穫したものを記録し、交換する種を見つけ、近くで何が育っているかを確認しましょう。
+  gardens:
+    inactive_card:
+      grown_here: ここで栽培
+      image_alt: "%{name}の画像"
+      more_crops: "他 %{count} 件"
   harvests:
     edit_modal:
       harvested_at: いつ収穫しましたか？

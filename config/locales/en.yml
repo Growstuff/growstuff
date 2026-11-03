@@ -328,6 +328,12 @@ en:
       unknown: unknown
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
+    inactive_card:
+      grown_here: Grown here
+      image_alt: "Image of %{name}"
+      more_crops:
+        one: "and %{count} more"
+        other: "and %{count} more"
     header:
       all_gardens: All of %{owner}'s gardens
       garden_of: garden of
