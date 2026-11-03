@@ -379,10 +379,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_000100) do
   end
 
   create_table "claims", force: :cascade do |t|
-    t.datetime "created_at", null: false
+    t.bigint "stall_seed_id", null: false
     t.bigint "member_id", null: false
     t.text "note"
-    t.bigint "stall_seed_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_claims_on_member_id"
     t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
@@ -589,36 +589,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_000100) do
     t.integer "median_lifespan"
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
-    t.integer "days_until_maturity_max", comment: "Days from sowing to harvest, at most."
-    t.integer "days_until_maturity_min", comment: "Days from sowing to harvest, at least."
-    t.float "default_diameter"
-    t.text "description"
-    t.string "en_wikipedia_url"
-    t.string "en_youtube_url"
-    t.integer "germination_days_max", comment: "Days to germinate, at most."
-    t.integer "germination_days_min", comment: "Days to germinate, at least."
-    t.integer "growing_degree_days"
-    t.integer "harvests_count", default: 0
-    t.integer "height"
-    t.string "icon"
-    t.integer "median_days_to_first_harvest"
-    t.integer "median_days_to_last_harvest"
-    t.float "median_days_until_maturity_max", comment: "Days from sowing to harvest, the median of the packets maximums."
-    t.float "median_days_until_maturity_min", comment: "Days from sowing to harvest, the median of the packets minimums."
-    t.float "median_germination_days_max", comment: "Days to germinate, the median of the packets maximums."
-    t.float "median_germination_days_min", comment: "Days to germinate, the median of the packets minimums."
-    t.integer "median_lifespan"
-    t.float "median_row_spacing", comment: "Centimetres between rows, the median of the seed packets."
-    t.integer "median_sow_months", default: [], null: false, comment: "Months, 1 to 12, to sow in the southern hemisphere, from the seed packets.", array: true
-    t.string "name", null: false
-    t.virtual "normalised_name", type: :text, as: "translate(lower((name)::text), 'àáâãäåāçćčèéêëēėęìíîïīįłñńòóôõöøōùúûüūýÿžźż'::text, 'aaaaaaaccceeeeeeeiiiiiilnnooooooouuuuuyyzzz'::text)", stored: true
     t.jsonb "openfarm_data"
     t.integer "harvests_count", default: 0
     t.integer "photo_associations_count", default: 0
     t.integer "row_spacing"
-    t.string "slug"
-    t.integer "sow_months", default: [], null: false, comment: "Months, 1 to 12, to sow in the southern hemisphere. The northern hemisphere is six months on.", array: true
-    t.string "sowing_method"
     t.integer "spread"
     t.integer "height"
     t.string "sowing_method"
@@ -630,6 +604,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_000100) do
     t.float "default_diameter"
     t.string "icon"
     t.virtual "normalised_name", type: :text, as: "translate(lower((name)::text), 'àáâãäåāçćčèéêëēėęìíîïīįłñńòóôõöøōùúûüūýÿžźż'::text, 'aaaaaaaccceeeeeeeiiiiiilnnooooooouuuuuyyzzz'::text)", stored: true
+    t.integer "germination_days_min", comment: "Days to germinate, at least."
+    t.integer "germination_days_max", comment: "Days to germinate, at most."
+    t.integer "days_until_maturity_min", comment: "Days from sowing to harvest, at least."
+    t.integer "days_until_maturity_max", comment: "Days from sowing to harvest, at most."
+    t.integer "sow_months", default: [], null: false, comment: "Months, 1 to 12, to sow in the southern hemisphere. The northern hemisphere is six months on.", array: true
+    t.float "median_row_spacing", comment: "Centimetres between rows, the median of the seed packets."
+    t.integer "median_sow_months", default: [], null: false, comment: "Months, 1 to 12, to sow in the southern hemisphere, from the seed packets.", array: true
+    t.float "median_germination_days_min", comment: "Days to germinate, the median of the packets minimums."
+    t.float "median_germination_days_max", comment: "Days to germinate, the median of the packets maximums."
+    t.float "median_days_until_maturity_min", comment: "Days from sowing to harvest, the median of the packets minimums."
+    t.float "median_days_until_maturity_max", comment: "Days from sowing to harvest, the median of the packets maximums."
     t.index ["creator_id"], name: "index_crops_on_creator_id"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["normalised_name"], name: "index_crops_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
@@ -1225,22 +1210,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_000100) do
   end
 
   create_table "stall_seeds", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "offer", default: "free", null: false
-    t.bigint "seed_id", null: false
     t.bigint "stall_id", null: false
+    t.bigint "seed_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "offer", default: "free", null: false
     t.index ["seed_id", "stall_id"], name: "index_stall_seeds_on_seed_id_and_stall_id", unique: true
     t.index ["stall_id"], name: "index_stall_seeds_on_stall_id"
   end
 
   create_table "stalls", force: :cascade do |t|
-    t.string "claim_area", default: "region", null: false
-    t.datetime "created_at", null: false
     t.bigint "member_id", null: false
     t.datetime "opened_at"
-    t.boolean "postage", default: false, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "claim_area", default: "region", null: false
+    t.boolean "postage", default: false, null: false
     t.index ["member_id"], name: "index_stalls_on_member_id", unique: true
   end
 
