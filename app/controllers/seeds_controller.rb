@@ -213,7 +213,7 @@ class SeedsController < DataController
       case grouping
       when 'source' then seed.source.presence || 'other/unknown'
       when 'year' then (seed.saved_at || seed.created_at).year.to_s
-      when 'use_by' then seed.plant_before&.year&.to_s || t('seeds.library.no_use_by')
+      when 'use_by' then seed.plant_before&.year&.to_s || no_use_by
       when 'heirloom' then seed.heirloom
       when 'gardener' then seed.owner
       else seed.crop.parent || seed.crop
@@ -222,12 +222,17 @@ class SeedsController < DataController
     shelves.sort_by { |shelf, _| shelf_order(shelf, grouping) }.to_h
   end
 
+  # The shelf for packets with no use-by date, which also sorts them last.
+  def no_use_by
+    t('seeds.library.no_use_by')
+  end
+
   # Newest year saved first; soonest use-by year first, with the packets that
   # have none last; otherwise by name.
   def shelf_order(shelf, grouping)
     case grouping
     when 'year' then -shelf.to_i
-    when 'use_by' then shelf == t('seeds.library.no_use_by') ? Float::INFINITY : shelf.to_i
+    when 'use_by' then shelf == no_use_by ? Float::INFINITY : shelf.to_i
     else shelf.to_s.downcase
     end
   end

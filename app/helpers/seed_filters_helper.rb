@@ -79,15 +79,15 @@ module SeedFiltersHelper
   # all shared. The months are chips on a wide screen, and a select on a narrow
   # one, so that group says it is `wide_only`.
   def seed_filter_groups(everyone:)
-    [[:month, seed_month_chips, true],
-     [:source, seed_source_chips],
-     ([:distance, seed_distance_chips] if everyone && current_member&.latitude),
-     ([:sharing, seed_sharing_chips] unless everyone),
-     [:heirloom, seed_heirloom_chips],
-     [:planted, seed_planted_chips]].compact.map do |key, chips, wide_only|
-      { label: t(key == :month ? 'seeds.library.labels.month_to_sow' : "seeds.library.filters.#{key}"),
+    [['labels.month_to_sow', seed_month_chips, true],
+     ['filters.source', seed_source_chips],
+     (['filters.distance', seed_distance_chips] if everyone && current_member&.latitude),
+     (['filters.sharing', seed_sharing_chips] unless everyone),
+     ['filters.heirloom', seed_heirloom_chips],
+     ['filters.planted', seed_planted_chips]].compact.map do |label_key, chips, wide_only|
+      { label:     t("seeds.library.#{label_key}"),
         wide_only: wide_only || false,
-        chips: chips.map { |label, params| { label:, params: } } }
+        chips:     chips.map { |label, params| { label:, params: } } }
     end
   end
 
