@@ -195,6 +195,11 @@ class Crop < ApplicationRecord
     reason_for_rejection
   end
 
+  # The job templates to offer for this crop: its own and, for a variety, those of its parent.
+  def published_job_templates
+    CropJobTemplate.published.for_crop(self)
+  end
+
   # The seed packets of this crop and of its varieties that give a figure for a
   # packet fact such as row_spacing. A packet that leaves it blank, or says zero,
   # gives none.

@@ -1,7 +1,7 @@
 -# Asks which day the member will plant, over the crop page, before adding the
 -# crop's jobs for that planting. A template for part of the year says so here
 -# when the day is outside it: crop_job_season.js reads the seasons from the form.
-- adder = AddCropJobs.new(current_member, crop)
+-# Given the crop, and the AddCropJobs for the member and the crop.
 - seasons = crop_job_seasons(adder.templates, current_member.latitude)
 .modal.fade#crop-jobs-modal{ 'aria-hidden': 'true', 'aria-labelledby': 'crop-jobs-modal-title',
                              role: 'dialog', tabindex: '-1' }

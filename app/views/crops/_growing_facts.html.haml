@@ -5,32 +5,23 @@
   = render 'crops/growing_fact', fact
 
 -# Months are opposite either side of the equator, so both hemispheres are shown.
-- if crop.sow_months.any? || crop.median_sow_months.any?
+- wrangler_set = crop.sow_months.any?
+- if wrangler_set || crop.median_sow_months.any?
   .card.fact-card.growing-fact.sow-months-card
     .card-body.text-center
       %h3 When to sow
-      - if crop.sow_months.any?
-        .crop-sow-hemisphere
-          %small Southern hemisphere
-          %strong= sow_months_text(crop.sow_months)
-        .crop-sow-hemisphere
-          %small Northern hemisphere
-          %strong= sow_months_text(crop.sow_months_northern)
-        - if crop.median_sow_months.any?
-          %small.crop-fact-median
-            = menu_icon(:seeds)
-            Members' seed packets:
-            = sow_months_text(crop.median_sow_months)
-            south,
-            = sow_months_text(crop.median_sow_months_northern)
-            north
-      - else
-        .crop-sow-hemisphere
-          %small Southern hemisphere
-          %strong= sow_months_text(crop.median_sow_months)
-        .crop-sow-hemisphere
-          %small Northern hemisphere
-          %strong= sow_months_text(crop.median_sow_months_northern)
+      .crop-sow-hemisphere
+        %small Southern hemisphere
+        %strong= sow_months_text(wrangler_set ? crop.sow_months : crop.median_sow_months)
+      .crop-sow-hemisphere
+        %small Northern hemisphere
+        %strong= sow_months_text(wrangler_set ? crop.sow_months_northern : crop.median_sow_months_northern)
+      - if !wrangler_set
         %small.crop-fact-median
           = menu_icon(:seeds)
           median of members' seed packets
+      - elsif crop.median_sow_months.any?
+        %small.crop-fact-median
+          = menu_icon(:seeds)
+          Members' seed packets: #{sow_months_text(crop.median_sow_months)} south,
+          #{sow_months_text(crop.median_sow_months_northern)} north
