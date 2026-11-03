@@ -279,17 +279,21 @@ describe Seed do
     let!(:traded) { create(:seed, source: 'traded from another person') }
 
     it { expect(described_class.from_source('own')).to contain_exactly(own) }
-    it { expect(described_class.from_source('bought')).to contain_exactly(catalogue, retail, bank) }
+    it { expect(described_class.from_source('catalogue')).to contain_exactly(catalogue) }
+    it { expect(described_class.from_source('retail')).to contain_exactly(retail) }
+    it { expect(described_class.from_source('bank')).to contain_exactly(bank) }
     it { expect(described_class.from_source('traded')).to contain_exactly(traded) }
     it { expect { described_class.from_source('gifted') }.to raise_error(KeyError) }
   end
 
-  describe '.heirlooms' do
-    let!(:heirloom) { create(:seed, heirloom: 'heirloom') }
+  describe '.planted and .not_planted' do
+    let!(:planted_seed) { create(:seed) }
+    let!(:unplanted_seed) { create(:seed) }
 
-    before { create(:seed, heirloom: 'hybrid') }
+    before { create_list(:planting, 2, parent_seed: planted_seed) }
 
-    it { expect(described_class.heirlooms).to contain_exactly(heirloom) }
+    it { expect(described_class.planted).to contain_exactly(planted_seed) }
+    it { expect(described_class.not_planted).to contain_exactly(unplanted_seed) }
   end
 
   describe '#past_sow_by?' do

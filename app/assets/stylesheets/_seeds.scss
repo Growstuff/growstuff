@@ -262,11 +262,27 @@ $seed-rule: rgba($brown, 0.15);
     }
   }
 
+  // A label in a column of its own, with its controls beside it, so that
+  // chips wrapping onto more lines make the row taller rather than spilling
+  // out of it.
   .seed-field {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 0.6rem;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: 0.4rem 0.75rem;
+    align-items: start;
+    flex: 1 1 auto;
+
+    .seed-field-label {
+      padding-top: 0.4rem;
+    }
+
+    @media (max-width: 575.98px) {
+      grid-template-columns: minmax(0, 1fr);
+
+      .seed-field-label {
+        padding-top: 0;
+      }
+    }
   }
 
   .seed-search {

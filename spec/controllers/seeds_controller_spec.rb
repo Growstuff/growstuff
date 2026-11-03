@@ -46,8 +46,8 @@ describe SeedsController do
       it { expect(assigns(:seeds)).to contain_exactly(own_seed) }
     end
 
-    context 'when choosing bought' do
-      before { get :index, params: { from: 'bought' } }
+    context 'when choosing retail outlet' do
+      before { get :index, params: { from: 'retail' } }
 
       it { expect(assigns(:seeds)).to contain_exactly(bought_seed) }
     end
@@ -69,18 +69,18 @@ describe SeedsController do
     context 'when choosing heirloom only' do
       let!(:heirloom_seed) { create(:seed, crop:, heirloom: 'heirloom', tradable_to: 'locally') }
 
-      before { get :index, params: { from: 'heirloom' } }
+      before { get :index, params: { heirloom: 'heirloom' } }
 
       it { expect(assigns(:seeds)).to contain_exactly(heirloom_seed) }
     end
 
-    context 'when choosing heirloom only and bought' do
+    context 'when choosing heirloom only and retail outlet' do
       let!(:bought_heirloom) { create(:seed, crop:, heirloom: 'heirloom', source: 'retail outlet', tradable_to: 'locally') }
 
       before do
         create(:seed, crop:, heirloom: 'heirloom', source: 'my own seed saving', tradable_to: 'locally')
         create(:seed, crop:, heirloom: 'hybrid', source: 'retail outlet', tradable_to: 'locally')
-        get :index, params: { heirloom: 'heirloom', from: 'bought' }
+        get :index, params: { heirloom: 'heirloom', from: 'retail' }
       end
 
       it { expect(assigns(:seeds)).to contain_exactly(bought_heirloom) }
@@ -108,7 +108,7 @@ describe SeedsController do
       end
 
       it 'finds seeds with no plantings among the other filters' do
-        get :index, params: { planted: 'no', from: 'bought' }
+        get :index, params: { planted: 'no', from: 'retail' }
         expect(assigns(:seeds)).to contain_exactly(bought_seed)
       end
     end
@@ -128,7 +128,7 @@ describe SeedsController do
       let!(:this_month_seed) { create(:seed, crop:, sow_months: [Time.zone.today.month], tradable_to: 'locally') }
 
       before do
-        create(:seed, crop:, sow_months: [(Time.zone.today.month + 5) % 12 + 1], tradable_to: 'locally')
+        create(:seed, crop:, sow_months: [((Time.zone.today.month + 5) % 12) + 1], tradable_to: 'locally')
         get :index, params: { sow_month: 'now' }
       end
 

@@ -4,6 +4,9 @@ class SeedsController < DataController
   GROUPINGS = %w(crop source year use_by heirloom).freeze
   PER_PAGE = 30 # piles of packets on a page of the web page, seeds in the data formats
   NO_USE_BY = 'no use-by date'
+  # The params that narrow which seeds are shown; the library's other params
+  # (crop, whose seeds, tab, grouping, view) are not counted as filtering.
+  FILTER_PARAMS = %w(from heirloom shared planted gardener sow_month within past).freeze
   SEED_LIBRARY_HEADER = 'X-Seed-Library'
 
   def index
@@ -25,7 +28,7 @@ class SeedsController < DataController
     end
 
     @seeds = filter(@seeds)
-    @filtered = %i(from heirloom shared planted gardener sow_month within tradeable_to past).any? { |name| params[name].present? }
+    @filtered = FILTER_PARAMS.any? { |name| params[name].present? }
 
     # Searching is by choosing a crop, so there is only ever a real one to offer.
     @search_crop = Crop.find_by(slug: params[:crop]) if params[:crop].present? && @crop.blank?
@@ -156,15 +159,14 @@ class SeedsController < DataController
   def filter(seeds)
     @everyone = @owner.blank? && @planting.blank? && request.format.html?
     seeds = seeds.tradable if @everyone
-    seeds = seeds.where(tradable_to: params[:tradeable_to]) if params[:tradeable_to].present?
+    seeds = seeds.from_source(params[:from]) if Seed::SOURCES_BY_KIND.key?(params[:from])
+    seeds = seeds.where(heirloom: params[:heirloom]) if Seed::HEIRLOOM_VALUES.include?(params[:heirloom])
+    seeds = seeds.tradable if params[:shared].present?
     seeds = seeds.planted if params[:planted] == 'yes'
     seeds = seeds.not_planted if params[:planted] == 'no'
-    seeds = seeds.sown_in(sow_months) if sow_months
+    months = sow_months
+    seeds = seeds.sown_in(months) if months
     seeds = seeds.where(owner_id: gardener_ids) if @everyone && params[:gardener].present?
-    seeds = seeds.from_source(params[:from]) if Seed::SOURCES_BY_KIND.key?(params[:from])
-    seeds = seeds.where(heirloom: params[:heirloom]) if %w(heirloom hybrid).include?(params[:heirloom])
-    seeds = seeds.heirlooms if params[:from] == 'heirloom'
-    seeds = seeds.tradable if params[:shared].present? || params[:from] == 'shared'
     seeds = seeds.where(owner_id: scoped_owner_ids) if @everyone && current_member && %w(following near).include?(params[:scope])
     seeds = seeds.where(owner_id: owner_ids_within(params[:within].to_i)) if @everyone && params[:within].to_i.positive?
     seeds
