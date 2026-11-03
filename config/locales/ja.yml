@@ -42,6 +42,11 @@ ja:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
   members:
+    contact:
+      flickr_logo: Flickrロゴ
+      heading: 連絡先
+      more: その他...
+      website: ウェブサイト
     email_prompt:
       add_email: メールアドレスを追加
       unset_body: 植え付けのリマインダーを受け取ったりパスワードをリセットできるように、メールアドレスを追加してください。確認のため、最初にリンクを送信します。

@@ -852,6 +852,11 @@ fr:
     card:
       not_interested: Arrêter de suggérer %{name}
       visit: Visitez les jardins de %{name}
+    contact:
+      flickr_logo: Logo Flickr
+      heading: Contact
+      more: Plus...
+      website: Site web
     edit_profile: Modifier le profil
     email_prompt:
       add_email: Ajouter votre adresse e-mail

@@ -851,6 +851,11 @@ zh:
     card:
       not_interested: 停止建议 %{name}
       visit: 参观 %{name} 的花园
+    contact:
+      flickr_logo: Flickr徽标
+      heading: 联系方式
+      more: 更多...
+      website: 网站
     edit_profile: 编辑个人资料
     email_prompt:
       add_email: 添加您的电子邮箱
