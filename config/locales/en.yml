@@ -1298,6 +1298,11 @@ en:
       unknown: Unknown
       will_trade: Will trade
       year_saved: Year saved
+    empty:
+      no_match: No seeds match those filters.
+      show_all: Show all seeds
+      no_finished: No finished seeds yet.
+      none_yet: No seeds recorded yet
     form:
       finish_helper: 'Seeds are finished when you''ve planted them all, or you''ve traded them all away.
 
@@ -1310,6 +1315,76 @@ en:
         crop_seeds: Everyone's %{crop} seeds
         default: Everyone's seeds
         owner_seeds: "%{owner} seeds"
+    library:
+      filters:
+        source: Source
+        distance: Distance
+        sharing: Sharing
+        heirloom: Heirloom or hybrid
+        planted: Planted
+      groups:
+        crop: Crop
+        source: Where from
+        year: Year saved
+        use_by: Use by
+        heirloom: Heirloom or hybrid
+        gardener: Gardener
+      no_use_by: No use-by date
+      sources:
+        all: All
+        own: My own saving
+        catalogue: Seed catalogue
+        retail: Retail outlet
+        bank: Seed bank
+        traded: Traded from a person
+      sharing:
+        either: Either
+        shared: Shared for trading
+      heirloom:
+        either: Either
+        heirloom: Heirloom only
+        hybrid: Hybrid only
+      planted:
+        any: Any
+        planted: Planted
+        not_planted: Not planted yet
+      distance:
+        anywhere: Anywhere
+        within: Within %{km} km
+      sow_now:
+        this_month: Sow now (%{month})
+        into_next: Sow now (%{month} and %{next})
+      months:
+      - January
+      - February
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December
+      labels:
+        crop: Crop
+        month_to_sow: Month to sow
+        any_month: Any month
+        gardener: Gardener
+        gardener_placeholder: A gardener's name
+        clear_filters: Clear all filters
+        clear_crop: Clear crop
+        search_crop: Search seeds by crop
+        search_shared: Search all shared seeds by crop
+        group_by: Group by
+        view: View
+        cards: Cards
+        list: List
+    other_tab:
+      more_in_stock: "%{count} more in stock."
+      more_finished: "%{count} more finished."
+      show_them: Show them
     packet:
       choice_back: Back
       choice_front: Front
@@ -1319,10 +1394,30 @@ en:
       label_front: Front of packet
       photo_back: Add a photo of the back of the packet
       photo_front: Add a photo of the front of the packet
+    past_sow_by:
+      showing: Showing packets past their sow-by date.
+      show_all: Show all
+      hint: Old seed often still grows. Sow a few thickly to find out.
+      count:
+        one: "%{count} packet is past its sow-by date."
+        other: "%{count} packets are past their sow-by date."
+      show_those:
+        one: Show me that one
+        other: Show me those %{count}
     save_seeds: Save seeds
+    scope:
+      aria_label: Whose seeds
+      mine: Mine
+      following: People I follow
+      near: Near me
+      everyone: Everyone
+      add_seeds: "+ add seeds"
     show:
       heading: "%{crop} seeds"
     string: "%{crop} seeds belonging to %{owner}"
+    tabs:
+      in_stock: In stock
+      finished: Finished
     updated: Seed was successfully updated.
   stalls:
     about_growstuff:

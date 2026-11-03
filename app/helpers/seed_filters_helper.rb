@@ -25,65 +25,74 @@ module SeedFiltersHelper
   # off. Each kind of filter has its own param, so they combine: catalogue
   # and heirloom, near me and planted. Clicking a chosen chip takes it off again.
   def seed_source_chips
-    [['All', { from: nil }],
-     ['My own saving', { from: 'own' }],
-     ['Seed catalogue', { from: 'catalogue' }],
-     ['Retail outlet', { from: 'retail' }],
-     ['Seed bank', { from: 'bank' }],
-     ['Traded from a person', { from: 'traded' }]]
+    [['all', { from: nil }], ['own', { from: 'own' }], ['catalogue', { from: 'catalogue' }],
+     ['retail', { from: 'retail' }], ['bank', { from: 'bank' }], ['traded', { from: 'traded' }]].map do |key, params|
+      [t("seeds.library.sources.#{key}"), params]
+    end
   end
 
   # Whether the gardener offered the packet to others, as against keeping it.
   def seed_sharing_chips
-    [['Either', { shared: nil }],
-     ['Shared for trading', { shared: 1 }]]
+    [[t('seeds.library.sharing.either'), { shared: nil }],
+     [t('seeds.library.sharing.shared'), { shared: 1 }]]
+  end
+
+  def seed_heirloom_chips
+    [[t('seeds.library.heirloom.either'), { heirloom: nil }],
+     [t('seeds.library.heirloom.heirloom'), { heirloom: 'heirloom' }],
+     [t('seeds.library.heirloom.hybrid'), { heirloom: 'hybrid' }]]
+  end
+
+  def seed_planted_chips
+    [[t('seeds.library.planted.any'), { planted: nil }],
+     [t('seeds.library.planted.planted'), { planted: 'yes' }],
+     [t('seeds.library.planted.not_planted'), { planted: 'no' }]]
+  end
+
+  def seed_distance_chips
+    [[t('seeds.library.distance.anywhere'), { within: nil }],
+     *[50, 10].map { |km| [t('seeds.library.distance.within', km:), { within: km }] }]
+  end
+
+  # The month names, in the language of the page.
+  def seed_month_names
+    t('seeds.library.months')
   end
 
   # "Sow now": this month, and next in the last days of it.
   def seed_sow_now_label
-    "Sow now (#{Seed.sow_now_months.map { |month| Date::MONTHNAMES[month] }.join(' & ')})"
+    this_month, next_month = Seed.sow_now_months.map { |month| seed_month_names[month - 1] }
+    return t('seeds.library.sow_now.this_month', month: this_month) unless next_month
+
+    t('seeds.library.sow_now.into_next', month: this_month, next: next_month)
   end
 
   # Every month as a chip, for a screen wide enough to show them all.
   def seed_month_chips
-    [['Any month', { sow_month: nil }],
+    [[t('seeds.library.labels.any_month'), { sow_month: nil }],
      [seed_sow_now_label, { sow_month: 'now' }],
-     *Date::MONTHNAMES.compact.each_with_index.map { |name, index| [name, { sow_month: index + 1 }] }]
+     *seed_month_names.each_with_index.map { |name, index| [name, { sow_month: index + 1 }] }]
   end
 
   # The chips in their labelled groups. How far away only means something on
   # other people's seeds, and sharing only on a gardener's own: everyone's are
-  # all shared. The months are chips on a wide screen and a select on a narrow
+  # all shared. The months are chips on a wide screen, and a select on a narrow
   # one, so that group says it is `wide_only`.
   def seed_filter_groups(everyone:)
-    [['Month to sow', seed_month_chips, true],
-     ['Source', seed_source_chips],
-     (['Distance', seed_distance_chips] if everyone && current_member&.latitude),
-     (['Sharing', seed_sharing_chips] unless everyone),
-     ['Heirloom or hybrid', seed_heirloom_chips],
-     ['Planted', seed_planted_chips]].compact.map do |label, chips, wide_only|
-      { label:, wide_only: wide_only || false, chips: chips.map { |chip_label, params| { label: chip_label, params: } } }
+    [[:month, seed_month_chips, true],
+     [:source, seed_source_chips],
+     ([:distance, seed_distance_chips] if everyone && current_member&.latitude),
+     ([:sharing, seed_sharing_chips] unless everyone),
+     [:heirloom, seed_heirloom_chips],
+     [:planted, seed_planted_chips]].compact.map do |key, chips, wide_only|
+      { label: t(key == :month ? 'seeds.library.labels.month_to_sow' : "seeds.library.filters.#{key}"),
+        wide_only: wide_only || false,
+        chips: chips.map { |label, params| { label:, params: } } }
     end
   end
 
   # The people a member follows, to suggest when looking for a gardener's seeds.
   def seed_friend_names
     current_member ? current_member.followed.order(:login_name).pluck(:login_name) : []
-  end
-
-  def seed_heirloom_chips
-    [['Either', { heirloom: nil }],
-     ['Heirloom only', { heirloom: 'heirloom' }],
-     ['Hybrid only', { heirloom: 'hybrid' }]]
-  end
-
-  def seed_planted_chips
-    [['Any', { planted: nil }],
-     ['Planted', { planted: 'yes' }],
-     ['Not planted yet', { planted: 'no' }]]
-  end
-
-  def seed_distance_chips
-    [['Anywhere', { within: nil }], *[50, 10].map { |km| ["Within #{km} km", { within: km }] }]
   end
 end

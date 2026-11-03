@@ -1230,6 +1230,11 @@ de:
       unknown: Unbekannt
       will_trade: Tauschangebot
       year_saved: Gespeichertes Jahr
+    empty:
+      no_match: Keine Samen passen zu diesen Filtern.
+      show_all: Alle Samen anzeigen
+      no_finished: Noch keine aufgebrauchten Samen.
+      none_yet: Noch keine Samen erfasst
     form:
       finish_helper: Samen sind fertig, wenn Sie sie alle gepflanzt haben, oder Sie haben sie alle weggetauscht.
       trade_help: Sind Sie daran interessiert, Saatgut mit anderen %{site_name}-Mitgliedern zu handeln oder auszutauschen?  Wenn Sie Ihr Saatgut als für den Handel verfügbar auflisten, können sich andere Mitglieder mit Ihnen in Verbindung setzen, um Saatgut anzufordern.  Sie können alle Bedingungen oder andere Informationen in der obigen Beschreibung auflisten.
@@ -1238,6 +1243,76 @@ de:
         crop_seeds: Alle %{crop} Samen
         default: Jedermanns Samen
         owner_seeds: '%{owner} Seeds'
+    library:
+      filters:
+        source: Herkunft
+        distance: Entfernung
+        sharing: Teilen
+        heirloom: Sortenecht oder Hybrid
+        planted: Gepflanzt
+      groups:
+        crop: Pflanze
+        source: Herkunft
+        year: Jahr der Gewinnung
+        use_by: Verwendbar bis
+        heirloom: Sortenecht oder Hybrid
+        gardener: Gärtner
+      no_use_by: Kein Verwendbar-bis-Datum
+      sources:
+        all: Alle
+        own: Selbst gewonnen
+        catalogue: Saatgutkatalog
+        retail: Einzelhandel
+        bank: Saatgutbank
+        traded: Von einer Person getauscht
+      sharing:
+        either: Beides
+        shared: Zum Tausch angeboten
+      heirloom:
+        either: Beides
+        heirloom: Nur sortenecht
+        hybrid: Nur Hybride
+      planted:
+        any: Alle
+        planted: Gepflanzt
+        not_planted: Noch nicht gepflanzt
+      distance:
+        anywhere: Überall
+        within: Innerhalb von %{km} km
+      sow_now:
+        this_month: Jetzt säen (%{month})
+        into_next: Jetzt säen (%{month} und %{next})
+      months:
+      - Januar
+      - Februar
+      - März
+      - April
+      - Mai
+      - Juni
+      - Juli
+      - August
+      - September
+      - Oktober
+      - November
+      - Dezember
+      labels:
+        crop: Pflanze
+        month_to_sow: Aussaatmonat
+        any_month: Jeder Monat
+        gardener: Gärtner
+        gardener_placeholder: Name eines Gärtners
+        clear_filters: Alle Filter entfernen
+        clear_crop: Pflanze entfernen
+        search_crop: Samen nach Pflanze suchen
+        search_shared: Alle geteilten Samen nach Pflanze suchen
+        group_by: Gruppieren nach
+        view: Ansicht
+        cards: Karten
+        list: Liste
+    other_tab:
+      more_in_stock: "%{count} weitere auf Lager."
+      more_finished: "%{count} weitere aufgebraucht."
+      show_them: Anzeigen
     packet:
       choice_back: Zurück
       choice_front: Vorne
@@ -1247,10 +1322,30 @@ de:
       label_front: Vorderseite des Pakets
       photo_back: Füge ein Foto von der Rückseite des Pakets hinzu
       photo_front: Füge ein Foto von der Vorderseite des Pakets hinzu
+    past_sow_by:
+      showing: Es werden Päckchen nach ihrem Aussaat-bis-Datum angezeigt.
+      show_all: Alle anzeigen
+      hint: Altes Saatgut keimt oft noch. Säe ein paar dicht aus, um es herauszufinden.
+      count:
+        one: "%{count} Päckchen ist über sein Aussaat-bis-Datum hinaus."
+        other: "%{count} Päckchen sind über ihr Aussaat-bis-Datum hinaus."
+      show_those:
+        one: Dieses zeigen
+        other: Diese %{count} zeigen
     save_seeds: Samen speichern
+    scope:
+      aria_label: Wessen Samen
+      mine: Meine
+      following: Gärtner, denen ich folge
+      near: In meiner Nähe
+      everyone: Alle
+      add_seeds: "+ Samen hinzufügen"
     show:
       heading: '%{crop} Seeds'
     string: '%{crop} Samen von %{owner}'
+    tabs:
+      in_stock: Auf Lager
+      finished: Aufgebraucht
     updated: wurde erfolgreich aktualisiert.
   suggestions:
     index:

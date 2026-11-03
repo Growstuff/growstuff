@@ -133,6 +133,99 @@ ja:
       unknown: 不明
       will_trade: 交換可能
       year_saved: 採取年
+    empty:
+      no_match: 条件に合う種はありません。
+      show_all: すべての種を表示
+      no_finished: 使い切った種はまだありません。
+      none_yet: 登録された種はまだありません
+    library:
+      filters:
+        source: 入手元
+        distance: 距離
+        sharing: 共有
+        heirloom: 在来種・固定種またはハイブリッド
+        planted: 植え付け
+      groups:
+        crop: 作物
+        source: 入手元
+        year: 採種した年
+        use_by: 使用期限
+        heirloom: 在来種・固定種またはハイブリッド
+        gardener: ガーデナー
+      no_use_by: 使用期限なし
+      sources:
+        all: すべて
+        own: 自家採種
+        catalogue: 種のカタログ
+        retail: 小売店
+        bank: 種子バンク
+        traded: 人から交換
+      sharing:
+        either: どちらも
+        shared: 交換用に共有
+      heirloom:
+        either: どちらも
+        heirloom: 在来種・固定種のみ
+        hybrid: ハイブリッドのみ
+      planted:
+        any: すべて
+        planted: 植え付け済み
+        not_planted: 未植え付け
+      distance:
+        anywhere: どこでも
+        within: "%{km} km以内"
+      sow_now:
+        this_month: 今まく (%{month})
+        into_next: 今まく (%{month}と%{next})
+      months:
+      - 1月
+      - 2月
+      - 3月
+      - 4月
+      - 5月
+      - 6月
+      - 7月
+      - 8月
+      - 9月
+      - 10月
+      - 11月
+      - 12月
+      labels:
+        crop: 作物
+        month_to_sow: 種まきの月
+        any_month: すべての月
+        gardener: ガーデナー
+        gardener_placeholder: ガーデナーの名前
+        clear_filters: すべての絞り込みを解除
+        clear_crop: 作物を解除
+        search_crop: 作物で種を探す
+        search_shared: 共有されているすべての種を作物で探す
+        group_by: グループ分け
+        view: 表示
+        cards: カード
+        list: リスト
+    other_tab:
+      more_in_stock: 在庫あり：ほか%{count}件。
+      more_finished: 使い切り：ほか%{count}件。
+      show_them: 表示する
+    past_sow_by:
+      showing: 播種期限を過ぎた袋を表示しています。
+      show_all: すべて表示
+      hint: 古い種でもまだ育つことがよくあります。少しだけ密にまいて試してみましょう。
+      count:
+        other: "%{count}袋が播種期限を過ぎています。"
+      show_those:
+        other: 該当する%{count}袋を表示
+    scope:
+      aria_label: 誰の種
+      mine: 自分の種
+      following: フォロー中の人
+      near: 近くの人
+      everyone: みんな
+      add_seeds: "+ 種を追加"
+    tabs:
+      in_stock: 在庫あり
+      finished: 使い切り
   stalls:
     about_growstuff:
       join: 無料で参加
