@@ -40,12 +40,8 @@
       title: "Last harvest expected",
       value: in_weeks(crop.median_days_to_last_harvest),
       description: "#{'week'.pluralize(in_weeks(crop.median_days_to_last_harvest))} after planting"
-  - if crop.height.present?
-    = render 'layouts/fact_card',
-      title: 'Height', value: "#{crop.height}cm", description: nil
-  - if crop.spread.present?
-    = render 'layouts/fact_card',
-      title: 'Spread', value: "#{crop.spread}cm", description: nil
+  - if (size = size_fact(crop))
+    = render 'layouts/fact_card', title: size[:title], value: size[:value], description: nil
   = render 'crops/growing_facts', crop: crop
   - if crop.growing_degree_days.present?
     = render 'layouts/fact_card',
