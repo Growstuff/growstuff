@@ -140,11 +140,12 @@ class SeedsController < DataController
     [page_seeds.select { |seed| on_page.include?([seed.owner_id, seed.crop_id]) }, pager]
   end
 
-  # The seed library fetches its own controls' results alone, as the tabs, the
-  # results and the crop chosen, rather than the whole page.
+  # The seed library fetches its own controls' results alone, as the scope, the
+  # tabs, the results and the crop chosen, rather than the whole page.
   def render_results
     crop = { name: @search_crop.name, slug: @search_crop.slug } if @search_crop
     render json: {
+      scope:   render_to_string(partial: 'seeds/scope', formats: [:html]),
       tabs:    render_to_string(partial: 'seeds/tabs', formats: [:html]),
       results: render_to_string(partial: 'seeds/results', formats: [:html]),
       crop:
@@ -154,7 +155,7 @@ class SeedsController < DataController
   # The chips and scope switcher above the shelves. Everyone's seeds are the
   # ones gardeners chose to share.
   def filter(seeds)
-    @everyone = @owner.blank? && @planting.blank? && request.format.html?
+    @everyone = @owner.blank? && @planting.blank? && page_of_piles?
     seeds = seeds.tradable if @everyone
     seeds = seeds.from_source(params[:from]) if Seed::SOURCES_BY_KIND.key?(params[:from])
     seeds = seeds.where(heirloom: params[:heirloom]) if Seed::HEIRLOOM_VALUES.include?(params[:heirloom])

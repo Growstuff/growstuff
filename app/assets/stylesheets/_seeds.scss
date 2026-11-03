@@ -377,9 +377,11 @@ $seed-rule: rgba($brown, 0.15);
   }
 }
 
-// Two choices joined into one control.
+// Choices joined into one control, wrapping onto more lines on a narrow screen.
 .seed-seg {
   display: inline-flex;
+  flex-wrap: wrap;
+  max-width: 100%;
 
   a {
     @include seed-choice;

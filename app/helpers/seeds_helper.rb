@@ -189,6 +189,7 @@ module SeedsHelper
       crop_search:,
       crop:        search_crop && { name: search_crop.name, slug: search_crop.slug },
       placeholder: everyone ? 'Search all shared seeds by crop' : 'Search seeds by crop',
+      scope:       render('seeds/scope'),
       tabs:        render('seeds/tabs'),
       html:        render('seeds/results')
     }
