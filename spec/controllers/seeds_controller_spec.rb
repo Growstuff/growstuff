@@ -107,6 +107,11 @@ describe SeedsController do
         expect(assigns(:seeds)).to contain_exactly(bought_seed, traded_seed)
       end
 
+      it 'finds seeds with no plantings that are past their sow-by date' do
+        get :index, params: { planted: 'no', past: '1' }
+        expect(assigns(:seeds)).to contain_exactly(bought_seed, traded_seed)
+      end
+
       it 'finds seeds with no plantings among the other filters' do
         get :index, params: { planted: 'no', from: 'retail' }
         expect(assigns(:seeds)).to contain_exactly(bought_seed)

@@ -111,7 +111,11 @@ class Seed < ApplicationRecord
   scope :interesting, -> { tradable.has_location }
   scope :has_location, -> { joins(:owner).where.not('members.location': nil) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
+  scope :active, -> { where('seeds.finished <> true').where('seeds.finished_at IS NULL OR seeds.finished_at < ?', Time.zone.now) }
+  # The params that narrow which seeds the library shows; its other params
+  # (crop, whose seeds, tab, grouping, view) are not counted as filtering.
+  FILTER_PARAMS = %w(from heirloom shared planted gardener sow_month within past).freeze
+
   # Where seeds came from, as the filter chips name it.
   SOURCES_BY_KIND = {
     'own'       => ['my own seed saving'],
@@ -122,13 +126,13 @@ class Seed < ApplicationRecord
   }.freeze
   scope :from_source, ->(kind) { where(source: SOURCES_BY_KIND.fetch(kind)) }
   scope :sown_in, ->(months) { where('seeds.sow_months && ARRAY[?]::integer[]', Array(months)) }
-  scope :planted, -> { where(id: Planting.select(:parent_seed_id)) }
-  scope :not_planted, -> { where.missing(:child_plantings) }
+  scope :planted, -> { where(id: Planting.where.not(parent_seed_id: nil).select(:parent_seed_id)) }
+  scope :not_planted, -> { where.not(id: Planting.where.not(parent_seed_id: nil).select(:parent_seed_id)) }
 
   # Seeds of a crop and of its varieties: choosing tomato finds Brandywine
   # tomato seeds too.
   scope :of_crop, ->(crop) { where(crop_id: Crop.where(id: crop.id).or(Crop.where(parent_id: crop.id)).select(:id)) }
-  scope :expired, -> { active.where('plant_before < ?', Time.zone.today) }
+  scope :expired, -> { active.where('seeds.plant_before < ?', Time.zone.today) }
 
   # In the last days of a month it is already time to sow for the next one.
   SOW_NOW_NEXT_MONTH_DAYS = 10

@@ -5,7 +5,7 @@
 module SeedFiltersHelper
   # The params that make up a view of the seed library: whose seeds (with the
   # path), what is filtered, and how it is shown.
-  SEED_VIEW_PARAMS = (%w(scope crop finished all group view) + SeedsController::FILTER_PARAMS).freeze
+  SEED_VIEW_PARAMS = (%w(scope crop finished all group view) + Seed::FILTER_PARAMS).freeze
 
   # A link to the library you are looking at with some params changed, where
   # nil takes a param off, so choosing one thing keeps every other filter.
@@ -19,7 +19,7 @@ module SeedFiltersHelper
 
   # Every filter taken off, for a link that shows all the seeds.
   def seed_filters_off
-    SeedsController::FILTER_PARAMS.index_with { nil }.symbolize_keys
+    Seed::FILTER_PARAMS.index_with { nil }.symbolize_keys
   end
 
   # The source chips: a label and the params it sets, where nil takes a param

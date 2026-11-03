@@ -3,6 +3,8 @@
   %td
     - if packets
       = link_to seed.crop_name, seed_path(slug: seed.slug)
+      - if (variety = seed_variety(packets))
+        %small.text-muted= variety
       - if packets.size > 1
         %small.text-muted= pluralize packets.size, 'packet'
     - else

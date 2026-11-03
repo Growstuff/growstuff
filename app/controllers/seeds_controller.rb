@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 class SeedsController < DataController
-  GROUPINGS = %w(crop source year use_by heirloom).freeze
+  GROUPINGS = %w(crop source year use_by heirloom gardener).freeze
   PER_PAGE = 30 # piles of packets on a page of the web page, seeds in the data formats
   NO_USE_BY = 'no use-by date'
-  # The params that narrow which seeds are shown; the library's other params
-  # (crop, whose seeds, tab, grouping, view) are not counted as filtering.
-  FILTER_PARAMS = %w(from heirloom shared planted gardener sow_month within past).freeze
   SEED_LIBRARY_HEADER = 'X-Seed-Library'
 
   def index
@@ -28,7 +25,7 @@ class SeedsController < DataController
     end
 
     @seeds = filter(@seeds)
-    @filtered = FILTER_PARAMS.any? { |name| params[name].present? }
+    @filtered = Seed::FILTER_PARAMS.any? { |name| params[name].present? }
 
     # Searching is by choosing a crop, so there is only ever a real one to offer.
     @search_crop = Crop.find_by(slug: params[:crop]) if params[:crop].present? && @crop.blank?
@@ -218,6 +215,7 @@ class SeedsController < DataController
       when 'year' then (seed.saved_at || seed.created_at).year.to_s
       when 'use_by' then seed.plant_before&.year&.to_s || NO_USE_BY
       when 'heirloom' then seed.heirloom
+      when 'gardener' then seed.owner
       else seed.crop.parent || seed.crop
       end
     end
