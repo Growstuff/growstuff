@@ -208,6 +208,11 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    approval_status_message:
+      pending_title: "Diese Kultur wartet derzeit auf Genehmigung."
+      rejected_message: "Diese Kultur wurde aus folgendem Grund abgelehnt: %{reason}"
+      request_notes: "Hinweise zur Anfrage: %{notes}"
+      requested_by: "Diese Kultur wurde vor %{time_ago} von %{requester} beantragt."
     alternate_name_modal:
       add_title: Weiteren Namen für %{crop} hinzufügen
       cancel: Abbrechen
