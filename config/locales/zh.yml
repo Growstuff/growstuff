@@ -208,6 +208,12 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    harvests:
+      empty: 还没有人收获过这种作物。
+      harvest_crop: "收获 %{crop}"
+      harvested: "%{owner} 收获了 %{quantity}。"
+      track_harvests: "记录您的 %{crop} 收获"
+      view_all: "查看所有 %{crop} 收获"
     nutritional_data:
       carbohydrate: 碳水化合物
       energy: 能量

@@ -208,6 +208,12 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    harvests:
+      empty: Personne n'a encore récolté cette plante.
+      harvest_crop: "Récolter %{crop}"
+      harvested: "%{owner} a récolté %{quantity}."
+      track_harvests: "suivre vos récoltes de %{crop}"
+      view_all: "Voir toutes les récoltes de %{crop}"
     nutritional_data:
       carbohydrate: Glucides
       energy: Énergie
