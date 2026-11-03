@@ -17,7 +17,7 @@ describe "changing the seeds shown without reloading", :js do
   context "when choosing a chip" do
     before { click_link 'Heirloom only' }
 
-    it { expect(page).to have_current_path member_seeds_path(owner, from: 'heirloom') }
+    it { expect(page).to have_current_path member_seeds_path(owner, heirloom: 'heirloom') }
     it { expect(page).to have_css('.seed-shelf-bar h3', text: 'tomato') }
     it { expect(page).to have_no_css('.seed-shelf-bar h3', text: 'cabbage') }
     it { expect(page).to have_css('.seed-chips .active', text: 'Heirloom only') }
@@ -25,6 +25,36 @@ describe "changing the seeds shown without reloading", :js do
     it "does not load a new page" do
       expect(page.evaluate_script('window.seedLibraryMarker')).to eq 'same page'
     end
+  end
+
+  context "when choosing a second chip" do
+    before do
+      click_link 'Heirloom only'
+      find('.seed-chips .active', text: 'Heirloom only')
+      click_link 'Retail outlet'
+    end
+
+    it { expect(page).to have_seed_params(heirloom: 'heirloom', from: 'retail') }
+  end
+
+  context "when grouping after choosing a chip" do
+    before do
+      click_link 'Heirloom only'
+      find('.seed-chips .active', text: 'Heirloom only')
+      click_link 'Year saved'
+    end
+
+    it { expect(page).to have_seed_params(heirloom: 'heirloom', group: 'year') }
+  end
+
+  context "when choosing a chip that is already chosen" do
+    before do
+      click_link 'Heirloom only'
+      find('.seed-chips .active', text: 'Heirloom only')
+      click_link 'Heirloom only'
+    end
+
+    it { expect(page).to have_current_path member_seeds_path(owner) }
   end
 
   context "when choosing a crop" do
@@ -54,7 +84,7 @@ describe "changing the seeds shown without reloading", :js do
     before { click_link 'Heirloom or hybrid' }
 
     it { expect(page).to have_css('.seed-shelf-bar h3', text: 'Heirloom') }
-    it { expect(page).to have_css('.seed-chip.active', text: 'Heirloom or hybrid') }
+    it { expect(page).to have_css('.seed-display .seed-seg a.active', text: 'Heirloom or hybrid') }
   end
 
   context "when changing to the list" do

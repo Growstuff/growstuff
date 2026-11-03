@@ -303,4 +303,28 @@ describe Seed do
     it { expect(build(:seed, heirloom: 'hybrid').heirloom_kind).to eq 'hybrid' }
     it { expect(build(:seed, heirloom: 'unknown').heirloom_kind).to be_nil }
   end
+
+  describe '.sow_now_months' do
+    it 'is this month early in it' do
+      expect(described_class.sow_now_months(Date.new(2026, 11, 4))).to eq [11]
+    end
+
+    it 'includes next month near the end of this one' do
+      expect(described_class.sow_now_months(Date.new(2026, 11, 25))).to eq [11, 12]
+    end
+
+    it 'goes on into January from December' do
+      expect(described_class.sow_now_months(Date.new(2026, 12, 28))).to eq [12, 1]
+    end
+  end
+
+  describe '.sown_in' do
+    let!(:september) { create(:seed, sow_months: [9, 10]) }
+
+    before { create(:seed, sow_months: [3]) }
+
+    it { expect(described_class.sown_in(10)).to contain_exactly(september) }
+    it { expect(described_class.sown_in([8, 9])).to contain_exactly(september) }
+    it { expect(described_class.sown_in([])).to be_empty }
+  end
 end

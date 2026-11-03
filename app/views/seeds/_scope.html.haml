@@ -5,9 +5,9 @@
     .seed-scope{ role: 'group', 'aria-label': 'Whose seeds' }
       - mine = @owner == current_member
       - scope = params[:scope]
-      = link_to 'Mine', member_seeds_path(current_member), class: ('active' if mine)
-      = link_to 'People I follow', seeds_path(scope: 'following'), class: ('active' if @owner.blank? && scope == 'following')
-      = link_to 'Near me', seeds_path(scope: 'near'), class: ('active' if @owner.blank? && scope == 'near')
-      = link_to 'Everyone', seeds_path, class: ('active' if @owner.blank? && scope.blank?)
+      = link_to 'Mine', seed_view_path(path: member_seeds_path(current_member), scope: nil, within: nil), class: ('active' if mine)
+      = link_to 'People I follow', seed_view_path(path: seeds_path, scope: 'following'), class: ('active' if @owner.blank? && scope == 'following')
+      = link_to 'Near me', seed_view_path(path: seeds_path, scope: 'near'), class: ('active' if @owner.blank? && scope == 'near')
+      = link_to 'Everyone', seed_view_path(path: seeds_path, scope: nil), class: ('active' if @owner.blank? && scope.blank?)
     - if can?(:create, Seed)
       = link_to '+ add seeds', new_seed_path(crop_id: @crop&.id), class: 'btn btn-primary btn-sm', data: { record_dialog: 'seeds', crop_id: @crop&.id, crop_name: @crop&.name }

@@ -52,6 +52,14 @@ describe SeedsController do
       it { expect(assigns(:seeds)).to contain_exactly(bought_seed) }
     end
 
+    context 'when choosing a seed catalogue' do
+      let!(:catalogue_seed) { create(:seed, crop:, source: 'seed catalogue', tradable_to: 'locally') }
+
+      before { get :index, params: { from: 'catalogue' } }
+
+      it { expect(assigns(:seeds)).to contain_exactly(catalogue_seed) }
+    end
+
     context 'when choosing traded' do
       before { get :index, params: { from: 'traded' } }
 
@@ -64,6 +72,96 @@ describe SeedsController do
       before { get :index, params: { from: 'heirloom' } }
 
       it { expect(assigns(:seeds)).to contain_exactly(heirloom_seed) }
+    end
+
+    context 'when choosing heirloom only and bought' do
+      let!(:bought_heirloom) { create(:seed, crop:, heirloom: 'heirloom', source: 'retail outlet', tradable_to: 'locally') }
+
+      before do
+        create(:seed, crop:, heirloom: 'heirloom', source: 'my own seed saving', tradable_to: 'locally')
+        create(:seed, crop:, heirloom: 'hybrid', source: 'retail outlet', tradable_to: 'locally')
+        get :index, params: { heirloom: 'heirloom', from: 'bought' }
+      end
+
+      it { expect(assigns(:seeds)).to contain_exactly(bought_heirloom) }
+    end
+
+    context 'when choosing hybrid only' do
+      let!(:hybrid_seed) { create(:seed, crop:, heirloom: 'hybrid', tradable_to: 'locally') }
+
+      before { get :index, params: { heirloom: 'hybrid' } }
+
+      it { expect(assigns(:seeds)).to contain_exactly(hybrid_seed) }
+    end
+
+    context 'when choosing planted or not' do
+      before { create(:planting, crop:, parent_seed: own_seed) }
+
+      it 'finds seeds with a planting' do
+        get :index, params: { planted: 'yes' }
+        expect(assigns(:seeds)).to contain_exactly(own_seed)
+      end
+
+      it 'finds seeds with no plantings' do
+        get :index, params: { planted: 'no' }
+        expect(assigns(:seeds)).to contain_exactly(bought_seed, traded_seed)
+      end
+
+      it 'finds seeds with no plantings among the other filters' do
+        get :index, params: { planted: 'no', from: 'bought' }
+        expect(assigns(:seeds)).to contain_exactly(bought_seed)
+      end
+    end
+
+    context 'when choosing a sowing month' do
+      let!(:september_seed) { create(:seed, crop:, sow_months: [9, 10], tradable_to: 'locally') }
+
+      before do
+        create(:seed, crop:, sow_months: [3], tradable_to: 'locally')
+        get :index, params: { sow_month: 9 }
+      end
+
+      it { expect(assigns(:seeds)).to contain_exactly(september_seed) }
+    end
+
+    context 'when choosing sow now' do
+      let!(:this_month_seed) { create(:seed, crop:, sow_months: [Time.zone.today.month], tradable_to: 'locally') }
+
+      before do
+        create(:seed, crop:, sow_months: [(Time.zone.today.month + 5) % 12 + 1], tradable_to: 'locally')
+        get :index, params: { sow_month: 'now' }
+      end
+
+      it { expect(assigns(:seeds)).to include(this_month_seed) }
+      it { expect(assigns(:seeds).size).to eq Seed.sown_in(Seed.sow_now_months).count }
+    end
+
+    context 'when choosing a gardener by name' do
+      let(:friend) { create(:member, login_name: 'Fiona') }
+      let!(:friend_seed) { create(:seed, crop:, owner: friend, tradable_to: 'locally') }
+
+      before { get :index, params: { gardener: 'fiona' } }
+
+      it { expect(assigns(:seeds)).to contain_exactly(friend_seed) }
+    end
+
+    context 'when choosing a crop that has varieties' do
+      let(:variety) { create(:crop, parent: crop) }
+      let!(:variety_seed) { create(:seed, crop: variety, tradable_to: 'locally') }
+      let!(:crop_seed) { create(:seed, crop:, tradable_to: 'locally') }
+
+      before { get :index, params: { crop: crop.slug } }
+
+      it { expect(assigns(:seeds)).to contain_exactly(variety_seed, crop_seed, own_seed, bought_seed, traded_seed) }
+    end
+
+    context 'when looking at a crop page that has varieties' do
+      let(:variety) { create(:crop, parent: crop) }
+      let!(:variety_seed) { create(:seed, crop: variety, tradable_to: 'locally') }
+
+      before { get :index, params: { crop_slug: crop.slug } }
+
+      it { expect(assigns(:seeds)).to include(variety_seed) }
     end
 
     context 'when choosing past sow-by' do
