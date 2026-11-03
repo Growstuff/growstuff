@@ -12,7 +12,6 @@ module SeedFiltersHelper
   # Pass `path` to look at someone else's seeds with the same filters.
   def seed_view_path(path: nil, **changes)
     kept = request.query_parameters.slice(*SEED_VIEW_PARAMS).merge(changes.stringify_keys).compact
-    kept.delete('page')
     path ||= request.path
     kept.empty? ? path : "#{path}?#{kept.to_query}"
   end
@@ -23,8 +22,8 @@ module SeedFiltersHelper
   end
 
   # The source chips: a label and the params it sets, where nil takes a param
-  # off. Each kind of filter has its own param, so they combine: bought and
-  # heirloom, near me and planted. Clicking a chosen chip takes it off again.
+  # off. Each kind of filter has its own param, so they combine: catalogue
+  # and heirloom, near me and planted. Clicking a chosen chip takes it off again.
   def seed_source_chips
     [['All', { from: nil }],
      ['My own saving', { from: 'own' }],

@@ -127,7 +127,7 @@ class Seed < ApplicationRecord
   scope :from_source, ->(kind) { where(source: SOURCES_BY_KIND.fetch(kind)) }
   scope :sown_in, ->(months) { where('seeds.sow_months && ARRAY[?]::integer[]', Array(months)) }
   scope :planted, -> { where(id: Planting.where.not(parent_seed_id: nil).select(:parent_seed_id)) }
-  scope :not_planted, -> { where.not(id: Planting.where.not(parent_seed_id: nil).select(:parent_seed_id)) }
+  scope :not_planted, -> { where.not(id: planted.select(:id)) }
 
   # Seeds of a crop and of its varieties: choosing tomato finds Brandywine
   # tomato seeds too.
