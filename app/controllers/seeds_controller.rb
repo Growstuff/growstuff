@@ -107,7 +107,7 @@ class SeedsController < DataController
 
   def update
     flash[:notice] = t('seeds.updated') if @seed.update(seed_params)
-    respond_with(@seed)
+    respond_with(@seed, location: seed_path(@seed, anchor: seed_section_anchor))
   end
 
   def destroy
@@ -218,6 +218,10 @@ class SeedsController < DataController
     else
       render json: { errors: @seed.errors }, status: :unprocessable_content
     end
+  end
+
+  def seed_section_anchor
+    params[:seed]&.keys == ['description'] ? 'notes' : 'facts'
   end
 
   def seed_params
