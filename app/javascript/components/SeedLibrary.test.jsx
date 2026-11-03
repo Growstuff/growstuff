@@ -189,8 +189,9 @@ describe('SeedLibrary', () => {
     });
 
     it('uses the words it is given', () => {
-      setup({labels: {...labels, clear_filters: 'Alle Filter entfernen'}});
       window.history.replaceState({}, '', '/seeds?from=bought');
+      setup({labels: {...labels, clear_filters: 'Alle Filter entfernen'}});
+      expect(screen.getByRole('link', {name: 'Alle Filter entfernen'})).toBeInTheDocument();
     });
 
     it('shows the scope Rails rendered', () => {
