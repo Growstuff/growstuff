@@ -1325,8 +1325,10 @@ zh:
       show_all: 显示全部
       hint: 旧种子往往仍能发芽。可以密播几颗试试。
       count:
+        one: 有 %{count} 包种子已过播种期限。
         other: 有 %{count} 包种子已过播种期限。
       show_those:
+        one: 显示这 %{count} 包
         other: 显示这 %{count} 包
     save_seeds: 保存种子
     scope:

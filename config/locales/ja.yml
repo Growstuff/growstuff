@@ -213,8 +213,10 @@ ja:
       show_all: すべて表示
       hint: 古い種でもまだ育つことがよくあります。少しだけ密にまいて試してみましょう。
       count:
+        one: "%{count}袋が播種期限を過ぎています。"
         other: "%{count}袋が播種期限を過ぎています。"
       show_those:
+        one: 該当する%{count}袋を表示
         other: 該当する%{count}袋を表示
     scope:
       aria_label: 誰の種
