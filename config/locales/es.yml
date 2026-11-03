@@ -303,6 +303,12 @@ es:
       unknown: desconocido
     form:
       location_helper: Si tiene una ubicación configurada en su perfil, se utilizará cuando cree un nuevo jardín.
+    inactive_card:
+      grown_here: Cultivado aquí
+      image_alt: "Imagen de %{name}"
+      more_crops:
+        one: "y %{count} más"
+        other: "y %{count} más"
     header:
       all_gardens: Todos los jardines de %{owner}
       garden_of: jardín de

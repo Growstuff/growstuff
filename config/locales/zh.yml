@@ -303,6 +303,10 @@ zh:
       unknown: 未知
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
+    inactive_card:
+      grown_here: 在此种植
+      image_alt: "%{name}的照片"
+      more_crops: "以及其他 %{count} 种"
     header:
       all_gardens: '%{owner} 的所有花园'
       garden_of: 的花园
