@@ -233,6 +233,17 @@ en:
     new_planting: A new %{crop} planting I'm going to do
     see_jobs: See your jobs.
   crops:
+    nutritional_data:
+      carbohydrate: Carbohydrate
+      energy: Energy
+      fat_total: Fat, total
+      fibre: Fibre
+      protein: Protein
+      see_more: See more
+      sodium: Sodium
+      sugars: "- Sugars"
+      summary: "A summary of nutritional data per 100g for %{food_name}."
+      title: Nutritional data
     approval_status_message:
       pending_title: "This crop is currently pending approval."
       rejected_message: "This crop was rejected for the following reason: %{reason}"

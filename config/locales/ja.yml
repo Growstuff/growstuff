@@ -1,6 +1,17 @@
 ---
 ja:
   crops:
+    nutritional_data:
+      carbohydrate: 炭水化物
+      energy: エネルギー
+      fat_total: 脂質（合計）
+      fibre: 食物繊維
+      protein: たんぱく質
+      see_more: 詳細を見る
+      sodium: ナトリウム
+      sugars: "- 糖質"
+      summary: "%{food_name}の100gあたりの栄養データ概要。"
+      title: 栄養データ
     approval_status_message:
       pending_title: "この作物は現在承認待ちです。"
       rejected_message: "この作物は次の理由で却下されました: %{reason}"

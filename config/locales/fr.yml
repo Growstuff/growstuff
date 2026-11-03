@@ -208,6 +208,17 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    nutritional_data:
+      carbohydrate: Glucides
+      energy: Énergie
+      fat_total: Lipides totaux
+      fibre: Fibres alimentaires
+      protein: Protéines
+      see_more: Voir plus
+      sodium: Sodium
+      sugars: "- dont sucres"
+      summary: "Résumé des valeurs nutritionnelles pour 100 g de %{food_name}."
+      title: Données nutritionnelles
     approval_status_message:
       pending_title: "Cette culture est actuellement en attente d'approbation."
       rejected_message: "Cette culture a été rejetée pour la raison suivante : %{reason}"
