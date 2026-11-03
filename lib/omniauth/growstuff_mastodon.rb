@@ -28,6 +28,14 @@ module OmniAuth
       rescue ::MastodonClientService::Error => e
         fail!(:invalid_instance, e)
       end
+
+      private
+
+      # Accept the conventional @user@server spelling as well as user@server.
+      # The upstream strategy splits on @, so a leading @ would lose the server.
+      def identifier
+        super&.delete_prefix('@')
+      end
     end
   end
 end
