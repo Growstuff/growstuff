@@ -220,13 +220,19 @@ class Crop < ApplicationRecord
   # where they live can't say which hemisphere they mean, and are left out. Empty
   # when no packet says anything.
   def seed_sow_months
-    rows = Seed.of_crop(self).joins(:owner).where.not(members: { latitude: nil })
-      .where('cardinality(seeds.sow_months) > 0').pluck('seeds.sow_months', 'members.latitude')
-    counts = Hash.new(0)
-    rows.each do |months, latitude|
-      months.map { |month| latitude.negative? ? month : opposite_month(month) }.uniq.each { |month| counts[month] += 1 }
-    end
-    counts.select { |_month, count| count * 2 >= rows.size }.keys.sort
+    packets = Seed.of_crop(self).joins(:owner).where.not(members: { latitude: nil }).where('cardinality(seeds.sow_months) > 0')
+    total = packets.count
+    return [] if total.zero?
+
+    months = Seed.connection.select_rows(<<~SQL.squish)
+      SELECT month, COUNT(*) FROM (
+        SELECT DISTINCT packets.id,
+          CASE WHEN packets.latitude < 0 THEN sown ELSE ((sown + 5) % 12) + 1 END AS month
+        FROM (#{packets.select('seeds.id', 'seeds.sow_months', 'members.latitude').to_sql}) packets,
+          unnest(packets.sow_months) AS sown
+      ) per_packet GROUP BY month HAVING COUNT(*) * 2 >= #{total.to_i}
+    SQL
+    months.map { |month, _count| month.to_i }.sort
   end
 
   # The months to sow in the northern hemisphere: the southern ones, six months on.
