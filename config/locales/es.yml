@@ -1133,6 +1133,11 @@ es:
     spring: Primavera
     summer: Verano
     winter: Invierno
+  stalls:
+    about_growstuff:
+      join: Únete gratis
+      sign_in: Iniciar sesión
+      text: Una comunidad para cultivar alimentos. Registra lo que siembras y cosechas, e intercambia semillas y consejos con otros jardineros. Únete gratis o inicia sesión para ponerte en contacto con %{name} sobre lo que hay en el puesto.
   seeds:
     added_to_stash: Se agregó con éxito la semilla %{crop} a tu alijo.
     form:

@@ -1134,6 +1134,11 @@ fr:
     spring: Ressort
     summer: Été
     winter: L'hiver
+  stalls:
+    about_growstuff:
+      join: Rejoindre gratuitement
+      sign_in: Se connecter
+      text: Une communauté pour faire pousser des aliments. Notez ce que vous plantez et récoltez, et échangez des graines et des astuces avec d'autres jardiniers. Rejoignez-nous gratuitement ou connectez-vous pour contacter %{name} au sujet de son stand.
   seeds:
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
     form:
