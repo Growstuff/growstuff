@@ -1,0 +1,9 @@
+-# What the garden's grower says about it, with a pencil for whoever may change it.
+.garden-edit-row
+  .garden-description
+    - if garden.description.present?
+      :markdown
+        #{strip_tags markdownify(garden.description)}
+    - else
+      %p.text-muted= t('.no_description')
+  = editable :text_area, garden, :description, display_field: '.garden-description'

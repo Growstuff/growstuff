@@ -1,5 +1,17 @@
+-# Follow, or Following, for a member. With named, the member's name is in the
+-# words, as on their garden's page, and following is a ticked box and "You follow
+-# skud"; button_class styles the Follow button.
+- named = local_assigns[:named]
 - if current_member && current_member != person
   - if current_member.already_following?(person)
-    %span.member-card-follow.on= t('members.follow_button.following')
+    - if named
+      %span.member-card-follow.on
+        = icon 'fas', 'square-check'
+        = t('members.follow_button.following_named', name: person)
+    - else
+      %span.member-card-follow.on= t('members.follow_button.following')
   - elsif can?(:create, Follow)
-    = button_to t('members.follow_button.follow'), follows_path(followed: person), class: 'member-card-follow', form_class: 'd-inline'
+    :ruby
+      label = t(named ? 'members.follow_button.follow_named' : 'members.follow_button.follow', name: person)
+      button_class = local_assigns.fetch(:button_class, 'member-card-follow')
+    = button_to label, follows_path(followed: person), class: button_class, form_class: 'd-inline'

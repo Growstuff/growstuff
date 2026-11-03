@@ -66,4 +66,31 @@ describe CropJobTemplate do
       expect(found).not_to include(create(:crop_job_template, crop: create(:crop, parent:)))
     end
   end
+
+  describe '#season_months' do
+    subject(:template) { build(:crop_job_template, season:) }
+
+    let(:southern) { -41.3 }
+    let(:northern) { 51.5 }
+
+    context 'when it is for spring and summer' do
+      let(:season) { 'spring_summer' }
+
+      it { expect(template.season_months(southern)).to eq [1, 2, 9, 10, 11, 12] }
+      it { expect(template.season_months(northern)).to eq [3, 4, 5, 6, 7, 8] }
+      it { expect(template.season_months(nil)).to be_nil }
+    end
+
+    context 'when it is for autumn and winter' do
+      let(:season) { 'autumn_winter' }
+
+      it { expect(template.season_months(southern)).to eq [3, 4, 5, 6, 7, 8] }
+    end
+
+    context 'when it is for any time' do
+      let(:season) { 'any' }
+
+      it { expect(template.season_months(southern)).to be_nil }
+    end
+  end
 end

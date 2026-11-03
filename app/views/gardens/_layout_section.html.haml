@@ -1,0 +1,44 @@
+-# The bed map, in its own section: it leads to the layout page. Someone who
+-# can't arrange the bed has nothing to see until a layout is saved, so they get
+-# no section; whoever can gets a teaser to make one.
+- can_arrange = can?(:update_layout, @garden)
+- has_layout = @garden.has_layout?
+- if @garden.active && (has_layout || can_arrange)
+  :ruby
+    layout_path = layout_member_garden_path(@garden.owner, @garden)
+    placed_plants = has_layout ? @garden.placed_plant_positions : []
+    link_label = t(can_arrange ? '.edit_layout_label' : '.view_layout_label')
+    link_text = t(can_arrange ? '.edit_layout' : '.view_layout')
+  %section.garden-layout-section
+    .section-header
+      %h2= t('.heading')
+      = link_to link_text, layout_path, class: 'btn btn-sm section-add', 'aria-label': link_label
+    .garden-layout-body
+      = link_to layout_path, class: 'garden-layout-map', tabindex: -1, 'aria-hidden': 'true' do
+        %span.garden-layout-teaser-bed
+          - if has_layout
+            %svg.garden-layout-teaser-svg{ viewBox: "0 0 #{@garden.grid_columns} #{@garden.grid_rows}" }
+              - if @garden.layout_features.present?
+                - @garden.layout_features.each do |feature|
+                  - if feature['x2'].present? && feature['y2'].present?
+                    %line{ class: ['feature-line', feature['kind']], x1: feature['x'], y1: feature['y'],
+                           x2: feature['x2'], y2: feature['y2'] }
+                  - else
+                    %circle{ class: ['feature-point', feature['kind']], cx: feature['x'], cy: feature['y'], r: 0.3 }
+              - placed_plants.each do |x, y, diameter|
+                %circle.placed-plant{ cx: x, cy: y, r: (diameter || 1) / 2.0 }
+          - else
+            %span
+            %span
+            %span
+            %span
+      .garden-layout-text
+        - if has_layout
+          %p.garden-layout-headline= t('.plants_placed', count: placed_plants.size)
+          %p.text-muted
+            = t(can_arrange ? '.drag_plants' : '.where_each')
+        - elsif can_arrange
+          %p.garden-layout-headline
+            %span.badge.text-bg-success= t('.new')
+            = t('.map_out')
+          %p.text-muted= t('.map_out_text')

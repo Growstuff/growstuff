@@ -1,6 +1,6 @@
 import React from 'react';
 
-const humanize = (key) => key.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
+import {humanize} from '../errors';
 
 // Devise's `errors` ({field: [messages]}) split into the messages for the
 // fields named, to show against their inputs, and the rest (the captcha, say),
@@ -70,13 +70,19 @@ export function FormErrors({messages}) {
   );
 }
 
-// The foot of both dialogs: the submit button, and the link across to the other dialog.
-export function AuthFooter({busy, label, busyLabel, prompt, switchLabel, switchHref, onSwitch}) {
+// The foot of both dialogs: the submit button, the way in with Bluesky when
+// it is switched on (`onBluesky` given), and the link across to the other dialog.
+export function AuthFooter({busy, label, busyLabel, prompt, switchLabel, switchHref, onSwitch, onBluesky}) {
   return (
     <div className="modal-footer d-block">
       <button type="submit" className="btn btn-success btn-lg w-100" disabled={busy} aria-busy={busy}>
         {busy ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> {busyLabel}</> : label}
       </button>
+      {onBluesky ? (
+        <button type="button" className="btn btn-outline-dark btn-lg w-100 mt-3" onClick={onBluesky}>
+          <i className="fab fa-bluesky bluesky-icon" aria-hidden="true" /> Continue with Bluesky
+        </button>
+      ) : null}
       <p className="text-center fs-5 mb-0 mt-3">
         {prompt} <a href={switchHref} onClick={(event) => { event.preventDefault(); onSwitch(); }}>{switchLabel}</a>
       </p>

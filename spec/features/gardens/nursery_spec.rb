@@ -330,7 +330,7 @@ describe "Nursery" do
     before do
       visit garden_path(garden)
       click_link 'Actions'
-      click_link 'Use as my nursery'
+      click_link 'Make this a nursery'
       page.assert_text 'is now your nursery'
     end
 
@@ -350,7 +350,7 @@ describe "Nursery" do
     before do
       visit garden_path(garden)
       click_link 'Actions'
-      click_link 'Use as my nursery'
+      click_link 'Make this a nursery'
       page.assert_text 'is now your nursery'
     end
 

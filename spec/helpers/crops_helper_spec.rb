@@ -41,6 +41,26 @@ describe CropsHelper do
         expect(helper.display_seed_availability(@member, @crop)).to eq "You have 33 seeds of this crop."
       end
     end
+    context "with only finished seeds" do
+      before do
+        create(:finished_seed, crop: @crop, quantity: 6, owner: @member)
+      end
+
+      it 'renders' do
+        expect(helper.display_seed_availability(@member, @crop)).to eq "You don't have any seeds of this crop."
+      end
+    end
+
+    context "with finished and active seeds" do
+      before do
+        create(:finished_seed, crop: @crop, quantity: 6, owner: @member)
+        create(:seed, crop: @crop, quantity: 4, owner: @member)
+      end
+
+      it 'counts only the active seeds' do
+        expect(helper.display_seed_availability(@member, @crop)).to eq "You have 4 seeds of this crop."
+      end
+    end
   end
 
   describe '#crop_jsonld_data' do

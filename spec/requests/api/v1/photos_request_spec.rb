@@ -37,7 +37,10 @@ RSpec.describe 'Photos' do
       "link-url"      => photo.link_url,
       "license-name"  => photo.license_name,
       "title"         => photo.title,
-      "label"         => nil
+      "label"         => nil,
+      "ocr-text"      => nil,
+      "ocr-engine"    => nil,
+      "ocr-at"        => nil
     }
   end
 
@@ -77,17 +80,17 @@ RSpec.describe 'Photos' do
 
   describe 'filtering by needs_ocr' do
     let(:seed) { create(:seed) }
-    let(:read_seed) { create(:seed, packet_text: 'Sow by: December 2026') }
+    let(:read_seed) { create(:seed) }
     let!(:needing) { create(:photo, owner: seed.owner).tap { |photo| seed.photo_associations.create!(photo:, label: 'back') } }
     let(:ids) { subject['data'].pluck('id') }
 
     before do
-      read_seed.photo_associations.create!(photo: create(:photo, owner: read_seed.owner), label: 'back')
+      read_seed.photo_associations.create!(photo: create(:photo, owner: read_seed.owner, ocr_text: 'Sow by: December 2026'), label: 'back')
       seed.photo_associations.create!(photo: create(:photo, owner: seed.owner))
       get '/api/v1/photos', params: { filter: { needs_ocr: 'true' } }, headers:
     end
 
-    it('finds the packet photo whose seed has no text') { expect(ids).to eq [needing.id.to_s] }
+    it('finds the packet photo that has no text') { expect(ids).to eq [needing.id.to_s] }
   end
 
   it '#create' do

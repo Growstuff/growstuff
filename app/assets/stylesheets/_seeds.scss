@@ -1171,3 +1171,23 @@ $seed-rule: rgba($brown, 0.15);
   position: static;
   cursor: pointer;
 }
+
+// The months to sow in, as chips to tick, with the seasons as shortcuts.
+.sow-months {
+  .sow-months-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .sow-months-seasons {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+  }
+}
+
+// How the packet says to sow it keeps the lines it was written in.
+.packet-facts .how-to-sow {
+  font-weight: 400;
+  white-space: pre-line;
+}

@@ -1,9 +1,13 @@
-.notepad-job{ class: ('done' if job.finished), draggable: 'true', data: { url: job_path(job), id: job.id } }
-  - label = t(job.finished ? 'jobs.pad.uncross' : 'jobs.pad.cross_off', job: job.name)
-  = button_to '', job_path(job), method: :patch, params: { job: { finished: job.finished ? 0 : 1 } },
-    class: ['notepad-box', ('checked' if job.finished)], form_class: 'notepad-tick', title: label, 'aria-label': label
-  %span.notepad-name{ data: { edit_label: t('jobs.pad.edit_label') } }= job.name
-  %span.notepad-edit-hint{ hidden: true }= t('jobs.pad.edit_hint')
+-# With readonly there is nothing to change: no tick box, no dragging, no editing.
+- readonly = local_assigns[:readonly]
+.notepad-job{ class: ('done' if job.finished), draggable: (readonly ? nil : 'true'), data: (readonly ? {} : { url: job_path(job), id: job.id }) }
+  - unless readonly
+    - label = t(job.finished ? 'jobs.pad.uncross' : 'jobs.pad.cross_off', job: job.name)
+    = button_to '', job_path(job), method: :patch, params: { job: { finished: job.finished ? 0 : 1 } },
+      class: ['notepad-box', ('checked' if job.finished)], form_class: 'notepad-tick', title: label, 'aria-label': label
+  %span.notepad-name{ data: { edit_label: (t('jobs.pad.edit_label') unless readonly) } }= job.name
+  - unless readonly
+    %span.notepad-edit-hint{ hidden: true }= t('jobs.pad.edit_hint')
   - if job.garden && !local_assigns[:in_garden]
     = link_to garden_path(job.garden), class: 'notepad-chip garden' do
       %span.kind= t('jobs.pad.garden')

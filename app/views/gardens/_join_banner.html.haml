@@ -1,0 +1,8 @@
+-# What Growstuff is, for someone who arrives at a garden without an account.
+.garden-join-banner{ role: 'region', 'aria-labelledby': 'what-is-growstuff' }
+  .garden-join-banner-text
+    %h2#what-is-growstuff= t('.heading')
+    %p= t('.text')
+  .garden-join-banner-actions
+    = sign_up_link t('gardens.sign_up'), class: 'btn btn-success'
+    = sign_in_link t('gardens.sign_in')

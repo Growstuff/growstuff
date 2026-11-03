@@ -47,17 +47,40 @@ describe CropsController do
 
     before do
       PaperTrail::Version.create!(
-        item_type: 'Crop',
-        item_id: crop.id,
-        event: 'update',
-        whodunnit: member.id.to_s,
+        item_type:  'Crop',
+        item_id:    crop.id,
+        event:      'update',
+        whodunnit:  member.id.to_s,
         created_at: Time.current
       )
+      get :show, params: { slug: crop.to_param }
     end
 
-    it "fetches crop show page and sets version members using distinct whodunnit IDs" do
-      get :show, params: { slug: crop.to_param }
-      expect(response).to be_successful
+    it { expect(response).to be_successful }
+
+    it "finds the member who made the latest edit" do
+      expect(assigns(:last_editor)).to eq member
+    end
+  end
+
+  describe "GET history" do
+    let!(:crop) { create(:crop) }
+    let!(:member) { create(:member) }
+
+    before do
+      PaperTrail::Version.create!(
+        item_type:  'Crop',
+        item_id:    crop.id,
+        event:      'update',
+        whodunnit:  member.id.to_s,
+        created_at: Time.current
+      )
+      get :history, params: { slug: crop.to_param }
+    end
+
+    it { expect(response).to be_successful }
+
+    it "sets version members using distinct whodunnit IDs" do
       expect(assigns(:version_members)).to eq({ member.id => member })
     end
   end

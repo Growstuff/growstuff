@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 import {getJson} from '../api';
+import {closeOpenOffcanvases} from './Modal';
 import PlantingFlow from './PlantingFlow';
 
 // The record harvest and save seeds dialogs for every server-rendered link to
@@ -37,6 +38,7 @@ export default function RecordDialog({plantings_url: plantingsUrl}) {
       const trigger = event.target.closest('[data-record-dialog]');
       if (!trigger) return;
       event.preventDefault();
+      closeOpenOffcanvases(trigger);
       open.current(trigger);
     }
 

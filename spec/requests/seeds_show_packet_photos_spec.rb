@@ -32,7 +32,7 @@ describe SeedsController, '#show' do
     let(:panel) { '.packet-sheet .col-lg-6 .seed-packet-panel' }
 
     before do
-      seed.update!(packet_text: text)
+      photo.update!(ocr_text: text)
       get seed_path(seed)
     end
 
@@ -56,6 +56,16 @@ describe SeedsController, '#show' do
 
     it('has it folded away until asked for') { expect(page).to have_css("#{panel} .collapse:not(.show) pre", visible: :all) }
     it('has the facts in the other column') { expect(page).to have_css('.packet-sheet .col-lg-6 .packet-facts') }
+
+    context 'when both sides of the packet have text' do
+      before do
+        seed.photo_associations.create!(photo: create(:photo, owner: seed.owner, ocr_text: 'Front says plant in spring'), label: 'front')
+        get seed_path(seed)
+      end
+
+      it('shows the front first') { expect(page.first("#{panel} pre", visible: :all).native.text).to eq 'Front says plant in spring' }
+      it('names each side') { expect(page).to have_css("#{panel} h4", text: 'Back', visible: :all) }
+    end
 
     context 'when the text has markup in it' do
       let(:text) { '<script>alert(1)</script> Sow by: 2026' }

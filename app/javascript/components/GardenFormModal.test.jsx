@@ -5,7 +5,7 @@ import {describe, expect, it, vi} from 'vitest';
 import GardenFormModal from './GardenFormModal';
 
 const form = {
-  garden: {name: 'Back yard', description: '', location: 'Wellington', area: 12, area_unit: 'square metre', garden_type_id: 2, active: true},
+  garden: {id: 1, url: '/gardens/back-yard', name: 'Back yard', description: '', location: 'Wellington', area: 12, area_unit: 'square metre', garden_type_id: 2, active: true},
   area_units: [{value: 'square metre', label: 'square metres'}, {value: 'acre', label: 'acres'}],
   garden_types: [{id: 1, name: 'Allotment'}, {id: 2, name: 'Balcony'}],
   location_help: 'Where is it?', settings_url: '/settings', member_has_location: true,
@@ -65,7 +65,13 @@ describe('GardenFormModal', () => {
     it('fills in the current values', async () => {
       stubFetch({data: form});
       setup(garden);
-      expect(await screen.findByLabelText('Location')).toHaveValue('Wellington');
+      expect(await screen.findByText('Wellington')).toBeInTheDocument();
+    });
+
+    it('links to where the location is changed', async () => {
+      stubFetch({data: form});
+      setup(garden);
+      expect(await screen.findByRole('link', {name: 'Change or remove'})).toHaveAttribute('href', '/gardens/back-yard/edit');
     });
 
     it('offers the garden types', async () => {

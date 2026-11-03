@@ -328,4 +328,13 @@ describe Post do
       expect(Notification.where(recipient: mentioned).count).to eq 1
     end
   end
+
+  describe 'updating author spam score' do
+    let(:member) { create(:member) }
+
+    it 'triggers update_spam_score! on author after save' do
+      expect(member).to receive(:update_spam_score!)
+      create(:post, author: member)
+    end
+  end
 end

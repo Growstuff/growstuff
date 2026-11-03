@@ -7,6 +7,8 @@
   - content_for :scripts do
     = javascript_include_tag 'react_islands', defer: true
   = render 'home/dashboard/ideas'
+  - if current_member.setup_todo? && @dashboard.stage != :new
+    = render 'home/setup_todo'
   = render "home/dashboard/#{@dashboard.stage}", dashboard: @dashboard
   = render 'home/dashboard/action_bar', dashboard: @dashboard
 - else
