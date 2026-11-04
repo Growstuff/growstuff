@@ -1088,6 +1088,37 @@ de:
       late_finishing: spätveredelung
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super spät
+    facts:
+      day_progress: "Tag %{age} von %{lifespan}"
+      done: Fertig
+      failed: Fehlgeschlagen
+      finished: beendet
+      grown: gewachsen
+      grown_in: Angebaut in
+      lifespan_days:
+        one: 1 Tag
+        other: "%{count} Tage"
+      no_date_recorded: kein Datum erfasst
+      no_finish_predicted: kein Ende vorhergesagt
+      not_rated: nicht bewertet
+      not_specified: nicht angegeben
+      packets_of_seed:
+        one: 1 Saatgutpäckchen
+        other: "%{count} Saatgutpäckchen"
+      parent_seed: Ausgangssaatgut
+      perennial: Mehrjährig
+      perennial_description: wächst von Jahr zu Jahr weiter
+      planned: Geplant
+      planned_for: "für %{date}"
+      planted: Gepflanzt
+      planting_failed: diese Pflanzung ist fehlgeschlagen
+      progress: Fortschritt
+      quantity: Menge
+      rating: Bewertung
+      rating_of_5: "%{rating} von 5"
+      seeds_saved: Saatgut gewonnen
+      sown_from_expired: "Aus abgelaufenem Saatgut gesät (pflanzen vor %{year})"
+      unknown: unbekannt
     form:
       failed_helper: Markieren Sie diese Pflanzung als fehlgeschlagen, wenn sie abgestorben ist oder ohne Ernte entfernt wurde.
       finish_helper: Eine Pflanzung ist beendet, wenn Sie die gesamte Ernte geerntet haben, oder sie stirbt, oder sie wächst anderweitig nicht mehr in Ihrem Garten.

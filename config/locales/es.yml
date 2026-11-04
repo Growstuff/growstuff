@@ -1088,6 +1088,37 @@ es:
       late_finishing: terminar tarde
       sharedbuttonsfinish_planting: compartido/botones/finish_planting
       super_late: súper tarde
+    facts:
+      day_progress: "día %{age} de %{lifespan}"
+      done: Hecho
+      failed: Fallido
+      finished: finalizado
+      grown: crecido
+      grown_in: Cultivado en
+      lifespan_days:
+        one: 1 día
+        other: "%{count} días"
+      no_date_recorded: sin fecha registrada
+      no_finish_predicted: sin final previsto
+      not_rated: sin calificar
+      not_specified: no especificado
+      packets_of_seed:
+        one: 1 paquete de semillas
+        other: "%{count} paquetes de semillas"
+      parent_seed: Semilla madre
+      perennial: Perenne
+      perennial_description: sigue creciendo año tras año
+      planned: Planificado
+      planned_for: "para el %{date}"
+      planted: Plantado
+      planting_failed: esta plantación falló
+      progress: Progreso
+      quantity: Cantidad
+      rating: Calificación
+      rating_of_5: "%{rating} de 5"
+      seeds_saved: Semillas guardadas
+      sown_from_expired: "Sembrado de semillas caducadas (plantar antes de %{year})"
+      unknown: desconocido
     form:
       failed_helper: Marque esta plantación como fallida si murió o se eliminó sin ninguna cosecha.
       finish_helper: Una plantación finaliza cuando ha cosechado toda la cosecha, muere o ya no crece en su jardín.

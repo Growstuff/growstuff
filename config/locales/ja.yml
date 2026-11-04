@@ -80,6 +80,36 @@ ja:
       unset_title: メールアドレスが設定されていません。
       waiting_body: '%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。'
       waiting_title: メールアドレスの確認をお待ちしています。
+  plantings:
+    facts:
+      day_progress: "%{lifespan}日中 %{age}日目"
+      done: 完了
+      failed: 失敗
+      finished: 終了
+      grown: 成長済み
+      grown_in: 日照条件
+      lifespan_days:
+        other: "%{count}日"
+      no_date_recorded: 日付未記録
+      no_finish_predicted: 終了予測なし
+      not_rated: 未評価
+      not_specified: 指定なし
+      packets_of_seed:
+        other: "%{count}袋の種"
+      parent_seed: 親の種
+      perennial: 多年草
+      perennial_description: 年々成長し続けます
+      planned: 計画済み
+      planned_for: "%{date} 予定"
+      planted: 植え付け
+      planting_failed: この植え付けは失敗しました
+      progress: 進捗
+      quantity: 数量
+      rating: 評価
+      rating_of_5: "%{rating} / 5"
+      seeds_saved: 保存した種
+      sown_from_expired: "期限切れの種から播種（%{year}年までに植え付け）"
+      unknown: 不明
   seeds:
     facts:
       cancel: キャンセル
