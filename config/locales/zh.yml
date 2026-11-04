@@ -400,6 +400,13 @@ zh:
       weight_quantity: 重量（总计）
       weight_unit: 称重单位
     harvest_something: 收获一些东西
+    modal:
+      all_plant_parts: 所有植物部位
+      close: 关闭
+      recommended_plant_parts: "建议收获的植物部位："
+      record_harvest: 记录收获
+      select_plant_part: 选择您收获的植物部位
+      title: 记录%{crop}收获
     index:
       title:
         crop_harvests: 大家的收获%{crop}

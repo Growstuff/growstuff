@@ -56,6 +56,13 @@ ja:
       harvested: "収穫済み"
       picked_at: "%{date}に収穫"
       title: "%{crop}の収穫"
+    modal:
+      all_plant_parts: すべての部位
+      close: 閉じる
+      recommended_plant_parts: "収穫に適したおすすめの部位:"
+      record_harvest: 収穫を記録する
+      select_plant_part: 収穫した植物の部位を選択してください
+      title: "%{crop}の収穫を記録"
     edit_modal:
       harvested_at: いつ収穫しましたか？
       notes: メモ

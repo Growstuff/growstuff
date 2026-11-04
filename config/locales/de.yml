@@ -402,6 +402,13 @@ de:
       weight_quantity: Gewicht (insgesamt)
       weight_unit: Gewogen in
     harvest_something: Etwas ernten
+    modal:
+      all_plant_parts: Alle Pflanzenteile
+      close: Schließen
+      recommended_plant_parts: "Empfohlene Pflanzenteile zur Ernte:"
+      record_harvest: Ernte eintragen
+      select_plant_part: Wählen Sie den geernteten Pflanzenteil aus
+      title: "%{crop}-Ernte eintragen"
     index:
       title:
         crop_harvests: Die Ernten aller %{crop}

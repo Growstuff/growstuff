@@ -402,6 +402,13 @@ fr:
       weight_quantity: Pesant (au total)
       weight_unit: Pesé en
     harvest_something: Récolter quelque chose
+    modal:
+      all_plant_parts: Toutes les parties de la plante
+      close: Fermer
+      recommended_plant_parts: "Parties recommandées à récolter :"
+      record_harvest: Enregistrer une récolte
+      select_plant_part: Sélectionnez la partie de la plante que vous avez récoltée
+      title: Enregistrer une récolte de %{crop}
     index:
       title:
         crop_harvests: Les récoltes %{crop} DE chacun
