@@ -208,6 +208,10 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    popover:
+      planted_times:
+        one: 种植了 1 次
+        other: 种植了 %{count} 次
     harvests:
       empty: 还没有人收获过这种作物。
       harvest_crop: "收获 %{crop}"

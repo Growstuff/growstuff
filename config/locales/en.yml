@@ -233,6 +233,10 @@ en:
     new_planting: A new %{crop} planting I'm going to do
     see_jobs: See your jobs.
   crops:
+    popover:
+      planted_times:
+        one: Planted 1 time
+        other: Planted %{count} times
     harvests:
       empty: Nobody has harvested this crop yet.
       harvest_crop: Harvest %{crop}

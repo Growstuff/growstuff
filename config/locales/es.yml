@@ -208,6 +208,10 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    popover:
+      planted_times:
+        one: Plantado 1 vez
+        other: Plantado %{count} veces
     harvests:
       empty: Nadie ha cosechado este cultivo todavía.
       harvest_crop: Cosechar %{crop}

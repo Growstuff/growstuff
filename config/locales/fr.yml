@@ -208,6 +208,10 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    popover:
+      planted_times:
+        one: Planté 1 fois
+        other: Planté %{count} fois
     harvests:
       empty: Personne n'a encore récolté cette plante.
       harvest_crop: "Récolter %{crop}"

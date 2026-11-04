@@ -208,6 +208,10 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    popover:
+      planted_times:
+        one: 1 Mal gepflanzt
+        other: "%{count} Mal gepflanzt"
     harvests:
       empty: Niemand hat diese Kultur bisher geerntet.
       harvest_crop: "%{crop} ernten"

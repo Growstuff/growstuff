@@ -1,6 +1,9 @@
 ---
 ja:
   crops:
+    popover:
+      planted_times:
+        other: "%{count}回植え付け"
     harvests:
       empty: この作物はまだ誰にも収穫されていません。
       harvest_crop: "%{crop}を収穫する"
