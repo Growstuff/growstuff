@@ -214,6 +214,7 @@ describe SeedsHelper do
       assign(:in_stock_count, 0)
       assign(:finished_count, 0)
       allow(helper).to receive(:current_member).and_return(nil)
+      allow(helper).to receive(:render).with('seeds/scope').and_return('<nav>scope</nav>')
       allow(helper).to receive(:render).with('seeds/tabs').and_return('<ul>tabs</ul>')
       allow(helper).to receive(:render).with('seeds/results').and_return('<p>results</p>')
     end
