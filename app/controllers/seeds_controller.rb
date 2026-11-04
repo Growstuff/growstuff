@@ -106,7 +106,11 @@ class SeedsController < DataController
   end
 
   def update
-    flash[:notice] = t('seeds.updated') if @seed.update(seed_params)
+    previous_crop = @seed.crop
+    if @seed.update(seed_params)
+      flash[:notice] = t('seeds.updated')
+      return redirect_to seed_crop_change_path(@seed, from: previous_crop.id) if ask_about_descendants?(previous_crop)
+    end
     respond_with(@seed, location: seed_path(@seed, anchor: seed_section_anchor))
   end
 
@@ -116,6 +120,10 @@ class SeedsController < DataController
   end
 
   private
+
+  def ask_about_descendants?(previous_crop)
+    request.format.html? && SeedCropChange.new(@seed, previous_crop).any?
+  end
 
   # The web page, and the results the seed library fetches for it, come a page
   # of piles at a time; the data formats come a page of seeds.

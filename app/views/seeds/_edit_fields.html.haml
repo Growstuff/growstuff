@@ -1,6 +1,9 @@
 -# Every field of a packet of seed that is edited by hand, for the form that
--# replaces the packet sheet's list. The crop isn't offered: changing what a
--# packet is would make it a different packet.
+-# replaces the packet sheet's list. Changing the crop goes on to ask about the
+-# plantings and other records grown from the packet.
+.mb-3
+  = label_tag 'crop', 'Change crop'
+  = auto_suggest seed, :crop, class: 'form-control', required: true
 .row.mb-3
   .col-md-6
     = f.date_field :saved_at,
