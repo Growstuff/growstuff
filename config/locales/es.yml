@@ -386,6 +386,11 @@ es:
       text: Plante, coseche y guarde semillas en un solo lugar y vea qué crece bien cerca de usted.
     updated: El jardín se actualizó con éxito.
   harvests:
+    card:
+      by: por
+      harvested: cosechado
+      picked_at: "recolectado el %{date}"
+      title: "Cosecha de %{crop}"
     created: La cosecha se creó con éxito.
     edit_modal:
       harvested_at: '¿Cuándo lo cosechaste?'
@@ -397,6 +402,13 @@ es:
       weight_quantity: Pesando (en total)
       weight_unit: Pesado en
     harvest_something: Cosechar algo
+    modal:
+      all_plant_parts: Todas las partes de la planta
+      close: Cerrar
+      recommended_plant_parts: "Partes recomendadas para cosechar:"
+      record_harvest: Registrar cosecha
+      select_plant_part: Selecciona la parte de la planta cosechada
+      title: Registrar cosecha de %{crop}
     index:
       title:
         crop_harvests: Las cosechas de %{crop} de todos
@@ -1083,6 +1095,39 @@ es:
       late_finishing: terminar tarde
       sharedbuttonsfinish_planting: compartido/botones/finish_planting
       super_late: súper tarde
+    card:
+      planted_by_in_html: Plantado por %{owner} en %{garden}
+    facts:
+      day_progress: "día %{age} de %{lifespan}"
+      done: Hecho
+      failed: Fallido
+      finished: finalizado
+      grown: crecido
+      grown_in: Cultivado en
+      lifespan_days:
+        one: 1 día
+        other: "%{count} días"
+      no_date_recorded: sin fecha registrada
+      no_finish_predicted: sin final previsto
+      not_rated: sin calificar
+      not_specified: no especificado
+      packets_of_seed:
+        one: 1 paquete de semillas
+        other: "%{count} paquetes de semillas"
+      parent_seed: Semilla madre
+      perennial: Perenne
+      perennial_description: sigue creciendo año tras año
+      planned: Planificado
+      planned_for: "para el %{date}"
+      planted: Plantado
+      planting_failed: esta plantación falló
+      progress: Progreso
+      quantity: Cantidad
+      rating: Calificación
+      rating_of_5: "%{rating} de 5"
+      seeds_saved: Semillas guardadas
+      sown_from_expired: "Sembrado de semillas caducadas (plantar antes de %{year})"
+      unknown: desconocido
     form:
       failed_helper: Marque esta plantación como fallida si murió o se eliminó sin ninguna cosecha.
       finish_helper: Una plantación finaliza cuando ha cosechado toda la cosecha, muere o ya no crece en su jardín.
@@ -1173,6 +1218,18 @@ es:
       text: Una comunidad para cultivar alimentos. Registra lo que siembras y cosechas, e intercambia semillas y consejos con otros jardineros. Únete gratis o inicia sesión para ponerte en contacto con %{name} sobre lo que hay en el puesto.
   seeds:
     added_to_stash: Se agregó con éxito la semilla %{crop} a tu alijo.
+    facts:
+      cancel: Cancelar
+      edit_all: Editar todo
+      finished: Terminado
+      from_location_html: "(de %{location})"
+      from_unspecified_location: "(de ubicación no especificada)"
+      heading: El paquete
+      save: Guardar
+      set_location: Establecer ubicación
+      unknown: Desconocido
+      will_trade: Para intercambio
+      year_saved: Año guardado
     form:
       finish_helper: Las semillas estarán terminadas cuando las hayas plantado todas o las hayas intercambiado todas.
       trade_help: ¿Está interesado en comercializar o intercambiar semillas con otros miembros de %{site_name}?  Si incluye sus semillas como disponibles para el comercio, otros miembros pueden comunicarse con usted para solicitar semillas.  Puede enumerar cualquier condición u otra información en la descripción anterior.

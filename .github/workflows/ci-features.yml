@@ -1,6 +1,6 @@
 name: CI Features
 
-on: [pull_request]
+on: [pull_request, merge_group]
 
 jobs:
   rspec:

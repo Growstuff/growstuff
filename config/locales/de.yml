@@ -386,6 +386,11 @@ de:
       text: Pflanzen, ernten und bewahren Sie Samen an einem Ort auf und sehen Sie, was in Ihrer Nähe gut wächst.
     updated: Der Garten wurde erfolgreich aktualisiert.
   harvests:
+    card:
+      by: von
+      harvested: geerntet
+      picked_at: "geerntet am %{date}"
+      title: "%{crop}-Ernte"
     created: Harvest wurde erfolgreich erstellt.
     edit_modal:
       harvested_at: Wann hast du geerntet?
@@ -397,6 +402,13 @@ de:
       weight_quantity: Gewicht (insgesamt)
       weight_unit: Gewogen in
     harvest_something: Etwas ernten
+    modal:
+      all_plant_parts: Alle Pflanzenteile
+      close: Schließen
+      recommended_plant_parts: "Empfohlene Pflanzenteile zur Ernte:"
+      record_harvest: Ernte eintragen
+      select_plant_part: Wählen Sie den geernteten Pflanzenteil aus
+      title: "%{crop}-Ernte eintragen"
     index:
       title:
         crop_harvests: Die Ernten aller %{crop}
@@ -1083,6 +1095,39 @@ de:
       late_finishing: spätveredelung
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super spät
+    card:
+      planted_by_in_html: Gepflanzt von %{owner} in %{garden}
+    facts:
+      day_progress: "Tag %{age} von %{lifespan}"
+      done: Fertig
+      failed: Fehlgeschlagen
+      finished: beendet
+      grown: gewachsen
+      grown_in: Angebaut in
+      lifespan_days:
+        one: 1 Tag
+        other: "%{count} Tage"
+      no_date_recorded: kein Datum erfasst
+      no_finish_predicted: kein Ende vorhergesagt
+      not_rated: nicht bewertet
+      not_specified: nicht angegeben
+      packets_of_seed:
+        one: 1 Saatgutpäckchen
+        other: "%{count} Saatgutpäckchen"
+      parent_seed: Ausgangssaatgut
+      perennial: Mehrjährig
+      perennial_description: wächst von Jahr zu Jahr weiter
+      planned: Geplant
+      planned_for: "für %{date}"
+      planted: Gepflanzt
+      planting_failed: diese Pflanzung ist fehlgeschlagen
+      progress: Fortschritt
+      quantity: Menge
+      rating: Bewertung
+      rating_of_5: "%{rating} von 5"
+      seeds_saved: Saatgut gewonnen
+      sown_from_expired: "Aus abgelaufenem Saatgut gesät (pflanzen vor %{year})"
+      unknown: unbekannt
     form:
       failed_helper: Markieren Sie diese Pflanzung als fehlgeschlagen, wenn sie abgestorben ist oder ohne Ernte entfernt wurde.
       finish_helper: Eine Pflanzung ist beendet, wenn Sie die gesamte Ernte geerntet haben, oder sie stirbt, oder sie wächst anderweitig nicht mehr in Ihrem Garten.
@@ -1173,6 +1218,18 @@ de:
       text: Eine Community für den Lebensmittelanbau. Halten Sie fest, was Sie pflanzen und ernten, und tauschen Sie Saatgut sowie Tipps mit anderen Gärtnern aus. Treten Sie kostenlos bei oder melden Sie sich an, um mit %{name} über das Angebot auf dem Stand in Kontakt zu treten.
   seeds:
     added_to_stash: '%{crop} Seed wurde erfolgreich zu deinem Vorrat hinzugefügt.'
+    facts:
+      cancel: Abbrechen
+      edit_all: Alle bearbeiten
+      finished: Beendet
+      from_location_html: "(aus %{location})"
+      from_unspecified_location: "(von nicht angegebenem Ort)"
+      heading: Das Päckchen
+      save: Speichern
+      set_location: Ort festlegen
+      unknown: Unbekannt
+      will_trade: Tauschangebot
+      year_saved: Gespeichertes Jahr
     form:
       finish_helper: Samen sind fertig, wenn Sie sie alle gepflanzt haben, oder Sie haben sie alle weggetauscht.
       trade_help: Sind Sie daran interessiert, Saatgut mit anderen %{site_name}-Mitgliedern zu handeln oder auszutauschen?  Wenn Sie Ihr Saatgut als für den Handel verfügbar auflisten, können sich andere Mitglieder mit Ihnen in Verbindung setzen, um Saatgut anzufordern.  Sie können alle Bedingungen oder andere Informationen in der obigen Beschreibung auflisten.
