@@ -11,7 +11,7 @@ module Admin
       @status = params[:status] if CropJobTemplate.statuses.key?(params[:status])
       @templates = CropJobTemplate.joins(:crop).includes(:creator, :steps, crop: :parent).order('crops.name', :name)
       @templates = @templates.where(status: @status) if @status
-      @templates = @templates.paginate(page: params[:page])
+      @pagy, @templates = pagy(@templates)
     end
   end
 end

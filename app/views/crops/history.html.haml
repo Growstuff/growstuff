@@ -24,4 +24,4 @@
               = link_to member.login_name, member
           = render 'shared/version_changeset', version: version
 
-  = will_paginate @versions
+  = pagination_nav @pagy

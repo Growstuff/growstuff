@@ -41,4 +41,4 @@
           %td
             - badge = template.published? ? 'text-bg-success' : 'text-bg-secondary'
             %span.badge{ class: badge }= crop_job_option(:status, template.status)
-  = will_paginate @templates
+  = pagination_nav @pagy

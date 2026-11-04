@@ -45,8 +45,8 @@
     .col-md-9
       %section
         %h2= title('jobs', @owner, nil, nil)
-        = will_paginate @jobs
+        = pagination_nav @pagy
         .index-cards
           - @jobs.each do |a|
             = render 'jobs/card', job: a
-        = will_paginate @jobs
+        = pagination_nav @pagy

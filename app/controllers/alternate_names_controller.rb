@@ -11,7 +11,7 @@ class AlternateNamesController < ApplicationController
   def index
     @alternate_names = AlternateName.all.order(:name)
     @alternate_names = @alternate_names.where(crop_id: params[:crop_id]) if params[:crop_id].present?
-    @alternate_names = @alternate_names.paginate(page: params[:page], per_page: 100)
+    @pagy, @alternate_names = pagy(@alternate_names, limit: 100)
     respond_with(@alternate_names)
   end
 

@@ -92,5 +92,5 @@
               - person = @approval_status == 'pending' ? crop.requester : crop.creator
               = person.present? ? link_to(person, person) : 'N/A'
 
-  = page_entries_info @crops
-  = will_paginate @crops
+  = pagination_info @pagy, "crops"
+  = pagination_nav @pagy

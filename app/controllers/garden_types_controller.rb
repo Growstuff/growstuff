@@ -6,7 +6,7 @@ class GardenTypesController < ApplicationController
 
   # GET /garden_types
   def index
-    @garden_types = GardenType.all.paginate(page: params[:page])
+    @pagy, @garden_types = pagy(GardenType.all)
     respond_with @garden_types
   end
 

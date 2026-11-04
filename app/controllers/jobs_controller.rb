@@ -9,7 +9,7 @@ class JobsController < DataController
       load_notepad
       return render_groups(:ok) if request.xhr?
     else
-      @jobs = listed_jobs.paginate(page: params[:page], per_page: 30)
+      @pagy, @jobs = pagy(listed_jobs, limit: 30)
     end
 
     @filename = "Growstuff-#{specifics}Jobs-#{Time.zone.now.to_fs(:number)}.csv"

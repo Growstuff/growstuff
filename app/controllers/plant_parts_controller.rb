@@ -6,7 +6,7 @@ class PlantPartsController < ApplicationController
   responders :flash
 
   def index
-    @plant_parts = PlantPart.all.order(:name).paginate(page: params[:page], per_page: 100)
+    @pagy, @plant_parts = pagy(PlantPart.all.order(:name), limit: 100)
     respond_with(@plant_parts)
   end
 

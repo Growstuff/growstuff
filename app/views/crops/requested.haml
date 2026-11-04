@@ -4,11 +4,11 @@
 %p Crops you have requested
 
 .pagination
-  = will_paginate @requested
+  = pagination_nav @pagy
 
 .index-cards
   - @requested.each do |crop|
     = render partial: "thumbnail", locals: { crop: crop }
 
 .pagination
-  = will_paginate @requested
+  = pagination_nav @pagy

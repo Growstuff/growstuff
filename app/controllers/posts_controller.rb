@@ -10,7 +10,7 @@ class PostsController < ApplicationController
 
   def index
     @author = Member.find_by!(slug: params[:member_slug]) if params[:member_slug].present?
-    @posts = posts
+    @pagy, @posts = pagy(posts, limit: 12)
     respond_with(@posts)
   end
 
@@ -111,6 +111,5 @@ class PostsController < ApplicationController
       Post
     end.order(created_at: :desc)
       .includes(:author,  :crop_posts, :crops, comments: :author)
-      .paginate(page: params[:page], per_page: 12)
   end
 end

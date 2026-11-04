@@ -9,7 +9,7 @@ class GardenCollaboratorsController < ApplicationController
   responders :flash
 
   def index
-    @garden_collaborators = @garden.garden_collaborators.paginate(page: params[:page])
+    @pagy, @garden_collaborators = pagy(@garden.garden_collaborators)
     respond_with(@garden_collaborators)
   end
 

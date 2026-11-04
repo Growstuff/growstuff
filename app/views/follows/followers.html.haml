@@ -1,11 +1,11 @@
 - content_for :title, "#{@member.login_name}'s followers"
 
-= page_entries_info @followers
-= will_paginate @followers
+= pagination_info @pagy, "followers"
+= pagination_nav @pagy
 
 .index-cards
   - @followers.each do |f|
     .thumbnail= render partial: "members/thumbnail", locals: { member: f }
 
-= page_entries_info @followers
-= will_paginate @followers
+= pagination_info @pagy, "followers"
+= pagination_nav @pagy

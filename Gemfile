@@ -51,8 +51,7 @@ gem 'active_utils'
 gem 'kramdown' # the Markdown engine Tilt picks for Haml's :markdown filter
 
 # Pagination
-gem 'will_paginate'
-gem 'will_paginate-bootstrap-style'
+gem 'pagy', '~> 43.8'
 
 # user signup/login/etc
 gem 'devise'

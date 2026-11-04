@@ -30,8 +30,8 @@
 
     - else
       %section
-        %h2= page_entries_info @garden_collaborators
-        = will_paginate @garden_collaborators
+        %h2= pagination_info @pagy, "garden collaborators"
+        = pagination_nav @pagy
 
         - @garden_collaborators.each do |garden_collaborator|
           - member = garden_collaborator.member
@@ -68,5 +68,5 @@
                       = localize_plural(member.seeds.active, Seed)
 
       .row
-        .col-12= page_entries_info @garden_collaborators
-        .col-12= will_paginate @garden_collaborators
+        .col-12= pagination_info @pagy, "garden collaborators"
+        .col-12= pagination_nav @pagy

@@ -2,10 +2,10 @@
 
 %h1.page-title #{@member.login_name}'s follows
 
-= page_entries_info @follows
-= will_paginate @follows
+= pagination_info @pagy, "follows"
+= pagination_nav @pagy
 
 .index-cards= render @follows
 
-= page_entries_info @follows
-= will_paginate @follows
+= pagination_info @pagy, "follows"
+= pagination_nav @pagy
