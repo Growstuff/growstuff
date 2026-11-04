@@ -1095,6 +1095,8 @@ de:
       late_finishing: spätveredelung
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super spät
+    card:
+      planted_by_in_html: Gepflanzt von %{owner} in %{garden}
     facts:
       day_progress: "Tag %{age} von %{lifespan}"
       done: Fertig

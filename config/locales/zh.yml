@@ -1093,6 +1093,8 @@ zh:
       late_finishing: 后期整理
       sharedbuttonsfinish_planting: 共享/按钮/finish_planting
       super_late: 超级晚了
+    card:
+      planted_by_in_html: 由 %{owner} 种植在 %{garden} 中
     facts:
       day_progress: "第 %{age} 天，共 %{lifespan} 天"
       done: 已完成

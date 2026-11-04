@@ -1160,6 +1160,8 @@ en:
       late_finishing: late finishing
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super late
+    card:
+      planted_by_in_html: Planted by %{owner} in %{garden}
     facts:
       day_progress: "day %{age} of %{lifespan}"
       done: Done

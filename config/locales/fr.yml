@@ -1096,6 +1096,8 @@ fr:
       late_finishing: finition tardive
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super tard
+    card:
+      planted_by_in_html: Planté par %{owner} à %{garden}
     facts:
       day_progress: "jour %{age} sur %{lifespan}"
       done: Terminé
