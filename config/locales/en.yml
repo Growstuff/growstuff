@@ -1286,6 +1286,23 @@ en:
     winter: Winter
   seeds:
     added_to_stash: Successfully added %{crop} seed to your stash.
+    crop_changes:
+      show:
+        confirm: Yes, change them
+        decline: No, leave them
+        harvests:
+          one: "1 harvest"
+          other: "%{count} harvests"
+        intro: "You changed this seed from %{from} to %{to}. These were grown from it and are still %{from}. Change them to %{to} too?"
+        plantings:
+          one: "1 planting"
+          other: "%{count} plantings"
+        seeds:
+          one: "1 packet of seed"
+          other: "%{count} packets of seed"
+        title: Change them to %{crop} too?
+      update:
+        changed: Changed to the new crop.
     facts:
       cancel: Cancel
       edit_all: Edit all

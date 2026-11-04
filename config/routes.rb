@@ -92,6 +92,7 @@ Rails.application.routes.draw do
   end
 
   resources :seeds, concerns: :has_photos, param: :slug do
+    resource :crop_change, only: %i(show update), module: :seeds
     get 'plantings' => 'plantings#index'
     get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop', on: :collection
   end
