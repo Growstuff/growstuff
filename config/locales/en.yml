@@ -427,6 +427,13 @@ en:
       weight_quantity: Weighing (in total)
       weight_unit: Weighed in
     harvest_something: Harvest something
+    modal:
+      all_plant_parts: All Plant parts
+      close: Close
+      recommended_plant_parts: "Recommended plant parts to harvest:"
+      record_harvest: Record harvest
+      select_plant_part: Select which plant part you have harvested
+      title: Record %{crop} harvest
     index:
       title:
         crop_harvests: Everyone's %{crop} harvests

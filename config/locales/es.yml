@@ -402,6 +402,13 @@ es:
       weight_quantity: Pesando (en total)
       weight_unit: Pesado en
     harvest_something: Cosechar algo
+    modal:
+      all_plant_parts: Todas las partes de la planta
+      close: Cerrar
+      recommended_plant_parts: "Partes recomendadas para cosechar:"
+      record_harvest: Registrar cosecha
+      select_plant_part: Selecciona la parte de la planta cosechada
+      title: Registrar cosecha de %{crop}
     index:
       title:
         crop_harvests: Las cosechas de %{crop} de todos
