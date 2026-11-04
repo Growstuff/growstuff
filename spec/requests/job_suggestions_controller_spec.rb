@@ -102,7 +102,7 @@ describe JobSuggestionsController do
 
   context 'when in a collaborated garden\'s to-do list' do
     let(:garden) { create(:garden) }
-    let!(:planting) { create(:planting, crop: carrot, garden:) }
+    let!(:planting) { create(:planting, owner: garden.owner, crop: carrot, garden:) }
 
     before do
       create(:garden_collaborator, garden:, member:)
@@ -116,7 +116,7 @@ describe JobSuggestionsController do
 
   context 'when outside a garden with plantings in a collaborated garden' do
     let(:garden) { create(:garden) }
-    let!(:planting) { create(:planting, crop: carrot, garden:) }
+    let!(:planting) { create(:planting, owner: garden.owner, crop: carrot, garden:) }
 
     before do
       create(:garden_collaborator, garden:, member:)
