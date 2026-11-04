@@ -1207,6 +1207,18 @@ zh:
       text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
   seeds:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
+    facts:
+      cancel: 取消
+      edit_all: 全部编辑
+      finished: 已用完
+      from_location_html: "（来自 %{location}）"
+      from_unspecified_location: "（来自未指定地点）"
+      heading: 种子包
+      save: 保存
+      set_location: 设置地点
+      unknown: 未知
+      will_trade: 可交换
+      year_saved: 保存年份
     form:
       finish_helper: 当你把它们全部种下或者全部卖掉时，种子就完成了。
       trade_help: 您有兴趣与其他 %{site_name} 会员交易或交换种子吗？  如果您将种子列为可交易，其他成员可以联系您索取种子。  您可以在上面的描述中列出任何条件或其他信息。

@@ -1210,6 +1210,18 @@ fr:
       text: Une communauté pour faire pousser des aliments. Notez ce que vous plantez et récoltez, et échangez des graines et des astuces avec d'autres jardiniers. Rejoignez-nous gratuitement ou connectez-vous pour contacter %{name} au sujet de son stand.
   seeds:
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
+    facts:
+      cancel: Annuler
+      edit_all: Tout modifier
+      finished: Terminé
+      from_location_html: "(de %{location})"
+      from_unspecified_location: "(d'un lieu non précisé)"
+      heading: Le paquet
+      save: Enregistrer
+      set_location: Définir l'emplacement
+      unknown: Inconnu
+      will_trade: À échanger
+      year_saved: Année de récolte
     form:
       finish_helper: Les graines sont terminées lorsque vous les avez toutes plantées ou que vous les avez toutes échangées.
       trade_help: Êtes-vous intéressé par le commerce ou l'échange de semences avec d'autres membres de %{site_name} ?  Si vous indiquez que vos graines sont disponibles pour le commerce, d'autres membres peuvent vous contacter pour demander des graines.  Vous pouvez énumérer toutes les conditions ou autres informations dans la description ci-dessus.

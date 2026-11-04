@@ -1209,6 +1209,18 @@ es:
       text: Una comunidad para cultivar alimentos. Registra lo que siembras y cosechas, e intercambia semillas y consejos con otros jardineros. Únete gratis o inicia sesión para ponerte en contacto con %{name} sobre lo que hay en el puesto.
   seeds:
     added_to_stash: Se agregó con éxito la semilla %{crop} a tu alijo.
+    facts:
+      cancel: Cancelar
+      edit_all: Editar todo
+      finished: Terminado
+      from_location_html: "(de %{location})"
+      from_unspecified_location: "(de ubicación no especificada)"
+      heading: El paquete
+      save: Guardar
+      set_location: Establecer ubicación
+      unknown: Desconocido
+      will_trade: Para intercambio
+      year_saved: Año guardado
     form:
       finish_helper: Las semillas estarán terminadas cuando las hayas plantado todas o las hayas intercambiado todas.
       trade_help: ¿Está interesado en comercializar o intercambiar semillas con otros miembros de %{site_name}?  Si incluye sus semillas como disponibles para el comercio, otros miembros pueden comunicarse con usted para solicitar semillas.  Puede enumerar cualquier condición u otra información en la descripción anterior.

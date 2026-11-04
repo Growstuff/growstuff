@@ -110,6 +110,19 @@ ja:
       seeds_saved: 保存した種
       sown_from_expired: "期限切れの種から播種（%{year}年までに植え付け）"
       unknown: 不明
+  seeds:
+    facts:
+      cancel: キャンセル
+      edit_all: すべて編集
+      finished: 終了
+      from_location_html: "（%{location} より）"
+      from_unspecified_location: "（場所未指定）"
+      heading: 種袋
+      save: 保存
+      set_location: 場所を設定
+      unknown: 不明
+      will_trade: 交換可能
+      year_saved: 採取年
   stalls:
     about_growstuff:
       join: 無料で参加
