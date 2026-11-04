@@ -39,16 +39,30 @@ module SeedFiltersHelper
      ['Shared for trading', { shared: 1 }]]
   end
 
+  # "Sow now": this month, and next in the last days of it.
+  def seed_sow_now_label
+    "Sow now (#{Seed.sow_now_months.map { |month| Date::MONTHNAMES[month] }.join(' & ')})"
+  end
+
+  # Every month as a chip, for a screen wide enough to show them all.
+  def seed_month_chips
+    [['Any month', { sow_month: nil }],
+     [seed_sow_now_label, { sow_month: 'now' }],
+     *Date::MONTHNAMES.compact.each_with_index.map { |name, index| [name, { sow_month: index + 1 }] }]
+  end
+
   # The chips in their labelled groups. How far away only means something on
   # other people's seeds, and sharing only on a gardener's own: everyone's are
-  # all shared.
+  # all shared. The months are chips on a wide screen and a select on a narrow
+  # one, so that group says it is `wide_only`.
   def seed_filter_groups(everyone:)
-    [['Source', seed_source_chips],
+    [['Month to sow', seed_month_chips, true],
+     ['Source', seed_source_chips],
      (['Distance', seed_distance_chips] if everyone && current_member&.latitude),
      (['Sharing', seed_sharing_chips] unless everyone),
      ['Heirloom or hybrid', seed_heirloom_chips],
-     ['Planted', seed_planted_chips]].compact.map do |label, chips|
-      { label:, chips: chips.map { |chip_label, params| { label: chip_label, params: } } }
+     ['Planted', seed_planted_chips]].compact.map do |label, chips, wide_only|
+      { label:, wide_only: wide_only || false, chips: chips.map { |chip_label, params| { label: chip_label, params: } } }
     end
   end
 

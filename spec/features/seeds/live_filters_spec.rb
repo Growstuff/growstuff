@@ -57,6 +57,13 @@ describe "changing the seeds shown without reloading", :js do
     it { expect(page).to have_current_path member_seeds_path(owner) }
   end
 
+  context "when choosing a month" do
+    before { click_link 'September' }
+
+    it { expect(page).to have_seed_params(sow_month: 9) }
+    it { expect(page).to have_css('.seed-chip.active', text: 'September') }
+  end
+
   context "when choosing mine after choosing a chip" do
     include_context 'signed in member'
 

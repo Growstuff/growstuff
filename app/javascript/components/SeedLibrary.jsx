@@ -181,7 +181,7 @@ export default function SeedLibrary({scope: initialScope, tabs: initialTabs, htm
             <Choice params={clear} search={pendingSearch} className="seed-clear" onChoose={show}>Clear all filters</Choice>
           )}
         </div>
-        <div className="seed-filter-row">
+        <div className="seed-filter-row d-lg-none">
           <div className="seed-field">
             <label className="seed-field-label" htmlFor="seed-month">Month to sow</label>
             <select
@@ -221,8 +221,8 @@ export default function SeedLibrary({scope: initialScope, tabs: initialTabs, htm
             </div>
           </div>
         )}
-        {filters.map(({label, chips}) => (
-          <div className="seed-filter-row" key={label}>
+        {filters.map(({label, chips, wide_only: wideOnly}) => (
+          <div className={`seed-filter-row${wideOnly ? ' d-none d-lg-flex' : ''}`} key={label}>
             <div className="seed-field">
               <span className="seed-field-label">{label}</span>
               <ul className="seed-chips">{chips.map(chip)}</ul>

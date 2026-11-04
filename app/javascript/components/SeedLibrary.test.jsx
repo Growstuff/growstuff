@@ -24,6 +24,11 @@ const props = {
       ],
     },
     {label: 'Planted', chips: [{label: 'Not planted yet', params: {planted: 'no'}}]},
+    {
+      label: 'Month to sow',
+      wide_only: true,
+      chips: [{label: 'Any month', params: {sow_month: null}}, {label: 'September', params: {sow_month: 9}}],
+    },
   ],
   months: [[1, 'January'], [9, 'September']],
   sow_now: 'Sow now (November)',
@@ -230,6 +235,21 @@ describe('SeedLibrary', () => {
     it('leaves out the gardener search on a member\'s own seeds', () => {
       setup({gardeners: null});
       expect(screen.queryByLabelText('Gardener')).not.toBeInTheDocument();
+    });
+
+    it('offers every month as a chip for a wide screen', () => {
+      setup();
+      expect(screen.getByRole('link', {name: 'September'})).toHaveAttribute('href', '/seeds?sow_month=9');
+    });
+
+    it('shows the month chips on wide screens only', () => {
+      setup();
+      expect(screen.getByRole('link', {name: 'September'}).closest('.seed-filter-row')).toHaveClass('d-none', 'd-lg-flex');
+    });
+
+    it('shows the month select on narrow screens only', () => {
+      setup();
+      expect(screen.getByLabelText('Month to sow').closest('.seed-filter-row')).toHaveClass('d-lg-none');
     });
 
     it('keeps the filters in force when another is chosen', () => {
