@@ -68,6 +68,9 @@ ja:
   home:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
+  plantings:
+    card:
+      planted_by_in_html: "%{owner} が %{garden} に植え付け"
   members:
     contact:
       flickr_logo: Flickrロゴ

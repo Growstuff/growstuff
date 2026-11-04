@@ -1086,6 +1086,8 @@ zh:
       late_finishing: 后期整理
       sharedbuttonsfinish_planting: 共享/按钮/finish_planting
       super_late: 超级晚了
+    card:
+      planted_by_in_html: 由 %{owner} 种植在 %{garden} 中
     form:
       failed_helper: 如果该种植死亡或在没有任何收获的情况下被移除，则将其标记为失败。
       finish_helper: 当你收获了所有的作物，或者它死了，或者它不再在你的花园里生长时，种植就完成了。

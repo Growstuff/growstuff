@@ -1089,6 +1089,8 @@ fr:
       late_finishing: finition tardive
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super tard
+    card:
+      planted_by_in_html: Planté par %{owner} à %{garden}
     form:
       failed_helper: Marquez cette plantation comme ayant échoué si elle est morte ou si elle a été retirée sans aucune récolte.
       finish_helper: Une plantation est terminée lorsque vous avez récolté toute la récolte, ou qu'elle meurt, ou qu'elle ne pousse plus dans votre jardin.

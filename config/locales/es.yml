@@ -1088,6 +1088,8 @@ es:
       late_finishing: terminar tarde
       sharedbuttonsfinish_planting: compartido/botones/finish_planting
       super_late: súper tarde
+    card:
+      planted_by_in_html: Plantado por %{owner} en %{garden}
     form:
       failed_helper: Marque esta plantación como fallida si murió o se eliminó sin ninguna cosecha.
       finish_helper: Una plantación finaliza cuando ha cosechado toda la cosecha, muere o ya no crece en su jardín.

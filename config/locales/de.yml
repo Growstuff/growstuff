@@ -1088,6 +1088,8 @@ de:
       late_finishing: spätveredelung
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super spät
+    card:
+      planted_by_in_html: Gepflanzt von %{owner} in %{garden}
     form:
       failed_helper: Markieren Sie diese Pflanzung als fehlgeschlagen, wenn sie abgestorben ist oder ohne Ernte entfernt wurde.
       finish_helper: Eine Pflanzung ist beendet, wenn Sie die gesamte Ernte geerntet haben, oder sie stirbt, oder sie wächst anderweitig nicht mehr in Ihrem Garten.

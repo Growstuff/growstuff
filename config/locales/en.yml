@@ -1153,6 +1153,8 @@ en:
       late_finishing: late finishing
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super late
+    card:
+      planted_by_in_html: Planted by %{owner} in %{garden}
     form:
       failed_helper: 'Mark this planting as failed if it died or was removed without any harvest.
 
