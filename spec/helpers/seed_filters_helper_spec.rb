@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe SeedFiltersHelper do
+  include ActiveSupport::Testing::TimeHelpers
+
   describe '#seed_view_path' do
     before do
       allow(helper.request).to receive_messages(path: '/seeds', query_parameters: { 'from' => 'bought', 'page' => '3', 'utm' => 'x' })
@@ -50,21 +52,46 @@ describe SeedFiltersHelper do
     context 'with the member\'s own seeds' do
       let(:everyone) { false }
 
-      it { expect(groups.pluck(:label)).to eq ['Source', 'Sharing', 'Heirloom or hybrid', 'Planted'] }
+      it { expect(groups.pluck(:label)).to eq ['Month to sow', 'Source', 'Sharing', 'Heirloom or hybrid', 'Planted'] }
     end
 
     context 'with everyone\'s seeds' do
       let(:everyone) { true }
+      let(:distance) { groups.find { |group| group[:label] == 'Distance' }[:chips] }
 
-      it { expect(groups.pluck(:label)).to eq ['Source', 'Distance', 'Heirloom or hybrid', 'Planted'] }
-      it { expect(groups.second[:chips].pluck(:label)).to eq ['Anywhere', 'Within 50 km', 'Within 10 km'] }
+      it { expect(groups.pluck(:label)).to eq ['Month to sow', 'Source', 'Distance', 'Heirloom or hybrid', 'Planted'] }
+      it { expect(distance.pluck(:label)).to eq ['Anywhere', 'Within 50 km', 'Within 10 km'] }
     end
 
     context 'with everyone\'s seeds when signed out' do
       let(:everyone) { true }
       let(:viewer) { nil }
 
-      it { expect(groups.pluck(:label)).to eq ['Source', 'Heirloom or hybrid', 'Planted'] }
+      it { expect(groups.pluck(:label)).to eq ['Month to sow', 'Source', 'Heirloom or hybrid', 'Planted'] }
+    end
+  end
+
+  describe 'month chips' do
+    let(:chips) { helper.seed_month_chips }
+
+    before { travel_to Date.new(2026, 11, 4) }
+
+    it { expect(chips.first.first).to eq 'Any month' }
+    it { expect(chips.second.first).to eq 'Sow now (November)' }
+    it { expect(chips.second.last).to eq(sow_month: 'now') }
+    it { expect(chips.size).to eq 14 }
+    it { expect(chips.assoc('September').last).to eq(sow_month: 9) }
+    it { expect(helper.seed_filter_groups(everyone: false).first[:wide_only]).to be true }
+    it { expect(helper.seed_filter_groups(everyone: false).second[:wide_only]).to be false }
+  end
+
+  describe '#seed_sow_now_label' do
+    it 'names this month early in it' do
+      travel_to(Date.new(2026, 11, 4)) { expect(helper.seed_sow_now_label).to eq 'Sow now (November)' }
+    end
+
+    it 'names next month too near the end of this one' do
+      travel_to(Date.new(2026, 11, 28)) { expect(helper.seed_sow_now_label).to eq 'Sow now (November & December)' }
     end
   end
 end

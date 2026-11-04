@@ -36,7 +36,7 @@ describe "removing seed library filters", :js do
   end
 
   context "when choosing any sowing month" do
-    before { select 'Any month', from: 'Month to sow' }
+    before { click_link 'Any month' }
 
     it { expect(page).to have_seed_params(from: 'retail', heirloom: 'heirloom', planted: 'no', crop: tomato.slug, group: 'year') }
   end

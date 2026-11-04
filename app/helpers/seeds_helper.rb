@@ -182,7 +182,7 @@ module SeedsHelper
     {
       groups:      everyone ? SEED_GROUPS + [%w(gardener Gardener)] : SEED_GROUPS,
       filters:     seed_filter_groups(everyone:),
-      sow_now:     "Sow now (#{Seed.sow_now_months.map { |month| Date::MONTHNAMES[month] }.join(' & ')})",
+      sow_now:     seed_sow_now_label,
       gardeners:   (seed_friend_names if everyone),
       months:      Date::MONTHNAMES.compact.each_with_index.map { |name, index| [index + 1, name] },
       clear:       seed_filters_off.merge(crop: nil),
