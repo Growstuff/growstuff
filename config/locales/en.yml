@@ -1155,6 +1155,37 @@ en:
       super_late: super late
     card:
       planted_by_in_html: Planted by %{owner} in %{garden}
+    facts:
+      day_progress: "day %{age} of %{lifespan}"
+      done: Done
+      failed: Failed
+      finished: finished
+      grown: grown
+      grown_in: Grown in
+      lifespan_days:
+        one: 1 day
+        other: "%{count} days"
+      no_date_recorded: no date recorded
+      no_finish_predicted: no finish predicted
+      not_rated: not rated
+      not_specified: not specified
+      packets_of_seed:
+        one: 1 packet of seed
+        other: "%{count} packets of seed"
+      parent_seed: Parent seed
+      perennial: Perennial
+      perennial_description: keeps growing year to year
+      planned: Planned
+      planned_for: "for %{date}"
+      planted: Planted
+      planting_failed: this planting failed
+      progress: Progress
+      quantity: Quantity
+      rating: Rating
+      rating_of_5: "%{rating} of 5"
+      seeds_saved: Seeds saved
+      sown_from_expired: "Sown from expired seeds (plant before %{year})"
+      unknown: unknown
     form:
       failed_helper: 'Mark this planting as failed if it died or was removed without any harvest.
 
