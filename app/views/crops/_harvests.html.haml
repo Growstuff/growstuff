@@ -1,6 +1,6 @@
 -# Sidebar content: the section around it supplies the box and the heading.
 - if crop.harvests.empty?
-  %p.text-muted Nobody has harvested this crop yet.
+  %p.text-muted= t('.empty')
 - else
   %ul.list-group.list-group-flush
     - Rails.cache.fetch([crop, "recent_harvests", Time.zone.today]) do
@@ -8,13 +8,13 @@
         %li.list-group-item
           = link_to harvest_path(harvest), class: 'card-link' do
             = harvest_icon
-            #{harvest.owner} harvested #{display_quantity(harvest)}.
+            = t('.harvested', owner: harvest.owner, quantity: display_quantity(harvest))
           .float-end= render 'members/location', member: harvest.owner
           .harvest-timeago
             %small #{standard_time_distance(harvest.harvested_at, Time.zone.now.to_date)}
-  %p.mb-2= link_to "View all #{crop.name} harvests", crop_harvests_path(crop)
+  %p.mb-2= link_to t('.view_all', crop: crop.name), crop_harvests_path(crop)
 - if crop.approved?
   - if current_member
-    %p.mb-0= link_to "Harvest #{crop.name}", new_harvest_path(harvest: { crop_id: crop.id }), class: 'btn btn-secondary btn-sm', data: { record_dialog: 'harvest', crop_id: crop.id, crop_name: crop.name }
+    %p.mb-0= link_to t('.harvest_crop', crop: crop.name), new_harvest_path(harvest: { crop_id: crop.id }), class: 'btn btn-secondary btn-sm', data: { record_dialog: 'harvest', crop_id: crop.id, crop_name: crop.name }
   - else
-    = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} harvests" }
+    = render partial: 'shared/signin_signup', locals: { to: t('.track_harvests', crop: crop.name) }

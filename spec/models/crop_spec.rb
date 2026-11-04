@@ -766,4 +766,235 @@ describe Crop do
       end
     end
   end
+
+  describe 'facts from seed packets' do
+    subject(:crop) { create(:tomato) }
+
+    let(:variety) { create(:crop, name: 'cherry tomato', parent: crop) }
+
+    describe '#seed_sow_months' do
+      let(:wellington) { create_located_member('Wellington, Wellington Region, New Zealand', -41.29, 174.78) }
+      let(:london) { create_located_member('London, England', 51.5, -0.12) }
+
+      it { expect(crop.seed_sow_months).to eq [] }
+
+      context 'with southern packets' do
+        before do
+          create(:seed, crop:, owner: wellington, sow_months: [9, 10])
+          create(:seed, crop:, owner: wellington, sow_months: [10, 11])
+        end
+
+        it { expect(crop.seed_sow_months).to eq [9, 10, 11] }
+      end
+
+      context 'with a northern packet, moved six months' do
+        before { create(:seed, crop:, owner: london, sow_months: [3, 4, 5]) }
+
+        it { expect(crop.seed_sow_months).to eq [9, 10, 11] }
+      end
+
+      context 'with months only some of the packets give' do
+        before do
+          create(:seed, crop:, owner: wellington, sow_months: [9, 10])
+          create(:seed, crop:, owner: wellington, sow_months: [10])
+          create(:seed, crop:, owner: london, sow_months: [4])
+        end
+
+        it { expect(crop.seed_sow_months).to eq [10] }
+      end
+
+      context 'with a packet whose owner has not said where they live' do
+        before { create(:seed, crop:, owner: create(:member), sow_months: [1, 2]) }
+
+        it { expect(crop.seed_sow_months).to eq [] }
+      end
+    end
+
+    describe 'kept on the crop' do
+      let(:wellington) { create_located_member('Wellington, Wellington Region, New Zealand', -41.29, 174.78) }
+
+      it 'is updated when a packet is saved' do
+        create(:seed, crop:, owner: wellington, row_spacing: 40, sow_months: [9])
+        expect(crop.reload).to have_attributes(median_row_spacing: 40, median_sow_months: [9])
+      end
+
+      it 'is updated on the crop it is a variety of' do
+        create(:seed, crop: variety, owner: wellington, row_spacing: 40)
+        expect(crop.reload.median_row_spacing).to eq 40
+      end
+
+      it 'is updated when a packet changes' do
+        seed = create(:seed, crop:, owner: wellington, row_spacing: 40)
+        seed.update!(row_spacing: 20)
+        expect(crop.reload.median_row_spacing).to eq 20
+      end
+
+      it 'is updated when a packet\'s germination changes' do
+        seed = create(:seed, crop:, owner: wellington, germination_days_min: 4)
+        seed.update!(germination_days_min: 8)
+        expect(crop.reload.median_germination_days_min).to eq 8
+      end
+
+      it 'is updated when a packet goes' do
+        create(:seed, crop:, owner: wellington, row_spacing: 40).destroy
+        expect(crop.reload.median_row_spacing).to be_nil
+      end
+
+      it 'is updated on both crops when a packet moves' do
+        seed = create(:seed, crop:, owner: wellington, row_spacing: 40)
+        other = create(:crop, name: 'carrot')
+        seed.update!(crop: other)
+        expect([crop.reload.median_row_spacing, other.reload.median_row_spacing]).to eq [nil, 40]
+      end
+
+      it 'leaves no trace in the crop\'s history' do
+        expect { create(:seed, crop:, owner: wellington, row_spacing: 40) }.not_to(change { crop.versions.count })
+      end
+    end
+
+    describe 'germination and maturity medians' do
+      before do
+        create(:seed, crop:, germination_days_min: 4, germination_days_max: 10, days_until_maturity_min: 60)
+        create(:seed, crop:, germination_days_min: 6, germination_days_max: 14)
+        crop.update_seed_medians
+        crop.reload
+      end
+
+      it { expect(crop.median_germination_days_min).to eq 5 }
+      it { expect(crop.median_germination_days_max).to eq 12 }
+      it { expect(crop.median_days_until_maturity_min).to eq 60 }
+      it { expect(crop.median_days_until_maturity_max).to be_nil }
+    end
+
+    describe '#median_sow_months_northern' do
+      before { crop.update!(median_sow_months: [9, 10, 11]) }
+
+      it { expect(crop.median_sow_months_northern).to eq [3, 4, 5] }
+    end
+
+    describe '#seed_median' do
+      it { expect(crop.seed_median(:row_spacing)).to be_nil }
+
+      context 'with packets that give a row spacing' do
+        before do
+          create(:seed, crop:, row_spacing: 30)
+          create(:seed, crop:, row_spacing: 60)
+          create(:seed, crop:, row_spacing: 90)
+        end
+
+        it { expect(crop.seed_median(:row_spacing)).to eq 60 }
+      end
+
+      context 'with an even number of packets' do
+        before do
+          create(:seed, crop:, row_spacing: 30)
+          create(:seed, crop:, row_spacing: 50)
+        end
+
+        it { expect(crop.seed_median(:row_spacing)).to eq 40 }
+      end
+
+      context 'with a packet that leaves it blank, or says zero' do
+        before do
+          create(:seed, crop:, row_spacing: 30)
+          create(:seed, crop:, row_spacing: nil)
+          create(:seed, crop:).update_column(:row_spacing, 0) # rubocop:disable Rails/SkipsModelValidations
+        end
+
+        it { expect(crop.seed_median(:row_spacing)).to eq 30 }
+        it { expect(crop.seeds_with(:row_spacing).count).to eq 1 }
+      end
+
+      context 'with a packet of a variety' do
+        before { create(:seed, crop: variety, row_spacing: 45) }
+
+        it { expect(crop.seed_median(:row_spacing)).to eq 45 }
+      end
+
+      context 'with a packet of another crop' do
+        before { create(:seed, crop: create(:crop, name: 'carrot'), row_spacing: 10) }
+
+        it { expect(crop.seed_median(:row_spacing)).to be_nil }
+      end
+    end
+  end
+
+  describe 'growing facts set by a wrangler' do
+    subject(:crop) { build(:tomato) }
+
+    it { is_expected.to be_valid }
+
+    it 'is not valid with a negative number of days' do
+      crop.germination_days_min = -1
+      expect(crop).not_to be_valid
+    end
+
+    it 'is not valid with a month that is not one' do
+      crop.sow_months = [13]
+      expect(crop).not_to be_valid
+    end
+
+    it 'keeps the months sorted, once each, without blanks' do
+      crop.sow_months = ['', '10', '9', '10']
+      expect(crop.sow_months).to eq [9, 10]
+    end
+
+    it 'gives the same months for the northern hemisphere, six months on' do
+      crop.sow_months = [9, 10, 11]
+      expect(crop.sow_months_northern).to eq [3, 4, 5]
+    end
+  end
+
+  describe '.with_parents' do
+    let!(:parent) { create(:crop, name: 'tomato') }
+    let!(:variety) { create(:crop, name: 'cherry tomato', parent:) }
+
+    before { create(:crop, name: 'carrot') }
+
+    it { expect(described_class.where(id: variety.id).with_parents).to contain_exactly(parent, variety) }
+    it { expect(described_class.where(id: parent.id).with_parents).to contain_exactly(parent) }
+  end
+
+  describe '.update_all_seed_medians' do
+    let(:parent) { create(:crop, name: 'tomato') }
+    let(:variety) { create(:crop, name: 'cherry tomato', parent:) }
+
+    before do
+      create(:seed, crop: variety, row_spacing: 40)
+      parent.update_columns(median_row_spacing: nil) # rubocop:disable Rails/SkipsModelValidations
+      variety.update_columns(median_row_spacing: nil) # rubocop:disable Rails/SkipsModelValidations
+      described_class.update_all_seed_medians
+    end
+
+    it { expect(variety.reload.median_row_spacing).to eq 40 }
+    it { expect(parent.reload.median_row_spacing).to eq 40 }
+  end
+
+  describe 'its history, with months to sow' do
+    subject(:crop) { create(:tomato) }
+
+    before do
+      crop.update!(sow_months: [9, 10])
+      crop.update!(sow_months: [11], description: 'Changed')
+    end
+
+    it 'can be reverted to the version with the earlier months' do
+      crop.update!(sow_months: [1, 2], description: 'Changed again')
+      expect(crop.versions.last.reify.sow_months).to eq [11]
+    end
+  end
+
+  describe '#published_job_templates' do
+    let(:parent) { create(:crop, name: 'tomato') }
+    let(:variety) { create(:crop, name: 'cherry tomato', parent:) }
+    let!(:published) { create(:crop_job_template, crop: parent, status: 'published') }
+
+    before do
+      create(:crop_job_template, crop: parent, status: 'draft')
+      create(:crop_job_template, status: 'published')
+    end
+
+    it { expect(parent.published_job_templates).to contain_exactly(published) }
+    it { expect(variety.published_job_templates).to contain_exactly(published) }
+  end
 end

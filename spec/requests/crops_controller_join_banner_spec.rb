@@ -22,12 +22,28 @@ describe CropsController do
         expect(page).to have_css('.crop-join-banner a', text: 'Sign in')
       end
 
+      it 'prompts to record the crop' do
+        expect(page).to have_css('.crop-join-banner', text: 'Join to record your own tomatoes.')
+      end
+
       it 'comes after the description' do
         expect(response.body.index('A red berry.')).to be < response.body.index('crop-join-banner')
       end
 
       it 'comes before the growing facts' do
         expect(response.body.index('crop-join-banner')).to be < response.body.index('class="prediction"')
+      end
+    end
+
+    context 'when requesting with another locale' do
+      before { get crop_path(crop, locale: :es) }
+
+      it 'renders the localised banner heading' do
+        expect(page).to have_css('.crop-join-banner', text: 'Growstuff es un sitio gratuito administrado por la comunidad')
+      end
+
+      it 'renders the localised prompt' do
+        expect(page).to have_css('.crop-join-banner', text: 'Únase para registrar sus propios tomatoes.')
       end
     end
 

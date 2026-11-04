@@ -41,6 +41,7 @@ describe CropsHelper do
         expect(helper.display_seed_availability(@member, @crop)).to eq "You have 33 seeds of this crop."
       end
     end
+
     context "with only finished seeds" do
       before do
         create(:finished_seed, crop: @crop, quantity: 6, owner: @member)
@@ -84,6 +85,37 @@ describe CropsHelper do
       data = helper.crop_jsonld_data(crop, full_attributes: true)
       expect(data[:subjectOf].size).to eq(50)
       expect(data[:image].size).to eq(50)
+    end
+  end
+
+  describe '#size_fact' do
+    subject(:fact) { helper.size_fact(crop) }
+
+    let(:crop) { build(:crop, height:, spread:) }
+    let(:height) { 10 }
+    let(:spread) { 5 }
+
+    context 'with a height and a spread' do
+      it { expect(fact).to eq(title: 'Height × spread', value: '10cm × 5cm') }
+    end
+
+    context 'with only a height' do
+      let(:spread) { nil }
+
+      it { expect(fact).to eq(title: 'Height', value: '10cm') }
+    end
+
+    context 'with only a spread' do
+      let(:height) { nil }
+
+      it { expect(fact).to eq(title: 'Spread', value: '5cm') }
+    end
+
+    context 'with neither' do
+      let(:height) { nil }
+      let(:spread) { nil }
+
+      it { expect(fact).to be_nil }
     end
   end
 end

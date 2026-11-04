@@ -215,7 +215,46 @@ en:
         draft: Draft
         published: Published
     saved: Job template saved.
+  crop_jobs:
+    add: Add %{crop} growing jobs to my jobs
+    add_to_planting: Add to %{crop} in %{garden}, planted %{date}
+    added:
+      one: Added 1 %{crop} job to your jobs.
+      other: Added %{count} %{crop} jobs to your jobs.
+    already_added: Your jobs already have the %{crop} growing jobs.
+    new:
+      add_anyway: Add them anyway
+      cancel: Cancel
+      intro: The jobs are counted from the day you plant. One that would already be past is due today.
+      out_of_season: "%{template} is for %{season}, and %{date} is outside that where you are."
+      planting_on: When do you want to plant %{crop}?
+      submit: Add these jobs
+      title: Add %{crop} growing jobs
+    new_planting: A new %{crop} planting I'm going to do
+    see_jobs: See your jobs.
   crops:
+    harvests:
+      empty: Nobody has harvested this crop yet.
+      harvest_crop: Harvest %{crop}
+      harvested: "%{owner} harvested %{quantity}."
+      track_harvests: track your %{crop} harvests
+      view_all: View all %{crop} harvests
+    nutritional_data:
+      carbohydrate: Carbohydrate
+      energy: Energy
+      fat_total: Fat, total
+      fibre: Fibre
+      protein: Protein
+      see_more: See more
+      sodium: Sodium
+      sugars: "- Sugars"
+      summary: "A summary of nutritional data per 100g for %{food_name}."
+      title: Nutritional data
+    approval_status_message:
+      pending_title: "This crop is currently pending approval."
+      rejected_message: "This crop was rejected for the following reason: %{reason}"
+      request_notes: "Request notes: %{notes}"
+      requested_by: "This crop was requested by %{requester} %{time_ago} ago."
     alternate_name_modal:
       add_title: Add another name for %{crop}
       cancel: Cancel
@@ -237,6 +276,10 @@ en:
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops
+    join_banner:
+      heading: Growstuff is a free, community-run site for people who grow food.
+      prompt: Join to record your own %{crops}.
+      text: Keep track of what you plant and harvest, find seeds to swap, and see what is growing near you.
     requested:
       link: You have %{number_crops} crops awaiting approval
       subtitle: Pending approval
@@ -291,6 +334,12 @@ en:
       unknown: unknown
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
+    inactive_card:
+      grown_here: Grown here
+      image_alt: "Image of %{name}"
+      more_crops:
+        one: "and %{count} more"
+        other: "and %{count} more"
     header:
       all_gardens: All of %{owner}'s gardens
       garden_of: garden of
@@ -362,6 +411,11 @@ en:
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
     updated: Garden was successfully updated.
   harvests:
+    card:
+      by: by
+      harvested: harvested
+      picked_at: "picked %{date}"
+      title: "%{crop} harvest"
     created: Harvest was successfully created.
     edit_modal:
       harvested_at: When did you harvest it?
@@ -373,6 +427,13 @@ en:
       weight_quantity: Weighing (in total)
       weight_unit: Weighed in
     harvest_something: Harvest something
+    modal:
+      all_plant_parts: All Plant parts
+      close: Close
+      recommended_plant_parts: "Recommended plant parts to harvest:"
+      record_harvest: Record harvest
+      select_plant_part: Select which plant part you have harvested
+      title: Record %{crop} harvest
     index:
       title:
         crop_harvests: Everyone's %{crop} harvests
@@ -881,7 +942,18 @@ en:
     card:
       not_interested: Stop suggesting %{name}
       visit: Visit %{name}'s gardens
+    contact:
+      flickr_logo: Flickr logo
+      heading: Contact
+      more: More...
+      website: Website
     edit_profile: Edit profile
+    email_prompt:
+      add_email: Add your email
+      unset_body: Add one to get planting reminders and to be able to reset your password. We'll send you a link to confirm it first, because we can't take your word for it.
+      unset_title: You haven't set an email address.
+      waiting_body: We sent a link to %{email}. Follow it and we'll start sending you reminders.
+      waiting_title: We're waiting for you to confirm your email address.
     follow_button:
       follow: Follow
       follow_named: Follow %{name}
@@ -1088,6 +1160,39 @@ en:
       late_finishing: late finishing
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super late
+    card:
+      planted_by_in_html: Planted by %{owner} in %{garden}
+    facts:
+      day_progress: "day %{age} of %{lifespan}"
+      done: Done
+      failed: Failed
+      finished: finished
+      grown: grown
+      grown_in: Grown in
+      lifespan_days:
+        one: 1 day
+        other: "%{count} days"
+      no_date_recorded: no date recorded
+      no_finish_predicted: no finish predicted
+      not_rated: not rated
+      not_specified: not specified
+      packets_of_seed:
+        one: 1 packet of seed
+        other: "%{count} packets of seed"
+      parent_seed: Parent seed
+      perennial: Perennial
+      perennial_description: keeps growing year to year
+      planned: Planned
+      planned_for: "for %{date}"
+      planted: Planted
+      planting_failed: this planting failed
+      progress: Progress
+      quantity: Quantity
+      rating: Rating
+      rating_of_5: "%{rating} of 5"
+      seeds_saved: Seeds saved
+      sown_from_expired: "Sown from expired seeds (plant before %{year})"
+      unknown: unknown
     form:
       failed_helper: 'Mark this planting as failed if it died or was removed without any harvest.
 
@@ -1181,6 +1286,18 @@ en:
     winter: Winter
   seeds:
     added_to_stash: Successfully added %{crop} seed to your stash.
+    facts:
+      cancel: Cancel
+      edit_all: Edit all
+      finished: Finished
+      from_location_html: "(from %{location})"
+      from_unspecified_location: "(from unspecified location)"
+      heading: The packet
+      save: Save
+      set_location: Set Location
+      unknown: Unknown
+      will_trade: Will trade
+      year_saved: Year saved
     form:
       finish_helper: 'Seeds are finished when you''ve planted them all, or you''ve traded them all away.
 

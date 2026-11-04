@@ -34,7 +34,12 @@ module Growstuff
     config.time_zone = 'UTC'
     config.active_record.default_timezone = :local
 
-    config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone]
+    # PaperTrail keeps a crop's history as YAML, and an array column such as a crop's sow_months is
+    # saved as this, named as a string as the adapter isn't loaded yet.
+    config.active_record.yaml_column_permitted_classes = [
+      Symbol, Date, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone,
+      'ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Array::Data', 'PG::TextEncoder::Array'
+    ]
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     I18n.load_path += Dir[Rails.root.join("config/locales/*.{rb,yml}")]

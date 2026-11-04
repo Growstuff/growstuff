@@ -20,6 +20,7 @@ describe SeedsController, '#update' do
   it('saves the variety') { expect(seed.variety).to eq 'Island Bay Italian' }
   it('saves the batch number') { expect(seed.batch_number).to eq 'LYIG0403' }
   it('saves the row spacing') { expect(seed.row_spacing).to eq 50 }
+  it('redirects to the facts section') { expect(response).to redirect_to(seed_path(seed, anchor: 'facts')) }
 
   describe 'the sowing facts' do
     before do
@@ -31,6 +32,17 @@ describe SeedsController, '#update' do
     it('saves the months to sow in, once each, in calendar order') { expect(seed.sow_months).to eq [2, 10, 11] }
     it('saves how to sow') { expect(seed.how_to_sow).to eq 'Direct sow, 2cm deep.' }
     it('saves the germination range') { expect([seed.germination_days_min, seed.germination_days_max]).to eq [7, 14] }
+    it('redirects to the facts section') { expect(response).to redirect_to(seed_path(seed, anchor: 'facts')) }
+  end
+
+  describe 'updating description/notes' do
+    before do
+      patch seed_path(seed), params: { seed: { description: 'Harvested from vigorous plants.' } }
+      seed.reload
+    end
+
+    it('saves the description') { expect(seed.description).to eq 'Harvested from vigorous plants.' }
+    it('redirects to the notes section') { expect(response).to redirect_to(seed_path(seed, anchor: 'notes')) }
   end
 
   describe 'clearing the months to sow in' do

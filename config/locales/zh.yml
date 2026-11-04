@@ -208,6 +208,28 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    harvests:
+      empty: 还没有人收获过这种作物。
+      harvest_crop: "收获 %{crop}"
+      harvested: "%{owner} 收获了 %{quantity}。"
+      track_harvests: "记录您的 %{crop} 收获"
+      view_all: "查看所有 %{crop} 收获"
+    nutritional_data:
+      carbohydrate: 碳水化合物
+      energy: 能量
+      fat_total: 总脂肪
+      fibre: 膳食纤维
+      protein: 蛋白质
+      see_more: 查看更多
+      sodium: 钠
+      sugars: "- 糖"
+      summary: "%{food_name} 每 100 克的营养数据摘要。"
+      title: 营养数据
+    approval_status_message:
+      pending_title: "该作物目前正在等待审核。"
+      rejected_message: "该作物因以下原因被拒绝：%{reason}"
+      request_notes: "请求备注：%{notes}"
+      requested_by: "该作物由 %{requester} 在 %{time_ago}前请求添加。"
     alternate_name_modal:
       add_title: 为%{crop}添加别名
       cancel: 取消
@@ -229,6 +251,10 @@ zh:
     index:
       subtitle: '%{crops_size} 总计'
       title: 浏览农作物
+    join_banner:
+      heading: Growstuff 是一个免费的、由社区运营的网站，面向种植食物的人们。
+      prompt: 注册即可记录您自己的 %{crops}。
+      text: 记录您种植和收获的内容，寻找种子进行交换，并了解您附近种植的植物。
     requested:
       link: 您有 %{number_crops} 作物等待批准
       subtitle: 待批准
@@ -283,6 +309,10 @@ zh:
       unknown: 未知
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
+    inactive_card:
+      grown_here: 在此种植
+      image_alt: "%{name}的照片"
+      more_crops: "以及其他 %{count} 种"
     header:
       all_gardens: '%{owner} 的所有花园'
       garden_of: 的花园
@@ -354,6 +384,11 @@ zh:
       text: 在一处种植、收割和保存种子，看看您附近有什么生长得很好。
     updated: 花园已成功更新。
   harvests:
+    card:
+      by: "由"
+      harvested: "已收获"
+      picked_at: "采摘于 %{date}"
+      title: "%{crop}收获"
     created: 收获成功创建。
     edit_modal:
       harvested_at: 你什么时候收获的？
@@ -365,6 +400,13 @@ zh:
       weight_quantity: 重量（总计）
       weight_unit: 称重单位
     harvest_something: 收获一些东西
+    modal:
+      all_plant_parts: 所有植物部位
+      close: 关闭
+      recommended_plant_parts: "建议收获的植物部位："
+      record_harvest: 记录收获
+      select_plant_part: 选择您收获的植物部位
+      title: 记录%{crop}收获
     index:
       title:
         crop_harvests: 大家的收获%{crop}
@@ -842,7 +884,18 @@ zh:
     card:
       not_interested: 停止建议 %{name}
       visit: 参观 %{name} 的花园
+    contact:
+      flickr_logo: Flickr徽标
+      heading: 联系方式
+      more: 更多...
+      website: 网站
     edit_profile: 编辑个人资料
+    email_prompt:
+      add_email: 添加您的电子邮箱
+      unset_body: 添加一个邮箱以接收种植提醒并能够重置密码。我们会先向您发送一个确认链接，以核实邮箱有效性。
+      unset_title: 您尚未设置电子邮箱地址。
+      waiting_body: 我们已向 %{email} 发送了链接。通过该链接确认后，我们将开始向您发送提醒。
+      waiting_title: 我们正在等待您确认电子邮箱地址。
     follow_button:
       follow: 跟随
       follow_named: 关注 %{name}
@@ -1040,6 +1093,39 @@ zh:
       late_finishing: 后期整理
       sharedbuttonsfinish_planting: 共享/按钮/finish_planting
       super_late: 超级晚了
+    card:
+      planted_by_in_html: 由 %{owner} 种植在 %{garden} 中
+    facts:
+      day_progress: "第 %{age} 天，共 %{lifespan} 天"
+      done: 已完成
+      failed: 失败
+      finished: 已结束
+      grown: 已生长
+      grown_in: 生长于
+      lifespan_days:
+        one: 1 天
+        other: "%{count} 天"
+      no_date_recorded: 未记录日期
+      no_finish_predicted: 未预测结束时间
+      not_rated: 未评分
+      not_specified: 未指定
+      packets_of_seed:
+        one: 1 包种子
+        other: "%{count} 包种子"
+      parent_seed: 母株种子
+      perennial: 多年生
+      perennial_description: 年复一年持续生长
+      planned: 已计划
+      planned_for: "计划于 %{date}"
+      planted: 已种植
+      planting_failed: 该种植已失败
+      progress: 进度
+      quantity: 数量
+      rating: 评分
+      rating_of_5: "%{rating} / 5 分"
+      seeds_saved: 已留种
+      sown_from_expired: "使用过期种子播种（请在 %{year} 年前种植）"
+      unknown: 未知
     form:
       failed_helper: 如果该种植死亡或在没有任何收获的情况下被移除，则将其标记为失败。
       finish_helper: 当你收获了所有的作物，或者它死了，或者它不再在你的花园里生长时，种植就完成了。
@@ -1123,8 +1209,25 @@ zh:
     spring: 春天
     summer: 夏天
     winter: 冬天
+  stalls:
+    about_growstuff:
+      join: 免费加入
+      sign_in: 登录
+      text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
   seeds:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
+    facts:
+      cancel: 取消
+      edit_all: 全部编辑
+      finished: 已用完
+      from_location_html: "（来自 %{location}）"
+      from_unspecified_location: "（来自未指定地点）"
+      heading: 种子包
+      save: 保存
+      set_location: 设置地点
+      unknown: 未知
+      will_trade: 可交换
+      year_saved: 保存年份
     form:
       finish_helper: 当你把它们全部种下或者全部卖掉时，种子就完成了。
       trade_help: 您有兴趣与其他 %{site_name} 会员交易或交换种子吗？  如果您将种子列为可交易，其他成员可以联系您索取种子。  您可以在上面的描述中列出任何条件或其他信息。

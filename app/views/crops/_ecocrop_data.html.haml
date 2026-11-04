@@ -14,7 +14,7 @@
           - if data.famname.present?
             %tr
               %th Family / Taxonomy
-              %td= data.famname
+              %td= safe_join(data.famname.split(':'), tag.br)
           - if data.topmn.present? || data.topmx.present?
             %tr
               %th Optimal temperature

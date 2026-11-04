@@ -228,3 +228,51 @@
     text-transform: uppercase;
   }
 }
+
+// Annual or perennial is the point of the lifespan card, so it is the biggest thing in it.
+.lifespan-word {
+  display: block;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+}
+
+// An annual's median lifespan, under the word annual.
+.crop-median-lifespan {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 0.75rem;
+}
+
+// The months to sow, one line for each hemisphere.
+.crop-sow-hemisphere {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+
+  small {
+    color: $ink-muted;
+  }
+}
+
+// The median of members' seed packets, under the figure a wrangler set, or on its own:
+// quieter than the figure, and marked with the seeds icon so it reads as data from the packets.
+.crop-fact-median {
+  align-items: center;
+  color: $ink-muted;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: center;
+  margin-top: 0.4rem;
+
+  .menu-icon {
+    flex: none;
+    height: 16px;
+    width: 16px;
+  }
+}

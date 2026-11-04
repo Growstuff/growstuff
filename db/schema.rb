@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_02_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_03_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -576,17 +576,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_000000) do
     t.string "approval_status", default: "approved"
     t.datetime "created_at", precision: nil
     t.integer "creator_id"
+    t.integer "days_until_maturity_max", comment: "Days from sowing to harvest, at most."
+    t.integer "days_until_maturity_min", comment: "Days from sowing to harvest, at least."
     t.float "default_diameter"
     t.text "description"
     t.string "en_wikipedia_url"
     t.string "en_youtube_url"
+    t.integer "germination_days_max", comment: "Days to germinate, at most."
+    t.integer "germination_days_min", comment: "Days to germinate, at least."
     t.integer "growing_degree_days"
     t.integer "harvests_count", default: 0
     t.integer "height"
     t.string "icon"
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
+    t.float "median_days_until_maturity_max", comment: "Days from sowing to harvest, the median of the packets maximums."
+    t.float "median_days_until_maturity_min", comment: "Days from sowing to harvest, the median of the packets minimums."
+    t.float "median_germination_days_max", comment: "Days to germinate, the median of the packets maximums."
+    t.float "median_germination_days_min", comment: "Days to germinate, the median of the packets minimums."
     t.integer "median_lifespan"
+    t.float "median_row_spacing", comment: "Centimetres between rows, the median of the seed packets."
+    t.integer "median_sow_months", default: [], null: false, comment: "Months, 1 to 12, to sow in the southern hemisphere, from the seed packets.", array: true
     t.string "name", null: false
     t.virtual "normalised_name", type: :text, as: "translate(lower((name)::text), 'àáâãäåāçćčèéêëēėęìíîïīįłñńòóôõöøōùúûüūýÿžźż'::text, 'aaaaaaaccceeeeeeeiiiiiilnnooooooouuuuuyyzzz'::text)", stored: true
     t.jsonb "openfarm_data"
@@ -601,6 +611,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_000000) do
     t.integer "requester_id"
     t.integer "row_spacing"
     t.string "slug"
+    t.integer "sow_months", default: [], null: false, comment: "Months, 1 to 12, to sow in the southern hemisphere. The northern hemisphere is six months on.", array: true
     t.string "sowing_method"
     t.integer "spread"
     t.string "sun_requirements"

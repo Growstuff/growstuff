@@ -3,8 +3,17 @@ import {createPortal} from 'react-dom';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])';
 
-function closeOpenOffcanvases() {
-  document.querySelectorAll('.offcanvas.show').forEach((el) => {
+export function closeOpenOffcanvases(trigger) {
+  const container = trigger?.closest?.('.offcanvas, [class*="offcanvas-"]');
+  if (container) {
+    const toggle = document.querySelector(`[data-bs-target="#${container.id}"], [href="#${container.id}"]`);
+    if (toggle && toggle.focus) toggle.focus();
+  }
+
+  const openOffcanvases = Array.from(document.querySelectorAll('.offcanvas.show, [class*="offcanvas-"].show'));
+  const targets = new Set(container ? [container, ...openOffcanvases] : openOffcanvases);
+
+  targets.forEach((el) => {
     if (window.bootstrap?.Offcanvas) {
       const instance = window.bootstrap.Offcanvas.getInstance(el) || window.bootstrap.Offcanvas.getOrCreateInstance(el);
       instance.hide();
@@ -33,7 +42,7 @@ export default function Modal({title, titleId, onClose, size = 'lg', children}) 
     return () => {
       document.body.classList.remove('modal-open');
       if (previouslyFocused && previouslyFocused.focus) {
-        const offcanvas = previouslyFocused.closest?.('.offcanvas');
+        const offcanvas = previouslyFocused.closest?.('.offcanvas, [class*="offcanvas-"]');
         if (offcanvas && !offcanvas.classList.contains('show')) {
           const trigger = document.querySelector(`[data-bs-target="#${offcanvas.id}"], [href="#${offcanvas.id}"]`);
           if (trigger && trigger.focus) {
