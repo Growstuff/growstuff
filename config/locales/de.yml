@@ -386,6 +386,11 @@ de:
       text: Pflanzen, ernten und bewahren Sie Samen an einem Ort auf und sehen Sie, was in Ihrer Nähe gut wächst.
     updated: Der Garten wurde erfolgreich aktualisiert.
   harvests:
+    card:
+      by: von
+      harvested: geerntet
+      picked_at: "geerntet am %{date}"
+      title: "%{crop}-Ernte"
     created: Harvest wurde erfolgreich erstellt.
     edit_modal:
       harvested_at: Wann hast du geerntet?

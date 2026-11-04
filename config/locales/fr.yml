@@ -386,6 +386,11 @@ fr:
       text: Plantez, récoltez et conservez les graines en un seul endroit, et voyez ce qui pousse bien près de chez vous.
     updated: Le jardin a été mis à jour avec succès.
   harvests:
+    card:
+      by: par
+      harvested: récolté
+      picked_at: "cueilli le %{date}"
+      title: "Récolte de %{crop}"
     created: La récolte a été créée avec succès.
     edit_modal:
       harvested_at: Quand l'avez-vous récolté ?

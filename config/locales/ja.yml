@@ -51,6 +51,11 @@ ja:
       image_alt: "%{name}の画像"
       more_crops: "他 %{count} 件"
   harvests:
+    card:
+      by: "投稿者:"
+      harvested: "収穫済み"
+      picked_at: "%{date}に収穫"
+      title: "%{crop}の収穫"
     edit_modal:
       harvested_at: いつ収穫しましたか？
       notes: メモ

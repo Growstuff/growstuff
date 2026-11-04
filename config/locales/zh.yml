@@ -384,6 +384,11 @@ zh:
       text: 在一处种植、收割和保存种子，看看您附近有什么生长得很好。
     updated: 花园已成功更新。
   harvests:
+    card:
+      by: "由"
+      harvested: "已收获"
+      picked_at: "采摘于 %{date}"
+      title: "%{crop}收获"
     created: 收获成功创建。
     edit_modal:
       harvested_at: 你什么时候收获的？

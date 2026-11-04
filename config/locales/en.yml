@@ -411,6 +411,11 @@ en:
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
     updated: Garden was successfully updated.
   harvests:
+    card:
+      by: by
+      harvested: harvested
+      picked_at: "picked %{date}"
+      title: "%{crop} harvest"
     created: Harvest was successfully created.
     edit_modal:
       harvested_at: When did you harvest it?
