@@ -386,6 +386,11 @@ es:
       text: Plante, coseche y guarde semillas en un solo lugar y vea qué crece bien cerca de usted.
     updated: El jardín se actualizó con éxito.
   harvests:
+    card:
+      by: por
+      harvested: cosechado
+      picked_at: "recolectado el %{date}"
+      title: "Cosecha de %{crop}"
     created: La cosecha se creó con éxito.
     edit_modal:
       harvested_at: '¿Cuándo lo cosechaste?'
