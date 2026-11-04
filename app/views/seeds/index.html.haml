@@ -14,7 +14,6 @@
 = render 'seeds/page_head'
 
 %section
-  = render 'seeds/scope'
   = react_component 'SeedLibrary', seed_library_props(everyone: @everyone, crop_search: @crop.blank?, search_crop: @search_crop)
 
   %section.open-data
