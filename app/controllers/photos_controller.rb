@@ -10,7 +10,7 @@ class PhotosController < ApplicationController
 
   def index
     @photos = if @crop
-                @crop.photos
+                @crop.photos_with_varieties
               elsif @planting
                 @planting.photos
               else
@@ -18,7 +18,7 @@ class PhotosController < ApplicationController
               end
 
     @photos = @photos.includes(:owner)
-      .order(created_at: :desc)
+      .order(@crop ? { likes_count: :desc, created_at: :desc } : { created_at: :desc })
       .paginate(page: params[:page], per_page: Photo.per_page)
 
     raise ActiveRecord::RecordNotFound if @photos.out_of_bounds?

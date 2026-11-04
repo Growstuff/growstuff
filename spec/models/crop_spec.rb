@@ -708,6 +708,65 @@ describe Crop do
     end
   end
 
+  describe 'including its varieties' do
+    subject(:crop) { create(:tomato) }
+
+    let(:variety) { create(:crop, name: 'heirloom tomato', parent: crop) }
+    let(:sub_variety) { create(:crop, name: 'striped tomato', parent: variety) }
+    let(:other_crop) { create(:crop, name: 'carrot') }
+
+    describe '#self_and_descendant_ids' do
+      before { sub_variety }
+
+      it { expect(crop.self_and_descendant_ids).to contain_exactly(crop.id, variety.id, sub_variety.id) }
+      it { expect(sub_variety.self_and_descendant_ids).to eq [sub_variety.id] }
+    end
+
+    describe '#plantings_with_varieties' do
+      let!(:own) { create(:planting, crop:) }
+      let!(:of_variety) { create(:planting, crop: sub_variety) }
+      let!(:of_other) { create(:planting, crop: other_crop) }
+
+      it { expect(crop.plantings_with_varieties).to contain_exactly(own, of_variety) }
+      it { expect(sub_variety.plantings_with_varieties).to contain_exactly(of_variety) }
+    end
+
+    describe '#photos_with_varieties' do
+      let(:own_planting) { create(:planting, crop:) }
+      let(:variety_harvest) { create(:harvest, crop: sub_variety) }
+      let(:other_planting) { create(:planting, crop: other_crop) }
+      let(:own_photo) { create(:photo, owner: own_planting.owner) }
+      let(:variety_photo) { create(:photo, owner: variety_harvest.owner) }
+      let(:other_photo) { create(:photo, owner: other_planting.owner) }
+
+      before do
+        own_planting.photos << own_photo
+        variety_harvest.photos << variety_photo
+        other_planting.photos << other_photo
+      end
+
+      it { expect(crop.photos_with_varieties).to contain_exactly(own_photo, variety_photo) }
+      it { expect(sub_variety.photos_with_varieties).to contain_exactly(variety_photo) }
+
+      context 'with a photo on both the crop and its variety' do
+        let(:variety_planting) { create(:planting, crop: variety, owner: own_planting.owner) }
+
+        before { variety_planting.photos << own_photo }
+
+        it { expect(crop.photos_with_varieties.where(id: own_photo.id).count).to eq 1 }
+      end
+
+      context 'with a photo of a seed packet of a variety' do
+        let(:seed) { create(:seed, crop: variety) }
+        let(:packet_photo) { create(:photo, owner: seed.owner) }
+
+        before { seed.photo_associations.create!(photo: packet_photo, label: 'back') }
+
+        it { expect(crop.photos_with_varieties).not_to include(packet_photo) }
+      end
+    end
+  end
+
   describe 'facts from seed packets' do
     subject(:crop) { create(:tomato) }
 
