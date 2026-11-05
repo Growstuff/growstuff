@@ -1205,6 +1205,12 @@ es:
       weather_temperature_chart: Altas y bajas diarias
       weather_temperature_chart_alt: Temperatura máxima y mínima diaria, de %{low} a %{high}.
     string: '%{crop} plantando en %{garden} por %{owner}'
+    transplant:
+      cancel: Cancelar
+      close: Cerrar
+      move_to: "Mover esta plantación a:"
+      submit: Trasplantar
+      title: "Trasplantar %{crop}"
   posts:
     created: La publicación se creó correctamente.
     deleted: La publicación fue eliminada.

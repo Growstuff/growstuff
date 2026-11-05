@@ -1203,6 +1203,12 @@ zh:
       weather_temperature_chart: 每日高点和低点
       weather_temperature_chart_alt: 每日高低温，从%{low}到%{high}。
     string: '%{crop} 在 %{garden} 中种植 %{owner}'
+    transplant:
+      cancel: 取消
+      close: 关闭
+      move_to: "将此植株移至："
+      submit: 移植
+      title: "移植 %{crop}"
   posts:
     created: 帖子创建成功。
     deleted: 帖子已被删除。

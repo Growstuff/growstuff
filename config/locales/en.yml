@@ -1278,6 +1278,12 @@ en:
       weather_temperature_chart: Daily high and low
       weather_temperature_chart_alt: 'Daily high and low temperature, from %{low} to %{high}.'
     string: "%{crop} planting in %{garden} by %{owner}"
+    transplant:
+      cancel: Cancel
+      close: Close
+      move_to: "Move this planting to:"
+      submit: Transplant
+      title: "Transplant %{crop}"
   posts:
     created: Post was successfully created.
     deleted: Post was deleted.
