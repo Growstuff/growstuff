@@ -334,6 +334,13 @@ en:
       unknown: unknown
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
+    card:
+      layout: Layout
+      no_annuals: No annual plantings
+      no_perennials: No perennial plantings
+      of: of
+      owner: 'owner:'
+      perennials: 'Perennials:'
     inactive_card:
       grown_here: Grown here
       image_alt: "Image of %{name}"
