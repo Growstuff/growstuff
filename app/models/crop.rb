@@ -131,6 +131,15 @@ class Crop < ApplicationRecord
     nil
   end
 
+  # The EcoCrop record with the figures for a heat estimate: this crop's if it has them, else its parent's,
+  # so a variety of tomato follows tomato.
+  def ecocrop_heat_data
+    return @ecocrop_heat_data if defined?(@ecocrop_heat_data)
+
+    data = ecocrop_data
+    @ecocrop_heat_data = data&.heat_data? ? data : parent&.ecocrop_heat_data
+  end
+
   # returns hash indicating whether this crop is grown in
   # sun/semi-shade/shade
   # key: sunniness (eg. 'sun')

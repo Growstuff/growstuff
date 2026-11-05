@@ -33,3 +33,4 @@ config/database.yml
 cc-test-reporter
 
 .envrc
+db/seeds/crop_job_templates/*.json
