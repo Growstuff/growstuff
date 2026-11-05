@@ -17,13 +17,19 @@ describe "changing a seed's crop" do
   it { expect(page).to have_link(planting.to_s) }
 
   context 'when the answer is yes' do
-    before { click_button 'Yes, change them' }
+    before do
+      click_button 'Yes, change them'
+      find('.flash-messages', text: 'Changed to the new crop.')
+    end
 
     it { expect(planting.reload.crop).to eq new_crop }
   end
 
   context 'when the answer is no' do
-    before { click_link 'No, leave them' }
+    before do
+      click_link 'No, leave them'
+      find('.seed-show')
+    end
 
     it { expect(planting.reload.crop).to eq old_crop }
   end
