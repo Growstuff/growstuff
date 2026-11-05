@@ -5,10 +5,10 @@ require 'rails_helper'
 describe 'seeds/_card' do
   subject { rendered }
 
-  let(:owner) { build_stubbed(:member, login_name: 'seedsaver', location: 'Portland') }
-  let(:crop) { build_stubbed(:crop, name: 'Tomato') }
+  let(:owner) { create(:member, login_name: 'seedsaver', location: 'Portland') }
+  let(:crop) { create(:crop, name: 'Tomato') }
   let(:seed) do
-    build_stubbed(
+    create(
       :seed,
       owner:,
       crop:,
