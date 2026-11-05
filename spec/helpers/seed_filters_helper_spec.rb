@@ -91,7 +91,16 @@ describe SeedFiltersHelper do
     end
 
     it 'names next month too near the end of this one' do
-      travel_to(Date.new(2026, 11, 28)) { expect(helper.seed_sow_now_label).to eq 'Sow now (November & December)' }
+      travel_to(Date.new(2026, 11, 28)) { expect(helper.seed_sow_now_label).to eq 'Sow now (November and December)' }
     end
+  end
+
+  describe 'in another language' do
+    around { |example| I18n.with_locale(:de) { example.run } }
+
+    it { expect(helper.seed_source_chips.first.first).to eq 'Alle' }
+    it { expect(helper.seed_month_names.first).to eq 'Januar' }
+    it { expect(helper.seed_sow_now_label).to start_with('Jetzt säen') }
+    it { expect(helper.seed_filter_groups(everyone: false).pluck(:label)).to include('Herkunft') }
   end
 end

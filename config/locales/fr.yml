@@ -1231,6 +1231,11 @@ fr:
       unknown: Inconnu
       will_trade: À échanger
       year_saved: Année de récolte
+    empty:
+      no_match: Aucune graine ne correspond à ces filtres.
+      show_all: Afficher toutes les graines
+      no_finished: Aucune graine terminée pour le moment.
+      none_yet: Aucune graine enregistrée pour le moment
     form:
       finish_helper: Les graines sont terminées lorsque vous les avez toutes plantées ou que vous les avez toutes échangées.
       trade_help: Êtes-vous intéressé par le commerce ou l'échange de semences avec d'autres membres de %{site_name} ?  Si vous indiquez que vos graines sont disponibles pour le commerce, d'autres membres peuvent vous contacter pour demander des graines.  Vous pouvez énumérer toutes les conditions ou autres informations dans la description ci-dessus.
@@ -1239,6 +1244,76 @@ fr:
         crop_seeds: Les graines %{crop} DE chacun
         default: Les semences de tout le monde
         owner_seeds: '%{owner} Seeds'
+    library:
+      filters:
+        source: Origine
+        distance: Distance
+        sharing: Partage
+        heirloom: Ancienne ou hybride
+        planted: Plantées
+      groups:
+        crop: Culture
+        source: Provenance
+        year: Année de récolte
+        use_by: À utiliser avant
+        heirloom: Ancienne ou hybride
+        gardener: Jardinier
+      no_use_by: Pas de date limite d'utilisation
+      sources:
+        all: Toutes
+        own: Récolte personnelle
+        catalogue: Catalogue de graines
+        retail: Magasin
+        bank: Banque de graines
+        traded: Échangées avec une personne
+      sharing:
+        either: Les deux
+        shared: Proposées à l'échange
+      heirloom:
+        either: Les deux
+        heirloom: Anciennes uniquement
+        hybrid: Hybrides uniquement
+      planted:
+        any: Toutes
+        planted: Plantées
+        not_planted: Pas encore plantées
+      distance:
+        anywhere: Partout
+        within: À moins de %{km} km
+      sow_now:
+        this_month: À semer maintenant (%{month})
+        into_next: À semer maintenant (%{month} et %{next})
+      months:
+      - janvier
+      - février
+      - mars
+      - avril
+      - mai
+      - juin
+      - juillet
+      - août
+      - septembre
+      - octobre
+      - novembre
+      - décembre
+      labels:
+        crop: Culture
+        month_to_sow: Mois de semis
+        any_month: N'importe quel mois
+        gardener: Jardinier
+        gardener_placeholder: Nom d'un jardinier
+        clear_filters: Retirer tous les filtres
+        clear_crop: Retirer la culture
+        search_crop: Rechercher des graines par culture
+        search_shared: Rechercher toutes les graines partagées par culture
+        group_by: Regrouper par
+        view: Affichage
+        cards: Cartes
+        list: Liste
+    other_tab:
+      more_in_stock: "%{count} de plus en stock."
+      more_finished: "%{count} de plus terminées."
+      show_them: Les afficher
     packet:
       choice_back: Retour
       choice_front: Avant
@@ -1248,10 +1323,30 @@ fr:
       label_front: Recto du paquet
       photo_back: Ajoutez une photo du dos du paquet
       photo_front: Ajoutez une photo du recto du paquet
+    past_sow_by:
+      showing: Affichage des sachets dépassant leur date limite de semis.
+      show_all: Tout afficher
+      hint: Les vieilles graines lèvent souvent encore. Semez-en quelques-unes épais pour le savoir.
+      count:
+        one: "%{count} sachet a dépassé sa date limite de semis."
+        other: "%{count} sachets ont dépassé leur date limite de semis."
+      show_those:
+        one: Afficher celui-là
+        other: Afficher ces %{count}
     save_seeds: Gérer les semences
+    scope:
+      aria_label: Les graines de qui
+      mine: Les miennes
+      following: Personnes que je suis
+      near: Près de chez moi
+      everyone: Tout le monde
+      add_seeds: "+ ajouter des graines"
     show:
       heading: '%{crop} Seeds'
     string: Graines %{crop} appartenant à %{owner}
+    tabs:
+      in_stock: En stock
+      finished: Terminées
     updated: Seed a été mis à jour avec succès.
   suggestions:
     index:

@@ -9,7 +9,14 @@ vi.mock('./CropPicker', () => ({
   default: ({label, onChoose}) => <button type="button" onClick={() => onChoose({slug: 'kale'})}>{label}</button>,
 }));
 
+const labels = {
+  crop: 'Crop', month_to_sow: 'Month to sow', any_month: 'Any month', gardener: 'Gardener',
+  gardener_placeholder: "A gardener's name", clear_filters: 'Clear all filters', clear_crop: 'Clear crop',
+  search_crop: 'Search seeds by crop', group_by: 'Group by', view: 'View', cards: 'Cards', list: 'List',
+};
+
 const props = {
+  labels,
   scope: '<nav class="seed-scope"><a href="/seeds?from=retail">Everyone</a></nav>',
   tabs: '<nav><a href="/seeds?tab=mine">Mine</a></nav>',
   html: '<p>First results</p><ul class="pagination"><li><a href="/seeds?page=2">2</a></li></ul>',
@@ -164,6 +171,27 @@ describe('SeedLibrary', () => {
     it('labels the month to sow filter', () => {
       setup();
       expect(screen.getByLabelText('Month to sow')).toBeInTheDocument();
+    });
+
+    it('offers every month as a chip for a wide screen', () => {
+      setup();
+      expect(screen.getByRole('link', {name: 'September'})).toHaveAttribute('href', '/seeds?sow_month=9');
+    });
+
+    it('shows the month chips on wide screens only', () => {
+      setup();
+      expect(screen.getByRole('link', {name: 'September'}).closest('.seed-filter-row')).toHaveClass('d-none', 'd-lg-flex');
+    });
+
+    it('shows the month select on narrow screens only', () => {
+      setup();
+      expect(screen.getByLabelText('Month to sow').closest('.seed-filter-row')).toHaveClass('d-lg-none');
+    });
+
+    it('uses the words it is given', () => {
+      window.history.replaceState({}, '', '/seeds?from=bought');
+      setup({labels: {...labels, clear_filters: 'Alle Filter entfernen'}});
+      expect(screen.getByRole('link', {name: 'Alle Filter entfernen'})).toBeInTheDocument();
     });
 
     it('shows the scope Rails rendered', () => {

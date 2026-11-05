@@ -1228,6 +1228,11 @@ zh:
       unknown: 未知
       will_trade: 可交换
       year_saved: 保存年份
+    empty:
+      no_match: 没有符合这些筛选条件的种子。
+      show_all: 显示所有种子
+      no_finished: 还没有用完的种子。
+      none_yet: 还没有记录任何种子
     form:
       finish_helper: 当你把它们全部种下或者全部卖掉时，种子就完成了。
       trade_help: 您有兴趣与其他 %{site_name} 会员交易或交换种子吗？  如果您将种子列为可交易，其他成员可以联系您索取种子。  您可以在上面的描述中列出任何条件或其他信息。
@@ -1236,6 +1241,76 @@ zh:
         crop_seeds: 每个人的%{crop}种子
         default: 大家的种子
         owner_seeds: '%{owner} 种子'
+    library:
+      filters:
+        source: 来源
+        distance: 距离
+        sharing: 分享
+        heirloom: 传统品种或杂交种
+        planted: 已种植
+      groups:
+        crop: 作物
+        source: 来源
+        year: 留种年份
+        use_by: 使用期限
+        heirloom: 传统品种或杂交种
+        gardener: 园丁
+      no_use_by: 无使用期限
+      sources:
+        all: 全部
+        own: 自留种
+        catalogue: 种子目录
+        retail: 零售店
+        bank: 种子库
+        traded: 与人交换
+      sharing:
+        either: 都可以
+        shared: 可用于交换
+      heirloom:
+        either: 都可以
+        heirloom: 仅传统品种
+        hybrid: 仅杂交种
+      planted:
+        any: 全部
+        planted: 已种植
+        not_planted: 尚未种植
+      distance:
+        anywhere: 任何地方
+        within: "%{km} 公里以内"
+      sow_now:
+        this_month: 现在播种（%{month}）
+        into_next: 现在播种（%{month}和%{next}）
+      months:
+      - 一月
+      - 二月
+      - 三月
+      - 四月
+      - 五月
+      - 六月
+      - 七月
+      - 八月
+      - 九月
+      - 十月
+      - 十一月
+      - 十二月
+      labels:
+        crop: 作物
+        month_to_sow: 播种月份
+        any_month: 任何月份
+        gardener: 园丁
+        gardener_placeholder: 园丁的名字
+        clear_filters: 清除所有筛选
+        clear_crop: 清除作物
+        search_crop: 按作物搜索种子
+        search_shared: 按作物搜索所有共享的种子
+        group_by: 分组方式
+        view: 视图
+        cards: 卡片
+        list: 列表
+    other_tab:
+      more_in_stock: 另有 %{count} 包有库存。
+      more_finished: 另有 %{count} 包已用完。
+      show_them: 显示
     packet:
       choice_back: 后退
       choice_front: 正面
@@ -1245,10 +1320,30 @@ zh:
       label_front: 数据包正面
       photo_back: 添加包裹背面的照片
       photo_front: 添加包裹正面的照片
+    past_sow_by:
+      showing: 正在显示已过播种期限的种子包。
+      show_all: 显示全部
+      hint: 旧种子往往仍能发芽。可以密播几颗试试。
+      count:
+        one: 有 %{count} 包种子已过播种期限。
+        other: 有 %{count} 包种子已过播种期限。
+      show_those:
+        one: 显示这 %{count} 包
+        other: 显示这 %{count} 包
     save_seeds: 保存种子
+    scope:
+      aria_label: 谁的种子
+      mine: 我的
+      following: 我关注的人
+      near: 我附近
+      everyone: 所有人
+      add_seeds: "+ 添加种子"
     show:
       heading: '%{crop} 种子'
     string: '%{crop} 属于 %{owner} 的种子'
+    tabs:
+      in_stock: 有库存
+      finished: 已用完
     updated: 种子已成功更新。
   suggestions:
     index:

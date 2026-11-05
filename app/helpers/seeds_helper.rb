@@ -93,7 +93,7 @@ module SeedsHelper
     case shelf
     when Crop then link_to(shelf.name, crop_path(shelf))
     when Member then link_to(shelf.login_name, member_path(shelf))
-    else shelf.capitalize
+    else shelf.upcase_first
     end
   end
 
@@ -173,22 +173,27 @@ module SeedsHelper
   end
 
   # How the seeds can be grouped on shelves: the param and the words for it.
-  SEED_GROUPS = [%w(crop Crop), ['source', 'Where from'], ['year', 'Year saved'],
-                 ['use_by', 'Use by'], ['heirloom', 'Heirloom or hybrid']].freeze
+  # Grouping by gardener only means something among other people's seeds.
+  def seed_groups(everyone:)
+    keys = %w(crop source year use_by heirloom) + (everyone ? ['gardener'] : [])
+    keys.map { |key| [key, t("seeds.library.groups.#{key}")] }
+  end
 
   # What the SeedLibrary island needs: the controls, and the tabs and results to
   # start with. Which control is chosen it reads from the address.
   def seed_library_props(everyone:, crop_search:, search_crop:)
+    labels = t('seeds.library.labels')
     {
-      groups:      everyone ? SEED_GROUPS + [%w(gardener Gardener)] : SEED_GROUPS,
+      labels:,
+      groups:      seed_groups(everyone:),
       filters:     seed_filter_groups(everyone:),
       sow_now:     seed_sow_now_label,
       gardeners:   (seed_friend_names if everyone),
-      months:      Date::MONTHNAMES.compact.each_with_index.map { |name, index| [index + 1, name] },
+      months:      seed_month_names.each_with_index.map { |name, index| [index + 1, name] },
       clear:       seed_filters_off.merge(crop: nil),
       crop_search:,
       crop:        search_crop && { name: search_crop.name, slug: search_crop.slug },
-      placeholder: everyone ? 'Search all shared seeds by crop' : 'Search seeds by crop',
+      placeholder: everyone ? labels[:search_shared] : labels[:search_crop],
       scope:       render('seeds/scope'),
       tabs:        render('seeds/tabs'),
       html:        render('seeds/results')

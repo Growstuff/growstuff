@@ -1230,6 +1230,11 @@ es:
       unknown: Desconocido
       will_trade: Para intercambio
       year_saved: Año guardado
+    empty:
+      no_match: Ninguna semilla coincide con esos filtros.
+      show_all: Mostrar todas las semillas
+      no_finished: Aún no hay semillas terminadas.
+      none_yet: Aún no hay semillas registradas
     form:
       finish_helper: Las semillas estarán terminadas cuando las hayas plantado todas o las hayas intercambiado todas.
       trade_help: ¿Está interesado en comercializar o intercambiar semillas con otros miembros de %{site_name}?  Si incluye sus semillas como disponibles para el comercio, otros miembros pueden comunicarse con usted para solicitar semillas.  Puede enumerar cualquier condición u otra información en la descripción anterior.
@@ -1238,6 +1243,76 @@ es:
         crop_seeds: Las semillas %{crop} de todos
         default: Las semillas de todos
         owner_seeds: Semillas %{owner}
+    library:
+      filters:
+        source: Origen
+        distance: Distancia
+        sharing: Compartir
+        heirloom: Heirloom o híbrida
+        planted: Plantadas
+      groups:
+        crop: Cultivo
+        source: Procedencia
+        year: Año de recolección
+        use_by: Usar antes de
+        heirloom: Heirloom o híbrida
+        gardener: Jardinero
+      no_use_by: Sin fecha límite
+      sources:
+        all: Todas
+        own: Recolección propia
+        catalogue: Catálogo de semillas
+        retail: Tienda
+        bank: Banco de semillas
+        traded: Intercambiadas con una persona
+      sharing:
+        either: Cualquiera
+        shared: Compartidas para intercambio
+      heirloom:
+        either: Cualquiera
+        heirloom: Solo heirloom
+        hybrid: Solo híbridas
+      planted:
+        any: Cualquiera
+        planted: Plantadas
+        not_planted: Aún sin plantar
+      distance:
+        anywhere: En cualquier lugar
+        within: A menos de %{km} km
+      sow_now:
+        this_month: Sembrar ahora (%{month})
+        into_next: Sembrar ahora (%{month} y %{next})
+      months:
+      - enero
+      - febrero
+      - marzo
+      - abril
+      - mayo
+      - junio
+      - julio
+      - agosto
+      - septiembre
+      - octubre
+      - noviembre
+      - diciembre
+      labels:
+        crop: Cultivo
+        month_to_sow: Mes de siembra
+        any_month: Cualquier mes
+        gardener: Jardinero
+        gardener_placeholder: Nombre de un jardinero
+        clear_filters: Quitar todos los filtros
+        clear_crop: Quitar cultivo
+        search_crop: Buscar semillas por cultivo
+        search_shared: Buscar todas las semillas compartidas por cultivo
+        group_by: Agrupar por
+        view: Vista
+        cards: Tarjetas
+        list: Lista
+    other_tab:
+      more_in_stock: "%{count} más en existencias."
+      more_finished: "%{count} más terminadas."
+      show_them: Mostrarlas
     packet:
       choice_back: Atrás
       choice_front: Frente
@@ -1247,10 +1322,30 @@ es:
       label_front: Frente del paquete
       photo_back: Añade una foto de la parte trasera del paquete.
       photo_front: Añade una foto del frente del paquete.
+    past_sow_by:
+      showing: Mostrando sobres pasados de su fecha límite de siembra.
+      show_all: Mostrar todos
+      hint: Las semillas viejas a menudo aún germinan. Siembra unas cuantas en espeso para comprobarlo.
+      count:
+        one: "%{count} sobre ha pasado su fecha límite de siembra."
+        other: "%{count} sobres han pasado su fecha límite de siembra."
+      show_those:
+        one: Mostrar ese
+        other: Mostrar esos %{count}
     save_seeds: guardar semillas
+    scope:
+      aria_label: Semillas de quién
+      mine: Mías
+      following: Personas que sigo
+      near: Cerca de mí
+      everyone: Todos
+      add_seeds: "+ añadir semillas"
     show:
       heading: Semillas %{crop}
     string: Semillas %{crop} pertenecientes a %{owner}
+    tabs:
+      in_stock: En existencias
+      finished: Terminadas
     updated: La semilla se actualizó correctamente.
   suggestions:
     index:

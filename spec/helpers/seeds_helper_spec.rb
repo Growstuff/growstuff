@@ -220,6 +220,8 @@ describe SeedsHelper do
     end
 
     it { expect(props[:groups].map(&:first)).to eq %w(crop source year use_by heirloom) }
+    it { expect(props[:labels][:clear_filters]).to eq 'Clear all filters' }
+    it { expect(props[:months].first).to eq [1, 'January'] }
     it { expect(props[:tabs]).to eq '<ul>tabs</ul>' }
     it { expect(props[:html]).to eq '<p>results</p>' }
     it { expect(props[:placeholder]).to eq 'Search seeds by crop' }

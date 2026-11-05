@@ -57,7 +57,7 @@ function Choice({params, search, active, className, onChoose, children}) {
 // again, which Rails renders (seeds/_tabs, seeds/_results) and this puts in
 // place. Links in the tabs and results that stay on this page, such as the
 // pages, do the same. Back and forward work.
-export default function SeedLibrary({scope: initialScope, tabs: initialTabs, html: initialHtml, groups, filters, sow_now: sowNow, gardeners, months = [], clear = {}, crop: initialCrop, crop_search: cropSearch, placeholder}) {
+export default function SeedLibrary({scope: initialScope, tabs: initialTabs, html: initialHtml, labels, groups, filters, sow_now: sowNow, gardeners, months = [], clear = {}, crop: initialCrop, crop_search: cropSearch, placeholder}) {
   const [scope, setScope] = useState(initialScope);
   const [tabs, setTabs] = useState(initialTabs);
   const [html, setHtml] = useState(initialHtml);
@@ -154,14 +154,14 @@ export default function SeedLibrary({scope: initialScope, tabs: initialTabs, htm
         <div className="seed-filter-row">
           {cropSearch && (
             <div className="seed-field">
-              <span className="seed-field-label">Crop</span>
+              <span className="seed-field-label">{labels.crop}</span>
               <div className="seed-search">
                 {crop ? (
                   <span className="seed-crop">
                     {crop.name}
                     <Choice params={{crop: null}} search={pendingSearch} className="seed-crop-clear" onChoose={show}>
                       <span aria-hidden="true">×</span>
-                      <span className="visually-hidden">Clear crop</span>
+                      <span className="visually-hidden">{labels.clear_crop}</span>
                     </Choice>
                   </span>
                 ) : (
@@ -169,7 +169,7 @@ export default function SeedLibrary({scope: initialScope, tabs: initialTabs, htm
                     id="seed-crop"
                     compact
                     autoFocus={false}
-                    label="Search seeds by crop"
+                    label={labels.search_crop}
                     placeholder={placeholder}
                     onChoose={(chosen) => show(addressWith({crop: chosen.slug}, pendingSearch))}
                   />
@@ -178,20 +178,20 @@ export default function SeedLibrary({scope: initialScope, tabs: initialTabs, htm
             </div>
           )}
           {filtering && (
-            <Choice params={clear} search={pendingSearch} className="seed-clear" onChoose={show}>Clear all filters</Choice>
+            <Choice params={clear} search={pendingSearch} className="seed-clear" onChoose={show}>{labels.clear_filters}</Choice>
           )}
         </div>
         <div className="seed-filter-row d-lg-none">
           <div className="seed-field">
-            <label className="seed-field-label" htmlFor="seed-month">Month to sow</label>
+            <label className="seed-field-label" htmlFor="seed-month">{labels.month_to_sow}</label>
             <select
               id="seed-month"
               className="seed-month form-select form-select-sm"
               value={query.get('sow_month') || ''}
               onChange={(event) => show(addressWith({sow_month: event.target.value || null}, pendingSearch))}
             >
-              <option value="">Any month</option>
-              <option value="now">{sowNow || 'Sow now'}</option>
+              <option value="">{labels.any_month}</option>
+              <option value="now">{sowNow}</option>
               {months.map(([number, name]) => <option key={number} value={number}>{name}</option>)}
             </select>
           </div>
@@ -199,13 +199,13 @@ export default function SeedLibrary({scope: initialScope, tabs: initialTabs, htm
         {gardeners && (
           <div className="seed-filter-row">
             <div className="seed-field">
-              <label className="seed-field-label" htmlFor="seed-gardener">Gardener</label>
+              <label className="seed-field-label" htmlFor="seed-gardener">{labels.gardener}</label>
               <input
                 id="seed-gardener"
                 className="seed-gardener form-control form-control-sm"
                 type="search"
                 list="seed-gardeners"
-                placeholder="A gardener's name"
+                placeholder={labels.gardener_placeholder}
                 autoComplete="off"
                 value={gardener}
                 onChange={(event) => {
@@ -232,16 +232,16 @@ export default function SeedLibrary({scope: initialScope, tabs: initialTabs, htm
       </div>
       <div className="seed-display">
         <div className="seed-display-group">
-          <span className="seed-field-label">Group by</span>
-          <div className="seed-seg" role="group" aria-label="Group by">
+          <span className="seed-field-label">{labels.group_by}</span>
+          <div className="seed-seg" role="group" aria-label={labels.group_by}>
             {groups.map(([key, label]) => choice({group: key}, label, (query.get('group') || 'crop') === key))}
           </div>
         </div>
         <div className="seed-display-group">
-          <span className="seed-field-label">View</span>
-          <div className="seed-seg" role="group" aria-label="View as">
-            {choice({view: null}, 'Cards', query.get('view') !== 'list')}
-            {choice({view: 'list'}, 'List', query.get('view') === 'list')}
+          <span className="seed-field-label">{labels.view}</span>
+          <div className="seed-seg" role="group" aria-label={labels.view}>
+            {choice({view: null}, labels.cards, query.get('view') !== 'list')}
+            {choice({view: 'list'}, labels.list, query.get('view') === 'list')}
           </div>
         </div>
       </div>
