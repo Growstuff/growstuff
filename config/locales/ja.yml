@@ -1,5 +1,17 @@
 ---
 ja:
+  conversations:
+    index:
+      boxes:
+        inbox: 受信トレイ
+        sent: 送信済み
+        trash: ゴミ箱
+      breadcrumb_conversations: メッセージ一覧
+      delete: 削除
+      restore: 復元
+      select_for_deletion: 削除対象として選択
+      time_ago: "%{time}前"
+      title: 受信トレイ
   crops:
     harvests:
       empty: この作物はまだ誰にも収穫されていません。

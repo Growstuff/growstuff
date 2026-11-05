@@ -157,6 +157,18 @@ fr:
     unlike: Supprimer "j'aime"
     view: Afficher
     write_blog_post: Ecrire un article de blog
+  conversations:
+    index:
+      boxes:
+        inbox: Boîte de réception
+        sent: Envoyés
+        trash: Corbeille
+      breadcrumb_conversations: Conversations
+      delete: Effacer
+      restore: Restaurer
+      select_for_deletion: Sélectionner pour suppression
+      time_ago: "Il y a %{time}"
+      title: Boîte de réception
   community_gardens:
     collaborate: Collaborer avec votre équipe
     collaborate_text: Invitez d'autres jardiniers à collaborer sur vos parcelles de jardin. Partagez le travail, partagez la récolte et grandissez ensemble en tant que communauté.

@@ -157,6 +157,18 @@ es:
     unlike: Quitar me gusta
     view: Vista
     write_blog_post: Escribir entrada de blog
+  conversations:
+    index:
+      boxes:
+        inbox: Bandeja de entrada
+        sent: Enviados
+        trash: Papelera
+      breadcrumb_conversations: Conversaciones
+      delete: Borrar
+      restore: Restaurar
+      select_for_deletion: Seleccionar para eliminar
+      time_ago: "Hace %{time}"
+      title: Bandeja de entrada
   community_gardens:
     collaborate: Colabora con tu equipo
     collaborate_text: Invita a otros jardineros a colaborar en las parcelas de tu jardín. Compartir el trabajo, compartir la cosecha y crecer juntos como comunidad.

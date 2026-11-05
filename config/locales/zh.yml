@@ -157,6 +157,18 @@ zh:
     unlike: 删除喜欢
     view: 看法
     write_blog_post: 写博客文章
+  conversations:
+    index:
+      boxes:
+        inbox: 收件箱
+        sent: 已发信息
+        trash: 回收站
+      breadcrumb_conversations: 对话
+      delete: 删除
+      restore: 恢复
+      select_for_deletion: 选择删除
+      time_ago: "%{time}前"
+      title: 收件箱
   community_gardens:
     collaborate: 与您的团队合作
     collaborate_text: 邀请其他园丁在您的花园地块上进行合作。分享工作，分享收获，作为一个社区共同成长。

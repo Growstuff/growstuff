@@ -157,6 +157,18 @@ de:
     unlike: Like entfernen
     view: Sicht
     write_blog_post: Blogbeitrag schreiben
+  conversations:
+    index:
+      boxes:
+        inbox: Posteingang
+        sent: Gesendet
+        trash: Papierkorb
+      breadcrumb_conversations: Konversationen
+      delete: Löschen
+      restore: Wiederherstellen
+      select_for_deletion: Zum Löschen auswählen
+      time_ago: "Vor %{time}"
+      title: Posteingang
   community_gardens:
     collaborate: Arbeiten Sie mit Ihrem Team zusammen
     collaborate_text: Laden Sie andere Gärtner ein, an Ihren Gartengrundstücken mitzuarbeiten. Teilen Sie die Arbeit, teilen Sie die Ernte und wachsen Sie als Gemeinschaft zusammen.
