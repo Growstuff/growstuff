@@ -404,6 +404,10 @@ en:
       add: add
       heading: Growing now
       nothing_planted: Nothing is currently planted here.
+    previously:
+      finished_jobs: Finished jobs in garden
+      previously_planted: Previously planted in this garden
+      unknown_year: Unknown year
     show:
       km_from_you: about %{km} km from you
       suggested_plantings:

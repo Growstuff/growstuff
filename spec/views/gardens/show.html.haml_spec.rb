@@ -406,7 +406,7 @@ describe "gardens/show" do
     end
 
     it 'says what was previously planted' do
-      assert_select '.garden-previously h2', text: 'Previously planted in this garden'
+      assert_select '.garden-previously h2', text: I18n.t('gardens.previously.previously_planted')
     end
 
     it 'puts it under the year it was planted' do

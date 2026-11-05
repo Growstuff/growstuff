@@ -379,6 +379,10 @@ es:
       add: agregar
       heading: Creciendo ahora
       nothing_planted: Actualmente no hay nada plantado aquí.
+    previously:
+      finished_jobs: Tareas terminadas en el huerto
+      previously_planted: Plantado anteriormente en este huerto
+      unknown_year: Año desconocido
     show:
       km_from_you: a unos %{km} km de ti
       suggested_plantings:

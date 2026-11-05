@@ -379,6 +379,10 @@ de:
       add: hinzufügen
       heading: Wächst jetzt
       nothing_planted: Derzeit wird hier nichts gepflanzt.
+    previously:
+      finished_jobs: Erledigte Aufgaben im Garten
+      previously_planted: Zuvor in diesem Garten gepflanzt
+      unknown_year: Unbekanntes Jahr
     show:
       km_from_you: ca. %{km} km von Ihnen entfernt
       suggested_plantings:

@@ -379,6 +379,10 @@ fr:
       add: ajouter
       heading: Grandir maintenant
       nothing_planted: Rien n'est actuellement planté ici.
+    previously:
+      finished_jobs: Travaux terminés dans le jardin
+      previously_planted: Planté auparavant dans ce jardin
+      unknown_year: Année inconnue
     show:
       km_from_you: à environ %{km} km de chez vous
       suggested_plantings:
