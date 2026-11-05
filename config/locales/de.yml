@@ -1234,6 +1234,14 @@ de:
       text: Eine Community für den Lebensmittelanbau. Halten Sie fest, was Sie pflanzen und ernten, und tauschen Sie Saatgut sowie Tipps mit anderen Gärtnern aus. Treten Sie kostenlos bei oder melden Sie sich an, um mit %{name} über das Angebot auf dem Stand in Kontakt zu treten.
   seeds:
     added_to_stash: '%{crop} Seed wurde erfolgreich zu deinem Vorrat hinzugefügt.'
+    card:
+      quantity:
+        one: ca. 1 Samen
+        other: ca. %{count} Samen
+      saved: gewonnen %{year}
+      seeds_saved_by: Saatgut gewonnen von %{owner}
+      sow_before: aussäen vor %{year}
+      will_trade: tauscht %{tradable_to}
     facts:
       cancel: Abbrechen
       edit_all: Alle bearbeiten

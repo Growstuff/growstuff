@@ -91,9 +91,6 @@ ja:
   home:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
-  plantings:
-    card:
-      planted_by_in_html: "%{owner} が %{garden} に植え付け"
   members:
     contact:
       flickr_logo: Flickrロゴ
@@ -107,6 +104,8 @@ ja:
       waiting_body: '%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。'
       waiting_title: メールアドレスの確認をお待ちしています。
   plantings:
+    card:
+      planted_by_in_html: "%{owner} が %{garden} に植え付け"
     facts:
       day_progress: "%{lifespan}日中 %{age}日目"
       done: 完了
@@ -137,6 +136,13 @@ ja:
       sown_from_expired: "期限切れの種から播種（%{year}年までに植え付け）"
       unknown: 不明
   seeds:
+    card:
+      quantity:
+        other: "約%{count}粒の種"
+      saved: "%{year}年採取"
+      seeds_saved_by: "%{owner} が採取した種"
+      sow_before: "%{year}年までに播種"
+      will_trade: "交換可能（%{tradable_to}）"
     facts:
       cancel: キャンセル
       edit_all: すべて編集

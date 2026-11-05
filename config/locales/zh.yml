@@ -1232,6 +1232,13 @@ zh:
       text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
   seeds:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
+    card:
+      quantity:
+        other: 约 %{count} 粒种子
+      saved: "%{year} 年保存"
+      seeds_saved_by: 由 %{owner} 保存的种子
+      sow_before: 请在 %{year} 年前播种
+      will_trade: 可交换（%{tradable_to}）
     facts:
       cancel: 取消
       edit_all: 全部编辑

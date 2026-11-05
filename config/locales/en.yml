@@ -1302,6 +1302,14 @@ en:
     winter: Winter
   seeds:
     added_to_stash: Successfully added %{crop} seed to your stash.
+    card:
+      quantity:
+        one: approx. 1 seed
+        other: approx. %{count} seeds
+      saved: saved %{year}
+      seeds_saved_by: seeds saved by %{owner}
+      sow_before: sow before %{year}
+      will_trade: will trade %{tradable_to}
     crop_changes:
       show:
         confirm: Yes, change them

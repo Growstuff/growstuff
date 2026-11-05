@@ -1235,6 +1235,14 @@ fr:
       text: Une communauté pour faire pousser des aliments. Notez ce que vous plantez et récoltez, et échangez des graines et des astuces avec d'autres jardiniers. Rejoignez-nous gratuitement ou connectez-vous pour contacter %{name} au sujet de son stand.
   seeds:
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
+    card:
+      quantity:
+        one: env. 1 graine
+        other: env. %{count} graines
+      saved: récolté en %{year}
+      seeds_saved_by: graines récoltées par %{owner}
+      sow_before: semer avant %{year}
+      will_trade: à échanger %{tradable_to}
     facts:
       cancel: Annuler
       edit_all: Tout modifier
