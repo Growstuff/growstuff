@@ -20,9 +20,7 @@ module PredictHarvest
     def first_harvest_predicted_at
       return @first_harvest_predicted_at if defined?(@first_harvest_predicted_at)
 
-      @first_harvest_predicted_at = if crop.median_days_to_first_harvest.present? && planted_at.present?
-                                      planted_at + crop.median_days_to_first_harvest.days
-                                    end
+      @first_harvest_predicted_at = heat_predicted_first_harvest_at || days_predicted_first_harvest_at
     end
 
     def last_harvest_predicted_at
@@ -97,6 +95,26 @@ module PredictHarvest
 
     def harvests_with_dates
       harvests.where.not(harvested_at: nil)
+    end
+
+    # The crop's median days to a first harvest after planting, when it has one.
+    def days_predicted_first_harvest_at
+      planted_at + crop.median_days_to_first_harvest.days if crop.median_days_to_first_harvest.present? && planted_at.present?
+    end
+
+    # When the heat this crop needs for a first harvest has been felt in the garden's weather, so far
+    # and as expected, or nil when we don't know the heat it needs or have no weather for the garden.
+    def heat_predicted_first_harvest_at
+      heat = crop.ecocrop_heat_data
+      return unless heat && planted_at.present? && weather_located?
+
+      Rails.cache.fetch("#{cache_key_with_version}/heat_predicted_first_harvest_at", expires_in: 8.hours) do
+        degree_days = GrowingDegreeDays.new(base: heat.tmin)
+        observed = weather_cell_readings.select(*WeatherReading::CHARTED).between(planted_at, Time.zone.today).order(:date).to_a
+        degree_days.date_reaching(heat.first_harvest_degree_days, observed) ||
+          degree_days.date_reaching(heat.first_harvest_degree_days,
+                                    observed + expected_weather_readings(after: observed.last&.date, through: planted_at + heat.gmax))
+      end
     end
   end
 end

@@ -309,6 +309,13 @@ fr:
       unknown: inconnu
     form:
       location_helper: Si vous avez défini un emplacement dans votre profil, il sera utilisé lors de la création d'un nouveau jardin.
+    card:
+      layout: Disposition
+      no_annuals: Aucune plantation annuelle
+      no_perennials: Aucune plantation vivace
+      of: de
+      owner: 'propriétaire :'
+      perennials: 'Vivaces :'
     inactive_card:
       grown_here: Cultivé ici
       image_alt: "Image de %{name}"
@@ -409,6 +416,11 @@ fr:
       record_harvest: Enregistrer une récolte
       select_plant_part: Sélectionnez la partie de la plante que vous avez récoltée
       title: Enregistrer une récolte de %{crop}
+    planting:
+      is_this_from: Est-ce que cela provient de l'une de ces plantations ?
+      rate_planting: Évaluer cette plantation
+      save: enregistrer
+      unrated_notice: Cette récolte provient d'une plantation qui n'a pas encore été évaluée.
     index:
       title:
         crop_harvests: Les récoltes %{crop} DE chacun

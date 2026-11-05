@@ -242,15 +242,14 @@ class Planting < ApplicationRecord
 
   # For a planting still growing: the weather the rest of its life will probably bring, as the readings
   # for the same days a year earlier, moved forward a year. A prediction, not an observation. `after` is the
-  # newest day already observed, when the caller has it.
-  def expected_weather_readings(after: weather_readings.maximum(:date))
-    due = weather_due_on
-    return [] if finished? || failed? || due.nil? || !weather_located?
+  # newest day already observed, when the caller has it, and `through` the last day to expect, by default the day it is due.
+  def expected_weather_readings(after: weather_readings.maximum(:date), through: weather_due_on)
+    return [] if finished? || failed? || through.nil? || !weather_located?
 
     from = (after || (weather_first_day - 1)) + 1
-    return [] if from > due
+    return [] if from > through
 
-    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, due.prev_year).order(:date).map do |reading|
+    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, through.prev_year).order(:date).map do |reading|
       reading.tap do
         reading.date = reading.date.next_year
         reading.readonly!
