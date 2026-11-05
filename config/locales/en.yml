@@ -441,6 +441,11 @@ en:
       record_harvest: Record harvest
       select_plant_part: Select which plant part you have harvested
       title: Record %{crop} harvest
+    planting:
+      is_this_from: Is this from one of these plantings?
+      rate_planting: Rate this planting
+      save: save
+      unrated_notice: This harvest is from a planting that hasn't been rated yet.
     index:
       title:
         crop_harvests: Everyone's %{crop} harvests

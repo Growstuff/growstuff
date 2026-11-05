@@ -416,6 +416,11 @@ es:
       record_harvest: Registrar cosecha
       select_plant_part: Selecciona la parte de la planta cosechada
       title: Registrar cosecha de %{crop}
+    planting:
+      is_this_from: ¿Es esto de una de estas plantaciones?
+      rate_planting: Calificar esta plantación
+      save: guardar
+      unrated_notice: Esta cosecha es de una plantación que aún no ha sido calificada.
     index:
       title:
         crop_harvests: Las cosechas de %{crop} de todos

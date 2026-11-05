@@ -70,6 +70,11 @@ ja:
       record_harvest: 収穫を記録する
       select_plant_part: 収穫した植物の部位を選択してください
       title: "%{crop}の収穫を記録"
+    planting:
+      is_this_from: これらは以下の植え付けのいずれかからの収穫ですか？
+      rate_planting: この植え付けを評価する
+      save: 保存
+      unrated_notice: この収穫はまだ評価されていない植え付けからのものです。
     edit_modal:
       harvested_at: いつ収穫しましたか？
       notes: メモ
