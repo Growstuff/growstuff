@@ -1205,6 +1205,12 @@ de:
       weather_temperature_chart: Tageshoch und -tief
       weather_temperature_chart_alt: Tageshöchst- und Tiefsttemperatur, von %{low} bis %{high}.
     string: '%{crop} Pflanzung in %{garden} durch %{owner}'
+    transplant:
+      cancel: Abbrechen
+      close: Schließen
+      move_to: "Diese Bepflanzung verschieben nach:"
+      submit: Umpflanzen
+      title: "%{crop} umpflanzen"
   posts:
     created: Beitrag erfolgreich erstellt
     deleted: Ihr Beitrag wurde gelöscht.

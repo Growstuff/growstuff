@@ -107,6 +107,12 @@ ja:
       waiting_body: '%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。'
       waiting_title: メールアドレスの確認をお待ちしています。
   plantings:
+    transplant:
+      cancel: キャンセル
+      close: 閉じる
+      move_to: "この植え付けの移動先:"
+      submit: 移植
+      title: "%{crop}を移植"
     facts:
       day_progress: "%{lifespan}日中 %{age}日目"
       done: 完了

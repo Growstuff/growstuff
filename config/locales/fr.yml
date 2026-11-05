@@ -1206,6 +1206,12 @@ fr:
       weather_temperature_chart: Haut / bas quotidien
       weather_temperature_chart_alt: Température quotidienne haute et basse, de %{low} à %{high}.
     string: Plantation de %{crop} à %{garden} par %{owner}
+    transplant:
+      cancel: Annuler
+      close: Fermer
+      move_to: "Déplacer cette plantation vers :"
+      submit: Repiquer
+      title: "Repiquer %{crop}"
   posts:
     created: La publication a été bien créée
     deleted: Ta publication a été supprimée.
