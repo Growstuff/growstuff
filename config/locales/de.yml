@@ -1093,6 +1093,10 @@ de:
   places:
     index:
       title: '%{site_name} Community-Karte'
+    search_form:
+      change_location: "Ort ändern:"
+      placeholder: Suche nach Stadt, Vorort oder Bundesland...
+      search: Suchen
   planting:
     status:
       finished: Abgeschlossen

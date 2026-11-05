@@ -1093,6 +1093,10 @@ es:
   places:
     index:
       title: Mapa de la comunidad %{site_name}
+    search_form:
+      change_location: "Cambiar ubicación:"
+      placeholder: Buscar por ciudad, barrio o estado...
+      search: Buscar
   planting:
     status:
       finished: Finalizado

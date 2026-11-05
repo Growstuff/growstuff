@@ -155,6 +155,13 @@ ja:
       unknown: 不明
       will_trade: 交換可能
       year_saved: 採取年
+  places:
+    index:
+      title: "%{site_name} コミュニティマップ"
+    search_form:
+      change_location: "場所を変更:"
+      placeholder: 都市、地域、州を検索...
+      search: 検索
   stalls:
     about_growstuff:
       join: 無料で参加
