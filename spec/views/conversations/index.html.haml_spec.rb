@@ -30,7 +30,10 @@ describe 'conversations/index' do
 
   it 'renders the breadcrumb link for conversations' do
     render
-    assert_select 'li.breadcrumb-item a', text: I18n.t('conversations.index.breadcrumb_conversations')
+    expect(view.content_for(:breadcrumbs)).to have_link(
+      I18n.t('conversations.index.breadcrumb_conversations'),
+      href: conversations_path
+    )
   end
 
   it 'renders the box tabs with localized labels' do
