@@ -57,6 +57,10 @@ ja:
       grown_here: ここで栽培
       image_alt: "%{name}の画像"
       more_crops: "他 %{count} 件"
+    previously:
+      finished_jobs: 完了した庭の作業
+      previously_planted: 以前この庭に植えられたもの
+      unknown_year: 年不明
   harvests:
     card:
       by: "投稿者:"

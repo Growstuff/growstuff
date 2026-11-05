@@ -377,6 +377,10 @@ zh:
       add: 添加
       heading: 现在正在成长
       nothing_planted: 目前这里还没有种植任何植物。
+    previously:
+      finished_jobs: 花园中已完成的工作
+      previously_planted: 以前在这个花园里种植过的植物
+      unknown_year: 年份未知
     show:
       km_from_you: 距您约 %{km} 公里
       suggested_plantings:
