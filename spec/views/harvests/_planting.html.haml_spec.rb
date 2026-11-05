@@ -5,9 +5,10 @@ require 'rails_helper'
 describe 'harvests/_planting' do
   subject { rendered }
 
-  let(:member) { build_stubbed(:member) }
-  let(:planting) { build_stubbed(:planting, overall_rating: nil) }
-  let(:harvest) { build_stubbed(:harvest, owner: member, planting: nil) }
+  let(:member) { create(:member) }
+  let(:garden) { create(:garden, owner: member) }
+  let(:planting) { create(:planting, owner: member, garden:, overall_rating: nil) }
+  let(:harvest) { create(:harvest, owner: member, planting: nil) }
 
   before do
     allow(view).to receive(:current_member).and_return(member)
@@ -15,7 +16,7 @@ describe 'harvests/_planting' do
   end
 
   context 'when harvest has no planting and matching plantings exist' do
-    let(:matching_planting) { build_stubbed(:planting) }
+    let(:matching_planting) { create(:planting, owner: member, garden:) }
 
     before do
       assign(:matching_plantings, [matching_planting])
@@ -32,7 +33,7 @@ describe 'harvests/_planting' do
   end
 
   context 'when harvest has an unrated planting' do
-    let(:harvest) { build_stubbed(:harvest, owner: member, planting:) }
+    let(:harvest) { create(:harvest, owner: member, planting:) }
 
     before do
       assign(:matching_plantings, [])
