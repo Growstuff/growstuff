@@ -589,6 +589,17 @@
     fill-opacity: 0.14;
   }
 
+  // EcoCrop temperature bands: faint orange outside optimal, faint red outside maximums.
+  .weather-temp-suboptimal {
+    fill: $orange;
+    fill-opacity: 0.15;
+  }
+
+  .weather-temp-extreme {
+    fill: $red;
+    fill-opacity: 0.15;
+  }
+
   .weather-seasons {
     display: flex;
     font-size: 0.75rem;

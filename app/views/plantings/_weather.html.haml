@@ -8,7 +8,7 @@
     %figcaption
       = t('plantings.show.weather_temperature_chart')
       %span.badge.text-bg-success.ms-1= t('plantings.show.weather_new')
-    = weather_temperature_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:)
+    = weather_temperature_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:, ecocrop: planting.crop&.ecocrop_data)
   %figure
     %figcaption= t('plantings.show.weather_rain_chart')
     = weather_rain_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:)

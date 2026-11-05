@@ -61,14 +61,29 @@ describe PlantingWeatherHelper do
   end
 
   describe '#weather_temperature_chart' do
-    subject(:chart) { Capybara.string(helper.weather_temperature_chart(readings, from: Date.new(2026, 10, 1), days: 10)) }
+    subject(:chart) { Capybara.string(helper.weather_temperature_chart(readings, from: Date.new(2026, 10, 1), days: 10, ecocrop:)) }
 
     let(:readings) { [build(:weather_reading, date: Date.new(2026, 10, 1), temp_max_c: 14.4, temp_min_c: -0.7)] }
+    let(:ecocrop) { nil }
 
     it { expect(chart).to have_css '.weather-axis span:first-child', text: '15°' }
     it { expect(chart).to have_css '.weather-axis span:last-child', text: '-1°' }
     it { expect(chart).to have_css '.weather-axis span', text: '7°' }
     it { expect(chart).to have_css 'line.weather-grid', count: 1 }
+    it { expect(chart).to have_no_css 'rect.weather-temp-suboptimal' }
+    it { expect(chart).to have_no_css 'rect.weather-temp-extreme' }
+
+    context 'with ecocrop data' do
+      let(:ecocrop) { build(:ecocrop_data, topmn: 5, topmx: 10, tmin: 0, tmax: 12) }
+
+      it 'renders faint orange backgrounds for temperatures outside optimal' do
+        expect(chart).to have_css 'rect.weather-temp-suboptimal', count: 2
+      end
+
+      it 'renders faint red backgrounds for temperatures outside maximums' do
+        expect(chart).to have_css 'rect.weather-temp-extreme', count: 2
+      end
+    end
   end
 
   describe '#weather_rain_chart axis' do

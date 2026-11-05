@@ -109,6 +109,17 @@ describe PlantingsHelper do
       chart = helper.weather_temperature_chart([build(:weather_reading)], from: Date.new(2026, 10, 1), days: 10)
       expect(chart.scan('<polyline').size).to eq 2
     end
+
+    context 'with ecocrop data' do
+      let(:ecocrop) { build(:ecocrop_data, topmn: 10, topmx: 20, tmin: 5, tmax: 25) }
+      let(:readings) { [build(:weather_reading, temp_max_c: 28.0, temp_min_c: 2.0)] }
+
+      it 'renders suboptimal and extreme temperature background bands' do
+        chart = helper.weather_temperature_chart(readings, from: Date.new(2026, 10, 1), days: 10, ecocrop:)
+        expect(chart).to include('weather-temp-suboptimal')
+        expect(chart).to include('weather-temp-extreme')
+      end
+    end
   end
 
   describe '#weather_axis_days' do
