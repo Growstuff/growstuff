@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'seeds/_card' do
   subject { rendered }
 
-  let(:owner) { create(:member, login_name: 'seedsaver', location: 'Portland') }
+  let(:owner) { create(:london_member, login_name: 'seedsaver') }
   let(:crop) { create(:crop, name: 'Tomato') }
   let(:seed) do
     create(
@@ -41,5 +41,9 @@ describe 'seeds/_card' do
 
   it 'renders the localized will trade info' do
     expect(subject).to have_content(I18n.t('seeds.card.will_trade', tradable_to: 'locally'))
+  end
+
+  it 'renders the owner location' do
+    expect(subject).to have_content(owner.location)
   end
 end

@@ -309,13 +309,6 @@ zh:
       unknown: 未知
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
-    card:
-      layout: 布局
-      no_annuals: 无一年生植物
-      no_perennials: 无多年生植物
-      of: 的
-      owner: '所有者:'
-      perennials: '多年生:'
     inactive_card:
       grown_here: 在此种植
       image_alt: "%{name}的照片"
@@ -377,10 +370,6 @@ zh:
       add: 添加
       heading: 现在正在成长
       nothing_planted: 目前这里还没有种植任何植物。
-    previously:
-      finished_jobs: 花园中已完成的工作
-      previously_planted: 以前在这个花园里种植过的植物
-      unknown_year: 年份未知
     show:
       km_from_you: 距您约 %{km} 公里
       suggested_plantings:
@@ -418,11 +407,6 @@ zh:
       record_harvest: 记录收获
       select_plant_part: 选择您收获的植物部位
       title: 记录%{crop}收获
-    planting:
-      is_this_from: 这是来自以下种植之一吗？
-      rate_planting: 评价该种植
-      save: 保存
-      unrated_notice: 此收获来自尚未评分的种植。
     index:
       title:
         crop_harvests: 大家的收获%{crop}

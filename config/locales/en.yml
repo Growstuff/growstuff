@@ -334,13 +334,6 @@ en:
       unknown: unknown
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
-    card:
-      layout: Layout
-      no_annuals: No annual plantings
-      no_perennials: No perennial plantings
-      of: of
-      owner: 'owner:'
-      perennials: 'Perennials:'
     inactive_card:
       grown_here: Grown here
       image_alt: "Image of %{name}"
@@ -404,10 +397,6 @@ en:
       add: add
       heading: Growing now
       nothing_planted: Nothing is currently planted here.
-    previously:
-      finished_jobs: Finished jobs in garden
-      previously_planted: Previously planted in this garden
-      unknown_year: Unknown year
     show:
       km_from_you: about %{km} km from you
       suggested_plantings:
@@ -445,11 +434,6 @@ en:
       record_harvest: Record harvest
       select_plant_part: Select which plant part you have harvested
       title: Record %{crop} harvest
-    planting:
-      is_this_from: Is this from one of these plantings?
-      rate_planting: Rate this planting
-      save: save
-      unrated_notice: This harvest is from a planting that hasn't been rated yet.
     index:
       title:
         crop_harvests: Everyone's %{crop} harvests

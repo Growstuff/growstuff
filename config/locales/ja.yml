@@ -46,21 +46,10 @@ ja:
       prompt: 参加してあなた自身の%{crops}を記録しましょう。
       text: 植えたものや収穫したものを記録し、交換する種を見つけ、近くで何が育っているかを確認しましょう。
   gardens:
-    card:
-      layout: レイアウト
-      no_annuals: 一年草の植え付けはありません
-      no_perennials: 多年草の植え付けはありません
-      of: の
-      owner: '所有者:'
-      perennials: '多年草:'
     inactive_card:
       grown_here: ここで栽培
       image_alt: "%{name}の画像"
       more_crops: "他 %{count} 件"
-    previously:
-      finished_jobs: 完了した庭の作業
-      previously_planted: 以前この庭に植えられたもの
-      unknown_year: 年不明
   harvests:
     card:
       by: "投稿者:"
@@ -74,11 +63,6 @@ ja:
       record_harvest: 収穫を記録する
       select_plant_part: 収穫した植物の部位を選択してください
       title: "%{crop}の収穫を記録"
-    planting:
-      is_this_from: これらは以下の植え付けのいずれかからの収穫ですか？
-      rate_planting: この植え付けを評価する
-      save: 保存
-      unrated_notice: この収穫はまだ評価されていない植え付けからのものです。
     edit_modal:
       harvested_at: いつ収穫しましたか？
       notes: メモ

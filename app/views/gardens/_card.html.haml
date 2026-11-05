@@ -6,14 +6,14 @@
         = link_to layout_member_garden_path(garden.owner, garden),
                   class: 'btn btn-outline-success btn-sm garden-card-layout-button' do
           %i.fa.fa-th-large{ 'aria-hidden': 'true' }
-          = t('.layout')
+          Layout
           %span.visually-hidden
-            = t('.of')
+            of
             = garden.name
     .row
       .col-md-3
         - if @owner.blank?
-          = t('.owner')
+          owner:
           = render 'members/tiny', member: garden.owner
 
 
@@ -27,13 +27,13 @@
 
         %section
           - if active_plantings.perennial.any?
-            %strong= t('.perennials')
+            %strong Perennials:
             - active_plantings.perennial.limit(10).each do |planting|
               = link_to planting do
                 = crop_icon planting.crop
                 = planting.crop
           - else
-            %p= t('.no_perennials')
+            %p No perennial plantings
 
         %hr
 
@@ -41,4 +41,4 @@
           - if active_plantings.annual.any?
             = render 'plantings/progress_list', plantings: active_plantings.annual.limit(5)
           - else
-            %p= t('.no_annuals')
+            %p No annual plantings
