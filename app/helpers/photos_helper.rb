@@ -37,7 +37,7 @@ module PhotosHelper
   def thumbnail_url(photo)
     if photo.nil?
       placeholder_image
-    elsif photo.source == 'flickr'
+    elsif %w(flickr pixelfed).include?(photo.source)
       photo.fullsize_url
     else
       photo.thumbnail_url

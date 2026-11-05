@@ -33,6 +33,8 @@
       = link_to @photo.link_url, class: 'btn btn-info' do
         - if @photo.source == 'flickr'
           = icon 'fab', 'flickr'
+        - elsif @photo.source == 'pixelfed'
+          = icon 'fas', 'camera'
         View on #{@photo.source.titleize}
       - if @photo.date_taken.present?
         %h3 Taken on #{I18n.l @photo.date_taken.to_date}
