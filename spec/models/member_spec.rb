@@ -468,4 +468,38 @@ describe Member do
       expect(member.email).to be_nil
     end
   end
+
+  describe '#locale' do
+    subject(:member) { build(:member) }
+
+    it 'defaults to nil' do
+      expect(member.locale).to be_nil
+    end
+
+    it 'persists a valid locale in settings' do
+      member.locale = 'es'
+      expect(member.settings['locale']).to eq 'es'
+    end
+
+    it 'returns the saved locale' do
+      member.locale = 'es'
+      expect(member.locale).to eq 'es'
+    end
+
+    it 'removes locale from settings when set to blank' do
+      member.locale = 'es'
+      member.locale = ''
+      expect(member.settings['locale']).to be_nil
+    end
+
+    it 'allows valid locales' do
+      member.locale = 'fr'
+      expect(member).to be_valid
+    end
+
+    it 'rejects unsupported locales' do
+      member.settings = { 'locale' => 'invalid_lang' }
+      expect(member).not_to be_valid
+    end
+  end
 end
