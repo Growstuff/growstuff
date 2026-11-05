@@ -407,6 +407,11 @@ zh:
       record_harvest: 记录收获
       select_plant_part: 选择您收获的植物部位
       title: 记录%{crop}收获
+    planting:
+      is_this_from: 这是来自以下种植之一吗？
+      rate_planting: 评价该种植
+      save: 保存
+      unrated_notice: 此收获来自尚未评分的种植。
     index:
       title:
         crop_harvests: 大家的收获%{crop}

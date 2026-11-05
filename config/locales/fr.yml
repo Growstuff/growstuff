@@ -409,6 +409,11 @@ fr:
       record_harvest: Enregistrer une récolte
       select_plant_part: Sélectionnez la partie de la plante que vous avez récoltée
       title: Enregistrer une récolte de %{crop}
+    planting:
+      is_this_from: Est-ce que cela provient de l'une de ces plantations ?
+      rate_planting: Évaluer cette plantation
+      save: enregistrer
+      unrated_notice: Cette récolte provient d'une plantation qui n'a pas encore été évaluée.
     index:
       title:
         crop_harvests: Les récoltes %{crop} DE chacun
