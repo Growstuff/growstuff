@@ -309,6 +309,13 @@ fr:
       unknown: inconnu
     form:
       location_helper: Si vous avez défini un emplacement dans votre profil, il sera utilisé lors de la création d'un nouveau jardin.
+    card:
+      layout: Disposition
+      no_annuals: Aucune plantation annuelle
+      no_perennials: Aucune plantation vivace
+      of: de
+      owner: 'propriétaire :'
+      perennials: 'Vivaces :'
     inactive_card:
       grown_here: Cultivé ici
       image_alt: "Image de %{name}"

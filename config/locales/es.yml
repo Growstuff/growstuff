@@ -309,6 +309,13 @@ es:
       unknown: desconocido
     form:
       location_helper: Si tiene una ubicación configurada en su perfil, se utilizará cuando cree un nuevo jardín.
+    card:
+      layout: Diseño
+      no_annuals: No hay siembras anuales
+      no_perennials: No hay siembras perennes
+      of: de
+      owner: 'dueño:'
+      perennials: 'Perennes:'
     inactive_card:
       grown_here: Cultivado aquí
       image_alt: "Imagen de %{name}"

@@ -46,6 +46,13 @@ ja:
       prompt: 参加してあなた自身の%{crops}を記録しましょう。
       text: 植えたものや収穫したものを記録し、交換する種を見つけ、近くで何が育っているかを確認しましょう。
   gardens:
+    card:
+      layout: レイアウト
+      no_annuals: 一年草の植え付けはありません
+      no_perennials: 多年草の植え付けはありません
+      of: の
+      owner: '所有者:'
+      perennials: '多年草:'
     inactive_card:
       grown_here: ここで栽培
       image_alt: "%{name}の画像"
