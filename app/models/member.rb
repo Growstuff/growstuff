@@ -149,6 +149,20 @@ class Member < ApplicationRecord
     update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  AVAILABLE_LOCALES = %w[en de es fr ja zh].freeze
+
+  def locale
+    settings['locale'].presence
+  end
+
+  def locale=(val)
+    if val.blank?
+      self.settings = (settings || {}).except('locale')
+    elsif AVAILABLE_LOCALES.include?(val.to_s)
+      self.settings = (settings || {}).merge('locale' => val.to_s)
+    end
+  end
+
   RESERVED_LOGIN_NAMES = %w(growstuff admin moderator staff nearby).freeze
 
   # set up geocoding
@@ -179,6 +193,7 @@ class Member < ApplicationRecord
   validates :other_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
   validates :instagram_handle, :facebook_handle, :bluesky_handle,
             format: { without: %r{\Ahttps?://|/}, message: :handle_format }, allow_blank: true
+  validates :locale, inclusion: { in: AVAILABLE_LOCALES }, allow_blank: true
 
   #
   # Triggers

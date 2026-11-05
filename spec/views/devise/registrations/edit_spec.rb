@@ -50,6 +50,10 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
         assert_select "textarea[id=member_bio]"
       end
 
+      it 'shows locale select field' do
+        assert_select "select[id=member_locale]"
+      end
+
       it 'has no location text field' do
         assert_select "input[id=member_location]", count: 0
       end
