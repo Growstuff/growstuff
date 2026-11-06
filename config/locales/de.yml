@@ -1097,6 +1097,17 @@ de:
       change_location: "Ort ändern:"
       placeholder: Suche nach Stadt, Vorort oder Bundesland...
       search: Suchen
+    show:
+      community_near: "%{site_name}-Community in der Nähe von %{place}"
+      nearby_members: Mitglieder in der Nähe
+      no_nearby_members: Keine Mitglieder in der Nähe
+      no_nearby_plantings: Keine Pflanzungen in der Nähe gefunden
+      no_nearby_seeds: Kein Saatgut in der Nähe gefunden
+      recent_plantings: Neueste Pflanzungen in der Nähe von %{place}
+      seeds_available: Zum Tausch verfügbares Saatgut in der Nähe von %{place}
+      view_all_members: "Alle Mitglieder anzeigen \u00bb"
+      view_all_plantings: "Alle Pflanzungen anzeigen \u00bb"
+      view_all_seeds: "Alle Samen anzeigen \u00bb"
   planting:
     status:
       finished: Abgeschlossen

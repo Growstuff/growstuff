@@ -1097,6 +1097,17 @@ es:
       change_location: "Cambiar ubicación:"
       placeholder: Buscar por ciudad, barrio o estado...
       search: Buscar
+    show:
+      community_near: Comunidad de %{site_name} cerca de %{place}
+      nearby_members: Miembros cercanos
+      no_nearby_members: No hay miembros cercanos
+      no_nearby_plantings: No se encontraron plantaciones cercanas
+      no_nearby_seeds: No se encontraron semillas cercanas
+      recent_plantings: Plantaciones recientes cerca de %{place}
+      seeds_available: Semillas disponibles para intercambio cerca de %{place}
+      view_all_members: "Ver todos los miembros \u00bb"
+      view_all_plantings: "Ver todas las plantaciones \u00bb"
+      view_all_seeds: "Ver todas las semillas \u00bb"
   planting:
     status:
       finished: Finalizado

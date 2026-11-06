@@ -162,6 +162,17 @@ ja:
       change_location: "場所を変更:"
       placeholder: 都市、地域、州を検索...
       search: 検索
+    show:
+      community_near: "%{place}周辺の%{site_name}コミュニティ"
+      nearby_members: 近くのメンバー
+      no_nearby_members: 近くのメンバーはいません
+      no_nearby_plantings: 近くの植え付けは見つかりませんでした
+      no_nearby_seeds: 近くの種は見つかりませんでした
+      recent_plantings: "%{place}周辺の最近の植え付け"
+      seeds_available: "%{place}周辺で交換可能な種"
+      view_all_members: "すべてのメンバーを見る \u00bb"
+      view_all_plantings: "すべての植え付けを見る \u00bb"
+      view_all_seeds: "すべての種を見る \u00bb"
   stalls:
     about_growstuff:
       join: 無料で参加
