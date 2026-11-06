@@ -1158,6 +1158,10 @@ en:
   places:
     index:
       title: "%{site_name} Community Map"
+    search_form:
+      change_location: "Change location:"
+      placeholder: Search for city, suburb or state...
+      search: Search
   planting:
     status:
       finished: Finished

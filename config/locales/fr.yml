@@ -1094,6 +1094,10 @@ fr:
   places:
     index:
       title: Carte de la communauté %{site_name}
+    search_form:
+      change_location: "Changer de lieu :"
+      placeholder: Rechercher une ville, un quartier ou une région...
+      search: Rechercher
   planting:
     status:
       finished: Clôturée

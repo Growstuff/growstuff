@@ -1091,6 +1091,10 @@ zh:
   places:
     index:
       title: '%{site_name} 社区地图'
+    search_form:
+      change_location: "更改地点："
+      placeholder: 搜索城市、郊区或州...
+      search: 搜索
   planting:
     status:
       finished: 完成的
