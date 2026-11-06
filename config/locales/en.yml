@@ -249,6 +249,20 @@ en:
       add_comment: Add a comment
       post_comment: Post comment
   crops:
+    fields:
+      harvest_style:
+        blank: Don't know
+        heading: Harvest style
+        hint: "Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato."
+        label: How a plant is harvested
+        parent: "Parent: %{style}"
+    growing_degree_days:
+      cycle_html: "For %{crop}, the FAO EcoCrop database gives a lowest growing temperature of %{tmin} and a shortest growing cycle of %{gmin} days at its best temperature, about %{degree_days} growing degree days to a first harvest."
+      example: "Say that lowest temperature is 10°C. A day averaging 17°C gives 7 growing degree days. A day averaging 8°C gives none, as it is too cold for the crop to grow. That is why the same lettuce takes about 50 days in a summer and 90 in an autumn: it needs the same total warmth either way."
+      intro: "A plant grows with warmth, not with days. A growing degree day is one day's worth of useful warmth: how many degrees the day's average temperature is above the lowest temperature the crop grows at. Add them up from planting and you know how far along the crop is, whatever the calendar says."
+      needs_html: "%{crop} needs about %{degree_days} growing degree days."
+      summary: What are growing degree days?
+      usage: "Where you've told us where your garden is, we use this and the weather there to predict when your %{crop} will be ready to harvest. We don't use it for how long a plant lives or when it finishes: we go by what members have logged for that."
     harvest_style:
       repeated:
         description: each plant keeps giving harvests
@@ -273,6 +287,8 @@ en:
       sugars: "- Sugars"
       summary: "A summary of nutritional data per 100g for %{food_name}."
       title: Nutritional data
+    predictions:
+      harvest_style: Harvest style
     approval_status_message:
       pending_title: "This crop is currently pending approval."
       rejected_message: "This crop was rejected for the following reason: %{reason}"

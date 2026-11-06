@@ -32,7 +32,7 @@
 
   - if (style = crop.effective_harvest_style)
     = render 'layouts/fact_card',
-      title: 'Harvest style',
+      title: t('crops.predictions.harvest_style'),
       value: t("crops.harvest_style.#{style}.value"),
       description: t("crops.harvest_style.#{style}.description")
   - if crop.median_days_to_first_harvest.present?
