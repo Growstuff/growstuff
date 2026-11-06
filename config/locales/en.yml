@@ -1321,6 +1321,12 @@ en:
       weather_temperature_chart: Daily high and low
       weather_temperature_chart_alt: 'Daily high and low temperature, from %{low} to %{high}.'
     string: "%{crop} planting in %{garden} by %{owner}"
+    modal:
+      add_new_garden: Add a new garden
+      add_to_my_garden: Add to my garden
+      close: Close
+      title: Add %{crop} to your garden
+      which_garden: Which garden is it going in?
     transplant:
       cancel: Cancel
       close: Close
