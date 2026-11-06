@@ -31,7 +31,7 @@ ERA5 is a model smoothed over about 25 km. It can miss cold hollows and coastal 
 - Summary: the median first and last frost, the 90th percentile last frost as a safe-to-plant date, the 10th percentile first frost as an early warning, and the median frost-free days. Show a range, not one date.
 - The frost-free period runs from the last frost of one frost year to the first frost of the next. This pairing is the same in both hemispheres.
 - Status is `frost` when at least 70% of years have any frost, `possible` between 30% and 70%, `rare` below 30%, and `unknown` with no complete years. Rare cells show no dates. Frost-free days are given only for `frost`.
-- The thresholds are 0 °C (frost) and 2 °C (frost risk), kept as constants on `FrostCalculator` so they can change without a migration. The 30% and 70% cut-offs are starting points to tune.
+- The thresholds are 0 °C (frost) and 2 °C (frost danger, as members will see it), kept as constants on `FrostCalculator` so they can change without a migration. The 30% and 70% cut-offs are starting points to tune.
 
 **Thirty years of history** for the central dates, from `temperature_2m_min` only. One variable counts at Open-Meteo's base rate, which is about 780 calls per cell by the cost model in `WeatherUpdater`. Where a cell already has `temp_min_c` readings, those dates are not fetched again. A longer record (back to 1940) is kept for the warming trend only, because older decades describe a cooler climate. These call figures are estimates from the code, not measured against Open-Meteo billing.
 
@@ -39,7 +39,15 @@ ERA5 is a model smoothed over about 25 km. It can miss cold hollows and coastal 
 
 **Everything shown is labelled** approximate, regional and "Alpha – a guess, for entertainment only", with a link to a short explanation. Any text shown to members goes through I18n, with keys in all the locale files.
 
-**Not decided yet:** crop hardiness (tender, half-hardy, hardy) and how it combines with frost dates, member frost reports, the warming trend, ENSO, and frost alerts. These are in `docs/frost-dates-plan.md` as later phases.
+**Hardiness is kept on seeds and crops**, as `tender`, `half_hardy`, `hardy` or `unknown`, because a frost date means nothing until it is set against what a plant tolerates.
+
+- `seeds.hardiness` records what the packet says, in the grower's entry, like `gmo` and `heirloom`.
+- `crops.hardiness` is the level most packets of the crop and its varieties give, a tie going to the more tender. Where no packet gives one, it comes from EcoCrop's killing temperature for growth (`ktmp`), taken from the crop's record or else its parent's. `crops.hardiness_source` says which (`seed_packets`, `ecocrop` or `manual`). A value set by hand is never overwritten.
+- `crops.lowest_tolerated_c` keeps the EcoCrop temperature, whichever source the label came from.
+- The temperatures are a draft in `Hardiness`, loosely after the RHS ratings: tender when the plant is killed above -1 °C, hardy when it tolerates below -5 °C, half-hardy between. They are unconfirmed and need agreeing with growers. `tmin`, the lowest temperature for growth, is not used: it says where growth stops, not what kills the plant. `ktmpr`, the rest-period figure that may matter more for overwintering crops, is not used yet.
+- A planting uses its seed's hardiness if the packet gives one, otherwise its crop's. That is not built yet.
+
+**Not decided yet:** how hardiness combines with frost dates for planting advice, member frost reports, the warming trend, ENSO, and frost alerts. These are in `docs/frost-dates-plan.md` as later phases.
 
 ## Validation
 

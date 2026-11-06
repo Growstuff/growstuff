@@ -12,7 +12,7 @@
 class FrostCalculator
   # At or below this, in degrees Celsius, a day counts as frost. Kept here so it can change without a migration.
   FROST_C = 0.0
-  # The lighter "frost risk" threshold.
+  # The lighter "frost danger" threshold.
   FROST_RISK_C = 2.0
 
   # Years with frost: at least this share is `frost`, at least RARE_BELOW is `possible`, fewer is `rare`.

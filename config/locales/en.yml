@@ -58,6 +58,8 @@ en:
           attributes:
             gmo:
               gmo_inclusion: You must say whether the seeds are genetically modified or not, or that you don't know
+            hardiness:
+              hardiness_inclusion: You must say whether the seeds are tender, half-hardy, hardy, or that you don't know
             heirloom:
               heirloom_inclusion: You must say whether the seeds are heirloom, hybrid, or unknown
             organic:
@@ -1364,6 +1366,12 @@ en:
       trade_help: 'Are you interested in trading or swapping seeds with other %{site_name} members?  If you list your seeds as available for trade, other members can contact you to request seeds.  You can list any conditions or other information in the description, above.
 
         '
+    hardiness:
+      half_hardy: Half-hardy (a light frost is fine)
+      hardy: Hardy (frost is fine)
+      label: Hardiness?
+      tender: Tender (frost damages it)
+      unknown: Unknown
     index:
       title:
         crop_seeds: Everyone's %{crop} seeds
