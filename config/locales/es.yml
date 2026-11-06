@@ -207,6 +207,10 @@ es:
         draft: Borrador
         published: Publicado
     saved: Plantilla de trabajo guardada.
+  comments:
+    inline_form:
+      add_comment: Añadir un comentario
+      post_comment: Publicar comentario
   crops:
     harvests:
       empty: Nadie ha cosechado este cultivo todavía.

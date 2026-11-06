@@ -207,6 +207,10 @@ de:
         draft: Entwurf
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
+  comments:
+    inline_form:
+      add_comment: Einen Kommentar hinzufügen
+      post_comment: Kommentar absenden
   crops:
     harvests:
       empty: Niemand hat diese Kultur bisher geerntet.
