@@ -220,6 +220,10 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   comments:
+    edit_modal:
+      save: Enregistrer
+      title: Modifier le commentaire
+      your_comment: Votre commentaire
     inline_form:
       add_comment: Ajouter un commentaire
       post_comment: Publier un commentaire

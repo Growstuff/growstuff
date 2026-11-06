@@ -220,6 +220,10 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   comments:
+    edit_modal:
+      save: Speichern
+      title: Kommentar bearbeiten
+      your_comment: Ihr Kommentar
     inline_form:
       add_comment: Einen Kommentar hinzufügen
       post_comment: Kommentar absenden

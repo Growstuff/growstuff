@@ -220,6 +220,10 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   comments:
+    edit_modal:
+      save: Guardar
+      title: Editar comentario
+      your_comment: Tu comentario
     inline_form:
       add_comment: Añadir un comentario
       post_comment: Publicar comentario
