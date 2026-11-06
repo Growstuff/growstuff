@@ -93,6 +93,43 @@ describe "crops/show" do
     end
   end
 
+  context "with a harvest style" do
+    before { @crop.update!(harvest_style: 'single') }
+
+    it "says the whole plant is harvested" do
+      render
+      expect(rendered).to have_css ".fact-card", text: "the whole plant is harvested"
+    end
+  end
+
+  context "without a harvest style" do
+    it "has no harvest style block" do
+      render
+      expect(rendered).to have_no_css ".fact-card", text: "Harvest style"
+    end
+  end
+
+  context "with a growing degree days figure" do
+    before { @crop.update!(growing_degree_days: 650) }
+
+    it "explains what they are" do
+      render
+      expect(rendered).to have_css "details.growing-degree-days-explainer", text: "one day's worth of useful warmth", visible: :all
+    end
+
+    it "gives the crop's figure" do
+      render
+      expect(rendered).to have_css "details.growing-degree-days-explainer strong", text: "650", visible: :all
+    end
+  end
+
+  context "without a growing degree days figure or heat data" do
+    it "has no explanation" do
+      render
+      expect(rendered).to have_no_css "details.growing-degree-days-explainer"
+    end
+  end
+
   context "when crop does not have matching ecocrop data" do
     it "does not render the ecological requirements table" do
       render

@@ -997,4 +997,47 @@ describe Crop do
     it { expect(parent.published_job_templates).to contain_exactly(published) }
     it { expect(variety.published_job_templates).to contain_exactly(published) }
   end
+
+  describe 'harvest style' do
+    let(:parent) { create(:crop, harvest_style: nil) }
+    let(:crop) { create(:crop, parent:, harvest_style: nil) }
+
+    it 'is unknown to begin with' do
+      expect(crop.harvest_style).to be_nil
+    end
+
+    it 'can be single' do
+      expect(build(:crop, harvest_style: 'single')).to be_valid
+    end
+
+    it 'can be repeated' do
+      expect(build(:crop, harvest_style: 'repeated')).to be_valid
+    end
+
+    it 'cannot be anything else' do
+      expect(build(:crop, harvest_style: 'weekly')).not_to be_valid
+    end
+
+    describe '#effective_harvest_style' do
+      subject { crop.effective_harvest_style }
+
+      context 'when the crop has one' do
+        let(:crop) { create(:crop, parent:, harvest_style: 'repeated') }
+
+        before { parent.update!(harvest_style: 'single') }
+
+        it { is_expected.to eq 'repeated' }
+      end
+
+      context 'when only the parent has one' do
+        before { parent.update!(harvest_style: 'single') }
+
+        it { is_expected.to eq 'single' }
+      end
+
+      context 'when neither has one' do
+        it { is_expected.to be_nil }
+      end
+    end
+  end
 end

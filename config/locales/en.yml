@@ -237,6 +237,13 @@ en:
       add_comment: Add a comment
       post_comment: Post comment
   crops:
+    harvest_style:
+      repeated:
+        description: each plant keeps giving harvests
+        value: Many times per plant
+      single:
+        description: the whole plant is harvested
+        value: Once per plant
     harvests:
       empty: Nobody has harvested this crop yet.
       harvest_crop: Harvest %{crop}

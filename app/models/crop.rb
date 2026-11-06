@@ -52,6 +52,10 @@ class Crop < ApplicationRecord
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
   scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
 
+  # Whether a plant is harvested once ('single', like a lettuce) or keeps producing
+  # ('repeated', like a tomato). Empty when we don't know.
+  enum :harvest_style, { single: 'single', repeated: 'repeated' }, prefix: true, validate: { allow_nil: true }
+
   ##
   ## Validations
   # Reasons are only necessary when rejecting
@@ -129,6 +133,11 @@ class Crop < ApplicationRecord
       return record if record.present?
     end
     nil
+  end
+
+  # This crop's harvest style if it has one, else its parent's, so a variety of lettuce follows lettuce.
+  def effective_harvest_style
+    harvest_style || parent&.effective_harvest_style
   end
 
   # The EcoCrop record with the figures for a heat estimate: this crop's if it has them, else its parent's,

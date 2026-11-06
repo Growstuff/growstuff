@@ -26,6 +26,15 @@
   = f.radio_button(:perennial, true, label: "Perennial")
   %span.form-text Living more than two years
 
+- if can?(:wrangle, crop)
+  %h2 Harvest style
+  = f.select :harvest_style, [['Once per plant', 'single'], ['Many times per plant', 'repeated']],
+             { include_blank: "Don't know", label: 'How a plant is harvested' }
+  %span.form-text
+    Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.
+    - if crop.parent&.effective_harvest_style
+      Parent: #{crop.parent.effective_harvest_style}
+
 %h2 Data
 - if crop.description.blank? || can?(:wrangle, crop)
   = f.text_area :description, label: 'Description'
