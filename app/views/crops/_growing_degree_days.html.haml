@@ -1,0 +1,28 @@
+-# What growing degree days are, for a crop that has a figure for them: set by a wrangler, or
+-# from the heat it needs according to EcoCrop. Says what we use them for, and what we don't.
+- heat = crop.ecocrop_heat_data
+- if crop.growing_degree_days.present? || heat
+  %details.growing-degree-days-explainer.mt-3
+    %summary What are growing degree days?
+    %p.mt-2
+      A plant grows with warmth, not with days. A growing degree day is one day's worth of useful warmth:
+      how many degrees the day's average temperature is above the lowest temperature the crop grows at.
+      Add them up from planting and you know how far along the crop is, whatever the calendar says.
+    %p
+      Say that lowest temperature is 10°C. A day averaging 17°C gives 7 growing degree days. A day averaging 8°C
+      gives none, as it is too cold for the crop to grow. That is why the same lettuce takes about 50 days
+      in a summer and 90 in an autumn: it needs the same total warmth either way.
+    - if crop.growing_degree_days.present?
+      %p
+        #{crop.name.capitalize} needs about <strong>#{crop.growing_degree_days}</strong> growing degree days.
+    - if heat
+      %p
+        For #{crop.name}, the FAO EcoCrop database gives a lowest growing temperature of
+        <strong>#{heat.tmin}°C</strong> and a shortest growing cycle of #{heat.gmin} days at its best
+        temperature,
+        about <strong>#{number_with_precision(heat.first_harvest_degree_days, precision: 0)}</strong>
+        growing degree days to a first harvest.
+    %p.mb-0
+      Where you've told us where your garden is, we use this and the weather there to predict when your
+      #{crop.name} will be ready to harvest. We don't use it for how long a plant lives or when it finishes:
+      we go by what members have logged for that.
