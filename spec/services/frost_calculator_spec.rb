@@ -80,6 +80,19 @@ describe FrostCalculator, type: :service do
     end
   end
 
+  context 'with a gap in a year and a tolerance for missing days' do
+    subject(:calculator) { described_class.new(readings, latitude:, max_missing_days: 3) }
+
+    let(:latitude) { -41.3 }
+    let(:readings) do
+      series(Date.new(2023, 1, 1), Date.new(2023, 12, 31), frosts: { Date.new(2023, 7, 1) => -1.0 }).except(Date.new(2023, 6, 1))
+    end
+
+    it 'uses the year' do
+      expect(calculator.years.map(&:year)).to eq [2023]
+    end
+  end
+
   context 'with a frost-free place' do
     let(:latitude) { 1.3 }
     let(:readings) { (2015..2024).map { |year| series(Date.new(year, 1, 1), Date.new(year, 12, 31)) }.reduce(:merge) }
