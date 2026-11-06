@@ -35,6 +35,7 @@ class FrostCalculator
   def initialize(readings, latitude:, threshold: FROST_C, max_missing_days: 0)
     @readings = readings
     @max_missing_days = max_missing_days
+    @latitude = latitude
     @southern = latitude.negative?
     @threshold = threshold
   end
@@ -60,7 +61,12 @@ class FrostCalculator
   end
 
   def frost_year_start(year)
-    @southern ? Date.new(year, 1, 1) : Date.new(year - 1, 7, 1)
+    self.class.frost_year_start(year, latitude: @latitude)
+  end
+
+  # The first day of a frost year: January in the Southern Hemisphere, July before the year's name in the Northern.
+  def self.frost_year_start(year, latitude:)
+    latitude.negative? ? Date.new(year, 1, 1) : Date.new(year - 1, 7, 1)
   end
 
   # Linear-interpolated percentile (0..100) of a list of numbers.
