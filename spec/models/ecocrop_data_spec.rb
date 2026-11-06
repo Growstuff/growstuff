@@ -107,6 +107,30 @@ describe EcocropData do
       it { is_expected.not_to be_heat_data }
     end
 
+    context 'with growing cycles of 0 days at both ends' do
+      let(:attributes) { { gmin: 0, gmax: 0 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
+    context 'with a negative growing cycle' do
+      let(:attributes) { { gmin: -5 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
+    context 'with an optimal temperature range of 0' do
+      let(:attributes) { { topmn: 0, topmx: 0 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
+    context 'with a lowest growing temperature of 0' do
+      let(:attributes) { { tmin: 0 } }
+
+      it { is_expected.to be_heat_data }
+    end
+
     context 'when the optimal temperature is no higher than the lowest the crop grows at' do
       let(:attributes) { { tmin: 25 } }
 
@@ -157,6 +181,27 @@ describe EcocropData do
       it "is the parent's" do
         expect(heat_data).to eq tomato_data
       end
+    end
+
+    context 'when the variety has a growing cycle of 0 days' do
+      before do
+        create(:ecocrop_data, scientificname: 'Solanum lycopersicum var. roma', gmin: 0, gmax: 0)
+        variety.scientific_names.create!(name: 'Solanum lycopersicum var. roma', creator: member)
+      end
+
+      it "is the parent's" do
+        expect(heat_data).to eq tomato_data
+      end
+    end
+
+    context 'when the variety and its parent both have a growing cycle of 0 days' do
+      before do
+        tomato_data.update!(gmin: 0, gmax: 0)
+        create(:ecocrop_data, scientificname: 'Solanum lycopersicum var. roma', gmin: 0, gmax: 0)
+        variety.scientific_names.create!(name: 'Solanum lycopersicum var. roma', creator: member)
+      end
+
+      it { is_expected.to be_nil }
     end
 
     context 'when neither crop has data' do

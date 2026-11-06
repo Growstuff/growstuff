@@ -73,6 +73,18 @@ describe "Harvest prediction logic" do
       end
     end
 
+    context "when the crop's growing cycle is recorded as 0 days" do
+      before do
+        crop.scientific_names.create!(name: "Citrullus lanatus", creator: create(:member))
+        create(:ecocrop_data, scientificname: "Citrullus lanatus", tmin: 15, topmn: 20, topmx: 35, gmin: 0, gmax: 0)
+        add_weather(planted_at..today)
+      end
+
+      it "is the median days after planting, not the day of planting" do
+        expect(predicted_at).to eq planted_at + 20
+      end
+    end
+
     context "with heat figures for the crop" do
       # Each day gives 7 degree days above the base of 10°C, so the 30 a first harvest needs come on the fifth day.
       before do
