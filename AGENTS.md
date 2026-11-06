@@ -30,3 +30,5 @@ Follow the layout advice at https://www.betterspecs.org/:
   spec runs under rack_test, which is much faster than a browser.
 
 Avoid tests simply for the sake of tests - for example, if a feature test broadly covers an area a view test for a partial may simply increase maintenance and build fragility. If a view or component has significant complexity or branching logic, prefer test coverage of helpers and moving as much of the complexity there.
+
+When adding new coverage, ensure it is executed to validate it. Check carefully for common causes of flaky test behaviour - timezones, factory content that differs due to randomness, etc.
