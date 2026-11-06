@@ -219,6 +219,10 @@ es:
         draft: Borrador
         published: Publicado
     saved: Plantilla de trabajo guardada.
+  comments:
+    inline_form:
+      add_comment: Añadir un comentario
+      post_comment: Publicar comentario
   crops:
     harvests:
       empty: Nadie ha cosechado este cultivo todavía.
@@ -1105,6 +1109,10 @@ es:
   places:
     index:
       title: Mapa de la comunidad %{site_name}
+    search_form:
+      change_location: "Cambiar ubicación:"
+      placeholder: Buscar por ciudad, barrio o estado...
+      search: Buscar
   planting:
     status:
       finished: Finalizado
@@ -1217,6 +1225,12 @@ es:
       weather_temperature_chart: Altas y bajas diarias
       weather_temperature_chart_alt: Temperatura máxima y mínima diaria, de %{low} a %{high}.
     string: '%{crop} plantando en %{garden} por %{owner}'
+    transplant:
+      cancel: Cancelar
+      close: Cerrar
+      move_to: "Mover esta plantación a:"
+      submit: Trasplantar
+      title: "Trasplantar %{crop}"
   posts:
     created: La publicación se creó correctamente.
     deleted: La publicación fue eliminada.

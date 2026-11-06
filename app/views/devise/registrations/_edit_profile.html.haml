@@ -50,6 +50,11 @@
       = f.url_field :other_url, class: 'form-control', placeholder: "https://you.example.com/"
 
   .row.mb-3
+    = f.label :locale, 'Language', class: 'col-form-label col-md-2'
+    .col-md-8
+      = f.select :locale, options_for_select([['English', 'en'], ['Deutsch', 'de'], ['Español', 'es'], ['Français', 'fr'], ['日本語', 'ja'], ['中文', 'zh']], resource.locale || I18n.default_locale.to_s), {}, class: 'form-select'
+
+  .row.mb-3
     %label.form-label.col-md-2
       Profile picture
     .col-md-8

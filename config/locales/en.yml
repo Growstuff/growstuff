@@ -244,6 +244,10 @@ en:
       title: Add %{crop} growing jobs
     new_planting: A new %{crop} planting I'm going to do
     see_jobs: See your jobs.
+  comments:
+    inline_form:
+      add_comment: Add a comment
+      post_comment: Post comment
   crops:
     harvests:
       empty: Nobody has harvested this crop yet.
@@ -1170,6 +1174,10 @@ en:
   places:
     index:
       title: "%{site_name} Community Map"
+    search_form:
+      change_location: "Change location:"
+      placeholder: Search for city, suburb or state...
+      search: Search
   planting:
     status:
       finished: Finished
@@ -1290,6 +1298,12 @@ en:
       weather_temperature_chart: Daily high and low
       weather_temperature_chart_alt: 'Daily high and low temperature, from %{low} to %{high}.'
     string: "%{crop} planting in %{garden} by %{owner}"
+    transplant:
+      cancel: Cancel
+      close: Close
+      move_to: "Move this planting to:"
+      submit: Transplant
+      title: "Transplant %{crop}"
   posts:
     created: Post was successfully created.
     deleted: Post was deleted.

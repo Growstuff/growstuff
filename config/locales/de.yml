@@ -219,6 +219,10 @@ de:
         draft: Entwurf
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
+  comments:
+    inline_form:
+      add_comment: Einen Kommentar hinzufügen
+      post_comment: Kommentar absenden
   crops:
     harvests:
       empty: Niemand hat diese Kultur bisher geerntet.
@@ -1105,6 +1109,10 @@ de:
   places:
     index:
       title: '%{site_name} Community-Karte'
+    search_form:
+      change_location: "Ort ändern:"
+      placeholder: Suche nach Stadt, Vorort oder Bundesland...
+      search: Suchen
   planting:
     status:
       finished: Abgeschlossen
@@ -1217,6 +1225,12 @@ de:
       weather_temperature_chart: Tageshoch und -tief
       weather_temperature_chart_alt: Tageshöchst- und Tiefsttemperatur, von %{low} bis %{high}.
     string: '%{crop} Pflanzung in %{garden} durch %{owner}'
+    transplant:
+      cancel: Abbrechen
+      close: Schließen
+      move_to: "Diese Bepflanzung verschieben nach:"
+      submit: Umpflanzen
+      title: "%{crop} umpflanzen"
   posts:
     created: Beitrag erfolgreich erstellt
     deleted: Ihr Beitrag wurde gelöscht.

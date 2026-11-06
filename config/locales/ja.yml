@@ -12,6 +12,10 @@ ja:
       select_for_deletion: 削除対象として選択
       time_ago: "%{time}前"
       title: 受信トレイ
+  comments:
+    inline_form:
+      add_comment: コメントを追加
+      post_comment: コメントを投稿
   crops:
     harvests:
       empty: この作物はまだ誰にも収穫されていません。
@@ -119,6 +123,12 @@ ja:
       waiting_body: '%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。'
       waiting_title: メールアドレスの確認をお待ちしています。
   plantings:
+    transplant:
+      cancel: キャンセル
+      close: 閉じる
+      move_to: "この植え付けの移動先:"
+      submit: 移植
+      title: "%{crop}を移植"
     facts:
       day_progress: "%{lifespan}日中 %{age}日目"
       done: 完了
@@ -161,6 +171,13 @@ ja:
       unknown: 不明
       will_trade: 交換可能
       year_saved: 採取年
+  places:
+    index:
+      title: "%{site_name} コミュニティマップ"
+    search_form:
+      change_location: "場所を変更:"
+      placeholder: 都市、地域、州を検索...
+      search: 検索
   stalls:
     about_growstuff:
       join: 無料で参加

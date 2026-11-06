@@ -219,6 +219,10 @@ fr:
         draft: Brouillon
         published: Publié
     saved: Modèle sauvegardé.
+  comments:
+    inline_form:
+      add_comment: Ajouter un commentaire
+      post_comment: Publier un commentaire
   crops:
     harvests:
       empty: Personne n'a encore récolté cette plante.
@@ -1106,6 +1110,10 @@ fr:
   places:
     index:
       title: Carte de la communauté %{site_name}
+    search_form:
+      change_location: "Changer de lieu :"
+      placeholder: Rechercher une ville, un quartier ou une région...
+      search: Rechercher
   planting:
     status:
       finished: Clôturée
@@ -1218,6 +1226,12 @@ fr:
       weather_temperature_chart: Haut / bas quotidien
       weather_temperature_chart_alt: Température quotidienne haute et basse, de %{low} à %{high}.
     string: Plantation de %{crop} à %{garden} par %{owner}
+    transplant:
+      cancel: Annuler
+      close: Fermer
+      move_to: "Déplacer cette plantation vers :"
+      submit: Repiquer
+      title: "Repiquer %{crop}"
   posts:
     created: La publication a été bien créée
     deleted: Ta publication a été supprimée.
