@@ -13,6 +13,10 @@ ja:
       time_ago: "%{time}前"
       title: 受信トレイ
   comments:
+    edit_modal:
+      save: 保存
+      title: コメントを編集
+      your_comment: あなたのコメント
     inline_form:
       add_comment: コメントを追加
       post_comment: コメントを投稿

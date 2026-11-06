@@ -245,6 +245,10 @@ en:
     new_planting: A new %{crop} planting I'm going to do
     see_jobs: See your jobs.
   comments:
+    edit_modal:
+      save: Save
+      title: Edit comment
+      your_comment: Your comment
     inline_form:
       add_comment: Add a comment
       post_comment: Post comment
