@@ -207,6 +207,10 @@ zh:
         draft: 草稿
         published: 已发表
     saved: 作业模板已保存。
+  comments:
+    inline_form:
+      add_comment: 添加评论
+      post_comment: 发表评论
   crops:
     harvests:
       empty: 还没有人收获过这种作物。

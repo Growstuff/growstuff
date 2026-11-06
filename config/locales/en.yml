@@ -232,6 +232,10 @@ en:
       title: Add %{crop} growing jobs
     new_planting: A new %{crop} planting I'm going to do
     see_jobs: See your jobs.
+  comments:
+    inline_form:
+      add_comment: Add a comment
+      post_comment: Post comment
   crops:
     harvests:
       empty: Nobody has harvested this crop yet.

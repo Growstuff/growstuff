@@ -1,5 +1,9 @@
 ---
 ja:
+  comments:
+    inline_form:
+      add_comment: コメントを追加
+      post_comment: コメントを投稿
   crops:
     harvests:
       empty: この作物はまだ誰にも収穫されていません。

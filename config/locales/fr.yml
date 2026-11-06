@@ -207,6 +207,10 @@ fr:
         draft: Brouillon
         published: Publié
     saved: Modèle sauvegardé.
+  comments:
+    inline_form:
+      add_comment: Ajouter un commentaire
+      post_comment: Publier un commentaire
   crops:
     harvests:
       empty: Personne n'a encore récolté cette plante.
