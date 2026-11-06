@@ -165,6 +165,18 @@ en:
     unlike: Remove like
     view: View
     write_blog_post: Write blog post
+  conversations:
+    index:
+      boxes:
+        inbox: Inbox
+        sent: Sent
+        trash: Trash
+      breadcrumb_conversations: Conversations
+      delete: Delete
+      restore: Restore
+      select_for_deletion: Select for deletion
+      time_ago: "%{time} ago"
+      title: Inbox
   community_gardens:
     collaborate: Collaborate with Your Team
     collaborate_text: Invite other gardeners to collaborate on your garden plots. Share the work, share the harvest, and grow together as a community.
