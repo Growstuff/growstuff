@@ -12,7 +12,7 @@
   .row
     .col-md-2.py-4
       - @boxes.each do |box_name, counts|
-        = link_to conversations_path(box: box_name), class: "nav-link list-group-item d-flex justify-content-between #{box_name == @box ? 'active' : ''} #{box_name}" do
+        = link_to conversations_path(box: box_name), title: box_name, class: "nav-link list-group-item d-flex justify-content-between #{box_name == @box ? 'active' : ''} #{box_name}" do
           %span
             = t(".boxes.#{box_name}", default: box_name.capitalize)
           - if counts['unread'].positive?
