@@ -42,10 +42,10 @@ ERA5 is a model smoothed over about 25 km. It can miss cold hollows and coastal 
 **Hardiness is kept on seeds and crops**, as `tender`, `half_hardy`, `hardy` or `unknown`, because a frost date means nothing until it is set against what a plant tolerates.
 
 - `seeds.hardiness` records what the packet says, in the grower's entry, like `gmo` and `heirloom`.
-- `crops.hardiness` is the level most packets of the crop and its varieties give, a tie going to the more tender. Where no packet gives one, it comes from EcoCrop's killing temperature for growth (`ktmp`), taken from the crop's record or else its parent's. `crops.hardiness_source` says which (`seed_packets`, `ecocrop` or `manual`). A value set by hand is never overwritten.
-- `crops.lowest_tolerated_c` keeps the EcoCrop temperature, whichever source the label came from.
-- The temperatures are a draft in `Hardiness`, loosely after the RHS ratings: tender when the plant is killed above -1 °C, hardy when it tolerates below -5 °C, half-hardy between. They are unconfirmed and need agreeing with growers. `tmin`, the lowest temperature for growth, is not used: it says where growth stops, not what kills the plant. `ktmpr`, the rest-period figure that may matter more for overwintering crops, is not used yet.
-- A planting uses its seed's hardiness if the packet gives one, otherwise its crop's. That is not built yet.
+- `crops.hardiness` is the level most packets of the crop and its varieties give, a tie going to the more tender one, else `unknown`. `crops.hardiness_source` says which (`seed_packets` or `manual`). A value set by hand is never overwritten.
+- **EcoCrop is not used for hardiness.** Its killing temperature (`ktmp`) was tried and dropped. On 2026-11-06 it was blank for 25 of the 40 most-planted crops in the dev data, including tomato, cucumber, cabbage and kale. Of the 1,157 records that had a figure, 580 were -1 and 389 were 0, which looks like a default. It labelled pea, dill and parsley tender, and they are hardy in the garden. A wrong label shown as data is worse than none.
+- Hardiness words are not tied to temperatures. Suppliers use them loosely, and there is no source we trust to map them.
+- A planting uses its seed's hardiness if the packet gives one, otherwise its crop's. That is not built yet. Crop wranglers cannot yet set a `manual` value.
 
 **Not decided yet:** how hardiness combines with frost dates for planting advice, member frost reports, the warming trend, ENSO, and frost alerts. These are in `docs/frost-dates-plan.md` as later phases.
 

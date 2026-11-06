@@ -5,13 +5,7 @@ require 'rails_helper'
 describe Crop, '#update_hardiness' do
   subject(:crop) { create(:crop) }
 
-  let(:member) { create(:member) }
-
-  def name_crop(crop, name)
-    crop.scientific_names.create!(name:, creator: member)
-  end
-
-  context 'with no packets and no EcoCrop record' do
+  context 'with no packets' do
     before { crop.update_hardiness }
 
     it 'is unknown' do
@@ -23,78 +17,26 @@ describe Crop, '#update_hardiness' do
     end
   end
 
-  context 'with an EcoCrop killing temperature' do
+  context 'with packets that disagree' do
     before do
-      name_crop(crop, 'Brassica oleracea')
-      create(:ecocrop_data, scientificname: 'Brassica oleracea', ktmp: -8)
-      crop.update_hardiness
-    end
-
-    it 'takes the level from the temperature' do
-      expect(crop.reload.hardiness).to eq 'hardy'
-    end
-
-    it 'names EcoCrop as the source' do
-      expect(crop.reload.hardiness_source).to eq 'ecocrop'
-    end
-
-    it 'keeps the temperature' do
-      expect(crop.reload.lowest_tolerated_c).to eq(-8)
-    end
-  end
-
-  context 'with a variety of a crop that has an EcoCrop temperature' do
-    let(:variety) { create(:crop, parent: crop) }
-
-    before do
-      name_crop(crop, 'Solanum lycopersicum')
-      create(:ecocrop_data, scientificname: 'Solanum lycopersicum', ktmp: 1)
-      variety.update_hardiness
-    end
-
-    it 'follows the parent' do
-      expect(variety.reload.hardiness).to eq 'tender'
-    end
-  end
-
-  context 'with an EcoCrop record without a killing temperature' do
-    before do
-      name_crop(crop, 'Solanum lycopersicum')
-      create(:ecocrop_data, scientificname: 'Solanum lycopersicum', ktmp: nil)
-      crop.update_hardiness
-    end
-
-    it 'is unknown' do
-      expect(crop.reload.hardiness).to eq 'unknown'
-    end
-  end
-
-  context 'with packets that disagree with EcoCrop' do
-    before do
-      name_crop(crop, 'Brassica oleracea')
-      create(:ecocrop_data, scientificname: 'Brassica oleracea', ktmp: -8)
       create_list(:seed, 2, crop:, hardiness: 'half_hardy')
       create(:seed, crop:, hardiness: 'hardy')
-      crop.update_hardiness
+      create(:seed, crop:, hardiness: 'unknown')
     end
 
-    it 'goes with the packets' do
+    it 'goes with the most common' do
       expect(crop.reload.hardiness).to eq 'half_hardy'
     end
 
     it 'names the packets as the source' do
       expect(crop.reload.hardiness_source).to eq 'seed_packets'
     end
-
-    it 'still keeps the EcoCrop temperature' do
-      expect(crop.reload.lowest_tolerated_c).to eq(-8)
-    end
   end
 
-  context 'when a packet is saved' do
-    before { create(:seed, crop:, hardiness: 'tender') }
+  context 'with a packet of a variety' do
+    before { create(:seed, crop: create(:crop, parent: crop), hardiness: 'tender') }
 
-    it 'updates the crop' do
+    it 'counts for the parent crop' do
       expect(crop.reload.hardiness).to eq 'tender'
     end
   end
@@ -111,10 +53,20 @@ describe Crop, '#update_hardiness' do
     end
   end
 
+  context 'when the only packet changes to unknown' do
+    let!(:seed) { create(:seed, crop:, hardiness: 'tender') }
+
+    before { seed.update!(hardiness: 'unknown') }
+
+    it 'goes back to unknown' do
+      expect(crop.reload.hardiness).to eq 'unknown'
+    end
+  end
+
   describe '.update_all_hardiness' do
     before do
-      name_crop(crop, 'Brassica oleracea')
-      create(:ecocrop_data, scientificname: 'Brassica oleracea', ktmp: -8)
+      create(:seed, crop:, hardiness: 'hardy')
+      crop.update_columns(hardiness: 'unknown', hardiness_source: nil) # rubocop:disable Rails/SkipsModelValidations
       described_class.update_all_hardiness
     end
 

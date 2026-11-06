@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Works out hardiness for every crop from its seed packets and EcoCrop, so pages show it without waiting for a packet.
+# Works out hardiness for every crop from its seed packets, so pages show it without waiting for a packet.
 class BackfillCropHardiness < ActiveRecord::Migration[8.1]
   def up
     Crop.reset_column_information
@@ -8,6 +8,6 @@ class BackfillCropHardiness < ActiveRecord::Migration[8.1]
   end
 
   def down
-    # The values stay: they are only worked out from packets and EcoCrop.
+    # The values stay: they are only worked out from the packets.
   end
 end

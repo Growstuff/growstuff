@@ -252,7 +252,6 @@ en:
       post_comment: Post comment
   crops:
     hardiness:
-      killed_at: EcoCrop says frost at %{degrees} °C kills it
       levels:
         half_hardy:
           meaning: A light frost is fine
@@ -264,7 +263,6 @@ en:
           meaning: A frost damages it
           name: Tender
       sources:
-        ecocrop: From the FAO EcoCrop database
         manual: Set by a crop wrangler
         seed_packets: From members' seed packets
       title: Hardiness

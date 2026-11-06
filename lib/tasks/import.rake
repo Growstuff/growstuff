@@ -368,8 +368,6 @@ namespace :import do
       )
 
       puts "Successfully imported #{EcocropData.count} EcoCrop records."
-      Crop.update_all_hardiness
-      puts "Updated crop hardiness."
     ensure
       temp_file.close!
     end

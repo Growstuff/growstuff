@@ -12,7 +12,7 @@ class Crop < ApplicationRecord
   friendly_id :name, use: %i(slugged finders)
 
   # The ranges a crop wrangler sets and members' seed packets give, which the crop keeps the median of.
-  HARDINESS_SOURCES = %w(seed_packets ecocrop manual).freeze
+  HARDINESS_SOURCES = %w(seed_packets manual).freeze
   PACKET_RANGES = %i(germination_days_min germination_days_max days_until_maturity_min days_until_maturity_max).freeze
 
   ##
@@ -143,21 +143,14 @@ class Crop < ApplicationRecord
     @ecocrop_heat_data = data&.heat_data? ? data : parent&.ecocrop_heat_data
   end
 
-  # The EcoCrop record with a killing temperature for growth: this crop's if it has one, else its parent's.
-  def ecocrop_hardiness_data
-    data = ecocrop_data
-    data&.ktmp.present? ? data : parent&.ecocrop_hardiness_data
-  end
-
-  # Keeps how much frost the crop takes: what most of its packets say, else what EcoCrop's killing temperature
-  # says, else unknown. A value set by hand is kept. The EcoCrop temperature is kept either way. Written without
-  # callbacks or history, as figures worked out from the data and not someone's edit.
+  # Keeps how much frost the crop takes: what most of the packets of the crop and its varieties say, else unknown.
+  # A value set by hand is kept. Written without callbacks or history, as a figure worked out from the packets
+  # and not someone's edit.
   def update_hardiness
-    lowest = ecocrop_hardiness_data&.ktmp
-    return update_columns(lowest_tolerated_c: lowest) if hardiness_source == 'manual' # rubocop:disable Rails/SkipsModelValidations
+    return if hardiness_source == 'manual'
 
-    level, source = hardiness_level(lowest)
-    update_columns(hardiness: level, hardiness_source: source, lowest_tolerated_c: lowest) # rubocop:disable Rails/SkipsModelValidations
+    level = Hardiness.most_common(Seed.of_crop(self).where.not(hardiness: Hardiness::UNKNOWN).group(:hardiness).count)
+    update_columns(hardiness: level, hardiness_source: (level == Hardiness::UNKNOWN ? nil : 'seed_packets')) # rubocop:disable Rails/SkipsModelValidations
   end
 
   # returns hash indicating whether this crop is grown in
@@ -283,7 +276,7 @@ class Crop < ApplicationRecord
     )
   end
 
-  # Works out hardiness for every crop. Run after importing EcoCrop data.
+  # Works out hardiness for every crop from its packets.
   def self.update_all_hardiness
     find_each(&:update_hardiness)
   end
@@ -358,15 +351,6 @@ class Crop < ApplicationRecord
   end
 
   private
-
-  # The level and where it came from: the packets first, then EcoCrop.
-  def hardiness_level(lowest)
-    from_packets = Hardiness.most_common(Seed.of_crop(self).where.not(hardiness: Hardiness::UNKNOWN).group(:hardiness).count)
-    return [from_packets, 'seed_packets'] unless from_packets == Hardiness::UNKNOWN
-
-    from_ecocrop = Hardiness.from_lowest_c(lowest)
-    from_ecocrop == Hardiness::UNKNOWN ? [Hardiness::UNKNOWN, nil] : [from_ecocrop, 'ecocrop']
-  end
 
   # The same part of the year in the other hemisphere: March is September.
   def opposite_month(month)

@@ -618,8 +618,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
     t.float "median_days_until_maturity_max", comment: "Days from sowing to harvest, the median of the packets maximums."
     t.string "harvest_style", comment: "'single' when the whole plant is harvested once, 'repeated' when it keeps producing. Empty when unknown."
     t.string "hardiness", default: "unknown", null: false, comment: "tender, half_hardy, hardy or unknown."
-    t.string "hardiness_source", comment: "Where hardiness came from: seed_packets, ecocrop or manual. A manual one is not overwritten."
-    t.float "lowest_tolerated_c", comment: "The killing temperature from EcoCrop, in degrees C, as the crop or its parent has it."
+    t.string "hardiness_source", comment: "Where hardiness came from: seed_packets or manual. A manual one is not overwritten."
     t.index ["creator_id"], name: "index_crops_on_creator_id"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["normalised_name"], name: "index_crops_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
