@@ -30,13 +30,16 @@ class FrostCalculator
                        :last_frost_median, :last_frost_p90, :frost_free_days_median, keyword_init: true)
 
   # readings: { Date => minimum temperature in degrees C }
-  def initialize(readings, latitude:, threshold: FROST_C)
+  # max_missing_days: how many days a year may lack a reading and still be used. Model data has none
+  # missing; weather stations often do. A missing day is treated as not frosty.
+  def initialize(readings, latitude:, threshold: FROST_C, max_missing_days: 0)
     @readings = readings
+    @max_missing_days = max_missing_days
     @southern = latitude.negative?
     @threshold = threshold
   end
 
-  # Only years with a reading for every day are used, so a partial year can't hide a frost.
+  # Only years with (nearly) every day are used, so a partial year can't hide a frost.
   def years
     @years ||= candidate_years.filter_map { |year| year_result(year) }
   end
@@ -79,7 +82,7 @@ class FrostCalculator
     Summary.new(status:, years_used: years.size, frost_years: with_frost.size,
                 first_frost_median: self.class.percentile(firsts, 50), first_frost_p10: self.class.percentile(firsts, 10),
                 last_frost_median: self.class.percentile(lasts, 50), last_frost_p90: self.class.percentile(lasts, 90),
-                frost_free_days_median: median_frost_free_days)
+                frost_free_days_median: (median_frost_free_days if status == :frost))
   end
 
   def status_for(share)
@@ -119,10 +122,10 @@ class FrostCalculator
   def year_result(year)
     start = frost_year_start(year)
     days = (start...(start >> 12)).to_a
-    temps = days.map { |day| @readings[day] }
-    return if temps.any?(&:nil?)
+    known = days.select { |day| @readings[day] }
+    return if known.size < days.size - @max_missing_days
 
-    frosts = days.zip(temps).select { |_day, temp| temp <= @threshold }.map(&:first)
-    YearResult.new(year, frosts.first, frosts.last, temps.min)
+    frosts = known.select { |day| @readings[day] <= @threshold }
+    YearResult.new(year, frosts.first, frosts.last, known.map { |day| @readings[day] }.min)
   end
 end
