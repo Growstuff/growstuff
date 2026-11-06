@@ -69,6 +69,11 @@ class FrostCalculator
     latitude.negative? ? Date.new(year, 1, 1) : Date.new(year - 1, 7, 1)
   end
 
+  # The last day of a frost year.
+  def self.frost_year_end(year, latitude:)
+    frost_year_start(year + 1, latitude:) - 1
+  end
+
   # Linear-interpolated percentile (0..100) of a list of numbers.
   def self.percentile(values, percent)
     sorted = values.sort
