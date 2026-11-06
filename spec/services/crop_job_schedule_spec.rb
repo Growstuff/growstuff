@@ -60,6 +60,14 @@ describe CropJobSchedule do
         expect(entries.first.date).to be_nil
       end
     end
+
+    context 'when the day of the first harvest is known' do
+      subject(:entries) { described_class.new(template, planting_out_on:, first_harvest_on: Date.new(2026, 11, 20), today:).entries }
+
+      it 'is that day, not the one from the median days' do
+        expect(entries.first.date).to eq Date.new(2026, 11, 20)
+      end
+    end
   end
 
   context 'with no steps' do
