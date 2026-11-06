@@ -1170,9 +1170,9 @@ en:
       no_nearby_seeds: No nearby seeds found
       recent_plantings: Recent plantings near %{place}
       seeds_available: Seeds available for trade near %{place}
-      view_all_members: "View all members \u00bb"
-      view_all_plantings: "View all plantings \u00bb"
-      view_all_seeds: "View all seeds \u00bb"
+      view_all_members: "View all members >>"
+      view_all_plantings: "View all plantings >>"
+      view_all_seeds: "View all seeds >>"
   planting:
     status:
       finished: Finished
