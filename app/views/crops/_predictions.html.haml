@@ -43,6 +43,7 @@
   - if (size = size_fact(crop))
     = render 'layouts/fact_card', title: size[:title], value: size[:value], description: nil
   = render 'crops/growing_facts', crop: crop
+  = render 'crops/hardiness', crop: crop
   - if crop.growing_degree_days.present?
     = render 'layouts/fact_card',
       title: 'Growing Degree Days', value: crop.growing_degree_days, description: nil

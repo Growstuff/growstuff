@@ -251,6 +251,23 @@ en:
       add_comment: Add a comment
       post_comment: Post comment
   crops:
+    hardiness:
+      killed_at: EcoCrop says frost at %{degrees} °C kills it
+      levels:
+        half_hardy:
+          meaning: A light frost is fine
+          name: Half-hardy
+        hardy:
+          meaning: Frost is fine
+          name: Hardy
+        tender:
+          meaning: A frost damages it
+          name: Tender
+      sources:
+        ecocrop: From the FAO EcoCrop database
+        manual: Set by a crop wrangler
+        seed_packets: From members' seed packets
+      title: Hardiness
     harvests:
       empty: Nobody has harvested this crop yet.
       harvest_crop: Harvest %{crop}
@@ -312,6 +329,8 @@ en:
     index:
       title: Forums
     updated: Forum was successfully updated.
+  frost:
+    alpha: Alpha – a guess, for entertainment only
   gardens:
     about:
       collaborators: Collaborators
