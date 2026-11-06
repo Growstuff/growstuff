@@ -1205,6 +1205,12 @@ es:
       weather_temperature_chart: Altas y bajas diarias
       weather_temperature_chart_alt: Temperatura máxima y mínima diaria, de %{low} a %{high}.
     string: '%{crop} plantando en %{garden} por %{owner}'
+    modal:
+      add_new_garden: Añadir un nuevo jardín
+      add_to_my_garden: Añadir a mi jardín
+      close: Cerrar
+      title: "Añadir %{crop} a tu jardín"
+      which_garden: "¿En qué jardín va a ir?"
     transplant:
       cancel: Cancelar
       close: Cerrar

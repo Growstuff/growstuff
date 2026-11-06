@@ -1205,6 +1205,12 @@ de:
       weather_temperature_chart: Tageshoch und -tief
       weather_temperature_chart_alt: Tageshöchst- und Tiefsttemperatur, von %{low} bis %{high}.
     string: '%{crop} Pflanzung in %{garden} durch %{owner}'
+    modal:
+      add_new_garden: Einen neuen Garten hinzufügen
+      add_to_my_garden: Zu meinem Garten hinzufügen
+      close: Schließen
+      title: "%{crop} zu Ihrem Garten hinzufügen"
+      which_garden: In welchen Garten soll es gepflanzt werden?
     transplant:
       cancel: Abbrechen
       close: Schließen

@@ -107,6 +107,12 @@ ja:
       waiting_body: '%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。'
       waiting_title: メールアドレスの確認をお待ちしています。
   plantings:
+    modal:
+      add_new_garden: 新しい庭を追加
+      add_to_my_garden: 自分の庭に追加
+      close: 閉じる
+      title: "%{crop}をあなたの庭に追加"
+      which_garden: どの庭に入れますか？
     transplant:
       cancel: キャンセル
       close: 閉じる
