@@ -1,6 +1,44 @@
 # frozen_string_literal: true
 
 class Rack::Attack
+  class Request < ::Rack::Request
+    def authenticated_user
+      env['warden']&.user
+    end
+
+    def admin?
+      user = authenticated_user
+      user.respond_to?(:role?) && user.role?(:admin)
+    end
+
+    def logged_in?
+      !authenticated_user.nil?
+    end
+
+    def rate_limit_modifier
+      Rack::Attack.rate_limit_modifier(self)
+    end
+  end
+
+  # Rate limit modifier based on authentication status:
+  # - Admins attract only 25% of the threshold
+  # - Logged in users attract only 50% of the threshold
+  # - Unauthenticated visitors attract 100% of the threshold
+  def self.rate_limit_modifier(req)
+    user = req.respond_to?(:env) ? req.env['warden']&.user : nil
+    if user.respond_to?(:role?) && user.role?(:admin)
+      0.25
+    elsif !user.nil?
+      0.5
+    else
+      1.0
+    end
+  end
+
+  def self.modified_limit(req, base_limit)
+    (base_limit / rate_limit_modifier(req)).to_i
+  end
+
   ### Cache Config ###
 
   # Count requests in this process's memory, not in Rails.cache (memcached).
@@ -12,12 +50,16 @@ class Rack::Attack
 
   ### Throttle Config ###
 
-  if Rails.env.production?
+  if Rails.env.production? || Rails.env.test?
     # Throttle requests for members' data to 20 per minute per IP, on both the
     # HTML routes and their /api/v1 equivalents.
+    # Rate limit modifier adjusts the threshold:
+    # - admins attract only 25% of the threshold (effective limit: 80)
+    # - logged in users attract only 50% of the threshold (effective limit: 40)
+    # - unauthenticated visitors attract 100% of the threshold (effective limit: 20)
     restricted_routes = %r{^(/api/v1)?/(jobs|plantings|harvests|members)(/|$)}
 
-    throttle('req/ip/restricted_routes', limit: 20, period: 1.minute) do |req|
+    throttle('req/ip/restricted_routes', limit: ->(req) { modified_limit(req, 20) }, period: 1.minute) do |req|
       req.ip if req.path.match?(restricted_routes)
     end
 
