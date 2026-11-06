@@ -31,10 +31,10 @@
       .record-panel.seed-detail
         = render 'seeds/hero', seed: @seed
 
-        %section.seed-facts= render 'facts', seed: @seed
+        %section#facts.seed-facts= render 'facts', seed: @seed
 
         = cute_icon
-        %section.seed--description
+        %section#notes.seed--description
           .section-header
             %h2 Notes
             -# "edit", not "+ add": there is one note, not a list to add to.
@@ -74,7 +74,7 @@
                 = icon 'fas', 'plus'
                 add
           - if @photos.any?
-            = render 'photos/gallery', photos: @photos
+            = render 'photos/gallery', photos: @photos, item: @seed
             = will_paginate @photos
           - else
             -# One line. The "+ add" on the heading bar is the invitation.

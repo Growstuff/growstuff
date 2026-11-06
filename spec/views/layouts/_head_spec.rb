@@ -25,4 +25,16 @@ describe 'layouts/_head.html.haml', type: "view" do
   it 'has a title' do
     assert_select "head>title"
   end
+
+  it 'asks for a large social card' do
+    assert_select "head>meta[name='twitter:card'][content='summary_large_image']"
+  end
+
+  it 'has a 1200 pixel wide og:image' do
+    assert_select "head>meta[property='og:image:width'][content='1200']"
+  end
+
+  it 'has an og:description' do
+    assert_select "head>meta[property='og:description']"
+  end
 end

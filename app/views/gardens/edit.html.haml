@@ -1,3 +1,6 @@
 = content_for :title, "Edit garden"
 
 = render "form"
+
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true

@@ -1,19 +1,19 @@
 - if can?(:edit, garden)
   = actions_menu('garden') do
+    = menu_link_to :edit, t('buttons.edit'), edit_garden_path(garden)
+    = menu_add_photo_link(garden, text: t('gardens.actions.add_photo'))
     - if garden.active
       = menu_link_to :planting, t('buttons.plant_something_here'), new_planting_path(garden_id: garden.id)
-      = menu_link_to :job, t('buttons.new_job'), new_job_path(garden_id: garden.id)
+      = menu_link_to :job, t('gardens.actions.new_job'), new_job_path(garden_id: garden.id)
       - if garden.nursery?
         = menu_link_to :garden, t('buttons.stop_nursery'), stop_nursery_garden_path(garden), method: :post
       - else
-        = menu_link_to :garden, t('buttons.make_nursery'), make_nursery_garden_path(garden), method: :post
+        = menu_link_to :garden, t('gardens.actions.make_nursery'), make_nursery_garden_path(garden), method: :post
       = menu_link_to :archive, t('buttons.mark_as_inactive'), garden_path(garden, garden: { active: 0 }),
                      method: :put, data: { confirm: t('gardens.confirm_deactivate') }
     - else
       = menu_link_to :planting, t('buttons.mark_as_active'), garden_path(garden, garden: { active: 1 }),
                      method: :put
-    = menu_link_to :edit, t('buttons.edit'), edit_garden_path(garden)
-    = menu_add_photo_link(garden)
     - if can?(:destroy, garden)
       .dropdown-divider
       = menu_delete_button(garden, message: 'gardens.confirm_delete')

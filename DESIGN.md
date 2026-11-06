@@ -272,6 +272,38 @@ The small cards on a record page each hold one fact. The value slot holds
 - Say what's true: a perennial keeps growing year to year — it doesn't "grow
   back each year".
 
+## The packet sheet
+
+A seed's page is where a packet is checked against what it says, so it breaks from
+the fact cards: the facts are a plain list (label, value, pencil), with the packet
+itself beside it, half and half, so the one can be read against the other.
+
+```
+┌───────────────────────────┬───────────────────────────┐
+│ The packet      [edit all]│ From the packet           │
+├───────────────────────────┤  [Front] [Back]           │
+│ Variety          Sky… ✎   │  ┌─────────────────────┐  │
+│ Quantity         50 seeds │  │   the packet, whole │  │
+│ Days to maturity unknown  │  │   (click to zoom)   │  │
+│ Row spacing      —        │  └─────────────────────┘  │
+│ …                         │  [Show our attempt to     │
+└───────────────────────────┴─ read the packet] ───────┘
+```
+
+- The packet's **photos come first and are big enough to read**. Front and back
+  take turns so each can fill the panel, and a click shows one full size.
+- The text read off the photos is **our attempt**, said so on the page, kept
+  behind a button, because a program's guess is not the evidence. Editing opens it.
+- "Edit all" swaps the list for a form in the same place, so the packet never
+  leaves the screen; the pencils still edit one fact in its place.
+- Where the packet came from is **a ribbon on the hero photo**, a different one
+  for each source, and the grower's way to change it. An unknown source has no
+  ribbon, and the grower gets a faint "Where from?".
+
+Other record pages keep fact cards. This page departs from them because its job
+is entering data against a source, which a list beside the source does better
+than cards that push the source out of sight.
+
 ## Harvest months
 
 Grouped into the grower's own seasons: three months each, named, starting at

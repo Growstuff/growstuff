@@ -48,6 +48,7 @@ Rails.application.configure do
 
   # Growstuff config
   config.action_mailer.default_url_options = { host: 'localhost:8080' }
+  config.x.api_base_url = 'http://www.example.com' # the host request specs use
 
   Rails.application.configure do
     config.host = 'test.example.com'

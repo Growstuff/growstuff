@@ -13,7 +13,7 @@
       - unless planting.failed?
         = menu_link_to :seeds, t('buttons.save_seeds'), new_planting_seed_path(planting_slug: slug)
       = menu_link_to :finish, t('buttons.mark_as_finished'), planting_path(slug:, planting: { finished: 1 }),
-                     method: :put, class: 'append-date'
+                     method: :put
       = menu_link_to :failed, t('buttons.mark_as_failed'), planting_path(slug:, planting: { failed: 1 }), method: :put
     - if can?(:destroy, planting)
       .dropdown-divider

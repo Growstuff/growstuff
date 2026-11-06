@@ -47,6 +47,28 @@ describe PhotosController do
     end
   end
 
+  describe 'GET index for a crop with a variety' do
+    let(:member) { create(:member) }
+    let(:crop) { create(:crop) }
+    let(:variety) { create(:crop, parent: crop) }
+    let(:planting) { create(:planting, crop:, owner: member) }
+    let(:variety_planting) { create(:planting, crop: variety, owner: member) }
+    let(:newest) { create(:photo, owner: member, likes_count: 0, created_at: 1.day.ago) }
+    let(:favourite) { create(:photo, owner: member, likes_count: 7, created_at: 1.year.ago) }
+    let(:oldest) { create(:photo, owner: member, likes_count: 0, created_at: 2.years.ago) }
+
+    before do
+      planting.photos << newest
+      variety_planting.photos << favourite
+      variety_planting.photos << oldest
+      get :index, params: { crop_slug: crop.to_param }
+    end
+
+    it 'includes the variety photos and puts the most liked first' do
+      expect(assigns(:photos).map(&:id)).to eq [favourite.id, newest.id, oldest.id]
+    end
+  end
+
   describe "GET new" do
     let(:tomato)   { create(:tomato)                                }
     let(:planting) { create(:planting, crop: tomato, owner: member) }

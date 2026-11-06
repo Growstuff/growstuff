@@ -30,11 +30,6 @@ describe('SignUpModal', () => {
     expect(screen.getByRole('dialog', {name: 'Join Growstuff'})).toBeInTheDocument();
   });
 
-  it('offers the newsletter, ticked', () => {
-    setup();
-    expect(screen.getByLabelText('Subscribe to the Growstuff newsletter')).toBeChecked();
-  });
-
   it('does not tick the terms for me', () => {
     setup();
     expect(screen.getByLabelText(/Terms of Service/)).not.toBeChecked();

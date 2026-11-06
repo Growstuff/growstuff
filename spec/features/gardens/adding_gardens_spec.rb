@@ -13,7 +13,6 @@ describe "Gardens", :js do
     it "displays required and optional fields properly" do
       expect(page).to have_css ".required", text: "Name"
       expect(page).to have_css 'textarea#garden_description'
-      expect(page).to have_css 'input#garden_location'
       expect(page).to have_css 'input#garden_area'
     end
 

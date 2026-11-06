@@ -34,6 +34,7 @@
     -# every sign in and sign up link its own (see AuthDialog).
     - if member_signed_in?
       = react_component 'PhotoDialog', photo_dialog_props
+      = react_component 'RecordDialog', { plantings_url: planting_picker_path(format: :json) }
     - else
       = react_component 'AuthDialog', auth_dialog_props
 

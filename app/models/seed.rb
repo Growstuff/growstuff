@@ -13,6 +13,9 @@ class Seed < ApplicationRecord
   ORGANIC_VALUES = ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'].freeze
   GMO_VALUES = ['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown'].freeze
   HEIRLOOM_VALUES = %w(heirloom hybrid unknown).freeze
+  # What a packet says that the crop keeps the median of.
+  MEDIAN_FIELDS = %w(crop_id row_spacing sow_months germination_days_min germination_days_max
+                     days_until_maturity_min days_until_maturity_max).freeze
   SOURCE_VALUES = ['seed catalogue', 'retail outlet', 'seed bank or similar institution',
                    'traded from another person', 'my own seed saving', 'other/unknown'].freeze
   # A seed packet dated outside this is a typo, not a plan.
@@ -23,9 +26,13 @@ class Seed < ApplicationRecord
   belongs_to :crop
   belongs_to :parent_planting, class_name: 'Planting',
                                optional: true, inverse_of: :child_seeds # parent
+  has_many :stall_seeds, dependent: :destroy
   has_many :child_plantings, class_name: 'Planting',
                              foreign_key: 'parent_seed_id', dependent: :nullify,
                              inverse_of: :parent_seed # children
+
+  # The months a form sends: a blank from its hidden field, strings, repeats, any order.
+  normalizes :sow_months, with: ->(months) { Array(months).compact_blank.map(&:to_i).uniq.sort }
 
   #
   # Validations
@@ -37,6 +44,18 @@ class Seed < ApplicationRecord
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :days_until_maturity_max, allow_nil:    true,
                                       numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :germination_days_min, allow_nil:    true,
+                                   numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :germination_days_max, allow_nil:    true,
+                                   numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :how_to_sow, length: { maximum: 2_000 }
+  validate :sow_months_are_months
+
+  # What packets say about a crop is kept on the crop, and on the crop it is a variety of.
+  after_commit :update_crop_medians, on: %i(create update destroy)
+  validates :row_spacing, allow_nil:    true,
+                          numericality: { only_integer: true, greater_than: 0 }
+  validates :variety, :batch_number, length: { maximum: 100 }
   validate :plant_before_year_is_a_year
   validates :tradable_to, allow_blank: false,
                           inclusion:   { in: TRADABLE_TO_VALUES, message: :tradable_to_inclusion }
@@ -48,6 +67,36 @@ class Seed < ApplicationRecord
                        inclusion:   { in: HEIRLOOM_VALUES, message: :heirloom_inclusion }
   validates :source, allow_blank: true,
                      inclusion:   { in: SOURCE_VALUES, message: :source_inclusion }
+
+  #
+  # Photos
+  # The photo of one side of the packet, front or back, if there is one. When a
+  # side has been photographed again, the newest photo. The older one keeps its
+  # label, as it is still a photo of a packet, and not of the crop.
+  def packet_photo(side)
+    photo_associations.where(label: side).order(:id).last&.photo
+  end
+
+  # The text read from each side of the packet, for the sides that have any.
+  def packet_texts
+    PhotoAssociation::LABELS['Seed'].index_with { |side| packet_photo(side)&.ocr_text }.compact_blank
+  end
+
+  # Which side of the packet a photo of this seed is of, if it is of one. Uses
+  # the loaded photo associations, so a page of photos reads them once.
+  def label_of(photo)
+    photo_associations.find { |association| association.photo_id == photo.id }&.label
+  end
+
+  # The packet's front, if there is a photo of it. Otherwise the most liked
+  # photo that is not of the back.
+  def default_photo
+    packet_photo('front') || most_liked_photo
+  end
+
+  def most_liked_photo
+    photos.merge(PhotoAssociation.where(label: [nil, 'front'])).order(likes_count: :desc, created_at: :desc).first
+  end
 
   #
   # Delegations
@@ -62,20 +111,38 @@ class Seed < ApplicationRecord
   scope :interesting, -> { tradable.has_location }
   scope :has_location, -> { joins(:owner).where.not('members.location': nil) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :active, -> { where('finished <> true').where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
+  scope :active, -> { where('seeds.finished <> true').where('seeds.finished_at IS NULL OR seeds.finished_at < ?', Time.zone.now) }
+  # The params that narrow which seeds the library shows; its other params
+  # (crop, whose seeds, tab, grouping, view) are not counted as filtering.
+  FILTER_PARAMS = %w(from heirloom shared planted gardener sow_month within past).freeze
+
   # Where seeds came from, as the filter chips name it.
   SOURCES_BY_KIND = {
-    'own'    => ['my own seed saving'],
-    'bought' => ['seed catalogue', 'retail outlet', 'seed bank or similar institution'],
-    'traded' => ['traded from another person']
+    'own'       => ['my own seed saving'],
+    'catalogue' => ['seed catalogue'],
+    'retail'    => ['retail outlet'],
+    'bank'      => ['seed bank or similar institution'],
+    'traded'    => ['traded from another person']
   }.freeze
   scope :from_source, ->(kind) { where(source: SOURCES_BY_KIND.fetch(kind)) }
-  scope :heirlooms, -> { where(heirloom: 'heirloom') }
+  scope :sown_in, ->(months) { where('seeds.sow_months && ARRAY[?]::integer[]', Array(months)) }
+  scope :planted, -> { where(id: Planting.where.not(parent_seed_id: nil).select(:parent_seed_id)) }
+  scope :not_planted, -> { where.not(id: planted.select(:id)) }
 
   # Seeds of a crop and of its varieties: choosing tomato finds Brandywine
   # tomato seeds too.
   scope :of_crop, ->(crop) { where(crop_id: Crop.where(id: crop.id).or(Crop.where(parent_id: crop.id)).select(:id)) }
-  scope :expired, -> { active.where('plant_before < ?', Time.zone.today) }
+  scope :expired, -> { active.where('seeds.plant_before < ?', Time.zone.today) }
+
+  # In the last days of a month it is already time to sow for the next one.
+  SOW_NOW_NEXT_MONTH_DAYS = 10
+
+  # The months "sow now" means: this one, and next once this one is nearly over.
+  def self.sow_now_months(today = Time.zone.today)
+    months = [today.month]
+    months << today.next_month.month if today.day > today.end_of_month.day - SOW_NOW_NEXT_MONTH_DAYS
+    months
+  end
 
   # "Plant before" only ever means a season, not a day: seed keeps until the
   # end of the year it is dated to. So members give the year alone, and it is
@@ -132,6 +199,16 @@ class Seed < ApplicationRecord
   end
 
   private
+
+  def update_crop_medians
+    return unless destroyed? || previously_new_record? || saved_changes.keys.intersect?(MEDIAN_FIELDS)
+
+    Crop.where(id: [crop_id, saved_change_to_crop_id&.first].compact).with_parents.find_each(&:update_seed_medians)
+  end
+
+  def sow_months_are_months
+    errors.add(:sow_months, :inclusion) unless sow_months.all? { |month| (1..12).cover?(month) }
+  end
 
   def plant_before_year_is_a_year
     return if @bad_plant_before_year.blank?

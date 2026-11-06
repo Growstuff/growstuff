@@ -10,8 +10,8 @@ Accepted
 
 Job suggestions include a "Near you" section: what gardeners within a set
 distance of the member have been doing at this time of year. A fixed 25 km radius
-often finds too few gardeners to show a trend, because a suggestion needs at
-least `OthersJobs::MIN_GARDENERS` gardeners doing the same job.
+often finds too few gardeners to show a trend, because a suggestion needed at
+least three gardeners doing the same job. It now needs only one.
 
 Distance is a poor proxy for what matters when gardening: the season. The season
 follows latitude and hemisphere. A gardener 5,000 km east or west at the same
@@ -29,9 +29,9 @@ of the equator. Longitude and distance don't matter.
 - World neighbours are their own section, "World neighbours", with their own
   switch (`world`), separate from "Near you".
 - It suggests the jobs world neighbours finished in the three weeks either side
-  of today's date in this year and each of the five before, plus the last two
-  weeks, when enough of them did the same one. This year is included, unlike
-  the other sources, so what neighbours are doing now counts.
+  of today's date in this year and each of the five before, plus any they have
+  planned for this month, finished or not. This year is included, unlike the
+  other sources, so what neighbours are doing now counts.
 - "Near you" stays about place. It widens its radius (25, 50, 100, 250, 500 km)
   until there are `JobIdeas::Nearby::ENOUGH` gardeners, so a sparse area still
   finds neighbours.

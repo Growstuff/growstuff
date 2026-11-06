@@ -4,6 +4,8 @@
 // behind. Then the idea makes way and the next takes its place. If anything goes
 // wrong the choice is sent the ordinary way, which shows the ideas on their page.
 
+import {csrfToken} from '../api';
+
 const reduced = function () {
   return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 };
@@ -38,11 +40,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const body = document.getElementById('job-ideas-body');
   if (!modal || !body) return;
 
-  const token = document.querySelector('meta[name="csrf-token"]');
   const request = function (url, options) {
     const settings = options || {};
     return fetch(url, Object.assign({credentials: 'same-origin'}, settings, {
-      headers: Object.assign({'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': token ? token.content : ''}, settings.headers),
+      headers: Object.assign({'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': csrfToken()}, settings.headers),
     }));
   };
   const ok = function (response) {

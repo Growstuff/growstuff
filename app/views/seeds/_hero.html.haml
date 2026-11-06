@@ -6,9 +6,12 @@
 -# Never the placeholder: that says nothing worth 260px.
 - hero_photo = seed.default_photo || seed.crop.default_photo
 - if hero_photo
-  = link_to seed_path(seed), class: 'record-hero-photo' do
-    = image_tag(hero_photo.source == 'flickr' ? hero_photo.fullsize_url : hero_photo.thumbnail_url,
-                alt: "#{seed.crop.name} seeds saved by #{seed.owner}")
+  .record-hero-photo-frame
+    = link_to seed_path(seed), class: 'record-hero-photo' do
+      = image_tag(hero_photo.source == 'flickr' ? hero_photo.fullsize_url : hero_photo.thumbnail_url,
+                  alt: "#{seed.crop.name} seeds saved by #{seed.owner}")
+    -# Where the packet came from, as a ribbon on the photo, and the grower's way to change it.
+    = seed_source_control(seed)
 .jumbotron
   .d-flex.justify-content-between.align-items-start
     .record-identity
@@ -24,13 +27,16 @@
           %span.text-muted
             &middot;
             = I18n.l seed.created_at.to_date
-        %p.seed-badges.mb-0
+        -# A div, not a p: the grower's source badge is a dropdown, and a p cannot hold one.
+        .seed-badges.mb-0
           - if seed.organic != 'unknown'
             %span.badge.text-bg-success.seedtitle--organic= seed.organic
           - if seed.gmo != 'unknown'
             %span.badge.text-bg-success.seedtitle--gmo= seed.gmo
           - if seed.heirloom != 'unknown'
             %span.badge.text-bg-success.seedtitle--heirloom= seed.heirloom
+          -# With no photo to hang the ribbon on, the source is a badge among the others.
+          = seed_source_control(seed, ribbon: false) unless hero_photo
         - if seed.parent_planting
           = render 'shared/record_parent', planting: seed.parent_planting, verb: 'saved from'
     = render 'seeds/actions', seed: seed

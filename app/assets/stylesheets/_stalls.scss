@@ -1,0 +1,927 @@
+// A member's garden stall: awning, hanging sign and a table, boarded up behind
+// a shutter while it is closed. When it has just been opened the pieces animate
+// in one after another (.stall-opening); without motion they are simply there.
+$stall-wood: #6d4c41;
+$stall-outline: #3e2a1c;
+$stall-label: #fff8e1;
+
+.stall-page {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.stall-owner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stall-owner-avatar img {
+  display: block;
+  border-radius: 50%;
+}
+
+.stall-owner-name {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+// On the shutter: the avatar over a label, like the "Closed for now" tag.
+.stall-shutter .stall-owner {
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+
+  img {
+    border: 3px solid $stall-outline;
+  }
+
+  .stall-owner-name {
+    padding: 2px 14px;
+    border: 3px solid $stall-outline;
+    border-radius: 4px 12px 12px 4px;
+    background: $stall-label;
+    font-size: 1.1rem;
+  }
+}
+
+.stall {
+  position: relative;
+  max-width: 760px;
+  margin-right: auto;
+  margin-left: auto;
+  overflow: clip;
+  border-radius: $card-radius;
+  margin-bottom: 1.75rem;
+}
+
+.stall-awning {
+  display: flex;
+  position: relative;
+  z-index: 2;
+  padding: 0 3px;
+  transform-origin: top center;
+
+  span {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 34px;
+    margin-left: -3px;
+    border: 3px solid $stall-outline;
+    border-top-width: 0;
+    border-bottom-left-radius: 50% 34px;
+    border-bottom-right-radius: 50% 34px;
+  }
+
+  .stall-stripe-green {
+    background: $green;
+  }
+
+  .stall-stripe-white {
+    background: $white;
+  }
+}
+
+.stall-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.stall-sign {
+  box-sizing: border-box;
+  width: min(100%, 560px);
+  margin-top: 22px;
+  padding: 14px 20px;
+  border: 3px solid $stall-outline;
+  border-radius: $card-radius;
+  background: $stall-wood;
+  color: $white;
+  text-align: center;
+  transform-origin: top center;
+
+  p {
+    margin: 0;
+  }
+}
+
+.stall-sign-name {
+  font-size: clamp(1.25rem, 4.2vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.stall-sign-text {
+  margin-top: 4px;
+  font-size: 1rem;
+}
+
+.stall-table {
+  width: 100%;
+  margin-top: 22px;
+}
+
+.stall-spots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  padding: 0 12px 16px;
+}
+
+.stall-spot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  border: 3px dashed $stall-wood;
+  border-radius: $card-radius;
+  color: $brown;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.stall-tabletop {
+  height: 26px;
+  border-top: 3px solid $stall-outline;
+  background: $stall-wood;
+  box-shadow: inset 0 6px 0 rgba(255, 255, 255, 0.12);
+}
+
+.stall.stall-stocked {
+  max-width: none;
+  margin-bottom: 0;
+}
+
+// Rolled up and out of sight whenever the stall is open.
+.stall-shutter {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid $stall-outline;
+  border-radius: $card-radius;
+  background: repeating-linear-gradient(180deg, $stall-wood 0 26px, #5a3d33 26px 30px);
+}
+
+.stall-closed .stall-shutter,
+.stall-opening .stall-shutter {
+  display: flex;
+}
+
+.stall-shutter-sign {
+  padding: 6px 26px;
+  border: 3px solid $stall-outline;
+  border-radius: 4px 16px 16px 4px;
+  background: $stall-label;
+  font-size: 2rem;
+  font-weight: 600;
+  transform: rotate(-3deg);
+}
+
+.stall-closed {
+  min-height: 300px;
+
+  // Nothing shows behind the shutter, and it must not hold the box open.
+  .stall-awning,
+  .stall-body {
+    display: none;
+  }
+}
+
+.stall-panel {
+  box-sizing: border-box;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.6rem 1.75rem;
+  border-radius: $card-radius;
+  background: $white;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 3px 4px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.2);
+
+  h1 {
+    font-size: 150%;
+    font-weight: 500;
+  }
+}
+
+.stall-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.stall-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 1.4rem;
+  border: 2px dashed rgba($brown, 0.35);
+  border-radius: $card-radius;
+  background: $white;
+  color: inherit;
+  text-align: left;
+
+  strong {
+    font-size: 150%;
+  }
+}
+
+.stall-choice:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.stall-choice-soon {
+  color: $ink-muted;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.stall-card {
+  padding: 1rem 1.25rem;
+  border: 2px solid $stall-outline;
+  border-radius: 4px 16px 16px 4px;
+  background: $stall-label;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stall-opening {
+    .stall-shutter {
+      animation: stall-shutter-up 800ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    }
+
+    .stall-awning {
+      animation: stall-awning-drop 700ms cubic-bezier(0.3, 1.5, 0.5, 1) 450ms backwards;
+    }
+
+    .stall-sign {
+      animation: stall-sign-swing 800ms cubic-bezier(0.3, 1.6, 0.5, 1) 1000ms backwards;
+    }
+
+    .stall-table {
+      animation: stall-table-in 600ms cubic-bezier(0.3, 1.3, 0.5, 1) 1400ms backwards;
+    }
+
+    .stall-spot {
+      animation: stall-spot-in 500ms cubic-bezier(0.3, 1.6, 0.5, 1) 1800ms backwards;
+    }
+  }
+
+  .stall-reveal-delayed {
+    animation: stall-spot-in 500ms cubic-bezier(0.3, 1.4, 0.5, 1) 2100ms backwards;
+  }
+}
+
+@keyframes stall-shutter-up {
+  to {
+    transform: translateY(-108%);
+  }
+}
+
+@keyframes stall-awning-drop {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes stall-sign-swing {
+  from {
+    opacity: 0;
+    transform: translateY(-60px) rotate(-10deg);
+  }
+}
+
+@keyframes stall-table-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes stall-spot-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.7);
+  }
+}
+
+.stall-choice-add {
+  color: $green;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.stall-dialog {
+  max-width: 744px;
+  margin: 1.5rem auto;
+  border-radius: 2px;
+  background: $white;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 3px rgba(0, 0, 0, 0.12), 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow: clip;
+}
+
+.stall-dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.6rem 0.6rem 1.4rem;
+  border-bottom: 1px solid rgba($brown, 0.15);
+
+  h1 {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 150%;
+    font-weight: 500;
+  }
+}
+
+.stall-dialog-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: $body-color;
+}
+
+.stall-dialog-body {
+  padding: 1.4rem;
+}
+
+.stall-dialog-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding: 0.9rem 1.4rem;
+  border-top: 1px solid rgba($brown, 0.15);
+  background: $beige;
+}
+
+.stall-search {
+  position: relative;
+
+  .fa-magnifying-glass {
+    position: absolute;
+    top: 14px;
+    left: 12px;
+    color: #6c757d;
+  }
+
+  input {
+    height: 44px;
+    padding-left: 2.2rem;
+    font-size: 1rem;
+  }
+}
+
+.stall-packets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 380px;
+  margin-bottom: 1rem;
+  padding: 2px;
+  overflow-y: auto;
+
+  h2 {
+    margin: 0.5rem 0 0;
+    font-weight: 500;
+  }
+}
+
+.stall-packet {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 64px;
+  padding: 0.4rem 0.9rem;
+  border: 2px solid rgba($brown, 0.35);
+  border-radius: $card-radius;
+  background: $white;
+  cursor: pointer;
+
+  &:has(input:checked) {
+    border-color: $green;
+    background: #e8f5e9;
+  }
+
+  input {
+    width: 24px;
+    height: 24px;
+    flex: none;
+    accent-color: $green;
+  }
+}
+
+// A tiny seed packet: torn top, a window, a green band.
+.stall-packet-icon {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  width: 42px;
+  height: 54px;
+  border: 1px solid #c0b5a3;
+  border-radius: 3px;
+  background: $beige;
+  overflow: clip;
+
+  &::before {
+    height: 6px;
+    border-bottom: 1px dashed #b6a894;
+    background: #dbd5cb;
+    content: "";
+  }
+
+  &::after {
+    height: 10px;
+    margin-top: auto;
+    background: $green;
+    content: "";
+  }
+}
+
+.stall-packet-window {
+  height: 18px;
+  margin: 4px 4px 0;
+  border: 1px solid $yellow;
+  background: #e8f5e9;
+}
+
+.stall-packet-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+
+  strong {
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  small {
+    color: $brown;
+    text-transform: uppercase;
+  }
+}
+
+.stall-packet-variety {
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.stall-packet-flag {
+  flex: none;
+  padding: 2px 10px;
+  border: 1px dashed $brown;
+  border-radius: 999px;
+  background: $white;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stall-note {
+  padding: 0.6rem 0.9rem;
+  border-radius: $card-radius;
+  background: $stall-label;
+}
+
+
+.stall-owner-large {
+  margin: 2rem 0;
+
+  .stall-owner-avatar img {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  .stall-owner-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .stall-owner-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+
+    a {
+      color: $brown;
+      text-decoration: underline;
+    }
+  }
+
+  .stall-link {
+    width: min(100%, 32rem);
+    margin-top: 0.6rem;
+  }
+}
+
+// A section of the stall: a green bar, then what is on it.
+.stall-section {
+  margin-top: 2.5rem;
+  border: 1px solid rgba($brown, 0.15);
+  border-radius: $card-radius;
+  background: $beige;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 3px 4px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.2);
+  overflow: clip;
+}
+
+.stall-section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 56px;
+  padding: 0.4rem 0.7rem 0.4rem 1.25rem;
+  background: $green;
+  color: $white;
+
+  h2 {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    font-size: 150%;
+    font-weight: 400;
+  }
+}
+
+.stall-add {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid $white;
+  border-radius: 2px;
+  color: $white;
+  text-transform: lowercase;
+
+  &:hover {
+    background: rgba($white, 0.18);
+    color: $white;
+    text-decoration: none;
+  }
+}
+
+.stall-section-body {
+  padding: 1.5rem 1.25rem 0;
+
+  .stall-tabletop {
+    margin: 2rem -1.25rem 0;
+  }
+}
+
+.stall-packets-grid {
+  display: grid;
+  // Columns keep their size however few packets there are, as a lone one would
+  // otherwise fill the row, and its tall card the page.
+  grid-template-columns: repeat(auto-fill, minmax(170px, 220px));
+  justify-content: start;
+  gap: 30px 20px;
+}
+
+.stall-tin-item {
+  position: relative;
+}
+
+// The round button on a packet that takes it off the stall.
+.stall-take-off {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 2px solid $stall-outline;
+  border-radius: 50%;
+  background: $white;
+  cursor: pointer;
+}
+
+// "Free" and "swap" are words as well as colours, so neither relies on colour alone.
+// A label, not a button: pale, outlined and left-aligned, where buttons are solid
+// and full width.
+.stall-offer-tag {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+  align-items: baseline;
+  margin-top: 0.6rem;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid;
+  border-radius: 999px;
+  line-height: 1.3;
+
+  strong {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+.stall-offer-free {
+  border-color: $green;
+  background: #e8f5e9;
+  color: #2e5a1a;
+}
+
+.stall-offer-swap {
+  border-color: $blue;
+  background: #e3e8f2;
+  color: $blue;
+}
+
+.stall-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  .stall-offer-tag {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+.stall-offer {
+  margin: 1rem 0;
+  padding: 0;
+  border: 0;
+
+  legend {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+.stall-offer-choice {
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  min-height: 44px;
+  margin-right: 0.75rem;
+  padding: 0 0.9rem;
+  border: 1px solid #757575;
+  border-radius: $card-radius;
+  background: $white;
+  cursor: pointer;
+
+  &:has(input:checked) {
+    border: 2px solid $green;
+  }
+}
+
+// What Growstuff is, for a visitor without an account. Small, so the stall
+// stays the focus.
+.stall-about {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2.25rem;
+  padding: 1.1rem 1.4rem;
+  border-radius: $card-radius;
+  background: $white;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 3px 4px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.2);
+
+  p {
+    max-width: 64ch;
+    margin: 0.4rem 0 0;
+  }
+}
+
+.stall-about-brand {
+  margin: 0;
+  padding: 0;
+  // Every h2 on the site has a green bar behind it; this one is green itself.
+  background: none;
+  box-shadow: none;
+  color: $green;
+  font-family: Modak, cursive;
+  font-size: 2.1rem;
+  line-height: 1;
+}
+
+.stall-about-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+// A phone: the owner block stacks, and the sign and sections use the width.
+@media (max-width: 576px) {
+  .stall-owner-large {
+    align-items: flex-start;
+  }
+
+  .stall-section-body {
+    padding-right: 0.9rem;
+    padding-left: 0.9rem;
+
+    .stall-tabletop {
+      margin-right: -0.9rem;
+      margin-left: -0.9rem;
+    }
+  }
+}
+
+// "Add a seed packet you haven't recorded yet", opened out in place.
+.stall-new-packet {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba($brown, 0.35);
+  border-radius: $card-radius;
+
+  summary {
+    min-height: 32px;
+    color: $green;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &[open] summary {
+    margin-bottom: 1rem;
+  }
+}
+
+// The ribbon across the corner of a claimed packet.
+.stall-ribbon {
+  position: absolute;
+  top: 30px;
+  right: -10px;
+  z-index: 3;
+  padding: 3px 12px;
+  border: 2px solid $stall-outline;
+  background: $orange;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.45);
+  color: #212121;
+  font-size: 12px;
+  font-weight: 600;
+
+  strong {
+    display: block;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  // The fold under the end of the ribbon.
+  &::after {
+    position: absolute;
+    top: 100%;
+    right: -2px;
+    border-top: 8px solid $stall-outline;
+    border-left: 10px solid transparent;
+    content: "";
+  }
+}
+
+.stall-claimer {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.stall-claimer-avatar {
+  border-radius: 50%;
+}
+
+.stall-claim {
+  margin-top: 0.75rem;
+
+  summary {
+    display: block;
+    width: 100%;
+    list-style: none;
+    text-align: center;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  form {
+    margin-top: 0.6rem;
+  }
+}
+
+.stall-claim-sign-in {
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.stall-claim-note {
+  margin: 0.5rem 0 0;
+  color: $ink-muted;
+  font-style: italic;
+}
+
+// Who can claim, said plainly: where, what's asked, and what Growstuff doesn't do.
+.stall-terms {
+  margin-top: 2rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid $stall-outline;
+  border-radius: 4px 16px 16px 4px;
+  background: $stall-label;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+  }
+
+  .fa-solid,
+  .fas {
+    flex: none;
+    width: 1.2em;
+    text-align: center;
+  }
+}
+
+.stall-settings {
+  margin-top: 2rem;
+
+  h2 {
+    margin: 0 0 0.75rem;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    color: inherit;
+    font-size: 125%;
+  }
+
+  fieldset {
+    margin: 0 0 0.75rem;
+    padding: 0;
+    border: 0;
+  }
+
+  legend {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+// A packet this friend can't claim: said on the button, not just greyed out.
+.stall-claim-blocked {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 0.75rem;
+  padding: 0 0.6rem;
+  border: 1px solid #757575;
+  border-radius: 2px;
+  background: #e0e0e0;
+  color: $brown;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-transform: uppercase;
+  cursor: not-allowed;
+}
+
+.stall-here {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+}
+
+.stall-set-place {
+  display: block;
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+}

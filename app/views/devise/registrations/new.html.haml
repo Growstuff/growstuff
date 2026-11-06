@@ -13,8 +13,6 @@
     = f.password_field :password_confirmation
 
     = f.check_box :tos_agreement, label: safe_join(['I agree to the ', link_to('Terms of Service', '/policy/tos')])
-    = f.check_box :newsletter, checked: true, label: "Subscribe to the #{site_name} newsletter"
-    %p.form-text= render 'newsletter_blurb'
 
     = f.submit 'Sign up', class: 'btn w-100 btn-success'
 

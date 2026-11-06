@@ -4,33 +4,11 @@ module Api
   module V1
     class CropsController < BaseController
       def search
-        term = params[:term]
-        page = params.dig(:page, :number) || 1
-        per_page = params.dig(:page, :size) || Crop.per_page
+        proxy = CropResource.all(params.merge(stats: { total: :count }), Crop.search_by_name(params[:term]))
+        total = proxy.stats[:total][:count]
+        size = proxy.query.pagination[:size] || CropResource.default_page_size
 
-        search_results = CropSearchService.search(
-          term,
-          page:     page,
-          per_page: per_page
-        )
-
-        resources = search_results.map do |crop|
-          Api::V1::CropResource.new(crop, context)
-        end
-
-        serializer = JSONAPI::ResourceSerializer.new(Api::V1::CropResource)
-
-        data = resources.map do |resource|
-          serializer.object_hash(resource, {})
-        end
-
-        render json: {
-          data: data,
-          meta: {
-            record_count: search_results.total_entries,
-            page_count:   search_results.total_pages
-          }
-        }
+        render jsonapi: proxy, meta: { record_count: total, page_count: (total / size.to_f).ceil }
       end
     end
   end

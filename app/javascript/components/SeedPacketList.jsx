@@ -12,8 +12,8 @@ export default function SeedPacketList({packets, search, onSearch, selected, onC
   const hidden = named.length - matching.length;
 
   return (
-    <>
-      <label className="crop-picker-label" htmlFor="sow-seed-search">Search your seeds</label>
+    <div className="crop-picker crop-picker-compact">
+      <label className="crop-picker-label seed-search-label" htmlFor="sow-seed-search">Search your seeds</label>
       <div className="seed-search">
         <div className="crop-picker-field seed-search-field">
           <i className="fas fa-search crop-picker-icon" aria-hidden="true" />
@@ -68,6 +68,6 @@ export default function SeedPacketList({packets, search, onSearch, selected, onC
         ))}
       </div>
       {matching.length === 0 && <p className="text-muted mb-0">No seed packets match. Choose &ldquo;New seeds&rdquo; to add one.</p>}
-    </>
+    </div>
   );
 }

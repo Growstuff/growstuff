@@ -1,7 +1,25 @@
--# A sketch of a bed's layout: each plant placed on it as a circle on its grid.
-- plants = garden.placed_plants.limit(120).pluck(:bed_x, :bed_y, :diameter)
-= link_to layout_member_garden_path(owner, garden), class: 'neighbours-layout', aria: { label: t('.label', garden: garden.name) } do
-  %svg{ viewBox: "0 0 #{garden.grid_columns} #{garden.grid_rows}", role: 'img', focusable: 'false', aria: { hidden: 'true' } }
-    %rect.bed{ width: garden.grid_columns, height: garden.grid_rows }
-    - plants.each do |x, y, diameter|
-      %circle{ cx: x, cy: y, r: (diameter || 1) / 2.0 }
+-# A sketch of a bed's layout: each plant placed on it as a circle on its grid,
+-# with its crop's icon when it is big enough to see, and a list of the crops.
+- plants = layout_plants(garden)
+- crops = plants.group_by(&:crop).sort_by { |crop, _| crop.name.downcase }
+.neighbours-layout
+  = link_to layout_member_garden_path(owner, garden), aria: { label: t('.label', garden: garden.name) } do
+    %svg{ viewBox: "0 0 #{garden.grid_columns} #{garden.grid_rows}", role: 'img', focusable: 'false',
+          aria: { hidden: 'true' } }
+      %rect.bed{ width: garden.grid_columns, height: garden.grid_rows }
+      - garden.layout_features.to_a.each do |feature|
+        - if feature['x2'].present? && feature['y2'].present?
+          %line{ x1: feature['x'], y1: feature['y'], x2: feature['x2'], y2: feature['y2'],
+                 class: "feature-line #{feature['kind']}" }
+        - else
+          %circle.feature-point{ cx: feature['x'], cy: feature['y'], r: 0.3, class: feature['kind'] }
+      - plants.each do |plant|
+        %circle{ cx: plant.x, cy: plant.y, r: plant.diameter / 2.0 }
+      - plants.select(&:icon).each do |plant|
+        - reach = plant.diameter * 0.4
+        %image{ href: crop_path(plant.crop, format: :svg), x: plant.x - reach, y: plant.y - reach,
+                width: reach * 2, height: reach * 2, preserveAspectRatio: 'xMidYMid meet' }
+  - if crops.any?
+    %ul.neighbours-layout-crops
+      - crops.each do |crop, crop_plants|
+        %li= link_to t('.crop', crop: crop.name, count: crop_plants.size), crop_path(crop)

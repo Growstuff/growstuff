@@ -1,4 +1,6 @@
 -# Plant and harvest, as dialogs over the page: the plant dialog searches for a
 -# crop and plants it in their garden, the harvest one asks which planting.
+-# Plan a job goes to the form for a task they want to do.
 = plant_picker(dashboard, label: t('home.dashboard.plus_plant'), button_class: 'btn btn-success', wrapper_class: 'home-quick-action')
 = react_component('PlantingPicker', { action: 'harvest', label: t('home.dashboard.plus_harvest'), buttonClass: 'btn btn-warning', plantings: planting_picker_props(dashboard) }, class: 'home-quick-action')
+= link_to t('home.dashboard.plus_job'), new_job_path, class: 'btn btn-outline-secondary home-quick-action'

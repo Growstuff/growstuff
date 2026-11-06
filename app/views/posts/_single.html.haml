@@ -10,6 +10,8 @@
     = link_to @post.forum, @post.forum
   on
   = @post.created_at.to_fs(:default)
+  &middot;
+  = t('posts.read_time', count: @post.read_time_minutes)
   - if @post.updated_at > @post.created_at
     and edited at
     = @post.updated_at.to_fs(:default)
@@ -17,4 +19,4 @@
 = link_to "Permalink", @post
 
 :markdown
-  #{ strip_tags markdownify(@post.body) }
+  #{ markdownify(strip_tags(@post.body), figures: true) }

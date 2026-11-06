@@ -51,7 +51,7 @@ GEM
       activesupport (>= 7.2)
     active_record_union (1.4.0)
       activerecord (>= 6.0)
-    active_utils (3.6.0)
+    active_utils (3.6.2)
       activesupport (>= 4.2)
       i18n
     activejob (8.1.4)
@@ -84,14 +84,14 @@ GEM
       uri (>= 0.13.1)
     addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
-    anonymous_loader (0.1.3)
-      version_gem (~> 1.1, >= 1.1.14)
+    anonymous_loader (0.1.5)
+      version_gem (~> 1.1, >= 1.1.17)
     ast (2.4.3)
-    auth-sanitizer (0.2.3)
-      version_gem (~> 1.1, >= 1.1.14)
+    auth-sanitizer (0.2.5)
+      version_gem (~> 1.1, >= 1.1.16)
     aws-eventstream (1.4.1)
-    aws-partitions (1.1298.0)
-    aws-sdk-core (3.260.0)
+    aws-partitions (1.1300.0)
+    aws-sdk-core (3.263.0)
       aws-eventstream (~> 1, >= 1.4.1)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -100,11 +100,11 @@ GEM
       jmespath (~> 1, >= 1.6.1)
       logger
       rexml (~> 3.4, >= 3.4.2)
-    aws-sdk-kms (1.135.0)
-      aws-sdk-core (~> 3, >= 3.260.0)
+    aws-sdk-kms (1.138.0)
+      aws-sdk-core (~> 3, >= 3.263.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.234.0)
-      aws-sdk-core (~> 3, >= 3.258.0)
+    aws-sdk-s3 (1.237.0)
+      aws-sdk-core (~> 3, >= 3.263.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
@@ -126,7 +126,7 @@ GEM
       actionpack (>= 6.1)
       activemodel (>= 6.1)
     builder (3.3.0)
-    bullet (8.3.0)
+    bullet (8.3.1)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     cancancan (3.7.0)
@@ -153,27 +153,21 @@ GEM
       marcel (~> 1.0.0)
       ssrf_filter (~> 1.0)
     cgi (0.5.2)
-    chartkick (5.2.1)
+    chartkick (5.3.0)
     childprocess (5.1.0)
       logger (~> 1.5)
     coderay (1.1.3)
     concurrent-ruby (1.3.8)
-    connection_pool (2.5.5)
+    connection_pool (3.0.2)
     crass (1.0.8)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
-    csv (3.3.6)
+    csv (3.3.7)
     csv_shaper (1.4.0)
       activesupport (>= 3.0.0)
       csv
-    dalli (5.2.2)
+    dalli (5.2.5)
       logger
-    database_cleaner (2.1.0)
-      database_cleaner-active_record (>= 2, < 3)
-    database_cleaner-active_record (2.2.0)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0.0)
-    database_cleaner-core (2.0.1)
     date (3.6.0)
     debug (1.11.1)
       irb (~> 1.10)
@@ -194,6 +188,23 @@ GEM
       dotenv (= 3.2.0)
       railties (>= 6.1)
     drb (2.2.3)
+    dry-core (1.2.0)
+      concurrent-ruby (~> 1.0)
+      logger
+      zeitwerk (~> 2.6)
+    dry-inflector (1.3.1)
+    dry-logic (1.6.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-types (1.9.1)
+      bigdecimal (>= 3.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0)
+      dry-inflector (~> 1.0)
+      dry-logic (~> 1.4)
+      zeitwerk (~> 2.6)
     dumb_delegator (1.1.0)
     erb (6.0.7)
     erubi (1.13.1)
@@ -204,7 +215,7 @@ GEM
       railties (>= 6.1.0)
     faker (3.8.0)
       i18n (>= 1.8.11, < 2)
-    faraday (2.15.0)
+    faraday (2.15.1)
       faraday-net_http (>= 2.0, < 3.6)
       json
       logger
@@ -226,11 +237,22 @@ GEM
     geocoder (1.8.6)
       base64 (>= 0.1.0)
       csv (>= 3.0.0)
-    gibbon (1.2.1)
-      httparty
-      multi_json (>= 1.9.0)
     globalid (1.4.0)
       activesupport (>= 6.1)
+    graphiti (1.13.5)
+      activesupport (>= 5.2)
+      concurrent-ruby (>= 1.2, < 2.0)
+      dry-types (>= 0.15.0, < 2.0)
+      graphiti_errors (~> 1.1.0)
+      jsonapi-renderer (~> 0.2, >= 0.2.2)
+      jsonapi-serializable (~> 0.3.0)
+      ostruct (>= 0.5)
+    graphiti-rails (0.4.2)
+      graphiti (~> 1.2, < 2.a)
+      railties (>= 5.0)
+      rescue_registry (~> 1.0)
+    graphiti_errors (1.1.3)
+      jsonapi-serializable (~> 0.1)
     gravatar-ultimate (2.0.0)
       activesupport (>= 2.3.14)
       rack
@@ -250,14 +272,12 @@ GEM
       rainbow
       rubocop (>= 1.0)
       sysexits (~> 1.1)
-    hashie (5.1.0)
+    hashie (5.2.0)
       logger
+    herringbone (0.9.1)
+      bigdecimal
     highline (3.1.2)
       reline
-    httparty (0.24.0)
-      csv
-      mini_mime (>= 1.0.0)
-      multi_xml (>= 0.5.2)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     i18n-tasks (1.1.2)
@@ -292,14 +312,9 @@ GEM
     jsbundling-rails (1.3.1)
       railties (>= 6.0.0)
     json (2.21.2)
-    json-schema (6.2.0)
-      addressable (~> 2.8)
-      bigdecimal (>= 3.1, < 5)
-    jsonapi-resources (0.10.7)
-      activerecord (>= 4.1)
-      concurrent-ruby
-      railties (>= 4.1)
-    jsonapi-swagger (0.8.1)
+    jsonapi-renderer (0.2.2)
+    jsonapi-serializable (0.3.1)
+      jsonapi-renderer (~> 0.2.0)
     kramdown (2.5.2)
       rexml (>= 3.4.4)
     language_server-protocol (3.17.0.6)
@@ -315,9 +330,9 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.7.0)
-    loofah (2.25.2)
+    loofah (2.25.3)
       crass (~> 1.0.2)
-      nokogiri (>= 1.12.0)
+      nokogiri (>= 1.19.5)
     mail (2.9.1)
       logger
       mini_mime (>= 0.1.1)
@@ -333,15 +348,13 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
-    msgpack (1.8.5)
-    multi_json (1.19.1)
-    multi_xml (0.8.1)
-      bigdecimal (>= 3.1, < 5)
-    net-http (0.9.1)
+    msgpack (1.8.7)
+    multi_json (1.21.2)
+    net-http (0.10.0)
+      net-protocol (>= 0.3.0)
       uri (>= 0.11.1)
     net-imap (0.6.8)
       date
@@ -353,10 +366,7 @@ GEM
     net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
-    nokogiri (1.19.4)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
-    nokogiri (1.19.4-x86_64-linux-gnu)
+    nokogiri (1.19.7-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.6)
       auth-sanitizer (~> 0.2, >= 0.2.1)
@@ -369,25 +379,29 @@ GEM
       anonymous_loader (~> 0.1, >= 0.1.3)
       auth-sanitizer (~> 0.2, >= 0.2.3)
       version_gem (~> 1.1, >= 1.1.14)
-    oj (3.17.7)
-      bigdecimal (>= 3.0)
-      ostruct (>= 0.2)
-    omniauth (1.9.2)
-      hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
+    omniauth (2.3.1)
+      hashie (>= 3.5.2)
+      logger
+      rack (>= 2.2.8)
+      rack-protection (>= 2.2.0)
     omniauth-flickr (0.0.20)
       multi_json (~> 1.12)
       omniauth-oauth (~> 1.0)
-    omniauth-oauth (1.1.0)
+    omniauth-oauth (1.3.0)
+      cgi
       oauth
-      omniauth (~> 1.0)
+      omniauth (~> 2.3, >= 2.3.1)
+      rack (>= 1.6.2, < 4)
+    omniauth-rails_csrf_protection (2.0.1)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
     paper_trail (17.0.0)
       activerecord (>= 7.1)
       request_store (~> 1.4)
     parallel (2.3.0)
-    parser (3.3.12.0)
+    parser (3.3.13.0)
       ast (~> 2.4.1)
       racc
     percy-capybara (5.0.1)
@@ -411,21 +425,23 @@ GEM
       nio4r (~> 2.0)
     query_diet (0.7.3)
     racc (1.8.1)
-    rack (2.2.24)
+    rack (3.2.8)
     rack-attack (6.8.0)
       rack (>= 1.0, < 4)
-    rack-cors (2.0.2)
-      rack (>= 2.0.0)
-    rack-protection (3.2.0)
+    rack-cors (3.0.0)
+      logger
+      rack (>= 3.0.14)
+    rack-protection (4.2.1)
       base64 (>= 0.1.0)
-      rack (~> 2.2, >= 2.2.4)
-    rack-session (1.0.2)
-      rack (< 3)
+      logger (>= 1.6.0)
+      rack (>= 3.0.0, < 4)
+    rack-session (2.1.2)
+      base64 (>= 0.1.0)
+      rack (>= 3.0.0)
     rack-test (2.3.0)
       rack (>= 1.3)
-    rackup (1.0.1)
-      rack (< 3)
-      webrick
+    rackup (2.3.1)
+      rack (>= 3)
     rails (8.1.4)
       actioncable (= 8.1.4)
       actionmailbox (= 8.1.4)
@@ -478,13 +494,13 @@ GEM
       rbs (>= 4.0.0)
       tsort
     recaptcha (5.21.2)
-    redis-client (0.26.2)
-      connection_pool
     regexp_parser (2.13.1)
     reline (0.7.0)
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
+    rescue_registry (1.1.0)
+      activesupport (>= 7.1)
     responders (3.2.1)
       actionpack (>= 7.0)
       railties (>= 7.0)
@@ -521,18 +537,10 @@ GEM
       parser (>= 3.3.7.1)
       prism (~> 1.3)
       rspec (~> 3.10)
-    rswag-api (2.17.0)
-      activesupport (>= 5.2, < 8.2)
-      railties (>= 5.2, < 8.2)
-    rswag-specs (2.17.0)
-      activesupport (>= 5.2, < 8.2)
-      json-schema (>= 2.2, < 7.0)
-      railties (>= 5.2, < 8.2)
-      rspec-core (>= 2.14)
     rswag-ui (2.17.0)
       actionpack (>= 5.2, < 8.2)
       railties (>= 5.2, < 8.2)
-    rubocop (1.92.0)
+    rubocop (1.92.2)
       json (>= 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -552,7 +560,7 @@ GEM
     rubocop-factory_bot (2.28.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
-    rubocop-rails (2.37.0)
+    rubocop-rails (2.38.0)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -574,28 +582,22 @@ GEM
       ffi (~> 1.12)
       logger
     rubyzip (3.7.0)
-    scout_apm (6.3.1)
+    scout_apm (6.3.2)
       parser
     securerandom (0.4.1)
-    selenium-webdriver (4.51.0)
+    selenium-webdriver (4.52.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
-    sidekiq (7.3.10)
-      base64
-      connection_pool (>= 2.3.0, < 3)
-      logger
-      rack (>= 2.2.4, < 3.3)
-      redis-client (>= 0.23.0, < 1)
     simple_po_parser (1.1.6)
     simplecov (1.3.2)
     sitemap_generator (7.1.1)
       builder (~> 3.0)
-    snaky_hash (2.0.7)
+    snaky_hash (2.0.9)
       hashie (>= 0.1.0, < 6)
-      version_gem (~> 1.1, >= 1.1.14)
-    ssrf_filter (1.5.0)
+      version_gem (~> 1.1, >= 1.1.16)
+    ssrf_filter (1.6.0)
     sysexits (1.2.0)
     temple (0.10.7)
     terminal-table (4.0.0)
@@ -616,8 +618,8 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    vcr (6.4.0)
-    version_gem (1.1.15)
+    vcr (6.4.1)
+    version_gem (1.1.17)
     warden (1.2.9)
       rack (>= 2.0.9)
     webrick (1.9.2)
@@ -637,7 +639,6 @@ GEM
     zeitwerk (2.8.3)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES
@@ -656,12 +657,10 @@ DEPENDENCIES
   capybara-email
   capybara-screenshot
   chartkick
-  connection_pool (< 3)
   cssbundling-rails
   csv
   csv_shaper
   dalli
-  database_cleaner
   debug
   devise
   discard (>= 1.2)
@@ -676,19 +675,18 @@ DEPENDENCIES
   friendly_id
   gbifrb
   geocoder
-  gibbon (~> 1.2.0)
+  graphiti-rails (~> 0.4)
   gravatar-ultimate
   haml
   haml-rails
   haml_lint (>= 0.25.1)
   hashie (>= 3.5.3)
+  herringbone
   i18n-tasks
   i18n_data (~> 1.1)
   icalendar
   jsbundling-rails
   json (< 3)
-  jsonapi-resources
-  jsonapi-swagger
   kramdown
   letter_opener
   listen
@@ -696,9 +694,9 @@ DEPENDENCIES
   mailboxer (>= 0.15.1)
   msgpack
   oauth (= 1.1.6)
-  oj
-  omniauth (~> 1.3)
+  omniauth (~> 2.1)
   omniauth-flickr (>= 0.0.15)
+  omniauth-rails_csrf_protection
   paper_trail (~> 17.0)
   percy-capybara (~> 5.0.0)
   pg
@@ -718,8 +716,6 @@ DEPENDENCIES
   rspec-rails
   rspec-rebound
   rspectre
-  rswag-api
-  rswag-specs
   rswag-ui
   rubocop
   rubocop-capybara
@@ -730,9 +726,9 @@ DEPENDENCIES
   rubocop-rspec_rails
   scout_apm
   selenium-webdriver
-  sidekiq
   simplecov (~> 1.3)
   sitemap_generator
+  ssrf_filter
   timecop
   validate_url
   vcr

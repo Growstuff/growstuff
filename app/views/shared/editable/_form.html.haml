@@ -30,6 +30,9 @@
         .row.g-2
           .col-6= f.number_field fields.first, label: 'min', min: 0
           .col-6= f.number_field fields.last, label: 'max', min: 0
+      - elsif field_type.is_a?(String)
+        -# A field with a partial of its own, given the form and the model.
+        = render field_type, f: f, model: model, prefix: form_id
       - elsif field_type == :date
         = f.date_field field,
                        value: model.send(field) ? model.send(field).to_fs(:ymd) : '', label: 'When?'

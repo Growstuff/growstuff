@@ -34,6 +34,12 @@ describe 'Saving seeds as JSON' do
       expect(response.parsed_body['saved_at']).to eq Time.zone.today.to_s
     end
 
+    it 'gives a form for a crop with no planting' do
+      get "/seeds/new.json?crop_id=#{crop.id}", headers: { 'ACCEPT' => 'application/json' }
+
+      expect(response.parsed_body).to include('crop' => { 'id' => crop.id, 'name' => 'lettuce' }, 'parent_planting_id' => nil)
+    end
+
     it 'has no location when the member has not set one' do
       member.update_columns(location: nil)
 
@@ -54,6 +60,12 @@ describe 'Saving seeds as JSON' do
       expect(response.parsed_body['seed']).to eq('id' => seed.id, 'url' => "/seeds/#{seed.slug}")
       expect(seed).to have_attributes(owner: member, crop: crop, quantity: 40, tradable_to: 'locally',
                                       description: 'Bolted early', source: 'my own seed saving', saved_at: Date.new(2026, 9, 21))
+    end
+
+    it 'saves seeds of a crop with no planting' do
+      expect do
+        post '/seeds.json', params: { seed: { crop_id: crop.id, source: 'retail outlet' } }.to_json, headers: json_headers
+      end.to change(member.seeds, :count).by(1)
     end
 
     it 'does not queue a flash message for the next page' do

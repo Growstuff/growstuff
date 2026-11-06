@@ -29,6 +29,7 @@ class RegistrationsController < Devise::RegistrationsController
     end
 
     if successfully_updated
+      @member.update_spam_score!
       set_flash_message :notice, :updated
       # Sign in the member bypassing validation in case their password changed
       sign_in @member, bypass: true
@@ -72,7 +73,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def sign_up_params
-    params.require(:member).permit(:login_name, :email, :tos_agreement, :newsletter, :password, :password_confirmation)
+    params.require(:member).permit(:login_name, :email, :tos_agreement, :password, :password_confirmation)
   end
 
   def check_captcha

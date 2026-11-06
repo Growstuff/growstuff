@@ -18,6 +18,14 @@ describe "posts/_single markdown body" do
     it { is_expected.to include "<strong>strong</strong>" }
   end
 
+  context "with a photo placed in the text" do
+    let(:photo) { create(:photo) }
+    let(:body) { "Look\n\n![A jar](photo:#{photo.id}/wide)\n\nNice" }
+
+    it { is_expected.to include %(<img src="#{photo.fullsize_url}" alt="A jar") }
+    it { is_expected.to include 'post-figure-caption' }
+  end
+
   context "with a crop link" do
     let(:crop) { create(:tomato) }
     let(:body) { "Growing [#{crop.name}](crop)" }

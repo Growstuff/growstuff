@@ -12,6 +12,9 @@
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/itsmechlark/features/postgresql:1": {
       "version": "18"
+    },
+    "ghcr.io/devcontainers/features/ruby:2.0.0": {
+      "version": "4.0.9"
     }
 },
 

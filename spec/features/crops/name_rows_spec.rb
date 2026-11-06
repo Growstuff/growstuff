@@ -61,8 +61,8 @@ describe 'Name fields on the crop form', :js do
       expect(page).to have_field 'alt_name[1]', with: 'Sampaguita'
     end
 
-    it 'shows the existing scientific names' do
-      expect(page).to have_field 'sci_name[1]', with: 'Jasminum sambac'
+    it 'does not show scientific name fields on edit crop form' do
+      expect(page).to have_no_field 'sci_name[1]'
     end
   end
 

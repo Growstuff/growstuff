@@ -1,35 +1,39 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 
-import {getJson, postJson} from '../api';
+import {csrfToken, getJson, postJson} from '../api';
+import {errorMessages} from '../errors';
 import Modal from './Modal';
 import Steps from './Steps';
 
 // Flickr's own sign-in can't be shown inside the dialog, so it opens in a small
 // window, and lands on a page that closes itself (see AuthenticationsController#connected).
-const CONNECT_URL = `/members/auth/flickr?origin=${encodeURIComponent('/authentications/connected')}`;
-const POLL_MS = 2000;
+// OmniAuth only starts a sign-in from a POST with a CSRF token, so it is a form submitted into the window.
+const CONNECT_URL = '/members/auth/flickr';
+const CONNECT_ORIGIN = '/authentications/connected';
+const CONNECT_WINDOW = 'flickr-connect';
 
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase())} ${m}`));
-    if (messages.length > 0) return messages;
-  }
-  if (status === 401) return ['Please sign in again to add this photo.'];
-  return ['Something went wrong adding that photo. Please try again.'];
+function ConnectFields() {
+  return (
+    <>
+      <input type="hidden" name="authenticity_token" value={csrfToken()} />
+      <input type="hidden" name="origin" value={CONNECT_ORIGIN} />
+    </>
+  );
 }
+const POLL_MS = 2000;
 
 // Adding a photo to a planting, garden, job or the like, as a dialog over the page. The
 // photos are the member's own, from Flickr, so if Flickr isn't connected (or the
 // connection has expired) the first step connects it, here, in a pop-up; the dialog
 // notices when that has happened. Then choose a photo (by album or tag, a page at a
 // time), confirm it, and it is added and the page refreshed, so the page is never
-// left. `newUrl` is the menu item's own link, /photos/new?type=..&id=..[&moment=..].
+// left. `newUrl` is the menu item's own link, /photos/new?type=..&id=..[&label=..].
 export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}) {
   const target = new URL(newUrl, window.location.origin).searchParams;
   const type = target.get('type');
   const id = target.get('id');
-  const moment = target.get('moment'); // for a job's photo: before, or after
-  const createUrl = `/photos.json?${new URLSearchParams(moment ? {type, id, moment} : {type, id})}`;
+  const photoLabel = target.get('label'); // what part it is of: a job's before or after, a seed packet's front or back
+  const createUrl = `/photos.json?${new URLSearchParams(photoLabel ? {type, id, label: photoLabel} : {type, id})}`;
 
   const [data, setData] = useState(null); // {state: connect | reconnect | ready, photos, sets, page, total_pages, ...}
   const [filters, setFilters] = useState({set: '', tag: '', page: 1});
@@ -43,6 +47,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState([]);
   const popup = useRef(null);
+  const connectForm = useRef(null);
 
   const load = useCallback(async (next, signal) => {
     const query = new URLSearchParams({type, id});
@@ -90,8 +95,9 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
   }, [waiting, filters, load]);
 
   function connect() {
-    popup.current = window.open(CONNECT_URL, 'flickr-connect', 'width=640,height=760');
+    popup.current = window.open('', CONNECT_WINDOW, 'width=640,height=760');
     setBlocked(!popup.current);
+    if (popup.current) connectForm.current.submit();
     setWaiting(true);
   }
 
@@ -116,7 +122,7 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
         onAdded(result); // closes this dialog
         return;
       }
-      setErrors(errorMessages(status, result));
+      setErrors(errorMessages(status, result, {signedOut: 'Please sign in again to add this photo.', fallback: 'Something went wrong adding that photo. Please try again.'}));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
     }
@@ -162,6 +168,9 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
                   {data.state === 'reconnect' ? 'Your connection has expired, or been taken back on Flickr.' : 'Connect your account and you can choose one here.'}{' '}
                   Growstuff only reads your photos.
                 </p>
+                <form ref={connectForm} method="post" action={CONNECT_URL} target={CONNECT_WINDOW} hidden>
+                  <ConnectFields />
+                </form>
                 <button type="button" className="btn btn-success btn-plant" onClick={connect} disabled={waiting} autoFocus>
                   <i className="fab fa-flickr" aria-hidden="true" /> {data.state === 'reconnect' ? 'Reconnect Flickr' : 'Connect Flickr'}
                 </button>
@@ -169,7 +178,12 @@ export default function AddPhotoModal({label, newUrl, iconUrl, onClose, onAdded}
                   <div className="photo-picker-waiting" role="status">
                     <i className="fas fa-spinner fa-spin" aria-hidden="true" />{' '}
                     {blocked ? 'Your browser blocked the window.' : 'Waiting for you to allow access on Flickr…'}{' '}
-                    {blocked && <a href={CONNECT_URL} target="_blank" rel="noopener noreferrer">Connect in a new tab</a>}
+                    {blocked && (
+                      <form method="post" action={CONNECT_URL} target="_blank" className="d-inline">
+                        <ConnectFields />
+                        <button type="submit" className="btn btn-link p-0 align-baseline">Connect in a new tab</button>
+                      </form>
+                    )}
                     {!blocked && <span className="photo-picker-hint">This picks up on its own once you have.</span>}
                   </div>
                 )}

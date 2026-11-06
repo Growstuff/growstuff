@@ -811,7 +811,6 @@ Style/OpenStructUse:
 Style/OptionalBooleanParameter:
   Exclude:
     - 'app/helpers/application_helper.rb'
-    - 'app/models/concerns/member_newsletter.rb'
 
 # Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).

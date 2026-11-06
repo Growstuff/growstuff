@@ -264,6 +264,24 @@ describe Ability do
       ability.should_not be_able_to(:destroy, other_job)
     end
 
+    context 'when an admin' do
+      let(:role) { create(:admin) }
+
+      before { member.roles << role }
+
+      it "can't update another member's job" do
+        ability.should_not be_able_to(:update, other_job)
+      end
+
+      it "can't destroy another member's job" do
+        ability.should_not be_able_to(:destroy, other_job)
+      end
+
+      it 'can update their own job' do
+        ability.should be_able_to(:update, job)
+      end
+    end
+
     context 'garden collaborator' do
       let(:garden) { create(:garden) }
       let(:job_in_garden) { create(:job, garden:) }

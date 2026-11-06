@@ -24,6 +24,7 @@ class Ability
     can :planted_from, Crop
     can :harvested_for, Crop
     can :sowing_info, Crop
+    can :history, Crop
 
     # except these, which don't make sense if you're not logged in
     cannot :read, Notification
@@ -185,5 +186,12 @@ class Ability
     can :destroy, Member do |other_member|
       other_member&.id != member.id
     end
+
+    # Jobs are a member's own notepad: admins change theirs, not other members'.
+    cannot %i(update destroy), Job
+    can :update,  Job, owner_id: member.id
+    can :destroy, Job, owner_id: member.id
+    can :update,  Job, garden: { garden_collaborators: { member_id: member.id } }
+    can :destroy, Job, garden: { garden_collaborators: { member_id: member.id } }
   end
 end

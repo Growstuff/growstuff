@@ -4,13 +4,11 @@ import './globals';
 
 import 'jquery-ujs';
 import 'jquery-ui/dist/jquery-ui';
-import 'bootstrap-datepicker';
 import 'leaflet.markercluster';
 
-import './site/append_date';
 import './site/auto_suggest';
+import './site/crop_job_season';
 import './site/cropmap';
-import './site/datepicker';
 import './site/editable';
 import './site/finish_toggle';
 import './site/job_ideas';
@@ -18,11 +16,15 @@ import './site/job_notepad';
 import './site/likes';
 import './site/members';
 import './site/navbar_search';
+import './site/packet_sheet';
 import './site/places';
 import './site/planting_alternate_name';
+import './site/shareon';
 import './site/tab_navigation';
+import { initFlashMessages } from './site/flash_messages';
 
 document.addEventListener('DOMContentLoaded', function() {
+  initFlashMessages();
   var popoverTrigger = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
   popoverTrigger.map(function(popoverTrigger2) {
     return new bootstrap.Popover(popoverTrigger2);

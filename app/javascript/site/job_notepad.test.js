@@ -42,6 +42,7 @@ const page = () => `
       <span class="notepad-spinner"></span><span class="notepad-add-saving-text"></span>
     </p>
     <p id="notepad-add-failed" hidden>That job may not have been added.</p>
+    <button id="notepad-hide-done" type="button" data-url="/members/alice/jobs" hidden>Hide done</button>
     <div id="notepad-groups" data-celebrations='${JSON.stringify(CELEBRATIONS)}'>
       <div class="notepad-group" data-drop="2026-10-23"><h2>Today</h2>${row(1, 'Water')}</div>
       <div class="notepad-group" data-drop="none"><h2>Some day</h2><p class="notepad-drop-hint">Drag a job here.</p></div>
@@ -202,6 +203,36 @@ describe('adding a job', () => {
 
     expect(fetchMock).not.toHaveBeenCalled();
   });
+
+describe('hiding done jobs', () => {
+  const hideDone = () => document.getElementById('notepad-hide-done');
+
+  it('sends an AJAX GET request with Accept: text/html and updates groups', async () => {
+    fetchMock.mockResolvedValue(answer('<div class="notepad-group" id="cleared"><h2>Done</h2></div>'));
+    await start();
+    hideDone().hidden = false;
+    hideDone().dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+    await flush();
+
+    const [url, options] = fetchMock.mock.calls[0];
+    expect(url).toBe('http://localhost:3000/members/alice/jobs');
+    expect(options.method).toBe('GET');
+    expect(options.headers['Accept']).toBe('text/html');
+    expect(options.headers['X-Requested-With']).toBe('XMLHttpRequest');
+    expect(document.querySelector('#notepad-groups #cleared')).not.toBeNull();
+  });
+
+  it('includes garden_id if present on notepad groups', async () => {
+    fetchMock.mockResolvedValue(answer());
+    document.getElementById('notepad-groups').dataset.gardenId = '7';
+    await start();
+    hideDone().dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+    await flush();
+
+    const [url] = fetchMock.mock.calls[0];
+    expect(url).toBe('http://localhost:3000/members/alice/jobs?garden_id=7');
+  });
+});
 
   describe('when it fails', () => {
     beforeEach(async () => {

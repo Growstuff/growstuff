@@ -100,15 +100,6 @@ describe Member do
     end
   end
 
-  context 'newsletter scope' do
-    it 'finds newsletter recipients' do
-      regular_member = create(:member)
-      newsletter_member = create(:newsletter_recipient_member)
-      Member.wants_newsletter.should include newsletter_member
-      Member.wants_newsletter.should_not include regular_member
-    end
-  end
-
   context 'same :login_name' do
     it "does not allow two members with the same login_name" do
       create(:member, login_name: "bob")
@@ -339,21 +330,6 @@ describe Member do
     end
   end
 
-  context 'subscriptions' do
-    let(:member) { create(:member) }
-    let(:gb) { instance_double("Gibbon::API.new") }
-
-    it 'subscribes to the newsletter' do
-      expect(gb).to receive_message_chain('lists.subscribe')
-      member.newsletter_subscribe(gb, true)
-    end
-
-    it 'unsubscribes from the newsletter' do
-      expect(gb).to receive_message_chain('lists.unsubscribe')
-      member.newsletter_unsubscribe(gb, true)
-    end
-  end
-
   context 'member deleted' do
     let(:member) { create(:member) }
 
@@ -365,14 +341,8 @@ describe Member do
       it { expect(Member.located).not_to include(member) }
       it { expect(Member.recently_signed_in).not_to include(member) }
       it { expect(Member.recently_joined).not_to include(member) }
-      it { expect(Member.wants_newsletter).not_to include(member) }
       it { expect(Member.interesting).not_to include(member) }
       it { expect(Member.has_plantings).not_to include(member) }
-    end
-
-    it "unsubscribes from mailing list" do
-      expect(member).to receive(:newsletter_unsubscribe).and_return(true)
-      member.destroy
     end
 
     context "deleted admin member" do
@@ -426,6 +396,110 @@ describe Member do
       it 'picks another name' do
         expect(member.nursery!.name).to eq 'Nursery 2'
       end
+    end
+  end
+
+  describe '#located_place' do
+    subject(:place) { member.located_place }
+
+    let(:member) { build(:member, location: 'Wellington, New Zealand', latitude: -41.2887, longitude: 174.7772) }
+
+    it { is_expected.to eq(name: 'Wellington, New Zealand', latitude: -41.2887, longitude: 174.7772) }
+
+    context 'without coordinates' do
+      let(:member) { build(:member, location: 'Wellington, New Zealand', latitude: nil, longitude: nil) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'without a location' do
+      let(:member) { build(:member, location: '', latitude: -41.2887, longitude: 174.7772) }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#ban! and #banned?' do
+    let(:member) { create(:member) }
+
+    it 'marks the member as banned' do
+      member.ban!
+      expect(member.banned?).to be true
+    end
+  end
+
+  describe '#update_spam_score!' do
+    let(:member) { create(:member) }
+
+    context 'when spam score reaches the maximum score' do
+      before do
+        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(100)
+      end
+
+      it 'updates the spam score' do
+        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(100)
+      end
+
+      it 'bans the member' do
+        expect { member.update_spam_score! }.to change { member.reload.banned? }.from(false).to(true)
+      end
+    end
+
+    context 'when spam score is below the maximum score' do
+      before do
+        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(75)
+      end
+
+      it 'updates the spam score' do
+        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(75)
+      end
+
+      it 'does not ban the member' do
+        member.update_spam_score!
+        expect(member.reload.banned?).to be false
+      end
+    end
+  end
+
+  describe 'email' do
+    it 'stores a blank email as NULL so several members can have none' do
+      member = build(:member, email: '  ')
+
+      expect(member.email).to be_nil
+    end
+  end
+
+  describe '#locale' do
+    subject(:member) { build(:member) }
+
+    it 'defaults to nil' do
+      expect(member.locale).to be_nil
+    end
+
+    it 'persists a valid locale in settings' do
+      member.locale = 'es'
+      expect(member.settings['locale']).to eq 'es'
+    end
+
+    it 'returns the saved locale' do
+      member.locale = 'es'
+      expect(member.locale).to eq 'es'
+    end
+
+    it 'removes locale from settings when set to blank' do
+      member.locale = 'es'
+      member.locale = ''
+      expect(member.settings['locale']).to be_nil
+    end
+
+    it 'allows valid locales' do
+      member.locale = 'fr'
+      expect(member).to be_valid
+    end
+
+    it 'rejects unsupported locales' do
+      member.settings = { 'locale' => 'invalid_lang' }
+      expect(member).not_to be_valid
     end
   end
 end

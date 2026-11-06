@@ -33,7 +33,8 @@ describe "forums/show" do
     @post = create(:post, forum: @forum)
     render
     assert_select "table"
-    expect(rendered).to have_content @post.subject
+    # only check for the first 20 chars, because it can be truncated when long
+    expect(rendered).to have_content @post.subject[0..20]
     expect(rendered).to have_content @post.author.to_s
   end
 end

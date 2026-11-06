@@ -21,9 +21,7 @@ gem 'haml'
 gem 'oauth', '1.1.6' # Explicitly pinned, as the maintainer does huge (400 files, 45k lines) changes in point releases - required manual plus agentic security review.
 
 # API data
-gem 'jsonapi-resources'
-gem 'jsonapi-swagger'
-gem 'rswag-api'
+gem 'graphiti-rails', '~> 0.4'
 gem 'rswag-ui'
 
 # JSON pinned until this is resolved across the ecosystem (Oct 26)
@@ -33,7 +31,6 @@ gem 'rswag-ui'
 #     |     Parser.parse(source, options)
 #                 ^^^^^^
 gem 'json', '< 3'
-gem 'oj' # Speeds up json
 
 # planting and harvest predictions
 # based on median values for the crop
@@ -45,12 +42,10 @@ gem 'flickraw'
 gem 'cancancan'                    # for checking member privileges
 gem 'csv_shaper'                   # CSV export
 gem 'flipper-active_record'        # feature flags admins switch on and off
-gem 'gibbon', '~>1.2.0'            # for Mailchimp newsletter subscriptions
 
 gem 'pg'
 
 gem 'active_utils'
-gem 'sidekiq'
 
 # Markdown formatting for updates etc
 gem 'kramdown' # the Markdown engine Tilt picks for Haml's :markdown filter
@@ -79,8 +74,9 @@ gem 'geocoder'
 gem "bootstrap_form", ">= 4.5.0"
 
 # For connecting to other services (eg Flickr)
-gem 'omniauth', '~> 1.3'
+gem 'omniauth', '~> 2.1'
 gem 'omniauth-flickr', '>= 0.0.15'
+gem 'omniauth-rails_csrf_protection'
 
 # Pretty charts
 gem "chartkick"
@@ -109,6 +105,7 @@ gem 'rack-protection', '>= 2.0.1'
 gem 'mailboxer', '>= 0.15.1'
 
 gem 'faraday'
+gem 'ssrf_filter'
 
 gem 'rack-cors'
 
@@ -121,11 +118,7 @@ gem 'recaptcha'
 gem "gbifrb"
 
 gem "msgpack"
-
-# Pinned due to RAILS_ENV=production bundle exec rake assets:precompile failing with ArgumentError: wrong number of arguments (given 1, expected 0) (ArgumentError)
-# /tmp/build_8301a541/vendor/bundle/ruby/3.3.0/gems/connection_pool-3.0.2/lib/connection_pool.rb:48:in `initialize'
-# /tmp/build_8301a541/vendor/bundle/ruby/3.3.0/gems/activesupport-7.2.3/lib/active_support/cache/mem_cache_store.rb:63:in `new'
-gem "connection_pool", "< 3"
+gem "herringbone"
 
 group :production do
   gem 'dalli'
@@ -145,7 +138,6 @@ group :development, :test do
   gem 'capybara'                # integration tests
   gem 'capybara-email'          # integration tests for email
   gem 'capybara-screenshot'     # for test debugging
-  gem 'database_cleaner'
   gem 'debug', platforms: %i(mri windows), require: 'debug/prelude' # debugging
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
@@ -154,7 +146,6 @@ group :development, :test do
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-rails'             # unit testing framework
-  gem 'rswag-specs'
   gem 'rubocop-capybara'
   gem 'rubocop-factory_bot'
   gem 'rubocop-rails'

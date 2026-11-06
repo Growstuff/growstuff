@@ -80,6 +80,10 @@ describe 'layouts/_header.html.haml', type: "view" do
         expect(rendered).to have_content @member.login_name.to_s
       end
 
+      it "shows link to member's page in the drawer header" do
+        assert_select(".offcanvas-header a[href='#{member_path(@member)}']")
+      end
+
       it "shows link to member's garden" do
         assert_select("a[href='#{member_gardens_path(@member, anchor: 'content')}']", "My garden")
       end

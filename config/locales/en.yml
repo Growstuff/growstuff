@@ -1,37 +1,71 @@
 ---
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
   activerecord:
+    errors:
+      messages:
+        bed_position_incomplete: must have both a column and a row, or neither
+        bed_position_off_grid: would put this plant outside the bed
+        calculate_crop_failed: failed to calculate crop
+        cannot_be_about_that: does not go with what the job is about
+        cannot_be_garden_owner: cannot be the garden owner
+        cannot_be_stall_owner: cannot be the owner of the stall
+        crop_must_be_approved: must be present and exist in our database
+        crop_not_found: must be present and exist in our database
+        failed_and_finished: can't be true if planting is also finished
+        finished_after_planted: must be after the planting date
+        grid_too_small_for_plantings: 'is too small: some plantings would fall outside the bed. Move them first.'
+        harvest_after_planted: cannot be harvested before planting
+        no_newlines: must contain no newlines
+        not_a_valid_area_unit: "%{value} is not a valid area unit"
+        not_a_valid_planting_method: "%{value} is not a valid planting method"
+        not_a_valid_sunniness: "%{value} is not a valid sunniness value"
+        not_a_valid_unit: "%{value} is not a valid unit"
+        not_a_valid_wikipedia_url: is not a valid English Wikipedia URL
+        not_a_valid_youtube_url: is not a valid YouTube URL
+        not_confirmed_in_area: Tick that you're in %{place}.
+        one_nursery_per_member: already exists; a member can have only one nursery
+        outside_area: This stall is only for people near %{place}.
+        owner_unplaced: The gardener hasn't said where they are yet.
+        photo_owner_mismatch: must have same owner as item it links to
+        rejection_notes_required: must be added if the reason for rejection is "other"
+        rejection_reason_required: must be rejected if a reason for rejection is present
+        same_crop_required: must be the same crop
+        same_owner_required: of harvest must be the same as planting, or a collaborator on that garden
+        stall_closed: The stall is closed.
+        too_many_plants: a planting can have at most %{limit} plants on the layout
+      models:
+        crop_job_step:
+          attributes:
+            external_uri:
+              url_format: must start with http:// or https://
+        member:
+          attributes:
+            bluesky_handle:
+              handle_format: should be a handle, not a URL
+            facebook_handle:
+              handle_format: should be a handle, not a URL
+            instagram_handle:
+              handle_format: should be a handle, not a URL
+            login_name:
+              login_name_format: may only include letters, numbers, or underscores
+              login_name_length: should be between 2 and 25 characters long
+              login_name_reserved: name is reserved
+            other_url:
+              url_format: must start with http:// or https://
+            website_url:
+              url_format: must start with http:// or https://
+        seed:
+          attributes:
+            gmo:
+              gmo_inclusion: You must say whether the seeds are genetically modified or not, or that you don't know
+            heirloom:
+              heirloom_inclusion: You must say whether the seeds are heirloom, hybrid, or unknown
+            organic:
+              organic_inclusion: You must say whether the seeds are organic or not, or that you don't know
+            source:
+              source_inclusion: You must say where the seeds are from, or that you don't know
+            tradable_to:
+              tradable_to_inclusion: You may only trade seed nowhere, locally, nationally, or internationally
     models:
       comment:
         one: comment
@@ -63,70 +97,14 @@ en:
       seed:
         one: seed
         other: seeds
-    errors:
-      messages:
-        crop_not_found: must be present and exist in our database
-        crop_must_be_approved: must be present and exist in our database
-        failed_and_finished: "can't be true if planting is also finished"
-        finished_after_planted: must be after the planting date
-        rejection_reason_required: must be rejected if a reason for rejection is present
-        rejection_notes_required: "must be added if the reason for rejection is \"other\""
-        same_crop_required: must be the same crop
-        harvest_after_planted: cannot be harvested before planting
-        cannot_be_garden_owner: cannot be the garden owner
-        cannot_be_about_that: does not go with what the job is about
-        same_owner_required: "of harvest must be the same as planting, or a collaborator on that garden"
-        photo_owner_mismatch: must have same owner as item it links to
-        calculate_crop_failed: failed to calculate crop
-        not_a_valid_wikipedia_url: is not a valid English Wikipedia URL
-        not_a_valid_youtube_url: is not a valid YouTube URL
-        not_a_valid_sunniness: "%{value} is not a valid sunniness value"
-        not_a_valid_planting_method: "%{value} is not a valid planting method"
-        not_a_valid_unit: "%{value} is not a valid unit"
-        not_a_valid_area_unit: "%{value} is not a valid area unit"
-        no_newlines: must contain no newlines
-        one_nursery_per_member: already exists; a member can have only one nursery
-        grid_too_small_for_plantings: "is too small: some plantings would fall outside the bed. Move them first."
-        bed_position_incomplete: must have both a column and a row, or neither
-        bed_position_off_grid: would put this plant outside the bed
-        too_many_plants: "a planting can have at most %{limit} plants on the layout"
-      models:
-        member:
-          attributes:
-            login_name:
-              login_name_length: should be between 2 and 25 characters long
-              login_name_reserved: name is reserved
-              login_name_format: may only include letters, numbers, or underscores
-            website_url:
-              url_format: "must start with http:// or https://"
-            other_url:
-              url_format: "must start with http:// or https://"
-            instagram_handle:
-              handle_format: should be a handle, not a URL
-            facebook_handle:
-              handle_format: should be a handle, not a URL
-            bluesky_handle:
-              handle_format: should be a handle, not a URL
-        crop_job_step:
-          attributes:
-            external_uri:
-              url_format: "must start with http:// or https://"
-        seed:
-          attributes:
-            tradable_to:
-              tradable_to_inclusion: "You may only trade seed nowhere, locally, nationally, or internationally"
-            organic:
-              organic_inclusion: "You must say whether the seeds are organic or not, or that you don't know"
-            gmo:
-              gmo_inclusion: "You must say whether the seeds are genetically modified or not, or that you don't know"
-            heirloom:
-              heirloom_inclusion: "You must say whether the seeds are heirloom, hybrid, or unknown"
-            source:
-              source_inclusion: "You must say where the seeds are from, or that you don't know"
   admin:
     features:
       descriptions:
+        enable_harvest_reminders: Sends the weekly harvest reminder emails to members who want them.
+        enable_planting_reminders: Sends the weekly planting reminder emails to members who want them.
+        garden_stall: A page where members offer spare seedlings and seeds to friends. Switch on once all the parts are deployed.
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
+        planting_weather: Temperature and rainfall charts on each planting, from daily weather for the garden's area.
       index:
         feature: Feature
         intro: Switch features on or off for everyone.
@@ -137,10 +115,18 @@ en:
         switch_on: Switch on
         title: Features
       names:
+        enable_harvest_reminders: Harvest reminders
+        enable_planting_reminders: Planting reminders
+        garden_stall: Garden stall
         job_ideas: Job ideas
+        planting_weather: Planting weather
       update:
         'off': "%{feature} is now off."
         'on': "%{feature} is now on."
+  alternate_names:
+    created: Alternate name was successfully created.
+    deleted: Alternate name was successfully deleted.
+    updated: Alternate name was successfully updated.
   application_helper:
     title:
       title:
@@ -155,93 +141,344 @@ en:
     edit: Edit
     harvest: Harvest
     harvest_crop: Harvest %{crop_name}
-    mark_as_active: Mark as active
-    mark_as_finished: Mark as finished
-    mark_as_failed: Mark as failed
+    like: Like
     make_nursery: Use as my nursery
-    transplant: Transplant
-    stop_nursery: Stop using as my nursery
+    mark_as_active: Mark as active
+    mark_as_failed: Mark as failed
+    mark_as_finished: Mark as finished
     mark_as_inactive: Mark as inactive
     my_gardens: My Gardens
-    new_seeds: New saved seed
-    new_planting: New planting
-    new_post: Write new post
     new_harvest: New harvest
     new_job: Add a job
+    new_planting: New planting
+    new_post: Write new post
+    new_seeds: New saved seed
     plant: Plant
     plant_crop: Plant %{crop_name}
     plant_something_here: Plant something here
     record_harvest: Record harvest
     save_seeds: Save seeds
+    stop_nursery: Stop using as my nursery
     timeline: Timeline
+    total_likes: Total likes
+    transplant: Transplant
+    unlike: Remove like
     view: View
     write_blog_post: Write blog post
-    like: Like
-    unlike: Remove like
-    total_likes: Total likes
+  community_gardens:
+    collaborate: Collaborate with Your Team
+    collaborate_text: Invite other gardeners to collaborate on your garden plots. Share the work, share the harvest, and grow together as a community.
+    features_title: Features for Community Gardens
+    get_started: Get Started Today
+    get_started_text: Signing up for Growstuff is free and easy. Create an account to start tracking your garden today.
+    header: Community Gardens
+    lead: Growstuff is open source and the perfect place to manage your community garden. Track your plantings, celebrate your harvests, and collaborate with your fellow gardeners, all in one place.
+    learn_more: Learn more about gardens
+    meta_description: Manage your community garden, track your plantings, and collaborate with other gardeners.
+    sign_up: Sign up for free
+    title: Community Gardens on Growstuff
+  crop_companions:
+    created: Companion was successfully created.
+    deleted: Companion was successfully destroyed.
+  crop_dismissals:
+    create:
+      dismissed: We won't suggest %{crop} again.
+    destroy_all:
+      restored: Your hidden suggestions are back.
+  crop_job_templates:
+    created: Job template created.
+    deleted: Job template deleted.
+    options:
+      anchor:
+        first_harvest: first harvest
+        planting_out: planting out
+        sowing: sowing
+      applies_to_all: All %{crop} varieties
+      applies_to_one: "%{crop} only"
+      direction:
+        after: after
+        before: before
+      offset_unit:
+        days: days
+        months: months
+        weeks: weeks
+      repeat:
+        fortnightly: every 2 weeks
+        monthly: every month
+        once: once
+        weekly: every week
+      season:
+        any: Any time
+        autumn_winter: Autumn and winter
+        spring_summer: Spring and summer
+      status:
+        draft: Draft
+        published: Published
+    saved: Job template saved.
+  crop_jobs:
+    add: Add %{crop} growing jobs to my jobs
+    add_to_planting: Add to %{crop} in %{garden}, planted %{date}
+    added:
+      one: Added 1 %{crop} job to your jobs.
+      other: Added %{count} %{crop} jobs to your jobs.
+    already_added: Your jobs already have the %{crop} growing jobs.
+    new:
+      add_anyway: Add them anyway
+      cancel: Cancel
+      intro: The jobs are counted from the day you plant. One that would already be past is due today.
+      out_of_season: "%{template} is for %{season}, and %{date} is outside that where you are."
+      planting_on: When do you want to plant %{crop}?
+      submit: Add these jobs
+      title: Add %{crop} growing jobs
+    new_planting: A new %{crop} planting I'm going to do
+    see_jobs: See your jobs.
+  comments:
+    inline_form:
+      add_comment: Add a comment
+      post_comment: Post comment
   crops:
-    search: Search crops
+    harvests:
+      empty: Nobody has harvested this crop yet.
+      harvest_crop: Harvest %{crop}
+      harvested: "%{owner} harvested %{quantity}."
+      track_harvests: track your %{crop} harvests
+      view_all: View all %{crop} harvests
+    nutritional_data:
+      carbohydrate: Carbohydrate
+      energy: Energy
+      fat_total: Fat, total
+      fibre: Fibre
+      protein: Protein
+      see_more: See more
+      sodium: Sodium
+      sugars: "- Sugars"
+      summary: "A summary of nutritional data per 100g for %{food_name}."
+      title: Nutritional data
+    approval_status_message:
+      pending_title: "This crop is currently pending approval."
+      rejected_message: "This crop was rejected for the following reason: %{reason}"
+      request_notes: "Request notes: %{notes}"
+      requested_by: "This crop was requested by %{requester} %{time_ago} ago."
+    alternate_name_modal:
+      add_title: Add another name for %{crop}
+      cancel: Cancel
+      close: Close
+      edit_title: Edit alternate name
+      language: Language
+      name: Name
+      save: Save
+    scientific_name_modal:
+      add_title: Add a scientific name for %{crop}
+      cancel: Cancel
+      close: Close
+      edit_title: Edit scientific name
+      gbif_hint: The species key from gbif.org, if you have it.
+      gbif_key: GBIF key
+      name: Scientific name
+      save: Save
+      wikidata_id: Wikidata ID
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops
+    join_banner:
+      heading: Growstuff is a free, community-run site for people who grow food.
+      prompt: Join to record your own %{crops}.
+      text: Keep track of what you plant and harvest, find seeds to swap, and see what is growing near you.
     requested:
       link: You have %{number_crops} crops awaiting approval
       subtitle: Pending approval
       title: Requested crops
+    search: Search crops
   edit_crop: Edit crop
   forms:
     optional: "(Optional)"
   forums:
+    created: Forum was successfully created.
+    deleted: Forum was successfully deleted.
     index:
       title: Forums
-    created: Forum was successfully created.
     updated: Forum was successfully updated.
-    deleted: Forum was successfully deleted.
   gardens:
-    nursery_name: Nursery
-    nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
-    nursery_made: This garden is now your nursery.
-    nursery_stopped: This garden is no longer your nursery.
+    about:
+      collaborators: Collaborators
+      fetch_wikidata: Fetch Wikidata info
+      heading: About this garden
+      leave: Leave garden
+      leave_confirm: Are you sure you want to leave this garden?
+      location: Location
+      manage: Manage
+      owner: Owner
+      temperature_unknown: not known
+      temperatures_html: 'Local temperatures from %{source}: hottest %{hottest}, coldest %{coldest}.'
+      wikidata_missing: Wikidata information is missing for this location.
+      you: "(you)"
+    actions:
+      add_photo: Add photo from Flickr
+      make_nursery: Make this a nursery
+      new_job: New job
+    companions:
+      heading: Suggested companions
+    confirm_deactivate: All plantings associated with this garden will be marked as finished. Are you sure?
+    confirm_delete: All plantings associated with this garden will also be deleted. Are you sure?
     created: Garden was successfully created.
+    created_prompt_html: Garden was successfully created. Would you like to <a href="%{link}">plan to weed this garden bed in two weeks</a>?
     deleted: Garden was successfully deleted.
+    description:
+      no_description: No description available yet.
+    facts:
+      area: Area
+      garden_type: garden type
+      growing_now: Growing now
+      harvested: Harvested
+      harvests_this_year: times this year
+      plantings:
+        one: planting
+        other: plantings
+      type: Type
+      unknown: unknown
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
+    card:
+      layout: Layout
+      no_annuals: No annual plantings
+      no_perennials: No perennial plantings
+      of: of
+      owner: 'owner:'
+      perennials: 'Perennials:'
+    inactive_card:
+      grown_here: Grown here
+      image_alt: "Image of %{name}"
+      more_crops:
+        one: "and %{count} more"
+        other: "and %{count} more"
+    header:
+      all_gardens: All of %{owner}'s gardens
+      garden_of: garden of
+      hero_caption:
+        one: Photo of the garden · %{count} photo
+        other: Photo of the garden · %{count} photos
+      hero_label: Photos of %{garden}
+      season_title: The season where this garden is
+    jobs_section:
+      public: Public
+    join_banner:
+      heading: Growstuff is where people share what they grow
+      text: Growstuff guides you through growing your own food, suggesting what to plant and how to tend your garden. See what other people at your latitude are doing as the seasons unfold.
+    join_prompt:
+      text: Join free to follow %{owner} and keep a record of your own garden.
+      title: Growing something nearby?
+    layout_section:
+      drag_plants: Drag plants around the map to see what fits where.
+      edit_layout: edit layout
+      edit_layout_label: Edit the bed layout
+      heading: Layout
+      map_out: Map out this bed
+      map_out_text: Drag your plants onto a picture of the bed, and see what fits where.
+      new: New
+      plants_placed:
+        one: "%{count} plant placed on the bed"
+        other: "%{count} plants placed on the bed"
+      view_layout: view layout
+      view_layout_label: View the bed layout
+      where_each: Where each plant in this garden is growing, on a map of the bed.
     location: "%{owner}'s %{garden}"
+    nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
+    nursery_made: This garden is now your nursery.
+    nursery_name: Nursery
+    nursery_stopped: This garden is no longer your nursery.
     overview:
       gardensactions: gardens/actions
       gardensphoto: gardens/photo
       no_plantings: no plantings
       plantingsthumbnail: plantings/thumbnail
-    updated: Garden was successfully updated.
-    confirm_delete: All plantings associated with this garden will also be deleted. Are you sure?
-    confirm_deactivate: All plantings associated with this garden will be marked as finished. Are you sure?
-    created_prompt_html: "Garden was successfully created. Would you like to <a href=\"%{link}\">plan to weed this garden bed in two weeks</a>?"
-  harvests:
+    owner_gardens:
+      growing_count: "%{count} growing"
+      heading: "%{owner}'s gardens"
+      inactive_gardens:
+        one: "%{count} inactive garden"
+        other: "%{count} inactive gardens"
+      new_garden: "+ New garden"
+      nursery: nursery
+    photos_section:
+      add: add
+      heading: Photos
+      more: More photos
+      none: No photos yet.
+    plantings_section:
+      add: add
+      heading: Growing now
+      nothing_planted: Nothing is currently planted here.
+    previously:
+      finished_jobs: Finished jobs in garden
+      previously_planted: Previously planted in this garden
+      unknown_year: Unknown year
     show:
-      heading: "%{crop} harvest"
+      km_from_you: about %{km} km from you
+      suggested_plantings:
+        one: We have %{count} suggested planting to add here
+        other: We have %{count} suggested plantings to add here
+      suggested_plantings_go: See them →
+    sign_in: Sign in
+    sign_up: Join free
+    start:
+      already_member: Already a member?
+      heading: Start your own garden
+      text: Plant, harvest and save seeds in one place, and see what grows well near you.
+    updated: Garden was successfully updated.
+  harvests:
+    card:
+      by: by
+      harvested: harvested
+      picked_at: "picked %{date}"
+      title: "%{crop} harvest"
     created: Harvest was successfully created.
+    edit_modal:
+      harvested_at: When did you harvest it?
+      notes: Notes
+      plant_part: What part did you harvest?
+      quantity: How many?
+      title: Edit %{crop} harvest
+      unit: Counted as
+      weight_quantity: Weighing (in total)
+      weight_unit: Weighed in
     harvest_something: Harvest something
+    modal:
+      all_plant_parts: All Plant parts
+      close: Close
+      recommended_plant_parts: "Recommended plant parts to harvest:"
+      record_harvest: Record harvest
+      select_plant_part: Select which plant part you have harvested
+      title: Record %{crop} harvest
+    planting:
+      is_this_from: Is this from one of these plantings?
+      rate_planting: Rate this planting
+      save: save
+      unrated_notice: This harvest is from a planting that hasn't been rated yet.
     index:
       title:
         crop_harvests: Everyone's %{crop} harvests
         default: Everyone's harvests
         owner_harvests: "%{owner}'s harvests"
         planting_harvests: Harvests from %{planting}
+    show:
+      heading: "%{crop} harvest"
     updated: Harvest was successfully updated.
   home:
+    added_to_stash: Successfully added %{crop} seed to your stash.
     blurb:
       badge: Open source · Open data · Since 2012
       headline_html: Know what to <strong>grow</strong>,<br>right now, where you live
+      intro: "%{site_name} is a community of food gardeners. Track your garden, find seeds from neighbours, and see what gardeners near you are planting this month.\n"
       photo_by: by %{login}
-      intro: >
-        %{site_name} is a community of food gardeners. Track your garden, find seeds from neighbours,
-        and see what gardeners near you are planting this month.
       public_note: Everything you record is public open data, including your city.
       sign_in_linktext: Sign in
+      sign_in_bluesky: Sign in with Bluesky
       sign_up: Join free
     dashboard:
-      add_bed: + bed
-      add_seeds: + seeds
+      add_bed: "+ bed"
+      add_seeds: "+ seeds"
+      all_gardens: All gardens
+      all_plants: All plants
       all_varieties:
         one: "%{count} variety"
         other: All %{count} varieties
@@ -249,18 +486,15 @@ en:
       at_latitude_note: Top plantings by gardeners at %{band}
       bed_counts: "%{plantings} plantings · %{ready} ready"
       beds: Beds
-      all_gardens: All gardens
-      all_plants: All plants
       chip_growing: Growing
       chip_ready: Ready
       col_bed: Bed
       col_maturity: Maturity
-      col_planted: Planted
       col_plant: Plant
+      col_planted: Planted
       col_progress: Progress
       compared: Compared with last year
       compared_empty: Plant the same crops as last year and we will compare them here.
-      last_year_planted: Around this time last year you planted %{crops}.
       compared_note: Same crops, this year and last
       days:
         one: "%{count} day"
@@ -279,45 +513,42 @@ en:
       growing_now: Growing now
       harvest_by_month: Harvest by month
       harvest_by_month_count: Harvests
-      harvest_by_month_weight: Weight
-      harvest_by_month_note_count: "harvests recorded: this year (green) and last year (pale)"
-      harvest_by_month_note_weight: "kg harvested: this year (green) and last year (pale). Only harvests with a weight are counted."
+      harvest_by_month_note_count: 'harvests recorded: this year (green) and last year (pale)'
+      harvest_by_month_note_weight: 'kg harvested: this year (green) and last year (pale). Only harvests with a weight are counted.'
       harvest_by_month_unit_count: harvests
       harvest_by_month_unit_weight: kg
+      harvest_by_month_weight: Weight
       harvest_soon: Harvest soon
       harvesting: Harvesting
-      nothing_ready: Nothing is ready yet.
-      nothing_to_show: Nothing matches.
-      no_seeds: No seeds saved yet.
       hidden_suggestions:
         one: You've hidden 1 suggested crop.
         other: You've hidden %{count} suggested crops.
+      last_year_planted: Around this time last year you planted %{crops}.
+      no_seeds: No seeds saved yet.
       not_for_me: Not for me
-      show_hidden: Show them again
-      stop_suggesting: Stop suggesting
-      suggestions_off: Crop suggestions are off.
-      turn_on_suggestions: Turn them back on
-      view_all_suggestions: View all suggestions for %{month}
       not_for_me_title: Don't suggest %{crop} again
+      nothing_ready: Nothing is ready yet.
+      nothing_to_show: Nothing matches.
       novice_lede:
         one: "%{count} plant growing. Nice start."
         other: "%{count} plants growing. Nice start."
       plant_crop: Plant %{crop}
-      plus_harvest: + Harvest
-      plus_plant: + Plant
-      planted_when: planted %{when}
-      ready_now: ready now
-      relative:
-        ago: "%{time} ago"
-        today: today
-        yesterday: yesterday
       plant_this: Plant this
+      planted_when: planted %{when}
       planting: Planting
+      plus_harvest: "+ Harvest"
+      plus_job: "+ Plan a job"
+      plus_plant: "+ Plant"
       ready: ready
+      ready_now: ready now
       ready_title:
         one: "%{count} planting is ready to harvest"
         other: "%{count} plantings are ready to harvest"
       record_harvests: Record harvests
+      relative:
+        ago: "%{time} ago"
+        today: today
+        yesterday: yesterday
       see_all: see all
       see_all_plantings:
         one: See your planting
@@ -325,9 +556,13 @@ en:
       see_which: See which ones ↓
       seeds_near: Seeds near you
       seeds_near_note: Neighbours offering seeds you can start with.
+      seeds_note: Record the seeds you buy or save yourself. Both go into your seed library.
       seeds_on_hand: Seeds on hand
       seeds_to_start: Seeds to start this spring
+      set_location: Tell us where you garden
+      show_hidden: Show them again
       sow_body: Gardeners at your latitude are planting it this month.
+      sow_harvest: Planted today, it would be ready to harvest around %{date}.
       sow_title: Sow %{crop} this %{month}
       started_in: You started in %{month}. Next, your first harvest and the sowings for the season.
       stat_harvests: harvests this year
@@ -336,7 +571,6 @@ en:
       stat_varieties: seed varieties saved
       step_join: Join Growstuff
       step_location: Tell us where you garden
-      set_location: Tell us where you garden
       step_location_button: Set location
       step_location_note: So advice fits your season and latitude
       step_photo: Add a photo
@@ -344,13 +578,37 @@ en:
       step_plant: Add your first plant
       step_plant_button: Plant something
       step_plant_note: Pick from what suits this month
+      stop_suggesting: Stop suggesting
+      suggestions_off: Crop suggestions are off.
       this_week: This week
       tile_harvest: record what you picked
+      tile_job: plan a task for your garden
+      tile_job_title: Add job
       tile_photo: of the garden
       tile_photo_title: Add photo
       tile_plant: something new
       tile_seeds: from a plant
       tile_seeds_title: Save seeds
+      todo: To do
+      todo_confirm: Confirm your email address
+      todo_confirm_note: We sent a link to %{email}. Follow it so we know it's yours.
+      todo_confirm_resend: Send it again
+      todo_confirm_waiting: Once you've added an email address we'll send you a link to confirm it.
+      todo_email: Add your email address
+      todo_email_decline: No thanks
+      todo_email_add: Add email
+      todo_email_changed_mind: Changed your mind?
+      todo_email_error: We couldn't save that just now. Please try again.
+      todo_email_declined: You chose not to add one, so we won't send you notifications or planting reminders.
+      todo_email_note: Without one we can't send you notifications or planting reminders, or let you reset your password. We'll email a link to confirm it.
+      todo_email_save: Save email
+      todo_email_skipped: Skipped
+      todo_name: Confirm your name
+      todo_name_note: This is the name that shows on the website. We suggested one, and you can change it.
+      todo_name_save: Save name
+      turn_on_suggestions: Turn them back on
+      view_all_suggestions: View all suggestions for %{month}
+      view_seed_library: View your seed library
       vs_last_year: vs last year
       years_growing:
         one: "%{count} year growing"
@@ -359,8 +617,20 @@ en:
       harvest: Harvest
       plant: Plant
       welcome: Welcome to %{site_name}, %{member_name}
-    added_to_stash: Successfully added %{crop} seed to your stash.
-    updated: Seed was successfully updated.
+    recent:
+      see_all: See everything
+      title: Planted this week
+    recent_posts:
+      all_posts: All posts
+      all_posts_short: all posts
+      by: by
+      comments:
+        one: 1 comment
+        other: "%{count} comments"
+      title: Recent posts
+    releases:
+      find_out_more: Find out more »
+      title: What's new
     stats:
       crops:
         one: crop
@@ -371,20 +641,7 @@ en:
       plantings:
         one: planting
         other: plantings
-    recent_posts:
-      all_posts: All posts
-      all_posts_short: all posts
-      by: by
-      comments:
-        one: 1 comment
-        other: "%{count} comments"
-      title: Recent posts
-    recent:
-      see_all: See everything
-      title: Planted this week
-    releases:
-      find_out_more: Find out more »
-      title: What's new
+    updated: Seed was successfully updated.
     why_join:
       neighbours:
         body: Find seeds nearby and see what local gardeners are planting and harvesting now.
@@ -411,23 +668,348 @@ en:
         link: Our story
         title: Around since 2012
       title: Why sign in
-  suggestions:
+  job_ideas:
+    add: "+ Add"
+    add_all: Add all %{count}
+    added: Added "%{name}" to your jobs.
+    added_to_jobs:
+      one: Added 1 job to your list
+      other: Added %{count} jobs to your list
+    banner:
+      one: We have 1 suggested job for you this week
+      other: We have %{count} suggested jobs for you this week
+    banner_go: See ideas →
+    dismiss: Not for me
+    done: Done
+    filter:
+      community: people growing what I grow
+      mine: what I did before
+      nearby: near me
+      world: world neighbours
+    footer: Counts come from public jobs and plantings. Adding an idea puts it under Some day, so you decide the day. "Not for me" hides it for a year, or snooze it to see it sooner.
+    gone: That idea is no longer on offer.
+    hidden:
+      dismissed: Hidden. It may come back with the season.
+      month: Snoozed for a month.
+      week: Snoozed for a week.
+    job:
+      harvest: Harvest %{crop}
+      plant: Plant %{crop}
+    more:
+      one: 1 more idea waiting.
+      other: "%{count} more ideas waiting."
+    none: Nothing to suggest right now. Check back as the season changes.
+    preview:
+      one: See the job
+      other: See the %{count} jobs
+    reason:
+      community:
+        earlier:
+          one: 1 gardener growing %{crop} did this at this time of year before.
+          other: "%{count} gardeners growing %{crop} did this at this time of year before."
+        now:
+          one: 1 gardener growing %{crop} has this planned this month.
+          other: "%{count} gardeners growing %{crop} have this planned this month."
+      community_of:
+        earlier:
+          one: 1 of %{of} gardeners growing %{crop} did this at this time of year before.
+          other: "%{count} of %{of} gardeners growing %{crop} did this at this time of year before."
+        now:
+          one: 1 of %{of} gardeners growing %{crop} has this planned this month.
+          other: "%{count} of %{of} gardeners growing %{crop} have this planned this month."
+      harvest_harvested: You last harvested from it on %{day}.
+      harvest_predicted: Ready around %{day}, going by how long it usually takes.
+      nearby:
+        earlier:
+          one: 1 gardener nearby did this at this time of year before.
+          other: "%{count} gardeners nearby did this at this time of year before."
+        now:
+          one: 1 gardener nearby has this planned this month.
+          other: "%{count} gardeners nearby have this planned this month."
+      past_job:
+        one: You did this on %{day}.
+        other: You did this at this time of year in %{count} years, last on %{day}.
+      past_planting:
+        one: You planted this on %{day}.
+        other: You planted this at this time of year in %{count} years, last on %{day}.
+      template:
+        one: '1 job: %{steps}. For your %{crop} planted on %{day}.'
+        other: "%{count} jobs: %{steps}. For your %{crop} planted on %{day}."
+      world:
+        earlier:
+          one: 1 gardener at your latitude did this at this time of year.
+          other: "%{count} gardeners at your latitude did this at this time of year."
+        now:
+          one: 1 gardener at your latitude has this planned this month.
+          other: "%{count} gardeners at your latitude have this planned this month."
+    section:
+      community: People growing what you grow
+      community_note: public jobs
+      harvest: Ready to harvest
+      harvest_note: in your garden
+      nearby: Near you
+      nearby_note: "%{place} and around"
+      templates: Templates
+      templates_note: for plantings you have
+      this_time: At this time of year
+      this_time_note: from your jobs and plantings
+      world: World neighbours
+      world_note: gardeners at your latitude, anywhere
+    snooze:
+      label: Snooze
+      month: A month
+      week: A week
+    title: Ideas for now
+  jobs:
+    celebrate:
+      crossed_off: Crossed off "%{name}"
+      done:
+        one: 1 job done this week.
+        other: "%{count} jobs done this week."
+      many:
+        lead: On a roll!
+        note: The snail has called the other snails.
+      one:
+        lead: Nice one!
+        note: The snail is impressed, and slightly jealous.
+      three:
+        lead: Hat-trick!
+        note: The snail has stopped to watch.
+      two:
+        lead: Two in a row!
+        note: The snail is picking up speed.
+      undo: Undo
+    due:
+      last: last %{day}
+    form:
+      finish_helper: 'A job is finished when you''ve completed it, or it''s otherwise no longer possible.
+
+        '
     index:
-      lede: What gardeners at %{band} are planting this month, most planted first.
-      none: Nothing to suggest right now. Check back next month.
-      not_located: Tell us where you garden and we can suggest what to sow.
-      title: Easy to sow in %{month} near you
-    update:
-      "off": We've stopped suggesting crops.
-      "on": Crop suggestions are back.
-  crop_dismissals:
-    create:
-      dismissed: We won't suggest %{crop} again.
-    destroy_all:
-      restored: Your hidden suggestions are back.
+      title:
+        default: Everyone's jobs
+        owner_jobs: "%{owner}'s jobs"
+    pad:
+      add: Add a job
+      add_button: Add
+      add_failed: That job may not have been added. Check your list before you try again.
+      adding: Adding “%{name}”…
+      adding_button: Adding…
+      after: After
+      all_jobs: See all your jobs
+      before: Before
+      change_date: Change date…
+      change_day: Change the day
+      crop: Crop
+      cross_off: 'Cross off: %{job}'
+      done: Done
+      done_on: done %{day}
+      done_today: done today
+      drop_here: Drag a job here.
+      edit_hint: Enter to save, Esc to cancel
+      edit_label: Job name
+      garden: Garden
+      garden_title: Jobs to do in this garden
+      hide_done: Hide done
+      in_garden: in %{garden}
+      later: Later
+      link_hint: Type @ and a crop name to link this job to it.
+      move_later: Later
+      move_today: Today
+      move_tomorrow: Tomorrow
+      move_week: This week
+      move_weekend: This weekend
+      next_weekend: Next weekend
+      overdue: Overdue
+      photo_after: Add an after photo
+      photo_before: Add a before photo
+      photo_of_after: 'After photo: %{title}'
+      photo_of_before: 'Before photo: %{title}'
+      planting: Planting
+      public_note: Jobs are public, so don't put private info here.
+      remove_link: Remove link
+      seeds: Seeds
+      set_day: Set a day
+      show_later:
+        one: Show 1 job coming up
+        other: Show %{count} jobs coming up
+      show_older:
+        one: Show 1 older done job
+        other: Show %{count} older done jobs
+      slow: Slow and steady.
+      someday: Some day
+      someday_note: a wishlist, nothing committed
+      title: "%{owner}'s jobs"
+      today: Today
+      uncross: 'Put back on the list: %{job}'
+      week: This week
+      weekend: This weekend
+    plan_something: Plan something
+    suggestions:
+      planted: planted %{date}
+      saved: saved %{year}
+      seeds: "%{crop} seeds"
+      the_crop: the crop
+  label:
+    data: 'The data on this page is available in the following formats:'
+    days_until_finished: "%{number} days"
+    days_until_harvest: "%{number} days"
+    harvesting_now: harvesting now
+    weeks_until_finished: "%{number} weeks"
+    weeks_until_harvest: "%{number} weeks until harvest"
+  layouts:
+    footer:
+      about: About
+      community_guidelines: Community Guidelines
+      contact: Contact
+      data_use_policy: Data Use Policy
+      get_involved: Get Involved
+      growstuff_team: Growstuff Team
+      open_source: Open Source
+      privacy_policy: Privacy Policy
+      support: Support
+      terms_of_service: Terms Of Service
+    header:
+      account: Account
+      admin: Admin
+      browse_crops: Browse Crops
+      browse_members: Browse Members
+      community: Community
+      community_gardens: Community Gardens
+      community_map: Community Map
+      crop_wrangling: Crop Wrangling
+      crops: Crops
+      current_memberlogin_name: "%{current_memberlogin_name}"
+      forums: Forums
+      garden_type: Garden Type
+      garden_types: Garden Types
+      gardens: Gardens
+      harvest: Harvest
+      harvests: Harvests
+      inbox: Inbox
+      inbox_unread: Inbox (%{unread_count})
+      jobs: Jobs
+      plantings: Plantings
+      posts: Posts
+      profile: Profile/Timeline
+      record: Record
+      seeds: Seeds
+      skip: Skip navigation menu
+      support_growstuff: Support Growstuff
+      toggle_navigation: Toggle Navigation
+      your_stuff: Your Stuff
+    menu:
+      about: About
+      activities: Activities
+      add: Add
+      add_button: "+ Add"
+      admin: Admin
+      all_crops: All crops
+      browse_members: Browse Members
+      cancel: Cancel
+      close: Close menu
+      community: Community
+      community_gardens: Community Gardens
+      community_map: Community Map
+      crop_wrangling: Crop Wrangling
+      crops: Crops
+      crops_heading: Crops
+      forums: Forums
+      friends_and_neighbours: Friends & neighbours
+      gardens: Gardens
+      harvests: Harvests
+      help_and_community: Help and community
+      how_it_works: How Growstuff works
+      inbox: Inbox
+      my_garden: My garden
+      my_harvests: My harvests
+      my_jobs: My jobs
+      my_plantings: My plantings
+      my_seeds: My seeds
+      new_badge: New
+      planting_suggestions: Planting suggestions
+      plantings: Plantings
+      posts: Posts
+      releases: What's new
+      search: Search
+      search_all: Search all crops for %{term}
+      search_placeholder: Search crops
+      seeds: Seeds
+      sign_in: Sign in
+      sign_out: Sign out
+      sign_up: Join free
+    nav:
+      my_drafts: My drafts
+      suggest_something: Suggest something
+  links:
+    my_gardens: My gardens
   member_dismissals:
     create:
       dismissed: We won't suggest %{name} again.
+  member_emails:
+    decline:
+      declined: Okay. We won't ask again, but you won't get notifications from us until you add an email in your account settings.
+    resend:
+      sent: We've sent the link again.
+      wait: We sent it a moment ago. Give it a minute, and check your spam folder.
+    update:
+      blank: Please enter an email address.
+      sent: We've sent a link to your email address. Follow it to confirm it.
+  member_names:
+    update:
+      saved: Thanks, your name is set.
+  members:
+    card:
+      not_interested: Stop suggesting %{name}
+      visit: Visit %{name}'s gardens
+    contact:
+      flickr_logo: Flickr logo
+      heading: Contact
+      more: More...
+      website: Website
+    edit_profile: Edit profile
+    email_prompt:
+      add_email: Add your email
+      unset_body: Add one to get planting reminders and to be able to reset your password. We'll send you a link to confirm it first, because we can't take your word for it.
+      unset_title: You haven't set an email address.
+      waiting_body: We sent a link to %{email}. Follow it and we'll start sending you reminders.
+      waiting_title: We're waiting for you to confirm your email address.
+    follow_button:
+      follow: Follow
+      follow_named: Follow %{name}
+      following: Following
+      following_named: You follow %{name}
+    index:
+      title: "%{site_name} members"
+    signup:
+      error: Failed to complete signup
+    unsubscribe:
+      error: We're sorry, there was an error updating your settings.
+    unsubscribed: You have been unsubscribed from %{email_type} emails.
+    welcome: Welcome
+    confirm_email: We've sent a link to your email address. Follow it to start getting reminders.
+  messages:
+    auth_failed: Authentication failed.
+    auth_taken: That account is already connected to another member.
+    auth_last_sign_in: This is the only way you can sign in. Add an email address and password first.
+    tos_required: Please agree to the Terms of Service to join, then try again.
+    bluesky_declined: Bluesky didn't approve that sign in. Please try again.
+    bluesky_expired: That took too long, so Bluesky let the sign in expire. Please try again, and finish within a few minutes.
+    bluesky_failed: We couldn't sign you in with Bluesky. Check your handle and try again.
+    auth_success: Authentication successful.
+    crops_waiting: There are crops waiting to be wrangled.
+    follow_error: Already following or error while following.
+    followed: Followed %{name}
+    invalid_location: Please enter a valid location
+    location_cleared: Location removed.
+    location_unplaced_html: We can't find "%{location}" on the map. <a href="%{link}">Choose your location from the list</a> so we can show you what's growing near you.
+    revert_error: 'Could not revert to version from %{date}. Errors: %{errors}'
+    revert_success: Reverted to version from %{date}
+    transplant_error: 'There was an error transplanting the planting: %{errors}'
+    transplant_success: Planting was successfully transplanted.
+    unable_to_like: Unable to like
+    unable_to_unlike: Unable to unlike
+    unfollowed: Unfollowed %{name}
   neighbours:
     audience:
       all:
@@ -464,15 +1046,15 @@ en:
       empty: Nothing to show yet.
       title: Latest from your friends and neighbours
     group:
+      due: for %{date}
+      garden_layout_html: Rearranged the layout of %{things}
+      harvest_html: Harvested %{things}
       job_finished_html:
         one: Finished a job, %{things}
         other: Finished %{count} jobs, %{things}
       job_html:
         one: Planned a job, %{things}
         other: Planned %{count} jobs, %{things}
-      due: for %{date}
-      garden_layout_html: Rearranged the layout of %{things}
-      harvest_html: Harvested %{things}
       planted_out_html: Planted out %{things} into %{garden}
       planting_finished_html: Finished growing %{things}
       planting_html: Planted %{things}
@@ -482,6 +1064,7 @@ en:
       transplant_html: Transplanted %{things} into %{garden}
       weighing: weighing %{weight}
     layout:
+      crop: "%{crop} ×%{count}"
       label: "%{garden}: its layout"
     photos:
       added:
@@ -543,149 +1126,46 @@ en:
       followed_by: Followed by %{people}
       privacy: We only use your city, never your exact location. Press × to stop suggesting someone.
       title: Who to follow
-      why: "Grows the same crops: %{crops}"
-  community_gardens:
-    title: Community Gardens on Growstuff
-    meta_description: Manage your community garden, track your plantings, and collaborate with other gardeners.
-    header: Community Gardens
-    lead: Growstuff is open source and the perfect place to manage your community garden. Track your plantings, celebrate your harvests, and collaborate with your fellow gardeners, all in one place.
-    get_started: Get Started Today
-    get_started_text: Signing up for Growstuff is free and easy. Create an account to start tracking your garden today.
-    sign_up: Sign up for free
-    collaborate: Collaborate with Your Team
-    collaborate_text: Invite other gardeners to collaborate on your garden plots. Share the work, share the harvest, and grow together as a community.
-    learn_more: Learn more about gardens
-    features_title: Features for Community Gardens
-  label:
-    days_until_harvest: "%{number} days"
-    weeks_until_harvest: "%{number} weeks until harvest"
-    days_until_finished: "%{number} days"
-    weeks_until_finished: "%{number} weeks"
-    harvesting_now: harvesting now
-    data: 'The data on this page is available in the following formats:'
-  layouts:
-    footer:
-      about: About
-      open_source: Open Source
-      growstuff_team: Growstuff Team
-      get_involved: Get Involved
-      terms_of_service: Terms Of Service
-      privacy_policy: Privacy Policy
-      data_use_policy: Data Use Policy
-      community_guidelines: Community Guidelines
-      support: Support
-      contact: Contact
-    header:
-      jobs: Jobs
-      account: Account
-      admin: Admin
-      browse_crops: Browse Crops
-      browse_members: Browse Members
-      community: Community
-      community_map: Community Map
-      community_gardens: Community Gardens
-      garden_type: Garden Type
-      garden_types: Garden Types
-      crop_wrangling: Crop Wrangling
-      crops: Crops
-      current_memberlogin_name: "%{current_memberlogin_name}"
-      forums: Forums
-      gardens: Gardens
-      harvest: Harvest
-      harvests: Harvests
-      record: Record
-      inbox: Inbox
-      inbox_unread: Inbox (%{unread_count})
-      plantings: Plantings
-      posts: Posts
-      profile: Profile/Timeline
-      seeds: Seeds
-      skip: Skip navigation menu
-      support_growstuff: Support Growstuff
-      toggle_navigation: Toggle Navigation
-      your_stuff: Your Stuff
-    menu:
-      about: About
-      activities: Activities
-      add: Add
-      add_button: "+ Add"
-      admin: Admin
-      browse_members: Browse Members
-      cancel: Cancel
-      close: Close menu
-      community: Community
-      community_gardens: Community Gardens
-      community_map: Community Map
-      crop_wrangling: Crop Wrangling
-      crops: Crops
-      crops_heading: Crops
-      forums: Forums
-      friends_and_neighbours: My friends & neighbours
-      gardens: Gardens
-      harvests: Harvests
-      help_and_community: Help and community
-      how_it_works: How Growstuff works
-      inbox: Inbox
-      my_garden: My garden
-      my_harvests: My harvests
-      my_plantings: My plantings
-      my_seeds: My seeds
-      new_badge: New
-      plantings: Plantings
-      posts: Posts
-      releases: What's new
-      search: Search
-      search_all: "Search all crops for %{term}"
-      search_placeholder: Search crops
-      seeds: Seeds
-      sign_in: Sign in
-      sign_out: Sign out
-      sign_up: Join free
-  links:
-    my_gardens: My gardens
-
-  messages:
-    auth_success: Authentication successful.
-    auth_failed: Authentication failed.
-    crops_waiting: There are crops waiting to be wrangled.
-    followed: "Followed %{name}"
-    unfollowed: "Unfollowed %{name}"
-    follow_error: Already following or error while following.
-    transplant_success: Planting was successfully transplanted.
-    transplant_error: "There was an error transplanting the planting: %{errors}"
-    revert_success: "Reverted to version from %{date}"
-    revert_error: "Could not revert to version from %{date}. Errors: %{errors}"
-    invalid_location: Please enter a valid location
-    unable_to_like: Unable to like
-    unable_to_unlike: Unable to unlike
-
-  members:
-    card:
-      not_interested: Stop suggesting %{name}
-      visit: Visit %{name}'s gardens
-    edit_profile: Edit profile
-    follow_button:
-      follow: Follow
-      following: Following
-    index:
-      title: "%{site_name} members"
-    signup:
-      error: Failed to complete signup
-    unsubscribe:
-      error: We're sorry, there was an error updating your settings.
-    unsubscribed: You have been unsubscribed from %{email_type} emails.
-    welcome: Welcome
+      why: 'Grows the same crops: %{crops}'
+  notifier_mailer:
+    harvest_reminder:
+      heading: Upcoming harvests in your garden
+      intro: 'Based on our predictions, the following plantings in your garden are likely to be ready for harvest within the next week:'
+      subject: Upcoming harvests in your garden - %{sitename}
+      unsubscribe: Unsubscribe from harvest reminders
+  nurseries:
+    what_is_a_nursery:
+      description_html: "A <strong>nursery</strong> is where you raise seedlings: seeds sown in trays or pots before they go into a garden. Sow your seeds in the nursery, then transplant them into one garden, or split a batch between several, when they are ready."
+    show:
+      title: Your nursery
+      use_existing: Use a garden you have
+      which_garden: Which garden?
+      use_this_garden: Use this garden as my nursery
+      no_other_garden: You don't have another garden to use.
+      make_new: Make a new one
+      make_new_text: We'll make a garden called Nursery just for your seedlings.
+      make_a_nursery: Make a nursery
+      dont_need: I don't need one
+      dont_need_text: "Skip raising seedlings on Growstuff. We won't ask again, and you can change your mind from your gardens page."
+      no_nursery_for_me: No nursery for me
+  photo_associations:
+    update:
+      updated: Photo updated.
   photos:
     show:
+      crop: "%{crop}"
       garden: garden named "%{garden}" by %{owner}
       harvest: "%{crop} harvest by %{owner}"
       planting: "%{planting}"
       seed: "%{seed}"
       thing_by: A %{thing} by %{owner}
-      crop: "%{crop}"
   places:
     index:
       title: "%{site_name} Community Map"
+    search_form:
+      change_location: "Change location:"
+      placeholder: Search for city, suburb or state...
+      search: Search
   planting:
     status:
       finished: Finished
@@ -696,215 +1176,6 @@ en:
       not_enough_data: Not enough data
       perennial: Perennial
       unknown: Unknown
-  job_ideas:
-    title: Ideas for now
-    banner:
-      one: We have 1 suggested job for you this week
-      other: We have %{count} suggested jobs for you this week
-    banner_go: See ideas →
-    done: Done
-    added_to_jobs:
-      one: Added 1 job to your list
-      other: Added %{count} jobs to your list
-    footer: Counts come from public jobs and plantings. Adding an idea puts it under Some day, so you decide the day. "Not for me" hides it for a year, or snooze it to see it sooner.
-    filter:
-      mine: what I did before
-      community: people growing what I grow
-      nearby: near me
-      world: world neighbours
-    section:
-      templates: Templates
-      templates_note: for plantings you have
-      this_time: At this time of year
-      this_time_note: from your jobs and plantings
-      harvest: Ready to harvest
-      harvest_note: in your garden
-      community: People growing what you grow
-      community_note: public jobs
-      nearby: Near you
-      nearby_note: "%{place} and around"
-      world: World neighbours
-      world_note: gardeners at your latitude, anywhere
-    none: Nothing to suggest right now. Check back as the season changes.
-    add: "+ Add"
-    add_all: Add all %{count}
-    preview:
-      one: See the job
-      other: See the %{count} jobs
-    dismiss: Not for me
-    snooze:
-      label: Snooze
-      week: A week
-      month: A month
-    more:
-      one: 1 more idea waiting.
-      other: "%{count} more ideas waiting."
-    added: Added "%{name}" to your jobs.
-    gone: That idea is no longer on offer.
-    hidden:
-      week: Snoozed for a week.
-      month: Snoozed for a month.
-      dismissed: Hidden. It may come back with the season.
-    job:
-      plant: Plant %{crop}
-      harvest: Harvest %{crop}
-    reason:
-      template:
-        one: "1 job: %{steps}. For your %{crop} planted on %{day}."
-        other: "%{count} jobs: %{steps}. For your %{crop} planted on %{day}."
-      past_job:
-        one: "You did this on %{day}."
-        other: "You did this at this time of year in %{count} years, last on %{day}."
-      past_planting:
-        one: "You planted this on %{day}."
-        other: "You planted this at this time of year in %{count} years, last on %{day}."
-      harvest_predicted: "Ready around %{day}, going by how long it usually takes."
-      harvest_harvested: "You last harvested from it on %{day}."
-      community_of:
-        now:
-          one: "1 of %{of} gardeners growing %{crop} did this lately."
-          other: "%{count} of %{of} gardeners growing %{crop} did this lately."
-        earlier:
-          one: "1 of %{of} gardeners growing %{crop} did this at this time of year before."
-          other: "%{count} of %{of} gardeners growing %{crop} did this at this time of year before."
-      community:
-        now:
-          other: "%{count} gardeners growing %{crop} did this lately."
-        earlier:
-          other: "%{count} gardeners growing %{crop} did this at this time of year before."
-      nearby:
-        now:
-          other: "%{count} gardeners nearby did this lately."
-        earlier:
-          other: "%{count} gardeners nearby did this at this time of year before."
-      world:
-        now:
-          other: "%{count} gardeners at your latitude did this lately."
-        earlier:
-          other: "%{count} gardeners at your latitude did this at this time of year."
-  jobs:
-    plan_something: Plan something
-    celebrate:
-      crossed_off: Crossed off "%{name}"
-      undo: Undo
-      done:
-        one: 1 job done this week.
-        other: "%{count} jobs done this week."
-      one:
-        lead: Nice one!
-        note: The snail is impressed, and slightly jealous.
-      two:
-        lead: Two in a row!
-        note: The snail is picking up speed.
-      three:
-        lead: Hat-trick!
-        note: The snail has stopped to watch.
-      many:
-        lead: On a roll!
-        note: The snail has called the other snails.
-    due:
-      last: last %{day}
-    suggestions:
-      the_crop: the crop
-      planted: planted %{date}
-      saved: saved %{year}
-      seeds: "%{crop} seeds"
-    pad:
-      title: "%{owner}'s jobs"
-      garden_title: "Jobs in %{garden}"
-      all_jobs: See all your jobs
-      cross_off: "Cross off: %{job}"
-      uncross: "Put back on the list: %{job}"
-      add: Add a job
-      add_button: Add
-      adding_button: Adding…
-      adding: "Adding “%{name}”…"
-      edit_label: Job name
-      edit_hint: Enter to save, Esc to cancel
-      show_later:
-        one: Show 1 job coming up
-        other: Show %{count} jobs coming up
-      show_older:
-        one: Show 1 older done job
-        other: Show %{count} older done jobs
-      add_failed: That job may not have been added. Check your list before you try again.
-      public_note: Jobs are public, so don't put private info here.
-      overdue: Overdue
-      before: Before
-      after: After
-      photo_of_before: "Before photo: %{title}"
-      photo_of_after: "After photo: %{title}"
-      photo_before: Add a before photo
-      photo_after: Add an after photo
-      done: Done
-      done_on: done %{day}
-      done_today: done today
-      today: Today
-      week: This week
-      weekend: This weekend
-      next_weekend: Next weekend
-      later: Later
-      someday: Some day
-      drop_here: Drag a job here.
-      slow: Slow and steady.
-      move_today: Today
-      change_day: Change the day
-      set_day: Set a day
-      change_date: Change date…
-      move_tomorrow: Tomorrow
-      move_weekend: This weekend
-      move_later: Later
-      someday_note: a wishlist, nothing committed
-      garden: Garden
-      crop: Crop
-      seeds: Seeds
-      link_hint: Type @ and a crop name to link this job to it.
-      remove_link: Remove link
-      planting: Planting
-      in_garden: in %{garden}
-    index:
-      title:
-        default: Everyone's jobs
-        owner_jobs: "%{owner}'s jobs"
-    form:
-      finish_helper: >
-        A job is finished when you've completed it, or it's otherwise
-        no longer possible.
-  crop_job_templates:
-    created: Job template created.
-    saved: Job template saved.
-    deleted: Job template deleted.
-    options:
-      applies_to_all: All %{crop} varieties
-      applies_to_one: "%{crop} only"
-      season:
-        any: Any time
-        spring_summer: Spring and summer
-        autumn_winter: Autumn and winter
-      status:
-        draft: Draft
-        published: Published
-      offset_unit:
-        days: days
-        weeks: weeks
-        months: months
-      direction:
-        after: after
-        before: before
-      anchor:
-        sowing: sowing
-        planting_out: planting out
-        first_harvest: first harvest
-      repeat:
-        once: once
-        weekly: every week
-        fortnightly: every 2 weeks
-        monthly: every month
-  seasons:
-    spring: Spring
-    summer: Summer
-    autumn: Autumn
-    winter: Winter
   plantings:
     badges:
       days_until_finished: days until finished
@@ -913,103 +1184,364 @@ en:
       late_finishing: late finishing
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super late
-    plant_something: Plant something
+    card:
+      planted_by_in_html: Planted by %{owner} in %{garden}
+    facts:
+      day_progress: "day %{age} of %{lifespan}"
+      done: Done
+      failed: Failed
+      finished: finished
+      grown: grown
+      grown_in: Grown in
+      lifespan_days:
+        one: 1 day
+        other: "%{count} days"
+      no_date_recorded: no date recorded
+      no_finish_predicted: no finish predicted
+      not_rated: not rated
+      not_specified: not specified
+      packets_of_seed:
+        one: 1 packet of seed
+        other: "%{count} packets of seed"
+      parent_seed: Parent seed
+      perennial: Perennial
+      perennial_description: keeps growing year to year
+      planned: Planned
+      planned_for: "for %{date}"
+      planted: Planted
+      planting_failed: this planting failed
+      progress: Progress
+      quantity: Quantity
+      rating: Rating
+      rating_of_5: "%{rating} of 5"
+      seeds_saved: Seeds saved
+      sown_from_expired: "Sown from expired seeds (plant before %{year})"
+      unknown: unknown
     form:
-      finish_helper: >
-        A planting is finished when you've harvested all of the crop, or it dies, or it's otherwise
-        no longer growing in your garden.
-      failed_helper: >
-        Mark this planting as failed if it died or was removed without any harvest.
+      failed_helper: 'Mark this planting as failed if it died or was removed without any harvest.
+
+        '
+      finish_helper: 'A planting is finished when you''ve harvested all of the crop, or it dies, or it''s otherwise no longer growing in your garden.
+
+        '
+    garden_card:
+      by: by
     index:
       title:
         crop_plantings: Everyone's %{crop} plantings
         default: Everyone's plantings
         owner_plantings: "%{owner}'s plantings"
       view_owners_profile: View %{owner}'s profile >>
-    string: "%{crop} planting in %{garden} by %{owner}"
+    plant_something: Plant something
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
     show:
-      title: "%{crop} planting by %{owner}"
-      heading: "%{crop} planting"
-      meta_description: "%{crop} planted by %{owner} in %{garden}."
-      notes: Notes
-      photos: Photos
+      crop: Crop
+      grower: Grower
+      harvest_month_yes: "%{month}, usually harvesting"
+      harvest_months: Harvest months
+      harvest_months_legend: Highlighted months are when this crop is usually harvested here.
+      harvest_months_unknown: No harvest months for this crop at this latitude yet.
       harvests: Harvests
-      seeds_saved: Seeds saved
+      heading: "%{crop} planting"
       jobs: Jobs
       jobs_current: Planned
       jobs_finished: Finished
+      meta_description: "%{crop} planted by %{owner} in %{garden}."
+      more_photos: More photos
       neighbours: World neighbours
-      harvest_months: Harvest months
-      harvest_months_unknown: No harvest months for this crop at this latitude yet.
-      harvest_months_legend: Highlighted months are when this crop is usually harvested here.
-      harvest_month_yes: "%{month}, usually harvesting"
-      grower: Grower
-      crop: Crop
       neighbours_explanation: Other %{crop} plantings at the same latitude.
+      no_harvests: No harvests recorded yet.
+      no_harvests_prompt: 'Record your harvests here to improve crop predictions, and you''ll be able to compare with your garden next season.
+
+        '
+      no_jobs: Nothing is planned here.
       no_photos: No photos yet.
       no_photos_prompt: Photos come from your Flickr account. Add one to track how this planting grows.
-      no_harvests: No harvests recorded yet.
-      no_harvests_prompt: >
-        Record your harvests here to improve crop predictions, and you'll be able to compare with
-        your garden next season.
       no_seeds: No seeds saved yet.
       no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
-      no_jobs: Nothing is planned here.
-      more_photos: More photos
+      notes: Notes
+      photos: Photos
+      seeds_saved: Seeds saved
+      title: "%{crop} planting by %{owner}"
       view_all_plantings: All of %{owner}'s plantings
+      weather_coldest: Coldest night
+      weather_credit_html: "%{open_meteo} (%{licence}). Contains modified Copernicus Climate Change Service information. The weather is modelled for the area around the garden, not measured in it, and runs a few days behind. The totals, charts and expected weather are our adaptation of that data."
+      weather_credit_licence: CC BY 4.0
+      weather_credit_source: Weather data by Open-Meteo.com
+      weather_days: Days
+      weather_expected_note: The dotted lines and bars are expected weather, last year's data for the same days moved forward a year. They are not observed.
+      weather_hottest: Hottest day
+      weather_location_intro: We use this to show the temperature and rainfall the plantings here have been through. Your garden's city or region is public, like the rest of the garden.
+      weather_location_title: Where is this garden?
+      weather_new: New
+      weather_now_rain: 'Latest, %{date}: %{rain}'
+      weather_now_temperature: 'Latest, %{date}: %{high} / %{low}'
+      weather_pending: We're loading the weather for this garden's area. It's collected overnight and runs about five days behind, so the first days of a new planting appear a few days after it's planted.
+      weather_rain: Rain
+      weather_rain_chart: Daily rainfall
+      weather_rain_chart_alt: 'Daily rainfall over %{count} days, up to %{max} mm in a day.'
+      weather_set_location: Set a garden location to get temperature and rainfall data
+      weather_soil_temp: Soil temperature
+      weather_temperature_chart: Daily high and low
+      weather_temperature_chart_alt: 'Daily high and low temperature, from %{low} to %{high}.'
+    string: "%{crop} planting in %{garden} by %{owner}"
+    transplant:
+      cancel: Cancel
+      close: Close
+      move_to: "Move this planting to:"
+      submit: Transplant
+      title: "Transplant %{crop}"
   posts:
-    write_blog_post: Write blog post
     created: Post was successfully created.
-    updated: Post was successfully updated.
     deleted: Post was deleted.
+    draft_saved: Draft was saved.
     index:
       title:
         author_posts: "%{author} posts"
         default: Everyone's posts
+    more_from: More from %{author}
+    read_time:
+      one: 1 min read
+      other: "%{count} min read"
+    untitled: Untitled post
+    updated: Post was successfully updated.
+    write_blog_post: Write blog post
   scientific_names:
     deleted: Scientific name was successfully deleted.
-  alternate_names:
-    created: Alternate name was successfully created.
-    updated: Alternate name was successfully updated.
-    deleted: Alternate name was successfully deleted.
-  crop_companions:
-    created: Companion was successfully created.
-    deleted: Companion was successfully destroyed.
+  seasons:
+    autumn: Autumn
+    spring: Spring
+    summer: Summer
+    winter: Winter
   seeds:
-    show:
-      heading: "%{crop} seeds"
+    added_to_stash: Successfully added %{crop} seed to your stash.
+    crop_changes:
+      show:
+        confirm: Yes, change them
+        decline: No, leave them
+        harvests:
+          one: "1 harvest"
+          other: "%{count} harvests"
+        intro: "You changed this seed from %{from} to %{to}. These were grown from it and are still %{from}. Change them to %{to} too?"
+        plantings:
+          one: "1 planting"
+          other: "%{count} plantings"
+        seeds:
+          one: "1 packet of seed"
+          other: "%{count} packets of seed"
+        title: Change them to %{crop} too?
+      update:
+        changed: Changed to the new crop.
+    facts:
+      cancel: Cancel
+      edit_all: Edit all
+      finished: Finished
+      from_location_html: "(from %{location})"
+      from_unspecified_location: "(from unspecified location)"
+      heading: The packet
+      save: Save
+      set_location: Set Location
+      unknown: Unknown
+      will_trade: Will trade
+      year_saved: Year saved
     form:
-      trade_help: >
-        Are you interested in trading or swapping seeds with other %{site_name} members?  If you list
-        your seeds as available for trade, other members can contact you to request seeds.  You can
-        list any conditions or other information in the description, above.
-      finish_helper: >
-        Seeds are finished when you've planted them all, or you've traded them all away.
+      finish_helper: 'Seeds are finished when you''ve planted them all, or you''ve traded them all away.
+
+        '
+      trade_help: 'Are you interested in trading or swapping seeds with other %{site_name} members?  If you list your seeds as available for trade, other members can contact you to request seeds.  You can list any conditions or other information in the description, above.
+
+        '
     index:
       title:
         crop_seeds: Everyone's %{crop} seeds
         default: Everyone's seeds
         owner_seeds: "%{owner} seeds"
+    packet:
+      choice_back: Back
+      choice_front: Front
+      choice_none: None
+      group: Packet photo
+      label_back: Back of packet
+      label_front: Front of packet
+      photo_back: Add a photo of the back of the packet
+      photo_front: Add a photo of the front of the packet
     save_seeds: Save seeds
+    show:
+      heading: "%{crop} seeds"
     string: "%{crop} seeds belonging to %{owner}"
-    added_to_stash: Successfully added %{crop} seed to your stash.
+    updated: Seed was successfully updated.
+  stalls:
+    about_growstuff:
+      join: Join free
+      sign_in: Sign in
+      text: A community for growing food. Record what you plant and harvest, and swap seeds and tips with other gardeners. Join free, or sign in, to get in touch with %{name} about what's on the stall.
+    card:
+      go: Go to your stall
+      heading: Garden stall
+      open: Open a garden stall
+      open_text: Your garden stall is open for friends.
+      text: Share spare seedlings and seeds with friends. You choose what and who, offers close after 4 weeks, and no addresses are kept.
+    claim:
+      claim: Claim
+      claimed: Claimed
+      confirm: Claim it
+      here: I'm in %{place}
+      note: 'Note: %{note}'
+      note_label: A note for the gardener (optional)
+      note_placeholder: Say thanks, and what you could offer in return
+      outside: Only for people near %{place}
+      set_place: Not right? Set where you garden.
+      owner_unplaced: The gardener hasn't said where they are yet
+      postage: "%{owner} may ask you to pay for postage."
+      set_place_ask: Or set where you garden in your profile, so it's checked for you.
+      sign_in: Sign in to claim
+      undo: Undo my claim
+    claims:
+      create:
+        claimed: "%{crop} is claimed. It's yours; message the gardener to arrange pick-up or postage."
+      destroy:
+        undone: You've given back the %{crop}.
+    offers:
+      free: Free
+      free_text: Yours for the asking
+      swap: Swap
+      swap_text: Bring seeds of your own
+    openings:
+      create:
+        opened: Your garden stall is open.
+      destroy:
+        closed: Your garden stall is closed.
+    owner:
+      garden_of: Garden of
+      link: Link to your stall
+      profile: See %{name}'s profile
+    seed_tin:
+      add: "+ add"
+      heading: In the seed tin
+      legend: Each packet says whether it's free or a swap.
+      packets:
+        one: 1 packet
+        other: "%{count} packets"
+      take_off: Take off the stall
+    seeds:
+      choice:
+        not_trading: Not trading yet
+        quantity:
+          one: approx. 1 seed
+          other: approx. %{count} seeds
+        saved: saved %{year}
+        sow_before: sow before %{year}
+      create:
+        added:
+          one: 1 packet is on your stall.
+          other: "%{count} packets are on your stall."
+        none: Tick the packets you want to put on the stall.
+      destroy:
+        removed: Taken off the stall. It's still in your seed library.
+      new:
+        add: Add to the stall
+        breadcrumb: Add seeds
+        cancel: Cancel
+        cant_find: Can't find the crop?
+        crop: Crop
+        intro: Pick seeds to put on the stall, from your seed library.
+        offer: What are you offering them as?
+        offers:
+          free: Give away
+          swap: Swap or trade
+        no_matches: No seeds match "%{query}".
+        none_left: Every packet you have is on the stall already.
+        others:
+          one: Other seeds in your library (1)
+          other: Other seeds in your library (%{count})
+        ready:
+          one: Marked "will trade" (1)
+          other: Marked "will trade" (%{count})
+        new_note: It is saved in your seed library too, and goes on the stall with the packets you ticked.
+        quantity: Approx. how many seeds
+        record_new: Add a seed packet you haven't recorded yet
+        request_crop: Request a new crop.
+        search: Search your seeds
+        search_button: Search
+        search_placeholder: Crop or variety, for example tomato
+        title: Add seeds to your stall
+        variety: Variety
+        will_mark: Putting a packet that isn't marked "will trade" on the stall marks it "will trade" in your seed library, so friends can see it there too. Taking it off the stall leaves it marked.
+        your_seeds: Your seeds
+    settings:
+      areas:
+        anywhere: Anywhere
+        region: Only people near %{place}
+      heading: Who can claim
+      postage: I may ask friends to pay for postage
+      save: Save
+      set_place: Set where you garden.
+      unplaced: Say where you garden so friends nearby can claim. Until you do, nobody can.
+      where: Where friends can be
+      where_help: Based on the place on your Growstuff profile, and only ever shown as a place name. Bluesky friends say where they are when they claim. No street address is shown or asked for.
+      your_place: where you garden
+    show:
+      breadcrumb: Garden stall
+      add_seeds: Add seeds
+      close: Close the stall
+      coming_soon: Coming soon
+      description:
+        one: Spare seeds from %{name}'s garden on Growstuff. 1 packet is up for grabs, free or to swap.
+        other: Spare seeds from %{name}'s garden on Growstuff. %{count} packets are up for grabs, free or to swap.
+        zero: Spare seedlings and seeds from %{name}'s garden on Growstuff, free or to swap.
+      first_heading: Your stall is open. What goes on it first?
+      first_intro: You can add more any time. Nothing shows to friends until something is on the table.
+      open: Open my stall
+      open_heading: Open a garden stall
+      open_intro: Got spare seedlings or seeds? Put them on a stall and share the link with your friends. Give them away or swap.
+      points:
+        choose_what: You choose what goes on the table.
+        choose_where: 'You choose where friends can be: near you, or anywhere.'
+        choose_who: 'You choose who can claim: anyone signed in, or only people you follow.'
+        expiry: Offers close after 4 weeks, so the stall never goes stale.
+        privacy: Growstuff keeps no addresses. Friends message you to arrange pick-up or postage.
+      seedlings: Seedlings
+      seedlings_text: Plants you've raised that need a home.
+      seeds: Seeds
+      seeds_text: Packets you've saved and will trade.
+      title: "%{name}'s garden stall"
+    stall:
+      closed: Closed for now
+      sign: "%{name}'s garden stall"
+      spots:
+        more: anything else
+        seedlings: seedlings here
+        seeds: seeds here
+      tagline: Seedlings and seeds for friends. Free, or swap.
+    terms:
+      anywhere: Anyone signed in can claim.
+      heading: Who can claim
+      manners: It's free, but it's good manners to offer something in return, such as some of your own seeds, or just a thank you.
+      no_money: Growstuff doesn't handle any money or addresses. Message the gardener to arrange pick-up or postage.
+      postage: "%{owner} may ask you to pay for postage."
+      region: Claiming is only for people near %{place}.
+      unplaced: "%{owner} hasn't said where they are yet, so nobody can claim for now."
+    update:
+      updated: Saved.
+  suggestions:
+    index:
+      lede: What gardeners at %{band} are planting this month, most planted first.
+      none: Nothing to suggest right now. Check back next month.
+      not_located: Tell us where you garden and we can suggest what to sow.
+      title: Easy to sow in %{month} near you
+    update:
+      'off': We've stopped suggesting crops.
+      'on': Crop suggestions are back.
   unauthorized:
     create:
       all: Please sign in or sign up to create a %{subject}.
+      garden_type: Not authorized. Only admins can create garden types.
       notification: Please sign in to send a message.
       planting: Please sign in or sign up to plant something.
       post: Please sign in or sign up to post.
       seed: Please sign in or sign up to add seeds.
-      garden_type: Not authorized. Only admins can create garden types.
     manage:
       all: Not authorized to %{action} %{subject}.
     read:
       notification: You must be signed in to view notifications.
-  notifier_mailer:
-    harvest_reminder:
-      subject: "Upcoming harvests in your garden - %{sitename}"
-      heading: "Upcoming harvests in your garden"
-      intro: "Based on our predictions, the following plantings in your garden are likely to be ready for harvest within the next week:"
-      unsubscribe: "Unsubscribe from harvest reminders"

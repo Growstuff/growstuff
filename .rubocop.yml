@@ -27,6 +27,7 @@ RSpec/DescribeClass:
    - 'spec/tasks/import_spec.rb'
    - 'spec/views/**/*.rb'
    - 'spec/features/**/*.rb'
+   - 'spec/requests/api/**/*.rb'
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented

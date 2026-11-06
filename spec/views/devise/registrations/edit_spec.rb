@@ -27,10 +27,6 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       it 'has a checkbox for email notifications' do
         assert_select "input[id=member_send_notification_email][type=checkbox]"
       end
-
-      it 'has a checkbox for newsletter subscription' do
-        assert_select "input[id=member_newsletter][type=checkbox]"
-      end
     end
 
     context 'profile section' do
@@ -54,16 +50,33 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
         assert_select "textarea[id=member_bio]"
       end
 
-      it 'shows location field' do
-        assert_select "input[id=member_location][type=text]"
+      it 'shows locale select field' do
+        assert_select "select[id=member_locale]"
+      end
+
+      it 'has no location text field' do
+        assert_select "input[id=member_location]", count: 0
+      end
+
+      it 'has a button that removes the location' do
+        assert_select "button[formaction='#{member_location_path}'][name=_method][value=delete]"
+      end
+
+      it 'loads the script that makes the location link work' do
+        render
+        expect(view.content_for(:scripts)).to include('react_islands')
+      end
+
+      it 'has a link to set the location in its dialog' do
+        assert_select "[data-react-component=LocationPicker]"
       end
     end
 
     context 'other sites section' do
       context 'not connected to flickr' do
-        it 'has a link to connect' do
+        it 'has a button to connect' do
           render
-          assert_select "a", "Connect to Flickr"
+          expect(rendered).to have_button 'Connect to Flickr'
         end
       end
 

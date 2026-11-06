@@ -20,7 +20,7 @@ describe GardensController, '#show' do
     end
 
     it 'has a to-do list for the garden' do
-      expect(page).to have_css('.notepad h2', text: "Jobs in #{garden.name}")
+      expect(page).to have_css('.notepad h2', text: 'Jobs to do in this garden')
     end
 
     it 'lists their jobs for the garden' do
@@ -58,20 +58,47 @@ describe GardensController, '#show' do
       get garden_path(garden)
     end
 
-    it 'shows the jobs planned there, as cards' do
-      expect(page).to have_css('.card.job', text: 'Net the berries')
+    it 'shows the jobs planned there' do
+      expect(page).to have_css('.notepad-job .notepad-name', text: 'Net the berries')
     end
 
-    it 'has no to-do list' do
-      expect(page).to have_no_css('.notepad')
+    it 'shows other members\' jobs for the garden as well' do
+      expect(page).to have_css('.notepad-job .notepad-name', text: 'Someone else\'s job')
+    end
+
+    it 'leaves out jobs for other gardens' do
+      expect(page).to have_no_css('.notepad-name', text: 'Sharpen the secateurs')
+    end
+
+    it 'has no way to add a job' do
+      expect(page).to have_no_css('.notepad-add')
+    end
+
+    it 'has no tick boxes' do
+      expect(page).to have_no_css('.notepad-box')
     end
   end
 
   context 'when nobody is signed in' do
     before { get garden_path(garden) }
 
-    it 'has no to-do list' do
-      expect(page).to have_no_css('.notepad')
+    it 'shows the jobs planned there' do
+      expect(page).to have_css('.notepad-job .notepad-name', text: 'Net the berries')
+    end
+
+    it 'has no way to add a job' do
+      expect(page).to have_no_css('.notepad-add')
+    end
+  end
+
+  context 'with plantings that have no photo' do
+    before do
+      create_list(:planting, 2, garden:, owner:)
+      get garden_path(garden)
+    end
+
+    it 'shows every planting' do
+      expect(page).to have_css('.garden-planting', count: 2)
     end
   end
 end

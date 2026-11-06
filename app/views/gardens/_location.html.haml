@@ -1,0 +1,18 @@
+-# Where the garden is. Only places we found can be saved, so it is set in the dialog (see LocationPicker.jsx),
+-# which needs a garden that already exists; a new garden starts at its owner's place.
+.mb-3
+  %span.form-label.d-block Location
+  - if garden.persisted?
+    -# The form's own edits may be waiting, so the dialog fills the place in here rather than reloading,
+    -# and Remove is a button of this form (a form can't hold another) that submits to the delete route.
+    .d-flex.flex-wrap.align-items-center.gap-2
+      %span= icon 'fas', 'map-marker'
+      %strong#garden-location= garden.location.presence || 'Not set'
+      - change = { garden:, label: 'Change', icon: 'fas fa-pen', display_id: 'garden-location' }
+      = render 'gardens/location_picker', change.merge(button_class: 'btn btn-sm btn-outline-secondary')
+      - remove = { type: 'submit', formmethod: 'post', name: '_method', value: 'delete' }
+      %button.btn.btn-sm.btn-outline-danger{ remove.merge(formaction: garden_location_path(garden)) }
+        = icon 'fas', 'trash', 'Remove'
+  - else
+    %p.mb-0= current_member.location.presence || 'Not set'
+  %span.form-text.d-block.mt-1= t('gardens.form.location_helper')

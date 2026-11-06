@@ -5,6 +5,7 @@
 %nav.nav
   = link_to "Full crop hierarchy", hierarchy_crops_path, class: 'nav-link'
   = link_to "Add Crop", new_crop_path, class: 'btn'
+  = link_to "Merge crops", admin_crop_merge_path, class: 'nav-link'
 
 %section.crop_wranglers
   %h2 Crop Wranglers
@@ -29,7 +30,7 @@
   - carry = { q: @query.presence, level: ('all' if @all_levels && @query.blank?) }
   - tabs = [['Approved', nil], ['Pending approval', 'pending'], ['Rejected', 'rejected']]
   %ul.nav.nav-tabs{ role: 'tablist' }
-    %li.nav-item= link_to 'Recently edited', admin_crops_path, class: 'nav-link'
+    %li.nav-item= link_to 'Recently edited', recently_edited_admin_crops_path, class: 'nav-link'
     - tabs.each do |label, status|
       %li.nav-item
         = link_to label, wrangle_crops_path(carry.merge(approval_status: status)), class: ['nav-link', ('active' if @approval_status.presence == status)]

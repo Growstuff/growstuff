@@ -1,23 +1,10 @@
 import React, {useEffect, useState} from 'react';
 
 import {getJson, patchJson} from '../api';
+import {errorMessages} from '../errors';
 import CropPicker from './CropPicker';
 import Modal from './Modal';
 import StarRating from './StarRating';
-
-function humanize(field) {
-  return field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
-}
-
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${humanize(field)} ${m}`));
-    if (messages.length > 0) return messages;
-  }
-  if (status === 401) return ['Please sign in again to save this planting.'];
-  if (status === 403) return ['You can\'t change this planting.'];
-  return ['Something went wrong saving that. Please try again.'];
-}
 
 // The same fields as the planting edit page, in a dialog over the garden list.
 // It loads the planting's current values from /plantings/:slug/edit.json, saves
@@ -74,7 +61,7 @@ export default function EditPlantingModal({planting, onClose, onSaved}) {
         onSaved(data.garden); // closes this dialog
         return;
       }
-      setErrors(errorMessages(status, data));
+      setErrors(errorMessages(status, data, {signedOut: 'Please sign in again to save this planting.', forbidden: 'You can\'t change this planting.'}));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
     }

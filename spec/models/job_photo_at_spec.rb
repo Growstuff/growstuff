@@ -8,8 +8,8 @@ describe Job, '#photo_at' do
   let(:after_photo) { create(:photo, owner: job.owner) }
 
   before do
-    job.photo_associations.create!(photo: before_photo, moment: 'before')
-    job.photo_associations.create!(photo: after_photo, moment: 'after')
+    job.photo_associations.create!(photo: before_photo, label: 'before')
+    job.photo_associations.create!(photo: after_photo, label: 'after')
     job.photo_associations.create!(photo: create(:photo, owner: job.owner))
   end
 
@@ -21,17 +21,17 @@ describe Job, '#photo_at' do
     expect(job.reload.photo_at('after')).to eq after_photo
   end
 
-  it 'is nothing for a moment with no photo' do
-    job.photo_associations.where(moment: 'after').destroy_all
+  it 'is nothing for a label with no photo' do
+    job.photo_associations.where(label: 'after').destroy_all
     expect(job.reload.photo_at('after')).to be_nil
   end
 
   it 'is the first added, when there are several' do
-    job.photo_associations.create!(photo: create(:photo, owner: job.owner), moment: 'before')
+    job.photo_associations.create!(photo: create(:photo, owner: job.owner), label: 'before')
     expect(job.reload.photo_at('before')).to eq before_photo
   end
 
-  it 'ignores photos with no moment' do
+  it 'ignores photos with no label' do
     expect(job.reload.photos.count).to eq 3
   end
 

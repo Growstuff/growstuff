@@ -1,0 +1,3 @@
+# Only for read_packets.py --clean. The rest of the script needs nothing installed.
+pillow>=11
+numpy>=2

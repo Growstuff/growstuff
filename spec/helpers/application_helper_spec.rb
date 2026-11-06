@@ -170,4 +170,50 @@ describe ApplicationHelper do
       expect(html).to include('class="mb-3"')
     end
   end
+
+  describe '#sign_in_link' do
+    subject(:link) { Capybara.string(helper.sign_in_link('Sign in', class: 'btn')) }
+
+    it 'goes to the sign in page' do
+      expect(link).to have_link('Sign in', href: new_member_session_path)
+    end
+
+    it 'opens the sign in dialog' do
+      expect(link).to have_css('a[data-auth-dialog="sign_in"]')
+    end
+
+    it 'keeps the options it is given' do
+      expect(link).to have_css('a.btn')
+    end
+  end
+
+  describe '#sign_up_link' do
+    subject(:link) { Capybara.string(helper.sign_up_link('Join free')) }
+
+    it 'goes to the sign up page' do
+      expect(link).to have_link('Join free', href: new_member_registration_path)
+    end
+
+    it 'opens the sign up dialog' do
+      expect(link).to have_css('a[data-auth-dialog="sign_up"]')
+    end
+  end
+
+  describe '#avatar_image' do
+    subject(:image) { Capybara.string(helper.avatar_image(member, 24, class: 'avatar-small')) }
+
+    let(:member) { create(:member) }
+
+    it 'is drawn at the size asked for' do
+      expect(image).to have_css('img[width="24"][height="24"]')
+    end
+
+    it 'is a decoration' do
+      expect(image).to have_css('img[alt=""]')
+    end
+
+    it 'keeps the options it is given' do
+      expect(image).to have_css('img.avatar-small')
+    end
+  end
 end

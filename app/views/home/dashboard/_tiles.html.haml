@@ -1,0 +1,15 @@
+-# Plant, harvest, save seeds, add a photo and add a job, as big buttons.
+.home-tiles
+  - garden = dashboard.gardens.first
+  - garden_props = garden && { id: garden.id, name: garden.name }
+  - picker_props = planting_picker_props(dashboard)
+  = plant_picker(dashboard, label: t('home.index.plant'), sublabel: t('home.dashboard.tile_plant'), button_class: 'home-tile', wrapper_class: 'home-tile-wrap')
+  = react_component('PlantingPicker', { action: 'harvest', label: t('home.index.harvest'), sublabel: t('home.dashboard.tile_harvest'), buttonClass: 'home-tile', plantings: picker_props }, class: 'home-tile-wrap')
+  = react_component('PlantingPicker', { action: 'seeds', label: t('home.dashboard.tile_seeds_title'), sublabel: t('home.dashboard.tile_seeds'), buttonClass: 'home-tile', plantings: picker_props }, class: 'home-tile-wrap')
+  - if garden
+    = react_component('PhotoPicker', { label: t('home.dashboard.tile_photo_title'), sublabel: t('home.dashboard.tile_photo'), buttonClass: 'home-tile', garden: garden_props, newUrl: new_photo_path(type: 'garden', id: garden.id) }, class: 'home-tile-wrap')
+  - else
+    = link_to new_photo_path, class: 'home-tile' do
+      %b= t('home.dashboard.tile_photo_title')
+      = t('home.dashboard.tile_photo')
+  = react_component('JobPicker', { label: t('home.dashboard.tile_job_title'), sublabel: t('home.dashboard.tile_job'), buttonClass: 'home-tile' }, class: 'home-tile-wrap')

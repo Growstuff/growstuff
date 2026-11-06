@@ -13,6 +13,20 @@ describe Harvest do
     harvest.crop.should be_an_instance_of Crop
   end
 
+  describe '#plant_part_name' do
+    subject { build(:harvest, plant_part: nil).plant_part_name }
+
+    context 'without a plant part' do
+      it { is_expected.to be_nil }
+    end
+
+    context 'with a plant part' do
+      subject { build(:harvest, plant_part: build(:plant_part, name: 'fruit')).plant_part_name }
+
+      it { is_expected.to eq 'fruit' }
+    end
+  end
+
   context 'quantity' do
     it 'allows numeric quantities' do
       @harvest = build(:harvest, quantity: 33)

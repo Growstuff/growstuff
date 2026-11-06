@@ -37,8 +37,8 @@ describe "Forums usage", :js do
       expect(page).to have_content("This post will be posted in the forum #{forum.name}")
 
       fill_in "post_subject", with: "My New Post"
-      fill_in "post_body", with: "Content of my post"
-      click_button "Post"
+      find(".post-editor-content").send_keys("Content of my post")
+      click_button "Publish post"
 
       expect(page).to have_content("Post was successfully created")
       expect(Post.last.forum).to eq(forum)

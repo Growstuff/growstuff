@@ -12,8 +12,8 @@ const FAILED = {byField: {}, other: ['Something went wrong joining. Please try a
 // checks as the sign up page: it posts to Devise's registrations#create as
 // JSON, shows the server's errors against their fields, and on success goes to
 // wherever the server would have sent the new member.
-export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, onSwitch}) {
-  const [values, setValues] = useState({login_name: '', email: '', password: '', password_confirmation: '', tos_agreement: false, newsletter: true});
+export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, onSwitch, onBluesky}) {
+  const [values, setValues] = useState({login_name: '', email: '', password: '', password_confirmation: '', tos_agreement: false});
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({byField: {}, other: []});
   const captcha = useRecaptcha(recaptchaSiteKey);
@@ -64,13 +64,12 @@ export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, 
           <div className="row align-items-center">
             <div className="col-md-6">
               <CheckField id="sign-up-tos" label={<>I agree to the <a href="/policy/tos" target="_blank" rel="noreferrer">Terms of Service</a></>} checked={values.tos_agreement} onChange={set('tos_agreement')} errors={on.tos_agreement} />
-              <CheckField id="sign-up-newsletter" label={`Subscribe to the ${siteName} newsletter`} checked={values.newsletter} onChange={set('newsletter')} />
             </div>
             {recaptchaSiteKey ? <div className="col-md-6 mt-3 mt-md-0"><div ref={captcha.ref} /></div> : null}
           </div>
           {recaptchaSiteKey ? <p className="form-text fs-6 mt-3 mb-0">If you have accessibility issues with the captcha, please contact us via the links in the footer and we will help.</p> : null}
         </div>
-        <AuthFooter busy={saving} label="Sign up" busyLabel="Joining…" prompt="Already a member?" switchLabel="Sign in" switchHref={urls.sign_in_page} onSwitch={onSwitch} />
+        <AuthFooter busy={saving} label="Sign up" busyLabel="Joining…" prompt="Already a member?" switchLabel="Sign in" switchHref={urls.sign_in_page} onSwitch={onSwitch} onBluesky={onBluesky} />
       </form>
     </Modal>
   );

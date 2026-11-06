@@ -4,10 +4,9 @@
 # this weekend, next weekend, later, some day, and done. All but overdue and done
 # are always there, as places to drop a job; each says which day a job dropped in
 # it gets. Overdue and done have no day of their own, so nothing is dropped there. A job
-# crossed off stays where its day puts it, unless it has no day or that day has
-# gone: then it moves to the bottom, to done, the one finished last first. Jobs
-# crossed off in the page being looked at are pinned: they stay where they were
-# until the page is loaded again, so a tick never makes a row jump. Only the
+# crossed off is in done, the one finished last first, unless it was crossed off in
+# the page being looked at: those are pinned, and stay where their day puts them
+# until the page is loaded again, or hidden, so a tick never makes a row jump. Only the
 # DONE_SHOWN most recently done are shown; the rest are older, behind "show more".
 class JobList
   DONE_SHOWN = 5
@@ -31,6 +30,11 @@ class JobList
     today.end_of_week(:monday)
   end
 
+  # The day a job moved to This week gets: Friday of the current week.
+  def self.week_date(today)
+    week_end(today) - 2.days
+  end
+
   # The first day of the weekend still to come: tomorrow, if today is the Saturday.
   def self.weekend_start(today)
     [week_end(today) - 1.day, today + 1.day].max
@@ -48,11 +52,10 @@ class JobList
   end
 
   def groups
-    dated, undated = @jobs.partition(&:due_date)
-    past, current = dated.partition { |job| job.due_date < @today }
-    done_past, overdue = past.partition { |job| settled?(job) }
-    done_undated, someday = undated.partition { |job| settled?(job) }
-    done = (done_past + done_undated).sort_by { |job| done_time(job) }.reverse
+    settled, open = @jobs.partition { |job| settled?(job) }
+    done = settled.sort_by { |job| done_time(job) }.reverse
+    dated, someday = open.partition(&:due_date)
+    overdue, current = dated.partition { |job| job.due_date < @today }
     now, later = current.partition { |job| job.due_date == @today }
     week, later = later.partition { |job| ((@today + 1.day)..friday).cover?(job.due_date) }
     weekend, later = later.partition { |job| (weekend_from..week_end).cover?(job.due_date) }
@@ -92,7 +95,7 @@ class JobList
   end
 
   def friday
-    week_end - 2.days
+    self.class.week_date(@today)
   end
 
   def saturday

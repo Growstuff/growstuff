@@ -1,6 +1,6 @@
 name: CI Features
 
-on: [pull_request]
+on: [pull_request, merge_group]
 
 jobs:
   rspec:
@@ -46,7 +46,7 @@ jobs:
       #
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - name: Setup yarn cache
         uses: actions/cache@v6
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -99,11 +99,11 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: screenshots
-          path: tmp/screenshots
+          path: tmp/capybara/
 
       - name: Upload Ruby coverage to Codecov
         if: ${{ !cancelled() }}
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage/coverage.json

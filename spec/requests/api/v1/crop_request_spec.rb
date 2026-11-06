@@ -10,7 +10,6 @@ RSpec.describe 'Crops' do
   let(:crop_encoded_as_json_api) do
     { "id"            => crop.id.to_s,
       "type"          => "crops",
-      "links"         => { "self" => resource_url },
       "attributes"    => attributes,
       "relationships" => {
         "plantings" => plantings_as_json_api,
@@ -21,38 +20,15 @@ RSpec.describe 'Crops' do
       } }
   end
 
-  let(:resource_url) { "http://www.example.com/api/v1/crops/#{crop.id}" }
+  let(:seeds_as_json_api) { related_link("seeds?filter[crop_id]=#{crop.id}") }
 
-  let(:seeds_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/seeds",
-                   "related" => "#{resource_url}/seeds" } }
-  end
+  let(:harvests_as_json_api) { related_link("harvests?filter[crop_id]=#{crop.id}") }
 
-  let(:harvests_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/harvests",
-                   "related" => "#{resource_url}/harvests" } }
-  end
+  let(:parent_as_json_api) { { 'links' => { 'related' => nil } } }
 
-  let(:parent_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/parent",
-                   "related" => "#{resource_url}/parent" } }
-  end
+  let(:plantings_as_json_api) { related_link("plantings?filter[crop_id]=#{crop.id}") }
 
-  let(:plantings_as_json_api) do
-    { "links" =>
-                 { "self"    =>
-                                "#{resource_url}/relationships/plantings",
-                   "related" => "#{resource_url}/plantings" } }
-  end
-
-  let(:photos_as_json_api) do
-    { "links" =>
-                 { "self"    => "#{resource_url}/relationships/photos",
-                   "related" => "#{resource_url}/photos" } }
-  end
+  let(:photos_as_json_api) { related_link("photos?filter[crop_id]=#{crop.id}") }
 
   let(:attributes) do
     {

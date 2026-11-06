@@ -127,5 +127,78 @@ describe "posts/show" do
     it 'shows the comment form on the page' do
       expect(subject).to have_css "#new-comment form[action='#{comments_path}']"
     end
+
+    it 'renders Shareon buttons for signed in members' do
+      expect(subject).to have_css '.shareon a.bluesky'
+      expect(subject).to have_css '.shareon a.fediverse'
+      expect(subject).to have_css '.shareon a.mastodon'
+      expect(subject).to have_css '.shareon a.telegram'
+      expect(subject).to have_css '.shareon a.copy-url'
+      expect(subject).to have_css '.shareon a.email'
+      expect(subject).to have_css '.shareon a.print'
+      expect(subject).to have_css '.shareon a.web-share'
+    end
+  end
+
+  context "signed out" do
+    let(:post) { create(:post, author:) }
+
+    before { render }
+
+    it 'does not render Shareon buttons for guest users' do
+      expect(subject).to have_no_css '.shareon'
+    end
+  end
+
+  context 'with a card photo' do
+    let(:post) { create(:post, author:) }
+    let(:photo) { create(:photo, owner: author) }
+
+    before do
+      post.photos << photo
+      post.update!(card_photo: photo)
+      render
+    end
+
+    it 'leads the post with the photo' do
+      expect(subject).to have_css ".post-card-photo img[src='#{photo.fullsize_url}']"
+    end
+  end
+
+  context 'without any photo' do
+    let(:post) { create(:post, author:) }
+
+    before { render }
+
+    it { is_expected.to have_no_css '.post-card-photo' }
+  end
+
+  context 'when the author has other posts' do
+    let(:post) { create(:post, author:) }
+
+    before do
+      create(:post, author:, subject: 'Spring sowing')
+      render
+    end
+
+    it 'lists them in the sidebar' do
+      expect(subject).to have_css '.more-from-author', text: 'Spring sowing'
+    end
+  end
+
+  context 'when the author has no other posts' do
+    let(:post) { create(:post, author:) }
+
+    before { render }
+
+    it { is_expected.to have_no_css '.more-from-author' }
+  end
+
+  context 'with a short body' do
+    let(:post) { create(:post, author:, body: 'hello there') }
+
+    before { render }
+
+    it { is_expected.to have_text '1 min read' }
   end
 end

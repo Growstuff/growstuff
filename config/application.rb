@@ -34,7 +34,12 @@ module Growstuff
     config.time_zone = 'UTC'
     config.active_record.default_timezone = :local
 
-    config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone]
+    # PaperTrail keeps a crop's history as YAML, and an array column such as a crop's sow_months is
+    # saved as this, named as a string as the adapter isn't loaded yet.
+    config.active_record.yaml_column_permitted_classes = [
+      Symbol, Date, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone,
+      'ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Array::Data', 'PG::TextEncoder::Array'
+    ]
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     I18n.load_path += Dir[Rails.root.join("config/locales/*.{rb,yml}")]
@@ -49,6 +54,11 @@ module Growstuff
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    # Where the API says it lives, for the links in its responses.
+    # In a Codespace that is the forwarded address, as for config.host in the development environment.
+    default_api_base_url = ENV['CODESPACE_NAME'] ? "https://#{ENV['CODESPACE_NAME']}-3000.app.github.dev" : 'http://localhost:3000'
+    config.x.api_base_url = ENV.fetch('API_BASE_URL', default_api_base_url)
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
@@ -71,12 +81,6 @@ module Growstuff
     config.bot_email = ENV.fetch('GROWSTUFF_EMAIL', nil)
     config.user_agent = 'Growstuff'
     config.user_agent_email = "info@growstuff.org"
-
-    Gibbon::API.api_key = ENV['GROWSTUFF_MAILCHIMP_APIKEY'] || 'notarealkey'
-    # API key can't be blank or tests fail
-    Gibbon::API.timeout = 10
-    Gibbon::API.throws_exceptions = false
-    config.newsletter_list_id = ENV.fetch('GROWSTUFF_MAILCHIMP_NEWSLETTER_ID', nil)
 
     # config.active_record.raise_in_transactional_callbacks = true
     config.middleware.insert_before 0, Rack::Attack

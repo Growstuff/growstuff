@@ -6,6 +6,9 @@ class Haml::Filters
     CROP_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(crop\)/
     MEMBER_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(member\)/
     MEMBER_AT_REGEX = /(?<!\\)(@\w+)/
+    PLANTING_REGEX = /(?<!\\)\[([^\[\]]+?)\]\(planting:([\w-]+)\)/
+    # A Flickr photo placed in a post: ![caption](photo:123) or ![caption](photo:123/half)
+    PHOTO_REGEX = /^!\[([^\[\]]*)\]\(photo:(\d+)(?:\/(wide|half|pair))?\)[ \t]*$/
     MEMBER_COMBINED_REGEX = Regexp.union(MEMBER_REGEX, MEMBER_AT_REGEX)
     MEMBER_ESCAPE_AT_REGEX = /(?<!\\)\\(?=@\w+)/
     HOST = Rails.application.config.host
@@ -19,6 +22,37 @@ class Haml::Filters
         crop_link crop, crop_str
       end
       text
+    end
+
+    def expand_plantings!(text)
+      # turn [my tomato](planting:skud-backyard-tomato) into [my tomato](/plantings/skud-backyard-tomato)
+      text.gsub!(PLANTING_REGEX) do
+        link_text = Regexp.last_match(1)
+        planting = Planting.find_by(slug: Regexp.last_match(2))
+        planting_link planting, link_text
+      end
+      text
+    end
+
+    # With figures, a photo becomes a figure (the post page). Without, it is left
+    # out, as in a teaser, an RSS feed or an email, where a picture is not wanted.
+    def expand_photos!(text, figures: false)
+      text.gsub!(PHOTO_REGEX) do
+        caption = Regexp.last_match(1)
+        photo = Photo.find_by(id: Regexp.last_match(2))
+        figures && photo ? photo_figure(photo, caption, Regexp.last_match(3) || 'wide') : ''
+      end
+      text
+    end
+
+    def photo_figure(photo, caption, size)
+      h = ERB::Util.method(:html_escape)
+      url = Rails.application.routes.url_helpers.photo_path(photo)
+      caption = caption.strip
+      html = +%(\n\n<div class="post-figure post-figure-#{size}">\n)
+      html << %(<a href="#{h.call(url)}"><img src="#{h.call(photo.fullsize_url)}" alt="#{h.call(caption.presence || photo.title)}"></a>\n)
+      html << %(<p class="post-figure-caption">#{h.call(caption)}</p>\n) if caption.present?
+      html << "</div>\n\n"
     end
 
     def expand_members!(text)
@@ -46,6 +80,15 @@ class Haml::Filters
     def crop_link(crop, link_text)
       if crop
         url = Rails.application.routes.url_helpers.crop_url(crop, only_path: true)
+        "[#{link_text}](#{url})"
+      else
+        link_text
+      end
+    end
+
+    def planting_link(planting, link_text)
+      if planting
+        url = Rails.application.routes.url_helpers.planting_url(planting, only_path: true)
         "[#{link_text}](#{url})"
       else
         link_text

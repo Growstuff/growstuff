@@ -8,6 +8,7 @@
   = render 'home/dashboard/stat', value: dashboard.seed_varieties, label: t('home.dashboard.stat_varieties')
 
 = render 'home/dashboard/this_week', dashboard:
+= render 'home/dashboard/tiles', dashboard:
 
 = home_section(t('home.dashboard.harvest_by_month')) do
   = react_component 'HarvestChart', harvest_chart_props(dashboard)

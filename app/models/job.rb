@@ -64,10 +64,10 @@ class Job < ApplicationRecord
   end
 
   # The photo taken before or after the job was done, if there is one. Of those
-  # with the moment, the first added. Uses the loaded photos, so a list of jobs
+  # with the label, the first added. Uses the loaded photos, so a list of jobs
   # can load them all at once.
   def photo_at(moment)
-    photo_associations.select { |association| association.moment == moment }.min_by(&:id)&.photo
+    photo_associations.select { |association| association.label == moment }.min_by(&:id)&.photo
   end
 
   def planting_name
@@ -84,10 +84,12 @@ class Job < ApplicationRecord
     errors.add(:action, :cannot_be_about_that) unless ACTION_JOBBABLES.fetch(action, []).include?(jobbable_type)
   end
 
-  # Plantings and seeds are a member's own. A job can't be about someone else's.
+  # A job about something is about something that is there. Plantings and seeds are a member's own: a job can't
+  # be about someone else's.
   def jobbable_is_the_owners
-    return unless JOBBABLE_TYPES.include?(jobbable_type) && jobbable.respond_to?(:owner_id)
+    return unless JOBBABLE_TYPES.include?(jobbable_type)
+    return errors.add(:jobbable, :required) if jobbable.nil?
 
-    errors.add(:jobbable, :invalid) if jobbable.owner_id != owner_id
+    errors.add(:jobbable, :invalid) if jobbable.respond_to?(:owner_id) && jobbable.owner_id != owner_id
   end
 end

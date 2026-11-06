@@ -4,14 +4,6 @@ module ButtonsHelper
   include IconsHelper
   include PhotosHelper
 
-  def garden_plant_something_button(garden, classes: "btn btn-outline-secondary")
-    return unless can? :edit, garden
-
-    link_to new_planting_path(garden_id: garden.id), class: classes do
-      planting_icon + ' ' + t('buttons.plant_something_here')
-    end
-  end
-
   def garden_plan_something_button(garden, classes: "btn btn-outline-secondary")
     return unless can? :edit, garden
 
@@ -43,7 +35,8 @@ module ButtonsHelper
   end
 
   # The page (or dialog) for adding a photo of this record.
-  def new_photo_path_for(model)
-    new_photo_path(id: model.id, type: ActiveModel::Name.new(model.class).to_s.downcase)
+  # `params` go on the link too, such as the `label` of a seed packet photo.
+  def new_photo_path_for(model, **params)
+    new_photo_path(id: model.id, type: ActiveModel::Name.new(model.class).to_s.downcase, **params)
   end
 end
