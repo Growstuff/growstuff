@@ -95,6 +95,18 @@ describe EcocropData do
       it { is_expected.not_to be_heat_data }
     end
 
+    context 'with a shortest growing cycle of 0 days' do
+      let(:attributes) { { gmin: 0 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
+    context 'with a longest growing cycle of 0 days' do
+      let(:attributes) { { gmax: 0 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
     context 'when the optimal temperature is no higher than the lowest the crop grows at' do
       let(:attributes) { { tmin: 25 } }
 
