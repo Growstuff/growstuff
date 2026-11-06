@@ -41,6 +41,21 @@ describe JobIdeas::Harvest do
     it { is_expected.to be_empty }
   end
 
+  context 'when the weather has it ready, though the crop\'s median days say it is not' do
+    include_context 'with a heat predicted first harvest'
+
+    let(:today) { Time.zone.today }
+    let(:planted_at) { today - 10 }
+
+    it 'has an idea for it' do
+      expect(ideas.map(&:planting)).to eq [planting]
+    end
+
+    it 'says when the weather had it ready' do
+      expect(ideas.first.on).to eq heat_predicted_on
+    end
+  end
+
   context 'when the crop has no expected time to harvest' do
     let(:days_to_first_harvest) { nil }
 
