@@ -97,4 +97,117 @@ RSpec.describe 'Rack::Attack', type: :request do
       end
     end
   end
+
+  describe '.rate_limit_modifier' do
+    subject(:modifier) { Rack::Attack.rate_limit_modifier(request) }
+
+    let(:request) { instance_double(Rack::Attack::Request, env: { 'warden' => warden }) }
+    let(:warden) { instance_double(Warden::Proxy, user: user) }
+
+    context 'when user is an admin' do
+      let(:user) { instance_double(Member, role?: true) }
+
+      it 'returns 0.25' do
+        expect(modifier).to eq(0.25)
+      end
+    end
+
+    context 'when user is logged in' do
+      let(:user) { instance_double(Member, role?: false) }
+
+      it 'returns 0.5' do
+        expect(modifier).to eq(0.5)
+      end
+    end
+
+    context 'without an authenticated user' do
+      let(:user) { nil }
+
+      it 'returns 1.0' do
+        expect(modifier).to eq(1.0)
+      end
+    end
+  end
+
+  describe '.modified_limit' do
+    subject(:limit) { Rack::Attack.modified_limit(request, 20) }
+
+    let(:request) { instance_double(Rack::Attack::Request, env: { 'warden' => warden }) }
+    let(:warden) { instance_double(Warden::Proxy, user: user) }
+
+    context 'when user is an admin' do
+      let(:user) { instance_double(Member, role?: true) }
+
+      it 'scales the limit to 80' do
+        expect(limit).to eq(80)
+      end
+    end
+
+    context 'when user is logged in' do
+      let(:user) { instance_double(Member, role?: false) }
+
+      it 'scales the limit to 40' do
+        expect(limit).to eq(40)
+      end
+    end
+
+    context 'without an authenticated user' do
+      let(:user) { nil }
+
+      it 'keeps the base limit of 20' do
+        expect(limit).to eq(20)
+      end
+    end
+  end
+
+  describe 'throttling restricted routes with rate limit modifier' do
+    let(:ip) { '192.168.1.100' }
+
+    context 'without an authenticated user' do
+      it 'allows requests up to the 20 request threshold' do
+        20.times { get '/members', headers: { 'REMOTE_ADDR' => ip } }
+        expect(response).not_to have_http_status(:too_many_requests)
+      end
+
+      it 'throttles requests exceeding the 20 request threshold' do
+        20.times { get '/members', headers: { 'REMOTE_ADDR' => ip } }
+        get '/members', headers: { 'REMOTE_ADDR' => ip }
+        expect(response).to have_http_status(:too_many_requests)
+      end
+    end
+
+    context 'when user is logged in' do
+      let(:member) { create(:member) }
+
+      before { sign_in member }
+
+      it 'allows requests beyond the default threshold up to 40' do
+        40.times { get '/members', headers: { 'REMOTE_ADDR' => ip } }
+        expect(response).not_to have_http_status(:too_many_requests)
+      end
+
+      it 'throttles requests exceeding 40 requests' do
+        40.times { get '/members', headers: { 'REMOTE_ADDR' => ip } }
+        get '/members', headers: { 'REMOTE_ADDR' => ip }
+        expect(response).to have_http_status(:too_many_requests)
+      end
+    end
+
+    context 'when user is an admin' do
+      let(:admin) { create(:admin_member) }
+
+      before { sign_in admin }
+
+      it 'allows requests beyond the logged-in threshold up to 80' do
+        80.times { get '/members', headers: { 'REMOTE_ADDR' => ip } }
+        expect(response).not_to have_http_status(:too_many_requests)
+      end
+
+      it 'throttles requests exceeding 80 requests' do
+        80.times { get '/members', headers: { 'REMOTE_ADDR' => ip } }
+        get '/members', headers: { 'REMOTE_ADDR' => ip }
+        expect(response).to have_http_status(:too_many_requests)
+      end
+    end
+  end
 end
