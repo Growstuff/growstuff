@@ -251,6 +251,11 @@ en:
       add_comment: Add a comment
       post_comment: Post comment
   crops:
+    fields:
+      hardiness:
+        from_packets: Work it out from members' seed packets
+        help: How much frost the crop takes. Choose a level to keep it, whatever the seed packets say.
+        label: Hardiness
     hardiness:
       levels:
         half_hardy:

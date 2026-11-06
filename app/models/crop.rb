@@ -143,6 +143,22 @@ class Crop < ApplicationRecord
     @ecocrop_heat_data = data&.heat_data? ? data : parent&.ecocrop_heat_data
   end
 
+  # What a crop wrangler has set by hand, or blank when the packets decide.
+  def hardiness_by_hand
+    hardiness if hardiness_source == 'manual'
+  end
+
+  # A level sets it by hand, and it is kept from then on. Blank hands it back to the packets.
+  def hardiness_by_hand=(level)
+    if level.blank? || level == Hardiness::UNKNOWN
+      self.hardiness_source = nil if hardiness_source == 'manual'
+      @hardiness_from_packets = true
+    else
+      self.hardiness = level
+      self.hardiness_source = 'manual'
+    end
+  end
+
   # Keeps how much frost the crop takes: what most of the packets of the crop and its varieties say, else unknown.
   # A value set by hand is kept. Written without callbacks or history, as a figure worked out from the packets
   # and not someone's edit.
@@ -345,12 +361,17 @@ class Crop < ApplicationRecord
 
   before_validation :release_slug, if: :rejected?
   before_destroy :destroy_reverse_companionships
+  after_save :update_hardiness, if: :hardiness_from_packets?
 
   def should_generate_new_friendly_id?
     slug.blank? || (!rejected? && name_changed?)
   end
 
   private
+
+  def hardiness_from_packets?
+    @hardiness_from_packets
+  end
 
   # The same part of the year in the other hemisphere: March is September.
   def opposite_month(month)
