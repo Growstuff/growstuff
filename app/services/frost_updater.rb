@@ -31,7 +31,7 @@ class FrostUpdater
 
   # Returns how many cells were done.
   def update_all
-    cells_to_do.count { |cell| update(cell) }
+    cells_to_do.sum { |cell| update(cell) }
   end
 
   private
@@ -39,7 +39,7 @@ class FrostUpdater
   def cells_to_do
     counts = Planting.weather_tracked(@today).includes(:garden).group_by { |planting| grid_point(planting.garden) }
     done = FrostStat.where(threshold_c: THRESHOLDS.first).pluck(:latitude, :longitude).to_set
-    counts.reject { |point, _| done.include?(point) }
+    counts.except(*done)
       .map { |(latitude, longitude), plantings| Cell.new(latitude, longitude, plantings.size) }
       .sort_by { |cell| -cell.planting_count }
   end
@@ -48,16 +48,16 @@ class FrostUpdater
     WeatherReading.grid_point(garden.latitude, garden.longitude)
   end
 
-  # True when the cell was saved. A cell that doesn't fit what is left of the budget is left for another day.
+  # 1 when the cell was saved, else 0. A cell that doesn't fit what is left of the budget is left for another day.
   def update(cell)
     from, to = period(cell)
     held = readings_held(cell, from, to)
     missing = (from..to).reject { |day| held.key?(day) }
     fetched = missing.empty? ? {} : fetch(cell, missing.first, missing.last)
-    return false unless fetched
+    return 0 unless fetched
 
     save(cell, held.merge(fetched))
-    true
+    1
   end
 
   # The last YEARS complete frost years. ERA5 trails real time by about five days.
@@ -65,7 +65,8 @@ class FrostUpdater
     last = [@today.year, @today.year - 1].find do |year|
       FrostCalculator.frost_year_end(year, latitude: cell.latitude) <= @today - WeatherUpdater::LAG_DAYS
     end
-    [FrostCalculator.frost_year_start(last - YEARS + 1, latitude: cell.latitude), FrostCalculator.frost_year_end(last, latitude: cell.latitude)]
+    [FrostCalculator.frost_year_start(last - YEARS + 1, latitude: cell.latitude),
+     FrostCalculator.frost_year_end(last, latitude: cell.latitude)]
   end
 
   def readings_held(cell, from, to)

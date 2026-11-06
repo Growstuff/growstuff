@@ -11,7 +11,7 @@ describe FrostUpdater, type: :service do
   # Every day is 10 degrees, with a frost on 1 June and 10 September.
   let(:minimums) do
     lambda do |from:, to:, **|
-      (from..to).to_h { |day| [day, [Date.new(day.year, 6, 1), Date.new(day.year, 9, 10)].include?(day) ? -1.0 : 10.0] }
+      (from..to).index_with { |day| [Date.new(day.year, 6, 1), Date.new(day.year, 9, 10)].include?(day) ? -1.0 : 10.0 }
     end
   end
 
@@ -26,8 +26,9 @@ describe FrostUpdater, type: :service do
     end
 
     it 'asks for 30 complete frost years, ending last December in the south' do
+      expect(client).to receive(:minimums).with(latitude: -41.25, longitude: 174.75, from: Date.new(1996, 1, 1),
+                                                to: Date.new(2025, 12, 31))
       updater.update_all
-      expect(client).to have_received(:minimums).with(latitude: -41.25, longitude: 174.75, from: Date.new(1995, 1, 1), to: Date.new(2025, 12, 31)).or have_received(:minimums).with(hash_including(from: Date.new(1996, 1, 1), to: Date.new(2025, 12, 31)))
     end
 
     it 'saves a stat for each threshold' do
@@ -65,8 +66,8 @@ describe FrostUpdater, type: :service do
     end
 
     it 'makes no calls' do
+      expect(client).not_to receive(:minimums)
       updater.update_all
-      expect(client).not_to have_received(:minimums)
     end
   end
 
@@ -92,8 +93,8 @@ describe FrostUpdater, type: :service do
     end
   end
 
-  context 'with a nursery or a garden without a location' do
-    let(:garden) { create(:garden, latitude: nil, longitude: nil) }
+  context 'with a garden without a location' do
+    let(:garden) { create(:garden).tap { |garden| garden.update_columns(latitude: nil, longitude: nil) } } # rubocop:disable Rails/SkipsModelValidations
 
     it 'does nothing' do
       expect(updater.update_all).to eq 0
@@ -103,13 +104,14 @@ describe FrostUpdater, type: :service do
   context 'when the place already holds some minimums' do
     before do
       (Date.new(2000, 1, 1)..Date.new(2025, 12, 31)).each_slice(1000) do |days|
-        WeatherReading.insert_all(days.map { |day| { latitude: -41.25, longitude: 174.75, date: day, source: 'open-meteo', temp_min_c: 10.0 } }) # rubocop:disable Rails/SkipsModelValidations
+        rows = days.map { |day| { latitude: -41.25, longitude: 174.75, date: day, source: 'open-meteo', temp_min_c: 10.0 } }
+        WeatherReading.insert_all(rows) # rubocop:disable Rails/SkipsModelValidations
       end
     end
 
     it 'fetches only the dates it lacks' do
+      expect(client).to receive(:minimums).with(hash_including(from: Date.new(1996, 1, 1), to: Date.new(1999, 12, 31)))
       updater.update_all
-      expect(client).to have_received(:minimums).with(hash_including(from: Date.new(1996, 1, 1), to: Date.new(1999, 12, 31)))
     end
   end
 end
