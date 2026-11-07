@@ -392,7 +392,7 @@ class Member < ApplicationRecord
   def update_spam_score!
     score = UserBehaviourDetectionService.score_for(self)
     update_column(:spam_score, score) # rubocop:disable Rails/SkipsModelValidations
-    ban! if score >= UserBehaviourDetectionService::MAX_SCORE
+    ban! if score >= UserBehaviourDetectionService::BAN_THRESHOLD
   end
 
   def has_activity?
