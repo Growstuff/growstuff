@@ -19,6 +19,69 @@ describe WeatherUpdater, type: :service do
     allow(client).to receive(:daily) { |from:, to:, **| (from..to).index_with { day } }
   end
 
+  describe '#update_member' do
+    let(:member) { garden.owner }
+    let(:created_at) { Time.zone.local(2026, 11, 3, 23, 59, 59) }
+    let(:planting) do
+      create(:planting, garden:, owner: member, created_at:, planted_at: today - 100,
+                        finished: true, finished_at: today - 60)
+    end
+
+    before { planting }
+
+    it 'backfills an old finished planting' do
+      expect { updater.update_member(member) }.to change(WeatherReading, :count).by(41)
+    end
+
+    it 'does not fetch again once weather is recorded' do
+      updater.update_member(member)
+      expect { updater.update_member(member) }.not_to change(updater, :calls_used)
+    end
+
+    context 'with a planting created on the cutoff' do
+      let(:created_at) { Time.zone.local(2026, 11, 4) }
+
+      it 'does not fetch weather' do
+        expect { updater.update_member(member) }.not_to change(WeatherReading, :count)
+      end
+    end
+
+    context 'with another member' do
+      it 'does not fetch their plantings' do
+        expect { updater.update_member(create(:member)) }.not_to change(WeatherReading, :count)
+      end
+    end
+
+    context 'with weather already in the planting date range' do
+      before do
+        WeatherReading.create!(latitude: -41.25, longitude: 174.75, date: today - 80, source: 'open-meteo')
+      end
+
+      it 'leaves partially populated weather alone' do
+        expect(client).not_to receive(:daily)
+        updater.update_member(member)
+      end
+    end
+
+    context 'without a planted date' do
+      before { planting.update!(planted_at: nil) }
+
+      it 'does not fetch weather' do
+        expect(client).not_to receive(:daily)
+        updater.update_member(member)
+      end
+    end
+
+    context 'with a nursery' do
+      before { garden.update!(nursery: true) }
+
+      it 'does not fetch weather' do
+        expect(client).not_to receive(:daily)
+        updater.update_member(member)
+      end
+    end
+  end
+
   context 'with an active planting in a garden with a location' do
     before { create(:planting, garden:, owner: garden.owner, planted_at: today - 10) }
 
