@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_08_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1116,6 +1116,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
     t.boolean "finished", default: false, null: false
     t.date "finished_at"
     t.integer "garden_id", null: false
+    t.text "hardiness", default: "unknown", null: false, comment: "tender, half_hardy, hardy or unknown. Unknown goes by the seed, then the crop."
     t.integer "harvests_count", default: 0
     t.integer "lifespan"
     t.integer "likes_count", default: 0
