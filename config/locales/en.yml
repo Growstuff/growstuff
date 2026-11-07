@@ -1400,7 +1400,7 @@ en:
           body: It has come as late as %{latest}, %{days} from now. Keep an eye on the forecast.
           title: Past the usual last frost, but it can still come
         passed:
-          body: The latest it has come in past years is %{latest}, %{days} ago.
+          body: The latest a frost has come in past years is %{latest}, %{days} ago.
           title: Frost danger has passed for this planting
         rare:
           body: Frost is rare in this area, so we show no frost dates.

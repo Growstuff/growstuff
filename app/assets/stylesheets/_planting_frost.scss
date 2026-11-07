@@ -8,29 +8,7 @@ $frost-clear: #e8f5e9;
 $frost-warning: #fff8e1;
 
 .planting-frost {
-  background: $white;
-  border: $frost-line;
-  border-radius: $card-radius;
-  margin-bottom: 1.5rem;
-  overflow: hidden;
-
-  .planting-frost-header {
-    align-items: center;
-    background: $green;
-    color: $white;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: space-between;
-    padding: 0.6rem 1rem;
-
-    h2 {
-      font-size: 150%;
-      font-weight: 400;
-      margin: 0;
-    }
-  }
-
+  // The card, its green bar and the bar's title are the record page's own section styling: see _record_page.scss.
   .planting-frost-badge {
     border: 1px solid $white;
     border-radius: 999px;
@@ -45,7 +23,6 @@ $frost-warning: #fff8e1;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    padding: 1.5rem;
   }
 
   h3 {

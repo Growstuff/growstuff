@@ -4,7 +4,7 @@ Date: 2026-11-06
 
 ## Status
 
-Accepted. The feature is alpha: everything it shows is an estimate, for entertainment only.
+Accepted. The feature is experimental: everything it shows is an estimate, and it is new and might be flaky.
 
 ## Context
 
@@ -37,7 +37,7 @@ ERA5 is a model smoothed over about 25 km. It can miss cold hollows and coastal 
 
 **Fill the tables from a daily rake task**, as `weather:update` does, because the app has no job runner. It handles cells that have an active planting but no `frost_stats` row, busiest first, within a call budget shared with `WeatherUpdater`, with current weather first. Gardens without a planting wait until plantings are covered. A page shows nothing for a cell until its row exists.
 
-**Everything shown is labelled** approximate, regional and "Alpha – a guess, for entertainment only", with a link to a short explanation. Any text shown to members goes through I18n, with keys in all the locale files.
+**Everything shown is labelled** approximate, regional and "Experimental · new and might be flaky", with a link to a short explanation that says the dates come from 25 km model data and to check a national weather service. Any text shown to members goes through I18n, with keys in all the locale files.
 
 **Hardiness is kept on seeds and crops**, as `tender`, `half_hardy`, `hardy` or `unknown`, because a frost date means nothing until it is set against what a plant tolerates.
 
@@ -76,5 +76,5 @@ London Heathrow and Wellington had almost no TMIN in GHCN-Daily, so they could n
 - The count of cells is a snapshot and grows with gardens. The call figures need checking against real Open-Meteo usage.
 - Places with little frost show `rare` or `possible` and few or no dates, by design.
 - The thresholds and cut-offs can change without a migration, but stored `frost_stats` must then be recomputed.
-- Hardiness thresholds are unsettled, so frost dates are not yet turned into planting advice. The alpha label stays until validation passes against independent data and the thresholds are agreed with growers.
+- Hardiness thresholds are unsettled, so frost dates are not yet turned into planting advice. The experimental label stays until validation passes against independent data and the thresholds are agreed with growers.
 - Possible next steps: validate against more stations, including the southern hemisphere and sites without airport exposure, with a different source for the UK and New Zealand; a finer model (ERA5-Land or CERRA) if the bias matters; elevation downscaling for gardens with a known height; and member frost reports as local ground truth.
