@@ -1,5 +1,13 @@
 ---
 ja:
+  authentications:
+    sign_in:
+      bluesky:
+        terms_of_service: "利用規約"
+        agree_to_tos_html: "%{tos_link}に同意します"
+        contacting: "Blueskyに接続中…"
+        handle_label: "Blueskyハンドル"
+        handle_placeholder: "alice.bsky.social"
   comments:
     edit_modal:
       save: 保存

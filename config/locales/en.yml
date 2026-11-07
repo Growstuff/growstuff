@@ -125,6 +125,14 @@ en:
       update:
         'off': "%{feature} is now off."
         'on': "%{feature} is now on."
+  authentications:
+    sign_in:
+      bluesky:
+        terms_of_service: "Terms of Service"
+        agree_to_tos_html: "I agree to the %{tos_link}"
+        contacting: "Contacting Bluesky…"
+        handle_label: "Bluesky handle"
+        handle_placeholder: "alice.bsky.social"
   alternate_names:
     created: Alternate name was successfully created.
     deleted: Alternate name was successfully deleted.
