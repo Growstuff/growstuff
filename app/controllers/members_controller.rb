@@ -15,9 +15,10 @@ class MembersController < ApplicationController
   end
 
   def show
-    @member        = Member.confirmed.kept.find_by!(slug: params[:slug])
-    @flickr_auth   = @member.auth('flickr')
-    @posts         = @member.posts
+    @member         = Member.confirmed.kept.find_by!(slug: params[:slug])
+    @flickr_auth    = @member.auth('flickr')
+    @mastodon_auths = @member.authentications.where(provider: 'mastodon')
+    @posts          = @member.posts
 
     @activity = TimelineService.member_query(@member).limit(30)
 

@@ -1,4 +1,4 @@
-// The frost section of a planting page: a verdict, the planting against the frost danger season, and a few figures.
+// The frost section of a planting or garden page: a verdict, the frost danger season (with the planting against it), and a few figures.
 $frost-lane: #ecebe6;
 $frost-line: 1px solid rgba($brown, 0.15);
 $frost-possible: repeating-linear-gradient(135deg, $blue 0, $blue 2px, $white 2px, $white 7px);
@@ -7,9 +7,9 @@ $frost-to-come: #cfe3c4;
 $frost-clear: #e8f5e9;
 $frost-warning: #fff8e1;
 
-.planting-frost {
+.frost-section {
   // The card, its green bar and the bar's title are the record page's own section styling: see _record_page.scss.
-  .planting-frost-badge {
+  .frost-section-badge {
     border: 1px solid $white;
     border-radius: 999px;
     color: $white;
@@ -19,7 +19,7 @@ $frost-warning: #fff8e1;
     text-decoration: none;
   }
 
-  .planting-frost-body {
+  .frost-section-body {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;

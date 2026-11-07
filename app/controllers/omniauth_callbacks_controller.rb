@@ -22,6 +22,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   private
 
   def failure_message
+    return t('messages.mastodon_instance_invalid') if request.env['omniauth.error.type'] == :invalid_instance
+
     return t('messages.auth_failed') unless request.env['omniauth.strategy']&.name == 'bluesky'
 
     case request.env['omniauth.error.type']
@@ -55,6 +57,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect member, event: :authentication # this will throw if @user is not activated
       set_flash_message(:notice, :success, kind: auth['provider']) if is_navigational_format?
     end
+  rescue Growstuff::OauthSignupAction::InvalidAuthorization
+    redirect_to new_member_session_path, alert: t('messages.auth_failed')
   end
 
   # What they ticked on the form before leaving for the provider, which OmniAuth keeps for the way back.
@@ -68,7 +72,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   # Someone already signed in is adding this account to their own, not signing in as someone else.
   def connect_to_current_member(action, auth)
-    taken = Authentication.where(provider: auth['provider'], uid: auth['uid']).where.not(member_id: current_member.id).exists?
+    taken = Authentication.where(provider: auth['provider'], uid: action.uid_for(auth)).where.not(member_id: current_member.id).exists?
     if taken
       flash[:alert] = t('messages.auth_taken')
     else

@@ -58,6 +58,26 @@ describe FrostUpdater, type: :service do
     end
   end
 
+  context 'with an active garden that has no plantings' do
+    before { Planting.destroy_all }
+
+    it 'does the place' do
+      garden
+      expect(updater.update_all).to eq 1
+    end
+  end
+
+  context 'with a nursery that has no plantings' do
+    before do
+      Planting.destroy_all
+      garden.update_columns(nursery: true) # rubocop:disable Rails/SkipsModelValidations
+    end
+
+    it 'leaves it out' do
+      expect(updater.update_all).to eq 0
+    end
+  end
+
   context 'when the place already has frost dates' do
     before { create(:frost_stat, latitude: -41.25, longitude: 174.75) }
 

@@ -385,8 +385,93 @@ en:
     updated: Forum was successfully updated.
   frost:
     about_estimates: These dates are estimates from 25 km weather-model data, not readings from a station at your garden, so a cold spot can be colder. They may be wrong, so check your national weather service and ask local growers before relying on them.
+    cards:
+      coldest:
+        label: Coldest night
+        note_above: "%{gap} °C above the %{threshold} °C frost danger line"
+        note_at: Right on the %{threshold} °C frost danger line
+        note_below: "%{gap} °C below the %{threshold} °C frost danger line"
+      free:
+        label: Frost-free season
+        note: in a typical year
+      in_danger:
+        label: Frost danger it grew through
+        note: from planting to the latest it has come, %{latest}
+      last:
+        label: Usual last frost
+        note: has come as late as %{latest}
+        planted_after: planted %{days} after it
+        planted_before: planted %{days} before it
+      next:
+        label: Next frost danger starts
+        note_finishes: as early as %{earliest}, %{days} after this %{crop} planting finishes
+        note_now: as early as %{earliest}, %{days} from now
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    degrees: "%{degrees} °C"
     experimental: Experimental · new and might be flaky
     experimental_heading: 'Experimental: this feature is new and might be flaky.'
+    nights_so_far:
+      one: One night so far was at or below %{threshold} °C, the coldest %{coldest} °C.
+      other: "%{count} nights so far were at or below %{threshold} °C, the coldest %{coldest} °C."
+    planted:
+      after: The %{crop} planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
+      before: The %{crop} planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
+    timeline:
+      description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting runs from %{planted} to %{ends}.
+      description_undated: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting went in on %{planted}.
+      description_place: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}.
+      annotation_after: Planted %{days} after the usual last frost
+      annotation_before: Planted %{days} before the usual last frost
+      finish_expected: Finish expected %{date}
+      finished: Finished %{date}
+      legend:
+        finished: Planting, finished
+        planted: Planted, no finish date
+        possible: 'Possible: as early or late as it has come'
+        so_far: Planting so far
+        still_to_come: Planting still to come
+        usual: Usual frost danger
+      planted: Planted %{date}
+      row_danger: Frost danger
+      row_planting: This planting
+      title: This %{crop} planting against the frost season
+      title_place: The frost season
+      today: Today, %{date}
+      usual: "%{from} – %{to}"
+      usual_open: "%{from} →"
+    title: Frost
+    verdicts:
+      before_season:
+        body: The usual first frost is %{usual_start}, in %{days}. It has come as early as %{earliest}.
+        title: Frost danger starts soon
+        title_far: No frost danger yet
+      finished_clear:
+        body: Frost was possible until %{latest}, and no night in that time was colder than %{coldest} °C.
+        body_no_readings: Frost was possible until %{latest}. We have no night temperatures for this %{crop} planting.
+        title: No frost reached this %{crop} planting
+      finished_hit:
+        body:
+          one: One night while frost was possible was at or below %{threshold} °C. The coldest was %{coldest} °C.
+          other: "%{count} nights while frost was possible were at or below %{threshold} °C. The coldest was %{coldest} °C."
+        title: Frost may have reached this %{crop} planting
+      finished_undated:
+        body: The usual last frost that year was %{usual_end}, and frost has come as late as %{latest}. We have no finish date for this %{crop} planting, so we can't say what it went through.
+        title: We can't say what frost it met
+      in_season:
+        body: The usual last frost is %{usual_end}, in %{days}. It has come as late as %{latest}.
+        title: In the usual frost danger
+      late_possible:
+        body: It has come as late as %{latest}, %{days} from now. Keep an eye on the forecast.
+        title: Past the usual last frost, but it can still come
+      passed:
+        body: The latest a frost has come in past years is %{latest}, %{days} ago.
+        title: Frost danger has passed for this %{crop} planting
+        title_place: Frost danger has passed for this year
+      rare:
+        body: Frost is rare in this area, so we show no frost dates.
+        title: Frost is rare here
   gardens:
     about:
       collaborators: Collaborators
@@ -1103,6 +1188,7 @@ en:
     unsubscribed: You have been unsubscribed from %{email_type} emails.
     welcome: Welcome
   messages:
+    auth_already_linked: That account is already connected to another Growstuff member.
     auth_failed: Authentication failed.
     auth_last_sign_in: This is the only way you can sign in. Add an email address and password first.
     auth_success: Authentication successful.
@@ -1114,6 +1200,8 @@ en:
     follow_error: Already following or error while following.
     followed: Followed %{name}
     invalid_location: Please enter a valid location
+    mastodon_instance_invalid: We couldn't connect to that Mastodon server. Check the address, which looks like you@mastodon.social, and try again.
+    mastodon_needs_account: We don't know that Mastodon account yet. Join Growstuff or sign in, then connect Mastodon from your account settings.
     location_cleared: Location removed.
     location_unplaced_html: We can't find "%{location}" on the map. <a href="%{link}">Choose your location from the list</a> so we can show you what's growing near you.
     revert_error: 'Could not revert to version from %{date}. Errors: %{errors}'
@@ -1349,89 +1437,6 @@ en:
       finish_helper: 'A planting is finished when you''ve harvested all of the crop, or it dies, or it''s otherwise no longer growing in your garden.
 
         '
-    frost:
-      cards:
-        coldest:
-          label: Coldest night
-          note_above: "%{gap} °C above the %{threshold} °C frost danger line"
-          note_at: Right on the %{threshold} °C frost danger line
-          note_below: "%{gap} °C below the %{threshold} °C frost danger line"
-        free:
-          label: Frost-free season
-          note: in a typical year
-        in_danger:
-          label: Frost danger it grew through
-          note: from planting to the latest it has come, %{latest}
-        last:
-          label: Usual last frost
-          note: has come as late as %{latest}
-          planted_after: planted %{days} after it
-          planted_before: planted %{days} before it
-        next:
-          label: Next frost danger starts
-          note_finishes: as early as %{earliest}, %{days} after this %{crop} planting finishes
-          note_now: as early as %{earliest}, %{days} from now
-      days:
-        one: "%{count} day"
-        other: "%{count} days"
-      degrees: "%{degrees} °C"
-      nights_so_far:
-        one: One night so far was at or below %{threshold} °C, the coldest %{coldest} °C.
-        other: "%{count} nights so far were at or below %{threshold} °C, the coldest %{coldest} °C."
-      planted:
-        after: The %{crop} planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
-        before: The %{crop} planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
-      timeline:
-        description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting runs from %{planted} to %{ends}.
-        description_undated: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting went in on %{planted}.
-        annotation_after: Planted %{days} after the usual last frost
-        annotation_before: Planted %{days} before the usual last frost
-        finish_expected: Finish expected %{date}
-        finished: Finished %{date}
-        legend:
-          finished: Planting, finished
-          planted: Planted, no finish date
-          possible: 'Possible: as early or late as it has come'
-          so_far: Planting so far
-          still_to_come: Planting still to come
-          usual: Usual frost danger
-        planted: Planted %{date}
-        row_danger: Frost danger
-        row_planting: This planting
-        title: This %{crop} planting against the frost season
-        today: Today, %{date}
-        usual: "%{from} – %{to}"
-        usual_open: "%{from} →"
-      title: Frost
-      verdicts:
-        before_season:
-          body: The usual first frost is %{usual_start}, in %{days}. It has come as early as %{earliest}.
-          title: Frost danger starts soon
-          title_far: No frost danger yet
-        finished_clear:
-          body: Frost was possible until %{latest}, and no night in that time was colder than %{coldest} °C.
-          body_no_readings: Frost was possible until %{latest}. We have no night temperatures for this %{crop} planting.
-          title: No frost reached this %{crop} planting
-        finished_hit:
-          body:
-            one: One night while frost was possible was at or below %{threshold} °C. The coldest was %{coldest} °C.
-            other: "%{count} nights while frost was possible were at or below %{threshold} °C. The coldest was %{coldest} °C."
-          title: Frost may have reached this %{crop} planting
-        finished_undated:
-          body: The usual last frost that year was %{usual_end}, and frost has come as late as %{latest}. We have no finish date for this %{crop} planting, so we can't say what it went through.
-          title: We can't say what frost it met
-        in_season:
-          body: The usual last frost is %{usual_end}, in %{days}. It has come as late as %{latest}.
-          title: In the usual frost danger
-        late_possible:
-          body: It has come as late as %{latest}, %{days} from now. Keep an eye on the forecast.
-          title: Past the usual last frost, but it can still come
-        passed:
-          body: The latest a frost has come in past years is %{latest}, %{days} ago.
-          title: Frost danger has passed for this %{crop} planting
-        rare:
-          body: Frost is rare in this area, so we show no frost dates.
-          title: Frost is rare here
     garden_card:
       by: by
     index:
