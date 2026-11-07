@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_08_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -781,6 +781,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
     t.string "area_unit"
     t.datetime "created_at", precision: nil
     t.text "description"
+    t.boolean "frost_safe", default: true, null: false, comment: "A nursery that keeps seedlings safe from frost. Not used for other gardens."
     t.integer "garden_type_id"
     t.integer "grid_columns", default: 10, null: false
     t.integer "grid_rows", default: 10, null: false

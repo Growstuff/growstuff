@@ -318,7 +318,7 @@ class GardensController < DataController
 
   def garden_params
     params.require(:garden).permit(
-      :name, :slug, :description, :active,
+      :name, :slug, :description, :active, :frost_safe,
       :area, :area_unit, :garden_type_id,
       :lowest_temp_c, :highest_temp_c,
       :grid_columns, :grid_rows

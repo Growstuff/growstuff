@@ -444,6 +444,9 @@ en:
       type: Type
       unknown: unknown
     form:
+      frost_safe:
+        help: Seedlings raised indoors, in a greenhouse or on a heated bench are not in frost danger, so a planting's frost section starts the day it went out. Untick this if frost can reach your seedlings.
+        label: This nursery is safe from frost
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
     header:
       all_gardens: All of %{owner}'s gardens
@@ -1367,6 +1370,8 @@ en:
           note: has come as late as %{latest}
           planted_after: planted %{days} after it
           planted_before: planted %{days} before it
+          planted_out_after: went outdoors %{days} after it
+          planted_out_before: went outdoors %{days} before it
         next:
           label: Next frost danger starts
           note_finishes: as early as %{earliest}, %{days} after this %{crop} planting finishes
@@ -1381,23 +1386,36 @@ en:
       planted:
         after: The %{crop} planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
         before: The %{crop} planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
+      planted_out:
+        after: The %{crop} planting went outdoors on %{planted}, %{days} after the usual last frost (%{usual_end}).
+        before: The %{crop} planting went outdoors on %{planted}, %{days} before the usual last frost (%{usual_end}).
       timeline:
         description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting runs from %{planted} to %{ends}.
         description_undated: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting went in on %{planted}.
         annotation_after: Planted %{days} after the usual last frost
         annotation_before: Planted %{days} before the usual last frost
+        annotation_out_after: Went outdoors %{days} after the usual last frost
+        annotation_out_before: Went outdoors %{days} before the usual last frost
         finish_expected: Finish expected %{date}
         finished: Finished %{date}
         legend:
           finished: Planting, finished
+          nursery: In the nursery, safe from frost
           planted: Planted, no finish date
           possible: 'Possible: as early or late as it has come'
           so_far: Planting so far
           still_to_come: Planting still to come
           usual: Usual frost danger
+        nursery: In the nursery, safe from frost
         planted: Planted %{date}
+        planted_out: Went outdoors %{date}
         row_danger: Frost danger
         row_planting: This planting
+        tips:
+          nursery: "In the nursery, safe from frost: %{range}"
+          planting: "%{label} (%{range})"
+          possible: "Frost has come as early or late as this: %{range}"
+          usual: "Usual frost danger: %{range}"
         title: This %{crop} planting against the frost season
         today: Today, %{date}
         usual: "%{from} – %{to}"

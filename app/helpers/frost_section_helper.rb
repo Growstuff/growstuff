@@ -45,62 +45,12 @@ module FrostSectionHelper
     [frost_coldest_card(frost), frost_last_card(frost), frost_next_card(frost), frost_free_card(frost)].compact
   end
 
-  # A band of the timeline, placed along it. The frost danger that is only possible has no label.
-  def frost_band_tag(frost, band)
-    label = frost_band_label(frost, band) unless band.kind == :possible
-    style = "left: #{frost_percent(frost.position(band.from))}; width: #{frost_percent(frost.width(band))}"
-    tag.div(label && tag.span(label, class: 'frost-band-label'), class: "frost-band frost-band--#{band.kind}", style:)
-  end
-
-  # The marker for today, and a line down through both rows, for a planting still growing.
-  def frost_today_tags(frost)
-    return unless frost.show_today?
-
-    style = "left: #{frost_percent(frost.position(frost.today))}"
-    pill = tag.span(t('plantings.frost.timeline.today', date: frost_date_text(frost.today)), class: 'frost-today', style:)
-    safe_join([pill, tag.div(class: 'frost-today-line', style:)])
-  end
-
-  # The month starts along the axis, with the year where it starts a year or the axis. They shrink to initials on a phone.
-  def frost_axis_tags(frost)
-    ticks = frost.axis.select { |date| date.day == 1 }.map do |date|
-      name = l(date, format: '%b')
-      year = tag.span(date.year, class: 'frost-year') if date.month == 1 || date == frost.axis.first
-      parts = [tag.span(name, class: 'frost-month-long'), tag.span(name.first, class: 'frost-month-short'), year]
-      tag.div(safe_join(parts), class: 'frost-tick', style: "left: #{frost_percent(frost.position(date))}")
-    end
-    safe_join(ticks)
-  end
-
-  def frost_percent(fraction)
-    "#{(fraction * 100).round(3)}%"
-  end
-
-  # The timeline in words, for a screen reader.
-  def frost_timeline_description(frost)
-    dates = { usual_start: frost.usual.first, usual_end: frost.usual.last, earliest: frost.possible.first, latest: frost.possible.last,
-              planted: frost.planted_on, ends: frost.ends_on }.transform_values { |date| frost_date_text(date) }
-    key = frost.end_unknown? ? 'description_undated' : 'description'
-    t("plantings.frost.timeline.#{key}", crop: frost.crop_name, from: frost_month_year(frost.axis.first),
-                                          to: frost_month_year(frost.axis.last), **dates)
-  end
-
-  # The label on a band of the timeline.
-  def frost_band_label(frost, band)
-    case band.kind
-    when :usual then frost_usual_label(band)
-    when :so_far, :planted then t('plantings.frost.timeline.planted', date: frost_date_text(frost.planted_on))
-    when :still_to_come then t('plantings.frost.timeline.finish_expected', date: frost_date_text(frost.ends_on))
-    when :finished then t('plantings.frost.timeline.finished', date: frost_date_text(frost.ends_on))
-    end
-  end
-
   # How the planting date sits against the usual last frost.
   def frost_planted_sentence(frost)
     count = frost.planted_days_before_usual_end
-    key = count.negative? ? 'after' : 'before'
-    t("plantings.frost.planted.#{key}", crop: frost.crop_name, planted: frost_date_text(frost.planted_on), days: frost_days(count.abs),
-                                        usual_end: frost_date_text(frost.usual.last))
+    key = "#{frost.from_nursery? ? 'planted_out' : 'planted'}.#{count.negative? ? 'after' : 'before'}"
+    dates = { planted: frost.planted_on, usual_end: frost.usual.last }.transform_values { |date| frost_date_text(date) }
+    t("plantings.frost.#{key}", crop: frost.crop_name, days: frost_days(count.abs), **dates)
   end
 
   def frost_date_text(date)
@@ -113,26 +63,15 @@ module FrostSectionHelper
 
   private
 
-  def frost_month_year(date)
-    l(date, format: '%B %Y')
-  end
-
   def frost_degrees(value)
     number_with_precision(value, precision: 1, strip_insignificant_zeros: true)
-  end
-
-  def frost_usual_label(band)
-    from = frost_date_text(band.from)
-    return t('plantings.frost.timeline.usual_open', from:) if band.open
-
-    t('plantings.frost.timeline.usual', from:, to: frost_date_text(band.to))
   end
 
   def frost_verdict_body(frost, scope, key)
     suffix = '_no_readings' if key == :finished_clear && frost.coldest_night_c.nil?
     days = FROST_VERDICT_DAYS[key]
-    args = { crop: frost.crop_name, count: frost.frost_nights, days: (frost_days(frost.public_send(days)) if days), coldest: frost_degrees(frost.coldest_night_c),
-             threshold: frost_degrees(PlantingFrost::THRESHOLD_C) }
+    args = { crop: frost.crop_name, count: frost.frost_nights, days: (frost_days(frost.public_send(days)) if days),
+             coldest: frost_degrees(frost.coldest_night_c), threshold: frost_degrees(PlantingFrost::THRESHOLD_C) }
     dates = { usual_start: frost.usual.first, usual_end: frost.usual.last, earliest: frost.possible.first, latest: frost.possible.last }
     body = t("#{scope}.body#{suffix}", **args, **dates.transform_values { |date| frost_date_text(date) })
     planted = frost_planted_sentence(frost) if %i(passed finished_clear finished_undated).include?(key) && !frost.long_lived?
@@ -174,7 +113,8 @@ module FrostSectionHelper
 
   def frost_planted_note(frost)
     count = frost.planted_days_before_usual_end
-    t("plantings.frost.cards.last.planted_#{count.negative? ? 'after' : 'before'}", days: frost_days(count.abs))
+    key = "planted#{'_out' if frost.from_nursery?}_#{count.negative? ? 'after' : 'before'}"
+    t("plantings.frost.cards.last.#{key}", days: frost_days(count.abs))
   end
 
   def frost_next_card(frost)

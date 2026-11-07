@@ -4,6 +4,7 @@ $frost-line: 1px solid rgba($brown, 0.15);
 $frost-possible: repeating-linear-gradient(135deg, $blue 0, $blue 2px, $white 2px, $white 7px);
 $frost-finished: #6c757d;
 $frost-to-come: #cfe3c4;
+$frost-nursery: #d7e8f2;
 $frost-clear: #e8f5e9;
 $frost-warning: #fff8e1;
 
@@ -119,8 +120,10 @@ $frost-warning: #fff8e1;
     position: relative;
   }
 
+  // A band says what it is on hover or click, so it looks as if it can be pointed at.
   .frost-band {
     bottom: 0;
+    cursor: help;
     position: absolute;
     top: 0;
   }
@@ -143,6 +146,13 @@ $frost-warning: #fff8e1;
 
   .frost-band--possible {
     background: $frost-possible;
+  }
+
+  .frost-band--nursery {
+    background: $frost-nursery;
+    border: 2px solid $blue;
+    border-right: 0;
+    box-sizing: border-box;
   }
 
   .frost-band--so_far {
@@ -255,6 +265,10 @@ $frost-warning: #fff8e1;
 
   .frost-key.frost-band--possible {
     border: 1px solid $blue;
+  }
+
+  .frost-key.frost-band--nursery {
+    border-right: 2px solid $blue;
   }
 
   .frost-cards {

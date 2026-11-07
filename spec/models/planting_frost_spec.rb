@@ -233,14 +233,6 @@ describe PlantingFrost do
       expect(frost.danger_bands.last.to).to eq frost.axis.last
     end
 
-    it 'marks the band the axis cuts off as open' do
-      expect(frost.danger_bands.last.open).to be true
-    end
-
-    it 'leaves the bands the axis does not cut off closed' do
-      expect(frost.danger_bands.first.open).to be false
-    end
-
     it 'draws a planting still growing as so far and still to come' do
       expect(frost.planting_bands.map(&:kind)).to eq %i(so_far still_to_come)
     end
@@ -388,6 +380,51 @@ describe PlantingFrost do
     it 'is not the same as a finish that is predicted' do
       expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on: Date.new(2017, 1, 1), finished:, readings:,
                                  today:)).not_to be_end_unknown
+    end
+  end
+
+  context 'when the planting began in a nursery that is safe from frost' do
+    subject(:frost) do
+      described_class.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 9, 5), sown_on: Date.new(2026, 8, 10), ends_on:,
+                          finished:, readings:, today:)
+    end
+
+    it 'began in a nursery' do
+      expect(frost).to be_from_nursery
+    end
+
+    it 'draws the days in the nursery before the days outdoors' do
+      expect(frost.planting_bands.map(&:kind)).to eq %i(nursery so_far still_to_come)
+    end
+
+    it 'ends the nursery the day before it went outdoors' do
+      expect(frost.planting_bands.first.to).to eq Date.new(2026, 9, 4)
+    end
+
+    it 'judges the planting by the day it went outdoors' do
+      expect(frost.planted_days_before_usual_end).to eq(-7)
+    end
+
+    it 'counts the days in danger from the day it went outdoors' do
+      expect(frost.days_in_danger).to eq 27
+    end
+
+    it 'covers the nursery days on the timeline' do
+      expect(frost.axis.cover?(Date.new(2026, 8, 10))).to be true
+    end
+  end
+
+  describe 'the bands the timeline cuts off' do
+    it 'knows where a band really ends' do
+      expect(frost.danger_bands.last.last).to be > frost.axis.last
+    end
+
+    it 'is open' do
+      expect(frost.danger_bands.last).to be_open
+    end
+
+    it 'is closed for a band that fits' do
+      expect(frost.danger_bands.first).not_to be_open
     end
   end
 end

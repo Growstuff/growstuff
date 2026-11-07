@@ -22,6 +22,9 @@
         .col-md-7.col-12= f.select(:area_unit, Garden::AREA_UNITS_VALUES, { include_blank: false })
         .col-12= f.select(:garden_type_id, GardenType.all.order(:name).pluck(:name, :id),
                           selected: @garden.garden_type_id, include_blank: true)
+        - if @garden.nursery?
+          .col-12
+            = f.check_box :frost_safe, label: t('gardens.form.frost_safe.label'), help: t('gardens.form.frost_safe.help')
         .col-12
           = f.check_box :active, label: 'Active?'
           %p

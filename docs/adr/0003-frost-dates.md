@@ -45,6 +45,10 @@ ERA5 is a model smoothed over about 25 km. It can miss cold hollows and coastal 
 - Now the section shows the frost season of the year it was planted, as the past, with a marker on the planting date and a verdict that says there is no finish date. It shows no coldest night and no days in danger, and only the usual last frost figure.
 - A finished planting never shows when the next frost danger starts, because that is of no use to it.
 
+**A seedling in a nursery that is safe from frost is not counted as exposed.** A member says so on their nursery (`gardens.frost_safe`, asked only for a nursery, on by default because most nurseries are indoors or under cover). A planting's first `PlantingHistory` row, when its garden is such a nursery, gives the day it went outdoors. The frost section then starts at that day for the nights, the days in danger and the "went outdoors X days before the usual last frost" sentence, and draws the nursery days on the planting's bar as "In the nursery, safe from frost". A planting with no such history, or from a nursery the member has said is not safe, is counted from its sow date as before. We only know the day it went outdoors when the member used the transplant action.
+
+**Every band on the timeline says what it is on hover, tap or focus, one at a time**, with the dates it covers, because a short band cannot hold its label.
+
 **Hardiness is kept on seeds and crops**, as `tender`, `half_hardy`, `hardy` or `unknown`, because a frost date means nothing until it is set against what a plant tolerates.
 
 - `seeds.hardiness` records what the packet says, in the grower's entry, like `gmo` and `heirloom`.
