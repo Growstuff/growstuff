@@ -186,7 +186,11 @@ class MemberDashboard
   end
 
   def jobs_today_or_tomorrow?
-    member.jobs.active.where(due_date: @today..(@today + 1.day)).exists?
+    jobs_today_or_tomorrow_count.positive?
+  end
+
+  def jobs_today_or_tomorrow_count
+    @jobs_today_or_tomorrow_count ||= member.jobs.active.where(due_date: @today..(@today + 1.day)).count
   end
 
   private

@@ -646,7 +646,9 @@ en:
       this_week: This week
       tile_harvest: record what you picked
       tile_job: plan a task for your garden
-      jobs_today: Jobs today
+      jobs_today:
+        one: 1 job today
+        other: "%{count} jobs today"
       jobs_today_go: My jobs →
       tile_job_title: Add job
       tile_photo: of the garden
