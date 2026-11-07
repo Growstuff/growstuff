@@ -116,6 +116,14 @@ es:
       update:
         'off': "%{feature} ahora está apagado."
         'on': "%{feature} ya está activado."
+  authentications:
+    sign_in:
+      bluesky:
+        terms_of_service: "Términos de servicio"
+        agree_to_tos_html: "Acepto las %{tos_link}"
+        contacting: "Contactando con Bluesky…"
+        handle_label: "Usuario de Bluesky"
+        handle_placeholder: "alice.bsky.social"
   alternate_names:
     created: El nombre alternativo se creó correctamente.
     deleted: El nombre alternativo se eliminó correctamente.

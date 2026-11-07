@@ -116,6 +116,14 @@ zh:
       update:
         'off': "%{feature} 现已关闭。"
         'on': "%{feature} 现已开启。"
+  authentications:
+    sign_in:
+      bluesky:
+        terms_of_service: "服务条款"
+        agree_to_tos_html: "我同意%{tos_link}"
+        contacting: "正在连接 Bluesky…"
+        handle_label: "Bluesky 账号"
+        handle_placeholder: "alice.bsky.social"
   alternate_names:
     created: 备用名称已成功创建。
     deleted: 备用名称已成功删除。

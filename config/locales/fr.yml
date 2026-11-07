@@ -116,6 +116,14 @@ fr:
       update:
         'off': "%{feature} est maintenant désactivé."
         'on': "%{feature} est maintenant activé."
+  authentications:
+    sign_in:
+      bluesky:
+        terms_of_service: "Conditions d'utilisation"
+        agree_to_tos_html: "J'accepte les %{tos_link}"
+        contacting: "Connexion à Bluesky…"
+        handle_label: "Identifiant Bluesky"
+        handle_placeholder: "alice.bsky.social"
   alternate_names:
     created: Le nom alternatif a été créé avec succès.
     deleted: L'autre nom a été supprimé avec succès.
