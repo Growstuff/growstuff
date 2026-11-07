@@ -131,6 +131,20 @@
 
 // photos#show: the photo and what it shows on the left; who took it and what it may
 // be used for on the right. One column on a phone, with the photo first.
+.photo-page-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  .photo-page-title {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+}
+
 .photo-page {
   align-items: flex-start;
   display: flex;
@@ -173,22 +187,9 @@
     align-items: center;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem 1.25rem;
-    justify-content: space-between;
-    padding-top: 1rem;
-  }
-
-  .photo-polaroid-title {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  .photo-polaroid-buttons {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
     gap: 0.5rem;
+    justify-content: flex-end;
+    padding-top: 1rem;
   }
 }
 

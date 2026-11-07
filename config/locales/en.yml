@@ -1348,7 +1348,6 @@ en:
       photographer: "%{site} photographer"
       see_photos: See their photos on %{site}
     polaroid:
-      taken: Taken %{date}
       view_on: View on %{site}
     refresh:
       not_found: Flickr could not find that photo. It may be private or deleted.
@@ -1367,6 +1366,7 @@ en:
       photos: Photos
       planting: "%{planting}"
       seed: "%{seed}"
+      taken: Taken %{date}
       thing_by: A %{thing} by %{owner}
     shows:
       crop:

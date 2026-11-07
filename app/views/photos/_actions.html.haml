@@ -3,7 +3,7 @@
 - unlinks = photo_records(photo).select { |_type, thing| can?(:edit, photo) || can?(:edit, thing) }
 - refreshable = photo.source == 'flickr' && can?(:refresh, photo)
 - if can?(:edit, photo) || can?(:destroy, photo) || refreshable || unlinks.any?
-  = actions_menu('photo', classes: 'float-end') do
+  = actions_menu('photo') do
     - if can?(:edit, photo)
       = menu_modal_link :edit, t('buttons.edit'), '#photo-edit-modal'
     - if refreshable

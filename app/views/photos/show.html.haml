@@ -11,7 +11,14 @@
   %li.breadcrumb-item= link_to t('.photos'), photos_path
   %li.breadcrumb-item.active= link_to t('.photo_by', name: photo_credit_name(@photo)), @photo
 
--# The photo and what it shows, beside who took it and what it may be used for.
+-# What the photo is, and its menu, top right. Then the photo and what it shows,
+-# beside who took it and what it may be used for.
+.photo-page-header
+  .photo-page-title
+    %h1.h3.mb-0= @photo.title
+    - if @photo.date_taken.present?
+      %small.text-muted= t('.taken', date: I18n.l(@photo.date_taken.to_date, format: :long))
+  = render 'photos/actions', photo: @photo
 .photo-page{id: "photo-#{@photo.id}"}
   .photo-page-main
     = render 'photos/polaroid', photo: @photo
