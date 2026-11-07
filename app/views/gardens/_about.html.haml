@@ -37,3 +37,4 @@
         - if distance
           %br
           %small.text-muted= distance
+    = render 'gardens/print_label', garden: garden if member_signed_in?

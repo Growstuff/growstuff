@@ -1,2 +1,2 @@
-= render 'shared/print_label', name: @garden.name, url: garden_url(@garden),
-  date: t('shared.print_label.printed_date', date: l(Date.current)), filename: 'growstuff-garden-label.pdf'
+= render 'shared/print_label', name: garden.name, url: garden_url(garden),
+  date: '', filename: 'growstuff-garden-label.pdf'

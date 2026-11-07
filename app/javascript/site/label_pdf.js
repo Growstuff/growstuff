@@ -52,12 +52,12 @@ function labelText(name, date, width, height) {
     const lineHeight = pixels * 1.2;
     const dateSize = 6 * 600 / 72;
     ctx.font = `${dateSize}px sans-serif`;
-    if (lines.length * lineHeight + dateSize * 2 > canvas.height ||
+    if (lines.length * lineHeight + (date ? dateSize * 2 : 0) > canvas.height ||
         ctx.measureText(date).width > canvas.width) continue;
     ctx.font = `${pixels}px sans-serif`;
     lines.forEach((line, index) => ctx.fillText(line, 0, index * lineHeight));
     ctx.font = `${dateSize}px sans-serif`;
-    ctx.fillText(date, 0, canvas.height - dateSize * 1.3);
+    if (date) ctx.fillText(date, 0, canvas.height - dateSize * 1.3);
     return canvas.toDataURL('image/png');
   }
   throw new RangeError('Text does not fit');

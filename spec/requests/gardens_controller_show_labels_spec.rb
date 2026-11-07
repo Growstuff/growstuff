@@ -22,11 +22,19 @@ describe GardensController, '#show' do
     before { get garden_path(garden) }
 
     it 'offers one compact label form' do
-      expect(page).to have_css('details.print-label form[data-print-label]', count: 1, visible: :all)
+      expect(page).to have_css('.garden-about details.print-label form[data-print-label]', count: 1, visible: :all)
+    end
+
+    it 'keeps label printing out of the main garden panel' do
+      expect(page).to have_no_css('.garden-detail form[data-print-label]', visible: :all)
     end
 
     it 'encodes the canonical garden URL' do
       expect(page).to have_css("form[data-url='#{garden_url(garden)}']", visible: :all)
+    end
+
+    it 'omits the print date' do
+      expect(page.find('form[data-print-label]', visible: :all)['data-date']).to eq('')
     end
 
     it 'offers a width in millimetres' do
