@@ -166,7 +166,7 @@ GEM
     csv_shaper (1.4.0)
       activesupport (>= 3.0.0)
       csv
-    dalli (5.2.5)
+    dalli (5.2.6)
       logger
     date (3.6.0)
     debug (1.11.1)
@@ -254,7 +254,7 @@ GEM
     gravatar-ultimate (2.0.0)
       activesupport (>= 2.3.14)
       rack
-    haml (7.5.1)
+    haml (7.5.2)
       prism (>= 1.1.0)
       temple (>= 0.8.2)
       thor
@@ -328,9 +328,9 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.7.0)
-    loofah (2.25.2)
+    loofah (2.25.3)
       crass (~> 1.0.2)
-      nokogiri (>= 1.12.0)
+      nokogiri (>= 1.19.5)
     mail (2.9.1)
       logger
       mini_mime (>= 0.1.1)
@@ -364,7 +364,7 @@ GEM
     net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
-    nokogiri (1.19.4-x86_64-linux-gnu)
+    nokogiri (1.19.7-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.6)
       auth-sanitizer (~> 0.2, >= 0.2.1)
