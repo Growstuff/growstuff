@@ -21,12 +21,12 @@
             ·
             = link_to planting.owner.location.truncate(24, separator: ' '), place_path(planting.owner.location)
 - else
-  %p.text-muted Nobody has planted this crop yet.
+  %p.text-muted= t('.empty')
 - if crop.approved?
   - if current_member
     -# The dialog is rendered with the crop's actions.
     %a.btn.btn-secondary.btn-sm{ href: '#', 'data-bs-toggle': 'modal', 'data-bs-target': '#modelPlantingForm' }
       = menu_icon(:planting)
-      Plant #{crop.name}
+      = t('.plant_crop', crop: crop.name)
   - else
-    = render partial: 'shared/signin_signup', locals: { to: "track your #{crop.name} plantings" }
+    = render partial: 'shared/signin_signup', locals: { to: t('.track_plantings', crop: crop.name) }

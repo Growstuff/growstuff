@@ -334,6 +334,10 @@ en:
       heading: Growstuff is a free, community-run site for people who grow food.
       prompt: Join to record your own %{crops}.
       text: Keep track of what you plant and harvest, find seeds to swap, and see what is growing near you.
+    plantings:
+      empty: Nobody has planted this crop yet.
+      plant_crop: Plant %{crop}
+      track_plantings: track your %{crop} plantings
     nutritional_data:
       carbohydrate: Carbohydrate
       energy: Energy
