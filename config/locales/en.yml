@@ -342,16 +342,10 @@ en:
       summary: What are growing degree days?
       usage: 'Where you''ve told us where your garden is, we use this and the weather there to predict when your %{crop} will be ready to harvest. We don''t use it for how long a plant lives or when it finishes: we go by what members have logged for that.'
     hardiness:
-      levels:
-        half_hardy:
-          meaning: A light frost is fine
-          name: Half-hardy
-        hardy:
-          meaning: Frost is fine
-          name: Hardy
-        tender:
-          meaning: A frost damages it
-          name: Tender
+        from_packets: Work it out from members' seed packets
+        help: How much frost the crop takes. Choose a level to keep it, whatever the seed packets say.
+        label: Hardiness
+    hardiness:
       sources:
         manual: Set by a crop wrangler
         seed_packets: From members' seed packets
@@ -647,6 +641,19 @@ en:
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
     string: "%{owner}'s %{garden}"
     updated: Garden was successfully updated.
+  hardiness:
+    levels:
+      half_hardy:
+        meaning: A light frost is fine
+        name: Half-hardy
+      hardy:
+        meaning: Frost is fine
+        name: Hardy
+      tender:
+        meaning: A frost damages it
+        name: Tender
+      unknown:
+        name: Unknown
   harvests:
     card:
       by: by
@@ -1690,6 +1697,14 @@ en:
           title: Frost is rare here
     garden_card:
       by: by
+    hardiness:
+      help: Leave it as unknown to go by the seed, then the crop.
+      label: How much frost does it take?
+      sources:
+        crop: Usual for the crop
+        planting: Set for this planting
+        seed: From the seed packet
+      title: Hardiness
     index:
       title:
         crop_plantings: Everyone's %{crop} plantings

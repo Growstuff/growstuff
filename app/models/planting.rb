@@ -104,6 +104,7 @@ class Planting < ApplicationRecord
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
+  validates :hardiness, inclusion: { in: Hardiness::VALUES }
   validates :sunniness, allow_blank: true, inclusion: {
     in: SUNNINESS_VALUES, message: :not_a_valid_sunniness
   }
@@ -198,6 +199,16 @@ class Planting < ApplicationRecord
   # Still in the nursery, which is somewhere seedlings are raised before they go out: it has no climate of its own to show.
   def in_nursery?
     garden.nursery?
+  end
+
+  def weather_located?
+    latitude.present? && longitude.present?
+  end
+
+  # How much frost the planting takes, and whose word that is: [source, level], with the source :planting, :seed or :crop.
+  # The planting's own say comes first, then its seed's, then its crop's. Nil when none of them knows.
+  def hardiness_found
+    { planting: hardiness, seed: parent_seed&.hardiness, crop: crop.hardiness }.find { |_source, level| Hardiness::LEVELS.include?(level) }
   end
 
   # The weather isn't here yet but will be: this is a planting the daily update collects weather for.

@@ -1128,6 +1128,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000100) do
     t.boolean "finished", default: false, null: false
     t.date "finished_at"
     t.integer "garden_id", null: false
+    t.text "hardiness", default: "unknown", null: false, comment: "tender, half_hardy, hardy or unknown. Unknown goes by the seed, then the crop."
     t.integer "harvests_count", default: 0
     t.integer "lifespan"
     t.integer "likes_count", default: 0
