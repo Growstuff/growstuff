@@ -1029,6 +1029,11 @@ en:
       follow_named: Follow %{name}
       following: Following
       following_named: You follow %{name}
+    follow_buttons:
+      block: Block
+      follow: Follow
+      unblock: Unblock
+      unfollow: Unfollow
     index:
       title: "%{site_name} members"
     signup:
