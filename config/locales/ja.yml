@@ -138,6 +138,13 @@ ja:
       waiting_body: '%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。'
       waiting_title: メールアドレスの確認をお待ちしています。
   plantings:
+    failed_modal:
+      cancel: キャンセル
+      close: 閉じる
+      mark_as_failed: 失敗として記録
+      planted_at: "植え付け日 %{date}"
+      title: "%{crop}の植え付けを失敗として記録"
+      which_planting: どの植え付けを失敗として記録しますか？
     modal:
       add_new_garden: 新しい庭を追加
       add_to_my_garden: 自分の庭に追加
