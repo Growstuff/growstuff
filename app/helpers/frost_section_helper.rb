@@ -47,10 +47,24 @@ module FrostSectionHelper
 
   # How the planting date sits against the usual last frost.
   def frost_planted_sentence(frost)
-    count = frost.planted_days_before_usual_end
-    key = "#{frost.from_frost_safe? ? 'planted_out' : 'planted'}.#{count.negative? ? 'after' : 'before'}"
+    key = "planted#{frost_out(frost)}.#{frost_direction(frost)}"
     dates = { planted: frost.planted_on, usual_end: frost.usual.last }.transform_values { |date| frost_date_text(date) }
-    t("plantings.frost.#{key}", crop: frost.crop_name, days: frost_days(count.abs), **dates)
+    t("plantings.frost.#{key}", crop: frost.crop_name, days: frost_planted_days(frost), **dates)
+  end
+
+  # Whether the planting went in after or before the usual last frost.
+  def frost_direction(frost)
+    frost.planted_days_before_usual_end.negative? ? 'after' : 'before'
+  end
+
+  # How many days the planting went in after or before the usual last frost, as words.
+  def frost_planted_days(frost)
+    frost_days(frost.planted_days_before_usual_end.abs)
+  end
+
+  # The part of a key for the words about a planting that began somewhere safe from frost, which say it went outdoors.
+  def frost_out(frost)
+    '_out' if frost.from_frost_safe?
   end
 
   def frost_date_text(date)
@@ -112,9 +126,8 @@ module FrostSectionHelper
   end
 
   def frost_planted_note(frost)
-    count = frost.planted_days_before_usual_end
-    key = "planted#{'_out' if frost.from_frost_safe?}_#{count.negative? ? 'after' : 'before'}"
-    t("plantings.frost.cards.last.#{key}", days: frost_days(count.abs))
+    key = "planted#{frost_out(frost)}_#{frost_direction(frost)}"
+    t("plantings.frost.cards.last.#{key}", days: frost_planted_days(frost))
   end
 
   def frost_next_card(frost)

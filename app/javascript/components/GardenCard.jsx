@@ -11,6 +11,8 @@ import PlantingRow from './PlantingRow';
 export default function GardenCard({garden, defaultOpen, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto, onFinishPlanting, onEditGarden}) {
   const {id, name, url, image_url: imageUrl, layout_url: layoutUrl, owner, actions, plant_url: plantUrl, plantings_count: plantingsCount, harvesting_now: harvestingNow} = garden;
   const {perennials, annuals} = garden;
+  const {location, area, frost_safe: frostSafe, frost_safe_label: frostSafeLabel} = garden;
+  const place = [location, area].filter(Boolean).join(' · ');
   const empty = perennials.length === 0 && annuals.length === 0;
   // What each planting's menu items open, for annuals and perennials alike.
   const handlers = {
@@ -41,6 +43,13 @@ export default function GardenCard({garden, defaultOpen, defaultIconUrl, onPlant
           <br />
           <small>{summary}</small>
           {owner && <small className="garden-card-owner"> · owner: {owner.login_name}</small>}
+          {(place || frostSafe) && (
+            <>
+              <br />
+              <small className="garden-card-place">{place}</small>
+              {frostSafe && <span className="badge text-bg-info ms-1 garden-card-frost">{frostSafeLabel}</span>}
+            </>
+          )}
         </div>
         <span className="garden-card-chevron" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>

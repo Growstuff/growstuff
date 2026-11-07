@@ -450,6 +450,8 @@ en:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
     header:
       all_gardens: All of %{owner}'s gardens
+      frost_protected: Frost protected
+      frost_protected_title: Safe from frost, such as indoors or in a greenhouse
       garden_of: garden of
       hero_caption:
         one: Photo of the garden · %{count} photo

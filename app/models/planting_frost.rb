@@ -174,7 +174,7 @@ class PlantingFrost
   # The dates the timeline covers: whole months, from the earliest possible frost (or the planting, if earlier) to a
   # month past the start of the next season (or the end of the planting, if later).
   def axis
-    first = [possible.first, (sown_on if from_frost_safe? && !long_lived?), start_on].compact.min
+    first = [possible.first, (sown_on if show_safe_days?), start_on].compact.min
     @axis ||= first.beginning_of_month..[next_season_start.next_month.end_of_month, lived_until.end_of_month].max
   end
 
@@ -201,9 +201,15 @@ class PlantingFrost
 
   private
 
+  # Whether the timeline draws the days somewhere safe from frost: a planting that has lived longer than a frost year is
+  # shown for its last year, and those days are further back than that.
+  def show_safe_days?
+    from_frost_safe? && !long_lived?
+  end
+
   # The days somewhere safe from frost, before the planting went outdoors.
   def safe_band
-    Band.new(:frost_safe, sown_on, planted_on - 1) if from_frost_safe? && !long_lived?
+    Band.new(:frost_safe, sown_on, planted_on - 1) if show_safe_days?
   end
 
   # The planting outdoors: one bar once it has finished, else what has happened so far and what is still to come.

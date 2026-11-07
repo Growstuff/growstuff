@@ -104,4 +104,19 @@ describe('GardenCard', () => {
       expect(screen.getByText('None')).toBeInTheDocument();
     });
   });
+
+  it('shows where the garden is and how big', () => {
+    setup({}, {location: 'Wellington', area: '24 square metres'});
+    expect(screen.getByText('Wellington · 24 square metres')).toBeInTheDocument();
+  });
+
+  it('says when the garden is frost protected', () => {
+    setup({}, {frost_safe: true, frost_safe_label: 'Frost protected'});
+    expect(screen.getByText('Frost protected')).toBeInTheDocument();
+  });
+
+  it('says nothing about frost when it is not protected', () => {
+    setup({}, {frost_safe: false, frost_safe_label: 'Frost protected'});
+    expect(screen.queryByText('Frost protected')).not.toBeInTheDocument();
+  });
 });

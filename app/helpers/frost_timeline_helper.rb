@@ -38,6 +38,11 @@ module FrostTimelineHelper
     "#{(fraction * 100).round(3)}%"
   end
 
+  # The line under the planting's row: how its start sits against the usual last frost.
+  def frost_annotation(frost)
+    t("plantings.frost.timeline.annotation#{frost_out(frost)}_#{frost_direction(frost)}", days: frost_planted_days(frost))
+  end
+
   # The timeline in words, for a screen reader.
   def frost_timeline_description(frost)
     dates = { usual_start: frost.usual.first, usual_end: frost.usual.last, earliest: frost.possible.first, latest: frost.possible.last,
@@ -51,7 +56,7 @@ module FrostTimelineHelper
   def frost_band_label(frost, band)
     case band.kind
     when :usual then frost_usual_label(band)
-    when :so_far then t("plantings.frost.timeline.planted#{'_out' if frost.from_frost_safe?}", date: frost_date_text(frost.planted_on))
+    when :so_far then t("plantings.frost.timeline.planted#{frost_out(frost)}", date: frost_date_text(frost.planted_on))
     when :planted then t('plantings.frost.timeline.planted', date: frost_date_text(frost.planted_on))
     when :frost_safe then t('plantings.frost.timeline.frost_safe', place: frost.safe_place)
     when :still_to_come then t('plantings.frost.timeline.finish_expected', date: frost_date_text(frost.ends_on))

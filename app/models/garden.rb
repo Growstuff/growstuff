@@ -152,6 +152,14 @@ class Garden < ApplicationRecord
     placed_plants.pluck(:bed_x, :bed_y, :diameter)
   end
 
+  # How big the garden is, such as "24 square metres", when it has been measured.
+  def area_text
+    return if area.blank?
+
+    size = ActiveSupport::NumberHelper.number_to_rounded(area, precision: 2, strip_insignificant_zeros: true)
+    "#{size} #{area_unit.to_s.pluralize(area)}"
+  end
+
   def has_layout?
     layout_saved_at.present? || placed_plants.any? || layout_features.present?
   end
