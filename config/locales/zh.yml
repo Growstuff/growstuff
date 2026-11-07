@@ -597,6 +597,8 @@ zh:
       this_week: 本星期
       tile_harvest: 记录你选择的内容
       tile_job: 为你的花园计划一项任务
+      jobs_today: 今天的任务
+      jobs_today_go: 我的任务 →
       tile_job_title: 添加职位
       tile_photo: 花园的
       tile_photo_title: 添加照片

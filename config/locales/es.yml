@@ -599,6 +599,8 @@ es:
       this_week: Esta semana
       tile_harvest: registra lo que elegiste
       tile_job: planifica una tarea para tu jardín
+      jobs_today: Trabajos hoy
+      jobs_today_go: Mis trabajos →
       tile_job_title: Agregar trabajo
       tile_photo: del jardin
       tile_photo_title: Añadir foto

@@ -185,6 +185,10 @@ class MemberDashboard
     "#{low}–#{high}°#{member.latitude.negative? ? 'S' : 'N'}"
   end
 
+  def jobs_today_or_tomorrow?
+    member.jobs.active.where(due_date: @today..(@today + 1.day)).exists?
+  end
+
   private
 
   def year_range(years_back)
