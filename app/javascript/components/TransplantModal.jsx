@@ -7,7 +7,7 @@ import Modal from './Modal';
 import WhenPicker from './WhenPicker';
 
 // Transplanting a batch of seedlings out of the nursery: which garden they went
-// into, and when. The planting moves there; it isn't copied.
+// into, when, and how many. A partial batch leaves the rest in the nursery.
 export default function TransplantModal({planting, gardens, onClose, onDone}) {
   const today = localToday();
   const [gardenId, setGardenId] = useState(gardens.length > 0 ? String(gardens[0].id) : '');
@@ -15,6 +15,9 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
   const [customDate, setCustomDate] = useState('');
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [quantity, setQuantity] = useState(String(planting.quantity || ''));
+  const asksQuantity = planting.quantity > 1;
+  const validQuantity = !asksQuantity || (/^[1-9]\d*$/.test(quantity) && Number(quantity) <= planting.quantity);
 
   const movedOn = {today, yesterday: daysBefore(today, 1), other: customDate}[when];
 
@@ -23,6 +26,7 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
     setErrors([]);
     try {
       const body = {garden_id: gardenId, date: movedOn};
+      if (asksQuantity) body.quantity = quantity;
       const {ok, status, data} = await postJson(`/plantings/${planting.slug}/transplant.json`, body);
       if (ok) {
         await onDone(data); // keeps saying so until the page shows it
@@ -62,6 +66,13 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
               ))}
             </div>
           ) : <p className="text-muted">You don&rsquo;t have another garden to transplant into.</p>}
+
+          {asksQuantity && (
+            <div className="mb-3 mt-2">
+              <label htmlFor={`transplant-quantity-${planting.id}`} className="form-label">{planting.transplant_quantity_label}</label>
+              <input id={`transplant-quantity-${planting.id}`} type="number" className="form-control" min="1" max={planting.quantity} required value={quantity} onChange={(event) => setQuantity(event.target.value)} />
+            </div>
+          )}
         </fieldset>
         <div className="mt-4">
           <WhenPicker
@@ -83,7 +94,7 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
           type="button"
           className="btn btn-success"
           onClick={save}
-          disabled={saving || !gardenId || !movedOn || movedOn > today}
+          disabled={saving || !gardenId || !movedOn || movedOn > today || !validQuantity}
           aria-busy={saving}
         >
           {saving ? <><i className="fas fa-spinner fa-spin" aria-hidden="true" /> Transplanting…</> : 'Transplant'}

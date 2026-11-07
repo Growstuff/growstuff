@@ -20,6 +20,15 @@
       = f.submit "save", class: 'btn btn-sm btn-primary'
 
 = render 'plantings/transplant', planting: @planting
+- if @planting.source_planting
+  %p
+    = t('plantings.transplant.source')
+    = link_to @planting.source_planting, @planting.source_planting
+- if @planting.transplanted_plantings.any?
+  %p
+    = t('plantings.transplant.children')
+    - @planting.transplanted_plantings.each do |child|
+      = link_to child, child
 
 .planting-show.record-page
   .row
