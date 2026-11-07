@@ -520,6 +520,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_000000) do
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
   end
 
+  create_table "community_gardens", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "website"
+    t.string "coordinates"
+    t.string "wikidata_id"
+    t.string "osm_id"
+    t.text "description"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["osm_id"], name: "index_community_gardens_on_osm_id", unique: true
+    t.index ["wikidata_id"], name: "index_community_gardens_on_wikidata_id"
+  end
+
   create_table "crop_companions", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.integer "crop_a_id", null: false

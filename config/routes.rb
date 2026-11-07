@@ -215,6 +215,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :community_gardens
     resources :members, param: :slug do
       post :bulk_ban, on: :collection
       post :restore, on: :member
