@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # Works out typical frost dates for each weather grid cell that has a planting growing, or finished in the
-# last few weeks, and saves them as FrostYear and FrostStat rows, so a page only reads one row. Cells with
-# no FrostStat yet are done first, the busiest first, as far as the call budget allows.
+# last few weeks, or a garden in use, and saves them as FrostYear and FrostStat rows, so a page only reads one row.
+# Cells with no FrostStat yet are done first, the busiest first, as far as the call budget allows.
 #
 # History comes from the Open-Meteo ERA5 archive, for `temperature_2m_min` alone, which counts at the base
 # rate. Dates a cell already has in WeatherReading are not fetched again. What is fetched is not saved
@@ -17,7 +17,8 @@ class FrostUpdater
   DAILY_BUDGET = 4500
   SECONDS_PER_CALL = WeatherUpdater::SECONDS_PER_CALL
 
-  Cell = Struct.new(:latitude, :longitude, :planting_count)
+  # place_count: how many plantings and gardens are in the cell, to do the busiest first.
+  Cell = Struct.new(:latitude, :longitude, :place_count)
 
   attr_reader :calls_used
 
@@ -38,8 +39,9 @@ class FrostUpdater
 
   def cells_to_do
     done = FrostStat.where(threshold_c: THRESHOLDS.first).pluck(:latitude, :longitude)
-    cells = Planting.weather_tracked(@today).includes(:garden).group_by(&:weather_cell).except(*done)
-    cells.map { |(latitude, longitude), plantings| Cell.new(latitude, longitude, plantings.size) }.sort_by { |cell| -cell.planting_count }
+    places = Planting.weather_tracked(@today).includes(:garden).to_a + Garden.active.located_for_weather.to_a
+    cells = places.group_by(&:weather_cell).except(*done)
+    cells.map { |(latitude, longitude), grouped| Cell.new(latitude, longitude, grouped.size) }.sort_by { |cell| -cell.place_count }
   end
 
   # Saves the cell and returns truthy, or returns nil when the budget or the API says no, to be tried another day.
