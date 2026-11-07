@@ -21,6 +21,24 @@ function setup(props = {}) {
 }
 
 describe('TransplantModal', () => {
+  it('submits the requested part of a batch', async () => {
+    const fetch = stubFetch({ok: true, status: 200});
+    setup({planting: {...planting, quantity: 6, transplant_quantity_label: 'Quantity'}});
+    await userEvent.clear(screen.getByRole('spinbutton'));
+    await userEvent.type(screen.getByRole('spinbutton'), '4');
+    await userEvent.click(screen.getByRole('button', {name: 'Transplant'}));
+    expect(fetch).toHaveBeenCalledWith('/plantings/tomato-1/transplant.json', expect.objectContaining({
+      body: JSON.stringify({garden_id: '10', date: localToday(), quantity: '4'}),
+    }));
+  });
+
+  it('prevents moving more than the batch contains', async () => {
+    setup({planting: {...planting, quantity: 6}});
+    await userEvent.clear(screen.getByRole('spinbutton'));
+    await userEvent.type(screen.getByRole('spinbutton'), '7');
+    expect(screen.getByRole('button', {name: 'Transplant'})).toBeDisabled();
+  });
+
   it('is titled for the crop', () => {
     setup();
     expect(screen.getByRole('dialog', {name: 'Transplant Tomato'})).toBeInTheDocument();

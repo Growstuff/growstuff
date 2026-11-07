@@ -10,6 +10,9 @@
             %button.btn-close{ "aria-label" => t('.close'), "data-bs-dismiss" => "modal", type: "button" }
           -# Same body class as the React dialogs, so it reads at the same size.
           .modal-body.plant-dialog-body
+            - if planting.quantity.to_i > 1
+              = label_tag :quantity, t('plantings.transplant.quantity'), class: 'form-label'
+              = number_field_tag :quantity, planting.quantity, min: 1, max: planting.quantity, required: true, class: 'form-control'
             = label_tag :garden_id, t('.move_to'), class: 'form-label'
             = select_tag :garden_id, options_from_collection_for_select(transplantable_gardens_by_owner(planting), :id, :name), class: 'form-select'
           .modal-footer
