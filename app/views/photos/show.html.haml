@@ -37,7 +37,11 @@
       - if @photo.date_taken.present?
         %h3 Taken on #{I18n.l @photo.date_taken.to_date}
 
-    = render @photo.owner
+    - if @photo.author_name.present?
+      %p
+        %strong= t('.photo_by_html', author: link_to(@photo.author_name, @photo.author_url))
+    - else
+      = render @photo.owner
 
     %p
       %strong License:

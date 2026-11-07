@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_08_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1049,6 +1049,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
   end
 
   create_table "photos", id: :serial, force: :cascade do |t|
+    t.string "author_name", comment: "The photographer, when not the member who added the photo."
+    t.string "author_url", comment: "Where to find the photographer, such as their Flickr photostream."
     t.integer "comments_count", default: 0
     t.datetime "created_at", precision: nil
     t.datetime "date_taken", precision: nil

@@ -1,0 +1,22 @@
+-# Add a photo of the crop from its address on Flickr, in a dialog over the crop
+-# page. The form posts to CropPhotosController, which checks the photo is public
+-# and under a Creative Commons licence. Or search Flickr for one.
+.modal.fade#crop-photo-new{'aria-hidden': 'true', 'aria-labelledby': 'crop-photo-new-title',
+                           role: 'dialog', tabindex: '-1'}
+  .modal-dialog{ role: 'document' }
+    .modal-content
+      = form_with url: crop_photos_path(crop) do |form|
+        .modal-header
+          %h4.modal-title#crop-photo-new-title= t('.title', crop: crop.name)
+          %button.btn-close{ 'aria-label': t('.close'), 'data-bs-dismiss': 'modal', type: 'button' }
+        .modal-body
+          .mb-3
+            = form.label :url, t('.url'), class: 'form-label'
+            = form.url_field :url, class: 'form-control', required: true,
+                                   placeholder: 'https://www.flickr.com/photos/...'
+            %span.form-text= t('.hint')
+          = render 'crop_photos/kinds'
+          = link_to t('.search', crop: crop.name), new_crop_photo_path(crop), class: 'btn btn-outline-secondary'
+        .modal-footer
+          %button.btn.btn-secondary{ 'data-bs-dismiss': 'modal', type: 'button' }= t('.cancel')
+          = form.submit t('.save'), class: 'btn btn-primary'

@@ -38,6 +38,15 @@ class Photo < ApplicationRecord
     joins(:photo_associations).where(photo_associations: { photographable_type: model_name.to_s })
   }
 
+  # Photos for the part of a crop's page about plantings, harvests, seeds, or the plant
+  # itself: those of one of them, and those added to the crop and labelled as showing one.
+  scope :shown_as, lambda { |model_name|
+    kind = model_name.to_s
+    associations = PhotoAssociation.where(photographable_type: 'Crop', label: kind == 'Crop' ? nil : kind.downcase)
+    associations = associations.or(PhotoAssociation.where(photographable_type: kind)) unless kind == 'Crop'
+    where(id: associations.select(:photo_id))
+  }
+
   # Photos of a label, such as the front or back of a seed packet, that have not been read yet, which is what the
   # OCR script reads.
   scope :awaiting_ocr, -> { where(id: PhotoAssociation.of_packets.select(:photo_id)).where(ocr_text: [nil, '']) }
@@ -86,7 +95,7 @@ class Photo < ApplicationRecord
   end
 
   def to_s
-    "#{title} by #{owner.login_name}"
+    "#{title} by #{author_name.presence || owner.login_name}"
   end
 
   def subject

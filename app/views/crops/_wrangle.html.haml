@@ -10,6 +10,7 @@
       = menu_link_to :edit, t('.edit'), edit_crop_path(crop)
     = menu_modal_link :add, 'Add scientific name', '#scientific-name-new'
     = menu_modal_link :add, 'Add another name', '#alternate-name-new'
+    = menu_modal_link :add_photo, t('crops.photo_modal.menu'), '#crop-photo-new'
     = menu_link_to :download, 'Fetch data from GBIF', crop_gbif_path(crop), method: :post
     = menu_link_to :people, 'Manage companions', admin_crop_crop_companions_path(crop)
     = menu_link_to :finish, 'Job templates', admin_crop_crop_job_templates_path(crop)
@@ -25,6 +26,7 @@
   - crop.scientific_names.each do |sn|
     - if can? :edit, sn
       = render 'crops/scientific_name_modal', crop: crop, scientific_name: sn
+  = render 'crops/photo_modal', crop: crop
   = render 'crops/alternate_name_modal', crop: crop, alternate_name: AlternateName.new(crop: crop)
   - crop.alternate_names.each do |an|
     - if can? :edit, an

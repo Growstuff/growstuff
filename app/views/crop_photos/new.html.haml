@@ -1,0 +1,30 @@
+- content_for :title, t('.title', crop: @crop.name)
+
+%h1= t('.title', crop: @crop.name)
+%p.text-muted= t('.intro')
+
+= form_with url: new_crop_photo_path(@crop), method: :get, class: 'row g-2 mb-3' do |form|
+  .col
+    = form.text_field :q, value: @query, class: 'form-control', 'aria-label': t('.search')
+  .col-auto
+    = form.submit t('.search'), class: 'btn btn-primary', name: nil
+
+- if @results.empty?
+  %p= t('.empty')
+- else
+  = form_with url: crop_photos_path(@crop) do
+    = render 'crop_photos/kinds'
+    .row.row-cols-2.row-cols-md-4.g-3
+      - @results.each do |result|
+        .col
+          .card.h-100
+            = image_tag result[:thumbnail_url], class: 'card-img-top', alt: result[:title].to_s, loading: 'lazy'
+            .card-body
+              %p.card-text.small
+                %strong= result[:title]
+                %br
+                = t('.attribution', owner: result[:owner_name])
+            .card-footer
+              = button_tag t('.add'), name: 'url', value: result[:url], type: 'submit', class: 'btn btn-sm btn-primary'
+
+%p.mt-3= link_to t('.back', crop: @crop.name), crop_path(@crop)

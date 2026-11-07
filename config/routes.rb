@@ -125,6 +125,7 @@ Rails.application.routes.draw do
 
     get 'places' => 'places#index'
     resources :jobs, only: :create, controller: 'crop_jobs'
+    resources :photos, only: %i(new create), controller: 'crop_photos'
     get 'members' => 'members#index'
 
     # Charts json
