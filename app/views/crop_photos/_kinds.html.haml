@@ -3,9 +3,9 @@
 - prefix = local_assigns.fetch(:prefix, 'kind')
 %fieldset.mb-3
   %legend.form-label.fs-6= t('crop_photos.kinds.legend')
-  - [['', 'plant'], *PhotoAssociation::CROP_KINDS.map { |kind| [kind, kind] }].each do |value, key|
+  - PhotoAssociation::CROP_KINDS.each do |kind|
     .form-check
-      = radio_button_tag :kind, value, value.blank?, class: 'form-check-input', id: "#{prefix}-#{key}"
-      %label.form-check-label{ for: "#{prefix}-#{key}" }
-        = t("crop_photos.kinds.#{key}")
-        %small.d-block.text-muted= t("crop_photos.kinds.#{key}_hint")
+      = radio_button_tag :kind, kind, false, class: 'form-check-input', id: "#{prefix}-#{kind}", required: true
+      %label.form-check-label{ for: "#{prefix}-#{kind}" }
+        = t("crop_photos.kinds.#{kind}")
+        %small.d-block.text-muted= t("crop_photos.kinds.#{kind}_hint")

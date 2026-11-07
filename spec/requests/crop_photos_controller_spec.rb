@@ -34,20 +34,21 @@ describe CropPhotosController do
       it { expect(Photo.shown_as(Crop)).to be_empty }
     end
 
-    context 'when the photo shows the plant itself' do
+    context 'when no kind is chosen' do
       before do
         sign_in wrangler
-        post crop_photos_path(crop), params: { url: 'https://www.flickr.com/photos/pat/12345/', kind: '' }
+        post crop_photos_path(crop), params: { url: 'https://www.flickr.com/photos/pat/12345/' }
       end
 
-      it { expect(Photo.shown_as(Crop)).to eq [photo] }
+      it { expect(flash[:alert]).to eq I18n.t('crop_photos.create.kind_missing') }
+      it { expect(Photo.count).to eq 0 }
     end
 
     context 'when Flickr refuses the photo' do
       before do
         allow(flickr_photo).to receive(:attributes).and_raise(FlickrPublicPhoto::Rejected, :not_public)
         sign_in wrangler
-        post crop_photos_path(crop), params: { url: 'https://www.flickr.com/photos/pat/12345/' }
+        post crop_photos_path(crop), params: { url: 'https://www.flickr.com/photos/pat/12345/', kind: 'seed' }
       end
 
       it { expect(flash[:alert]).to eq I18n.t('crop_photos.create.not_public') }
@@ -67,7 +68,8 @@ describe CropPhotosController do
   describe 'GET new' do
     before do
       allow(FlickrPublicPhoto).to receive(:search).with('tomato', page: 1).and_return(
-        [{ title: 'Red', owner_name: 'Pat', licence: 'CC BY 2.0', taken: '2019-08-08 10:00:00', thumbnail_url: 'https://example.com/q.jpg', url: 'https://www.flickr.com/photos/pat/1' }]
+        [{ title: 'Red', owner_name: 'Pat', licence: 'CC BY 2.0', taken: '2019-08-08 10:00:00',
+          thumbnail_url: 'https://example.com/q.jpg', url: 'https://www.flickr.com/photos/pat/1' }]
       )
       sign_in wrangler
       get new_crop_photo_path(crop)
@@ -78,13 +80,13 @@ describe CropPhotosController do
     it { expect(response.body).to include 'CC BY 2.0' }
     it { expect(response.body).to include '2019-08-08' }
     it { expect(response.body).to include 'target="_blank"' }
-    it { expect(response.body.scan('name="kind"').size).to eq 4 }
+    it { expect(response.body.scan('name="kind"').size).to eq 3 }
   end
 
   describe 'photo page' do
     before do
       sign_in wrangler
-      post crop_photos_path(crop), params: { url: 'x' }
+      post crop_photos_path(crop), params: { url: 'x', kind: 'seed' }
       get photo_path(photo)
     end
 

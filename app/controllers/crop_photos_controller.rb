@@ -21,13 +21,16 @@ class CropPhotosController < ApplicationController
     crop = Crop.find(params[:crop_slug])
     authorize! :edit, crop
 
+    kind = params[:kind].presence_in(PhotoAssociation::CROP_KINDS)
+    return redirect_to(crop_path(crop), alert: t('.kind_missing')) unless kind
+
     attributes = FlickrPublicPhoto.new(params[:url]).attributes
     attributes[:title] ||= crop.name
     photo = Photo.find_or_initialize_by(source: 'flickr', source_id: attributes[:source_id])
     photo.assign_attributes(attributes.merge(owner: cropbot)) if photo.new_record?
     photo.save!
     association = photo.photo_associations.find_or_initialize_by(photographable: crop)
-    association.update!(label: params[:kind].presence_in(PhotoAssociation::CROP_KINDS))
+    association.update!(label: kind)
     redirect_to crop_path(crop), notice: t('.added', crop: crop.name)
   rescue FlickrPublicPhoto::Rejected => e
     redirect_to crop_path(crop), alert: t("crop_photos.create.#{e.reason}")

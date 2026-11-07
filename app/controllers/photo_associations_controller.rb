@@ -26,6 +26,7 @@ class PhotoAssociationsController < ApplicationController
     authorize_deletion!
 
     @item.photos.delete(@photo)
+    flash[:notice] = t('.removed', kind: params[:type].to_s.downcase)
     respond_with(@photo)
   end
 

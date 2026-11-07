@@ -140,4 +140,32 @@ describe "photos/show" do
       assert_select "button[data-copy-text*='Pat Photo']"
     end
   end
+
+  context "photo attached to a planting" do
+    let(:unlink_path) { photo_association_path(photo_id: photo.id, type: 'planting', id: planting.id) }
+
+    before { photo.plantings << planting }
+
+    context "when signed in as the owner" do
+      before do
+        controller.stub(:current_user) { member }
+        render
+      end
+
+      it "has a link to take the photo off the planting" do
+        assert_select "a[href='#{unlink_path}'][data-method='delete']"
+      end
+    end
+
+    context "when signed in as another member" do
+      before do
+        controller.stub(:current_user) { create(:member) }
+        render
+      end
+
+      it "has no link to take the photo off the planting" do
+        assert_select "a[href='#{unlink_path}']", false
+      end
+    end
+  end
 end

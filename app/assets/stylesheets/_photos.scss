@@ -195,6 +195,16 @@
 // A card for each record the photo is attached to. The header names the kind in
 // words and an icon as well as colour.
 .photo-shows {
+  // A plain heading, not the green band every other section heading gets.
+  .photo-shows-heading {
+    background: none;
+    box-shadow: none;
+    color: inherit;
+    font-size: 1.3125rem;
+    font-weight: 500;
+    padding: 0;
+  }
+
   .photo-shows-cards {
     display: flex;
     flex-wrap: wrap;
@@ -204,17 +214,28 @@
   .photo-shows-item {
     flex: 1 1 18rem;
     min-width: 0;
-    position: relative;
   }
 
   .photo-shows-item-wide {
     flex-basis: 100%;
   }
 
-  .photo-shows-item > .text-warning {
-    position: absolute;
-    right: 0.75rem;
-    top: 0.5rem;
+  // Takes the photo off a record: a labelled button under the card, in the dark red
+  // that reads on white.
+  .photo-unlink {
+    margin-top: 0.5rem;
+    text-align: right;
+
+    .btn {
+      border-color: $danger-text;
+      color: $danger-text;
+
+      &:hover,
+      &:focus {
+        background: $danger-text;
+        color: $white;
+      }
+    }
   }
 }
 
