@@ -1273,6 +1273,25 @@ en:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
     show:
       crop: Crop
+      frost_danger:
+        chart_note: The blue bands are the usual frost danger, with a paler band for the earliest and latest it can come. The dashed line is 2 °C.
+        days:
+          one: "%{count} day"
+          other: "%{count} days"
+        first: First frost danger
+        first_text: about %{date}, as early as %{early} in some years
+        free_days: Frost-free days
+        last: Last frost danger
+        last_text: about %{date}, as late as %{late} in some years
+        note: Worked out from 30 years of modelled weather for the area around the garden, where frost danger is a night of 2 °C or below. A cold hollow in the garden can be worse.
+        possible: Frost danger only comes in some years here, so these dates are a rough guide.
+        rare: Frost danger is rare here. Fewer than 3 years in 10 had a night of 2 °C or below.
+        timing:
+          after_safe: This was planted after the usual end of frost danger.
+          before_last: This was planted before the usual last frost danger, around %{date}.
+          before_safe: This was planted around the usual end of frost danger, but frost danger can last until %{safe}.
+          before_season: This was planted before frost danger usually starts, around %{date}.
+        title: Frost danger
       grower: Grower
       harvest_month_yes: "%{month}, usually harvesting"
       harvest_months: Harvest months

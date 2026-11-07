@@ -69,6 +69,11 @@ class FrostCalculator
     latitude.negative? ? Date.new(year, 1, 1) : Date.new(year - 1, 7, 1)
   end
 
+  # The frost year a date falls in.
+  def self.frost_year_of(date, latitude:)
+    latitude.negative? || date.month < 7 ? date.year : date.year + 1
+  end
+
   # The last day of a frost year.
   def self.frost_year_end(year, latitude:)
     frost_year_start(year + 1, latitude:) - 1
@@ -127,7 +132,7 @@ class FrostCalculator
   end
 
   def frost_year_of(date)
-    @southern || date.month < 7 ? date.year : date.year + 1
+    self.class.frost_year_of(date, latitude: @latitude)
   end
 
   def year_result(year)

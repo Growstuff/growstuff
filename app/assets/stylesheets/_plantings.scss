@@ -536,7 +536,7 @@
     width: 100%;
   }
 
-  .weather-rain rect:not(.weather-season) {
+  .weather-rain rect:not(.weather-season, .weather-frost, .weather-frost-wide) {
     fill: $blue;
   }
 
@@ -587,6 +587,24 @@
 
   .weather-season {
     fill-opacity: 0.14;
+  }
+
+  // The usual frost danger, over the season bands: a stronger blue for the usual dates, paler for the possible ones.
+  .weather-frost {
+    fill: #1ea7d6;
+    fill-opacity: 0.22;
+  }
+
+  .weather-frost-wide {
+    fill: #1ea7d6;
+    fill-opacity: 0.1;
+  }
+
+  .weather-frost-line {
+    stroke: #1ea7d6;
+    stroke-dasharray: 4 3;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
   }
 
   .weather-seasons {
