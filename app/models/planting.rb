@@ -219,7 +219,7 @@ class Planting < ApplicationRecord
   def frost_danger
     return unless weather_located?
 
-    FrostStat.at(*weather_cell).find_by(threshold_c: FrostCalculator::FROST_RISK_C)
+    FrostStat.at(*weather_cell).find_by(threshold_c: FrostCalculator::FROST_DANGER_C)
   end
 
   # The day this planting is due, from its crop's expected lifespan, or nil when we don't know it.

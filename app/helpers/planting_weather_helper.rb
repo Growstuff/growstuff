@@ -6,6 +6,9 @@ module PlantingWeatherHelper
   include WeatherChartFrameHelper
 
   WEATHER_MIN_BAR_WIDTH = 0.6
+  # The frost danger bands, widest first so the usual dates sit over the possible ones: class => first and last day field.
+  FROST_BANDS = { 'weather-frost-wide' => %i(first_frost_p10 last_frost_p90),
+                  'weather-frost'      => %i(first_frost_median last_frost_median) }.freeze
 
   # The headline figures for a run of weather readings, as text, leaving out any we have no data for.
   def weather_summary(readings)
@@ -27,12 +30,10 @@ module PlantingWeatherHelper
   def frost_danger_figures(stat, planted_on)
     return {} unless stat.dated?
 
-    year = FrostCalculator.frost_year_of(planted_on, latitude: stat.latitude)
+    day = ->(field) { frost_day(stat, field, planted_on) }
     figures = {
-      first: t('plantings.show.frost_danger.first_text', date:  frost_day(stat, :first_frost_median, year),
-                                                         early: frost_day(stat, :first_frost_p10, year)),
-      last:  t('plantings.show.frost_danger.last_text', date: frost_day(stat, :last_frost_median, year),
-                                                        late: frost_day(stat, :last_frost_p90, year))
+      first: t('plantings.show.frost_danger.first_text', date: day[:first_frost_median], early: day[:first_frost_p10]),
+      last:  t('plantings.show.frost_danger.last_text', date: day[:last_frost_median], late: day[:last_frost_p90])
     }
     figures[:free_days] = t('plantings.show.frost_danger.days', count: stat.frost_free_days_median.round) if stat.frost_free_days_median
     figures
@@ -43,15 +44,14 @@ module PlantingWeatherHelper
   def frost_danger_timing(stat, planted_on)
     return unless stat.dated?
 
-    year = FrostCalculator.frost_year_of(planted_on, latitude: stat.latitude)
-    first, last, safe = %i(first_frost_p10 last_frost_median last_frost_p90).map { |field| stat.date_for(field, year) }
+    first, last, safe = %i(first_frost_p10 last_frost_median last_frost_p90).map { |field| stat.date_near(field, planted_on) }
     key = if planted_on < first then :before_season
           elsif planted_on <= last then :before_last
           elsif planted_on <= safe then :before_safe
           else :after_safe
           end
-    shown = key == :before_season ? :first_frost_p10 : :last_frost_median
-    t("plantings.show.frost_danger.timing.#{key}", date: frost_day(stat, shown, year), safe: frost_day(stat, :last_frost_p90, year))
+    shown = key == :before_season ? first : last
+    t("plantings.show.frost_danger.timing.#{key}", date: l(shown, format: '%-d %B'), safe: l(safe, format: '%-d %B'))
   end
 
   # The figures in a summary, as a phrase, leaving out any we have no data for: "7 mm of rain, highs up to 16.5°C and
@@ -62,8 +62,8 @@ module PlantingWeatherHelper
      ("lows down to #{summary[:coldest]}" if summary[:coldest])].compact.to_sentence.presence
   end
 
-  def frost_day(stat, field, year)
-    l(stat.date_for(field, year), format: '%-d %B')
+  def frost_day(stat, field, date)
+    l(stat.date_near(field, date), format: '%-d %B')
   end
 
   # How many days the weather charts' X axis spans, from the first day of weather: the same stretch as the progress
@@ -182,16 +182,13 @@ module PlantingWeatherHelper
   # Bands behind the chart for the usual frost danger: stronger from the usual first to the usual last, paler from the
   # earliest to the latest likely. One of each for every frost year that touches the axis. None without dates.
   def weather_frost_bands(stat, from:, days:)
-    return '' unless stat&.dated?
+    return unless stat&.dated?
 
-    last_day = from + days - 1
-    years = (FrostCalculator.frost_year_of(from,
-                                           latitude: stat.latitude) - 1)..(FrostCalculator.frost_year_of(last_day,
-                                                                                                         latitude: stat.latitude) + 1)
-    spans = { 'weather-frost-wide' => %i(first_frost_p10 last_frost_p90), 'weather-frost' => %i(first_frost_median last_frost_median) }
-    safe_join(spans.flat_map do |css, (first, last)|
+    to = from + days - 1
+    years = (stat.frost_year_of(from) - 1)..(stat.frost_year_of(to) + 1)
+    safe_join(FROST_BANDS.flat_map do |css, (first, last)|
       years.filter_map do |year|
-        weather_frost_band(css, stat.date_for(first, year)..stat.date_for(last, year), from:, last_day:, step: weather_step(days))
+        weather_frost_band(css, stat.date_for(first, year)..stat.date_for(last, year), from:, last_day: to, step: weather_step(days))
       end
     end)
   end
@@ -207,7 +204,7 @@ module PlantingWeatherHelper
 
   # A dashed line across the temperature chart at the frost danger temperature, when the chart's range reaches it.
   def weather_frost_line(stat, scale, days)
-    degrees = FrostCalculator::FROST_RISK_C
+    degrees = FrostCalculator::FROST_DANGER_C
     return unless stat&.dated? && degrees.between?(scale[:low], scale[:low] + scale[:span])
 
     y = (WEATHER_CHART_HEIGHT - ((degrees - scale[:low]) / scale[:span] * WEATHER_CHART_HEIGHT)).round(1)

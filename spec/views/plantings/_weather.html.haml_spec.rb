@@ -8,7 +8,7 @@ describe 'plantings/_weather' do
   let(:status) { 'frost' }
 
   before do
-    create(:frost_stat, latitude: -41.25, longitude: 174.75, threshold_c: FrostCalculator::FROST_RISK_C, status:)
+    create(:frost_stat, latitude: -41.25, longitude: 174.75, threshold_c: FrostCalculator::FROST_DANGER_C, status:)
     render partial: 'plantings/weather', locals: { planting:, readings: [], expected: [] }
   end
 

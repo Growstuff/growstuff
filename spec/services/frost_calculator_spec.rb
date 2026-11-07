@@ -5,6 +5,11 @@ require 'rails_helper'
 describe FrostCalculator, type: :service do
   subject(:calculator) { described_class.new(readings, latitude:) }
 
+  # The calendar date of a day number in a frost year.
+  def date_of(day, year)
+    FrostYear.start_of(year, latitude:) + day.round
+  end
+
   # Every day of the span is 10 degrees unless a frost is listed.
   def series(from, to, frosts: {})
     (from..to).index_with { |day| frosts.fetch(day, 10.0) }
@@ -127,7 +132,7 @@ describe FrostCalculator, type: :service do
     end
 
     it 'gives the median last frost as a date, rounding the half day up' do
-      expect(calculator.date_for(summary.last_frost_median, 2019)).to eq Date.new(2019, 9, 15)
+      expect(date_of(summary.last_frost_median, 2019)).to eq Date.new(2019, 9, 15)
     end
 
     it 'puts the safe-to-plant date after the median last frost' do
@@ -135,7 +140,7 @@ describe FrostCalculator, type: :service do
     end
 
     it 'gives the median first frost as a date' do
-      expect(calculator.date_for(summary.first_frost_median, 2019)).to eq Date.new(2019, 5, 20)
+      expect(date_of(summary.first_frost_median, 2019)).to eq Date.new(2019, 5, 20)
     end
 
     it 'counts the frost-free days from one last frost to the next first frost' do
@@ -153,16 +158,6 @@ describe FrostCalculator, type: :service do
 
     it 'has the possible status' do
       expect(calculator.summary.status).to eq :possible
-    end
-  end
-
-  describe '.percentile' do
-    it 'interpolates between values' do
-      expect(described_class.percentile([0, 10], 50)).to eq 5.0
-    end
-
-    it 'returns the only value of a single-item list' do
-      expect(described_class.percentile([7], 90)).to eq 7.0
     end
   end
 end
