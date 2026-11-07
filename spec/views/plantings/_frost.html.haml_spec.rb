@@ -10,7 +10,7 @@ describe 'plantings/_frost' do
   let(:finished) { false }
   let(:today) { Date.new(2026, 11, 7) }
   let(:frost) do
-    PlantingFrost.new(stat:, planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:,
+    PlantingFrost.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:,
                       readings: [reading.new(Date.new(2026, 8, 20), 3.3)], today:)
   end
 

@@ -4,7 +4,7 @@
   legend = %i(usual possible) + frost.planting_bands.map(&:kind).uniq
   chart_class = 'frost-chart--today' if frost.show_today?
 .frost-timeline
-  %h3= t('plantings.frost.timeline.title')
+  %h3= t('plantings.frost.timeline.title', crop: frost.crop_name)
   .frost-chart{ role: 'img', 'aria-label': frost_timeline_description(frost), class: chart_class }
     .frost-lanes
       = frost_today_tags(frost)
