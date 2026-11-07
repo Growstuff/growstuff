@@ -11,6 +11,12 @@ describe "photos/show" do
   let(:garden)   { create(:garden, owner: member)   }
   let(:crops) { create_list(:crop, 2) }
 
+  # The ability asks the controller for the user; the comment box asks the view for the member.
+  def sign_in_view(signed_in_member)
+    controller.stub(:current_user) { signed_in_member }
+    allow(view).to receive_messages(member_signed_in?: signed_in_member.present?, current_member: signed_in_member)
+  end
+
   before do
     @photo = photo
     @crops = crops
@@ -54,7 +60,7 @@ describe "photos/show" do
 
   context "signed in as owner" do
     before do
-      controller.stub(:current_user) { member }
+      sign_in_view(member)
       render
     end
 
@@ -67,7 +73,7 @@ describe "photos/show" do
 
   context "signed in as another member" do
     before do
-      controller.stub(:current_user) { create(:member) }
+      sign_in_view(create(:member))
       render
     end
 
@@ -77,7 +83,7 @@ describe "photos/show" do
 
   context "not signed in" do
     before do
-      controller.stub(:current_user) { nil }
+      sign_in_view(nil)
       render
     end
 
@@ -87,7 +93,7 @@ describe "photos/show" do
 
   context "CC-licensed photo" do
     before do
-      controller.stub(:current_user) { nil }
+      sign_in_view(nil)
       @photo.harvests << harvest
       @photo.plantings << planting
       @photo.seeds << seed
@@ -103,7 +109,7 @@ describe "photos/show" do
 
   context "unlicensed photo" do
     before do
-      controller.stub(:current_user) { nil }
+      sign_in_view(nil)
       @photo = assign(:photo, create(:unlicensed_photo))
       render
     end
@@ -120,7 +126,7 @@ describe "photos/show" do
     end
 
     before do
-      controller.stub(:current_user) { nil }
+      sign_in_view(nil)
       render
     end
 
@@ -143,7 +149,7 @@ describe "photos/show" do
 
   context "when signed in as the owner of a Flickr photo" do
     before do
-      controller.stub(:current_user) { member }
+      sign_in_view(member)
       render
     end
 
@@ -159,7 +165,7 @@ describe "photos/show" do
 
     context "when signed in as the owner" do
       before do
-        controller.stub(:current_user) { member }
+        sign_in_view(member)
         render
       end
 
@@ -174,7 +180,7 @@ describe "photos/show" do
 
     context "when signed in as another member" do
       before do
-        controller.stub(:current_user) { create(:member) }
+        sign_in_view(create(:member))
         render
       end
 
