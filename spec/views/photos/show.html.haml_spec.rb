@@ -141,6 +141,17 @@ describe "photos/show" do
     end
   end
 
+  context "when signed in as the owner of a Flickr photo" do
+    before do
+      controller.stub(:current_user) { member }
+      render
+    end
+
+    it "has a menu item to refresh it from Flickr" do
+      assert_select ".photo-actions a.dropdown-item[href='#{refresh_photo_path(photo)}'][data-method='post']"
+    end
+  end
+
   context "photo attached to a planting" do
     let(:unlink_path) { photo_association_path(photo_id: photo.id, type: 'planting', id: planting.id) }
 
@@ -152,8 +163,12 @@ describe "photos/show" do
         render
       end
 
-      it "has a link to take the photo off the planting" do
-        assert_select "a[href='#{unlink_path}'][data-method='delete']"
+      it "has a menu item to take the photo off the planting" do
+        assert_select ".photo-actions a.dropdown-item[href='#{unlink_path}'][data-method='delete']"
+      end
+
+      it "has a menu item to delete the photo altogether" do
+        assert_select ".photo-actions a.dropdown-item.text-danger[href='#{photo_path(photo)}'][data-method='delete']"
       end
     end
 

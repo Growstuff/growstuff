@@ -9,8 +9,6 @@
     - records.each do |kind, thing|
       .photo-shows-item
         = render "photos/shows/#{kind.to_s.singularize}", thing: thing
-        = render 'photos/association_delete_button', photo: photo, type: kind.to_s.singularize, thing: thing
     - crops.each do |crop|
       .photo-shows-item.photo-shows-item-wide
         = render 'photos/shows/crop', crop: crop, outsider: photo_by_outsider?(photo)
-        = render 'photos/association_delete_button', photo: photo, type: 'crop', thing: crop

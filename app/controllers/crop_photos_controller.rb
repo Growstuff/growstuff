@@ -12,7 +12,7 @@ class CropPhotosController < ApplicationController
     @crop = Crop.find(params[:crop_slug])
     authorize! :edit, @crop
     @query = params[:q].presence || @crop.name
-    @results = FlickrPublicPhoto.search(@query, page: params[:page].to_i.clamp(1, 20))
+    @results = FlickrPublicPhoto.search(@query, page: params[:page].to_i.clamp(1, 100))
   rescue FlickrPublicPhoto::Rejected
     redirect_to crop_path(@crop), alert: t('crop_photos.create.unavailable')
   end

@@ -114,7 +114,9 @@ Rails.application.routes.draw do
   end
   resources :alternate_names
   resources :plant_parts
-  resources :photos
+  resources :photos do
+    post :refresh, on: :member
+  end
 
   resources :photo_associations, only: %i(update destroy)
 

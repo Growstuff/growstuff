@@ -1,7 +1,26 @@
-- if can?(:edit, photo) && can?(:destroy, photo)
+-# The photo's one actions menu: edit it, refresh it from Flickr, take it off a record it is attached to,
+-# or delete it from Growstuff altogether, last under a divider.
+- unlinks = photo_records(photo).select { |_type, thing| can?(:edit, photo) || can?(:edit, thing) }
+- refreshable = photo.source == 'flickr' && can?(:refresh, photo)
+- if can?(:edit, photo) || can?(:destroy, photo) || refreshable || unlinks.any?
   = actions_menu('photo', classes: 'float-end') do
-    = menu_modal_link :edit, t('buttons.edit'), '#photo-edit-modal'
-    .dropdown-divider
-    = menu_delete_button(photo)
+    - if can?(:edit, photo)
+      = menu_modal_link :edit, t('buttons.edit'), '#photo-edit-modal'
+    - if refreshable
+      = link_to refresh_photo_path(photo), method: :post, class: 'dropdown-item' do
+        = menu_icon(:download)
+        = t('.refresh')
+    - unlinks.each do |type, thing|
+      = link_to photo_association_path(photo_id: photo.id, type: type, id: thing.id), method: :delete,
+                data: { confirm: t('.unlink_confirm') }, class: 'dropdown-item' do
+        = menu_icon(type == 'seed' ? :seeds : type)
+        = t(".unlink.#{type}", name: photo_record_name(type, thing))
+    - if can?(:destroy, photo)
+      .dropdown-divider
+      = link_to photo_path(photo), method: :delete, data: { confirm: t('.delete_confirm') },
+                class: 'dropdown-item text-danger' do
+        = menu_icon(:delete)
+        = t('.delete')
   -# The dialog the Edit item opens.
-  = render 'photos/edit_modal', photo:
+  - if can?(:edit, photo)
+    = render 'photos/edit_modal', photo:

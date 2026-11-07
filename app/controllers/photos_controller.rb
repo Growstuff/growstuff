@@ -67,8 +67,22 @@ class PhotosController < ApplicationController
   end
 
   def update
-    @photo.update(photo_params)
+    @photo.update(params.require(:photo).permit(:title))
     respond_with @photo
+  end
+
+  # Reads the photo again from Flickr's public API, so its picture, licence and date
+  # are what Flickr says now. The title is ours, and stays.
+  def refresh
+    attributes = FlickrPublicPhoto.new(flickr_page_url(@photo)).attributes(creative_commons: false)
+    fields = %i(thumbnail_url fullsize_url link_url license_name license_url date_taken)
+    fields += %i(author_name author_url) if @photo.author_name.present?
+    @photo.update!(attributes.slice(*fields))
+    redirect_to @photo, notice: t('.refreshed')
+  rescue FlickrPublicPhoto::Rejected => e
+    redirect_to @photo, alert: t("photos.refresh.#{e.reason}")
+  rescue ActiveRecord::RecordInvalid
+    redirect_to @photo, alert: t('.unavailable')
   end
 
   def destroy
@@ -77,6 +91,11 @@ class PhotosController < ApplicationController
   end
 
   private
+
+  # Flickr finds a photo by its id; the member in the address does not matter.
+  def flickr_page_url(photo)
+    "https://www.flickr.com/photos/flickr/#{photo.source_id}"
+  end
 
   # For the React garden cards: what the "add photo" dialog needs to show, as
   # the page does. Not connected (or the connection has gone stale) sends you to

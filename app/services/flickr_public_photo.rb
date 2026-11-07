@@ -55,17 +55,26 @@ class FlickrPublicPhoto
     code.each_char.reduce(0) { |total, char| (total * 58) + BASE58.index(char) }
   end
 
-  # Public, Creative Commons photos on Flickr matching some words, a page of 24 at a
-  # time, for a wrangler to choose from. Each is a hash with the photo's page address,
-  # which is what #attributes takes.
+  # One page of search results: the photos, which page this is, and how many there are.
+  SearchPage = Struct.new(:photos, :page, :pages) do
+    def next_page = page < pages ? page + 1 : nil
+    def previous_page = page > 1 ? page - 1 : nil
+  end
+
+  PER_PAGE = 60
+
+  # Public, Creative Commons photos on Flickr matching some words, for a wrangler to
+  # choose from. Each photo is a hash with its page address, which is what #attributes takes.
   def self.search(text, page: 1)
-    flickr.photos.search(
+    result = flickr.photos.search(
       text: text, license: CREATIVE_COMMONS_LICENSES.join(','), privacy_filter: 1, media: 'photos',
-      safe_search: 1, sort: 'relevance', extras: 'owner_name,license,date_taken', per_page: 24, page: page
-    ).map do |photo|
+      safe_search: 1, sort: 'relevance', extras: 'owner_name,license,date_taken', per_page: PER_PAGE, page: page
+    )
+    photos = result.map do |photo|
       { title: photo.title.presence, owner_name: photo.ownername, thumbnail_url: FlickRaw.url_q(photo),
         licence: LICENCE_CODES[photo.license.to_i], taken: photo.datetaken.presence, url: FlickRaw.url_photopage(photo) }
     end
+    SearchPage.new(photos, page, [result.pages.to_i, 1].max)
   rescue FlickRaw::FailedResponse, SocketError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError, EOFError
     raise Rejected, :unavailable
   end
@@ -80,13 +89,15 @@ class FlickrPublicPhoto
     @url = url
   end
 
-  def attributes
+  # `creative_commons: false` for a photo that is already here, which may have been
+  # under another licence all along or changed it since.
+  def attributes(creative_commons: true)
     id = self.class.photo_id(@url)
     raise Rejected, :not_flickr if id.blank?
 
     info = fetch_info(id)
     raise Rejected, :not_public unless info.visibility.ispublic.to_i == 1
-    raise Rejected, :not_creative_commons unless CREATIVE_COMMONS_LICENSES.include?(info.license.to_i)
+    raise Rejected, :not_creative_commons if creative_commons && CREATIVE_COMMONS_LICENSES.exclude?(info.license.to_i)
 
     licence = licence_for(info.license)
     {

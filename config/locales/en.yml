@@ -285,6 +285,11 @@ en:
       planting_hint: Plants growing in a garden, bed or pot.
       seed: Seeds
       seed_hint: The seeds themselves, or seed heads and pods.
+    pager:
+      label: Pages of photos
+      next: Next page
+      page: Page %{page} of %{pages}
+      previous: Previous page
     new:
       add: Add this photo
       attribution: by %{owner}
@@ -1296,23 +1301,19 @@ en:
     update:
       updated: Photo updated.
   photos:
-    association_delete_button:
-      button:
-        crop: Remove photo from this crop
-        garden: Remove photo from this garden
-        harvest: Remove photo from this harvest
-        job: Remove photo from this job
-        planting: Remove photo from this planting
-        post: Remove photo from this post
-        seed: Remove photo from these seeds
-      confirm:
-        crop: Remove this photo from this crop? The photo itself stays on Growstuff.
-        garden: Remove this photo from this garden? The photo itself stays on Growstuff.
-        harvest: Remove this photo from this harvest? The photo itself stays on Growstuff.
-        job: Remove this photo from this job? The photo itself stays on Growstuff.
-        planting: Remove this photo from this planting? The photo itself stays on Growstuff.
-        post: Remove this photo from this post? The photo itself stays on Growstuff.
-        seed: Remove this photo from these seeds? The photo itself stays on Growstuff.
+    actions:
+      delete: Delete photo from Growstuff
+      delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on Flickr.
+      refresh: Refresh photo data from Flickr
+      unlink:
+        crop: "Remove from the crop: %{name}"
+        garden: "Remove from the garden: %{name}"
+        harvest: "Remove from the harvest: %{name}"
+        job: "Remove from the job: %{name}"
+        planting: "Remove from the planting: %{name}"
+        post: "Remove from the post: %{name}"
+        seed: "Remove from the seeds: %{name}"
+      unlink_confirm: Remove this photo from that record? The photo itself stays on Growstuff.
     credit:
       by: Photo by %{name}
       "on": " on %{site}"
@@ -1349,6 +1350,14 @@ en:
     polaroid:
       taken: Taken %{date}
       view_on: View on %{site}
+    refresh:
+      not_found: Flickr could not find that photo. It may be private or deleted.
+      not_public: That photo is no longer public on Flickr, so it could not be refreshed.
+      refreshed: Refreshed the photo's details from Flickr.
+      unavailable: Flickr could not be reached. Please try again in a moment.
+    records:
+      harvest: "%{crop} harvest"
+      seed: "%{crop} seeds"
     show:
       comment: Comment
       crop: "%{crop}"

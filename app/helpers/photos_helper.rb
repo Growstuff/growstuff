@@ -1,6 +1,26 @@
 # frozen_string_literal: true
 
 module PhotosHelper
+  RECORD_KINDS = %w(planting harvest seed garden post job).freeze
+
+  # Everything the photo is attached to, as [type, record] pairs: the type is what
+  # the photo associations route calls it ('planting', 'seed', 'crop').
+  def photo_records(photo)
+    RECORD_KINDS.flat_map { |type| photo.public_send(type.pluralize).map { |thing| [type, thing] } } +
+      photo.crops.map { |crop| ['crop', crop] }
+  end
+
+  # What to call a record in a list of them, so one planting is told from another.
+  def photo_record_name(type, thing)
+    case type
+    when 'planting' then thing.display_name
+    when 'harvest' then t('photos.records.harvest', crop: thing.crop.name)
+    when 'seed' then t('photos.records.seed', crop: thing.crop.name)
+    when 'post' then thing.subject
+    else thing.to_s
+    end
+  end
+
   # Creative Commons licence addresses: .../licenses/by-nc/2.0/ or .../publicdomain/zero/1.0/
   LICENCE_URL = %r{creativecommons\.org/(?<family>licenses|publicdomain)/(?<type>[a-z-]+)(?:/(?<version>[\d.]+))?}
   LICENCE_TYPES = %w(by by-sa by-nc by-nc-sa by-nd by-nc-nd).freeze

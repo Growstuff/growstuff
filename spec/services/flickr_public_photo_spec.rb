@@ -47,4 +47,21 @@ describe FlickrPublicPhoto do
       it { expect { attributes }.to raise_error(described_class::Rejected) { |e| expect(e.reason).to eq :not_public } }
     end
   end
+
+  describe '.search' do
+    let(:photo) do
+      Struct.new(:title, :ownername, :license, :datetaken, :farm, :server, :id, :secret, :owner)
+        .new('Red', 'Pat', '4', '2020-01-02 03:04:05', 66, '1', '12345', 'abc', '1@N01')
+    end
+    let(:result) { Struct.new(:pages, :photos).new(7, [photo]).tap { |r| r.define_singleton_method(:map) { |&block| photos.map(&block) } } }
+    let(:flickr) { double(:flickr, photos: double(:photos, search: result)) } # rubocop:disable RSpec/VerifiedDoubles
+
+    before { allow(described_class).to receive(:flickr).and_return(flickr) }
+
+    it { expect(described_class.search('lettuce', page: 2).pages).to eq 7 }
+    it { expect(described_class.search('lettuce', page: 2).page).to eq 2 }
+    it { expect(described_class.search('lettuce').photos.first[:licence]).to eq 'CC BY 2.0' }
+    it { expect(described_class.search('lettuce', page: 7).next_page).to be_nil }
+    it { expect(described_class.search('lettuce', page: 2).previous_page).to eq 1 }
+  end
 end

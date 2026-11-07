@@ -220,23 +220,6 @@
     flex-basis: 100%;
   }
 
-  // Takes the photo off a record: a labelled button under the card, in the dark red
-  // that reads on white.
-  .photo-unlink {
-    margin-top: 0.5rem;
-    text-align: right;
-
-    .btn {
-      border-color: $danger-text;
-      color: $danger-text;
-
-      &:hover,
-      &:focus {
-        background: $danger-text;
-        color: $white;
-      }
-    }
-  }
 }
 
 .shows-card {
