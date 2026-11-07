@@ -162,6 +162,17 @@ RSpec.describe 'Rack::Attack', type: :request do
 
   describe 'throttling restricted routes with rate limit modifier' do
     let(:ip) { '192.168.1.100' }
+    let(:restricted_routes) { %r{^(/api/v1)?/(jobs|plantings|harvests|members)(/|$)} }
+
+    before do
+      Rack::Attack.throttle('req/ip/restricted_routes', limit: ->(req) { Rack::Attack.modified_limit(req, 20) }, period: 1.minute) do |req|
+        req.ip if req.path.match?(restricted_routes)
+      end
+    end
+
+    after do
+      Rack::Attack.throttles.delete('req/ip/restricted_routes')
+    end
 
     context 'without an authenticated user' do
       it 'allows requests up to the 20 request threshold' do
