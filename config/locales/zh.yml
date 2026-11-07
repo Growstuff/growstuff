@@ -1358,6 +1358,12 @@ zh:
       label_front: 数据包正面
       photo_back: 添加包裹背面的照片
       photo_front: 添加包裹正面的照片
+    packet_panel:
+      heading: 来自包装袋
+      hide_ocr: 隐藏文字识别结果
+      ocr_label: 包装袋文字识别结果
+      ocr_note: 从照片中自动读取，可能存在误差。请与实物包装核对。
+      show_ocr: 显示文字识别结果
     save_seeds: 保存种子
     show:
       heading: "%{crop} 种子"

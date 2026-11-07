@@ -253,6 +253,12 @@ ja:
       unknown: 不明
       will_trade: 交換可能
       year_saved: 採取年
+    packet_panel:
+      heading: 種袋の記載
+      hide_ocr: 読み取り結果を隠す
+      ocr_label: 種袋の読み取り結果
+      ocr_note: 写真から自動的に読み取っているため、誤りが含まれる場合があります。実際の種袋と照らし合わせてご確認ください。
+      show_ocr: 種袋の読み取り結果を表示
   stalls:
     about_growstuff:
       join: 無料で参加

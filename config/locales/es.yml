@@ -1360,6 +1360,12 @@ es:
       label_front: Frente del paquete
       photo_back: Añade una foto de la parte trasera del paquete.
       photo_front: Añade una foto del frente del paquete.
+    packet_panel:
+      heading: Del sobre
+      hide_ocr: Ocultar nuestro intento de leer el sobre
+      ocr_label: Nuestro intento de leer el sobre
+      ocr_note: Leído automáticamente de las fotos, por lo que puede contener errores. Cotejar con el sobre.
+      show_ocr: Mostrar nuestro intento de leer el sobre
     save_seeds: guardar semillas
     show:
       heading: Semillas %{crop}

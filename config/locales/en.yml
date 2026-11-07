@@ -1585,6 +1585,12 @@ en:
       label_front: Front of packet
       photo_back: Add a photo of the back of the packet
       photo_front: Add a photo of the front of the packet
+    packet_panel:
+      heading: From the packet
+      hide_ocr: Hide our attempt to read the packet
+      ocr_label: Our attempt to read the packet
+      ocr_note: Read automatically from the photos, so it makes mistakes. Check it against the packet.
+      show_ocr: Show our attempt to read the packet
     save_seeds: Save seeds
     show:
       heading: "%{crop} seeds"
