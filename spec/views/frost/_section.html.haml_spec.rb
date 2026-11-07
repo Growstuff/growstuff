@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'plantings/_frost' do
+describe 'frost/_section' do
   let(:reading) { Struct.new(:date, :temp_min_c) }
   let(:stat) do
     build(:frost_stat, status: 'frost', first_frost_p10: 154, first_frost_median: 173, last_frost_median: 240, last_frost_p90: 273)
@@ -14,7 +14,7 @@ describe 'plantings/_frost' do
                       readings: [reading.new(Date.new(2026, 8, 20), 3.3)], today:)
   end
 
-  before { render partial: 'plantings/frost', locals: { frost: } }
+  before { render partial: 'frost/section', locals: { frost: } }
 
   it 'shows the verdict' do
     expect(rendered).to have_css '.frost-verdict--passed'
@@ -29,7 +29,7 @@ describe 'plantings/_frost' do
   end
 
   it 'marks the section experimental' do
-    expect(rendered).to have_css '.planting-frost-badge[href="#about-frost-estimates"]'
+    expect(rendered).to have_css '.frost-section-badge[href="#about-frost-estimates"]'
   end
 
   context 'when the planting has finished' do
@@ -59,6 +59,26 @@ describe 'plantings/_frost' do
 
     it 'leaves out the figures' do
       expect(rendered).to have_no_css '.frost-card'
+    end
+  end
+
+  context 'with a garden, which has no planting' do
+    let(:frost) { FrostSeason.new(stat:, today:) }
+
+    it 'shows the verdict' do
+      expect(rendered).to have_css '.frost-verdict--passed'
+    end
+
+    it 'draws the frost danger' do
+      expect(rendered).to have_css '.frost-timeline .frost-band--usual'
+    end
+
+    it 'leaves out the planting row' do
+      expect(rendered).to have_no_css '.frost-band--so_far'
+    end
+
+    it 'shows the figures about the place' do
+      expect(rendered).to have_css '.frost-card', count: 3
     end
   end
 end
