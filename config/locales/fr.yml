@@ -1366,6 +1366,12 @@ fr:
       label_front: Recto du paquet
       photo_back: Ajoutez une photo du dos du paquet
       photo_front: Ajoutez une photo du recto du paquet
+    packet_panel:
+      heading: Du sachet
+      hide_ocr: Masquer notre tentative de lecture du sachet
+      ocr_label: Notre tentative de lecture du sachet
+      ocr_note: Lu automatiquement à partir des photos, des erreurs sont donc possibles. À vérifier avec le sachet.
+      show_ocr: Afficher notre tentative de lecture du sachet
     save_seeds: Gérer les semences
     show:
       heading: "%{crop} Seeds"

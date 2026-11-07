@@ -1364,6 +1364,12 @@ de:
       label_front: Vorderseite des Pakets
       photo_back: Füge ein Foto von der Rückseite des Pakets hinzu
       photo_front: Füge ein Foto von der Vorderseite des Pakets hinzu
+    packet_panel:
+      heading: Von der Packung
+      hide_ocr: Texterkennung verbergen
+      ocr_label: Unser Versuch, die Packung zu lesen
+      ocr_note: Automatisch aus den Fotos gelesen, daher können Fehler auftreten. Bitte mit der Packung abgleichen.
+      show_ocr: Texterkennung anzeigen
     save_seeds: Samen speichern
     show:
       heading: "%{crop} Seeds"
