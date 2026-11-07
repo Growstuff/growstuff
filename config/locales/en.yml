@@ -301,16 +301,6 @@ en:
         help: How much frost the crop takes. Choose a level to keep it, whatever the seed packets say.
         label: Hardiness
     hardiness:
-      levels:
-        half_hardy:
-          meaning: A light frost is fine
-          name: Half-hardy
-        hardy:
-          meaning: Frost is fine
-          name: Hardy
-        tender:
-          meaning: A frost damages it
-          name: Tender
       sources:
         manual: Set by a crop wrangler
         seed_packets: From members' seed packets
@@ -530,6 +520,19 @@ en:
       heading: Start your own garden
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
     updated: Garden was successfully updated.
+  hardiness:
+    levels:
+      half_hardy:
+        meaning: A light frost is fine
+        name: Half-hardy
+      hardy:
+        meaning: Frost is fine
+        name: Hardy
+      tender:
+        meaning: A frost damages it
+        name: Tender
+      unknown:
+        name: Unknown
   harvests:
     card:
       by: by
@@ -1428,6 +1431,14 @@ en:
           title: Frost is rare here
     garden_card:
       by: by
+    hardiness:
+      help: Leave it as unknown to go by the seed, then the crop.
+      label: How much frost does it take?
+      sources:
+        crop: Usual for the crop
+        planting: Set for this planting
+        seed: From the seed packet
+      title: Hardiness
     index:
       title:
         crop_plantings: Everyone's %{crop} plantings
