@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.gbif.org/v1/species/suggest?limit=100&q=Solanum+lycopersicum
+    uri: https://api.gbif.org/v1/species/suggest?limit=100&q=Solanum%20lycopersicum
     body:
       encoding: US-ASCII
       string: ''

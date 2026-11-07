@@ -49,7 +49,7 @@ class AuthenticationsController < ApplicationController
     @authentication.destroy
 
     respond_to do |format|
-      format.html { redirect_to edit_member_registration_path }
+      format.html { redirect_to edit_member_registration_path + '#apps' }
     end
   end
 end

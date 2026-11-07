@@ -21,6 +21,13 @@ describe RegistrationsController do
       get :edit
       assigns(:flickr_auth).should eq @auth
     end
+
+    it "picks up mastodon auths" do
+      m1 = @member.authentications.create!(provider: 'mastodon', uid: '111', name: '@user1@mastodon.social')
+      m2 = @member.authentications.create!(provider: 'mastodon', uid: '222', name: '@user2@mastodon.social')
+      get :edit
+      expect(assigns(:mastodon_auths)).to match_array([m1, m2])
+    end
   end
 
   describe "POST regenerate_api_token" do

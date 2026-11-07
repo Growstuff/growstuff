@@ -1,0 +1,14 @@
+-# The photographer is not on Growstuff: say who they are and send you to their own page.
+%section.photo-panel
+  %h2.photo-panel-head= t('.heading')
+  .photo-panel-body
+    .photo-photographer
+      %span.member-initial.member-initial-large.member-initial-outsider{ 'aria-hidden': 'true' }= icon 'fas', 'user'
+      .photo-photographer-name
+        %span.photo-photographer-link= photo.author_name
+        %small.text-muted= t('.photographer', site: photo_source_name(photo))
+    %p.photo-note= t('.not_a_member', site: photo_source_name(photo))
+    - if photo.author_url.present?
+      = link_to photo.author_url, class: 'btn btn-info' do
+        = t('.see_photos', site: photo_source_name(photo))
+        = icon 'fas', 'arrow-up-right-from-square'

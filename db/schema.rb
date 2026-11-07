@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_08_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_08_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -938,6 +938,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000000) do
     t.index ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
   end
 
+  create_table "mastodon_clients", force: :cascade do |t|
+    t.string "client_id", null: false
+    t.text "client_secret", null: false, comment: "Encrypted."
+    t.datetime "created_at", null: false
+    t.string "domain", null: false
+    t.string "redirect_uri", null: false, comment: "The callback URL the client was registered with; a server rejects any other."
+    t.datetime "updated_at", null: false
+    t.index ["domain"], name: "index_mastodon_clients_on_domain", unique: true
+  end
+
   create_table "median_functions", id: :serial, force: :cascade do |t|
   end
 
@@ -1049,6 +1059,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000000) do
   end
 
   create_table "photos", id: :serial, force: :cascade do |t|
+    t.string "author_name", comment: "The photographer, when not the member who added the photo."
+    t.string "author_url", comment: "Where to find the photographer, such as their Flickr photostream."
     t.integer "comments_count", default: 0
     t.datetime "created_at", precision: nil
     t.datetime "date_taken", precision: nil

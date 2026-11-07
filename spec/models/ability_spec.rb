@@ -357,6 +357,30 @@ describe Ability do
       ability.should be_able_to(:create, Photo)
     end
 
+    context 'when a crop wrangler' do
+      let(:member) { create(:crop_wrangling_member) }
+
+      it 'can delete a photo from Flickr that cropbot owns' do
+        ability.should be_able_to(:destroy, create(:photo, author_name: 'Pat Photo'))
+      end
+
+      it 'can refresh any photo' do
+        ability.should be_able_to(:refresh, other_photo)
+      end
+
+      it "cannot delete another member's own photo" do
+        ability.should_not be_able_to(:destroy, other_photo)
+      end
+    end
+
+    it 'can refresh their own photo' do
+      ability.should be_able_to(:refresh, photo)
+    end
+
+    it "cannot refresh another member's photo" do
+      ability.should_not be_able_to(:refresh, other_photo)
+    end
+
     it 'can manage their own photo' do
       ability.should be_able_to(:update, photo)
       ability.should be_able_to(:destroy, photo)
