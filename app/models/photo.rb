@@ -6,6 +6,10 @@ class Photo < ApplicationRecord
 
   PHOTO_CAPABLE = %w(Garden Planting Harvest Seed Post Crop Job).freeze
 
+  # What Flickr says about a photo that may change: the picture, the licence and the date.
+  # The title is ours, and stays.
+  FLICKR_REFRESHED = %i(thumbnail_url fullsize_url link_url license_name license_url date_taken).freeze
+
   has_many :photo_associations, dependent: :delete_all, inverse_of: :photo
   has_many :comments, as: :commentable, dependent: :destroy
 
@@ -88,6 +92,15 @@ class Photo < ApplicationRecord
     else
       'untitled'
     end
+  end
+
+  # Reads the photo again from Flickr's public API, so no member's Flickr account is needed.
+  # A photo by someone not on Growstuff keeps its photographer up to date too. A photo that
+  # is no longer public there raises FlickrPublicPhoto::Rejected.
+  def refresh_from_flickr!
+    fresh = FlickrPublicPhoto.new("https://www.flickr.com/photos/flickr/#{source_id}").attributes(creative_commons: false)
+    fields = author_name.present? ? FLICKR_REFRESHED + %i(author_name author_url) : FLICKR_REFRESHED
+    update!(fresh.slice(*fields))
   end
 
   def set_flickr_metadata!

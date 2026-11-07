@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-# Lets a crop wrangler find and add a photo to a crop from the crop's page, by pasting the
-# address of a public, Creative Commons photo on Flickr. The photo needs no planting,
-# seed or harvest. It is read with Flickr's public API, so it belongs to cropbot, as the
-# crop's own photos are the site's rather than a member's, and credits its photographer.
+# Lets a crop wrangler find photos of a crop on Flickr and add one, saying what it shows.
+# The photo needs no planting, seed or harvest: see AddCropPhoto.
 class CropPhotosController < ApplicationController
   before_action :authenticate_member!
 
@@ -24,23 +22,11 @@ class CropPhotosController < ApplicationController
     kind = params[:kind].presence_in(PhotoAssociation::CROP_KINDS)
     return redirect_to(crop_path(crop), alert: t('.kind_missing')) unless kind
 
-    attributes = FlickrPublicPhoto.new(params[:url]).attributes
-    attributes[:title] ||= crop.name
-    photo = Photo.find_or_initialize_by(source: 'flickr', source_id: attributes[:source_id])
-    photo.assign_attributes(attributes.merge(owner: cropbot)) if photo.new_record?
-    photo.save!
-    association = photo.photo_associations.find_or_initialize_by(photographable: crop)
-    association.update!(label: kind)
+    photo = AddCropPhoto.new(crop, url: params[:url], kind: kind).call
     redirect_to photo_path(photo), notice: t('.added', crop: crop.name)
   rescue FlickrPublicPhoto::Rejected => e
-    redirect_to crop_path(crop), alert: t("crop_photos.create.#{e.reason}")
+    redirect_to crop_path(crop), alert: t(".#{e.reason}")
   rescue ActiveRecord::RecordInvalid
     redirect_to crop_path(crop), alert: t('.unavailable')
-  end
-
-  private
-
-  def cropbot
-    Member.find_by!(login_name: 'cropbot')
   end
 end

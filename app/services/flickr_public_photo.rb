@@ -28,6 +28,9 @@ class FlickrPublicPhoto
     5 => 'CC BY-SA 2.0', 6 => 'CC BY-ND 2.0', 9 => 'CC0 1.0', 10 => 'Public Domain Mark 1.0'
   }.freeze
 
+  # What goes wrong when Flickr cannot be reached.
+  NETWORK_ERRORS = [SocketError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError, EOFError].freeze
+
   BASE58 = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'
 
   # photos/<user>/<id>, with anything after it, such as /in/album-...
@@ -75,7 +78,7 @@ class FlickrPublicPhoto
         licence: LICENCE_CODES[photo.license.to_i], taken: photo.datetaken.presence, url: FlickRaw.url_photopage(photo) }
     end
     SearchPage.new(photos, page, [result.pages.to_i, 1].max)
-  rescue FlickRaw::FailedResponse, SocketError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError, EOFError
+  rescue FlickRaw::FailedResponse, *NETWORK_ERRORS
     raise Rejected, :unavailable
   end
 
@@ -122,14 +125,14 @@ class FlickrPublicPhoto
     flickr.photos.getInfo(photo_id: id)
   rescue FlickRaw::FailedResponse
     raise Rejected, :not_found
-  rescue SocketError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError, EOFError
+  rescue *NETWORK_ERRORS
     raise Rejected, :unavailable
   end
 
   def licence_for(id)
     flickr.photos.licenses.getInfo.find { |licence| licence.id.to_i == id.to_i } ||
       raise(Rejected, :unavailable)
-  rescue FlickRaw::FailedResponse, SocketError, SystemCallError, Timeout::Error
+  rescue FlickRaw::FailedResponse, *NETWORK_ERRORS
     raise Rejected, :unavailable
   end
 
