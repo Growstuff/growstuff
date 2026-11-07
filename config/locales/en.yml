@@ -1453,6 +1453,7 @@ en:
     show:
       crop: Crop
       frost_line: "%{degrees} °C frost line"
+      labels: Labels
       grower: Grower
       harvest_month_yes: "%{month}, usually harvesting"
       harvest_months: Harvest months

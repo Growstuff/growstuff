@@ -63,6 +63,11 @@ describe('createLabel', () => {
     expect(context.fillText).toHaveBeenCalledWith(options.date, 0, expect.any(Number));
   });
 
+  it('omits the date when none is supplied', () => {
+    createLabel({...options, date: ''});
+    expect(context.fillText).toHaveBeenCalledTimes(1);
+  });
+
   it('encodes the planting URL when printing a planting', () => {
     const createQR = vi.spyOn(QRCode, 'create');
     const url = 'https://www.growstuff.org/plantings/basil';

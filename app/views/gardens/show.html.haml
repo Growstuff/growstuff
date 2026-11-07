@@ -31,14 +31,12 @@
         -# What a visitor is here to see comes first; the owner's own tools lead for them.
         - if can?(:edit, @garden)
           = render 'gardens/layout_section'
-          = render 'gardens/print_label' if member_signed_in?
           = render 'gardens/plantings_section'
           = render 'gardens/jobs_section'
           = render 'gardens/photos_section'
         - else
           = render 'gardens/plantings_section'
           = render 'gardens/layout_section'
-          = render 'gardens/print_label' if member_signed_in?
           = render 'gardens/photos_section'
           = render 'gardens/jobs_section'
 

@@ -22,7 +22,23 @@ describe PlantingsController, '#show' do
     before { get planting_path(planting) }
 
     it 'offers one compact label form' do
-      expect(page).to have_css('details.print-label form[data-print-label]', count: 1, visible: :all)
+      expect(page).to have_css('.planting-print-label form[data-print-label]', count: 1)
+    end
+
+    it 'shows the form without a disclosure' do
+      expect(page).to have_no_css('.planting-print-label details', visible: :all)
+    end
+
+    it 'places label printing directly after the crop panel' do
+      expect(page).to have_css('.planting-crop + .planting-print-label', visible: :all)
+    end
+
+    it 'gives the labels panel a section heading' do
+      expect(page).to have_css('.planting-print-label > .section-header h2', text: I18n.t('plantings.show.labels'))
+    end
+
+    it 'keeps label printing out of the main planting panel' do
+      expect(page).to have_no_css('.planting-detail form[data-print-label]', visible: :all)
     end
 
     it 'encodes the canonical planting URL' do
