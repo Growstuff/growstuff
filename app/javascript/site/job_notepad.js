@@ -96,8 +96,47 @@ document.addEventListener('DOMContentLoaded', function () {
   const patchJob = function (url, attributes) {
     const body = new FormData();
     body.append('_method', 'patch');
-    Object.keys(attributes).forEach(function (key) { body.append('job[' + key + ']', attributes[key]); });
+    Object.keys(attributes).forEach(function (key) {
+      if (key === 'mentions') appendMentions(body, attributes[key]);
+      else body.append('job[' + key + ']', attributes[key]);
+    });
     return send(url, body);
+  };
+
+  const appendMentions = function (body, items) {
+    if (!items.length) body.append('job[mentions]', '');
+    items.forEach(function (item, index) {
+      body.append('job[mentions][' + index + '][type]', item.jobbable_type);
+      body.append('job[mentions][' + index + '][id]', item.jobbable_id);
+    });
+  };
+
+  const renderMentions = function (container, items, onRemove) {
+    container.replaceChildren();
+    container.hidden = items.length === 0;
+    items.forEach(function (item, index) {
+      const chip = document.createElement('span');
+      chip.className = 'notepad-chip';
+      const label = document.createElement('span');
+      label.className = 'notepad-link-text';
+      label.textContent = kinds[kindOf(item)] + ': ' + item.label;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'notepad-link-remove';
+      button.textContent = document.getElementById('notepad-link').dataset.removeLabel;
+      button.setAttribute('aria-label', button.textContent + ': ' + item.label);
+      button.addEventListener('mousedown', function (event) { event.preventDefault(); });
+      button.addEventListener('click', function () { onRemove(index); });
+      chip.append(label, button);
+      container.appendChild(chip);
+    });
+  };
+
+  const addMention = function (items, item) {
+    if (item.jobbable_type === 'Garden') item = Object.assign({}, item, {jobbable_id: item.jobbable_id || item.garden_id});
+    if (!items.some(function (existing) {
+      return existing.jobbable_type === item.jobbable_type && String(existing.jobbable_id) === String(item.jobbable_id);
+    })) items.push(item);
   };
 
   if (hideDoneButton) hideDoneButton.addEventListener('click', function () {
@@ -175,7 +214,8 @@ document.addEventListener('DOMContentLoaded', function () {
     box.value = original;
     box.setAttribute('aria-label', name.dataset.editLabel);
     let finished = false;
-    let chosen = null;
+    const chosen = JSON.parse(row.dataset.mentions || '[]');
+    let linksChanged = false;
 
     // Typing @ and a crop name here offers links too. The list drops down under
     // the row, and the link picked is shown beside the box until it is saved.
@@ -201,16 +241,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const save = function () {
       const typed = box.value.trim();
-      if (typed === '' || (typed === original && !chosen)) return stop();
+      if (typed === '' || (typed === original && !linksChanged)) return stop();
 
       const changes = {name: typed};
-      if (chosen) {
-        if (chosen.jobbable_type === 'Garden' || chosen.garden_id) {
-          Object.assign(changes, {garden_id: chosen.garden_id || chosen.jobbable_id, jobbable_type: '', jobbable_id: ''});
-        } else {
-          Object.assign(changes, {jobbable_type: chosen.jobbable_type, jobbable_id: chosen.jobbable_id});
-        }
-      }
+      if (linksChanged) Object.assign(changes, mentionAttributes(chosen));
 
       row.classList.add('saving');
       box.readOnly = true;
@@ -223,10 +257,19 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     };
 
+    const draw = function () {
+      renderMentions(chip, chosen, function (index) {
+        chosen.splice(index, 1);
+        linksChanged = true;
+        draw();
+        box.focus();
+      });
+    };
+    draw();
     suggestions(box, options, function (item) {
-      chosen = item;
-      chip.textContent = kinds[kindOf(item)] + ': ' + item.label;
-      chip.hidden = false;
+      addMention(chosen, item);
+      linksChanged = true;
+      draw();
     });
 
     box.addEventListener('keydown', function (event) {
@@ -238,8 +281,11 @@ document.addEventListener('DOMContentLoaded', function () {
         stop();
       }
     });
-    box.addEventListener('blur', function () {
-      if (!finished) save();
+    box.addEventListener('blur', function (event) {
+      if (!finished && !chip.contains(event.relatedTarget)) save();
+    });
+    chip.addEventListener('focusout', function (event) {
+      if (!finished && event.relatedTarget !== box && !chip.contains(event.relatedTarget)) save();
     });
 
     row.classList.add('editing');
@@ -286,8 +332,18 @@ document.addEventListener('DOMContentLoaded', function () {
   const typeField = document.getElementById('notepad-jobbable-type');
   const idField = document.getElementById('notepad-jobbable-id');
   let adding = false;
+  const selected = [];
+
+  const mentionAttributes = function (items) {
+    const garden = items.find(function (item) { return item.jobbable_type === 'Garden'; });
+    const target = items.find(function (item) { return item.jobbable_type !== 'Garden'; });
+    return {mentions: items, garden_id: garden ? garden.jobbable_id : (groups.dataset.gardenId || ''),
+      jobbable_type: target ? target.jobbable_type : '', jobbable_id: target ? target.jobbable_id : ''};
+  };
 
   const clearLink = function () {
+    selected.length = 0;
+    link.replaceChildren();
     if (!groups.dataset.gardenId && gardenField) gardenField.value = '';
     typeField.value = '';
     idField.value = '';
@@ -321,7 +377,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const submitted = input.value;
     showSaving(submitted);
 
-    send(form.action, new FormData(form))
+    const body = new FormData(form);
+    appendMentions(body, selected);
+    send(form.action, body)
       .then(function () {
         // Typing the next job while this one was sent is not to be lost.
         if (input.value === submitted) {
@@ -529,22 +587,19 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   // Linking a job being added: the link is shown in a chip, until it is added.
+  const drawSelected = function () {
+    const attributes = mentionAttributes(selected);
+    gardenField.value = attributes.garden_id;
+    typeField.value = attributes.jobbable_type;
+    idField.value = attributes.jobbable_id;
+    renderMentions(link, selected, function (index) {
+      selected.splice(index, 1);
+      drawSelected();
+      input.focus();
+    });
+  };
   suggestions(input, document.getElementById('notepad-suggestions'), function (item) {
-    if (item.jobbable_type === 'Garden' || item.garden_id) {
-      if (gardenField) gardenField.value = item.garden_id || item.jobbable_id;
-      typeField.value = '';
-      idField.value = '';
-    } else {
-      if (!groups.dataset.gardenId && gardenField) gardenField.value = '';
-      typeField.value = item.jobbable_type;
-      idField.value = item.jobbable_id;
-    }
-    link.querySelector('.notepad-link-text').textContent = kinds[kindOf(item)] + ': ' + item.label;
-    link.hidden = false;
-  });
-
-  link.querySelector('button').addEventListener('click', function () {
-    clearLink();
-    input.focus();
+    addMention(selected, item);
+    drawSelected();
   });
 });

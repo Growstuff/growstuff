@@ -38,7 +38,7 @@ const page = () => `
       <input type="hidden" id="notepad-jobbable-id" name="job[jobbable_id]">
       <ul id="notepad-suggestions" hidden></ul>
     </form>
-    <div id="notepad-link" hidden><span class="notepad-link-text"></span><button type="button">x</button></div>
+    <div id="notepad-link" data-remove-label="Remove link" hidden><span class="notepad-link-text"></span><button type="button">x</button></div>
     <p id="notepad-add-saving" hidden data-template="Adding “%{name}”…">
       <span class="notepad-spinner"></span><span class="notepad-add-saving-text"></span>
     </p>
@@ -584,6 +584,42 @@ describe('@ suggestions', () => {
     const addBox = () => document.querySelector('.notepad-add input[type="text"]');
     const options = () => document.getElementById('notepad-suggestions');
 
+    const pickTwo = async () => {
+      await type(addBox(), 'Tend @tom');
+      press(addBox(), 'Enter');
+      fetchMock.mockResolvedValue({ok: true, json: () => Promise.resolve([bed])});
+      await type(addBox(), addBox().value + 'in @left');
+      press(addBox(), 'Enter');
+    };
+
+    it('keeps multiple selected mentions', async () => {
+      await start();
+      await pickTwo();
+
+      expect(document.querySelectorAll('#notepad-link .notepad-chip')).toHaveLength(2);
+    });
+
+    it('removes only the selected tag', async () => {
+      await start();
+      await pickTwo();
+      document.querySelector('#notepad-link button').click();
+
+      expect(Array.from(document.querySelectorAll('#notepad-link .notepad-link-text'), (el) => el.textContent)).toEqual(['Garden: left bed']);
+    });
+
+    it('sends all selected mentions', async () => {
+      await start();
+      await pickTwo();
+      fetchMock.mockResolvedValue(answer());
+      submit(document.querySelector('.notepad-add'));
+      await vi.advanceTimersByTimeAsync(0);
+
+      expect(Array.from(fetchMock.mock.calls.at(-1)[1].body.entries()).filter(([key]) => key.includes('[mentions]'))).toEqual([
+        ['job[mentions][0][type]', 'Planting'], ['job[mentions][0][id]', '42'],
+        ['job[mentions][1][type]', 'Garden'], ['job[mentions][1][id]', '10'],
+      ]);
+    });
+
     it('offers suggestions once @ and a crop name are typed', async () => {
       await start();
       await type(addBox(), 'prune the @tom');
@@ -764,4 +800,3 @@ describe('@ suggestions', () => {
     });
   });
 });
-

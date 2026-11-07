@@ -17,7 +17,7 @@
     = f.hidden_field :jobbable_type, id: 'notepad-jobbable-type'
     = f.hidden_field :jobbable_id, id: 'notepad-jobbable-id'
     %ul.notepad-suggestions{ id: 'notepad-suggestions', role: 'listbox', 'aria-label': t('jobs.pad.link_hint'), hidden: true }
-  .notepad-link{ id: 'notepad-link', hidden: true }
+  .notepad-link{ id: 'notepad-link', hidden: true, data: { remove_label: t('jobs.pad.remove_link') } }
     %span.notepad-link-text
     %button.notepad-link-remove{ type: 'button', 'aria-label': t('jobs.pad.remove_link') } ×
   %p.notepad-add-saving{ id: 'notepad-add-saving', role: 'status', hidden: true, data: { template: t('jobs.pad.adding', name: '%{name}') } }
