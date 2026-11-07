@@ -1351,6 +1351,11 @@ en:
         '
     frost:
       cards:
+        coldest:
+          label: Coldest night
+          note_above: "%{gap} °C above the %{threshold} °C frost danger line"
+          note_at: Right on the %{threshold} °C frost danger line
+          note_below: "%{gap} °C below the %{threshold} °C frost danger line"
         free:
           label: Frost-free season
           note: in a typical year
@@ -1362,13 +1367,9 @@ en:
           note: has come as late as %{latest}
           planted_after: planted %{days} after it
           planted_before: planted %{days} before it
-        margin:
-          label: Margin above frost
-          note: coldest night was %{coldest} °C; the frost line is %{threshold} °C
         next:
           label: Next frost danger starts
           note_finishes: as early as %{earliest}, %{days} after this planting finishes
-          note_finished: as early as %{earliest}, %{days} after this planting finished
           note_now: as early as %{earliest}, %{days} from now
       days:
         one: "%{count} day"
@@ -1382,12 +1383,14 @@ en:
         before: The planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
       timeline:
         description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The planting runs from %{planted} to %{ends}.
+        description_undated: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The planting went in on %{planted}.
         annotation_after: Planted %{days} after the usual last frost
         annotation_before: Planted %{days} before the usual last frost
         finish_expected: Finish expected %{date}
         finished: Finished %{date}
         legend:
           finished: Planting, finished
+          planted: Planted, no finish date
           possible: 'Possible: as early or late as it has come'
           so_far: Planting so far
           still_to_come: Planting still to come
@@ -1414,6 +1417,9 @@ en:
             one: One night while frost was possible was at or below %{threshold} °C. The coldest was %{coldest} °C.
             other: "%{count} nights while frost was possible were at or below %{threshold} °C. The coldest was %{coldest} °C."
           title: Frost may have reached this planting
+        finished_undated:
+          body: The usual last frost that year was %{usual_end}, and frost has come as late as %{latest}. We have no finish date for this planting, so we can't say what it went through.
+          title: We can't say what frost it met
         in_season:
           body: The usual last frost is %{usual_end}, in %{days}. It has come as late as %{latest}.
           title: In the usual frost danger

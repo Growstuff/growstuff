@@ -55,6 +55,10 @@ $frost-warning: #fff8e1;
     background: $frost-warning;
   }
 
+  .frost-verdict--finished_undated {
+    background: $frost-lane;
+  }
+
   .frost-verdict-icon {
     align-items: center;
     background: $blue;
@@ -153,9 +157,15 @@ $frost-warning: #fff8e1;
     box-sizing: border-box;
   }
 
-  .frost-band--finished {
+  .frost-band--finished,
+  .frost-band--planted {
     background: $frost-finished;
     color: $white;
+  }
+
+  // A planting that went in on one day, with no finish date, is a marker, not a bar.
+  .frost-band--planted {
+    min-width: 4px;
   }
 
   .frost-today {
@@ -180,7 +190,8 @@ $frost-warning: #fff8e1;
     z-index: 2;
   }
 
-  .frost-chart {
+  // Room above the lanes for the pill that says today.
+  .frost-chart--today {
     padding-top: 1.7rem;
   }
 

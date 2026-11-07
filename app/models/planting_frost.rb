@@ -8,8 +8,8 @@
 # FrostStat. Approximate, regional and experimental.
 class PlantingFrost
   # A stretch of the timeline. kind is :usual or :possible for frost danger, and :so_far, :still_to_come or :finished
-  # for the planting.
-  Band = Struct.new(:kind, :from, :to)
+  # for the planting. open is true when the timeline cuts the band off before its real end.
+  Band = Struct.new(:kind, :from, :to, :open)
 
   THRESHOLD_C = FrostCalculator::FROST_DANGER_C
   SOON_DAYS = 60
@@ -48,6 +48,7 @@ class PlantingFrost
     stat = planting.frost_danger
     return if stat.nil? || stat.unknown?
 
+    # A finished planting with no finish date goes by its predicted finish, for the frost display only.
     new(stat:, planted_on: planting.planted_at, ends_on: planting.finished_at || planting.weather_due_on,
         finished: planting.finished?, readings:, today:)
   end
@@ -59,13 +60,20 @@ class PlantingFrost
     @readings = readings
     @today = today
     @expected_end = !ends_on.nil?
-    @ends_on = ends_on || today
+    @ends_on = ends_on || (finished ? planted_on : today)
+  end
+
+  # Whether the planting has finished, nobody said when, and there is no predicted finish either, so we can't say what
+  # it went through.
+  def end_unknown?
+    finished? && !@expected_end
   end
 
   # What to tell the member today. A planting that has finished is judged on what it went through, one still growing
   # on where today falls in the frost danger season of the year it went in.
   def verdict
     return :rare unless @stat.dated?
+    return :finished_undated if end_unknown?
     return frost_nights.zero? ? :finished_clear : :finished_hit if @finished
 
     if @today < usual.first then :before_season
@@ -119,10 +127,11 @@ class PlantingFrost
     (usual.last - @planted_on).to_i
   end
 
-  # Days from planting to the latest it has come, or to the end of the planting if that is sooner. None if it went in
-  # after the latest.
+  # The days the planting lived inside the possible frost danger, from the earliest it has come to the latest, in any
+  # season its life touched.
   def days_in_danger
-    [([possible.last, lived_until].min - start_on).to_i, 0].max
+    life = start_on..lived_until
+    [year - 1, year, year + 1].sum { |season| overlap_days(life, season_dates(season, :first_frost_p10, :last_frost_p90)) }
   end
 
   def days_to_next_season
@@ -157,7 +166,9 @@ class PlantingFrost
 
   # The planting on the timeline: one bar once it has finished, else what has happened so far and what is still to come.
   def planting_bands
-    bands = if @finished
+    bands = if end_unknown?
+              [Band.new(:planted, planted_on, planted_on)]
+            elsif @finished
               [Band.new(:finished, start_on, ends_on)]
             else
               [Band.new(:so_far, start_on, @today), (Band.new(:still_to_come, @today + 1, ends_on) if ends_on > @today)]
@@ -193,6 +204,11 @@ class PlantingFrost
     long_lived? ? age_end - YEAR_DAYS : @planted_on
   end
 
+  # How many days two date ranges share, both ends counted.
+  def overlap_days(one, other)
+    [([one.last, other.last].min - [one.first, other.first].max).to_i + 1, 0].max
+  end
+
   def year
     @year ||= @stat.frost_year_of(long_lived? ? age_end : @planted_on)
   end
@@ -211,7 +227,7 @@ class PlantingFrost
   def clip(band)
     from = [band.from, axis.first].max
     to = [band.to, axis.last].min
-    Band.new(band.kind, from, to) if from <= to
+    Band.new(band.kind, from, to, band.to > axis.last) if from <= to
   end
 
   def axis_days

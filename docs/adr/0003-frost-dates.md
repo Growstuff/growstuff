@@ -39,6 +39,12 @@ ERA5 is a model smoothed over about 25 km. It can miss cold hollows and coastal 
 
 **Everything shown is labelled** approximate, regional and "Experimental · new and might be flaky", with a link to a short explanation that says the dates come from 25 km model data and to check a national weather service. Any text shown to members goes through I18n, with keys in all the locale files.
 
+**A planting that finished without a date** goes by its predicted finish (the planting date plus the crop's median lifespan, or its parent crop's), for the frost display only. The planting's own record is not changed.
+
+- With no prediction either, we can't say what frost it met. An earlier version fell back to today, so the chart showed the last year before today, the finish moved by a day each day, and the "nights" described a window the planting had not lived through.
+- Now the section shows the frost season of the year it was planted, as the past, with a marker on the planting date and a verdict that says there is no finish date. It shows no coldest night and no days in danger, and only the usual last frost figure.
+- A finished planting never shows when the next frost danger starts, because that is of no use to it.
+
 **Hardiness is kept on seeds and crops**, as `tender`, `half_hardy`, `hardy` or `unknown`, because a frost date means nothing until it is set against what a plant tolerates.
 
 - `seeds.hardiness` records what the packet says, in the grower's entry, like `gmo` and `heirloom`.
