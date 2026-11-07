@@ -407,7 +407,12 @@ zh:
       view_layout: 查看布局
       view_layout_label: 查看床位布局
       where_each: 花园里每种植物生长的地方，都在床的地图上。
-    location: "%{owner} 的 %{garden}"
+    location:
+      change: 更改
+      heading: 地点
+      not_set: 未设置
+      remove: 删除
+    string: "%{owner} 的 %{garden}"
     nursery_declined: 好吧，我们不会再问托儿所的事了。您可以稍后从您的花园页面进行设置。
     nursery_made: 这个花园现在是你的苗圃。
     nursery_name: 苗圃

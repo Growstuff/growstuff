@@ -409,7 +409,12 @@ de:
       view_layout: Layout anzeigen
       view_layout_label: Sehen Sie sich die Bettenaufteilung an
       where_each: Wo jede Pflanze in diesem Garten wächst, auf einer Karte des Beets.
-    location: "%{owner} ist %{garden}"
+    location:
+      change: Ändern
+      heading: Standort
+      not_set: Nicht festgelegt
+      remove: Entfernen
+    string: "%{owner} ist %{garden}"
     nursery_declined: Okay, wir werden nicht noch einmal nach einem Kindergarten fragen. Sie können eines später auf Ihrer Gartenseite einrichten.
     nursery_made: Dieser Garten ist jetzt Ihr Kindergarten.
     nursery_name: Kindergarten

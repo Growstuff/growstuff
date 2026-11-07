@@ -481,7 +481,12 @@ en:
       view_layout: view layout
       view_layout_label: View the bed layout
       where_each: Where each plant in this garden is growing, on a map of the bed.
-    location: "%{owner}'s %{garden}"
+    location:
+      change: Change
+      heading: Location
+      not_set: Not set
+      remove: Remove
+    string: "%{owner}'s %{garden}"
     nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
     nursery_made: This garden is now your nursery.
     nursery_name: Nursery

@@ -103,6 +103,11 @@ ja:
       save: 保存
       wikidata_id: Wikidata ID
   gardens:
+    location:
+      change: 変更
+      heading: 場所
+      not_set: 未設定
+      remove: 削除
     archived_jobs:
       by: "%{owner} による"
       done: 完了

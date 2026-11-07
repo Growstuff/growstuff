@@ -409,7 +409,12 @@ fr:
       view_layout: Voir la mise en forme
       view_layout_label: Voir la disposition du lit
       where_each: Où pousse chaque plante de ce jardin, sur une carte du lit.
-    location: "%{owner} %{garden}"
+    location:
+      change: Modifier
+      heading: Emplacement
+      not_set: Non défini
+      remove: Supprimer
+    string: "%{owner} %{garden}"
     nursery_declined: D'accord, nous ne poserons plus de questions sur une crèche. Vous pouvez en configurer un plus tard à partir de votre page Jardins.
     nursery_made: Ce jardin est maintenant votre pépinière.
     nursery_name: Pouponnière
