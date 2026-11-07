@@ -347,6 +347,17 @@ en:
       temperatures_html: 'Local temperatures from %{source}: hottest %{hottest}, coldest %{coldest}.'
       wikidata_missing: Wikidata information is missing for this location.
       you: "(you)"
+    archived_jobs:
+      by: "by %{owner}"
+      done: "Done"
+      due: "Due %{date}"
+      empty: "Nothing was planned here."
+      on_planting_html: "on %{planting}"
+      photos:
+        one: "1 photo"
+        other: "%{count} photos"
+      title: "Jobs in this garden"
+      view_all_jobs: "View all %{total} jobs"
     actions:
       add_photo: Add photo from Flickr
       make_nursery: Make this a nursery

@@ -299,6 +299,17 @@ es:
       temperatures_html: 'Temperaturas locales a partir de %{source}: más caliente %{hottest}, más fría %{coldest}.'
       wikidata_missing: Falta información de Wikidata para esta ubicación.
       you: (tú)
+    archived_jobs:
+      by: "por %{owner}"
+      done: "Hecho"
+      due: "Para el %{date}"
+      empty: "No había nada planeado aquí."
+      on_planting_html: "en %{planting}"
+      photos:
+        one: "1 foto"
+        other: "%{count} fotos"
+      title: "Tareas en este huerto"
+      view_all_jobs: "Ver las %{total} tareas"
     actions:
       add_photo: Añadir foto de Flickr
       make_nursery: Haz de esto una guardería

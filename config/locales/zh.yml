@@ -299,6 +299,17 @@ zh:
       temperatures_html: '%{source} 的当地气温：最热的 %{hottest}，最冷的 %{coldest}。'
       wikidata_missing: 该位置缺少维基数据信息。
       you: （你）
+    archived_jobs:
+      by: "由 %{owner}"
+      done: "已完成"
+      due: "截止日期 %{date}"
+      empty: "这里没有安排任何任务。"
+      on_planting_html: "针对 %{planting}"
+      photos:
+        one: "1 张照片"
+        other: "%{count} 张照片"
+      title: "此花园中的任务"
+      view_all_jobs: "查看全部 %{total} 项任务"
     actions:
       add_photo: 添加来自 Flickr 的照片
       make_nursery: 把这里变成托儿所

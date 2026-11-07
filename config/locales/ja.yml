@@ -62,6 +62,17 @@ ja:
       prompt: 参加してあなた自身の%{crops}を記録しましょう。
       text: 植えたものや収穫したものを記録し、交換する種を見つけ、近くで何が育っているかを確認しましょう。
   gardens:
+    archived_jobs:
+      by: "%{owner} による"
+      done: "完了"
+      due: "期限 %{date}"
+      empty: "ここには予定された作業はありませんでした。"
+      on_planting_html: "%{planting} の作業"
+      photos:
+        one: "1枚の写真"
+        other: "%{count}枚の写真"
+      title: "この庭の作業"
+      view_all_jobs: "全 %{total} 件の作業を表示"
     card:
       layout: レイアウト
       no_annuals: 一年草の植え付けはありません
