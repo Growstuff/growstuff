@@ -66,6 +66,8 @@
           = succeed "." do
             = link_to 'gravatar.com', "https://gravatar.com/"
 
+  = render 'devise/registrations/label_preferences', f: f
+
   .row.mb-3
     .offset-md-2.col-md-8
       = f.submit "Save", class: 'btn btn-primary'

@@ -96,6 +96,7 @@ class ApplicationController < ActionController::Base
                     # profile stuff
                     :bio, :locale,
                     :website_url, :instagram_handle, :facebook_handle, :bluesky_handle, :other_url,
+                    :label_width_mm, :label_height_mm,
                     # email settings
                     :show_email, :send_notification_email, :send_planting_reminder, :send_harvest_reminder,
                     # update password

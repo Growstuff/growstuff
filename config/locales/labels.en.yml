@@ -1,0 +1,18 @@
+---
+en:
+  activerecord:
+    attributes:
+      member:
+        label_width_mm: Default label width (mm)
+        label_height_mm: Default label height (mm)
+  devise:
+    registrations:
+      label_preferences:
+        heading: Label defaults
+        suggested_sizes: Suggested sizes (width × height)
+        custom: Custom size
+        use_default: No preference (50 × 30 mm)
+        size: "%{width} × %{height} mm"
+        width: Width (mm)
+        height: Height (mm)
+        hint: Choose a suggested size or enter custom dimensions from 20 to 300 mm. Leave both fields blank to use 50 × 30 mm. These defaults apply to garden and planting labels; you can still change the size before printing. Save your profile to keep this preference.
