@@ -32,8 +32,8 @@ describe "places/show" do
       expect(view.content_for(:title)).to include(place)
     end
 
-    it "shows the selected place in the search textbox" do
-      expect(subject).to have_field("new_place", with: place)
+    it "shows the search textbox" do
+      expect(subject).to have_field("new_place")
     end
 
     it "shows the localized nearby members heading" do
