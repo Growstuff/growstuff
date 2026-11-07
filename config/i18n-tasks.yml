@@ -53,8 +53,8 @@ search:
   # relative_roots:
   #   - app/views
 
-  ## File.fnmatch patterns to exclude from search (default)
-  # exclude: ["*.jpg", "*.png", "*.gif", "*.svg", "*.ico", "*.eot", "*.ttf", "*.woff", "*.pdf"]
+  ## File.fnmatch patterns to exclude from search. Binary files, which the scanner can't read as text.
+  exclude: ["*.jpg", "*.png", "*.gif", "*.svg", "*.ico", "*.eot", "*.ttf", "*.woff", "*.woff2", "*.pdf", "*.xcf", "*.webp"]
 
   ## Or, File.fnmatch patterns to include
   # include: ["*.rb", "*.html.slim"]
