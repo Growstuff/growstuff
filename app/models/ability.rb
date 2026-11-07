@@ -135,6 +135,8 @@ class Ability
     can :create,  Job
     can :update,  Job, owner_id: member.id
     can :destroy, Job, owner_id: member.id
+    can :update,  Job, garden: { owner_id: member.id }
+    can :destroy, Job, garden: { owner_id: member.id }
     can :update,  Job, garden: { garden_collaborators: { member_id: member.id } }
     can :destroy, Job, garden: { garden_collaborators: { member_id: member.id } }
 
@@ -197,6 +199,8 @@ class Ability
     cannot %i(update destroy), Job
     can :update,  Job, owner_id: member.id
     can :destroy, Job, owner_id: member.id
+    can :update,  Job, garden: { owner_id: member.id }
+    can :destroy, Job, garden: { owner_id: member.id }
     can :update,  Job, garden: { garden_collaborators: { member_id: member.id } }
     can :destroy, Job, garden: { garden_collaborators: { member_id: member.id } }
   end
