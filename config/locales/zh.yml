@@ -1145,6 +1145,17 @@ zh:
       change_location: 更改地点：
       placeholder: 搜索城市、郊区或州...
       search: 搜索
+    show:
+      community_near: "%{place} 附近的 %{site_name} 社区"
+      nearby_members: 附近的会员
+      no_nearby_members: 附近没有会员
+      no_nearby_plantings: 未找到附近的种植
+      no_nearby_seeds: 未找到附近的种子
+      recent_plantings: "%{place} 附近的最近种植"
+      seeds_available: "%{place} 附近可供交易的种子"
+      view_all_members: "查看所有会员 \u00bb"
+      view_all_plantings: "查看所有种植 \u00bb"
+      view_all_seeds: "查看所有种子 \u00bb"
   planting:
     status:
       finished: 完成的

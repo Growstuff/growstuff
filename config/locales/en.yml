@@ -1234,6 +1234,17 @@ en:
       change_location: 'Change location:'
       placeholder: Search for city, suburb or state...
       search: Search
+    show:
+      community_near: "%{site_name} community near %{place}"
+      nearby_members: Nearby members
+      no_nearby_members: No nearby members
+      no_nearby_plantings: No nearby plantings found
+      no_nearby_seeds: No nearby seeds found
+      recent_plantings: Recent plantings near %{place}
+      seeds_available: Seeds available for trade near %{place}
+      view_all_members: "View all members >>"
+      view_all_plantings: "View all plantings >>"
+      view_all_seeds: "View all seeds >>"
   planting:
     status:
       finished: Finished

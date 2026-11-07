@@ -1149,6 +1149,17 @@ fr:
       change_location: 'Changer de lieu :'
       placeholder: Rechercher une ville, un quartier ou une région...
       search: Rechercher
+    show:
+      community_near: Communauté %{site_name} près de %{place}
+      nearby_members: Membres à proximité
+      no_nearby_members: Aucun membre à proximité
+      no_nearby_plantings: Aucune plantation trouvée à proximité
+      no_nearby_seeds: Aucune graine trouvée à proximité
+      recent_plantings: Plantations récentes près de %{place}
+      seeds_available: Graines disponibles pour échange près de %{place}
+      view_all_members: "Voir tous les membres \u00bb"
+      view_all_plantings: "Voir toutes les plantations \u00bb"
+      view_all_seeds: "Voir toutes les graines \u00bb"
   planting:
     status:
       finished: Clôturée
