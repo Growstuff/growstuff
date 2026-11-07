@@ -65,7 +65,6 @@
               = render 'plantings/actions', planting: @planting
 
           = render 'timeline', planting: @planting
-          = render 'plantings/frost', frost: @frost if @frost
           - case @weather_status
           - when :charts
             .planting-weather#weather
@@ -87,6 +86,8 @@
               #{strip_tags markdownify(@planting.description)}
 
         %section#photos= render 'plantings/photos', photos: @photos, planting: @planting
+
+        = render 'plantings/frost', frost: @frost if @frost
 
         %section#harvests.harvests
           = render 'plantings/harvests', planting: @planting, harvests: @harvests
