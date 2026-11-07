@@ -1,0 +1,19 @@
+%fieldset.row.mb-3{ data: { label_size_preferences: true } }
+  %legend.col-form-label.col-md-2= t('.heading')
+  .col-md-8
+    %label.form-label{ for: 'label-size-preset' }= t('.suggested_sizes')
+    %select.form-select.mb-2{ id: 'label-size-preset', data: { label_size_preset: true } }
+      %option{ value: '' }= t('.custom')
+      %option{ value: 'default' }= t('.use_default')
+      - [[40, 30], [50, 30], [62, 29], [89, 36], [100, 150]].each do |width, height|
+        %option{ value: "#{width}x#{height}" }= t('.size', width: width, height: height)
+    .row.g-2
+      .col-sm-6
+        = f.label :label_width_mm, t('.width'), class: 'form-label'
+        = f.number_field :label_width_mm, min: 20, max: 300, step: 0.1, class: 'form-control',
+          data: { label_width: true }
+      .col-sm-6
+        = f.label :label_height_mm, t('.height'), class: 'form-label'
+        = f.number_field :label_height_mm, min: 20, max: 300, step: 0.1, class: 'form-control',
+          data: { label_height: true }
+    %p.form-text= t('.hint')
