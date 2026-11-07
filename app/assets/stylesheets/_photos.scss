@@ -231,15 +231,15 @@
     gap: 1.25rem;
   }
 
-  .photo-shows-item {
+  .photo-shows-cards > .shows-card {
     flex: 1 1 18rem;
     min-width: 0;
   }
 
-  .photo-shows-item-wide {
+  // The crop's card runs the full width.
+  .photo-shows-cards > .shows-card-crop {
     flex-basis: 100%;
   }
-
 }
 
 .shows-card {

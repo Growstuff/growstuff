@@ -3,6 +3,11 @@
 module PhotosHelper
   RECORD_KINDS = %w(planting harvest seed garden post job).freeze
 
+  # The records a photo card says more about, and the button that goes with each.
+  DETAILED_RECORD_BUTTONS = {
+    'planting' => 'btn-primary', 'harvest' => 'shows-card-button-harvest', 'seed' => 'btn-info'
+  }.freeze
+
   # Everything the photo is attached to, as [type, record] pairs: the type is what
   # the photo associations route calls it ('planting', 'seed', 'crop').
   def photo_records(photo)
@@ -32,6 +37,31 @@ module PhotosHelper
   def photo_crop_subject(photo, crop)
     kind = photo.photo_associations.find_by(photographable: crop)&.label
     kind ? t("photos.records.#{kind}", crop: crop.name) : crop.name
+  end
+
+  # Who a record belongs to: a post has an author, the rest an owner.
+  def photo_record_owner(type, thing)
+    type == 'post' ? thing.author : thing.owner
+  end
+
+  # The facts a record's card lists under its name: when, and how much.
+  def photo_record_facts(type, thing)
+    case type
+    when 'planting'
+      [(t('photos.shows.planting.planted', date: l(thing.planted_at)) if thing.planted_at),
+       (t('photos.shows.planting.plants', count: thing.quantity) if thing.quantity)]
+    when 'harvest'
+      [(t('photos.shows.harvest.picked', date: l(thing.harvested_at)) if thing.harvested_at), thing.plant_part_name]
+    when 'seed'
+      [(t('photos.shows.seed.saved', date: l(thing.saved_at)) if thing.saved_at),
+       (t('photos.shows.seed.seeds', count: thing.quantity) if thing.quantity)]
+    else []
+    end.compact_blank
+  end
+
+  # The site a photo is from, to name it: Flickr.
+  def photo_source_name(photo)
+    photo.source.to_s.titleize
   end
 
   # What to call a record in a list of them, so one planting is told from another.

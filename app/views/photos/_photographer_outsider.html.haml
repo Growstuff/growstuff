@@ -6,9 +6,9 @@
       %span.member-initial.member-initial-large.member-initial-outsider{ 'aria-hidden': 'true' }= icon 'fas', 'user'
       .photo-photographer-name
         %span.photo-photographer-link= photo.author_name
-        %small.text-muted= t('.photographer', site: photo.source.to_s.titleize)
-    %p.photo-note= t('.not_a_member', site: photo.source.to_s.titleize)
+        %small.text-muted= t('.photographer', site: photo_source_name(photo))
+    %p.photo-note= t('.not_a_member', site: photo_source_name(photo))
     - if photo.author_url.present?
       = link_to photo.author_url, class: 'btn btn-info' do
-        = t('.see_photos', site: photo.source.to_s.titleize)
+        = t('.see_photos', site: photo_source_name(photo))
         = icon 'fas', 'arrow-up-right-from-square'

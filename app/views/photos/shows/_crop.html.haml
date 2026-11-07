@@ -5,8 +5,8 @@
     = crop_icon(crop)
     = t('.kind')
   .shows-card-body.shows-card-crop-body
-    = image_tag(crop.thumbnail_url.presence || placeholder_image, alt: t('.image_alt', crop: crop.name),
-                                                                  class: 'shows-card-crop-image')
+    - alt = t('.image_alt', crop: crop.name)
+    = image_tag crop.thumbnail_url.presence || placeholder_image, alt: alt, class: 'shows-card-crop-image'
     .shows-card-crop-text
       %h3.shows-card-title= link_to crop.name, crop_path(crop), class: 'text-reset'
       - if crop.scientific_names.any?

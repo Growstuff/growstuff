@@ -26,7 +26,7 @@
 .photo-page{id: "photo-#{@photo.id}"}
   .photo-page-main
     = render 'photos/polaroid', photo: @photo
-    = render 'photos/shows', photo: @photo, crops: @crops
+    = render 'photos/shows', photo: @photo
     = render 'photos/comments', photo: @photo
   .photo-page-side
     - if photo_by_outsider?(@photo)

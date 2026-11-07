@@ -290,6 +290,8 @@ en:
       next: Next page
       page: Page %{page} of %{pages}
       previous: Previous page
+    source:
+      view_on_flickr: View on Flickr
     new:
       add: Add this photo
       attribution: by %{owner}
@@ -303,7 +305,6 @@ en:
       search: Search
       taken: Taken %{date}
       title: Find a photo of %{crop}
-      view_on_flickr: View on Flickr
   crops:
     add_photos_from_flickr: Add photos from Flickr
     alternate_name_modal:
@@ -1460,7 +1461,6 @@ en:
       planting: "%{crop} planting"
       seed: "%{crop} seeds"
     show:
-      comment: Comment
       crop: "%{crop}"
       garden: garden named "%{garden}" by %{owner}
       harvest: "%{crop} harvest by %{owner}"

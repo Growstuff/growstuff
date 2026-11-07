@@ -27,8 +27,6 @@ class PhotosController < ApplicationController
   end
 
   def show
-    @crops = Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: @photo })
-    @comment = Comment.new(commentable: @photo)
     respond_with(@photo)
   end
 
@@ -115,11 +113,11 @@ class PhotosController < ApplicationController
     photo = { id: @photo.id, url: photo_path(@photo), title: @photo.title,
               thumbnail_url: @photo.thumbnail_url, fullsize_url: @photo.fullsize_url }
     render json: { photo:, garden: card }, status: :created
+  end
+
   # The title is ours to change; the rest is the photo as Flickr describes it.
   def update_params
     params.require(:photo).permit(:title)
-  end
-
   end
 
   def photo_params

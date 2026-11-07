@@ -5,7 +5,6 @@
   = image_tag(photo.fullsize_url, alt: photo.title, class: 'photo-polaroid-image')
   .photo-polaroid-caption
     = link_to photo.link_url, class: 'photo-polaroid-source' do
-      - if photo.source == 'flickr'
-        = icon 'fab', 'flickr'
-      = t('.view_on', site: photo.source.to_s.titleize)
+      = icon('fab', 'flickr') if photo.source == 'flickr'
+      = t('.view_on', site: photo_source_name(photo))
       = icon 'fas', 'arrow-up-right-from-square'
