@@ -94,4 +94,19 @@ describe PlantingsController, '#show' do
       )
     end
   end
+
+  context 'with a saved label preference' do
+    before do
+      sign_in create(:member, label_width_mm: '50.5', label_height_mm: '30.2')
+      get planting_path(planting)
+    end
+
+    it 'defaults to the viewing member\'s width' do
+      expect(page).to have_css('input[name="width"][value="50.5"]')
+    end
+
+    it 'defaults to the viewing member\'s height' do
+      expect(page).to have_css('input[name="height"][value="30.2"]')
+    end
+  end
 end

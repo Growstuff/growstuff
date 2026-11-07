@@ -69,4 +69,19 @@ describe GardensController, '#show' do
 
     it_behaves_like 'a printable garden label'
   end
+
+  context 'with a saved label preference' do
+    before do
+      sign_in create(:member, label_width_mm: '62', label_height_mm: '29')
+      get garden_path(garden)
+    end
+
+    it 'defaults to the viewing member\'s width' do
+      expect(page).to have_css('input[name="width"][value="62"]', visible: :all)
+    end
+
+    it 'defaults to the viewing member\'s height' do
+      expect(page).to have_css('input[name="height"][value="29"]', visible: :all)
+    end
+  end
 end

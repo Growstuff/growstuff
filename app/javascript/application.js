@@ -17,6 +17,7 @@ import './site/finish_toggle';
 import './site/job_ideas';
 import './site/job_notepad';
 import './site/likes';
+import './site/label_preferences';
 import './site/members';
 import './site/navbar_search';
 import './site/packet_sheet';
