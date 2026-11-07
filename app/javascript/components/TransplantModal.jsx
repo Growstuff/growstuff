@@ -49,12 +49,6 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
           </div>
         )}
         <fieldset>
-          {asksQuantity && (
-            <div className="mb-3">
-              <label htmlFor={`transplant-quantity-${planting.id}`} className="form-label">{planting.transplant_quantity_label}</label>
-              <input id={`transplant-quantity-${planting.id}`} type="number" className="form-control" min="1" max={planting.quantity} required value={quantity} onChange={(event) => setQuantity(event.target.value)} />
-            </div>
-          )}
           <legend className="crop-picker-label step-legend">Which garden did they go into?</legend>
           {gardens.length > 0 ? (
             <div className="list-group">
@@ -72,6 +66,13 @@ export default function TransplantModal({planting, gardens, onClose, onDone}) {
               ))}
             </div>
           ) : <p className="text-muted">You don&rsquo;t have another garden to transplant into.</p>}
+
+          {asksQuantity && (
+            <div className="mb-3 mt-2">
+              <label htmlFor={`transplant-quantity-${planting.id}`} className="form-label">{planting.transplant_quantity_label}</label>
+              <input id={`transplant-quantity-${planting.id}`} type="number" className="form-control" min="1" max={planting.quantity} required value={quantity} onChange={(event) => setQuantity(event.target.value)} />
+            </div>
+          )}
         </fieldset>
         <div className="mt-4">
           <WhenPicker
