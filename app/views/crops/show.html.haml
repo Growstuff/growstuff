@@ -33,10 +33,20 @@
       -# is context, so it sits outside. See DESIGN.md.
       .record-panel.crop-detail
         .jumbotron
+          %p.text-end.text-muted.small.crop-last-edit
+            Last edited
+            - if @last_editor
+              by
+              = link_to @last_editor.login_name, @last_editor
+            on #{@last_edited_at.strftime('%-d %b %Y')}.
+            = link_to 'View history', history_crop_path(@crop)
           .d-flex.justify-content-between.align-items-start
             .crop-identity= render 'crops/info'
             = render 'wrangle', crop: @crop
 
+
+        - unless member_signed_in?
+          = render 'join_banner', crop: @crop
 
         -# Read top to bottom: how to grow it, how members actually grow it,
         -# what is related to it, what it looks like, where it is, then talk.
@@ -44,6 +54,14 @@
         = cute_icon
         %section.prediction
           = render 'predictions', crop: @crop
+
+        - if @crop.published_job_templates.exists?
+          %section.crop-jobs
+            %h2
+              -# Decorative: the heading already says what this is.
+              %span.heading-emoji{ 'aria-hidden' => 'true' } 🪄
+              Growing #{@crop.name.pluralize}
+            = render 'job_templates', crop: @crop
 
         - if @crop.sunniness.any? || @crop.planted_from.any? || @crop.harvests.any?
           %section.charts
@@ -79,9 +97,10 @@
                 - @crop.all_companions.each do |companion|
                   = render 'crops/tiny', crop: companion
 
-        = cute_icon
-        %section.photos
-          = render 'crops/photos', crop: @crop
+        - if @crop.photos_with_varieties.any?
+          = cute_icon
+          %section.photos
+            = render 'crops/photos', crop: @crop
 
         - if crop_or_parent(@crop, :en_youtube_url).present?
           %section.youtube
@@ -93,17 +112,17 @@
             %h2 Video
             %p= link_to "Submit a video.", edit_crop_path(@crop, anchor: ":~:text=Youtube")
 
-        %section.crop-map
-          %h2 Where #{@crop.name.pluralize} grow
-          %p.text-muted.small
-            Only plantings by members who have set their locations are shown.
-            - if current_member && current_member.location.blank?
-              = link_to "Set your location.", edit_member_registration_path
-          #cropmap.map
+        - if @crop.plantings.any?
+          %section.crop-map
+            %h2 Where #{@crop.name.pluralize} grow
+            %p.text-muted.small
+              Only plantings by members who have set their locations are shown.
+              - if current_member && current_member.location.blank?
+                = link_to "Set your location.", edit_member_registration_path
+            #cropmap.map
 
         %section.posts= render 'crops/posts', crop: @crop
 
-        = render 'history', crop: @crop
     .col-md-3
       = image_tag crop_image_path(@crop),
         class: 'img-responsive shadow rounded crop-hero-photo', alt: "Image of #{@crop.name}"
@@ -125,6 +144,9 @@
 
       - cache [@crop, 'nutritional_data'] do
         = render 'nutritional_data', crop: @crop
+
+      - cache [@crop, 'ecocrop_data'] do
+        = render 'ecocrop_data', crop: @crop
 
       %section.crop-learn-more
         .section-header

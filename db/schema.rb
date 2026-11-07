@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -379,6 +379,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
     t.index ["blocker_id"], name: "index_blocks_on_blocker_id"
   end
 
+  create_table "claims", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "member_id", null: false
+    t.text "note"
+    t.bigint "stall_seed_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_claims_on_member_id"
+    t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
+  end
+
   create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
     t.string "categorized_type", null: false
     t.string "label", null: false
@@ -566,17 +576,30 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
     t.string "approval_status", default: "approved"
     t.datetime "created_at", precision: nil
     t.integer "creator_id"
+    t.integer "days_until_maturity_max", comment: "Days from sowing to harvest, at most."
+    t.integer "days_until_maturity_min", comment: "Days from sowing to harvest, at least."
     t.float "default_diameter"
     t.text "description"
     t.string "en_wikipedia_url"
     t.string "en_youtube_url"
+    t.integer "germination_days_max", comment: "Days to germinate, at most."
+    t.integer "germination_days_min", comment: "Days to germinate, at least."
     t.integer "growing_degree_days"
+    t.string "hardiness", default: "unknown", null: false, comment: "tender, half_hardy, hardy or unknown."
+    t.string "hardiness_source", comment: "Where hardiness came from: seed_packets or manual. A manual one is not overwritten."
+    t.string "harvest_style", comment: "'single' when the whole plant is harvested once, 'repeated' when it keeps producing. Empty when unknown."
     t.integer "harvests_count", default: 0
     t.integer "height"
     t.string "icon"
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
+    t.float "median_days_until_maturity_max", comment: "Days from sowing to harvest, the median of the packets maximums."
+    t.float "median_days_until_maturity_min", comment: "Days from sowing to harvest, the median of the packets minimums."
+    t.float "median_germination_days_max", comment: "Days to germinate, the median of the packets maximums."
+    t.float "median_germination_days_min", comment: "Days to germinate, the median of the packets minimums."
     t.integer "median_lifespan"
+    t.float "median_row_spacing", comment: "Centimetres between rows, the median of the seed packets."
+    t.integer "median_sow_months", default: [], null: false, comment: "Months, 1 to 12, to sow in the southern hemisphere, from the seed packets.", array: true
     t.string "name", null: false
     t.virtual "normalised_name", type: :text, as: "translate(lower((name)::text), 'àáâãäåāçćčèéêëēėęìíîïīįłñńòóôõöøōùúûüūýÿžźż'::text, 'aaaaaaaccceeeeeeeiiiiiilnnooooooouuuuuyyzzz'::text)", stored: true
     t.jsonb "openfarm_data"
@@ -591,6 +614,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
     t.integer "requester_id"
     t.integer "row_spacing"
     t.string "slug"
+    t.integer "sow_months", default: [], null: false, comment: "Months, 1 to 12, to sow in the southern hemisphere. The northern hemisphere is six months on.", array: true
     t.string "sowing_method"
     t.integer "spread"
     t.string "sun_requirements"
@@ -602,6 +626,68 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
     t.index ["public_food_key"], name: "index_crops_on_public_food_key"
     t.index ["requester_id"], name: "index_crops_on_requester_id"
     t.index ["slug"], name: "index_crops_on_slug", unique: true
+  end
+
+  create_table "ecocrop_data", force: :cascade do |t|
+    t.integer "ecoportcode"
+    t.string "scientificname"
+    t.string "auth"
+    t.string "famname"
+    t.string "syno", default: [], array: true
+    t.string "comname", default: [], array: true
+    t.string "lifo", default: [], array: true
+    t.string "habi", default: [], array: true
+    t.string "lispa", default: [], array: true
+    t.string "phys", default: [], array: true
+    t.string "cat", default: [], array: true
+    t.string "plat", default: [], array: true
+    t.string "prosy", default: [], array: true
+    t.integer "topmn"
+    t.integer "topmx"
+    t.integer "tmin"
+    t.integer "tmax"
+    t.integer "ktmp"
+    t.integer "ktmpr"
+    t.integer "ropmn"
+    t.integer "ropmx"
+    t.integer "rmin"
+    t.integer "rmax"
+    t.integer "gmin"
+    t.integer "gmax"
+    t.decimal "phopmn"
+    t.decimal "phopmx"
+    t.decimal "phmin"
+    t.decimal "phmax"
+    t.decimal "latopmn"
+    t.decimal "latopmx"
+    t.decimal "latmn"
+    t.decimal "latmx"
+    t.integer "altmx"
+    t.string "liopmn"
+    t.string "liopmx"
+    t.string "limn"
+    t.string "limx"
+    t.string "dep"
+    t.string "depr"
+    t.string "text", default: [], array: true
+    t.string "textr", default: [], array: true
+    t.string "fer"
+    t.string "ferr"
+    t.string "tox"
+    t.string "toxr"
+    t.string "sal"
+    t.string "salr"
+    t.string "dra", default: [], array: true
+    t.string "drar", default: [], array: true
+    t.string "photo", default: [], array: true
+    t.string "cliz", default: [], array: true
+    t.string "abitol", default: [], array: true
+    t.string "abisus", default: [], array: true
+    t.string "intri", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ecoportcode"], name: "index_ecocrop_data_on_ecoportcode", unique: true
+    t.index ["scientificname"], name: "index_ecocrop_data_on_scientificname"
   end
 
   create_table "flipper_features", force: :cascade do |t|
@@ -637,6 +723,37 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
     t.datetime "updated_at", precision: nil
     t.index ["owner_id"], name: "index_forums_on_owner_id"
     t.index ["slug"], name: "index_forums_on_slug", unique: true
+  end
+
+  create_table "frost_stats", force: :cascade do |t|
+    t.datetime "computed_at", null: false
+    t.datetime "created_at", null: false
+    t.float "first_frost_median", comment: "Days into the frost year. Null when the status is rare or unknown."
+    t.float "first_frost_p10", comment: "Days into the frost year: an early warning, 1 year in 10 is earlier."
+    t.integer "frost_years", default: 0, null: false, comment: "How many of those years had any frost."
+    t.float "frost_free_days_median", comment: "Only for the frost status."
+    t.float "last_frost_median", comment: "Days into the frost year."
+    t.float "last_frost_p90", comment: "Days into the frost year: a safe-to-plant date, 1 year in 10 is later."
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.string "status", null: false, comment: "frost, possible, rare or unknown: how often the cell has any frost."
+    t.float "threshold_c", null: false, comment: "A day at or below this counts as frost."
+    t.datetime "updated_at", null: false
+    t.integer "years_used", default: 0, null: false, comment: "Complete frost years in the history."
+    t.index ["latitude", "longitude", "threshold_c"], name: "index_frost_stats_on_cell_and_threshold", unique: true
+  end
+
+  create_table "frost_years", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "first_frost", comment: "Null when the year had no frost."
+    t.date "last_frost", comment: "Null when the year had no frost."
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "lowest_c", comment: "The lowest minimum temperature of the year."
+    t.float "threshold_c", null: false, comment: "A day at or below this counts as frost."
+    t.datetime "updated_at", null: false
+    t.integer "year", null: false, comment: "The frost year, named for the calendar year it ends in."
+    t.index ["latitude", "longitude", "threshold_c", "year"], name: "index_frost_years_on_cell_threshold_and_year", unique: true
   end
 
   create_table "garden_collaborators", force: :cascade do |t|
@@ -1095,6 +1212,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
     t.integer "germination_days_max"
     t.integer "germination_days_min"
     t.text "gmo", default: "unknown"
+    t.text "hardiness", default: "unknown", comment: "What the packet says: tender, half_hardy, hardy or unknown."
     t.text "heirloom", default: "unknown"
     t.text "how_to_sow", comment: "How the packet says to sow it, in its words."
     t.text "organic", default: "unknown"
@@ -1115,6 +1233,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
     t.index ["parent_planting_id"], name: "index_seeds_on_parent_planting_id"
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
     t.index ["source"], name: "index_seeds_on_source"
+  end
+
+  create_table "stall_seeds", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "offer", default: "free", null: false
+    t.bigint "seed_id", null: false
+    t.bigint "stall_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["seed_id", "stall_id"], name: "index_stall_seeds_on_seed_id_and_stall_id", unique: true
+    t.index ["stall_id"], name: "index_stall_seeds_on_stall_id"
+  end
+
+  create_table "stalls", force: :cascade do |t|
+    t.string "claim_area", default: "region", null: false
+    t.datetime "created_at", null: false
+    t.bigint "member_id", null: false
+    t.datetime "opened_at"
+    t.boolean "postage", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_stalls_on_member_id", unique: true
   end
 
   create_table "versions", force: :cascade do |t|
@@ -1166,6 +1304,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blocks", "members", column: "blocked_id"
   add_foreign_key "blocks", "members", column: "blocker_id"
+  add_foreign_key "claims", "members"
+  add_foreign_key "claims", "stall_seeds"
   add_foreign_key "crop_dismissals", "crops"
   add_foreign_key "crop_dismissals", "members"
   add_foreign_key "crop_job_steps", "crop_job_templates"
@@ -1188,4 +1328,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_01_000000) do
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
   add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
+  add_foreign_key "stall_seeds", "seeds"
+  add_foreign_key "stall_seeds", "stalls"
+  add_foreign_key "stalls", "members"
 end

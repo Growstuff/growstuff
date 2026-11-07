@@ -279,17 +279,26 @@ describe Seed do
     let!(:traded) { create(:seed, source: 'traded from another person') }
 
     it { expect(described_class.from_source('own')).to contain_exactly(own) }
-    it { expect(described_class.from_source('bought')).to contain_exactly(catalogue, retail, bank) }
+    it { expect(described_class.from_source('catalogue')).to contain_exactly(catalogue) }
+    it { expect(described_class.from_source('retail')).to contain_exactly(retail) }
+    it { expect(described_class.from_source('bank')).to contain_exactly(bank) }
     it { expect(described_class.from_source('traded')).to contain_exactly(traded) }
     it { expect { described_class.from_source('gifted') }.to raise_error(KeyError) }
   end
 
-  describe '.heirlooms' do
-    let!(:heirloom) { create(:seed, heirloom: 'heirloom') }
+  describe '.planted and .not_planted' do
+    let!(:planted_seed) { create(:seed) }
+    let!(:unplanted_seed) { create(:seed) }
 
-    before { create(:seed, heirloom: 'hybrid') }
+    before { create_list(:planting, 2, parent_seed: planted_seed) }
 
-    it { expect(described_class.heirlooms).to contain_exactly(heirloom) }
+    it { expect(described_class.planted).to contain_exactly(planted_seed) }
+    it { expect(described_class.not_planted).to contain_exactly(unplanted_seed) }
+
+    # Plantings have finished columns too, so the join must not make them ambiguous.
+    it { expect(described_class.not_planted.active).to contain_exactly(unplanted_seed) }
+    it { expect(described_class.not_planted.current.finished).to be_empty }
+    it { expect(described_class.not_planted.expired).to contain_exactly(unplanted_seed) }
   end
 
   describe '#past_sow_by?' do
@@ -302,5 +311,29 @@ describe Seed do
     it { expect(build(:seed, heirloom: 'heirloom').heirloom_kind).to eq 'heirloom' }
     it { expect(build(:seed, heirloom: 'hybrid').heirloom_kind).to eq 'hybrid' }
     it { expect(build(:seed, heirloom: 'unknown').heirloom_kind).to be_nil }
+  end
+
+  describe '.sow_now_months' do
+    it 'is this month early in it' do
+      expect(described_class.sow_now_months(Date.new(2026, 11, 4))).to eq [11]
+    end
+
+    it 'includes next month near the end of this one' do
+      expect(described_class.sow_now_months(Date.new(2026, 11, 25))).to eq [11, 12]
+    end
+
+    it 'goes on into January from December' do
+      expect(described_class.sow_now_months(Date.new(2026, 12, 28))).to eq [12, 1]
+    end
+  end
+
+  describe '.sown_in' do
+    let!(:september) { create(:seed, sow_months: [9, 10]) }
+
+    before { create(:seed, sow_months: [3]) }
+
+    it { expect(described_class.sown_in(10)).to contain_exactly(september) }
+    it { expect(described_class.sown_in([8, 9])).to contain_exactly(september) }
+    it { expect(described_class.sown_in([])).to be_empty }
   end
 end

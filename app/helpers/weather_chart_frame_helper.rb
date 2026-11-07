@@ -59,14 +59,14 @@ module WeatherChartFrameHelper
   end
 
   # `now` is the "now" line's x and its label, as [x, label], when there is one to draw. `ticks` are the Y axis'
-  # [how far down, label] pairs.
-  def weather_chart(content, description, css, now: nil, ticks: [])
+  # [how far down, label] pairs. `overlay` is any other HTML to lay over the chart.
+  def weather_chart(content, description, css, now: nil, ticks: [], overlay: nil)
     x, label = now
     svg = tag.svg(safe_join([content, weather_gridlines(ticks), weather_now_line(x)]), class: "weather-chart #{css}",
                                                                                       viewBox: weather_view_box,
                                                                                       preserveAspectRatio: 'none', role: 'img',
                                                                                       'aria-label': description)
-    tag.div(safe_join([svg, weather_axis_labels(ticks), weather_now_caption(x, label)]), class: 'weather-chart-frame')
+    tag.div(safe_join([svg, weather_axis_labels(ticks), weather_now_caption(x, label), overlay]), class: 'weather-chart-frame')
   end
 
   def weather_view_box

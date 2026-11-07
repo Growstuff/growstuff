@@ -431,7 +431,21 @@ describe Member do
   describe '#update_spam_score!' do
     let(:member) { create(:member) }
 
-    context 'when spam score reaches the maximum score' do
+    context 'when spam score reaches the ban threshold' do
+      before do
+        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(75)
+      end
+
+      it 'updates the spam score' do
+        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(75)
+      end
+
+      it 'bans the member' do
+        expect { member.update_spam_score! }.to change { member.reload.banned? }.from(false).to(true)
+      end
+    end
+
+    context 'when spam score is above the ban threshold' do
       before do
         allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(100)
       end
@@ -445,13 +459,13 @@ describe Member do
       end
     end
 
-    context 'when spam score is below the maximum score' do
+    context 'when spam score is below the ban threshold' do
       before do
-        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(75)
+        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(74)
       end
 
       it 'updates the spam score' do
-        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(75)
+        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(74)
       end
 
       it 'does not ban the member' do
@@ -466,6 +480,40 @@ describe Member do
       member = build(:member, email: '  ')
 
       expect(member.email).to be_nil
+    end
+  end
+
+  describe '#locale' do
+    subject(:member) { build(:member) }
+
+    it 'defaults to nil' do
+      expect(member.locale).to be_nil
+    end
+
+    it 'persists a valid locale in settings' do
+      member.locale = 'es'
+      expect(member.settings['locale']).to eq 'es'
+    end
+
+    it 'returns the saved locale' do
+      member.locale = 'es'
+      expect(member.locale).to eq 'es'
+    end
+
+    it 'removes locale from settings when set to blank' do
+      member.locale = 'es'
+      member.locale = ''
+      expect(member.settings['locale']).to be_nil
+    end
+
+    it 'allows valid locales' do
+      member.locale = 'fr'
+      expect(member).to be_valid
+    end
+
+    it 'rejects unsupported locales' do
+      member.settings = { 'locale' => 'invalid_lang' }
+      expect(member).not_to be_valid
     end
   end
 end

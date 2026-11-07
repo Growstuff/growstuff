@@ -12,7 +12,7 @@
   - shelves.each do |shelf, seeds|
     %tbody
       %tr.seed-list-shelf
-        %th{ colspan: 6 }= shelf.is_a?(Crop) ? link_to(shelf.name, crop_path(shelf)) : shelf.capitalize
+        %th{ colspan: 6 }= seed_shelf_title(shelf)
       - seed_stacks(seeds).each do |packets|
         = render 'seeds/list_row', seed: packets.first, packets: packets
         - if packets.size > 1

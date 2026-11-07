@@ -3,6 +3,26 @@ import {createPortal} from 'react-dom';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])';
 
+export function closeOpenOffcanvases(trigger) {
+  const container = trigger?.closest?.('.offcanvas, [class*="offcanvas-"]');
+  if (container) {
+    const toggle = document.querySelector(`[data-bs-target="#${container.id}"], [href="#${container.id}"]`);
+    if (toggle && toggle.focus) toggle.focus();
+  }
+
+  const openOffcanvases = Array.from(document.querySelectorAll('.offcanvas.show, [class*="offcanvas-"].show'));
+  const targets = new Set(container ? [container, ...openOffcanvases] : openOffcanvases);
+
+  targets.forEach((el) => {
+    if (window.bootstrap?.Offcanvas) {
+      const instance = window.bootstrap.Offcanvas.getInstance(el) || window.bootstrap.Offcanvas.getOrCreateInstance(el);
+      instance.hide();
+    } else {
+      el.classList.remove('show');
+    }
+  });
+}
+
 // A modal dialog using Bootstrap's modal styles, controlled by React (so it
 // doesn't need Bootstrap's modal JavaScript). Focus moves into the dialog and
 // is kept there, Escape and a click on the backdrop close it, and focus goes
@@ -13,6 +33,7 @@ export default function Modal({title, titleId, onClose, size = 'lg', children}) 
   const contentRef = useRef(null);
 
   useEffect(() => {
+    closeOpenOffcanvases();
     const previouslyFocused = document.activeElement;
     document.body.classList.add('modal-open');
     const first = contentRef.current.querySelector('input, select, textarea');
@@ -20,7 +41,17 @@ export default function Modal({title, titleId, onClose, size = 'lg', children}) 
 
     return () => {
       document.body.classList.remove('modal-open');
-      if (previouslyFocused && previouslyFocused.focus) previouslyFocused.focus();
+      if (previouslyFocused && previouslyFocused.focus) {
+        const offcanvas = previouslyFocused.closest?.('.offcanvas, [class*="offcanvas-"]');
+        if (offcanvas && !offcanvas.classList.contains('show')) {
+          const trigger = document.querySelector(`[data-bs-target="#${offcanvas.id}"], [href="#${offcanvas.id}"]`);
+          if (trigger && trigger.focus) {
+            trigger.focus();
+            return;
+          }
+        }
+        previouslyFocused.focus();
+      }
     };
   }, []);
 

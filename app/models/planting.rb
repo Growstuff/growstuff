@@ -209,6 +209,19 @@ class Planting < ApplicationRecord
     self.class.weather_tracked.exists?(id)
   end
 
+  # The centre of the weather grid cell this planting's garden is in, as [latitude, longitude].
+  def weather_cell
+    WeatherReading.grid_point(latitude, longitude)
+  end
+
+  # The typical frost danger dates for this planting's weather cell, as FrostUpdater saved them, or nil when
+  # the garden has no location or they aren't worked out yet.
+  def frost_danger
+    return unless weather_located?
+
+    FrostStat.at(*weather_cell).find_by(threshold_c: FrostCalculator::FROST_DANGER_C)
+  end
+
   # The day this planting is due, from its crop's expected lifespan, or nil when we don't know it.
   def weather_due_on
     planted_at + expected_lifespan.to_i if planted_at.present? && expected_lifespan.present?
@@ -242,15 +255,14 @@ class Planting < ApplicationRecord
 
   # For a planting still growing: the weather the rest of its life will probably bring, as the readings
   # for the same days a year earlier, moved forward a year. A prediction, not an observation. `after` is the
-  # newest day already observed, when the caller has it.
-  def expected_weather_readings(after: weather_readings.maximum(:date))
-    due = weather_due_on
-    return [] if finished? || failed? || due.nil? || !weather_located?
+  # newest day already observed, when the caller has it, and `through` the last day to expect, by default the day it is due.
+  def expected_weather_readings(after: weather_readings.maximum(:date), through: weather_due_on)
+    return [] if finished? || failed? || through.nil? || !weather_located?
 
     from = (after || (weather_first_day - 1)) + 1
-    return [] if from > due
+    return [] if from > through
 
-    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, due.prev_year).order(:date).map do |reading|
+    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, through.prev_year).order(:date).map do |reading|
       reading.tap do
         reading.date = reading.date.next_year
         reading.readonly!
@@ -286,7 +298,7 @@ class Planting < ApplicationRecord
 
   # Daily weather for the grid cell this planting's garden is in.
   def weather_cell_readings
-    WeatherReading.at(*WeatherReading.grid_point(latitude, longitude))
+    WeatherReading.at(*weather_cell)
   end
 
   # Copied from the packet when the planting is made, as the packet may be

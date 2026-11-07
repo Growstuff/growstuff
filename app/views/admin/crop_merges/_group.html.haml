@@ -1,0 +1,20 @@
+-# One kind of record in the plan, each with an arrow to the crop it ends up under.
+%h3.h6.mt-4 #{group.label} (#{group.total})
+%ul.list-unstyled.merge-plan
+  - group.moving.each do |record|
+    %li.mb-1
+      = merge_item(record, duplicate)
+      %span.mx-2.text-success{ 'aria-label': 'moves to' } →
+      %strong.text-success
+        - if group.label == 'Varieties'
+          a variety of
+        = crop_with_id(target)
+  - if group.total > group.moving.size
+    %li.text-muted
+      and #{group.total - group.moving.size} more, all to
+      = crop_with_id(target)
+  - group.skipped.each do |record|
+    %li.mb-1.text-muted
+      = merge_item(record, duplicate)
+      %span.mx-2{ 'aria-label': 'not copied' } ✕
+      %em not copied, #{target.name} already has it

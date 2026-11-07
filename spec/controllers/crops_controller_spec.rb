@@ -47,17 +47,40 @@ describe CropsController do
 
     before do
       PaperTrail::Version.create!(
-        item_type: 'Crop',
-        item_id: crop.id,
-        event: 'update',
-        whodunnit: member.id.to_s,
+        item_type:  'Crop',
+        item_id:    crop.id,
+        event:      'update',
+        whodunnit:  member.id.to_s,
         created_at: Time.current
       )
+      get :show, params: { slug: crop.to_param }
     end
 
-    it "fetches crop show page and sets version members using distinct whodunnit IDs" do
-      get :show, params: { slug: crop.to_param }
-      expect(response).to be_successful
+    it { expect(response).to be_successful }
+
+    it "finds the member who made the latest edit" do
+      expect(assigns(:last_editor)).to eq member
+    end
+  end
+
+  describe "GET history" do
+    let!(:crop) { create(:crop) }
+    let!(:member) { create(:member) }
+
+    before do
+      PaperTrail::Version.create!(
+        item_type:  'Crop',
+        item_id:    crop.id,
+        event:      'update',
+        whodunnit:  member.id.to_s,
+        created_at: Time.current
+      )
+      get :history, params: { slug: crop.to_param }
+    end
+
+    it { expect(response).to be_successful }
+
+    it "sets version members using distinct whodunnit IDs" do
       expect(assigns(:version_members)).to eq({ member.id => member })
     end
   end
@@ -202,7 +225,7 @@ describe CropsController do
 
     let!(:crop) { create(:crop, description: 'Old description') }
     let!(:scientific_name) do
-      create(:scientific_name, crop: crop, name: 'Solanum lycopersicum', gbif_key: 12345, wikidata_id: 'Q1387')
+      create(:scientific_name, crop: crop, name: 'Solanum lycopersicum', gbif_key: 12_345, wikidata_id: 'Q1387')
     end
 
     let(:crop_params) do
@@ -220,11 +243,20 @@ describe CropsController do
         expect(crop.reload.description).to eq('Updated description')
       end
 
+      context 'with a hardiness' do
+        let(:crop_params) { { slug: crop.to_param, crop: { hardiness_by_hand: 'hardy' } } }
+
+        it 'is set by hand' do
+          subject
+          expect(crop.reload.hardiness_source).to eq 'manual'
+        end
+      end
+
       it 'retains existing scientific names with gbif and wikidata info intact' do
         expect { subject }.not_to change(ScientificName, :count)
         scientific_name.reload
         expect(scientific_name.name).to eq('Solanum lycopersicum')
-        expect(scientific_name.gbif_key).to eq(12345)
+        expect(scientific_name.gbif_key).to eq(12_345)
         expect(scientific_name.wikidata_id).to eq('Q1387')
       end
     end

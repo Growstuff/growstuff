@@ -22,7 +22,7 @@ export default function PlantingChip({planting, defaultIconUrl, highlighted, han
       label={(
         <>
           <img className="crop-icon" src={crop.icon_url || defaultIconUrl} alt="" />
-          {crop.name}
+          <span className="crop-chip-name" title={crop.name}>{crop.name}</span>
         </>
       )}
       ariaLabel={`Actions for ${crop.name}`}

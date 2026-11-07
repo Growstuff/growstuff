@@ -1,0 +1,10 @@
+-# Where a member opens their garden stall, or goes to it. Only they see it.
+- if member == current_member && Feature.enabled?(:garden_stall)
+  .stall-card.mb-3
+    %h2.h5= t('.heading')
+    - if member.stall&.open?
+      %p= t('.open_text')
+      = link_to t('.go'), member_stall_path(member), class: 'btn btn-outline-success'
+    - else
+      %p= t('.text')
+      = link_to t('.open'), member_stall_path(member), class: 'btn btn-success'

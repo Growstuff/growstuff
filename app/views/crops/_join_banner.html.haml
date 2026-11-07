@@ -1,0 +1,11 @@
+-# Shown to visitors who are not signed in: what Growstuff is, and an invitation to join.
+.crop-join-banner.d-flex.flex-wrap.align-items-center.justify-content-between.gap-3
+  .crop-join-text
+    %strong= t('.heading')
+    = t('.text')
+    = t('.prompt', crops: crop.name.pluralize)
+  .crop-join-actions.text-nowrap
+    - sign_up = { data: { auth_dialog: 'sign_up' }, class: 'btn btn-signup' }
+    - sign_in = { data: { auth_dialog: 'sign_in' }, class: 'ms-2' }
+    = link_to t('layouts.menu.sign_up'), new_member_registration_path, sign_up
+    = link_to t('layouts.menu.sign_in'), new_member_session_path, sign_in

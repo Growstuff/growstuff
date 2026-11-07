@@ -6,13 +6,14 @@ import SeedStack from './SeedStack';
 
 const props = {
   crop: {name: 'Tomato', path: '/crops/tomato'},
+  variety: 'Roma and Cherry',
   count: 2,
   image_url: '/t.jpg',
   heirloom: 'heirloom',
   rule: 'Sow in spring',
   owner: null,
   packets: [
-    {id: 1, name: 'Roma', path: '/seeds/1', image_url: '/1.jpg', when: 'Saved 2024', detail: '20 seeds', rule: 'Sow in spring', heirloom: 'heirloom', past: false},
+    {id: 1, name: 'Roma', variety: 'San Marzano', path: '/seeds/1', image_url: '/1.jpg', when: 'Saved 2024', detail: '20 seeds', rule: 'Sow in spring', heirloom: 'heirloom', past: false},
     {id: 2, name: 'Cherry', path: '/seeds/2', image_url: '/2.jpg', when: 'Saved 2020', detail: '5 seeds', rule: 'Sow in spring', heirloom: null, past: true},
   ],
 };
@@ -20,6 +21,22 @@ const props = {
 const pile = () => screen.getByRole('button', {name: 'Tomato, 2 packets. Open to see each packet'});
 
 describe('SeedStack', () => {
+  it('names the varieties on the closed pile', () => {
+    render(<SeedStack {...props} />);
+    expect(screen.getByText('Roma and Cherry')).toBeInTheDocument();
+  });
+
+  it('names the variety of a packet when the pile is open', async () => {
+    render(<SeedStack {...props} />);
+    await userEvent.click(pile());
+    expect(screen.getByText('San Marzano')).toBeInTheDocument();
+  });
+
+  it('leaves out the variety when there is none', () => {
+    render(<SeedStack {...props} variety={null} />);
+    expect(screen.queryByText('Roma and Cherry')).not.toBeInTheDocument();
+  });
+
   it('starts as a closed pile', () => {
     render(<SeedStack {...props} />);
     expect(pile()).toHaveAttribute('aria-expanded', 'false');

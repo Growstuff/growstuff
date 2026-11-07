@@ -1,0 +1,79 @@
+- content_for :title, "Merge crops"
+
+%h1 Merge crops
+
+%p.text-muted
+  Pick the duplicate crop, then the crop to keep. Its plantings, seeds, harvests, photos, varieties
+  and names move to the crop you keep, and the duplicate is deleted.
+
+%nav.nav
+  = link_to 'Crop wrangling', wrangle_crops_path, class: 'nav-link'
+
+%section.card.mb-3#duplicate-step
+  .card-body
+    %h2 1. The duplicate (this crop will be deleted)
+    - if @duplicate
+      %p
+        %strong= link_to crop_with_id(@duplicate), @duplicate
+        = link_to 'Change', admin_crop_merge_path(target_id: @target&.id), class: 'btn btn-sm btn-link'
+    - else
+      = render 'search', label: 'Search for the duplicate crop', param: :duplicate_id,
+        chosen: @target, query: @query, matches: @matches
+
+- if @duplicate
+  %section.card.mb-3#target-step
+    .card-body
+      %h2 2. The crop to keep
+      - if @target
+        %p
+          %strong= link_to crop_with_id(@target), @target
+          = link_to 'Change', admin_crop_merge_path(duplicate_id: @duplicate.id), class: 'btn btn-sm btn-link'
+      - else
+        = render 'search', label: 'Search for the crop to keep', param: :target_id,
+          chosen: @duplicate, query: @query, matches: @matches
+
+- if @duplicate && @target
+  %section.card.mb-3#confirm-step
+    .card-body
+      %h2 3. Review the merge
+      .row.align-items-center.text-center.my-3
+        .col-md-5.mb-2
+          .border.border-danger.rounded.p-3
+            %del.fs-5= crop_with_id(@duplicate)
+            .mt-1
+              %span.badge.bg-danger will be deleted
+        .col-md-2.text-center
+          .fs-1.text-muted{ 'aria-label': 'merges into' } →
+          - swapped = admin_crop_merge_path(duplicate_id: @target.id, target_id: @duplicate.id)
+          = link_to 'Swap', swapped, class: 'btn btn-sm btn-outline-secondary', title: 'Delete the other crop instead'
+        .col-md-5.mb-2
+          .border.border-success.rounded.p-3
+            %strong.fs-5= crop_with_id(@target)
+            .mt-1
+              %span.badge.bg-success will be kept
+
+      %p.text-center.text-muted= merge_age_note(@duplicate, @target)
+
+      - if @plan.empty?
+        %p.text-muted Nothing is attached to the duplicate, so only its name moves.
+      - @plan.each do |group|
+        = render 'group', group: group, duplicate: @duplicate, target: @target
+
+      %h3.h6.mt-4 Names and description
+      %ul.list-unstyled
+        %li
+          = @duplicate.name
+          %span.mx-2.text-success{ 'aria-label': 'becomes' } →
+          %strong.text-success an alternate name of #{@target.name}
+        - if @target.description.blank? && @duplicate.description.present?
+          %li
+            The description
+            %span.mx-2.text-success{ 'aria-label': 'is copied to' } →
+            %strong.text-success= @target.name
+
+      :ruby
+        sentence = "Merge #{@duplicate.name} (##{@duplicate.id}) into #{@target.name} (##{@target.id})"
+        ids = { duplicate_id: @duplicate.id, target_id: @target.id }
+        confirmation = "#{sentence}? The duplicate is deleted."
+      = button_to sentence, admin_crop_merge_path, params: ids, class: 'btn btn-danger',
+        form: { data: { confirm: confirmation } }

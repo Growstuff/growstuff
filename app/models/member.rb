@@ -17,6 +17,8 @@ class Member < ApplicationRecord
   has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_one :stall, dependent: :destroy
+  has_many :claims, dependent: :destroy
   # Where they raise seedlings before planting them out.
   has_one :nursery, -> { nurseries }, class_name: 'Garden', foreign_key: 'owner_id', dependent: nil, inverse_of: :owner
   has_many :garden_collaborators, dependent: :destroy
@@ -149,6 +151,20 @@ class Member < ApplicationRecord
     update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  AVAILABLE_LOCALES = %w[en de es fr ja zh].freeze
+
+  def locale
+    settings['locale'].presence
+  end
+
+  def locale=(val)
+    if val.blank?
+      self.settings = (settings || {}).except('locale')
+    elsif AVAILABLE_LOCALES.include?(val.to_s)
+      self.settings = (settings || {}).merge('locale' => val.to_s)
+    end
+  end
+
   RESERVED_LOGIN_NAMES = %w(growstuff admin moderator staff nearby).freeze
 
   # set up geocoding
@@ -179,6 +195,7 @@ class Member < ApplicationRecord
   validates :other_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
   validates :instagram_handle, :facebook_handle, :bluesky_handle,
             format: { without: %r{\Ahttps?://|/}, message: :handle_format }, allow_blank: true
+  validates :locale, inclusion: { in: AVAILABLE_LOCALES }, allow_blank: true
 
   #
   # Triggers
@@ -189,6 +206,11 @@ class Member < ApplicationRecord
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryBot associations
   after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
+
+  # Their stall, made the first time they open it.
+  def stall!
+    stall || create_stall!
+  end
 
   # Their nursery, made the first time it's wanted, as most members never need
   # one. The member may already have a garden called "Nursery", and garden names
@@ -295,8 +317,24 @@ class Member < ApplicationRecord
     authentications.where(provider: Authentication::EMAIL_OPTIONAL_PROVIDERS).where.not(id: authentication.id).none?
   end
 
+  # The name of the place they garden in, as the location dialog wrote it:
+  # "Wellington, Wellington Region, New Zealand" is Wellington. Nothing more
+  # precise than that is ever shown.
+  def location_place
+    location.to_s.split(',').first.to_s.squish.presence
+  end
+
+  def located?
+    location.present? && latitude.present? && longitude.present?
+  end
+
   def auth(provider)
     authentications.find_by(provider:)
+  end
+
+  # Whether they sign in with Bluesky, which is how they are known on a stall.
+  def bluesky?
+    authentications.any? { |authentication| authentication.provider == 'bluesky' }
   end
 
   def unread_count
@@ -361,7 +399,7 @@ class Member < ApplicationRecord
   def update_spam_score!
     score = UserBehaviourDetectionService.score_for(self)
     update_column(:spam_score, score) # rubocop:disable Rails/SkipsModelValidations
-    ban! if score >= UserBehaviourDetectionService::MAX_SCORE
+    ban! if score >= UserBehaviourDetectionService::BAN_THRESHOLD
   end
 
   def has_activity?

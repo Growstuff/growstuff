@@ -1,0 +1,23 @@
+-# Who can claim what's on the stall, said plainly to everyone: where they need to
+-# be, what's asked of them, and what Growstuff does not do.
+- area = stall.area_name
+%section.stall-terms{ 'aria-label': t('.heading') }
+  %ul
+    %li
+      = icon 'fas', 'location-dot'
+      - if stall.anywhere?
+        = t('.anywhere')
+      - elsif area
+        %strong= t(".#{stall.claim_area}", place: area)
+      - else
+        = t('.unplaced', owner: stall.member)
+    - if stall.postage?
+      %li
+        = icon 'fas', 'envelope'
+        = t('.postage', owner: stall.member)
+    %li
+      = icon 'fas', 'heart'
+      = t('.manners')
+    %li
+      = icon 'fas', 'shield-halved'
+      = t('.no_money')
