@@ -228,6 +228,13 @@ de:
       add_comment: Einen Kommentar hinzufügen
       post_comment: Kommentar absenden
   crops:
+    find_seeds:
+      empty: Derzeit sind auf Growstuff keine Samen zum Tausch verfügbar.
+      list_seeds: "%{crop}-Samen zum Tausch anbieten"
+      purchase_via_ebay: Samen über eBay kaufen
+      trade_seeds: Ihre Samen zum Tausch anzubieten
+      view_all: Alle %{crop}-Samen anzeigen
+      will_trade: "%{owner} tauscht %{tradable_to}."
     harvests:
       empty: Niemand hat diese Kultur bisher geerntet.
       harvest_crop: "%{crop} ernten"

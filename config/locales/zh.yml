@@ -228,6 +228,13 @@ zh:
       add_comment: 添加评论
       post_comment: 发表评论
   crops:
+    find_seeds:
+      empty: 目前Growstuff上没有可供交易的种子。
+      list_seeds: 登记 %{crop} 种子以供交易
+      purchase_via_ebay: 通过 eBay 购买种子
+      trade_seeds: 登记您的种子以供交易
+      view_all: "查看所有 %{crop} 种子"
+      will_trade: "%{owner} 将在 %{tradable_to} 范围内交易。"
     harvests:
       empty: 还没有人收获过这种作物。
       harvest_crop: "收获 %{crop}"

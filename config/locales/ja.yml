@@ -21,6 +21,13 @@ ja:
       add_comment: コメントを追加
       post_comment: コメントを投稿
   crops:
+    find_seeds:
+      empty: 現在Growstuffで交換可能な種はありません。
+      list_seeds: 交換用に%{crop}の種を登録する
+      purchase_via_ebay: eBayで種を購入する
+      trade_seeds: 交換用に種を登録する
+      view_all: "%{crop}の種をすべて見る"
+      will_trade: "%{owner}が%{tradable_to}と交換します。"
     harvests:
       empty: この作物はまだ誰にも収穫されていません。
       harvest_crop: "%{crop}を収穫する"
