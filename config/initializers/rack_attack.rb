@@ -50,7 +50,7 @@ class Rack::Attack
 
   ### Throttle Config ###
 
-  if Rails.env.production? || Rails.env.test?
+  if Rails.env.production?
     # Throttle requests for members' data to 20 per minute per IP, on both the
     # HTML routes and their /api/v1 equivalents.
     # Rate limit modifier adjusts the threshold:
