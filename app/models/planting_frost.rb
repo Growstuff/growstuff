@@ -13,11 +13,24 @@ class PlantingFrost
 
   THRESHOLD_C = FrostCalculator::FROST_DANGER_C
   SOON_DAYS = 60
+  YEAR_DAYS = 365
 
   attr_reader :planted_on, :ends_on, :today
 
   def finished?
     @finished
+  end
+
+  # Whether the planting has an expected end still to come. A perennial, or a crop with no lifespan known, has none, and
+  # one that has outlived its expected end has none ahead.
+  def end_ahead?
+    !finished? && @expected_end && ends_on > today
+  end
+
+  # Whether the planting has lived longer than a frost year. The season it went in during is long gone, so what matters is
+  # the latest year of its life: the current season while it grows.
+  def long_lived?
+    age_end - @planted_on > YEAR_DAYS
   end
 
   # Whether today is a day on the timeline worth marking: a planting still growing, and today inside the axis.
@@ -45,6 +58,7 @@ class PlantingFrost
     @finished = finished
     @readings = readings
     @today = today
+    @expected_end = !ends_on.nil?
     @ends_on = ends_on || today
   end
 
@@ -108,11 +122,11 @@ class PlantingFrost
   # Days from planting to the latest it has come, or to the end of the planting if that is sooner. None if it went in
   # after the latest.
   def days_in_danger
-    [([possible.last, lived_until].min - @planted_on).to_i, 0].max
+    [([possible.last, lived_until].min - start_on).to_i, 0].max
   end
 
   def days_to_next_season
-    (next_season_start - ends_on).to_i
+    (next_season_start - lived_until).to_i
   end
 
   # The coldest night the planting had while frost danger was possible, in degrees, or nil with no readings.
@@ -133,7 +147,7 @@ class PlantingFrost
   # month past the start of the next season (or the end of the planting, if later).
   def axis
     @axis ||= [possible.first,
-               @planted_on].min.beginning_of_month..[next_season_start.next_month.end_of_month, lived_until.end_of_month].max
+               start_on].min.beginning_of_month..[next_season_start.next_month.end_of_month, lived_until.end_of_month].max
   end
 
   # The frost danger on the timeline, for the year the planting went in and the next, cut to the axis.
@@ -144,9 +158,9 @@ class PlantingFrost
   # The planting on the timeline: one bar once it has finished, else what has happened so far and what is still to come.
   def planting_bands
     bands = if @finished
-              [Band.new(:finished, @planted_on, ends_on)]
+              [Band.new(:finished, start_on, ends_on)]
             else
-              [Band.new(:so_far, @planted_on, @today), (Band.new(:still_to_come, @today + 1, ends_on) if ends_on > @today)]
+              [Band.new(:so_far, start_on, @today), (Band.new(:still_to_come, @today + 1, ends_on) if ends_on > @today)]
             end
     bands.compact.filter_map { |band| clip(band) }
   end
@@ -169,8 +183,18 @@ class PlantingFrost
     finished? ? ends_on : [ends_on, today].max
   end
 
+  # The last day the planting has actually lived: the day it finished, or today.
+  def age_end
+    finished? ? ends_on : today
+  end
+
+  # Where the planting's account of frost starts: the day it went in, or for a long-lived planting a year before it ends.
+  def start_on
+    long_lived? ? age_end - YEAR_DAYS : @planted_on
+  end
+
   def year
-    @year ||= @stat.frost_year_of(@planted_on)
+    @year ||= @stat.frost_year_of(long_lived? ? age_end : @planted_on)
   end
 
   def season_dates(season_year, first, last)
@@ -197,7 +221,7 @@ class PlantingFrost
   # The minimum temperatures of the planting's nights while frost danger was possible.
   def nights
     @nights ||= @readings.filter_map do |reading|
-      next unless reading.temp_min_c && reading.date.between?(@planted_on,
+      next unless reading.temp_min_c && reading.date.between?(start_on,
                                                               lived_until) && reading.date.between?(possible.first, possible.last)
 
       reading.temp_min_c

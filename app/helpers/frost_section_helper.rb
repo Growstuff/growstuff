@@ -133,7 +133,14 @@ module FrostSectionHelper
              threshold: frost_degrees(PlantingFrost::THRESHOLD_C) }
     dates = { usual_start: frost.usual.first, usual_end: frost.usual.last, earliest: frost.possible.first, latest: frost.possible.last }
     body = t("#{scope}.body#{suffix}", **args, **dates.transform_values { |date| frost_date_text(date) })
-    %i(passed finished_clear).include?(key) ? "#{body} #{frost_planted_sentence(frost)}" : body
+    planted = frost_planted_sentence(frost) if %i(passed finished_clear).include?(key) && !frost.long_lived?
+    nights = t('plantings.frost.nights_so_far', **args.slice(:count, :coldest, :threshold)) if frost_hit_so_far?(frost)
+    [body, planted, nights].compact.join(' ')
+  end
+
+  # A planting still growing that frost danger has reached, which the sentence about the season doesn't say.
+  def frost_hit_so_far?(frost)
+    !frost.finished? && frost.frost_nights.positive?
   end
 
   def frost_margin_card(frost)
@@ -149,7 +156,11 @@ module FrostSectionHelper
   end
 
   def frost_last_card(frost)
-    note = frost.finished? ? frost_planted_note(frost) : t('plantings.frost.cards.last.note', latest: frost_date_text(frost.possible.last))
+    note = if frost.finished? && !frost.long_lived?
+             frost_planted_note(frost)
+           else
+             t('plantings.frost.cards.last.note', latest: frost_date_text(frost.possible.last))
+           end
     { label: t('plantings.frost.cards.last.label'), value: frost_date_text(frost.usual.last), note: }
   end
 
@@ -159,7 +170,10 @@ module FrostSectionHelper
   end
 
   def frost_next_card(frost)
-    key = frost.finished? ? 'note_finished' : 'note_finishes'
+    key = if frost.finished? then 'note_finished'
+          elsif frost.end_ahead? then 'note_finishes'
+          else 'note_now'
+          end
     note = t("plantings.frost.cards.next.#{key}", earliest: frost_date_text(frost.next_season_earliest),
                                                   days:     frost_days(frost.days_to_next_season))
     { label: t('plantings.frost.cards.next.label'), value: frost_date_text(frost.next_season_start), note: }

@@ -263,6 +263,78 @@ describe PlantingFrost do
     end
   end
 
+  context 'with a perennial planted years ago, with no expected end' do
+    let(:planted_on) { Date.new(2019, 12, 31) }
+    let(:ends_on) { nil }
+    let(:readings) { [reading.new(Date.new(2026, 8, 20), 3.3)] }
+
+    it 'is long lived' do
+      expect(frost).to be_long_lived
+    end
+
+    it 'has no end ahead' do
+      expect(frost).not_to be_end_ahead
+    end
+
+    it 'goes by the current frost season, not the one it went in during' do
+      expect(frost.usual).to eq Date.new(2026, 6, 23)..Date.new(2026, 8, 29)
+    end
+
+    it 'is passed, as today is after the latest it has come' do
+      expect(frost.verdict).to eq :passed
+    end
+
+    it 'counts the days to the next season from today' do
+      expect(frost.days_to_next_season).to eq 228
+    end
+
+    it 'covers only the last year on the timeline' do
+      expect(frost.axis.first).to eq Date.new(2025, 11, 1)
+    end
+
+    it 'draws the planting from the start of the timeline' do
+      expect(frost.planting_bands.first.from).to eq Date.new(2025, 11, 7)
+    end
+
+    it 'keeps the real planting date' do
+      expect(frost.planted_on).to eq Date.new(2019, 12, 31)
+    end
+
+    it 'finds the coldest night of its last year' do
+      expect(frost.coldest_night_c).to eq 3.3
+    end
+
+    it 'counts only the days in danger of its last year' do
+      expect(frost.days_in_danger).to eq 328
+    end
+  end
+
+  context 'with a planting under a year old' do
+    it 'is not long lived' do
+      expect(frost).not_to be_long_lived
+    end
+
+    it 'has an end ahead' do
+      expect(frost).to be_end_ahead
+    end
+
+    context 'when it has finished' do
+      let(:finished) { true }
+
+      it 'has no end ahead' do
+        expect(frost).not_to be_end_ahead
+      end
+    end
+
+    context 'when it has outlived its expected end' do
+      let(:ends_on) { Date.new(2026, 10, 1) }
+
+      it 'has no end ahead' do
+        expect(frost).not_to be_end_ahead
+      end
+    end
+  end
+
   describe '.for' do
     let(:garden) { create(:garden).tap { |garden| garden.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
     let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: Date.new(2026, 8, 18)) }

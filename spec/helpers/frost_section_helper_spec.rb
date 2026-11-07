@@ -48,6 +48,20 @@ describe FrostSectionHelper do
       end
     end
 
+    context 'when a planting still growing has had a frost night' do
+      let(:readings) { [reading.new(Date.new(2026, 9, 1), 1.0)] }
+
+      it 'says more than for a planting with no frost night' do
+        clear = PlantingFrost.new(stat:, planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:,
+                                  readings: [reading.new(Date.new(2026, 9, 1), 6.0)], today:)
+        expect(helper.frost_verdict(frost)[:body].length).to be > helper.frost_verdict(clear)[:body].length
+      end
+
+      it 'adds a sentence from the locale' do
+        expect(missing?(helper.frost_verdict(frost)[:body])).to be false
+      end
+    end
+
     context 'when a planting has finished with no night temperatures' do
       let(:finished) { true }
       let(:readings) { [] }

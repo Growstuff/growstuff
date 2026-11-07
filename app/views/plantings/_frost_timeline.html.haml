@@ -1,6 +1,6 @@
 -# This planting against the frost danger season, on one axis of whole months.
 - direction = frost.planted_days_before_usual_end.negative? ? 'after' : 'before'
-- legend = frost.finished? ? %i(usual possible finished) : %i(usual possible so_far still_to_come)
+- legend = %i(usual possible) + frost.planting_bands.map(&:kind).uniq
 .frost-timeline
   %h3= t('plantings.frost.timeline.title')
   .frost-chart{ role: 'img', 'aria-label': frost_timeline_description(frost) }
@@ -12,8 +12,9 @@
       .frost-lane-label= t('plantings.frost.timeline.row_planting')
       .frost-lane
         = safe_join(frost.planting_bands.map { |band| frost_band_tag(frost, band) })
-    - days = frost_days(frost.planted_days_before_usual_end.abs)
-    %p.frost-annotation= t("plantings.frost.timeline.annotation_#{direction}", days:)
+    - unless frost.long_lived?
+      - days = frost_days(frost.planted_days_before_usual_end.abs)
+      %p.frost-annotation= t("plantings.frost.timeline.annotation_#{direction}", days:)
     .frost-axis{ 'aria-hidden': true }= frost_axis_tags(frost)
   %ul.frost-legend
     - legend.each do |kind|
