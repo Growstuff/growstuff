@@ -40,6 +40,7 @@
           = render 'gardens/photos_section'
           = render 'gardens/jobs_section'
 
+        = render 'frost/section', frost: @frost if @frost
         = render 'gardens/companions', companions: @suggested_companions if @suggested_companions.any?
         - if @finished_plantings.any? || @finished_jobs&.size&.positive?
           %section.garden-previously= render 'previously'
