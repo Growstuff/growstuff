@@ -797,7 +797,7 @@ fr:
       hide_done: Masquer terminé
       in_garden: à %{garden}
       later: Plus tard
-      link_hint: Tapez @ et un nom de recadrage pour lier ce travail à celui-ci.
+      link_hint: Tapez @ et une plante, une plantation ou une parcelle pour lier ce travail à celui-ci.
       move_later: Plus tard
       move_today: Aujourd’hui
       move_tomorrow: Demain

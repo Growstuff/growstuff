@@ -863,7 +863,7 @@ en:
       hide_done: Hide done
       in_garden: in %{garden}
       later: Later
-      link_hint: Type @ and a crop name to link this job to it.
+      link_hint: Type @ and a crop, planting or bed to link this job to it.
       move_later: Later
       move_today: Today
       move_tomorrow: Tomorrow

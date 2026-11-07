@@ -796,7 +796,7 @@ de:
       hide_done: Erledigte ausblenden
       in_garden: in %{garden}
       later: Später
-      link_hint: Geben Sie @ und einen Erntenamen ein, um diesen Auftrag damit zu verknüpfen.
+      link_hint: Geben Sie @ und eine Ernte, eine Bepflanzung oder ein Beet ein, um diesen Auftrag damit zu verknüpfen.
       move_later: Später
       move_today: Heute
       move_tomorrow: Morgen

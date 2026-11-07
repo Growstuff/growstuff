@@ -796,7 +796,7 @@ es:
       hide_done: Ocultar hecho
       in_garden: en %{garden}
       later: Más tarde
-      link_hint: Escriba @ y un nombre de cultivo para vincular este trabajo a él.
+      link_hint: Escriba @ y un cultivo, una plantación o un bancal para vincular este trabajo a él.
       move_later: Más tarde
       move_today: Hoy
       move_tomorrow: Mañana

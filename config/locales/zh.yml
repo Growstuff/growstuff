@@ -794,7 +794,7 @@ zh:
       hide_done: 隐藏完成
       in_garden: 在 %{garden}
       later: 之后
-      link_hint: 输入 @ 和作物名称以将此作业链接到它。
+      link_hint: 输入 @ 和作物、种植或花坛以将此作业链接到它。
       move_later: 之后
       move_today: 今天
       move_tomorrow: 明天
