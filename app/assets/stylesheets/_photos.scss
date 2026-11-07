@@ -190,6 +190,13 @@
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 3px 4px rgba(0, 0, 0, 0.12);
   padding: 1rem 1rem 1.25rem;
 
+  // The favourite heart, top right of the card, above the photo.
+  .photo-polaroid-like {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 0.75rem;
+  }
+
   .photo-polaroid-image {
     border-radius: 2px;
     display: block;

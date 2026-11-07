@@ -1,8 +1,9 @@
 -# The photo, with the way back to where it came from. Its title and menu are above.
 .photo-polaroid
+  .photo-polaroid-like
+    %span.btn= render 'photos/likes', photo: photo
   = image_tag(photo.fullsize_url, alt: photo.title, class: 'photo-polaroid-image')
   .photo-polaroid-caption
-    %span.btn= render 'photos/likes', photo: photo
     = link_to photo.link_url, class: 'photo-polaroid-source' do
       - if photo.source == 'flickr'
         = icon 'fab', 'flickr'
