@@ -21,8 +21,8 @@ describe 'crops/_hardiness' do
     expect(rendered).to have_content "From members' seed packets"
   end
 
-  it 'says it is a guess' do
-    expect(rendered).to have_content 'Alpha – a guess, for entertainment only'
+  it 'marks it experimental' do
+    expect(rendered).to have_css 'small.text-muted'
   end
 
   context 'with a value set by a crop wrangler' do

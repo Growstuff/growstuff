@@ -9,7 +9,8 @@ module FrostSectionHelper
     warning: 'M12 3L2.5 20h19L12 3zM12 10v4M12 17v.5',
     clock:   'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2',
     check:   'M5 12.5l4.5 4.5L19 7.5',
-    sun:     'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4'
+    sun:     'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4' \
+             'M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4'
   }.freeze
   FROST_VERDICT_ICONS = {
     before_season: :snow, in_season: :warning, late_possible: :clock, passed: :check,
@@ -44,17 +45,31 @@ module FrostSectionHelper
     cards.compact
   end
 
-  # A band's place along the timeline, as CSS.
-  def frost_band_style(frost, band)
-    "left: #{frost_percent(frost.position(band.from))}; width: #{frost_percent(frost.width(band))}"
+  # A band of the timeline, placed along it. The frost danger that is only possible has no label.
+  def frost_band_tag(frost, band)
+    label = frost_band_label(frost, band) unless band.kind == :possible
+    style = "left: #{frost_percent(frost.position(band.from))}; width: #{frost_percent(frost.width(band))}"
+    tag.div(label && tag.span(label, class: 'frost-band-label'), class: "frost-band frost-band--#{band.kind}", style:)
   end
 
-  # A month's start along the axis: its place, its name, and the year when it starts a year or the axis.
-  def frost_month_ticks(frost)
-    frost.axis.select { |date| date.day == 1 }.map do |date|
-      year = date.year if date.month == 1 || date == frost.axis.first
-      { left: frost_percent(frost.position(date)), name: l(date, format: '%b'), year: }
+  # The marker for today, and a line down through both rows, for a planting still growing.
+  def frost_today_tags(frost)
+    return unless frost.show_today?
+
+    style = "left: #{frost_percent(frost.position(frost.today))}"
+    pill = tag.span(t('plantings.frost.timeline.today', date: frost_date_text(frost.today)), class: 'frost-today', style:)
+    safe_join([pill, tag.div(class: 'frost-today-line', style:)])
+  end
+
+  # The month starts along the axis, with the year where it starts a year or the axis. They shrink to initials on a phone.
+  def frost_axis_tags(frost)
+    ticks = frost.axis.select { |date| date.day == 1 }.map do |date|
+      name = l(date, format: '%b')
+      year = tag.span(date.year, class: 'frost-year') if date.month == 1 || date == frost.axis.first
+      parts = [tag.span(name, class: 'frost-month-long'), tag.span(name.first, class: 'frost-month-short'), year]
+      tag.div(safe_join(parts), class: 'frost-tick', style: "left: #{frost_percent(frost.position(date))}")
     end
+    safe_join(ticks)
   end
 
   def frost_percent(fraction)
@@ -81,8 +96,9 @@ module FrostSectionHelper
   # How the planting date sits against the usual last frost.
   def frost_planted_sentence(frost)
     count = frost.planted_days_before_usual_end
-    t("plantings.frost.planted.#{count.negative? ? 'after' : 'before'}", planted: frost_date_text(frost.planted_on),
-                                                                        days: frost_days(count.abs), usual_end: frost_date_text(frost.usual.last))
+    key = count.negative? ? 'after' : 'before'
+    t("plantings.frost.planted.#{key}", planted: frost_date_text(frost.planted_on), days: frost_days(count.abs),
+                                        usual_end: frost_date_text(frost.usual.last))
   end
 
   def frost_date_text(date)
@@ -144,7 +160,8 @@ module FrostSectionHelper
 
   def frost_next_card(frost)
     key = frost.finished? ? 'note_finished' : 'note_finishes'
-    note = t("plantings.frost.cards.next.#{key}", earliest: frost_date_text(frost.next_season_earliest), days: frost_days(frost.days_to_next_season))
+    note = t("plantings.frost.cards.next.#{key}", earliest: frost_date_text(frost.next_season_earliest),
+                                                  days:     frost_days(frost.days_to_next_season))
     { label: t('plantings.frost.cards.next.label'), value: frost_date_text(frost.next_season_start), note: }
   end
 

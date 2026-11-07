@@ -6,9 +6,6 @@ module PlantingWeatherHelper
   include WeatherChartFrameHelper
 
   WEATHER_MIN_BAR_WIDTH = 0.6
-  # The frost danger bands, widest first so the usual dates sit over the possible ones: class => first and last day field.
-  FROST_BANDS = { 'weather-frost-wide' => %i(first_frost_p10 last_frost_p90),
-                  'weather-frost'      => %i(first_frost_median last_frost_median) }.freeze
 
   # The headline figures for a run of weather readings, as text, leaving out any we have no data for.
   def weather_summary(readings)
@@ -25,45 +22,12 @@ module PlantingWeatherHelper
     }.compact
   end
 
-  # The frost danger figures for a planting's cell as label => text, which are the usual first and last dates, with the
-  # earliest and latest likely, and the frost-free days. None for a cell with little frost, which has no dates.
-  def frost_danger_figures(stat, planted_on)
-    return {} unless stat.dated?
-
-    day = ->(field) { frost_day(stat, field, planted_on) }
-    figures = {
-      first: t('plantings.show.frost_danger.first_text', date: day[:first_frost_median], early: day[:first_frost_p10]),
-      last:  t('plantings.show.frost_danger.last_text', date: day[:last_frost_median], late: day[:last_frost_p90])
-    }
-    figures[:free_days] = t('plantings.show.frost_danger.days', count: stat.frost_free_days_median.round) if stat.frost_free_days_median
-    figures
-  end
-
-  # Where the planting day falls against the frost danger season: before it starts, before the usual last frost danger,
-  # before the safe-to-plant date, or after it. Nil for a cell with no dates.
-  def frost_danger_timing(stat, planted_on)
-    return unless stat.dated?
-
-    first, last, safe = %i(first_frost_p10 last_frost_median last_frost_p90).map { |field| stat.date_near(field, planted_on) }
-    key = if planted_on < first then :before_season
-          elsif planted_on <= last then :before_last
-          elsif planted_on <= safe then :before_safe
-          else :after_safe
-          end
-    shown = key == :before_season ? first : last
-    t("plantings.show.frost_danger.timing.#{key}", date: l(shown, format: '%-d %B'), safe: l(safe, format: '%-d %B'))
-  end
-
   # The figures in a summary, as a phrase, leaving out any we have no data for: "7 mm of rain, highs up to 16.5°C and
   # lows down to 6.5°C". Nil when we have none of them. `weather_summary` leaves out what is missing.
   def weather_figures(summary)
     [("#{summary[:rain]} of rain" if summary[:rain]),
      ("highs up to #{summary[:hottest]}" if summary[:hottest]),
      ("lows down to #{summary[:coldest]}" if summary[:coldest])].compact.to_sentence.presence
-  end
-
-  def frost_day(stat, field, date)
-    l(stat.date_near(field, date), format: '%-d %B')
   end
 
   # How many days the weather charts' X axis spans, from the first day of weather: the same stretch as the progress
@@ -92,7 +56,7 @@ module PlantingWeatherHelper
 
   # Daily rainfall as bars, placed by date along an axis that starts on `from` and runs for `days`.
   # `expected` is the same for days still to come: paler, because it is a prediction.
-  def weather_rain_chart(readings, from:, days:, seasons: [], expected: [], now: nil, frost: nil) # rubocop:disable Metrics/ParameterLists
+  def weather_rain_chart(readings, from:, days:, seasons: [], expected: [], now: nil) # rubocop:disable Metrics/ParameterLists
     top = [(readings + expected).filter_map(&:rainfall_mm).max.to_f.ceil, 1].max
     step = weather_step(days)
     bars = safe_join([weather_rain_bars(readings, from:, step:, top:),
@@ -103,7 +67,7 @@ module PlantingWeatherHelper
                                                    rain: "#{latest.rainfall_mm.to_f.round(1)} mm")
     end
     ticks = [[0, weather_tick(top, 'mm')], [0.5, weather_tick(top / 2.0, 'mm')], [1, weather_tick(0, 'mm')]]
-    weather_chart(safe_join([weather_season_bands(seasons, days), weather_frost_bands(frost, from:, days:), bars]),
+    weather_chart(safe_join([weather_season_bands(seasons, days), bars]),
                   t('plantings.show.weather_rain_chart_alt', max: top, count: readings.size), 'weather-rain',
                   now: [weather_now_x(now, from, days), label], ticks:)
   end
@@ -116,6 +80,7 @@ module PlantingWeatherHelper
     return if values.empty?
 
     low = values.min.floor
+    low = [low, 0].min if frost
     high = [values.max.ceil, low + 1].max
     scale = { low:, span: high - low, step: weather_step(days) }
     lines = weather_temperature_lines(readings, from:, scale:)
@@ -123,10 +88,10 @@ module PlantingWeatherHelper
     range = observed.presence || values
     alt = t('plantings.show.weather_temperature_chart_alt', low: weather_degrees(range.min), high: weather_degrees(range.max))
     ticks = [[0, weather_tick(high, '°')], [0.5, weather_tick((low + high) / 2.0, '°')], [1, weather_tick(low, '°')]]
-    frost_line = weather_frost_line(frost, scale, days)
-    weather_chart(safe_join([weather_season_bands(seasons, days), weather_frost_bands(frost, from:, days:), frost_line, lines]),
+    weather_chart(safe_join([weather_season_bands(seasons, days), weather_frost_line(frost, scale, days), lines]),
                   alt, 'weather-temperature',
-                  now: [weather_now_x(now, from, days), weather_now_temperatures(readings.last)], ticks:)
+                  now: [weather_now_x(now, from, days), weather_now_temperatures(readings.last)], ticks:,
+                  overlay: weather_frost_label(frost, scale))
   end
 
   # The seasons' names, laid out under the charts to the same widths as their bands.
@@ -179,36 +144,29 @@ module PlantingWeatherHelper
     end.join(' ')
   end
 
-  # Bands behind the chart for the usual frost danger: stronger from the usual first to the usual last, paler from the
-  # earliest to the latest likely. One of each for every frost year that touches the axis. None without dates.
-  def weather_frost_bands(stat, from:, days:)
-    return unless stat&.dated?
-
-    to = from + days - 1
-    years = (stat.frost_year_of(from) - 1)..(stat.frost_year_of(to) + 1)
-    safe_join(FROST_BANDS.flat_map do |css, (first, last)|
-      years.filter_map do |year|
-        weather_frost_band(css, stat.date_for(first, year)..stat.date_for(last, year), from:, last_day: to, step: weather_step(days))
-      end
-    end)
-  end
-
-  def weather_frost_band(css, dates, from:, last_day:, step:)
-    first = [dates.first, from].max
-    last = [dates.last, last_day].min
-    return if first > last
-
-    tag.rect(class: css, x: ((first - from) * step).round(2), y: 0, width: ((last - first + 1) * step).round(2),
-             height: WEATHER_CHART_HEIGHT)
-  end
-
-  # A dashed line across the temperature chart at the frost danger temperature, when the chart's range reaches it.
+  # A dashed line across the temperature chart at the frost danger temperature, when there are frost dates and the chart's
+  # range reaches it.
   def weather_frost_line(stat, scale, days)
+    y = weather_frost_y(stat, scale)
+    tag.line(class: 'weather-frost-line', x1: 0, x2: (days * scale[:step]).round(2), y1: y, y2: y) if y
+  end
+
+  # What the dashed line is, beside it.
+  def weather_frost_label(stat, scale)
+    y = weather_frost_y(stat, scale)
+    return unless y
+
+    degrees = weather_tick(FrostCalculator::FROST_DANGER_C, '')
+    tag.span(t('plantings.show.frost_line', degrees:), class: 'weather-frost-label',
+                                                       style: "top: #{(y * 100 / WEATHER_CHART_HEIGHT).round(2)}%")
+  end
+
+  # How far down the chart the frost danger temperature is, or nil when there is no line to draw.
+  def weather_frost_y(stat, scale)
     degrees = FrostCalculator::FROST_DANGER_C
     return unless stat&.dated? && degrees.between?(scale[:low], scale[:low] + scale[:span])
 
-    y = (WEATHER_CHART_HEIGHT - ((degrees - scale[:low]) / scale[:span] * WEATHER_CHART_HEIGHT)).round(1)
-    tag.line(class: 'weather-frost-line', x1: 0, x2: (days * scale[:step]).round(2), y1: y, y2: y)
+    (WEATHER_CHART_HEIGHT - ((degrees - scale[:low]) / scale[:span] * WEATHER_CHART_HEIGHT)).round(1)
   end
 
   # A faint band behind the chart for each season, so the weather can be read against the year.

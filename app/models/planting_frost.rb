@@ -108,7 +108,7 @@ class PlantingFrost
   # Days from planting to the latest it has come, or to the end of the planting if that is sooner. None if it went in
   # after the latest.
   def days_in_danger
-    [([possible.last, ends_on].min - @planted_on).to_i, 0].max
+    [([possible.last, lived_until].min - @planted_on).to_i, 0].max
   end
 
   def days_to_next_season
@@ -132,7 +132,8 @@ class PlantingFrost
   # The dates the timeline covers: whole months, from the earliest possible frost (or the planting, if earlier) to a
   # month past the start of the next season (or the end of the planting, if later).
   def axis
-    @axis ||= [possible.first, @planted_on].min.beginning_of_month..[next_season_start.next_month.end_of_month, ends_on.end_of_month].max
+    @axis ||= [possible.first,
+               @planted_on].min.beginning_of_month..[next_season_start.next_month.end_of_month, lived_until.end_of_month].max
   end
 
   # The frost danger on the timeline, for the year the planting went in and the next, cut to the axis.
@@ -162,6 +163,12 @@ class PlantingFrost
 
   private
 
+  # The last day the planting has lived through: its end once it has finished, and while it is still growing, the later of
+  # its expected end and today, as it carries on past an expected end that has gone by.
+  def lived_until
+    finished? ? ends_on : [ends_on, today].max
+  end
+
   def year
     @year ||= @stat.frost_year_of(@planted_on)
   end
@@ -190,8 +197,10 @@ class PlantingFrost
   # The minimum temperatures of the planting's nights while frost danger was possible.
   def nights
     @nights ||= @readings.filter_map do |reading|
-      reading.temp_min_c if reading.temp_min_c && reading.date.between?(@planted_on,
-                                                                        ends_on) && reading.date.between?(possible.first, possible.last)
+      next unless reading.temp_min_c && reading.date.between?(@planted_on,
+                                                              lived_until) && reading.date.between?(possible.first, possible.last)
+
+      reading.temp_min_c
     end
   end
 end

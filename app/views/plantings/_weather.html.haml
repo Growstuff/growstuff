@@ -1,9 +1,10 @@
 -# The weather so far, on the same X axis as the progress bar above: from the planting date, for the crop's
 -# whole expected lifespan, or from a year ago for a planting older than that. The data fills the part already lived.
-- days = weather_axis_days(planting)
-- seasons = weather_seasons(planting.latitude, from: planting.weather_first_day, days:)
-- now = weather_now(planting, days)
-- frost = planting.frost_danger
+:ruby
+  days = weather_axis_days(planting)
+  seasons = weather_seasons(planting.latitude, from: planting.weather_first_day, days:)
+  now = weather_now(planting, days)
+  frost = planting.frost_danger
 .weather-charts
   %figure
     %figcaption
@@ -12,10 +13,8 @@
     = weather_temperature_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:, frost:)
   %figure
     %figcaption= t('plantings.show.weather_rain_chart')
-    = weather_rain_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:, frost:)
+    = weather_rain_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:)
 = weather_season_strip(seasons, days)
-- if frost&.dated?
-  %p.weather-frost-note.small.text-muted= t('plantings.show.frost_danger.chart_note')
 - if expected.any?
   %p.weather-expected-note.small.text-muted= t('plantings.show.weather_expected_note')
 - if readings.any?
@@ -24,22 +23,6 @@
       .weather-figure
         %dt= t("plantings.show.weather_#{key}")
         %dd= value
-- if frost && frost.status != 'unknown'
-  .frost-danger
-    %h3.h6= t('plantings.show.frost_danger.title')
-    - if frost.dated?
-      %dl.weather-summary
-        - frost_danger_figures(frost, planting.planted_at).each do |key, value|
-          .weather-figure
-            %dt= t("plantings.show.frost_danger.#{key}")
-            %dd= value
-      %p.mb-1= frost_danger_timing(frost, planting.planted_at)
-    - else
-      %p.mb-1= t('plantings.show.frost_danger.rare')
-    - if frost.status == 'possible'
-      %p.small.text-muted.mb-1= t('plantings.show.frost_danger.possible')
-    %p.small.text-muted= t('plantings.show.frost_danger.note')
-    %p.small.text-muted= t('frost.alpha')
 - open_meteo = link_to(t('plantings.show.weather_credit_source'), 'https://open-meteo.com/')
 - licence = link_to(t('plantings.show.weather_credit_licence'), 'https://creativecommons.org/licenses/by/4.0/')
 %p.text-muted.small.mb-0= t('plantings.show.weather_credit_html', open_meteo:, licence:)

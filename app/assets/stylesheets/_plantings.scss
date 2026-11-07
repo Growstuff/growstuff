@@ -536,7 +536,7 @@
     width: 100%;
   }
 
-  .weather-rain rect:not(.weather-season, .weather-frost, .weather-frost-wide) {
+  .weather-rain rect:not(.weather-season) {
     fill: $blue;
   }
 
@@ -589,22 +589,25 @@
     fill-opacity: 0.14;
   }
 
-  // The usual frost danger, over the season bands: a stronger blue for the usual dates, paler for the possible ones.
-  .weather-frost {
-    fill: #1ea7d6;
-    fill-opacity: 0.22;
-  }
-
-  .weather-frost-wide {
-    fill: #1ea7d6;
-    fill-opacity: 0.1;
-  }
-
   .weather-frost-line {
-    stroke: #1ea7d6;
+    stroke: $blue;
     stroke-dasharray: 4 3;
     stroke-width: 1;
     vector-effect: non-scaling-stroke;
+  }
+
+  // What the dashed line is, on the right above it.
+  .weather-frost-label {
+    background: rgba($white, 0.85);
+    border-radius: 3px;
+    color: $blue;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0 0.25rem;
+    position: absolute;
+    right: 0.4rem;
+    transform: translateY(-110%);
   }
 
   .weather-seasons {

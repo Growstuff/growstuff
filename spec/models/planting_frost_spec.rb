@@ -168,6 +168,29 @@ describe PlantingFrost do
       end
     end
 
+    context 'when the planting is still growing past its expected end' do
+      let(:ends_on) { Date.new(2026, 8, 25) }
+      let(:readings) { [reading.new(Date.new(2026, 9, 10), 6.0)] }
+
+      it 'counts the nights since' do
+        expect(frost.coldest_night_c).to eq 6.0
+      end
+
+      it 'counts the days in danger up to the latest it has come' do
+        expect(frost.days_in_danger).to eq 44
+      end
+    end
+
+    context 'when the planting has finished before some nights' do
+      let(:finished) { true }
+      let(:ends_on) { Date.new(2026, 8, 25) }
+      let(:readings) { [reading.new(Date.new(2026, 9, 10), 6.0)] }
+
+      it 'leaves out the nights after it' do
+        expect(frost.coldest_night_c).to be_nil
+      end
+    end
+
     context 'with no readings' do
       let(:readings) { [] }
 
