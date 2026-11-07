@@ -185,6 +185,14 @@ class MemberDashboard
     "#{low}–#{high}°#{member.latitude.negative? ? 'S' : 'N'}"
   end
 
+  def jobs_today_or_tomorrow?
+    jobs_today_or_tomorrow_count.positive?
+  end
+
+  def jobs_today_or_tomorrow_count
+    @jobs_today_or_tomorrow_count ||= member.jobs.active.where(due_date: @today..(@today + 1.day)).count
+  end
+
   private
 
   def year_range(years_back)

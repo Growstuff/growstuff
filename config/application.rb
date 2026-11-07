@@ -83,7 +83,7 @@ module Growstuff
     config.user_agent_email = "info@growstuff.org"
 
     # config.active_record.raise_in_transactional_callbacks = true
-    config.middleware.insert_before 0, Rack::Attack
+    config.middleware.use Rack::Attack
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do

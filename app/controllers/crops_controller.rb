@@ -262,7 +262,7 @@ class CropsController < ApplicationController
     params.require(:crop).permit(
       *(:hardiness_by_hand if can?(:wrangle, Crop)),
       :name, :en_wikipedia_url, :en_youtube_url,
-      :parent_id, :perennial, :icon,
+      :parent_id, :perennial, :harvest_style, :icon,
       :request_notes, :reason_for_rejection,
       :rejection_notes,
       :description,

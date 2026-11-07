@@ -30,6 +30,11 @@
                 - else
                   %small.text-muted We don't have enough data yet on the median lifespan.
 
+  - if (style = crop.effective_harvest_style)
+    = render 'layouts/fact_card',
+      title: t('crops.predictions.harvest_style'),
+      value: t("crops.harvest_style.#{style}.value"),
+      description: t("crops.harvest_style.#{style}.description")
   - if crop.median_days_to_first_harvest.present?
     = render 'layouts/fact_card',
       title: 'First harvest expected',
@@ -48,3 +53,4 @@
     = render 'layouts/fact_card',
       title: 'Growing Degree Days', value: crop.growing_degree_days, description: nil
   = render 'openfarm_data', crop: crop
+= render 'crops/growing_degree_days', crop: crop
