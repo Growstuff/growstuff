@@ -1,3 +1,4 @@
+---
 zh:
   activerecord:
     errors:
@@ -14,10 +15,10 @@ zh:
         grid_too_small_for_plantings: 太小：一些植物会掉到床外。先把他们搬走。
         harvest_after_planted: 种植前不能收获
         no_newlines: 不得包含换行符
-        not_a_valid_area_unit: '%{value} 不是有效的区域单位'
-        not_a_valid_planting_method: '%{value} 不是有效的种植方法'
-        not_a_valid_sunniness: '%{value} 不是有效的阳光强度值'
-        not_a_valid_unit: '%{value} 不是有效单位'
+        not_a_valid_area_unit: "%{value} 不是有效的区域单位"
+        not_a_valid_planting_method: "%{value} 不是有效的种植方法"
+        not_a_valid_sunniness: "%{value} 不是有效的阳光强度值"
+        not_a_valid_unit: "%{value} 不是有效单位"
         not_a_valid_wikipedia_url: 不是有效的英文维基百科 URL
         not_a_valid_youtube_url: 不是有效的 YouTube 网址
         one_nursery_per_member: 已经存在；一名会员只能拥有一个托儿所
@@ -113,8 +114,8 @@ zh:
         job_ideas: 工作思路
         planting_weather: 播种天气
       update:
-        'off': '%{feature} 现已关闭。'
-        'on': '%{feature} 现已开启。'
+        'off': "%{feature} 现已关闭。"
+        'on': "%{feature} 现已开启。"
   alternate_names:
     created: 备用名称已成功创建。
     deleted: 备用名称已成功删除。
@@ -157,6 +158,32 @@ zh:
     unlike: 删除喜欢
     view: 看法
     write_blog_post: 写博客文章
+  comments:
+    edit_modal:
+      save: 保存
+      title: 编辑评论
+      your_comment: 你的评论
+    inline_form:
+      add_comment: 添加评论
+      post_comment: 发表评论
+  community_gardens:
+    collaborate: 与您的团队合作
+    collaborate_text: 邀请其他园丁在您的花园地块上进行合作。分享工作，分享收获，作为一个社区共同成长。
+    features:
+      add_collaborators: 添加协作者到您的花园地块
+      get_advice_and_support: 从我们的园丁社区获得建议和支持
+      keep_notes: 记录您社区的进展
+      see_other_gardens: 了解其他社区花园种植什么
+      track_plantings_and_harvests: 追踪您所有的种植和收获
+    features_title: 社区花园的特点
+    get_started: 今天开始
+    get_started_text: 注册 Growstuff 是免费且简单的。创建一个帐户，立即开始跟踪您的花园。
+    header: 社区花园
+    lead: Growstuff 是开源的，是管理社区花园的完美场所。跟踪您的种植情况、庆祝您的收获并与您的园丁同事合作，所有这些都在一处完成。
+    learn_more: 了解更多关于花园的信息
+    meta_description: 管理您的社区花园，跟踪您的种植情况，并与其他园丁合作。
+    sign_up: 免费注册
+    title: Growstuff 社区花园
   conversations:
     index:
       boxes:
@@ -169,18 +196,6 @@ zh:
       select_for_deletion: 选择删除
       time_ago: "%{time}前"
       title: 收件箱
-  community_gardens:
-    collaborate: 与您的团队合作
-    collaborate_text: 邀请其他园丁在您的花园地块上进行合作。分享工作，分享收获，作为一个社区共同成长。
-    features_title: 社区花园的特点
-    get_started: 今天开始
-    get_started_text: 注册 Growstuff 是免费且简单的。创建一个帐户，立即开始跟踪您的花园。
-    header: 社区花园
-    lead: Growstuff 是开源的，是管理社区花园的完美场所。跟踪您的种植情况、庆祝您的收获并与您的园丁同事合作，所有这些都在一处完成。
-    learn_more: 了解更多关于花园的信息
-    meta_description: 管理您的社区花园，跟踪您的种植情况，并与其他园丁合作。
-    sign_up: 免费注册
-    title: Growstuff 社区花园
   crop_companions:
     created: 同伴已成功创建。
     deleted: 同伴被成功摧毁。
@@ -219,21 +234,40 @@ zh:
         draft: 草稿
         published: 已发表
     saved: 作业模板已保存。
-  comments:
-    edit_modal:
-      save: 保存
-      title: 编辑评论
-      your_comment: 你的评论
-    inline_form:
-      add_comment: 添加评论
-      post_comment: 发表评论
   crops:
+    find_seeds:
+      empty: 目前Growstuff上没有可供交易的种子。
+      list_seeds: 登记 %{crop} 种子以供交易
+      purchase_via_ebay: 通过 eBay 购买种子
+      trade_seeds: 登记您的种子以供交易
+      view_all: "查看所有 %{crop} 种子"
+      will_trade: "%{owner} 将在 %{tradable_to} 范围内交易。"
+    alternate_name_modal:
+      add_title: 为%{crop}添加别名
+      cancel: 取消
+      close: 关闭
+      edit_title: 编辑别名
+      language: 语言
+      name: 名称
+      save: 保存
+    approval_status_message:
+      pending_title: 该作物目前正在等待审核。
+      rejected_message: 该作物因以下原因被拒绝：%{reason}
+      request_notes: 请求备注：%{notes}
+      requested_by: 该作物由 %{requester} 在 %{time_ago}前请求添加。
     harvests:
       empty: 还没有人收获过这种作物。
-      harvest_crop: "收获 %{crop}"
+      harvest_crop: 收获 %{crop}
       harvested: "%{owner} 收获了 %{quantity}。"
-      track_harvests: "记录您的 %{crop} 收获"
-      view_all: "查看所有 %{crop} 收获"
+      track_harvests: 记录您的 %{crop} 收获
+      view_all: 查看所有 %{crop} 收获
+    index:
+      subtitle: "%{crops_size} 总计"
+      title: 浏览农作物
+    join_banner:
+      heading: Growstuff 是一个免费的、由社区运营的网站，面向种植食物的人们。
+      prompt: 注册即可记录您自己的 %{crops}。
+      text: 记录您种植和收获的内容，寻找种子进行交换，并了解您附近种植的植物。
     nutritional_data:
       carbohydrate: 碳水化合物
       energy: 能量
@@ -245,19 +279,10 @@ zh:
       sugars: "- 糖"
       summary: "%{food_name} 每 100 克的营养数据摘要。"
       title: 营养数据
-    approval_status_message:
-      pending_title: "该作物目前正在等待审核。"
-      rejected_message: "该作物因以下原因被拒绝：%{reason}"
-      request_notes: "请求备注：%{notes}"
-      requested_by: "该作物由 %{requester} 在 %{time_ago}前请求添加。"
-    alternate_name_modal:
-      add_title: 为%{crop}添加别名
-      cancel: 取消
-      close: 关闭
-      edit_title: 编辑别名
-      language: 语言
-      name: 名称
-      save: 保存
+    requested:
+      link: 您有 %{number_crops} 作物等待批准
+      subtitle: 待批准
+      title: 要求的作物
     scientific_name_modal:
       add_title: 为%{crop}添加学名
       cancel: 取消
@@ -268,21 +293,10 @@ zh:
       name: 学名
       save: 保存
       wikidata_id: 维基数据 ID
-    index:
-      subtitle: '%{crops_size} 总计'
-      title: 浏览农作物
-    join_banner:
-      heading: Growstuff 是一个免费的、由社区运营的网站，面向种植食物的人们。
-      prompt: 注册即可记录您自己的 %{crops}。
-      text: 记录您种植和收获的内容，寻找种子进行交换，并了解您附近种植的植物。
-    requested:
-      link: 您有 %{number_crops} 作物等待批准
-      subtitle: 待批准
-      title: 要求的作物
     search: 搜索农作物
   edit_crop: 编辑裁剪
   forms:
-    optional: （选修的）
+    optional: "（选修的）"
   forums:
     created: 论坛创建成功。
     deleted: 论坛已成功删除。
@@ -300,24 +314,31 @@ zh:
       manage: 管理
       owner: 所有者
       temperature_unknown: 未知
-      temperatures_html: '%{source} 的当地气温：最热的 %{hottest}，最冷的 %{coldest}。'
+      temperatures_html: "%{source} 的当地气温：最热的 %{hottest}，最冷的 %{coldest}。"
       wikidata_missing: 该位置缺少维基数据信息。
-      you: （你）
-    archived_jobs:
-      by: "由 %{owner}"
-      done: "已完成"
-      due: "截止日期 %{date}"
-      empty: "这里没有安排任何任务。"
-      on_planting_html: "针对 %{planting}"
-      photos:
-        one: "1 张照片"
-        other: "%{count} 张照片"
-      title: "此花园中的任务"
-      view_all_jobs: "查看全部 %{total} 项任务"
+      you: "（你）"
     actions:
       add_photo: 添加来自 Flickr 的照片
       make_nursery: 把这里变成托儿所
       new_job: 新工作
+    archived_jobs:
+      by: 由 %{owner}
+      done: 已完成
+      due: 截止日期 %{date}
+      empty: 这里没有安排任何任务。
+      on_planting_html: 针对 %{planting}
+      photos:
+        one: 1 张照片
+        other: "%{count} 张照片"
+      title: 此花园中的任务
+      view_all_jobs: 查看全部 %{total} 项任务
+    card:
+      layout: 布局
+      no_annuals: 无一年生植物
+      no_perennials: 无多年生植物
+      of: 的
+      owner: '所有者:'
+      perennials: '多年生:'
     companions:
       heading: 推荐同伴
     confirm_deactivate: 与该花园相关的所有植物都将标记为已完成。你确定吗？
@@ -340,25 +361,18 @@ zh:
       unknown: 未知
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
-    card:
-      layout: 布局
-      no_annuals: 无一年生植物
-      no_perennials: 无多年生植物
-      of: 的
-      owner: '所有者:'
-      perennials: '多年生:'
-    inactive_card:
-      grown_here: 在此种植
-      image_alt: "%{name}的照片"
-      more_crops: "以及其他 %{count} 种"
     header:
-      all_gardens: '%{owner} 的所有花园'
+      all_gardens: "%{owner} 的所有花园"
       garden_of: 的花园
       hero_caption:
         one: 花园照片·%{count} 照片
         other: 花园照片·%{count} 照片
-      hero_label: '%{garden}的照片'
+      hero_label: "%{garden}的照片"
       season_title: 这个花园的季节
+    inactive_card:
+      grown_here: 在此种植
+      image_alt: "%{name}的照片"
+      more_crops: 以及其他 %{count} 种
     jobs_section:
       public: 民众
     join_banner:
@@ -376,12 +390,12 @@ zh:
       map_out_text: 将你的植物拖到床上的图片上，看看什么适合哪里。
       new: 新的
       plants_placed:
-        one: '%{count} 植物放置在床上'
-        other: '%{count} 植物放置在床上'
+        one: "%{count} 植物放置在床上"
+        other: "%{count} 植物放置在床上"
       view_layout: 查看布局
       view_layout_label: 查看床位布局
       where_each: 花园里每种植物生长的地方，都在床的地图上。
-    location: '%{owner} 的 %{garden}'
+    location: "%{owner} 的 %{garden}"
     nursery_declined: 好吧，我们不会再问托儿所的事了。您可以稍后从您的花园页面进行设置。
     nursery_made: 这个花园现在是你的苗圃。
     nursery_name: 苗圃
@@ -392,12 +406,12 @@ zh:
       no_plantings: 没有种植
       plantingsthumbnail: 种植/缩略图
     owner_gardens:
-      growing_count: '%{count} 成长'
-      heading: '%{owner} 的花园'
+      growing_count: "%{count} 成长"
+      heading: "%{owner} 的花园"
       inactive_gardens:
-        one: '%{count} 闲置花园'
-        other: '%{count} 不活跃的花园'
-      new_garden: + 新花园
+        one: "%{count} 闲置花园"
+        other: "%{count} 不活跃的花园"
+      new_garden: "+ 新花园"
       nursery: 苗圃
     photos_section:
       add: 添加
@@ -427,9 +441,9 @@ zh:
     updated: 花园已成功更新。
   harvests:
     card:
-      by: "由"
-      harvested: "已收获"
-      picked_at: "采摘于 %{date}"
+      by: 由
+      harvested: 已收获
+      picked_at: 采摘于 %{date}
       title: "%{crop}收获"
     created: 收获成功创建。
     edit_modal:
@@ -442,10 +456,16 @@ zh:
       weight_quantity: 重量（总计）
       weight_unit: 称重单位
     harvest_something: 收获一些东西
+    index:
+      title:
+        crop_harvests: 大家的收获%{crop}
+        default: 大家的收获
+        owner_harvests: "%{owner}的收获"
+        planting_harvests: "%{planting} 的收获"
     modal:
       all_plant_parts: 所有植物部位
       close: 关闭
-      recommended_plant_parts: "建议收获的植物部位："
+      recommended_plant_parts: 建议收获的植物部位：
       record_harvest: 记录收获
       select_plant_part: 选择您收获的植物部位
       title: 记录%{crop}收获
@@ -454,37 +474,31 @@ zh:
       rate_planting: 评价该种植
       save: 保存
       unrated_notice: 此收获来自尚未评分的种植。
-    index:
-      title:
-        crop_harvests: 大家的收获%{crop}
-        default: 大家的收获
-        owner_harvests: '%{owner}的收获'
-        planting_harvests: '%{planting} 的收获'
     show:
-      heading: '%{crop}收获'
+      heading: "%{crop}收获"
     updated: 收获已成功更新。
   home:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
     blurb:
       badge: 开源 · 开放数据 · 自 2012 年
       headline_html: 知道<strong>种植什么</strong>，<br>现在，在您居住的地方
-      intro: '%{site_name} 是一个食品园丁社区。跟踪您的花园，从邻居那里寻找种子，看看您附近的园丁本月正在种植什么。'
+      intro: "%{site_name} 是一个食品园丁社区。跟踪您的花园，从邻居那里寻找种子，看看您附近的园丁本月正在种植什么。"
       photo_by: 通过 %{login}
       public_note: 您记录的所有内容都是公开的开放数据，包括您所在的城市。
-      sign_in_linktext: 登入
       sign_in_bluesky: 使用 Bluesky 登入
+      sign_in_linktext: 登入
       sign_up: 免费加入
     dashboard:
-      add_bed: + 床
-      add_seeds: + 种子
+      add_bed: "+ 床"
+      add_seeds: "+ 种子"
       all_gardens: 所有花园
       all_plants: 所有植物
       all_varieties:
-        one: '%{count}品种'
+        one: "%{count}品种"
         other: 所有 %{count} 品种
       at_latitude: 在你的纬度
-      at_latitude_note: '%{band} 园丁的顶级种植'
-      bed_counts: '%{plantings} 种植 · %{ready} 准备就绪'
+      at_latitude_note: "%{band} 园丁的顶级种植"
+      bed_counts: "%{plantings} 种植 · %{ready} 准备就绪"
       beds: 床位
       chip_growing: 生长
       chip_ready: 准备好
@@ -497,8 +511,8 @@ zh:
       compared_empty: 种植与去年相同的作物，我们将在这里进行比较。
       compared_note: 今年和去年的作物相同
       days:
-        one: '%{count} 天'
-        other: '%{count} 天'
+        one: "%{count} 天"
+        other: "%{count} 天"
       do_it: 做吧
       done: 完毕
       easy_to_sow: 在您附近的 %{month} 轻松播种
@@ -508,7 +522,7 @@ zh:
       friends: 我的朋友和邻居
       friends_empty: 跟随一些园丁看看他们正在种植什么。
       friends_note: 首先关注您的人，然后是您附近的人
-      garden_title_html: <strong>%{name}</strong>花园
+      garden_title_html: "<strong>%{name}</strong>花园"
       get_started: 开始使用
       growing_now: 现在正在成长
       harvest_by_month: 按月收获
@@ -530,23 +544,23 @@ zh:
       nothing_ready: 一切还没有准备好。
       nothing_to_show: 没有任何匹配。
       novice_lede:
-        one: '%{count} 植物生长。很好的开始。'
-        other: '%{count} 植物正在生长。很好的开始。'
+        one: "%{count} 植物生长。很好的开始。"
+        other: "%{count} 植物正在生长。很好的开始。"
       plant_crop: 植物 %{crop}
       plant_this: 种这个
       planted_when: 种植 %{when}
       planting: 种植
-      plus_harvest: + 收获
-      plus_job: + 规划工作
-      plus_plant: + 植物
+      plus_harvest: "+ 收获"
+      plus_job: "+ 规划工作"
+      plus_plant: "+ 植物"
       ready: 准备好
       ready_now: 现在准备好了
       ready_title:
-        one: '%{count} 播种准备收获'
-        other: '%{count} 作物已准备好收获'
+        one: "%{count} 播种准备收获"
+        other: "%{count} 作物已准备好收获"
       record_harvests: 创纪录的收成
       relative:
-        ago: '%{time} 前'
+        ago: "%{time} 前"
         today: 今天
         yesterday: 昨天
       see_all: 查看全部
@@ -583,6 +597,10 @@ zh:
       this_week: 本星期
       tile_harvest: 记录你选择的内容
       tile_job: 为你的花园计划一项任务
+      jobs_today:
+        one: 今天有 1 项任务
+        other: 今天有 %{count} 项任务
+      jobs_today_go: 我的任务 →
       tile_job_title: 添加职位
       tile_photo: 花园的
       tile_photo_title: 添加照片
@@ -594,8 +612,8 @@ zh:
       view_seed_library: 查看您的种子库
       vs_last_year: 与去年相比
       years_growing:
-        one: '%{count} 年增长'
-        other: '%{count} 年成长'
+        one: "%{count} 年增长"
+        other: "%{count} 年成长"
     index:
       harvest: 收成
       plant: 植物
@@ -609,7 +627,7 @@ zh:
       by: 经过
       comments:
         one: 1 条评论
-        other: '%{count} 评论'
+        other: "%{count} 评论"
       title: 最近的帖子
     releases:
       find_out_more: 了解更多»
@@ -652,7 +670,7 @@ zh:
         title: 大约从2012年开始
       title: 为什么要登录
   job_ideas:
-    add: + 添加
+    add: "+ 添加"
     add_all: 添加所有 %{count}
     added: 将“%{name}”添加到您的作业中。
     added_to_jobs:
@@ -680,7 +698,7 @@ zh:
       plant: 植物 %{crop}
     more:
       one: 还有 1 个想法等待。
-      other: '%{count} 更多想法等待。'
+      other: "%{count} 更多想法等待。"
     none: 目前没什么可建议的。随着季节的变化回来查看。
     preview:
       one: 查看职位
@@ -689,26 +707,26 @@ zh:
       community:
         earlier:
           one: 一位种植 %{crop} 的园丁在每年的这个时候就这样做过。
-          other: '%{count} 种植 %{crop} 的园丁在每年的这个时候就这样做过。'
+          other: "%{count} 种植 %{crop} 的园丁在每年的这个时候就这样做过。"
         now:
           one: 种植 %{crop} 的 1 名园丁本月已计划这样做。
-          other: '%{count} 种植 %{crop} 的园丁本月有这个计划。'
+          other: "%{count} 种植 %{crop} 的园丁本月有这个计划。"
       community_of:
         earlier:
           one: 每年的这个时候，种植 %{crop} 的 %{of} 园丁中的一位就这样做了。
-          other: '%{of} 的 %{count} 种植 %{crop} 的园丁在每年的这个时候就这样做了。'
+          other: "%{of} 的 %{count} 种植 %{crop} 的园丁在每年的这个时候就这样做了。"
         now:
           one: 种植 %{crop} 的 %{of} 园丁中的 1 名本月计划了此操作。
-          other: '%{count} 的 %{of} 种植 %{crop} 的园丁本月有这个计划。'
+          other: "%{count} 的 %{of} 种植 %{crop} 的园丁本月有这个计划。"
       harvest_harvested: 您上次收获的时间是 %{day}。
       harvest_predicted: 在 %{day} 左右准备好，看看通常需要多长时间。
       nearby:
         earlier:
           one: 每年的这个时候，附近的一位园丁就这样做过。
-          other: '%{count} 附近的园丁每年的这个时候都会这样做。'
+          other: "%{count} 附近的园丁每年的这个时候都会这样做。"
         now:
           one: 附近的一位园丁本月计划了这个。
-          other: '%{count} 附近的园丁本月有这个计划。'
+          other: "%{count} 附近的园丁本月有这个计划。"
       past_job:
         one: 您在 %{day} 上执行了此操作。
         other: 您在 %{count} 年中的这个时候执行了此操作，最后一次是在 %{day} 上。
@@ -717,21 +735,21 @@ zh:
         other: 您在 %{count} 年的这个时候种植了此树，最后一次在 %{day} 年种植。
       template:
         one: 1 份工作：%{steps}。为了你的%{crop}种植在%{day}上。
-        other: '%{count} 职位：%{steps}。为了你的%{crop}种植在%{day}上。'
+        other: "%{count} 职位：%{steps}。为了你的%{crop}种植在%{day}上。"
       world:
         earlier:
           one: 每年的这个时候，您所在纬度的一位园丁都会这样做。
-          other: '%{count} 在你所在纬度的园丁在每年的这个时候都会这样做。'
+          other: "%{count} 在你所在纬度的园丁在每年的这个时候都会这样做。"
         now:
           one: 您所在纬度的 1 位园丁本月已计划这样做。
-          other: '%{count} 你所在纬度的园丁本月有这个计划。'
+          other: "%{count} 你所在纬度的园丁本月有这个计划。"
     section:
       community: 人们种植你种植的东西
       community_note: 公共职位
       harvest: 准备收获
       harvest_note: 在你的花园里
       nearby: 在你附近
-      nearby_note: '%{place} 及周边'
+      nearby_note: "%{place} 及周边"
       templates: 模板
       templates_note: 对于你拥有的植物
       this_time: 每年的这个时候
@@ -748,7 +766,7 @@ zh:
       crossed_off: 划掉“%{name}”
       done:
         one: 本周完成 1 项工作。
-        other: '%{count} 本周完成的工作。'
+        other: "%{count} 本周完成的工作。"
       many:
         lead: 滚滚而来！
         note: 蜗牛已经叫了其他蜗牛。
@@ -769,7 +787,7 @@ zh:
     index:
       title:
         default: 每个人的工作
-        owner_jobs: '%{owner} 的职位'
+        owner_jobs: "%{owner} 的职位"
     pad:
       add: 添加职位
       add_button: 添加
@@ -820,7 +838,7 @@ zh:
       slow: 缓慢而稳定。
       someday: 有一天
       someday_note: 一个愿望清单，没有任何承诺
-      title: '%{owner} 的职位'
+      title: "%{owner} 的职位"
       today: 今天
       uncross: 放回到列表中：%{job}
       week: 本星期
@@ -829,15 +847,15 @@ zh:
     suggestions:
       planted: 种植 %{date}
       saved: 已保存 %{year}
-      seeds: '%{crop} 种子'
+      seeds: "%{crop} 种子"
       the_crop: 作物
   label:
     data: 此页面上的数据有以下格式：
-    days_until_finished: '%{number} 天'
-    days_until_harvest: '%{number} 天'
+    days_until_finished: "%{number} 天"
+    days_until_harvest: "%{number} 天"
     harvesting_now: 现在收获
-    weeks_until_finished: '%{number}周'
-    weeks_until_harvest: '%{number} 收获前几周'
+    weeks_until_finished: "%{number}周"
+    weeks_until_harvest: "%{number} 收获前几周"
   layouts:
     footer:
       about: 关于
@@ -860,7 +878,7 @@ zh:
       community_map: 社区地图
       crop_wrangling: 作物争论
       crops: 农作物
-      current_memberlogin_name: '%{current_memberlogin_name}'
+      current_memberlogin_name: "%{current_memberlogin_name}"
       forums: 论坛
       garden_type: 花园式
       garden_types: 花园类型
@@ -883,7 +901,7 @@ zh:
       about: 关于
       activities: 活动
       add: 添加
-      add_button: + 添加
+      add_button: "+ 添加"
       admin: 行政
       all_crops: 所有农作物
       browse_members: 浏览会员
@@ -954,7 +972,7 @@ zh:
       unblock: 取消屏蔽
       unfollow: 取消关注
     index:
-      title: '%{site_name} 成员'
+      title: "%{site_name} 成员"
     signup:
       error: 无法完成注册
     unsubscribe:
@@ -1029,15 +1047,15 @@ zh:
       transplant_html: 将 %{things} 移植到 %{garden}
       weighing: 称重%{weight}
     layout:
-      crop: '%{crop} ×%{count}'
-      label: '%{garden}：它的布局'
+      crop: "%{crop} ×%{count}"
+      label: "%{garden}：它的布局"
     photos:
       added:
         one: 添加了照片
         other: 添加了 %{count} 照片
       of_html:
-        one: '%{subject}的照片'
-        other: '%{count} %{subject} 的照片'
+        one: "%{subject}的照片"
+        other: "%{count} %{subject} 的照片"
     posts:
       activity: 最近的活动
       comments: 评论
@@ -1046,24 +1064,24 @@ zh:
       title: 最近的帖子
     reach:
       few:
-        one: '%{place} 附近只有 %{count} 园丁。'
+        one: "%{place} 附近只有 %{count} 园丁。"
         other: 只有 %{place} 附近的 %{count} 园丁。
       looked_further: 所以我们也看得更远。
-      none: '%{place} 附近还没有园丁。'
+      none: "%{place} 附近还没有园丁。"
       ring:
         anywhere: 任何地方
-        near: '%{place}'
-        region: '%{km} 公里内'
+        near: "%{place}"
+        region: "%{km} 公里内"
       widened: 我们扩大了搜索范围，直到找到一些。
       you: 你
     season:
-      in_hemisphere: '%{hemisphere} 半球中的 %{season}'
+      in_hemisphere: "%{hemisphere} 半球中的 %{season}"
       northern: 北方
       southern: 南部
     show:
-      add_location_html: '%{link} 查看您附近的园丁。'
+      add_location_html: "%{link} 查看您附近的园丁。"
       add_location_link: 添加您居住的地方
-      heading_html: <strong>我的</strong>朋友和邻居
+      heading_html: "<strong>我的</strong>朋友和邻居"
       lede:
         few: 你跟着几个人。首先向他们展示，然后向您身边的人展示。
         following: 你跟随的园丁以及你附近的园丁在做什么。
@@ -1083,10 +1101,10 @@ zh:
         title: 欢迎来到您的朋友和邻居的动态
     subject:
       garden: 花园 %{name}
-      harvest: '%{crop}的收获'
+      harvest: "%{crop}的收获"
       job: 工作 %{name}
-      planting: '%{crop} 种植'
-      seed: '%{crop} 种子'
+      planting: "%{crop} 种植"
+      seed: "%{crop} 种子"
     suggestions:
       followed_by: 随后是 %{people}
       privacy: 我们只使用您的城市，而不使用您的确切位置。按 × 停止建议某人。
@@ -1099,38 +1117,49 @@ zh:
       subject: 您花园即将迎来的收获 - %{sitename}
       unsubscribe: 取消订阅收获提醒
   nurseries:
-    what_is_a_nursery:
-      description_html: <strong>苗圃</strong>是您培育幼苗的地方：种子在进入花园之前先播种在托盘或盆中。将种子播种在苗圃中，然后将它们移植到一个花园中，或者在种子准备好后将一批种子分成几批。
     show:
-      title: 你的托儿所
-      use_existing: 使用您拥有的花园
-      which_garden: 哪个花园？
-      use_this_garden: 用这个花园作为我的苗圃
-      no_other_garden: 你没有另一个花园可以使用。
-      make_new: 制作一个新的
-      make_new_text: 我们将为您的幼苗建造一个名为“苗圃”的花园。
-      make_a_nursery: 做一个托儿所
       dont_need: 我不需要一个
       dont_need_text: 跳过在 Growstuff 上育苗。我们不会再询问，您可以从花园页面改变主意。
+      make_a_nursery: 做一个托儿所
+      make_new: 制作一个新的
+      make_new_text: 我们将为您的幼苗建造一个名为“苗圃”的花园。
       no_nursery_for_me: 没有适合我的托儿所
+      no_other_garden: 你没有另一个花园可以使用。
+      title: 你的托儿所
+      use_existing: 使用您拥有的花园
+      use_this_garden: 用这个花园作为我的苗圃
+      which_garden: 哪个花园？
+    what_is_a_nursery:
+      description_html: "<strong>苗圃</strong>是您培育幼苗的地方：种子在进入花园之前先播种在托盘或盆中。将种子播种在苗圃中，然后将它们移植到一个花园中，或者在种子准备好后将一批种子分成几批。"
   photo_associations:
     update:
       updated: 照片已更新。
   photos:
     show:
-      crop: '%{crop}'
-      garden: '%{owner} 命名为“%{garden}”的花园'
-      harvest: '%{crop} %{owner} 收获'
-      planting: '%{planting}'
-      seed: '%{seed}'
-      thing_by: '%{owner} 的 %{thing}'
+      crop: "%{crop}"
+      garden: "%{owner} 命名为“%{garden}”的花园"
+      harvest: "%{crop} %{owner} 收获"
+      planting: "%{planting}"
+      seed: "%{seed}"
+      thing_by: "%{owner} 的 %{thing}"
   places:
     index:
-      title: '%{site_name} 社区地图'
+      title: "%{site_name} 社区地图"
     search_form:
-      change_location: "更改地点："
+      change_location: 更改地点：
       placeholder: 搜索城市、郊区或州...
       search: 搜索
+    show:
+      community_near: "%{place} 附近的 %{site_name} 社区"
+      nearby_members: 附近的会员
+      no_nearby_members: 附近没有会员
+      no_nearby_plantings: 未找到附近的种植
+      no_nearby_seeds: 未找到附近的种子
+      recent_plantings: "%{place} 附近的最近种植"
+      seeds_available: "%{place} 附近可供交易的种子"
+      view_all_members: "查看所有会员 \u00bb"
+      view_all_plantings: "查看所有种植 \u00bb"
+      view_all_seeds: "查看所有种子 \u00bb"
   planting:
     status:
       finished: 完成的
@@ -1152,7 +1181,7 @@ zh:
     card:
       planted_by_in_html: 由 %{owner} 种植在 %{garden} 中
     facts:
-      day_progress: "第 %{age} 天，共 %{lifespan} 天"
+      day_progress: 第 %{age} 天，共 %{lifespan} 天
       done: 已完成
       failed: 失败
       finished: 已结束
@@ -1172,7 +1201,7 @@ zh:
       perennial: 多年生
       perennial_description: 年复一年持续生长
       planned: 已计划
-      planned_for: "计划于 %{date}"
+      planned_for: 计划于 %{date}
       planted: 已种植
       planting_failed: 该种植已失败
       progress: 进度
@@ -1180,7 +1209,7 @@ zh:
       rating: 评分
       rating_of_5: "%{rating} / 5 分"
       seeds_saved: 已留种
-      sown_from_expired: "使用过期种子播种（请在 %{year} 年前种植）"
+      sown_from_expired: 使用过期种子播种（请在 %{year} 年前种植）
       unknown: 未知
     form:
       failed_helper: 如果该种植死亡或在没有任何收获的情况下被移除，则将其标记为失败。
@@ -1191,24 +1220,30 @@ zh:
       title:
         crop_plantings: 大家的%{crop}种植
         default: 大家的种植
-        owner_plantings: '%{owner} 的种植'
+        owner_plantings: "%{owner} 的种植"
       view_owners_profile: 查看%{owner}的个人资料>>
+    modal:
+      add_new_garden: 添加新花园
+      add_to_my_garden: 添加到我的花园
+      close: 关闭
+      title: 将 %{crop} 添加到您的花园
+      which_garden: 要放进哪个花园？
     plant_something: 种点东西
     progress:
       progress_0_not_planted_yet: 进度：0% - 尚未种植
     show:
       crop: 庄稼
       grower: 种植者
-      harvest_month_yes: '%{month}，通常收获'
+      harvest_month_yes: "%{month}，通常收获"
       harvest_months: 收获月
       harvest_months_legend: 突出显示的月份是通常在这里收获这种作物的月份。
       harvest_months_unknown: 在这个纬度，这种作物还没有收获月份。
       harvests: 收获
-      heading: '%{crop} 种植'
+      heading: "%{crop} 种植"
       jobs: 工作机会
       jobs_current: 计划
       jobs_finished: 完成的
-      meta_description: '%{crop} 由 %{owner} 种植在 %{garden} 中。'
+      meta_description: "%{crop} 由 %{owner} 种植在 %{garden} 中。"
       more_photos: 更多照片
       neighbours: 世界邻居
       neighbours_explanation: 同纬度的其他 %{crop} 种植。
@@ -1222,10 +1257,10 @@ zh:
       notes: 笔记
       photos: 照片
       seeds_saved: 已保存种子
-      title: '%{crop} 由 %{owner} 种植'
-      view_all_plantings: '%{owner} 的所有种植'
+      title: "%{crop} 由 %{owner} 种植"
+      view_all_plantings: "%{owner} 的所有种植"
       weather_coldest: 最冷的夜晚
-      weather_credit_html: '%{open_meteo} (%{licence})。包含修改后的哥白尼气候变化服务信息。天气是根据花园周围的区域建模的，而不是在花园中测量的，并且会晚几天。总计、图表和预期天气是我们根据这些数据改编的。'
+      weather_credit_html: "%{open_meteo} (%{licence})。包含修改后的哥白尼气候变化服务信息。天气是根据花园周围的区域建模的，而不是在花园中测量的，并且会晚几天。总计、图表和预期天气是我们根据这些数据改编的。"
       weather_credit_licence: 抄送4.0
       weather_credit_source: 天气数据由 Open-Meteo.com 提供
       weather_days: 天
@@ -1259,21 +1294,21 @@ zh:
     transplant:
       cancel: 取消
       close: 关闭
-      move_to: "将此植株移至："
+      move_to: 将此植株移至：
       submit: 移植
-      title: "移植 %{crop}"
+      title: 移植 %{crop}
   posts:
     created: 帖子创建成功。
     deleted: 帖子已被删除。
     draft_saved: 草稿已保存。
     index:
       title:
-        author_posts: '%{author} 帖子'
+        author_posts: "%{author} 帖子"
         default: 大家的帖子
     more_from: 更多来自 %{author}
     read_time:
       one: 1 分钟阅读
-      other: '%{count} 最小读取值'
+      other: "%{count} 最小读取值"
     untitled: 无标题帖子
     updated: 帖子已成功更新。
     write_blog_post: 写博客文章
@@ -1284,11 +1319,6 @@ zh:
     spring: 春天
     summer: 夏天
     winter: 冬天
-  stalls:
-    about_growstuff:
-      join: 免费加入
-      sign_in: 登录
-      text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
   seeds:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
     facts:
@@ -1310,7 +1340,7 @@ zh:
       title:
         crop_seeds: 每个人的%{crop}种子
         default: 大家的种子
-        owner_seeds: '%{owner} 种子'
+        owner_seeds: "%{owner} 种子"
     packet:
       choice_back: 后退
       choice_front: 正面
@@ -1322,12 +1352,17 @@ zh:
       photo_front: 添加包裹正面的照片
     save_seeds: 保存种子
     show:
-      heading: '%{crop} 种子'
-    string: '%{crop} 属于 %{owner} 的种子'
+      heading: "%{crop} 种子"
+    string: "%{crop} 属于 %{owner} 的种子"
     updated: 种子已成功更新。
+  stalls:
+    about_growstuff:
+      join: 免费加入
+      sign_in: 登录
+      text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
   suggestions:
     index:
-      lede: '%{band} 的园丁本月正在种植什么，大部分先种植。'
+      lede: "%{band} 的园丁本月正在种植什么，大部分先种植。"
       none: 目前没什么可建议的。下个月再回来看看。
       not_located: 告诉我们您在哪里园艺，我们可以建议播种什么。
       title: 在您附近的 %{month} 轻松播种
