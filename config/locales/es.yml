@@ -235,6 +235,13 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    find_seeds:
+      empty: No hay semillas disponibles para intercambiar en Growstuff en este momento.
+      list_seeds: Publicar semillas de %{crop} para intercambiar
+      purchase_via_ebay: Comprar semillas a través de eBay
+      trade_seeds: registrar tus semillas para intercambiar
+      view_all: Ver todas las semillas de %{crop}
+      will_trade: "%{owner} intercambiará %{tradable_to}."
     alternate_name_modal:
       add_title: Añadir otro nombre para %{crop}
       cancel: Cancelar

@@ -293,6 +293,13 @@ en:
       single:
         description: the whole plant is harvested
         value: Once per plant
+    find_seeds:
+      empty: There are no seeds available to trade on Growstuff right now.
+      list_seeds: List %{crop} seeds to trade
+      purchase_via_ebay: Purchase seeds via Ebay
+      trade_seeds: list your seeds to trade
+      view_all: View all %{crop} seeds
+      will_trade: "%{owner} will trade %{tradable_to}."
     harvests:
       empty: Nobody has harvested this crop yet.
       harvest_crop: Harvest %{crop}

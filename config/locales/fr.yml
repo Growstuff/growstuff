@@ -235,6 +235,13 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    find_seeds:
+      empty: Il n'y a pas de graines disponibles à l'échange sur Growstuff pour le moment.
+      list_seeds: Proposer des graines de %{crop} à l'échange
+      purchase_via_ebay: Acheter des graines sur eBay
+      trade_seeds: proposer vos graines à l'échange
+      view_all: Voir toutes les graines de %{crop}
+      will_trade: "%{owner} échange %{tradable_to}."
     alternate_name_modal:
       add_title: Ajouter un autre nom pour %{crop}
       cancel: Annuler

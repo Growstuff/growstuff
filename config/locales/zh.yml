@@ -235,6 +235,13 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    find_seeds:
+      empty: 目前Growstuff上没有可供交易的种子。
+      list_seeds: 登记 %{crop} 种子以供交易
+      purchase_via_ebay: 通过 eBay 购买种子
+      trade_seeds: 登记您的种子以供交易
+      view_all: "查看所有 %{crop} 种子"
+      will_trade: "%{owner} 将在 %{tradable_to} 范围内交易。"
     alternate_name_modal:
       add_title: 为%{crop}添加别名
       cancel: 取消
