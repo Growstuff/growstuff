@@ -1,0 +1,9 @@
+= link_to post_path(thing), class: 'shows-card shows-card-other' do
+  .shows-card-head
+    = post_icon
+    = t('.kind')
+  .shows-card-body
+    %h3.shows-card-title= thing.subject
+    %span.shows-card-who
+      = render 'photos/initial', member: thing.owner, size: 'small'
+      = t('.by', owner: thing.owner.to_s)

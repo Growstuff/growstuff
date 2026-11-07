@@ -8,54 +8,25 @@
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Photos', photos_path
-  %li.breadcrumb-item.active= link_to @photo, @photo
+  %li.breadcrumb-item= link_to t('.photos'), photos_path
+  %li.breadcrumb-item.active= link_to t('.photo_by', name: photo_credit_name(@photo)), @photo
 
-.row{id: "photo-#{@photo.id}"}
-  .col-md-9
-    %section.photo
-      %h2.text-center.ellipsis
-        = photo_icon
-        = @photo.title
-
-      %p.text-center
-        = image_tag(@photo.fullsize_url, alt: @photo.title, class: 'rounded img-responsive shadow-sm')
-
-
-    - if @crops.size.positive?
-      .index-cards
-        - @crops.each do |crop|
-          = render 'crops/thumbnail', crop: crop
-  .col-md-3
-    %p
-      %span.btn= render 'photos/likes', photo: @photo
-      = render 'photos/actions', photo: @photo
-      = link_to @photo.link_url, class: 'btn btn-info' do
-        - if @photo.source == 'flickr'
-          = icon 'fab', 'flickr'
-        View on #{@photo.source.titleize}
-      - if @photo.date_taken.present?
-        %h3 Taken on #{I18n.l @photo.date_taken.to_date}
-
-    - if @photo.author_name.present?
-      %p
-        %strong= t('.photo_by_html', author: link_to(@photo.author_name, @photo.author_url))
+-# The photo and what it shows, beside who took it and what it may be used for.
+.photo-page{id: "photo-#{@photo.id}"}
+  .photo-page-main
+    = render 'photos/polaroid', photo: @photo
+    = render 'photos/shows', photo: @photo, crops: @crops
+  .photo-page-side
+    - if photo_by_outsider?(@photo)
+      = render 'photos/photographer_outsider', photo: @photo
     - else
-      = render @photo.owner
-
-    %p
-      %strong License:
-      - if @photo.license_url
-        = link_to @photo.license_name, @photo.license_url
-      - else
-        = @photo.license_name
-
-    = render "associations", photo: @photo
+      = render 'photos/photographer', member: @photo.owner
+    = render 'photos/licence', photo: @photo
 .row
   - if can? :create, Comment
     = link_to new_comment_path(comment: { commentable_type: 'Photo', commentable_id: @photo.id }), class: 'btn' do
       = icon 'fas', 'comment'
-      Comment
+      = t('.comment')
 .row
   .col-md-9
     = render 'comments/comments', commentable: @photo

@@ -1,0 +1,16 @@
+= link_to seed_path(thing), class: 'shows-card shows-card-seed' do
+  .shows-card-head
+    = seed_icon
+    = t('.kind')
+  .shows-card-body
+    %h3.shows-card-title= t('.title', crop: thing.crop.name)
+    %span.shows-card-who
+      = render 'photos/initial', member: thing.owner, size: 'small'
+      = t('.by', owner: thing.owner.to_s)
+    %span.shows-card-facts
+      - if thing.saved_at.present?
+        %span= t('.saved', date: I18n.l(thing.saved_at))
+      - if thing.quantity.present?
+        %span= t('.seeds', count: thing.quantity)
+    %p.mb-0= t('.about')
+    %span.btn.btn-info.shows-card-button= t('.go')

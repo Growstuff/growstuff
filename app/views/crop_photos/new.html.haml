@@ -12,19 +12,46 @@
 - if @results.empty?
   %p= t('.empty')
 - else
-  = form_with url: crop_photos_path(@crop) do
-    = render 'crop_photos/kinds'
-    .row.row-cols-2.row-cols-md-4.g-3
-      - @results.each do |result|
-        .col
-          .card.h-100
-            = image_tag result[:thumbnail_url], class: 'card-img-top', alt: result[:title].to_s, loading: 'lazy'
-            .card-body
-              %p.card-text.small
-                %strong= result[:title]
+  .row.row-cols-2.row-cols-md-4.g-3
+    - @results.each_with_index do |result, index|
+      .col
+        .card.h-100
+          = image_tag result[:thumbnail_url], class: 'card-img-top', alt: result[:title].to_s, loading: 'lazy'
+          .card-body
+            %p.card-text.small
+              %strong= result[:title]
+              %br
+              = t('.attribution', owner: result[:owner_name])
+              - if result[:licence]
                 %br
-                = t('.attribution', owner: result[:owner_name])
-            .card-footer
-              = button_tag t('.add'), name: 'url', value: result[:url], type: 'submit', class: 'btn btn-sm btn-primary'
+                %span.badge.text-bg-light.border= result[:licence]
+            = link_to result[:url], target: '_blank', rel: 'noopener', class: 'small' do
+              = t('.view_on_flickr')
+              = icon 'fas', 'arrow-up-right-from-square'
+          .card-footer
+            %button.btn.btn-sm.btn-primary{ type: 'button', data: { 'bs-toggle': 'modal', 'bs-target': "#add-photo-#{index}" } }= t('.add')
+  -# Adding a photo asks what it shows first, in a dialog over the results.
+  - @results.each_with_index do |result, index|
+    .modal.fade{ id: "add-photo-#{index}", 'aria-hidden': 'true', 'aria-labelledby': "add-photo-#{index}-title",
+                 role: 'dialog', tabindex: '-1' }
+      .modal-dialog{ role: 'document' }
+        .modal-content
+          = form_with url: crop_photos_path(@crop) do
+            = hidden_field_tag :url, result[:url]
+            .modal-header
+              %h4.modal-title{ id: "add-photo-#{index}-title" }= t('.modal_title', crop: @crop.name)
+              %button.btn-close{ 'aria-label': t('.close'), 'data-bs-dismiss': 'modal', type: 'button' }
+            .modal-body
+              = image_tag result[:thumbnail_url], class: 'img-fluid rounded mb-3', alt: result[:title].to_s
+              %p.small
+                - if result[:licence]
+                  %span.badge.text-bg-light.border= result[:licence]
+                = link_to result[:url], target: '_blank', rel: 'noopener' do
+                  = t('.view_on_flickr')
+                  = icon 'fas', 'arrow-up-right-from-square'
+              = render 'crop_photos/kinds', prefix: "add-photo-#{index}"
+            .modal-footer
+              %button.btn.btn-secondary{ 'data-bs-dismiss': 'modal', type: 'button' }= t('.cancel')
+              = submit_tag t('.save'), class: 'btn btn-primary', name: nil
 
 %p.mt-3= link_to t('.back', crop: @crop.name), crop_path(@crop)

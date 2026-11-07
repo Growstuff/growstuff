@@ -1,0 +1,21 @@
+-# The crop the photo is of. A photo from outside the site has nothing else it is of,
+-# so its crop card also says how much of the crop is on Growstuff.
+.shows-card.shows-card-crop
+  .shows-card-head
+    = crop_icon(crop)
+    = t('.kind')
+  .shows-card-body.shows-card-crop-body
+    = image_tag(crop.thumbnail_url.presence || placeholder_image, alt: t('.image_alt', crop: crop.name),
+                                                                  class: 'shows-card-crop-image')
+    .shows-card-crop-text
+      %h3.shows-card-title= link_to crop.name, crop_path(crop), class: 'text-reset'
+      - if crop.scientific_names.any?
+        %i= crop.scientific_names.first.to_s
+      %p.mb-0= t('.about')
+    = link_to t('.go', crop: crop.name), crop_path(crop), class: 'btn btn-info shows-card-button'
+  - if outsider
+    .shows-card-chips
+      %strong= t('.on_growstuff')
+      = link_to t('.plantings', count: crop.plantings.count), crop_plantings_path(crop), class: 'shows-chip'
+      = link_to t('.harvests', count: crop.harvests.count), crop_harvests_path(crop), class: 'shows-chip'
+      = link_to t('.seeds', count: crop.seeds.count), crop_seeds_path(crop), class: 'shows-chip'

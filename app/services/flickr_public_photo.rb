@@ -22,6 +22,12 @@ class FlickrPublicPhoto
   # the Public Domain Mark. 0 is all rights reserved; 7 and 8 are not Creative Commons.
   CREATIVE_COMMONS_LICENSES = [1, 2, 3, 4, 5, 6, 9, 10].freeze
 
+  # What to call each of them, as Flickr's search says only the id.
+  LICENCE_CODES = {
+    1 => 'CC BY-NC-SA 2.0', 2 => 'CC BY-NC 2.0', 3 => 'CC BY-NC-ND 2.0', 4 => 'CC BY 2.0',
+    5 => 'CC BY-SA 2.0', 6 => 'CC BY-ND 2.0', 9 => 'CC0 1.0', 10 => 'Public Domain Mark 1.0'
+  }.freeze
+
   BASE58 = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ'
 
   # photos/<user>/<id>, with anything after it, such as /in/album-...
@@ -55,10 +61,10 @@ class FlickrPublicPhoto
   def self.search(text, page: 1)
     flickr.photos.search(
       text: text, license: CREATIVE_COMMONS_LICENSES.join(','), privacy_filter: 1, media: 'photos',
-      safe_search: 1, sort: 'relevance', extras: 'owner_name', per_page: 24, page: page
+      safe_search: 1, sort: 'relevance', extras: 'owner_name,license', per_page: 24, page: page
     ).map do |photo|
       { title: photo.title.presence, owner_name: photo.ownername, thumbnail_url: FlickRaw.url_q(photo),
-        url: FlickRaw.url_photopage(photo) }
+        licence: LICENCE_CODES[photo.license.to_i], url: FlickRaw.url_photopage(photo) }
     end
   rescue FlickRaw::FailedResponse, SocketError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError, EOFError
     raise Rejected, :unavailable

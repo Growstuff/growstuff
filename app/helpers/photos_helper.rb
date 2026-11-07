@@ -1,6 +1,58 @@
 # frozen_string_literal: true
 
 module PhotosHelper
+  # Creative Commons licence addresses: .../licenses/by-nc/2.0/ or .../publicdomain/zero/1.0/
+  LICENCE_URL = %r{creativecommons\.org/(?<family>licenses|publicdomain)/(?<type>[a-z-]+)(?:/(?<version>[\d.]+))?}
+  LICENCE_TYPES = %w(by by-sa by-nc by-nc-sa by-nd by-nc-nd).freeze
+
+  # Who to credit: the photographer where the photo came from someone who is not
+  # the member that added it, otherwise the member.
+  def photo_credit_name(photo)
+    photo.author_name.presence || photo.owner.login_name
+  end
+
+  # The photographer is not a Growstuff member, so there is no profile to show.
+  def photo_by_outsider?(photo)
+    photo.author_name.present?
+  end
+
+  # What the licence allows, as the key of its summary: by, by-sa, ... zero, mark;
+  # other for a licence we do not know, reserved for no licence address at all.
+  def photo_licence_kind(photo)
+    match = LICENCE_URL.match(photo.license_url.to_s)
+    return photo.license_url.blank? ? 'reserved' : 'other' unless match
+
+    if match[:family] == 'licenses'
+      LICENCE_TYPES.include?(match[:type]) ? match[:type] : 'other'
+    else
+      { 'zero' => 'zero', 'mark' => 'mark' }.fetch(match[:type], 'other')
+    end
+  end
+
+  # The short name of a Creative Commons licence, CC BY 2.0; nil for any other.
+  def photo_licence_code(photo)
+    match = LICENCE_URL.match(photo.license_url.to_s)
+    return unless match
+
+    case photo_licence_kind(photo)
+    when *LICENCE_TYPES then "CC #{match[:type].upcase} #{match[:version]}".strip
+    when 'zero' then "CC0 #{match[:version]}".strip
+    when 'mark' then t('photos.licence.public_domain')
+    end
+  end
+
+  # Who took it and where, as the start of a credit: "Photo by shiny on Flickr".
+  def photo_credit_line(photo)
+    line = t('photos.credit.by', name: photo_credit_name(photo))
+    photo.source.present? ? line + t('photos.credit.on', site: photo.source.titleize) : line
+  end
+
+  # The credit to give, as plain text to copy: who took it, where, and the licence.
+  def photo_credit_text(photo)
+    credit = [photo_credit_line(photo), photo_licence_code(photo) || photo.license_name].join(', ')
+    [credit, photo.license_url.presence].compact.join(' ')
+  end
+
   # The name an add-photo link gives the dialog.
   def photo_label(model)
     case model

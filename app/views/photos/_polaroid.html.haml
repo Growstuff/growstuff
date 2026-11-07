@@ -1,0 +1,16 @@
+-# The photo, with its title, when it was taken, and the way back to where it came from.
+.photo-polaroid
+  = image_tag(photo.fullsize_url, alt: photo.title, class: 'photo-polaroid-image')
+  .photo-polaroid-caption
+    .photo-polaroid-title
+      %h1.h5.mb-0= photo.title
+      - if photo.date_taken.present?
+        %small.text-muted= t('.taken', date: I18n.l(photo.date_taken.to_date, format: :long))
+    .photo-polaroid-buttons
+      %span.btn= render 'photos/likes', photo: photo
+      = link_to photo.link_url, class: 'btn btn-info' do
+        - if photo.source == 'flickr'
+          = icon 'fab', 'flickr'
+        = t('.view_on', site: photo.source.to_s.titleize)
+        = icon 'fas', 'arrow-up-right-from-square'
+      = render 'photos/actions', photo: photo

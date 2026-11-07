@@ -112,4 +112,32 @@ describe "photos/show" do
       expect(rendered).to have_content "All rights reserved"
     end
   end
+
+  context "photo by someone who is not a member" do
+    let(:photo) do
+      create(:photo, owner: member, author_name: 'Pat Photo', author_url: 'https://www.flickr.com/photos/pat/',
+                     license_url: 'https://creativecommons.org/licenses/by/2.0/', license_name: 'Attribution License')
+    end
+
+    before do
+      controller.stub(:current_user) { nil }
+      render
+    end
+
+    it "credits the photographer" do
+      expect(rendered).to have_content "Pat Photo"
+    end
+
+    it "links to the photographer's page on Flickr" do
+      expect(rendered).to have_link href: 'https://www.flickr.com/photos/pat/'
+    end
+
+    it "does not link to the member who added it" do
+      expect(rendered).to have_no_link href: member_path(member)
+    end
+
+    it "offers to copy the credit" do
+      assert_select "button[data-copy-text*='Pat Photo']"
+    end
+  end
 end
