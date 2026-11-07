@@ -303,6 +303,17 @@ de:
       temperatures_html: 'Lokale Temperaturen von %{source}: heißeste %{hottest}, kälteste %{coldest}.'
       wikidata_missing: Für diesen Standort fehlen Wikidata-Informationen.
       you: (Du)
+    archived_jobs:
+      by: "von %{owner}"
+      done: "Erledigt"
+      due: "Fällig am %{date}"
+      empty: "Hier war nichts geplant."
+      on_planting_html: "bei %{planting}"
+      photos:
+        one: "1 Foto"
+        other: "%{count} Fotos"
+      title: "Aufgaben in diesem Garten"
+      view_all_jobs: "Alle %{total} Aufgaben anzeigen"
     actions:
       add_photo: Foto von Flickr hinzufügen
       make_nursery: Machen Sie daraus ein Kinderzimmer
