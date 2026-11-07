@@ -570,7 +570,9 @@ de:
       this_week: Diese Woche
       tile_harvest: Notieren Sie, was Sie ausgewählt haben
       tile_job: Planen Sie eine Aufgabe für Ihren Garten
-      jobs_today: Jobs heute
+      jobs_today:
+        one: 1 Job heute
+        other: "%{count} Jobs heute"
       jobs_today_go: Meine Jobs →
       tile_job_title: Job hinzufügen
       tile_photo: des Gartens
