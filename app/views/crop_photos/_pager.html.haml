@@ -1,0 +1,13 @@
+-# Previous and next pages of the search, keeping what was searched for.
+%nav.d-flex.align-items-center.justify-content-between.my-3{ 'aria-label': t('.label') }
+  - if results.previous_page
+    = link_to t('.previous'), new_crop_photo_path(crop, q: query, page: results.previous_page),
+              class: 'btn btn-outline-secondary btn-sm', rel: 'prev'
+  - else
+    %span
+  %span.text-muted= t('.page', page: results.page, pages: results.pages)
+  - if results.next_page
+    = link_to t('.next'), new_crop_photo_path(crop, q: query, page: results.next_page),
+              class: 'btn btn-outline-secondary btn-sm', rel: 'next'
+  - else
+    %span

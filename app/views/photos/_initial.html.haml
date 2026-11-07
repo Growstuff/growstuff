@@ -1,0 +1,2 @@
+-# A round badge with the first letter of a member's name, where there is no picture.
+%span.member-initial{ class: ("member-initial-#{size}" if local_assigns[:size]), 'aria-hidden': 'true' }= member.login_name.first.downcase
