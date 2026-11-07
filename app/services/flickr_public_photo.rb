@@ -61,10 +61,10 @@ class FlickrPublicPhoto
   def self.search(text, page: 1)
     flickr.photos.search(
       text: text, license: CREATIVE_COMMONS_LICENSES.join(','), privacy_filter: 1, media: 'photos',
-      safe_search: 1, sort: 'relevance', extras: 'owner_name,license', per_page: 24, page: page
+      safe_search: 1, sort: 'relevance', extras: 'owner_name,license,date_taken', per_page: 24, page: page
     ).map do |photo|
       { title: photo.title.presence, owner_name: photo.ownername, thumbnail_url: FlickRaw.url_q(photo),
-        licence: LICENCE_CODES[photo.license.to_i], url: FlickRaw.url_photopage(photo) }
+        licence: LICENCE_CODES[photo.license.to_i], taken: photo.datetaken.presence, url: FlickRaw.url_photopage(photo) }
     end
   rescue FlickRaw::FailedResponse, SocketError, SystemCallError, Timeout::Error, OpenSSL::SSL::SSLError, EOFError
     raise Rejected, :unavailable

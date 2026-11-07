@@ -22,6 +22,9 @@
               %strong= result[:title]
               %br
               = t('.attribution', owner: result[:owner_name])
+              - if result[:taken]
+                %br
+                %time{ datetime: result[:taken] }= t('.taken', date: I18n.l(result[:taken].to_date))
               - if result[:licence]
                 %br
                 %span.badge.text-bg-light.border= result[:licence]

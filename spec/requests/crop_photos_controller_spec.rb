@@ -67,7 +67,7 @@ describe CropPhotosController do
   describe 'GET new' do
     before do
       allow(FlickrPublicPhoto).to receive(:search).with('tomato', page: 1).and_return(
-        [{ title: 'Red', owner_name: 'Pat', licence: 'CC BY 2.0', thumbnail_url: 'https://example.com/q.jpg', url: 'https://www.flickr.com/photos/pat/1' }]
+        [{ title: 'Red', owner_name: 'Pat', licence: 'CC BY 2.0', taken: '2019-08-08 10:00:00', thumbnail_url: 'https://example.com/q.jpg', url: 'https://www.flickr.com/photos/pat/1' }]
       )
       sign_in wrangler
       get new_crop_photo_path(crop)
@@ -76,6 +76,7 @@ describe CropPhotosController do
     it { expect(response.body).to include 'https://www.flickr.com/photos/pat/1' }
     it { expect(response.body).to include 'id="add-photo-0"' }
     it { expect(response.body).to include 'CC BY 2.0' }
+    it { expect(response.body).to include '2019-08-08' }
     it { expect(response.body).to include 'target="_blank"' }
     it { expect(response.body.scan('name="kind"').size).to eq 4 }
   end
