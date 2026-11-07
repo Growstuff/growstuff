@@ -16,7 +16,7 @@
         = safe_join(frost.planting_bands.map { |band| frost_band_tag(frost, band) })
     - unless frost.long_lived?
       - days = frost_days(frost.planted_days_before_usual_end.abs)
-      %p.frost-annotation= t("plantings.frost.timeline.annotation#{'_out' if frost.from_nursery?}_#{direction}", days:)
+      %p.frost-annotation= t("plantings.frost.timeline.annotation#{'_out' if frost.from_frost_safe?}_#{direction}", days:)
     .frost-axis{ 'aria-hidden': true }= frost_axis_tags(frost)
   %ul.frost-legend
     - legend.each do |kind|

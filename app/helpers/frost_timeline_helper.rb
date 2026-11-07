@@ -51,9 +51,9 @@ module FrostTimelineHelper
   def frost_band_label(frost, band)
     case band.kind
     when :usual then frost_usual_label(band)
-    when :so_far then t("plantings.frost.timeline.planted#{'_out' if frost.from_nursery?}", date: frost_date_text(frost.planted_on))
+    when :so_far then t("plantings.frost.timeline.planted#{'_out' if frost.from_frost_safe?}", date: frost_date_text(frost.planted_on))
     when :planted then t('plantings.frost.timeline.planted', date: frost_date_text(frost.planted_on))
-    when :nursery then t('plantings.frost.timeline.nursery')
+    when :frost_safe then t('plantings.frost.timeline.frost_safe', place: frost.safe_place)
     when :still_to_come then t('plantings.frost.timeline.finish_expected', date: frost_date_text(frost.ends_on))
     when :finished then t('plantings.frost.timeline.finished', date: frost_date_text(frost.ends_on))
     end
@@ -63,7 +63,8 @@ module FrostTimelineHelper
   def frost_band_tip(frost, band)
     range = t('plantings.frost.timeline.usual', from: frost_date_text(band.from), to: frost_date_text(band.last || band.to))
     case band.kind
-    when :usual, :possible, :nursery then t("plantings.frost.timeline.tips.#{band.kind}", range:)
+    when :usual, :possible then t("plantings.frost.timeline.tips.#{band.kind}", range:)
+    when :frost_safe then t('plantings.frost.timeline.tips.frost_safe', place: frost.safe_place, range:)
     when :planted then frost_band_label(frost, band)
     else t('plantings.frost.timeline.tips.planting', range:, label: frost_band_label(frost, band))
     end

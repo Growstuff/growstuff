@@ -445,8 +445,8 @@ en:
       unknown: unknown
     form:
       frost_safe:
-        help: Seedlings raised indoors, in a greenhouse or on a heated bench are not in frost danger, so a planting's frost section starts the day it went out. Untick this if frost can reach your seedlings.
-        label: This nursery is safe from frost
+        help: Tick this for a greenhouse, indoors or a heated bench, where plants are not in frost danger. A planting that began here has its frost section start the day it went outdoors. A nursery starts ticked; untick it if frost can reach your seedlings.
+        label: This garden is safe from frost
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
     header:
       all_gardens: All of %{owner}'s gardens
@@ -1400,19 +1400,19 @@ en:
         finished: Finished %{date}
         legend:
           finished: Planting, finished
-          nursery: In the nursery, safe from frost
+          frost_safe: Somewhere safe from frost
           planted: Planted, no finish date
           possible: 'Possible: as early or late as it has come'
           so_far: Planting so far
           still_to_come: Planting still to come
           usual: Usual frost danger
-        nursery: In the nursery, safe from frost
+        frost_safe: In %{place}, safe from frost
         planted: Planted %{date}
         planted_out: Went outdoors %{date}
         row_danger: Frost danger
         row_planting: This planting
         tips:
-          nursery: "In the nursery, safe from frost: %{range}"
+          frost_safe: "In %{place}, safe from frost: %{range}"
           planting: "%{label} (%{range})"
           possible: "Frost has come as early or late as this: %{range}"
           usual: "Usual frost danger: %{range}"

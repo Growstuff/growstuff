@@ -48,7 +48,7 @@ module FrostSectionHelper
   # How the planting date sits against the usual last frost.
   def frost_planted_sentence(frost)
     count = frost.planted_days_before_usual_end
-    key = "#{frost.from_nursery? ? 'planted_out' : 'planted'}.#{count.negative? ? 'after' : 'before'}"
+    key = "#{frost.from_frost_safe? ? 'planted_out' : 'planted'}.#{count.negative? ? 'after' : 'before'}"
     dates = { planted: frost.planted_on, usual_end: frost.usual.last }.transform_values { |date| frost_date_text(date) }
     t("plantings.frost.#{key}", crop: frost.crop_name, days: frost_days(count.abs), **dates)
   end
@@ -113,7 +113,7 @@ module FrostSectionHelper
 
   def frost_planted_note(frost)
     count = frost.planted_days_before_usual_end
-    key = "planted#{'_out' if frost.from_nursery?}_#{count.negative? ? 'after' : 'before'}"
+    key = "planted#{'_out' if frost.from_frost_safe?}_#{count.negative? ? 'after' : 'before'}"
     t("plantings.frost.cards.last.#{key}", days: frost_days(count.abs))
   end
 

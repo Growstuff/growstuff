@@ -8,7 +8,7 @@
 # FrostStat. Approximate, regional and experimental.
 class PlantingFrost
   # A stretch of the timeline. kind is :usual or :possible for frost danger, and :so_far, :still_to_come or :finished
-  # for the planting, with :nursery for the days it was in a nursery safe from frost. last is where the band really ends.
+  # for the planting, with :frost_safe for the days it was somewhere safe from frost. last is where the band really ends.
   Band = Struct.new(:kind, :from, :to, :last) do
     # Whether the timeline cuts the band off before its real end.
     def open?
@@ -20,7 +20,7 @@ class PlantingFrost
   SOON_DAYS = 60
   YEAR_DAYS = 365
 
-  attr_reader :crop_name, :planted_on, :sown_on, :ends_on, :today
+  attr_reader :crop_name, :planted_on, :sown_on, :safe_place, :ends_on, :today
 
   def finished?
     @finished
@@ -54,16 +54,20 @@ class PlantingFrost
     return if stat.nil? || stat.unknown?
 
     # A finished planting with no finish date goes by its predicted finish, for the frost display only.
-    out = planting.left_frost_safe_nursery_on
-    new(stat:, crop_name: planting.crop.name, planted_on: out || planting.planted_at, sown_on: (planting.planted_at if out),
+    return if planting.garden.frost_safe?
+
+    stay = planting.frost_safe_stay
+    new(stat:, crop_name: planting.crop.name, planted_on: stay&.ended_on || planting.planted_at,
+        sown_on: (planting.planted_at if stay), safe_place: stay&.garden&.name,
         ends_on: planting.finished_at || planting.weather_due_on, finished: planting.finished?, readings:, today:)
   end
 
-  # planted_on is the day frost danger starts for the planting: the day it went outdoors, if it began in a nursery that is
-  # safe from frost, and then sown_on is the day it was sown there.
-  def initialize(stat:, crop_name:, planted_on:, ends_on:, finished:, readings:, today:, sown_on: nil) # rubocop:disable Metrics/ParameterLists
+  # planted_on is the day frost danger starts for the planting: the day it went outdoors, if it began somewhere safe from
+  # frost (a nursery, a greenhouse, indoors), and then sown_on is the day it was sown there and safe_place its name.
+  def initialize(stat:, crop_name:, planted_on:, ends_on:, finished:, readings:, today:, sown_on: nil, safe_place: nil) # rubocop:disable Metrics/ParameterLists
     @stat = stat
     @sown_on = sown_on
+    @safe_place = safe_place
     @crop_name = crop_name
     @planted_on = planted_on
     @finished = finished
@@ -73,8 +77,8 @@ class PlantingFrost
     @ends_on = ends_on || (finished ? planted_on : today)
   end
 
-  # Whether the planting spent its first days in a nursery that is safe from frost.
-  def from_nursery?
+  # Whether the planting spent its first days somewhere safe from frost.
+  def from_frost_safe?
     !sown_on.nil? && sown_on < planted_on
   end
 
@@ -170,7 +174,7 @@ class PlantingFrost
   # The dates the timeline covers: whole months, from the earliest possible frost (or the planting, if earlier) to a
   # month past the start of the next season (or the end of the planting, if later).
   def axis
-    first = [possible.first, (sown_on if from_nursery? && !long_lived?), start_on].compact.min
+    first = [possible.first, (sown_on if from_frost_safe? && !long_lived?), start_on].compact.min
     @axis ||= first.beginning_of_month..[next_season_start.next_month.end_of_month, lived_until.end_of_month].max
   end
 
@@ -179,9 +183,9 @@ class PlantingFrost
     [year, year + 1].flat_map { |y| bands_for(y) }.filter_map { |band| clip(band) }
   end
 
-  # The planting on the timeline: its days in a nursery, if it began in one, then the planting outdoors.
+  # The planting on the timeline: its days somewhere safe from frost, if it began in one, then the planting outdoors.
   def planting_bands
-    bands = [nursery_band, *stay_bands]
+    bands = [safe_band, *stay_bands]
     bands.compact.filter_map { |band| clip(band) }
   end
 
@@ -197,9 +201,9 @@ class PlantingFrost
 
   private
 
-  # The days in a nursery that is safe from frost, before the planting went outdoors.
-  def nursery_band
-    Band.new(:nursery, sown_on, planted_on - 1) if from_nursery? && !long_lived?
+  # The days somewhere safe from frost, before the planting went outdoors.
+  def safe_band
+    Band.new(:frost_safe, sown_on, planted_on - 1) if from_frost_safe? && !long_lived?
   end
 
   # The planting outdoors: one bar once it has finished, else what has happened so far and what is still to come.

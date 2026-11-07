@@ -781,7 +781,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000100) do
     t.string "area_unit"
     t.datetime "created_at", precision: nil
     t.text "description"
-    t.boolean "frost_safe", default: true, null: false, comment: "A nursery that keeps seedlings safe from frost. Not used for other gardens."
+    t.boolean "frost_safe", default: false, null: false, comment: "Safe from frost: indoors, a greenhouse, a heated bench. A nursery starts true."
     t.integer "garden_type_id"
     t.integer "grid_columns", default: 10, null: false
     t.integer "grid_rows", default: 10, null: false

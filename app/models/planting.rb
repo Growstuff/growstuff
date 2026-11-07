@@ -186,10 +186,11 @@ class Planting < ApplicationRecord
     self
   end
 
-  # The day this planting left a nursery that keeps seedlings safe from frost, or nil when it didn't start in one.
-  def left_frost_safe_nursery_on
+  # The stay in a garden that keeps plants safe from frost (a nursery, a greenhouse, indoors) the planting began in, as the
+  # PlantingHistory that says where and until when, or nil when it didn't begin in one.
+  def frost_safe_stay
     first = histories.first
-    first.ended_on if first&.garden&.nursery? && first.garden.frost_safe?
+    first if first&.garden&.frost_safe?
   end
 
   # Sown after the year its seed packet said to plant it by.

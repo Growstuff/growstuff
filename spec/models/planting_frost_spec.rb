@@ -350,9 +350,17 @@ describe PlantingFrost do
       expect(described_class.for(planting, readings: [])).to be_nil
     end
 
-    it 'is a planting frost when the cell has frost dates' do
-      create(:frost_stat, latitude: -41.25, longitude: 174.75, threshold_c: FrostCalculator::FROST_DANGER_C)
-      expect(described_class.for(planting, readings: [])).to be_a described_class
+    context 'when the cell has frost dates' do
+      before { create(:frost_stat, latitude: -41.25, longitude: 174.75, threshold_c: FrostCalculator::FROST_DANGER_C) }
+
+      it 'is a planting frost' do
+        expect(described_class.for(planting, readings: [])).to be_a described_class
+      end
+
+      it 'is nil when the garden is safe from frost' do
+        garden.update_columns(frost_safe: true) # rubocop:disable Rails/SkipsModelValidations
+        expect(described_class.for(planting, readings: [])).to be_nil
+      end
     end
   end
 
@@ -383,21 +391,21 @@ describe PlantingFrost do
     end
   end
 
-  context 'when the planting began in a nursery that is safe from frost' do
+  context 'when the planting began somewhere safe from frost' do
     subject(:frost) do
-      described_class.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 9, 5), sown_on: Date.new(2026, 8, 10), ends_on:,
-                          finished:, readings:, today:)
+      described_class.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 9, 5), sown_on: Date.new(2026, 8, 10),
+                          safe_place: 'Nursery', ends_on:, finished:, readings:, today:)
     end
 
-    it 'began in a nursery' do
-      expect(frost).to be_from_nursery
+    it 'began somewhere safe from frost' do
+      expect(frost).to be_from_frost_safe
     end
 
-    it 'draws the days in the nursery before the days outdoors' do
-      expect(frost.planting_bands.map(&:kind)).to eq %i(nursery so_far still_to_come)
+    it 'draws the days somewhere safe before the days outdoors' do
+      expect(frost.planting_bands.map(&:kind)).to eq %i(frost_safe so_far still_to_come)
     end
 
-    it 'ends the nursery the day before it went outdoors' do
+    it 'ends the safe days the day before it went outdoors' do
       expect(frost.planting_bands.first.to).to eq Date.new(2026, 9, 4)
     end
 
@@ -409,7 +417,7 @@ describe PlantingFrost do
       expect(frost.days_in_danger).to eq 27
     end
 
-    it 'covers the nursery days on the timeline' do
+    it 'covers the safe days on the timeline' do
       expect(frost.axis.cover?(Date.new(2026, 8, 10))).to be true
     end
   end

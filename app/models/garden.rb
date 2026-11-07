@@ -109,7 +109,8 @@ class Garden < ApplicationRecord
   def make_nursery!
     transaction do
       self.class.where(owner_id:, nursery: true).where.not(id:).update_all(nursery: false) # rubocop:disable Rails/SkipsModelValidations
-      update!(nursery: true)
+      # Most nurseries are indoors or under cover, so it starts as safe from frost. The member can say otherwise.
+      update!(nursery: true, frost_safe: true)
       owner.accept_nursery!
     end
   end

@@ -4,7 +4,7 @@ $frost-line: 1px solid rgba($brown, 0.15);
 $frost-possible: repeating-linear-gradient(135deg, $blue 0, $blue 2px, $white 2px, $white 7px);
 $frost-finished: #6c757d;
 $frost-to-come: #cfe3c4;
-$frost-nursery: #d7e8f2;
+$frost-safe: #d7e8f2;
 $frost-clear: #e8f5e9;
 $frost-warning: #fff8e1;
 
@@ -148,8 +148,8 @@ $frost-warning: #fff8e1;
     background: $frost-possible;
   }
 
-  .frost-band--nursery {
-    background: $frost-nursery;
+  .frost-band--frost_safe {
+    background: $frost-safe;
     border: 2px solid $blue;
     border-right: 0;
     box-sizing: border-box;
@@ -267,7 +267,7 @@ $frost-warning: #fff8e1;
     border: 1px solid $blue;
   }
 
-  .frost-key.frost-band--nursery {
+  .frost-key.frost-band--frost_safe {
     border-right: 2px solid $blue;
   }
 
