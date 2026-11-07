@@ -80,8 +80,8 @@ describe PlantingFrost do
       expect(frost.days_since_latest).to eq 37
     end
 
-    it 'counts the days from planting to the latest it has come' do
-      expect(frost.days_in_danger).to eq 44
+    it 'counts the days the planting lived inside the possible frost danger' do
+      expect(frost.days_in_danger).to eq 45
     end
 
     it 'counts no days in danger for a planting after the latest it has come' do
@@ -90,7 +90,7 @@ describe PlantingFrost do
 
     it 'stops counting days in danger when the planting finishes' do
       expect(described_class.new(stat:, planted_on:, ends_on: Date.new(2026, 9, 1), finished: true, readings:,
-                                 today:).days_in_danger).to eq 14
+                                 today:).days_in_danger).to eq 15
     end
 
     it 'counts the days from the end of the planting to the next season' do
@@ -177,7 +177,7 @@ describe PlantingFrost do
       end
 
       it 'counts the days in danger up to the latest it has come' do
-        expect(frost.days_in_danger).to eq 44
+        expect(frost.days_in_danger).to eq 45
       end
     end
 
@@ -229,6 +229,14 @@ describe PlantingFrost do
 
     it 'cuts the next season to the axis' do
       expect(frost.danger_bands.last.to).to eq frost.axis.last
+    end
+
+    it 'marks the band the axis cuts off as open' do
+      expect(frost.danger_bands.last.open).to be true
+    end
+
+    it 'leaves the bands the axis does not cut off closed' do
+      expect(frost.danger_bands.first.open).to be false
     end
 
     it 'draws a planting still growing as so far and still to come' do
@@ -305,7 +313,7 @@ describe PlantingFrost do
     end
 
     it 'counts only the days in danger of its last year' do
-      expect(frost.days_in_danger).to eq 328
+      expect(frost.days_in_danger).to eq 120
     end
   end
 
@@ -351,6 +359,32 @@ describe PlantingFrost do
     it 'is a planting frost when the cell has frost dates' do
       create(:frost_stat, latitude: -41.25, longitude: 174.75, threshold_c: FrostCalculator::FROST_DANGER_C)
       expect(described_class.for(planting, readings: [])).to be_a described_class
+    end
+  end
+
+  context 'when the planting has finished and there is no finish date, or a predicted one' do
+    let(:ends_on) { nil }
+    let(:finished) { true }
+    let(:planted_on) { Date.new(2016, 9, 3) }
+
+    it 'has no end to go by' do
+      expect(frost).to be_end_unknown
+    end
+
+    it 'has a verdict that says so' do
+      expect(frost.verdict).to eq :finished_undated
+    end
+
+    it 'looks at the season it went in' do
+      expect(frost.usual.first.year).to eq 2016
+    end
+
+    it 'draws the planting as a marker on the day it went in' do
+      expect(frost.planting_bands.map(&:kind)).to eq [:planted]
+    end
+
+    it 'is not the same as a finish that is predicted' do
+      expect(described_class.new(stat:, planted_on:, ends_on: Date.new(2017, 1, 1), finished:, readings:, today:)).not_to be_end_unknown
     end
   end
 end

@@ -1,9 +1,11 @@
 -# This planting against the frost danger season, on one axis of whole months.
-- direction = frost.planted_days_before_usual_end.negative? ? 'after' : 'before'
-- legend = %i(usual possible) + frost.planting_bands.map(&:kind).uniq
+:ruby
+  direction = frost.planted_days_before_usual_end.negative? ? 'after' : 'before'
+  legend = %i(usual possible) + frost.planting_bands.map(&:kind).uniq
+  chart_class = 'frost-chart--today' if frost.show_today?
 .frost-timeline
   %h3= t('plantings.frost.timeline.title')
-  .frost-chart{ role: 'img', 'aria-label': frost_timeline_description(frost) }
+  .frost-chart{ role: 'img', 'aria-label': frost_timeline_description(frost), class: chart_class }
     .frost-lanes
       = frost_today_tags(frost)
       .frost-lane-label= t('plantings.frost.timeline.row_danger')
