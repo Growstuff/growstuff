@@ -31,7 +31,7 @@ class CropPhotosController < ApplicationController
     photo.save!
     association = photo.photo_associations.find_or_initialize_by(photographable: crop)
     association.update!(label: kind)
-    redirect_to crop_path(crop), notice: t('.added', crop: crop.name)
+    redirect_to photo_path(photo), notice: t('.added', crop: crop.name)
   rescue FlickrPublicPhoto::Rejected => e
     redirect_to crop_path(crop), alert: t("crop_photos.create.#{e.reason}")
   rescue ActiveRecord::RecordInvalid

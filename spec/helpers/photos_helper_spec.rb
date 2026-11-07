@@ -144,4 +144,28 @@ describe PhotosHelper do
 
     it { expect(helper.photo_credit_text(photo)).to eq 'Photo by Pat Photo on Flickr, CC BY 2.0 https://creativecommons.org/licenses/by/2.0/' }
   end
+
+  describe '#photo_heading' do
+    let(:photo) { create(:photo, title: 'Dill') }
+    let(:crop) { create(:crop, name: 'dill') }
+
+    it 'is the photo title when it is attached to nothing' do
+      expect(helper.photo_heading(photo)).to eq 'Dill'
+    end
+
+    it 'names the seeds when it is of seeds' do
+      photo.seeds << create(:seed, crop: crop, owner: photo.owner)
+      expect(helper.photo_heading(photo)).to eq 'Photo of dill seeds'
+    end
+
+    it 'names the harvest when a crop photo is labelled as one' do
+      photo.photo_associations.create!(photographable: crop, label: 'harvest')
+      expect(helper.photo_heading(photo)).to eq 'Photo of dill harvest'
+    end
+
+    it 'names only the crop when a crop photo has no label' do
+      photo.photo_associations.create!(photographable: crop)
+      expect(helper.photo_heading(photo)).to eq 'Photo of dill'
+    end
+  end
 end

@@ -131,6 +131,21 @@
 
 // photos#show: the photo and what it shows on the left; who took it and what it may
 // be used for on the right. One column on a phone, with the photo first.
+.photo-section-heading {
+  // A plain heading, not the green band every other section heading gets.
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font-size: 1.3125rem;
+  font-weight: 500;
+  padding: 0;
+
+  .photo-section-count {
+    color: $ink-muted;
+    font-weight: 400;
+  }
+}
+
 .photo-page-header {
   align-items: flex-start;
   display: flex;
@@ -191,21 +206,18 @@
     justify-content: flex-end;
     padding-top: 1rem;
   }
+
+  // The way to the photo on its own site: a link, with its icon.
+  .photo-polaroid-source {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.375rem;
+  }
 }
 
 // A card for each record the photo is attached to. The header names the kind in
 // words and an icon as well as colour.
 .photo-shows {
-  // A plain heading, not the green band every other section heading gets.
-  .photo-shows-heading {
-    background: none;
-    box-shadow: none;
-    color: inherit;
-    font-size: 1.3125rem;
-    font-weight: 500;
-    padding: 0;
-  }
-
   .photo-shows-cards {
     display: flex;
     flex-wrap: wrap;
@@ -385,6 +397,12 @@
   justify-content: center;
   width: 1.5rem;
 
+  &.member-initial-medium {
+    font-size: 0.875rem;
+    height: 2rem;
+    width: 2rem;
+  }
+
   &.member-initial-large {
     font-size: 1.75rem;
     height: 4rem;
@@ -492,5 +510,97 @@
     font-size: 0.75rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+  }
+}
+
+// The comments under the photo: a card each, then a box to add one.
+.photo-comments {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-bottom: 0;
+
+  .photo-section-heading {
+    margin-bottom: 0.25rem;
+  }
+
+  .photo-comment,
+  .photo-comment-empty {
+    background: $white;
+    border-radius: $card-radius;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 3px 4px rgba(0, 0, 0, 0.12);
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+  }
+
+  .photo-comment-empty {
+    color: $brown;
+  }
+
+  .photo-comment-main,
+  .photo-comment-form {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .photo-comment-meta {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.125rem 0.625rem;
+  }
+
+  .photo-comment-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .photo-comment-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .photo-comment-badge {
+    background: $beige;
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 1px 0.5rem;
+    text-transform: uppercase;
+
+    &.photo-comment-badge-photographer {
+      background: #e8f5e9;
+    }
+  }
+
+  .photo-comment-new {
+    align-items: flex-start;
+    margin-top: 0.5rem;
+    padding: 1rem;
+  }
+
+  .photo-comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .photo-comment-form-footer {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem 1rem;
+    justify-content: space-between;
+  }
+
+  .photo-comment-signin {
+    background: #e8f5e9;
+    border-radius: $card-radius;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
   }
 }

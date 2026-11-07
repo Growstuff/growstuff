@@ -1,6 +1,7 @@
-- content_for :title, @photo.title
+- heading = photo_heading(@photo)
+- content_for :title, heading
 - content_for :opengraph do
-  = tag("meta", property: "og:title", content: @photo.title)
+  = tag("meta", property: "og:title", content: heading)
   = tag("meta", property: "og:image", content: @photo.fullsize_url)
   = tag("meta", property: "og:image:user_generated", content: "true")
   = tag("meta", property: "og:type", content: "website")
@@ -15,25 +16,21 @@
 -# beside who took it and what it may be used for.
 .photo-page-header
   .photo-page-title
-    %h1.h3.mb-0= @photo.title
-    - if @photo.date_taken.present?
-      %small.text-muted= t('.taken', date: I18n.l(@photo.date_taken.to_date, format: :long))
+    %h1.mb-0= heading
+    %small.text-muted
+      = @photo.title
+      - if @photo.date_taken.present?
+        &middot;
+        = t('.taken', date: I18n.l(@photo.date_taken.to_date, format: :long))
   = render 'photos/actions', photo: @photo
 .photo-page{id: "photo-#{@photo.id}"}
   .photo-page-main
     = render 'photos/polaroid', photo: @photo
     = render 'photos/shows', photo: @photo, crops: @crops
+    = render 'photos/comments', photo: @photo
   .photo-page-side
     - if photo_by_outsider?(@photo)
       = render 'photos/photographer_outsider', photo: @photo
     - else
       = render 'photos/photographer', member: @photo.owner
     = render 'photos/licence', photo: @photo
-.row
-  - if can? :create, Comment
-    = link_to new_comment_path(comment: { commentable_type: 'Photo', commentable_id: @photo.id }), class: 'btn' do
-      = icon 'fas', 'comment'
-      = t('.comment')
-.row
-  .col-md-9
-    = render 'comments/comments', commentable: @photo

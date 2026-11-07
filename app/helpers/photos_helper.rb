@@ -10,6 +10,30 @@ module PhotosHelper
       photo.crops.map { |crop| ['crop', crop] }
   end
 
+  # The page's heading: "Photo of dill seeds". It says what the photo shows, from the
+  # first thing it is attached to, as the site names things: "<crop> seeds", "<crop>
+  # harvest", "<crop> planting". A photo of nothing we can name keeps its own title.
+  def photo_heading(photo)
+    subject = photo_subject(photo)
+    subject ? t('photos.show.heading', subject: subject) : photo.title
+  end
+
+  def photo_subject(photo)
+    photo_records(photo).each do |type, thing|
+      case type
+      when 'planting', 'harvest', 'seed' then return t("photos.records.#{type}", crop: thing.crop.name)
+      when 'crop' then return photo_crop_subject(photo, thing)
+      end
+    end
+    nil
+  end
+
+  # A photo added to a crop says whether it shows a planting, a harvest or seeds.
+  def photo_crop_subject(photo, crop)
+    kind = photo.photo_associations.find_by(photographable: crop)&.label
+    kind ? t("photos.records.#{kind}", crop: crop.name) : crop.name
+  end
+
   # What to call a record in a list of them, so one planting is told from another.
   def photo_record_name(type, thing)
     case type

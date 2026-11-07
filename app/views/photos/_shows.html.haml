@@ -2,7 +2,7 @@
 -# kind of record, so you can follow the photo back to it.
 - records = %i(plantings harvests seeds gardens posts jobs).flat_map { |kind| photo.public_send(kind).map { |thing| [kind, thing] } }
 %section.photo-shows
-  %h2.photo-shows-heading= t('.heading')
+  %h2.photo-section-heading= t('.heading')
   %p.text-muted
     = photo_by_outsider?(photo) ? t('.outsider_intro', site: photo.source.to_s.titleize) : t('.intro')
   .photo-shows-cards

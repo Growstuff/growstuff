@@ -26,7 +26,7 @@ describe CropPhotosController do
         post crop_photos_path(crop), params: { url: 'https://www.flickr.com/photos/pat/12345/', kind: 'harvest' }
       end
 
-      it { expect(response).to redirect_to(crop_path(crop)) }
+      it { expect(response).to redirect_to(photo_path(photo)) }
       it { expect(photo.crops).to eq [crop] }
       it { expect(photo.photo_associations.first.label).to eq 'harvest' }
       it { expect(photo.owner).to eq cropbot }

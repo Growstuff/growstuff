@@ -1314,6 +1314,26 @@ en:
         post: "Remove from the post: %{name}"
         seed: "Remove from the seeds: %{name}"
       unlink_confirm: Remove this photo from that record? The photo itself stays on Growstuff.
+    comment:
+      ago: "%{time} ago"
+      delete: Delete
+      delete_confirm: Delete this comment?
+      deleted_member: Member deleted
+      edit: Edit
+      edited: edited
+      photographer: Photographer
+      you: You
+    comments:
+      add_comment: Add a comment
+      empty: No comments yet. Be the first to say something about this photo.
+      guidelines: Community Guidelines
+      heading: Comments
+      join: Join free
+      placeholder: Say something about this photo
+      post: Post comment
+      public_note_html: Comments are public. Please follow the %{guidelines}.
+      sign_in: Sign in
+      sign_in_prompt: Sign in to join the conversation
     credit:
       by: Photo by %{name}
       "on": " on %{site}"
@@ -1356,12 +1376,14 @@ en:
       unavailable: Flickr could not be reached. Please try again in a moment.
     records:
       harvest: "%{crop} harvest"
+      planting: "%{crop} planting"
       seed: "%{crop} seeds"
     show:
       comment: Comment
       crop: "%{crop}"
       garden: garden named "%{garden}" by %{owner}
       harvest: "%{crop} harvest by %{owner}"
+      heading: Photo of %{subject}
       photo_by: Photo by %{name}
       photos: Photos
       planting: "%{planting}"
