@@ -408,6 +408,10 @@ en:
       wikidata_id: Wikidata ID
     search: Search crops
   edit_crop: Edit crop
+  flash:
+    photo_associations:
+      destroy:
+        notice: Removed the photo from that %{kind}. The photo is still on Growstuff.
   forms:
     optional: "(Optional)"
   forums:
@@ -1375,8 +1379,6 @@ en:
     what_is_a_nursery:
       description_html: 'A <strong>nursery</strong> is where you raise seedlings: seeds sown in trays or pots before they go into a garden. Sow your seeds in the nursery, then transplant them into one garden, or split a batch between several, when they are ready.'
   photo_associations:
-    destroy:
-      removed: Removed the photo from that %{kind}. The photo is still on Growstuff.
     update:
       updated: Photo updated.
   photos:
