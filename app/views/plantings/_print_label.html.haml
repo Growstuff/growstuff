@@ -1,0 +1,8 @@
+:ruby
+  date = if @planting.planted_at.present?
+    t('.planted_date', date: l(@planting.planted_at))
+  else
+    t('shared.print_label.printed_date', date: l(Date.current))
+  end
+= render 'shared/print_label', name: @planting.display_name, url: planting_url(@planting),
+  date: date, filename: 'growstuff-planting-label.pdf', collapsible: false

@@ -131,6 +131,12 @@
           %h2= t('plantings.show.crop')
         = render 'plantings/crop', crop: @planting.crop
 
+      - if member_signed_in?
+        %section.planting-print-label
+          .section-header
+            %h2= t('plantings.show.labels')
+          = render 'plantings/print_label'
+
       - if @planting.location && @neighbours.any?
         %section.neighbours
           .section-header
