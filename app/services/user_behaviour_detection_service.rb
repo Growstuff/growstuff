@@ -3,6 +3,8 @@
 # Evaluates recent activity of a member for spam behavior and calculates a spam score.
 class UserBehaviourDetectionService
   MAX_SCORE = 100
+  BAN_THRESHOLD = 75
+  AUTO_BAN_THRESHOLD = BAN_THRESHOLD
 
   SPAM_KEYWORDS = [
     'sports betting',
