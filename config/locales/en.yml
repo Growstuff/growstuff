@@ -1,5 +1,15 @@
 ---
 en:
+  shared:
+    print_label:
+      heading: Print label
+      width: Width (mm)
+      height: Height (mm)
+      download: Download PDF
+      hint: Print at actual size (100%), or import the PDF into your label printer app.
+      error: The label could not be generated. Please try again.
+      size_error: Increase the label dimensions to keep the QR code and text readable.
+      printed_date: Printed %{date}
   activerecord:
     errors:
       messages:
@@ -3678,6 +3688,8 @@ en:
       perennial: Perennial
       unknown: Unknown
   plantings:
+    print_label:
+      planted_date: Planted %{date}
     badges:
       days_until_finished: days until finished
       days_until_harvest: days until harvest

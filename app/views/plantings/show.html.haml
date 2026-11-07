@@ -66,6 +66,7 @@
               = render 'plantings/actions', planting: @planting
 
           = render 'timeline', planting: @planting
+          = render 'plantings/print_label' if member_signed_in?
           = render 'harvest_months', planting: @planting
 
         %section.planting-facts= render 'facts', planting: @planting
