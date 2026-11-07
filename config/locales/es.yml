@@ -409,7 +409,12 @@ es:
       view_layout: ver diseño
       view_layout_label: Ver el diseño de la cama
       where_each: Dónde crece cada planta de este jardín, en un mapa del parterre.
-    location: "%{garden} de %{owner}"
+    location:
+      change: Cambiar
+      heading: Ubicación
+      not_set: No establecido
+      remove: Eliminar
+    string: "%{garden} de %{owner}"
     nursery_declined: Vale, no volveremos a preguntar por una guardería. Puede configurar uno más tarde desde la página de su jardín.
     nursery_made: Este jardín es ahora tu vivero.
     nursery_name: Vivero
