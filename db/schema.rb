@@ -725,6 +725,37 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
     t.index ["slug"], name: "index_forums_on_slug", unique: true
   end
 
+  create_table "frost_stats", force: :cascade do |t|
+    t.datetime "computed_at", null: false
+    t.datetime "created_at", null: false
+    t.float "first_frost_median", comment: "Days into the frost year. Null when the status is rare or unknown."
+    t.float "first_frost_p10", comment: "Days into the frost year: an early warning, 1 year in 10 is earlier."
+    t.integer "frost_years", default: 0, null: false, comment: "How many of those years had any frost."
+    t.float "frost_free_days_median", comment: "Only for the frost status."
+    t.float "last_frost_median", comment: "Days into the frost year."
+    t.float "last_frost_p90", comment: "Days into the frost year: a safe-to-plant date, 1 year in 10 is later."
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.string "status", null: false, comment: "frost, possible, rare or unknown: how often the cell has any frost."
+    t.float "threshold_c", null: false, comment: "A day at or below this counts as frost."
+    t.datetime "updated_at", null: false
+    t.integer "years_used", default: 0, null: false, comment: "Complete frost years in the history."
+    t.index ["latitude", "longitude", "threshold_c"], name: "index_frost_stats_on_cell_and_threshold", unique: true
+  end
+
+  create_table "frost_years", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "first_frost", comment: "Null when the year had no frost."
+    t.date "last_frost", comment: "Null when the year had no frost."
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "lowest_c", comment: "The lowest minimum temperature of the year."
+    t.float "threshold_c", null: false, comment: "A day at or below this counts as frost."
+    t.datetime "updated_at", null: false
+    t.integer "year", null: false, comment: "The frost year, named for the calendar year it ends in."
+    t.index ["latitude", "longitude", "threshold_c", "year"], name: "index_frost_years_on_cell_threshold_and_year", unique: true
+  end
+
   create_table "garden_collaborators", force: :cascade do |t|
     t.bigint "member_id"
     t.bigint "garden_id"
