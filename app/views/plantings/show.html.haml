@@ -65,6 +65,7 @@
               = render 'plantings/actions', planting: @planting
 
           = render 'timeline', planting: @planting
+          = render 'plantings/print_label' if member_signed_in?
           - case @weather_status
           - when :charts
             .planting-weather#weather
