@@ -18,6 +18,14 @@ describe 'crops/_alternate_name_modal' do
       expect(rendered).to have_content(I18n.t('crops.alternate_name_modal.add_title', crop: crop.name))
     end
 
+    it 'defaults to a blank language' do
+      expect(rendered).to have_css('select#alternate_name_language option:first-child[value=""]')
+    end
+
+    it 'requires a language selection' do
+      expect(rendered).to have_css('select#alternate_name_language[required]')
+    end
+
     it 'renders the localized close button label' do
       expect(rendered).to have_css("button.btn-close[aria-label='#{I18n.t('crops.alternate_name_modal.close')}']")
     end
@@ -40,7 +48,7 @@ describe 'crops/_alternate_name_modal' do
   end
 
   context 'when alternate name is persisted' do
-    let(:alternate_name) { create(:alternate_name, crop: crop, name: 'Spud', language: 'en') }
+    let(:alternate_name) { create(:alternate_name, crop: crop, name: 'Spud', language: 'EN') }
 
     before do
       render partial: 'crops/alternate_name_modal', locals: { crop:, alternate_name: }
@@ -48,6 +56,10 @@ describe 'crops/_alternate_name_modal' do
 
     it 'renders the localized edit title' do
       expect(rendered).to have_content(I18n.t('crops.alternate_name_modal.edit_title'))
+    end
+
+    it 'preserves the selected language' do
+      expect(rendered).to have_css('select#alternate_name_language option[value="EN"][selected]')
     end
 
     it 'renders the localized close button label' do
