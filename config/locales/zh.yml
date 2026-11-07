@@ -268,10 +268,14 @@ zh:
       heading: Growstuff 是一个免费的、由社区运营的网站，面向种植食物的人们。
       prompt: 注册即可记录您自己的 %{crops}。
       text: 记录您种植和收获的内容，寻找种子进行交换，并了解您附近种植的植物。
-    plantings:
-      empty: 还没有人种植过这种作物。
-      plant_crop: 种植 %{crop}
-      track_plantings: 记录您的 %{crop} 种植
+    photos:
+      more_photos: 更多照片
+      title: 照片
+    posts:
+      empty: 目前还没有人发表关于 %{crop} 的帖子。
+      heading: 大家对 %{crop} 的评价
+      post_something: 发表帖子
+      track_posts: 分享您种植 %{crop} 的经验与心得
     nutritional_data:
       carbohydrate: 碳水化合物
       energy: 能量

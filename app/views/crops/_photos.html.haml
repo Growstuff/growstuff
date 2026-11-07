@@ -1,4 +1,6 @@
-%h2 #{photo_icon} Photos
+%h2
+  = photo_icon
+  = t('.title')
 - photos = crop.photos_with_varieties
 - [Crop, Planting, Harvest, Seed].each do |model_name|
   - of_model = photos.by_model(model_name)
@@ -7,4 +9,4 @@
     = render 'photos/gallery', photos: of_model.includes(:owner).order(likes_count: :desc, created_at: :desc).limit(5)
 - if photos.count.positive?
   .section-footer
-    = link_to 'More photos', crop_photos_path(@crop), class: 'btn btn-outline-secondary btn-sm'
+    = link_to t('.more_photos'), crop_photos_path(@crop), class: 'btn btn-outline-secondary btn-sm'

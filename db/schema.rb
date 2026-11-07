@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_06_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -585,8 +585,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
     t.integer "germination_days_max", comment: "Days to germinate, at most."
     t.integer "germination_days_min", comment: "Days to germinate, at least."
     t.integer "growing_degree_days"
-    t.string "hardiness", default: "unknown", null: false, comment: "tender, half_hardy, hardy or unknown."
-    t.string "hardiness_source", comment: "Where hardiness came from: seed_packets or manual. A manual one is not overwritten."
     t.string "harvest_style", comment: "'single' when the whole plant is harvested once, 'repeated' when it keeps producing. Empty when unknown."
     t.integer "harvests_count", default: 0
     t.integer "height"
@@ -723,37 +721,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
     t.datetime "updated_at", precision: nil
     t.index ["owner_id"], name: "index_forums_on_owner_id"
     t.index ["slug"], name: "index_forums_on_slug", unique: true
-  end
-
-  create_table "frost_stats", force: :cascade do |t|
-    t.datetime "computed_at", null: false
-    t.datetime "created_at", null: false
-    t.float "first_frost_median", comment: "Days into the frost year. Null when the status is rare or unknown."
-    t.float "first_frost_p10", comment: "Days into the frost year: an early warning, 1 year in 10 is earlier."
-    t.integer "frost_years", default: 0, null: false, comment: "How many of those years had any frost."
-    t.float "frost_free_days_median", comment: "Only for the frost status."
-    t.float "last_frost_median", comment: "Days into the frost year."
-    t.float "last_frost_p90", comment: "Days into the frost year: a safe-to-plant date, 1 year in 10 is later."
-    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
-    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
-    t.string "status", null: false, comment: "frost, possible, rare or unknown: how often the cell has any frost."
-    t.float "threshold_c", null: false, comment: "A day at or below this counts as frost."
-    t.datetime "updated_at", null: false
-    t.integer "years_used", default: 0, null: false, comment: "Complete frost years in the history."
-    t.index ["latitude", "longitude", "threshold_c"], name: "index_frost_stats_on_cell_and_threshold", unique: true
-  end
-
-  create_table "frost_years", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.date "first_frost", comment: "Null when the year had no frost."
-    t.date "last_frost", comment: "Null when the year had no frost."
-    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
-    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
-    t.float "lowest_c", comment: "The lowest minimum temperature of the year."
-    t.float "threshold_c", null: false, comment: "A day at or below this counts as frost."
-    t.datetime "updated_at", null: false
-    t.integer "year", null: false, comment: "The frost year, named for the calendar year it ends in."
-    t.index ["latitude", "longitude", "threshold_c", "year"], name: "index_frost_years_on_cell_threshold_and_year", unique: true
   end
 
   create_table "garden_collaborators", force: :cascade do |t|
@@ -1212,7 +1179,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_06_000200) do
     t.integer "germination_days_max"
     t.integer "germination_days_min"
     t.text "gmo", default: "unknown"
-    t.text "hardiness", default: "unknown", comment: "What the packet says: tender, half_hardy, hardy or unknown."
     t.text "heirloom", default: "unknown"
     t.text "how_to_sow", comment: "How the packet says to sow it, in its words."
     t.text "organic", default: "unknown"

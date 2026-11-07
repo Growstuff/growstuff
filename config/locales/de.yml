@@ -268,10 +268,14 @@ de:
       heading: Growstuff ist eine kostenlose, von der Community betriebene Website für Menschen, die Lebensmittel anbauen.
       prompt: Melden Sie sich an, um Ihre eigenen %{crops} aufzuzeichnen.
       text: Behalten Sie im Auge, was Sie pflanzen und ernten, finden Sie Saatgut zum Tauschen und sehen Sie, was in Ihrer Nähe wächst.
-    plantings:
-      empty: Niemand hat diese Kultur bisher gepflanzt.
-      plant_crop: "%{crop} pflanzen"
-      track_plantings: Ihre %{crop}-Pflanzungen zu verfolgen
+    photos:
+      more_photos: Mehr Fotos
+      title: Fotos
+    posts:
+      empty: Niemand hat bisher über %{crop} geschrieben.
+      heading: Was über %{crop} berichtet wird
+      post_something: Beitrag verfassen
+      track_posts: Ihre Tipps und Erfahrungen zum Anbau von %{crop} zu teilen
     nutritional_data:
       carbohydrate: Kohlenhydrate
       energy: Energie

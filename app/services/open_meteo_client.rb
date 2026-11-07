@@ -37,15 +37,6 @@ class OpenMeteoClient
     'weather_code'                   => :weather_code
   }.freeze
 
-  # Open-Meteo counts a request for more than 10 variables, or more than 2 weeks, as several calls.
-  VARIABLES_PER_CALL = 10.0
-  DAYS_PER_CALL = 14.0
-
-  # What a request for these dates costs against the daily limit, in calls.
-  def self.call_cost(from, to, variables: VARIABLES.size)
-    [(to - from + 1) / DAYS_PER_CALL, 1].max * [variables / VARIABLES_PER_CALL, 1].max
-  end
-
   def initialize(connection: nil)
     @connection = connection || Faraday.new(url: URL, headers: { 'User-Agent' => USER_AGENT }) do |f|
       f.options.timeout = 15
@@ -53,22 +44,16 @@ class OpenMeteoClient
   end
 
   # => { Date => { rainfall_mm: 1.2, temp_max_c: 21.0, ... } }, leaving out any figure the API lacks.
-  # Asking for fewer variables is cheaper: Open-Meteo counts a request for 10 or fewer at the base rate.
-  def daily(latitude:, longitude:, from:, to:, variables: VARIABLES.keys)
+  def daily(latitude:, longitude:, from:, to:)
     response = @connection.get('/v1/archive', latitude:, longitude:, start_date: from.iso8601, end_date: to.iso8601,
-                                              daily: variables.join(','), timezone: 'auto')
+                                              daily: VARIABLES.keys.join(','), timezone: 'auto')
     raise Error, "Open-Meteo answered #{response.status}" unless response.success?
 
     daily = JSON.parse(response.body).fetch('daily', {})
     daily.fetch('time', []).each_with_index.to_h do |day, index|
-      [Date.parse(day), VARIABLES.slice(*variables).to_h { |name, column| [column, daily.dig(name, index)] }.compact]
+      [Date.parse(day), VARIABLES.to_h { |name, column| [column, daily.dig(name, index)] }.compact]
     end
   rescue Faraday::Error, JSON::ParserError => e
     raise Error, e.message
-  end
-
-  # => { Date => lowest temperature of the day, in degrees C }, leaving out any day the API lacks.
-  def minimums(latitude:, longitude:, from:, to:)
-    daily(latitude:, longitude:, from:, to:, variables: %w(temperature_2m_min)).transform_values { |day| day[:temp_min_c] }.compact
   end
 end

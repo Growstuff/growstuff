@@ -1,11 +1,11 @@
 %a{ name: 'posts' }
-%h2 What people are saying about #{crop.name.pluralize}
+%h2= t('.heading', crop: crop.name.pluralize)
 
 - if @posts.empty?
-  %p.text-muted Nobody has posted about #{crop.name.pluralize} yet.
+  %p.text-muted= t('.empty', crop: crop.name.pluralize)
   - unless can? :create, Post
     = render partial: "shared/signin_signup",
-            locals: { to: "post your tips and experiences growing #{crop.name.pluralize}" }
+            locals: { to: t('.track_posts', crop: crop.name.pluralize) }
 - else
   = will_paginate @posts
 
@@ -19,4 +19,4 @@
 -# anyone has posted yet.
 - if can? :create, Post
   .section-footer
-    = link_to "Post something", new_post_path(crop_id: crop.slug), class: 'btn btn-outline-secondary btn-sm'
+    = link_to t('.post_something'), new_post_path(crop_id: crop.slug), class: 'btn btn-outline-secondary btn-sm'

@@ -47,27 +47,6 @@ describe OpenMeteoClient, type: :service do
     end
   end
 
-  describe '#minimums' do
-    let(:body) { { daily: { time: %w(2026-10-01 2026-10-02), temperature_2m_min: [3.1, nil] } } }
-    let(:minimums) { client.minimums(latitude: -41.3, longitude: 174.75, from: Date.new(2026, 10, 1), to: Date.new(2026, 10, 2)) }
-
-    before do
-      stubs.get('/v1/archive') do |env|
-        asked << env.params['daily']
-        [200, {}, body.to_json]
-      end
-    end
-
-    it 'asks for the daily minimum alone' do
-      minimums
-      expect(asked.first).to eq 'temperature_2m_min'
-    end
-
-    it 'maps each day to its minimum, leaving out missing days' do
-      expect(minimums).to eq(Date.new(2026, 10, 1) => 3.1)
-    end
-  end
-
   context 'when the API errors' do
     before { stubs.get('/v1/archive') { [429, {}, '{}'] } }
 

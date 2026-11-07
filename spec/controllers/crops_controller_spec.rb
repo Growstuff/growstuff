@@ -225,7 +225,7 @@ describe CropsController do
 
     let!(:crop) { create(:crop, description: 'Old description') }
     let!(:scientific_name) do
-      create(:scientific_name, crop: crop, name: 'Solanum lycopersicum', gbif_key: 12_345, wikidata_id: 'Q1387')
+      create(:scientific_name, crop: crop, name: 'Solanum lycopersicum', gbif_key: 12345, wikidata_id: 'Q1387')
     end
 
     let(:crop_params) do
@@ -243,20 +243,11 @@ describe CropsController do
         expect(crop.reload.description).to eq('Updated description')
       end
 
-      context 'with a hardiness' do
-        let(:crop_params) { { slug: crop.to_param, crop: { hardiness_by_hand: 'hardy' } } }
-
-        it 'is set by hand' do
-          subject
-          expect(crop.reload.hardiness_source).to eq 'manual'
-        end
-      end
-
       it 'retains existing scientific names with gbif and wikidata info intact' do
         expect { subject }.not_to change(ScientificName, :count)
         scientific_name.reload
         expect(scientific_name.name).to eq('Solanum lycopersicum')
-        expect(scientific_name.gbif_key).to eq(12_345)
+        expect(scientific_name.gbif_key).to eq(12345)
         expect(scientific_name.wikidata_id).to eq('Q1387')
       end
     end

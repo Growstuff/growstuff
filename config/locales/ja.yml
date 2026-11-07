@@ -69,10 +69,14 @@ ja:
       heading: Growstuffは作物を育てる人々のための無料のコミュニティ運営サイトです。
       prompt: 参加してあなた自身の%{crops}を記録しましょう。
       text: 植えたものや収穫したものを記録し、交換する種を見つけ、近くで何が育っているかを確認しましょう。
-    plantings:
-      empty: この作物はまだ誰にも植え付けられていません。
-      plant_crop: "%{crop}を植える"
-      track_plantings: "%{crop}の植え付けを記録する"
+    photos:
+      more_photos: もっと写真を見る
+      title: 写真
+    posts:
+      empty: まだ%{crop}についての投稿はありません。
+      heading: "%{crop}についてのみんなの声"
+      post_something: 投稿する
+      track_posts: "%{crop}の栽培のヒントや経験を投稿する"
     nutritional_data:
       carbohydrate: 炭水化物
       energy: エネルギー

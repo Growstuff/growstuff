@@ -589,27 +589,6 @@
     fill-opacity: 0.14;
   }
 
-  .weather-frost-line {
-    stroke: $blue;
-    stroke-dasharray: 4 3;
-    stroke-width: 1;
-    vector-effect: non-scaling-stroke;
-  }
-
-  // What the dashed line is, on the right above it.
-  .weather-frost-label {
-    background: rgba($white, 0.85);
-    border-radius: 3px;
-    color: $blue;
-    font-size: 0.7rem;
-    font-weight: 700;
-    line-height: 1;
-    padding: 0 0.25rem;
-    position: absolute;
-    right: 0.4rem;
-    transform: translateY(-110%);
-  }
-
   .weather-seasons {
     display: flex;
     font-size: 0.75rem;

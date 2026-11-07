@@ -5,40 +5,6 @@ require 'rails_helper'
 describe PlantingWeatherHelper do
   include ActiveSupport::Testing::TimeHelpers
 
-  describe 'the frost line on the temperature chart' do
-    let(:from) { Date.new(2026, 6, 1) }
-    let(:stat) { build(:frost_stat) }
-    let(:readings) { [build(:weather_reading, date: from, rainfall_mm: 4.0, temp_max_c: 22.0, temp_min_c: 9.0)] }
-    let(:chart) { Capybara.string(helper.weather_temperature_chart(readings, from:, days: 200, frost: stat)) }
-
-    it 'is drawn when there are frost dates' do
-      expect(chart).to have_css 'line.weather-frost-line'
-    end
-
-    it 'is labelled' do
-      expect(chart).to have_css '.weather-frost-label'
-    end
-
-    it 'lowers the axis to zero so the line shows' do
-      expect(chart.all('.weather-axis span').last.text).to eq '0°'
-    end
-
-    it 'is left out for a cell with little frost' do
-      stat.assign_attributes(status: 'rare', first_frost_median: nil, last_frost_median: nil)
-      expect(chart).to have_no_css 'line.weather-frost-line'
-    end
-
-    it 'is left out without frost dates' do
-      without = Capybara.string(helper.weather_temperature_chart(readings, from:, days: 200))
-      expect(without).to have_no_css 'line.weather-frost-line'
-    end
-
-    it 'leaves the axis alone without frost dates' do
-      without = Capybara.string(helper.weather_temperature_chart(readings, from:, days: 200))
-      expect(without.all('.weather-axis span').last.text).to eq '9°'
-    end
-  end
-
   describe '#weather_figures' do
     it 'gives every figure we have' do
       summary = { rain: '7 mm', hottest: '16.5°C', coldest: '6.5°C' }

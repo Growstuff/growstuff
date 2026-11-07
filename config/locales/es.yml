@@ -268,10 +268,14 @@ es:
       heading: Growstuff es un sitio gratuito administrado por la comunidad para personas que cultivan alimentos.
       prompt: Únase para registrar sus propios %{crops}.
       text: Lleve un registro de lo que siembra y cosecha, busque semillas para intercambiar y vea lo que crece cerca de usted.
-    plantings:
-      empty: Nadie ha plantado este cultivo todavía.
-      plant_crop: Plantar %{crop}
-      track_plantings: registrar tus plantaciones de %{crop}
+    photos:
+      more_photos: Más fotos
+      title: Fotos
+    posts:
+      empty: Nadie ha publicado sobre %{crop} todavía.
+      heading: Lo que la gente dice sobre %{crop}
+      post_something: Publicar algo
+      track_posts: publicar tus consejos y experiencias cultivando %{crop}
     nutritional_data:
       carbohydrate: Carbohidratos
       energy: Energía

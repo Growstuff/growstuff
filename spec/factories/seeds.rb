@@ -13,7 +13,6 @@ FactoryBot.define do
     organic { 'unknown' }
     gmo { 'unknown' }
     heirloom { 'unknown' }
-    hardiness { 'unknown' }
     days_until_maturity_min { nil }
     days_until_maturity_max { nil }
     finished_at { nil }
