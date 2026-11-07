@@ -32,4 +32,8 @@ config/database.yml
 # Files that are created on Travis
 cc-test-reporter
 
+
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+
 .envrc
