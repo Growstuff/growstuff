@@ -1336,6 +1336,13 @@ en:
       weather_temperature_chart: Daily high and low
       weather_temperature_chart_alt: 'Daily high and low temperature, from %{low} to %{high}.'
     string: "%{crop} planting in %{garden} by %{owner}"
+    failed_modal:
+      cancel: cancel
+      close: Close
+      mark_as_failed: Mark as failed
+      planted_at: "Planted %{date}"
+      title: "Mark %{crop} planting as failed"
+      which_planting: Which planting would you like to mark as failed?
     modal:
       add_new_garden: Add a new garden
       add_to_my_garden: Add to my garden
