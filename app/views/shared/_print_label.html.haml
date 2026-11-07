@@ -1,0 +1,17 @@
+%details.mb-3.print-label
+  %summary.small= t('.heading')
+  - number_options = { type: 'number', min: 20, max: 300, step: 0.1, required: true }
+  %form.mt-2{ data: { print_label: true, name: name, url: url, filename: filename,
+                     date: date, error: t('.error'), size_error: t('.size_error') } }
+    .d-flex.flex-wrap.align-items-end.gap-2
+      %div
+        %label.small{ for: 'print-label-width' }= t('.width')
+        %input.form-control.form-control-sm{ **number_options, id: 'print-label-width', name: 'width', value: 50 }
+      %div
+        %label.small{ for: 'print-label-height' }= t('.height')
+        %input.form-control.form-control-sm{ **number_options, id: 'print-label-height', name: 'height', value: 30 }
+      %button.btn.btn-sm.btn-outline-secondary{ type: 'submit' }= t('.download')
+    %p.small.text-muted.mt-1.mb-0= t('.hint')
+    %p.small.text-danger.mb-0{ role: 'alert', hidden: true }
+- content_for :scripts do
+  = javascript_include_tag 'print_label', defer: true
