@@ -97,7 +97,7 @@
                 - @crop.all_companions.each do |companion|
                   = render 'crops/tiny', crop: companion
 
-        - if @crop.photos.any?
+        - if @crop.photos_with_varieties.any?
           = cute_icon
           %section.photos
             = render 'crops/photos', crop: @crop

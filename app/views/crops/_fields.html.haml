@@ -26,6 +26,15 @@
   = f.radio_button(:perennial, true, label: "Perennial")
   %span.form-text Living more than two years
 
+- if can?(:wrangle, crop)
+  %h2= t('.harvest_style.heading')
+  = f.select :harvest_style, [[t('crops.harvest_style.single.value'), 'single'], [t('crops.harvest_style.repeated.value'), 'repeated']],
+             { include_blank: t('.harvest_style.blank'), label: t('.harvest_style.label') }
+  %span.form-text
+    = t('.harvest_style.hint')
+    - if (parent_style = crop.parent&.effective_harvest_style)
+      = t('.harvest_style.parent', style: t("crops.harvest_style.#{parent_style}.value"))
+
 %h2 Data
 - if crop.description.blank? || can?(:wrangle, crop)
   = f.text_area :description, label: 'Description'

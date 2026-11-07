@@ -118,6 +118,7 @@ describe "everyone's seeds", :js do
         visit seeds_path
       end
 
+      it { expect(page).to have_css('.seed-field-label', text: 'Distance') }
       it { expect(page).to have_link('Within 50 km') }
       it { expect(page).to have_link('Within 10 km') }
     end
@@ -126,7 +127,7 @@ describe "everyone's seeds", :js do
       before { visit seeds_path }
 
       it { expect(page).to have_no_link('Within 50 km') }
-      it { expect(page).to have_link('Anywhere') }
+      it { expect(page).to have_no_css('.seed-field-label', text: 'Distance') }
     end
   end
 end

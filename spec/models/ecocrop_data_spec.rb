@@ -81,4 +81,133 @@ describe EcocropData do
       end
     end
   end
+
+  describe '#heat_data?' do
+    subject(:data) { build(:ecocrop_data, **attributes) }
+
+    let(:attributes) { {} }
+
+    it { is_expected.to be_heat_data }
+
+    context 'without a shortest growing cycle' do
+      let(:attributes) { { gmin: nil } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
+    context 'with a shortest growing cycle of 0 days' do
+      let(:attributes) { { gmin: 0 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
+    context 'with a longest growing cycle of 0 days' do
+      let(:attributes) { { gmax: 0 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
+    context 'with growing cycles of 0 days at both ends' do
+      let(:attributes) { { gmin: 0, gmax: 0 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
+    context 'with a negative growing cycle' do
+      let(:attributes) { { gmin: -5 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
+    context 'with an optimal temperature range of 0' do
+      let(:attributes) { { topmn: 0, topmx: 0 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+
+    context 'with a lowest growing temperature of 0' do
+      let(:attributes) { { tmin: 0 } }
+
+      it { is_expected.to be_heat_data }
+    end
+
+    context 'when the optimal temperature is no higher than the lowest the crop grows at' do
+      let(:attributes) { { tmin: 25 } }
+
+      it { is_expected.not_to be_heat_data }
+    end
+  end
+
+  describe '#first_harvest_degree_days' do
+    subject(:data) { build(:ecocrop_data, tmin: 10, topmn: 20, topmx: 30, gmin: 60) }
+
+    it 'is the shortest cycle at the optimal temperature, above the lowest the crop grows at' do
+      expect(data.first_harvest_degree_days).to eq 900
+    end
+  end
+
+  describe 'Crop#ecocrop_heat_data' do
+    subject(:heat_data) { variety.ecocrop_heat_data }
+
+    let(:member) { create(:member) }
+    let(:parent) { create(:crop, name: 'Tomato') }
+    let(:variety) { create(:crop, name: 'Roma tomato', parent:) }
+    let!(:tomato_data) { create(:ecocrop_data, scientificname: 'Solanum lycopersicum') }
+
+    before { parent.scientific_names.create!(name: 'Solanum lycopersicum', creator: member) }
+
+    context 'when only the parent crop has data' do
+      it "is the parent's" do
+        expect(heat_data).to eq tomato_data
+      end
+    end
+
+    context 'when the variety has data of its own' do
+      let!(:roma_data) { create(:ecocrop_data, scientificname: 'Solanum lycopersicum var. roma') }
+
+      before { variety.scientific_names.create!(name: 'Solanum lycopersicum var. roma', creator: member) }
+
+      it 'is its own' do
+        expect(heat_data).to eq roma_data
+      end
+    end
+
+    context 'when the variety has data that is not enough for a heat estimate' do
+      before do
+        create(:ecocrop_data, scientificname: 'Solanum lycopersicum var. roma', gmin: nil)
+        variety.scientific_names.create!(name: 'Solanum lycopersicum var. roma', creator: member)
+      end
+
+      it "is the parent's" do
+        expect(heat_data).to eq tomato_data
+      end
+    end
+
+    context 'when the variety has a growing cycle of 0 days' do
+      before do
+        create(:ecocrop_data, scientificname: 'Solanum lycopersicum var. roma', gmin: 0, gmax: 0)
+        variety.scientific_names.create!(name: 'Solanum lycopersicum var. roma', creator: member)
+      end
+
+      it "is the parent's" do
+        expect(heat_data).to eq tomato_data
+      end
+    end
+
+    context 'when the variety and its parent both have a growing cycle of 0 days' do
+      before do
+        tomato_data.update!(gmin: 0, gmax: 0)
+        create(:ecocrop_data, scientificname: 'Solanum lycopersicum var. roma', gmin: 0, gmax: 0)
+        variety.scientific_names.create!(name: 'Solanum lycopersicum var. roma', creator: member)
+      end
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when neither crop has data' do
+      before { parent.scientific_names.destroy_all }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end

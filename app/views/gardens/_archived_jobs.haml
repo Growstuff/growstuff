@@ -1,0 +1,27 @@
+%h2= t('.title')
+- if jobs.any?
+  %ul.list-unstyled.archived-jobs
+    - jobs.each do |job|
+      %li.mb-2
+        %strong= job.name
+        - if job.finished
+          %span.badge.text-bg-success= t('.done')
+          - if job.finished_at
+            %small.text-muted= job.finished_at.to_date.to_fs(:long)
+        - elsif job.due_date
+          %small.text-muted= t('.due', date: job.due_date.to_date.to_fs(:long))
+        - if job.planting
+          %small
+            = t('.on_planting_html', planting: link_to(job.planting_name, planting_path(job.planting)))
+        - if job.photos.any?
+          %small.text-muted
+            = icon 'fas', 'camera'
+            = t('.photos', count: job.photos.size)
+        %small.text-muted= t('.by', owner: job.owner_login_name)
+        - if job.description.present?
+          %div
+            %small= job.description.to_s.truncate(150)
+  - if total > jobs.size
+    %p= link_to t('.view_all_jobs', total: total), garden_path(@garden, all_jobs: 1)
+- else
+  %p= t('.empty')

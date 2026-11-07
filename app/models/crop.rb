@@ -52,6 +52,10 @@ class Crop < ApplicationRecord
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
   scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
 
+  # Whether a plant is harvested once ('single', like a lettuce) or keeps producing
+  # ('repeated', like a tomato). Empty when we don't know.
+  enum :harvest_style, { single: 'single', repeated: 'repeated' }, prefix: true, validate: { allow_nil: true }
+
   ##
   ## Validations
   # Reasons are only necessary when rejecting
@@ -129,6 +133,20 @@ class Crop < ApplicationRecord
       return record if record.present?
     end
     nil
+  end
+
+  # This crop's harvest style if it has one, else its parent's, so a variety of lettuce follows lettuce.
+  def effective_harvest_style
+    harvest_style || parent&.effective_harvest_style
+  end
+
+  # The EcoCrop record with the figures for a heat estimate: this crop's if it has them, else its parent's,
+  # so a variety of tomato follows tomato.
+  def ecocrop_heat_data
+    return @ecocrop_heat_data if defined?(@ecocrop_heat_data)
+
+    data = ecocrop_data
+    @ecocrop_heat_data = data&.heat_data? ? data : parent&.ecocrop_heat_data
   end
 
   # returns hash indicating whether this crop is grown in
@@ -272,6 +290,28 @@ class Crop < ApplicationRecord
 
   def self.case_insensitive_name(name)
     where(["lower(crops.name) = :value", { value: name.downcase }])
+  end
+
+  # Ids of this crop and every variety below it, however deep, so a tomato's
+  # page can include a striped heirloom tomato's plantings and photos.
+  def self_and_descendant_ids
+    ids = [id]
+    level = ids
+    while level.any?
+      level = Crop.where(parent_id: level).where.not(id: ids).pluck(:id)
+      ids += level
+    end
+    ids
+  end
+
+  def plantings_with_varieties
+    Planting.where(crop_id: self_and_descendant_ids)
+  end
+
+  # Like photos, but also those of the varieties. Photos of seed packets are still left out.
+  def photos_with_varieties
+    Photo.where(id: PhotoAssociation.where(crop_id: self_and_descendant_ids).select(:photo_id))
+      .where.not(id: PhotoAssociation.of_packets.select(:photo_id))
   end
 
   # These crops and the crops they are varieties of.

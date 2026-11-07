@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = params[:locale] || extract_locale_from_subdomain || I18n.default_locale
+    I18n.locale = params[:locale] || current_member&.locale.presence || extract_locale_from_subdomain || I18n.default_locale
   end
 
   def extract_locale_from_subdomain
@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
                     # terms of service
                     :tos_agreement,
                     # profile stuff
-                    :bio,
+                    :bio, :locale,
                     # email settings
                     :show_email, :send_notification_email, :send_planting_reminder, :send_harvest_reminder)
     end
@@ -94,7 +94,7 @@ class ApplicationController < ActionController::Base
                     # terms of service
                     :tos_agreement,
                     # profile stuff
-                    :bio,
+                    :bio, :locale,
                     :website_url, :instagram_handle, :facebook_handle, :bluesky_handle, :other_url,
                     # email settings
                     :show_email, :send_notification_email, :send_planting_reminder, :send_harvest_reminder,

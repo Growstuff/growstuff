@@ -157,6 +157,18 @@ fr:
     unlike: Supprimer "j'aime"
     view: Afficher
     write_blog_post: Ecrire un article de blog
+  conversations:
+    index:
+      boxes:
+        inbox: Boîte de réception
+        sent: Envoyés
+        trash: Corbeille
+      breadcrumb_conversations: Conversations
+      delete: Effacer
+      restore: Restaurer
+      select_for_deletion: Sélectionner pour suppression
+      time_ago: "Il y a %{time}"
+      title: Boîte de réception
   community_gardens:
     collaborate: Collaborer avec votre équipe
     collaborate_text: Invitez d'autres jardiniers à collaborer sur vos parcelles de jardin. Partagez le travail, partagez la récolte et grandissez ensemble en tant que communauté.
@@ -207,7 +219,32 @@ fr:
         draft: Brouillon
         published: Publié
     saved: Modèle sauvegardé.
+  comments:
+    edit_modal:
+      save: Enregistrer
+      title: Modifier le commentaire
+      your_comment: Votre commentaire
+    inline_form:
+      add_comment: Ajouter un commentaire
+      post_comment: Publier un commentaire
   crops:
+    harvests:
+      empty: Personne n'a encore récolté cette plante.
+      harvest_crop: "Récolter %{crop}"
+      harvested: "%{owner} a récolté %{quantity}."
+      track_harvests: "suivre vos récoltes de %{crop}"
+      view_all: "Voir toutes les récoltes de %{crop}"
+    nutritional_data:
+      carbohydrate: Glucides
+      energy: Énergie
+      fat_total: Lipides totaux
+      fibre: Fibres alimentaires
+      protein: Protéines
+      see_more: Voir plus
+      sodium: Sodium
+      sugars: "- dont sucres"
+      summary: "Résumé des valeurs nutritionnelles pour 100 g de %{food_name}."
+      title: Données nutritionnelles
     approval_status_message:
       pending_title: "Cette culture est actuellement en attente d'approbation."
       rejected_message: "Cette culture a été rejetée pour la raison suivante : %{reason}"
@@ -266,6 +303,17 @@ fr:
       temperatures_html: 'Températures locales de %{source} : %{hottest} le plus chaud, %{coldest} le plus froid.'
       wikidata_missing: Les informations de Wikidata sont manquantes pour cet emplacement.
       you: (vous)
+    archived_jobs:
+      by: "par %{owner}"
+      done: "Terminé"
+      due: "Pour le %{date}"
+      empty: "Rien n'était prévu ici."
+      on_planting_html: "sur %{planting}"
+      photos:
+        one: "1 photo"
+        other: "%{count} photos"
+      title: "Tâches dans ce jardin"
+      view_all_jobs: "Voir l'ensemble des %{total} tâches"
     actions:
       add_photo: Ajouter une photo depuis Flickr
       make_nursery: Faites-en une pépinière
@@ -292,6 +340,19 @@ fr:
       unknown: inconnu
     form:
       location_helper: Si vous avez défini un emplacement dans votre profil, il sera utilisé lors de la création d'un nouveau jardin.
+    card:
+      layout: Disposition
+      no_annuals: Aucune plantation annuelle
+      no_perennials: Aucune plantation vivace
+      of: de
+      owner: 'propriétaire :'
+      perennials: 'Vivaces :'
+    inactive_card:
+      grown_here: Cultivé ici
+      image_alt: "Image de %{name}"
+      more_crops:
+        one: "et %{count} de plus"
+        other: "et %{count} de plus"
     header:
       all_gardens: Tous les jardins de %{owner}
       garden_of: Jardin de ?
@@ -349,6 +410,10 @@ fr:
       add: ajouter
       heading: Grandir maintenant
       nothing_planted: Rien n'est actuellement planté ici.
+    previously:
+      finished_jobs: Travaux terminés dans le jardin
+      previously_planted: Planté auparavant dans ce jardin
+      unknown_year: Année inconnue
     show:
       km_from_you: à environ %{km} km de chez vous
       suggested_plantings:
@@ -363,6 +428,11 @@ fr:
       text: Plantez, récoltez et conservez les graines en un seul endroit, et voyez ce qui pousse bien près de chez vous.
     updated: Le jardin a été mis à jour avec succès.
   harvests:
+    card:
+      by: par
+      harvested: récolté
+      picked_at: "cueilli le %{date}"
+      title: "Récolte de %{crop}"
     created: La récolte a été créée avec succès.
     edit_modal:
       harvested_at: Quand l'avez-vous récolté ?
@@ -374,6 +444,18 @@ fr:
       weight_quantity: Pesant (au total)
       weight_unit: Pesé en
     harvest_something: Récolter quelque chose
+    modal:
+      all_plant_parts: Toutes les parties de la plante
+      close: Fermer
+      recommended_plant_parts: "Parties recommandées à récolter :"
+      record_harvest: Enregistrer une récolte
+      select_plant_part: Sélectionnez la partie de la plante que vous avez récoltée
+      title: Enregistrer une récolte de %{crop}
+    planting:
+      is_this_from: Est-ce que cela provient de l'une de ces plantations ?
+      rate_planting: Évaluer cette plantation
+      save: enregistrer
+      unrated_notice: Cette récolte provient d'une plantation qui n'a pas encore été évaluée.
     index:
       title:
         crop_harvests: Les récoltes %{crop} DE chacun
@@ -869,6 +951,11 @@ fr:
       follow_named: Suivre %{name}
       following: Suivi
       following_named: Vous suivez %{name}
+    follow_buttons:
+      block: Bloquer
+      follow: Suivre
+      unblock: Débloquer
+      unfollow: Ne plus suivre
     index:
       title: Membres %{site_name}
     signup:
@@ -1043,6 +1130,10 @@ fr:
   places:
     index:
       title: Carte de la communauté %{site_name}
+    search_form:
+      change_location: "Changer de lieu :"
+      placeholder: Rechercher une ville, un quartier ou une région...
+      search: Rechercher
   planting:
     status:
       finished: Clôturée
@@ -1061,6 +1152,39 @@ fr:
       late_finishing: finition tardive
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super tard
+    card:
+      planted_by_in_html: Planté par %{owner} à %{garden}
+    facts:
+      day_progress: "jour %{age} sur %{lifespan}"
+      done: Terminé
+      failed: Échoué
+      finished: terminé
+      grown: poussé
+      grown_in: Cultivé en
+      lifespan_days:
+        one: 1 jour
+        other: "%{count} jours"
+      no_date_recorded: aucune date enregistrée
+      no_finish_predicted: aucune fin prévue
+      not_rated: non évalué
+      not_specified: non spécifié
+      packets_of_seed:
+        one: 1 sachet de graines
+        other: "%{count} sachets de graines"
+      parent_seed: Graine d'origine
+      perennial: Vivace
+      perennial_description: continue de pousser d'année en année
+      planned: Prévu
+      planned_for: "pour le %{date}"
+      planted: Planté
+      planting_failed: cette plantation a échoué
+      progress: Progrès
+      quantity: Quantité
+      rating: Évaluation
+      rating_of_5: "%{rating} sur 5"
+      seeds_saved: Graines récoltées
+      sown_from_expired: "Semé à partir de graines périmées (à planter avant %{year})"
+      unknown: inconnu
     form:
       failed_helper: Marquez cette plantation comme ayant échoué si elle est morte ou si elle a été retirée sans aucune récolte.
       finish_helper: Une plantation est terminée lorsque vous avez récolté toute la récolte, ou qu'elle meurt, ou qu'elle ne pousse plus dans votre jardin.
@@ -1122,6 +1246,25 @@ fr:
       weather_temperature_chart: Haut / bas quotidien
       weather_temperature_chart_alt: Température quotidienne haute et basse, de %{low} à %{high}.
     string: Plantation de %{crop} à %{garden} par %{owner}
+    failed_modal:
+      cancel: annuler
+      close: Fermer
+      mark_as_failed: Marquer comme échoué
+      planted_at: "Planté %{date}"
+      title: "Marquer la plantation de %{crop} comme échouée"
+      which_planting: Quelle plantation souhaitez-vous marquer comme échouée ?
+    modal:
+      add_new_garden: Ajouter un nouveau jardin
+      add_to_my_garden: Ajouter à mon jardin
+      close: Fermer
+      title: "Ajouter %{crop} à votre jardin"
+      which_garden: "Dans quel jardin va-t-il ?"
+    transplant:
+      cancel: Annuler
+      close: Fermer
+      move_to: "Déplacer cette plantation vers :"
+      submit: Repiquer
+      title: "Repiquer %{crop}"
   posts:
     created: La publication a été bien créée
     deleted: Ta publication a été supprimée.
@@ -1151,6 +1294,18 @@ fr:
       text: Une communauté pour faire pousser des aliments. Notez ce que vous plantez et récoltez, et échangez des graines et des astuces avec d'autres jardiniers. Rejoignez-nous gratuitement ou connectez-vous pour contacter %{name} au sujet de son stand.
   seeds:
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
+    facts:
+      cancel: Annuler
+      edit_all: Tout modifier
+      finished: Terminé
+      from_location_html: "(de %{location})"
+      from_unspecified_location: "(d'un lieu non précisé)"
+      heading: Le paquet
+      save: Enregistrer
+      set_location: Définir l'emplacement
+      unknown: Inconnu
+      will_trade: À échanger
+      year_saved: Année de récolte
     form:
       finish_helper: Les graines sont terminées lorsque vous les avez toutes plantées ou que vous les avez toutes échangées.
       trade_help: Êtes-vous intéressé par le commerce ou l'échange de semences avec d'autres membres de %{site_name} ?  Si vous indiquez que vos graines sont disponibles pour le commerce, d'autres membres peuvent vous contacter pour demander des graines.  Vous pouvez énumérer toutes les conditions ou autres informations dans la description ci-dessus.

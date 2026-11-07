@@ -165,6 +165,18 @@ en:
     unlike: Remove like
     view: View
     write_blog_post: Write blog post
+  conversations:
+    index:
+      boxes:
+        inbox: Inbox
+        sent: Sent
+        trash: Trash
+      breadcrumb_conversations: Conversations
+      delete: Delete
+      restore: Restore
+      select_for_deletion: Select for deletion
+      time_ago: "%{time} ago"
+      title: Inbox
   community_gardens:
     collaborate: Collaborate with Your Team
     collaborate_text: Invite other gardeners to collaborate on your garden plots. Share the work, share the harvest, and grow together as a community.
@@ -232,7 +244,55 @@ en:
       title: Add %{crop} growing jobs
     new_planting: A new %{crop} planting I'm going to do
     see_jobs: See your jobs.
+  comments:
+    edit_modal:
+      save: Save
+      title: Edit comment
+      your_comment: Your comment
+    inline_form:
+      add_comment: Add a comment
+      post_comment: Post comment
   crops:
+    fields:
+      harvest_style:
+        blank: Don't know
+        heading: Harvest style
+        hint: "Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato."
+        label: How a plant is harvested
+        parent: "Parent: %{style}"
+    growing_degree_days:
+      cycle_html: "For %{crop}, the FAO EcoCrop database gives a lowest growing temperature of %{tmin} and a shortest growing cycle of %{gmin} days at its best temperature, about %{degree_days} growing degree days to a first harvest."
+      example: "Say that lowest temperature is 10°C. A day averaging 17°C gives 7 growing degree days. A day averaging 8°C gives none, as it is too cold for the crop to grow. That is why the same lettuce takes about 50 days in a summer and 90 in an autumn: it needs the same total warmth either way."
+      intro: "A plant grows with warmth, not with days. A growing degree day is one day's worth of useful warmth: how many degrees the day's average temperature is above the lowest temperature the crop grows at. Add them up from planting and you know how far along the crop is, whatever the calendar says."
+      needs_html: "%{crop} needs about %{degree_days} growing degree days."
+      summary: What are growing degree days?
+      usage: "Where you've told us where your garden is, we use this and the weather there to predict when your %{crop} will be ready to harvest. We don't use it for how long a plant lives or when it finishes: we go by what members have logged for that."
+    harvest_style:
+      repeated:
+        description: each plant keeps giving harvests
+        value: Many times per plant
+      single:
+        description: the whole plant is harvested
+        value: Once per plant
+    harvests:
+      empty: Nobody has harvested this crop yet.
+      harvest_crop: Harvest %{crop}
+      harvested: "%{owner} harvested %{quantity}."
+      track_harvests: track your %{crop} harvests
+      view_all: View all %{crop} harvests
+    nutritional_data:
+      carbohydrate: Carbohydrate
+      energy: Energy
+      fat_total: Fat, total
+      fibre: Fibre
+      protein: Protein
+      see_more: See more
+      sodium: Sodium
+      sugars: "- Sugars"
+      summary: "A summary of nutritional data per 100g for %{food_name}."
+      title: Nutritional data
+    predictions:
+      harvest_style: Harvest style
     approval_status_message:
       pending_title: "This crop is currently pending approval."
       rejected_message: "This crop was rejected for the following reason: %{reason}"
@@ -291,6 +351,17 @@ en:
       temperatures_html: 'Local temperatures from %{source}: hottest %{hottest}, coldest %{coldest}.'
       wikidata_missing: Wikidata information is missing for this location.
       you: "(you)"
+    archived_jobs:
+      by: "by %{owner}"
+      done: "Done"
+      due: "Due %{date}"
+      empty: "Nothing was planned here."
+      on_planting_html: "on %{planting}"
+      photos:
+        one: "1 photo"
+        other: "%{count} photos"
+      title: "Jobs in this garden"
+      view_all_jobs: "View all %{total} jobs"
     actions:
       add_photo: Add photo from Flickr
       make_nursery: Make this a nursery
@@ -317,6 +388,19 @@ en:
       unknown: unknown
     form:
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
+    card:
+      layout: Layout
+      no_annuals: No annual plantings
+      no_perennials: No perennial plantings
+      of: of
+      owner: 'owner:'
+      perennials: 'Perennials:'
+    inactive_card:
+      grown_here: Grown here
+      image_alt: "Image of %{name}"
+      more_crops:
+        one: "and %{count} more"
+        other: "and %{count} more"
     header:
       all_gardens: All of %{owner}'s gardens
       garden_of: garden of
@@ -374,6 +458,10 @@ en:
       add: add
       heading: Growing now
       nothing_planted: Nothing is currently planted here.
+    previously:
+      finished_jobs: Finished jobs in garden
+      previously_planted: Previously planted in this garden
+      unknown_year: Unknown year
     show:
       km_from_you: about %{km} km from you
       suggested_plantings:
@@ -388,6 +476,11 @@ en:
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
     updated: Garden was successfully updated.
   harvests:
+    card:
+      by: by
+      harvested: harvested
+      picked_at: "picked %{date}"
+      title: "%{crop} harvest"
     created: Harvest was successfully created.
     edit_modal:
       harvested_at: When did you harvest it?
@@ -399,6 +492,18 @@ en:
       weight_quantity: Weighing (in total)
       weight_unit: Weighed in
     harvest_something: Harvest something
+    modal:
+      all_plant_parts: All Plant parts
+      close: Close
+      recommended_plant_parts: "Recommended plant parts to harvest:"
+      record_harvest: Record harvest
+      select_plant_part: Select which plant part you have harvested
+      title: Record %{crop} harvest
+    planting:
+      is_this_from: Is this from one of these plantings?
+      rate_planting: Rate this planting
+      save: save
+      unrated_notice: This harvest is from a planting that hasn't been rated yet.
     index:
       title:
         crop_harvests: Everyone's %{crop} harvests
@@ -924,6 +1029,11 @@ en:
       follow_named: Follow %{name}
       following: Following
       following_named: You follow %{name}
+    follow_buttons:
+      block: Block
+      follow: Follow
+      unblock: Unblock
+      unfollow: Unfollow
     index:
       title: "%{site_name} members"
     signup:
@@ -1110,6 +1220,10 @@ en:
   places:
     index:
       title: "%{site_name} Community Map"
+    search_form:
+      change_location: "Change location:"
+      placeholder: Search for city, suburb or state...
+      search: Search
   planting:
     status:
       finished: Finished
@@ -1128,6 +1242,39 @@ en:
       late_finishing: late finishing
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super late
+    card:
+      planted_by_in_html: Planted by %{owner} in %{garden}
+    facts:
+      day_progress: "day %{age} of %{lifespan}"
+      done: Done
+      failed: Failed
+      finished: finished
+      grown: grown
+      grown_in: Grown in
+      lifespan_days:
+        one: 1 day
+        other: "%{count} days"
+      no_date_recorded: no date recorded
+      no_finish_predicted: no finish predicted
+      not_rated: not rated
+      not_specified: not specified
+      packets_of_seed:
+        one: 1 packet of seed
+        other: "%{count} packets of seed"
+      parent_seed: Parent seed
+      perennial: Perennial
+      perennial_description: keeps growing year to year
+      planned: Planned
+      planned_for: "for %{date}"
+      planted: Planted
+      planting_failed: this planting failed
+      progress: Progress
+      quantity: Quantity
+      rating: Rating
+      rating_of_5: "%{rating} of 5"
+      seeds_saved: Seeds saved
+      sown_from_expired: "Sown from expired seeds (plant before %{year})"
+      unknown: unknown
     form:
       failed_helper: 'Mark this planting as failed if it died or was removed without any harvest.
 
@@ -1197,6 +1344,25 @@ en:
       weather_temperature_chart: Daily high and low
       weather_temperature_chart_alt: 'Daily high and low temperature, from %{low} to %{high}.'
     string: "%{crop} planting in %{garden} by %{owner}"
+    failed_modal:
+      cancel: cancel
+      close: Close
+      mark_as_failed: Mark as failed
+      planted_at: "Planted %{date}"
+      title: "Mark %{crop} planting as failed"
+      which_planting: Which planting would you like to mark as failed?
+    modal:
+      add_new_garden: Add a new garden
+      add_to_my_garden: Add to my garden
+      close: Close
+      title: Add %{crop} to your garden
+      which_garden: Which garden is it going in?
+    transplant:
+      cancel: Cancel
+      close: Close
+      move_to: "Move this planting to:"
+      submit: Transplant
+      title: "Transplant %{crop}"
   posts:
     created: Post was successfully created.
     deleted: Post was deleted.
@@ -1221,6 +1387,35 @@ en:
     winter: Winter
   seeds:
     added_to_stash: Successfully added %{crop} seed to your stash.
+    crop_changes:
+      show:
+        confirm: Yes, change them
+        decline: No, leave them
+        harvests:
+          one: "1 harvest"
+          other: "%{count} harvests"
+        intro: "You changed this seed from %{from} to %{to}. These were grown from it and are still %{from}. Change them to %{to} too?"
+        plantings:
+          one: "1 planting"
+          other: "%{count} plantings"
+        seeds:
+          one: "1 packet of seed"
+          other: "%{count} packets of seed"
+        title: Change them to %{crop} too?
+      update:
+        changed: Changed to the new crop.
+    facts:
+      cancel: Cancel
+      edit_all: Edit all
+      finished: Finished
+      from_location_html: "(from %{location})"
+      from_unspecified_location: "(from unspecified location)"
+      heading: The packet
+      save: Save
+      set_location: Set Location
+      unknown: Unknown
+      will_trade: Will trade
+      year_saved: Year saved
     form:
       finish_helper: 'Seeds are finished when you''ve planted them all, or you''ve traded them all away.
 

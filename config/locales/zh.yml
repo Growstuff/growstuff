@@ -157,6 +157,18 @@ zh:
     unlike: 删除喜欢
     view: 看法
     write_blog_post: 写博客文章
+  conversations:
+    index:
+      boxes:
+        inbox: 收件箱
+        sent: 已发信息
+        trash: 回收站
+      breadcrumb_conversations: 对话
+      delete: 删除
+      restore: 恢复
+      select_for_deletion: 选择删除
+      time_ago: "%{time}前"
+      title: 收件箱
   community_gardens:
     collaborate: 与您的团队合作
     collaborate_text: 邀请其他园丁在您的花园地块上进行合作。分享工作，分享收获，作为一个社区共同成长。
@@ -207,7 +219,32 @@ zh:
         draft: 草稿
         published: 已发表
     saved: 作业模板已保存。
+  comments:
+    edit_modal:
+      save: 保存
+      title: 编辑评论
+      your_comment: 你的评论
+    inline_form:
+      add_comment: 添加评论
+      post_comment: 发表评论
   crops:
+    harvests:
+      empty: 还没有人收获过这种作物。
+      harvest_crop: "收获 %{crop}"
+      harvested: "%{owner} 收获了 %{quantity}。"
+      track_harvests: "记录您的 %{crop} 收获"
+      view_all: "查看所有 %{crop} 收获"
+    nutritional_data:
+      carbohydrate: 碳水化合物
+      energy: 能量
+      fat_total: 总脂肪
+      fibre: 膳食纤维
+      protein: 蛋白质
+      see_more: 查看更多
+      sodium: 钠
+      sugars: "- 糖"
+      summary: "%{food_name} 每 100 克的营养数据摘要。"
+      title: 营养数据
     approval_status_message:
       pending_title: "该作物目前正在等待审核。"
       rejected_message: "该作物因以下原因被拒绝：%{reason}"
@@ -266,6 +303,17 @@ zh:
       temperatures_html: '%{source} 的当地气温：最热的 %{hottest}，最冷的 %{coldest}。'
       wikidata_missing: 该位置缺少维基数据信息。
       you: （你）
+    archived_jobs:
+      by: "由 %{owner}"
+      done: "已完成"
+      due: "截止日期 %{date}"
+      empty: "这里没有安排任何任务。"
+      on_planting_html: "针对 %{planting}"
+      photos:
+        one: "1 张照片"
+        other: "%{count} 张照片"
+      title: "此花园中的任务"
+      view_all_jobs: "查看全部 %{total} 项任务"
     actions:
       add_photo: 添加来自 Flickr 的照片
       make_nursery: 把这里变成托儿所
@@ -292,6 +340,17 @@ zh:
       unknown: 未知
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
+    card:
+      layout: 布局
+      no_annuals: 无一年生植物
+      no_perennials: 无多年生植物
+      of: 的
+      owner: '所有者:'
+      perennials: '多年生:'
+    inactive_card:
+      grown_here: 在此种植
+      image_alt: "%{name}的照片"
+      more_crops: "以及其他 %{count} 种"
     header:
       all_gardens: '%{owner} 的所有花园'
       garden_of: 的花园
@@ -349,6 +408,10 @@ zh:
       add: 添加
       heading: 现在正在成长
       nothing_planted: 目前这里还没有种植任何植物。
+    previously:
+      finished_jobs: 花园中已完成的工作
+      previously_planted: 以前在这个花园里种植过的植物
+      unknown_year: 年份未知
     show:
       km_from_you: 距您约 %{km} 公里
       suggested_plantings:
@@ -363,6 +426,11 @@ zh:
       text: 在一处种植、收割和保存种子，看看您附近有什么生长得很好。
     updated: 花园已成功更新。
   harvests:
+    card:
+      by: "由"
+      harvested: "已收获"
+      picked_at: "采摘于 %{date}"
+      title: "%{crop}收获"
     created: 收获成功创建。
     edit_modal:
       harvested_at: 你什么时候收获的？
@@ -374,6 +442,18 @@ zh:
       weight_quantity: 重量（总计）
       weight_unit: 称重单位
     harvest_something: 收获一些东西
+    modal:
+      all_plant_parts: 所有植物部位
+      close: 关闭
+      recommended_plant_parts: "建议收获的植物部位："
+      record_harvest: 记录收获
+      select_plant_part: 选择您收获的植物部位
+      title: 记录%{crop}收获
+    planting:
+      is_this_from: 这是来自以下种植之一吗？
+      rate_planting: 评价该种植
+      save: 保存
+      unrated_notice: 此收获来自尚未评分的种植。
     index:
       title:
         crop_harvests: 大家的收获%{crop}
@@ -868,6 +948,11 @@ zh:
       follow_named: 关注 %{name}
       following: 下列的
       following_named: 您关注 %{name}
+    follow_buttons:
+      block: 屏蔽
+      follow: 关注
+      unblock: 取消屏蔽
+      unfollow: 取消关注
     index:
       title: '%{site_name} 成员'
     signup:
@@ -1042,6 +1127,10 @@ zh:
   places:
     index:
       title: '%{site_name} 社区地图'
+    search_form:
+      change_location: "更改地点："
+      placeholder: 搜索城市、郊区或州...
+      search: 搜索
   planting:
     status:
       finished: 完成的
@@ -1060,6 +1149,39 @@ zh:
       late_finishing: 后期整理
       sharedbuttonsfinish_planting: 共享/按钮/finish_planting
       super_late: 超级晚了
+    card:
+      planted_by_in_html: 由 %{owner} 种植在 %{garden} 中
+    facts:
+      day_progress: "第 %{age} 天，共 %{lifespan} 天"
+      done: 已完成
+      failed: 失败
+      finished: 已结束
+      grown: 已生长
+      grown_in: 生长于
+      lifespan_days:
+        one: 1 天
+        other: "%{count} 天"
+      no_date_recorded: 未记录日期
+      no_finish_predicted: 未预测结束时间
+      not_rated: 未评分
+      not_specified: 未指定
+      packets_of_seed:
+        one: 1 包种子
+        other: "%{count} 包种子"
+      parent_seed: 母株种子
+      perennial: 多年生
+      perennial_description: 年复一年持续生长
+      planned: 已计划
+      planned_for: "计划于 %{date}"
+      planted: 已种植
+      planting_failed: 该种植已失败
+      progress: 进度
+      quantity: 数量
+      rating: 评分
+      rating_of_5: "%{rating} / 5 分"
+      seeds_saved: 已留种
+      sown_from_expired: "使用过期种子播种（请在 %{year} 年前种植）"
+      unknown: 未知
     form:
       failed_helper: 如果该种植死亡或在没有任何收获的情况下被移除，则将其标记为失败。
       finish_helper: 当你收获了所有的作物，或者它死了，或者它不再在你的花园里生长时，种植就完成了。
@@ -1121,6 +1243,25 @@ zh:
       weather_temperature_chart: 每日高点和低点
       weather_temperature_chart_alt: 每日高低温，从%{low}到%{high}。
     string: '%{crop} 在 %{garden} 中种植 %{owner}'
+    failed_modal:
+      cancel: 取消
+      close: 关闭
+      mark_as_failed: 标记为失败
+      planted_at: "种植于 %{date}"
+      title: "将 %{crop} 种植标记为失败"
+      which_planting: 您想将哪次种植标记为失败？
+    modal:
+      add_new_garden: 添加新花园
+      add_to_my_garden: 添加到我的花园
+      close: 关闭
+      title: "将 %{crop} 添加到您的花园"
+      which_garden: "要放进哪个花园？"
+    transplant:
+      cancel: 取消
+      close: 关闭
+      move_to: "将此植株移至："
+      submit: 移植
+      title: "移植 %{crop}"
   posts:
     created: 帖子创建成功。
     deleted: 帖子已被删除。
@@ -1150,6 +1291,18 @@ zh:
       text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
   seeds:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
+    facts:
+      cancel: 取消
+      edit_all: 全部编辑
+      finished: 已用完
+      from_location_html: "（来自 %{location}）"
+      from_unspecified_location: "（来自未指定地点）"
+      heading: 种子包
+      save: 保存
+      set_location: 设置地点
+      unknown: 未知
+      will_trade: 可交换
+      year_saved: 保存年份
     form:
       finish_helper: 当你把它们全部种下或者全部卖掉时，种子就完成了。
       trade_help: 您有兴趣与其他 %{site_name} 会员交易或交换种子吗？  如果您将种子列为可交易，其他成员可以联系您索取种子。  您可以在上面的描述中列出任何条件或其他信息。

@@ -157,6 +157,18 @@ de:
     unlike: Like entfernen
     view: Sicht
     write_blog_post: Blogbeitrag schreiben
+  conversations:
+    index:
+      boxes:
+        inbox: Posteingang
+        sent: Gesendet
+        trash: Papierkorb
+      breadcrumb_conversations: Konversationen
+      delete: Löschen
+      restore: Wiederherstellen
+      select_for_deletion: Zum Löschen auswählen
+      time_ago: "Vor %{time}"
+      title: Posteingang
   community_gardens:
     collaborate: Arbeiten Sie mit Ihrem Team zusammen
     collaborate_text: Laden Sie andere Gärtner ein, an Ihren Gartengrundstücken mitzuarbeiten. Teilen Sie die Arbeit, teilen Sie die Ernte und wachsen Sie als Gemeinschaft zusammen.
@@ -207,7 +219,32 @@ de:
         draft: Entwurf
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
+  comments:
+    edit_modal:
+      save: Speichern
+      title: Kommentar bearbeiten
+      your_comment: Ihr Kommentar
+    inline_form:
+      add_comment: Einen Kommentar hinzufügen
+      post_comment: Kommentar absenden
   crops:
+    harvests:
+      empty: Niemand hat diese Kultur bisher geerntet.
+      harvest_crop: "%{crop} ernten"
+      harvested: "%{owner} hat %{quantity} geerntet."
+      track_harvests: "Ihre %{crop}-Ernten zu verfolgen"
+      view_all: Alle Ernten von %{crop} anzeigen
+    nutritional_data:
+      carbohydrate: Kohlenhydrate
+      energy: Energie
+      fat_total: Fett gesamt
+      fibre: Ballaststoffe
+      protein: Eiweiß
+      see_more: Mehr anzeigen
+      sodium: Natrium
+      sugars: "- davon Zucker"
+      summary: "Eine Zusammenfassung der Nährwertdaten pro 100 g für %{food_name}."
+      title: Nährwertdaten
     approval_status_message:
       pending_title: "Diese Kultur wartet derzeit auf Genehmigung."
       rejected_message: "Diese Kultur wurde aus folgendem Grund abgelehnt: %{reason}"
@@ -266,6 +303,17 @@ de:
       temperatures_html: 'Lokale Temperaturen von %{source}: heißeste %{hottest}, kälteste %{coldest}.'
       wikidata_missing: Für diesen Standort fehlen Wikidata-Informationen.
       you: (Du)
+    archived_jobs:
+      by: "von %{owner}"
+      done: "Erledigt"
+      due: "Fällig am %{date}"
+      empty: "Hier war nichts geplant."
+      on_planting_html: "bei %{planting}"
+      photos:
+        one: "1 Foto"
+        other: "%{count} Fotos"
+      title: "Aufgaben in diesem Garten"
+      view_all_jobs: "Alle %{total} Aufgaben anzeigen"
     actions:
       add_photo: Foto von Flickr hinzufügen
       make_nursery: Machen Sie daraus ein Kinderzimmer
@@ -292,6 +340,19 @@ de:
       unknown: unbekannt
     form:
       location_helper: Wenn Sie in Ihrem Profil einen Standort festgelegt haben, wird dieser beim Erstellen eines neuen Gartens verwendet.
+    card:
+      layout: Layout
+      no_annuals: Keine einjährigen Pflanzungen
+      no_perennials: Keine mehrjährigen Pflanzungen
+      of: von
+      owner: 'Eigentümer:'
+      perennials: 'Mehrjährige Pflanzen:'
+    inactive_card:
+      grown_here: Hier angebaut
+      image_alt: "Bild von %{name}"
+      more_crops:
+        one: "und %{count} weitere"
+        other: "und %{count} weitere"
     header:
       all_gardens: Alle Gärten von %{owner}
       garden_of: Garten von
@@ -349,6 +410,10 @@ de:
       add: hinzufügen
       heading: Wächst jetzt
       nothing_planted: Derzeit wird hier nichts gepflanzt.
+    previously:
+      finished_jobs: Erledigte Aufgaben im Garten
+      previously_planted: Zuvor in diesem Garten gepflanzt
+      unknown_year: Unbekanntes Jahr
     show:
       km_from_you: ca. %{km} km von Ihnen entfernt
       suggested_plantings:
@@ -363,6 +428,11 @@ de:
       text: Pflanzen, ernten und bewahren Sie Samen an einem Ort auf und sehen Sie, was in Ihrer Nähe gut wächst.
     updated: Der Garten wurde erfolgreich aktualisiert.
   harvests:
+    card:
+      by: von
+      harvested: geerntet
+      picked_at: "geerntet am %{date}"
+      title: "%{crop}-Ernte"
     created: Harvest wurde erfolgreich erstellt.
     edit_modal:
       harvested_at: Wann hast du geerntet?
@@ -374,6 +444,18 @@ de:
       weight_quantity: Gewicht (insgesamt)
       weight_unit: Gewogen in
     harvest_something: Etwas ernten
+    modal:
+      all_plant_parts: Alle Pflanzenteile
+      close: Schließen
+      recommended_plant_parts: "Empfohlene Pflanzenteile zur Ernte:"
+      record_harvest: Ernte eintragen
+      select_plant_part: Wählen Sie den geernteten Pflanzenteil aus
+      title: "%{crop}-Ernte eintragen"
+    planting:
+      is_this_from: Stammt dies aus einer dieser Pflanzungen?
+      rate_planting: Diese Pflanzung bewerten
+      save: speichern
+      unrated_notice: Diese Ernte stammt von einer Pflanzung, die noch nicht bewertet wurde.
     index:
       title:
         crop_harvests: Die Ernten aller %{crop}
@@ -868,6 +950,11 @@ de:
       follow_named: Folgen Sie %{name}
       following: Nachf.
       following_named: Sie folgen %{name}
+    follow_buttons:
+      block: Blockieren
+      follow: Folgen
+      unblock: Entsperren
+      unfollow: Entfolgen
     index:
       title: '%{site_name} Mitglieder'
     signup:
@@ -1042,6 +1129,10 @@ de:
   places:
     index:
       title: '%{site_name} Community-Karte'
+    search_form:
+      change_location: "Ort ändern:"
+      placeholder: Suche nach Stadt, Vorort oder Bundesland...
+      search: Suchen
   planting:
     status:
       finished: Abgeschlossen
@@ -1060,6 +1151,39 @@ de:
       late_finishing: spätveredelung
       sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super spät
+    card:
+      planted_by_in_html: Gepflanzt von %{owner} in %{garden}
+    facts:
+      day_progress: "Tag %{age} von %{lifespan}"
+      done: Fertig
+      failed: Fehlgeschlagen
+      finished: beendet
+      grown: gewachsen
+      grown_in: Angebaut in
+      lifespan_days:
+        one: 1 Tag
+        other: "%{count} Tage"
+      no_date_recorded: kein Datum erfasst
+      no_finish_predicted: kein Ende vorhergesagt
+      not_rated: nicht bewertet
+      not_specified: nicht angegeben
+      packets_of_seed:
+        one: 1 Saatgutpäckchen
+        other: "%{count} Saatgutpäckchen"
+      parent_seed: Ausgangssaatgut
+      perennial: Mehrjährig
+      perennial_description: wächst von Jahr zu Jahr weiter
+      planned: Geplant
+      planned_for: "für %{date}"
+      planted: Gepflanzt
+      planting_failed: diese Pflanzung ist fehlgeschlagen
+      progress: Fortschritt
+      quantity: Menge
+      rating: Bewertung
+      rating_of_5: "%{rating} von 5"
+      seeds_saved: Saatgut gewonnen
+      sown_from_expired: "Aus abgelaufenem Saatgut gesät (pflanzen vor %{year})"
+      unknown: unbekannt
     form:
       failed_helper: Markieren Sie diese Pflanzung als fehlgeschlagen, wenn sie abgestorben ist oder ohne Ernte entfernt wurde.
       finish_helper: Eine Pflanzung ist beendet, wenn Sie die gesamte Ernte geerntet haben, oder sie stirbt, oder sie wächst anderweitig nicht mehr in Ihrem Garten.
@@ -1121,6 +1245,25 @@ de:
       weather_temperature_chart: Tageshoch und -tief
       weather_temperature_chart_alt: Tageshöchst- und Tiefsttemperatur, von %{low} bis %{high}.
     string: '%{crop} Pflanzung in %{garden} durch %{owner}'
+    failed_modal:
+      cancel: Abbrechen
+      close: Schließen
+      mark_as_failed: Als fehlgeschlagen markieren
+      planted_at: "Gepflanzt %{date}"
+      title: "%{crop}-Pflanzung als fehlgeschlagen markieren"
+      which_planting: Welche Bepflanzung möchten Sie als fehlgeschlagen markieren?
+    modal:
+      add_new_garden: Einen neuen Garten hinzufügen
+      add_to_my_garden: Zu meinem Garten hinzufügen
+      close: Schließen
+      title: "%{crop} zu Ihrem Garten hinzufügen"
+      which_garden: In welchen Garten soll es gepflanzt werden?
+    transplant:
+      cancel: Abbrechen
+      close: Schließen
+      move_to: "Diese Bepflanzung verschieben nach:"
+      submit: Umpflanzen
+      title: "%{crop} umpflanzen"
   posts:
     created: Beitrag erfolgreich erstellt
     deleted: Ihr Beitrag wurde gelöscht.
@@ -1150,6 +1293,18 @@ de:
       text: Eine Community für den Lebensmittelanbau. Halten Sie fest, was Sie pflanzen und ernten, und tauschen Sie Saatgut sowie Tipps mit anderen Gärtnern aus. Treten Sie kostenlos bei oder melden Sie sich an, um mit %{name} über das Angebot auf dem Stand in Kontakt zu treten.
   seeds:
     added_to_stash: '%{crop} Seed wurde erfolgreich zu deinem Vorrat hinzugefügt.'
+    facts:
+      cancel: Abbrechen
+      edit_all: Alle bearbeiten
+      finished: Beendet
+      from_location_html: "(aus %{location})"
+      from_unspecified_location: "(von nicht angegebenem Ort)"
+      heading: Das Päckchen
+      save: Speichern
+      set_location: Ort festlegen
+      unknown: Unbekannt
+      will_trade: Tauschangebot
+      year_saved: Gespeichertes Jahr
     form:
       finish_helper: Samen sind fertig, wenn Sie sie alle gepflanzt haben, oder Sie haben sie alle weggetauscht.
       trade_help: Sind Sie daran interessiert, Saatgut mit anderen %{site_name}-Mitgliedern zu handeln oder auszutauschen?  Wenn Sie Ihr Saatgut als für den Handel verfügbar auflisten, können sich andere Mitglieder mit Ihnen in Verbindung setzen, um Saatgut anzufordern.  Sie können alle Bedingungen oder andere Informationen in der obigen Beschreibung auflisten.

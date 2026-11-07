@@ -11,6 +11,8 @@
     .seed-packet-tear{ 'aria-hidden' => 'true' }
     = link_to image_tag(seed.thumbnail_url || placeholder_image, alt: seed.crop_name, class: 'seed-packet-window'), path
     %h4.seed-packet-name= link_to seed.crop_name, path
+    - if (variety = seed_variety(packets))
+      %p.seed-packet-variety= variety
     %p= packets.size > 1 ? pluralize(packets.size, 'packet') : seed_source_label(seed.source)
     - if seed.heirloom_kind
       %p

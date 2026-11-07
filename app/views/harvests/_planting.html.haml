@@ -1,12 +1,12 @@
 - if @harvest.planting.nil? && @matching_plantings && @matching_plantings.any? && @harvest.owner == current_member
   .alert.alert-info{role: "alert"}
     = bootstrap_form_for(@harvest) do |f|
-      Is this from one of these plantings?
+      = t('.is_this_from')
       - @matching_plantings.each do |planting|
         = f.radio_button :planting_id, planting.id, label: planting
-      = f.submit "save", class: 'btn btn-sm'
+      = f.submit t('.save'), class: 'btn btn-sm'
 
 - if @harvest.planting.present? && @harvest.planting.overall_rating.blank?
   .alert.alert-info{role: "alert"}
-    This harvest is from a planting that hasn't been rated yet.
-    = link_to "Rate this planting", edit_planting_path(@harvest.planting, anchor: "planting_overall_rating"), class: 'alert-link'
+    = t('.unrated_notice')
+    = link_to t('.rate_planting'), edit_planting_path(@harvest.planting, anchor: "planting_overall_rating"), class: 'alert-link'

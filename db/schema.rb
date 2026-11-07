@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_03_000100) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_06_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -587,6 +587,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_000100) do
     t.text "rejection_notes"
     t.boolean "perennial", default: false
     t.integer "median_lifespan"
+    t.integer "days_until_maturity_max", comment: "Days from sowing to harvest, at most."
+    t.integer "days_until_maturity_min", comment: "Days from sowing to harvest, at least."
+    t.float "default_diameter"
+    t.text "description"
+    t.string "en_wikipedia_url"
+    t.string "en_youtube_url"
+    t.integer "germination_days_max", comment: "Days to germinate, at most."
+    t.integer "germination_days_min", comment: "Days to germinate, at least."
+    t.integer "growing_degree_days"
+    t.string "harvest_style", comment: "'single' when the whole plant is harvested once, 'repeated' when it keeps producing. Empty when unknown."
+    t.integer "harvests_count", default: 0
+    t.integer "height"
+    t.string "icon"
     t.integer "median_days_to_first_harvest"
     t.integer "median_days_to_last_harvest"
     t.jsonb "openfarm_data"
