@@ -1352,13 +1352,17 @@ en:
           label: Next frost danger starts
           note_finishes: as early as %{earliest}, %{days} after this planting finishes
           note_finished: as early as %{earliest}, %{days} after this planting finished
+          note_now: as early as %{earliest}, %{days} from now
       days:
         one: "%{count} day"
         other: "%{count} days"
       degrees: "%{degrees} °C"
+      nights_so_far:
+        one: One night so far was at or below %{threshold} °C, the coldest %{coldest} °C.
+        other: "%{count} nights so far were at or below %{threshold} °C, the coldest %{coldest} °C."
       planted:
-        after: It went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
-        before: It went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
+        after: The planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
+        before: The planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
       timeline:
         description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The planting runs from %{planted} to %{ends}.
         annotation_after: Planted %{days} after the usual last frost
