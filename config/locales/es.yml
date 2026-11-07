@@ -950,6 +950,11 @@ es:
       follow_named: Seguir %{name}
       following: Siguiente
       following_named: Tu sigues %{name}
+    follow_buttons:
+      block: Bloquear
+      follow: Seguir
+      unblock: Desbloquear
+      unfollow: Dejar de seguir
     index:
       title: Miembros de %{site_name}
     signup:

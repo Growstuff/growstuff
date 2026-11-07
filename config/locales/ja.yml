@@ -137,6 +137,11 @@ ja:
       unset_title: メールアドレスが設定されていません。
       waiting_body: '%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。'
       waiting_title: メールアドレスの確認をお待ちしています。
+    follow_buttons:
+      block: ブロック
+      follow: フォロー
+      unblock: ブロック解除
+      unfollow: フォロー解除
   plantings:
     modal:
       add_new_garden: 新しい庭を追加

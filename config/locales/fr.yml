@@ -951,6 +951,11 @@ fr:
       follow_named: Suivre %{name}
       following: Suivi
       following_named: Vous suivez %{name}
+    follow_buttons:
+      block: Bloquer
+      follow: Suivre
+      unblock: Débloquer
+      unfollow: Ne plus suivre
     index:
       title: Membres %{site_name}
     signup:

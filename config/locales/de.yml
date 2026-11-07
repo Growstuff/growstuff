@@ -950,6 +950,11 @@ de:
       follow_named: Folgen Sie %{name}
       following: Nachf.
       following_named: Sie folgen %{name}
+    follow_buttons:
+      block: Blockieren
+      follow: Folgen
+      unblock: Entsperren
+      unfollow: Entfolgen
     index:
       title: '%{site_name} Mitglieder'
     signup:

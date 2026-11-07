@@ -948,6 +948,11 @@ zh:
       follow_named: 关注 %{name}
       following: 下列的
       following_named: 您关注 %{name}
+    follow_buttons:
+      block: 屏蔽
+      follow: 关注
+      unblock: 取消屏蔽
+      unfollow: 取消关注
     index:
       title: '%{site_name} 成员'
     signup:
