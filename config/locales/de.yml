@@ -166,36 +166,28 @@ de:
   buttons:
     add: Hinzufügen
     add_photo: Foto hinzufügen
-    add_seed_to_stash: Fügen Sie %{crop_name}-Samen zum Vorrat hinzu
     copy: Kopie
     delete: Löschen
     edit: Bearbeiten
-    harvest: Ernte
-    harvest_crop: Ernte %{crop_name}
     like: Wie
-    make_nursery: Benutze es als mein Kinderzimmer
     mark_as_active: Als aktiv markieren
     mark_as_failed: Als fehlgeschlagen markieren
     mark_as_finished: Als fertig markieren
     mark_as_inactive: Als inaktiv markieren
-    my_gardens: Meine Gärten
     new_harvest: Neue Ernte
     new_job: Fügen Sie einen Job hinzu
     new_planting: Neubepflanzung
     new_post: Schreibe einen neuen Beitrag
     new_seeds: Neuer gespeicherter Samen
     plant: Anlage
-    plant_crop: Werk %{crop_name}
     plant_something_here: Pflanzen Sie hier etwas
     record_harvest: Rekordernte
     save_seeds: Samen aufbewahren
     stop_nursery: Hör auf, es als mein Kinderzimmer zu benutzen
-    timeline: Zeitleiste
     total_likes: Gesamtzahl der Likes
     transplant: Transplantation
     unlike: Like entfernen
     view: Sicht
-    write_blog_post: Blogbeitrag schreiben
   comments:
     comments:
       empty: Es gibt noch keine Kommentare
@@ -510,7 +502,6 @@ de:
       track_harvests: Ihre %{crop}-Ernten zu verfolgen
       view_all: Alle Ernten von %{crop} anzeigen
     index:
-      subtitle: "%{crops_size} insgesamt"
       title: Durchsuchen Sie Pflanzen
       meta_description: Nutzpflanzen durchsuchen und finden.
       wrangle: Nutzpflanzen verwalten
@@ -975,13 +966,6 @@ de:
       drag_plants: Ziehen Sie Pflanzen auf der Karte, um zu sehen, was wo hineinpasst.
       edit_layout: Layout bearbeiten
       edit_layout_label: Bearbeiten Sie die Bettenaufteilung
-      heading: Layout
-      map_out: Planen Sie dieses Bett
-      map_out_text: Ziehen Sie Ihre Pflanzen auf ein Bild des Beets und sehen Sie, was wo hinpasst.
-      new: Neu
-      plants_placed:
-        one: "%{count} Pflanze auf dem Beet platziert"
-        other: "%{count} Pflanzen auf dem Beet platziert"
       view_layout: Layout anzeigen
       view_layout_label: Sehen Sie sich die Bettenaufteilung an
       where_each: Wo jede Pflanze in diesem Garten wächst, auf einer Karte des Beets.
@@ -990,16 +974,10 @@ de:
       heading: Standort
       not_set: Nicht festgelegt
       remove: Entfernen
-    string: "%{owner} ist %{garden}"
     nursery_declined: Okay, wir werden nicht noch einmal nach einem Kindergarten fragen. Sie können eines später auf Ihrer Gartenseite einrichten.
     nursery_made: Dieser Garten ist jetzt Ihr Kindergarten.
     nursery_name: Kindergarten
     nursery_stopped: Dieser Garten ist nicht länger Ihre Kinderstube.
-    overview:
-      gardensactions: Gärten/Aktionen
-      gardensphoto: Gärten/Foto
-      no_plantings: keine Bepflanzungen
-      plantingsthumbnail: Pflanzungen/Miniaturansicht
     owner_gardens:
       growing_count: "%{count} wächst"
       heading: "%{owner}s Gärten"
@@ -1100,7 +1078,6 @@ de:
       harvested: geerntet
       picked_at: geerntet am %{date}
       title: "%{crop}-Ernte"
-    created: Harvest wurde erfolgreich erstellt.
     edit_modal:
       harvested_at: Wann hast du geerntet?
       notes: Notizen
@@ -1364,7 +1341,6 @@ de:
       plantings:
         one: Pflanzen
         other: Pflanzungen
-    updated: Seed wurde erfolgreich aktualisiert.
     why_join:
       neighbours:
         body: Finden Sie Samen in der Nähe und sehen Sie, was die örtlichen Gärtner gerade pflanzen und ernten.
@@ -1615,10 +1591,7 @@ de:
       the_crop: Anbau
   label:
     data: 'Die Daten auf dieser Seite sind in folgenden Formaten verfügbar:'
-    days_until_finished: "%{number} Days"
-    days_until_harvest: "%{number} Days"
     harvesting_now: 'Ernte :'
-    weeks_until_finished: "%{number}WOCHEN"
     weeks_until_harvest: "%{number} Wochen bis zur Ernte"
   layouts:
     application:
@@ -1681,7 +1654,6 @@ de:
     menu:
       label: Menü
       about: Über
-      activities: Aktivitäten
       add: Hinzufügen
       add_button: "+ Hinzufügen"
       admin: Admin
@@ -1728,8 +1700,6 @@ de:
       description: "%{site_name} hilft dir, die Ernte aus deinem Garten zu erfassen und zu sehen, wie ertragreich er ist."
       my_drafts: Meine Entwürfe
       suggest_something: News which will delight you.
-  links:
-    my_gardens: Meine Gärten
   member_dismissals:
     create:
       dismissed: Wir werden %{name} nicht noch einmal vorschlagen.
@@ -2475,7 +2445,6 @@ de:
       harvest: "%{crop} Ernte von %{owner}"
       planting: "%{planting}"
       seed: "%{seed}"
-      thing_by: A %{thing} von %{owner}
   places:
     index:
       title: "%{site_name} Community-Karte"
@@ -2536,7 +2505,6 @@ de:
       days_until_harvest: tage bis zur Ernte
       harvesting_now: 'Ernte :'
       late_finishing: spätveredelung
-      sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super spät
     card:
       planted_by_in_html: Gepflanzt von %{owner} in %{garden}
@@ -2617,7 +2585,6 @@ de:
         crop_plantings: Alle %{crop} Pflanzungen
         default: Jedermanns Pflanzungen
         owner_plantings: Anpflanzungen von %{owner}
-      view_owners_profile: Profil von %{owner} anzeigen >>
     modal:
       add_new_garden: Einen neuen Garten hinzufügen
       add_to_my_garden: Zu meinem Garten hinzufügen
@@ -2625,8 +2592,6 @@ de:
       title: "%{crop} zu Ihrem Garten hinzufügen"
       which_garden: In welchen Garten soll es gepflanzt werden?
     plant_something: Pflanzen Sie etwas
-    progress:
-      progress_0_not_planted_yet: 'Fortschritt: 0 % - noch nicht gepflanzt'
     show:
       cultivate: Boden bearbeiten
       cultivate_prompt: Dies war die letzte kürzlich angelegte Pflanzung in diesem Beet. Möchten Sie den Boden bald bearbeiten?
@@ -2636,7 +2601,6 @@ de:
       plantings: Pflanzungen
       add: hinzufügen
       crop: Crop
-      grower: Erzeuger
       harvest_month_yes: "%{month}, in der Regel ernten"
       harvest_months: Erntemonate
       harvest_months_legend: Hervorgehoben sind die Monate, in denen diese Ernte in der Regel hier geerntet wird.
@@ -2644,19 +2608,15 @@ de:
       harvests: Ernten
       heading: "%{crop} Pflanzung"
       jobs: Stellenanzeigen
-      jobs_current: Geplant
       jobs_finished: Abgeschlossen
       meta_description: "%{crop} gepflanzt von %{owner} in %{garden}."
       more_photos: Mehr Fotos
       neighbours: Weltnachbarn
       neighbours_explanation: Andere %{crop}-Pflanzungen auf dem gleichen Breitengrad.
       no_harvests: Es wurden noch keine Ernten verzeichnet.
-      no_harvests_prompt: Notieren Sie hier Ihre Ernten, um die Erntevorhersagen zu verbessern, und Sie werden in der Lage sein, mit Ihrem Garten in der nächsten Saison zu vergleichen.
       no_jobs: Hier ist nichts geplant.
       no_photos: No photos yet.
-      no_photos_prompt: Fotos stammen von deinem Flickr-Konto. Fügen Sie eine hinzu, um zu verfolgen, wie diese Pflanzung wächst.
       no_seeds: Noch keine Samen gespeichert.
-      no_seeds_prompt: Speichern Sie Samen aus dieser Pflanzung, um sie in der nächsten Saison zu säen oder mit anderen Mitgliedern zu handeln.
       notes: Notizen
       photos: Fotos
       seeds_saved: Samen gespeichert

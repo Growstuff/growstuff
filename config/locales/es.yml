@@ -166,36 +166,28 @@ es:
   buttons:
     add: Agregar
     add_photo: Añadir foto
-    add_seed_to_stash: Agrega semillas %{crop_name} al escondite
     copy: Copiar
     delete: Borrar
     edit: Editar
-    harvest: Cosecha
-    harvest_crop: Cosecha %{crop_name}
     like: Como
-    make_nursery: Usar como mi guardería
     mark_as_active: Marcar como activo
     mark_as_failed: Marcar como fallido
     mark_as_finished: Marcar como terminado
     mark_as_inactive: Marcar como inactivo
-    my_gardens: mis jardines
     new_harvest: Nueva cosecha
     new_job: Añadir un trabajo
     new_planting: Nueva plantación
     new_post: Escribir nueva publicación
     new_seeds: Nueva semilla guardada
     plant: Planta
-    plant_crop: Planta %{crop_name}
     plant_something_here: planta algo aqui
     record_harvest: Cosecha récord
     save_seeds: guardar semillas
     stop_nursery: Deja de usarlo como mi guardería
-    timeline: Línea de tiempo
     total_likes: Me gusta totales
     transplant: Trasplante
     unlike: Quitar me gusta
     view: Vista
-    write_blog_post: Escribir entrada de blog
   comments:
     comments:
       empty: Aún no hay comentarios
@@ -510,7 +502,6 @@ es:
       track_harvests: registrar tus cosechas de %{crop}
       view_all: Ver todas las cosechas de %{crop}
     index:
-      subtitle: "%{crops_size} total"
       title: Explorar cultivos
       meta_description: Explora y busca cultivos.
       wrangle: Gestionar cultivos
@@ -974,13 +965,6 @@ es:
       drag_plants: Arrastre las plantas por el mapa para ver qué encaja y dónde.
       edit_layout: editar diseño
       edit_layout_label: Editar el diseño de la cama
-      heading: Disposición
-      map_out: Traza esta cama
-      map_out_text: Arrastre sus plantas a una imagen de la cama y vea qué encaja y dónde.
-      new: Nuevo
-      plants_placed:
-        one: "%{count} planta colocada sobre la cama"
-        other: "%{count} plantas colocadas en la cama"
       view_layout: ver diseño
       view_layout_label: Ver el diseño de la cama
       where_each: Dónde crece cada planta de este jardín, en un mapa del parterre.
@@ -989,16 +973,10 @@ es:
       heading: Ubicación
       not_set: No establecido
       remove: Eliminar
-    string: "%{garden} de %{owner}"
     nursery_declined: Vale, no volveremos a preguntar por una guardería. Puede configurar uno más tarde desde la página de su jardín.
     nursery_made: Este jardín es ahora tu vivero.
     nursery_name: Vivero
     nursery_stopped: Este jardín ya no es tu vivero.
-    overview:
-      gardensactions: jardines/acciones
-      gardensphoto: jardines/foto
-      no_plantings: sin plantaciones
-      plantingsthumbnail: plantaciones/miniatura
     owner_gardens:
       growing_count: "%{count} creciendo"
       heading: Los jardines de %{owner}
@@ -1099,7 +1077,6 @@ es:
       harvested: cosechado
       picked_at: recolectado el %{date}
       title: Cosecha de %{crop}
-    created: La cosecha se creó con éxito.
     edit_modal:
       harvested_at: "¿Cuándo lo cosechaste?"
       notes: Notas
@@ -1363,7 +1340,6 @@ es:
       plantings:
         one: plantando
         other: plantaciones
-    updated: La semilla se actualizó correctamente.
     why_join:
       neighbours:
         body: Encuentre semillas cercanas y vea qué están plantando y cosechando los jardineros locales ahora.
@@ -1614,10 +1590,7 @@ es:
       the_crop: el cultivo
   label:
     data: 'Los datos de esta página están disponibles en los siguientes formatos:'
-    days_until_finished: "%{number} días"
-    days_until_harvest: "%{number} días"
     harvesting_now: cosechando ahora
-    weeks_until_finished: "%{number} semanas"
     weeks_until_harvest: "%{number} semanas hasta la cosecha"
   layouts:
     application:
@@ -1680,7 +1653,6 @@ es:
     menu:
       label: Menú
       about: Acerca de
-      activities: Actividades
       add: Agregar
       add_button: "+ Agregar"
       admin: Administración
@@ -1727,8 +1699,6 @@ es:
       description: "%{site_name} te ayuda a registrar lo que cosechas en tu huerto y a ver lo productivo que es."
       my_drafts: mis borradores
       suggest_something: sugerir algo
-  links:
-    my_gardens: mis jardines
   member_dismissals:
     create:
       dismissed: No volveremos a sugerir %{name}.
@@ -2474,7 +2444,6 @@ es:
       harvest: Cosecha %{crop} por %{owner}
       planting: "%{planting}"
       seed: "%{seed}"
-      thing_by: UN %{thing} por %{owner}
   places:
     index:
       title: Mapa de la comunidad %{site_name}
@@ -2535,7 +2504,6 @@ es:
       days_until_harvest: días hasta la cosecha
       harvesting_now: cosechando ahora
       late_finishing: terminar tarde
-      sharedbuttonsfinish_planting: compartido/botones/finish_planting
       super_late: súper tarde
     card:
       planted_by_in_html: Plantado por %{owner} en %{garden}
@@ -2616,7 +2584,6 @@ es:
         crop_plantings: Las plantaciones %{crop} de todos
         default: Las plantaciones de todos
         owner_plantings: Las plantaciones de %{owner}
-      view_owners_profile: Ver perfil de %{owner} >>
     modal:
       add_new_garden: Añadir un nuevo jardín
       add_to_my_garden: Añadir a mi jardín
@@ -2624,8 +2591,6 @@ es:
       title: Añadir %{crop} a tu jardín
       which_garden: "¿En qué jardín va a ir?"
     plant_something: plantar algo
-    progress:
-      progress_0_not_planted_yet: 'Progreso: 0% - aún no plantado'
     show:
       cultivate: Labrar la tierra
       cultivate_prompt: Esta fue la última plantación reciente en este bancal. ¿Desea labrar la tierra pronto?
@@ -2635,7 +2600,6 @@ es:
       plantings: Plantaciones
       add: añadir
       crop: Cultivo
-      grower: Productor
       harvest_month_yes: "%{month}, normalmente cosechando"
       harvest_months: Meses de cosecha
       harvest_months_legend: Los meses destacados son cuando se suele recolectar esta cosecha aquí.
@@ -2643,19 +2607,15 @@ es:
       harvests: Cosechas
       heading: "%{crop} plantación"
       jobs: Empleos
-      jobs_current: Planificado
       jobs_finished: Finalizado
       meta_description: "%{crop} plantado por %{owner} en %{garden}."
       more_photos: Más fotos
       neighbours: Vecinos del mundo
       neighbours_explanation: Otras plantaciones %{crop} en la misma latitud.
       no_harvests: Aún no se han registrado cosechas.
-      no_harvests_prompt: Registre sus cosechas aquí para mejorar las predicciones de cultivos y podrá compararlas con su jardín la próxima temporada.
       no_jobs: Aquí no hay nada planeado.
       no_photos: Aún no hay fotos.
-      no_photos_prompt: Las fotos provienen de tu cuenta de Flickr. Agregue uno para realizar un seguimiento de cómo crece esta plantación.
       no_seeds: Aún no se han guardado semillas.
-      no_seeds_prompt: Guarde las semillas de esta plantación para sembrarlas la próxima temporada o para intercambiarlas con otros miembros.
       notes: Notas
       photos: Fotos
       seeds_saved: Semillas guardadas
