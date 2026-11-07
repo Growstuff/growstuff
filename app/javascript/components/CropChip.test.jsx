@@ -20,6 +20,12 @@ describe('CropChip', () => {
     expect(screen.getByRole('link')).toHaveTextContent('Tomato');
   });
 
+  it('exposes the full name in a title for long crops', () => {
+    const name = 'A very long crop name that exceeds the available pill width';
+    setup({crop: {name}});
+    expect(screen.getByRole('link')).toHaveAttribute('title', name);
+  });
+
   it('uses the crop icon', () => {
     setup();
     expect(screen.getByAltText('Tomato')).toHaveAttribute('src', '/tomato.png');

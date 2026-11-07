@@ -12,12 +12,19 @@
   - else
     %li.breadcrumb-item.active= link_to 'Jobs', jobs_path
 
+- if @owner && @owner == current_member && Feature.enabled?(:job_ideas)
+  - ideas_count = JobIdeas.count_for(@owner)
+  - if ideas_count.positive?
+    .mb-3
+      = render 'jobs/ideas_banner', count: ideas_count
+    = render 'jobs/ideas_modal'
+
 .row
   -# A member's own jobs are a notepad across the page. Anyone else's, or everyone's,
   -# are a list, with its options beside it.
   - if @job_groups
     .col-12
-      = render 'jobs/notepad', owner: @owner, groups: @job_groups, done_this_week: @done_this_week
+      = render 'jobs/notepad', owner: @owner, groups: @job_groups, done_this_week: @done_this_week, ideas_banner: false
   - else
     .col-md-3
       %h1.h2

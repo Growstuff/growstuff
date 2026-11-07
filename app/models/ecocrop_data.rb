@@ -15,9 +15,10 @@ class EcocropData < ApplicationRecord
     where('lower(scientificname) = lower(?)', cleaned).first
   end
 
-  # Whether there is enough here to estimate the heat a crop needs.
+  # Whether there is enough here to estimate the heat a crop needs. EcoCrop records some crops'
+  # growing cycles as 0 days, which is a gap in the data and not a crop that is ready at once.
   def heat_data?
-    HEAT_FIELDS.all? { |field| self[field].present? } && optimal_temp > tmin
+    HEAT_FIELDS.all? { |field| self[field].present? } && gmin.positive? && gmax.positive? && optimal_temp > tmin
   end
 
   # The middle of the optimal temperature range, in °C.

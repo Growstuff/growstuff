@@ -74,12 +74,13 @@ module PlantingWeatherHelper
 
   # The daily high and low as two lines, on the same axis. `expected` continues them, dashed and paler,
   # from the last observed day.
-  def weather_temperature_chart(readings, from:, days:, seasons: [], expected: [], now: nil) # rubocop:disable Metrics/ParameterLists
+  def weather_temperature_chart(readings, from:, days:, seasons: [], expected: [], now: nil, frost: nil) # rubocop:disable Metrics/ParameterLists
     observed = weather_temperatures(readings)
     values = observed + weather_temperatures(expected)
     return if values.empty?
 
     low = values.min.floor
+    low = [low, 0].min if frost
     high = [values.max.ceil, low + 1].max
     scale = { low:, span: high - low, step: weather_step(days) }
     lines = weather_temperature_lines(readings, from:, scale:)
@@ -87,8 +88,10 @@ module PlantingWeatherHelper
     range = observed.presence || values
     alt = t('plantings.show.weather_temperature_chart_alt', low: weather_degrees(range.min), high: weather_degrees(range.max))
     ticks = [[0, weather_tick(high, '°')], [0.5, weather_tick((low + high) / 2.0, '°')], [1, weather_tick(low, '°')]]
-    weather_chart(safe_join([weather_season_bands(seasons, days), lines]), alt, 'weather-temperature',
-                  now: [weather_now_x(now, from, days), weather_now_temperatures(readings.last)], ticks:)
+    weather_chart(safe_join([weather_season_bands(seasons, days), weather_frost_line(frost, scale, days), lines]),
+                  alt, 'weather-temperature',
+                  now: [weather_now_x(now, from, days), weather_now_temperatures(readings.last)], ticks:,
+                  overlay: weather_frost_label(frost, scale))
   end
 
   # The seasons' names, laid out under the charts to the same widths as their bands.
@@ -139,6 +142,31 @@ module PlantingWeatherHelper
 
       "#{((reading.date - from) * step).round(1)},#{(WEATHER_CHART_HEIGHT - height_of.call(value)).round(1)}"
     end.join(' ')
+  end
+
+  # A dashed line across the temperature chart at the frost danger temperature, when there are frost dates and the chart's
+  # range reaches it.
+  def weather_frost_line(stat, scale, days)
+    y = weather_frost_y(stat, scale)
+    tag.line(class: 'weather-frost-line', x1: 0, x2: (days * scale[:step]).round(2), y1: y, y2: y) if y
+  end
+
+  # What the dashed line is, beside it.
+  def weather_frost_label(stat, scale)
+    y = weather_frost_y(stat, scale)
+    return unless y
+
+    degrees = weather_tick(FrostCalculator::FROST_DANGER_C, '')
+    tag.span(t('plantings.show.frost_line', degrees:), class: 'weather-frost-label',
+                                                       style: "top: #{(y * 100 / WEATHER_CHART_HEIGHT).round(2)}%")
+  end
+
+  # How far down the chart the frost danger temperature is, or nil when there is no line to draw.
+  def weather_frost_y(stat, scale)
+    degrees = FrostCalculator::FROST_DANGER_C
+    return unless stat&.dated? && degrees.between?(scale[:low], scale[:low] + scale[:span])
+
+    (WEATHER_CHART_HEIGHT - ((degrees - scale[:low]) / scale[:span] * WEATHER_CHART_HEIGHT)).round(1)
   end
 
   # A faint band behind the chart for each season, so the weather can be read against the year.

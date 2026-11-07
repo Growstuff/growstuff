@@ -95,7 +95,7 @@ module HomeHelper
 
   def growing_rows(plantings, ready)
     plantings.map do |planting|
-      days = planting.crop.median_days_to_first_harvest
+      days = planting.predicted_days_to_first_harvest
       { id: planting.id, name: planting.crop_name, url: planting_path(slug: planting.slug), garden: planting.garden_name,
         garden_id: planting.garden_id, plant_id: (planting.crop.parent || planting.crop).id, ready: ready.include?(planting),
         image_url: planting.thumbnail_url || image_path(placeholder_image),

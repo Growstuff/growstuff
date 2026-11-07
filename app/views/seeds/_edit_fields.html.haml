@@ -38,6 +38,8 @@
     = f.select :gmo, Seed::GMO_VALUES, { include_blank: false, label: 'GMO?' }
   .col-md-4
     = f.select :heirloom, Seed::HEIRLOOM_VALUES, { include_blank: false, label: 'Heirloom?' }
+  .col-md-4
+    = f.select :hardiness, Seed::HARDINESS_VALUES.map { |value| [t("seeds.hardiness.#{value}"), value] }, { include_blank: false, label: t('seeds.hardiness.label') }
 .mb-3
   = f.select :source, Seed::SOURCE_VALUES, { include_blank: false, label: 'Where did they come from?' }
 .mb-3

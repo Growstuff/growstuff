@@ -431,7 +431,21 @@ describe Member do
   describe '#update_spam_score!' do
     let(:member) { create(:member) }
 
-    context 'when spam score reaches the maximum score' do
+    context 'when spam score reaches the ban threshold' do
+      before do
+        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(75)
+      end
+
+      it 'updates the spam score' do
+        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(75)
+      end
+
+      it 'bans the member' do
+        expect { member.update_spam_score! }.to change { member.reload.banned? }.from(false).to(true)
+      end
+    end
+
+    context 'when spam score is above the ban threshold' do
       before do
         allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(100)
       end
@@ -445,13 +459,13 @@ describe Member do
       end
     end
 
-    context 'when spam score is below the maximum score' do
+    context 'when spam score is below the ban threshold' do
       before do
-        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(75)
+        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(74)
       end
 
       it 'updates the spam score' do
-        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(75)
+        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(74)
       end
 
       it 'does not ban the member' do

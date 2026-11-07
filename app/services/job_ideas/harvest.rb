@@ -48,8 +48,7 @@ class JobIdeas
     end
 
     def expected_on(planting)
-      days = planting.crop.median_days_to_first_harvest
-      planting.planted_at.to_date + days.days if days
+      planting.first_harvest_predicted_at&.to_date
     end
   end
 end
