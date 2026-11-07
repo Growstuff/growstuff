@@ -1,0 +1,27 @@
+-# The frost section of a planting page: what frost danger means for this planting today, drawn against the season.
+- verdict = frost_verdict(frost)
+%section.planting-frost
+  .planting-frost-header
+    %h2= t('plantings.frost.title')
+    = link_to t('frost.experimental'), '#about-frost-estimates', class: 'planting-frost-badge'
+  .planting-frost-body
+    .frost-verdict{ class: "frost-verdict--#{frost.verdict}" }
+      .frost-verdict-icon= frost_icon(frost.verdict)
+      %div
+        %p.frost-verdict-title= verdict[:title]
+        %p.frost-verdict-body= verdict[:body]
+    - unless frost.verdict == :rare
+      = render 'plantings/frost_timeline', frost: frost
+      .frost-cards
+        - frost_cards(frost).each do |card|
+          .frost-card
+            .frost-card-label= card[:label]
+            .frost-card-value= card[:value]
+            .frost-card-note= card[:note]
+    #about-frost-estimates.frost-about
+      %p
+        %strong= t('frost.experimental_heading')
+        = t('frost.about_estimates')
+      %p
+        = link_to t('plantings.show.weather_credit_source'), 'https://open-meteo.com/'
+        (#{link_to t('plantings.show.weather_credit_licence'), 'https://creativecommons.org/licenses/by/4.0/'})

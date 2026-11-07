@@ -1,0 +1,46 @@
+-# This planting against the frost danger season, on one axis of whole months.
+- direction = frost.planted_days_before_usual_end.negative? ? 'after' : 'before'
+.frost-timeline
+  %h3= t('plantings.frost.timeline.title')
+  .frost-chart{ role: 'img', 'aria-label': frost_timeline_description(frost) }
+    .frost-lanes
+      - if frost.show_today?
+        %span.frost-today{ style: "left: #{frost_percent(frost.position(frost.today))}" }= t('plantings.frost.timeline.today', date: frost_date_text(frost.today))
+        .frost-today-line{ style: "left: #{frost_percent(frost.position(frost.today))}" }
+      .frost-lane-label= t('plantings.frost.timeline.row_danger')
+      .frost-lane
+        - frost.danger_bands.each do |band|
+          .frost-band{ class: "frost-band--#{band.kind}", style: frost_band_style(frost, band) }
+            - if band.kind == :usual
+              %span.frost-band-label= frost_band_label(frost, band)
+      .frost-lane-label= t('plantings.frost.timeline.row_planting')
+      .frost-lane
+        - frost.planting_bands.each do |band|
+          .frost-band{ class: "frost-band--#{band.kind}", style: frost_band_style(frost, band) }
+            %span.frost-band-label= frost_band_label(frost, band)
+    %p.frost-annotation= t("plantings.frost.timeline.annotation_#{direction}", days: frost_days(frost.planted_days_before_usual_end.abs))
+    .frost-axis{ 'aria-hidden': true }
+      - frost_month_ticks(frost).each do |tick|
+        .frost-tick{ style: "left: #{tick[:left]}" }
+          %span.frost-month-long= tick[:name]
+          %span.frost-month-short= tick[:name].first
+          - if tick[:year]
+            %span.frost-year= tick[:year]
+  %ul.frost-legend
+    %li
+      %span.frost-key.frost-band--usual
+      = t('plantings.frost.timeline.legend.usual')
+    %li
+      %span.frost-key.frost-band--possible
+      = t('plantings.frost.timeline.legend.possible')
+    - if frost.finished?
+      %li
+        %span.frost-key.frost-band--finished
+        = t('plantings.frost.timeline.legend.finished')
+    - else
+      %li
+        %span.frost-key.frost-band--so_far
+        = t('plantings.frost.timeline.legend.so_far')
+      %li
+        %span.frost-key.frost-band--still_to_come
+        = t('plantings.frost.timeline.legend.still_to_come')

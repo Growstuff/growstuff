@@ -12,8 +12,23 @@ class PlantingFrost
   Band = Struct.new(:kind, :from, :to)
 
   THRESHOLD_C = FrostCalculator::FROST_DANGER_C
+  SOON_DAYS = 60
 
-  attr_reader :planted_on, :ends_on
+  attr_reader :planted_on, :ends_on, :today
+
+  def finished?
+    @finished
+  end
+
+  # Whether today is a day on the timeline worth marking: a planting still growing, and today inside the axis.
+  def show_today?
+    !finished? && axis.cover?(today)
+  end
+
+  # The typical frost-free days of the place, from the frost dates, or nil when they have none.
+  def frost_free_days
+    @stat.frost_free_days_median&.round
+  end
 
   # readings: the planting's weather, as WeatherReading rows with temp_min_c.
   def self.for(planting, readings:, today: Time.zone.today)
@@ -66,6 +81,11 @@ class PlantingFrost
 
   def days_until_usual_start
     (usual.first - @today).to_i
+  end
+
+  # Whether the usual first frost is near enough to say it is coming, rather than a long way off.
+  def starts_soon?
+    days_until_usual_start <= SOON_DAYS
   end
 
   def days_until_usual_end
