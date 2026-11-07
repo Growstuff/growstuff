@@ -37,6 +37,15 @@ class OpenMeteoClient
     'weather_code'                   => :weather_code
   }.freeze
 
+  # Open-Meteo counts a request for more than 10 variables, or more than 2 weeks, as several calls.
+  VARIABLES_PER_CALL = 10.0
+  DAYS_PER_CALL = 14.0
+
+  # What a request for these dates costs against the daily limit, in calls.
+  def self.call_cost(from, to, variables: VARIABLES.size)
+    [(to - from + 1) / DAYS_PER_CALL, 1].max * [variables / VARIABLES_PER_CALL, 1].max
+  end
+
   def initialize(connection: nil)
     @connection = connection || Faraday.new(url: URL, headers: { 'User-Agent' => USER_AGENT }) do |f|
       f.options.timeout = 15

@@ -88,7 +88,7 @@ class FrostUpdater
 
   # One variable is the base rate; a request for more than two weeks counts as several calls.
   def call_cost(from, to)
-    [(to - from + 1) / WeatherUpdater::DAYS_PER_CALL, 1].max
+    OpenMeteoClient.call_cost(from, to, variables: 1)
   end
 
   def save(cell, minimums)
