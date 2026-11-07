@@ -136,7 +136,13 @@ $frost-warning: #fff8e1;
     height: 100%;
     overflow: hidden;
     padding: 0 0.5rem;
+    text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .frost-band:focus-visible {
+    outline: 2px solid $brown;
+    outline-offset: -2px;
   }
 
   .frost-band--usual {
@@ -148,11 +154,10 @@ $frost-warning: #fff8e1;
     background: $frost-possible;
   }
 
+  // The outlines are inset shadows, not borders, so every band's label sits the same distance from its edge.
   .frost-band--frost_safe {
     background: $frost-safe;
-    border: 2px solid $blue;
-    border-right: 0;
-    box-sizing: border-box;
+    box-shadow: inset 2px 0 0 $blue, inset 0 2px 0 $blue, inset 0 -2px 0 $blue;
   }
 
   .frost-band--so_far {
@@ -162,9 +167,7 @@ $frost-warning: #fff8e1;
 
   .frost-band--still_to_come {
     background: $frost-to-come;
-    border: 2px solid $green;
-    border-left: 0;
-    box-sizing: border-box;
+    box-shadow: inset -2px 0 0 $green, inset 0 2px 0 $green, inset 0 -2px 0 $green;
   }
 
   .frost-band--finished,
@@ -268,7 +271,11 @@ $frost-warning: #fff8e1;
   }
 
   .frost-key.frost-band--frost_safe {
-    border-right: 2px solid $blue;
+    box-shadow: inset 0 0 0 2px $blue;
+  }
+
+  .frost-key.frost-band--still_to_come {
+    box-shadow: inset 0 0 0 2px $green;
   }
 
   .frost-cards {
