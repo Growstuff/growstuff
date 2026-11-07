@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe PlantingFrost do
-  subject(:frost) { described_class.new(stat:, planted_on:, ends_on:, finished:, readings:, today:) }
+  subject(:frost) { described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on:, finished:, readings:, today:) }
 
   # The numbers in the design: in the south a frost year is a calendar year, so a day number is days since 1 January.
   def day(month, date)
@@ -23,16 +23,17 @@ describe PlantingFrost do
 
   describe '#verdict' do
     it 'is before the season ahead of the usual first frost' do
-      expect(described_class.new(stat:, planted_on:, ends_on:, finished:, readings:,
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on:, finished:, readings:,
                                  today: Date.new(2026, 6, 10)).verdict).to eq :before_season
     end
 
     it 'is in the season between the usual first and last frost' do
-      expect(described_class.new(stat:, planted_on:, ends_on:, finished:, readings:, today: Date.new(2026, 8, 25)).verdict).to eq :in_season
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on:, finished:, readings:,
+                                 today: Date.new(2026, 8, 25)).verdict).to eq :in_season
     end
 
     it 'is late but possible between the usual last frost and the latest' do
-      expect(described_class.new(stat:, planted_on:, ends_on:, finished:, readings:,
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on:, finished:, readings:,
                                  today: Date.new(2026, 9, 15)).verdict).to eq :late_possible
     end
 
@@ -85,11 +86,12 @@ describe PlantingFrost do
     end
 
     it 'counts no days in danger for a planting after the latest it has come' do
-      expect(described_class.new(stat:, planted_on: Date.new(2026, 11, 1), ends_on:, finished:, readings:, today:).days_in_danger).to eq 0
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 11, 1), ends_on:, finished:, readings:,
+                                 today:).days_in_danger).to eq 0
     end
 
     it 'stops counting days in danger when the planting finishes' do
-      expect(described_class.new(stat:, planted_on:, ends_on: Date.new(2026, 9, 1), finished: true, readings:,
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on: Date.new(2026, 9, 1), finished: true, readings:,
                                  today:).days_in_danger).to eq 15
     end
 
@@ -98,24 +100,24 @@ describe PlantingFrost do
     end
 
     it 'counts the days until the usual first frost' do
-      expect(described_class.new(stat:, planted_on:, ends_on:, finished:, readings:,
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on:, finished:, readings:,
                                  today: Date.new(2026, 6, 10)).days_until_usual_start).to eq 13
     end
 
     it 'counts the days until the usual last frost' do
-      expect(described_class.new(stat:, planted_on:, ends_on:, finished:, readings:,
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on:, finished:, readings:,
                                  today: Date.new(2026, 8, 25)).days_until_usual_end).to eq 4
     end
 
     it 'counts the days until the latest' do
-      expect(described_class.new(stat:, planted_on:, ends_on:, finished:, readings:,
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on:, finished:, readings:,
                                  today: Date.new(2026, 9, 15)).days_until_latest).to eq 16
     end
 
     it 'uses the frost year of the planting date in the north' do
       stat.latitude = 51.5
-      expect(described_class.new(stat:, planted_on: Date.new(2026, 12, 1), ends_on: Date.new(2027, 3, 1), finished:, readings:,
-                                 today:).usual.first.year).to eq 2026
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 12, 1), ends_on: Date.new(2027, 3, 1), finished:,
+                                 readings:, today:).usual.first.year).to eq 2026
     end
 
     context 'without an end to the planting' do
@@ -214,12 +216,12 @@ describe PlantingFrost do
     end
 
     it 'starts at the planting if that is earlier than the earliest frost' do
-      expect(described_class.new(stat:, planted_on: Date.new(2026, 3, 10), ends_on:, finished:, readings:,
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 3, 10), ends_on:, finished:, readings:,
                                  today:).axis.first).to eq Date.new(2026, 3, 1)
     end
 
     it 'runs to the end of the planting if that is later than the next season' do
-      expect(described_class.new(stat:, planted_on:, ends_on: Date.new(2027, 11, 15), finished:, readings:,
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on: Date.new(2027, 11, 15), finished:, readings:,
                                  today:).axis.last).to eq Date.new(2027, 11, 30)
     end
 
@@ -244,12 +246,12 @@ describe PlantingFrost do
     end
 
     it 'draws a planting that has finished as one bar' do
-      expect(described_class.new(stat:, planted_on:, ends_on:, finished: true, readings:,
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on:, finished: true, readings:,
                                  today:).planting_bands.map(&:kind)).to eq [:finished]
     end
 
     it 'has nothing still to come once the end has passed' do
-      expect(described_class.new(stat:, planted_on:, ends_on: Date.new(2026, 10, 31), finished:, readings:,
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on: Date.new(2026, 10, 31), finished:, readings:,
                                  today:).planting_bands.map(&:kind)).to eq [:so_far]
     end
 
@@ -384,7 +386,8 @@ describe PlantingFrost do
     end
 
     it 'is not the same as a finish that is predicted' do
-      expect(described_class.new(stat:, planted_on:, ends_on: Date.new(2017, 1, 1), finished:, readings:, today:)).not_to be_end_unknown
+      expect(described_class.new(stat:, crop_name: 'viola', planted_on:, ends_on: Date.new(2017, 1, 1), finished:, readings:,
+                                 today:)).not_to be_end_unknown
     end
   end
 end

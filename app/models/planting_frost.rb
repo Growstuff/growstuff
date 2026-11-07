@@ -15,7 +15,7 @@ class PlantingFrost
   SOON_DAYS = 60
   YEAR_DAYS = 365
 
-  attr_reader :planted_on, :ends_on, :today
+  attr_reader :crop_name, :planted_on, :ends_on, :today
 
   def finished?
     @finished
@@ -49,12 +49,13 @@ class PlantingFrost
     return if stat.nil? || stat.unknown?
 
     # A finished planting with no finish date goes by its predicted finish, for the frost display only.
-    new(stat:, planted_on: planting.planted_at, ends_on: planting.finished_at || planting.weather_due_on,
-        finished: planting.finished?, readings:, today:)
+    new(stat:, crop_name: planting.crop.name, planted_on: planting.planted_at,
+        ends_on: planting.finished_at || planting.weather_due_on, finished: planting.finished?, readings:, today:)
   end
 
-  def initialize(stat:, planted_on:, ends_on:, finished:, readings:, today:) # rubocop:disable Metrics/ParameterLists
+  def initialize(stat:, crop_name:, planted_on:, ends_on:, finished:, readings:, today:) # rubocop:disable Metrics/ParameterLists
     @stat = stat
+    @crop_name = crop_name
     @planted_on = planted_on
     @finished = finished
     @readings = readings

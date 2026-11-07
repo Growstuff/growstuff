@@ -17,7 +17,8 @@ describe FrostSectionHelper do
   let(:finished) { false }
   let(:today) { Date.new(2026, 11, 7) }
   let(:frost) do
-    PlantingFrost.new(stat:, planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:, readings:, today:)
+    PlantingFrost.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:, readings:,
+                      today:)
   end
 
   def missing?(text)
@@ -25,6 +26,10 @@ describe FrostSectionHelper do
   end
 
   describe '#frost_verdict' do
+    it 'names the crop in the headline, which is the point of the crop name' do
+      expect(helper.frost_verdict(frost)[:title]).to include 'viola'
+    end
+
     {
       'before the season soon' => Date.new(2026, 6, 10), 'before the season far off' => Date.new(2026, 1, 10),
       'in the season' => Date.new(2026, 8, 25), 'late but possible' => Date.new(2026, 9, 15), 'passed' => Date.new(2026, 11, 7)
@@ -52,7 +57,7 @@ describe FrostSectionHelper do
       let(:readings) { [reading.new(Date.new(2026, 9, 1), 1.0)] }
 
       it 'says more than for a planting with no frost night' do
-        clear = PlantingFrost.new(stat:, planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:,
+        clear = PlantingFrost.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:,
                                   readings: [reading.new(Date.new(2026, 9, 1), 6.0)], today:)
         expect(helper.frost_verdict(frost)[:body].length).to be > helper.frost_verdict(clear)[:body].length
       end
@@ -139,7 +144,7 @@ describe FrostSectionHelper do
       let(:finished) { true }
       let(:readings) { [] }
       let(:frost) do
-        PlantingFrost.new(stat:, planted_on: Date.new(2016, 9, 3), ends_on: nil, finished:, readings:, today:)
+        PlantingFrost.new(stat:, crop_name: 'viola', planted_on: Date.new(2016, 9, 3), ends_on: nil, finished:, readings:, today:)
       end
 
       it 'has only the usual last frost' do

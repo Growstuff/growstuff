@@ -1369,7 +1369,7 @@ en:
           planted_before: planted %{days} before it
         next:
           label: Next frost danger starts
-          note_finishes: as early as %{earliest}, %{days} after this planting finishes
+          note_finishes: as early as %{earliest}, %{days} after this %{crop} planting finishes
           note_now: as early as %{earliest}, %{days} from now
       days:
         one: "%{count} day"
@@ -1379,11 +1379,11 @@ en:
         one: One night so far was at or below %{threshold} °C, the coldest %{coldest} °C.
         other: "%{count} nights so far were at or below %{threshold} °C, the coldest %{coldest} °C."
       planted:
-        after: The planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
-        before: The planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
+        after: The %{crop} planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
+        before: The %{crop} planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
       timeline:
-        description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The planting runs from %{planted} to %{ends}.
-        description_undated: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The planting went in on %{planted}.
+        description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting runs from %{planted} to %{ends}.
+        description_undated: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting went in on %{planted}.
         annotation_after: Planted %{days} after the usual last frost
         annotation_before: Planted %{days} before the usual last frost
         finish_expected: Finish expected %{date}
@@ -1398,7 +1398,7 @@ en:
         planted: Planted %{date}
         row_danger: Frost danger
         row_planting: This planting
-        title: This planting against the frost season
+        title: This %{crop} planting against the frost season
         today: Today, %{date}
         usual: "%{from} – %{to}"
         usual_open: "%{from} →"
@@ -1410,15 +1410,15 @@ en:
           title_far: No frost danger yet
         finished_clear:
           body: Frost was possible until %{latest}, and no night in that time was colder than %{coldest} °C.
-          body_no_readings: Frost was possible until %{latest}. We have no night temperatures for this planting.
-          title: No frost reached this planting
+          body_no_readings: Frost was possible until %{latest}. We have no night temperatures for this %{crop} planting.
+          title: No frost reached this %{crop} planting
         finished_hit:
           body:
             one: One night while frost was possible was at or below %{threshold} °C. The coldest was %{coldest} °C.
             other: "%{count} nights while frost was possible were at or below %{threshold} °C. The coldest was %{coldest} °C."
-          title: Frost may have reached this planting
+          title: Frost may have reached this %{crop} planting
         finished_undated:
-          body: The usual last frost that year was %{usual_end}, and frost has come as late as %{latest}. We have no finish date for this planting, so we can't say what it went through.
+          body: The usual last frost that year was %{usual_end}, and frost has come as late as %{latest}. We have no finish date for this %{crop} planting, so we can't say what it went through.
           title: We can't say what frost it met
         in_season:
           body: The usual last frost is %{usual_end}, in %{days}. It has come as late as %{latest}.
@@ -1428,7 +1428,7 @@ en:
           title: Past the usual last frost, but it can still come
         passed:
           body: The latest a frost has come in past years is %{latest}, %{days} ago.
-          title: Frost danger has passed for this planting
+          title: Frost danger has passed for this %{crop} planting
         rare:
           body: Frost is rare in this area, so we show no frost dates.
           title: Frost is rare here
