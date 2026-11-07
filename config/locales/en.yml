@@ -3929,6 +3929,7 @@ en:
       crop: Crop
       frost_line: "%{degrees} °C frost line"
       weather_kill_line: "Dies at %{degrees} °C"
+      labels: Labels
       grower: Grower
       harvest_month_yes: "%{month}, usually harvesting"
       harvest_months: Harvest months
