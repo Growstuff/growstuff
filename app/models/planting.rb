@@ -240,6 +240,19 @@ class Planting < ApplicationRecord
     self.class.weather_tracked.exists?(id)
   end
 
+  # The centre of the weather grid cell this planting's garden is in, as [latitude, longitude].
+  def weather_cell
+    WeatherReading.grid_point(latitude, longitude)
+  end
+
+  # The typical frost danger dates for this planting's weather cell, as FrostUpdater saved them, or nil when
+  # the garden has no location or they aren't worked out yet.
+  def frost_danger
+    return unless weather_located?
+
+    FrostStat.at(*weather_cell).find_by(threshold_c: FrostCalculator::FROST_DANGER_C)
+  end
+
   # The day this planting is due, from its crop's expected lifespan, or nil when we don't know it.
   def weather_due_on
     planted_at + expected_lifespan.to_i if planted_at.present? && expected_lifespan.present?
@@ -316,7 +329,7 @@ class Planting < ApplicationRecord
 
   # Daily weather for the grid cell this planting's garden is in.
   def weather_cell_readings
-    WeatherReading.at(*WeatherReading.grid_point(latitude, longitude))
+    WeatherReading.at(*weather_cell)
   end
 
   # Copied from the packet when the planting is made, as the packet may be

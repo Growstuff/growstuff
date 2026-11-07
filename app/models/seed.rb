@@ -13,9 +13,10 @@ class Seed < ApplicationRecord
   ORGANIC_VALUES = ['certified organic', 'non-certified organic', 'conventional/non-organic', 'unknown'].freeze
   GMO_VALUES = ['certified GMO-free', 'non-certified GMO-free', 'GMO', 'unknown'].freeze
   HEIRLOOM_VALUES = %w(heirloom hybrid unknown).freeze
+  HARDINESS_VALUES = Hardiness::VALUES
   # What a packet says that the crop keeps the median of.
   MEDIAN_FIELDS = %w(crop_id row_spacing sow_months germination_days_min germination_days_max
-                     days_until_maturity_min days_until_maturity_max).freeze
+                     days_until_maturity_min days_until_maturity_max hardiness).freeze
   SOURCE_VALUES = ['seed catalogue', 'retail outlet', 'seed bank or similar institution',
                    'traded from another person', 'my own seed saving', 'other/unknown'].freeze
   # A seed packet dated outside this is a typo, not a plan.
@@ -65,6 +66,7 @@ class Seed < ApplicationRecord
                   inclusion:   { in: GMO_VALUES, message: :gmo_inclusion }
   validates :heirloom, allow_blank: false,
                        inclusion:   { in: HEIRLOOM_VALUES, message: :heirloom_inclusion }
+  validates :hardiness, inclusion: { in: HARDINESS_VALUES, message: :hardiness_inclusion }
   validates :source, allow_blank: true,
                      inclusion:   { in: SOURCE_VALUES, message: :source_inclusion }
 
@@ -203,7 +205,10 @@ class Seed < ApplicationRecord
   def update_crop_medians
     return unless destroyed? || previously_new_record? || saved_changes.keys.intersect?(MEDIAN_FIELDS)
 
-    Crop.where(id: [crop_id, saved_change_to_crop_id&.first].compact).with_parents.find_each(&:update_seed_medians)
+    Crop.where(id: [crop_id, saved_change_to_crop_id&.first].compact).with_parents.find_each do |crop|
+      crop.update_seed_medians
+      crop.update_hardiness
+    end
   end
 
   def sow_months_are_months

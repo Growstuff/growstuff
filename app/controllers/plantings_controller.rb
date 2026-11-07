@@ -127,6 +127,7 @@ class PlantingsController < DataController
     @weather = @planting.weather_readings.select(*WeatherReading::CHARTED).to_a
     @expected_weather = @planting.expected_weather_readings(after: @weather.last&.date)
     @weather_status = weather_status
+    @frost = PlantingFrost.for(@planting, readings: @weather)
   end
 
   # What the page says about weather: the charts, a request for a location from whoever can give one, or that it is on its way.
