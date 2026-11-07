@@ -160,6 +160,30 @@ ja:
       placeholder: 都市、地域、州を検索...
       search: 検索
   plantings:
+    follow_buttons:
+      block: ブロック
+      follow: フォロー
+      unblock: ブロック解除
+      unfollow: フォロー解除
+    failed_modal:
+      cancel: キャンセル
+      close: 閉じる
+      mark_as_failed: 失敗として記録
+      planted_at: "植え付け日 %{date}"
+      title: "%{crop}の植え付けを失敗として記録"
+      which_planting: どの植え付けを失敗として記録しますか？
+    modal:
+      add_new_garden: 新しい庭を追加
+      add_to_my_garden: 自分の庭に追加
+      close: 閉じる
+      title: "%{crop}をあなたの庭に追加"
+      which_garden: どの庭に入れますか？
+    transplant:
+      cancel: キャンセル
+      close: 閉じる
+      move_to: "この植え付けの移動先:"
+      submit: 移植
+      title: "%{crop}を移植"
     facts:
       day_progress: "%{lifespan}日中 %{age}日目"
       done: 完了

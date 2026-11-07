@@ -955,6 +955,11 @@ zh:
       follow_named: 关注 %{name}
       following: 下列的
       following_named: 您关注 %{name}
+    follow_buttons:
+      block: 屏蔽
+      follow: 关注
+      unblock: 取消屏蔽
+      unfollow: 取消关注
     index:
       title: "%{site_name} 成员"
     signup:
@@ -1250,7 +1255,20 @@ zh:
       weather_soil_temp: 土壤温度
       weather_temperature_chart: 每日高点和低点
       weather_temperature_chart_alt: 每日高低温，从%{low}到%{high}。
-    string: "%{crop} 在 %{garden} 中种植 %{owner}"
+    string: '%{crop} 在 %{garden} 中种植 %{owner}'
+    failed_modal:
+      cancel: 取消
+      close: 关闭
+      mark_as_failed: 标记为失败
+      planted_at: "种植于 %{date}"
+      title: "将 %{crop} 种植标记为失败"
+      which_planting: 您想将哪次种植标记为失败？
+    modal:
+      add_new_garden: 添加新花园
+      add_to_my_garden: 添加到我的花园
+      close: 关闭
+      title: "将 %{crop} 添加到您的花园"
+      which_garden: "要放进哪个花园？"
     transplant:
       cancel: 取消
       close: 关闭

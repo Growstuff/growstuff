@@ -957,6 +957,11 @@ es:
       follow_named: Seguir %{name}
       following: Siguiente
       following_named: Tu sigues %{name}
+    follow_buttons:
+      block: Bloquear
+      follow: Seguir
+      unblock: Desbloquear
+      unfollow: Dejar de seguir
     index:
       title: Miembros de %{site_name}
     signup:
@@ -1252,7 +1257,20 @@ es:
       weather_soil_temp: Temperatura del suelo
       weather_temperature_chart: Altas y bajas diarias
       weather_temperature_chart_alt: Temperatura máxima y mínima diaria, de %{low} a %{high}.
-    string: "%{crop} plantando en %{garden} por %{owner}"
+    string: '%{crop} plantando en %{garden} por %{owner}'
+    failed_modal:
+      cancel: cancelar
+      close: Cerrar
+      mark_as_failed: Marcar como fallido
+      planted_at: "Plantado %{date}"
+      title: "Marcar la plantación de %{crop} como fallida"
+      which_planting: "¿Qué plantación le gustaría marcar como fallida?"
+    modal:
+      add_new_garden: Añadir un nuevo jardín
+      add_to_my_garden: Añadir a mi jardín
+      close: Cerrar
+      title: "Añadir %{crop} a tu jardín"
+      which_garden: "¿En qué jardín va a ir?"
     transplant:
       cancel: Cancelar
       close: Cerrar
