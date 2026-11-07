@@ -58,6 +58,8 @@ en:
           attributes:
             gmo:
               gmo_inclusion: You must say whether the seeds are genetically modified or not, or that you don't know
+            hardiness:
+              hardiness_inclusion: You must say whether the seeds are tender, half-hardy, hardy, or that you don't know
             heirloom:
               heirloom_inclusion: You must say whether the seeds are heirloom, hybrid, or unknown
             organic:
@@ -273,7 +275,7 @@ en:
       request_notes: 'Request notes: %{notes}'
       requested_by: This crop was requested by %{requester} %{time_ago} ago.
     fields:
-      harvest_style:
+        harvest_style:
         blank: Don't know
         heading: Harvest style
         hint: 'Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.'
@@ -286,6 +288,25 @@ en:
       needs_html: "%{crop} needs about %{degree_days} growing degree days."
       summary: What are growing degree days?
       usage: 'Where you''ve told us where your garden is, we use this and the weather there to predict when your %{crop} will be ready to harvest. We don''t use it for how long a plant lives or when it finishes: we go by what members have logged for that.'
+    hardiness:
+        from_packets: Work it out from members' seed packets
+        help: How much frost the crop takes. Choose a level to keep it, whatever the seed packets say.
+        label: Hardiness
+    hardiness:
+      levels:
+        half_hardy:
+          meaning: A light frost is fine
+          name: Half-hardy
+        hardy:
+          meaning: Frost is fine
+          name: Hardy
+        tender:
+          meaning: A frost damages it
+          name: Tender
+      sources:
+        manual: Set by a crop wrangler
+        seed_packets: From members' seed packets
+      title: Hardiness
     harvest_style:
       repeated:
         description: each plant keeps giving harvests
@@ -350,6 +371,10 @@ en:
     index:
       title: Forums
     updated: Forum was successfully updated.
+  frost:
+    about_estimates: These dates are estimates from 25 km weather-model data, not readings from a station at your garden, so a cold spot can be colder. They may be wrong, so check your national weather service and ask local growers before relying on them.
+    experimental: Experimental · new and might be flaky
+    experimental_heading: 'Experimental: this feature is new and might be flaky.'
   gardens:
     about:
       collaborators: Collaborators
@@ -1307,6 +1332,83 @@ en:
       finish_helper: 'A planting is finished when you''ve harvested all of the crop, or it dies, or it''s otherwise no longer growing in your garden.
 
         '
+    frost:
+      cards:
+        free:
+          label: Frost-free season
+          note: in a typical year
+        in_danger:
+          label: Frost danger it grew through
+          note: from planting to the latest it has come, %{latest}
+        last:
+          label: Usual last frost
+          note: has come as late as %{latest}
+          planted_after: planted %{days} after it
+          planted_before: planted %{days} before it
+        margin:
+          label: Margin above frost
+          note: coldest night was %{coldest} °C; the frost line is %{threshold} °C
+        next:
+          label: Next frost danger starts
+          note_finishes: as early as %{earliest}, %{days} after this planting finishes
+          note_finished: as early as %{earliest}, %{days} after this planting finished
+          note_now: as early as %{earliest}, %{days} from now
+      days:
+        one: "%{count} day"
+        other: "%{count} days"
+      degrees: "%{degrees} °C"
+      nights_so_far:
+        one: One night so far was at or below %{threshold} °C, the coldest %{coldest} °C.
+        other: "%{count} nights so far were at or below %{threshold} °C, the coldest %{coldest} °C."
+      planted:
+        after: The planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
+        before: The planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
+      timeline:
+        description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The planting runs from %{planted} to %{ends}.
+        annotation_after: Planted %{days} after the usual last frost
+        annotation_before: Planted %{days} before the usual last frost
+        finish_expected: Finish expected %{date}
+        finished: Finished %{date}
+        legend:
+          finished: Planting, finished
+          possible: 'Possible: as early or late as it has come'
+          so_far: Planting so far
+          still_to_come: Planting still to come
+          usual: Usual frost danger
+        planted: Planted %{date}
+        row_danger: Frost danger
+        row_planting: This planting
+        title: This planting against the frost season
+        today: Today, %{date}
+        usual: "%{from} – %{to}"
+        usual_open: "%{from} →"
+      title: Frost
+      verdicts:
+        before_season:
+          body: The usual first frost is %{usual_start}, in %{days}. It has come as early as %{earliest}.
+          title: Frost danger starts soon
+          title_far: No frost danger yet
+        finished_clear:
+          body: Frost was possible until %{latest}, and no night in that time was colder than %{coldest} °C.
+          body_no_readings: Frost was possible until %{latest}. We have no night temperatures for this planting.
+          title: No frost reached this planting
+        finished_hit:
+          body:
+            one: One night while frost was possible was at or below %{threshold} °C. The coldest was %{coldest} °C.
+            other: "%{count} nights while frost was possible were at or below %{threshold} °C. The coldest was %{coldest} °C."
+          title: Frost may have reached this planting
+        in_season:
+          body: The usual last frost is %{usual_end}, in %{days}. It has come as late as %{latest}.
+          title: In the usual frost danger
+        late_possible:
+          body: It has come as late as %{latest}, %{days} from now. Keep an eye on the forecast.
+          title: Past the usual last frost, but it can still come
+        passed:
+          body: The latest a frost has come in past years is %{latest}, %{days} ago.
+          title: Frost danger has passed for this planting
+        rare:
+          body: Frost is rare in this area, so we show no frost dates.
+          title: Frost is rare here
     garden_card:
       by: by
     index:
@@ -1326,6 +1428,7 @@ en:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
     show:
       crop: Crop
+      frost_line: "%{degrees} °C frost line"
       grower: Grower
       harvest_month_yes: "%{month}, usually harvesting"
       harvest_months: Harvest months
@@ -1454,6 +1557,12 @@ en:
       trade_help: 'Are you interested in trading or swapping seeds with other %{site_name} members?  If you list your seeds as available for trade, other members can contact you to request seeds.  You can list any conditions or other information in the description, above.
 
         '
+    hardiness:
+      half_hardy: Half-hardy (a light frost is fine)
+      hardy: Hardy (frost is fine)
+      label: Hardiness?
+      tender: Tender (frost damages it)
+      unknown: Unknown
     index:
       title:
         crop_seeds: Everyone's %{crop} seeds
