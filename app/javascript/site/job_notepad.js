@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const addButton = form.querySelector('input[type="submit"]');
   const addLabel = addButton.value;
   const kinds = JSON.parse(form.dataset.kinds);
-  // A suggestion's kind (planting, seed or crop) is its type, lower case.
-  const kindOf = function (item) { return item.jobbable_type.toLowerCase(); };
+  // A suggestion's kind (planting, seed, crop or garden) is its type, lower case.
+  const kindOf = function (item) { return (item.kind || item.jobbable_type || '').toLowerCase(); };
   const words = JSON.parse(groups.dataset.celebrations);
   const reload = function () { window.location.reload(); };
 
@@ -204,7 +204,13 @@ document.addEventListener('DOMContentLoaded', function () {
       if (typed === '' || (typed === original && !chosen)) return stop();
 
       const changes = {name: typed};
-      if (chosen) Object.assign(changes, {jobbable_type: chosen.jobbable_type, jobbable_id: chosen.jobbable_id});
+      if (chosen) {
+        if (chosen.jobbable_type === 'Garden' || chosen.garden_id) {
+          Object.assign(changes, {garden_id: chosen.garden_id || chosen.jobbable_id, jobbable_type: '', jobbable_id: ''});
+        } else {
+          Object.assign(changes, {jobbable_type: chosen.jobbable_type, jobbable_id: chosen.jobbable_id});
+        }
+      }
 
       row.classList.add('saving');
       box.readOnly = true;
@@ -276,11 +282,13 @@ document.addEventListener('DOMContentLoaded', function () {
   // ---- Adding a job
 
   const link = document.getElementById('notepad-link');
+  const gardenField = document.getElementById('notepad-garden-id');
   const typeField = document.getElementById('notepad-jobbable-type');
   const idField = document.getElementById('notepad-jobbable-id');
   let adding = false;
 
   const clearLink = function () {
+    if (!groups.dataset.gardenId && gardenField) gardenField.value = '';
     typeField.value = '';
     idField.value = '';
     link.hidden = true;
@@ -432,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const found = mention();
       if (found) {
         const rest = box.value.slice(box.selectionStart).replace(/^\s+/, '');
-        const text = box.value.slice(0, found.start) + item.crop_name + ' ';
+        const text = box.value.slice(0, found.start) + (item.crop_name || item.name || item.label) + ' ';
         box.value = text + rest;
         box.setSelectionRange(text.length, text.length);
       }
@@ -522,8 +530,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Linking a job being added: the link is shown in a chip, until it is added.
   suggestions(input, document.getElementById('notepad-suggestions'), function (item) {
-    typeField.value = item.jobbable_type;
-    idField.value = item.jobbable_id;
+    if (item.jobbable_type === 'Garden' || item.garden_id) {
+      if (gardenField) gardenField.value = item.garden_id || item.jobbable_id;
+      typeField.value = '';
+      idField.value = '';
+    } else {
+      if (!groups.dataset.gardenId && gardenField) gardenField.value = '';
+      typeField.value = item.jobbable_type;
+      idField.value = item.jobbable_id;
+    }
     link.querySelector('.notepad-link-text').textContent = kinds[kindOf(item)] + ': ' + item.label;
     link.hidden = false;
   });
