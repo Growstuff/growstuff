@@ -49,9 +49,24 @@ describe JobIdeas do
       expect(described_class.new(member, today:).shown.map(&:key)).to include(ideas.ideas[described_class::SHOWN].key)
     end
 
-    it 'takes the sources in turn' do
-      create(:planting, owner: member, crop: create(:crop, perennial: false), planted_at: Date.new(2025, 10, 28))
+    it 'takes equally relevant sources in turn' do
+      crop = create(:crop, perennial: false)
+      create(:planting, owner: member, crop:, planted_at: Date.new(2025, 10, 28), finished: true)
+      member.jobs.each { |job| job.update!(jobbable: crop) }
       expect(described_class.new(member, today:).shown.map(&:kind).first(2)).to eq %i(past_job past_planting)
+    end
+  end
+
+  context 'with seeds for a suggested planting' do
+    let(:crop) { create(:crop, perennial: false) }
+
+    before do
+      create(:planting, owner: member, crop:, planted_at: Date.new(2025, 10, 28), finished: true)
+      create(:seed, owner: member, crop:)
+    end
+
+    it 'puts the planting idea ahead of general past jobs' do
+      expect(ideas.first.kind).to eq :past_planting
     end
   end
 
