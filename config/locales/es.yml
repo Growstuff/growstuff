@@ -628,8 +628,8 @@ es:
       tile_harvest: registra lo que elegiste
       tile_job: planifica una tarea para tu jardín
       jobs_today:
-        one: 1 trabajo hoy
-        other: "%{count} trabajos hoy"
+        one: 1 trabajo pronto
+        other: "%{count} trabajos pronto"
       jobs_today_go: Mis trabajos →
       tile_job_title: Agregar trabajo
       tile_photo: del jardin
@@ -1161,6 +1161,14 @@ es:
       which_garden: "¿Qué jardín?"
     what_is_a_nursery:
       description_html: 'Un <strong>vivero</strong> es un lugar donde se cultivan plántulas: semillas que se siembran en bandejas o macetas antes de colocarlas en el jardín. Siembre sus semillas en el vivero, luego transplántelas a un jardín o divida un lote entre varios, cuando estén listas.'
+  pages:
+    contact:
+      title: Contacto
+      general_email: Correo electrónico de contacto general
+      support_enquiries_html: Consultas de soporte y cuentas (no cubiertas por las %{faq_link})
+      faq: Preguntas frecuentes
+      media_enquiries: Consultas de medios y prensa
+      twitter: Twitter
   photo_associations:
     update:
       updated: Foto actualizada.
