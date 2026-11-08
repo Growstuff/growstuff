@@ -168,27 +168,4 @@ module GardensHelper
       end
     end
   end
-
-  # TODO: Not used?
-  def display_garden_name(garden)
-    truncate(garden.name, length: 50, separator: ' ', omission: '... ')
-  end
-
-  # TODO: Only used by specs?
-  def display_garden_plantings(plantings)
-    if plantings.blank?
-      "None"
-    else
-      output = '<ul class="plantings">'
-      plantings.each do |planting|
-        output += "<li>"
-        output += planting.quantity.nil? ? "0 " : "#{planting.quantity} "
-        output += link_to planting.display_name, planting.crop
-        output += ", planted on #{planting.planted_at}</li>"
-      end
-      output += '</ul>'
-      output.html_safe
-
-    end
-  end
 end
