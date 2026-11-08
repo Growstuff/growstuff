@@ -29,14 +29,4 @@ module HarvestsHelper
 
     "#{number_to_human(harvest.weight_quantity, strip_insignificant_zeros: true)} #{harvest.weight_unit}"
   end
-
-  def display_harvest_description(harvest)
-    if harvest.description.nil?
-      "no description provided."
-    else
-      truncate(harvest.description, length: 50, separator: ' ', omission: '... ') do
-        link_to "Read more", harvest_path(harvest)
-      end
-    end
-  end
 end

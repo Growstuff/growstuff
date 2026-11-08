@@ -1327,19 +1327,6 @@ zh:
       weather_temperature_chart: 每日高点和低点
       weather_temperature_chart_alt: 每日高低温，从%{low}到%{high}。
     string: '%{crop} 在 %{garden} 中种植 %{owner}'
-    failed_modal:
-      cancel: 取消
-      close: 关闭
-      mark_as_failed: 标记为失败
-      planted_at: "种植于 %{date}"
-      title: "将 %{crop} 种植标记为失败"
-      which_planting: 您想将哪次种植标记为失败？
-    modal:
-      add_new_garden: 添加新花园
-      add_to_my_garden: 添加到我的花园
-      close: 关闭
-      title: "将 %{crop} 添加到您的花园"
-      which_garden: "要放进哪个花园？"
     transplant:
       cancel: 取消
       close: 关闭

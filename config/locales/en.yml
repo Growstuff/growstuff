@@ -453,10 +453,9 @@ en:
       summary: What are growing degree days?
       usage: 'Where you''ve told us where your garden is, we use this and the weather there to predict when your %{crop} will be ready to harvest. We don''t use it for how long a plant lives or when it finishes: we go by what members have logged for that.'
     hardiness:
-        from_packets: Work it out from members' seed packets
-        help: How much frost the crop takes. Choose a level to keep it, whatever the seed packets say.
-        label: Hardiness
-    hardiness:
+      from_packets: Work it out from members' seed packets
+      help: How much frost the crop takes. Choose a level to keep it, whatever the seed packets say.
+      label: Hardiness
       sources:
         manual: Set by a crop wrangler
         seed_packets: From members' seed packets
@@ -1819,13 +1818,6 @@ en:
       seeds_saved: Seeds saved
       sown_from_expired: Sown from expired seeds (plant before %{year})
       unknown: unknown
-    failed_modal:
-      cancel: cancel
-      close: Close
-      mark_as_failed: Mark as failed
-      planted_at: Planted %{date}
-      title: Mark %{crop} planting as failed
-      which_planting: Which planting would you like to mark as failed?
     form:
       failed_helper: 'Mark this planting as failed if it died or was removed without any harvest.
 
