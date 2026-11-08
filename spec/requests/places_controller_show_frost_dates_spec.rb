@@ -12,6 +12,10 @@ describe PlacesController, '#show frost dates', flipper: :planting_weather do
     get place_path(place)
   end
 
+  it 'tells the map where the place is, so the browser does not look it up' do
+    expect(page).to have_css('#placesmap[data-latitude="-41.29"][data-longitude="174.78"]')
+  end
+
   context 'without frost dates for the place' do
     it { is_expected.to have_no_css('.frost-section') }
   end

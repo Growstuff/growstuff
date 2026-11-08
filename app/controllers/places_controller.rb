@@ -24,9 +24,9 @@ class PlacesController < ApplicationController
   # GET /places/london.json
   def show
     @place = params[:place] # used for page title
-    latitude, longitude = Geocoder.coordinates(@place, params: { limit: 1 }) if @place.present?
-    @nearby_members = latitude && longitude ? Member.nearest_to_point(latitude, longitude) : Member.none
-    load_weather(Place.new(latitude, longitude)) if latitude && longitude && Feature.enabled?(:planting_weather)
+    @latitude, @longitude = Geocoder.coordinates(@place, params: { limit: 1 }) if @place.present?
+    @nearby_members = @latitude && @longitude ? Member.nearest_to_point(@latitude, @longitude) : Member.none
+    load_weather(Place.new(@latitude, @longitude)) if @latitude && @longitude && Feature.enabled?(:planting_weather)
     respond_to do |format|
       format.html # show.html.haml
       format.json do
