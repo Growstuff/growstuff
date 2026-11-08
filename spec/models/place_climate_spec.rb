@@ -120,6 +120,26 @@ describe PlaceClimate do
     end
   end
 
+  describe '#record_month' do
+    let(:this_year) { [build(:climate_month, year: 2026, month: 1, days: 31, rain_mm: 400.0)] }
+
+    it 'finds the wettest month on record, and its year' do
+      expect(climate.record_month(:rain, :most).to_a).to eq [1, 2026, 400.0]
+    end
+
+    it 'finds the driest month on record, the first of equal months winning' do
+      expect(climate.record_month(:rain, :least).to_a).to eq [1, 2024, 100.0]
+    end
+
+    context 'with a part month this year' do
+      let(:this_year) { [build(:climate_month, year: 2026, month: 3, days: 15, rain_mm: 5.0)] }
+
+      it 'leaves the part month out' do
+        expect(climate.record_month(:rain, :least).to_a).to eq [1, 2024, 100.0]
+      end
+    end
+  end
+
   describe '#record' do
     it 'finds the hottest day, and when, the first of equal days winning' do
       expect(climate.record(:hottest_day).to_a).to eq [37.0, Date.new(2024, 12, 5)]

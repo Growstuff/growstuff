@@ -79,7 +79,7 @@ describe ClimateHelper do
     subject(:cards) { helper.climate_rain_cards(climate) }
 
     it 'has the usual year, the wettest month and the driest' do
-      expect(cards.pluck(:label)).to eq ['Usual year', 'Wettest month', 'Driest month']
+      expect(cards.pluck(:label)).to eq ['Usual year', 'Wettest month on record', 'Driest month on record']
     end
 
     it 'adds up the usual year' do
