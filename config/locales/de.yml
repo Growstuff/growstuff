@@ -100,10 +100,10 @@ de:
         job_ideas: Vorgeschlagene Jobs für Mitglieder, von ihren früheren Jobs und Pflanzungen, Erntevorlagen und was Gärtner in der Nähe tun.
         planting_weather: Temperatur- und Niederschlagsdiagramme für jede Pflanzung, basierend auf dem täglichen Wetter für den Gartenbereich.
       index:
+        disabled: Aus
+        enabled: An
         feature: Besonderheit
         intro: Schalten Sie Funktionen für alle ein oder aus.
-        'off': Aus
-        'on': An
         state: Zustand
         switch_off: Ausschalten
         switch_on: Einschalten
@@ -1392,8 +1392,8 @@ de:
       not_located: Sagen Sie uns, wo Sie gärtnern, und wir können Ihnen vorschlagen, was Sie säen sollen.
       title: Einfach zu säen in %{month} in deiner Nähe
     update:
-      'off': Wir haben aufgehört, Pflanzen vorzuschlagen.
-      'on': Zuschneidevorschläge sind zurück.
+      disabled: Wir haben aufgehört, Pflanzen vorzuschlagen.
+      enabled: Zuschneidevorschläge sind zurück.
   unauthorized:
     create:
       all: Bitte melden Sie sich an oder registrieren Sie sich, um eine %{subject} zu erstellen.
