@@ -229,7 +229,7 @@ GEM
       logger
     faraday-net_http (3.5.0)
       net-http (~> 0.5)
-    ffi (1.17.4)
+    fast_ignore (0.17.4)
     ffi (1.17.4-x86_64-linux-gnu)
     flay (2.14.4)
       erubi (~> 1.10)
@@ -337,6 +337,10 @@ GEM
       addressable (~> 2.8)
       childprocess (~> 5.0)
       logger (~> 1.6)
+    leftovers (0.12.2)
+      fast_ignore (>= 0.17.0)
+      parallel
+      parser
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
     lint_roller (1.1.0)
@@ -437,7 +441,6 @@ GEM
     path_expander (2.0.1)
     percy-capybara (5.0.1)
       capybara (>= 3)
-    pg (1.7.0)
     pg (1.7.0-x86_64-linux)
     pp (0.6.4)
       prettyprint
@@ -720,6 +723,7 @@ DEPENDENCIES
   jsbundling-rails
   json (< 3)
   kramdown
+  leftovers (~> 0.12.2)
   letter_opener
   listen
   loofah (>= 2.19.1)
