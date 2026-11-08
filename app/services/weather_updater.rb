@@ -13,8 +13,6 @@ class WeatherUpdater
 
   # ERA5 trails real time by about five days.
   LAG_DAYS = 5
-  # Only the first year of a planting's life, so a decade-old planting nobody finished costs no more.
-  MAX_PLANTING_DAYS = 366
   # How far back the first fetch for a new place reaches. History fills in the rest.
   CURRENT_DAYS = 30
   CHUNK_DAYS = 366
@@ -24,9 +22,6 @@ class WeatherUpdater
   DAILY_BUDGET = 4500
   # 600 calls a minute is a tenth of a second per call.
   SECONDS_PER_CALL = 0.1
-  # Open-Meteo counts a request for more than 10 variables, or more than 2 weeks, as several calls.
-  VARIABLES_PER_CALL = 10.0
-  DAYS_PER_CALL = 14.0
 
   attr_reader :calls_used
 
@@ -47,7 +42,7 @@ class WeatherUpdater
   private
 
   def cells_by_busiest
-    cells = plantings.group_by { |planting| WeatherReading.grid_point(planting.garden.latitude, planting.garden.longitude) }
+    cells = plantings.group_by(&:weather_cell)
       .map { |(latitude, longitude), grouped| build_cell(latitude, longitude, grouped) }
     cells.reject { |cell| cell.ranges.empty? }.sort_by { |cell| -cell.planting_count }
   end
@@ -63,7 +58,7 @@ class WeatherUpdater
   end
 
   def planting_range(planting)
-    [[history_start(planting), FIRST_DAY].max, [planting.finished_at, last_day(planting), @today - LAG_DAYS].compact.min]
+    [[first_day(planting), FIRST_DAY].max, [planting.finished_at, @today - LAG_DAYS].compact.min]
   end
 
   # Joins stretches of dates that overlap or touch, and leaves the rest apart.
@@ -77,9 +72,11 @@ class WeatherUpdater
     end
   end
 
-  # A planting is followed for as long as it grows, up to a year, even past the day it was due.
-  def last_day(planting)
-    planting.planted_at + MAX_PLANTING_DAYS
+  # A planting is followed from the day it was planted, but only for its last year, so a decade-old perennial costs
+  # no more than one planted last year. A recent one also gets the year before it started, as below.
+  def first_day(planting)
+    shown_from = planting.weather_first_day(@today)
+    shown_from > planting.planted_at ? shown_from : history_start(planting)
   end
 
   # A planting still growing is shown the rest of its life as last year's weather for the same days,
@@ -133,7 +130,7 @@ class WeatherUpdater
   end
 
   def fetch(cell, from, to)
-    cost = call_cost(from, to)
+    cost = OpenMeteoClient.call_cost(from, to)
     return 0 if from > to || @calls_used + cost > @budget
 
     @calls_used += cost
@@ -147,10 +144,6 @@ class WeatherUpdater
   # Wait long enough that heavy requests, a year of history being about 60 calls, stay inside the per-minute limit.
   def pause(cost)
     sleep(cost * @seconds_per_call) if @seconds_per_call.positive?
-  end
-
-  def call_cost(from, to)
-    [(to - from + 1) / DAYS_PER_CALL, 1].max * [OpenMeteoClient::VARIABLES.size / VARIABLES_PER_CALL, 1].max
   end
 
   # One statement for the whole stretch. Every row needs every column, so any value Open-Meteo lacked is nil.

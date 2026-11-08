@@ -20,6 +20,19 @@ describe 'Weather on a planting', flipper: :planting_weather do
     it { expect(page).to have_link 'CC BY 4.0', href: 'https://creativecommons.org/licenses/by/4.0/' }
   end
 
+  context 'with only last year\'s readings to expect' do
+    let(:today) { Time.zone.today }
+    let(:planting) do
+      create(:planting, garden:, owner: garden.owner, crop: create(:crop, median_lifespan: 100), planted_at: today - 1).tap do
+        create(:weather_reading, date: (today + 5).prev_year, rainfall_mm: 4.0)
+      end
+    end
+
+    it { expect(page).to have_css '#weather rect.weather-expected' }
+    it { expect(page).to have_no_text "We're loading the weather" }
+    it { expect(page).to have_no_css '.weather-summary' }
+  end
+
   context 'without readings' do
     it { expect(page).to have_no_css '#weather' }
     it { expect(page).to have_text "We're loading the weather for this garden's area" }

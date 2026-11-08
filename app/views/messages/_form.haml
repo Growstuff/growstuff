@@ -14,7 +14,7 @@
         = link_to "#{@seed.crop_name} seeds", seed_path(@seed)
     = f.text_field :subject, value: @subject, class: 'form-control', maxlength: 255, required: true
 
-  = f.text_area :body, rows: 12, label: "Type your message here", required: true
+  = f.text_area :body, value: @body, rows: 12, label: "Type your message here", required: true
   %span.form-text= render partial: "shared/markdown_help"
 
   .card-footer

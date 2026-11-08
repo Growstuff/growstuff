@@ -18,9 +18,6 @@
         = render 'plantings/progress', planting: planting
     .card-footer
       %small
-        Planted by
-        = link_to member_path(slug: planting.owner_slug), class: "owner-link" do
-          = planting.owner_login_name
-        in
-        = link_to garden_path(slug: planting.garden_slug), class: "garden-link" do
-          = planting.garden_name
+        = t('.planted_by_in_html',
+          owner: link_to(planting.owner_login_name, member_path(slug: planting.owner_slug), class: "owner-link"),
+          garden: link_to(planting.garden_name, garden_path(slug: planting.garden_slug), class: "garden-link"))

@@ -10,6 +10,11 @@ describe('PickerButton', () => {
     expect(screen.getByRole('button', {name: 'Add garden'})).toBeInTheDocument();
   });
 
+  it('puts an icon before the label', () => {
+    render(<PickerButton label="Change" icon="fas fa-pen" onClick={vi.fn()} />);
+    expect(screen.getByRole('button', {name: 'Change'}).querySelector('i.fa-pen')).toBeInTheDocument();
+  });
+
   it('calls onClick when clicked', async () => {
     const onClick = vi.fn();
     render(<PickerButton label="Add garden" onClick={onClick} />);

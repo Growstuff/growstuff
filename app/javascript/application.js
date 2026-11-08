@@ -7,6 +7,8 @@ import 'jquery-ui/dist/jquery-ui';
 import 'leaflet.markercluster';
 
 import './site/auto_suggest';
+import './site/crop_job_season';
+import './site/copy_credit';
 import './site/cropmap';
 import './site/editable';
 import './site/finish_toggle';
@@ -32,6 +34,16 @@ document.addEventListener('DOMContentLoaded', function() {
   var tooltipTrigger = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
   tooltipTrigger.map(function(tooltipTrigger2) {
     return new bootstrap.Tooltip(tooltipTrigger2);
+  });
+});
+
+// The bands of a planting's frost timeline sit side by side, so only one says its piece at a time.
+document.addEventListener('show.bs.tooltip', function(event) {
+  document.querySelectorAll('.frost-band').forEach(function(band) {
+    if (band !== event.target) {
+      var tooltip = bootstrap.Tooltip.getInstance(band);
+      if (tooltip) tooltip.hide();
+    }
   });
 });
 

@@ -1,0 +1,9 @@
+-# Shown to a member on their own profile when they have no email we can use.
+.alert.alert-info{ role: 'status' }
+  - if member.pending_reconfirmation?
+    %strong= t('.waiting_title')
+    = t('.waiting_body', email: member.unconfirmed_email)
+  - else
+    %strong= t('.unset_title')
+    = t('.unset_body')
+    = link_to t('.add_email'), edit_member_registration_path(anchor: 'email'), class: 'alert-link'

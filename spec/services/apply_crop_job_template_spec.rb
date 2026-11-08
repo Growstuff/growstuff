@@ -59,6 +59,18 @@ describe ApplyCropJobTemplate do
       end
     end
 
+    context 'with a step on the first harvest and the weather saying when' do
+      include_context 'with a heat predicted first harvest'
+
+      before do
+        create(:crop_job_step, crop_job_template: template, name: 'Pick', anchor: 'first_harvest', offset_amount: 0, offset_unit: 'days')
+      end
+
+      it 'dates the job from the day the weather has it ready' do
+        expect(apply.call.find { |job| job.name == 'Pick' }.due_date).to eq heat_predicted_on
+      end
+    end
+
     context 'with a planting that has no planting date' do
       let(:planting) { create(:planting, planted_at: nil) }
 

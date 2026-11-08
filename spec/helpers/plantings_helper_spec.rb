@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe PlantingsHelper do
+  include ActiveSupport::Testing::TimeHelpers
+
   describe "display_planting" do
     let!(:member) { build(:member, login_name: 'crop_lady') }
 
@@ -110,20 +112,40 @@ describe PlantingsHelper do
   end
 
   describe '#weather_axis_days' do
-    let(:planted_at) { Date.new(2026, 10, 1) }
+    let(:today) { Date.new(2026, 10, 15) }
+    let(:crop) { create(:crop, median_lifespan: 100) }
+    let(:planting) { build(:planting, crop:, planted_at: today - 10, finished_at: nil) }
+
+    before { travel_to(today) }
 
     it 'spans the crop lifespan, and its last day' do
-      expect(helper.weather_axis_days(instance_double(Planting, weather_due_on: planted_at + 100, planted_at:, finished_at: nil))).to eq 101
+      expect(helper.weather_axis_days(planting)).to eq 101
     end
 
-    it 'runs on to today for a planting still growing past its due date' do
-      planting = instance_double(Planting, weather_due_on: Time.zone.today - 20, planted_at: Time.zone.today - 30, finished_at: nil)
-      expect(helper.weather_axis_days(planting)).to eq 31
+    context 'when it is growing past its due date' do
+      let(:crop) { create(:crop, median_lifespan: 4) }
+
+      it 'runs on to today' do
+        expect(helper.weather_axis_days(planting)).to eq 11
+      end
     end
 
-    it 'runs from planting to finishing without a known lifespan' do
-      planting = instance_double(Planting, weather_due_on: nil, planted_at:, finished_at: planted_at + 2)
-      expect(helper.weather_axis_days(planting)).to eq 3
+    context 'without a known lifespan' do
+      let(:crop) { create(:crop, median_lifespan: nil) }
+      let(:planting) { build(:planting, crop:, planted_at: today - 2, finished: true, finished_at: today) }
+
+      it 'runs from planting to finishing' do
+        expect(helper.weather_axis_days(planting)).to eq 3
+      end
+    end
+
+    context 'when it was planted over a year ago' do
+      let(:crop) { create(:crop, median_lifespan: nil) }
+      let(:planting) { build(:planting, crop:, planted_at: today - 800, finished_at: nil) }
+
+      it 'shows the last year' do
+        expect(helper.weather_axis_days(planting)).to eq 366
+      end
     end
   end
 

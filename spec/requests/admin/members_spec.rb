@@ -51,6 +51,12 @@ RSpec.describe 'Admin::Members', type: :request do
         expect(response.body).to include('Harvests')
         expect(response.body).to include('Jobs')
       end
+
+      it 'displays the spam score column and badge' do
+        get admin_members_path
+        expect(response.body).to include('Spam Score')
+        expect(response.body).to include('spam-score-badge')
+      end
     end
 
     context 'when requesting deactivated tab (status=deactivated)' do
@@ -59,6 +65,11 @@ RSpec.describe 'Admin::Members', type: :request do
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('deleted_user')
         expect(response.body).not_to include('active_spammer')
+      end
+
+      it 'displays the spam score column' do
+        get admin_members_path(status: 'deactivated')
+        expect(response.body).to include('Spam Score')
       end
     end
   end

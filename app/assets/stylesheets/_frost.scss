@@ -1,0 +1,339 @@
+// The frost section of a planting or garden page: a verdict, the frost danger season (with the planting against it), and a few figures.
+$frost-lane: #ecebe6;
+$frost-line: 1px solid rgba($brown, 0.15);
+$frost-possible: repeating-linear-gradient(135deg, $blue 0, $blue 2px, $white 2px, $white 7px);
+$frost-finished: #6c757d;
+$frost-to-come: #cfe3c4;
+$frost-safe: #d7e8f2;
+$frost-clear: #e8f5e9;
+$frost-warning: #fff8e1;
+
+.frost-section {
+  // The card, its green bar and the bar's title are the record page's own section styling: see _record_page.scss.
+  .frost-section-badge {
+    border: 1px solid $white;
+    border-radius: 999px;
+    color: $white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.75rem;
+    text-decoration: none;
+  }
+
+  .frost-section-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  h3 {
+    font-size: 120%;
+    font-weight: 500;
+    margin: 0 0 0.75rem;
+  }
+
+  // The verdict: an icon, a headline and a sentence, tinted by how it stands.
+  .frost-verdict {
+    background: $white;
+    border: $frost-line;
+    border-radius: $card-radius;
+    display: flex;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .frost-verdict--passed,
+  .frost-verdict--finished_clear {
+    background: $frost-clear;
+  }
+
+  .frost-verdict--in_season,
+  .frost-verdict--finished_hit {
+    background: $frost-warning;
+  }
+
+  .frost-verdict--finished_undated {
+    background: $frost-lane;
+  }
+
+  .frost-verdict-icon {
+    align-items: center;
+    background: $blue;
+    border-radius: 50%;
+    color: $white;
+    display: flex;
+    flex: none;
+    height: 44px;
+    justify-content: center;
+    width: 44px;
+  }
+
+  .frost-verdict--passed .frost-verdict-icon,
+  .frost-verdict--finished_clear .frost-verdict-icon {
+    background: $green;
+  }
+
+  .frost-verdict--in_season .frost-verdict-icon,
+  .frost-verdict--late_possible .frost-verdict-icon,
+  .frost-verdict--finished_hit .frost-verdict-icon {
+    background: $orange;
+    color: #212121;
+  }
+
+  .frost-verdict--rare .frost-verdict-icon {
+    background: $brown;
+  }
+
+  .frost-verdict-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .frost-verdict-body {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: 0.4rem;
+  }
+
+  // The timeline: two rows of bands on one axis of months.
+  .frost-lanes {
+    position: relative;
+  }
+
+  .frost-lane-label {
+    color: $brown;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin: 0.4rem 0 0.2rem;
+  }
+
+  .frost-lane {
+    background: $frost-lane;
+    border-radius: $card-radius;
+    height: 44px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  // A band says what it is on hover or click, so it looks as if it can be pointed at.
+  .frost-band {
+    bottom: 0;
+    cursor: help;
+    position: absolute;
+    top: 0;
+  }
+
+  .frost-band-label {
+    align-items: center;
+    display: flex;
+    font-size: 0.8rem;
+    font-weight: 700;
+    height: 100%;
+    overflow: hidden;
+    padding: 0 0.5rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .frost-band:focus-visible {
+    outline: 2px solid $brown;
+    outline-offset: -2px;
+  }
+
+  .frost-band--usual {
+    background: $blue;
+    color: $white;
+  }
+
+  .frost-band--possible {
+    background: $frost-possible;
+  }
+
+  // The outlines are inset shadows, not borders, so every band's label sits the same distance from its edge.
+  .frost-band--frost_safe {
+    background: $frost-safe;
+    box-shadow: inset 2px 0 0 $blue, inset 0 2px 0 $blue, inset 0 -2px 0 $blue;
+  }
+
+  .frost-band--so_far {
+    background: $green;
+    color: $white;
+  }
+
+  .frost-band--still_to_come {
+    background: $frost-to-come;
+    box-shadow: inset -2px 0 0 $green, inset 0 2px 0 $green, inset 0 -2px 0 $green;
+  }
+
+  .frost-band--finished,
+  .frost-band--planted {
+    background: $frost-finished;
+    color: $white;
+  }
+
+  // A planting that went in on one day, with no finish date, is a marker, not a bar.
+  .frost-band--planted {
+    min-width: 4px;
+  }
+
+  .frost-today {
+    background: #212121;
+    border-radius: 999px;
+    color: $white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.15rem 0.6rem;
+    position: absolute;
+    top: -1.7rem;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 3;
+  }
+
+  .frost-today-line {
+    border-left: 2px solid #212121;
+    bottom: 0;
+    position: absolute;
+    top: -0.4rem;
+    z-index: 2;
+  }
+
+  // Room above the lanes for the pill that says today.
+  .frost-chart--today {
+    padding-top: 1.7rem;
+  }
+
+  .frost-annotation {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0.5rem 0 0;
+  }
+
+  .frost-axis {
+    border-top: 1px solid #757575;
+    height: 2.4rem;
+    margin-top: 0.6rem;
+    position: relative;
+  }
+
+  .frost-tick {
+    border-left: 1px solid #757575;
+    color: $brown;
+    font-size: 0.8rem;
+    height: 0.4rem;
+    position: absolute;
+    top: 0;
+
+    .frost-month-long,
+    .frost-month-short {
+      left: 3px;
+      position: absolute;
+      top: 0.45rem;
+    }
+
+    .frost-year {
+      color: #212121;
+      font-weight: 700;
+      left: 3px;
+      position: absolute;
+      top: 1.4rem;
+    }
+  }
+
+  .frost-month-short {
+    display: none;
+  }
+
+  .frost-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    list-style: none;
+    margin: 0.9rem 0 0;
+    padding: 0;
+  }
+
+  .frost-key {
+    display: inline-block;
+    height: 14px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    width: 22px;
+  }
+
+  .frost-key.frost-band--possible {
+    border: 1px solid $blue;
+  }
+
+  .frost-key.frost-band--frost_safe {
+    box-shadow: inset 0 0 0 2px $blue;
+  }
+
+  .frost-key.frost-band--still_to_come {
+    box-shadow: inset 0 0 0 2px $green;
+  }
+
+  .frost-cards {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  }
+
+  .frost-card {
+    border: $frost-line;
+    border-radius: $card-radius;
+    padding: 0.9rem 1rem;
+  }
+
+  .frost-card-label {
+    color: $brown;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .frost-card-value {
+    font-size: 1.9rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-top: 0.1rem;
+  }
+
+  .frost-card-note {
+    color: $brown;
+    margin-top: 0.1rem;
+  }
+
+  .frost-about {
+    border-top: $frost-line;
+    color: $brown;
+    line-height: 1.5;
+    padding-top: 1rem;
+
+    p {
+      margin: 0 0 0.5rem;
+    }
+
+    strong {
+      color: #212121;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .frost-band-label {
+      display: none;
+    }
+
+    .frost-month-long {
+      display: none;
+    }
+
+    .frost-month-short {
+      display: inline;
+    }
+  }
+}

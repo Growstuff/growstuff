@@ -126,11 +126,13 @@ class PlantingsController < DataController
     @weather = @planting.weather_readings.select(*WeatherReading::CHARTED).to_a
     @expected_weather = @planting.expected_weather_readings(after: @weather.last&.date)
     @weather_status = weather_status
+    @frost = PlantingFrost.for(@planting, readings: @weather)
   end
 
   # What the page says about weather: the charts, a request for a location from whoever can give one, or that it is on its way.
+  # A planting with nothing observed yet still gets charts when there is last year's weather to expect.
   def weather_status
-    return :charts if @weather.any?
+    return :charts if @weather.any? || @expected_weather.any?
     return :pending if @planting.weather_pending?
 
     :needs_location if @planting.planted? && !@planting.weather_located? && can?(:edit, @planting.garden)
@@ -178,7 +180,7 @@ class PlantingsController < DataController
     params.require(:planting).permit(
       :crop_id, :alternate_name_id, :description, :garden_id, :planted_at,
       :parent_seed_id,
-      :quantity, :sunniness, :planted_from, :finished,
+      :quantity, :sunniness, :planted_from, :hardiness, :finished,
       :finished_at, :failed, :overall_rating
     )
   end

@@ -93,6 +93,20 @@ describe('LocationPicker', () => {
     }));
   });
 
+  it('shows the saved place in place of reloading when given somewhere to show it', async () => {
+    stubFetch({data: [places[0]]}, {data: {}});
+    const reload = vi.fn();
+    vi.stubGlobal('location', {...window.location, reload});
+    document.body.insertAdjacentHTML('beforeend', '<strong id="shown">Not set</strong>');
+    render(<LocationPicker label="Set location" searchUrl="/places" saveUrl="/location" displayId="shown" />);
+    await userEvent.click(screen.getByRole('button', {name: 'Set location'}));
+    await search('Wellington');
+    await screen.findByRole('radio');
+    await userEvent.click(screen.getByRole('button', {name: 'Save location'}));
+    await vi.waitFor(() => expect(document.getElementById('shown')).toHaveTextContent('Wellington, NZ'));
+    expect(reload).not.toHaveBeenCalled();
+  });
+
   it('says when saving fails', async () => {
     stubFetch({data: [places[0]]}, {ok: false, status: 500});
     await open();

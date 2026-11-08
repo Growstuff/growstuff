@@ -561,6 +561,19 @@ ul.thumbnail-buttons {
   text-transform: none;
 }
 
+// Checkboxes and radio buttons show a pointer cursor on hover unless disabled
+.form-check-input,
+.form-check-label {
+  cursor: pointer;
+}
+
+.form-check-input:disabled,
+.form-check-input:disabled ~ .form-check-label,
+.form-check-input[disabled],
+.form-check-input[disabled] ~ .form-check-label {
+  cursor: default;
+}
+
 // A .btn with no colour variant is plain text in Bootstrap 5, so it reads as a
 // link. Draw it as the old skin did: no fill, dark text, raised, darker while hovered.
 .btn:not([class*="btn-"]) {

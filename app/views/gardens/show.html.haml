@@ -23,6 +23,7 @@
           .mb-3
             = render 'jobs/ideas_banner', href: suggestions_path, open: false,
               text: t('.suggested_plantings', count: @suggestion_count), go: t('.suggested_plantings_go')
+        = render 'stalls/card', member: @garden.owner if @garden.nursery?
         = render 'gardens/facts', garden: @garden, growing_now: @current_plantings.size
         = render 'gardens/description', garden: @garden
         = render 'gardens/join_prompt', garden: @garden unless member_signed_in?
@@ -39,6 +40,7 @@
           = render 'gardens/photos_section'
           = render 'gardens/jobs_section'
 
+        = render 'frost/section', frost: @frost if @frost
         = render 'gardens/companions', companions: @suggested_companions if @suggested_companions.any?
         - if @finished_plantings.any? || @finished_jobs&.size&.positive?
           %section.garden-previously= render 'previously'

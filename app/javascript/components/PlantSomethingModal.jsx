@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import {postJson} from '../api';
 import {daysBefore, localToday} from '../dates';
+import {errorMessages} from '../errors';
 import CropPicker from './CropPicker';
 import Modal from './Modal';
 import Steps from './Steps';
@@ -10,20 +11,6 @@ import WhenPicker from './WhenPicker';
 const FIELD_NAMES = {crop: 'Crop', garden: 'Garden'};
 const STEPS = ['Choose a crop', 'Confirm'];
 const STEPS_WITH_GARDEN = ['Choose a crop', 'Which garden?', 'Confirm'];
-
-function humanize(field) {
-  return FIELD_NAMES[field] || field.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
-}
-
-function errorMessages(status, data) {
-  if (status === 422 && data && data.errors) {
-    const messages = Object.entries(data.errors).flatMap(([field, list]) => list.map((m) => `${humanize(field)} ${m}`));
-    if (messages.length > 0) return messages;
-  }
-  if (status === 403) return ['You can\'t plant in this garden.'];
-  if (status === 401) return ['Please sign in again to plant something.'];
-  return ['Something went wrong saving that. Please try again.'];
-}
 
 // "Add planting", as a dialog over the garden cards. Two steps: search
 // for a crop and choose it, then confirm what you chose and it is planted in the
@@ -69,7 +56,7 @@ export default function PlantSomethingModal({garden: fixedGarden, gardens = [], 
         onCreated(data.garden, crop); // closes this dialog
         return;
       }
-      setErrors(errorMessages(status, data));
+      setErrors(errorMessages(status, data, {forbidden: 'You can\'t plant in this garden.', signedOut: 'Please sign in again to plant something.'}));
     } catch (error) {
       setErrors(['Couldn\'t reach the server. Please try again.']);
     }

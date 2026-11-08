@@ -12,7 +12,7 @@ const FAILED = {byField: {}, other: ['Something went wrong joining. Please try a
 // checks as the sign up page: it posts to Devise's registrations#create as
 // JSON, shows the server's errors against their fields, and on success goes to
 // wherever the server would have sent the new member.
-export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, onSwitch}) {
+export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, onSwitch, onBluesky, onMastodon}) {
   const [values, setValues] = useState({login_name: '', email: '', password: '', password_confirmation: '', tos_agreement: false});
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({byField: {}, other: []});
@@ -69,7 +69,7 @@ export default function SignUpModal({urls, recaptchaSiteKey, siteName, onClose, 
           </div>
           {recaptchaSiteKey ? <p className="form-text fs-6 mt-3 mb-0">If you have accessibility issues with the captcha, please contact us via the links in the footer and we will help.</p> : null}
         </div>
-        <AuthFooter busy={saving} label="Sign up" busyLabel="Joining…" prompt="Already a member?" switchLabel="Sign in" switchHref={urls.sign_in_page} onSwitch={onSwitch} />
+        <AuthFooter busy={saving} label="Sign up" busyLabel="Joining…" prompt="Already a member?" switchLabel="Sign in" switchHref={urls.sign_in_page} onSwitch={onSwitch} onBluesky={onBluesky} onMastodon={onMastodon} />
       </form>
     </Modal>
   );

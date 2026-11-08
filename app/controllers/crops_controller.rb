@@ -3,7 +3,7 @@
 require 'will_paginate/array'
 
 class CropsController < ApplicationController
-  before_action :authenticate_member!, except: %i(index hierarchy search show)
+  before_action :authenticate_member!, except: %i(index hierarchy search show history)
   load_and_authorize_resource id_param: :slug
   skip_authorize_resource only: %i(hierarchy search)
   respond_to :html, :json, :rss, :csv, :svg
@@ -63,13 +63,21 @@ class CropsController < ApplicationController
     end
   end
 
+  # GET /crops/lettuce/history: who changed the crop, and what, newest first.
+  def history
+    @versions = @crop.versions.reorder(created_at: :desc, id: :desc).paginate(page: params[:page], per_page: 50)
+    @version_members = Member.where(id: @versions.filter_map { |version| version.whodunnit&.to_i }).index_by(&:id)
+    @version_records = VersionsHelper.preload_records(@versions)
+  end
+
   def show
     respond_to do |format|
       format.html do
         @posts = @crop.posts.order(created_at: :desc).paginate(page: params[:page])
         @companions = @crop.companions.approved
-        member_ids = @crop.versions.reorder(nil).distinct.pluck(:whodunnit).compact.map(&:to_i)
-        @version_members = Member.where(id: member_ids).index_by(&:id)
+        last_version = @crop.versions.reorder(created_at: :desc, id: :desc).first
+        @last_edited_at = last_version&.created_at || @crop.updated_at
+        @last_editor = Member.find_by(id: last_version.whodunnit) if last_version&.whodunnit.present?
       end
       format.svg do
         icon_data = @crop.svg_icon.presence || File.read(Rails.root.join("app/assets/images/icons/sprout.svg"))
@@ -252,14 +260,17 @@ class CropsController < ApplicationController
 
   def crop_params
     params.require(:crop).permit(
+      *(:hardiness_by_hand if can?(:wrangle, Crop)),
       :name, :en_wikipedia_url, :en_youtube_url,
-      :parent_id, :perennial, :icon,
+      :parent_id, :perennial, :harvest_style, :icon,
       :request_notes, :reason_for_rejection,
       :rejection_notes,
       :description,
       :public_food_key,
       :row_spacing, :spread, :height,
       :sowing_method, :sun_requirements, :growing_degree_days,
+      :germination_days_min, :germination_days_max, :days_until_maturity_min, :days_until_maturity_max,
+      sow_months:                  [],
       scientific_names_attributes: %i(scientific_name _destroy id)
     )
   end

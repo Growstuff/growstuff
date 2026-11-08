@@ -20,9 +20,11 @@ const DEFAULT_INTRO = 'We use this to match advice to your season and latitude, 
 // Searches run when asked, not as you type: our place search (Nominatim)
 // asks that clients don't autocomplete.
 //
+// Pass displayId to show the saved place in that element and stay on the page, for a page whose form may hold unsaved edits.
+//
 // It also sets where a garden is: pass the garden's saveUrl, its own title and
 // intro, and the member's own place as profilePlace to offer it ready to save.
-export default function LocationPicker({label, buttonClass, searchUrl, saveUrl, title = DEFAULT_TITLE, intro = DEFAULT_INTRO, profilePlace = null}) {
+export default function LocationPicker({label, buttonClass, searchUrl, saveUrl, title = DEFAULT_TITLE, intro = DEFAULT_INTRO, profilePlace = null, displayId = null, icon = null}) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [places, setPlaces] = useState(null); // null: not searched yet
@@ -95,7 +97,15 @@ export default function LocationPicker({label, buttonClass, searchUrl, saveUrl, 
     try {
       const {ok} = await patchJson(saveUrl, {location: {name: chosen.name, latitude: chosen.latitude, longitude: chosen.longitude}});
       if (!ok) throw new Error('save failed');
-      window.location.reload();
+      const display = displayId && document.getElementById(displayId);
+      if (display) {
+        // Inside a form with other edits waiting, so show the place here rather than reloading.
+        display.textContent = chosen.name;
+        close();
+        setBusy(false);
+      } else {
+        window.location.reload();
+      }
     } catch (error) {
       setBusy(false);
       setMessage('Something went wrong saving that. Please try again.');
@@ -104,7 +114,7 @@ export default function LocationPicker({label, buttonClass, searchUrl, saveUrl, 
 
   return (
     <>
-      <PickerButton label={label} className={buttonClass} onClick={() => setOpen(true)} />
+      <PickerButton label={label} className={buttonClass} icon={icon} onClick={() => setOpen(true)} />
       {open && (
         <Modal title={title} titleId="location-picker-title" onClose={close}>
           <div className="modal-body">

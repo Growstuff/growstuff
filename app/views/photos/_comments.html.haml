@@ -1,0 +1,28 @@
+-# The photo's comments, then a box to add one: or, for someone not signed in, an
+-# invitation to. It posts to CommentsController as every comment does.
+- comments = photo.comments.post_order.includes(:author)
+%section.photo-comments#comments
+  %h2.photo-section-heading
+    = t('.heading')
+    %span.photo-section-count (#{comments.size})
+  - if comments.empty? && member_signed_in?
+    .photo-comment-empty= t('.empty')
+  - comments.each do |comment|
+    = render 'photos/comment', comment: comment, photo: photo
+  - if can?(:create, Comment)
+    .photo-comment.photo-comment-new
+      = render 'photos/initial', member: current_member, size: 'medium'
+      = form_with url: comments_path, scope: :comment, class: 'photo-comment-form' do |f|
+        = f.hidden_field :commentable_id, value: photo.id
+        = f.hidden_field :commentable_type, value: 'Photo'
+        = f.label :body, t('.add_comment'), class: 'fw-bold'
+        = f.text_area :body, rows: 3, required: true, class: 'form-control', placeholder: t('.placeholder')
+        .photo-comment-form-footer
+          %small.text-muted= t('.public_note_html', guidelines: link_to(t('.guidelines'), policy_community_path))
+          = f.submit t('.post'), class: 'btn btn-primary'
+  - elsif !member_signed_in?
+    .photo-comment-signin
+      %strong= t('.sign_in_prompt')
+      .d-flex.flex-wrap.gap-2
+        = link_to t('.sign_in'), new_member_session_path, class: 'btn btn-primary'
+        = link_to t('.join'), new_member_registration_path, class: 'btn btn-outline-primary'

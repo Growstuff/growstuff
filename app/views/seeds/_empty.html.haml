@@ -2,7 +2,7 @@
 - if @filtered
   %p.seed-empty
     No seeds match those filters.
-    = link_to 'Show all seeds', url_for(from: nil, within: nil, tradeable_to: nil, past: nil, page: nil)
+    = link_to 'Show all seeds', seed_view_path(**seed_filters_off)
 - elsif @show_finished
   %p.seed-empty No finished seeds yet.
 - else

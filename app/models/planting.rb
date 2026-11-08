@@ -18,6 +18,8 @@ class Planting < ApplicationRecord
   MAX_PLANTS = 100
   # How long a finished planting stays in the daily weather update: its last days of weather trail real time.
   WEATHER_FINISHED_DAYS = 30
+  # The weather shown, and collected, goes back no further than this from the last day, however long ago it was planted.
+  WEATHER_WINDOW_DAYS = 365
   PLANTED_FROM_VALUES = [
     'seed', 'seedling', 'cutting', 'root division', 'runner',
     'bulb', 'root/tuber', 'bare root plant', 'advanced plant',
@@ -46,7 +48,7 @@ class Planting < ApplicationRecord
   scope :weather_tracked, lambda { |today = Time.zone.today|
     where.not(failed: true).where(planted_at: ..today)
       .where('plantings.finished IS NOT TRUE OR plantings.finished_at >= ?', today - WEATHER_FINISHED_DAYS)
-      .joins(:garden).merge(Garden.where.not(latitude: nil).where.not(longitude: nil).where(nursery: false))
+      .joins(:garden).merge(Garden.located_for_weather)
   }
 
   #
@@ -89,7 +91,7 @@ class Planting < ApplicationRecord
   delegate :slug, :name, to: :garden, prefix: true
 
   delegate :annual?, :perennial?, :svg_icon, to: :crop
-  delegate :location, :longitude, :latitude, to: :garden
+  delegate :location, :longitude, :latitude, :weather_located?, :weather_cell, :frost_danger, to: :garden
 
   ##
   ## Validations
@@ -102,6 +104,7 @@ class Planting < ApplicationRecord
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
+  validates :hardiness, inclusion: { in: Hardiness::VALUES }
   validates :sunniness, allow_blank: true, inclusion: {
     in: SUNNINESS_VALUES, message: :not_a_valid_sunniness
   }
@@ -184,6 +187,13 @@ class Planting < ApplicationRecord
     self
   end
 
+  # The stay in a garden that keeps plants safe from frost (a nursery, a greenhouse, indoors) the planting began in, as the
+  # PlantingHistory that says where and until when, or nil when it didn't begin in one.
+  def frost_safe_stay
+    first = histories.first
+    first if first&.garden&.frost_safe?
+  end
+
   # Sown after the year its seed packet said to plant it by.
   def sown_from_expired_seeds?
     seed_plant_before.present? && planted_at.present? && planted_at > seed_plant_before
@@ -202,6 +212,12 @@ class Planting < ApplicationRecord
     latitude.present? && longitude.present?
   end
 
+  # How much frost the planting takes, and whose word that is: [source, level], with the source :planting, :seed or :crop.
+  # The planting's own say comes first, then its seed's, then its crop's. Nil when none of them knows.
+  def hardiness_found
+    { planting: hardiness, seed: parent_seed&.hardiness, crop: crop.hardiness }.find { |_source, level| Hardiness::LEVELS.include?(level) }
+  end
+
   # The weather isn't here yet but will be: this is a planting the daily update collects weather for.
   def weather_pending?
     self.class.weather_tracked.exists?(id)
@@ -212,31 +228,42 @@ class Planting < ApplicationRecord
     planted_at + expected_lifespan.to_i if planted_at.present? && expected_lifespan.present?
   end
 
-  # The weather this planting grew through, day by day: the readings for its garden's grid cell,
-  # from planting to finishing, or to today while it is still growing, even past its due date. Empty when the
-  # garden has no location.
+  # The weather this planting grew through, day by day: the readings for its garden's grid cell, for the last year of
+  # its life to date, up to today while it is still growing, even past its due date. Empty when the garden has no location.
   def weather_readings
     return WeatherReading.none unless weather_located? && planted_at.present?
 
-    weather_cell_readings.between(planted_at, weather_last_day).order(:date)
+    weather_cell_readings.between(weather_first_day, weather_last_day).order(:date)
   end
 
-  # The last day of weather to show: today for a planting still growing, and the day it finished for one that has.
+  # The last day of weather so far: today for a planting still growing, the day it finished for one that has, and for one
+  # that failed, the day it was due if that has passed, as we stop following a failed planting.
   def weather_last_day(today = Time.zone.today)
-    [finished_at, today].compact.min
+    return [finished_at, today].min if finished_at
+
+    failed? ? [weather_due_on, today].compact.min : today
+  end
+
+  # The first day of weather to show: the day it was planted, or a year before the last day, for one planted longer ago.
+  def weather_first_day(today = Time.zone.today)
+    [planted_at, weather_last_day(today) - WEATHER_WINDOW_DAYS].max
+  end
+
+  # The last day on the weather charts' axis: the last day of weather so far, or the day it is due, if later.
+  def weather_axis_last_day(today = Time.zone.today)
+    [weather_due_on, weather_last_day(today)].compact.max
   end
 
   # For a planting still growing: the weather the rest of its life will probably bring, as the readings
   # for the same days a year earlier, moved forward a year. A prediction, not an observation. `after` is the
-  # newest day already observed, when the caller has it.
-  def expected_weather_readings(after: weather_readings.maximum(:date))
-    due = weather_due_on
-    return [] if finished? || failed? || due.nil? || !weather_located?
+  # newest day already observed, when the caller has it, and `through` the last day to expect, by default the day it is due.
+  def expected_weather_readings(after: weather_readings.maximum(:date), through: weather_due_on)
+    return [] if finished? || failed? || through.nil? || !weather_located?
 
-    from = (after || (planted_at - 1)) + 1
-    return [] if from > due
+    from = (after || (weather_first_day - 1)) + 1
+    return [] if from > through
 
-    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, due.prev_year).order(:date).map do |reading|
+    weather_cell_readings.select(*WeatherReading::CHARTED).between(from.prev_year, through.prev_year).order(:date).map do |reading|
       reading.tap do
         reading.date = reading.date.next_year
         reading.readonly!
@@ -272,7 +299,7 @@ class Planting < ApplicationRecord
 
   # Daily weather for the grid cell this planting's garden is in.
   def weather_cell_readings
-    WeatherReading.at(*WeatherReading.grid_point(latitude, longitude))
+    WeatherReading.at(*weather_cell)
   end
 
   # Copied from the packet when the planting is made, as the packet may be

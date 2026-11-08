@@ -1099,3 +1099,113 @@ $notepad-trail: #a4c98c;
     animation: none;
   }
 }
+
+// A crop's jobs on its page: ruled, numbered rows, each with when it falls.
+.crop-job-templates {
+  margin-top: 1.5rem;
+}
+
+.crop-notepad {
+  margin-bottom: 1rem;
+}
+
+// Only shown to tell several templates apart, or to say a template is for part of the
+// year, so it is a subheading, not a second bar inside the section's.
+.crop-notepad-title {
+  align-items: baseline;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+
+  // The site makes headings in a section green banners with a shadow; this one is plain.
+  h3 {
+    background: none;
+    box-shadow: none;
+    color: $notepad-leaf;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.crop-notepad-season {
+  color: $ink-muted;
+  font-size: 0.85rem;
+}
+
+.crop-notepad-steps {
+  counter-reset: crop-step;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+// Numbered, not ticked: a crop's page only shows the steps, and a box would look
+// like something to fill in.
+.crop-job-step {
+  align-items: center;
+  border-top: 1px solid #eef0ea;
+  counter-increment: crop-step;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.6rem;
+  min-height: 48px;
+  padding: 0.25rem 1.1rem;
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  &::before {
+    color: $notepad-leaf;
+    content: counter(crop-step);
+    flex: none;
+    font-weight: 700;
+    text-align: right;
+    width: 1.4rem;
+  }
+}
+
+.crop-notepad-name {
+  flex: 1 1 12rem;
+  font-size: 1.05rem;
+}
+
+.crop-notepad-when,
+.crop-notepad-repeat {
+  background: $notepad-tile;
+  border-radius: 999px;
+  color: $notepad-leaf;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.15rem 0.75rem;
+  white-space: nowrap;
+}
+
+.crop-notepad-repeat {
+  background: #f3e7cf;
+  color: #6b4f1d;
+}
+
+.crop-job-signup {
+  font-weight: 600;
+}
+
+.crop-job-add {
+  margin: 0.25rem 0 1rem;
+}
+
+// White on the button, as in the heading bars, not the menu's green.
+.record-page .crop-job-add .menu-icon {
+  color: inherit;
+  margin-right: 0.4rem;
+  vertical-align: text-bottom;
+}
+
+// The steps in the dialog that adds a crop's jobs: a plain numbered list.
+.crop-job-modal-steps {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}

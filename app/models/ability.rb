@@ -24,6 +24,7 @@ class Ability
     can :planted_from, Crop
     can :harvested_for, Crop
     can :sowing_info, Crop
+    can :history, Crop
 
     # except these, which don't make sense if you're not logged in
     cannot :read, Notification
@@ -84,6 +85,11 @@ class Ability
       can :manage, AlternateName
       can :openfarm, Crop
       can :gbif, Crop
+      # Photos added from Flickr to a crop belong to cropbot, so wranglers look after them.
+      can :destroy, Photo do |photo|
+        photo.author_name.present?
+      end
+      can :refresh, Photo
     end
 
     # any member can create a crop provisionally
@@ -133,6 +139,8 @@ class Ability
     can :create,  Job
     can :update,  Job, owner_id: member.id
     can :destroy, Job, owner_id: member.id
+    can :update,  Job, garden: { owner_id: member.id }
+    can :destroy, Job, garden: { owner_id: member.id }
     can :update,  Job, garden: { garden_collaborators: { member_id: member.id } }
     can :destroy, Job, garden: { garden_collaborators: { member_id: member.id } }
 
@@ -147,6 +155,7 @@ class Ability
     can :create, Photo
     can :update, Photo, owner_id: member.id
     can :destroy, Photo, owner_id: member.id
+    can :refresh, Photo, owner_id: member.id
 
     can :create,  Seed
     can :update,  Seed, owner_id: member.id
@@ -194,6 +203,8 @@ class Ability
     cannot %i(update destroy), Job
     can :update,  Job, owner_id: member.id
     can :destroy, Job, owner_id: member.id
+    can :update,  Job, garden: { owner_id: member.id }
+    can :destroy, Job, garden: { owner_id: member.id }
     can :update,  Job, garden: { garden_collaborators: { member_id: member.id } }
     can :destroy, Job, garden: { garden_collaborators: { member_id: member.id } }
   end

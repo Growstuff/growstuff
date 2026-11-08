@@ -99,4 +99,32 @@ describe JobSuggestionsController do
       expect(suggestions).to eq []
     end
   end
+
+  context 'when in a collaborated garden\'s to-do list' do
+    let(:garden) { create(:garden) }
+    let!(:planting) { create(:planting, owner: garden.owner, crop: carrot, garden:) }
+
+    before do
+      create(:garden_collaborator, garden:, member:)
+      get job_suggestions_path, params: { q: 'carr', garden_id: garden.id }
+    end
+
+    it 'offers plantings in the collaborated garden' do
+      expect(suggestions.pluck('jobbable_id')).to eq [planting.id]
+    end
+  end
+
+  context 'when outside a garden with plantings in a collaborated garden' do
+    let(:garden) { create(:garden) }
+    let!(:planting) { create(:planting, owner: garden.owner, crop: carrot, garden:) }
+
+    before do
+      create(:garden_collaborator, garden:, member:)
+      get job_suggestions_path, params: { q: 'carr' }
+    end
+
+    it 'offers plantings in the collaborated garden' do
+      expect(suggestions.pluck('jobbable_id')).to include(planting.id)
+    end
+  end
 end

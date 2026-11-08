@@ -17,8 +17,12 @@ class Member < ApplicationRecord
   has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
+  has_one :stall, dependent: :destroy
+  has_many :claims, dependent: :destroy
   # Where they raise seedlings before planting them out.
   has_one :nursery, -> { nurseries }, class_name: 'Garden', foreign_key: 'owner_id', dependent: nil, inverse_of: :owner
+  has_many :garden_collaborators, dependent: :destroy
+  has_many :collaborating_gardens, through: :garden_collaborators, source: :garden
   has_many :plantings, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :seeds, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_many :harvests, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
@@ -91,15 +95,28 @@ class Member < ApplicationRecord
   scope :recently_joined, -> { reorder(confirmed_at: :desc) }
   scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
-  scope :wants_reminders, -> { where(send_planting_reminder: true) }
-  scope :wants_harvest_reminders, -> { where(send_harvest_reminder: true) }
+  scope :with_email, -> { where.not(email: nil) }
+  scope :wants_reminders, -> { with_email.where(send_planting_reminder: true) }
+  scope :wants_harvest_reminders, -> { with_email.where(send_harvest_reminder: true) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :timeoutable, :omniauthable
+         :confirmable, :lockable, :timeoutable, :omniauthable,
+         omniauth_providers: Authentication::SIGN_IN_PROVIDERS.keys.map(&:to_sym)
+
+  # A form's empty email field arrives as "", but only NULL may repeat in the unique index.
+  normalizes :email, with: ->(email) { email.strip.presence }
+
+  # Set while signing someone up through a provider that gave us no email.
+  attr_accessor :email_optional
+
+  # Devise's validatable asks this before insisting on an email.
+  def email_required?
+    !(email_optional || authentications.exists?(provider: Authentication::EMAIL_OPTIONAL_PROVIDERS))
+  end
 
   # discarded (deleted) member cannot log in
   def active_for_authentication?
@@ -134,6 +151,22 @@ class Member < ApplicationRecord
     update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  AVAILABLE_LOCALES = %w[en de es fr ja zh].freeze
+
+  def locale
+    settings['locale'].presence
+  end
+
+  def locale=(val)
+    if val.blank?
+      self.settings = (settings || {}).except('locale')
+    elsif AVAILABLE_LOCALES.include?(val.to_s)
+      self.settings = (settings || {}).merge('locale' => val.to_s)
+    end
+  end
+
+  RESERVED_LOGIN_NAMES = %w(growstuff admin moderator staff nearby).freeze
+
   # set up geocoding
   geocoded_by :location
 
@@ -150,7 +183,7 @@ class Member < ApplicationRecord
               minimum: 2, maximum: 25, message: :login_name_length
             },
             exclusion:  {
-              in: %w(growstuff admin moderator staff nearby), message: :login_name_reserved
+              in: RESERVED_LOGIN_NAMES, message: :login_name_reserved
             },
             format:     {
               with: /\A\w+\z/, message: :login_name_format
@@ -162,6 +195,7 @@ class Member < ApplicationRecord
   validates :other_url, format: { with: %r{\Ahttps?://}, message: :url_format }, allow_blank: true
   validates :instagram_handle, :facebook_handle, :bluesky_handle,
             format: { without: %r{\Ahttps?://|/}, message: :handle_format }, allow_blank: true
+  validates :locale, inclusion: { in: AVAILABLE_LOCALES }, allow_blank: true
 
   #
   # Triggers
@@ -172,6 +206,11 @@ class Member < ApplicationRecord
   # we use find_or_create to avoid accidentally creating a second one,
   # which can happen sometimes especially with FactoryBot associations
   after_create { |member| Garden.create(name: "Garden", owner_id: member.id) }
+
+  # Their stall, made the first time they open it.
+  def stall!
+    stall || create_stall!
+  end
 
   # Their nursery, made the first time it's wanted, as most members never need
   # one. The member may already have a garden called "Nursery", and garden names
@@ -204,15 +243,98 @@ class Member < ApplicationRecord
   end
 
   def mailboxer_email(_messageable)
-    send_notification_email ? email : false
+    send_notification_email && email.present? ? email : false
   end
 
   def role?(role_sym)
     roles.any? { |r| r.name.gsub(/\s+/, "_").underscore.to_sym == role_sym }
   end
 
+  # Removing it would leave them with no way to sign in: no email to reset a
+  # password by, and no other provider.
+  # The home page's to-do list: a name we suggested and they haven't confirmed,
+  # no email (until they decline), and an email we haven't had confirmed.
+  def username_unconfirmed?
+    settings['username'] == 'unconfirmed'
+  end
+
+  def confirm_username!
+    update_column(:settings, settings.merge('username' => 'confirmed')) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def email_declined?
+    settings['email_declined'] == true
+  end
+
+  def decline_email!
+    update_column(:settings, settings.merge('email_declined' => true)) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def email_missing?
+    email.blank? && unconfirmed_email.blank?
+  end
+
+  def email_unconfirmed?
+    unconfirmed_email.present? || (email.present? && !confirmed?)
+  end
+
+  # Members who joined through a provider have a name to confirm, and anyone
+  # without an email has the question of whether to add one.
+  def username_step?
+    settings.key?('username')
+  end
+
+  def email_step?
+    email_missing?
+  end
+
+  # Confirming an email is a step for everyone who hasn't said no to having
+  # one: still to come before they've added it, and done once it's confirmed.
+  def confirm_email_step?
+    !email_declined? && (email_missing? || email_unconfirmed? || username_step?)
+  end
+
+  def email_confirmed_step?
+    email.present? && !email_unconfirmed?
+  end
+
+  # Every row the Get started list shows for this, finished or not.
+  def setup_rows_count
+    [username_step?, email_step?, confirm_email_step?].count(true)
+  end
+
+  def setup_todo_count
+    [username_unconfirmed?, email_missing? && !email_declined?, email_unconfirmed?].count(true)
+  end
+
+  def setup_todo?
+    setup_todo_count.positive?
+  end
+
+  def last_sign_in_method?(authentication)
+    return false unless email.blank? && Authentication::EMAIL_OPTIONAL_PROVIDERS.include?(authentication.provider)
+
+    authentications.where(provider: Authentication::EMAIL_OPTIONAL_PROVIDERS).where.not(id: authentication.id).none?
+  end
+
+  # The name of the place they garden in, as the location dialog wrote it:
+  # "Wellington, Wellington Region, New Zealand" is Wellington. Nothing more
+  # precise than that is ever shown.
+  def location_place
+    location.to_s.split(',').first.to_s.squish.presence
+  end
+
+  def located?
+    location.present? && latitude.present? && longitude.present?
+  end
+
   def auth(provider)
     authentications.find_by(provider:)
+  end
+
+  # Whether they sign in with Bluesky, which is how they are known on a stall.
+  def bluesky?
+    authentications.any? { |authentication| authentication.provider == 'bluesky' }
   end
 
   def unread_count
@@ -230,6 +352,11 @@ class Member < ApplicationRecord
   # Where they say they garden, as the location dialog takes it, or nil when they haven't said.
   def located_place
     { name: location, latitude:, longitude: } if location.present? && latitude.present? && longitude.present?
+  end
+
+  # They typed a location, but it never found a place on the map.
+  def location_unplaced?
+    location.present? && located_place.nil?
   end
 
   def self.nearest_to(place, limit = 50)
@@ -250,12 +377,29 @@ class Member < ApplicationRecord
     follows.find_by(followed_id: member.id) if already_following?(member)
   end
 
+  def accessible_gardens
+    collab_ids = GardenCollaborator.where(member_id: id).select(:garden_id)
+    Garden.where(owner_id: id).or(Garden.where(id: collab_ids))
+  end
+
   def already_blocking?(member)
     blocks.exists?(blocked_id: member.id)
   end
 
   def get_block(member)
     blocks.find_by(blocked_id: member.id) if already_blocking?(member)
+  end
+
+  alias_method :banned?, :discarded?
+
+  def ban!
+    discard
+  end
+
+  def update_spam_score!
+    score = UserBehaviourDetectionService.score_for(self)
+    update_column(:spam_score, score) # rubocop:disable Rails/SkipsModelValidations
+    ban! if score >= UserBehaviourDetectionService::BAN_THRESHOLD
   end
 
   def has_activity?
