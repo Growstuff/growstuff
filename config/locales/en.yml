@@ -123,8 +123,8 @@ en:
         job_ideas: Job ideas
         planting_weather: Planting weather
       update:
-        'off': "%{feature} is now off."
-        'on': "%{feature} is now on."
+        disabled: "%{feature} is now off."
+        enabled: "%{feature} is now on."
   alternate_names:
     created: Alternate name was successfully created.
     deleted: Alternate name was successfully deleted.

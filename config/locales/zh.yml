@@ -114,8 +114,8 @@ zh:
         job_ideas: 工作思路
         planting_weather: 播种天气
       update:
-        'off': "%{feature} 现已关闭。"
-        'on': "%{feature} 现已开启。"
+        disabled: "%{feature} 现已关闭。"
+        enabled: "%{feature} 现已开启。"
   authentications:
     sign_in:
       bluesky:

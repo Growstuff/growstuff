@@ -114,8 +114,8 @@ fr:
         job_ideas: Idées d'emploi
         planting_weather: Temps de plantation
       update:
-        'off': "%{feature} est maintenant désactivé."
-        'on': "%{feature} est maintenant activé."
+        disabled: "%{feature} est maintenant désactivé."
+        enabled: "%{feature} est maintenant activé."
   authentications:
     sign_in:
       bluesky:
