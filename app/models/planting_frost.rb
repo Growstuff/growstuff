@@ -5,24 +5,32 @@
 class PlantingFrost < FrostSeason
   YEAR_DAYS = 365
 
-  attr_reader :planted_on, :ends_on
+  attr_reader :crop_name, :planted_on, :ends_on
 
   # readings: the planting's weather, as WeatherReading rows with temp_min_c.
   def self.for(planting, readings:, today: Time.zone.today)
     stat = planting.frost_danger
     return if stat.nil? || stat.unknown?
 
-    new(stat:, planted_on: planting.planted_at, ends_on: planting.finished_at || planting.weather_due_on,
-        finished: planting.finished?, readings:, today:)
+    # A finished planting with no finish date goes by its predicted finish, for the frost display only.
+    new(stat:, crop_name: planting.crop.name, planted_on: planting.planted_at,
+        ends_on: planting.finished_at || planting.weather_due_on, finished: planting.finished?, readings:, today:)
   end
 
-  def initialize(stat:, planted_on:, ends_on:, finished:, readings:, today:) # rubocop:disable Metrics/ParameterLists
+  def initialize(stat:, crop_name:, planted_on:, ends_on:, finished:, readings:, today:) # rubocop:disable Metrics/ParameterLists
     super(stat:, today:)
+    @crop_name = crop_name
     @planted_on = planted_on
     @finished = finished
     @readings = readings
     @expected_end = !ends_on.nil?
-    @ends_on = ends_on || today
+    @ends_on = ends_on || (finished ? planted_on : today)
+  end
+
+  # Whether the planting has finished, nobody said when, and there is no predicted finish either, so we can't say what
+  # it went through.
+  def end_unknown?
+    finished? && !@expected_end
   end
 
   def finished?
@@ -50,6 +58,7 @@ class PlantingFrost < FrostSeason
   # frost danger season of the year it went in.
   def verdict
     return super unless finished? && @stat.dated?
+    return :finished_undated if end_unknown?
 
     frost_nights.zero? ? :finished_clear : :finished_hit
   end
@@ -59,10 +68,11 @@ class PlantingFrost < FrostSeason
     (usual.last - @planted_on).to_i
   end
 
-  # Days from planting to the latest it has come, or to the end of the planting if that is sooner. None if it went in
-  # after the latest.
+  # The days the planting lived inside the possible frost danger, from the earliest it has come to the latest, in any
+  # season its life touched.
   def days_in_danger
-    [([possible.last, lived_until].min - start_on).to_i, 0].max
+    life = start_on..lived_until
+    [year - 1, year, year + 1].sum { |season| overlap_days(life, season_dates(season, :first_frost_p10, :last_frost_p90)) }
   end
 
   # The coldest night the planting had while frost danger was possible, in degrees, or nil with no readings.
@@ -81,7 +91,9 @@ class PlantingFrost < FrostSeason
 
   # The planting on the timeline: one bar once it has finished, else what has happened so far and what is still to come.
   def planting_bands
-    bands = if finished?
+    bands = if end_unknown?
+              [Band.new(:planted, planted_on, planted_on)]
+            elsif finished?
               [Band.new(:finished, start_on, ends_on)]
             else
               [Band.new(:so_far, start_on, today), (Band.new(:still_to_come, today + 1, ends_on) if ends_on > today)]
@@ -105,6 +117,11 @@ class PlantingFrost < FrostSeason
   # Where the planting's account of frost starts: the day it went in, or for a long-lived planting a year before it ends.
   def start_on
     long_lived? ? age_end - YEAR_DAYS : @planted_on
+  end
+
+  # How many days two date ranges share, both ends counted.
+  def overlap_days(one, other)
+    [([one.last, other.last].min - [one.first, other.first].max).to_i + 1, 0].max
   end
 
   def season_day

@@ -42,7 +42,16 @@ Capybara::Screenshot.register_driver(:selenium_chrome_customised_headless) do |d
   driver.browser.save_screenshot(path)
 end
 Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
-  "screenshot_#{example.description.tr(' ', '-').gsub(%r{^.*/spec/}, '')}"
+  sanitized = example.description
+    .gsub(%r{^.*/spec/}, '')
+    .delete(%q("'`))
+    .gsub(%r{[/\\:<>|*?\r\n]}, '-')
+    .tr(' ', '-')
+    .squeeze('-')
+    .sub(/\A-+/, '')
+    .sub(/-+\z/, '')
+  sanitized = 'unnamed' if sanitized.empty?
+  "screenshot_#{sanitized[0...200]}"
 end
 
 Capybara.app_host = 'http://localhost'

@@ -1,8 +1,10 @@
 -# The frost danger season on one axis of whole months, with the planting against it when there is one.
 - planting = frost_planting?(frost)
+-# Room above the lanes for the pill that says today, only when there is one.
+- chart_class = 'frost-chart--today' if frost.show_today?
 .frost-timeline
-  %h3= t(planting ? 'frost.timeline.title' : 'frost.timeline.title_place')
-  .frost-chart{ role: 'img', 'aria-label': frost_timeline_description(frost) }
+  %h3= t(planting ? 'frost.timeline.title' : 'frost.timeline.title_place', crop: frost_crop(frost))
+  .frost-chart{ role: 'img', 'aria-label': frost_timeline_description(frost), class: chart_class }
     .frost-lanes
       = frost_today_tags(frost)
       .frost-lane-label= t('frost.timeline.row_danger')

@@ -20,11 +20,6 @@ class FrostStat < ApplicationRecord
     FrostYear.containing(date, latitude:)
   end
 
-  # The calendar date for one of the day fields, in the frost year that `date` falls in.
-  def date_near(field, date)
-    date_for(field, frost_year_of(date))
-  end
-
   # Whether there are dates to show. Rare and unknown cells have none.
   def dated?
     last_frost_median.present?
