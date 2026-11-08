@@ -235,31 +235,6 @@ describe Member do
     end
   end
 
-  context 'near location' do
-    it 'finds nearby members and sorts them' do
-      edinburgh_member = create(:edinburgh_member)
-      london_member = create(:london_member)
-      Member.nearest_to('Greenwich, UK').should eq [london_member, edinburgh_member]
-    end
-
-    it 'leaves out members who have been deleted' do
-      edinburgh_member = create(:edinburgh_member)
-      create(:london_member).discard
-      Member.nearest_to('Greenwich, UK').should eq [edinburgh_member]
-    end
-
-    it 'returns Member.none when place is blank or un-geocoded' do
-      expect(Member.nearest_to('')).to eq Member.none
-      expect(Member.nearest_to(nil)).to eq Member.none
-    end
-
-    it 'respects the limit parameter' do
-      create(:edinburgh_member)
-      create(:london_member)
-      expect(Member.nearest_to('Greenwich, UK', 1).to_a.size).to eq 1
-    end
-  end
-
   describe 'interesting scope' do
     # interesting members are defined as:
     # 1) confirmed
