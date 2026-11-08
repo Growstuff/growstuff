@@ -14,6 +14,8 @@ class GardenFormSerializer
       area_units:          Garden::AREA_UNITS_VALUES.map { |label, value| { label: label, value: value } },
       garden_types:        GardenType.order(:name).map { |type| { id: type.id, name: type.name } },
       location_help:       I18n.t('gardens.form.location_helper'),
+      frost_safe_label:    I18n.t('gardens.form.frost_safe.label'),
+      frost_safe_help:     I18n.t('gardens.form.frost_safe.help'),
       member_has_location: @member.location.present?,
       settings_url:        Rails.application.routes.url_helpers.edit_member_registration_path
     }
@@ -28,7 +30,7 @@ class GardenFormSerializer
       name: @garden.name, description: @garden.description,
       location: @garden.location.presence || @member.location,
       area: @garden.area, area_unit: @garden.area_unit.presence || Garden::AREA_UNITS_VALUES.values.first,
-      garden_type_id: @garden.garden_type_id, active: @garden.active
+      garden_type_id: @garden.garden_type_id, active: @garden.active, frost_safe: @garden.frost_safe
     }
   end
 end

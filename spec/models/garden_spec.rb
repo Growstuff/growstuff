@@ -422,6 +422,19 @@ describe Garden do
 
       it('makes it the nursery') { expect(garden.reload).to be_nursery }
       it('replaces the old nursery') { expect(owner.gardens.nurseries).to contain_exactly(garden) }
+      it('starts it as safe from frost') { expect(garden.reload).to be_frost_safe }
+    end
+
+    it 'says how big it is, with the unit made plural' do
+      expect(build(:garden, area: 24, area_unit: 'square metre').area_text).to eq '24 square metres'
+    end
+
+    it 'says nothing of the size when it is not known' do
+      expect(build(:garden, area: nil).area_text).to be_nil
+    end
+
+    it 'starts a garden that is not a nursery as not safe from frost' do
+      expect(create(:garden)).not_to be_frost_safe
     end
 
     it 'is left out of archiving' do

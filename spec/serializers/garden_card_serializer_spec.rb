@@ -21,6 +21,14 @@ describe GardenCardSerializer do
                               url: "/gardens/#{garden.slug}", can_edit: true)
     end
 
+    it 'gives whether the garden is frost protected' do
+      expect(serialize(create(:garden, owner: member, frost_safe: true))).to include(frost_safe: true)
+    end
+
+    it 'gives the place and the size' do
+      expect(card).to include(location: 'Greenwich, UK', area: '23 acres')
+    end
+
     it 'links to the garden layout, for viewers who cannot edit it too' do
       expect(card[:layout_url]).to eq("/members/#{member.slug}/gardens/#{garden.slug}/layout")
       expect(serialize(garden, viewer: other_member)[:layout_url]).to eq(card[:layout_url])

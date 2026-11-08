@@ -14,7 +14,7 @@ module WeatherLocated
     WeatherReading.grid_point(latitude, longitude)
   end
 
-  # The typical frost danger dates for this place's weather cell, as FrostUpdater saved them, or nil when
+  # The typical frost danger dates for this place's weather cell, as ClimateUpdater saved them, or nil when
   # it has no location or they aren't worked out yet.
   def frost_danger
     return unless weather_located?

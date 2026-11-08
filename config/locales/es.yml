@@ -100,10 +100,10 @@ es:
         job_ideas: Trabajos sugeridos para los miembros, a partir de sus trabajos y plantaciones anteriores, plantillas de cultivos y lo que están haciendo los jardineros cercanos.
         planting_weather: Gráficos de temperatura y precipitaciones en cada plantación, a partir del clima diario para el área del jardín.
       index:
+        disabled: Apagado
+        enabled: En
         feature: Característica
         intro: Activa o desactiva funciones para todos.
-        'off': Apagado
-        'on': En
         state: Estado
         switch_off: Desconectar
         switch_on: Encender
@@ -114,8 +114,8 @@ es:
         job_ideas: ideas de trabajo
         planting_weather: Clima de siembra
       update:
-        'off': "%{feature} ahora está apagado."
-        'on': "%{feature} ya está activado."
+        disabled: "%{feature} ahora está apagado."
+        enabled: "%{feature} ya está activado."
   authentications:
     sign_in:
       bluesky:
@@ -381,6 +381,17 @@ es:
         other: Foto del jardín · Fotos %{count}
       hero_label: Fotos de %{garden}
       season_title: La temporada donde está este jardín.
+    inactive:
+      current_gardens: Jardines actuales
+      empty_body: No hay jardines inactivos para mostrar.
+      empty_owner_hint: Un jardín que marques como inactivo aparecerá aquí.
+      explanation: Un jardín pasa a estar inactivo cuando se marca como inactivo y sus plantaciones se marcan como finalizadas. Permanecen aquí como registro de lo que se cultivó.
+      inactive_gardens: Jardines inactivos
+      lead: Jardines que ya no están en uso y lo que se cultivó en ellos.
+      owner_gardens: Jardines de %{owner}
+      owner_reactivate_hint: Puedes volver a marcar un jardín como activo para volver a editarlo.
+      skip_to_content: Saltar al contenido principal
+      title: Jardines inactivos de %{owner}
     inactive_card:
       grown_here: Cultivado aquí
       image_alt: Imagen de %{name}
@@ -1392,8 +1403,8 @@ es:
       not_located: Díganos dónde cultiva su jardín y le sugeriremos qué sembrar.
       title: Fácil de sembrar en %{month} cerca de ti
     update:
-      'off': Hemos dejado de sugerir cultivos.
-      'on': Vuelven las sugerencias de cultivos.
+      disabled: Hemos dejado de sugerir cultivos.
+      enabled: Vuelven las sugerencias de cultivos.
   unauthorized:
     create:
       all: Inicie sesión o regístrese para crear un %{subject}.

@@ -164,6 +164,8 @@ RSpec.describe 'Rack::Attack', type: :request do
     let(:ip) { '192.168.1.100' }
     let(:restricted_routes) { %r{^(/api/v1)?/(jobs|plantings|harvests|members)(/|$)} }
 
+    around { |example| freeze_time(&example) }
+
     before do
       Rack::Attack.throttle('req/ip/restricted_routes', limit: ->(req) { Rack::Attack.modified_limit(req, 20) }, period: 1.minute) do |req|
         req.ip if req.path.match?(restricted_routes)

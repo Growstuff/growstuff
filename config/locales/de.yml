@@ -100,10 +100,10 @@ de:
         job_ideas: Vorgeschlagene Jobs für Mitglieder, von ihren früheren Jobs und Pflanzungen, Erntevorlagen und was Gärtner in der Nähe tun.
         planting_weather: Temperatur- und Niederschlagsdiagramme für jede Pflanzung, basierend auf dem täglichen Wetter für den Gartenbereich.
       index:
+        disabled: Aus
+        enabled: An
         feature: Besonderheit
         intro: Schalten Sie Funktionen für alle ein oder aus.
-        'off': Aus
-        'on': An
         state: Zustand
         switch_off: Ausschalten
         switch_on: Einschalten
@@ -114,8 +114,8 @@ de:
         job_ideas: Jobideen
         planting_weather: Pflanzwetter
       update:
-        'off': "%{feature} ist jetzt ausgeschaltet."
-        'on': "%{feature} ist jetzt aktiviert."
+        disabled: "%{feature} ist jetzt ausgeschaltet."
+        enabled: "%{feature} ist jetzt aktiviert."
   authentications:
     sign_in:
       bluesky:
@@ -381,6 +381,17 @@ de:
         other: Foto des Gartens · %{count}-Fotos
       hero_label: Fotos von %{garden}
       season_title: Die Jahreszeit, in der dieser Garten ist
+    inactive:
+      current_gardens: Aktuelle Gärten
+      empty_body: Es gibt keine inaktiven Gärten zum Anzeigen.
+      empty_owner_hint: Ein Garten, den Sie als inaktiv markieren, erscheint hier.
+      explanation: Ein Garten wird inaktiv, wenn er als inaktiv markiert wird und seine Bepflanzungen als beendet markiert sind. Sie bleiben hier als Aufzeichnung dessen, was angebaut wurde.
+      inactive_gardens: Inaktive Gärten
+      lead: Gärten, die nicht mehr genutzt werden, und was darin angebaut wurde.
+      owner_gardens: "%{owner}s Gärten"
+      owner_reactivate_hint: Sie können einen Garten wieder als aktiv markieren, um ihn weiter zu bearbeiten.
+      skip_to_content: Zum Hauptinhalt springen
+      title: "%{owner}s inaktive Gärten"
     inactive_card:
       grown_here: Hier angebaut
       image_alt: Bild von %{name}
@@ -1392,8 +1403,8 @@ de:
       not_located: Sagen Sie uns, wo Sie gärtnern, und wir können Ihnen vorschlagen, was Sie säen sollen.
       title: Einfach zu säen in %{month} in deiner Nähe
     update:
-      'off': Wir haben aufgehört, Pflanzen vorzuschlagen.
-      'on': Zuschneidevorschläge sind zurück.
+      disabled: Wir haben aufgehört, Pflanzen vorzuschlagen.
+      enabled: Zuschneidevorschläge sind zurück.
   unauthorized:
     create:
       all: Bitte melden Sie sich an oder registrieren Sie sich, um eine %{subject} zu erstellen.

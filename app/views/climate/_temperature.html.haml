@@ -1,0 +1,21 @@
+-# The temperature section of a place's page: how this year's air and soil compare with usual, and the records.
+%section.climate-section.climate-temperature
+  .section-header
+    %h2= t('climate.air.title')
+    = link_to t('frost.experimental'), '#about-temperature-estimates', class: 'climate-section-badge'
+  .climate-section-body
+    = render 'climate/verdict', verdict: climate_air_verdict(climate), measure: :air, icon: climate_icon(:air)
+    %div
+      %h3= t('climate.air.chart')
+      = render 'climate/chart', climate:, measure: :air
+    %div
+      %h3= t('climate.air.soil_chart')
+      = render 'climate/chart', climate:, measure: :soil
+    = render 'climate/cards', cards: climate_air_cards(climate)
+    - records = climate_record_cards(climate)
+    - if records.any?
+      %div
+        %h3= t('climate.air.records', count: climate.years_held)
+        = render 'climate/cards', cards: records
+    = render 'climate/table', climate:, columns: { t('climate.table.air') => :air, t('climate.table.soil') => :soil }
+    = render 'climate/credit', id: 'about-temperature-estimates'

@@ -100,10 +100,10 @@ fr:
         job_ideas: Emplois suggérés pour les membres, à partir de leurs emplois et plantations passés, des modèles de cultures et de ce que font les jardiniers à proximité.
         planting_weather: Graphiques de température et de précipitations sur chaque plantation, à partir de la météo quotidienne pour la zone du jardin.
       index:
+        disabled: Arrêt
+        enabled: Marche
         feature: Fonctionnalité
         intro: Activez ou désactivez les fonctionnalités pour tout le monde.
-        'off': Arrêt
-        'on': Marche
         state: État
         switch_off: Éteindre
         switch_on: Allumer
@@ -114,8 +114,8 @@ fr:
         job_ideas: Idées d'emploi
         planting_weather: Temps de plantation
       update:
-        'off': "%{feature} est maintenant désactivé."
-        'on': "%{feature} est maintenant activé."
+        disabled: "%{feature} est maintenant désactivé."
+        enabled: "%{feature} est maintenant activé."
   authentications:
     sign_in:
       bluesky:
@@ -381,6 +381,17 @@ fr:
         other: Photo du jardin · %{count} photos
       hero_label: Photos de %{garden}
       season_title: La saison où ce jardin est
+    inactive:
+      current_gardens: Jardins actuels
+      empty_body: Il n'y a aucun jardin inactif à afficher.
+      empty_owner_hint: Un jardin que vous marquez comme inactif apparaîtra ici.
+      explanation: Un jardin devient inactif lorsqu'il est marqué comme inactif et que ses plantations sont marquées comme terminées. Ils restent ici comme archive de ce qui a été cultivé.
+      inactive_gardens: Jardins inactifs
+      lead: Jardins qui ne sont plus utilisés et ce qui y a été cultivé.
+      owner_gardens: Jardins de %{owner}
+      owner_reactivate_hint: Vous pouvez marquer à nouveau un jardin comme actif pour recommencer à le modifier.
+      skip_to_content: Passer au contenu principal
+      title: Jardins inactifs de %{owner}
     inactive_card:
       grown_here: Cultivé ici
       image_alt: Image de %{name}
@@ -1394,8 +1405,8 @@ fr:
       not_located: Dites-nous où vous jardinez et nous pouvons vous suggérer quoi semer.
       title: Facile à semer dans %{month} près de chez vous
     update:
-      'off': Nous avons cessé de suggérer des cultures.
-      'on': Les suggestions de cultures sont de retour.
+      disabled: Nous avons cessé de suggérer des cultures.
+      enabled: Les suggestions de cultures sont de retour.
   unauthorized:
     create:
       all: Veuillez vous connecter ou vous inscrire pour créer un %{subject}.

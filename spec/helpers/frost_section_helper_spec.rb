@@ -211,4 +211,14 @@ describe FrostSectionHelper do
       expect(helper.frost_percent(0.5)).to eq '50.0%'
     end
   end
+
+  describe '#frost_band_tip' do
+    it 'says what a possible band is, which has no label of its own' do
+      expect(helper.frost_band_tip(frost, frost.danger_bands.first)).to start_with 'Frost has come as early or late as this: '
+    end
+
+    it 'gives the real end of a band the timeline cuts off' do
+      expect(helper.frost_band_tip(frost, frost.danger_bands.last)).to end_with '29 Aug'
+    end
+  end
 end

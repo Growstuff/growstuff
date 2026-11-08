@@ -17,6 +17,12 @@ describe PlacesController do
       response.should render_template(:index)
     end
 
+    it "leaves deleted members off the map" do
+      @london_member.discard
+      get :index, format: :json
+      expect(response.parsed_body).to be_empty
+    end
+
     it "returns JSON with paginated located members" do
       get :index, format: :json
       response.should be_successful

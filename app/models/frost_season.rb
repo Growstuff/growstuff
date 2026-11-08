@@ -7,9 +7,15 @@
 # The usual dates are the medians of past years and the possible ones are the earliest and latest it has come: see
 # FrostStat. Approximate, regional and experimental.
 class FrostSeason
-  # A stretch of the timeline. kind is :usual or :possible for frost danger, and :so_far, :still_to_come or :finished
-  # for a planting. open is true when the timeline cuts the band off before its real end.
-  Band = Struct.new(:kind, :from, :to, :open)
+  # A stretch of the timeline. kind is :usual or :possible for frost danger, and for a planting :so_far, :still_to_come,
+  # :finished, :planted (no finish date) or :frost_safe (its days somewhere safe from frost). last is where the band really
+  # ends, which the timeline may cut short.
+  Band = Struct.new(:kind, :from, :to, :last) do
+    # Whether the timeline cuts the band off before its real end.
+    def open?
+      !last.nil? && last > to
+    end
+  end
 
   THRESHOLD_C = FrostCalculator::FROST_DANGER_C
   SOON_DAYS = 60
@@ -154,7 +160,7 @@ class FrostSeason
   def clip(band)
     from = [band.from, axis.first].max
     to = [band.to, axis.last].min
-    Band.new(band.kind, from, to, band.to > axis.last) if from <= to
+    Band.new(band.kind, from, to, band.to) if from <= to
   end
 
   def axis_days

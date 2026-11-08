@@ -365,7 +365,11 @@ class Member < ApplicationRecord
     latitude, longitude = Geocoder.coordinates(place, params: { limit: 1 })
     return Member.none unless latitude && longitude
 
-    relation = Member.located.near([latitude, longitude], 1000)
+    nearest_to_point(latitude, longitude, limit)
+  end
+
+  def self.nearest_to_point(latitude, longitude, limit = 50)
+    relation = Member.kept.located.near([latitude, longitude], 1000)
     limit ? relation.limit(limit) : relation
   end
 

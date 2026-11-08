@@ -108,10 +108,10 @@ en:
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
         planting_weather: Temperature and rainfall charts on each planting, from daily weather for the garden's area.
       index:
+        disabled: 'Off'
+        enabled: 'On'
         feature: Feature
         intro: Switch features on or off for everyone.
-        'off': 'Off'
-        'on': 'On'
         state: State
         switch_off: Switch off
         switch_on: Switch on
@@ -123,8 +123,8 @@ en:
         job_ideas: Job ideas
         planting_weather: Planting weather
       update:
-        'off': "%{feature} is now off."
-        'on': "%{feature} is now on."
+        disabled: "%{feature} is now off."
+        enabled: "%{feature} is now on."
   alternate_names:
     created: Alternate name was successfully created.
     deleted: Alternate name was successfully deleted.
@@ -175,6 +175,75 @@ en:
     unlike: Remove like
     view: View
     write_blog_post: Write blog post
+  climate:
+    about_estimates: These figures are from 25 km weather-model data, not readings from a station at your garden, so your own rain and temperatures can differ. Check your national weather service before relying on them.
+    air:
+      body_above: The average air temperature since 1 January is %{air} °C, which is %{difference} °C above the usual %{usual} °C for this date.
+      body_below: The average air temperature since 1 January is %{air} °C, which is %{difference} °C below the usual %{usual} °C for this date.
+      body_close: The average air temperature since 1 January is %{air} °C, close to the usual %{usual} °C for this date.
+      cards:
+        coldest: Coldest month
+        soil: Soil this month
+        soil_note: mean this month, top 7 cm
+        warmest: Warmest month
+      chart: Air temperature each month, this year and usually
+      records: Records in the last %{count} years
+      soil_chart: Soil temperature each month, this year and usually
+      title: Temperature
+      verdicts:
+        a_little_cooler: This year is a little cooler than usual
+        a_little_warmer: This year is a little warmer than usual
+        close: This year is close to usual
+        cooler: This year is cooler than usual
+        warmer: This year is warmer than usual
+    chart:
+      bar: "%{month}, %{kind}: %{value}"
+      description: "Column chart of average monthly %{measure}. Usual: %{usual}. This year so far: %{year}."
+      legend:
+        usual: Usual for the month
+        year: This year
+      measures:
+        air: air temperature in degrees Celsius
+        rain: rainfall in millimetres
+        soil: soil temperature, top 7 cm, in degrees Celsius
+    month_year: "%{month} %{year}"
+    on_average: "%{value} on average"
+    rain:
+      body: "%{rain} has fallen since 1 January. That is %{percent}% of the usual %{usual} by this date."
+      cards:
+        driest: Driest month on record
+        wettest: Wettest month on record
+        year: Usual year
+      chart: Rain each month, this year and usually
+      records_note:
+        one: The wettest and driest months are the highest and lowest in the 1 year of data we hold, not necessarily the highest or lowest ever.
+        other: The wettest and driest months are the highest and lowest in the %{count} years of data we hold, not necessarily the highest or lowest ever.
+      title: Rainfall
+      verdicts:
+        close: Rainfall this year is close to usual
+        drier: Rainfall this year is drier than usual
+        wetter: Rainfall this year is wetter than usual
+    records:
+      coldest_night: Coldest night
+      coldest_soil: Coldest soil
+      hottest_day: Hottest day
+      this_year: "This year: %{value}"
+      warmest_soil: Warmest soil
+    table:
+      air: Air
+      details: Show the monthly figures
+      month: Month
+      none: –
+      rain: Rain
+      soil: Soil
+      this_year: this year
+      usual: usual
+    units:
+      celsius: "%{value} °C"
+      mm: "%{value} mm"
+    years_average:
+      one: 1-year average
+      other: "%{count}-year average"
   comments:
     edit_modal:
       save: Save
@@ -434,6 +503,8 @@ en:
         note: has come as late as %{latest}
         planted_after: planted %{days} after it
         planted_before: planted %{days} before it
+        planted_out_after: went outdoors %{days} after it
+        planted_out_before: went outdoors %{days} before it
       next:
         label: Next frost danger starts
         note_finishes: as early as %{earliest}, %{days} after this %{crop} planting finishes
@@ -450,7 +521,12 @@ en:
     planted:
       after: The %{crop} planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
       before: The %{crop} planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
+    planted_out:
+      after: The %{crop} planting went outdoors on %{planted}, %{days} after the usual last frost (%{usual_end}).
+      before: The %{crop} planting went outdoors on %{planted}, %{days} before the usual last frost (%{usual_end}).
     timeline:
+      annotation_out_after: Went outdoors %{days} after the usual last frost
+      annotation_out_before: Went outdoors %{days} before the usual last frost
       description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting runs from %{planted} to %{ends}.
       description_undated: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting went in on %{planted}.
       description_place: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}.
@@ -458,16 +534,24 @@ en:
       annotation_before: Planted %{days} before the usual last frost
       finish_expected: Finish expected %{date}
       finished: Finished %{date}
+      frost_safe: In %{place}, safe from frost
       legend:
         finished: Planting, finished
+        frost_safe: Somewhere safe from frost
         planted: Planted, no finish date
         possible: 'Possible: as early or late as it has come'
         so_far: Planting so far
         still_to_come: Planting still to come
         usual: Usual frost danger
       planted: Planted %{date}
+      planted_out: Went outdoors %{date}
       row_danger: Frost danger
       row_planting: This planting
+      tips:
+        frost_safe: "In %{place}, safe from frost: %{range}"
+        planting: "%{label} (%{range})"
+        possible: "Frost has come as early or late as this: %{range}"
+        usual: "Usual frost danger: %{range}"
       title: This %{crop} planting against the frost season
       title_place: The frost season
       today: Today, %{date}
@@ -561,15 +645,31 @@ en:
       type: Type
       unknown: unknown
     form:
+      frost_safe:
+        help: Tick this for a greenhouse, indoors or a heated bench, where plants are not in frost danger. A planting that began here has its frost section start the day it went outdoors. A nursery starts ticked; untick it if frost can reach your seedlings.
+        label: This garden is safe from frost
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
     header:
       all_gardens: All of %{owner}'s gardens
+      frost_protected: Frost protected
+      frost_protected_title: Safe from frost, such as indoors or in a greenhouse
       garden_of: garden of
       hero_caption:
         one: Photo of the garden · %{count} photo
         other: Photo of the garden · %{count} photos
       hero_label: Photos of %{garden}
       season_title: The season where this garden is
+    inactive:
+      current_gardens: Current gardens
+      empty_body: There are no inactive gardens to show.
+      empty_owner_hint: A garden you mark as inactive will appear here.
+      explanation: A garden becomes inactive when it is marked as inactive, and its plantings are marked as finished. They stay here as a record of what was grown.
+      inactive_gardens: Inactive gardens
+      lead: Gardens that are no longer in use, and what was grown in them.
+      owner_gardens: "%{owner}'s gardens"
+      owner_reactivate_hint: You can mark a garden as active again to go back to editing it.
+      skip_to_content: Skip to main content
+      title: "%{owner}'s inactive gardens"
     inactive_card:
       grown_here: Grown here
       image_alt: Image of %{name}
@@ -882,6 +982,60 @@ en:
         one: planting
         other: plantings
     updated: Seed was successfully updated.
+    weather_invitation:
+      add_location: Add your location
+      change_location: Change your location
+      intro:
+        loading: We are loading the weather history for your garden in %{place}. This can take a day or two. Come back soon and it will be ready.
+        no_location: Add where your garden is and we will show frost, rain and temperature for it.
+        ready: See how frost, rain and temperature are going at your garden in %{place}.
+      labels:
+        air: Temperature
+        frost: Frost
+        rain: Rainfall
+      loading:
+        air:
+          note: Loading
+          title: Not ready yet
+        frost:
+          note: Loading
+          title: Not ready yet
+        rain:
+          note: Loading
+          title: Not ready yet
+      no_location:
+        air:
+          note: in the last 30 years
+          title: Air and soil, with records
+        frost:
+          note: for your garden
+          title: When frost danger starts and ends
+        rain:
+          note: compared with usual
+          title: How wet this year has been
+      ready:
+        air:
+          a_little_cooler: A little cooler than usual
+          a_little_warmer: A little warmer than usual
+          close: Close to usual this year
+          cooler: Cooler than usual
+          note_above: "%{difference} °C above the usual this year"
+          note_below: "%{difference} °C below the usual this year"
+          note_close: "%{difference} °C from the usual this year"
+          warmer: Warmer than usual
+        frost:
+          before_season: Usual frost danger starts %{date}
+          in_season: Usual frost danger ends %{date}
+          late_possible: Frost has come as late as %{date}
+          passed: Next frost danger starts %{date}
+          rare: Frost is rare here
+        rain:
+          close: Close to usual this year
+          drier: Drier than usual this year
+          note: "%{percent}% of the usual by this date"
+          wetter: Wetter than usual this year
+      see: See your place
+      title: Weather at your place
     why_join:
       neighbours:
         body: Find seeds nearby and see what local gardeners are planting and harvesting now.
@@ -1164,6 +1318,7 @@ en:
       my_garden: My garden
       my_harvests: My harvests
       my_jobs: My jobs
+      my_place: Weather at my place
       my_plantings: My plantings
       my_seeds: My seeds
       new_badge: New
@@ -2038,8 +2193,8 @@ en:
       not_located: Tell us where you garden and we can suggest what to sow.
       title: Easy to sow in %{month} near you
     update:
-      'off': We've stopped suggesting crops.
-      'on': Crop suggestions are back.
+      disabled: We've stopped suggesting crops.
+      enabled: Crop suggestions are back.
   unauthorized:
     create:
       all: Please sign in or sign up to create a %{subject}.

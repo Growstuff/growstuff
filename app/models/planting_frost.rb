@@ -5,26 +5,37 @@
 class PlantingFrost < FrostSeason
   YEAR_DAYS = 365
 
-  attr_reader :crop_name, :planted_on, :ends_on
+  attr_reader :crop_name, :planted_on, :sown_on, :safe_place, :ends_on
 
   # readings: the planting's weather, as WeatherReading rows with temp_min_c.
   def self.for(planting, readings:, today: Time.zone.today)
     stat = planting.frost_danger
-    return if stat.nil? || stat.unknown?
+    return if stat.nil? || stat.unknown? || planting.planted_at.nil? || planting.garden.frost_safe?
 
     # A finished planting with no finish date goes by its predicted finish, for the frost display only.
-    new(stat:, crop_name: planting.crop.name, planted_on: planting.planted_at,
+    stay = planting.frost_safe_stay
+    new(stat:, crop_name: planting.crop.name, planted_on: stay&.ended_on || planting.planted_at,
+        sown_on: (planting.planted_at if stay), safe_place: stay&.garden&.name,
         ends_on: planting.finished_at || planting.weather_due_on, finished: planting.finished?, readings:, today:)
   end
 
-  def initialize(stat:, crop_name:, planted_on:, ends_on:, finished:, readings:, today:) # rubocop:disable Metrics/ParameterLists
+  # planted_on is the day frost danger starts for the planting: the day it went outdoors, if it began somewhere safe from
+  # frost (a nursery, a greenhouse, indoors), and then sown_on is the day it was sown there and safe_place its name.
+  def initialize(stat:, crop_name:, planted_on:, ends_on:, finished:, readings:, today:, sown_on: nil, safe_place: nil) # rubocop:disable Metrics/ParameterLists
     super(stat:, today:)
     @crop_name = crop_name
+    @sown_on = sown_on
+    @safe_place = safe_place
     @planted_on = planted_on
     @finished = finished
     @readings = readings
     @expected_end = !ends_on.nil?
     @ends_on = ends_on || (finished ? planted_on : today)
+  end
+
+  # Whether the planting spent its first days somewhere safe from frost.
+  def from_frost_safe?
+    !sown_on.nil? && sown_on < planted_on
   end
 
   # Whether the planting has finished, nobody said when, and there is no predicted finish either, so we can't say what
@@ -89,19 +100,35 @@ class PlantingFrost < FrostSeason
     nights.count { |temp| temp <= THRESHOLD_C }
   end
 
-  # The planting on the timeline: one bar once it has finished, else what has happened so far and what is still to come.
+  # The planting on the timeline: its days somewhere safe from frost, if it began in one, then the planting outdoors.
   def planting_bands
-    bands = if end_unknown?
-              [Band.new(:planted, planted_on, planted_on)]
-            elsif finished?
-              [Band.new(:finished, start_on, ends_on)]
-            else
-              [Band.new(:so_far, start_on, today), (Band.new(:still_to_come, today + 1, ends_on) if ends_on > today)]
-            end
+    bands = [safe_band, *stay_bands]
     bands.compact.filter_map { |band| clip(band) }
   end
 
   private
+
+  # Whether the timeline draws the days somewhere safe from frost: a planting that has lived longer than a frost year is
+  # shown for its last year, and those days are further back than that.
+  def show_safe_days?
+    from_frost_safe? && !long_lived?
+  end
+
+  # The days somewhere safe from frost, before the planting went outdoors.
+  def safe_band
+    Band.new(:frost_safe, sown_on, planted_on - 1) if show_safe_days?
+  end
+
+  # The planting outdoors: one bar once it has finished, else what has happened so far and what is still to come.
+  def stay_bands
+    if end_unknown?
+      [Band.new(:planted, planted_on, planted_on)]
+    elsif finished?
+      [Band.new(:finished, start_on, ends_on)]
+    else
+      [Band.new(:so_far, start_on, today), (Band.new(:still_to_come, today + 1, ends_on) if ends_on > today)]
+    end
+  end
 
   # The last day the planting has lived through: its end once it has finished, and while it is still growing, the later of
   # its expected end and today, as it carries on past an expected end that has gone by.
@@ -128,9 +155,9 @@ class PlantingFrost < FrostSeason
     long_lived? ? age_end : @planted_on
   end
 
-  # The timeline also covers the planting, from its start to its end.
+  # The timeline also covers the planting, from its start to its end, and the days before it that it was somewhere safe.
   def axis_first
-    [possible.first, start_on].min
+    [possible.first, (sown_on if show_safe_days?), start_on].compact.min
   end
 
   def axis_last
