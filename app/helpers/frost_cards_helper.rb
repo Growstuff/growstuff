@@ -2,25 +2,30 @@
 
 # The figures under the timeline of the frost section: see FrostSectionHelper.
 module FrostCardsHelper
-  # { label:, value:, note: } for each figure. A planting that has finished has no frost-free season.
+  # { label:, value:, note: } for each figure. A planting that has finished has no frost-free season and no next one.
   def frost_cards(frost)
     return [frost_last_card(frost), frost_next_card(frost), frost_free_card(frost)].compact unless frost_planting?(frost)
+    return [frost_coldest_card(frost), frost_in_danger_card(frost), frost_last_card(frost)].compact if frost.finished?
 
-    cards = [frost_margin_card(frost), (frost_in_danger_card(frost) if frost.finished?), frost_last_card(frost), frost_next_card(frost)]
-    cards << frost_free_card(frost) unless frost.finished?
-    cards.compact
+    [frost_coldest_card(frost), frost_last_card(frost), frost_next_card(frost), frost_free_card(frost)].compact
   end
 
   private
 
-  def frost_margin_card(frost)
+  # The coldest night the planting had, with how it sits against the frost danger line, in words.
+  def frost_coldest_card(frost)
     return unless frost.margin_c
 
-    note = t('frost.cards.margin.note', coldest: frost_degrees(frost.coldest_night_c), threshold: frost_degrees(FrostSeason::THRESHOLD_C))
-    { label: t('frost.cards.margin.label'), value: t('frost.degrees', degrees: frost_degrees(frost.margin_c)), note: }
+    gap = frost.margin_c
+    key = %w(note_below note_at note_above)[(gap <=> 0) + 1]
+    note = t("frost.cards.coldest.#{key}", gap: frost_degrees(gap.abs), threshold: frost_degrees(FrostSeason::THRESHOLD_C))
+    value = t('frost.degrees', degrees: frost_degrees(frost.coldest_night_c))
+    { label: t('frost.cards.coldest.label'), value:, note: }
   end
 
   def frost_in_danger_card(frost)
+    return if frost.end_unknown?
+
     { label: t('frost.cards.in_danger.label'), value: frost_days(frost.days_in_danger),
       note: t('frost.cards.in_danger.note', latest: frost_date_text(frost.possible.last)) }
   end
@@ -40,12 +45,9 @@ module FrostCardsHelper
   end
 
   def frost_next_card(frost)
-    key = if frost_planting?(frost) && frost.finished? then 'note_finished'
-          elsif frost_planting?(frost) && frost.end_ahead? then 'note_finishes'
-          else 'note_now'
-          end
-    note = t("frost.cards.next.#{key}", earliest: frost_date_text(frost.next_season_earliest),
-                                        days:     frost_days(frost.days_to_next_season))
+    key = frost_planting?(frost) && frost.end_ahead? ? 'note_finishes' : 'note_now'
+    note = t("frost.cards.next.#{key}", crop: frost_crop(frost), earliest: frost_date_text(frost.next_season_earliest),
+                                        days: frost_days(frost.days_to_next_season))
     { label: t('frost.cards.next.label'), value: frost_date_text(frost.next_season_start), note: }
   end
 

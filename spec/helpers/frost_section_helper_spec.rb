@@ -17,7 +17,8 @@ describe FrostSectionHelper do
   let(:finished) { false }
   let(:today) { Date.new(2026, 11, 7) }
   let(:frost) do
-    PlantingFrost.new(stat:, planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:, readings:, today:)
+    PlantingFrost.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:, readings:,
+                      today:)
   end
 
   def missing?(text)
@@ -25,6 +26,10 @@ describe FrostSectionHelper do
   end
 
   describe '#frost_verdict' do
+    it 'names the crop in the headline, which is the point of the crop name' do
+      expect(helper.frost_verdict(frost)[:title]).to include 'viola'
+    end
+
     {
       'before the season soon' => Date.new(2026, 6, 10), 'before the season far off' => Date.new(2026, 1, 10),
       'in the season' => Date.new(2026, 8, 25), 'late but possible' => Date.new(2026, 9, 15), 'passed' => Date.new(2026, 11, 7)
@@ -52,7 +57,7 @@ describe FrostSectionHelper do
       let(:readings) { [reading.new(Date.new(2026, 9, 1), 1.0)] }
 
       it 'says more than for a planting with no frost night' do
-        clear = PlantingFrost.new(stat:, planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:,
+        clear = PlantingFrost.new(stat:, crop_name: 'viola', planted_on: Date.new(2026, 8, 18), ends_on: Date.new(2027, 2, 16), finished:,
                                   readings: [reading.new(Date.new(2026, 9, 1), 6.0)], today:)
         expect(helper.frost_verdict(frost)[:body].length).to be > helper.frost_verdict(clear)[:body].length
       end
@@ -103,14 +108,54 @@ describe FrostSectionHelper do
       end
 
       it 'has the days it grew through frost danger' do
-        expect(helper.frost_cards(frost)[1][:value]).to eq helper.frost_days(44)
+        expect(helper.frost_cards(frost)[1][:value]).to eq helper.frost_days(45)
+      end
+    end
+
+    describe 'the coldest night' do
+      subject(:card) { helper.frost_cards(frost).first }
+
+      it 'is the temperature itself' do
+        expect(card[:value]).to eq '3.3 °C'
+      end
+
+      it 'says how far above the frost danger line it stayed' do
+        expect(card[:note]).to eq '1.3 °C above the 2 °C frost danger line'
+      end
+
+      context 'with a night below the line' do
+        let(:readings) { [reading.new(Date.new(2026, 8, 20), 1.1)] }
+
+        it 'says how far below it went' do
+          expect(card[:note]).to eq '0.9 °C below the 2 °C frost danger line'
+        end
+      end
+
+      context 'with a night on the line' do
+        let(:readings) { [reading.new(Date.new(2026, 8, 20), 2.0)] }
+
+        it 'says it was right on it' do
+          expect(card[:note]).to eq 'Right on the 2 °C frost danger line'
+        end
+      end
+    end
+
+    context 'when the planting has finished with no finish date' do
+      let(:finished) { true }
+      let(:readings) { [] }
+      let(:frost) do
+        PlantingFrost.new(stat:, crop_name: 'viola', planted_on: Date.new(2016, 9, 3), ends_on: nil, finished:, readings:, today:)
+      end
+
+      it 'has only the usual last frost' do
+        expect(helper.frost_cards(frost).size).to eq 1
       end
     end
 
     context 'without night temperatures' do
       let(:readings) { [] }
 
-      it 'leaves out the margin' do
+      it 'leaves out the coldest night' do
         expect(helper.frost_cards(frost).size).to eq 3
       end
     end
