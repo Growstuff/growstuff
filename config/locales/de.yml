@@ -114,8 +114,8 @@ de:
         job_ideas: Jobideen
         planting_weather: Pflanzwetter
       update:
-        'off': "%{feature} ist jetzt ausgeschaltet."
-        'on': "%{feature} ist jetzt aktiviert."
+        disabled: "%{feature} ist jetzt ausgeschaltet."
+        enabled: "%{feature} ist jetzt aktiviert."
   authentications:
     sign_in:
       bluesky:

@@ -9,6 +9,7 @@ Where possible if creating a pull request, include screenshots or other visual t
 For user facing screens, prefer i18n translations (locale/en.yml) rather than inline text.
 Use an appropriate level of formality for a user interface, pay attention to gender of terms.
 Avoid adding test coverage dependent on string content that may change with an updated translation, unless it is really crucial to the tests.
+Avoid picking YAML translation keys that require quotation or escaping (such as `on`/`off`, `yes`/`no`, or `true`/`false`, which are boolean literals in YAML 1.1; prefer descriptive alternatives like `enabled`/`disabled`).
 
 ## Dependencies
 

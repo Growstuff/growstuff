@@ -114,8 +114,8 @@ es:
         job_ideas: ideas de trabajo
         planting_weather: Clima de siembra
       update:
-        'off': "%{feature} ahora está apagado."
-        'on': "%{feature} ya está activado."
+        disabled: "%{feature} ahora está apagado."
+        enabled: "%{feature} ya está activado."
   authentications:
     sign_in:
       bluesky:
