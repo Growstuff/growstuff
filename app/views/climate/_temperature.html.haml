@@ -3,7 +3,7 @@
   .section-header
     %h2= t('climate.air.title')
   .climate-section-body
-    = render 'climate/verdict', verdict: climate_air_verdict(climate), icon: climate_icon(:air)
+    = render 'climate/verdict', verdict: climate_air_verdict(climate), measure: :air, icon: climate_icon(:air)
     %div
       %h3= t('climate.air.chart')
       = render 'climate/chart', climate:, measure: :air

@@ -1,6 +1,6 @@
--# The headline and sentence at the top of a climate section, with an icon.
+-# The headline and sentence at the top of a climate section, with an icon, tinted for the measure.
 - if verdict
-  .climate-verdict
+  .climate-verdict{ class: "climate-verdict--#{measure}" }
     .climate-verdict-icon= icon
     %div
       %p.climate-verdict-title= verdict[:title]
