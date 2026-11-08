@@ -393,7 +393,7 @@ class Member < ApplicationRecord
     blocks.find_by(blocked_id: member.id) if already_blocking?(member)
   end
 
-  alias banned? discarded?
+  alias_method :banned?, :discarded?
 
   def ban!
     discard
