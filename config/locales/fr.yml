@@ -1310,19 +1310,6 @@ fr:
       weather_temperature_chart: Haut / bas quotidien
       weather_temperature_chart_alt: Température quotidienne haute et basse, de %{low} à %{high}.
     string: Plantation de %{crop} à %{garden} par %{owner}
-    failed_modal:
-      cancel: annuler
-      close: Fermer
-      mark_as_failed: Marquer comme échoué
-      planted_at: "Planté %{date}"
-      title: "Marquer la plantation de %{crop} comme échouée"
-      which_planting: Quelle plantation souhaitez-vous marquer comme échouée ?
-    modal:
-      add_new_garden: Ajouter un nouveau jardin
-      add_to_my_garden: Ajouter à mon jardin
-      close: Fermer
-      title: "Ajouter %{crop} à votre jardin"
-      which_garden: "Dans quel jardin va-t-il ?"
     transplant:
       cancel: Annuler
       close: Fermer

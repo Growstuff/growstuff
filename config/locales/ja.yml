@@ -200,13 +200,6 @@ ja:
       follow: フォロー
       unblock: ブロック解除
       unfollow: フォロー解除
-    failed_modal:
-      cancel: キャンセル
-      close: 閉じる
-      mark_as_failed: 失敗として記録
-      planted_at: "植え付け日 %{date}"
-      title: "%{crop}の植え付けを失敗として記録"
-      which_planting: どの植え付けを失敗として記録しますか？
     modal:
       add_new_garden: 新しい庭を追加
       add_to_my_garden: 自分の庭に追加
@@ -248,18 +241,6 @@ ja:
       seeds_saved: 保存した種
       sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
       unknown: 不明
-    modal:
-      add_new_garden: 新しい庭を追加
-      add_to_my_garden: 自分の庭に追加
-      close: 閉じる
-      title: "%{crop}をあなたの庭に追加"
-      which_garden: どの庭に入れますか？
-    transplant:
-      cancel: キャンセル
-      close: 閉じる
-      move_to: 'この植え付けの移動先:'
-      submit: 移植
-      title: "%{crop}を移植"
   seeds:
     facts:
       cancel: キャンセル

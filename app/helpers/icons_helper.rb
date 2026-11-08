@@ -70,10 +70,6 @@ module IconsHelper
     image_icon 'delete'
   end
 
-  def add_photo_icon
-    image_icon 'add-photo'
-  end
-
   def photo_icon
     image_icon 'photo'
   end
@@ -92,10 +88,6 @@ module IconsHelper
 
   def perennial_icon
     icon('fas', 'tree')
-  end
-
-  def delete_association_icon
-    icon('fas', 'backspace')
   end
 
   def like_icon
