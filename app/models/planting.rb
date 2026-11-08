@@ -121,9 +121,13 @@ class Planting < ApplicationRecord
 
   before_validation :assign_short_code, on: :create
 
+  def self.random_short_code
+    Array.new(4) { SHORT_CODE_CHARS.sample }.join
+  end
+
   def self.generate_short_code(owner = nil)
     loop do
-      code = Array.new(4) { SHORT_CODE_CHARS.sample }.join
+      code = random_short_code
       next if owner && where(owner_id: owner.id, short_code: code).exists?
 
       break code

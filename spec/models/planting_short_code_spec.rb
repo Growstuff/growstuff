@@ -67,7 +67,7 @@ describe 'Planting short code' do
     end
 
     it 'avoids collision with existing short codes of the owner' do
-      allow(Planting::SHORT_CODE_CHARS).to receive(:sample).and_return('A', 'A', 'A', 'A', 'B', 'B', 'B', 'B')
+      allow(Planting).to receive(:random_short_code).and_return('AAAA', 'BBBB')
       create(:planting, owner:, garden:, crop:, short_code: 'AAAA')
 
       generated = Planting.generate_short_code(owner)
