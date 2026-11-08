@@ -233,6 +233,14 @@ describe PlantingFrost do
       expect(frost.danger_bands.last.to).to eq frost.axis.last
     end
 
+    it 'marks the band the axis cuts off as open' do
+      expect(frost.danger_bands.last).to be_open
+    end
+
+    it 'leaves the bands the axis does not cut off closed' do
+      expect(frost.danger_bands.first).not_to be_open
+    end
+
     it 'draws a planting still growing as so far and still to come' do
       expect(frost.planting_bands.map(&:kind)).to eq %i(so_far still_to_come)
     end
@@ -425,14 +433,6 @@ describe PlantingFrost do
   describe 'the bands the timeline cuts off' do
     it 'knows where a band really ends' do
       expect(frost.danger_bands.last.last).to be > frost.axis.last
-    end
-
-    it 'is open' do
-      expect(frost.danger_bands.last).to be_open
-    end
-
-    it 'is closed for a band that fits' do
-      expect(frost.danger_bands.first).not_to be_open
     end
   end
 end

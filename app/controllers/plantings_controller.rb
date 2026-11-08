@@ -180,7 +180,7 @@ class PlantingsController < DataController
     params.require(:planting).permit(
       :crop_id, :alternate_name_id, :description, :garden_id, :planted_at,
       :parent_seed_id,
-      :quantity, :sunniness, :planted_from, :finished,
+      :quantity, :sunniness, :planted_from, :hardiness, :finished,
       :finished_at, :failed, :overall_rating
     )
   end

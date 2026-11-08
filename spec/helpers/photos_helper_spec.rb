@@ -110,4 +110,62 @@ describe PhotosHelper do
       it('has only the one size') { is_expected.to eq 'https://example.com/photo_z.jpg' }
     end
   end
+
+  describe '#photo_licence_kind' do
+    {
+      'https://creativecommons.org/licenses/by/2.0/'       => 'by',
+      'https://creativecommons.org/licenses/by-nc-sa/2.0/' => 'by-nc-sa',
+      'https://creativecommons.org/publicdomain/zero/1.0/' => 'zero',
+      'https://creativecommons.org/publicdomain/mark/1.0/' => 'mark',
+      'https://example.com/terms'                          => 'other',
+      nil                                                  => 'reserved'
+    }.each do |url, kind|
+      it("is #{kind} for #{url.inspect}") do
+        expect(helper.photo_licence_kind(build(:photo, license_url: url))).to eq kind
+      end
+    end
+  end
+
+  describe '#photo_licence_code' do
+    it { expect(helper.photo_licence_code(build(:photo, license_url: 'https://creativecommons.org/licenses/by-nc/2.0/'))).to eq 'CC BY-NC 2.0' }
+    it { expect(helper.photo_licence_code(build(:photo, license_url: 'https://creativecommons.org/publicdomain/zero/1.0/'))).to eq 'CC0 1.0' }
+    it { expect(helper.photo_licence_code(build(:unlicensed_photo))).to be_nil }
+  end
+
+  describe '#photo_credit_name' do
+    let(:photo) { build(:photo, author_name: 'Pat Photo') }
+
+    it { expect(helper.photo_credit_name(photo)).to eq 'Pat Photo' }
+    it { expect(helper.photo_credit_name(build(:photo, owner: build(:member, login_name: 'shiny')))).to eq 'shiny' }
+  end
+
+  describe '#photo_credit_text' do
+    let(:photo) { build(:photo, author_name: 'Pat Photo', license_url: 'https://creativecommons.org/licenses/by/2.0/') }
+
+    it { expect(helper.photo_credit_text(photo)).to eq 'Photo by Pat Photo on Flickr, CC BY 2.0 https://creativecommons.org/licenses/by/2.0/' }
+  end
+
+  describe '#photo_heading' do
+    let(:photo) { create(:photo, title: 'Dill') }
+    let(:crop) { create(:crop, name: 'dill') }
+
+    it 'is the photo title when it is attached to nothing' do
+      expect(helper.photo_heading(photo)).to eq 'Dill'
+    end
+
+    it 'names the seeds when it is of seeds' do
+      photo.seeds << create(:seed, crop: crop, owner: photo.owner)
+      expect(helper.photo_heading(photo)).to eq 'Photo of dill seeds'
+    end
+
+    it 'names the harvest when a crop photo is labelled as one' do
+      photo.photo_associations.create!(photographable: crop, label: 'harvest')
+      expect(helper.photo_heading(photo)).to eq 'Photo of dill harvest'
+    end
+
+    it 'names only the crop when a crop photo has no label' do
+      photo.photo_associations.create!(photographable: crop)
+      expect(helper.photo_heading(photo)).to eq 'Photo of dill'
+    end
+  end
 end

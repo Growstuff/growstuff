@@ -48,7 +48,7 @@ class Planting < ApplicationRecord
   scope :weather_tracked, lambda { |today = Time.zone.today|
     where.not(failed: true).where(planted_at: ..today)
       .where('plantings.finished IS NOT TRUE OR plantings.finished_at >= ?', today - WEATHER_FINISHED_DAYS)
-      .joins(:garden).merge(Garden.where.not(latitude: nil).where.not(longitude: nil).where(nursery: false))
+      .joins(:garden).merge(Garden.located_for_weather)
   }
 
   #
@@ -91,7 +91,7 @@ class Planting < ApplicationRecord
   delegate :slug, :name, to: :garden, prefix: true
 
   delegate :annual?, :perennial?, :svg_icon, to: :crop
-  delegate :location, :longitude, :latitude, to: :garden
+  delegate :location, :longitude, :latitude, :weather_located?, :weather_cell, :frost_danger, to: :garden
 
   ##
   ## Validations
@@ -104,6 +104,7 @@ class Planting < ApplicationRecord
   validates :quantity, allow_nil: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 0
   }
+  validates :hardiness, inclusion: { in: Hardiness::VALUES }
   validates :sunniness, allow_blank: true, inclusion: {
     in: SUNNINESS_VALUES, message: :not_a_valid_sunniness
   }
@@ -211,22 +212,15 @@ class Planting < ApplicationRecord
     latitude.present? && longitude.present?
   end
 
+  # How much frost the planting takes, and whose word that is: [source, level], with the source :planting, :seed or :crop.
+  # The planting's own say comes first, then its seed's, then its crop's. Nil when none of them knows.
+  def hardiness_found
+    { planting: hardiness, seed: parent_seed&.hardiness, crop: crop.hardiness }.find { |_source, level| Hardiness::LEVELS.include?(level) }
+  end
+
   # The weather isn't here yet but will be: this is a planting the daily update collects weather for.
   def weather_pending?
     self.class.weather_tracked.exists?(id)
-  end
-
-  # The centre of the weather grid cell this planting's garden is in, as [latitude, longitude].
-  def weather_cell
-    WeatherReading.grid_point(latitude, longitude)
-  end
-
-  # The typical frost danger dates for this planting's weather cell, as FrostUpdater saved them, or nil when
-  # the garden has no location or they aren't worked out yet.
-  def frost_danger
-    return unless weather_located?
-
-    FrostStat.at(*weather_cell).find_by(threshold_c: FrostCalculator::FROST_DANGER_C)
   end
 
   # The day this planting is due, from its crop's expected lifespan, or nil when we don't know it.

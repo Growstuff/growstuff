@@ -1,17 +1,17 @@
--# The frost section of a planting page: what frost danger means for this planting today, drawn against the season.
+-# The frost section of a planting or garden page: what frost danger means today, drawn against the season (and the planting, if there is one).
 - verdict = frost_verdict(frost)
-%section.planting-frost
+%section.frost-section
   .section-header
-    %h2= t('plantings.frost.title')
-    = link_to t('frost.experimental'), '#about-frost-estimates', class: 'planting-frost-badge'
-  .planting-frost-body
+    %h2= t('frost.title')
+    = link_to t('frost.experimental'), '#about-frost-estimates', class: 'frost-section-badge'
+  .frost-section-body
     .frost-verdict{ class: "frost-verdict--#{frost.verdict}" }
       .frost-verdict-icon= frost_icon(frost.verdict)
       %div
         %p.frost-verdict-title= verdict[:title]
         %p.frost-verdict-body= verdict[:body]
     - unless frost.verdict == :rare
-      = render 'plantings/frost_timeline', frost: frost
+      = render 'frost/timeline', frost: frost
       .frost-cards
         - frost_cards(frost).each do |card|
           .frost-card

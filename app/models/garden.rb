@@ -5,6 +5,7 @@ class Garden < ApplicationRecord
   include Geocodable
   include PhotoCapable
   include Ownable
+  include WeatherLocated
 
   friendly_id :garden_slug, use: %i(slugged finders)
 
@@ -28,6 +29,8 @@ class Garden < ApplicationRecord
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  # Gardens with a place on the weather grid. A nursery has no climate of its own to show.
+  scope :located_for_weather, -> { where.not(latitude: nil).where.not(longitude: nil).where(nursery: false) }
   scope :nurseries, -> { where(nursery: true) }
   scope :not_nurseries, -> { where(nursery: false) }
   scope :order_by_name, -> { order(Arel.sql("lower(name) asc")) }

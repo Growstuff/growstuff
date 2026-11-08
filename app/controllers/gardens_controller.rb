@@ -48,6 +48,8 @@ class GardensController < DataController
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
     @photo_count = @garden.photos.count
+    # Behind the planting_weather feature switch, with the planting's weather. A nursery has no climate of its own to show.
+    @frost = FrostSeason.for(@garden) if Feature.enabled?(:planting_weather) && !@garden.nursery?
     @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).limit(PHOTOS_SHOWN)
     @suggestion_count = MemberDashboard.new(current_member).easy_to_sow(40).size if @garden.active && @garden.owner == current_member
     respond_with(@garden)

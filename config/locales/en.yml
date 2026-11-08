@@ -125,14 +125,6 @@ en:
       update:
         'off': "%{feature} is now off."
         'on': "%{feature} is now on."
-  authentications:
-    sign_in:
-      bluesky:
-        terms_of_service: "Terms of Service"
-        agree_to_tos_html: "I agree to the %{tos_link}"
-        contacting: "Contacting Bluesky…"
-        handle_label: "Bluesky handle"
-        handle_placeholder: "alice.bsky.social"
   alternate_names:
     created: Alternate name was successfully created.
     deleted: Alternate name was successfully deleted.
@@ -142,6 +134,14 @@ en:
       title:
         default: Default
   are_you_sure: Are you sure?
+  authentications:
+    sign_in:
+      bluesky:
+        agree_to_tos_html: I agree to the %{tos_link}
+        contacting: Contacting Bluesky…
+        handle_label: Bluesky handle
+        handle_placeholder: alice.bsky.social
+        terms_of_service: Terms of Service
   buttons:
     add: Add
     add_photo: Add photo
@@ -268,7 +268,45 @@ en:
       title: Add %{crop} growing jobs
     new_planting: A new %{crop} planting I'm going to do
     see_jobs: See your jobs.
+  crop_photos:
+    create:
+      added: Added a photo to %{crop}.
+      kind_missing: Say whether the photo shows a planting, a harvest or seeds.
+      not_creative_commons: That photo is not under a Creative Commons licence, so it cannot be used here.
+      not_flickr: That does not look like the address of a photo on Flickr.
+      not_found: Flickr could not find that photo. It may be private or deleted.
+      not_public: That photo is not public, so it cannot be used here.
+      unavailable: Flickr could not be reached. Please try again in a moment.
+    kinds:
+      harvest: Something harvested
+      harvest_hint: Picked produce, such as a basket of tomatoes.
+      legend: What does the photo show?
+      planting: Plants growing
+      planting_hint: Plants growing in a garden, bed or pot.
+      seed: Seeds
+      seed_hint: The seeds themselves, or seed heads and pods.
+    pager:
+      label: Pages of photos
+      next: Next page
+      page: Page %{page} of %{pages}
+      previous: Previous page
+    source:
+      view_on_flickr: View on Flickr
+    new:
+      add: Add this photo
+      attribution: by %{owner}
+      back: Back to %{crop}
+      cancel: Cancel
+      close: Close
+      empty: No public Creative Commons photos matched that search.
+      intro: Public photos on Flickr under a Creative Commons licence. Check that the photo shows the crop before adding it.
+      modal_title: Add this photo of %{crop}
+      save: Save
+      search: Search
+      taken: Taken %{date}
+      title: Find a photo of %{crop}
   crops:
+    add_photos_from_flickr: Add photos from Flickr
     alternate_name_modal:
       add_title: Add another name for %{crop}
       cancel: Cancel
@@ -283,12 +321,19 @@ en:
       request_notes: 'Request notes: %{notes}'
       requested_by: This crop was requested by %{requester} %{time_ago} ago.
     fields:
-        harvest_style:
-        blank: Don't know
-        heading: Harvest style
-        hint: 'Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.'
-        label: How a plant is harvested
-        parent: 'Parent: %{style}'
+      blank: Don't know
+      harvest_style:
+      heading: Harvest style
+      hint: 'Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.'
+      label: How a plant is harvested
+      parent: 'Parent: %{style}'
+    find_seeds:
+      empty: There are no seeds available to trade on Growstuff right now.
+      list_seeds: List %{crop} seeds to trade
+      purchase_via_ebay: Purchase seeds via Ebay
+      trade_seeds: list your seeds to trade
+      view_all: View all %{crop} seeds
+      will_trade: "%{owner} will trade %{tradable_to}."
     growing_degree_days:
       cycle_html: For %{crop}, the FAO EcoCrop database gives a lowest growing temperature of %{tmin} and a shortest growing cycle of %{gmin} days at its best temperature, about %{degree_days} growing degree days to a first harvest.
       example: 'Say that lowest temperature is 10°C. A day averaging 17°C gives 7 growing degree days. A day averaging 8°C gives none, as it is too cold for the crop to grow. That is why the same lettuce takes about 50 days in a summer and 90 in an autumn: it needs the same total warmth either way.'
@@ -301,16 +346,6 @@ en:
         help: How much frost the crop takes. Choose a level to keep it, whatever the seed packets say.
         label: Hardiness
     hardiness:
-      levels:
-        half_hardy:
-          meaning: A light frost is fine
-          name: Half-hardy
-        hardy:
-          meaning: Frost is fine
-          name: Hardy
-        tender:
-          meaning: A frost damages it
-          name: Tender
       sources:
         manual: Set by a crop wrangler
         seed_packets: From members' seed packets
@@ -322,13 +357,6 @@ en:
       single:
         description: the whole plant is harvested
         value: Once per plant
-    find_seeds:
-      empty: There are no seeds available to trade on Growstuff right now.
-      list_seeds: List %{crop} seeds to trade
-      purchase_via_ebay: Purchase seeds via Ebay
-      trade_seeds: list your seeds to trade
-      view_all: View all %{crop} seeds
-      will_trade: "%{owner} will trade %{tradable_to}."
     harvests:
       empty: Nobody has harvested this crop yet.
       harvest_crop: Harvest %{crop}
@@ -342,10 +370,6 @@ en:
       heading: Growstuff is a free, community-run site for people who grow food.
       prompt: Join to record your own %{crops}.
       text: Keep track of what you plant and harvest, find seeds to swap, and see what is growing near you.
-    plantings:
-      empty: Nobody has planted this crop yet.
-      plant_crop: Plant %{crop}
-      track_plantings: track your %{crop} plantings
     nutritional_data:
       carbohydrate: Carbohydrate
       energy: Energy
@@ -357,6 +381,10 @@ en:
       sugars: "- Sugars"
       summary: A summary of nutritional data per 100g for %{food_name}.
       title: Nutritional data
+    plantings:
+      empty: Nobody has planted this crop yet.
+      plant_crop: Plant %{crop}
+      track_plantings: track your %{crop} plantings
     predictions:
       harvest_style: Harvest style
     requested:
@@ -375,6 +403,10 @@ en:
       wikidata_id: Wikidata ID
     search: Search crops
   edit_crop: Edit crop
+  flash:
+    photo_associations:
+      destroy:
+        notice: Removed the photo from that %{kind}. The photo is still on Growstuff.
   forms:
     optional: "(Optional)"
   forums:
@@ -385,8 +417,108 @@ en:
     updated: Forum was successfully updated.
   frost:
     about_estimates: These dates are estimates from 25 km weather-model data, not readings from a station at your garden, so a cold spot can be colder. They may be wrong, so check your national weather service and ask local growers before relying on them.
+    cards:
+      coldest:
+        label: Coldest night
+        note_above: "%{gap} °C above the %{threshold} °C frost danger line"
+        note_at: Right on the %{threshold} °C frost danger line
+        note_below: "%{gap} °C below the %{threshold} °C frost danger line"
+      free:
+        label: Frost-free season
+        note: in a typical year
+      in_danger:
+        label: Frost danger it grew through
+        note: from planting to the latest it has come, %{latest}
+      last:
+        label: Usual last frost
+        note: has come as late as %{latest}
+        planted_after: planted %{days} after it
+        planted_before: planted %{days} before it
+        planted_out_after: went outdoors %{days} after it
+        planted_out_before: went outdoors %{days} before it
+      next:
+        label: Next frost danger starts
+        note_finishes: as early as %{earliest}, %{days} after this %{crop} planting finishes
+        note_now: as early as %{earliest}, %{days} from now
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    degrees: "%{degrees} °C"
     experimental: Experimental · new and might be flaky
     experimental_heading: 'Experimental: this feature is new and might be flaky.'
+    nights_so_far:
+      one: One night so far was at or below %{threshold} °C, the coldest %{coldest} °C.
+      other: "%{count} nights so far were at or below %{threshold} °C, the coldest %{coldest} °C."
+    planted:
+      after: The %{crop} planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
+      before: The %{crop} planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
+    planted_out:
+      after: The %{crop} planting went outdoors on %{planted}, %{days} after the usual last frost (%{usual_end}).
+      before: The %{crop} planting went outdoors on %{planted}, %{days} before the usual last frost (%{usual_end}).
+    timeline:
+      annotation_out_after: Went outdoors %{days} after the usual last frost
+      annotation_out_before: Went outdoors %{days} before the usual last frost
+      description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting runs from %{planted} to %{ends}.
+      description_undated: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting went in on %{planted}.
+      description_place: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}.
+      annotation_after: Planted %{days} after the usual last frost
+      annotation_before: Planted %{days} before the usual last frost
+      finish_expected: Finish expected %{date}
+      finished: Finished %{date}
+      frost_safe: In %{place}, safe from frost
+      legend:
+        finished: Planting, finished
+        frost_safe: Somewhere safe from frost
+        planted: Planted, no finish date
+        possible: 'Possible: as early or late as it has come'
+        so_far: Planting so far
+        still_to_come: Planting still to come
+        usual: Usual frost danger
+      planted: Planted %{date}
+      planted_out: Went outdoors %{date}
+      row_danger: Frost danger
+      row_planting: This planting
+      tips:
+        frost_safe: "In %{place}, safe from frost: %{range}"
+        planting: "%{label} (%{range})"
+        possible: "Frost has come as early or late as this: %{range}"
+        usual: "Usual frost danger: %{range}"
+      title: This %{crop} planting against the frost season
+      title_place: The frost season
+      today: Today, %{date}
+      usual: "%{from} – %{to}"
+      usual_open: "%{from} →"
+    title: Frost
+    verdicts:
+      before_season:
+        body: The usual first frost is %{usual_start}, in %{days}. It has come as early as %{earliest}.
+        title: Frost danger starts soon
+        title_far: No frost danger yet
+      finished_clear:
+        body: Frost was possible until %{latest}, and no night in that time was colder than %{coldest} °C.
+        body_no_readings: Frost was possible until %{latest}. We have no night temperatures for this %{crop} planting.
+        title: No frost reached this %{crop} planting
+      finished_hit:
+        body:
+          one: One night while frost was possible was at or below %{threshold} °C. The coldest was %{coldest} °C.
+          other: "%{count} nights while frost was possible were at or below %{threshold} °C. The coldest was %{coldest} °C."
+        title: Frost may have reached this %{crop} planting
+      finished_undated:
+        body: The usual last frost that year was %{usual_end}, and frost has come as late as %{latest}. We have no finish date for this %{crop} planting, so we can't say what it went through.
+        title: We can't say what frost it met
+      in_season:
+        body: The usual last frost is %{usual_end}, in %{days}. It has come as late as %{latest}.
+        title: In the usual frost danger
+      late_possible:
+        body: It has come as late as %{latest}, %{days} from now. Keep an eye on the forecast.
+        title: Past the usual last frost, but it can still come
+      passed:
+        body: The latest a frost has come in past years is %{latest}, %{days} ago.
+        title: Frost danger has passed for this %{crop} planting
+        title_place: Frost danger has passed for this year
+      rare:
+        body: Frost is rare in this area, so we show no frost dates.
+        title: Frost is rare here
   gardens:
     about:
       collaborators: Collaborators
@@ -491,7 +623,6 @@ en:
       heading: Location
       not_set: Not set
       remove: Remove
-    string: "%{owner}'s %{garden}"
     nursery_declined: Okay, we won't ask about a nursery again. You can set one up later from your gardens page.
     nursery_made: This garden is now your nursery.
     nursery_name: Nursery
@@ -534,7 +665,21 @@ en:
       already_member: Already a member?
       heading: Start your own garden
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
+    string: "%{owner}'s %{garden}"
     updated: Garden was successfully updated.
+  hardiness:
+    levels:
+      half_hardy:
+        meaning: A light frost is fine
+        name: Half-hardy
+      hardy:
+        meaning: Frost is fine
+        name: Hardy
+      tender:
+        meaning: A frost damages it
+        name: Tender
+      unknown:
+        name: Unknown
   harvests:
     card:
       by: by
@@ -583,6 +728,7 @@ en:
       public_note: Everything you record is public open data, including your city.
       sign_in_bluesky: Sign in with Bluesky
       sign_in_linktext: Sign in
+      sign_in_mastodon: Sign in with Mastodon
       sign_up: Join free
     dashboard:
       add_bed: "+ bed"
@@ -633,6 +779,10 @@ en:
       hidden_suggestions:
         one: You've hidden 1 suggested crop.
         other: You've hidden %{count} suggested crops.
+      jobs_today:
+        one: 1 job today
+        other: "%{count} jobs today"
+      jobs_today_go: My jobs →
       last_year_planted: Around this time last year you planted %{crops}.
       no_seeds: No seeds saved yet.
       not_for_me: Not for me
@@ -693,10 +843,6 @@ en:
       this_week: This week
       tile_harvest: record what you picked
       tile_job: plan a task for your garden
-      jobs_today:
-        one: 1 job today
-        other: "%{count} jobs today"
-      jobs_today_go: My jobs →
       tile_job_title: Add job
       tile_photo: of the garden
       tile_photo_title: Add photo
@@ -1108,17 +1254,22 @@ en:
     unsubscribed: You have been unsubscribed from %{email_type} emails.
     welcome: Welcome
   messages:
+    auth_already_linked: That account is already connected to another Growstuff member.
     auth_failed: Authentication failed.
     auth_last_sign_in: This is the only way you can sign in. Add an email address and password first.
     auth_success: Authentication successful.
     auth_taken: That account is already connected to another member.
     bluesky_declined: Bluesky didn't approve that sign in. Please try again.
+    mastodon_declined: Mastodon didn't approve that sign in. Please try again.
+    mastodon_failed: We couldn't sign you in with Mastodon. Please try again.
     bluesky_expired: That took too long, so Bluesky let the sign in expire. Please try again, and finish within a few minutes.
     bluesky_failed: We couldn't sign you in with Bluesky. Check your handle and try again.
     crops_waiting: There are crops waiting to be wrangled.
     follow_error: Already following or error while following.
     followed: Followed %{name}
     invalid_location: Please enter a valid location
+    mastodon_instance_invalid: We couldn't connect to that Mastodon server. Check the address, which looks like you@mastodon.social, and try again.
+    mastodon_needs_account: We don't know that Mastodon account yet. Join Growstuff or sign in, then connect Mastodon from your account settings.
     location_cleared: Location removed.
     location_unplaced_html: We can't find "%{location}" on the map. <a href="%{link}">Choose your location from the list</a> so we can show you what's growing near you.
     revert_error: 'Could not revert to version from %{date}. Errors: %{errors}'
@@ -1271,13 +1422,148 @@ en:
     update:
       updated: Photo updated.
   photos:
+    actions:
+      delete: Delete photo from Growstuff
+      delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on Flickr.
+      refresh: Refresh photo data from Flickr
+      unlink:
+        crop: "Remove from the crop: %{name}"
+        garden: "Remove from the garden: %{name}"
+        harvest: "Remove from the harvest: %{name}"
+        job: "Remove from the job: %{name}"
+        planting: "Remove from the planting: %{name}"
+        post: "Remove from the post: %{name}"
+        seed: "Remove from the seeds: %{name}"
+      unlink_confirm: Remove this photo from that record? The photo itself stays on Growstuff.
+    comment:
+      ago: "%{time} ago"
+      delete: Delete
+      delete_confirm: Delete this comment?
+      deleted_member: Member deleted
+      edit: Edit
+      edited: edited
+      photographer: Photographer
+      you: You
+    comments:
+      add_comment: Add a comment
+      empty: No comments yet. Be the first to say something about this photo.
+      guidelines: Community Guidelines
+      heading: Comments
+      join: Join free
+      placeholder: Say something about this photo
+      post: Post comment
+      public_note_html: Comments are public. Please follow the %{guidelines}.
+      sign_in: Sign in
+      sign_in_prompt: Sign in to join the conversation
+    credit:
+      by: Photo by %{name}
+      "on": " on %{site}"
+    licence:
+      copied: Copied
+      copy_credit: Copy credit
+      credit_label: Credit it like this
+      heading: Licence
+      public_domain: Public domain
+      read_licence: Read the full licence
+      summary:
+        by: You can share and adapt this photo, even commercially, as long as you credit %{name} and link to the licence.
+        by-nc: You can share and adapt this photo for non-commercial use, as long as you credit %{name} and link to the licence.
+        by-nc-nd: You can share this photo for non-commercial use, as long as you credit %{name}, link to the licence and don't change it.
+        by-nc-sa: You can share and adapt this photo for non-commercial use, as long as you credit %{name}, link to the licence and share what you make under the same licence.
+        by-nd: You can share this photo, even commercially, as long as you credit %{name}, link to the licence and don't change it.
+        by-sa: You can share and adapt this photo, even commercially, as long as you credit %{name}, link to the licence and share what you make under the same licence.
+        mark: This photo is in the public domain. You can use it however you like.
+        other: See the licence for how you can use this photo.
+        reserved: "%{name} keeps all rights to this photo. Ask before using it elsewhere."
+        zero: "%{name} has given up all rights to this photo. You can use it however you like."
+    photographer:
+      gardens: See %{name}'s gardens
+      harvests: harvests
+      heading: Photographer
+      joined: Joined %{time} ago
+      plantings: plantings
+      seeds: seeds
+    photographer_outsider:
+      heading: Photographer
+      not_a_member: Not a Growstuff member. This photo is shared on %{site} under a Creative Commons licence.
+      photographer: "%{site} photographer"
+      see_photos: See their photos on %{site}
+    polaroid:
+      view_on: View on %{site}
+    refresh:
+      not_found: Flickr could not find that photo. It may be private or deleted.
+      not_public: That photo is no longer public on Flickr, so it could not be refreshed.
+      refreshed: Refreshed the photo's details from Flickr.
+      unavailable: Flickr could not be reached. Please try again in a moment.
+    records:
+      harvest: "%{crop} harvest"
+      planting: "%{crop} planting"
+      seed: "%{crop} seeds"
     show:
       crop: "%{crop}"
       garden: garden named "%{garden}" by %{owner}
       harvest: "%{crop} harvest by %{owner}"
+      heading: Photo of %{subject}
+      photo_by: Photo by %{name}
+      photos: Photos
       planting: "%{planting}"
       seed: "%{seed}"
+      taken: Taken %{date}
       thing_by: A %{thing} by %{owner}
+    shows:
+      crop:
+        about: Curious how to grow it? See when to plant, who else grows it near you, and what they harvest.
+        go: Explore %{crop}
+        harvests:
+          one: "%{count} harvest"
+          other: "%{count} harvests"
+        image_alt: Image of %{crop}
+        kind: Crop
+        on_growstuff: On Growstuff
+        plantings:
+          one: "%{count} planting"
+          other: "%{count} plantings"
+        seeds:
+          one: "%{count} seed packet"
+          other: "%{count} seed packets"
+      garden:
+        by: Garden of %{owner}
+        kind: Garden
+      harvest:
+        about: See what came out of the ground, and how long it took from planting.
+        by: Harvested by %{owner}
+        go: See this harvest
+        kind: Harvest
+        picked: Picked %{date}
+        title: "%{crop} harvest"
+      heading: What this photo shows
+      intro: Follow the photo back to the garden record it came from.
+      job:
+        by: Job of %{owner}
+        kind: Job
+      outsider_intro: A Creative Commons photo of this crop, shared from %{site}.
+      planting:
+        about: See when it went in, how it grew and whether it got harvested.
+        by: Planted by %{owner}
+        go: See this planting
+        kind: Planting
+        planted: Planted %{date}
+        plants:
+          one: "%{count} plant"
+          other: "%{count} plants"
+      post:
+        by: Post by %{owner}
+        kind: Post
+      seed:
+        about: See what variety it is, where it came from and whether it is up for trade.
+        by: Saved by %{owner}
+        go: See these seeds
+        kind: Seeds
+        saved: Saved %{date}
+        seeds:
+          one: "%{count} seed"
+          other: "%{count} seeds"
+        title: "%{crop} seeds"
   places:
     index:
       title: "%{site_name} Community Map"
@@ -1293,9 +1579,9 @@ en:
       no_nearby_seeds: No nearby seeds found
       recent_plantings: Recent plantings near %{place}
       seeds_available: Seeds available for trade near %{place}
-      view_all_members: "View all members >>"
-      view_all_plantings: "View all plantings >>"
-      view_all_seeds: "View all seeds >>"
+      view_all_members: View all members >>
+      view_all_plantings: View all plantings >>
+      view_all_seeds: View all seeds >>
   planting:
     status:
       finished: Finished
@@ -1347,6 +1633,13 @@ en:
       seeds_saved: Seeds saved
       sown_from_expired: Sown from expired seeds (plant before %{year})
       unknown: unknown
+    failed_modal:
+      cancel: cancel
+      close: Close
+      mark_as_failed: Mark as failed
+      planted_at: Planted %{date}
+      title: Mark %{crop} planting as failed
+      which_planting: Which planting would you like to mark as failed?
     form:
       failed_helper: 'Mark this planting as failed if it died or was removed without any harvest.
 
@@ -1356,11 +1649,6 @@ en:
         '
     frost:
       cards:
-        coldest:
-          label: Coldest night
-          note_above: "%{gap} °C above the %{threshold} °C frost danger line"
-          note_at: Right on the %{threshold} °C frost danger line
-          note_below: "%{gap} °C below the %{threshold} °C frost danger line"
         free:
           label: Frost-free season
           note: in a typical year
@@ -1372,11 +1660,13 @@ en:
           note: has come as late as %{latest}
           planted_after: planted %{days} after it
           planted_before: planted %{days} before it
-          planted_out_after: went outdoors %{days} after it
-          planted_out_before: went outdoors %{days} before it
+        margin:
+          label: Margin above frost
+          note: coldest night was %{coldest} °C; the frost line is %{threshold} °C
         next:
           label: Next frost danger starts
-          note_finishes: as early as %{earliest}, %{days} after this %{crop} planting finishes
+          note_finished: as early as %{earliest}, %{days} after this planting finished
+          note_finishes: as early as %{earliest}, %{days} after this planting finishes
           note_now: as early as %{earliest}, %{days} from now
       days:
         one: "%{count} day"
@@ -1386,39 +1676,24 @@ en:
         one: One night so far was at or below %{threshold} °C, the coldest %{coldest} °C.
         other: "%{count} nights so far were at or below %{threshold} °C, the coldest %{coldest} °C."
       planted:
-        after: The %{crop} planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
-        before: The %{crop} planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
-      planted_out:
-        after: The %{crop} planting went outdoors on %{planted}, %{days} after the usual last frost (%{usual_end}).
-        before: The %{crop} planting went outdoors on %{planted}, %{days} before the usual last frost (%{usual_end}).
+        after: The planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
+        before: The planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
       timeline:
-        description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting runs from %{planted} to %{ends}.
-        description_undated: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The %{crop} planting went in on %{planted}.
         annotation_after: Planted %{days} after the usual last frost
         annotation_before: Planted %{days} before the usual last frost
-        annotation_out_after: Went outdoors %{days} after the usual last frost
-        annotation_out_before: Went outdoors %{days} before the usual last frost
+        description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The planting runs from %{planted} to %{ends}.
         finish_expected: Finish expected %{date}
         finished: Finished %{date}
         legend:
           finished: Planting, finished
-          frost_safe: Somewhere safe from frost
-          planted: Planted, no finish date
           possible: 'Possible: as early or late as it has come'
           so_far: Planting so far
           still_to_come: Planting still to come
           usual: Usual frost danger
-        frost_safe: In %{place}, safe from frost
         planted: Planted %{date}
-        planted_out: Went outdoors %{date}
         row_danger: Frost danger
         row_planting: This planting
-        tips:
-          frost_safe: "In %{place}, safe from frost: %{range}"
-          planting: "%{label} (%{range})"
-          possible: "Frost has come as early or late as this: %{range}"
-          usual: "Usual frost danger: %{range}"
-        title: This %{crop} planting against the frost season
+        title: This planting against the frost season
         today: Today, %{date}
         usual: "%{from} – %{to}"
         usual_open: "%{from} →"
@@ -1430,16 +1705,13 @@ en:
           title_far: No frost danger yet
         finished_clear:
           body: Frost was possible until %{latest}, and no night in that time was colder than %{coldest} °C.
-          body_no_readings: Frost was possible until %{latest}. We have no night temperatures for this %{crop} planting.
-          title: No frost reached this %{crop} planting
+          body_no_readings: Frost was possible until %{latest}. We have no night temperatures for this planting.
+          title: No frost reached this planting
         finished_hit:
           body:
             one: One night while frost was possible was at or below %{threshold} °C. The coldest was %{coldest} °C.
             other: "%{count} nights while frost was possible were at or below %{threshold} °C. The coldest was %{coldest} °C."
-          title: Frost may have reached this %{crop} planting
-        finished_undated:
-          body: The usual last frost that year was %{usual_end}, and frost has come as late as %{latest}. We have no finish date for this %{crop} planting, so we can't say what it went through.
-          title: We can't say what frost it met
+          title: Frost may have reached this planting
         in_season:
           body: The usual last frost is %{usual_end}, in %{days}. It has come as late as %{latest}.
           title: In the usual frost danger
@@ -1448,12 +1720,20 @@ en:
           title: Past the usual last frost, but it can still come
         passed:
           body: The latest a frost has come in past years is %{latest}, %{days} ago.
-          title: Frost danger has passed for this %{crop} planting
+          title: Frost danger has passed for this planting
         rare:
           body: Frost is rare in this area, so we show no frost dates.
           title: Frost is rare here
     garden_card:
       by: by
+    hardiness:
+      help: Leave it as unknown to go by the seed, then the crop.
+      label: How much frost does it take?
+      sources:
+        crop: Usual for the crop
+        planting: Set for this planting
+        seed: From the seed packet
+      title: Hardiness
     index:
       title:
         crop_plantings: Everyone's %{crop} plantings
@@ -1521,19 +1801,6 @@ en:
       weather_temperature_chart: Daily high and low
       weather_temperature_chart_alt: Daily high and low temperature, from %{low} to %{high}.
     string: "%{crop} planting in %{garden} by %{owner}"
-    failed_modal:
-      cancel: cancel
-      close: Close
-      mark_as_failed: Mark as failed
-      planted_at: "Planted %{date}"
-      title: "Mark %{crop} planting as failed"
-      which_planting: Which planting would you like to mark as failed?
-    modal:
-      add_new_garden: Add a new garden
-      add_to_my_garden: Add to my garden
-      close: Close
-      title: Add %{crop} to your garden
-      which_garden: Which garden is it going in?
     transplant:
       cancel: Cancel
       close: Close

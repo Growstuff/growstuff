@@ -19,7 +19,7 @@ module FrostTimelineHelper
     return unless frost.show_today?
 
     style = "left: #{frost_percent(frost.position(frost.today))}"
-    pill = tag.span(t('plantings.frost.timeline.today', date: frost_date_text(frost.today)), class: 'frost-today', style:)
+    pill = tag.span(t('frost.timeline.today', date: frost_date_text(frost.today)), class: 'frost-today', style:)
     safe_join([pill, tag.div(class: 'frost-today-line', style:)])
   end
 
@@ -40,38 +40,42 @@ module FrostTimelineHelper
 
   # The line under the planting's row: how its start sits against the usual last frost.
   def frost_annotation(frost)
-    t("plantings.frost.timeline.annotation#{frost_out(frost)}_#{frost_direction(frost)}", days: frost_planted_days(frost))
+    t("frost.timeline.annotation#{frost_out(frost)}_#{frost_direction(frost)}", days: frost_planted_days(frost))
   end
 
   # The timeline in words, for a screen reader.
   def frost_timeline_description(frost)
-    dates = { usual_start: frost.usual.first, usual_end: frost.usual.last, earliest: frost.possible.first, latest: frost.possible.last,
-              planted: frost.planted_on, ends: frost.ends_on }.transform_values { |date| frost_date_text(date) }
-    key = frost.end_unknown? ? 'description_undated' : 'description'
-    t("plantings.frost.timeline.#{key}", crop: frost.crop_name, from: frost_month_year(frost.axis.first),
-                                          to: frost_month_year(frost.axis.last), **dates)
+    planting = frost_planting?(frost)
+    dates = frost_season_dates(frost)
+    dates.merge!(planted: frost_date_text(frost.planted_on), ends: frost_date_text(frost.ends_on)) if planting
+    key = if !planting then 'description_place'
+          elsif frost.end_unknown? then 'description_undated'
+          else 'description'
+          end
+    t("frost.timeline.#{key}", crop: frost_crop(frost), from: frost_month_year(frost.axis.first),
+                               to: frost_month_year(frost.axis.last), **dates)
   end
 
   # The label on a band of the timeline.
   def frost_band_label(frost, band)
     case band.kind
     when :usual then frost_usual_label(band)
-    when :so_far then t("plantings.frost.timeline.planted#{frost_out(frost)}", date: frost_date_text(frost.planted_on))
-    when :planted then t('plantings.frost.timeline.planted', date: frost_date_text(frost.planted_on))
-    when :frost_safe then t('plantings.frost.timeline.frost_safe', place: frost.safe_place)
-    when :still_to_come then t('plantings.frost.timeline.finish_expected', date: frost_date_text(frost.ends_on))
-    when :finished then t('plantings.frost.timeline.finished', date: frost_date_text(frost.ends_on))
+    when :so_far then t("frost.timeline.planted#{frost_out(frost)}", date: frost_date_text(frost.planted_on))
+    when :planted then t('frost.timeline.planted', date: frost_date_text(frost.planted_on))
+    when :frost_safe then t('frost.timeline.frost_safe', place: frost.safe_place)
+    when :still_to_come then t('frost.timeline.finish_expected', date: frost_date_text(frost.ends_on))
+    when :finished then t('frost.timeline.finished', date: frost_date_text(frost.ends_on))
     end
   end
 
   # What a band says when hovered or clicked: what it is and the dates it covers.
   def frost_band_tip(frost, band)
-    range = t('plantings.frost.timeline.usual', from: frost_date_text(band.from), to: frost_date_text(band.last || band.to))
+    range = t('frost.timeline.usual', from: frost_date_text(band.from), to: frost_date_text(band.last || band.to))
     case band.kind
-    when :usual, :possible then t("plantings.frost.timeline.tips.#{band.kind}", range:)
-    when :frost_safe then t('plantings.frost.timeline.tips.frost_safe', place: frost.safe_place, range:)
+    when :usual, :possible then t("frost.timeline.tips.#{band.kind}", range:)
+    when :frost_safe then t('frost.timeline.tips.frost_safe', place: frost.safe_place, range:)
     when :planted then frost_band_label(frost, band)
-    else t('plantings.frost.timeline.tips.planting', range:, label: frost_band_label(frost, band))
+    else t('frost.timeline.tips.planting', range:, label: frost_band_label(frost, band))
     end
   end
 
@@ -83,8 +87,8 @@ module FrostTimelineHelper
 
   def frost_usual_label(band)
     from = frost_date_text(band.from)
-    return t('plantings.frost.timeline.usual_open', from:) if band.open?
+    return t('frost.timeline.usual_open', from:) if band.open?
 
-    t('plantings.frost.timeline.usual', from:, to: frost_date_text(band.to))
+    t('frost.timeline.usual', from:, to: frost_date_text(band.to))
   end
 end

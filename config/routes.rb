@@ -114,7 +114,9 @@ Rails.application.routes.draw do
   end
   resources :alternate_names
   resources :plant_parts
-  resources :photos
+  resources :photos do
+    post :refresh, on: :member
+  end
 
   resources :photo_associations, only: %i(update destroy)
 
@@ -125,6 +127,7 @@ Rails.application.routes.draw do
 
     get 'places' => 'places#index'
     resources :jobs, only: :create, controller: 'crop_jobs'
+    resources :photos, only: %i(new create), controller: 'crop_photos'
     get 'members' => 'members#index'
 
     # Charts json
