@@ -12,6 +12,8 @@
 
 %section.map#placesmap{ style: "height:300px", data: places_map_data }
 
+= render 'frost/section', frost: @frost if @frost
+
 %section.members
   %h2#members= t('.nearby_members')
 
