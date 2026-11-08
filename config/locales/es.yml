@@ -628,8 +628,8 @@ es:
       tile_harvest: registra lo que elegiste
       tile_job: planifica una tarea para tu jardín
       jobs_today:
-        one: 1 trabajo hoy
-        other: "%{count} trabajos hoy"
+        one: 1 trabajo pronto
+        other: "%{count} trabajos pronto"
       jobs_today_go: Mis trabajos →
       tile_job_title: Agregar trabajo
       tile_photo: del jardin

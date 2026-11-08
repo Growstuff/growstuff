@@ -860,8 +860,8 @@ en:
         one: You've hidden 1 suggested crop.
         other: You've hidden %{count} suggested crops.
       jobs_today:
-        one: 1 job today
-        other: "%{count} jobs today"
+        one: 1 job soon
+        other: "%{count} jobs soon"
       jobs_today_go: My jobs →
       last_year_planted: Around this time last year you planted %{crops}.
       no_seeds: No seeds saved yet.

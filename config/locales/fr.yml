@@ -630,8 +630,8 @@ fr:
       tile_harvest: enregistrez ce que vous avez choisi
       tile_job: planifier une tâche pour votre jardin
       jobs_today:
-        one: 1 tâche aujourd'hui
-        other: "%{count} tâches aujourd'hui"
+        one: 1 tâche bientôt
+        other: "%{count} tâches bientôt"
       jobs_today_go: Mes tâches →
       tile_job_title: Ajouter un emploi
       tile_photo: avec deux lits dans la tour au jardin
