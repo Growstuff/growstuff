@@ -100,10 +100,10 @@ zh:
         job_ideas: 为会员推荐工作，包括他们过去的工作和种植情况、作物模板以及附近园丁正在做的事情。
         planting_weather: 每种植物的温度和降雨量图表，来自花园区域的每日天气。
       index:
+        disabled: 离开
+        enabled: 在
         feature: 特征
         intro: 为每个人打开或关闭功能。
-        'off': 离开
-        'on': 在
         state: 状态
         switch_off: 关闭
         switch_on: 打开
@@ -114,8 +114,8 @@ zh:
         job_ideas: 工作思路
         planting_weather: 播种天气
       update:
-        'off': "%{feature} 现已关闭。"
-        'on': "%{feature} 现已开启。"
+        disabled: "%{feature} 现已关闭。"
+        enabled: "%{feature} 现已开启。"
   authentications:
     sign_in:
       bluesky:
@@ -1390,8 +1390,8 @@ zh:
       not_located: 告诉我们您在哪里园艺，我们可以建议播种什么。
       title: 在您附近的 %{month} 轻松播种
     update:
-      'off': 我们已经停止建议农作物。
-      'on': 作物建议又回来了。
+      disabled: 我们已经停止建议农作物。
+      enabled: 作物建议又回来了。
   unauthorized:
     create:
       all: 请登录或注册以创建 %{subject}。
