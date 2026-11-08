@@ -47,6 +47,18 @@ ja:
       time_ago: "%{time}前"
       title: 受信トレイ
   crops:
+    growing_fact:
+      median_of_packets: メンバーの種子パケットの中央値
+      members_packets: "メンバーの種子パケット: %{median}"
+    growing_facts:
+      days_until_maturity: 成熟までの日数
+      germination: 発芽
+      median_of_packets: メンバーの種子パケットの中央値
+      members_packets_hemispheres: "メンバーの種子パケット: 南半球 %{south}、北半球 %{north}"
+      northern_hemisphere: 北半球
+      row_spacing: 条間
+      southern_hemisphere: 南半球
+      when_to_sow: 種まきの時期
     find_seeds:
       empty: 現在Growstuffで交換可能な種はありません。
       list_seeds: 交換用に%{crop}の種を登録する
