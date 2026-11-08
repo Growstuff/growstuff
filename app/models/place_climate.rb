@@ -20,6 +20,9 @@ class PlaceClimate
   RECORDS = { hottest_day: %i(temp_max_c temp_max_on max_by), coldest_night: %i(temp_min_c temp_min_on min_by),
               warmest_soil: %i(soil_temp_max_c soil_temp_max_on max_by), coldest_soil: %i(soil_temp_min_c soil_temp_min_on min_by) }.freeze
 
+  # A single month on record: the month number, its year and the figure.
+  MonthRecord = Struct.new(:month, :year, :value)
+
   attr_reader :today
 
   # place: anything with a weather_cell, such as a Garden or a Place. Nil when we have no months for its cell.
@@ -114,6 +117,15 @@ class PlaceClimate
   # The month number with the most or least of a measure, usually, and the figure: [month, value].
   def extreme_month(measure, direction)
     usual(measure).public_send(direction == :most ? :max_by : :min_by) { |_, value| value }
+  end
+
+  # The wettest, driest, warmest or coldest single whole month we hold, as MonthRecord, for :rain, :air or :soil and
+  # :most or :least. The first of equal months wins.
+  def record_month(measure, direction)
+    column = COLUMNS.fetch(measure)
+    rows = (@past.values.flatten + @year.values.select { |row| share_of_month(row) >= 1 }).select(&column)
+    row = rows.sort_by { |r| [r.year, r.month] }.public_send(direction == :most ? :max_by : :min_by) { |r| r[column] }
+    MonthRecord.new(row.month, row.year, row[column]) if row
   end
 
   def record(name)

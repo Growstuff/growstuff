@@ -204,14 +204,18 @@ en:
         air: air temperature in degrees Celsius
         rain: rainfall in millimetres
         soil: soil temperature, top 7 cm, in degrees Celsius
+    month_year: "%{month} %{year}"
     on_average: "%{value} on average"
     rain:
       body: "%{rain} has fallen since 1 January. That is %{percent}% of the usual %{usual} by this date."
       cards:
-        driest: Driest month
-        wettest: Wettest month
+        driest: Driest month on record
+        wettest: Wettest month on record
         year: Usual year
       chart: Rain each month, this year and usually
+      records_note:
+        one: The wettest and driest months are the highest and lowest in the 1 year of data we hold, not necessarily the highest or lowest ever.
+        other: The wettest and driest months are the highest and lowest in the %{count} years of data we hold, not necessarily the highest or lowest ever.
       title: Rainfall
       verdicts:
         close: Rainfall this year is close to usual

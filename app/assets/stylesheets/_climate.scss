@@ -187,6 +187,12 @@ $climate-soil-year: #6b4423;
     @include figure-card-note;
   }
 
+  .climate-footnote {
+    color: $brown;
+    font-size: 0.875rem;
+    margin: -0.5rem 0 0;
+  }
+
   .climate-details {
     border: $figure-line;
     border-radius: $card-radius;

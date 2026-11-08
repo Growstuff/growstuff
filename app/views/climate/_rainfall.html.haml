@@ -8,5 +8,6 @@
       %h3= t('climate.rain.chart')
       = render 'climate/chart', climate:, measure: :rain
     = render 'climate/cards', cards: climate_rain_cards(climate)
+    %p.climate-footnote= t('climate.rain.records_note', count: climate.years_held)
     = render 'climate/table', climate:, columns: { t('climate.table.rain') => :rain }
     = render 'climate/credit'

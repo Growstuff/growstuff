@@ -41,13 +41,11 @@ module ClimateHelper
 
   # The figures under the rain chart: { label:, value:, note: }.
   def climate_rain_cards(climate)
-    wettest = climate.extreme_month(:rain, :most)
-    driest = climate.extreme_month(:rain, :least)
     [
       { label: t('climate.rain.cards.year'), value: climate_figure(:rain, climate.usual_rain_for_year),
         note: t('climate.years_average', count: climate.years_held) },
-      climate_month_card(:rain, 'wettest', wettest), climate_month_card(:rain, 'driest', driest)
-    ]
+      climate_record_month_card(climate, 'wettest', :most), climate_record_month_card(climate, 'driest', :least)
+    ].compact
   end
 
   # The figures under the temperature charts: the warmest and coldest months and the soil this month.
@@ -111,6 +109,15 @@ module ClimateHelper
     month, value = extreme
     { label: t("climate.#{measure == :rain ? 'rain' : 'air'}.cards.#{key}"), value: climate_month_name(month, '%B'),
       note: t('climate.on_average', value: climate_figure(measure, value)) }
+  end
+
+  # The wettest or driest month on record: the month and year, and how much fell.
+  def climate_record_month_card(climate, key, direction)
+    record = climate.record_month(:rain, direction)
+    return unless record
+
+    { label: t("climate.rain.cards.#{key}"), value: climate_figure(:rain, record.value),
+      note: t('climate.month_year', month: climate_month_name(record.month, '%B'), year: record.year) }
   end
 
   # The name of a month, in the format: "%b" for Jan, "%B" for January.
