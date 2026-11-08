@@ -33,4 +33,23 @@ describe PlacesController, '#show frost dates', flipper: :planting_weather do
 
     it { is_expected.to have_no_css('.frost-section') }
   end
+
+  context 'when the place has months of weather' do
+    before do
+      create(:frost_stat, latitude: -41.25, longitude: 174.75, threshold_c: FrostCalculator::FROST_DANGER_C)
+      [Time.zone.today.year - 1, Time.zone.today.year].each { |year| create(:climate_month, year:, month: 1) }
+      get place_path(place)
+    end
+
+    it { is_expected.to have_css('.climate-rainfall .climate-chart') }
+    it { is_expected.to have_css('.climate-temperature .climate-chart', count: 2) }
+
+    it 'puts the weather above the frost' do
+      expect(response.body.index('climate-rainfall')).to be < response.body.index('frost-section')
+    end
+  end
+
+  context 'without months of weather' do
+    it { is_expected.to have_no_css('.climate-section') }
+  end
 end

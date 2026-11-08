@@ -26,8 +26,7 @@ class PlacesController < ApplicationController
     @place = params[:place] # used for page title
     latitude, longitude = Geocoder.coordinates(@place, params: { limit: 1 }) if @place.present?
     @nearby_members = latitude && longitude ? Member.nearest_to_point(latitude, longitude) : Member.none
-    # Behind the planting_weather feature switch, like the frost dates on a planting or a garden.
-    @frost = FrostSeason.for(Place.new(latitude, longitude)) if latitude && longitude && Feature.enabled?(:planting_weather)
+    load_weather(Place.new(latitude, longitude)) if latitude && longitude && Feature.enabled?(:planting_weather)
     respond_to do |format|
       format.html # show.html.haml
       format.json do
@@ -58,5 +57,13 @@ class PlacesController < ApplicationController
     else
       redirect_to place_path(params[:new_place])
     end
+  end
+
+  private
+
+  # The frost and the weather of the place, behind the planting_weather feature switch like those on a planting or a garden.
+  def load_weather(place)
+    @frost = FrostSeason.for(place)
+    @climate = PlaceClimate.for(place)
   end
 end

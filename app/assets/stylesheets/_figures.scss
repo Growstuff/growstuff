@@ -1,0 +1,76 @@
+// What the frost section of a planting or garden page and the climate sections of a place's page share: a banner with a
+// headline, a grid of figure cards, and the heading above a chart.
+$figure-line: 1px solid rgba($brown, 0.15);
+
+@mixin figure-heading {
+  font-size: 120%;
+  font-weight: 500;
+  margin: 0 0 0.75rem;
+}
+
+@mixin figure-banner {
+  background: $white;
+  border: $figure-line;
+  border-radius: $card-radius;
+  display: flex;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+
+  p {
+    margin: 0;
+  }
+}
+
+@mixin figure-banner-icon($background: $blue) {
+  align-items: center;
+  background: $background;
+  border-radius: 50%;
+  color: $white;
+  display: flex;
+  flex: none;
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+
+@mixin figure-banner-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+@mixin figure-banner-body {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-top: 0.4rem;
+}
+
+@mixin figure-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+@mixin figure-card {
+  border: $figure-line;
+  border-radius: $card-radius;
+  padding: 0.9rem 1rem;
+}
+
+@mixin figure-card-label {
+  color: $brown;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+@mixin figure-card-value {
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-top: 0.1rem;
+}
+
+@mixin figure-card-note {
+  color: $brown;
+  margin-top: 0.1rem;
+}
