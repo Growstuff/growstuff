@@ -982,6 +982,60 @@ en:
         one: planting
         other: plantings
     updated: Seed was successfully updated.
+    weather_invitation:
+      add_location: Add your location
+      change_location: Change your location
+      intro:
+        loading: We are loading the weather history for your garden in %{place}. This can take a day or two. Come back soon and it will be ready.
+        no_location: Add where your garden is and we will show frost, rain and temperature for it.
+        ready: See how frost, rain and temperature are going at your garden in %{place}.
+      labels:
+        air: Temperature
+        frost: Frost
+        rain: Rainfall
+      loading:
+        air:
+          note: Loading
+          title: Not ready yet
+        frost:
+          note: Loading
+          title: Not ready yet
+        rain:
+          note: Loading
+          title: Not ready yet
+      no_location:
+        air:
+          note: in the last 30 years
+          title: Air and soil, with records
+        frost:
+          note: for your garden
+          title: When frost danger starts and ends
+        rain:
+          note: compared with usual
+          title: How wet this year has been
+      ready:
+        air:
+          a_little_cooler: A little cooler than usual
+          a_little_warmer: A little warmer than usual
+          close: Close to usual this year
+          cooler: Cooler than usual
+          note_above: "%{difference} °C above the usual this year"
+          note_below: "%{difference} °C below the usual this year"
+          note_close: "%{difference} °C from the usual this year"
+          warmer: Warmer than usual
+        frost:
+          before_season: Usual frost danger starts %{date}
+          in_season: Usual frost danger ends %{date}
+          late_possible: Frost has come as late as %{date}
+          passed: Next frost danger starts %{date}
+          rare: Frost is rare here
+        rain:
+          close: Close to usual this year
+          drier: Drier than usual this year
+          note: "%{percent}% of the usual by this date"
+          wetter: Wetter than usual this year
+      see: See your place
+      title: Weather at your place
     why_join:
       neighbours:
         body: Find seeds nearby and see what local gardeners are planting and harvesting now.
