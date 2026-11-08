@@ -38,33 +38,18 @@ describe OpenMeteoClient, type: :service do
       expect(asked.first.split(',')).not_to include 'precipitation_sum'
     end
 
+    it 'asks only for the variables it is given' do
+      client.daily(latitude: -41.3, longitude: 174.75, from: Date.new(2026, 10, 1), to: Date.new(2026, 10, 2),
+                   variables: %w(rain_sum temperature_2m_max))
+      expect(asked.first).to eq 'rain_sum,temperature_2m_max'
+    end
+
     it 'maps values to columns by date' do
       expect(days[Date.new(2026, 10, 1)]).to eq(rainfall_mm: 0.0, temp_max_c: 14.2)
     end
 
     it 'leaves out figures the API lacks' do
       expect(days[Date.new(2026, 10, 2)]).to eq(temp_max_c: 14.5)
-    end
-  end
-
-  describe '#minimums' do
-    let(:body) { { daily: { time: %w(2026-10-01 2026-10-02), temperature_2m_min: [3.1, nil] } } }
-    let(:minimums) { client.minimums(latitude: -41.3, longitude: 174.75, from: Date.new(2026, 10, 1), to: Date.new(2026, 10, 2)) }
-
-    before do
-      stubs.get('/v1/archive') do |env|
-        asked << env.params['daily']
-        [200, {}, body.to_json]
-      end
-    end
-
-    it 'asks for the daily minimum alone' do
-      minimums
-      expect(asked.first).to eq 'temperature_2m_min'
-    end
-
-    it 'maps each day to its minimum, leaving out missing days' do
-      expect(minimums).to eq(Date.new(2026, 10, 1) => 3.1)
     end
   end
 

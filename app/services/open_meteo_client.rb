@@ -66,9 +66,4 @@ class OpenMeteoClient
   rescue Faraday::Error, JSON::ParserError => e
     raise Error, e.message
   end
-
-  # => { Date => lowest temperature of the day, in degrees C }, leaving out any day the API lacks.
-  def minimums(latitude:, longitude:, from:, to:)
-    daily(latitude:, longitude:, from:, to:, variables: %w(temperature_2m_min)).transform_values { |day| day[:temp_min_c] }.compact
-  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_08_000200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_08_000300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -387,6 +387,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000200) do
     t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_claims_on_member_id"
     t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
+  end
+
+  create_table "climate_months", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "days", null: false, comment: "How many days of the month the figures are from."
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.integer "month", null: false, comment: "1 for January to 12 for December."
+    t.float "rain_mm", comment: "Rain over those days."
+    t.float "soil_temp_c", comment: "The average of the days' mean temperature of the top 7 cm of soil."
+    t.float "soil_temp_max_c"
+    t.date "soil_temp_max_on"
+    t.float "soil_temp_min_c"
+    t.date "soil_temp_min_on"
+    t.float "temp_max_c", comment: "The hottest day's highest air temperature."
+    t.date "temp_max_on"
+    t.float "temp_mean_c", comment: "The average of the days' mean air temperature."
+    t.float "temp_min_c", comment: "The coldest night's lowest air temperature."
+    t.date "temp_min_on"
+    t.datetime "updated_at", null: false
+    t.integer "year", null: false
+    t.index ["latitude", "longitude", "year", "month"], name: "index_climate_months_on_cell_year_and_month", unique: true
   end
 
   create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
