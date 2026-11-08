@@ -24,7 +24,10 @@ class PlacesController < ApplicationController
   # GET /places/london.json
   def show
     @place = params[:place] # used for page title
-    @nearby_members = Member.nearest_to(params[:place])
+    latitude, longitude = Geocoder.coordinates(@place, params: { limit: 1 }) if @place.present?
+    @nearby_members = latitude && longitude ? Member.nearest_to_point(latitude, longitude) : Member.none
+    # Behind the planting_weather feature switch, like the frost dates on a planting or a garden.
+    @frost = FrostSeason.for(Place.new(latitude, longitude)) if latitude && longitude && Feature.enabled?(:planting_weather)
     respond_to do |format|
       format.html # show.html.haml
       format.json do
