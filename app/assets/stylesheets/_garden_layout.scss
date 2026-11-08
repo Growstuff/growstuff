@@ -612,12 +612,6 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     border: 1px solid $garden-layout-planting-border;
     border-radius: 50%;
 
-    &.is-waiting {
-      width: 1.6rem;
-      height: 1.6rem;
-      cursor: grab;
-    }
-
     &.is-dragging {
       opacity: 0.4;
     }
@@ -629,12 +623,6 @@ $garden-layout-footprint: rgba(207, 227, 196, 0.35);
     width: 70%;
     height: 70%;
     object-fit: contain;
-  }
-
-  .garden-layout-crop {
-    font-size: 0.8rem;
-    line-height: 1.1;
-    overflow-wrap: anywhere;
   }
 
   // Stays in view as a tall bed is scrolled, scrolling itself if the list of
