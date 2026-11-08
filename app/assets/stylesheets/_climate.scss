@@ -1,5 +1,13 @@
 // The rainfall and temperature sections of a place's page: a banner, columns for each month, a few figures and a table.
-$climate-usual: #c9d0de;
+// The colours of each measure: the usual figure's fill and edge, and this year's. Rain is blue and green, the air is peach and
+// burnt orange, and the soil is sand and brown.
+$climate-rain-usual: #c9d0de;
+$climate-air-usual: #f9dcc0;
+$climate-air-edge: #b45309;
+$climate-air-year: #c2410c;
+$climate-soil-usual: #e8dcc8;
+$climate-soil-edge: #6b4423;
+$climate-soil-year: #6b4423;
 
 .climate-section {
   // The card, its green bar and the bar's title are the record page's own section styling: see _record_page.scss.
@@ -18,7 +26,16 @@ $climate-usual: #c9d0de;
   }
 
   .climate-verdict-icon {
-    @include figure-banner-icon;
+    @include figure-banner-icon($blue);
+  }
+
+  // The temperature is warm: a tinted banner and an amber-brown icon.
+  .climate-verdict--air {
+    background: #fff8e1;
+  }
+
+  .climate-verdict--air .climate-verdict-icon {
+    background: $climate-air-edge;
   }
 
   .climate-verdict-title {
@@ -75,15 +92,34 @@ $climate-usual: #c9d0de;
     position: absolute;
   }
 
+  // Each measure sets its three colours, and the bars and the legend keys use them.
+  .climate-figure {
+    --climate-usual: #{$climate-rain-usual};
+    --climate-edge: #{$blue};
+    --climate-year: #{$green};
+  }
+
+  .climate-figure--air {
+    --climate-usual: #{$climate-air-usual};
+    --climate-edge: #{$climate-air-edge};
+    --climate-year: #{$climate-air-year};
+  }
+
+  .climate-figure--soil {
+    --climate-usual: #{$climate-soil-usual};
+    --climate-edge: #{$climate-soil-edge};
+    --climate-year: #{$climate-soil-year};
+  }
+
   .climate-bar--usual {
-    background: $climate-usual;
-    border: 1px solid $blue;
+    background: var(--climate-usual);
+    border: 1px solid var(--climate-edge);
     left: 14%;
     width: 72%;
   }
 
   .climate-bar--year {
-    background: $green;
+    background: var(--climate-year);
     left: 32%;
     width: 36%;
   }
@@ -123,12 +159,12 @@ $climate-usual: #c9d0de;
   }
 
   .climate-key--usual {
-    background: $climate-usual;
-    border: 1px solid $blue;
+    background: var(--climate-usual);
+    border: 1px solid var(--climate-edge);
   }
 
   .climate-key--year {
-    background: $green;
+    background: var(--climate-year);
   }
 
   .climate-cards {

@@ -47,6 +47,9 @@ describe PlacesController, '#show frost dates', flipper: :planting_weather do
 
     it { is_expected.to have_css('.climate-rainfall .climate-chart') }
     it { is_expected.to have_css('.climate-temperature .climate-chart', count: 2) }
+    it { is_expected.to have_css('.climate-temperature .climate-figure--air') }
+    it { is_expected.to have_css('.climate-temperature .climate-figure--soil') }
+    it { is_expected.to have_css('.climate-rainfall .climate-figure--rain') }
 
     it 'puts the weather above the frost' do
       expect(response.body.index('climate-rainfall')).to be < response.body.index('frost-section')
