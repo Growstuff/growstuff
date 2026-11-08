@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_08_000300) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_08_000400) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1162,12 +1162,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000300) do
     t.string "planted_from"
     t.integer "quantity"
     t.date "seed_plant_before"
+    t.string "short_code", limit: 10
     t.string "slug"
     t.string "sunniness"
     t.datetime "updated_at", precision: nil
     t.index ["alternate_name_id"], name: "index_plantings_on_alternate_name_id"
     t.index ["crop_id"], name: "index_plantings_on_crop_id"
     t.index ["garden_id"], name: "index_plantings_on_garden_id"
+    t.index ["owner_id", "short_code"], name: "index_plantings_on_owner_id_and_short_code"
     t.index ["owner_id"], name: "index_plantings_on_owner_id"
     t.index ["parent_seed_id"], name: "index_plantings_on_parent_seed_id"
     t.index ["slug"], name: "index_plantings_on_slug", unique: true

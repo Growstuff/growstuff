@@ -1761,6 +1761,8 @@ en:
       planned_for: for %{date}
       planted: Planted
       planting_failed: this planting failed
+      short_code: Short code
+      short_code_description: for plant markers and labels
       progress: Progress
       quantity: Quantity
       rating: Rating

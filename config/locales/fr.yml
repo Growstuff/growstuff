@@ -1236,6 +1236,8 @@ fr:
       planned_for: pour le %{date}
       planted: Planté
       planting_failed: cette plantation a échoué
+      short_code: Code court
+      short_code_description: pour les marqueurs et étiquettes
       progress: Progrès
       quantity: Quantité
       rating: Évaluation

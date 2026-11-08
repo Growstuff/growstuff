@@ -1234,6 +1234,8 @@ de:
       planned_for: für %{date}
       planted: Gepflanzt
       planting_failed: diese Pflanzung ist fehlgeschlagen
+      short_code: Kurzcode
+      short_code_description: für Pflanzenschilder und Etiketten
       progress: Fortschritt
       quantity: Menge
       rating: Bewertung

@@ -85,6 +85,12 @@
         - else
           = t('.not_rated')
 
+  - if planting.short_code.present?
+    .card.fact-card
+      %h3= t('.short_code')
+      %strong.plantingfact--shortcode= planting.short_code
+      %span= t('.short_code_description')
+
   -# Facts that only some plantings have.
   - if planting.parent_seed
     .card.fact-card
