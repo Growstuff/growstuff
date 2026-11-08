@@ -175,6 +175,69 @@ en:
     unlike: Remove like
     view: View
     write_blog_post: Write blog post
+  climate:
+    air:
+      body_above: The average air temperature since 1 January is %{air} °C, which is %{difference} °C above the usual %{usual} °C for this date.
+      body_below: The average air temperature since 1 January is %{air} °C, which is %{difference} °C below the usual %{usual} °C for this date.
+      body_close: The average air temperature since 1 January is %{air} °C, close to the usual %{usual} °C for this date.
+      cards:
+        coldest: Coldest month
+        soil: Soil this month
+        soil_note: mean this month, top 7 cm
+        warmest: Warmest month
+      chart: Air temperature each month, this year and usually
+      records: Records in the last %{count} years
+      soil_chart: Soil temperature each month, this year and usually
+      title: Temperature
+      verdicts:
+        a_little_cooler: This year is a little cooler than usual
+        a_little_warmer: This year is a little warmer than usual
+        close: This year is close to usual
+        cooler: This year is cooler than usual
+        warmer: This year is warmer than usual
+    chart:
+      description: "Column chart of average monthly %{measure}. Usual: %{usual}. This year so far: %{year}."
+      legend:
+        usual: Usual for the month
+        year: This year
+      measures:
+        air: air temperature in degrees Celsius
+        rain: rainfall in millimetres
+        soil: soil temperature, top 7 cm, in degrees Celsius
+    on_average: "%{value} on average"
+    rain:
+      body: "%{rain} has fallen since 1 January. That is %{percent}% of the usual %{usual} by this date."
+      cards:
+        driest: Driest month
+        wettest: Wettest month
+        year: Usual year
+      chart: Rain each month, this year and usually
+      title: Rainfall
+      verdicts:
+        close: Rainfall this year is close to usual
+        drier: Rainfall this year is drier than usual
+        wetter: Rainfall this year is wetter than usual
+    records:
+      coldest_night: Coldest night
+      coldest_soil: Coldest soil
+      hottest_day: Hottest day
+      this_year: "This year: %{value}"
+      warmest_soil: Warmest soil
+    table:
+      air: Air
+      details: Show the monthly figures
+      month: Month
+      none: –
+      rain: Rain
+      soil: Soil
+      this_year: this year
+      usual: usual
+    units:
+      celsius: "%{value} °C"
+      mm: "%{value} mm"
+    years_average:
+      one: 1-year average
+      other: "%{count}-year average"
   comments:
     edit_modal:
       save: Save

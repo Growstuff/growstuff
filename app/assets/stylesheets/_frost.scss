@@ -1,6 +1,6 @@
 // The frost section of a planting or garden page: a verdict, the frost danger season (with the planting against it), and a few figures.
 $frost-lane: #ecebe6;
-$frost-line: 1px solid rgba($brown, 0.15);
+$frost-line: $figure-line;
 $frost-possible: repeating-linear-gradient(135deg, $blue 0, $blue 2px, $white 2px, $white 7px);
 $frost-finished: #6c757d;
 $frost-to-come: #cfe3c4;
@@ -27,23 +27,12 @@ $frost-warning: #fff8e1;
   }
 
   h3 {
-    font-size: 120%;
-    font-weight: 500;
-    margin: 0 0 0.75rem;
+    @include figure-heading;
   }
 
   // The verdict: an icon, a headline and a sentence, tinted by how it stands.
   .frost-verdict {
-    background: $white;
-    border: $frost-line;
-    border-radius: $card-radius;
-    display: flex;
-    gap: 1rem;
-    padding: 1.1rem 1.25rem;
-
-    p {
-      margin: 0;
-    }
+    @include figure-banner;
   }
 
   .frost-verdict--passed,
@@ -61,15 +50,7 @@ $frost-warning: #fff8e1;
   }
 
   .frost-verdict-icon {
-    align-items: center;
-    background: $blue;
-    border-radius: 50%;
-    color: $white;
-    display: flex;
-    flex: none;
-    height: 44px;
-    justify-content: center;
-    width: 44px;
+    @include figure-banner-icon;
   }
 
   .frost-verdict--passed .frost-verdict-icon,
@@ -89,15 +70,11 @@ $frost-warning: #fff8e1;
   }
 
   .frost-verdict-title {
-    font-size: 1.6rem;
-    font-weight: 600;
-    line-height: 1.2;
+    @include figure-banner-title;
   }
 
   .frost-verdict-body {
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-top: 0.4rem;
+    @include figure-banner-body;
   }
 
   // The timeline: two rows of bands on one axis of months.
@@ -279,33 +256,23 @@ $frost-warning: #fff8e1;
   }
 
   .frost-cards {
-    display: grid;
-    gap: 0.75rem;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    @include figure-grid;
   }
 
   .frost-card {
-    border: $frost-line;
-    border-radius: $card-radius;
-    padding: 0.9rem 1rem;
+    @include figure-card;
   }
 
   .frost-card-label {
-    color: $brown;
-    font-size: 0.8rem;
-    font-weight: 600;
+    @include figure-card-label;
   }
 
   .frost-card-value {
-    font-size: 1.9rem;
-    font-weight: 600;
-    line-height: 1.2;
-    margin-top: 0.1rem;
+    @include figure-card-value;
   }
 
   .frost-card-note {
-    color: $brown;
-    margin-top: 0.1rem;
+    @include figure-card-note;
   }
 
   .frost-about {

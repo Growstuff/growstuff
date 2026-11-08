@@ -1,0 +1,201 @@
+// The rainfall and temperature sections of a place's page: a banner, columns for each month, a few figures and a table.
+$climate-usual: #c9d0de;
+
+.climate-section {
+  // The card, its green bar and the bar's title are the record page's own section styling: see _record_page.scss.
+  .climate-section-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  h3 {
+    @include figure-heading;
+  }
+
+  .climate-verdict {
+    @include figure-banner;
+  }
+
+  .climate-verdict-icon {
+    @include figure-banner-icon;
+  }
+
+  .climate-verdict-title {
+    @include figure-banner-title;
+  }
+
+  .climate-verdict-body {
+    @include figure-banner-body;
+  }
+
+  // The chart: columns for each month on lines every few units, the usual figure behind this year's.
+  .climate-chart {
+    padding: 1.25rem 0 0 3.25rem;
+    position: relative;
+  }
+
+  .climate-plot {
+    border-bottom: 1px solid $gray-600;
+    height: 220px;
+    position: relative;
+  }
+
+  .climate-gridline {
+    border-top: 1px solid rgba($brown, 0.2);
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+
+  .climate-gridlabel {
+    color: $brown;
+    font-size: 0.8rem;
+    left: -3.25rem;
+    margin-bottom: 2px;
+    position: absolute;
+  }
+
+  .climate-columns {
+    bottom: 0;
+    display: flex;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .climate-column {
+    flex: 1;
+    position: relative;
+  }
+
+  .climate-bar {
+    box-sizing: border-box;
+    position: absolute;
+  }
+
+  .climate-bar--usual {
+    background: $climate-usual;
+    border: 1px solid $blue;
+    left: 14%;
+    width: 72%;
+  }
+
+  .climate-bar--year {
+    background: $green;
+    left: 32%;
+    width: 36%;
+  }
+
+  .climate-months {
+    display: flex;
+  }
+
+  .climate-month {
+    color: $brown;
+    flex: 1;
+    font-size: 0.8rem;
+    padding-top: 0.35rem;
+    text-align: center;
+  }
+
+  .climate-month-short {
+    display: none;
+  }
+
+  .climate-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    list-style: none;
+    margin: 0.9rem 0 0;
+    padding: 0;
+  }
+
+  .climate-key {
+    box-sizing: border-box;
+    display: inline-block;
+    height: 14px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    width: 22px;
+  }
+
+  .climate-key--usual {
+    background: $climate-usual;
+    border: 1px solid $blue;
+  }
+
+  .climate-key--year {
+    background: $green;
+  }
+
+  .climate-cards {
+    @include figure-grid;
+  }
+
+  .climate-card {
+    @include figure-card;
+  }
+
+  .climate-card-label {
+    @include figure-card-label;
+  }
+
+  .climate-card-value {
+    @include figure-card-value;
+  }
+
+  .climate-card-note {
+    @include figure-card-note;
+  }
+
+  .climate-details {
+    border: $figure-line;
+    border-radius: $card-radius;
+    padding: 0 1rem;
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      padding: 0.9rem 0;
+    }
+  }
+
+  .climate-table {
+    overflow-x: auto;
+    padding-bottom: 1rem;
+
+    table {
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 0.35rem 0.75rem;
+      text-align: left;
+    }
+
+    thead th {
+      color: $brown;
+    }
+  }
+
+  .climate-credit {
+    border-top: $figure-line;
+    color: $brown;
+    margin: 0;
+    padding-top: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .climate-month-long {
+      display: none;
+    }
+
+    .climate-month-short {
+      display: inline;
+    }
+  }
+}

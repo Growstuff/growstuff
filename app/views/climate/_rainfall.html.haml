@@ -1,0 +1,12 @@
+-# The rainfall section of a place's page: how this year's rain compares with usual, month by month.
+%section.climate-section.climate-rainfall
+  .section-header
+    %h2= t('climate.rain.title')
+  .climate-section-body
+    = render 'climate/verdict', verdict: climate_rain_verdict(climate), icon: climate_icon(:rain)
+    %div
+      %h3= t('climate.rain.chart')
+      = render 'climate/chart', climate:, measure: :rain
+    = render 'climate/cards', cards: climate_rain_cards(climate)
+    = render 'climate/table', climate:, columns: { t('climate.table.rain') => :rain }
+    = render 'climate/credit'
