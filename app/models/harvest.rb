@@ -51,7 +51,6 @@ class Harvest < ApplicationRecord
 
   ##
   ## Scopes
-  scope :interesting, -> { has_photos.one_per_owner }
   scope :recent, -> { order(created_at: :desc) }
   scope :one_per_owner, lambda {
     joins("JOIN members m ON (m.id=harvests.owner_id)

@@ -93,7 +93,6 @@ class Member < ApplicationRecord
   scope :located, -> { where.not(location: '').where.not(latitude: nil).where.not(longitude: nil) }
   scope :recently_signed_in, -> { reorder(updated_at: :desc) }
   scope :recently_joined, -> { reorder(confirmed_at: :desc) }
-  scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
   scope :with_email, -> { where.not(email: nil) }
   scope :wants_reminders, -> { with_email.where(send_planting_reminder: true) }
@@ -151,7 +150,7 @@ class Member < ApplicationRecord
     update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
   end
 
-  AVAILABLE_LOCALES = %w[en de es fr ja zh].freeze
+  AVAILABLE_LOCALES = %w(en de es fr ja zh).freeze
 
   def locale
     settings['locale'].presence
@@ -394,7 +393,7 @@ class Member < ApplicationRecord
     blocks.find_by(blocked_id: member.id) if already_blocking?(member)
   end
 
-  alias_method :banned?, :discarded?
+  alias banned? discarded?
 
   def ban!
     discard

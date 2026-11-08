@@ -260,44 +260,6 @@ describe Member do
     end
   end
 
-  describe 'interesting scope' do
-    # interesting members are defined as:
-    # 1) confirmed
-    # 2) have a location
-    # 3) have at least one planting
-    # 4) ordered by the most recent sign in
-
-    context 'with a few members and plantings' do
-      before do
-        @members = [
-          :london_member, :london_member, :london_member,
-          :unconfirmed_member, # !1
-          :london_member,      # 1, 2, !3
-          :member              # 1, !2, 3
-        ].collect { |m| create(m) }
-
-        [0, 1, 2, 3, 5].each do |i|
-          create(:planting, owner: @members[i])
-        end
-
-        @members[0].updated_at = 3.days.ago
-        @members[1].updated_at = 2.days.ago
-        @members[2].updated_at = 1.day.ago
-
-        # TODO: Shouldn't this save?
-
-        @result = Member.interesting
-
-        # Some members have multiple plantings, but should only appear once
-        create_list(:planting, 3, owner: @members[2])
-      end
-
-      it 'finds interesting members without duplicates in the correct order' do
-        @result.should eq [@members[2], @members[1], @members[0]]
-      end
-    end
-  end
-
   context 'harvests' do
     it 'has harvests' do
       member = create(:member)

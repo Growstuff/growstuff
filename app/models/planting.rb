@@ -73,7 +73,6 @@ class Planting < ApplicationRecord
   scope :failed, -> { where(failed: true) }
   scope :annual, -> { joins(:crop).where(crops: { perennial: false }) }
   scope :perennial, -> { joins(:crop).where(crops: { perennial: true }) }
-  scope :interesting, -> { has_photos.one_per_owner.order(planted_at: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :has_harvests, -> { where('plantings.harvests_count > 0') }
   scope :one_per_owner, lambda {

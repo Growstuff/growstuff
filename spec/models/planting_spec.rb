@@ -498,65 +498,6 @@ describe Planting do
     end
   end
 
-  context 'interesting plantings' do
-    describe 'picks up interesting plantings' do
-      before do
-        # plantings have members created implicitly for them
-        # each member is different, hence these are all interesting
-        @planting1 = create(:planting, :with_photo, planted_at: 5.days.ago)
-        @planting2 = create(:planting, :with_photo, planted_at: 4.days.ago)
-        @planting3 = create(:planting, :with_photo, planted_at: 3.days.ago)
-        @planting4 = create(:planting, :with_photo, planted_at: 2.days.ago)
-      end
-
-      it { expect(described_class.interesting).to eq([@planting4, @planting3, @planting2, @planting1]) }
-    end
-
-    context "default arguments" do
-      it 'ignores plantings without photos' do
-        # first, an interesting planting
-        @planting = create(:planting)
-        @planting.photos << create(:photo, owner: @planting.owner)
-        @planting.save
-
-        # this one doesn't have a photo
-        @no_photo_planting = create(:planting)
-
-        expect(described_class.interesting).to include @planting
-        expect(described_class.interesting).not_to include @no_photo_planting
-      end
-
-      it 'ignores plantings with the same owner' do
-        # this planting is older
-        @planting1 = create(:planting, created_at: 1.day.ago)
-        @planting1.photos << create(:photo, owner_id: @planting1.owner_id)
-        @planting1.save
-
-        # this one is newer, and has the same owner, through the garden
-        @planting2 = create(:planting,
-                            created_at: 1.minute.ago,
-                            garden:     @planting1.garden,
-                            owner:      @planting1.owner)
-        @planting2.photos << create(:photo, owner: @planting2.owner)
-        @planting2.save
-
-        # result: the newer one is interesting, the older one isn't
-        expect(described_class.interesting).to include @planting2
-        expect(described_class.interesting).not_to include @planting1
-      end
-    end
-
-    context "with howmany argument" do
-      it "only returns the number asked for" do
-        @plantings = create_list(:planting, 10)
-        @plantings.each do |p|
-          p.photos << create(:photo, owner: p.owner)
-        end
-        expect(described_class.interesting.limit(3).count).to eq 3
-      end
-    end
-  end # interesting plantings
-
   context "finished" do
     it 'has finished fields' do
       @planting = create(:finished_planting)
