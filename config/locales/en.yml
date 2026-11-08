@@ -659,6 +659,17 @@ en:
         other: Photo of the garden · %{count} photos
       hero_label: Photos of %{garden}
       season_title: The season where this garden is
+    inactive:
+      current_gardens: Current gardens
+      empty_body: There are no inactive gardens to show.
+      empty_owner_hint: A garden you mark as inactive will appear here.
+      explanation: A garden becomes inactive when it is marked as inactive, and its plantings are marked as finished. They stay here as a record of what was grown.
+      inactive_gardens: Inactive gardens
+      lead: Gardens that are no longer in use, and what was grown in them.
+      owner_gardens: "%{owner}'s gardens"
+      owner_reactivate_hint: You can mark a garden as active again to go back to editing it.
+      skip_to_content: Skip to main content
+      title: "%{owner}'s inactive gardens"
     inactive_card:
       grown_here: Grown here
       image_alt: Image of %{name}

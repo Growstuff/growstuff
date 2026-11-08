@@ -126,6 +126,17 @@ ja:
       of: の
       owner: '所有者:'
       perennials: '多年草:'
+    inactive:
+      current_gardens: 現在の庭
+      empty_body: 表示する休止中の庭はありません。
+      empty_owner_hint: 休止中としてマークした庭がここに表示されます。
+      explanation: 庭を休止中に設定し、その植え付けを終了としてマークすると、休止中になります。ここで栽培された記録として残ります。
+      inactive_gardens: 休止中の庭
+      lead: 現在使用されていない庭と、そこで栽培されていたもの。
+      owner_gardens: "%{owner}の庭"
+      owner_reactivate_hint: 庭を再びアクティブに設定して編集に戻ることができます。
+      skip_to_content: メインコンテンツへスキップ
+      title: "%{owner}の休止中の庭"
     inactive_card:
       grown_here: ここで栽培
       image_alt: "%{name}の画像"

@@ -381,6 +381,17 @@ zh:
         other: 花园照片·%{count} 照片
       hero_label: "%{garden}的照片"
       season_title: 这个花园的季节
+    inactive:
+      current_gardens: 当前花园
+      empty_body: 没有可显示的休止花园。
+      empty_owner_hint: 您标记为休止的花园将在此显示。
+      explanation: 当花园被标记为休止且其种植被标记为完成时，花园就会进入休止状态。它们保留在这里作为种植历史记录。
+      inactive_gardens: 休止花园
+      lead: 不再使用的花园以及曾在其中种植的作物。
+      owner_gardens: "%{owner}的花园"
+      owner_reactivate_hint: 您可以重新将花园标记为活跃以继续进行编辑。
+      skip_to_content: 跳至主要内容
+      title: "%{owner}的休止花园"
     inactive_card:
       grown_here: 在此种植
       image_alt: "%{name}的照片"
