@@ -10,7 +10,7 @@ class PlantingFrost < FrostSeason
   # readings: the planting's weather, as WeatherReading rows with temp_min_c.
   def self.for(planting, readings:, today: Time.zone.today)
     stat = planting.frost_danger
-    return if stat.nil? || stat.unknown?
+    return if stat.nil? || stat.unknown? || planting.planted_at.nil?
 
     # A finished planting with no finish date goes by its predicted finish, for the frost display only.
     new(stat:, crop_name: planting.crop.name, planted_on: planting.planted_at,

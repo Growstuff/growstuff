@@ -358,9 +358,17 @@ describe PlantingFrost do
       expect(described_class.for(planting, readings: [])).to be_nil
     end
 
-    it 'is a planting frost when the cell has frost dates' do
-      create(:frost_stat, latitude: -41.25, longitude: 174.75, threshold_c: FrostCalculator::FROST_DANGER_C)
-      expect(described_class.for(planting, readings: [])).to be_a described_class
+    context 'when the cell has frost dates' do
+      before { create(:frost_stat, latitude: -41.25, longitude: 174.75, threshold_c: FrostCalculator::FROST_DANGER_C) }
+
+      it 'is a planting frost' do
+        expect(described_class.for(planting, readings: [])).to be_a described_class
+      end
+
+      it 'is nil when the planting has no planting date' do
+        planting.update!(planted_at: nil)
+        expect(described_class.for(planting, readings: [])).to be_nil
+      end
     end
   end
 
