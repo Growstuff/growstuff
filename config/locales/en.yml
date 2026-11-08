@@ -125,6 +125,10 @@ en:
       update:
         disabled: "%{feature} is now off."
         enabled: "%{feature} is now on."
+    members:
+      bulk_ban:
+        banned: Selected members have been banned.
+        none_selected: No members were selected.
   alternate_names:
     created: Alternate name was successfully created.
     deleted: Alternate name was successfully deleted.
@@ -746,6 +750,8 @@ en:
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
     string: "%{owner}'s %{garden}"
     updated: Garden was successfully updated.
+    wikidata_not_found: Could not find Wikidata information for this location.
+    wikidata_updated: Wikidata information updated.
   hardiness:
     levels:
       half_hardy:

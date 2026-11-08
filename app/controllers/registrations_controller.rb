@@ -87,7 +87,7 @@ class RegistrationsController < Devise::RegistrationsController
     if request.format.json?
       resource.errors.add(:base, flash[:recaptcha_error].presence || 'Please confirm that you are not a robot')
       flash.discard(:recaptcha_error)
-      return render json: { errors: resource.errors }, status: :unprocessable_entity
+      return render json: { errors: resource.errors }, status: :unprocessable_content
     end
 
     respond_with_navigational(resource) do

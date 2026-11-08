@@ -157,9 +157,9 @@ class GardensController < DataController
   def fetch_wikidata
     if @garden.populate_wikidata_info
       @garden.save
-      flash[:notice] = "Wikidata information updated."
+      flash[:notice] = t('gardens.wikidata_updated')
     else
-      flash[:alert] = "Could not find Wikidata information for this location."
+      flash[:alert] = t('gardens.wikidata_not_found')
     end
     redirect_to @garden
   end

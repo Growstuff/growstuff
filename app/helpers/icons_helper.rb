@@ -10,7 +10,7 @@ module IconsHelper
     html_options['aria-hidden'] ||= true
 
     html = content_tag(:i, nil, html_options)
-    html << ' ' << text.to_s unless text.blank?
+    html << ' ' << text.to_s if text.present?
     html
   end
 
