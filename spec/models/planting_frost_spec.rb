@@ -369,6 +369,11 @@ describe PlantingFrost do
         garden.update_columns(frost_safe: true) # rubocop:disable Rails/SkipsModelValidations
         expect(described_class.for(planting, readings: [])).to be_nil
       end
+
+      it 'is nil when the planting has no planting date' do
+        planting.update!(planted_at: nil)
+        expect(described_class.for(planting, readings: [])).to be_nil
+      end
     end
   end
 
