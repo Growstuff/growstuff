@@ -100,10 +100,10 @@ es:
         job_ideas: Trabajos sugeridos para los miembros, a partir de sus trabajos y plantaciones anteriores, plantillas de cultivos y lo que están haciendo los jardineros cercanos.
         planting_weather: Gráficos de temperatura y precipitaciones en cada plantación, a partir del clima diario para el área del jardín.
       index:
+        disabled: Apagado
+        enabled: En
         feature: Característica
         intro: Activa o desactiva funciones para todos.
-        'off': Apagado
-        'on': En
         state: Estado
         switch_off: Desconectar
         switch_on: Encender
@@ -1392,8 +1392,8 @@ es:
       not_located: Díganos dónde cultiva su jardín y le sugeriremos qué sembrar.
       title: Fácil de sembrar en %{month} cerca de ti
     update:
-      'off': Hemos dejado de sugerir cultivos.
-      'on': Vuelven las sugerencias de cultivos.
+      disabled: Hemos dejado de sugerir cultivos.
+      enabled: Vuelven las sugerencias de cultivos.
   unauthorized:
     create:
       all: Inicie sesión o regístrese para crear un %{subject}.

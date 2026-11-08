@@ -108,10 +108,10 @@ en:
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
         planting_weather: Temperature and rainfall charts on each planting, from daily weather for the garden's area.
       index:
+        disabled: 'Off'
+        enabled: 'On'
         feature: Feature
         intro: Switch features on or off for everyone.
-        'off': 'Off'
-        'on': 'On'
         state: State
         switch_off: Switch off
         switch_on: Switch on
@@ -2029,8 +2029,8 @@ en:
       not_located: Tell us where you garden and we can suggest what to sow.
       title: Easy to sow in %{month} near you
     update:
-      'off': We've stopped suggesting crops.
-      'on': Crop suggestions are back.
+      disabled: We've stopped suggesting crops.
+      enabled: Crop suggestions are back.
   unauthorized:
     create:
       all: Please sign in or sign up to create a %{subject}.
