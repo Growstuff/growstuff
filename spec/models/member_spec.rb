@@ -522,4 +522,23 @@ describe Member do
       expect(member).not_to be_valid
     end
   end
+
+  describe '#plantings_by_progress' do
+    subject(:grouped) { member.plantings_by_progress }
+
+    let(:member) { build(:member) }
+    let(:growing) { instance_double(Planting, finish_is_predicatable?: true, progress_state: :growing) }
+    let(:harvesting) { instance_double(Planting, finish_is_predicatable?: true, progress_state: :harvesting) }
+    let(:late) { instance_double(Planting, finish_is_predicatable?: true, progress_state: :late) }
+    let(:super_late) { instance_double(Planting, finish_is_predicatable?: true, progress_state: :super_late) }
+    let(:unpredictable) { instance_double(Planting, finish_is_predicatable?: false, progress_state: :growing) }
+    let(:plantings) { [growing, harvesting, late, super_late, unpredictable] }
+
+    before { allow(member).to receive_message_chain(:plantings, :active, :annual).and_return(plantings) }
+
+    it { expect(grouped[:others]).to eq [growing] }
+    it { expect(grouped[:harvesting]).to eq [harvesting] }
+    it { expect(grouped[:late]).to eq [late] }
+    it { expect(grouped[:super_late]).to eq [super_late] }
+  end
 end

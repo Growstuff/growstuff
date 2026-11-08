@@ -139,6 +139,14 @@ class Member < ApplicationRecord
 
   # Whether they've said they don't want a nursery, so we stop asking. Having
   # one trumps it.
+  # The member's active annual plantings with a predictable finish, grouped by
+  # how they are getting on: { super_late:, late:, harvesting:, others: }.
+  def plantings_by_progress
+    grouped = plantings.active.annual.select(&:finish_is_predicatable?).group_by(&:progress_state)
+    { super_late: grouped.fetch(:super_late, []), late: grouped.fetch(:late, []),
+      harvesting: grouped.fetch(:harvesting, []), others: grouped.fetch(:growing, []) }
+  end
+
   def nursery_declined?
     settings['nursery_declined'] == true && nursery.nil?
   end

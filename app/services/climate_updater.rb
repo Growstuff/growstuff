@@ -12,28 +12,18 @@
 #
 # Approximate, regional and for entertainment only: see docs/adr/0003-frost-dates.md.
 class ClimateUpdater
+  include OpenMeteoBudget
+
   # How many complete frost years of history each cell is worked out from.
   YEARS = 30
   THRESHOLDS = [FrostCalculator::FROST_C, FrostCalculator::FROST_DANGER_C].freeze
   VARIABLES = %w(rain_sum temperature_2m_mean temperature_2m_max temperature_2m_min soil_temperature_0_to_7cm_mean).freeze
   # Kept apart from WeatherUpdater's 4,500, so a day with both stays under Open-Meteo's 10,000 a day.
-  DAILY_BUDGET = 4500
-  SECONDS_PER_CALL = WeatherUpdater::SECONDS_PER_CALL
   # A cell's latest months are fetched again once they are this old, from this many whole months back.
   STALE_DAYS = 7
   REFRESH_MONTHS = 3
 
   Cell = Struct.new(:latitude, :longitude, :place_count)
-
-  attr_reader :calls_used
-
-  def initialize(client: OpenMeteoClient.new, today: Time.zone.today, budget: DAILY_BUDGET, seconds_per_call: SECONDS_PER_CALL)
-    @client = client
-    @today = today
-    @budget = budget
-    @seconds_per_call = seconds_per_call
-    @calls_used = 0
-  end
 
   # Returns how many cells were done.
   def update_all
