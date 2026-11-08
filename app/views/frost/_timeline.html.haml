@@ -15,8 +15,7 @@
         .frost-lane
           = safe_join(frost.planting_bands.map { |band| frost_band_tag(frost, band) })
     - if planting && !frost.long_lived?
-      - direction = frost.planted_days_before_usual_end.negative? ? 'after' : 'before'
-      %p.frost-annotation= t("frost.timeline.annotation_#{direction}", days: frost_days(frost.planted_days_before_usual_end.abs))
+      %p.frost-annotation= frost_annotation(frost)
     .frost-axis{ 'aria-hidden': true }= frost_axis_tags(frost)
   %ul.frost-legend
     - (%i(usual possible) + frost.planting_bands.map(&:kind).uniq).each do |kind|

@@ -187,6 +187,13 @@ class Planting < ApplicationRecord
     self
   end
 
+  # The stay in a garden that keeps plants safe from frost (a nursery, a greenhouse, indoors) the planting began in, as the
+  # PlantingHistory that says where and until when, or nil when it didn't begin in one.
+  def frost_safe_stay
+    first = histories.first
+    first if first&.garden&.frost_safe?
+  end
+
   # Sown after the year its seed packet said to plant it by.
   def sown_from_expired_seeds?
     seed_plant_before.present? && planted_at.present? && planted_at > seed_plant_before

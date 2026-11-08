@@ -5,14 +5,7 @@ module GardensHelper
   # from the person looking, whichever of those are known.
   def garden_details(garden)
     location = link_to(garden.location, place_path(garden.location)) if garden.location.present?
-    safe_join([location, garden.garden_type&.name, garden_area(garden), garden_distance(garden)].compact, ' · ')
-  end
-
-  # How big the garden is, such as "24 square metres", when it has been measured.
-  def garden_area(garden)
-    return if garden.area.blank?
-
-    pluralize(number_with_precision(garden.area, precision: 2, strip_insignificant_zeros: true), garden.area_unit)
+    safe_join([location, garden.garden_type&.name, garden.area_text, garden_distance(garden)].compact, ' · ')
   end
 
   # A temperature as degrees, or that it is not known.

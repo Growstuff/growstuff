@@ -481,4 +481,21 @@ describe "gardens/show" do
       assert_select ".garden-layout-section", count: 0
     end
   end
+
+  context 'when the garden is frost protected' do
+    before do
+      owner = create(:member)
+      controller.stub(:current_user) { owner }
+      allow(view).to receive_messages(member_signed_in?: true, current_member: owner)
+      assign(:garden, create(:garden, owner:, frost_safe: true))
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'says so' do
+      expect(rendered).to have_css '.garden-frost-protected'
+    end
+  end
 end

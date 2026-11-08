@@ -37,6 +37,16 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// The bands of a planting's frost timeline sit side by side, so only one says its piece at a time.
+document.addEventListener('show.bs.tooltip', function(event) {
+  document.querySelectorAll('.frost-band').forEach(function(band) {
+    if (band !== event.target) {
+      var tooltip = bootstrap.Tooltip.getInstance(band);
+      if (tooltip) tooltip.hide();
+    }
+  });
+});
+
 // Tell the server which time zone the browser is in, so "today" and "yesterday"
 // are the member's own days.
 try {

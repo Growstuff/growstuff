@@ -40,8 +40,8 @@ module FrostCardsHelper
   end
 
   def frost_planted_note(frost)
-    count = frost.planted_days_before_usual_end
-    t("frost.cards.last.planted_#{count.negative? ? 'after' : 'before'}", days: frost_days(count.abs))
+    key = "planted#{frost_out(frost)}_#{frost_direction(frost)}"
+    t("frost.cards.last.#{key}", days: frost_planted_days(frost))
   end
 
   def frost_next_card(frost)

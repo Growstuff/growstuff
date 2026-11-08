@@ -34,6 +34,8 @@ class GardenCardSerializer
   def as_json(*)
     {
       id: @garden.id, name: @garden.name, slug: @garden.slug, active: @garden.active,
+      location: @garden.location.presence, area: @garden.area_text,
+      frost_safe: @garden.frost_safe, frost_safe_label: I18n.t('gardens.header.frost_protected'),
       url: routes.garden_path(@garden), image_url: image_url, layout_url: layout_url,
       owner: owner, can_edit: can?(:edit, @garden), plant_url: plant_url, actions: garden_actions,
       plantings_count: @plantings.size, harvesting_now: harvesting_now,
