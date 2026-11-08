@@ -12,10 +12,13 @@
 
 %section.map#placesmap{ style: "height:300px", data: places_map_data }
 
-- if @climate
-  = render 'climate/rainfall', climate: @climate
-  = render 'climate/temperature', climate: @climate
-= render 'frost/section', frost: @frost if @frost
+-# The weather sections are drawn as a record page's are: bordered blocks with a green bar for a lid.
+- if @climate || @frost
+  .record-page
+    - if @climate
+      = render 'climate/rainfall', climate: @climate
+      = render 'climate/temperature', climate: @climate
+    = render 'frost/section', frost: @frost if @frost
 
 %section.members
   %h2#members= t('.nearby_members')

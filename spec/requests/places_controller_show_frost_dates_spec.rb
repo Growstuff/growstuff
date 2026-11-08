@@ -23,6 +23,10 @@ describe PlacesController, '#show frost dates', flipper: :planting_weather do
     end
 
     it { is_expected.to have_css('.frost-section .frost-timeline') }
+
+    it 'draws it as a record page does, so the heading bar is the lid' do
+      expect(page).to have_css('.record-page .frost-section')
+    end
   end
 
   context 'when the weather feature is off', flipper: [] do
