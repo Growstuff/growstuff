@@ -115,8 +115,8 @@ gem 'recaptcha'
 # External APIs for data
 gem "gbifrb"
 
-gem "msgpack"
 gem "herringbone"
+gem "msgpack"
 
 group :production do
   gem 'dalli'
@@ -141,6 +141,7 @@ group :development, :test do
   gem 'factory_bot_rails'       # for creating test data
   gem 'faker'
   gem 'haml-rails'              # HTML templating language
+  gem "leftovers", "~> 0.12.2"
   gem 'pry'
   gem 'query_diet'
   gem 'rspec-activemodel-mocks'
