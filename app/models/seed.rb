@@ -194,9 +194,9 @@ class Seed < ApplicationRecord
 
   def self.homepage_records(limit)
     current.tradable
-      .where("plant_before IS NULL OR plant_before < ?", Time.zone.today)
-      .order(created_at: :desc)
-      .limit(limit)
+           .where("plant_before IS NULL OR plant_before < ?", Time.zone.today)
+           .order(created_at: :desc)
+           .limit(limit)
   end
 
   private
