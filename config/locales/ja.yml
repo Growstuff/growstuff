@@ -175,6 +175,9 @@ ja:
   home:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
+  layouts:
+    footer:
+      donate: 寄付 - コーヒーを奢る
   members:
     contact:
       flickr_logo: Flickrロゴ
