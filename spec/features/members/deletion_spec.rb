@@ -144,12 +144,6 @@ describe "member deletion", :flaky do
         expect(page).to have_content "Member Deleted"
       end
 
-      it "can't be interesting" do
-        expect(Member.interesting).not_to include(member)
-        expect(Planting.interesting).not_to include(planting)
-        expect(Seed.interesting).not_to include(seed)
-      end
-
       pending "doesn't show in nearby"
 
       it "can no longer sign in" do

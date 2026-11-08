@@ -49,7 +49,6 @@ class Crop < ApplicationRecord
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
-  scope :interesting, -> { approved.has_photos }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
   scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
 
@@ -210,10 +209,6 @@ class Crop < ApplicationRecord
 
   def annual?
     perennial == false
-  end
-
-  def interesting?
-    photos.size >= 3 || plantings_count >= 3
   end
 
   def pending?
