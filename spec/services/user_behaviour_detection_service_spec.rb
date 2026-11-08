@@ -39,24 +39,6 @@ RSpec.describe UserBehaviourDetectionService, type: :service do
     end
   end
 
-  describe '#posts_present?' do
-    context 'without posts' do
-      it 'returns false' do
-        expect(service.posts_present?).to be false
-      end
-    end
-
-    context 'with posts' do
-      before do
-        create(:post, author: member)
-      end
-
-      it 'returns true' do
-        expect(service.posts_present?).to be true
-      end
-    end
-  end
-
   describe '#comments_present?' do
     context 'without comments' do
       it 'returns false' do

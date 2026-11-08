@@ -83,14 +83,4 @@ describe Like do
     Like.create(member:, likeable: photo)
     expect(photo.liked_by?(member)).to be true
   end
-
-  it 'liked_by_members_names' do
-    expect(post.liked_by_members_names).to eq []
-    Like.create(member:, likeable: post)
-    expect(post.liked_by_members_names).to eq [member.login_name]
-
-    expect(photo.liked_by_members_names).to eq []
-    Like.create(member:, likeable: photo)
-    expect(photo.liked_by_members_names).to eq [member.login_name]
-  end
 end

@@ -58,10 +58,6 @@ class UserBehaviourDetectionService
     member.bio.present?
   end
 
-  def posts_present?
-    recent_posts.any?
-  end
-
   def comments_present?
     recent_comments.any?
   end

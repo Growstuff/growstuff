@@ -13,8 +13,4 @@ module Likeable
 
     likes.exists?(member_id: member.id)
   end
-
-  def liked_by_members_names
-    members.pluck(:login_name)
-  end
 end
