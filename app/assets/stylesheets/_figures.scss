@@ -2,6 +2,17 @@
 // headline, a grid of figure cards, and the heading above a chart.
 $figure-line: 1px solid rgba($brown, 0.15);
 
+// The pill in a section's title bar that marks the feature as experimental.
+@mixin figure-badge {
+  border: 1px solid $white;
+  border-radius: 999px;
+  color: $white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.75rem;
+  text-decoration: none;
+}
+
 @mixin figure-heading {
   font-size: 120%;
   font-weight: 500;

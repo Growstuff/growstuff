@@ -176,6 +176,7 @@ en:
     view: View
     write_blog_post: Write blog post
   climate:
+    about_estimates: These figures are from 25 km weather-model data, not readings from a station at your garden, so your own rain and temperatures can differ. Check your national weather service before relying on them.
     air:
       body_above: The average air temperature since 1 January is %{air} °C, which is %{difference} °C above the usual %{usual} °C for this date.
       body_below: The average air temperature since 1 January is %{air} °C, which is %{difference} °C below the usual %{usual} °C for this date.
