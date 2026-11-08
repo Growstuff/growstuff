@@ -1161,6 +1161,14 @@ de:
       which_garden: Welcher Garten?
     what_is_a_nursery:
       description_html: 'In einer <strong>Baumschule</strong> züchtet man Setzlinge: Samen, die in Tabletts oder Töpfe gesät werden, bevor sie in einen Garten gehen. Säen Sie Ihre Samen in die Baumschule und verpflanzen Sie sie dann in einen Garten oder teilen Sie eine Charge zwischen mehreren auf, wenn sie fertig sind.'
+  pages:
+    contact:
+      title: Kontakt
+      general_email: Allgemeine Kontakt-E-Mail
+      support_enquiries_html: Support- und Kontoanfragen (nicht in den %{faq_link} abgedeckt)
+      faq: FAQ
+      media_enquiries: Medien-/Presseanfragen
+      twitter: Twitter
   photo_associations:
     update:
       updated: Foto aktualisiert
