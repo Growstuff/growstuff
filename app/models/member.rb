@@ -150,7 +150,7 @@ class Member < ApplicationRecord
     update_column(:settings, settings.except('nursery_declined')) # rubocop:disable Rails/SkipsModelValidations
   end
 
-  AVAILABLE_LOCALES = %w(en de es fr ja zh).freeze
+  AVAILABLE_LOCALES = %w[en de es fr ja zh].freeze
 
   def locale
     settings['locale'].presence
