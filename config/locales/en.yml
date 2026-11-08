@@ -403,6 +403,18 @@ en:
       trade_seeds: list your seeds to trade
       view_all: View all %{crop} seeds
       will_trade: "%{owner} will trade %{tradable_to}."
+    growing_fact:
+      median_of_packets: median of members' seed packets
+      members_packets: "Members' seed packets: %{median}"
+    growing_facts:
+      days_until_maturity: Days until maturity
+      germination: Germination
+      median_of_packets: median of members' seed packets
+      members_packets_hemispheres: "Members' seed packets: %{south} south, %{north} north"
+      northern_hemisphere: Northern hemisphere
+      row_spacing: Row Spacing
+      southern_hemisphere: Southern hemisphere
+      when_to_sow: When to sow
     growing_degree_days:
       cycle_html: For %{crop}, the FAO EcoCrop database gives a lowest growing temperature of %{tmin} and a shortest growing cycle of %{gmin} days at its best temperature, about %{degree_days} growing degree days to a first harvest.
       example: 'Say that lowest temperature is 10°C. A day averaging 17°C gives 7 growing degree days. A day averaging 8°C gives none, as it is too cold for the crop to grow. That is why the same lettuce takes about 50 days in a summer and 90 in an autumn: it needs the same total warmth either way.'

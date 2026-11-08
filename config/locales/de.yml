@@ -243,6 +243,18 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    growing_fact:
+      median_of_packets: Median der Samenpäckchen der Mitglieder
+      members_packets: "Samenpäckchen der Mitglieder: %{median}"
+    growing_facts:
+      days_until_maturity: Tage bis zur Reife
+      germination: Keimung
+      median_of_packets: Median der Samenpäckchen der Mitglieder
+      members_packets_hemispheres: "Samenpäckchen der Mitglieder: %{south} Süd, %{north} Nord"
+      northern_hemisphere: Nördliche Hemisphäre
+      row_spacing: Reihenabstand
+      southern_hemisphere: Südliche Hemisphäre
+      when_to_sow: Wann säen
     find_seeds:
       empty: Derzeit sind auf Growstuff keine Samen zum Tausch verfügbar.
       list_seeds: "%{crop}-Samen zum Tausch anbieten"

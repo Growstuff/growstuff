@@ -243,6 +243,18 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    growing_fact:
+      median_of_packets: médiane des paquets de graines des membres
+      members_packets: "Paquets de graines des membres : %{median}"
+    growing_facts:
+      days_until_maturity: Jours jusqu'à maturité
+      germination: Germination
+      median_of_packets: médiane des paquets de graines des membres
+      members_packets_hemispheres: "Paquets de graines des membres : %{south} sud, %{north} nord"
+      northern_hemisphere: Hémisphère nord
+      row_spacing: Espacement des rangs
+      southern_hemisphere: Hémisphère sud
+      when_to_sow: Quand semer
     find_seeds:
       empty: Il n'y a pas de graines disponibles à l'échange sur Growstuff pour le moment.
       list_seeds: Proposer des graines de %{crop} à l'échange

@@ -243,6 +243,18 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    growing_fact:
+      median_of_packets: mediana de los paquetes de semillas de los miembros
+      members_packets: "Paquetes de semillas de los miembros: %{median}"
+    growing_facts:
+      days_until_maturity: Días hasta la madurez
+      germination: Germinación
+      median_of_packets: mediana de los paquetes de semillas de los miembros
+      members_packets_hemispheres: "Paquetes de semillas de los miembros: %{south} sur, %{north} norte"
+      northern_hemisphere: Hemisferio norte
+      row_spacing: Distancia entre hileras
+      southern_hemisphere: Hemisferio sur
+      when_to_sow: Cuándo sembrar
     find_seeds:
       empty: No hay semillas disponibles para intercambiar en Growstuff en este momento.
       list_seeds: Publicar semillas de %{crop} para intercambiar
