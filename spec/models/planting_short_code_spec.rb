@@ -51,7 +51,7 @@ describe 'Planting short code' do
     end
 
     it 'rejects invalid characters such as ambiguous 0, O, 1, I or lowercase' do
-      invalid_chars = %w[0123 ABCD abcd 1XYZ OXYZ]
+      invalid_chars = %w[0123 abcd 1XYZ OXYZ IXYZ]
       invalid_chars.each do |code|
         planting = build(:planting, owner:, garden:, crop:, short_code: code)
         expect(planting).not_to be_valid
