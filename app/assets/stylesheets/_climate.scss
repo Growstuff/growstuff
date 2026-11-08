@@ -90,6 +90,10 @@ $climate-soil-year: #6b4423;
   .climate-bar {
     box-sizing: border-box;
     position: absolute;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
   }
 
   // Each measure sets its three colours, and the bars and the legend keys use them.

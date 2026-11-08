@@ -112,6 +112,10 @@ describe ClimateHelper do
       expect(chart).to have_css '.climate-bar--usual', count: 12
     end
 
+    it 'shows the figure when hovering over a bar' do
+      expect(chart).to have_css '.climate-bar--year[title="January, This year: 100 mm"]'
+    end
+
     it 'describes itself for a screen reader' do
       expect(chart).to have_css '.climate-chart[role=img][aria-label*="Jan 100 mm"]'
     end

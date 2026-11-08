@@ -86,7 +86,7 @@ module ClimateHelper
     usual = climate.usual(measure)
     year = climate.this_year(measure)
     scale = climate_scale(measure, usual.values + year.values)
-    columns = (1..12).map { |month| climate_column(usual[month], year[month], scale) }
+    columns = (1..12).map { |month| climate_column(month, measure, [usual[month], year[month]], scale) }
     plot = tag.div(safe_join([*climate_gridlines(measure, scale), tag.div(safe_join(columns), class: 'climate-columns')]),
                    class: 'climate-plot')
     description = climate_chart_description(measure, usual, year)
@@ -153,17 +153,23 @@ module ClimateHelper
     end
   end
 
-  def climate_column(usual, year, scale)
-    bars = [(climate_bar('usual', usual, scale) if usual), (climate_bar('year', year, scale) if year)].compact
+  def climate_column(month, measure, figures, scale)
+    bars = %w(usual year).zip(figures).filter_map do |kind, value|
+      next unless value
+
+      title = t('climate.chart.bar', month: climate_month_name(month, '%B'), kind: t("climate.chart.legend.#{kind}"),
+                                     value: climate_figure(measure, value))
+      climate_bar(kind, value, scale, title)
+    end
     tag.div(safe_join(bars), class: 'climate-column')
   end
 
   # A bar from the zero line to the figure, up for a figure above it and down for one below.
-  def climate_bar(kind, value, scale)
+  def climate_bar(kind, value, scale, title)
     zero = climate_percent(0, scale)
     top = climate_percent(value, scale)
     style = "bottom: #{[zero, top].min.round(2)}%; height: #{(top - zero).abs.round(2)}%"
-    tag.div(class: "climate-bar climate-bar--#{kind}", style:)
+    tag.div(class: "climate-bar climate-bar--#{kind}", style:, title:)
   end
 
   def climate_month_names
