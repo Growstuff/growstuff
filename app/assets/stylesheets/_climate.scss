@@ -10,6 +10,10 @@ $climate-soil-edge: #6b4423;
 $climate-soil-year: #6b4423;
 
 .climate-section {
+  .climate-section-badge {
+    @include figure-badge;
+  }
+
   // The card, its green bar and the bar's title are the record page's own section styling: see _record_page.scss.
   .climate-section-body {
     display: flex;
@@ -226,6 +230,12 @@ $climate-soil-year: #6b4423;
     thead th {
       color: $brown;
     }
+  }
+
+  .climate-about {
+    color: $brown;
+    line-height: 1.5;
+    margin: 0 0 0.5rem;
   }
 
   .climate-credit {

@@ -2,6 +2,7 @@
 %section.climate-section.climate-temperature
   .section-header
     %h2= t('climate.air.title')
+    = link_to t('frost.experimental'), '#about-temperature-estimates', class: 'climate-section-badge'
   .climate-section-body
     = render 'climate/verdict', verdict: climate_air_verdict(climate), measure: :air, icon: climate_icon(:air)
     %div
@@ -17,4 +18,4 @@
         %h3= t('climate.air.records', count: climate.years_held)
         = render 'climate/cards', cards: records
     = render 'climate/table', climate:, columns: { t('climate.table.air') => :air, t('climate.table.soil') => :soil }
-    = render 'climate/credit'
+    = render 'climate/credit', id: 'about-temperature-estimates'

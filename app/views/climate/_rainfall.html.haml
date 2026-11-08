@@ -2,6 +2,7 @@
 %section.climate-section.climate-rainfall
   .section-header
     %h2= t('climate.rain.title')
+    = link_to t('frost.experimental'), '#about-rainfall-estimates', class: 'climate-section-badge'
   .climate-section-body
     = render 'climate/verdict', verdict: climate_rain_verdict(climate), measure: :rain, icon: climate_icon(:rain)
     %div
@@ -10,4 +11,4 @@
     = render 'climate/cards', cards: climate_rain_cards(climate)
     %p.climate-footnote= t('climate.rain.records_note', count: climate.years_held)
     = render 'climate/table', climate:, columns: { t('climate.table.rain') => :rain }
-    = render 'climate/credit'
+    = render 'climate/credit', id: 'about-rainfall-estimates'

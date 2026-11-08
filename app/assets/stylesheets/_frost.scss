@@ -11,13 +11,7 @@ $frost-warning: #fff8e1;
 .frost-section {
   // The card, its green bar and the bar's title are the record page's own section styling: see _record_page.scss.
   .frost-section-badge {
-    border: 1px solid $white;
-    border-radius: 999px;
-    color: $white;
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 0.2rem 0.75rem;
-    text-decoration: none;
+    @include figure-badge;
   }
 
   .frost-section-body {
