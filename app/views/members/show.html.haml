@@ -49,9 +49,7 @@
             - @member.roles.each do |role|
               %span.badge.text-bg-info= role.name.titleize
         - if @member.location.present?
-          %p.badge.badge-location{ title: @member.location }
-            = icon 'fas', 'map-marker'
-            = truncate(@member.location, length: 15, separator: ' ', omission: '... ')
+          %p= render 'members/location', member: @member
         %p
           %small
             %strong Member since

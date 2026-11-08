@@ -626,8 +626,8 @@ zh:
       tile_harvest: 记录你选择的内容
       tile_job: 为你的花园计划一项任务
       jobs_today:
-        one: 今天有 1 项任务
-        other: 今天有 %{count} 项任务
+        one: 即将有 1 项任务
+        other: 即将有 %{count} 项任务
       jobs_today_go: 我的任务 →
       tile_job_title: 添加职位
       tile_photo: 花园的
@@ -1159,6 +1159,14 @@ zh:
       which_garden: 哪个花园？
     what_is_a_nursery:
       description_html: "<strong>苗圃</strong>是您培育幼苗的地方：种子在进入花园之前先播种在托盘或盆中。将种子播种在苗圃中，然后将它们移植到一个花园中，或者在种子准备好后将一批种子分成几批。"
+  pages:
+    contact:
+      title: 联系方式
+      general_email: 一般联系邮箱
+      support_enquiries_html: 支持和账户咨询（%{faq_link}中未提及的内容）
+      faq: 常见问题
+      media_enquiries: 媒体/新闻咨询
+      twitter: Twitter
   photo_associations:
     update:
       updated: 照片已更新。
