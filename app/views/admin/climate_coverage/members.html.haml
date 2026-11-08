@@ -1,0 +1,33 @@
+- content_for :title, t('.title')
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active= link_to t('.title'), admin_climate_members_path
+
+= render 'summary', kind: :members, counts: @counts, status: @status, path_for: ->(status) { admin_climate_members_path(status:) }
+
+.table-responsive
+  %table.table.table-striped.table-sm.align-middle
+    %thead
+      %tr
+        %th{ scope: 'col' }= t('.member')
+        %th{ scope: 'col' }= t('.location')
+        %th{ scope: 'col' }= t('.own')
+        %th{ scope: 'col' }= t('.gardens')
+        %th{ scope: 'col' }= t('.climate')
+    %tbody
+      - @records.each do |member|
+        - located, covered, stale = @coverage.gardens(member.id)
+        %tr
+          %td= link_to member.login_name, member, class: 'link-body-emphasis'
+          %td= member.location
+          %td.own= render 'status', status: @coverage.own_status(member.id)
+          %td.gardens
+            - if located.positive?
+              = t('.gardens_covered', covered:, located:)
+              - if stale.positive?
+                %br
+                = t('.gardens_stale', count: stale)
+          %td.status= render 'status', status: @coverage.status_of(member.id)
+
+= will_paginate @records

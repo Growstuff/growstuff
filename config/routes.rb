@@ -225,6 +225,8 @@ Rails.application.routes.draw do
     resources :roles
     resources :features, only: %i(index update)
     resources :reminder_stats, only: :index
+    get 'climate/members' => 'climate_coverage#members', as: :climate_members
+    get 'climate/gardens' => 'climate_coverage#gardens', as: :climate_gardens
     resources :job_templates, only: :index
     resources :crops, param: :slug do
       resources :crop_companions
