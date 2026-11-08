@@ -1,0 +1,37 @@
+- content_for :title, t('.title')
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active= link_to t('.title'), admin_climate_gardens_path
+
+= render 'summary', kind: :gardens, counts: @counts, status: @status, path_for: ->(status) { admin_climate_gardens_path(status:) }
+
+.table-responsive
+  %table.table.table-striped.table-sm.align-middle
+    %thead
+      %tr
+        %th{ scope: 'col' }= t('.garden')
+        %th{ scope: 'col' }= t('.owner')
+        %th{ scope: 'col' }= t('.location')
+        %th{ scope: 'col' }= t('.cell')
+        %th{ scope: 'col' }= t('.kind')
+        %th{ scope: 'col' }= t('.climate')
+        %th{ scope: 'col' }= t('.fetched')
+    %tbody
+      - @records.each do |garden|
+        %tr
+          %td= link_to garden.name, garden, class: 'link-body-emphasis'
+          %td= link_to garden.owner.login_name, garden.owner, class: 'link-body-emphasis'
+          %td= garden.location
+          %td.cell= ClimateCoverage.cell(garden.latitude, garden.longitude)&.join(', ')
+          %td.kind
+            - if garden.nursery?
+              = t('.nursery')
+            - elsif !garden.active?
+              = t('.inactive')
+          %td.status= render 'status', status: @coverage.status_of(garden.id)
+          %td.fetched
+            - fetched = @coverage.fetched_on(garden.latitude, garden.longitude)
+            = l(fetched, format: :long) if fetched
+
+= will_paginate @records

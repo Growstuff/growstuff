@@ -100,6 +100,36 @@ en:
         one: seed
         other: seeds
   admin:
+    climate_coverage:
+      all: All
+      gardens:
+        cell: Weather cell
+        climate: Climate data
+        fetched: Last fetched
+        garden: Garden
+        inactive: Inactive
+        kind: Kind
+        location: Location
+        nursery: Nursery
+        owner: Owner
+        title: Garden climate data
+      intro: Whether we hold climate data (rain, temperature and frost) for the weather grid cell each location falls in. The data is fetched for gardens in use and the gardens of current plantings. Data is out of date when it hasn't been fetched for a week, which happens once no garden or planting in that cell is in use. A member is covered when their own location is, or any of their gardens is.
+      members:
+        climate: Climate data
+        gardens: Gardens
+        gardens_covered: "%{covered} of %{located} up to date"
+        gardens_stale:
+          one: "%{count} out of date"
+          other: "%{count} out of date"
+        location: Location
+        member: Member
+        own: Own location
+        title: Member climate data
+      statuses:
+        covered: Up to date
+        missing: No data yet
+        stale: Out of date
+        unlocated: No location on the map
     features:
       descriptions:
         enable_harvest_reminders: Sends the weekly harvest reminder emails to members who want them.
