@@ -1012,6 +1012,10 @@ zh:
       follow: 关注
       unblock: 取消屏蔽
       unfollow: 取消关注
+    map:
+      cant_show_nearby: 我们无法向您显示附近的内容
+      not_known: 位置未知或无法进行地理编码
+      see_nearby_html: 查看 %{location} 附近的其他成员、种植、种子等
     index:
       title: "%{site_name} 成员"
     signup:
