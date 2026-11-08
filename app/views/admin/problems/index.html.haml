@@ -1,0 +1,38 @@
+- content_for :title, "Listing problems"
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active= link_to 'Problems', admin_problems_path
+
+- if can? :create, Problem
+  %p= link_to 'New problem', new_admin_problem_path, class: 'btn btn-primary'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Title
+      %th Type
+      %th Description
+      %th Scientific Names
+      %th Alternate Names
+      %th
+      %th
+
+  - @problems.each do |problem|
+    %tr
+      %td= link_to problem.title, admin_problem_path(problem)
+      %td= problem.problem_type
+      %td= truncate(problem.description, length: 50)
+      %td= problem.scientific_names.map(&:name).join(', ')
+      %td= problem.alternate_names.map(&:name).join(', ')
+      %td
+        - if can? :edit, problem
+          = link_to edit_admin_problem_path(problem), class: 'btn btn-outline-secondary btn-sm' do
+            = edit_icon
+            = t('.edit', default: 'Edit')
+        - if can? :destroy, problem
+          = link_to admin_problem_path(problem), method: :delete, data: { confirm: t(:are_you_sure?, default: 'Are you sure?') }, class: 'btn btn-outline-secondary btn-sm text-danger' do
+            = delete_icon
+            = t('.delete', default: 'Delete')
+
+= will_paginate(@problems)

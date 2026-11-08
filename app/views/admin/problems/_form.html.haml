@@ -1,0 +1,8 @@
+= bootstrap_form_for [:admin, @problem] do |f|
+  = f.text_field :title, required: true
+  = f.select :problem_type, Problem::PROBLEM_TYPES, { prompt: "Select a type" }, required: true
+  = f.text_area :description
+
+  .form-actions.mt-4
+    = f.submit class: 'btn btn-primary'
+    = link_to 'Cancel', admin_problems_path, class: 'btn btn-secondary ms-2'
