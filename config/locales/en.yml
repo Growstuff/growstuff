@@ -1422,6 +1422,10 @@ en:
       follow: Follow
       unblock: Unblock
       unfollow: Unfollow
+    map:
+      cant_show_nearby: We can't show you what's nearby
+      not_known: Location not known or geocodable
+      see_nearby_html: See other members, plantings, seeds and more near %{location}
     index:
       title: "%{site_name} members"
     signup:

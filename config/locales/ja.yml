@@ -202,6 +202,10 @@ ja:
       unset_title: メールアドレスが設定されていません。
       waiting_body: "%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。"
       waiting_title: メールアドレスの確認をお待ちしています。
+    map:
+      cant_show_nearby: 近くの情報を表示できません
+      not_known: 場所が不明またはジオコードできません
+      see_nearby_html: "%{location} 付近の他のメンバー、植え付け、種などを表示"
   pages:
     contact:
       title: お問い合わせ

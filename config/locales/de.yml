@@ -1014,6 +1014,10 @@ de:
       follow: Folgen
       unblock: Entsperren
       unfollow: Entfolgen
+    map:
+      cant_show_nearby: Wir können Ihnen nicht zeigen, was sich in der Nähe befindet
+      not_known: Standort nicht bekannt oder geocodierbar
+      see_nearby_html: Sehen Sie andere Mitglieder, Pflanzungen, Samen und mehr in der Nähe von %{location}
     index:
       title: "%{site_name} Mitglieder"
     signup:
