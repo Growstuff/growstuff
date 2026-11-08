@@ -369,7 +369,7 @@ class Member < ApplicationRecord
   end
 
   def self.nearest_to_point(latitude, longitude, limit = 50)
-    relation = Member.located.near([latitude, longitude], 1000)
+    relation = Member.kept.located.near([latitude, longitude], 1000)
     limit ? relation.limit(limit) : relation
   end
 
