@@ -1163,6 +1163,14 @@ fr:
       which_garden: Quel jardin ?
     what_is_a_nursery:
       description_html: 'Une <strong>pépinière</strong> est l''endroit où vous cultivez des semis : des graines semées dans des plateaux ou des pots avant d''entrer dans un jardin. Semer vos graines dans la pépinière, puis les transplanter dans un jardin, ou diviser un lot entre plusieurs, quand elles sont prêtes.'
+  pages:
+    contact:
+      title: Contact
+      general_email: E-mail de contact général
+      support_enquiries_html: "Demandes d'assistance et de comptes (non couvertes par la %{faq_link})"
+      faq: FAQ
+      media_enquiries: Demandes médias et presse
+      twitter: Twitter
   photo_associations:
     update:
       updated: Photo mise à jour

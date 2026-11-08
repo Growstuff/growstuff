@@ -1,15 +1,15 @@
-- content_for :title, "Contact"
+- content_for :title, t('.title')
 
-%h1 Contact
+%h1= t('.title')
 %dl
-  %dt General contact email
-  %dd <a href="mailto:info@growstuff.org">info@growstuff.org</a>
+  %dt= t('.general_email')
+  %dd= mail_to 'info@growstuff.org', 'info@growstuff.org'
 %dl
-  %dt Support and accounts enquiries (not covered by the <a href="/support">FAQ</a>)
-  %dd <a href="mailto:support@growstuff.org">support@growstuff.org</a>
+  %dt= t('.support_enquiries_html', faq_link: link_to(t('.faq'), '/support'))
+  %dd= mail_to 'support@growstuff.org', 'support@growstuff.org'
 %dl
-  %dt Media/Press enquiries
-  %dd <a href="mailto:media@growstuff.org">media@growstuff.org</a>
+  %dt= t('.media_enquiries')
+  %dd= mail_to 'media@growstuff.org', 'media@growstuff.org'
 %dl
-  %dt Twitter
-  %dd <a href="http://twitter.com/growstufforg">@growstufforg</a>
+  %dt= t('.twitter')
+  %dd= link_to '@growstufforg', 'http://twitter.com/growstufforg'

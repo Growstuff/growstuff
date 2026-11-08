@@ -1553,6 +1553,14 @@ en:
       which_garden: Which garden?
     what_is_a_nursery:
       description_html: 'A <strong>nursery</strong> is where you raise seedlings: seeds sown in trays or pots before they go into a garden. Sow your seeds in the nursery, then transplant them into one garden, or split a batch between several, when they are ready.'
+  pages:
+    contact:
+      title: Contact
+      general_email: General contact email
+      support_enquiries_html: Support and accounts enquiries (not covered by the %{faq_link})
+      faq: FAQ
+      media_enquiries: Media/Press enquiries
+      twitter: Twitter
   photo_associations:
     update:
       updated: Photo updated.

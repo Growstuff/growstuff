@@ -187,6 +187,14 @@ ja:
       unset_title: メールアドレスが設定されていません。
       waiting_body: "%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。"
       waiting_title: メールアドレスの確認をお待ちしています。
+  pages:
+    contact:
+      title: お問い合わせ
+      general_email: 代表問い合わせメール
+      support_enquiries_html: サポートおよびアカウントに関するお問い合わせ（%{faq_link}にないもの）
+      faq: FAQ
+      media_enquiries: 報道関係・メディアのお問い合わせ
+      twitter: Twitter
   places:
     index:
       title: "%{site_name} コミュニティマップ"
