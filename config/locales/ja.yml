@@ -8,6 +8,12 @@ ja:
         contacting: "Blueskyに接続中…"
         handle_label: "Blueskyハンドル"
         handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "%{tos_link}に同意します"
+        identifier_label: "Mastodonアドレス"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "本人確認のみ行います。代理での投稿は行いません。"
+        terms_of_service: "利用規約"
   comments:
     edit_modal:
       save: 保存

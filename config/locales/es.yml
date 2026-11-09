@@ -124,6 +124,12 @@ es:
         contacting: "Contactando con Bluesky…"
         handle_label: "Usuario de Bluesky"
         handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "Acepto las %{tos_link}"
+        identifier_label: "Dirección de Mastodon"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "Solo preguntamos quién eres. No podemos publicar por ti."
+        terms_of_service: "Términos de servicio"
   alternate_names:
     created: El nombre alternativo se creó correctamente.
     deleted: El nombre alternativo se eliminó correctamente.
