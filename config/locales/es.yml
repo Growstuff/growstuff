@@ -1175,6 +1175,10 @@ es:
     what_is_a_nursery:
       description_html: 'Un <strong>vivero</strong> es un lugar donde se cultivan plántulas: semillas que se siembran en bandejas o macetas antes de colocarlas en el jardín. Siembre sus semillas en el vivero, luego transplántelas a un jardín o divida un lote entre varios, cuando estén listas.'
   pages:
+    about:
+      title: Acerca de
+      description_html: Para obtener más información sobre Growstuff, consulta nuestra %{github_link}.
+      github_page: página de GitHub
     contact:
       title: Contacto
       general_email: Correo electrónico de contacto general

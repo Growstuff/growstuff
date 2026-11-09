@@ -1596,6 +1596,10 @@ en:
     what_is_a_nursery:
       description_html: 'A <strong>nursery</strong> is where you raise seedlings: seeds sown in trays or pots before they go into a garden. Sow your seeds in the nursery, then transplant them into one garden, or split a batch between several, when they are ready.'
   pages:
+    about:
+      title: About
+      description_html: For more information about Growstuff, see our %{github_link}.
+      github_page: GitHub page
     contact:
       title: Contact
       general_email: General contact email

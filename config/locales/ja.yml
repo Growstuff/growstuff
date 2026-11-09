@@ -203,6 +203,10 @@ ja:
       waiting_body: "%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。"
       waiting_title: メールアドレスの確認をお待ちしています。
   pages:
+    about:
+      title: Growstuffについて
+      description_html: Growstuffの詳細については、%{github_link}をご覧ください。
+      github_page: GitHubページ
     contact:
       title: お問い合わせ
       general_email: 代表問い合わせメール

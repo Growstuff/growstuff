@@ -1177,6 +1177,10 @@ fr:
     what_is_a_nursery:
       description_html: 'Une <strong>pépinière</strong> est l''endroit où vous cultivez des semis : des graines semées dans des plateaux ou des pots avant d''entrer dans un jardin. Semer vos graines dans la pépinière, puis les transplanter dans un jardin, ou diviser un lot entre plusieurs, quand elles sont prêtes.'
   pages:
+    about:
+      title: À propos
+      description_html: Pour plus d'informations sur Growstuff, consultez notre %{github_link}.
+      github_page: page GitHub
     contact:
       title: Contact
       general_email: E-mail de contact général
