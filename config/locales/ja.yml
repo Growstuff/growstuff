@@ -121,6 +121,18 @@ ja:
       save: 保存
       wikidata_id: Wikidata ID
   gardens:
+    header:
+      all_gardens: "%{owner} のすべての庭"
+      frost_protected: 霜除けあり
+      frost_protected_title: 室内や温室など、霜の影響を受けない環境
+      garden_of: の庭
+      hero_caption:
+        one: 庭の写真 · %{count}枚の写真
+        other: 庭の写真 · %{count}枚の写真
+      hero_label: "%{garden}の写真"
+      nursery: 苗床
+      nursery_hint: ここで育てられた苗は庭に移植できます。
+      season_title: この庭の現在の季節
     location:
       change: 変更
       heading: 場所

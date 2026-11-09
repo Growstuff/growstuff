@@ -392,6 +392,8 @@ de:
     form:
       location_helper: Wenn Sie in Ihrem Profil einen Standort festgelegt haben, wird dieser beim Erstellen eines neuen Gartens verwendet.
     header:
+      nursery: Kindergarten
+      nursery_hint: Hier angezogene Sämlinge können in Ihre Gärten umgepflanzt werden.
       all_gardens: Alle Gärten von %{owner}
       garden_of: Garten von
       hero_caption:

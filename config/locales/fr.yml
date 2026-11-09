@@ -392,6 +392,8 @@ fr:
     form:
       location_helper: Si vous avez défini un emplacement dans votre profil, il sera utilisé lors de la création d'un nouveau jardin.
     header:
+      nursery: Pépinière
+      nursery_hint: Les semis cultivés ici peuvent être repiqués dans vos jardins.
       all_gardens: Tous les jardins de %{owner}
       garden_of: Jardin de ?
       hero_caption:

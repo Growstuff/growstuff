@@ -697,6 +697,8 @@ en:
         label: This garden is safe from frost
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
     header:
+      nursery: Nursery
+      nursery_hint: Seedlings raised here can be transplanted into your gardens.
       all_gardens: All of %{owner}'s gardens
       frost_protected: Frost protected
       frost_protected_title: Safe from frost, such as indoors or in a greenhouse
