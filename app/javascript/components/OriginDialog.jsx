@@ -280,7 +280,7 @@ export default function OriginDialog({crop, cropId, kinds, seeds, currentSeed, s
           <ChangeStep
             current={currentSeed} seeds={seeds} labels={labels} crop={crop} onChoose={useSeed}
             onOtherSeeds={() => setStep('seedSource')} onAnotherWay={() => setStep('how')}
-            onRemove={() => save({planted_from: 'seed'})} onCancel={onClose}
+            onRemove={() => save({planted_from: null})} onCancel={onClose}
           />
         )}
         {step === 'how' && <KindStep kinds={kinds} labels={labels} onPick={pick} />}

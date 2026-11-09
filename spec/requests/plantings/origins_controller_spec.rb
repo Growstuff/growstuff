@@ -81,6 +81,21 @@ describe Plantings::OriginsController do
       end
     end
 
+    context 'when removing the link to a packet' do
+      let(:planting) { create(:planting, owner: member, garden: garden, planted_from: 'seed', parent_seed: create(:seed, owner: member)) }
+      let(:params) { { planting: { planted_from: nil, parent_seed_id: nil } } }
+
+      before { update }
+
+      it 'takes the packet off' do
+        expect(planting.reload.parent_seed).to be_nil
+      end
+
+      it 'takes the answer back to not recorded' do
+        expect(planting.reload.planted_from).to be_nil
+      end
+    end
+
     context 'when it is someone else\'s planting' do
       let(:planting) { create(:planting) }
 
