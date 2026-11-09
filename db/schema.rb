@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_08_000300) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_10_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1139,6 +1139,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000300) do
     t.index ["planting_id"], name: "index_planting_histories_on_planting_id"
   end
 
+  create_table "planting_seedlings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "label_text", comment: "What the label or tag said."
+    t.bigint "planting_id", null: false
+    t.string "source", comment: "shop, nursery, market, gift or unknown."
+    t.string "supplier", comment: "Who sold or gave it, as the member put it."
+    t.datetime "updated_at", null: false
+    t.index ["planting_id"], name: "index_planting_seedlings_on_planting_id", unique: true
+  end
+
   create_table "plantings", id: :serial, force: :cascade do |t|
     t.integer "alternate_name_id"
     t.integer "comments_count", default: 0
@@ -1358,6 +1368,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000300) do
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
   add_foreign_key "planting_histories", "plantings"
+  add_foreign_key "planting_seedlings", "plantings", on_delete: :cascade
   add_foreign_key "plantings", "alternate_names", on_delete: :nullify
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plants", "plantings"
