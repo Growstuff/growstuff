@@ -124,6 +124,12 @@ zh:
         contacting: "正在连接 Bluesky…"
         handle_label: "Bluesky 账号"
         handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "我同意%{tos_link}"
+        identifier_label: "Mastodon 地址"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "我们仅确认您的身份，不会代表您发帖。"
+        terms_of_service: "服务条款"
   alternate_names:
     created: 备用名称已成功创建。
     deleted: 备用名称已成功删除。

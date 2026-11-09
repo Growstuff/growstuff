@@ -172,6 +172,12 @@ en:
         handle_label: Bluesky handle
         handle_placeholder: alice.bsky.social
         terms_of_service: Terms of Service
+      mastodon:
+        agree_to_tos_html: I agree to the %{tos_link}
+        identifier_label: Mastodon address
+        identifier_placeholder: alice@mastodon.social
+        permission_note: "We only ask who you are. We can't post for you."
+        terms_of_service: Terms of Service
   buttons:
     add: Add
     add_photo: Add photo
