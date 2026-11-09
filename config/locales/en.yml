@@ -1428,6 +1428,8 @@ en:
       follow: Follow
       unblock: Unblock
       unfollow: Unfollow
+    location:
+      unknown_location: unknown location
     map:
       cant_show_nearby: We can't show you what's nearby
       not_known: Location not known or geocodable

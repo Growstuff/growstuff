@@ -1023,6 +1023,8 @@ fr:
       follow: Suivre
       unblock: Débloquer
       unfollow: Ne plus suivre
+    location:
+      unknown_location: emplacement inconnu
     map:
       cant_show_nearby: Nous ne pouvons pas vous montrer ce qui se trouve à proximité
       not_known: Emplacement inconnu ou non géocodable

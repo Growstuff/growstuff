@@ -1021,6 +1021,8 @@ es:
       follow: Seguir
       unblock: Desbloquear
       unfollow: Dejar de seguir
+    location:
+      unknown_location: ubicación desconocida
     map:
       cant_show_nearby: No podemos mostrarte lo que hay cerca
       not_known: Ubicación desconocida o no geocodificable
