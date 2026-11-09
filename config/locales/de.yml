@@ -1031,6 +1031,12 @@ de:
       title: "%{site_name} Mitglieder"
     signup:
       error: Registrierung konnte nicht abgeschlossen werden
+    stats:
+      followers:
+        one: "%{count} Follower"
+        other: "%{count} Follower"
+      heading: Statistiken
+      toggle: Einblenden/Ausblenden
     unsubscribe:
       error: Es tut uns leid, beim Aktualisieren Ihrer Einstellungen ist ein Fehler aufgetreten.
     unsubscribed: Sie wurden von %{email_type} E-Mails abgemeldet.
@@ -1407,6 +1413,14 @@ de:
       see_everyone: Alle %{crop}-Samen anzeigen
       title_from_owner: Keine %{crop}-Samen von %{owner}
       title_here: Hier gibt es keine %{crop}-Samen
+    other_tab:
+      more_finished:
+        one: Noch 1 verbraucht.
+        other: Noch %{count} verbraucht.
+      more_in_stock:
+        one: Noch 1 auf Lager.
+        other: Noch %{count} auf Lager.
+      show_them: Diese anzeigen
     packet:
       choice_back: Zurück
       choice_front: Vorne

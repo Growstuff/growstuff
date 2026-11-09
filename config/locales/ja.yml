@@ -225,6 +225,11 @@ ja:
       cant_show_nearby: 近くの情報を表示できません
       not_known: 場所が不明またはジオコードできません
       see_nearby_html: "%{location} 付近の他のメンバー、植え付け、種などを表示"
+    stats:
+      followers:
+        other: "%{count}人のフォロワー"
+      heading: 統計
+      toggle: 表示/非表示
   pages:
     about:
       title: Growstuffについて
@@ -303,6 +308,14 @@ ja:
       see_everyone: 全員の%{crop}の種を見る
       title_from_owner: "%{owner}による%{crop}の種はありません"
       title_here: ここに%{crop}の種はありません
+    other_tab:
+      more_finished:
+        one: 使い切った種袋があと 1 袋あります。
+        other: 使い切った種袋があと %{count} 袋あります。
+      more_in_stock:
+        one: 在庫の種袋があと 1 袋あります。
+        other: 在庫の種袋があと %{count} 袋あります。
+      show_them: 表示する
     facts:
       cancel: キャンセル
       edit_all: すべて編集
