@@ -39,6 +39,7 @@ class Planting < ApplicationRecord
   has_many :plants, dependent: :destroy
 
   # Once a planting is on a layout, keep its plants in step with its quantity.
+  before_save :follow_parent_seed_variety, if: :parent_seed_id_changed?
   before_create :remember_seed_plant_before
   after_update :sync_plants, if: -> { saved_change_to_quantity? && plants.exists? }
 
@@ -318,6 +319,11 @@ class Planting < ApplicationRecord
     return unless planted_at && finished_at # only check if we have both
 
     errors.add(:finished_at, :finished_after_planted) unless planted_at < finished_at
+  end
+
+  # A packet of a variety (Brandywine) makes this a planting of that variety, not of the crop it was filed under (Tomato).
+  def follow_parent_seed_variety
+    self.crop = parent_seed.crop if parent_seed&.crop&.parent_id == crop_id
   end
 
   def owner_must_match_garden_owner
