@@ -104,6 +104,8 @@ $origin-field-border: #757575;
 
   .modal-header {
     align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
     padding: 1.25rem 1.5rem 0.75rem;
     border-bottom: 0;
   }
@@ -123,7 +125,7 @@ $origin-field-border: #757575;
     flex-shrink: 0;
     width: 2.75rem;
     height: 2.75rem;
-    margin: 0;
+    margin: 0 0 0 auto;
     padding: 0;
     background-size: 0.8rem;
     border: 1px solid $origin-field-border;
