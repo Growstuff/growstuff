@@ -190,6 +190,20 @@ ja:
       rate_planting: この植え付けを評価する
       save: 保存
       unrated_notice: この収穫はまだ評価されていない植え付けからのものです。
+    show:
+      add: 追加
+      breadcrumb: 収穫
+      crop: 作物
+      harvested: 収穫日
+      harvested_by: '収穫者: '
+      heading: "%{crop}の収穫"
+      no_photos: 写真はまだありません。
+      photos: 写真
+      picked_from: '収穫元: '
+      plant_part: 植物の部位
+      quantity: 数量
+      see_how: "%{owner}さんの%{crop}の様子を見る。"
+      the_planting_this_came_from: 収穫元の植え付け
   home:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"

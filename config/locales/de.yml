@@ -523,7 +523,19 @@ de:
       save: speichern
       unrated_notice: Diese Ernte stammt von einer Pflanzung, die noch nicht bewertet wurde.
     show:
-      heading: "%{crop} Ernte"
+      add: hinzufügen
+      breadcrumb: Ernte
+      crop: Pflanze
+      harvested: Geerntet
+      harvested_by: geerntet von
+      heading: "%{crop}-Ernte"
+      no_photos: Noch keine Fotos.
+      photos: Fotos
+      picked_from: gepflückt von
+      plant_part: Pflanzenteil
+      quantity: Menge
+      see_how: Sieh dir an, wie %{owner}s %{crop} wächst.
+      the_planting_this_came_from: Die Pflanzung, von der dies stammt
     updated: Harvest wurde erfolgreich aktualisiert.
   home:
     added_to_stash: "%{crop}-Seed erfolgreich zu Ihrem Vorrat hinzugefügt."

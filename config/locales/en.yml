@@ -843,7 +843,19 @@ en:
       save: save
       unrated_notice: This harvest is from a planting that hasn't been rated yet.
     show:
+      add: add
+      breadcrumb: Harvest
+      crop: Crop
+      harvested: Harvested
+      harvested_by: harvested by
       heading: "%{crop} harvest"
+      no_photos: No photos yet.
+      photos: Photos
+      picked_from: picked from
+      plant_part: Plant part
+      quantity: Quantity
+      see_how: See how %{owner}'s %{crop} is getting on.
+      the_planting_this_came_from: The planting this came from
     updated: Harvest was successfully updated.
   home:
     added_to_stash: Successfully added %{crop} seed to your stash.
