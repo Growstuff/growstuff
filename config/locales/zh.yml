@@ -1021,6 +1021,8 @@ zh:
       follow: 关注
       unblock: 取消屏蔽
       unfollow: 取消关注
+    location:
+      unknown_location: 未知位置
     map:
       cant_show_nearby: 我们无法向您显示附近的内容
       not_known: 位置未知或无法进行地理编码

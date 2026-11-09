@@ -221,6 +221,8 @@ ja:
       unset_title: メールアドレスが設定されていません。
       waiting_body: "%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。"
       waiting_title: メールアドレスの確認をお待ちしています。
+    location:
+      unknown_location: 不明な場所
     map:
       cant_show_nearby: 近くの情報を表示できません
       not_known: 場所が不明またはジオコードできません
