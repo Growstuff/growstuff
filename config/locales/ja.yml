@@ -187,6 +187,7 @@ ja:
   home:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
+      sign_in_mastodon: Mastodonでログイン
   layouts:
     footer:
       donate: 寄付 - コーヒーを奢る

@@ -529,6 +529,7 @@ fr:
       public_note: Tout ce que vous enregistrez est des données ouvertes publiques, y compris votre ville.
       sign_in_bluesky: Se connecter avec Bluesky
       sign_in_linktext: Se connecter
+      sign_in_mastodon: Se connecter avec Mastodon
       sign_up: S'inscrire gratuitement
     dashboard:
       add_bed: Base

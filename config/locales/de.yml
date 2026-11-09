@@ -529,6 +529,7 @@ de:
       public_note: Alles, was Sie aufzeichnen, sind öffentliche, offene Daten, einschließlich Ihrer Stadt.
       sign_in_bluesky: Mit Bluesky anmelden
       sign_in_linktext: anmelden
+      sign_in_mastodon: Mit Mastodon anmelden
       sign_up: Melden Sie sich kostenlos an
     dashboard:
       add_bed: "+ Bett"

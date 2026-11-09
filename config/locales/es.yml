@@ -529,6 +529,7 @@ es:
       public_note: Todo lo que registres son datos públicos abiertos, incluida tu ciudad.
       sign_in_bluesky: Iniciar sesión con Bluesky
       sign_in_linktext: Iniciar sesión
+      sign_in_mastodon: Iniciar sesión con Mastodon
       sign_up: Únete gratis
     dashboard:
       add_bed: "+ cama"
