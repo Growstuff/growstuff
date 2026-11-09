@@ -420,12 +420,12 @@ en:
       request_notes: 'Request notes: %{notes}'
       requested_by: This crop was requested by %{requester} %{time_ago} ago.
     fields:
-      blank: Don't know
       harvest_style:
-      heading: Harvest style
-      hint: 'Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.'
-      label: How a plant is harvested
-      parent: 'Parent: %{style}'
+        blank: Don't know
+        heading: Harvest style
+        hint: 'Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.'
+        label: How a plant is harvested
+        parent: 'Parent: %{style}'
     find_seeds:
       empty: There are no seeds available to trade on Growstuff right now.
       list_seeds: List %{crop} seeds to trade
