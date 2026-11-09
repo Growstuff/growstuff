@@ -139,6 +139,14 @@ describe PlantingsHelper do
       end
     end
 
+    context 'with a packet that says when to sow by' do
+      before { create(:seed, owner: planting.owner, crop: planting.crop, plant_before: Date.new(2099, 6, 1)) }
+
+      it 'says so in its detail' do
+        expect(seeds.pluck(:detail)).to include(a_string_including('sow by 2099'))
+      end
+    end
+
     it 'marks a packet of the planting\'s crop as related' do
       expect(seeds.pluck(:related)).to eq [true]
     end
