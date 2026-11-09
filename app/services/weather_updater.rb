@@ -22,6 +22,7 @@ class WeatherUpdater
   DAILY_BUDGET = 4500
   # 600 calls a minute is a tenth of a second per call.
   SECONDS_PER_CALL = 0.1
+  LOGIN_BACKFILL_BEFORE = Date.new(2026, 11, 4)
 
   attr_reader :calls_used
 
@@ -39,10 +40,20 @@ class WeatherUpdater
     cells.sum { |cell| fetch_current(cell) } + backfill(cells)
   end
 
+  # A returning member's old plantings may have finished before daily collection began.
+  # Readings belong to grid cells, so another planting may already have supplied them.
+  def update_member(member)
+    candidates = member.plantings.where(created_at: ...LOGIN_BACKFILL_BEFORE).where(planted_at: ..@today)
+      .joins(:garden).merge(Garden.where.not(latitude: nil).where.not(longitude: nil).where(nursery: false))
+      .includes(:garden, crop: :parent)
+    missing = candidates.reject { |planting| planting.weather_readings.exists? }
+    backfill(cells_by_busiest(missing))
+  end
+
   private
 
-  def cells_by_busiest
-    cells = plantings.group_by(&:weather_cell)
+  def cells_by_busiest(collection = plantings)
+    cells = collection.group_by(&:weather_cell)
       .map { |(latitude, longitude), grouped| build_cell(latitude, longitude, grouped) }
     cells.reject { |cell| cell.ranges.empty? }.sort_by { |cell| -cell.planting_count }
   end
@@ -58,7 +69,7 @@ class WeatherUpdater
   end
 
   def planting_range(planting)
-    [[first_day(planting), FIRST_DAY].max, [planting.finished_at, @today - LAG_DAYS].compact.min]
+    [[first_day(planting), FIRST_DAY].max, [planting.weather_last_day(@today), @today - LAG_DAYS].min]
   end
 
   # Joins stretches of dates that overlap or touch, and leaves the rest apart.
