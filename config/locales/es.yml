@@ -1285,7 +1285,6 @@ es:
       packets_of_seed:
         one: 1 paquete de semillas
         other: "%{count} paquetes de semillas"
-      parent_seed: Semilla madre
       perennial: Perenne
       perennial_description: sigue creciendo año tras año
       planned: Planificado

@@ -1287,7 +1287,6 @@ fr:
       packets_of_seed:
         one: 1 sachet de graines
         other: "%{count} sachets de graines"
-      parent_seed: Graine d'origine
       perennial: Vivace
       perennial_description: continue de pousser d'année en année
       planned: Prévu

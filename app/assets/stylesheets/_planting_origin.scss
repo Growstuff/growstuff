@@ -1,0 +1,346 @@
+// Asking how a planting was started: the "Grown from" fact, and the dialog it opens. Follows the design's own look
+// (outlined navy buttons, beige packet cards, pill chips), which the site's default buttons do not.
+
+$origin-line: #c0b5a3;
+$origin-pale-green: #e8f5e9;
+$origin-field-border: #757575;
+
+.origin-badge {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: $orange;
+  border-radius: 50%;
+  color: #212121;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.origin-badge-small {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 1.1rem;
+}
+
+.origin-muted {
+  color: $ink-muted;
+  font-size: 0.93rem;
+}
+
+// The site's button styles turn a button blue and uppercase on hover; these choices stay as they are and only lift.
+.origin-kind,
+.origin-chip,
+.origin-packet {
+  color: $body-color;
+  text-transform: none;
+
+  &:hover,
+  &:focus-visible {
+    background: $white;
+    border-color: $blue;
+    color: $body-color;
+  }
+}
+
+.origin-link {
+  padding: 0;
+  background: none;
+  border: 0;
+  color: $green;
+  text-decoration: underline;
+  min-height: 2.75rem;
+
+  &:hover,
+  &:focus-visible {
+    background: none;
+    color: $green;
+  }
+}
+
+.origin-btn {
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  background: $white;
+  border: 2px solid $blue;
+  border-radius: 2px;
+  color: $blue;
+  font-weight: 500;
+  text-transform: uppercase;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background: $blue;
+    color: $white;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+}
+
+.origin-btn-primary {
+  background: $green;
+  border-color: $green;
+  color: $white;
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background: darken($green, 8%);
+    border-color: darken($green, 8%);
+  }
+}
+
+.origin-dialog {
+  .modal-content {
+    border: 0;
+    border-radius: $card-radius;
+  }
+
+  .modal-header {
+    align-items: flex-start;
+    padding: 1.25rem 1.5rem 0.75rem;
+    border-bottom: 0;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+
+  .modal-eyebrow {
+    color: $ink-muted;
+    font-size: 0.93rem;
+  }
+
+  // The close button is a square box, as in the design.
+  .btn-close {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin: 0;
+    padding: 0;
+    background-size: 0.8rem;
+    border: 1px solid $origin-field-border;
+    border-radius: 2px;
+    opacity: 1;
+  }
+
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    padding: 0.5rem 1.5rem 1.5rem;
+  }
+
+  .modal-footer {
+    padding: 0.75rem 1.5rem;
+    border-top: 1px solid $origin-line;
+    gap: 0.75rem;
+  }
+}
+
+.origin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.origin-divided {
+  padding-top: 1rem;
+  border-top: 1px solid $origin-line;
+}
+
+.origin-input {
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid $origin-field-border;
+  border-radius: 2px;
+  font: inherit;
+}
+
+.origin-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.origin-pill {
+  padding: 0.1rem 0.75rem;
+  background: $origin-pale-green;
+  border: 1px solid $green;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.origin-kinds {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.75rem;
+}
+
+.origin-kind {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-height: 6rem;
+  padding: 1rem;
+  background: $white;
+  border: 1px solid $origin-field-border;
+  border-radius: $card-radius;
+  text-align: left;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.origin-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.origin-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1rem 0 0.6rem;
+  background: $white;
+  border: 1px solid $origin-field-border;
+  border-radius: 999px;
+
+  &.on {
+    background: $origin-pale-green;
+    border-color: $green;
+    color: $green;
+    font-weight: 600;
+  }
+}
+
+.origin-packet,
+.origin-current {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 3.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: $card-radius;
+  text-align: left;
+}
+
+.origin-packet {
+  background: $beige;
+  border: 1px solid $origin-line;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.origin-current {
+  background: $origin-pale-green;
+  border: 2px solid $green;
+}
+
+.origin-packet-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.origin-packet-photo,
+.origin-packet-icon {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 2px;
+}
+
+.origin-packet-photo {
+  object-fit: cover;
+}
+
+.origin-packet-name {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.origin-packet-variety {
+  font-weight: 500;
+}
+
+.origin-choose,
+.origin-linked {
+  color: $green;
+  font-weight: 600;
+}
+
+.origin-linked {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.origin-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.origin-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: $beige;
+  border: 1px solid $origin-line;
+  border-radius: $card-radius;
+}
+
+.origin-confirm {
+  padding: 1rem;
+  background: #fff8e1;
+  border: 2px solid $yellow;
+  border-radius: $card-radius;
+
+  p {
+    margin-bottom: 0.75rem;
+  }
+}
+
+// What the page says after a packet of a variety changed its crop.
+.origin-undo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: $origin-pale-green;
+  border-radius: $card-radius;
+
+  p {
+    flex: 1;
+    margin: 0;
+  }
+}
+
+// The "Grown from" fact once it has an answer.
+.origin-answered {
+  background: $origin-pale-green;
+}
+
+// The "Grown from" fact while it is still a question, like the notice above it.
+.origin-unanswered {
+  outline: 2px solid $orange;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

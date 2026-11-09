@@ -1285,7 +1285,6 @@ de:
       packets_of_seed:
         one: 1 Saatgutpäckchen
         other: "%{count} Saatgutpäckchen"
-      parent_seed: Ausgangssaatgut
       perennial: Mehrjährig
       perennial_description: wächst von Jahr zu Jahr weiter
       planned: Geplant
