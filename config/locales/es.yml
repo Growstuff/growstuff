@@ -525,7 +525,19 @@ es:
       save: guardar
       unrated_notice: Esta cosecha es de una plantación que aún no ha sido calificada.
     show:
-      heading: Cosecha %{crop}
+      add: agregar
+      breadcrumb: Cosecha
+      crop: Cultivo
+      harvested: Cosechado
+      harvested_by: cosechado por
+      heading: Cosecha de %{crop}
+      no_photos: Aún no hay fotos.
+      photos: Fotos
+      picked_from: recolectado de
+      plant_part: Parte de la planta
+      quantity: Cantidad
+      see_how: Mira cómo va el cultivo de %{crop} de %{owner}.
+      the_planting_this_came_from: La plantación de donde proviene
     updated: La cosecha se actualizó correctamente.
   home:
     added_to_stash: Se agregó con éxito la semilla %{crop} a tu alijo.

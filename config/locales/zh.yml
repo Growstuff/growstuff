@@ -523,7 +523,19 @@ zh:
       save: 保存
       unrated_notice: 此收获来自尚未评分的种植。
     show:
+      add: 添加
+      breadcrumb: 收获
+      crop: 作物
+      harvested: 已收获
+      harvested_by: 收获者：
       heading: "%{crop}收获"
+      no_photos: 暂无照片。
+      photos: 照片
+      picked_from: 采摘自
+      plant_part: 植物部位
+      quantity: 数量
+      see_how: 查看 %{owner} 的 %{crop} 生长情况。
+      the_planting_this_came_from: 此收获来源的种植
     updated: 收获已成功更新。
   home:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。

@@ -525,7 +525,19 @@ fr:
       save: enregistrer
       unrated_notice: Cette récolte provient d'une plantation qui n'a pas encore été évaluée.
     show:
-      heading: Récolte %{crop}
+      add: ajouter
+      breadcrumb: Récolte
+      crop: Culture
+      harvested: Récolté
+      harvested_by: récolté par
+      heading: Récolte de %{crop}
+      no_photos: Pas encore de photos.
+      photos: Photos
+      picked_from: cueilli sur
+      plant_part: Partie de la plante
+      quantity: Quantité
+      see_how: Découvrez comment se porte le %{crop} de %{owner}.
+      the_planting_this_came_from: La plantation dont cela provient
     updated: La récolte a été mise à jour avec succès.
   home:
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
