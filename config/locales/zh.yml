@@ -1027,6 +1027,11 @@ zh:
       title: "%{site_name} 成员"
     signup:
       error: 无法完成注册
+    stats:
+      followers:
+        other: "%{count} 位关注者"
+      heading: 统计
+      toggle: 显示/隐藏
     unsubscribe:
       error: 很抱歉，更新您的设置时出错。
     unsubscribed: 您已取消订阅 %{email_type} 电子邮件。

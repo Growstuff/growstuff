@@ -1436,6 +1436,12 @@ en:
       title: "%{site_name} members"
     signup:
       error: Failed to complete signup
+    stats:
+      followers:
+        one: "%{count} follower"
+        other: "%{count} followers"
+      heading: Stats
+      toggle: Show/Hide
     unsubscribe:
       error: We're sorry, there was an error updating your settings.
     unsubscribed: You have been unsubscribed from %{email_type} emails.

@@ -1029,6 +1029,12 @@ de:
       title: "%{site_name} Mitglieder"
     signup:
       error: Registrierung konnte nicht abgeschlossen werden
+    stats:
+      followers:
+        one: "%{count} Follower"
+        other: "%{count} Follower"
+      heading: Statistiken
+      toggle: Einblenden/Ausblenden
     unsubscribe:
       error: Es tut uns leid, beim Aktualisieren Ihrer Einstellungen ist ein Fehler aufgetreten.
     unsubscribed: Sie wurden von %{email_type} E-Mails abgemeldet.
