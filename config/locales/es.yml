@@ -1029,6 +1029,12 @@ es:
       title: Miembros de %{site_name}
     signup:
       error: No se pudo completar el registro
+    stats:
+      followers:
+        one: "%{count} seguidor"
+        other: "%{count} seguidores"
+      heading: Estadísticas
+      toggle: Mostrar/Ocultar
     unsubscribe:
       error: Lo sentimos, hubo un error al actualizar su configuración.
     unsubscribed: Se te ha cancelado la suscripción a los correos electrónicos de %{email_type}.

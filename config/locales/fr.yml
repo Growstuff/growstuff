@@ -1031,6 +1031,12 @@ fr:
       title: Membres %{site_name}
     signup:
       error: Échec de l'inscription
+    stats:
+      followers:
+        one: "%{count} abonné"
+        other: "%{count} abonnés"
+      heading: Statistiques
+      toggle: Afficher/Masquer
     unsubscribe:
       error: Nous sommes désolés, une erreur s'est produite lors de la mise à jour de vos paramètres.
     unsubscribed: Vous avez été désabonné des e-mails %{email_type}.
