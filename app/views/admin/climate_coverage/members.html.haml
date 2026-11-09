@@ -20,7 +20,9 @@
         - located, covered, stale = @coverage.gardens(member.id)
         %tr
           %td= link_to member.login_name, member, class: 'link-body-emphasis'
-          %td= member.location
+          %td.location
+            - if member.location.present?
+              = link_to member.location, place_path(member.location), class: 'link-body-emphasis'
           %td.own= render 'status', status: @coverage.own_status(member.id)
           %td.gardens
             - if located.positive?
