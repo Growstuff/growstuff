@@ -265,7 +265,6 @@ ja:
       not_specified: 指定なし
       packets_of_seed:
         other: "%{count}袋の種"
-      parent_seed: 親の種
       perennial: 多年草
       perennial_description: 年々成長し続けます
       planned: 計画済み

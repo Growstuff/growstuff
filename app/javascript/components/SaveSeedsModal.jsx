@@ -26,7 +26,7 @@ const tradeLabel = (value) => TRADE_LABELS[value] || value;
 // POST /seeds.json, and hands the new seed's link to onSaved, so the page is never left.
 //
 // Without a planting, give it a crop instead, and where the seeds came from as
-// source (a key of SOURCES, saved unless said). The form comes from /seeds/new.json?crop_id=.
+// source (a key of SOURCES, or the value it stands for; saved unless said). The form comes from /seeds/new.json?crop_id=.
 export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, lead = [], source: knownSource, onBack, onClose, onSaved}) {
   const crop = chosenCrop || planting.crop;
   const [form, setForm] = useState(null); // {crop, parent_planting_id, saved_at, tradable_to_values, location, settings_url}
@@ -44,7 +44,7 @@ export default function SaveSeedsModal({planting, crop: chosenCrop, iconUrl, lea
         const {ok, data} = await getJson(formUrl, {signal: controller.signal});
         if (!ok) throw new Error('load failed');
         setForm(data);
-        setValues({quantity: '', tradable_to: 'nowhere', description: '', source: SOURCES[knownSource || 'saved']});
+        setValues({quantity: '', tradable_to: 'nowhere', description: '', source: SOURCES[knownSource] || knownSource || SOURCES.saved});
       } catch (error) {
         if (error.name !== 'AbortError') setLoadError(true);
       }

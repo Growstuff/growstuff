@@ -1261,7 +1261,6 @@ zh:
       packets_of_seed:
         one: 1 包种子
         other: "%{count} 包种子"
-      parent_seed: 母株种子
       perennial: 多年生
       perennial_description: 年复一年持续生长
       planned: 已计划
