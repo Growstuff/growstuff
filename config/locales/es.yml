@@ -1408,6 +1408,16 @@ es:
       ocr_label: Nuestro intento de leer el sobre
       ocr_note: Leído automáticamente de las fotos, por lo que puede contener errores. Cotejar con el sobre.
       show_ocr: Mostrar nuestro intento de leer el sobre
+    past_sow_by:
+      count:
+        one: "%{count} sobre ha pasado su fecha límite de siembra."
+        other: "%{count} sobres han pasado su fecha límite de siembra."
+      hint: Las semillas viejas a menudo aún germinan. Siembra unas cuantas en espeso para comprobarlo.
+      show_all: Mostrar todos
+      show_those:
+        one: Mostrar ese
+        other: Mostrar esos %{count}
+      showing: Mostrando sobres pasados de su fecha límite de siembra.
     save_seeds: guardar semillas
     show:
       heading: Semillas %{crop}

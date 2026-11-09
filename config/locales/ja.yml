@@ -297,6 +297,16 @@ ja:
       ocr_label: 種袋の読み取り結果
       ocr_note: 写真から自動的に読み取っているため、誤りが含まれる場合があります。実際の種袋と照らし合わせてご確認ください。
       show_ocr: 種袋の読み取り結果を表示
+    past_sow_by:
+      count:
+        one: "%{count}袋が播種期限を過ぎています。"
+        other: "%{count}袋が播種期限を過ぎています。"
+      hint: 古い種でもまだ育つことがよくあります。少しだけ密にまいて試してみましょう。
+      show_all: すべて表示
+      show_those:
+        one: 該当する%{count}袋を表示
+        other: 該当する%{count}袋を表示
+      showing: 播種期限を過ぎた袋を表示しています。
   stalls:
     about_growstuff:
       join: 無料で参加

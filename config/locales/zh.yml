@@ -1406,6 +1406,16 @@ zh:
       ocr_label: 包装袋文字识别结果
       ocr_note: 从照片中自动读取，可能存在误差。请与实物包装核对。
       show_ocr: 显示文字识别结果
+    past_sow_by:
+      count:
+        one: 有 %{count} 包种子已过播种期限。
+        other: 有 %{count} 包种子已过播种期限。
+      hint: 旧种子往往仍能发芽。可以密播几颗试试。
+      show_all: 显示全部
+      show_those:
+        one: 显示这 %{count} 包
+        other: 显示这 %{count} 包
+      showing: 正在显示已过播种期限的种子包。
     save_seeds: 保存种子
     show:
       heading: "%{crop} 种子"
