@@ -1177,6 +1177,10 @@ zh:
     what_is_a_nursery:
       description_html: "<strong>苗圃</strong>是您培育幼苗的地方：种子在进入花园之前先播种在托盘或盆中。将种子播种在苗圃中，然后将它们移植到一个花园中，或者在种子准备好后将一批种子分成几批。"
   pages:
+    about:
+      title: 关于
+      description_html: 有关 Growstuff 的更多信息，请参阅我们的 %{github_link}。
+      github_page: GitHub 页面
     contact:
       title: 联系方式
       general_email: 一般联系邮箱

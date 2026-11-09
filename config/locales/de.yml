@@ -1179,6 +1179,10 @@ de:
     what_is_a_nursery:
       description_html: 'In einer <strong>Baumschule</strong> züchtet man Setzlinge: Samen, die in Tabletts oder Töpfe gesät werden, bevor sie in einen Garten gehen. Säen Sie Ihre Samen in die Baumschule und verpflanzen Sie sie dann in einen Garten oder teilen Sie eine Charge zwischen mehreren auf, wenn sie fertig sind.'
   pages:
+    about:
+      title: Über
+      description_html: Weitere Informationen über Growstuff finden Sie auf unserer %{github_link}.
+      github_page: GitHub-Seite
     contact:
       title: Kontakt
       general_email: Allgemeine Kontakt-E-Mail

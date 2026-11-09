@@ -207,6 +207,10 @@ ja:
       not_known: 場所が不明またはジオコードできません
       see_nearby_html: "%{location} 付近の他のメンバー、植え付け、種などを表示"
   pages:
+    about:
+      title: Growstuffについて
+      description_html: Growstuffの詳細については、%{github_link}をご覧ください。
+      github_page: GitHubページ
     contact:
       title: お問い合わせ
       general_email: 代表問い合わせメール
