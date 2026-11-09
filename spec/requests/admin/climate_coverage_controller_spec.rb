@@ -23,6 +23,15 @@ describe Admin::ClimateCoverageController do
       it { expect(page).to have_css('tbody tr', text: 'wellington') }
     end
 
+    describe 'members with a location' do
+      before do
+        create(:member, login_name: 'placed').update_columns(location: 'Wellington, New Zealand') # rubocop:disable Rails/SkipsModelValidations
+        get admin_climate_members_path
+      end
+
+      it { expect(page).to have_link('Wellington, New Zealand', href: place_path('Wellington, New Zealand')) }
+    end
+
     describe 'members covered through a garden' do
       before do
         create(:member, login_name: 'gardener').gardens.first.update_columns(latitude: -41.3, longitude: 174.8) # rubocop:disable Rails/SkipsModelValidations
