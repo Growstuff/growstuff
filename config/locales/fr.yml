@@ -1381,6 +1381,11 @@ fr:
       unknown: Inconnu
       will_trade: À échanger
       year_saved: Année de récolte
+    empty:
+      no_finished: Pas encore de graines terminées.
+      no_match: Aucune graine ne correspond à ces filtres.
+      none_recorded: Aucune graine enregistrée pour le moment
+      show_all: Afficher toutes les graines
     form:
       finish_helper: Les graines sont terminées lorsque vous les avez toutes plantées ou que vous les avez toutes échangées.
       trade_help: Êtes-vous intéressé par le commerce ou l'échange de semences avec d'autres membres de %{site_name} ?  Si vous indiquez que vos graines sont disponibles pour le commerce, d'autres membres peuvent vous contacter pour demander des graines.  Vous pouvez énumérer toutes les conditions ou autres informations dans la description ci-dessus.

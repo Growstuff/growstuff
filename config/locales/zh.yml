@@ -1377,6 +1377,11 @@ zh:
       unknown: 未知
       will_trade: 可交换
       year_saved: 保存年份
+    empty:
+      no_finished: 还没有已用完的种子。
+      no_match: 没有符合这些筛选条件的种子。
+      none_recorded: 尚未记录种子
+      show_all: 显示所有种子
     form:
       finish_helper: 当你把它们全部种下或者全部卖掉时，种子就完成了。
       trade_help: 您有兴趣与其他 %{site_name} 会员交易或交换种子吗？  如果您将种子列为可交易，其他成员可以联系您索取种子。  您可以在上面的描述中列出任何条件或其他信息。

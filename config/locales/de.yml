@@ -1379,6 +1379,11 @@ de:
       unknown: Unbekannt
       will_trade: Tauschangebot
       year_saved: Gespeichertes Jahr
+    empty:
+      no_finished: Noch keine verbrauchten Samen.
+      no_match: Keine Samen entsprechen diesen Filtern.
+      none_recorded: Noch keine Samen erfasst
+      show_all: Alle Samen anzeigen
     form:
       finish_helper: Samen sind fertig, wenn Sie sie alle gepflanzt haben, oder Sie haben sie alle weggetauscht.
       trade_help: Sind Sie daran interessiert, Saatgut mit anderen %{site_name}-Mitgliedern zu handeln oder auszutauschen?  Wenn Sie Ihr Saatgut als für den Handel verfügbar auflisten, können sich andere Mitglieder mit Ihnen in Verbindung setzen, um Saatgut anzufordern.  Sie können alle Bedingungen oder andere Informationen in der obigen Beschreibung auflisten.
