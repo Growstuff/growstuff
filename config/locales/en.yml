@@ -1967,7 +1967,7 @@ en:
         other_seeds_hint: Other seeds goes to where they came from and lets you add the packet's details. Another way offers seedling, cutting and the rest.
         other_ways: Another way
         remove_link: Remove the link
-        remove_link_hint: "Removing the link keeps \"Seed\" and leaves no packet. The packet's list of plantings updates straight away."
+        remove_link_hint: Removing the link takes this back to not recorded. The packet's list of plantings updates straight away.
         right_now: Right now
         save: Save
         search: Search your seeds

@@ -127,7 +127,7 @@ describe('PlantingOrigin', () => {
       const fetch = stubFetch();
       await openDialog(linked);
       await userEvent.click(screen.getByRole('button', {name: 'Remove the link'}));
-      await waitFor(() => expect(lastBody(fetch)).toEqual({planting: {parent_seed_id: null, planted_from: 'seed'}}));
+      await waitFor(() => expect(lastBody(fetch)).toEqual({planting: {parent_seed_id: null, planted_from: null}}));
     });
   });
 

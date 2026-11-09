@@ -110,6 +110,7 @@ class Planting < ApplicationRecord
   validates :sunniness, allow_blank: true, inclusion: {
     in: SUNNINESS_VALUES, message: :not_a_valid_sunniness
   }
+  normalizes :planted_from, with: ->(value) { value.presence }
   validates :planted_from, allow_blank: true, inclusion: {
     in: PLANTED_FROM_VALUES, message: :not_a_valid_planting_method
   }
