@@ -1410,6 +1410,16 @@ fr:
       ocr_label: Notre tentative de lecture du sachet
       ocr_note: Lu automatiquement à partir des photos, des erreurs sont donc possibles. À vérifier avec le sachet.
       show_ocr: Afficher notre tentative de lecture du sachet
+    past_sow_by:
+      count:
+        one: "%{count} sachet a dépassé sa date limite de semis."
+        other: "%{count} sachets ont dépassé leur date limite de semis."
+      hint: Les vieilles graines lèvent souvent encore. Semez-en quelques-unes épais pour le savoir.
+      show_all: Tout afficher
+      show_those:
+        one: Afficher celui-là
+        other: Afficher ces %{count}
+      showing: Affichage des sachets dépassant leur date limite de semis.
     save_seeds: Gérer les semences
     show:
       heading: "%{crop} Seeds"

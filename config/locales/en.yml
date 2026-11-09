@@ -2085,6 +2085,16 @@ en:
       ocr_label: Our attempt to read the packet
       ocr_note: Read automatically from the photos, so it makes mistakes. Check it against the packet.
       show_ocr: Show our attempt to read the packet
+    past_sow_by:
+      count:
+        one: "%{count} packet is past its sow-by date."
+        other: "%{count} packets are past their sow-by date."
+      hint: Old seed often still grows. Sow a few thickly to find out.
+      show_all: Show all
+      show_those:
+        one: Show me that one
+        other: Show me those %{count}
+      showing: Showing packets past their sow-by date.
     save_seeds: Save seeds
     show:
       heading: "%{crop} seeds"

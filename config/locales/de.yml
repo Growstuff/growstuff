@@ -1408,6 +1408,16 @@ de:
       ocr_label: Unser Versuch, die Packung zu lesen
       ocr_note: Automatisch aus den Fotos gelesen, daher können Fehler auftreten. Bitte mit der Packung abgleichen.
       show_ocr: Texterkennung anzeigen
+    past_sow_by:
+      count:
+        one: "%{count} Päckchen ist über sein Aussaat-bis-Datum hinaus."
+        other: "%{count} Päckchen sind über ihr Aussaat-bis-Datum hinaus."
+      hint: Altes Saatgut keimt oft noch. Säe ein paar dicht aus, um es herauszufinden.
+      show_all: Alle anzeigen
+      show_those:
+        one: Dieses zeigen
+        other: Diese %{count} zeigen
+      showing: Es werden Päckchen nach ihrem Aussaat-bis-Datum angezeigt.
     save_seeds: Samen speichern
     show:
       heading: "%{crop} Seeds"
