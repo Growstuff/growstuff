@@ -1379,6 +1379,11 @@ es:
       unknown: Desconocido
       will_trade: Para intercambio
       year_saved: Año guardado
+    empty:
+      no_finished: Aún no hay semillas terminadas.
+      no_match: No hay semillas que coincidan con esos filtros.
+      none_recorded: Aún no se han registrado semillas
+      show_all: Mostrar todas las semillas
     form:
       finish_helper: Las semillas estarán terminadas cuando las hayas plantado todas o las hayas intercambiado todas.
       trade_help: "¿Está interesado en comercializar o intercambiar semillas con otros miembros de %{site_name}?  Si incluye sus semillas como disponibles para el comercio, otros miembros pueden comunicarse con usted para solicitar semillas.  Puede enumerar cualquier condición u otra información en la descripción anterior."
