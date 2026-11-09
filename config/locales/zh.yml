@@ -392,6 +392,8 @@ zh:
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
     header:
+      nursery: 苗圃
+      nursery_hint: 这里培育的幼苗可以移植到您的花园中。
       all_gardens: "%{owner} 的所有花园"
       garden_of: 的花园
       hero_caption:

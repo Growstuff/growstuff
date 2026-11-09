@@ -392,6 +392,8 @@ es:
     form:
       location_helper: Si tiene una ubicación configurada en su perfil, se utilizará cuando cree un nuevo jardín.
     header:
+      nursery: Vivero
+      nursery_hint: Las plántulas cultivadas aquí se pueden trasplantar a sus huertos.
       all_gardens: Todos los jardines de %{owner}
       garden_of: jardín de
       hero_caption:
