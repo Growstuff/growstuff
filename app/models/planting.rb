@@ -60,6 +60,8 @@ class Planting < ApplicationRecord
                          foreign_key: 'parent_planting_id',
                          inverse_of:  :parent_planting,
                          dependent:   :nullify
+  has_one :seedling, class_name: 'PlantingSeedling', dependent: :destroy, inverse_of: :planting
+  accepts_nested_attributes_for :seedling, update_only: true
 
   ##
   ## Scopes
