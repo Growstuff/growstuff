@@ -1385,6 +1385,12 @@ fr:
         crop_seeds: Les graines %{crop} DE chacun
         default: Les semences de tout le monde
         owner_seeds: "%{owner} Seeds"
+    none:
+      add_seeds: Ajouter des graines de %{crop}
+      looked_everywhere: Nous avons cherché en stock et dans les paquets terminés.
+      see_everyone: Voir les graines de %{crop} de tout le monde
+      title_from_owner: Pas de graines de %{crop} de %{owner}
+      title_here: Pas de graines de %{crop} ici
     packet:
       choice_back: Retour
       choice_front: Avant

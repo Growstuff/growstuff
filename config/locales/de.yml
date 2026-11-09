@@ -1383,6 +1383,12 @@ de:
         crop_seeds: Alle %{crop} Samen
         default: Jedermanns Samen
         owner_seeds: "%{owner} Seeds"
+    none:
+      add_seeds: "%{crop}-Samen hinzufügen"
+      looked_everywhere: Wir haben im Bestand und in verbrauchten Packungen nachgesehen.
+      see_everyone: Alle %{crop}-Samen anzeigen
+      title_from_owner: Keine %{crop}-Samen von %{owner}
+      title_here: Hier gibt es keine %{crop}-Samen
     packet:
       choice_back: Zurück
       choice_front: Vorne
