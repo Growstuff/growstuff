@@ -2081,6 +2081,14 @@ en:
       see_everyone: See %{crop} seeds from everyone
       title_from_owner: No %{crop} seeds from %{owner}
       title_here: No %{crop} seeds here
+    other_tab:
+      more_finished:
+        one: 1 more finished.
+        other: "%{count} more finished."
+      more_in_stock:
+        one: 1 more in stock.
+        other: "%{count} more in stock."
+      show_them: Show them
     packet:
       choice_back: Back
       choice_front: Front
