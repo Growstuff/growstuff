@@ -2,6 +2,7 @@
 
 module PlantingsHelper
   include PlantingWeatherHelper
+  include SeedsHelper
 
   # Pictures for the ways a planting was started and where it came from, from the icons the site already has.
   ORIGIN_KIND_ICONS = {
@@ -163,6 +164,6 @@ module PlantingsHelper
   def planting_origin_seed_detail(seed)
     source = t("plantings.origin.seed_sources.#{seed.source}") if seed.source.present? && seed.source != 'other/unknown'
     [seed.saved_at && t('plantings.origin.saved_in', year: seed.saved_at.year),
-     (seed.heirloom if seed.heirloom != 'unknown'), source].compact.join(' · ')
+     (seed.heirloom if seed.heirloom != 'unknown'), source, seed_packet_sow_by(seed)].compact.join(' · ')
   end
 end
