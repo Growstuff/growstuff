@@ -273,6 +273,12 @@ ja:
       sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
       unknown: 不明
   seeds:
+    none:
+      add_seeds: "%{crop}の種を追加"
+      looked_everywhere: 在庫と使い切った種袋を探しました。
+      see_everyone: 全員の%{crop}の種を見る
+      title_from_owner: "%{owner}による%{crop}の種はありません"
+      title_here: ここに%{crop}の種はありません
     facts:
       cancel: キャンセル
       edit_all: すべて編集

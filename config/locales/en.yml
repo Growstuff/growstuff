@@ -2064,6 +2064,12 @@ en:
         crop_seeds: Everyone's %{crop} seeds
         default: Everyone's seeds
         owner_seeds: "%{owner} seeds"
+    none:
+      add_seeds: Add %{crop} seeds
+      looked_everywhere: We looked in stock and in finished packets.
+      see_everyone: See %{crop} seeds from everyone
+      title_from_owner: No %{crop} seeds from %{owner}
+      title_here: No %{crop} seeds here
     packet:
       choice_back: Back
       choice_front: Front

@@ -1385,6 +1385,12 @@ zh:
         crop_seeds: 每个人的%{crop}种子
         default: 大家的种子
         owner_seeds: "%{owner} 种子"
+    none:
+      add_seeds: 添加 %{crop} 种子
+      looked_everywhere: 我们查看了现有库存和已用完的种子包。
+      see_everyone: 查看所有人的 %{crop} 种子
+      title_from_owner: 没有来自 %{owner} 的 %{crop} 种子
+      title_here: 这里没有 %{crop} 种子
     packet:
       choice_back: 后退
       choice_front: 正面

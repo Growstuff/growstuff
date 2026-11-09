@@ -1387,6 +1387,12 @@ es:
         crop_seeds: Las semillas %{crop} de todos
         default: Las semillas de todos
         owner_seeds: Semillas %{owner}
+    none:
+      add_seeds: Añadir semillas de %{crop}
+      looked_everywhere: Buscamos en existencias y en paquetes terminados.
+      see_everyone: Ver semillas de %{crop} de todos
+      title_from_owner: No hay semillas de %{crop} de %{owner}
+      title_here: No hay semillas de %{crop} aquí
     packet:
       choice_back: Atrás
       choice_front: Frente
