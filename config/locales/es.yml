@@ -392,6 +392,8 @@ es:
     form:
       location_helper: Si tiene una ubicación configurada en su perfil, se utilizará cuando cree un nuevo jardín.
     header:
+      nursery: Vivero
+      nursery_hint: Las plántulas cultivadas aquí se pueden trasplantar a sus huertos.
       all_gardens: Todos los jardines de %{owner}
       garden_of: jardín de
       hero_caption:
@@ -475,11 +477,14 @@ es:
       previously_planted: Plantado anteriormente en este huerto
       unknown_year: Año desconocido
     show:
+      inactive_notice: Este huerto está inactivo.
       km_from_you: a unos %{km} km de ti
+      set_active: Actívalo
       suggested_plantings:
         one: Hemos sugerido %{count} plantar para agregar aquí.
         other: Tenemos plantaciones sugeridas por %{count} para agregar aquí.
       suggested_plantings_go: Verlos →
+      to_plant: para plantar algo en este huerto.
     sign_in: Iniciar sesión
     sign_up: Únete gratis
     start:
@@ -523,7 +528,19 @@ es:
       save: guardar
       unrated_notice: Esta cosecha es de una plantación que aún no ha sido calificada.
     show:
-      heading: Cosecha %{crop}
+      add: agregar
+      breadcrumb: Cosecha
+      crop: Cultivo
+      harvested: Cosechado
+      harvested_by: cosechado por
+      heading: Cosecha de %{crop}
+      no_photos: Aún no hay fotos.
+      photos: Fotos
+      picked_from: recolectado de
+      plant_part: Parte de la planta
+      quantity: Cantidad
+      see_how: Mira cómo va el cultivo de %{crop} de %{owner}.
+      the_planting_this_came_from: La plantación de donde proviene
     updated: La cosecha se actualizó correctamente.
   home:
     added_to_stash: Se agregó con éxito la semilla %{crop} a tu alijo.
@@ -1021,6 +1038,8 @@ es:
       follow: Seguir
       unblock: Desbloquear
       unfollow: Dejar de seguir
+    location:
+      unknown_location: ubicación desconocida
     map:
       cant_show_nearby: No podemos mostrarte lo que hay cerca
       not_known: Ubicación desconocida o no geocodificable

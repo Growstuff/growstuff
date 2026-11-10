@@ -392,6 +392,8 @@ fr:
     form:
       location_helper: Si vous avez défini un emplacement dans votre profil, il sera utilisé lors de la création d'un nouveau jardin.
     header:
+      nursery: Pépinière
+      nursery_hint: Les semis cultivés ici peuvent être repiqués dans vos jardins.
       all_gardens: Tous les jardins de %{owner}
       garden_of: Jardin de ?
       hero_caption:
@@ -475,11 +477,14 @@ fr:
       previously_planted: Planté auparavant dans ce jardin
       unknown_year: Année inconnue
     show:
+      inactive_notice: Ce jardin est inactif.
       km_from_you: à environ %{km} km de chez vous
+      set_active: Activez-le
       suggested_plantings:
         one: Nous avons %{count} suggéré de planter pour ajouter ici
         other: Nous avons des plantations suggérées par %{count} à ajouter ici
       suggested_plantings_go: 'les voir. '
+      to_plant: pour planter quelque chose dans ce jardin.
     sign_in: Se connecter
     sign_up: S'inscrire gratuitement
     start:
@@ -523,7 +528,19 @@ fr:
       save: enregistrer
       unrated_notice: Cette récolte provient d'une plantation qui n'a pas encore été évaluée.
     show:
-      heading: Récolte %{crop}
+      add: ajouter
+      breadcrumb: Récolte
+      crop: Culture
+      harvested: Récolté
+      harvested_by: récolté par
+      heading: Récolte de %{crop}
+      no_photos: Pas encore de photos.
+      photos: Photos
+      picked_from: cueilli sur
+      plant_part: Partie de la plante
+      quantity: Quantité
+      see_how: Découvrez comment se porte le %{crop} de %{owner}.
+      the_planting_this_came_from: La plantation dont cela provient
     updated: La récolte a été mise à jour avec succès.
   home:
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
@@ -1023,6 +1040,8 @@ fr:
       follow: Suivre
       unblock: Débloquer
       unfollow: Ne plus suivre
+    location:
+      unknown_location: emplacement inconnu
     map:
       cant_show_nearby: Nous ne pouvons pas vous montrer ce qui se trouve à proximité
       not_known: Emplacement inconnu ou non géocodable

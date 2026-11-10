@@ -23,8 +23,8 @@ describe "members/_location" do
       render partial: 'members/location', locals: { member: }
     end
 
-    it 'shows unknown location' do
-      expect(rendered).to have_content "unknown location"
+    it 'shows localized unknown location' do
+      expect(rendered).to have_content I18n.t('members.location.unknown_location')
     end
 
     it "doesn't link anywhere" do

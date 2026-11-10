@@ -392,6 +392,8 @@ zh:
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
     header:
+      nursery: 苗圃
+      nursery_hint: 这里培育的幼苗可以移植到您的花园中。
       all_gardens: "%{owner} 的所有花园"
       garden_of: 的花园
       hero_caption:
@@ -473,11 +475,14 @@ zh:
       previously_planted: 以前在这个花园里种植过的植物
       unknown_year: 年份未知
     show:
+      inactive_notice: 该花园处于休眠状态。
       km_from_you: 距您约 %{km} 公里
+      set_active: 将其设置为有效
       suggested_plantings:
         one: 我们有 %{count} 建议种植添加到这里
         other: 我们在这里添加了 %{count} 建议的种植
       suggested_plantings_go: 看到他们 →
+      to_plant: 以在此花园中种植作物。
     sign_in: 登入
     sign_up: 免费加入
     start:
@@ -521,7 +526,19 @@ zh:
       save: 保存
       unrated_notice: 此收获来自尚未评分的种植。
     show:
+      add: 添加
+      breadcrumb: 收获
+      crop: 作物
+      harvested: 已收获
+      harvested_by: 收获者：
       heading: "%{crop}收获"
+      no_photos: 暂无照片。
+      photos: 照片
+      picked_from: 采摘自
+      plant_part: 植物部位
+      quantity: 数量
+      see_how: 查看 %{owner} 的 %{crop} 生长情况。
+      the_planting_this_came_from: 此收获来源的种植
     updated: 收获已成功更新。
   home:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
@@ -1019,6 +1036,8 @@ zh:
       follow: 关注
       unblock: 取消屏蔽
       unfollow: 取消关注
+    location:
+      unknown_location: 未知位置
     map:
       cant_show_nearby: 我们无法向您显示附近的内容
       not_known: 位置未知或无法进行地理编码

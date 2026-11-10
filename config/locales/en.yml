@@ -697,6 +697,8 @@ en:
         label: This garden is safe from frost
       location_helper: If you have a location set in your profile, it will be used when you create a new garden.
     header:
+      nursery: Nursery
+      nursery_hint: Seedlings raised here can be transplanted into your gardens.
       all_gardens: All of %{owner}'s gardens
       frost_protected: Frost protected
       frost_protected_title: Safe from frost, such as indoors or in a greenhouse
@@ -781,11 +783,14 @@ en:
       previously_planted: Previously planted in this garden
       unknown_year: Unknown year
     show:
+      inactive_notice: This garden is inactive.
       km_from_you: about %{km} km from you
+      set_active: Set it to active
       suggested_plantings:
         one: We have %{count} suggested planting to add here
         other: We have %{count} suggested plantings to add here
       suggested_plantings_go: See them →
+      to_plant: to plant something in this garden.
     sign_in: Sign in
     sign_up: Join free
     start:
@@ -843,7 +848,19 @@ en:
       save: save
       unrated_notice: This harvest is from a planting that hasn't been rated yet.
     show:
+      add: add
+      breadcrumb: Harvest
+      crop: Crop
+      harvested: Harvested
+      harvested_by: harvested by
       heading: "%{crop} harvest"
+      no_photos: No photos yet.
+      photos: Photos
+      picked_from: picked from
+      plant_part: Plant part
+      quantity: Quantity
+      see_how: See how %{owner}'s %{crop} is getting on.
+      the_planting_this_came_from: The planting this came from
     updated: Harvest was successfully updated.
   home:
     added_to_stash: Successfully added %{crop} seed to your stash.
@@ -1428,6 +1445,8 @@ en:
       follow: Follow
       unblock: Unblock
       unfollow: Unfollow
+    location:
+      unknown_location: unknown location
     map:
       cant_show_nearby: We can't show you what's nearby
       not_known: Location not known or geocodable

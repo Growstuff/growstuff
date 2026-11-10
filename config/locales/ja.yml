@@ -121,6 +121,18 @@ ja:
       save: 保存
       wikidata_id: Wikidata ID
   gardens:
+    header:
+      all_gardens: "%{owner} のすべての庭"
+      frost_protected: 霜除けあり
+      frost_protected_title: 室内や温室など、霜の影響を受けない環境
+      garden_of: の庭
+      hero_caption:
+        one: 庭の写真 · %{count}枚の写真
+        other: 庭の写真 · %{count}枚の写真
+      hero_label: "%{garden}の写真"
+      nursery: 苗床
+      nursery_hint: ここで育てられた苗は庭に移植できます。
+      season_title: この庭の現在の季節
     location:
       change: 変更
       heading: 場所
@@ -163,6 +175,10 @@ ja:
       finished_jobs: 完了した庭の作業
       previously_planted: 以前この庭に植えられたもの
       unknown_year: 年不明
+    show:
+      inactive_notice: この庭は休止中です。
+      set_active: アクティブに設定
+      to_plant: して、この庭に何かを植えましょう。
   harvests:
     card:
       by: '投稿者:'
@@ -190,6 +206,20 @@ ja:
       rate_planting: この植え付けを評価する
       save: 保存
       unrated_notice: この収穫はまだ評価されていない植え付けからのものです。
+    show:
+      add: 追加
+      breadcrumb: 収穫
+      crop: 作物
+      harvested: 収穫日
+      harvested_by: '収穫者: '
+      heading: "%{crop}の収穫"
+      no_photos: 写真はまだありません。
+      photos: 写真
+      picked_from: '収穫元: '
+      plant_part: 植物の部位
+      quantity: 数量
+      see_how: "%{owner}さんの%{crop}の様子を見る。"
+      the_planting_this_came_from: 収穫元の植え付け
   home:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
@@ -209,6 +239,8 @@ ja:
       unset_title: メールアドレスが設定されていません。
       waiting_body: "%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。"
       waiting_title: メールアドレスの確認をお待ちしています。
+    location:
+      unknown_location: 不明な場所
     map:
       cant_show_nearby: 近くの情報を表示できません
       not_known: 場所が不明またはジオコードできません
