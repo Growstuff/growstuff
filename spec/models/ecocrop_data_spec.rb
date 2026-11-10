@@ -243,4 +243,20 @@ describe EcocropData do
       it('suggests nothing') { expect(suggestions).to be_empty }
     end
   end
+
+  describe '#new_common_names_for' do
+    let(:record) { build(:ecocrop_data, comname: ['carrot', 'Karotte ', 'karotte', 'wortel']) }
+    let(:crop) { create(:crop, name: 'Carrot') }
+
+    before { create(:alternate_name, crop:, name: 'WORTEL') }
+
+    it 'is the tidied names the crop lacks' do
+      expect(record.new_common_names_for(crop)).to eq %w(Karotte)
+    end
+
+    it 'is empty without common names' do
+      record.comname = nil
+      expect(record.new_common_names_for(crop)).to be_empty
+    end
+  end
 end

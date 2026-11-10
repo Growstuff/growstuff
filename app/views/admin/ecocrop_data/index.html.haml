@@ -59,9 +59,17 @@
                   = link_to crop.name, crop
                   = button_to t('.unlink'), admin_link_ecocrop_data_path(record), method: :delete, params: { crop_id: crop.id },
                               class: 'btn btn-link btn-sm p-0 ms-1', form_class: 'd-inline'
+                  - missing = record.new_common_names_for(crop).size
+                  - if missing.positive?
+                    %button.btn.btn-link.btn-sm.p-0.ms-1{ type: 'button', data: ecocrop_link_data(record, crop:) }
+                      = t('.copy_names', count: missing)
           %td
             %button.btn.btn-outline-primary.btn-sm{ type: 'button', data: ecocrop_link_data(record) }
               = t('.link')
+            - if record.crops.empty?
+              %button.btn.btn-outline-secondary.btn-sm.mt-1{ type: 'button', data: ecocrop_create_data(record) }
+                = t('.create_crop')
   = will_paginate @records
 
 = render 'link_modal'
+= render 'create_modal'

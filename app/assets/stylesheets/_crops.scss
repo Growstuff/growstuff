@@ -275,3 +275,10 @@
     width: 16px;
   }
 }
+
+// The common names to copy, in the EcoCrop dialogs: in columns where there are many.
+.ecocrop-names-list {
+  column-width: 12rem;
+  max-height: 14rem;
+  overflow-y: auto;
+}

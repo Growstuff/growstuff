@@ -11,7 +11,7 @@ module Admin
     def index
       @filter = params[:filter] if FILTERS.include?(params[:filter])
       @query = params[:q].to_s.strip
-      @records = EcocropData.includes(:crops).order(:scientificname)
+      @records = EcocropData.includes(crops: :alternate_names).order(:scientificname)
       @records = @records.public_send(@filter) if @filter
       @records = @records.search(@query) if @query.present?
       @records = @records.paginate(page: params[:page], per_page: 50)
@@ -20,21 +20,39 @@ module Admin
     end
 
     # A crop has one EcoCrop record, so linking it moves it off any record it was linked to before.
+    # The names ticked in the dialog are copied to the crop as alternate names.
     def link
-      record = EcocropData.find(params[:id])
       crop = Crop.find(params[:crop_id])
-      if crop.update(ecocrop_record: record)
-        redirect_back_or_to admin_ecocrop_data_path, notice: t('.linked', crop: crop.name, record: record.scientificname)
-      else
-        redirect_back_or_to admin_ecocrop_data_path, alert: t('.failed', crop: crop.name)
-      end
+      added = linker.link(crop, names: params[:names])
+      redirect_back_or_to admin_ecocrop_data_path, notice: t('.linked', crop: crop.name, record: record.scientificname, count: added)
+    rescue ActiveRecord::RecordInvalid
+      redirect_back_or_to admin_ecocrop_data_path, alert: t('.failed', crop: crop.name)
+    end
+
+    # A new crop from a record with no crop of its own.
+    def create_crop
+      crop = linker.create_crop(name: params[:name], wikipedia_url: params[:en_wikipedia_url], names: params[:names])
+      redirect_back_or_to admin_ecocrop_data_path, notice: t('.created', crop: crop.name, record: record.scientificname)
+    rescue EcocropCropLinker::Error => e
+      redirect_back_or_to admin_ecocrop_data_path, alert: t(".#{e.message}", name: params[:name])
+    rescue ActiveRecord::RecordInvalid => e
+      redirect_back_or_to admin_ecocrop_data_path, alert: e.record.errors.full_messages.to_sentence
     end
 
     def unlink
-      record = EcocropData.find(params[:id])
       crop = record.crops.find(params[:crop_id])
       crop.update(ecocrop_record: nil)
       redirect_back_or_to admin_ecocrop_data_path, notice: t('.unlinked', crop: crop.name, record: record.scientificname)
+    end
+
+    private
+
+    def record
+      @record ||= EcocropData.find(params[:id])
+    end
+
+    def linker
+      EcocropCropLinker.new(record:, member: current_member)
     end
   end
 end

@@ -1,14 +1,14 @@
 -# One dialog for the whole list. The row's button says which EcoCrop record it is for, and
 -# ecocrop_link.js searches the crops and posts the chosen one to the form below.
 .modal.fade#ecocrop-link-modal{ "aria-hidden" => "true", "aria-labelledby" => "ecocrop-link-title", role: "dialog", tabindex: "-1",
-                                data: { search_url: search_crops_path(format: :json), link_url: admin_link_ecocrop_data_path('__ID__'), none: t('.none'), confirm: t('.confirm', crop: '__CROP__', record: '__RECORD__') } }
+                                data: { labels: ecocrop_detail_labels.to_json, search_url: search_crops_path(format: :json), link_url: admin_link_ecocrop_data_path('__ID__'), none: t('.none'), confirm: t('.confirm', crop: '__CROP__', record: '__RECORD__') } }
   .modal-dialog{ role: "document" }
     .modal-content
       .modal-header
         %h4.modal-title#ecocrop-link-title= t('.title')
         %button.btn-close{ "aria-label" => t('.close'), "data-bs-dismiss" => "modal", type: "button" }
       .modal-body
-        %p.fw-bold.fst-italic#ecocrop-link-name
+        .ecocrop-details.mb-3#ecocrop-link-details
         #ecocrop-link-search-panel
           %p.text-muted= t('.hint')
           = label_tag 'ecocrop-link-search', t('.search_label'), class: 'form-label'
@@ -16,6 +16,10 @@
           %ul.list-group.mt-3#ecocrop-link-results{ 'aria-live' => 'polite' }
         #ecocrop-link-confirm.d-none
           %p#ecocrop-link-confirm-text
+          %fieldset.mb-3.d-none#ecocrop-link-names
+            %legend.h6= t('.names_legend')
+            %p.form-text= t('.names_hint')
+            .ecocrop-names-list
           %button.btn.btn-link#ecocrop-link-confirm-back{ type: 'button' }= t('.back')
         = form_with url: '#', method: :post, id: 'ecocrop-link-form', class: 'd-none' do
           = hidden_field_tag :crop_id, nil, id: 'ecocrop-link-crop-id'

@@ -33,6 +33,17 @@ class EcocropData < ApplicationRecord
     found.reject { |_id, matching| matching.empty? }
   end
 
+  # The common names, tidied and without repeats ignoring case.
+  def common_names
+    Array(comname).map(&:squish).compact_blank.uniq(&:downcase)
+  end
+
+  # The common names this crop doesn't have yet, as its name or an alternate name, ignoring case.
+  def new_common_names_for(crop)
+    taken = [crop.name, *crop.alternate_names.map(&:name)].map { |name| name.downcase.squish }
+    common_names.reject { |name| taken.include?(name.downcase) }
+  end
+
   def self.by_scientific_name(name)
     return nil if name.blank?
 
