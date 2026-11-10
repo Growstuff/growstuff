@@ -5,5 +5,5 @@
   %ul
     - features.each do |feature|
       %li
-        %b= link_to feature.title, public_send("#{feature.path}_url")
+        %b= link_to feature.title, feature.url(@member, self)
         &ndash; #{feature.description}
