@@ -99,7 +99,7 @@ class EcocropMatcher
   end
 
   def common_name_index
-    @common_name_index ||= index { |record| Array(record.comname).map { |name| name.downcase.squish } }
+    @common_name_index ||= index { |record| record.common_names.map(&:downcase) }
   end
 
   def index

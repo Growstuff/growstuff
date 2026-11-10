@@ -141,7 +141,7 @@ en:
         create: Create crop
         hint: Make a crop from this EcoCrop record. It is created as approved, with the scientific name below, and linked to the record.
         name: Crop name
-        names_hint: These are kept as alternate names, in English. Untick the ones that are not English, or are not right.
+        names_hint: These are kept as alternate names, in English. Names with a note in brackets are not ticked, as they are usually from another language or place. Untick any others that are not English, or are not right.
         names_legend: Other common names
         title: Create a crop
         wikipedia_hint: An approved crop needs one. This is a guess from the scientific name, so check the page is the right plant.
@@ -189,7 +189,7 @@ en:
         confirm: Link the crop %{crop} to %{record}?
         confirm_button: Yes, link it
         hint: Search for the crop this EcoCrop record describes. A crop has one record, so linking it replaces any it had.
-        names_hint: These are added to the crop as alternate names, in English. Untick the ones that are not English, or are not right.
+        names_hint: These are added to the crop as alternate names, in English. Names with a note in brackets are not ticked, as they are usually from another language or place. Untick any others that are not English, or are not right.
         names_legend: Also copy these common names
         none: No crops found
         search_label: Crop name
@@ -542,7 +542,7 @@ en:
       confirm_button: Yes, link it
       hint: Search the EcoCrop records by common name, or by scientific name.
       linked_to: Already linked to %{crops}
-      names_hint: These are added to the crop as alternate names, in English. Untick the ones that are not English, or are not right.
+      names_hint: These are added to the crop as alternate names, in English. Names with a note in brackets are not ticked, as they are usually from another language or place. Untick any others that are not English, or are not right.
       names_legend: Also copy these common names
       none: No EcoCrop records found
       search_label: Common name
