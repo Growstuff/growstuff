@@ -8,8 +8,8 @@ module WeatherRangeBandsHelper
   # Whether the weather is inside the crop's ranges decides the badge's colour.
   WEATHER_STATUS_COLOURS = { best: 'success', cool: 'warning', warm: 'warning', cold: 'info', hot: 'danger',
                              too_cold: 'info', too_hot: 'danger', ok: 'secondary' }.freeze
-  # The states that are too cold for the crop, blue and with a snowflake.
-  WEATHER_COLD_STATUSES = %i(cold too_cold).freeze
+  # A tick for the best range, a snowflake for too cold for the crop. The other states have no icon.
+  WEATHER_STATUS_ICONS = { best: 'check-circle', cold: 'snowflake', too_cold: 'snowflake' }.freeze
   # How far outside the best range, in degrees, is still only "a bit" cool or warm.
   WEATHER_NEAR_BEST_DEGREES = 3
 
@@ -35,7 +35,8 @@ module WeatherRangeBandsHelper
     title = t('plantings.show.weather_status_title', date: l(reading.date, format: :short))
     css = "badge weather-status-badge text-bg-#{WEATHER_STATUS_COLOURS.fetch(status)} ms-1"
     text = t("plantings.show.weather_status_#{status}", crop: crop.name)
-    text = safe_join([tag.i(class: 'fas fa-snowflake', aria: { hidden: true }), text], ' ') if WEATHER_COLD_STATUSES.include?(status)
+    icon = WEATHER_STATUS_ICONS[status]
+    text = safe_join([tag.i(class: "fas fa-#{icon}", aria: { hidden: true }), text], ' ') if icon
     tag.span(text, class: css, title:)
   end
 
