@@ -1,0 +1,16 @@
+-# For a crop wrangler, on a crop with no EcoCrop record of its own: a way to find the record. The dialog searches
+-# EcoCrop by common name and asks to confirm before linking.
+- inherited = crop.ecocrop_data
+%section.crop-ecocrop-link
+  .section-header
+    %h2= t('.title')
+  %p.text-muted
+    - if inherited
+      = t('.inherited', record: inherited.scientificname)
+    - else
+      = t('.none')
+  %button.btn.btn-outline-primary{ type: 'button',
+    data: { bs_toggle: 'modal', bs_target: '#ecocrop-find-modal', ecocrop_find: crop.id, ecocrop_crop_name: crop.name,
+            ecocrop_existing_names: [crop.name, *crop.alternate_names.map(&:name)].to_json } }
+    = icon 'fas', 'search', t('.find')
+  = render 'crops/ecocrop_find_modal', crop: crop

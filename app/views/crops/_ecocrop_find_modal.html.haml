@@ -1,0 +1,30 @@
+-# Finds the EcoCrop record for a crop: searches by common name, then asks to confirm, with the names to copy
+-# across as alternate names. ecocrop_find.js runs it.
+.modal.fade#ecocrop-find-modal{ "aria-hidden" => "true", "aria-labelledby" => "ecocrop-find-title", role: "dialog", tabindex: "-1",
+                                data: { search_url: admin_search_ecocrop_data_path(format: :json), link_url: admin_link_ecocrop_data_path('__ID__'),
+                                        labels: ecocrop_detail_labels.to_json, none: t('.none'), linked_to: t('.linked_to', crops: '__CROPS__'),
+                                        confirm: t('.confirm', crop: '__CROP__', record: '__RECORD__') } }
+  .modal-dialog{ role: "document" }
+    .modal-content
+      .modal-header
+        %h4.modal-title#ecocrop-find-title= t('.title', crop: crop.name)
+        %button.btn-close{ "aria-label" => t('.close'), "data-bs-dismiss" => "modal", type: "button" }
+      .modal-body
+        #ecocrop-find-search-panel
+          %p.text-muted= t('.hint')
+          = label_tag 'ecocrop-find-search', t('.search_label'), class: 'form-label'
+          = search_field_tag 'ecocrop-find-search', nil, class: 'form-control', autocomplete: 'off'
+          %ul.list-group.mt-3#ecocrop-find-results{ 'aria-live' => 'polite' }
+        .d-none#ecocrop-find-confirm
+          .ecocrop-details.mb-3#ecocrop-find-details
+          %p.fw-bold#ecocrop-find-confirm-text
+          %fieldset.mb-3.d-none#ecocrop-find-names
+            %legend.h6= t('.names_legend')
+            %p.form-text= t('.names_hint')
+            .ecocrop-names-list
+          %button.btn.btn-link.p-0#ecocrop-find-back{ type: 'button' }= t('.back')
+        = form_with url: '#', method: :post, id: 'ecocrop-find-form', class: 'd-none' do
+          = hidden_field_tag :crop_id, crop.id, id: 'ecocrop-find-crop-id'
+      .modal-footer
+        %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" }= t('.cancel')
+        %button.btn.btn-primary.d-none#ecocrop-find-confirm-yes{ type: 'button' }= t('.confirm_button')

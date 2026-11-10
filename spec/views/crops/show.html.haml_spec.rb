@@ -114,6 +114,22 @@ describe "crops/show" do
     end
   end
 
+  context "when a crop wrangler views a crop with no EcoCrop record" do
+    it "offers to find one" do
+      render
+      expect(rendered).to have_css "[data-ecocrop-find='#{@crop.id}']"
+    end
+  end
+
+  context "when the crop is linked to an EcoCrop record" do
+    before { @crop.update!(ecocrop_record: create(:ecocrop_data)) }
+
+    it "does not offer to find one" do
+      render
+      expect(rendered).to have_no_css "[data-ecocrop-find]"
+    end
+  end
+
   context "with a harvest style" do
     before { @crop.update!(harvest_style: 'single') }
 

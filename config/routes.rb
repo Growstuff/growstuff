@@ -230,6 +230,7 @@ Rails.application.routes.draw do
     get 'climate/gardens' => 'climate_coverage#gardens', as: :climate_gardens
     resources :job_templates, only: :index
     get 'ecocrop', to: 'ecocrop_data#index', as: :ecocrop_data
+    get 'ecocrop/search', to: 'ecocrop_data#search', as: :search_ecocrop_data
     post 'ecocrop/:id/link', to: 'ecocrop_data#link', as: :link_ecocrop_data
     delete 'ecocrop/:id/link', to: 'ecocrop_data#unlink'
     post 'ecocrop/:id/crop', to: 'ecocrop_data#create_crop', as: :create_crop_ecocrop_data

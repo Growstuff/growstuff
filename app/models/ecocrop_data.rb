@@ -19,6 +19,25 @@ class EcocropData < ApplicationRecord
     where('scientificname ILIKE :pattern OR array_to_string(comname, \' \') ILIKE :pattern', pattern:)
   }
 
+  # Records matching the text, best first: those with a common name that is exactly the text, then those with one that
+  # starts with it, then the rest, each in order of scientific name.
+  def self.best_matches(text, limit: 20)
+    term = text.to_s.squish.downcase
+    return [] if term.blank?
+
+    search(term).order(:scientificname).limit(200).sort_by.with_index do |record, index|
+      names = record.common_names.map(&:downcase)
+      [match_rank(names, term), index]
+    end.first(limit)
+  end
+
+  def self.match_rank(names, term)
+    return 0 if names.include?(term)
+
+    names.any? { |name| name.start_with?(term) } ? 1 : 2
+  end
+  private_class_method :match_rank
+
   # Crops not yet linked to any record whose name is one of an unmatched record's common names, ignoring case,
   # as { record id => crops }. A crop that already has a record is left alone, since linking would move it.
   def self.suggested_crops(records)

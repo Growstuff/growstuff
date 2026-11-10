@@ -259,4 +259,18 @@ describe EcocropData do
       expect(record.new_common_names_for(crop)).to be_empty
     end
   end
+
+  describe '.best_matches' do
+    let!(:exact) { create(:ecocrop_data, scientificname: 'Zea mays', comname: %w(maize corn)) }
+    let!(:starts) { create(:ecocrop_data, scientificname: 'Aaa bbb', comname: ['corn salad']) }
+    let!(:contains) { create(:ecocrop_data, scientificname: 'Bbb ccc', comname: ['sweet corn']) }
+
+    it 'puts an exact common name first, then names starting with it, then the rest' do
+      expect(described_class.best_matches('Corn')).to eq [exact, starts, contains]
+    end
+
+    it 'is empty for a blank search' do
+      expect(described_class.best_matches('  ')).to be_empty
+    end
+  end
 end

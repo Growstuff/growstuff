@@ -534,6 +534,24 @@ en:
         days: days
         metres: m
         rainfall: mm/year
+    ecocrop_find_modal:
+      back: Choose a different record
+      cancel: Cancel
+      close: Close
+      confirm: Link %{crop} to %{record}?
+      confirm_button: Yes, link it
+      hint: Search the EcoCrop records by common name, or by scientific name.
+      linked_to: Already linked to %{crops}
+      names_hint: These are added to the crop as alternate names, in English. Untick the ones that are not English, or are not right.
+      names_legend: Also copy these common names
+      none: No EcoCrop records found
+      search_label: Common name
+      title: Find the EcoCrop record for %{crop}
+    ecocrop_link:
+      find: Find EcoCrop data
+      inherited: 'This crop has no EcoCrop record of its own, so it uses its parent''s: %{record}.'
+      none: This crop is not linked to any EcoCrop data.
+      title: EcoCrop data
     growing_facts:
       days_until_maturity: Days until maturity
       germination: Germination
