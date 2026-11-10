@@ -278,6 +278,13 @@ ja:
       faq: FAQ
       media_enquiries: 報道関係・メディアのお問い合わせ
       twitter: Twitter
+    policies:
+      title: ポリシー
+      terms_of_service: 利用規約
+      privacy_policy: プライバシーポリシー
+      data_use_policy: データ利用規約
+      community_guidelines: コミュニティガイドライン
+      copyright_infringement_policy: 著作権侵害に関する方針
   places:
     index:
       title: "%{site_name} コミュニティマップ"
