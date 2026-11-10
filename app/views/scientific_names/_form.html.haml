@@ -1,33 +1,29 @@
 = form_for @scientific_name do |f|
   - if @scientific_name.errors.any?
     #error_explanation
-      %h2
-        = pluralize(@scientific_name.errors.size, "error")
-        prohibited this scientific_name from being saved:
+      %h2= t('.errors', count: @scientific_name.errors.size)
       %ul
         - @scientific_name.errors.full_messages.each do |msg|
           %li= msg
 
   %p
     %span.form-text
-      For detailed crop wrangling guidelines, please consult the
-      = link_to "crop wrangling guide", "https://github.com/Growstuff/growstuff/wiki/Crop-Wrangling"
-      on the Growstuff wiki.
+      = t('.crop_wrangling_guide_intro_html', guide_link: link_to(t('.crop_wrangling_guide'), "https://github.com/Growstuff/growstuff/wiki/Crop-Wrangling"))
 
   .row.mb-3
-    = f.label :crop_id, class: 'col-form-label col-md-2'
+    = f.label :crop_id, t('.crop'), class: 'col-form-label col-md-2'
     .col-md-8
       = select(:scientific_name, :crop_id, Crop.order(:name).pluck(:name, :id),
         { selected: @scientific_name.crop_id || @crop.id },
         class: 'form-control')
   .row.mb-3
-    = f.label :name, class: 'col-form-label col-md-2'
+    = f.label :name, t('.name'), class: 'col-form-label col-md-2'
     .col-md-8
       = f.text_field :name, class: 'form-control'
   .row.mb-3
-    = f.label :wikidata_id, "Wikidata ID", class: 'col-form-label col-md-2'
+    = f.label :wikidata_id, t('.wikidata_id'), class: 'col-form-label col-md-2'
     .col-md-8
       = f.text_field :wikidata_id, class: 'form-control', pattern: 'Q[1-9][0-9]*'
   .row.mb-3
     .offset-md-2.col-md-8
-      = f.submit 'Save', class: 'btn btn-primary'
+      = f.submit t('.save'), class: 'btn btn-primary'

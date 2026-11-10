@@ -2324,6 +2324,31 @@ en:
     write_blog_post: Write blog post
   scientific_names:
     deleted: Scientific name was successfully deleted.
+    edit:
+      added_by_html: Added by %{creator_link} %{time_ago} ago.
+      title: Edit scientific name
+    form:
+      crop: Crop
+      crop_wrangling_guide: crop wrangling guide
+      crop_wrangling_guide_intro_html: For detailed crop wrangling guidelines, please consult the %{guide_link} on the Growstuff wiki.
+      errors:
+        one: "1 error prohibited this scientific name from being saved:"
+        other: "%{count} errors prohibited this scientific name from being saved:"
+      name: Name
+      save: Save
+      wikidata_id: Wikidata ID
+    index:
+      crop: Crop
+      new_scientific_name: New Scientific name
+      scientific_name: Scientific name
+      show: Show
+      title: Listing scientific names
+    new:
+      title: New scientific name
+    show:
+      back: Back
+      crop_label: "Crop:"
+      scientific_name_label: "Scientific name:"
   seasons:
     autumn: Autumn
     spring: Spring
