@@ -19,6 +19,18 @@ module Admin
       @counts = { all: EcocropData.count, matched: EcocropData.matched.count }
     end
 
+    # The records for a name, for the dialog on a crop's page that finds the one to link.
+    def search
+      records = EcocropData.includes(:crops).best_matches(params[:q])
+      render json: records.map { |record|
+        { id:              record.id,
+          scientific_name: record.scientificname,
+          common_names:    record.common_names,
+          details:         helpers.ecocrop_details(record),
+          crops:           record.crops.map(&:name).first(3) }
+      }
+    end
+
     # A crop has one EcoCrop record, so linking it moves it off any record it was linked to before.
     # The names ticked in the dialog are copied to the crop as alternate names.
     def link

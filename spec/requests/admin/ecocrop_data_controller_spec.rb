@@ -144,4 +144,44 @@ describe Admin::EcocropDataController do
       end
     end
   end
+
+  describe '#search' do
+    let!(:wild) { create(:ecocrop_data, scientificname: 'Pastinaca sativa', comname: %w(parsnip wild-parsnip)) }
+
+    before { create(:ecocrop_data, scientificname: 'Pastinaca weed', comname: ['parsnip weed']) }
+
+    context 'with a crop wrangler' do
+      before { sign_in create(:crop_wrangling_member) }
+
+      it 'finds records by common name, exact matches first' do
+        get admin_search_ecocrop_data_path(q: 'parsnip', format: :json)
+        expect(response.parsed_body.pick('scientific_name')).to eq 'Pastinaca sativa'
+      end
+
+      it 'gives the common names' do
+        get admin_search_ecocrop_data_path(q: 'parsnip', format: :json)
+        expect(response.parsed_body.first['common_names']).to eq %w(parsnip wild-parsnip)
+      end
+
+      it 'names the crops a record is linked to' do
+        create(:crop, name: 'baby parsnip', ecocrop_record: wild)
+        get admin_search_ecocrop_data_path(q: 'parsnip', format: :json)
+        expect(response.parsed_body.first['crops']).to eq ['baby parsnip']
+      end
+
+      it 'finds nothing for a blank search' do
+        get admin_search_ecocrop_data_path(q: ' ', format: :json)
+        expect(response.parsed_body).to be_empty
+      end
+    end
+
+    context 'with an ordinary member' do
+      before { sign_in create(:member) }
+
+      it 'is refused' do
+        get admin_search_ecocrop_data_path(q: 'parsnip', format: :json)
+        expect(response).not_to be_successful
+      end
+    end
+  end
 end
