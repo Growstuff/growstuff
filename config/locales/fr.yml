@@ -1352,6 +1352,14 @@ fr:
       weather_temperature_chart: Haut / bas quotidien
       weather_temperature_chart_alt: Température quotidienne haute et basse, de %{low} à %{high}.
     string: Plantation de %{crop} à %{garden} par %{owner}
+    timeline:
+      failed: Échoué
+      finish_expected: Fin prévue le %{date}
+      finished: Terminé %{date}
+      first_harvest_expected: Première récolte prévue le %{date}
+      harvest_started: Récolte commencée le %{date}
+      legend: (Un emoji = 1 semaine)
+      planted: Planté %{date}
     transplant:
       cancel: Annuler
       close: Fermer

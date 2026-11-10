@@ -1347,6 +1347,14 @@ zh:
       weather_temperature_chart: 每日高点和低点
       weather_temperature_chart_alt: 每日高低温，从%{low}到%{high}。
     string: '%{crop} 在 %{garden} 中种植 %{owner}'
+    timeline:
+      failed: 失败
+      finish_expected: 预计于 %{date} 结束
+      finished: 于 %{date} 结束
+      first_harvest_expected: 预计于 %{date} 第一次收获
+      harvest_started: 于 %{date} 开始收获
+      legend: (一个表情符号 = 1周)
+      planted: 种植于 %{date}
     transplant:
       cancel: 取消
       close: 关闭
