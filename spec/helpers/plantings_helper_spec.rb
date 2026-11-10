@@ -121,6 +121,13 @@ describe PlantingsHelper do
   end
 
   describe '#planting_origin_props' do
+    describe 'kinds' do
+      subject(:kind) { helper.planting_origin_props(create(:planting))[:kinds].find { |k| k[:value] == 'volunteer' } }
+
+      it { expect(kind).to include(label: 'Volunteer') }
+      it { expect(kind[:icon_url]).to be_present }
+    end
+
     subject(:seeds) { helper.planting_origin_props(planting)[:seeds] }
 
     let(:planting) { create(:planting) }

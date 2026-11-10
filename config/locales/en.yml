@@ -2026,6 +2026,7 @@ en:
         cutting: A piece of another plant
         seed: From a packet or saved seed
         seedling: A young plant, bought or given
+        volunteer: Came up by itself, from a seed you didn't sow
       kinds:
         advanced_plant: Advanced plant
         bare_root_plant: Bare root plant
@@ -2038,6 +2039,7 @@ en:
         runner: Runner
         seed: Seed
         seedling: Seedling
+        volunteer: Volunteer
       link_a_seed: Link a seed
       not_recorded: Not recorded
       packet: Your %{seed} packet
