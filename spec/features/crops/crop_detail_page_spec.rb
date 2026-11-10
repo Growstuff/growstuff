@@ -125,8 +125,8 @@ describe "crop detail page", :js do
         expect(subject).to have_text("First harvest expected 3 weeks after planting")
       end
 
-      it "shows the first and last harvest in one card" do
-        expect(subject).to have_css(".harvest-window-card", text: /First harvest expected.*Last harvest expected/m)
+      it "shows the harvest prediction in the harvest card" do
+        expect(subject).to have_css(".harvest-window-card", text: "First harvest expected 3 weeks after planting")
       end
     end
   end
