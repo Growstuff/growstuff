@@ -22,7 +22,7 @@ describe "Planting reminder email" do
     before { member.update_columns(planting_reminder_sent_at: 1.year.ago) }
 
     it "says there are new features to tell them about" do
-      expect(mail_body).to have_content "We have 10 new features to tell you about"
+      expect(mail_body).to have_content "We have 11 new features to tell you about"
     end
 
     it "tells them about the features" do
