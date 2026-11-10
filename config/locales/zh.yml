@@ -330,6 +330,11 @@ zh:
       wikidata_id: 维基数据 ID
     search: 搜索农作物
   edit_crop: 编辑裁剪
+  follows:
+    followers:
+      title: "%{member} 的关注者"
+    index:
+      title: "%{member} 关注的人"
   forms:
     optional: "（选修的）"
   forums:

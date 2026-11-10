@@ -638,6 +638,11 @@ en:
     photo_associations:
       destroy:
         notice: Removed the photo from that %{kind}. The photo is still on Growstuff.
+  follows:
+    followers:
+      title: "%{member}'s followers"
+    index:
+      title: "%{member}'s follows"
   forms:
     optional: "(Optional)"
   forums:

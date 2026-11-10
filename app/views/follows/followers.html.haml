@@ -1,4 +1,6 @@
-- content_for :title, "#{@member.login_name}'s followers"
+- content_for :title, t('.title', member: @member.login_name)
+
+%h1.page-title= t('.title', member: @member.login_name)
 
 = page_entries_info @followers
 = will_paginate @followers

@@ -22,6 +22,11 @@ ja:
     inline_form:
       add_comment: コメントを追加
       post_comment: コメントを投稿
+  follows:
+    followers:
+      title: "%{member}のフォロワー"
+    index:
+      title: "%{member}のフォロー"
   community_gardens:
     collaborate: チームと協力する
     collaborate_text: 他のガーデナーをあなたの菜園区画に招待して協力しましょう。作業を分担し、収穫を分かち合い、コミュニティとして共に成長しましょう。

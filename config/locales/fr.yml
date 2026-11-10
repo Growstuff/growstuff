@@ -330,6 +330,11 @@ fr:
       wikidata_id: Identifiant Wikidata
     search: Rechercher des cultures
   edit_crop: Modifier le rognage
+  follows:
+    followers:
+      title: "Abonnés de %{member}"
+    index:
+      title: "Abonnements de %{member}"
   forms:
     optional: "(Facultatif)"
   forums:
