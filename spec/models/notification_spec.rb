@@ -17,13 +17,14 @@ describe Notification do
     expect(notification.sender).to be_an_instance_of Member
   end
 
-  it "has a scope for unread" do
-    expect(described_class.unread).to eq [notification]
-    @n2 = create(:notification, read: true)
-    expect(described_class.unread).to eq [notification]
-    @n3 = create(:notification, read: false)
-    expect(described_class.unread).to include @n3
-    expect(described_class.unread).to include notification
+  describe "unread scope" do
+    let!(:unread) { create(:notification, read: false) }
+
+    before { notification && create(:notification, read: true) }
+
+    it('includes an unread notification') { expect(described_class.unread).to include unread }
+    it('includes a notification not yet read') { expect(described_class.unread).to include notification }
+    it('leaves out a read notification') { expect(described_class.unread.where(read: true)).to be_empty }
   end
 
   it "sends email if asked" do

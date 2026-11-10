@@ -12,11 +12,11 @@ describe "jobs/_card" do
     allow(view).to receive_messages(member_signed_in?: false, current_member: nil)
   end
 
-  it "renders garden and planting links inside ul.list-unstyled" do
-    render partial: 'jobs/card', locals: { job: }
+  describe "renders garden and planting links inside ul.list-unstyled" do
+    before { render partial: 'jobs/card', locals: { job: } }
 
-    expect(rendered).to have_css('ul.list-unstyled > li', count: 2)
-    expect(rendered).not_to have_css('p > ul.list-unstyled')
-    expect(rendered).not_to have_css('.card-body > p > li')
+    it { expect(rendered).to have_css('ul.list-unstyled > li', count: 2) }
+    it { expect(rendered).not_to have_css('p > ul.list-unstyled') }
+    it { expect(rendered).not_to have_css('.card-body > p > li') }
   end
 end

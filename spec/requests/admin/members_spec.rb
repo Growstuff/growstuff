@@ -33,11 +33,12 @@ RSpec.describe 'Admin::Members', type: :request do
 
   describe 'GET /admin/members' do
     context 'when on the Active tab by default' do
-      it 'filters out deleted members and shows active members' do
-        get admin_members_path
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include('active_spammer')
-        expect(response.body).not_to include('deleted_user')
+      describe 'filters out deleted members and shows active members' do
+        before { get admin_members_path }
+
+        it { expect(response).to have_http_status(:ok) }
+        it { expect(response.body).to include('active_spammer') }
+        it { expect(response.body).not_to include('deleted_user') }
       end
 
       it 'surfaces login name, email, confirmed status, last login, truncated bio, and count attributes' do
@@ -52,19 +53,21 @@ RSpec.describe 'Admin::Members', type: :request do
         expect(response.body).to include('Jobs')
       end
 
-      it 'displays the spam score column and badge' do
-        get admin_members_path
-        expect(response.body).to include('Spam Score')
-        expect(response.body).to include('spam-score-badge')
+      describe 'displays the spam score column and badge' do
+        before { get admin_members_path }
+
+        it { expect(response.body).to include('Spam Score') }
+        it { expect(response.body).to include('spam-score-badge') }
       end
     end
 
     context 'when requesting deactivated tab (status=deactivated)' do
-      it 'shows discarded members and excludes active members' do
-        get admin_members_path(status: 'deactivated')
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include('deleted_user')
-        expect(response.body).not_to include('active_spammer')
+      describe 'shows discarded members and excludes active members' do
+        before { get admin_members_path(status: 'deactivated') }
+
+        it { expect(response).to have_http_status(:ok) }
+        it { expect(response.body).to include('deleted_user') }
+        it { expect(response.body).not_to include('active_spammer') }
       end
 
       it 'displays the spam score column' do

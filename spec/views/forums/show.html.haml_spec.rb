@@ -8,10 +8,11 @@ describe "forums/show" do
     @forum = assign(:forum, create(:forum))
   end
 
-  it "renders attributes" do
-    render
-    expect(rendered).to have_content "Everything about permaculture"
-    expect(rendered).to have_content @forum.owner.to_s
+  describe "renders attributes" do
+    before { render }
+
+    it { expect(rendered).to have_content "Everything about permaculture" }
+    it { expect(rendered).to have_content @forum.owner.to_s }
   end
 
   it "parses markdown description into html" do
@@ -29,12 +30,16 @@ describe "forums/show" do
     expect(rendered).to have_content "No posts yet."
   end
 
-  it 'shows posts' do
-    @post = create(:post, forum: @forum)
-    render
-    assert_select "table"
-    # only check for the first 20 chars, because it can be truncated when long
-    expect(rendered).to have_content @post.subject[0..20]
-    expect(rendered).to have_content @post.author.to_s
+  describe 'shows posts' do
+    let!(:post) { create(:post, forum: @forum) }
+
+    before do
+      render
+      assert_select "table"
+      # only check for the first 20 chars, because it can be truncated when long
+    end
+
+    it { expect(rendered).to have_content post.subject[0..20] }
+    it { expect(rendered).to have_content post.author.to_s }
   end
 end

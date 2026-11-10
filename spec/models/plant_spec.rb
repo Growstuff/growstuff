@@ -12,39 +12,35 @@ describe Plant do
   end
 
   describe 'its position on the bed' do
-    it 'is unplaced until it has both a column and a row' do
-      expect(plant).not_to be_placed
-      expect(plant(bed_x: 1.5, bed_y: 0.5)).to be_placed
-    end
+    it('is unplaced without a column and a row') { expect(plant).not_to be_placed }
+    it('is placed with both a column and a row') { expect(plant(bed_x: 1.5, bed_y: 0.5)).to be_placed }
 
-    it 'needs both a column and a row, or neither' do
-      expect(plant(bed_x: 1)).not_to be_valid
-      expect(plant(bed_y: 1)).not_to be_valid
-      expect(plant(bed_x: nil, bed_y: nil)).to be_valid
-    end
+    it('is invalid with a column only') { expect(plant(bed_x: 1)).not_to be_valid }
+    it('is invalid with a row only') { expect(plant(bed_y: 1)).not_to be_valid }
+    it('is valid with neither') { expect(plant(bed_x: nil, bed_y: nil)).to be_valid }
 
     # A position is the plant's centre, and can be anywhere, not just in a cell.
-    it 'can sit anywhere on the bed, edges included' do
-      expect(plant(bed_x: 2.37, bed_y: 1.81)).to be_valid
-      expect(plant(bed_x: 0, bed_y: 0)).to be_valid
-      expect(plant(bed_x: 4, bed_y: 3)).to be_valid
+    [[2.37, 1.81], [0, 0], [4, 3]].each do |x, y|
+      it "can sit at #{x}, #{y} on the bed, edges included" do
+        expect(plant(bed_x: x, bed_y: y)).to be_valid
+      end
     end
 
-    it 'cannot sit off the bed' do
-      expect(plant(bed_x: 4.1, bed_y: 1)).not_to be_valid
-      expect(plant(bed_x: 1, bed_y: 3.1)).not_to be_valid
-      expect(plant(bed_x: -0.5, bed_y: 1)).not_to be_valid
+    [[4.1, 1], [1, 3.1], [-0.5, 1]].each do |x, y|
+      it "cannot sit at #{x}, #{y}, off the bed" do
+        expect(plant(bed_x: x, bed_y: y)).not_to be_valid
+      end
     end
 
-    it 'finds placed, unplaced, and off-grid plants' do
-      on_bed = planting.plants.first.tap { |p| p.update!(bed_x: 3.5, bed_y: 2.5) }
-      waiting = planting.plants.create!
+    context 'with a placed plant and a waiting one' do
+      let!(:on_bed) { planting.plants.first.tap { |p| p.update!(bed_x: 3.5, bed_y: 2.5) } }
+      let!(:waiting) { planting.plants.create! }
 
-      expect(described_class.placed).to include(on_bed)
-      expect(described_class.placed).not_to include(waiting)
-      expect(described_class.unplaced).to include(waiting)
-      expect(described_class.outside_grid(3, 3)).to include(on_bed)
-      expect(described_class.outside_grid(4, 3)).not_to include(on_bed)
+      it('finds the placed plant as placed') { expect(described_class.placed).to include(on_bed) }
+      it('leaves the waiting plant out of placed') { expect(described_class.placed).not_to include(waiting) }
+      it('finds the waiting plant as unplaced') { expect(described_class.unplaced).to include(waiting) }
+      it('finds a plant outside a smaller grid') { expect(described_class.outside_grid(3, 3)).to include(on_bed) }
+      it('leaves a plant inside a big enough grid') { expect(described_class.outside_grid(4, 3)).not_to include(on_bed) }
     end
   end
 
@@ -53,25 +49,30 @@ describe Plant do
       expect(plant(diameter: nil)).to be_valid
     end
 
-    it 'can be anything from a sliver up to the cap' do
-      expect(plant(diameter: 0.25)).to be_valid
-      expect(plant(diameter: described_class::MAX_DIAMETER)).to be_valid
-      expect(plant(diameter: 0)).not_to be_valid
-      expect(plant(diameter: described_class::MAX_DIAMETER + 0.1)).not_to be_valid
-    end
+    it('can be a sliver') { expect(plant(diameter: 0.25)).to be_valid }
+    it('can be as big as the cap') { expect(plant(diameter: described_class::MAX_DIAMETER)).to be_valid }
+    it('cannot be nothing') { expect(plant(diameter: 0)).not_to be_valid }
+    it('cannot be over the cap') { expect(plant(diameter: described_class::MAX_DIAMETER + 0.1)).not_to be_valid }
   end
 
   describe 'how many a planting can have' do
-    it 'stops at the cap, which applies however the plant is made' do
-      now = Time.current
-      rows = Array.new(Planting::MAX_PLANTS - planting.plants.count) do
-        { planting_id: planting.id, created_at: now, updated_at: now }
-      end
-      described_class.insert_all(rows) # rubocop:disable Rails/SkipsModelValidations
+    context 'when the planting is at the cap, however its plants were made' do
+      subject(:extra) { plant }
 
-      extra = plant
-      expect(extra).not_to be_valid
-      expect(extra.errors[:base]).to include("a planting can have at most #{Planting::MAX_PLANTS} plants on the layout")
+      before do
+        now = Time.current
+        rows = Array.new(Planting::MAX_PLANTS - planting.plants.count) do
+          { planting_id: planting.id, created_at: now, updated_at: now }
+        end
+        described_class.insert_all(rows) # rubocop:disable Rails/SkipsModelValidations
+        extra.validate
+      end
+
+      it { is_expected.not_to be_valid }
+
+      it 'explains the cap' do
+        expect(extra.errors[:base]).to include("a planting can have at most #{Planting::MAX_PLANTS} plants on the layout")
+      end
     end
 
     it "doesn't count against the cap when an existing plant is saved" do

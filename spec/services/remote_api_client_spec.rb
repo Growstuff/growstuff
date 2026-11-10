@@ -18,19 +18,21 @@ describe RemoteApiClient, type: :service do
   end
 
   describe '#each_page (JSON:API)' do
-    it 'follows links.next verbatim, whatever paging scheme the server uses' do
-      stubs.get('/things') do |env|
+    describe 'follows links.next verbatim, whatever paging scheme the server uses' do
+      let!(:pages) { [] }
+
+      before do
+        stubs.get('/things') do |env|
         offset = env.params.dig('page', 'offset').to_i
         next json(data: [{ id: '1' }], links: { next: 'https://source.test/things?page[offset]=1' }) if offset.zero?
-
+        
         json(data: [{ id: '2' }], links: {})
+        end
+        client.each_page('/things') { |resources, _page| pages << resources.pluck('id') }
       end
 
-      pages = []
-      client.each_page('/things') { |resources, _page| pages << resources.pluck('id') }
-
-      expect(pages).to eq [['1'], ['2']]
-      expect(sleeps).to eq [1]
+      it { expect(pages).to eq [['1'], ['2']] }
+      it { expect(sleeps).to eq [1] }
     end
 
     it 'stops rather than loop when the server keeps sending the same next link' do
@@ -56,12 +58,12 @@ describe RemoteApiClient, type: :service do
   end
 
   describe 'request headers' do
-    it 'identifies itself and asks for JSON:API, which production insists on' do
-      client = described_class.new(source_url: 'https://source.test', out: StringIO.new, sleeper: ->(_seconds) {})
-      headers = client.send(:build_connection, 'https://source.test').headers
+    describe 'identifies itself and asks for JSON:API, which production insists on' do
+      let!(:client) { described_class.new(source_url: 'https://source.test', out: StringIO.new, sleeper: ->(_seconds) {}) }
+      let!(:headers) { client.send(:build_connection, 'https://source.test').headers }
 
-      expect(headers['Accept']).to eq 'application/vnd.api+json'
-      expect(headers['User-Agent']).to include('Growstuff')
+      it { expect(headers['Accept']).to eq 'application/vnd.api+json' }
+      it { expect(headers['User-Agent']).to include('Growstuff') }
     end
   end
 

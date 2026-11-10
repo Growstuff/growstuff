@@ -12,10 +12,11 @@ describe "Forums" do
       expect(response).to have_http_status(:ok)
     end
 
-    it "returns JSON when requested" do
-      get forums_path(format: :json)
-      expect(response).to have_http_status(:ok)
-      expect(response.content_type).to include("application/json")
+    describe "returns JSON when requested" do
+      before { get forums_path(format: :json) }
+
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(response.content_type).to include("application/json") }
     end
   end
 
@@ -25,10 +26,11 @@ describe "Forums" do
       expect(response).to have_http_status(:ok)
     end
 
-    it "returns JSON when requested" do
-      get forum_path(forum, format: :json)
-      expect(response).to have_http_status(:ok)
-      expect(response.content_type).to include("application/json")
+    describe "returns JSON when requested" do
+      before { get forum_path(forum, format: :json) }
+
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(response.content_type).to include("application/json") }
     end
   end
 

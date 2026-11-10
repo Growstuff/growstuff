@@ -41,12 +41,12 @@ describe 'Editing a garden as JSON' do
       expect(response.parsed_body.dig('garden', 'location')).to eq 'Greenwich, UK'
     end
 
-    it "saves the changes and returns the garden's refreshed card" do
-      update_garden({ name: 'Back orchard', description: 'Apples and pears' })
+    describe "saves the changes and returns the garden's refreshed card" do
+      before { update_garden({ name: 'Back orchard', description: 'Apples and pears' }) }
 
-      expect(response).to have_http_status(:ok)
-      expect(garden.reload).to have_attributes(name: 'Back orchard', description: 'Apples and pears')
-      expect(response.parsed_body['garden']).to include('id' => garden.id, 'name' => 'Back orchard', 'active' => true)
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(garden.reload).to have_attributes(name: 'Back orchard', description: 'Apples and pears') }
+      it { expect(response.parsed_body['garden']).to include('id' => garden.id, 'name' => 'Back orchard', 'active' => true) }
     end
 
     it 'does not queue a flash message for the next page' do
@@ -56,31 +56,31 @@ describe 'Editing a garden as JSON' do
       expect(response.body).not_to include(I18n.t('gardens.updated'))
     end
 
-    it 'marks the garden inactive, finishing its plantings, and says so in the card' do
-      planting = create(:planting, garden: garden, owner: member)
+    describe 'marks the garden inactive, finishing its plantings, and says so in the card' do
+      let!(:planting) { create(:planting, garden: garden, owner: member) }
 
-      update_garden({ active: false })
+      before { update_garden({ active: false }) }
 
-      expect(response.parsed_body['garden']).to include('active' => false)
-      expect(garden.reload.active).to be false
-      expect(planting.reload.finished).to be true
+      it { expect(response.parsed_body['garden']).to include('active' => false) }
+      it { expect(garden.reload.active).to be false }
+      it { expect(planting.reload.finished).to be true }
     end
 
-    it 'returns validation errors as 422 and keeps the old values' do
-      update_garden({ name: '' })
+    describe 'returns validation errors as 422 and keeps the old values' do
+      before { update_garden({ name: '' }) }
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['errors']).to have_key('name')
-      expect(garden.reload.name).to eq 'Orchard'
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+      it { expect(response.parsed_body['errors']).to have_key('name') }
+      it { expect(garden.reload.name).to eq 'Orchard' }
     end
 
-    it "refuses someone else's garden" do
-      someone_elses = create(:garden)
+    describe "refuses someone else's garden" do
+      let!(:someone_elses) { create(:garden) }
 
-      update_garden({ name: 'Mine now' }, target: someone_elses)
+      before { update_garden({ name: 'Mine now' }, target: someone_elses) }
 
-      expect(response).to have_http_status(:forbidden)
-      expect(someone_elses.reload.name).not_to eq 'Mine now'
+      it { expect(response).to have_http_status(:forbidden) }
+      it { expect(someone_elses.reload.name).not_to eq 'Mine now' }
     end
   end
 

@@ -16,9 +16,9 @@ RSpec.describe 'Rack::Attack', type: :request do
   end
 
   describe 'cache store' do
-    it 'counts requests in process memory, not in Rails.cache' do
-      expect(Rack::Attack.cache.store).to be_a(ActiveSupport::Cache::MemoryStore)
-      expect(Rack::Attack.cache.store).not_to equal(Rails.cache)
+    describe 'counts requests in process memory, not in Rails.cache' do
+      it { expect(Rack::Attack.cache.store).to be_a(ActiveSupport::Cache::MemoryStore) }
+      it { expect(Rack::Attack.cache.store).not_to equal(Rails.cache) }
     end
 
     it 'keeps banning an IP when Rails.cache is broken' do

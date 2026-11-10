@@ -16,8 +16,8 @@ describe 'crops/index.rss.haml' do
     expect(rendered).to have_content "Recently added crops"
   end
 
-  it 'shows names of crops' do
-    expect(rendered).to have_content @tomato.name
-    expect(rendered).to have_content @maize.name
+  describe 'shows names of crops' do
+    it { expect(rendered).to have_content @tomato.name }
+    it { expect(rendered).to have_content @maize.name }
   end
 end

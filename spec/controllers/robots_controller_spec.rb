@@ -14,44 +14,44 @@ describe RobotsController do
     context 'when the subdomain is staging' do
       let(:subdomain) { 'staging' }
 
-      it 'loads the staging robots.txt file' do
-        get :robots
+      describe 'loads the staging robots.txt file' do
+        before { get :robots }
 
-        expect(response).to be_successful
-        expect(response.body).to eq(File.read(staging_filename))
+        it { expect(response).to be_successful }
+        it { expect(response.body).to eq(File.read(staging_filename)) }
       end
     end
 
     context 'when the subdomain is www' do
       let(:subdomain) { 'www' }
 
-      it 'loads the production robots.txt file' do
-        get :robots
+      describe 'loads the production robots.txt file' do
+        before { get :robots }
 
-        expect(response).to be_successful
-        expect(response.body).to eq(File.read(production_filename))
+        it { expect(response).to be_successful }
+        it { expect(response.body).to eq(File.read(production_filename)) }
       end
     end
 
     context 'without a subdomain' do
       let(:subdomain) { '' }
 
-      it 'loads the production robots.txt file' do
-        get :robots
+      describe 'loads the production robots.txt file' do
+        before { get :robots }
 
-        expect(response).to be_successful
-        expect(response.body).to eq(File.read(production_filename))
+        it { expect(response).to be_successful }
+        it { expect(response.body).to eq(File.read(production_filename)) }
       end
     end
 
     context 'when the subdomain is nonsense' do
       let(:subdomain) { '1874ajnfien' }
 
-      it 'loads the production robots.txt file' do
-        get :robots
+      describe 'loads the production robots.txt file' do
+        before { get :robots }
 
-        expect(response).to be_successful
-        expect(response.body).to eq(File.read(production_filename))
+        it { expect(response).to be_successful }
+        it { expect(response.body).to eq(File.read(production_filename)) }
       end
     end
   end

@@ -345,10 +345,11 @@ describe Planting do
       expect(planting.display_name).to eq 'eggplant'
     end
 
-    it 'displays the chosen alternate name' do
-      planting.alternate_name = alternate
-      expect(planting.display_name).to eq 'aubergine'
-      expect(planting.to_s).to include 'aubergine'
+    context 'with the alternate name chosen' do
+      before { planting.alternate_name = alternate }
+
+      it('displays it as the name') { expect(planting.display_name).to eq 'aubergine' }
+      it('displays it in the string form') { expect(planting.to_s).to include 'aubergine' }
     end
 
     it 'rejects an alternate name from a different crop' do
@@ -373,11 +374,10 @@ describe Planting do
       expect(@planting).not_to be_valid
     end
 
-    it "allows blank quantities" do
-      @planting = build(:planting, quantity: nil)
-      expect(@planting).to be_valid
-      @planting = build(:planting, quantity: '')
-      expect(@planting).to be_valid
+    [nil, ''].each do |blank|
+      it "allows a quantity of #{blank.inspect}" do
+        expect(build(:planting, quantity: blank)).to be_valid
+      end
     end
   end
 
@@ -395,10 +395,13 @@ describe Planting do
       end
     end
 
-    it 'refuses invalid sunniness values' do
-      @planting = build(:planting, sunniness: 'not valid')
-      expect(@planting).not_to be_valid
-      expect(@planting.errors[:sunniness]).to include("not valid is not a valid sunniness value")
+    describe 'refuses invalid sunniness values' do
+      subject(:record) { build(:planting, sunniness: 'not valid') }
+
+      before { record.validate }
+
+      it { is_expected.not_to be_valid }
+      it { expect(record.errors[:sunniness]).to include("not valid is not a valid sunniness value") }
     end
   end
 
@@ -419,10 +422,13 @@ describe Planting do
       end
     end
 
-    it 'refuses invalid planted_from values' do
-      @planting = build(:planting, planted_from: 'not valid')
-      expect(@planting).not_to be_valid
-      expect(@planting.errors[:planted_from]).to include("not valid is not a valid planting method")
+    describe 'refuses invalid planted_from values' do
+      subject(:record) { build(:planting, planted_from: 'not valid') }
+
+      before { record.validate }
+
+      it { is_expected.not_to be_valid }
+      it { expect(record.errors[:planted_from]).to include("not valid is not a valid planting method") }
     end
   end
 
@@ -499,24 +505,27 @@ describe Planting do
   end
 
   context "when finished" do
-    it 'has finished fields' do
-      @planting = create(:finished_planting)
-      expect(@planting.finished).to be true
-      expect(@planting.finished_at).to be_an_instance_of Date
+    describe 'finished fields' do
+      subject(:planting) { create(:finished_planting) }
+
+      it { expect(planting.finished).to be true }
+      it { expect(planting.finished_at).to be_an_instance_of Date }
     end
 
-    it 'has finished scope' do
-      @p = create(:planting)
-      @f = create(:finished_planting)
-      expect(described_class.finished).to include @f
-      expect(described_class.finished).not_to include @p
+    describe 'finished scope' do
+      let!(:growing) { create(:planting) }
+      let!(:finished) { create(:finished_planting) }
+
+      it('includes a finished planting') { expect(described_class.finished).to include finished }
+      it('leaves out a growing planting') { expect(described_class.finished).not_to include growing }
     end
 
-    it 'has current scope' do
-      @p = create(:planting)
-      @f = create(:finished_planting)
-      expect(described_class.current).to include @p
-      expect(described_class.current).not_to include @f
+    describe 'current scope' do
+      let!(:growing) { create(:planting) }
+      let!(:finished) { create(:finished_planting) }
+
+      it('includes a growing planting') { expect(described_class.current).to include growing }
+      it('leaves out a finished planting') { expect(described_class.current).not_to include finished }
     end
 
     describe "finished date validation" do
@@ -544,18 +553,20 @@ describe Planting do
       expect(failed_planting.failed).to be true
     end
 
-    it 'has a failed scope' do
-      @p = create(:planting)
-      @f = create(:planting, failed: true)
-      expect(described_class.failed).to include @f
-      expect(described_class.failed).not_to include @p
+    describe 'failed scope' do
+      let!(:growing) { create(:planting) }
+      let!(:failed) { create(:planting, failed: true) }
+
+      it('includes a failed planting') { expect(described_class.failed).to include failed }
+      it('leaves out a growing planting') { expect(described_class.failed).not_to include growing }
     end
 
-    it 'is not included in the active scope' do
-      @p = create(:planting)
-      @f = create(:planting, failed: true)
-      expect(described_class.active).to include @p
-      expect(described_class.active).not_to include @f
+    describe 'active scope' do
+      let!(:growing) { create(:planting) }
+      let!(:failed) { create(:planting, failed: true) }
+
+      it('includes a growing planting') { expect(described_class.active).to include growing }
+      it('leaves out a failed planting') { expect(described_class.active).not_to include failed }
     end
 
     it 'cannot be finished and failed' do
@@ -569,10 +580,15 @@ describe Planting do
     end
   end
 
-  it 'excludes deleted members' do
-    expect(described_class.joins(:owner).all).to include(planting)
-    planting.owner.destroy
-    expect(described_class.joins(:owner).all).not_to include(planting)
+  describe 'joining the owner' do
+    before { planting }
+
+    it('includes the planting of a current member') { expect(described_class.joins(:owner).all).to include(planting) }
+
+    it 'excludes the planting of a deleted member' do
+      planting.owner.destroy
+      expect(described_class.joins(:owner).all).not_to include(planting)
+    end
   end
 
   describe 'ancestry' do
@@ -623,11 +639,13 @@ describe Planting do
     it { expect(subject.map(&:id)).to include(interesting_planting.id, finished_interesting_planting.id, planting.id) }
   end
 
-  it 'is invalid, rather than raising, when it has no garden' do
-    planting = build(:planting, garden: nil)
+  context 'without a garden' do
+    subject(:planting) { build(:planting, garden: nil) }
 
-    expect(planting).not_to be_valid
-    expect(planting.errors[:garden]).to be_present
+    before { planting.validate }
+
+    it('is invalid, rather than raising') { is_expected.not_to be_valid }
+    it('explains the garden is missing') { expect(planting.errors[:garden]).to be_present }
   end
 
   describe 'its plants' do
@@ -651,20 +669,24 @@ describe Planting do
       it('has plants that are unplaced') { expect(planting.plants).to all(satisfy { |plant| !plant.placed? }) }
     end
 
-    it 'treats a blank quantity as a single plant, so there is something to place' do
-      planting = planting_of(nil)
-      bed.prepare_layout
+    # So there is something to place.
+    context 'with a blank quantity' do
+      let!(:planting) { planting_of(nil) }
 
-      expect(planting.plant_count).to eq 1
-      expect(planting.plants.count).to eq 1
+      before { bed.prepare_layout }
+
+      it('counts as a single plant') { expect(planting.plant_count).to eq 1 }
+      it('has a single plant') { expect(planting.plants.count).to eq 1 }
     end
 
-    it 'has none for a quantity of zero, as when every plant has gone to the compost' do
-      planting = planting_of(0)
-      bed.prepare_layout
+    # As when every plant has gone to the compost.
+    context 'with a quantity of zero' do
+      let!(:planting) { planting_of(0) }
 
-      expect(planting.plant_count).to eq 0
-      expect(planting.plants).to be_empty
+      before { bed.prepare_layout }
+
+      it('counts no plants') { expect(planting.plant_count).to eq 0 }
+      it('has no plants') { expect(planting.plants).to be_empty }
     end
 
     it "doesn't make plants when the quantity changes, until it is on a layout" do
@@ -682,16 +704,18 @@ describe Planting do
       expect(planting.plants.count).to eq 5
     end
 
-    it 'takes the unplaced plants away first when the quantity shrinks' do
-      planting = planting_of(4)
-      bed.prepare_layout
-      placed = planting.plants.first
-      placed.update!(bed_x: 1, bed_y: 1)
+    context 'when the quantity shrinks' do
+      let!(:planting) { planting_of(4) }
+      let(:placed) { planting.plants.first }
 
-      planting.update!(quantity: 2)
+      before do
+        bed.prepare_layout
+        placed.update!(bed_x: 1, bed_y: 1)
+        planting.update!(quantity: 2)
+      end
 
-      expect(planting.plants.count).to eq 2
-      expect(planting.plants).to include(placed)
+      it('keeps as many plants as the quantity') { expect(planting.plants.count).to eq 2 }
+      it('takes the unplaced plants away first') { expect(planting.plants).to include(placed) }
     end
 
     it 'lifts placed plants only when it has to' do
@@ -704,12 +728,13 @@ describe Planting do
       expect(planting.plants.count).to eq 1
     end
 
-    it 'stops at the cap, however many the quantity says' do
-      planting = planting_of(Planting::MAX_PLANTS + 50)
-      bed.prepare_layout
+    context 'with a quantity over the cap' do
+      let!(:planting) { planting_of(Planting::MAX_PLANTS + 50) }
 
-      expect(planting.plants.count).to eq Planting::MAX_PLANTS
-      expect(planting).to be_plants_capped
+      before { bed.prepare_layout }
+
+      it('stops at the cap') { expect(planting.plants.count).to eq Planting::MAX_PLANTS }
+      it('is marked as capped') { expect(planting).to be_plants_capped }
     end
 
     it 'destroys its plants with it' do

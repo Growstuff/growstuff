@@ -13,9 +13,9 @@ describe PhotosController do
         get :index
       end
 
-      it "finds photos" do
-        expect(assigns(:photos).count).to eq 1
-        expect(assigns(:photos).first.id).to eq photo.id
+      describe "finds photos" do
+        it { expect(assigns(:photos).count).to eq 1 }
+        it { expect(assigns(:photos).first.id).to eq photo.id }
       end
 
       it 'returns 404 not found when page is out of bounds' do
@@ -164,10 +164,11 @@ describe PhotosController do
         it { expect(Photo.last.plantings.size).to eq 1 }
       end
 
-      it "attaches the photo to a harvest" do
-        post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: harvest.id }
-        expect(flash[:alert]).not_to be_present
-        expect(Photo.last.harvests.first).to eq harvest
+      describe "attaches the photo to a harvest" do
+        before { post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: harvest.id } }
+
+        it { expect(flash[:alert]).not_to be_present }
+        it { expect(Photo.last.harvests.first).to eq harvest }
       end
 
       describe "doesn't attach a photo to a harvest twice" do

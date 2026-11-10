@@ -72,25 +72,22 @@ describe Like do
     end
   end
 
-  it 'liked_by?' do
-    expect(post.liked_by?(member)).to be false
-    expect(post.liked_by?(nil)).to be false
+  { 'a post' => :post, 'a photo' => :photo }.each do |name, thing|
+    describe "liking #{name}" do
+      subject(:likeable) { send(thing) }
 
-    Like.create(member:, likeable: post)
-    expect(post.liked_by?(member)).to be true
+      context 'before it is liked' do
+        it('is not liked by the member') { expect(likeable.liked_by?(member)).to be false }
+        it('is not liked by no member') { expect(likeable.liked_by?(nil)).to be false }
+        it('has no names of members who like it') { expect(likeable.liked_by_members_names).to eq [] }
+      end
 
-    expect(photo.liked_by?(member)).to be false
-    Like.create(member:, likeable: photo)
-    expect(photo.liked_by?(member)).to be true
-  end
+      context 'after the member likes it' do
+        before { Like.create(member:, likeable:) }
 
-  it 'liked_by_members_names' do
-    expect(post.liked_by_members_names).to eq []
-    Like.create(member:, likeable: post)
-    expect(post.liked_by_members_names).to eq [member.login_name]
-
-    expect(photo.liked_by_members_names).to eq []
-    Like.create(member:, likeable: photo)
-    expect(photo.liked_by_members_names).to eq [member.login_name]
+        it('is liked by the member') { expect(likeable.liked_by?(member)).to be true }
+        it('names the member') { expect(likeable.liked_by_members_names).to eq [member.login_name] }
+      end
+    end
   end
 end

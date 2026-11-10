@@ -7,10 +7,11 @@ describe "Plantings" do
     let(:planting) { create(:planting) }
     let!(:comment) { create(:comment, commentable: planting, body: "Looking very healthy!") }
 
-    it "renders the planting page with comments" do
-      get planting_path(planting)
-      expect(response.status).to eq(200)
-      expect(response.body).to include("Looking very healthy!")
+    describe "renders the planting page with comments" do
+      before { get planting_path(planting) }
+
+      it { expect(response.status).to eq(200) }
+      it { expect(response.body).to include("Looking very healthy!") }
     end
   end
 

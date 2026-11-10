@@ -42,13 +42,19 @@ describe Ability do
     let(:alternate_name) { create(:alternate_name, crop: approved_crop) }
     let(:unapproved_alternate_name) { create(:alternate_name, crop: pending_crop) }
 
-    it 'can read scientific names and alternate names of approved crops' do
+    it 'can read scientific names and alternate names of approved crops (scientific name)' do
       expect(ability).to be_able_to(:read, scientific_name)
+    end
+
+    it 'can read scientific names and alternate names of approved crops (alternate name)' do
       expect(ability).to be_able_to(:read, alternate_name)
     end
 
-    it 'cannot read scientific names and alternate names of unapproved crops' do
+    it 'cannot read scientific names and alternate names of unapproved crops (unapproved scientific name)' do
       expect(ability).not_to be_able_to(:read, unapproved_scientific_name)
+    end
+
+    it 'cannot read scientific names and alternate names of unapproved crops (unapproved alternate name)' do
       expect(ability).not_to be_able_to(:read, unapproved_alternate_name)
     end
   end
@@ -57,8 +63,11 @@ describe Ability do
     let(:crop) { create(:crop) }
 
     context "when the member is a standard member" do
-      it "can't manage crops" do
+      it "can't manage crops (update)" do
         expect(ability).not_to be_able_to(:update, crop)
+      end
+
+      it "can't manage crops (destroy)" do
         expect(ability).not_to be_able_to(:destroy, crop)
       end
 
@@ -108,8 +117,11 @@ describe Ability do
       expect(ability).to be_able_to(:create, Planting)
     end
 
-    it 'can manage their own planting with an approved crop' do
+    it 'can manage their own planting with an approved crop (update)' do
       expect(ability).to be_able_to(:update, planting)
+    end
+
+    it 'can manage their own planting with an approved crop (destroy)' do
       expect(ability).to be_able_to(:destroy, planting)
     end
 
@@ -118,8 +130,11 @@ describe Ability do
       expect(ability).not_to be_able_to(:destroy, planting_with_unapproved_crop)
     end
 
-    it "can't manage another member's planting" do
+    it "can't manage another member's planting (update)" do
       expect(ability).not_to be_able_to(:update, other_planting)
+    end
+
+    it "can't manage another member's planting (destroy)" do
       expect(ability).not_to be_able_to(:destroy, other_planting)
     end
 
@@ -135,8 +150,11 @@ describe Ability do
         garden.garden_collaborators.create(member:)
       end
 
-      it 'can manage plantings in a garden they collaborate on' do
+      it 'can manage plantings in a garden they collaborate on (update)' do
         expect(ability).to be_able_to(:update, planting_in_garden)
+      end
+
+      it 'can manage plantings in a garden they collaborate on (destroy)' do
         expect(ability).to be_able_to(:destroy, planting_in_garden)
       end
 
@@ -154,13 +172,19 @@ describe Ability do
       expect(ability).to be_able_to(:create, Harvest)
     end
 
-    it 'can manage their own harvest' do
+    it 'can manage their own harvest (update)' do
       expect(ability).to be_able_to(:update, harvest)
+    end
+
+    it 'can manage their own harvest (destroy)' do
       expect(ability).to be_able_to(:destroy, harvest)
     end
 
-    it "can't manage another member's harvest" do
+    it "can't manage another member's harvest (update)" do
       expect(ability).not_to be_able_to(:update, other_harvest)
+    end
+
+    it "can't manage another member's harvest (destroy)" do
       expect(ability).not_to be_able_to(:destroy, other_harvest)
     end
 
@@ -173,8 +197,11 @@ describe Ability do
         garden.garden_collaborators.create(member:)
       end
 
-      it 'can manage harvests in a garden they collaborate on' do
+      it 'can manage harvests in a garden they collaborate on (update)' do
         expect(ability).to be_able_to(:update, harvest_in_garden)
+      end
+
+      it 'can manage harvests in a garden they collaborate on (destroy)' do
         expect(ability).to be_able_to(:destroy, harvest_in_garden)
       end
     end
@@ -188,9 +215,15 @@ describe Ability do
         expect(ability).to be_able_to(:read, plant_part)
       end
 
-      it "can't manage plant parts" do
+      it "can't manage plant parts (create)" do
         expect(ability).not_to be_able_to(:create, PlantPart)
+      end
+
+      it "can't manage plant parts (update)" do
         expect(ability).not_to be_able_to(:update, plant_part)
+      end
+
+      it "can't manage plant parts (destroy)" do
         expect(ability).not_to be_able_to(:destroy, plant_part)
       end
     end
@@ -206,8 +239,11 @@ describe Ability do
         expect(ability).to be_able_to(:read, plant_part)
       end
 
-      it "can manage plant_part details" do
+      it "can manage plant_part details (create)" do
         expect(ability).to be_able_to(:create, PlantPart)
+      end
+
+      it "can manage plant_part details (update)" do
         expect(ability).to be_able_to(:update, plant_part)
       end
 
@@ -254,13 +290,19 @@ describe Ability do
       expect(ability).to be_able_to(:create, Job)
     end
 
-    it 'can manage their own job' do
+    it 'can manage their own job (update)' do
       expect(ability).to be_able_to(:update, job)
+    end
+
+    it 'can manage their own job (destroy)' do
       expect(ability).to be_able_to(:destroy, job)
     end
 
-    it "can't manage another member's job" do
+    it "can't manage another member's job (update)" do
       expect(ability).not_to be_able_to(:update, other_job)
+    end
+
+    it "can't manage another member's job (destroy)" do
       expect(ability).not_to be_able_to(:destroy, other_job)
     end
 
@@ -290,8 +332,11 @@ describe Ability do
         garden.garden_collaborators.create(member:)
       end
 
-      it 'can manage jobs in a garden they collaborate on' do
+      it 'can manage jobs in a garden they collaborate on (update)' do
         expect(ability).to be_able_to(:update, job_in_garden)
+      end
+
+      it 'can manage jobs in a garden they collaborate on (destroy)' do
         expect(ability).to be_able_to(:destroy, job_in_garden)
       end
     end
@@ -319,13 +364,19 @@ describe Ability do
       expect(ability).to be_able_to(:create, Seed)
     end
 
-    it 'can manage their own seed' do
+    it 'can manage their own seed (update)' do
       expect(ability).to be_able_to(:update, seed)
+    end
+
+    it 'can manage their own seed (destroy)' do
       expect(ability).to be_able_to(:destroy, seed)
     end
 
-    it "can't manage another member's seed" do
+    it "can't manage another member's seed (update)" do
       expect(ability).not_to be_able_to(:update, other_seed)
+    end
+
+    it "can't manage another member's seed (destroy)" do
       expect(ability).not_to be_able_to(:destroy, other_seed)
     end
   end
@@ -338,13 +389,19 @@ describe Ability do
       expect(ability).to be_able_to(:create, Comment)
     end
 
-    it 'can manage their own comment' do
+    it 'can manage their own comment (update)' do
       expect(ability).to be_able_to(:update, comment)
+    end
+
+    it 'can manage their own comment (destroy)' do
       expect(ability).to be_able_to(:destroy, comment)
     end
 
-    it "can't manage another member's comment" do
+    it "can't manage another member's comment (update)" do
       expect(ability).not_to be_able_to(:update, other_comment)
+    end
+
+    it "can't manage another member's comment (destroy)" do
       expect(ability).not_to be_able_to(:destroy, other_comment)
     end
   end
@@ -381,13 +438,19 @@ describe Ability do
       expect(ability).not_to be_able_to(:refresh, other_photo)
     end
 
-    it 'can manage their own photo' do
+    it 'can manage their own photo (update)' do
       expect(ability).to be_able_to(:update, photo)
+    end
+
+    it 'can manage their own photo (destroy)' do
       expect(ability).to be_able_to(:destroy, photo)
     end
 
-    it "can't manage another member's photo" do
+    it "can't manage another member's photo (update)" do
       expect(ability).not_to be_able_to(:update, other_photo)
+    end
+
+    it "can't manage another member's photo (destroy)" do
       expect(ability).not_to be_able_to(:destroy, other_photo)
     end
   end

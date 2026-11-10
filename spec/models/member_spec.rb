@@ -126,34 +126,49 @@ describe Member do
   end
 
   context 'with invalid login names' do
-    it "doesn't allow short names" do
-      member = build(:invalid_member_shortname)
-      expect(member).not_to be_valid
-      expect(member.errors[:login_name]).to include("should be between 2 and 25 characters long")
+    describe "doesn't allow short names" do
+      subject(:record) { build(:invalid_member_shortname) }
+
+      before { record.validate }
+
+      it { is_expected.not_to be_valid }
+      it { expect(record.errors[:login_name]).to include("should be between 2 and 25 characters long") }
     end
 
-    it "doesn't allow really long names" do
-      member = build(:invalid_member_longname)
-      expect(member).not_to be_valid
-      expect(member.errors[:login_name]).to include("should be between 2 and 25 characters long")
+    describe "doesn't allow really long names" do
+      subject(:record) { build(:invalid_member_longname) }
+
+      before { record.validate }
+
+      it { is_expected.not_to be_valid }
+      it { expect(record.errors[:login_name]).to include("should be between 2 and 25 characters long") }
     end
 
-    it "doesn't allow spaces in names" do
-      member = build(:invalid_member_spaces)
-      expect(member).not_to be_valid
-      expect(member.errors[:login_name]).to include("may only include letters, numbers, or underscores")
+    describe "doesn't allow spaces in names" do
+      subject(:record) { build(:invalid_member_spaces) }
+
+      before { record.validate }
+
+      it { is_expected.not_to be_valid }
+      it { expect(record.errors[:login_name]).to include("may only include letters, numbers, or underscores") }
     end
 
-    it "doesn't allow other chars in names" do
-      member = build(:invalid_member_badchars)
-      expect(member).not_to be_valid
-      expect(member.errors[:login_name]).to include("may only include letters, numbers, or underscores")
+    describe "doesn't allow other chars in names" do
+      subject(:record) { build(:invalid_member_badchars) }
+
+      before { record.validate }
+
+      it { is_expected.not_to be_valid }
+      it { expect(record.errors[:login_name]).to include("may only include letters, numbers, or underscores") }
     end
 
-    it "doesn't allow reserved names" do
-      member = build(:invalid_member_badname)
-      expect(member).not_to be_valid
-      expect(member.errors[:login_name]).to include("name is reserved")
+    describe "doesn't allow reserved names" do
+      subject(:record) { build(:invalid_member_badname) }
+
+      before { record.validate }
+
+      it { is_expected.not_to be_valid }
+      it { expect(record.errors[:login_name]).to include("name is reserved") }
     end
   end
 

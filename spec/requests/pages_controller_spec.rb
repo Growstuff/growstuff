@@ -14,12 +14,12 @@ describe PagesController do
     '/policy'           => 'Policy',
     '/policy/copyright' => 'Copyright Infringement Policy'
   }.each do |path, heading|
-    it "shows #{path}" do
-      get path
+    describe "shows #{path}" do
+      before { get path }
 
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("<h1")
-      expect(response.body).to include(heading)
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(response.body).to include("<h1") }
+      it { expect(response.body).to include(heading) }
     end
   end
 end

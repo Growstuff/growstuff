@@ -29,14 +29,16 @@ describe Comment do
       end.to change(Notification, :count).by(1)
     end
 
-    it "sets the notification fields" do
-      @c = create(:comment)
-      @n = Notification.first
-      expect(@n.sender).to eq @c.author
-      expect(@n.recipient).to eq @c.commentable.author
-      expect(@n.subject).to include 'commented on'
-      expect(@n.body).to eq @c.body
-      expect(@n.notifiable).to eq @c.commentable # polymorphic association, this is a Post.
+    describe "the notification" do
+      let!(:comment) { create(:comment) }
+      let(:notification) { Notification.first }
+
+      it { expect(notification.sender).to eq comment.author }
+      it { expect(notification.recipient).to eq comment.commentable.author }
+      it { expect(notification.subject).to include 'commented on' }
+      it { expect(notification.body).to eq comment.body }
+      # A polymorphic association, this is a Post.
+      it { expect(notification.notifiable).to eq comment.commentable }
     end
 
     it "doesn't send notifications to yourself" do

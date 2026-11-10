@@ -75,10 +75,10 @@ describe 'Growstuff::OauthSignupAction' do
         expect(@member.tos_agreement).to be_nil
       end
 
-      it 'stores the uid and provider for the member' do
-        expect(@authentication.member.id).to eq @member.id
-        expect(@authentication.provider).to eq 'facebook'
-        expect(@authentication.uid).to eq '123545'
+      describe 'stores the uid and provider for the member' do
+        it { expect(@authentication.member.id).to eq @member.id }
+        it { expect(@authentication.provider).to eq 'facebook' }
+        it { expect(@authentication.uid).to eq '123545' }
       end
     end
 
@@ -118,10 +118,10 @@ describe 'Growstuff::OauthSignupAction' do
           expect(@member.preferred_avatar_uri).to eq 'http://cl.jroo.me/z3/W/H/K/e/a.baa-very-cool-hat-you-.jpg'
         end
 
-        it 'stores the uid and provider for the member' do
-          expect(@authentication.member.id).to eq @member.id
-          expect(@authentication.provider).to eq 'facebook'
-          expect(@authentication.uid).to eq '123545'
+        describe 'stores the uid and provider for the member' do
+          it { expect(@authentication.member.id).to eq @member.id }
+          it { expect(@authentication.provider).to eq 'facebook' }
+          it { expect(@authentication.uid).to eq '123545' }
         end
       end
 

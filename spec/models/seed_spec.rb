@@ -31,11 +31,10 @@ describe Seed do
       expect(@seed).not_to be_valid
     end
 
-    it "allows blank quantities" do
-      @seed = build(:seed, quantity: nil)
-      expect(@seed).to be_valid
-      @seed = build(:seed, quantity: '')
-      expect(@seed).to be_valid
+    [nil, ''].each do |blank|
+      it "allows a quantity of #{blank.inspect}" do
+        expect(build(:seed, quantity: blank)).to be_valid
+      end
     end
   end
 
@@ -47,31 +46,34 @@ describe Seed do
       end
     end
 
-    it 'refuses invalid tradable_to values' do
-      @seed = build(:seed, tradable_to: 'not valid')
-      expect(@seed).not_to be_valid
-      expect(@seed.errors[:tradable_to]).to include(
-        "You may only trade seed nowhere, locally, " \
-        "nationally, or internationally"
-      )
+    context 'with an invalid tradable_to value' do
+      subject(:seed) { build(:seed, tradable_to: 'not valid') }
+
+      it { is_expected.not_to be_valid }
+
+      it 'explains where seed may be traded' do
+        seed.validate
+        expect(seed.errors[:tradable_to]).to include(
+          "You may only trade seed nowhere, locally, " \
+          "nationally, or internationally"
+        )
+      end
     end
 
-    it 'does not allow nil or blank values' do
-      @seed = build(:seed, tradable_to: nil)
-      expect(@seed).not_to be_valid
-      @seed = build(:seed, tradable_to: '')
-      expect(@seed).not_to be_valid
+    [nil, ''].each do |blank|
+      it "does not allow a tradable_to of #{blank.inspect}" do
+        expect(build(:seed, tradable_to: blank)).not_to be_valid
+      end
     end
 
-    it 'tradable gives the right answers' do
-      @seed = create(:seed, tradable_to: 'nowhere')
-      expect(@seed.tradable).to be false
-      @seed = create(:seed, tradable_to: 'locally')
-      expect(@seed.tradable).to be true
-      @seed = create(:seed, tradable_to: 'nationally')
-      expect(@seed.tradable).to be true
-      @seed = create(:seed, tradable_to: 'internationally')
-      expect(@seed.tradable).to be true
+    it 'is not tradable when traded nowhere' do
+      expect(create(:seed, tradable_to: 'nowhere').tradable).to be false
+    end
+
+    %w(locally nationally internationally).each do |where|
+      it "is tradable when traded #{where}" do
+        expect(create(:seed, tradable_to: where).tradable).to be true
+      end
     end
 
     it 'recognises a tradable seed' do
@@ -82,11 +84,12 @@ describe Seed do
       expect(create(:untradable_seed).tradable).to be false
     end
 
-    it 'scopes correctly' do
-      @tradable = create(:tradable_seed)
-      @untradable = create(:untradable_seed)
-      expect(described_class.tradable).to include @tradable
-      expect(described_class.tradable).not_to include @untradable
+    context 'with tradable and untradable seeds' do
+      let!(:tradable) { create(:tradable_seed) }
+      let!(:untradable) { create(:untradable_seed) }
+
+      it('includes the tradable seed') { expect(described_class.tradable).to include tradable }
+      it('leaves out the untradable seed') { expect(described_class.tradable).not_to include untradable }
     end
   end
 
@@ -114,20 +117,21 @@ describe Seed do
       end
     end
 
-    it 'refuses invalid organic/GMO/heirloom values' do
-      %i(organic gmo heirloom).each do |field|
-        @seed = build(:seed, field => 'not valid')
-        expect(@seed).not_to be_valid
-        expect(@seed.errors[field]).not_to be_empty
+    %i(organic gmo heirloom).each do |field|
+      it "refuses an invalid #{field} value" do
+        expect(build(:seed, field => 'not valid')).not_to be_valid
       end
-    end
 
-    it 'does not allow nil or blank values' do
-      %i(organic gmo heirloom).each do |field|
-        @seed = build(:seed, field => nil)
-        expect(@seed).not_to be_valid
-        @seed = build(:seed, field => '')
-        expect(@seed).not_to be_valid
+      it "gives an error for an invalid #{field} value" do
+        seed = build(:seed, field => 'not valid')
+        seed.validate
+        expect(seed.errors[field]).not_to be_empty
+      end
+
+      [nil, ''].each do |blank|
+        it "does not allow #{field} to be #{blank.inspect}" do
+          expect(build(:seed, field => blank)).not_to be_valid
+        end
       end
     end
   end
@@ -150,10 +154,14 @@ describe Seed do
       expect(seed.plant_before).to be_nil
     end
 
-    it 'refuses something that is not a year' do
-      seed.plant_before_year = 'next spring'
-      expect(seed).not_to be_valid
-      expect(seed.errors[:plant_before_year]).to be_present
+    context 'with something that is not a year' do
+      before do
+        seed.plant_before_year = 'next spring'
+        seed.validate
+      end
+
+      it { expect(seed).not_to be_valid }
+      it { expect(seed.errors[:plant_before_year]).to be_present }
     end
 
     it 'reads back what was typed when it was not a year, to correct' do
@@ -168,11 +176,12 @@ describe Seed do
   end
 
   context 'when expired' do
-    it 'returns seeds with a plant_before date in the past' do
-      expired_seed = create(:seed, plant_before: 1.day.ago)
-      not_expired_seed = create(:seed, plant_before: 1.day.from_now)
-      expect(described_class.expired).to include expired_seed
-      expect(described_class.expired).not_to include not_expired_seed
+    context 'with a plant_before date in the past and one in the future' do
+      let!(:expired_seed) { create(:seed, plant_before: 1.day.ago) }
+      let!(:not_expired_seed) { create(:seed, plant_before: 1.day.from_now) }
+
+      it('returns the past one') { expect(described_class.expired).to include expired_seed }
+      it('leaves out the future one') { expect(described_class.expired).not_to include not_expired_seed }
     end
 
     it 'does not return finished seeds' do

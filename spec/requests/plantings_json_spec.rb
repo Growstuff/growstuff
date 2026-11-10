@@ -58,11 +58,11 @@ describe 'Creating and updating a planting as JSON' do
       expect(response.parsed_body).to have_key('error')
     end
 
-    it 'reports a missing garden as a validation error' do
-      create_planting(garden_id: nil)
+    describe 'reports a missing garden as a validation error' do
+      before { create_planting(garden_id: nil) }
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['errors']).to have_key('garden')
+      it { expect(response).to have_http_status(:unprocessable_entity) }
+      it { expect(response.parsed_body['errors']).to have_key('garden') }
     end
   end
 
@@ -72,19 +72,22 @@ describe 'Creating and updating a planting as JSON' do
                         quantity: 4, sunniness: 'shade', description: 'By the fence')
     end
 
-    it 'gives the current values and the choices for the selects' do
-      sign_in member
+    describe 'gives the current values and the choices for the selects' do
+      before do
+        sign_in member
+        get "/plantings/#{planting.slug}/edit.json", headers: json_headers
+      end
 
-      get "/plantings/#{planting.slug}/edit.json", headers: json_headers
-
-      expect(response).to have_http_status(:ok)
-      expect(response.parsed_body['planting']).to include(
+      it { expect(response).to have_http_status(:ok) }
+      it do
+        expect(response.parsed_body['planting']).to include(
         'url' => "/plantings/#{planting.slug}", 'crop' => { 'id' => crop.id, 'name' => 'lettuce' },
         'planted_at' => '2026-03-01', 'quantity' => 4, 'sunniness' => 'shade',
         'description' => 'By the fence'
-      )
-      expect(response.parsed_body['planted_from_values']).to include('seed', 'seedling')
-      expect(response.parsed_body['sunniness_values']).to eq %w(sun semi-shade shade)
+        )
+      end
+      it { expect(response.parsed_body['planted_from_values']).to include('seed', 'seedling') }
+      it { expect(response.parsed_body['sunniness_values']).to eq %w(sun semi-shade shade) }
     end
 
     it "refuses someone else's planting" do
@@ -115,47 +118,48 @@ describe 'Creating and updating a planting as JSON' do
         expect(annual['planted_at']).to eq '2026-04-15'
       end
 
-      it 'marks it finished on the date given, and the refreshed card no longer lists it' do
-        update_planting({ finished: true, finished_at: '2026-04-15' })
+      describe 'marks it finished on the date given, and the refreshed card no longer lists it' do
+        before { update_planting({ finished: true, finished_at: '2026-04-15' }) }
 
-        expect(response).to have_http_status(:ok)
-        expect(planting.reload).to have_attributes(finished: true, finished_at: Date.new(2026, 4, 15))
-        expect(response.parsed_body.dig('garden', 'annuals').pluck('id')).not_to include(planting.id)
+        it { expect(response).to have_http_status(:ok) }
+        it { expect(planting.reload).to have_attributes(finished: true, finished_at: Date.new(2026, 4, 15)) }
+        it { expect(response.parsed_body.dig('garden', 'annuals').pluck('id')).not_to include(planting.id) }
       end
 
-      it 'does not finish it on or before the day it was planted' do
-        update_planting({ finished: true, finished_at: '2026-03-01' })
+      describe 'does not finish it on or before the day it was planted' do
+        before { update_planting({ finished: true, finished_at: '2026-03-01' }) }
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['errors']).to have_key('finished_at')
-        expect(planting.reload.finished).to be false
+        it { expect(response).to have_http_status(:unprocessable_entity) }
+        it { expect(response.parsed_body['errors']).to have_key('finished_at') }
+        it { expect(planting.reload.finished).to be false }
       end
 
-      it 'returns validation errors as 422 and keeps the old date' do
-        planting.update!(finished_at: Date.new(2026, 3, 10))
+      describe 'returns validation errors as 422 and keeps the old date' do
+        before do
+          planting.update!(finished_at: Date.new(2026, 3, 10))
+          update_planting({ planted_at: '2026-05-01' })
+        end
 
-        update_planting({ planted_at: '2026-05-01' })
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['errors']).to have_key('finished_at')
-        expect(planting.reload.planted_at).to eq Date.new(2026, 3, 1)
+        it { expect(response).to have_http_status(:unprocessable_entity) }
+        it { expect(response.parsed_body['errors']).to have_key('finished_at') }
+        it { expect(planting.reload.planted_at).to eq Date.new(2026, 3, 1) }
       end
 
-      it "refuses someone else's planting" do
-        someone_elses = create(:planting, planted_at: Date.new(2026, 3, 1))
+      describe "refuses someone else's planting" do
+        let!(:someone_elses) { create(:planting, planted_at: Date.new(2026, 3, 1)) }
 
-        update_planting({ planted_at: '2026-04-15' }, target: someone_elses)
+        before { update_planting({ planted_at: '2026-04-15' }, target: someone_elses) }
 
-        expect(response).to have_http_status(:forbidden)
-        expect(someone_elses.reload.planted_at).to eq Date.new(2026, 3, 1)
+        it { expect(response).to have_http_status(:forbidden) }
+        it { expect(someone_elses.reload.planted_at).to eq Date.new(2026, 3, 1) }
       end
     end
 
-    it 'asks a visitor who is not signed in to sign in' do
-      update_planting({ planted_at: '2026-04-15' })
+    describe 'asks a visitor who is not signed in to sign in' do
+      before { update_planting({ planted_at: '2026-04-15' }) }
 
-      expect(response).to have_http_status(:unauthorized)
-      expect(planting.reload.planted_at).to eq Date.new(2026, 3, 1)
+      it { expect(response).to have_http_status(:unauthorized) }
+      it { expect(planting.reload.planted_at).to eq Date.new(2026, 3, 1) }
     end
   end
 

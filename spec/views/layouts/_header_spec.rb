@@ -13,9 +13,9 @@ describe 'layouts/_header.html.haml', type: "view" do
       assert_select("a.navbar-brand img[src]", href: root_path)
     end
 
-    it 'has signup/signin links' do
-      expect(rendered).to have_content 'Join free'
-      expect(rendered).to have_content 'Sign in'
+    describe 'has signup/signin links' do
+      it { expect(rendered).to have_content 'Join free' }
+      it { expect(rendered).to have_content 'Sign in' }
     end
 
     it 'has a Crops link' do
@@ -149,9 +149,9 @@ describe 'layouts/_header.html.haml', type: "view" do
       expect(rendered).to have_content 'Sign out'
     end
 
-    it 'shows inbox link' do
-      expect(rendered).to have_content 'Inbox'
-      expect(rendered).not_to match(/Inbox \d+/)
+    describe 'shows inbox link' do
+      it { expect(rendered).to have_content 'Inbox' }
+      it { expect(rendered).not_to match(/Inbox \d+/) }
     end
   end
 

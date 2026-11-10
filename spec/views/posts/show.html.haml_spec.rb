@@ -128,15 +128,15 @@ describe "posts/show" do
       expect(subject).to have_css "#new-comment form[action='#{comments_path}']"
     end
 
-    it 'renders Shareon buttons for signed in members' do
-      expect(subject).to have_css '.shareon a.bluesky'
-      expect(subject).to have_css '.shareon a.fediverse'
-      expect(subject).to have_css '.shareon a.mastodon'
-      expect(subject).to have_css '.shareon a.telegram'
-      expect(subject).to have_css '.shareon a.copy-url'
-      expect(subject).to have_css '.shareon a.email'
-      expect(subject).to have_css '.shareon a.print'
-      expect(subject).to have_css '.shareon a.web-share'
+    describe 'renders Shareon buttons for signed in members' do
+      it { expect(subject).to have_css '.shareon a.bluesky' }
+      it { expect(subject).to have_css '.shareon a.fediverse' }
+      it { expect(subject).to have_css '.shareon a.mastodon' }
+      it { expect(subject).to have_css '.shareon a.telegram' }
+      it { expect(subject).to have_css '.shareon a.copy-url' }
+      it { expect(subject).to have_css '.shareon a.email' }
+      it { expect(subject).to have_css '.shareon a.print' }
+      it { expect(subject).to have_css '.shareon a.web-share' }
     end
   end
 

@@ -10,14 +10,15 @@ describe 'GET /authentications/connected' do
 
   before { sign_in member }
 
-  it 'says Flickr is connected once the member has connected it' do
-    create(:flickr_authentication, member: member)
+  describe 'says Flickr is connected once the member has connected it' do
+    before do
+      create(:flickr_authentication, member: member)
+      get connected_authentications_path
+    end
 
-    get connected_authentications_path
-
-    expect(response).to have_http_status(:ok)
-    expect(response.body).to include('Flickr is connected')
-    expect(response.body).to include('window.close()')
+    it { expect(response).to have_http_status(:ok) }
+    it { expect(response.body).to include('Flickr is connected') }
+    it { expect(response.body).to include('window.close()') }
   end
 
   it 'says it was not connected when the member has not' do

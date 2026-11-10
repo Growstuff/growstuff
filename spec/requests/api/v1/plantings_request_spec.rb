@@ -54,11 +54,12 @@ RSpec.describe 'Plantings' do
     }
   end
 
-  it '#index' do
-    get('/api/v1/plantings', params: {}, headers:)
-    expect(subject['data'][0].keys).to eq(planting_encoded_as_json_api.keys)
-    expect(subject['data'][0]['attributes'].keys.sort!).to eq(planting_encoded_as_json_api['attributes'].keys.sort!)
-    expect(subject['data']).to include(planting_encoded_as_json_api)
+  describe '#index' do
+    before { get('/api/v1/plantings', params: {}, headers:) }
+
+    it { expect(subject['data'][0].keys).to eq(planting_encoded_as_json_api.keys) }
+    it { expect(subject['data'][0]['attributes'].keys.sort!).to eq(planting_encoded_as_json_api['attributes'].keys.sort!) }
+    it { expect(subject['data']).to include(planting_encoded_as_json_api) }
   end
 
   describe 'the thumbnail' do
@@ -106,32 +107,34 @@ RSpec.describe 'Plantings' do
     let!(:planting2) { create(:planting, failed: true, sunniness: 'shade') }
     let!(:perennial_planting) { create(:planting, crop: create(:crop, perennial: true)) }
 
-    it 'filters by failed' do
-      get('/api/v1/plantings?filter[failed]=true', params: {}, headers:)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(planting2.id.to_s)
+    describe 'filters by failed' do
+      before { get('/api/v1/plantings?filter[failed]=true', params: {}, headers:) }
+
+      it { expect(subject['data'].size).to eq(1) }
+      it { expect(subject['data'][0]['id']).to eq(planting2.id.to_s) }
     end
 
-    it 'filters by sunniness' do
-      get('/api/v1/plantings?filter[sunniness]=shade', params: {}, headers:)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(planting2.id.to_s)
+    describe 'filters by sunniness' do
+      before { get('/api/v1/plantings?filter[sunniness]=shade', params: {}, headers:) }
+
+      it { expect(subject['data'].size).to eq(1) }
+      it { expect(subject['data'][0]['id']).to eq(planting2.id.to_s) }
     end
 
-    it 'filters by perennial' do
-      get('/api/v1/plantings?filter[perennial]=true', params: {}, headers:)
+    describe 'filters by perennial' do
+      before { get('/api/v1/plantings?filter[perennial]=true', params: {}, headers:) }
 
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(perennial_planting.id.to_s)
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(subject['data'].size).to eq(1) }
+      it { expect(subject['data'][0]['id']).to eq(perennial_planting.id.to_s) }
     end
 
-    it 'filters by active' do
-      get('/api/v1/plantings?filter[active]=true', params: {}, headers:)
+    describe 'filters by active' do
+      before { get('/api/v1/plantings?filter[active]=true', params: {}, headers:) }
 
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(2)
-      expect(subject['data'][0]['id']).to eq(planting.id.to_s)
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(subject['data'].size).to eq(2) }
+      it { expect(subject['data'][0]['id']).to eq(planting.id.to_s) }
     end
   end
 

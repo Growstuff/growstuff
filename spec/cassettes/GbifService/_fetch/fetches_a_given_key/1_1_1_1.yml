@@ -1,0 +1,56 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.gbif.org/v1/species/2930137
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday/v2.15.1 Gbif/v0.2.0
+      X-USER-AGENT:
+      - Faraday/v2.15.1 Gbif/v0.2.0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      vary:
+      - Origin, Access-Control-Request-Method, Access-Control-Request-Headers
+      x-content-type-options:
+      - nosniff
+      x-xss-protection:
+      - '0'
+      pragma:
+      - no-cache
+      expires:
+      - '0'
+      x-frame-options:
+      - DENY
+      content-type:
+      - application/json
+      date:
+      - Tue, 10 Nov 2026 03:09:42 GMT
+      cache-control:
+      - public, max-age=3601
+      x-varnish:
+      - 8225987343 8119930273
+      age:
+      - '1536'
+      via:
+      - 1.1 prodapicache-vh.gbif.org (Varnish/9.0)
+      accept-ranges:
+      - bytes
+      content-length:
+      - '931'
+      connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"key":2930137,"nubKey":2930137,"nameKey":10463714,"taxonID":"gbif:2930137","kingdom":"Plantae","phylum":"Tracheophyta","order":"Solanales","family":"Solanaceae","genus":"Solanum","species":"Solanum
+        lycopersicum","kingdomKey":6,"phylumKey":7707728,"classKey":220,"orderKey":1176,"familyKey":7717,"genusKey":2928997,"speciesKey":2930137,"datasetKey":"d7dddbf4-2cf0-4f39-9b2a-bb099caae36c","constituentKey":"7ddf754f-d193-4cc9-b351-99906754a03b","parentKey":2928997,"parent":"Solanum","scientificName":"Solanum
+        lycopersicum L.","canonicalName":"Solanum lycopersicum","vernacularName":"Tomato","authorship":"L.","nameType":"SCIENTIFIC","rank":"SPECIES","origin":"SOURCE","taxonomicStatus":"ACCEPTED","nomenclaturalStatus":[],"remarks":"","publishedIn":"L.
+        (1753). In: Sp. Pl. 185.","numDescendants":23,"lastCrawled":"2023-08-22T23:20:59.545+00:00","lastInterpreted":"2023-08-22T23:12:05.487+00:00","issues":[],"class":"Magnoliopsida"}'
+  recorded_at: Tue, 10 Nov 2026 03:35:19 GMT
+recorded_with: VCR 6.4.1

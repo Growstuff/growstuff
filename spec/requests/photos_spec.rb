@@ -8,13 +8,14 @@ describe "Photos" do
   describe "GET /photos/:id/edit" do
     let(:photo) { create(:photo) }
 
-    it "shows the owner a form to save changes to their photo" do
-      sign_in photo.owner
+    describe "shows the owner a form to save changes to their photo" do
+      before do
+        sign_in photo.owner
+        get edit_photo_path(photo)
+      end
 
-      get edit_photo_path(photo)
-
-      expect(response).to have_http_status(:ok)
-      expect(Capybara.string(response.body)).to have_button('Save')
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(Capybara.string(response.body)).to have_button('Save') }
     end
   end
 

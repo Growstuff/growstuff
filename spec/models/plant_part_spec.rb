@@ -18,8 +18,7 @@ describe PlantPart do
     @h2 = create(:harvest,
                  crop:       @maize,
                  plant_part: @pp1)
-    expect(@pp1.crops).to include @tomato
-    expect(@pp1.crops).to include @maize
+    expect(@pp1.crops).to include(@tomato, @maize)
   end
 
   it "doesn't duplicate crops" do

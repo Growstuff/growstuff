@@ -62,19 +62,21 @@ describe "crops/show" do
       @crop.scientific_names.create!(name: "Zea mays", creator: @member)
     end
 
-    it "renders the ecological requirements table" do
-      render
-      expect(rendered).to have_content "Ecological requirements"
-      expect(rendered).to have_content "Optimal temperature"
-      expect(rendered).to have_content "18 - 32 °C"
+    describe "renders the ecological requirements table" do
+      before { render }
+
+      it { expect(rendered).to have_content "Ecological requirements" }
+      it { expect(rendered).to have_content "Optimal temperature" }
+      it { expect(rendered).to have_content "18 - 32 °C" }
     end
 
-    it "renders the taxonomy with line breaks instead of colons" do
-      render
-      expect(rendered).to have_content "Magnoliopsida"
-      expect(rendered).to have_content "Solanaceae"
-      expect(rendered).to have_no_content "Magnoliopsida:Asteridae"
-      expect(rendered).to include("Magnoliopsida<br>Asteridae<br>Solanales<br>Solanaceae")
+    describe "renders the taxonomy with line breaks instead of colons" do
+      before { render }
+
+      it { expect(rendered).to have_content "Magnoliopsida" }
+      it { expect(rendered).to have_content "Solanaceae" }
+      it { expect(rendered).to have_no_content "Magnoliopsida:Asteridae" }
+      it { expect(rendered).to include("Magnoliopsida<br>Asteridae<br>Solanales<br>Solanaceae") }
     end
 
     it "renders the CC-BY-4.0 license link" do

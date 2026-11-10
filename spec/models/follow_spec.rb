@@ -30,15 +30,14 @@ describe Follow do
       expect(described_class.create(follower_id: @member1.id, followed_id: @member2.id)).not_to be_valid
     end
 
-    it "lists users in following/follower collections when follow is created" do
-      expect(@member1.followed).to include(@member2)
-      expect(@member2.followers).to include(@member1)
-    end
+    it("lists the followed member in the follower's followed") { expect(@member1.followed).to include(@member2) }
+    it("lists the follower in the followed member's followers") { expect(@member2.followers).to include(@member1) }
 
-    it "noes longer list users in following/follower collections when follow is deleted" do
-      @follow.destroy
-      expect(@member1.followed).not_to include(@member2)
-      expect(@member2.followers).not_to include(@member1)
+    context "when the follow is deleted" do
+      before { @follow.destroy }
+
+      it("no longer lists the followed member") { expect(@member1.followed).not_to include(@member2) }
+      it("no longer lists the follower") { expect(@member2.followers).not_to include(@member1) }
     end
   end
 end

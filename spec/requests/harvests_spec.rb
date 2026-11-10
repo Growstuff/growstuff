@@ -17,12 +17,12 @@ describe "Harvests" do
   describe "GET /plantings/:planting_slug/harvests/new" do
     before { sign_in member }
 
-    it "prefills planting crop information" do
-      get new_planting_harvest_path(planting_slug: planting.slug)
+    describe "prefills planting crop information" do
+      before { get new_planting_harvest_path(planting_slug: planting.slug) }
 
-      expect(response).to have_http_status :ok
-      expect(response.body).to include(crop.name)
-      expect(response.body).to include(planting.garden.name)
+      it { expect(response).to have_http_status :ok }
+      it { expect(response.body).to include(crop.name) }
+      it { expect(response.body).to include(planting.garden.name) }
     end
   end
 end

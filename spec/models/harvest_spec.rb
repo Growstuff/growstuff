@@ -68,16 +68,22 @@ describe Harvest do
       end
     end
 
-    it 'refuses invalid unit values' do
-      @harvest = build(:harvest, unit: 'not valid')
-      expect(@harvest).not_to be_valid
-      expect(@harvest.errors[:unit]).to include("not valid is not a valid unit")
+    context 'with an invalid unit' do
+      subject(:harvest) { build(:harvest, unit: 'not valid') }
+
+      it { is_expected.not_to be_valid }
+
+      it 'explains the unit is invalid' do
+        harvest.validate
+        expect(harvest.errors[:unit]).to include("not valid is not a valid unit")
+      end
     end
 
-    it 'sets unit to blank if quantity is blank' do
-      @harvest = build(:harvest, quantity: '', unit: 'individual')
-      expect(@harvest).to be_valid
-      expect(@harvest.unit).to be_nil
+    context 'with a unit but a blank quantity' do
+      subject(:harvest) { build(:harvest, quantity: '', unit: 'individual') }
+
+      it { is_expected.to be_valid }
+      it { expect(harvest.tap(&:validate).unit).to be_nil }
     end
   end
 
@@ -121,36 +127,33 @@ describe Harvest do
       end
     end
 
-    it 'refuses invalid weight unit values' do
-      @harvest = build(:harvest, weight_unit: 'not valid')
-      expect(@harvest).not_to be_valid
-      expect(@harvest.errors[:weight_unit]).to include("not valid is not a valid unit")
+    context 'with an invalid weight unit' do
+      subject(:harvest) { build(:harvest, weight_unit: 'not valid') }
+
+      it { is_expected.not_to be_valid }
+
+      it 'explains the unit is invalid' do
+        harvest.validate
+        expect(harvest.errors[:weight_unit]).to include("not valid is not a valid unit")
+      end
     end
 
-    it 'sets weight_unit to blank if quantity is blank' do
-      @harvest = build(:harvest, weight_quantity: '', weight_unit: 'kg')
-      expect(@harvest).to be_valid
-      expect(@harvest.weight_unit).to be_nil
+    context 'with a weight unit but a blank weight quantity' do
+      subject(:harvest) { build(:harvest, weight_quantity: '', weight_unit: 'kg') }
+
+      it { is_expected.to be_valid }
+      it { expect(harvest.tap(&:validate).weight_unit).to be_nil }
     end
   end
 
   describe "standardized weights" do
-    it 'converts from pounds' do
-      @harvest = create(:harvest, weight_quantity: 2, weight_unit: "lb")
-      expect(@harvest).to be_valid
-      expect(@harvest.reload.si_weight).to eq 0.907
-    end
-
-    it 'converts from ounces' do
-      @harvest = create(:harvest, weight_quantity: 16, weight_unit: "oz")
-      expect(@harvest).to be_valid
-      expect(@harvest.reload.si_weight).to eq 0.454
-    end
-
-    it 'leaves kg alone' do
-      @harvest = create(:harvest, weight_quantity: 2, weight_unit: "kg")
-      expect(@harvest).to be_valid
-      expect(@harvest.reload.si_weight).to eq 2.0
+    {
+      'pounds' => [2, 'lb', 0.907], 'ounces' => [16, 'oz', 0.454], 'kg' => [2, 'kg', 2.0]
+    }.each do |name, (quantity, unit, si_weight)|
+      it "converts #{quantity} #{name} to #{si_weight} kg" do
+        harvest = create(:harvest, weight_quantity: quantity, weight_unit: unit)
+        expect(harvest.reload.si_weight).to eq si_weight
+      end
     end
   end
 
@@ -311,11 +314,15 @@ describe Harvest do
     end
   end
 
-  it 'excludes deleted members' do
-    member = create(:member)
-    harvest = create(:harvest, owner: member)
-    expect(described_class.joins(:owner).all).to include(harvest)
-    member.destroy
-    expect(described_class.joins(:owner).all).not_to include(harvest)
+  describe 'joining the owner' do
+    let(:member) { create(:member) }
+    let!(:harvest) { create(:harvest, owner: member) }
+
+    it('includes the harvest of a current member') { expect(described_class.joins(:owner).all).to include(harvest) }
+
+    it 'excludes the harvest of a deleted member' do
+      member.destroy
+      expect(described_class.joins(:owner).all).not_to include(harvest)
+    end
   end
 end

@@ -16,18 +16,20 @@ describe GbifService, :vcr, type: :service do
   end
 
   describe "#fetch" do
-    it "fetches a given key" do
-      result = gbif_service.fetch(2_930_137)
-      expect(result["key"]).to eq 2_930_137
-      expect(result["family"]).to eq "Solanaceae"
+    describe "fetches a given key" do
+      let!(:result) { gbif_service.fetch(2_930_137) }
+
+      it { expect(result["key"]).to eq 2_930_137 }
+      it { expect(result["family"]).to eq "Solanaceae" }
     end
   end
 
   describe "#suggest" do
-    it "matches" do
-      results = gbif_service.suggest(scientific_name_tomato.name)
-      expect(results[0]["key"]).to eq 2_930_137
-      expect(results[0]["family"]).to eq "Solanaceae"
+    describe "matches" do
+      let!(:results) { gbif_service.suggest(scientific_name_tomato.name) }
+
+      it { expect(results[0]["key"]).to eq 2_930_137 }
+      it { expect(results[0]["family"]).to eq "Solanaceae" }
     end
   end
 

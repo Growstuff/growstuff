@@ -22,16 +22,18 @@ describe 'Saving seeds as JSON' do
   describe 'loading the form' do
     before { sign_in member }
 
-    it 'gives the crop, the trade choices and where the member is' do
-      get "/plantings/#{planting.slug}/seeds/new.json", headers: { 'ACCEPT' => 'application/json' }
+    describe 'gives the crop, the trade choices and where the member is' do
+      before { get "/plantings/#{planting.slug}/seeds/new.json", headers: { 'ACCEPT' => 'application/json' } }
 
-      expect(response).to have_http_status(:ok)
-      expect(response.parsed_body).to include(
+      it { expect(response).to have_http_status(:ok) }
+      it do
+        expect(response.parsed_body).to include(
         'crop' => { 'id' => crop.id, 'name' => 'lettuce' }, 'parent_planting_id' => planting.id,
         'tradable_to_values' => %w(nowhere locally nationally internationally),
         'location' => 'Greenwich, UK', 'settings_url' => '/members/edit'
-      )
-      expect(response.parsed_body['saved_at']).to eq Time.zone.today.to_s
+        )
+      end
+      it { expect(response.parsed_body['saved_at']).to eq Time.zone.today.to_s }
     end
 
     it 'gives a form for a crop with no planting' do

@@ -89,10 +89,10 @@ describe HarvestsController do
         expect(assigns(:crop)).to eq(planting.crop)
       end
 
-      it "prefills @harvest with the planting and planting crop" do
-        expect(assigns(:harvest).planting).to eq(planting)
-        expect(assigns(:harvest).crop).to eq(planting.crop)
-        expect(assigns(:harvest).crop_id).to eq(planting.crop_id)
+      describe "prefills @harvest with the planting and planting crop" do
+        it { expect(assigns(:harvest).planting).to eq(planting) }
+        it { expect(assigns(:harvest).crop).to eq(planting.crop) }
+        it { expect(assigns(:harvest).crop_id).to eq(planting.crop_id) }
       end
     end
 
@@ -107,9 +107,9 @@ describe HarvestsController do
         expect(assigns(:crop)).to eq(planting.crop)
       end
 
-      it "prefills @harvest with the planting crop" do
-        expect(assigns(:harvest).crop).to eq(planting.crop)
-        expect(assigns(:harvest).crop_id).to eq(planting.crop_id)
+      describe "prefills @harvest with the planting crop" do
+        it { expect(assigns(:harvest).crop).to eq(planting.crop) }
+        it { expect(assigns(:harvest).crop_id).to eq(planting.crop_id) }
       end
     end
   end

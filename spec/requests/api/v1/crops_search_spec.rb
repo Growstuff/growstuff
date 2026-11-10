@@ -10,17 +10,19 @@ RSpec.describe 'Crops Search' do
   let!(:apple)   { create(:crop, name: 'Apple', approval_status: 'approved') }
 
   describe 'GET /api/v1/crops/search' do
-    it 'returns crops matching the search term' do
-      get '/api/v1/crops/search', params: { term: 'Cabbage' }, headers: headers
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'].first['attributes']['name']).to eq('Cabbage')
+    describe 'returns crops matching the search term' do
+      before { get '/api/v1/crops/search', params: { term: 'Cabbage' }, headers: headers }
+
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(subject['data'].size).to eq(1) }
+      it { expect(subject['data'].first['attributes']['name']).to eq('Cabbage') }
     end
 
-    it 'returns empty data if no crops match' do
-      get '/api/v1/crops/search', params: { term: 'NonExistent' }, headers: headers
-      expect(response).to have_http_status(:ok)
-      expect(subject['data']).to be_empty
+    describe 'returns empty data if no crops match' do
+      before { get '/api/v1/crops/search', params: { term: 'NonExistent' }, headers: headers }
+
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(subject['data']).to be_empty }
     end
 
     it 'includes meta information' do

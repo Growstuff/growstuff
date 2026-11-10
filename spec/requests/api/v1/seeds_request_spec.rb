@@ -66,36 +66,36 @@ RSpec.describe 'Seeds' do
       expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
     end
 
-    it 'filters by tradable_to' do
-      get('/api/v1/seeds?filter[tradable_to]=nationally', params: {}, headers:)
+    describe 'filters by tradable_to' do
+      before { get('/api/v1/seeds?filter[tradable_to]=nationally', params: {}, headers:) }
 
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(subject['data'].size).to eq(1) }
+      it { expect(subject['data'][0]['id']).to eq(seed2.id.to_s) }
     end
 
-    it 'filters by organic' do
-      get('/api/v1/seeds?filter[organic]=certified organic', params: {}, headers:)
+    describe 'filters by organic' do
+      before { get('/api/v1/seeds?filter[organic]=certified organic', params: {}, headers:) }
 
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(subject['data'].size).to eq(1) }
+      it { expect(subject['data'][0]['id']).to eq(seed2.id.to_s) }
     end
 
-    it 'filters by gmo' do
-      get('/api/v1/seeds?filter[gmo]=certified GMO-free', params: {}, headers:)
+    describe 'filters by gmo' do
+      before { get('/api/v1/seeds?filter[gmo]=certified GMO-free', params: {}, headers:) }
 
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(subject['data'].size).to eq(1) }
+      it { expect(subject['data'][0]['id']).to eq(seed2.id.to_s) }
     end
 
-    it 'filters by heirloom' do
-      get('/api/v1/seeds?filter[heirloom]=heirloom', params: {}, headers:)
+    describe 'filters by heirloom' do
+      before { get('/api/v1/seeds?filter[heirloom]=heirloom', params: {}, headers:) }
 
-      expect(response).to have_http_status(:ok)
-      expect(subject['data'].size).to eq(1)
-      expect(subject['data'][0]['id']).to eq(seed2.id.to_s)
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(subject['data'].size).to eq(1) }
+      it { expect(subject['data'][0]['id']).to eq(seed2.id.to_s) }
     end
 
     it 'filters by owner' do

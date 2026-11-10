@@ -6,13 +6,15 @@ describe CropsController do
   let(:tomato) { create(:crop, name: 'tomato') }
 
   describe 'crop icons: GET /crops/:slug.svg' do
-    it "serves the icon chosen for the crop" do
-      tomato.update!(icon: 'tomato')
-      get crop_path(tomato, format: 'svg')
+    describe "serves the icon chosen for the crop" do
+      before do
+        tomato.update!(icon: 'tomato')
+        get crop_path(tomato, format: 'svg')
+      end
 
-      expect(response).to have_http_status(:ok)
-      expect(response.media_type).to eq 'image/svg+xml'
-      expect(response.body).to eq Crop.icon_svg('tomato')
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(response.media_type).to eq 'image/svg+xml' }
+      it { expect(response.body).to eq Crop.icon_svg('tomato') }
     end
 
     it 'serves a sprout for a crop with no icon' do

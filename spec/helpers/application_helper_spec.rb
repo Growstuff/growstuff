@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe ApplicationHelper do
-  it "parses dates" do
-    expect(parse_date(nil)).to be_nil
-    expect(parse_date('')).to be_nil
-    expect(parse_date('2012-05-12')).to eq Date.new(2012, 5, 12)
-    expect(parse_date('may 12th 2012')).to eq Date.new(2012, 5, 12)
+  describe "parses dates" do
+    it { expect(parse_date(nil)).to be_nil }
+    it { expect(parse_date('')).to be_nil }
+    it { expect(parse_date('2012-05-12')).to eq Date.new(2012, 5, 12) }
+    it { expect(parse_date('may 12th 2012')).to eq Date.new(2012, 5, 12) }
   end
 
   describe '#avatar_uri' do
@@ -147,13 +147,13 @@ describe ApplicationHelper do
   end
 
   describe '#react_component' do
-    it 'renders an empty mount point carrying the component name and props as JSON' do
-      html = helper.react_component('GardenSummary', owner: 'shiny', count: 3)
+    describe 'renders an empty mount point carrying the component name and props as JSON' do
+      let!(:html) { helper.react_component('GardenSummary', owner: 'shiny', count: 3) }
+      let!(:element) { Capybara.string(html).find('div[data-react-component]', visible: :all) }
 
-      element = Capybara.string(html).find('div[data-react-component]', visible: :all)
-      expect(element['data-react-component']).to eq 'GardenSummary'
-      expect(JSON.parse(element['data-props'])).to eq('owner' => 'shiny', 'count' => 3)
-      expect(element.text).to eq ''
+      it { expect(element['data-react-component']).to eq 'GardenSummary' }
+      it { expect(JSON.parse(element['data-props'])).to eq('owner' => 'shiny', 'count' => 3) }
+      it { expect(element.text).to eq '' }
     end
 
     it 'escapes props so they cannot break out of the attribute' do
