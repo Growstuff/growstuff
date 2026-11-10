@@ -20,6 +20,30 @@ describe 'Weather on a planting', flipper: :planting_weather do
     it { expect(page).to have_link 'CC BY 4.0', href: 'https://creativecommons.org/licenses/by/4.0/' }
   end
 
+  context 'with readings for a crop with EcoCrop temperatures' do
+    let(:crop) { create(:crop, median_lifespan: 100, ecocrop_record: create(:ecocrop_data, topmn: 15, topmx: 25, tmin: 5, tmax: 35)) }
+    let(:planting) do
+      create(:planting, garden:, owner: garden.owner, crop:, planted_at: Date.new(2026, 10, 1)).tap do
+        create(:weather_reading, date: Date.new(2026, 10, 1), temp_max_c: 22, temp_min_c: 9)
+      end
+    end
+
+    it { expect(page).to have_css '#weather rect.weather-band--optimal' }
+    it { expect(page).to have_css '#weather .weather-band-label--optimal', text: 'Grows best 15–25°' }
+    it { expect(page).to have_css '#weather .badge', text: "The planting is in the optimal climate for #{crop.name}" }
+    it { expect(page).to have_css '#weather .weather-figure', text: 'Days in its best range 1 of 1' }
+  end
+
+  context 'with readings for a crop without EcoCrop data' do
+    let(:planting) do
+      create(:planting, garden:, owner: garden.owner, crop: create(:crop, median_lifespan: 100), planted_at: Date.new(2026, 10, 1)).tap do
+        create(:weather_reading, date: Date.new(2026, 10, 1), temp_max_c: 22, temp_min_c: 9)
+      end
+    end
+
+    it { expect(page).to have_no_css '#weather .weather-band' }
+  end
+
   context 'with only last year\'s readings to expect' do
     let(:today) { Time.zone.today }
     let(:planting) do
@@ -29,13 +53,13 @@ describe 'Weather on a planting', flipper: :planting_weather do
     end
 
     it { expect(page).to have_css '#weather rect.weather-expected' }
-    it { expect(page).to have_no_text "We're loading the weather" }
+    it { expect(page).to have_no_css '.weather-pending' }
     it { expect(page).to have_no_css '.weather-summary' }
   end
 
   context 'without readings' do
     it { expect(page).to have_no_css '#weather' }
-    it { expect(page).to have_text "We're loading the weather for this garden's area" }
+    it { expect(page).to have_css '.planting-weather .card.weather-pending' }
   end
 
   context 'when the garden has no location and the viewer owns it' do

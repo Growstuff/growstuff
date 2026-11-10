@@ -3,7 +3,7 @@
 # What goes around a weather chart's data: the "now" line, the Y axis and the SVG itself.
 module WeatherChartFrameHelper
   WEATHER_CHART_WIDTH = 600
-  WEATHER_CHART_HEIGHT = 80 # also the charts' height in _plantings.scss
+  WEATHER_CHART_HEIGHT = 120 # also the charts' height in _plantings.scss
 
   private
 
