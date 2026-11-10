@@ -34,6 +34,12 @@ describe Admin::EcocropDataController do
         expect(response.body).not_to include('Cucumis sativus')
       end
 
+      it 'suggests a crop named like a common name' do
+        create(:crop, name: 'Carrot')
+        get admin_ecocrop_data_path
+        expect(response.body).to include(admin_link_ecocrop_data_path(EcocropData.find_by!(scientificname: 'Daucus carota')))
+      end
+
       it 'searches common names' do
         get admin_ecocrop_data_path(q: 'carrot')
         expect(response.body).not_to include('Cucumis sativus')
@@ -47,6 +53,45 @@ describe Admin::EcocropDataController do
         get admin_ecocrop_data_path
         expect(response).not_to be_successful
       end
+    end
+  end
+
+  describe '#link' do
+    let(:crop) { create(:crop, name: 'carrot') }
+    let(:record) { EcocropData.find_by!(scientificname: 'Daucus carota') }
+
+    context 'with a crop wrangler' do
+      before { sign_in create(:crop_wrangling_member) }
+
+      it 'links the crop to the record' do
+        expect { post admin_link_ecocrop_data_path(record), params: { crop_id: crop.id } }
+          .to change { crop.reload.ecocrop_record }.to(record)
+      end
+
+      it 'moves a crop off the record it had' do
+        crop.update!(ecocrop_record: matched)
+        post admin_link_ecocrop_data_path(record), params: { crop_id: crop.id }
+        expect(matched.crops).not_to include(crop)
+      end
+    end
+
+    context 'with an ordinary member' do
+      before { sign_in create(:member) }
+
+      it 'does not link' do
+        post admin_link_ecocrop_data_path(record), params: { crop_id: crop.id }
+        expect(crop.reload.ecocrop_record).to be_nil
+      end
+    end
+  end
+
+  describe '#unlink' do
+    before { sign_in create(:crop_wrangling_member) }
+
+    it 'unlinks the crop' do
+      crop = matched.crops.first
+      expect { delete admin_link_ecocrop_data_path(matched), params: { crop_id: crop.id } }
+        .to change { crop.reload.ecocrop_record }.to(nil)
     end
   end
 end

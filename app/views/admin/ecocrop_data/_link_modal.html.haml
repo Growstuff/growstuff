@@ -1,0 +1,24 @@
+-# One dialog for the whole list. The row's button says which EcoCrop record it is for, and
+-# ecocrop_link.js searches the crops and posts the chosen one to the form below.
+.modal.fade#ecocrop-link-modal{ "aria-hidden" => "true", "aria-labelledby" => "ecocrop-link-title", role: "dialog", tabindex: "-1",
+                                data: { search_url: search_crops_path(format: :json), link_url: admin_link_ecocrop_data_path('__ID__'), none: t('.none'), confirm: t('.confirm', crop: '__CROP__', record: '__RECORD__') } }
+  .modal-dialog{ role: "document" }
+    .modal-content
+      .modal-header
+        %h4.modal-title#ecocrop-link-title= t('.title')
+        %button.btn-close{ "aria-label" => t('.close'), "data-bs-dismiss" => "modal", type: "button" }
+      .modal-body
+        %p.fw-bold.fst-italic#ecocrop-link-name
+        #ecocrop-link-search-panel
+          %p.text-muted= t('.hint')
+          = label_tag 'ecocrop-link-search', t('.search_label'), class: 'form-label'
+          = search_field_tag 'ecocrop-link-search', nil, class: 'form-control', autocomplete: 'off'
+          %ul.list-group.mt-3#ecocrop-link-results{ 'aria-live' => 'polite' }
+        #ecocrop-link-confirm.d-none
+          %p#ecocrop-link-confirm-text
+          %button.btn.btn-link#ecocrop-link-confirm-back{ type: 'button' }= t('.back')
+        = form_with url: '#', method: :post, id: 'ecocrop-link-form', class: 'd-none' do
+          = hidden_field_tag :crop_id, nil, id: 'ecocrop-link-crop-id'
+      .modal-footer
+        %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" }= t('.cancel')
+        %button.btn.btn-primary.d-none#ecocrop-link-confirm-yes{ type: 'button' }= t('.confirm_button')

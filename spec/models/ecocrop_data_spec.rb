@@ -210,4 +210,37 @@ describe EcocropData do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '.suggested_crops' do
+    subject(:suggestions) { described_class.suggested_crops(described_class.all) }
+
+    let!(:carrot) { create(:ecocrop_data, scientificname: 'Daucus carota', comname: %w(carrot)) }
+
+    context 'with a crop named like a common name, in other case' do
+      let!(:crop) { create(:crop, name: 'Carrot') }
+
+      it('suggests it') { expect(suggestions).to eq(carrot.id => [crop]) }
+    end
+
+    context 'with a crop already linked elsewhere' do
+      before { create(:crop, name: 'carrot', ecocrop_record: create(:ecocrop_data)) }
+
+      it('leaves it out') { expect(suggestions).to be_empty }
+    end
+
+    context 'with a record that already has a crop' do
+      before do
+        create(:crop, name: 'carrot', ecocrop_record: carrot)
+        create(:crop, name: 'Carrot', approval_status: 'approved')
+      end
+
+      it('suggests nothing') { expect(suggestions).to be_empty }
+    end
+
+    context 'without common names' do
+      before { carrot.update!(comname: nil) }
+
+      it('suggests nothing') { expect(suggestions).to be_empty }
+    end
+  end
 end
