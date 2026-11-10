@@ -1450,6 +1450,31 @@ de:
     write_blog_post: Schreibe einen Blogbeitrag
   scientific_names:
     deleted: Wissenschaftlicher Name wurde erfolgreich gelöscht.
+    edit:
+      added_by_html: Hinzugefügt von %{creator_link} vor %{time_ago}.
+      title: Wissenschaftlichen Namen bearbeiten
+    form:
+      crop: Nutzpflanze
+      crop_wrangling_guide: Leitfaden zur Ernteverwaltung
+      crop_wrangling_guide_intro_html: Detaillierte Richtlinien zur Ernteverwaltung finden Sie im %{guide_link} im Growstuff-Wiki.
+      errors:
+        one: "1 Fehler verhinderte das Speichern dieses wissenschaftlichen Namens:"
+        other: "%{count} Fehler verhinderten das Speichern dieses wissenschaftlichen Namens:"
+      name: Name
+      save: Speichern
+      wikidata_id: Wikidata-ID
+    index:
+      crop: Nutzpflanze
+      new_scientific_name: Neuer wissenschaftlicher Name
+      scientific_name: Wissenschaftlicher Name
+      show: Anzeigen
+      title: Wissenschaftliche Namen auflisten
+    new:
+      title: Neuer wissenschaftlicher Name
+    show:
+      back: Zurück
+      crop_label: "Nutzpflanze:"
+      scientific_name_label: "Wissenschaftlicher Name:"
   seasons:
     autumn: Herbst
     spring: Feder

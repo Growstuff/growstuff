@@ -1446,6 +1446,31 @@ zh:
     write_blog_post: 写博客文章
   scientific_names:
     deleted: 学名已成功删除。
+    edit:
+      added_by_html: 由 %{creator_link} 在 %{time_ago} 前添加。
+      title: 编辑学名
+    form:
+      crop: 作物
+      crop_wrangling_guide: 作物管理指南
+      crop_wrangling_guide_intro_html: 有关详细的作物整理指南，请参阅 Growstuff wiki 上的%{guide_link}。
+      errors:
+        one: "1 个错误导致此学名无法保存："
+        other: "%{count} 个错误导致此学名无法保存："
+      name: 名称
+      save: 保存
+      wikidata_id: 维基数据 ID
+    index:
+      crop: 作物
+      new_scientific_name: 新建学名
+      scientific_name: 学名
+      show: 显示
+      title: 学名列表
+    new:
+      title: 新建学名
+    show:
+      back: 返回
+      crop_label: "作物："
+      scientific_name_label: "学名："
   seasons:
     autumn: 秋天
     spring: 春天
