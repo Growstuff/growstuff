@@ -21,7 +21,7 @@ class Planting < ApplicationRecord
   # The weather shown, and collected, goes back no further than this from the last day, however long ago it was planted.
   WEATHER_WINDOW_DAYS = 365
   PLANTED_FROM_VALUES = [
-    'seed', 'seedling', 'cutting', 'root division', 'runner',
+    'seed', 'seedling', 'cutting', 'volunteer', 'root division', 'runner',
     'bulb', 'root/tuber', 'bare root plant', 'advanced plant',
     'graft', 'layering'
   ].freeze
