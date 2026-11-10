@@ -1066,6 +1066,16 @@ fr:
     unsubscribed: Vous avez été désabonné des e-mails %{email_type}.
     welcome: Accueil
   messages:
+    form:
+      about: À propos de
+      cancel: Annuler
+      crop_seeds: "Graines de %{crop}"
+      send: Envoyer
+      to: À
+      type_your_message: Écrivez votre message ici
+    new:
+      breadcrumb_messages: Messages
+      title: "Envoyer un message à %{recipient}"
     auth_failed: Echec de l'authentification.
     auth_success: Authentification réussie.
     crops_waiting: Il y a des cultures qui attendent d'être disputées.

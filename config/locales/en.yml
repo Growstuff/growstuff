@@ -1477,6 +1477,16 @@ en:
     unsubscribed: You have been unsubscribed from %{email_type} emails.
     welcome: Welcome
   messages:
+    form:
+      about: About
+      cancel: Cancel
+      crop_seeds: "%{crop} seeds"
+      send: Send
+      to: To
+      type_your_message: Type your message here
+    new:
+      breadcrumb_messages: Messages
+      title: "Send a message to %{recipient}"
     auth_already_linked: That account is already connected to another Growstuff member.
     auth_failed: Authentication failed.
     auth_last_sign_in: This is the only way you can sign in. Add an email address and password first.

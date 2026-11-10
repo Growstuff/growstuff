@@ -1064,6 +1064,16 @@ es:
     unsubscribed: Se te ha cancelado la suscripción a los correos electrónicos de %{email_type}.
     welcome: Bienvenido
   messages:
+    form:
+      about: Acerca de
+      cancel: Cancelar
+      crop_seeds: "Semillas de %{crop}"
+      send: Enviar
+      to: Para
+      type_your_message: Escribe tu mensaje aquí
+    new:
+      breadcrumb_messages: Mensajes
+      title: "Enviar un mensaje a %{recipient}"
     auth_failed: La autenticación falló.
     auth_success: Autenticación exitosa.
     crops_waiting: Hay cosechas esperando ser cosechadas.
