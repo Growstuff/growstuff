@@ -255,6 +255,17 @@ ja:
         other: "%{count}人のフォロワー"
       heading: 統計
       toggle: 表示/非表示
+  messages:
+    form:
+      about: 関連
+      cancel: キャンセル
+      crop_seeds: "%{crop}の種"
+      send: 送信
+      to: 宛先
+      type_your_message: ここにメッセージを入力してください
+    new:
+      breadcrumb_messages: メッセージ
+      title: "%{recipient} にメッセージを送信"
   pages:
     about:
       title: Growstuffについて

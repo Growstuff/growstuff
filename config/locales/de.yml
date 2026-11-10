@@ -1064,6 +1064,16 @@ de:
     unsubscribed: Sie wurden von %{email_type} E-Mails abgemeldet.
     welcome: Willkommen
   messages:
+    form:
+      about: Über
+      cancel: Abbrechen
+      crop_seeds: "%{crop}-Samen"
+      send: Senden
+      to: An
+      type_your_message: Geben Sie hier Ihre Nachricht ein
+    new:
+      breadcrumb_messages: Nachrichten
+      title: "Nachricht an %{recipient} senden"
     auth_failed: Authentifizierung fehlgeschlagen.
     auth_success: Authentifizierung erfolgreich.
     crops_waiting: Es gibt Erntegut, das darauf wartet, eingebracht zu werden.

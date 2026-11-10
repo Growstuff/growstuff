@@ -1061,6 +1061,16 @@ zh:
     unsubscribed: 您已取消订阅 %{email_type} 电子邮件。
     welcome: 欢迎
   messages:
+    form:
+      about: 关于
+      cancel: 取消
+      crop_seeds: "%{crop} 种子"
+      send: 发送
+      to: 发送给
+      type_your_message: 在此处输入您的消息
+    new:
+      breadcrumb_messages: 消息
+      title: "给 %{recipient} 发送消息"
     auth_failed: 认证失败。
     auth_success: 认证成功。
     crops_waiting: 有庄稼等待着收割。
