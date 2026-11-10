@@ -8,10 +8,12 @@
   ranges = weather_temperature_ranges(planting.crop)
 .weather-charts
   %figure
-    - notes = weather_climate_notes(readings, ranges, crop: planting.crop, expected:, through: planting.weather_due_on)
     %figcaption= t('plantings.show.weather_temperature_chart')
-    - if notes
-      .weather-notes= notes
+    -# Worked out once a day, and again when a new reading arrives or the planting or its crop is edited.
+    - cache [planting, planting.crop, 'climate-notes', readings.last&.date, expected.last&.date, Time.zone.today.to_s] do
+      - notes = weather_climate_notes(readings, ranges, crop: planting.crop, expected:, through: planting.weather_due_on)
+      - if notes
+        .weather-notes= notes
     = weather_temperature_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:, frost:, ranges:)
   %figure
     %figcaption= t('plantings.show.weather_rain_chart')

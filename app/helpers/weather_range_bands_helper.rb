@@ -5,6 +5,13 @@
 module WeatherRangeBandsHelper
   include WeatherChartFrameHelper
 
+  # One day's high and low, and the average of the two.
+  WeatherDay = Data.define(:date, :high, :low) do
+    def mean
+      (high + low) / 2.0
+    end
+  end
+
   # The icon of a climate note, by how the weather went: all good, mixed, or beyond what the crop survives on enough days.
   # :neutral is for a crop with only survivable limits to compare against.
   WEATHER_NOTE_ICONS = { success: 'check-circle', caution: 'exclamation-circle', danger: 'exclamation-triangle',
@@ -22,13 +29,12 @@ module WeatherRangeBandsHelper
   # { optimal: [low, high], absolute: [low, high] } for a crop, leaving out what EcoCrop has nothing on. The best range
   # needs both its ends; the absolute one can have only one, and is then open at the other. Nil with neither.
   def weather_temperature_ranges(crop)
-    data = crop&.ecocrop_data
-    return unless data
+    return unless crop
 
-    ranges = {}
-    ranges[:optimal] = [data.topmn, data.topmx] if data.topmn && data.topmx
-    ranges[:absolute] = [data.tmin, data.tmax] if data.tmin || data.tmax
-    ranges.presence
+    # Remembered for a day, per crop and parent as they last changed, since finding the crop's EcoCrop record takes
+    # queries and the ranges hardly ever change.
+    Rails.cache.fetch(['weather-temperature-ranges', crop.cache_key_with_version, crop.parent&.cache_key_with_version,
+                       Time.zone.today.to_s], expires_in: 1.day) { weather_ranges_of(crop.ecocrop_data) }
   end
 
   # Up to two notes for under a temperature chart's caption, each judging a stretch of days against the crop's ranges: how
@@ -48,17 +54,37 @@ module WeatherRangeBandsHelper
   # "12 of 20", the days with both a high and a low whose average was in the best range; nil without a best range.
   def weather_best_days(readings, ranges)
     optimal = ranges&.dig(:optimal)
-    days = readings.select { |reading| reading.temp_max_c && reading.temp_min_c }
+    days = weather_days_of(readings)
     return unless optimal && days.any?
 
-    t('plantings.show.weather_best_days_value', count: days.count { |reading| weather_mean(reading).between?(*optimal) }, total: days.size)
+    t('plantings.show.weather_best_days_value', count: days.count { |day| day.mean.between?(*optimal) }, total: days.size)
   end
 
   private
 
+  # { optimal: [low, high], absolute: [low, high] } from an EcoCrop record, or nil without one.
+  def weather_ranges_of(data)
+    return unless data
+
+    ranges = {}
+    ranges[:optimal] = [data.topmn, data.topmx] if data.topmn && data.topmx
+    ranges[:absolute] = [data.tmin, data.tmax] if data.tmin || data.tmax
+    ranges.presence
+  end
+
+  # The days that have both a high and a low, as plain figures, so working through a year of them reads each reading's
+  # attributes once.
+  def weather_days_of(readings)
+    readings.filter_map do |reading|
+      high = reading.temp_max_c
+      low = reading.temp_min_c
+      WeatherDay.new(reading.date, high, low) if high && low
+    end
+  end
+
   # One note: a title for how the period went, and the figures behind it. `period` is :past or :future.
   def weather_period_note(period, rows, ranges, crop)
-    days = rows.select { |reading| reading.temp_max_c && reading.temp_min_c }
+    days = weather_days_of(rows)
     return if days.empty?
 
     figures = weather_period_figures(days, ranges)
@@ -72,10 +98,10 @@ module WeatherRangeBandsHelper
   def weather_period_figures(days, ranges)
     optimal = ranges[:optimal]
     low, high = ranges[:absolute]
-    hot = high ? days.count { |reading| reading.temp_max_c > high } : 0
-    cold = low ? days.count { |reading| reading.temp_min_c < low } : 0
-    beyond = days.count { |reading| (high && reading.temp_max_c > high) || (low && reading.temp_min_c < low) }
-    best = optimal ? days.count { |reading| weather_mean(reading).between?(*optimal) } : nil
+    hot = high ? days.count { |day| day.high > high } : 0
+    cold = low ? days.count { |day| day.low < low } : 0
+    beyond = days.count { |day| (high && day.high > high) || (low && day.low < low) }
+    best = optimal ? days.count { |day| day.mean.between?(*optimal) } : nil
     { hot:, cold:, best:, total: days.size, level: weather_period_level(days.size, beyond, best) }
   end
 
@@ -127,11 +153,6 @@ module WeatherRangeBandsHelper
       safe_join([tag.i(class: "fas fa-#{WEATHER_NOTE_ICONS.fetch(level)} weather-note-icon", aria: { hidden: true }),
                  tag.div(safe_join([tag.strong(title), tag.span(detail)]))])
     end
-  end
-
-  # The day's average temperature, taken as the middle of its high and low.
-  def weather_mean(reading)
-    (reading.temp_max_c + reading.temp_min_c) / 2.0
   end
 
   # The temperatures a chart has to reach to show its ranges.
