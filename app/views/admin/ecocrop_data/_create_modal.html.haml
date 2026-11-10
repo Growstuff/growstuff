@@ -1,0 +1,28 @@
+-# One dialog for making a crop from an EcoCrop record with no crop. The row's button says which record;
+-# ecocrop_link.js fills in the common names to choose a name from, and the ones to keep as alternate names.
+.modal.fade#ecocrop-create-modal{ "aria-hidden" => "true", "aria-labelledby" => "ecocrop-create-title", role: "dialog", tabindex: "-1",
+                                  data: { labels: ecocrop_detail_labels.to_json, create_url: admin_create_crop_ecocrop_data_path('__ID__') } }
+  .modal-dialog{ role: "document" }
+    .modal-content
+      = form_with url: '#', method: :post, id: 'ecocrop-create-form' do
+        .modal-header
+          %h4.modal-title#ecocrop-create-title= t('.title')
+          %button.btn-close{ "aria-label" => t('.close'), "data-bs-dismiss" => "modal", type: "button" }
+        .modal-body
+          %p.text-muted= t('.hint')
+          .ecocrop-details.mb-3#ecocrop-create-details
+          .mb-3
+            = label_tag 'ecocrop-create-crop-name', t('.name'), class: 'form-label'
+            = text_field_tag :name, nil, id: 'ecocrop-create-crop-name', class: 'form-control', required: true, list: 'ecocrop-create-name-options'
+            %datalist#ecocrop-create-name-options
+          .mb-3
+            = label_tag 'ecocrop-create-wikipedia-url', t('.wikipedia_url'), class: 'form-label'
+            = url_field_tag :en_wikipedia_url, nil, id: 'ecocrop-create-wikipedia-url', class: 'form-control', required: true
+            %span.form-text= t('.wikipedia_hint')
+          %fieldset.d-none#ecocrop-create-names
+            %legend.h6= t('.names_legend')
+            %p.form-text= t('.names_hint')
+            .ecocrop-names-list
+        .modal-footer
+          %button.btn.btn-secondary{ "data-bs-dismiss" => "modal", type: "button" }= t('.cancel')
+          = submit_tag t('.create'), class: 'btn btn-primary'

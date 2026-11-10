@@ -1,0 +1,13 @@
+= form_with url: member_mastodon_omniauth_authorize_path, class: 'mb-3', data: { turbo: false } do |f|
+  = f.label :identifier, t('.identifier_label'), class: 'form-label'
+  .input-group
+    = f.text_field :identifier, placeholder: t('.identifier_placeholder'), class: 'form-control', required: true, autocomplete: 'username', autocapitalize: 'none', spellcheck: false
+    = f.button class: 'btn btn-outline-dark' do
+      = icon 'fab', 'mastodon'
+      = label
+  .form-text= t('.permission_note')
+  - if local_assigns.fetch(:tos, true)
+    .form-check.mt-2
+      = f.check_box :tos_agreement, { class: 'form-check-input', required: true }, '1', nil
+      = f.label :tos_agreement, class: 'form-check-label' do
+        = t('.agree_to_tos_html', tos_link: link_to(t('.terms_of_service'), '/policy/tos', target: '_blank', rel: 'noopener'))

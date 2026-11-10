@@ -14,6 +14,8 @@ class CropJobTemplate < ApplicationRecord
   enum :season, { any: 'any', spring_summer: 'spring_summer', autumn_winter: 'autumn_winter' }, prefix: true, validate: true
   enum :status, { draft: 'draft', published: 'published' }, validate: true
 
+  SEASONS = { 'spring_summer' => %i(spring summer), 'autumn_winter' => %i(autumn winter) }.freeze
+
   validates :name, presence: true
 
   # Those written for the crop itself or, if it is a variety, for the crop it
@@ -21,6 +23,16 @@ class CropJobTemplate < ApplicationRecord
   scope :for_crop, ->(crop) { where(crop_id: [crop.id, crop.parent_id].compact) }
 
   accepts_nested_attributes_for :steps, allow_destroy: true, reject_if: :all_blank
+
+  # The months this template is for where a grower at this latitude is, or nil when
+  # it is for any time or we don't know which hemisphere they are in, so there is
+  # nothing to warn about.
+  def season_months(latitude)
+    seasons = SEASONS[season]
+    return if seasons.blank? || latitude.blank?
+
+    SeasonsHelper::SEASON_MONTHS[latitude.to_f.negative? ? :southern : :northern].slice(*seasons).values.flatten.sort
+  end
 
   def to_s
     name

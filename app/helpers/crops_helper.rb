@@ -1,6 +1,40 @@
 # frozen_string_literal: true
 
 module CropsHelper
+  # "5–10 days", or "7 days": a range of days given as medians, so rounded; nil when there is none.
+  def growing_days(min, max)
+    text = days_range_text(min&.round, max&.round)
+    "#{text} days" if text
+  end
+
+  # The facts about growing a crop that come as a figure: what a crop wrangler set, and
+  # the median of members' seed packets.
+  def growing_facts(crop)
+    [
+      { title: I18n.t('crops.growing_facts.row_spacing'), set: growing_cm(crop.row_spacing.presence), median: growing_cm(crop.median_row_spacing) },
+      { title:  I18n.t('crops.growing_facts.germination'),
+        set:    growing_days(crop.germination_days_min, crop.germination_days_max),
+        median: growing_days(crop.median_germination_days_min, crop.median_germination_days_max) },
+      { title:  I18n.t('crops.growing_facts.days_until_maturity'),
+        set:    growing_days(crop.days_until_maturity_min, crop.days_until_maturity_max),
+        median: growing_days(crop.median_days_until_maturity_min, crop.median_days_until_maturity_max) }
+    ]
+  end
+
+  # How big the plant gets, as one fact: "10cm × 5cm" under "Height × spread", or just the one
+  # of them when only one is known; nil when neither is.
+  def size_fact(crop)
+    sizes = { 'Height' => crop.height, 'Spread' => crop.spread }.compact_blank
+    return if sizes.empty?
+
+    { title: sizes.size == 2 ? 'Height × spread' : sizes.keys.first, value: sizes.values.map { |value| "#{value}cm" }.join(' × ') }
+  end
+
+  # "45cm" or "37.5cm"; nil when there is none.
+  def growing_cm(value)
+    "#{number_with_precision(value, precision: 1, strip_insignificant_zeros: true)}cm" if value.present?
+  end
+
   def crop_or_parent(crop, attribute)
     @crop_or_parent_cache ||= {}
     cache_key = [crop.persisted? ? crop.id : crop.object_id, attribute]

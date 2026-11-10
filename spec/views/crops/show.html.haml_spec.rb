@@ -65,8 +65,11 @@ describe "crops/show" do
     it "renders the ecological requirements table" do
       render
       expect(rendered).to have_content "Ecological requirements"
-      expect(rendered).to have_content "Optimal temperature"
-      expect(rendered).to have_content "18 - 32 °C"
+    end
+
+    it "shows the optimal temperature as a fact card" do
+      render
+      expect(rendered).to have_css ".ecocrop-fact", text: "18–32 °C"
     end
 
     it "renders the taxonomy with line breaks instead of colons" do
@@ -90,6 +93,86 @@ describe "crops/show" do
         "https://cgiar-climate-data-hub.github.io/catalog/ecocrop_1/."
       ].join(' ')
       expect(rendered).to have_content(citation)
+    end
+  end
+
+  context "with first and last harvest medians on an annual" do
+    before { @crop.update!(perennial: false, median_days_to_first_harvest: 180, median_days_to_last_harvest: 210) }
+
+    it "shows both in one card" do
+      render
+      expect(rendered).to have_css ".harvest-window-card", text: /First harvest expected.*26.*Last harvest expected.*30/m
+    end
+  end
+
+  context "with a last harvest median on a perennial" do
+    before { @crop.update!(perennial: true, median_days_to_first_harvest: 180, median_days_to_last_harvest: 210) }
+
+    it "leaves out the last harvest" do
+      render
+      expect(rendered).to have_no_content "Last harvest expected"
+    end
+  end
+
+  context "when a crop wrangler views a crop with no EcoCrop record" do
+    it "offers to find one" do
+      render
+      expect(rendered).to have_css "[data-ecocrop-find='#{@crop.id}']"
+    end
+  end
+
+  context "when the crop is linked to an EcoCrop record" do
+    before { @crop.update!(ecocrop_record: create(:ecocrop_data)) }
+
+    it "does not offer to find one" do
+      render
+      expect(rendered).to have_no_css "[data-ecocrop-find]"
+    end
+  end
+
+  context "with a harvest style" do
+    before { @crop.update!(harvest_style: 'single') }
+
+    it "says the whole plant is harvested" do
+      render
+      expect(rendered).to have_css ".fact-card", text: "the whole plant is harvested"
+    end
+  end
+
+  context "without a harvest style" do
+    it "has no harvest style block" do
+      render
+      expect(rendered).to have_no_css ".fact-card", text: "Harvest style"
+    end
+  end
+
+  context "with a growing degree days figure of 0" do
+    before { @crop.update!(growing_degree_days: 0) }
+
+    it "does not show a growing degree days card" do
+      render
+      expect(rendered).to have_no_css ".fact-card", text: "Growing Degree Days"
+    end
+  end
+
+  context "with a growing degree days figure" do
+    before { @crop.update!(growing_degree_days: 650) }
+
+    it "explains what they are" do
+      render
+      expect(rendered).to have_css "details.growing-degree-days-explainer", text: "one day's worth of useful warmth", visible: :all
+    end
+
+    it "gives the crop's figure" do
+      render
+      expect(rendered).to have_css "details.growing-degree-days-explainer strong", text: "650", visible: :all
+    end
+  end
+
+  context "without a growing degree days figure or heat data" do
+    it "has no explanation" do
+      render
+      expect(rendered).to have_no_css "details.growing-degree-days-explainer"
     end
   end
 

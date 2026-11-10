@@ -83,6 +83,7 @@ Rails.application.routes.draw do
   resources :plantings, concerns: :has_photos, param: :slug do
     resources :harvests
     resources :seeds
+    resource :origin, only: :update, module: :plantings
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
     end
@@ -92,6 +93,7 @@ Rails.application.routes.draw do
   end
 
   resources :seeds, concerns: :has_photos, param: :slug do
+    resource :crop_change, only: %i(show update), module: :seeds
     get 'plantings' => 'plantings#index'
     get 'crop/:crop' => 'seeds#index', as: 'seeds_by_crop', on: :collection
   end
@@ -113,7 +115,9 @@ Rails.application.routes.draw do
   end
   resources :alternate_names
   resources :plant_parts
-  resources :photos
+  resources :photos do
+    post :refresh, on: :member
+  end
 
   resources :photo_associations, only: %i(update destroy)
 
@@ -123,6 +127,8 @@ Rails.application.routes.draw do
     get 'seeds' => 'seeds#index'
 
     get 'places' => 'places#index'
+    resources :jobs, only: :create, controller: 'crop_jobs'
+    resources :photos, only: %i(new create), controller: 'crop_photos'
     get 'members' => 'members#index'
 
     # Charts json
@@ -220,7 +226,14 @@ Rails.application.routes.draw do
     resources :roles
     resources :features, only: %i(index update)
     resources :reminder_stats, only: :index
+    get 'climate/members' => 'climate_coverage#members', as: :climate_members
+    get 'climate/gardens' => 'climate_coverage#gardens', as: :climate_gardens
     resources :job_templates, only: :index
+    get 'ecocrop', to: 'ecocrop_data#index', as: :ecocrop_data
+    get 'ecocrop/search', to: 'ecocrop_data#search', as: :search_ecocrop_data
+    post 'ecocrop/:id/link', to: 'ecocrop_data#link', as: :link_ecocrop_data
+    delete 'ecocrop/:id/link', to: 'ecocrop_data#unlink'
+    post 'ecocrop/:id/crop', to: 'ecocrop_data#create_crop', as: :create_crop_ecocrop_data
     resources :crops, param: :slug do
       resources :crop_companions
       resources :crop_job_templates, path: 'job_templates', except: :show

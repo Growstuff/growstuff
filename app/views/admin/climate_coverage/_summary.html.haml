@@ -1,0 +1,19 @@
+-# Wrapped so admin_climate.scss can darken the tab and pill links.
+.climate-coverage
+  %nav.nav.nav-tabs.mb-3
+    %li.nav-item= link_to t('admin.climate_coverage.members.title'), admin_climate_members_path, class: "nav-link #{'active' if kind == :members}"
+    %li.nav-item= link_to t('admin.climate_coverage.gardens.title'), admin_climate_gardens_path, class: "nav-link #{'active' if kind == :gardens}"
+
+  %p= t('admin.climate_coverage.intro')
+
+  %ul.nav.nav-pills.mb-3#statuses
+    %li.nav-item
+      = link_to path_for.call(nil), class: "nav-link #{'active' unless status}" do
+        = t('admin.climate_coverage.all')
+        %span.badge.text-bg-light.border= counts.values.sum
+    - ClimateCoverage::STATUSES.each do |option|
+      %li.nav-item{ id: "status_#{option}" }
+        = link_to path_for.call(option), class: "nav-link #{'active' if status == option}" do
+          = climate_status_icon(option)
+          = climate_status_label(option)
+          %span.badge.text-bg-light.border= counts[option]

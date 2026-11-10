@@ -406,7 +406,7 @@ describe "gardens/show" do
     end
 
     it 'says what was previously planted' do
-      assert_select '.garden-previously h2', text: 'Previously planted in this garden'
+      assert_select '.garden-previously h2', text: I18n.t('gardens.previously.previously_planted')
     end
 
     it 'puts it under the year it was planted' do
@@ -479,6 +479,73 @@ describe "gardens/show" do
       render
 
       assert_select ".garden-layout-section", count: 0
+    end
+  end
+
+  context 'when the garden is frost protected' do
+    before do
+      owner = create(:member)
+      controller.stub(:current_user) { owner }
+      allow(view).to receive_messages(member_signed_in?: true, current_member: owner)
+      assign(:garden, create(:garden, owner:, frost_safe: true))
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'says so' do
+      expect(rendered).to have_css '.garden-frost-protected'
+    end
+  end
+
+  context 'when the garden is a nursery' do
+    let(:owner) { create(:member) }
+    let(:garden) { create(:garden, owner:, nursery: true) }
+
+    before do
+      controller.stub(:current_user) { owner }
+      allow(view).to receive_messages(member_signed_in?: true, current_member: owner)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows the nursery badge' do
+      assert_select '.badge.text-bg-success', text: I18n.t('gardens.header.nursery')
+    end
+
+    it 'shows the nursery hint' do
+      expect(rendered).to have_content I18n.t('gardens.header.nursery_hint')
+    end
+  end
+
+  context 'when the garden is inactive and viewed by its owner' do
+    let(:owner) { create(:member) }
+    let(:garden) { create(:inactive_garden, owner:) }
+
+    before do
+      controller.stub(:current_user) { owner }
+      allow(view).to receive_messages(member_signed_in?: true, current_member: owner)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows the localized inactive warning notice' do
+      expect(rendered).to have_content I18n.t('gardens.show.inactive_notice')
+    end
+
+    it 'shows the localized set to active link' do
+      assert_select '.alert.alert-warning a[href=?]', edit_garden_path(garden), text: I18n.t('gardens.show.set_active')
+    end
+
+    it 'shows the localized to plant message' do
+      expect(rendered).to have_content I18n.t('gardens.show.to_plant')
     end
   end
 end

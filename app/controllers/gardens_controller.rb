@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class GardensController < DataController
+  ARCHIVED_JOBS_SHOWN = 10
   # How many photos the garden page shows before it links to the rest.
   PHOTOS_SHOWN = 6
 
@@ -47,6 +48,8 @@ class GardensController < DataController
       id: CropCompanion.where(crop_a_id: @current_plantings.select(:crop_id)).select(:crop_b_id)
     ).order(:name)
     @photo_count = @garden.photos.count
+    # Behind the planting_weather feature switch, with the planting's weather. A nursery has no climate of its own to show.
+    @frost = FrostSeason.for(@garden) if Feature.enabled?(:planting_weather) && !@garden.nursery?
     @photos = @garden.photos.includes(:owner).order(created_at: :desc, id: :desc).limit(PHOTOS_SHOWN)
     @suggestion_count = MemberDashboard.new(current_member).easy_to_sow(40).size if @garden.active && @garden.owner == current_member
     respond_with(@garden)
@@ -154,9 +157,9 @@ class GardensController < DataController
   def fetch_wikidata
     if @garden.populate_wikidata_info
       @garden.save
-      flash[:notice] = "Wikidata information updated."
+      flash[:notice] = t('gardens.wikidata_updated')
     else
-      flash[:alert] = "Could not find Wikidata information for this location."
+      flash[:alert] = t('gardens.wikidata_not_found')
     end
     redirect_to @garden
   end
@@ -166,12 +169,22 @@ class GardensController < DataController
   # A member who can look after the garden gets a to-do list of their own jobs
   # for it. Everyone else sees the jobs people have planned there, as cards.
   def load_jobs
-    if member_signed_in? && can?(:edit, @garden)
+    if !@garden.active
+      load_archived_jobs
+    elsif member_signed_in? && can?(:edit, @garden)
       @notepad = JobsNotepad.new(current_member, garden: @garden)
     else
       @public_jobs = JobsNotepad.new(nil, garden: @garden)
       @finished_jobs = @garden.jobs.finished.includes(:owner).order(created_at: :desc)
     end
+  end
+
+  # An archived garden keeps a plain record of its jobs, newest first, with
+  # only the first few until asked for the rest.
+  def load_archived_jobs
+    jobs = @garden.jobs.preload(:owner, photo_associations: :photo).order(created_at: :desc, id: :desc)
+    @archived_jobs_total = jobs.count
+    @archived_jobs = params[:all_jobs] == '1' ? jobs : jobs.limit(ARCHIVED_JOBS_SHOWN)
   end
 
   # Takes every plant off the grid first, so the new arrangement is checked
@@ -307,7 +320,7 @@ class GardensController < DataController
 
   def garden_params
     params.require(:garden).permit(
-      :name, :slug, :description, :active,
+      :name, :slug, :description, :active, :frost_safe,
       :area, :area_unit, :garden_type_id,
       :lowest_temp_c, :highest_temp_c,
       :grid_columns, :grid_rows

@@ -20,9 +20,12 @@ module PredictHarvest
     def first_harvest_predicted_at
       return @first_harvest_predicted_at if defined?(@first_harvest_predicted_at)
 
-      @first_harvest_predicted_at = if crop.median_days_to_first_harvest.present? && planted_at.present?
-                                      planted_at + crop.median_days_to_first_harvest.days
-                                    end
+      @first_harvest_predicted_at = heat_predicted_first_harvest_at || days_predicted_first_harvest_at
+    end
+
+    # Days from planting to when the first harvest is expected, if it is.
+    def predicted_days_to_first_harvest
+      (first_harvest_predicted_at.to_date - planted_at.to_date).to_i if first_harvest_predicted_at
     end
 
     def last_harvest_predicted_at
@@ -97,6 +100,34 @@ module PredictHarvest
 
     def harvests_with_dates
       harvests.where.not(harvested_at: nil)
+    end
+
+    # The crop's median days to a first harvest after planting, when it has one.
+    def days_predicted_first_harvest_at
+      planted_at + crop.median_days_to_first_harvest.days if crop.median_days_to_first_harvest.present? && planted_at.present?
+    end
+
+    # Whether a first harvest on this day comes after the planting is expected to have finished,
+    # going by the crop's median lifespan. Then the heat figures don't fit how this crop is
+    # usually grown here, and the median days are the better guide.
+    def outlives_median_lifespan?(date)
+      date.present? && finish_predicted_at.present? && date.to_date > finish_predicted_at.to_date
+    end
+
+    # When the heat this crop needs for a first harvest has been felt in the garden's weather, so far
+    # and as expected, or nil when we don't know the heat it needs or have no weather for the garden.
+    def heat_predicted_first_harvest_at
+      heat = crop.ecocrop_heat_data
+      return unless heat && planted_at.present? && weather_located?
+
+      predicted = Rails.cache.fetch("#{cache_key_with_version}/heat_predicted_first_harvest_at", expires_in: 8.hours) do
+        degree_days = GrowingDegreeDays.new(base: heat.tmin)
+        observed = weather_cell_readings.select(*WeatherReading::CHARTED).between(planted_at, Time.zone.today).order(:date).to_a
+        degree_days.date_reaching(heat.first_harvest_degree_days, observed) ||
+          degree_days.date_reaching(heat.first_harvest_degree_days,
+                                    observed + expected_weather_readings(after: observed.last&.date, through: planted_at + heat.gmax))
+      end
+      predicted unless outlives_median_lifespan?(predicted)
     end
   end
 end

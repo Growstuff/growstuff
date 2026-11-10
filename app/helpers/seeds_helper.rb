@@ -1,23 +1,7 @@
 # frozen_string_literal: true
 
 module SeedsHelper
-  def display_seed_quantity(seed)
-    if seed.quantity.nil?
-      'seeds'
-    else
-      pluralize(seed.quantity, 'seed')
-    end
-  end
-
-  def display_seed_description(seed)
-    if seed.description.present?
-      return truncate(seed.description, length: 130, separator: ' ', omission: '... ') do
-        link_to "Read more", seed_path(seed)
-      end
-    end
-
-    ''
-  end
+  include SeedFiltersHelper
 
   # Kilometres from the signed-in member to a seed's owner, or nil when either
   # has no location.
@@ -85,12 +69,29 @@ module SeedsHelper
     seed.saved_at ? "saved #{years.first}" : "sow by #{years.first}"
   end
 
+  # A shelf's name: a crop or a gardener links to its page, any other group is
+  # the words for it.
+  def seed_shelf_title(shelf)
+    case shelf
+    when Crop then link_to(shelf.name, crop_path(shelf))
+    when Member then link_to(shelf.login_name, member_path(shelf))
+    else shelf.capitalize
+    end
+  end
+
+  # The variety names on a pile of packets, such as "Moneymaker", or nil when
+  # none of them has one.
+  def seed_variety(packets)
+    packets.filter_map { |seed| seed.variety.presence }.uniq.to_sentence.presence
+  end
+
   # What the SeedStack island needs to draw a pile of packets of one variety
   # and to link each packet to its page.
   def seed_stack_props(packets, show_owner: false)
     first = packets.first
     {
       crop:      { name: first.crop.name, path: crop_path(first.crop) },
+      variety:   seed_variety(packets),
       count:     packets.size,
       image_url: seed_image_url(first),
       heirloom:  first.heirloom_kind,
@@ -115,6 +116,7 @@ module SeedsHelper
     {
       id:        seed.id,
       name:      seed.crop_name,
+      variety:   seed.variety.presence,
       path:      seed_path(slug: seed.slug),
       image_url: seed_image_url(seed),
       heirloom:  seed.heirloom_kind,
@@ -152,41 +154,26 @@ module SeedsHelper
     seed.past_sow_by? ? "past sow-by #{year}" : "sow by #{year}"
   end
 
+  # How the seeds can be grouped on shelves: the param and the words for it.
+  SEED_GROUPS = [%w(crop Crop), ['source', 'Where from'], ['year', 'Year saved'],
+                 ['use_by', 'Use by'], ['heirloom', 'Heirloom or hybrid']].freeze
+
   # What the SeedLibrary island needs: the controls, and the tabs and results to
   # start with. Which control is chosen it reads from the address.
   def seed_library_props(everyone:, crop_search:, search_crop:)
     {
-      groups:      [%w(crop Crop), ['source', 'Where from'], ['year', 'Year saved'], ['heirloom', 'Heirloom or hybrid']],
-      chips:       seed_filter_chips(everyone:).map { |label, params| { label:, params: } },
+      groups:      everyone ? SEED_GROUPS + [%w(gardener Gardener)] : SEED_GROUPS,
+      filters:     seed_filter_groups(everyone:),
+      sow_now:     seed_sow_now_label,
+      gardeners:   (seed_friend_names if everyone),
+      months:      Date::MONTHNAMES.compact.each_with_index.map { |name, index| [index + 1, name] },
+      clear:       seed_filters_off.merge(crop: nil),
       crop_search:,
       crop:        search_crop && { name: search_crop.name, slug: search_crop.slug },
       placeholder: everyone ? 'Search all shared seeds by crop' : 'Search seeds by crop',
+      scope:       render('seeds/scope'),
       tabs:        render('seeds/tabs'),
       html:        render('seeds/results')
     }
-  end
-
-  # The chips under the toolbar: a label and the params it sets, where nil
-  # takes a param off.
-  def seed_filter_chips(everyone:)
-    if everyone
-      [['Anywhere', { from: nil, within: nil }],
-       *seed_distance_chips,
-       ['Heirloom only', { from: 'heirloom' }],
-       ['Saved by the gardener', { from: 'own' }]]
-    else
-      [['All', { from: nil, tradeable_to: nil }],
-       ['My own saving', { from: 'own' }],
-       ['Bought', { from: 'bought' }],
-       ['Traded from a person', { from: 'traded' }],
-       ['Heirloom only', { from: 'heirloom' }],
-       ['Shared with others', { from: 'shared' }]]
-    end
-  end
-
-  def seed_distance_chips
-    return [] unless current_member&.latitude
-
-    [50, 10].map { |km| ["Within #{km} km", { within: km }] }
   end
 end

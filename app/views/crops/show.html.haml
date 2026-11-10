@@ -55,6 +55,14 @@
         %section.prediction
           = render 'predictions', crop: @crop
 
+        - if @crop.published_job_templates.exists?
+          %section.crop-jobs
+            %h2
+              -# Decorative: the heading already says what this is.
+              %span.heading-emoji{ 'aria-hidden' => 'true' } 🪄
+              Growing #{@crop.name.pluralize}
+            = render 'job_templates', crop: @crop
+
         - if @crop.sunniness.any? || @crop.planted_from.any? || @crop.harvests.any?
           %section.charts
             .section-header
@@ -89,9 +97,10 @@
                 - @crop.all_companions.each do |companion|
                   = render 'crops/tiny', crop: companion
 
-        = cute_icon
-        %section.photos
-          = render 'crops/photos', crop: @crop
+        - if @crop.photos_with_varieties.any?
+          = cute_icon
+          %section.photos
+            = render 'crops/photos', crop: @crop
 
         - if crop_or_parent(@crop, :en_youtube_url).present?
           %section.youtube
@@ -103,13 +112,14 @@
             %h2 Video
             %p= link_to "Submit a video.", edit_crop_path(@crop, anchor: ":~:text=Youtube")
 
-        %section.crop-map
-          %h2 Where #{@crop.name.pluralize} grow
-          %p.text-muted.small
-            Only plantings by members who have set their locations are shown.
-            - if current_member && current_member.location.blank?
-              = link_to "Set your location.", edit_member_registration_path
-          #cropmap.map
+        - if @crop.plantings.any?
+          %section.crop-map
+            %h2 Where #{@crop.name.pluralize} grow
+            %p.text-muted.small
+              Only plantings by members who have set their locations are shown.
+              - if current_member && current_member.location.blank?
+                = link_to "Set your location.", edit_member_registration_path
+            #cropmap.map
 
         %section.posts= render 'crops/posts', crop: @crop
 
@@ -137,6 +147,9 @@
 
       - cache [@crop, 'ecocrop_data'] do
         = render 'ecocrop_data', crop: @crop
+      -# For wranglers, so it sits outside the cache above.
+      - if can?(:wrangle, @crop) && @crop.ecocrop_record.nil?
+        = render 'ecocrop_link', crop: @crop
 
       %section.crop-learn-more
         .section-header

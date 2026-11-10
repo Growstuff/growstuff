@@ -38,6 +38,12 @@ describe OpenMeteoClient, type: :service do
       expect(asked.first.split(',')).not_to include 'precipitation_sum'
     end
 
+    it 'asks only for the variables it is given' do
+      client.daily(latitude: -41.3, longitude: 174.75, from: Date.new(2026, 10, 1), to: Date.new(2026, 10, 2),
+                   variables: %w(rain_sum temperature_2m_max))
+      expect(asked.first).to eq 'rain_sum,temperature_2m_max'
+    end
+
     it 'maps values to columns by date' do
       expect(days[Date.new(2026, 10, 1)]).to eq(rainfall_mm: 0.0, temp_max_c: 14.2)
     end

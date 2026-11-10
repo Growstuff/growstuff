@@ -21,7 +21,7 @@ const Owner = ({owner}) => owner && (
 // opened, the pile spreads out where it stood, one packet each, to pick from.
 // Rails renders the top packet first (see seeds/_stack), so there is something
 // to see before this loads and without JavaScript.
-export default function SeedStack({crop, count, image_url: imageUrl, heirloom, rule, packets, owner}) {
+export default function SeedStack({crop, variety, count, image_url: imageUrl, heirloom, rule, packets, owner}) {
   const [state, setState] = useState('closed');
   const toggle = useRef(null);
   const closeTimer = useRef(null);
@@ -53,6 +53,7 @@ export default function SeedStack({crop, count, image_url: imageUrl, heirloom, r
             <span className="seed-packet-tear" aria-hidden="true" />
             <img className="seed-packet-window" src={imageUrl} alt="" />
             <span className="seed-packet-name">{crop.name}</span>
+            {variety && <span className="seed-packet-variety">{variety}</span>}
             <span className="seed-packet-line seed-stack-hint">{count} packets <i aria-hidden="true">▸</i> open</span>
             {heirloom && <span className="seed-packet-line">{pill(heirloom)}</span>}
             {owner && <span className={`seed-packet-line seed-packet-owner${owner.yours ? ' seed-packet-yours' : ''}`}>{owner.tag}</span>}
@@ -89,6 +90,7 @@ export default function SeedStack({crop, count, image_url: imageUrl, heirloom, r
             <div className="seed-packet-tear" aria-hidden="true" />
             <a href={packet.path}><img className="seed-packet-window" src={packet.image_url} alt="" /></a>
             <h4 className="seed-packet-name"><a href={packet.path}>{packet.name}</a></h4>
+            {packet.variety && <p className="seed-packet-variety">{packet.variety}</p>}
             <p>{packet.when}</p>
             {packet.heirloom && <p>{pill(packet.heirloom)}</p>}
             <p className="seed-packet-detail">{packet.detail}</p>

@@ -10,7 +10,7 @@ class PhotosController < ApplicationController
 
   def index
     @photos = if @crop
-                @crop.photos
+                @crop.photos_with_varieties
               elsif @planting
                 @planting.photos
               else
@@ -18,7 +18,7 @@ class PhotosController < ApplicationController
               end
 
     @photos = @photos.includes(:owner)
-      .order(created_at: :desc)
+      .order(@crop ? { likes_count: :desc, created_at: :desc } : { created_at: :desc })
       .paginate(page: params[:page], per_page: Photo.per_page)
 
     raise ActiveRecord::RecordNotFound if @photos.out_of_bounds?
@@ -27,8 +27,6 @@ class PhotosController < ApplicationController
   end
 
   def show
-    @crops = Crop.distinct.joins(:photo_associations).where(photo_associations: { photo: @photo })
-    @comment = Comment.new(commentable: @photo)
     respond_with(@photo)
   end
 
@@ -67,8 +65,18 @@ class PhotosController < ApplicationController
   end
 
   def update
-    @photo.update(photo_params)
+    @photo.update(update_params)
     respond_with @photo
+  end
+
+  # Reads the photo again from Flickr: see Photo#refresh_from_flickr!.
+  def refresh
+    @photo.refresh_from_flickr!
+    redirect_to @photo, notice: t('.refreshed')
+  rescue FlickrPublicPhoto::Rejected => e
+    redirect_to @photo, alert: t(".#{e.reason}")
+  rescue ActiveRecord::RecordInvalid
+    redirect_to @photo, alert: t('.unavailable')
   end
 
   def destroy
@@ -105,6 +113,11 @@ class PhotosController < ApplicationController
     photo = { id: @photo.id, url: photo_path(@photo), title: @photo.title,
               thumbnail_url: @photo.thumbnail_url, fullsize_url: @photo.fullsize_url }
     render json: { photo:, garden: card }, status: :created
+  end
+
+  # The title is ours to change; the rest is the photo as Flickr describes it.
+  def update_params
+    params.require(:photo).permit(:title)
   end
 
   def photo_params

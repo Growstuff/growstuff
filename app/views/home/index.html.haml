@@ -6,7 +6,7 @@
 - if member_signed_in?
   - content_for :scripts do
     = javascript_include_tag 'react_islands', defer: true
-  = render 'home/dashboard/ideas'
+  = render 'home/dashboard/jobs_banner', dashboard: @dashboard
   - if current_member.setup_todo? && @dashboard.stage != :new
     = render 'home/setup_todo'
   = render "home/dashboard/#{@dashboard.stage}", dashboard: @dashboard

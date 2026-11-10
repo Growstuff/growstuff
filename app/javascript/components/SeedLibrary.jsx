@@ -57,7 +57,8 @@ function Choice({params, search, active, className, onChoose, children}) {
 // again, which Rails renders (seeds/_tabs, seeds/_results) and this puts in
 // place. Links in the tabs and results that stay on this page, such as the
 // pages, do the same. Back and forward work.
-export default function SeedLibrary({tabs: initialTabs, html: initialHtml, groups, chips, crop: initialCrop, crop_search: cropSearch, placeholder}) {
+export default function SeedLibrary({scope: initialScope, tabs: initialTabs, html: initialHtml, groups, filters, sow_now: sowNow, gardeners, months = [], clear = {}, crop: initialCrop, crop_search: cropSearch, placeholder}) {
+  const [scope, setScope] = useState(initialScope);
   const [tabs, setTabs] = useState(initialTabs);
   const [html, setHtml] = useState(initialHtml);
   const [search, setSearch] = useState(window.location.search);
@@ -88,6 +89,7 @@ export default function SeedLibrary({tabs: initialTabs, html: initialHtml, group
 
       const body = await response.json();
       unmountIslands(results.current);
+      setScope(body.scope);
       setTabs(body.tabs);
       setHtml(body.results);
       setCrop(body.crop);
@@ -118,48 +120,131 @@ export default function SeedLibrary({tabs: initialTabs, html: initialHtml, group
 
   // A link that changes what is shown, in whichever look the control has.
   const choice = (params, label, active, className) => (
-    <Choice key={label} params={params} search={search} active={active} className={className} onChoose={show}>{label}</Choice>
+    <Choice key={label} params={params} search={pendingSearch} active={active} className={className} onChoose={show}>{label}</Choice>
   );
-  const chip = (params, label, active = isChosen(params, query)) => choice(params, label, active, 'seed-chip');
+  // A filter chip: choosing it adds that filter to the others in force, and
+  // choosing it again takes it off.
+  const chip = ({label, params}) => {
+    const active = isChosen(params, query);
+    const takesOff = active && Object.values(params).some((value) => value != null);
+    const off = Object.fromEntries(Object.keys(params).map((key) => [key, null]));
+    return <li key={label}>{choice(takesOff ? off : params, label, active, 'seed-chip')}</li>;
+  };
+  const [gardener, setGardener] = useState(query.get('gardener') || '');
+  useEffect(() => setGardener(new URLSearchParams(search).get('gardener') || ''), [search]);
+  const chooseGardener = (name) => {
+    if ((query.get('gardener') || '') !== name.trim()) show(addressWith({gardener: name.trim() || null}, search));
+  };
+  // The address as it will be once a gardener typed but not yet entered is
+  // counted, so choosing another control does not lose the name.
+  const pendingSearch = (() => {
+    if (!gardeners) return search;
+    const pending = new URLSearchParams(search);
+    if (gardener.trim()) pending.set('gardener', gardener.trim());
+    else pending.delete('gardener');
+    return pending.size ? `?${pending}` : '';
+  })();
+  const filtering = Object.keys(clear).some((key) => query.has(key));
 
   return (
     <>
+      <div dangerouslySetInnerHTML={{__html: scope}} onClick={onContentClick} />
       <div dangerouslySetInnerHTML={{__html: tabs}} onClick={onContentClick} />
-      <div className="seed-toolbar">
-        {cropSearch && (
-          <div className="seed-search">
-            {crop ? (
-              <span className="seed-crop">
-                {crop.name}
-                <Choice params={{crop: null}} search={search} className="seed-crop-clear" onChoose={show}>
-                  <span aria-hidden="true">×</span>
-                  <span className="visually-hidden">Clear crop</span>
-                </Choice>
-              </span>
-            ) : (
-              <CropPicker
-                id="seed-crop"
-                compact
-                autoFocus={false}
-                label="Search seeds by crop"
-                placeholder={placeholder}
-                onChoose={(chosen) => show(addressWith({crop: chosen.slug}, search))}
+      <div className="seed-filters">
+        <div className="seed-filter-row">
+          {cropSearch && (
+            <div className="seed-field">
+              <span className="seed-field-label">Crop</span>
+              <div className="seed-search">
+                {crop ? (
+                  <span className="seed-crop">
+                    {crop.name}
+                    <Choice params={{crop: null}} search={pendingSearch} className="seed-crop-clear" onChoose={show}>
+                      <span aria-hidden="true">×</span>
+                      <span className="visually-hidden">Clear crop</span>
+                    </Choice>
+                  </span>
+                ) : (
+                  <CropPicker
+                    id="seed-crop"
+                    compact
+                    autoFocus={false}
+                    label="Search seeds by crop"
+                    placeholder={placeholder}
+                    onChoose={(chosen) => show(addressWith({crop: chosen.slug}, pendingSearch))}
+                  />
+                )}
+              </div>
+            </div>
+          )}
+          {filtering && (
+            <Choice params={clear} search={pendingSearch} className="seed-clear" onChoose={show}>Clear all filters</Choice>
+          )}
+        </div>
+        <div className="seed-filter-row d-lg-none">
+          <div className="seed-field">
+            <label className="seed-field-label" htmlFor="seed-month">Month to sow</label>
+            <select
+              id="seed-month"
+              className="seed-month form-select form-select-sm"
+              value={query.get('sow_month') || ''}
+              onChange={(event) => show(addressWith({sow_month: event.target.value || null}, pendingSearch))}
+            >
+              <option value="">Any month</option>
+              <option value="now">{sowNow || 'Sow now'}</option>
+              {months.map(([number, name]) => <option key={number} value={number}>{name}</option>)}
+            </select>
+          </div>
+        </div>
+        {gardeners && (
+          <div className="seed-filter-row">
+            <div className="seed-field">
+              <label className="seed-field-label" htmlFor="seed-gardener">Gardener</label>
+              <input
+                id="seed-gardener"
+                className="seed-gardener form-control form-control-sm"
+                type="search"
+                list="seed-gardeners"
+                placeholder="A gardener's name"
+                autoComplete="off"
+                value={gardener}
+                onChange={(event) => {
+                  setGardener(event.target.value);
+                  if (gardeners.includes(event.target.value)) chooseGardener(event.target.value);
+                }}
+                onKeyDown={(event) => { if (event.key === 'Enter') chooseGardener(gardener); }}
+                onBlur={() => chooseGardener(gardener)}
               />
-            )}
+              <datalist id="seed-gardeners">
+                {gardeners.map((name) => <option key={name} value={name} />)}
+              </datalist>
+            </div>
           </div>
         )}
-        <div className="seed-group-by">
-          <span className="seed-toolbar-label">Group by</span>
-          {groups.map(([key, label]) => chip({group: key}, label, (query.get('group') || 'crop') === key))}
+        {filters.map(({label, chips, wide_only: wideOnly}) => (
+          <div className={`seed-filter-row${wideOnly ? ' d-none d-lg-flex' : ''}`} key={label}>
+            <div className="seed-field">
+              <span className="seed-field-label">{label}</span>
+              <ul className="seed-chips">{chips.map(chip)}</ul>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="seed-display">
+        <div className="seed-display-group">
+          <span className="seed-field-label">Group by</span>
+          <div className="seed-seg" role="group" aria-label="Group by">
+            {groups.map(([key, label]) => choice({group: key}, label, (query.get('group') || 'crop') === key))}
+          </div>
         </div>
-        <div className="seed-seg" role="group" aria-label="View as">
-          {choice({view: null}, 'Cards', query.get('view') !== 'list')}
-          {choice({view: 'list'}, 'List', query.get('view') === 'list')}
+        <div className="seed-display-group">
+          <span className="seed-field-label">View</span>
+          <div className="seed-seg" role="group" aria-label="View as">
+            {choice({view: null}, 'Cards', query.get('view') !== 'list')}
+            {choice({view: 'list'}, 'List', query.get('view') === 'list')}
+          </div>
         </div>
       </div>
-      <ul className="seed-chips">
-        {chips.map(({label, params}) => <li key={label}>{chip(params, label)}</li>)}
-      </ul>
       <div
         ref={results}
         className={`seed-results${loading ? ' is-loading' : ''}`}

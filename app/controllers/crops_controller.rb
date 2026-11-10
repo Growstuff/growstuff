@@ -12,7 +12,8 @@ class CropsController < ApplicationController
   def index
     @crops = Crop.search_by_name(nil).paginate(page: params[:page], per_page: 100)
     if request.format.csv? || request.format.rss?
-      @crops = @crops.includes(:parent, :scientific_names, :seeds, :harvests, :creator, :plantings)
+      @crops = @crops.includes(:parent, :scientific_names, :creator)
+      @seed_counts = Seed.where(crop_id: @crops.map(&:id)).group(:crop_id).count
     end
     @num_requested_crops = requested_crops.size if current_member
     @filename = filename
@@ -260,14 +261,17 @@ class CropsController < ApplicationController
 
   def crop_params
     params.require(:crop).permit(
+      *(:hardiness_by_hand if can?(:wrangle, Crop)),
       :name, :en_wikipedia_url, :en_youtube_url,
-      :parent_id, :perennial, :icon,
+      :parent_id, :perennial, :harvest_style, :icon,
       :request_notes, :reason_for_rejection,
       :rejection_notes,
       :description,
       :public_food_key,
       :row_spacing, :spread, :height,
       :sowing_method, :sun_requirements, :growing_degree_days,
+      :germination_days_min, :germination_days_max, :days_until_maturity_min, :days_until_maturity_max,
+      sow_months:                  [],
       scientific_names_attributes: %i(scientific_name _destroy id)
     )
   end

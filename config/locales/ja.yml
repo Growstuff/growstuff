@@ -1,16 +1,127 @@
 ---
 ja:
+  authentications:
+    sign_in:
+      bluesky:
+        terms_of_service: "利用規約"
+        agree_to_tos_html: "%{tos_link}に同意します"
+        contacting: "Blueskyに接続中…"
+        handle_label: "Blueskyハンドル"
+        handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "%{tos_link}に同意します"
+        identifier_label: "Mastodonアドレス"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "本人確認のみ行います。代理での投稿は行いません。"
+        terms_of_service: "利用規約"
+  comments:
+    edit_modal:
+      save: 保存
+      title: コメントを編集
+      your_comment: あなたのコメント
+    inline_form:
+      add_comment: コメントを追加
+      post_comment: コメントを投稿
+  follows:
+    followers:
+      title: "%{member}のフォロワー"
+    index:
+      title: "%{member}のフォロー"
+  community_gardens:
+    collaborate: チームと協力する
+    collaborate_text: 他のガーデナーをあなたの菜園区画に招待して協力しましょう。作業を分担し、収穫を分かち合い、コミュニティとして共に成長しましょう。
+    features:
+      add_collaborators: 菜園区画に協力者を追加
+      get_advice_and_support: ガーデナーコミュニティからアドバイスとサポートを受ける
+      keep_notes: コミュニティの活動記録を残す
+      see_other_gardens: 他のコミュニティガーデンが育てている作物をチェック
+      track_plantings_and_harvests: すべての植栽と収穫を記録
+    features_title: コミュニティガーデン向け機能
+    get_started: 今すぐ始める
+    get_started_text: Growstuff への登録は無料で簡単です。アカウントを作成して、今すぐあなたの菜園の記録を始めましょう。
+    header: コミュニティガーデン
+    lead: Growstuff はオープンソースであり、コミュニティガーデンを管理するのに最適な場所です。植栽の記録、収穫のお祝い、ガーデナー仲間との協力をすべて一箇所で行えます。
+    learn_more: ガーデンについてもっと知る
+    meta_description: コミュニティガーデンを管理し、植栽を記録し、他のガーデナーと協力しましょう。
+    sign_up: 無料で登録する
+    title: Growstuffのコミュニティガーデン
+  conversations:
+    index:
+      boxes:
+        inbox: 受信トレイ
+        sent: 送信済み
+        trash: ゴミ箱
+      breadcrumb_conversations: メッセージ一覧
+      delete: 削除
+      restore: 復元
+      select_for_deletion: 削除対象として選択
+      time_ago: "%{time}前"
+      title: 受信トレイ
+    show:
+      about: 関連
+      breadcrumb_conversations: メッセージ一覧
+      participants: 参加者
+      sent_on: "%{date}"
   crops:
+    growing_fact:
+      median_of_packets: メンバーの種子パケットの中央値
+      members_packets: "メンバーの種子パケット: %{median}"
+    growing_facts:
+      days_until_maturity: 成熟までの日数
+      germination: 発芽
+      median_of_packets: メンバーの種子パケットの中央値
+      members_packets_hemispheres: "メンバーの種子パケット: 南半球 %{south}、北半球 %{north}"
+      northern_hemisphere: 北半球
+      row_spacing: 条間
+      southern_hemisphere: 南半球
+      when_to_sow: 種まきの時期
+    find_seeds:
+      empty: 現在Growstuffで交換可能な種はありません。
+      list_seeds: 交換用に%{crop}の種を登録する
+      purchase_via_ebay: eBayで種を購入する
+      trade_seeds: 交換用に種を登録する
+      view_all: "%{crop}の種をすべて見る"
+      will_trade: "%{owner}が%{tradable_to}と交換します。"
     alternate_name_modal:
-      add_title: '%{crop}の別名を追加'
+      add_title: "%{crop}の別名を追加"
       cancel: キャンセル
       close: 閉じる
       edit_title: 別名を編集
       language: 言語
       name: 名前
       save: 保存
+    approval_status_message:
+      pending_title: この作物は現在承認待ちです。
+      rejected_message: 'この作物は次の理由で却下されました: %{reason}'
+      request_notes: 'リクエストのメモ: %{notes}'
+      requested_by: この作物は %{time_ago}前に %{requester} によってリクエストされました。
+    harvests:
+      empty: この作物はまだ誰にも収穫されていません。
+      harvest_crop: "%{crop}を収穫する"
+      harvested: "%{owner}が%{quantity}を収穫しました。"
+      track_harvests: "%{crop}の収穫を記録する"
+      view_all: "%{crop}の収穫をすべて見る"
+    join_banner:
+      heading: Growstuffは作物を育てる人々のための無料のコミュニティ運営サイトです。
+      prompt: 参加してあなた自身の%{crops}を記録しましょう。
+      text: 植えたものや収穫したものを記録し、交換する種を見つけ、近くで何が育っているかを確認しましょう。
+    plantings:
+      empty: この作物はまだ誰にも植えられていません。
+      plant_crop: "%{crop}を植える"
+      track_plantings: "%{crop}の植え付けを記録する"
+    nutritional_data:
+      carbohydrate: 炭水化物
+      energy: エネルギー
+      fat_total: 脂質（合計）
+      fibre: 食物繊維
+      protein: たんぱく質
+      see_more: 詳細を見る
+      sodium: ナトリウム
+      sugars: "- 糖質"
+      summary: "%{food_name}の100gあたりの栄養データ概要。"
+      title: 栄養データ
     scientific_name_modal:
-      add_title: '%{crop}の学名を追加'
+      add_title: "%{crop}の学名を追加"
       cancel: キャンセル
       close: 閉じる
       edit_title: 学名を編集
@@ -19,27 +130,300 @@ ja:
       name: 学名
       save: 保存
       wikidata_id: Wikidata ID
-    join_banner:
-      heading: Growstuffは作物を育てる人々のための無料のコミュニティ運営サイトです。
-      prompt: 参加してあなた自身の%{crops}を記録しましょう。
-      text: 植えたものや収穫したものを記録し、交換する種を見つけ、近くで何が育っているかを確認しましょう。
+  gardens:
+    header:
+      all_gardens: "%{owner} のすべての庭"
+      frost_protected: 霜除けあり
+      frost_protected_title: 室内や温室など、霜の影響を受けない環境
+      garden_of: の庭
+      hero_caption:
+        one: 庭の写真 · %{count}枚の写真
+        other: 庭の写真 · %{count}枚の写真
+      hero_label: "%{garden}の写真"
+      nursery: 苗床
+      nursery_hint: ここで育てられた苗は庭に移植できます。
+      season_title: この庭の現在の季節
+    location:
+      change: 変更
+      heading: 場所
+      not_set: 未設定
+      remove: 削除
+    archived_jobs:
+      by: "%{owner} による"
+      done: 完了
+      due: 期限 %{date}
+      empty: ここには予定された作業はありませんでした。
+      on_planting_html: "%{planting} の作業"
+      photos:
+        one: 1枚の写真
+        other: "%{count}枚の写真"
+      title: この庭の作業
+      view_all_jobs: 全 %{total} 件の作業を表示
+    card:
+      layout: レイアウト
+      no_annuals: 一年草の植え付けはありません
+      no_perennials: 多年草の植え付けはありません
+      of: の
+      owner: '所有者:'
+      perennials: '多年草:'
+    inactive:
+      current_gardens: 現在の庭
+      empty_body: 表示する休止中の庭はありません。
+      empty_owner_hint: 休止中としてマークした庭がここに表示されます。
+      explanation: 庭を休止中に設定し、その植え付けを終了としてマークすると、休止中になります。ここで栽培された記録として残ります。
+      inactive_gardens: 休止中の庭
+      lead: 現在使用されていない庭と、そこで栽培されていたもの。
+      owner_gardens: "%{owner}の庭"
+      owner_reactivate_hint: 庭を再びアクティブに設定して編集に戻ることができます。
+      skip_to_content: メインコンテンツへスキップ
+      title: "%{owner}の休止中の庭"
+    inactive_card:
+      grown_here: ここで栽培
+      image_alt: "%{name}の画像"
+      more_crops: 他 %{count} 件
+    previously:
+      finished_jobs: 完了した庭の作業
+      previously_planted: 以前この庭に植えられたもの
+      unknown_year: 年不明
+    show:
+      inactive_notice: この庭は休止中です。
+      set_active: アクティブに設定
+      to_plant: して、この庭に何かを植えましょう。
   harvests:
+    card:
+      by: '投稿者:'
+      harvested: 収穫済み
+      picked_at: "%{date}に収穫"
+      title: "%{crop}の収穫"
     edit_modal:
       harvested_at: いつ収穫しましたか？
       notes: メモ
       plant_part: どの部分を収穫しましたか？
       quantity: いくつ？
-      title: '%{crop}の収穫を編集'
+      title: "%{crop}の収穫を編集"
       unit: 単位
       weight_quantity: 重さ（合計）
       weight_unit: 重量単位
+    modal:
+      all_plant_parts: すべての部位
+      close: 閉じる
+      recommended_plant_parts: '収穫に適したおすすめの部位:'
+      record_harvest: 収穫を記録する
+      select_plant_part: 収穫した植物の部位を選択してください
+      title: "%{crop}の収穫を記録"
+    planting:
+      is_this_from: これらは以下の植え付けのいずれかからの収穫ですか？
+      rate_planting: この植え付けを評価する
+      save: 保存
+      unrated_notice: この収穫はまだ評価されていない植え付けからのものです。
+    show:
+      add: 追加
+      breadcrumb: 収穫
+      crop: 作物
+      harvested: 収穫日
+      harvested_by: '収穫者: '
+      heading: "%{crop}の収穫"
+      no_photos: 写真はまだありません。
+      photos: 写真
+      picked_from: '収穫元: '
+      plant_part: 植物の部位
+      quantity: 数量
+      see_how: "%{owner}さんの%{crop}の様子を見る。"
+      the_planting_this_came_from: 収穫元の植え付け
   home:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
+      sign_in_mastodon: Mastodonでログイン
+  layouts:
+    footer:
+      donate: 寄付 - コーヒーを奢る
   members:
+    contact:
+      flickr_logo: Flickrロゴ
+      heading: 連絡先
+      more: その他...
+      website: ウェブサイト
     email_prompt:
       add_email: メールアドレスを追加
       unset_body: 植え付けのリマインダーを受け取ったりパスワードをリセットできるように、メールアドレスを追加してください。確認のため、最初にリンクを送信します。
       unset_title: メールアドレスが設定されていません。
-      waiting_body: '%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。'
+      waiting_body: "%{email} に確認リンクを送信しました。リンクを開くとリマインダーの受信が始まります。"
       waiting_title: メールアドレスの確認をお待ちしています。
+    location:
+      unknown_location: 不明な場所
+    map:
+      cant_show_nearby: 近くの情報を表示できません
+      not_known: 場所が不明またはジオコードできません
+      see_nearby_html: "%{location} 付近の他のメンバー、植え付け、種などを表示"
+    stats:
+      followers:
+        other: "%{count}人のフォロワー"
+      heading: 統計
+      toggle: 表示/非表示
+  messages:
+    form:
+      about: 関連
+      cancel: キャンセル
+      crop_seeds: "%{crop}の種"
+      send: 送信
+      to: 宛先
+      type_your_message: ここにメッセージを入力してください
+    new:
+      breadcrumb_messages: メッセージ
+      title: "%{recipient} にメッセージを送信"
+  pages:
+    about:
+      title: Growstuffについて
+      description_html: Growstuffの詳細については、%{github_link}をご覧ください。
+      github_page: GitHubページ
+    contact:
+      title: お問い合わせ
+      general_email: 代表問い合わせメール
+      support_enquiries_html: サポートおよびアカウントに関するお問い合わせ（%{faq_link}にないもの）
+      faq: FAQ
+      media_enquiries: 報道関係・メディアのお問い合わせ
+      twitter: Twitter
+    policies:
+      title: ポリシー
+      terms_of_service: 利用規約
+      privacy_policy: プライバシーポリシー
+      data_use_policy: データ利用規約
+      community_guidelines: コミュニティガイドライン
+      copyright_infringement_policy: 著作権侵害に関する方針
+  places:
+    index:
+      title: "%{site_name} コミュニティマップ"
+    search_form:
+      change_location: '場所を変更:'
+      placeholder: 都市、地域、州を検索...
+      search: 検索
+  plant_parts:
+    edit:
+      back: 戻る
+      show: 表示
+      title: 植物部位の編集
+    form:
+      errors:
+        other: "%{count}件のエラーにより、この植物部位は保存されませんでした:"
+      name: 名前
+      save: 保存
+    index:
+      new_plant_part: 新しい植物部位
+      no_crops: この植物部位で収穫された作物は（まだ）ありません。
+      title: 植物の部位
+    new:
+      back: 戻る
+      title: 新しい植物部位
+    show:
+      delete: 削除
+      edit: 編集
+      harvested_crops: 以下の作物は%{plant_part}のために収穫されます。
+      no_crops: この植物部位で収穫された作物は（まだ）ありません。
+      view_other_plant_parts: 他の植物部位を見る
+  plantings:
+    follow_buttons:
+      block: ブロック
+      follow: フォロー
+      unblock: ブロック解除
+      unfollow: フォロー解除
+    modal:
+      add_new_garden: 新しい庭を追加
+      add_to_my_garden: 自分の庭に追加
+      close: 閉じる
+      title: "%{crop}をあなたの庭に追加"
+      which_garden: どの庭に入れますか？
+    timeline:
+      failed: 失敗
+      finish_expected: "%{date}に終了予定"
+      finished: "%{date}に終了"
+      first_harvest_expected: "%{date}に最初の収穫予定"
+      harvest_started: "%{date}に収穫開始"
+      legend: "(絵文字1つ = 1週間)"
+      planted: "%{date}に植え付け"
+    transplant:
+      cancel: キャンセル
+      close: 閉じる
+      move_to: "この植え付けの移動先:"
+      submit: 移植
+      title: "%{crop}を移植"
+    facts:
+      day_progress: "%{lifespan}日中 %{age}日目"
+      done: 完了
+      failed: 失敗
+      finished: 終了
+      grown: 成長済み
+      grown_in: 日照条件
+      lifespan_days:
+        other: "%{count}日"
+      no_date_recorded: 日付未記録
+      no_finish_predicted: 終了予測なし
+      not_rated: 未評価
+      not_specified: 指定なし
+      packets_of_seed:
+        other: "%{count}袋の種"
+      perennial: 多年草
+      perennial_description: 年々成長し続けます
+      planned: 計画済み
+      planned_for: "%{date} 予定"
+      planted: 植え付け
+      planting_failed: この植え付けは失敗しました
+      progress: 進捗
+      quantity: 数量
+      rating: 評価
+      rating_of_5: "%{rating} / 5"
+      seeds_saved: 保存した種
+      sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
+      unknown: 不明
+  seeds:
+    empty:
+      no_finished: 使い切った種はまだありません。
+      no_match: 条件に一致する種がありません。
+      none_recorded: 登録された種はまだありません
+      show_all: すべての種を表示
+    none:
+      add_seeds: "%{crop}の種を追加"
+      looked_everywhere: 在庫と使い切った種袋を探しました。
+      see_everyone: 全員の%{crop}の種を見る
+      title_from_owner: "%{owner}による%{crop}の種はありません"
+      title_here: ここに%{crop}の種はありません
+    other_tab:
+      more_finished:
+        one: 使い切った種袋があと 1 袋あります。
+        other: 使い切った種袋があと %{count} 袋あります。
+      more_in_stock:
+        one: 在庫の種袋があと 1 袋あります。
+        other: 在庫の種袋があと %{count} 袋あります。
+      show_them: 表示する
+    facts:
+      cancel: キャンセル
+      edit_all: すべて編集
+      finished: 終了
+      from_location_html: "（%{location} より）"
+      from_unspecified_location: "（場所未指定）"
+      heading: 種袋
+      save: 保存
+      set_location: 場所を設定
+      unknown: 不明
+      will_trade: 交換可能
+      year_saved: 採取年
+    packet_panel:
+      heading: 種袋の記載
+      hide_ocr: 読み取り結果を隠す
+      ocr_label: 種袋の読み取り結果
+      ocr_note: 写真から自動的に読み取っているため、誤りが含まれる場合があります。実際の種袋と照らし合わせてご確認ください。
+      show_ocr: 種袋の読み取り結果を表示
+    past_sow_by:
+      count:
+        one: "%{count}袋が播種期限を過ぎています。"
+        other: "%{count}袋が播種期限を過ぎています。"
+      hint: 古い種でもまだ育つことがよくあります。少しだけ密にまいて試してみましょう。
+      show_all: すべて表示
+      show_those:
+        one: 該当する%{count}袋を表示
+        other: 該当する%{count}袋を表示
+      showing: 播種期限を過ぎた袋を表示しています。
+  stalls:
+    about_growstuff:
+      join: 無料で参加
+      sign_in: ログイン
+      text: 食物を育てるためのコミュニティです。植えたものや収穫したものを記録し、他のガーデナーと種やヒントを交換しましょう。無料で参加するかログインして、%{name}に出品内容について問い合わせましょう。

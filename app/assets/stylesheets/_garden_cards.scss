@@ -11,6 +11,7 @@ $garden-card-line: #e6e6e6;
   .garden-card-content {
     flex: 1;
     min-width: 0;
+    max-width: 100%;
   }
 
   .garden-card-section + .garden-card-section {
@@ -38,6 +39,36 @@ $garden-card-line: #e6e6e6;
     .chip {
       margin: 0 0.5rem 0.5rem 0;
     }
+  }
+
+  // Let long names shrink within their column without clipping the menu.
+  .garden-card-chips > *,
+  .planting-row-crop,
+  .planting-row-chip,
+  .planting-row-chip > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .crop-chip {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+
+    .crop-icon {
+      flex-shrink: 0;
+    }
+
+    &::after {
+      flex-shrink: 0;
+    }
+  }
+
+  .crop-chip-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 

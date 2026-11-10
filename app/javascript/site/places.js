@@ -1,29 +1,18 @@
 const placesMapElement = document.getElementById("placesmap");
 if (placesMapElement !== null) {
   var places_base_path = "/places";
-  var nominatim_base_url = 'https://nominatim.openstreetmap.org/search/';
-  var nominatim_user_agent_email = placesMapElement.dataset.userAgentEmail;
 
   var placesmap;
 
-  if (location.pathname === places_base_path || location.pathname === '/') { //places index page
+  // The page of a place knows where it is, from the server; any other page, and a place we couldn't find, shows the world.
+  var latitude = parseFloat(placesMapElement.dataset.latitude);
+  var longitude = parseFloat(placesMapElement.dataset.longitude);
+  if (location.pathname !== places_base_path && location.pathname !== '/' && !isNaN(latitude) && !isNaN(longitude)) {
+    placesmap = L.map('placesmap').setView([latitude, longitude], 5);
+  } else {
     placesmap = L.map('placesmap').setView([0.0, -0.0], 2);
-    showMap(placesmap);
   }
-  else { // specific place page
-    var place = location.pathname.replace(places_base_path + "/", '');
-    var nominatim_query_url = nominatim_base_url + place;
-    var nominatim_options = {
-      format: "json",
-      callback: "placeholder",
-      limit: 1,
-      email: nominatim_user_agent_email
-    };
-    $.getJSON(nominatim_query_url, nominatim_options, function(data) {
-      placesmap = L.map('placesmap').setView([data[0].lat, data[0].lon], 5);
-      showMap(placesmap);
-    })
-  }
+  showMap(placesmap);
 }
 
 function showMap(placesmap) {

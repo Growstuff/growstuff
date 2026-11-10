@@ -11,6 +11,38 @@ describe HomeController, '#index with job ideas', flipper: :job_ideas do
     sign_in member
   end
 
+  context 'when there are jobs due today' do
+    before do
+      create(:job, owner: member, name: 'Water seedlings', due_date: Date.current)
+      create(:job, :finished_without_time, owner: member, name: 'Snip off scapes', due_date: Date.current - 1.year + 2.days)
+      get root_path
+    end
+
+    it 'has a yellow bar for jobs soon' do
+      expect(page).to have_css('.home-ideas .notepad-ideas', text: '1 job soon')
+    end
+
+    it 'links to my jobs' do
+      expect(page).to have_link(href: member_jobs_path(member), class: 'notepad-ideas')
+    end
+  end
+
+  context 'when there are jobs due tomorrow' do
+    before do
+      create(:job, owner: member, name: 'Pot on tomatoes', due_date: Date.tomorrow)
+      create(:job, :finished_without_time, owner: member, name: 'Snip off scapes', due_date: Date.current - 1.year + 2.days)
+      get root_path
+    end
+
+    it 'has a yellow bar for jobs soon' do
+      expect(page).to have_css('.home-ideas .notepad-ideas', text: '1 job soon')
+    end
+
+    it 'links to my jobs' do
+      expect(page).to have_link(href: member_jobs_path(member), class: 'notepad-ideas')
+    end
+  end
+
   context 'when there are ideas to review' do
     before do
       create(:job, :finished_without_time, owner: member, name: 'Snip off scapes', due_date: Date.current - 1.year + 2.days)

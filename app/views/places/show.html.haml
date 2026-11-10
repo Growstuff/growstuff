@@ -1,29 +1,38 @@
-- content_for :title, "#{ENV['GROWSTUFF_SITE_NAME']} community near #{@place}"
+- title = t('.community_near', site_name: ENV['GROWSTUFF_SITE_NAME'], place: @place)
+- content_for :title, title
 - content_for :opengraph do
-  = tag("meta", property: "og:title", content: "#{ENV['GROWSTUFF_SITE_NAME']} community near #{@place}")
+  = tag("meta", property: "og:title", content: title)
   = tag("meta", property: "og:type", content: "website")
   = tag("meta", property: "og:url", content: request.original_url)
   = tag("meta", property: "og:site_name", content: ENV['GROWSTUFF_SITE_NAME'])
 
 
-%h1 #{ENV['GROWSTUFF_SITE_NAME']} community near #{@place}
+%h1= title
 = render partial: 'search_form'
 
-%section.map#placesmap{ style: "height:300px", data: places_map_data }
+%section.map#placesmap{ style: "height:300px", data: places_map_data(latitude: @latitude, longitude: @longitude) }
+
+-# The weather sections are drawn as a record page's are: bordered blocks with a green bar for a lid.
+- if @climate || @frost
+  .record-page
+    - if @climate
+      = render 'climate/rainfall', climate: @climate
+      = render 'climate/temperature', climate: @climate
+    = render 'frost/section', frost: @frost if @frost
 
 %section.members
-  %h2#members= "Nearby members"
+  %h2#members= t('.nearby_members')
 
   - if @nearby_members.any?
     .index-cards.members
       - @nearby_members.first(30).each do |member|
         = render partial: "members/thumbnail", locals: { member: member }
   - else
-    %p No nearby members
-  = link_to "View all members >>", members_path
+    %p= t('.no_nearby_members')
+  = link_to t('.view_all_members'), members_path
 
 %section.seeds
-  %h2#seeds Seeds available for trade near #{@place}
+  %h2#seeds= t('.seeds_available', place: @place)
   - crop_id = []
   - @nearby_members.first(10).each do |member|
     - member.seeds.first(5).each do |seed|
@@ -33,11 +42,11 @@
       - crop_id.uniq.first(20).each do |crop|
         = render partial: "crops/thumbnail", locals: { crop: Crop.find(crop) }
   - else
-    %p No nearby seeds found
-  = link_to "View all seeds >>", seeds_path
+    %p= t('.no_nearby_seeds')
+  = link_to t('.view_all_seeds'), seeds_path
 
 %section#plantings
-  %h2 Recent plantings near #{@place}
+  %h2= t('.recent_plantings', place: @place)
 
   - plantings = []
   - @nearby_members.first(10).each do |member|
@@ -48,5 +57,5 @@
       - plantings.first(10).each.with_index do |planting, index|
         = render partial: "plantings/card", locals: { planting: planting, index: index }
   - else
-    %p No nearby plantings found
-  = link_to "View all plantings >>", plantings_path
+    %p= t('.no_nearby_plantings')
+  = link_to t('.view_all_plantings'), plantings_path

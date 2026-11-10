@@ -1,62 +1,60 @@
-%h2
-  -# Decorative: the heading already says what this is.
-  %span.heading-emoji{ 'aria-hidden' => 'true' } 🪄
-  Growing #{crop.name.pluralize}
+- missing_attributes = [crop.height, crop.spread, crop.row_spacing, crop.growing_degree_days_figure].any?(&:blank?)
+.section-header
+  %h2
+    -# Decorative: the heading already says what this is.
+    %span.heading-emoji{ 'aria-hidden' => 'true' } 🪄
+    #{crop.name.capitalize} facts
+  - if can?(:wrangle, crop) && missing_attributes
+    = link_to 'Add more attributes', edit_crop_path(crop, anchor: ":~:text=Data"), class: 'btn btn-sm section-add'
 .index-cards.facts
   - unless crop.perennial.nil?
-    .card.fact-card
+    .card.fact-card.lifespan-card
       .card-body.text-center
         %h3
-          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution', class: 'crop-longevity' do
-            - if crop.perennial?
-              Perennial
-            - elsif crop.annual?
-              Annual
-        %strong.crop-longevity
-          %i.far.fa-calendar
+          Lifespan
+          = editable :select, crop, :perennial, display_field: '.lifespan-display', values: [['Annual', false], ['Perennial', true]]
+        .lifespan-display
+          = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution', class: 'lifespan-word' do
+            = crop.perennial? ? 'Perennial' : 'Annual'
+          - if crop.perennial?
+            %small living more than two years
+          - else
+            %small living and reproducing in a single year or less
+            - if crop.median_lifespan.present?
+              - weeks = in_weeks(crop.median_lifespan)
+              .crop-median-lifespan
+                %i.far.fa-calendar.fa-2x.amber-text{ 'aria-hidden': 'true' }
+                - if weeks > 1
+                  %strong #{weeks} #{'week'.pluralize(weeks)}
+                  %small median lifespan
+                - else
+                  %small.text-muted We don't have enough data yet on the median lifespan.
 
-        - if crop.perennial == true
-          %small living more than two years
-        - elsif crop.perennial == false
-          %small living and reproducing in a single year or less
-        - if can? :wrangle, @crop
-          %small.edit-link
-            = bootstrap_form_for(@crop) do |f|
-              = f.hidden_field :perennial, value: crop.annual?
-              = f.submit :toggle
-
-  - if crop.annual? && crop.median_lifespan.present?
-    .card.fact-card
+  - if (style = crop.effective_harvest_style)
+    = render 'layouts/fact_card',
+      title: t('crops.predictions.harvest_style'),
+      value: t("crops.harvest_style.#{style}.value"),
+      description: t("crops.harvest_style.#{style}.description")
+  -# The first and last harvest to expect, together: the last only for an annual, which stops.
+  - harvest_rows = []
+  - harvest_rows << [t('.first_harvest'), in_weeks(crop.median_days_to_first_harvest)] if crop.median_days_to_first_harvest.present?
+  - harvest_rows << [t('.last_harvest'), in_weeks(crop.median_days_to_last_harvest)] if crop.annual? && crop.median_days_to_last_harvest.present?
+  - if harvest_rows.any?
+    .card.fact-card.growing-fact.harvest-window-card
       .card-body.text-center
-        %h3 Median lifespan
-        %strong= in_weeks(crop.median_lifespan)
-        %i.fas.fa-sun.fa-5x.pt-3.amber-text
-        %span #{'week'.pluralize(in_weeks(crop.median_lifespan))}
-
-  - if crop.median_days_to_first_harvest.present?
+        - harvest_rows.each do |label, weeks|
+          .crop-sow-hemisphere
+            %small= label
+            %strong= weeks
+            %span= t('.weeks_after_planting', count: weeks)
+  - if (size = size_fact(crop))
+    = render 'layouts/fact_card', title: size[:title], value: size[:value], description: nil
+  = render 'crops/growing_facts', crop: crop
+  = render 'crops/hardiness', crop: crop
+  - if crop.growing_degree_days_figure
     = render 'layouts/fact_card',
-      title: 'First harvest expected',
-      value: in_weeks(crop.median_days_to_first_harvest),
-      description: "#{'week'.pluralize(in_weeks(crop.median_days_to_first_harvest))} after planting"
-  - if crop.annual? && crop.median_days_to_last_harvest.present?
-    = render 'layouts/fact_card',
-      title: "Last harvest expected",
-      value: in_weeks(crop.median_days_to_last_harvest),
-      description: "#{'week'.pluralize(in_weeks(crop.median_days_to_last_harvest))} after planting"
-  - if crop.height.present?
-    = render 'layouts/fact_card',
-      title: 'Height', value: "#{crop.height}cm", description: nil
-  - if crop.spread.present?
-    = render 'layouts/fact_card',
-      title: 'Spread', value: "#{crop.spread}cm", description: nil
-  - if crop.row_spacing.present?
-    = render 'layouts/fact_card',
-      title: 'Row Spacing', value: "#{crop.row_spacing}cm", description: nil
-  - if crop.growing_degree_days.present?
-    = render 'layouts/fact_card',
-      title: 'Growing Degree Days', value: crop.growing_degree_days, description: nil
-  - if member_signed_in? && (!crop.height.present? || !crop.spread.present? || !crop.row_spacing.present? || !crop.growing_degree_days.present?)
-    .card.fact-card
-      .card-body.text-center
-        %p= link_to "Add more attributes.", edit_crop_path(@crop, anchor: ":~:text=Data")
+      title: 'Growing Degree Days', value: crop.growing_degree_days_figure, description: nil
   = render 'openfarm_data', crop: crop
+  - ecocrop_facts(crop.ecocrop_data).each do |fact|
+    = render 'crops/ecocrop_fact', fact:
+= render 'crops/growing_degree_days', crop: crop

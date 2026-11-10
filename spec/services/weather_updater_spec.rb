@@ -42,6 +42,22 @@ describe WeatherUpdater, type: :service do
     end
   end
 
+  context 'with a planting nobody marked finished, long past when it was due' do
+    let(:crop) { create(:crop, median_lifespan: 100) }
+
+    before { create(:planting, crop:, garden:, owner: garden.owner, planted_at: today - 1000) }
+
+    it 'fetches the weather of its life and not the weather of today' do
+      updater.update_all
+      expect(WeatherReading.maximum(:date)).to be <= today - 1000 + 100
+    end
+
+    it 'does not fetch the year before it was planted' do
+      updater.update_all
+      expect(WeatherReading.minimum(:date)).to eq today - 1000
+    end
+  end
+
   context 'with two plantings in the same grid cell' do
     before do
       create(:planting, garden:, owner: garden.owner, planted_at: today - 10)

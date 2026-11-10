@@ -26,6 +26,15 @@
   = f.radio_button(:perennial, true, label: "Perennial")
   %span.form-text Living more than two years
 
+- if can?(:wrangle, crop)
+  %h2= t('.harvest_style.heading')
+  = f.select :harvest_style, [[t('crops.harvest_style.single.value'), 'single'], [t('crops.harvest_style.repeated.value'), 'repeated']],
+             { include_blank: t('.harvest_style.blank'), label: t('.harvest_style.label') }
+  %span.form-text
+    = t('.harvest_style.hint')
+    - if (parent_style = crop.parent&.effective_harvest_style)
+      = t('.harvest_style.parent', style: t("crops.harvest_style.#{parent_style}.value"))
+
 %h2 Data
 - if crop.description.blank? || can?(:wrangle, crop)
   = f.text_area :description, label: 'Description'
@@ -35,6 +44,30 @@
   = f.number_field :row_spacing, label: 'Row Spacing (cm)', min: 0
   - if crop.parent
     %span.form-text Parent: #{crop.parent.row_spacing}
+- if can?(:wrangle, crop)
+  -# How the crop is grown, as a wrangler sets it. The page shows these first and the
+  -# medians of members' seed packets beside them.
+  %h3.h5 Growing
+  .row
+    .col-md-6= f.number_field :germination_days_min, label: 'Germination, at least (days)', min: 0
+    .col-md-6= f.number_field :germination_days_max, label: 'Germination, at most (days)', min: 0
+  .row
+    .col-md-6= f.number_field :days_until_maturity_min, label: 'Days until maturity, at least', min: 0
+    .col-md-6= f.number_field :days_until_maturity_max, label: 'Days until maturity, at most', min: 0
+  %fieldset.mb-3
+    %legend.h6 Months to sow
+    %p.form-text Tick the months for the southern hemisphere: the northern hemisphere is six months on.
+    .sow-months
+      = hidden_field_tag 'crop[sow_months][]', '', id: nil
+      .sow-months-chips
+        - (1..12).each do |month|
+          - id = "crop-sow-month-#{month}"
+          = check_box_tag 'crop[sow_months][]', month, crop.sow_months.include?(month), id: id, class: 'btn-check'
+          = label_tag id, Date::ABBR_MONTHNAMES[month], class: 'btn btn-outline-secondary btn-sm'
+  - levels = Hardiness::LEVELS.map { |level| [t("hardiness.levels.#{level}.name"), level] }
+  = f.select :hardiness_by_hand, levels,
+             { label: t('crops.fields.hardiness.label'), include_blank: t('crops.fields.hardiness.from_packets'),
+               help: t('crops.fields.hardiness.help') }
 - if crop.spread.blank? || can?(:wrangle, crop)
   = f.number_field :spread, label: 'Spread (cm)', min: 0
   - if crop.parent

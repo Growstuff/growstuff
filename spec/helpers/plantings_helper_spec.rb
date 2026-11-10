@@ -5,68 +5,6 @@ require 'rails_helper'
 describe PlantingsHelper do
   include ActiveSupport::Testing::TimeHelpers
 
-  describe "display_planting" do
-    let!(:member) { build(:member, login_name: 'crop_lady') }
-
-    it "does not have a quantity nor a planted from value provided" do
-      planting = build(:planting,
-                       quantity:     nil,
-                       planted_from: '',
-                       owner:        member)
-      result = helper.display_planting(planting)
-      expect(result).to eq "crop_lady planted magic bean."
-    end
-
-    it "does not have a quantity provided" do
-      planting = build(:planting,
-                       quantity:     nil,
-                       planted_from: 'seed',
-                       owner:        member)
-      result = helper.display_planting(planting)
-      expect(result).to eq "crop_lady planted seeds."
-    end
-
-    context "when quantity is greater than 1" do
-      it "does not have a planted from value provided" do
-        planting = build(:planting,
-                         quantity:     10,
-                         planted_from: '',
-                         owner:        member)
-        result = helper.display_planting(planting)
-        expect(result).to eq "crop_lady planted 10 units."
-      end
-
-      it "does have a planted from value provided" do
-        planting = build(:planting,
-                         quantity:     5,
-                         planted_from: 'seed',
-                         owner:        member)
-        result = helper.display_planting(planting)
-        expect(result).to eq "crop_lady planted 5 seeds."
-      end
-    end
-
-    context "when quantity is 1" do
-      it "does not have a planted from value provided" do
-        planting = build(:planting,
-                         quantity:     1,
-                         planted_from: '',
-                         owner:        member)
-        result = helper.display_planting(planting)
-        expect(result).to eq "crop_lady planted 1 unit."
-      end
-
-      it "does have a planted from value provided" do
-        planting = build(:planting,
-                         quantity:     1,
-                         planted_from: 'seed',
-                         owner:        member)
-        result = helper.display_planting(planting)
-        expect(result).to eq "crop_lady planted 1 seed."
-      end
-    end
-  end
-
   describe '#weather_summary' do
     subject(:summary) { helper.weather_summary(readings) }
 
@@ -179,6 +117,45 @@ describe PlantingsHelper do
 
     it 'draws no expected lines when there is nothing expected' do
       expect(helper.weather_temperature_chart(observed, from:, days: 10)).not_to include 'weather-expected'
+    end
+  end
+
+  describe '#planting_origin_props' do
+    describe 'kinds' do
+      subject(:kind) { helper.planting_origin_props(create(:planting))[:kinds].find { |k| k[:value] == 'volunteer' } }
+
+      it { expect(kind).to include(label: 'Volunteer') }
+      it { expect(kind[:icon_url]).to be_present }
+    end
+
+    subject(:seeds) { helper.planting_origin_props(planting)[:seeds] }
+
+    let(:planting) { create(:planting) }
+
+    before { create(:seed, owner: planting.owner, crop: planting.crop, variety: 'Moneymaker') }
+
+    it 'names the variety of each packet' do
+      expect(seeds.pluck(:variety)).to eq ['Moneymaker']
+    end
+
+    context 'with a packet of a variety saved more recently' do
+      before { create(:seed, owner: planting.owner, crop: create(:crop, parent: planting.crop), created_at: 1.day.from_now) }
+
+      it 'lists the packets of exactly this crop first' do
+        expect(seeds.first[:variety]).to eq 'Moneymaker'
+      end
+    end
+
+    context 'with a packet that says when to sow by' do
+      before { create(:seed, owner: planting.owner, crop: planting.crop, plant_before: Date.new(2099, 6, 1)) }
+
+      it 'says so in its detail' do
+        expect(seeds.pluck(:detail)).to include(a_string_including('sow by 2099'))
+      end
+    end
+
+    it 'marks a packet of the planting\'s crop as related' do
+      expect(seeds.pluck(:related)).to eq [true]
     end
   end
 end

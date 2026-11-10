@@ -41,9 +41,9 @@ export default function GardenFormModal({garden = null, onClose, onSaved}) {
     event.preventDefault();
     setSaving(true);
     setErrors([]);
-    const {name, description, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active} = values;
+    const {name, description, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active, frost_safe: frostSafe} = values;
     try {
-      const body = {garden: {name, description, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active}};
+      const body = {garden: {name, description, area, area_unit: areaUnit, garden_type_id: gardenTypeId, active, frost_safe: frostSafe}};
       const {ok, status, data} = isNew ? await postJson('/gardens.json', body) : await patchJson(garden.url, body);
       if (ok) {
         onSaved(data.garden); // closes this dialog
@@ -121,6 +121,12 @@ export default function GardenFormModal({garden = null, onClose, onSaved}) {
                 <option value="" />
                 {form.garden_types.map((type) => <option key={type.id} value={type.id}>{type.name}</option>)}
               </select>
+            </div>
+
+            <div className="form-check mb-3">
+              <input id="edit-garden-frost-safe" type="checkbox" className="form-check-input" checked={!!values.frost_safe} onChange={set('frost_safe')} />
+              <label className="form-check-label" htmlFor="edit-garden-frost-safe">{form.frost_safe_label}</label>
+              <div className="form-text">{form.frost_safe_help}</div>
             </div>
 
             <div className="form-check">

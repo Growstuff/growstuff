@@ -1,9 +1,9 @@
 -# Nothing to show, and why: a filter hiding everything is not the same as having no seeds.
 - if @filtered
   %p.seed-empty
-    No seeds match those filters.
-    = link_to 'Show all seeds', url_for(from: nil, within: nil, tradeable_to: nil, past: nil, page: nil)
+    = t('.no_match')
+    = link_to t('.show_all'), seed_view_path(**seed_filters_off)
 - elsif @show_finished
-  %p.seed-empty No finished seeds yet.
+  %p.seed-empty= t('.no_finished')
 - else
-  %p.seed-empty No seeds recorded yet
+  %p.seed-empty= t('.none_recorded')

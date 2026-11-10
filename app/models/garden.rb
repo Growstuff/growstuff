@@ -5,6 +5,7 @@ class Garden < ApplicationRecord
   include Geocodable
   include PhotoCapable
   include Ownable
+  include WeatherLocated
 
   friendly_id :garden_slug, use: %i(slugged finders)
 
@@ -28,6 +29,8 @@ class Garden < ApplicationRecord
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
+  # Gardens with a place on the weather grid. A nursery has no climate of its own to show.
+  scope :located_for_weather, -> { where.not(latitude: nil).where.not(longitude: nil).where(nursery: false) }
   scope :nurseries, -> { where(nursery: true) }
   scope :not_nurseries, -> { where(nursery: false) }
   scope :order_by_name, -> { order(Arel.sql("lower(name) asc")) }
@@ -109,7 +112,8 @@ class Garden < ApplicationRecord
   def make_nursery!
     transaction do
       self.class.where(owner_id:, nursery: true).where.not(id:).update_all(nursery: false) # rubocop:disable Rails/SkipsModelValidations
-      update!(nursery: true)
+      # Most nurseries are indoors or under cover, so it starts as safe from frost. The member can say otherwise.
+      update!(nursery: true, frost_safe: true)
       owner.accept_nursery!
     end
   end
@@ -149,6 +153,14 @@ class Garden < ApplicationRecord
   # Where each plant stands on the bed, as [x, y, diameter], to draw the map.
   def placed_plant_positions
     placed_plants.pluck(:bed_x, :bed_y, :diameter)
+  end
+
+  # How big the garden is, such as "24 square metres", when it has been measured.
+  def area_text
+    return if area.blank?
+
+    size = ActiveSupport::NumberHelper.number_to_rounded(area, precision: 2, strip_insignificant_zeros: true)
+    "#{size} #{area_unit.to_s.pluralize(area)}"
   end
 
   def has_layout?

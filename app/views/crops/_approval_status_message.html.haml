@@ -1,11 +1,10 @@
 - if crop.pending?
   .alert.alert-danger
-    %b This crop is currently pending approval.
-    %p This crop was requested by #{crop.requester} #{time_ago_in_words(crop.created_at)} ago.
+    %b= t('.pending_title')
+    %p= t('.requested_by', requester: crop.requester, time_ago: time_ago_in_words(crop.created_at))
     - unless crop.request_notes.blank?
-      %p
-        Request notes: #{crop.request_notes}
+      %p= t('.request_notes', notes: crop.request_notes)
 
 - if crop.rejected?
   .alert.alert-danger
-    %b This crop was rejected for the following reason: #{crop.rejection_explanation}
+    %b= t('.rejected_message', reason: crop.rejection_explanation)

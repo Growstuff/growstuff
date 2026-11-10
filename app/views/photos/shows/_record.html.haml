@@ -1,0 +1,22 @@
+-# A card for one record the photo is attached to, headed with the kind of record so you
+-# can follow the photo back to it. Plantings, harvests and seeds say more and have a button.
+:ruby
+  owner = photo_record_owner(type, thing)
+  button = PhotosHelper::DETAILED_RECORD_BUTTONS[type]
+  facts = photo_record_facts(type, thing)
+= link_to polymorphic_path(thing), class: "shows-card shows-card-#{button ? type : 'other'}" do
+  .shows-card-head
+    = public_send("#{type}_icon")
+    = t("photos.shows.#{type}.kind")
+  .shows-card-body
+    %h3.shows-card-title= photo_record_name(type, thing)
+    %span.shows-card-who
+      = render 'photos/initial', member: owner, size: 'small'
+      = t("photos.shows.#{type}.by", owner: owner.to_s)
+    - if facts.any?
+      %span.shows-card-facts
+        - facts.each do |fact|
+          %span= fact
+    - if button
+      %p.mb-0= t("photos.shows.#{type}.about")
+      %span.btn.shows-card-button{ class: button }= t("photos.shows.#{type}.go")

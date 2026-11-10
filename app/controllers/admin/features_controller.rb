@@ -13,7 +13,7 @@ module Admin
     def update
       feature = Feature.find(params[:id])
       feature.enabled = ActiveModel::Type::Boolean.new.cast(params[:enabled])
-      redirect_to admin_features_path, notice: t(".#{feature.enabled? ? 'on' : 'off'}", feature: t("admin.features.names.#{feature.name}"))
+      redirect_to admin_features_path, notice: t(".#{feature.enabled? ? 'enabled' : 'disabled'}", feature: t("admin.features.names.#{feature.name}"))
     end
   end
 end

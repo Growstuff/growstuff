@@ -49,9 +49,7 @@
             - @member.roles.each do |role|
               %span.badge.text-bg-info= role.name.titleize
         - if @member.location.present?
-          %p.badge.badge-location{ title: @member.location }
-            = icon 'fas', 'map-marker'
-            = truncate(@member.location, length: 15, separator: ' ', omission: '... ')
+          %p= render 'members/location', member: @member
         %p
           %small
             %strong Member since
@@ -85,7 +83,7 @@
 
       = render "stats", member: @member
       .card-footer
-        = render "contact", member: @member, flickr_auth: @flickr_auth
+        = render "contact", member: @member, flickr_auth: @flickr_auth, mastodon_auths: @mastodon_auths
 
   .col-md-10#content
     = render 'stalls/card', member: @member

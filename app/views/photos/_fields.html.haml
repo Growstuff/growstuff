@@ -1,8 +1,3 @@
--# The fields of a photo's form, in the edit dialog and on the edit page.
+-# The fields of a photo's form, in the edit dialog and on the edit page. Only the
+-# title is ours to change: the rest is the photo as Flickr describes it.
 = f.text_field :title, placeholder: 'title', required: true
-= f.url_field :thumbnail_url
-= f.url_field :fullsize_url
-= f.url_field :link_url
-= f.text_field :license_name
-= f.text_field :license_url
-= f.datetime_field :date_taken

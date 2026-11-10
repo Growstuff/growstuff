@@ -1,0 +1,17 @@
+-# One fact about growing a crop: the figure a wrangler set, if there is one, and the
+-# median of members' seed packets, if there is one. Nothing at all when neither is.
+- if set || median
+  .card.fact-card.growing-fact
+    .card-body.text-center
+      %h3= title
+      - if set
+        %strong= set
+        - if median
+          %small.crop-fact-median
+            = menu_icon(:seeds)
+            = t('.members_packets', median:)
+      - else
+        %strong= median
+        %small.crop-fact-median
+          = menu_icon(:seeds)
+          = t('.median_of_packets')
