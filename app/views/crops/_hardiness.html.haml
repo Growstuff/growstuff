@@ -3,8 +3,8 @@
   .card.fact-card.growing-fact.hardiness-card
     .card-body.text-center
       %h3= t('.title')
-      %strong= t(".levels.#{crop.hardiness}.name")
-      %span= t(".levels.#{crop.hardiness}.meaning")
+      %strong= t("hardiness.levels.#{crop.hardiness}.name")
+      %span= t("hardiness.levels.#{crop.hardiness}.meaning")
       - if crop.hardiness_source.present?
         %small.crop-fact-median= t(".sources.#{crop.hardiness_source}")
       %small.text-muted= t('frost.experimental')

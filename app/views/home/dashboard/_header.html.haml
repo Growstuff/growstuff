@@ -1,5 +1,5 @@
 -# The greeting every signed-in variant starts with: who, where and when, and
--# the two things they most often come here to do.
+-# the two things they most often come here to do, and the invitation to see the weather at their place.
 .home-welcome
   = image_tag avatar_uri(current_member, 150), alt: '', class: 'home-welcome-avatar'
   .home-welcome-text
@@ -13,3 +13,4 @@
       %p.home-welcome-season= render 'home/dashboard/location_picker', label: t('home.dashboard.set_location'), button_class: 'btn btn-link p-0'
   .home-welcome-actions.d-none.d-md-flex
     = render 'home/dashboard/quick_actions', dashboard:
+= render 'home/weather_invitation', invitation: WeatherInvitation.new(current_member) if WeatherInvitation.enabled?

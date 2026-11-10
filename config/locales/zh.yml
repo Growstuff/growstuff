@@ -100,10 +100,10 @@ zh:
         job_ideas: 为会员推荐工作，包括他们过去的工作和种植情况、作物模板以及附近园丁正在做的事情。
         planting_weather: 每种植物的温度和降雨量图表，来自花园区域的每日天气。
       index:
+        disabled: 离开
+        enabled: 在
         feature: 特征
         intro: 为每个人打开或关闭功能。
-        'off': 离开
-        'on': 在
         state: 状态
         switch_off: 关闭
         switch_on: 打开
@@ -114,8 +114,22 @@ zh:
         job_ideas: 工作思路
         planting_weather: 播种天气
       update:
-        'off': "%{feature} 现已关闭。"
-        'on': "%{feature} 现已开启。"
+        disabled: "%{feature} 现已关闭。"
+        enabled: "%{feature} 现已开启。"
+  authentications:
+    sign_in:
+      bluesky:
+        terms_of_service: "服务条款"
+        agree_to_tos_html: "我同意%{tos_link}"
+        contacting: "正在连接 Bluesky…"
+        handle_label: "Bluesky 账号"
+        handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "我同意%{tos_link}"
+        identifier_label: "Mastodon 地址"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "我们仅确认您的身份，不会代表您发帖。"
+        terms_of_service: "服务条款"
   alternate_names:
     created: 备用名称已成功创建。
     deleted: 备用名称已成功删除。
@@ -196,6 +210,11 @@ zh:
       select_for_deletion: 选择删除
       time_ago: "%{time}前"
       title: 收件箱
+    show:
+      about: 关于
+      breadcrumb_conversations: 对话
+      participants: 参与者
+      sent_on: "于 %{date}"
   crop_companions:
     created: 同伴已成功创建。
     deleted: 同伴被成功摧毁。
@@ -235,6 +254,18 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    growing_fact:
+      median_of_packets: 会员种子包中位数
+      members_packets: "会员种子包：%{median}"
+    growing_facts:
+      days_until_maturity: 成熟天数
+      germination: 发芽
+      median_of_packets: 会员种子包中位数
+      members_packets_hemispheres: "会员种子包：南半球 %{south}，北半球 %{north}"
+      northern_hemisphere: 北半球
+      row_spacing: 行距
+      southern_hemisphere: 南半球
+      when_to_sow: 播种时间
     find_seeds:
       empty: 目前Growstuff上没有可供交易的种子。
       list_seeds: 登记 %{crop} 种子以供交易
@@ -268,6 +299,10 @@ zh:
       heading: Growstuff 是一个免费的、由社区运营的网站，面向种植食物的人们。
       prompt: 注册即可记录您自己的 %{crops}。
       text: 记录您种植和收获的内容，寻找种子进行交换，并了解您附近种植的植物。
+    plantings:
+      empty: 还没有人种植过这种作物。
+      plant_crop: 种植 %{crop}
+      track_plantings: 记录您的 %{crop} 种植
     nutritional_data:
       carbohydrate: 碳水化合物
       energy: 能量
@@ -362,6 +397,8 @@ zh:
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
     header:
+      nursery: 苗圃
+      nursery_hint: 这里培育的幼苗可以移植到您的花园中。
       all_gardens: "%{owner} 的所有花园"
       garden_of: 的花园
       hero_caption:
@@ -369,6 +406,17 @@ zh:
         other: 花园照片·%{count} 照片
       hero_label: "%{garden}的照片"
       season_title: 这个花园的季节
+    inactive:
+      current_gardens: 当前花园
+      empty_body: 没有可显示的休止花园。
+      empty_owner_hint: 您标记为休止的花园将在此显示。
+      explanation: 当花园被标记为休止且其种植被标记为完成时，花园就会进入休止状态。它们保留在这里作为种植历史记录。
+      inactive_gardens: 休止花园
+      lead: 不再使用的花园以及曾在其中种植的作物。
+      owner_gardens: "%{owner}的花园"
+      owner_reactivate_hint: 您可以重新将花园标记为活跃以继续进行编辑。
+      skip_to_content: 跳至主要内容
+      title: "%{owner}的休止花园"
     inactive_card:
       grown_here: 在此种植
       image_alt: "%{name}的照片"
@@ -395,7 +443,12 @@ zh:
       view_layout: 查看布局
       view_layout_label: 查看床位布局
       where_each: 花园里每种植物生长的地方，都在床的地图上。
-    location: "%{owner} 的 %{garden}"
+    location:
+      change: 更改
+      heading: 地点
+      not_set: 未设置
+      remove: 删除
+    string: "%{owner} 的 %{garden}"
     nursery_declined: 好吧，我们不会再问托儿所的事了。您可以稍后从您的花园页面进行设置。
     nursery_made: 这个花园现在是你的苗圃。
     nursery_name: 苗圃
@@ -427,11 +480,14 @@ zh:
       previously_planted: 以前在这个花园里种植过的植物
       unknown_year: 年份未知
     show:
+      inactive_notice: 该花园处于休眠状态。
       km_from_you: 距您约 %{km} 公里
+      set_active: 将其设置为有效
       suggested_plantings:
         one: 我们有 %{count} 建议种植添加到这里
         other: 我们在这里添加了 %{count} 建议的种植
       suggested_plantings_go: 看到他们 →
+      to_plant: 以在此花园中种植作物。
     sign_in: 登入
     sign_up: 免费加入
     start:
@@ -475,7 +531,19 @@ zh:
       save: 保存
       unrated_notice: 此收获来自尚未评分的种植。
     show:
+      add: 添加
+      breadcrumb: 收获
+      crop: 作物
+      harvested: 已收获
+      harvested_by: 收获者：
       heading: "%{crop}收获"
+      no_photos: 暂无照片。
+      photos: 照片
+      picked_from: 采摘自
+      plant_part: 植物部位
+      quantity: 数量
+      see_how: 查看 %{owner} 的 %{crop} 生长情况。
+      the_planting_this_came_from: 此收获来源的种植
     updated: 收获已成功更新。
   home:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
@@ -487,6 +555,7 @@ zh:
       public_note: 您记录的所有内容都是公开的开放数据，包括您所在的城市。
       sign_in_bluesky: 使用 Bluesky 登入
       sign_in_linktext: 登入
+      sign_in_mastodon: 使用 Mastodon 登入
       sign_up: 免费加入
     dashboard:
       add_bed: "+ 床"
@@ -598,8 +667,8 @@ zh:
       tile_harvest: 记录你选择的内容
       tile_job: 为你的花园计划一项任务
       jobs_today:
-        one: 今天有 1 项任务
-        other: 今天有 %{count} 项任务
+        one: 即将有 1 项任务
+        other: 即将有 %{count} 项任务
       jobs_today_go: 我的任务 →
       tile_job_title: 添加职位
       tile_photo: 花园的
@@ -862,6 +931,7 @@ zh:
       community_guidelines: 社区准则
       contact: 接触
       data_use_policy: 数据使用政策
+      donate: 捐赠 - 请我们喝杯咖啡
       get_involved: 介入
       growstuff_team: 成长团队
       open_source: 开源
@@ -971,15 +1041,36 @@ zh:
       follow: 关注
       unblock: 取消屏蔽
       unfollow: 取消关注
+    location:
+      unknown_location: 未知位置
+    map:
+      cant_show_nearby: 我们无法向您显示附近的内容
+      not_known: 位置未知或无法进行地理编码
+      see_nearby_html: 查看 %{location} 附近的其他成员、种植、种子等
     index:
       title: "%{site_name} 成员"
     signup:
       error: 无法完成注册
+    stats:
+      followers:
+        other: "%{count} 位关注者"
+      heading: 统计
+      toggle: 显示/隐藏
     unsubscribe:
       error: 很抱歉，更新您的设置时出错。
     unsubscribed: 您已取消订阅 %{email_type} 电子邮件。
     welcome: 欢迎
   messages:
+    form:
+      about: 关于
+      cancel: 取消
+      crop_seeds: "%{crop} 种子"
+      send: 发送
+      to: 发送给
+      type_your_message: 在此处输入您的消息
+    new:
+      breadcrumb_messages: 消息
+      title: "给 %{recipient} 发送消息"
     auth_failed: 认证失败。
     auth_success: 认证成功。
     crops_waiting: 有庄稼等待着收割。
@@ -1131,6 +1222,18 @@ zh:
       which_garden: 哪个花园？
     what_is_a_nursery:
       description_html: "<strong>苗圃</strong>是您培育幼苗的地方：种子在进入花园之前先播种在托盘或盆中。将种子播种在苗圃中，然后将它们移植到一个花园中，或者在种子准备好后将一批种子分成几批。"
+  pages:
+    about:
+      title: 关于
+      description_html: 有关 Growstuff 的更多信息，请参阅我们的 %{github_link}。
+      github_page: GitHub 页面
+    contact:
+      title: 联系方式
+      general_email: 一般联系邮箱
+      support_enquiries_html: 支持和账户咨询（%{faq_link}中未提及的内容）
+      faq: 常见问题
+      media_enquiries: 媒体/新闻咨询
+      twitter: Twitter
   photo_associations:
     update:
       updated: 照片已更新。
@@ -1197,7 +1300,6 @@ zh:
       packets_of_seed:
         one: 1 包种子
         other: "%{count} 包种子"
-      parent_seed: 母株种子
       perennial: 多年生
       perennial_description: 年复一年持续生长
       planned: 已计划
@@ -1278,19 +1380,14 @@ zh:
       weather_temperature_chart: 每日高点和低点
       weather_temperature_chart_alt: 每日高低温，从%{low}到%{high}。
     string: '%{crop} 在 %{garden} 中种植 %{owner}'
-    failed_modal:
-      cancel: 取消
-      close: 关闭
-      mark_as_failed: 标记为失败
-      planted_at: "种植于 %{date}"
-      title: "将 %{crop} 种植标记为失败"
-      which_planting: 您想将哪次种植标记为失败？
-    modal:
-      add_new_garden: 添加新花园
-      add_to_my_garden: 添加到我的花园
-      close: 关闭
-      title: "将 %{crop} 添加到您的花园"
-      which_garden: "要放进哪个花园？"
+    timeline:
+      failed: 失败
+      finish_expected: 预计于 %{date} 结束
+      finished: 于 %{date} 结束
+      first_harvest_expected: 预计于 %{date} 第一次收获
+      harvest_started: 于 %{date} 开始收获
+      legend: (一个表情符号 = 1周)
+      planted: 种植于 %{date}
     transplant:
       cancel: 取消
       close: 关闭
@@ -1333,6 +1430,11 @@ zh:
       unknown: 未知
       will_trade: 可交换
       year_saved: 保存年份
+    empty:
+      no_finished: 还没有已用完的种子。
+      no_match: 没有符合这些筛选条件的种子。
+      none_recorded: 尚未记录种子
+      show_all: 显示所有种子
     form:
       finish_helper: 当你把它们全部种下或者全部卖掉时，种子就完成了。
       trade_help: 您有兴趣与其他 %{site_name} 会员交易或交换种子吗？  如果您将种子列为可交易，其他成员可以联系您索取种子。  您可以在上面的描述中列出任何条件或其他信息。
@@ -1341,6 +1443,20 @@ zh:
         crop_seeds: 每个人的%{crop}种子
         default: 大家的种子
         owner_seeds: "%{owner} 种子"
+    none:
+      add_seeds: 添加 %{crop} 种子
+      looked_everywhere: 我们查看了现有库存和已用完的种子包。
+      see_everyone: 查看所有人的 %{crop} 种子
+      title_from_owner: 没有来自 %{owner} 的 %{crop} 种子
+      title_here: 这里没有 %{crop} 种子
+    other_tab:
+      more_finished:
+        one: 还有 1 包已用完。
+        other: 还有 %{count} 包已用完。
+      more_in_stock:
+        one: 还有 1 包有库存。
+        other: 还有 %{count} 包有库存。
+      show_them: 显示它们
     packet:
       choice_back: 后退
       choice_front: 正面
@@ -1350,6 +1466,22 @@ zh:
       label_front: 数据包正面
       photo_back: 添加包裹背面的照片
       photo_front: 添加包裹正面的照片
+    packet_panel:
+      heading: 来自包装袋
+      hide_ocr: 隐藏文字识别结果
+      ocr_label: 包装袋文字识别结果
+      ocr_note: 从照片中自动读取，可能存在误差。请与实物包装核对。
+      show_ocr: 显示文字识别结果
+    past_sow_by:
+      count:
+        one: 有 %{count} 包种子已过播种期限。
+        other: 有 %{count} 包种子已过播种期限。
+      hint: 旧种子往往仍能发芽。可以密播几颗试试。
+      show_all: 显示全部
+      show_those:
+        one: 显示这 %{count} 包
+        other: 显示这 %{count} 包
+      showing: 正在显示已过播种期限的种子包。
     save_seeds: 保存种子
     show:
       heading: "%{crop} 种子"
@@ -1367,8 +1499,8 @@ zh:
       not_located: 告诉我们您在哪里园艺，我们可以建议播种什么。
       title: 在您附近的 %{month} 轻松播种
     update:
-      'off': 我们已经停止建议农作物。
-      'on': 作物建议又回来了。
+      disabled: 我们已经停止建议农作物。
+      enabled: 作物建议又回来了。
   unauthorized:
     create:
       all: 请登录或注册以创建 %{subject}。

@@ -31,6 +31,13 @@ module ApplicationHelper
             data: { auth_dialog: 'bluesky' })
   end
 
+  def mastodon_link(text, **)
+    return unless Authentication.enabled_sign_in_providers.include?('mastodon')
+
+    link_to(safe_join([icon('fab', 'mastodon'), text], ' '), new_member_session_path, **,
+            data: { auth_dialog: 'mastodon' })
+  end
+
   # A member's avatar as a decoration beside their name, drawn at `size` pixels
   # from a picture twice that for dense screens.
   def avatar_image(member, size, **)
@@ -51,6 +58,7 @@ module ApplicationHelper
         sign_in_page: new_member_session_path, sign_up_page: new_member_registration_path,
         sign_in: member_session_path, sign_up: member_registration_path,
         forgot_password: new_member_password_path,
+        mastodon: (member_mastodon_omniauth_authorize_path if Authentication.enabled_sign_in_providers.include?('mastodon')),
         bluesky: (member_bluesky_omniauth_authorize_path if Authentication.enabled_sign_in_providers.include?('bluesky'))
       },
       recaptcha_site_key: Recaptcha.configuration.site_key.presence,

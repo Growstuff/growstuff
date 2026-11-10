@@ -31,8 +31,8 @@ describe GardensController, '#show' do
       expect(page).to have_no_css('.notepad-name', text: 'Sharpen the secateurs')
     end
 
-    it 'leaves out other members\' jobs' do
-      expect(page).to have_no_css('.notepad-name', text: 'Someone else\'s job')
+    it 'includes other members\' jobs for the garden' do
+      expect(page).to have_css('.notepad-name', text: 'Someone else\'s job')
     end
 
     it 'links to all their jobs' do

@@ -23,6 +23,8 @@
         .col-12= f.select(:garden_type_id, GardenType.all.order(:name).pluck(:name, :id),
                           selected: @garden.garden_type_id, include_blank: true)
         .col-12
+          = f.check_box :frost_safe, label: t('gardens.form.frost_safe.label'), help: t('gardens.form.frost_safe.help')
+        .col-12
           = f.check_box :active, label: 'Active?'
           %p
             You can mark a garden as inactive if you no longer use it.

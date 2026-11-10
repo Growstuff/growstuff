@@ -10,6 +10,13 @@ FactoryBot.define do
     secret { 'bar' }
     name { 'baz' }
 
+    factory :mastodon_authentication do
+      provider { 'mastodon' }
+      uid { '111@mastodon.social' }
+      name { '@alice@mastodon.social' }
+      secret { nil }
+    end
+
     factory :flickr_authentication do
       provider { 'flickr' }
       uid { 'blah@blah' }

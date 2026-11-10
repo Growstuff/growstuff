@@ -182,11 +182,6 @@ $notepad-trail: #a4c98c;
     cursor: grab;
   }
 
-  // Overdue stands out, in a colour that passes on white.
-  .notepad-group-overdue .notepad-heading h2 {
-    color: $danger-text;
-  }
-
   // A photo of a job, taken before or after: a small picture, named underneath.
   .notepad-photo {
     display: inline-flex;

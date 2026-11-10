@@ -43,3 +43,5 @@
       .card-body
         %nav.nav#member_admin
           %li= link_to "Members", admin_members_path, class: 'nav-link'
+          %li= link_to t('admin.climate_coverage.members.title'), admin_climate_members_path, class: 'nav-link'
+          %li= link_to t('admin.climate_coverage.gardens.title'), admin_climate_gardens_path, class: 'nav-link'

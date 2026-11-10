@@ -7,8 +7,12 @@ class PhotoAssociation < ApplicationRecord
 
   # What part of the item a photo is of, for the items that have parts: a job's
   # photo from before or after it was done, the front or back of a seed packet.
-  # Most photos have no label.
+  # A photo added straight to a crop says which part of growing it shows, as it has
+  # no planting, harvest or seed of its own to say so; one of the plant itself has
+  # no label. Most photos have no label.
+  CROP_KINDS = %w(planting harvest seed).freeze
   LABELS = {
+    'Crop' => CROP_KINDS,
     'Job'  => %w(before after),
     'Seed' => %w(front back)
   }.freeze

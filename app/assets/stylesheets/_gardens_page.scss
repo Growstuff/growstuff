@@ -209,10 +209,11 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   @media (max-width: 767px) {
     .garden-card-body {
       flex-direction: column;
+      align-items: stretch;
     }
 
     .planting-row {
-      grid-template-columns: 44px 1fr;
+      grid-template-columns: 44px minmax(0, 1fr);
 
       .planting-row-status {
         grid-column: 1 / -1;

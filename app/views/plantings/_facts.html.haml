@@ -85,14 +85,10 @@
         - else
           = t('.not_rated')
 
+  = render 'plantings/origin', planting: planting
+
   -# Facts that only some plantings have.
-  - if planting.parent_seed
-    .card.fact-card
-      %h3= t('.parent_seed')
-      = render 'seeds/thumbnail', seed: planting.parent_seed
-      - if planting.sown_from_expired_seeds?
-        %span.text-warning-emphasis
-          = t('.sown_from_expired', year: planting.seed_plant_before.year)
+  = render 'plantings/hardiness', planting: planting
 
   - if planting.crop.perennial
     .card.fact-card

@@ -83,6 +83,7 @@ Rails.application.routes.draw do
   resources :plantings, concerns: :has_photos, param: :slug do
     resources :harvests
     resources :seeds
+    resource :origin, only: :update, module: :plantings
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
     end
@@ -114,7 +115,9 @@ Rails.application.routes.draw do
   end
   resources :alternate_names
   resources :plant_parts
-  resources :photos
+  resources :photos do
+    post :refresh, on: :member
+  end
 
   resources :photo_associations, only: %i(update destroy)
 
@@ -125,6 +128,7 @@ Rails.application.routes.draw do
 
     get 'places' => 'places#index'
     resources :jobs, only: :create, controller: 'crop_jobs'
+    resources :photos, only: %i(new create), controller: 'crop_photos'
     get 'members' => 'members#index'
 
     # Charts json
@@ -222,6 +226,8 @@ Rails.application.routes.draw do
     resources :roles
     resources :features, only: %i(index update)
     resources :reminder_stats, only: :index
+    get 'climate/members' => 'climate_coverage#members', as: :climate_members
+    get 'climate/gardens' => 'climate_coverage#gardens', as: :climate_gardens
     resources :job_templates, only: :index
     resources :crops, param: :slug do
       resources :crop_companions

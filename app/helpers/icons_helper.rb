@@ -10,8 +10,14 @@ module IconsHelper
     html_options['aria-hidden'] ||= true
 
     html = content_tag(:i, nil, html_options)
-    html << ' ' << text.to_s unless text.blank?
+    html << ' ' << text.to_s if text.present?
     html
+  end
+
+  # A 24px line drawing from one SVG path, drawn in the text colour.
+  def outline_icon(path_data)
+    tag.svg(tag.path(d: path_data), width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor',
+                                    'stroke-width': 2.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': true)
   end
 
   def icon_for_model(event_model)
@@ -70,10 +76,6 @@ module IconsHelper
     image_icon 'delete'
   end
 
-  def add_photo_icon
-    image_icon 'add-photo'
-  end
-
   def photo_icon
     image_icon 'photo'
   end
@@ -92,10 +94,6 @@ module IconsHelper
 
   def perennial_icon
     icon('fas', 'tree')
-  end
-
-  def delete_association_icon
-    icon('fas', 'backspace')
   end
 
   def like_icon

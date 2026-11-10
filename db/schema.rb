@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_07_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_10_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -387,6 +387,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_000000) do
     t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_claims_on_member_id"
     t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
+  end
+
+  create_table "climate_months", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "days", null: false, comment: "How many days of the month the figures are from."
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.integer "month", null: false, comment: "1 for January to 12 for December."
+    t.float "rain_mm", comment: "Rain over those days."
+    t.float "soil_temp_c", comment: "The average of the days' mean temperature of the top 7 cm of soil."
+    t.float "soil_temp_max_c"
+    t.date "soil_temp_max_on"
+    t.float "soil_temp_min_c"
+    t.date "soil_temp_min_on"
+    t.float "temp_max_c", comment: "The hottest day's highest air temperature."
+    t.date "temp_max_on"
+    t.float "temp_mean_c", comment: "The average of the days' mean air temperature."
+    t.float "temp_min_c", comment: "The coldest night's lowest air temperature."
+    t.date "temp_min_on"
+    t.datetime "updated_at", null: false
+    t.integer "year", null: false
+    t.index ["latitude", "longitude", "year", "month"], name: "index_climate_months_on_cell_year_and_month", unique: true
   end
 
   create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
@@ -781,6 +803,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_000000) do
     t.string "area_unit"
     t.datetime "created_at", precision: nil
     t.text "description"
+    t.boolean "frost_safe", default: false, null: false, comment: "Safe from frost: indoors, a greenhouse, a heated bench. A nursery starts true."
     t.integer "garden_type_id"
     t.integer "grid_columns", default: 10, null: false
     t.integer "grid_rows", default: 10, null: false
@@ -938,6 +961,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_000000) do
     t.index ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
   end
 
+  create_table "mastodon_clients", force: :cascade do |t|
+    t.string "client_id", null: false
+    t.text "client_secret", null: false, comment: "Encrypted."
+    t.datetime "created_at", null: false
+    t.string "domain", null: false
+    t.string "redirect_uri", null: false, comment: "The callback URL the client was registered with; a server rejects any other."
+    t.datetime "updated_at", null: false
+    t.index ["domain"], name: "index_mastodon_clients_on_domain", unique: true
+  end
+
   create_table "median_functions", id: :serial, force: :cascade do |t|
   end
 
@@ -1049,6 +1082,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_000000) do
   end
 
   create_table "photos", id: :serial, force: :cascade do |t|
+    t.string "author_name", comment: "The photographer, when not the member who added the photo."
+    t.string "author_url", comment: "Where to find the photographer, such as their Flickr photostream."
     t.integer "comments_count", default: 0
     t.datetime "created_at", precision: nil
     t.datetime "date_taken", precision: nil
@@ -1104,6 +1139,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_000000) do
     t.index ["planting_id"], name: "index_planting_histories_on_planting_id"
   end
 
+  create_table "planting_seedlings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "label_text", comment: "What the label or tag said."
+    t.bigint "planting_id", null: false
+    t.string "source", comment: "shop, nursery, market, gift or unknown."
+    t.string "supplier", comment: "Who sold or gave it, as the member put it."
+    t.datetime "updated_at", null: false
+    t.index ["planting_id"], name: "index_planting_seedlings_on_planting_id", unique: true
+  end
+
   create_table "plantings", id: :serial, force: :cascade do |t|
     t.integer "alternate_name_id"
     t.integer "comments_count", default: 0
@@ -1116,6 +1161,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_000000) do
     t.boolean "finished", default: false, null: false
     t.date "finished_at"
     t.integer "garden_id", null: false
+    t.text "hardiness", default: "unknown", null: false, comment: "tender, half_hardy, hardy or unknown. Unknown goes by the seed, then the crop."
     t.integer "harvests_count", default: 0
     t.integer "lifespan"
     t.integer "likes_count", default: 0
@@ -1324,6 +1370,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_000000) do
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
   add_foreign_key "planting_histories", "plantings"
+  add_foreign_key "planting_seedlings", "plantings", on_delete: :cascade
   add_foreign_key "plantings", "alternate_names", on_delete: :nullify
   add_foreign_key "plantings", "plantings", column: "source_planting_id"
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify

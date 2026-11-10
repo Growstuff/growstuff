@@ -28,7 +28,6 @@ class PlantingsController < DataController
     @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
     @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
     load_weather
-    @matching_seeds = matching_seeds
     @crop = @planting.crop
 
     @neighbours = @planting.nearby_same_crop
@@ -181,7 +180,7 @@ class PlantingsController < DataController
     params.require(:planting).permit(
       :crop_id, :alternate_name_id, :description, :garden_id, :planted_at,
       :parent_seed_id,
-      :quantity, :sunniness, :planted_from, :finished,
+      :quantity, :sunniness, :planted_from, :hardiness, :finished,
       :finished_at, :failed, :overall_rating
     )
   end
@@ -199,12 +198,6 @@ class PlantingsController < DataController
       .order(created_at: :desc)
       .includes(:crop, :owner, :garden)
       .paginate(page: params[:page])
-  end
-
-  def matching_seeds
-    @matching_seeds ||= Seed.where(crop: @planting.crop, owner: @planting.owner)
-      .where('(finished_at IS NULL OR finished_at >= ?)', @planting.planted_at)
-      .where('(saved_at IS NULL OR saved_at <= ?)', @planting.planted_at)
   end
 
   def specifics

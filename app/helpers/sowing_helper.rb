@@ -2,9 +2,9 @@
 
 # A packet's sowing facts, as the packet would write them.
 module SowingHelper
-  # The seasons as months, for each hemisphere.
-  NORTHERN_SEASONS = { 'Spring' => [3, 4, 5], 'Summer' => [6, 7, 8], 'Autumn' => [9, 10, 11], 'Winter' => [12, 1, 2] }.freeze
-  SOUTHERN_SEASONS = { 'Spring' => [9, 10, 11], 'Summer' => [12, 1, 2], 'Autumn' => [3, 4, 5], 'Winter' => [6, 7, 8] }.freeze
+  # The seasons as months, for each hemisphere, named as the packet would.
+  NORTHERN_SEASONS = SeasonsHelper::SEASON_MONTHS[:northern].transform_keys { |season| season.to_s.capitalize }.freeze
+  SOUTHERN_SEASONS = SeasonsHelper::SEASON_MONTHS[:southern].transform_keys { |season| season.to_s.capitalize }.freeze
 
   # The months to sow in, as runs: "Oct–Feb", or "Mar–Apr, Sep–Oct". A run goes on round the end
   # of the year, and all twelve is "All year". Nothing, if there are none.

@@ -30,7 +30,7 @@ module Admin
       if @template.save
         redirect_to admin_crop_crop_job_templates_path(@crop), notice: t('crop_job_templates.created')
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -42,7 +42,7 @@ module Admin
         redirect_to admin_crop_crop_job_templates_path(@crop), notice: t('crop_job_templates.saved')
       else
         @planting_out_on = planting_out_on
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

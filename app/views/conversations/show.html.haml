@@ -1,5 +1,5 @@
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Conversations', conversations_path
+  %li.breadcrumb-item= link_to t('.breadcrumb_conversations'), conversations_path
   %li.breadcrumb-item.active= link_to @conversation.subject, conversation_path(@conversation)
 
 .row
@@ -10,7 +10,7 @@
   .col-md-2
     .card
       .card-header
-        %h6 Participants
+        %h6= t('.participants')
       %ul.list-group.list-group-flush
         - @participants.each do |member|
           %li.list-group-item= render 'members/tiny', member: member
@@ -21,12 +21,12 @@
           %li.list-group-item
             .col-md-8.text-muted
               = comment_icon
-              on #{message.created_at}
+              = t('.sent_on', date: message.created_at)
             .col-md-4.text-end.float-end
               = render 'members/tiny', member: message.sender
             - if message.notified_object.present?
               .col-12
-                About
+                = t('.about')
                 = link_to message.notified_object.to_s, polymorphic_path(message.notified_object)
             .col-12
               %p.text-justify

@@ -13,6 +13,6 @@ class SuggestionsController < ApplicationController
 
   def update
     current_member.update_columns(suggest_crops: params[:suggest] == 'true') # rubocop:disable Rails/SkipsModelValidations
-    redirect_back_or_to suggestions_path, notice: t(current_member.suggest_crops ? '.on' : '.off')
+    redirect_back_or_to suggestions_path, notice: t(current_member.suggest_crops ? '.enabled' : '.disabled')
   end
 end

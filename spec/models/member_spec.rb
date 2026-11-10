@@ -242,6 +242,12 @@ describe Member do
       Member.nearest_to('Greenwich, UK').should eq [london_member, edinburgh_member]
     end
 
+    it 'leaves out members who have been deleted' do
+      edinburgh_member = create(:edinburgh_member)
+      create(:london_member).discard
+      Member.nearest_to('Greenwich, UK').should eq [edinburgh_member]
+    end
+
     it 'returns Member.none when place is blank or un-geocoded' do
       expect(Member.nearest_to('')).to eq Member.none
       expect(Member.nearest_to(nil)).to eq Member.none
@@ -251,44 +257,6 @@ describe Member do
       create(:edinburgh_member)
       create(:london_member)
       expect(Member.nearest_to('Greenwich, UK', 1).to_a.size).to eq 1
-    end
-  end
-
-  describe 'interesting scope' do
-    # interesting members are defined as:
-    # 1) confirmed
-    # 2) have a location
-    # 3) have at least one planting
-    # 4) ordered by the most recent sign in
-
-    context 'with a few members and plantings' do
-      before do
-        @members = [
-          :london_member, :london_member, :london_member,
-          :unconfirmed_member, # !1
-          :london_member,      # 1, 2, !3
-          :member              # 1, !2, 3
-        ].collect { |m| create(m) }
-
-        [0, 1, 2, 3, 5].each do |i|
-          create(:planting, owner: @members[i])
-        end
-
-        @members[0].updated_at = 3.days.ago
-        @members[1].updated_at = 2.days.ago
-        @members[2].updated_at = 1.day.ago
-
-        # TODO: Shouldn't this save?
-
-        @result = Member.interesting
-
-        # Some members have multiple plantings, but should only appear once
-        create_list(:planting, 3, owner: @members[2])
-      end
-
-      it 'finds interesting members without duplicates in the correct order' do
-        @result.should eq [@members[2], @members[1], @members[0]]
-      end
     end
   end
 
@@ -341,7 +309,6 @@ describe Member do
       it { expect(Member.located).not_to include(member) }
       it { expect(Member.recently_signed_in).not_to include(member) }
       it { expect(Member.recently_joined).not_to include(member) }
-      it { expect(Member.interesting).not_to include(member) }
       it { expect(Member.has_plantings).not_to include(member) }
     end
 
@@ -431,7 +398,21 @@ describe Member do
   describe '#update_spam_score!' do
     let(:member) { create(:member) }
 
-    context 'when spam score reaches the maximum score' do
+    context 'when spam score reaches the ban threshold' do
+      before do
+        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(75)
+      end
+
+      it 'updates the spam score' do
+        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(75)
+      end
+
+      it 'bans the member' do
+        expect { member.update_spam_score! }.to change { member.reload.banned? }.from(false).to(true)
+      end
+    end
+
+    context 'when spam score is above the ban threshold' do
       before do
         allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(100)
       end
@@ -445,13 +426,13 @@ describe Member do
       end
     end
 
-    context 'when spam score is below the maximum score' do
+    context 'when spam score is below the ban threshold' do
       before do
-        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(75)
+        allow(UserBehaviourDetectionService).to receive(:score_for).with(member).and_return(74)
       end
 
       it 'updates the spam score' do
-        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(75)
+        expect { member.update_spam_score! }.to change { member.reload.spam_score }.to(74)
       end
 
       it 'does not ban the member' do
@@ -501,5 +482,24 @@ describe Member do
       member.settings = { 'locale' => 'invalid_lang' }
       expect(member).not_to be_valid
     end
+  end
+
+  describe '#plantings_by_progress' do
+    subject(:grouped) { member.plantings_by_progress }
+
+    let(:member) { build(:member) }
+    let(:growing) { instance_double(Planting, finish_is_predicatable?: true, progress_state: :growing) }
+    let(:harvesting) { instance_double(Planting, finish_is_predicatable?: true, progress_state: :harvesting) }
+    let(:late) { instance_double(Planting, finish_is_predicatable?: true, progress_state: :late) }
+    let(:super_late) { instance_double(Planting, finish_is_predicatable?: true, progress_state: :super_late) }
+    let(:unpredictable) { instance_double(Planting, finish_is_predicatable?: false, progress_state: :growing) }
+    let(:plantings) { [growing, harvesting, late, super_late, unpredictable] }
+
+    before { allow(member).to receive_message_chain(:plantings, :active, :annual).and_return(plantings) }
+
+    it { expect(grouped[:others]).to eq [growing] }
+    it { expect(grouped[:harvesting]).to eq [harvesting] }
+    it { expect(grouped[:late]).to eq [late] }
+    it { expect(grouped[:super_late]).to eq [super_late] }
   end
 end

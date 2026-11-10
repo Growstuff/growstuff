@@ -1,35 +1,8 @@
-.member-thumbnail {
-  border-radius: 12px;
-  height: 200px;
-  margin: 1em;
-  padding: 0.25em;
-
-  div {
-    display: inline-block;
-    vertical-align: top;
-    width: 5em;
-  }
-}
-
-.member-thumbnail div ~ div {
-  padding-left: 1em;
-  width: 15em;
-}
-
 .member-chip {
   background-color: lighten($green, 30%);
 
   a {
     color: $black;
-  }
-}
-
-.member-location {
-  font-size: small;
-  font-style: italic;
-
-  a {
-    color: $brown;
   }
 }
 

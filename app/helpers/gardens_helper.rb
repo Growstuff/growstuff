@@ -5,14 +5,7 @@ module GardensHelper
   # from the person looking, whichever of those are known.
   def garden_details(garden)
     location = link_to(garden.location, place_path(garden.location)) if garden.location.present?
-    safe_join([location, garden.garden_type&.name, garden_area(garden), garden_distance(garden)].compact, ' · ')
-  end
-
-  # How big the garden is, such as "24 square metres", when it has been measured.
-  def garden_area(garden)
-    return if garden.area.blank?
-
-    pluralize(number_with_precision(garden.area, precision: 2, strip_insignificant_zeros: true), garden.area_unit)
+    safe_join([location, garden.garden_type&.name, garden.area_text, garden_distance(garden)].compact, ' · ')
   end
 
   # A temperature as degrees, or that it is not known.
@@ -174,29 +167,6 @@ module GardensHelper
       truncate(garden.description, length: 130, separator: ' ', omission: '... ') do
         link_to "Read more", garden_path(garden)
       end
-    end
-  end
-
-  # TODO: Not used?
-  def display_garden_name(garden)
-    truncate(garden.name, length: 50, separator: ' ', omission: '... ')
-  end
-
-  # TODO: Only used by specs?
-  def display_garden_plantings(plantings)
-    if plantings.blank?
-      "None"
-    else
-      output = '<ul class="plantings">'
-      plantings.each do |planting|
-        output += "<li>"
-        output += planting.quantity.nil? ? "0 " : "#{planting.quantity} "
-        output += link_to planting.display_name, planting.crop
-        output += ", planted on #{planting.planted_at}</li>"
-      end
-      output += '</ul>'
-      output.html_safe
-
     end
   end
 end
