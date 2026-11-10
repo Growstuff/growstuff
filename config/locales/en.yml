@@ -318,6 +318,11 @@ en:
       select_for_deletion: Select for deletion
       time_ago: "%{time} ago"
       title: Inbox
+    show:
+      about: About
+      breadcrumb_conversations: Conversations
+      participants: Participants
+      sent_on: "on %{date}"
   crop_companions:
     created: Companion was successfully created.
     deleted: Companion was successfully destroyed.

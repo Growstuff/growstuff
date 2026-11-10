@@ -210,6 +210,11 @@ de:
       select_for_deletion: Zum Löschen auswählen
       time_ago: Vor %{time}
       title: Posteingang
+    show:
+      about: Über
+      breadcrumb_conversations: Konversationen
+      participants: Teilnehmer
+      sent_on: "am %{date}"
   crop_companions:
     created: Companion wurde erfolgreich erstellt.
     deleted: Companion wurde erfolgreich zerstört.

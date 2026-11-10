@@ -210,6 +210,11 @@ zh:
       select_for_deletion: 选择删除
       time_ago: "%{time}前"
       title: 收件箱
+    show:
+      about: 关于
+      breadcrumb_conversations: 对话
+      participants: 参与者
+      sent_on: "于 %{date}"
   crop_companions:
     created: 同伴已成功创建。
     deleted: 同伴被成功摧毁。

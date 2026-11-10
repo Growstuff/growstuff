@@ -52,6 +52,11 @@ ja:
       select_for_deletion: 削除対象として選択
       time_ago: "%{time}前"
       title: 受信トレイ
+    show:
+      about: 関連
+      breadcrumb_conversations: メッセージ一覧
+      participants: 参加者
+      sent_on: "%{date}"
   crops:
     growing_fact:
       median_of_packets: メンバーの種子パケットの中央値
