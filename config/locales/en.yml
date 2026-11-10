@@ -318,6 +318,11 @@ en:
       select_for_deletion: Select for deletion
       time_ago: "%{time} ago"
       title: Inbox
+    show:
+      about: About
+      breadcrumb_conversations: Conversations
+      participants: Participants
+      sent_on: "on %{date}"
   crop_companions:
     created: Companion was successfully created.
     deleted: Companion was successfully destroyed.
@@ -1843,7 +1848,6 @@ en:
       packets_of_seed:
         one: 1 packet of seed
         other: "%{count} packets of seed"
-      parent_seed: Parent seed
       perennial: Perennial
       perennial_description: keeps growing year to year
       planned: Planned
@@ -1964,6 +1968,91 @@ en:
       title: Add %{crop} to your garden
       which_garden: Which garden is it going in?
     plant_something: Plant something
+    origin:
+      change: change
+      crop_changed: This planting is now %{crop}, to match your packet. It was %{was}.
+      dialog:
+        another_way: Started another way
+        back: Back
+        cancel: Cancel
+        change_hint: The planting's crop follows the packet. Choosing a variety makes this a planting of that variety.
+        change_link: change
+        change_title: "Change where this %{crop} planting came from"
+        choose: Choose
+        choose_another: Choose another
+        choose_different: Choose a different packet
+        confirm_other_crop: "%{seed} is a different crop to this %{crop} planting. Are you sure it grew from this packet?"
+        label_hint: Seedlings often come with a label or tag. Copy anything useful, so you can find it next season.
+        label_text: Label text (optional)
+        label_text_hint: Supplier, planting advice, days to harvest, anything printed on it
+        label_title: What the label says
+        link_anyway: Link anyway
+        linked_now: Linked now
+        no_match: "Nothing found for \"%{query}\" among %{crop} seeds."
+        not_my_packet: Not one of my packets
+        next: Next
+        not_this_packet: Or it wasn't this packet
+        other_crops: Other crops
+        other_seeds: Other seeds
+        other_seeds_hint: Other seeds goes to where they came from and lets you add the packet's details. Another way offers seedling, cutting and the rest.
+        other_ways: Another way
+        remove_link: Remove the link
+        remove_link_hint: Removing the link takes this back to not recorded. The packet's list of plantings updates straight away.
+        right_now: Right now
+        save: Save
+        search: Search your seeds
+        search_placeholder: Any crop or variety
+        seed_list: "%{crop} seeds, including varieties"
+        seed_list_hint: Choosing a variety also changes this planting's crop to that variety.
+        seed_source_title: Where did the seeds come from?
+        seed_title: Is it one of your seeds?
+        seedling_source_title: Where did you get it?
+        seedling_title: About the seedling
+        skip: Just save "%{kind}"
+        some_other_seeds: No, some other seeds
+        some_other_seeds_hint: Not in your library, or you have none.
+        started_title: How was this %{crop} planting started?
+        step: Step %{step} of %{total}
+        step_how: How it started
+        step_source: Where from
+        supplier: Where from (optional)
+        supplier_placeholder: Shop, nursery, stall or person
+        unsaved: That didn't save. Please try again.
+      grown_from: Grown from
+      kind_hints:
+        cutting: A piece of another plant
+        seed: From a packet or saved seed
+        seedling: A young plant, bought or given
+      kinds:
+        advanced_plant: Advanced plant
+        bare_root_plant: Bare root plant
+        bulb: Bulb
+        cutting: Cutting
+        graft: Graft
+        layering: Layering
+        root_division: Root division
+        root_tuber: Root/tuber
+        runner: Runner
+        seed: Seed
+        seedling: Seedling
+      link_a_seed: Link a seed
+      not_recorded: Not recorded
+      packet: Your %{seed} packet
+      saved_in: Saved %{year}
+      seed_sources:
+        my own seed saving: Saved by me earlier
+        other/unknown: Not sure
+        retail outlet: Shop or garden centre
+        seed bank or similar institution: Seed library or seed bank
+        seed catalogue: Seed catalogue
+        traded from another person: Traded or given by someone
+      seedling_sources:
+        gift: Given by someone
+        market: Market or stall
+        nursery: Nursery
+        shop: Shop or garden centre
+        unknown: Not sure
+      undo: Undo
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
     show:
@@ -1997,6 +2086,7 @@ en:
       seeds_saved: Seeds saved
       title: "%{crop} planting by %{owner}"
       view_all_plantings: All of %{owner}'s plantings
+      weather: Weather
       weather_coldest: Coldest night
       weather_credit_html: "%{open_meteo} (%{licence}). Contains modified Copernicus Climate Change Service information. The weather is modelled for the area around the garden, not measured in it, and runs a few days behind. The totals, charts and expected weather are our adaptation of that data."
       weather_credit_licence: CC BY 4.0
@@ -2018,6 +2108,14 @@ en:
       weather_temperature_chart: Daily high and low
       weather_temperature_chart_alt: Daily high and low temperature, from %{low} to %{high}.
     string: "%{crop} planting in %{garden} by %{owner}"
+    timeline:
+      failed: Failed
+      finish_expected: Finish expected %{date}
+      finished: Finished %{date}
+      first_harvest_expected: First harvest expected %{date}
+      harvest_started: Harvest started %{date}
+      legend: (One emoji = 1 week)
+      planted: Planted %{date}
     transplant:
       cancel: Cancel
       close: Close

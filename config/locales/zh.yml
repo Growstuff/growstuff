@@ -210,6 +210,11 @@ zh:
       select_for_deletion: 选择删除
       time_ago: "%{time}前"
       title: 收件箱
+    show:
+      about: 关于
+      breadcrumb_conversations: 对话
+      participants: 参与者
+      sent_on: "于 %{date}"
   crop_companions:
     created: 同伴已成功创建。
     deleted: 同伴被成功摧毁。
@@ -1285,7 +1290,6 @@ zh:
       packets_of_seed:
         one: 1 包种子
         other: "%{count} 包种子"
-      parent_seed: 母株种子
       perennial: 多年生
       perennial_description: 年复一年持续生长
       planned: 已计划
@@ -1366,6 +1370,14 @@ zh:
       weather_temperature_chart: 每日高点和低点
       weather_temperature_chart_alt: 每日高低温，从%{low}到%{high}。
     string: '%{crop} 在 %{garden} 中种植 %{owner}'
+    timeline:
+      failed: 失败
+      finish_expected: 预计于 %{date} 结束
+      finished: 于 %{date} 结束
+      first_harvest_expected: 预计于 %{date} 第一次收获
+      harvest_started: 于 %{date} 开始收获
+      legend: (一个表情符号 = 1周)
+      planted: 种植于 %{date}
     transplant:
       cancel: 取消
       close: 关闭

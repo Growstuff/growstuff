@@ -83,6 +83,7 @@ Rails.application.routes.draw do
   resources :plantings, concerns: :has_photos, param: :slug do
     resources :harvests
     resources :seeds
+    resource :origin, only: :update, module: :plantings
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
     end

@@ -52,6 +52,11 @@ ja:
       select_for_deletion: 削除対象として選択
       time_ago: "%{time}前"
       title: 受信トレイ
+    show:
+      about: 関連
+      breadcrumb_conversations: メッセージ一覧
+      participants: 参加者
+      sent_on: "%{date}"
   crops:
     growing_fact:
       median_of_packets: メンバーの種子パケットの中央値
@@ -281,6 +286,14 @@ ja:
       close: 閉じる
       title: "%{crop}をあなたの庭に追加"
       which_garden: どの庭に入れますか？
+    timeline:
+      failed: 失敗
+      finish_expected: "%{date}に終了予定"
+      finished: "%{date}に終了"
+      first_harvest_expected: "%{date}に最初の収穫予定"
+      harvest_started: "%{date}に収穫開始"
+      legend: "(絵文字1つ = 1週間)"
+      planted: "%{date}に植え付け"
     transplant:
       cancel: キャンセル
       close: 閉じる
@@ -302,7 +315,6 @@ ja:
       not_specified: 指定なし
       packets_of_seed:
         other: "%{count}袋の種"
-      parent_seed: 親の種
       perennial: 多年草
       perennial_description: 年々成長し続けます
       planned: 計画済み

@@ -210,6 +210,11 @@ fr:
       select_for_deletion: Sélectionner pour suppression
       time_ago: Il y a %{time}
       title: Boîte de réception
+    show:
+      about: À propos de
+      breadcrumb_conversations: Conversations
+      participants: Participants
+      sent_on: "le %{date}"
   crop_companions:
     created: Le compagnon a été créé avec succès.
     deleted: Le compagnon a été détruit avec succès.
@@ -1290,7 +1295,6 @@ fr:
       packets_of_seed:
         one: 1 sachet de graines
         other: "%{count} sachets de graines"
-      parent_seed: Graine d'origine
       perennial: Vivace
       perennial_description: continue de pousser d'année en année
       planned: Prévu
@@ -1371,6 +1375,14 @@ fr:
       weather_temperature_chart: Haut / bas quotidien
       weather_temperature_chart_alt: Température quotidienne haute et basse, de %{low} à %{high}.
     string: Plantation de %{crop} à %{garden} par %{owner}
+    timeline:
+      failed: Échoué
+      finish_expected: Fin prévue le %{date}
+      finished: Terminé %{date}
+      first_harvest_expected: Première récolte prévue le %{date}
+      harvest_started: Récolte commencée le %{date}
+      legend: (Un emoji = 1 semaine)
+      planted: Planté %{date}
     transplant:
       cancel: Annuler
       close: Fermer

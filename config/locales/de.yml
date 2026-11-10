@@ -210,6 +210,11 @@ de:
       select_for_deletion: Zum Löschen auswählen
       time_ago: Vor %{time}
       title: Posteingang
+    show:
+      about: Über
+      breadcrumb_conversations: Konversationen
+      participants: Teilnehmer
+      sent_on: "am %{date}"
   crop_companions:
     created: Companion wurde erfolgreich erstellt.
     deleted: Companion wurde erfolgreich zerstört.
@@ -1288,7 +1293,6 @@ de:
       packets_of_seed:
         one: 1 Saatgutpäckchen
         other: "%{count} Saatgutpäckchen"
-      parent_seed: Ausgangssaatgut
       perennial: Mehrjährig
       perennial_description: wächst von Jahr zu Jahr weiter
       planned: Geplant
@@ -1369,6 +1373,14 @@ de:
       weather_temperature_chart: Tageshoch und -tief
       weather_temperature_chart_alt: Tageshöchst- und Tiefsttemperatur, von %{low} bis %{high}.
     string: '%{crop} Pflanzung in %{garden} durch %{owner}'
+    timeline:
+      failed: Fehlgeschlagen
+      finish_expected: Abschluss erwartet %{date}
+      finished: Abgeschlossen %{date}
+      first_harvest_expected: Erste Ernte erwartet %{date}
+      harvest_started: Ernte begonnen %{date}
+      legend: (Ein Emoji = 1 Woche)
+      planted: Gepflanzt %{date}
     transplant:
       cancel: Abbrechen
       close: Schließen
