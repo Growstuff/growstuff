@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { searchCrops, showResults, choose, confirmMessage, exactFirst, parseNames, renderNames, renderDetails, parseDetails, wikipediaUrl, setUp } from './ecocrop_link';
+import { searchCrops, showResults, choose, confirmMessage, exactFirst, parseNames, renderNames, hasNote, renderDetails, parseDetails, wikipediaUrl, setUp } from './ecocrop_link';
 
 describe('searchCrops', () => {
   it('asks the search endpoint for the term', async () => {
@@ -141,6 +141,16 @@ describe('parseDetails', () => {
   });
 });
 
+describe('hasNote', () => {
+  it('is true for a note in brackets', () => {
+    expect(hasNote('kukama (Tuvalu)')).toBe(true);
+  });
+
+  it('is false for a plain name', () => {
+    expect(hasNote('carrot')).toBe(false);
+  });
+});
+
 describe('wikipediaUrl', () => {
   it('uses the scientific name as the title', () => {
     expect(wikipediaUrl('Daucus carota')).toBe('https://en.wikipedia.org/wiki/Daucus_carota');
@@ -158,6 +168,16 @@ describe('renderNames', () => {
   it('ticks a box for each name', () => {
     renderNames(fieldset, ['carrot', 'karotte']);
     expect(fieldset.querySelectorAll('input:checked')).toHaveLength(2);
+  });
+
+  it('does not tick a name with a note in brackets', () => {
+    renderNames(fieldset, ['carrot', 'brocoli (French)']);
+    expect([...fieldset.querySelectorAll('input')].map((box) => box.checked)).toEqual([true, false]);
+  });
+
+  it('still offers a name with a note in brackets', () => {
+    renderNames(fieldset, ['brocoli (French)']);
+    expect(fieldset.querySelectorAll('input')).toHaveLength(1);
   });
 
   it('skips names ignoring case', () => {

@@ -42,19 +42,20 @@ class EcocropData < ApplicationRecord
   # as { record id => crops }. A crop that already has a record is left alone, since linking would move it.
   def self.suggested_crops(records)
     candidates = records.select { |record| record.crops.empty? }
-    names = candidates.flat_map { |record| Array(record.comname).map { |name| name.downcase.squish } }.uniq
+    names = candidates.flat_map { |record| record.common_names.map(&:downcase) }.uniq
     return {} if names.empty?
 
     crops = Crop.approved.where(ecocrop_data_id: nil).where('lower(name) IN (?)', names).group_by { |crop| crop.name.downcase.squish }
     found = candidates.to_h do |record|
-      [record.id, Array(record.comname).filter_map { |name| crops[name.downcase.squish] }.flatten.uniq]
+      [record.id, record.common_names.filter_map { |name| crops[name.downcase] }.flatten.uniq]
     end
     found.reject { |_id, matching| matching.empty? }
   end
 
-  # The common names, tidied and without repeats ignoring case.
+  # The common names, tidied and without repeats ignoring case. The source writes some with HTML entities
+  # ("Tordenskr&aelig;ppe"), which are turned into the letters they stand for.
   def common_names
-    Array(comname).map(&:squish).compact_blank.uniq(&:downcase)
+    Array(comname).map { |name| Nokogiri::HTML.fragment(name).text.squish }.compact_blank.uniq(&:downcase)
   end
 
   # The common names this crop doesn't have yet, as its name or an alternate name, ignoring case.

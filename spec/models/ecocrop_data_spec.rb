@@ -244,6 +244,12 @@ describe EcocropData do
     end
   end
 
+  describe '#common_names' do
+    it 'turns HTML entities into letters' do
+      expect(build(:ecocrop_data, comname: ['Tordenskr&aelig;ppe', 'D&amp;D']).common_names).to eq ['Tordenskræppe', 'D&D']
+    end
+  end
+
   describe '#new_common_names_for' do
     let(:record) { build(:ecocrop_data, comname: ['carrot', 'Karotte ', 'karotte', 'wortel']) }
     let(:crop) { create(:crop, name: 'Carrot') }

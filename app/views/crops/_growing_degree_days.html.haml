@@ -1,13 +1,13 @@
 -# What growing degree days are, for a crop that has a figure for them: set by a wrangler, or
 -# from the heat it needs according to EcoCrop. Says what we use them for, and what we don't.
 - heat = crop.ecocrop_heat_data
-- if crop.growing_degree_days.present? || heat
+- if crop.growing_degree_days_figure || heat
   %details.growing-degree-days-explainer.mt-3
     %summary= t('.summary')
     %p.mt-2= t('.intro')
     %p= t('.example')
-    - if crop.growing_degree_days.present?
-      %p= t('.needs_html', crop: crop.name.capitalize, degree_days: content_tag(:strong, crop.growing_degree_days))
+    - if crop.growing_degree_days_figure
+      %p= t('.needs_html', crop: crop.name.capitalize, degree_days: content_tag(:strong, crop.growing_degree_days_figure))
     - if heat
       %p
         = t('.cycle_html', crop: crop.name,

@@ -1,4 +1,4 @@
-- missing_attributes = [crop.height, crop.spread, crop.row_spacing, crop.growing_degree_days].any?(&:blank?)
+- missing_attributes = [crop.height, crop.spread, crop.row_spacing, crop.growing_degree_days_figure].any?(&:blank?)
 .section-header
   %h2
     -# Decorative: the heading already says what this is.
@@ -51,9 +51,9 @@
     = render 'layouts/fact_card', title: size[:title], value: size[:value], description: nil
   = render 'crops/growing_facts', crop: crop
   = render 'crops/hardiness', crop: crop
-  - if crop.growing_degree_days.present?
+  - if crop.growing_degree_days_figure
     = render 'layouts/fact_card',
-      title: 'Growing Degree Days', value: crop.growing_degree_days, description: nil
+      title: 'Growing Degree Days', value: crop.growing_degree_days_figure, description: nil
   = render 'openfarm_data', crop: crop
   - ecocrop_facts(crop.ecocrop_data).each do |fact|
     = render 'crops/ecocrop_fact', fact:

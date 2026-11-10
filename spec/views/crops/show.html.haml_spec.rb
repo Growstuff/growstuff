@@ -146,6 +146,15 @@ describe "crops/show" do
     end
   end
 
+  context "with a growing degree days figure of 0" do
+    before { @crop.update!(growing_degree_days: 0) }
+
+    it "does not show a growing degree days card" do
+      render
+      expect(rendered).to have_no_css ".fact-card", text: "Growing Degree Days"
+    end
+  end
+
   context "with a growing degree days figure" do
     before { @crop.update!(growing_degree_days: 650) }
 
