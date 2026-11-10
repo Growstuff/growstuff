@@ -517,7 +517,7 @@
     background: $white;
     border-radius: $card-radius;
     display: block;
-    height: 80px; // WEATHER_CHART_HEIGHT in WeatherChartFrameHelper
+    height: 120px; // WEATHER_CHART_HEIGHT in WeatherChartFrameHelper
     width: 100%;
   }
 
@@ -593,6 +593,48 @@
     position: absolute;
     right: 0.4rem;
     transform: translateY(-110%);
+  }
+
+  // What EcoCrop says the crop grows best in, and survives, behind the temperature lines: the wider band is paler and
+  // has dashed edges, the narrower is stronger with solid ones.
+  .weather-band {
+    fill: $green;
+    stroke: $green;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+
+    &--absolute {
+      fill-opacity: 0.1;
+      stroke-dasharray: 4 3;
+      stroke-opacity: 0.6;
+    }
+
+    &--optimal {
+      fill-opacity: 0.28;
+      stroke-opacity: 0.9;
+    }
+  }
+
+  // What each band is, in the chart's right-hand corner: the best range under its top edge, the survivable one above its bottom.
+  .weather-band-label {
+    background: rgba($white, 0.85);
+    border-radius: 3px;
+    color: $ink-muted;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0 0.25rem;
+    position: absolute;
+    right: 0.4rem;
+
+    &--optimal {
+      margin-top: 0.15rem;
+    }
+
+    &--absolute {
+      margin-top: -0.15rem;
+      transform: translateY(-100%);
+    }
   }
 
   .weather-seasons {

@@ -5,12 +5,14 @@
   seasons = weather_seasons(planting.latitude, from: planting.weather_first_day, days:)
   now = weather_now(planting, days)
   frost = planting.frost_danger
+  ranges = weather_temperature_ranges(planting.crop)
 .weather-charts
   %figure
     %figcaption
       = t('plantings.show.weather_temperature_chart')
       %span.badge.text-bg-success.ms-1= t('plantings.show.weather_new')
-    = weather_temperature_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:, frost:)
+      = weather_range_badge(readings, ranges, crop: planting.crop)
+    = weather_temperature_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:, frost:, ranges:)
   %figure
     %figcaption= t('plantings.show.weather_rain_chart')
     = weather_rain_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:)
@@ -19,7 +21,7 @@
   %p.weather-expected-note.small.text-muted= t('plantings.show.weather_expected_note')
 - if readings.any?
   %dl.weather-summary
-    - weather_summary(readings).each do |key, value|
+    - weather_summary(readings, ranges:).each do |key, value|
       .weather-figure
         %dt= t("plantings.show.weather_#{key}")
         %dd= value

@@ -83,7 +83,10 @@
             - when :needs_location
               = render 'plantings/weather_location_prompt', garden: @planting.garden
             - when :pending
-              %p.small.text-muted= t('plantings.show.weather_pending')
+              .card.weather-pending
+                .card-body.text-center
+                  = icon 'fas', 'cloud-sun', class: 'fa-2x text-muted'
+                  %p.mb-0.mt-2= t('plantings.show.weather_pending')
 
         - if @planting.description.present?
           = cute_icon
