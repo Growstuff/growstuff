@@ -875,6 +875,40 @@ describe Planting do
     end
   end
 
+  describe '#weather_due_on' do
+    subject(:due) { build(:planting, crop:, planted_at: Date.new(2026, 11, 22)).weather_due_on }
+
+    context 'with a crop lifespan' do
+      let(:crop) { create(:crop, median_lifespan: 100, median_days_to_last_harvest: 50) }
+
+      it('uses it') { expect(due).to eq Date.new(2026, 11, 22) + 100 }
+    end
+
+    context 'without a lifespan, for an annual with a median to its last harvest' do
+      let(:crop) { create(:crop, perennial: false, median_days_to_last_harvest: 123) }
+
+      it('uses the last harvest') { expect(due).to eq Date.new(2026, 11, 22) + 123 }
+    end
+
+    context 'without either, with EcoCrop data' do
+      let(:crop) { create(:crop, ecocrop_record: create(:ecocrop_data, gmin: 160, gmax: 240)) }
+
+      it('uses the middle of its crop cycle') { expect(due).to eq Date.new(2026, 11, 22) + 200 }
+    end
+
+    context 'with an EcoCrop cycle of 0 days' do
+      let(:crop) { create(:crop, ecocrop_record: create(:ecocrop_data, gmin: 0, gmax: 0)) }
+
+      it('is nil') { expect(due).to be_nil }
+    end
+
+    context 'without anything to go on' do
+      let(:crop) { create(:crop) }
+
+      it('is nil') { expect(due).to be_nil }
+    end
+  end
+
   describe '#expected_weather_readings' do
     subject(:expected) { planting.expected_weather_readings }
 

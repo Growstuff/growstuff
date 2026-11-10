@@ -59,6 +59,18 @@ describe 'Weather on a planting', flipper: :planting_weather do
     it { expect(page).to have_no_css '.weather-summary' }
   end
 
+  context 'with a planting planned for later, whose crop has no lifespan' do
+    let(:today) { Time.zone.today }
+    let(:planting) do
+      create(:planting, garden:, owner: garden.owner, crop: create(:crop, perennial: false, median_days_to_last_harvest: 30),
+                        planted_at: today + 3).tap do
+        create(:weather_reading, date: (today + 10).prev_year, rainfall_mm: 4.0)
+      end
+    end
+
+    it { expect(page).to have_css '#weather rect.weather-expected' }
+  end
+
   context 'without readings' do
     it { expect(page).to have_no_css '#weather' }
     it { expect(page).to have_css '.planting-weather .card.weather-pending' }
