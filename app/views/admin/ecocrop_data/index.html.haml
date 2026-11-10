@@ -1,0 +1,48 @@
+- content_for :title, t('.title')
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to 'Admin', admin_path
+  %li.breadcrumb-item.active= t('.title')
+
+%h1= t('.title')
+%p.text-muted= t('.intro', matched: @counts[:matched], total: @counts[:all])
+
+%ul.nav.nav-tabs.mb-3
+  %li.nav-item
+    = link_to t('.all'), admin_ecocrop_data_path(q: @query.presence), class: "nav-link #{'active' if @filter.nil?}"
+  - Admin::EcocropDataController::FILTERS.each do |filter|
+    %li.nav-item
+      = link_to t(".#{filter}"), admin_ecocrop_data_path(filter:, q: @query.presence),
+                class: "nav-link #{'active' if @filter == filter}"
+
+= form_with url: admin_ecocrop_data_path, method: :get, class: 'row g-2 mb-3' do |form|
+  = hidden_field_tag :filter, @filter if @filter
+  .col-md-6
+    = form.search_field :q, value: @query, class: 'form-control', placeholder: t('.search_placeholder'), 'aria-label': t('.search_placeholder')
+  .col-auto
+    = form.submit t('.search'), class: 'btn btn-primary', name: nil
+
+- if @records.empty?
+  %p= t('.none')
+- else
+  %table.table.ecocrop-data-table
+    %thead
+      %tr
+        %th= t('.scientific_name')
+        %th= t('.common_names')
+        %th= t('.heat_data')
+        %th= t('.crops')
+    %tbody
+      - @records.each do |record|
+        %tr
+          %td
+            %em= record.scientificname
+            %small.text-muted= record.ecoportcode
+          %td= Array(record.comname).first(3).join(', ')
+          %td= record.heat_data? ? t('.yes_heat_data') : t('.no_heat_data')
+          %td
+            - if record.crops.empty?
+              %span.text-muted= t('.unmatched_crop')
+            - else
+              = safe_join(record.crops.sort_by(&:name).map { |crop| link_to(crop.name, crop) }, ', ')
+  = will_paginate @records

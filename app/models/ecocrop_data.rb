@@ -1,12 +1,23 @@
 # frozen_string_literal: true
 
 class EcocropData < ApplicationRecord
+  has_many :crops, inverse_of: :ecocrop_record, dependent: :nullify
+
   validates :ecoportcode, presence: true, uniqueness: true
   validates :scientificname, presence: true
 
   # The figures a heat estimate needs: the lowest temperature the crop grows at, its optimal range,
   # and the shortest and longest growing cycle in days.
   HEAT_FIELDS = %i(tmin topmn topmx gmin gmax).freeze
+
+  scope :matched, -> { where(id: Crop.where.not(ecocrop_data_id: nil).select(:ecocrop_data_id)) }
+  scope :unmatched, -> { where.not(id: Crop.where.not(ecocrop_data_id: nil).select(:ecocrop_data_id)) }
+
+  # Records whose scientific name or any common name contains the text.
+  scope :search, lambda { |text|
+    pattern = "%#{sanitize_sql_like(text.to_s.strip)}%"
+    where('scientificname ILIKE :pattern OR array_to_string(comname, \' \') ILIKE :pattern', pattern:)
+  }
 
   def self.by_scientific_name(name)
     return nil if name.blank?
