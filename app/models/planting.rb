@@ -226,9 +226,12 @@ class Planting < ApplicationRecord
     self.class.weather_tracked.exists?(id)
   end
 
-  # The day this planting is due, from its crop's expected lifespan, or nil when we don't know it.
+  # The day this planting is due, from its crop's expected lifespan, or failing that how long its crop's plantings run
+  # to their last harvest, or the middle of EcoCrop's crop cycle: whatever we know, so the weather can be shown that
+  # far ahead. Nil when we know none of them.
   def weather_due_on
-    planted_at + expected_lifespan.to_i if planted_at.present? && expected_lifespan.present?
+    days = weather_horizon_days
+    planted_at + days.to_i if planted_at.present? && days
   end
 
   # The weather this planting grew through, day by day: the readings for its garden's grid cell, for the last year of
@@ -299,6 +302,18 @@ class Planting < ApplicationRecord
   end
 
   private
+
+  # How many days the planting is expected to last, for working out when it is due.
+  def weather_horizon_days
+    last_harvest = crop.median_days_to_last_harvest if crop.annual?
+    [expected_lifespan, last_harvest, ecocrop_cycle_days].find { |days| days&.positive? }
+  end
+
+  # The middle of the crop cycle EcoCrop gives, in days.
+  def ecocrop_cycle_days
+    data = crop.ecocrop_data
+    ((data.gmin + data.gmax) / 2.0).round if data&.gmin&.positive? && data.gmax&.positive?
+  end
 
   # Daily weather for the grid cell this planting's garden is in.
   def weather_cell_readings
