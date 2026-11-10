@@ -330,6 +330,11 @@ es:
       wikidata_id: ID de Wikidata
     search: Buscar cultivos
   edit_crop: Editar recorte
+  follows:
+    followers:
+      title: "Seguidores de %{member}"
+    index:
+      title: "Seguidos por %{member}"
   forms:
     optional: "(Opcional)"
   forums:

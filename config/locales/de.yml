@@ -330,6 +330,11 @@ de:
       wikidata_id: Wikidata-ID
     search: Pflanzen suchen
   edit_crop: Zuschnitt bearbeiten
+  follows:
+    followers:
+      title: "%{member}s Follower"
+    index:
+      title: "%{member}s gefolgte Personen"
   forms:
     optional: "(Optional)"
   forums:
