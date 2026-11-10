@@ -419,6 +419,10 @@ describe Planting do
       end
     end
 
+    it 'accepts volunteer as a planted_from value' do
+      expect(build(:planting, planted_from: 'volunteer')).to be_valid
+    end
+
     it 'refuses invalid planted_from values' do
       @planting = build(:planting, planted_from: 'not valid')
       @planting.should_not be_valid

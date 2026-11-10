@@ -9,7 +9,8 @@ module PlantingsHelper
     'seed' => 'icons/seeds.svg', 'seedling' => 'icons/sprout.svg', 'cutting' => 'icons/plant_parts/stem.svg',
     'root division' => 'icons/plant_parts/root.svg', 'runner' => 'icons/plant_parts/other.svg', 'bulb' => 'icons/plant_parts/bulb.svg',
     'root/tuber' => 'icons/plant_parts/tuber.svg', 'bare root plant' => 'icons/plant_parts/whole plant.svg',
-    'advanced plant' => 'crops/potted_plant.svg', 'graft' => 'icons/plant_parts/other.svg', 'layering' => 'icons/plant_parts/other.svg'
+    'advanced plant' => 'crops/potted_plant.svg', 'graft' => 'icons/plant_parts/other.svg', 'layering' => 'icons/plant_parts/other.svg',
+    'volunteer' => 'icons/grass.svg'
   }.freeze
   ORIGIN_SOURCE_ICONS = {
     'seed catalogue' => 'icons/post.svg', 'retail outlet' => 'icons/wheelbarrow.svg',
