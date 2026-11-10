@@ -1,7 +1,7 @@
-- content_for :title, "Editing plant part"
+- content_for :title, t('.title')
 
 = render 'form'
 
-= link_to 'Show', @plant_part
+= link_to t('.show'), @plant_part
 \|
-= link_to 'Back', plant_parts_path
+= link_to t('.back'), plant_parts_path

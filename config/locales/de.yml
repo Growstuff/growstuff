@@ -1266,6 +1266,30 @@ de:
       view_all_members: "Alle Mitglieder anzeigen \u00bb"
       view_all_plantings: "Alle Pflanzungen anzeigen \u00bb"
       view_all_seeds: "Alle Samen anzeigen \u00bb"
+  plant_parts:
+    edit:
+      back: Zurück
+      show: Anzeigen
+      title: Pflanzenteil bearbeiten
+    form:
+      errors:
+        one: "1 Fehler verhinderte das Speichern dieses Pflanzenteils:"
+        other: "%{count} Fehler verhinderten das Speichern dieses Pflanzenteils:"
+      name: Name
+      save: Speichern
+    index:
+      new_plant_part: Neuer Pflanzenteil
+      no_crops: Für diesen Pflanzenteil werden (noch) keine Nutzpflanzen geerntet.
+      title: Pflanzenteile
+    new:
+      back: Zurück
+      title: Neuer Pflanzenteil
+    show:
+      delete: Löschen
+      edit: Bearbeiten
+      harvested_crops: Die folgenden Nutzpflanzen werden für ihren/ihre %{plant_part} geerntet.
+      no_crops: Für diesen Pflanzenteil werden (noch) keine Nutzpflanzen geerntet.
+      view_other_plant_parts: Andere Pflanzenteile anzeigen
   planting:
     status:
       finished: Abgeschlossen

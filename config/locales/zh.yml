@@ -1263,6 +1263,29 @@ zh:
       view_all_members: "查看所有会员 \u00bb"
       view_all_plantings: "查看所有种植 \u00bb"
       view_all_seeds: "查看所有种子 \u00bb"
+  plant_parts:
+    edit:
+      back: 返回
+      show: 显示
+      title: 编辑植物部位
+    form:
+      errors:
+        other: "%{count} 个错误导致此植物部位无法保存："
+      name: 名称
+      save: 保存
+    index:
+      new_plant_part: 新建植物部位
+      no_crops: （目前）还没有为此植物部位收获任何作物。
+      title: 植物部位
+    new:
+      back: 返回
+      title: 新建植物部位
+    show:
+      delete: 删除
+      edit: 编辑
+      harvested_crops: 以下作物因其%{plant_part}而被收获。
+      no_crops: （目前）还没有为此植物部位收获任何作物。
+      view_other_plant_parts: 查看其他植物部位
   planting:
     status:
       finished: 完成的

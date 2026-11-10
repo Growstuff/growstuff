@@ -1266,6 +1266,30 @@ es:
       view_all_members: "Ver todos los miembros \u00bb"
       view_all_plantings: "Ver todas las plantaciones \u00bb"
       view_all_seeds: "Ver todas las semillas \u00bb"
+  plant_parts:
+    edit:
+      back: Volver
+      show: Mostrar
+      title: Editando parte de la planta
+    form:
+      errors:
+        one: "1 error impidió que se guardara esta parte de la planta:"
+        other: "%{count} errores impidieron que se guardara esta parte de la planta:"
+      name: Nombre
+      save: Guardar
+    index:
+      new_plant_part: Nueva parte de la planta
+      no_crops: No se cosecha ningún cultivo por esta parte de la planta (todavía).
+      title: Partes de la planta
+    new:
+      back: Volver
+      title: Nueva parte de la planta
+    show:
+      delete: Eliminar
+      edit: Editar
+      harvested_crops: Los siguientes cultivos se cosechan por su %{plant_part}.
+      no_crops: No se cosecha ningún cultivo por esta parte de la planta (todavía).
+      view_other_plant_parts: Ver otras partes de la planta
   planting:
     status:
       finished: Finalizado
