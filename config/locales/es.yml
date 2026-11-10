@@ -210,6 +210,11 @@ es:
       select_for_deletion: Seleccionar para eliminar
       time_ago: Hace %{time}
       title: Bandeja de entrada
+    show:
+      about: Acerca de
+      breadcrumb_conversations: Conversaciones
+      participants: Participantes
+      sent_on: "el %{date}"
   crop_companions:
     created: El compañero se creó correctamente.
     deleted: El compañero fue destruido con éxito.

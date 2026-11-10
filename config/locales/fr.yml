@@ -210,6 +210,11 @@ fr:
       select_for_deletion: Sélectionner pour suppression
       time_ago: Il y a %{time}
       title: Boîte de réception
+    show:
+      about: À propos de
+      breadcrumb_conversations: Conversations
+      participants: Participants
+      sent_on: "le %{date}"
   crop_companions:
     created: Le compagnon a été créé avec succès.
     deleted: Le compagnon a été détruit avec succès.
