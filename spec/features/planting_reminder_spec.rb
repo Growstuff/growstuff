@@ -22,11 +22,16 @@ describe "Planting reminder email" do
     before { member.update_columns(planting_reminder_sent_at: 1.year.ago) }
 
     it "says there are new features to tell them about" do
-      expect(mail_body).to have_content "We have 4 new features to tell you about"
+      expect(mail_body).to have_content "We have 6 new features to tell you about"
     end
 
     it "tells them about the features" do
       expect(mail_body).to have_link "Seed library", href: seeds_url
+    end
+
+    it "sends them to the frost danger for their own place" do
+      member.update_columns(location: 'Wellington, New Zealand')
+      expect(mail_body).to have_link "Frost danger", href: place_url('Wellington, New Zealand')
     end
   end
 
