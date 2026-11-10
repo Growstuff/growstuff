@@ -82,8 +82,14 @@ export function renderDetails(container, details, labels = {}) {
   container.append(list);
 }
 
-// A tick for each name, all ticked, apart from any in skip (compared ignoring case). The ticks belong to the form
-// with that id, so they can sit outside it. The fieldset is hidden when there is nothing to offer.
+// A name with a note in brackets, like "brocoli (French)" or "kukama (Tuvalu)", is a name from another language or
+// place, so it is not ticked to begin with.
+export function hasNote(name) {
+  return /\(.*\)/.test(name);
+}
+
+// A tick for each name, ticked unless it has a note in brackets, apart from any in skip (compared ignoring case). The
+// ticks belong to the form with that id, so they can sit outside it. The fieldset is hidden when there is nothing to offer.
 export function renderNames(fieldset, names, skip = [], formId = null) {
   const list = fieldset.querySelector('.ecocrop-names-list');
   const skipped = skip.filter(Boolean).map((name) => name.toLowerCase());
@@ -96,7 +102,7 @@ export function renderNames(fieldset, names, skip = [], formId = null) {
     box.className = 'form-check-input';
     box.name = 'names[]';
     box.value = name;
-    box.checked = true;
+    box.checked = !hasNote(name);
     box.id = `${fieldset.id}-${index}`;
     if (formId) box.setAttribute('form', formId);
     const label = document.createElement('label');

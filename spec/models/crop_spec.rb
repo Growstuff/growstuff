@@ -1002,4 +1002,26 @@ describe Crop do
       it('is nil with no parent either') { expect(create(:crop).ecocrop_data).to be_nil }
     end
   end
+
+  describe '#growing_degree_days_figure' do
+    subject(:figure) { build(:crop, growing_degree_days:).growing_degree_days_figure }
+
+    context 'with a figure' do
+      let(:growing_degree_days) { 650 }
+
+      it('is the figure') { expect(figure).to eq 650 }
+    end
+
+    context 'with a figure of 0' do
+      let(:growing_degree_days) { 0 }
+
+      it('is nil') { expect(figure).to be_nil }
+    end
+
+    context 'without a figure' do
+      let(:growing_degree_days) { nil }
+
+      it('is nil') { expect(figure).to be_nil }
+    end
+  end
 end

@@ -129,6 +129,12 @@ class Crop < ApplicationRecord
     scientific_names.first
   end
 
+  # The growing degree days to show: nil unless there is a figure above zero, since a crop needs some heat to grow and a
+  # stored 0 is a gap.
+  def growing_degree_days_figure
+    growing_degree_days if growing_degree_days.to_i.positive?
+  end
+
   # The record linked by the crops:match_ecocrop tasks or a crop wrangler, else one named like a scientific name of the crop,
   # else its parent's, so a variety of tomato reads what tomato does.
   def ecocrop_data
