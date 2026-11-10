@@ -909,6 +909,62 @@ describe Planting do
     end
   end
 
+  describe '#abandoned?' do
+    let(:today) { Date.new(2026, 11, 11) }
+    let(:crop) { create(:crop, median_lifespan: 100) }
+
+    def abandoned(planted_at:, **attributes)
+      build(:planting, crop:, planted_at:, **attributes).abandoned?(today)
+    end
+
+    it 'is true a year and a day past when it was due' do
+      expect(abandoned(planted_at: today - 100 - 366)).to be true
+    end
+
+    it 'is false exactly a year past when it was due' do
+      expect(abandoned(planted_at: today - 100 - 365)).to be false
+    end
+
+    it 'is false while it is still within its time' do
+      expect(abandoned(planted_at: today - 50)).to be false
+    end
+
+    it 'is false once it is marked finished' do
+      expect(abandoned(planted_at: today - 1000, finished: true, finished_at: today - 800)).to be false
+    end
+
+    it 'is false for a failed planting' do
+      expect(abandoned(planted_at: today - 1000, failed: true)).to be false
+    end
+
+    context 'when we cannot say when it was due' do
+      let(:crop) { create(:crop) }
+
+      it('is false') { expect(abandoned(planted_at: today - 3000)).to be false }
+    end
+
+    describe 'what it means for the weather' do
+      let(:planting) { build(:planting, crop:, planted_at: today - 1000) }
+
+      it 'ends the weather on the day it was due' do
+        expect(planting.weather_last_day(today)).to eq planted_at_plus_lifespan(planting)
+      end
+
+      it 'shows its own life, not the last year to date' do
+        expect(planting.weather_first_day(today)).to eq planting.planted_at
+      end
+
+      it 'expects no more weather' do
+        planting.garden.update_columns(latitude: -41.29, longitude: 174.78) # rubocop:disable Rails/SkipsModelValidations
+        expect(planting.expected_weather_readings(after: nil)).to be_empty
+      end
+
+      def planted_at_plus_lifespan(planting)
+        planting.planted_at + 100
+      end
+    end
+  end
+
   describe '#expected_weather_readings' do
     subject(:expected) { planting.expected_weather_readings }
 

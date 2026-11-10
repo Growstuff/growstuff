@@ -365,6 +365,21 @@ describe PlantingFrost do
         expect(described_class.for(planting, readings: [])).to be_a described_class
       end
 
+      context 'when nobody marked the planting finished and it is long past when it was due' do
+        let(:today) { Date.new(2026, 11, 11) }
+        let(:planting) do
+          create(:planting, garden:, owner: garden.owner, crop: create(:crop, median_lifespan: 100), planted_at: today - 1000)
+        end
+
+        it 'is judged as finished' do
+          expect(described_class.for(planting, readings: [], today:)).to be_finished
+        end
+
+        it 'ends on the day it was due' do
+          expect(described_class.for(planting, readings: [], today:).ends_on).to eq planting.planted_at + 100
+        end
+      end
+
       it 'is nil when the garden is safe from frost' do
         garden.update_columns(frost_safe: true) # rubocop:disable Rails/SkipsModelValidations
         expect(described_class.for(planting, readings: [])).to be_nil

@@ -20,6 +20,8 @@ class Planting < ApplicationRecord
   WEATHER_FINISHED_DAYS = 30
   # The weather shown, and collected, goes back no further than this from the last day, however long ago it was planted.
   WEATHER_WINDOW_DAYS = 365
+  # A planting nobody has said finished is abandoned once it is this many days past when it should have.
+  ABANDONED_AFTER_DAYS = 365
   PLANTED_FROM_VALUES = [
     'seed', 'seedling', 'cutting', 'volunteer', 'root division', 'runner',
     'bulb', 'root/tuber', 'bare root plant', 'advanced plant',
@@ -234,6 +236,16 @@ class Planting < ApplicationRecord
     planted_at + days.to_i if planted_at.present? && days
   end
 
+  # Left behind: not finished or failed, and more than a year past its due day, so nobody is looking after it and nobody
+  # said it was over. It is treated as having finished on its due day, for its weather and frost. False when we can't say
+  # when it was due, because then we can't tell a long-lived planting from an abandoned one. See ADR 4.
+  def abandoned?(today = Time.zone.today)
+    return false if finished? || failed?
+
+    due = weather_due_on
+    due.present? && due + ABANDONED_AFTER_DAYS < today
+  end
+
   # The weather this planting grew through, day by day: the readings for its garden's grid cell, for the last year of
   # its life to date, up to today while it is still growing, even past its due date. Empty when the garden has no location.
   def weather_readings
@@ -243,9 +255,10 @@ class Planting < ApplicationRecord
   end
 
   # The last day of weather so far: today for a planting still growing, the day it finished for one that has, and for one
-  # that failed, the day it was due if that has passed, as we stop following a failed planting.
+  # that failed or was abandoned, the day it was due if that has passed, as we stop following them.
   def weather_last_day(today = Time.zone.today)
     return [finished_at, today].min if finished_at
+    return weather_due_on if abandoned?(today)
 
     failed? ? [weather_due_on, today].compact.min : today
   end
@@ -264,7 +277,7 @@ class Planting < ApplicationRecord
   # for the same days a year earlier, moved forward a year. A prediction, not an observation. `after` is the
   # newest day already observed, when the caller has it, and `through` the last day to expect, by default the day it is due.
   def expected_weather_readings(after: weather_readings.maximum(:date), through: weather_due_on)
-    return [] if finished? || failed? || through.nil? || !weather_located?
+    return [] if finished? || failed? || abandoned? || through.nil? || !weather_located?
 
     from = (after || (weather_first_day - 1)) + 1
     return [] if from > through
@@ -305,8 +318,10 @@ class Planting < ApplicationRecord
 
   # How many days the planting is expected to last, for working out when it is due.
   def weather_horizon_days
+    return @weather_horizon_days if defined?(@weather_horizon_days)
+
     last_harvest = crop.median_days_to_last_harvest if crop.annual?
-    [expected_lifespan, last_harvest, ecocrop_cycle_days].find { |days| days&.positive? }
+    @weather_horizon_days = [expected_lifespan, last_harvest, ecocrop_cycle_days].find { |days| days&.positive? }
   end
 
   # The middle of the crop cycle EcoCrop gives, in days.
