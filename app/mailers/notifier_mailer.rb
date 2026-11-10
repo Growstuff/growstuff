@@ -17,25 +17,8 @@ class NotifierMailer < ApplicationMailer
     @member = member
     @sitename = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
 
-    @late = []
-    @super_late = []
-    @harvesting = []
-    @others = []
+    @late, @super_late, @harvesting, @others = @member.plantings_by_progress.values_at(:late, :super_late, :harvesting, :others)
     @outlook = PlantingReminderOutlook.new(@member)
-
-    @member.plantings.active.annual.each do |planting|
-      if planting.finish_is_predicatable?
-        if planting.super_late?
-          @super_late << planting
-        elsif planting.late?
-          @late << planting
-        elsif planting.harvest_time?
-          @harvesting << planting
-        else
-          @others << planting
-        end
-      end
-    end
 
     @subject = "Your #{Date.today.strftime('%B %Y')} #{@sitename} progress report"
 

@@ -11,9 +11,7 @@ module ClimateHelper
             air:  'M14 14.8V5a2 2 0 00-4 0v9.8a4 4 0 104 0z' }.freeze
 
   def climate_icon(measure)
-    tag.svg(tag.path(d: ICONS.fetch(measure)), width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor',
-                                               'stroke-width': 2.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round',
-                                               'aria-hidden': true)
+    outline_icon(ICONS.fetch(measure))
   end
 
   # The banner's headline and sentence for the rain, or nil with nothing to compare.

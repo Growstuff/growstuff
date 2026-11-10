@@ -32,7 +32,7 @@ class JobsController < DataController
     saved = @job.save
 
     return render_notepad(:created) if request.xhr? && saved
-    return head :unprocessable_entity if request.xhr?
+    return head :unprocessable_content if request.xhr?
 
     repeat if saved
     respond_with @job, location: after_save_path
@@ -42,7 +42,7 @@ class JobsController < DataController
     updated = @job.update(job_params)
 
     return render_notepad(:ok) if request.xhr? && updated
-    return head :unprocessable_entity if request.xhr?
+    return head :unprocessable_content if request.xhr?
 
     respond_with @job, location: after_save_path
   end
