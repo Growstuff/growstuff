@@ -180,6 +180,10 @@ ja:
       finished_jobs: 完了した庭の作業
       previously_planted: 以前この庭に植えられたもの
       unknown_year: 年不明
+    show:
+      inactive_notice: この庭は休止中です。
+      set_active: アクティブに設定
+      to_plant: して、この庭に何かを植えましょう。
   harvests:
     card:
       by: '投稿者:'

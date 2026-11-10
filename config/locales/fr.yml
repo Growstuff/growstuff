@@ -482,11 +482,14 @@ fr:
       previously_planted: Planté auparavant dans ce jardin
       unknown_year: Année inconnue
     show:
+      inactive_notice: Ce jardin est inactif.
       km_from_you: à environ %{km} km de chez vous
+      set_active: Activez-le
       suggested_plantings:
         one: Nous avons %{count} suggéré de planter pour ajouter ici
         other: Nous avons des plantations suggérées par %{count} à ajouter ici
       suggested_plantings_go: 'les voir. '
+      to_plant: pour planter quelque chose dans ce jardin.
     sign_in: Se connecter
     sign_up: S'inscrire gratuitement
     start:
