@@ -258,6 +258,36 @@ describe PlantingWeatherHelper do
     end
   end
 
+  describe '#weather_temperature_ranges remembered for a day' do
+    let(:crop) { create(:crop, ecocrop_record: create(:ecocrop_data, topmn: 10, topmx: 24, tmin: 4, tmax: 30)) }
+
+    before { allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new) }
+
+    it 'finds the EcoCrop record once for repeated calls' do
+      expect(crop).to receive(:ecocrop_data).once.and_call_original
+      2.times { helper.weather_temperature_ranges(crop) }
+    end
+
+    it 'finds it again when the crop has changed' do
+      helper.weather_temperature_ranges(crop)
+      crop.update!(name: 'a new name')
+      expect(crop).to receive(:ecocrop_data).once.and_call_original
+      helper.weather_temperature_ranges(crop)
+    end
+
+    it 'finds it again the next day' do
+      helper.weather_temperature_ranges(crop)
+      expect(crop).to receive(:ecocrop_data).once.and_call_original
+      travel_to(Time.zone.today + 1) { helper.weather_temperature_ranges(crop) }
+    end
+
+    it 'remembers a crop with no EcoCrop data too' do
+      bare = create(:crop)
+      expect(bare).to receive(:ecocrop_data).once.and_call_original
+      2.times { helper.weather_temperature_ranges(bare) }
+    end
+  end
+
   describe '#weather_place' do
     def place(location) = helper.weather_place(build(:garden, location:))
 
