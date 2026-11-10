@@ -1280,6 +1280,30 @@ fr:
       view_all_members: "Voir tous les membres \u00bb"
       view_all_plantings: "Voir toutes les plantations \u00bb"
       view_all_seeds: "Voir toutes les graines \u00bb"
+  plant_parts:
+    edit:
+      back: Retour
+      show: Afficher
+      title: Modifier la partie de plante
+    form:
+      errors:
+        one: "1 erreur a empêché l'enregistrement de cette partie de plante :"
+        other: "%{count} erreurs ont empêché l'enregistrement de cette partie de plante :"
+      name: Nom
+      save: Enregistrer
+    index:
+      new_plant_part: Nouvelle partie de plante
+      no_crops: "Aucune culture n'est récoltée pour cette partie de plante (pour l'instant)."
+      title: Parties de plantes
+    new:
+      back: Retour
+      title: Nouvelle partie de plante
+    show:
+      delete: Supprimer
+      edit: Modifier
+      harvested_crops: Les cultures suivantes sont récoltées pour leur %{plant_part}.
+      no_crops: "Aucune culture n'est récoltée pour cette partie de plante (pour l'instant)."
+      view_other_plant_parts: Voir les autres parties de plantes
   planting:
     status:
       finished: Clôturée

@@ -1945,6 +1945,30 @@ en:
       view_all_members: View all members >>
       view_all_plantings: View all plantings >>
       view_all_seeds: View all seeds >>
+  plant_parts:
+    edit:
+      back: Back
+      show: Show
+      title: Editing plant part
+    form:
+      errors:
+        one: "1 error prohibited this plant part from being saved:"
+        other: "%{count} errors prohibited this plant part from being saved:"
+      name: Name
+      save: Save
+    index:
+      new_plant_part: New plant part
+      no_crops: No crops are harvested for this plant part (yet).
+      title: Plant parts
+    new:
+      back: Back
+      title: New plant part
+    show:
+      delete: Delete
+      edit: Edit
+      harvested_crops: The following crops are harvested for their %{plant_part}.
+      no_crops: No crops are harvested for this plant part (yet).
+      view_other_plant_parts: View other plant parts
   planting:
     status:
       finished: Finished

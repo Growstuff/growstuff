@@ -297,6 +297,29 @@ ja:
       change_location: '場所を変更:'
       placeholder: 都市、地域、州を検索...
       search: 検索
+  plant_parts:
+    edit:
+      back: 戻る
+      show: 表示
+      title: 植物部位の編集
+    form:
+      errors:
+        other: "%{count}件のエラーにより、この植物部位は保存されませんでした:"
+      name: 名前
+      save: 保存
+    index:
+      new_plant_part: 新しい植物部位
+      no_crops: この植物部位で収穫された作物は（まだ）ありません。
+      title: 植物の部位
+    new:
+      back: 戻る
+      title: 新しい植物部位
+    show:
+      delete: 削除
+      edit: 編集
+      harvested_crops: 以下の作物は%{plant_part}のために収穫されます。
+      no_crops: この植物部位で収穫された作物は（まだ）ありません。
+      view_other_plant_parts: 他の植物部位を見る
   plantings:
     follow_buttons:
       block: ブロック
