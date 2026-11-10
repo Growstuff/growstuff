@@ -79,13 +79,15 @@ describe 'Creating and updating a planting as JSON' do
       end
 
       it { expect(response).to have_http_status(:ok) }
+
       it do
         expect(response.parsed_body['planting']).to include(
-        'url' => "/plantings/#{planting.slug}", 'crop' => { 'id' => crop.id, 'name' => 'lettuce' },
-        'planted_at' => '2026-03-01', 'quantity' => 4, 'sunniness' => 'shade',
-        'description' => 'By the fence'
+          'url' => "/plantings/#{planting.slug}", 'crop' => { 'id' => crop.id, 'name' => 'lettuce' },
+          'planted_at' => '2026-03-01', 'quantity' => 4, 'sunniness' => 'shade',
+          'description' => 'By the fence'
         )
       end
+
       it { expect(response.parsed_body['planted_from_values']).to include('seed', 'seedling') }
       it { expect(response.parsed_body['sunniness_values']).to eq %w(sun semi-shade shade) }
     end

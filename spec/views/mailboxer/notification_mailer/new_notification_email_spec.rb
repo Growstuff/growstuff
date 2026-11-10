@@ -7,7 +7,7 @@ RSpec.describe 'mailboxer/notification_mailer/new_notification_email.html.erb', 
     double(
       'Mailboxer::Notification',
       subject: 'Test Notification Subject',
-      body: 'Test Notification Body'
+      body:    'Test Notification Body'
     )
   end
 

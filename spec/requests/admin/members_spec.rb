@@ -8,16 +8,16 @@ RSpec.describe 'Admin::Members', type: :request do
   let!(:active_member) do
     create(
       :member,
-      login_name: 'active_spammer',
-      email: 'active@example.com',
-      bio: 'A' * 300,
-      photos_count: 3,
+      login_name:      'active_spammer',
+      email:           'active@example.com',
+      bio:             'A' * 300,
+      photos_count:    3,
       plantings_count: 5,
-      forums_count: 1,
-      gardens_count: 2,
-      harvests_count: 4,
-      jobs_count: 6,
-      confirmed_at: Time.current,
+      forums_count:    1,
+      gardens_count:   2,
+      harvests_count:  4,
+      jobs_count:      6,
+      confirmed_at:    Time.current,
       last_sign_in_at: Time.current
     )
   end

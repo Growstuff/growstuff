@@ -26,13 +26,15 @@ describe 'Saving seeds as JSON' do
       before { get "/plantings/#{planting.slug}/seeds/new.json", headers: { 'ACCEPT' => 'application/json' } }
 
       it { expect(response).to have_http_status(:ok) }
+
       it do
         expect(response.parsed_body).to include(
-        'crop' => { 'id' => crop.id, 'name' => 'lettuce' }, 'parent_planting_id' => planting.id,
-        'tradable_to_values' => %w(nowhere locally nationally internationally),
-        'location' => 'Greenwich, UK', 'settings_url' => '/members/edit'
+          'crop' => { 'id' => crop.id, 'name' => 'lettuce' }, 'parent_planting_id' => planting.id,
+          'tradable_to_values' => %w(nowhere locally nationally internationally),
+          'location' => 'Greenwich, UK', 'settings_url' => '/members/edit'
         )
       end
+
       it { expect(response.parsed_body['saved_at']).to eq Time.zone.today.to_s }
     end
 

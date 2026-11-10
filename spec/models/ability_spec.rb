@@ -21,16 +21,16 @@ describe Ability do
 
     it "member can't send messages to themself" do
       expect(ability).not_to be_able_to(:create,
-                                    create(:notification,
-                                           recipient: member,
-                                           sender:    member))
+                                        create(:notification,
+                                               recipient: member,
+                                               sender:    member))
     end
 
     it "member can send messages to someone else" do
       expect(ability).to be_able_to(:create,
-                                create(:notification,
-                                       recipient: create(:member),
-                                       sender:    member))
+                                    create(:notification,
+                                           recipient: create(:member),
+                                           sender:    member))
     end
   end
 
