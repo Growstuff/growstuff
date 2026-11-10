@@ -482,11 +482,14 @@ es:
       previously_planted: Plantado anteriormente en este huerto
       unknown_year: Año desconocido
     show:
+      inactive_notice: Este huerto está inactivo.
       km_from_you: a unos %{km} km de ti
+      set_active: Actívalo
       suggested_plantings:
         one: Hemos sugerido %{count} plantar para agregar aquí.
         other: Tenemos plantaciones sugeridas por %{count} para agregar aquí.
       suggested_plantings_go: Verlos →
+      to_plant: para plantar algo en este huerto.
     sign_in: Iniciar sesión
     sign_up: Únete gratis
     start:
