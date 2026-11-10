@@ -1365,6 +1365,14 @@ es:
       weather_temperature_chart: Altas y bajas diarias
       weather_temperature_chart_alt: Temperatura máxima y mínima diaria, de %{low} a %{high}.
     string: '%{crop} plantando en %{garden} por %{owner}'
+    timeline:
+      failed: Fallido
+      finish_expected: Finalización prevista el %{date}
+      finished: Finalizado %{date}
+      first_harvest_expected: Primera cosecha prevista el %{date}
+      harvest_started: Cosecha iniciada %{date}
+      legend: (Un emoji = 1 semana)
+      planted: Plantado %{date}
     transplant:
       cancel: Cancelar
       close: Cerrar

@@ -2100,6 +2100,14 @@ en:
       weather_temperature_chart: Daily high and low
       weather_temperature_chart_alt: Daily high and low temperature, from %{low} to %{high}.
     string: "%{crop} planting in %{garden} by %{owner}"
+    timeline:
+      failed: Failed
+      finish_expected: Finish expected %{date}
+      finished: Finished %{date}
+      first_harvest_expected: First harvest expected %{date}
+      harvest_started: Harvest started %{date}
+      legend: (One emoji = 1 week)
+      planted: Planted %{date}
     transplant:
       cancel: Cancel
       close: Close

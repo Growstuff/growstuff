@@ -277,6 +277,14 @@ ja:
       close: 閉じる
       title: "%{crop}をあなたの庭に追加"
       which_garden: どの庭に入れますか？
+    timeline:
+      failed: 失敗
+      finish_expected: "%{date}に終了予定"
+      finished: "%{date}に終了"
+      first_harvest_expected: "%{date}に最初の収穫予定"
+      harvest_started: "%{date}に収穫開始"
+      legend: "(絵文字1つ = 1週間)"
+      planted: "%{date}に植え付け"
     transplant:
       cancel: キャンセル
       close: 閉じる
