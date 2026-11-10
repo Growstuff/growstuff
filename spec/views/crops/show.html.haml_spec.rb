@@ -96,6 +96,24 @@ describe "crops/show" do
     end
   end
 
+  context "with first and last harvest medians on an annual" do
+    before { @crop.update!(perennial: false, median_days_to_first_harvest: 180, median_days_to_last_harvest: 210) }
+
+    it "shows both in one card" do
+      render
+      expect(rendered).to have_css ".harvest-window-card", text: /First harvest expected.*26.*Last harvest expected.*30/m
+    end
+  end
+
+  context "with a last harvest median on a perennial" do
+    before { @crop.update!(perennial: true, median_days_to_first_harvest: 180, median_days_to_last_harvest: 210) }
+
+    it "leaves out the last harvest" do
+      render
+      expect(rendered).to have_no_content "Last harvest expected"
+    end
+  end
+
   context "with a harvest style" do
     before { @crop.update!(harvest_style: 'single') }
 
