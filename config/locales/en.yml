@@ -131,9 +131,33 @@ en:
         stale: Out of date
         unlocated: No location on the map
     ecocrop_data:
+      create_crop:
+        created: "%{crop} was created from %{record}."
+        name_blank: Give the new crop a name.
+        name_taken: A crop called %{name} already exists.
+      create_modal:
+        cancel: Cancel
+        close: Close
+        create: Create crop
+        hint: Make a crop from this EcoCrop record. It is created as approved, with the scientific name below, and linked to the record.
+        name: Crop name
+        names_hint: These are kept as alternate names, in English. Untick the ones that are not English, or are not right.
+        names_legend: Other common names
+        title: Create a crop
+        wikipedia_hint: An approved crop needs one. This is a guess from the scientific name, so check the page is the right plant.
+        wikipedia_url: English Wikipedia page
+      details:
+        category: Category
+        common_names: Common names
+        family: Family
+        life_form: Life form
       index:
         all: All
         common_names: Common names
+        copy_names:
+          one: Copy 1 name
+          other: Copy %{count} names
+        create_crop: Create a crop
         crops: Matched crops
         heat_data: Heat figures
         how_to_link: Click a common name to search for the crop it belongs to, then confirm the link.
@@ -145,7 +169,7 @@ en:
         scientific_name: Scientific name
         search: Search
         search_placeholder: Scientific or common name
-        suggestion: "Link %{crop}"
+        suggestion: Link %{crop}
         suggestion_title: "%{crop} is named like a common name of %{record}"
         title: EcoCrop data
         unlink: Unlink
@@ -154,7 +178,10 @@ en:
         yes_heat_data: Complete
       link:
         failed: "%{crop} could not be linked."
-        linked: "%{crop} is now linked to %{record}."
+        linked:
+          one: "%{crop} is now linked to %{record}, with 1 alternate name added."
+          other: "%{crop} is now linked to %{record}, with %{count} alternate names added."
+          zero: "%{crop} is now linked to %{record}."
       link_modal:
         back: Choose a different crop
         cancel: Cancel
@@ -162,6 +189,8 @@ en:
         confirm: Link the crop %{crop} to %{record}?
         confirm_button: Yes, link it
         hint: Search for the crop this EcoCrop record describes. A crop has one record, so linking it replaces any it had.
+        names_hint: These are added to the crop as alternate names, in English. Untick the ones that are not English, or are not right.
+        names_legend: Also copy these common names
         none: No crops found
         search_label: Crop name
         title: Link a crop

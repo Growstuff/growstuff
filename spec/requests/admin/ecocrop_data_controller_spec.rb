@@ -75,6 +75,16 @@ describe Admin::EcocropDataController do
       end
     end
 
+    context 'with names ticked' do
+      before { sign_in create(:crop_wrangling_member) }
+
+      it 'copies them to the crop' do
+        record.update!(comname: %w(carrot karotte))
+        post admin_link_ecocrop_data_path(record), params: { crop_id: crop.id, names: %w(karotte) }
+        expect(crop.alternate_names.pluck(:name)).to eq %w(karotte)
+      end
+    end
+
     context 'with an ordinary member' do
       before { sign_in create(:member) }
 
@@ -92,6 +102,46 @@ describe Admin::EcocropDataController do
       crop = matched.crops.first
       expect { delete admin_link_ecocrop_data_path(matched), params: { crop_id: crop.id } }
         .to change { crop.reload.ecocrop_record }.to(nil)
+    end
+  end
+
+  describe '#create_crop' do
+    subject(:create_it) { post admin_create_crop_ecocrop_data_path(record), params: }
+
+    let(:record) { EcocropData.find_by!(scientificname: 'Daucus carota') }
+    let(:params) { { name: 'carrot', en_wikipedia_url: 'https://en.wikipedia.org/wiki/Carrot' } }
+
+    context 'with a crop wrangler' do
+      before { sign_in create(:crop_wrangling_member) }
+
+      it 'creates the crop' do
+        expect { create_it }.to change(Crop, :count).by(1)
+      end
+
+      it 'links the new crop to the record' do
+        create_it
+        expect(record.reload.crops.pluck(:name)).to eq %w(carrot)
+      end
+
+      context 'without a Wikipedia page' do
+        let(:params) { { name: 'carrot' } }
+
+        it('creates nothing') { expect { create_it }.not_to change(Crop, :count) }
+      end
+
+      context 'without a name' do
+        let(:params) { { name: '', en_wikipedia_url: 'https://en.wikipedia.org/wiki/Carrot' } }
+
+        it('creates nothing') { expect { create_it }.not_to change(Crop, :count) }
+      end
+    end
+
+    context 'with an ordinary member' do
+      before { sign_in create(:member) }
+
+      it 'creates nothing' do
+        expect { create_it }.not_to change(Crop, :count)
+      end
     end
   end
 end

@@ -232,6 +232,7 @@ Rails.application.routes.draw do
     get 'ecocrop', to: 'ecocrop_data#index', as: :ecocrop_data
     post 'ecocrop/:id/link', to: 'ecocrop_data#link', as: :link_ecocrop_data
     delete 'ecocrop/:id/link', to: 'ecocrop_data#unlink'
+    post 'ecocrop/:id/crop', to: 'ecocrop_data#create_crop', as: :create_crop_ecocrop_data
     resources :crops, param: :slug do
       resources :crop_companions
       resources :crop_job_templates, path: 'job_templates', except: :show

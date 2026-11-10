@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { searchCrops, showResults, choose, confirmMessage, exactFirst, setUp } from './ecocrop_link';
+import { searchCrops, showResults, choose, confirmMessage, exactFirst, parseNames, renderNames, renderDetails, parseDetails, wikipediaUrl, setUp } from './ecocrop_link';
 
 describe('searchCrops', () => {
   it('asks the search endpoint for the term', async () => {
@@ -87,6 +87,100 @@ describe('exactFirst', () => {
   });
 });
 
+describe('parseNames', () => {
+  it('reads a list', () => {
+    expect(parseNames('["carrot","karotte"]')).toEqual(['carrot', 'karotte']);
+  });
+
+  it('is empty for nothing sensible', () => {
+    expect(parseNames('nonsense')).toEqual([]);
+  });
+});
+
+describe('renderDetails', () => {
+  let container;
+
+  beforeEach(() => {
+    document.body.innerHTML = '<div id="details"></div>';
+    container = document.getElementById('details');
+  });
+
+  it('names the scientific name', () => {
+    renderDetails(container, { scientific_name: 'Daucus carota L.' });
+    expect(container.querySelector('p').textContent).toBe('Daucus carota L.');
+  });
+
+  it('lists all the common names', () => {
+    renderDetails(container, { common_names: ['carrot', 'karotte'] }, { common_names: 'Common names' });
+    expect(container.querySelector('dd').textContent).toBe('carrot, karotte');
+  });
+
+  it('labels each detail', () => {
+    renderDetails(container, { family: 'Apiaceae' }, { family: 'Family' });
+    expect(container.querySelector('dt').textContent).toBe('Family');
+  });
+
+  it('leaves out what there is none of', () => {
+    renderDetails(container, { scientific_name: 'Daucus carota', category: '' });
+    expect(container.querySelector('dt')).toBeNull();
+  });
+
+  it('shows names as text, not markup', () => {
+    renderDetails(container, { common_names: ['<b>carrot</b>'] });
+    expect(container.querySelector('b')).toBeNull();
+  });
+});
+
+describe('parseDetails', () => {
+  it('reads an object', () => {
+    expect(parseDetails('{"family":"Apiaceae"}')).toEqual({ family: 'Apiaceae' });
+  });
+
+  it('is empty for nonsense', () => {
+    expect(parseDetails('[1')).toEqual({});
+  });
+});
+
+describe('wikipediaUrl', () => {
+  it('uses the scientific name as the title', () => {
+    expect(wikipediaUrl('Daucus carota')).toBe('https://en.wikipedia.org/wiki/Daucus_carota');
+  });
+});
+
+describe('renderNames', () => {
+  let fieldset;
+
+  beforeEach(() => {
+    document.body.innerHTML = '<fieldset id="names" class="d-none"><div class="ecocrop-names-list"></div></fieldset>';
+    fieldset = document.getElementById('names');
+  });
+
+  it('ticks a box for each name', () => {
+    renderNames(fieldset, ['carrot', 'karotte']);
+    expect(fieldset.querySelectorAll('input:checked')).toHaveLength(2);
+  });
+
+  it('skips names ignoring case', () => {
+    renderNames(fieldset, ['carrot', 'karotte'], ['Carrot']);
+    expect(fieldset.querySelector('input').value).toBe('karotte');
+  });
+
+  it('shows the fieldset when there are names', () => {
+    renderNames(fieldset, ['carrot']);
+    expect(fieldset.classList.contains('d-none')).toBe(false);
+  });
+
+  it('hides the fieldset when there are none', () => {
+    renderNames(fieldset, ['carrot'], ['carrot']);
+    expect(fieldset.classList.contains('d-none')).toBe(true);
+  });
+
+  it('attaches the boxes to a form', () => {
+    renderNames(fieldset, ['carrot'], [], 'the-form');
+    expect(fieldset.querySelector('input').getAttribute('form')).toBe('the-form');
+  });
+});
+
 describe('confirmMessage', () => {
   it('names the crop and the record', () => {
     expect(confirmMessage('Link __CROP__ to __RECORD__?', { name: 'tomato' }, 'Lycopersicon esculentum'))
@@ -105,13 +199,17 @@ describe('setUp', () => {
 
   beforeEach(() => {
     document.body.innerHTML = `
-      <button id="name" data-ecocrop-link="42" data-ecocrop-name="Lycopersicon esculentum" data-ecocrop-term="tomato">tomato</button>
+      <button id="name" data-ecocrop-link="42" data-ecocrop-name="Lycopersicon esculentum" data-ecocrop-term="tomato"
+              data-ecocrop-names='["tomato","tomate"]'>tomato</button>
+      <button id="copy" data-ecocrop-link="42" data-ecocrop-name="Lycopersicon esculentum" data-ecocrop-names='["tomato","tomate"]'
+              data-ecocrop-crop-id="7" data-ecocrop-crop-name="tomato">copy</button>
       <div id="modal" data-search-url="/crops/search.json" data-link-url="/admin/ecocrop/__ID__/link"
            data-confirm="Link __CROP__ to __RECORD__?" data-none="None">
-        <p id="ecocrop-link-name"></p>
+        <div id="ecocrop-link-details"></div>
         <div id="ecocrop-link-search-panel"><input id="ecocrop-link-search"><ul id="ecocrop-link-results"></ul></div>
         <div id="ecocrop-link-confirm" class="d-none">
           <p id="ecocrop-link-confirm-text"></p>
+          <fieldset id="ecocrop-link-names" class="d-none"><div class="ecocrop-names-list"></div></fieldset>
           <button id="ecocrop-link-confirm-yes"></button><button id="ecocrop-link-confirm-back"></button>
         </div>
         <form id="ecocrop-link-form"><input id="ecocrop-link-crop-id"></form>
@@ -130,6 +228,19 @@ describe('setUp', () => {
     respondWith([{ id: 7, name: 'tomato' }]);
     document.getElementById('name').click();
     await flush();
+    expect(document.getElementById('ecocrop-link-confirm-text').textContent).toBe('Link tomato to Lycopersicon esculentum?');
+  });
+
+  it('offers the other common names to copy', async () => {
+    respondWith([{ id: 7, name: 'tomato' }]);
+    document.getElementById('name').click();
+    await flush();
+    expect(document.querySelector('#ecocrop-link-names input').value).toBe('tomate');
+  });
+
+  it('goes straight to confirming for a crop already chosen', () => {
+    respondWith([]);
+    document.getElementById('copy').click();
     expect(document.getElementById('ecocrop-link-confirm-text').textContent).toBe('Link tomato to Lycopersicon esculentum?');
   });
 
