@@ -136,17 +136,37 @@ en:
         common_names: Common names
         crops: Matched crops
         heat_data: Heat figures
+        how_to_link: Click a common name to search for the crop it belongs to, then confirm the link.
         intro: "%{matched} of the %{total} EcoCrop records are matched to a crop."
+        link: Link a crop
         matched: Matched
         no_heat_data: Missing
         none: No EcoCrop records here.
         scientific_name: Scientific name
         search: Search
         search_placeholder: Scientific or common name
+        suggestion: "Link %{crop}"
+        suggestion_title: "%{crop} is named like a common name of %{record}"
         title: EcoCrop data
+        unlink: Unlink
         unmatched: Unmatched
         unmatched_crop: Not matched to a crop
         yes_heat_data: Complete
+      link:
+        failed: "%{crop} could not be linked."
+        linked: "%{crop} is now linked to %{record}."
+      link_modal:
+        back: Choose a different crop
+        cancel: Cancel
+        close: Close
+        confirm: Link the crop %{crop} to %{record}?
+        confirm_button: Yes, link it
+        hint: Search for the crop this EcoCrop record describes. A crop has one record, so linking it replaces any it had.
+        none: No crops found
+        search_label: Crop name
+        title: Link a crop
+      unlink:
+        unlinked: "%{crop} is no longer linked to %{record}."
     features:
       descriptions:
         enable_harvest_reminders: Sends the weekly harvest reminder emails to members who want them.

@@ -19,6 +19,20 @@ class EcocropData < ApplicationRecord
     where('scientificname ILIKE :pattern OR array_to_string(comname, \' \') ILIKE :pattern', pattern:)
   }
 
+  # Crops not yet linked to any record whose name is one of an unmatched record's common names, ignoring case,
+  # as { record id => crops }. A crop that already has a record is left alone, since linking would move it.
+  def self.suggested_crops(records)
+    candidates = records.select { |record| record.crops.empty? }
+    names = candidates.flat_map { |record| Array(record.comname).map { |name| name.downcase.squish } }.uniq
+    return {} if names.empty?
+
+    crops = Crop.approved.where(ecocrop_data_id: nil).where('lower(name) IN (?)', names).group_by { |crop| crop.name.downcase.squish }
+    found = candidates.to_h do |record|
+      [record.id, Array(record.comname).filter_map { |name| crops[name.downcase.squish] }.flatten.uniq]
+    end
+    found.reject { |_id, matching| matching.empty? }
+  end
+
   def self.by_scientific_name(name)
     return nil if name.blank?
 
