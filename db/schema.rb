@@ -1359,7 +1359,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_10_000200) do
   add_foreign_key "crop_job_steps", "crop_job_templates"
   add_foreign_key "crop_job_templates", "crops"
   add_foreign_key "crop_job_templates", "members", column: "creator_id"
-  add_foreign_key "crops", "ecocrop_data", on_delete: :nullify
+  add_foreign_key "crops", "ecocrop_data", column: "ecocrop_data_id", on_delete: :nullify
   add_foreign_key "harvests", "plantings"
   add_foreign_key "job_idea_dismissals", "members"
   add_foreign_key "jobs", "crop_job_steps", on_delete: :nullify
