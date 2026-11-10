@@ -229,6 +229,7 @@ Rails.application.routes.draw do
     get 'climate/members' => 'climate_coverage#members', as: :climate_members
     get 'climate/gardens' => 'climate_coverage#gardens', as: :climate_gardens
     resources :job_templates, only: :index
+    get 'ecocrop', to: 'ecocrop_data#index', as: :ecocrop_data
     resources :crops, param: :slug do
       resources :crop_companions
       resources :crop_job_templates, path: 'job_templates', except: :show

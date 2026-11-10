@@ -130,6 +130,23 @@ en:
         missing: No data yet
         stale: Out of date
         unlocated: No location on the map
+    ecocrop_data:
+      index:
+        all: All
+        common_names: Common names
+        crops: Matched crops
+        heat_data: Heat figures
+        intro: "%{matched} of the %{total} EcoCrop records are matched to a crop."
+        matched: Matched
+        no_heat_data: Missing
+        none: No EcoCrop records here.
+        scientific_name: Scientific name
+        search: Search
+        search_placeholder: Scientific or common name
+        title: EcoCrop data
+        unmatched: Unmatched
+        unmatched_crop: Not matched to a crop
+        yes_heat_data: Complete
     features:
       descriptions:
         enable_harvest_reminders: Sends the weekly harvest reminder emails to members who want them.

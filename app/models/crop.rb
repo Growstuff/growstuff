@@ -20,6 +20,7 @@ class Crop < ApplicationRecord
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
+  belongs_to :ecocrop_record, class_name: 'EcocropData', foreign_key: :ecocrop_data_id, optional: true, inverse_of: :crops
   has_many :scientific_names, dependent: :delete_all
   has_many :alternate_names, dependent: :delete_all
   has_many :plantings, dependent: :destroy
@@ -128,8 +129,10 @@ class Crop < ApplicationRecord
     scientific_names.first
   end
 
+  # The record linked by the crops:match_ecocrop tasks or a crop wrangler, else one named like a scientific name of the crop.
   def ecocrop_data
-    # Match against any of the crop's scientific names, starting with default
+    return ecocrop_record if ecocrop_record
+
     scientific_names.each do |sn|
       record = EcocropData.by_scientific_name(sn.name)
       return record if record.present?

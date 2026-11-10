@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_10_000100) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_10_000200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -602,6 +602,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_10_000100) do
     t.integer "days_until_maturity_min", comment: "Days from sowing to harvest, at least."
     t.float "default_diameter"
     t.text "description"
+    t.bigint "ecocrop_data_id", comment: "The EcoCrop record for this crop, matched by scientific name."
     t.string "en_wikipedia_url"
     t.string "en_youtube_url"
     t.integer "germination_days_max", comment: "Days to germinate, at most."
@@ -642,6 +643,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_10_000100) do
     t.string "sun_requirements"
     t.datetime "updated_at", precision: nil
     t.index ["creator_id"], name: "index_crops_on_creator_id"
+    t.index ["ecocrop_data_id"], name: "index_crops_on_ecocrop_data_id"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["normalised_name"], name: "index_crops_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["parent_id"], name: "index_crops_on_parent_id"
@@ -1357,6 +1359,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_10_000100) do
   add_foreign_key "crop_job_steps", "crop_job_templates"
   add_foreign_key "crop_job_templates", "crops"
   add_foreign_key "crop_job_templates", "members", column: "creator_id"
+  add_foreign_key "crops", "ecocrop_data", on_delete: :nullify
   add_foreign_key "harvests", "plantings"
   add_foreign_key "job_idea_dismissals", "members"
   add_foreign_key "jobs", "crop_job_steps", on_delete: :nullify
