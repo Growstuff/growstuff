@@ -488,6 +488,23 @@ en:
     growing_fact:
       median_of_packets: median of members' seed packets
       members_packets: "Members' seed packets: %{median}"
+    ecocrop_facts:
+      absolute_ph: Absolute soil pH
+      absolute_rainfall: Absolute rainfall
+      absolute_temperature: Absolute temperature
+      crop_cycle: Crop cycle
+      max_altitude: Max altitude
+      optimal_light: Optimal light
+      optimal_ph: Optimal soil pH
+      optimal_rainfall: Optimal rainfall
+      optimal_temperature: Optimal temperature
+      source: FAO EcoCrop
+      to: to
+      units:
+        celsius: °C
+        days: days
+        metres: m
+        rainfall: mm/year
     growing_facts:
       days_until_maturity: Days until maturity
       germination: Germination

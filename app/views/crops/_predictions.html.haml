@@ -53,4 +53,6 @@
     = render 'layouts/fact_card',
       title: 'Growing Degree Days', value: crop.growing_degree_days, description: nil
   = render 'openfarm_data', crop: crop
+  - ecocrop_facts(crop.ecocrop_data).each do |fact|
+    = render 'crops/ecocrop_fact', fact:
 = render 'crops/growing_degree_days', crop: crop

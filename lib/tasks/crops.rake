@@ -48,7 +48,7 @@ namespace :crops do
     linkable, to_review = matches.partition(&:linkable?)
 
     unless dry_run
-      linkable.each { |match| match.crop.update_columns(ecocrop_data_id: match.record.id) } # rubocop:disable Rails/SkipsModelValidations
+      linkable.each { |match| match.crop.update_columns(ecocrop_data_id: match.record.id, updated_at: Time.current) } # rubocop:disable Rails/SkipsModelValidations
     end
 
     review_path = ENV.fetch('REVIEW_CSV', Rails.root.join('tmp/ecocrop_review.csv').to_s)
@@ -83,7 +83,7 @@ namespace :crops do
       record = EcocropData.find_by(ecoportcode: row['chosen_ecoportcode'])
       crop = Crop.find_by(id: row['crop_id'])
       if record && crop
-        crop.update_columns(ecocrop_data_id: record.id) # rubocop:disable Rails/SkipsModelValidations
+        crop.update_columns(ecocrop_data_id: record.id, updated_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
         linked += 1
       else
         warn "Skipped crop #{row['crop_id']}: no crop or no EcoCrop record #{row['chosen_ecoportcode']}."

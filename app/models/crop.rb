@@ -129,7 +129,8 @@ class Crop < ApplicationRecord
     scientific_names.first
   end
 
-  # The record linked by the crops:match_ecocrop tasks or a crop wrangler, else one named like a scientific name of the crop.
+  # The record linked by the crops:match_ecocrop tasks or a crop wrangler, else one named like a scientific name of the crop,
+  # else its parent's, so a variety of tomato reads what tomato does.
   def ecocrop_data
     return ecocrop_record if ecocrop_record
 
@@ -137,7 +138,7 @@ class Crop < ApplicationRecord
       record = EcocropData.by_scientific_name(sn.name)
       return record if record.present?
     end
-    nil
+    parent&.ecocrop_data
   end
 
   # This crop's harvest style if it has one, else its parent's, so a variety of lettuce follows lettuce.

@@ -1,0 +1,15 @@
+-# One thing EcoCrop says about a crop's conditions: an icon for what it is, and each range with its label.
+.card.fact-card.growing-fact.ecocrop-fact
+  .card-body.text-center
+    - if fact[:title]
+      %h3
+        = icon 'fas', fact[:icon]
+        = fact[:title]
+    - else
+      .ecocrop-fact-icon= icon 'fas', fact[:icon], class: 'fa-2x'
+    - fact[:rows].each do |row|
+      .crop-sow-hemisphere
+        - if row[:label]
+          %small= row[:label]
+        %strong= row[:value]
+    %small.crop-fact-median= t('crops.ecocrop_facts.source')
