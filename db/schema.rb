@@ -1249,7 +1249,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_10_000200) do
   end
 
   create_table "seeds", id: :serial, force: :cascade do |t|
+    t.string "barcode"
     t.string "batch_number"
+    t.string "brand"
     t.datetime "created_at", precision: nil
     t.integer "crop_id", null: false
     t.integer "days_until_maturity_max"
