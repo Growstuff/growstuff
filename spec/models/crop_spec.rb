@@ -984,4 +984,22 @@ describe Crop do
       end
     end
   end
+
+  describe '#ecocrop_data' do
+    let(:record) { create(:ecocrop_data) }
+    let(:parent) { create(:crop, ecocrop_record: record) }
+
+    context 'with its own record' do
+      let(:own) { create(:ecocrop_data) }
+
+      it 'uses its own over its parent\'s' do
+        expect(create(:crop, parent:, ecocrop_record: own).ecocrop_data).to eq own
+      end
+    end
+
+    context 'without a record' do
+      it('reads its parent\'s') { expect(create(:crop, parent:).ecocrop_data).to eq record }
+      it('is nil with no parent either') { expect(create(:crop).ecocrop_data).to be_nil }
+    end
+  end
 end

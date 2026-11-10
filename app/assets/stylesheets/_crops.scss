@@ -238,6 +238,12 @@
   }
 }
 
+// The icon that says what an EcoCrop card is about, where the card has no title.
+.ecocrop-fact-icon {
+  color: $ink-muted;
+  margin-bottom: 0.5rem;
+}
+
 // The median of members' seed packets, under the figure a wrangler set, or on its own:
 // quieter than the figure, and marked with the seeds icon so it reads as data from the packets.
 .crop-fact-median {

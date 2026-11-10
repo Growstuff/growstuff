@@ -65,8 +65,11 @@ describe "crops/show" do
     it "renders the ecological requirements table" do
       render
       expect(rendered).to have_content "Ecological requirements"
-      expect(rendered).to have_content "Optimal temperature"
-      expect(rendered).to have_content "18 - 32 °C"
+    end
+
+    it "shows the optimal temperature as a fact card" do
+      render
+      expect(rendered).to have_css ".ecocrop-fact", text: "18–32 °C"
     end
 
     it "renders the taxonomy with line breaks instead of colons" do
