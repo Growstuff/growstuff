@@ -6,8 +6,12 @@ module WeatherRangeBandsHelper
   include WeatherChartFrameHelper
 
   # Whether the weather is inside the crop's ranges decides the badge's colour.
-  WEATHER_STATUS_COLOURS = { best: 'success', cool: 'warning', warm: 'warning', too_cold: 'danger', too_hot: 'danger',
-                             ok: 'secondary' }.freeze
+  WEATHER_STATUS_COLOURS = { best: 'success', cool: 'warning', warm: 'warning', cold: 'info', hot: 'danger',
+                             too_cold: 'info', too_hot: 'danger', ok: 'secondary' }.freeze
+  # The states that are too cold for the crop, blue and with a snowflake.
+  WEATHER_COLD_STATUSES = %i(cold too_cold).freeze
+  # How far outside the best range, in degrees, is still only "a bit" cool or warm.
+  WEATHER_NEAR_BEST_DEGREES = 3
 
   # { optimal: [low, high], absolute: [low, high] } for a crop, leaving out what EcoCrop has nothing on. The best range
   # needs both its ends; the absolute one can have only one, and is then open at the other. Nil with neither.
@@ -29,8 +33,10 @@ module WeatherRangeBandsHelper
     return unless status
 
     title = t('plantings.show.weather_status_title', date: l(reading.date, format: :short))
-    css = "badge text-bg-#{WEATHER_STATUS_COLOURS.fetch(status)} ms-1"
-    tag.span(t("plantings.show.weather_status_#{status}", crop: crop.name), class: css, title:)
+    css = "badge weather-status-badge text-bg-#{WEATHER_STATUS_COLOURS.fetch(status)} ms-1"
+    text = t("plantings.show.weather_status_#{status}", crop: crop.name)
+    text = safe_join([tag.i(class: 'fas fa-snowflake', aria: { hidden: true }), text], ' ') if WEATHER_COLD_STATUSES.include?(status)
+    tag.span(text, class: css, title:)
   end
 
   # "12 of 20", the days with both a high and a low whose average was in the best range; nil without a best range.
@@ -44,17 +50,20 @@ module WeatherRangeBandsHelper
 
   private
 
-  # :best, :cool or :warm against the best range, or :too_cold or :too_hot beyond what the crop survives. :ok when
-  # it survives the temperature and there is no best range to compare. Absolute limits come first.
+  # :best against the best range, :cool or :warm for a bit outside it, :cold or :hot for well outside it, or :too_cold or
+  # :too_hot beyond what the crop survives. :ok when it survives the temperature and there is no best range to compare.
+  # Absolute limits come first.
   def weather_range_status(mean, ranges)
     optimal = ranges[:optimal]
     low, high = ranges[:absolute]
     return :too_cold if low && mean < low
     return :too_hot if high && mean > high
     return :ok unless optimal
-    return :cool if mean < optimal.first
+    return (optimal.first - mean) <= WEATHER_NEAR_BEST_DEGREES ? :cool : :cold if mean < optimal.first
 
-    mean > optimal.last ? :warm : :best
+    return :best if mean <= optimal.last
+
+    (mean - optimal.last) <= WEATHER_NEAR_BEST_DEGREES ? :warm : :hot
   end
 
   # The day's average temperature, taken as the middle of its high and low.

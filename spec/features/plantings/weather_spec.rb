@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Weather on a planting', flipper: :planting_weather do
-  let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+  let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78, location: 'Wellington, New Zealand') } } # rubocop:disable Rails/SkipsModelValidations
   let(:planting) { create(:planting, garden:, owner: garden.owner, planted_at: Date.new(2026, 10, 1)) }
 
   before { visit planting_path(planting) }
@@ -16,6 +16,8 @@ describe 'Weather on a planting', flipper: :planting_weather do
     end
 
     it { expect(page).to have_css '#weather', text: '4 mm' }
+    it { expect(page).to have_css '.planting-weather .section-header .badge' }
+    it { expect(page).to have_css '.planting-weather .section-header h2', text: 'Weather in Wellington, New Zealand' }
     it { expect(page).to have_link 'Weather data by Open-Meteo.com', href: 'https://open-meteo.com/' }
     it { expect(page).to have_link 'CC BY 4.0', href: 'https://creativecommons.org/licenses/by/4.0/' }
   end
