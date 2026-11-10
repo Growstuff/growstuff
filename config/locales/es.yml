@@ -124,6 +124,12 @@ es:
         contacting: "Contactando con Bluesky…"
         handle_label: "Usuario de Bluesky"
         handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "Acepto las %{tos_link}"
+        identifier_label: "Dirección de Mastodon"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "Solo preguntamos quién eres. No podemos publicar por ti."
+        terms_of_service: "Términos de servicio"
   alternate_names:
     created: El nombre alternativo se creó correctamente.
     deleted: El nombre alternativo se eliminó correctamente.
@@ -386,6 +392,8 @@ es:
     form:
       location_helper: Si tiene una ubicación configurada en su perfil, se utilizará cuando cree un nuevo jardín.
     header:
+      nursery: Vivero
+      nursery_hint: Las plántulas cultivadas aquí se pueden trasplantar a sus huertos.
       all_gardens: Todos los jardines de %{owner}
       garden_of: jardín de
       hero_caption:
@@ -517,7 +525,19 @@ es:
       save: guardar
       unrated_notice: Esta cosecha es de una plantación que aún no ha sido calificada.
     show:
-      heading: Cosecha %{crop}
+      add: agregar
+      breadcrumb: Cosecha
+      crop: Cultivo
+      harvested: Cosechado
+      harvested_by: cosechado por
+      heading: Cosecha de %{crop}
+      no_photos: Aún no hay fotos.
+      photos: Fotos
+      picked_from: recolectado de
+      plant_part: Parte de la planta
+      quantity: Cantidad
+      see_how: Mira cómo va el cultivo de %{crop} de %{owner}.
+      the_planting_this_came_from: La plantación de donde proviene
     updated: La cosecha se actualizó correctamente.
   home:
     added_to_stash: Se agregó con éxito la semilla %{crop} a tu alijo.
@@ -529,6 +549,7 @@ es:
       public_note: Todo lo que registres son datos públicos abiertos, incluida tu ciudad.
       sign_in_bluesky: Iniciar sesión con Bluesky
       sign_in_linktext: Iniciar sesión
+      sign_in_mastodon: Iniciar sesión con Mastodon
       sign_up: Únete gratis
     dashboard:
       add_bed: "+ cama"
@@ -1014,6 +1035,8 @@ es:
       follow: Seguir
       unblock: Desbloquear
       unfollow: Dejar de seguir
+    location:
+      unknown_location: ubicación desconocida
     map:
       cant_show_nearby: No podemos mostrarte lo que hay cerca
       not_known: Ubicación desconocida o no geocodificable
@@ -1022,6 +1045,12 @@ es:
       title: Miembros de %{site_name}
     signup:
       error: No se pudo completar el registro
+    stats:
+      followers:
+        one: "%{count} seguidor"
+        other: "%{count} seguidores"
+      heading: Estadísticas
+      toggle: Mostrar/Ocultar
     unsubscribe:
       error: Lo sentimos, hubo un error al actualizar su configuración.
     unsubscribed: Se te ha cancelado la suscripción a los correos electrónicos de %{email_type}.
@@ -1398,6 +1427,14 @@ es:
       see_everyone: Ver semillas de %{crop} de todos
       title_from_owner: No hay semillas de %{crop} de %{owner}
       title_here: No hay semillas de %{crop} aquí
+    other_tab:
+      more_finished:
+        one: 1 más terminada.
+        other: "%{count} más terminadas."
+      more_in_stock:
+        one: 1 más en existencias.
+        other: "%{count} más en existencias."
+      show_them: Mostrarlas
     packet:
       choice_back: Atrás
       choice_front: Frente

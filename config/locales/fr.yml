@@ -124,6 +124,12 @@ fr:
         contacting: "Connexion à Bluesky…"
         handle_label: "Identifiant Bluesky"
         handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "J'accepte les %{tos_link}"
+        identifier_label: "Adresse Mastodon"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "Nous demandons seulement qui vous êtes. Nous ne pouvons pas publier à votre place."
+        terms_of_service: "Conditions d'utilisation"
   alternate_names:
     created: Le nom alternatif a été créé avec succès.
     deleted: L'autre nom a été supprimé avec succès.
@@ -386,6 +392,8 @@ fr:
     form:
       location_helper: Si vous avez défini un emplacement dans votre profil, il sera utilisé lors de la création d'un nouveau jardin.
     header:
+      nursery: Pépinière
+      nursery_hint: Les semis cultivés ici peuvent être repiqués dans vos jardins.
       all_gardens: Tous les jardins de %{owner}
       garden_of: Jardin de ?
       hero_caption:
@@ -517,7 +525,19 @@ fr:
       save: enregistrer
       unrated_notice: Cette récolte provient d'une plantation qui n'a pas encore été évaluée.
     show:
-      heading: Récolte %{crop}
+      add: ajouter
+      breadcrumb: Récolte
+      crop: Culture
+      harvested: Récolté
+      harvested_by: récolté par
+      heading: Récolte de %{crop}
+      no_photos: Pas encore de photos.
+      photos: Photos
+      picked_from: cueilli sur
+      plant_part: Partie de la plante
+      quantity: Quantité
+      see_how: Découvrez comment se porte le %{crop} de %{owner}.
+      the_planting_this_came_from: La plantation dont cela provient
     updated: La récolte a été mise à jour avec succès.
   home:
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
@@ -529,6 +549,7 @@ fr:
       public_note: Tout ce que vous enregistrez est des données ouvertes publiques, y compris votre ville.
       sign_in_bluesky: Se connecter avec Bluesky
       sign_in_linktext: Se connecter
+      sign_in_mastodon: Se connecter avec Mastodon
       sign_up: S'inscrire gratuitement
     dashboard:
       add_bed: Base
@@ -1016,6 +1037,8 @@ fr:
       follow: Suivre
       unblock: Débloquer
       unfollow: Ne plus suivre
+    location:
+      unknown_location: emplacement inconnu
     map:
       cant_show_nearby: Nous ne pouvons pas vous montrer ce qui se trouve à proximité
       not_known: Emplacement inconnu ou non géocodable
@@ -1024,6 +1047,12 @@ fr:
       title: Membres %{site_name}
     signup:
       error: Échec de l'inscription
+    stats:
+      followers:
+        one: "%{count} abonné"
+        other: "%{count} abonnés"
+      heading: Statistiques
+      toggle: Afficher/Masquer
     unsubscribe:
       error: Nous sommes désolés, une erreur s'est produite lors de la mise à jour de vos paramètres.
     unsubscribed: Vous avez été désabonné des e-mails %{email_type}.
@@ -1400,6 +1429,14 @@ fr:
       see_everyone: Voir les graines de %{crop} de tout le monde
       title_from_owner: Pas de graines de %{crop} de %{owner}
       title_here: Pas de graines de %{crop} ici
+    other_tab:
+      more_finished:
+        one: 1 de plus terminée.
+        other: "%{count} de plus terminées."
+      more_in_stock:
+        one: 1 de plus en stock.
+        other: "%{count} de plus en stock."
+      show_them: Les afficher
     packet:
       choice_back: Retour
       choice_front: Avant

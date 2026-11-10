@@ -124,6 +124,12 @@ zh:
         contacting: "正在连接 Bluesky…"
         handle_label: "Bluesky 账号"
         handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "我同意%{tos_link}"
+        identifier_label: "Mastodon 地址"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "我们仅确认您的身份，不会代表您发帖。"
+        terms_of_service: "服务条款"
   alternate_names:
     created: 备用名称已成功创建。
     deleted: 备用名称已成功删除。
@@ -386,6 +392,8 @@ zh:
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
     header:
+      nursery: 苗圃
+      nursery_hint: 这里培育的幼苗可以移植到您的花园中。
       all_gardens: "%{owner} 的所有花园"
       garden_of: 的花园
       hero_caption:
@@ -515,7 +523,19 @@ zh:
       save: 保存
       unrated_notice: 此收获来自尚未评分的种植。
     show:
+      add: 添加
+      breadcrumb: 收获
+      crop: 作物
+      harvested: 已收获
+      harvested_by: 收获者：
       heading: "%{crop}收获"
+      no_photos: 暂无照片。
+      photos: 照片
+      picked_from: 采摘自
+      plant_part: 植物部位
+      quantity: 数量
+      see_how: 查看 %{owner} 的 %{crop} 生长情况。
+      the_planting_this_came_from: 此收获来源的种植
     updated: 收获已成功更新。
   home:
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
@@ -527,6 +547,7 @@ zh:
       public_note: 您记录的所有内容都是公开的开放数据，包括您所在的城市。
       sign_in_bluesky: 使用 Bluesky 登入
       sign_in_linktext: 登入
+      sign_in_mastodon: 使用 Mastodon 登入
       sign_up: 免费加入
     dashboard:
       add_bed: "+ 床"
@@ -1012,6 +1033,8 @@ zh:
       follow: 关注
       unblock: 取消屏蔽
       unfollow: 取消关注
+    location:
+      unknown_location: 未知位置
     map:
       cant_show_nearby: 我们无法向您显示附近的内容
       not_known: 位置未知或无法进行地理编码
@@ -1020,6 +1043,11 @@ zh:
       title: "%{site_name} 成员"
     signup:
       error: 无法完成注册
+    stats:
+      followers:
+        other: "%{count} 位关注者"
+      heading: 统计
+      toggle: 显示/隐藏
     unsubscribe:
       error: 很抱歉，更新您的设置时出错。
     unsubscribed: 您已取消订阅 %{email_type} 电子邮件。
@@ -1396,6 +1424,14 @@ zh:
       see_everyone: 查看所有人的 %{crop} 种子
       title_from_owner: 没有来自 %{owner} 的 %{crop} 种子
       title_here: 这里没有 %{crop} 种子
+    other_tab:
+      more_finished:
+        one: 还有 1 包已用完。
+        other: 还有 %{count} 包已用完。
+      more_in_stock:
+        one: 还有 1 包有库存。
+        other: 还有 %{count} 包有库存。
+      show_them: 显示它们
     packet:
       choice_back: 后退
       choice_front: 正面
