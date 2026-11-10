@@ -33,6 +33,12 @@ module PlantingWeatherHelper
      ("lows down to #{summary[:coldest]}" if summary[:coldest])].compact.to_sentence.presence
   end
 
+  # The garden's place as its owner wrote it, down to the first two parts of "Bluff, Southland, New Zealand", for the
+  # weather section's title: "Bluff, Southland". Nil when the garden has no location.
+  def weather_place(garden)
+    garden.location.to_s.split(',').first(2).map(&:squish).compact_blank.join(', ').presence
+  end
+
   # How many days the weather charts' X axis spans, from the first day of weather: the same stretch as the progress
   # bar above them, which is the crop's expected lifespan, plus the last day itself. A planting still growing past its due
   # date runs on to today, so its weather isn't cut off, and one planted over a year ago shows only its last year.

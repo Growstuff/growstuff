@@ -101,21 +101,42 @@ describe PlantingWeatherHelper do
     end
 
     context 'when the day was a bit cool' do
-      let(:readings) { [reading(14, 8)] }
+      let(:readings) { [reading(16, 12)] }
 
       it('says so') { expect(badge).to have_css '.badge.text-bg-warning', text: 'Climate a bit cool for tomato' }
     end
 
     context 'when the day was a bit warm' do
-      let(:readings) { [reading(32, 22)] }
+      let(:readings) { [reading(28, 24)] }
 
       it('says so') { expect(badge).to have_css '.badge.text-bg-warning', text: 'Climate a bit warm for tomato' }
+    end
+
+    context 'when the day was well below the best range, but survivable' do
+      let(:readings) { [reading(14, 8)] }
+
+      it('says so') { expect(badge).to have_css '.badge.text-bg-info', text: 'Climate well below optimal for tomato' }
+      it('has a snowflake') { expect(badge).to have_css '.badge .fa-snowflake' }
+    end
+
+    context 'when the day was well above the best range, but survivable' do
+      let(:readings) { [reading(36, 28)] }
+
+      it('says so') { expect(badge).to have_css '.badge.text-bg-danger', text: 'Climate well above optimal for tomato' }
+      it('has no snowflake') { expect(badge).to have_no_css '.fa-snowflake' }
+    end
+
+    context 'when the day was exactly 3 degrees below the best range' do
+      let(:readings) { [reading(14, 10)] }
+
+      it('is still a bit cool') { expect(badge).to have_css '.badge', text: 'Climate a bit cool for tomato' }
     end
 
     context 'when the day was colder than the crop survives' do
       let(:readings) { [reading(6, 0)] }
 
-      it('says so') { expect(badge).to have_css '.badge.text-bg-danger', text: 'Climate too cold for tomato' }
+      it('says so') { expect(badge).to have_css '.badge.text-bg-info', text: 'Climate too cold for tomato' }
+      it('has a snowflake') { expect(badge).to have_css '.badge .fa-snowflake' }
     end
 
     context 'when the day was hotter than the crop survives' do
@@ -182,6 +203,15 @@ describe PlantingWeatherHelper do
     it 'is nil for a crop without EcoCrop data' do
       expect(helper.weather_temperature_ranges(create(:crop))).to be_nil
     end
+  end
+
+  describe '#weather_place' do
+    def place(location) = helper.weather_place(build(:garden, location:))
+
+    it('keeps the first two parts') { expect(place('Bluff, Southland, New Zealand')).to eq 'Bluff, Southland' }
+    it('keeps a single part') { expect(place('Hobart')).to eq 'Hobart' }
+    it('tidies the spacing') { expect(place(' Hobart ,  Tas ')).to eq 'Hobart, Tas' }
+    it('is nil without a location') { expect(place('')).to be_nil }
   end
 
   describe '#weather_figures' do

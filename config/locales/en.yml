@@ -2233,6 +2233,7 @@ en:
       weather_days: Days
       weather_expected_note: The dotted lines and bars are expected weather, last year's data for the same days moved forward a year. They are not observed.
       weather_hottest: Hottest day
+      weather_in: Weather in %{place}
       weather_location_intro: We use this to show the temperature and rainfall the plantings here have been through. Your garden's city or region is public, like the rest of the garden.
       weather_location_title: Where is this garden?
       weather_new: New
@@ -2246,7 +2247,9 @@ en:
       weather_set_location: Set a garden location to get temperature and rainfall data
       weather_soil_temp: Soil temperature
       weather_status_best: The planting is in the optimal climate for %{crop}
+      weather_status_cold: Climate well below optimal for %{crop}
       weather_status_cool: Climate a bit cool for %{crop}
+      weather_status_hot: Climate well above optimal for %{crop}
       weather_status_ok: Climate within what %{crop} survives
       weather_status_title: The average of the high and low on %{date}
       weather_status_too_cold: Climate too cold for %{crop}

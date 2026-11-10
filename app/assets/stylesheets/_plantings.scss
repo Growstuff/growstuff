@@ -511,6 +511,7 @@
   figcaption {
     color: $ink-muted;
     font-size: 0.8rem;
+    margin-bottom: 0.5rem; // room between a caption, and its badge, and the chart
   }
 
   .weather-chart {
@@ -616,6 +617,13 @@
   }
 
   // What each band is, in the chart's right-hand corner: the best range under its top edge, the survivable one above its bottom.
+  // The climate badge beside the temperature chart's caption, large enough to read at a glance.
+  .weather-status-badge {
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.4em 0.7em;
+  }
+
   .weather-band-label {
     background: rgba($white, 0.85);
     border-radius: 3px;

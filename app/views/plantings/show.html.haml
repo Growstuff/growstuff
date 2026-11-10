@@ -76,7 +76,10 @@
         - if @weather_status
           %section.planting-weather{id: ('weather' if @weather_status == :charts)}
             .section-header
-              %h2= t('plantings.show.weather')
+              %h2
+                - place = weather_place(@planting.garden)
+                = place ? t('plantings.show.weather_in', place:) : t('plantings.show.weather')
+                %span.badge.text-bg-light.align-middle.ms-2= t('plantings.show.weather_new')
             - case @weather_status
             - when :charts
               = render 'plantings/weather', planting: @planting, readings: @weather, expected: @expected_weather
