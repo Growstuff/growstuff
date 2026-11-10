@@ -119,4 +119,36 @@ describe PlantingsHelper do
       expect(helper.weather_temperature_chart(observed, from:, days: 10)).not_to include 'weather-expected'
     end
   end
+
+  describe '#planting_origin_props' do
+    subject(:seeds) { helper.planting_origin_props(planting)[:seeds] }
+
+    let(:planting) { create(:planting) }
+
+    before { create(:seed, owner: planting.owner, crop: planting.crop, variety: 'Moneymaker') }
+
+    it 'names the variety of each packet' do
+      expect(seeds.pluck(:variety)).to eq ['Moneymaker']
+    end
+
+    context 'with a packet of a variety saved more recently' do
+      before { create(:seed, owner: planting.owner, crop: create(:crop, parent: planting.crop), created_at: 1.day.from_now) }
+
+      it 'lists the packets of exactly this crop first' do
+        expect(seeds.first[:variety]).to eq 'Moneymaker'
+      end
+    end
+
+    context 'with a packet that says when to sow by' do
+      before { create(:seed, owner: planting.owner, crop: planting.crop, plant_before: Date.new(2099, 6, 1)) }
+
+      it 'says so in its detail' do
+        expect(seeds.pluck(:detail)).to include(a_string_including('sow by 2099'))
+      end
+    end
+
+    it 'marks a packet of the planting\'s crop as related' do
+      expect(seeds.pluck(:related)).to eq [true]
+    end
+  end
 end

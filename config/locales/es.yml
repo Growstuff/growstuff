@@ -124,6 +124,12 @@ es:
         contacting: "Contactando con Bluesky…"
         handle_label: "Usuario de Bluesky"
         handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "Acepto las %{tos_link}"
+        identifier_label: "Dirección de Mastodon"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "Solo preguntamos quién eres. No podemos publicar por ti."
+        terms_of_service: "Términos de servicio"
   alternate_names:
     created: El nombre alternativo se creó correctamente.
     deleted: El nombre alternativo se eliminó correctamente.
@@ -204,6 +210,11 @@ es:
       select_for_deletion: Seleccionar para eliminar
       time_ago: Hace %{time}
       title: Bandeja de entrada
+    show:
+      about: Acerca de
+      breadcrumb_conversations: Conversaciones
+      participants: Participantes
+      sent_on: "el %{date}"
   crop_companions:
     created: El compañero se creó correctamente.
     deleted: El compañero fue destruido con éxito.
@@ -243,6 +254,18 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    growing_fact:
+      median_of_packets: mediana de los paquetes de semillas de los miembros
+      members_packets: "Paquetes de semillas de los miembros: %{median}"
+    growing_facts:
+      days_until_maturity: Días hasta la madurez
+      germination: Germinación
+      median_of_packets: mediana de los paquetes de semillas de los miembros
+      members_packets_hemispheres: "Paquetes de semillas de los miembros: %{south} sur, %{north} norte"
+      northern_hemisphere: Hemisferio norte
+      row_spacing: Distancia entre hileras
+      southern_hemisphere: Hemisferio sur
+      when_to_sow: Cuándo sembrar
     find_seeds:
       empty: No hay semillas disponibles para intercambiar en Growstuff en este momento.
       list_seeds: Publicar semillas de %{crop} para intercambiar
@@ -374,6 +397,8 @@ es:
     form:
       location_helper: Si tiene una ubicación configurada en su perfil, se utilizará cuando cree un nuevo jardín.
     header:
+      nursery: Vivero
+      nursery_hint: Las plántulas cultivadas aquí se pueden trasplantar a sus huertos.
       all_gardens: Todos los jardines de %{owner}
       garden_of: jardín de
       hero_caption:
@@ -505,7 +530,19 @@ es:
       save: guardar
       unrated_notice: Esta cosecha es de una plantación que aún no ha sido calificada.
     show:
-      heading: Cosecha %{crop}
+      add: agregar
+      breadcrumb: Cosecha
+      crop: Cultivo
+      harvested: Cosechado
+      harvested_by: cosechado por
+      heading: Cosecha de %{crop}
+      no_photos: Aún no hay fotos.
+      photos: Fotos
+      picked_from: recolectado de
+      plant_part: Parte de la planta
+      quantity: Cantidad
+      see_how: Mira cómo va el cultivo de %{crop} de %{owner}.
+      the_planting_this_came_from: La plantación de donde proviene
     updated: La cosecha se actualizó correctamente.
   home:
     added_to_stash: Se agregó con éxito la semilla %{crop} a tu alijo.
@@ -517,6 +554,7 @@ es:
       public_note: Todo lo que registres son datos públicos abiertos, incluida tu ciudad.
       sign_in_bluesky: Iniciar sesión con Bluesky
       sign_in_linktext: Iniciar sesión
+      sign_in_mastodon: Iniciar sesión con Mastodon
       sign_up: Únete gratis
     dashboard:
       add_bed: "+ cama"
@@ -628,8 +666,8 @@ es:
       tile_harvest: registra lo que elegiste
       tile_job: planifica una tarea para tu jardín
       jobs_today:
-        one: 1 trabajo hoy
-        other: "%{count} trabajos hoy"
+        one: 1 trabajo pronto
+        other: "%{count} trabajos pronto"
       jobs_today_go: Mis trabajos →
       tile_job_title: Agregar trabajo
       tile_photo: del jardin
@@ -892,6 +930,7 @@ es:
       community_guidelines: Pautas de la comunidad
       contact: Contacto
       data_use_policy: Política de uso de datos
+      donate: Donar - Cómpranos un café
       get_involved: Complicarse
       growstuff_team: Equipo de cultivo
       open_source: Código abierto
@@ -1001,10 +1040,22 @@ es:
       follow: Seguir
       unblock: Desbloquear
       unfollow: Dejar de seguir
+    location:
+      unknown_location: ubicación desconocida
+    map:
+      cant_show_nearby: No podemos mostrarte lo que hay cerca
+      not_known: Ubicación desconocida o no geocodificable
+      see_nearby_html: Ver otros miembros, plantaciones, semillas y más cerca de %{location}
     index:
       title: Miembros de %{site_name}
     signup:
       error: No se pudo completar el registro
+    stats:
+      followers:
+        one: "%{count} seguidor"
+        other: "%{count} seguidores"
+      heading: Estadísticas
+      toggle: Mostrar/Ocultar
     unsubscribe:
       error: Lo sentimos, hubo un error al actualizar su configuración.
     unsubscribed: Se te ha cancelado la suscripción a los correos electrónicos de %{email_type}.
@@ -1161,6 +1212,18 @@ es:
       which_garden: "¿Qué jardín?"
     what_is_a_nursery:
       description_html: 'Un <strong>vivero</strong> es un lugar donde se cultivan plántulas: semillas que se siembran en bandejas o macetas antes de colocarlas en el jardín. Siembre sus semillas en el vivero, luego transplántelas a un jardín o divida un lote entre varios, cuando estén listas.'
+  pages:
+    about:
+      title: Acerca de
+      description_html: Para obtener más información sobre Growstuff, consulta nuestra %{github_link}.
+      github_page: página de GitHub
+    contact:
+      title: Contacto
+      general_email: Correo electrónico de contacto general
+      support_enquiries_html: Consultas de soporte y cuentas (no cubiertas por las %{faq_link})
+      faq: Preguntas frecuentes
+      media_enquiries: Consultas de medios y prensa
+      twitter: Twitter
   photo_associations:
     update:
       updated: Foto actualizada.
@@ -1227,7 +1290,6 @@ es:
       packets_of_seed:
         one: 1 paquete de semillas
         other: "%{count} paquetes de semillas"
-      parent_seed: Semilla madre
       perennial: Perenne
       perennial_description: sigue creciendo año tras año
       planned: Planificado
@@ -1308,6 +1370,14 @@ es:
       weather_temperature_chart: Altas y bajas diarias
       weather_temperature_chart_alt: Temperatura máxima y mínima diaria, de %{low} a %{high}.
     string: '%{crop} plantando en %{garden} por %{owner}'
+    timeline:
+      failed: Fallido
+      finish_expected: Finalización prevista el %{date}
+      finished: Finalizado %{date}
+      first_harvest_expected: Primera cosecha prevista el %{date}
+      harvest_started: Cosecha iniciada %{date}
+      legend: (Un emoji = 1 semana)
+      planted: Plantado %{date}
     transplant:
       cancel: Cancelar
       close: Cerrar
@@ -1350,6 +1420,11 @@ es:
       unknown: Desconocido
       will_trade: Para intercambio
       year_saved: Año guardado
+    empty:
+      no_finished: Aún no hay semillas terminadas.
+      no_match: No hay semillas que coincidan con esos filtros.
+      none_recorded: Aún no se han registrado semillas
+      show_all: Mostrar todas las semillas
     form:
       finish_helper: Las semillas estarán terminadas cuando las hayas plantado todas o las hayas intercambiado todas.
       trade_help: "¿Está interesado en comercializar o intercambiar semillas con otros miembros de %{site_name}?  Si incluye sus semillas como disponibles para el comercio, otros miembros pueden comunicarse con usted para solicitar semillas.  Puede enumerar cualquier condición u otra información en la descripción anterior."
@@ -1358,6 +1433,20 @@ es:
         crop_seeds: Las semillas %{crop} de todos
         default: Las semillas de todos
         owner_seeds: Semillas %{owner}
+    none:
+      add_seeds: Añadir semillas de %{crop}
+      looked_everywhere: Buscamos en existencias y en paquetes terminados.
+      see_everyone: Ver semillas de %{crop} de todos
+      title_from_owner: No hay semillas de %{crop} de %{owner}
+      title_here: No hay semillas de %{crop} aquí
+    other_tab:
+      more_finished:
+        one: 1 más terminada.
+        other: "%{count} más terminadas."
+      more_in_stock:
+        one: 1 más en existencias.
+        other: "%{count} más en existencias."
+      show_them: Mostrarlas
     packet:
       choice_back: Atrás
       choice_front: Frente
@@ -1373,6 +1462,16 @@ es:
       ocr_label: Nuestro intento de leer el sobre
       ocr_note: Leído automáticamente de las fotos, por lo que puede contener errores. Cotejar con el sobre.
       show_ocr: Mostrar nuestro intento de leer el sobre
+    past_sow_by:
+      count:
+        one: "%{count} sobre ha pasado su fecha límite de siembra."
+        other: "%{count} sobres han pasado su fecha límite de siembra."
+      hint: Las semillas viejas a menudo aún germinan. Siembra unas cuantas en espeso para comprobarlo.
+      show_all: Mostrar todos
+      show_those:
+        one: Mostrar ese
+        other: Mostrar esos %{count}
+      showing: Mostrando sobres pasados de su fecha límite de siembra.
     save_seeds: guardar semillas
     show:
       heading: Semillas %{crop}

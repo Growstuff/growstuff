@@ -1,17 +1,17 @@
 - if planting.annual?
   .d-flex.justify-content-between
     - if planting.planted_at.present?
-      %p.small #{ image_icon 'planting-hand'} Planted #{I18n.l planting.planted_at}
+      %p.small #{image_icon 'planting-hand'} #{t('.planted', date: I18n.l(planting.planted_at))}
     - if planting.first_harvest_date.present?
-      %p.small #{harvest_icon} Harvest started #{I18n.l planting.first_harvest_date}
+      %p.small #{harvest_icon} #{t('.harvest_started', date: I18n.l(planting.first_harvest_date))}
     - elsif planting.first_harvest_predicted_at.present?
-      %p.small #{harvest_icon} First harvest expected #{I18n.l planting.first_harvest_predicted_at}
+      %p.small #{harvest_icon} #{t('.first_harvest_expected', date: I18n.l(planting.first_harvest_predicted_at))}
     - if planting.finished_at.present?
-      %p.small #{finished_icon} Finished #{I18n.l planting.finished_at}
+      %p.small #{finished_icon} #{t('.finished', date: I18n.l(planting.finished_at))}
     - elsif planting.failed?
-      %p.small #{finished_icon} Failed
+      %p.small #{finished_icon} #{t('.failed')}
     - elsif planting.finish_predicted_at.present?
-      %p.small #{finished_icon} Finish expected #{I18n.l planting.finish_predicted_at}
+      %p.small #{finished_icon} #{t('.finish_expected', date: I18n.l(planting.finish_predicted_at))}
   - if planting.planted_at.present? && planting.expected_lifespan.present?
     .progress
       .progress-bar{class: "progress-bar--#{planting.progress_state}", "aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => planting.percentage_grown, role: "progressbar", style: "width: #{planting.percentage_grown}%"}
@@ -22,4 +22,4 @@
             planting: planting,
             week_number: week_number,
             date_this_week: planting.planted_at + week_number.weeks
-    %small (One emojii = 1 week)
+    %small= t('.legend')

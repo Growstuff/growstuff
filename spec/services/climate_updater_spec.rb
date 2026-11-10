@@ -156,4 +156,74 @@ describe ClimateUpdater, type: :service do
       expect(updater.update_all).to eq 0
     end
   end
+
+  # Room for one new cell and nothing more, so what is done first is what the updater chose first.
+  context 'with two members and room for one cell' do
+    subject(:updater) { described_class.new(client:, today:, budget: cell_cost, seconds_per_call: 0) }
+
+    let(:cell_cost) { OpenMeteoClient.call_cost(Date.new(1996, 1, 1), Date.new(2026, 10, 26), variables: described_class::VARIABLES.size) }
+    let(:wellington) { -41.25 }
+    let(:london) { 51.5 }
+    let(:other_garden) { create(:garden).tap { |garden| garden.update_columns(latitude: 51.5, longitude: -0.1) } } # rubocop:disable Rails/SkipsModelValidations
+
+    def last_seen(member, days_ago)
+      member.update_columns(created_at: today.in_time_zone - 2.years, last_sign_in_at: today.in_time_zone - days_ago.days) # rubocop:disable Rails/SkipsModelValidations
+    end
+
+    before do
+      create(:planting, garden: other_garden, owner: other_garden.owner, planted_at: today - 10)
+      last_seen(garden.owner, wellington_days_ago)
+      last_seen(other_garden.owner, london_days_ago)
+      updater.update_all
+    end
+
+    context 'when the member of the second garden signed in more recently' do
+      let(:wellington_days_ago) { 20 }
+      let(:london_days_ago) { 2 }
+
+      it 'does their cell' do
+        expect(ClimateMonth.distinct.pluck(:latitude)).to eq [london]
+      end
+    end
+
+    context 'when the member of the first garden signed in more recently' do
+      let(:wellington_days_ago) { 2 }
+      let(:london_days_ago) { 20 }
+
+      it 'does their cell' do
+        expect(ClimateMonth.distinct.pluck(:latitude)).to eq [wellington]
+      end
+    end
+
+    context 'when one member has not signed in for months' do
+      let(:wellington_days_ago) { 400 }
+      let(:london_days_ago) { 30 }
+
+      it 'does the active member first' do
+        expect(ClimateMonth.distinct.pluck(:latitude)).to eq [london]
+      end
+    end
+  end
+
+  context 'when an active member has no data and an inactive member has old data' do
+    subject(:updater) { described_class.new(client:, today:, budget: cell_cost, seconds_per_call: 0) }
+
+    let(:cell_cost) { OpenMeteoClient.call_cost(Date.new(1996, 1, 1), Date.new(2026, 10, 26), variables: described_class::VARIABLES.size) }
+    let(:inactive_garden) { create(:garden).tap { |garden| garden.update_columns(latitude: 51.5, longitude: -0.1) } } # rubocop:disable Rails/SkipsModelValidations
+
+    before do
+      create(:planting, garden: inactive_garden, owner: inactive_garden.owner, planted_at: today - 10)
+      inactive_garden.owner.update_columns(created_at: today.in_time_zone - 1.year, last_sign_in_at: today.in_time_zone - 200.days) # rubocop:disable Rails/SkipsModelValidations
+      create(:climate_month, latitude: 51.5, longitude: 0.0, year: 2026, month: 9, updated_at: today.in_time_zone - 60.days)
+      updater.update_all
+    end
+
+    it 'does the active member first' do
+      expect(ClimateMonth.where(latitude: -41.25)).to exist
+    end
+
+    it 'leaves the inactive member until the active are done' do
+      expect(ClimateMonth.where(latitude: 51.5).count).to eq 1
+    end
+  end
 end

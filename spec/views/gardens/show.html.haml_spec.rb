@@ -498,4 +498,27 @@ describe "gardens/show" do
       expect(rendered).to have_css '.garden-frost-protected'
     end
   end
+
+  context 'when the garden is a nursery' do
+    let(:owner) { create(:member) }
+    let(:garden) { create(:garden, owner:, nursery: true) }
+
+    before do
+      controller.stub(:current_user) { owner }
+      allow(view).to receive_messages(member_signed_in?: true, current_member: owner)
+      assign(:garden, garden)
+      assign(:current_plantings, [])
+      assign(:finished_plantings, [])
+      assign(:suggested_companions, [])
+      render
+    end
+
+    it 'shows the nursery badge' do
+      assert_select '.badge.text-bg-success', text: I18n.t('gardens.header.nursery')
+    end
+
+    it 'shows the nursery hint' do
+      expect(rendered).to have_content I18n.t('gardens.header.nursery_hint')
+    end
+  end
 end

@@ -1,9 +1,8 @@
 - if member.latitude && member.longitude
   #membermap.member-map{ data: { marker_icon: image_path('spade-marker.svg') } }
   %p.text-end
-    See other members, plantings, seeds and more near
-    = link_to member.location, place_path(member.location, anchor: "members")
+    = t('.see_nearby_html', location: link_to(member.location, place_path(member.location, anchor: "members")))
 - else
   .location-not-set
-    %h1 Location not known or geocodable
-    %p We can't show you what's nearby
+    %h1= t('.not_known')
+    %p= t('.cant_show_nearby')

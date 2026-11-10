@@ -1,0 +1,27 @@
+-# How this planting was started. Whoever may edit it can always answer or change the answer; everyone else sees it once there is one.
+- kind = planting.planted_from.presence || ('seed' if planting.parent_seed)
+- if kind || can?(:edit, planting)
+  .card.fact-card{ class: (kind ? 'origin-answered' : 'origin-unanswered') }
+    %h3
+      - unless kind
+        %span.origin-badge.origin-badge-small{ 'aria-hidden' => 'true' } ?
+      = t('plantings.origin.grown_from')
+    - if kind
+      %strong
+        = image_tag planting_origin_kind_icon_url(kind), alt: '', width: 28, height: 28
+        = t("plantings.origin.kinds.#{planted_from_key(kind)}")
+      - if planting.parent_seed
+        %span
+          = link_to t('plantings.origin.packet', seed: planting.parent_seed.crop.name.downcase), planting.parent_seed
+          - if planting.sown_from_expired_seeds?
+            %br
+            %span.text-warning-emphasis= t('plantings.facts.sown_from_expired', year: planting.seed_plant_before.year)
+      - elsif planting.seedling
+        %span= [planting.seedling.source && t("plantings.origin.seedling_sources.#{planting.seedling.source}"), planting.seedling.supplier].compact_blank.join(' · ')
+    - else
+      %strong.text-muted= t('plantings.origin.not_recorded')
+    - if can?(:edit, planting)
+      - if kind
+        %button.origin-link{ type: 'button', data: { origin_dialog: true } }= t('plantings.origin.change')
+      - else
+        %button.origin-btn{ type: 'button', data: { origin_dialog: true } }= t('plantings.origin.link_a_seed')

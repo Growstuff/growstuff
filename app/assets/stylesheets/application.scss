@@ -44,6 +44,7 @@
 @import "actions_menu";
 @import "record_page";
 @import "plantings";
+@import "planting_origin";
 @import "figures";
 @import "frost";
 @import "climate";
@@ -64,6 +65,7 @@
 @import "neighbours";
 @import "jobs";
 @import "maps";
+@import "admin_climate";
 
 @view-transition {
   navigation: auto;

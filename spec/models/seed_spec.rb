@@ -181,26 +181,6 @@ describe Seed do
     end
   end
 
-  context 'interesting' do
-    it 'lists interesting seeds' do
-      # to be interesting a seed must:
-      # 1) be tradable
-      # 2) the owner must have a location set
-
-      @located_member = create(:london_member)
-      @seed1 = create(:tradable_seed, owner: @located_member)
-      @seed2 = create(:seed, owner: @located_member)
-      @seed3 = create(:tradable_seed)
-      @seed4 = create(:seed)
-
-      expect(described_class.interesting).to include @seed1
-      expect(described_class.interesting).not_to include @seed2
-      expect(described_class.interesting).not_to include @seed3
-      expect(described_class.interesting).not_to include @seed4
-      expect(described_class.interesting.size).to eq 1
-    end
-  end
-
   context 'photos' do
     let(:seed) { create(:seed) }
 

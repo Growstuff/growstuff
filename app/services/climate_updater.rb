@@ -2,8 +2,9 @@
 
 # Works out the climate of each weather grid cell that has a planting growing, or finished in the last few weeks, or a
 # garden in use: its typical frost dates, as FrostYear and FrostStat rows, and its months of weather, as ClimateMonth rows,
-# so a page only reads a few rows. Cells with none yet are done first, the busiest first, as far as the call budget
-# allows, and cells whose latest months are a week old are brought up to date.
+# so a page only reads a few rows. Cells whose latest months are a week old are brought up to date, and cells with none yet
+# are done, as far as the call budget allows. Cells of members who signed in or signed up lately come first, the most
+# recent first, and the cells of members who haven't are left until every active member's cell is up to date.
 #
 # History comes from the Open-Meteo ERA5 archive, for the rain and the air and soil temperatures, which is five variables
 # and so counts at the base rate, the same as one variable. Frost and the months are worked out from the same days, so a
@@ -22,28 +23,54 @@ class ClimateUpdater
   # A cell's latest months are fetched again once they are this old, from this many whole months back.
   STALE_DAYS = 7
   REFRESH_MONTHS = 3
+  # A member who has not signed in, or signed up, for this long is not active.
+  ACTIVE_DAYS = 90
 
-  Cell = Struct.new(:latitude, :longitude, :place_count)
+  # last_active_at: the latest sign in or sign up of the members whose places are in the cell, or nil.
+  Cell = Struct.new(:latitude, :longitude, :place_count, :last_active_at)
 
   # Returns how many cells were done.
   def update_all
-    cells_to_refresh.count { |cell| refresh(cell) } + cells_to_do.count { |cell| update(cell) }
+    work.count { |step, cell| send(step, cell) }
   end
 
   private
 
-  def places
-    Planting.weather_tracked(@today).includes(:garden).to_a + Garden.active.located_for_weather.to_a
+  # The cells to bring up to date and to do, as [:refresh or :update, cell], in the order to try them: active members'
+  # cells before the rest, refreshing before doing, then the most recently active, then the busiest.
+  def work
+    refreshing = cells_to_refresh.map { |cell| [:refresh, cell] }
+    doing = cells_to_do.map { |cell| [:update, cell] }
+    (refreshing + doing).sort_by do |step, cell|
+      [active?(cell) ? 0 : 1, step == :refresh ? 0 : 1, -cell.last_active_at.to_f, -cell.place_count]
+    end
   end
 
-  # The cells of the places, busiest first, as { [latitude, longitude] => how many places are in it }.
+  def active?(cell)
+    cell.last_active_at.present? && cell.last_active_at.to_date >= @today - ACTIVE_DAYS
+  end
+
+  def places
+    @places ||= Planting.weather_tracked(@today).includes(:garden).to_a + Garden.active.located_for_weather.to_a
+  end
+
+  # The cells of the places, with how many places are in each and when its members were last active.
   def cells
-    @cells ||= places.group_by(&:weather_cell).map { |(latitude, longitude), grouped| Cell.new(latitude, longitude, grouped.size) }
+    @cells ||= places.group_by(&:weather_cell).map do |(latitude, longitude), grouped|
+      Cell.new(latitude, longitude, grouped.size, grouped.filter_map { |place| activity[place.owner_id] }.max)
+    end
+  end
+
+  # { member id => when they last signed in, or signed up if they never have }, for the members of the places. Deactivated
+  # members have none.
+  def activity
+    members = Member.kept.where(id: places.map(&:owner_id).uniq)
+    @activity ||= members.pluck(:id, :last_sign_in_at, :created_at).to_h { |id, signed_in, created| [id, [signed_in, created].compact.max] }
   end
 
   def cells_to_do
     held = ClimateMonth.distinct.pluck(:latitude, :longitude)
-    cells.reject { |cell| held.include?([cell.latitude, cell.longitude]) }.sort_by { |cell| -cell.place_count }
+    cells.reject { |cell| held.include?([cell.latitude, cell.longitude]) }
   end
 
   def cells_to_refresh

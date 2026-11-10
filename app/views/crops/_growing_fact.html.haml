@@ -9,9 +9,9 @@
         - if median
           %small.crop-fact-median
             = menu_icon(:seeds)
-            Members' seed packets: #{median}
+            = t('.members_packets', median:)
       - else
         %strong= median
         %small.crop-fact-median
           = menu_icon(:seeds)
-          median of members' seed packets
+          = t('.median_of_packets')
