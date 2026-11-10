@@ -98,12 +98,14 @@ describe PlantingWeatherHelper do
       let(:readings) { [reading(24, 14)] }
 
       it('says so') { expect(badge).to have_css '.badge.text-bg-success', text: 'The planting is in the optimal climate for tomato' }
+      it('has a tick') { expect(badge).to have_css '.badge .fa-check-circle' }
     end
 
     context 'when the day was a bit cool' do
       let(:readings) { [reading(16, 12)] }
 
       it('says so') { expect(badge).to have_css '.badge.text-bg-warning', text: 'Climate a bit cool for tomato' }
+      it('has no icon') { expect(badge).to have_no_css '.badge i' }
     end
 
     context 'when the day was a bit warm' do
