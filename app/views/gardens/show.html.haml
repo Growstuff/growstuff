@@ -15,10 +15,10 @@
         = render 'gardens/header', garden: @garden, photo_count: @photo_count
         - unless @garden.active
           .alert.alert-warning
-            This garden is inactive.
+            = t('.inactive_notice')
             - if can? :edit, @garden
-              = link_to 'Set it to active', edit_garden_path(@garden)
-              to plant something in this garden.
+              = link_to t('.set_active'), edit_garden_path(@garden)
+              = t('.to_plant')
         - if @suggestion_count&.positive?
           .mb-3
             = render 'jobs/ideas_banner', href: suggestions_path, open: false,

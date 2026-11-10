@@ -851,11 +851,14 @@ en:
       previously_planted: Previously planted in this garden
       unknown_year: Unknown year
     show:
+      inactive_notice: This garden is inactive.
       km_from_you: about %{km} km from you
+      set_active: Set it to active
       suggested_plantings:
         one: We have %{count} suggested planting to add here
         other: We have %{count} suggested plantings to add here
       suggested_plantings_go: See them →
+      to_plant: to plant something in this garden.
     sign_in: Sign in
     sign_up: Join free
     start:

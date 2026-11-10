@@ -480,11 +480,14 @@ zh:
       previously_planted: 以前在这个花园里种植过的植物
       unknown_year: 年份未知
     show:
+      inactive_notice: 该花园处于休眠状态。
       km_from_you: 距您约 %{km} 公里
+      set_active: 将其设置为有效
       suggested_plantings:
         one: 我们有 %{count} 建议种植添加到这里
         other: 我们在这里添加了 %{count} 建议的种植
       suggested_plantings_go: 看到他们 →
+      to_plant: 以在此花园中种植作物。
     sign_in: 登入
     sign_up: 免费加入
     start:
