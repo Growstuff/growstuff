@@ -13,7 +13,10 @@ describe PlantingReminderOutlook do
 
     it 'lists what was added since the last reminder' do
       member.update_columns(planting_reminder_sent_at: Date.new(2026, 10, 20))
-      expect(outlook.new_features.map(&:title)).to eq ['Seed library', 'Nursery garden', 'Jobs', 'Weather data', 'Frost danger', 'Optimal climate for plantings']
+      expect(outlook.new_features.map(&:title)).to eq [
+        'Seed library', 'Nursery garden', 'Jobs', 'Weather data', 'Frost danger', 'Optimal climate for plantings',
+        'Link plantings to their seeds', 'Seed packet data', 'Volunteer plantings', 'Growing requirements'
+      ]
     end
 
     it 'is empty when the last reminder came after every feature' do

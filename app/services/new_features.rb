@@ -26,11 +26,19 @@ class NewFeatures
     Feature.new(added_on: Date.new(2026, 11, 10), title: 'Frost danger', path: :place,
                 description: 'See when frost is usually a danger where you garden, and how each of your plantings sits against it.'),
     Feature.new(added_on: Date.new(2026, 11, 10), title: 'Optimal climate for plantings', path: :plantings,
-                description: "See whether the weather suits each planting's crop, with its best temperatures shown on the weather chart.")
+                description: "See whether the weather suits each planting's crop, with its best temperatures shown on the weather chart."),
+    Feature.new(added_on: Date.new(2026, 11, 10), title: 'Link plantings to their seeds', path: :plantings,
+                description: 'Say which of your seeds a planting came from, and how it was started, from the planting page.'),
+    Feature.new(added_on: Date.new(2026, 11, 10), title: 'Seed packet data', path: :seeds,
+                description: 'Save what the packet says, like how long it takes to germinate and to mature, on your seeds.'),
+    Feature.new(added_on: Date.new(2026, 11, 10), title: 'Volunteer plantings', path: :plantings,
+                description: 'Say a planting is a volunteer, one that came up on its own, when you tell us how it started.'),
+    Feature.new(added_on: Date.new(2026, 11, 10), title: 'Growing requirements', path: :crops,
+                description: 'See what a crop needs on its page, including soil pH, crop cycle, altitude and light, from EcoCrop.')
   ].freeze
 
-  # The features added after `date`, oldest first.
+  # The features added after `date`, oldest first, and in the order they are listed for the same day.
   def self.since(date)
-    ALL.select { |feature| feature.added_on > date.to_date }.sort_by(&:added_on)
+    ALL.select { |feature| feature.added_on > date.to_date }.sort_by.with_index { |feature, index| [feature.added_on, index] }
   end
 end

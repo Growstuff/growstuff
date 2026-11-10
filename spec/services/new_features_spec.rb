@@ -6,7 +6,8 @@ describe NewFeatures do
   describe '.since' do
     it 'lists features added to the list after the date' do
       expect(described_class.since(Date.new(2026, 10, 30)).map(&:title)).to eq [
-        'Seed library', 'Nursery garden', 'Jobs', 'Weather data', 'Frost danger', 'Optimal climate for plantings'
+        'Seed library', 'Nursery garden', 'Jobs', 'Weather data', 'Frost danger', 'Optimal climate for plantings',
+        'Link plantings to their seeds', 'Seed packet data', 'Volunteer plantings', 'Growing requirements'
       ]
     end
 
