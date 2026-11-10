@@ -1227,6 +1227,13 @@ de:
       faq: FAQ
       media_enquiries: Medien-/Presseanfragen
       twitter: Twitter
+    policies:
+      title: Richtlinien
+      terms_of_service: Nutzungsbedingungen
+      privacy_policy: Datenschutz
+      data_use_policy: Datenschutzrichtlinien
+      community_guidelines: Community-Richtlinien
+      copyright_infringement_policy: Richtlinie zu Urheberrechtsverletzungen
   photo_associations:
     update:
       updated: Foto aktualisiert

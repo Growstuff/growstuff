@@ -1227,6 +1227,13 @@ es:
       faq: Preguntas frecuentes
       media_enquiries: Consultas de medios y prensa
       twitter: Twitter
+    policies:
+      title: Políticas
+      terms_of_service: Términos de servicio
+      privacy_policy: política de privacidad
+      data_use_policy: Política de uso de datos
+      community_guidelines: Pautas de la comunidad
+      copyright_infringement_policy: Política de infracción de derechos de autor
   photo_associations:
     update:
       updated: Foto actualizada.

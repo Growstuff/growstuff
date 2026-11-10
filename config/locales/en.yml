@@ -1653,6 +1653,13 @@ en:
       faq: FAQ
       media_enquiries: Media/Press enquiries
       twitter: Twitter
+    policies:
+      title: Policy
+      terms_of_service: Terms Of Service
+      privacy_policy: Privacy Policy
+      data_use_policy: Data Use Policy
+      community_guidelines: Community Guidelines
+      copyright_infringement_policy: Copyright Infringement Policy
   photo_associations:
     update:
       updated: Photo updated.

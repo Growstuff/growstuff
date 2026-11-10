@@ -1224,6 +1224,13 @@ zh:
       faq: 常见问题
       media_enquiries: 媒体/新闻咨询
       twitter: Twitter
+    policies:
+      title: 政策
+      terms_of_service: 服务条款
+      privacy_policy: 隐私政策
+      data_use_policy: 数据使用政策
+      community_guidelines: 社区准则
+      copyright_infringement_policy: 版权侵权政策
   photo_associations:
     update:
       updated: 照片已更新。
