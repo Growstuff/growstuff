@@ -34,7 +34,9 @@ class NewFeatures
     Feature.new(added_on: Date.new(2026, 11, 10), title: 'Volunteer plantings', path: :plantings,
                 description: 'Say a planting is a volunteer, one that came up on its own, when you tell us how it started.'),
     Feature.new(added_on: Date.new(2026, 11, 10), title: 'Growing requirements', path: :crops,
-                description: 'See what a crop needs on its page, including soil pH, crop cycle, altitude and light, from EcoCrop.')
+                description: 'See what a crop needs on its page, including soil pH, crop cycle, altitude and light, from EcoCrop.'),
+    Feature.new(added_on: Date.new(2026, 11, 10), title: 'Gardens safe from frost', path: :gardens,
+                description: 'Mark a garden as safe from frost, like one indoors or heated, so its plantings are not counted as facing frost.')
   ].freeze
 
   # The features added after `date`, oldest first, and in the order they are listed for the same day.
