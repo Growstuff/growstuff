@@ -565,7 +565,12 @@ en:
       plant_crop: Plant %{crop}
       track_plantings: track your %{crop} plantings
     predictions:
+      first_harvest: First harvest expected
       harvest_style: Harvest style
+      last_harvest: Last harvest expected
+      weeks_after_planting:
+        one: week after planting
+        other: weeks after planting
     requested:
       link: You have %{number_crops} crops awaiting approval
       subtitle: Pending approval
