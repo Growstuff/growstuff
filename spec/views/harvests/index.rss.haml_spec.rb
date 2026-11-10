@@ -15,7 +15,7 @@ describe 'harvests/index.rss.haml' do
     assign(:harvests, Harvest.all)
   end
 
-  context 'all harvests' do
+  context 'with all harvests' do
     before { render }
 
     it 'shows RSS feed title' do
@@ -27,7 +27,7 @@ describe 'harvests/index.rss.haml' do
     end
   end
 
-  context 'for one crop' do
+  context 'with one crop' do
     before do
       assign(:crop, @tomato)
       render

@@ -83,7 +83,7 @@ describe "member deletion", :flaky do
       end
     end
 
-    context "deletes and" do
+    context "when deleting the account" do
       before do
         logout
         login_as(member)
@@ -156,7 +156,7 @@ describe "member deletion", :flaky do
     end
   end
 
-  context "for a crop wrangler" do
+  context "when signed in as a crop wrangler" do
     let(:member) { create(:crop_wrangling_member) }
     let!(:ex_wrangler) { create(:crop_wrangling_member, login_name: "ex_wrangler") }
     let(:otherwrangler) { create(:crop_wrangling_member) }

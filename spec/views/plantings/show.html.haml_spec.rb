@@ -21,7 +21,7 @@ describe "plantings/show" do
     controller.stub(:current_user) { member }
   end
 
-  context 'sunniness' do
+  describe 'sunniness' do
     let(:planting) { create(:sunny_planting) }
 
     describe "shows the sunniness" do
@@ -32,7 +32,7 @@ describe "plantings/show" do
     end
   end
 
-  context 'planted from' do
+  describe 'planted from' do
     let(:planting) { create(:cutting_planting) }
 
     describe "shows planted_from" do
@@ -69,7 +69,7 @@ describe "plantings/show" do
     it { expect(rendered).to have_css "[data-planting-dialog='photo']" }
   end
 
-  context "no location set" do
+  context "without a location set" do
     before { render }
 
     it "renders the quantity planted" do
@@ -89,7 +89,7 @@ describe "plantings/show" do
     end
   end
 
-  context "location set" do
+  context "with a location set" do
     before do
       planting.owner.update(location: 'Greenwich, UK')
       render

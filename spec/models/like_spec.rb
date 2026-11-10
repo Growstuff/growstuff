@@ -7,7 +7,7 @@ describe Like do
   let(:post)   { create(:post)   }
   let(:photo)  { create(:photo) }
 
-  context 'existing like' do
+  context 'with an existing like' do
     before do
       @like = Like.create(member:, likeable: post)
     end
@@ -25,7 +25,7 @@ describe Like do
     end
   end
 
-  context 'invalid parameters' do
+  context 'with invalid parameters' do
     it 'is invalid without a member' do
       like = Like.new
       like.likeable = post

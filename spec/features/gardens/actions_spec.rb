@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'custom_matchers'
 
 describe "Gardens" do
-  context 'logged in' do
+  context 'when signed in' do
     subject { page }
 
     include_context 'signed in member'
@@ -12,7 +12,7 @@ describe "Gardens" do
     let(:other_member_garden) { create(:garden) }
 
     describe '#index' do
-      context 'my gardens' do
+      context 'with my gardens' do
         before { visit gardens_path(member_slug: member.slug) }
 
         it 'offers to add a garden' do
@@ -35,7 +35,7 @@ describe "Gardens" do
         end
       end
 
-      context "other member's garden" do
+      context "with another member's garden" do
         before { visit gardens_path(member_slug: create(:member).slug) }
 
         it { is_expected.to have_no_button 'Add a garden' }

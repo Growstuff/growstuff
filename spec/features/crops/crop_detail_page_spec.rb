@@ -19,16 +19,16 @@ describe "crop detail page", :js do
 
   let(:crop) { create(:crop) }
 
-  context "varieties" do
+  describe "varieties" do
     it "The crop DOES NOT have varieties" do
       visit crop_path(crop)
       expect(page).to have_no_text 'Varieties'
     end
   end
 
-  context 'signed in' do
+  context 'when signed in' do
     include_context "signed in member"
-    context "action buttons" do
+    describe "action buttons" do
       before { subject }
 
       it "has a link to plant the crop" do
@@ -50,7 +50,7 @@ describe "crop detail page", :js do
       end
     end
 
-    context "SEO" do
+    describe "SEO" do
       before { subject }
 
       it "has seed heading with SEO" do
@@ -81,7 +81,7 @@ describe "crop detail page", :js do
     end
   end
 
-  context "seed quantity for a crop" do
+  context "with a seed quantity for a crop" do
     let(:seed)   { create(:seed, crop:, quantity: 20) }
 
     it "User not signed in" do
@@ -89,7 +89,7 @@ describe "crop detail page", :js do
       expect(page).to have_no_content "You have 20 seeds"
     end
 
-    context 'signed in' do
+    context 'when signed in' do
       include_context 'signed in member'
       before { seed.update! owner: member }
 
@@ -127,14 +127,14 @@ describe "crop detail page", :js do
     end
   end
 
-  context 'predictions' do
+  describe 'predictions' do
     let!(:planting) do
       create(:planting, crop:,
                         planted_at:  100.days.ago,
                         finished_at: 1.day.ago)
     end
 
-    context 'crop is an Annual' do
+    context 'when the crop is an annual' do
       let(:crop) { create(:annual_crop) }
 
       describe 'with harvests' do
@@ -152,7 +152,7 @@ describe "crop detail page", :js do
       end
     end
 
-    context 'crop is Perennial' do
+    context 'when the crop is a perennial' do
       let(:crop) { create(:perennial_crop) }
 
       describe 'with harvests' do
@@ -165,7 +165,7 @@ describe "crop detail page", :js do
       end
     end
 
-    context 'crop Perennial value is null' do
+    context 'when the crop perennial value is null' do
       let(:crop) { create(:crop, perennial: nil) }
 
       describe 'with harvests' do
@@ -174,10 +174,10 @@ describe "crop detail page", :js do
     end
   end
 
-  context 'Annual and Perennial' do
+  context 'with annual and perennial crops' do
     before { visit crop_path(crop) }
 
-    context 'crop is an Annual' do
+    context 'when the crop is an annual' do
       let(:crop) { create(:annual_crop) }
 
       it { expect(page).to have_text 'Annual' }
@@ -185,7 +185,7 @@ describe "crop detail page", :js do
       it { expect(page).to have_no_text 'Perennial' }
     end
 
-    context 'crop is Perennial' do
+    context 'when the crop is a perennial' do
       let(:crop) { create(:perennial_crop) }
 
       it { expect(find('.index-cards.facts')).to have_text 'Perennial' }
@@ -193,7 +193,7 @@ describe "crop detail page", :js do
       it { expect(page).to have_no_text 'Annual' }
     end
 
-    context 'crop Perennial value is null' do
+    context 'when the crop perennial value is null' do
       let(:crop) { create(:crop, perennial: nil) }
 
       it { expect(find('.index-cards.facts')).to have_no_text 'Perennial' }

@@ -55,7 +55,7 @@ RSpec.describe 'Harvests' do
     it { expect(subject['data']).to eq(harvest_encoded_as_json_api) }
   end
 
-  context 'filtering' do
+  describe 'filtering' do
     let!(:harvest2) { create(:harvest, planting: create(:planting)) }
 
     it 'filters by crop' do

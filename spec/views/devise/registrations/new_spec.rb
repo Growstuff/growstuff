@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'devise/registrations/new.html.haml', type: "view" do
-  context "logged in" do
+  context "when signed in" do
     before do
       @view.stub(:resource).and_return(Member.new)
       @view.stub(:resource_name).and_return("member")

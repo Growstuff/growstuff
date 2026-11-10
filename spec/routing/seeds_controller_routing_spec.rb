@@ -5,32 +5,32 @@ require "rails_helper"
 describe SeedsController do
   describe "routing" do
     it "routes to #index" do
-      get("/seeds").should route_to("seeds#index")
-      get("/members/fred/seeds").should route_to("seeds#index", member_slug: 'fred')
+      expect(get("/seeds")).to route_to("seeds#index")
+      expect(get("/members/fred/seeds")).to route_to("seeds#index", member_slug: 'fred')
     end
 
     it "routes to #new" do
-      get("/seeds/new").should route_to("seeds#new")
+      expect(get("/seeds/new")).to route_to("seeds#new")
     end
 
     it "routes to #show" do
-      get("/seeds/corn").should route_to("seeds#show", slug: 'corn')
+      expect(get("/seeds/corn")).to route_to("seeds#show", slug: 'corn')
     end
 
     it "routes to #edit" do
-      get("/seeds/corn/edit").should route_to("seeds#edit", slug: 'corn')
+      expect(get("/seeds/corn/edit")).to route_to("seeds#edit", slug: 'corn')
     end
 
     it "routes to #create" do
-      post("/seeds").should route_to("seeds#create")
+      expect(post("/seeds")).to route_to("seeds#create")
     end
 
     it "routes to #update" do
-      put("/seeds/corn").should route_to("seeds#update", slug: 'corn')
+      expect(put("/seeds/corn")).to route_to("seeds#update", slug: 'corn')
     end
 
     it "routes to #destroy" do
-      delete("/seeds/corn").should route_to("seeds#destroy", slug: 'corn')
+      expect(delete("/seeds/corn")).to route_to("seeds#destroy", slug: 'corn')
     end
   end
 end

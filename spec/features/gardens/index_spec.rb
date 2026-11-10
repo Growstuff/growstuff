@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'custom_matchers'
 
 describe "Gardens#index", :js do
-  context "Logged in as member" do
+  context "when signed in as a member" do
     include_context 'signed in member'
     let(:member) { create(:member, login_name: 'shadow') }
 

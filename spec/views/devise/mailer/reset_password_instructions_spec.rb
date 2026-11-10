@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'devise/mailer/reset_password_instructions.html.haml', type: "view" do
-  context "logged in" do
+  context "when signed in" do
     before do
       @resource = mock_model(Member)
       @resource.stub(:email).and_return("example@example.com")

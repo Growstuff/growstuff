@@ -101,7 +101,7 @@ describe "posts/show" do
     end
   end
 
-  context "forum post" do
+  context "with a forum post" do
     let(:post) { create(:forum_post, author:) }
 
     before { render }
@@ -111,7 +111,7 @@ describe "posts/show" do
     end
   end
 
-  context "signed in" do
+  context "when signed in" do
     let(:post) { create(:post, author:) }
 
     before do
@@ -140,7 +140,7 @@ describe "posts/show" do
     end
   end
 
-  context "signed out" do
+  context "when signed out" do
     let(:post) { create(:post, author:) }
 
     before { render }

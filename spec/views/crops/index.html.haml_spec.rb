@@ -30,7 +30,7 @@ describe "crops/index.html.haml" do
     assert_select "img", src: :tomato
   end
 
-  context "downloads" do
+  describe "downloads" do
     it "offers data downloads" do
       render
       expect(rendered).to have_content "The data on this page is available in the following formats:"

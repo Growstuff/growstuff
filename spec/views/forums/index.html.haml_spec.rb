@@ -22,7 +22,7 @@ describe "forums/index" do
     assert_select "table", false
   end
 
-  context "posts" do
+  describe "posts" do
     let!(:post) { create(:forum_post, forum: first_forum) }
     let!(:comment) { create(:comment, commentable: post) }
 

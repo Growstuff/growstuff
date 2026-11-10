@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "members/_location" do
-  context "member with location" do
+  context "with a member with a location" do
     let(:member) { create(:london_member) }
 
     before { render partial: 'members/location', locals: { member: } }
@@ -17,7 +17,7 @@ describe "members/_location" do
     end
   end
 
-  context "member with no location" do
+  context "with a member with no location" do
     before do
       member = create(:member)
       render partial: 'members/location', locals: { member: }

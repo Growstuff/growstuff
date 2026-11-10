@@ -6,7 +6,7 @@ describe Admin::RolesController do
   let(:valid_attributes) { { "name" => "MyString" } }
   let!(:role) { Role.create! valid_attributes }
 
-  context 'as member' do
+  context 'when signed in as a member' do
     login_member(:member)
 
     describe "GET index" do
@@ -40,7 +40,7 @@ describe Admin::RolesController do
     end
   end
 
-  context 'as admin' do
+  context 'when signed in as an admin' do
     login_member(:admin_member)
 
     describe "GET index" do

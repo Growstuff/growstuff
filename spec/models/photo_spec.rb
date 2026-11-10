@@ -15,7 +15,7 @@ describe Photo do
     let(:post) { create(:post, author: member) }
     let(:garden)  { create(:garden, owner: member) }
 
-    context "adds photos" do
+    context "when adding photos" do
       describe 'to a planting' do
         before { planting.photos << photo }
 
@@ -86,7 +86,7 @@ describe Photo do
       end
     end
 
-    context "removing photos" do
+    context "when removing photos" do
       it 'from a planting' do
         planting.photos << photo
         photo.destroy
@@ -174,7 +174,7 @@ describe Photo do
     # So we're just going to test that the method exists.
     it 'exists' do
       photo = described_class.new(owner_id: 1)
-      photo.should.respond_to? :flickr_metadata
+      expect(photo).to respond_to :flickr_metadata
     end
   end
 

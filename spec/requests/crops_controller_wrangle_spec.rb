@@ -9,7 +9,7 @@ describe CropsController, '#wrangle' do
 
   before { sign_in create(:crop_wrangling_member) }
 
-  context 'by default' do
+  context 'with the default list' do
     before { get wrangle_crops_path }
 
     it 'lists crops with no parent' do

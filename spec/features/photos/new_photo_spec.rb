@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe "new photo page" do
-  context "signed in member" do
+  context "when signed in as a member" do
     include_context 'signed in member'
-    context "viewing a planting" do
+    context "when viewing a planting" do
       let(:planting) { create(:planting, owner: member) }
 
       it "add photo" do
@@ -23,7 +23,7 @@ describe "new photo page" do
       end
     end
 
-    context "viewing a harvest" do
+    context "when viewing a harvest" do
       let(:harvest) { create(:harvest, owner: member) }
 
       it "add photo" do
@@ -36,7 +36,7 @@ describe "new photo page" do
       end
     end
 
-    context "viewing a garden" do
+    context "when viewing a garden" do
       let(:garden) { create(:garden, owner: member) }
 
       it "add photo" do

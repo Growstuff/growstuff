@@ -11,13 +11,13 @@ describe CropsController do
 
   describe "GET crop wrangler homepage" do
     describe 'fetches the crop wrangler homepage' do
-      context 'anonymous' do
+      context 'when anonymous' do
         before { get :wrangle }
 
         it { is_expected.not_to be_successful }
       end
 
-      context 'wrangler' do
+      context 'when signed in as a crop wrangler' do
         include_context 'login as wrangler'
         before { get :wrangle }
 
@@ -29,7 +29,7 @@ describe CropsController do
   end
 
   describe "GET data_improvement" do
-    context 'wrangler' do
+    context 'when signed in as a crop wrangler' do
       include_context 'login as wrangler'
 
       it 'fetches the data improvement page and paginates crops with per_page 50' do
@@ -87,7 +87,7 @@ describe CropsController do
 
   describe "GET crop hierarchy" do
     describe 'fetches the crop hierarchy page' do
-      context 'wrangler' do
+      context 'when signed in as a crop wrangler' do
         include_context 'login as wrangler'
         before { get :hierarchy }
 
@@ -170,15 +170,15 @@ describe CropsController do
       }
     end
 
-    context 'not logged in' do
+    context 'when not signed in' do
       it { expect { subject }.not_to change(Crop, :count) }
     end
 
-    context 'logged in as member' do
+    context 'when signed in as a member' do
       it { expect { subject }.not_to change(Crop, :count) }
     end
 
-    context 'wrangler' do
+    context 'when signed in as a crop wrangler' do
       include_context 'login as wrangler'
       it { expect { subject }.to change(Crop, :count).by(1) }
       it { expect { subject }.to change(AlternateName, :count).by(2) }
@@ -235,7 +235,7 @@ describe CropsController do
       }
     end
 
-    context 'wrangler' do
+    context 'when signed in as a crop wrangler' do
       include_context 'login as wrangler'
 
       it 'updates crop attributes' do
@@ -267,15 +267,15 @@ describe CropsController do
 
     let!(:crop) { create(:crop) }
 
-    context 'not logged in' do
+    context 'when not signed in' do
       it { expect { subject }.not_to change(Crop, :count) }
     end
 
-    context 'logged in as member' do
+    context 'when signed in as a member' do
       it { expect { subject }.not_to change(Crop, :count) }
     end
 
-    context 'wrangler' do
+    context 'when signed in as a crop wrangler' do
       include_context 'login as wrangler'
       it { expect { subject }.to change(Crop, :count).by(-1) }
     end

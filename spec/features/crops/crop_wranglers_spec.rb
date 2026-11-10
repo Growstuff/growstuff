@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "crop wranglers", :js do
-  context "signed in wrangler" do
+  context "when signed in as a crop wrangler" do
     include_context 'signed in crop wrangler'
     let!(:crop_wranglers) { create_list(:crop_wrangling_member, 3) }
     let!(:crops)          { create_list(:crop, 2)                  }
@@ -73,7 +73,7 @@ describe "crop wranglers", :js do
   end
 end
 
-context "signed in non-wrangler" do
+context "when signed in but not a crop wrangler" do
   include_context 'signed in member'
   let!(:crop_wranglers) { create_list(:crop_wrangling_member, 3) }
 

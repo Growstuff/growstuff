@@ -18,7 +18,7 @@ describe "plantings/new" do
     assign(:planting, @planting)
   end
 
-  context "logged in" do
+  context "when signed in" do
     before do
       sign_in @member
       planting = Planting.new(garden: @garden_z, owner: @member)

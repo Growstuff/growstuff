@@ -12,11 +12,11 @@ describe Role do
   let(:member) { create(:member) }
 
   it 'has members' do
-    subject.members.first.should eq member
+    expect(subject.members.first).to eq member
   end
 
   it 'has a slug' do
-    subject.slug.should eq 'crop-wrangler'
+    expect(subject.slug).to eq 'crop-wrangler'
   end
 
   describe '.crop_wranglers' do

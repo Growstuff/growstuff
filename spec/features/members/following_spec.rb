@@ -34,7 +34,7 @@ describe "follows", :js do
       end
     end
 
-    context "following another member" do
+    context "when following another member" do
       before { visit member_path(other_member) }
 
       it "has a follow button" do

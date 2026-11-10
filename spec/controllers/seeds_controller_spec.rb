@@ -227,7 +227,7 @@ describe SeedsController do
       it { expect(assigns(:search_crop)).to be_nil }
     end
 
-    context 'on a crop\'s own page' do
+    context 'when on a crop\'s own page' do
       before { get :index, params: { crop_slug: tomato.slug, crop: brandywine.slug } }
 
       it { expect(assigns(:search_crop)).to be_nil }
@@ -266,7 +266,7 @@ describe SeedsController do
       create_list(:seed, 3, owner:, crop: crops.third)
     end
 
-    context 'on the first page' do
+    context 'when on the first page' do
       before { get :index, params: { member_slug: owner.slug } }
 
       it { expect(assigns(:seeds).size).to eq 9 }
@@ -274,7 +274,7 @@ describe SeedsController do
       it { expect(assigns(:piles).total_entries).to eq 3 }
     end
 
-    context 'on the second page' do
+    context 'when on the second page' do
       before { get :index, params: { member_slug: owner.slug, page: 2 } }
 
       it { expect(assigns(:seeds).map(&:crop).uniq).to eq [crops.third] }

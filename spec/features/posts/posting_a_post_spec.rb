@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Post a post' do
-  context 'signed in' do
+  context 'when signed in' do
     include_context 'signed in member'
     before { visit new_post_path }
 
@@ -15,7 +15,7 @@ describe 'Post a post' do
       expect(page).to have_content "Posted by"
     end
 
-    context "linking to a crop" do
+    context "when linking to a crop" do
       let!(:crop) { create(:crop, name: 'pumpkin') }
 
       before do
@@ -34,7 +34,7 @@ describe 'Post a post' do
       end
     end
 
-    context "adding a Flickr photo" do
+    context "when adding a Flickr photo" do
       it "opens the photo dialog for a draft with a title and text" do
         fill_in "post_subject", with: "Photos"
         find(".post-editor-content").send_keys("Some words")
@@ -48,7 +48,7 @@ describe 'Post a post' do
       end
     end
 
-    context "saving a draft" do
+    context "when saving a draft" do
       before do
         fill_in "post_subject", with: "Half written"
         find(".post-editor-content").send_keys("Not finished")
@@ -71,7 +71,7 @@ describe 'Post a post' do
       end
     end
 
-    context "editing a post" do
+    context "when editing a post" do
       let(:existing_post) { create(:post, author: member) }
 
       before do

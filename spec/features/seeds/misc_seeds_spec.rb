@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "seeds", :js do
-  context "signed in user" do
+  context "when signed in" do
     include_context 'signed in member'
     xit "button on index to edit seed" do
       let!(:seed) { create(:seed, owner: member) }

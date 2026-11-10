@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Member do
-  context 'valid member' do
+  context 'with a valid member' do
     let!(:member) { create(:member, login_name: 'hinemoa') }
 
     describe 'should be fetchable from the database' do
@@ -45,19 +45,19 @@ describe Member do
 
     it 'has many plantings' do
       create(:planting, owner: member)
-      member.plantings.size.should eq 1
+      expect(member.plantings.size).to eq 1
     end
 
     it "has many comments" do
       create(:comment, author: member)
       create(:comment, author: member)
-      member.comments.size.should == 2
+      expect(member.comments.size).to eq 2
     end
 
     it "has many forums" do
       create(:forum, owner: member)
       create(:forum, owner: member)
-      member.forums.size.should == 2
+      expect(member.forums.size).to eq 2
     end
 
     it "has many likes" do
@@ -69,110 +69,112 @@ describe Member do
       expect(member.likes.length).to eq 2
     end
 
-    it 'has location and lat/long fields' do
-      member.update(location: 'Greenwich, UK')
-      member.location.should eq 'Greenwich, UK'
-      member.latitude.round(2).should eq 51.48
-      member.longitude.round(2).should eq 0.00
+    context 'with a location' do
+      before { member.update(location: 'Greenwich, UK') }
+
+      it { expect(member.location).to eq 'Greenwich, UK' }
+      it { expect(member.latitude.round(2)).to eq 51.48 }
+      it { expect(member.longitude.round(2)).to eq 0.00 }
+
+      context 'when the location is removed' do
+        before { member.update(location: '') }
+
+        it { expect(member.location).to eq '' }
+        it { expect(member.latitude).to be_nil }
+        it { expect(member.longitude).to be_nil }
+      end
     end
 
-    it 'empties the lat/long if location removed' do
-      member.update(location: 'Greenwich, UK')
-      member.update(location: '')
-      member.location.should eq ''
-      member.latitude.should be_nil
-      member.longitude.should be_nil
-    end
+    context 'with an unfound location' do
+      before { member.update(location: 'Tatooine') }
 
-    it 'fails gracefully for unfound locations' do
-      member.update(location: 'Tatooine')
-      member.location.should eq 'Tatooine'
-      member.latitude.should be_nil
-      member.longitude.should be_nil
+      it { expect(member.location).to eq 'Tatooine' }
+      it { expect(member.latitude).to be_nil }
+      it { expect(member.longitude).to be_nil }
     end
   end
 
-  context 'no TOS agreement' do
+  context 'without a TOS agreement' do
     let(:member) { build(:no_tos_member) }
 
     it "refuses to save a member who hasn't agreed to the TOS" do
-      member.save.should_not be(true)
+      expect(member.save).not_to be(true)
     end
   end
 
-  context 'same :login_name' do
+  context 'with the same login name' do
     it "does not allow two members with the same login_name" do
       create(:member, login_name: "bob")
       member = build(:member, login_name: "bob")
-      member.should_not be_valid
-      member.errors[:login_name].should include("has already been taken")
+      expect(member).not_to be_valid
+      expect(member.errors[:login_name]).to include("has already been taken")
     end
 
     it "tests uniqueness case-insensitively" do
       create(:member, login_name: "bob")
       member = build(:member, login_name: "BoB")
-      member.should_not be_valid
-      member.errors[:login_name].should include("has already been taken")
+      expect(member).not_to be_valid
+      expect(member.errors[:login_name]).to include("has already been taken")
     end
   end
 
-  context 'case sensitivity' do
+  describe 'case sensitivity' do
     it 'preserves case of login name' do
       create(:member, login_name: "BOB")
-      Member.find('bob').login_name.should eq 'BOB'
+      expect(Member.find('bob').login_name).to eq 'BOB'
     end
   end
 
-  context 'invalid login names' do
+  context 'with invalid login names' do
     it "doesn't allow short names" do
       member = build(:invalid_member_shortname)
-      member.should_not be_valid
-      member.errors[:login_name].should include("should be between 2 and 25 characters long")
+      expect(member).not_to be_valid
+      expect(member.errors[:login_name]).to include("should be between 2 and 25 characters long")
     end
 
     it "doesn't allow really long names" do
       member = build(:invalid_member_longname)
-      member.should_not be_valid
-      member.errors[:login_name].should include("should be between 2 and 25 characters long")
+      expect(member).not_to be_valid
+      expect(member.errors[:login_name]).to include("should be between 2 and 25 characters long")
     end
 
     it "doesn't allow spaces in names" do
       member = build(:invalid_member_spaces)
-      member.should_not be_valid
-      member.errors[:login_name].should include("may only include letters, numbers, or underscores")
+      expect(member).not_to be_valid
+      expect(member.errors[:login_name]).to include("may only include letters, numbers, or underscores")
     end
 
     it "doesn't allow other chars in names" do
       member = build(:invalid_member_badchars)
-      member.should_not be_valid
-      member.errors[:login_name].should include("may only include letters, numbers, or underscores")
+      expect(member).not_to be_valid
+      expect(member.errors[:login_name]).to include("may only include letters, numbers, or underscores")
     end
 
     it "doesn't allow reserved names" do
       member = build(:invalid_member_badname)
-      member.should_not be_valid
-      member.errors[:login_name].should include("name is reserved")
+      expect(member).not_to be_valid
+      expect(member.errors[:login_name]).to include("name is reserved")
     end
   end
 
-  context 'valid login names' do
+  context 'with valid login names' do
     it "allows plain alphanumeric chars in names" do
       member = build(:valid_member_alphanumeric)
-      member.should be_valid
+      expect(member).to be_valid
     end
 
     it "allows uppercase chars in names" do
       member = build(:valid_member_uppercase)
-      member.should be_valid
+      expect(member).to be_valid
     end
 
     it "allows underscores in names" do
       member = build(:valid_member_underscore)
-      member.should be_valid
+      expect(member).to be_valid
     end
   end
 
-  context 'roles' do
+  describe 'roles' do
     let(:member) { create(:member) }
     let(:role)   { create(:role)   }
 
@@ -181,49 +183,49 @@ describe Member do
     end
 
     it 'has a role' do
-      member.roles.first.should eq role
-      member.role?(:moderator).should be true
+      expect(member.roles.first).to eq role
+      expect(member.role?(:moderator)).to be true
     end
 
     it 'sets up roles in factories' do
       admin = create(:admin_member)
-      admin.role?(:admin).should be true
+      expect(admin.role?(:admin)).to be true
     end
 
     it 'converts role names properly' do
       # need to make sure spaces get turned to underscores
       role = create(:role, name: "a b c")
       member.roles << role
-      member.role?(:a_b_c).should be true
+      expect(member.role?(:a_b_c)).to be true
     end
   end
 
-  context 'confirmed scope' do
+  describe 'confirmed scope' do
     before do
       create(:member)
       create(:member)
     end
 
     it 'sees confirmed members' do
-      Member.confirmed.size.should == 2
+      expect(Member.confirmed.size).to eq 2
     end
 
     it 'ignores unconfirmed members' do
       create(:unconfirmed_member)
-      Member.confirmed.size.should == 2
+      expect(Member.confirmed.size).to eq 2
     end
   end
 
-  context 'located scope' do
+  describe 'located scope' do
     # located members must have location, lat, long
     it 'finds members who have locations' do
       london_member = create(:london_member)
-      Member.located.should include london_member
+      expect(Member.located).to include london_member
     end
 
     it 'ignores members with blank locations' do
       nowhere_member = create(:member)
-      Member.located.should_not include nowhere_member
+      expect(Member.located).not_to include nowhere_member
     end
 
     it 'ignores members with blank lat/long' do
@@ -231,21 +233,21 @@ describe Member do
       london_member.latitude = nil
       london_member.longitude = nil
       london_member.save(validate: false)
-      Member.located.should_not include london_member
+      expect(Member.located).not_to include london_member
     end
   end
 
-  context 'near location' do
+  context 'when near a location' do
     it 'finds nearby members and sorts them' do
       edinburgh_member = create(:edinburgh_member)
       london_member = create(:london_member)
-      Member.nearest_to('Greenwich, UK').should eq [london_member, edinburgh_member]
+      expect(Member.nearest_to('Greenwich, UK')).to eq [london_member, edinburgh_member]
     end
 
     it 'leaves out members who have been deleted' do
       edinburgh_member = create(:edinburgh_member)
       create(:london_member).discard
-      Member.nearest_to('Greenwich, UK').should eq [edinburgh_member]
+      expect(Member.nearest_to('Greenwich, UK')).to eq [edinburgh_member]
     end
 
     it 'returns Member.none when place is blank or un-geocoded' do
@@ -260,15 +262,15 @@ describe Member do
     end
   end
 
-  context 'harvests' do
+  describe 'harvests' do
     it 'has harvests' do
       member = create(:member)
       harvest = create(:harvest, owner: member)
-      member.harvests.should eq [harvest]
+      expect(member.harvests).to eq [harvest]
     end
   end
 
-  context 'member who followed another member' do
+  context 'when the member followed another member' do
     let(:follower) { create(:member) }
     let(:followed_member) { create(:member) }
     let(:other_member) { create(:member) }
@@ -277,7 +279,7 @@ describe Member do
       @follow = follower.follows.create(follower_id: follower.id, followed_id: followed_member.id)
     end
 
-    context 'already_following' do
+    describe 'already_following' do
       it 'detects that member is already following a member' do
         expect(follower.already_following?(followed_member)).to be true
       end
@@ -287,7 +289,7 @@ describe Member do
       end
     end
 
-    context 'get_follow' do
+    describe 'get_follow' do
       it 'gets the correct follow for a followed member' do
         expect(follower.get_follow(followed_member).id).to eq @follow.id
       end
@@ -298,10 +300,10 @@ describe Member do
     end
   end
 
-  context 'member deleted' do
+  context 'when the member is deleted' do
     let(:member) { create(:member) }
 
-    context 'queries a scope' do
+    context 'when querying a scope' do
       before { member.destroy }
 
       it { expect(Member.all).not_to include(member) }
@@ -312,12 +314,12 @@ describe Member do
       it { expect(Member.has_plantings).not_to include(member) }
     end
 
-    context "deleted admin member" do
+    context "with a deleted admin member" do
       let(:member) { create(:admin_member) }
 
       before { member.discard }
 
-      context 'crop creator' do
+      context 'when the member is the crop creator' do
         let!(:crop) { create(:crop, creator: member) }
 
         it "leaves crops behind, reassigned to cropbot" do
@@ -325,7 +327,7 @@ describe Member do
         end
       end
 
-      context 'forum owners' do
+      context 'when the member is a forum owner' do
         let!(:forum) { create(:forum, owner: member) }
 
         it "leaves forums behind, reassigned to ex_admin" do

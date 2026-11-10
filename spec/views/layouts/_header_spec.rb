@@ -67,7 +67,7 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
   end
 
-  context "logged in" do
+  context "when signed in" do
     before do
       @member = create(:member)
       sign_in @member
@@ -75,7 +75,7 @@ describe 'layouts/_header.html.haml', type: "view" do
       render
     end
 
-    context "login name" do
+    describe "login name" do
       it 'has member login name' do
         expect(rendered).to have_content @member.login_name.to_s
       end
@@ -186,7 +186,7 @@ describe 'layouts/_header.html.haml', type: "view" do
     end
   end
 
-  context 'logged in, has notifications' do
+  context 'when signed in with notifications' do
     before do
       @member = create(:member)
       create(:notification, recipient: @member)
@@ -196,7 +196,7 @@ describe 'layouts/_header.html.haml', type: "view" do
 
     it 'shows inbox count' do
       render
-      rendered.should have_content 'Inbox 1'
+      expect(rendered).to have_content 'Inbox 1'
     end
   end
 end

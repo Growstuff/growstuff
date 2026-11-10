@@ -7,61 +7,65 @@ describe Post do
 
   it_behaves_like "it is likeable"
 
-  it "has a slug" do
-    post = create(:post, author: member, subject: 'A Post')
-    time = post.created_at
-    datestr = time.strftime("%Y%m%d")
+  describe "slug" do
+    let(:post) { create(:post, author: member, subject: 'A Post') }
+    let(:datestr) { post.created_at.strftime("%Y%m%d") }
+
     # 2 digit day and month, full-length years
-    # Counting digits using Math.log is not precise enough!
-    datestr.size.should eq(4 + time.year.to_s.size)
-    post.slug.should eq("#{member.login_name}-#{datestr}-a-post")
+    it "dates with a full-length year" do
+      expect(datestr.size).to eq(4 + post.created_at.year.to_s.size)
+    end
+
+    it "is the login name, date and subject" do
+      expect(post.slug).to eq("#{member.login_name}-#{datestr}-a-post")
+    end
   end
 
   it "has many comments" do
     post = create(:post, author: member)
     create(:comment, commentable: post)
     create(:comment, commentable: post)
-    post.comments.size.should == 2
+    expect(post.comments.size).to eq 2
   end
 
   it "supports counting comments" do
     post = create(:post, author: member)
     create(:comment, commentable: post)
     create(:comment, commentable: post)
-    post.comment_count.should == 2
+    expect(post.comment_count).to eq 2
   end
 
-  it "destroys comments when deleted" do
-    post = create(:post, author: member)
-    create(:comment, commentable: post)
-    create(:comment, commentable: post)
-    post.comments.size.should eq(2)
-    all = Comment.count
-    post.destroy
-    Comment.count.should eq(all - 2)
+  describe "when deleted" do
+    let(:post) { create(:post, author: member) }
+
+    before { create_list(:comment, 2, commentable: post) }
+
+    it "destroys its comments" do
+      expect { post.destroy }.to change(Comment, :count).by(-2)
+    end
   end
 
   it "belongs to a forum" do
     post = create(:forum_post)
-    post.forum.should be_an_instance_of Forum
+    expect(post.forum).to be_an_instance_of Forum
   end
 
   it "doesn't allow a nil subject" do
     post = build(:post, subject: nil)
-    post.should_not be_valid
+    expect(post).not_to be_valid
   end
 
   it "doesn't allow a blank subject" do
     post = build(:post, subject: "")
-    post.should_not be_valid
+    expect(post).not_to be_valid
   end
 
   it "doesn't allow a subject with only spaces" do
     post = build(:post, subject: "    ")
-    post.should_not be_valid
+    expect(post).not_to be_valid
   end
 
-  context "recent activity" do
+  describe "recent activity" do
     before do
       Time.stub(now: Time.zone.now)
     end
@@ -69,32 +73,31 @@ describe Post do
     let!(:post) { create(:post, created_at: 1.day.ago) }
 
     it "sets recent activity to post time" do
-      post.recent_activity.to_i.should eq post.created_at.to_i
+      expect(post.recent_activity.to_i).to eq post.created_at.to_i
     end
 
     it "sets recent activity to comment time" do
       comment = create(:comment, commentable: post,
                                  created_at:  1.hour.ago)
-      post.recent_activity.to_i.should eq comment.created_at.to_i
+      expect(post.recent_activity.to_i).to eq comment.created_at.to_i
     end
 
-    it "shiny new post is recently active" do
-      # create a shiny new post
-      post2 = create(:post, created_at: 1.minute.ago)
-      described_class.recently_active.first.should eq post2
-      described_class.recently_active.second.should eq post
+    let!(:post2) { create(:post, created_at: 1.minute.ago) }
+
+    context "with a shiny new post" do
+      it("lists it first") { expect(described_class.recently_active.first).to eq post2 }
+      it("lists the older post second") { expect(described_class.recently_active.second).to eq post }
     end
 
-    it "new comment on old post is recently active" do
-      # now comment on an older post
-      post2 = create(:post, created_at: 1.minute.ago)
-      create(:comment, commentable: post, created_at: 1.second.ago)
-      described_class.recently_active.first.should eq post
-      described_class.recently_active.second.should eq post2
+    context "with a new comment on the old post" do
+      before { create(:comment, commentable: post, created_at: 1.second.ago) }
+
+      it("lists the old post first") { expect(described_class.recently_active.first).to eq post }
+      it("lists the newer post second") { expect(described_class.recently_active.second).to eq post2 }
     end
   end
 
-  context "notifications" do
+  describe "notifications" do
     let(:member2) { create(:member) }
 
     it "sends a notification when a member is mentioned using @-syntax" do
@@ -109,13 +112,14 @@ describe Post do
       end.to change(Notification, :count).by(1)
     end
 
-    it "sets the notification field" do
-      p = create(:post, author: member, body: "Hey @#{member2}")
-      n = Notification.first
-      n.sender.should eq member
-      n.recipient.should eq member2
-      n.subject.should match(/mentioned you in their post/)
-      n.body.should eq p.body
+    describe "the notification" do
+      let!(:post) { create(:post, author: member, body: "Hey @#{member2}") }
+      let(:notification) { Notification.first }
+
+      it { expect(notification.sender).to eq member }
+      it { expect(notification.recipient).to eq member2 }
+      it { expect(notification.subject).to match(/mentioned you in their post/) }
+      it { expect(notification.body).to eq post.body }
     end
 
     it "sends notifications to all members mentioned" do
@@ -132,28 +136,26 @@ describe Post do
     end
   end
 
-  context "crop-post association" do
+  context "with a crop-post association" do
     let!(:tomato) { create(:tomato) }
     let!(:maize) { create(:maize)                                                   }
     let!(:chard) { create(:chard)                                                   }
     let!(:post)  { create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
 
-    it "is generated" do
-      expect(tomato.posts).to eq [post]
-      expect(maize.posts).to eq [post]
-    end
+    it("is generated for the first crop") { expect(tomato.posts).to eq [post] }
+    it("is generated for the second crop") { expect(maize.posts).to eq [post] }
 
     it "does not duplicate" do
       expect(post.crops).to match_array([tomato, maize])
     end
 
-    it "is updated when post was modified" do
-      post.update(body: "[chard](crop)")
+    context "when the post is modified" do
+      before { post.update(body: "[chard](crop)") }
 
-      expect(post.crops).to eq [chard]
-      expect(chard.posts).to eq [post]
-      expect(tomato.posts).to eq []
-      expect(maize.posts).to eq []
+      it("links the post to the new crop") { expect(post.crops).to eq [chard] }
+      it("links the new crop to the post") { expect(chard.posts).to eq [post] }
+      it("unlinks a removed crop") { expect(tomato.posts).to eq [] }
+      it("unlinks another removed crop") { expect(maize.posts).to eq [] }
     end
 
     describe "destroying the post" do
@@ -161,23 +163,21 @@ describe Post do
         post.destroy
       end
 
-      it "deletes the association" do
-        expect(Crop.find(tomato.id).posts).to eq []
-        expect(Crop.find(maize.id).posts).to eq []
-      end
-
-      it "does not delete the crops" do
-        expect(Crop.find(tomato.id)).not_to be_nil
-        expect(Crop.find(maize.id)).not_to be_nil
-      end
+      it("deletes the association with the first crop") { expect(Crop.find(tomato.id).posts).to eq [] }
+      it("deletes the association with the second crop") { expect(Crop.find(maize.id).posts).to eq [] }
+      it("does not delete the crops") { expect(Crop.where(id: [tomato.id, maize.id]).count).to eq 2 }
     end
   end
 
-  it 'excludes deleted members' do
-    post = create(:post, author: member)
-    expect(described_class.joins(:author).all).to include(post)
-    member.destroy
-    expect(described_class.joins(:author).all).not_to include(post)
+  describe 'joining the author' do
+    let!(:post) { create(:post, author: member) }
+
+    it('includes the post of a current member') { expect(described_class.joins(:author).all).to include(post) }
+
+    it 'excludes the post of a deleted member' do
+      member.destroy
+      expect(described_class.joins(:author).all).not_to include(post)
+    end
   end
 
   describe '#default_photo' do

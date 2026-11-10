@@ -69,7 +69,7 @@ describe "Alternate names", :js do
       expect(page).to have_content alternate_eggplant.crop.name
     end
 
-    context "When alternate name is rejected" do
+    context "when the alternate name is rejected" do
       let(:rejected_crop) { create(:rejected_crop) }
       let(:pending_alt_name) { create(:alternate_name, crop: rejected_crop) }
 
@@ -81,22 +81,22 @@ describe "Alternate names", :js do
     end
   end
 
-  context 'Anonymous' do
+  context 'when anonymous' do
     include_examples 'show alt names'
   end
 
-  context 'Signed in member' do
+  context 'when signed in as a member' do
     include_context 'signed in member'
     include_examples 'show alt names'
   end
 
-  context 'Crop wrangler' do
+  context 'when signed in as a crop wrangler' do
     include_context 'signed in crop wrangler'
     include_examples 'show alt names'
     include_examples 'edit alt names'
   end
 
-  context 'Admin' do
+  context 'when signed in as an admin' do
     include_context 'signed in admin'
     include_examples 'show alt names'
     include_examples 'edit alt names'

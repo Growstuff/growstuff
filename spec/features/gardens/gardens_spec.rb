@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "Planting a crop", :js do
-  context 'signed in' do
+  context 'when signed in' do
     include_context 'signed in member'
     # name is aaa to ensure it is ordered first
     let!(:garden)            { create(:garden, name: 'aaa', owner: member) }
@@ -50,7 +50,7 @@ describe "Planting a crop", :js do
       expect(page).to have_content "New garden"
     end
 
-    context "Clicking edit from the index page" do
+    context "when clicking edit from the index page" do
       before do
         visit gardens_path
       end
@@ -63,7 +63,7 @@ describe "Planting a crop", :js do
       end
     end
 
-    context 'When a garden has a garden type' do
+    context 'when a garden has a garden type' do
       let(:garden_type) { create(:garden_type) }
       let(:garden_with_type) { create(:garden, garden_type:) }
 

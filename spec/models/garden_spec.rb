@@ -7,95 +7,93 @@ describe Garden do
   let(:garden)      { create(:garden, owner:, name: 'Springfield Community Garden') }
 
   it "has a slug" do
-    garden.slug.should match(/hatupatu-springfield-community-garden/)
+    expect(garden.slug).to match(/hatupatu-springfield-community-garden/)
   end
 
   it "has a description" do
-    garden.description.should == "This is a **totally** cool garden"
+    expect(garden.description).to eq "This is a **totally** cool garden"
   end
 
   it "doesn't allow a nil name" do
     garden = build(:garden, name: nil)
-    garden.should_not be_valid
+    expect(garden).not_to be_valid
   end
 
   it "doesn't allow a blank name" do
     garden = build(:garden, name: "")
-    garden.should_not be_valid
+    expect(garden).not_to be_valid
   end
 
   it "allows numbers" do
     garden = build(:garden, name: "100 vines of 2 kamo-kamo")
-    garden.should be_valid
+    expect(garden).to be_valid
   end
 
   it "allows brackets" do
     garden = build(:garden, name: "Garden (second)")
-    garden.should be_valid
+    expect(garden).to be_valid
   end
 
   it "allows macrons" do
     garden = build(:garden, name: "Kūmara and pūha patch")
-    garden.should be_valid
+    expect(garden).to be_valid
   end
 
   it "allows some punctuation" do
     garden = build(:garden, name: "best-garden-eva!")
-    garden.should be_valid
+    expect(garden).to be_valid
   end
 
   it "doesn't allow a name with only spaces" do
     garden = build(:garden, name: "    ")
-    garden.should_not be_valid
+    expect(garden).not_to be_valid
   end
 
   it "doesn't allow new line chars in garden names" do
     garden = build(:garden, name: "My garden\nI am a 1337 hacker")
-    garden.should_not be_valid
+    expect(garden).not_to be_valid
   end
 
   it "has an owner" do
-    garden.owner.should be_an_instance_of Member
+    expect(garden.owner).to be_an_instance_of Member
   end
 
   it "stringifies as its name" do
-    garden.to_s.should == garden.name
+    expect(garden.to_s).to eq garden.name
   end
 
-  it "destroys plantings when deleted" do
-    garden = create(:garden, owner:)
-    @planting1 = create(:planting, garden:, owner: garden.owner)
-    @planting2 = create(:planting, garden:, owner: garden.owner)
-    expect(garden.plantings.size).to eq(2)
-    all = Planting.count
-    garden.destroy
-    expect(Planting.count).to eq(all - 2)
+  describe "when deleted" do
+    before { create_list(:planting, 2, garden:, owner: garden.owner) }
+
+    it "destroys its plantings" do
+      expect { garden.destroy }.to change(Planting, :count).by(-2)
+    end
   end
 
-  context 'area' do
+  describe 'area' do
     it 'allows numeric area' do
       garden = build(:garden, area: 33)
-      garden.should be_valid
+      expect(garden).to be_valid
     end
 
     it "doesn't allow negative area" do
       garden = build(:garden, area: -5)
-      garden.should_not be_valid
+      expect(garden).not_to be_valid
     end
 
     it 'allows decimal quantities' do
       garden = build(:garden, area: 3.3)
-      garden.should be_valid
+      expect(garden).to be_valid
     end
 
     it 'allows blank quantities' do
       garden = build(:garden, area: '')
-      garden.should be_valid
+      expect(garden).to be_valid
     end
 
     it 'allows nil quantities' do
       garden = build(:garden, area: nil)
-      garden.should be_valid
+      expect(garden).to be_valid
     end
 
     it 'cleans up zero quantities' do
@@ -105,83 +103,67 @@ describe Garden do
 
     it "doesn't allow non-numeric quantities" do
       garden = build(:garden, area: "99a")
-      garden.should_not be_valid
+      expect(garden).not_to be_valid
     end
   end
 
-  context 'units' do
+  describe 'units' do
     Garden::AREA_UNITS_VALUES.values.push(nil, '').each do |s|
       it "#{s} should be a valid unit" do
         garden = build(:garden, area_unit: s)
-        garden.should be_valid
+        expect(garden).to be_valid
       end
     end
 
-    it 'refuses invalid unit values' do
-      garden = build(:garden, area_unit: 'not valid')
-      garden.should_not be_valid
-      garden.errors[:area_unit].should include("not valid is not a valid area unit")
+    context 'with an invalid unit' do
+      subject(:garden) { build(:garden, area_unit: 'not valid') }
+
+      it { is_expected.not_to be_valid }
+
+      it 'explains the unit is invalid' do
+        garden.validate
+        expect(garden.errors[:area_unit]).to include("not valid is not a valid area unit")
+      end
     end
 
-    it 'sets area unit to blank if area is blank' do
-      garden = build(:garden, area: '', area_unit: 'acre')
-      garden.should be_valid
-      expect(garden.area_unit).to be_nil
+    context 'with a unit but a blank area' do
+      subject(:garden) { build(:garden, area: '', area_unit: 'acre') }
+
+      it { is_expected.to be_valid }
+      it { expect(garden.tap(&:validate).area_unit).to be_nil }
     end
   end
 
-  context 'active scopes' do
+  describe 'active scopes' do
     let(:active) { create(:garden) }
     let(:inactive) { create(:inactive_garden) }
 
-    it 'includes active garden in active scope' do
-      described_class.active.should include active
-      described_class.active.should_not include inactive
+    before { active && inactive }
+
+    it('includes an active garden in the active scope') { expect(described_class.active).to include active }
+    it('leaves an inactive garden out of the active scope') { expect(described_class.active).not_to include inactive }
+    it('includes an inactive garden in the inactive scope') { expect(described_class.inactive).to include inactive }
+    it('leaves an active garden out of the inactive scope') { expect(described_class.inactive).not_to include active }
+  end
+
+  describe "when the garden becomes inactive" do
+    let(:other_garden) { create(:garden) }
+    let!(:planting) { create(:planting, garden:, owner: garden.owner) }
+    let!(:other_planting) { create(:planting, garden: other_garden, owner: other_garden.owner) }
+
+    it "starts with its plantings unfinished" do
+      expect(planting.finished).to be false
     end
 
-    it 'includes inactive garden in inactive scope' do
-      described_class.inactive.should include inactive
-      described_class.inactive.should_not include active
+    context "after deactivating" do
+      before { garden.update(active: false) }
+
+      it("marks its plantings as finished") { expect(planting.reload.finished).to be true }
+      it("leaves other gardens' plantings alone") { expect(other_planting.reload.finished).to be false }
     end
   end
 
-  it "marks plantings as finished when garden is inactive" do
-    garden = create(:garden)
-    p1 = create(:planting, garden:, owner: garden.owner)
-    p2 = create(:planting, garden:, owner: garden.owner)
-
-    expect(p1.finished).to be false
-    expect(p2.finished).to be false
-
-    garden.active = false
-    garden.save
-
-    p1.reload
-    expect(p1.finished).to be true
-    p2.reload
-    expect(p2.finished).to be true
-  end
-
-  it "doesn't mark the wrong plantings as finished" do
-    g1 = create(:garden)
-    g2 = create(:garden)
-    p1 = create(:planting, garden: g1, owner: g1.owner)
-    p2 = create(:planting, garden: g2, owner: g2.owner)
-
-    # mark the garden as inactive
-    g1.active = false
-    g1.save
-
-    # plantings in that garden should be "finished"
-    p1.reload
-    expect(p1.finished).to be true
-
-    # plantings in other gardens should not be.
-    p2.reload
-    expect(p2.finished).to be false
-  end
-
-  context 'photos' do
+  describe 'photos' do
     let(:garden) { create(:garden) }
     let(:photo) { create(:photo, owner: garden.owner) }
 
@@ -196,7 +178,7 @@ describe Garden do
     it 'deletes association with photos when photo is deleted' do
       photo.destroy
       garden.reload
-      garden.photos.should be_empty
+      expect(garden.photos).to be_empty
     end
 
     it 'has a default photo' do
@@ -210,29 +192,51 @@ describe Garden do
     end
   end
 
-  context 'layout grid' do
+  describe 'layout grid' do
     let(:bed) { create(:garden, owner:, name: 'Sunny bed', grid_columns: 4, grid_rows: 3) }
 
-    it 'defaults to 10 by 10' do
-      expect([garden.grid_columns, garden.grid_rows]).to eq [10, 10]
-      expect(garden.grid_cells).to eq 100
+    it('defaults to 10 columns and rows') { expect([garden.grid_columns, garden.grid_rows]).to eq [10, 10] }
+    it('defaults to 100 cells') { expect(garden.grid_cells).to eq 100 }
+
+    describe 'size limits' do
+      subject(:grid) { build(:garden, owner:, **size) }
+
+      context 'with no columns' do
+        let(:size) { { grid_columns: 0 } }
+
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'with no rows' do
+        let(:size) { { grid_rows: 0 } }
+
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'with more columns than the cap' do
+        let(:size) { { grid_columns: Garden::MAX_GRID_SIZE + 1 } }
+
+        it { is_expected.not_to be_valid }
+      end
+
+      context 'with exactly the cap' do
+        let(:size) { { grid_columns: Garden::MAX_GRID_SIZE } }
+
+        it { is_expected.to be_valid }
+      end
     end
 
-    it 'must have at least one cell, and no more than the cap' do
-      expect(build(:garden, owner:, grid_columns: 0)).not_to be_valid
-      expect(build(:garden, owner:, grid_rows: 0)).not_to be_valid
-      expect(build(:garden, owner:, grid_columns: Garden::MAX_GRID_SIZE + 1)).not_to be_valid
-      expect(build(:garden, owner:, grid_columns: Garden::MAX_GRID_SIZE)).to be_valid
-    end
+    context 'when shrunk out from under a placed plant' do
+      before do
+        planting = create(:planting, garden: bed, owner:, quantity: 1)
+        bed.prepare_layout
+        planting.plants.first.update!(bed_x: 3, bed_y: 2)
+        bed.grid_columns = 2
+        bed.validate
+      end
 
-    it 'does not shrink out from under a placed plant' do
-      planting = create(:planting, garden: bed, owner:, quantity: 1)
-      bed.prepare_layout
-      planting.plants.first.update!(bed_x: 3, bed_y: 2)
-      bed.grid_columns = 2
-
-      expect(bed).not_to be_valid
-      expect(bed.errors[:base]).to be_present
+      it { expect(bed).not_to be_valid }
+      it { expect(bed.errors[:base]).to be_present }
     end
 
     it 'shrinks when nothing is in the way' do
@@ -273,14 +277,14 @@ describe Garden do
                       ])).to be_empty
     end
 
-    it 'refuses anything off the bed, including the far end of a row' do
+    it 'refuses anything off the bed, including the far end of a row', :aggregate_failures do
       expect(problems([{ 'kind' => 'stone', 'x' => 4.5, 'y' => 1 }])).to eq ['A garden feature is off the bed']
       expect(problems([{ 'kind' => 'row', 'x' => 1, 'y' => 1, 'x2' => 9, 'y2' => 1 }])).to be_present
       expect(problems([{ 'kind' => 'sprinkler', 'x' => 1, 'y' => -1 }])).to be_present
       expect(problems([{ 'kind' => 'netting', 'x' => 1, 'y' => 1 }])).to be_present
     end
 
-    it 'refuses things it does not know, empty labels and long names' do
+    it 'refuses things it does not know, empty labels and long names', :aggregate_failures do
       expect(problems([{ 'kind' => 'dragon', 'x' => 1, 'y' => 1 }])).to be_present
       expect(problems([{ 'kind' => 'label', 'x' => 1, 'y' => 1, 'text' => ' ' }])).to be_present
       expect(problems([{ 'kind' => 'label', 'x' => 1, 'y' => 1, 'text' => 'x' * 41 }])).to be_present
@@ -382,20 +386,32 @@ describe Garden do
       expect { bed.prepare_layout }.not_to change(planting.plants, :count)
     end
 
-    it 'skips plantings that are no longer growing, and other gardens' do
-      finished = create(:planting, garden: bed, owner:, quantity: 2, finished: true, finished_at: 1.day.ago)
-      elsewhere = create(:planting, quantity: 2)
-      bed.prepare_layout
+    context 'with a planting that is no longer growing' do
+      let(:finished) { create(:planting, garden: bed, owner:, quantity: 2, finished: true, finished_at: 1.day.ago) }
 
-      expect(finished.plants).to be_empty
-      expect(elsewhere.plants).to be_empty
+      before { finished && bed.prepare_layout }
+
+      it { expect(finished.plants).to be_empty }
+    end
+
+    context 'with a planting in another garden' do
+      let(:elsewhere) { create(:planting, quantity: 2) }
+
+      before { elsewhere && bed.prepare_layout }
+
+      it { expect(elsewhere.plants).to be_empty }
     end
   end
 
-  it 'excludes deleted members' do
-    expect(described_class.joins(:owner).all).to include(garden)
-    owner.destroy
-    expect(described_class.joins(:owner).all).not_to include(garden)
+  describe 'joining the owner' do
+    before { garden }
+
+    it('includes the garden of a current member') { expect(described_class.joins(:owner).all).to include(garden) }
+
+    it 'excludes the garden of a deleted member' do
+      owner.destroy
+      expect(described_class.joins(:owner).all).not_to include(garden)
+    end
   end
 
   describe 'nursery' do

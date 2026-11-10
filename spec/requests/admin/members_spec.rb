@@ -32,7 +32,7 @@ RSpec.describe 'Admin::Members', type: :request do
   end
 
   describe 'GET /admin/members' do
-    context 'by default (Active tab)' do
+    context 'when on the Active tab by default' do
       it 'filters out deleted members and shows active members' do
         get admin_members_path
         expect(response).to have_http_status(:ok)

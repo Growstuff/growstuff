@@ -18,7 +18,7 @@ describe "Scientific names", :js do
     expect(page).to have_content zea_mays.name
   end
 
-  context "User is a crop wrangler" do
+  context "when the user is a crop wrangler" do
     let!(:crop_wranglers) { create_list(:crop_wrangling_member, 3) }
 
     include_context 'signed in crop wrangler'
@@ -73,7 +73,7 @@ describe "Scientific names", :js do
                                 href: crop_path(zea_mays.crop)
     end
 
-    context "When scientific name is pending" do
+    context "when the scientific name is pending" do
       let(:pending_crop) { create(:crop_request) }
       let(:pending_sci_name) { create(:scientific_name, crop: pending_crop) }
 

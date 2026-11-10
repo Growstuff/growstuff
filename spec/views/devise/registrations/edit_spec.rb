@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'devise/registrations/edit.html.haml', type: "view" do
-  context "logged in" do
+  context "when signed in" do
     before do
       controller.stub(:current_user) { nil }
       @member = create(:member)
@@ -19,7 +19,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       expect(rendered).to have_content 'Email'
     end
 
-    context 'email section' do
+    describe 'email section' do
       before do
         render
       end
@@ -29,7 +29,7 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       end
     end
 
-    context 'profile section' do
+    describe 'profile section' do
       before do
         render
       end
@@ -102,15 +102,15 @@ describe 'devise/registrations/edit.html.haml', type: "view" do
       end
     end
 
-    context 'other sites section' do
-      context 'not connected to flickr' do
+    describe 'other sites section' do
+      context 'when not connected to flickr' do
         it 'has a button to connect' do
           render
           expect(rendered).to have_button 'Connect to Flickr'
         end
       end
 
-      context 'connected to flickr' do
+      context 'when connected to flickr' do
         before do
           @flickr_auth = create(:flickr_authentication, member: @member)
           render

@@ -11,7 +11,7 @@ describe RobotsController do
       @request.host = "#{subdomain}.localhost.com"
     end
 
-    context 'subdomain is staging' do
+    context 'when the subdomain is staging' do
       let(:subdomain) { 'staging' }
 
       it 'loads the staging robots.txt file' do
@@ -22,7 +22,7 @@ describe RobotsController do
       end
     end
 
-    context 'subdomain is www' do
+    context 'when the subdomain is www' do
       let(:subdomain) { 'www' }
 
       it 'loads the production robots.txt file' do
@@ -33,7 +33,7 @@ describe RobotsController do
       end
     end
 
-    context 'subdomain is not present' do
+    context 'without a subdomain' do
       let(:subdomain) { '' }
 
       it 'loads the production robots.txt file' do
@@ -44,7 +44,7 @@ describe RobotsController do
       end
     end
 
-    context 'subdomain is nonsense' do
+    context 'when the subdomain is nonsense' do
       let(:subdomain) { '1874ajnfien' }
 
       it 'loads the production robots.txt file' do

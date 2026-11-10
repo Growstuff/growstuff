@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "Requesting a new crop" do
-  context "As a regular member" do
+  context "when signed in as a regular member" do
     include_context 'signed in member'
     it "Submit request" do
       visit new_crop_path
@@ -15,7 +15,7 @@ describe "Requesting a new crop" do
     end
   end
 
-  context "As a crop wrangler" do
+  context "when signed in as a crop wrangler" do
     include_context 'signed in crop wrangler'
     let!(:crop)             { create(:crop_request) }
     let!(:already_approved) { create(:crop)         }

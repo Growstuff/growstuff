@@ -21,7 +21,7 @@ describe 'seeds/index.rss.haml' do
     end
   end
 
-  context 'all seeds' do
+  context 'with all seeds' do
     let!(:seed) { create(:seed) }
     let!(:tradable) { create(:tradable_seed) }
 
@@ -45,7 +45,7 @@ describe 'seeds/index.rss.haml' do
     end
   end
 
-  context "one member's seeds" do
+  context "with one member's seeds" do
     let!(:seed) { create(:seed) }
 
     before do

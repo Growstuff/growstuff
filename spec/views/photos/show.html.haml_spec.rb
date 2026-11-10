@@ -58,7 +58,7 @@ describe "photos/show" do
     end
   end
 
-  context "signed in as owner" do
+  context "when signed in as the owner" do
     before do
       sign_in_view(member)
       render
@@ -71,7 +71,7 @@ describe "photos/show" do
     end
   end
 
-  context "signed in as another member" do
+  context "when signed in as another member" do
     before do
       sign_in_view(create(:member))
       render
@@ -81,7 +81,7 @@ describe "photos/show" do
     include_examples "No links to change data"
   end
 
-  context "not signed in" do
+  context "when not signed in" do
     before do
       sign_in_view(nil)
       render
@@ -91,7 +91,7 @@ describe "photos/show" do
     include_examples "No links to change data"
   end
 
-  context "CC-licensed photo" do
+  context "with a CC-licensed photo" do
     before do
       sign_in_view(nil)
       @photo.harvests << harvest
@@ -107,7 +107,7 @@ describe "photos/show" do
     end
   end
 
-  context "unlicensed photo" do
+  context "with an unlicensed photo" do
     before do
       sign_in_view(nil)
       @photo = assign(:photo, create(:unlicensed_photo))
@@ -119,7 +119,7 @@ describe "photos/show" do
     end
   end
 
-  context "photo by someone who is not a member" do
+  context "with a photo by someone who is not a member" do
     let(:photo) do
       create(:photo, owner: member, author_name: 'Pat Photo', author_url: 'https://www.flickr.com/photos/pat/',
                      license_url: 'https://creativecommons.org/licenses/by/2.0/', license_name: 'Attribution License')
@@ -158,7 +158,7 @@ describe "photos/show" do
     end
   end
 
-  context "photo attached to a planting" do
+  context "with a photo attached to a planting" do
     let(:unlink_path) { photo_association_path(photo_id: photo.id, type: 'planting', id: planting.id) }
 
     before { photo.plantings << planting }

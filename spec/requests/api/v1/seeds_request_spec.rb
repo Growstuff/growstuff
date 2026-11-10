@@ -53,7 +53,7 @@ RSpec.describe 'Seeds' do
     it { expect(subject['data']).to eq(seed_encoded_as_json_api) }
   end
 
-  context 'filtering' do
+  describe 'filtering' do
     let!(:seed2) do
       create(:seed, tradable_to: 'nationally', organic: 'certified organic', gmo: 'certified GMO-free', heirloom: 'heirloom')
     end

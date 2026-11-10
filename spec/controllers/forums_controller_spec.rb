@@ -27,7 +27,7 @@ describe ForumsController do
     end
   end
 
-  context "as an admin" do
+  context "when signed in as an admin" do
     before { sign_in admin }
 
     describe "GET #new" do
@@ -93,7 +93,7 @@ describe ForumsController do
     end
   end
 
-  context "as a regular member" do
+  context "when signed in as a regular member" do
     before { sign_in member }
 
     describe "GET #new" do

@@ -36,7 +36,7 @@ describe "posts/new" do
     expect(rendered).to have_content 'Markdown'
   end
 
-  context "forum specified" do
+  context "with a forum specified" do
     let(:forum) { create(:forum) }
 
     before do

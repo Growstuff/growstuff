@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'custom_matchers'
 
 describe "Harvesting a crop", :js do
-  context 'signed in' do
+  context 'when signed in' do
     include_context 'signed in member'
     let!(:maize)      { create(:maize) }
     let!(:plant_part) { create(:plant_part) }
@@ -93,7 +93,7 @@ describe "Harvesting a crop", :js do
       end
     end
 
-    context "Editing a harvest" do
+    context "when editing a harvest" do
       let(:existing_harvest)  { create(:harvest, crop: maize, owner: member) }
       let!(:other_plant_part) { create(:plant_part, name: 'chocolate')       }
 
@@ -119,7 +119,7 @@ describe "Harvesting a crop", :js do
       end
     end
 
-    context "Viewing a harvest" do
+    context "when viewing a harvest" do
       let(:existing_harvest) do
         create(:harvest, crop: maize, owner: member,
                          harvested_at: Time.zone.today)

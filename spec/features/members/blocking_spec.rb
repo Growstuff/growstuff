@@ -13,7 +13,7 @@ describe "blocks", :js do
       expect(page).to have_no_link "Unblock"
     end
 
-    context "blocking another member" do
+    context "when blocking another member" do
       before { visit member_path(other_member) }
 
       it "has a block button" do

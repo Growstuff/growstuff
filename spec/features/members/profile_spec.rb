@@ -21,7 +21,7 @@ describe "member profile", :js do
       expect(page).to have_css "img.avatar"
     end
 
-    context "location" do
+    describe "location" do
       it "member has set location" do
         london_member = create(:london_member)
         visit member_path(london_member)
@@ -38,7 +38,7 @@ describe "member profile", :js do
       end
     end
 
-    context "email privacy" do
+    describe "email privacy" do
       it "public email address" do
         public_member = create(:public_member)
         visit member_path(public_member)
@@ -51,7 +51,7 @@ describe "member profile", :js do
       end
     end
 
-    context "activity stats" do
+    describe "activity stats" do
       it "with no activity" do
         visit member_path(member)
         expect(page).to have_content "Stats"
@@ -103,7 +103,7 @@ describe "member profile", :js do
   end
 
   shared_examples 'member activity' do
-    context 'member has plantings' do
+    context 'when the member has plantings' do
       let!(:new_planting) { create(:planting, owner: member, planted_at: Time.zone.now) }
       let!(:old_planting) { create(:planting, owner: member, planted_at: 3.years.ago) }
       let!(:finished_planting) { create(:finished_planting, owner: member) }
@@ -117,7 +117,7 @@ describe "member profile", :js do
       it { expect(page).to have_no_link href: planting_path(no_planted_at_planting) }
     end
 
-    context 'member has jobs' do
+    context 'when the member has jobs' do
       let!(:past_job) { create(:job, owner: member, name: 'Prune the vines', due_date: 3.days.ago) }
       let!(:planting_job) { create(:job, :planting, owner: member, name: 'Stake the tomatoes') }
       let!(:garden_job) { create(:job, :garden, owner: member, name: 'Spread the compost') }
@@ -129,7 +129,7 @@ describe "member profile", :js do
       it { expect(page).to have_content garden_job.name }
     end
 
-    context 'member has seeds' do
+    context 'when the member has seeds' do
       let!(:seed) { create(:seed, owner: member) }
 
       before { visit member_path(member) }
@@ -137,7 +137,7 @@ describe "member profile", :js do
       it { expect(page).to have_link href: seed_path(seed) }
     end
 
-    context 'member has harvests' do
+    context 'when the member has harvests' do
       let!(:harvest) { create(:harvest, owner: member) }
 
       before { visit member_path(member) }
@@ -145,7 +145,7 @@ describe "member profile", :js do
       it { expect(page).to have_link href: harvest_path(harvest) }
     end
 
-    context 'member has posts' do
+    context 'when the member has posts' do
       let!(:post) { create(:post, author: member) }
 
       before { visit member_path(member) }
@@ -153,7 +153,7 @@ describe "member profile", :js do
       it { expect(page).to have_link href: post_path(post) }
     end
 
-    context 'member has comments' do
+    context 'when the member has comments' do
       let(:post) { create(:post) }
       let!(:comment) { create(:comment, commentable: post, author: member) }
 
@@ -163,7 +163,7 @@ describe "member profile", :js do
       it { expect(page).to have_link href: comment_path(comment) }
     end
 
-    context 'photos' do
+    describe 'photos' do
       let(:planting) { create(:planting, owner: member) }
       let!(:photo) { create(:photo, owner: member, plantings: [planting]) }
 
@@ -173,7 +173,7 @@ describe "member profile", :js do
       it { expect(page).to have_link href: planting_path(planting) }
     end
 
-    context 'plantings' do
+    describe 'plantings' do
       let(:crop) { create(:crop) }
       let(:growing_planting) do
         create(:planting,
@@ -220,7 +220,7 @@ describe "member profile", :js do
     end
   end
 
-  context "not signed in" do
+  context "when not signed in" do
     it_behaves_like 'member details'
     it_behaves_like 'member activity'
 
@@ -231,12 +231,12 @@ describe "member profile", :js do
     end
   end
 
-  context "signed in member" do
+  context "when signed in as a member" do
     include_context 'signed in member'
     it_behaves_like 'member details'
     it_behaves_like 'member activity'
 
-    context "your own profile page" do
+    context "when on your own profile page" do
       before { visit member_path(member) }
 
       it "has a button to edit profile" do
@@ -244,7 +244,7 @@ describe "member profile", :js do
       end
     end
 
-    context "someone else's profile page" do
+    context "when on someone else's profile page" do
       before { visit member_path(other_member) }
 
       it "has a private message button" do

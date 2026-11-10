@@ -16,14 +16,14 @@ describe "photos/new" do
     assign(:flickr_auth, create(:flickr_authentication, member: @member))
   end
 
-  context "user has no photosets" do
+  context "when the user has no photosets" do
     it "doesn't show a dropdown with sets from Flickr" do
       render
       assert_select "select#set", false
     end
   end
 
-  context "user has photosets" do
+  context "when the user has photosets" do
     before do
       assign(:sets, "foo" => "bar") # Hash of names => IDs
     end

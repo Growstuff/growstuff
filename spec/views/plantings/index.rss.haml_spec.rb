@@ -7,7 +7,7 @@ describe 'plantings/index.rss.haml' do
     allow(view).to receive(:current_user).and_return(nil)
   end
 
-  context 'all plantings' do
+  context 'with all plantings' do
     before do
       @planting = create(:planting)
       @sunny = create(:sunny_planting)
@@ -33,7 +33,7 @@ describe 'plantings/index.rss.haml' do
     end
   end
 
-  context "one person's plantings" do
+  context "with one person's plantings" do
     before do
       @planting = create(:planting)
       assign(:plantings, [@planting])

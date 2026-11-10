@@ -9,7 +9,7 @@ describe "posts/edit" do
     @post = assign(:post, create(:post, author: @author))
   end
 
-  context "logged in" do
+  context "when signed in" do
     before do
       sign_in @author
       render
@@ -30,7 +30,7 @@ describe "posts/edit" do
       expect(rendered).to have_no_content "This post will be posted in the forum"
     end
 
-    context "forum specified" do
+    context "with a forum specified" do
       before do
         @forum = assign(:forum, create(:forum))
         assign(:post, create(:post,

@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'custom_matchers'
 
 describe "Gardens", :js do
-  context 'signed in' do
+  context 'when signed in' do
     include_context 'signed in member'
     before { visit new_garden_path }
 

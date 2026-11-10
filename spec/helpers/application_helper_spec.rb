@@ -4,10 +4,10 @@ require 'rails_helper'
 
 describe ApplicationHelper do
   it "parses dates" do
-    parse_date(nil).should be_nil
-    parse_date('').should be_nil
-    parse_date('2012-05-12').should eq Date.new(2012, 5, 12)
-    parse_date('may 12th 2012').should eq Date.new(2012, 5, 12)
+    expect(parse_date(nil)).to be_nil
+    expect(parse_date('')).to be_nil
+    expect(parse_date('2012-05-12')).to eq Date.new(2012, 5, 12)
+    expect(parse_date('may 12th 2012')).to eq Date.new(2012, 5, 12)
   end
 
   describe '#avatar_uri' do
@@ -64,7 +64,7 @@ describe ApplicationHelper do
     end
 
     describe '#build_alert_classes' do
-      context 'danger' do
+      context 'with a danger message' do
         it 'works when :alert' do
           expect(build_alert_classes(:alert)).to include 'alert-danger'
         end
@@ -90,7 +90,7 @@ describe ApplicationHelper do
         end
       end
 
-      context 'warning' do
+      context 'with a warning message' do
         it 'works when :warning' do
           expect(build_alert_classes(:warning)).to include 'alert-warning'
         end
@@ -108,7 +108,7 @@ describe ApplicationHelper do
         end
       end
 
-      context 'success' do
+      context 'with a success message' do
         it 'works when :notice' do
           expect(build_alert_classes(:notice)).to include 'alert-success'
         end
@@ -126,7 +126,7 @@ describe ApplicationHelper do
         end
       end
 
-      context 'info' do
+      context 'with an info message' do
         it 'works when :info' do
           expect(build_alert_classes(:info)).to include 'alert-info'
         end

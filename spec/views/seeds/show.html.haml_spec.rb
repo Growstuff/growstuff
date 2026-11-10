@@ -38,7 +38,7 @@ describe "seeds/show" do
     end
   end
 
-  context "tradable" do
+  describe "tradable" do
     context 'with location' do
       let!(:owner) { create(:london_member) }
       let!(:seed)   { create(:tradable_seed, owner:) }

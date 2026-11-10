@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 describe "show photo page" do
-  context "signed in member" do
+  context "when signed in as a member" do
     include_context 'signed in member'
-    context "linked to planting" do
+    context "when linked to a planting" do
       let(:planting) { create(:planting) }
       let(:photo) { create(:photo, owner: planting.owner) }
 
-      context "shows linkback to planting" do
+      context "when linked to a planting" do
         before do
           planting.photos << photo
           visit photo_path(photo)
@@ -21,11 +21,11 @@ describe "show photo page" do
       end
     end
 
-    context "linked to harvest" do
+    context "when linked to a harvest" do
       let(:photo) { create(:photo, owner: harvest.owner) }
       let(:harvest) { create(:harvest) }
 
-      context "shows linkback to harvest" do
+      context "when linked to a harvest" do
         before do
           harvest.photos << photo
           visit photo_path(photo)
@@ -36,11 +36,11 @@ describe "show photo page" do
       end
     end
 
-    context "linked to garden" do
+    context "when linked to a garden" do
       let(:photo) { create(:photo, owner: garden.owner) }
       let(:garden) { create(:garden) }
 
-      context "shows linkback to garden" do
+      context "when linked to a garden" do
         before do
           garden.photos << photo
           visit photo_path(photo)
@@ -51,11 +51,11 @@ describe "show photo page" do
       end
     end
 
-    context "linked to seed" do
+    context "when linked to a seed" do
       let(:photo) { create(:photo, owner: seed.owner) }
       let(:seed) { create(:seed) }
 
-      context "shows linkback to seed" do
+      context "when linked to a seed" do
         before do
           seed.photos << photo
           visit photo_path(photo)

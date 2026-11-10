@@ -3,50 +3,50 @@
 require 'rails_helper'
 
 describe Crop do
-  context 'all fields present' do
+  context 'with all fields present' do
     let(:crop) { create(:tomato) }
 
     it 'saves a basic crop' do
-      crop.save.should be(true)
+      expect(crop.save).to be(true)
     end
 
     it 'is fetchable from the database' do
       crop.save
       @crop2 = described_class.find_by(name: 'tomato')
-      @crop2.en_wikipedia_url.should eq("http://en.wikipedia.org/wiki/Tomato")
-      @crop2.slug.should eq("tomato")
+      expect(@crop2.en_wikipedia_url).to eq("http://en.wikipedia.org/wiki/Tomato")
+      expect(@crop2.slug).to eq("tomato")
     end
 
     it 'stringifies as the system name' do
       crop.save
-      crop.to_s.should eq('tomato')
+      expect(crop.to_s).to eq('tomato')
     end
 
     it 'has a creator' do
       crop.save
-      crop.creator.should be_an_instance_of Member
+      expect(crop.creator).to be_an_instance_of Member
     end
   end
 
-  context 'invalid data' do
+  context 'with invalid data' do
     it 'does not save a crop without a system name' do
       crop = build(:crop, name: nil)
       expect { crop.save }.to raise_error ActiveRecord::StatementInvalid
     end
   end
 
-  context 'ordering' do
+  describe 'ordering' do
     before do
       @uppercase = create(:uppercasecrop, created_at: 1.minute.ago)
       @lowercase = create(:lowercasecrop, created_at: 2.days.ago)
     end
 
     it 'recent scope sorts by creation date' do
-      described_class.recent.first.should == @uppercase
+      expect(described_class.recent.first).to eq @uppercase
     end
   end
 
-  context 'popularity' do
+  describe 'popularity' do
     let(:tomato)   { create(:tomato)                 }
     let(:maize)    { create(:maize)                  }
 
@@ -78,16 +78,16 @@ describe Crop do
     expect(@crop.plantings.size).to eq 1
   end
 
-  context "wikipedia url" do
+  context "with a wikipedia url" do
     subject { build(:tomato, en_wikipedia_url: wikipedia_url) }
 
-    context 'not a url' do
+    context 'with something that is not a url' do
       let(:wikipedia_url) { 'this is not valid' }
 
       it { expect(subject).not_to be_valid }
     end
 
-    context 'http url' do
+    context 'with an http url' do
       let(:wikipedia_url) { 'http://en.wikipedia.org/wiki/SomePage' }
 
       it { expect(subject).to be_valid }
@@ -105,7 +105,7 @@ describe Crop do
       it { expect(subject).to be_valid }
     end
 
-    context 'urlencoded' do
+    context 'with urlencoded input' do
       let(:wikipedia_url) { 'https://en.wikipedia.org/wiki/M%C4%81ori' }
 
       it { expect(subject).to be_valid }
@@ -124,7 +124,7 @@ describe Crop do
     end
   end
 
-  context 'varieties' do
+  describe 'varieties' do
     it 'has a crop hierarchy' do
       @tomato = create(:tomato)
       @roma = create(:roma, parent_id: @tomato.id)
@@ -139,7 +139,7 @@ describe Crop do
     end
   end
 
-  context 'photos' do
+  describe 'photos' do
     shared_examples 'has default photo' do
       it { expect(described_class.has_photos).to include(crop) }
     end
@@ -174,7 +174,7 @@ describe Crop do
 
       include_examples 'has default photo'
 
-      context 'and planting photo' do
+      context 'with a planting photo' do
         let(:planting) { create(:planting, crop:) }
         let!(:planting_photo) { create(:photo, owner: planting.owner) }
 
@@ -251,7 +251,7 @@ describe Crop do
     end
   end
 
-  context 'sunniness' do
+  describe 'sunniness' do
     let(:crop) { create(:tomato) }
 
     it 'returns a hash of sunniness values' do
@@ -259,7 +259,7 @@ describe Crop do
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
       create(:shady_planting, crop:)
-      crop.sunniness.should be_an_instance_of Hash
+      expect(crop.sunniness).to be_an_instance_of Hash
     end
 
     it 'counts each sunniness value' do
@@ -267,18 +267,18 @@ describe Crop do
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
       create(:shady_planting, crop:)
-      crop.sunniness.should == { 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 }
+      expect(crop.sunniness).to eq({ 'sun' => 2, 'shade' => 1, 'semi-shade' => 1 })
     end
 
     it 'ignores unused sunniness values' do
       create(:sunny_planting, crop:)
       create(:sunny_planting, crop:)
       create(:semi_shady_planting, crop:)
-      crop.sunniness.should == { 'sun' => 2, 'semi-shade' => 1 }
+      expect(crop.sunniness).to eq({ 'sun' => 2, 'semi-shade' => 1 })
     end
   end
 
-  context 'planted_from' do
+  describe 'planted_from' do
     let(:crop) { create(:tomato) }
 
     it 'returns a hash of sunniness values' do
@@ -286,7 +286,7 @@ describe Crop do
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
       create(:cutting_planting, crop:)
-      crop.planted_from.should be_an_instance_of Hash
+      expect(crop.planted_from).to be_an_instance_of Hash
     end
 
     it 'counts each planted_from value' do
@@ -294,22 +294,22 @@ describe Crop do
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
       create(:cutting_planting, crop:)
-      crop.planted_from.should == { 'seed' => 2, 'seedling' => 1, 'cutting' => 1 }
+      expect(crop.planted_from).to eq({ 'seed' => 2, 'seedling' => 1, 'cutting' => 1 })
     end
 
     it 'ignores unused planted_from values' do
       create(:seed_planting, crop:)
       create(:seed_planting, crop:)
       create(:seedling_planting, crop:)
-      crop.planted_from.should == { 'seed' => 2, 'seedling' => 1 }
+      expect(crop.planted_from).to eq({ 'seed' => 2, 'seedling' => 1 })
     end
   end
 
-  context 'popular plant parts' do
+  describe 'popular plant parts' do
     let(:crop) { create(:tomato) }
 
     it 'returns a hash of plant_part values' do
-      crop.popular_plant_parts.should be_an_instance_of Hash
+      expect(crop.popular_plant_parts).to be_an_instance_of Hash
     end
 
     it 'counts each plant_part value' do
@@ -329,13 +329,13 @@ describe Crop do
       @harvest4 = create(:harvest,
                          crop:,
                          plant_part: @root)
-      crop.popular_plant_parts.should == { [@fruit.id, @fruit.name] => 2,
-                                           [@seed.id, @seed.name]   => 1,
-                                           [@root.id, @root.name]   => 1 }
+      expect(crop.popular_plant_parts).to eq({ [@fruit.id, @fruit.name] => 2,
+                                                   [@seed.id, @seed.name]   => 1,
+                                                   [@root.id, @root.name]   => 1 })
     end
   end
 
-  context "harvests" do
+  describe "harvests" do
     let!(:crop)    { create(:crop) }
     let!(:harvest) { create(:harvest, crop:) }
 
@@ -352,165 +352,146 @@ describe Crop do
     expect(@maize.plant_parts).to eq [@pp1]
   end
 
-  context "csv loading" do
-    before do
-      # don't use 'let' for this -- we need to actually create it,
-      # regardless of whether it's used.
-      @cropbot = create(:cropbot)
+  describe "csv loading" do
+    # Created whether or not an example uses it, as the importer looks it up.
+    let!(:cropbot) { create(:cropbot) }
+    let(:importer) { CsvImporter.new }
+    let(:wikipedia_url) { "http://en.wikipedia.org/wiki/Parent" }
+
+    describe "scientific names" do
+      subject(:tomato) { importer.import_crop(row) }
+
+      context "when the crop has none" do
+        let(:row) { ["parent", wikipedia_url, "", "Foo bar"] }
+
+        it { expect(tomato.scientific_names.size).to eq 1 }
+        it { expect(tomato.default_scientific_name.to_s).to eq "Foo bar" }
+      end
+
+      context "when the parent crop has one" do
+        let!(:parent) { importer.import_crop(["parent", wikipedia_url, "", "Parentis cropis"]) }
+        let(:row) { ["Tomato", wikipedia_url, "parent"] }
+
+        it { expect(tomato.parent).to eq parent }
+        it { expect(tomato.parent.default_scientific_name.to_s).to eq "Parentis cropis" }
+        it { expect(tomato.default_scientific_name.to_s).to eq "Parentis cropis" }
+      end
+
+      context "with a duplicate name in the row" do
+        let(:row) { ["parent", wikipedia_url, "", "Foo bar, Foo bar"] }
+
+        it { expect(tomato.scientific_names.size).to eq 1 }
+      end
+
+      context "with the parent's name repeated in the row" do
+        let(:row) { ["Tomato", wikipedia_url, "parent", "Parentis cropis"] }
+
+        before { importer.import_crop(["parent", wikipedia_url, "", "Parentis cropis"]) }
+
+        it { expect(tomato.scientific_names.size).to eq 1 }
+      end
+
+      context "with multiple names" do
+        let(:row) { ["parent", wikipedia_url, "", "Foo,Bar"] }
+
+        it { expect(tomato.scientific_names[0].name).to eq "Foo" }
+        it { expect(tomato.scientific_names[1].name).to eq "Bar" }
+      end
+
+      context "with multiple names and variant spacing" do
+        let(:row) { ["parent", wikipedia_url, "", "Baz,   Quux"] }
+
+        it { expect(tomato.scientific_names.size).to eq 2 }
+        it { expect(tomato.scientific_names[0].name).to eq "Baz" }
+        it { expect(tomato.scientific_names[1].name).to eq "Quux" }
+      end
     end
 
-    context "scientific names" do
-      it "adds a scientific name to a crop that has none" do
-        row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo bar"]
-        tomato = CsvImporter.new.import_crop(row)
-        expect(tomato.scientific_names.size).to eq 1
-        expect(tomato.default_scientific_name.to_s).to eq "Foo bar"
+    describe "alternate names" do
+      subject(:tomato) { importer.import_crop(row) }
+
+      context "with one name" do
+        let(:row) { ["tomato", wikipedia_url, "", "", "Foo"] }
+
+        it { expect(tomato.alternate_names.size).to eq 1 }
+        it { expect(tomato.alternate_names.last.name).to eq "Foo" }
       end
 
-      it "picks up scientific name from parent crop if available" do
-        parent = CsvImporter.new.import_crop(
-          ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Parentis cropis"]
-        )
+      context "with multiple names" do
+        let(:row) { ["tomato", wikipedia_url, "", "", "Foo, Bar"] }
 
-        tomato = CsvImporter.new.import_crop(
-          ["Tomato", "http://en.wikipedia.org/wiki/Parent", "parent"]
-        )
-
-        expect(tomato.parent).to eq parent
-        expect(tomato.parent.default_scientific_name.to_s).to eq "Parentis cropis"
-        expect(tomato.default_scientific_name.to_s).to eq "Parentis cropis"
+        it { expect(tomato.alternate_names.size).to eq 2 }
+        it { expect(tomato.alternate_names[0].name).to eq "Foo" }
+        it { expect(tomato.alternate_names[1].name).to eq "Bar" }
       end
 
-      it "doesn't add a duplicate scientific name" do
-        row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo bar, Foo bar"]
-        tomato = CsvImporter.new.import_crop(row)
-        expect(tomato.scientific_names.size).to eq 1
+      context "with multiple names and variant spacing" do
+        let(:row) { ["tomato", wikipedia_url, "", "", "Foo,Bar,Baz,   Quux"] }
+
+        it { expect(tomato.alternate_names.size).to eq 4 }
+        it { expect(tomato.alternate_names.map(&:name)).to eq %w(Foo Bar Baz Quux) }
       end
 
-      it "doesn't add a duplicate scientific name from parent" do
-        CsvImporter.new.import_crop(
-          ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Parentis cropis"]
-        )
-        tomato = CsvImporter.new.import_crop(
-          ["Tomato", "http://en.wikipedia.org/wiki/Parent", "parent", "Parentis cropis"]
-        )
-        expect(tomato.scientific_names.size).to eq 1
+      context "when a second crop has the same name" do
+        let(:tomoto) { importer.import_crop(["tomoto", "http://en.wikipedia.org/wiki/tomoto", "", "", "Foo"]) }
+        let(:row) { ["tomato", "http://en.wikipedia.org/wiki/tomato", "", "", "Foo"] }
+
+        it { expect(tomato.alternate_names.size).to eq 1 }
+        it { expect(tomoto.alternate_names.size).to eq 1 }
       end
-
-      it "loads a crop with multiple scientific names" do
-        row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Foo,Bar"]
-        tomato = CsvImporter.new.import_crop(row)
-        expect(tomato.scientific_names[0].name).to eq "Foo"
-        expect(tomato.scientific_names[1].name).to eq "Bar"
-      end
-
-      it "loads multiple scientific names with variant spacing" do
-        row = ["parent", "http://en.wikipedia.org/wiki/Parent", "", "Baz,   Quux"]
-        tomato = CsvImporter.new.import_crop(row)
-        expect(tomato.scientific_names.size).to eq 2
-        expect(tomato.scientific_names[0].name).to eq "Baz"
-        expect(tomato.scientific_names[1].name).to eq "Quux"
-      end
-    end # scientific names
-
-    context "alternate names" do
-      it "loads an alternate name" do
-        row = ["tomato", "http://en.wikipedia.org/wiki/Parent", "", "", "Foo"]
-        tomato = CsvImporter.new.import_crop(row)
-        expect(tomato.alternate_names.size).to eq 1
-        expect(tomato.alternate_names.last.name).to eq "Foo"
-      end
-
-      it "adds multiple alternate names" do
-        row = ["tomato", "http://en.wikipedia.org/wiki/Parent", "", "", "Foo, Bar"]
-        tomato = CsvImporter.new.import_crop(row)
-        expect(tomato.alternate_names.size).to eq 2
-        expect(tomato.alternate_names[0].name).to eq "Foo"
-        expect(tomato.alternate_names[1].name).to eq "Bar"
-      end
-
-      it "adds multiple alt names with variant spacing" do
-        row = ["tomato", "http://en.wikipedia.org/wiki/Parent", "", "", "Foo,Bar,Baz,   Quux"]
-        tomato = CsvImporter.new.import_crop(row)
-        expect(tomato.alternate_names.size).to eq 4
-        expect(tomato.alternate_names[0].name).to eq "Foo"
-        expect(tomato.alternate_names[1].name).to eq "Bar"
-        expect(tomato.alternate_names[2].name).to eq "Baz"
-        expect(tomato.alternate_names[3].name).to eq "Quux"
-      end
-
-      it "Adds a duplicate alternate name for second crop" do
-        row = ["tomato", "http://en.wikipedia.org/wiki/tomato", "", "", "Foo"]
-        tomato = CsvImporter.new.import_crop(row)
-        row = ["tomoto", "http://en.wikipedia.org/wiki/tomoto", "", "", "Foo"]
-        tomoto = CsvImporter.new.import_crop(row)
-        expect(tomato.alternate_names.size).to eq 1
-        expect(tomoto.alternate_names.size).to eq 1
-      end
-    end # alternate names
-
-    it "loads the simplest possible crop" do
-      tomato_row = ["tomato", "http://en.wikipedia.org/wiki/Tomato"]
-      tomato = CsvImporter.new.import_crop(tomato_row)
-
-      expect(tomato.name).to eq "tomato"
-      expect(tomato.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
-      expect(tomato.creator).to eq @cropbot
     end
 
-    it "loads a crop with a scientific name" do
-      tomato_row = ["tomato", "http://en.wikipedia.org/wiki/Tomato", "", "Solanum lycopersicum"]
-      tomato = CsvImporter.new.import_crop(tomato_row)
+    describe "a simple crop" do
+      subject(:tomato) { importer.import_crop(["tomato", "http://en.wikipedia.org/wiki/Tomato"]) }
 
-      expect(tomato.name).to eq "tomato"
-      expect(tomato.scientific_names.size).to eq 1
-      expect(tomato.scientific_names.last.name).to eq "Solanum lycopersicum"
+      it { expect(tomato.name).to eq "tomato" }
+      it { expect(tomato.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato' }
+      it { expect(tomato.creator).to eq cropbot }
     end
 
-    it "loads a crop with an alternate name" do
-      crop = CsvImporter.new.import_crop(
-        ["tomato", "http://en.wikipedia.org/wiki/Tomato", nil, nil, "Foo"]
-      )
+    describe "a crop with a scientific name" do
+      subject(:tomato) { importer.import_crop(["tomato", "http://en.wikipedia.org/wiki/Tomato", "", "Solanum lycopersicum"]) }
 
-      expect(crop.name).to eq "tomato"
-      expect(crop.alternate_names.size).to eq 1
-      expect(crop.alternate_names.last.name).to eq "Foo"
+      it { expect(tomato.name).to eq "tomato" }
+      it { expect(tomato.scientific_names.size).to eq 1 }
+      it { expect(tomato.scientific_names.last.name).to eq "Solanum lycopersicum" }
     end
 
-    it "loads a crop with a parent" do
-      parent = create(:crop, name: 'parent')
-      crop = CsvImporter.new.import_crop(
-        ["tomato", "http://en.wikipedia.org/wiki/Tomato", "parent"]
-      )
-      expect(crop.parent).to eq parent
+    describe "a crop with an alternate name" do
+      subject(:crop) { importer.import_crop(["tomato", "http://en.wikipedia.org/wiki/Tomato", nil, nil, "Foo"]) }
+
+      it { expect(crop.name).to eq "tomato" }
+      it { expect(crop.alternate_names.size).to eq 1 }
+      it { expect(crop.alternate_names.last.name).to eq "Foo" }
     end
 
-    it "loads a crop with a missing parent" do
-      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,parent"
+    describe "a crop with a parent" do
+      subject(:crop) { importer.import_crop(["tomato", "http://en.wikipedia.org/wiki/Tomato", "parent"]) }
 
-      CSV.parse(tomato_row) do |row|
-        CsvImporter.new.import_crop(row)
+      context "when the parent exists" do
+        let!(:parent) { create(:crop, name: 'parent') }
+
+        it { expect(crop.parent).to eq parent }
       end
 
-      loaded = described_class.last
-      expect(loaded.parent).to be_nil
+      context "when the parent is missing" do
+        it { expect(crop.parent).to be_nil }
+      end
     end
 
-    it "doesn't add unnecessary duplicate crops" do
-      tomato_row = "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum"
+    describe "importing the same crop twice" do
+      let(:csv) { "tomato,http://en.wikipedia.org/wiki/Tomato,,Solanum lycopersicum" }
+      let(:loaded) { described_class.last }
 
-      CSV.parse(tomato_row) do |row|
-        CsvImporter.new.import_crop(row)
-      end
+      before { 2.times { CSV.parse(csv) { |row| importer.import_crop(row) } } }
 
-      loaded = described_class.last
-      expect(loaded.name).to eq "tomato"
-      expect(loaded.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato'
-      expect(loaded.creator).to eq @cropbot
+      it { expect(described_class.where(name: "tomato").count).to eq 1 }
+      it { expect(loaded.en_wikipedia_url).to eq 'http://en.wikipedia.org/wiki/Tomato' }
+      it { expect(loaded.creator).to eq cropbot }
     end
   end
 
-  context "crop-post association" do
+  context "with a crop-post association" do
     let!(:tomato) { create(:tomato)                                                  }
     let!(:maize)  { create(:maize)                                                   }
     let!(:post)   { create(:post, body: "[maize](crop)[tomato](crop)[tomato](crop)") }
@@ -530,7 +511,7 @@ describe Crop do
     end
   end
 
-  context "destroying a crop" do
+  context "when destroying a crop" do
     let!(:crop_a) { create(:crop) }
     let!(:crop_b) { create(:crop) }
 
@@ -544,7 +525,7 @@ describe Crop do
     end
   end
 
-  context "crop rejections" do
+  describe "crop rejections" do
     let!(:rejected_reason) do
       create(:crop, name:                 'tomato',
                     approval_status:      'rejected',

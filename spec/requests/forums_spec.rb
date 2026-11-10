@@ -33,7 +33,7 @@ describe "Forums" do
   end
 
   describe "POST /forums" do
-    context "as an admin" do
+    context "when signed in as an admin" do
       before { sign_in admin }
 
       it "creates a new forum" do
@@ -44,7 +44,7 @@ describe "Forums" do
       end
     end
 
-    context "as a guest" do
+    context "when a guest" do
       it "redirects to sign in or denies access" do
         post forums_path, params: { forum: { name: "New Request Forum", description: "Desc" } }
         # Depending on CanCan/Devise setup, it might be a redirect to login or root

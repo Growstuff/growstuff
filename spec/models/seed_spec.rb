@@ -15,7 +15,7 @@ describe Seed do
     expect(seed.slug).to match(/tamateapokaiwhenua-magic-bean/)
   end
 
-  context 'quantity' do
+  describe 'quantity' do
     it 'allows integer quantities' do
       @seed = build(:seed, quantity: 99)
       expect(@seed).to be_valid
@@ -39,7 +39,7 @@ describe Seed do
     end
   end
 
-  context 'tradable' do
+  describe 'tradable' do
     it 'all valid tradable_to values should work' do
       %w(nowhere locally nationally internationally).each do |t|
         @seed = build(:seed, tradable_to: t)
@@ -90,7 +90,7 @@ describe Seed do
     end
   end
 
-  context 'organic, gmo, heirloom' do
+  describe 'organic, gmo, heirloom' do
     it 'all valid organic values should work' do
       ['certified organic', 'non-certified organic',
        'conventional/non-organic', 'unknown'].each do |t|
@@ -167,7 +167,7 @@ describe Seed do
     end
   end
 
-  context 'expired' do
+  context 'when expired' do
     it 'returns seeds with a plant_before date in the past' do
       expired_seed = create(:seed, plant_before: 1.day.ago)
       not_expired_seed = create(:seed, plant_before: 1.day.from_now)
@@ -181,7 +181,7 @@ describe Seed do
     end
   end
 
-  context 'photos' do
+  describe 'photos' do
     let(:seed) { create(:seed) }
 
     before { seed.photos << create(:photo, owner: seed.owner) }
@@ -191,7 +191,7 @@ describe Seed do
     end
   end
 
-  context 'ancestry' do
+  describe 'ancestry' do
     let(:parent_planting) { create(:planting) }
     let(:seed)            { create(:seed, parent_planting:, owner: parent_planting.owner) }
 
@@ -204,7 +204,7 @@ describe Seed do
     end
   end
 
-  context "finished" do
+  context "when finished" do
     describe 'has finished fields' do
       let(:seed) { create(:finished_seed) }
 

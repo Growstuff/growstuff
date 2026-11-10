@@ -345,7 +345,7 @@ rest of the garden.
     end
   end
 
-  context 'wrangling crops' do
+  context 'when wrangling crops' do
     include_context 'signed in crop wrangler'
     let!(:candy) { create(:crop_request, name: 'candy') }
 
@@ -359,7 +359,7 @@ rest of the garden.
     end
   end
 
-  context 'admin' do
+  context 'when signed in as an admin' do
     include_context 'signed in admin'
     before { visit admin_path }
 

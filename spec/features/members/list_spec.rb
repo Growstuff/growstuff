@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "members list" do
-  context "list all members" do
+  context "when listing all members" do
     subject { page.all("#maincontainer h4.login-name") }
 
     let!(:archaeopteryx) { create(:member, login_name: "Archaeopteryx", confirmed_at: Time.zone.parse('2013-02-10')) }

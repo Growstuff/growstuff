@@ -23,7 +23,7 @@ describe "seeds/new" do
     end
   end
 
-  context 'member has no location' do
+  context 'when the member has no location' do
     describe 'reminds you to set your location' do
       it { expect(rendered).to have_content "Don't forget to set your location." }
       it { expect(rendered).to have_link "set your location" }

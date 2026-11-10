@@ -102,7 +102,7 @@ RSpec.describe 'Plantings' do
     end
   end
 
-  context 'filtering' do
+  describe 'filtering' do
     let!(:planting2) { create(:planting, failed: true, sunniness: 'shade') }
     let!(:perennial_planting) { create(:planting, crop: create(:crop, perennial: true)) }
 

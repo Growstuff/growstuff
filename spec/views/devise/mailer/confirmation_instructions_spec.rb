@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'devise/mailer/confirmation_instructions.html.haml', type: "view" do
-  context "logged in" do
+  context "when signed in" do
     before do
       @resource = create(:member)
       render

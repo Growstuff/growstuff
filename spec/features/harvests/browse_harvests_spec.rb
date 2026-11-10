@@ -7,7 +7,7 @@ describe "browse harvests" do
 
   let!(:harvest) { create(:harvest, owner: member) }
 
-  context 'signed in' do
+  context 'when signed in' do
     include_context 'signed in member'
 
     describe 'blank optional fields' do

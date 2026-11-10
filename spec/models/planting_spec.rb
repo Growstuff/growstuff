@@ -9,7 +9,7 @@ describe Planting do
   let(:planting)     { create(:planting, crop:, garden:, owner: garden.owner) }
 
   describe 'planting lifespan predictions' do
-    context 'no predications data yet' do
+    context 'without predictions data yet' do
       describe 'planting planted, not finished' do
         let(:planting) { create(:planting, planted_at: 30.days.ago, finished_at: nil, finished: false) }
 
@@ -55,7 +55,7 @@ describe Planting do
       end
     end
 
-    context 'lots of data' do
+    context 'with lots of data' do
       before do
         create(:planting, crop: planting.crop, planted_at: 10.days.ago)
         create(:planting, crop: planting.crop, planted_at: 100.days.ago, finished_at: 50.days.ago)
@@ -130,7 +130,7 @@ describe Planting do
   end
 
   describe 'planting first harvest preductions' do
-    context 'no data' do
+    context 'without data' do
       let(:planting) { create(:planting) }
 
       it { expect(planting.crop.median_days_to_first_harvest).to be_nil }
@@ -140,7 +140,7 @@ describe Planting do
       it { expect(planting.expected_lifespan).to be_nil }
     end
 
-    context 'lots of data' do
+    context 'with lots of data' do
       let(:crop) { create(:crop) }
       # this is a method so it creates a new one each time
 
@@ -286,20 +286,20 @@ describe Planting do
   end
 
   it 'has an owner' do
-    planting.owner.should be_an_instance_of Member
+    expect(planting.owner).to be_an_instance_of Member
   end
 
   it "generates a location" do
-    planting.location.should eq garden.location
+    expect(planting.location).to eq garden.location
   end
 
   it "has a slug" do
-    planting.slug.should match(/^hatupatu-springfield-community-garden-tomato$/)
+    expect(planting.slug).to match(/^hatupatu-springfield-community-garden-tomato$/)
   end
 
   it 'sorts in reverse creation order' do
     @planting2 = create(:planting)
-    described_class.first.should eq @planting2
+    expect(described_class.first).to eq @planting2
   end
 
   describe '#planted?' do
@@ -319,25 +319,25 @@ describe Planting do
     end
   end
 
-  context 'delegation' do
+  describe 'delegation' do
     it 'system name' do
-      planting.crop_name.should eq planting.crop.name
+      expect(planting.crop_name).to eq planting.crop.name
     end
 
     it 'wikipedia url' do
-      planting.crop_en_wikipedia_url.should eq planting.crop.en_wikipedia_url
+      expect(planting.crop_en_wikipedia_url).to eq planting.crop.en_wikipedia_url
     end
 
     it 'default scientific name' do
-      planting.crop_default_scientific_name.should eq planting.crop.default_scientific_name
+      expect(planting.crop_default_scientific_name).to eq planting.crop.default_scientific_name
     end
 
     it 'plantings count' do
-      planting.crop_plantings_count.should eq planting.crop.plantings_count
+      expect(planting.crop_plantings_count).to eq planting.crop.plantings_count
     end
   end
 
-  context 'alternate name' do
+  describe 'alternate name' do
     let(:alternate) { FactoryBot.create(:alternate_eggplant) }
     let(:planting) { FactoryBot.build(:planting, crop: alternate.crop) }
 
@@ -357,55 +357,55 @@ describe Planting do
     end
   end
 
-  context 'quantity' do
+  describe 'quantity' do
     it 'allows integer quantities' do
       @planting = build(:planting, quantity: 99)
-      @planting.should be_valid
+      expect(@planting).to be_valid
     end
 
     it "doesn't allow decimal quantities" do
       @planting = build(:planting, quantity: 99.9)
-      @planting.should_not be_valid
+      expect(@planting).not_to be_valid
     end
 
     it "doesn't allow non-numeric quantities" do
       @planting = build(:planting, quantity: 'foo')
-      @planting.should_not be_valid
+      expect(@planting).not_to be_valid
     end
 
     it "allows blank quantities" do
       @planting = build(:planting, quantity: nil)
-      @planting.should be_valid
+      expect(@planting).to be_valid
       @planting = build(:planting, quantity: '')
-      @planting.should be_valid
+      expect(@planting).to be_valid
     end
   end
 
-  context 'sunniness' do
+  describe 'sunniness' do
     let(:planting) { create(:sunny_planting) }
 
     it 'has a sunniness value' do
-      planting.sunniness.should eq 'sun'
+      expect(planting.sunniness).to eq 'sun'
     end
 
     it 'all three valid sunniness values should work' do
       ['sun', 'shade', 'semi-shade', nil, ''].each do |s|
         @planting = build(:planting, sunniness: s)
-        @planting.should be_valid
+        expect(@planting).to be_valid
       end
     end
 
     it 'refuses invalid sunniness values' do
       @planting = build(:planting, sunniness: 'not valid')
-      @planting.should_not be_valid
-      @planting.errors[:sunniness].should include("not valid is not a valid sunniness value")
+      expect(@planting).not_to be_valid
+      expect(@planting.errors[:sunniness]).to include("not valid is not a valid sunniness value")
     end
   end
 
-  context 'planted from' do
+  describe 'planted from' do
     it 'has a planted_from value' do
       @planting = create(:seed_planting)
-      @planting.planted_from.should eq 'seed'
+      expect(@planting.planted_from).to eq 'seed'
     end
 
     it 'all valid planted_from values should work' do
@@ -415,20 +415,20 @@ describe Planting do
         'graft', 'layering', 'bulb', 'root/tuber', nil, ''
       ].each do |p|
         @planting = build(:planting, planted_from: p)
-        @planting.should be_valid
+        expect(@planting).to be_valid
       end
     end
 
     it 'refuses invalid planted_from values' do
       @planting = build(:planting, planted_from: 'not valid')
-      @planting.should_not be_valid
-      @planting.errors[:planted_from].should include("not valid is not a valid planting method")
+      expect(@planting).not_to be_valid
+      expect(@planting.errors[:planted_from]).to include("not valid is not a valid planting method")
     end
   end
 
   # we decided that all the tests for the planting/photo association would
   # be done on this side, not on the photos side
-  context 'photos' do
+  describe 'photos' do
     let(:planting) { create(:planting) }
     let(:photo) { create(:photo, owner_id: planting.owner_id) }
 
@@ -498,46 +498,46 @@ describe Planting do
     end
   end
 
-  context "finished" do
+  context "when finished" do
     it 'has finished fields' do
       @planting = create(:finished_planting)
-      @planting.finished.should be true
-      @planting.finished_at.should be_an_instance_of Date
+      expect(@planting.finished).to be true
+      expect(@planting.finished_at).to be_an_instance_of Date
     end
 
     it 'has finished scope' do
       @p = create(:planting)
       @f = create(:finished_planting)
-      described_class.finished.should include @f
-      described_class.finished.should_not include @p
+      expect(described_class.finished).to include @f
+      expect(described_class.finished).not_to include @p
     end
 
     it 'has current scope' do
       @p = create(:planting)
       @f = create(:finished_planting)
-      described_class.current.should include @p
-      described_class.current.should_not include @f
+      expect(described_class.current).to include @p
+      expect(described_class.current).not_to include @f
     end
 
-    context "finished date validation" do
+    describe "finished date validation" do
       it 'requires finished date after planting date' do
         @f = build(:finished_planting, planted_at: '2014-01-01', finished_at: '2013-01-01')
-        @f.should_not be_valid
+        expect(@f).not_to be_valid
       end
 
       it 'allows just the planted date' do
         @f = build(:planting, planted_at: '2013-01-01', finished_at: nil)
-        @f.should be_valid
+        expect(@f).to be_valid
       end
 
       it 'allows just the finished date' do
         @f = build(:planting, finished_at: '2013-01-01', planted_at: nil)
-        @f.should be_valid
+        expect(@f).to be_valid
       end
     end
   end
 
-  context "failed" do
+  context "when failed" do
     let(:failed_planting) { create(:planting, failed: true) }
 
     it 'has a failed field' do
@@ -547,20 +547,20 @@ describe Planting do
     it 'has a failed scope' do
       @p = create(:planting)
       @f = create(:planting, failed: true)
-      described_class.failed.should include @f
-      described_class.failed.should_not include @p
+      expect(described_class.failed).to include @f
+      expect(described_class.failed).not_to include @p
     end
 
     it 'is not included in the active scope' do
       @p = create(:planting)
       @f = create(:planting, failed: true)
-      described_class.active.should include @p
-      described_class.active.should_not include @f
+      expect(described_class.active).to include @p
+      expect(described_class.active).not_to include @f
     end
 
     it 'cannot be finished and failed' do
       @f = build(:planting, finished: true, failed: true)
-      @f.should_not be_valid
+      expect(@f).not_to be_valid
     end
 
     it 'is not finished' do
@@ -575,7 +575,7 @@ describe Planting do
     expect(described_class.joins(:owner).all).not_to include(planting)
   end
 
-  context 'ancestry' do
+  describe 'ancestry' do
     let(:parent_seed) { create(:seed) }
     let(:planting) { create(:planting, parent_seed:) }
 
@@ -638,13 +638,17 @@ describe Planting do
     end
 
     # Most plantings never go on a layout, so they get plants only once theirs is used.
-    it "has none until its garden's layout is used, then one per plant" do
-      planting = planting_of(5)
-      expect(planting.plants).to be_empty
+    context "before its garden's layout is used" do
+      it { expect(planting_of(5).plants).to be_empty }
+    end
 
-      bed.prepare_layout
-      expect(planting.plants.count).to eq 5
-      expect(planting.plants).to all(satisfy { |plant| !plant.placed? })
+    context "after its garden's layout is used" do
+      let!(:planting) { planting_of(5) }
+
+      before { bed.prepare_layout }
+
+      it('has one plant per quantity') { expect(planting.plants.count).to eq 5 }
+      it('has plants that are unplaced') { expect(planting.plants).to all(satisfy { |plant| !plant.placed? }) }
     end
 
     it 'treats a blank quantity as a single plant, so there is something to place' do

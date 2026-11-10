@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "gardens/edit" do
-  context "logged in" do
+  context "when signed in" do
     before do
       @owner = create(:member)
       sign_in @owner

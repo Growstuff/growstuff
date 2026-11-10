@@ -25,12 +25,12 @@ describe "Delete crop spec" do
     end
   end
 
-  context "As a crop wrangler" do
+  context "when signed in as a crop wrangler" do
     include_context 'signed in crop wrangler'
     include_examples 'delete crop'
   end
 
-  context 'admin' do
+  context 'when signed in as an admin' do
     include_context 'signed in admin'
     include_examples 'delete crop'
   end

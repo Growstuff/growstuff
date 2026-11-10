@@ -7,7 +7,7 @@ describe Ability do
   let(:member) { create(:member) }
   let(:ability) { described_class.new(member) }
 
-  context 'garden collaborators' do
+  context 'when the member is garden collaborators' do
     let(:garden) { create(:garden) }
     let(:garden_collaborator) { create(:garden_collaborator, garden: garden, member: member) }
     let(:other_member) { create(:member) }
@@ -21,7 +21,7 @@ describe Ability do
       expect(ability).not_to be_able_to(:destroy, other_garden_collaborator)
     end
 
-    context 'as garden owner' do
+    context 'when the member is the garden owner' do
       let(:garden) { create(:garden, owner: member) }
 
       it 'can remove others as a collaborator' do

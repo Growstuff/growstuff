@@ -5,12 +5,12 @@ require 'rails_helper'
 describe Harvest do
   it "has an owner" do
     harvest = create(:harvest)
-    harvest.owner.should be_an_instance_of Member
+    expect(harvest.owner).to be_an_instance_of Member
   end
 
   it "has a crop" do
     harvest = create(:harvest)
-    harvest.crop.should be_an_instance_of Crop
+    expect(harvest.crop).to be_an_instance_of Crop
   end
 
   describe '#plant_part_name' do
@@ -27,25 +27,25 @@ describe Harvest do
     end
   end
 
-  context 'quantity' do
+  describe 'quantity' do
     it 'allows numeric quantities' do
       @harvest = build(:harvest, quantity: 33)
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
     end
 
     it 'allows decimal quantities' do
       @harvest = build(:harvest, quantity: 3.3)
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
     end
 
     it 'allows blank quantities' do
       @harvest = build(:harvest, quantity: '')
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
     end
 
     it 'allows nil quantities' do
       @harvest = build(:harvest, quantity: nil)
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
     end
 
     it 'cleans up zero quantities' do
@@ -55,51 +55,51 @@ describe Harvest do
 
     it "doesn't allow non-numeric quantities" do
       @harvest = build(:harvest, quantity: "99a")
-      @harvest.should_not be_valid
+      expect(@harvest).not_to be_valid
     end
   end
 
-  context 'units' do
+  describe 'units' do
     it 'all valid units should work' do
       ['individual', 'bunch', 'sprig', 'handful', 'litre',
        'pint', 'quart', 'bucket', 'basket', 'bushel', nil, ''].each do |s|
         @harvest = build(:harvest, unit: s)
-        @harvest.should be_valid
+        expect(@harvest).to be_valid
       end
     end
 
     it 'refuses invalid unit values' do
       @harvest = build(:harvest, unit: 'not valid')
-      @harvest.should_not be_valid
-      @harvest.errors[:unit].should include("not valid is not a valid unit")
+      expect(@harvest).not_to be_valid
+      expect(@harvest.errors[:unit]).to include("not valid is not a valid unit")
     end
 
     it 'sets unit to blank if quantity is blank' do
       @harvest = build(:harvest, quantity: '', unit: 'individual')
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
       expect(@harvest.unit).to be_nil
     end
   end
 
-  context 'weight quantity' do
+  describe 'weight quantity' do
     it 'allows numeric weight quantities' do
       @harvest = build(:harvest, weight_quantity: 33)
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
     end
 
     it 'allows decimal weight quantities' do
       @harvest = build(:harvest, weight_quantity: 3.3)
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
     end
 
     it 'allows blank weight quantities' do
       @harvest = build(:harvest, weight_quantity: '')
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
     end
 
     it 'allows nil weight quantities' do
       @harvest = build(:harvest, weight_quantity: nil)
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
     end
 
     it 'cleans up zero quantities' do
@@ -109,52 +109,52 @@ describe Harvest do
 
     it "doesn't allow non-numeric weight quantities" do
       @harvest = build(:harvest, weight_quantity: "99a")
-      @harvest.should_not be_valid
+      expect(@harvest).not_to be_valid
     end
   end
 
-  context 'weight units' do
+  describe 'weight units' do
     it 'all valid units should work' do
       ['kg', 'lb', 'oz', nil, ''].each do |s|
         @harvest = build(:harvest, weight_unit: s)
-        @harvest.should be_valid
+        expect(@harvest).to be_valid
       end
     end
 
     it 'refuses invalid weight unit values' do
       @harvest = build(:harvest, weight_unit: 'not valid')
-      @harvest.should_not be_valid
-      @harvest.errors[:weight_unit].should include("not valid is not a valid unit")
+      expect(@harvest).not_to be_valid
+      expect(@harvest.errors[:weight_unit]).to include("not valid is not a valid unit")
     end
 
     it 'sets weight_unit to blank if quantity is blank' do
       @harvest = build(:harvest, weight_quantity: '', weight_unit: 'kg')
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
       expect(@harvest.weight_unit).to be_nil
     end
   end
 
-  context "standardized weights" do
+  describe "standardized weights" do
     it 'converts from pounds' do
       @harvest = create(:harvest, weight_quantity: 2, weight_unit: "lb")
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
       expect(@harvest.reload.si_weight).to eq 0.907
     end
 
     it 'converts from ounces' do
       @harvest = create(:harvest, weight_quantity: 16, weight_unit: "oz")
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
       expect(@harvest.reload.si_weight).to eq 0.454
     end
 
     it 'leaves kg alone' do
       @harvest = create(:harvest, weight_quantity: 2, weight_unit: "kg")
-      @harvest.should be_valid
+      expect(@harvest).to be_valid
       expect(@harvest.reload.si_weight).to eq 2.0
     end
   end
 
-  context 'ordering' do
+  describe 'ordering' do
     it 'lists most recent harvests first' do
       @h1 = create(:harvest, created_at: 1.day.ago)
       @h2 = create(:harvest, created_at: 1.hour.ago)
@@ -162,7 +162,7 @@ describe Harvest do
     end
   end
 
-  context "stringification" do
+  describe "stringification" do
     let(:crop) { create(:crop, name: "apricot") }
 
     it "apricots" do
@@ -238,7 +238,7 @@ describe Harvest do
     end
   end
 
-  context 'photos' do
+  describe 'photos' do
     before do
       @harvest = create(:harvest)
     end
@@ -248,7 +248,7 @@ describe Harvest do
         expect(@harvest.default_photo).to be_nil
       end
 
-      context 'and with a crop(planting) photo' do
+      context 'with a crop (planting) photo' do
         before do
           @planting = create(:planting, crop: @harvest.crop)
           @photo = create(:photo, owner: @planting.owner)
@@ -269,7 +269,7 @@ describe Harvest do
       end
 
       it 'is found in has_photos scope' do
-        described_class.has_photos.should include(@harvest)
+        expect(described_class.has_photos).to include(@harvest)
       end
 
       it 'has a photo' do
@@ -279,14 +279,14 @@ describe Harvest do
       it 'deletes association with photos when photo is deleted' do
         @photo.destroy
         @harvest.reload
-        @harvest.photos.should be_empty
+        expect(@harvest.photos).to be_empty
       end
 
       it 'has a default photo' do
         expect(@harvest.default_photo).to eq @photo
       end
 
-      context 'and with a crop(planting) photo' do
+      context 'with a crop (planting) photo' do
         before do
           @planting = create(:planting, crop: @harvest.crop)
           @crop_photo = create(:photo, owner: @planting.owner)
@@ -298,7 +298,7 @@ describe Harvest do
         end
       end
 
-      context 'and a second photo' do
+      context 'with a second photo' do
         before do
           @photo2 = create(:photo, owner: @harvest.owner)
           @harvest.photos << @photo2

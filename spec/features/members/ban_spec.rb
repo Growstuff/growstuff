@@ -6,7 +6,7 @@ describe "members list" do
   let!(:spammer) { create(:member) }
   let!(:admin) { create(:admin_member) }
 
-  context 'logged in as admin' do
+  context 'when signed in as an admin' do
     include_context 'signed in admin'
     before { visit member_path(spammer) }
 

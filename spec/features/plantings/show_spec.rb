@@ -4,28 +4,28 @@ require "rails_helper"
 require 'custom_matchers'
 
 describe "Display a planting", :js do
-  context 'anonymous' do
+  context 'when anonymous' do
     before { visit planting_path(planting) }
 
-    context 'Perennial planted long ago' do
+    context 'with a perennial planted long ago' do
       let(:planting) { create(:perennial_planting) }
 
       it { expect(page).to have_text 'Perennial' }
     end
 
-    context 'Perennial finished' do
+    context 'with a finished perennial' do
       let(:planting) { create(:perennial_planting, planted_at: 6.years.ago, finished: true, finished_at: 1.year.ago) }
 
       it { expect(page).to have_text 'Perennial' }
     end
 
-    context 'Annual no predictions' do
+    context 'with an annual and no predictions' do
       let(:planting) { create(:annual_planting) }
 
       it { expect(page).to have_no_text 'Finish expected' }
     end
 
-    context 'Annual with predicted finish' do
+    context 'with an annual with a predicted finish' do
       let(:planting) { create(:predictable_planting, planted_at: 2.weeks.ago) }
 
       it { expect(page).to have_text '28%' }
@@ -34,19 +34,19 @@ describe "Display a planting", :js do
       it { expect(page).to have_text 'Finish expected' }
     end
 
-    context 'Annual finished' do
+    context 'with a finished annual' do
       let(:planting) { create(:annual_planting, planted_at: 100.days.ago, finished: true, finished_at: 1.day.ago) }
 
       it { expect(page).to have_text "Planted #{I18n.l(planting.planted_at)}" }
     end
 
-    context 'Planting with harvests' do
+    context 'with a planting with harvests' do
       let(:planting) { create(:harvest_with_planting).planting }
 
       it { expect(page).to have_text 'Harvest started' }
     end
 
-    context 'Planting with harvest predictable' do
+    context 'with a planting whose harvest is predictable' do
       let(:planting) do
         crop = create(:annual_crop)
         # 50 days to harvest
@@ -73,7 +73,7 @@ describe "Display a planting", :js do
     end
   end
 
-  context 'signed in' do
+  context 'when signed in' do
     include_context 'signed in member'
     before { visit planting_path(planting) }
 

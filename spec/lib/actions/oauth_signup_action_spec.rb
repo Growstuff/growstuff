@@ -36,7 +36,7 @@ describe 'Growstuff::OauthSignupAction' do
                                      })
     end
 
-    context 'no existing user' do
+    context 'without an existing user' do
       before do
         @auth['info']['email'] = 'no.existing.user@gmail.com'
 
@@ -82,8 +82,8 @@ describe 'Growstuff::OauthSignupAction' do
       end
     end
 
-    context 'an existing user' do
-      context 'who has never used oauth' do
+    context 'with an existing user' do
+      context 'when the member has never used oauth' do
         before do
           @auth['info']['email'] = 'never.used.oauth@yahoo.com'
 
@@ -125,7 +125,7 @@ describe 'Growstuff::OauthSignupAction' do
         end
       end
 
-      context 'who has used oauth' do
+      context 'when the member has used oauth' do
         before do
           @auth['info']['email'] = 'i.used.oauth.once@coolemail.com'
 

@@ -64,23 +64,23 @@ describe "Crop", :js do
     end
   end
 
-  context 'anon' do
+  context 'when anonymous' do
     before { visit new_crop_path }
 
     it { expect(page).to have_content 'You need to sign in' }
   end
 
-  context 'member' do
+  context 'when signed in as a member' do
     include_context 'signed in member'
     include_examples 'request crop'
   end
 
-  context 'crop wrangler' do
+  context 'when signed in as a crop wrangler' do
     include_context 'signed in crop wrangler'
     include_examples 'create crop'
   end
 
-  context 'admin' do
+  context 'when signed in as an admin' do
     include_context 'signed in admin'
     include_examples 'create crop'
   end

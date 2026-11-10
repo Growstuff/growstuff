@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe "forums", :js do
-  context 'signed in admin' do
+  context 'when signed in as an admin' do
     include_context 'signed in admin'
     it "navigating to forum admin with js" do
       visit admin_path

@@ -14,7 +14,7 @@ describe PlacesController do
 
     it "renders the index template for HTML request" do
       get :index
-      response.should render_template(:index)
+      expect(response).to render_template(:index)
     end
 
     it "leaves deleted members off the map" do
@@ -25,7 +25,7 @@ describe PlacesController do
 
     it "returns JSON with paginated located members" do
       get :index, format: :json
-      response.should be_successful
+      expect(response).to be_successful
       json = JSON.parse(response.body)
       expect(json).to be_an(Array)
       expect(json.first["login_name"]).to eq(@london_member.login_name)
@@ -41,17 +41,17 @@ describe PlacesController do
 
     it "assigns place name" do
       get :show, params: { place: @london_member.location }
-      assigns(:place).should eq @london_member.location
+      expect(assigns(:place)).to eq @london_member.location
     end
 
     it "assigns nearby members" do
       get :show, params: { place: @london_member.location }
-      assigns(:nearby_members).should eq [@london_member, @edinburgh_member]
+      expect(assigns(:nearby_members)).to eq [@london_member, @edinburgh_member]
     end
 
     it "returns JSON with nearby members" do
       get :show, params: { place: @london_member.location }, format: :json
-      response.should be_successful
+      expect(response).to be_successful
       json = JSON.parse(response.body)
       expect(json).to be_an(Array)
       expect(json.map { |m| m["login_name"] }).to eq([@london_member.login_name, @edinburgh_member.login_name])
@@ -62,7 +62,7 @@ describe PlacesController do
   describe "GET search" do
     it "redirects to the new place" do
       get :search, params: { new_place: "foo" }
-      response.should redirect_to place_path("foo")
+      expect(response).to redirect_to place_path("foo")
     end
   end
 end

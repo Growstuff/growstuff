@@ -153,13 +153,13 @@ describe PlantingsController do
     let(:my_planting) { create(:planting, owner: member) }
     let(:not_my_planting) { create(:planting) }
 
-    context 'my planting' do
+    context 'when it is my planting' do
       before { get :edit, params: { slug: my_planting } }
 
       it { expect(assigns(:planting)).to eq my_planting }
     end
 
-    context 'not my planting' do
+    context 'when it is not my planting' do
       before { get :edit, params: { slug: not_my_planting } }
 
       it { expect(response).to redirect_to(root_path) }

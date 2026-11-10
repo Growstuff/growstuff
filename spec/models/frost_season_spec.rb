@@ -21,7 +21,7 @@ describe FrostSeason do
       Date.new(2026, 4, 1) => :before_season, Date.new(2026, 8, 25) => :in_season,
       Date.new(2026, 9, 15) => :late_possible, Date.new(2026, 11, 7) => :passed
     }.each do |date, verdict|
-      context "on #{date}" do
+      context "when on #{date}" do
         let(:today) { date }
 
         it { expect(season.verdict).to eq verdict }

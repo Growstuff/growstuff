@@ -25,7 +25,7 @@ describe "seeds/edit" do
 
   it "doesn't revert tradable_to to nowhere" do
     @seed = create(:tradable_seed, owner: @member)
-    @seed.tradable_to.should_not eq "nowhere"
+    expect(@seed.tradable_to).not_to eq "nowhere"
     render
     assert_select "option[selected=selected]", text: @seed.tradable_to
   end

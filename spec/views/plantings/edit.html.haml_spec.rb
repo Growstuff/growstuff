@@ -22,7 +22,7 @@ describe "plantings/edit" do
                        create(:planting, garden: @garden, crop: @tomato, owner: @member))
   end
 
-  context "logged in" do
+  context "when signed in" do
     before do
       sign_in @member
       controller.stub(:current_user) { @member }

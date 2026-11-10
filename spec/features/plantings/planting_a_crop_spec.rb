@@ -10,7 +10,7 @@ describe "Planting a crop", :js do
     create(:planting, garden:, owner: member, planted_at: Date.parse("2013-03-10"))
   end
 
-  context 'signed in' do
+  context 'when signed in' do
     include_context 'signed in member'
     before { visit new_planting_path }
 

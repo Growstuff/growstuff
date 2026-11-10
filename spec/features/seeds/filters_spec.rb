@@ -166,7 +166,7 @@ describe "seed filters", :js do
       it { expect(page).to have_link('Show all seeds') }
     end
 
-    context "on the finished tab with none finished" do
+    context "when on the finished tab with none finished" do
       before do
         create(:seed, owner:, crop: tomato)
         visit member_seeds_path(owner, finished: 1)

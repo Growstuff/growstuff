@@ -48,7 +48,7 @@ describe SeedSourceHelper do
     it('has no ribbon') { expect(helper.seed_source_ribbon(seed)).to be_nil }
   end
 
-  context 'as a badge' do
+  context 'when shown as a badge' do
     let(:source) { 'retail outlet' }
     let(:page) { Capybara.string(helper.seed_source_ribbon(seed, ribbon: false).to_s) }
 
@@ -60,14 +60,14 @@ describe SeedSourceHelper do
     let(:page) { Capybara.string(helper.seed_source_control(seed).to_s) }
     let(:source) { 'retail outlet' }
 
-    context 'for someone who cannot change the seed' do
+    context 'when signed in as someone who cannot change the seed' do
       before { allow(helper).to receive(:can?).with(:update, seed).and_return(false) }
 
       it('is the plain ribbon') { expect(page).to have_css('span.seed-source-ribbon--bought', text: 'Bought') }
       it('has no choices') { expect(page).to have_no_css('.dropdown-menu') }
     end
 
-    context 'for the grower' do
+    context 'when signed in as the grower' do
       before do
         allow(helper).to receive(:can?).with(:update, seed).and_return(true)
         allow(helper).to receive(:seed_path) { |_seed, params| "/seeds/1?#{params.to_query}" }

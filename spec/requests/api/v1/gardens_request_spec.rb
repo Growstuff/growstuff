@@ -34,7 +34,7 @@ RSpec.describe 'Gardens' do
     expect(subject['data']).to include(garden_encoded_as_json_api)
   end
 
-  context 'filtering' do
+  describe 'filtering' do
     let!(:garden2) { create(:garden, active: false, garden_type: create(:garden_type)) }
 
     it 'filters by active' do

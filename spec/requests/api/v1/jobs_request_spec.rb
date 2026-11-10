@@ -25,7 +25,7 @@ RSpec.describe 'Jobs' do
     expect(subject['data']['id']).to eq(job.id.to_s)
   end
 
-  context 'filtering' do
+  describe 'filtering' do
     it 'filters by owner' do
       get("/api/v1/jobs?filter[owner-id]=#{job.owner.id}", params: {}, headers:)
 

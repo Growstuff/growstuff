@@ -167,7 +167,7 @@ describe PhotosController do
       it "attaches the photo to a harvest" do
         post :create, params: { photo: { source_id: photo.source_id, source: 'flickr' }, type: "harvest", id: harvest.id }
         expect(flash[:alert]).not_to be_present
-        Photo.last.harvests.first.should eq harvest
+        expect(Photo.last.harvests.first).to eq harvest
       end
 
       describe "doesn't attach a photo to a harvest twice" do

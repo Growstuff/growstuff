@@ -19,7 +19,7 @@ describe 'Commenting on a post' do
     page.percy_snapshot(page, name: 'Posting a comment')
   end
 
-  context "editing a comment" do
+  context "when editing a comment" do
     let(:existing_comment) { create(:comment, commentable: post, author: member) }
 
     before do

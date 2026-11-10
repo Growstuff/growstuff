@@ -32,24 +32,24 @@ describe "browse crops" do
     end
   end
 
-  context 'anon' do
+  context 'when anonymous' do
     include_examples 'shows crops'
     it { expect(page).to have_no_link "Add New Crop" }
   end
 
-  context 'member' do
+  context 'when signed in as a member' do
     include_context 'signed in member'
     include_examples 'shows crops'
     include_examples 'add new crop'
   end
 
-  context 'wrangler' do
+  context 'when signed in as a crop wrangler' do
     include_context 'signed in crop wrangler'
     include_examples 'shows crops'
     include_examples 'add new crop'
   end
 
-  context 'admin' do
+  context 'when signed in as an admin' do
     include_context 'signed in admin'
     include_examples 'shows crops'
     include_examples 'add new crop'

@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'custom_matchers'
 
 describe "Seeds", :js do
-  context 'signed in' do
+  context 'when signed in' do
     subject { page }
 
     include_context 'signed in member'
@@ -22,7 +22,7 @@ describe "Seeds", :js do
     # context 'no photos' do
     #   it { is_expected.to have_content 'no photos' }
     # end
-    context 'has one photo' do
+    context 'with one photo' do
       before do
         seed.photos = [photo]
         visit seed_path(seed)
@@ -34,7 +34,7 @@ describe "Seeds", :js do
       it { is_expected.to have_xpath("//a[contains(@href,'#{photo_path(photo)}')]") }
     end
 
-    context 'has 50 photos' do
+    context 'with 50 photos' do
       before do
         seed.photos = photos
 
