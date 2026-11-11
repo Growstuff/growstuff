@@ -32,3 +32,17 @@
       .fact-value.fact-type-value
         %strong.fact-type= garden.garden_type&.name || t('.unknown')
         %span= t('.garden_type')
+
+  - latest_ph = garden.soil_ph_readings.newest_first.first
+  - if latest_ph || can?(:record_soil_ph, garden)
+    .card.fact-card{ class: latest_ph ? '' : 'text-muted' }
+      %h3
+        = t('soil_ph_readings.heading')
+      .fact-value
+        %strong.fact-ph= latest_ph ? number_with_precision(latest_ph.ph, precision: 2, strip_insignificant_zeros: true) : t('.unknown')
+        - if latest_ph
+          %span= soil_ph_description(latest_ph.ph)
+        %span= latest_ph ? l(latest_ph.measured_on, format: :long) : t('soil_ph_readings.not_measured')
+      - if can?(:record_soil_ph, garden)
+        .mt-auto.pt-2
+          = link_to t('soil_ph_readings.record'), new_garden_soil_ph_reading_path(garden), class: 'btn btn-sm btn-secondary', 'aria-label': t('soil_ph_readings.title'), data: { 'bs-toggle': 'modal', 'bs-target': '#soil-ph-modal' }
