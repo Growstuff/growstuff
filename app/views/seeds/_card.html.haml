@@ -25,7 +25,7 @@
       - if seed.heirloom != 'unknown'
         %li.seedtitle--heirloom= seed.heirloom
       - if seed.tradable
-        %li= t('seeds.ui.will_trade', scope: t("seeds.ui.trade_scopes.#{seed.tradable_to}"))
+        %li= t('seeds.ui.will_trade', trade_scope: t("seeds.ui.trade_scopes.#{seed.tradable_to}"))
       - if seed.owner_location
         %li{title: seed.owner_location}
           = icon 'fas', 'map-marker'

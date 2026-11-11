@@ -546,6 +546,164 @@ ja:
       sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
       unknown: 不明
   seeds:
+    ui:
+      plant_seeds: 種をまく
+      saved_year: "%{year}年採種"
+      seeds_saved_by: "%{owner}が採種した種"
+      approx_seeds:
+        one: 約%{count}粒
+        other: 約%{count}粒
+      sow_before_year: "%{year}年より前にまく"
+      will_trade: "%{trade_scope}で交換可能"
+      unknown: 不明
+      no_descendants: この種からはまだ何も育てられていません。
+      activity_html: "%{crop}の種を採種しました"
+      change_crop: 作物を変更
+      saved_at: いつ採種しましたか？
+      seed_quantity: 種は何粒ですか？
+      plant_before_year: 播種期限（年）
+      trade_label: 交換範囲
+      variety: 品種
+      batch_number: ロット番号
+      maturity_min: 成熟までの日数（最短）
+      maturity_max: 成熟までの日数（最長）
+      row_spacing_cm: 畝間（cm）
+      organic: 有機栽培ですか？
+      gmo: 遺伝子組み換えですか？
+      heirloom: 伝統品種ですか？
+      source_question: どこから入手しましたか？
+      notes: メモ
+      errors:
+        one: '1件のエラーにより、この種を保存できませんでした：'
+        other: '%{count}件のエラーにより、この種を保存できませんでした：'
+      crop: 作物
+      crop_help_html: お探しの作物が見つかりませんか？ %{link}
+      request_crops: 新しい作物をリクエストする。
+      harvested_saved_at: いつ種を収穫・採種しましたか？
+      quantity: 数量
+      minimum: 最小
+      maximum: 最大
+      maturity: 成熟までの日数
+      range_to: ～
+      days: 日
+      row_spacing: 畝間
+      cm: cm
+      set_location_html: 忘れずに%{link}。
+      set_location: 所在地を設定してください
+      from_location_html: 所在地は%{location}です。
+      change_location: 所在地を変更する。
+      save: 保存
+      image_alt: "%{owner}が採種した%{crop}の種"
+      saved_by_html: "%{owner}が採種"
+      saved_from: 採種元
+      request_subject: あなたの%{crop}の種に興味があります
+      request_seeds: 種をリクエスト
+      request_seeds_purpose: 種をリクエストする
+      sow_before: 播種期限
+      seeds: 種
+      where_from: 入手元
+      type: 種類
+      shared_with: 共有範囲
+      packet_count:
+        one: "%{count}袋"
+        other: "%{count}袋"
+      saved_date: "%{date}採種"
+      packet: 種袋
+      nobody: 共有なし
+      save_crop_seeds: "%{crop}の種を保存"
+      close: 閉じる
+      adding_seeds: 種のストックに追加します
+      offer_trade: この種を交換に出しますか？
+      trade_from: はい、%{location}から交換に応じます
+      no_trade: いいえ、交換しません。
+      save_seeds: 種を保存
+      view_all: "%{owner}のすべての種を表示"
+      nearby_html: "%{location}付近の他の種やメンバーなどを表示"
+      you_have_it: 所有済み
+      past_sow_by: 播種期限切れ
+      not_specified: 未指定
+      seed_unit:
+        one: 粒
+        other: 粒
+      when_to_sow: 種まきの時期
+      how_to_sow: 種まきの方法
+      germination: 発芽
+      plant_before: 播種期限
+      heirloom_or_hybrid: 伝統品種または交配種
+      crop_image_alt: "%{crop}の画像"
+      owner_library_html: "%{owner}の種ライブラリ"
+      crop_seeds: "%{crop}の種"
+      shared_seeds: 栽培者が共有することを選んだ種
+      auth_prompt_html: 近くで種を交換している人を見るには、%{sign_in}または%{sign_up}してください。
+      sign_in: ログイン
+      sign_up: 新規登録
+      sorted_by_distance: あなたの所在地からの距離順に表示しています。
+      shared_summary: "%{gardeners}からの%{packets}。"
+      gardener_count:
+        one: 栽培者%{count}人
+        other: 栽培者%{count}人
+      privacy_explanation: 栽培者が共有を選んだ種だけがここに表示されます。市区町村は表示しますが、住所は公開しません。各種袋の横には栽培者のアバターが表示されます。種袋を開くと種の詳細を確認し、分けてもらうよう依頼できます。
+      whose_seeds: 誰の種
+      mine: 自分
+      following: フォロー中の人
+      near_me: 近くの人
+      everyone: すべての人
+      add_seeds: + 種を追加
+      search_summary:
+        one: "%{crop}の種が%{count}袋。"
+        other: "%{crop}の種が%{count}袋。"
+      variety_count:
+        one: "%{count}品種"
+        other: "%{count}品種"
+      open_shelf: ▸ 棚を開く
+      tick_season: 季節を選択：
+      germination_min: 発芽（最短日数）
+      germination_max: 発芽（最長日数）
+      in_stock: 在庫あり
+      finished: 終了
+      edit_title: 種を編集
+      owner_seeds: "%{owner}の種"
+      meta_description: 種を閲覧・検索できます。
+      open_data: オープンデータ
+      api_methods: APIメソッド
+      feed_title: "%{owner}の最近の種（%{site_name}）"
+      all_members: すべてのメンバー
+      record_title: "%{owner}の%{crop}の種"
+      feed_field: '%{label}：%{value}'
+      feed_trade: "%{location}から%{trade_scope}で交換可能"
+      unknown_location: 所在地不明
+      record_description: "%{owner}が共有する%{crop}の種。"
+      plantings: 植え付け
+      edit: 編集
+      no_notes: メモはまだありません。
+      descendants_heading: この種から育てた植物
+      add: 追加
+      photos: 写真
+      no_photos: 写真はまだありません。
+      all_year: 通年
+      seasons:
+        spring: 春
+        summer: 夏
+        autumn: 秋
+        winter: 冬
+      trade_scopes:
+        nowhere: 交換不可
+        locally: 近隣
+        nationally: 国内
+        internationally: 国際
+      stats:
+        packets:
+          one: 袋
+          other: 袋
+        varieties:
+          one: 品種
+          other: 品種
+        crops:
+          one: 作物
+          other: 作物
+        own:
+          one: 自家採種
+          other: 自家採種
     empty:
       no_finished: 使い切った種はまだありません。
       no_match: 条件に一致する種がありません。

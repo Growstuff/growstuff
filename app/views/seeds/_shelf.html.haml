@@ -2,17 +2,17 @@
 -# it, one pile for each variety. The first few shelves are open; the rest fold
 -# up to their bar.
 - stacks = seed_stacks(seeds, by_owner: everyone)
-- counts = [pluralize(seeds.size, 'packet')]
-- counts.unshift pluralize(stacks.map { |stack| stack.first.crop_id }.uniq.size, 'variety', plural: 'varieties') if stacks.size > 1
-- counts << pluralize(seeds.map(&:owner_id).uniq.size, 'gardener') if everyone
+- counts = [t('seeds.ui.packet_count', count: seeds.size)]
+- counts.unshift t('seeds.ui.variety_count', count: stacks.map { |stack| stack.first.crop_id }.uniq.size) if stacks.size > 1
+- counts << t('seeds.ui.gardener_count', count: seeds.map(&:owner_id).uniq.size) if everyone
 %details.seed-shelf{ open: position < 3, id: "shelf-#{shelf.respond_to?(:id) ? shelf.id : shelf.to_s.parameterize}" }
   %summary.seed-shelf-bar
     %h3
       = seed_shelf_title(shelf)
       %small= counts.join(' · ')
     - if owned && shelf.is_a?(Crop)
-      = link_to '+ add seeds', new_seed_path(crop_id: shelf.id), class: 'seed-shelf-open-only', data: { record_dialog: 'seeds', crop_id: shelf.id, crop_name: shelf.name }
-    %span.seed-shelf-closed-only ▸ Open shelf
+      = link_to t('seeds.ui.add_seeds'), new_seed_path(crop_id: shelf.id), class: 'seed-shelf-open-only', data: { record_dialog: 'seeds', crop_id: shelf.id, crop_name: shelf.name }
+    %span.seed-shelf-closed-only= t('seeds.ui.open_shelf')
   .seed-shelf-packets
     - stacks.each do |stack|
       = render 'seeds/stack', packets: stack, show_owner: everyone

@@ -1,15 +1,15 @@
 - content_for :breadcrumbs do
   - if @owner
-    %li.breadcrumb-item= link_to 'Seeds', seeds_path
-    %li.breadcrumb-item.active= link_to "#{@owner}'s seeds", member_seeds_path(@owner)
+    %li.breadcrumb-item= link_to t('seeds.ui.seeds'), seeds_path
+    %li.breadcrumb-item.active= link_to t('seeds.ui.owner_seeds', owner: @owner), member_seeds_path(@owner)
   - else
-    %li.breadcrumb-item.active= link_to 'Seeds', seeds_path
+    %li.breadcrumb-item.active= link_to t('seeds.ui.seeds'), seeds_path
 
 - content_for :scripts do
   = javascript_include_tag 'react_islands', defer: true
 
 - content_for :title, title('seeds', @owner, @crop, @planting)
-- content_for :meta_description, "Browse and search for seeds."
+- content_for :meta_description, t('seeds.ui.meta_description')
 
 = render 'seeds/page_head'
 
@@ -17,11 +17,11 @@
   = react_component 'SeedLibrary', seed_library_props(everyone: @everyone, crop_search: @crop.blank?, search_crop: @search_crop)
 
   %section.open-data
-    %h2 Open Data
+    %h2= t('seeds.ui.open_data')
     %p= t('label.data')
     - ['csv', 'json', 'rss'].each do |format|
       .badge.text-bg-info
         = link_to (@owner ? member_seeds_path(@owner, format: format) : seeds_path(format: format)) do
           = icon 'fas', format.to_s
           = format.upcase
-    .badge.text-bg-success= link_to 'API Methods', '/api-docs'
+    .badge.text-bg-success= link_to t('seeds.ui.api_methods'), '/api-docs'

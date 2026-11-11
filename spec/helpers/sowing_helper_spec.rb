@@ -23,6 +23,21 @@ describe SowingHelper do
 
     it('reads all twelve as all year') { expect(helper.sow_months_text((1..12).to_a)).to eq 'All year' }
     it('says nothing of none') { expect(helper.sow_months_text([])).to be_nil }
+
+    context 'with translated month names' do
+      it 'uses the current locale for month ranges' do
+        translated_months = [nil, *('A'..'L')]
+        allow(helper).to receive(:t).with('date.abbr_month_names').and_return(translated_months)
+
+        expect(helper.sow_months_text([3, 4])).to eq 'C–D'
+      end
+
+      it 'translates the all-year description' do
+        allow(helper).to receive(:t).with('seeds.ui.all_year').and_return('Translated all year')
+
+        expect(helper.sow_months_text((1..12).to_a)).to eq 'Translated all year'
+      end
+    end
   end
 
   describe '#days_range_text' do

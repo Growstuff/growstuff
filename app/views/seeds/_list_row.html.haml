@@ -6,11 +6,11 @@
       - if (variety = seed_variety(packets))
         %small.text-muted= variety
       - if packets.size > 1
-        %small.text-muted= pluralize packets.size, 'packet'
+        %small.text-muted= t('seeds.ui.packet_count', count: packets.size)
     - else
-      %small= link_to (seed.saved_at ? "Saved #{l(seed.saved_at, format: :short)}" : 'Packet'), seed_path(slug: seed.slug)
+      %small= link_to (seed.saved_at ? t('seeds.ui.saved_date', date: l(seed.saved_at, format: :short)) : t('seeds.ui.packet')), seed_path(slug: seed.slug)
   %td= seed.plant_before&.year
   %td= seed.quantity
   %td= seed.source&.capitalize
   %td= seed.heirloom.capitalize unless seed.heirloom == 'unknown'
-  %td= seed.tradable ? seed.tradable_to.capitalize : 'Nobody'
+  %td= seed.tradable ? t("seeds.ui.trade_scopes.#{seed.tradable_to}") : t('seeds.ui.nobody')

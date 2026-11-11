@@ -11,7 +11,7 @@ module SowingHelper
   def sow_months_text(months)
     months = Array(months).sort
     return if months.empty?
-    return 'All year' if months.size == 12
+    return t('seeds.ui.all_year') if months.size == 12
 
     runs = months.slice_when { |earlier, later| later != earlier + 1 }.to_a
     runs = [runs.last + runs.first, *runs[1...-1]] if runs.size > 1 && runs.first.first == 1 && runs.last.last == 12
@@ -37,6 +37,6 @@ module SowingHelper
   private
 
   def sow_month_name(month)
-    Date::ABBR_MONTHNAMES[month]
+    t('date.abbr_month_names')[month]
   end
 end
