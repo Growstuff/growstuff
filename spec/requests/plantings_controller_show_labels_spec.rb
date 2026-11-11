@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PlantingsController, '#show' do
+describe PlantingsController, '#show', flipper: :print_labels do
   let(:planting) { create(:planting, planted_at: Date.new(2026, 3, 10)) }
   let(:page) { Capybara.string(response.body) }
 

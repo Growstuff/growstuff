@@ -44,4 +44,4 @@
       .alert.alert-info.mb-0
         %p= t('.wikidata_missing')
         = button_to t('.fetch_wikidata'), wikidata_path, method: :post, class: 'btn btn-info btn-sm'
-    = render 'gardens/print_label', garden: garden if member_signed_in?
+    = render 'gardens/print_label', garden: garden if member_signed_in? && Feature.enabled?(:print_labels)

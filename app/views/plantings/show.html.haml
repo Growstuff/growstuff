@@ -145,7 +145,7 @@
           %h2= t('plantings.show.crop')
         = render 'plantings/crop', crop: @planting.crop
 
-      - if member_signed_in?
+      - if member_signed_in? && Feature.enabled?(:print_labels)
         %section.planting-print-label
           .section-header
             %h2= t('plantings.show.labels')
