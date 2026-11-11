@@ -669,6 +669,50 @@ de:
       text: Pflanzen, ernten und bewahren Sie Samen an einem Ort auf und sehen Sie, was in Ihrer Nähe gut wächst.
     updated: Der Garten wurde erfolgreich aktualisiert.
   harvests:
+    attribution: "%{crop}, geerntet von %{owner}"
+    breadcrumbs:
+      harvests: Ernten
+      owner_harvests: Ernten von %{owner}
+      plantings: Bepflanzungen
+    description:
+      activity_html: hat %{harvest} geerntet
+    edit:
+      title: Ernte bearbeiten
+      show: Anzeigen
+      back: Zurück
+    feed:
+      title: Neueste Ernten von %{owner} (%{site_name})
+      all_members: allen Mitgliedern
+    form:
+      errors:
+        one: 'Diese Ernte konnte aufgrund eines Fehlers nicht gespeichert werden:'
+        other: 'Diese Ernte konnte aufgrund von %{count} Fehlern nicht gespeichert werden:'
+      crop: Was haben Sie geerntet?
+      crop_from_html: "%{crop} aus %{garden}"
+      crop_help_html: Sie finden nicht, wonach Sie suchen? %{link}
+      request_crops: Neue Nutzpflanzen vorschlagen.
+      when: Wann?
+      plant_part: Geernteter Pflanzenteil
+      quantity: Wie viele?
+      weight_quantity: Gesamtgewicht
+      notes: Notizen
+      leave_blank: Leer lassen
+      rating: Gesamtbewertung der Bepflanzung
+      rating_help: Wie entwickelt sich die Bepflanzung?
+      poor: Schlecht
+      great: Großartig
+      save: Speichern
+    listing:
+      meta_description: Ernten durchstöbern und suchen.
+    owner:
+      harvested_by_html: Geerntet von %{owner}
+      view_all: Alle Ernten von %{owner} anzeigen
+      harvested_from_html: Geerntet von %{planting}
+      nearby_html: Weitere Ernten, Mitglieder und mehr in der Nähe von %{location} anzeigen
+    thumbnail:
+      heading:
+        one: "%{crop}-Ernte"
+        other: "%{crop}-Ernten"
     card:
       by: von
       harvested: geerntet

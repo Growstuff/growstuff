@@ -359,6 +359,50 @@ ja:
       set_active: アクティブに設定
       to_plant: して、この庭に何かを植えましょう。
   harvests:
+    attribution: "%{owner}が収穫した%{crop}"
+    breadcrumbs:
+      harvests: 収穫
+      owner_harvests: "%{owner}の収穫"
+      plantings: 植え付け
+    description:
+      activity_html: "%{harvest}を収穫しました"
+    edit:
+      title: 収穫を編集
+      show: 表示
+      back: 戻る
+    feed:
+      title: "%{owner}の最近の収穫（%{site_name}）"
+      all_members: すべてのメンバー
+    form:
+      errors:
+        one: '1件のエラーにより、この収穫を保存できませんでした：'
+        other: '%{count}件のエラーにより、この収穫を保存できませんでした：'
+      crop: 何を収穫しましたか？
+      crop_from_html: "%{garden}の%{crop}"
+      crop_help_html: お探しの作物が見つかりませんか？ %{link}
+      request_crops: 新しい作物をリクエストする。
+      when: いつですか？
+      plant_part: 収穫した植物の部位
+      quantity: いくつですか？
+      weight_quantity: 合計重量
+      notes: メモ
+      leave_blank: 空欄にする
+      rating: 植え付けの総合評価
+      rating_help: 植え付けの状態はいかがですか？
+      poor: 悪い
+      great: とても良い
+      save: 保存
+    listing:
+      meta_description: 収穫を閲覧・検索できます。
+    owner:
+      harvested_by_html: "%{owner}が収穫"
+      view_all: "%{owner}のすべての収穫を表示"
+      harvested_from_html: "%{planting}から収穫"
+      nearby_html: "%{location}付近の他の収穫やメンバーなどを表示"
+    thumbnail:
+      heading:
+        one: "%{crop}の収穫"
+        other: "%{crop}の収穫"
     card:
       by: '投稿者:'
       harvested: 収穫済み

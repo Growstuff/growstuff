@@ -1093,6 +1093,50 @@ en:
       unknown:
         name: Unknown
   harvests:
+    attribution: "%{crop} harvested by %{owner}"
+    breadcrumbs:
+      harvests: Harvests
+      owner_harvests: "%{owner}'s harvests"
+      plantings: Plantings
+    description:
+      activity_html: harvested %{harvest}
+    edit:
+      title: Editing harvest
+      show: Show
+      back: Back
+    feed:
+      title: Recent harvests from %{owner} (%{site_name})
+      all_members: all members
+    form:
+      errors:
+        one: '1 error prohibited this harvest from being saved:'
+        other: '%{count} errors prohibited this harvest from being saved:'
+      crop: What did you harvest?
+      crop_from_html: "%{crop} from %{garden}"
+      crop_help_html: Can't find what you're looking for? %{link}
+      request_crops: Request new crops.
+      when: When?
+      plant_part: Harvested Plant Part
+      quantity: How many?
+      weight_quantity: Weighing (in total)
+      notes: Notes
+      leave_blank: Leave blank
+      rating: Overall Rating - Planting
+      rating_help: How well is the planting going?
+      poor: Poor
+      great: Great
+      save: Save
+    listing:
+      meta_description: Browse and search for harvests.
+    owner:
+      harvested_by_html: Harvested by %{owner}
+      view_all: view all %{owner}'s harvests
+      harvested_from_html: Harvested from %{planting}
+      nearby_html: View other harvests, members and more near %{location}
+    thumbnail:
+      heading:
+        one: "%{crop} harvest"
+        other: "%{crop} harvests"
     card:
       by: by
       harvested: harvested
