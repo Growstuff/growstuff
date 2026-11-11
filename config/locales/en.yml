@@ -2576,24 +2576,44 @@ en:
     plant_for_season: Plant %{crop} for %{season} %{year}
   suggestions:
     climate:
+      add_to_jobs: Add to planned jobs
       average: average
-      collecting: We're collecting the weather for your area. It usually appears within a day.
+      best_range: Best at %{low}–%{high}°
+      choose: Open a season to see the crops that suit it.
+      collecting_html: We don't currently have any climate data for %{place}. We'll fetch it soon.
       days: Days reach
       degrees: "%{value}°"
+      duration:
+        one: 1 day
+        other: "%{count} days"
+      duration_range: "%{low} to %{high} days"
+      followed_grow: 'People you follow growing this: %{names}'
+      growing: You're growing this
       heading: Your climate through the year
-      intro: What the weather is usually like around %{place}, from the last %{years} years.
+      intro_html: What the weather is usually like around %{place}, from the last %{years} years.
+      load_failed: We couldn't load the crops. Try again.
+      loading: Loading crops…
       millimetres: "%{value} mm"
       months: "%{first} to %{last}"
       nights: Nights fall to
+      no_crops: Nothing we know of.
       no_data: We don't have weather for this season yet.
       now: Now
+      part_early: early
+      part_late: late
+      part_mid: mid
+      planned: In your planned jobs
+      planting: What gardeners near %{place} are planting in %{season}, most planted first.
       rain: Rain
+      ready_in: ready in %{part} %{season}
+      retry: Try again
+      still_grows: Also grows in %{season} in %{place}, but not at its best
+      suits: Grows best in %{season} in %{place}
+      timing: "%{days}, %{ready}"
       your_location: your location
     index:
-      lede: What gardeners at %{band} are planting this month, most planted first.
-      none: Nothing to suggest right now. Check back next month.
       not_located: Tell us where you garden and we can suggest what to sow.
-      title: Easy to sow in %{month} near you
+      title: What to grow near you
     update:
       disabled: We've stopped suggesting crops.
       enabled: Crop suggestions are back.
