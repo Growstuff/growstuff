@@ -2521,6 +2521,86 @@ zh:
       perennial: 多年生
       unknown: 未知
   plantings:
+    localization:
+      harvest_ready: 这次种植现在可以收获了
+      harvest_prediction: 预计距离收获的周数
+      add: 添加
+      activity_html: 种植了%{crop}
+      actions: '%{planting}的操作'
+      quantity: 数量：
+      planted: 种植日期：
+      set_date: 请设置种植日期以启用预测
+      insufficient_data: '%{crop}的数据不足，无法预测'
+      edit: 编辑种植记录
+      browse: 浏览和搜索种植记录。
+      plantings: 种植记录
+      owner_plantings: '%{owner}的种植记录'
+      include_finished: 包含已结束的种植
+      open_data: 开放数据
+      api_methods: API方法
+      no_plantings: 暂无种植记录
+      calendar_description: '%{owner}的种植记录'
+      feed_title: '%{owner}最近的种植记录（%{site}）'
+      all_members: 所有成员
+      feed_item: '%{location}的%{planting}'
+      grower_photo: '%{owner}种植的%{planting}'
+      grown_by_html: 种植者：%{owner}
+      in_garden_html: 种植地点：%{garden}
+      cultivate_prompt: 这是这块种植床最近的最后一次种植。您想近期翻耕土壤吗？
+      cultivate: 翻耕土壤
+      crop_photo: '%{crop}的照片'
+      variety_html: '%{crop}的一个品种'
+      annual_lifespan_html: 一年生植物，生长期约%{days}
+      annual: 一年生植物
+      perennial: 多年生植物
+      first_harvest_html: 首次收获约在种植%{days}后
+      last_harvest_html: 最后收获约在种植%{days}后
+      usual_sun_html: 通常在%{sun}下种植
+      more: 了解更多关于%{crop}的信息
+      days: {one: '%{count}天', other: '%{count}天'}
+      errors:
+        one: '%{count}个错误导致此种植记录无法保存：'
+        other: '%{count}个错误导致此种植记录无法保存：'
+      crop_label: 您种了什么？
+      cannot_find: 找不到您想要的作物？
+      request_crops: 申请添加新作物。
+      alternate_name: 您怎么称呼它？
+      alternate_help: 可选。您的种植记录将显示此名称，而不是作物的主要名称。
+      planting_in_html: 种植于%{garden}
+      choose_garden: 选择其他菜园
+      garden_label: 您种在哪里？
+      add_garden: 添加菜园。
+      when: 何时？
+      date_help: 使用未来日期规划种植，并订阅您的iCalendar日历以接收种植提醒
+      planted_from: 种植材料
+      sun_label: 向阳还是背阴？
+      how_many: 多少？
+      leave_blank: 留空
+      rating: 总体评价
+      rating_help: 种植情况如何？
+      poor: 差
+      great: 很好
+      description: 请提供更多信息
+      finished_date: 结束日期
+      optional: 可选
+      save: 保存
+      sun: {sun: 全日照, semi-shade: 半阴, shade: 阴处}
+      units:
+        plant: {one: 株植物, other: 株植物}
+        planting: {one: 次种植, other: 次种植}
+        harvest: {one: 次收获, other: 次收获}
+        seed: {one: 种子, other: 种子}
+        seedling: {one: 幼苗, other: 幼苗}
+        cutting: {one: 插条, other: 插条}
+        volunteer: {one: 自生苗, other: 自生苗}
+        root division: {one: 分株, other: 分株}
+        runner: {one: 匍匐茎, other: 匍匐茎}
+        bulb: {one: 鳞茎, other: 鳞茎}
+        root/tuber: {one: 根或块茎, other: 根或块茎}
+        bare root plant: {one: 裸根苗, other: 裸根苗}
+        advanced plant: {one: 大苗, other: 大苗}
+        graft: {one: 嫁接苗, other: 嫁接苗}
+        layering: {one: 压条苗, other: 压条苗}
     badges:
       days_until_finished: 距离完成的天数
       days_until_harvest: 距收获天数
