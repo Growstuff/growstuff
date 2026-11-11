@@ -1,3 +1,7 @@
+- content_for :buttonbar do
+  - if can? :create, Crop
+    = link_to 'Add New Crop', new_crop_path, class: 'btn btn-primary'
+
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to 'Crops', crops_path
   %li.breadcrumb-item.active= link_to 'Search', search_crops_path(term: @term)
@@ -27,6 +31,9 @@
   %p
     Try
     = link_to "browsing our crop database", crops_path
+    - if can? :create, Crop
+      or
+      = link_to "adding a new crop", new_crop_path
     instead.
 
 - else

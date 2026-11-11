@@ -475,6 +475,10 @@ zh:
       top_level_crops: 顶级作物
       yes: 是
   edit_crop: 编辑裁剪
+  flash:
+    photo_associations:
+      destroy:
+        notice: 已从该 %{kind} 中移除照片。该照片仍保留在 Growstuff 上。
   follows:
     followers:
       title: "%{member} 的关注者"
@@ -666,6 +670,19 @@ zh:
       heading: 开始你自己的花园
       text: 在一处种植、收割和保存种子，看看您附近有什么生长得很好。
     updated: 花园已成功更新。
+  hardiness:
+    levels:
+      half_hardy:
+        meaning: 能耐受轻微霜冻
+        name: 半耐寒
+      hardy:
+        meaning: 不怕霜冻
+        name: 耐寒
+      tender:
+        meaning: 霜冻会造成伤害
+        name: 不耐寒
+      unknown:
+        name: 未知
   harvests:
     card:
       by: 由
@@ -1097,7 +1114,22 @@ zh:
     weeks_until_finished: "%{number}周"
     weeks_until_harvest: "%{number} 收获前几周"
   layouts:
+    application:
+      breadcrumbs: 面包屑导航
+      home: 首页
+    head:
+      social_image_alt: Growstuff是一个种植食物的社区。图中有一个梨，以及向日葵、蜗牛、瓢虫、洒水壶和猫。
+      description: Growstuff是一个种植食物的社区。让我们一起学习种植食物。我们的所有数据都是开放数据。
+      member_feed: "%{site_name} – %{member}的帖子"
+      posts_feed: "%{site_name} – 所有成员的最新帖子"
+      crops_feed: "%{site_name} – 最近添加的作物"
+      plantings_feed: "%{site_name} – 所有成员最近的种植记录"
+    mailer:
+      description_html: 此邮件由%{site_name}（%{link}）发送，这是一个面向食物种植者的开源社区。
+    modal:
+      close: 关闭
     footer:
+      open_service: 开放服务
       about: 关于
       community_guidelines: 社区准则
       contact: 接触
@@ -1110,6 +1142,7 @@ zh:
       support: 支持
       terms_of_service: 服务条款
     header:
+      logo_alt: Growstuff标志（梨的插画）
       account: 帐户
       admin: 行政
       browse_crops: 浏览农作物
@@ -1139,6 +1172,7 @@ zh:
       toggle_navigation: 切换导航
       your_stuff: 你的东西
     menu:
+      label: 菜单
       about: 关于
       activities: 活动
       add: 添加
@@ -1179,6 +1213,11 @@ zh:
       sign_out: 登出
       sign_up: 免费加入
     nav:
+      my_records: "我的%{records}"
+      everyone_records: "所有成员的%{records}"
+      add_record: "添加%{record}"
+      record_purpose: "记录您的%{records}"
+      description: "%{site_name}帮助您记录家庭菜园的收获，了解菜园的产量。"
       my_drafts: 我的草稿
       suggest_something: 建议一些东西
   links:
@@ -1186,6 +1225,18 @@ zh:
   member_dismissals:
     create:
       dismissed: 我们不会再建议 %{name}。
+  member_emails:
+    decline:
+      declined: 好的。我们不会再询问，但在您于账户设置中添加电子邮箱之前，您将不会收到我们的通知。
+    resend:
+      sent: 我们已重新发送链接。
+      wait: 我们刚刚发送了链接。请稍等片刻，并检查您的垃圾邮件文件夹。
+    update:
+      blank: 请输入电子邮箱地址。
+      sent: 我们已向您的电子邮箱发送了确认链接。请访问该链接以进行确认。
+  member_names:
+    update:
+      saved: 谢谢，您的姓名已设置。
   members:
     avatar:
       alt: "%{name}的头像"
@@ -1226,6 +1277,7 @@ zh:
       skip_to_content: 跳至主要内容
     thumbnail:
       joined: "加入于 %{time} 前。"
+    confirm_email: "我们已向您的电子邮箱发送了一个链接。请访问该链接以开始接收提醒。"
     card:
       not_interested: 停止建议 %{name}
       visit: 参观 %{name} 的花园
@@ -1707,6 +1759,12 @@ zh:
     summer: 夏天
     winter: 冬天
   seeds:
+    hardiness:
+      half_hardy: 半耐寒（能耐受轻微霜冻）
+      hardy: 耐寒（不怕霜冻）
+      label: 耐寒性？
+      tender: 不耐寒（霜冻会造成伤害）
+      unknown: 未知
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
     facts:
       cancel: 取消
@@ -1782,6 +1840,11 @@ zh:
       join: 免费加入
       sign_in: 登录
       text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
+  suggested_jobs:
+    create:
+      added: 已将“%{name}”添加到您的计划工作中。
+      already_planned: 届时您已经有一项种植 %{crop} 的工作了。
+    plant_for_season: 在 %{year} 年%{season}种植 %{crop}
   suggestions:
     index:
       lede: "%{band} 的园丁本月正在种植什么，大部分先种植。"

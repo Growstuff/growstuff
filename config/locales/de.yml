@@ -475,6 +475,11 @@ de:
       top_level_crops: Nutzpflanzen auf oberster Ebene
       yes: Ja
   edit_crop: Zuschnitt bearbeiten
+  flash:
+    photo_associations:
+      destroy:
+        notice: Das Foto wurde von diesem %{kind} entfernt. Das Foto befindet sich weiterhin
+          auf Growstuff.
   follows:
     followers:
       title: "%{member}s Follower"
@@ -668,6 +673,19 @@ de:
       heading: Starten Sie Ihren eigenen Garten
       text: Pflanzen, ernten und bewahren Sie Samen an einem Ort auf und sehen Sie, was in Ihrer Nähe gut wächst.
     updated: Der Garten wurde erfolgreich aktualisiert.
+  hardiness:
+    levels:
+      half_hardy:
+        meaning: Leichter Frost ist kein Problem
+        name: Mäßig frosthart
+      hardy:
+        meaning: Frost ist kein Problem
+        name: Winterhart
+      tender:
+        meaning: Frost schädigt die Pflanze
+        name: Frostempfindlich
+      unknown:
+        name: Unbekannt
   harvests:
     card:
       by: von
@@ -1099,7 +1117,22 @@ de:
     weeks_until_finished: "%{number}WOCHEN"
     weeks_until_harvest: "%{number} Wochen bis zur Ernte"
   layouts:
+    application:
+      breadcrumbs: Brotkrumennavigation
+      home: Startseite
+    head:
+      social_image_alt: 'Growstuff, eine Gemeinschaft für den Anbau von Lebensmitteln: eine Birne mit einer Sonnenblume, einer Schnecke, einem Marienkäfer, einer Gießkanne und einer Katze.'
+      description: Growstuff ist eine Gemeinschaft für den Anbau von Lebensmitteln. Lernen wir gemeinsam, Lebensmittel anzubauen. Alle unsere Daten sind offen zugänglich.
+      member_feed: "%{site_name} – Beiträge von %{member}"
+      posts_feed: "%{site_name} – Neueste Beiträge aller Mitglieder"
+      crops_feed: "%{site_name} – Kürzlich hinzugefügte Nutzpflanzen"
+      plantings_feed: "%{site_name} – Neueste Pflanzungen aller Mitglieder"
+    mailer:
+      description_html: Diese E-Mail wurde von %{site_name} (%{link}) gesendet &mdash; einer Open-Source-Gemeinschaft für den Anbau von Lebensmitteln.
+    modal:
+      close: Schließen
     footer:
+      open_service: Offener Dienst
       about: Über
       community_guidelines: Community-Richtlinien
       contact: Kontakt
@@ -1112,6 +1145,7 @@ de:
       support: Support
       terms_of_service: Nutzungsbedingungen
     header:
+      logo_alt: Growstuff-Logo (Zeichnung einer Birne)
       account: Konto
       admin: Admin
       browse_crops: Zuschneiden durchsuchen
@@ -1141,6 +1175,7 @@ de:
       toggle_navigation: Navigation umschalten
       your_stuff: Your stuff.
     menu:
+      label: Menü
       about: Über
       activities: Aktivitäten
       add: Hinzufügen
@@ -1181,6 +1216,11 @@ de:
       sign_out: Abmelden
       sign_up: Kostenlos anmelden
     nav:
+      my_records: Meine %{records}
+      everyone_records: "%{records} aller Mitglieder"
+      add_record: "%{record} hinzufügen"
+      record_purpose: deine %{records} zu erfassen
+      description: "%{site_name} hilft dir, die Ernte aus deinem Garten zu erfassen und zu sehen, wie ertragreich er ist."
       my_drafts: Meine Entwürfe
       suggest_something: News which will delight you.
   links:
@@ -1188,6 +1228,21 @@ de:
   member_dismissals:
     create:
       dismissed: Wir werden %{name} nicht noch einmal vorschlagen.
+  member_emails:
+    decline:
+      declined: In Ordnung. Wir werden nicht mehr fragen, aber du erhältst keine Benachrichtigungen
+        von uns, bis du in deinen Kontoeinstellungen eine E-Mail-Adresse hinzufügst.
+    resend:
+      sent: Wir haben den Link erneut gesendet.
+      wait: Wir haben ihn vor Kurzem gesendet. Bitte warte eine Minute und überprüfe
+        deinen Spam-Ordner.
+    update:
+      blank: Bitte gib eine E-Mail-Adresse ein.
+      sent: Wir haben einen Link an deine E-Mail-Adresse gesendet. Folge ihm, um sie
+        zu bestätigen.
+  member_names:
+    update:
+      saved: Vielen Dank, dein Name wurde festgelegt.
   members:
     avatar:
       alt: "Avatar von %{name}"
@@ -1228,6 +1283,7 @@ de:
       skip_to_content: Zum Hauptinhalt springen
     thumbnail:
       joined: "Vor %{time} beigetreten."
+    confirm_email: "Wir haben einen Link an deine E-Mail-Adresse gesendet. Folge ihm, um Erinnerungen zu erhalten."
     card:
       not_interested: Hören Sie auf, %{name} vorzuschlagen
       visit: Besuchen Sie die Gärten von %{name}
@@ -1711,6 +1767,12 @@ de:
     summer: Sommer
     winter: Winter
   seeds:
+    hardiness:
+      half_hardy: Mäßig frosthart (leichter Frost ist kein Problem)
+      hardy: Winterhart (Frost ist kein Problem)
+      label: Winterhärte?
+      tender: Frostempfindlich (Frost schädigt die Pflanze)
+      unknown: Unbekannt
     added_to_stash: "%{crop} Seed wurde erfolgreich zu deinem Vorrat hinzugefügt."
     facts:
       cancel: Abbrechen
@@ -1786,6 +1848,12 @@ de:
       join: Kostenlos anmelden
       sign_in: Anmelden
       text: Eine Community für den Lebensmittelanbau. Halten Sie fest, was Sie pflanzen und ernten, und tauschen Sie Saatgut sowie Tipps mit anderen Gärtnern aus. Treten Sie kostenlos bei oder melden Sie sich an, um mit %{name} über das Angebot auf dem Stand in Kontakt zu treten.
+  suggested_jobs:
+    create:
+      added: '"%{name}" zu deinen geplanten Aufgaben hinzugefügt.'
+      already_planned: Du hast zu diesem Zeitpunkt bereits eine Aufgabe zum Pflanzen
+        von %{crop}.
+    plant_for_season: "%{crop} für %{season} %{year} pflanzen"
   suggestions:
     index:
       lede: Was Gärtner bei %{band} in diesem Monat pflanzen, pflanzen die meisten zuerst.

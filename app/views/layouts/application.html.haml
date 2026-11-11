@@ -17,9 +17,9 @@
     .container
       #maincontainer
         - if content_for?(:breadcrumbs)
-          %nav{ "aria-label" => "breadcrumb" }
+          %nav{ "aria-label" => t('.breadcrumbs') }
             %ol.breadcrumb
-              %li.breadcrumb-item= link_to 'Home', root_path
+              %li.breadcrumb-item= link_to t('.home'), root_path
               = yield(:breadcrumbs)
         - if content_for?(:buttonbar)
           = yield(:buttonbar)

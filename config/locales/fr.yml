@@ -475,6 +475,11 @@ fr:
       top_level_crops: Cultures de niveau supérieur
       yes: Oui
   edit_crop: Modifier le rognage
+  flash:
+    photo_associations:
+      destroy:
+        notice: La photo a été retirée de cet élément (%{kind}). La photo est toujours
+          sur Growstuff.
   follows:
     followers:
       title: "Abonnés de %{member}"
@@ -668,6 +673,19 @@ fr:
       heading: Créez votre propre jardin
       text: Plantez, récoltez et conservez les graines en un seul endroit, et voyez ce qui pousse bien près de chez vous.
     updated: Le jardin a été mis à jour avec succès.
+  hardiness:
+    levels:
+      half_hardy:
+        meaning: Tolère une légère gelée
+        name: Semi-rustique
+      hardy:
+        meaning: Tolère bien le gel
+        name: Rustique
+      tender:
+        meaning: Le gel l'endommage
+        name: Gélive
+      unknown:
+        name: Inconnu
   harvests:
     card:
       by: par
@@ -1101,7 +1119,22 @@ fr:
     weeks_until_finished: "%{number} semaines"
     weeks_until_harvest: "%{number} semaines avant LA récolte"
   layouts:
+    application:
+      breadcrumbs: Fil d’Ariane
+      home: Accueil
+    head:
+      social_image_alt: 'Growstuff, une communauté de personnes qui cultivent des aliments : une poire avec un tournesol, un escargot, une coccinelle, un arrosoir et un chat.'
+      description: Growstuff est une communauté de personnes qui cultivent des aliments. Apprenons à cultiver ensemble. Toutes nos données sont ouvertes.
+      member_feed: "%{site_name} – Publications de %{member}"
+      posts_feed: "%{site_name} – Publications récentes de tous les membres"
+      crops_feed: "%{site_name} – Plantes ajoutées récemment"
+      plantings_feed: "%{site_name} – Plantations récentes de tous les membres"
+    mailer:
+      description_html: Ce courriel a été envoyé par %{site_name} (%{link}) &mdash; une communauté libre pour les personnes qui cultivent des aliments.
+    modal:
+      close: Fermer
     footer:
+      open_service: Service ouvert
       about: À propos
       community_guidelines: Orientations communautaires
       contact: Contact
@@ -1114,6 +1147,7 @@ fr:
       support: Soutien
       terms_of_service: Conditions d'utilisation
     header:
+      logo_alt: Logo de Growstuff (dessin d’une poire)
       account: Client en Compte
       admin: Admin
       browse_crops: Parcourir les cultures
@@ -1143,6 +1177,7 @@ fr:
       toggle_navigation: Navigation à bascule
       your_stuff: vos trucs
     menu:
+      label: Menu
       about: À propos
       activities: Activités
       add: Ajouter
@@ -1183,6 +1218,11 @@ fr:
       sign_out: Se déconnecter
       sign_up: S'inscrire gratuitement
     nav:
+      my_records: "Mes %{records}"
+      everyone_records: "%{records} de tous les membres"
+      add_record: "Ajouter : %{record}"
+      record_purpose: "enregistrer vos %{records}"
+      description: "%{site_name} vous aide à suivre les récoltes de votre potager et à évaluer sa productivité."
       my_drafts: Mes brouillons
       suggest_something: Faire une suggestion
   links:
@@ -1190,6 +1230,21 @@ fr:
   member_dismissals:
     create:
       dismissed: Nous ne suggérerons plus %{name}.
+  member_emails:
+    decline:
+      declined: D'accord. Nous ne vous le redemanderons plus, mais vous ne recevrez
+        pas de notifications de notre part tant que vous n'aurez pas ajouté une adresse
+        e-mail dans les paramètres de votre compte.
+    resend:
+      sent: Nous avons renvoyé le lien.
+      wait: Nous venons de l'envoyer. Patientez une minute et vérifiez votre dossier
+        de spam.
+    update:
+      blank: Veuillez saisir une adresse e-mail.
+      sent: Nous avons envoyé un lien à votre adresse e-mail. Suivez-le pour la confirmer.
+  member_names:
+    update:
+      saved: Merci, votre nom est enregistré.
   members:
     avatar:
       alt: "Avatar de %{name}"
@@ -1230,6 +1285,7 @@ fr:
       skip_to_content: Passer au contenu principal
     thumbnail:
       joined: "Membre depuis %{time}."
+    confirm_email: "Nous avons envoyé un lien à votre adresse e-mail. Suivez-le pour commencer à recevoir des rappels."
     card:
       not_interested: Arrêter de suggérer %{name}
       visit: Visitez les jardins de %{name}
@@ -1713,6 +1769,12 @@ fr:
     summer: Été
     winter: L'hiver
   seeds:
+    hardiness:
+      half_hardy: Semi-rustique (tolère une légère gelée)
+      hardy: Rustique (tolère bien le gel)
+      label: Rusticité ?
+      tender: Gélive (le gel l'endommage)
+      unknown: Inconnu
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
     facts:
       cancel: Annuler
@@ -1788,6 +1850,11 @@ fr:
       join: Rejoindre gratuitement
       sign_in: Se connecter
       text: Une communauté pour faire pousser des aliments. Notez ce que vous plantez et récoltez, et échangez des graines et des astuces avec d'autres jardiniers. Rejoignez-nous gratuitement ou connectez-vous pour contacter %{name} au sujet de son stand.
+  suggested_jobs:
+    create:
+      added: '"%{name}" ajouté à vos tâches planifiées.'
+      already_planned: Vous avez déjà une tâche pour planter %{crop} à cette date.
+    plant_for_season: Planter %{crop} pour %{season} %{year}
   suggestions:
     index:
       lede: Ce que les jardiniers de %{band} plantent ce mois-ci, la plupart plantés en premier.

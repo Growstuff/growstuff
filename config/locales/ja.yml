@@ -49,6 +49,10 @@ ja:
     inline_form:
       add_comment: コメントを追加
       post_comment: コメントを投稿
+  flash:
+    photo_associations:
+      destroy:
+        notice: その%{kind}から写真を削除しました。写真は引き続きGrowstuffに残ります。
   follows:
     followers:
       title: "%{member}のフォロワー"
@@ -358,6 +362,19 @@ ja:
       inactive_notice: この庭は休止中です。
       set_active: アクティブに設定
       to_plant: して、この庭に何かを植えましょう。
+  hardiness:
+    levels:
+      half_hardy:
+        meaning: 軽い霜なら耐えられます
+        name: 半耐寒性
+      hardy:
+        meaning: 霜に耐えられます
+        name: 耐寒性
+      tender:
+        meaning: 霜で傷みます
+        name: 非耐寒性
+      unknown:
+        name: 不明
   harvests:
     card:
       by: '投稿者:'
@@ -404,8 +421,45 @@ ja:
       intro: "%{site_name}はガーデナーのコミュニティです。"
       sign_in_mastodon: Mastodonでログイン
   layouts:
+    application:
+      breadcrumbs: パンくずリスト
+      home: ホーム
+    head:
+      social_image_alt: Growstuffは食べ物を育てる人たちのコミュニティです。洋梨と、ひまわり、カタツムリ、てんとう虫、じょうろ、猫が描かれています。
+      description: Growstuffは食べ物を育てる人たちのコミュニティです。一緒に食べ物の育て方を学びましょう。すべてのデータはオープンデータです。
+      member_feed: "%{site_name} – %{member}さんの投稿"
+      posts_feed: "%{site_name} – 全メンバーの最近の投稿"
+      crops_feed: "%{site_name} – 最近追加された作物"
+      plantings_feed: "%{site_name} – 全メンバーの最近の作付け"
+    mailer:
+      description_html: このメールは、食べ物を育てる人たちのためのオープンソースコミュニティ、%{site_name}（%{link}）から送信されました。
+    modal:
+      close: 閉じる
+    header:
+      logo_alt: Growstuffのロゴ（洋梨のイラスト）
+    menu:
+      label: メニュー
+    nav:
+      my_records: "自分の%{records}"
+      everyone_records: "みんなの%{records}"
+      add_record: "%{record}を追加"
+      record_purpose: "自分の%{records}を記録する"
+      description: "%{site_name}では、家庭菜園の収穫を記録し、どれだけ収穫できたかを確認できます。"
     footer:
+      open_service: オープンサービス
       donate: 寄付 - コーヒーを奢る
+  member_emails:
+    decline:
+      declined: 了解しました。今後は表示しませんが、アカウント設定でメールアドレスを追加するまで通知は届きません。
+    resend:
+      sent: リンクを再送信しました。
+      wait: 先ほど送信しました。少し待ってから、迷惑メールフォルダも確認してください。
+    update:
+      blank: メールアドレスを入力してください。
+      sent: メールアドレスにリンクを送信しました。リンクを開いて確認を完了してください。
+  member_names:
+    update:
+      saved: ありがとうございます。名前が設定されました。
   members:
     avatar:
       alt: "%{name}のアバター"
@@ -456,6 +510,7 @@ ja:
       instructions_html: "他のGrowstuffメールの配信停止を希望される場合は、%{link}からお手続きいただけます"
       settings_page: 設定ページ
       title: "%{member}の登録解除"
+    confirm_email: "メールアドレスにリンクを送信しました。リンクを開いてリマインダーの受信を開始してください。"
     contact:
       flickr_logo: Flickrロゴ
       heading: 連絡先
@@ -593,6 +648,12 @@ ja:
       sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
       unknown: 不明
   seeds:
+    hardiness:
+      half_hardy: 半耐寒性（軽い霜なら耐えられます）
+      hardy: 耐寒性（霜に耐えられます）
+      label: 耐寒性？
+      tender: 非耐寒性（霜で傷みます）
+      unknown: 不明
     empty:
       no_finished: 使い切った種はまだありません。
       no_match: 条件に一致する種がありません。
@@ -684,6 +745,11 @@ ja:
       back: 戻る
       crop_label: "作物:"
       scientific_name_label: "学名:"
+  suggested_jobs:
+    create:
+      added: 計画した仕事に「%{name}」を追加しました。
+      already_planned: その時期に%{crop}を植える仕事が既にあります。
+    plant_for_season: "%{year}年%{season}向けに%{crop}を植える"
   stalls:
     about_growstuff:
       join: 無料で参加
