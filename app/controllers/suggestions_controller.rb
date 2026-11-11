@@ -90,10 +90,10 @@ class SuggestionsController < ApplicationController
 
   # How long the crop takes, and when it is ready if sown at the start of the season: "90 to 120 days, ready in early autumn".
   def timing(record, season)
-    return unless record&.gmin
+    return unless record&.gmin&.positive?
 
     low = record.gmin
-    high = record.gmax || low
+    high = record.gmax&.positive? ? record.gmax : low
     days = high == low ? t('suggestions.climate.duration', count: low) : t('suggestions.climate.duration_range', low:, high:)
     ready = @climate.ready(season, (low + high) / 2.0)
     t('suggestions.climate.timing', days:, ready: t('suggestions.climate.ready_in', part:   t("suggestions.climate.part_#{ready[:part]}"),
