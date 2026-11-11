@@ -265,7 +265,6 @@ fr:
       breadcrumb_conversations: Conversations
       participants: Participants
       reply_publicly: Répondre
-      public_reply_hint: Poursuivez cette discussion dans le sujet d’origine. Votre commentaire sera public.
       send_private_message: Envoyer un message privé
       private_reply_hint: Ce message est privé et réservé aux participants indiqués ci-dessus. Il n’apparaîtra pas dans le sujet public.
       sent_on: "le %{date}"

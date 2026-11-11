@@ -34,7 +34,6 @@
                   #{ strip_tags markdownify(message.body) }
         %li.list-group-item
           - if @discussion_topic
-            %p= t('.public_reply_hint')
             = link_to t('.reply_publicly'), polymorphic_path(@discussion_topic, anchor: @discussion_topic.is_a?(Photo) ? 'comments' : 'new-comment'), class: 'btn btn-primary'
             %details.mt-3
               %summary= t('.send_private_message')
