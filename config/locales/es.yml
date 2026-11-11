@@ -1981,11 +1981,74 @@ es:
       title: a quien seguir
       why: 'Cultiva los mismos cultivos: %{crops}'
   notifier_mailer:
+    crop_request:
+      approve_or_reject: aprobar o rechazar esta solicitud
+      approved_intro: "¡Tu solicitud para el nuevo cultivo: %{link} ha sido aprobada! ¡Gracias por ayudarnos a que nuestra lista esté más completa!"
+      approved_subject: "%{crop_name} ha sido aprobado"
+      harvest_crop: Cosechar %{crop_name}
+      name: "Nombre: %{name}"
+      new_intro: "%{login_name} ha solicitado un nuevo cultivo en %{sitename}"
+      new_subject: "%{login_name} ha solicitado %{crop_name} como nuevo cultivo"
+      not_specified: no especificado
+      notes: "Notas: %{notes}"
+      plant_crop: Sembrar %{crop_name}
+      rejected_intro: "Lo sentimos, pero tu solicitud para el nuevo cultivo: %{link} ha sido rechazada por el siguiente motivo: %{reason}"
+      rejected_subject: "%{crop_name} ha sido rechazado"
+      stash_crop: Guardar semillas de %{crop_name}
+      thanks: ¡Gracias por tu ayuda!
+      wikipedia_url: "URL de Wikipedia: %{url}"
+      wrangler_prompt: Como moderador de cultivos, puedes %{link}.
     harvest_reminder:
       heading: Próximas cosechas en tu jardín
-      intro: 'Según nuestras predicciones, es probable que las siguientes plantas de su jardín estén listas para la cosecha durante la próxima semana:'
+      intro: "Según nuestras predicciones, es probable que las siguientes plantas de su jardín estén listas para la cosecha durante la próxima semana:"
+      predicted_date: "(Fecha prevista de cosecha: %{date})"
       subject: Próximas cosechas en tu jardín - %{sitename}
       unsubscribe: Darse de baja de los recordatorios de cosecha
+      unsubscribe_prompt: ¿No deseas recibir más estos correos electrónicos?
+    outlook:
+      expected_weather: Si las próximas dos semanas son como las del año pasado, espera %{figures}.
+      heading: Tu jardín ahora mismo
+      planting_at_latitude: "Los jardineros en tu latitud están sembrando esto actualmente:"
+      recent_weather: "Del %{from} al %{to}: %{figures}."
+      season_intro: Es %{season}
+      season_place: en %{place}.
+      set_location: Establece tu ubicación
+      soil_temp: La temperatura del suelo era de %{soil} el %{date}.
+      unlocated_prompt: Dinos dónde cultivas y este correo electrónico incluirá tu estación local, el clima y qué sembrar.
+      worth_sowing: Vale la pena sembrar ahora
+    planting_reminder:
+      add_planting: Abre tu panel para añadir una siembra.
+      by_planting: plantando tu primer cultivo.
+      congratulations: ¡Felicitaciones!, tienes plantas listas para cosechar
+      empty_intro: "%{sitename} te permite seguir los alimentos que cultivas en tu jardín y ver qué plantan otras personas cerca de ti."
+      get_started: Comenzar ahora
+      heading: Tu informe semanal de progreso de %{sitename}
+      late: Atrasado
+      late_intro: Estas plantas están al final de su ciclo. %{login_link} y avísanos si ya no las estás cultivando, y dejaremos de seguirlas.
+      log_in: Inicia sesión
+      planted_on: plantado el %{date}
+      planting_question: ¿Quieres rastrear y predecir una siembra en tu jardín?
+      progress_report: Informe de progreso
+      progress_status: ha crecido un %{percentage}% y quedan %{days} días.
+      ready_to_harvest: Listo para cosechar
+      subject: Tu informe de progreso de %{month_year} en %{sitename}
+      super_late: Muy atrasado
+      super_late_intro: Sospechamos que las siguientes plantas terminaron hace mucho tiempo y ya no necesitan seguimiento. Puedes marcarlas como terminadas.
+      unsubscribe: Darse de baja de los recordatorios de siembra
+      unsubscribe_prompt: ¿No deseas recibir más estos correos electrónicos?
+    shared:
+      garden_overview: Resumen de tu jardín
+      garden_overview_intro: Haz un seguimiento y pronostica todo tu jardín, y mantén actualizados los registros de tu jardín en
+      greeting: Hola %{login_name},
+      harvest_question: ¿Has cosechado algo últimamente?
+      or_on: o en
+      profile_page: tu página de perfil
+      record_harvest: Abre tu panel para registrar una cosecha.
+      see_you_soon: ¡Hasta pronto en %{sitename}!
+      signature: El equipo de %{sitename}.
+    whats_new:
+      feature_count: "Tenemos %{count} novedades para contarte:"
+      heading: Novedades desde nuestro último correo
   nurseries:
     show:
       dont_need: no necesito uno

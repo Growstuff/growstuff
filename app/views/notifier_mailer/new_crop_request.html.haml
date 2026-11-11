@@ -1,24 +1,18 @@
 %p
-  Hello
-  = @member.login_name
-  ,
+  = t('notifier_mailer.shared.greeting', login_name: @member.login_name)
 
 %p
-  = @request.requester.login_name
-  has requested a new crop on
-  = ENV['GROWSTUFF_SITE_NAME']
+  = t('notifier_mailer.crop_request.new_intro', login_name: @request.requester.login_name, sitename: ENV['GROWSTUFF_SITE_NAME'])
 
 %ul
-  %li Name: #{@request.name}
-  %li Wikipedia URL: #{@request.en_wikipedia_url.present? ? @request.en_wikipedia_url : 'not specified'}
-  %li Notes: #{@request.request_notes}
+  %li= t('notifier_mailer.crop_request.name', name: @request.name)
+  %li= t('notifier_mailer.crop_request.wikipedia_url', url: @request.en_wikipedia_url.presence || t('notifier_mailer.crop_request.not_specified'))
+  %li= t('notifier_mailer.crop_request.notes', notes: @request.request_notes)
 
 %p
-  As a crop wrangler, you can
-  = link_to "approve or reject this request", edit_crop_url(@request)
-  \.
+  = t('notifier_mailer.crop_request.wrangler_prompt', link: link_to(t('notifier_mailer.crop_request.approve_or_reject'), edit_crop_url(@request))).html_safe
 
 %p
-  Thanks for your help!
+  = t('notifier_mailer.crop_request.thanks')
 
 = render partial: 'signature'
