@@ -1702,6 +1702,8 @@ de:
     winter: Winter
   seeds:
     ui:
+      month_abbreviations: [Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
+      unknown_quiet: unbekannt
       plant_seeds: Samen aussäen
       saved_year: geerntet %{year}
       seeds_saved_by: Samen geerntet von %{owner}
@@ -1710,6 +1712,9 @@ de:
         other: ca. %{count} Samen
       sow_before_year: aussäen vor %{year}
       will_trade: Tausch %{trade_scope}
+      organic_fact: Bio
+      gmo_fact: Gentechnik
+      save_crop_seeds_sentence: "%{crop}-Samen speichern."
       unknown: unbekannt
       no_descendants: Aus diesen Samen wurde noch nichts angebaut.
       activity_html: hat Samen von %{crop} gesammelt

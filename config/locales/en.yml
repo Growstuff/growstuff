@@ -2549,6 +2549,8 @@ en:
     winter: Winter
   seeds:
     ui:
+      month_abbreviations: [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+      unknown_quiet: unknown
       plant_seeds: Plant seeds
       saved_year: saved %{year}
       seeds_saved_by: seeds saved by %{owner}
@@ -2557,6 +2559,9 @@ en:
         other: approx. %{count} seeds
       sow_before_year: sow before %{year}
       will_trade: will trade %{trade_scope}
+      organic_fact: Organic
+      gmo_fact: GMO
+      save_crop_seeds_sentence: Save %{crop} seeds.
       unknown: Unknown
       no_descendants: Nothing has been grown from these seeds yet.
       activity_html: saved %{crop} seeds

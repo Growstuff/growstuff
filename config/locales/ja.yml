@@ -577,6 +577,8 @@ ja:
       unknown: 不明
   seeds:
     ui:
+      month_abbreviations: [1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
+      unknown_quiet: 不明
       plant_seeds: 種をまく
       saved_year: "%{year}年採種"
       seeds_saved_by: "%{owner}が採種した種"
@@ -585,6 +587,9 @@ ja:
         other: 約%{count}粒
       sow_before_year: "%{year}年より前にまく"
       will_trade: "%{trade_scope}で交換可能"
+      organic_fact: 有機栽培
+      gmo_fact: 遺伝子組み換え
+      save_crop_seeds_sentence: "%{crop}の種を保存。"
       unknown: 不明
       no_descendants: この種からはまだ何も育てられていません。
       activity_html: "%{crop}の種を採種しました"

@@ -1701,6 +1701,8 @@ es:
     winter: Invierno
   seeds:
     ui:
+      month_abbreviations: [ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]
+      unknown_quiet: desconocido
       plant_seeds: Sembrar semillas
       saved_year: guardadas en %{year}
       seeds_saved_by: semillas guardadas por %{owner}
@@ -1709,6 +1711,9 @@ es:
         other: aprox. %{count} semillas
       sow_before_year: sembrar antes de %{year}
       will_trade: intercambio %{trade_scope}
+      organic_fact: Ecológicas
+      gmo_fact: Transgénicas
+      save_crop_seeds_sentence: Guardar semillas de %{crop}.
       unknown: desconocido
       no_descendants: Todavía no se ha cultivado nada con estas semillas.
       activity_html: guardó semillas de %{crop}

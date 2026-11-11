@@ -1694,6 +1694,8 @@ zh:
     winter: 冬天
   seeds:
     ui:
+      month_abbreviations: [1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
+      unknown_quiet: 未知
       plant_seeds: 播种
       saved_year: "%{year}年留种"
       seeds_saved_by: 由%{owner}留种
@@ -1702,6 +1704,9 @@ zh:
         other: 约%{count}粒种子
       sow_before_year: 在%{year}年之前播种
       will_trade: 可在%{trade_scope}交换
+      organic_fact: 有机
+      gmo_fact: 转基因
+      save_crop_seeds_sentence: 保存%{crop}种子。
       unknown: 未知
       no_descendants: 这些种子还没有种出任何植物。
       activity_html: 保存了%{crop}的种子

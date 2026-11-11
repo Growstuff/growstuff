@@ -26,7 +26,7 @@
           = icon('fas', 'no')
           = t('seeds.ui.no_trade')
         = button_to seeds_path(seed: {crop_id: seed.crop_id, tradable_to: 'nowhere'}), method: :post, class: 'btn' do
-          = t('seeds.ui.save_crop_seeds', crop: seed.crop_name)
+          = t('seeds.ui.save_crop_seeds_sentence', crop: seed.crop_name)
 
 
 %a.btn{"data-bs-target" => "#modelSeedForm", "data-bs-toggle" => "modal", href: ""}

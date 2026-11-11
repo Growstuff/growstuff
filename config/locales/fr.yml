@@ -1704,6 +1704,8 @@ fr:
     winter: L'hiver
   seeds:
     ui:
+      month_abbreviations: [janv., févr., mars, avr., mai, juin, juil., août, sept., oct., nov., déc.]
+      unknown_quiet: inconnu
       plant_seeds: Semer les graines
       saved_year: récoltées en %{year}
       seeds_saved_by: graines récoltées par %{owner}
@@ -1712,6 +1714,9 @@ fr:
         other: env. %{count} graines
       sow_before_year: semer avant %{year}
       will_trade: échange %{trade_scope}
+      organic_fact: Biologiques
+      gmo_fact: OGM
+      save_crop_seeds_sentence: Enregistrer des graines de %{crop}.
       unknown: inconnu
       no_descendants: Rien n’a encore été cultivé à partir de ces graines.
       activity_html: a conservé des graines de %{crop}

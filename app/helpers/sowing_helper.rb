@@ -37,6 +37,6 @@ module SowingHelper
   private
 
   def sow_month_name(month)
-    t('date.abbr_month_names')[month]
+    t('seeds.ui.month_abbreviations')[month - 1]
   end
 end
