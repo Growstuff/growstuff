@@ -441,6 +441,7 @@ GEM
     path_expander (2.0.1)
     percy-capybara (5.0.1)
       capybara (>= 3)
+    pg (1.7.0)
     pg (1.7.0-x86_64-linux)
     pp (0.6.4)
       prettyprint
