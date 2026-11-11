@@ -117,7 +117,7 @@ describe "Planting a crop", :js do
         end
 
         expect(page).to have_content "planting was successfully created"
-        expect(page).to have_no_content "0%"
+        expect(page).to have_css '.plantingfact--progress', text: /\A[1-9]\d?%\z/
         expect(page).to have_no_content "Finish expected"
         expect(page).to have_no_content "Finishes"
       end

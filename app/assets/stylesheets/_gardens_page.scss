@@ -699,6 +699,17 @@ $gardens-muted: rgba(65, 63, 59, 0.75);
   }
 }
 
+.garden-about .print-label {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(65, 63, 59, 0.15);
+
+  summary {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
 // The link on a section's bar, such as "add" or "edit layout", is a touch-sized
 // target, as in the design.
 .garden-show .section-header .section-add {

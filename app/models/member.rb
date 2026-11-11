@@ -160,6 +160,13 @@ class Member < ApplicationRecord
 
   AVAILABLE_LOCALES = %w[en de es fr ja zh].freeze
 
+  store_accessor :settings, :label_width_mm, :label_height_mm
+
+  validates :label_width_mm, :label_height_mm,
+            numericality: { greater_than_or_equal_to: 20, less_than_or_equal_to: 300 }, allow_blank: true
+  validates :label_width_mm, presence: true, if: -> { label_height_mm.present? }
+  validates :label_height_mm, presence: true, if: -> { label_width_mm.present? }
+
   def locale
     settings['locale'].presence
   end
