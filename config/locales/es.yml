@@ -1452,6 +1452,357 @@ es:
     what_is_a_nursery:
       description_html: 'Un <strong>vivero</strong> es un lugar donde se cultivan plántulas: semillas que se siembran en bandejas o macetas antes de colocarlas en el jardín. Siembre sus semillas en el vivero, luego transplántelas a un jardín o divida un lote entre varios, cuando estén listas.'
   pages:
+    community_guidelines:
+      title: "Pautas de la comunidad de Growstuff"
+      body_html: |
+        <p>Growstuff es una comunidad hecha por y para productores de alimentos. Juntos estamos construyendo un sitio web donde compartir nuestra experiencia, conocimiento y los productos de nuestra cosecha. Lo más importante de Growstuff es la gente. Para que Growstuff prospere, necesitamos que las personas agreguen sus cultivos, compartan sus conocimientos y ayuden a construir el sitio.</p>
+        <p>Cualquiera que sea su interés en Growstuff, es bienvenido aquí y será tratado con respeto. En particular:</p>
+        <ul>
+        <li>
+        <p>Damos la bienvenida a personas de cualquier edad, identidad o expresión de género, etnia, nacionalidad, religión o ausencia de ella, opinión política, orientación sexual, estado civil, estructura familiar, capacidad o discapacidad, apariencia, subcultura u otra identidad o autoidentificación.</p>
+        </li>
+        <li>
+        <p>Aunque Growstuff se centra principalmente en la jardinería alimentaria, damos la bienvenida a todo tipo de jardineros, incluidos los productores orgánicos y convencionales; aquellos que cultivan en campos o balcones o en sistemas hidropónicos; aquellos que cultivan jardinería con fines comerciales o no comerciales; los que subsisten con sus cultivos y los que cultivan huertos por otros motivos.</p>
+        </li>
+        <li>
+        <p>Damos la bienvenida a personas de todos los niveles de habilidad y experiencia, y no creemos en ser desdeñosos o comentar de manera grosera solo porque eres nuevo o estás aprendiendo.</p>
+        </li>
+        <li>
+        <p>Cada función en nuestra comunidad es importante, incluidos los jardineros que aportan habilidades, conocimientos e información a nuestro sitio; codificadores, diseñadores y otros técnicos que ayudan a construirlo; moderadores y otras personas que ayudan a nuestra comunidad a prosperar; o cualquier otra forma de participación. Creemos en trabajar juntos y priorizamos la comunicación y el entendimiento mutuo.</p>
+        </li>
+        </ul>
+        <p>Si desea participar en la comunidad Growstuff (que incluye nuestro sitio web y cualquier foro auxiliar, como nuestra(s) lista(s) de correo, canal IRC, etc.), debe aceptar nuestro compromiso general de inclusión y respeto mutuo, así como las siguientes políticas específicas:</p>
+        <ul>
+        <li>
+        <p>Está prohibido el acoso a cualquier miembro de la comunidad Growstuff. El acoso incluye insultos dirigidos a individuos o grupos; comentarios sexuales no deseados dirigidos a cualquier persona o grupo; comentarios o imágenes sexualmente explícitos en espacios públicos; acecho u otro contacto repetido y no deseado; o cualquier comportamiento repetido o sostenido que interrumpa el disfrute del sitio o la comunidad de Growstuff por parte de otra persona.</p>
+        </li>
+        <li>
+        <p>La privacidad de los miembros de nuestra comunidad es muy importante. No puede revelar los datos personales de ningún miembro (incluidos los nombres por los que se les conoce fuera de Growstuff, su ubicación, detalles de empleo, detalles familiares, detalles de contacto fuera de Growstuff o cualquier otra información personal o de identificación) sin su consentimiento explícito.</p>
+        </li>
+        <li>
+        <p>Aunque le permitimos elegir su propio nombre en nuestro sitio y no insistimos en que use en nuestro sitio web el mismo nombre que tiene en las tarjetas en su billetera, no está permitido crear ni usar una cuenta seudónima para engañar a las personas, evadir responsabilidad o causar problemas de otra manera. (Esto se conoce comúnmente como cuenta "sockpuppet").</p>
+        </li>
+        </ul>
+        <p>Si experimenta o presencia un comportamiento que va en contra de estas pautas comunitarias, puede informarlo a support@growstuff.org. Escucharemos atentamente y tomaremos en serio su informe. Una vez que hayamos analizado la situación, podremos tomar cualquier medida que consideremos necesaria. Por ejemplo, podemos emitir una advertencia o, en casos graves, podemos suspender o prohibir a personas de nuestra comunidad. Si esto sucede, siempre le informaremos a la persona afectada el motivo de nuestra acción, con referencia a nuestros documentos de política.</p>
+        <p>No queremos que estas pautas sean demasiado largas ni legalistas, por lo que las dejaremos ahí, excepto una última pauta. Como dijeron Bill y Ted: <em>sed excelentes el uno con el otro</em>. Y cultivar cosas.</p>
+        <h2>Licencia Creative Commons</h2>
+        <p>Estas pautas comunitarias tienen la licencia <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported License</a>.</p>
+    copyright:
+      title: "Política de infracción de derechos de autor"
+      body_html: |
+        <p>Odiamos la jerga legal, por eso hemos intentado que esta política sea legible. Si tiene alguna pregunta, no dude en <a href="mailto:support@growstuff.org">preguntarnos</a> y haremos todo lo posible para responderla.</p>
+        <p>Esta Política de infracción de derechos de autor cubre todos los sitios web (como <a href="http://www.growstuff.org">growstuff.org</a>) que pertenecen y son operados por los mantenedores de Growstuff ("Growstuff", "nosotros", "nuestro") y todos los servicios asociados, denominados colectivamente "el Servicio". Describe cómo puede denunciar una violación de los derechos de autor en el Servicio.</p>
+        <p>Growstuff respeta la propiedad intelectual de otros y pedimos a nuestros usuarios que hagan lo mismo. Los <a href="http://www.growstuff.org/policy/tos">Términos de servicio</a> exigen que los miembros de Growstuff se aseguren de tener el derecho legal de publicar contenido en el Servicio.</p>
+        <p>Growstuff tiene su sede en Melbourne, Australia y no está sujeto a las disposiciones de la Ley de Derechos de Autor del Milenio Digital de los Estados Unidos (DMCA). Sin embargo, hemos establecido políticas y procedimientos que son similares a los requeridos por la DMCA, ya que creemos que constituyen las mejores prácticas para los servicios web que operan en Australia.</p>
+        <h2>1. Notificarnos de una infracción</h2>
+        <p>Si cree que un miembro de Growstuff ha infringido sus derechos de propiedad intelectual al publicar Contenido en el servicio, puede seguir estos pasos para notificarnos y solicitar la eliminación del Contenido.</p>
+        <p>Las notificaciones podrán enviarse por correo electrónico a <a href="mailto:support@growstuff.org">support@growstuff.org</a></p>
+        <p>Preferimos recibir notificaciones por correo electrónico.</p>
+        <p>No se tomarán medidas sobre las notificaciones de infracción de derechos de autor enviadas a través de cualquier otro mecanismo o foro.</p>
+        <p>Debes proporcionar la siguiente información:</p>
+        <ul>
+        <li>Información suficiente para identificar la obra protegida por derechos de autor que se está infringiendo. Por ejemplo, si el trabajo es un libro publicado, proporcione el título, el autor y el ISBN; si el trabajo es un artículo de revista, proporcione el título, autor, nombre de la revista y número de la revista; si el trabajo está disponible en Internet, proporcione la URL del trabajo.</li>
+        <li>La URL de la página específica de Growstuff donde se reprodujo su trabajo sin permiso. No se puede actuar sobre descripciones generales o enlaces no específicos (como a la página de inicio de Growstuff).</li>
+        <li>Su dirección postal, número de teléfono y dirección de correo electrónico.</li>
+        <li>Una declaración suya de que la información anterior es precisa y de que usted es el propietario de los derechos de autor o de la propiedad intelectual o está autorizado a actuar en nombre del propietario de los derechos de autor o de la propiedad intelectual.</li>
+        <li>Una firma física o firma digital en un formato estándar de la industria reconocido, como PGP, del propietario de los derechos de autor o de la propiedad intelectual o de la persona autorizada para actuar en su nombre. Las notificaciones sin firmar no se procesarán.</li>
+        </ul>
+        <h2>2. Responder a notificaciones</h2>
+        <p>Responderemos a las notificaciones de infracción de derechos de autor dentro de dos días hábiles.</p>
+        <p>Si no se nos proporciona suficiente información para actuar según la notificación, incluidos todos los elementos enumerados en la sección anterior, rechazaremos la notificación y notificaremos al remitente que no se puede actuar en consecuencia.</p>
+        <p>Si el Contenido no está alojado en nuestros servidores (por ejemplo, si la notificación se refiere a una imagen alojada en otro sitio que simplemente se muestra o está vinculada desde nuestro sitio), responderemos notificando al remitente que el Contenido no está alojado en nosotros y remitiéndolo al sitio de alojamiento.</p>
+        <p>Siempre que podamos actuar ante la notificación, nos comunicaremos con el miembro que publicó el Contenido y le informaremos sobre la notificación y el reclamo de derechos de propiedad intelectual.</p>
+        <p>El afiliado tendrá dos días hábiles para responder. Pueden responder de la siguiente manera:</p>
+        <ul>
+        <li>Admita que han publicado algo sobre lo que no tienen derechos de propiedad intelectual. En este caso, el miembro puede eliminar el Contenido del Servicio o podemos hacerlo inaccesible.</li>
+        <li>Presentar una contranotificación, indicando que tienen derecho a publicar el Contenido y que están preparados para defender este reclamo ante los tribunales. El proceso para esto se describe a continuación.</li>
+        <li>Responder diciendo que no creen haber infringido ningún derecho de propiedad intelectual, pero que no desean presentar formalmente una contranotificación. En este caso, el miembro puede eliminar el Contenido del Servicio o podemos hacer que el Contenido sea inaccesible.</li>
+        <li>Si el miembro no responde, haremos que el Contenido sea inaccesible.</li>
+        </ul>
+        <p>Cuando el Contenido se elimine o se vuelva inaccesible, haremos todos los esfuerzos razonables para garantizar que no se pueda acceder a él a través del Servicio. Sin embargo, el almacenamiento en caché o las referencias externas pueden significar que el Contenido permanezca accesible durante algún tiempo, incluso en sitios o aplicaciones de terceros. Los sitios y aplicaciones de terceros no están bajo el control de Growstuff. Si el Contenido infractor ha sido eliminado o se ha vuelto inaccesible a través del Servicio pero aún está disponible a través de sitios y aplicaciones de terceros, el titular de los derechos de autor o de la propiedad intelectual puede comunicarse con los operadores de esos sitios/aplicaciones para notificarles de la infracción.</p>
+        <h2>3. Proceso de contranotificación y restauración</h2>
+        <p>Una contranotificación es una declaración de que usted no cree que su contenido infrinja los derechos de otra persona, o que su uso del material protegido por derechos de autor de otra persona entra en una categoría protegida por la ley.</p>
+        <p>Al presentar una contranotificación, usted indica que está dispuesto a defender su uso del material en los tribunales, si el propietario de los derechos de autor decide entablar una demanda en su contra por su uso del material. Esto puede implicar sanciones civiles y/o penales. Le recomendamos encarecidamente que se comunique con un abogado de propiedad intelectual con licencia para ejercer la abogacía en su jurisdicción antes de hacer esto, para que conozca sus derechos y obligaciones según la ley.</p>
+        <p>Una contranotificación debe contener los siguientes elementos:</p>
+        <ul>
+        <li>Tu firma. Las firmas pueden ser una firma física o una firma digital en un formato estándar reconocido en la industria, como PGP.</li>
+        <li>La URL del Contenido que ha sido cuestionado (esto se habrá proporcionado en la notificación original).</li>
+        <li>Una declaración de que cree de buena fe que la notificación de infracción de derechos de autor se envió como resultado de un error o una identificación errónea del material. Esto debe incluir cualquier motivo por el cual cree que su uso del material no constituye una infracción.</li>
+        <li>Su nombre, dirección y número de teléfono.</li>
+        </ul>
+        <p>Enviaremos su contranotificación, en su totalidad, al remitente de la notificación original. Luego tendrán 14 días para iniciar acciones legales y notificarnos que lo han hecho.</p>
+        <p>Mientras tanto, haremos que el Contenido sea inaccesible.</p>
+        <p>Si después de 14 días no se nos ha informado que se han iniciado procedimientos legales, restauraremos el Contenido.</p>
+        <p>Si ha presentado una contranotificación, no podrá volver a publicar el material supuestamente infractor hasta que le notifiquemos que el período de espera ha expirado.</p>
+        <h2>4. Reincidencia</h2>
+        <p>A los miembros que reciban tres o más avisos válidos de infracción de derechos de autor se les cancelarán sus cuentas.</p>
+        <p>Si se presenta una contranotificación, o si el miembro ha declarado que no acepta la acusación de infracción de derechos de autor pero no desea presentar formalmente una contranotificación, la notificación no se contará para la terminación.</p>
+        <p>También nos reservamos el derecho de cancelar las cuentas de aquellos que, en nuestra opinión, hacen mal uso o abusan del proceso de notificación de infracción de derechos de autor contra otros miembros.</p>
+        <h2>5. Cambios</h2>
+        <p>Es posible que cambiemos nuestra Política de infracción de derechos de autor de vez en cuando. Un historial de cambios a esta Política está disponible a través de nuestro repositorio de código fuente público en <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>. Tomaremos medidas razonables para notificarle cualquier cambio sustancial a esta Política; sin embargo, es su responsabilidad revisar esta Política periódicamente para detectar cambios. Su uso continuado de este sitio después de cualquier cambio en esta Política constituirá su aceptación de dicho cambio.</p>
+        <h2>6. Licencia Creative Commons</h2>
+        <p>Esta Política de infracción de derechos de autor se basa en una desarrollada por Dreamwidth (<a href="http://www.dreamwidth.org/legal/dmca">http://www.dreamwidth.org/legal/dmca</a>) y tiene una licencia <a href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5</a>.</p>
+    data_use:
+      title: "API y política de uso de datos"
+      body_html: |
+        <p>Odiamos la jerga legal, por eso hemos intentado que esta política sea legible. Si tiene alguna pregunta, no dude en <a href="mailto:support@growstuff.org">preguntarnos</a> y haremos todo lo posible para responderla.</p>
+        <p>Esta Política de uso de datos y API cubre todos los sitios web (como <a href="http://www.growstuff.org">growstuff.org</a>) que pertenecen y son operados por los mantenedores de Growstuff ("Growstuff", "nosotros", "nuestro") y todos los servicios asociados, denominados colectivamente "el Servicio".</p>
+        <p>En particular, esta política cubre cualquier acceso al Servicio a través de cualquier Interfaz de programación de aplicaciones, feeds, spidering, scraping o cualquier otro acceso automatizado o programático a los Datos estructurados o al Contenido disponible a través del Servicio (colectivamente, la "API"). Esta política se aplica a cualquier persona que utilice la API ("usted", "desarrollador").</p>
+        <h2>1. API proporcionada tal como está y sujeta a cambios</h2>
+        <p>Growstuff proporciona su API tal cual, como se describe en "Descargo de responsabilidad de garantías" en nuestros <a href="http://www.growstuff.org/policy/tos">Términos de servicio</a>.</p>
+        <p>La API de Growstuff está sujeta a cambios. Haremos esfuerzos razonables para notificar a los desarrolladores sobre los cambios y el estado de lanzamiento de cualquier característica de la API. Debe hacer esfuerzos razonables para mantenerse al día con las noticias técnicas de Growstuff a través de nuestros foros, listas de correo u otros canales.</p>
+        <h2>2. No sobrecargues nuestros servidores</h2>
+        <p>Usted acepta limitar su acceso a la API de tal manera que evite una carga excesiva en el Servicio. Growstuff se reserva el derecho de restringir o limitar el acceso a la API si es necesario para mantener el rendimiento del Servicio.</p>
+        <h2>3. Uso de datos y contenido de Growstuff</h2>
+        <p>Usted acepta observar los términos de la <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported License</a> bajo la cual nuestros datos estructurados están disponibles. Usted acepta respetar los derechos de autor y de propiedad intelectual de los miembros de Growstuff con respecto a su Contenido publicado en el Servicio, incluidos, entre otros, publicaciones, comentarios, imágenes, etc.</p>
+        <p>Usted acepta respetar cualquier configuración de privacidad relacionada con los datos estructurados o el contenido al que accede a través de la API. Usted acepta no volver a publicar ningún dato estructurado o contenido con un acceso más permisivo que el previsto originalmente por el miembro que lo publicó.</p>
+        <p>Growstuff reconoce que los datos estructurados y el contenido disponibles bajo la API pueden ser almacenados en caché o retenidos por terceros durante cualquier período de tiempo. Sin embargo, le solicitamos que si está creando una aplicación utilizando Contenido y Datos Estructurados actuales, haga esfuerzos razonables para actualizarla periódicamente, incluida la eliminación de cualquier Contenido o Datos Estructurados que se elimine del Servicio y que refleje cualquier cambio en la configuración de privacidad que le corresponda.</p>
+        <p>Growstuff contiene datos de la <a href="https://www.foodstandards.gov.au/science-data/food-nutrient-databases/afcd">Australian Food Composition Database</a> de <a href="https://www.foodstandards.gov.au/legal-policies/copyright">Food Standards Australia New Zealand</a> bajo una licencia CC-BY-4.0.</p>
+        <h2>4. Autenticación</h2>
+        <p>Growstuff se reserva el derecho de exigir autenticación y/o registro de la aplicación como condición para el uso de la API y los Datos.</p>
+        <p>Si proporciona a los usuarios la posibilidad de iniciar sesión en Growstuff, debe hacerlo a través de OAuth. No puede exigir a los usuarios que proporcionen su nombre de usuario y contraseña de Growstuff.</p>
+        <h2>5. Sanciones</h2>
+        <p>Si viola los términos de esta Política, Growstuff puede restringir su acceso a la API.</p>
+        <h2>6. Cambios</h2>
+        <p>Es posible que cambiemos nuestra API y nuestra Política de uso de datos de vez en cuando. Un historial de cambios a esta Política está disponible a través de nuestro repositorio de código fuente público en <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>. Tomaremos medidas razonables para notificarle cualquier cambio sustancial a esta Política; sin embargo, es su responsabilidad revisar esta Política periódicamente para detectar cambios. Su uso continuado de este sitio después de cualquier cambio en esta Política constituirá su aceptación de dicho cambio.</p>
+        <h2>7. Licencia Creative Commons</h2>
+        <p>Esta API y Política de uso de datos tienen la licencia <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported License</a>.</p>
+    privacy:
+      title: "política de privacidad"
+      body_html: |
+        <p>Odiamos la jerga legal, por eso hemos intentado que esta política sea legible. Si tiene alguna pregunta, no dude en <a href="mailto:support@growstuff.org">preguntarnos</a> y haremos todo lo posible para responderla.</p>
+        <p>Esta declaración de privacidad ("Política de Privacidad") cubre todos los sitios web (como <a href="http://www.growstuff.org/">growstuff.org</a>) propiedad y operados por los mantenedores de Growstuff ("Growstuff", "nosotros", "nos", "nuestro") y todos los servicios asociados, denominados colectivamente "el Servicio".</p>
+        <p>Utilizamos la información que usted comparte con nosotros para nuestros fines comerciales internos. No vendemos su información. Este aviso le informa qué información recopilamos, cómo la usamos y los pasos que tomamos para protegerla y asegurarla.</p>
+        <h2>1. Información que recopilamos</h2>
+        <h3>1.1 Datos no personales</h3>
+        <p>Como la mayoría de los operadores de sitios web, recopilamos datos no personales, como el tipo de navegador, la preferencia de idioma, el sitio de referencia y la fecha y hora de cada solicitud de visitante.</p>
+        <p>Recopilamos esto para comprender cómo nuestros visitantes y miembros usan nuestro servicio, y lo usamos para tomar decisiones sobre cómo cambiar y adaptar el servicio.</p>
+        <p>De vez en cuando, podemos divulgar datos no personales en forma agregada (por ejemplo, publicando tendencias en el uso del sitio) para explicar nuestro razonamiento al tomar decisiones. No divulgaremos información individual, solo información agregada.</p>
+        <h3>1.2 Datos personales</h3>
+        <p>Los datos personales son cualquier cosa que pueda usarse para identificarlo o contactarlo, como su nombre legal, dirección de correo electrónico, dirección IP o ubicación física.</p>
+        <h4>1.2.1 Datos personales recopilados automáticamente</h4>
+        <p>Recopilamos automáticamente algunos datos personales, como la dirección IP, proporcionados por su navegador y su computadora cada vez que visita nuestro sitio web.</p>
+        <p>Recopilamos esta información para varios propósitos:</p>
+        <ul>
+        <li>Para diagnosticar y reparar problemas de red con su uso del sitio;</li>
+        <li>Estimar el número de usuarios que acceden al servicio desde regiones geográficas específicas;</li>
+        <li>Para ayudar a prevenir fraudes y abusos.</li>
+        </ul>
+        <h4>1.2.2 Dirección de correo electrónico</h4>
+        <p>Para poder registrarte en el servicio, debes facilitarnos tu dirección de correo electrónico. Usaremos su dirección de correo electrónico para enviarle confirmación de ciertas acciones, como cuando cambia su contraseña. Nos comunicaremos con usted cuando sea necesario para completar una solicitud que haya iniciado o si hay un problema administrativo o crítico que afecte su uso del servicio.</p>
+        <p>Una vez que haya creado su cuenta, puede elegir suscribirse a ciertos eventos y recibir notificaciones de esos eventos por correo electrónico. Podrá cambiar de opinión y optar por no recibir notificaciones por correo electrónico en cualquier momento.</p>
+        <p>Nunca venderemos ni proporcionaremos su dirección de correo electrónico a ningún tercero con fines de marketing ni por ningún otro motivo, excepto lo que se establece a continuación.</p>
+        <h4>1.2.3 Datos personales opcionales que usted nos proporciona</h4>
+        <p>A medida que utiliza el servicio, tiene la opción de proporcionar más datos personales a través de su perfil y otra actividad en el sitio. Proporcionar esta información es estrictamente opcional.</p>
+        <p>Tiene la opción de proporcionarnos su ubicación. Puede proporcionar esto con el nivel de detalle que desee. Por ejemplo, puede proporcionar su dirección postal, su país de residencia o nada en absoluto. Usamos esta ubicación para brindarle contenido relevante.</p>
+        <p>Muchas de sus actividades en el Servicio pueden permitirle publicar Datos personales o divulgar directa o indirectamente Datos personales sobre usted. Por ejemplo, puede divulgar Datos personales en una publicación o comentario en el sitio, cargando una imagen, vinculando a otro sitio web que utilice o registrando en detalle su actividad de jardinería. Todas estas actividades son opcionales. Debe tener la debida precaución al revelar datos personales a través de su actividad en el Servicio.</p>
+        <p>Mostraremos la información que usted proporcione, incluidos los datos personales que pueda contener, a otras personas que visiten el sitio, de acuerdo con las opciones de privacidad que haya seleccionado.</p>
+        <p>La información que usted proporciona también está disponible para terceros a través de nuestra API y feeds, de acuerdo con las opciones de privacidad que haya seleccionado y sujeta a los términos de nuestra API y Política de uso de datos, que está disponible en <a href="http://www.growstuff.org/policy/api">http://www.growstuff.org/policy/api</a>.</p>
+        <p>Parte de la información que usted proporciona se clasifica como datos estructurados, que se definen con más detalle en nuestros <a href="/policy/tos">Términos de servicio</a>. Ponemos los datos estructurados a disposición gratuita bajo una licencia Creative Commons Attribution ShareAlike (CC-BY-SA) 3.0 Unported para uso de terceros, de acuerdo con las opciones de privacidad que haya seleccionado.</p>
+        <p>También podemos utilizar cualquier dato personal que usted proporcione, en conjunto, para tomar decisiones sobre cómo cambiar y adaptar el servicio. De vez en cuando, podemos publicar información en forma agregada (por ejemplo, publicando tendencias en el uso del sitio) para explicar nuestro razonamiento al tomar decisiones. No divulgaremos información individual, solo información agregada.</p>
+        <h2>2. Divulgación de Datos Personales</h2>
+        <p>Divulgamos datos personales, incluida la información personal opcional que usted ha proporcionado pero que normalmente no está disponible para otros usuarios del sitio, solo a aquellos de nuestros empleados, contratistas y voluntarios que (i) necesitan conocer esa información para operar el servicio y (ii) han acordado no revelarla a otros. Las circunstancias en las que esto es necesario incluyen, entre otras: resolución de problemas y diagnóstico de problemas técnicos, investigación de posibles violaciones de los Términos de servicio y problemas de cumplimiento legal.</p>
+        <p>Contratamos a proveedores externos para proporcionar algunas funciones del sitio. Solo compartiremos información personal con proveedores externos en la medida que sea necesaria para que proporcionen estas funciones del sitio. Exigimos a nuestros proveedores externos que proporcionen el mismo nivel de protección de la privacidad que nosotros, y no tienen derecho a compartir o utilizar información personal para ningún otro propósito que no sea proporcionar esas funciones del sitio.</p>
+        <p>Podemos divulgar Datos personales o datos potencialmente de identificación personal cuando esa divulgación sea requerida por ley o por orden judicial, o cuando creamos de buena fe que la divulgación es razonablemente necesaria para proteger nuestra seguridad o nuestros derechos, los de terceros o el público en general.</p>
+        <p>Nos reservamos el derecho de transferir sus Datos personales a un tercero en caso de venta, fusión, liquidación, administración judicial o transferencia de todos o sustancialmente todos los activos de nuestra empresa, siempre que el tercero acepte cumplir con los términos de la Política de privacidad de Growstuff y siempre que el tercero solo utilice sus Datos personales para los fines que usted nos proporcionó. Se le notificará en caso de dicha transferencia y se le brindará la oportunidad de optar por no participar.</p>
+        <h2>3. Galletas</h2>
+        <p>Una cookie es una cadena de información que un sitio web almacena en la computadora de un visitante y que el navegador del visitante proporciona al sitio web cada vez que el visitante regresa. Utilizamos cookies para ayudarnos a identificar y rastrear a los visitantes, su uso del sitio web y sus preferencias de acceso al sitio web. También utilizamos cookies para regular el inicio de sesión en su cuenta.</p>
+        <p>Los visitantes que no deseen que se coloquen cookies en sus computadoras deben configurar sus navegadores para que rechacen las cookies antes de usar el sitio, con el inconveniente de que ciertas características del sitio pueden no funcionar correctamente sin la ayuda de las cookies.</p>
+        <h2>4. Confidencialidad y seguridad</h2>
+        <p>Nunca se puede garantizar que la transmisión de datos a través de Internet sea 100% segura. Usted utiliza este servicio bajo su propio riesgo. Sin embargo, tomaremos todas las medidas razonables (incluidas las medidas técnicas y organizativas apropiadas) para proteger sus Datos personales.</p>
+        <p>La información de su cuenta está protegida con contraseña. Le recomendamos que elija una contraseña fuerte y segura. Utilizamos cifrado estándar de la industria para proteger su contraseña en nuestros servidores.</p>
+        <p>Si nos enteramos de una violación de seguridad del sistema, se lo notificaremos electrónicamente para que pueda tomar las medidas adecuadas para protegerse.</p>
+        <h2>5. Eliminar tu información</h2>
+        <p>Puedes cambiar o eliminar cualquier información opcional que nos hayas proporcionado en cualquier momento. Si cambia o elimina cualquier información opcional que haya proporcionado, el cambio se realizará inmediatamente en el Servicio. Sin embargo, el almacenamiento en caché o las referencias a los datos, incluso en aplicaciones de terceros basadas en el Servicio, pueden significar que los datos disponibles anteriormente permanezcan disponibles durante algún tiempo.</p>
+        <p>Como parte del funcionamiento diario del Servicio, haremos copias periódicas de los datos contenidos en las bases de datos con fines de copia de seguridad. Estas copias de seguridad pueden contener potencialmente datos eliminados durante varias semanas o meses. Estos respaldos también se regirán por las normas de Divulgación de Datos Personales.</p>
+        <h2>6. Cambios</h2>
+        <p>Podemos cambiar nuestra Política de Privacidad de vez en cuando. Un historial de cambios a esta Política está disponible a través de nuestro repositorio de código fuente público en <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>. Tomaremos medidas razonables para notificarle cualquier cambio sustancial a esta Política; sin embargo, es su responsabilidad revisar esta Política periódicamente para detectar cambios. Su uso continuado de este sitio después de cualquier cambio en esta Política de Privacidad constituirá su aceptación de dicho cambio.</p>
+        <h2>7. Contáctanos</h2>
+        <p>Si tiene preguntas sobre esta política, puede contactarnos al <a href="mailto:support@growstuff.org">support@growstuff.org</a>.</p>
+        <h2>8. Bienes comunes creativos</h2>
+        <p>Esta política de privacidad se basa en una desarrollada por Automattic (<a href="http://automattic.com/privacy/">http://automattic.com/privacy/</a>) y modificada por Dreamwidth (<a href="http://dreamwidth.org/legal/privacy">http://dreamwidth.org/legal/privacy</a>) y tiene una licencia <a href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 Licencia</a>.</p>
+    support:
+      title: "Soporte - Preguntas frecuentes"
+      body_html: |
+        <h2>Acerca de Growstuff</h2>
+        <h3>¿Quién dirige Growstuff?</h3>
+        <p>Growstuff fue iniciado por Alex Bayley (<a href="/members/skud">Skud</a>), un desarrollador de software de código abierto y entusiasta jardinero vegetal de Melbourne, Australia. Ahora es mantenido por la comunidad.</p>
+        <h3>¿Cómo empezó Growstuff?</h3>
+        <p>La idea de Growstuff surgió de una discusión en una conferencia de código abierto en España en 2012. Queríamos una fuente de información abierta y gratuita sobre cómo plantar y cultivar cultivos, y nos dimos cuenta de que la mejor manera de hacerlo sería recurrir a jardineros de todo el mundo.</p>
+        <p>Creamos Growstuff por primera vez como un proyecto de código abierto en agosto de 2012 y lo lanzamos discretamente en marzo de 2013.</p>
+        <h3>¿Growstuff es una organización sin fines de lucro?</h3>
+        <p>Growstuff es un proyecto dirigido por la comunidad. También debe saber que el software y los datos agregados sobre cultivos y quién los cultiva están disponibles gratuitamente bajo licencias abiertas.</p>
+        <h3>¿Puedo anunciarme en Growstuff?</h3>
+        <p>Lo sentimos, ¡estamos 100% libres de publicidad!</p>
+        <p>Si es miembro, puede publicar cosas para intercambiar o vender en nuestra área de puestos comerciales, pero no tenemos ni tendremos nunca anuncios publicitarios ni similares. Creemos que respaldar un sitio web a través de publicidad externa genera una experiencia menos placentera para nuestros miembros y visitantes, y no es un modelo de negocio sostenible.</p>
+        <h3>¿Cuál es el estado de Growstuff? ¿Está en beta?</h3>
+        <p>No nos gusta mucho la palabra "beta" ni la idea que representa. Growstuff se encuentra en un estado constante de cambio y mejora, y esperamos que siempre agreguemos nuevas funciones y mejoremos las cosas para nuestros miembros.</p>
+        <p>Si encuentra algún error o problema, háganoslo saber a través de nuestro foro de soporte. Si una función que deseas aún no está disponible, ¡vuelve a consultar pronto!</p>
+        <h2>Afiliación</h2>
+        <h3>¿Puedo usar Growstuff gratis?</h3>
+        <p>¡Absolutamente! Si disfruta del sitio, le agradeceríamos que considerara una donación (consulte el enlace en el pie de página).</p>
+        <h3>¿Puedo obtener una membresía para mi familia, escuela o grupo comunitario?</h3>
+        <p>¡Sí! No dude en registrarse como "JonesFamily" o "SmithfieldCommunity" o lo que sea que le convenga.</p>
+        <p>Solo tenga en cuenta que usted es responsable de todo lo que suceda en esa cuenta, así que tenga cuidado a quién le permite usarla. A su debido tiempo, esperamos desarrollar funciones para ayudar a los jardines comunitarios a compartir con sus miembros/jardineros, para que puedan realizar un seguimiento de lo que se planta en el jardín comunitario sin tener que iniciar sesión como cuenta del jardín comunitario. Lo publicitaremos ampliamente cuando esté listo, así que estén atentos.</p>
+        <h2>Perfil, configuración y privacidad</h2>
+        <h3>¿Cómo agrego una foto a mi perfil?</h3>
+        <p>Las imágenes de perfil son proporcionadas por <a href="https://gravatar.com">Gravatar</a>, un servicio que proporciona "Avatares reconocidos globalmente", administrado por las personas que operan la plataforma de blogs WordPress.</p>
+        <p>Si alguna vez se registró en Gravatar en el pasado, utilizando la misma dirección que se registró en Growstuff, ya tendrá una foto para su perfil.</p>
+        <p>Si se ha registrado en Growstuff con una dirección de correo electrónico diferente a su dirección de Gravatar, deberá agregarla en Gravatar.</p>
+        <p>Si nunca antes te has registrado en Gravatar, puedes crear una cuenta y subir una imagen, que aparecerá no sólo en Growstuff, sino en cualquier otro sitio que admita Gravatars y donde uses la misma dirección de correo electrónico.</p>
+        <h3>¿Tengo que completar todas estas cosas personales?</h3>
+        <p>Su perfil plantea varias preguntas sobre usted, que puede elegir responder (o no) como mejor le parezca. No requerimos información personal como su nombre legal, sexo o edad para fines de seguimiento o demográficos: ¡uno de los beneficios de no tener anuncios en nuestro sitio!</p>
+        <p>Cuando se trata de ubicación, realmente ayuda si puedes proporcionársela a Growstuff porque la usamos para sugerir cosas para crecer. Sin embargo, puedes hacerlo con cualquier nivel de detalle con el que te sientas cómodo: tal vez el nombre de tu ciudad, o tu estado o provincia, o incluso tu país, si el país es lo suficientemente pequeño y tiene un clima bastante consistente. Simplemente elija algo que sea lo suficientemente cercano como para brindarle consejos precisos sobre el cultivo y lo suficientemente vago como para sentirse seguro.</p>
+        <p>Puede leer más sobre la privacidad de su información en nuestra <a href="http://growstuff.org/policy/privacy">Política de Privacidad</a>.</p>
+        <h2>Cultivos, jardines y plantaciones.</h2>
+        <h3>¿Cómo puedo agregar un nuevo cultivo?</h3>
+        <p>Por ahora, envíe una nota en <a href="http://www.growstuff.org/posts/skud-20130319-requests-for-new-crops">Solicitudes de nuevos cultivos</a> en nuestro <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Comentarios &amp; Foro de soporte</a>.</p>
+        <h3>¿Agregarás plantas no comestibles?</h3>
+        <p>Actualmente no tenemos planes para agregar plantas que no sean comestibles o que no sean "útiles" en un contexto de cultivo de alimentos o de sostenibilidad; estas podrían incluir plantas acompañantes, cultivos de abono verde, plantas utilizadas para controlar plagas o enfermedades, y similares. Si está pensando en plantas puramente ornamentales, probablemente no las agregaremos pronto.</p>
+        <p>Sin embargo, esperamos, en el futuro, apoyar la posibilidad de que cualquier miembro plante plantas "no oficiales" que no estén en nuestra base de datos de cultivos.</p>
+        <h2>Publicaciones, comentarios y foros</h2>
+        <h3>¿Qué formato puedo usar en publicaciones y comentarios?</h3>
+        <p>Usamos la sintaxis <a href="http://daringfireball.net/projects/markdown/syntax/">Markdown</a>, que ofrece una gama bastante amplia de opciones, desde énfasis simple (negrita y cursiva) hasta enlaces, imágenes y más. Esperamos instalar una barra de herramientas para ayudarle a generar la sintaxis correcta, pero mientras tanto me temo que todo lo que podemos ofrecer es la documentación bastante técnica vinculada anteriormente.</p>
+        <h2>Próximas funciones</h2>
+        <h3>¿Dónde puedo ver qué funciones están previstas?</h3>
+        <p>Nuestros desarrolladores de software utilizan una herramienta de seguimiento llamada Pivotal Tracker y puedes ver la nuestra en <a href="http://tracker.growstuff.org">http://tracker.growstuff.org/</a>. Esto le indica en qué características estamos trabajando actualmente y en qué planeamos trabajar pronto.</p>
+        <p>La interfaz de Pivotal Tracker muestra tres columnas de información:</p>
+        <ul>
+        <li>la sección "Actual" muestra las funciones (llamadas "historias") en las que estamos trabajando en este momento</li>
+        <li>"Backlog" le muestra historias en las que planeamos trabajar en un futuro próximo.</li>
+        <li>"Icebox" contiene historias que hemos identificado como cosas que nos gustaría hacer, pero que aún no tienen un plazo establecido.</li>
+        </ul>
+        <h3>¿Dónde puedo sugerir una característica que me gustaría ver?</h3>
+        <p>Sugerimos verificar primero el <a href="http://tracker.growstuff.org/">tracker</a> (ver arriba) para ver si es algo que ya estamos planeando o de lo que estamos hablando. Una vez que haya hecho eso, si aún no está planeado o tiene otros comentarios que hacer, puede publicar su sugerencia en el <a href="/forums/growstuff-feedback-support">Comentarios &amp; Foro de soporte</a>.</p>
+        <h2>Desarrolladores y API</h2>
+        <h3>¿Existe una API de Growstuff?</h3>
+        <p>En la actualidad no existe una API oficial, ya que nuestro sitio sigue cambiando muy rápidamente. Sin embargo, exponemos algunos de nuestros datos a través de canales JSON y/o RSS, y usted puede jugar con ellos, en el entendido de que pueden cambiar según usted. Puede encontrar <a href="https://github.com/Growstuff/growstuff/wiki/API">documentos API en nuestra wiki</a>.</p>
+        <p>El uso de nuestra API y nuestros datos está sujeto a la <a href="http://www.growstuff.org/policy/api">API y Política de uso de datos</a>.</p>
+        <h3>¿Bajo qué licencia están tus datos?</h3>
+        <p>Los datos de Growstuff están disponibles bajo la licencia <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported</a>. Esto significa que puede reutilizarlo siempre que lo atribuya a Growstuff (enlazándolo a nuestro sitio) y siempre que su propia aplicación/sitio/proyecto comparta su propio contenido o datos bajo CC-BY-SA.</p>
+        <p>Consulte nuestra <a href="http://growstuff.org/policy/api">API y Política de uso de datos</a> para obtener más información.</p>
+        <h2>Voluntariado y empleo</h2>
+        <h3>¿Estás contratando?</h3>
+        <p>Lamentablemente, no. Somos un grupo comunitario autofinanciado/iniciado.</p>
+        <p>Si desea participar, consulte a continuación.</p>
+        <h3>¿Cómo puedo ser voluntario para ayudar a Growstuff?</h3>
+        <p>En primer lugar, al ser un miembro activo del sitio (cultivar cultivos, realizar un seguimiento de sus cosechas, publicar en nuestros foros, conocer a otros miembros) ayuda a construir nuestra base de datos y nuestra comunidad, sin la cual Growstuff sería completamente inútil. Entonces, ¡gracias por eso!</p>
+        <p>En segundo lugar, nos encantaría que pudieras difundir Growstuff entre tus amigos que cultivan sus propios alimentos o a quienes les gustaría probar. Puede ver algunos consejos sobre cómo hacerlo a continuación.</p>
+        <p>El software de Growstuff también se construye con la ayuda de desarrolladores voluntarios. Si eres programador o te gustaría aprender a codificar, puedes unirte a nosotros. Todos son bienvenidos, independientemente de su experiencia.</p>
+        <p>También contamos con coordinadores de cultivos voluntarios, que administran nuestra base de datos de cultivos, y moderadores, que ayudan a que los foros funcionen sin problemas. Por lo general, estos se eligen entre nuestros miembros más activos y serviciales.</p>
+        <h3>¿Cómo puedo involucrarme como codificador?</h3>
+        <p>Comience consultando nuestro <a href="https://github.com/Growstuff/growstuff/wiki/">wiki</a>, código en <a href="http://github.com/Growstuff/growstuff">GitHub</a> y <a href="http://tracker.growstuff.org">tracker</a> para tener una idea de cómo trabajamos.</p>
+        <p>Si desea participar, debe unirse a nuestra <a href="http://lists.growstuff.org/mailman/listinfo/discuss">lista de correo de discusión</a>.</p>
+        <h3>Mis habilidades de codificación están oxidadas o son inexistentes. ¿Aún puedo participar?</h3>
+        <p>¡Seguro! Nos encanta asesorar a nuevos programadores, personas que no han codificado desde hace tiempo o personas que recién están aprendiendo nuestra plataforma (Ruby on Rails) por primera vez. Trabajamos mediante programación en pares y podemos ayudarlo a comenzar con historias sencillas, comenzando con algo tan simple como corregir un error tipográfico o una etiqueta HTML (consulte la etiqueta "fácil" en nuestro <a href="http://tracker.growstuff.org">tracker</a> para ver algunos ejemplos).</p>
+        <h3>¿Cómo puedo ayudar a correr la voz sobre Growstuff?</h3>
+        <p>En primer lugar, contárselo a tus amigos e invitarlos a unirse y ser parte de ello. No queremos hacer spam al respecto, por lo que nunca le pediremos que extraigamos su libreta de direcciones ni publicaremos automáticamente actualizaciones de Facebook ni twittearemos en su nombre. Pero realmente nos encantaría que se lo dijeras a la gente con tus propias palabras.</p>
+        <p>Lugares para correr la voz en línea: Facebook, Twitter y otras redes sociales; su propio blog o sitio web; Foros de jardinería o sostenibilidad en los que participes.</p>
+        <p>O sin conexión: dígaselo a amigos, familiares y vecinos; corra la voz a través de los huertos comunitarios locales, los mercados de agricultores o el intercambio de productos; comuníquese con su grupo local de sostenibilidad o transición; o cualquier otro lugar donde crea que podrían estar los productores de alimentos.</p>
+        <h2>Términos de servicio, derechos de autor y otros abusos</h2>
+        <h3>¿Dónde puedo denunciar una infracción de los Términos de servicio o las Normas de la comunidad?</h3>
+        <p>Puede publicar en nuestro <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Comentarios &amp; Foro de soporte</a> o enviar un correo electrónico a <a href="mailto:support@growstuff.org">support@growstuff.org</a>.</p>
+        <h3>¿Qué se considera spam y cómo puedo denunciarlo?</h3>
+        <p>Hay muchos tipos de spam. La más obvia es la publicidad comercial repetida y no deseada. Muchos spammers también publican contenido irrelevante, sin sentido o de bajo valor en foros para intentar que usted haga clic en un enlace, o simplemente para ver qué pueden hacer.</p>
+        <p>¡Por favor reporte todo este tipo de spam!</p>
+        <p>Por ahora, como somos tan nuevos, no tenemos configurado un buen mecanismo de notificación de spam. Sin embargo, puede colocar un enlace en nuestro <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Comentarios &amp; Foro de soporte</a> y haremos lo que podamos.</p>
+        <h3>Alguien publicó algo que creo que infringe los derechos de autor. ¿Dónde puedo denunciarlo?</h3>
+        <p>Si es el propietario de los derechos de autor, puede presentar una queja siguiendo el procedimiento descrito en nuestra <a href="http://growstuff.org/policy/copyright">Política de infracción de derechos de autor</a>.</p>
+        <h3>¿Es Growstuff seguro para que lo usen los niños?</h3>
+        <p>Como sitio web centrado en el cultivo de alimentos, esperamos que Growstuff sea un entorno bastante seguro y amigable. Sin embargo, algunas partes del sitio (como publicaciones realizadas por miembros) pueden contener conceptos maduros, lenguaje grosero y similares. Si no quiere que sus hijos estén expuestos a estos, le recomendamos encarecidamente que supervise el uso de Growstuff. También le sugerimos que tenga cuidado con la información personal que comparten sus hijos en Growstuff.</p>
+        <h2>Más apoyo</h2>
+        <h3>¿Dónde puedo encontrar una lista de problemas conocidos con el sitio?</h3>
+        <p>En nuestro GitHub <a href="https://github.com/Growstuff/growstuff/issues">Problemas conocidos</a>.</p>
+        <h3>Mi pregunta no tiene respuesta aquí. ¿Dónde puedo solicitar más ayuda?</h3>
+        <p>En nuestro <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Comentarios &amp; Foro de soporte</a>. Consulte la lista de problemas conocidos antes de publicar.</p>
+        <h3>¿Dónde puedo publicar comentarios/felicitaciones?</h3>
+        <p>¡Nos encantan los comentarios! Envíenos una nota en nuestro <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Comentarios &amp; Foro de soporte</a>. (¿Hay un eco aquí?)</p>
+        <h3>¿De qué otra manera puedo contactarte?</h3>
+        <p>Si necesita ayuda con algo que no se ha cubierto aquí, puede enviar un correo electrónico a <a href="mailto:support@growstuff.org">support@growstuff.org</a>.</p>
+        <p>Las consultas de los medios/prensa pueden dirigirse a <a href="mailto:media@growstuff.org">media@growstuff.org</a>.</p>
+        <p>Si tiene una consulta sobre el sitio en general (por ejemplo, asuntos comerciales, o simplemente desea ponerse en contacto con alguien oficial de una manera que no sea de soporte), puede enviar un correo electrónico a <a href="mailto:info@growstuff.org">info@growstuff.org</a>.</p>
+    tos:
+      title: "Condiciones de servicio de Growstuff"
+      body_html: |
+        <p>Odiamos la jerga legal, por eso hemos intentado que nuestros Términos de servicio sean legibles. Si tiene alguna pregunta, no dude en <a href="mailto:support@growstuff.org">preguntarnos</a> y haremos todo lo posible para responderla.</p>
+        <p>Los mantenedores de Growstuff ("nosotros", "nos", "nuestro", "Growstuff") presentan los siguientes términos y condiciones, que rigen su uso del sitio web de Growstuff en <a href="http://www.growstuff.org">growstuff.org</a>, y todo el contenido, servicios y productos disponibles en el sitio web o a través de él, al que nos referimos colectivamente como "el Servicio".</p>
+        <p>Para utilizar el Servicio, debe aceptar estos Términos de servicio, junto con todas las demás políticas que publicamos (incluidas, entre otras, la Política de privacidad de Growstuff, la Política de uso de datos y API, la Política de infracción de derechos de autor y las Pautas de la comunidad). Nos referimos a esto como "el Acuerdo".</p>
+        <p>Lea atentamente este Acuerdo antes de acceder o utilizar el Servicio. Al acceder o utilizar cualquier parte del Servicio, usted acepta que está sujeto a los términos y condiciones de este Acuerdo. Si no está de acuerdo con todos los términos y condiciones de este Acuerdo, no podrá acceder al Servicio.</p>
+        <h2>1. Tu cuenta</h2>
+        <p>Si crea una cuenta en el Servicio, usted es responsable de mantener la seguridad de su cuenta. Usted es responsable de todas las actividades que ocurren bajo la cuenta. Debe tomar medidas razonables para proteger la seguridad de su cuenta. No seremos responsables de nada que suceda si se viola la seguridad de su cuenta como resultado de su falta de protección.</p>
+        <h2>2. Estructura de la cuenta</h2>
+        <p>Growstuff tiene un tipo de cuenta y es gratuita.</p>
+        <p>Al utilizar este Servicio, usted acepta el derecho de Growstuff de cambiar, modificar o discontinuar las funciones disponibles para su cuenta en cualquier momento.</p>
+        <h2>3. Política de contenidos</h2>
+        <p>Nuestra política de contenido se relaciona con cualquier material que pueda publicar en el sitio web de Growstuff o a través del Servicio, al que llamamos "Contenido". Esto incluye información de perfil, publicaciones y comentarios, información sobre su actividad de cultivo de alimentos y cualquier otro material, ya sea texto, gráficos o cualquier otro formato, que pueda publicar en Growstuff o al que pueda vincular desde Growstuff.</p>
+        <p>Todo el Contenido publicado en el Servicio de cualquier forma es responsabilidad del propietario. Si alguna ley que tenga jurisdicción sobre usted considera que el Contenido es ilegal, usted acepta que podemos enviar cualquier información necesaria a las autoridades correspondientes.</p>
+        <p>No reclamamos ninguna propiedad ni control sobre el Contenido que usted publique en el Servicio. Usted conserva todos los derechos de propiedad intelectual sobre el Contenido que publica, de conformidad con la ley aplicable. Al publicar Contenido, usted declara que tiene el derecho de reproducir ese Contenido (y el derecho a permitirnos publicar dicho Contenido) sin violar los derechos de ningún tercero. Usted acepta que asumirá cualquier responsabilidad resultante de la publicación de cualquier Contenido que no tenga derecho a publicar.</p>
+        <p>Usted nos otorga una licencia mundial, libre de regalías y no exclusiva para reproducir, modificar, adaptar y publicar el Contenido, únicamente con el propósito de mostrar, distribuir y promocionar el contenido de su cuenta, a través de cualquier parte del Servicio, incluso a través de nuestra API, feeds y clientes externos.</p>
+        <p>Si elimina Contenido, haremos todos los esfuerzos razonables para eliminarlo del Servicio, pero usted reconoce que es posible que el almacenamiento en caché o las referencias al Contenido no dejen de estar disponibles inmediatamente.</p>
+        <h3>3.1 Datos estructurados</h3>
+        <p>Hay un subconjunto de Contenido al que nos referimos como "Datos Estructurados". Los datos estructurados son contenido que representa hechos simples, en lugar de un esfuerzo creativo. Por ejemplo, las ubicaciones, las fechas o el tipo y número de cultivos que ha plantado son datos estructurados. Los datos estructurados pueden ser creados explícitamente por usted o implícitamente por el sitio web en respuesta a su actividad.</p>
+        <p>Al utilizar el Servicio, usted reconoce que Growstuff recopilará y almacenará los Datos Estructurados, y que cualquier Dato Estructurado relacionado con usted o su actividad puede estar disponible para su uso por parte de terceros bajo una licencia Creative Commons Attribution ShareAlike (CC-BY-SA). También acepta que la atribución de los datos estructurados según los términos de la licencia Creative Commons se otorgará a Growstuff.</p>
+        <h3>3.2 Contenido publicado en otros sitios web</h3>
+        <p>No hemos revisado, ni podemos revisar, todo el material, incluido el software informático, disponible a través de los sitios web y páginas web a los que nosotros, cualquier usuario o cualquier proveedor de Contenido se vincula, o que nos vinculan. No tenemos ningún control sobre esos sitios web y páginas web, y no somos responsables de sus contenidos o su uso. Al vincularnos a un sitio web o página web externos, no representamos ni damos a entender que respaldamos dicho sitio web o página web. Usted es responsable de tomar las precauciones necesarias para protegerse a sí mismo y a sus sistemas informáticos de virus, gusanos, caballos de Troya y otros contenidos dañinos o destructivos. Renunciamos a cualquier responsabilidad por cualquier daño resultante de su uso de sitios web y páginas web externos, ya sea que el enlace lo proporcionemos nosotros o cualquier proveedor de Contenido del Servicio.</p>
+        <h3>3.3 Cómo abordamos los problemas Contenido</h3>
+        <p>Usted acepta que al utilizar el Servicio, puede estar expuesto a Contenido que considere ofensivo u objetable.</p>
+        <p>No realizamos una selección previa del Contenido. Sin embargo, usted reconoce que tenemos el derecho (pero no la obligación), a nuestro exclusivo criterio, de eliminar o negarnos a eliminar cualquier Contenido del Servicio. Si se nos informa dicho Contenido, quedará a nuestro exclusivo criterio qué acción, si corresponde, se debe tomar.</p>
+        <p>Si se nos informa que algún Contenido que ha enviado viola este Acuerdo, usted acepta que podemos solicitarle que cambie, modifique o elimine ese Contenido, dentro de un período de tiempo razonable, según lo definido por nosotros. Si no sigue esta directiva, podemos cancelar su cuenta.</p>
+        <h2>4. Conducta de los miembros</h2>
+        <p>Usted acepta que no utilizará el Servicio para:</p>
+        <ol>
+        <li>Cargar, publicar o transmitir de otro modo cualquier Contenido que sea dañino, amenazante, abusivo, odioso, invasivo de los derechos de privacidad y publicidad de cualquier persona, o que viole cualquier ley local, estatal, nacional o internacional aplicable, incluida cualquier regulación que tenga fuerza de ley;</li>
+        <li>Cargar, publicar o transmitir de otro modo cualquier Contenido que sea spam o que contenga contenido comercial poco ético o no deseado diseñado para dirigir el tráfico a sitios de terceros o mejorar la clasificación de los motores de búsqueda de sitios de terceros, o para promover actos ilegales (como phishing) o engañar a los destinatarios en cuanto a la fuente del material (como suplantación de identidad);</li>
+        <li>Hacerse pasar maliciosamente por cualquier persona o entidad real, incluidos, entre otros, un miembro del personal o voluntario de Growstuff, o tergiversar de otro modo su afiliación con cualquier persona o entidad;</li>
+        <li>Cargar, publicar o transmitir de otro modo cualquier Contenido que no tenga derecho a transmitir en virtud de ninguna ley o de relaciones contractuales o fiduciarias (como información privilegiada, información de propiedad y confidencial obtenida o divulgada como parte de relaciones laborales o en virtud de acuerdos de confidencialidad);</li>
+        <li>Cargar, publicar o transmitir de otro modo cualquier Contenido que infrinja cualquier patente, marca registrada, secreto comercial, derechos de autor u otros derechos de propiedad de cualquier parte;</li>
+        <li>Interferir o interrumpir el Servicio o los servidores o redes conectados al Servicio, o desobedecer cualquier requisito, procedimiento, política o regulación de las redes conectadas al Servicio;</li>
+        <li>Solicitar contraseñas o información de identificación personal a otros usuarios con fines no intencionados, comerciales o ilegales;</li>
+        <li>Cargar, publicar o transmitir de otro modo cualquier Contenido que contenga virus, gusanos, malware, caballos de Troya u otro contenido dañino o destructivo;</li>
+        <li>Permitir el uso por parte de otros de tal manera que viole este Acuerdo;</li>
+        <li>Hacer un uso automatizado excesivo o dañino del Servicio;</li>
+        <li>Acceder a la cuenta de cualquier otra persona o exceder el alcance del Servicio al que se ha registrado; por ejemplo, acceder y utilizar funciones que no tiene derecho a utilizar.</li>
+        </ol>
+        <p>Usted acepta que cumplirá con las Pautas de la comunidad, que actualmente están disponibles en <a href="http://www.growstuff.org/policy/community">http://www.growstuff.org/policy/community</a>.</p>
+        <h2>5. Voluntarios</h2>
+        <p>Apreciamos el servicio de los voluntarios en muchos aspectos de las operaciones de Growstuff. Las actividades de voluntariado incluyen, entre otras, desarrollar software, brindar soporte técnico, redactar documentación, realizar tareas de administración del sitio, brindar asesoramiento de expertos, investigación, redacción técnica, revisión, categorización y otras tareas según sea necesario para respaldar el funcionamiento del Servicio.</p>
+        <p>Se espera que todos los voluntarios sean mayores de edad o trabajen como voluntarios con el consentimiento de un padre o tutor legal.</p>
+        <p>Al ofrecerse como voluntario, usted acepta que cualquier trabajo creado como resultado de sus actividades voluntarias tendrá una licencia para Growstuff de forma perpetua, irrevocable y mundial, en la medida permitida por la ley. Usted acepta que Growstuff puede determinar la base sobre la cual su trabajo voluntario se licenciará a otros, incluso bajo licencias de código abierto o Creative Commons que pueden permitir una mayor alteración o difusión de su trabajo. Si las leyes impiden dicha concesión de licencias, usted acepta no demandar nunca a Growstuff por el uso de dicho trabajo.</p>
+        <p>Al ofrecerse como voluntario, usted acepta que proporciona su trabajo sin expectativa de pago ni consideración futura por parte de Growstuff. También acepta que ha ejercido una diligencia razonable para garantizar que el trabajo sea correcto, preciso y libre de defectos. Usted acepta que no divulgará ni compartirá ninguna información confidencial o de propiedad exclusiva que se le proporcione durante su trabajo voluntario.</p>
+        <p>Ningún usuario está obligado a ofrecerse como voluntario, y los usuarios que no lo hagan recibirán el mismo cuidado, apoyo y atención.</p>
+        <h2>6. Política de privacidad</h2>
+        <p>Su uso del sitio web se rige por la Política de Privacidad, actualmente ubicada en <a href="http://www.growstuff.org/policy/privacy">http://www.growstuff.org/policy/privacy</a>.</p>
+        <h2>7. API y política de uso de datos</h2>
+        <p>Su uso de nuestra API y/o datos se rige por nuestra Política de uso de datos y API, actualmente ubicada en <a href="http://www.growstuff.org/policy/api">http://www.growstuff.org/policy/api</a>.</p>
+        <h2>8. Infracción de derechos de autor</h2>
+        <p>Si cree que el material ubicado en el sitio web viola sus derechos de autor, puede notificarnos de acuerdo con nuestra Política de infracción de derechos de autor, actualmente ubicada en <a href="http://www.growstuff.org/policy/copyright">http://www.growstuff.org/policy/copyright</a>.</p>
+        <h2>9. Reventa de Servicios</h2>
+        <p>Usted acepta no reproducir, duplicar, copiar, vender, revender ni explotar ninguna parte del Servicio, el uso del Servicio o el acceso al Servicio, excepto según lo permitido por nuestra API y Política de uso de datos, licencia de código abierto relacionada con el código fuente del Servicio o licencias Creative Commons relacionadas con el Contenido u otro material publicado en el Servicio.</p>
+        <h2>10. Indemnización</h2>
+        <p>Usted acepta indemnizar y eximir de responsabilidad a Growstuff, sus contratistas, sus licenciantes y sus respectivos directores, funcionarios, empleados y agentes de y contra todos y cada uno de los reclamos y gastos, incluidos los honorarios de abogados, que surjan de su uso del Servicio, incluido, entre otros, su violación de este Acuerdo.</p>
+        <h2>11. Terminación</h2>
+        <p>Growstuff puede cancelar su cuenta o restringir su uso del Servicio en cualquier momento si creemos que ha violado este Acuerdo. Si esto ocurre, se le notificará por correo electrónico y le diremos qué parte del Acuerdo creemos que violó. Podemos, a nuestra discreción, optar por emitir una advertencia en lugar de cancelar su cuenta, en cuyo caso también se le notificará por correo electrónico y se le informará qué parte del Acuerdo creemos que violó. También le proporcionaremos una dirección de contacto donde podrá apelar nuestra decisión; sin embargo, no garantizamos que cambiaremos de opinión.</p>
+        <p>Usted acepta que cualquier terminación de su acceso al Servicio puede implicar la eliminación o descarte de cualquier contenido que haya proporcionado.</p>
+        <p>Podemos, a nuestro exclusivo criterio, dejar de prestar el Servicio en cualquier momento, con o sin previo aviso.</p>
+        <p>Si desea rescindir este Acuerdo, puede eliminar su cuenta y dejar de utilizar el Servicio. Usted acepta que, al eliminar su cuenta, podemos, pero no estamos obligados a hacerlo, eliminar cualquier Contenido que haya proporcionado, en cualquier momento después de la eliminación de su cuenta.</p>
+        <p>Todas las disposiciones de este Acuerdo que por su naturaleza deberían sobrevivir a la terminación sobrevivirán a la terminación, incluidas, entre otras, las disposiciones de propiedad, las exenciones de garantía, la indemnización y las limitaciones de responsabilidad.</p>
+        <h2>12. Cambios</h2>
+        <p>Nos reservamos el derecho, a nuestro exclusivo criterio, de modificar o reemplazar cualquier parte de este Acuerdo en cualquier momento. Un historial de cambios a este Acuerdo está disponible a través de nuestro repositorio de código fuente público en <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>. Tomaremos medidas razonables para notificarle cualquier cambio sustancial a este Acuerdo; sin embargo, es su responsabilidad revisar este Acuerdo periódicamente para detectar cambios. Su uso continuado del Servicio después de la publicación de cualquier cambio en este Acuerdo constituye la aceptación de dichos cambios.</p>
+        <p>También podremos, en el futuro, ofrecer nuevas funciones o servicios a través del Servicio. Dichas nuevas funciones y/o servicios estarán sujetos a los términos y condiciones de este Acuerdo.</p>
+        <h2>13. Renuncia de garantías</h2>
+        <p>Este Servicio se proporciona "tal cual". Los mantenedores de Growstuff y sus proveedores y licenciantes renuncian por la presente a todas las garantías de cualquier tipo, expresas o implícitas, incluidas, entre otras, las garantías de comerciabilidad, idoneidad para un propósito particular y no infracción. Ni los mantenedores de Growstuff ni sus proveedores y licenciantes ofrecen ninguna garantía de que el Servicio estará libre de errores o que el acceso al Servicio será continuo o ininterrumpido. Usted acepta que cualquier interrupción del servicio no calificará para reembolso o compensación. Usted comprende que descarga u obtiene contenido o servicios a través del Servicio bajo su propia discreción y riesgo.</p>
+        <p>Ningún consejo o información, ya sea oral o escrito, obtenido por usted de cualquier manera creará ninguna garantía que no esté expresamente establecida en este Acuerdo.</p>
+        <h2>14. Limitación de responsabilidad</h2>
+        <p>Usted entiende y acepta expresamente que en ningún caso los Mantenedores de Growstuff o sus proveedores o licenciantes serán responsables con respecto a cualquier tema de este acuerdo bajo cualquier contrato, negligencia, responsabilidad estricta u otra teoría legal o equitativa por: (i) cualquier daño especial, incidental o consecuente; (ii) el costo de adquisición o de productos o servicios sustitutos; (iii) interrupción del uso o pérdida o corrupción de datos; (iv) cualquier declaración o conducta de cualquier tercero en el servicio; o (v) cualquier acceso no autorizado o modificaciones de su Contenido. No seremos responsables de ningún fallo o retraso debido a asuntos que escapen a nuestro control razonable.</p>
+        <p>Lo anterior no se aplicará en la medida en que lo prohíba la ley aplicable.</p>
+        <h2>15. Información general</h2>
+        <p>Este Acuerdo constituye el acuerdo completo entre usted y nosotros con respecto a su uso del Servicio. Este Acuerdo solo puede modificarse mediante una enmienda escrita firmada por un representante autorizado de Growstuff Keepers o mediante la publicación de una versión revisada en esta ubicación. Excepto en la medida en que la ley aplicable (si la hubiera) disponga lo contrario, cualquier disputa que surja entre usted y los Mantenedores de Growstuff con respecto a estos Términos de servicio y/o su uso o acceso al Servicio se regirá por las leyes del estado de Victoria y las leyes federales de Australia, excluyendo cualquier conflicto de disposiciones legales. Usted acepta someterse a la jurisdicción de los tribunales estatales y federales ubicados en Melbourne, Australia, para cualquier disputa que surja o esté relacionada con su uso del Servicio o su aceptación de este Acuerdo.</p>
+        <p>Si alguna parte de este Acuerdo se considera inválida o inaplicable, esa parte se interpretará de manera que refleja la intención original de las partes y las partes restantes permanecerán en pleno vigor y efecto. Una renuncia por cualquiera de las partes a cualquier término o condición de este Acuerdo o cualquier incumplimiento del mismo, en cualquier caso, no renunciará a dicho término o condición ni a ningún incumplimiento posterior del mismo.</p>
+        <p>Los títulos de las secciones de este Acuerdo son solo para su conveniencia y no tienen ningún efecto legal o contractual.</p>
+        <h2>16. Reportar violaciones</h2>
+        <p>Para informar una violación de este acuerdo, envíe un correo electrónico a <a href="mailto:support@growstuff.org">support@growstuff.org</a>.</p>
+        <h2>17. Bienes comunes creativos</h2>
+        <p>Este documento de Términos de servicio se basa en uno desarrollado por Automattic (<a href="http://wordpress.com/tos/">http://wordpress.com/tos/</a>) con modificaciones de Dreamwidth (<a href="http://www.dreamwidth.org/legal/tos">http://www.dreamwidth.org/legal/tos</a>) y tiene una licencia <a href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 Licencia</a>.</p>
     about:
       title: Acerca de
       description_html: Para obtener más información sobre Growstuff, consulta nuestra %{github_link}.
