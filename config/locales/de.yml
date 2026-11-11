@@ -119,17 +119,17 @@ de:
   authentications:
     sign_in:
       bluesky:
-        terms_of_service: "Nutzungsbedingungen"
-        agree_to_tos_html: "Ich stimme den %{tos_link} zu"
-        contacting: "Bluesky wird kontaktiert…"
-        handle_label: "Bluesky-Handle"
-        handle_placeholder: "alice.bsky.social"
+        terms_of_service: Nutzungsbedingungen
+        agree_to_tos_html: Ich stimme den %{tos_link} zu
+        contacting: Bluesky wird kontaktiert…
+        handle_label: Bluesky-Handle
+        handle_placeholder: alice.bsky.social
       mastodon:
-        agree_to_tos_html: "Ich stimme den %{tos_link} zu"
-        identifier_label: "Mastodon-Adresse"
-        identifier_placeholder: "alice@mastodon.social"
-        permission_note: "Wir fragen nur, wer Sie sind. Wir können nicht für Sie posten."
-        terms_of_service: "Nutzungsbedingungen"
+        agree_to_tos_html: Ich stimme den %{tos_link} zu
+        identifier_label: Mastodon-Adresse
+        identifier_placeholder: alice@mastodon.social
+        permission_note: Wir fragen nur, wer Sie sind. Wir können nicht für Sie posten.
+        terms_of_service: Nutzungsbedingungen
   alternate_names:
     created: Alternativer Name wurde erfolgreich erstellt.
     deleted: Der alternative Name wurde erfolgreich gelöscht.
@@ -238,7 +238,7 @@ de:
       about: Über
       breadcrumb_conversations: Konversationen
       participants: Teilnehmer
-      sent_on: "am %{date}"
+      sent_on: am %{date}
   crop_companions:
     created: Companion wurde erfolgreich erstellt.
     deleted: Companion wurde erfolgreich zerstört.
@@ -280,12 +280,12 @@ de:
   crops:
     growing_fact:
       median_of_packets: Median der Samenpäckchen der Mitglieder
-      members_packets: "Samenpäckchen der Mitglieder: %{median}"
+      members_packets: 'Samenpäckchen der Mitglieder: %{median}'
     growing_facts:
       days_until_maturity: Tage bis zur Reife
       germination: Keimung
       median_of_packets: Median der Samenpäckchen der Mitglieder
-      members_packets_hemispheres: "Samenpäckchen der Mitglieder: %{south} Süd, %{north} Nord"
+      members_packets_hemispheres: 'Samenpäckchen der Mitglieder: %{south} Süd, %{north} Nord'
       northern_hemisphere: Nördliche Hemisphäre
       row_spacing: Reihenabstand
       southern_hemisphere: Südliche Hemisphäre
@@ -353,6 +353,122 @@ de:
       save: Speichern
       wikidata_id: Wikidata-ID
     search: Pflanzen suchen
+    edit:
+      added_by_html: Hinzugefügt von %{creator_link} vor %{time_ago}.
+      approved_by_html: Genehmigt von %{approver_link}.
+      requested_by_html: Angefordert von %{requester_link} vor %{time_ago}.
+      status_by_html: 'Status: %{status} von %{creator_link}.'
+      status_html: 'Status: %{status}.'
+      title: 'Nutzpflanze bearbeiten: %{name}'
+    new:
+      edible_only: Die Growstuff-Datenbank enthält nur essbare Nutzpflanzen. In Zukunft hoffen wir, weitere Pflanzen zu unterstützen, aber vorerst können wir Ihren Vorschlag nicht aufnehmen, wenn er nicht essbar ist.
+      intro: 'Vielen Dank, dass Sie sich die Zeit nehmen, eine Nutzpflanze vorzuschlagen! Unsere Pflanzendatenbank wird von Freiwilligen verwaltet und wir freuen uns über Ihre Hilfe. Hier sind einige Dinge, die Sie beim Vorschlagen einer neuen Pflanze beachten sollten:'
+      new_crop: Neue Nutzpflanze
+      search_our_crops: unsere Nutzpflanzen durchsuchen
+      search_suggestion_html: Zunächst möchten Sie vielleicht %{search_link}, um sicherzugehen, dass wir die Pflanze nicht bereits haben, vielleicht unter einem alternativen Namen.
+      suggest_crop: Nutzpflanze vorschlagen
+      wikipedia_requirement: Derzeit fügen wir nur Nutzpflanzen hinzu, die über eine Wikipedia-Seite verfügen. Wenn Sie eine bestimmte Sorte hinzufügen möchten, die keinen eigenen Wikipedia-Eintrag hat, verwenden Sie bitte stattdessen die allgemeinere Form der Pflanze und tragen Sie den Namen Ihrer Sorte in die Notizen/Beschreibung ein.
+    form:
+      approve_and_save: Genehmigen und speichern
+      errors:
+        one: '1 Fehler verhinderte das Speichern dieser Nutzpflanze:'
+        other: "%{count} Fehler verhinderten das Speichern dieser Nutzpflanze:"
+      reject: Ablehnen
+      save: Speichern
+    fields:
+      alternate_name_with_index: 'Alternativer Name %{index}:'
+      alternate_names: Alternative Namen
+      alternate_names_hint: Alternativer Name der Nutzpflanze.
+      basic_information: Grundlegende Informationen
+      comments: Kommentare
+      crop_request_notes: Hinweise zur Nutzpflanzenanfrage
+      crop_wrangling_guide: Leitfaden zur Ernteverwaltung
+      crop_wrangling_guide_intro_html: Detaillierte Richtlinien zur Ernteverwaltung finden Sie im %{guide_link} im Growstuff-Wiki.
+      currently: 'Aktuell:'
+      data: Daten
+      days_until_maturity_max: Tage bis zur Reife, höchstens
+      days_until_maturity_min: Tage bis zur Reife, mindestens
+      description: Beschreibung
+      en_wikipedia_url: Wikipedia-URL
+      en_wikipedia_url_hint: Link zur Seite der Nutzpflanze auf der englischsprachigen Wikipedia (erforderlich).
+      en_youtube_url: YouTube-URL
+      en_youtube_url_hint: Link zu einem YouTube-Video über die Nutzpflanze auf Englisch.
+      germination_days_max: Keimung, höchstens (Tage)
+      germination_days_min: Keimung, mindestens (Tage)
+      growing: Anbau
+      growing_degree_days: Wachstumsgradtage
+      height: Höhe (cm)
+      icon: Symbol
+      icon_blank: 'Keines: das der übergeordneten Nutzpflanze verwenden'
+      icon_hint: Optional. Wird für diese Nutzpflanze und alle ihre Sorten angezeigt, die kein eigenes haben.
+      lifespan: Lebensdauer
+      lifespan_annual: Einjährig
+      lifespan_annual_hint: Lebt und vermehrt sich in einem einzigen Jahr oder weniger
+      lifespan_perennial: Mehrjährig
+      lifespan_perennial_hint: Lebt mehr als zwei Jahre
+      months_to_sow: Aussaatmonate
+      months_to_sow_hint: 'Wählen Sie die Monate für die südliche Hemisphäre: Die nördliche Hemisphäre liegt sechs Monate weiter.'
+      name:
+        hint: Der gebräuchliche Name der Nutzpflanze auf Englisch (erforderlich).
+        label: Name
+        wranglers_hint: 'Wrangler: Bitte stellen Sie sicher, dass dies im Singular steht und nur Eigennamen großgeschrieben werden.'
+      parent_crop: Übergeordnete Nutzpflanze
+      parent_crop_hint: Optional. Zum Einrichten von Pflanzenhierarchien für Sorten usw.
+      parent_value: 'Übergeordnet: %{value}'
+      public_food_key: Australian Food Composition Database Public Food Key
+      rejection_notes_hint: Bitte geben Sie zusätzliche Hinweise an, warum diese Nutzpflanzenanfrage abgelehnt wurde, falls die oben genannten Gründe nicht zutreffen.
+      requester_submission_notice: Wenn Sie dieses Formular absenden, wird Ihr Vorschlag zur Überprüfung an unser Team freiwilliger Ernteverwalter weitergeleitet. Wir teilen Ihnen das Ergebnis so schnell wie möglich mit.
+      row_spacing: Reihenabstand (cm)
+      scientific_name_with_index: 'Wissenschaftlicher Name %{index}:'
+      scientific_names: Wissenschaftliche Namen
+      scientific_names_hint: Durchsucht GBIF zur Bestimmung des wissenschaftlichen Namens der Nutzpflanze.
+      search_wikipedia: Wikipedia durchsuchen
+      sowing_method: Aussaatmethode
+      spread: Ausbreitung (cm)
+      sun_requirements: Sonnenbedarf
+      harvest_style:
+        blank: Nicht bekannt
+        heading: Erntestil
+        hint: 'Einmal pro Pflanze, wie bei einem Salat: Die gesamte Pflanze wird geerntet. Mehrmals pro Pflanze, wie bei einer Tomate.'
+        label: Wie eine Pflanze geerntet wird
+        parent: 'Übergeordnet: %{style}'
+    wrangle:
+      add: Hinzufügen
+      add_crop: Nutzpflanze hinzufügen
+      all_crops: Alle Nutzpflanzen
+      approved: Genehmigt
+      clear: Löschen
+      crop_wranglers: Ernteverwalter
+      crops: Nutzpflanzen
+      full_crop_hierarchy: Vollständige Pflanzenhierarchie
+      merge_crops: Nutzpflanzen zusammenführen
+      not_applicable: k. A.
+      pending_approval: Ausstehende Genehmigung
+      recently_edited: Kürzlich bearbeitet
+      rejected: Abgelehnt
+      search_aria_label: Nutzpflanzen suchen
+      search_button: Suchen
+      search_placeholder: Nutzpflanzen nach Namen suchen
+      template: Vorlage
+      th_added_by: Hinzugefügt von
+      th_alternate_names: Alternative Namen
+      th_child_crops: Untergeordnete Nutzpflanzen
+      th_growing_degree_days: Wachstumsgradtage
+      th_height: Höhe
+      th_icon: Symbol
+      th_job_templates: Aufgabenvorlagen
+      th_name: Name
+      th_rejected_by: Abgelehnt von
+      th_requested_by: Angefordert von
+      th_row_spacing: Reihenabstand
+      th_scientific_names: Wissenschaftliche Namen
+      th_spread: Ausbreitung
+      th_updated: Aktualisiert
+      th_youtube: YouTube
+      time_ago: vor %{time}
+      title: Ernteverwaltung
+      top_level_crops: Nutzpflanzen auf oberster Ebene
+      'yes': Ja
   edit_crop: Zuschnitt bearbeiten
   follows:
     followers:
@@ -1102,7 +1218,7 @@ de:
       type_your_message: Geben Sie hier Ihre Nachricht ein
     new:
       breadcrumb_messages: Nachrichten
-      title: "Nachricht an %{recipient} senden"
+      title: Nachricht an %{recipient} senden
     auth_failed: Authentifizierung fehlgeschlagen.
     auth_success: Authentifizierung erfolgreich.
     crops_waiting: Es gibt Erntegut, das darauf wartet, eingebracht zu werden.
@@ -1299,9 +1415,9 @@ de:
       no_nearby_seeds: Kein Saatgut in der Nähe gefunden
       recent_plantings: Neueste Pflanzungen in der Nähe von %{place}
       seeds_available: Zum Tausch verfügbares Saatgut in der Nähe von %{place}
-      view_all_members: "Alle Mitglieder anzeigen \u00bb"
-      view_all_plantings: "Alle Pflanzungen anzeigen \u00bb"
-      view_all_seeds: "Alle Samen anzeigen \u00bb"
+      view_all_members: Alle Mitglieder anzeigen »
+      view_all_plantings: Alle Pflanzungen anzeigen »
+      view_all_seeds: Alle Samen anzeigen »
   plant_parts:
     edit:
       back: Zurück
@@ -1309,7 +1425,7 @@ de:
       title: Pflanzenteil bearbeiten
     form:
       errors:
-        one: "1 Fehler verhinderte das Speichern dieses Pflanzenteils:"
+        one: '1 Fehler verhinderte das Speichern dieses Pflanzenteils:'
         other: "%{count} Fehler verhinderten das Speichern dieses Pflanzenteils:"
       name: Name
       save: Speichern
@@ -1442,14 +1558,14 @@ de:
       weather_soil_temp: Bodenwärme
       weather_temperature_chart: Tageshoch und -tief
       weather_temperature_chart_alt: Tageshöchst- und Tiefsttemperatur, von %{low} bis %{high}.
-    string: '%{crop} Pflanzung in %{garden} durch %{owner}'
+    string: "%{crop} Pflanzung in %{garden} durch %{owner}"
     timeline:
       failed: Fehlgeschlagen
       finish_expected: Abschluss erwartet %{date}
       finished: Abgeschlossen %{date}
       first_harvest_expected: Erste Ernte erwartet %{date}
       harvest_started: Ernte begonnen %{date}
-      legend: (Ein Emoji = 1 Woche)
+      legend: "(Ein Emoji = 1 Woche)"
       planted: Gepflanzt %{date}
     transplant:
       cancel: Abbrechen
@@ -1482,7 +1598,7 @@ de:
       crop_wrangling_guide: Leitfaden zur Ernteverwaltung
       crop_wrangling_guide_intro_html: Detaillierte Richtlinien zur Ernteverwaltung finden Sie im %{guide_link} im Growstuff-Wiki.
       errors:
-        one: "1 Fehler verhinderte das Speichern dieses wissenschaftlichen Namens:"
+        one: '1 Fehler verhinderte das Speichern dieses wissenschaftlichen Namens:'
         other: "%{count} Fehler verhinderten das Speichern dieses wissenschaftlichen Namens:"
       name: Name
       save: Speichern
@@ -1497,8 +1613,8 @@ de:
       title: Neuer wissenschaftlicher Name
     show:
       back: Zurück
-      crop_label: "Nutzpflanze:"
-      scientific_name_label: "Wissenschaftlicher Name:"
+      crop_label: 'Nutzpflanze:'
+      scientific_name_label: 'Wissenschaftlicher Name:'
   seasons:
     autumn: Herbst
     spring: Feder
