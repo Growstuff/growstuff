@@ -502,4 +502,16 @@ describe Member do
     it { expect(grouped[:late]).to eq [late] }
     it { expect(grouped[:super_late]).to eq [super_late] }
   end
+
+  describe 'asking for the climate of its location' do
+    it 'requests the weather cell of a new location' do
+      create_located_member('Whangarei, New Zealand', -35.73, 174.32)
+      expect(ClimateRequest.pluck(:latitude, :longitude)).to eq [[-35.75, 174.25]]
+    end
+
+    it 'requests nothing for a member with no location' do
+      create(:member)
+      expect(ClimateRequest.count).to eq 0
+    end
+  end
 end
