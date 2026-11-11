@@ -37,7 +37,25 @@ class SeasonalClimate
     SEASON_MONTHS.fetch(@half).map { |name, months| season(name, months) }
   end
 
+  # { month number => the usual average air temperature }, for the months we hold any.
+  def monthly_means
+    monthly(:temp_mean_c)
+  end
+
+  # The same for how cold the nights usually get in the month, and how hot the days.
+  def monthly_nights
+    monthly(:temp_min_c)
+  end
+
+  def monthly_days
+    monthly(:temp_max_c)
+  end
+
   private
+
+  def monthly(column)
+    @past.transform_values { |rows| average(rows.filter_map(&column)) }.compact
+  end
 
   def season(name, months)
     rows = months.flat_map { |month| @past.fetch(month, []) }

@@ -30,6 +30,18 @@ describe SeasonalClimate do
       expect(climate.seasons.map(&:name)).to eq %i(spring summer autumn winter)
     end
 
+    it 'gives the usual average of each month' do
+      expect(climate.monthly_means[1]).to eq 2.0
+    end
+
+    it 'gives how cold the nights usually get in a month' do
+      expect(climate.monthly_nights[1]).to eq(-6.0)
+    end
+
+    it 'gives how hot the days usually get in a month' do
+      expect(climate.monthly_days[1]).to eq 10.0
+    end
+
     it 'gives each its months, in the southern hemisphere' do
       expect(season(:summer).months).to eq [12, 1, 2]
     end
