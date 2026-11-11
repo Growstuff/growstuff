@@ -2529,6 +2529,86 @@ de:
       perennial: perennis
       unknown: Unbekannt
   plantings:
+    localization:
+      harvest_ready: Diese Pflanzung ist jetzt erntereif
+      harvest_prediction: Voraussichtliche Wochen bis zur Ernte
+      add: hinzufügen
+      activity_html: hat %{crop} gepflanzt
+      actions: Aktionen für %{planting}
+      quantity: 'Anzahl:'
+      planted: 'Gepflanzt:'
+      set_date: Pflanzdatum festlegen, um Vorhersagen zu ermöglichen
+      insufficient_data: Nicht genügend Daten zu %{crop} für eine Vorhersage
+      edit: Pflanzung bearbeiten
+      browse: Pflanzungen durchsuchen und finden.
+      plantings: Pflanzungen
+      owner_plantings: Pflanzungen von %{owner}
+      include_finished: abgeschlossene Pflanzungen einschließen
+      open_data: Offene Daten
+      api_methods: API-Methoden
+      no_plantings: Noch keine Pflanzungen erfasst
+      calendar_description: Pflanzungen von %{owner}
+      feed_title: Neueste Pflanzungen von %{owner} (%{site})
+      all_members: allen Mitgliedern
+      feed_item: '%{planting} in %{location}'
+      grower_photo: '%{planting}, angebaut von %{owner}'
+      grown_by_html: angebaut von %{owner}
+      in_garden_html: in %{garden}
+      cultivate_prompt: Dies war die letzte kürzlich angelegte Pflanzung in diesem Beet. Möchten Sie den Boden bald bearbeiten?
+      cultivate: Boden bearbeiten
+      crop_photo: Foto von %{crop}
+      variety_html: eine Sorte von %{crop}
+      annual_lifespan_html: Einjährig, lebt etwa %{days}
+      annual: Einjährig
+      perennial: Mehrjährig
+      first_harvest_html: Erste Ernte etwa %{days} nach der Pflanzung
+      last_harvest_html: Letzte Ernte etwa %{days} nach der Pflanzung
+      usual_sun_html: Wird üblicherweise bei %{sun} angebaut
+      more: Mehr über %{crop}
+      days: {one: '%{count} Tag', other: '%{count} Tage'}
+      errors:
+        one: '1 Fehler hat das Speichern dieser Pflanzung verhindert:'
+        other: '%{count} Fehler haben das Speichern dieser Pflanzung verhindert:'
+      crop_label: Was haben Sie gepflanzt?
+      cannot_find: Finden Sie nicht, wonach Sie suchen?
+      request_crops: Neue Nutzpflanzen anfragen.
+      alternate_name: Wie nennen Sie die Pflanze?
+      alternate_help: Optional. Ihre Pflanzungen zeigen diesen Namen anstelle des Hauptnamens der Nutzpflanze.
+      planting_in_html: Pflanzung in %{garden}
+      choose_garden: Einen anderen Garten wählen
+      garden_label: Wo haben Sie gepflanzt?
+      add_garden: Einen Garten hinzufügen.
+      when: Wann?
+      date_help: Planen Sie zukünftige Pflanzungen mit einem zukünftigen Datum und abonnieren Sie Ihren iCalendar-Feed für Pflanzerinnerungen
+      planted_from: Gepflanzt aus
+      sun_label: Sonne oder Schatten?
+      how_many: Wie viele?
+      leave_blank: Leer lassen
+      rating: Gesamtbewertung
+      rating_help: Wie gut entwickelt sich die Pflanzung?
+      poor: Schlecht
+      great: Sehr gut
+      description: Erzählen Sie uns mehr darüber
+      finished_date: Abschlussdatum
+      optional: optional
+      save: Speichern
+      sun: {sun: Sonne, semi-shade: Halbschatten, shade: Schatten}
+      units:
+        plant: {one: Pflanze, other: Pflanzen}
+        planting: {one: Pflanzung, other: Pflanzungen}
+        harvest: {one: Ernte, other: Ernten}
+        seed: {one: Samen, other: Samen}
+        seedling: {one: Sämling, other: Sämlinge}
+        cutting: {one: Steckling, other: Stecklinge}
+        volunteer: {one: selbst ausgesäte Pflanze, other: selbst ausgesäte Pflanzen}
+        root division: {one: Wurzelteilung, other: Wurzelteilungen}
+        runner: {one: Ausläufer, other: Ausläufer}
+        bulb: {one: Zwiebel, other: Zwiebeln}
+        root/tuber: {one: Wurzel/Knolle, other: Wurzeln/Knollen}
+        bare root plant: {one: wurzelnackte Pflanze, other: wurzelnackte Pflanzen}
+        advanced plant: {one: vorgezogene Pflanze, other: vorgezogene Pflanzen}
+        graft: {one: Veredelung, other: Veredelungen}
+        layering: {one: Absenker, other: Absenker}
     badges:
       days_until_finished: Bis abgeschlossen
       days_until_harvest: tage bis zur Ernte

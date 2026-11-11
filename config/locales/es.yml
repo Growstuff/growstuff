@@ -2528,6 +2528,86 @@ es:
       perennial: Perenne
       unknown: Desconocido
   plantings:
+    localization:
+      harvest_ready: La plantación ya está lista para cosechar
+      harvest_prediction: Semanas previstas hasta la cosecha
+      add: añadir
+      activity_html: plantó %{crop}
+      actions: Acciones para %{planting}
+      quantity: 'Cantidad:'
+      planted: 'Plantado:'
+      set_date: Establezca la fecha de plantación para obtener predicciones
+      insufficient_data: No hay suficientes datos sobre %{crop} para hacer predicciones
+      edit: Editar plantación
+      browse: Explore y busque plantaciones.
+      plantings: Plantaciones
+      owner_plantings: Plantaciones de %{owner}
+      include_finished: incluir plantaciones finalizadas
+      open_data: Datos abiertos
+      api_methods: Métodos de la API
+      no_plantings: Aún no hay plantaciones registradas
+      calendar_description: Plantaciones de %{owner}
+      feed_title: Plantaciones recientes de %{owner} (%{site})
+      all_members: todos los miembros
+      feed_item: '%{planting} en %{location}'
+      grower_photo: '%{planting}, cultivado por %{owner}'
+      grown_by_html: cultivado por %{owner}
+      in_garden_html: en %{garden}
+      cultivate_prompt: Esta fue la última plantación reciente en este bancal. ¿Desea labrar la tierra pronto?
+      cultivate: Labrar la tierra
+      crop_photo: Foto de %{crop}
+      variety_html: una variedad de %{crop}
+      annual_lifespan_html: Anual, vive aproximadamente %{days}
+      annual: Anual
+      perennial: Perenne
+      first_harvest_html: Primera cosecha unos %{days} después de plantar
+      last_harvest_html: Última cosecha unos %{days} después de plantar
+      usual_sun_html: Suele cultivarse en %{sun}
+      more: Más sobre %{crop}
+      days: {one: '%{count} día', other: '%{count} días'}
+      errors:
+        one: '1 error impidió guardar esta plantación:'
+        other: '%{count} errores impidieron guardar esta plantación:'
+      crop_label: ¿Qué plantó?
+      cannot_find: ¿No encuentra lo que busca?
+      request_crops: Solicitar nuevos cultivos.
+      alternate_name: ¿Cómo lo llama?
+      alternate_help: Opcional. Sus plantaciones mostrarán este nombre en lugar del nombre principal del cultivo.
+      planting_in_html: Plantación en %{garden}
+      choose_garden: Elegir otro huerto
+      garden_label: ¿Dónde lo plantó?
+      add_garden: Añadir un huerto.
+      when: ¿Cuándo?
+      date_help: Planifique futuras plantaciones con fechas futuras y suscríbase a su calendario iCalendar para recibir recordatorios de plantación
+      planted_from: Plantado a partir de
+      sun_label: ¿Sol o sombra?
+      how_many: ¿Cuántas plantas?
+      leave_blank: Dejar en blanco
+      rating: Valoración general
+      rating_help: ¿Cómo va la plantación?
+      poor: Mal
+      great: Muy bien
+      description: Cuéntenos más
+      finished_date: Fecha de finalización
+      optional: opcional
+      save: Guardar
+      sun: {sun: sol, semi-shade: semisombra, shade: sombra}
+      units:
+        plant: {one: planta, other: plantas}
+        planting: {one: plantación, other: plantaciones}
+        harvest: {one: cosecha, other: cosechas}
+        seed: {one: semilla, other: semillas}
+        seedling: {one: plántula, other: plántulas}
+        cutting: {one: esqueje, other: esquejes}
+        volunteer: {one: planta espontánea, other: plantas espontáneas}
+        root division: {one: división de raíz, other: divisiones de raíz}
+        runner: {one: estolón, other: estolones}
+        bulb: {one: bulbo, other: bulbos}
+        root/tuber: {one: raíz/tubérculo, other: raíces/tubérculos}
+        bare root plant: {one: planta a raíz desnuda, other: plantas a raíz desnuda}
+        advanced plant: {one: planta desarrollada, other: plantas desarrolladas}
+        graft: {one: injerto, other: injertos}
+        layering: {one: acodo, other: acodos}
     badges:
       days_until_finished: días hasta terminar
       days_until_harvest: días hasta la cosecha

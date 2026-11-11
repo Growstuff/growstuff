@@ -2533,6 +2533,86 @@ fr:
       perennial: Pérenne
       unknown: Inconnu
   plantings:
+    localization:
+      harvest_ready: Cette plantation est prête à être récoltée
+      harvest_prediction: Nombre de semaines prévu avant la récolte
+      add: ajouter
+      activity_html: a planté %{crop}
+      actions: Actions pour %{planting}
+      quantity: 'Quantité :'
+      planted: 'Planté :'
+      set_date: Renseignez la date de plantation pour obtenir des prévisions
+      insufficient_data: Pas assez de données sur %{crop} pour faire des prévisions
+      edit: Modifier la plantation
+      browse: Parcourir et rechercher des plantations.
+      plantings: Plantations
+      owner_plantings: Plantations de %{owner}
+      include_finished: inclure les plantations terminées
+      open_data: Données ouvertes
+      api_methods: Méthodes de l’API
+      no_plantings: Aucune plantation enregistrée pour le moment
+      calendar_description: Plantations de %{owner}
+      feed_title: Plantations récentes de %{owner} (%{site})
+      all_members: tous les membres
+      feed_item: '%{planting} à %{location}'
+      grower_photo: '%{planting}, cultivé par %{owner}'
+      grown_by_html: cultivé par %{owner}
+      in_garden_html: dans %{garden}
+      cultivate_prompt: Il s’agissait de la dernière plantation récente dans cette plate-bande. Souhaitez-vous travailler le sol prochainement ?
+      cultivate: Travailler le sol
+      crop_photo: Photo de %{crop}
+      variety_html: une variété de %{crop}
+      annual_lifespan_html: Une annuelle, vivant environ %{days}
+      annual: Une annuelle
+      perennial: Une vivace
+      first_harvest_html: Première récolte environ %{days} après la plantation
+      last_harvest_html: Dernière récolte environ %{days} après la plantation
+      usual_sun_html: Généralement cultivé en %{sun}
+      more: En savoir plus sur %{crop}
+      days: {one: '%{count} jour', other: '%{count} jours'}
+      errors:
+        one: '1 erreur a empêché l’enregistrement de cette plantation :'
+        other: '%{count} erreurs ont empêché l’enregistrement de cette plantation :'
+      crop_label: Qu’avez-vous planté ?
+      cannot_find: Vous ne trouvez pas ce que vous cherchez ?
+      request_crops: Demander de nouvelles plantes.
+      alternate_name: Comment l’appelez-vous ?
+      alternate_help: Facultatif. Vos plantations afficheront ce nom au lieu du nom principal de la plante.
+      planting_in_html: Plantation dans %{garden}
+      choose_garden: Choisir un autre jardin
+      garden_label: Où l’avez-vous planté ?
+      add_garden: Ajouter un jardin.
+      when: Quand ?
+      date_help: Planifiez vos futures plantations en choisissant une date future et abonnez-vous à votre flux iCalendar pour recevoir des rappels de plantation
+      planted_from: Planté à partir de
+      sun_label: Soleil ou ombre ?
+      how_many: Combien ?
+      leave_blank: Laisser vide
+      rating: Évaluation globale
+      rating_help: Comment se porte la plantation ?
+      poor: Mal
+      great: Très bien
+      description: Dites-nous-en plus
+      finished_date: Date de fin
+      optional: facultatif
+      save: Enregistrer
+      sun: {sun: plein soleil, semi-shade: mi-ombre, shade: ombre}
+      units:
+        plant: {one: plante, other: plantes}
+        planting: {one: plantation, other: plantations}
+        harvest: {one: récolte, other: récoltes}
+        seed: {one: graine, other: graines}
+        seedling: {one: plantule, other: plantules}
+        cutting: {one: bouture, other: boutures}
+        volunteer: {one: plante spontanée, other: plantes spontanées}
+        root division: {one: division de racine, other: divisions de racine}
+        runner: {one: stolon, other: stolons}
+        bulb: {one: bulbe, other: bulbes}
+        root/tuber: {one: racine/tubercule, other: racines/tubercules}
+        bare root plant: {one: plante à racines nues, other: plantes à racines nues}
+        advanced plant: {one: plante développée, other: plantes développées}
+        graft: {one: greffe, other: greffes}
+        layering: {one: marcotte, other: marcottes}
     badges:
       days_until_finished: jours jusqu'à la fin
       days_until_harvest: jours jusqu'à la récolte
