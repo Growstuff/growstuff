@@ -34,6 +34,26 @@ describe SeasonalClimate do
       expect(climate.monthly_means[1]).to eq 2.0
     end
 
+    it 'says when the season in progress started' do
+      expect(climate.starts_on(season(:spring))).to eq Date.new(2026, 9, 1)
+    end
+
+    it 'says when the next season starts' do
+      expect(climate.starts_on(season(:autumn))).to eq Date.new(2027, 3, 1)
+    end
+
+    it 'says when a season that began last year started, from its months' do
+      expect(climate.starts_on(season(:summer))).to eq Date.new(2026, 12, 1)
+    end
+
+    it 'is due today for the season in progress' do
+      expect(climate.due_on(season(:spring))).to eq today
+    end
+
+    it 'is due when the next season starts' do
+      expect(climate.due_on(season(:autumn))).to eq Date.new(2027, 3, 1)
+    end
+
     it 'gives how cold the nights usually get in a month' do
       expect(climate.monthly_nights[1]).to eq(-6.0)
     end

@@ -2629,6 +2629,11 @@ en:
       unplaced: "%{owner} hasn't said where they are yet, so nobody can claim for now."
     update:
       updated: Saved.
+  suggested_jobs:
+    create:
+      added: Added "%{name}" to your planned jobs.
+      already_planned: You already have a job to plant %{crop} then.
+    plant_for_season: Plant %{crop} for %{season} %{year}
   suggestions:
     climate:
       average: average

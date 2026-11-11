@@ -22,6 +22,7 @@ class SeasonalClimate
   end
 
   def initialize(months, latitude:, today:)
+    @today = today
     @past = months.reject { |month| month.year >= today.year }.group_by(&:month)
     @half = hemisphere(latitude)
     @current = season_in(@half, today)
@@ -35,6 +36,19 @@ class SeasonalClimate
   # The four seasons, as Season, in the order the grower lives them.
   def seasons
     SEASON_MONTHS.fetch(@half).map { |name, months| season(name, months) }
+  end
+
+  # The first day of the season in progress or the next to come: 1 September 2026 for the spring of 2026.
+  def starts_on(season)
+    start = Date.new(@today.year, season.months.first, 1)
+    start -= 1.year if season.current && start > @today
+    start += 1.year if !season.current && start < @today
+    start
+  end
+
+  # The day to do something for the season by: its first day, or today when it is already under way.
+  def due_on(season)
+    [starts_on(season), @today].max
   end
 
   # { month number => the usual average air temperature }, for the months we hold any.
