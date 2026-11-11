@@ -272,6 +272,12 @@ en:
         identifier_placeholder: alice@mastodon.social
         permission_note: "We only ask who you are. We can't post for you."
         terms_of_service: Terms of Service
+  auto_suggest:
+    choose: Choose one from the list. Use the up and down arrow keys, then Enter.
+    chosen: "Chosen: %{name}"
+    none: No crops match. Check the spelling, or try a shorter name.
+    searching: Searching…
+    unchosen: Not chosen yet. Pick one from the list, or it won't be used.
   buttons:
     add: Add
     add_photo: Add photo
@@ -790,6 +796,26 @@ en:
       inherited: 'This crop has no EcoCrop record of its own, so it uses its parent''s: %{record}.'
       none: This crop is not linked to any EcoCrop data.
       title: EcoCrop data
+    filters:
+      apply: Filter
+      clear: Clear filters
+      friends: Grown by people I follow
+      history: Have I grown this before?
+      history_before: Yes, I have
+      history_never: No, never
+      needs_location: Set where you garden to filter by what suits your location and what is grown nearby.
+      nearby: Grown by gardeners nearby
+      no_climate: We don't have weather for your place yet, so we can't tell what suits it. We collect it for the places members set, so check back soon.
+      parent: Filter to crop
+      parent_placeholder: Start typing a crop name, then choose one
+      remove: Remove
+      season: Grows in
+      seeds: I have seeds of
+      set_location: Set your location.
+      sign_in: Log in.
+      sign_in_for_more: Log in to also filter by your location, the season, what people nearby and the people you follow grow, and what you've grown.
+      suits: Grows well at my location
+      suits_at: Grows well in %{place}
     growing_facts:
       days_until_maturity: Days until maturity
       germination: Germination
@@ -799,6 +825,19 @@ en:
       row_spacing: Row Spacing
       southern_hemisphere: Southern hemisphere
       when_to_sow: When to sow
+    time_to_harvest:
+      about_html: If sown now, expect a first harvest in about %{days}.
+      hint:
+        no_climate: We don't have weather for your place yet, so we can't work out how long it takes there. We collect it for the places members set, so check back soon.
+        set_location: Set a location in your profile to get more accurate predictions for this crop.
+        sign_in: Log in and set a location to get more accurate predictions for this crop.
+      set_location: Set your location.
+      sign_in: Log in.
+      source:
+        degree_days: Worked out from the growing degree days this crop needs and the usual weather at your place.
+        ecocrop: From the growing cycle in the FAO EcoCrop database, which is the same wherever it is grown.
+        median: From the median time members' plantings of this crop took to their first harvest.
+      title: Time to harvest
     growing_degree_days:
       cycle_html: For %{crop}, the FAO EcoCrop database gives a lowest growing temperature of %{tmin} and a shortest growing cycle of %{gmin} days at its best temperature, about %{degree_days} growing degree days to a first harvest.
       example: 'Say that lowest temperature is 10°C. A day averaging 17°C gives 7 growing degree days. A day averaging 8°C gives none, as it is too cold for the crop to grow. That is why the same lettuce takes about 50 days in a summer and 90 in an autumn: it needs the same total warmth either way.'
@@ -828,6 +867,9 @@ en:
       track_harvests: track your %{crop} harvests
       view_all: View all %{crop} harvests
     index:
+      log_in: Log in
+      log_in_to_suggest: Is a crop missing? You can suggest new crops when you log in.
+      no_matches: No crops match those filters.
       subtitle: "%{crops_size} total"
       title: Browse Crops
       meta_description: Browse and search for crops.

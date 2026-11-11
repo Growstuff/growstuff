@@ -82,6 +82,18 @@ describe SeasonalCrops do
       expect(optimal).not_to include zero
     end
 
+    it 'falls back to the median days when EcoCrop gives no cycle' do
+      median = crop_with(10, 20, gmin: nil)
+      median.update!(median_days_to_first_harvest: 90)
+      expect(optimal).to include median
+    end
+
+    it 'goes by the degree days of the crop before its EcoCrop cycle' do
+      slow_cycle = crop_with(10, 20, gmin: 400)
+      slow_cycle.update!(growing_degree_days: 600)
+      expect(optimal).to include slow_cycle
+    end
+
     it 'leaves out a crop with no record' do
       bare = create(:crop)
       expect(optimal).not_to include bare

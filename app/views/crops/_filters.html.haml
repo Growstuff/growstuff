@@ -1,0 +1,43 @@
+-# Narrows the crop list: by parent crop for anyone, and by location, season, nearby gardeners, who they follow and what they
+-# have grown for members.
+- place = current_member&.location_place
+= form_tag crops_path, method: :get, class: 'crop-filters card card-body mb-3' do
+  .row.g-4
+    .col-md-4
+      = react_component('CropFilterPicker', { name: 'parent', label: t('.parent'), placeholder: t('.parent_placeholder'), removeLabel: t('.remove'),
+        initial: (filter.parent && { id: filter.parent.id, name: filter.parent.name }) })
+    - if current_member
+      .col-md-5
+        %span.crop-filter-heading= t('.season')
+        .btn-group.flex-wrap.crop-filter-toggles{ role: 'group', 'aria-label' => t('.season') }
+          - CropFilter::SEASONS.each do |each|
+            = check_box_tag 'season[]', each, filter.seasons.include?(each), class: 'btn-check', id: "filter_season_#{each}", autocomplete: 'off'
+            = label_tag "filter_season_#{each}", t("seasons.#{each}"), class: 'btn btn-outline-primary'
+      .col-md-3
+        %span.crop-filter-heading= t('.history')
+        .btn-group.crop-filter-toggles{ role: 'group', 'aria-label' => t('.history') }
+          - CropFilter::HISTORIES.each do |each|
+            = check_box_tag 'history[]', each, Array(params[:history]).include?(each), class: 'btn-check', id: "filter_history_#{each}", autocomplete: 'off'
+            = label_tag "filter_history_#{each}", t(".history_#{each}"), class: 'btn btn-outline-primary'
+      .col-12
+        .crop-filter-checks
+          - %i(suits nearby friends seeds).each do |key|
+            .form-check.form-check-inline
+              = check_box_tag key, 1, filter.public_send(:"#{key}?"), class: 'form-check-input', id: "filter_#{key}"
+              = label_tag "filter_#{key}", key == :suits && place ? t('.suits_at', place:) : t(".#{key}"), class: 'form-check-label'
+  .crop-filters-footer
+    .crop-filter-status
+      - if filter.active?
+        = link_to t('.clear'), crops_path, class: 'btn btn-link ps-0'
+      - if current_member && !current_member.located?
+        %p.text-muted.small.mt-2.mb-0
+          = t('.needs_location')
+          = link_to t('.set_location'), edit_member_registration_path
+      - elsif current_member && filter.suiting? && !filter.climate?
+        %p.text-muted.small.mt-2.mb-0= t('.no_climate')
+      - elsif !current_member
+        %p.text-muted.small.mt-2.mb-0
+          = t('.sign_in_for_more')
+          = link_to t('.sign_in'), new_member_session_path
+    .crop-filters-apply
+      = submit_tag t('.apply'), name: nil, class: 'btn btn-primary'
