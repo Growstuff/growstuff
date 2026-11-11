@@ -12,7 +12,7 @@
     = f.text_field :login_name, autofocus: true, help: t('.name_help')
 
     - if email_missing
-      = f.email_field :email, label: t('.email_optional'), placeholder: 'you@example.com',
+      = f.email_field :email, label: 'Email (optional)', placeholder: 'you@example.com',
                               help: t('.email_missing_help')
     - else
       = f.email_field :email, help: t('.email_help')
