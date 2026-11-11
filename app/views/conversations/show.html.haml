@@ -33,5 +33,13 @@
                 :markdown
                   #{ strip_tags markdownify(message.body) }
         %li.list-group-item
-          = icon 'fas', 'reply'
-          = render 'messages/form', conversation: @conversation
+          - if @discussion_topic
+            %p= t('.public_reply_hint')
+            = link_to t('.reply_publicly'), polymorphic_path(@discussion_topic, anchor: @discussion_topic.is_a?(Photo) ? 'comments' : 'new-comment'), class: 'btn btn-primary'
+            %details.mt-3
+              %summary= t('.send_private_message')
+              %p.mt-2= t('.private_reply_hint')
+              = render 'messages/form', conversation: @conversation
+          - else
+            = icon 'fas', 'reply'
+            = render 'messages/form', conversation: @conversation

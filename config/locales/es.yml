@@ -264,6 +264,10 @@ es:
       about: Acerca de
       breadcrumb_conversations: Conversaciones
       participants: Participantes
+      reply_publicly: Responder
+      public_reply_hint: Continúa esta conversación en el tema original. Tu comentario será público.
+      send_private_message: Enviar mensaje privado
+      private_reply_hint: Este mensaje es privado y solo lo podrán ver los participantes indicados arriba. No aparecerá en el tema público.
       sent_on: "el %{date}"
   crop_companions:
     created: El compañero se creó correctamente.

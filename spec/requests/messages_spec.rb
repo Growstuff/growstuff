@@ -164,6 +164,10 @@ describe 'Messages' do
     context 'when topic is a seed' do
       let(:topic) { seed }
 
+      it 'keeps the private reply form visible' do
+        expect(response.parsed_body.css('form[action="/messages"]').first.ancestors('details')).to be_empty
+      end
+
       it { expect(response.body).to include("About") }
       it { expect(response.body).to include(seed_path(seed)) }
       it { expect(response.body).to include(seed.to_s) }
@@ -175,6 +179,34 @@ describe 'Messages' do
       it { expect(response.body).to include("About") }
       it { expect(response.body).to include(planting_path(topic)) }
       it { expect(response.body).to include(topic.to_s) }
+    end
+
+    shared_examples 'a public discussion reply' do |anchor|
+      it 'links to the public comment form' do
+        expect(response.body).to include("#{polymorphic_path(topic)}##{anchor}")
+      end
+
+      it 'keeps the private reply form behind an explicit choice' do
+        expect(response.parsed_body.css('details form[action="/messages"]').size).to eq 1
+      end
+    end
+
+    context 'when topic is a post' do
+      let(:topic) { create(:post) }
+
+      it_behaves_like 'a public discussion reply', 'new-comment'
+    end
+
+    context 'when topic is a planting' do
+      let(:topic) { create(:planting) }
+
+      it_behaves_like 'a public discussion reply', 'new-comment'
+    end
+
+    context 'when topic is a photo' do
+      let(:topic) { create(:photo) }
+
+      it_behaves_like 'a public discussion reply', 'comments'
     end
   end
 end
