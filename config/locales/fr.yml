@@ -1119,7 +1119,22 @@ fr:
     weeks_until_finished: "%{number} semaines"
     weeks_until_harvest: "%{number} semaines avant LA récolte"
   layouts:
+    application:
+      breadcrumbs: Fil d’Ariane
+      home: Accueil
+    head:
+      social_image_alt: 'Growstuff, une communauté de personnes qui cultivent des aliments : une poire avec un tournesol, un escargot, une coccinelle, un arrosoir et un chat.'
+      description: Growstuff est une communauté de personnes qui cultivent des aliments. Apprenons à cultiver ensemble. Toutes nos données sont ouvertes.
+      member_feed: "%{site_name} – Publications de %{member}"
+      posts_feed: "%{site_name} – Publications récentes de tous les membres"
+      crops_feed: "%{site_name} – Plantes ajoutées récemment"
+      plantings_feed: "%{site_name} – Plantations récentes de tous les membres"
+    mailer:
+      description_html: Ce courriel a été envoyé par %{site_name} (%{link}) &mdash; une communauté libre pour les personnes qui cultivent des aliments.
+    modal:
+      close: Fermer
     footer:
+      open_service: Service ouvert
       about: À propos
       community_guidelines: Orientations communautaires
       contact: Contact
@@ -1132,6 +1147,7 @@ fr:
       support: Soutien
       terms_of_service: Conditions d'utilisation
     header:
+      logo_alt: Logo de Growstuff (dessin d’une poire)
       account: Client en Compte
       admin: Admin
       browse_crops: Parcourir les cultures
@@ -1161,6 +1177,7 @@ fr:
       toggle_navigation: Navigation à bascule
       your_stuff: vos trucs
     menu:
+      label: Menu
       about: À propos
       activities: Activités
       add: Ajouter
@@ -1201,6 +1218,11 @@ fr:
       sign_out: Se déconnecter
       sign_up: S'inscrire gratuitement
     nav:
+      my_records: "Mes %{records}"
+      everyone_records: "%{records} de tous les membres"
+      add_record: "Ajouter : %{record}"
+      record_purpose: "enregistrer vos %{records}"
+      description: "%{site_name} vous aide à suivre les récoltes de votre potager et à évaluer sa productivité."
       my_drafts: Mes brouillons
       suggest_something: Faire une suggestion
   links:

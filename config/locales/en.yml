@@ -1596,7 +1596,22 @@ en:
     weeks_until_finished: "%{number} weeks"
     weeks_until_harvest: "%{number} weeks until harvest"
   layouts:
+    application:
+      breadcrumbs: Breadcrumb
+      home: Home
+    head:
+      social_image_alt: 'Growstuff, a community of food gardeners: a pear with a sunflower, a snail, a ladybird, a watering can and a cat.'
+      description: Growstuff is a community of food gardeners. Let's learn to grow food together. All our data is open data.
+      member_feed: "%{site_name}- %{member}'s posts"
+      posts_feed: "%{site_name} - Recent posts from all members"
+      crops_feed: "%{site_name} - Recently added crops"
+      plantings_feed: "%{site_name} - Recent plantings from all members"
+    mailer:
+      description_html: This email was sent by %{site_name} (%{link}) &mdash; an open source community for food growers.
+    modal:
+      close: Close
     footer:
+      open_service: Open Service
       about: About
       community_guidelines: Community Guidelines
       contact: Contact
@@ -1609,6 +1624,7 @@ en:
       support: Support
       terms_of_service: Terms Of Service
     header:
+      logo_alt: Growstuff brand logo (drawing of a pear)
       account: Account
       admin: Admin
       browse_crops: Browse Crops
@@ -1638,6 +1654,7 @@ en:
       toggle_navigation: Toggle Navigation
       your_stuff: Your Stuff
     menu:
+      label: Menu
       about: About
       activities: Activities
       add: Add
@@ -1679,6 +1696,11 @@ en:
       sign_out: Sign out
       sign_up: Join free
     nav:
+      my_records: My %{records}
+      everyone_records: Everyone's %{records}
+      add_record: Add a %{record}
+      record_purpose: record your %{records}
+      description: "%{site_name} helps you track what you're harvesting from your home garden and see how productive it is."
       my_drafts: My drafts
       suggest_something: Suggest something
   links:

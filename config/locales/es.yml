@@ -1116,7 +1116,22 @@ es:
     weeks_until_finished: "%{number} semanas"
     weeks_until_harvest: "%{number} semanas hasta la cosecha"
   layouts:
+    application:
+      breadcrumbs: Ruta de navegación
+      home: Inicio
+    head:
+      social_image_alt: 'Growstuff, una comunidad de personas que cultivan alimentos: una pera con un girasol, un caracol, una mariquita, una regadera y un gato.'
+      description: Growstuff es una comunidad de personas que cultivan alimentos. Aprendamos a cultivar alimentos juntos. Todos nuestros datos son abiertos.
+      member_feed: "%{site_name} – Publicaciones de %{member}"
+      posts_feed: "%{site_name} – Publicaciones recientes de todos los miembros"
+      crops_feed: "%{site_name} – Cultivos añadidos recientemente"
+      plantings_feed: "%{site_name} – Siembras recientes de todos los miembros"
+    mailer:
+      description_html: Este correo fue enviado por %{site_name} (%{link}) &mdash; una comunidad de código abierto para quienes cultivan alimentos.
+    modal:
+      close: Cerrar
     footer:
+      open_service: Servicio abierto
       about: Acerca de
       community_guidelines: Pautas de la comunidad
       contact: Contacto
@@ -1129,6 +1144,7 @@ es:
       support: Apoyo
       terms_of_service: Términos de servicio
     header:
+      logo_alt: Logotipo de Growstuff (dibujo de una pera)
       account: Cuenta
       admin: Administración
       browse_crops: Explorar cultivos
@@ -1158,6 +1174,7 @@ es:
       toggle_navigation: Alternar navegación
       your_stuff: Tus cosas
     menu:
+      label: Menú
       about: Acerca de
       activities: Actividades
       add: Agregar
@@ -1198,6 +1215,11 @@ es:
       sign_out: desconectar
       sign_up: Únete gratis
     nav:
+      my_records: "Mis %{records}"
+      everyone_records: "%{records} de todos los miembros"
+      add_record: "Añadir %{record}"
+      record_purpose: "registrar tus %{records}"
+      description: "%{site_name} te ayuda a registrar lo que cosechas en tu huerto y a ver lo productivo que es."
       my_drafts: mis borradores
       suggest_something: sugerir algo
   links:
