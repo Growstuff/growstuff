@@ -799,6 +799,9 @@ en:
     filters:
       apply: Filter
       clear: Clear filters
+      ecocrop: EcoCrop data
+      ecocrop_linked: Linked
+      ecocrop_unlinked: Not linked
       friends: Grown by people I follow
       history: Have I grown this before?
       history_before: Yes, I have

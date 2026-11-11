@@ -1,0 +1,7 @@
+-# A group of buttons that can each be turned on or off, as checkboxes named name[]. values are what they send; the words for each
+-# are the translations under the key given. selected: the values that are on.
+%span.crop-filter-heading= heading
+.btn-group.flex-wrap.crop-filter-toggles{ role: 'group', 'aria-label' => heading }
+  - values.each do |value|
+    = check_box_tag "#{name}[]", value, selected.include?(value), class: 'btn-check', id: "filter_#{name}_#{value}", autocomplete: 'off'
+    = label_tag "filter_#{name}_#{value}", labels.call(value), class: 'btn btn-outline-primary'
