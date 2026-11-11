@@ -512,6 +512,110 @@ zh:
       visit_forum: 访问论坛
       post: 发帖
     updated: 论坛更新成功。
+  frost:
+    about_estimates: 这些日期是根据25公里分辨率的气象模型数据估算的，并非来自您菜园中气象站的实测数据，因此容易积冷的地方可能更冷。估算可能有误，请先查询国家气象部门的信息并向当地种植者咨询，再决定是否采用。
+    cards:
+      coldest:
+        label: 最冷的夜晚
+        note_above: "比%{threshold} °C的霜冻危险线高%{gap} °C"
+        note_at: 恰好处于%{threshold} °C的霜冻危险线
+        note_below: "比%{threshold} °C的霜冻危险线低%{gap} °C"
+      free:
+        label: 无霜期
+        note: 在典型年份中
+      in_danger:
+        label: 生长期间经历的霜冻风险期
+        note: "从种植到历史最晚降霜日%{latest}"
+      last:
+        label: 通常的终霜日
+        note: "历史上最晚在%{latest}仍有霜冻"
+        planted_after: "在此之后%{days}种植"
+        planted_before: "在此之前%{days}种植"
+        planted_out_after: "在此之后%{days}移至室外"
+        planted_out_before: "在此之前%{days}移至室外"
+      next:
+        label: 下次霜冻风险开始时间
+        note_finishes: "最早在%{earliest}，即这次%{crop}种植结束后%{days}"
+        note_now: "最早在%{earliest}，距今%{days}"
+    days:
+      one: "%{count}天"
+      other: "%{count}天"
+    degrees: "%{degrees} °C"
+    experimental: 实验性功能 · 新功能可能不稳定
+    experimental_heading: 实验性功能：此功能较新，可能不稳定。
+    nights_so_far:
+      one: "目前有1个夜晚的气温不高于%{threshold} °C，最低为%{coldest} °C。"
+      other: "目前有%{count}个夜晚的气温不高于%{threshold} °C，最低为%{coldest} °C。"
+    planted:
+      after: "%{crop}于%{planted}种植，比通常的终霜日（%{usual_end}）晚%{days}。"
+      before: "%{crop}于%{planted}种植，比通常的终霜日（%{usual_end}）早%{days}。"
+    planted_out:
+      after: "%{crop}于%{planted}移至室外，比通常的终霜日（%{usual_end}）晚%{days}。"
+      before: "%{crop}于%{planted}移至室外，比通常的终霜日（%{usual_end}）早%{days}。"
+    timeline:
+      annotation_out_after: "在通常的终霜日之后%{days}移至室外"
+      annotation_out_before: "在通常的终霜日之前%{days}移至室外"
+      description: "从%{from}到%{to}的时间线。通常的霜冻风险期为%{usual_start}至%{usual_end}。历史上最早在%{earliest}、最晚在%{latest}出现过霜冻。%{crop}的种植期为%{planted}至%{ends}。"
+      description_undated: "从%{from}到%{to}的时间线。通常的霜冻风险期为%{usual_start}至%{usual_end}。历史上最早在%{earliest}、最晚在%{latest}出现过霜冻。%{crop}于%{planted}种植。"
+      description_place: "从%{from}到%{to}的时间线。通常的霜冻风险期为%{usual_start}至%{usual_end}。历史上最早在%{earliest}、最晚在%{latest}出现过霜冻。"
+      annotation_after: "在通常的终霜日之后%{days}种植"
+      annotation_before: "在通常的终霜日之前%{days}种植"
+      finish_expected: "预计于%{date}结束"
+      finished: "于%{date}结束"
+      frost_safe: "在%{place}，免受霜冻"
+      legend:
+        finished: 种植已结束
+        frost_safe: 在免受霜冻的地方
+        planted: 已种植，无结束日期
+        possible: 可能范围：历史最早或最晚降霜时间
+        so_far: 已过去的种植期
+        still_to_come: 剩余的种植期
+        usual: 通常的霜冻风险期
+      planted: "于%{date}种植"
+      planted_out: "于%{date}移至室外"
+      row_danger: 霜冻风险
+      row_planting: 这次种植
+      tips:
+        frost_safe: "在%{place}，免受霜冻：%{range}"
+        planting: "%{label}（%{range}）"
+        possible: "历史上在此范围的最早或最晚日期也出现过霜冻：%{range}"
+        usual: "通常的霜冻风险期：%{range}"
+      title: "这次%{crop}种植与霜冻季节的对比"
+      title_place: 霜冻季节
+      today: "今天，%{date}"
+      usual: "%{from} – %{to}"
+      usual_open: "%{from} →"
+    title: 霜冻
+    verdicts:
+      before_season:
+        body: "通常的初霜日为%{usual_start}，还有%{days}。历史上最早在%{earliest}就出现过霜冻。"
+        title: 霜冻风险期即将开始
+        title_far: 尚未进入霜冻风险期
+      finished_clear:
+        body: "直到%{latest}都有可能出现霜冻，而该期间没有夜晚的气温低于%{coldest} °C。"
+        body_no_readings: "直到%{latest}都有可能出现霜冻。我们没有这次%{crop}种植的夜间气温数据。"
+        title: "这次%{crop}种植未遭遇霜冻"
+      finished_hit:
+        body:
+          one: "在可能出现霜冻的期间，有1个夜晚的气温不高于%{threshold} °C。最低气温为%{coldest} °C。"
+          other: "在可能出现霜冻的期间，有%{count}个夜晚的气温不高于%{threshold} °C。最低气温为%{coldest} °C。"
+        title: "这次%{crop}种植可能遭遇过霜冻"
+      finished_undated:
+        body: "那一年通常的终霜日为%{usual_end}，历史上最晚在%{latest}仍有霜冻。我们没有这次%{crop}种植的结束日期，因此无法判断它经历了什么。"
+        title: 无法判断它遭遇过哪些霜冻
+      in_season:
+        body: "通常的终霜日为%{usual_end}，还有%{days}。历史上最晚在%{latest}仍有霜冻。"
+        title: 处于通常的霜冻风险期
+      late_possible:
+        body: "历史上最晚在%{latest}仍有霜冻，距今还有%{days}。请留意天气预报。"
+        title: 已过通常的终霜日，但仍可能有霜冻
+      passed:
+        body: "往年最晚的霜冻出现在%{latest}，距今已过%{days}。"
+        title: "这次%{crop}种植的霜冻风险期已过"
+        title_place: 今年的霜冻风险期已过
+      rare:
+        body: 此地区很少出现霜冻，因此不显示霜冻日期。
+        title: 这里很少出现霜冻
   garden_collaborators:
     new:
       title: 新增花园协作者
@@ -754,6 +858,60 @@ zh:
       the_planting_this_came_from: 此收获来源的种植
     updated: 收获已成功更新。
   home:
+    weather_invitation:
+      add_location: 添加您的位置
+      change_location: 更改您的位置
+      intro:
+        loading: "正在加载您在%{place}的菜园的历史天气数据。这可能需要一两天。请稍后再来查看，届时数据就会准备好。"
+        no_location: 添加菜园的位置，我们就能显示该地的霜冻、降雨和气温信息。
+        ready: "查看您在%{place}的菜园的霜冻、降雨和气温状况。"
+      labels:
+        air: 气温
+        frost: 霜冻
+        rain: 降雨量
+      loading:
+        air:
+          note: 加载中
+          title: 尚未就绪
+        frost:
+          note: 加载中
+          title: 尚未就绪
+        rain:
+          note: 加载中
+          title: 尚未就绪
+      no_location:
+        air:
+          note: 过去30年的记录
+          title: 气温和土温及其历史记录
+        frost:
+          note: 针对您的菜园
+          title: 霜冻风险何时开始和结束
+        rain:
+          note: 与常年相比
+          title: 今年以来的降雨情况
+      ready:
+        air:
+          a_little_cooler: 比常年稍凉
+          a_little_warmer: 比常年稍暖
+          close: 今年接近常年水平
+          cooler: 比常年凉
+          note_above: "今年比常年高%{difference} °C"
+          note_below: "今年比常年低%{difference} °C"
+          note_close: "今年与常年相差%{difference} °C"
+          warmer: 比常年暖
+        frost:
+          before_season: "通常的霜冻风险期从%{date}开始"
+          in_season: "通常的霜冻风险期到%{date}结束"
+          late_possible: "历史上最晚在%{date}仍有霜冻"
+          passed: "下次霜冻风险期从%{date}开始"
+          rare: 这里很少出现霜冻
+        rain:
+          close: 今年接近常年水平
+          drier: 今年比常年干燥
+          note: "为常年截至此日降雨量的%{percent}%"
+          wetter: 今年比常年多雨
+      see: 查看您的地区
+      title: 您所在地区的天气
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
     blurb:
       badge: 开源 · 开放数据 · 自 2012 年

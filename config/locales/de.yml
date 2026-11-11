@@ -513,6 +513,110 @@ de:
       visit_forum: Forum besuchen
       post: Beitrag schreiben
     updated: Das Forum wurde erfolgreich aktualisiert.
+  frost:
+    about_estimates: Diese Daten sind Schätzungen anhand von Wettermodelldaten mit einem Raster von 25 km, keine Messungen einer Wetterstation in deinem Garten. An kalten Stellen kann es daher kälter sein. Die Schätzungen können falsch sein. Prüfe deshalb die Angaben deines nationalen Wetterdienstes und frage Menschen mit Anbauerfahrung vor Ort, bevor du dich darauf verlässt.
+    cards:
+      coldest:
+        label: Kälteste Nacht
+        note_above: "%{gap} °C über der Frostgefahrengrenze von %{threshold} °C"
+        note_at: Genau an der Frostgefahrengrenze von %{threshold} °C
+        note_below: "%{gap} °C unter der Frostgefahrengrenze von %{threshold} °C"
+      free:
+        label: Frostfreie Zeit
+        note: in einem typischen Jahr
+      in_danger:
+        label: Frostgefahr während des Wachstums
+        note: "von der Pflanzung bis zum spätesten bisherigen Frost am %{latest}"
+      last:
+        label: Üblicher letzter Frost
+        note: "trat bisher spätestens am %{latest} auf"
+        planted_after: "%{days} danach gepflanzt"
+        planted_before: "%{days} davor gepflanzt"
+        planted_out_after: "%{days} danach ins Freie gebracht"
+        planted_out_before: "%{days} davor ins Freie gebracht"
+      next:
+        label: Beginn der nächsten Frostgefahr
+        note_finishes: "frühestens am %{earliest}, %{days} nach dem Ende dieser %{crop}-Pflanzung"
+        note_now: "frühestens am %{earliest}, in %{days}"
+    days:
+      one: "%{count} Tag"
+      other: "%{count} Tage"
+    degrees: "%{degrees} °C"
+    experimental: Experimentell · neu und möglicherweise unzuverlässig
+    experimental_heading: 'Experimentell: Diese Funktion ist neu und möglicherweise unzuverlässig.'
+    nights_so_far:
+      one: "Bisher lag eine Nacht bei oder unter %{threshold} °C, die kälteste bei %{coldest} °C."
+      other: "Bisher lagen %{count} Nächte bei oder unter %{threshold} °C, die kälteste bei %{coldest} °C."
+    planted:
+      after: "Die %{crop}-Pflanzung wurde am %{planted} angelegt, %{days} nach dem üblichen letzten Frost (%{usual_end})."
+      before: "Die %{crop}-Pflanzung wurde am %{planted} angelegt, %{days} vor dem üblichen letzten Frost (%{usual_end})."
+    planted_out:
+      after: "Die %{crop}-Pflanzung kam am %{planted} ins Freie, %{days} nach dem üblichen letzten Frost (%{usual_end})."
+      before: "Die %{crop}-Pflanzung kam am %{planted} ins Freie, %{days} vor dem üblichen letzten Frost (%{usual_end})."
+    timeline:
+      annotation_out_after: "%{days} nach dem üblichen letzten Frost ins Freie gebracht"
+      annotation_out_before: "%{days} vor dem üblichen letzten Frost ins Freie gebracht"
+      description: "Zeitleiste von %{from} bis %{to}. Übliche Frostgefahr besteht vom %{usual_start} bis zum %{usual_end}. Frost trat bisher frühestens am %{earliest} und spätestens am %{latest} auf. Die %{crop}-Pflanzung dauert vom %{planted} bis zum %{ends}."
+      description_undated: "Zeitleiste von %{from} bis %{to}. Übliche Frostgefahr besteht vom %{usual_start} bis zum %{usual_end}. Frost trat bisher frühestens am %{earliest} und spätestens am %{latest} auf. Die %{crop}-Pflanzung wurde am %{planted} angelegt."
+      description_place: "Zeitleiste von %{from} bis %{to}. Übliche Frostgefahr besteht vom %{usual_start} bis zum %{usual_end}. Frost trat bisher frühestens am %{earliest} und spätestens am %{latest} auf."
+      annotation_after: "%{days} nach dem üblichen letzten Frost gepflanzt"
+      annotation_before: "%{days} vor dem üblichen letzten Frost gepflanzt"
+      finish_expected: "Voraussichtliches Ende am %{date}"
+      finished: "Beendet am %{date}"
+      frost_safe: "In %{place}, vor Frost geschützt"
+      legend:
+        finished: Pflanzung, beendet
+        frost_safe: An einem frostgeschützten Ort
+        planted: Gepflanzt, ohne Enddatum
+        possible: 'Möglich: so früh oder spät wie bisher aufgetreten'
+        so_far: Bisherige Pflanzdauer
+        still_to_come: Verbleibende Pflanzdauer
+        usual: Übliche Frostgefahr
+      planted: "Gepflanzt am %{date}"
+      planted_out: "Am %{date} ins Freie gebracht"
+      row_danger: Frostgefahr
+      row_planting: Diese Pflanzung
+      tips:
+        frost_safe: "In %{place}, vor Frost geschützt: %{range}"
+        planting: "%{label} (%{range})"
+        possible: "Frost trat bisher schon so früh oder spät auf: %{range}"
+        usual: "Übliche Frostgefahr: %{range}"
+      title: "Diese %{crop}-Pflanzung im Vergleich zur Frostzeit"
+      title_place: Die Frostzeit
+      today: "Heute, %{date}"
+      usual: "%{from} – %{to}"
+      usual_open: "%{from} →"
+    title: Frost
+    verdicts:
+      before_season:
+        body: "Der übliche erste Frost ist am %{usual_start}, in %{days}. Er trat bisher schon am %{earliest} auf."
+        title: Die Frostgefahr beginnt bald
+        title_far: Noch keine Frostgefahr
+      finished_clear:
+        body: "Frost war bis zum %{latest} möglich, und keine Nacht in dieser Zeit war kälter als %{coldest} °C."
+        body_no_readings: "Frost war bis zum %{latest} möglich. Für diese %{crop}-Pflanzung liegen keine Nachttemperaturen vor."
+        title: "Diese %{crop}-Pflanzung war keinem Frost ausgesetzt"
+      finished_hit:
+        body:
+          one: "Eine Nacht mit möglichem Frost lag bei oder unter %{threshold} °C. Die kälteste lag bei %{coldest} °C."
+          other: "%{count} Nächte mit möglichem Frost lagen bei oder unter %{threshold} °C. Die kälteste lag bei %{coldest} °C."
+        title: "Diese %{crop}-Pflanzung könnte Frost ausgesetzt gewesen sein"
+      finished_undated:
+        body: "Der übliche letzte Frost in jenem Jahr war am %{usual_end}, und Frost trat bisher noch am %{latest} auf. Für diese %{crop}-Pflanzung fehlt das Enddatum, daher wissen wir nicht, welchen Bedingungen sie ausgesetzt war."
+        title: Die Frostbelastung ist unbekannt
+      in_season:
+        body: "Der übliche letzte Frost ist am %{usual_end}, in %{days}. Er trat bisher noch am %{latest} auf."
+        title: Innerhalb der üblichen Frostgefahr
+      late_possible:
+        body: "Frost trat bisher noch am %{latest} auf, in %{days}. Behalte die Wettervorhersage im Blick."
+        title: Der übliche letzte Frost ist vorbei, Frost ist aber noch möglich
+      passed:
+        body: "Der späteste Frost in vergangenen Jahren war am %{latest}, vor %{days}."
+        title: "Die Frostgefahr für diese %{crop}-Pflanzung ist vorbei"
+        title_place: Die Frostgefahr für dieses Jahr ist vorbei
+      rare:
+        body: Frost ist in dieser Gegend selten, daher zeigen wir keine Frostdaten an.
+        title: Frost ist hier selten
   garden_collaborators:
     new:
       title: Neue Garten-Mitwirkende hinzufügen
@@ -757,6 +861,60 @@ de:
       the_planting_this_came_from: Die Pflanzung, von der dies stammt
     updated: Harvest wurde erfolgreich aktualisiert.
   home:
+    weather_invitation:
+      add_location: Standort hinzufügen
+      change_location: Standort ändern
+      intro:
+        loading: "Wir laden die Wetterhistorie für deinen Garten in %{place}. Das kann ein oder zwei Tage dauern. Schau bald wieder vorbei, dann sind die Daten bereit."
+        no_location: Gib den Standort deines Gartens an, damit wir Frost, Niederschlag und Temperatur dafür anzeigen können.
+        ready: "Sieh dir an, wie sich Frost, Niederschlag und Temperatur in deinem Garten in %{place} entwickeln."
+      labels:
+        air: Temperatur
+        frost: Frost
+        rain: Niederschlag
+      loading:
+        air:
+          note: Wird geladen
+          title: Noch nicht bereit
+        frost:
+          note: Wird geladen
+          title: Noch nicht bereit
+        rain:
+          note: Wird geladen
+          title: Noch nicht bereit
+      no_location:
+        air:
+          note: in den letzten 30 Jahren
+          title: Luft und Boden mit historischen Daten
+        frost:
+          note: für deinen Garten
+          title: Wann die Frostgefahr beginnt und endet
+        rain:
+          note: im Vergleich zum Üblichen
+          title: Wie nass dieses Jahr bisher war
+      ready:
+        air:
+          a_little_cooler: Etwas kühler als üblich
+          a_little_warmer: Etwas wärmer als üblich
+          close: Dieses Jahr nahe am Üblichen
+          cooler: Kühler als üblich
+          note_above: "%{difference} °C über dem üblichen Wert für dieses Jahr"
+          note_below: "%{difference} °C unter dem üblichen Wert für dieses Jahr"
+          note_close: "%{difference} °C vom üblichen Wert für dieses Jahr entfernt"
+          warmer: Wärmer als üblich
+        frost:
+          before_season: "Die übliche Frostgefahr beginnt am %{date}"
+          in_season: "Die übliche Frostgefahr endet am %{date}"
+          late_possible: "Frost trat bisher noch am %{date} auf"
+          passed: "Die nächste Frostgefahr beginnt am %{date}"
+          rare: Frost ist hier selten
+        rain:
+          close: Dieses Jahr nahe am Üblichen
+          drier: Dieses Jahr trockener als üblich
+          note: "%{percent}% der bis zu diesem Datum üblichen Menge"
+          wetter: Dieses Jahr nasser als üblich
+      see: Deinen Standort ansehen
+      title: Das Wetter bei dir
     added_to_stash: "%{crop}-Seed erfolgreich zu Ihrem Vorrat hinzugefügt."
     blurb:
       badge: Open Source · Offene Daten · Seit 2012

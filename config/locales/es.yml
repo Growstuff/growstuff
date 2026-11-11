@@ -512,6 +512,110 @@ es:
       visit_forum: Visitar foro
       post: Publicar
     updated: El foro se actualizó correctamente.
+  frost:
+    about_estimates: Estas fechas son estimaciones a partir de datos de modelos meteorológicos con una resolución de 25 km, no mediciones de una estación en tu jardín, por lo que un lugar frío puede ser aún más frío. Pueden ser incorrectas, así que consulta tu servicio meteorológico nacional y pregunta a quienes cultivan en tu zona antes de confiar en ellas.
+    cards:
+      coldest:
+        label: Noche más fría
+        note_above: "%{gap} °C por encima del umbral de peligro de heladas de %{threshold} °C"
+        note_at: Justo en el umbral de peligro de heladas de %{threshold} °C
+        note_below: "%{gap} °C por debajo del umbral de peligro de heladas de %{threshold} °C"
+      free:
+        label: Temporada sin heladas
+        note: en un año típico
+      in_danger:
+        label: Peligro de heladas durante el crecimiento
+        note: "desde la plantación hasta la fecha más tardía registrada, %{latest}"
+      last:
+        label: Última helada habitual
+        note: "se ha producido hasta el %{latest}"
+        planted_after: "plantado %{days} después"
+        planted_before: "plantado %{days} antes"
+        planted_out_after: "trasladado al exterior %{days} después"
+        planted_out_before: "trasladado al exterior %{days} antes"
+      next:
+        label: Inicio del próximo peligro de heladas
+        note_finishes: "como pronto el %{earliest}, %{days} después de que termine esta plantación de %{crop}"
+        note_now: "como pronto el %{earliest}, dentro de %{days}"
+    days:
+      one: "%{count} día"
+      other: "%{count} días"
+    degrees: "%{degrees} °C"
+    experimental: Experimental · nuevo y posiblemente inestable
+    experimental_heading: 'Experimental: esta función es nueva y puede ser inestable.'
+    nights_so_far:
+      one: "Hasta ahora, una noche estuvo a %{threshold} °C o menos; la más fría, a %{coldest} °C."
+      other: "Hasta ahora, %{count} noches estuvieron a %{threshold} °C o menos; la más fría, a %{coldest} °C."
+    planted:
+      after: "La plantación de %{crop} comenzó el %{planted}, %{days} después de la última helada habitual (%{usual_end})."
+      before: "La plantación de %{crop} comenzó el %{planted}, %{days} antes de la última helada habitual (%{usual_end})."
+    planted_out:
+      after: "La plantación de %{crop} se trasladó al exterior el %{planted}, %{days} después de la última helada habitual (%{usual_end})."
+      before: "La plantación de %{crop} se trasladó al exterior el %{planted}, %{days} antes de la última helada habitual (%{usual_end})."
+    timeline:
+      annotation_out_after: "Trasladado al exterior %{days} después de la última helada habitual"
+      annotation_out_before: "Trasladado al exterior %{days} antes de la última helada habitual"
+      description: "Cronología del %{from} al %{to}. El peligro habitual de heladas va del %{usual_start} al %{usual_end}. Se han producido heladas desde el %{earliest} y hasta el %{latest}. La plantación de %{crop} va del %{planted} al %{ends}."
+      description_undated: "Cronología del %{from} al %{to}. El peligro habitual de heladas va del %{usual_start} al %{usual_end}. Se han producido heladas desde el %{earliest} y hasta el %{latest}. La plantación de %{crop} comenzó el %{planted}."
+      description_place: "Cronología del %{from} al %{to}. El peligro habitual de heladas va del %{usual_start} al %{usual_end}. Se han producido heladas desde el %{earliest} y hasta el %{latest}."
+      annotation_after: "Plantado %{days} después de la última helada habitual"
+      annotation_before: "Plantado %{days} antes de la última helada habitual"
+      finish_expected: "Fin previsto el %{date}"
+      finished: "Finalizó el %{date}"
+      frost_safe: "En %{place}, a salvo de las heladas"
+      legend:
+        finished: Plantación finalizada
+        frost_safe: En un lugar a salvo de las heladas
+        planted: Plantado, sin fecha de finalización
+        possible: 'Posible: desde la fecha más temprana hasta la más tardía registrada'
+        so_far: Plantación hasta ahora
+        still_to_come: Plantación por venir
+        usual: Peligro habitual de heladas
+      planted: "Plantado el %{date}"
+      planted_out: "Trasladado al exterior el %{date}"
+      row_danger: Peligro de heladas
+      row_planting: Esta plantación
+      tips:
+        frost_safe: "En %{place}, a salvo de las heladas: %{range}"
+        planting: "%{label} (%{range})"
+        possible: "Se han producido heladas desde esta fecha y hasta esta otra: %{range}"
+        usual: "Peligro habitual de heladas: %{range}"
+      title: "Esta plantación de %{crop} frente a la temporada de heladas"
+      title_place: La temporada de heladas
+      today: "Hoy, %{date}"
+      usual: "%{from} – %{to}"
+      usual_open: "%{from} →"
+    title: Heladas
+    verdicts:
+      before_season:
+        body: "La primera helada habitual es el %{usual_start}, dentro de %{days}. Se ha producido ya el %{earliest}."
+        title: El peligro de heladas comienza pronto
+        title_far: Aún no hay peligro de heladas
+      finished_clear:
+        body: "Podía haber heladas hasta el %{latest}, y ninguna noche de ese periodo fue más fría que %{coldest} °C."
+        body_no_readings: "Podía haber heladas hasta el %{latest}. No tenemos temperaturas nocturnas para esta plantación de %{crop}."
+        title: "Ninguna helada alcanzó esta plantación de %{crop}"
+      finished_hit:
+        body:
+          one: "Una noche con posibilidad de heladas estuvo a %{threshold} °C o menos. La más fría estuvo a %{coldest} °C."
+          other: "%{count} noches con posibilidad de heladas estuvieron a %{threshold} °C o menos. La más fría estuvo a %{coldest} °C."
+        title: "Las heladas pueden haber alcanzado esta plantación de %{crop}"
+      finished_undated:
+        body: "La última helada habitual de ese año fue el %{usual_end}, y se han producido heladas hasta el %{latest}. No tenemos fecha de finalización para esta plantación de %{crop}, por lo que no podemos saber a qué estuvo expuesta."
+        title: No podemos saber qué heladas sufrió
+      in_season:
+        body: "La última helada habitual es el %{usual_end}, dentro de %{days}. Se ha producido hasta el %{latest}."
+        title: Dentro del periodo habitual de peligro de heladas
+      late_possible:
+        body: "Se han producido heladas hasta el %{latest}, dentro de %{days}. Presta atención al pronóstico."
+        title: Ya pasó la última helada habitual, pero aún puede helar
+      passed:
+        body: "La helada más tardía de años anteriores fue el %{latest}, hace %{days}."
+        title: "El peligro de heladas ha pasado para esta plantación de %{crop}"
+        title_place: El peligro de heladas ha pasado este año
+      rare:
+        body: Las heladas son poco frecuentes en esta zona, por lo que no mostramos fechas de heladas.
+        title: Las heladas son poco frecuentes aquí
   garden_collaborators:
     new:
       title: Nuevo colaborador del huerto
@@ -756,6 +860,60 @@ es:
       the_planting_this_came_from: La plantación de donde proviene
     updated: La cosecha se actualizó correctamente.
   home:
+    weather_invitation:
+      add_location: Añadir tu ubicación
+      change_location: Cambiar tu ubicación
+      intro:
+        loading: "Estamos cargando el historial meteorológico de tu jardín en %{place}. Puede tardar uno o dos días. Vuelve pronto y estará listo."
+        no_location: Añade la ubicación de tu jardín y te mostraremos sus heladas, lluvias y temperaturas.
+        ready: "Consulta cómo van las heladas, las lluvias y las temperaturas en tu jardín en %{place}."
+      labels:
+        air: Temperatura
+        frost: Heladas
+        rain: Precipitaciones
+      loading:
+        air:
+          note: Cargando
+          title: Aún no está listo
+        frost:
+          note: Cargando
+          title: Aún no está listo
+        rain:
+          note: Cargando
+          title: Aún no está listo
+      no_location:
+        air:
+          note: en los últimos 30 años
+          title: Aire y suelo, con datos históricos
+        frost:
+          note: para tu jardín
+          title: Cuándo comienza y termina el peligro de heladas
+        rain:
+          note: en comparación con lo habitual
+          title: Cuánto ha llovido este año
+      ready:
+        air:
+          a_little_cooler: Un poco más fresco de lo habitual
+          a_little_warmer: Un poco más cálido de lo habitual
+          close: Cerca de lo habitual este año
+          cooler: Más fresco de lo habitual
+          note_above: "%{difference} °C por encima de lo habitual este año"
+          note_below: "%{difference} °C por debajo de lo habitual este año"
+          note_close: "%{difference} °C de diferencia respecto a lo habitual este año"
+          warmer: Más cálido de lo habitual
+        frost:
+          before_season: "El peligro habitual de heladas comienza el %{date}"
+          in_season: "El peligro habitual de heladas termina el %{date}"
+          late_possible: "Se han producido heladas hasta el %{date}"
+          passed: "El próximo peligro de heladas comienza el %{date}"
+          rare: Las heladas son poco frecuentes aquí
+        rain:
+          close: Cerca de lo habitual este año
+          drier: Más seco de lo habitual este año
+          note: "%{percent}% de lo habitual hasta esta fecha"
+          wetter: Más lluvioso de lo habitual este año
+      see: Ver tu zona
+      title: El tiempo en tu zona
     added_to_stash: Se agregó con éxito la semilla %{crop} a tu alijo.
     blurb:
       badge: Código abierto · Datos abiertos · Desde 2012

@@ -513,6 +513,110 @@ fr:
       visit_forum: Visiter le forum
       post: Publier
     updated: Le forum a été mis à jour avec succès.
+  frost:
+    about_estimates: Ces dates sont des estimations issues de modèles météorologiques à une résolution de 25 km, et non de mesures d’une station dans votre jardin. Un endroit froid peut donc être plus froid encore. Elles peuvent être erronées ; consultez votre service météorologique national et les personnes qui cultivent près de chez vous avant de vous y fier.
+    cards:
+      coldest:
+        label: Nuit la plus froide
+        note_above: "%{gap} °C au-dessus du seuil de risque de gel de %{threshold} °C"
+        note_at: Exactement au seuil de risque de gel de %{threshold} °C
+        note_below: "%{gap} °C en dessous du seuil de risque de gel de %{threshold} °C"
+      free:
+        label: Saison sans gel
+        note: lors d’une année typique
+      in_danger:
+        label: Risque de gel pendant la croissance
+        note: "de la plantation à la date de gel la plus tardive observée, le %{latest}"
+      last:
+        label: Dernier gel habituel
+        note: "a déjà eu lieu jusqu’au %{latest}"
+        planted_after: "planté %{days} après"
+        planted_before: "planté %{days} avant"
+        planted_out_after: "sorti à l’extérieur %{days} après"
+        planted_out_before: "sorti à l’extérieur %{days} avant"
+      next:
+        label: Début du prochain risque de gel
+        note_finishes: "dès le %{earliest}, %{days} après la fin de cette plantation de %{crop}"
+        note_now: "dès le %{earliest}, dans %{days}"
+    days:
+      one: "%{count} jour"
+      other: "%{count} jours"
+    degrees: "%{degrees} °C"
+    experimental: Expérimental · nouveau et potentiellement instable
+    experimental_heading: 'Expérimental : cette fonctionnalité est nouvelle et peut être instable.'
+    nights_so_far:
+      one: "Jusqu’ici, une nuit a été à %{threshold} °C ou moins, la plus froide à %{coldest} °C."
+      other: "Jusqu’ici, %{count} nuits ont été à %{threshold} °C ou moins, la plus froide à %{coldest} °C."
+    planted:
+      after: "La plantation de %{crop} a commencé le %{planted}, %{days} après le dernier gel habituel (%{usual_end})."
+      before: "La plantation de %{crop} a commencé le %{planted}, %{days} avant le dernier gel habituel (%{usual_end})."
+    planted_out:
+      after: "La plantation de %{crop} a été sortie à l’extérieur le %{planted}, %{days} après le dernier gel habituel (%{usual_end})."
+      before: "La plantation de %{crop} a été sortie à l’extérieur le %{planted}, %{days} avant le dernier gel habituel (%{usual_end})."
+    timeline:
+      annotation_out_after: "Sorti à l’extérieur %{days} après le dernier gel habituel"
+      annotation_out_before: "Sorti à l’extérieur %{days} avant le dernier gel habituel"
+      description: "Frise du %{from} au %{to}. Le risque habituel de gel s’étend du %{usual_start} au %{usual_end}. Des gels ont été observés dès le %{earliest} et jusqu’au %{latest}. La plantation de %{crop} s’étend du %{planted} au %{ends}."
+      description_undated: "Frise du %{from} au %{to}. Le risque habituel de gel s’étend du %{usual_start} au %{usual_end}. Des gels ont été observés dès le %{earliest} et jusqu’au %{latest}. La plantation de %{crop} a commencé le %{planted}."
+      description_place: "Frise du %{from} au %{to}. Le risque habituel de gel s’étend du %{usual_start} au %{usual_end}. Des gels ont été observés dès le %{earliest} et jusqu’au %{latest}."
+      annotation_after: "Planté %{days} après le dernier gel habituel"
+      annotation_before: "Planté %{days} avant le dernier gel habituel"
+      finish_expected: "Fin prévue le %{date}"
+      finished: "Terminé le %{date}"
+      frost_safe: "À %{place}, à l’abri du gel"
+      legend:
+        finished: Plantation terminée
+        frost_safe: Dans un endroit à l’abri du gel
+        planted: Planté, sans date de fin
+        possible: 'Possible : entre les dates les plus précoces et les plus tardives observées'
+        so_far: Plantation jusqu’à présent
+        still_to_come: Plantation à venir
+        usual: Risque habituel de gel
+      planted: "Planté le %{date}"
+      planted_out: "Sorti à l’extérieur le %{date}"
+      row_danger: Risque de gel
+      row_planting: Cette plantation
+      tips:
+        frost_safe: "À %{place}, à l’abri du gel : %{range}"
+        planting: "%{label} (%{range})"
+        possible: "Des gels ont été observés entre ces dates extrêmes : %{range}"
+        usual: "Risque habituel de gel : %{range}"
+      title: "Cette plantation de %{crop} face à la saison du gel"
+      title_place: La saison du gel
+      today: "Aujourd’hui, %{date}"
+      usual: "%{from} – %{to}"
+      usual_open: "%{from} →"
+    title: Gel
+    verdicts:
+      before_season:
+        body: "Le premier gel habituel est le %{usual_start}, dans %{days}. Il a déjà eu lieu dès le %{earliest}."
+        title: Le risque de gel commence bientôt
+        title_far: Pas encore de risque de gel
+      finished_clear:
+        body: "Le gel était possible jusqu’au %{latest}, et aucune nuit de cette période n’a été plus froide que %{coldest} °C."
+        body_no_readings: "Le gel était possible jusqu’au %{latest}. Nous n’avons pas de températures nocturnes pour cette plantation de %{crop}."
+        title: "Aucun gel n’a atteint cette plantation de %{crop}"
+      finished_hit:
+        body:
+          one: "Une nuit où le gel était possible a été à %{threshold} °C ou moins. La plus froide a été à %{coldest} °C."
+          other: "%{count} nuits où le gel était possible ont été à %{threshold} °C ou moins. La plus froide a été à %{coldest} °C."
+        title: "Le gel a peut-être atteint cette plantation de %{crop}"
+      finished_undated:
+        body: "Le dernier gel habituel cette année-là était le %{usual_end}, et des gels ont été observés jusqu’au %{latest}. Nous n’avons pas de date de fin pour cette plantation de %{crop} et ne pouvons donc pas déterminer ce qu’elle a subi."
+        title: Nous ne pouvons pas déterminer les gels subis
+      in_season:
+        body: "Le dernier gel habituel est le %{usual_end}, dans %{days}. Il a déjà eu lieu jusqu’au %{latest}."
+        title: Dans la période habituelle de risque de gel
+      late_possible:
+        body: "Des gels ont été observés jusqu’au %{latest}, dans %{days}. Surveillez les prévisions."
+        title: Le dernier gel habituel est passé, mais le gel reste possible
+      passed:
+        body: "Le gel le plus tardif des années passées a eu lieu le %{latest}, il y a %{days}."
+        title: "Le risque de gel est passé pour cette plantation de %{crop}"
+        title_place: Le risque de gel est passé pour cette année
+      rare:
+        body: Le gel est rare dans cette région ; nous n’affichons donc pas de dates de gel.
+        title: Le gel est rare ici
   garden_collaborators:
     new:
       title: Nouveau collaborateur du jardin
@@ -757,6 +861,60 @@ fr:
       the_planting_this_came_from: La plantation dont cela provient
     updated: La récolte a été mise à jour avec succès.
   home:
+    weather_invitation:
+      add_location: Ajouter votre localisation
+      change_location: Modifier votre localisation
+      intro:
+        loading: "Nous chargeons l’historique météorologique de votre jardin à %{place}. Cela peut prendre un jour ou deux. Revenez bientôt, il sera prêt."
+        no_location: Indiquez où se trouve votre jardin et nous afficherons les gels, les précipitations et les températures.
+        ready: "Découvrez l’évolution du gel, des précipitations et des températures dans votre jardin à %{place}."
+      labels:
+        air: Température
+        frost: Gel
+        rain: Précipitations
+      loading:
+        air:
+          note: Chargement
+          title: Pas encore prêt
+        frost:
+          note: Chargement
+          title: Pas encore prêt
+        rain:
+          note: Chargement
+          title: Pas encore prêt
+      no_location:
+        air:
+          note: au cours des 30 dernières années
+          title: Air et sol, avec des données historiques
+        frost:
+          note: pour votre jardin
+          title: Quand le risque de gel commence et se termine
+        rain:
+          note: par rapport à l’habitude
+          title: Les précipitations de cette année
+      ready:
+        air:
+          a_little_cooler: Un peu plus frais que d’habitude
+          a_little_warmer: Un peu plus chaud que d’habitude
+          close: Proche de l’habitude cette année
+          cooler: Plus frais que d’habitude
+          note_above: "%{difference} °C au-dessus de l’habitude cette année"
+          note_below: "%{difference} °C en dessous de l’habitude cette année"
+          note_close: "%{difference} °C d’écart par rapport à l’habitude cette année"
+          warmer: Plus chaud que d’habitude
+        frost:
+          before_season: "Le risque habituel de gel commence le %{date}"
+          in_season: "Le risque habituel de gel se termine le %{date}"
+          late_possible: "Des gels ont été observés jusqu’au %{date}"
+          passed: "Le prochain risque de gel commence le %{date}"
+          rare: Le gel est rare ici
+        rain:
+          close: Proche de l’habitude cette année
+          drier: Plus sec que d’habitude cette année
+          note: "%{percent}% des précipitations habituelles à cette date"
+          wetter: Plus pluvieux que d’habitude cette année
+      see: Voir votre région
+      title: La météo chez vous
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
     blurb:
       badge: Open source · Open data · Depuis 2012
