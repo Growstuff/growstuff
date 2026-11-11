@@ -1022,14 +1022,56 @@ de:
         lead: Zwei in Folge!
         note: Die Schnecke nimmt Fahrt auf.
       undo: Rückgängig machen
+    description:
+      due: "(fällig am %{due})"
+      in_garden_html: im %{link}
+      on_planting_html: bei %{link}
+      planned: plante, „%{name}“ zu erledigen
+      plans: plant, „%{name}“ zu erledigen
     due:
       last: letzte %{day}
+    edit:
+      title: Aufgabe bearbeiten
+    finished_description:
+      did: hat „%{name}“ erledigt
+      in_garden_html: im %{link}
+      on_planting_html: bei %{link}
     form:
-      finish_helper: Ein Auftrag ist beendet, wenn Sie ihn abgeschlossen haben, oder er ist anderweitig nicht mehr möglich.
+      add_garden: Einen Garten hinzufügen.
+      add_planting: Eine Pflanzung hinzufügen.
+      description_label: Erzählen Sie uns mehr darüber
+      errors:
+        one: '1 Fehler verhinderte das Speichern dieser Aufgabe:'
+        other: "%{count} Fehler verhinderten das Speichern dieser Aufgabe:"
+      finish_helper: Ein Auftrag ist beendet, wenn Sie ihn abgeschlossen haben, oder er
+        ist anderweitig nicht mehr möglich.
+      garden_label: Ist dies für einen bestimmten Garten?
+      name_label: Was muss getan werden?
+      planting_label: Ist dies für eine bestimmte Pflanzung?
+      repeat_times_label: Wie oft wiederholen?
+      repeat_weeks_label: Alle wie viele Wochen?
+      save: Speichern
+      when_label: Wann?
     index:
+      all_members: allen Mitgliedern
+      api_methods: API-Methoden
+      breadcrumbs_jobs: Aufgaben
+      due_date_html: 'Fälligkeitsdatum: %{date}'
+      garden_html: 'Garten: %{garden}'
+      ics_description: Aufgaben von %{owner}
+      ics_garden: 'Garten: %{garden}'
+      ics_planting: 'Pflanzung: %{planting}'
+      include_finished_jobs: erledigte Aufgaben einschließen
+      not_applicable: k. A.
+      open_data: Offene Daten
+      owner_jobs: Aufgaben von %{owner}
+      planting_html: 'Pflanzung: %{planting}'
+      rss_title: Aktuelle Aufgaben von %{owner} (%{site})
+      sidebar_heading: Aufgaben
       title:
         default: Jedermanns Arbeit
         owner_jobs: Jobs bei %{owner}
+      unknown: unbekannt
     pad:
       add: Fügen Sie einen Job hinzu
       add_button: Hinzufügen

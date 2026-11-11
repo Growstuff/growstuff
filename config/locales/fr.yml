@@ -1024,14 +1024,56 @@ fr:
         lead: Deux en lignes!
         note: L'escargot prend de la vitesse.
       undo: Annuler
+    description:
+      due: "(prévu pour le %{due})"
+      in_garden_html: dans %{link}
+      on_planting_html: sur %{link}
+      planned: a prévu de faire « %{name} »
+      plans: prévoit de faire « %{name} »
     due:
       last: last %{day}
+    edit:
+      title: Modifier la tâche
+    finished_description:
+      did: a fait « %{name} »
+      in_garden_html: dans %{link}
+      on_planting_html: sur %{link}
     form:
-      finish_helper: Une tâche est terminée lorsque vous l'avez terminée, sinon ce n'est plus possible.
+      add_garden: Ajouter un jardin.
+      add_planting: Ajouter une plantation.
+      description_label: Dites-nous en plus
+      errors:
+        one: '1 erreur a empêché l''enregistrement de cette tâche :'
+        other: "%{count} erreurs ont empêché l'enregistrement de cette tâche :"
+      finish_helper: Une tâche est terminée lorsque vous l'avez terminée, sinon ce n'est
+        plus possible.
+      garden_label: Est-ce pour un jardin spécifique ?
+      name_label: Que faut-il faire ?
+      planting_label: Est-ce pour une plantation spécifique ?
+      repeat_times_label: Répéter combien de fois ?
+      repeat_weeks_label: Toutes les combien de semaines ?
+      save: Enregistrer
+      when_label: Quand ?
     index:
+      all_members: tous les membres
+      api_methods: Méthodes de l'API
+      breadcrumbs_jobs: Tâches
+      due_date_html: 'Date d''échéance : %{date}'
+      garden_html: 'Jardin : %{garden}'
+      ics_description: Tâches de %{owner}
+      ics_garden: 'Jardin : %{garden}'
+      ics_planting: 'Plantation : %{planting}'
+      include_finished_jobs: inclure les tâches terminées
+      not_applicable: S/O
+      open_data: Données ouvertes
+      owner_jobs: Tâches de %{owner}
+      planting_html: 'Plantation : %{planting}'
+      rss_title: Tâches récentes de %{owner} (%{site})
+      sidebar_heading: Tâches
       title:
         default: Le travail de tout le monde
         owner_jobs: Emplois de %{owner}
+      unknown: inconnu
     pad:
       add: Ajouter un métier
       add_button: Ajouter

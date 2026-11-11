@@ -1517,16 +1517,58 @@ en:
         lead: Two in a row!
         note: The snail is picking up speed.
       undo: Undo
+    description:
+      due: "(due %{due})"
+      in_garden_html: in %{link}
+      on_planting_html: on %{link}
+      planned: planned to do “%{name}”
+      plans: plans to do “%{name}”
     due:
       last: last %{day}
+    edit:
+      title: Editing job
+    finished_description:
+      did: did “%{name}”
+      in_garden_html: in %{link}
+      on_planting_html: on %{link}
     form:
-      finish_helper: 'A job is finished when you''ve completed it, or it''s otherwise no longer possible.
+      add_garden: Add a garden.
+      add_planting: Add a planting.
+      description_label: Tell us more about it
+      errors:
+        one: '1 error prohibited this job from being saved:'
+        other: "%{count} errors prohibited this job from being saved:"
+      finish_helper: 'A job is finished when you''ve completed it, or it''s otherwise
+        no longer possible.
 
         '
+      garden_label: Is this for a specific garden?
+      name_label: What needs to be done?
+      planting_label: Is this for a specific planting?
+      repeat_times_label: Repeat how many times?
+      repeat_weeks_label: Every how many weeks?
+      save: Save
+      when_label: When?
     index:
+      all_members: all members
+      api_methods: API Methods
+      breadcrumbs_jobs: Jobs
+      due_date_html: 'Due Date: %{date}'
+      garden_html: 'Garden: %{garden}'
+      ics_description: Jobs by %{owner}
+      ics_garden: 'Garden: %{garden}'
+      ics_planting: 'Planting: %{planting}'
+      include_finished_jobs: include finished jobs
+      not_applicable: N/A
+      open_data: Open Data
+      owner_jobs: "%{owner}'s jobs"
+      planting_html: 'Planting: %{planting}'
+      rss_title: Recent jobs from %{owner} (%{site})
+      sidebar_heading: Jobs
       title:
         default: Everyone's jobs
         owner_jobs: "%{owner}'s jobs"
+      unknown: unknown
     pad:
       add: Add a job
       add_button: Add

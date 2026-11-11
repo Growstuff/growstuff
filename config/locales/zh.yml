@@ -1020,14 +1020,55 @@ zh:
         lead: 连续两个！
         note: 蜗牛的速度正在加快。
       undo: 撤消
+    description:
+      due: "(截止日期：%{due})"
+      in_garden_html: 在 %{link} 中
+      on_planting_html: 针对 %{link}
+      planned: 计划做“%{name}”
+      plans: 计划做“%{name}”
     due:
       last: 最后%{day}
+    edit:
+      title: 编辑任务
+    finished_description:
+      did: 完成了“%{name}”
+      in_garden_html: 在 %{link} 中
+      on_planting_html: 针对 %{link}
     form:
+      add_garden: 添加花园。
+      add_planting: 添加种植。
+      description_label: 详细说明
+      errors:
+        one: 1 个错误导致无法保存此任务：
+        other: "%{count} 个错误导致无法保存此任务："
       finish_helper: 当你完成一项工作时，它就完成了，否则它就不再可能了。
+      garden_label: 这是针对特定花园的吗？
+      name_label: 需要做什么？
+      planting_label: 这是针对特定种植的吗？
+      repeat_times_label: 重复多少次？
+      repeat_weeks_label: 每隔几周？
+      save: 保存
+      when_label: 什么时候？
     index:
+      all_members: 所有成员
+      api_methods: API 方法
+      breadcrumbs_jobs: 任务
+      due_date_html: 截止日期：%{date}
+      garden_html: 花园：%{garden}
+      ics_description: "%{owner} 的任务"
+      ics_garden: 花园：%{garden}
+      ics_planting: 种植：%{planting}
+      include_finished_jobs: 包含已完成的任务
+      not_applicable: 无
+      open_data: 开放数据
+      owner_jobs: "%{owner} 的任务"
+      planting_html: 种植：%{planting}
+      rss_title: 来自 %{owner} 的最新任务 (%{site})
+      sidebar_heading: 任务
       title:
         default: 每个人的工作
         owner_jobs: "%{owner} 的职位"
+      unknown: 未知
     pad:
       add: 添加职位
       add_button: 添加

@@ -403,6 +403,57 @@ ja:
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
       sign_in_mastodon: Mastodonでログイン
+  jobs:
+    description:
+      due: "(期日: %{due})"
+      in_garden_html: "%{link} で"
+      on_planting_html: "%{link} の"
+      planned: "「%{name}」を予定していました"
+      plans: "「%{name}」を予定しています"
+    due:
+      last: 先週の%{day}
+    edit:
+      title: 作業の編集
+    finished_description:
+      did: "「%{name}」を完了しました"
+      in_garden_html: "%{link} で"
+      on_planting_html: "%{link} の"
+    form:
+      add_garden: 庭を追加する。
+      add_planting: 植栽を追加する。
+      description_label: 詳細を入力してください
+      errors:
+        one: '1件のエラーにより、この作業は保存されませんでした:'
+        other: "%{count}件のエラーにより、この作業は保存されませんでした:"
+      finish_helper: 作業が完了したか、または実行できなくなったときに完了とします。
+      garden_label: 特定の庭の作業ですか？
+      name_label: 何をする必要がありますか？
+      planting_label: 特定の植栽の作業ですか？
+      repeat_times_label: 何回繰り返しますか？
+      repeat_weeks_label: 何週間ごとですか？
+      save: 保存
+      when_label: いつ？
+    index:
+      all_members: すべてのメンバー
+      api_methods: APIメソッド
+      breadcrumbs_jobs: 作業
+      due_date_html: '期日: %{date}'
+      garden_html: '庭: %{garden}'
+      ics_description: "%{owner} による作業"
+      ics_garden: '庭: %{garden}'
+      ics_planting: '植栽: %{planting}'
+      include_finished_jobs: 完了した作業を含める
+      not_applicable: なし
+      open_data: オープンデータ
+      owner_jobs: "%{owner} の作業"
+      planting_html: '植栽: %{planting}'
+      rss_title: "%{owner} の最近の作業 (%{site})"
+      sidebar_heading: 作業
+      title:
+        default: みんなの作業
+        owner_jobs: "%{owner} の作業"
+      unknown: 不明
+
   layouts:
     footer:
       donate: 寄付 - コーヒーを奢る
