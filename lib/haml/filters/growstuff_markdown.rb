@@ -19,7 +19,7 @@ class Haml::Filters
         crop_str = Regexp.last_match(1)
         # find crop case-insensitively
         crop = Crop.where('lower(name) = ?', crop_str.downcase).first
-        crop_link crop, crop_str
+        record_link crop, crop_str
       end
       text
     end
@@ -29,7 +29,7 @@ class Haml::Filters
       text.gsub!(PLANTING_REGEX) do
         link_text = Regexp.last_match(1)
         planting = Planting.find_by(slug: Regexp.last_match(2))
-        planting_link planting, link_text
+        record_link planting, link_text
       end
       text
     end
@@ -61,38 +61,19 @@ class Haml::Filters
       text.gsub!(MEMBER_COMBINED_REGEX) do
         member_str = Regexp.last_match(1) || Regexp.last_match(2)
         member = find_member(member_str)
-        member_link(member, member_str)
+        record_link(member, member_str)
       end
 
       text.gsub!(MEMBER_ESCAPE_AT_REGEX, '')
       text
     end
 
-    def member_link(member, link_text)
-      if member
-        url = Rails.application.routes.url_helpers.member_url(member, only_path: true)
-        "[#{link_text}](#{url})"
-      else
-        link_text
-      end
-    end
+    # A markdown link to the record's page, or just the text when there is no such record.
+    def record_link(record, link_text)
+      return link_text unless record
 
-    def crop_link(crop, link_text)
-      if crop
-        url = Rails.application.routes.url_helpers.crop_url(crop, only_path: true)
-        "[#{link_text}](#{url})"
-      else
-        link_text
-      end
-    end
-
-    def planting_link(planting, link_text)
-      if planting
-        url = Rails.application.routes.url_helpers.planting_url(planting, only_path: true)
-        "[#{link_text}](#{url})"
-      else
-        link_text
-      end
+      url = Rails.application.routes.url_helpers.polymorphic_url(record, only_path: true)
+      "[#{link_text}](#{url})"
     end
 
     def find_member(login_name)

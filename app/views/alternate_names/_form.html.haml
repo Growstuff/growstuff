@@ -2,25 +2,21 @@
   .card-body
     - if content_for? :title
       %h1.h2-responsive.text-center
-        %strong=yield :title
+        %strong= yield :title
     = form_for @alternate_name do |f|
       - if @alternate_name.errors.any?
         #error_explanation
-          %h2
-            = pluralize(@alternate_name.errors.size, "error")
-            prohibited this alternate_name from being saved:
+          %h2= t('.errors', count: @alternate_name.errors.size)
           %ul
             - @alternate_name.errors.full_messages.each do |msg|
               %li= msg
 
       %p
         %span.form-text
-          For detailed crop wrangling guidelines, please consult the
-          = link_to "crop wrangling guide", "https://github.com/Growstuff/growstuff/wiki/Crop-Wrangling"
-          on the Growstuff wiki.
+          = t('.crop_wrangling_guide_intro_html', guide_link: link_to(t('.crop_wrangling_guide'), "https://github.com/Growstuff/growstuff/wiki/Crop-Wrangling"))
 
       .row.mb-3
-        = f.label :crop_id, class: 'col-form-label col-md-2'
+        = f.label :crop_id, t('.crop'), class: 'col-form-label col-md-2'
         .col-md-8
           = select(:alternate_name, :crop_id,
                               Crop.order(:name).pluck(:name, :id),
@@ -28,11 +24,11 @@
                               class: 'form-control')
 
       .row.mb-3
-        = f.label :name, class: 'col-form-label col-md-2'
+        = f.label :name, t('.name'), class: 'col-form-label col-md-2'
         .col-md-8
           = f.text_field :name, class: 'form-control'
         .col-md-8
-          = f.select :language, I18nData.languages.map {|code, name| [name.split(";").first, code] }, class: 'form-control'
+          = f.select :language, I18nData.languages.map { |code, name| [name.split(";").first, code] }, { include_blank: true, selected: alternate_name_language(@alternate_name) }, class: 'form-select', required: true
       .row.mb-3
         .offset-md-2.col-md-8
-          = f.submit 'Save', class: 'btn btn-primary'
+          = f.submit t('.save'), class: 'btn btn-primary'

@@ -12,7 +12,7 @@ class PlacesController < ApplicationController
       format.html
       # json response is whatever we want to map here
       format.json do
-        members = Member.located.paginate(page: params[:page]).pluck(*MEMBER_FIELDS).map do |row|
+        members = Member.kept.located.paginate(page: params[:page]).pluck(*MEMBER_FIELDS).map do |row|
           MEMBER_FIELDS.zip(row).to_h
         end
         render json: members
@@ -24,7 +24,9 @@ class PlacesController < ApplicationController
   # GET /places/london.json
   def show
     @place = params[:place] # used for page title
-    @nearby_members = Member.nearest_to(params[:place])
+    @latitude, @longitude = Geocoder.coordinates(@place, params: { limit: 1 }) if @place.present?
+    @nearby_members = @latitude && @longitude ? Member.nearest_to_point(@latitude, @longitude) : Member.none
+    load_weather(Place.new(@latitude, @longitude)) if @latitude && @longitude && Feature.enabled?(:planting_weather)
     respond_to do |format|
       format.html # show.html.haml
       format.json do
@@ -55,5 +57,14 @@ class PlacesController < ApplicationController
     else
       redirect_to place_path(params[:new_place])
     end
+  end
+
+  private
+
+  # The frost and the weather of the place, behind the planting_weather feature switch like those on a planting or a garden.
+  def load_weather(place)
+    @frost = FrostSeason.for(place)
+    @climate = PlaceClimate.for(place)
+    ClimateRequest.record(place) if member_signed_in? && !@climate
   end
 end

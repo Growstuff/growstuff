@@ -77,20 +77,20 @@ describe "Display a planting", :js do
     include_context 'signed in member'
     before { visit planting_path(planting) }
 
-    context 'with matching seeds' do
+    context 'when it has no record of how it was started' do
       let(:seed) { create(:seed, saved_at: 1.month.ago, owner: member) }
       let(:planting) { create(:planting, planted_at: 1.day.ago, crop: seed.crop, owner: member) }
 
-      it { expect(page).to have_text 'Is this from one of these seeds?' }
+      it { expect(page).to have_css '.origin-unanswered' }
 
-      describe 'linking to the parent seed' do
+      describe 'linking a packet' do
         before do
-          choose "planting_parent_seed_id_#{seed.id}"
-          click_button 'save'
+          click_button I18n.t('plantings.origin.link_a_seed')
+          click_button 'Seed', match: :first
+          click_button I18n.t('plantings.origin.dialog.choose')
         end
 
-        it { expect(page).to have_text 'Parent seed' }
-        # The parent seed card links to the seed. The breadcrumb used to link
+        # The parent seed links to the seed. The breadcrumb used to link
         # to this planting, but the last crumb is the page you are on, so it
         # is plain text now.
         it { expect(page).to have_link href: seed_path(seed) }

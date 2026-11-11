@@ -24,7 +24,7 @@
   - else
     %li.breadcrumb-item= link_to 'Harvests', harvests_path
     %li.breadcrumb-item= link_to @harvest.owner, member_harvests_path(@harvest.owner)
-  %li.breadcrumb-item.active Harvest
+  %li.breadcrumb-item.active= t('.breadcrumb')
 
 .harvest-show.record-page
   .row
@@ -48,17 +48,17 @@
                 .record-title
                   %h1.display-3
                     = harvest_icon
-                    %strong= t('harvests.show.heading', crop: @harvest.crop.name.titleize)
+                    %strong= t('.heading', crop: @harvest.crop.name.titleize)
                   = render 'likes/likes', object: @harvest
                 %p.lead.mb-0
-                  harvested by
+                  = t('.harvested_by')
                   %strong.record-grower-name= link_to @harvest.owner, @harvest.owner
                   - if @harvest.harvested_at.present?
                     %span.text-muted
                       &middot;
                       = I18n.l @harvest.harvested_at
                 - if @harvest.planting.present?
-                  = render 'shared/record_parent', planting: @harvest.planting, verb: 'picked from'
+                  = render 'shared/record_parent', planting: @harvest.planting, verb: t('.picked_from')
             = render 'harvests/actions', harvest: @harvest
 
           - if @harvest.description.present?
@@ -72,34 +72,34 @@
             - if @harvest.plant_part
               .card.fact-card
                 %h3
-                  Plant part
+                  = t('.plant_part')
                   = editable :select, @harvest, :plant_part_id, values: PlantPart.all.pluck(:name, :id), display_field: '.harvest-plantpart'
                 %strong.harvest-plantpart= @harvest.plant_part
             .card.fact-card
               %h3
-                Harvested
+                = t('.harvested')
                 = editable :date, @harvest, :harvested_at, display_field: '.fact-harvested'
               .fact-value.fact-harvested
                 %strong.harvested_at= standard_time_distance @harvest.harvested_at, Time.zone.now.to_date
                 %span.harvested_at= I18n.l @harvest.harvested_at
             .card.fact-card{ class: @harvest.quantity.present? ? '' : 'text-muted' }
               %h3
-                Quantity
+                = t('.quantity')
                 = editable :text_field, @harvest, :quantity, display_field: '.fact-quantity'
               .fact-value.fact-quantity
                 %strong.quantity= display_quantity(@harvest)
 
         %section#photos
           .section-header
-            %h2 Photos
+            %h2= t('.photos')
             - if can?(:edit, @harvest) && can?(:create, Photo)
               = link_to new_photo_path(id: @harvest.id, type: 'harvest'), class: 'btn btn-sm section-add', data: photo_dialog_data(@harvest) do
                 = icon 'fas', 'plus'
-                add
+                = t('.add')
           - if @harvest.photos.any?
             = render 'photos/gallery', photos: @harvest.photos.order(date_taken: :desc)
           - else
-            %p.text-muted.mb-0 No photos yet.
+            %p.text-muted.mb-0= t('.no_photos')
 
         -# Somebody grew this before they picked it. Show the planting as its
         -# own card — photo, how it is doing, who grows it — so the reader is
@@ -107,15 +107,15 @@
         - if @harvest.planting.present?
           %section.harvest-from
             .section-header
-              %h2 The planting this came from
+              %h2= t('.the_planting_this_came_from')
             .index-cards
               = render 'plantings/card', planting: @harvest.planting
             %p.text-muted.small.mb-0
-              See how #{@harvest.owner}'s #{@harvest.crop.name} is getting on.
+              = t('.see_how', owner: @harvest.owner, crop: @harvest.crop.name)
 
     .col-md-4.col-12
       %section.harvest-crop
         .section-header
-          %h2 Crop
+          %h2= t('.crop')
         = render 'plantings/crop', crop: @harvest.crop
       = render 'crops/nutritional_data', crop: @harvest.crop

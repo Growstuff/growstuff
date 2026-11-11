@@ -1,23 +1,31 @@
 -# The weather so far, on the same X axis as the progress bar above: from the planting date, for the crop's
 -# whole expected lifespan, or from a year ago for a planting older than that. The data fills the part already lived.
-- days = weather_axis_days(planting)
-- seasons = weather_seasons(planting.latitude, from: planting.weather_first_day, days:)
-- now = weather_now(planting, days)
+:ruby
+  days = weather_axis_days(planting)
+  seasons = weather_seasons(planting.latitude, from: planting.weather_first_day, days:)
+  now = weather_now(planting, days)
+  frost = planting.frost_danger
+  ranges = weather_temperature_ranges(planting.crop)
 .weather-charts
   %figure
-    %figcaption
-      = t('plantings.show.weather_temperature_chart')
-      %span.badge.text-bg-success.ms-1= t('plantings.show.weather_new')
-    = weather_temperature_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:)
+    %figcaption= t('plantings.show.weather_temperature_chart')
+    -# Worked out once a day, and again when a new reading arrives or the planting or its crop is edited.
+    - cache [planting, planting.crop, 'climate-notes', readings.last&.date, expected.last&.date, Time.zone.today.to_s] do
+      - notes = weather_climate_notes(readings, ranges, crop: planting.crop, expected:, through: planting.weather_due_on)
+      - if notes
+        .weather-notes= notes
+    = weather_temperature_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:, frost:, ranges:)
   %figure
     %figcaption= t('plantings.show.weather_rain_chart')
     = weather_rain_chart(readings, from: planting.weather_first_day, days:, seasons:, expected:, now:)
 = weather_season_strip(seasons, days)
 - if expected.any?
   %p.weather-expected-note.small.text-muted= t('plantings.show.weather_expected_note')
+- if planting.abandoned?
+  %p.weather-abandoned-note.small.text-muted= t('plantings.show.weather_abandoned_note', date: l(planting.weather_last_day, format: :long))
 - if readings.any?
   %dl.weather-summary
-    - weather_summary(readings).each do |key, value|
+    - weather_summary(readings, ranges:).each do |key, value|
       .weather-figure
         %dt= t("plantings.show.weather_#{key}")
         %dd= value

@@ -1,0 +1,30 @@
+-# One comment: who said it, when, and what. Its author, and anyone who may, can
+-# edit or delete it.
+- author = comment.author
+.photo-comment{ id: "comment-#{comment.id}" }
+  = render 'photos/initial', member: author, size: 'medium'
+  .photo-comment-main
+    .photo-comment-meta
+      - if author.discarded?
+        %strong= t('.deleted_member')
+      - else
+        = link_to author.login_name, member_path(author), class: 'fw-bold'
+      - if member_signed_in? && author == current_member
+        %span.photo-comment-badge.photo-comment-badge-you= t('.you')
+      - if author == photo.owner && !photo_by_outsider?(photo)
+        %span.photo-comment-badge.photo-comment-badge-photographer= t('.photographer')
+      %small.text-muted= t('.ago', time: time_ago_in_words(comment.created_at))
+      - if comment.updated_at > comment.created_at
+        %small.text-muted= t('.edited')
+    .photo-comment-body
+      :markdown
+        #{ strip_tags markdownify(comment.body) }
+    - if can?(:edit, comment) || can?(:destroy, comment)
+      .photo-comment-actions
+        - if can? :edit, comment
+          %button.btn.btn-outline-secondary.btn-sm{ type: 'button', data: { 'bs-toggle': 'modal', 'bs-target': "#comment-#{comment.id}-edit-modal" } }= t('.edit')
+        - if can? :destroy, comment
+          = link_to comment_path(comment), method: :delete, data: { confirm: t('.delete_confirm') }, class: 'btn btn-outline-secondary btn-sm' do
+            = t('.delete')
+  - if can? :edit, comment
+    = render 'comments/edit_modal', comment:

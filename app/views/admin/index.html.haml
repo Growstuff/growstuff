@@ -33,6 +33,7 @@
           %li= link_to "Scientific names", scientific_names_path, class: 'nav-link'
           %li= link_to "Plant parts", plant_parts_path, class: 'nav-link'
           %li= link_to "Crop job templates", admin_job_templates_path, class: 'nav-link'
+          %li= link_to t('admin.ecocrop_data.index.title'), admin_ecocrop_data_path, class: 'nav-link'
 
   .col-md-4
     .card
@@ -43,3 +44,5 @@
       .card-body
         %nav.nav#member_admin
           %li= link_to "Members", admin_members_path, class: 'nav-link'
+          %li= link_to t('admin.climate_coverage.members.title'), admin_climate_members_path, class: 'nav-link'
+          %li= link_to t('admin.climate_coverage.gardens.title'), admin_climate_gardens_path, class: 'nav-link'

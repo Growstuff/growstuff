@@ -3,28 +3,25 @@
 - if can? :wrangle, crop
   %p
     %span.form-text
-      For detailed crop wrangling guidelines, please consult the
-      = link_to "crop wrangling guide", "https://github.com/Growstuff/growstuff/wiki/Crop-Wrangling"
-      on the Growstuff wiki.
+      = t('.crop_wrangling_guide_intro_html', guide_link: link_to(t('.crop_wrangling_guide'), "https://github.com/Growstuff/growstuff/wiki/Crop-Wrangling"))
 
 -# Everyone (wranglers and requesters) sees the basic info section
-%h2 Basic information
+%h2= t('.basic_information')
 
 .mb-3#new_crop
-= f.text_field :name, required: true
+= f.text_field :name, required: true, label: t('.name.label')
 %span.form-text
-  The common name for the crop, in English (required).
+  = t('.name.hint')
   - if can? :wrangle, crop
-    Wranglers: please ensure this is singular, and capitalize
-    proper nouns only.
+    = t('.name.wranglers_hint')
 
-%h2 Lifespan
+%h2= t('.lifespan')
 %p
-  = f.radio_button(:perennial, false, label: 'Annual')
-  %span.form-text Living and reproducing in a single year or less
+  = f.radio_button(:perennial, false, label: t('.lifespan_annual'))
+  %span.form-text= t('.lifespan_annual_hint')
 %p
-  = f.radio_button(:perennial, true, label: "Perennial")
-  %span.form-text Living more than two years
+  = f.radio_button(:perennial, true, label: t('.lifespan_perennial'))
+  %span.form-text= t('.lifespan_perennial_hint')
 
 - if can?(:wrangle, crop)
   %h2= t('.harvest_style.heading')
@@ -35,28 +32,28 @@
     - if (parent_style = crop.parent&.effective_harvest_style)
       = t('.harvest_style.parent', style: t("crops.harvest_style.#{parent_style}.value"))
 
-%h2 Data
+%h2= t('.data')
 - if crop.description.blank? || can?(:wrangle, crop)
-  = f.text_area :description, label: 'Description'
+  = f.text_area :description, label: t('.description')
   - if crop.parent
-    %span.form-text Parent: #{crop.parent.description}
+    %span.form-text= t('.parent_value', value: crop.parent.description)
 - if crop.row_spacing.blank? || can?(:wrangle, crop)
-  = f.number_field :row_spacing, label: 'Row Spacing (cm)', min: 0
+  = f.number_field :row_spacing, label: t('.row_spacing'), min: 0
   - if crop.parent
-    %span.form-text Parent: #{crop.parent.row_spacing}
+    %span.form-text= t('.parent_value', value: crop.parent.row_spacing)
 - if can?(:wrangle, crop)
   -# How the crop is grown, as a wrangler sets it. The page shows these first and the
   -# medians of members' seed packets beside them.
-  %h3.h5 Growing
+  %h3.h5= t('.growing')
   .row
-    .col-md-6= f.number_field :germination_days_min, label: 'Germination, at least (days)', min: 0
-    .col-md-6= f.number_field :germination_days_max, label: 'Germination, at most (days)', min: 0
+    .col-md-6= f.number_field :germination_days_min, label: t('.germination_days_min'), min: 0
+    .col-md-6= f.number_field :germination_days_max, label: t('.germination_days_max'), min: 0
   .row
-    .col-md-6= f.number_field :days_until_maturity_min, label: 'Days until maturity, at least', min: 0
-    .col-md-6= f.number_field :days_until_maturity_max, label: 'Days until maturity, at most', min: 0
+    .col-md-6= f.number_field :days_until_maturity_min, label: t('.days_until_maturity_min'), min: 0
+    .col-md-6= f.number_field :days_until_maturity_max, label: t('.days_until_maturity_max'), min: 0
   %fieldset.mb-3
-    %legend.h6 Months to sow
-    %p.form-text Tick the months for the southern hemisphere: the northern hemisphere is six months on.
+    %legend.h6= t('.months_to_sow')
+    %p.form-text= t('.months_to_sow_hint')
     .sow-months
       = hidden_field_tag 'crop[sow_months][]', '', id: nil
       .sow-months-chips
@@ -64,51 +61,55 @@
           - id = "crop-sow-month-#{month}"
           = check_box_tag 'crop[sow_months][]', month, crop.sow_months.include?(month), id: id, class: 'btn-check'
           = label_tag id, Date::ABBR_MONTHNAMES[month], class: 'btn btn-outline-secondary btn-sm'
+  - levels = Hardiness::LEVELS.map { |level| [t("hardiness.levels.#{level}.name"), level] }
+  = f.select :hardiness_by_hand, levels,
+             { label: t('crops.fields.hardiness.label'), include_blank: t('crops.fields.hardiness.from_packets'),
+               help: t('crops.fields.hardiness.help') }
 - if crop.spread.blank? || can?(:wrangle, crop)
-  = f.number_field :spread, label: 'Spread (cm)', min: 0
+  = f.number_field :spread, label: t('.spread'), min: 0
   - if crop.parent
-    %span.form-text Parent: #{crop.parent.spread}
+    %span.form-text= t('.parent_value', value: crop.parent.spread)
 - if crop.height.blank? || can?(:wrangle, crop)
-  = f.number_field :height, label: 'Height (cm)', min: 0
+  = f.number_field :height, label: t('.height'), min: 0
   - if crop.parent
-    %span.form-text Parent: #{crop.parent.height}
+    %span.form-text= t('.parent_value', value: crop.parent.height)
 - if crop.sowing_method.blank? || can?(:wrangle, crop)
-  = f.text_field :sowing_method
+  = f.text_field :sowing_method, label: t('.sowing_method')
   - if crop.parent
-    %span.form-text Parent: #{crop.parent.sowing_method}
+    %span.form-text= t('.parent_value', value: crop.parent.sowing_method)
 - if crop.sun_requirements.blank? || can?(:wrangle, crop)
-  = f.text_field :sun_requirements
+  = f.text_field :sun_requirements, label: t('.sun_requirements')
   - if crop.parent
-    %span.form-text Parent: #{crop.parent.sun_requirements}
+    %span.form-text= t('.parent_value', value: crop.parent.sun_requirements)
 - if crop.growing_degree_days.blank? || can?(:wrangle, crop)
-  = f.number_field :growing_degree_days, min: 0
+  = f.number_field :growing_degree_days, label: t('.growing_degree_days'), min: 0
   - if crop.parent
-    %span.form-text Parent: #{crop.parent.growing_degree_days}
-= f.text_field :public_food_key, label: 'Australian Food Composition Database Public Food Key'
+    %span.form-text= t('.parent_value', value: crop.parent.growing_degree_days)
+= f.text_field :public_food_key, label: t('.public_food_key')
 
 - unless crop.approved?
-  = link_to 'Search wikipedia', "https://en.wikipedia.org/w/index.php?search=#{crop.name}", target: '_blank'
+  = link_to t('.search_wikipedia'), "https://en.wikipedia.org/w/index.php?search=#{crop.name}", target: '_blank'
 - if crop.en_wikipedia_url.blank? || can?(:wrangle, crop)
-  = f.url_field :en_wikipedia_url, id: "en_wikipedia_url", label: 'Wikipedia URL'
+  = f.url_field :en_wikipedia_url, id: "en_wikipedia_url", label: t('.en_wikipedia_url')
   %span.form-text
-    Link to the crop's page on the English language Wikipedia (required).
+    = t('.en_wikipedia_url_hint')
 - if crop.en_youtube_url.blank? || can?(:wrangle, crop)
-  = f.url_field :en_youtube_url, label: 'YouTube URL'
+  = f.url_field :en_youtube_url, label: t('.en_youtube_url')
   %span.form-text
-    Link to a YouTube video about the crop in English.
+    = t('.en_youtube_url_hint')
 
 -# Only crop wranglers see the crop hierarchy (for now)
 - if can? :wrangle, crop
   = f.select(:parent_id, Crop.order(:name).pluck(:name, :id),
-    { include_blank: true, label: 'Parent crop'})
-  %span.form-text Optional. For setting up crop hierarchies for varieties etc.
+    { include_blank: true, label: t('.parent_crop') })
+  %span.form-text= t('.parent_crop_hint')
 
   - icon_choices = Crop.icon_names.map { |icon| [icon.humanize, icon] }
-  = f.select(:icon, icon_choices, { include_blank: "None: use the parent crop's", label: 'Icon' })
+  = f.select(:icon, icon_choices, { include_blank: t('.icon_blank'), label: t('.icon') })
   %span.form-text
-    Optional. Shown for this crop and any varieties of it that don't have their own.
+    = t('.icon_hint')
     - if crop.persisted? && crop.svg_icon.present?
-      Currently:
+      = t('.currently')
       = image_tag crop_path(crop, format: 'svg'), class: 'crop-icon', alt: ''
 
 
@@ -120,37 +121,36 @@
   -# The scientific name fields are a React island, which adds and removes rows
   -# and suggests names from GBIF; the plain fields inside are what shows until it
   -# mounts, or without JavaScript.
-  %h2 Scientific names
+  %h2= t('.scientific_names')
   = react_component 'ScientificNames', { names: crop.scientific_names.map(&:name), suggest_url: gbif_suggest_scientific_names_path } do
     .mb-3
       - crop.scientific_names.each.with_index do |sci, index|
         .mb-2
-          = label_tag "sci_name[#{index + 1}]", "Scientific name #{index + 1}:", class: 'form-label'
+          = label_tag "sci_name[#{index + 1}]", t('.scientific_name_with_index', index: index + 1), class: 'form-label'
           = text_field_tag "sci_name[#{index + 1}]", sci.name, id: "sci_name[#{index + 1}]", class: 'form-control'
-      %span.form-text Searches GBIF to determine scientific name of crop.
+      %span.form-text= t('.scientific_names_hint')
 
 -# The alternate name fields are a React island too.
-%h2 Alternate names
+%h2= t('.alternate_names')
 = react_component 'AlternateNames', { names: crop.alternate_names.map(&:name) } do
   .mb-3
     - crop.alternate_names.each.with_index do |alt, index|
       .mb-2
-        = label_tag "alt_name[#{index + 1}]", "Alternate name #{index + 1}:", class: 'form-label'
+        = label_tag "alt_name[#{index + 1}]", t('.alternate_name_with_index', index: index + 1), class: 'form-label'
         = text_field_tag "alt_name[#{index + 1}]", alt.name, id: "alt_name[#{index + 1}]", class: 'form-control'
-    %span.form-text Alternate name of crop.
+    %span.form-text= t('.alternate_names_hint')
 
 -# This is used for comments from crop requesters.  We need to show it
 -# to everyone, but we don't include it on new crops from wranglers.
 
 - if (can?(:wrangle, crop) && crop.requester) || (cannot?(:wrangle, crop) && crop.new_record?)
-  %h2 Crop request notes
-  = f.text_area :request_notes, rows: 3, id: 'request_notes', label: 'Comments'
+  %h2= t('.crop_request_notes')
+  = f.text_area :request_notes, rows: 3, id: 'request_notes', label: t('.comments')
 
 -# A final explanation of what's going to happen next, for crop requesters
 - unless can? :wrangle, crop
   %p
-    When you submit this form, your suggestion will be sent to our team of
-    volunteer crop wranglers for review. We'll let you know the outcome as soon as we can.
+    = t('.requester_submission_notice')
 
 -# Now, for crop wranglers, let's have approval/rejection at the bottom of the page
 - if can?(:wrangle, crop) && crop.requester
@@ -160,4 +160,4 @@
 
   = f.text_area :rejection_notes, rows: 3
   %span.form-text
-    Please provide additional notes why this crop request was rejected if the above reasons do not apply.
+    = t('.rejection_notes_hint')

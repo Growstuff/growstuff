@@ -23,10 +23,12 @@ class JobSuggestionsController < ApplicationController
     Garden.find_by(id: params[:garden_id]) if params[:garden_id].present?
   end
 
-  # The member's plantings that are still growing: in the garden, if there is one.
+  # The member's plantings that are still growing: in the garden, if there is one,
+  # or in any garden they own or collaborate on.
   def plantings
-    plantings = current_member.plantings.active
-    garden ? plantings.where(garden:) : plantings
+    return garden.plantings.active if garden
+
+    Planting.active.where(garden_id: current_member.accessible_gardens)
   end
 
   def all_suggestions(query)

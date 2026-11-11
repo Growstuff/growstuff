@@ -1,12 +1,12 @@
-- content_for :title, "Listing scientific names"
+- content_for :title, t('.title')
 
 - if can? :create, ScientificName
-  %p= link_to 'New Scientific name', new_scientific_name_path, class: 'btn btn-primary'
+  %p= link_to t('.new_scientific_name'), new_scientific_name_path, class: 'btn btn-primary'
 
 %table
   %tr
-    %th Scientific name
-    %th Crop
+    %th= t('.scientific_name')
+    %th= t('.crop')
     %th
     %th
 
@@ -14,7 +14,7 @@
     %tr
       %td= link_to scientific_name.name, scientific_name
       %td= scientific_name.crop_id
-      %td= link_to 'Show', scientific_name
+      %td= link_to t('.show'), scientific_name
       %td
         - if can? :edit, scientific_name
           = link_to t('buttons.edit'), edit_scientific_name_path(scientific_name), class: 'btn btn-outline-secondary btn-sm'

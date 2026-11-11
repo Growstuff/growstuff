@@ -1,0 +1,17 @@
+-# The months' figures as a table, closed until asked for. columns: { label => measure }
+%details.climate-details
+  %summary= t('climate.table.details')
+  .climate-table
+    %table
+      %thead
+        %tr
+          %th= t('climate.table.month')
+          - columns.each_key do |label|
+            - [t('climate.table.usual'), t('climate.table.this_year')].each do |kind|
+              %th #{label}, #{kind}
+      %tbody
+        - climate_table_rows(climate, columns.values).each do |row|
+          %tr
+            %th= row.first
+            - row.drop(1).each do |cell|
+              %td= cell

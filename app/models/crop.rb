@@ -12,6 +12,7 @@ class Crop < ApplicationRecord
   friendly_id :name, use: %i(slugged finders)
 
   # The ranges a crop wrangler sets and members' seed packets give, which the crop keeps the median of.
+  HARDINESS_SOURCES = %w(seed_packets manual).freeze
   PACKET_RANGES = %i(germination_days_min germination_days_max days_until_maturity_min days_until_maturity_max).freeze
 
   ##
@@ -19,6 +20,7 @@ class Crop < ApplicationRecord
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
+  belongs_to :ecocrop_record, class_name: 'EcocropData', foreign_key: :ecocrop_data_id, optional: true, inverse_of: :crops
   has_many :scientific_names, dependent: :delete_all
   has_many :alternate_names, dependent: :delete_all
   has_many :plantings, dependent: :destroy
@@ -48,7 +50,6 @@ class Crop < ApplicationRecord
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
-  scope :interesting, -> { approved.has_photos }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
   scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
 
@@ -76,6 +77,8 @@ class Crop < ApplicationRecord
             },
             allow_blank: true
   validates :name, uniqueness: { scope: :approval_status }, if: :pending?
+  validates :hardiness, inclusion: { in: Hardiness::VALUES }
+  validates :hardiness_source, inclusion: { in: HARDINESS_SOURCES }, allow_nil: true
   validates(*PACKET_RANGES, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true)
   normalizes :sow_months, with: ->(months) { Array(months).compact_blank.map(&:to_i).uniq.sort }
   validate :sow_months_are_months
@@ -126,13 +129,22 @@ class Crop < ApplicationRecord
     scientific_names.first
   end
 
+  # The growing degree days to show: nil unless there is a figure above zero, since a crop needs some heat to grow and a
+  # stored 0 is a gap.
+  def growing_degree_days_figure
+    growing_degree_days if growing_degree_days.to_i.positive?
+  end
+
+  # The record linked by the crops:match_ecocrop tasks or a crop wrangler, else one named like a scientific name of the crop,
+  # else its parent's, so a variety of tomato reads what tomato does.
   def ecocrop_data
-    # Match against any of the crop's scientific names, starting with default
+    return ecocrop_record if ecocrop_record
+
     scientific_names.each do |sn|
       record = EcocropData.by_scientific_name(sn.name)
       return record if record.present?
     end
-    nil
+    parent&.ecocrop_data
   end
 
   # This crop's harvest style if it has one, else its parent's, so a variety of lettuce follows lettuce.
@@ -147,6 +159,32 @@ class Crop < ApplicationRecord
 
     data = ecocrop_data
     @ecocrop_heat_data = data&.heat_data? ? data : parent&.ecocrop_heat_data
+  end
+
+  # What a crop wrangler has set by hand, or blank when the packets decide.
+  def hardiness_by_hand
+    hardiness if hardiness_source == 'manual'
+  end
+
+  # A level sets it by hand, and it is kept from then on. Blank hands it back to the packets.
+  def hardiness_by_hand=(level)
+    if level.blank? || level == Hardiness::UNKNOWN
+      self.hardiness_source = nil if hardiness_source == 'manual'
+      @hardiness_from_packets = true
+    else
+      self.hardiness = level
+      self.hardiness_source = 'manual'
+    end
+  end
+
+  # Keeps how much frost the crop takes: what most of the packets of the crop and its varieties say, else unknown.
+  # A value set by hand is kept. Written without callbacks or history, as a figure worked out from the packets
+  # and not someone's edit.
+  def update_hardiness
+    return if hardiness_source == 'manual'
+
+    level = Hardiness.most_common(Seed.of_crop(self).where.not(hardiness: Hardiness::UNKNOWN).group(:hardiness).count)
+    update_columns(hardiness: level, hardiness_source: (level == Hardiness::UNKNOWN ? nil : 'seed_packets')) # rubocop:disable Rails/SkipsModelValidations
   end
 
   # returns hash indicating whether this crop is grown in
@@ -181,10 +219,6 @@ class Crop < ApplicationRecord
 
   def annual?
     perennial == false
-  end
-
-  def interesting?
-    photos.size >= 3 || plantings_count >= 3
   end
 
   def pending?
@@ -272,6 +306,11 @@ class Crop < ApplicationRecord
     )
   end
 
+  # Works out hardiness for every crop from its packets.
+  def self.update_all_hardiness
+    find_each(&:update_hardiness)
+  end
+
   def update_medians
     plantings.each(&:update_harvest_days!)
     update_lifespan_medians
@@ -336,12 +375,17 @@ class Crop < ApplicationRecord
 
   before_validation :release_slug, if: :rejected?
   before_destroy :destroy_reverse_companionships
+  after_save :update_hardiness, if: :hardiness_from_packets?
 
   def should_generate_new_friendly_id?
     slug.blank? || (!rejected? && name_changed?)
   end
 
   private
+
+  def hardiness_from_packets?
+    @hardiness_from_packets
+  end
 
   # The same part of the year in the other hemisphere: March is September.
   def opposite_month(month)

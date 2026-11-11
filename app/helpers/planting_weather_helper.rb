@@ -4,11 +4,13 @@
 module PlantingWeatherHelper
   include SeasonsHelper
   include WeatherChartFrameHelper
+  include WeatherRangeBandsHelper
 
   WEATHER_MIN_BAR_WIDTH = 0.6
 
-  # The headline figures for a run of weather readings, as text, leaving out any we have no data for.
-  def weather_summary(readings)
+  # The headline figures for a run of weather readings, as text, leaving out any we have no data for. With the crop's
+  # temperature `ranges` (see `weather_temperature_ranges`), how many days were in its best range.
+  def weather_summary(readings, ranges: nil)
     rain = readings.filter_map(&:rainfall_mm)
     hottest = readings.filter_map(&:temp_max_c).max
     coldest = readings.filter_map(&:temp_min_c).min
@@ -18,6 +20,7 @@ module PlantingWeatherHelper
       hottest:   (weather_degrees(hottest) if hottest),
       coldest:   (weather_degrees(coldest) if coldest),
       soil_temp: (weather_degrees(soil.sum / soil.size) if soil.any?),
+      best_days: weather_best_days(readings, ranges),
       days:      readings.size
     }.compact
   end
@@ -28,6 +31,12 @@ module PlantingWeatherHelper
     [("#{summary[:rain]} of rain" if summary[:rain]),
      ("highs up to #{summary[:hottest]}" if summary[:hottest]),
      ("lows down to #{summary[:coldest]}" if summary[:coldest])].compact.to_sentence.presence
+  end
+
+  # The garden's place as its owner wrote it, down to the first two parts of "Bluff, Southland, New Zealand", for the
+  # weather section's title: "Bluff, Southland". Nil when the garden has no location.
+  def weather_place(garden)
+    garden.location.to_s.split(',').first(2).map(&:squish).compact_blank.join(', ').presence
   end
 
   # How many days the weather charts' X axis spans, from the first day of weather: the same stretch as the progress
@@ -73,22 +82,30 @@ module PlantingWeatherHelper
   end
 
   # The daily high and low as two lines, on the same axis. `expected` continues them, dashed and paler,
-  # from the last observed day.
-  def weather_temperature_chart(readings, from:, days:, seasons: [], expected: [], now: nil) # rubocop:disable Metrics/ParameterLists
+  # from the last observed day. `ranges` (see `weather_temperature_ranges`) are shown as bands behind them.
+  def weather_temperature_chart(readings, from:, days:, seasons: [], expected: [], now: nil, frost: nil, ranges: nil) # rubocop:disable Metrics/ParameterLists
     observed = weather_temperatures(readings)
     values = observed + weather_temperatures(expected)
     return if values.empty?
 
+    values += weather_range_values(ranges)
+
     low = values.min.floor
+    low = [low, 0].min if frost
     high = [values.max.ceil, low + 1].max
     scale = { low:, span: high - low, step: weather_step(days) }
     lines = weather_temperature_lines(readings, from:, scale:)
     lines += weather_temperature_lines(readings.last(1) + expected, from:, css: 'weather-expected', scale:) if expected.any?
     range = observed.presence || values
     alt = t('plantings.show.weather_temperature_chart_alt', low: weather_degrees(range.min), high: weather_degrees(range.max))
+    alt = [alt, *ranges.to_h.slice(:optimal, :absolute).map { |kind, ends| weather_range_text(kind, ends) }].join(' ') if ranges
     ticks = [[0, weather_tick(high, '°')], [0.5, weather_tick((low + high) / 2.0, '°')], [1, weather_tick(low, '°')]]
-    weather_chart(safe_join([weather_season_bands(seasons, days), lines]), alt, 'weather-temperature',
-                  now: [weather_now_x(now, from, days), weather_now_temperatures(readings.last)], ticks:)
+    weather_chart(safe_join([weather_season_bands(seasons, days), weather_range_bands(ranges, scale),
+                             weather_frost_line(frost, scale, days), weather_kill_line(ranges, scale), lines]),
+                  alt, 'weather-temperature',
+                  now: [weather_now_x(now, from, days), weather_now_temperatures(readings.last)], ticks:,
+                  overlay: safe_join([weather_frost_label(frost, scale), weather_kill_label(ranges, scale),
+                                      weather_range_labels(ranges, scale)]))
   end
 
   # The seasons' names, laid out under the charts to the same widths as their bands.
@@ -139,6 +156,31 @@ module PlantingWeatherHelper
 
       "#{((reading.date - from) * step).round(1)},#{(WEATHER_CHART_HEIGHT - height_of.call(value)).round(1)}"
     end.join(' ')
+  end
+
+  # A dashed line across the temperature chart at the frost danger temperature, when there are frost dates and the chart's
+  # range reaches it.
+  def weather_frost_line(stat, scale, days)
+    y = weather_frost_y(stat, scale)
+    tag.line(class: 'weather-frost-line', x1: 0, x2: (days * scale[:step]).round(2), y1: y, y2: y) if y
+  end
+
+  # What the dashed line is, beside it.
+  def weather_frost_label(stat, scale)
+    y = weather_frost_y(stat, scale)
+    return unless y
+
+    degrees = weather_tick(FrostCalculator::FROST_DANGER_C, '')
+    tag.span(t('plantings.show.frost_line', degrees:), class: 'weather-frost-label',
+                                                       style: "top: #{(y * 100 / WEATHER_CHART_HEIGHT).round(2)}%")
+  end
+
+  # How far down the chart the frost danger temperature is, or nil when there is no line to draw.
+  def weather_frost_y(stat, scale)
+    degrees = FrostCalculator::FROST_DANGER_C
+    return unless stat&.dated? && degrees.between?(scale[:low], scale[:low] + scale[:span])
+
+    (WEATHER_CHART_HEIGHT - ((degrees - scale[:low]) / scale[:span] * WEATHER_CHART_HEIGHT)).round(1)
   end
 
   # A faint band behind the chart for each season, so the weather can be read against the year.

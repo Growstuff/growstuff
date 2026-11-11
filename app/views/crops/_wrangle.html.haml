@@ -10,6 +10,7 @@
       = menu_link_to :edit, t('.edit'), edit_crop_path(crop)
     = menu_modal_link :add, 'Add scientific name', '#scientific-name-new'
     = menu_modal_link :add, 'Add another name', '#alternate-name-new'
+    = menu_link_to :add_photo, t('crops.add_photos_from_flickr'), new_crop_photo_path(crop)
     = menu_link_to :download, 'Fetch data from GBIF', crop_gbif_path(crop), method: :post
     = menu_link_to :people, 'Manage companions', admin_crop_crop_companions_path(crop)
     = menu_link_to :finish, 'Job templates', admin_crop_crop_job_templates_path(crop)

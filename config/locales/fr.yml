@@ -100,10 +100,10 @@ fr:
         job_ideas: Emplois suggérés pour les membres, à partir de leurs emplois et plantations passés, des modèles de cultures et de ce que font les jardiniers à proximité.
         planting_weather: Graphiques de température et de précipitations sur chaque plantation, à partir de la météo quotidienne pour la zone du jardin.
       index:
+        disabled: Arrêt
+        enabled: Marche
         feature: Fonctionnalité
         intro: Activez ou désactivez les fonctionnalités pour tout le monde.
-        'off': Arrêt
-        'on': Marche
         state: État
         switch_off: Éteindre
         switch_on: Allumer
@@ -114,11 +114,49 @@ fr:
         job_ideas: Idées d'emploi
         planting_weather: Temps de plantation
       update:
-        'off': "%{feature} est maintenant désactivé."
-        'on': "%{feature} est maintenant activé."
+        disabled: "%{feature} est maintenant désactivé."
+        enabled: "%{feature} est maintenant activé."
+  authentications:
+    sign_in:
+      bluesky:
+        terms_of_service: "Conditions d'utilisation"
+        agree_to_tos_html: "J'accepte les %{tos_link}"
+        contacting: "Connexion à Bluesky…"
+        handle_label: "Identifiant Bluesky"
+        handle_placeholder: "alice.bsky.social"
+      mastodon:
+        agree_to_tos_html: "J'accepte les %{tos_link}"
+        identifier_label: "Adresse Mastodon"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "Nous demandons seulement qui vous êtes. Nous ne pouvons pas publier à votre place."
+        terms_of_service: "Conditions d'utilisation"
   alternate_names:
     created: Le nom alternatif a été créé avec succès.
     deleted: L'autre nom a été supprimé avec succès.
+    edit:
+      added_by_html: Ajouté par %{creator_link} il y a %{time_ago}.
+      title: Modifier le nom alternatif
+    form:
+      crop: Culture
+      crop_wrangling_guide: guide de gestion des cultures
+      crop_wrangling_guide_intro_html: Pour des instructions détaillées sur la gestion des cultures, veuillez consulter le %{guide_link} sur le wiki Growstuff.
+      errors:
+        one: "1 erreur a empêché l'enregistrement de ce nom alternatif :"
+        other: "%{count} erreurs ont empêché l'enregistrement de ce nom alternatif :"
+      name: Nom
+      save: Enregistrer
+    index:
+      alternate_name: Nom alternatif
+      crop: Culture
+      new_alternate_name: Nouveau nom alternatif
+      show: Afficher
+      title: Liste des noms alternatifs
+    new:
+      title: Nouveau nom alternatif
+    show:
+      alternate_name_label: "Nom alternatif :"
+      back: Retour
+      crop_label: "Culture :"
     updated: Le nom alternatif a été mis à jour avec succès.
   application_helper:
     title:
@@ -196,6 +234,11 @@ fr:
       select_for_deletion: Sélectionner pour suppression
       time_ago: Il y a %{time}
       title: Boîte de réception
+    show:
+      about: À propos de
+      breadcrumb_conversations: Conversations
+      participants: Participants
+      sent_on: "le %{date}"
   crop_companions:
     created: Le compagnon a été créé avec succès.
     deleted: Le compagnon a été détruit avec succès.
@@ -235,6 +278,18 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    growing_fact:
+      median_of_packets: médiane des paquets de graines des membres
+      members_packets: "Paquets de graines des membres : %{median}"
+    growing_facts:
+      days_until_maturity: Jours jusqu'à maturité
+      germination: Germination
+      median_of_packets: médiane des paquets de graines des membres
+      members_packets_hemispheres: "Paquets de graines des membres : %{south} sud, %{north} nord"
+      northern_hemisphere: Hémisphère nord
+      row_spacing: Espacement des rangs
+      southern_hemisphere: Hémisphère sud
+      when_to_sow: Quand semer
     find_seeds:
       empty: Il n'y a pas de graines disponibles à l'échange sur Growstuff pour le moment.
       list_seeds: Proposer des graines de %{crop} à l'échange
@@ -255,6 +310,11 @@ fr:
       rejected_message: 'Cette culture a été rejetée pour la raison suivante : %{reason}'
       request_notes: 'Notes de la demande : %{notes}'
       requested_by: Cette culture a été demandée par %{requester} il y a %{time_ago}.
+    fields:
+      hardiness:
+        from_packets: Calculer à partir des paquets de graines des membres
+        help: Quelle quantité de gel la culture tolère. Choisissez un niveau pour le conserver, quoi qu'indiquent les paquets de graines.
+        label: Rusticité
     harvests:
       empty: Personne n'a encore récolté cette plante.
       harvest_crop: Récolter %{crop}
@@ -268,6 +328,10 @@ fr:
       heading: Growstuff est un site gratuit géré par la communauté pour les personnes qui cultivent des aliments.
       prompt: Inscrivez-vous pour enregistrer vos propres %{crops}.
       text: Gardez une trace de ce que vous plantez et récoltez, trouvez des graines à échanger et découvrez ce qui pousse près de chez vous.
+    plantings:
+      empty: Personne n'a encore planté cette culture.
+      plant_crop: Planter %{crop}
+      track_plantings: suivre vos plantations de %{crop}
     nutritional_data:
       carbohydrate: Glucides
       energy: Énergie
@@ -294,7 +358,128 @@ fr:
       save: Enregistrer
       wikidata_id: Identifiant Wikidata
     search: Rechercher des cultures
+    edit:
+      added_by_html: Ajouté par %{creator_link} il y a %{time_ago}.
+      approved_by_html: Approuvé par %{approver_link}.
+      requested_by_html: Demandé par %{requester_link} il y a %{time_ago}.
+      status_by_html: 'Statut : %{status} par %{creator_link}.'
+      status_html: 'Statut : %{status}.'
+      title: 'Modifier la culture : %{name}'
+    new:
+      edible_only: La base de données de Growstuff ne contient que des cultures comestibles. À l'avenir, nous espérons prendre en charge d'autres cultures, mais pour l'instant, si votre suggestion n'est pas comestible, nous ne pourrons pas l'ajouter.
+      intro: 'Merci d''avoir pris le temps de suggérer une culture ! Notre base de données de cultures est gérée par des bénévoles et nous apprécions votre aide. Voici quelques éléments à prendre en compte lors de la suggestion d''une nouvelle culture :'
+      new_crop: Nouvelle culture
+      search_our_crops: rechercher parmi nos cultures
+      search_suggestion_html: Tout d'abord, vous souhaiterez peut-être %{search_link} pour vous assurer que nous ne l'avons pas déjà, peut-être sous un autre nom.
+      suggest_crop: Suggérer une culture
+      wikipedia_requirement: Pour l'instant, nous n'ajoutons que les cultures disposant d'une page Wikipédia. Si vous souhaitez ajouter une variété spécifique de culture qui ne possède pas sa propre page Wikipédia, veuillez utiliser la forme la plus générale de la culture et indiquer le nom de votre variété dans les notes/description.
+    form:
+      approve_and_save: Approuver et enregistrer
+      errors:
+        one: '1 erreur a empêché l''enregistrement de cette culture :'
+        other: "%{count} erreurs ont empêché l'enregistrement de cette culture :"
+      reject: Rejeter
+      save: Enregistrer
+    fields:
+      harvest_style:
+        blank: Je ne sais pas
+        heading: Mode de récolte
+        hint: 'Une fois par plante, comme une laitue : la plante entière est récoltée. Plusieurs fois par plante, comme une tomate.'
+        label: Comment une plante est récoltée
+        parent: 'Parente : %{style}'
+      alternate_name_with_index: 'Nom alternatif %{index} :'
+      alternate_names: Noms alternatifs
+      alternate_names_hint: Nom alternatif de la culture.
+      basic_information: Informations de base
+      comments: Commentaires
+      crop_request_notes: Notes sur la demande de culture
+      crop_wrangling_guide: guide de gestion des cultures
+      crop_wrangling_guide_intro_html: Pour des directives détaillées sur la gestion des cultures, veuillez consulter le %{guide_link} sur le wiki Growstuff.
+      currently: 'Actuellement :'
+      data: Données
+      days_until_maturity_max: Jours jusqu'à maturité, au maximum
+      days_until_maturity_min: Jours jusqu'à maturité, au minimum
+      description: Description
+      en_wikipedia_url: URL Wikipédia
+      en_wikipedia_url_hint: Lien vers la page de la culture sur Wikipédia en anglais (requis).
+      en_youtube_url: URL YouTube
+      en_youtube_url_hint: Lien vers une vidéo YouTube sur la culture en anglais.
+      germination_days_max: Germination, au maximum (jours)
+      germination_days_min: Germination, au minimum (jours)
+      growing: Culture
+      growing_degree_days: Degrés-jours de croissance
+      height: Hauteur (cm)
+      icon: Icône
+      icon_blank: 'Aucune : utiliser celle de la culture parente'
+      icon_hint: Facultatif. Affichée pour cette culture et toutes ses variétés qui n'en ont pas.
+      lifespan: Durée de vie
+      lifespan_annual: Annuelle
+      lifespan_annual_hint: Vivant et se reproduisant en une seule année ou moins
+      lifespan_perennial: Vivace
+      lifespan_perennial_hint: Vivant plus de deux ans
+      months_to_sow: Mois de semis
+      months_to_sow_hint: 'Cochez les mois pour l''hémisphère sud : l''hémisphère nord est décalé de six mois.'
+      name:
+        hint: Le nom commun de la culture, en anglais (requis).
+        label: Nom
+        wranglers_hint: 'Wranglers : veuillez vous assurer que ce nom est au singulier et ne mettez de majuscule qu''aux noms propres.'
+      parent_crop: Culture parente
+      parent_crop_hint: Facultatif. Pour définir la hiérarchie des cultures pour les variétés, etc.
+      parent_value: 'Parente : %{value}'
+      public_food_key: Australian Food Composition Database Public Food Key
+      rejection_notes_hint: Veuillez fournir des remarques supplémentaires expliquant pourquoi cette demande de culture a été rejetée si les raisons ci-dessus ne s'appliquent pas.
+      requester_submission_notice: Lorsque vous soumettez ce formulaire, votre suggestion sera envoyée à notre équipe de gestionnaires bénévoles pour examen. Nous vous ferons part du résultat dès que possible.
+      row_spacing: Espacement des rangs (cm)
+      scientific_name_with_index: 'Nom scientifique %{index} :'
+      scientific_names: Noms scientifiques
+      scientific_names_hint: Recherche dans GBIF pour déterminer le nom scientifique de la culture.
+      search_wikipedia: Rechercher sur Wikipédia
+      sowing_method: Méthode de semis
+      spread: Envergure (cm)
+      sun_requirements: Exposition au soleil
+    wrangle:
+      add: Ajouter
+      add_crop: Ajouter une culture
+      all_crops: Toutes les cultures
+      approved: Approuvé
+      clear: Effacer
+      crop_wranglers: Gestionnaires de cultures
+      crops: Cultures
+      full_crop_hierarchy: Hiérarchie complète des cultures
+      merge_crops: Fusionner les cultures
+      not_applicable: N/D
+      pending_approval: En attente d'approbation
+      recently_edited: Récemment modifié
+      rejected: Rejeté
+      search_aria_label: Rechercher des cultures
+      search_button: Rechercher
+      search_placeholder: Rechercher des cultures par nom
+      template: modèle
+      th_added_by: Ajouté par
+      th_alternate_names: Noms alternatifs
+      th_child_crops: Cultures filles
+      th_growing_degree_days: Degrés-jours de croissance
+      th_height: Hauteur
+      th_icon: Icône
+      th_job_templates: Modèles de tâches
+      th_name: Nom
+      th_rejected_by: Rejeté par
+      th_requested_by: Demandé par
+      th_row_spacing: Espacement des rangs
+      th_scientific_names: Noms scientifiques
+      th_spread: Envergure
+      th_updated: Mis à jour
+      th_youtube: YouTube
+      time_ago: il y a %{time}
+      title: Gestion des cultures
+      top_level_crops: Cultures de niveau supérieur
+      yes: Oui
   edit_crop: Modifier le rognage
+  follows:
+    followers:
+      title: "Abonnés de %{member}"
+    index:
+      title: "Abonnements de %{member}"
   forms:
     optional: "(Facultatif)"
   forums:
@@ -303,6 +488,27 @@ fr:
     index:
       title: Forums
     updated: Le forum a été mis à jour avec succès.
+  garden_collaborators:
+    new:
+      title: Nouveau collaborateur du jardin
+    edit:
+      title: Modifier le collaborateur du jardin
+    form:
+      errors:
+        one: 1 erreur a empêché l'enregistrement de ce collaborateur du jardin
+        other: "%{count} erreurs ont empêché l'enregistrement de ce collaborateur du jardin"
+      guidance: Demandez à votre ami(e), proche ou membre du jardin communautaire son nom d'utilisateur growstuff pour l'ajouter comme collaborateur de votre jardin.
+      save: Enregistrer le collaborateur
+    index:
+      add_collaborator: Ajouter un collaborateur du jardin
+      breadcrumbs_gardens: Jardins
+      heading: Collaborateurs de %{garden}
+      joined: Membre depuis %{time}.
+      no_collaborators: Il n'y a aucun collaborateur à afficher.
+      remove_access: Retirer l'accès
+      sidebar_blurb: "%{site_name} vous aide à suivre vos récoltes au potager et à observer leur productivité."
+      title: Collaborateurs de %{garden}
+      view_all_gardens: voir tous les jardins de %{name}
   gardens:
     about:
       collaborators: collaborateurs
@@ -362,6 +568,8 @@ fr:
     form:
       location_helper: Si vous avez défini un emplacement dans votre profil, il sera utilisé lors de la création d'un nouveau jardin.
     header:
+      nursery: Pépinière
+      nursery_hint: Les semis cultivés ici peuvent être repiqués dans vos jardins.
       all_gardens: Tous les jardins de %{owner}
       garden_of: Jardin de ?
       hero_caption:
@@ -369,6 +577,17 @@ fr:
         other: Photo du jardin · %{count} photos
       hero_label: Photos de %{garden}
       season_title: La saison où ce jardin est
+    inactive:
+      current_gardens: Jardins actuels
+      empty_body: Il n'y a aucun jardin inactif à afficher.
+      empty_owner_hint: Un jardin que vous marquez comme inactif apparaîtra ici.
+      explanation: Un jardin devient inactif lorsqu'il est marqué comme inactif et que ses plantations sont marquées comme terminées. Ils restent ici comme archive de ce qui a été cultivé.
+      inactive_gardens: Jardins inactifs
+      lead: Jardins qui ne sont plus utilisés et ce qui y a été cultivé.
+      owner_gardens: Jardins de %{owner}
+      owner_reactivate_hint: Vous pouvez marquer à nouveau un jardin comme actif pour recommencer à le modifier.
+      skip_to_content: Passer au contenu principal
+      title: Jardins inactifs de %{owner}
     inactive_card:
       grown_here: Cultivé ici
       image_alt: Image de %{name}
@@ -397,7 +616,12 @@ fr:
       view_layout: Voir la mise en forme
       view_layout_label: Voir la disposition du lit
       where_each: Où pousse chaque plante de ce jardin, sur une carte du lit.
-    location: "%{owner} %{garden}"
+    location:
+      change: Modifier
+      heading: Emplacement
+      not_set: Non défini
+      remove: Supprimer
+    string: "%{owner} %{garden}"
     nursery_declined: D'accord, nous ne poserons plus de questions sur une crèche. Vous pouvez en configurer un plus tard à partir de votre page Jardins.
     nursery_made: Ce jardin est maintenant votre pépinière.
     nursery_name: Pouponnière
@@ -429,11 +653,14 @@ fr:
       previously_planted: Planté auparavant dans ce jardin
       unknown_year: Année inconnue
     show:
+      inactive_notice: Ce jardin est inactif.
       km_from_you: à environ %{km} km de chez vous
+      set_active: Activez-le
       suggested_plantings:
         one: Nous avons %{count} suggéré de planter pour ajouter ici
         other: Nous avons des plantations suggérées par %{count} à ajouter ici
       suggested_plantings_go: 'les voir. '
+      to_plant: pour planter quelque chose dans ce jardin.
     sign_in: Se connecter
     sign_up: S'inscrire gratuitement
     start:
@@ -477,7 +704,19 @@ fr:
       save: enregistrer
       unrated_notice: Cette récolte provient d'une plantation qui n'a pas encore été évaluée.
     show:
-      heading: Récolte %{crop}
+      add: ajouter
+      breadcrumb: Récolte
+      crop: Culture
+      harvested: Récolté
+      harvested_by: récolté par
+      heading: Récolte de %{crop}
+      no_photos: Pas encore de photos.
+      photos: Photos
+      picked_from: cueilli sur
+      plant_part: Partie de la plante
+      quantity: Quantité
+      see_how: Découvrez comment se porte le %{crop} de %{owner}.
+      the_planting_this_came_from: La plantation dont cela provient
     updated: La récolte a été mise à jour avec succès.
   home:
     added_to_stash: Ajouté avec succès %{crop} Seed à votre réserve.
@@ -489,6 +728,7 @@ fr:
       public_note: Tout ce que vous enregistrez est des données ouvertes publiques, y compris votre ville.
       sign_in_bluesky: Se connecter avec Bluesky
       sign_in_linktext: Se connecter
+      sign_in_mastodon: Se connecter avec Mastodon
       sign_up: S'inscrire gratuitement
     dashboard:
       add_bed: Base
@@ -602,8 +842,8 @@ fr:
       tile_harvest: enregistrez ce que vous avez choisi
       tile_job: planifier une tâche pour votre jardin
       jobs_today:
-        one: 1 tâche aujourd'hui
-        other: "%{count} tâches aujourd'hui"
+        one: 1 tâche bientôt
+        other: "%{count} tâches bientôt"
       jobs_today_go: Mes tâches →
       tile_job_title: Ajouter un emploi
       tile_photo: avec deux lits dans la tour au jardin
@@ -866,6 +1106,7 @@ fr:
       community_guidelines: Orientations communautaires
       contact: Contact
       data_use_policy: Politique d'utilisation des données
+      donate: Faire un don - Offrez-nous un café
       get_involved: S’impliquer
       growstuff_team: Équipe Growstuff
       open_source: Open Source
@@ -975,15 +1216,37 @@ fr:
       follow: Suivre
       unblock: Débloquer
       unfollow: Ne plus suivre
+    location:
+      unknown_location: emplacement inconnu
+    map:
+      cant_show_nearby: Nous ne pouvons pas vous montrer ce qui se trouve à proximité
+      not_known: Emplacement inconnu ou non géocodable
+      see_nearby_html: Voir d'autres membres, plantations, graines et plus encore près de %{location}
     index:
       title: Membres %{site_name}
     signup:
       error: Échec de l'inscription
+    stats:
+      followers:
+        one: "%{count} abonné"
+        other: "%{count} abonnés"
+      heading: Statistiques
+      toggle: Afficher/Masquer
     unsubscribe:
       error: Nous sommes désolés, une erreur s'est produite lors de la mise à jour de vos paramètres.
     unsubscribed: Vous avez été désabonné des e-mails %{email_type}.
     welcome: Accueil
   messages:
+    form:
+      about: À propos de
+      cancel: Annuler
+      crop_seeds: "Graines de %{crop}"
+      send: Envoyer
+      to: À
+      type_your_message: Écrivez votre message ici
+    new:
+      breadcrumb_messages: Messages
+      title: "Envoyer un message à %{recipient}"
     auth_failed: Echec de l'authentification.
     auth_success: Authentification réussie.
     crops_waiting: Il y a des cultures qui attendent d'être disputées.
@@ -1135,6 +1398,25 @@ fr:
       which_garden: Quel jardin ?
     what_is_a_nursery:
       description_html: 'Une <strong>pépinière</strong> est l''endroit où vous cultivez des semis : des graines semées dans des plateaux ou des pots avant d''entrer dans un jardin. Semer vos graines dans la pépinière, puis les transplanter dans un jardin, ou diviser un lot entre plusieurs, quand elles sont prêtes.'
+  pages:
+    about:
+      title: À propos
+      description_html: Pour plus d'informations sur Growstuff, consultez notre %{github_link}.
+      github_page: page GitHub
+    contact:
+      title: Contact
+      general_email: E-mail de contact général
+      support_enquiries_html: "Demandes d'assistance et de comptes (non couvertes par la %{faq_link})"
+      faq: FAQ
+      media_enquiries: Demandes médias et presse
+      twitter: Twitter
+    policies:
+      title: Politiques
+      terms_of_service: Conditions d'utilisation
+      privacy_policy: Politique de Confidentialité
+      data_use_policy: Politique d'utilisation des données
+      community_guidelines: Orientations communautaires
+      copyright_infringement_policy: Politique relative aux atteintes aux droits d'auteur
   photo_associations:
     update:
       updated: Photo mise à jour
@@ -1164,6 +1446,30 @@ fr:
       view_all_members: "Voir tous les membres \u00bb"
       view_all_plantings: "Voir toutes les plantations \u00bb"
       view_all_seeds: "Voir toutes les graines \u00bb"
+  plant_parts:
+    edit:
+      back: Retour
+      show: Afficher
+      title: Modifier la partie de plante
+    form:
+      errors:
+        one: "1 erreur a empêché l'enregistrement de cette partie de plante :"
+        other: "%{count} erreurs ont empêché l'enregistrement de cette partie de plante :"
+      name: Nom
+      save: Enregistrer
+    index:
+      new_plant_part: Nouvelle partie de plante
+      no_crops: "Aucune culture n'est récoltée pour cette partie de plante (pour l'instant)."
+      title: Parties de plantes
+    new:
+      back: Retour
+      title: Nouvelle partie de plante
+    show:
+      delete: Supprimer
+      edit: Modifier
+      harvested_crops: Les cultures suivantes sont récoltées pour leur %{plant_part}.
+      no_crops: "Aucune culture n'est récoltée pour cette partie de plante (pour l'instant)."
+      view_other_plant_parts: Voir les autres parties de plantes
   planting:
     status:
       finished: Clôturée
@@ -1201,7 +1507,6 @@ fr:
       packets_of_seed:
         one: 1 sachet de graines
         other: "%{count} sachets de graines"
-      parent_seed: Graine d'origine
       perennial: Vivace
       perennial_description: continue de pousser d'année en année
       planned: Prévu
@@ -1282,19 +1587,14 @@ fr:
       weather_temperature_chart: Haut / bas quotidien
       weather_temperature_chart_alt: Température quotidienne haute et basse, de %{low} à %{high}.
     string: Plantation de %{crop} à %{garden} par %{owner}
-    failed_modal:
-      cancel: annuler
-      close: Fermer
-      mark_as_failed: Marquer comme échoué
-      planted_at: "Planté %{date}"
-      title: "Marquer la plantation de %{crop} comme échouée"
-      which_planting: Quelle plantation souhaitez-vous marquer comme échouée ?
-    modal:
-      add_new_garden: Ajouter un nouveau jardin
-      add_to_my_garden: Ajouter à mon jardin
-      close: Fermer
-      title: "Ajouter %{crop} à votre jardin"
-      which_garden: "Dans quel jardin va-t-il ?"
+    timeline:
+      failed: Échoué
+      finish_expected: Fin prévue le %{date}
+      finished: Terminé %{date}
+      first_harvest_expected: Première récolte prévue le %{date}
+      harvest_started: Récolte commencée le %{date}
+      legend: (Un emoji = 1 semaine)
+      planted: Planté %{date}
     transplant:
       cancel: Annuler
       close: Fermer
@@ -1318,6 +1618,31 @@ fr:
     write_blog_post: Ecrire un article de blog
   scientific_names:
     deleted: Le nom scientifique a été supprimé avec succès.
+    edit:
+      added_by_html: Ajouté par %{creator_link} il y a %{time_ago}.
+      title: Modifier le nom scientifique
+    form:
+      crop: Culture
+      crop_wrangling_guide: guide de gestion des cultures
+      crop_wrangling_guide_intro_html: Pour des instructions détaillées sur la gestion des cultures, veuillez consulter le %{guide_link} sur le wiki Growstuff.
+      errors:
+        one: "1 erreur a empêché l'enregistrement de ce nom scientifique :"
+        other: "%{count} erreurs ont empêché l'enregistrement de ce nom scientifique :"
+      name: Nom
+      save: Enregistrer
+      wikidata_id: Identifiant Wikidata
+    index:
+      crop: Culture
+      new_scientific_name: Nouveau nom scientifique
+      scientific_name: Nom scientifique
+      show: Afficher
+      title: Liste des noms scientifiques
+    new:
+      title: Nouveau nom scientifique
+    show:
+      back: Retour
+      crop_label: "Culture :"
+      scientific_name_label: "Nom scientifique :"
   seasons:
     autumn: L'automne
     spring: Ressort
@@ -1337,6 +1662,11 @@ fr:
       unknown: Inconnu
       will_trade: À échanger
       year_saved: Année de récolte
+    empty:
+      no_finished: Pas encore de graines terminées.
+      no_match: Aucune graine ne correspond à ces filtres.
+      none_recorded: Aucune graine enregistrée pour le moment
+      show_all: Afficher toutes les graines
     form:
       finish_helper: Les graines sont terminées lorsque vous les avez toutes plantées ou que vous les avez toutes échangées.
       trade_help: Êtes-vous intéressé par le commerce ou l'échange de semences avec d'autres membres de %{site_name} ?  Si vous indiquez que vos graines sont disponibles pour le commerce, d'autres membres peuvent vous contacter pour demander des graines.  Vous pouvez énumérer toutes les conditions ou autres informations dans la description ci-dessus.
@@ -1345,6 +1675,20 @@ fr:
         crop_seeds: Les graines %{crop} DE chacun
         default: Les semences de tout le monde
         owner_seeds: "%{owner} Seeds"
+    none:
+      add_seeds: Ajouter des graines de %{crop}
+      looked_everywhere: Nous avons cherché en stock et dans les paquets terminés.
+      see_everyone: Voir les graines de %{crop} de tout le monde
+      title_from_owner: Pas de graines de %{crop} de %{owner}
+      title_here: Pas de graines de %{crop} ici
+    other_tab:
+      more_finished:
+        one: 1 de plus terminée.
+        other: "%{count} de plus terminées."
+      more_in_stock:
+        one: 1 de plus en stock.
+        other: "%{count} de plus en stock."
+      show_them: Les afficher
     packet:
       choice_back: Retour
       choice_front: Avant
@@ -1354,6 +1698,22 @@ fr:
       label_front: Recto du paquet
       photo_back: Ajoutez une photo du dos du paquet
       photo_front: Ajoutez une photo du recto du paquet
+    packet_panel:
+      heading: Du sachet
+      hide_ocr: Masquer notre tentative de lecture du sachet
+      ocr_label: Notre tentative de lecture du sachet
+      ocr_note: Lu automatiquement à partir des photos, des erreurs sont donc possibles. À vérifier avec le sachet.
+      show_ocr: Afficher notre tentative de lecture du sachet
+    past_sow_by:
+      count:
+        one: "%{count} sachet a dépassé sa date limite de semis."
+        other: "%{count} sachets ont dépassé leur date limite de semis."
+      hint: Les vieilles graines lèvent souvent encore. Semez-en quelques-unes épais pour le savoir.
+      show_all: Tout afficher
+      show_those:
+        one: Afficher celui-là
+        other: Afficher ces %{count}
+      showing: Affichage des sachets dépassant leur date limite de semis.
     save_seeds: Gérer les semences
     show:
       heading: "%{crop} Seeds"
@@ -1371,8 +1731,8 @@ fr:
       not_located: Dites-nous où vous jardinez et nous pouvons vous suggérer quoi semer.
       title: Facile à semer dans %{month} près de chez vous
     update:
-      'off': Nous avons cessé de suggérer des cultures.
-      'on': Les suggestions de cultures sont de retour.
+      disabled: Nous avons cessé de suggérer des cultures.
+      enabled: Les suggestions de cultures sont de retour.
   unauthorized:
     create:
       all: Veuillez vous connecter ou vous inscrire pour créer un %{subject}.

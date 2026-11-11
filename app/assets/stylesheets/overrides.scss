@@ -186,11 +186,6 @@ section {
   }
 }
 
-.layout-actions {
-  border: 1px solid lighten($green, 20%);
-  float: right;
-}
-
 .index-cards {
   display: flex;
   flex: none;
@@ -390,13 +385,6 @@ $state-success-bg: lighten($green, 50%);
   display: none;
 }
 
-.panel {
-  .dl-horizontal {
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-}
-
 label.required:after {
   color: red;
   content: " *";
@@ -410,20 +398,6 @@ label.required:after {
 
 ul.plantings {
   list-style-type: none;
-}
-
-ul.thumbnail-buttons {
-  list-style-type: none;
-  text-align: right;
-}
-
-.hover-wrapper .text {
-  position: absolute;
-  visibility: hidden;
-}
-
-.hover-wrapper:hover .text {
-  visibility: visible;
 }
 
 .form-page {

@@ -3,6 +3,7 @@
 class PhotoAssociationsController < ApplicationController
   before_action :authenticate_member!
   respond_to :json, :html
+  responders :flash
 
   # Says what part of the item the photo is of, as `label`: the front or back of
   # a seed packet, or nothing at all.
@@ -30,6 +31,11 @@ class PhotoAssociationsController < ApplicationController
   end
 
   private
+
+  # What "%{kind}" is in the flash message: planting, seed, crop.
+  def flash_interpolation_options
+    { kind: params[:type].to_s.downcase }
+  end
 
   def item_class
     params[:type].to_s.classify

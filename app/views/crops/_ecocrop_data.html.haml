@@ -15,14 +15,6 @@
             %tr
               %th Family / Taxonomy
               %td= safe_join(data.famname.split(':'), tag.br)
-          - if data.topmn.present? || data.topmx.present?
-            %tr
-              %th Optimal temperature
-              %td= "#{data.topmn || '?'} - #{data.topmx || '?'} °C"
-          - if data.tmin.present? || data.tmax.present?
-            %tr
-              %th Absolute temperature
-              %td= "#{data.tmin || '?'} - #{data.tmax || '?'} °C"
           - if data.ktmp.present? || data.ktmpr.present?
             %tr
               %th Killing temperature
@@ -31,30 +23,6 @@
                 - parts << "growth: #{data.ktmp} °C" if data.ktmp.present?
                 - parts << "rest: #{data.ktmpr} °C" if data.ktmpr.present?
                 = parts.join(', ')
-          - if data.ropmn.present? || data.ropmx.present?
-            %tr
-              %th Optimal rainfall
-              %td= "#{data.ropmn || '?'} - #{data.ropmx || '?'} mm/year"
-          - if data.rmin.present? || data.rmax.present?
-            %tr
-              %th Absolute rainfall
-              %td= "#{data.rmin || '?'} - #{data.rmax || '?'} mm/year"
-          - if data.phopmn.present? || data.phopmx.present?
-            %tr
-              %th Optimal soil pH
-              %td= "#{data.phopmn || '?'} - #{data.phopmx || '?'}"
-          - if data.phmin.present? || data.phmax.present?
-            %tr
-              %th Absolute soil pH
-              %td= "#{data.phmin || '?'} - #{data.phmax || '?'}"
-          - if data.gmin.present? || data.gmax.present?
-            %tr
-              %th Crop cycle
-              %td= "#{data.gmin || '?'} - #{data.gmax || '?'} days"
-          - if data.altmx.present?
-            %tr
-              %th Max altitude
-              %td= "#{data.altmx} m"
           - if data.lifo.present? && data.lifo.any?
             %tr
               %th Life form
@@ -91,10 +59,6 @@
             %tr
               %th Photoperiod
               %td= data.photo.join(', ')
-          - if data.liopmn.present? || data.liopmx.present?
-            %tr
-              %th Optimal light
-              %td= [data.liopmn, data.liopmx].compact.uniq.join(' to ')
 
     .card-footer.text-muted.small
       %p.mb-2

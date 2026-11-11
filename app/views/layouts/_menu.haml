@@ -71,6 +71,8 @@
           %span
           = t('.community')
         .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
+          - if member_signed_in? && current_member.location.present?
+            = link_to t('.my_place'), place_path(current_member.location), class: 'dropdown-item'
           = link_to t('.community_map'), places_path, class: 'dropdown-item'
           = link_to harvests_path, class: 'dropdown-item' do
             = menu_icon(:harvest)

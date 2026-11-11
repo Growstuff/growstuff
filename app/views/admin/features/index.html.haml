@@ -21,9 +21,9 @@
           %span.text-muted= t("admin.features.descriptions.#{feature.name}")
         %td
           - if feature.enabled?
-            %span.badge.bg-success= t('.on')
+            %span.badge.bg-success= t('.enabled')
           - else
-            %span.badge.bg-secondary= t('.off')
+            %span.badge.bg-secondary= t('.disabled')
         %td
           - on = feature.enabled?
           = button_to t(on ? '.switch_off' : '.switch_on'), admin_feature_path(feature),
