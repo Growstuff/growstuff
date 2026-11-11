@@ -44,5 +44,5 @@
         %p No plantings recorded yet
       .index-cards
         - @plantings.each do |p|
-          = render 'plantings/card', planting: p
+          = render 'plantings/card', planting: p, show_short_code: @owner.present? && @owner == current_member
       = will_paginate @plantings

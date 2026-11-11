@@ -4,7 +4,8 @@
 -# priming it hides the owner's own controls, and the owner priming it shows
 -# them to strangers.
 - owner_viewing = member_signed_in? && current_member.id == planting.owner_id
-- cache [planting, owner_viewing] do
+- show_short_code = owner_viewing && local_assigns[:show_short_code] == true
+- cache [planting, owner_viewing, show_short_code] do
   .card.planting{class: planting.active ? '' : 'card-finished'}
     = link_to planting_path(slug: planting.slug) do
       = image_tag planting.thumbnail_url ? planting.thumbnail_url : placeholder_image, class: 'img-card', alt: planting.display_name
@@ -14,6 +15,8 @@
     = link_to planting_path(slug: planting.slug) do
       .card-body.text-center
         %h4= planting.display_name
+        - if show_short_code && planting.short_code.present?
+          %span.badge.text-bg-secondary.planting-short-code= planting.short_code
         .text-center= render 'plantings/badges', planting: planting
         = render 'plantings/progress', planting: planting
     .card-footer
