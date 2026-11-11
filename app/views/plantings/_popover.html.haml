@@ -1,11 +1,11 @@
 - if planting.quantity.present?
   %p
     %small
-      Quantity:
+      = t('plantings.localization.quantity')
       = planting.quantity
 
 - if planting.planted_at.present?
   %p
     %small
-      Planted:
-      = planting.planted_at.to_s
+      = t('plantings.localization.planted')
+      = l(planting.planted_at.to_date)

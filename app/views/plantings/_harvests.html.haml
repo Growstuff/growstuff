@@ -5,7 +5,7 @@
   - if can?(:edit, planting) && !planting.failed && can?(:create, Harvest)
     = link_to new_planting_harvest_path(planting_slug: planting.slug), class: 'btn btn-sm section-add', data: { planting_dialog: 'harvest' } do
       = icon 'fas', 'plus'
-      add
+      = t('plantings.localization.add')
 - if harvests.empty?
   %p.text-muted.mb-0= t('plantings.show.no_harvests')
 - else
