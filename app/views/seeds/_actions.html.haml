@@ -11,10 +11,9 @@
       - PhotoAssociation::LABELS['Seed'].each do |side|
         = menu_add_photo_link(seed, text: t("seeds.packet.photo_#{side}"), label: side)
       - if can?(:create, Planting) && can?(:update, seed) && seed.active
-        = menu_link_to :planting, 'Plant seeds', new_planting_path(seed_id: seed)
+        = menu_link_to :planting, t('seeds.ui.plant_seeds'), new_planting_path(seed_id: seed)
       - if can?(:create, Planting) && seed.active
         = menu_link_to :finish, t('buttons.mark_as_finished'), seed_path(seed, seed: { finished: 1 }),
                        method: :put
       .dropdown-divider
       = menu_delete_button(seed)
-

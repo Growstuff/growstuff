@@ -6,7 +6,7 @@
   .home-recent-cards.index-cards
     - Planting.homepage_records(6).select { |planting| planting.thumbnail_url.present? }.first(2).each do |planting|
       = link_to planting_path(slug: planting.slug), class: 'home-recent-planting' do
-        = image_tag planting.thumbnail_url, alt: "Image of #{planting.display_name} by #{planting.owner_login_name}"
+        = image_tag planting.thumbnail_url, alt: t('home.planting_image_alt', planting: planting.display_name, owner: planting.owner_login_name)
         %span.home-recent-name= planting.crop_name
         %span.home-recent-by= planting.owner_login_name
     - Seed.homepage_records(3).each do |seed|

@@ -8,16 +8,16 @@
         = image_tag(seed.thumbnail_url || placeholder_image, alt: seed.crop_name, class: 'img-card')
       -# The year stamp a saved-seed packet carries.
       - if seed.saved_at
-        %span.seed-card-year saved #{seed.saved_at.year}
+        %span.seed-card-year= t('seeds.ui.saved_year', year: seed.saved_at.year)
     .seed-card-band
       %h4.card-title= link_to seed.crop_name, seed_path(slug: seed.slug)
-      %h5 seeds saved by #{seed.owner_login_name}
+      %h5= t('seeds.ui.seeds_saved_by', owner: seed.owner_login_name)
     -# Always rendered, so every packet has the same shape, with whatever it has.
     %ul.seed-card-print
       - if seed.quantity
-        %li approx. #{pluralize seed.quantity, 'seed'}
+        %li= t('seeds.ui.approx_seeds', count: seed.quantity)
       - if seed.plant_before
-        %li sow before #{seed.plant_before.year}
+        %li= t('seeds.ui.sow_before_year', year: seed.plant_before.year)
       - if seed.organic != 'unknown'
         %li.seedtitle--organic= seed.organic
       - if seed.gmo != 'unknown'
@@ -25,7 +25,7 @@
       - if seed.heirloom != 'unknown'
         %li.seedtitle--heirloom= seed.heirloom
       - if seed.tradable
-        %li will trade #{seed.tradable_to}
+        %li= t('seeds.ui.will_trade', scope: t("seeds.ui.trade_scopes.#{seed.tradable_to}"))
       - if seed.owner_location
         %li{title: seed.owner_location}
           = icon 'fas', 'map-marker'

@@ -1,7 +1,7 @@
 - content_for :title do
   = ENV['GROWSTUFF_SITE_NAME']
 - content_for :meta_description do
-  Growstuff is a community of food gardeners. Let's learn to grow food together.
+  = t('home.community_description')
 
 - if member_signed_in?
   - content_for :scripts do
