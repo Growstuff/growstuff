@@ -668,6 +668,55 @@ ja:
     update:
       saved: ありがとうございます。名前が設定されました。
   members:
+    avatar:
+      alt: "%{name}のアバター"
+    bio:
+      heading: "%{name}について"
+    finish_signup:
+      agree_to_tos_html: "%{tos_link}に同意します"
+      continue: 続ける
+      email_help: このアドレスにご連絡します（スパムは送信しません！）
+      email_missing_help: 植え付けのリマインダーを受け取る場合は追加してください。確認リンクをお送りします。スパムは送信しません。
+      email_optional: メールアドレス（任意）
+      instructions: もうすぐ完了です。ウェブサイトに表示される名前を選択してください。
+      name_help: これはウェブサイトに表示される名前です。後で変更できます。
+      terms_of_service: 利用規約
+      title: "%{site_name}に参加する"
+      welcome: "%{site_name}へようこそ"
+    harvests:
+      none: "%{name}はまだ何も収穫していません。"
+    index:
+      show: 表示
+      sort_alphabetically: 五十音順
+      sort_by: 並び替え
+      sort_recently_joined: 最近参加
+      title: "%{site_name}のメンバー"
+    member:
+      joined: "%{time}前に参加しました。"
+      view_all_gardens: "%{name}のすべての庭を表示"
+    nearby:
+      edit_location: 所在地を編集
+      find_within: "メンバーを検索: 半径"
+      km: km
+      miles: マイル
+      no_results: 結果が見つかりませんでした
+      of: "以内、所在地:"
+      results_found: 検索結果
+      search: 検索
+      title_find: 近くのメンバーを探す
+      title_near: "%{location}の近くのメンバー"
+    show:
+      add_bio_prompt: 自己紹介を追加してプロフィールを完成させましょう。
+      breadcrumbs_members: メンバー
+      no_bio: "%{name}はまだ自己紹介を書いていません。"
+      rss_item_title: "%{title}（投稿者: %{author}）"
+      skip_to_content: メインコンテンツへスキップ
+    thumbnail:
+      joined: "%{time}前に参加しました。"
+    unsubscribe:
+      instructions_html: "他のGrowstuffメールの配信停止を希望される場合は、%{link}からお手続きいただけます"
+      settings_page: 設定ページ
+      title: "%{member}の登録解除"
     confirm_email: "メールアドレスにリンクを送信しました。リンクを開いてリマインダーの受信を開始してください。"
     contact:
       flickr_logo: Flickrロゴ

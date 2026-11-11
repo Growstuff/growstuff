@@ -1447,6 +1447,45 @@ es:
     update:
       saved: Gracias, tu nombre ha sido guardado.
   members:
+    avatar:
+      alt: "Avatar de %{name}"
+    bio:
+      heading: "Todo sobre %{name}"
+    finish_signup:
+      agree_to_tos_html: "Acepto las %{tos_link}"
+      continue: Continuar
+      email_help: "Usaremos esta dirección para comunicarnos contigo (¡nunca enviamos spam!)"
+      email_missing_help: Añade uno si quieres recordatorios de siembra. Te enviaremos un enlace de confirmación y nunca enviamos spam.
+      email_optional: Correo electrónico (opcional)
+      instructions: Ya casi está. Elige el nombre que se mostrará en el sitio web.
+      name_help: Este es el nombre que se mostrará en el sitio web. Puedes cambiarlo más tarde.
+      terms_of_service: Términos de servicio
+      title: "Únete a %{site_name}"
+      welcome: "Bienvenido a %{site_name}"
+    harvests:
+      none: "%{name} aún no ha cosechado nada."
+    member:
+      joined: "Se unió hace %{time}."
+      view_all_gardens: "ver todos los huertos de %{name}"
+    nearby:
+      edit_location: Edita tu ubicación
+      find_within: Buscar miembros a menos de
+      km: km
+      miles: millas
+      no_results: No se encontraron resultados
+      of: de
+      results_found: Resultados encontrados
+      search: Buscar
+      title_find: Buscar miembros cercanos
+      title_near: "Miembros cerca de %{location}"
+    show:
+      add_bio_prompt: Añade una biografía para completar tu perfil.
+      breadcrumbs_members: Miembros
+      no_bio: "%{name} aún no ha escrito una biografía."
+      rss_item_title: "%{title} por %{author}"
+      skip_to_content: Saltar al contenido principal
+    thumbnail:
+      joined: "Se unió hace %{time}."
     confirm_email: "Hemos enviado un enlace a tu dirección de correo electrónico. Síguelo para comenzar a recibir recordatorios."
     card:
       not_interested: Deja de sugerir %{name}
@@ -1480,6 +1519,10 @@ es:
       not_known: Ubicación desconocida o no geocodificable
       see_nearby_html: Ver otros miembros, plantaciones, semillas y más cerca de %{location}
     index:
+      show: Mostrar
+      sort_alphabetically: alfabéticamente
+      sort_by: Ordenar por
+      sort_recently_joined: unido recientemente
       title: Miembros de %{site_name}
     signup:
       error: No se pudo completar el registro
@@ -1490,6 +1533,9 @@ es:
       heading: Estadísticas
       toggle: Mostrar/Ocultar
     unsubscribe:
+      instructions_html: "Si deseas darte de baja de otros correos de Growstuff, puedes hacerlo a través de %{link}"
+      settings_page: tu página de configuración
+      title: "Dar de baja a %{member}"
       error: Lo sentimos, hubo un error al actualizar su configuración.
     unsubscribed: Se te ha cancelado la suscripción a los correos electrónicos de %{email_type}.
     welcome: Bienvenido

@@ -1442,6 +1442,45 @@ zh:
     update:
       saved: 谢谢，您的姓名已设置。
   members:
+    avatar:
+      alt: "%{name}的头像"
+    bio:
+      heading: "关于 %{name}"
+    finish_signup:
+      agree_to_tos_html: "我同意%{tos_link}"
+      continue: 继续
+      email_help: 我们将使用此地址与您联系（绝不发送垃圾邮件！）
+      email_missing_help: 如果您希望收到种植提醒，请添加一个。我们会发送确认链接，绝不发送垃圾邮件。
+      email_optional: 电子邮箱（选填）
+      instructions: 即将完成。请选择将在网站上显示的名称。
+      name_help: 这是将在网站上显示的名称。您可以稍后更改。
+      terms_of_service: 服务条款
+      title: "加入 %{site_name}"
+      welcome: "欢迎来到 %{site_name}"
+    harvests:
+      none: "%{name} 还没有收获任何作物。"
+    member:
+      joined: "加入于 %{time} 前。"
+      view_all_gardens: "查看 %{name} 的所有花园"
+    nearby:
+      edit_location: 编辑您的位置
+      find_within: 查找成员范围：
+      km: 公里
+      miles: 英里
+      no_results: 未找到结果
+      of: 以内，地点：
+      results_found: 找到的结果
+      search: 搜索
+      title_find: 寻找附近的成员
+      title_near: "%{location} 附近的成员"
+    show:
+      add_bio_prompt: 添加个人简介以完善您的个人资料。
+      breadcrumbs_members: 成员
+      no_bio: "%{name} 还没有填写个人简介。"
+      rss_item_title: "%{title}（作者：%{author}）"
+      skip_to_content: 跳至主要内容
+    thumbnail:
+      joined: "加入于 %{time} 前。"
     confirm_email: "我们已向您的电子邮箱发送了一个链接。请访问该链接以开始接收提醒。"
     card:
       not_interested: 停止建议 %{name}
@@ -1475,6 +1514,10 @@ zh:
       not_known: 位置未知或无法进行地理编码
       see_nearby_html: 查看 %{location} 附近的其他成员、种植、种子等
     index:
+      show: 显示
+      sort_alphabetically: 按字母顺序
+      sort_by: 排序方式
+      sort_recently_joined: 最新加入
       title: "%{site_name} 成员"
     signup:
       error: 无法完成注册
@@ -1484,6 +1527,9 @@ zh:
       heading: 统计
       toggle: 显示/隐藏
     unsubscribe:
+      instructions_html: "如果您希望取消订阅其他 Growstuff 邮件，可以通过%{link}进行设置"
+      settings_page: 您的设置页面
+      title: "取消订阅 %{member}"
       error: 很抱歉，更新您的设置时出错。
     unsubscribed: 您已取消订阅 %{email_type} 电子邮件。
     welcome: 欢迎

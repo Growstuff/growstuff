@@ -1448,6 +1448,45 @@ de:
     update:
       saved: Vielen Dank, dein Name wurde festgelegt.
   members:
+    avatar:
+      alt: "Avatar von %{name}"
+    bio:
+      heading: "Alles über %{name}"
+    finish_signup:
+      agree_to_tos_html: "Ich stimme den %{tos_link} zu"
+      continue: Weiter
+      email_help: "Wir verwenden diese Adresse, um Sie zu kontaktieren (wir senden niemals Spam!)"
+      email_missing_help: "Fügen Sie eine hinzu, wenn Sie Pflanzerinnerungen wünschen. Wir senden einen Link zur Bestätigung und senden niemals Spam."
+      email_optional: E-Mail (optional)
+      instructions: "Fast geschafft. Wählen Sie den Namen, der auf der Website angezeigt wird."
+      name_help: "Dies ist der Name, der auf der Website angezeigt wird. Sie können ihn später ändern."
+      terms_of_service: Nutzungsbedingungen
+      title: "Treten Sie %{site_name} bei"
+      welcome: "Willkommen bei %{site_name}"
+    harvests:
+      none: "%{name} hat noch nichts geerntet."
+    member:
+      joined: "Vor %{time} beigetreten."
+      view_all_gardens: "Alle Gärten von %{name} anzeigen"
+    nearby:
+      edit_location: Bearbeiten Sie Ihren Standort
+      find_within: Mitglieder finden im Umkreis von
+      km: km
+      miles: Meilen
+      no_results: Keine Ergebnisse gefunden
+      of: von
+      results_found: Ergebnisse gefunden
+      search: Suchen
+      title_find: Mitglieder in der Nähe finden
+      title_near: "Mitglieder in der Nähe von %{location}"
+    show:
+      add_bio_prompt: "Fügen Sie eine Biografie hinzu, um Ihr Profil zu vervollständigen."
+      breadcrumbs_members: Mitglieder
+      no_bio: "%{name} hat noch keine Biografie verfasst."
+      rss_item_title: "%{title} von %{author}"
+      skip_to_content: Zum Hauptinhalt springen
+    thumbnail:
+      joined: "Vor %{time} beigetreten."
     confirm_email: "Wir haben einen Link an deine E-Mail-Adresse gesendet. Folge ihm, um Erinnerungen zu erhalten."
     card:
       not_interested: Hören Sie auf, %{name} vorzuschlagen
@@ -1481,6 +1520,10 @@ de:
       not_known: Standort nicht bekannt oder geocodierbar
       see_nearby_html: Sehen Sie andere Mitglieder, Pflanzungen, Samen und mehr in der Nähe von %{location}
     index:
+      show: Anzeigen
+      sort_alphabetically: alphabetisch
+      sort_by: Sortieren nach
+      sort_recently_joined: kürzlich beigetreten
       title: "%{site_name} Mitglieder"
     signup:
       error: Registrierung konnte nicht abgeschlossen werden
@@ -1491,6 +1534,9 @@ de:
       heading: Statistiken
       toggle: Einblenden/Ausblenden
     unsubscribe:
+      instructions_html: "Wenn Sie andere Growstuff-E-Mails abbestellen möchten, können Sie dies über %{link} tun"
+      settings_page: Ihre Einstellungsseite
+      title: "%{member} abmelden"
       error: Es tut uns leid, beim Aktualisieren Ihrer Einstellungen ist ein Fehler aufgetreten.
     unsubscribed: Sie wurden von %{email_type} E-Mails abgemeldet.
     welcome: Willkommen
