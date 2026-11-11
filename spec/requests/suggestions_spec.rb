@@ -139,6 +139,32 @@ describe 'Crop suggestions' do
           expect(crops_of(island_props).first['growing']).to be true
         end
 
+        it 'says nothing of earlier years when the member has not grown it' do
+          get suggestions_path
+          expect(crops_of(island_props).first['grown_before']).to be_nil
+        end
+
+        it 'says which earlier years the member grew it in' do
+          garden = create(:garden, owner: member)
+          [2023, 2024].each { |year| create(:planting, crop:, garden:, owner: member, planted_at: Date.new(year, 10, 1), finished: true) }
+          get suggestions_path
+          expect(crops_of(island_props).first['grown_before']).to eq 'You grew this in 2023 and 2024'
+        end
+
+        it 'does not count this year as an earlier year' do
+          garden = create(:garden, owner: member)
+          create(:planting, crop:, garden:, owner: member, planted_at: Date.new(2026, 10, 1))
+          get suggestions_path
+          expect(crops_of(island_props).first['grown_before']).to be_nil
+        end
+
+        it 'counts a variety of the crop' do
+          garden = create(:garden, owner: member)
+          create(:planting, crop: create(:crop, parent: crop), garden:, owner: member, planted_at: Date.new(2024, 10, 1), finished: true)
+          get suggestions_path
+          expect(crops_of(island_props).first['grown_before']).to eq 'You grew this in 2024'
+        end
+
         it 'says who they follow is growing it' do
           friend = create(:member, login_name: 'sally')
           Follow.create!(follower: member, followed: friend)

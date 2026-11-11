@@ -14,7 +14,7 @@ const season = (name, title, current = false) => ({
 const seasons = [season('spring', 'Spring', true), season('summer', 'Summer')];
 const labels = {
   average: 'average', now: 'Now', loading: 'Loading crops', loadFailed: 'Could not load', retry: 'Try again', noData: 'No weather',
-  noCrops: 'Nothing', addFailed: 'Could not add', off: 'Suggestions are off', addToJobs: 'Add to planned jobs', planned: 'In your planned jobs', notForMe: 'Not for me',
+  noCrops: 'Nothing', addFailed: 'Could not add', growing: "You're already growing this", off: 'Suggestions are off', addToJobs: 'Add to planned jobs', planned: 'In your planned jobs', notForMe: 'Not for me',
 };
 const urls = {jobs: '/my/suggested_jobs', dismiss: '/my/dismissed_crops', planned: '/jobs'};
 const crop = (id, name, extra = {}) => ({id, name, path: `/crops/${name}`, image: '/kale.png', note: 'Best at 8–12°', planned: false, ...extra});
@@ -131,6 +131,16 @@ describe('SeasonSuggestions', () => {
     renderIsland();
     await userEvent.click(screen.getByRole('button', {name: 'Add to planned jobs'}));
     expect(await screen.findByTitle('In your planned jobs')).toBeInTheDocument();
+  });
+
+  it('says when the member is already growing the crop', () => {
+    renderIsland({initial: {spring: payload('spring', [crop(1, 'Kale', {growing: true})])}});
+    expect(screen.getByText(/already growing this/)).toBeInTheDocument();
+  });
+
+  it('says which earlier years the member grew the crop in', () => {
+    renderIsland({initial: {spring: payload('spring', [crop(1, 'Kale', {grown_before: 'You grew this in 2024'})])}});
+    expect(screen.getByText(/You grew this in 2024/)).toBeInTheDocument();
   });
 
   it('has no tick on a crop that is not planned', () => {

@@ -2649,7 +2649,8 @@ en:
         other: "%{count} days"
       duration_range: "%{low} to %{high} days"
       followed_grow: 'People you follow growing this: %{names}'
-      growing: You're growing this
+      grown_before: You grew this in %{years}
+      growing: You're already growing this
       heading: Your climate through the year
       intro_html: What the weather is usually like around %{place}, from the last %{years} years.
       load_failed: We couldn't load the crops. Try again.
