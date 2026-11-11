@@ -117,19 +117,13 @@ class Rack::Attack
     req.ip if req.page_load? && !req.logged_in?
   end
 
-  # Say which rule blocked a request, to the person and in the log, so a lockout can be traced.
-  self.blocklisted_responder = lambda do |request|
-    [403, { 'Content-Type' => 'text/plain' }, ["Forbidden (#{request.env['rack.attack.matched']})\n"]]
-  end
+  # What a blocked or slowed request is told: a page that says why and what to do, which also names the rule.
+  self.blocklisted_responder = ->(request) { RackAttackPage.blocked(request) }
+  self.throttled_responder = ->(request) { RackAttackPage.throttled(request) }
 
   ActiveSupport::Notifications.subscribe(/\A(blocklist|throttle)\.rack_attack\z/) do |_name, _start, _finish, _id, payload|
     request = payload[:request]
     Rails.logger.warn("[Rack::Attack] #{request.env['rack.attack.match_type']} #{request.env['rack.attack.matched']} " \
                       "ip=#{request.ip} path=#{request.path}")
   end
-
-  ### Custom Response Headers ###
-
-  # Add Retry-After header to throttled responses
-  self.throttled_response_retry_after_header = true
 end

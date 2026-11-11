@@ -131,15 +131,62 @@ RSpec.describe 'Rack::Attack', type: :request do
   end
 
   describe 'a blocked request' do
+    let(:headers) { { 'REMOTE_ADDR' => '1.2.3.4', 'Accept' => 'text/html' } }
+
+    it 'is a page for a browser' do
+      get '/dont-crawl-me', headers: headers
+      expect(response.media_type).to eq 'text/html'
+    end
+
+    it 'says why' do
+      get '/dont-crawl-me', headers: headers
+      expect(response.body).to include 'only crawlers look for'
+    end
+
     it 'says which rule blocked it' do
-      get '/dont-crawl-me', headers: { 'REMOTE_ADDR' => '1.2.3.4' }
+      get '/dont-crawl-me', headers: headers
       expect(response.body).to include 'fail2ban/honeypot'
+    end
+
+    it 'links to the contact page' do
+      get '/dont-crawl-me', headers: headers
+      expect(response.body).to include 'href="/about/contact"'
+    end
+
+    it 'is plain text for anything but a browser' do
+      get '/dont-crawl-me', headers: headers.merge('Accept' => 'application/json')
+      expect(response.body).to eq "Forbidden (fail2ban/honeypot)\n"
     end
 
     it 'logs the rule, the address and the path' do
       allow(Rails.logger).to receive(:warn)
       expect(Rails.logger).to receive(:warn).with(%r{\[Rack::Attack\] blocklist fail2ban/honeypot ip=1.2.3.4 path=/dont-crawl-me})
-      get '/dont-crawl-me', headers: { 'REMOTE_ADDR' => '1.2.3.4' }
+      get '/dont-crawl-me', headers: headers
+    end
+  end
+
+  describe 'a slowed request' do
+    let(:headers) { { 'REMOTE_ADDR' => '10.0.0.2', 'Accept' => 'text/html' } }
+
+    before do
+      travel_to Time.zone.at(1_800_000_000) # the start of a 5 minute window
+      121.times { get '/community-gardens', headers: }
+    end
+
+    it 'is a page for a browser' do
+      expect(response.media_type).to eq 'text/html'
+    end
+
+    it 'says how long to wait' do
+      expect(response.body).to include 'try again in about 5 minutes'
+    end
+
+    it 'says how long to wait in a header' do
+      expect(response.headers['Retry-After']).to eq '300'
+    end
+
+    it 'offers signing in' do
+      expect(response.body).to include 'href="/members/sign_in"'
     end
   end
 
