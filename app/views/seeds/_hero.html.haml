@@ -20,7 +20,7 @@
         .record-title
           %h1.display-3
             = crop_icon(seed.crop)
-            %strong= t('seeds.show.heading', crop: seed.crop.name.titleize)
+            %strong= t('seeds.ui.crop_seeds', crop: seed.crop.name.titleize)
         %p.lead.mb-0
           = t('seeds.ui.saved_by_html', owner: content_tag(:strong, link_to(seed.owner, seed.owner), class: 'record-grower-name'))
           %span.text-muted
@@ -48,4 +48,4 @@
         - ask = { recipient_id: seed.owner.id, subject: t('seeds.ui.request_subject', crop: seed.crop) }
         = link_to t('seeds.ui.request_seeds'), new_message_path(ask), class: 'btn btn-primary'
     - else
-      = render 'shared/signin_signup', to: t('seeds.ui.request_seeds_purpose')
+      = t('seeds.ui.request_prompt_html', sign_in: link_to(t('seeds.ui.sign_in'), new_member_session_path, class: 'text-success', data: { auth_dialog: 'sign_in' }), sign_up: link_to(t('seeds.ui.sign_up'), new_member_registration_path, class: 'text-info', data: { auth_dialog: 'sign_up' }))

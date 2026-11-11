@@ -1694,6 +1694,7 @@ zh:
     winter: 冬天
   seeds:
     ui:
+      request_prompt_html: "%{sign_in}或%{sign_up}以申请种子。"
       month_abbreviations: [1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
       unknown_quiet: 未知
       plant_seeds: 播种

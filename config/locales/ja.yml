@@ -576,7 +576,11 @@ ja:
       sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
       unknown: 不明
   seeds:
+    form:
+      finish_helper: 種をすべてまいたり、すべて交換に出したりしたら、終了に設定します。
+      trade_help: 他の%{site_name}メンバーと種を交換しませんか？種を交換可能として登録すると、他のメンバーからリクエストを受け取れます。条件やその他の情報は、上の説明欄に記載できます。
     ui:
+      request_prompt_html: 種をリクエストするには、%{sign_in}または%{sign_up}してください。
       month_abbreviations: [1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
       unknown_quiet: 不明
       plant_seeds: 種をまく

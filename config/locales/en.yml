@@ -2549,6 +2549,7 @@ en:
     winter: Winter
   seeds:
     ui:
+      request_prompt_html: "%{sign_in} or %{sign_up} to request seeds."
       month_abbreviations: [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
       unknown_quiet: unknown
       plant_seeds: Plant seeds

@@ -1702,6 +1702,7 @@ de:
     winter: Winter
   seeds:
     ui:
+      request_prompt_html: "%{sign_in} oder %{sign_up}, um Samen anzufragen."
       month_abbreviations: [Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
       unknown_quiet: unbekannt
       plant_seeds: Samen aussäen

@@ -1704,6 +1704,7 @@ fr:
     winter: L'hiver
   seeds:
     ui:
+      request_prompt_html: "%{sign_in} ou %{sign_up} pour demander des graines."
       month_abbreviations: [janv., févr., mars, avr., mai, juin, juil., août, sept., oct., nov., déc.]
       unknown_quiet: inconnu
       plant_seeds: Semer les graines

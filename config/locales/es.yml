@@ -1701,6 +1701,7 @@ es:
     winter: Invierno
   seeds:
     ui:
+      request_prompt_html: "%{sign_in} o %{sign_up} para solicitar semillas."
       month_abbreviations: [ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]
       unknown_quiet: desconocido
       plant_seeds: Sembrar semillas
