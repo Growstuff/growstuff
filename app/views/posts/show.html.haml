@@ -13,12 +13,12 @@
     = t('.visitor_intro_html', author: link_to(@post.author.login_name, member_path(@post.author)),
       site: link_to(ENV.fetch('GROWSTUFF_SITE_NAME', nil), root_path), subject: @post.subject,
       crops: link_to(t('.different_crops'), crops_url))
-    = t('.join_html',
-      sign_in: link_to(t('.sign_in'), new_member_session_path,
-        data: { auth_dialog: 'sign_in' }, class: 'text-success'),
-      sign_up: link_to(t('.sign_up'), new_member_registration_path,
-        data: { auth_dialog: 'sign_up' }, class: 'text-info'),
-      site: ENV.fetch('GROWSTUFF_SITE_NAME', nil))
+    :ruby
+      sign_in_options = { data: { auth_dialog: 'sign_in' }, class: 'text-success' }
+      sign_up_options = { data: { auth_dialog: 'sign_up' }, class: 'text-info' }
+      sign_in_link = link_to(t('.sign_in'), new_member_session_path, sign_in_options)
+      sign_up_link = link_to(t('.sign_up'), new_member_registration_path, sign_up_options)
+    = t('.join_html', sign_in: sign_in_link, sign_up: sign_up_link, site: ENV.fetch('GROWSTUFF_SITE_NAME', nil))
 
 - content_for :buttonbar do
   - if @post.comments.count > 10 && can?(:create, Comment)
@@ -94,5 +94,3 @@
         .index-cards
           - @post.crops.approved.each do |c|
             = render 'crops/thumbnail', crop: c
-
-
