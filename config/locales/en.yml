@@ -333,7 +333,7 @@ en:
       coldest_night: Coldest night
       coldest_soil: Coldest soil
       hottest_day: Hottest day
-      this_year: 'This year: %{value}'
+      this_year: "This year: %{value}"
       warmest_soil: Warmest soil
     table:
       air: Air
@@ -392,7 +392,7 @@ en:
       about: About
       breadcrumb_conversations: Conversations
       participants: Participants
-      sent_on: on %{date}
+      sent_on: "on %{date}"
   crop_companions:
     created: Companion was successfully created.
     deleted: Companion was successfully destroyed.
@@ -516,7 +516,7 @@ en:
       will_trade: "%{owner} will trade %{tradable_to}."
     growing_fact:
       median_of_packets: median of members' seed packets
-      members_packets: 'Members'' seed packets: %{median}'
+      members_packets: "Members' seed packets: %{median}"
     ecocrop_facts:
       absolute_ph: Absolute soil pH
       absolute_rainfall: Absolute rainfall
