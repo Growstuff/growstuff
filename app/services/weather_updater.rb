@@ -47,7 +47,7 @@ class WeatherUpdater
   end
 
   def planting_range(planting)
-    [[first_day(planting), FIRST_DAY].max, [planting.finished_at, @today - LAG_DAYS].compact.min]
+    [[first_day(planting), FIRST_DAY].max, [planting.weather_last_day(@today), @today - LAG_DAYS].min]
   end
 
   # Joins stretches of dates that overlap or touch, and leaves the rest apart.
@@ -71,7 +71,7 @@ class WeatherUpdater
   # A planting still growing is shown the rest of its life as last year's weather for the same days,
   # so we also want the year before it started.
   def history_start(planting)
-    planting.finished? ? planting.planted_at : planting.planted_at.prev_year
+    planting.finished? || planting.abandoned?(@today) ? planting.planted_at : planting.planted_at.prev_year
   end
 
   # Forward to the end of each stretch from the newest day we hold, so a planting that has just finished gets its

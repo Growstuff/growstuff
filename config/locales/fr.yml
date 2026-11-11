@@ -1452,6 +1452,31 @@ fr:
     write_blog_post: Ecrire un article de blog
   scientific_names:
     deleted: Le nom scientifique a été supprimé avec succès.
+    edit:
+      added_by_html: Ajouté par %{creator_link} il y a %{time_ago}.
+      title: Modifier le nom scientifique
+    form:
+      crop: Culture
+      crop_wrangling_guide: guide de gestion des cultures
+      crop_wrangling_guide_intro_html: Pour des instructions détaillées sur la gestion des cultures, veuillez consulter le %{guide_link} sur le wiki Growstuff.
+      errors:
+        one: "1 erreur a empêché l'enregistrement de ce nom scientifique :"
+        other: "%{count} erreurs ont empêché l'enregistrement de ce nom scientifique :"
+      name: Nom
+      save: Enregistrer
+      wikidata_id: Identifiant Wikidata
+    index:
+      crop: Culture
+      new_scientific_name: Nouveau nom scientifique
+      scientific_name: Nom scientifique
+      show: Afficher
+      title: Liste des noms scientifiques
+    new:
+      title: Nouveau nom scientifique
+    show:
+      back: Retour
+      crop_label: "Culture :"
+      scientific_name_label: "Nom scientifique :"
   seasons:
     autumn: L'automne
     spring: Ressort

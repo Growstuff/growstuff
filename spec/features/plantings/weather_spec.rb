@@ -32,7 +32,7 @@ describe 'Weather on a planting', flipper: :planting_weather do
 
     it { expect(page).to have_css '#weather rect.weather-band--optimal' }
     it { expect(page).to have_css '#weather .weather-band-label--optimal', text: 'Grows best 15–25°' }
-    it { expect(page).to have_css '#weather .badge', text: "The planting is in the optimal climate for #{crop.name}" }
+    it { expect(page).to have_css '#weather .weather-note--success', text: "Good conditions for #{crop.name} so far" }
     it { expect(page).to have_css '#weather .weather-figure', text: 'Days in its best range 1 of 1' }
   end
 
@@ -44,6 +44,26 @@ describe 'Weather on a planting', flipper: :planting_weather do
     end
 
     it { expect(page).to have_no_css '#weather .weather-band' }
+  end
+
+  context 'with a planting nobody marked finished, long past when it was due' do
+    let(:today) { Time.zone.today }
+    let(:planting) do
+      create(:planting, garden:, owner: garden.owner, crop: create(:crop, median_lifespan: 100), planted_at: today - 1000).tap do
+        create(:weather_reading, date: today - 1000, temp_max_c: 20, temp_min_c: 10)
+      end
+    end
+
+    it { expect(page).to have_css '#weather .weather-abandoned-note' }
+    it { expect(page).to have_no_css '#weather .weather-now' }
+  end
+
+  context 'with a planting that is still current' do
+    let(:planting) do
+      create(:planting, garden:, owner: garden.owner, crop: create(:crop, median_lifespan: 100), planted_at: Time.zone.today - 10)
+    end
+
+    it { expect(page).to have_no_css '.weather-abandoned-note' }
   end
 
   context 'with only last year\'s readings to expect' do

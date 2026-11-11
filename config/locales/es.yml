@@ -1450,6 +1450,31 @@ es:
     write_blog_post: Escribir entrada de blog
   scientific_names:
     deleted: El nombre científico se eliminó correctamente.
+    edit:
+      added_by_html: Añadido por %{creator_link} hace %{time_ago}.
+      title: Editar nombre científico
+    form:
+      crop: Cultivo
+      crop_wrangling_guide: guía de disputa de cultivos
+      crop_wrangling_guide_intro_html: Para obtener directrices detalladas sobre la gestión de cultivos, consulte la %{guide_link} en la wiki de Growstuff.
+      errors:
+        one: "1 error impidió que se guardara este nombre científico:"
+        other: "%{count} errores impidieron que se guardara este nombre científico:"
+      name: Nombre
+      save: Guardar
+      wikidata_id: ID de Wikidata
+    index:
+      crop: Cultivo
+      new_scientific_name: Nuevo nombre científico
+      scientific_name: Nombre científico
+      show: Mostrar
+      title: Listado de nombres científicos
+    new:
+      title: Nuevo nombre científico
+    show:
+      back: Volver
+      crop_label: "Cultivo:"
+      scientific_name_label: "Nombre científico:"
   seasons:
     autumn: Otoño
     spring: Primavera

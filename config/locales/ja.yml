@@ -422,6 +422,32 @@ ja:
         one: 該当する%{count}袋を表示
         other: 該当する%{count}袋を表示
       showing: 播種期限を過ぎた袋を表示しています。
+  scientific_names:
+    deleted: 学名が正常に削除されました。
+    edit:
+      added_by_html: "%{time_ago}前に%{creator_link}によって追加されました。"
+      title: 学名の編集
+    form:
+      crop: 作物
+      crop_wrangling_guide: 作物管理ガイド
+      crop_wrangling_guide_intro_html: 作物の整理に関する詳しいガイドラインについては、Growstuff wikiの%{guide_link}を参照してください。
+      errors:
+        other: "%{count}件のエラーにより、この学名は保存されませんでした:"
+      name: 名前
+      save: 保存
+      wikidata_id: Wikidata ID
+    index:
+      crop: 作物
+      new_scientific_name: 新しい学名
+      scientific_name: 学名
+      show: 表示
+      title: 学名一覧
+    new:
+      title: 新しい学名
+    show:
+      back: 戻る
+      crop_label: "作物:"
+      scientific_name_label: "学名:"
   stalls:
     about_growstuff:
       join: 無料で参加

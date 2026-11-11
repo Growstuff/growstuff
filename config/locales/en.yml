@@ -501,12 +501,12 @@ en:
       request_notes: 'Request notes: %{notes}'
       requested_by: This crop was requested by %{requester} %{time_ago} ago.
     fields:
-      blank: Don't know
       harvest_style:
-      heading: Harvest style
-      hint: 'Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.'
-      label: How a plant is harvested
-      parent: 'Parent: %{style}'
+        blank: Don't know
+        heading: Harvest style
+        hint: 'Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.'
+        label: How a plant is harvested
+        parent: 'Parent: %{style}'
     find_seeds:
       empty: There are no seeds available to trade on Growstuff right now.
       list_seeds: List %{crop} seeds to trade
@@ -2247,6 +2247,7 @@ en:
       title: "%{crop} planting by %{owner}"
       view_all_plantings: All of %{owner}'s plantings
       weather: Weather
+      weather_abandoned_note: Nobody has marked this planting as finished, and it is long past when it should have finished, so the weather shown ends on %{date}, when it was expected to finish.
       weather_absolute_range: Survives %{range}
       weather_best_days: Days in its best range
       weather_best_days_value: "%{count} of %{total}"
@@ -2255,12 +2256,31 @@ en:
       weather_credit_licence: CC BY 4.0
       weather_credit_source: Weather data by Open-Meteo.com
       weather_days: Days
+      weather_days_count:
+        one: "%{count} day"
+        other: "%{count} days"
       weather_expected_note: The dotted lines and bars are expected weather, last year's data for the same days moved forward a year. They are not observed.
       weather_hottest: Hottest day
       weather_in: Weather in %{place}
       weather_location_intro: We use this to show the temperature and rainfall the plantings here have been through. Your garden's city or region is public, like the rest of the garden.
       weather_location_title: Where is this garden?
       weather_new: New
+      weather_note_cold: too cold on %{days} (lows below %{limit})
+      weather_note_future_best: Going by last year's weather, %{best} of the %{total} days from %{from} to %{to} should average inside the best range of %{range}.
+      weather_note_future_caution: Expected to be mixed for %{crop}
+      weather_note_future_danger: Expected not to be optimal for %{crop}
+      weather_note_future_neutral: Expected to stay within what %{crop} survives
+      weather_note_future_problems: It could be %{problems}.
+      weather_note_future_success: Expected to suit %{crop}
+      weather_note_future_survives: Going by last year's weather, it should stay within what %{crop} survives from %{from} to %{to}.
+      weather_note_hot: too hot on %{days} (highs above %{limit})
+      weather_note_past_best: From %{from} to %{to}, %{best} of %{total} days averaged inside the best range of %{range}.
+      weather_note_past_caution: Mixed conditions for %{crop} so far
+      weather_note_past_danger: Not optimal for %{crop} so far
+      weather_note_past_neutral: Within what %{crop} survives so far
+      weather_note_past_problems: The weather was %{problems}.
+      weather_note_past_success: Good conditions for %{crop} so far
+      weather_note_past_survives: From %{from} to %{to}, the weather stayed within what %{crop} survives.
       weather_now_rain: 'Latest, %{date}: %{rain}'
       weather_now_temperature: 'Latest, %{date}: %{high} / %{low}'
       weather_optimal_range: Grows best %{range}
@@ -2270,15 +2290,6 @@ en:
       weather_rain_chart_alt: Daily rainfall over %{count} days, up to %{max} mm in a day.
       weather_set_location: Set a garden location to get temperature and rainfall data
       weather_soil_temp: Soil temperature
-      weather_status_best: The planting is in the optimal climate for %{crop}
-      weather_status_cold: Climate well below optimal for %{crop}
-      weather_status_cool: Climate a bit cool for %{crop}
-      weather_status_hot: Climate well above optimal for %{crop}
-      weather_status_ok: Climate within what %{crop} survives
-      weather_status_title: The average of the high and low on %{date}
-      weather_status_too_cold: Climate too cold for %{crop}
-      weather_status_too_hot: Climate too hot for %{crop}
-      weather_status_warm: Climate a bit warm for %{crop}
       weather_temperature_chart: Daily high and low
       weather_temperature_chart_alt: Daily high and low temperature, from %{low} to %{high}.
     string: "%{crop} planting in %{garden} by %{owner}"
@@ -2313,6 +2324,31 @@ en:
     write_blog_post: Write blog post
   scientific_names:
     deleted: Scientific name was successfully deleted.
+    edit:
+      added_by_html: Added by %{creator_link} %{time_ago} ago.
+      title: Edit scientific name
+    form:
+      crop: Crop
+      crop_wrangling_guide: crop wrangling guide
+      crop_wrangling_guide_intro_html: For detailed crop wrangling guidelines, please consult the %{guide_link} on the Growstuff wiki.
+      errors:
+        one: "1 error prohibited this scientific name from being saved:"
+        other: "%{count} errors prohibited this scientific name from being saved:"
+      name: Name
+      save: Save
+      wikidata_id: Wikidata ID
+    index:
+      crop: Crop
+      new_scientific_name: New Scientific name
+      scientific_name: Scientific name
+      show: Show
+      title: Listing scientific names
+    new:
+      title: New scientific name
+    show:
+      back: Back
+      crop_label: "Crop:"
+      scientific_name_label: "Scientific name:"
   seasons:
     autumn: Autumn
     spring: Spring

@@ -71,6 +71,32 @@ describe PlantingWeatherHelper do
       expect(axis.first).to eq '35°'
     end
 
+    describe 'where the labels go' do
+      def top_of(chart, kind)
+        chart.find(".weather-band-label--#{kind}")[:style][/top: ([\d.]+)%/, 1].to_f * 120 / 100
+      end
+
+      it 'keeps them below the latest-reading label at the top' do
+        expect(top_of(chart, :absolute)).to be >= 20
+      end
+
+      context 'when both ranges have the same top edge' do
+        let(:ranges) { { optimal: [15, 25], absolute: [5, 25] } }
+
+        it 'moves the best range label down off the survivable one' do
+          expect(top_of(chart, :optimal) - top_of(chart, :absolute)).to be >= 14.99
+        end
+      end
+
+      context 'when a range is open at the top' do
+        let(:ranges) { { optimal: [15, 25], absolute: [5, nil] } }
+
+        it 'still keeps the labels apart' do
+          expect(top_of(chart, :optimal) - top_of(chart, :absolute)).to be >= 14.99
+        end
+      end
+    end
+
     it 'draws a range open at one end to the chart edge' do
       open_ended = Capybara.string(helper.weather_temperature_chart(readings, from: Date.new(2026, 10, 1), days: 10,
                                                                               ranges: { absolute: [5, nil] }))
@@ -83,95 +109,120 @@ describe PlantingWeatherHelper do
     end
   end
 
-  describe '#weather_range_badge' do
-    subject(:badge) { Capybara.string(helper.weather_range_badge(readings, ranges, crop:).to_s) }
+  describe '#weather_climate_notes' do
+    subject(:notes) { Capybara.string(helper.weather_climate_notes(readings, ranges, crop:, expected:).to_s) }
 
-    let(:crop) { build(:crop, name: 'tomato') }
+    let(:ranges) { { optimal: [10, 24], absolute: [4, 30] } }
+    let(:crop) { build(:crop, name: 'pea') }
+    let(:expected) { [] }
+    let(:readings) { days(mild: 20) }
 
-    let(:ranges) { { optimal: [15, 25], absolute: [5, 35] } }
-
-    def reading(high, low, date: Date.new(2026, 10, 1))
-      build(:weather_reading, date:, temp_max_c: high, temp_min_c: low)
+    # Runs of days, from `from`: mild ones average 15, inside the best range; cool ones average 7.5, outside it but not
+    # past what the crop survives; hot ones have a high of 35, and cold ones a low of 1, past what it survives.
+    def days(mild: 0, cool: 0, hot: 0, cold: 0, from: Date.new(2026, 5, 1))
+      highs_and_lows = Array.new(mild) { [18, 12] } + Array.new(cool) { [10, 5] } + Array.new(hot) { [35, 20] } + Array.new(cold) do
+        [14, 1]
+      end
+      highs_and_lows.each_with_index.map do |(high, low), index|
+        build(:weather_reading, date: from + index, temp_max_c: high, temp_min_c: low)
+      end
     end
 
-    context 'when the day averaged inside the best range' do
-      let(:readings) { [reading(24, 14)] }
+    context 'when the days were nearly all inside the best range' do
+      it('is a success') { expect(notes).to have_css '.weather-note--success', text: 'Good conditions for pea so far' }
+      it('has a tick') { expect(notes).to have_css '.weather-note .fa-check-circle' }
 
-      it('says so') { expect(badge).to have_css '.badge.text-bg-success', text: 'The planting is in the optimal climate for tomato' }
-      it('has a tick') { expect(badge).to have_css '.badge .fa-check-circle' }
+      it('counts the days in the best range') {
+        expect(notes).to have_css '.weather-note', text: '20 of 20 days averaged inside the best range of 10–24°C'
+      }
+
+      it('has no problems') { expect(notes).to have_no_css '.weather-note--danger' }
     end
 
-    context 'when the day was a bit cool' do
-      let(:readings) { [reading(16, 12)] }
+    context 'when many days went past what the crop survives, too hot and too cold' do
+      let(:readings) { days(mild: 80, hot: 13, cold: 7) }
 
-      it('says so') { expect(badge).to have_css '.badge.text-bg-warning', text: 'Climate a bit cool for tomato' }
-      it('has no icon') { expect(badge).to have_no_css '.badge i' }
+      it('warns that it was not optimal') { expect(notes).to have_css '.weather-note--danger', text: 'Not optimal for pea so far' }
+      it('has a warning triangle') { expect(notes).to have_css '.weather-note--danger .fa-exclamation-triangle' }
+
+      it 'says which days went wrong, with the limits' do
+        expect(notes).to have_css '.weather-note--danger',
+                                  text: 'too hot on 13 days (highs above 30°C) and too cold on 7 days (lows below 4°C)'
+      end
+
+      it('still counts the days in the best range') {
+        expect(notes).to have_css '.weather-note', text: '80 of 100 days averaged inside the best range'
+      }
     end
 
-    context 'when the day was a bit warm' do
-      let(:readings) { [reading(28, 24)] }
+    context 'when only a few days went past the survivable limits' do
+      let(:readings) { days(mild: 98, hot: 2) }
 
-      it('says so') { expect(badge).to have_css '.badge.text-bg-warning', text: 'Climate a bit warm for tomato' }
+      it('is mixed, not a warning') { expect(notes).to have_css '.weather-note--caution', text: 'Mixed conditions for pea so far' }
+      it('still says what happened') { expect(notes).to have_css '.weather-note--caution', text: 'too hot on 2 days' }
     end
 
-    context 'when the day was well below the best range, but survivable' do
-      let(:readings) { [reading(14, 8)] }
+    context 'when it was mostly outside the best range but never past what it survives' do
+      let(:readings) { days(mild: 3, cool: 7) }
 
-      it('says so') { expect(badge).to have_css '.badge.text-bg-info', text: 'Climate well below optimal for tomato' }
-      it('has a snowflake') { expect(badge).to have_css '.badge .fa-snowflake' }
+      it('is mixed') { expect(notes).to have_css '.weather-note--caution' }
     end
 
-    context 'when the day was well above the best range, but survivable' do
-      let(:readings) { [reading(36, 28)] }
+    context 'when the crop has only survivable limits' do
+      let(:ranges) { { absolute: [4, 30] } }
 
-      it('says so') { expect(badge).to have_css '.badge.text-bg-danger', text: 'Climate well above optimal for tomato' }
-      it('has no snowflake') { expect(badge).to have_no_css '.fa-snowflake' }
+      it('says the weather stayed within what it survives') {
+        expect(notes).to have_css '.weather-note--neutral', text: 'stayed within what pea survives'
+      }
     end
 
-    context 'when the day was exactly 3 degrees below the best range' do
-      let(:readings) { [reading(14, 10)] }
+    context 'with expected weather for the days still to come' do
+      let(:expected) { days(mild: 30, from: Date.new(2026, 11, 20)) }
 
-      it('is still a bit cool') { expect(badge).to have_css '.badge', text: 'Climate a bit cool for tomato' }
+      it('has a note for the past and one for the future') { expect(notes).to have_css '.weather-note', count: 2 }
+      it('judges the future') { expect(notes).to have_css '.weather-note--success', text: 'Expected to suit pea' }
+
+      it('says it is going by last year') {
+        expect(notes).to have_css '.weather-note', text: "Going by last year's weather, 30 of the 30 days"
+      }
     end
 
-    context 'when the day was colder than the crop survives' do
-      let(:readings) { [reading(6, 0)] }
+    context 'when the expected weather will be too hot' do
+      let(:expected) { days(mild: 10, hot: 20, from: Date.new(2026, 11, 20)) }
 
-      it('says so') { expect(badge).to have_css '.badge.text-bg-info', text: 'Climate too cold for tomato' }
-      it('has a snowflake') { expect(badge).to have_css '.badge .fa-snowflake' }
+      it 'warns about the future' do
+        expect(notes).to have_css '.weather-note--danger', text: 'Expected not to be optimal for pea'
+      end
+
+      it('says it could be too hot') { expect(notes).to have_css '.weather-note--danger', text: 'It could be too hot on 20 days' }
     end
 
-    context 'when the day was hotter than the crop survives' do
-      let(:readings) { [reading(42, 32)] }
+    context 'for a planting that has not started, with only expected weather' do
+      let(:readings) { [] }
+      let(:expected) { days(mild: 30, from: Date.new(2026, 11, 20)) }
 
-      it('says so') { expect(badge).to have_css '.badge.text-bg-danger', text: 'Climate too hot for tomato' }
+      it('has just the future note') { expect(notes).to have_css '.weather-note', count: 1 }
     end
 
-    context 'with no best range, inside what it survives' do
-      let(:ranges) { { absolute: [5, 35] } }
-      let(:readings) { [reading(20, 10)] }
+    context 'when the planting was expected to finish partway through the days' do
+      subject(:notes) { Capybara.string(helper.weather_climate_notes(readings, ranges, crop:, through: Date.new(2026, 5, 20)).to_s) }
 
-      it('says it survives') { expect(badge).to have_css '.badge.text-bg-secondary', text: 'Climate within what tomato survives' }
-    end
+      let(:readings) { days(mild: 20) + days(cold: 30, from: Date.new(2026, 5, 21)) }
 
-    context 'with several days' do
-      let(:readings) { [reading(24, 14, date: Date.new(2026, 10, 1)), reading(42, 32, date: Date.new(2026, 10, 2))] }
-
-      it('judges the latest') { expect(badge).to have_css '.badge', text: 'Climate too hot for tomato' }
-      it('dates it') { expect(badge).to have_css ".badge[title*='#{I18n.l(Date.new(2026, 10, 2), format: :short)}']" }
+      it('judges only the days up to its expected finish') { expect(notes).to have_css '.weather-note--success', text: '20 of 20 days' }
+      it('is not marked down for the weather after it') { expect(notes).to have_no_css '.weather-note--danger' }
     end
 
     context 'without ranges' do
       let(:ranges) { nil }
-      let(:readings) { [reading(24, 14)] }
 
-      it('has no badge') { expect(badge).to have_no_css '.badge' }
+      it('has no notes') { expect(notes).to have_no_css '.weather-note' }
     end
 
-    context 'without a high and low to judge' do
+    context 'without any days with a high and low' do
       let(:readings) { [build(:weather_reading, temp_max_c: nil, temp_min_c: nil)] }
 
-      it('has no badge') { expect(badge).to have_no_css '.badge' }
+      it('has no notes') { expect(notes).to have_no_css '.weather-note' }
     end
   end
 
@@ -204,6 +255,36 @@ describe PlantingWeatherHelper do
 
     it 'is nil for a crop without EcoCrop data' do
       expect(helper.weather_temperature_ranges(create(:crop))).to be_nil
+    end
+  end
+
+  describe '#weather_temperature_ranges remembered for a day' do
+    let(:crop) { create(:crop, ecocrop_record: create(:ecocrop_data, topmn: 10, topmx: 24, tmin: 4, tmax: 30)) }
+
+    before { allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new) }
+
+    it 'finds the EcoCrop record once for repeated calls' do
+      expect(crop).to receive(:ecocrop_data).once.and_call_original
+      2.times { helper.weather_temperature_ranges(crop) }
+    end
+
+    it 'finds it again when the crop has changed' do
+      helper.weather_temperature_ranges(crop)
+      crop.update!(name: 'a new name')
+      expect(crop).to receive(:ecocrop_data).once.and_call_original
+      helper.weather_temperature_ranges(crop)
+    end
+
+    it 'finds it again the next day' do
+      helper.weather_temperature_ranges(crop)
+      expect(crop).to receive(:ecocrop_data).once.and_call_original
+      travel_to(Time.zone.today + 1) { helper.weather_temperature_ranges(crop) }
+    end
+
+    it 'remembers a crop with no EcoCrop data too' do
+      bare = create(:crop)
+      expect(bare).to receive(:ecocrop_data).once.and_call_original
+      2.times { helper.weather_temperature_ranges(bare) }
     end
   end
 
