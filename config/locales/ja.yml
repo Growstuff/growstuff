@@ -1,5 +1,8 @@
 ---
 ja:
+  suggestions:
+    index:
+      title: あなたの地域で育てられる作物
   photos:
     by_html: "撮影：%{photographer}"
     description:

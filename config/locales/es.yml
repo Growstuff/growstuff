@@ -2604,7 +2604,7 @@ es:
       lede: Lo que los jardineros de %{band} están plantando este mes, la mayoría lo plantó primero.
       none: Nada que sugerir en este momento. Vuelve a consultar el mes que viene.
       not_located: Díganos dónde cultiva su jardín y le sugeriremos qué sembrar.
-      title: Fácil de sembrar en %{month} cerca de ti
+      title: Qué cultivar cerca de ti
     update:
       disabled: Hemos dejado de sugerir cultivos.
       enabled: Vuelven las sugerencias de cultivos.

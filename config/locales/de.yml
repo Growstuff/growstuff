@@ -2606,7 +2606,7 @@ de:
       lede: Was Gärtner bei %{band} in diesem Monat pflanzen, pflanzen die meisten zuerst.
       none: Im Moment gibt es nichts vorzuschlagen. Schau nächsten Monat wieder vorbei.
       not_located: Sagen Sie uns, wo Sie gärtnern, und wir können Ihnen vorschlagen, was Sie säen sollen.
-      title: Einfach zu säen in %{month} in deiner Nähe
+      title: Was du in deiner Nähe anbauen kannst
     update:
       disabled: Wir haben aufgehört, Pflanzen vorzuschlagen.
       enabled: Zuschneidevorschläge sind zurück.
