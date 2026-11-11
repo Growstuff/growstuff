@@ -357,7 +357,22 @@ fr:
       name: Nom scientifique
       save: Enregistrer
       wikidata_id: Identifiant Wikidata
-    search: Rechercher des cultures
+    search:
+      add_new_crop: 'Ajouter une nouvelle culture'
+      breadcrumbs_crops: 'Cultures'
+      breadcrumbs_search: 'Recherche'
+      title_matching: 'Cultures correspondant à "%{term}"'
+      found_count: '%{count} trouvées au total'
+      title: 'Recherche de cultures'
+      search_crops_label: 'Rechercher des cultures :'
+      search_crops_placeholder: 'Rechercher des cultures'
+      search_button: 'Rechercher'
+      no_results_title: 'Aucun résultat trouvé'
+      no_results_message: "Désolé, nous n'avons trouvé aucune culture correspondant à votre recherche de \"%{term}\"."
+      browse_database: 'parcourir notre base de données de cultures'
+      adding_new_crop: 'ajouter une nouvelle culture'
+      try_browsing_html: 'Essayez plutôt de %{browse_link}.'
+      try_browsing_or_adding_html: "Essayez plutôt de %{browse_link} ou d'%{add_link}."
     edit:
       added_by_html: Ajouté par %{creator_link} il y a %{time_ago}.
       approved_by_html: Approuvé par %{approver_link}.

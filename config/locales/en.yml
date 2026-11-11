@@ -710,7 +710,22 @@ en:
       name: Scientific name
       save: Save
       wikidata_id: Wikidata ID
-    search: Search crops
+    search:
+      add_new_crop: 'Add New Crop'
+      breadcrumbs_crops: 'Crops'
+      breadcrumbs_search: 'Search'
+      title_matching: 'Crops matching "%{term}"'
+      found_count: 'Found %{count} total'
+      title: 'Crop search'
+      search_crops_label: 'Search crops:'
+      search_crops_placeholder: 'Search crops'
+      search_button: 'Search'
+      no_results_title: 'No results found'
+      no_results_message: "Sorry, we couldn't find any crops that matched your search for \"%{term}\"."
+      browse_database: 'browsing our crop database'
+      adding_new_crop: 'adding a new crop'
+      try_browsing_html: 'Try %{browse_link} instead.'
+      try_browsing_or_adding_html: 'Try %{browse_link} or %{add_link} instead.'
     edit:
       added_by_html: Added by %{creator_link} %{time_ago} ago.
       approved_by_html: Approved by %{approver_link}.

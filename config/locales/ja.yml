@@ -90,6 +90,138 @@ ja:
       participants: 参加者
       sent_on: "%{date}"
   crops:
+    edit:
+      added_by_html: '%{time_ago}前に%{creator_link}によって追加されました。'
+      approved_by_html: '%{approver_link}によって承認されました。'
+      requested_by_html: '%{time_ago}前に%{requester_link}によってリクエストされました。'
+      status_by_html: 'ステータス: %{creator_link}により%{status}。'
+      status_html: 'ステータス: %{status}。'
+      title: '作物の編集: %{name}'
+    new:
+      edible_only: Growstuffのデータベースには食用作物のみが含まれています。将来的には他の作物もサポートしたいと考えていますが、現時点では食用でない作物を追加することはできません。
+      intro: 作物をご提案いただきありがとうございます！私たちの作物データベースはボランティアによって管理されており、皆様のご協力に感謝いたします。新しい作物をご提案いただく際は、次の点をご確認ください。
+      new_crop: 新しい作物
+      search_our_crops: 作物を検索
+      search_suggestion_html: まず、別名などで既に登録されていないか%{search_link}してみることをお勧めします。
+      suggest_crop: 作物を提案する
+      wikipedia_requirement: 現時点では、Wikipediaのページが存在する作物のみを追加しています。Wikipediaに単独の記事がない特定の品種を追加したい場合は、より一般的な作物の名前を使用し、品種名はメモ/説明欄に記入してください。
+    form:
+      approve_and_save: 承認して保存
+      errors:
+        one: '1件のエラーにより、この作物は保存されませんでした:'
+        other: "%{count}件のエラーにより、この作物は保存されませんでした:"
+      reject: 却下
+      save: 保存
+    fields:
+      harvest_style:
+        blank: 不明
+        heading: 収穫様式
+        hint: レタスのように1株につき1回（株全体を収穫）。トマトのように1株から何度も収穫。
+        label: 植物の収穫方法
+        parent: '親: %{style}'
+      alternate_name_with_index: '別名 %{index}:'
+      alternate_names: 別名
+      alternate_names_hint: 作物の別名。
+      basic_information: 基本情報
+      comments: コメント
+      crop_request_notes: 作物リクエストのメモ
+      crop_wrangling_guide: 作物管理ガイド
+      crop_wrangling_guide_intro_html: 作物管理の詳細なガイドラインについては、Growstuff wikiの%{guide_link}を参照してください。
+      currently: '現在:'
+      data: データ
+      days_until_maturity_max: 成熟までの日数（最長）
+      days_until_maturity_min: 成熟までの日数（最短）
+      description: 説明
+      en_wikipedia_url: Wikipedia URL
+      en_wikipedia_url_hint: 英語版Wikipediaの作物ページへのリンク（必須）。
+      en_youtube_url: YouTube URL
+      en_youtube_url_hint: 作物を紹介する英語のYouTube動画へのリンク。
+      germination_days_max: 発芽日数（最長）
+      germination_days_min: 発芽日数（最短）
+      growing: 栽培
+      growing_degree_days: 有効積算温度
+      height: 草丈 (cm)
+      icon: アイコン
+      icon_blank: 'なし: 親作物のアイコンを使用'
+      icon_hint: 任意。この作物および独自のアイコンを持たない品種に表示されます。
+      lifespan: 寿命
+      lifespan_annual: 一年草
+      lifespan_annual_hint: 1年以内に生育・結実するもの
+      lifespan_perennial: 多年草
+      lifespan_perennial_hint: 2年以上生存するもの
+      months_to_sow: 播種月
+      months_to_sow_hint: 南半球の月を選択してください（北半球は6か月ずれます）。
+      name:
+        hint: 英語での作物の一般名（必須）。
+        label: 名前
+        wranglers_hint: '管理者向け: 単数形にし、固有名詞のみ大文字にしてください。'
+      parent_crop: 親作物
+      parent_crop_hint: 任意。品種などの作物の階層を設定するために使用します。
+      parent_value: '親: %{value}'
+      public_food_key: Australian Food Composition Database Public Food Key
+      rejection_notes_hint: 上記の理由に該当しない場合、この作物リクエストが却下された理由を追加してください。
+      requester_submission_notice: このフォームを送信すると、ご提案はボランティアの作物管理者チームに送られ確認されます。結果はできるだけ早くお知らせします。
+      row_spacing: 条間 (cm)
+      scientific_name_with_index: '学名 %{index}:'
+      scientific_names: 学名
+      scientific_names_hint: GBIFを検索して作物の学名を特定します。
+      search_wikipedia: Wikipediaを検索
+      sowing_method: 播種方法
+      spread: 株間・広がり (cm)
+      sun_requirements: 日照条件
+    search:
+      add_new_crop: '新しい作物を追加'
+      breadcrumbs_crops: '作物'
+      breadcrumbs_search: '検索'
+      title_matching: '「%{term}」に一致する作物'
+      found_count: '合計 %{count} 件見つかりました'
+      title: '作物の検索'
+      search_crops_label: '作物を検索:'
+      search_crops_placeholder: '作物を検索'
+      search_button: '検索'
+      no_results_title: '結果が見つかりませんでした'
+      no_results_message: '申し訳ありません、「%{term}」に一致する作物は見つかりませんでした。'
+      browse_database: '作物のデータベースを閲覧'
+      adding_new_crop: '新しい作物を追加'
+      try_browsing_html: '代わりに%{browse_link}してみてください。'
+      try_browsing_or_adding_html: '代わりに%{browse_link}するか、%{add_link}してみてください。'
+    wrangle:
+      add: 追加
+      add_crop: 作物を追加
+      all_crops: すべての作物
+      approved: 承認済み
+      clear: クリア
+      crop_wranglers: 作物管理者
+      crops: 作物
+      full_crop_hierarchy: 作物の完全な階層
+      merge_crops: 作物を統合
+      not_applicable: なし
+      pending_approval: 承認待ち
+      recently_edited: 最近編集されたもの
+      rejected: 却下済み
+      search_aria_label: 作物を検索
+      search_button: 検索
+      search_placeholder: 作物名で検索
+      template: テンプレート
+      th_added_by: 追加者
+      th_alternate_names: 別名
+      th_child_crops: 子作物
+      th_growing_degree_days: 有効積算温度
+      th_height: 草丈
+      th_icon: アイコン
+      th_job_templates: 作業テンプレート
+      th_name: 名前
+      th_rejected_by: 却下者
+      th_requested_by: リクエスト者
+      th_row_spacing: 条間
+      th_scientific_names: 学名
+      th_spread: 株間
+      th_updated: 更新日時
+      th_youtube: YouTube
+      time_ago: '%{time}前'
+      title: 作物の管理
+      top_level_crops: 最上位の作物
+      yes: はい
     growing_fact:
       median_of_packets: メンバーの種子パケットの中央値
       members_packets: "メンバーの種子パケット: %{median}"
@@ -183,122 +315,6 @@ ja:
       sidebar_blurb: "%{site_name} は、家庭菜園からの収穫を記録し、その生産性を把握するのに役立ちます。"
       title: "%{garden}の共同管理者"
       view_all_gardens: "%{name}のすべての庭を表示"
-    edit:
-      added_by_html: '%{time_ago}前に%{creator_link}によって追加されました。'
-      approved_by_html: '%{approver_link}によって承認されました。'
-      requested_by_html: '%{time_ago}前に%{requester_link}によってリクエストされました。'
-      status_by_html: 'ステータス: %{creator_link}により%{status}。'
-      status_html: 'ステータス: %{status}。'
-      title: '作物の編集: %{name}'
-    new:
-      edible_only: Growstuffのデータベースには食用作物のみが含まれています。将来的には他の作物もサポートしたいと考えていますが、現時点では食用でない作物を追加することはできません。
-      intro: 作物をご提案いただきありがとうございます！私たちの作物データベースはボランティアによって管理されており、皆様のご協力に感謝いたします。新しい作物をご提案いただく際は、次の点をご確認ください。
-      new_crop: 新しい作物
-      search_our_crops: 作物を検索
-      search_suggestion_html: まず、別名などで既に登録されていないか%{search_link}してみることをお勧めします。
-      suggest_crop: 作物を提案する
-      wikipedia_requirement: 現時点では、Wikipediaのページが存在する作物のみを追加しています。Wikipediaに単独の記事がない特定の品種を追加したい場合は、より一般的な作物の名前を使用し、品種名はメモ/説明欄に記入してください。
-    form:
-      approve_and_save: 承認して保存
-      errors:
-        one: '1件のエラーにより、この作物は保存されませんでした:'
-        other: "%{count}件のエラーにより、この作物は保存されませんでした:"
-      reject: 却下
-      save: 保存
-    fields:
-      harvest_style:
-        blank: 不明
-        heading: 収穫様式
-        hint: レタスのように1株につき1回（株全体を収穫）。トマトのように1株から何度も収穫。
-        label: 植物の収穫方法
-        parent: '親: %{style}'
-      alternate_name_with_index: '別名 %{index}:'
-      alternate_names: 別名
-      alternate_names_hint: 作物の別名。
-      basic_information: 基本情報
-      comments: コメント
-      crop_request_notes: 作物リクエストのメモ
-      crop_wrangling_guide: 作物管理ガイド
-      crop_wrangling_guide_intro_html: 作物管理の詳細なガイドラインについては、Growstuff wikiの%{guide_link}を参照してください。
-      currently: '現在:'
-      data: データ
-      days_until_maturity_max: 成熟までの日数（最長）
-      days_until_maturity_min: 成熟までの日数（最短）
-      description: 説明
-      en_wikipedia_url: Wikipedia URL
-      en_wikipedia_url_hint: 英語版Wikipediaの作物ページへのリンク（必須）。
-      en_youtube_url: YouTube URL
-      en_youtube_url_hint: 作物を紹介する英語のYouTube動画へのリンク。
-      germination_days_max: 発芽日数（最長）
-      germination_days_min: 発芽日数（最短）
-      growing: 栽培
-      growing_degree_days: 有効積算温度
-      height: 草丈 (cm)
-      icon: アイコン
-      icon_blank: 'なし: 親作物のアイコンを使用'
-      icon_hint: 任意。この作物および独自のアイコンを持たない品種に表示されます。
-      lifespan: 寿命
-      lifespan_annual: 一年草
-      lifespan_annual_hint: 1年以内に生育・結実するもの
-      lifespan_perennial: 多年草
-      lifespan_perennial_hint: 2年以上生存するもの
-      months_to_sow: 播種月
-      months_to_sow_hint: 南半球の月を選択してください（北半球は6か月ずれます）。
-      name:
-        hint: 英語での作物の一般名（必須）。
-        label: 名前
-        wranglers_hint: '管理者向け: 単数形にし、固有名詞のみ大文字にしてください。'
-      parent_crop: 親作物
-      parent_crop_hint: 任意。品種などの作物の階層を設定するために使用します。
-      parent_value: '親: %{value}'
-      public_food_key: Australian Food Composition Database Public Food Key
-      rejection_notes_hint: 上記の理由に該当しない場合、この作物リクエストが却下された理由を追加してください。
-      requester_submission_notice: このフォームを送信すると、ご提案はボランティアの作物管理者チームに送られ確認されます。結果はできるだけ早くお知らせします。
-      row_spacing: 条間 (cm)
-      scientific_name_with_index: '学名 %{index}:'
-      scientific_names: 学名
-      scientific_names_hint: GBIFを検索して作物の学名を特定します。
-      search_wikipedia: Wikipediaを検索
-      sowing_method: 播種方法
-      spread: 株間・広がり (cm)
-      sun_requirements: 日照条件
-    wrangle:
-      add: 追加
-      add_crop: 作物を追加
-      all_crops: すべての作物
-      approved: 承認済み
-      clear: クリア
-      crop_wranglers: 作物管理者
-      crops: 作物
-      full_crop_hierarchy: 作物の完全な階層
-      merge_crops: 作物を統合
-      not_applicable: なし
-      pending_approval: 承認待ち
-      recently_edited: 最近編集されたもの
-      rejected: 却下済み
-      search_aria_label: 作物を検索
-      search_button: 検索
-      search_placeholder: 作物名で検索
-      template: テンプレート
-      th_added_by: 追加者
-      th_alternate_names: 別名
-      th_child_crops: 子作物
-      th_growing_degree_days: 有効積算温度
-      th_height: 草丈
-      th_icon: アイコン
-      th_job_templates: 作業テンプレート
-      th_name: 名前
-      th_rejected_by: 却下者
-      th_requested_by: リクエスト者
-      th_row_spacing: 条間
-      th_scientific_names: 学名
-      th_spread: 株間
-      th_updated: 更新日時
-      th_youtube: YouTube
-      time_ago: '%{time}前'
-      title: 作物の管理
-      top_level_crops: 最上位の作物
-      yes: はい
   gardens:
     header:
       all_gardens: "%{owner} のすべての庭"

@@ -357,7 +357,22 @@ de:
       name: Wissenschaftlicher Name
       save: Speichern
       wikidata_id: Wikidata-ID
-    search: Pflanzen suchen
+    search:
+      add_new_crop: 'Neue Nutzpflanze hinzufügen'
+      breadcrumbs_crops: 'Nutzpflanzen'
+      breadcrumbs_search: 'Suche'
+      title_matching: 'Nutzpflanzen passend zu "%{term}"'
+      found_count: 'Insgesamt %{count} gefunden'
+      title: 'Nutzpflanzensuche'
+      search_crops_label: 'Nutzpflanzen suchen:'
+      search_crops_placeholder: 'Nutzpflanzen suchen'
+      search_button: 'Suchen'
+      no_results_title: 'Keine Ergebnisse gefunden'
+      no_results_message: 'Leider konnten wir keine Nutzpflanzen finden, die Ihrer Suche nach "%{term}" entsprechen.'
+      browse_database: 'unsere Nutzpflanzendatenbank durchsuchen'
+      adding_new_crop: 'eine neue Nutzpflanze hinzufügen'
+      try_browsing_html: 'Versuchen Sie stattdessen, %{browse_link}.'
+      try_browsing_or_adding_html: 'Versuchen Sie stattdessen, %{browse_link} oder %{add_link}.'
     edit:
       added_by_html: Hinzugefügt von %{creator_link} vor %{time_ago}.
       approved_by_html: Genehmigt von %{approver_link}.

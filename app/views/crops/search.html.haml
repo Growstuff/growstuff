@@ -1,33 +1,39 @@
+- content_for :buttonbar do
+  - if can? :create, Crop
+    = link_to t('.add_new_crop'), new_crop_path, class: 'btn btn-primary'
+
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Crops', crops_path
-  %li.breadcrumb-item.active= link_to 'Search', search_crops_path(term: @term)
+  %li.breadcrumb-item= link_to t('.breadcrumbs_crops'), crops_path
+  %li.breadcrumb-item.active= link_to t('.breadcrumbs_search'), search_crops_path(term: @term)
 
 - if @term
-  - content_for :title, "Crops matching \"#{@term}\""
+  - content_for :title, t('.title_matching', term: @term)
   %h1
-    Crops matching "#{@term}"
+    = t('.title_matching', term: @term)
     - if @crops
-      %span.text-muted Found #{@crops.total_entries} total
+      %span.text-muted= t('.found_count', count: @crops.total_entries)
 - else
-  - content_for :title, "Crop search"
-  %h1 Crop search
+  - content_for :title, t('.title')
+  %h1= t('.title')
 
 = bootstrap_form_tag(url: search_crops_path, method: :get, html: { id: 'crop-search'}, layout: :inline) do |f|
-  = f.label :term, "Search crops:", class: 'visually-hidden'
+  = f.label :term, t('.search_crops_label'), class: 'visually-hidden'
   = f.text_field 'term', class: 'search-query input-medium',
-                   placeholder: 'Search crops',
+                   placeholder: t('.search_crops_placeholder'),
                    label: 'crop',
                    value: @term
-  = f.submit "Search", class: 'btn btn-success'
+  = f.submit t('.search_button'), class: 'btn btn-success'
 
 - if @crops.empty?
-  %h2 No results found
+  %h2= t('.no_results_title')
+  %p= t('.no_results_message', term: @term)
   %p
-    Sorry, we couldn't find any crops that matched your search for "#{@term}".
-  %p
-    Try
-    = link_to "browsing our crop database", crops_path
-    instead.
+    - browse_link = link_to(t('.browse_database'), crops_path)
+    - if can? :create, Crop
+      - add_link = link_to(t('.adding_new_crop'), new_crop_path)
+      = t('.try_browsing_or_adding_html', browse_link: browse_link, add_link: add_link)
+    - else
+      = t('.try_browsing_html', browse_link: browse_link)
 
 - else
   = will_paginate @crops

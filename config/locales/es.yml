@@ -357,7 +357,22 @@ es:
       name: Nombre científico
       save: Guardar
       wikidata_id: ID de Wikidata
-    search: Buscar cultivos
+    search:
+      add_new_crop: 'Añadir nuevo cultivo'
+      breadcrumbs_crops: 'Cultivos'
+      breadcrumbs_search: 'Buscar'
+      title_matching: 'Cultivos que coinciden con "%{term}"'
+      found_count: '%{count} encontrados en total'
+      title: 'Búsqueda de cultivos'
+      search_crops_label: 'Buscar cultivos:'
+      search_crops_placeholder: 'Buscar cultivos'
+      search_button: 'Buscar'
+      no_results_title: 'No se encontraron resultados'
+      no_results_message: 'Lo sentimos, no pudimos encontrar ningún cultivo que coincida con su búsqueda de "%{term}".'
+      browse_database: 'explorar nuestra base de datos de cultivos'
+      adding_new_crop: 'añadir un nuevo cultivo'
+      try_browsing_html: 'Intente %{browse_link} en su lugar.'
+      try_browsing_or_adding_html: 'Intente %{browse_link} o %{add_link} en su lugar.'
     edit:
       added_by_html: Añadido por %{creator_link} hace %{time_ago}.
       approved_by_html: Aprobado por %{approver_link}.
