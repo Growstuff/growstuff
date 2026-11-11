@@ -5,36 +5,36 @@
   = render 'devise/shared/error_messages', resource: resource
 
   .row.mb-3
-    = f.label :email, class: 'col-form-label col-md-2'
+    = f.label :email, t('devise_views.email'), class: 'col-form-label col-md-2'
     .col-md-8
       = f.email_field :email, class: 'form-control'
-      %span.form-text If you change your email address you will have to reconfirm.
+      %span.form-text= t('devise_views.reconfirm_email')
 
   .row.mb-3
     .offset-md-2.col-md-8.checkbox
       %label
         = f.check_box :show_email
-        Show email publicly on your profile page.
+        = t('devise_views.show_email')
 
   .row.mb-3
     .offset-md-2.col-md-8.checkbox
       %label
         = f.check_box :send_notification_email
-        Receive emailed copies of Inbox notifications (eg. private messages).
+        = t('devise_views.notification_email')
 
   .row.mb-3
     .offset-md-2.col-md-8.checkbox
       %label
         = f.check_box :send_planting_reminder
-        Receive regular reminders to track your planting and harvesting.
+        = t('devise_views.planting_reminders')
 
   .row.mb-3
     .offset-md-2.col-md-8.checkbox
       %label
         = f.check_box :send_harvest_reminder
-        Receive regular reminders of upcoming harvests.
+        = t('devise_views.harvest_reminders')
 
   .row.mb-3
     .offset-md-2.col-md-8
-      = f.submit "Save", class: 'btn btn-primary'
+      = f.submit t('devise_views.save'), class: 'btn btn-primary'
       = f.hidden_field(:tos_agreement, value: true)

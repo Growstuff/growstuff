@@ -1650,6 +1650,96 @@ fr:
     harvesting_now: Récolte des olives
     weeks_until_finished: "%{number} semaines"
     weeks_until_harvest: "%{number} semaines avant LA récolte"
+  devise_views:
+    resend_confirmation: Renvoyer les instructions de confirmation
+    confirmation_help: Saisissez votre nom de connexion ou votre adresse e-mail pour recevoir à nouveau le courriel de confirmation.
+    login: Nom de connexion ou adresse e-mail
+    change_password: Modifier votre mot de passe
+    new_password: Nouveau mot de passe
+    confirm_password: Confirmer le nouveau mot de passe
+    current_password: Mot de passe actuel
+    change_my_password: Modifier mon mot de passe
+    forgot_password: Mot de passe oublié ?
+    password_help: Saisissez votre adresse e-mail et nous vous enverrons un lien pour choisir un nouveau mot de passe.
+    email: Adresse e-mail
+    send_reset: Recevoir les instructions de réinitialisation du mot de passe
+    sign_in: Se connecter
+    password: Mot de passe
+    remember_me: Rester connecté
+    resend_unlock: Renvoyer les instructions de déverrouillage
+    join_free: S’inscrire gratuitement
+    missing_confirmation: Vous n’avez pas reçu les instructions de confirmation ?
+    missing_unlock: Vous n’avez pas reçu les instructions de déverrouillage ?
+    continue_with: Continuer avec %{provider}
+    delete_help: Supprimez votre compte sur %{site_name}.
+    delete_password: Mot de passe requis pour supprimer le compte
+    delete: Supprimer
+    save: Enregistrer
+    reconfirm_email: Si vous modifiez votre adresse e-mail, vous devrez la confirmer à nouveau.
+    show_email: Afficher publiquement mon adresse e-mail sur mon profil.
+    notification_email: Recevoir par e-mail une copie des notifications de la messagerie (par exemple, les messages privés).
+    planting_reminders: Recevoir régulièrement des rappels pour suivre mes plantations et mes récoltes.
+    harvest_reminders: Recevoir régulièrement des rappels des récoltes à venir.
+    join_site: Rejoindre %{site_name}
+    signup_help: Créez un compte sur %{site_name} pour suivre votre potager et échanger avec d’autres personnes qui cultivent près de chez vous.
+    captcha_help: Si le captcha vous pose des problèmes d’accessibilité, contactez-nous via les liens en bas de page et nous vous aiderons.
+    login_name: Nom de connexion
+    login_help: C’est le nom qui sera affiché sur le site.
+    email_help: Nous utiliserons cette adresse pour vous contacter (nous n’envoyons jamais de spam !).
+    agreement_html: J’accepte les %{link}
+    terms: Conditions d’utilisation
+    sign_up: S’inscrire
+    greeting: Bonjour %{name},
+    confirmation_body: 'Votre compte sur %{site_name} a été créé. Il vous suffit de confirmer votre adresse e-mail en suivant le lien ci-dessous :'
+    confirm_account: Confirmer mon compte
+    confirmed_help: Une fois votre compte confirmé, vous pourrez vous connecter avec votre nom de connexion (%{login}) ou votre adresse e-mail (%{email}) et le mot de passe choisi lors de l’inscription. Attention, le nom de connexion et le mot de passe sont sensibles à la casse.
+    welcome_html: Nous sommes ravis de vous accueillir et espérons que vous apprécierez %{site_name}. Explorez le site, %{plant_link} et rendez-vous sur les %{forums_link} si vous avez des questions ou des remarques.
+    plant_things: faites quelques plantations
+    forums: forums
+    guidelines_help_html: Nous vous invitons également à lire nos %{link} et à les respecter. Nous souhaitons que %{site_name} soit un espace convivial et accueillant pour tout le monde, et comptons sur votre aide pour qu’il le reste.
+    guidelines: Règles de la communauté
+    looking_forward: Au plaisir de vous retrouver !
+    team: L’équipe de %{site_name}.
+    reset_body: 'Une demande de réinitialisation de votre mot de passe sur %{site_name} a été effectuée. Si vous en êtes à l’origine, vous pouvez utiliser ce lien :'
+    reset_ignore: Si vous n’êtes pas à l’origine de cette demande, il peut s’agir d’une erreur ou d’une tentative malveillante. Vous pouvez ignorer ce courriel en toute sécurité. Votre mot de passe ne sera pas modifié.
+    see_you: À bientôt,
+    unlock_body: 'Votre compte %{site_name} a été verrouillé après un trop grand nombre de tentatives de connexion infructueuses. Cette mesure protège votre compte contre les intrusions, mais il se peut aussi que vous ayez simplement oublié votre mot de passe. Dans tous les cas, utilisez le lien ci-dessous pour déverrouiller votre compte :'
+    unlock_account: Déverrouiller mon compte
+    unlock_help_html: Si vous avez oublié votre mot de passe, vous pourrez %{link} après avoir déverrouillé votre compte.
+    reset_password: réinitialiser votre mot de passe
+    settings: Paramètres de %{name}
+    my_profile: Mon profil
+    profile: Profil
+    apps: Applications
+    delete_account: Supprimer le compte
+    location: Votre localisation
+    not_set: Non définie
+    change: Modifier
+    remove: Supprimer
+    location_help: Choisissez parmi les lieux trouvés pour apparaître au bon endroit sur la carte. Une région suffit.
+    bio_placeholder: Je jardine et je m’intéresse à A, B et C
+    website: Site web
+    handle_placeholder: votre_identifiant
+    other_url: Autre URL
+    linked_accounts_help: Les comptes liés sont en lecture seule ici. Gérez-les dans l’onglet Applications.
+    language: Langue
+    profile_picture: Photo de profil
+    avatar_help_html: Pour modifier votre photo de profil, rendez-vous sur %{link}.
+    provider_logo: Logo de %{provider}
+    connected_html: Votre compte %{provider} est lié sous le nom %{account}
+    disconnect: Déconnecter
+    disconnect_confirm: Voulez-vous vraiment supprimer cette connexion ?
+    connect_provider: Se connecter à %{provider}
+    mastodon_accounts: 'Comptes Mastodon connectés :'
+    mastodon_help: Connectez votre compte Mastodon pour vous connecter avec celui-ci et l’afficher sur votre profil.
+    mastodon_address: Votre adresse Mastodon
+    connect_another: Connecter un autre compte
+    api_token: Votre jeton API est
+    regenerate: Régénérer
+    regenerate_confirm: Confirmez-vous ? Votre ancien jeton cessera immédiatement de fonctionner.
+    delete_token: Supprimer le jeton API
+    delete_token_confirm: Voulez-vous vraiment supprimer votre jeton API ?
+    generate_token: Générer un jeton API
   layouts:
     application:
       breadcrumbs: Fil d’Ariane

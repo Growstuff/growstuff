@@ -1999,6 +1999,96 @@ en:
     harvesting_now: harvesting now
     weeks_until_finished: "%{number} weeks"
     weeks_until_harvest: "%{number} weeks until harvest"
+  devise_views:
+    resend_confirmation: Resend confirmation instructions
+    confirmation_help: Enter either your login name or your email address to resend the confirmation email.
+    login: Login name or email
+    change_password: Change your password
+    new_password: New password
+    confirm_password: Confirm new password
+    current_password: Current password
+    change_my_password: Change my password
+    forgot_password: Forgot your password?
+    password_help: Enter your email address and we'll send you a link to choose a new password.
+    email: Email
+    send_reset: Send me reset password instructions
+    sign_in: Sign in
+    password: Password
+    remember_me: Keep me signed in
+    resend_unlock: Resend unlock instructions
+    join_free: Join free
+    missing_confirmation: Didn't receive confirmation instructions?
+    missing_unlock: Didn't receive unlock instructions?
+    continue_with: Continue with %{provider}
+    delete_help: Delete your account from %{site_name}.
+    delete_password: Password required to delete
+    delete: Delete
+    save: Save
+    reconfirm_email: If you change your email address you will have to reconfirm.
+    show_email: Show email publicly on your profile page.
+    notification_email: Receive emailed copies of Inbox notifications (eg. private messages).
+    planting_reminders: Receive regular reminders to track your planting and harvesting.
+    harvest_reminders: Receive regular reminders of upcoming harvests.
+    join_site: Join %{site_name}
+    signup_help: Sign up for a %{site_name} account to track your vegetable garden and connect with other local growers.
+    captcha_help: If you have accessibility issues with the captcha, please contact us via the links in the footer and we will help.
+    login_name: Login name
+    login_help: This is the name that will show on the website.
+    email_help: We'll use this address to contact you (we never spam!)
+    agreement_html: I agree to the %{link}
+    terms: Terms of Service
+    sign_up: Sign up
+    greeting: Hello %{name},
+    confirmation_body: 'Your account on %{site_name} has been created. You just need to confirm your email address through the link below:'
+    confirm_account: Confirm my account
+    confirmed_help: Once you're confirmed, you can sign in with your login name (%{login}) or email address (%{email}), and the password you provided when you signed up. Note that your login name and password are case sensitive.
+    welcome_html: We're excited to have you as a member, and hope you'll enjoy what %{site_name} has to offer. Take a look around the site, %{plant_link}, and feel free to drop in on the %{forums_link} if you have any questions or feedback.
+    plant_things: plant some things
+    forums: forums
+    guidelines_help_html: We'd also appreciate it if you'd read our %{link}, and make sure you follow them. We want %{site_name} to be a friendly, welcoming environment for everyone, and we hope you'll help us keep it that way.
+    guidelines: Community Guidelines
+    looking_forward: Looking forward to seeing you!
+    team: The %{site_name} team.
+    reset_body: 'Someone has requested a link to reset your password on %{site_name}. We presume this was you, in which case you can do so through this link:'
+    reset_ignore: If it wasn't you, then someone's made a typo or has been messing around. In this case, you can safely ignore this email, and your password will not be changed.
+    see_you: See you soon,
+    unlock_body: 'Your %{site_name} account has been locked due to an excessive number of unsuccessful sign in attempts. We do this in case someone is trying to break into your account, but it might also mean you have forgotten your password. In either case, use the link below to unlock your account:'
+    unlock_account: Unlock my account
+    unlock_help_html: If you have forgotten your password, you can %{link} after you've unlocked your account.
+    reset_password: reset your password
+    settings: Settings for %{name}
+    my_profile: My Profile
+    profile: Profile
+    apps: Apps
+    delete_account: Delete Account
+    location: Your location
+    not_set: Not set
+    change: Change
+    remove: Remove
+    location_help: Pick from the places we find, so you're in the right spot on the map. A region is fine.
+    bio_placeholder: I'm a gardener interested in A, B, C
+    website: Website
+    handle_placeholder: your_handle
+    other_url: Other URL
+    linked_accounts_help: Linked accounts are read-only here. Manage them in the Apps tab.
+    language: Language
+    profile_picture: Profile picture
+    avatar_help_html: To change your profile picture, visit %{link}.
+    provider_logo: "%{provider} logo"
+    connected_html: You are connected to %{provider} as %{account}
+    disconnect: Disconnect
+    disconnect_confirm: Are you sure you want to remove this connection?
+    connect_provider: Connect to %{provider}
+    mastodon_accounts: 'Connected Mastodon accounts:'
+    mastodon_help: Connect your Mastodon account to sign in with it and show it on your profile.
+    mastodon_address: Your Mastodon address
+    connect_another: Connect another account
+    api_token: Your API token is
+    regenerate: Regenerate
+    regenerate_confirm: Are you sure? Your old token will stop working immediately.
+    delete_token: Delete API Token
+    delete_token_confirm: Are you sure you want to delete your API token?
+    generate_token: Generate API Token
   layouts:
     application:
       breadcrumbs: Breadcrumb

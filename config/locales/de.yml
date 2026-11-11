@@ -1648,6 +1648,96 @@ de:
     harvesting_now: 'Ernte :'
     weeks_until_finished: "%{number}WOCHEN"
     weeks_until_harvest: "%{number} Wochen bis zur Ernte"
+  devise_views:
+    resend_confirmation: Bestätigungsanleitung erneut senden
+    confirmation_help: Gib deinen Anmeldenamen oder deine E-Mail-Adresse ein, um die Bestätigungs-E-Mail erneut zu erhalten.
+    login: Anmeldename oder E-Mail
+    change_password: Passwort ändern
+    new_password: Neues Passwort
+    confirm_password: Neues Passwort bestätigen
+    current_password: Aktuelles Passwort
+    change_my_password: Mein Passwort ändern
+    forgot_password: Passwort vergessen?
+    password_help: Gib deine E-Mail-Adresse ein. Wir senden dir einen Link, um ein neues Passwort festzulegen.
+    email: E-Mail
+    send_reset: Anleitung zum Zurücksetzen des Passworts senden
+    sign_in: Anmelden
+    password: Passwort
+    remember_me: Angemeldet bleiben
+    resend_unlock: Entsperranleitung erneut senden
+    join_free: Kostenlos registrieren
+    missing_confirmation: Keine Bestätigungsanleitung erhalten?
+    missing_unlock: Keine Entsperranleitung erhalten?
+    continue_with: Mit %{provider} fortfahren
+    delete_help: Lösche dein Konto bei %{site_name}.
+    delete_password: Zum Löschen ist dein Passwort erforderlich
+    delete: Löschen
+    save: Speichern
+    reconfirm_email: Wenn du deine E-Mail-Adresse änderst, musst du sie erneut bestätigen.
+    show_email: E-Mail-Adresse öffentlich im Profil anzeigen.
+    notification_email: Kopien der Posteingangsbenachrichtigungen (z. B. private Nachrichten) per E-Mail erhalten.
+    planting_reminders: Regelmäßige Erinnerungen zum Erfassen deiner Pflanzungen und Ernten erhalten.
+    harvest_reminders: Regelmäßige Erinnerungen an bevorstehende Ernten erhalten.
+    join_site: Bei %{site_name} registrieren
+    signup_help: Erstelle ein Konto bei %{site_name}, um deinen Gemüsegarten zu dokumentieren und dich mit anderen Menschen auszutauschen, die in deiner Nähe gärtnern.
+    captcha_help: Wenn das Captcha für dich nicht barrierefrei zugänglich ist, kontaktiere uns über die Links in der Fußzeile. Wir helfen dir gerne.
+    login_name: Anmeldename
+    login_help: Dieser Name wird auf der Website angezeigt.
+    email_help: Über diese Adresse kontaktieren wir dich (wir versenden keinen Spam!).
+    agreement_html: Ich stimme den %{link} zu
+    terms: Nutzungsbedingungen
+    sign_up: Registrieren
+    greeting: Hallo %{name},
+    confirmation_body: 'Dein Konto bei %{site_name} wurde erstellt. Bestätige jetzt deine E-Mail-Adresse über den folgenden Link:'
+    confirm_account: Mein Konto bestätigen
+    confirmed_help: Nach der Bestätigung kannst du dich mit deinem Anmeldenamen (%{login}) oder deiner E-Mail-Adresse (%{email}) und dem bei der Registrierung gewählten Passwort anmelden. Beachte, dass beim Anmeldenamen und beim Passwort die Groß- und Kleinschreibung berücksichtigt wird.
+    welcome_html: Wir freuen uns, dich als Mitglied begrüßen zu dürfen, und hoffen, dass dir %{site_name} gefällt. Schau dich um, %{plant_link} und besuche die %{forums_link}, wenn du Fragen oder Rückmeldungen hast.
+    plant_things: pflanze etwas an
+    forums: Foren
+    guidelines_help_html: Bitte lies auch unsere %{link} und halte dich daran. Wir möchten, dass %{site_name} für alle ein freundlicher und einladender Ort ist, und hoffen auf deine Unterstützung.
+    guidelines: Gemeinschaftsrichtlinien
+    looking_forward: Wir freuen uns auf dich!
+    team: Das Team von %{site_name}.
+    reset_body: 'Jemand hat einen Link zum Zurücksetzen deines Passworts bei %{site_name} angefordert. Wenn du das warst, kannst du dein Passwort über diesen Link zurücksetzen:'
+    reset_ignore: Wenn du das nicht warst, hat sich vielleicht jemand vertippt oder einen Scherz erlaubt. Du kannst diese E-Mail einfach ignorieren. Dein Passwort wird nicht geändert.
+    see_you: Bis bald,
+    unlock_body: 'Dein Konto bei %{site_name} wurde nach zu vielen fehlgeschlagenen Anmeldeversuchen gesperrt. Damit schützen wir es vor unbefugten Zugriffen. Vielleicht hast du aber auch dein Passwort vergessen. In beiden Fällen kannst du dein Konto über den folgenden Link entsperren:'
+    unlock_account: Mein Konto entsperren
+    unlock_help_html: Falls du dein Passwort vergessen hast, kannst du nach dem Entsperren deines Kontos %{link}.
+    reset_password: dein Passwort zurücksetzen
+    settings: Einstellungen für %{name}
+    my_profile: Mein Profil
+    profile: Profil
+    apps: Apps
+    delete_account: Konto löschen
+    location: Dein Standort
+    not_set: Nicht festgelegt
+    change: Ändern
+    remove: Entfernen
+    location_help: Wähle einen der gefundenen Orte, damit du auf der Karte richtig angezeigt wirst. Eine Region genügt.
+    bio_placeholder: Ich gärtnere und interessiere mich für A, B und C
+    website: Website
+    handle_placeholder: dein_benutzername
+    other_url: Weitere URL
+    linked_accounts_help: Verknüpfte Konten können hier nur angezeigt werden. Verwalte sie im Tab „Apps“.
+    language: Sprache
+    profile_picture: Profilbild
+    avatar_help_html: Um dein Profilbild zu ändern, besuche %{link}.
+    provider_logo: Logo von %{provider}
+    connected_html: Du bist mit %{provider} als %{account} verbunden
+    disconnect: Verbindung trennen
+    disconnect_confirm: Möchtest du diese Verbindung wirklich entfernen?
+    connect_provider: Mit %{provider} verbinden
+    mastodon_accounts: 'Verbundene Mastodon-Konten:'
+    mastodon_help: Verbinde dein Mastodon-Konto, um dich damit anzumelden und es in deinem Profil anzuzeigen.
+    mastodon_address: Deine Mastodon-Adresse
+    connect_another: Weiteres Konto verbinden
+    api_token: Dein API-Token lautet
+    regenerate: Neu erstellen
+    regenerate_confirm: Bist du sicher? Dein bisheriges Token wird sofort ungültig.
+    delete_token: API-Token löschen
+    delete_token_confirm: Möchtest du dein API-Token wirklich löschen?
+    generate_token: API-Token erstellen
   layouts:
     application:
       breadcrumbs: Brotkrumennavigation
