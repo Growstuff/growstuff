@@ -509,7 +509,39 @@ de:
       sidebar_blurb: "%{site_name} hilft dir dabei, deine Ernten im heimischen Garten festzuhalten und zu sehen, wie produktiv er ist."
       title: Mitwirkende an %{garden}
       view_all_gardens: Alle Gärten von %{name} anzeigen
+  garden_types:
+    edit:
+      title: Gartentyp bearbeiten
+    form:
+      basic_information: Grundlegende Informationen
+      errors:
+        one: 'Dieser Gartentyp konnte aufgrund eines Fehlers nicht gespeichert werden:'
+        other: 'Dieser Gartentyp konnte aufgrund von %{count} Fehlern nicht gespeichert werden:'
+      name_help: Der Name des Gartentyps auf Englisch, z. B. „organic“ (Pflichtfeld).
+      save: Speichern
+    index:
+      title: Gartentypen
+      description: "%{site_name} erfasst, wer was wo anbaut. Auf der Seite eines Gartentyps sehen Sie, welche unserer Mitglieder ihn verwenden."
+      new_garden_type: Neuer Gartentyp
+    new:
+      title: Neuer Gartentyp
+    show:
+      empty: Es sind keine Gärten vorhanden.
   gardens:
+    breadcrumbs:
+      gardens: Gärten
+      owner_gardens: Gärten von %{owner}
+    edit:
+      title: Garten bearbeiten
+    image_alt: Bild von %{name}
+    index:
+      title: Alle Gärten
+      profile: Profil
+    layout:
+      title: Gartenplan für %{garden} von %{owner}
+      breadcrumb: Gartenplan
+    new:
+      title: Neuer Garten
     about:
       collaborators: Mitarbeiter
       fetch_wikidata: Wikidata-Informationen abrufen
@@ -567,6 +599,13 @@ de:
       unknown: unbekannt
     form:
       location_helper: Wenn Sie in Ihrem Profil einen Standort festgelegt haben, wird dieser beim Erstellen eines neuen Gartens verwendet.
+      active_label: Aktiv?
+      active_help: 'Sie können einen Garten als inaktiv markieren, wenn Sie ihn nicht mehr nutzen. Hinweis: Dadurch werden alle Bepflanzungen im Garten als „beendet“ markiert.'
+      description_placeholder: Erzählen Sie uns von diesem Garten – wo liegt er? Wie sieht er aus? Haben Sie einen Link zu einem Foto? Gibt es eine Bewässerung? Was haben Sie vor?
+      errors:
+        one: Dieser Garten konnte aufgrund eines Fehlers nicht gespeichert werden
+        other: Dieser Garten konnte aufgrund von %{count} Fehlern nicht gespeichert werden
+      save: Garten speichern
     header:
       nursery: Kindergarten
       nursery_hint: Hier angezogene Sämlinge können in Ihre Gärten umgepflanzt werden.

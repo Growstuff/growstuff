@@ -509,7 +509,39 @@ zh:
       sidebar_blurb: "%{site_name} 帮助你追踪家庭花园的收成，并了解其产量表现。"
       title: "%{garden} 协作者"
       view_all_gardens: 查看 %{name} 的所有花园
+  garden_types:
+    edit:
+      title: 编辑花园类型
+    form:
+      basic_information: 基本信息
+      errors:
+        one: '有 1 个错误，无法保存此花园类型：'
+        other: '有 %{count} 个错误，无法保存此花园类型：'
+      name_help: 花园类型的英文名称，例如“organic”（必填）。
+      save: 保存
+    index:
+      title: 花园类型
+      description: "%{site_name} 记录谁在何处种植什么。查看任意花园类型页面，即可了解哪些成员使用了该类型。"
+      new_garden_type: 新建花园类型
+    new:
+      title: 新建花园类型
+    show:
+      empty: 没有可显示的花园。
   gardens:
+    breadcrumbs:
+      gardens: 花园
+      owner_gardens: "%{owner}的花园"
+    edit:
+      title: 编辑花园
+    image_alt: "%{name}的图片"
+    index:
+      title: 所有人的花园
+      profile: 个人资料
+    layout:
+      title: "%{owner}的%{garden}布局"
+      breadcrumb: 布局
+    new:
+      title: 新建花园
     about:
       collaborators: 合作者
       fetch_wikidata: 获取维基数据信息
@@ -567,6 +599,13 @@ zh:
       unknown: 未知
     form:
       location_helper: 如果您在个人资料中设置了位置，则在创建新花园时将使用该位置。
+      active_label: 使用中？
+      active_help: 如果您不再使用某个花园，可以将其标记为停用。请注意：这会将花园中的所有种植标记为“已结束”。
+      description_placeholder: 请介绍一下这个花园——它在哪里？是什么样子的？有照片链接吗？有灌溉设施吗？您有什么计划？
+      errors:
+        one: 有 1 个错误，无法保存此花园
+        other: 有 %{count} 个错误，无法保存此花园
+      save: 保存花园
     header:
       nursery: 苗圃
       nursery_hint: 这里培育的幼苗可以移植到您的花园中。

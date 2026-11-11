@@ -299,7 +299,49 @@ ja:
       title: 作物の管理
       top_level_crops: 最上位の作物
       yes: はい
+  garden_types:
+    edit:
+      title: 庭の種類を編集
+    form:
+      basic_information: 基本情報
+      errors:
+        one: '1件のエラーにより、この庭の種類を保存できませんでした：'
+        other: '%{count}件のエラーにより、この庭の種類を保存できませんでした：'
+      name_help: 庭の種類の名前を英語で入力してください（例：「organic」、必須）。
+      save: 保存
+    index:
+      title: 庭の種類
+      description: "%{site_name}は、誰がどこで何を育てているかを記録します。庭の種類のページで、その種類を使用しているメンバーを確認できます。"
+      new_garden_type: 庭の種類を追加
+    new:
+      title: 庭の種類を追加
+    show:
+      empty: 表示する庭はありません。
   gardens:
+    breadcrumbs:
+      gardens: 庭
+      owner_gardens: "%{owner}の庭"
+    edit:
+      title: 庭を編集
+    image_alt: "%{name}の画像"
+    index:
+      title: みんなの庭
+      profile: プロフィール
+    layout:
+      title: "%{owner}の%{garden}のレイアウト"
+      breadcrumb: レイアウト
+    new:
+      title: 庭を追加
+    form:
+      active_label: 使用中ですか？
+      active_help: 庭を使わなくなった場合は、休止中に設定できます。この操作により、庭のすべての植え付けが「終了」としてマークされます。
+      description_placeholder: この庭について教えてください。どこにありますか？どのような庭ですか？写真へのリンクはありますか？灌漑設備はありますか？今後の計画は？
+      errors:
+        one: 1件のエラーにより、この庭を保存できませんでした
+        other: '%{count}件のエラーにより、この庭を保存できませんでした'
+      save: 庭を保存
+    overview:
+      no_plantings: 植え付けはありません
     header:
       all_gardens: "%{owner} のすべての庭"
       frost_protected: 霜除けあり

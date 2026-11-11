@@ -509,7 +509,39 @@ es:
       sidebar_blurb: "%{site_name} te ayuda a registrar lo que cosechas de tu huerto casero y comprobar lo productivo que es."
       title: Colaboradores de %{garden}
       view_all_gardens: ver todos los huertos de %{name}
+  garden_types:
+    edit:
+      title: Editar tipo de huerto
+    form:
+      basic_information: Información básica
+      errors:
+        one: 'Un error impidió guardar este tipo de huerto:'
+        other: '%{count} errores impidieron guardar este tipo de huerto:'
+      name_help: El nombre del tipo de huerto en inglés, por ejemplo, «organic» (obligatorio).
+      save: Guardar
+    index:
+      title: Tipos de huerto
+      description: "%{site_name} registra quién cultiva qué y dónde. Visita la página de cualquier tipo de huerto para ver qué miembros lo han utilizado."
+      new_garden_type: Nuevo tipo de huerto
+    new:
+      title: Nuevo tipo de huerto
+    show:
+      empty: No hay huertos para mostrar.
   gardens:
+    breadcrumbs:
+      gardens: Huertos
+      owner_gardens: Huertos de %{owner}
+    edit:
+      title: Editar huerto
+    image_alt: Imagen de %{name}
+    index:
+      title: Huertos de todos los miembros
+      profile: Perfil
+    layout:
+      title: Plano de %{garden} de %{owner}
+      breadcrumb: Plano
+    new:
+      title: Nuevo huerto
     about:
       collaborators: Colaboradores
       fetch_wikidata: Obtener información de Wikidata
@@ -567,6 +599,13 @@ es:
       unknown: desconocido
     form:
       location_helper: Si tiene una ubicación configurada en su perfil, se utilizará cuando cree un nuevo jardín.
+      active_label: ¿Activo?
+      active_help: 'Puede marcar un huerto como inactivo si ya no lo utiliza. Nota: esto marcará todas las plantaciones del huerto como «finalizadas».'
+      description_placeholder: Cuéntenos sobre este huerto. ¿Dónde está ubicado? ¿Cómo es? ¿Tiene un enlace a una foto? ¿Dispone de riego? ¿Cuáles son sus planes?
+      errors:
+        one: Un error impidió guardar este huerto
+        other: '%{count} errores impidieron guardar este huerto'
+      save: Guardar huerto
     header:
       nursery: Vivero
       nursery_hint: Las plántulas cultivadas aquí se pueden trasplantar a sus huertos.
