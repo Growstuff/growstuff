@@ -836,7 +836,39 @@ fr:
       sidebar_blurb: "%{site_name} vous aide à suivre vos récoltes au potager et à observer leur productivité."
       title: Collaborateurs de %{garden}
       view_all_gardens: voir tous les jardins de %{name}
+  garden_types:
+    edit:
+      title: Modifier le type de jardin
+    form:
+      basic_information: Informations générales
+      errors:
+        one: 'Une erreur a empêché l’enregistrement de ce type de jardin :'
+        other: '%{count} erreurs ont empêché l’enregistrement de ce type de jardin :'
+      name_help: Le nom du type de jardin en anglais, par exemple « organic » (obligatoire).
+      save: Enregistrer
+    index:
+      title: Types de jardin
+      description: "%{site_name} recense qui cultive quoi et où. Consultez la page d’un type de jardin pour voir quels membres l’ont utilisé."
+      new_garden_type: Nouveau type de jardin
+    new:
+      title: Nouveau type de jardin
+    show:
+      empty: Aucun jardin à afficher.
   gardens:
+    breadcrumbs:
+      gardens: Jardins
+      owner_gardens: Jardins de %{owner}
+    edit:
+      title: Modifier le jardin
+    image_alt: Image de %{name}
+    index:
+      title: Jardins de tous les membres
+      profile: Profil
+    layout:
+      title: Plan de %{garden} de %{owner}
+      breadcrumb: Plan
+    new:
+      title: Nouveau jardin
     about:
       collaborators: collaborateurs
       fetch_wikidata: Récupérer les informations de Wikidata
@@ -894,6 +926,13 @@ fr:
       unknown: inconnu
     form:
       location_helper: Si vous avez défini un emplacement dans votre profil, il sera utilisé lors de la création d'un nouveau jardin.
+      active_label: Actif ?
+      active_help: 'Vous pouvez marquer un jardin comme inactif si vous ne l’utilisez plus. Remarque : toutes les plantations du jardin seront alors marquées comme « terminées ».'
+      description_placeholder: Parlez-nous de ce jardin — où se trouve-t-il ? À quoi ressemble-t-il ? Avez-vous un lien vers une photo ? Disposez-vous d’un système d’irrigation ? Quels sont vos projets ?
+      errors:
+        one: Une erreur a empêché l’enregistrement de ce jardin
+        other: '%{count} erreurs ont empêché l’enregistrement de ce jardin'
+      save: Enregistrer le jardin
     header:
       nursery: Pépinière
       nursery_hint: Les semis cultivés ici peuvent être repiqués dans vos jardins.
