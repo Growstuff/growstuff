@@ -17,6 +17,17 @@ describe 'Crop suggestions' do
   context 'when signed in' do
     before { sign_in member }
 
+    %i(en de es fr ja zh).each do |locale|
+      context "with the #{locale} locale" do
+        it 'renders the title without interpolation arguments' do
+          I18n.with_locale(locale) { get suggestions_path(locale: locale) }
+
+          expect(Capybara.string(response.body))
+            .to have_css('h1', text: I18n.t('suggestions.index.title', locale: locale, raise: true))
+        end
+      end
+    end
+
     it 'turns suggestions off' do
       patch my_suggestions_path, params: { suggest: false }
       expect(member.reload.suggest_crops).to be false

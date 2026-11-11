@@ -1,10 +1,10 @@
 - content_for :title, @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Posts', posts_path
+  %li.breadcrumb-item= link_to t('.posts'), posts_path
   - if @author.present?
     %li.breadcrumb-item= link_to @author, @author
-    %li.breadcrumb-item.active= link_to 'posts', posts_path(author: @author.slug)
+    %li.breadcrumb-item.active= link_to t('.posts'), posts_path(author: @author.slug)
 
 %h1= @author ? t('.title.author_posts', author: @author) : t('.title.default')
 
@@ -18,16 +18,15 @@
     %p
       - if @author
         = render @author
-        Subscribe to
-        = succeed "." do
-          = link_to "#{@author}'s posts RSS feed", member_posts_path(@author, format: 'rss')
+        - feed = link_to(t('.author_feed', author: @author), member_posts_path(@author, format: 'rss'))
+        = t('.subscribe_author_html', feed: feed)
 
       - else
-        Subscribe to the #{ENV['GROWSTUFF_SITE_NAME']}
-        = link_to "posts RSS feed", posts_path(format: 'rss')
-        or
-        = succeed "." do
-          = link_to "comments RSS feed", comments_path(format: 'rss')
+        :ruby
+          site = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
+          posts_feed = link_to(t('.posts_feed'), posts_path(format: 'rss'))
+          comments_feed = link_to(t('.comments_feed'), comments_path(format: 'rss'))
+        = t('.subscribe_html', site: site, posts: posts_feed, comments: comments_feed)
   .col-md-10
     .row.posts
       - @posts.each do |post|

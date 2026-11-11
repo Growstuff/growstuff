@@ -4,5 +4,4 @@
       %i
         = crop.scientific_names.first.name
     %br/
-    Planted
-    = pluralize(crop.plantings.size, "time")
+    = t('.planted', count: crop.plantings.size)

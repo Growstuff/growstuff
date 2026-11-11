@@ -63,5 +63,5 @@
       = render 'job_modal', crop: crop, adder: adder if adder.to_come?
     - else
       %p.crop-job-signup
-        = link_to 'Sign up to track these tasks and get other suggestions.',
+        = link_to t('.sign_up'),
                   new_member_registration_path, data: { auth_dialog: 'sign_up' }

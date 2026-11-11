@@ -375,6 +375,32 @@ en:
       one: 1-year average
       other: "%{count}-year average"
   comments:
+    comments:
+      empty: There are no comments yet
+    description:
+      activity_html: "%{comment} on %{subject}"
+      commented: commented
+    form:
+      errors:
+        one: "%{count} error prohibited this comment from being saved:"
+        other: "%{count} errors prohibited this comment from being saved:"
+      your_comment: "Your comment:"
+      post_comment: Post comment
+    single:
+      attribution_html: "Posted by %{author} on %{date}"
+      deleted_member: Member Deleted
+      edited_at: "and edited at %{date}"
+    edit:
+      title: Editing comment
+      subject_html: "Editing comment on %{subject}"
+    index:
+      title: Comments
+      meta_description: Browse and search for comments.
+      feed_title: "Recent comments on all posts (%{site})"
+      item_title: "Comment by %{author} on %{subject}"
+      item_description_html: "Comment on %{subject}"
+    new:
+      title: New comment
     edit_modal:
       save: Save
       title: Edit comment
@@ -510,6 +536,137 @@ en:
       taken: Taken %{date}
       title: Find a photo of %{crop}
   crops:
+    image_alt: "Image of %{crop}"
+    alternate_names:
+      heading: Also known as
+      edit: Edit
+      delete: Delete
+      confirm_delete: Are you sure?
+    crop:
+      median_lifespan_html:
+        one: "Median Lifespan <strong>%{count}</strong> day"
+        other: "Median Lifespan <strong>%{count}</strong> days"
+      first_harvest_html:
+        one: "First harvest expected <strong>%{count}</strong> day after planting"
+        other: "First harvest expected <strong>%{count}</strong> days after planting"
+      last_harvest_html:
+        one: "Last harvest expected <strong>%{count}</strong> day after planting"
+        other: "Last harvest expected <strong>%{count}</strong> days after planting"
+    crop_list:
+      name: Name
+      plantings: Plantings
+    ecocrop_data:
+      title: Ecological requirements
+      source_html: "Data from the FAO EcoCrop database for %{name} %{authority}"
+      family: Family / Taxonomy
+      killing_temperature: Killing temperature
+      growth_temperature: "growth: %{temperature} °C"
+      rest_temperature: "rest: %{temperature} °C"
+      life_form: Life form
+      life_span: Life span
+      habit: Habit
+      soil_depth: Optimal soil depth
+      soil_texture: Optimal soil texture
+      soil_fertility: Optimal soil fertility
+      soil_drainage: Optimal soil drainage
+      soil_salinity: Optimal soil salinity
+      photoperiod: Photoperiod
+      licence_html: "Licensed under %{licence}."
+      citation_html: "Food and Agriculture Organization of the United Nations (2025) ECOCROP, the crop ecological requirements database. Version 1. %{fao}. Accessed through the CGIAR Climate Action Data Hub, %{hub}."
+    info:
+      variety_html: "A variety of %{parent}"
+      how_to_sow: "How to sow %{crop}:"
+      sun_requirement: "Sun requirement for %{crop}:"
+      plant_in: "Plant in %{conditions}"
+      no_description: No description yet.
+      add_description: Add one.
+      plantings:
+        one: planting
+        other: plantings
+      harvests:
+        one: harvest
+        other: harvests
+      seed_packets:
+        one: seed packet
+        other: seed packets
+    job_templates:
+      sign_up: Sign up to track these tasks and get other suggestions.
+    openfarm_data:
+      grown_for: Grown for
+      harvested:
+        one: "harvested %{count} time"
+        other: "harvested %{count} times"
+    photos:
+      title: Photos
+      group: "%{crop} %{model}"
+      more: More photos
+    popover:
+      planted:
+        one: "Planted %{count} time"
+        other: "Planted %{count} times"
+    posts:
+      title: "What people are saying about %{crop}"
+      empty: "Nobody has posted about %{crop} yet."
+      join_html: "%{sign_in} or %{sign_up} to post your tips and experiences growing %{crop}."
+      sign_in: Sign in
+      sign_up: sign up
+      post: Post something
+    scientific_names:
+      empty: No scientific name recorded
+      edit: Edit
+      delete: Delete
+      confirm_delete: Are you sure?
+    search_bar:
+      search: Search
+      crops: Search crops
+    data_improvement:
+      title: Data Improvement
+      missing: "Crops without %{field}"
+      tabs:
+        photos: Photos
+        descriptions: Descriptions
+        youtube: YouTube videos
+        alternate_names: Alternate names
+        wikidata: Wikidata ID
+        public_food_key: Public Food Key
+        row_spacing: Row spacing
+        sun_requirements: Sun requirements
+        height: Height
+    hierarchy:
+      title: Crop Hierarchy
+      intro_html: "This page shows the hierarchical tree of all crops in our %{database}."
+      database: crops database
+    history:
+      title: "Edit history of %{crop}"
+      back: "Back to %{crop}"
+      empty: This crop has no recorded edits.
+      time_ago: "%{time} ago"
+      made_by_html: "Made by %{member}"
+      events:
+        create: Create
+        update: Update
+        destroy: Destroy
+    search_page:
+      title: Crop search
+      search: Search
+      matching: 'Crops matching "%{term}"'
+      found:
+        one: "Found %{count} total"
+        other: "Found %{count} total"
+      label: "Search crops:"
+      placeholder: Search crops
+      crop: crop
+      no_results: No results found
+      no_matches: 'Sorry, we couldn’t find any crops that matched your search for "%{term}".'
+      browse: browsing our crop database
+      add: adding a new crop
+      try_adding_html: "Try %{browse} or %{add} instead."
+      try_browsing_html: "Try %{browse} instead."
+    show:
+      meta_description: "Learn how to grow %{crop}."
+      last_edited_by_html: "Last edited by %{editor} on %{date}."
+      last_edited: "Last edited on %{date}."
+      view_history: View history
     add_photos_from_flickr: Add photos from Flickr
     alternate_name_modal:
       add_title: Add another name for %{crop}
@@ -670,6 +827,12 @@ en:
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops
+      meta_description: Browse and search for crops.
+      wrangle: Wrangle Crops
+      add_crop: Add New Crop
+      crops: Crops
+      formats: "The data on this page is available in the following formats:"
+      feed_title: "Recently added crops (%{site})"
     join_banner:
       heading: Growstuff is a free, community-run site for people who grow food.
       prompt: Join to record your own %{crops}.
@@ -690,6 +853,19 @@ en:
       plant_crop: Plant %{crop}
       track_plantings: track your %{crop} plantings
     predictions:
+      annual_hint: living and reproducing in a single year or less
+      perennial_hint: living more than two years
+      title: "%{crop} facts"
+      add_attributes: Add more attributes
+      median_lifespan: median lifespan
+      insufficient_lifespan_data: We don't have enough data yet on the median lifespan.
+      weeks:
+        one: "%{count} week"
+        other: "%{count} weeks"
+      degree_days: Growing Degree Days
+      height: Height
+      spread: Spread
+      height_spread: Height × spread
       first_harvest: First harvest expected
       harvest_style: Harvest style
       last_harvest: Last harvest expected
@@ -698,6 +874,7 @@ en:
         other: weeks after planting
     requested:
       link: You have %{number_crops} crops awaiting approval
+      heading: Crops you have requested
       subtitle: Pending approval
       title: Requested crops
     scientific_name_modal:
@@ -734,6 +911,12 @@ en:
       reject: Reject
       save: Save
     wrangle:
+      edit: Edit
+      add_scientific_name: Add scientific name
+      add_alternate_name: Add another name
+      fetch_gbif: Fetch data from GBIF
+      manage_companions: Manage companions
+      job_templates: Job templates
       add: Add
       add_crop: Add Crop
       all_crops: All crops
@@ -783,10 +966,30 @@ en:
   forms:
     optional: "(Optional)"
   forums:
+    edit:
+      title: Editing forum
+    form:
+      errors:
+        one: "%{count} error prohibited this forum from being saved:"
+        other: "%{count} errors prohibited this forum from being saved:"
+      save: Save
+    new:
+      title: New Forum
+    show:
+      moderator_html: "This forum is run by %{moderator}"
+      edit: Edit
+      delete: Delete
+      confirm_delete: Are you sure?
+      posts: Posts
+      post_something: Post something
+      empty: No posts yet.
     created: Forum was successfully created.
     deleted: Forum was successfully deleted.
     index:
       title: Forums
+      new_forum: New forum
+      visit_forum: Visit forum
+      post: Post
     updated: Forum was successfully updated.
   frost:
     about_estimates: These dates are estimates from 25 km weather-model data, not readings from a station at your garden, so a cold spot can be colder. They may be wrong, so check your national weather service and ask local growers before relying on them.
@@ -1556,16 +1759,58 @@ en:
         lead: Two in a row!
         note: The snail is picking up speed.
       undo: Undo
+    description:
+      due: "(due %{due})"
+      in_garden_html: in %{link}
+      on_planting_html: on %{link}
+      planned: planned to do “%{name}”
+      plans: plans to do “%{name}”
     due:
       last: last %{day}
+    edit:
+      title: Editing job
+    finished_description:
+      did: did “%{name}”
+      in_garden_html: in %{link}
+      on_planting_html: on %{link}
     form:
-      finish_helper: 'A job is finished when you''ve completed it, or it''s otherwise no longer possible.
+      add_garden: Add a garden.
+      add_planting: Add a planting.
+      description_label: Tell us more about it
+      errors:
+        one: '1 error prohibited this job from being saved:'
+        other: "%{count} errors prohibited this job from being saved:"
+      finish_helper: 'A job is finished when you''ve completed it, or it''s otherwise
+        no longer possible.
 
         '
+      garden_label: Is this for a specific garden?
+      name_label: What needs to be done?
+      planting_label: Is this for a specific planting?
+      repeat_times_label: Repeat how many times?
+      repeat_weeks_label: Every how many weeks?
+      save: Save
+      when_label: When?
     index:
+      all_members: all members
+      api_methods: API Methods
+      breadcrumbs_jobs: Jobs
+      due_date_html: 'Due Date: %{date}'
+      garden_html: 'Garden: %{garden}'
+      ics_description: Jobs by %{owner}
+      ics_garden: 'Garden: %{garden}'
+      ics_planting: 'Planting: %{planting}'
+      include_finished_jobs: include finished jobs
+      not_applicable: N/A
+      open_data: Open Data
+      owner_jobs: "%{owner}'s jobs"
+      planting_html: 'Planting: %{planting}'
+      rss_title: Recent jobs from %{owner} (%{site})
+      sidebar_heading: Jobs
       title:
         default: Everyone's jobs
         owner_jobs: "%{owner}'s jobs"
+      unknown: unknown
     pad:
       add: Add a job
       add_button: Add
@@ -1635,7 +1880,22 @@ en:
     weeks_until_finished: "%{number} weeks"
     weeks_until_harvest: "%{number} weeks until harvest"
   layouts:
+    application:
+      breadcrumbs: Breadcrumb
+      home: Home
+    head:
+      social_image_alt: 'Growstuff, a community of food gardeners: a pear with a sunflower, a snail, a ladybird, a watering can and a cat.'
+      description: Growstuff is a community of food gardeners. Let's learn to grow food together. All our data is open data.
+      member_feed: "%{site_name}- %{member}'s posts"
+      posts_feed: "%{site_name} - Recent posts from all members"
+      crops_feed: "%{site_name} - Recently added crops"
+      plantings_feed: "%{site_name} - Recent plantings from all members"
+    mailer:
+      description_html: This email was sent by %{site_name} (%{link}) &mdash; an open source community for food growers.
+    modal:
+      close: Close
     footer:
+      open_service: Open Service
       about: About
       community_guidelines: Community Guidelines
       contact: Contact
@@ -1648,6 +1908,7 @@ en:
       support: Support
       terms_of_service: Terms Of Service
     header:
+      logo_alt: Growstuff brand logo (drawing of a pear)
       account: Account
       admin: Admin
       browse_crops: Browse Crops
@@ -1677,6 +1938,7 @@ en:
       toggle_navigation: Toggle Navigation
       your_stuff: Your Stuff
     menu:
+      label: Menu
       about: About
       activities: Activities
       add: Add
@@ -1718,6 +1980,11 @@ en:
       sign_out: Sign out
       sign_up: Join free
     nav:
+      my_records: My %{records}
+      everyone_records: Everyone's %{records}
+      add_record: Add a %{record}
+      record_purpose: record your %{records}
+      description: "%{site_name} helps you track what you're harvesting from your home garden and see how productive it is."
       my_drafts: My drafts
       suggest_something: Suggest something
   links:
@@ -1738,6 +2005,45 @@ en:
     update:
       saved: Thanks, your name is set.
   members:
+    avatar:
+      alt: "Avatar of %{name}"
+    bio:
+      heading: "All about %{name}"
+    finish_signup:
+      agree_to_tos_html: "I agree to the %{tos_link}"
+      continue: Continue
+      email_help: "We'll use this address to contact you (we never spam!)"
+      email_missing_help: "Add one if you'd like planting reminders. We'll send a link to confirm it, and we never spam."
+      email_optional: "Email (optional)"
+      instructions: Nearly there. Choose the name that will show on the website.
+      name_help: This is the name that will show on the website. You can change it later.
+      terms_of_service: Terms of Service
+      title: "Join %{site_name}"
+      welcome: "Welcome to %{site_name}"
+    harvests:
+      none: "%{name} hasn't harvested anything yet."
+    member:
+      joined: "Joined %{time} ago."
+      view_all_gardens: "view all %{name}'s gardens"
+    nearby:
+      edit_location: Edit your location
+      find_within: Find members within
+      km: km
+      miles: miles
+      no_results: No results found
+      of: of
+      results_found: Results found
+      search: Search
+      title_find: Find nearby members
+      title_near: "Members near %{location}"
+    show:
+      add_bio_prompt: Add a bio to complete your profile.
+      breadcrumbs_members: Members
+      no_bio: "%{name} hasn't written a bio yet."
+      rss_item_title: "%{title} by %{author}"
+      skip_to_content: Skip to main content
+    thumbnail:
+      joined: "Joined %{time} ago."
     card:
       not_interested: Stop suggesting %{name}
       visit: Visit %{name}'s gardens
@@ -1771,6 +2077,10 @@ en:
       not_known: Location not known or geocodable
       see_nearby_html: See other members, plantings, seeds and more near %{location}
     index:
+      show: Show
+      sort_alphabetically: alphabetically
+      sort_by: Sort by
+      sort_recently_joined: recently joined
       title: "%{site_name} members"
     signup:
       error: Failed to complete signup
@@ -1781,6 +2091,9 @@ en:
       heading: Stats
       toggle: Show/Hide
     unsubscribe:
+      instructions_html: "If you wish to unsubscribe from other Growstuff emails, you may do so via %{link}"
+      settings_page: your settings page
+      title: "Unsubscribe %{member}"
       error: We're sorry, there was an error updating your settings.
     unsubscribed: You have been unsubscribed from %{email_type} emails.
     welcome: Welcome
@@ -1960,6 +2273,1055 @@ en:
     what_is_a_nursery:
       description_html: 'A <strong>nursery</strong> is where you raise seedlings: seeds sown in trays or pots before they go into a garden. Sow your seeds in the nursery, then transplant them into one garden, or split a batch between several, when they are ready.'
   pages:
+    community_guidelines:
+      title: "Growstuff Community Guidelines"
+      body_html: |
+        <p>
+        Growstuff is a community by and for food-gardeners. Together, we are building a website where we can share our
+        experience, knowledge, and the products of our harvest. The most important thing about Growstuff is the people. For
+        Growstuff to thrive, we need people to add their crops, share their knowledge, and help build the site itself.
+        </p>
+        <p>Whatever your interest in Growstuff, you are welcome here, and will be treated with respect. In particular:</p>
+        <ul>
+        <li>
+        <p>
+        We welcome people of any age, gender identity or expression, ethnicity, nationality, religion or absence thereof,
+        political opinion, sexual orientation, marital status, family structure, ability or disability, appearance,
+        subculture, or other identity or self-identification.
+        </p>
+        </li>
+        <li>
+        <p>
+        Although Growstuff is primarily focused on food gardening, we welcome all kinds of gardeners, including organic
+        and conventional growers; those who grow their crops in fields or on balconies or in hydroponic systems; those who
+        garden commercially or non-commercially; those who subsist on their crops and those who garden for other reasons.
+        </p>
+        </li>
+        <li>
+        <p>
+        We welcome people of all skill and experience levels, and we don't believe in being dismissive or commenting
+        rudely just because you are new or learning.
+        </p>
+        </li>
+        <li>
+        <p>
+        Every role in our community is important, including gardeners who contribute skills, knowledge, and information to
+        our site; coders, designers and other techies who help build it; moderators and others who help our community
+        thrive; or any other form of participation. We believe in working together, and prioritise communication and
+        mutual understanding.
+        </p>
+        </li>
+        </ul>
+        <p>
+        If you want to participate in the Growstuff community (which includes our website and any auxiliary forums such as our
+        mailing list(s), IRC channel, etc), you need to agree to our general commitment to inclusiveness and mutual respect,
+        as well as to the following specific policies:
+        </p>
+        <ul>
+        <li>
+        <p>
+        Harassment of any Growstuff community member is forbidden. Harassment includes slurs directed at individuals or
+        groups; unwanted sexual remarks directed at any person or group; sexually explicit comments or imagery in public
+        spaces; stalking or other repeated, unwanted contact; or any repeated or sustained behaviour which disrupts
+        someone else's enjoyment of the Growstuff site or community.
+        </p>
+        </li>
+        <li>
+        <p>
+        The privacy of our community members is very important. You may not disclose any member's personal details
+        (including names by which they are known outside of Growstuff, their location, employment details, family details,
+        outside-of-Growstuff contact details, or any other identifying or personal information) without their explicit
+        consent.
+        </p>
+        </li>
+        <li>
+        <p>
+        Although we let you choose your own name on our site, and don't insist that you use the same name on our website
+        as you have on the cards in your wallet, you're not allowed to create or use a pseudonymous account to mislead
+        people, evade accountability, or otherwise cause trouble. (This is commonly known as a "sockpuppet" account.)
+        </p>
+        </li>
+        </ul>
+        <p>
+        If you experience or witness behaviour that goes against these community guidelines, you can report it to
+        support@growstuff.org. We will listen carefully and take your report seriously. Once we've looked into the situation,
+        we may take any action we deem necessary. For instance, we may issue a warning, or in serious cases we may suspend or
+        ban people from our community. If this happens, we will always tell the person affected the reason for our action,
+        with reference to our policy documents.
+        </p>
+        <p>
+        We don't want to make these guidelines too long or legalistic, so we'll leave it there, except for one final
+        guideline. As Bill and Ted said: <em>be excellent to each other</em>. And grow stuff.
+        </p>
+        <h2>Creative Commons License</h2>
+        <p>
+        These Community Guidelines are licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike (CC-BY-SA)
+        3.0 Unported License</a>.
+        </p>
+    copyright:
+      title: "Copyright Infringement Policy"
+      body_html: |
+        <p>
+        We hate legalese, so we've tried to make this policy readable. If you've got any questions, feel free to
+        <a href="mailto:support@growstuff.org">ask us</a>, and we'll do our best to answer.
+        </p>
+        <p>
+        This Copyright Infringement Policy covers all websites (such as <a href="http://www.growstuff.org">growstuff.org</a>)
+        owned and operated by the Growstuff maintainers ("Growstuff", "we", "us", "our") and all associated services,
+        collectively referred to as "the Service". It describes how you may report a violation of copyright on the Service.
+        </p>
+        <p>
+        Growstuff respects the intellectual property of others, and we ask our users to do the same. Growstuff members are
+        required by the <a href="http://www.growstuff.org/policy/tos">Terms of Service</a> to ensure that they have the legal
+        right to post content to the Service.
+        </p>
+        <p>
+        Growstuff is based in Melbourne, Australia and is not subject to the provisions of the United States Digital
+        Millennium Copyright Act (DMCA). However, we have established policy and procedures which are similar to those
+        required by the DMCA, as we believe they constitute best practice for web services operating in Australia.
+        </p>
+        <h2>1. Notifying us of an infringement</h2>
+        <p>
+        If you believe that a Growstuff member has infringed your intellectual property rights by posting Content to the
+        service, you may follow these steps to notify us and ask for the removal of the Content.
+        </p>
+        <p>Notifications may be submitted by email to <a href="mailto:support@growstuff.org">support@growstuff.org</a></p>
+        <p>We prefer to receive notifications by email.</p>
+        <p>Copyright infringement notifications sent through any other mechanism or forum will not be acted upon.</p>
+        <p>You must provide the following information:</p>
+        <ul>
+        <li>
+        Sufficient information to identify the copyrighted work being infringed. For instance, if the work is a published
+        book, provide the title, author, and ISBN; if the work is a magazine article, provide the title, author, magazine
+        name, and magazine issue; if the work is available on the Internet, provide the URL of the work.
+        </li>
+        <li>
+        The URL of the specific page on Growstuff where your work was reproduced without permission. General descriptions or
+        non-specific links (such as to Growstuff's homepage) cannot be acted upon.
+        </li>
+        <li>Your postal address, telephone number, and email address.</li>
+        <li>
+        A statement by you that the above information is accurate and that you are the copyright or intellectual property
+        owner or authorized to act on the copyright or intellectual property owner's behalf.
+        </li>
+        <li>
+        A physical signature or digital signature in a recognized industry-standard format such as PGP, of the copyright or
+        intellectual property owner or the person authorized to act on their behalf. Unsigned notifications will not be
+        processed.
+        </li>
+        </ul>
+        <h2>2. Responding to notifications</h2>
+        <p>We will respond to copyright infringement notifications within two business days.</p>
+        <p>
+        If we are not provided with enough information to act on the notification, including all the items listed in the
+        section above, we will reject the notification and notify the submitter that it cannot be acted upon.
+        </p>
+        <p>
+        If the Content is not hosted on our servers (for instance, if the notification concerns an image hosted on another
+        site which is merely displayed on or linked from our site) we will respond, notifying the submitter that the Content
+        is not hosted by us and referring them to the hosting site.
+        </p>
+        <p>
+        Provided we are able to act upon the notification, we will contact the member who posted the Content and inform them
+        of the notification and claim of intellectual property rights.
+        </p>
+        <p>The member will have two business days to respond. They may respond as follows:</p>
+        <ul>
+        <li>
+        Admit that they have posted something to which they do not hold intellectual property rights. In this case, the
+        member may delete the Content from the Service, or we may render it inaccessible.
+        </li>
+        <li>
+        Submit a counter-notification, stating that they have the right to post the Content, and that they are prepared to
+        uphold this claim in court. The process for this is outlined below.
+        </li>
+        <li>
+        Respond saying that they do not believe they have infringed any intellectual property rights, but that they do not
+        wish to formally submit a counter-notification. In this case, the member may delete the Content from the Service, or
+        we may render the Content inaccessible.
+        </li>
+        <li>If the member fails to respond, we will render the Content inaccessible.</li>
+        </ul>
+        <p>
+        When Content is deleted or rendered inaccessible, we will take reasonable efforts to ensure it cannot be accessed via
+        the Service. However, caching or external references may mean that Content remains accessible for some time, including
+        on third-party sites or applications. Third-party sites and applications are not under Growstuff's control. If
+        infringing Content has been removed or rendered inaccessible via the Service but is still available via third-party
+        sites and applications, the copyright or intellectual property holder may contact the operators of those
+        sites/applications to notify them of the infringement.
+        </p>
+        <h2>3. Counter-notification and restoration process</h2>
+        <p>
+        A counter-notification is a statement that you do not believe your content infringes on another person's rights, or
+        that your use of another person's copyrighted material falls into a protected category under law.
+        </p>
+        <p>
+        By filing a counter-notification, you are indicating that you are willing to defend your use of the material in court,
+        if the copyright owner chooses to bring a lawsuit against you for your use of the material. This may involve civil
+        and/or criminal penalties. We strongly suggest you contact an intellectual property lawyer licensed to practice law in
+        your jurisdiction before you do this, so that you are aware of your rights and obligations under the law.
+        </p>
+        <p>A counter-notification must contain the following items:</p>
+        <ul>
+        <li>
+        Your signature. Signatures may be a physical signature or a digital signature in a recognized industry-standard
+        format such as PGP.
+        </li>
+        <li>
+        The URL of the Content that has been called into question (this will have been provided in the original
+        notification).
+        </li>
+        <li>
+        A statement that you have a good faith belief that the copyright infringement notification was sent as a result of
+        a mistake or misidentification of the material. This should include any reasons why you believe your use of the
+        material is not infringing.
+        </li>
+        <li>Your name, address, and telephone number.</li>
+        </ul>
+        <p>
+        We will forward your counter-notification, in full, to the submitter of the original notification. They will then have
+        14 days to initiate legal action and notify us that they have done so.
+        </p>
+        <p>In the meantime, we will render the Content inaccessible.</p>
+        <p>If, after 14 days, we have not been informed that legal proceedings have been initiated, we will restore the Content.</p>
+        <p>
+        If you have filed a counter-notification, you may not re-post the allegedly infringing material until we notify you
+        that the waiting period has expired.
+        </p>
+        <h2>4. Repeat offenses</h2>
+        <p>Members who receive three or more valid copyright infringement notices will have their accounts terminated.</p>
+        <p>
+        If a counter-notification is filed, or if the member has stated that they do not accept the allegation of copyright
+        infringement but do not wish to formally file a counter-notification, the notification will not be counted toward
+        termination.
+        </p>
+        <p>
+        We also reserve the right to terminate the accounts of those who, in our opinion, misuse or abuse the copyright
+        infringement notification process against other members.
+        </p>
+        <h2>5. Changes</h2>
+        <p>
+        We may change our Copyright Infringement Policy from time to time. A history of changes to this Policy is available
+        via our public source code repository at
+        <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>. We will take reasonable steps
+        to notify you of any substantial changes to this Policy; however, it is your responsibility to check this Policy
+        periodically for changes. Your continued use of this site after any change in this Policy will constitute your
+        acceptance of such change.
+        </p>
+        <h2>6. Creative Commons license</h2>
+        <p>
+        This Copyright Infringement Policy is based on one developed by Dreamwidth
+        (<a href="http://www.dreamwidth.org/legal/dmca">http://www.dreamwidth.org/legal/dmca</a>) and is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a>.
+        </p>
+    data_use:
+      title: "API and Data Use Policy"
+      body_html: |
+        <p>
+        We hate legalese, so we've tried to make this policy readable. If you've got any questions, feel free to
+        <a href="mailto:support@growstuff.org">ask us</a>, and we'll do our best to answer.
+        </p>
+        <p>
+        This API and Data Use Policy covers all websites (such as <a href="http://www.growstuff.org">growstuff.org</a>) owned
+        and operated by the Growstuff Maintainers ("Growstuff", "we", "us", "our") and all associated services, collectively
+        referred to as "the Service".
+        </p>
+        <p>
+        In particular, this policy covers any access to the Service via any Application Programming Interface, feeds,
+        spidering, scraping, or any other automated or programmatic access to the Structured Data or Content available via the
+        Service (collectively, the "API"). This policy applies to anyone who uses the API ("you", "developer").
+        </p>
+        <h2>1. API Provided As-Is, and Subject to Change</h2>
+        <p>
+        Growstuff provides its API on an as-is basis, as described under "Disclaimer of Warranties" in our
+        <a href="http://www.growstuff.org/policy/tos">Terms of Service</a>.
+        </p>
+        <p>
+        Growstuff's API is subject to change. We will make reasonable efforts to notify developers of changes and of the
+        release status of any API features. You should make reasonable efforts to keep up with Growstuff technical news via
+        our forums, mailing lists, or other channels.
+        </p>
+        <h2>2. Don't overload our servers</h2>
+        <p>
+        You agree to limit your access to the API in such a way as to prevent excessive load on the Service. Growstuff
+        reserves the right to restrict or rate-limit access to the API if necessary to maintain the performance of the
+        Service.
+        </p>
+        <h2>3. Use of Growstuff Data and Content</h2>
+        <p>
+        You agree to observe the terms of the <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative
+        Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported License</a> under which our Structured Data is made available.
+        You agree to observe the copyright and intellectual property rights of Growstuff's members with regard to their
+        Content posted on the Service, including but not limited to posts, comments, images, etc.
+        </p>
+        <p>
+        You agree to respect any privacy settings which pertain to the Structured Data or Content you access via the API. You
+        agree not to republish any Structured Data or Content with more permissive access than was originally intended by the
+        member who posted it.
+        </p>
+        <p>
+        Growstuff acknowledges that Structured Data and Content made available under the API may be cached or retained by
+        third parties for any length of time. However, we request that if you are building an application using current
+        Structured Data and Content, you will make reasonable efforts to regularly update it, including removing any
+        Structured Data or Content that is deleted from the Service, and reflecting any changes in privacy settings that
+        pertain to it.
+        </p>
+        <p>
+        Growstuff contains data from the
+        <a href="https://www.foodstandards.gov.au/science-data/food-nutrient-databases/afcd">Australian Food Composition
+        Database</a> by <a href="https://www.foodstandards.gov.au/legal-policies/copyright">Food Standards Australia New
+        Zealand</a> under a CC-BY-4.0 license.
+        </p>
+        <h2>4. Authentication</h2>
+        <p>
+        Growstuff reserves the right to require authentication and/or app registration as a condition of use of the API and
+        Data.
+        </p>
+        <p>
+        If you provide users with the ability to log in to Growstuff, you must do so via OAuth. You may not require users to
+        provide their Growstuff login name and password.
+        </p>
+        <h2>5. Penalties</h2>
+        <p>If you violate the terms of this Policy, Growstuff may restrict your access to the API.</p>
+        <h2>6. Changes</h2>
+        <p>
+        We may change our API and Data Use Policy from time to time. A history of changes to this Policy is available via our
+        public source code repository at
+        <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>. We will take reasonable steps
+        to notify you of any substantial changes to this Policy; however, it is your responsibility to check this Policy
+        periodically for changes. Your continued use of this site after any change in this Policy will constitute your
+        acceptance of such change.
+        </p>
+        <h2>7. Creative Commons License</h2>
+        <p>
+        This API and Data Use Policy is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike (CC-BY-SA)
+        3.0 Unported License</a>.
+        </p>
+    privacy:
+      title: "Privacy Policy"
+      body_html: |
+        <p>
+        We hate legalese, so we've tried to make this policy readable. If you've got any questions, feel free to
+        <a href="mailto:support@growstuff.org">ask us</a>, and we'll do our best to answer.
+        </p>
+        <p>
+        This privacy statement ("Privacy Policy") covers all websites (such as
+        <a href="http://www.growstuff.org/">growstuff.org</a>) owned and operated by the Growstuff maintainers ("Growstuff",
+        "we", "us", "our") and all associated services, collectively referred to as "the Service".
+        </p>
+        <p>
+        We use information you share with us for our internal business purposes. We do not sell your information. This notice
+        tells you what information we collect, how we use it, and steps we take to protect and secure it.
+        </p>
+        <h2>1. Information we collect</h2>
+        <h3>1.1 Non-Personal Data</h3>
+        <p>
+        Like most website operators, we collect Non-Personal Data such as browser type, language preference, referring site,
+        and the date and time of each visitor request.
+        </p>
+        <p>
+        We collect this to understand how our visitors and members use our service, and use it to make decisions about how to
+        change and adapt the service.
+        </p>
+        <p>
+        From time to time, we may release Non-Personal Data in aggregate form (for instance, by publishing trends in site
+        usage) to explain our reasoning in making decisions. We will not release individual information, only aggregate
+        information.
+        </p>
+        <h3>1.2 Personal Data</h3>
+        <p>
+        Personal Data is anything which can be used to identify or contact you, such as your legal name, email address, IP
+        address, or physical location.
+        </p>
+        <h4>1.2.1 Automatically collected Personal Data</h4>
+        <p>
+        We automatically collect some Personal Data, such as IP address, provided by your browser and your computer whenever
+        you visit our website.
+        </p>
+        <p>We collect this information for several purposes:</p>
+        <ul>
+        <li>To diagnose and repair network issues with your use of the site;</li>
+        <li>To estimate the number of users accessing the service from specific geographic regions;</li>
+        <li>To help prevent fraud and abuse.</li>
+        </ul>
+        <h4>1.2.2 Email address</h4>
+        <p>
+        In order to register for the service, you must give us your email address. We will use your email address to send
+        confirmation of certain actions, such as when you change your password. We will contact you when it's necessary to
+        complete a request that you've initiated, or if there's a critical or administrative issue affecting your use of
+        the service.
+        </p>
+        <p>
+        Once you have created your account, you can choose to subscribe to certain events and have notifications of those
+        events sent to you via email. You will be able to change your mind and opt out of receiving notifications via email at
+        any time.
+        </p>
+        <p>
+        We will never sell or provide your email address to any third party for marketing purposes, or for any other reason
+        except as set out below.
+        </p>
+        <h4>1.2.3 Optional Personal Data you provide to us</h4>
+        <p>
+        As you use the service, you have the option to provide more Personal Data, through your profile and other activity on
+        the site. Providing this information is strictly optional.
+        </p>
+        <p>
+        You have the option to provide us with your location. You may provide this at whatever level of detail you wish. For
+        instance, you may provide your street address, your country of residence, or nothing at all. We use this location to
+        provide you with relevant content.
+        </p>
+        <p>
+        Many of your activities on the Service may allow you to post Personal Data or to directly or indirectly disclose
+        Personal Data about yourself. For instance, you may disclose Personal Data in a post or comment on the site, by
+        uploading a picture, by linking to another website you use, or by recording your gardening activity in detail. All of
+        these activities are optional. You should use due caution when disclosing Personal Data through your activity on the
+        Service.
+        </p>
+        <p>
+        We will show the information you provide, including any Personal Data it may contain, to others viewing the site, in
+        accordance with the privacy options you've selected.
+        </p>
+        <p>
+        The information you provide is also made available to third parties via our API and feeds, in accordance with the
+        privacy options you've selected and subject to the terms of our API and Data Use Policy which is available at
+        <a href="http://www.growstuff.org/policy/api">http://www.growstuff.org/policy/api</a>.
+        </p>
+        <p>
+        Some of the information you provide is categorised as Structured Data, which is defined more fully in our
+        <a href="/policy/tos">Terms of Service</a>. We make Structured Data freely available under a
+        Creative Commons Attribution ShareAlike (CC-BY-SA) 3.0 Unported license for use by third parties, in accordance with
+        the privacy options you've selected.
+        </p>
+        <p>
+        We may also use any Personal Data you provide, in aggregate, to make decisions about how to change and adapt the
+        service. From time to time, we may release information in aggregate form (for instance, by publishing trends in site
+        usage) to explain our reasoning in making decisions. We will not release individual information, only aggregate
+        information.
+        </p>
+        <h2>2. Disclosure of Personal Data</h2>
+        <p>
+        We disclose Personal Data, including optional personal information you have provided but which is not normally
+        available to other site users, only to those of our employees, contractors, and volunteers who (i) need to know that
+        information in order to operate the service and (ii) have agreed not to disclose it to others. Circumstances in which
+        this is necessary include, but are not limited to: troubleshooting and diagnosing technical problems, investigating
+        possible Terms of Service violations, and legal compliance issues.
+        </p>
+        <p>
+        We contract with third-party vendors to provide some site features. We will only share personal information with
+        third-party vendors to the extent that is necessary for them to provide these site features. We require our
+        third-party vendors to provide the same level of privacy protection that we do, and they do not have the right to
+        share or use personal information for any purpose other than providing those site features.
+        </p>
+        <p>
+        We may disclose Personal Data or potentially personally-identifying data when that release is required by law or by
+        court order, or when we believe in good faith that disclosure is reasonably necessary to protect the safety or rights
+        of us, third parties, or the public at large.
+        </p>
+        <p>
+        We reserve the right to transfer your Personal Data to a third party in the event of a sale, merger, liquidation,
+        receivership or transfer of all or substantially all of the assets of our company provided that the third party agrees
+        to adhere to the terms of the Growstuff Privacy Policy and provided that the third party only uses your Personal Data
+        for the purposes that you provided it to us. You will be notified in the event of any such transfer and you will be
+        afforded an opportunity to opt out.
+        </p>
+        <h2>3. Cookies</h2>
+        <p>
+        A cookie is a string of information that a website stores on a visitor's computer, and that the visitor's browser
+        provides to the website each time the visitor returns. We use cookies to help us identify and track visitors, their
+        usage of the website, and their website access preferences. We also use cookies to govern logging into your account.
+        </p>
+        <p>
+        Visitors who do not wish to have cookies placed on their computers should set their browsers to refuse cookies before
+        using the site, with the drawback that certain features of the site may not function properly without the aid of
+        cookies.
+        </p>
+        <h2>4. Confidentiality and security</h2>
+        <p>
+        No data transmission over the Internet can ever be guaranteed to be 100% secure. You use this service at your own
+        risk. However, we will take all reasonable steps (including appropriate technical and organisational measures) to
+        protect your Personal Data.
+        </p>
+        <p>
+        Your account information is password-protected. We recommend that you choose a strong and secure password. We use
+        industry-standard encryption to protect your password on our servers.
+        </p>
+        <p>
+        If we learn of a system security breach, we will notify you electronically so you can take appropriate steps to
+        protect yourself.
+        </p>
+        <h2>5. Deleting your information</h2>
+        <p>
+        You can change or delete any optional information that you've provided us at any time. If you change or delete any
+        optional information you've provided, the change will take place immediately on the Service. However, caching or
+        references to the data, including in third-party applications based on the Service, may mean that formerly available
+        data remains available for some time.
+        </p>
+        <p>
+        As part of the day-to-day operation of the Service, we will make regular copies of the data contained in the databases
+        for backup purposes. These backups can potentially contain deleted data for several weeks or months. These backups
+        will also be governed by the rules for Disclosure of Personal Data.
+        </p>
+        <h2>6. Changes</h2>
+        <p>
+        We may change our Privacy Policy from time to time. A history of changes to this Policy is available via our public
+        source code repository at <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>. We
+        will take reasonable steps to notify you of any substantial changes to this Policy; however, it is your responsibility
+        to check this Policy periodically for changes. Your continued use of this site after any change in this Privacy Policy
+        will constitute your acceptance of such change.
+        </p>
+        <h2>7. Contacting us</h2>
+        <p>
+        If you have questions about this policy, you can contact us at
+        <a href="mailto:support@growstuff.org">support@growstuff.org</a>.
+        </p>
+        <h2>8. Creative Commons</h2>
+        <p>
+        This privacy policy is based on one developed by Automattic
+        (<a href="http://automattic.com/privacy/">http://automattic.com/privacy/</a>) and amended by Dreamwidth
+        (<a href="http://dreamwidth.org/legal/privacy">http://dreamwidth.org/legal/privacy</a>) and is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a>.
+        </p>
+    support:
+      title: "Support - Frequently Asked Questions"
+      body_html: |
+        <h2>About Growstuff</h2>
+        <h3>Who runs Growstuff?</h3>
+        <p>
+        Growstuff was started by Alex Bayley (<a href="/members/skud">Skud</a>), an open source software developer and keen
+        veggie gardener from Melbourne, Australia. It is now maintained by the community.
+        </p>
+        <h3>How did Growstuff get started?</h3>
+        <p>
+        The idea of Growstuff came out of a discussion at an open source conference in Spain in 2012. We wanted a free, open
+        source of information about planting and growing crops, and realised the best way to do this would be to crowdsource
+        it from gardeners around the world.
+        </p>
+        <p>We first set up Growstuff as an open source project in August 2012, and quietly launched it in March 2013.</p>
+        <h3>Is Growstuff a non-profit?</h3>
+        <p>
+        Growstuff is a community-run project. You should also know that software and aggregated data about crops and who's
+        growing them are freely available under open licenses.
+        </p>
+        <h3>Can I advertise on Growstuff?</h3>
+        <p>Sorry, we're 100% ad-free!</p>
+        <p>
+        If you're a member, you can post things to trade or sell in our trading post area, but we don't have and will never
+        have banner ads or the like. We believe that supporting a website through outside advertising makes for a less
+        pleasant experience for our members and visitors, and is not a sustainable business model.
+        </p>
+        <h3>What's the status of Growstuff? Is it in beta?</h3>
+        <p>
+        We don't much like the word "beta" or the idea it represents. Growstuff is in a constant state of change and
+        improvement, and we hope we will always be adding new features and making things better for our members.
+        </p>
+        <p>
+        If you find any bugs or problems, please let us know via our support forum. If a feature you want isn't available yet,
+        check back soon!
+        </p>
+        <h2>Membership</h2>
+        <h3>Can I use Growstuff for free?</h3>
+        <p>Absolutely! If you enjoy the site, we'd appreciate you considering a donation (see the link in the footer).</p>
+        <h3>Can I get a membership for my family, school, or community group?</h3>
+        <p>Yup! Feel free to sign up as "JonesFamily" or "SmithfieldCommunity" or whatever floats your boat.</p>
+        <p>
+        Just keep in mind that you are responsible for anything that happens under that account, so be careful who you allow
+        to use it. In due course, we are hoping to develop features to help community gardens share with their
+        members/gardeners, so that they can track what's planted in the community garden without having to log in as the
+        community garden account. We'll publicise this widely when it's ready, so keep an ear to the ground.
+        </p>
+        <h2>Profile, settings, and privacy</h2>
+        <h3>How do I add a picture to my profile?</h3>
+        <p>
+        Profile pictures are provided by <a href="https://gravatar.com">Gravatar</a>, a service that provides "Globally
+        Recognised Avatars", run by the people who operate the WordPress blogging platform.
+        </p>
+        <p>
+        If you have ever signed up for Gravatar in the past, using the same address as you signed up for Growstuff, you will
+        already have a picture for your profile.
+        </p>
+        <p>
+        If you have signed up for Growstuff with a different email address than your Gravatar address, you will need to add it
+        on Gravatar.
+        </p>
+        <p>
+        If you have never signed up for Gravatar before, you can create an account and upload a picture, which will appear not
+        only on Growstuff, but on any other site which supports Gravatars and where you use the same email address.
+        </p>
+        <h3>Do I have to fill in all this personal stuff?</h3>
+        <p>
+        Your profile asks several questions about you, which you can choose to answer (or not) as you see fit. We don't
+        require personal information like your legal name, gender, or age for tracking or demographic purposes -- one of the
+        benefits of not having ads on our site!
+        </p>
+        <p>
+        When it comes to location, it really helps if you can provide that to Growstuff because we use it to suggest things to
+        grow. However, you can do it at whatever level of detail you're comfortable with: perhaps the name of your town, or
+        your state or province, or even your country if the country is small enough and has a fairly consistent climate. Just
+        choose something that is close enough to give you accurate growing advice, and vague enough to feel safe.
+        </p>
+        <p>
+        You can read more about the privacy of your information in our <a href="http://growstuff.org/policy/privacy">Privacy
+        Policy</a>.
+        </p>
+        <h2>Crops, gardens, and planting</h2>
+        <h3>How can I add a new crop?</h3>
+        <p>
+        For now, please drop a note in <a href="http://www.growstuff.org/posts/skud-20130319-requests-for-new-crops">Requests
+        for new crops</a> on our <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Feedback &amp; Support
+        forum</a>.
+        </p>
+        <h3>Will you add non-edible plants?</h3>
+        <p>
+        We do not currently have plans to add plants which are not edible or which are not "useful" in a food-growing or
+        sustainability context -- these might include companion plants, green manure crops, plants used to manage pests or
+        diseases, and the like. If you're thinking of purely ornamental plants, we probably won't be adding them anytime soon.
+        </p>
+        <p>
+        However, we are hoping, in future, to support the ability for any member to plant "unofficial" plants that aren't in
+        our crop database.
+        </p>
+        <h2>Posting, commenting, and forums</h2>
+        <h3>What formatting can I use in posts and comments?</h3>
+        <p>
+        We use <a href="http://daringfireball.net/projects/markdown/syntax/">Markdown</a> syntax, which offers a pretty wide
+        range of options from simple emphasis (bold and italics) to links, pictures, and more. We're hoping to install a
+        toolbar to help you generate the right syntax, but in the meantime I'm afraid all we can offer is the rather technical
+        documentation linked above.
+        </p>
+        <h2>Forthcoming features</h2>
+        <h3>Where can I see what features are planned?</h3>
+        <p>
+        Our software developers use a tracking tool called Pivotal Tracker, and you can see ours at
+        <a href="http://tracker.growstuff.org">http://tracker.growstuff.org/</a>. This tells you what features we are
+        currently working on and plan to work on soon.
+        </p>
+        <p>Pivotal Tracker's interface shows three columns of information:</p>
+        <ul>
+        <li>the "Current" section shows the features (called "stories") that we're working on at the moment</li>
+        <li>"Backlog" shows you stories that we're planning to work on in the nearish future</li>
+        <li>
+        "Icebox" contains stories that we've identified as things we'd like to do, but which don't have a timeframe set yet.
+        </li>
+        </ul>
+        <h3>Where can I suggest a feature I'd like to see?</h3>
+        <p>
+        We suggest checking the <a href="http://tracker.growstuff.org/">tracker</a> first (see above) to see if it's something
+        we're already planning or talking about. Once you've done that, if it's not already planned or you have some other
+        comments to make, you can post your suggestion in the <a href="/forums/growstuff-feedback-support">Feedback &amp;
+        Support forum</a>.
+        </p>
+        <h2>Developers and API</h2>
+        <h3>Is there a Growstuff API?</h3>
+        <p>
+        At present there is no official API, as our site is still changing so rapidly. However, we do expose some of our data
+        via JSON and/or RSS feeds, and you're welcome to play with it, on the understanding that it may change under you. You
+        can find <a href="https://github.com/Growstuff/growstuff/wiki/API">API docs on our wiki</a>.
+        </p>
+        <p>Use of our API and data is subject to the <a href="http://www.growstuff.org/policy/api">API and Data Use Policy</a>.</p>
+        <h3>What license is your data under?</h3>
+        <p>
+        Growstuff's data is available under the <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons
+        Attribution-ShareAlike (CC-BY-SA) 3.0 Unported license</a>. This means you can re-use it as long as you
+        attribute it to Growstuff (by linking back to our site), and as long as your own app/site/project shares its own
+        content or data under CC-BY-SA.
+        </p>
+        <p>See our <a href="http://growstuff.org/policy/api">API and Data Use Policy</a> for more information.</p>
+        <h2>Volunteering and jobs</h2>
+        <h3>Are you hiring?</h3>
+        <p>Sadly, no. We're a self-funded/bootstrapped community group.</p>
+        <p>If you want to get involved, see below.</p>
+        <h3>How can I volunteer to help Growstuff?</h3>
+        <p>
+        First and foremost, by being an active member of the site -- growing crops, tracking your harvests, posting in our
+        forums, getting to know other members -- you help build our database and our community, without which Growstuff would
+        be completely pointless. So, thanks for that!
+        </p>
+        <p>
+        Secondly, we'd love it if you could spread the word about Growstuff to your friends who grow their own food or who
+        might like to try. You can see some tips on how to do that below.
+        </p>
+        <p>
+        Growstuff's software is built with the help of volunteer developers, too. If you're a coder or would like to learn how
+        to code, you can join us in that. All are welcome, regardless of experience.
+        </p>
+        <p>
+        We also have volunteer crop wranglers, who manage our crops database, and moderators, who help keep the forums running
+        smoothly. These are usually chosen from among our most active and helpful members.
+        </p>
+        <h3>How can I get involved as a coder?</h3>
+        <p>
+        Start by checking out our <a href="https://github.com/Growstuff/growstuff/wiki/">wiki</a>, code on
+        <a href="http://github.com/Growstuff/growstuff">GitHub</a>, and <a href="http://tracker.growstuff.org">tracker</a> to
+        get an idea of how we work.
+        </p>
+        <p>
+        If you want to get involved, you should join our
+        <a href="http://lists.growstuff.org/mailman/listinfo/discuss">discussion mailing list</a>.
+        </p>
+        <h3>My coding skills are rusty or non-existent. Can I still get involved?</h3>
+        <p>
+        Sure! We love to mentor new coders, people who haven't coded in a while, or people who are just learning our platform
+        (Ruby on Rails) for the first time. We work by pair programming, and can get you started on easy stories, starting
+        with something as simple as fixing a typo or HTML tag (check the "easy" tag in our
+        <a href="http://tracker.growstuff.org">tracker</a> for some examples).
+        </p>
+        <h3>How can I help spread the word about Growstuff?</h3>
+        <p>
+        First and foremost, by telling your friends and inviting them to join and be part of it. We don't want to be spammy
+        about it, so we'll never ask to scrape your address book or automatically post Facebook updates or tweet on your
+        behalf. But we would really love it if you'd tell people in your own words.
+        </p>
+        <p>
+        Places to spread the word online: Facebook, Twitter, and other social media; your own blog or website; gardening or
+        sustainability forums you participate in.
+        </p>
+        <p>
+        Or offline: tell friends, family and neighbours; spread the word through your local community gardens, farmers
+        markets, or produce swaps; contact your local sustainability or Transition group; or any other place where you think
+        food-growers might be.
+        </p>
+        <h2>Terms of service, copyright, and other abuse</h2>
+        <h3>Where can I report a violation of the Terms of Service or Community Guidelines?</h3>
+        <p>
+        You can post in our <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Feedback &amp; Support
+        forum</a> or send email to <a href="mailto:support@growstuff.org">support@growstuff.org</a>.
+        </p>
+        <h3>What do you consider spam, and how can I report it?</h3>
+        <p>
+        There are many kinds of spam. The most obvious is repeated, unwanted commercial advertising. Many spammers also post
+        irrelevant, nonsensical, or low-value content to forums to try and get you to click on a link, or just to see what
+        they can get away with.
+        </p>
+        <p>Please report all these kinds of spam!</p>
+        <p>
+        For now, because we're so new, we don't have a good spam reporting mechanism set up. However, you can drop a link in
+        our <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Feedback &amp; Support forum</a> and we'll do
+        what we can.
+        </p>
+        <h3>Someone posted something I believe infringes copyright. Where can I report it?</h3>
+        <p>
+        If you are the copyright owner, you can submit a complaint by following the procedure outlined in our
+        <a href="http://growstuff.org/policy/copyright">Copyright Infringement Policy</a>.
+        </p>
+        <h3>Is Growstuff safe for kids to use?</h3>
+        <p>
+        As a website that's focused on growing food, we expect Growstuff to be a pretty safe and friendly environment.
+        However, some parts of the site (such as posts made by members) may contain mature concepts, coarse language, and the
+        like. If you don't want your kids exposed to these, we strongly suggest you supervise their use of Growstuff. We also
+        suggest you be careful about what personal information your kids share on Growstuff.
+        </p>
+        <h2>Further support</h2>
+        <h3>Where can I find a list of known issues with the site?</h3>
+        <p>In our GitHub <a href="https://github.com/Growstuff/growstuff/issues">Known Issues</a>.</p>
+        <h3>My question's not answered here. Where can I ask for further support?</h3>
+        <p>
+        On our <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Feedback &amp; Support forum</a>. Please
+        check the list of known issues before posting.
+        </p>
+        <h3>Where can I post feedback/kudos?</h3>
+        <p>
+        We love feedback! Drop us a note in our <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Feedback
+        &amp; Support forum</a>. (Is there an echo in here?)
+        </p>
+        <h3>How else can I contact you?</h3>
+        <p>
+        If you need help with something that hasn't been covered here, then you can send an email to
+        <a href="mailto:support@growstuff.org">support@growstuff.org</a>.
+        </p>
+        <p>Media/press enquiries can go to <a href="mailto:media@growstuff.org">media@growstuff.org</a>.</p>
+        <p>
+        If you have an enquiry about the site in general (eg. businessy stuff, or just want to get in touch with someone
+        official in a non-support-like way), you can send an email to
+        <a href="mailto:info@growstuff.org">info@growstuff.org</a>.
+        </p>
+    tos:
+      title: "Growstuff Terms of Service"
+      body_html: |
+        <p>
+        We hate legalese, so we've tried to make our Terms of Service readable. If you've got any questions, feel free to
+        <a href="mailto:support@growstuff.org">ask us</a>, and we'll do our best to answer.
+        </p>
+        <p>
+        The Growstuff maintainers ("we", "us", "our", "Growstuff") present the following terms and conditions, which govern
+        your use of the Growstuff website at <a href="http://www.growstuff.org">growstuff.org</a>, and all content, services
+        and products available at or through the website, which we collectively refer to as "the Service".
+        </p>
+        <p>
+        To use the Service, you need to agree to these Terms of Service, along with all other policies we publish (including,
+        but not limited to, Growstuff's Privacy Policy, API and Data Use Policy, Copyright Infringement Policy and Community
+        Guidelines). We refer to this as "the Agreement".
+        </p>
+        <p>
+        Please read this Agreement carefully before accessing or using the Service. By accessing or using any part of the
+        Service, you agree that you are bound by the terms and conditions of this Agreement. If you do not agree to all the
+        terms and conditions of this Agreement, then you may not access the Service.
+        </p>
+        <h2>1. Your Account</h2>
+        <p>
+        If you create an account on the Service, you are responsible for maintaining the security of your account. You are
+        responsible for all activities that occur under the account. You must take reasonable steps to guard the security of
+        your account. We will not be liable for anything that happens if your account security is breached as a result of your
+        failure to protect it.
+        </p>
+        <h2>2. Account Structure</h2>
+        <p>Growstuff has one type of account, and it is free.</p>
+        <p>
+        By using this Service, you agree to Growstuff's right to change, modify, or discontinue the features available to your
+        account at any time.
+        </p>
+        <h2>3. Content policy</h2>
+        <p>
+        Our content policy relates to any material you may post on the Growstuff website or through the Service, which we call
+        "Content". This includes profile information, posts and comments, information about your food growing activity, and
+        any other material, whether text, graphics, or any other format, which you may post on Growstuff itself or link to
+        from Growstuff.
+        </p>
+        <p>
+        All Content posted to the Service in any way is the responsibility of the owner. If Content is deemed illegal by any
+        law having jurisdiction over you, you agree that we may submit any necessary information to the proper authorities.
+        </p>
+        <p>
+        We claim no ownership or control over any Content that you post to the Service. You retain any intellectual property
+        rights to the Content you post, in accordance with applicable law. By posting Content, you represent that you have the
+        rights to reproduce that Content (and the right to allow us to serve such Content) without violation of the rights of
+        any third party. You agree that you will bear any liability resulting from the posting of any Content that you do not
+        have the rights to post.
+        </p>
+        <p>
+        You grant us a world-wide, royalty-free, and non-exclusive license to reproduce, modify, adapt and publish the
+        Content, solely for the purpose of displaying, distributing and promoting the contents of your account, through any
+        part of the Service including through our API, feeds, and external clients.
+        </p>
+        <p>
+        If you delete Content, we will use reasonable efforts to remove it from the Service, but you acknowledge that caching
+        or references to the Content may not be made immediately unavailable.
+        </p>
+        <h3>3.1 Structured Data</h3>
+        <p>
+        There is a subset of Content which we refer to as "Structured Data". Structured Data is Content which represents
+        simple facts, rather than creative effort. For instance, locations, dates, or the type and number of crops you have
+        planted are Structured Data. Structured Data may be created explicitly by you or implicitly by the Website in response
+        to your activity.
+        </p>
+        <p>
+        By using the Service, you acknowledge that Structured Data will be gathered and stored by Growstuff, and that any
+        Structured Data pertaining to you or your activity may be made available for use by third parties under a Creative
+        Commons Attribution ShareAlike (CC-BY-SA) license. You also agree that attribution for the Structured Data under the
+        terms of the Creative Commons license will be given to Growstuff.
+        </p>
+        <h3>3.2 Content Posted on Other Websites</h3>
+        <p>
+        We have not reviewed, and cannot review, all of the material, including computer software, made available through the
+        websites and webpages to which we, any user, or any provider of Content links, or that link to us. We do not have any
+        control over those websites and webpages, and are not responsible for their contents or their use. By linking to an
+        external website or webpage, we do not represent or imply that we endorse such website or webpage. You are responsible
+        for taking precautions as necessary to protect yourself and your computer systems from viruses, worms, Trojan horses,
+        and other harmful or destructive content. We disclaim any responsibility for any harm resulting from your use of
+        external websites and webpages, whether that link is provided by us or by any provider of Content on the Service.
+        </p>
+        <h3>3.3 How we deal with problem Content</h3>
+        <p>You agree that by using the Service, you may be exposed to Content you find offensive or objectionable.</p>
+        <p>
+        We do not pre-screen Content. However, you acknowledge that we have the right (but not the obligation), in our sole
+        discretion, to remove or refuse to remove any Content from the Service. If such Content is reported to us, it will be
+        our sole discretion as to what action, if any, should be taken.
+        </p>
+        <p>
+        If any Content you have submitted is reported to us as violating this Agreement, you agree that we may call upon you
+        to change, modify, or remove that Content, within a reasonable amount of time, as defined by us. If you do not follow
+        this directive, we may terminate your account.
+        </p>
+        <h2>4. Member Conduct</h2>
+        <p>You agree that you will not use the Service to:</p>
+        <ol>
+        <li>
+        Upload, post, or otherwise transmit any Content that is harmful, threatening, abusive, hateful, invasive to the
+        privacy and publicity rights of any person, or that violates any applicable local, state, national, or international
+        law, including any regulation having the force of law;
+        </li>
+        <li>
+        Upload, post, or otherwise transmit any Content that is spam, or contains unethical or unwanted commercial content
+        designed to drive traffic to third party sites or boost the search engine rankings of third party sites, or to
+        further unlawful acts (such as phishing) or mislead recipients as to the source of the material (such as spoofing);
+        </li>
+        <li>
+        Maliciously impersonate any real person or entity, including but not limited to a Growstuff staff member or
+        volunteer, or otherwise misrepresent your affiliation with any person or entity;
+        </li>
+        <li>
+        Upload, post or otherwise transmit any Content that you do not have a right to transmit under any law or under
+        contractual or fiduciary relationships (such as inside information, proprietary and confidential information learned
+        or disclosed as part of employment relationships or under nondisclosure agreements);
+        </li>
+        <li>
+        Upload, post or otherwise transmit any Content that infringes any patent, trademark, trade secret, copyright, or
+        other proprietary rights of any party;
+        </li>
+        <li>
+        Interfere with or disrupt the Service or servers or networks connected to the Service, or disobey any requirements,
+        procedures, policies or regulations of networks connected to the Service;
+        </li>
+        <li>
+        Solicit passwords or personal identifying information for unintended, commercial or unlawful purposes from other
+        users;
+        </li>
+        <li>
+        Upload, post or otherwise transmit any Content that contains viruses, worms, malware, Trojan horses or other harmful
+        or destructive content;
+        </li>
+        <li>Allow usage by others in such a way as to violate this Agreement;</li>
+        <li>Make excessive or otherwise harmful automated use of the Service;</li>
+        <li>
+        Access any other person's account, or exceed the scope of the Service that you have signed up for; for example,
+        accessing and using features you don't have a right to use.
+        </li>
+        </ol>
+        <p>
+        You agree that you will abide by the Community Guidelines, which are currently available at
+        <a href="http://www.growstuff.org/policy/community">http://www.growstuff.org/policy/community</a>.
+        </p>
+        <h2>5. Volunteers</h2>
+        <p>
+        We appreciate the service of volunteers in many aspects of Growstuff's operations. Volunteer activities include but
+        are not limited to developing software, providing technical support, writing documentation, performing site
+        administration duties, providing expert advice, research, technical writing, reviewing, categorizing, and other duties
+        as necessary to support the operation of the Service.
+        </p>
+        <p>All volunteers are expected to be of legal age, or volunteering with the consent of a legal parent or guardian.</p>
+        <p>
+        By volunteering, you agree that any work created as a result of your volunteer activities shall be licensed to
+        Growstuff on a perpetual, irrevocable, and world-wide basis, to the extent permitted by law. You agree that Growstuff
+        may determine the basis upon which your volunteer work shall be licensed to others, including under Open Source or
+        Creative Commons licenses that may permit the further alteration or dissemination of your work. If laws prevent such
+        licensing, you agree never to sue Growstuff for the use of said work.
+        </p>
+        <p>
+        By volunteering, you agree that you are providing your work with no expectation of pay or future consideration by
+        Growstuff. You also agree that you have exercised reasonable diligence to ensure that the work is correct, accurate, and
+        free of defect. You agree that you will not disclose or share any proprietary or confidential information you are
+        provided with in the course of your volunteer work.
+        </p>
+        <p>No user is required to volunteer, and users who do not volunteer will receive equal care, support, and attention.</p>
+        <h2>6. Privacy Policy</h2>
+        <p>
+        Your use of the Website is governed by the Privacy Policy, currently located at
+        <a href="http://www.growstuff.org/policy/privacy">http://www.growstuff.org/policy/privacy</a>.
+        </p>
+        <h2>7. API and Data Use Policy</h2>
+        <p>
+        Your use of our API and/or data is governed by our API and Data Use Policy, currently located at
+        <a href="http://www.growstuff.org/policy/api">http://www.growstuff.org/policy/api</a>.
+        </p>
+        <h2>8. Copyright Infringement</h2>
+        <p>
+        If you believe that material located on the Website violates your copyright, you may notify us in accordance with our
+        Copyright Infringement Policy, currently located at
+        <a href="http://www.growstuff.org/policy/copyright">http://www.growstuff.org/policy/copyright</a>.
+        </p>
+        <h2>9. Resale of Services</h2>
+        <p>
+        You agree not to reproduce, duplicate, copy, sell, resell, or exploit any portion of the Service, use of the Service,
+        or access to the Service, except as is permitted under our API and Data Use Policy, open source license pertaining to
+        the Service's source code, or Creative Commons licenses pertaining to Content or other material posted on the Service.
+        </p>
+        <h2>10. Indemnity</h2>
+        <p>
+        You agree to indemnify and hold harmless Growstuff, its contractors, its licensors, and their respective directors,
+        officers, employees and agents from and against any and all claims and expenses, including attorneys' fees, arising
+        out of your use of the Service, including but not limited to out of your violation of this Agreement.
+        </p>
+        <h2>11. Termination</h2>
+        <p>
+        Growstuff may terminate your account or otherwise restrict your use of the Service at any time if we believe you have
+        violated this Agreement. If this occurs, you will be notified by email, and we will tell you which part of the
+        Agreement we believe you violated. We may, at our discretion, choose to issue a warning rather than terminate your
+        account, in which case you will also be notified by email and told which part of the Agreement we believe you
+        violated. We will also provide you with a contact address where you may appeal our decision; however, we do not
+        guarantee that we will change our minds.
+        </p>
+        <p>
+        You agree that any termination of your access to the Service may involve removing or discarding any content you have
+        provided.
+        </p>
+        <p>We may, at our sole discretion, discontinue providing the Service at any time, with or without notice.</p>
+        <p>
+        If you wish to terminate this Agreement, you may delete your account and cease using the Service. You agree that, upon
+        deletion of your account, we may, but are not required to, remove any Content you have provided, at any time past the
+        deletion of your account.
+        </p>
+        <p>
+        All provisions of this Agreement which by their nature should survive termination shall survive termination,
+        including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.
+        </p>
+        <h2>12. Changes</h2>
+        <p>
+        We reserve the right, at our sole discretion, to modify or replace any part of this Agreement at any time. A history
+        of changes to this Agreement is available via our public source code repository at
+        <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a>. We will take reasonable steps
+        to notify you of any substantial changes to this Agreement; however, it is your responsibility to check this Agreement
+        periodically for changes. Your continued use of the Service following the posting of any changes to this Agreement
+        constitutes acceptance of those changes.
+        </p>
+        <p>
+        We may also, in the future, offer new features or services through the Service. Such new features and/or services
+        shall be subject to the terms and conditions of this Agreement.
+        </p>
+        <h2>13. Disclaimer of Warranties</h2>
+        <p>
+        This Service is provided "as is". The Growstuff Maintainers and its suppliers and licensors hereby disclaim all
+        warranties of any kind, express or implied, including, without limitation, the warranties of merchantability, fitness
+        for a particular purpose and non-infringement. Neither the Growstuff Maintainers nor its suppliers and licensors
+        make any warranty that the Service will be error free or that access to the Service will be continuous or
+        uninterrupted. You agree that any interruptions to the service will not qualify for reimbursement or compensation. You
+        understand that you download from, or otherwise obtain content or services through, the Service at your own discretion
+        and risk.
+        </p>
+        <p>
+        No advice or information, whether oral or written, obtained by you in any fashion shall create any warranty not
+        expressly stated in this Agreement.
+        </p>
+        <h2>14. Limitation of Liability</h2>
+        <p>
+        You expressly understand and agree that in no event will the Growstuff Maintainers or its suppliers or licensors be
+        liable with respect to any subject matter of this agreement under any contract, negligence, strict liability or other
+        legal or equitable theory for: (i) any special, incidental or consequential damages; (ii) the cost of procurement or
+        substitute products or services; (iii) interruption of use or loss or corruption of data; (iv) any statements or
+        conduct of any third party on the service; or (v) any unauthorized access to or alterations of your Content. We shall
+        have no liability for any failure or delay due to matters beyond our reasonable control.
+        </p>
+        <p>The foregoing shall not apply to the extent prohibited by applicable law.</p>
+        <h2>15. General Information</h2>
+        <p>
+        This Agreement constitutes the entire agreement between us and you concerning your use of the Service. This Agreement
+        may only be modified by a written amendment signed by an authorized representative of the Growstuff Maintainers, or by
+        the posting of a revised version to this location. Except to the extent that applicable law (if any) provides
+        otherwise, any dispute arising between you and the Growstuff Maintainers regarding these Terms of Service and/or your
+        use or access of the Service will be governed by the laws of the state of Victoria and the federal laws of Australia,
+        excluding any conflict of law provisions. You agree to submit to the jurisdiction of the state and federal courts
+        located in Melbourne, Australia for any disputes arising out of or relating to your use of the Service or your
+        acceptance of this Agreement.
+        </p>
+        <p>
+        If any part of this Agreement is held invalid or unenforceable, that part will be construed to reflect the parties'
+        original intent, and the remaining portions will remain in full force and effect. A waiver by either party of any term
+        or condition of this Agreement or any breach thereof, in any one instance, will not waive such term or condition or
+        any subsequent breach thereof.
+        </p>
+        <p>The section titles in this Agreement are for convenience only and have no legal or contractual effect.</p>
+        <h2>16. Reporting Violations</h2>
+        <p>
+        To report a violation of this agreement, please email
+        <a href="mailto:support@growstuff.org">support@growstuff.org</a>.
+        </p>
+        <h2>17. Creative Commons</h2>
+        <p>
+        This Terms of Service document is based on one developed by Automattic
+        (<a href="http://wordpress.com/tos/">http://wordpress.com/tos/</a>) with amendments by Dreamwidth
+        (<a href="http://www.dreamwidth.org/legal/tos">http://www.dreamwidth.org/legal/tos</a>) and is licensed under a
+        <a href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a>.
+        </p>
     about:
       title: About
       description_html: For more information about Growstuff, see our %{github_link}.
@@ -1982,6 +3344,35 @@ en:
     update:
       updated: Photo updated.
   photos:
+    by_html: "by %{photographer}"
+    description:
+      activity_html: "took a photo %{photo}"
+    edit:
+      title: Edit Photo
+      save: Save
+    edit_modal:
+      title: Edit photo
+    fields:
+      title_placeholder: title
+    hero:
+      taken_on: "Taken on %{date}"
+    index:
+      photos_of: "Photos of %{subject}"
+      recent: "Most recent photos added to %{site}."
+      photos: Photos
+    new:
+      title: New Photo
+      sources_html: "Choose a photo for %{item} from Flickr, or contribute unique crops to %{inaturalist} or %{plantnet} via the app."
+      reconnect_heading: Please reconnect your Flickr account
+      token_expired: The token has expired or been revoked.
+      reconnect: Reconnect Flickr
+      connected_html: "Connected to Flickr as %{account}."
+      select_photo: Please select a photo from your recent uploads.
+      album: Choose a photo album
+      tag: or search by tag
+      search: Search
+      connect_required: You must connect your account to Flickr to add photos.
+      connect: Connect to Flickr
     actions:
       delete: Delete photo from Growstuff
       delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on Flickr.
@@ -2520,10 +3911,76 @@ en:
       submit: Transplant
       title: Transplant %{crop}
   posts:
+    draft: Draft
+    description:
+      activity_html: "wrote a post about %{post}"
+    edit:
+      title: Edit post
+    form:
+      draft_visibility: Only you can see this draft until you publish it.
+      errors:
+        one: "%{count} error prohibited this post from being saved:"
+        other: "%{count} errors prohibited this post from being saved:"
+      forum_body: What's up?
+      garden_body: What's going on in your food garden?
+      editor_instructions_html: Use the buttons above to format your text. Type <strong>@</strong> to link to a crop, a member or one of your plantings. For anything else, the <strong>Markdown</strong> tab shows the raw text.
+      forum_notice_html: "This post will be posted in the forum %{forum}"
+      photos: Photos
+      photo_instructions_html: Use <strong>+ Flickr photo</strong> in the toolbar to put a photo in your post. Its card photo and photos appear here when you next open the draft.
+      card_photo: Card photo
+      card_photo_help: Shown on the posts list, your page and shared links.
+      card_photo_empty: Add a photo, then choose which one stands for this post.
+      photos_in_post: Photos in this post
+      pick_from_flickr: pick from flickr
+      flickr_photos: These are photos from your Flickr account.
+      autosave_help: Saved automatically as you work. Close this page and pick it up later from your posts.
+      discard_draft: Discard draft
+      confirm_discard: Are you sure?
+      close: Close
+      save_draft: Save draft
+      publish_post: Publish post
+      save_changes: Save changes
+    new:
+      forum_title: "Post in %{forum}"
+    preview:
+      photo_alt: A photo related to this post
+      author_html: "by %{author},"
+      read_more: Read more
+    single:
+      attribution_html: "Posted by %{author} on %{date}"
+      forum_attribution_html: "Posted by %{author} in %{forum} on %{date}"
+      deleted_member: Member Deleted
+      edited_at: "and edited at %{date}"
+      permalink: Permalink
+    summary:
+      subject: Subject
+      posted_by: Posted by
+      recent_activity: Most recent activity
+      comments: Comments
+    show:
+      visitor_intro_html: "%{author} is using %{site} to discuss %{subject} with a community of food gardeners worldwide. We have advice on growing %{crops}, and a community from all around the world."
+      different_crops: hundreds of different crops
+      join_html: "%{sign_in} or %{sign_up} to start using %{site} to track what you're planting and harvesting."
+      sign_in: Sign in
+      sign_up: sign up
+      comment: Comment
+      crops_mentioned: Crops mentioned in this post
+      feed_title: "Recent comments on %{subject} (%{site})"
+      comment_title: "Comment by %{author} on %{date}"
+      comment_description_html: "Comment on %{post}"
     created: Post was successfully created.
     deleted: Post was deleted.
     draft_saved: Draft was saved.
     index:
+      posts: Posts
+      subscribe_author_html: "Subscribe to %{feed}."
+      author_feed: "%{author}'s posts RSS feed"
+      subscribe_html: "Subscribe to the %{site} %{posts} or %{comments}."
+      posts_feed: posts RSS feed
+      comments_feed: comments RSS feed
+      feed_title: "Recent posts from %{author} (%{site})"
+      all_members: all members
+      item_title: "%{subject} by %{author}"
       title:
         author_posts: "%{author} posts"
         default: Everyone's posts

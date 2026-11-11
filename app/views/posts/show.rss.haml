@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 %rss{ version: 2.0 }
   %channel
-    %title Recent comments on #{@post.subject} (#{ENV['GROWSTUFF_SITE_NAME']})
+    %title= t('.feed_title', subject: @post.subject, site: ENV.fetch('GROWSTUFF_SITE_NAME', nil))
     %link= post_url(@post)
     - @post.comments.includes(:author).limit(50).each do |comment|
       %item
-        %title Comment by #{comment.author.login_name} on #{comment.created_at}
+        %title= t('.comment_title', author: comment.author.login_name, date: l(comment.created_at, format: :long))
         %description
 
           :escaped_markdown
             <p>
-            Comment on
-            #{ link_to @post.subject, post_url(@post) }
+            #{ t('.comment_description_html', post: link_to(@post.subject, post_url(@post))) }
             </p>
 
           :escaped_markdown

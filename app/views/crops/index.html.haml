@@ -1,15 +1,15 @@
 - content_for :title, t('.title')
-- content_for :meta_description, "Browse and search for crops."
+- content_for :meta_description, t('.meta_description')
 
 - content_for :buttonbar do
   - if can? :wrangle, Crop
-    = link_to 'Wrangle Crops', wrangle_crops_path, class: 'btn btn-secondary'
-  = link_to 'Data Improvement', data_improvement_crops_path, class: 'btn btn-info'
+    = link_to t('.wrangle'), wrangle_crops_path, class: 'btn btn-secondary'
+  = link_to t('crops.data_improvement.title'), data_improvement_crops_path, class: 'btn btn-info'
   - if can? :create, Crop
-    = link_to 'Add New Crop', new_crop_path, class: 'btn btn-primary'
+    = link_to t('.add_crop'), new_crop_path, class: 'btn btn-primary'
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item.active= link_to 'Crops', crops_path
+  %li.breadcrumb-item.active= link_to t('.crops'), crops_path
 
 %section.crops
   %h2= t('.title')
@@ -21,7 +21,7 @@
   = will_paginate @crops
 
 %ul.list-inline
-  %li The data on this page is available in the following formats:
+  %li= t('.formats')
   %li= link_to "CSV", crops_path(format: 'csv')
   %li= link_to "JSON", crops_path(format: 'json')
   %li= link_to "RSS", crops_path(format: 'rss')

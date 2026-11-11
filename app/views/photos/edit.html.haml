@@ -1,7 +1,7 @@
-- content_for :title, 'Edit Photo'
+- content_for :title, t('.title')
 .row
   .col-md-2= render 'photos/thumbnail', photo: @photo
   .col-md-10
     = bootstrap_form_for(@photo) do |f|
       = render 'photos/fields', f: f
-      = f.primary 'Save'
+      = f.primary t('.save')

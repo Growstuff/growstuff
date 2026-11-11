@@ -4,7 +4,7 @@
 - suggestions_current = current_section?(suggestions_path)
 - crops_current = !admin_current && current_section?(crops_path)
 - community_current = !my_garden_current && !my_pages_current && current_section?(places_path, gardens_path, harvests_path, seeds_path, plantings_path, members_path, community_gardens_path, posts_path, forums_path, releases_path)
-#navbarSupportedContent.offcanvas-lg.offcanvas-end{ tabindex: -1, 'aria-label' => 'Menu' }
+#navbarSupportedContent.offcanvas-lg.offcanvas-end{ tabindex: -1, 'aria-label' => t('.label') }
   -# The header and the section headings are only for the drawer a phone or tablet gets.
   .offcanvas-header.d-lg-none
     - if member_signed_in?
