@@ -304,6 +304,54 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    data_improvement:
+      title: 数据完善
+      missing: "缺少%{field}的作物"
+      tabs:
+        photos: 照片
+        descriptions: 描述
+        youtube: YouTube视频
+        alternate_names: 别名
+        wikidata: 维基数据标识符
+        public_food_key: Public Food Key
+        row_spacing: 行距
+        sun_requirements: 日照需求
+        height: 高度
+    hierarchy:
+      title: 作物分类层级
+      intro_html: "本页显示我们%{database}中所有作物的层级树。"
+      database: 作物数据库
+    history:
+      title: "%{crop}的编辑历史"
+      back: "返回%{crop}"
+      empty: 此作物暂无编辑记录。
+      time_ago: "%{time}前"
+      made_by_html: "由%{member}编辑"
+      events:
+        create: 创建
+        update: 更新
+        destroy: 删除
+    search_page:
+      title: 作物搜索
+      search: 搜索
+      matching: '与“%{term}”匹配的作物'
+      found:
+        one: "共找到%{count}项结果"
+        other: "共找到%{count}项结果"
+      label: 搜索作物：
+      placeholder: 搜索作物
+      crop: 作物
+      no_results: 未找到结果
+      no_matches: '抱歉，未找到与“%{term}”匹配的作物。'
+      browse: 浏览我们的作物数据库
+      add: 添加新作物
+      try_adding_html: "请尝试%{browse}或%{add}。"
+      try_browsing_html: "请尝试%{browse}。"
+    show:
+      meta_description: "了解如何种植%{crop}。"
+      last_edited_by_html: "最后由%{editor}于%{date}编辑。"
+      last_edited: "最后编辑于%{date}。"
+      view_history: 查看历史
     growing_fact:
       median_of_packets: 会员种子包中位数
       members_packets: "会员种子包：%{median}"
@@ -350,6 +398,12 @@ zh:
     index:
       subtitle: "%{crops_size} 总计"
       title: 浏览农作物
+      meta_description: 浏览和搜索作物。
+      wrangle: 管理作物
+      add_crop: 添加新作物
+      crops: 作物
+      formats: 本页数据提供以下格式：
+      feed_title: "最近添加的作物（%{site}）"
     join_banner:
       heading: Growstuff 是一个免费的、由社区运营的网站，面向种植食物的人们。
       prompt: 注册即可记录您自己的 %{crops}。
@@ -371,6 +425,7 @@ zh:
       title: 营养数据
     requested:
       link: 您有 %{number_crops} 作物等待批准
+      heading: 您申请添加的作物
       subtitle: 待批准
       title: 要求的作物
     scientific_name_modal:

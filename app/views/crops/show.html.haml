@@ -7,7 +7,7 @@
   - if @crop.description.present?
     = @crop.description
   - else
-    = "Learn how to grow #{@crop.name}."
+    = t('.meta_description', crop: @crop.name)
 - content_for :opengraph do
   = tag("meta", property: "og:image", content: crop_image_path(@crop))
   = tag("meta", property: "og:title", content: @crop.name)
@@ -19,7 +19,7 @@
   = javascript_include_tag "charts"
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Crops', crops_path
+  %li.breadcrumb-item= link_to t('crops.index.crops'), crops_path
   - if @crop.parent
     %li.breadcrumb-item.active= link_to @crop.parent.name.capitalize, @crop.parent
   %li.breadcrumb-item.active= link_to @crop.name.capitalize, @crop
@@ -34,12 +34,13 @@
       .record-panel.crop-detail
         .jumbotron
           %p.text-end.text-muted.small.crop-last-edit
-            Last edited
+            - edited_date = l(@last_edited_at.to_date, format: :long)
             - if @last_editor
-              by
-              = link_to @last_editor.login_name, @last_editor
-            on #{@last_edited_at.strftime('%-d %b %Y')}.
-            = link_to 'View history', history_crop_path(@crop)
+              - editor_link = link_to(@last_editor.login_name, @last_editor)
+              = t('.last_edited_by_html', editor: editor_link, date: edited_date)
+            - else
+              = t('.last_edited', date: edited_date)
+            = link_to t('.view_history'), history_crop_path(@crop)
           .d-flex.justify-content-between.align-items-start
             .crop-identity= render 'crops/info'
             = render 'wrangle', crop: @crop

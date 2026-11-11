@@ -304,6 +304,54 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    data_improvement:
+      title: Datenverbesserung
+      missing: "Nutzpflanzen ohne %{field}"
+      tabs:
+        photos: Fotos
+        descriptions: Beschreibungen
+        youtube: YouTube-Videos
+        alternate_names: Weitere Namen
+        wikidata: Wikidata-ID
+        public_food_key: Public Food Key
+        row_spacing: Reihenabstand
+        sun_requirements: Lichtbedarf
+        height: Höhe
+    hierarchy:
+      title: Nutzpflanzenhierarchie
+      intro_html: "Diese Seite zeigt den Hierarchiebaum aller Nutzpflanzen in unserer %{database}."
+      database: Nutzpflanzendatenbank
+    history:
+      title: "Bearbeitungsverlauf von %{crop}"
+      back: "Zurück zu %{crop}"
+      empty: Für diese Nutzpflanze sind keine Änderungen verzeichnet.
+      time_ago: "vor %{time}"
+      made_by_html: "Bearbeitet von %{member}"
+      events:
+        create: Erstellt
+        update: Aktualisiert
+        destroy: Gelöscht
+    search_page:
+      title: Nutzpflanzensuche
+      search: Suchen
+      matching: 'Nutzpflanzen passend zu „%{term}“'
+      found:
+        one: "%{count} Ergebnis insgesamt"
+        other: "%{count} Ergebnisse insgesamt"
+      label: "Nutzpflanzen suchen:"
+      placeholder: Nutzpflanzen suchen
+      crop: Nutzpflanze
+      no_results: Keine Ergebnisse gefunden
+      no_matches: 'Leider haben wir keine Nutzpflanzen gefunden, die zu deiner Suche nach „%{term}“ passen.'
+      browse: unsere Nutzpflanzendatenbank zu durchsuchen
+      add: eine neue Nutzpflanze hinzuzufügen
+      try_adding_html: "Versuche stattdessen, %{browse} oder %{add}."
+      try_browsing_html: "Versuche stattdessen, %{browse}."
+    show:
+      meta_description: "Erfahre, wie du %{crop} anbaust."
+      last_edited_by_html: "Zuletzt bearbeitet von %{editor} am %{date}."
+      last_edited: "Zuletzt bearbeitet am %{date}."
+      view_history: Verlauf anzeigen
     growing_fact:
       median_of_packets: Median der Samenpäckchen der Mitglieder
       members_packets: "Samenpäckchen der Mitglieder: %{median}"
@@ -350,6 +398,12 @@ de:
     index:
       subtitle: "%{crops_size} insgesamt"
       title: Durchsuchen Sie Pflanzen
+      meta_description: Nutzpflanzen durchsuchen und finden.
+      wrangle: Nutzpflanzen verwalten
+      add_crop: Neue Nutzpflanze hinzufügen
+      crops: Nutzpflanzen
+      formats: "Die Daten auf dieser Seite sind in folgenden Formaten verfügbar:"
+      feed_title: "Kürzlich hinzugefügte Nutzpflanzen (%{site})"
     join_banner:
       heading: Growstuff ist eine kostenlose, von der Community betriebene Website für Menschen, die Lebensmittel anbauen.
       prompt: Melden Sie sich an, um Ihre eigenen %{crops} aufzuzeichnen.
@@ -371,6 +425,7 @@ de:
       title: Nährwertdaten
     requested:
       link: Sie haben %{number_crops} Kulturen, die auf die Genehmigung warten
+      heading: Von dir vorgeschlagene Nutzpflanzen
       subtitle: Genehmigung ausstehend
       title: Gewünschte Ernten
     scientific_name_modal:
