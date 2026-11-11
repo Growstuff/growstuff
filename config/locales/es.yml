@@ -1647,6 +1647,96 @@ es:
     harvesting_now: cosechando ahora
     weeks_until_finished: "%{number} semanas"
     weeks_until_harvest: "%{number} semanas hasta la cosecha"
+  devise_views:
+    resend_confirmation: Reenviar instrucciones de confirmación
+    confirmation_help: Introduce tu nombre de usuario o tu dirección de correo electrónico para recibir de nuevo el correo de confirmación.
+    login: Nombre de usuario o correo electrónico
+    change_password: Cambiar tu contraseña
+    new_password: Nueva contraseña
+    confirm_password: Confirmar nueva contraseña
+    current_password: Contraseña actual
+    change_my_password: Cambiar mi contraseña
+    forgot_password: ¿Has olvidado tu contraseña?
+    password_help: Introduce tu dirección de correo electrónico y te enviaremos un enlace para elegir una nueva contraseña.
+    email: Correo electrónico
+    send_reset: Enviarme instrucciones para restablecer la contraseña
+    sign_in: Iniciar sesión
+    password: Contraseña
+    remember_me: Mantener la sesión iniciada
+    resend_unlock: Reenviar instrucciones de desbloqueo
+    join_free: Registrarse gratis
+    missing_confirmation: ¿No has recibido las instrucciones de confirmación?
+    missing_unlock: ¿No has recibido las instrucciones de desbloqueo?
+    continue_with: Continuar con %{provider}
+    delete_help: Elimina tu cuenta de %{site_name}.
+    delete_password: Contraseña necesaria para eliminar la cuenta
+    delete: Eliminar
+    save: Guardar
+    reconfirm_email: Si cambias tu dirección de correo electrónico, tendrás que confirmarla de nuevo.
+    show_email: Mostrar el correo electrónico públicamente en tu perfil.
+    notification_email: Recibir por correo copias de las notificaciones de la bandeja de entrada (por ejemplo, mensajes privados).
+    planting_reminders: Recibir recordatorios periódicos para registrar tus siembras y cosechas.
+    harvest_reminders: Recibir recordatorios periódicos de las próximas cosechas.
+    join_site: Unirse a %{site_name}
+    signup_help: Crea una cuenta en %{site_name} para registrar tu huerto y conectar con otras personas que cultivan en tu zona.
+    captcha_help: Si tienes problemas de accesibilidad con el captcha, ponte en contacto con nosotros mediante los enlaces del pie de página y te ayudaremos.
+    login_name: Nombre de usuario
+    login_help: Este es el nombre que se mostrará en el sitio web.
+    email_help: Usaremos esta dirección para contactar contigo (¡nunca enviamos spam!).
+    agreement_html: Acepto los %{link}
+    terms: Términos de servicio
+    sign_up: Registrarse
+    greeting: Hola %{name},
+    confirmation_body: 'Se ha creado tu cuenta en %{site_name}. Solo tienes que confirmar tu dirección de correo electrónico mediante el siguiente enlace:'
+    confirm_account: Confirmar mi cuenta
+    confirmed_help: Una vez confirmada tu cuenta, podrás iniciar sesión con tu nombre de usuario (%{login}) o tu correo electrónico (%{email}) y la contraseña que elegiste al registrarte. Recuerda que el nombre de usuario y la contraseña distinguen entre mayúsculas y minúsculas.
+    welcome_html: Nos alegra que formes parte de la comunidad y esperamos que disfrutes de %{site_name}. Explora el sitio, %{plant_link} y visita los %{forums_link} si tienes preguntas o comentarios.
+    plant_things: planta algo
+    forums: foros
+    guidelines_help_html: Te agradeceríamos que leyeras nuestras %{link} y las respetaras. Queremos que %{site_name} sea un entorno acogedor y amable para todo el mundo, y esperamos que nos ayudes a mantenerlo así.
+    guidelines: Normas de la comunidad
+    looking_forward: ¡Esperamos verte pronto!
+    team: El equipo de %{site_name}.
+    reset_body: 'Alguien ha solicitado un enlace para restablecer tu contraseña en %{site_name}. Si has sido tú, puedes hacerlo mediante este enlace:'
+    reset_ignore: Si no has sido tú, puede que alguien se haya equivocado o haya estado haciendo pruebas. Puedes ignorar este correo con tranquilidad y tu contraseña no cambiará.
+    see_you: Hasta pronto,
+    unlock_body: 'Tu cuenta de %{site_name} se ha bloqueado debido a un número excesivo de intentos fallidos de inicio de sesión. Lo hacemos por si alguien está intentando acceder a tu cuenta, aunque también puede que hayas olvidado tu contraseña. En cualquier caso, utiliza el siguiente enlace para desbloquearla:'
+    unlock_account: Desbloquear mi cuenta
+    unlock_help_html: Si has olvidado tu contraseña, puedes %{link} después de desbloquear tu cuenta.
+    reset_password: restablecer tu contraseña
+    settings: Configuración de %{name}
+    my_profile: Mi perfil
+    profile: Perfil
+    apps: Aplicaciones
+    delete_account: Eliminar cuenta
+    location: Tu ubicación
+    not_set: Sin definir
+    change: Cambiar
+    remove: Quitar
+    location_help: Elige uno de los lugares que encontremos para aparecer en el lugar correcto del mapa. Basta con indicar una región.
+    bio_placeholder: Cultivo un huerto y me interesan A, B y C
+    website: Sitio web
+    handle_placeholder: tu_usuario
+    other_url: Otra URL
+    linked_accounts_help: Las cuentas vinculadas son de solo lectura aquí. Puedes gestionarlas en la pestaña Aplicaciones.
+    language: Idioma
+    profile_picture: Foto de perfil
+    avatar_help_html: Para cambiar tu foto de perfil, visita %{link}.
+    provider_logo: Logotipo de %{provider}
+    connected_html: Estás conectado a %{provider} como %{account}
+    disconnect: Desconectar
+    disconnect_confirm: ¿Seguro que quieres eliminar esta conexión?
+    connect_provider: Conectar con %{provider}
+    mastodon_accounts: 'Cuentas de Mastodon conectadas:'
+    mastodon_help: Conecta tu cuenta de Mastodon para iniciar sesión con ella y mostrarla en tu perfil.
+    mastodon_address: Tu dirección de Mastodon
+    connect_another: Conectar otra cuenta
+    api_token: Tu token de API es
+    regenerate: Regenerar
+    regenerate_confirm: ¿Seguro? Tu token anterior dejará de funcionar inmediatamente.
+    delete_token: Eliminar token de API
+    delete_token_confirm: ¿Seguro que quieres eliminar tu token de API?
+    generate_token: Generar token de API
   layouts:
     application:
       breadcrumbs: Ruta de navegación

@@ -1,7 +1,7 @@
-- content_for :title, "Settings for #{current_member.login_name}"
+- content_for :title, t('devise_views.settings', name: current_member.login_name)
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'My Profile', member_path(current_member)
+  %li.breadcrumb-item= link_to t('devise_views.my_profile'), member_path(current_member)
 
 -# The location link opens a dialog, which is a React island.
 - content_for :scripts do
@@ -9,20 +9,20 @@
 
 %h1
   = member_icon
-  Settings for #{current_member.login_name}
+  = t('devise_views.settings', name: current_member.login_name)
 
 .card
   %ul#myTab.nav.nav-tabs{role: "tablist"}
     %li.nav-item
-      %a#profile-tab.nav-link.active{"aria-controls" => "profile", "aria-selected" => "true", "data-bs-toggle" => "tab", href: "#profile", role: "tab"} Profile
+      %a#profile-tab.nav-link.active{"aria-controls" => "profile", "aria-selected" => "true", "data-bs-toggle" => "tab", href: "#profile", role: "tab"}= t('devise_views.profile')
     %li.nav-item
-      %a#email-tab.nav-link{"aria-controls" => "email", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#email", role: "tab"} Email
+      %a#email-tab.nav-link{"aria-controls" => "email", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#email", role: "tab"}= t('devise_views.email')
     %li.nav-item
-      %a#apps-tab.nav-link{"aria-controls" => "apps", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#apps", role: "tab"} Apps
+      %a#apps-tab.nav-link{"aria-controls" => "apps", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#apps", role: "tab"}= t('devise_views.apps')
     %li.nav-item
-      %a#password-tab.nav-link{"aria-controls" => "password", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#password", role: "tab"} Password
+      %a#password-tab.nav-link{"aria-controls" => "password", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#password", role: "tab"}= t('devise_views.password')
     %li.nav-item
-      %a#delete-tab.nav-link.text-danger{"aria-controls" => "delete", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#delete", role: "tab"} Delete Account
+      %a#delete-tab.nav-link.text-danger{"aria-controls" => "delete", "aria-selected" => "false", "data-bs-toggle" => "tab", href: "#delete", role: "tab"}= t('devise_views.delete_account')
   .card-body
     #myTabContent.tab-content
       #profile.tab-pane.fade.show.active{"aria-labelledby" => "profile-tab", role: "tabpanel"}
