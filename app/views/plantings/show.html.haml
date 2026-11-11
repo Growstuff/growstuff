@@ -7,7 +7,7 @@
 = render 'plantings/meta', planting: @planting, title: planting_title
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to t('plantings.localization.plantings'), plantings_path
+  %li.breadcrumb-item= link_to t('.plantings'), plantings_path
   %li.breadcrumb-item= link_to @planting.owner, member_plantings_path(@planting.owner)
   %li.breadcrumb-item.active{'aria-current' => 'page'}= @planting.display_name
 
@@ -30,7 +30,7 @@
         -# the placeholder says nothing worth the space.
         - if @planting.default_photo
           = link_to planting_photos_path(@planting), class: 'record-hero-photo' do
-            = image_tag planting_image_path(@planting), alt: t('plantings.localization.grower_photo', planting: @planting.display_name, owner: @planting.owner)
+            = image_tag planting_image_path(@planting), alt: t('.grower_photo', planting: @planting.display_name, owner: @planting.owner)
         .jumbotron
           .d-flex.justify-content-between.align-items-start
             -# The grower leads the hero. Somebody grew this; their face belongs
@@ -44,9 +44,9 @@
                     %strong= t('plantings.show.heading', crop: @planting.display_name.titleize)
                   = render 'likes/likes', object: @planting
                 %p.lead.planting-subtitle
-                  = t('plantings.localization.grown_by_html', owner: content_tag(:strong, link_to(@planting.owner, @planting.owner), class: 'record-grower-name'))
+                  = t('.grown_by_html', owner: content_tag(:strong, link_to(@planting.owner, @planting.owner), class: 'record-grower-name'))
                   %span.text-muted
-                    = t('plantings.localization.in_garden_html', garden: link_to(@planting.garden, @planting.garden))
+                    = t('.in_garden_html', garden: link_to(@planting.garden, @planting.garden))
                     -# Where it grows is one of the first things worth knowing
                     -# about a planting: it decides the seasons and harvest times.
                     - if @planting.garden.location.present?
@@ -115,11 +115,11 @@
             - if can?(:edit, @planting) && can?(:create, Job)
               = link_to new_job_path(garden_id: @planting.garden_id, planting_id: @planting.id), class: 'btn btn-sm section-add' do
                 = icon 'fas', 'plus'
-                = t('plantings.localization.add')
+                = t('.add')
           - if @cultivate_soil_link
             .alert.alert-info
-              = t('plantings.localization.cultivate_prompt')
-              = link_to t('plantings.localization.cultivate'), @cultivate_soil_link, class: 'btn btn-secondary btn-sm ms-2'
+              = t('.cultivate_prompt')
+              = link_to t('.cultivate'), @cultivate_soil_link, class: 'btn btn-secondary btn-sm ms-2'
           - if @current_jobs&.size&.positive?
             .index-cards
               - @current_jobs.each do |job|

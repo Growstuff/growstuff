@@ -7,9 +7,9 @@
       = render 'plantings/badges', planting: planting
     .col-12.col-md-6.progress-row--bar
       - if planting.planted_at.blank?
-        %small= t('plantings.localization.set_date')
+        %small= t('.set_date')
       - elsif planting.percentage_grown.blank?
-        %small= t('plantings.localization.insufficient_data', crop: planting.crop)
+        %small= t('.insufficient_data', crop: planting.crop)
       - else
         = render 'plantings/progress', planting: planting
     .col-12.col-md-2= render 'plantings/quick_actions', planting: planting
