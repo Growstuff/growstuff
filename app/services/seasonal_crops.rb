@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # The crops that could be grown from a sowing in each season at the member's home, from EcoCrop's temperatures. A crop is
-# left out if, in any month of its cycle, the nights usually fall below the lowest temperature it survives or the days
-# rise above the highest. Of those that survive:
+# left out if, in any month of its cycle, the nights usually fall below the lowest temperature it grows at or reach the
+# temperature that kills it, or the days rise above the highest it grows at. Of those that survive:
 #   optimal   the days' usual high stays in its best range for its shortest cycle
 #   tolerable the rest, which survive its longest cycle without being at their best
 # A crop with no record of its own uses its parent's, and one with no cycle length is left out. The most planted come
@@ -11,9 +11,10 @@ class SeasonalCrops
   LIMIT = 8
   DAYS_IN_MONTH = 30.4
 
-  # What is needed of a crop: its best range (best_min, best_max), the temperatures it survives (kill_min, kill_max, either
-  # can be nil) and its shortest and longest cycle in days (quick_days, slow_days).
-  Candidate = Struct.new(:crop, :best_min, :best_max, :kill_min, :kill_max, :quick_days, :slow_days)
+  # What is needed of a crop: its best range (best_min, best_max), the temperatures it grows at (kill_min, kill_max, either
+  # can be nil), the temperature that kills it (dies_at, can be nil) and its shortest and longest cycle in days (quick_days,
+  # slow_days).
+  Candidate = Struct.new(:crop, :best_min, :best_max, :kill_min, :kill_max, :dies_at, :quick_days, :slow_days)
 
   # { season name => { optimal: crops, tolerable: crops } } for each season of a SeasonalClimate that has an average.
   def self.for(climate, limit: LIMIT)
@@ -46,7 +47,8 @@ class SeasonalCrops
       .joins('INNER JOIN ecocrop_data ON ecocrop_data.id = COALESCE(crops.ecocrop_data_id, parents.ecocrop_data_id)')
       .where('ecocrop_data.gmin IS NOT NULL AND ecocrop_data.topmn IS NOT NULL AND ecocrop_data.topmx IS NOT NULL')
       .select('crops.*, ecocrop_data.topmn AS best_min, ecocrop_data.topmx AS best_max, ecocrop_data.tmin AS kill_min, ' \
-              'ecocrop_data.tmax AS kill_max, ecocrop_data.gmin AS quick_days, ecocrop_data.gmax AS slow_days')
+              'ecocrop_data.tmax AS kill_max, ecocrop_data.ktmp AS dies_at, ecocrop_data.gmin AS quick_days, ' \
+              'ecocrop_data.gmax AS slow_days')
       .order(Arel.sql('crops.plantings_count DESC, lower(crops.name) ASC'))
       .map { |crop| Candidate.new(crop, *crop.attributes.values_at(*Candidate.members.drop(1).map(&:to_s))) }
   end
@@ -68,12 +70,14 @@ class SeasonalCrops
     high && high >= candidate.best_min && high <= candidate.best_max
   end
 
-  # Whether the month's nights and days stay within what the crop survives. A month we hold no weather for does not.
+  # Whether the month's nights and days stay within what the crop grows at, and the nights stay above what kills it. A month
+  # we hold no weather for does not.
   def survives?(candidate, month)
     night = @nights[month]
     day = @days[month]
     return false unless night && day
 
-    (candidate.kill_min.nil? || night >= candidate.kill_min) && (candidate.kill_max.nil? || day <= candidate.kill_max)
+    (candidate.kill_min.nil? || night >= candidate.kill_min) && (candidate.kill_max.nil? || day <= candidate.kill_max) &&
+      (candidate.dies_at.nil? || night > candidate.dies_at)
   end
 end

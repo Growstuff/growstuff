@@ -52,6 +52,16 @@ describe SeasonalCrops do
       expect(optimal).not_to include tender
     end
 
+    it 'leaves out a crop whose killing temperature the nights reach' do
+      frost_tender = crop_with(12, 30, gmin: 90, ktmp: 12)
+      expect(optimal).not_to include frost_tender
+    end
+
+    it 'includes a crop whose killing temperature the nights stay above' do
+      hardy = crop_with(12, 30, gmin: 90, ktmp: 5)
+      expect(optimal).to include hardy
+    end
+
     it 'leaves out a crop the days would kill' do
       heat_shy = crop_with(10, 20, gmin: 90, tmax: 14)
       expect(optimal).not_to include heat_shy
@@ -110,6 +120,11 @@ describe SeasonalCrops do
     it 'leaves out a crop the nights would kill' do
       tender = crop_with(2, 10, gmin: 60, tmin: 12)
       expect(tolerable).not_to include tender
+    end
+
+    it 'leaves out a crop whose killing temperature the nights reach' do
+      frost_tender = crop_with(2, 10, gmin: 60, ktmp: 12)
+      expect(tolerable).not_to include frost_tender
     end
 
     it 'uses the longest cycle' do
