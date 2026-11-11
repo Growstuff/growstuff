@@ -783,10 +783,30 @@ en:
   forms:
     optional: "(Optional)"
   forums:
+    edit:
+      title: Editing forum
+    form:
+      errors:
+        one: "%{count} error prohibited this forum from being saved:"
+        other: "%{count} errors prohibited this forum from being saved:"
+      save: Save
+    new:
+      title: New Forum
+    show:
+      moderator_html: "This forum is run by %{moderator}"
+      edit: Edit
+      delete: Delete
+      confirm_delete: Are you sure?
+      posts: Posts
+      post_something: Post something
+      empty: No posts yet.
     created: Forum was successfully created.
     deleted: Forum was successfully deleted.
     index:
       title: Forums
+      new_forum: New forum
+      visit_forum: Visit forum
+      post: Post
     updated: Forum was successfully updated.
   frost:
     about_estimates: These dates are estimates from 25 km weather-model data, not readings from a station at your garden, so a cold spot can be colder. They may be wrong, so check your national weather service and ask local growers before relying on them.

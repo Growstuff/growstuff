@@ -487,10 +487,30 @@ zh:
   forms:
     optional: "（选修的）"
   forums:
+    edit:
+      title: 编辑论坛
+    form:
+      errors:
+        one: "%{count}个错误导致此论坛无法保存："
+        other: "%{count}个错误导致此论坛无法保存："
+      save: 保存
+    new:
+      title: 新建论坛
+    show:
+      moderator_html: "此论坛由%{moderator}管理"
+      edit: 编辑
+      delete: 删除
+      confirm_delete: 您确定吗？
+      posts: 帖子
+      post_something: 发布帖子
+      empty: 暂无帖子。
     created: 论坛创建成功。
     deleted: 论坛已成功删除。
     index:
       title: 论坛
+      new_forum: 新建论坛
+      visit_forum: 访问论坛
+      post: 发帖
     updated: 论坛更新成功。
   garden_collaborators:
     new:
