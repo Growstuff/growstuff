@@ -124,6 +124,40 @@ describe CropFilter do
     end
   end
 
+  context 'with an EcoCrop link asked for by a crop wrangler' do
+    let(:member) { create(:crop_wrangling_member) }
+    let(:filters) { { ecocrop: ['linked'] } }
+
+    before { crop.update!(ecocrop_record: create(:ecocrop_data)) }
+
+    it('gives the crops with a record linked') { expect(result).to eq [crop] }
+  end
+
+  context 'with a variety of a crop with a record linked' do
+    let(:member) { create(:crop_wrangling_member) }
+    let(:filters) { { ecocrop: ['linked'] } }
+    let!(:variety) { create(:crop, parent: crop) }
+
+    before { crop.update!(ecocrop_record: create(:ecocrop_data)) }
+
+    it('counts the variety as linked') { expect(result).to contain_exactly(crop, variety) }
+  end
+
+  context 'with no EcoCrop link asked for by a crop wrangler' do
+    let(:member) { create(:crop_wrangling_member) }
+    let(:filters) { { ecocrop: ['unlinked'] } }
+
+    before { crop.update!(ecocrop_record: create(:ecocrop_data)) }
+
+    it('gives the crops without one') { expect(result).to eq [other] }
+  end
+
+  context 'with an EcoCrop link asked for by a member who is not a crop wrangler' do
+    let(:filters) { { ecocrop: ['linked'] } }
+
+    it('ignores it') { expect(result).to contain_exactly(crop, other) }
+  end
+
   context 'without a member' do
     let(:member) { nil }
     let(:filters) { { history: ['before'], nearby: '1', suits: '1' } }

@@ -8,23 +8,21 @@
         initial: (filter.parent && { id: filter.parent.id, name: filter.parent.name }) })
     - if current_member
       .col-md-5
-        %span.crop-filter-heading= t('.season')
-        .btn-group.flex-wrap.crop-filter-toggles{ role: 'group', 'aria-label' => t('.season') }
-          - CropFilter::SEASONS.each do |each|
-            = check_box_tag 'season[]', each, filter.seasons.include?(each), class: 'btn-check', id: "filter_season_#{each}", autocomplete: 'off'
-            = label_tag "filter_season_#{each}", t("seasons.#{each}"), class: 'btn btn-outline-primary'
+        = render 'crops/filter_toggles', name: 'season', heading: t('.season'), values: CropFilter::SEASONS, selected: filter.seasons,
+          labels: ->(value) { t("seasons.#{value}") }
       .col-md-3
-        %span.crop-filter-heading= t('.history')
-        .btn-group.crop-filter-toggles{ role: 'group', 'aria-label' => t('.history') }
-          - CropFilter::HISTORIES.each do |each|
-            = check_box_tag 'history[]', each, Array(params[:history]).include?(each), class: 'btn-check', id: "filter_history_#{each}", autocomplete: 'off'
-            = label_tag "filter_history_#{each}", t(".history_#{each}"), class: 'btn btn-outline-primary'
+        = render 'crops/filter_toggles', name: 'history', heading: t('.history'), values: CropFilter::HISTORIES,
+          selected: Array(params[:history]), labels: ->(value) { t(".history_#{value}") }
       .col-12
         .crop-filter-checks
           - %i(suits nearby friends seeds).each do |key|
             .form-check.form-check-inline
               = check_box_tag key, 1, filter.public_send(:"#{key}?"), class: 'form-check-input', id: "filter_#{key}"
               = label_tag "filter_#{key}", key == :suits && place ? t('.suits_at', place:) : t(".#{key}"), class: 'form-check-label'
+    - if filter.wrangler?
+      .col-md-4
+        = render 'crops/filter_toggles', name: 'ecocrop', heading: t('.ecocrop'), values: CropFilter::ECOCROP_LINKS,
+          selected: Array(params[:ecocrop]), labels: ->(value) { t(".ecocrop_#{value}") }
   .crop-filters-footer
     .crop-filter-status
       - if filter.active?

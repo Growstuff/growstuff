@@ -50,6 +50,18 @@ describe 'Crops index filters' do
     expect(response.body).not_to include data_improvement_crops_path
   end
 
+  it 'offers a crop wrangler the EcoCrop filter' do
+    sign_in create(:crop_wrangling_member)
+    get crops_path
+    expect(response.body).to include 'id="filter_ecocrop_linked"'
+  end
+
+  it 'does not offer other members the EcoCrop filter' do
+    sign_in create(:member)
+    get crops_path
+    expect(response.body).not_to include 'id="filter_ecocrop_linked"'
+  end
+
   it 'offers a member the history filter' do
     sign_in create(:member)
     get crops_path

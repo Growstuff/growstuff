@@ -8,9 +8,12 @@
 #   seeds    crops the member has seeds of
 #   friends  crops the people the member follows have planted
 #   history  'before' for crops the member has planted, 'never' for those they haven't; both or neither leaves every crop
+#   ecocrop  for crop wranglers, 'linked' for crops with an EcoCrop record linked, their own or their parent's, and 'unlinked' for
+#            those without; both or neither leaves every crop
 #   parent   the id of a crop, for its varieties
 class CropFilter
   HISTORIES = %w(before never).freeze
+  ECOCROP_LINKS = %w(linked unlinked).freeze
   SEASONS = %w(spring summer autumn winter).freeze
 
   def initialize(member, params)
@@ -24,13 +27,15 @@ class CropFilter
     crops = crops.where(id: dashboard.crop_ids_planted_nearby) if nearby?
     crops = crops.where(id: dashboard.crop_ids_with_seeds) if seeds?
     crops = crops.where(id: dashboard.crop_ids_planted_by_followed) if friends?
+    crops = crops.where(id: with_ecocrop) if ecocrop == 'linked'
+    crops = crops.where.not(id: with_ecocrop) if ecocrop == 'unlinked'
     crops = crops.where(id: dashboard.crop_ids_planted) if history == 'before'
     crops = crops.where.not(id: dashboard.crop_ids_planted) if history == 'never'
     crops
   end
 
   def active?
-    [parent, suiting?, nearby?, friends?, seeds?, history].any?
+    [parent, suiting?, nearby?, friends?, seeds?, history, ecocrop].any?
   end
 
   def suits?
@@ -49,8 +54,16 @@ class CropFilter
 
   # 'before' or 'never' when just one of them is asked for, since asking for both is asking for every crop.
   def history
-    asked = Array(@params[:history]).map(&:to_s) & HISTORIES
-    asked.first if @member && asked.one?
+    one_of(:history, HISTORIES) if @member
+  end
+
+  # Only crop wranglers see the EcoCrop links, and only choose one of them.
+  def ecocrop
+    one_of(:ecocrop, ECOCROP_LINKS) if wrangler?
+  end
+
+  def wrangler?
+    @member&.role?(:crop_wrangler) || false
   end
 
   def parent
@@ -69,6 +82,18 @@ class CropFilter
   end
 
   private
+
+  # The one of the allowed values the params name, or nil when they name none or all.
+  def one_of(name, allowed)
+    asked = Array(@params[name]).map(&:to_s) & allowed
+    asked.first if asked.one?
+  end
+
+  # The ids of the crops with an EcoCrop record linked, or whose parent crop has one.
+  def with_ecocrop
+    linked = Crop.where.not(ecocrop_data_id: nil)
+    linked.or(Crop.where(parent_id: linked.select(:id))).select(:id)
+  end
 
   def flag?(name)
     ActiveModel::Type::Boolean.new.cast(@params[name]) == true
