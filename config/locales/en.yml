@@ -1900,11 +1900,74 @@ en:
       title: Who to follow
       why: 'Grows the same crops: %{crops}'
   notifier_mailer:
+    crop_request:
+      approve_or_reject: approve or reject this request
+      approved_intro: "Your request for the new crop: %{link} has been approved! Thank you for helping us make our listing ever more complete!"
+      approved_subject: "%{crop_name} has been approved"
+      harvest_crop: Harvest %{crop_name}
+      name: "Name: %{name}"
+      new_intro: "%{login_name} has requested a new crop on %{sitename}"
+      new_subject: "%{login_name} has requested %{crop_name} as a new crop"
+      not_specified: not specified
+      notes: "Notes: %{notes}"
+      plant_crop: Plant %{crop_name}
+      rejected_intro: "We're sorry, but your request for the new crop: %{link} has been rejected for the following reason: %{reason}"
+      rejected_subject: "%{crop_name} has been rejected"
+      stash_crop: Stash seeds for %{crop_name}
+      thanks: Thanks for your help!
+      wikipedia_url: "Wikipedia URL: %{url}"
+      wrangler_prompt: As a crop wrangler, you can %{link}.
     harvest_reminder:
       heading: Upcoming harvests in your garden
-      intro: 'Based on our predictions, the following plantings in your garden are likely to be ready for harvest within the next week:'
+      intro: "Based on our predictions, the following plantings in your garden are likely to be ready for harvest within the next week:"
+      predicted_date: "(Predicted harvest date: %{date})"
       subject: Upcoming harvests in your garden - %{sitename}
       unsubscribe: Unsubscribe from harvest reminders
+      unsubscribe_prompt: Don't want to get these emails any more?
+    outlook:
+      expected_weather: If the next two weeks are like last year's, expect %{figures}.
+      heading: Your garden right now
+      planting_at_latitude: "Gardeners at your latitude are planting these at the moment:"
+      recent_weather: "From %{from} to %{to}: %{figures}."
+      season_intro: It's %{season}
+      season_place: in %{place}.
+      set_location: Set your location
+      soil_temp: The soil was %{soil} on %{date}.
+      unlocated_prompt: Tell us where you garden and this email will add your local season, the weather and what to sow.
+      worth_sowing: Worth sowing now
+    planting_reminder:
+      add_planting: Open your dashboard to add a planting.
+      by_planting: by planting your first crop.
+      congratulations: Congratulations, you have plants ready to harvest
+      empty_intro: "%{sitename} lets you track what food you're growing in your garden and see what other people near you are planting too."
+      get_started: Get started now
+      heading: Your Weekly %{sitename} progress report
+      late: Late
+      late_intro: These plantings are at the end of their lifecycle. %{login_link} and let us know if you're not growing them anymore, and we'll stop tracking them.
+      log_in: Log in
+      planted_on: planted on %{date}
+      planting_question: Want to track and predict a planting in your garden?
+      progress_report: Progress report
+      progress_status: is %{percentage}% grown with %{days} days to go.
+      ready_to_harvest: Ready to harvest
+      subject: Your %{month_year} %{sitename} progress report
+      super_late: Super late
+      super_late_intro: We suspect the following plantings finished long ago and no longer need tracking. You can mark them as finished to stop tracking.
+      unsubscribe: Unsubscribe from planting reminders
+      unsubscribe_prompt: Don't want to get these emails any more?
+    shared:
+      garden_overview: Your garden overview
+      garden_overview_intro: Track and predict your entire garden, and keep your garden records up to date at
+      greeting: Hello %{login_name},
+      harvest_question: Harvested anything lately?
+      or_on: or on
+      profile_page: your profile page
+      record_harvest: Open your dashboard to record a harvest.
+      see_you_soon: See you soon on %{sitename}!
+      signature: The %{sitename} team.
+    whats_new:
+      feature_count: "We have %{count} new features to tell you about:"
+      heading: New since we last emailed you
   nurseries:
     show:
       dont_need: I don't need one

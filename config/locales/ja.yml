@@ -543,6 +543,11 @@ ja:
       seeds_saved: 保存した種
       sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
       unknown: 不明
+  seasons:
+    autumn: 秋
+    spring: 春
+    summer: 夏
+    winter: 冬
   seeds:
     empty:
       no_finished: 使い切った種はまだありません。
@@ -622,3 +627,72 @@ ja:
       join: 無料で参加
       sign_in: ログイン
       text: 食物を育てるためのコミュニティです。植えたものや収穫したものを記録し、他のガーデナーと種やヒントを交換しましょう。無料で参加するかログインして、%{name}に出品内容について問い合わせましょう。
+  notifier_mailer:
+    crop_request:
+      approve_or_reject: このリクエストを承認または却下
+      approved_intro: 新しい作物「%{link}」のリクエストが承認されました！作物の充実にご協力いただきありがとうございます！
+      approved_subject: "%{crop_name} が承認されました"
+      harvest_crop: "%{crop_name} を収穫する"
+      name: "名前: %{name}"
+      new_intro: "%{login_name}さんが %{sitename} で新しい作物をリクエストしました"
+      new_subject: "%{login_name}さんが新しい作物「%{crop_name}」をリクエストしました"
+      not_specified: 指定なし
+      notes: "メモ: %{notes}"
+      plant_crop: "%{crop_name} を植える"
+      rejected_intro: "申し訳ありませんが、新しい作物「%{link}」のリクエストは次の理由により却下されました: %{reason}"
+      rejected_subject: "%{crop_name} が却下されました"
+      stash_crop: "%{crop_name} の種を保存する"
+      thanks: ご協力ありがとうございます！
+      wikipedia_url: "Wikipedia URL: %{url}"
+      wrangler_prompt: 作物モデレーターとして、%{link} できます。
+    harvest_reminder:
+      heading: あなたの菜園の収穫予定
+      intro: 予測に基づき、今後1週間以内に収穫期を迎える作物は以下の通りです：
+      predicted_date: "（収穫予測日: %{date}）"
+      subject: あなたの菜園の収穫予定 - %{sitename}
+      unsubscribe: 収穫リマインダーの配信を停止する
+      unsubscribe_prompt: これらのメールの配信を停止しますか？
+    outlook:
+      expected_weather: 今後2週間が昨年と同じような天候であれば、%{figures} が見込まれます。
+      heading: 現在の菜園の様子
+      planting_at_latitude: 同じ緯度の栽培仲間が今植えている作物：
+      recent_weather: "%{from} から %{to} まで: %{figures}。"
+      season_intro: 現在は%{season}
+      season_place: （%{place}）です。
+      set_location: 地域を設定する
+      soil_temp: "%{date}の地温は %{soil} でした。"
+      unlocated_prompt: 栽培地域を登録すると、地域の季節や気象、おすすめの種まき情報がメールに表示されます。
+      worth_sowing: 今蒔きどきの作物
+    planting_reminder:
+      add_planting: ダッシュボードを開いて植付を追加する。
+      by_planting: 最初の作物を植えましょう。
+      congratulations: おめでとうございます！収穫の準備ができている植物があります
+      empty_intro: "%{sitename} では、菜園で育てている作物を記録し、近くの人が何を植えているか確認できます。"
+      get_started: 今すぐ始める
+      heading: 今週の %{sitename} 進捗レポート
+      late: 遅れ
+      late_intro: これらの植物はライフサイクルの終わりに近づいています。%{login_link} して栽培を終了したかお知らせください。
+      log_in: ログイン
+      planted_on: "植付日: %{date}"
+      planting_question: 菜園の植付を記録・予測してみませんか？
+      progress_report: 進捗レポート
+      progress_status: は %{percentage}% 成長しました（残り %{days} 日）。
+      ready_to_harvest: 収穫間近
+      subject: "%{month_year}の %{sitename} 進捗レポート"
+      super_late: 大幅な遅れ
+      super_late_intro: 以下の植物はずいぶん前に収穫期を過ぎている可能性があります。終了としてマークできます。
+      unsubscribe: 植付リマインダーの配信を停止する
+      unsubscribe_prompt: これらのメールの配信を停止しますか？
+    shared:
+      garden_overview: 菜園の概要
+      garden_overview_intro: 菜園全体の記録と予測を行い、最新の情報を保ちましょう：
+      greeting: こんにちは、%{login_name}さん
+      harvest_question: 最近何か収穫しましたか？
+      or_on: または
+      profile_page: プロフィールページ
+      record_harvest: ダッシュボードを開いて収穫を記録する。
+      see_you_soon: "%{sitename} でまたお会いしましょう！"
+      signature: "%{sitename} チームより。"
+    whats_new:
+      feature_count: "%{count} 件の新機能があります："
+      heading: 前回のメール以降の新機能
