@@ -1,6 +1,6 @@
 -# With readonly there is nothing to change: no tick box, no dragging, no editing.
 - readonly = local_assigns[:readonly]
-.notepad-job{ class: ('done' if job.finished), draggable: (readonly ? nil : 'true'), data: (readonly ? {} : { url: job_path(job), id: job.id }) }
+.notepad-job{ class: ('done' if job.finished), draggable: (readonly ? nil : 'true'), data: (readonly ? {} : { url: job_path(job), id: job.id, mentions: job.mention_targets.map { |target| { jobbable_type: target.class.name, jobbable_id: target.id, label: target.is_a?(Planting) ? target.crop_name : target.is_a?(Seed) ? target.crop.name : target.name } }.to_json }) }
   - unless readonly
     - label = t(job.finished ? 'jobs.pad.uncross' : 'jobs.pad.cross_off', job: job.name)
     = button_to '', job_path(job), method: :patch, params: { job: { finished: job.finished ? 0 : 1 } },
@@ -8,11 +8,11 @@
   %span.notepad-name{ data: { edit_label: (t('jobs.pad.edit_label') unless readonly) } }= job.name
   - unless readonly
     %span.notepad-edit-hint{ hidden: true }= t('jobs.pad.edit_hint')
-  - if job.garden && !local_assigns[:in_garden]
+  - if job.mentions.nil? && job.garden && !local_assigns[:in_garden]
     = link_to garden_path(job.garden), class: 'notepad-chip garden' do
       %span.kind= t('jobs.pad.garden')
       = job.garden.name
-  - case job.jobbable
+  - case (job.jobbable if job.mentions.nil?)
   - when Planting
     = link_to planting_path(job.jobbable), class: 'notepad-chip' do
       %span.kind= t('jobs.pad.planting')
@@ -27,6 +27,11 @@
     = link_to crop_path(job.jobbable), class: 'notepad-chip' do
       %span.kind= t('jobs.pad.crop')
       = job.jobbable.name
+  - unless job.mentions.nil?
+    - job.mention_targets.each do |target|
+      = link_to polymorphic_path(target), class: 'notepad-chip' do
+        %span.kind= t("jobs.pad.#{target.is_a?(Seed) ? 'seeds' : target.class.name.downcase}")
+        = target.is_a?(Planting) ? target.crop_name : target.is_a?(Seed) ? target.crop.name : target.name
   - date_label = job_date_label(job)
   - PhotoAssociation::LABELS['Job'].index_with { |moment| job.photo_at(moment) }.compact.each do |moment, photo|
     = link_to photo_path(photo), class: 'notepad-photo', title: t("jobs.pad.photo_of_#{moment}", title: photo.title) do

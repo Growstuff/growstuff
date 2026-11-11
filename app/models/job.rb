@@ -45,6 +45,7 @@ class Job < ApplicationRecord
   validates :jobbable_type, inclusion: { in: JOBBABLE_TYPES }, allow_nil: true
   validate :action_goes_with_jobbable, if: :action
   validate :jobbable_is_the_owners, if: -> { jobbable_id_changed? || jobbable_type_changed? }
+  validate :mentions_are_available
 
   before_validation :set_garden_from_planting
   before_save :stamp_finished_at, if: :finished_changed?
@@ -58,6 +59,20 @@ class Job < ApplicationRecord
 
   def to_s
     name
+  end
+
+  # Older jobs keep their original links until their mentions are edited.
+  def mention_references
+    return mentions unless mentions.nil?
+
+    [garden, jobbable].compact.map { |target| { 'type' => target.class.name, 'id' => target.id } }
+  end
+
+  def mention_targets
+    mention_references.filter_map do |reference|
+      type = reference['type']
+      type.constantize.find_by(id: reference['id']) if (JOBBABLE_TYPES + ['Garden']).include?(type)
+    end
   end
 
   # The planting a job is about, if it is about one. The form, Copy and the API
@@ -91,6 +106,18 @@ class Job < ApplicationRecord
   end
 
   private
+
+  def mentions_are_available
+    return if mentions.nil?
+
+    mentions.each do |reference|
+      type = reference['type']
+      target = (type.constantize.find_by(id: reference['id']) if (JOBBABLE_TYPES + ['Garden']).include?(type))
+      if target.nil? || (target.respond_to?(:owner_id) && target.owner_id != owner_id)
+        errors.add(:mentions, :invalid)
+      end
+    end
+  end
 
   def set_garden_from_planting
     self.garden ||= planting.garden if planting

@@ -30,14 +30,15 @@ const page = () => `
   <meta name="csrf-token" content="token-123">
   <div class="notepad">
     <form class="notepad-add" action="/jobs" method="post"
-          data-kinds='{"planting":"Planting","seed":"Seeds","crop":"Crop"}' data-suggestions-url="/jobs/suggestions">
+          data-kinds='{"planting":"Planting","seed":"Seeds","crop":"Crop","garden":"Garden"}' data-suggestions-url="/jobs/suggestions">
       <input type="text" name="job[name]">
       <input type="submit" value="Add" data-saving-label="Adding…">
+      <input type="hidden" id="notepad-garden-id" name="job[garden_id]">
       <input type="hidden" id="notepad-jobbable-type" name="job[jobbable_type]">
       <input type="hidden" id="notepad-jobbable-id" name="job[jobbable_id]">
       <ul id="notepad-suggestions" hidden></ul>
     </form>
-    <div id="notepad-link" hidden><span class="notepad-link-text"></span><button type="button">x</button></div>
+    <div id="notepad-link" data-remove-label="Remove link" hidden><span class="notepad-link-text"></span><button type="button">x</button></div>
     <p id="notepad-add-saving" hidden data-template="Adding “%{name}”…">
       <span class="notepad-spinner"></span><span class="notepad-add-saving-text"></span>
     </p>
@@ -549,6 +550,9 @@ describe('@ suggestions', () => {
   const tomato = {
     jobbable_type: 'Planting', jobbable_id: 42, crop_name: 'tomato', label: 'tomato', detail: 'planted 3 Oct', icon_url: '/crops/tomato.svg',
   };
+  const bed = {
+    jobbable_type: 'Garden', garden_id: 10, crop_name: 'left bed', label: 'left bed', detail: 'Garden', icon_url: '/icons/gardens.svg',
+  };
 
   // The suggestions come back for the one kind of request, and anything else is a save.
   const suggestionsThenSaves = () => {
@@ -579,6 +583,42 @@ describe('@ suggestions', () => {
   describe('in the add box', () => {
     const addBox = () => document.querySelector('.notepad-add input[type="text"]');
     const options = () => document.getElementById('notepad-suggestions');
+
+    const pickTwo = async () => {
+      await type(addBox(), 'Tend @tom');
+      press(addBox(), 'Enter');
+      fetchMock.mockResolvedValue({ok: true, json: () => Promise.resolve([bed])});
+      await type(addBox(), addBox().value + 'in @left');
+      press(addBox(), 'Enter');
+    };
+
+    it('keeps multiple selected mentions', async () => {
+      await start();
+      await pickTwo();
+
+      expect(document.querySelectorAll('#notepad-link .notepad-chip')).toHaveLength(2);
+    });
+
+    it('removes only the selected tag', async () => {
+      await start();
+      await pickTwo();
+      document.querySelector('#notepad-link button').click();
+
+      expect(Array.from(document.querySelectorAll('#notepad-link .notepad-link-text'), (el) => el.textContent)).toEqual(['Garden: left bed']);
+    });
+
+    it('sends all selected mentions', async () => {
+      await start();
+      await pickTwo();
+      fetchMock.mockResolvedValue(answer());
+      submit(document.querySelector('.notepad-add'));
+      await vi.advanceTimersByTimeAsync(0);
+
+      expect(Array.from(fetchMock.mock.calls.at(-1)[1].body.entries()).filter(([key]) => key.includes('[mentions]'))).toEqual([
+        ['job[mentions][0][type]', 'Planting'], ['job[mentions][0][id]', '42'],
+        ['job[mentions][1][type]', 'Garden'], ['job[mentions][1][id]', '10'],
+      ]);
+    });
 
     it('offers suggestions once @ and a crop name are typed', async () => {
       await start();
@@ -629,6 +669,39 @@ describe('@ suggestions', () => {
       press(addBox(), 'Escape');
 
       expect(options().hidden).toBe(true);
+    });
+
+    it('swaps the @ text for the bed name on Enter, sets garden_id, and shows the link', async () => {
+      fetchMock.mockImplementation((url) => (
+        url.includes('/jobs/suggestions') ?
+          Promise.resolve({ok: true, json: () => Promise.resolve([bed])}) :
+          Promise.resolve(answer())
+      ));
+      await start();
+      await type(addBox(), 'Revamp worm farm in @left');
+      press(addBox(), 'Enter');
+
+      expect(addBox().value).toBe('Revamp worm farm in left bed ');
+      expect(document.getElementById('notepad-garden-id').value).toBe('10');
+      expect(document.getElementById('notepad-jobbable-type').value).toBe('');
+      expect(document.getElementById('notepad-jobbable-id').value).toBe('');
+      expect(document.getElementById('notepad-link').textContent).toContain('Garden: left bed');
+      expect(document.getElementById('notepad-link').hidden).toBe(false);
+    });
+
+    it('clears garden_id when the link is removed', async () => {
+      fetchMock.mockImplementation((url) => (
+        url.includes('/jobs/suggestions') ?
+          Promise.resolve({ok: true, json: () => Promise.resolve([bed])}) :
+          Promise.resolve(answer())
+      ));
+      await start();
+      await type(addBox(), 'Revamp worm farm in @left');
+      press(addBox(), 'Enter');
+
+      document.querySelector('#notepad-link button').dispatchEvent(new MouseEvent('click', {bubbles: true}));
+      expect(document.getElementById('notepad-garden-id').value).toBe('');
+      expect(document.getElementById('notepad-link').hidden).toBe(true);
     });
   });
 
@@ -683,6 +756,26 @@ describe('@ suggestions', () => {
       expect(options_.body.get('job[jobbable_id]')).toBe('42');
     });
 
+    it('saves a bed link with the name', async () => {
+      fetchMock.mockImplementation((url) => (
+        url.includes('/jobs/suggestions') ?
+          Promise.resolve({ok: true, json: () => Promise.resolve([bed])}) :
+          Promise.resolve(answer())
+      ));
+      await edit();
+      await type(editBox(), 'Weed the @left');
+      press(editBox(), 'Enter');
+      press(editBox(), 'Enter');
+      await vi.advanceTimersByTimeAsync(10);
+
+      const [url, options_] = saves()[0];
+      expect(url).toBe('/jobs/water');
+      expect(options_.body.get('job[name]')).toBe('Weed the left bed');
+      expect(options_.body.get('job[garden_id]')).toBe('10');
+      expect(options_.body.get('job[jobbable_type]')).toBe('');
+      expect(options_.body.get('job[jobbable_id]')).toBe('');
+    });
+
     it('closes the list on Escape, and cancels the edit on the next', async () => {
       await edit();
       await type(editBox(), 'Water the @tom');
@@ -707,4 +800,3 @@ describe('@ suggestions', () => {
     });
   });
 });
-

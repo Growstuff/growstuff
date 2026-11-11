@@ -882,6 +882,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
   end
 
   create_table "jobs", force: :cascade do |t|
+    t.jsonb "mentions"
     t.string "action"
     t.datetime "created_at", null: false
     t.bigint "crop_job_step_id"

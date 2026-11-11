@@ -105,8 +105,11 @@ class JobsController < DataController
   end
 
   def job_params
-    params.require(:job).permit(:name, :description, :finished, :due_date,
-                                :garden_id, :planting_id, :jobbable_type, :jobbable_id, :action)
+    params[:job][:mentions] = [] if params.dig(:job, :mentions) == ''
+    permitted = params.require(:job).permit(:name, :description, :finished, :due_date,
+                                :garden_id, :planting_id, :jobbable_type, :jobbable_id, :action, mentions: %i(type id))
+    permitted[:mentions] = permitted[:mentions].values.map(&:to_h) if permitted[:mentions].is_a?(ActionController::Parameters)
+    permitted
   end
 
   # What a link to "new job" can fill in ahead of time, as Copy does.

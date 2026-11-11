@@ -100,6 +100,61 @@ describe JobSuggestionsController do
     end
   end
 
+  context 'with a bed matching the query' do
+    let!(:garden) { create(:garden, owner: member, name: '2 - raised bed') }
+
+    before { get job_suggestions_path, params: { q: '2' } }
+
+    it 'offers the bed' do
+      expect(suggestions.pluck('jobbable_type')).to include('Garden')
+    end
+
+    it 'says which bed' do
+      expect(suggestions.first['garden_id']).to eq garden.id
+    end
+
+    it 'labels the suggestion with the bed name' do
+      expect(suggestions.first['label']).to eq '2 - raised bed'
+    end
+  end
+
+  context 'with a bed matching by substring' do
+    let!(:garden) { create(:garden, owner: member, name: 'left bed') }
+
+    before { get job_suggestions_path, params: { q: 'left' } }
+
+    it 'offers the bed' do
+      expect(suggestions.pluck('jobbable_type')).to include('Garden')
+    end
+  end
+
+  context 'with a planting in a matching bed' do
+    let(:garden) { create(:garden, owner: member, name: 'left bed') }
+    let!(:planting) { create(:planting, owner: member, crop: carrot, garden:) }
+
+    before { get job_suggestions_path, params: { q: 'left' } }
+
+    it 'offers the bed then the planting' do
+      expect(suggestions.pluck('jobbable_type')).to eq %w(Garden Planting)
+    end
+  end
+
+  context 'with a planting matching by alternate name' do
+    let(:tomato) { create(:crop, name: 'tomato') }
+    let(:roma) { create(:alternate_name, crop: tomato, name: 'Roma') }
+    let!(:planting) { create(:planting, owner: member, crop: tomato, alternate_name: roma) }
+
+    before { get job_suggestions_path, params: { q: 'roma' } }
+
+    it 'offers the planting' do
+      expect(suggestions.first['jobbable_id']).to eq planting.id
+    end
+
+    it 'uses the alternate name in the label' do
+      expect(suggestions.first['label']).to include('Roma')
+    end
+  end
+
   context 'when in a collaborated garden\'s to-do list' do
     let(:garden) { create(:garden) }
     let!(:planting) { create(:planting, owner: garden.owner, crop: carrot, garden:) }
