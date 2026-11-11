@@ -122,6 +122,11 @@ ja:
       rejected_message: 'この作物は次の理由で却下されました: %{reason}'
       request_notes: 'リクエストのメモ: %{notes}'
       requested_by: この作物は %{time_ago}前に %{requester} によってリクエストされました。
+    fields:
+      hardiness:
+        from_packets: メンバーの種子パケットから算出
+        help: 作物がどれだけの霜に耐えられるか。種子パケットの記載に関わらず固定する耐寒性レベルを選択します。
+        label: 耐寒性
     harvests:
       empty: この作物はまだ誰にも収穫されていません。
       harvest_crop: "%{crop}を収穫する"

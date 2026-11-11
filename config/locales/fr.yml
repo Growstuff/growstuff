@@ -310,6 +310,11 @@ fr:
       rejected_message: 'Cette culture a été rejetée pour la raison suivante : %{reason}'
       request_notes: 'Notes de la demande : %{notes}'
       requested_by: Cette culture a été demandée par %{requester} il y a %{time_ago}.
+    fields:
+      hardiness:
+        from_packets: Calculer à partir des paquets de graines des membres
+        help: Quelle quantité de gel la culture tolère. Choisissez un niveau pour le conserver, quoi qu'indiquent les paquets de graines.
+        label: Rusticité
     harvests:
       empty: Personne n'a encore récolté cette plante.
       harvest_crop: Récolter %{crop}

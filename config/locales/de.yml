@@ -310,6 +310,11 @@ de:
       rejected_message: 'Diese Kultur wurde aus folgendem Grund abgelehnt: %{reason}'
       request_notes: 'Hinweise zur Anfrage: %{notes}'
       requested_by: Diese Kultur wurde vor %{time_ago} von %{requester} beantragt.
+    fields:
+      hardiness:
+        from_packets: Aus den Samenpäckchen der Mitglieder ermitteln
+        help: Wie viel Frost die Kultur verträgt. Wählen Sie eine Stufe, um sie beizubehalten, unabhängig von den Angaben auf den Samenpäckchen.
+        label: Winterhärte
     harvests:
       empty: Niemand hat diese Kultur bisher geerntet.
       harvest_crop: "%{crop} ernten"
