@@ -73,11 +73,6 @@ describe "crop detail page", :js do
         expect(page).to have_content "Learn more about #{crop.name.pluralize}"
         expect(page).to have_link "Wikipedia (English)", href: crop.en_wikipedia_url
       end
-
-      it "has a link to gardenate" do
-        expect(page).to have_link "Gardenate - Planting reminders",
-                                  href: "https://www.gardenate.com/plant/#{CGI.escape crop.name}"
-      end
     end
   end
 

@@ -167,13 +167,6 @@
                 = icon 'fas', 'external-link-alt'
                 Australian Food Composition Database
 
-          %li.list-group-item
-            = link_to "https://www.gardenate.com/plant/#{CGI.escape @crop.name}",
-                      target: "_blank",
-                      class: 'card-link',
-                      rel: "noopener noreferrer" do
-              = icon 'fas', 'external-link-alt'
-              Gardenate - Planting reminders
           - if current_member && current_member.location
             %li.list-group-item
               = link_to 'https://www.google.com/search?q=' + CGI.escape(['Growing', @crop.name, current_member.location].join(' ')),
