@@ -2576,6 +2576,7 @@ en:
     plant_for_season: Plant %{crop} for %{season} %{year}
   suggestions:
     climate:
+      add_failed: We couldn't add it. Try again.
       add_to_jobs: Add to planned jobs
       average: average
       best_range: Best at %{low}–%{high}°
