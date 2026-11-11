@@ -1,5 +1,32 @@
 ---
 ja:
+  alternate_names:
+    created: 別名が正常に作成されました。
+    deleted: 別名が正常に削除されました。
+    edit:
+      added_by_html: "%{time_ago}前に%{creator_link}によって追加されました。"
+      title: 別名の編集
+    form:
+      crop: 作物
+      crop_wrangling_guide: 作物管理ガイド
+      crop_wrangling_guide_intro_html: 作物の整理に関する詳しいガイドラインについては、Growstuff wikiの%{guide_link}を参照してください。
+      errors:
+        other: "%{count}件のエラーにより、この別名は保存されませんでした:"
+      name: 名前
+      save: 保存
+    index:
+      alternate_name: 別名
+      crop: 作物
+      new_alternate_name: 新しい別名
+      show: 表示
+      title: 別名一覧
+    new:
+      title: 新しい別名
+    show:
+      alternate_name_label: "別名:"
+      back: 戻る
+      crop_label: "作物:"
+    updated: 別名が正常に更新されました。
   authentications:
     sign_in:
       bluesky:

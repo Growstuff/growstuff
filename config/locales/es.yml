@@ -133,6 +133,30 @@ es:
   alternate_names:
     created: El nombre alternativo se creó correctamente.
     deleted: El nombre alternativo se eliminó correctamente.
+    edit:
+      added_by_html: Añadido por %{creator_link} hace %{time_ago}.
+      title: Editar nombre alternativo
+    form:
+      crop: Cultivo
+      crop_wrangling_guide: guía de disputa de cultivos
+      crop_wrangling_guide_intro_html: Para obtener directrices detalladas sobre la gestión de cultivos, consulte la %{guide_link} en la wiki de Growstuff.
+      errors:
+        one: "1 error impidió que se guardara este nombre alternativo:"
+        other: "%{count} errores impidieron que se guardara este nombre alternativo:"
+      name: Nombre
+      save: Guardar
+    index:
+      alternate_name: Nombre alternativo
+      crop: Cultivo
+      new_alternate_name: Nuevo nombre alternativo
+      show: Mostrar
+      title: Listado de nombres alternativos
+    new:
+      title: Nuevo nombre alternativo
+    show:
+      alternate_name_label: "Nombre alternativo:"
+      back: Volver
+      crop_label: "Cultivo:"
     updated: El nombre alternativo se actualizó correctamente.
   application_helper:
     title:

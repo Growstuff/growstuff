@@ -133,6 +133,30 @@ zh:
   alternate_names:
     created: 备用名称已成功创建。
     deleted: 备用名称已成功删除。
+    edit:
+      added_by_html: 由 %{creator_link} 在 %{time_ago} 前添加。
+      title: 编辑备用名称
+    form:
+      crop: 作物
+      crop_wrangling_guide: 作物管理指南
+      crop_wrangling_guide_intro_html: 有关详细的作物整理指南，请参阅 Growstuff wiki 上的%{guide_link}。
+      errors:
+        one: "1 个错误导致此备用名称无法保存："
+        other: "%{count} 个错误导致此备用名称无法保存："
+      name: 名称
+      save: 保存
+    index:
+      alternate_name: 备用名称
+      crop: 作物
+      new_alternate_name: 新建备用名称
+      show: 显示
+      title: 备用名称列表
+    new:
+      title: 新建备用名称
+    show:
+      alternate_name_label: "备用名称："
+      back: 返回
+      crop_label: "作物："
     updated: 备用名称已成功更新。
   application_helper:
     title:

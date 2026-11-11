@@ -228,6 +228,30 @@ en:
   alternate_names:
     created: Alternate name was successfully created.
     deleted: Alternate name was successfully deleted.
+    edit:
+      added_by_html: Added by %{creator_link} %{time_ago} ago.
+      title: Edit alternate name
+    form:
+      crop: Crop
+      crop_wrangling_guide: crop wrangling guide
+      crop_wrangling_guide_intro_html: For detailed crop wrangling guidelines, please consult the %{guide_link} on the Growstuff wiki.
+      errors:
+        one: "1 error prohibited this alternate name from being saved:"
+        other: "%{count} errors prohibited this alternate name from being saved:"
+      name: Name
+      save: Save
+    index:
+      alternate_name: Alternate name
+      crop: Crop
+      new_alternate_name: New alternate name
+      show: Show
+      title: Listing alternate names
+    new:
+      title: New alternate name
+    show:
+      alternate_name_label: "Alternate name:"
+      back: Back
+      crop_label: "Crop:"
     updated: Alternate name was successfully updated.
   application_helper:
     title:
