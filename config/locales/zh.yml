@@ -717,6 +717,8 @@ zh:
       the_planting_this_came_from: 此收获来源的种植
     updated: 收获已成功更新。
   home:
+    community_description: Growstuff 是一个种植食物的园艺爱好者社区。让我们一起学习种植食物。
+    planting_image_alt: "%{owner}的%{planting}图片"
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
     blurb:
       badge: 开源 · 开放数据 · 自 2012 年

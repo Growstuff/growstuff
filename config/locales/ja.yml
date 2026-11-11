@@ -400,6 +400,8 @@ ja:
       see_how: "%{owner}さんの%{crop}の様子を見る。"
       the_planting_this_came_from: 収穫元の植え付け
   home:
+    community_description: Growstuffは食べ物を育てる人々のコミュニティです。一緒に食べ物の育て方を学びましょう。
+    planting_image_alt: "%{owner}による%{planting}の画像"
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
       sign_in_mastodon: Mastodonでログイン

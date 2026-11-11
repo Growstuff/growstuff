@@ -719,6 +719,8 @@ es:
       the_planting_this_came_from: La plantación de donde proviene
     updated: La cosecha se actualizó correctamente.
   home:
+    community_description: Growstuff es una comunidad de personas que cultivan alimentos. Aprendamos a cultivar alimentos juntos.
+    planting_image_alt: Imagen de %{planting} de %{owner}
     added_to_stash: Se agregó con éxito la semilla %{crop} a tu alijo.
     blurb:
       badge: Código abierto · Datos abiertos · Desde 2012

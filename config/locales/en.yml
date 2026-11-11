@@ -1143,6 +1143,8 @@ en:
       the_planting_this_came_from: The planting this came from
     updated: Harvest was successfully updated.
   home:
+    community_description: Growstuff is a community of food gardeners. Let's learn to grow food together.
+    planting_image_alt: Image of %{planting} by %{owner}
     added_to_stash: Successfully added %{crop} seed to your stash.
     blurb:
       badge: Open source · Open data · Since 2012

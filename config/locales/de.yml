@@ -719,6 +719,8 @@ de:
       the_planting_this_came_from: Die Pflanzung, von der dies stammt
     updated: Harvest wurde erfolgreich aktualisiert.
   home:
+    community_description: Growstuff ist eine Gemeinschaft von Menschen, die Lebensmittel anbauen. Lernen wir gemeinsam, unser eigenes Essen anzubauen.
+    planting_image_alt: Bild von %{planting} von %{owner}
     added_to_stash: "%{crop}-Seed erfolgreich zu Ihrem Vorrat hinzugefügt."
     blurb:
       badge: Open Source · Offene Daten · Seit 2012
