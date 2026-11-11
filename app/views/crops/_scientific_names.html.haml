@@ -3,7 +3,7 @@
 -# actions menu. Both open a dialog.
 .scientific_names.crop-sci-names
   - if crop.scientific_names.empty?
-    %span.text-muted No scientific name recorded
+    %span.text-muted= t('.empty')
   - else
     - crop.scientific_names.each do |sn|
       - if can? :edit, sn
@@ -12,7 +12,7 @@
           .dropdown-menu
             %a.dropdown-item{ href: "#", "data-bs-toggle" => "modal", "data-bs-target" => "#scientific-name-#{sn.id}" }= t('.edit')
             .dropdown-divider
-            = link_to t('.delete'), sn, method: :delete, data: { confirm: 'Are you sure?' }, class: 'dropdown-item text-danger'
+            = link_to t('.delete'), sn, method: :delete, data: { confirm: t('.confirm_delete') }, class: 'dropdown-item text-danger'
       - elsif sn.gbif_key
         = link_to sn.name, "https://www.gbif.org/species/#{sn.gbif_key}", class: 'crop-sci-name', target: "_blank", rel: "noopener noreferrer"
       - else

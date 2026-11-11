@@ -304,6 +304,117 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    image_alt: "Bild von %{crop}"
+    add_photos_from_flickr: Fotos aus Flickr hinzufügen
+    alternate_names:
+      heading: Auch bekannt als
+      edit: Bearbeiten
+      delete: Löschen
+      confirm_delete: Bist du sicher?
+    crop:
+      median_lifespan_html:
+        one: "Mediane Lebensdauer: <strong>%{count}</strong> Tag"
+        other: "Mediane Lebensdauer: <strong>%{count}</strong> Tage"
+      first_harvest_html:
+        one: "Erste Ernte erwartet: <strong>%{count}</strong> Tag nach der Pflanzung"
+        other: "Erste Ernte erwartet: <strong>%{count}</strong> Tage nach der Pflanzung"
+      last_harvest_html:
+        one: "Letzte Ernte erwartet: <strong>%{count}</strong> Tag nach der Pflanzung"
+        other: "Letzte Ernte erwartet: <strong>%{count}</strong> Tage nach der Pflanzung"
+    crop_list:
+      name: Name
+      plantings: Pflanzungen
+    ecocrop_data:
+      title: Ökologische Anforderungen
+      source_html: "Daten aus der FAO-EcoCrop-Datenbank für %{name} %{authority}"
+      family: Familie / Taxonomie
+      killing_temperature: Tödliche Temperatur
+      growth_temperature: "Wachstum: %{temperature} °C"
+      rest_temperature: "Ruhephase: %{temperature} °C"
+      life_form: Lebensform
+      life_span: Lebensdauer
+      habit: Wuchsform
+      soil_depth: Optimale Bodentiefe
+      soil_texture: Optimale Bodenart
+      soil_fertility: Optimale Bodenfruchtbarkeit
+      soil_drainage: Optimale Bodenentwässerung
+      soil_salinity: Optimaler Salzgehalt des Bodens
+      photoperiod: Photoperiode
+      licence_html: "Lizenziert unter %{licence}."
+      citation_html: "Ernährungs- und Landwirtschaftsorganisation der Vereinten Nationen (2025) ECOCROP, die Datenbank für ökologische Anforderungen von Nutzpflanzen. Version 1. %{fao}. Zugriff über den CGIAR Climate Action Data Hub, %{hub}."
+    info:
+      variety_html: "Eine Sorte von %{parent}"
+      how_to_sow: "So säst du %{crop}:"
+      sun_requirement: "Lichtbedarf von %{crop}:"
+      plant_in: "Pflanze in %{conditions}"
+      no_description: Noch keine Beschreibung.
+      add_description: Beschreibung hinzufügen.
+      plantings:
+        one: Pflanzung
+        other: Pflanzungen
+      harvests:
+        one: Ernte
+        other: Ernten
+      seed_packets:
+        one: Saatgutpäckchen
+        other: Saatgutpäckchen
+    job_templates:
+      sign_up: Registriere dich, um diese Aufgaben zu verfolgen und weitere Vorschläge zu erhalten.
+    openfarm_data:
+      grown_for: Angebaut für
+      harvested:
+        one: "%{count}-mal geerntet"
+        other: "%{count}-mal geerntet"
+    photos:
+      title: Fotos
+      group: "%{crop} – %{model}"
+      more: Weitere Fotos
+    popover:
+      planted:
+        one: "%{count}-mal gepflanzt"
+        other: "%{count}-mal gepflanzt"
+    posts:
+      title: "Was andere über %{crop} sagen"
+      empty: "Noch hat niemand über %{crop} geschrieben."
+      join_html: "%{sign_in} oder %{sign_up}, um deine Tipps und Erfahrungen beim Anbau von %{crop} zu teilen."
+      sign_in: Anmelden
+      sign_up: registrieren
+      post: Einen Beitrag schreiben
+    scientific_names:
+      empty: Kein wissenschaftlicher Name eingetragen
+      edit: Bearbeiten
+      delete: Löschen
+      confirm_delete: Bist du sicher?
+    search_bar:
+      search: Suchen
+      crops: Nutzpflanzen suchen
+    predictions:
+      annual_hint: lebt und vermehrt sich in einem einzigen Jahr oder weniger
+      perennial_hint: lebt mehr als zwei Jahre
+      title: "Fakten zu %{crop}"
+      add_attributes: Weitere Eigenschaften hinzufügen
+      median_lifespan: mediane Lebensdauer
+      insufficient_lifespan_data: Wir haben noch nicht genügend Daten zur medianen Lebensdauer.
+      weeks:
+        one: "%{count} Woche"
+        other: "%{count} Wochen"
+      degree_days: Wachstumsgradtage
+      height: Höhe
+      spread: Breite
+      height_spread: Höhe × Breite
+      first_harvest: Erste Ernte erwartet
+      last_harvest: Letzte Ernte erwartet
+      harvest_style: Ernteweise
+      weeks_after_planting:
+        one: Woche nach der Pflanzung
+        other: Wochen nach der Pflanzung
+    harvest_style:
+      single:
+        value: Einmal pro Pflanze
+        description: die ganze Pflanze wird geerntet
+      repeated:
+        value: Mehrmals pro Pflanze
+        description: jede Pflanze liefert wiederholt Ernten
     data_improvement:
       title: Datenverbesserung
       missing: "Nutzpflanzen ohne %{field}"
@@ -519,6 +630,12 @@ de:
       spread: Ausbreitung (cm)
       sun_requirements: Sonnenbedarf
     wrangle:
+      edit: Bearbeiten
+      add_scientific_name: Wissenschaftlichen Namen hinzufügen
+      add_alternate_name: Weiteren Namen hinzufügen
+      fetch_gbif: Daten von GBIF abrufen
+      manage_companions: Mischkulturpartner verwalten
+      job_templates: Aufgabenvorlagen
       add: Hinzufügen
       add_crop: Nutzpflanze hinzufügen
       all_crops: Alle Nutzpflanzen

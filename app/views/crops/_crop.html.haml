@@ -1,7 +1,7 @@
 .card.card-crop
   .crop-image
     = link_to image_tag(crop_image_path(crop),
-                          alt: "Image of #{crop.name}",
+                          alt: t('crops.image_alt', crop: crop.name),
                           class: 'img img-card'),
                           crop
   .card-body
@@ -11,20 +11,14 @@
     .d-flex.justify-content-between
       - if crop.annual? && crop.median_lifespan.present?
         %p.small
-          Median Lifespan
-          %strong= crop.median_lifespan
-          days
+          = t('.median_lifespan_html', count: crop.median_lifespan)
       - unless crop.median_days_to_first_harvest.nil?
         %p.small
-          First harvest expected
-          %strong= crop.median_days_to_first_harvest
-          days after planting
+          = t('.first_harvest_html', count: crop.median_days_to_first_harvest)
 
       - if crop.annual? && crop.median_days_to_last_harvest.present?
         %p.small
-          Last harvest expected
-          %strong= crop.median_days_to_last_harvest
-          days after planting
+          = t('.last_harvest_html', count: crop.median_days_to_last_harvest)
   -# `actions: false` where the page already offers these, as a planting page does.
   - if member_signed_in? && local_assigns.fetch(:actions, true)
     .card-footer

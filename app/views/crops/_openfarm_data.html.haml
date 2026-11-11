@@ -6,4 +6,4 @@
   - part, frequency = crop.popular_plant_parts.first
   - if part
     = render 'layouts/fact_card',
-      title: 'Grown for', value: part[1], description: "harvested #{pluralize(frequency, 'time')}"
+      title: t('.grown_for'), value: part[1], description: t('.harvested', count: frequency)
