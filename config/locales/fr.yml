@@ -133,6 +133,30 @@ fr:
   alternate_names:
     created: Le nom alternatif a été créé avec succès.
     deleted: L'autre nom a été supprimé avec succès.
+    edit:
+      added_by_html: Ajouté par %{creator_link} il y a %{time_ago}.
+      title: Modifier le nom alternatif
+    form:
+      crop: Culture
+      crop_wrangling_guide: guide de gestion des cultures
+      crop_wrangling_guide_intro_html: Pour des instructions détaillées sur la gestion des cultures, veuillez consulter le %{guide_link} sur le wiki Growstuff.
+      errors:
+        one: "1 erreur a empêché l'enregistrement de ce nom alternatif :"
+        other: "%{count} erreurs ont empêché l'enregistrement de ce nom alternatif :"
+      name: Nom
+      save: Enregistrer
+    index:
+      alternate_name: Nom alternatif
+      crop: Culture
+      new_alternate_name: Nouveau nom alternatif
+      show: Afficher
+      title: Liste des noms alternatifs
+    new:
+      title: Nouveau nom alternatif
+    show:
+      alternate_name_label: "Nom alternatif :"
+      back: Retour
+      crop_label: "Culture :"
     updated: Le nom alternatif a été mis à jour avec succès.
   application_helper:
     title:
@@ -329,6 +353,122 @@ fr:
       save: Enregistrer
       wikidata_id: Identifiant Wikidata
     search: Rechercher des cultures
+    edit:
+      added_by_html: Ajouté par %{creator_link} il y a %{time_ago}.
+      approved_by_html: Approuvé par %{approver_link}.
+      requested_by_html: Demandé par %{requester_link} il y a %{time_ago}.
+      status_by_html: 'Statut : %{status} par %{creator_link}.'
+      status_html: 'Statut : %{status}.'
+      title: 'Modifier la culture : %{name}'
+    new:
+      edible_only: La base de données de Growstuff ne contient que des cultures comestibles. À l'avenir, nous espérons prendre en charge d'autres cultures, mais pour l'instant, si votre suggestion n'est pas comestible, nous ne pourrons pas l'ajouter.
+      intro: 'Merci d''avoir pris le temps de suggérer une culture ! Notre base de données de cultures est gérée par des bénévoles et nous apprécions votre aide. Voici quelques éléments à prendre en compte lors de la suggestion d''une nouvelle culture :'
+      new_crop: Nouvelle culture
+      search_our_crops: rechercher parmi nos cultures
+      search_suggestion_html: Tout d'abord, vous souhaiterez peut-être %{search_link} pour vous assurer que nous ne l'avons pas déjà, peut-être sous un autre nom.
+      suggest_crop: Suggérer une culture
+      wikipedia_requirement: Pour l'instant, nous n'ajoutons que les cultures disposant d'une page Wikipédia. Si vous souhaitez ajouter une variété spécifique de culture qui ne possède pas sa propre page Wikipédia, veuillez utiliser la forme la plus générale de la culture et indiquer le nom de votre variété dans les notes/description.
+    form:
+      approve_and_save: Approuver et enregistrer
+      errors:
+        one: '1 erreur a empêché l''enregistrement de cette culture :'
+        other: "%{count} erreurs ont empêché l'enregistrement de cette culture :"
+      reject: Rejeter
+      save: Enregistrer
+    fields:
+      harvest_style:
+        blank: Je ne sais pas
+        heading: Mode de récolte
+        hint: 'Une fois par plante, comme une laitue : la plante entière est récoltée. Plusieurs fois par plante, comme une tomate.'
+        label: Comment une plante est récoltée
+        parent: 'Parente : %{style}'
+      alternate_name_with_index: 'Nom alternatif %{index} :'
+      alternate_names: Noms alternatifs
+      alternate_names_hint: Nom alternatif de la culture.
+      basic_information: Informations de base
+      comments: Commentaires
+      crop_request_notes: Notes sur la demande de culture
+      crop_wrangling_guide: guide de gestion des cultures
+      crop_wrangling_guide_intro_html: Pour des directives détaillées sur la gestion des cultures, veuillez consulter le %{guide_link} sur le wiki Growstuff.
+      currently: 'Actuellement :'
+      data: Données
+      days_until_maturity_max: Jours jusqu'à maturité, au maximum
+      days_until_maturity_min: Jours jusqu'à maturité, au minimum
+      description: Description
+      en_wikipedia_url: URL Wikipédia
+      en_wikipedia_url_hint: Lien vers la page de la culture sur Wikipédia en anglais (requis).
+      en_youtube_url: URL YouTube
+      en_youtube_url_hint: Lien vers une vidéo YouTube sur la culture en anglais.
+      germination_days_max: Germination, au maximum (jours)
+      germination_days_min: Germination, au minimum (jours)
+      growing: Culture
+      growing_degree_days: Degrés-jours de croissance
+      height: Hauteur (cm)
+      icon: Icône
+      icon_blank: 'Aucune : utiliser celle de la culture parente'
+      icon_hint: Facultatif. Affichée pour cette culture et toutes ses variétés qui n'en ont pas.
+      lifespan: Durée de vie
+      lifespan_annual: Annuelle
+      lifespan_annual_hint: Vivant et se reproduisant en une seule année ou moins
+      lifespan_perennial: Vivace
+      lifespan_perennial_hint: Vivant plus de deux ans
+      months_to_sow: Mois de semis
+      months_to_sow_hint: 'Cochez les mois pour l''hémisphère sud : l''hémisphère nord est décalé de six mois.'
+      name:
+        hint: Le nom commun de la culture, en anglais (requis).
+        label: Nom
+        wranglers_hint: 'Wranglers : veuillez vous assurer que ce nom est au singulier et ne mettez de majuscule qu''aux noms propres.'
+      parent_crop: Culture parente
+      parent_crop_hint: Facultatif. Pour définir la hiérarchie des cultures pour les variétés, etc.
+      parent_value: 'Parente : %{value}'
+      public_food_key: Australian Food Composition Database Public Food Key
+      rejection_notes_hint: Veuillez fournir des remarques supplémentaires expliquant pourquoi cette demande de culture a été rejetée si les raisons ci-dessus ne s'appliquent pas.
+      requester_submission_notice: Lorsque vous soumettez ce formulaire, votre suggestion sera envoyée à notre équipe de gestionnaires bénévoles pour examen. Nous vous ferons part du résultat dès que possible.
+      row_spacing: Espacement des rangs (cm)
+      scientific_name_with_index: 'Nom scientifique %{index} :'
+      scientific_names: Noms scientifiques
+      scientific_names_hint: Recherche dans GBIF pour déterminer le nom scientifique de la culture.
+      search_wikipedia: Rechercher sur Wikipédia
+      sowing_method: Méthode de semis
+      spread: Envergure (cm)
+      sun_requirements: Exposition au soleil
+    wrangle:
+      add: Ajouter
+      add_crop: Ajouter une culture
+      all_crops: Toutes les cultures
+      approved: Approuvé
+      clear: Effacer
+      crop_wranglers: Gestionnaires de cultures
+      crops: Cultures
+      full_crop_hierarchy: Hiérarchie complète des cultures
+      merge_crops: Fusionner les cultures
+      not_applicable: N/D
+      pending_approval: En attente d'approbation
+      recently_edited: Récemment modifié
+      rejected: Rejeté
+      search_aria_label: Rechercher des cultures
+      search_button: Rechercher
+      search_placeholder: Rechercher des cultures par nom
+      template: modèle
+      th_added_by: Ajouté par
+      th_alternate_names: Noms alternatifs
+      th_child_crops: Cultures filles
+      th_growing_degree_days: Degrés-jours de croissance
+      th_height: Hauteur
+      th_icon: Icône
+      th_job_templates: Modèles de tâches
+      th_name: Nom
+      th_rejected_by: Rejeté par
+      th_requested_by: Demandé par
+      th_row_spacing: Espacement des rangs
+      th_scientific_names: Noms scientifiques
+      th_spread: Envergure
+      th_updated: Mis à jour
+      th_youtube: YouTube
+      time_ago: il y a %{time}
+      title: Gestion des cultures
+      top_level_crops: Cultures de niveau supérieur
+      yes: Oui
   edit_crop: Modifier le rognage
   follows:
     followers:
@@ -1473,6 +1613,31 @@ fr:
     write_blog_post: Ecrire un article de blog
   scientific_names:
     deleted: Le nom scientifique a été supprimé avec succès.
+    edit:
+      added_by_html: Ajouté par %{creator_link} il y a %{time_ago}.
+      title: Modifier le nom scientifique
+    form:
+      crop: Culture
+      crop_wrangling_guide: guide de gestion des cultures
+      crop_wrangling_guide_intro_html: Pour des instructions détaillées sur la gestion des cultures, veuillez consulter le %{guide_link} sur le wiki Growstuff.
+      errors:
+        one: "1 erreur a empêché l'enregistrement de ce nom scientifique :"
+        other: "%{count} erreurs ont empêché l'enregistrement de ce nom scientifique :"
+      name: Nom
+      save: Enregistrer
+      wikidata_id: Identifiant Wikidata
+    index:
+      crop: Culture
+      new_scientific_name: Nouveau nom scientifique
+      scientific_name: Nom scientifique
+      show: Afficher
+      title: Liste des noms scientifiques
+    new:
+      title: Nouveau nom scientifique
+    show:
+      back: Retour
+      crop_label: "Culture :"
+      scientific_name_label: "Nom scientifique :"
   seasons:
     autumn: L'automne
     spring: Ressort

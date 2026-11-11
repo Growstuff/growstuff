@@ -133,6 +133,30 @@ es:
   alternate_names:
     created: El nombre alternativo se creó correctamente.
     deleted: El nombre alternativo se eliminó correctamente.
+    edit:
+      added_by_html: Añadido por %{creator_link} hace %{time_ago}.
+      title: Editar nombre alternativo
+    form:
+      crop: Cultivo
+      crop_wrangling_guide: guía de disputa de cultivos
+      crop_wrangling_guide_intro_html: Para obtener directrices detalladas sobre la gestión de cultivos, consulte la %{guide_link} en la wiki de Growstuff.
+      errors:
+        one: "1 error impidió que se guardara este nombre alternativo:"
+        other: "%{count} errores impidieron que se guardara este nombre alternativo:"
+      name: Nombre
+      save: Guardar
+    index:
+      alternate_name: Nombre alternativo
+      crop: Cultivo
+      new_alternate_name: Nuevo nombre alternativo
+      show: Mostrar
+      title: Listado de nombres alternativos
+    new:
+      title: Nuevo nombre alternativo
+    show:
+      alternate_name_label: "Nombre alternativo:"
+      back: Volver
+      crop_label: "Cultivo:"
     updated: El nombre alternativo se actualizó correctamente.
   application_helper:
     title:
@@ -329,6 +353,122 @@ es:
       save: Guardar
       wikidata_id: ID de Wikidata
     search: Buscar cultivos
+    edit:
+      added_by_html: Añadido por %{creator_link} hace %{time_ago}.
+      approved_by_html: Aprobado por %{approver_link}.
+      requested_by_html: Solicitado por %{requester_link} hace %{time_ago}.
+      status_by_html: 'Estado: %{status} por %{creator_link}.'
+      status_html: 'Estado: %{status}.'
+      title: 'Editar cultivo: %{name}'
+    new:
+      edible_only: La base de datos de Growstuff solo contiene cultivos comestibles. En el futuro esperamos admitir otros cultivos, pero por ahora, si su sugerencia no es comestible, no podremos agregarla.
+      intro: '¡Gracias por tomarte el tiempo de sugerir un cultivo! Nuestra base de datos de cultivos está gestionada por voluntarios y agradecemos tu ayuda. Aquí hay algunas cosas a considerar al sugerir un nuevo cultivo:'
+      new_crop: Nuevo cultivo
+      search_our_crops: buscar nuestros cultivos
+      search_suggestion_html: En primer lugar, es posible que desees %{search_link} para asegurarte de que no lo tengamos ya, quizás con un nombre alternativo.
+      suggest_crop: Sugerir un cultivo
+      wikipedia_requirement: En este momento, solo estamos añadiendo cultivos que tengan una página de Wikipedia. Si deseas añadir una variedad específica de cultivo que no tenga su propia entrada de Wikipedia, utiliza la forma más general del cultivo e indica el nombre de tu variedad en las notas/descripción.
+    form:
+      approve_and_save: Aprobar y guardar
+      errors:
+        one: '1 error impidió que este cultivo se guardara:'
+        other: "%{count} errores impidieron que este cultivo se guardara:"
+      reject: Rechazar
+      save: Guardar
+    fields:
+      harvest_style:
+        blank: No sé
+        heading: Estilo de cosecha
+        hint: 'Una vez por planta, como una lechuga: se cosecha toda la planta. Muchas veces por planta, como un tomate.'
+        label: Cómo se cosecha una planta
+        parent: 'Principal: %{style}'
+      alternate_name_with_index: 'Nombre alternativo %{index}:'
+      alternate_names: Nombres alternativos
+      alternate_names_hint: Nombre alternativo del cultivo.
+      basic_information: Información básica
+      comments: Comentarios
+      crop_request_notes: Notas de la solicitud de cultivo
+      crop_wrangling_guide: guía de gestión de cultivos
+      crop_wrangling_guide_intro_html: Para obtener pautas detalladas sobre la gestión de cultivos, consulte la %{guide_link} en la wiki de Growstuff.
+      currently: 'Actualmente:'
+      data: Datos
+      days_until_maturity_max: Días hasta la madurez, como máximo
+      days_until_maturity_min: Días hasta la madurez, al menos
+      description: Descripción
+      en_wikipedia_url: URL de Wikipedia
+      en_wikipedia_url_hint: Enlace a la página del cultivo en la Wikipedia en inglés (obligatorio).
+      en_youtube_url: URL de YouTube
+      en_youtube_url_hint: Enlace a un video de YouTube sobre el cultivo en inglés.
+      germination_days_max: Germinación, como máximo (días)
+      germination_days_min: Germinación, al menos (días)
+      growing: Cultivo
+      growing_degree_days: Grados día de crecimiento
+      height: Altura (cm)
+      icon: Icono
+      icon_blank: 'Ninguno: usar el del cultivo principal'
+      icon_hint: Opcional. Se muestra para este cultivo y cualquier variedad del mismo que no tenga uno propio.
+      lifespan: Ciclo de vida
+      lifespan_annual: Anual
+      lifespan_annual_hint: Vive y se reproduce en un solo año o menos
+      lifespan_perennial: Perenne
+      lifespan_perennial_hint: Vive más de dos años
+      months_to_sow: Meses para sembrar
+      months_to_sow_hint: 'Marque los meses para el hemisferio sur: el hemisferio norte tiene seis meses de diferencia.'
+      name:
+        hint: El nombre común del cultivo, en inglés (obligatorio).
+        label: Nombre
+        wranglers_hint: 'Wranglers: asegúrense de que esté en singular y solo pongan en mayúscula los nombres propios.'
+      parent_crop: Cultivo principal
+      parent_crop_hint: Opcional. Para configurar jerarquías de cultivos para variedades, etc.
+      parent_value: 'Principal: %{value}'
+      public_food_key: Australian Food Composition Database Public Food Key
+      rejection_notes_hint: Proporcione notas adicionales sobre el motivo por el cual se rechazó esta solicitud de cultivo si los motivos anteriores no corresponden.
+      requester_submission_notice: Cuando envíe este formulario, su sugerencia se enviará a nuestro equipo de voluntarios encargados de cultivos para su revisión. Le informaremos del resultado lo antes posible.
+      row_spacing: Distancia entre hileras (cm)
+      scientific_name_with_index: 'Nombre científico %{index}:'
+      scientific_names: Nombres científicos
+      scientific_names_hint: Busca en GBIF para determinar el nombre científico del cultivo.
+      search_wikipedia: Buscar en Wikipedia
+      sowing_method: Método de siembra
+      spread: Extensión (cm)
+      sun_requirements: Requisitos de sol
+    wrangle:
+      add: Añadir
+      add_crop: Añadir cultivo
+      all_crops: Todos los cultivos
+      approved: Aprobado
+      clear: Borrar
+      crop_wranglers: Encargados de cultivos
+      crops: Cultivos
+      full_crop_hierarchy: Jerarquía completa de cultivos
+      merge_crops: Combinar cultivos
+      not_applicable: N/D
+      pending_approval: Pendiente de aprobación
+      recently_edited: Editados recientemente
+      rejected: Rechazado
+      search_aria_label: Buscar cultivos
+      search_button: Buscar
+      search_placeholder: Buscar cultivos por nombre
+      template: plantilla
+      th_added_by: Añadido por
+      th_alternate_names: Nombres alternativos
+      th_child_crops: Cultivos secundarios
+      th_growing_degree_days: Grados día de crecimiento
+      th_height: Altura
+      th_icon: Icono
+      th_job_templates: Plantillas de tareas
+      th_name: Nombre
+      th_rejected_by: Rechazado por
+      th_requested_by: Solicitado por
+      th_row_spacing: Distancia entre hileras
+      th_scientific_names: Nombres científicos
+      th_spread: Extensión
+      th_updated: Actualizado
+      th_youtube: YouTube
+      time_ago: hace %{time}
+      title: Gestión de cultivos
+      top_level_crops: Cultivos de nivel superior
+      yes: Sí
   edit_crop: Editar recorte
   follows:
     followers:
@@ -1471,6 +1611,31 @@ es:
     write_blog_post: Escribir entrada de blog
   scientific_names:
     deleted: El nombre científico se eliminó correctamente.
+    edit:
+      added_by_html: Añadido por %{creator_link} hace %{time_ago}.
+      title: Editar nombre científico
+    form:
+      crop: Cultivo
+      crop_wrangling_guide: guía de disputa de cultivos
+      crop_wrangling_guide_intro_html: Para obtener directrices detalladas sobre la gestión de cultivos, consulte la %{guide_link} en la wiki de Growstuff.
+      errors:
+        one: "1 error impidió que se guardara este nombre científico:"
+        other: "%{count} errores impidieron que se guardara este nombre científico:"
+      name: Nombre
+      save: Guardar
+      wikidata_id: ID de Wikidata
+    index:
+      crop: Cultivo
+      new_scientific_name: Nuevo nombre científico
+      scientific_name: Nombre científico
+      show: Mostrar
+      title: Listado de nombres científicos
+    new:
+      title: Nuevo nombre científico
+    show:
+      back: Volver
+      crop_label: "Cultivo:"
+      scientific_name_label: "Nombre científico:"
   seasons:
     autumn: Otoño
     spring: Primavera

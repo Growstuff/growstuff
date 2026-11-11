@@ -228,6 +228,30 @@ en:
   alternate_names:
     created: Alternate name was successfully created.
     deleted: Alternate name was successfully deleted.
+    edit:
+      added_by_html: Added by %{creator_link} %{time_ago} ago.
+      title: Edit alternate name
+    form:
+      crop: Crop
+      crop_wrangling_guide: crop wrangling guide
+      crop_wrangling_guide_intro_html: For detailed crop wrangling guidelines, please consult the %{guide_link} on the Growstuff wiki.
+      errors:
+        one: "1 error prohibited this alternate name from being saved:"
+        other: "%{count} errors prohibited this alternate name from being saved:"
+      name: Name
+      save: Save
+    index:
+      alternate_name: Alternate name
+      crop: Crop
+      new_alternate_name: New alternate name
+      show: Show
+      title: Listing alternate names
+    new:
+      title: New alternate name
+    show:
+      alternate_name_label: "Alternate name:"
+      back: Back
+      crop_label: "Crop:"
     updated: Alternate name was successfully updated.
   application_helper:
     title:
@@ -501,12 +525,64 @@ en:
       request_notes: 'Request notes: %{notes}'
       requested_by: This crop was requested by %{requester} %{time_ago} ago.
     fields:
-      blank: Don't know
+      hardiness:
+        label: Hardiness
       harvest_style:
-      heading: Harvest style
-      hint: 'Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.'
-      label: How a plant is harvested
-      parent: 'Parent: %{style}'
+        blank: Don't know
+        heading: Harvest style
+        hint: 'Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.'
+        label: How a plant is harvested
+        parent: 'Parent: %{style}'
+      alternate_name_with_index: 'Alternate name %{index}:'
+      alternate_names: Alternate names
+      alternate_names_hint: Alternate name of crop.
+      basic_information: Basic information
+      comments: Comments
+      crop_request_notes: Crop request notes
+      crop_wrangling_guide: crop wrangling guide
+      crop_wrangling_guide_intro_html: For detailed crop wrangling guidelines, please consult the %{guide_link} on the Growstuff wiki.
+      currently: 'Currently:'
+      data: Data
+      days_until_maturity_max: Days until maturity, at most
+      days_until_maturity_min: Days until maturity, at least
+      description: Description
+      en_wikipedia_url: Wikipedia URL
+      en_wikipedia_url_hint: Link to the crop's page on the English language Wikipedia (required).
+      en_youtube_url: YouTube URL
+      en_youtube_url_hint: Link to a YouTube video about the crop in English.
+      germination_days_max: Germination, at most (days)
+      germination_days_min: Germination, at least (days)
+      growing: Growing
+      growing_degree_days: Growing degree days
+      height: Height (cm)
+      icon: Icon
+      icon_blank: "None: use the parent crop's"
+      icon_hint: Optional. Shown for this crop and any varieties of it that don't have their own.
+      lifespan: Lifespan
+      lifespan_annual: Annual
+      lifespan_annual_hint: Living and reproducing in a single year or less
+      lifespan_perennial: Perennial
+      lifespan_perennial_hint: Living more than two years
+      months_to_sow: Months to sow
+      months_to_sow_hint: 'Tick the months for the southern hemisphere: the northern hemisphere is six months on.'
+      name:
+        hint: The common name for the crop, in English (required).
+        label: Name
+        wranglers_hint: 'Wranglers: please ensure this is singular, and capitalize proper nouns only.'
+      parent_crop: Parent crop
+      parent_crop_hint: Optional. For setting up crop hierarchies for varieties etc.
+      parent_value: 'Parent: %{value}'
+      public_food_key: Australian Food Composition Database Public Food Key
+      rejection_notes_hint: Please provide additional notes why this crop request was rejected if the above reasons do not apply.
+      requester_submission_notice: When you submit this form, your suggestion will be sent to our team of volunteer crop wranglers for review. We'll let you know the outcome as soon as we can.
+      row_spacing: Row Spacing (cm)
+      scientific_name_with_index: 'Scientific name %{index}:'
+      scientific_names: Scientific names
+      scientific_names_hint: Searches GBIF to determine scientific name of crop.
+      search_wikipedia: Search wikipedia
+      sowing_method: Sowing method
+      spread: Spread (cm)
+      sun_requirements: Sun requirements
     find_seeds:
       empty: There are no seeds available to trade on Growstuff right now.
       list_seeds: List %{crop} seeds to trade
@@ -633,6 +709,65 @@ en:
       save: Save
       wikidata_id: Wikidata ID
     search: Search crops
+    edit:
+      added_by_html: Added by %{creator_link} %{time_ago} ago.
+      approved_by_html: Approved by %{approver_link}.
+      requested_by_html: Requested by %{requester_link} %{time_ago} ago.
+      status_by_html: 'Status: %{status} by %{creator_link}.'
+      status_html: 'Status: %{status}.'
+      title: 'Edit crop: %{name}'
+    new:
+      edible_only: The Growstuff database only contains edible crops. In future we hope to support other crops, but for now, if your suggestion is not edible we won't be able to add it.
+      intro: 'Thanks for taking the time to suggest a crop! Our crop database is managed by volunteers, and we appreciate your help. Here are some things to consider when suggesting a new crop:'
+      new_crop: New crop
+      search_our_crops: search our crops
+      search_suggestion_html: First, you might want to %{search_link} to make sure we don't have it already, perhaps under an alternate name.
+      suggest_crop: Suggest a crop
+      wikipedia_requirement: At this time, we are only adding crops which have a Wikipedia page. If you want to add a specific variety of crop that doesn't have its own Wikipedia entry, please use the more general form of the crop instead and put the name of your variety in the notes/description.
+    form:
+      approve_and_save: Approve and save
+      errors:
+        one: '1 error prohibited this crop from being saved:'
+        other: "%{count} errors prohibited this crop from being saved:"
+      reject: Reject
+      save: Save
+    wrangle:
+      add: Add
+      add_crop: Add Crop
+      all_crops: All crops
+      approved: Approved
+      clear: Clear
+      crop_wranglers: Crop Wranglers
+      crops: Crops
+      full_crop_hierarchy: Full crop hierarchy
+      merge_crops: Merge crops
+      not_applicable: N/A
+      pending_approval: Pending approval
+      recently_edited: Recently edited
+      rejected: Rejected
+      search_aria_label: Search crops
+      search_button: Search
+      search_placeholder: Search crops by name
+      template: template
+      th_added_by: Added by
+      th_alternate_names: Alternate names
+      th_child_crops: Child crops
+      th_growing_degree_days: Growing degree days
+      th_height: Height
+      th_icon: Icon
+      th_job_templates: Job templates
+      th_name: Name
+      th_rejected_by: Rejected by
+      th_requested_by: Requested by
+      th_row_spacing: Row spacing
+      th_scientific_names: Scientific names
+      th_spread: Spread
+      th_updated: Updated
+      th_youtube: YouTube
+      time_ago: '%{time} ago'
+      title: Crop Wrangling
+      top_level_crops: Top level crops
+      yes: 'Yes'
   edit_crop: Edit crop
   flash:
     photo_associations:
@@ -2239,6 +2374,7 @@ en:
     show:
       crop: Crop
       frost_line: "%{degrees} °C frost line"
+      weather_kill_line: "Dies at %{degrees} °C"
       grower: Grower
       harvest_month_yes: "%{month}, usually harvesting"
       harvest_months: Harvest months
@@ -2269,7 +2405,7 @@ en:
       view_all_plantings: All of %{owner}'s plantings
       weather: Weather
       weather_abandoned_note: Nobody has marked this planting as finished, and it is long past when it should have finished, so the weather shown ends on %{date}, when it was expected to finish.
-      weather_absolute_range: Survives %{range}
+      weather_absolute_range: Grows at %{range}
       weather_best_days: Days in its best range
       weather_best_days_value: "%{count} of %{total}"
       weather_coldest: Coldest night
@@ -2287,21 +2423,35 @@ en:
       weather_location_title: Where is this garden?
       weather_new: New
       weather_note_cold: too cold on %{days} (lows below %{limit})
-      weather_note_future_best: Going by last year's weather, %{best} of the %{total} days from %{from} to %{to} should average inside the best range of %{range}.
+      weather_note_above: above the best range on %{days}
+      weather_note_below: below the best range on %{days}
+      weather_note_future_best: Going by last year's weather, %{best} of the %{total} days from %{from} to %{to} should have a high inside the best range of %{range}.
       weather_note_future_caution: Expected to be mixed for %{crop}
-      weather_note_future_danger: Expected not to be optimal for %{crop}
-      weather_note_future_neutral: Expected to stay within what %{crop} survives
+      weather_note_future_danger: Expected to go outside the range %{crop} grows in
+      weather_note_future_killed: The low could reach the killing temperature of %{limit} on %{days}.
+      weather_note_future_neutral: Expected to stay within the range %{crop} grows in
+      weather_note_future_outside: The highs could be %{outside}.
       weather_note_future_problems: It could be %{problems}.
+      weather_note_future_slow: Expected to grow, though not at the fastest, for %{crop}
       weather_note_future_success: Expected to suit %{crop}
-      weather_note_future_survives: Going by last year's weather, it should stay within what %{crop} survives from %{from} to %{to}.
+      weather_note_future_too_both: Expected to be too hot and too cold for %{crop}
+      weather_note_future_too_cold: Expected to be too cold for %{crop}
+      weather_note_future_too_hot: Expected to be too hot for %{crop}
+      weather_note_future_survives: Going by last year's weather, it should stay within the range %{crop} grows in from %{from} to %{to}.
       weather_note_hot: too hot on %{days} (highs above %{limit})
-      weather_note_past_best: From %{from} to %{to}, %{best} of %{total} days averaged inside the best range of %{range}.
+      weather_note_past_best: From %{from} to %{to}, %{best} of %{total} days had a high inside the best range of %{range}.
       weather_note_past_caution: Mixed conditions for %{crop} so far
-      weather_note_past_danger: Not optimal for %{crop} so far
-      weather_note_past_neutral: Within what %{crop} survives so far
+      weather_note_past_danger: Outside the range %{crop} grows in so far
+      weather_note_past_killed: The low reached the killing temperature of %{limit} on %{days}.
+      weather_note_past_neutral: Within the range %{crop} grows in so far
+      weather_note_past_outside: The highs were %{outside}.
       weather_note_past_problems: The weather was %{problems}.
+      weather_note_past_slow: Growing, though not at the fastest, for %{crop} so far
       weather_note_past_success: Good conditions for %{crop} so far
-      weather_note_past_survives: From %{from} to %{to}, the weather stayed within what %{crop} survives.
+      weather_note_past_too_both: Too hot and too cold for %{crop} so far
+      weather_note_past_too_cold: Too cold for %{crop} so far
+      weather_note_past_too_hot: Too hot for %{crop} so far
+      weather_note_past_survives: From %{from} to %{to}, the weather stayed within the range %{crop} grows in.
       weather_now_rain: 'Latest, %{date}: %{rain}'
       weather_now_temperature: 'Latest, %{date}: %{high} / %{low}'
       weather_optimal_range: Grows best %{range}
@@ -2345,6 +2495,31 @@ en:
     write_blog_post: Write blog post
   scientific_names:
     deleted: Scientific name was successfully deleted.
+    edit:
+      added_by_html: Added by %{creator_link} %{time_ago} ago.
+      title: Edit scientific name
+    form:
+      crop: Crop
+      crop_wrangling_guide: crop wrangling guide
+      crop_wrangling_guide_intro_html: For detailed crop wrangling guidelines, please consult the %{guide_link} on the Growstuff wiki.
+      errors:
+        one: "1 error prohibited this scientific name from being saved:"
+        other: "%{count} errors prohibited this scientific name from being saved:"
+      name: Name
+      save: Save
+      wikidata_id: Wikidata ID
+    index:
+      crop: Crop
+      new_scientific_name: New Scientific name
+      scientific_name: Scientific name
+      show: Show
+      title: Listing scientific names
+    new:
+      title: New scientific name
+    show:
+      back: Back
+      crop_label: "Crop:"
+      scientific_name_label: "Scientific name:"
   seasons:
     autumn: Autumn
     spring: Spring
@@ -2601,12 +2776,53 @@ en:
       unplaced: "%{owner} hasn't said where they are yet, so nobody can claim for now."
     update:
       updated: Saved.
+  suggested_jobs:
+    create:
+      added: Added "%{name}" to your planned jobs.
+      already_planned: You already have a job to plant %{crop} then.
+    plant_for_season: Plant %{crop} for %{season} %{year}
   suggestions:
+    climate:
+      add_failed: We couldn't add it. Try again.
+      add_to_jobs: Add to planned jobs
+      average: average
+      best_range: Best at %{low}–%{high}°
+      choose: Open a season to see the crops that suit it.
+      collecting_html: We don't currently have any climate data for %{place}. We'll fetch it soon.
+      days: Days reach
+      degrees: "%{value}°"
+      duration:
+        one: 1 day
+        other: "%{count} days"
+      duration_range: "%{low} to %{high} days"
+      followed_grow: 'People you follow growing this: %{names}'
+      grown_before: You grew this in %{years}
+      growing: You're already growing this
+      heading: Your climate through the year
+      intro_html: What the weather is usually like around %{place}, from the last %{years} years.
+      load_failed: We couldn't load the crops. Try again.
+      loading: Loading crops…
+      millimetres: "%{value} mm"
+      months: "%{first} to %{last}"
+      nights: Nights fall to
+      no_crops: Nothing we know of.
+      no_data: We don't have weather for this season yet.
+      now: Now
+      part_early: early
+      part_late: late
+      part_mid: mid
+      planned: In your planned jobs
+      planting: What gardeners near %{place} are planting in %{season}, most planted first.
+      rain: Rain
+      ready_in: ready in %{part} %{season}
+      retry: Try again
+      still_grows: Also grows in %{season} in %{place}, but not at its best
+      suits: Grows best in %{season} in %{place}
+      timing: "%{days}, %{ready}"
+      your_location: your location
     index:
-      lede: What gardeners at %{band} are planting this month, most planted first.
-      none: Nothing to suggest right now. Check back next month.
       not_located: Tell us where you garden and we can suggest what to sow.
-      title: Easy to sow in %{month} near you
+      title: What to grow near you
     update:
       disabled: We've stopped suggesting crops.
       enabled: Crop suggestions are back.

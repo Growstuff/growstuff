@@ -596,6 +596,27 @@
     transform: translateY(-110%);
   }
 
+  // The temperature that kills the crop while it grows, as a solid red line with its label above it on the left, clear of the
+  // frost line's label on the right and of the axis figures.
+  .weather-kill-line {
+    stroke: $danger-text;
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .weather-kill-label {
+    background: rgba($white, 0.85);
+    border-radius: 3px;
+    color: $danger-text;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0 0.25rem;
+    position: absolute;
+    left: 3rem;
+    transform: translateY(-110%);
+  }
+
   // What EcoCrop says the crop grows best in, and survives, behind the temperature lines: the wider band is paler and
   // has dashed edges, the narrower is stronger with solid ones.
   .weather-band {
@@ -660,11 +681,26 @@
       background: rgba($danger, 0.1);
       border-left-color: $danger;
     }
+
+    // Too cold: blue, since red reads as too hot.
+    &--cold {
+      background: rgba($blue, 0.1);
+      border-left-color: $blue;
+    }
+  }
+
+  .weather-note-icons {
+    display: flex;
+    gap: 0.3rem;
   }
 
   .weather-note-icon {
     font-size: 1.15rem;
     margin-top: 0.1rem;
+  }
+
+  .weather-note .fa-snowflake {
+    color: $blue;
   }
 
   .weather-note--success .weather-note-icon {
@@ -677,6 +713,10 @@
 
   .weather-note--danger .weather-note-icon {
     color: $danger;
+  }
+
+  .weather-note--cold .weather-note-icon {
+    color: $blue;
   }
 
   .weather-note--neutral .weather-note-icon {

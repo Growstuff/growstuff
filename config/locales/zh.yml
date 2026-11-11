@@ -133,6 +133,30 @@ zh:
   alternate_names:
     created: 备用名称已成功创建。
     deleted: 备用名称已成功删除。
+    edit:
+      added_by_html: 由 %{creator_link} 在 %{time_ago} 前添加。
+      title: 编辑备用名称
+    form:
+      crop: 作物
+      crop_wrangling_guide: 作物管理指南
+      crop_wrangling_guide_intro_html: 有关详细的作物整理指南，请参阅 Growstuff wiki 上的%{guide_link}。
+      errors:
+        one: "1 个错误导致此备用名称无法保存："
+        other: "%{count} 个错误导致此备用名称无法保存："
+      name: 名称
+      save: 保存
+    index:
+      alternate_name: 备用名称
+      crop: 作物
+      new_alternate_name: 新建备用名称
+      show: 显示
+      title: 备用名称列表
+    new:
+      title: 新建备用名称
+    show:
+      alternate_name_label: "备用名称："
+      back: 返回
+      crop_label: "作物："
     updated: 备用名称已成功更新。
   application_helper:
     title:
@@ -329,6 +353,122 @@ zh:
       save: 保存
       wikidata_id: 维基数据 ID
     search: 搜索农作物
+    edit:
+      added_by_html: 由 %{creator_link} 在 %{time_ago} 前添加。
+      approved_by_html: 由 %{approver_link} 批准。
+      requested_by_html: 由 %{requester_link} 在 %{time_ago} 前请求。
+      status_by_html: '状态：由 %{creator_link} 设置为 %{status}。'
+      status_html: '状态：%{status}。'
+      title: '编辑作物：%{name}'
+    new:
+      edible_only: Growstuff 数据库仅包含可食用作物。将来我们希望能支持其他作物，但目前如果您的建议不可食用，我们将无法添加。
+      intro: 感谢您抽出宝贵时间推荐作物！我们的作物数据库由志愿者管理，非常感谢您的帮助。推荐新作物时，请考虑以下事项：
+      new_crop: 新建作物
+      search_our_crops: 搜索我们的作物
+      search_suggestion_html: 首先，您可能需要%{search_link}以确保我们尚未添加该作物（可能是以别名存在）。
+      suggest_crop: 推荐作物
+      wikipedia_requirement: 目前，我们只添加有维基百科页面的作物。如果您想添加没有独立维基百科词条的特定作物品种，请改用该作物更通用的名称，并将品种名称写在备注/描述中。
+    form:
+      approve_and_save: 批准并保存
+      errors:
+        one: 1 个错误导致此作物无法保存：
+        other: "%{count} 个错误导致此作物无法保存："
+      reject: 拒绝
+      save: 保存
+    fields:
+      harvest_style:
+        blank: 不知道
+        heading: 收获方式
+        hint: 每株植物一次，如生菜：收获整株植物。每株植物多次，如番茄。
+        label: 如何收获植物
+        parent: '父级：%{style}'
+      alternate_name_with_index: '别名 %{index}：'
+      alternate_names: 别名
+      alternate_names_hint: 作物的别名。
+      basic_information: 基本信息
+      comments: 评论
+      crop_request_notes: 作物请求备注
+      crop_wrangling_guide: 作物管理指南
+      crop_wrangling_guide_intro_html: 有关详细的作物管理准则，请参阅 Growstuff wiki 上的%{guide_link}。
+      currently: '当前：'
+      data: 数据
+      days_until_maturity_max: 成熟天数，最多
+      days_until_maturity_min: 成熟天数，至少
+      description: 描述
+      en_wikipedia_url: 维基百科 URL
+      en_wikipedia_url_hint: 该作物在英文维基百科上的页面链接（必填）。
+      en_youtube_url: YouTube URL
+      en_youtube_url_hint: 关于该作物的英语 YouTube 视频链接。
+      germination_days_max: 发芽天数，最多
+      germination_days_min: 发芽天数，至少
+      growing: 种植
+      growing_degree_days: 积温（度日）
+      height: 高度 (cm)
+      icon: 图标
+      icon_blank: '无：使用父级作物的图标'
+      icon_hint: 可选。显示用于此作物及其所有没有自己图标的品种。
+      lifespan: 寿命
+      lifespan_annual: 一年生
+      lifespan_annual_hint: 在一年或更短时间内生存并繁殖
+      lifespan_perennial: 多年生
+      lifespan_perennial_hint: 存活两年以上
+      months_to_sow: 播种月份
+      months_to_sow_hint: 勾选南半球的月份：北半球相差六个月。
+      name:
+        hint: 作物的常用英文名称（必填）。
+        label: 名称
+        wranglers_hint: '管理员：请确保这是单数形式，并且仅专有名词首字母大写。'
+      parent_crop: 父级作物
+      parent_crop_hint: 可选。用于设置品种等的作物层次结构。
+      parent_value: '父级：%{value}'
+      public_food_key: Australian Food Composition Database Public Food Key
+      rejection_notes_hint: 如果上述原因不适用，请提供拒绝此作物请求的其他说明。
+      requester_submission_notice: 提交此表单后，您的建议将发送给我们的志愿作物管理员团队进行审核。我们将尽快告知您结果。
+      row_spacing: 行距 (cm)
+      scientific_name_with_index: '学名 %{index}：'
+      scientific_names: 学名
+      scientific_names_hint: 搜索 GBIF 以确定作物的学名。
+      search_wikipedia: 搜索维基百科
+      sowing_method: 播种方式
+      spread: 冠幅/株距 (cm)
+      sun_requirements: 光照需求
+    wrangle:
+      add: 添加
+      add_crop: 添加作物
+      all_crops: 所有作物
+      approved: 已批准
+      clear: 清除
+      crop_wranglers: 作物管理员
+      crops: 作物
+      full_crop_hierarchy: 完整作物层次结构
+      merge_crops: 合并作物
+      not_applicable: 无
+      pending_approval: 待批准
+      recently_edited: 最近编辑
+      rejected: 已拒绝
+      search_aria_label: 搜索作物
+      search_button: 搜索
+      search_placeholder: 按名称搜索作物
+      template: 模板
+      th_added_by: 添加者
+      th_alternate_names: 别名
+      th_child_crops: 子作物
+      th_growing_degree_days: 积温
+      th_height: 高度
+      th_icon: 图标
+      th_job_templates: 任务模板
+      th_name: 名称
+      th_rejected_by: 拒绝者
+      th_requested_by: 请求者
+      th_row_spacing: 行距
+      th_scientific_names: 学名
+      th_spread: 冠幅
+      th_updated: 更新时间
+      th_youtube: YouTube
+      time_ago: '%{time}前'
+      title: 作物整理
+      top_level_crops: 顶级作物
+      yes: 是
   edit_crop: 编辑裁剪
   follows:
     followers:
@@ -1467,6 +1607,31 @@ zh:
     write_blog_post: 写博客文章
   scientific_names:
     deleted: 学名已成功删除。
+    edit:
+      added_by_html: 由 %{creator_link} 在 %{time_ago} 前添加。
+      title: 编辑学名
+    form:
+      crop: 作物
+      crop_wrangling_guide: 作物管理指南
+      crop_wrangling_guide_intro_html: 有关详细的作物整理指南，请参阅 Growstuff wiki 上的%{guide_link}。
+      errors:
+        one: "1 个错误导致此学名无法保存："
+        other: "%{count} 个错误导致此学名无法保存："
+      name: 名称
+      save: 保存
+      wikidata_id: 维基数据 ID
+    index:
+      crop: 作物
+      new_scientific_name: 新建学名
+      scientific_name: 学名
+      show: 显示
+      title: 学名列表
+    new:
+      title: 新建学名
+    show:
+      back: 返回
+      crop_label: "作物："
+      scientific_name_label: "学名："
   seasons:
     autumn: 秋天
     spring: 春天

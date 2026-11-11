@@ -167,9 +167,51 @@ class MemberDashboard
   def easy_to_sow(limit = 3)
     return [] unless suggestions_enabled?
 
-    ids = sowing_candidates.pluck(:crop_id) - dismissed_crop_ids - growing.map(&:crop_id)
-    crops = Crop.approved.where(id: ids).index_by(&:id)
-    ids.filter_map { |id| crops[id] }.first(limit)
+    crops_from(sowing_candidates, limit)
+  end
+
+  # The crops gardeners within NEARBY_KM of the member plant in any of the months, in any year, most planted first, leaving
+  # out what the member is growing or has said is not for them. For a season's months.
+  def sowing_in(months, limit = 12)
+    return [] unless suggestions_enabled? && located?
+
+    candidates = Rails.cache.fetch(['sowing-near', *WeatherReading.grid_point(member.latitude, member.longitude), months, @today.year],
+                                   expires_in: 6.hours) do
+      leaders(Planting, :planted_at, months, 40, gardens: { id: nearby_garden_ids })
+    end
+    crops_from(candidates, limit, leave_out_growing: false)
+  end
+
+  # Whether the member has a planting growing of the crop, or of a variety of it.
+  def growing?(crop)
+    @growing_crop_ids ||= growing.flat_map { |planting| [planting.crop_id, planting.crop.parent_id] }.compact.to_set
+    @growing_crop_ids.include?(crop.id)
+  end
+
+  # { crop id => the years before this one the member planted it in, oldest first }, for the crops given, counting a variety of
+  # a crop as growing it. Crops they have not planted in an earlier year are left out.
+  def grown_in_past(crop_ids)
+    return {} if crop_ids.empty?
+
+    rows = member.plantings.joins(:crop).where(plantings: { planted_at: ...@today.beginning_of_year })
+      .where('plantings.crop_id IN (:ids) OR crops.parent_id IN (:ids)', ids: crop_ids)
+      .pluck('plantings.crop_id', 'crops.parent_id', 'plantings.planted_at')
+    rows.each_with_object(Hash.new { |hash, key| hash[key] = [] }) do |(crop_id, parent_id, planted_at), found|
+      [crop_id, parent_id].compact.select { |id| crop_ids.include?(id) }.each { |id| found[id] |= [planted_at.year] }
+    end.transform_values(&:sort)
+  end
+
+  # { crop id => login names of the people the member follows who have it growing }, for the crops given, counting a variety
+  # of a crop as growing it. Crops no one they follow is growing are left out.
+  def followed_growing(crop_ids)
+    return {} if crop_ids.empty? || followed_ids.empty?
+
+    rows = Planting.current.joins(:crop).where(owner_id: followed_ids)
+      .where('plantings.crop_id IN (:ids) OR crops.parent_id IN (:ids)', ids: crop_ids)
+      .distinct.pluck('plantings.crop_id', 'crops.parent_id', 'members.login_name')
+    rows.each_with_object(Hash.new { |hash, key| hash[key] = [] }) do |(crop_id, parent_id, name), found|
+      [crop_id, parent_id].compact.select { |id| crop_ids.include?(id) }.each { |id| found[id] |= [name] }
+    end
   end
 
   def dismissed_count
@@ -194,6 +236,14 @@ class MemberDashboard
   end
 
   private
+
+  # The crops of the candidates, in their order, without those dismissed, and without those growing unless they are to show.
+  def crops_from(candidates, limit, leave_out_growing: true)
+    ids = candidates.pluck(:crop_id) - dismissed_crop_ids
+    ids -= growing.map(&:crop_id) if leave_out_growing
+    crops = Crop.approved.where(id: ids).index_by(&:id)
+    ids.filter_map { |id| crops[id] }.first(limit)
+  end
 
   def year_range(years_back)
     start = @today.beginning_of_year - years_back.years
@@ -257,6 +307,11 @@ class MemberDashboard
       .where.not(id: member.id).reorder(nil).limit(40).pluck(:id) - followed_ids
   end
 
+  # The gardens, other than nurseries, within NEARBY_KM of the member.
+  def nearby_garden_ids
+    Garden.located_for_weather.near([member.latitude, member.longitude], NEARBY_KM, units: :km).reorder(nil).pluck(:id)
+  end
+
   def month_leaders(month)
     {
       month:,
@@ -265,11 +320,12 @@ class MemberDashboard
     }
   end
 
-  def leaders(model, date_column, month, limit = 3)
+  # month: a month number, or several.
+  def leaders(model, date_column, month, limit = 3, gardens: { latitude: band })
     scope = model.joins(:crop)
     scope = model == Planting ? scope.joins(:garden) : scope.joins(planting: :garden)
-    scope.where(gardens: { latitude: band })
-      .where("EXTRACT(MONTH FROM #{model.table_name}.#{date_column}) = ?", month)
+    scope.where(gardens:)
+      .where("EXTRACT(MONTH FROM #{model.table_name}.#{date_column}) IN (?)", Array(month))
       .group('crops.id', 'crops.name').order(Arel.sql('COUNT(*) DESC')).limit(limit).count
       .map { |(crop_id, name), count| { crop_id:, name:, count: } }
   end
