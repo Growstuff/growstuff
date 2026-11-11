@@ -162,6 +162,27 @@ ja:
       name: 学名
       save: 保存
       wikidata_id: Wikidata ID
+  garden_collaborators:
+    new:
+      title: 新しい共同管理者
+    edit:
+      title: 共同管理者を編集
+    form:
+      errors:
+        one: 1 件のエラーによりこの庭の共同管理者は保存されませんでした
+        other: "%{count} 件のエラーによりこの庭の共同管理者は保存されませんでした"
+      guidance: あなたの庭の共同管理者として追加するには、友人や家族、コミュニティガーデンの仲間に Growstuff のユーザー名を聞いてください。
+      save: 共同管理者を保存
+    index:
+      add_collaborator: 庭の共同管理者を追加
+      breadcrumbs_gardens: 庭
+      heading: "%{garden}の共同管理者"
+      joined: "%{time}前に参加しました。"
+      no_collaborators: 表示できる共同管理者はいません。
+      remove_access: アクセスを削除
+      sidebar_blurb: "%{site_name} は、家庭菜園からの収穫を記録し、その生産性を把握するのに役立ちます。"
+      title: "%{garden}の共同管理者"
+      view_all_gardens: "%{name}のすべての庭を表示"
     edit:
       added_by_html: '%{time_ago}前に%{creator_link}によって追加されました。'
       approved_by_html: '%{approver_link}によって承認されました。'

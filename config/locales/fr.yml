@@ -488,6 +488,27 @@ fr:
     index:
       title: Forums
     updated: Le forum a été mis à jour avec succès.
+  garden_collaborators:
+    new:
+      title: Nouveau collaborateur du jardin
+    edit:
+      title: Modifier le collaborateur du jardin
+    form:
+      errors:
+        one: 1 erreur a empêché l'enregistrement de ce collaborateur du jardin
+        other: "%{count} erreurs ont empêché l'enregistrement de ce collaborateur du jardin"
+      guidance: Demandez à votre ami(e), proche ou membre du jardin communautaire son nom d'utilisateur growstuff pour l'ajouter comme collaborateur de votre jardin.
+      save: Enregistrer le collaborateur
+    index:
+      add_collaborator: Ajouter un collaborateur du jardin
+      breadcrumbs_gardens: Jardins
+      heading: Collaborateurs de %{garden}
+      joined: Membre depuis %{time}.
+      no_collaborators: Il n'y a aucun collaborateur à afficher.
+      remove_access: Retirer l'accès
+      sidebar_blurb: "%{site_name} vous aide à suivre vos récoltes au potager et à observer leur productivité."
+      title: Collaborateurs de %{garden}
+      view_all_gardens: voir tous les jardins de %{name}
   gardens:
     about:
       collaborators: collaborateurs

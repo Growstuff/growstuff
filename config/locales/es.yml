@@ -488,6 +488,27 @@ es:
     index:
       title: Foros
     updated: El foro se actualizó correctamente.
+  garden_collaborators:
+    new:
+      title: Nuevo colaborador del huerto
+    edit:
+      title: Editar colaborador del huerto
+    form:
+      errors:
+        one: 1 error impidió guardar este colaborador del huerto
+        other: "%{count} errores impidieron guardar este colaborador del huerto"
+      guidance: Pide a tu amistad, familiar o miembro del huerto comunitario su nombre de usuario de growstuff para añadirlo como colaborador a tu huerto.
+      save: Guardar colaborador
+    index:
+      add_collaborator: Añadir un colaborador del huerto
+      breadcrumbs_gardens: Huertos
+      heading: Colaboradores de %{garden}
+      joined: Se unió hace %{time}.
+      no_collaborators: No hay colaboradores para mostrar.
+      remove_access: Eliminar acceso
+      sidebar_blurb: "%{site_name} te ayuda a registrar lo que cosechas de tu huerto casero y comprobar lo productivo que es."
+      title: Colaboradores de %{garden}
+      view_all_gardens: ver todos los huertos de %{name}
   gardens:
     about:
       collaborators: Colaboradores

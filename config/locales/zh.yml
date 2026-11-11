@@ -488,6 +488,27 @@ zh:
     index:
       title: 论坛
     updated: 论坛更新成功。
+  garden_collaborators:
+    new:
+      title: 新增花园协作者
+    edit:
+      title: 编辑花园协作者
+    form:
+      errors:
+        one: 1 个错误导致无法保存此花园协作者
+        other: "%{count} 个错误导致无法保存此花园协作者"
+      guidance: 向你的朋友、家人或社区花园成员索取他们的 growstuff 用户名，以便将他们添加为你花园的协作者。
+      save: 保存协作者
+    index:
+      add_collaborator: 添加花园协作者
+      breadcrumbs_gardens: 花园
+      heading: "%{garden} 协作者"
+      joined: 加入于 %{time} 前。
+      no_collaborators: 没有可显示的协作者。
+      remove_access: 移除权限
+      sidebar_blurb: "%{site_name} 帮助你追踪家庭花园的收成，并了解其产量表现。"
+      title: "%{garden} 协作者"
+      view_all_gardens: 查看 %{name} 的所有花园
   gardens:
     about:
       collaborators: 合作者

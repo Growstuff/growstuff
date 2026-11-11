@@ -892,6 +892,27 @@ en:
       rare:
         body: Frost is rare in this area, so we show no frost dates.
         title: Frost is rare here
+  garden_collaborators:
+    new:
+      title: New garden collaborator
+    edit:
+      title: Edit garden collaborator
+    form:
+      errors:
+        one: 1 error prohibited this garden collaborator from being saved
+        other: "%{count} errors prohibited this garden collaborator from being saved"
+      guidance: Ask your friend, family member or community garden member for their growstuff username to add them as a collaborator on your garden.
+      save: Save collaborator
+    index:
+      add_collaborator: Add a garden collaborator
+      breadcrumbs_gardens: Gardens
+      heading: "%{garden} collaborators"
+      joined: Joined %{time} ago.
+      no_collaborators: There are no collaborators to display.
+      remove_access: Remove access
+      sidebar_blurb: "%{site_name} helps you track what you're harvesting from your home garden and see how productive it is."
+      title: "%{garden} collaborators"
+      view_all_gardens: view all %{name}'s gardens
   gardens:
     about:
       collaborators: Collaborators

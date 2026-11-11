@@ -488,6 +488,27 @@ de:
     index:
       title: Foren
     updated: Das Forum wurde erfolgreich aktualisiert.
+  garden_collaborators:
+    new:
+      title: Neue Garten-Mitwirkende hinzufügen
+    edit:
+      title: Garten-Mitwirkende bearbeiten
+    form:
+      errors:
+        one: 1 Fehler verhinderte das Speichern dieser Garten-Mitwirkung
+        other: "%{count} Fehler verhinderten das Speichern dieser Garten-Mitwirkung"
+      guidance: Frage Freunde, Familienmitglieder oder Mitglieder des Gemeinschaftsgartens nach ihrem Growstuff-Benutzernamen, um sie als Mitwirkende zu deinem Garten hinzuzufügen.
+      save: Mitwirkende speichern
+    index:
+      add_collaborator: Garten-Mitwirkende hinzufügen
+      breadcrumbs_gardens: Gärten
+      heading: Mitwirkende an %{garden}
+      joined: Vor %{time} beigetreten.
+      no_collaborators: Es sind keine Mitwirkenden vorhanden.
+      remove_access: Zugriff entfernen
+      sidebar_blurb: "%{site_name} hilft dir dabei, deine Ernten im heimischen Garten festzuhalten und zu sehen, wie produktiv er ist."
+      title: Mitwirkende an %{garden}
+      view_all_gardens: Alle Gärten von %{name} anzeigen
   gardens:
     about:
       collaborators: Mitarbeiter
