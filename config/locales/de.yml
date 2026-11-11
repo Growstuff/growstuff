@@ -197,6 +197,32 @@ de:
     view: Sicht
     write_blog_post: Blogbeitrag schreiben
   comments:
+    comments:
+      empty: Es gibt noch keine Kommentare
+    description:
+      activity_html: "%{comment} zu %{subject}"
+      commented: kommentierte
+    form:
+      errors:
+        one: "%{count} Fehler hat das Speichern dieses Kommentars verhindert:"
+        other: "%{count} Fehler haben das Speichern dieses Kommentars verhindert:"
+      your_comment: "Dein Kommentar:"
+      post_comment: Kommentar veröffentlichen
+    single:
+      attribution_html: "Veröffentlicht von %{author} am %{date}"
+      deleted_member: Mitglied gelöscht
+      edited_at: "und bearbeitet am %{date}"
+    edit:
+      title: Kommentar bearbeiten
+      subject_html: "Kommentar zu %{subject} bearbeiten"
+    index:
+      title: Kommentare
+      meta_description: Kommentare durchsuchen und finden.
+      feed_title: "Neueste Kommentare zu allen Beiträgen (%{site})"
+      item_title: "Kommentar von %{author} zu %{subject}"
+      item_description_html: "Kommentar zu %{subject}"
+    new:
+      title: Neuer Kommentar
     edit_modal:
       save: Speichern
       title: Kommentar bearbeiten

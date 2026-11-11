@@ -375,6 +375,32 @@ en:
       one: 1-year average
       other: "%{count}-year average"
   comments:
+    comments:
+      empty: There are no comments yet
+    description:
+      activity_html: "%{comment} on %{subject}"
+      commented: commented
+    form:
+      errors:
+        one: "%{count} error prohibited this comment from being saved:"
+        other: "%{count} errors prohibited this comment from being saved:"
+      your_comment: "Your comment:"
+      post_comment: Post comment
+    single:
+      attribution_html: "Posted by %{author} on %{date}"
+      deleted_member: Member Deleted
+      edited_at: "and edited at %{date}"
+    edit:
+      title: Editing comment
+      subject_html: "Editing comment on %{subject}"
+    index:
+      title: Comments
+      meta_description: Browse and search for comments.
+      feed_title: "Recent comments on all posts (%{site})"
+      item_title: "Comment by %{author} on %{subject}"
+      item_description_html: "Comment on %{subject}"
+    new:
+      title: New comment
     edit_modal:
       save: Save
       title: Edit comment

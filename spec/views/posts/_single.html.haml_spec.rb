@@ -78,7 +78,7 @@ describe "posts/_single" do
     end
 
     it "shows updated time" do
-      expect(rendered).to have_content @comment.updated_at
+      expect(rendered).to have_content I18n.t('comments.single.edited_at', date: I18n.l(@comment.updated_at, format: :long))
     end
   end
 
@@ -109,7 +109,7 @@ describe "posts/_single" do
     end
 
     it "does not show edited at" do
-      expect(rendered).to have_no_content "edited at #{@comment.updated_at}"
+      expect(rendered).to have_no_content I18n.t('comments.single.edited_at', date: I18n.l(@comment.updated_at, format: :long))
     end
   end
 end

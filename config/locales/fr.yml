@@ -197,6 +197,32 @@ fr:
     view: Afficher
     write_blog_post: Ecrire un article de blog
   comments:
+    comments:
+      empty: Aucun commentaire pour le moment
+    description:
+      activity_html: "%{comment} sur %{subject}"
+      commented: a commenté
+    form:
+      errors:
+        one: "%{count} erreur a empêché l'enregistrement de ce commentaire :"
+        other: "%{count} erreurs ont empêché l'enregistrement de ce commentaire :"
+      your_comment: "Votre commentaire :"
+      post_comment: Publier un commentaire
+    single:
+      attribution_html: "Publié par %{author} le %{date}"
+      deleted_member: Membre supprimé
+      edited_at: "et modifié le %{date}"
+    edit:
+      title: Modifier le commentaire
+      subject_html: "Modifier le commentaire sur %{subject}"
+    index:
+      title: Commentaires
+      meta_description: Parcourir et rechercher des commentaires.
+      feed_title: "Commentaires récents sur tous les articles (%{site})"
+      item_title: "Commentaire de %{author} sur %{subject}"
+      item_description_html: "Commentaire sur %{subject}"
+    new:
+      title: Nouveau commentaire
     edit_modal:
       save: Enregistrer
       title: Modifier le commentaire

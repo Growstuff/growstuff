@@ -1,4 +1,4 @@
-= content_for :title, "New comment"
+= content_for :title, t('.title')
 - if @commentable.is_a?(Post)
   %section.blog-post
     .card.post{ id: "post-#{@commentable.id}" }
