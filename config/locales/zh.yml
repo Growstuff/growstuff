@@ -475,6 +475,10 @@ zh:
       top_level_crops: 顶级作物
       yes: 是
   edit_crop: 编辑裁剪
+  flash:
+    photo_associations:
+      destroy:
+        notice: 已从该 %{kind} 中移除照片。该照片仍保留在 Growstuff 上。
   follows:
     followers:
       title: "%{member} 的关注者"
@@ -666,6 +670,19 @@ zh:
       heading: 开始你自己的花园
       text: 在一处种植、收割和保存种子，看看您附近有什么生长得很好。
     updated: 花园已成功更新。
+  hardiness:
+    levels:
+      half_hardy:
+        meaning: 能耐受轻微霜冻
+        name: 半耐寒
+      hardy:
+        meaning: 不怕霜冻
+        name: 耐寒
+      tender:
+        meaning: 霜冻会造成伤害
+        name: 不耐寒
+      unknown:
+        name: 未知
   harvests:
     card:
       by: 由
@@ -1186,7 +1203,20 @@ zh:
   member_dismissals:
     create:
       dismissed: 我们不会再建议 %{name}。
+  member_emails:
+    decline:
+      declined: 好的。我们不会再询问，但在您于账户设置中添加电子邮箱之前，您将不会收到我们的通知。
+    resend:
+      sent: 我们已重新发送链接。
+      wait: 我们刚刚发送了链接。请稍等片刻，并检查您的垃圾邮件文件夹。
+    update:
+      blank: 请输入电子邮箱地址。
+      sent: 我们已向您的电子邮箱发送了确认链接。请访问该链接以进行确认。
+  member_names:
+    update:
+      saved: 谢谢，您的姓名已设置。
   members:
+    confirm_email: "我们已向您的电子邮箱发送了一个链接。请访问该链接以开始接收提醒。"
     card:
       not_interested: 停止建议 %{name}
       visit: 参观 %{name} 的花园
@@ -1661,6 +1691,12 @@ zh:
     summer: 夏天
     winter: 冬天
   seeds:
+    hardiness:
+      half_hardy: 半耐寒（能耐受轻微霜冻）
+      hardy: 耐寒（不怕霜冻）
+      label: 耐寒性？
+      tender: 不耐寒（霜冻会造成伤害）
+      unknown: 未知
     added_to_stash: 已成功将 %{crop} 种子添加到您的储藏室中。
     facts:
       cancel: 取消
@@ -1736,6 +1772,11 @@ zh:
       join: 免费加入
       sign_in: 登录
       text: 一个种植食物的社区。记录您种植和收获的内容，并与其他园丁交换种子和经验心得。免费加入或登录，即可联系 %{name} 了解摊位上的物品。
+  suggested_jobs:
+    create:
+      added: 已将“%{name}”添加到您的计划工作中。
+      already_planned: 届时您已经有一项种植 %{crop} 的工作了。
+    plant_for_season: 在 %{year} 年%{season}种植 %{crop}
   suggestions:
     index:
       lede: "%{band} 的园丁本月正在种植什么，大部分先种植。"

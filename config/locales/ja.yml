@@ -49,6 +49,10 @@ ja:
     inline_form:
       add_comment: コメントを追加
       post_comment: コメントを投稿
+  flash:
+    photo_associations:
+      destroy:
+        notice: その%{kind}から写真を削除しました。写真は引き続きGrowstuffに残ります。
   follows:
     followers:
       title: "%{member}のフォロワー"
@@ -358,6 +362,19 @@ ja:
       inactive_notice: この庭は休止中です。
       set_active: アクティブに設定
       to_plant: して、この庭に何かを植えましょう。
+  hardiness:
+    levels:
+      half_hardy:
+        meaning: 軽い霜なら耐えられます
+        name: 半耐寒性
+      hardy:
+        meaning: 霜に耐えられます
+        name: 耐寒性
+      tender:
+        meaning: 霜で傷みます
+        name: 非耐寒性
+      unknown:
+        name: 不明
   harvests:
     card:
       by: '投稿者:'
@@ -406,7 +423,20 @@ ja:
   layouts:
     footer:
       donate: 寄付 - コーヒーを奢る
+  member_emails:
+    decline:
+      declined: 了解しました。今後は表示しませんが、アカウント設定でメールアドレスを追加するまで通知は届きません。
+    resend:
+      sent: リンクを再送信しました。
+      wait: 先ほど送信しました。少し待ってから、迷惑メールフォルダも確認してください。
+    update:
+      blank: メールアドレスを入力してください。
+      sent: メールアドレスにリンクを送信しました。リンクを開いて確認を完了してください。
+  member_names:
+    update:
+      saved: ありがとうございます。名前が設定されました。
   members:
+    confirm_email: "メールアドレスにリンクを送信しました。リンクを開いてリマインダーの受信を開始してください。"
     contact:
       flickr_logo: Flickrロゴ
       heading: 連絡先
@@ -544,6 +574,12 @@ ja:
       sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
       unknown: 不明
   seeds:
+    hardiness:
+      half_hardy: 半耐寒性（軽い霜なら耐えられます）
+      hardy: 耐寒性（霜に耐えられます）
+      label: 耐寒性？
+      tender: 非耐寒性（霜で傷みます）
+      unknown: 不明
     empty:
       no_finished: 使い切った種はまだありません。
       no_match: 条件に一致する種がありません。
@@ -635,6 +671,11 @@ ja:
       back: 戻る
       crop_label: "作物:"
       scientific_name_label: "学名:"
+  suggested_jobs:
+    create:
+      added: 計画した仕事に「%{name}」を追加しました。
+      already_planned: その時期に%{crop}を植える仕事が既にあります。
+    plant_for_season: "%{year}年%{season}向けに%{crop}を植える"
   stalls:
     about_growstuff:
       join: 無料で参加
