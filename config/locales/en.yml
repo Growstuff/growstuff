@@ -536,6 +536,54 @@ en:
       taken: Taken %{date}
       title: Find a photo of %{crop}
   crops:
+    data_improvement:
+      title: Data Improvement
+      missing: "Crops without %{field}"
+      tabs:
+        photos: Photos
+        descriptions: Descriptions
+        youtube: YouTube videos
+        alternate_names: Alternate names
+        wikidata: Wikidata ID
+        public_food_key: Public Food Key
+        row_spacing: Row spacing
+        sun_requirements: Sun requirements
+        height: Height
+    hierarchy:
+      title: Crop Hierarchy
+      intro_html: "This page shows the hierarchical tree of all crops in our %{database}."
+      database: crops database
+    history:
+      title: "Edit history of %{crop}"
+      back: "Back to %{crop}"
+      empty: This crop has no recorded edits.
+      time_ago: "%{time} ago"
+      made_by_html: "Made by %{member}"
+      events:
+        create: Create
+        update: Update
+        destroy: Destroy
+    search_page:
+      title: Crop search
+      search: Search
+      matching: 'Crops matching "%{term}"'
+      found:
+        one: "Found %{count} total"
+        other: "Found %{count} total"
+      label: "Search crops:"
+      placeholder: Search crops
+      crop: crop
+      no_results: No results found
+      no_matches: 'Sorry, we couldn’t find any crops that matched your search for "%{term}".'
+      browse: browsing our crop database
+      add: adding a new crop
+      try_adding_html: "Try %{browse} or %{add} instead."
+      try_browsing_html: "Try %{browse} instead."
+    show:
+      meta_description: "Learn how to grow %{crop}."
+      last_edited_by_html: "Last edited by %{editor} on %{date}."
+      last_edited: "Last edited on %{date}."
+      view_history: View history
     add_photos_from_flickr: Add photos from Flickr
     alternate_name_modal:
       add_title: Add another name for %{crop}
@@ -696,6 +744,12 @@ en:
     index:
       subtitle: "%{crops_size} total"
       title: Browse Crops
+      meta_description: Browse and search for crops.
+      wrangle: Wrangle Crops
+      add_crop: Add New Crop
+      crops: Crops
+      formats: "The data on this page is available in the following formats:"
+      feed_title: "Recently added crops (%{site})"
     join_banner:
       heading: Growstuff is a free, community-run site for people who grow food.
       prompt: Join to record your own %{crops}.
@@ -724,6 +778,7 @@ en:
         other: weeks after planting
     requested:
       link: You have %{number_crops} crops awaiting approval
+      heading: Crops you have requested
       subtitle: Pending approval
       title: Requested crops
     scientific_name_modal:

@@ -304,6 +304,54 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    data_improvement:
+      title: Mejora de datos
+      missing: "Cultivos sin %{field}"
+      tabs:
+        photos: Fotos
+        descriptions: Descripciones
+        youtube: Vídeos de YouTube
+        alternate_names: Nombres alternativos
+        wikidata: Identificador de Wikidata
+        public_food_key: Public Food Key
+        row_spacing: Separación entre filas
+        sun_requirements: Necesidades de luz solar
+        height: Altura
+    hierarchy:
+      title: Jerarquía de cultivos
+      intro_html: "Esta página muestra el árbol jerárquico de todos los cultivos de nuestra %{database}."
+      database: base de datos de cultivos
+    history:
+      title: "Historial de cambios de %{crop}"
+      back: "Volver a %{crop}"
+      empty: Este cultivo no tiene cambios registrados.
+      time_ago: "hace %{time}"
+      made_by_html: "Realizado por %{member}"
+      events:
+        create: Creación
+        update: Actualización
+        destroy: Eliminación
+    search_page:
+      title: Búsqueda de cultivos
+      search: Buscar
+      matching: 'Cultivos que coinciden con «%{term}»'
+      found:
+        one: "%{count} resultado en total"
+        other: "%{count} resultados en total"
+      label: "Buscar cultivos:"
+      placeholder: Buscar cultivos
+      crop: cultivo
+      no_results: No se encontraron resultados
+      no_matches: 'Lo sentimos, no encontramos cultivos que coincidan con tu búsqueda de «%{term}».'
+      browse: explorar nuestra base de datos de cultivos
+      add: añadir un nuevo cultivo
+      try_adding_html: "Prueba a %{browse} o a %{add}."
+      try_browsing_html: "Prueba a %{browse}."
+    show:
+      meta_description: "Aprende a cultivar %{crop}."
+      last_edited_by_html: "Última edición de %{editor} el %{date}."
+      last_edited: "Última edición el %{date}."
+      view_history: Ver historial
     growing_fact:
       median_of_packets: mediana de los paquetes de semillas de los miembros
       members_packets: "Paquetes de semillas de los miembros: %{median}"
@@ -350,6 +398,12 @@ es:
     index:
       subtitle: "%{crops_size} total"
       title: Explorar cultivos
+      meta_description: Explora y busca cultivos.
+      wrangle: Gestionar cultivos
+      add_crop: Añadir nuevo cultivo
+      crops: Cultivos
+      formats: "Los datos de esta página están disponibles en los siguientes formatos:"
+      feed_title: "Cultivos añadidos recientemente (%{site})"
     join_banner:
       heading: Growstuff es un sitio gratuito administrado por la comunidad para personas que cultivan alimentos.
       prompt: Únase para registrar sus propios %{crops}.
@@ -371,6 +425,7 @@ es:
       title: Información nutricional
     requested:
       link: Tienes cultivos %{number_crops} pendientes de aprobación
+      heading: Cultivos que has solicitado
       subtitle: Pendiente de aprobación
       title: Cultivos solicitados
     scientific_name_modal:

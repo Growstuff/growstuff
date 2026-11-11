@@ -304,6 +304,54 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    data_improvement:
+      title: Amélioration des données
+      missing: "Cultures sans %{field}"
+      tabs:
+        photos: Photos
+        descriptions: Descriptions
+        youtube: Vidéos YouTube
+        alternate_names: Noms alternatifs
+        wikidata: Identifiant Wikidata
+        public_food_key: Public Food Key
+        row_spacing: Espacement des rangs
+        sun_requirements: Besoins en ensoleillement
+        height: Hauteur
+    hierarchy:
+      title: Hiérarchie des cultures
+      intro_html: "Cette page présente l’arbre hiérarchique de toutes les cultures de notre %{database}."
+      database: base de données des cultures
+    history:
+      title: "Historique des modifications de %{crop}"
+      back: "Retour à %{crop}"
+      empty: Aucune modification n’a été enregistrée pour cette culture.
+      time_ago: "il y a %{time}"
+      made_by_html: "Modification par %{member}"
+      events:
+        create: Création
+        update: Mise à jour
+        destroy: Suppression
+    search_page:
+      title: Recherche de cultures
+      search: Rechercher
+      matching: 'Cultures correspondant à « %{term} »'
+      found:
+        one: "%{count} résultat au total"
+        other: "%{count} résultats au total"
+      label: "Rechercher des cultures :"
+      placeholder: Rechercher des cultures
+      crop: culture
+      no_results: Aucun résultat
+      no_matches: 'Désolé, aucune culture ne correspond à votre recherche de « %{term} ».'
+      browse: parcourir notre base de données des cultures
+      add: ajouter une nouvelle culture
+      try_adding_html: "Essayez plutôt de %{browse} ou d’%{add}."
+      try_browsing_html: "Essayez plutôt de %{browse}."
+    show:
+      meta_description: "Découvrez comment cultiver %{crop}."
+      last_edited_by_html: "Dernière modification par %{editor} le %{date}."
+      last_edited: "Dernière modification le %{date}."
+      view_history: Voir l’historique
     growing_fact:
       median_of_packets: médiane des paquets de graines des membres
       members_packets: "Paquets de graines des membres : %{median}"
@@ -350,6 +398,12 @@ fr:
     index:
       subtitle: "%{crops_size} total"
       title: Parcourir les cultures
+      meta_description: Parcourir et rechercher des cultures.
+      wrangle: Gérer les cultures
+      add_crop: Ajouter une nouvelle culture
+      crops: Cultures
+      formats: "Les données de cette page sont disponibles dans les formats suivants :"
+      feed_title: "Cultures récemment ajoutées (%{site})"
     join_banner:
       heading: Growstuff est un site gratuit géré par la communauté pour les personnes qui cultivent des aliments.
       prompt: Inscrivez-vous pour enregistrer vos propres %{crops}.
@@ -371,6 +425,7 @@ fr:
       title: Données nutritionnelles
     requested:
       link: Vous avez des cultures %{number_crops} en attente d'approbation
+      heading: Cultures que vous avez demandées
       subtitle: En attente d’approbation
       title: Cultures demandées
     scientific_name_modal:

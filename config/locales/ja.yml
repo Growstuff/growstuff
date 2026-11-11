@@ -173,6 +173,67 @@ ja:
       participants: 参加者
       sent_on: "%{date}"
   crops:
+    data_improvement:
+      title: データの充実
+      missing: "%{field}が未登録の作物"
+      tabs:
+        photos: 写真
+        descriptions: 説明
+        youtube: YouTube動画
+        alternate_names: 別名
+        wikidata: ウィキデータID
+        public_food_key: Public Food Key
+        row_spacing: 畝間
+        sun_requirements: 日照条件
+        height: 草丈
+    hierarchy:
+      title: 作物の階層構造
+      intro_html: "このページは、%{database}に登録されたすべての作物の階層ツリーを表示します。"
+      database: 作物データベース
+    history:
+      title: "%{crop}の編集履歴"
+      back: "%{crop}に戻る"
+      empty: この作物には編集記録がありません。
+      time_ago: "%{time}前"
+      made_by_html: "編集者：%{member}"
+      events:
+        create: 作成
+        update: 更新
+        destroy: 削除
+    index:
+      subtitle: "合計%{crops_size}件"
+      title: 作物を探す
+      meta_description: 作物を閲覧・検索できます。
+      wrangle: 作物を管理
+      add_crop: 新しい作物を追加
+      crops: 作物
+      formats: このページのデータは次の形式で利用できます：
+      feed_title: "最近追加された作物（%{site}）"
+    requested:
+      title: 申請した作物
+      subtitle: 承認待ち
+      heading: あなたが追加を申請した作物
+    search_page:
+      title: 作物検索
+      search: 検索
+      matching: '「%{term}」に一致する作物'
+      found:
+        one: "合計%{count}件見つかりました"
+        other: "合計%{count}件見つかりました"
+      label: 作物を検索：
+      placeholder: 作物を検索
+      crop: 作物
+      no_results: 検索結果がありません
+      no_matches: '「%{term}」に一致する作物は見つかりませんでした。'
+      browse: 作物データベースを閲覧
+      add: 新しい作物を追加
+      try_adding_html: "代わりに%{browse}するか、%{add}してください。"
+      try_browsing_html: "代わりに%{browse}してください。"
+    show:
+      meta_description: "%{crop}の育て方を学びましょう。"
+      last_edited_by_html: "最終編集：%{editor}、%{date}。"
+      last_edited: "最終編集：%{date}。"
+      view_history: 履歴を見る
     growing_fact:
       median_of_packets: メンバーの種子パケットの中央値
       members_packets: "メンバーの種子パケット: %{median}"
