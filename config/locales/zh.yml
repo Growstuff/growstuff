@@ -1006,6 +1006,50 @@ zh:
       unknown:
         name: 未知
   harvests:
+    attribution: "%{owner}收获的%{crop}"
+    breadcrumbs:
+      harvests: 收获
+      owner_harvests: "%{owner}的收获"
+      plantings: 种植
+    description:
+      activity_html: 收获了%{harvest}
+    edit:
+      title: 编辑收获
+      show: 查看
+      back: 返回
+    feed:
+      title: "%{owner}的近期收获（%{site_name}）"
+      all_members: 所有成员
+    form:
+      errors:
+        one: '有 1 个错误，无法保存此次收获：'
+        other: '有 %{count} 个错误，无法保存此次收获：'
+      crop: 您收获了什么？
+      crop_from_html: 来自%{garden}的%{crop}
+      crop_help_html: 找不到您要的作物？%{link}
+      request_crops: 请求添加新作物。
+      when: 何时？
+      plant_part: 收获的植物部位
+      quantity: 数量是多少？
+      weight_quantity: 总重量
+      notes: 备注
+      leave_blank: 留空
+      rating: 种植总体评分
+      rating_help: 种植情况如何？
+      poor: 差
+      great: 很好
+      save: 保存
+    listing:
+      meta_description: 浏览和搜索收获记录。
+    owner:
+      harvested_by_html: 由%{owner}收获
+      view_all: 查看%{owner}的所有收获
+      harvested_from_html: 收获自%{planting}
+      nearby_html: 查看%{location}附近的其他收获、成员等
+    thumbnail:
+      heading:
+        one: "%{crop}收获"
+        other: "%{crop}收获"
     card:
       by: 由
       harvested: 已收获

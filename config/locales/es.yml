@@ -1008,6 +1008,50 @@ es:
       unknown:
         name: Desconocido
   harvests:
+    attribution: "%{crop} cosechado por %{owner}"
+    breadcrumbs:
+      harvests: Cosechas
+      owner_harvests: Cosechas de %{owner}
+      plantings: Plantaciones
+    description:
+      activity_html: cosechó %{harvest}
+    edit:
+      title: Editar cosecha
+      show: Ver
+      back: Volver
+    feed:
+      title: Cosechas recientes de %{owner} (%{site_name})
+      all_members: todos los miembros
+    form:
+      errors:
+        one: 'Un error impidió guardar esta cosecha:'
+        other: '%{count} errores impidieron guardar esta cosecha:'
+      crop: ¿Qué ha cosechado?
+      crop_from_html: "%{crop} de %{garden}"
+      crop_help_html: ¿No encuentra lo que busca? %{link}
+      request_crops: Solicitar nuevos cultivos.
+      when: ¿Cuándo?
+      plant_part: Parte de la planta cosechada
+      quantity: ¿Cuántos?
+      weight_quantity: Peso total
+      notes: Notas
+      leave_blank: Dejar en blanco
+      rating: Valoración general de la plantación
+      rating_help: ¿Cómo va la plantación?
+      poor: Mal
+      great: Muy bien
+      save: Guardar
+    listing:
+      meta_description: Explorar y buscar cosechas.
+    owner:
+      harvested_by_html: Cosechado por %{owner}
+      view_all: Ver todas las cosechas de %{owner}
+      harvested_from_html: Cosechado de %{planting}
+      nearby_html: Ver otras cosechas, miembros y más cerca de %{location}
+    thumbnail:
+      heading:
+        one: Cosecha de %{crop}
+        other: Cosechas de %{crop}
     card:
       by: por
       harvested: cosechado

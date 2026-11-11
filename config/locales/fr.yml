@@ -1009,6 +1009,50 @@ fr:
       unknown:
         name: Inconnu
   harvests:
+    attribution: "%{crop} récolté par %{owner}"
+    breadcrumbs:
+      harvests: Récoltes
+      owner_harvests: Récoltes de %{owner}
+      plantings: Plantations
+    description:
+      activity_html: a récolté %{harvest}
+    edit:
+      title: Modifier la récolte
+      show: Afficher
+      back: Retour
+    feed:
+      title: Récoltes récentes de %{owner} (%{site_name})
+      all_members: tous les membres
+    form:
+      errors:
+        one: 'Une erreur a empêché l’enregistrement de cette récolte :'
+        other: '%{count} erreurs ont empêché l’enregistrement de cette récolte :'
+      crop: Qu’avez-vous récolté ?
+      crop_from_html: "%{crop} de %{garden}"
+      crop_help_html: Vous ne trouvez pas ce que vous cherchez ? %{link}
+      request_crops: Demander de nouvelles plantes.
+      when: Quand ?
+      plant_part: Partie de la plante récoltée
+      quantity: Combien ?
+      weight_quantity: Poids total
+      notes: Notes
+      leave_blank: Laisser vide
+      rating: Évaluation globale de la plantation
+      rating_help: Comment se porte la plantation ?
+      poor: Mal
+      great: Très bien
+      save: Enregistrer
+    listing:
+      meta_description: Parcourir et rechercher des récoltes.
+    owner:
+      harvested_by_html: Récolté par %{owner}
+      view_all: Voir toutes les récoltes de %{owner}
+      harvested_from_html: Récolté sur %{planting}
+      nearby_html: Voir d’autres récoltes, membres et plus encore près de %{location}
+    thumbnail:
+      heading:
+        one: Récolte de %{crop}
+        other: Récoltes de %{crop}
     card:
       by: par
       harvested: récolté
