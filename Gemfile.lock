@@ -229,6 +229,7 @@ GEM
       logger
     faraday-net_http (3.5.0)
       net-http (~> 0.5)
+    ffi (1.17.4)
     fast_ignore (0.17.4)
     ffi (1.17.4-x86_64-linux-gnu)
     flay (2.14.4)
