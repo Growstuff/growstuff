@@ -1,0 +1,31 @@
+%section#soil-ph.mt-4
+  - if can?(:record_soil_ph, garden)
+    .modal.fade#soil-ph-modal{ tabindex: '-1', role: 'dialog', 'aria-hidden': 'true', 'aria-labelledby': 'soil-ph-modal-title' }
+      .modal-dialog{ role: 'document' }
+        .modal-content
+          = form_for [garden, garden.soil_ph_readings.new(measured_on: Time.zone.today)] do |f|
+            .modal-header
+              %h4.modal-title#soil-ph-modal-title= t('soil_ph_readings.title')
+              %button.btn-close{ type: 'button', 'data-bs-dismiss': 'modal', 'aria-label': t('soil_ph_readings.close') }
+            .modal-body
+              %p= t('soil_ph_readings.frequency')
+              = render 'soil_ph_readings/fields', f: f
+            .modal-footer
+              %button.btn.btn-secondary{ type: 'button', 'data-bs-dismiss': 'modal' }= t('soil_ph_readings.cancel')
+              = f.submit t('soil_ph_readings.save'), class: 'btn btn-primary'
+  - readings = garden.soil_ph_readings.newest_first
+  - if readings.any?
+    %h2= t('soil_ph_readings.history')
+    .table-responsive
+      %table.table
+        %thead
+          %tr
+            %th{ scope: 'col' }= t('soil_ph_readings.date')
+            %th{ scope: 'col' }= t('soil_ph_readings.ph')
+        %tbody
+          - readings.each do |reading|
+            %tr
+              %td= l(reading.measured_on, format: :long)
+              %td
+                = number_with_precision(reading.ph, precision: 2, strip_insignificant_zeros: true)
+                %span.text-muted= soil_ph_description(reading.ph)

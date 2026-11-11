@@ -1,6 +1,28 @@
 # frozen_string_literal: true
 
 module GardensHelper
+  # Broad pH bands, not a judgement of suitability for a particular crop.
+  def soil_ph_description(ph)
+    return if ph.nil?
+
+    band = if ph < 4
+             :very_acidic
+           elsif ph < 6
+             :acidic
+           elsif ph < 7
+             :slightly_acidic
+           elsif ph == 7
+             :neutral
+           elsif ph <= 8
+             :slightly_basic
+           elsif ph <= 10
+             :basic
+           else
+             :very_basic
+           end
+    t("soil_ph_readings.scale.#{band}")
+  end
+
   # The line under a garden's name: where it is, what kind, how big, and how far
   # from the person looking, whichever of those are known.
   def garden_details(garden)

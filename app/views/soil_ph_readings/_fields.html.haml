@@ -1,0 +1,17 @@
+- if f.object.errors.any?
+  .alert.alert-danger{ role: 'alert' }
+    %ul.mb-0
+      - f.object.errors.full_messages.each do |message|
+        %li= message
+.mb-3
+  = f.label :measured_on, t('soil_ph_readings.date'), class: 'form-label'
+  = f.date_field :measured_on, required: true, class: 'form-control'
+.mb-3
+  = f.label :ph, t('soil_ph_readings.ph'), class: 'form-label'
+  = f.number_field :ph, min: 0, max: 14, step: '0.01', required: true, class: 'form-control', aria: { describedby: 'soil-ph-hint' }
+  %p.form-text#soil-ph-hint= t('soil_ph_readings.hint')
+%details.mb-3
+  %summary= t('soil_ph_readings.measuring_title')
+  %p.mt-2= t('soil_ph_readings.measuring_intro')
+  %p= t('soil_ph_readings.measuring_steps')
+  %p= t('soil_ph_readings.measuring_consistency')

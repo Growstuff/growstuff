@@ -3,6 +3,32 @@
 require 'rails_helper'
 
 describe GardensHelper do
+  describe '#soil_ph_description' do
+    subject(:description) { helper.soil_ph_description(ph) }
+
+    { 0 => :very_acidic, 3.99 => :very_acidic, 4 => :acidic,
+      5.99 => :acidic, 6 => :slightly_acidic, 6.99 => :slightly_acidic,
+      7 => :neutral, 7.01 => :slightly_basic, 8 => :slightly_basic,
+      8.01 => :basic, 10 => :basic, 10.01 => :very_basic,
+      14 => :very_basic }.each do |value, band|
+      context "with a pH of #{value}" do
+        let(:ph) { BigDecimal(value.to_s) }
+
+        it "describes the reading as #{band}" do
+          expect(description).to eq(I18n.t("soil_ph_readings.scale.#{band}"))
+        end
+      end
+    end
+
+    context 'without a reading' do
+      let(:ph) { nil }
+
+      it 'has no description' do
+        expect(description).to be_nil
+      end
+    end
+  end
+
   describe "garden description" do
     it "is missing" do
       garden = create(:garden,

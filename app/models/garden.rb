@@ -15,6 +15,7 @@ class Garden < ApplicationRecord
   has_many :jobs, dependent: :destroy
   has_many :planting_histories, dependent: :destroy
   has_many :garden_collaborators, dependent: :destroy
+  has_many :soil_ph_readings, dependent: :destroy
 
   belongs_to :garden_type, optional: true
 

@@ -1,5 +1,26 @@
 ---
 ja:
+  activerecord:
+    attributes:
+      soil_ph_reading:
+        ph: 土壌のpH
+        measured_on: 測定日
+  soil_ph_readings:
+    heading: 土壌のpH
+    title: 土壌のpHを記録
+    date: 測定日
+    ph: 土壌のpH
+    hint: 0〜14の値を入力してください。pH 7は中性です。
+    measuring_title: 土壌のpHの測り方
+    measuring_intro: 園芸店などで購入できる土壌用pH計または土壌pH検査キットを使用してください。水分だけを測る計器ではpHを測定できません。
+    measuring_steps: 校正方法や、湿った土に直接差し込むか土の試料を蒸留水と混ぜるかなど、製品の説明書に従ってください。最近施肥した場所を避けて庭の数か所を測り、それぞれの表示が安定するまで待ちましょう。
+    measuring_consistency: 月ごとの変化を比較しやすくするため、毎回同じ方法で、同じような場所から採取して測定してください。値に大きなばらつきがある場合は再測定するか、土壌分析機関に詳しい検査を依頼してください。
+    frequency: 月に1回程度、土壌のpHを記録して変化を確認しましょう。
+    save: 測定値を保存
+    cancel: キャンセル
+    close: 閉じる
+    saved: 土壌のpH測定値を保存しました。
+    empty: 土壌のpHはまだ記録されていません。
   suggestions:
     index:
       title: あなたの地域で育てられる作物

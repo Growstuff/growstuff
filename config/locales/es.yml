@@ -1,6 +1,26 @@
 ---
 es:
+  soil_ph_readings:
+    heading: pH del suelo
+    title: Registrar el pH del suelo
+    date: Fecha de medición
+    ph: pH del suelo
+    hint: Introduce un valor de 0 a 14. Un pH de 7 es neutro.
+    measuring_title: Cómo medir el pH del suelo
+    measuring_intro: Utiliza un medidor de pH del suelo o un kit de análisis de pH de un centro de jardinería. Un medidor que solo mide la humedad no sirve para medir el pH.
+    measuring_steps: Sigue las instrucciones de calibración y comprueba si debes medir directamente en tierra húmeda o mezclar una muestra con agua destilada. Mide en varios puntos del jardín, evita las zonas abonadas recientemente y espera a que cada lectura se estabilice.
+    measuring_consistency: Para comparar los resultados mensuales, utiliza el mismo método y puntos de muestreo similares. Si los valores varían mucho, repite la medición o solicita un análisis más detallado a un servicio de análisis de suelos.
+    frequency: Registra el pH del suelo aproximadamente una vez al mes para observar los cambios.
+    save: Guardar medición
+    cancel: Cancelar
+    close: Cerrar
+    saved: Se ha guardado la medición del pH del suelo.
+    empty: Aún no hay mediciones del pH del suelo.
   activerecord:
+    attributes:
+      soil_ph_reading:
+        ph: pH del suelo
+        measured_on: Fecha de medición
     errors:
       messages:
         bed_position_incomplete: debe tener una columna y una fila, o ninguna

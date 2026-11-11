@@ -1,6 +1,26 @@
 ---
 zh:
+  soil_ph_readings:
+    heading: 土壤pH值
+    title: 记录土壤pH值
+    date: 测量日期
+    ph: 土壤pH值
+    hint: 请输入0到14之间的数值。pH值为7表示中性。
+    measuring_title: 如何测量土壤pH值
+    measuring_intro: 请使用园艺商店出售的土壤pH测试仪或土壤pH检测试剂盒。只能测量湿度的仪器无法测量pH值。
+    measuring_steps: 请按照产品说明操作，包括校准方法，以及应直接在湿润土壤中测量还是将土壤样本与蒸馏水混合后测量。在花园的几个不同位置进行测量，避开最近施肥的区域，并等待每次读数稳定。
+    measuring_consistency: 为便于逐月比较，请每次使用相同的方法，并在相近的采样位置测量。如果读数差异很大，请重新测量，或请土壤检测机构进行更详细的分析。
+    frequency: 建议每月记录一次土壤pH值，以便观察变化。
+    save: 保存测量值
+    cancel: 取消
+    close: 关闭
+    saved: 土壤pH测量值已保存。
+    empty: 尚无土壤pH测量记录。
   activerecord:
+    attributes:
+      soil_ph_reading:
+        ph: 土壤pH值
+        measured_on: 测量日期
     errors:
       messages:
         bed_position_incomplete: 必须同时具有列和行，或者两者都没有
