@@ -3,7 +3,7 @@
 # The crops that could be grown from a sowing in each season at the member's home, from EcoCrop's temperatures. A crop is
 # left out if, in any month of its cycle, the nights usually fall below the lowest temperature it survives or the days
 # rise above the highest. Of those that survive:
-#   optimal   the average temperature stays in its best range for its shortest cycle
+#   optimal   the days' usual high stays in its best range for its shortest cycle
 #   tolerable the rest, which survive its longest cycle without being at their best
 # A crop with no record of its own uses its parent's, and one with no cycle length is left out. The most planted come
 # first. It holds the working out and no text.
@@ -21,7 +21,6 @@ class SeasonalCrops
   end
 
   def initialize(climate)
-    @means = climate.monthly_means
     @nights = climate.monthly_nights
     @days = climate.monthly_days
   end
@@ -62,9 +61,11 @@ class SeasonalCrops
     end
   end
 
+  # Whether the days' usual high in the month is in the crop's best range. A plant does its growing in the day, so the high is
+  # compared, not the average of the whole day and night, which runs well below it.
   def best?(candidate, month)
-    mean = @means[month]
-    mean && mean >= candidate.best_min && mean <= candidate.best_max
+    high = @days[month]
+    high && high >= candidate.best_min && high <= candidate.best_max
   end
 
   # Whether the month's nights and days stay within what the crop survives. A month we hold no weather for does not.

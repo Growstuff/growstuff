@@ -98,13 +98,14 @@ module PlantingWeatherHelper
     lines += weather_temperature_lines(readings.last(1) + expected, from:, css: 'weather-expected', scale:) if expected.any?
     range = observed.presence || values
     alt = t('plantings.show.weather_temperature_chart_alt', low: weather_degrees(range.min), high: weather_degrees(range.max))
-    alt = [alt, *ranges.to_h.map { |kind, ends| weather_range_text(kind, ends) }].join(' ') if ranges
+    alt = [alt, *ranges.to_h.slice(:optimal, :absolute).map { |kind, ends| weather_range_text(kind, ends) }].join(' ') if ranges
     ticks = [[0, weather_tick(high, '°')], [0.5, weather_tick((low + high) / 2.0, '°')], [1, weather_tick(low, '°')]]
     weather_chart(safe_join([weather_season_bands(seasons, days), weather_range_bands(ranges, scale),
-                             weather_frost_line(frost, scale, days), lines]),
+                             weather_frost_line(frost, scale, days), weather_kill_line(ranges, scale), lines]),
                   alt, 'weather-temperature',
                   now: [weather_now_x(now, from, days), weather_now_temperatures(readings.last)], ticks:,
-                  overlay: safe_join([weather_frost_label(frost, scale), weather_range_labels(ranges, scale)]))
+                  overlay: safe_join([weather_frost_label(frost, scale), weather_kill_label(ranges, scale),
+                                      weather_range_labels(ranges, scale)]))
   end
 
   # The seasons' names, laid out under the charts to the same widths as their bands.

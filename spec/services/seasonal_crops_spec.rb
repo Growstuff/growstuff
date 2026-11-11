@@ -5,12 +5,10 @@ require 'rails_helper'
 describe SeasonalCrops do
   subject(:result) { described_class.new(climate).sown_in(months) }
 
-  # Spring, September to November, averaging 12, 15 and 18 °C, with nights 8 °C cooler and days 8 °C warmer, then a
-  # 25 °C summer.
-  let(:means) { { 9 => 12.0, 10 => 15.0, 11 => 18.0, 12 => 25.0, 1 => 25.0 } }
+  # Spring, September to November, with days reaching 12, 15 and 18 °C and nights 8 °C cooler, then a 25 °C summer.
+  let(:highs) { { 9 => 12.0, 10 => 15.0, 11 => 18.0, 12 => 25.0, 1 => 25.0 } }
   let(:climate) do
-    instance_double(SeasonalClimate, monthly_means: means, monthly_nights: means.transform_values { |v| v - 8 },
-                                     monthly_days: means.transform_values { |v| v + 8 })
+    instance_double(SeasonalClimate, monthly_nights: highs.transform_values { |v| v - 8 }, monthly_days: highs)
   end
   let(:months) { [9, 10, 11] }
   let!(:suitable) { crop_with(10, 20, gmin: 90, tmin: 0, tmax: 40) }
@@ -55,7 +53,7 @@ describe SeasonalCrops do
     end
 
     it 'leaves out a crop the days would kill' do
-      heat_shy = crop_with(10, 20, gmin: 90, tmax: 25)
+      heat_shy = crop_with(10, 20, gmin: 90, tmax: 14)
       expect(optimal).not_to include heat_shy
     end
 
