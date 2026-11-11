@@ -7,6 +7,6 @@
     %h4
       = crop_icon(planting.crop)
       = link_to planting.crop, planting
-      planting
+      = t('plantings.localization.units.planting', count: 1)
     - if planting.finished_at.present?
       %h6.card-subtitle.text-muted=planting.finished_at

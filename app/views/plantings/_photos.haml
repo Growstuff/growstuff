@@ -3,7 +3,7 @@
   - if can?(:edit, planting) && can?(:create, Photo)
     = link_to new_photo_path(id: planting.id, type: 'planting'), class: 'btn btn-sm section-add', data: { planting_dialog: 'photo' } do
       = icon 'fas', 'plus'
-      add
+      = t('plantings.localization.add')
 - if planting.photos.size.positive?
   = render 'photos/gallery', photos: photos
   -# Only worth offering when the page isn't already showing them all.
