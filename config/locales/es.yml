@@ -487,10 +487,30 @@ es:
   forms:
     optional: "(Opcional)"
   forums:
+    edit:
+      title: Editar foro
+    form:
+      errors:
+        one: "%{count} error impidió guardar este foro:"
+        other: "%{count} errores impidieron guardar este foro:"
+      save: Guardar
+    new:
+      title: Nuevo foro
+    show:
+      moderator_html: "Este foro está a cargo de %{moderator}"
+      edit: Editar
+      delete: Eliminar
+      confirm_delete: "¿Está seguro?"
+      posts: Publicaciones
+      post_something: Escribir una publicación
+      empty: Aún no hay publicaciones.
     created: El foro fue creado exitosamente.
     deleted: El foro fue eliminado exitosamente.
     index:
       title: Foros
+      new_forum: Nuevo foro
+      visit_forum: Visitar foro
+      post: Publicar
     updated: El foro se actualizó correctamente.
   garden_collaborators:
     new:

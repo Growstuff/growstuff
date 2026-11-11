@@ -488,10 +488,30 @@ de:
   forms:
     optional: "(Optional)"
   forums:
+    edit:
+      title: Forum bearbeiten
+    form:
+      errors:
+        one: "%{count} Fehler hat das Speichern dieses Forums verhindert:"
+        other: "%{count} Fehler haben das Speichern dieses Forums verhindert:"
+      save: Speichern
+    new:
+      title: Neues Forum
+    show:
+      moderator_html: "Dieses Forum wird von %{moderator} betreut"
+      edit: Bearbeiten
+      delete: Löschen
+      confirm_delete: Bist du sicher?
+      posts: Beiträge
+      post_something: Einen Beitrag schreiben
+      empty: Noch keine Beiträge.
     created: Das Forum wurde erfolgreich erstellt.
     deleted: Das Forum wurde erfolgreich gelöscht.
     index:
       title: Foren
+      new_forum: Neues Forum
+      visit_forum: Forum besuchen
+      post: Beitrag schreiben
     updated: Das Forum wurde erfolgreich aktualisiert.
   garden_collaborators:
     new:

@@ -1,5 +1,28 @@
 ---
 ja:
+  forums:
+    edit:
+      title: フォーラムを編集
+    form:
+      errors:
+        one: "%{count}件のエラーにより、このフォーラムを保存できませんでした："
+        other: "%{count}件のエラーにより、このフォーラムを保存できませんでした："
+      save: 保存
+    index:
+      title: フォーラム
+      new_forum: 新しいフォーラム
+      visit_forum: フォーラムを見る
+      post: 投稿する
+    new:
+      title: 新しいフォーラム
+    show:
+      moderator_html: "このフォーラムの管理者は%{moderator}です"
+      edit: 編集
+      delete: 削除
+      confirm_delete: よろしいですか？
+      posts: 投稿
+      post_something: 投稿する
+      empty: まだ投稿はありません。
   alternate_names:
     created: 別名が正常に作成されました。
     deleted: 別名が正常に削除されました。

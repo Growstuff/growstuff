@@ -488,10 +488,30 @@ fr:
   forms:
     optional: "(Facultatif)"
   forums:
+    edit:
+      title: Modifier le forum
+    form:
+      errors:
+        one: "%{count} erreur a empêché l’enregistrement de ce forum :"
+        other: "%{count} erreurs ont empêché l’enregistrement de ce forum :"
+      save: Enregistrer
+    new:
+      title: Nouveau forum
+    show:
+      moderator_html: "Ce forum est géré par %{moderator}"
+      edit: Modifier
+      delete: Supprimer
+      confirm_delete: Êtes-vous sûr ?
+      posts: Articles
+      post_something: Écrire un article
+      empty: Aucun article pour le moment.
     created: Le forum a été créé avec succès.
     deleted: Le forum a été supprimé avec succès.
     index:
       title: Forums
+      new_forum: Nouveau forum
+      visit_forum: Visiter le forum
+      post: Publier
     updated: Le forum a été mis à jour avec succès.
   garden_collaborators:
     new:
