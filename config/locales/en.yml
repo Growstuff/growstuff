@@ -304,7 +304,7 @@ en:
         warmer: This year is warmer than usual
     chart:
       bar: "%{month}, %{kind}: %{value}"
-      description: 'Column chart of average monthly %{measure}. Usual: %{usual}. This year so far: %{year}.'
+      description: "Column chart of average monthly %{measure}. Usual: %{usual}. This year so far: %{year}."
       legend:
         usual: Usual for the month
         year: This year
