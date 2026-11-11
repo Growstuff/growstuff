@@ -40,15 +40,15 @@ class SeasonalCrops
 
   private
 
-  # Every approved crop with a record and a cycle length, the most planted first.
+  # Every approved crop with a record and a cycle length, the most planted first. A cycle of zero days is missing data.
   def candidates
     @candidates ||= Crop.approved
       .joins('LEFT JOIN crops parents ON parents.id = crops.parent_id')
       .joins('INNER JOIN ecocrop_data ON ecocrop_data.id = COALESCE(crops.ecocrop_data_id, parents.ecocrop_data_id)')
-      .where('ecocrop_data.gmin IS NOT NULL AND ecocrop_data.topmn IS NOT NULL AND ecocrop_data.topmx IS NOT NULL')
+      .where('ecocrop_data.gmin > 0 AND ecocrop_data.topmn IS NOT NULL AND ecocrop_data.topmx IS NOT NULL')
       .select('crops.*, ecocrop_data.topmn AS best_min, ecocrop_data.topmx AS best_max, ecocrop_data.tmin AS kill_min, ' \
               'ecocrop_data.tmax AS kill_max, ecocrop_data.ktmp AS dies_at, ecocrop_data.gmin AS quick_days, ' \
-              'ecocrop_data.gmax AS slow_days')
+              'NULLIF(ecocrop_data.gmax, 0) AS slow_days')
       .order(Arel.sql('crops.plantings_count DESC, lower(crops.name) ASC'))
       .map { |crop| Candidate.new(crop, *crop.attributes.values_at(*Candidate.members.drop(1).map(&:to_s))) }
   end

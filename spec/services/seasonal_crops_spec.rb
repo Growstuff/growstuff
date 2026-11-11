@@ -77,6 +77,11 @@ describe SeasonalCrops do
       expect(optimal).not_to include unknown
     end
 
+    it 'leaves out a crop with a cycle of zero days' do
+      zero = crop_with(10, 20, gmin: 0)
+      expect(optimal).not_to include zero
+    end
+
     it 'leaves out a crop with no record' do
       bare = create(:crop)
       expect(optimal).not_to include bare
@@ -125,6 +130,11 @@ describe SeasonalCrops do
     it 'leaves out a crop whose killing temperature the nights reach' do
       frost_tender = crop_with(2, 10, gmin: 60, ktmp: 12)
       expect(tolerable).not_to include frost_tender
+    end
+
+    it 'ignores a longest cycle of zero days' do
+      zero = crop_with(2, 10, gmin: 60, gmax: 0)
+      expect(tolerable).to include zero
     end
 
     it 'uses the longest cycle' do

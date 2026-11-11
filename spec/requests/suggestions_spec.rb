@@ -127,6 +127,12 @@ describe 'Crop suggestions' do
           expect(crops_of(island_props).first['timing']).to eq '90 to 120 days, ready in early summer'
         end
 
+        it 'gives no timing for a cycle of zero days' do
+          record.update!(gmin: 0, gmax: 0)
+          get suggestions_path
+          expect(crops_of(island_props)).to be_empty
+        end
+
         it 'says the crop is not growing' do
           get suggestions_path
           expect(crops_of(island_props).first['growing']).to be false
