@@ -2118,6 +2118,35 @@ de:
     update:
       updated: Foto aktualisiert
   photos:
+    by_html: "von %{photographer}"
+    description:
+      activity_html: "machte ein Foto %{photo}"
+    edit:
+      title: Foto bearbeiten
+      save: Speichern
+    edit_modal:
+      title: Foto bearbeiten
+    fields:
+      title_placeholder: Titel
+    hero:
+      taken_on: "Aufgenommen am %{date}"
+    index:
+      photos_of: "Fotos von %{subject}"
+      recent: "Zuletzt zu %{site} hinzugefügte Fotos."
+      photos: Fotos
+    new:
+      title: Neues Foto
+      sources_html: "Wähle ein Foto für %{item} aus Flickr oder trage besondere Nutzpflanzen über die App zu %{inaturalist} oder %{plantnet} bei."
+      reconnect_heading: Bitte verbinde dein Flickr-Konto erneut
+      token_expired: Das Token ist abgelaufen oder wurde widerrufen.
+      reconnect: Flickr erneut verbinden
+      connected_html: "Mit Flickr als %{account} verbunden."
+      select_photo: Bitte wähle ein Foto aus deinen letzten Uploads aus.
+      album: Fotoalbum auswählen
+      tag: oder nach Schlagwort suchen
+      search: Suchen
+      connect_required: Du musst dein Konto mit Flickr verbinden, um Fotos hinzuzufügen.
+      connect: Mit Flickr verbinden
     show:
       crop: "%{crop}"
       garden: garten benannt "%{garden}" von %{owner}

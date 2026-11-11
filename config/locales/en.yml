@@ -3148,6 +3148,35 @@ en:
     update:
       updated: Photo updated.
   photos:
+    by_html: "by %{photographer}"
+    description:
+      activity_html: "took a photo %{photo}"
+    edit:
+      title: Edit Photo
+      save: Save
+    edit_modal:
+      title: Edit photo
+    fields:
+      title_placeholder: title
+    hero:
+      taken_on: "Taken on %{date}"
+    index:
+      photos_of: "Photos of %{subject}"
+      recent: "Most recent photos added to %{site}."
+      photos: Photos
+    new:
+      title: New Photo
+      sources_html: "Choose a photo for %{item} from Flickr, or contribute unique crops to %{inaturalist} or %{plantnet} via the app."
+      reconnect_heading: Please reconnect your Flickr account
+      token_expired: The token has expired or been revoked.
+      reconnect: Reconnect Flickr
+      connected_html: "Connected to Flickr as %{account}."
+      select_photo: Please select a photo from your recent uploads.
+      album: Choose a photo album
+      tag: or search by tag
+      search: Search
+      connect_required: You must connect your account to Flickr to add photos.
+      connect: Connect to Flickr
     actions:
       delete: Delete photo from Growstuff
       delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on Flickr.
