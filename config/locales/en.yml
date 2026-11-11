@@ -3693,7 +3693,7 @@ en:
       day_progress: day %{age} of %{lifespan}
       done: Done
       failed: Failed
-      finished: finished
+      finished: Finished
       grown: grown
       grown_in: Grown in
       lifespan_days:

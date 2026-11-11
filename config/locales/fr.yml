@@ -2547,7 +2547,7 @@ fr:
       day_progress: jour %{age} sur %{lifespan}
       done: Terminé
       failed: Échoué
-      finished: terminé
+      finished: Terminé
       grown: poussé
       grown_in: Cultivé en
       lifespan_days:
