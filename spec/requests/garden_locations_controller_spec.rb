@@ -35,17 +35,17 @@ describe GardenLocationsController do
 
     it 'refuses coordinates that are not on Earth' do
       save(place.merge(latitude: 120))
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'refuses a place without coordinates' do
       save(place.except(:latitude, :longitude))
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'refuses a place without a name' do
       save(place.merge(name: ''))
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

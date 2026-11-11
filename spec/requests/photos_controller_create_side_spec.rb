@@ -36,6 +36,6 @@ describe PhotosController, '#create' do
     let(:label) { 'top' }
 
     it('adds nothing') { expect(seed.photos.count).to eq 0 }
-    it('says what is wrong') { expect(response).to have_http_status(:unprocessable_entity) }
+    it('says what is wrong') { expect(response).to have_http_status(:unprocessable_content) }
   end
 end

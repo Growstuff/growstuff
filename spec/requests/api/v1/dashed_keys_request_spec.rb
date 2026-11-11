@@ -45,7 +45,7 @@ RSpec.describe 'API dashed names' do
   describe 'a validation error on a dashed attribute' do
     before { post_planting('planted-from' => 'nonsense') }
 
-    it { expect(response).to have_http_status(:unprocessable_entity) }
+    it { expect(response).to have_http_status(:unprocessable_content) }
 
     it 'points at the dashed name' do
       expect(json['errors'].first['source']['pointer']).to eq('/data/attributes/planted-from')

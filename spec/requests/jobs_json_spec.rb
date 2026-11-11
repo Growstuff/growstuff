@@ -17,7 +17,7 @@ describe 'Adding a job as JSON' do
   context 'without a name' do
     before { post jobs_path(format: :json), params: { job: { name: '' } } }
 
-    it { expect(response).to have_http_status(:unprocessable_entity) }
+    it { expect(response).to have_http_status(:unprocessable_content) }
     it { expect(response.parsed_body['errors']).to have_key('name') }
   end
 end

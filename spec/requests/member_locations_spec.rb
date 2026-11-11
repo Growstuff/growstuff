@@ -37,12 +37,12 @@ describe 'Setting where a member gardens' do
 
     it 'refuses coordinates that are not on Earth' do
       save(place.merge(latitude: 120))
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'refuses a place without a name' do
       save(place.merge(name: ''))
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it 'suggests places for a search' do
@@ -55,7 +55,7 @@ describe 'Setting where a member gardens' do
 
     it 'suggests nothing for a position that is not a number' do
       get suggest_places_path(format: :json, lat: 'north', lng: 'east')
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
