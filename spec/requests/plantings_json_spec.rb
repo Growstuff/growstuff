@@ -45,7 +45,7 @@ describe 'Creating and updating a planting as JSON' do
     it 'returns the validation errors as 422 and creates nothing' do
       expect { create_planting(crop_id: nil) }.not_to(change(Planting, :count))
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.parsed_body['errors']).to have_key('crop')
     end
 
@@ -61,7 +61,7 @@ describe 'Creating and updating a planting as JSON' do
     it 'reports a missing garden as a validation error' do
       create_planting(garden_id: nil)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.parsed_body['errors']).to have_key('garden')
     end
   end
@@ -126,7 +126,7 @@ describe 'Creating and updating a planting as JSON' do
       it 'does not finish it on or before the day it was planted' do
         update_planting({ finished: true, finished_at: '2026-03-01' })
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body['errors']).to have_key('finished_at')
         expect(planting.reload.finished).to be false
       end
@@ -136,7 +136,7 @@ describe 'Creating and updating a planting as JSON' do
 
         update_planting({ planted_at: '2026-05-01' })
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body['errors']).to have_key('finished_at')
         expect(planting.reload.planted_at).to eq Date.new(2026, 3, 1)
       end
