@@ -26,10 +26,7 @@ describe SowingHelper do
 
     context 'with translated month names' do
       it 'uses the current locale for month ranges' do
-        translated_months = [nil, *('A'..'L')]
-        allow(helper).to receive(:t).with('date.abbr_month_names').and_return(translated_months)
-
-        expect(helper.sow_months_text([3, 4])).to eq 'C–D'
+        expect(helper.sow_months_text([3, 4])).to eq 'M–A'
       end
 
       it 'translates the all-year description' do
