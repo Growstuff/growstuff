@@ -1616,6 +1616,24 @@ fr:
     untitled: Publication sans titre
     updated: L'article a été mis à jour avec succès.
     write_blog_post: Ecrire un article de blog
+  rack_attack:
+    blocked:
+      contact: prévenez-nous
+      mistake: Si vous pensez qu'il s'agit d'une erreur,
+      reason_configured: Cette adresse a été bloquée car elle générait une charge excessive sur le site.
+      reason_honeypot: Quelque chose à cette adresse a demandé une page que seuls les robots d'indexation recherchent.
+      reason_other: Cette adresse a été bloquée.
+      reason_pentesters: Quelque chose à cette adresse a demandé à plusieurs reprises des pages recherchées par des scanners, comme des fichiers WordPress ou PHP.
+      reason_semrush: Ce robot d'indexation n'est pas le bienvenu ici.
+      title: Nous ne pouvons pas vous donner accès pour le moment
+    reference: "Référence : %{rule}"
+    throttled:
+      intro: Vous avez chargé beaucoup de pages en peu de temps, nous avons donc ralenti les choses un instant.
+      sign_in: vous connecter
+      title: Ralentissez un peu
+      wait:
+        one: Veuillez réessayer dans une minute. Les membres connectés ne sont pas ralentis, vous pouvez donc
+        other: Veuillez réessayer dans environ %{count} minutes. Les membres connectés ne sont pas ralentis, vous pouvez donc
   scientific_names:
     deleted: Le nom scientifique a été supprimé avec succès.
     edit:
