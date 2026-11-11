@@ -68,7 +68,7 @@ class SuggestionsController < ApplicationController
   def card(crop, season)
     record = crop.ecocrop_record || crop.parent&.ecocrop_record
     { id: crop.id, name: crop.name, path: crop_path(crop), image: helpers.suggested_crop_image(crop), note: best_range(record),
-      timing: timing(record, season), planned: planned_jobs.planned?(crop, season.name), growing: @dashboard.growing?(crop),
+      timing: timing(crop, record, season), planned: planned_jobs.planned?(crop, season.name), growing: @dashboard.growing?(crop),
       grown_before: grown_before_note(crop), followed: followed_note(crop) }
   end
 
@@ -89,15 +89,14 @@ class SuggestionsController < ApplicationController
   end
 
   # How long the crop takes, and when it is ready if sown at the start of the season: "90 to 120 days, ready in early autumn".
-  def timing(record, season)
-    return unless record&.gmin&.positive?
+  def timing(crop, record, season)
+    taking = CropDuration.for(crop, @climate, record:).from(season.months.first)
+    return unless taking
 
-    low = record.gmin
-    high = record.gmax&.positive? ? record.gmax : low
-    days = high == low ? t('suggestions.climate.duration', count: low) : t('suggestions.climate.duration_range', low:, high:)
-    ready = @climate.ready(season, (low + high) / 2.0)
-    t('suggestions.climate.timing', days:, ready: t('suggestions.climate.ready_in', part:   t("suggestions.climate.part_#{ready[:part]}"),
-                                                                                    season: t("seasons.#{ready[:season]}").downcase))
+    ready = @climate.ready(season, (taking.quick + taking.slow) / 2.0)
+    part = t("suggestions.climate.part_#{ready[:part]}")
+    t('suggestions.climate.timing', days:  helpers.crop_duration_days(taking),
+                                    ready: t('suggestions.climate.ready_in', part:, season: t("seasons.#{ready[:season]}").downcase))
   end
 
   def planned_jobs

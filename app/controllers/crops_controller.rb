@@ -10,7 +10,8 @@ class CropsController < ApplicationController
   responders :flash
 
   def index
-    @crops = Crop.search_by_name(nil).paginate(page: params[:page], per_page: 100)
+    @filter = CropFilter.new(current_member, params)
+    @crops = @filter.apply(Crop.search_by_name(nil)).paginate(page: params[:page], per_page: 100)
     if request.format.csv? || request.format.rss?
       @crops = @crops.includes(:parent, :scientific_names, :creator)
       @seed_counts = Seed.where(crop_id: @crops.map(&:id)).group(:crop_id).count

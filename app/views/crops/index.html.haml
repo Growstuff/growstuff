@@ -1,24 +1,36 @@
+-# The crop filters use a React island, which signed in pages load only when they ask for it.
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
 - content_for :title, t('.title')
 - content_for :meta_description, t('.meta_description')
 
 - content_for :buttonbar do
   - if can? :wrangle, Crop
     = link_to t('.wrangle'), wrangle_crops_path, class: 'btn btn-secondary'
-  = link_to t('crops.data_improvement.title'), data_improvement_crops_path, class: 'btn btn-info'
+    = link_to t('crops.data_improvement.title'), data_improvement_crops_path, class: 'btn btn-info'
   - if can? :create, Crop
     = link_to t('.add_crop'), new_crop_path, class: 'btn btn-primary'
+  - elsif !current_member
+    %span.text-muted.align-middle
+      = t('.log_in_to_suggest')
+      = link_to t('.log_in'), new_member_session_path
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item.active= link_to t('.crops'), crops_path
 
 %section.crops
   %h2= t('.title')
-  = will_paginate @crops
-  .index-cards
-    - @crops.each do |c|
-      = render 'crops/thumbnail', crop: c
+  = render 'crops/filters', filter: @filter
+  #crop-results
+    = will_paginate @crops
+    - if @crops.empty?
+      %p.text-muted= t('.no_matches')
+    .index-cards
+      - @crops.each do |c|
+        = render 'crops/thumbnail', crop: c
 
-  = will_paginate @crops
+    = will_paginate @crops
 
 %ul.list-inline
   %li= t('.formats')

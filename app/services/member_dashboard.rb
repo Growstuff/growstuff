@@ -182,6 +182,28 @@ class MemberDashboard
     crops_from(candidates, limit, leave_out_growing: false)
   end
 
+  # The ids of the crops gardeners within NEARBY_KM have planted, counting a variety as planting its parent crop.
+  def crop_ids_planted_nearby
+    return [] unless located?
+
+    crop_ids_of(Planting.where(garden_id: nearby_garden_ids))
+  end
+
+  # The same for the people the member follows.
+  def crop_ids_planted_by_followed
+    crop_ids_of(Planting.where(owner_id: followed_ids))
+  end
+
+  # The same for the member's own plantings, in any year.
+  def crop_ids_planted
+    crop_ids_of(member.plantings)
+  end
+
+  # The ids of the crops the member has seeds of that aren't used up, counting a variety's seeds as seeds of its parent crop.
+  def crop_ids_with_seeds
+    crop_ids_of(member.seeds.active)
+  end
+
   # Whether the member has a planting growing of the crop, or of a variety of it.
   def growing?(crop)
     @growing_crop_ids ||= growing.flat_map { |planting| [planting.crop_id, planting.crop.parent_id] }.compact.to_set
@@ -294,6 +316,11 @@ class MemberDashboard
     Rails.cache.fetch(['sowing-candidates', band, @today.month, @today.year], expires_in: 6.hours) do
       leaders(Planting, :planted_at, @today.month, 40)
     end
+  end
+
+  # The ids of the crops of the plantings or seeds, and of their parent crops.
+  def crop_ids_of(records)
+    records.joins(:crop).distinct.pluck('crops.id', 'crops.parent_id').flatten.compact.uniq
   end
 
   def followed_ids
