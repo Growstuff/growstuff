@@ -9,68 +9,68 @@
       - if @planting.errors.any?
         #error_explanation
           %h2
-            = t('plantings.localization.errors', count: @planting.errors.size)
+            = t('.errors', count: @planting.errors.size)
           %ul
             - @planting.errors.full_messages.each do |msg|
               %li= msg
 
-      = f.label :crop, t('plantings.localization.crop_label'), class: 'required'
+      = f.label :crop, t('.crop_label'), class: 'required'
       - if @seed.present?
         = link_to @seed, seed_path(@seed)
         = f.hidden_field :parent_seed_id, value: @seed.id
       - else
         = auto_suggest @planting, :crop, class: 'form-control', default: @crop
         %span.help-inline
-          = t('plantings.localization.cannot_find')
-          = link_to t('plantings.localization.request_crops'), new_crop_path
+          = t('.cannot_find')
+          = link_to t('.request_crops'), new_crop_path
 
       #planting-alternate-name.mb-3{ class: ('d-none' unless @planting.crop&.alternate_names&.any?),
                                     data: { source_url: alternate_names_path(format: :json) } }
-        = f.label :alternate_name_id, t('plantings.localization.alternate_name')
+        = f.label :alternate_name_id, t('.alternate_name')
         = f.select :alternate_name_id,
                    options_from_collection_for_select(@planting.crop&.alternate_names&.order(:name) || [], :id, :name, @planting.alternate_name_id),
                    { include_blank: @planting.crop&.name || '' }, class: 'form-select'
-        %span.form-text= t('plantings.localization.alternate_help')
+        %span.form-text= t('.alternate_help')
 
       .row
         .col-md-8
           - if @garden_locked
             = f.hidden_field :garden_id
             %p
-              = t('plantings.localization.planting_in_html', garden: content_tag(:strong, @planting.garden.name))
-              = link_to t('plantings.localization.choose_garden'), new_planting_path
+              = t('.planting_in_html', garden: content_tag(:strong, @planting.garden.name))
+              = link_to t('.choose_garden'), new_planting_path
           - else
             = f.collection_radio_buttons(:garden_id, @planting.owner.gardens.active.order_by_name,
               :id, :name, required: true,
-              label: t('plantings.localization.garden_label'))
-            = link_to t('plantings.localization.add_garden'), new_garden_path
+              label: t('.garden_label'))
+            = link_to t('.add_garden'), new_garden_path
         .col-md-4
           = f.date_field :planted_at,
                      value: @planting.planted_at ? @planting.planted_at.to_fs(:ymd) : '',
-                     label: t('plantings.localization.when'), title: t('plantings.localization.date_help')
+                     label: t('.when'), title: t('.date_help')
 
       .row
         .col-md-4
-          - methods = Planting::PLANTED_FROM_VALUES.map { |method| [t("plantings.localization.units.#{method}", count: 1), method] }
-          = f.select(:planted_from, methods, { include_blank: '', label: t('plantings.localization.planted_from') } )
+          - methods = Planting::PLANTED_FROM_VALUES.map { |method| [t("plantings.units.#{method}", count: 1), method] }
+          = f.select(:planted_from, methods, { include_blank: '', label: t('.planted_from') } )
         .col-md-4
-          - sun_options = Planting::SUNNINESS_VALUES.map { |sun| [t("plantings.localization.sun.#{sun}"), sun] }
-          = f.select(:sunniness, sun_options, { include_blank: '', label: t('plantings.localization.sun_label') } )
+          - sun_options = Planting::SUNNINESS_VALUES.map { |sun| [t("plantings.sun.#{sun}"), sun] }
+          = f.select(:sunniness, sun_options, { include_blank: '', label: t('.sun_label') } )
         .col-md-4
           - levels = Hardiness::VALUES.map { |level| [t("hardiness.levels.#{level}.name"), level] }
           = f.select :hardiness, levels, { label: t('plantings.hardiness.label'), help: t('plantings.hardiness.help') }
         .col-md-4
-          = f.number_field :quantity, label: t('plantings.localization.how_many'), min: 1
+          = f.number_field :quantity, label: t('.how_many'), min: 1
         .col-md-12
-          = f.range_field :overall_rating, min: 1, max: 5, include_blank: t('plantings.localization.leave_blank'), label: t('plantings.localization.rating'), list: "rating-list", title: t('plantings.localization.rating_help')
+          = f.range_field :overall_rating, min: 1, max: 5, include_blank: t('.leave_blank'), label: t('.rating'), list: "rating-list", title: t('.rating_help')
           %datalist{"id": "rating-list"}
-            %option{"value": "1"}= t('plantings.localization.poor')
+            %option{"value": "1"}= t('.poor')
             %option{"value": "2"}
             %option{"value": "3"}
             %option{"value": "4"}
-            %option{"value": "5"}= t('plantings.localization.great')
+            %option{"value": "5"}= t('.great')
 
-      = f.text_area :description, rows: 6, label: t('plantings.localization.description')
+      = f.text_area :description, rows: 6, label: t('.description')
 
       .row
         .col-md-6
@@ -79,11 +79,11 @@
         .col-md-6
           = f.date_field :finished_at,
                      value: @planting.finished_at ? @planting.finished_at.to_fs(:ymd) : '',
-                     label: t('plantings.localization.finished_date'),
-                     placeholder: t('plantings.localization.optional')
+                     label: t('.finished_date'),
+                     placeholder: t('.optional')
       .row
         .col-md-6
           = f.check_box :failed, label: t('buttons.mark_as_failed'), title: t('.failed_helper')
 
     .card-footer
-      .text-end= f.submit t('plantings.localization.save')
+      .text-end= f.submit t('.save')

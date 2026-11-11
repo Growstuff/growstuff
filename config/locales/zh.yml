@@ -2522,87 +2522,9 @@ zh:
       perennial: 多年生
       unknown: 未知
   plantings:
-    localization:
-      harvest_ready: 这次种植现在可以收获了
-      harvest_prediction: 预计距离收获的周数
-      add: 添加
-      activity_html: 种植了%{crop}
-      actions: '%{planting}的操作'
-      quantity: 数量：
-      planted: 种植日期：
-      set_date: 请设置种植日期以启用预测
-      insufficient_data: '%{crop}的数据不足，无法预测'
-      edit: 编辑种植记录
-      browse: 浏览和搜索种植记录。
-      plantings: 种植记录
-      owner_plantings: '%{owner}的种植记录'
-      include_finished: 包含已结束的种植
-      open_data: 开放数据
-      api_methods: API方法
-      no_plantings: 暂无种植记录
-      calendar_description: '%{owner}的种植记录'
-      feed_title: '%{owner}最近的种植记录（%{site}）'
-      all_members: 所有成员
-      feed_item: '%{location}的%{planting}'
-      grower_photo: '%{owner}种植的%{planting}'
-      grown_by_html: 种植者：%{owner}
-      in_garden_html: 种植地点：%{garden}
-      cultivate_prompt: 这是这块种植床最近的最后一次种植。您想近期翻耕土壤吗？
-      cultivate: 翻耕土壤
-      crop_photo: '%{crop}的照片'
-      variety_html: '%{crop}的一个品种'
-      annual_lifespan_html: 一年生植物，生长期约%{days}
-      annual: 一年生植物
-      perennial: 多年生植物
-      first_harvest_html: 首次收获约在种植%{days}后
-      last_harvest_html: 最后收获约在种植%{days}后
-      usual_sun_html: 通常在%{sun}下种植
-      more: 了解更多关于%{crop}的信息
-      days: {one: '%{count}天', other: '%{count}天'}
-      errors:
-        one: '%{count}个错误导致此种植记录无法保存：'
-        other: '%{count}个错误导致此种植记录无法保存：'
-      crop_label: 您种了什么？
-      cannot_find: 找不到您想要的作物？
-      request_crops: 申请添加新作物。
-      alternate_name: 您怎么称呼它？
-      alternate_help: 可选。您的种植记录将显示此名称，而不是作物的主要名称。
-      planting_in_html: 种植于%{garden}
-      choose_garden: 选择其他菜园
-      garden_label: 您种在哪里？
-      add_garden: 添加菜园。
-      when: 何时？
-      date_help: 使用未来日期规划种植，并订阅您的iCalendar日历以接收种植提醒
-      planted_from: 种植材料
-      sun_label: 向阳还是背阴？
-      how_many: 多少？
-      leave_blank: 留空
-      rating: 总体评价
-      rating_help: 种植情况如何？
-      poor: 差
-      great: 很好
-      description: 请提供更多信息
-      finished_date: 结束日期
-      optional: 可选
-      save: 保存
-      sun: {sun: 全日照, semi-shade: 半阴, shade: 阴处}
-      units:
-        plant: {one: 株植物, other: 株植物}
-        planting: {one: 次种植, other: 次种植}
-        harvest: {one: 次收获, other: 次收获}
-        seed: {one: 种子, other: 种子}
-        seedling: {one: 幼苗, other: 幼苗}
-        cutting: {one: 插条, other: 插条}
-        volunteer: {one: 自生苗, other: 自生苗}
-        root division: {one: 分株, other: 分株}
-        runner: {one: 匍匐茎, other: 匍匐茎}
-        bulb: {one: 鳞茎, other: 鳞茎}
-        root/tuber: {one: 根或块茎, other: 根或块茎}
-        bare root plant: {one: 裸根苗, other: 裸根苗}
-        advanced plant: {one: 大苗, other: 大苗}
-        graft: {one: 嫁接苗, other: 嫁接苗}
-        layering: {one: 压条苗, other: 压条苗}
     badges:
+      harvest_prediction: 预计距离收获的周数
+      harvest_ready: 这次种植现在可以收获了
       days_until_finished: 距离完成的天数
       days_until_harvest: 距收获天数
       harvesting_now: 现在收获
@@ -2642,11 +2564,48 @@ zh:
       sown_from_expired: 使用过期种子播种（请在 %{year} 年前种植）
       unknown: 未知
     form:
+      save: 保存
+      optional: 可选
+      finished_date: 结束日期
+      description: 请提供更多信息
+      great: 很好
+      poor: 差
+      rating_help: 种植情况如何？
+      rating: 总体评价
+      leave_blank: 留空
+      how_many: 多少？
+      sun_label: 向阳还是背阴？
+      planted_from: 种植材料
+      date_help: 使用未来日期规划种植，并订阅您的iCalendar日历以接收种植提醒
+      when: 何时？
+      add_garden: 添加菜园。
+      garden_label: 您种在哪里？
+      choose_garden: 选择其他菜园
+      planting_in_html: 种植于%{garden}
+      alternate_help: 可选。您的种植记录将显示此名称，而不是作物的主要名称。
+      alternate_name: 您怎么称呼它？
+      request_crops: 申请添加新作物。
+      cannot_find: 找不到您想要的作物？
+      crop_label: 您种了什么？
+      errors:
+        one: '%{count}个错误导致此种植记录无法保存：'
+        other: '%{count}个错误导致此种植记录无法保存：'
       failed_helper: 如果该种植死亡或在没有任何收获的情况下被移除，则将其标记为失败。
       finish_helper: 当你收获了所有的作物，或者它死了，或者它不再在你的花园里生长时，种植就完成了。
     garden_card:
       by: 经过
     index:
+      feed_item: '%{location}的%{planting}'
+      all_members: 所有成员
+      feed_title: '%{owner}最近的种植记录（%{site}）'
+      calendar_description: '%{owner}的种植记录'
+      no_plantings: 暂无种植记录
+      api_methods: API方法
+      open_data: 开放数据
+      include_finished: 包含已结束的种植
+      owner_plantings: '%{owner}的种植记录'
+      plantings: 种植记录
+      browse: 浏览和搜索种植记录。
       title:
         crop_plantings: 大家的%{crop}种植
         default: 大家的种植
@@ -2662,6 +2621,13 @@ zh:
     progress:
       progress_0_not_planted_yet: 进度：0% - 尚未种植
     show:
+      cultivate: 翻耕土壤
+      cultivate_prompt: 这是这块种植床最近的最后一次种植。您想近期翻耕土壤吗？
+      in_garden_html: 种植地点：%{garden}
+      grown_by_html: 种植者：%{owner}
+      grower_photo: '%{owner}种植的%{planting}'
+      plantings: 种植记录
+      add: 添加
       crop: 庄稼
       grower: 种植者
       harvest_month_yes: "%{month}，通常收获"
@@ -2722,6 +2688,52 @@ zh:
       move_to: 将此植株移至：
       submit: 移植
       title: 移植 %{crop}
+    descendants:
+      add: 添加
+    harvests:
+      add: 添加
+    photos:
+      add: 添加
+    description:
+      activity_html: 种植了%{crop}
+    menu:
+      actions: '%{planting}的操作'
+    popover:
+      planted: 种植日期：
+      quantity: 数量：
+    progress_list:
+      insufficient_data: '%{crop}的数据不足，无法预测'
+      set_date: 请设置种植日期以启用预测
+    edit:
+      title: 编辑种植记录
+    crop:
+      days: {one: '%{count}天', other: '%{count}天'}
+      more: 了解更多关于%{crop}的信息
+      usual_sun_html: 通常在%{sun}下种植
+      last_harvest_html: 最后收获约在种植%{days}后
+      first_harvest_html: 首次收获约在种植%{days}后
+      perennial: 多年生植物
+      annual: 一年生植物
+      annual_lifespan_html: 一年生植物，生长期约%{days}
+      variety_html: '%{crop}的一个品种'
+      crop_photo: '%{crop}的照片'
+    sun: {sun: 全日照, semi-shade: 半阴, shade: 阴处}
+    units:
+      plant: {one: 株植物, other: 株植物}
+      planting: {one: 次种植, other: 次种植}
+      harvest: {one: 次收获, other: 次收获}
+      seed: {one: 种子, other: 种子}
+      seedling: {one: 幼苗, other: 幼苗}
+      cutting: {one: 插条, other: 插条}
+      volunteer: {one: 自生苗, other: 自生苗}
+      root division: {one: 分株, other: 分株}
+      runner: {one: 匍匐茎, other: 匍匐茎}
+      bulb: {one: 鳞茎, other: 鳞茎}
+      root/tuber: {one: 根或块茎, other: 根或块茎}
+      bare root plant: {one: 裸根苗, other: 裸根苗}
+      advanced plant: {one: 大苗, other: 大苗}
+      graft: {one: 嫁接苗, other: 嫁接苗}
+      layering: {one: 压条苗, other: 压条苗}
   posts:
     draft: 草稿
     description:

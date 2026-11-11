@@ -2,11 +2,11 @@
 %rss{ version: 2.0 }
   %channel
     %title
-      = t('plantings.localization.feed_title', owner: @owner || t('plantings.localization.all_members'), site: ENV['GROWSTUFF_SITE_NAME'])
+      = t('.feed_title', owner: @owner || t('.all_members'), site: ENV['GROWSTUFF_SITE_NAME'])
     %link= plantings_url
     - @plantings.each do |planting|
       %item
-        %title= t('plantings.localization.feed_item', planting: planting.display_name, location: planting.location)
+        %title= t('.feed_item', planting: planting.display_name, location: planting.location)
         %pubdate= planting.created_at.to_fs(:rfc822)
         %description
           :escaped
