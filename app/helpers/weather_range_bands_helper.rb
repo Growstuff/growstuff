@@ -16,14 +16,17 @@ module WeatherRangeBandsHelper
   # limits; it is a warning when at least WEATHER_NOTE_DANGER_SHARE of its days did.
   WEATHER_NOTE_GOOD_SHARE = 0.6
   WEATHER_NOTE_DANGER_SHARE = 0.05
+  # A way of being off (too hot, too cold) is named in a note's title when at least this share of its days went that way.
+  WEATHER_NOTE_CAUSE_SHARE = 0.1
   # Where the band labels go, in chart units (the chart is as many pixels tall): the least distance from the top, below the
   # "Latest" label, how far under its band's top edge a label sits, and how tall one is.
   WEATHER_LABEL_TOP = 20
   WEATHER_LABEL_INSET = 2
   WEATHER_LABEL_HEIGHT = 15
 
-  # { optimal: [low, high], absolute: [low, high] } for a crop, leaving out what EcoCrop has nothing on. The best range
-  # needs both its ends; the absolute one can have only one, and is then open at the other. Nil with neither.
+  # { optimal: [low, high], absolute: [low, high], kill: degrees } for a crop, leaving out what EcoCrop has nothing on. The
+  # best range needs both its ends; the absolute one can have only one, and is then open at the other. kill is the
+  # temperature that kills the crop while it grows. Nil with none of them.
   def weather_temperature_ranges(crop)
     return unless crop
 
@@ -65,6 +68,7 @@ module WeatherRangeBandsHelper
     ranges = {}
     ranges[:optimal] = [data.topmn, data.topmx] if data.topmn && data.topmx
     ranges[:absolute] = [data.tmin, data.tmax] if data.tmin || data.tmax
+    ranges[:kill] = data.ktmp if data.ktmp
     ranges.presence
   end
 
@@ -84,8 +88,21 @@ module WeatherRangeBandsHelper
     return if days.empty?
 
     figures = weather_period_figures(days, ranges)
-    weather_note(figures[:level], t("plantings.show.weather_note_#{period}_#{figures[:level]}", crop: crop.name),
-                 weather_period_detail(period, days, ranges, figures, crop))
+    weather_note(figures[:level], weather_period_title(period, figures, crop), weather_period_detail(period, days, ranges, figures, crop),
+                 icons: (%w(skull snowflake) if figures[:killed].positive?), cold: weather_period_cold?(figures))
+  end
+
+  # Whether the cold alone was the trouble, for a note to be blue and not red: too cold with no heat, or the lows killing the
+  # crop when no heat stands out.
+  def weather_period_cold?(figures)
+    %i(caution danger).include?(figures[:level]) && (figures[:cause] == :cold || (figures[:cause].nil? && figures[:killed].positive?))
+  end
+
+  # The title: when the period was not a good one and it is clear whether it was too hot, too cold or both, it says so,
+  # otherwise how it went.
+  def weather_period_title(period, figures, crop)
+    cause = figures[:cause] if %i(caution danger).include?(figures[:level])
+    t("plantings.show.weather_note_#{period}_#{cause ? "too_#{cause}" : figures[:level]}", crop: crop.name)
   end
 
   # How many of the days had a high inside the best range, how many went past what the crop survives (a high above its
@@ -98,7 +115,21 @@ module WeatherRangeBandsHelper
     cold = low ? days.count { |day| day.low < low } : 0
     beyond = days.count { |day| (high && day.high > high) || (low && day.low < low) }
     best = optimal ? days.count { |day| day.high.between?(*optimal) } : nil
-    { hot:, cold:, best:, total: days.size, level: weather_period_level(days.size, beyond, best) }
+    killed = ranges[:kill] ? days.count { |day| day.low <= ranges[:kill] } : 0
+    { hot:, cold:, best:, killed:, total: days.size, level: killed.positive? ? :danger : weather_period_level(days.size, beyond, best),
+      cause: weather_period_cause(days, optimal, low), below: optimal ? days.count { |day| day.high < optimal.first } : 0,
+      above: optimal ? days.count { |day| day.high > optimal.last } : 0 }
+  end
+
+  # :hot, :cold or :both when at least WEATHER_NOTE_CAUSE_SHARE of the days were too hot (a high above the best range) or
+  # too cold (a high below it, or a low below what the crop survives), and nil when no one way stands out.
+  def weather_period_cause(days, optimal, survives_down_to)
+    return unless optimal
+
+    hot = days.count { |day| day.high > optimal.last }
+    cold = days.count { |day| day.high < optimal.first || (survives_down_to && day.low < survives_down_to) }
+    ways = { hot:, cold: }.select { |_, count| count.to_f / days.size >= WEATHER_NOTE_CAUSE_SHARE }.keys
+    ways.size == 2 ? :both : ways.first
   end
 
   def weather_period_level(total, beyond, best)
@@ -120,8 +151,21 @@ module WeatherRangeBandsHelper
     elsif problems.empty?
       sentences << t("plantings.show.weather_note_#{period}_survives", **span, crop: crop.name)
     end
+    outside = weather_period_outside(figures)
+    if figures[:killed].positive?
+      sentences << t("plantings.show.weather_note_#{period}_killed", days: weather_days(figures[:killed]),
+                                                                    limit: weather_degrees(ranges[:kill]))
+    end
+    sentences << t("plantings.show.weather_note_#{period}_outside", outside: outside.to_sentence) if outside.any?
     sentences << t("plantings.show.weather_note_#{period}_problems", problems: problems.to_sentence) if problems.any?
     sentences.join(' ')
+  end
+
+  # "below the best range on 20 days", for each way the days' highs missed the best range.
+  def weather_period_outside(figures)
+    { below: figures[:below], above: figures[:above] }.filter_map do |way, count|
+      t("plantings.show.weather_note_#{way}", days: weather_days(count)) if count.positive?
+    end
   end
 
   # "too hot on 13 days (highs above 30°C)", for each way the weather went past what the crop survives.
@@ -144,9 +188,13 @@ module WeatherRangeBandsHelper
   end
 
   # A small card: an icon for how it went, what it says, and the figures behind it.
-  def weather_note(level, title, detail)
-    tag.div(class: "weather-note weather-note--#{level}", role: 'status') do
-      safe_join([tag.i(class: "fas fa-#{WEATHER_NOTE_ICONS.fetch(level)} weather-note-icon", aria: { hidden: true }),
+  # `icons` replace the one the level has: a skull and a snowflake for a crop that the cold would kill.
+  # `cold` makes the note blue, since red reads as too hot.
+  def weather_note(level, title, detail, icons: nil, cold: false)
+    icons ||= [WEATHER_NOTE_ICONS.fetch(level)]
+    tag.div(class: ["weather-note weather-note--#{level}", ('weather-note--cold' if cold)], role: 'status') do
+      safe_join([tag.span(safe_join(icons.map { |icon| tag.i(class: "fas fa-#{icon} weather-note-icon", aria: { hidden: true }) }),
+                          class: 'weather-note-icons'),
                  tag.div(safe_join([tag.strong(title), tag.span(detail)]))])
     end
   end
@@ -166,6 +214,22 @@ module WeatherRangeBandsHelper
       top, bottom = weather_range_edges(ranges[kind], scale)
       tag.rect(class: "weather-band weather-band--#{kind}", x: 0, y: top, width: WEATHER_CHART_WIDTH, height: bottom - top)
     end)
+  end
+
+  # A solid line across the chart at the temperature that kills the crop while it grows, and what it is beside it.
+  def weather_kill_line(ranges, scale)
+    return unless ranges&.dig(:kill)
+
+    y = weather_range_y(ranges[:kill], scale)
+    tag.line(class: 'weather-kill-line', x1: 0, x2: WEATHER_CHART_WIDTH, y1: y, y2: y)
+  end
+
+  def weather_kill_label(ranges, scale)
+    return unless ranges&.dig(:kill)
+
+    y = weather_range_y(ranges[:kill], scale)
+    tag.span(t('plantings.show.weather_kill_line', degrees: weather_tick(ranges[:kill], '')),
+             class: 'weather-kill-label', style: "top: #{(y * 100 / WEATHER_CHART_HEIGHT).round(2)}%")
   end
 
   # What each band is, in the chart's right-hand corner, under its top edge. The "Latest" label owns the very top, so a

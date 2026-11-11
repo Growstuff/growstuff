@@ -2244,6 +2244,7 @@ en:
     show:
       crop: Crop
       frost_line: "%{degrees} °C frost line"
+      weather_kill_line: "Dies at %{degrees} °C"
       grower: Grower
       harvest_month_yes: "%{month}, usually harvesting"
       harvest_months: Harvest months
@@ -2274,7 +2275,7 @@ en:
       view_all_plantings: All of %{owner}'s plantings
       weather: Weather
       weather_abandoned_note: Nobody has marked this planting as finished, and it is long past when it should have finished, so the weather shown ends on %{date}, when it was expected to finish.
-      weather_absolute_range: Survives %{range}
+      weather_absolute_range: Grows at %{range}
       weather_best_days: Days in its best range
       weather_best_days_value: "%{count} of %{total}"
       weather_coldest: Coldest night
@@ -2292,21 +2293,33 @@ en:
       weather_location_title: Where is this garden?
       weather_new: New
       weather_note_cold: too cold on %{days} (lows below %{limit})
+      weather_note_above: above the best range on %{days}
+      weather_note_below: below the best range on %{days}
       weather_note_future_best: Going by last year's weather, %{best} of the %{total} days from %{from} to %{to} should have a high inside the best range of %{range}.
       weather_note_future_caution: Expected to be mixed for %{crop}
       weather_note_future_danger: Expected not to be optimal for %{crop}
-      weather_note_future_neutral: Expected to stay within what %{crop} survives
+      weather_note_future_killed: The low could reach the killing temperature of %{limit} on %{days}.
+      weather_note_future_neutral: Expected to stay within the range %{crop} grows in
+      weather_note_future_outside: The highs could be %{outside}.
       weather_note_future_problems: It could be %{problems}.
       weather_note_future_success: Expected to suit %{crop}
-      weather_note_future_survives: Going by last year's weather, it should stay within what %{crop} survives from %{from} to %{to}.
+      weather_note_future_too_both: Expected to be too hot and too cold for %{crop}
+      weather_note_future_too_cold: Expected to be too cold for %{crop}
+      weather_note_future_too_hot: Expected to be too hot for %{crop}
+      weather_note_future_survives: Going by last year's weather, it should stay within the range %{crop} grows in from %{from} to %{to}.
       weather_note_hot: too hot on %{days} (highs above %{limit})
       weather_note_past_best: From %{from} to %{to}, %{best} of %{total} days had a high inside the best range of %{range}.
       weather_note_past_caution: Mixed conditions for %{crop} so far
       weather_note_past_danger: Not optimal for %{crop} so far
-      weather_note_past_neutral: Within what %{crop} survives so far
+      weather_note_past_killed: The low reached the killing temperature of %{limit} on %{days}.
+      weather_note_past_neutral: Within the range %{crop} grows in so far
+      weather_note_past_outside: The highs were %{outside}.
       weather_note_past_problems: The weather was %{problems}.
       weather_note_past_success: Good conditions for %{crop} so far
-      weather_note_past_survives: From %{from} to %{to}, the weather stayed within what %{crop} survives.
+      weather_note_past_too_both: Too hot and too cold for %{crop} so far
+      weather_note_past_too_cold: Too cold for %{crop} so far
+      weather_note_past_too_hot: Too hot for %{crop} so far
+      weather_note_past_survives: From %{from} to %{to}, the weather stayed within the range %{crop} grows in.
       weather_now_rain: 'Latest, %{date}: %{rain}'
       weather_now_temperature: 'Latest, %{date}: %{high} / %{low}'
       weather_optimal_range: Grows best %{range}

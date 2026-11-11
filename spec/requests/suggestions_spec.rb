@@ -77,7 +77,7 @@ describe 'Crop suggestions' do
       context 'with a crop whose best temperature suits every season' do
         include ActiveSupport::Testing::TimeHelpers
 
-        let(:record) { create(:ecocrop_data, topmn: 8, topmx: 12, gmin: 30, tmin: 0, tmax: 40) }
+        let(:record) { create(:ecocrop_data, topmn: 12, topmx: 18, gmin: 30, tmin: 0, tmax: 40) }
         let!(:crop) { create(:crop, name: 'Wintery kale', ecocrop_record: record) }
 
         before do
@@ -118,7 +118,7 @@ describe 'Crop suggestions' do
 
         it 'says the temperatures the crop grows best in' do
           get suggestions_path
-          expect(crops_of(island_props).first['note']).to eq 'Best at 8–12°'
+          expect(crops_of(island_props).first['note']).to eq 'Best at 12–18°'
         end
 
         it 'says how long the crop takes and when it is ready' do
