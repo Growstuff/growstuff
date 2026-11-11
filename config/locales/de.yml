@@ -197,6 +197,32 @@ de:
     view: Sicht
     write_blog_post: Blogbeitrag schreiben
   comments:
+    comments:
+      empty: Es gibt noch keine Kommentare
+    description:
+      activity_html: "%{comment} zu %{subject}"
+      commented: kommentierte
+    form:
+      errors:
+        one: "%{count} Fehler hat das Speichern dieses Kommentars verhindert:"
+        other: "%{count} Fehler haben das Speichern dieses Kommentars verhindert:"
+      your_comment: "Dein Kommentar:"
+      post_comment: Kommentar veröffentlichen
+    single:
+      attribution_html: "Veröffentlicht von %{author} am %{date}"
+      deleted_member: Mitglied gelöscht
+      edited_at: "und bearbeitet am %{date}"
+    edit:
+      title: Kommentar bearbeiten
+      subject_html: "Kommentar zu %{subject} bearbeiten"
+    index:
+      title: Kommentare
+      meta_description: Kommentare durchsuchen und finden.
+      feed_title: "Neueste Kommentare zu allen Beiträgen (%{site})"
+      item_title: "Kommentar von %{author} zu %{subject}"
+      item_description_html: "Kommentar zu %{subject}"
+    new:
+      title: Neuer Kommentar
     edit_modal:
       save: Speichern
       title: Kommentar bearbeiten
@@ -278,6 +304,165 @@ de:
         published: Veröffentlicht
     saved: Jobvorlage gespeichert.
   crops:
+    image_alt: "Bild von %{crop}"
+    add_photos_from_flickr: Fotos aus Flickr hinzufügen
+    alternate_names:
+      heading: Auch bekannt als
+      edit: Bearbeiten
+      delete: Löschen
+      confirm_delete: Bist du sicher?
+    crop:
+      median_lifespan_html:
+        one: "Mediane Lebensdauer: <strong>%{count}</strong> Tag"
+        other: "Mediane Lebensdauer: <strong>%{count}</strong> Tage"
+      first_harvest_html:
+        one: "Erste Ernte erwartet: <strong>%{count}</strong> Tag nach der Pflanzung"
+        other: "Erste Ernte erwartet: <strong>%{count}</strong> Tage nach der Pflanzung"
+      last_harvest_html:
+        one: "Letzte Ernte erwartet: <strong>%{count}</strong> Tag nach der Pflanzung"
+        other: "Letzte Ernte erwartet: <strong>%{count}</strong> Tage nach der Pflanzung"
+    crop_list:
+      name: Name
+      plantings: Pflanzungen
+    ecocrop_data:
+      title: Ökologische Anforderungen
+      source_html: "Daten aus der FAO-EcoCrop-Datenbank für %{name} %{authority}"
+      family: Familie / Taxonomie
+      killing_temperature: Tödliche Temperatur
+      growth_temperature: "Wachstum: %{temperature} °C"
+      rest_temperature: "Ruhephase: %{temperature} °C"
+      life_form: Lebensform
+      life_span: Lebensdauer
+      habit: Wuchsform
+      soil_depth: Optimale Bodentiefe
+      soil_texture: Optimale Bodenart
+      soil_fertility: Optimale Bodenfruchtbarkeit
+      soil_drainage: Optimale Bodenentwässerung
+      soil_salinity: Optimaler Salzgehalt des Bodens
+      photoperiod: Photoperiode
+      licence_html: "Lizenziert unter %{licence}."
+      citation_html: "Ernährungs- und Landwirtschaftsorganisation der Vereinten Nationen (2025) ECOCROP, die Datenbank für ökologische Anforderungen von Nutzpflanzen. Version 1. %{fao}. Zugriff über den CGIAR Climate Action Data Hub, %{hub}."
+    info:
+      variety_html: "Eine Sorte von %{parent}"
+      how_to_sow: "So säst du %{crop}:"
+      sun_requirement: "Lichtbedarf von %{crop}:"
+      plant_in: "Pflanze in %{conditions}"
+      no_description: Noch keine Beschreibung.
+      add_description: Beschreibung hinzufügen.
+      plantings:
+        one: Pflanzung
+        other: Pflanzungen
+      harvests:
+        one: Ernte
+        other: Ernten
+      seed_packets:
+        one: Saatgutpäckchen
+        other: Saatgutpäckchen
+    job_templates:
+      sign_up: Registriere dich, um diese Aufgaben zu verfolgen und weitere Vorschläge zu erhalten.
+    openfarm_data:
+      grown_for: Angebaut für
+      harvested:
+        one: "%{count}-mal geerntet"
+        other: "%{count}-mal geerntet"
+    photos:
+      title: Fotos
+      group: "%{crop} – %{model}"
+      more: Weitere Fotos
+    popover:
+      planted:
+        one: "%{count}-mal gepflanzt"
+        other: "%{count}-mal gepflanzt"
+    posts:
+      title: "Was andere über %{crop} sagen"
+      empty: "Noch hat niemand über %{crop} geschrieben."
+      join_html: "%{sign_in} oder %{sign_up}, um deine Tipps und Erfahrungen beim Anbau von %{crop} zu teilen."
+      sign_in: Anmelden
+      sign_up: registrieren
+      post: Einen Beitrag schreiben
+    scientific_names:
+      empty: Kein wissenschaftlicher Name eingetragen
+      edit: Bearbeiten
+      delete: Löschen
+      confirm_delete: Bist du sicher?
+    search_bar:
+      search: Suchen
+      crops: Nutzpflanzen suchen
+    predictions:
+      annual_hint: lebt und vermehrt sich in einem einzigen Jahr oder weniger
+      perennial_hint: lebt mehr als zwei Jahre
+      title: "Fakten zu %{crop}"
+      add_attributes: Weitere Eigenschaften hinzufügen
+      median_lifespan: mediane Lebensdauer
+      insufficient_lifespan_data: Wir haben noch nicht genügend Daten zur medianen Lebensdauer.
+      weeks:
+        one: "%{count} Woche"
+        other: "%{count} Wochen"
+      degree_days: Wachstumsgradtage
+      height: Höhe
+      spread: Breite
+      height_spread: Höhe × Breite
+      first_harvest: Erste Ernte erwartet
+      last_harvest: Letzte Ernte erwartet
+      harvest_style: Ernteweise
+      weeks_after_planting:
+        one: Woche nach der Pflanzung
+        other: Wochen nach der Pflanzung
+    harvest_style:
+      single:
+        value: Einmal pro Pflanze
+        description: die ganze Pflanze wird geerntet
+      repeated:
+        value: Mehrmals pro Pflanze
+        description: jede Pflanze liefert wiederholt Ernten
+    data_improvement:
+      title: Datenverbesserung
+      missing: "Nutzpflanzen ohne %{field}"
+      tabs:
+        photos: Fotos
+        descriptions: Beschreibungen
+        youtube: YouTube-Videos
+        alternate_names: Weitere Namen
+        wikidata: Wikidata-ID
+        public_food_key: Public Food Key
+        row_spacing: Reihenabstand
+        sun_requirements: Lichtbedarf
+        height: Höhe
+    hierarchy:
+      title: Nutzpflanzenhierarchie
+      intro_html: "Diese Seite zeigt den Hierarchiebaum aller Nutzpflanzen in unserer %{database}."
+      database: Nutzpflanzendatenbank
+    history:
+      title: "Bearbeitungsverlauf von %{crop}"
+      back: "Zurück zu %{crop}"
+      empty: Für diese Nutzpflanze sind keine Änderungen verzeichnet.
+      time_ago: "vor %{time}"
+      made_by_html: "Bearbeitet von %{member}"
+      events:
+        create: Erstellt
+        update: Aktualisiert
+        destroy: Gelöscht
+    search_page:
+      title: Nutzpflanzensuche
+      search: Suchen
+      matching: 'Nutzpflanzen passend zu „%{term}“'
+      found:
+        one: "%{count} Ergebnis insgesamt"
+        other: "%{count} Ergebnisse insgesamt"
+      label: "Nutzpflanzen suchen:"
+      placeholder: Nutzpflanzen suchen
+      crop: Nutzpflanze
+      no_results: Keine Ergebnisse gefunden
+      no_matches: 'Leider haben wir keine Nutzpflanzen gefunden, die zu deiner Suche nach „%{term}“ passen.'
+      browse: unsere Nutzpflanzendatenbank zu durchsuchen
+      add: eine neue Nutzpflanze hinzuzufügen
+      try_adding_html: "Versuche stattdessen, %{browse} oder %{add}."
+      try_browsing_html: "Versuche stattdessen, %{browse}."
+    show:
+      meta_description: "Erfahre, wie du %{crop} anbaust."
+      last_edited_by_html: "Zuletzt bearbeitet von %{editor} am %{date}."
+      last_edited: "Zuletzt bearbeitet am %{date}."
+      view_history: Verlauf anzeigen
     growing_fact:
       median_of_packets: Median der Samenpäckchen der Mitglieder
       members_packets: "Samenpäckchen der Mitglieder: %{median}"
@@ -324,6 +509,12 @@ de:
     index:
       subtitle: "%{crops_size} insgesamt"
       title: Durchsuchen Sie Pflanzen
+      meta_description: Nutzpflanzen durchsuchen und finden.
+      wrangle: Nutzpflanzen verwalten
+      add_crop: Neue Nutzpflanze hinzufügen
+      crops: Nutzpflanzen
+      formats: "Die Daten auf dieser Seite sind in folgenden Formaten verfügbar:"
+      feed_title: "Kürzlich hinzugefügte Nutzpflanzen (%{site})"
     join_banner:
       heading: Growstuff ist eine kostenlose, von der Community betriebene Website für Menschen, die Lebensmittel anbauen.
       prompt: Melden Sie sich an, um Ihre eigenen %{crops} aufzuzeichnen.
@@ -345,6 +536,7 @@ de:
       title: Nährwertdaten
     requested:
       link: Sie haben %{number_crops} Kulturen, die auf die Genehmigung warten
+      heading: Von dir vorgeschlagene Nutzpflanzen
       subtitle: Genehmigung ausstehend
       title: Gewünschte Ernten
     scientific_name_modal:
@@ -438,6 +630,12 @@ de:
       spread: Ausbreitung (cm)
       sun_requirements: Sonnenbedarf
     wrangle:
+      edit: Bearbeiten
+      add_scientific_name: Wissenschaftlichen Namen hinzufügen
+      add_alternate_name: Weiteren Namen hinzufügen
+      fetch_gbif: Daten von GBIF abrufen
+      manage_companions: Mischkulturpartner verwalten
+      job_templates: Aufgabenvorlagen
       add: Hinzufügen
       add_crop: Nutzpflanze hinzufügen
       all_crops: Alle Nutzpflanzen
@@ -488,11 +686,135 @@ de:
   forms:
     optional: "(Optional)"
   forums:
+    edit:
+      title: Forum bearbeiten
+    form:
+      errors:
+        one: "%{count} Fehler hat das Speichern dieses Forums verhindert:"
+        other: "%{count} Fehler haben das Speichern dieses Forums verhindert:"
+      save: Speichern
+    new:
+      title: Neues Forum
+    show:
+      moderator_html: "Dieses Forum wird von %{moderator} betreut"
+      edit: Bearbeiten
+      delete: Löschen
+      confirm_delete: Bist du sicher?
+      posts: Beiträge
+      post_something: Einen Beitrag schreiben
+      empty: Noch keine Beiträge.
     created: Das Forum wurde erfolgreich erstellt.
     deleted: Das Forum wurde erfolgreich gelöscht.
     index:
       title: Foren
+      new_forum: Neues Forum
+      visit_forum: Forum besuchen
+      post: Beitrag schreiben
     updated: Das Forum wurde erfolgreich aktualisiert.
+  frost:
+    about_estimates: Diese Daten sind Schätzungen anhand von Wettermodelldaten mit einem Raster von 25 km, keine Messungen einer Wetterstation in deinem Garten. An kalten Stellen kann es daher kälter sein. Die Schätzungen können falsch sein. Prüfe deshalb die Angaben deines nationalen Wetterdienstes und frage Menschen mit Anbauerfahrung vor Ort, bevor du dich darauf verlässt.
+    cards:
+      coldest:
+        label: Kälteste Nacht
+        note_above: "%{gap} °C über der Frostgefahrengrenze von %{threshold} °C"
+        note_at: Genau an der Frostgefahrengrenze von %{threshold} °C
+        note_below: "%{gap} °C unter der Frostgefahrengrenze von %{threshold} °C"
+      free:
+        label: Frostfreie Zeit
+        note: in einem typischen Jahr
+      in_danger:
+        label: Frostgefahr während des Wachstums
+        note: "von der Pflanzung bis zum spätesten bisherigen Frost am %{latest}"
+      last:
+        label: Üblicher letzter Frost
+        note: "trat bisher spätestens am %{latest} auf"
+        planted_after: "%{days} danach gepflanzt"
+        planted_before: "%{days} davor gepflanzt"
+        planted_out_after: "%{days} danach ins Freie gebracht"
+        planted_out_before: "%{days} davor ins Freie gebracht"
+      next:
+        label: Beginn der nächsten Frostgefahr
+        note_finishes: "frühestens am %{earliest}, %{days} nach dem Ende dieser %{crop}-Pflanzung"
+        note_now: "frühestens am %{earliest}, in %{days}"
+    days:
+      one: "%{count} Tag"
+      other: "%{count} Tage"
+    degrees: "%{degrees} °C"
+    experimental: Experimentell · neu und möglicherweise unzuverlässig
+    experimental_heading: 'Experimentell: Diese Funktion ist neu und möglicherweise unzuverlässig.'
+    nights_so_far:
+      one: "Bisher lag eine Nacht bei oder unter %{threshold} °C, die kälteste bei %{coldest} °C."
+      other: "Bisher lagen %{count} Nächte bei oder unter %{threshold} °C, die kälteste bei %{coldest} °C."
+    planted:
+      after: "Die %{crop}-Pflanzung wurde am %{planted} angelegt, %{days} nach dem üblichen letzten Frost (%{usual_end})."
+      before: "Die %{crop}-Pflanzung wurde am %{planted} angelegt, %{days} vor dem üblichen letzten Frost (%{usual_end})."
+    planted_out:
+      after: "Die %{crop}-Pflanzung kam am %{planted} ins Freie, %{days} nach dem üblichen letzten Frost (%{usual_end})."
+      before: "Die %{crop}-Pflanzung kam am %{planted} ins Freie, %{days} vor dem üblichen letzten Frost (%{usual_end})."
+    timeline:
+      annotation_out_after: "%{days} nach dem üblichen letzten Frost ins Freie gebracht"
+      annotation_out_before: "%{days} vor dem üblichen letzten Frost ins Freie gebracht"
+      description: "Zeitleiste von %{from} bis %{to}. Übliche Frostgefahr besteht vom %{usual_start} bis zum %{usual_end}. Frost trat bisher frühestens am %{earliest} und spätestens am %{latest} auf. Die %{crop}-Pflanzung dauert vom %{planted} bis zum %{ends}."
+      description_undated: "Zeitleiste von %{from} bis %{to}. Übliche Frostgefahr besteht vom %{usual_start} bis zum %{usual_end}. Frost trat bisher frühestens am %{earliest} und spätestens am %{latest} auf. Die %{crop}-Pflanzung wurde am %{planted} angelegt."
+      description_place: "Zeitleiste von %{from} bis %{to}. Übliche Frostgefahr besteht vom %{usual_start} bis zum %{usual_end}. Frost trat bisher frühestens am %{earliest} und spätestens am %{latest} auf."
+      annotation_after: "%{days} nach dem üblichen letzten Frost gepflanzt"
+      annotation_before: "%{days} vor dem üblichen letzten Frost gepflanzt"
+      finish_expected: "Voraussichtliches Ende am %{date}"
+      finished: "Beendet am %{date}"
+      frost_safe: "In %{place}, vor Frost geschützt"
+      legend:
+        finished: Pflanzung, beendet
+        frost_safe: An einem frostgeschützten Ort
+        planted: Gepflanzt, ohne Enddatum
+        possible: 'Möglich: so früh oder spät wie bisher aufgetreten'
+        so_far: Bisherige Pflanzdauer
+        still_to_come: Verbleibende Pflanzdauer
+        usual: Übliche Frostgefahr
+      planted: "Gepflanzt am %{date}"
+      planted_out: "Am %{date} ins Freie gebracht"
+      row_danger: Frostgefahr
+      row_planting: Diese Pflanzung
+      tips:
+        frost_safe: "In %{place}, vor Frost geschützt: %{range}"
+        planting: "%{label} (%{range})"
+        possible: "Frost trat bisher schon so früh oder spät auf: %{range}"
+        usual: "Übliche Frostgefahr: %{range}"
+      title: "Diese %{crop}-Pflanzung im Vergleich zur Frostzeit"
+      title_place: Die Frostzeit
+      today: "Heute, %{date}"
+      usual: "%{from} – %{to}"
+      usual_open: "%{from} →"
+    title: Frost
+    verdicts:
+      before_season:
+        body: "Der übliche erste Frost ist am %{usual_start}, in %{days}. Er trat bisher schon am %{earliest} auf."
+        title: Die Frostgefahr beginnt bald
+        title_far: Noch keine Frostgefahr
+      finished_clear:
+        body: "Frost war bis zum %{latest} möglich, und keine Nacht in dieser Zeit war kälter als %{coldest} °C."
+        body_no_readings: "Frost war bis zum %{latest} möglich. Für diese %{crop}-Pflanzung liegen keine Nachttemperaturen vor."
+        title: "Diese %{crop}-Pflanzung war keinem Frost ausgesetzt"
+      finished_hit:
+        body:
+          one: "Eine Nacht mit möglichem Frost lag bei oder unter %{threshold} °C. Die kälteste lag bei %{coldest} °C."
+          other: "%{count} Nächte mit möglichem Frost lagen bei oder unter %{threshold} °C. Die kälteste lag bei %{coldest} °C."
+        title: "Diese %{crop}-Pflanzung könnte Frost ausgesetzt gewesen sein"
+      finished_undated:
+        body: "Der übliche letzte Frost in jenem Jahr war am %{usual_end}, und Frost trat bisher noch am %{latest} auf. Für diese %{crop}-Pflanzung fehlt das Enddatum, daher wissen wir nicht, welchen Bedingungen sie ausgesetzt war."
+        title: Die Frostbelastung ist unbekannt
+      in_season:
+        body: "Der übliche letzte Frost ist am %{usual_end}, in %{days}. Er trat bisher noch am %{latest} auf."
+        title: Innerhalb der üblichen Frostgefahr
+      late_possible:
+        body: "Frost trat bisher noch am %{latest} auf, in %{days}. Behalte die Wettervorhersage im Blick."
+        title: Der übliche letzte Frost ist vorbei, Frost ist aber noch möglich
+      passed:
+        body: "Der späteste Frost in vergangenen Jahren war am %{latest}, vor %{days}."
+        title: "Die Frostgefahr für diese %{crop}-Pflanzung ist vorbei"
+        title_place: Die Frostgefahr für dieses Jahr ist vorbei
+      rare:
+        body: Frost ist in dieser Gegend selten, daher zeigen wir keine Frostdaten an.
+        title: Frost ist hier selten
   garden_collaborators:
     new:
       title: Neue Garten-Mitwirkende hinzufügen
@@ -514,7 +836,39 @@ de:
       sidebar_blurb: "%{site_name} hilft dir dabei, deine Ernten im heimischen Garten festzuhalten und zu sehen, wie produktiv er ist."
       title: Mitwirkende an %{garden}
       view_all_gardens: Alle Gärten von %{name} anzeigen
+  garden_types:
+    edit:
+      title: Gartentyp bearbeiten
+    form:
+      basic_information: Grundlegende Informationen
+      errors:
+        one: 'Dieser Gartentyp konnte aufgrund eines Fehlers nicht gespeichert werden:'
+        other: 'Dieser Gartentyp konnte aufgrund von %{count} Fehlern nicht gespeichert werden:'
+      name_help: Der Name des Gartentyps auf Englisch, z. B. „organic“ (Pflichtfeld).
+      save: Speichern
+    index:
+      title: Gartentypen
+      description: "%{site_name} erfasst, wer was wo anbaut. Auf der Seite eines Gartentyps sehen Sie, welche unserer Mitglieder ihn verwenden."
+      new_garden_type: Neuer Gartentyp
+    new:
+      title: Neuer Gartentyp
+    show:
+      empty: Es sind keine Gärten vorhanden.
   gardens:
+    breadcrumbs:
+      gardens: Gärten
+      owner_gardens: Gärten von %{owner}
+    edit:
+      title: Garten bearbeiten
+    image_alt: Bild von %{name}
+    index:
+      title: Alle Gärten
+      profile: Profil
+    layout:
+      title: Gartenplan für %{garden} von %{owner}
+      breadcrumb: Gartenplan
+    new:
+      title: Neuer Garten
     about:
       collaborators: Mitarbeiter
       fetch_wikidata: Wikidata-Informationen abrufen
@@ -572,6 +926,13 @@ de:
       unknown: unbekannt
     form:
       location_helper: Wenn Sie in Ihrem Profil einen Standort festgelegt haben, wird dieser beim Erstellen eines neuen Gartens verwendet.
+      active_label: Aktiv?
+      active_help: 'Sie können einen Garten als inaktiv markieren, wenn Sie ihn nicht mehr nutzen. Hinweis: Dadurch werden alle Bepflanzungen im Garten als „beendet“ markiert.'
+      description_placeholder: Erzählen Sie uns von diesem Garten – wo liegt er? Wie sieht er aus? Haben Sie einen Link zu einem Foto? Gibt es eine Bewässerung? Was haben Sie vor?
+      errors:
+        one: Dieser Garten konnte aufgrund eines Fehlers nicht gespeichert werden
+        other: Dieser Garten konnte aufgrund von %{count} Fehlern nicht gespeichert werden
+      save: Garten speichern
     header:
       nursery: Kindergarten
       nursery_hint: Hier angezogene Sämlinge können in Ihre Gärten umgepflanzt werden.
@@ -687,6 +1048,50 @@ de:
       unknown:
         name: Unbekannt
   harvests:
+    attribution: "%{crop}, geerntet von %{owner}"
+    breadcrumbs:
+      harvests: Ernten
+      owner_harvests: Ernten von %{owner}
+      plantings: Bepflanzungen
+    description:
+      activity_html: hat %{harvest} geerntet
+    edit:
+      title: Ernte bearbeiten
+      show: Anzeigen
+      back: Zurück
+    feed:
+      title: Neueste Ernten von %{owner} (%{site_name})
+      all_members: allen Mitgliedern
+    form:
+      errors:
+        one: 'Diese Ernte konnte aufgrund eines Fehlers nicht gespeichert werden:'
+        other: 'Diese Ernte konnte aufgrund von %{count} Fehlern nicht gespeichert werden:'
+      crop: Was haben Sie geerntet?
+      crop_from_html: "%{crop} aus %{garden}"
+      crop_help_html: Sie finden nicht, wonach Sie suchen? %{link}
+      request_crops: Neue Nutzpflanzen vorschlagen.
+      when: Wann?
+      plant_part: Geernteter Pflanzenteil
+      quantity: Wie viele?
+      weight_quantity: Gesamtgewicht
+      notes: Notizen
+      leave_blank: Leer lassen
+      rating: Gesamtbewertung der Bepflanzung
+      rating_help: Wie entwickelt sich die Bepflanzung?
+      poor: Schlecht
+      great: Großartig
+      save: Speichern
+    listing:
+      meta_description: Ernten durchstöbern und suchen.
+    owner:
+      harvested_by_html: Geerntet von %{owner}
+      view_all: Alle Ernten von %{owner} anzeigen
+      harvested_from_html: Geerntet von %{planting}
+      nearby_html: Weitere Ernten, Mitglieder und mehr in der Nähe von %{location} anzeigen
+    thumbnail:
+      heading:
+        one: "%{crop}-Ernte"
+        other: "%{crop}-Ernten"
     card:
       by: von
       harvested: geerntet
@@ -739,6 +1144,60 @@ de:
   home:
     community_description: Growstuff ist eine Gemeinschaft von Menschen, die Lebensmittel anbauen. Lernen wir gemeinsam, unser eigenes Essen anzubauen.
     planting_image_alt: Bild von %{planting} von %{owner}
+    weather_invitation:
+      add_location: Standort hinzufügen
+      change_location: Standort ändern
+      intro:
+        loading: "Wir laden die Wetterhistorie für deinen Garten in %{place}. Das kann ein oder zwei Tage dauern. Schau bald wieder vorbei, dann sind die Daten bereit."
+        no_location: Gib den Standort deines Gartens an, damit wir Frost, Niederschlag und Temperatur dafür anzeigen können.
+        ready: "Sieh dir an, wie sich Frost, Niederschlag und Temperatur in deinem Garten in %{place} entwickeln."
+      labels:
+        air: Temperatur
+        frost: Frost
+        rain: Niederschlag
+      loading:
+        air:
+          note: Wird geladen
+          title: Noch nicht bereit
+        frost:
+          note: Wird geladen
+          title: Noch nicht bereit
+        rain:
+          note: Wird geladen
+          title: Noch nicht bereit
+      no_location:
+        air:
+          note: in den letzten 30 Jahren
+          title: Luft und Boden mit historischen Daten
+        frost:
+          note: für deinen Garten
+          title: Wann die Frostgefahr beginnt und endet
+        rain:
+          note: im Vergleich zum Üblichen
+          title: Wie nass dieses Jahr bisher war
+      ready:
+        air:
+          a_little_cooler: Etwas kühler als üblich
+          a_little_warmer: Etwas wärmer als üblich
+          close: Dieses Jahr nahe am Üblichen
+          cooler: Kühler als üblich
+          note_above: "%{difference} °C über dem üblichen Wert für dieses Jahr"
+          note_below: "%{difference} °C unter dem üblichen Wert für dieses Jahr"
+          note_close: "%{difference} °C vom üblichen Wert für dieses Jahr entfernt"
+          warmer: Wärmer als üblich
+        frost:
+          before_season: "Die übliche Frostgefahr beginnt am %{date}"
+          in_season: "Die übliche Frostgefahr endet am %{date}"
+          late_possible: "Frost trat bisher noch am %{date} auf"
+          passed: "Die nächste Frostgefahr beginnt am %{date}"
+          rare: Frost ist hier selten
+        rain:
+          close: Dieses Jahr nahe am Üblichen
+          drier: Dieses Jahr trockener als üblich
+          note: "%{percent}% der bis zu diesem Datum üblichen Menge"
+          wetter: Dieses Jahr nasser als üblich
+      see: Deinen Standort ansehen
+      title: Das Wetter bei dir
     added_to_stash: "%{crop}-Seed erfolgreich zu Ihrem Vorrat hinzugefügt."
     blurb:
       badge: Open Source · Offene Daten · Seit 2012
@@ -1042,14 +1501,56 @@ de:
         lead: Zwei in Folge!
         note: Die Schnecke nimmt Fahrt auf.
       undo: Rückgängig machen
+    description:
+      due: "(fällig am %{due})"
+      in_garden_html: im %{link}
+      on_planting_html: bei %{link}
+      planned: plante, „%{name}“ zu erledigen
+      plans: plant, „%{name}“ zu erledigen
     due:
       last: letzte %{day}
+    edit:
+      title: Aufgabe bearbeiten
+    finished_description:
+      did: hat „%{name}“ erledigt
+      in_garden_html: im %{link}
+      on_planting_html: bei %{link}
     form:
-      finish_helper: Ein Auftrag ist beendet, wenn Sie ihn abgeschlossen haben, oder er ist anderweitig nicht mehr möglich.
+      add_garden: Einen Garten hinzufügen.
+      add_planting: Eine Pflanzung hinzufügen.
+      description_label: Erzählen Sie uns mehr darüber
+      errors:
+        one: '1 Fehler verhinderte das Speichern dieser Aufgabe:'
+        other: "%{count} Fehler verhinderten das Speichern dieser Aufgabe:"
+      finish_helper: Ein Auftrag ist beendet, wenn Sie ihn abgeschlossen haben, oder er
+        ist anderweitig nicht mehr möglich.
+      garden_label: Ist dies für einen bestimmten Garten?
+      name_label: Was muss getan werden?
+      planting_label: Ist dies für eine bestimmte Pflanzung?
+      repeat_times_label: Wie oft wiederholen?
+      repeat_weeks_label: Alle wie viele Wochen?
+      save: Speichern
+      when_label: Wann?
     index:
+      all_members: allen Mitgliedern
+      api_methods: API-Methoden
+      breadcrumbs_jobs: Aufgaben
+      due_date_html: 'Fälligkeitsdatum: %{date}'
+      garden_html: 'Garten: %{garden}'
+      ics_description: Aufgaben von %{owner}
+      ics_garden: 'Garten: %{garden}'
+      ics_planting: 'Pflanzung: %{planting}'
+      include_finished_jobs: erledigte Aufgaben einschließen
+      not_applicable: k. A.
+      open_data: Offene Daten
+      owner_jobs: Aufgaben von %{owner}
+      planting_html: 'Pflanzung: %{planting}'
+      rss_title: Aktuelle Aufgaben von %{owner} (%{site})
+      sidebar_heading: Aufgaben
       title:
         default: Jedermanns Arbeit
         owner_jobs: Jobs bei %{owner}
+      unknown: unbekannt
     pad:
       add: Fügen Sie einen Job hinzu
       add_button: Hinzufügen
@@ -1119,7 +1620,22 @@ de:
     weeks_until_finished: "%{number}WOCHEN"
     weeks_until_harvest: "%{number} Wochen bis zur Ernte"
   layouts:
+    application:
+      breadcrumbs: Brotkrumennavigation
+      home: Startseite
+    head:
+      social_image_alt: 'Growstuff, eine Gemeinschaft für den Anbau von Lebensmitteln: eine Birne mit einer Sonnenblume, einer Schnecke, einem Marienkäfer, einer Gießkanne und einer Katze.'
+      description: Growstuff ist eine Gemeinschaft für den Anbau von Lebensmitteln. Lernen wir gemeinsam, Lebensmittel anzubauen. Alle unsere Daten sind offen zugänglich.
+      member_feed: "%{site_name} – Beiträge von %{member}"
+      posts_feed: "%{site_name} – Neueste Beiträge aller Mitglieder"
+      crops_feed: "%{site_name} – Kürzlich hinzugefügte Nutzpflanzen"
+      plantings_feed: "%{site_name} – Neueste Pflanzungen aller Mitglieder"
+    mailer:
+      description_html: Diese E-Mail wurde von %{site_name} (%{link}) gesendet &mdash; einer Open-Source-Gemeinschaft für den Anbau von Lebensmitteln.
+    modal:
+      close: Schließen
     footer:
+      open_service: Offener Dienst
       about: Über
       community_guidelines: Community-Richtlinien
       contact: Kontakt
@@ -1132,6 +1648,7 @@ de:
       support: Support
       terms_of_service: Nutzungsbedingungen
     header:
+      logo_alt: Growstuff-Logo (Zeichnung einer Birne)
       account: Konto
       admin: Admin
       browse_crops: Zuschneiden durchsuchen
@@ -1161,6 +1678,7 @@ de:
       toggle_navigation: Navigation umschalten
       your_stuff: Your stuff.
     menu:
+      label: Menü
       about: Über
       activities: Aktivitäten
       add: Hinzufügen
@@ -1201,6 +1719,11 @@ de:
       sign_out: Abmelden
       sign_up: Kostenlos anmelden
     nav:
+      my_records: Meine %{records}
+      everyone_records: "%{records} aller Mitglieder"
+      add_record: "%{record} hinzufügen"
+      record_purpose: deine %{records} zu erfassen
+      description: "%{site_name} hilft dir, die Ernte aus deinem Garten zu erfassen und zu sehen, wie ertragreich er ist."
       my_drafts: Meine Entwürfe
       suggest_something: News which will delight you.
   links:
@@ -1224,6 +1747,45 @@ de:
     update:
       saved: Vielen Dank, dein Name wurde festgelegt.
   members:
+    avatar:
+      alt: "Avatar von %{name}"
+    bio:
+      heading: "Alles über %{name}"
+    finish_signup:
+      agree_to_tos_html: "Ich stimme den %{tos_link} zu"
+      continue: Weiter
+      email_help: "Wir verwenden diese Adresse, um Sie zu kontaktieren (wir senden niemals Spam!)"
+      email_missing_help: "Fügen Sie eine hinzu, wenn Sie Pflanzerinnerungen wünschen. Wir senden einen Link zur Bestätigung und senden niemals Spam."
+      email_optional: E-Mail (optional)
+      instructions: "Fast geschafft. Wählen Sie den Namen, der auf der Website angezeigt wird."
+      name_help: "Dies ist der Name, der auf der Website angezeigt wird. Sie können ihn später ändern."
+      terms_of_service: Nutzungsbedingungen
+      title: "Treten Sie %{site_name} bei"
+      welcome: "Willkommen bei %{site_name}"
+    harvests:
+      none: "%{name} hat noch nichts geerntet."
+    member:
+      joined: "Vor %{time} beigetreten."
+      view_all_gardens: "Alle Gärten von %{name} anzeigen"
+    nearby:
+      edit_location: Bearbeiten Sie Ihren Standort
+      find_within: Mitglieder finden im Umkreis von
+      km: km
+      miles: Meilen
+      no_results: Keine Ergebnisse gefunden
+      of: von
+      results_found: Ergebnisse gefunden
+      search: Suchen
+      title_find: Mitglieder in der Nähe finden
+      title_near: "Mitglieder in der Nähe von %{location}"
+    show:
+      add_bio_prompt: "Fügen Sie eine Biografie hinzu, um Ihr Profil zu vervollständigen."
+      breadcrumbs_members: Mitglieder
+      no_bio: "%{name} hat noch keine Biografie verfasst."
+      rss_item_title: "%{title} von %{author}"
+      skip_to_content: Zum Hauptinhalt springen
+    thumbnail:
+      joined: "Vor %{time} beigetreten."
     confirm_email: "Wir haben einen Link an deine E-Mail-Adresse gesendet. Folge ihm, um Erinnerungen zu erhalten."
     card:
       not_interested: Hören Sie auf, %{name} vorzuschlagen
@@ -1257,6 +1819,10 @@ de:
       not_known: Standort nicht bekannt oder geocodierbar
       see_nearby_html: Sehen Sie andere Mitglieder, Pflanzungen, Samen und mehr in der Nähe von %{location}
     index:
+      show: Anzeigen
+      sort_alphabetically: alphabetisch
+      sort_by: Sortieren nach
+      sort_recently_joined: kürzlich beigetreten
       title: "%{site_name} Mitglieder"
     signup:
       error: Registrierung konnte nicht abgeschlossen werden
@@ -1267,6 +1833,9 @@ de:
       heading: Statistiken
       toggle: Einblenden/Ausblenden
     unsubscribe:
+      instructions_html: "Wenn Sie andere Growstuff-E-Mails abbestellen möchten, können Sie dies über %{link} tun"
+      settings_page: Ihre Einstellungsseite
+      title: "%{member} abmelden"
       error: Es tut uns leid, beim Aktualisieren Ihrer Einstellungen ist ein Fehler aufgetreten.
     unsubscribed: Sie wurden von %{email_type} E-Mails abgemeldet.
     welcome: Willkommen
@@ -1412,11 +1981,74 @@ de:
       title: Wem folgen
       why: 'Züchtet die gleichen Pflanzen: %{crops}'
   notifier_mailer:
+    crop_request:
+      approve_or_reject: diese Anfrage genehmigen oder ablehnen
+      approved_intro: "Ihre Anfrage für die neue Kultur: %{link} wurde genehmigt! Vielen Dank, dass Sie dazu beitragen, unsere Liste zu vervollständigen!"
+      approved_subject: "%{crop_name} wurde genehmigt"
+      harvest_crop: "%{crop_name} ernten"
+      name: "Name: %{name}"
+      new_intro: "%{login_name} hat eine neue Kultur auf %{sitename} angefordert"
+      new_subject: "%{login_name} hat %{crop_name} als neue Kultur angefordert"
+      not_specified: nicht angegeben
+      notes: "Notizen: %{notes}"
+      plant_crop: "%{crop_name} anpflanzen"
+      rejected_intro: "Es tut uns leid, aber Ihre Anfrage für die neue Kultur: %{link} wurde aus folgendem Grund abgelehnt: %{reason}"
+      rejected_subject: "%{crop_name} wurde abgelehnt"
+      stash_crop: Samen für %{crop_name} einlagern
+      thanks: Danke für Ihre Hilfe!
+      wikipedia_url: "Wikipedia-URL: %{url}"
+      wrangler_prompt: Als Kultur-Wrangler können Sie %{link}.
     harvest_reminder:
       heading: Anstehende Ernten in Ihrem Garten
-      intro: 'Basierend auf unseren Vorhersagen werden die folgenden Pflanzungen in Ihrem Garten wahrscheinlich innerhalb der nächsten Woche zur Ernte bereit sein:'
+      intro: "Basierend auf unseren Vorhersagen werden die folgenden Pflanzungen in Ihrem Garten wahrscheinlich innerhalb der nächsten Woche zur Ernte bereit sein:"
+      predicted_date: "(Voraussichtliches Erntedatum: %{date})"
       subject: Kommende Ernten in Ihrem Garten - %{sitename}
       unsubscribe: Ernteerinnerungen abbestellen
+      unsubscribe_prompt: Möchten Sie diese E-Mails nicht mehr erhalten?
+    outlook:
+      expected_weather: Wenn die nächsten zwei Wochen wie im letzten Jahr verlaufen, erwarten Sie %{figures}.
+      heading: Ihr Garten im Moment
+      planting_at_latitude: "Gärtner auf Ihrem Breitengrad pflanzen derzeit Folgendes:"
+      recent_weather: "Vom %{from} bis %{to}: %{figures}."
+      season_intro: Es ist %{season}
+      season_place: in %{place}.
+      set_location: Legen Sie Ihren Standort fest
+      soil_temp: Die Bodentemperatur betrug %{soil} am %{date}.
+      unlocated_prompt: Teilen Sie uns mit, wo Sie gärtnern, und diese E-Mail wird Ihre lokale Jahreszeit, das Wetter und Empfehlungen zur Aussaat enthalten.
+      worth_sowing: Jetzt lohnenswert zu säen
+    planting_reminder:
+      add_planting: Öffnen Sie Ihr Dashboard, um eine Pflanzung hinzuzufügen.
+      by_planting: durch das Anpflanzen Ihrer ersten Kultur.
+      congratulations: Herzlichen Glückwunsch, Sie haben erntereife Pflanzen
+      empty_intro: Mit %{sitename} können Sie verfolgen, welche Lebensmittel Sie in Ihrem Garten anbauen, und sehen, was andere Personen in Ihrer Nähe anpflanzen.
+      get_started: Jetzt loslegen
+      heading: Ihr wöchentlicher %{sitename}-Fortschrittsbericht
+      late: Spät
+      late_intro: Diese Pflanzungen befinden sich am Ende ihres Lebenszyklus. %{login_link} und teilen Sie uns mit, wenn Sie diese nicht mehr anbauen, damit wir aufhören, sie zu verfolgen.
+      log_in: Anmelden
+      planted_on: gepflanzt am %{date}
+      planting_question: Möchten Sie eine Pflanzung in Ihrem Garten verfolgen und vorhersagen?
+      progress_report: Fortschrittsbericht
+      progress_status: ist zu %{percentage}% gewachsen, noch %{days} Tage.
+      ready_to_harvest: Bereit zur Ernte
+      subject: Ihr Fortschrittsbericht für %{month_year} auf %{sitename}
+      super_late: Sehr spät
+      super_late_intro: Wir vermuten, dass die folgenden Pflanzungen schon vor langer Zeit abgeschlossen wurden und nicht mehr verfolgt werden müssen. Sie können sie als beendet markieren.
+      unsubscribe: Pflanzerinnerungen abbestellen
+      unsubscribe_prompt: Möchten Sie diese E-Mails nicht mehr erhalten?
+    shared:
+      garden_overview: Ihre Gartenübersicht
+      garden_overview_intro: Verfolgen und prognostizieren Sie Ihren gesamten Garten und halten Sie Ihre Gartenaufzeichnungen auf dem neuesten Stand unter
+      greeting: Hallo %{login_name},
+      harvest_question: Kürzlich etwas geerntet?
+      or_on: oder auf
+      profile_page: Ihrer Profilseite
+      record_harvest: Öffnen Sie Ihr Dashboard, um eine Ernte aufzuzeichnen.
+      see_you_soon: Bis bald auf %{sitename}!
+      signature: Das %{sitename}-Team.
+    whats_new:
+      feature_count: "Wir haben %{count} neue Funktionen für Sie:"
+      heading: Neu seit unserer letzten E-Mail
   nurseries:
     show:
       dont_need: Ich brauche keinen.
@@ -1433,6 +2065,357 @@ de:
     what_is_a_nursery:
       description_html: 'In einer <strong>Baumschule</strong> züchtet man Setzlinge: Samen, die in Tabletts oder Töpfe gesät werden, bevor sie in einen Garten gehen. Säen Sie Ihre Samen in die Baumschule und verpflanzen Sie sie dann in einen Garten oder teilen Sie eine Charge zwischen mehreren auf, wenn sie fertig sind.'
   pages:
+    community_guidelines:
+      title: "Growstuff-Community-Richtlinien"
+      body_html: |
+        <p>Growstuff ist eine Community von und für Lebensmittelgärtner. Gemeinsam bauen wir eine Website auf, auf der wir unsere Erfahrungen, unser Wissen und die Produkte unserer Ernte teilen können. Das Wichtigste bei Growstuff sind die Menschen. Damit Growstuff gedeihen kann, brauchen wir Menschen, die ihre Pflanzen anbauen, ihr Wissen teilen und beim Aufbau der Website selbst helfen.</p>
+        <p>Was auch immer Ihr Interesse an Growstuff ist, Sie sind hier willkommen und werden mit Respekt behandelt. Insbesondere:</p>
+        <ul>
+        <li>
+        <p>Wir heißen Menschen jeden Alters, jeder Geschlechtsidentität oder jedes Geschlechtsausdrucks, jeder ethnischen Zugehörigkeit, Nationalität, Religion oder Abwesenheit davon, jeder politischen Meinung, sexuellen Orientierung, Familienstand, Familienstruktur, Fähigkeit oder Behinderung, Aussehen, Subkultur oder anderen Identität oder Selbstidentifikation willkommen.</p>
+        </li>
+        <li>
+        <p>Obwohl sich Growstuff in erster Linie auf den Lebensmittelgartenbau konzentriert, heißen wir alle Arten von Gärtnern willkommen, darunter Bio- und konventionelle Züchter; diejenigen, die ihre Pflanzen auf Feldern, auf Balkonen oder in Hydrokultursystemen anbauen; diejenigen, die gewerblich oder nichtgewerblich im Garten arbeiten; diejenigen, die von ihrer Ernte leben, und diejenigen, die aus anderen Gründen im Garten arbeiten.</p>
+        </li>
+        <li>
+        <p>Wir heißen Menschen aller Fähigkeits- und Erfahrungsstufen willkommen und halten nichts davon, abweisend zu sein oder grobe Kommentare abzugeben, nur weil man neu ist oder lernt.</p>
+        </li>
+        <li>
+        <p>Jede Rolle in unserer Gemeinschaft ist wichtig, einschließlich Gärtner, die Fähigkeiten, Wissen und Informationen zu unserer Website beitragen; Programmierer, Designer und andere Technikfreaks, die beim Aufbau helfen; Moderatoren und andere, die unserer Community zum Gedeihen verhelfen; oder jede andere Form der Beteiligung. Wir glauben an die Zusammenarbeit und legen Wert auf Kommunikation und gegenseitiges Verständnis.</p>
+        </li>
+        </ul>
+        <p>Wenn Sie an der Growstuff-Community teilnehmen möchten (zu der unsere Website und alle Hilfsforen wie unsere Mailingliste(n), unser IRC-Kanal usw. gehören), müssen Sie unserer allgemeinen Verpflichtung zu Inklusivität und gegenseitigem Respekt sowie den folgenden spezifischen Richtlinien zustimmen:</p>
+        <ul>
+        <li>
+        <p>Die Belästigung von Mitgliedern der Growstuff-Community ist verboten. Belästigung umfasst Beleidigungen, die sich gegen Einzelpersonen oder Gruppen richten; unerwünschte sexuelle Äußerungen, die sich an Personen oder Gruppen richten; sexuell eindeutige Kommentare oder Bilder im öffentlichen Raum; Stalking oder andere wiederholte, unerwünschte Kontakte; oder jedes wiederholte oder anhaltende Verhalten, das die Freude einer anderen Person an der Growstuff-Website oder -Community stört.</p>
+        </li>
+        <li>
+        <p>Die Privatsphäre unserer Community-Mitglieder ist sehr wichtig. Sie dürfen die persönlichen Daten eines Mitglieds (einschließlich Namen, unter denen es außerhalb von Growstuff bekannt ist, seinen Standort, Beschäftigungsdaten, Familiendaten, Kontaktdaten außerhalb von Growstuff oder andere identifizierende oder persönliche Informationen) nicht ohne deren ausdrückliche Zustimmung offenlegen.</p>
+        </li>
+        <li>
+        <p>Obwohl wir Ihnen die Wahl Ihres eigenen Namens auf unserer Website ermöglichen und nicht darauf bestehen, dass Sie auf unserer Website denselben Namen verwenden, den Sie auf den Karten in Ihrer Brieftasche haben, ist es Ihnen nicht gestattet, ein pseudonymes Konto zu erstellen oder zu verwenden, um andere zu täuschen, sich der Verantwortung zu entziehen oder auf andere Weise Ärger zu verursachen. (Dies wird allgemein als „Sockpuppet“-Konto bezeichnet.)</p>
+        </li>
+        </ul>
+        <p>Wenn Sie Verhalten erleben oder beobachten, das gegen diese Community-Richtlinien verstößt, können Sie es an support@growstuff.org melden. Wir hören Ihnen aufmerksam zu und nehmen Ihre Meldung ernst. Sobald wir die Situation untersucht haben, können wir alle Maßnahmen ergreifen, die wir für notwendig halten. Beispielsweise können wir eine Warnung aussprechen oder in schwerwiegenden Fällen Personen aus unserer Community suspendieren oder ausschließen. In diesem Fall teilen wir der betroffenen Person stets den Grund unseres Handelns unter Bezugnahme auf unsere Versicherungsunterlagen mit.</p>
+        <p>Wir möchten diese Richtlinien nicht zu lang oder zu legalisieren, deshalb belassen wir es dabei, bis auf eine letzte Richtlinie. Wie Bill und Ted sagten: <em>seien Sie ausgezeichnet zueinander</em>. Und Sachen anbauen.</p>
+        <h2>Creative Commons-Lizenz</h2>
+        <p>Diese Community-Richtlinien sind unter einer <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported License</a> lizenziert.</p>
+    copyright:
+      title: "Richtlinie zu Urheberrechtsverletzungen"
+      body_html: |
+        <p>Wir hassen Juristensprache, deshalb haben wir versucht, diese Richtlinie lesbar zu machen. Wenn Sie Fragen haben, können Sie uns gerne <a href="mailto:support@growstuff.org">fragen</a>, und wir werden unser Bestes tun, um sie zu beantworten.</p>
+        <p>Diese Richtlinie zu Urheberrechtsverletzungen gilt für alle Websites (wie <a href="http://www.growstuff.org">growstuff.org</a>), die den Growstuff-Betreuern („Growstuff“, „wir“, „uns“, „unser“) gehören und von ihnen betrieben werden, sowie alle damit verbundenen Dienste, die gemeinsam als „der Dienst“ bezeichnet werden. Darin wird beschrieben, wie Sie eine Urheberrechtsverletzung des Dienstes melden können.</p>
+        <p>Growstuff respektiert das geistige Eigentum anderer und wir bitten unsere Benutzer, dasselbe zu tun. Growstuff-Mitglieder sind gemäß den <a href="http://www.growstuff.org/policy/tos">Nutzungsbedingungen</a> verpflichtet, sicherzustellen, dass sie das gesetzliche Recht haben, Inhalte im Dienst zu veröffentlichen.</p>
+        <p>Growstuff hat seinen Sitz in Melbourne, Australien und unterliegt nicht den Bestimmungen des US-amerikanischen Digital Millennium Copyright Act (DMCA). Wir haben jedoch Richtlinien und Verfahren festgelegt, die denen des DMCA ähneln, da wir davon überzeugt sind, dass sie die beste Praxis für in Australien betriebene Webdienste darstellen.</p>
+        <h2>1. Benachrichtigung über einen Verstoß</h2>
+        <p>Wenn Sie der Meinung sind, dass ein Growstuff-Mitglied Ihre geistigen Eigentumsrechte durch die Veröffentlichung von Inhalten im Dienst verletzt hat, können Sie diese Schritte befolgen, um uns zu benachrichtigen und die Entfernung der Inhalte zu beantragen.</p>
+        <p>Benachrichtigungen können per E-Mail an <a href="mailto:support@growstuff.org">support@growstuff.org</a> gesendet werden.</p>
+        <p>Wir bevorzugen den Erhalt von Benachrichtigungen per E-Mail.</p>
+        <p>Benachrichtigungen über Urheberrechtsverletzungen, die über einen anderen Mechanismus oder ein anderes Forum gesendet werden, werden nicht bearbeitet.</p>
+        <p>Sie müssen folgende Informationen angeben:</p>
+        <ul>
+        <li>Ausreichende Informationen, um das urheberrechtlich geschützte Werk zu identifizieren, das verletzt wird. Wenn es sich bei dem Werk beispielsweise um ein veröffentlichtes Buch handelt, geben Sie Titel, Autor und ISBN an. Wenn es sich bei dem Werk um einen Zeitschriftenartikel handelt, geben Sie Titel, Autor, Zeitschriftenname und Zeitschriftenausgabe an. Wenn das Werk im Internet verfügbar ist, geben Sie die URL des Werks an.</li>
+        <li>Die URL der spezifischen Seite auf Growstuff, auf der Ihre Arbeit ohne Genehmigung reproduziert wurde. Auf allgemeine Beschreibungen oder unspezifische Links (z. B. zur Homepage von Growstuff) kann nicht reagiert werden.</li>
+        <li>Ihre Postanschrift, Telefonnummer und E-Mail-Adresse.</li>
+        <li>Eine Erklärung von Ihnen, dass die oben genannten Informationen korrekt sind und dass Sie der Inhaber des Urheberrechts oder des geistigen Eigentums sind oder befugt sind, im Namen des Inhabers des Urheberrechts oder des geistigen Eigentums zu handeln.</li>
+        <li>Eine physische Signatur oder digitale Signatur in einem anerkannten Industriestandardformat wie PGP des Urheberrechts- oder geistigen Eigentumsinhabers oder der Person, die befugt ist, in seinem Namen zu handeln. Nicht signierte Benachrichtigungen werden nicht bearbeitet.</li>
+        </ul>
+        <h2>2. Auf Benachrichtigungen reagieren</h2>
+        <p>Wir werden innerhalb von zwei Werktagen auf Benachrichtigungen über Urheberrechtsverletzungen reagieren.</p>
+        <p>Wenn uns nicht genügend Informationen vorliegen, um auf die Benachrichtigung zu reagieren, einschließlich aller im obigen Abschnitt aufgeführten Punkte, lehnen wir die Benachrichtigung ab und benachrichtigen den Einreicher, dass keine Maßnahmen ergriffen werden können.</p>
+        <p>Wenn der Inhalt nicht auf unseren Servern gehostet wird (z. B. wenn die Benachrichtigung ein auf einer anderen Website gehostetes Bild betrifft, das lediglich auf unserer Website angezeigt oder von dort aus verlinkt wird), werden wir antworten, indem wir den Einreicher darüber informieren, dass der Inhalt nicht von uns gehostet wird, und ihn auf die Hosting-Site verweisen.</p>
+        <p>Vorausgesetzt, wir können auf die Benachrichtigung reagieren, werden wir das Mitglied kontaktieren, das den Inhalt gepostet hat, und es über die Benachrichtigung und den Anspruch auf geistige Eigentumsrechte informieren.</p>
+        <p>Das Mitglied hat zwei Werktage Zeit, um zu antworten. Sie können wie folgt antworten:</p>
+        <ul>
+        <li>Geben Sie zu, dass sie etwas gepostet haben, an dem sie keine geistigen Eigentumsrechte besitzen. In diesem Fall kann das Mitglied den Inhalt aus dem Dienst löschen oder wir können ihn unzugänglich machen.</li>
+        <li>Geben Sie eine Gegendarstellung ein, in der Sie erklären, dass sie das Recht haben, den Inhalt zu veröffentlichen, und dass sie bereit sind, diesem Anspruch vor Gericht stattzugeben. Der Prozess hierfür wird im Folgenden beschrieben.</li>
+        <li>Antworten Sie, dass sie nicht glauben, dass sie geistige Eigentumsrechte verletzt haben, aber dass sie keine formelle Gegendarstellung einreichen möchten. In diesem Fall kann das Mitglied den Inhalt aus dem Dienst löschen oder wir können den Inhalt unzugänglich machen.</li>
+        <li>Wenn das Mitglied nicht antwortet, machen wir den Zugriff auf den Inhalt unzugänglich.</li>
+        </ul>
+        <p>Wenn Inhalte gelöscht oder unzugänglich gemacht werden, werden wir angemessene Anstrengungen unternehmen, um sicherzustellen, dass über den Dienst nicht auf sie zugegriffen werden kann. Allerdings können Caching oder externe Verweise dazu führen, dass Inhalte für einige Zeit zugänglich bleiben, auch auf Websites oder Anwendungen Dritter. Websites und Anwendungen Dritter unterliegen nicht der Kontrolle von Growstuff. Wenn verletzende Inhalte über den Dienst entfernt oder unzugänglich gemacht wurden, aber weiterhin über Websites und Anwendungen Dritter verfügbar sind, kann der Inhaber des Urheberrechts oder des geistigen Eigentums die Betreiber dieser Websites/Anwendungen kontaktieren, um sie über die Verletzung zu informieren.</p>
+        <h2>3. Gegendarstellung und Wiederherstellungsprozess</h2>
+        <p>Eine Gegendarstellung ist eine Erklärung, dass Sie nicht glauben, dass Ihr Inhalt die Rechte einer anderen Person verletzt oder dass Ihre Nutzung des urheberrechtlich geschützten Materials einer anderen Person in eine gesetzlich geschützte Kategorie fällt.</p>
+        <p>Mit der Einreichung einer Gegendarstellung erklären Sie, dass Sie bereit sind, Ihre Nutzung des Materials vor Gericht zu verteidigen, falls der Urheberrechtsinhaber beschließt, eine Klage gegen Sie wegen Ihrer Nutzung des Materials einzureichen. Dies kann zivil- und/oder strafrechtliche Sanktionen nach sich ziehen. Bevor Sie dies tun, empfehlen wir Ihnen dringend, sich an einen Anwalt für geistiges Eigentum zu wenden, der in Ihrem Land als Rechtsanwalt zugelassen ist, damit Sie sich Ihrer gesetzlichen Rechte und Pflichten bewusst sind.</p>
+        <p>Eine Gegendarstellung muss folgende Punkte enthalten:</p>
+        <ul>
+        <li>Ihre Unterschrift. Signaturen können eine physische Signatur oder eine digitale Signatur in einem anerkannten Industriestandardformat wie PGP sein.</li>
+        <li>Die URL des Inhalts, der in Frage gestellt wurde (dies wurde in der ursprünglichen Benachrichtigung angegeben).</li>
+        <li>Eine Erklärung, dass Sie in gutem Glauben davon ausgehen, dass die Benachrichtigung über eine Urheberrechtsverletzung aufgrund eines Fehlers oder einer falschen Identifizierung des Materials gesendet wurde. Hierzu sollten alle Gründe gehören, warum Sie der Meinung sind, dass Ihre Nutzung des Materials keinen Verstoß darstellt.</li>
+        <li>Ihr Name, Adresse und Telefonnummer.</li>
+        </ul>
+        <p>Wir leiten Ihre Gegendarstellung vollständig an den Einreicher der ursprünglichen Mitteilung weiter. Sie haben dann 14 Tage Zeit, rechtliche Schritte einzuleiten und uns darüber zu informieren.</p>
+        <p>In der Zwischenzeit werden wir den Inhalt unzugänglich machen.</p>
+        <p>Wenn wir nach 14 Tagen nicht darüber informiert wurden, dass ein Gerichtsverfahren eingeleitet wurde, werden wir den Inhalt wiederherstellen.</p>
+        <p>Wenn Sie eine Gegendarstellung eingereicht haben, dürfen Sie das mutmaßlich rechtsverletzende Material erst dann erneut veröffentlichen, wenn wir Sie darüber informieren, dass die Wartefrist abgelaufen ist.</p>
+        <h2>4. Wiederholte Straftaten</h2>
+        <p>Mitglieder, die drei oder mehr gültige Hinweise auf Urheberrechtsverletzungen erhalten, werden von ihren Konten gekündigt.</p>
+        <p>Wenn eine Gegendarstellung eingereicht wird oder wenn das Mitglied erklärt hat, dass es den Vorwurf der Urheberrechtsverletzung nicht akzeptiert, aber keine formelle Gegendarstellung einreichen möchte, wird die Mitteilung nicht auf die Kündigung angerechnet.</p>
+        <p>Wir behalten uns außerdem das Recht vor, die Konten derjenigen zu kündigen, die unserer Meinung nach das Verfahren zur Meldung von Urheberrechtsverletzungen gegen andere Mitglieder missbrauchen oder missbrauchen.</p>
+        <h2>5. Änderungen</h2>
+        <p>Wir können unsere Richtlinie zu Urheberrechtsverletzungen von Zeit zu Zeit ändern. Eine Historie der Änderungen an dieser Richtlinie ist in unserem öffentlichen Quellcode-Repository unter <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a> verfügbar. Wir werden angemessene Schritte unternehmen, um Sie über alle wesentlichen Änderungen dieser Richtlinie zu informieren; Es liegt jedoch in Ihrer Verantwortung, diese Richtlinie regelmäßig auf Änderungen zu überprüfen. Durch Ihre fortgesetzte Nutzung dieser Website nach einer Änderung dieser Richtlinie erklären Sie sich mit dieser Änderung einverstanden.</p>
+        <h2>6. Creative-Commons-Lizenz</h2>
+        <p>Diese Richtlinie zu Urheberrechtsverletzungen basiert auf einer von Dreamwidth (<a href="http://www.dreamwidth.org/legal/dmca">http://www.dreamwidth.org/legal/dmca</a>) entwickelten Richtlinie und ist unter einer <a href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a> lizenziert.</p>
+    data_use:
+      title: "API- und Datennutzungsrichtlinie"
+      body_html: |
+        <p>Wir hassen Juristensprache, deshalb haben wir versucht, diese Richtlinie lesbar zu machen. Wenn Sie Fragen haben, können Sie uns gerne <a href="mailto:support@growstuff.org">fragen</a>, und wir werden unser Bestes tun, um sie zu beantworten.</p>
+        <p>Diese API- und Datennutzungsrichtlinie gilt für alle Websites (wie <a href="http://www.growstuff.org">growstuff.org</a>), die den Growstuff-Betreuern („Growstuff“, „wir“, „uns“, „unser“) gehören und von ihnen betrieben werden, sowie alle damit verbundenen Dienste, die gemeinsam als „der Dienst“ bezeichnet werden.</p>
+        <p>Diese Richtlinie deckt insbesondere jeden Zugriff auf den Dienst über eine Anwendungsprogrammierschnittstelle, Feeds, Spidering, Scraping oder jeden anderen automatisierten oder programmgesteuerten Zugriff auf die strukturierten Daten oder Inhalte ab, die über den Dienst verfügbar sind (zusammen die „API“). Diese Richtlinie gilt für jeden, der die API nutzt („Sie“, „Entwickler“).</p>
+        <h2>1. Die API wird im Ist-Zustand bereitgestellt und kann geändert werden</h2>
+        <p>Growstuff stellt seine API im Ist-Zustand zur Verfügung, wie unter „Gewährleistungsausschluss“ in unseren <a href="http://www.growstuff.org/policy/tos">Nutzungsbedingungen</a> beschrieben.</p>
+        <p>Die API von Growstuff kann sich ändern. Wir werden angemessene Anstrengungen unternehmen, um Entwickler über Änderungen und den Veröffentlichungsstatus aller API-Funktionen zu informieren. Sie sollten angemessene Anstrengungen unternehmen, um über unsere Foren, Mailinglisten oder andere Kanäle über technische Neuigkeiten von Growstuff auf dem Laufenden zu bleiben.</p>
+        <h2>2. Überlasten Sie unsere Server nicht</h2>
+        <p>Sie erklären sich damit einverstanden, Ihren Zugriff auf die API so zu beschränken, dass eine übermäßige Belastung des Dienstes verhindert wird. Growstuff behält sich das Recht vor, den Zugriff auf die API einzuschränken oder die Geschwindigkeit zu begrenzen, wenn dies zur Aufrechterhaltung der Leistung des Dienstes erforderlich ist.</p>
+        <h2>3. Nutzung von Growstuff-Daten und -Inhalten</h2>
+        <p>Sie erklären sich damit einverstanden, die Bedingungen der <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported License</a> einzuhalten, unter der unsere strukturierten Daten zur Verfügung gestellt werden. Sie erklären sich damit einverstanden, die Urheberrechte und geistigen Eigentumsrechte der Growstuff-Mitglieder in Bezug auf deren auf dem Dienst veröffentlichte Inhalte zu beachten, einschließlich, aber nicht beschränkt auf Beiträge, Kommentare, Bilder usw.</p>
+        <p>Sie erklären sich damit einverstanden, alle Datenschutzeinstellungen zu respektieren, die sich auf die strukturierten Daten oder Inhalte beziehen, auf die Sie über die API zugreifen. Sie erklären sich damit einverstanden, keine strukturierten Daten oder Inhalte mit einem weitergehenden Zugriff erneut zu veröffentlichen, als ursprünglich von dem Mitglied beabsichtigt, das sie veröffentlicht hat.</p>
+        <p>Growstuff erkennt an, dass strukturierte Daten und Inhalte, die im Rahmen der API zur Verfügung gestellt werden, von Dritten für einen beliebigen Zeitraum zwischengespeichert oder aufbewahrt werden können. Wenn Sie jedoch eine Anwendung mit aktuellen strukturierten Daten und Inhalten erstellen, bitten wir Sie, angemessene Anstrengungen zu unternehmen, um diese regelmäßig zu aktualisieren, einschließlich der Entfernung aller strukturierten Daten oder Inhalte, die aus dem Dienst gelöscht werden, und der Berücksichtigung etwaiger Änderungen in den Datenschutzeinstellungen, die sie betreffen.</p>
+        <p>Growstuff enthält Daten aus der <a href="https://www.foodstandards.gov.au/science-data/food-nutrient-databases/afcd">Australian Food Composition Database</a> von <a href="https://www.foodstandards.gov.au/legal-policies/copyright">Food Standards Australia New Zealand</a> unter einer CC-BY-4.0-Lizenz.</p>
+        <h2>4. Authentifizierung</h2>
+        <p>Growstuff behält sich das Recht vor, eine Authentifizierung und/oder App-Registrierung als Bedingung für die Nutzung der API und der Daten zu verlangen.</p>
+        <p>Wenn Sie Benutzern die Möglichkeit geben, sich bei Growstuff anzumelden, müssen Sie dies über OAuth tun. Möglicherweise verlangen Sie nicht, dass Benutzer ihren Growstuff-Anmeldenamen und ihr Passwort angeben.</p>
+        <h2>5. Strafen</h2>
+        <p>Wenn Sie gegen die Bestimmungen dieser Richtlinie verstoßen, kann Growstuff Ihren Zugriff auf die API einschränken.</p>
+        <h2>6. Änderungen</h2>
+        <p>Wir können unsere API- und Datennutzungsrichtlinie von Zeit zu Zeit ändern. Eine Historie der Änderungen an dieser Richtlinie ist in unserem öffentlichen Quellcode-Repository unter <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a> verfügbar. Wir werden angemessene Schritte unternehmen, um Sie über alle wesentlichen Änderungen dieser Richtlinie zu informieren; Es liegt jedoch in Ihrer Verantwortung, diese Richtlinie regelmäßig auf Änderungen zu überprüfen. Durch Ihre fortgesetzte Nutzung dieser Website nach einer Änderung dieser Richtlinie erklären Sie sich mit dieser Änderung einverstanden.</p>
+        <h2>7. Creative Commons-Lizenz</h2>
+        <p>Diese API- und Datennutzungsrichtlinie ist unter einer <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported License</a> lizenziert.</p>
+    privacy:
+      title: "Datenschutzerklärung"
+      body_html: |
+        <p>Wir hassen Juristensprache, deshalb haben wir versucht, diese Richtlinie lesbar zu machen. Wenn Sie Fragen haben, können Sie uns gerne <a href="mailto:support@growstuff.org">fragen</a>, und wir werden unser Bestes tun, um sie zu beantworten.</p>
+        <p>Diese Datenschutzerklärung („Datenschutzerklärung“) gilt für alle Websites (wie <a href="http://www.growstuff.org/">growstuff.org</a>), die den Growstuff-Betreuern („Growstuff“, „wir“, „uns“, „unser“) gehören und von ihnen betrieben werden, sowie alle damit verbundenen Dienste, die gemeinsam als „der Dienst“ bezeichnet werden.</p>
+        <p>Wir nutzen die Informationen, die Sie uns mitteilen, für unsere internen Geschäftszwecke. Wir verkaufen Ihre Daten nicht. In diesem Hinweis erfahren Sie, welche Informationen wir sammeln, wie wir sie verwenden und welche Maßnahmen wir ergreifen, um sie zu schützen und zu sichern.</p>
+        <h2>1. Informationen, die wir sammeln</h2>
+        <h3>1.1 Nicht personenbezogene Daten</h3>
+        <p>Wie die meisten Website-Betreiber erfassen wir nicht personenbezogene Daten wie Browsertyp, bevorzugte Sprache, verweisende Website sowie Datum und Uhrzeit jeder Besucheranfrage.</p>
+        <p>Wir sammeln diese, um zu verstehen, wie unsere Besucher und Mitglieder unseren Service nutzen, und nutzen sie, um Entscheidungen darüber zu treffen, wie der Service geändert und angepasst werden kann.</p>
+        <p>Von Zeit zu Zeit können wir nicht-personenbezogene Daten in aggregierter Form veröffentlichen (z. B. durch Veröffentlichung von Trends bei der Nutzung der Website), um unsere Überlegungen bei der Entscheidungsfindung zu erläutern. Wir geben keine individuellen Informationen heraus, sondern nur aggregierte Informationen.</p>
+        <h3>1.2 Persönliche Daten</h3>
+        <p>Personenbezogene Daten sind alles, was dazu verwendet werden kann, Sie zu identifizieren oder zu kontaktieren, wie z. B. Ihr offizieller Name, Ihre E-Mail-Adresse, Ihre IP-Adresse oder Ihr physischer Standort.</p>
+        <h4>1.2.1 Automatisch erfasste personenbezogene Daten</h4>
+        <p>Wir erfassen automatisch einige personenbezogene Daten, wie z. B. die IP-Adresse, die von Ihrem Browser und Ihrem Computer bereitgestellt werden, wenn Sie unsere Website besuchen.</p>
+        <p>Wir sammeln diese Informationen für verschiedene Zwecke:</p>
+        <ul>
+        <li>Zur Diagnose und Behebung von Netzwerkproblemen bei Ihrer Nutzung der Website;</li>
+        <li>Um die Anzahl der Benutzer zu schätzen, die aus bestimmten geografischen Regionen auf den Dienst zugreifen;</li>
+        <li>Um Betrug und Missbrauch zu verhindern.</li>
+        </ul>
+        <h4>1.2.2 E-Mail-Adresse</h4>
+        <p>Um sich für den Dienst zu registrieren, müssen Sie uns Ihre E-Mail-Adresse mitteilen. Wir verwenden Ihre E-Mail-Adresse, um Bestätigungen für bestimmte Aktionen zu senden, beispielsweise wenn Sie Ihr Passwort ändern. Wir werden uns mit Ihnen in Verbindung setzen, wenn die Bearbeitung einer von Ihnen initiierten Anfrage erforderlich ist oder wenn ein kritisches oder administratives Problem vorliegt, das Ihre Nutzung des Dienstes beeinträchtigt.</p>
+        <p>Sobald Sie Ihr Konto erstellt haben, können Sie bestimmte Veranstaltungen abonnieren und sich Benachrichtigungen über diese Veranstaltungen per E-Mail zusenden lassen. Sie können Ihre Meinung jederzeit ändern und den Erhalt von Benachrichtigungen per E-Mail abbestellen.</p>
+        <p>Wir werden Ihre E-Mail-Adresse niemals zu Marketingzwecken oder aus anderen Gründen an Dritte verkaufen oder weitergeben, außer wie unten dargelegt.</p>
+        <h4>1.2.3 Optionale personenbezogene Daten, die Sie uns zur Verfügung stellen</h4>
+        <p>Wenn Sie den Dienst nutzen, haben Sie die Möglichkeit, über Ihr Profil und andere Aktivitäten auf der Website weitere personenbezogene Daten anzugeben. Die Angabe dieser Informationen ist grundsätzlich freiwillig.</p>
+        <p>Sie haben die Möglichkeit, uns Ihren Standort mitzuteilen. Sie können dies in jedem von Ihnen gewünschten Detaillierungsgrad angeben. Beispielsweise können Sie Ihre Anschrift, Ihr Wohnsitzland oder gar nichts angeben. Wir nutzen diesen Standort, um Ihnen relevante Inhalte bereitzustellen.</p>
+        <p>Viele Ihrer Aktivitäten im Dienst ermöglichen es Ihnen möglicherweise, personenbezogene Daten zu veröffentlichen oder direkt oder indirekt personenbezogene Daten über sich selbst offenzulegen. Beispielsweise können Sie personenbezogene Daten in einem Beitrag oder Kommentar auf der Website offenlegen, indem Sie ein Bild hochladen, auf eine andere von Ihnen genutzte Website verlinken oder Ihre Gartenarbeit im Detail aufzeichnen. Alle diese Aktivitäten sind optional. Sie sollten bei der Offenlegung personenbezogener Daten im Rahmen Ihrer Aktivitäten im Dienst mit der gebotenen Vorsicht vorgehen.</p>
+        <p>Wir zeigen die von Ihnen bereitgestellten Informationen, einschließlich aller darin enthaltenen personenbezogenen Daten, anderen Besuchern der Website gemäß den von Ihnen ausgewählten Datenschutzoptionen an.</p>
+        <p>Die von Ihnen bereitgestellten Informationen werden auch Dritten über unsere API und Feeds zur Verfügung gestellt, in Übereinstimmung mit den von Ihnen ausgewählten Datenschutzoptionen und vorbehaltlich der Bedingungen unserer API- und Datennutzungsrichtlinie, die unter <a href="http://www.growstuff.org/policy/api">http://www.growstuff.org/policy/api</a> verfügbar ist.</p>
+        <p>Einige der von Ihnen bereitgestellten Informationen sind als strukturierte Daten kategorisiert, die in unseren <a href="/policy/tos">Nutzungsbedingungen</a> ausführlicher definiert sind. Wir stellen strukturierte Daten unter einer Creative Commons Attribution ShareAlike (CC-BY-SA) 3.0 Unported-Lizenz zur Nutzung durch Dritte gemäß den von Ihnen ausgewählten Datenschutzoptionen frei zur Verfügung.</p>
+        <p>Wir können die von Ihnen bereitgestellten personenbezogenen Daten auch insgesamt verwenden, um Entscheidungen darüber zu treffen, wie der Dienst geändert und angepasst werden soll. Von Zeit zu Zeit veröffentlichen wir möglicherweise Informationen in aggregierter Form (z. B. durch die Veröffentlichung von Trends bei der Nutzung der Website), um unsere Entscheidungsgründe zu erläutern. Wir geben keine individuellen Informationen heraus, sondern nur aggregierte Informationen.</p>
+        <h2>2. Offenlegung personenbezogener Daten</h2>
+        <p>Wir geben personenbezogene Daten, einschließlich optionaler personenbezogener Daten, die Sie bereitgestellt haben, die anderen Website-Benutzern normalerweise nicht zugänglich sind, nur an diejenigen unserer Mitarbeiter, Auftragnehmer und Freiwilligen weiter, die (i) diese Informationen kennen müssen, um den Dienst zu betreiben, und (ii) zugestimmt haben, sie nicht an andere weiterzugeben. Zu den Umständen, in denen dies erforderlich ist, gehören unter anderem: Fehlerbehebung und Diagnose technischer Probleme, Untersuchung möglicher Verstöße gegen die Nutzungsbedingungen und Probleme bei der Einhaltung gesetzlicher Vorschriften.</p>
+        <p>Wir schließen Verträge mit Drittanbietern ab, um einige Funktionen der Website bereitzustellen. Wir geben personenbezogene Daten nur in dem Umfang an Drittanbieter weiter, der für die Bereitstellung dieser Website-Funktionen erforderlich ist. Wir verlangen von unseren Drittanbietern, dass sie das gleiche Maß an Datenschutz bieten wie wir, und sie haben nicht das Recht, personenbezogene Daten für andere Zwecke als die Bereitstellung dieser Website-Funktionen weiterzugeben oder zu verwenden.</p>
+        <p>Wir können personenbezogene Daten oder potenziell personenbezogene Daten offenlegen, wenn diese Offenlegung gesetzlich oder per Gerichtsbeschluss erforderlich ist oder wenn wir in gutem Glauben davon ausgehen, dass die Offenlegung vernünftigerweise erforderlich ist, um die Sicherheit oder Rechte von uns, Dritten oder der Öffentlichkeit im Allgemeinen zu schützen.</p>
+        <p>Wir behalten uns das Recht vor, Ihre personenbezogenen Daten im Falle eines Verkaufs, einer Fusion, einer Liquidation, einer Zwangsverwaltung oder einer Übertragung aller oder im Wesentlichen aller Vermögenswerte unseres Unternehmens an einen Dritten zu übertragen, sofern der Dritte sich bereit erklärt, die Bedingungen der Datenschutzrichtlinie von Growstuff einzuhalten, und vorausgesetzt, dass der Dritte Ihre personenbezogenen Daten nur für die Zwecke verwendet, für die Sie sie uns zur Verfügung gestellt haben. Im Falle einer solchen Übertragung werden Sie benachrichtigt und haben die Möglichkeit, sich abzumelden.</p>
+        <h2>3. Kekse</h2>
+        <p>Ein Cookie ist eine Informationsfolge, die eine Website auf dem Computer eines Besuchers speichert und die der Browser des Besuchers der Website jedes Mal zur Verfügung stellt, wenn der Besucher zurückkehrt. Wir verwenden Cookies, um Besucher, ihre Nutzung der Website und ihre Präferenzen für den Website-Zugriff zu identifizieren und zu verfolgen. Wir verwenden Cookies auch, um die Anmeldung bei Ihrem Konto zu steuern.</p>
+        <p>Besucher, die nicht möchten, dass Cookies auf ihrem Computer gespeichert werden, sollten ihren Browser vor der Nutzung der Website so einstellen, dass er Cookies ablehnt. Der Nachteil besteht darin, dass bestimmte Funktionen der Website ohne die Hilfe von Cookies möglicherweise nicht ordnungsgemäß funktionieren.</p>
+        <h2>4. Vertraulichkeit und Sicherheit</h2>
+        <p>Keine Datenübertragung über das Internet kann jemals zu 100 % sicher sein. Die Nutzung dieses Dienstes erfolgt auf eigene Gefahr. Wir werden jedoch alle angemessenen Maßnahmen (einschließlich geeigneter technischer und organisatorischer Maßnahmen) ergreifen, um Ihre personenbezogenen Daten zu schützen.</p>
+        <p>Ihre Kontoinformationen sind passwortgeschützt. Wir empfehlen Ihnen, ein starkes und sicheres Passwort zu wählen. Wir verwenden branchenübliche Verschlüsselung, um Ihr Passwort auf unseren Servern zu schützen.</p>
+        <p>Wenn wir von einer Systemsicherheitsverletzung erfahren, benachrichtigen wir Sie elektronisch, damit Sie geeignete Maßnahmen zu Ihrem Schutz ergreifen können.</p>
+        <h2>5. Löschen Ihrer Daten</h2>
+        <p>Sie können alle optionalen Informationen, die Sie uns zur Verfügung gestellt haben, jederzeit ändern oder löschen. Wenn Sie von Ihnen bereitgestellte optionale Informationen ändern oder löschen, wird die Änderung sofort im Dienst wirksam. Zwischenspeicherung oder Verweise auf die Daten, auch in auf dem Dienst basierenden Anwendungen Dritter, können jedoch dazu führen, dass zuvor verfügbare Daten für einige Zeit verfügbar bleiben.</p>
+        <p>Im Rahmen des täglichen Betriebs des Dienstes erstellen wir regelmäßig Kopien der in den Datenbanken enthaltenen Daten zu Sicherungszwecken. Diese Backups können möglicherweise mehrere Wochen oder Monate lang gelöschte Daten enthalten. Auch für diese Backups gelten die Regeln zur Offenlegung personenbezogener Daten.</p>
+        <h2>6. Änderungen</h2>
+        <p>Wir können unsere Datenschutzrichtlinie von Zeit zu Zeit ändern. Eine Historie der Änderungen an dieser Richtlinie ist in unserem öffentlichen Quellcode-Repository unter <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a> verfügbar. Wir werden angemessene Schritte unternehmen, um Sie über alle wesentlichen Änderungen dieser Richtlinie zu informieren; Es liegt jedoch in Ihrer Verantwortung, diese Richtlinie regelmäßig auf Änderungen zu überprüfen. Durch Ihre fortgesetzte Nutzung dieser Website nach einer Änderung dieser Datenschutzrichtlinie erklären Sie sich mit dieser Änderung einverstanden.</p>
+        <h2>7. Kontaktieren Sie uns</h2>
+        <p>Wenn Sie Fragen zu dieser Richtlinie haben, können Sie uns unter <a href="mailto:support@growstuff.org">support@growstuff.org</a> kontaktieren.</p>
+        <h2>8. Creative Commons</h2>
+        <p>Diese Datenschutzrichtlinie basiert auf einer von Automattic (<a href="http://automattic.com/privacy/">http://automattic.com/privacy/</a>) entwickelten und von Dreamwidth geänderten (<a href="http://dreamwidth.org/legal/privacy">http://dreamwidth.org/legal/privacy</a>) und ist unter einer <a href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 lizenziert Lizenz</a>.</p>
+    support:
+      title: "Support – Häufig gestellte Fragen"
+      body_html: |
+        <h2>Über Growstuff</h2>
+        <h3>Wer betreibt Growstuff?</h3>
+        <p>Growstuff wurde von Alex Bayley (<a href="/members/skud">Skud</a>) ins Leben gerufen, einem Open-Source-Softwareentwickler und begeisterten Gemüsegärtner aus Melbourne, Australien. Es wird nun von der Gemeinde gepflegt.</p>
+        <h3>Wie ist Growstuff entstanden?</h3>
+        <p>Die Idee zu Growstuff entstand aus einer Diskussion auf einer Open-Source-Konferenz in Spanien im Jahr 2012. Wir wollten eine kostenlose, offene Informationsquelle über das Pflanzen und den Anbau von Pflanzen und erkannten, dass der beste Weg, dies zu erreichen, darin bestehen würde, sie von Gärtnern auf der ganzen Welt zu sammeln.</p>
+        <p>Wir haben Growstuff erstmals im August 2012 als Open-Source-Projekt eingerichtet und es im März 2013 stillschweigend gestartet.</p>
+        <h3>Ist Growstuff eine gemeinnützige Organisation?</h3>
+        <p>Growstuff ist ein von der Community betriebenes Projekt. Sie sollten auch wissen, dass Software und aggregierte Daten über Nutzpflanzen und wer sie anbaut, unter offenen Lizenzen frei verfügbar sind.</p>
+        <h3>Kann ich auf Growstuff werben?</h3>
+        <p>Leider sind wir 100 % werbefrei!</p>
+        <p>Wenn Sie Mitglied sind, können Sie in unserem Handelspostenbereich Dinge zum Tauschen oder Verkaufen veröffentlichen, wir haben jedoch keine Bannerwerbung oder ähnliches und werden dies auch nie tun. Wir glauben, dass die Unterstützung einer Website durch externe Werbung zu einem weniger angenehmen Erlebnis für unsere Mitglieder und Besucher führt und kein nachhaltiges Geschäftsmodell ist.</p>
+        <h3>Wie ist der Status von Growstuff? Ist es in der Beta?</h3>
+        <p>Wir mögen das Wort „Beta“ oder die Idee, die es darstellt, nicht besonders. Growstuff unterliegt ständigen Veränderungen und Verbesserungen und wir hoffen, dass wir immer neue Funktionen hinzufügen und die Dinge für unsere Mitglieder verbessern.</p>
+        <p>Wenn Sie Fehler oder Probleme finden, teilen Sie uns dies bitte über unser Support-Forum mit. Wenn eine von Ihnen gewünschte Funktion noch nicht verfügbar ist, schauen Sie bald noch einmal vorbei!</p>
+        <h2>Mitgliedschaft</h2>
+        <h3>Kann ich Growstuff kostenlos nutzen?</h3>
+        <p>Absolut! Wenn Ihnen die Seite gefällt, würden wir uns freuen, wenn Sie über eine Spende nachdenken (siehe Link in der Fußzeile).</p>
+        <h3>Kann ich eine Mitgliedschaft für meine Familie, Schule oder Gemeindegruppe erhalten?</h3>
+        <p>Ja! Fühlen Sie sich frei, sich als „JonesFamily“ oder „SmithfieldCommunity“ oder was auch immer Ihnen gefällt, anzumelden.</p>
+        <p>Denken Sie daran, dass Sie für alles verantwortlich sind, was unter diesem Konto passiert. Seien Sie also vorsichtig, wem Sie die Nutzung erlauben. Wir hoffen, zu gegebener Zeit Funktionen entwickeln zu können, die Gemeinschaftsgärten dabei helfen, diese mit ihren Mitgliedern/Gärtnern zu teilen, damit diese nachverfolgen können, was im Gemeinschaftsgarten gepflanzt wird, ohne sich als Gemeinschaftsgarten-Konto anmelden zu müssen. Wir werden dies weithin bekannt machen, wenn es fertig ist, also behalten Sie es im Auge.</p>
+        <h2>Profil, Einstellungen und Datenschutz</h2>
+        <h3>Wie füge ich ein Bild zu meinem Profil hinzu?</h3>
+        <p>Profilbilder werden von <a href="https://gravatar.com">Gravatar</a> bereitgestellt, einem Dienst, der „weltweit anerkannte Avatare“ bereitstellt und von den Personen betrieben wird, die die WordPress-Blogging-Plattform betreiben.</p>
+        <p>Wenn Sie sich in der Vergangenheit jemals bei Gravatar mit derselben Adresse angemeldet haben, mit der Sie sich bei Growstuff angemeldet haben, haben Sie bereits ein Bild für Ihr Profil.</p>
+        <p>Wenn Sie sich bei Growstuff mit einer anderen E-Mail-Adresse als Ihrer Gravatar-Adresse angemeldet haben, müssen Sie diese auf Gravatar hinzufügen.</p>
+        <p>Wenn Sie sich noch nie bei Gravatar angemeldet haben, können Sie ein Konto erstellen und ein Bild hochladen, das nicht nur auf Growstuff erscheint, sondern auf jeder anderen Website, die Gravatars unterstützt und auf der Sie dieselbe E-Mail-Adresse verwenden.</p>
+        <h3>Muss ich all diese persönlichen Dinge ausfüllen?</h3>
+        <p>Ihr Profil stellt mehrere Fragen über Sie, die Sie nach Belieben beantworten können (oder auch nicht). Wir benötigen keine persönlichen Informationen wie Ihren offiziellen Namen, Ihr Geschlecht oder Ihr Alter für Nachverfolgungs- oder demografische Zwecke – einer der Vorteile, wenn auf unserer Website keine Werbung angezeigt wird!</p>
+        <p>Wenn es um den Standort geht, ist es wirklich hilfreich, wenn Sie ihn Growstuff zur Verfügung stellen können, denn wir verwenden ihn, um Dinge zum Wachsen vorzuschlagen. Sie können dies jedoch auf jedem beliebigen Detaillierungsgrad tun: vielleicht mit dem Namen Ihrer Stadt, Ihres Bundeslandes oder Ihrer Provinz oder sogar Ihres Landes, wenn das Land klein genug ist und ein ziemlich gleichmäßiges Klima hat. Wählen Sie einfach etwas aus, das nah genug ist, um Ihnen genaue Wachstumstipps zu geben, und vage genug, um sich sicher zu fühlen.</p>
+        <p>Weitere Informationen zum Datenschutz Ihrer Daten finden Sie in unserer <a href="http://growstuff.org/policy/privacy">Datenschutzerklärung</a>.</p>
+        <h2>Pflanzen, Gärten und Pflanzen</h2>
+        <h3>Wie kann ich eine neue Ernte hinzufügen?</h3>
+        <p>Bitte hinterlassen Sie vorerst eine Notiz unter <a href="http://www.growstuff.org/posts/skud-20130319-requests-for-new-crops">Anfragen für neue Pflanzen</a> in unserem <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Feedback &amp; Support-Forum</a>.</p>
+        <h3>Werden Sie nicht essbare Pflanzen hinzufügen?</h3>
+        <p>Wir haben derzeit keine Pläne, Pflanzen hinzuzufügen, die nicht essbar oder im Zusammenhang mit dem Lebensmittelanbau oder der Nachhaltigkeit nicht „nützlich“ sind – dazu könnten Begleitpflanzen, Gründüngungspflanzen, Pflanzen zur Bekämpfung von Schädlingen oder Krankheiten und dergleichen gehören. Wenn Sie an reine Zierpflanzen denken, werden wir diese wahrscheinlich nicht so schnell hinzufügen.</p>
+        <p>Wir hoffen jedoch, dass wir in Zukunft jedem Mitglied die Möglichkeit geben können, „inoffizielle“ Pflanzen anzupflanzen, die nicht in unserer Pflanzendatenbank enthalten sind.</p>
+        <h2>Posten, Kommentieren und Foren</h2>
+        <h3>Welche Formatierung kann ich in Beiträgen und Kommentaren verwenden?</h3>
+        <p>Wir verwenden die Syntax <a href="http://daringfireball.net/projects/markdown/syntax/">Markdown</a>, die eine ziemlich große Auswahl an Optionen bietet, von einfacher Hervorhebung (Fett und Kursivschrift) bis hin zu Links, Bildern und mehr. Wir hoffen, eine Symbolleiste installieren zu können, die Ihnen bei der Generierung der richtigen Syntax hilft, aber in der Zwischenzeit können wir leider nur die oben verlinkte eher technische Dokumentation anbieten.</p>
+        <h2>Kommende Funktionen</h2>
+        <h3>Wo kann ich sehen, welche Funktionen geplant sind?</h3>
+        <p>Unsere Softwareentwickler verwenden ein Tracking-Tool namens Pivotal Tracker. Sie können unseres unter <a href="http://tracker.growstuff.org">http://tracker.growstuff.org/</a> sehen. Hier erfahren Sie, an welchen Funktionen wir derzeit arbeiten und in Kürze arbeiten möchten.</p>
+        <p>Die Benutzeroberfläche von Pivotal Tracker zeigt drei Informationsspalten:</p>
+        <ul>
+        <li>Der Abschnitt „Aktuell“ zeigt die Features (sogenannte „Stories“), an denen wir gerade arbeiten</li>
+        <li>„Backlog“ zeigt Ihnen Geschichten, an denen wir in naher Zukunft arbeiten möchten</li>
+        <li>„Icebox“ enthält Geschichten, die wir als Dinge identifiziert haben, die wir gerne machen würden, für die aber noch kein Zeitrahmen festgelegt ist.</li>
+        </ul>
+        <h3>Wo kann ich eine Funktion vorschlagen, die ich gerne sehen würde?</h3>
+        <p>Wir empfehlen, zuerst den <a href="http://tracker.growstuff.org/">Tracker</a> zu überprüfen (siehe oben), um zu sehen, ob es sich um etwas handelt, das wir bereits planen oder worüber wir sprechen. Sobald Sie dies getan haben, können Sie Ihren Vorschlag im <a href="/forums/growstuff-feedback-support">Feedback &amp; Support-Forum</a> posten, falls dies noch nicht geplant ist oder Sie weitere Kommentare abgeben möchten.</p>
+        <h2>Entwickler und API</h2>
+        <h3>Gibt es eine Growstuff-API?</h3>
+        <p>Derzeit gibt es keine offizielle API, da sich unsere Website immer noch so schnell verändert. Wir stellen jedoch einige unserer Daten über JSON- und/oder RSS-Feeds zur Verfügung, und Sie können gerne damit experimentieren, vorausgesetzt, dass sich diese unter Ihrem Einfluss ändern können. <a href="https://github.com/Growstuff/growstuff/wiki/API">API-Dokumente finden Sie in unserem Wiki</a>.</p>
+        <p>Die Nutzung unserer API und Daten unterliegt der <a href="http://www.growstuff.org/policy/api">API- und Datennutzungsrichtlinie</a>.</p>
+        <h3>Unter welcher Lizenz stehen Ihre Daten?</h3>
+        <p>Growstuffs Daten sind unter der <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike (CC-BY-SA) 3.0 Unported-Lizenz</a> verfügbar. Das bedeutet, dass Sie es wiederverwenden können, solange Sie es Growstuff zuordnen (indem Sie auf unsere Website verlinken) und solange Ihre eigene App/Website/Ihr eigenes Projekt ihre eigenen Inhalte oder Daten unter CC-BY-SA teilt.</p>
+        <p>Weitere Informationen finden Sie in unserer <a href="http://growstuff.org/policy/api">API- und Datennutzungsrichtlinie</a>.</p>
+        <h2>Freiwilligenarbeit und Jobs</h2>
+        <h3>Stellen Sie ein?</h3>
+        <p>Leider nein. Wir sind eine selbstfinanzierte/gebootstrappte Community-Gruppe.</p>
+        <p>Wenn Sie mitmachen möchten, siehe unten.</p>
+        <h3>Wie kann ich Growstuff ehrenamtlich unterstützen?</h3>
+        <p>In erster Linie helfen Sie, indem Sie ein aktives Mitglied der Website sind – Pflanzen anbauen, Ihre Ernten verfolgen, in unseren Foren posten, andere Mitglieder kennenlernen – beim Aufbau unserer Datenbank und unserer Community, ohne die Growstuff völlig sinnlos wäre. Also, vielen Dank dafür!</p>
+        <p>Zweitens würden wir uns freuen, wenn Sie Growstuff an Ihre Freunde weitergeben könnten, die ihr eigenes Essen anbauen oder es vielleicht gerne ausprobieren würden. Nachfolgend finden Sie einige Tipps dazu.</p>
+        <p>Growstuffs Software wird ebenfalls mit Hilfe freiwilliger Entwickler entwickelt. Wenn Sie Programmierer sind oder lernen möchten, wie man programmiert, können Sie sich uns dabei anschließen. Alle sind willkommen, unabhängig von ihrer Erfahrung.</p>
+        <p>Wir haben außerdem ehrenamtliche Erntehelfer, die unsere Pflanzendatenbank verwalten, und Moderatoren, die dafür sorgen, dass die Foren reibungslos funktionieren. Diese werden in der Regel aus unseren aktivsten und hilfsbereitesten Mitgliedern ausgewählt.</p>
+        <h3>Wie kann ich mich als Coder engagieren?</h3>
+        <p>Schauen Sie sich zunächst unser <a href="https://github.com/Growstuff/growstuff/wiki/">wiki</a>, den Code auf <a href="http://github.com/Growstuff/growstuff">GitHub</a> und <a href="http://tracker.growstuff.org">tracker</a> an, um eine Vorstellung davon zu bekommen, wie wir arbeiten.</p>
+        <p>Wenn Sie mitmachen möchten, sollten Sie sich unserer <a href="http://lists.growstuff.org/mailman/listinfo/discuss">Diskussions-Mailingliste</a> anschließen.</p>
+        <h3>Meine Programmierkenntnisse sind eingerostet oder nicht vorhanden. Kann ich trotzdem mitmachen?</h3>
+        <p>Sicher! Wir betreuen gerne neue Programmierer, Leute, die schon eine Weile nicht mehr programmiert haben, oder Leute, die unsere Plattform (Ruby on Rails) zum ersten Mal kennenlernen. Wir arbeiten mit Paarprogrammierung und können Ihnen den Einstieg in einfache Storys erleichtern, beginnend mit etwas so Einfachem wie dem Korrigieren eines Tippfehlers oder eines HTML-Tags (einige Beispiele finden Sie im Tag „einfach“ in unserem <a href="http://tracker.growstuff.org">Tracker</a>).</p>
+        <h3>Wie kann ich dazu beitragen, Growstuff bekannter zu machen?</h3>
+        <p>In erster Linie, indem Sie es Ihren Freunden erzählen und sie einladen, mitzumachen und dabei zu sein. Da wir keinen Spam verbreiten möchten, werden wir Sie niemals dazu auffordern, Ihr Adressbuch zu löschen oder automatisch Facebook-Updates zu veröffentlichen oder in Ihrem Namen zu twittern. Aber wir würden es wirklich lieben, wenn Sie es den Leuten in Ihren eigenen Worten erzählen würden.</p>
+        <p>Orte, um die Nachricht online zu verbreiten: Facebook, Twitter und andere soziale Medien; Ihr eigener Blog oder Ihre eigene Website; Garten- oder Nachhaltigkeitsforen, an denen Sie teilnehmen.</p>
+        <p>Oder offline: Erzählen Sie es Freunden, Familie und Nachbarn; Verbreiten Sie die Nachricht in Ihren örtlichen Gemeinschaftsgärten, auf Bauernmärkten oder bei Obst- und Gemüsebörsen. Kontaktieren Sie Ihre lokale Nachhaltigkeits- oder Transition-Gruppe; oder an jedem anderen Ort, an dem Ihrer Meinung nach Lebensmittelanbauer sein könnten.</p>
+        <h2>Nutzungsbedingungen, Urheberrecht und anderer Missbrauch</h2>
+        <h3>Wo kann ich einen Verstoß gegen die Nutzungsbedingungen oder Community-Richtlinien melden?</h3>
+        <p>Sie können in unserem <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Feedback &amp; Support-Forum</a> posten oder eine E-Mail an <a href="mailto:support@growstuff.org">support@growstuff.org</a> senden.</p>
+        <h3>Was ist Ihrer Meinung nach Spam und wie kann ich ihn melden?</h3>
+        <p>Es gibt viele Arten von Spam. Am offensichtlichsten ist die wiederholte, unerwünschte kommerzielle Werbung. Viele Spammer posten auch irrelevante, unsinnige oder minderwertige Inhalte in Foren, um Sie zum Klicken auf einen Link zu bewegen oder einfach nur, um zu sehen, womit sie durchkommen.</p>
+        <p>Bitte melden Sie alle Arten von Spam!</p>
+        <p>Da wir noch so neu sind, haben wir noch keinen guten Spam-Meldemechanismus eingerichtet. Sie können jedoch einen Link in unserem <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Feedback &amp; Support-Forum</a> hinterlassen und wir werden tun, was wir können.</p>
+        <h3>Jemand hat etwas gepostet, von dem ich glaube, dass es das Urheberrecht verletzt. Wo kann ich es melden?</h3>
+        <p>Wenn Sie der Urheberrechtsinhaber sind, können Sie eine Beschwerde einreichen, indem Sie dem in unserer <a href="http://growstuff.org/policy/copyright">Richtlinie zu Urheberrechtsverletzungen</a> beschriebenen Verfahren folgen.</p>
+        <h3>Ist die Verwendung von Growstuff für Kinder sicher?</h3>
+        <p>Als Website, die sich auf den Anbau von Lebensmitteln konzentriert, erwarten wir von Growstuff eine ziemlich sichere und freundliche Umgebung. Einige Teile der Website (z. B. Beiträge von Mitgliedern) können jedoch ausgereifte Konzepte, grobe Sprache und Ähnliches enthalten. Wenn Sie nicht möchten, dass Ihre Kinder diesen ausgesetzt werden, empfehlen wir Ihnen dringend, die Verwendung von Growstuff zu überwachen. Wir empfehlen Ihnen außerdem, vorsichtig zu sein, welche persönlichen Informationen Ihre Kinder auf Growstuff preisgeben.</p>
+        <h2>Weitere Unterstützung</h2>
+        <h3>Wo finde ich eine Liste bekannter Probleme mit der Website?</h3>
+        <p>In unserem GitHub <a href="https://github.com/Growstuff/growstuff/issues">Bekannte Probleme</a>.</p>
+        <h3>Meine Frage wird hier nicht beantwortet. Wo kann ich weitere Unterstützung anfordern?</h3>
+        <p>In unserem <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Feedback &amp; Support-Forum</a>. Bitte prüfen Sie vor dem Posten die Liste der bekannten Probleme.</p>
+        <h3>Wo kann ich Feedback/Kudos posten?</h3>
+        <p>Wir freuen uns über Feedback! Schreiben Sie uns eine Nachricht in unserem <a href="http://www.growstuff.org/forums/growstuff-feedback-support">Feedback &amp; Support-Forum</a>. (Gibt es hier ein Echo?)</p>
+        <h3>Wie kann ich Sie sonst noch kontaktieren?</h3>
+        <p>Wenn Sie Hilfe bei etwas benötigen, das hier nicht behandelt wurde, können Sie eine E-Mail an <a href="mailto:support@growstuff.org">support@growstuff.org</a> senden.</p>
+        <p>Medien-/Presseanfragen können an <a href="mailto:media@growstuff.org">media@growstuff.org</a> gerichtet werden.</p>
+        <p>Wenn Sie eine allgemeine Anfrage zur Website haben (z. B. geschäftliche Angelegenheiten oder einfach nur auf nicht-supportähnliche Weise mit einer offiziellen Person in Kontakt treten möchten), können Sie eine E-Mail an <a href="mailto:info@growstuff.org">info@growstuff.org</a> senden.</p>
+    tos:
+      title: "Growstuff-Nutzungsbedingungen"
+      body_html: |
+        <p>Wir hassen Juristensprache, deshalb haben wir versucht, unsere Nutzungsbedingungen lesbar zu machen. Wenn Sie Fragen haben, können Sie uns gerne <a href="mailto:support@growstuff.org">fragen</a>, und wir werden unser Bestes tun, um sie zu beantworten.</p>
+        <p>Die Growstuff-Betreuer („wir“, „uns“, „unser“, „Growstuff“) legen die folgenden Geschäftsbedingungen vor, die Ihre Nutzung der Growstuff-Website unter <a href="http://www.growstuff.org">growstuff.org</a> sowie aller auf oder über die Website verfügbaren Inhalte, Dienste und Produkte regeln, die wir gemeinsam als „der Dienst“ bezeichnen.</p>
+        <p>Um den Dienst nutzen zu können, müssen Sie diesen Nutzungsbedingungen sowie allen anderen von uns veröffentlichten Richtlinien zustimmen (einschließlich, aber nicht beschränkt auf die Datenschutzrichtlinie, die API- und Datennutzungsrichtlinie, die Richtlinie zu Urheberrechtsverletzungen und die Community-Richtlinien von Growstuff). Wir bezeichnen dies als „die Vereinbarung“.</p>
+        <p>Bitte lesen Sie diese Vereinbarung sorgfältig durch, bevor Sie auf den Dienst zugreifen oder ihn nutzen. Durch den Zugriff auf oder die Nutzung eines Teils des Dienstes erklären Sie sich damit einverstanden, dass Sie an die Bedingungen dieser Vereinbarung gebunden sind. Wenn Sie nicht allen Bedingungen dieser Vereinbarung zustimmen, können Sie nicht auf den Dienst zugreifen.</p>
+        <h2>1. Ihr Konto</h2>
+        <p>Wenn Sie ein Konto für den Dienst erstellen, sind Sie für die Aufrechterhaltung der Sicherheit Ihres Kontos verantwortlich. Sie sind für alle Aktivitäten verantwortlich, die unter dem Konto stattfinden. Sie müssen angemessene Maßnahmen ergreifen, um die Sicherheit Ihres Kontos zu gewährleisten. Wir haften nicht für Schäden, die entstehen, wenn die Sicherheit Ihres Kontos verletzt wird, weil Sie es unterlassen haben, es zu schützen.</p>
+        <h2>2. Kontostruktur</h2>
+        <p>Growstuff hat einen Kontotyp und dieser ist kostenlos.</p>
+        <p>Durch die Nutzung dieses Dienstes stimmen Sie dem Recht von Growstuff zu, die für Ihr Konto verfügbaren Funktionen jederzeit zu ändern, zu modifizieren oder einzustellen.</p>
+        <h2>3. Inhaltsrichtlinie</h2>
+        <p>Unsere Inhaltsrichtlinie bezieht sich auf jegliches Material, das Sie möglicherweise auf der Growstuff-Website oder über den Dienst veröffentlichen und das wir „Inhalt“ nennen. Dazu gehören Profilinformationen, Beiträge und Kommentare, Informationen über Ihre Lebensmittelanbauaktivitäten und alle anderen Materialien, ob Text, Grafiken oder ein anderes Format, die Sie auf Growstuff selbst veröffentlichen oder auf die Sie von Growstuff aus verlinken können.</p>
+        <p>Alle in irgendeiner Weise auf dem Dienst veröffentlichten Inhalte liegen in der Verantwortung des Eigentümers. Wenn Inhalte nach einem für Sie geltenden Recht als illegal gelten, erklären Sie sich damit einverstanden, dass wir alle erforderlichen Informationen an die zuständigen Behörden übermitteln.</p>
+        <p>Wir beanspruchen kein Eigentum oder keine Kontrolle über Inhalte, die Sie auf dem Dienst veröffentlichen. Sie behalten alle geistigen Eigentumsrechte an den von Ihnen geposteten Inhalten gemäß geltendem Recht. Durch die Veröffentlichung von Inhalten erklären Sie, dass Sie das Recht haben, diese Inhalte zu reproduzieren (und uns die Bereitstellung dieser Inhalte zu gestatten), ohne die Rechte Dritter zu verletzen. Sie erklären sich damit einverstanden, dass Sie jegliche Haftung tragen, die sich aus der Veröffentlichung von Inhalten ergibt, zu deren Veröffentlichung Sie nicht berechtigt sind.</p>
+        <p>Sie gewähren uns eine weltweite, gebührenfreie und nicht exklusive Lizenz zur Reproduktion, Änderung, Anpassung und Veröffentlichung des Inhalts, ausschließlich zum Zweck der Anzeige, Verbreitung und Bewerbung des Inhalts Ihres Kontos über jeden Teil des Dienstes, einschließlich über unsere API, Feeds und externe Kunden.</p>
+        <p>Wenn Sie Inhalte löschen, werden wir angemessene Anstrengungen unternehmen, um sie aus dem Dienst zu entfernen. Sie erkennen jedoch an, dass Caching oder Verweise auf die Inhalte möglicherweise nicht sofort nicht mehr verfügbar sind.</p>
+        <h3>3.1 Strukturierte Daten</h3>
+        <p>Es gibt eine Teilmenge des Inhalts, die wir als „strukturierte Daten“ bezeichnen. Strukturierte Daten sind Inhalte, die einfache Fakten und nicht kreative Anstrengungen darstellen. Beispielsweise sind Standorte, Daten oder die Art und Anzahl der von Ihnen gepflanzten Pflanzen strukturierte Daten. Strukturierte Daten können explizit von Ihnen oder implizit von der Website als Reaktion auf Ihre Aktivität erstellt werden.</p>
+        <p>Durch die Nutzung des Dienstes erkennen Sie an, dass strukturierte Daten von Growstuff erfasst und gespeichert werden und dass alle strukturierten Daten, die Sie oder Ihre Aktivitäten betreffen, zur Nutzung durch Dritte unter einer Creative Commons Attribution ShareAlike (CC-BY-SA)-Lizenz zur Verfügung gestellt werden können. Sie stimmen außerdem zu, dass Growstuff die Namensnennung für die strukturierten Daten gemäß den Bedingungen der Creative Commons-Lizenz erfolgt.</p>
+        <h3>3.2 Auf anderen Websites veröffentlichte Inhalte</h3>
+        <p>Wir haben nicht das gesamte Material, einschließlich Computersoftware, überprüft, das über die Websites und Webseiten verfügbar gemacht wird, auf die wir, ein Benutzer oder ein Anbieter von Inhalten verweisen oder die auf uns verweisen, und können dies auch nicht überprüfen. Wir haben keine Kontrolle über diese Websites und Webseiten und sind nicht für deren Inhalt oder deren Nutzung verantwortlich. Durch die Verlinkung auf eine externe Website oder Webseite erklären wir weder, noch implizieren wir, dass wir diese Website oder Webseite unterstützen. Sie sind dafür verantwortlich, die erforderlichen Vorkehrungen zu treffen, um sich und Ihre Computersysteme vor Viren, Würmern, Trojanern und anderen schädlichen oder zerstörerischen Inhalten zu schützen. Wir lehnen jegliche Verantwortung für Schäden ab, die sich aus Ihrer Nutzung externer Websites und Webseiten ergeben, unabhängig davon, ob dieser Link von uns oder einem Anbieter von Inhalten auf dem Dienst bereitgestellt wird.</p>
+        <h3>3.3 Wie wir mit problematischen Inhalten umgehen</h3>
+        <p>Sie stimmen zu, dass Sie durch die Nutzung des Dienstes möglicherweise Inhalten ausgesetzt werden, die Sie als anstößig oder anstößig empfinden.</p>
+        <p>Wir prüfen Inhalte nicht vorab. Sie erkennen jedoch an, dass wir nach unserem alleinigen Ermessen das Recht (aber nicht die Pflicht) haben, Inhalte aus dem Dienst zu entfernen oder die Entfernung abzulehnen. Wenn uns solche Inhalte gemeldet werden, liegt es in unserem alleinigen Ermessen, welche Maßnahmen gegebenenfalls zu ergreifen sind.</p>
+        <p>Wenn uns gemeldet wird, dass von Ihnen übermittelte Inhalte gegen diese Vereinbarung verstoßen, erklären Sie sich damit einverstanden, dass wir Sie auffordern können, diese Inhalte innerhalb einer von uns festgelegten angemessenen Frist zu ändern, zu modifizieren oder zu entfernen. Wenn Sie diese Richtlinie nicht befolgen, können wir Ihr Konto kündigen.</p>
+        <h2>4. Verhalten der Mitglieder</h2>
+        <p>Sie stimmen zu, dass Sie den Dienst nicht nutzen werden, um:</p>
+        <ol>
+        <li>Inhalte hochladen, veröffentlichen oder auf andere Weise übertragen, die schädlich, bedrohlich, beleidigend, hasserfüllt sind, die Privatsphäre und die Öffentlichkeitsrechte einer Person verletzen oder die gegen geltendes lokales, staatliches, nationales oder internationales Recht verstoßen, einschließlich aller Vorschriften mit Gesetzeskraft;</li>
+        <li>Inhalte hochzuladen, zu veröffentlichen oder auf andere Weise zu übertragen, bei denen es sich um Spam handelt oder die unethische oder unerwünschte kommerzielle Inhalte enthalten, die darauf abzielen, den Verkehr auf Websites Dritter zu lenken oder das Suchmaschinenranking von Websites Dritter zu verbessern, oder zu weiteren rechtswidrigen Handlungen (z. B. Phishing) oder zur Irreführung der Empfänger hinsichtlich der Quelle des Materials (z. B. Spoofing);</li>
+        <li>Die böswillige Nachahmung einer realen oder juristischen Person, einschließlich, aber nicht beschränkt auf, eines Mitarbeiters oder Freiwilligen von Growstuff, oder die anderweitige Falschdarstellung Ihrer Zugehörigkeit zu einer natürlichen oder juristischen Person;</li>
+        <li>Inhalte hochladen, veröffentlichen oder anderweitig übermitteln, zu deren Übermittlung Sie aufgrund von Gesetzen oder vertraglichen oder treuhänderischen Beziehungen nicht berechtigt sind (z. B. Insiderinformationen, geschützte und vertrauliche Informationen, die Sie im Rahmen von Arbeitsverhältnissen oder im Rahmen von Geheimhaltungsvereinbarungen erfahren oder offengelegt haben);</li>
+        <li>Inhalte hochladen, veröffentlichen oder anderweitig übertragen, die Patente, Marken, Geschäftsgeheimnisse, Urheberrechte oder andere Eigentumsrechte einer Partei verletzen;</li>
+        <li>Den Dienst oder mit dem Dienst verbundene Server oder Netzwerke stören oder unterbrechen oder Anforderungen, Verfahren, Richtlinien oder Vorschriften der mit dem Dienst verbundenen Netzwerke missachten;</li>
+        <li>Anfordern von Passwörtern oder persönlichen Identifikationsinformationen für unbeabsichtigte, kommerzielle oder rechtswidrige Zwecke von anderen Benutzern;</li>
+        <li>Inhalte hochladen, veröffentlichen oder anderweitig übertragen, die Viren, Würmer, Malware, Trojaner oder andere schädliche oder zerstörerische Inhalte enthalten;</li>
+        <li>Erlauben Sie die Nutzung durch andere in einer Weise, die gegen diese Vereinbarung verstößt;</li>
+        <li>Machen Sie eine übermäßige oder anderweitig schädliche automatisierte Nutzung des Dienstes durch;</li>
+        <li>Auf das Konto einer anderen Person zugreifen oder den Umfang des Dienstes überschreiten, für den Sie sich angemeldet haben; zum Beispiel den Zugriff auf und die Nutzung von Funktionen, zu deren Nutzung Sie kein Nutzungsrecht haben.</li>
+        </ol>
+        <p>Sie erklären sich damit einverstanden, dass Sie sich an die Community-Richtlinien halten, die derzeit unter <a href="http://www.growstuff.org/policy/community">http://www.growstuff.org/policy/community</a> verfügbar sind.</p>
+        <h2>5. Freiwillige</h2>
+        <p>Wir schätzen den Dienst von Freiwilligen in vielen Aspekten der Geschäftstätigkeit von Growstuff. Zu den ehrenamtlichen Tätigkeiten zählen unter anderem die Entwicklung von Software, die Bereitstellung von technischem Support, das Verfassen von Dokumentationen, die Durchführung von Verwaltungsaufgaben vor Ort, die Bereitstellung von Expertenrat, Recherche, technisches Schreiben, Überprüfen, Kategorisieren und andere Aufgaben, die zur Unterstützung des Betriebs des Dienstes erforderlich sind.</p>
+        <p>Von allen Freiwilligen wird erwartet, dass sie volljährig sind oder mit der Zustimmung eines Erziehungsberechtigten ehrenamtlich tätig sind.</p>
+        <p>Durch Ihre ehrenamtliche Tätigkeit erklären Sie sich damit einverstanden, dass alle Arbeiten, die als Ergebnis Ihrer ehrenamtlichen Tätigkeit entstehen, im gesetzlich zulässigen Umfang auf unbefristeter, unwiderruflicher und weltweiter Basis an Growstuff lizenziert werden. Sie erklären sich damit einverstanden, dass Growstuff die Grundlage festlegen kann, auf der Ihre ehrenamtliche Arbeit an andere lizenziert wird, einschließlich unter Open-Source- oder Creative-Commons-Lizenzen, die die weitere Änderung oder Verbreitung Ihrer Arbeit ermöglichen können. Wenn Gesetze eine solche Lizenzierung verhindern, erklären Sie sich damit einverstanden, Growstuff niemals wegen der Nutzung des genannten Werks zu verklagen.</p>
+        <p>Durch Ihre ehrenamtliche Tätigkeit erklären Sie sich damit einverstanden, dass Sie Ihre Arbeit ohne Erwartung einer Bezahlung oder einer zukünftigen Gegenleistung von Growstuff leisten. Sie stimmen außerdem zu, dass Sie angemessene Sorgfalt walten lassen haben, um sicherzustellen, dass die Arbeit korrekt, genau und frei von Mängeln ist. Sie erklären sich damit einverstanden, dass Sie keine geschützten oder vertraulichen Informationen, die Ihnen im Rahmen Ihrer ehrenamtlichen Arbeit zur Verfügung gestellt werden, offenlegen oder weitergeben.</p>
+        <p>Kein Benutzer ist verpflichtet, sich freiwillig zu melden, und Benutzer, die sich nicht freiwillig melden, erhalten die gleiche Betreuung, Unterstützung und Aufmerksamkeit.</p>
+        <h2>6. Datenschutzrichtlinie</h2>
+        <p>Ihre Nutzung der Website unterliegt der Datenschutzrichtlinie, die sich derzeit unter <a href="http://www.growstuff.org/policy/privacy">http://www.growstuff.org/policy/privacy</a> befindet.</p>
+        <h2>7. API- und Datennutzungsrichtlinie</h2>
+        <p>Ihre Nutzung unserer API und/oder Daten unterliegt unserer API- und Datennutzungsrichtlinie, die sich derzeit unter <a href="http://www.growstuff.org/policy/api">http://www.growstuff.org/policy/api</a> befindet.</p>
+        <h2>8. Urheberrechtsverletzung</h2>
+        <p>Wenn Sie glauben, dass auf der Website befindliches Material Ihr Urheberrecht verletzt, können Sie uns gemäß unserer Richtlinie zu Urheberrechtsverletzungen benachrichtigen, die sich derzeit unter <a href="http://www.growstuff.org/policy/copyright">http://www.growstuff.org/policy/copyright</a> befindet.</p>
+        <h2>9. Weiterverkauf von Dienstleistungen</h2>
+        <p>Sie erklären sich damit einverstanden, keinen Teil des Dienstes, die Nutzung des Dienstes oder den Zugriff auf den Dienst zu reproduzieren, zu vervielfältigen, zu kopieren, zu verkaufen, weiterzuverkaufen oder zu verwerten, es sei denn, dies ist gemäß unserer API- und Datennutzungsrichtlinie, einer Open-Source-Lizenz für den Quellcode des Dienstes oder Creative-Commons-Lizenzen für Inhalte oder anderes auf dem Dienst veröffentlichtes Material zulässig.</p>
+        <h2>10. Entschädigung</h2>
+        <p>Sie erklären sich damit einverstanden, Growstuff, seine Auftragnehmer, seine Lizenzgeber und ihre jeweiligen Direktoren, leitenden Angestellten, Mitarbeiter und Vertreter von allen Ansprüchen und Kosten, einschließlich Anwaltskosten, freizustellen und schadlos zu halten, die sich aus Ihrer Nutzung des Dienstes ergeben, einschließlich, aber nicht beschränkt auf, aus Ihrem Verstoß gegen diese Vereinbarung.</p>
+        <h2>11. Kündigung</h2>
+        <p>Growstuff kann Ihr Konto jederzeit kündigen oder Ihre Nutzung des Dienstes anderweitig einschränken, wenn wir der Meinung sind, dass Sie gegen diese Vereinbarung verstoßen haben. In diesem Fall werden Sie per E-Mail benachrichtigt und wir teilen Ihnen mit, gegen welchen Teil der Vereinbarung Sie unserer Meinung nach verstoßen haben. Es liegt in unserem Ermessen, eine Warnung auszusprechen, anstatt Ihr Konto zu kündigen. In diesem Fall werden Sie auch per E-Mail benachrichtigt und darüber informiert, gegen welchen Teil der Vereinbarung Sie unserer Meinung nach verstoßen haben. Wir stellen Ihnen außerdem eine Kontaktadresse zur Verfügung, unter der Sie gegen unsere Entscheidung Berufung einlegen können. Wir garantieren jedoch nicht, dass wir unsere Meinung ändern.</p>
+        <p>Sie stimmen zu, dass jede Beendigung Ihres Zugriffs auf den Dienst das Entfernen oder Verwerfen aller von Ihnen bereitgestellten Inhalte beinhalten kann.</p>
+        <p>Wir können nach unserem alleinigen Ermessen die Bereitstellung des Dienstes jederzeit mit oder ohne Vorankündigung einstellen.</p>
+        <p>Wenn Sie diese Vereinbarung kündigen möchten, können Sie Ihr Konto löschen und die Nutzung des Dienstes einstellen. Sie erklären sich damit einverstanden, dass wir nach der Löschung Ihres Kontos die von Ihnen bereitgestellten Inhalte jederzeit nach der Löschung Ihres Kontos entfernen können, aber nicht dazu verpflichtet sind.</p>
+        <p>Alle Bestimmungen dieser Vereinbarung, die ihrer Natur nach die Kündigung überdauern sollten, bleiben auch nach der Kündigung bestehen, einschließlich, aber nicht beschränkt auf, Eigentumsbestimmungen, Gewährleistungsausschlüsse, Entschädigungen und Haftungsbeschränkungen.</p>
+        <h2>12. Änderungen</h2>
+        <p>Wir behalten uns das Recht vor, nach eigenem Ermessen jederzeit Teile dieser Vereinbarung zu ändern oder zu ersetzen. Eine Historie der Änderungen an dieser Vereinbarung ist über unser öffentliches Quellcode-Repository unter <a href="https://github.com/Growstuff/policy">https://github.com/Growstuff/policy</a> verfügbar. Wir werden angemessene Schritte unternehmen, um Sie über alle wesentlichen Änderungen dieser Vereinbarung zu informieren; Es liegt jedoch in Ihrer Verantwortung, diese Vereinbarung regelmäßig auf Änderungen zu überprüfen. Durch Ihre fortgesetzte Nutzung des Dienstes nach der Veröffentlichung von Änderungen an dieser Vereinbarung akzeptieren Sie diese Änderungen.</p>
+        <p>Wir können in Zukunft auch neue Funktionen oder Dienste über den Dienst anbieten. Für solche neuen Funktionen und/oder Dienste gelten die Bedingungen dieser Vereinbarung.</p>
+        <h2>13. Haftungsausschluss</h2>
+        <p>Dieser Service wird „wie besehen“ bereitgestellt. Die Growstuff-Betreuer und ihre Lieferanten und Lizenzgeber lehnen hiermit alle ausdrücklichen oder stillschweigenden Garantien jeglicher Art ab, einschließlich, aber nicht beschränkt auf die Garantien der Marktgängigkeit, der Eignung für einen bestimmten Zweck und der Nichtverletzung. Weder die Growstuff-Betreuer noch ihre Lieferanten und Lizenzgeber geben eine Garantie dafür, dass der Dienst fehlerfrei ist oder dass der Zugriff auf den Dienst kontinuierlich oder ununterbrochen erfolgt. Sie stimmen zu, dass etwaige Unterbrechungen des Dienstes keinen Anspruch auf Erstattung oder Entschädigung haben. Sie verstehen, dass Sie nach eigenem Ermessen und auf eigenes Risiko Inhalte oder Dienste über den Dienst herunterladen oder auf andere Weise über ihn beziehen.</p>
+        <p>Keine Ratschläge oder Informationen, ob mündlich oder schriftlich, die Sie auf irgendeine Weise erhalten, begründen eine Garantie, die nicht ausdrücklich in dieser Vereinbarung festgelegt ist.</p>
+        <h2>14. Haftungsbeschränkung</h2>
+        <p>Sie verstehen ausdrücklich und stimmen zu, dass die Growstuff-Betreuer oder ihre Lieferanten oder Lizenzgeber in keinem Fall in Bezug auf einen Gegenstand dieser Vereinbarung aufgrund eines Vertrags, Fahrlässigkeit, verschuldensunabhängiger Haftung oder einer anderen rechtlichen oder Billigkeitstheorie haftbar sind für: (i) besondere, zufällige oder Folgeschäden; (ii) die Kosten für die Beschaffung oder Ersatzprodukte oder -dienstleistungen; (iii) Unterbrechung der Nutzung oder Verlust oder Beschädigung von Daten; (iv) jegliche Aussagen oder Verhaltensweisen Dritter im Rahmen des Dienstes; oder (v) jeglicher unbefugter Zugriff auf oder Änderungen Ihrer Inhalte. Wir übernehmen keine Haftung für Ausfälle oder Verzögerungen, die auf Umstände zurückzuführen sind, die außerhalb unserer angemessenen Kontrolle liegen.</p>
+        <p>Das Vorstehende gilt nicht, soweit dies nach geltendem Recht verboten ist.</p>
+        <h2>15. Allgemeine Informationen</h2>
+        <p>Diese Vereinbarung stellt die gesamte Vereinbarung zwischen uns und Ihnen bezüglich Ihrer Nutzung des Dienstes dar. Diese Vereinbarung kann nur durch eine schriftliche Änderung geändert werden, die von einem autorisierten Vertreter der Growstuff-Betreuer unterzeichnet wurde, oder durch die Veröffentlichung einer überarbeiteten Version an dieser Stelle. Sofern das geltende Recht (falls zutreffend) nichts anderes vorsieht, unterliegen alle Streitigkeiten, die zwischen Ihnen und den Growstuff-Betreuern in Bezug auf diese Nutzungsbedingungen und/oder Ihre Nutzung oder Ihren Zugriff auf den Dienst entstehen, den Gesetzen des Bundesstaates Victoria und den Bundesgesetzen Australiens, unter Ausschluss etwaiger Kollisionsnormen. Sie erklären sich damit einverstanden, sich für alle Streitigkeiten, die sich aus oder im Zusammenhang mit Ihrer Nutzung des Dienstes oder Ihrer Zustimmung zu dieser Vereinbarung ergeben, der Gerichtsbarkeit der Landes- und Bundesgerichte in Melbourne, Australien, zu unterwerfen.</p>
+        <p>Wenn ein Teil dieser Vereinbarung ungültig oder nicht durchsetzbar ist, wird dieser Teil so ausgelegt, dass er die ursprüngliche Absicht der Parteien widerspiegelt, und die übrigen Teile bleiben in vollem Umfang in Kraft und wirksam. Der Verzicht einer Partei auf eine Bestimmung oder Bedingung dieser Vereinbarung oder einen Verstoß gegen diese in einem Einzelfall bedeutet keinen Verzicht auf diese Bestimmung oder Bedingung oder einen späteren Verstoß dagegen.</p>
+        <p>Die Abschnittsüberschriften in dieser Vereinbarung dienen nur der Übersichtlichkeit und haben keine rechtliche oder vertragliche Wirkung.</p>
+        <h2>16. Verstöße melden</h2>
+        <p>Um einen Verstoß gegen diese Vereinbarung zu melden, senden Sie bitte eine E-Mail an <a href="mailto:support@growstuff.org">support@growstuff.org</a>.</p>
+        <h2>17. Creative Commons</h2>
+        <p>Dieses Dokument mit den Nutzungsbedingungen basiert auf einem von Automattic (<a href="http://wordpress.com/tos/">http://wordpress.com/tos/</a>) entwickelten Dokument mit Änderungen von Dreamwidth (<a href="http://www.dreamwidth.org/legal/tos">http://www.dreamwidth.org/legal/tos</a>) und ist unter <a href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 lizenziert Lizenz</a>.</p>
     about:
       title: Über
       description_html: Weitere Informationen über Growstuff finden Sie auf unserer %{github_link}.
@@ -1455,6 +2438,35 @@ de:
     update:
       updated: Foto aktualisiert
   photos:
+    by_html: "von %{photographer}"
+    description:
+      activity_html: "machte ein Foto %{photo}"
+    edit:
+      title: Foto bearbeiten
+      save: Speichern
+    edit_modal:
+      title: Foto bearbeiten
+    fields:
+      title_placeholder: Titel
+    hero:
+      taken_on: "Aufgenommen am %{date}"
+    index:
+      photos_of: "Fotos von %{subject}"
+      recent: "Zuletzt zu %{site} hinzugefügte Fotos."
+      photos: Fotos
+    new:
+      title: Neues Foto
+      sources_html: "Wähle ein Foto für %{item} aus Flickr oder trage besondere Nutzpflanzen über die App zu %{inaturalist} oder %{plantnet} bei."
+      reconnect_heading: Bitte verbinde dein Flickr-Konto erneut
+      token_expired: Das Token ist abgelaufen oder wurde widerrufen.
+      reconnect: Flickr erneut verbinden
+      connected_html: "Mit Flickr als %{account} verbunden."
+      select_photo: Bitte wähle ein Foto aus deinen letzten Uploads aus.
+      album: Fotoalbum auswählen
+      tag: oder nach Schlagwort suchen
+      search: Suchen
+      connect_required: Du musst dein Konto mit Flickr verbinden, um Fotos hinzuzufügen.
+      connect: Mit Flickr verbinden
     show:
       crop: "%{crop}"
       garden: garten benannt "%{garden}" von %{owner}
@@ -1636,10 +2648,76 @@ de:
       submit: Umpflanzen
       title: "%{crop} umpflanzen"
   posts:
+    draft: Entwurf
+    description:
+      activity_html: "schrieb einen Beitrag über %{post}"
+    edit:
+      title: Beitrag bearbeiten
+    form:
+      draft_visibility: Nur du kannst diesen Entwurf sehen, bis du ihn veröffentlichst.
+      errors:
+        one: "%{count} Fehler hat das Speichern dieses Beitrags verhindert:"
+        other: "%{count} Fehler haben das Speichern dieses Beitrags verhindert:"
+      forum_body: Was gibt es Neues?
+      garden_body: Was passiert in deinem Nutzgarten?
+      editor_instructions_html: Formatiere deinen Text mit den Schaltflächen oben. Tippe <strong>@</strong>, um auf eine Nutzpflanze, ein Mitglied oder eine deiner Pflanzungen zu verlinken. Für alles andere zeigt der Reiter <strong>Markdown</strong> den Rohtext.
+      forum_notice_html: "Dieser Beitrag wird im Forum %{forum} veröffentlicht"
+      photos: Fotos
+      photo_instructions_html: Füge über <strong>+ Flickr photo</strong> in der Werkzeugleiste ein Foto in deinen Beitrag ein. Das Vorschaubild und die Fotos erscheinen hier, wenn du den Entwurf das nächste Mal öffnest.
+      card_photo: Vorschaubild
+      card_photo_help: Wird in der Beitragsliste, auf deiner Seite und bei geteilten Links angezeigt.
+      card_photo_empty: Füge ein Foto hinzu und wähle dann aus, welches diesen Beitrag repräsentiert.
+      photos_in_post: Fotos in diesem Beitrag
+      pick_from_flickr: aus Flickr auswählen
+      flickr_photos: Dies sind Fotos aus deinem Flickr-Konto.
+      autosave_help: Wird während der Arbeit automatisch gespeichert. Du kannst diese Seite schließen und später über deine Beiträge weitermachen.
+      discard_draft: Entwurf verwerfen
+      confirm_discard: Bist du sicher?
+      close: Schließen
+      save_draft: Entwurf speichern
+      publish_post: Beitrag veröffentlichen
+      save_changes: Änderungen speichern
+    new:
+      forum_title: "Beitrag in %{forum}"
+    preview:
+      photo_alt: Ein Foto zu diesem Beitrag
+      author_html: "von %{author},"
+      read_more: Weiterlesen
+    single:
+      attribution_html: "Veröffentlicht von %{author} am %{date}"
+      forum_attribution_html: "Veröffentlicht von %{author} in %{forum} am %{date}"
+      deleted_member: Mitglied gelöscht
+      edited_at: "und bearbeitet am %{date}"
+      permalink: Permalink
+    summary:
+      subject: Betreff
+      posted_by: Veröffentlicht von
+      recent_activity: Letzte Aktivität
+      comments: Kommentare
+    show:
+      visitor_intro_html: "%{author} nutzt %{site}, um mit einer weltweiten Gemeinschaft von Nutzgärtnerinnen und Nutzgärtnern über %{subject} zu sprechen. Wir bieten Anbautipps für %{crops} und eine Gemeinschaft aus aller Welt."
+      different_crops: Hunderte verschiedener Nutzpflanzen
+      join_html: "%{sign_in} oder %{sign_up}, um mit %{site} deine Pflanzungen und Ernten zu dokumentieren."
+      sign_in: Anmelden
+      sign_up: registrieren
+      comment: Kommentieren
+      crops_mentioned: In diesem Beitrag erwähnte Nutzpflanzen
+      feed_title: "Neueste Kommentare zu %{subject} (%{site})"
+      comment_title: "Kommentar von %{author} am %{date}"
+      comment_description_html: "Kommentar zu %{post}"
     created: Beitrag erfolgreich erstellt
     deleted: Ihr Beitrag wurde gelöscht.
     draft_saved: Entwurf wurde gespeichert.
     index:
+      posts: Beiträge
+      subscribe_author_html: "%{feed} abonnieren."
+      author_feed: "RSS-Feed der Beiträge von %{author}"
+      subscribe_html: "Abonniere den %{posts} oder den %{comments} von %{site}."
+      posts_feed: RSS-Feed der Beiträge
+      comments_feed: RSS-Feed der Kommentare
+      feed_title: "Neueste Beiträge von %{author} (%{site})"
+      all_members: allen Mitgliedern
+      item_title: "%{subject} von %{author}"
       title:
         author_posts: "%{author} Posts"
         default: Alle Beiträge
@@ -1957,7 +3035,7 @@ de:
       lede: Was Gärtner bei %{band} in diesem Monat pflanzen, pflanzen die meisten zuerst.
       none: Im Moment gibt es nichts vorzuschlagen. Schau nächsten Monat wieder vorbei.
       not_located: Sagen Sie uns, wo Sie gärtnern, und wir können Ihnen vorschlagen, was Sie säen sollen.
-      title: Einfach zu säen in %{month} in deiner Nähe
+      title: Was du in deiner Nähe anbauen kannst
     update:
       disabled: Wir haben aufgehört, Pflanzen vorzuschlagen.
       enabled: Zuschneidevorschläge sind zurück.

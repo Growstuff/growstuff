@@ -1,7 +1,7 @@
-- content_for :title, "Editing harvest"
+- content_for :title, t('.title')
 
 = render 'form'
 
-= link_to 'Show', @harvest
+= link_to t('.show'), @harvest
 \|
-= link_to 'Back', harvests_path
+= link_to t('.back'), harvests_path

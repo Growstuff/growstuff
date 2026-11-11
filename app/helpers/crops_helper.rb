@@ -24,10 +24,11 @@ module CropsHelper
   # How big the plant gets, as one fact: "10cm × 5cm" under "Height × spread", or just the one
   # of them when only one is known; nil when neither is.
   def size_fact(crop)
-    sizes = { 'Height' => crop.height, 'Spread' => crop.spread }.compact_blank
+    sizes = { I18n.t('crops.predictions.height') => crop.height, I18n.t('crops.predictions.spread') => crop.spread }.compact_blank
     return if sizes.empty?
 
-    { title: sizes.size == 2 ? 'Height × spread' : sizes.keys.first, value: sizes.values.map { |value| "#{value}cm" }.join(' × ') }
+    title = sizes.size == 2 ? I18n.t('crops.predictions.height_spread') : sizes.keys.first
+    { title: title, value: sizes.values.map { |value| "#{value}cm" }.join(' × ') }
   end
 
   # "45cm" or "37.5cm"; nil when there is none.

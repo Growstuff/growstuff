@@ -140,7 +140,7 @@ describe "Gardens" do
         tomato_plant.update!(bed_x: 1, bed_y: 1)
         save_layout([at(tomato_plant, 2, 2), at(lettuce_plants.first, 9, 9)])
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body['errors']).to be_present
         expect(tomato_plant.reload.bed_x).to eq 1
         expect(lettuce_plants.first.reload.bed_x).to be_nil
@@ -149,7 +149,7 @@ describe "Gardens" do
       it 'refuses a size bigger than a plant can be drawn' do
         save_layout([at(tomato_plant, 1, 1, diameter: Plant::MAX_DIAMETER + 1)])
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(tomato_plant.reload.diameter).to be_nil
       end
 
@@ -157,7 +157,7 @@ describe "Gardens" do
         stranger = planted_elsewhere(quantity: 1).plants.first
         save_layout([at(stranger, 0, 0)])
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(stranger.reload.bed_x).to be_nil
       end
     end
@@ -193,7 +193,7 @@ describe "Gardens" do
         placed = tomato.plants.map.with_index { |plant, i| at(plant, (i % 4) + 0.5, (i / 40) + 0.5) }
         save_layout(placed + [from_chip(tomato, 1, 1)])
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(tomato.reload.plants.count).to eq Planting::MAX_PLANTS
       end
 
@@ -201,7 +201,7 @@ describe "Gardens" do
         stranger = create(:planting, owner:, crop:)
         save_layout([from_chip(stranger, 1, 1)])
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -222,7 +222,7 @@ describe "Gardens" do
         stranger = planted_elsewhere(quantity: 1).plants.first
         save_layout([], composted: [stranger.id, tomato_plant.id])
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(Plant.exists?(stranger.id)).to be true
         expect(Plant.exists?(tomato_plant.id)).to be true
       end
@@ -255,7 +255,7 @@ describe "Gardens" do
       it 'refuses the whole arrangement if one is off the bed' do
         save_features([{ id: 'a', kind: 'stone', x: 9, y: 1 }], placements: [at(tomato_plant, 1, 1)])
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body['errors']['features']).to eq ['A garden feature is off the bed']
         expect(garden.reload.layout_features).to be_empty
         expect(tomato_plant.reload.bed_x).to be_nil
@@ -349,7 +349,7 @@ describe "Gardens" do
       garden.placed_or_owned_plants.first.update!(bed_x: 3.5, bed_y: 1)
       resize(2, 3)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(garden.reload.grid_columns).to eq 4
     end
   end

@@ -1,17 +1,15 @@
 
 .view
   = link_to post do
-    = image_tag post_image_path(post), class: 'img img-cover', alt: "A photo related to this post"
+    = image_tag post_image_path(post), class: 'img img-cover', alt: t('.photo_alt')
 %h4.fw-bold.mb-3
   %strong
     = link_to post do
       = post.subject.presence || t('posts.untitled')
     - if post.draft?
-      %span.badge.text-bg-warning Draft
+      %span.badge.text-bg-warning= t('posts.draft')
 %p
-  by
-  = succeed "," do
-    %a.fw-bold= post.author
+  = t('.author_html', author: content_tag(:span, post.author, class: 'fw-bold'))
 .post-body
   :markdown
     #{post_stripped_tags(post, length: 300)}
@@ -21,4 +19,4 @@
       = crop_icon(crop)
       = crop.name.pluralize
 / = image_tag avatar_uri(post.author, 50), class: 'avatar', alt: post.author
-= link_to 'Read more', post, class: 'btn btn-rounded btn-md'
+= link_to t('.read_more'), post, class: 'btn btn-rounded btn-md'

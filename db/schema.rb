@@ -850,6 +850,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
     t.date "harvested_at"
     t.integer "likes_count", default: 0
     t.integer "owner_id", null: false
+    t.integer "comments_count", default: 0
     t.integer "plant_part_id"
     t.integer "planting_id"
     t.decimal "quantity"

@@ -67,6 +67,8 @@ class CommentsController < ApplicationController
       Post.find(params[:comment][:commentable_id])
     when 'Planting'
       Planting.friendly.find(params[:comment][:commentable_id])
+    when 'Harvest'
+      Harvest.friendly.find(params[:comment][:commentable_id])
     end
   end
 

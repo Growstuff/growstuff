@@ -1,4 +1,4 @@
 %p
-  The #{ENV['GROWSTUFF_SITE_NAME']} team.
+  = t('notifier_mailer.shared.signature', sitename: ENV.fetch('GROWSTUFF_SITE_NAME', nil))
   %br/
   = link_to root_url, root_url

@@ -8,20 +8,19 @@
       - if @comment.errors.any?
         #error_explanation
           %h2
-            = pluralize(@comment.errors.size, "error")
-            prohibited this comment from being saved:
+            = t('.errors', count: @comment.errors.size)
           %ul
             - @comment.errors.full_messages.each do |msg|
               %li= msg
 
       .md-form
         = f.text_area :body, rows: 6, class: 'form-control md-textarea', autofocus: 'autofocus', required: true, pattern: '\w+'
-        = f.label :body, "Your comment:"
+        = f.label :body, t('.your_comment')
 
       %span.form-text
         = render partial: "shared/markdown_help"
       .actions.text-end
-        = f.submit 'Post comment', class: 'btn btn-primary'
+        = f.submit t('.post_comment'), class: 'btn btn-primary'
       .field
         = f.hidden_field :commentable_id, value: @commentable.id
         = f.hidden_field :commentable_type, value: @commentable.class.name

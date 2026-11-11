@@ -66,7 +66,7 @@ RSpec.describe 'API errors' do
            headers: auth_headers
     end
 
-    it { expect(response).to have_http_status(:unprocessable_entity) }
+    it { expect(response).to have_http_status(:unprocessable_content) }
 
     it 'points at the invalid attribute' do
       expect(json['errors'].first['source']['pointer']).to eq('/data/attributes/name')

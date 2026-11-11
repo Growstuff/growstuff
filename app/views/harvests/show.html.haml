@@ -1,4 +1,4 @@
-- harvest_title = "#{@harvest.crop} harvested by #{@harvest.owner}"
+- harvest_title = t('harvests.attribution', crop: @harvest.crop, owner: @harvest.owner)
 = render 'shared/record_meta',
          title: harvest_title,
          description: @harvest.description.presence || "#{harvest_title}.",
@@ -19,10 +19,10 @@
 -# ("50 individual apples, weighing 3lb").
 - content_for :breadcrumbs do
   - if @harvest.planting.present?
-    %li.breadcrumb-item= link_to 'Plantings', plantings_path
+    %li.breadcrumb-item= link_to t('harvests.breadcrumbs.plantings'), plantings_path
     %li.breadcrumb-item= link_to @harvest.planting.display_name, @harvest.planting
   - else
-    %li.breadcrumb-item= link_to 'Harvests', harvests_path
+    %li.breadcrumb-item= link_to t('harvests.breadcrumbs.harvests'), harvests_path
     %li.breadcrumb-item= link_to @harvest.owner, member_harvests_path(@harvest.owner)
   %li.breadcrumb-item.active= t('.breadcrumb')
 
@@ -39,7 +39,7 @@
         - if hero_photo
           = link_to harvest_path(@harvest), class: 'record-hero-photo' do
             = image_tag(hero_photo.source == 'flickr' ? hero_photo.fullsize_url : hero_photo.thumbnail_url,
-                        alt: "#{@harvest.crop.name} harvested by #{@harvest.owner}")
+                        alt: t('harvests.attribution', crop: @harvest.crop.name, owner: @harvest.owner))
         .jumbotron
           .d-flex.justify-content-between.align-items-start
             .record-identity
@@ -112,6 +112,11 @@
               = render 'plantings/card', planting: @harvest.planting
             %p.text-muted.small.mb-0
               = t('.see_how', owner: @harvest.owner, crop: @harvest.crop.name)
+
+        %section#comments.comments
+          = render "comments/comments", commentable: @harvest
+          - if can? :create, Comment
+            = render "comments/inline_form", commentable: @harvest
 
     .col-md-4.col-12
       %section.harvest-crop

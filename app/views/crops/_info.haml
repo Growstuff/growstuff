@@ -12,34 +12,33 @@
     = render 'alternate_names', crop: @crop
     - if @crop.parent
       %p.crop-parent.small
-        A variety of
-        = link_to @crop.parent, @crop.parent
+        = t('.variety_html', parent: link_to(@crop.parent, @crop.parent))
     -# How to sow it and how much sun it wants belong up here with the crop's
     -# identity, not buried in the growing facts further down.
     - if crop_or_parent(@crop, :sowing_method).present?
       %p.crop-attribute
-        %strong How to sow #{@crop.name}:
+        %strong= t('.how_to_sow', crop: @crop.name)
         = crop_or_parent(@crop, :sowing_method)
     - if crop_or_parent(@crop, :sun_requirements).present?
       %p.crop-attribute
-        %strong Sun requirement for #{@crop.name}:
-        Plant in #{crop_or_parent(@crop, :sun_requirements)}
+        %strong= t('.sun_requirement', crop: @crop.name)
+        = t('.plant_in', conditions: crop_or_parent(@crop, :sun_requirements))
     - if crop_or_parent(@crop, :description).present?
       = simple_format crop_or_parent(@crop, :description), class: 'crop-description'
     - elsif member_signed_in?
       %p.crop-description.text-muted
-        No description yet.
-        = link_to "Add one.", edit_crop_path(@crop, anchor: ":~:text=Description")
+        = t('.no_description')
+        = link_to t('.add_description'), edit_crop_path(@crop, anchor: ":~:text=Description")
 
   .crop-info-aside
     %dl.crop-stats
       %div
         %dt= @crop.plantings.size
-        %dd #{'planting'.pluralize(@crop.plantings.size)}
+        %dd= t('.plantings', count: @crop.plantings.size)
       %div
         %dt= @crop.harvests.size
-        %dd #{'harvest'.pluralize(@crop.harvests.size)}
+        %dd= t('.harvests', count: @crop.harvests.size)
       %div
         %dt= @crop.seeds.size
-        %dd #{'seed packet'.pluralize(@crop.seeds.size)}
+        %dd= t('.seed_packets', count: @crop.seeds.size)
     = render 'crops/actions', crop: @crop

@@ -1,40 +1,40 @@
 - content_for :buttonbar do
   - if can? :create, Crop
-    = link_to 'Add New Crop', new_crop_path, class: 'btn btn-primary'
+    = link_to t('crops.index.add_crop'), new_crop_path, class: 'btn btn-primary'
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Crops', crops_path
-  %li.breadcrumb-item.active= link_to 'Search', search_crops_path(term: @term)
+  %li.breadcrumb-item= link_to t('crops.index.crops'), crops_path
+  %li.breadcrumb-item.active= link_to t('crops.search_page.search'), search_crops_path(term: @term)
 
 - if @term
-  - content_for :title, "Crops matching \"#{@term}\""
+  - content_for :title, t('crops.search_page.matching', term: @term)
   %h1
-    Crops matching "#{@term}"
+    = t('crops.search_page.matching', term: @term)
     - if @crops
-      %span.text-muted Found #{@crops.total_entries} total
+      %span.text-muted= t('crops.search_page.found', count: @crops.total_entries)
 - else
-  - content_for :title, "Crop search"
-  %h1 Crop search
+  - content_for :title, t('crops.search_page.title')
+  %h1= t('crops.search_page.title')
 
 = bootstrap_form_tag(url: search_crops_path, method: :get, html: { id: 'crop-search'}, layout: :inline) do |f|
-  = f.label :term, "Search crops:", class: 'visually-hidden'
+  = f.label :term, t('crops.search_page.label'), class: 'visually-hidden'
   = f.text_field 'term', class: 'search-query input-medium',
-                   placeholder: 'Search crops',
-                   label: 'crop',
+                   placeholder: t('crops.search_page.placeholder'),
+                   label: t('crops.search_page.crop'),
                    value: @term
-  = f.submit "Search", class: 'btn btn-success'
+  = f.submit t('crops.search_page.search'), class: 'btn btn-success'
 
 - if @crops.empty?
-  %h2 No results found
+  %h2= t('crops.search_page.no_results')
   %p
-    Sorry, we couldn't find any crops that matched your search for "#{@term}".
+    = t('crops.search_page.no_matches', term: @term)
   %p
-    Try
-    = link_to "browsing our crop database", crops_path
+    - browse = link_to(t('crops.search_page.browse'), crops_path)
     - if can? :create, Crop
-      or
-      = link_to "adding a new crop", new_crop_path
-    instead.
+      - add = link_to(t('crops.search_page.add'), new_crop_path)
+      = t('crops.search_page.try_adding_html', browse: browse, add: add)
+    - else
+      = t('crops.search_page.try_browsing_html', browse: browse)
 
 - else
   = will_paginate @crops

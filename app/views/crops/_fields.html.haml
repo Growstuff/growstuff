@@ -60,7 +60,7 @@
         - (1..12).each do |month|
           - id = "crop-sow-month-#{month}"
           = check_box_tag 'crop[sow_months][]', month, crop.sow_months.include?(month), id: id, class: 'btn-check'
-          = label_tag id, Date::ABBR_MONTHNAMES[month], class: 'btn btn-outline-secondary btn-sm'
+          = label_tag id, t('date.abbr_month_names')[month], class: 'btn btn-outline-secondary btn-sm'
   - levels = Hardiness::LEVELS.map { |level| [t("hardiness.levels.#{level}.name"), level] }
   = f.select :hardiness_by_hand, levels,
              { label: t('crops.fields.hardiness.label'), include_blank: t('crops.fields.hardiness.from_packets'),

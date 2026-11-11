@@ -7,8 +7,7 @@
 
     .card-body
       %h3.harvest-crop.card-title
-        = link_to harvest.crop_name, harvest_path(slug: harvest.slug)
-        harvest
+        = link_to t('.heading', crop: harvest.crop_name, count: 1), harvest_path(slug: harvest.slug)
       %h4.harvest-plant-part
         = harvest.plant_part_name
         %small.text-muted= harvest.harvested_at
