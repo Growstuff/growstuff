@@ -34,4 +34,20 @@ describe "comments/new" do
   it 'shows markdown help' do
     expect(rendered).to have_content 'Markdown'
   end
+
+  context "when commentable is a harvest" do
+    let(:harvest) { create(:harvest) }
+    let(:comment) { create(:comment, commentable: harvest) }
+
+    before do
+      assign(:comment, comment)
+      assign(:comments, [comment])
+      assign(:commentable, harvest)
+      render
+    end
+
+    it "renders the harvest card" do
+      expect(rendered).to have_css(".card.harvest#harvest-#{harvest.id}")
+    end
+  end
 end
