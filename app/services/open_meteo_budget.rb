@@ -13,11 +13,20 @@ module OpenMeteoBudget
     base.attr_reader :calls_used
   end
 
-  def initialize(client: OpenMeteoClient.new, today: Time.zone.today, budget: DAILY_BUDGET, seconds_per_call: SECONDS_PER_CALL)
+  # progress: something that takes a line of text, such as `method(:puts)`, told what is being fetched as it goes.
+  def initialize(client: OpenMeteoClient.new, today: Time.zone.today, budget: DAILY_BUDGET, seconds_per_call: SECONDS_PER_CALL,
+    progress: nil)
     @client = client
+    @progress = progress
     @today = today
     @budget = budget
     @seconds_per_call = seconds_per_call
     @calls_used = 0
+  end
+
+  private
+
+  def say(line)
+    @progress&.call(line)
   end
 end

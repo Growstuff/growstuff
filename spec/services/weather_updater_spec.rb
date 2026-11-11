@@ -189,4 +189,24 @@ describe WeatherUpdater, type: :service do
       expect { updater.update_all }.not_to change(WeatherReading, :count)
     end
   end
+
+  context 'with a progress callback' do
+    subject(:updater) { described_class.new(client:, today:, seconds_per_call: 0, progress: lines.method(:<<)) }
+
+    let(:lines) { [] }
+
+    before do
+      garden.update_columns(location: 'Wellington, New Zealand') # rubocop:disable Rails/SkipsModelValidations
+      create(:planting, garden:, owner: garden.owner, planted_at: today - 10)
+      updater.update_all
+    end
+
+    it 'names the place and says how many days it saved' do
+      expect(lines).to include a_string_matching(/\AWellington, New Zealand -41.25, 174.75 .*: \d+ days saved/)
+    end
+
+    it 'says how many places it is following' do
+      expect(lines.first).to eq '1 places with plantings to follow, the busiest first'
+    end
+  end
 end
