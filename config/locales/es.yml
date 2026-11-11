@@ -119,17 +119,17 @@ es:
   authentications:
     sign_in:
       bluesky:
-        terms_of_service: Términos de servicio
-        agree_to_tos_html: Acepto las %{tos_link}
-        contacting: Contactando con Bluesky…
-        handle_label: Usuario de Bluesky
-        handle_placeholder: alice.bsky.social
+        terms_of_service: "Términos de servicio"
+        agree_to_tos_html: "Acepto las %{tos_link}"
+        contacting: "Contactando con Bluesky…"
+        handle_label: "Usuario de Bluesky"
+        handle_placeholder: "alice.bsky.social"
       mastodon:
-        agree_to_tos_html: Acepto las %{tos_link}
-        identifier_label: Dirección de Mastodon
-        identifier_placeholder: alice@mastodon.social
-        permission_note: Solo preguntamos quién eres. No podemos publicar por ti.
-        terms_of_service: Términos de servicio
+        agree_to_tos_html: "Acepto las %{tos_link}"
+        identifier_label: "Dirección de Mastodon"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "Solo preguntamos quién eres. No podemos publicar por ti."
+        terms_of_service: "Términos de servicio"
   alternate_names:
     created: El nombre alternativo se creó correctamente.
     deleted: El nombre alternativo se eliminó correctamente.
@@ -238,7 +238,7 @@ es:
       about: Acerca de
       breadcrumb_conversations: Conversaciones
       participants: Participantes
-      sent_on: el %{date}
+      sent_on: "el %{date}"
   crop_companions:
     created: El compañero se creó correctamente.
     deleted: El compañero fue destruido con éxito.
@@ -280,12 +280,12 @@ es:
   crops:
     growing_fact:
       median_of_packets: mediana de los paquetes de semillas de los miembros
-      members_packets: 'Paquetes de semillas de los miembros: %{median}'
+      members_packets: "Paquetes de semillas de los miembros: %{median}"
     growing_facts:
       days_until_maturity: Días hasta la madurez
       germination: Germinación
       median_of_packets: mediana de los paquetes de semillas de los miembros
-      members_packets_hemispheres: 'Paquetes de semillas de los miembros: %{south} sur, %{north} norte'
+      members_packets_hemispheres: "Paquetes de semillas de los miembros: %{south} sur, %{north} norte"
       northern_hemisphere: Hemisferio norte
       row_spacing: Distancia entre hileras
       southern_hemisphere: Hemisferio sur
@@ -362,7 +362,7 @@ es:
       title: 'Editar cultivo: %{name}'
     new:
       edible_only: La base de datos de Growstuff solo contiene cultivos comestibles. En el futuro esperamos admitir otros cultivos, pero por ahora, si su sugerencia no es comestible, no podremos agregarla.
-      intro: "¡Gracias por tomarte el tiempo de sugerir un cultivo! Nuestra base de datos de cultivos está gestionada por voluntarios y agradecemos tu ayuda. Aquí hay algunas cosas a considerar al sugerir un nuevo cultivo:"
+      intro: '¡Gracias por tomarte el tiempo de sugerir un cultivo! Nuestra base de datos de cultivos está gestionada por voluntarios y agradecemos tu ayuda. Aquí hay algunas cosas a considerar al sugerir un nuevo cultivo:'
       new_crop: Nuevo cultivo
       search_our_crops: buscar nuestros cultivos
       search_suggestion_html: En primer lugar, es posible que desees %{search_link} para asegurarte de que no lo tengamos ya, quizás con un nombre alternativo.
@@ -376,6 +376,12 @@ es:
       reject: Rechazar
       save: Guardar
     fields:
+      harvest_style:
+        blank: No sé
+        heading: Estilo de cosecha
+        hint: 'Una vez por planta, como una lechuga: se cosecha toda la planta. Muchas veces por planta, como un tomate.'
+        label: Cómo se cosecha una planta
+        parent: 'Principal: %{style}'
       alternate_name_with_index: 'Nombre alternativo %{index}:'
       alternate_names: Nombres alternativos
       alternate_names_hint: Nombre alternativo del cultivo.
@@ -426,12 +432,6 @@ es:
       sowing_method: Método de siembra
       spread: Extensión (cm)
       sun_requirements: Requisitos de sol
-      harvest_style:
-        blank: No sé
-        heading: Estilo de cosecha
-        hint: 'Una vez por planta, como una lechuga: se cosecha toda la planta. Muchas veces por planta, como un tomate.'
-        label: Cómo se cosecha una planta
-        parent: 'Principal: %{style}'
     wrangle:
       add: Añadir
       add_crop: Añadir cultivo
@@ -468,13 +468,13 @@ es:
       time_ago: hace %{time}
       title: Gestión de cultivos
       top_level_crops: Cultivos de nivel superior
-      'yes': Sí
+      yes: Sí
   edit_crop: Editar recorte
   follows:
     followers:
-      title: Seguidores de %{member}
+      title: "Seguidores de %{member}"
     index:
-      title: Seguidos por %{member}
+      title: "Seguidos por %{member}"
   forms:
     optional: "(Opcional)"
   forums:
@@ -1212,13 +1212,13 @@ es:
     form:
       about: Acerca de
       cancel: Cancelar
-      crop_seeds: Semillas de %{crop}
+      crop_seeds: "Semillas de %{crop}"
       send: Enviar
       to: Para
       type_your_message: Escribe tu mensaje aquí
     new:
       breadcrumb_messages: Mensajes
-      title: Enviar un mensaje a %{recipient}
+      title: "Enviar un mensaje a %{recipient}"
     auth_failed: La autenticación falló.
     auth_success: Autenticación exitosa.
     crops_waiting: Hay cosechas esperando ser cosechadas.
@@ -1415,9 +1415,9 @@ es:
       no_nearby_seeds: No se encontraron semillas cercanas
       recent_plantings: Plantaciones recientes cerca de %{place}
       seeds_available: Semillas disponibles para intercambio cerca de %{place}
-      view_all_members: Ver todos los miembros »
-      view_all_plantings: Ver todas las plantaciones »
-      view_all_seeds: Ver todas las semillas »
+      view_all_members: "Ver todos los miembros \u00bb"
+      view_all_plantings: "Ver todas las plantaciones \u00bb"
+      view_all_seeds: "Ver todas las semillas \u00bb"
   plant_parts:
     edit:
       back: Volver
@@ -1425,7 +1425,7 @@ es:
       title: Editando parte de la planta
     form:
       errors:
-        one: '1 error impidió que se guardara esta parte de la planta:'
+        one: "1 error impidió que se guardara esta parte de la planta:"
         other: "%{count} errores impidieron que se guardara esta parte de la planta:"
       name: Nombre
       save: Guardar
@@ -1558,14 +1558,14 @@ es:
       weather_soil_temp: Temperatura del suelo
       weather_temperature_chart: Altas y bajas diarias
       weather_temperature_chart_alt: Temperatura máxima y mínima diaria, de %{low} a %{high}.
-    string: "%{crop} plantando en %{garden} por %{owner}"
+    string: '%{crop} plantando en %{garden} por %{owner}'
     timeline:
       failed: Fallido
       finish_expected: Finalización prevista el %{date}
       finished: Finalizado %{date}
       first_harvest_expected: Primera cosecha prevista el %{date}
       harvest_started: Cosecha iniciada %{date}
-      legend: "(Un emoji = 1 semana)"
+      legend: (Un emoji = 1 semana)
       planted: Plantado %{date}
     transplant:
       cancel: Cancelar
@@ -1598,7 +1598,7 @@ es:
       crop_wrangling_guide: guía de disputa de cultivos
       crop_wrangling_guide_intro_html: Para obtener directrices detalladas sobre la gestión de cultivos, consulte la %{guide_link} en la wiki de Growstuff.
       errors:
-        one: '1 error impidió que se guardara este nombre científico:'
+        one: "1 error impidió que se guardara este nombre científico:"
         other: "%{count} errores impidieron que se guardara este nombre científico:"
       name: Nombre
       save: Guardar
@@ -1613,8 +1613,8 @@ es:
       title: Nuevo nombre científico
     show:
       back: Volver
-      crop_label: 'Cultivo:'
-      scientific_name_label: 'Nombre científico:'
+      crop_label: "Cultivo:"
+      scientific_name_label: "Nombre científico:"
   seasons:
     autumn: Otoño
     spring: Primavera

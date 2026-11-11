@@ -30,17 +30,17 @@ ja:
   authentications:
     sign_in:
       bluesky:
-        terms_of_service: 利用規約
+        terms_of_service: "利用規約"
         agree_to_tos_html: "%{tos_link}に同意します"
-        contacting: Blueskyに接続中…
-        handle_label: Blueskyハンドル
-        handle_placeholder: alice.bsky.social
+        contacting: "Blueskyに接続中…"
+        handle_label: "Blueskyハンドル"
+        handle_placeholder: "alice.bsky.social"
       mastodon:
         agree_to_tos_html: "%{tos_link}に同意します"
-        identifier_label: Mastodonアドレス
-        identifier_placeholder: alice@mastodon.social
-        permission_note: 本人確認のみ行います。代理での投稿は行いません。
-        terms_of_service: 利用規約
+        identifier_label: "Mastodonアドレス"
+        identifier_placeholder: "alice@mastodon.social"
+        permission_note: "本人確認のみ行います。代理での投稿は行いません。"
+        terms_of_service: "利用規約"
   comments:
     edit_modal:
       save: 保存
@@ -92,12 +92,12 @@ ja:
   crops:
     growing_fact:
       median_of_packets: メンバーの種子パケットの中央値
-      members_packets: 'メンバーの種子パケット: %{median}'
+      members_packets: "メンバーの種子パケット: %{median}"
     growing_facts:
       days_until_maturity: 成熟までの日数
       germination: 発芽
       median_of_packets: メンバーの種子パケットの中央値
-      members_packets_hemispheres: 'メンバーの種子パケット: 南半球 %{south}、北半球 %{north}'
+      members_packets_hemispheres: "メンバーの種子パケット: 南半球 %{south}、北半球 %{north}"
       northern_hemisphere: 北半球
       row_spacing: 条間
       southern_hemisphere: 南半球
@@ -158,9 +158,9 @@ ja:
       save: 保存
       wikidata_id: Wikidata ID
     edit:
-      added_by_html: "%{time_ago}前に%{creator_link}によって追加されました。"
-      approved_by_html: "%{approver_link}によって承認されました。"
-      requested_by_html: "%{time_ago}前に%{requester_link}によってリクエストされました。"
+      added_by_html: '%{time_ago}前に%{creator_link}によって追加されました。'
+      approved_by_html: '%{approver_link}によって承認されました。'
+      requested_by_html: '%{time_ago}前に%{requester_link}によってリクエストされました。'
       status_by_html: 'ステータス: %{creator_link}により%{status}。'
       status_html: 'ステータス: %{status}。'
       title: '作物の編集: %{name}'
@@ -180,6 +180,12 @@ ja:
       reject: 却下
       save: 保存
     fields:
+      harvest_style:
+        blank: 不明
+        heading: 収穫様式
+        hint: レタスのように1株につき1回（株全体を収穫）。トマトのように1株から何度も収穫。
+        label: 植物の収穫方法
+        parent: '親: %{style}'
       alternate_name_with_index: '別名 %{index}:'
       alternate_names: 別名
       alternate_names_hint: 作物の別名。
@@ -230,12 +236,6 @@ ja:
       sowing_method: 播種方法
       spread: 株間・広がり (cm)
       sun_requirements: 日照条件
-      harvest_style:
-        blank: 不明
-        heading: 収穫様式
-        hint: レタスのように1株につき1回（株全体を収穫）。トマトのように1株から何度も収穫。
-        label: 植物の収穫方法
-        parent: '親: %{style}'
     wrangle:
       add: 追加
       add_crop: 作物を追加
@@ -269,10 +269,10 @@ ja:
       th_spread: 株間
       th_updated: 更新日時
       th_youtube: YouTube
-      time_ago: "%{time}前"
+      time_ago: '%{time}前'
       title: 作物の管理
       top_level_crops: 最上位の作物
-      'yes': はい
+      yes: はい
   gardens:
     header:
       all_gardens: "%{owner} のすべての庭"
@@ -486,7 +486,7 @@ ja:
     transplant:
       cancel: キャンセル
       close: 閉じる
-      move_to: 'この植え付けの移動先:'
+      move_to: "この植え付けの移動先:"
       submit: 移植
       title: "%{crop}を移植"
     facts:
@@ -589,8 +589,8 @@ ja:
       title: 新しい学名
     show:
       back: 戻る
-      crop_label: '作物:'
-      scientific_name_label: '学名:'
+      crop_label: "作物:"
+      scientific_name_label: "学名:"
   stalls:
     about_growstuff:
       join: 無料で参加
