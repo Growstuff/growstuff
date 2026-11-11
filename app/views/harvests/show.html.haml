@@ -113,6 +113,11 @@
             %p.text-muted.small.mb-0
               = t('.see_how', owner: @harvest.owner, crop: @harvest.crop.name)
 
+        %section#comments.comments
+          = render "comments/comments", commentable: @harvest
+          - if can? :create, Comment
+            = render "comments/inline_form", commentable: @harvest
+
     .col-md-4.col-12
       %section.harvest-crop
         .section-header

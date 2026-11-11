@@ -48,6 +48,7 @@ class Harvest < ApplicationRecord
   belongs_to :crop, counter_cache: true
   belongs_to :plant_part, counter_cache: true
   belongs_to :planting, optional: true, counter_cache: true
+  has_many :comments, as: :commentable, dependent: :destroy
 
   ##
   ## Scopes
@@ -105,6 +106,14 @@ class Harvest < ApplicationRecord
     self.unit = nil if quantity.blank?
     self.weight_quantity = nil if weight_quantity&.zero?
     self.weight_unit = nil if weight_quantity.blank?
+  end
+
+  def subject
+    to_s
+  end
+
+  def author
+    owner
   end
 
   def harvest_slug

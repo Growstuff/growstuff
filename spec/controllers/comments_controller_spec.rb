@@ -71,6 +71,25 @@ describe CommentsController do
       end
     end
 
+    describe "with valid harvest params" do
+      let(:harvest) { create(:harvest) }
+      let!(:old_comment) { create(:comment, commentable: harvest) }
+
+      before do
+        get :new, params: {
+          comment: { commentable_id: harvest.to_param, commentable_type: "Harvest" }
+        }
+      end
+
+      it "picks up harvest from params" do
+        expect(assigns(:commentable)).to eq(harvest)
+      end
+
+      it "assigns the old comments as @comments" do
+        expect(assigns(:comments)).to eq [old_comment]
+      end
+    end
+
     it "dies if no post specified" do
       get :new
       expect(response).not_to be_successful
@@ -114,6 +133,22 @@ describe CommentsController do
 
       expect(response).to redirect_to(planting_path(planting, anchor: 'comments'))
       expect(Comment.last.commentable).to eq(planting)
+    end
+
+    it "creates a comment on a harvest" do
+      harvest = create(:harvest)
+      expect do
+        post :create, params: {
+          comment: {
+            commentable_id: harvest.id,
+            commentable_type: "Harvest",
+            body: "Great harvest!"
+          }
+        }
+      end.to change(Comment, :count).by(1)
+
+      expect(response).to redirect_to(harvest_path(harvest, anchor: 'comments'))
+      expect(Comment.last.commentable).to eq(harvest)
     end
   end
 

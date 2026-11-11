@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_10_000200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_11_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -841,6 +841,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_10_000200) do
     t.date "harvested_at"
     t.integer "likes_count", default: 0
     t.integer "owner_id", null: false
+    t.integer "comments_count", default: 0
     t.integer "plant_part_id"
     t.integer "planting_id"
     t.decimal "quantity"

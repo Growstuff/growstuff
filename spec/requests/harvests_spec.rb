@@ -14,6 +14,17 @@ describe "Harvests" do
     end
   end
 
+  describe "GET /harvests/:slug" do
+    let(:harvest) { create(:harvest, crop: crop, owner: member) }
+    let!(:comment) { create(:comment, commentable: harvest, body: "Delicious harvest!") }
+
+    it "renders the harvest page with comments" do
+      get harvest_path(harvest)
+      expect(response).to have_http_status :ok
+      expect(response.body).to include("Delicious harvest!")
+    end
+  end
+
   describe "GET /plantings/:planting_slug/harvests/new" do
     before { sign_in member }
 

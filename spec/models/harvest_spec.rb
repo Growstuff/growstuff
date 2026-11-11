@@ -318,4 +318,21 @@ describe Harvest do
     member.destroy
     expect(described_class.joins(:owner).all).not_to include(harvest)
   end
+
+  describe 'comments' do
+    let(:harvest) { create(:harvest) }
+
+    it 'returns the owner as author' do
+      expect(harvest.author).to eq harvest.owner
+    end
+
+    it 'returns to_s as subject' do
+      expect(harvest.subject).to eq harvest.to_s
+    end
+
+    it 'has many comments and destroys them when deleted' do
+      create(:comment, commentable: harvest)
+      expect { harvest.destroy }.to change(Comment, :count).by(-1)
+    end
+  end
 end
