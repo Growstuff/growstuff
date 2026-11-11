@@ -120,7 +120,7 @@ class PlantingsController < DataController
 
   # Behind the planting_weather feature switch, and not for seedlings still in the nursery, so we do none of the work for them.
   def load_weather
-    return unless Feature.enabled?(:planting_weather) && !@planting.in_nursery?
+    return unless Feature.enabled?(:planting_weather, current_member) && !@planting.in_nursery?
 
     @weather = @planting.weather_readings.select(*WeatherReading::CHARTED).to_a
     @expected_weather = @planting.expected_weather_readings(after: @weather.last&.date)

@@ -12,7 +12,7 @@
   - else
     %li.breadcrumb-item.active= link_to t('.breadcrumbs_jobs'), jobs_path
 
-- if @owner && @owner == current_member && Feature.enabled?(:job_ideas)
+- if @owner && @owner == current_member && Feature.enabled?(:job_ideas, current_member)
   - ideas_count = JobIdeas.count_for(@owner)
   - if ideas_count.positive?
     .mb-3

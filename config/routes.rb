@@ -226,7 +226,10 @@ Rails.application.routes.draw do
       post :restore, on: :member
     end
     resources :roles
-    resources :features, only: %i(index update)
+    resources :features, only: %i(index update) do
+      post :add_member, on: :member
+      delete :remove_member, on: :member
+    end
     resources :reminder_stats, only: :index
     get 'climate/members' => 'climate_coverage#members', as: :climate_members
     get 'climate/gardens' => 'climate_coverage#gardens', as: :climate_gardens

@@ -55,8 +55,9 @@ namespace :growstuff do
   task send_planting_reminder: :environment do
     # Heroku scheduler only lets us run things daily, so this checks
     # Send on Monday
-    if Time.zone.today.wday == 1 && Feature.enabled?(:enable_planting_reminders)
+    if Time.zone.today.wday == 1
       Member.confirmed.wants_reminders.find_each do |m|
+        next unless Feature.enabled?(:enable_planting_reminders, m)
         next if m.plantings.active.empty?
 
         NotifierMailer.planting_reminder(m).deliver_now
@@ -72,8 +73,10 @@ namespace :growstuff do
   task send_harvest_reminders: :environment do
     # Heroku scheduler only lets us run things daily, so this checks
     # Send on Wednesday
-    if Time.zone.today.wday == 3 && Feature.enabled?(:enable_harvest_reminders)
+    if Time.zone.today.wday == 3
       Member.confirmed.wants_harvest_reminders.find_each do |m|
+        next unless Feature.enabled?(:enable_harvest_reminders, m)
+
         if m.plantings.active.any?(&:harvest_in_next_week?)
           NotifierMailer.harvest_reminder(m).deliver_now
           ReminderEvent.sent!(m, :harvest_reminder)
