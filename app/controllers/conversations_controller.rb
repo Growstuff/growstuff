@@ -23,6 +23,8 @@ class ConversationsController < ApplicationController
     @receipts = mailbox.receipts_for(@conversation)
     @receipts.mark_as_read
     @participants = @conversation.participants
+    topic = @conversation.messages.order(:created_at, :id).first&.notified_object
+    @discussion_topic = topic
   end
 
   def update

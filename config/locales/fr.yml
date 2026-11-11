@@ -264,6 +264,9 @@ fr:
       about: À propos de
       breadcrumb_conversations: Conversations
       participants: Participants
+      reply_publicly: Répondre
+      send_private_message: Envoyer un message privé
+      private_reply_hint: Ce message est privé et réservé aux participants indiqués ci-dessus. Il n’apparaîtra pas dans le sujet public.
       sent_on: "le %{date}"
   crop_companions:
     created: Le compagnon a été créé avec succès.

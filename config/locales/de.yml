@@ -264,6 +264,9 @@ de:
       about: Über
       breadcrumb_conversations: Konversationen
       participants: Teilnehmer
+      reply_publicly: Antworten
+      send_private_message: Private Nachricht senden
+      private_reply_hint: Diese Nachricht ist nur für die oben aufgeführten Teilnehmer sichtbar. Sie erscheint nicht beim öffentlichen Thema.
       sent_on: "am %{date}"
   crop_companions:
     created: Companion wurde erfolgreich erstellt.

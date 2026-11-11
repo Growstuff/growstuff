@@ -264,6 +264,9 @@ zh:
       about: 关于
       breadcrumb_conversations: 对话
       participants: 参与者
+      reply_publicly: 回复
+      send_private_message: 发送私信
+      private_reply_hint: 此消息仅对上方列出的参与者可见，不会显示在公开话题中。
       sent_on: "于 %{date}"
   crop_companions:
     created: 同伴已成功创建。
