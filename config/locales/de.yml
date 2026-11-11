@@ -214,7 +214,7 @@ de:
       about: Über
       breadcrumb_conversations: Konversationen
       participants: Teilnehmer
-      sent_on: am %{date}
+      sent_on: "am %{date}"
   crop_companions:
     created: Companion wurde erfolgreich erstellt.
     deleted: Companion wurde erfolgreich zerstört.
