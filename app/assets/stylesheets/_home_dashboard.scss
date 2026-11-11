@@ -91,6 +91,13 @@ $dash-line: rgba(65, 63, 59, 0.15);
 
 .home-crop-name { display: block; padding: 10px 10px 2px; font-size: 1.15rem; font-weight: 300; }
 
+// Under a crop's name, such as the temperatures it grows best in.
+.home-crop-note { color: $ink-muted; display: block; font-size: 0.85rem; padding: 0 10px 4px; }
+
+// Whether the member is growing a suggested crop, or someone they follow is.
+.home-crop-flag { background: rgba($green, 0.12); color: $green; display: block; font-size: 0.8rem; margin: 4px 0 0; padding: 4px 8px; }
+.home-crop-flag--followed { background: none; color: $ink-muted; }
+
 .home-crop-go {
   display: block;
   width: 100%;

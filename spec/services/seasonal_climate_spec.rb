@@ -54,6 +54,30 @@ describe SeasonalClimate do
       expect(climate.due_on(season(:autumn))).to eq Date.new(2027, 3, 1)
     end
 
+    it 'says a crop that takes 90 days from the start of spring is ready in late spring' do
+      expect(climate.ready(season(:spring), 90)).to eq(part: :late, season: :spring)
+    end
+
+    it 'says a crop that takes 60 days from the start of spring is ready in mid spring' do
+      expect(climate.ready(season(:spring), 60)).to eq(part: :mid, season: :spring)
+    end
+
+    it 'says a crop that takes 185 days from the start of spring is ready in early autumn' do
+      expect(climate.ready(season(:spring), 185)).to eq(part: :early, season: :autumn)
+    end
+
+    it 'selects the season by name' do
+      expect(climate.selected('summer').name).to eq :summer
+    end
+
+    it 'selects the current season for an unknown name' do
+      expect(climate.selected('monsoon').name).to eq :spring
+    end
+
+    it 'selects the current season with no name' do
+      expect(climate.selected(nil).name).to eq :spring
+    end
+
     it 'gives how cold the nights usually get in a month' do
       expect(climate.monthly_nights[1]).to eq(-6.0)
     end

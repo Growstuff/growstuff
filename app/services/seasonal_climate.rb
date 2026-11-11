@@ -38,6 +38,11 @@ class SeasonalClimate
     SEASON_MONTHS.fetch(@half).map { |name, months| season(name, months) }
   end
 
+  # The season with that name, such as 'summer', or the current season when there is none of that name.
+  def selected(name)
+    seasons.find { |season| season.name.to_s == name.to_s } || seasons.find(&:current)
+  end
+
   # The first day of the season in progress or the next to come: 1 September 2026 for the spring of 2026.
   def starts_on(season)
     start = Date.new(@today.year, season.months.first, 1)
@@ -49,6 +54,14 @@ class SeasonalClimate
   # The day to do something for the season by: its first day, or today when it is already under way.
   def due_on(season)
     [starts_on(season), @today].max
+  end
+
+  # When a crop sown at the start of the season, and ready after this many days, is ready: { part: :early, :mid or :late,
+  # season: the season it falls in }.
+  def ready(season, days)
+    date = Date.new(2001, season.months.first, 1) + days.round
+    name = season_in(@half, date)
+    { part: %i(early mid late).fetch(SEASON_MONTHS.fetch(@half).fetch(name).index(date.month)), season: name }
   end
 
   # { month number => the usual average air temperature }, for the months we hold any.

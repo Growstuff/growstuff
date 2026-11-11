@@ -1,33 +1,18 @@
--# The member's own climate through the year: a card for each season, from the weather held for the place on their profile.
--# While it hasn't been collected yet, say so.
+-# The member's own climate through the year: an island with a row for each season, from the weather held for the place on their
+-# profile, that opens to the crops for the season. While the weather hasn't been collected yet, say so.
+- # The place's name, linked to its page when the member has said where they are.
+- place_link = lambda { |name| member.location.present? ? link_to(name, place_path(member.location)) : t('.your_location') }
 %section.season-climate
   %h2= t('.heading')
   - if climate
-    %p.text-muted= t('.intro', place: member.location_place || t('.your_location'), years: climate.years)
-    .season-cards
-      - climate.seasons.each do |season|
-        .season-card{ class: ["season-card--#{season.name}", ('season-card--current' if season.current)] }
-          %h3
-            = t("seasons.#{season.name}")
-            - if season.current
-              %span.badge.text-bg-light.align-middle.ms-1= t('.now')
-          %p.season-card-months
-            = t('.months', first: l(Date.new(2000, season.months.first, 1), format: '%b'), last: l(Date.new(2000, season.months.last, 1), format: '%b'))
-          - if season.mean
-            %p.season-card-mean
-              %strong= t('.degrees', value: number_with_precision(season.mean, precision: 0))
-              %small= t('.average')
-            %dl.season-card-figures
-              - if season.night
-                %dt= t('.nights')
-                %dd= t('.degrees', value: number_with_precision(season.night, precision: 0))
-              - if season.day
-                %dt= t('.days')
-                %dd= t('.degrees', value: number_with_precision(season.day, precision: 0))
-              - if season.rain
-                %dt= t('.rain')
-                %dd= t('.millimetres', value: number_with_precision(season.rain, precision: 0, delimiter: ','))
-          - else
-            %p.text-muted= t('.no_data')
+    %p.text-muted= t('.intro_html', place: place_link.call(member.location_place || member.location), years: climate.years)
+    %p.season-climate-choose= t('.choose')
+    = react_component('SeasonSuggestions', season_island_props(climate:, selected:, payload:, enabled: dashboard.suggestions_enabled?)) do
+      .season-loading{ role: 'status' }
+        %span.spinner-border.text-success{ 'aria-hidden': 'true' }
+        %span= t('.loading')
   - else
-    %p.text-muted= t('.collecting')
+    .card.season-climate-pending
+      .card-body.text-center
+        = icon 'fas', 'cloud-sun', class: 'fa-2x text-muted'
+        %p.mb-0.mt-2= t('.collecting_html', place: place_link.call(member.location))
