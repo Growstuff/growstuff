@@ -2297,11 +2297,12 @@ en:
       weather_note_below: below the best range on %{days}
       weather_note_future_best: Going by last year's weather, %{best} of the %{total} days from %{from} to %{to} should have a high inside the best range of %{range}.
       weather_note_future_caution: Expected to be mixed for %{crop}
-      weather_note_future_danger: Expected not to be optimal for %{crop}
+      weather_note_future_danger: Expected to go outside the range %{crop} grows in
       weather_note_future_killed: The low could reach the killing temperature of %{limit} on %{days}.
       weather_note_future_neutral: Expected to stay within the range %{crop} grows in
       weather_note_future_outside: The highs could be %{outside}.
       weather_note_future_problems: It could be %{problems}.
+      weather_note_future_slow: Expected to grow, though not at the fastest, for %{crop}
       weather_note_future_success: Expected to suit %{crop}
       weather_note_future_too_both: Expected to be too hot and too cold for %{crop}
       weather_note_future_too_cold: Expected to be too cold for %{crop}
@@ -2310,11 +2311,12 @@ en:
       weather_note_hot: too hot on %{days} (highs above %{limit})
       weather_note_past_best: From %{from} to %{to}, %{best} of %{total} days had a high inside the best range of %{range}.
       weather_note_past_caution: Mixed conditions for %{crop} so far
-      weather_note_past_danger: Not optimal for %{crop} so far
+      weather_note_past_danger: Outside the range %{crop} grows in so far
       weather_note_past_killed: The low reached the killing temperature of %{limit} on %{days}.
       weather_note_past_neutral: Within the range %{crop} grows in so far
       weather_note_past_outside: The highs were %{outside}.
       weather_note_past_problems: The weather was %{problems}.
+      weather_note_past_slow: Growing, though not at the fastest, for %{crop} so far
       weather_note_past_success: Good conditions for %{crop} so far
       weather_note_past_too_both: Too hot and too cold for %{crop} so far
       weather_note_past_too_cold: Too cold for %{crop} so far
