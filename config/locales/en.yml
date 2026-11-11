@@ -2570,6 +2570,20 @@ en:
     update:
       updated: Saved.
   suggestions:
+    climate:
+      average: average
+      collecting: We're collecting the weather for your area. It usually appears within a day.
+      days: Days reach
+      degrees: "%{value}°"
+      heading: Your climate through the year
+      intro: What the weather is usually like around %{place}, from the last %{years} years.
+      millimetres: "%{value} mm"
+      months: "%{first} to %{last}"
+      nights: Nights fall to
+      no_data: We don't have weather for this season yet.
+      now: Now
+      rain: Rain
+      your_location: your location
     index:
       lede: What gardeners at %{band} are planting this month, most planted first.
       none: Nothing to suggest right now. Check back next month.

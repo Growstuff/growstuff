@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-# Every crop gardeners at the member's latitude are sowing this month, and the
-# switch for turning those suggestions off or on.
+# The climate at the member's home through the four seasons, every crop gardeners at
+# their latitude are sowing this month, and the switch for turning those suggestions
+# off or on.
 class SuggestionsController < ApplicationController
   skip_authorize_resource
   before_action :authenticate_member!
@@ -9,6 +10,7 @@ class SuggestionsController < ApplicationController
   def index
     @dashboard = MemberDashboard.new(current_member)
     @crops = @dashboard.easy_to_sow(40)
+    @climate = SeasonalClimate.for(current_member)
   end
 
   def update
