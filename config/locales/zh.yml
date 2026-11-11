@@ -304,6 +304,117 @@ zh:
         published: 已发表
     saved: 作业模板已保存。
   crops:
+    image_alt: "%{crop}的图片"
+    add_photos_from_flickr: 从Flickr添加照片
+    alternate_names:
+      heading: 又名
+      edit: 编辑
+      delete: 删除
+      confirm_delete: 您确定吗？
+    crop:
+      median_lifespan_html:
+        one: "生命周期中位数：<strong>%{count}</strong>天"
+        other: "生命周期中位数：<strong>%{count}</strong>天"
+      first_harvest_html:
+        one: "预计首次收获在种植后<strong>%{count}</strong>天"
+        other: "预计首次收获在种植后<strong>%{count}</strong>天"
+      last_harvest_html:
+        one: "预计最后收获在种植后<strong>%{count}</strong>天"
+        other: "预计最后收获在种植后<strong>%{count}</strong>天"
+    crop_list:
+      name: 名称
+      plantings: 种植记录
+    ecocrop_data:
+      title: 生态需求
+      source_html: "来自联合国粮农组织EcoCrop数据库的%{name} %{authority}数据"
+      family: 科 / 分类
+      killing_temperature: 致死温度
+      growth_temperature: "生长期：%{temperature} °C"
+      rest_temperature: "休眠期：%{temperature} °C"
+      life_form: 生活型
+      life_span: 生命周期
+      habit: 生长习性
+      soil_depth: 最适土层深度
+      soil_texture: 最适土壤质地
+      soil_fertility: 最适土壤肥力
+      soil_drainage: 最适土壤排水条件
+      soil_salinity: 最适土壤盐度
+      photoperiod: 光周期
+      licence_html: "依据%{licence}许可使用。"
+      citation_html: "联合国粮食及农业组织（2025）ECOCROP，作物生态需求数据库。第1版。%{fao}。通过CGIAR气候行动数据中心访问，%{hub}。"
+    info:
+      variety_html: "%{parent}的一个品种"
+      how_to_sow: "如何播种%{crop}："
+      sun_requirement: "%{crop}的日照需求："
+      plant_in: "种植条件：%{conditions}"
+      no_description: 暂无描述。
+      add_description: 添加描述。
+      plantings:
+        one: 种植记录
+        other: 种植记录
+      harvests:
+        one: 收获记录
+        other: 收获记录
+      seed_packets:
+        one: 种子包
+        other: 种子包
+    job_templates:
+      sign_up: 注册以跟踪这些任务并获取其他建议。
+    openfarm_data:
+      grown_for: 种植用途
+      harvested:
+        one: "已收获%{count}次"
+        other: "已收获%{count}次"
+    photos:
+      title: 照片
+      group: "%{crop}的%{model}"
+      more: 更多照片
+    popover:
+      planted:
+        one: "已种植%{count}次"
+        other: "已种植%{count}次"
+    posts:
+      title: "大家对%{crop}的讨论"
+      empty: "还没有人发布关于%{crop}的帖子。"
+      join_html: "%{sign_in}或%{sign_up}，分享种植%{crop}的技巧和经验。"
+      sign_in: 登录
+      sign_up: 注册
+      post: 发布帖子
+    scientific_names:
+      empty: 尚未记录学名
+      edit: 编辑
+      delete: 删除
+      confirm_delete: 您确定吗？
+    search_bar:
+      search: 搜索
+      crops: 搜索作物
+    predictions:
+      annual_hint: 在一年或更短时间内生存并繁殖
+      perennial_hint: 存活两年以上
+      title: "%{crop}的种植资料"
+      add_attributes: 添加更多属性
+      median_lifespan: 生命周期中位数
+      insufficient_lifespan_data: 我们还没有足够的数据来计算生命周期中位数。
+      weeks:
+        one: "%{count}周"
+        other: "%{count}周"
+      degree_days: 生长度日
+      height: 高度
+      spread: 冠幅
+      height_spread: 高度 × 冠幅
+      first_harvest: 预计首次收获
+      last_harvest: 预计最后收获
+      harvest_style: 收获方式
+      weeks_after_planting:
+        one: 周后收获（从种植日起）
+        other: 周后收获（从种植日起）
+    harvest_style:
+      single:
+        value: 每株一次
+        description: 收获整株植物
+      repeated:
+        value: 每株多次
+        description: 每株植物可持续收获
     data_improvement:
       title: 数据完善
       missing: "缺少%{field}的作物"
@@ -519,6 +630,12 @@ zh:
       spread: 冠幅/株距 (cm)
       sun_requirements: 光照需求
     wrangle:
+      edit: 编辑
+      add_scientific_name: 添加学名
+      add_alternate_name: 添加别名
+      fetch_gbif: 从GBIF获取数据
+      manage_companions: 管理伴生作物
+      job_templates: 任务模板
       add: 添加
       add_crop: 添加作物
       all_crops: 所有作物

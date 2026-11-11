@@ -304,6 +304,117 @@ es:
         published: Publicado
     saved: Plantilla de trabajo guardada.
   crops:
+    image_alt: "Imagen de %{crop}"
+    add_photos_from_flickr: Añadir fotos de Flickr
+    alternate_names:
+      heading: También conocido como
+      edit: Editar
+      delete: Eliminar
+      confirm_delete: ¿Estás seguro?
+    crop:
+      median_lifespan_html:
+        one: "Mediana del ciclo de vida: <strong>%{count}</strong> día"
+        other: "Mediana del ciclo de vida: <strong>%{count}</strong> días"
+      first_harvest_html:
+        one: "Primera cosecha prevista <strong>%{count}</strong> día después de plantar"
+        other: "Primera cosecha prevista <strong>%{count}</strong> días después de plantar"
+      last_harvest_html:
+        one: "Última cosecha prevista <strong>%{count}</strong> día después de plantar"
+        other: "Última cosecha prevista <strong>%{count}</strong> días después de plantar"
+    crop_list:
+      name: Nombre
+      plantings: Plantaciones
+    ecocrop_data:
+      title: Requisitos ecológicos
+      source_html: "Datos de la base de datos EcoCrop de la FAO para %{name} %{authority}"
+      family: Familia / Taxonomía
+      killing_temperature: Temperatura letal
+      growth_temperature: "crecimiento: %{temperature} °C"
+      rest_temperature: "reposo: %{temperature} °C"
+      life_form: Forma de vida
+      life_span: Ciclo de vida
+      habit: Hábito de crecimiento
+      soil_depth: Profundidad óptima del suelo
+      soil_texture: Textura óptima del suelo
+      soil_fertility: Fertilidad óptima del suelo
+      soil_drainage: Drenaje óptimo del suelo
+      soil_salinity: Salinidad óptima del suelo
+      photoperiod: Fotoperiodo
+      licence_html: "Bajo la licencia %{licence}."
+      citation_html: "Organización de las Naciones Unidas para la Alimentación y la Agricultura (2025) ECOCROP, la base de datos de requisitos ecológicos de los cultivos. Versión 1. %{fao}. Consultado a través del CGIAR Climate Action Data Hub, %{hub}."
+    info:
+      variety_html: "Una variedad de %{parent}"
+      how_to_sow: "Cómo sembrar %{crop}:"
+      sun_requirement: "Necesidades de luz solar de %{crop}:"
+      plant_in: "Plantar en %{conditions}"
+      no_description: Aún no hay descripción.
+      add_description: Añadir una.
+      plantings:
+        one: plantación
+        other: plantaciones
+      harvests:
+        one: cosecha
+        other: cosechas
+      seed_packets:
+        one: paquete de semillas
+        other: paquetes de semillas
+    job_templates:
+      sign_up: Regístrate para llevar un seguimiento de estas tareas y recibir otras sugerencias.
+    openfarm_data:
+      grown_for: Cultivado para obtener
+      harvested:
+        one: "cosechado %{count} vez"
+        other: "cosechado %{count} veces"
+    photos:
+      title: Fotos
+      group: "%{crop} — %{model}"
+      more: Más fotos
+    popover:
+      planted:
+        one: "Plantado %{count} vez"
+        other: "Plantado %{count} veces"
+    posts:
+      title: "Qué se dice sobre %{crop}"
+      empty: "Nadie ha publicado sobre %{crop} todavía."
+      join_html: "%{sign_in} o %{sign_up} para compartir tus consejos y experiencias cultivando %{crop}."
+      sign_in: Inicia sesión
+      sign_up: regístrate
+      post: Escribir una publicación
+    scientific_names:
+      empty: No hay ningún nombre científico registrado
+      edit: Editar
+      delete: Eliminar
+      confirm_delete: ¿Estás seguro?
+    search_bar:
+      search: Buscar
+      crops: Buscar cultivos
+    predictions:
+      annual_hint: vive y se reproduce en un solo año o menos
+      perennial_hint: vive más de dos años
+      title: "Datos sobre %{crop}"
+      add_attributes: Añadir más características
+      median_lifespan: mediana del ciclo de vida
+      insufficient_lifespan_data: Aún no tenemos suficientes datos sobre la mediana del ciclo de vida.
+      weeks:
+        one: "%{count} semana"
+        other: "%{count} semanas"
+      degree_days: Grados día de crecimiento
+      height: Altura
+      spread: Anchura
+      height_spread: Altura × anchura
+      first_harvest: Primera cosecha prevista
+      last_harvest: Última cosecha prevista
+      harvest_style: Forma de cosecha
+      weeks_after_planting:
+        one: semana después de plantar
+        other: semanas después de plantar
+    harvest_style:
+      single:
+        value: Una vez por planta
+        description: se cosecha la planta entera
+      repeated:
+        value: Varias veces por planta
+        description: cada planta sigue dando cosechas
     data_improvement:
       title: Mejora de datos
       missing: "Cultivos sin %{field}"
@@ -519,6 +630,12 @@ es:
       spread: Extensión (cm)
       sun_requirements: Requisitos de sol
     wrangle:
+      edit: Editar
+      add_scientific_name: Añadir nombre científico
+      add_alternate_name: Añadir otro nombre
+      fetch_gbif: Obtener datos de GBIF
+      manage_companions: Gestionar cultivos asociados
+      job_templates: Plantillas de tareas
       add: Añadir
       add_crop: Añadir cultivo
       all_crops: Todos los cultivos

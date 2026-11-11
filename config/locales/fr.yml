@@ -304,6 +304,117 @@ fr:
         published: Publié
     saved: Modèle sauvegardé.
   crops:
+    image_alt: "Image de %{crop}"
+    add_photos_from_flickr: Ajouter des photos depuis Flickr
+    alternate_names:
+      heading: Aussi appelé
+      edit: Modifier
+      delete: Supprimer
+      confirm_delete: Êtes-vous sûr ?
+    crop:
+      median_lifespan_html:
+        one: "Durée de vie médiane : <strong>%{count}</strong> jour"
+        other: "Durée de vie médiane : <strong>%{count}</strong> jours"
+      first_harvest_html:
+        one: "Première récolte prévue <strong>%{count}</strong> jour après la plantation"
+        other: "Première récolte prévue <strong>%{count}</strong> jours après la plantation"
+      last_harvest_html:
+        one: "Dernière récolte prévue <strong>%{count}</strong> jour après la plantation"
+        other: "Dernière récolte prévue <strong>%{count}</strong> jours après la plantation"
+    crop_list:
+      name: Nom
+      plantings: Plantations
+    ecocrop_data:
+      title: Exigences écologiques
+      source_html: "Données de la base EcoCrop de la FAO pour %{name} %{authority}"
+      family: Famille / Taxonomie
+      killing_temperature: Température létale
+      growth_temperature: "croissance : %{temperature} °C"
+      rest_temperature: "repos : %{temperature} °C"
+      life_form: Forme biologique
+      life_span: Durée de vie
+      habit: Port
+      soil_depth: Profondeur optimale du sol
+      soil_texture: Texture optimale du sol
+      soil_fertility: Fertilité optimale du sol
+      soil_drainage: Drainage optimal du sol
+      soil_salinity: Salinité optimale du sol
+      photoperiod: Photopériode
+      licence_html: "Sous licence %{licence}."
+      citation_html: "Organisation des Nations Unies pour l’alimentation et l’agriculture (2025) ECOCROP, base de données des exigences écologiques des cultures. Version 1. %{fao}. Consultée via le CGIAR Climate Action Data Hub, %{hub}."
+    info:
+      variety_html: "Une variété de %{parent}"
+      how_to_sow: "Comment semer %{crop} :"
+      sun_requirement: "Ensoleillement nécessaire pour %{crop} :"
+      plant_in: "Planter en %{conditions}"
+      no_description: Pas encore de description.
+      add_description: En ajouter une.
+      plantings:
+        one: plantation
+        other: plantations
+      harvests:
+        one: récolte
+        other: récoltes
+      seed_packets:
+        one: sachet de graines
+        other: sachets de graines
+    job_templates:
+      sign_up: Inscrivez-vous pour suivre ces tâches et recevoir d’autres suggestions.
+    openfarm_data:
+      grown_for: Cultivé pour
+      harvested:
+        one: "récolté %{count} fois"
+        other: "récolté %{count} fois"
+    photos:
+      title: Photos
+      group: "%{crop} — %{model}"
+      more: Plus de photos
+    popover:
+      planted:
+        one: "Planté %{count} fois"
+        other: "Planté %{count} fois"
+    posts:
+      title: "Ce que l’on dit de %{crop}"
+      empty: "Personne n’a encore publié d’article sur %{crop}."
+      join_html: "%{sign_in} ou %{sign_up} pour partager vos conseils et expériences de culture de %{crop}."
+      sign_in: Connectez-vous
+      sign_up: inscrivez-vous
+      post: Écrire un article
+    scientific_names:
+      empty: Aucun nom scientifique enregistré
+      edit: Modifier
+      delete: Supprimer
+      confirm_delete: Êtes-vous sûr ?
+    search_bar:
+      search: Rechercher
+      crops: Rechercher des cultures
+    predictions:
+      annual_hint: vit et se reproduit en une année ou moins
+      perennial_hint: vit plus de deux ans
+      title: "Informations sur %{crop}"
+      add_attributes: Ajouter des caractéristiques
+      median_lifespan: durée de vie médiane
+      insufficient_lifespan_data: Nous n’avons pas encore assez de données sur la durée de vie médiane.
+      weeks:
+        one: "%{count} semaine"
+        other: "%{count} semaines"
+      degree_days: Degrés-jours de croissance
+      height: Hauteur
+      spread: Envergure
+      height_spread: Hauteur × envergure
+      first_harvest: Première récolte prévue
+      last_harvest: Dernière récolte prévue
+      harvest_style: Mode de récolte
+      weeks_after_planting:
+        one: semaine après la plantation
+        other: semaines après la plantation
+    harvest_style:
+      single:
+        value: Une fois par plante
+        description: la plante entière est récoltée
+      repeated:
+        value: Plusieurs fois par plante
+        description: chaque plante continue à donner des récoltes
     data_improvement:
       title: Amélioration des données
       missing: "Cultures sans %{field}"
@@ -519,6 +630,12 @@ fr:
       spread: Envergure (cm)
       sun_requirements: Exposition au soleil
     wrangle:
+      edit: Modifier
+      add_scientific_name: Ajouter un nom scientifique
+      add_alternate_name: Ajouter un autre nom
+      fetch_gbif: Récupérer les données de GBIF
+      manage_companions: Gérer les plantes compagnes
+      job_templates: Modèles de tâches
       add: Ajouter
       add_crop: Ajouter une culture
       all_crops: Toutes les cultures

@@ -536,6 +536,89 @@ en:
       taken: Taken %{date}
       title: Find a photo of %{crop}
   crops:
+    image_alt: "Image of %{crop}"
+    alternate_names:
+      heading: Also known as
+      edit: Edit
+      delete: Delete
+      confirm_delete: Are you sure?
+    crop:
+      median_lifespan_html:
+        one: "Median Lifespan <strong>%{count}</strong> day"
+        other: "Median Lifespan <strong>%{count}</strong> days"
+      first_harvest_html:
+        one: "First harvest expected <strong>%{count}</strong> day after planting"
+        other: "First harvest expected <strong>%{count}</strong> days after planting"
+      last_harvest_html:
+        one: "Last harvest expected <strong>%{count}</strong> day after planting"
+        other: "Last harvest expected <strong>%{count}</strong> days after planting"
+    crop_list:
+      name: Name
+      plantings: Plantings
+    ecocrop_data:
+      title: Ecological requirements
+      source_html: "Data from the FAO EcoCrop database for %{name} %{authority}"
+      family: Family / Taxonomy
+      killing_temperature: Killing temperature
+      growth_temperature: "growth: %{temperature} °C"
+      rest_temperature: "rest: %{temperature} °C"
+      life_form: Life form
+      life_span: Life span
+      habit: Habit
+      soil_depth: Optimal soil depth
+      soil_texture: Optimal soil texture
+      soil_fertility: Optimal soil fertility
+      soil_drainage: Optimal soil drainage
+      soil_salinity: Optimal soil salinity
+      photoperiod: Photoperiod
+      licence_html: "Licensed under %{licence}."
+      citation_html: "Food and Agriculture Organization of the United Nations (2025) ECOCROP, the crop ecological requirements database. Version 1. %{fao}. Accessed through the CGIAR Climate Action Data Hub, %{hub}."
+    info:
+      variety_html: "A variety of %{parent}"
+      how_to_sow: "How to sow %{crop}:"
+      sun_requirement: "Sun requirement for %{crop}:"
+      plant_in: "Plant in %{conditions}"
+      no_description: No description yet.
+      add_description: Add one.
+      plantings:
+        one: planting
+        other: plantings
+      harvests:
+        one: harvest
+        other: harvests
+      seed_packets:
+        one: seed packet
+        other: seed packets
+    job_templates:
+      sign_up: Sign up to track these tasks and get other suggestions.
+    openfarm_data:
+      grown_for: Grown for
+      harvested:
+        one: "harvested %{count} time"
+        other: "harvested %{count} times"
+    photos:
+      title: Photos
+      group: "%{crop} %{model}"
+      more: More photos
+    popover:
+      planted:
+        one: "Planted %{count} time"
+        other: "Planted %{count} times"
+    posts:
+      title: "What people are saying about %{crop}"
+      empty: "Nobody has posted about %{crop} yet."
+      join_html: "%{sign_in} or %{sign_up} to post your tips and experiences growing %{crop}."
+      sign_in: Sign in
+      sign_up: sign up
+      post: Post something
+    scientific_names:
+      empty: No scientific name recorded
+      edit: Edit
+      delete: Delete
+      confirm_delete: Are you sure?
+    search_bar:
+      search: Search
+      crops: Search crops
     data_improvement:
       title: Data Improvement
       missing: "Crops without %{field}"
@@ -770,6 +853,19 @@ en:
       plant_crop: Plant %{crop}
       track_plantings: track your %{crop} plantings
     predictions:
+      annual_hint: living and reproducing in a single year or less
+      perennial_hint: living more than two years
+      title: "%{crop} facts"
+      add_attributes: Add more attributes
+      median_lifespan: median lifespan
+      insufficient_lifespan_data: We don't have enough data yet on the median lifespan.
+      weeks:
+        one: "%{count} week"
+        other: "%{count} weeks"
+      degree_days: Growing Degree Days
+      height: Height
+      spread: Spread
+      height_spread: Height × spread
       first_harvest: First harvest expected
       harvest_style: Harvest style
       last_harvest: Last harvest expected
@@ -815,6 +911,12 @@ en:
       reject: Reject
       save: Save
     wrangle:
+      edit: Edit
+      add_scientific_name: Add scientific name
+      add_alternate_name: Add another name
+      fetch_gbif: Fetch data from GBIF
+      manage_companions: Manage companions
+      job_templates: Job templates
       add: Add
       add_crop: Add Crop
       all_crops: All crops

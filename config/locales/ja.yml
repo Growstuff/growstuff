@@ -176,6 +176,126 @@ ja:
       participants: 参加者
       sent_on: "%{date}"
   crops:
+    image_alt: "%{crop}の画像"
+    add_photos_from_flickr: Flickrから写真を追加
+    alternate_names:
+      heading: 別名
+      edit: 編集
+      delete: 削除
+      confirm_delete: よろしいですか？
+    crop:
+      median_lifespan_html:
+        one: "寿命の中央値：<strong>%{count}</strong>日"
+        other: "寿命の中央値：<strong>%{count}</strong>日"
+      first_harvest_html:
+        one: "初収穫の予想：植え付けから<strong>%{count}</strong>日後"
+        other: "初収穫の予想：植え付けから<strong>%{count}</strong>日後"
+      last_harvest_html:
+        one: "最終収穫の予想：植え付けから<strong>%{count}</strong>日後"
+        other: "最終収穫の予想：植え付けから<strong>%{count}</strong>日後"
+    crop_list:
+      name: 名前
+      plantings: 栽培記録
+    ecocrop_data:
+      title: 生育に必要な環境条件
+      source_html: "FAO EcoCropデータベースの%{name} %{authority}に関するデータ"
+      family: 科 / 分類
+      killing_temperature: 枯死温度
+      growth_temperature: "生育期：%{temperature} °C"
+      rest_temperature: "休眠期：%{temperature} °C"
+      life_form: 生活型
+      life_span: 寿命
+      habit: 生育形態
+      soil_depth: 最適な土壌深度
+      soil_texture: 最適な土性
+      soil_fertility: 最適な土壌肥沃度
+      soil_drainage: 最適な土壌排水性
+      soil_salinity: 最適な土壌塩分濃度
+      photoperiod: 日長
+      licence_html: "%{licence}ライセンスに基づいて提供されています。"
+      citation_html: "国際連合食糧農業機関（2025）ECOCROP、作物の生育環境条件データベース。第1版。%{fao}。CGIAR Climate Action Data Hubを通じてアクセス：%{hub}。"
+    info:
+      variety_html: "%{parent}の一品種"
+      how_to_sow: "%{crop}のまき方："
+      sun_requirement: "%{crop}の日照条件："
+      plant_in: "栽培場所：%{conditions}"
+      no_description: まだ説明はありません。
+      add_description: 説明を追加する。
+      plantings:
+        one: 栽培記録
+        other: 栽培記録
+      harvests:
+        one: 収穫記録
+        other: 収穫記録
+      seed_packets:
+        one: 種袋
+        other: 種袋
+    job_templates:
+      sign_up: 登録して作業を記録し、ほかの提案も受け取りましょう。
+    openfarm_data:
+      grown_for: 栽培の目的
+      harvested:
+        one: "%{count}回収穫"
+        other: "%{count}回収穫"
+    photos:
+      title: 写真
+      group: "%{crop}の%{model}"
+      more: もっと写真を見る
+    popover:
+      planted:
+        one: "%{count}回栽培"
+        other: "%{count}回栽培"
+    posts:
+      title: "%{crop}についての話題"
+      empty: "%{crop}についての投稿はまだありません。"
+      join_html: "%{sign_in}または%{sign_up}して、%{crop}の栽培のコツや経験を投稿しましょう。"
+      sign_in: ログイン
+      sign_up: 新規登録
+      post: 投稿する
+    scientific_names:
+      empty: 学名はまだ登録されていません
+      edit: 編集
+      delete: 削除
+      confirm_delete: よろしいですか？
+    search_bar:
+      search: 検索
+      crops: 作物を検索
+    predictions:
+      annual_hint: 1年以内に生育し繁殖します
+      perennial_hint: 2年を超えて生育します
+      title: "%{crop}の栽培情報"
+      add_attributes: 属性を追加
+      median_lifespan: 寿命の中央値
+      insufficient_lifespan_data: 寿命の中央値を算出するためのデータがまだ十分にありません。
+      weeks:
+        one: "%{count}週間"
+        other: "%{count}週間"
+      degree_days: 有効積算温度
+      height: 草丈
+      spread: 株幅
+      height_spread: 草丈 × 株幅
+      first_harvest: 初収穫の予想
+      last_harvest: 最終収穫の予想
+      harvest_style: 収穫方法
+      weeks_after_planting:
+        one: 週間後（植え付けから）
+        other: 週間後（植え付けから）
+    harvest_style:
+      single:
+        value: 1株につき1回
+        description: 株全体を収穫します
+      repeated:
+        value: 1株につき複数回
+        description: 各株から繰り返し収穫できます
+    edit:
+      title: "作物を編集：%{name}"
+    wrangle:
+      edit: 編集
+      add_scientific_name: 学名を追加
+      add_alternate_name: 別名を追加
+      fetch_gbif: GBIFからデータを取得
+      manage_companions: コンパニオンプランツを管理
+      job_templates: 作業テンプレート
     data_improvement:
       title: データの充実
       missing: "%{field}が未登録の作物"
@@ -270,6 +390,11 @@ ja:
       request_notes: 'リクエストのメモ: %{notes}'
       requested_by: この作物は %{time_ago}前に %{requester} によってリクエストされました。
     fields:
+      lifespan: 寿命
+      lifespan_annual: 一年草
+      lifespan_perennial: 多年草
+      lifespan_annual_hint: 1年以内に生育し繁殖します
+      lifespan_perennial_hint: 2年を超えて生育します
       hardiness:
         from_packets: メンバーの種子パケットから算出
         help: 作物がどれだけの霜に耐えられるか。種子パケットの記載に関わらず固定する耐寒性レベルを選択します。
