@@ -1,5 +1,35 @@
 ---
 ja:
+  photos:
+    by_html: "撮影：%{photographer}"
+    description:
+      activity_html: "写真%{photo}を撮影しました"
+    edit:
+      title: 写真を編集
+      save: 保存
+    edit_modal:
+      title: 写真を編集
+    fields:
+      title_placeholder: タイトル
+    hero:
+      taken_on: "撮影日：%{date}"
+    index:
+      photos_of: "%{subject}の写真"
+      recent: "%{site}に最近追加された写真。"
+      photos: 写真
+    new:
+      title: 新しい写真
+      sources_html: "Flickrから%{item}の写真を選ぶか、アプリから%{inaturalist}や%{plantnet}に珍しい作物の情報を投稿してください。"
+      reconnect_heading: Flickrアカウントを再接続してください
+      token_expired: トークンの有効期限が切れたか、取り消されています。
+      reconnect: Flickrに再接続
+      connected_html: "%{account}としてFlickrに接続しています。"
+      select_photo: 最近アップロードした写真から選んでください。
+      album: 写真アルバムを選択
+      tag: またはタグで検索
+      search: 検索
+      connect_required: 写真を追加するには、アカウントをFlickrに接続してください。
+      connect: Flickrに接続
   forums:
     edit:
       title: フォーラムを編集

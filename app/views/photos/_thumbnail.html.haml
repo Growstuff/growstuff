@@ -7,5 +7,4 @@
         %br/
         %small
           %i
-            by
-            = link_to photo.owner, photo.owner
+            = t('photos.by_html', photographer: link_to(photo.owner, photo.owner))

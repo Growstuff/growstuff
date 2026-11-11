@@ -6,7 +6,7 @@
       = photo_icon
       = link_to photo.title, photo_path(id: photo.id)
     - if photo.owner_slug
-      %i by #{link_to photo.owner_login_name, member_path(slug: photo.owner_slug)}
+      %i= t('photos.by_html', photographer: link_to(photo.owner_login_name, member_path(slug: photo.owner_slug)))
     - if photo.date_taken.present?
       %small.text-muted
         %time{datetime: photo.date_taken}= I18n.l(photo.date_taken.to_date)

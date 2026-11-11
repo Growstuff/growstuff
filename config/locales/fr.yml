@@ -1727,6 +1727,35 @@ fr:
     update:
       updated: Photo mise à jour
   photos:
+    by_html: "par %{photographer}"
+    description:
+      activity_html: "a pris une photo %{photo}"
+    edit:
+      title: Modifier la photo
+      save: Enregistrer
+    edit_modal:
+      title: Modifier la photo
+    fields:
+      title_placeholder: titre
+    hero:
+      taken_on: "Prise le %{date}"
+    index:
+      photos_of: "Photos de %{subject}"
+      recent: "Photos les plus récemment ajoutées à %{site}."
+      photos: Photos
+    new:
+      title: Nouvelle photo
+      sources_html: "Choisissez une photo pour %{item} sur Flickr, ou contribuez des plantes singulières à %{inaturalist} ou %{plantnet} via l’application."
+      reconnect_heading: Veuillez reconnecter votre compte Flickr
+      token_expired: Le jeton a expiré ou a été révoqué.
+      reconnect: Reconnecter Flickr
+      connected_html: "Connecté à Flickr en tant que %{account}."
+      select_photo: Veuillez sélectionner une photo parmi vos ajouts récents.
+      album: Choisir un album photo
+      tag: ou rechercher par étiquette
+      search: Rechercher
+      connect_required: Vous devez connecter votre compte à Flickr pour ajouter des photos.
+      connect: Se connecter à Flickr
     show:
       crop: "%{crop}"
       garden: jardin nommé « %{garden} » par %{owner}

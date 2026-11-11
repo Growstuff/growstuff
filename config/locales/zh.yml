@@ -1718,6 +1718,35 @@ zh:
     update:
       updated: 照片已更新。
   photos:
+    by_html: "摄影：%{photographer}"
+    description:
+      activity_html: "拍摄了照片%{photo}"
+    edit:
+      title: 编辑照片
+      save: 保存
+    edit_modal:
+      title: 编辑照片
+    fields:
+      title_placeholder: 标题
+    hero:
+      taken_on: "拍摄于%{date}"
+    index:
+      photos_of: "%{subject}的照片"
+      recent: "最近添加到%{site}的照片。"
+      photos: 照片
+    new:
+      title: 新建照片
+      sources_html: "从Flickr中为%{item}选择照片，或通过应用向%{inaturalist}或%{plantnet}贡献独特作物的信息。"
+      reconnect_heading: 请重新连接您的Flickr账户
+      token_expired: 令牌已过期或被撤销。
+      reconnect: 重新连接Flickr
+      connected_html: "已以%{account}的身份连接到Flickr。"
+      select_photo: 请从最近上传的照片中选择一张。
+      album: 选择相册
+      tag: 或按标签搜索
+      search: 搜索
+      connect_required: 您必须将账户连接到Flickr才能添加照片。
+      connect: 连接到Flickr
     show:
       crop: "%{crop}"
       garden: "%{owner} 命名为“%{garden}”的花园"
