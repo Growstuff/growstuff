@@ -12,12 +12,12 @@ module WeatherRangeBandsHelper
   # :neutral is for a crop with only survivable limits to compare against.
   WEATHER_NOTE_ICONS = { success: 'check-circle', caution: 'exclamation-circle', danger: 'exclamation-triangle',
                          neutral: 'info-circle' }.freeze
-  # A period is good when at least this share of its days had a high inside the best range, and none went past the survivable
-  # limits; it is a warning when at least WEATHER_NOTE_DANGER_SHARE of its days did.
+  # A period is good when at least this share of its days had a high inside the best range, and none went past the range the
+  # crop grows in; it is a warning when at least WEATHER_NOTE_DANGER_SHARE of its days did, and that share going too hot or
+  # too cold is named in the note's title. A period within the range it grows in but short of the best is no warning: the
+  # crop grows, only not as fast.
   WEATHER_NOTE_GOOD_SHARE = 0.6
   WEATHER_NOTE_DANGER_SHARE = 0.05
-  # A way of being off (too hot, too cold) is named in a note's title when at least this share of its days went that way.
-  WEATHER_NOTE_CAUSE_SHARE = 0.1
   # Where the band labels go, in chart units (the chart is as many pixels tall): the least distance from the top, below the
   # "Latest" label, how far under its band's top edge a label sits, and how tall one is.
   WEATHER_LABEL_TOP = 20
@@ -98,16 +98,21 @@ module WeatherRangeBandsHelper
     %i(caution danger).include?(figures[:level]) && (figures[:cause] == :cold || (figures[:cause].nil? && figures[:killed].positive?))
   end
 
-  # The title: when the period was not a good one and it is clear whether it was too hot, too cold or both, it says so,
-  # otherwise how it went.
+  # The title: when the weather went past the range the crop grows in and it is clear whether it was too hot, too cold or
+  # both, it says so; when it stayed within that range but short of the best, it says the crop grows, not as fast; otherwise
+  # how it went.
   def weather_period_title(period, figures, crop)
-    cause = figures[:cause] if %i(caution danger).include?(figures[:level])
-    t("plantings.show.weather_note_#{period}_#{cause ? "too_#{cause}" : figures[:level]}", crop: crop.name)
+    key = if %i(caution danger).include?(figures[:level]) && figures[:cause] then "too_#{figures[:cause]}"
+          elsif figures[:level] == :neutral && figures[:best] then 'slow'
+          else figures[:level]
+          end
+    t("plantings.show.weather_note_#{period}_#{key}", crop: crop.name)
   end
 
-  # How many of the days had a high inside the best range, how many went past what the crop survives (a high above its
-  # warmest or a low below its coldest) and how many of each, and the level of the whole: :success, :caution, :danger, or
-  # :neutral when there is no best range to compare against.
+  # How many of the days had a high inside the best range, how many went past the range the crop grows in (a high above its
+  # warmest or a low below its coldest) and how many of each, and the level of the whole: :success, :caution (a few days
+  # past the range), :danger (many), or :neutral when it stayed within the range but short of the best, or there is no best
+  # range to compare against.
   def weather_period_figures(days, ranges)
     optimal = ranges[:optimal]
     low, high = ranges[:absolute]
@@ -117,27 +122,22 @@ module WeatherRangeBandsHelper
     best = optimal ? days.count { |day| day.high.between?(*optimal) } : nil
     killed = ranges[:kill] ? days.count { |day| day.low <= ranges[:kill] } : 0
     { hot:, cold:, best:, killed:, total: days.size, level: killed.positive? ? :danger : weather_period_level(days.size, beyond, best),
-      cause: weather_period_cause(days, optimal, low), below: optimal ? days.count { |day| day.high < optimal.first } : 0,
+      cause: weather_period_cause(hot, cold, days.size), below: optimal ? days.count { |day| day.high < optimal.first } : 0,
       above: optimal ? days.count { |day| day.high > optimal.last } : 0 }
   end
 
-  # :hot, :cold or :both when at least WEATHER_NOTE_CAUSE_SHARE of the days were too hot (a high above the best range) or
-  # too cold (a high below it, or a low below what the crop survives), and nil when no one way stands out.
-  def weather_period_cause(days, optimal, survives_down_to)
-    return unless optimal
-
-    hot = days.count { |day| day.high > optimal.last }
-    cold = days.count { |day| day.high < optimal.first || (survives_down_to && day.low < survives_down_to) }
-    ways = { hot:, cold: }.select { |_, count| count.to_f / days.size >= WEATHER_NOTE_CAUSE_SHARE }.keys
+  # :hot, :cold or :both when at least WEATHER_NOTE_DANGER_SHARE of the days went past the warmest the crop grows in, or the
+  # coldest, and nil when neither did.
+  def weather_period_cause(hot, cold, total)
+    ways = { hot:, cold: }.select { |_, count| count.to_f / total >= WEATHER_NOTE_DANGER_SHARE }.keys
     ways.size == 2 ? :both : ways.first
   end
 
   def weather_period_level(total, beyond, best)
     return :danger if beyond.to_f / total >= WEATHER_NOTE_DANGER_SHARE
-    return :neutral if best.nil? && beyond.zero?
-    return :success if beyond.zero? && best.to_f / total >= WEATHER_NOTE_GOOD_SHARE
+    return :caution if beyond.positive?
 
-    :caution
+    best.nil? || best.to_f / total < WEATHER_NOTE_GOOD_SHARE ? :neutral : :success
   end
 
   # What the note says about the days: how many were in the best range, and which went too hot or too cold.

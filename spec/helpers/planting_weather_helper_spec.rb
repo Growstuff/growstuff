@@ -155,8 +155,8 @@ describe PlantingWeatherHelper do
       it('has no problems') { expect(notes).to have_no_css '.weather-note--danger' }
     end
 
-    context 'when many days went past what the crop survives, too hot and too cold' do
-      let(:readings) { days(mild: 80, hot: 13, cold: 7) }
+    context 'when many days went past the range the crop grows in, mostly too hot' do
+      let(:readings) { days(mild: 85, hot: 13, cold: 2) }
 
       it('names the heat as the problem') { expect(notes).to have_css '.weather-note--danger', text: 'Too hot for pea so far' }
       it('stays red for heat') { expect(notes).to have_no_css '.weather-note--cold' }
@@ -164,11 +164,11 @@ describe PlantingWeatherHelper do
 
       it 'says which days went wrong, with the limits' do
         expect(notes).to have_css '.weather-note--danger',
-                                  text: 'too hot on 13 days (highs above 30°C) and too cold on 7 days (lows below 4°C)'
+                                  text: 'too hot on 13 days (highs above 30°C) and too cold on 2 days (lows below 4°C)'
       end
 
       it('still counts the days in the best range') {
-        expect(notes).to have_css '.weather-note', text: '80 of 100 days had a high inside the best range'
+        expect(notes).to have_css '.weather-note', text: '85 of 100 days had a high inside the best range'
       }
     end
 
@@ -202,11 +202,16 @@ describe PlantingWeatherHelper do
       it('still says what happened') { expect(notes).to have_css '.weather-note--caution', text: 'too hot on 2 days' }
     end
 
-    context 'when it was mostly outside the best range but never past what it survives' do
+    context 'when it was mostly outside the best range but never past the range the crop grows in' do
       let(:readings) { days(mild: 3, cool: 7) }
 
-      it('is mixed') { expect(notes).to have_css '.weather-note--caution' }
-      it('names the cold') { expect(notes).to have_css '.weather-note--caution', text: 'Too cold for pea so far' }
+      it('is no warning') { expect(notes).to have_css '.weather-note--neutral' }
+      it('has no caution or danger') { expect(notes).to have_no_css '.weather-note--caution, .weather-note--danger' }
+
+      it('says the crop grows, though not at the fastest') {
+        expect(notes).to have_css '.weather-note', text: 'Growing, though not at the fastest'
+      }
+
       it('counts the days below the best range') { expect(notes).to have_css '.weather-note', text: 'below the best range on 7 days' }
     end
 
