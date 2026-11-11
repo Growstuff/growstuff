@@ -5,5 +5,5 @@
         %h4#mainModalLabel.modal-title
           = yield :title if content_for? :title
           \&#160;
-        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
+        %button.btn-close{"aria-label" => t('.close'), "data-bs-dismiss" => "modal", type: "button"}
       = yield

@@ -123,12 +123,12 @@
             <tr>
               <td class="email-footer" style="padding: 20px 24px; text-align: center; font-size: 13px; color: #666666; font-family: 'Raleway', 'Fira Sans', Helvetica, Arial, sans-serif;">
                 <p style="margin: 0 0 8px 0;">
-                  This email was sent by <strong><%= ENV['GROWSTUFF_SITE_NAME'].presence || 'Growstuff' %></strong> (<a href="<%= root_url %>" style="color: #57803c; text-decoration: underline;">growstuff.org</a>) &mdash; an open source community for food growers.
+                  <%= t('layouts.mailer.description_html', site_name: content_tag(:strong, ENV['GROWSTUFF_SITE_NAME'].presence || 'Growstuff'), link: link_to('growstuff.org', root_url, style: 'color: #57803c; text-decoration: underline;')) %>
                 </p>
                 <p style="margin: 0;">
-                  <a href="<%= root_url %>" style="color: #57803c; text-decoration: underline;">Home</a> &middot;
-                  <a href="<%= policy_community_url %>" style="color: #57803c; text-decoration: underline;">Community Guidelines</a> &middot;
-                  <a href="<%= contact_url %>" style="color: #57803c; text-decoration: underline;">Contact</a>
+                  <a href="<%= root_url %>" style="color: #57803c; text-decoration: underline;"><%= t('layouts.application.home') %></a> &middot;
+                  <a href="<%= policy_community_url %>" style="color: #57803c; text-decoration: underline;"><%= t('layouts.footer.community_guidelines') %></a> &middot;
+                  <a href="<%= contact_url %>" style="color: #57803c; text-decoration: underline;"><%= t('layouts.footer.contact') %></a>
                 </p>
               </td>
             </tr>
