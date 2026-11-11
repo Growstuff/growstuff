@@ -2543,7 +2543,7 @@ es:
       day_progress: día %{age} de %{lifespan}
       done: Hecho
       failed: Fallido
-      finished: finalizado
+      finished: Finalizado
       grown: crecido
       grown_in: Cultivado en
       lifespan_days:
