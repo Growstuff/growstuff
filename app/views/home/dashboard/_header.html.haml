@@ -13,4 +13,4 @@
       %p.home-welcome-season= render 'home/dashboard/location_picker', label: t('home.dashboard.set_location'), button_class: 'btn btn-link p-0'
   .home-welcome-actions.d-none.d-md-flex
     = render 'home/dashboard/quick_actions', dashboard:
-= render 'home/weather_invitation', invitation: WeatherInvitation.new(current_member) if WeatherInvitation.enabled?
+= render 'home/weather_invitation', invitation: WeatherInvitation.new(current_member) if WeatherInvitation.enabled?(current_member)

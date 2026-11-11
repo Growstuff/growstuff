@@ -223,6 +223,7 @@ en:
       unlink:
         unlinked: "%{crop} is no longer linked to %{record}."
     features:
+      member_not_found: Member not found. Enter an existing username.
       descriptions:
         enable_harvest_reminders: Sends the weekly harvest reminder emails to members who want them.
         enable_planting_reminders: Sends the weekly planting reminder emails to members who want them.
@@ -233,7 +234,11 @@ en:
         disabled: 'Off'
         enabled: 'On'
         feature: Feature
-        intro: Switch features on or off for everyone.
+        intro: Switch features on or off for everyone, or enable them for specific members. Removing a member's grant does not disable a feature that is on for everyone.
+        members: Enabled for members
+        login_name: Username
+        add_member: Enable for member
+        remove_member: Remove grant
         state: State
         switch_off: Switch off
         switch_on: Switch on

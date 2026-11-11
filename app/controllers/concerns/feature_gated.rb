@@ -7,7 +7,7 @@ module FeatureGated
 
   class_methods do
     def require_feature(name)
-      before_action { raise ActiveRecord::RecordNotFound unless Feature.enabled?(name) }
+      before_action { raise ActiveRecord::RecordNotFound unless Feature.enabled?(name, current_member) }
     end
   end
 end
