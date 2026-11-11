@@ -1114,7 +1114,22 @@ zh:
     weeks_until_finished: "%{number}周"
     weeks_until_harvest: "%{number} 收获前几周"
   layouts:
+    application:
+      breadcrumbs: 面包屑导航
+      home: 首页
+    head:
+      social_image_alt: Growstuff是一个种植食物的社区。图中有一个梨，以及向日葵、蜗牛、瓢虫、洒水壶和猫。
+      description: Growstuff是一个种植食物的社区。让我们一起学习种植食物。我们的所有数据都是开放数据。
+      member_feed: "%{site_name} – %{member}的帖子"
+      posts_feed: "%{site_name} – 所有成员的最新帖子"
+      crops_feed: "%{site_name} – 最近添加的作物"
+      plantings_feed: "%{site_name} – 所有成员最近的种植记录"
+    mailer:
+      description_html: 此邮件由%{site_name}（%{link}）发送，这是一个面向食物种植者的开源社区。
+    modal:
+      close: 关闭
     footer:
+      open_service: 开放服务
       about: 关于
       community_guidelines: 社区准则
       contact: 接触
@@ -1127,6 +1142,7 @@ zh:
       support: 支持
       terms_of_service: 服务条款
     header:
+      logo_alt: Growstuff标志（梨的插画）
       account: 帐户
       admin: 行政
       browse_crops: 浏览农作物
@@ -1156,6 +1172,7 @@ zh:
       toggle_navigation: 切换导航
       your_stuff: 你的东西
     menu:
+      label: 菜单
       about: 关于
       activities: 活动
       add: 添加
@@ -1196,6 +1213,11 @@ zh:
       sign_out: 登出
       sign_up: 免费加入
     nav:
+      my_records: "我的%{records}"
+      everyone_records: "所有成员的%{records}"
+      add_record: "添加%{record}"
+      record_purpose: "记录您的%{records}"
+      description: "%{site_name}帮助您记录家庭菜园的收获，了解菜园的产量。"
       my_drafts: 我的草稿
       suggest_something: 建议一些东西
   links:
