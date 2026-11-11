@@ -166,6 +166,110 @@ ja:
       name: 学名
       save: 保存
       wikidata_id: Wikidata ID
+  frost:
+    about_estimates: これらの日付は25 km間隔の気象モデルデータに基づく推定であり、菜園の観測所での実測値ではありません。冷え込みやすい場所では、さらに気温が下がることがあります。推定が外れる可能性もあるため、利用する前に国の気象機関の情報を確認し、地域の栽培者にも相談してください。
+    cards:
+      coldest:
+        label: 最も寒かった夜
+        note_above: "霜の危険の目安である%{threshold} °Cより%{gap} °C高い"
+        note_at: 霜の危険の目安である%{threshold} °Cと同じ
+        note_below: "霜の危険の目安である%{threshold} °Cより%{gap} °C低い"
+      free:
+        label: 霜のない期間
+        note: 平年の場合
+      in_danger:
+        label: 栽培中に霜の危険があった期間
+        note: "植え付けから、過去に最も遅く霜が降りた%{latest}まで"
+      last:
+        label: 平年の終霜日
+        note: "過去には%{latest}まで霜が降りたことがあります"
+        planted_after: "その%{days}後に植え付け"
+        planted_before: "その%{days}前に植え付け"
+        planted_out_after: "その%{days}後に屋外へ移動"
+        planted_out_before: "その%{days}前に屋外へ移動"
+      next:
+        label: 次の霜の危険が始まる時期
+        note_finishes: "最も早くて%{earliest}、この%{crop}の栽培終了から%{days}後"
+        note_now: "最も早くて%{earliest}、今から%{days}後"
+    days:
+      one: "%{count}日"
+      other: "%{count}日"
+    degrees: "%{degrees} °C"
+    experimental: 試験運用中 · 新機能のため動作が不安定な場合があります
+    experimental_heading: この機能は試験運用中です。新機能のため動作が不安定な場合があります。
+    nights_so_far:
+      one: "これまでに%{threshold} °C以下の夜が1晩あり、最低気温は%{coldest} °Cでした。"
+      other: "これまでに%{threshold} °C以下の夜が%{count}晩あり、最低気温は%{coldest} °Cでした。"
+    planted:
+      after: "%{crop}は%{planted}に植え付けられました。平年の終霜日（%{usual_end}）の%{days}後です。"
+      before: "%{crop}は%{planted}に植え付けられました。平年の終霜日（%{usual_end}）の%{days}前です。"
+    planted_out:
+      after: "%{crop}は%{planted}に屋外へ移されました。平年の終霜日（%{usual_end}）の%{days}後です。"
+      before: "%{crop}は%{planted}に屋外へ移されました。平年の終霜日（%{usual_end}）の%{days}前です。"
+    timeline:
+      annotation_out_after: "平年の終霜日の%{days}後に屋外へ移動"
+      annotation_out_before: "平年の終霜日の%{days}前に屋外へ移動"
+      description: "%{from}から%{to}までの時系列。平年の霜の危険期間は%{usual_start}から%{usual_end}までです。過去には最も早くて%{earliest}、最も遅くて%{latest}に霜が降りました。%{crop}の栽培期間は%{planted}から%{ends}までです。"
+      description_undated: "%{from}から%{to}までの時系列。平年の霜の危険期間は%{usual_start}から%{usual_end}までです。過去には最も早くて%{earliest}、最も遅くて%{latest}に霜が降りました。%{crop}は%{planted}に植え付けられました。"
+      description_place: "%{from}から%{to}までの時系列。平年の霜の危険期間は%{usual_start}から%{usual_end}までです。過去には最も早くて%{earliest}、最も遅くて%{latest}に霜が降りました。"
+      annotation_after: "平年の終霜日の%{days}後に植え付け"
+      annotation_before: "平年の終霜日の%{days}前に植え付け"
+      finish_expected: "%{date}に終了予定"
+      finished: "%{date}に終了"
+      frost_safe: "%{place}で霜から保護"
+      legend:
+        finished: 栽培終了
+        frost_safe: 霜から守られた場所
+        planted: 植え付け済み、終了日未定
+        possible: 過去の最も早い・遅い降霜日までの可能性
+        so_far: これまでの栽培期間
+        still_to_come: これからの栽培期間
+        usual: 平年の霜の危険期間
+      planted: "%{date}に植え付け"
+      planted_out: "%{date}に屋外へ移動"
+      row_danger: 霜の危険
+      row_planting: この栽培
+      tips:
+        frost_safe: "%{place}で霜から保護：%{range}"
+        planting: "%{label}（%{range}）"
+        possible: "過去にはこの範囲の早い時期や遅い時期にも霜が降りました：%{range}"
+        usual: "平年の霜の危険期間：%{range}"
+      title: "この%{crop}の栽培と霜の季節"
+      title_place: 霜の季節
+      today: "今日、%{date}"
+      usual: "%{from} – %{to}"
+      usual_open: "%{from} →"
+    title: 霜
+    verdicts:
+      before_season:
+        body: "平年の初霜日は%{usual_start}で、%{days}後です。過去には%{earliest}にも霜が降りました。"
+        title: まもなく霜の危険期間が始まります
+        title_far: まだ霜の危険期間ではありません
+      finished_clear:
+        body: "%{latest}までは霜の可能性がありましたが、その期間中に%{coldest} °Cを下回る夜はありませんでした。"
+        body_no_readings: "%{latest}までは霜の可能性がありました。この%{crop}の栽培については夜間の気温データがありません。"
+        title: "この%{crop}の栽培は霜に遭いませんでした"
+      finished_hit:
+        body:
+          one: "霜の可能性がある期間に、%{threshold} °C以下の夜が1晩ありました。最低気温は%{coldest} °Cでした。"
+          other: "霜の可能性がある期間に、%{threshold} °C以下の夜が%{count}晩ありました。最低気温は%{coldest} °Cでした。"
+        title: "この%{crop}の栽培は霜に遭った可能性があります"
+      finished_undated:
+        body: "その年の平年の終霜日は%{usual_end}で、過去には%{latest}まで霜が降りました。この%{crop}の栽培には終了日がないため、どのような霜に遭ったかは判断できません。"
+        title: どのような霜に遭ったか判断できません
+      in_season:
+        body: "平年の終霜日は%{usual_end}で、%{days}後です。過去には%{latest}まで霜が降りました。"
+        title: 平年の霜の危険期間中です
+      late_possible:
+        body: "過去には%{days}後にあたる%{latest}まで霜が降りました。天気予報に注意してください。"
+        title: 平年の終霜日は過ぎましたが、まだ霜の可能性があります
+      passed:
+        body: "過去に最も遅く霜が降りたのは、%{days}前にあたる%{latest}です。"
+        title: "この%{crop}の栽培の霜の危険期間は過ぎました"
+        title_place: 今年の霜の危険期間は過ぎました
+      rare:
+        body: この地域では霜がまれなため、降霜日は表示しません。
+        title: この地域では霜はまれです
   garden_collaborators:
     new:
       title: 新しい共同管理者
@@ -417,6 +521,60 @@ ja:
       see_how: "%{owner}さんの%{crop}の様子を見る。"
       the_planting_this_came_from: 収穫元の植え付け
   home:
+    weather_invitation:
+      add_location: 場所を追加
+      change_location: 場所を変更
+      intro:
+        loading: "%{place}にある菜園の過去の気象データを読み込んでいます。1～2日かかる場合があります。しばらくしてから再度ご確認ください。"
+        no_location: 菜園の場所を追加すると、その場所の霜、降水量、気温を表示します。
+        ready: "%{place}にある菜園の霜、降水量、気温の状況を確認できます。"
+      labels:
+        air: 気温
+        frost: 霜
+        rain: 降水量
+      loading:
+        air:
+          note: 読み込み中
+          title: まだ準備できていません
+        frost:
+          note: 読み込み中
+          title: まだ準備できていません
+        rain:
+          note: 読み込み中
+          title: まだ準備できていません
+      no_location:
+        air:
+          note: 過去30年間の記録
+          title: 気温と地温の記録
+        frost:
+          note: あなたの菜園について
+          title: 霜の危険期間の始まりと終わり
+        rain:
+          note: 平年との比較
+          title: 今年これまでの降水量
+      ready:
+        air:
+          a_little_cooler: 平年より少し涼しい
+          a_little_warmer: 平年より少し暖かい
+          close: 今年はほぼ平年並み
+          cooler: 平年より涼しい
+          note_above: "今年は平年より%{difference} °C高い"
+          note_below: "今年は平年より%{difference} °C低い"
+          note_close: "今年の平年との差は%{difference} °C"
+          warmer: 平年より暖かい
+        frost:
+          before_season: "平年の霜の危険期間は%{date}から"
+          in_season: "平年の霜の危険期間は%{date}まで"
+          late_possible: "過去には%{date}まで霜が降りました"
+          passed: "次の霜の危険期間は%{date}から"
+          rare: この地域では霜はまれです
+        rain:
+          close: 今年はほぼ平年並み
+          drier: 今年は平年より雨が少ない
+          note: "この日までの平年の降水量の%{percent}%"
+          wetter: 今年は平年より雨が多い
+      see: あなたの地域を見る
+      title: あなたの地域の天気
     blurb:
       intro: "%{site_name}はガーデナーのコミュニティです。"
       sign_in_mastodon: Mastodonでログイン
