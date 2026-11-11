@@ -96,7 +96,8 @@ $dash-line: rgba(65, 63, 59, 0.15);
 
 // Whether the member is growing a suggested crop, or someone they follow is.
 .home-crop-flag { background: rgba($green, 0.12); color: $green; display: block; font-size: 0.8rem; margin: 4px 0 0; padding: 4px 8px; }
-.home-crop-flag--followed { background: none; color: $ink-muted; }
+.home-crop-flag--followed,
+.home-crop-flag--past { background: none; color: $ink-muted; }
 .home-crop-flag--failed { background: rgba($orange, 0.15); color: #333; }
 
 // A tick on the photo of a suggested crop that is in the planned jobs for the season.

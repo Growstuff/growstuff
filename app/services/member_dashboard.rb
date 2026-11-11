@@ -188,6 +188,19 @@ class MemberDashboard
     @growing_crop_ids.include?(crop.id)
   end
 
+  # { crop id => the years before this one the member planted it in, oldest first }, for the crops given, counting a variety of
+  # a crop as growing it. Crops they have not planted in an earlier year are left out.
+  def grown_in_past(crop_ids)
+    return {} if crop_ids.empty?
+
+    rows = member.plantings.joins(:crop).where(plantings: { planted_at: ...@today.beginning_of_year })
+      .where('plantings.crop_id IN (:ids) OR crops.parent_id IN (:ids)', ids: crop_ids)
+      .pluck('plantings.crop_id', 'crops.parent_id', 'plantings.planted_at')
+    rows.each_with_object(Hash.new { |hash, key| hash[key] = [] }) do |(crop_id, parent_id, planted_at), found|
+      [crop_id, parent_id].compact.select { |id| crop_ids.include?(id) }.each { |id| found[id] |= [planted_at.year] }
+    end.transform_values(&:sort)
+  end
+
   # { crop id => login names of the people the member follows who have it growing }, for the crops given, counting a variety
   # of a crop as growing it. Crops no one they follow is growing are left out.
   def followed_growing(crop_ids)

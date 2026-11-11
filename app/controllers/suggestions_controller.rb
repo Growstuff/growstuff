@@ -51,6 +51,7 @@ class SuggestionsController < ApplicationController
     crops = (fitting.values.flatten + planting).uniq
     ActiveRecord::Associations::Preloader.new(records: crops, associations: [:photos, :ecocrop_record, { parent: :ecocrop_record }]).call
     @followed = @dashboard.followed_growing(crops.map(&:id))
+    @grown_before = @dashboard.grown_in_past(crops.map(&:id))
     name = t("seasons.#{season.name}").downcase
     place = current_member.location_place || current_member.location.presence || t('suggestions.climate.your_location')
     { season: season.name, groups: [
@@ -68,7 +69,13 @@ class SuggestionsController < ApplicationController
     record = crop.ecocrop_record || crop.parent&.ecocrop_record
     { id: crop.id, name: crop.name, path: crop_path(crop), image: helpers.suggested_crop_image(crop), note: best_range(record),
       timing: timing(record, season), planned: planned_jobs.planned?(crop, season.name), growing: @dashboard.growing?(crop),
-      followed: followed_note(crop) }
+      grown_before: grown_before_note(crop), followed: followed_note(crop) }
+  end
+
+  # The last years the member planted the crop in before this one, as "You grew this in 2023 and 2024", or nil.
+  def grown_before_note(crop)
+    years = @grown_before.fetch(crop.id, [])
+    t('suggestions.climate.grown_before', years: years.last(3).to_sentence) if years.any?
   end
 
   # Who the member follows is growing the crop, as "People you follow growing this: ann and bo", or nil.

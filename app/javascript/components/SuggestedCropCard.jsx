@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {csrfToken, postJson} from '../api';
 
 // A crop suggested for a season, as the home page shows its suggestions: its photo, name, notes (the temperatures it likes and
-// how long it takes), whether the member is growing it or someone they follow is, a button that adds a job to plant it to the
+// how long it takes), whether the member is growing it, grew it in earlier years or someone they follow is growing it, a button that adds a job to plant it to the
 // planned jobs, and a way to say it is not for them.
 //
 // Adding is sent without leaving the page. Once the crop is in the planned jobs for the season, which the server says in
@@ -45,6 +45,11 @@ export default function SuggestedCropCard({crop, season, urls, labels, onPlanned
       {crop.growing && (
         <span className="home-crop-flag">
           <i className="fas fa-seedling" aria-hidden="true" /> {labels.growing}
+        </span>
+      )}
+      {crop.grown_before && (
+        <span className="home-crop-flag home-crop-flag--past">
+          <i className="fas fa-clock-rotate-left" aria-hidden="true" /> {crop.grown_before}
         </span>
       )}
       {crop.followed && <span className="home-crop-flag home-crop-flag--followed">{crop.followed}</span>}
