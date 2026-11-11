@@ -11,7 +11,8 @@
 class WeatherUpdater
   include OpenMeteoBudget
 
-  Cell = Struct.new(:latitude, :longitude, :ranges, :planting_count)
+  # name: where the gardens in the cell say they are, for the progress lines.
+  Cell = Struct.new(:latitude, :longitude, :ranges, :planting_count, :name)
 
   # ERA5 trails real time by about five days.
   LAG_DAYS = 5
@@ -22,6 +23,7 @@ class WeatherUpdater
   # Returns how many days of readings were saved.
   def update_all
     cells = cells_by_busiest
+    say "#{cells.size} places with plantings to follow, the busiest first"
     cells.sum { |cell| fetch_current(cell) } + backfill(cells)
   end
 
@@ -40,7 +42,8 @@ class WeatherUpdater
 
   def build_cell(latitude, longitude, grouped)
     ranges = grouped.map { |planting| planting_range(planting) }.select { |from, to| from <= to }
-    Cell.new(latitude, longitude, merge_overlapping(ranges), grouped.size)
+    name = grouped.filter_map { |planting| planting.garden&.location.presence }.tally.max_by(&:last)&.first
+    Cell.new(latitude, longitude, merge_overlapping(ranges), grouped.size, name)
   end
 
   def planting_range(planting)
@@ -117,14 +120,27 @@ class WeatherUpdater
 
   def fetch(cell, from, to)
     cost = OpenMeteoClient.call_cost(from, to)
-    return 0 if from > to || @calls_used + cost > @budget
+    return 0 if from > to
+    return out_of_budget(cell, from, to) if @calls_used + cost > @budget
 
     @calls_used += cost
     pause(cost)
-    save(cell, @client.daily(latitude: cell.latitude, longitude: cell.longitude, from:, to:))
+    saved = save(cell, @client.daily(latitude: cell.latitude, longitude: cell.longitude, from:, to:))
+    say "#{describe(cell)} #{from} to #{to}: #{saved} days saved (#{@calls_used.ceil} calls so far)"
+    saved
   rescue OpenMeteoClient::Error => e
     Rails.logger.warn("WeatherUpdater: #{cell.latitude},#{cell.longitude}: #{e.message}")
+    say "#{describe(cell)} #{from} to #{to}: failed, #{e.message}"
     0
+  end
+
+  def out_of_budget(cell, from, to)
+    say "#{describe(cell)} #{from} to #{to}: skipped, not enough of the call budget left"
+    0
+  end
+
+  def describe(cell)
+    [cell.name, "#{cell.latitude}, #{cell.longitude}"].compact.join(' ')
   end
 
   # Wait long enough that heavy requests, a year of history being about 60 calls, stay inside the per-minute limit.
