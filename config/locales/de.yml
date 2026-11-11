@@ -1656,7 +1656,7 @@ de:
       browse_members: Mitglieder durchsuchen
       community: Gemeinschaft
       community_gardens: Gemeinschaftsgärten
-      community_map: <g id="1">Community Map</g>
+      community_map: Karte der Community
       crop_wrangling: Ernte-Streitigkeiten
       crops: Kulturen
       current_memberlogin_name: "%{current_memberlogin_name}"
@@ -1691,7 +1691,7 @@ de:
       close: Menu schliessen
       community: Gemeinschaft
       community_gardens: Gemeinschaftsgärten
-      community_map: <g id="1">Community Map</g>
+      community_map: Karte der Community
       crop_wrangling: Ernte-Streitigkeiten
       crops: Kulturen
       crops_heading: Kulturen
@@ -1705,6 +1705,7 @@ de:
       my_garden: Mein Garten
       my_harvests: Meine Ernten
       my_jobs: Meine Stellenangebote
+      my_place: Wetter bei mir
       my_plantings: Meine Anpflanzungen
       my_seeds: Meine Samen
       new_badge: Neu
