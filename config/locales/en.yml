@@ -525,6 +525,8 @@ en:
       request_notes: 'Request notes: %{notes}'
       requested_by: This crop was requested by %{requester} %{time_ago} ago.
     fields:
+      hardiness:
+        label: Hardiness
       harvest_style:
         blank: Don't know
         heading: Harvest style
