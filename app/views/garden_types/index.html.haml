@@ -1,8 +1,7 @@
-- content_for :title, 'GardenTypes'
+- content_for :title, t('.title')
 
 %p
-  #{ENV['GROWSTUFF_SITE_NAME']} tracks who's growing what, where.
-  View any garden_type page to see which of our members have used it.
+  = t('.description', site_name: ENV['GROWSTUFF_SITE_NAME'])
 
 .index-cards
   - @garden_types.each do |garden_type|
@@ -10,7 +9,7 @@
 
 - if can? :create, GardenType
   %div
-    = link_to 'New GardenType', new_garden_type_path, class: 'btn btn-primary'
+    = link_to t('.new_garden_type'), new_garden_type_path, class: 'btn btn-primary'
 
 .pagination
   = will_paginate @garden_types
