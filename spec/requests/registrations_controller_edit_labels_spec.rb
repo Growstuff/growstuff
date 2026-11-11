@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe RegistrationsController, '#edit' do
+describe RegistrationsController, '#edit', flipper: :print_labels do
   let(:member) { create(:member, label_width_mm: '62', label_height_mm: '29') }
   let(:page) { Capybara.string(response.body) }
 

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe GardensController, '#show' do
+describe GardensController, '#show', flipper: :print_labels do
   let(:garden) { create(:garden) }
   let(:page) { Capybara.string(response.body) }
 
