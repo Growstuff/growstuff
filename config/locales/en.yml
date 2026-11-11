@@ -1730,7 +1730,7 @@ en:
       continue: Continue
       email_help: "We'll use this address to contact you (we never spam!)"
       email_missing_help: "Add one if you'd like planting reminders. We'll send a link to confirm it, and we never spam."
-      email_optional: Email (optional)
+      email_optional: "Email (optional)"
       instructions: Nearly there. Choose the name that will show on the website.
       name_help: This is the name that will show on the website. You can change it later.
       terms_of_service: Terms of Service
