@@ -1003,8 +1003,11 @@ ja:
       close: 閉じる
     header:
       logo_alt: Growstuffのロゴ（洋梨のイラスト）
+      community_map: コミュニティマップ
     menu:
       label: メニュー
+      community_map: コミュニティマップ
+      my_place: 現在地の天気
     nav:
       my_records: "自分の%{records}"
       everyone_records: "みんなの%{records}"
