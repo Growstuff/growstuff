@@ -246,7 +246,7 @@ en:
         agree_to_tos_html: I agree to the %{tos_link}
         identifier_label: Mastodon address
         identifier_placeholder: alice@mastodon.social
-        permission_note: "We only ask who you are. We can't post for you."
+        permission_note: We only ask who you are. We can't post for you.
         terms_of_service: Terms of Service
   buttons:
     add: Add
@@ -304,7 +304,7 @@ en:
         warmer: This year is warmer than usual
     chart:
       bar: "%{month}, %{kind}: %{value}"
-      description: "Column chart of average monthly %{measure}. Usual: %{usual}. This year so far: %{year}."
+      description: 'Column chart of average monthly %{measure}. Usual: %{usual}. This year so far: %{year}.'
       legend:
         usual: Usual for the month
         year: This year
@@ -333,13 +333,13 @@ en:
       coldest_night: Coldest night
       coldest_soil: Coldest soil
       hottest_day: Hottest day
-      this_year: "This year: %{value}"
+      this_year: 'This year: %{value}'
       warmest_soil: Warmest soil
     table:
       air: Air
       details: Show the monthly figures
       month: Month
-      none: –
+      none: "–"
       rain: Rain
       soil: Soil
       this_year: this year
@@ -392,7 +392,7 @@ en:
       about: About
       breadcrumb_conversations: Conversations
       participants: Participants
-      sent_on: "on %{date}"
+      sent_on: on %{date}
   crop_companions:
     created: Companion was successfully created.
     deleted: Companion was successfully destroyed.
@@ -516,7 +516,7 @@ en:
       will_trade: "%{owner} will trade %{tradable_to}."
     growing_fact:
       median_of_packets: median of members' seed packets
-      members_packets: "Members' seed packets: %{median}"
+      members_packets: 'Members'' seed packets: %{median}'
     ecocrop_facts:
       absolute_ph: Absolute soil pH
       absolute_rainfall: Absolute rainfall
@@ -530,7 +530,7 @@ en:
       source: FAO EcoCrop
       to: to
       units:
-        celsius: °C
+        celsius: "°C"
         days: days
         metres: m
         rainfall: mm/year
@@ -556,7 +556,7 @@ en:
       days_until_maturity: Days until maturity
       germination: Germination
       median_of_packets: median of members' seed packets
-      members_packets_hemispheres: "Members' seed packets: %{south} south, %{north} north"
+      members_packets_hemispheres: 'Members'' seed packets: %{south} south, %{north} north'
       northern_hemisphere: Northern hemisphere
       row_spacing: Row Spacing
       southern_hemisphere: Southern hemisphere
@@ -715,10 +715,10 @@ en:
       row_danger: Frost danger
       row_planting: This planting
       tips:
-        frost_safe: "In %{place}, safe from frost: %{range}"
+        frost_safe: 'In %{place}, safe from frost: %{range}'
         planting: "%{label} (%{range})"
-        possible: "Frost has come as early or late as this: %{range}"
-        usual: "Usual frost danger: %{range}"
+        possible: 'Frost has come as early or late as this: %{range}'
+        usual: 'Usual frost danger: %{range}'
       title: This %{crop} planting against the frost season
       title_place: The frost season
       today: Today, %{date}
@@ -755,6 +755,27 @@ en:
       rare:
         body: Frost is rare in this area, so we show no frost dates.
         title: Frost is rare here
+  garden_collaborators:
+    form:
+      errors:
+        one: 1 error prohibited this garden collaborator from being saved
+        other: "%{count} errors prohibited this garden collaborator from being saved"
+      guidance: Ask your friend, family member or community garden member for their growstuff username to add them as a collaborator on your garden.
+      save: Save collaborator
+    edit:
+      title: Edit garden collaborator
+    new:
+      title: New garden collaborator
+    index:
+      title: "%{garden} collaborators"
+      heading: "%{garden} collaborators"
+      breadcrumbs_gardens: Gardens
+      add_collaborator: Add a garden collaborator
+      no_collaborators: There are no collaborators to display.
+      sidebar_blurb: "%{site_name} helps you track what you're harvesting from your home garden and see how productive it is."
+      remove_access: Remove access
+      view_all_gardens: view all %{name}'s gardens
+      joined: Joined %{time} ago.
   gardens:
     about:
       collaborators: Collaborators
@@ -1597,7 +1618,7 @@ en:
       type_your_message: Type your message here
     new:
       breadcrumb_messages: Messages
-      title: "Send a message to %{recipient}"
+      title: Send a message to %{recipient}
     auth_already_linked: That account is already connected to another Growstuff member.
     auth_failed: Authentication failed.
     auth_last_sign_in: This is the only way you can sign in. Add an email address and password first.
@@ -1790,13 +1811,13 @@ en:
       delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on Flickr.
       refresh: Refresh photo data from Flickr
       unlink:
-        crop: "Remove from the crop: %{name}"
-        garden: "Remove from the garden: %{name}"
-        harvest: "Remove from the harvest: %{name}"
-        job: "Remove from the job: %{name}"
-        planting: "Remove from the planting: %{name}"
-        post: "Remove from the post: %{name}"
-        seed: "Remove from the seeds: %{name}"
+        crop: 'Remove from the crop: %{name}'
+        garden: 'Remove from the garden: %{name}'
+        harvest: 'Remove from the harvest: %{name}'
+        job: 'Remove from the job: %{name}'
+        planting: 'Remove from the planting: %{name}'
+        post: 'Remove from the post: %{name}'
+        seed: 'Remove from the seeds: %{name}'
       unlink_confirm: Remove this photo from that record? The photo itself stays on Growstuff.
     comment:
       ago: "%{time} ago"
@@ -1820,7 +1841,7 @@ en:
       sign_in_prompt: Sign in to join the conversation
     credit:
       by: Photo by %{name}
-      "on": " on %{site}"
+      'on': " on %{site}"
     licence:
       copied: Copied
       copy_credit: Copy credit
@@ -1952,7 +1973,7 @@ en:
       title: Editing plant part
     form:
       errors:
-        one: "1 error prohibited this plant part from being saved:"
+        one: '1 error prohibited this plant part from being saved:'
         other: "%{count} errors prohibited this plant part from being saved:"
       name: Name
       save: Save
@@ -2135,7 +2156,7 @@ en:
         cancel: Cancel
         change_hint: The planting's crop follows the packet. Choosing a variety makes this a planting of that variety.
         change_link: change
-        change_title: "Change where this %{crop} planting came from"
+        change_title: Change where this %{crop} planting came from
         choose: Choose
         choose_another: Choose another
         choose_different: Choose a different packet
@@ -2146,7 +2167,7 @@ en:
         label_title: What the label says
         link_anyway: Link anyway
         linked_now: Linked now
-        no_match: "Nothing found for \"%{query}\" among %{crop} seeds."
+        no_match: Nothing found for "%{query}" among %{crop} seeds.
         not_my_packet: Not one of my packets
         next: Next
         not_this_packet: Or it wasn't this packet
@@ -2299,7 +2320,7 @@ en:
       finished: Finished %{date}
       first_harvest_expected: First harvest expected %{date}
       harvest_started: Harvest started %{date}
-      legend: (One emoji = 1 week)
+      legend: "(One emoji = 1 week)"
       planted: Planted %{date}
     transplant:
       cancel: Cancel

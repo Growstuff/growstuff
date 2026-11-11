@@ -116,20 +116,6 @@ de:
       update:
         disabled: "%{feature} ist jetzt ausgeschaltet."
         enabled: "%{feature} ist jetzt aktiviert."
-  authentications:
-    sign_in:
-      bluesky:
-        terms_of_service: "Nutzungsbedingungen"
-        agree_to_tos_html: "Ich stimme den %{tos_link} zu"
-        contacting: "Bluesky wird kontaktiert…"
-        handle_label: "Bluesky-Handle"
-        handle_placeholder: "alice.bsky.social"
-      mastodon:
-        agree_to_tos_html: "Ich stimme den %{tos_link} zu"
-        identifier_label: "Mastodon-Adresse"
-        identifier_placeholder: "alice@mastodon.social"
-        permission_note: "Wir fragen nur, wer Sie sind. Wir können nicht für Sie posten."
-        terms_of_service: "Nutzungsbedingungen"
   alternate_names:
     created: Alternativer Name wurde erfolgreich erstellt.
     deleted: Der alternative Name wurde erfolgreich gelöscht.
@@ -139,6 +125,20 @@ de:
       title:
         default: Standard
   are_you_sure: Bist du sicher?
+  authentications:
+    sign_in:
+      bluesky:
+        terms_of_service: Nutzungsbedingungen
+        agree_to_tos_html: Ich stimme den %{tos_link} zu
+        contacting: Bluesky wird kontaktiert…
+        handle_label: Bluesky-Handle
+        handle_placeholder: alice.bsky.social
+      mastodon:
+        agree_to_tos_html: Ich stimme den %{tos_link} zu
+        identifier_label: Mastodon-Adresse
+        identifier_placeholder: alice@mastodon.social
+        permission_note: Wir fragen nur, wer Sie sind. Wir können nicht für Sie posten.
+        terms_of_service: Nutzungsbedingungen
   buttons:
     add: Hinzufügen
     add_photo: Foto hinzufügen
@@ -214,7 +214,7 @@ de:
       about: Über
       breadcrumb_conversations: Konversationen
       participants: Teilnehmer
-      sent_on: "am %{date}"
+      sent_on: am %{date}
   crop_companions:
     created: Companion wurde erfolgreich erstellt.
     deleted: Companion wurde erfolgreich zerstört.
@@ -256,12 +256,12 @@ de:
   crops:
     growing_fact:
       median_of_packets: Median der Samenpäckchen der Mitglieder
-      members_packets: "Samenpäckchen der Mitglieder: %{median}"
+      members_packets: 'Samenpäckchen der Mitglieder: %{median}'
     growing_facts:
       days_until_maturity: Tage bis zur Reife
       germination: Keimung
       median_of_packets: Median der Samenpäckchen der Mitglieder
-      members_packets_hemispheres: "Samenpäckchen der Mitglieder: %{south} Süd, %{north} Nord"
+      members_packets_hemispheres: 'Samenpäckchen der Mitglieder: %{south} Süd, %{north} Nord'
       northern_hemisphere: Nördliche Hemisphäre
       row_spacing: Reihenabstand
       southern_hemisphere: Südliche Hemisphäre
@@ -343,6 +343,27 @@ de:
     index:
       title: Foren
     updated: Das Forum wurde erfolgreich aktualisiert.
+  garden_collaborators:
+    form:
+      errors:
+        one: 1 Fehler verhinderte das Speichern dieser Garten-Mitwirkung
+        other: "%{count} Fehler verhinderten das Speichern dieser Garten-Mitwirkung"
+      guidance: Frage Freunde, Familienmitglieder oder Mitglieder des Gemeinschaftsgartens nach ihrem Growstuff-Benutzernamen, um sie als Mitwirkende zu deinem Garten hinzuzufügen.
+      save: Mitwirkende speichern
+    edit:
+      title: Garten-Mitwirkende bearbeiten
+    new:
+      title: Neue Garten-Mitwirkende hinzufügen
+    index:
+      title: Mitwirkende an %{garden}
+      heading: Mitwirkende an %{garden}
+      breadcrumbs_gardens: Gärten
+      add_collaborator: Garten-Mitwirkende hinzufügen
+      no_collaborators: Es sind keine Mitwirkenden vorhanden.
+      sidebar_blurb: "%{site_name} hilft dir dabei, deine Ernten im heimischen Garten festzuhalten und zu sehen, wie produktiv er ist."
+      remove_access: Zugriff entfernen
+      view_all_gardens: Alle Gärten von %{name} anzeigen
+      joined: Vor %{time} beigetreten.
   gardens:
     about:
       collaborators: Mitarbeiter
@@ -1078,7 +1099,7 @@ de:
       type_your_message: Geben Sie hier Ihre Nachricht ein
     new:
       breadcrumb_messages: Nachrichten
-      title: "Nachricht an %{recipient} senden"
+      title: Nachricht an %{recipient} senden
     auth_failed: Authentifizierung fehlgeschlagen.
     auth_success: Authentifizierung erfolgreich.
     crops_waiting: Es gibt Erntegut, das darauf wartet, eingebracht zu werden.
@@ -1275,9 +1296,9 @@ de:
       no_nearby_seeds: Kein Saatgut in der Nähe gefunden
       recent_plantings: Neueste Pflanzungen in der Nähe von %{place}
       seeds_available: Zum Tausch verfügbares Saatgut in der Nähe von %{place}
-      view_all_members: "Alle Mitglieder anzeigen \u00bb"
-      view_all_plantings: "Alle Pflanzungen anzeigen \u00bb"
-      view_all_seeds: "Alle Samen anzeigen \u00bb"
+      view_all_members: Alle Mitglieder anzeigen »
+      view_all_plantings: Alle Pflanzungen anzeigen »
+      view_all_seeds: Alle Samen anzeigen »
   plant_parts:
     edit:
       back: Zurück
@@ -1285,7 +1306,7 @@ de:
       title: Pflanzenteil bearbeiten
     form:
       errors:
-        one: "1 Fehler verhinderte das Speichern dieses Pflanzenteils:"
+        one: '1 Fehler verhinderte das Speichern dieses Pflanzenteils:'
         other: "%{count} Fehler verhinderten das Speichern dieses Pflanzenteils:"
       name: Name
       save: Speichern
@@ -1418,14 +1439,14 @@ de:
       weather_soil_temp: Bodenwärme
       weather_temperature_chart: Tageshoch und -tief
       weather_temperature_chart_alt: Tageshöchst- und Tiefsttemperatur, von %{low} bis %{high}.
-    string: '%{crop} Pflanzung in %{garden} durch %{owner}'
+    string: "%{crop} Pflanzung in %{garden} durch %{owner}"
     timeline:
       failed: Fehlgeschlagen
       finish_expected: Abschluss erwartet %{date}
       finished: Abgeschlossen %{date}
       first_harvest_expected: Erste Ernte erwartet %{date}
       harvest_started: Ernte begonnen %{date}
-      legend: (Ein Emoji = 1 Woche)
+      legend: "(Ein Emoji = 1 Woche)"
       planted: Gepflanzt %{date}
     transplant:
       cancel: Abbrechen

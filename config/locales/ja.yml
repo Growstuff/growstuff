@@ -3,17 +3,17 @@ ja:
   authentications:
     sign_in:
       bluesky:
-        terms_of_service: "利用規約"
+        terms_of_service: 利用規約
         agree_to_tos_html: "%{tos_link}に同意します"
-        contacting: "Blueskyに接続中…"
-        handle_label: "Blueskyハンドル"
-        handle_placeholder: "alice.bsky.social"
+        contacting: Blueskyに接続中…
+        handle_label: Blueskyハンドル
+        handle_placeholder: alice.bsky.social
       mastodon:
         agree_to_tos_html: "%{tos_link}に同意します"
-        identifier_label: "Mastodonアドレス"
-        identifier_placeholder: "alice@mastodon.social"
-        permission_note: "本人確認のみ行います。代理での投稿は行いません。"
-        terms_of_service: "利用規約"
+        identifier_label: Mastodonアドレス
+        identifier_placeholder: alice@mastodon.social
+        permission_note: 本人確認のみ行います。代理での投稿は行いません。
+        terms_of_service: 利用規約
   comments:
     edit_modal:
       save: 保存
@@ -22,11 +22,6 @@ ja:
     inline_form:
       add_comment: コメントを追加
       post_comment: コメントを投稿
-  follows:
-    followers:
-      title: "%{member}のフォロワー"
-    index:
-      title: "%{member}のフォロー"
   community_gardens:
     collaborate: チームと協力する
     collaborate_text: 他のガーデナーをあなたの菜園区画に招待して協力しましょう。作業を分担し、収穫を分かち合い、コミュニティとして共に成長しましょう。
@@ -65,12 +60,12 @@ ja:
   crops:
     growing_fact:
       median_of_packets: メンバーの種子パケットの中央値
-      members_packets: "メンバーの種子パケット: %{median}"
+      members_packets: 'メンバーの種子パケット: %{median}'
     growing_facts:
       days_until_maturity: 成熟までの日数
       germination: 発芽
       median_of_packets: メンバーの種子パケットの中央値
-      members_packets_hemispheres: "メンバーの種子パケット: 南半球 %{south}、北半球 %{north}"
+      members_packets_hemispheres: 'メンバーの種子パケット: 南半球 %{south}、北半球 %{north}'
       northern_hemisphere: 北半球
       row_spacing: 条間
       southern_hemisphere: 南半球
@@ -130,6 +125,32 @@ ja:
       name: 学名
       save: 保存
       wikidata_id: Wikidata ID
+  follows:
+    followers:
+      title: "%{member}のフォロワー"
+    index:
+      title: "%{member}のフォロー"
+  garden_collaborators:
+    form:
+      errors:
+        one: 1 件のエラーによりこの庭の共同管理者は保存されませんでした
+        other: "%{count} 件のエラーによりこの庭の共同管理者は保存されませんでした"
+      guidance: あなたの庭の共同管理者として追加するには、友人や家族、コミュニティガーデンの仲間に Growstuff のユーザー名を聞いてください。
+      save: 共同管理者を保存
+    edit:
+      title: 共同管理者を編集
+    new:
+      title: 新しい共同管理者
+    index:
+      title: "%{garden}の共同管理者"
+      heading: "%{garden}の共同管理者"
+      breadcrumbs_gardens: 庭
+      add_collaborator: 庭の共同管理者を追加
+      no_collaborators: 表示できる共同管理者はいません。
+      sidebar_blurb: "%{site_name} は、家庭菜園からの収穫を記録し、その生産性を把握するのに役立ちます。"
+      remove_access: アクセスを削除
+      view_all_gardens: "%{name}のすべての庭を表示"
+      joined: "%{time}前に参加しました。"
   gardens:
     header:
       all_gardens: "%{owner} のすべての庭"
@@ -343,7 +364,7 @@ ja:
     transplant:
       cancel: キャンセル
       close: 閉じる
-      move_to: "この植え付けの移動先:"
+      move_to: 'この植え付けの移動先:'
       submit: 移植
       title: "%{crop}を移植"
     facts:

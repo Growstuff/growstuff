@@ -116,20 +116,6 @@ zh:
       update:
         disabled: "%{feature} 现已关闭。"
         enabled: "%{feature} 现已开启。"
-  authentications:
-    sign_in:
-      bluesky:
-        terms_of_service: "服务条款"
-        agree_to_tos_html: "我同意%{tos_link}"
-        contacting: "正在连接 Bluesky…"
-        handle_label: "Bluesky 账号"
-        handle_placeholder: "alice.bsky.social"
-      mastodon:
-        agree_to_tos_html: "我同意%{tos_link}"
-        identifier_label: "Mastodon 地址"
-        identifier_placeholder: "alice@mastodon.social"
-        permission_note: "我们仅确认您的身份，不会代表您发帖。"
-        terms_of_service: "服务条款"
   alternate_names:
     created: 备用名称已成功创建。
     deleted: 备用名称已成功删除。
@@ -139,6 +125,20 @@ zh:
       title:
         default: 默认
   are_you_sure: 你确定吗？
+  authentications:
+    sign_in:
+      bluesky:
+        terms_of_service: 服务条款
+        agree_to_tos_html: 我同意%{tos_link}
+        contacting: 正在连接 Bluesky…
+        handle_label: Bluesky 账号
+        handle_placeholder: alice.bsky.social
+      mastodon:
+        agree_to_tos_html: 我同意%{tos_link}
+        identifier_label: Mastodon 地址
+        identifier_placeholder: alice@mastodon.social
+        permission_note: 我们仅确认您的身份，不会代表您发帖。
+        terms_of_service: 服务条款
   buttons:
     add: 添加
     add_photo: 添加照片
@@ -214,7 +214,7 @@ zh:
       about: 关于
       breadcrumb_conversations: 对话
       participants: 参与者
-      sent_on: "于 %{date}"
+      sent_on: 于 %{date}
   crop_companions:
     created: 同伴已成功创建。
     deleted: 同伴被成功摧毁。
@@ -256,12 +256,12 @@ zh:
   crops:
     growing_fact:
       median_of_packets: 会员种子包中位数
-      members_packets: "会员种子包：%{median}"
+      members_packets: 会员种子包：%{median}
     growing_facts:
       days_until_maturity: 成熟天数
       germination: 发芽
       median_of_packets: 会员种子包中位数
-      members_packets_hemispheres: "会员种子包：南半球 %{south}，北半球 %{north}"
+      members_packets_hemispheres: 会员种子包：南半球 %{south}，北半球 %{north}
       northern_hemisphere: 北半球
       row_spacing: 行距
       southern_hemisphere: 南半球
@@ -271,7 +271,7 @@ zh:
       list_seeds: 登记 %{crop} 种子以供交易
       purchase_via_ebay: 通过 eBay 购买种子
       trade_seeds: 登记您的种子以供交易
-      view_all: "查看所有 %{crop} 种子"
+      view_all: 查看所有 %{crop} 种子
       will_trade: "%{owner} 将在 %{tradable_to} 范围内交易。"
     alternate_name_modal:
       add_title: 为%{crop}添加别名
@@ -343,6 +343,27 @@ zh:
     index:
       title: 论坛
     updated: 论坛更新成功。
+  garden_collaborators:
+    form:
+      errors:
+        one: 1 个错误导致无法保存此花园协作者
+        other: "%{count} 个错误导致无法保存此花园协作者"
+      guidance: 向你的朋友、家人或社区花园成员索取他们的 growstuff 用户名，以便将他们添加为你花园的协作者。
+      save: 保存协作者
+    edit:
+      title: 编辑花园协作者
+    new:
+      title: 新增花园协作者
+    index:
+      title: "%{garden} 协作者"
+      heading: "%{garden} 协作者"
+      breadcrumbs_gardens: 花园
+      add_collaborator: 添加花园协作者
+      no_collaborators: 没有可显示的协作者。
+      sidebar_blurb: "%{site_name} 帮助你追踪家庭花园的收成，并了解其产量表现。"
+      remove_access: 移除权限
+      view_all_gardens: 查看 %{name} 的所有花园
+      joined: 加入于 %{time} 前。
   gardens:
     about:
       collaborators: 合作者
@@ -1075,7 +1096,7 @@ zh:
       type_your_message: 在此处输入您的消息
     new:
       breadcrumb_messages: 消息
-      title: "给 %{recipient} 发送消息"
+      title: 给 %{recipient} 发送消息
     auth_failed: 认证失败。
     auth_success: 认证成功。
     crops_waiting: 有庄稼等待着收割。
@@ -1272,9 +1293,9 @@ zh:
       no_nearby_seeds: 未找到附近的种子
       recent_plantings: "%{place} 附近的最近种植"
       seeds_available: "%{place} 附近可供交易的种子"
-      view_all_members: "查看所有会员 \u00bb"
-      view_all_plantings: "查看所有种植 \u00bb"
-      view_all_seeds: "查看所有种子 \u00bb"
+      view_all_members: 查看所有会员 »
+      view_all_plantings: 查看所有种植 »
+      view_all_seeds: 查看所有种子 »
   plant_parts:
     edit:
       back: 返回
@@ -1287,7 +1308,7 @@ zh:
       save: 保存
     index:
       new_plant_part: 新建植物部位
-      no_crops: （目前）还没有为此植物部位收获任何作物。
+      no_crops: "（目前）还没有为此植物部位收获任何作物。"
       title: 植物部位
     new:
       back: 返回
@@ -1296,7 +1317,7 @@ zh:
       delete: 删除
       edit: 编辑
       harvested_crops: 以下作物因其%{plant_part}而被收获。
-      no_crops: （目前）还没有为此植物部位收获任何作物。
+      no_crops: "（目前）还没有为此植物部位收获任何作物。"
       view_other_plant_parts: 查看其他植物部位
   planting:
     status:
@@ -1414,14 +1435,14 @@ zh:
       weather_soil_temp: 土壤温度
       weather_temperature_chart: 每日高点和低点
       weather_temperature_chart_alt: 每日高低温，从%{low}到%{high}。
-    string: '%{crop} 在 %{garden} 中种植 %{owner}'
+    string: "%{crop} 在 %{garden} 中种植 %{owner}"
     timeline:
       failed: 失败
       finish_expected: 预计于 %{date} 结束
       finished: 于 %{date} 结束
       first_harvest_expected: 预计于 %{date} 第一次收获
       harvest_started: 于 %{date} 开始收获
-      legend: (一个表情符号 = 1周)
+      legend: "(一个表情符号 = 1周)"
       planted: 种植于 %{date}
     transplant:
       cancel: 取消
