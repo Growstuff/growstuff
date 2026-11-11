@@ -2495,6 +2495,24 @@ en:
     untitled: Untitled post
     updated: Post was successfully updated.
     write_blog_post: Write blog post
+  rack_attack:
+    blocked:
+      contact: let us know
+      mistake: If you think this is a mistake,
+      reason_configured: This address has been blocked because it was putting too much load on the site.
+      reason_honeypot: Something at this address asked for a page that only crawlers look for.
+      reason_other: This address has been blocked.
+      reason_pentesters: Something at this address kept asking for pages that scanners look for, such as WordPress or PHP files.
+      reason_semrush: This crawler isn't welcome here.
+      title: We can't let you in right now
+    reference: "Reference: %{rule}"
+    throttled:
+      intro: You've loaded a lot of pages in a short time, so we've paused things for a moment.
+      sign_in: sign in
+      title: Slow down a little
+      wait:
+        one: Please try again in a minute. Signed-in members aren't slowed down, so you can
+        other: Please try again in about %{count} minutes. Signed-in members aren't slowed down, so you can
   scientific_names:
     deleted: Scientific name was successfully deleted.
     edit:
