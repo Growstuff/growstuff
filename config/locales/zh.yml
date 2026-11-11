@@ -2742,6 +2742,9 @@ zh:
       title: 编辑帖子
     form:
       draft_visibility: 发布之前，只有您能看到此草稿。
+      advanced_options: 高级选项
+      language: 帖子语言
+      unknown_language: 未知语言
       errors:
         one: "%{count}个错误导致此帖子无法保存："
         other: "%{count}个错误导致此帖子无法保存："

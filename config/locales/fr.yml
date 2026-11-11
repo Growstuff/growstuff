@@ -2753,6 +2753,9 @@ fr:
       title: Modifier l’article
     form:
       draft_visibility: Vous seul pouvez voir ce brouillon tant que vous ne l’avez pas publié.
+      advanced_options: Options avancées
+      language: Langue de l’article
+      unknown_language: Langue inconnue
       errors:
         one: "%{count} erreur a empêché l’enregistrement de cet article :"
         other: "%{count} erreurs ont empêché l’enregistrement de cet article :"

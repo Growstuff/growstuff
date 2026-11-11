@@ -4121,6 +4121,7 @@ en:
     form:
       draft_visibility: Only you can see this draft until you publish it.
       language: Post language
+      advanced_options: Advanced options
       unknown_language: Unknown language
       errors:
         one: "%{count} error prohibited this post from being saved:"
