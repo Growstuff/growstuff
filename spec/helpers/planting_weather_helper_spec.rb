@@ -117,10 +117,10 @@ describe PlantingWeatherHelper do
     let(:expected) { [] }
     let(:readings) { days(mild: 20) }
 
-    # Runs of days, from `from`: mild ones average 15, inside the best range; cool ones average 7.5, outside it but not
+    # Runs of days, from `from`: mild ones have a high of 18, inside the best range; cool ones a high of 9, outside it but not
     # past what the crop survives; hot ones have a high of 35, and cold ones a low of 1, past what it survives.
     def days(mild: 0, cool: 0, hot: 0, cold: 0, from: Date.new(2026, 5, 1))
-      highs_and_lows = Array.new(mild) { [18, 12] } + Array.new(cool) { [10, 5] } + Array.new(hot) { [35, 20] } + Array.new(cold) do
+      highs_and_lows = Array.new(mild) { [18, 12] } + Array.new(cool) { [9, 5] } + Array.new(hot) { [35, 20] } + Array.new(cold) do
         [14, 1]
       end
       highs_and_lows.each_with_index.map do |(high, low), index|
@@ -133,7 +133,7 @@ describe PlantingWeatherHelper do
       it('has a tick') { expect(notes).to have_css '.weather-note .fa-check-circle' }
 
       it('counts the days in the best range') {
-        expect(notes).to have_css '.weather-note', text: '20 of 20 days averaged inside the best range of 10–24°C'
+        expect(notes).to have_css '.weather-note', text: '20 of 20 days had a high inside the best range of 10–24°C'
       }
 
       it('has no problems') { expect(notes).to have_no_css '.weather-note--danger' }
@@ -151,7 +151,7 @@ describe PlantingWeatherHelper do
       end
 
       it('still counts the days in the best range') {
-        expect(notes).to have_css '.weather-note', text: '80 of 100 days averaged inside the best range'
+        expect(notes).to have_css '.weather-note', text: '80 of 100 days had a high inside the best range'
       }
     end
 
@@ -233,7 +233,7 @@ describe PlantingWeatherHelper do
        build(:weather_reading, date: Date.new(2026, 10, 3), temp_max_c: 22, temp_min_c: 12)]
     end
 
-    it 'counts the days whose average was in the range' do
+    it 'counts the days whose high was in the range' do
       expect(helper.weather_summary(readings, ranges: { optimal: [15, 25] })[:best_days]).to eq '2 of 3'
     end
 

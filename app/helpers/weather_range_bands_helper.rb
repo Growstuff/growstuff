@@ -5,18 +5,14 @@
 module WeatherRangeBandsHelper
   include WeatherChartFrameHelper
 
-  # One day's high and low, and the average of the two.
-  WeatherDay = Data.define(:date, :high, :low) do
-    def mean
-      (high + low) / 2.0
-    end
-  end
+  # One day's high and low.
+  WeatherDay = Data.define(:date, :high, :low)
 
   # The icon of a climate note, by how the weather went: all good, mixed, or beyond what the crop survives on enough days.
   # :neutral is for a crop with only survivable limits to compare against.
   WEATHER_NOTE_ICONS = { success: 'check-circle', caution: 'exclamation-circle', danger: 'exclamation-triangle',
                          neutral: 'info-circle' }.freeze
-  # A period is good when at least this share of its days averaged inside the best range, and none went past the survivable
+  # A period is good when at least this share of its days had a high inside the best range, and none went past the survivable
   # limits; it is a warning when at least WEATHER_NOTE_DANGER_SHARE of its days did.
   WEATHER_NOTE_GOOD_SHARE = 0.6
   WEATHER_NOTE_DANGER_SHARE = 0.05
@@ -40,7 +36,7 @@ module WeatherRangeBandsHelper
   # Up to two notes for under a temperature chart's caption, each judging a stretch of days against the crop's ranges: how
   # the planting has gone so far (the observed readings), and how it is expected to go (`expected`, last year's weather
   # for the days still to come). A single day says little about a plant, so each is judged over all its days, by how many
-  # averaged inside the best range and how many went past what the crop survives. The past is judged up to `through`, the
+  # had a high inside the best range and how many went past what the crop survives. The past is judged up to `through`, the
   # day the planting was expected to finish, since the weather after that is not what it was growing through. Nil without
   # ranges or days to judge.
   def weather_climate_notes(readings, ranges, crop:, expected: [], through: nil)
@@ -51,13 +47,13 @@ module WeatherRangeBandsHelper
     safe_join(notes) if notes.any?
   end
 
-  # "12 of 20", the days with both a high and a low whose average was in the best range; nil without a best range.
+  # "12 of 20", the days with both a high and a low whose high was in the best range; nil without a best range.
   def weather_best_days(readings, ranges)
     optimal = ranges&.dig(:optimal)
     days = weather_days_of(readings)
     return unless optimal && days.any?
 
-    t('plantings.show.weather_best_days_value', count: days.count { |day| day.mean.between?(*optimal) }, total: days.size)
+    t('plantings.show.weather_best_days_value', count: days.count { |day| day.high.between?(*optimal) }, total: days.size)
   end
 
   private
@@ -92,7 +88,7 @@ module WeatherRangeBandsHelper
                  weather_period_detail(period, days, ranges, figures, crop))
   end
 
-  # How many of the days averaged inside the best range, how many went past what the crop survives (a high above its
+  # How many of the days had a high inside the best range, how many went past what the crop survives (a high above its
   # warmest or a low below its coldest) and how many of each, and the level of the whole: :success, :caution, :danger, or
   # :neutral when there is no best range to compare against.
   def weather_period_figures(days, ranges)
@@ -101,7 +97,7 @@ module WeatherRangeBandsHelper
     hot = high ? days.count { |day| day.high > high } : 0
     cold = low ? days.count { |day| day.low < low } : 0
     beyond = days.count { |day| (high && day.high > high) || (low && day.low < low) }
-    best = optimal ? days.count { |day| day.mean.between?(*optimal) } : nil
+    best = optimal ? days.count { |day| day.high.between?(*optimal) } : nil
     { hot:, cold:, best:, total: days.size, level: weather_period_level(days.size, beyond, best) }
   end
 

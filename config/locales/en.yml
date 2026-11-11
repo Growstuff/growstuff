@@ -2292,7 +2292,7 @@ en:
       weather_location_title: Where is this garden?
       weather_new: New
       weather_note_cold: too cold on %{days} (lows below %{limit})
-      weather_note_future_best: Going by last year's weather, %{best} of the %{total} days from %{from} to %{to} should average inside the best range of %{range}.
+      weather_note_future_best: Going by last year's weather, %{best} of the %{total} days from %{from} to %{to} should have a high inside the best range of %{range}.
       weather_note_future_caution: Expected to be mixed for %{crop}
       weather_note_future_danger: Expected not to be optimal for %{crop}
       weather_note_future_neutral: Expected to stay within what %{crop} survives
@@ -2300,7 +2300,7 @@ en:
       weather_note_future_success: Expected to suit %{crop}
       weather_note_future_survives: Going by last year's weather, it should stay within what %{crop} survives from %{from} to %{to}.
       weather_note_hot: too hot on %{days} (highs above %{limit})
-      weather_note_past_best: From %{from} to %{to}, %{best} of %{total} days averaged inside the best range of %{range}.
+      weather_note_past_best: From %{from} to %{to}, %{best} of %{total} days had a high inside the best range of %{range}.
       weather_note_past_caution: Mixed conditions for %{crop} so far
       weather_note_past_danger: Not optimal for %{crop} so far
       weather_note_past_neutral: Within what %{crop} survives so far
