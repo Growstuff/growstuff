@@ -556,7 +556,7 @@ en:
       days_until_maturity: Days until maturity
       germination: Germination
       median_of_packets: median of members' seed packets
-      members_packets_hemispheres: 'Members'' seed packets: %{south} south, %{north} north'
+      members_packets_hemispheres: "Members' seed packets: %{south} south, %{north} north"
       northern_hemisphere: Northern hemisphere
       row_spacing: Row Spacing
       southern_hemisphere: Southern hemisphere
@@ -715,7 +715,7 @@ en:
       row_danger: Frost danger
       row_planting: This planting
       tips:
-        frost_safe: 'In %{place}, safe from frost: %{range}'
+        frost_safe: "In %{place}, safe from frost: %{range}"
         planting: "%{label} (%{range})"
         possible: 'Frost has come as early or late as this: %{range}'
         usual: 'Usual frost danger: %{range}'
