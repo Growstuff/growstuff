@@ -197,6 +197,32 @@ zh:
     view: 看法
     write_blog_post: 写博客文章
   comments:
+    comments:
+      empty: 暂无评论
+    description:
+      activity_html: "在%{subject}上%{comment}"
+      commented: 发表了评论
+    form:
+      errors:
+        one: "%{count}个错误导致此评论无法保存："
+        other: "%{count}个错误导致此评论无法保存："
+      your_comment: 您的评论：
+      post_comment: 发表评论
+    single:
+      attribution_html: "由%{author}发表于%{date}"
+      deleted_member: 已删除的成员
+      edited_at: "编辑于%{date}"
+    edit:
+      title: 编辑评论
+      subject_html: "编辑对%{subject}的评论"
+    index:
+      title: 评论
+      meta_description: 浏览和搜索评论。
+      feed_title: "所有文章的最新评论（%{site}）"
+      item_title: "%{author}对%{subject}的评论"
+      item_description_html: "对%{subject}的评论"
+    new:
+      title: 新评论
     edit_modal:
       save: 保存
       title: 编辑评论

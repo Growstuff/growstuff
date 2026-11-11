@@ -197,6 +197,32 @@ es:
     view: Vista
     write_blog_post: Escribir entrada de blog
   comments:
+    comments:
+      empty: Aún no hay comentarios
+    description:
+      activity_html: "%{comment} en %{subject}"
+      commented: comentó
+    form:
+      errors:
+        one: "%{count} error impidió guardar este comentario:"
+        other: "%{count} errores impidieron guardar este comentario:"
+      your_comment: "Tu comentario:"
+      post_comment: Publicar comentario
+    single:
+      attribution_html: "Publicado por %{author} el %{date}"
+      deleted_member: Miembro eliminado
+      edited_at: "y editado el %{date}"
+    edit:
+      title: Editar comentario
+      subject_html: "Editar comentario en %{subject}"
+    index:
+      title: Comentarios
+      meta_description: Explorar y buscar comentarios.
+      feed_title: "Comentarios recientes en todas las publicaciones (%{site})"
+      item_title: "Comentario de %{author} en %{subject}"
+      item_description_html: "Comentario en %{subject}"
+    new:
+      title: Nuevo comentario
     edit_modal:
       save: Guardar
       title: Editar comentario

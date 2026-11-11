@@ -42,6 +42,32 @@ ja:
         permission_note: "本人確認のみ行います。代理での投稿は行いません。"
         terms_of_service: "利用規約"
   comments:
+    comments:
+      empty: まだコメントはありません
+    description:
+      activity_html: "%{subject}に%{comment}"
+      commented: コメントしました
+    form:
+      errors:
+        one: "%{count}件のエラーにより、このコメントを保存できませんでした："
+        other: "%{count}件のエラーにより、このコメントを保存できませんでした："
+      your_comment: あなたのコメント：
+      post_comment: コメントを投稿
+    single:
+      attribution_html: "投稿者：%{author}、投稿日時：%{date}"
+      deleted_member: 退会したメンバー
+      edited_at: "編集日時：%{date}"
+    edit:
+      title: コメントを編集
+      subject_html: "%{subject}へのコメントを編集"
+    index:
+      title: コメント
+      meta_description: コメントを閲覧・検索できます。
+      feed_title: "すべての投稿への最近のコメント（%{site}）"
+      item_title: "%{subject}への%{author}のコメント"
+      item_description_html: "%{subject}へのコメント"
+    new:
+      title: 新しいコメント
     edit_modal:
       save: 保存
       title: コメントを編集
