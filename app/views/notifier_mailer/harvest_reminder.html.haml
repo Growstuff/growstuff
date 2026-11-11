@@ -1,4 +1,4 @@
-%p Hello #{@member.login_name},
+%p= t('notifier_mailer.shared.greeting', login_name: @member.login_name)
 
 %h2= t('notifier_mailer.harvest_reminder.heading')
 
@@ -8,27 +8,26 @@
   - @plantings.each do |planting|
     %li
       = render 'planting', planting: planting
-      (Predicted harvest date: #{planting.first_harvest_predicted_at.to_date})
+      = t('notifier_mailer.harvest_reminder.predicted_date', date: l(planting.first_harvest_predicted_at.to_date))
 
-%p Harvested anything lately?
+%p= t('notifier_mailer.shared.harvest_question')
 %p
-  = link_to "Open your dashboard to record a harvest.", root_url, class: 'btn'
+  = link_to t('notifier_mailer.shared.record_harvest'), root_url, class: 'btn'
 
-%p Track and predict your entire garden, and keep your garden records up to date at
+%p= t('notifier_mailer.shared.garden_overview_intro')
 %p
   = link_to member_gardens_url(@member), class: 'btn' do
-    Your garden overview
+    = t('notifier_mailer.shared.garden_overview')
 %p
-  or on
+  = t('notifier_mailer.shared.or_on')
   = link_to member_url(@member) do
-    your profile page
+    = t('notifier_mailer.shared.profile_page')
 
-%h4
-  See you soon on #{@sitename}!
+%h4= t('notifier_mailer.shared.see_you_soon', sitename: @sitename)
 
 = render partial: 'signature'
 
 %hr/
 %p
-  Don't want to get these emails any more?
+  = t('notifier_mailer.harvest_reminder.unsubscribe_prompt')
   = link_to t('notifier_mailer.harvest_reminder.unsubscribe'), unsubscribe_member_url(message: @signed_message)

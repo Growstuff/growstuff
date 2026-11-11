@@ -1,31 +1,26 @@
 -# Season, weather and crops to sow for where the member gardens, or else a nudge to say where that is.
 - if outlook.located?
   %section.outlook
-    %h2 Your garden right now
+    %h2= t('notifier_mailer.outlook.heading')
     %p
-      It's
-      %b= outlook.season
+      = t('notifier_mailer.outlook.season_intro', season: (outlook.season ? t("seasons.#{outlook.season}") : ''))
       - if outlook.place
-        in #{outlook.place}.
+        = t('notifier_mailer.outlook.season_place', place: outlook.place)
     - if outlook.soil
       - soil = weather_summary([outlook.soil])[:soil_temp]
-      %p The soil was #{soil} on #{l(outlook.soil.date, format: '%-d %B')}.
+      %p= t('notifier_mailer.outlook.soil_temp', soil: soil, date: l(outlook.soil.date, format: '%-d %B'))
     - if outlook.recent.any? && (figures = weather_figures(weather_summary(outlook.recent)))
-      %p
-        From #{l(outlook.recent.first.date, format: '%-d %B')} to #{l(outlook.recent.last.date, format: '%-d %B')}:
-        #{figures}.
+      %p= t('notifier_mailer.outlook.recent_weather', from: l(outlook.recent.first.date, format: '%-d %B'), to: l(outlook.recent.last.date, format: '%-d %B'), figures: figures)
     - if outlook.expected.any? && (figures = weather_figures(weather_summary(outlook.expected)))
-      %p If the next two weeks are like last year's, expect #{figures}.
+      %p= t('notifier_mailer.outlook.expected_weather', figures: figures)
     - if outlook.crops.any?
-      %h3 Worth sowing now
-      %p Gardeners at your latitude are planting these at the moment:
+      %h3= t('notifier_mailer.outlook.worth_sowing')
+      %p= t('notifier_mailer.outlook.planting_at_latitude')
       %ul
         - outlook.crops.each do |crop|
           %li= link_to crop.name, crop_url(crop)
 - else
   %section.outlook
+    %p= t('notifier_mailer.outlook.unlocated_prompt')
     %p
-      Tell us where you garden and this email will add your local season, the weather
-      and what to sow.
-    %p
-      = link_to "Set your location", root_url, class: 'btn'
+      = link_to t('notifier_mailer.outlook.set_location'), root_url, class: 'btn'

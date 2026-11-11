@@ -1971,11 +1971,74 @@ zh:
       title: 关注谁
       why: 种植相同的作物：%{crops}
   notifier_mailer:
+    crop_request:
+      approve_or_reject: 批准或拒绝此请求
+      approved_intro: 您关于新作物 %{link} 的请求已获批准！感谢您帮助我们完善作物列表！
+      approved_subject: "%{crop_name} 已获批准"
+      harvest_crop: 收获 %{crop_name}
+      name: 名称：%{name}
+      new_intro: "%{login_name} 在 %{sitename} 上请求添加新作物"
+      new_subject: "%{login_name} 请求添加新作物 %{crop_name}"
+      not_specified: 未指定
+      notes: 备注：%{notes}
+      plant_crop: 种植 %{crop_name}
+      rejected_intro: 很抱歉，您关于新作物 %{link} 的请求因以下原因被拒绝：%{reason}
+      rejected_subject: "%{crop_name} 已被拒绝"
+      stash_crop: 为 %{crop_name} 储存种子
+      thanks: 感谢您的支持！
+      wikipedia_url: 维基百科链接：%{url}
+      wrangler_prompt: 作为作物管理员，您可以 %{link}。
     harvest_reminder:
       heading: 您的花园即将迎来收获
       intro: 根据我们的预测，您花园中的以下植物可能会在下周内收获：
+      predicted_date: （预计收获日期：%{date}）
       subject: 您花园即将迎来的收获 - %{sitename}
       unsubscribe: 取消订阅收获提醒
+      unsubscribe_prompt: 不想再收到此类电子邮件？
+    outlook:
+      expected_weather: 如果未来两周与去年相仿，预计为 %{figures}。
+      heading: 您花园的当前状况
+      planting_at_latitude: 您同纬度的园艺爱好者目前正在播种：
+      recent_weather: 从 %{from} 到 %{to}：%{figures}。
+      season_intro: 现在是%{season}
+      season_place: （位于 %{place}）。
+      set_location: 设置您的位置
+      soil_temp: "%{date} 的土壤温度为 %{soil}。"
+      unlocated_prompt: 告诉我们您的花园所在地，此邮件将为您呈现当地季节、天气及播种建议。
+      worth_sowing: 当下适播作物
+    planting_reminder:
+      add_planting: 打开仪表板添加种植。
+      by_planting: 种植您的第一批作物。
+      congratulations: 恭喜，您有作物已可以收获
+      empty_intro: "%{sitename} 可让您记录花园中种植的食物，并了解附近的其他人在种植什么。"
+      get_started: 立即开始
+      heading: 您的每周 %{sitename} 进度报告
+      late: 已逾期
+      late_intro: 这些植物已接近其生命周期的尾声。%{login_link} 告诉我们您是否不再种植它们，我们将停止跟踪。
+      log_in: 登录
+      planted_on: 种植于 %{date}
+      planting_question: 想要跟踪并预测花园中的植物吗？
+      progress_report: 进度报告
+      progress_status: 已生长 %{percentage}%，还有 %{days} 天。
+      ready_to_harvest: 准备收获
+      subject: 您在 %{sitename} 的 %{month_year} 进度报告
+      super_late: 严重逾期
+      super_late_intro: 我们推测以下作物很早就已结束生长，不再需要跟踪。您可以将其标记为已完成。
+      unsubscribe: 取消订阅种植提醒
+      unsubscribe_prompt: 不想再收到此类电子邮件？
+    shared:
+      garden_overview: 您的花园概览
+      garden_overview_intro: 跟踪并预测整个花园的动态，随时更新您的花园记录：
+      greeting: 您好 %{login_name}，
+      harvest_question: 最近有什么收获吗？
+      or_on: 或者在
+      profile_page: 您的个人资料页面
+      record_harvest: 打开您的仪表板以记录收获。
+      see_you_soon: 期待很快在 %{sitename} 与您相见！
+      signature: "%{sitename} 团队。"
+    whats_new:
+      feature_count: 我们有 %{count} 项新功能向您介绍：
+      heading: 自上次发送邮件以来的新功能
   nurseries:
     show:
       dont_need: 我不需要一个

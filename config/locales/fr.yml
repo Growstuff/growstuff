@@ -1981,11 +1981,74 @@ fr:
       title: Who to follow
       why: 'Cultive les mêmes cultures : %{crops}'
   notifier_mailer:
+    crop_request:
+      approve_or_reject: approuver ou refuser cette demande
+      approved_intro: "Votre demande pour la nouvelle culture : %{link} a été approuvée ! Merci de nous aider à enrichir notre répertoire !"
+      approved_subject: "%{crop_name} a été approuvé"
+      harvest_crop: Récolter %{crop_name}
+      name: "Nom : %{name}"
+      new_intro: "%{login_name} a demandé une nouvelle culture sur %{sitename}"
+      new_subject: "%{login_name} a demandé %{crop_name} comme nouvelle culture"
+      not_specified: non spécifié
+      notes: "Remarques : %{notes}"
+      plant_crop: Planter %{crop_name}
+      rejected_intro: "Nous sommes désolés, mais votre demande pour la nouvelle culture : %{link} a été refusée pour la raison suivante : %{reason}"
+      rejected_subject: "%{crop_name} a été rejeté"
+      stash_crop: Conserver des graines de %{crop_name}
+      thanks: Merci pour votre aide !
+      wikipedia_url: "URL Wikipédia : %{url}"
+      wrangler_prompt: En tant que modérateur de cultures, vous pouvez %{link}.
     harvest_reminder:
       heading: Récoltes à venir dans votre jardin
-      intro: 'D''après nos prévisions, les plantations suivantes dans votre jardin sont susceptibles d''être prêtes pour la récolte au cours de la semaine prochaine :'
+      intro: "D'après nos prévisions, les plantations suivantes dans votre jardin sont susceptibles d'être prêtes pour la récolte au cours de la semaine prochaine :"
+      predicted_date: "(Date de récolte prévue : %{date})"
       subject: Récoltes à venir dans votre jardin - %{sitename}
       unsubscribe: Se désabonner des rappels de récolte
+      unsubscribe_prompt: Vous ne souhaitez plus recevoir ces e-mails ?
+    outlook:
+      expected_weather: Si les deux prochaines semaines ressemblent à celles de l'année dernière, attendez-vous à %{figures}.
+      heading: Votre jardin en ce moment
+      planting_at_latitude: "Les jardiniers à votre latitude sèment actuellement :"
+      recent_weather: "Du %{from} au %{to} : %{figures}."
+      season_intro: C'est %{season}
+      season_place: à %{place}.
+      set_location: Définir votre emplacement
+      soil_temp: La température du sol était de %{soil} le %{date}.
+      unlocated_prompt: Indiquez-nous où vous jardinez et cet e-mail intégrera votre saison locale, la météo et les semis recommandés.
+      worth_sowing: À semer maintenant
+    planting_reminder:
+      add_planting: Ouvrez votre tableau de bord pour ajouter une plantation.
+      by_planting: en plantant votre première culture.
+      congratulations: Félicitations, vous avez des plantes prêtes à être récoltées
+      empty_intro: "%{sitename} vous permet de suivre ce que vous cultivez dans votre jardin et de voir ce que d'autres personnes près de chez vous plantent également."
+      get_started: Commencer maintenant
+      heading: Votre rapport de progression hebdomadaire sur %{sitename}
+      late: En retard
+      late_intro: Ces plantations arrivent en fin de cycle. %{login_link} et faites-nous savoir si vous ne les cultivez plus, afin que nous cessions de les suivre.
+      log_in: Connectez-vous
+      planted_on: planté le %{date}
+      planting_question: Vous voulez suivre et prédire une plantation dans votre jardin ?
+      progress_report: Rapport de progression
+      progress_status: a grandi de %{percentage}%, plus que %{days} jours restants.
+      ready_to_harvest: Prêt pour la récolte
+      subject: Votre rapport de progression %{month_year} sur %{sitename}
+      super_late: Très en retard
+      super_late_intro: Nous pensons que ces plantations sont terminées depuis longtemps. Vous pouvez les marquer comme terminées pour arrêter leur suivi.
+      unsubscribe: Se désabonner des rappels de plantation
+      unsubscribe_prompt: Vous ne souhaitez plus recevoir ces e-mails ?
+    shared:
+      garden_overview: Aperçu de votre jardin
+      garden_overview_intro: Suivez et prévoyez l'évolution de tout votre jardin, et tenez à jour vos données sur
+      greeting: Bonjour %{login_name},
+      harvest_question: Avez-vous récolté quelque chose récemment ?
+      or_on: ou sur
+      profile_page: votre page de profil
+      record_harvest: Ouvrez votre tableau de bord pour enregistrer une récolte.
+      see_you_soon: À bientôt sur %{sitename} !
+      signature: L'équipe de %{sitename}.
+    whats_new:
+      feature_count: "Nous avons %{count} nouvelles fonctionnalités à vous présenter :"
+      heading: Nouveautés depuis notre dernier e-mail
   nurseries:
     show:
       dont_need: Je n'en ai pas besoin.
