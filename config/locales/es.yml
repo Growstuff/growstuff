@@ -310,6 +310,11 @@ es:
       rejected_message: 'Este cultivo fue rechazado por la siguiente razón: %{reason}'
       request_notes: 'Notas de la solicitud: %{notes}'
       requested_by: Este cultivo fue solicitado por %{requester} hace %{time_ago}.
+    fields:
+      hardiness:
+        from_packets: Calcular a partir de los paquetes de semillas de los miembros
+        help: Cuánta helada soporta el cultivo. Elija un nivel para fijarlo, independientemente de lo que indiquen los paquetes de semillas.
+        label: Resistencia
     harvests:
       empty: Nadie ha cosechado este cultivo todavía.
       harvest_crop: Cosechar %{crop}

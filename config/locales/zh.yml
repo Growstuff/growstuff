@@ -310,6 +310,11 @@ zh:
       rejected_message: 该作物因以下原因被拒绝：%{reason}
       request_notes: 请求备注：%{notes}
       requested_by: 该作物由 %{requester} 在 %{time_ago}前请求添加。
+    fields:
+      hardiness:
+        from_packets: 从会员的种子包中计算
+        help: 作物能耐受多少霜冻。无论种子包上怎么写，选择一个级别以保持固定。
+        label: 耐寒性
     harvests:
       empty: 还没有人收获过这种作物。
       harvest_crop: 收获 %{crop}
