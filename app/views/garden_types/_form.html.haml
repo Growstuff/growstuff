@@ -1,20 +1,20 @@
 = form_for @garden_type do |f|
   - if @garden_type.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@garden_type.errors.count, "error")} prohibited this garden_type from being saved:"
+      %h2= t('.errors', count: @garden_type.errors.count)
       %ul
         - @garden_type.errors.full_messages.each do |message|
           %li= message
 
-  %h2 Basic information
+  %h2= t('.basic_information')
 
   .row.mb-3
     = f.label :name, class: 'col-form-label col-md-2'
     .col-md-8
       = f.text_field :name, class: 'form-control'
       %span.form-text
-        The name for the garden_type, i.e. "organic", in English (required).
+        = t('.name_help')
 
   .row.mb-3
     .offset-md-2.col-md-8
-      = f.submit 'Save', class: 'btn btn-primary'
+      = f.submit t('.save'), class: 'btn btn-primary'

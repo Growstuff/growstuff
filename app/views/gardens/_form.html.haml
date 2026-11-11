@@ -8,14 +8,13 @@
       - if @garden.errors.any?
         #error_explanation.alert.alert-warning{:role => "alert"}
           %h4.alert-heading
-            = pluralize(@garden.errors.size, "error")
-            prohibited this garden from being saved
+            = t('.errors', count: @garden.errors.size)
           %ul
             - @garden.errors.full_messages.each do |msg|
               %li= msg
 
       = f.text_field :name, maxlength: 255, required: true
-      = f.text_area :description, rows: 6, placeholder: "Tell us about this garden - where is it located? What does it look like? Do you have a link to a photo? Do you have irrigation? What are your plans?"
+      = f.text_area :description, rows: 6, placeholder: t('.description_placeholder')
       = render 'gardens/location', garden: @garden
       .row
         .col-md-5.col-12= f.number_field :area, class: 'input-small', step: "any", min: 0
@@ -25,9 +24,8 @@
         .col-12
           = f.check_box :frost_safe, label: t('gardens.form.frost_safe.label'), help: t('gardens.form.frost_safe.help')
         .col-12
-          = f.check_box :active, label: 'Active?'
+          = f.check_box :active, label: t('.active_label')
           %p
-            You can mark a garden as inactive if you no longer use it.
-            Note: this will mark all plantings in the garden as "finished".
+            = t('.active_help')
     .card-footer
-      .text-end= f.submit 'Save Garden'
+      .text-end= f.submit t('.save')

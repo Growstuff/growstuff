@@ -913,7 +913,39 @@ en:
       sidebar_blurb: "%{site_name} helps you track what you're harvesting from your home garden and see how productive it is."
       title: "%{garden} collaborators"
       view_all_gardens: view all %{name}'s gardens
+  garden_types:
+    edit:
+      title: Edit GardenType
+    form:
+      basic_information: Basic information
+      errors:
+        one: '1 error prohibited this garden_type from being saved:'
+        other: '%{count} errors prohibited this garden_type from being saved:'
+      name_help: The name for the garden_type, i.e. "organic", in English (required).
+      save: Save
+    index:
+      title: GardenTypes
+      description: "%{site_name} tracks who's growing what, where. View any garden_type page to see which of our members have used it."
+      new_garden_type: New GardenType
+    new:
+      title: New GardenType
+    show:
+      empty: There are no gardens to display.
   gardens:
+    breadcrumbs:
+      gardens: Gardens
+      owner_gardens: "%{owner}'s gardens"
+    edit:
+      title: Edit garden
+    image_alt: Image of %{name}
+    index:
+      title: Everyone's gardens
+      profile: Profile
+    layout:
+      title: Layout of %{owner}'s %{garden}
+      breadcrumb: Layout
+    new:
+      title: New garden
     about:
       collaborators: Collaborators
       fetch_wikidata: Fetch Wikidata info
@@ -970,6 +1002,13 @@ en:
       type: Type
       unknown: unknown
     form:
+      active_label: Active?
+      active_help: 'You can mark a garden as inactive if you no longer use it. Note: this will mark all plantings in the garden as "finished".'
+      description_placeholder: Tell us about this garden - where is it located? What does it look like? Do you have a link to a photo? Do you have irrigation? What are your plans?
+      errors:
+        one: 1 error prohibited this garden from being saved
+        other: "%{count} errors prohibited this garden from being saved"
+      save: Save Garden
       frost_safe:
         help: Tick this for a greenhouse, indoors or a heated bench, where plants are not in frost danger. A planting that began here has its frost section start the day it went outdoors. A nursery starts ticked; untick it if frost can reach your seedlings.
         label: This garden is safe from frost
