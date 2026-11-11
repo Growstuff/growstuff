@@ -270,7 +270,7 @@ en:
         agree_to_tos_html: I agree to the %{tos_link}
         identifier_label: Mastodon address
         identifier_placeholder: alice@mastodon.social
-        permission_note: "We only ask who you are. We can't post for you."
+        permission_note: We only ask who you are. We can't post for you.
         terms_of_service: Terms of Service
   buttons:
     add: Add
@@ -328,7 +328,7 @@ en:
         warmer: This year is warmer than usual
     chart:
       bar: "%{month}, %{kind}: %{value}"
-      description: "Column chart of average monthly %{measure}. Usual: %{usual}. This year so far: %{year}."
+      description: 'Column chart of average monthly %{measure}. Usual: %{usual}. This year so far: %{year}.'
       legend:
         usual: Usual for the month
         year: This year
@@ -357,13 +357,13 @@ en:
       coldest_night: Coldest night
       coldest_soil: Coldest soil
       hottest_day: Hottest day
-      this_year: "This year: %{value}"
+      this_year: 'This year: %{value}'
       warmest_soil: Warmest soil
     table:
       air: Air
       details: Show the monthly figures
       month: Month
-      none: –
+      none: "–"
       rain: Rain
       soil: Soil
       this_year: this year
@@ -416,7 +416,7 @@ en:
       about: About
       breadcrumb_conversations: Conversations
       participants: Participants
-      sent_on: "on %{date}"
+      sent_on: on %{date}
   crop_companions:
     created: Companion was successfully created.
     deleted: Companion was successfully destroyed.
@@ -533,6 +533,56 @@ en:
         hint: 'Once per plant, like a lettuce: the whole plant is harvested. Many times per plant, like a tomato.'
         label: How a plant is harvested
         parent: 'Parent: %{style}'
+      alternate_name_with_index: 'Alternate name %{index}:'
+      alternate_names: Alternate names
+      alternate_names_hint: Alternate name of crop.
+      basic_information: Basic information
+      comments: Comments
+      crop_request_notes: Crop request notes
+      crop_wrangling_guide: crop wrangling guide
+      crop_wrangling_guide_intro_html: For detailed crop wrangling guidelines, please consult the %{guide_link} on the Growstuff wiki.
+      currently: 'Currently:'
+      data: Data
+      days_until_maturity_max: Days until maturity, at most
+      days_until_maturity_min: Days until maturity, at least
+      description: Description
+      en_wikipedia_url: Wikipedia URL
+      en_wikipedia_url_hint: Link to the crop's page on the English language Wikipedia (required).
+      en_youtube_url: YouTube URL
+      en_youtube_url_hint: Link to a YouTube video about the crop in English.
+      germination_days_max: Germination, at most (days)
+      germination_days_min: Germination, at least (days)
+      growing: Growing
+      growing_degree_days: Growing degree days
+      height: Height (cm)
+      icon: Icon
+      icon_blank: 'None: use the parent crop''s'
+      icon_hint: Optional. Shown for this crop and any varieties of it that don't have their own.
+      lifespan: Lifespan
+      lifespan_annual: Annual
+      lifespan_annual_hint: Living and reproducing in a single year or less
+      lifespan_perennial: Perennial
+      lifespan_perennial_hint: Living more than two years
+      months_to_sow: Months to sow
+      months_to_sow_hint: 'Tick the months for the southern hemisphere: the northern hemisphere is six months on.'
+      name:
+        hint: The common name for the crop, in English (required).
+        label: Name
+        wranglers_hint: 'Wranglers: please ensure this is singular, and capitalize proper nouns only.'
+      parent_crop: Parent crop
+      parent_crop_hint: Optional. For setting up crop hierarchies for varieties etc.
+      parent_value: 'Parent: %{value}'
+      public_food_key: Australian Food Composition Database Public Food Key
+      rejection_notes_hint: Please provide additional notes why this crop request was rejected if the above reasons do not apply.
+      requester_submission_notice: When you submit this form, your suggestion will be sent to our team of volunteer crop wranglers for review. We'll let you know the outcome as soon as we can.
+      row_spacing: Row Spacing (cm)
+      scientific_name_with_index: 'Scientific name %{index}:'
+      scientific_names: Scientific names
+      scientific_names_hint: Searches GBIF to determine scientific name of crop.
+      search_wikipedia: Search wikipedia
+      sowing_method: Sowing method
+      spread: Spread (cm)
+      sun_requirements: Sun requirements
     find_seeds:
       empty: There are no seeds available to trade on Growstuff right now.
       list_seeds: List %{crop} seeds to trade
@@ -542,7 +592,7 @@ en:
       will_trade: "%{owner} will trade %{tradable_to}."
     growing_fact:
       median_of_packets: median of members' seed packets
-      members_packets: "Members' seed packets: %{median}"
+      members_packets: 'Members'' seed packets: %{median}'
     ecocrop_facts:
       absolute_ph: Absolute soil pH
       absolute_rainfall: Absolute rainfall
@@ -556,7 +606,7 @@ en:
       source: FAO EcoCrop
       to: to
       units:
-        celsius: °C
+        celsius: "°C"
         days: days
         metres: m
         rainfall: mm/year
@@ -582,7 +632,7 @@ en:
       days_until_maturity: Days until maturity
       germination: Germination
       median_of_packets: median of members' seed packets
-      members_packets_hemispheres: "Members' seed packets: %{south} south, %{north} north"
+      members_packets_hemispheres: 'Members'' seed packets: %{south} south, %{north} north'
       northern_hemisphere: Northern hemisphere
       row_spacing: Row Spacing
       southern_hemisphere: Southern hemisphere
@@ -659,6 +709,65 @@ en:
       save: Save
       wikidata_id: Wikidata ID
     search: Search crops
+    edit:
+      added_by_html: Added by %{creator_link} %{time_ago} ago.
+      approved_by_html: Approved by %{approver_link}.
+      requested_by_html: Requested by %{requester_link} %{time_ago} ago.
+      status_by_html: 'Status: %{status} by %{creator_link}.'
+      status_html: 'Status: %{status}.'
+      title: 'Edit crop: %{name}'
+    new:
+      edible_only: The Growstuff database only contains edible crops. In future we hope to support other crops, but for now, if your suggestion is not edible we won't be able to add it.
+      intro: 'Thanks for taking the time to suggest a crop! Our crop database is managed by volunteers, and we appreciate your help. Here are some things to consider when suggesting a new crop:'
+      new_crop: New crop
+      search_our_crops: search our crops
+      search_suggestion_html: First, you might want to %{search_link} to make sure we don't have it already, perhaps under an alternate name.
+      suggest_crop: Suggest a crop
+      wikipedia_requirement: At this time, we are only adding crops which have a Wikipedia page. If you want to add a specific variety of crop that doesn't have its own Wikipedia entry, please use the more general form of the crop instead and put the name of your variety in the notes/description.
+    form:
+      approve_and_save: Approve and save
+      errors:
+        one: '1 error prohibited this crop from being saved:'
+        other: "%{count} errors prohibited this crop from being saved:"
+      reject: Reject
+      save: Save
+    wrangle:
+      add: Add
+      add_crop: Add Crop
+      all_crops: All crops
+      approved: Approved
+      clear: Clear
+      crop_wranglers: Crop Wranglers
+      crops: Crops
+      full_crop_hierarchy: Full crop hierarchy
+      merge_crops: Merge crops
+      not_applicable: N/A
+      pending_approval: Pending approval
+      recently_edited: Recently edited
+      rejected: Rejected
+      search_aria_label: Search crops
+      search_button: Search
+      search_placeholder: Search crops by name
+      template: template
+      th_added_by: Added by
+      th_alternate_names: Alternate names
+      th_child_crops: Child crops
+      th_growing_degree_days: Growing degree days
+      th_height: Height
+      th_icon: Icon
+      th_job_templates: Job templates
+      th_name: Name
+      th_rejected_by: Rejected by
+      th_requested_by: Requested by
+      th_row_spacing: Row spacing
+      th_scientific_names: Scientific names
+      th_spread: Spread
+      th_updated: Updated
+      th_youtube: YouTube
+      time_ago: "%{time} ago"
+      title: Crop Wrangling
+      top_level_crops: Top level crops
+      'yes': 'Yes'
   edit_crop: Edit crop
   flash:
     photo_associations:
@@ -741,10 +850,10 @@ en:
       row_danger: Frost danger
       row_planting: This planting
       tips:
-        frost_safe: "In %{place}, safe from frost: %{range}"
+        frost_safe: 'In %{place}, safe from frost: %{range}'
         planting: "%{label} (%{range})"
-        possible: "Frost has come as early or late as this: %{range}"
-        usual: "Usual frost danger: %{range}"
+        possible: 'Frost has come as early or late as this: %{range}'
+        usual: 'Usual frost danger: %{range}'
       title: This %{crop} planting against the frost season
       title_place: The frost season
       today: Today, %{date}
@@ -1623,7 +1732,7 @@ en:
       type_your_message: Type your message here
     new:
       breadcrumb_messages: Messages
-      title: "Send a message to %{recipient}"
+      title: Send a message to %{recipient}
     auth_already_linked: That account is already connected to another Growstuff member.
     auth_failed: Authentication failed.
     auth_last_sign_in: This is the only way you can sign in. Add an email address and password first.
@@ -1816,13 +1925,13 @@ en:
       delete_confirm: Delete this photo from Growstuff altogether? It is taken off everything it is attached to. It stays on Flickr.
       refresh: Refresh photo data from Flickr
       unlink:
-        crop: "Remove from the crop: %{name}"
-        garden: "Remove from the garden: %{name}"
-        harvest: "Remove from the harvest: %{name}"
-        job: "Remove from the job: %{name}"
-        planting: "Remove from the planting: %{name}"
-        post: "Remove from the post: %{name}"
-        seed: "Remove from the seeds: %{name}"
+        crop: 'Remove from the crop: %{name}'
+        garden: 'Remove from the garden: %{name}'
+        harvest: 'Remove from the harvest: %{name}'
+        job: 'Remove from the job: %{name}'
+        planting: 'Remove from the planting: %{name}'
+        post: 'Remove from the post: %{name}'
+        seed: 'Remove from the seeds: %{name}'
       unlink_confirm: Remove this photo from that record? The photo itself stays on Growstuff.
     comment:
       ago: "%{time} ago"
@@ -1846,7 +1955,7 @@ en:
       sign_in_prompt: Sign in to join the conversation
     credit:
       by: Photo by %{name}
-      "on": " on %{site}"
+      'on': " on %{site}"
     licence:
       copied: Copied
       copy_credit: Copy credit
@@ -1978,7 +2087,7 @@ en:
       title: Editing plant part
     form:
       errors:
-        one: "1 error prohibited this plant part from being saved:"
+        one: '1 error prohibited this plant part from being saved:'
         other: "%{count} errors prohibited this plant part from being saved:"
       name: Name
       save: Save
@@ -2161,7 +2270,7 @@ en:
         cancel: Cancel
         change_hint: The planting's crop follows the packet. Choosing a variety makes this a planting of that variety.
         change_link: change
-        change_title: "Change where this %{crop} planting came from"
+        change_title: Change where this %{crop} planting came from
         choose: Choose
         choose_another: Choose another
         choose_different: Choose a different packet
@@ -2172,7 +2281,7 @@ en:
         label_title: What the label says
         link_anyway: Link anyway
         linked_now: Linked now
-        no_match: "Nothing found for \"%{query}\" among %{crop} seeds."
+        no_match: Nothing found for "%{query}" among %{crop} seeds.
         not_my_packet: Not one of my packets
         next: Next
         not_this_packet: Or it wasn't this packet
@@ -2338,7 +2447,7 @@ en:
       finished: Finished %{date}
       first_harvest_expected: First harvest expected %{date}
       harvest_started: Harvest started %{date}
-      legend: (One emoji = 1 week)
+      legend: "(One emoji = 1 week)"
       planted: Planted %{date}
     transplant:
       cancel: Cancel
@@ -2371,7 +2480,7 @@ en:
       crop_wrangling_guide: crop wrangling guide
       crop_wrangling_guide_intro_html: For detailed crop wrangling guidelines, please consult the %{guide_link} on the Growstuff wiki.
       errors:
-        one: "1 error prohibited this scientific name from being saved:"
+        one: '1 error prohibited this scientific name from being saved:'
         other: "%{count} errors prohibited this scientific name from being saved:"
       name: Name
       save: Save
@@ -2386,8 +2495,8 @@ en:
       title: New scientific name
     show:
       back: Back
-      crop_label: "Crop:"
-      scientific_name_label: "Scientific name:"
+      crop_label: 'Crop:'
+      scientific_name_label: 'Scientific name:'
   seasons:
     autumn: Autumn
     spring: Spring

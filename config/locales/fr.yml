@@ -119,17 +119,17 @@ fr:
   authentications:
     sign_in:
       bluesky:
-        terms_of_service: "Conditions d'utilisation"
-        agree_to_tos_html: "J'accepte les %{tos_link}"
-        contacting: "Connexion à Bluesky…"
-        handle_label: "Identifiant Bluesky"
-        handle_placeholder: "alice.bsky.social"
+        terms_of_service: Conditions d'utilisation
+        agree_to_tos_html: J'accepte les %{tos_link}
+        contacting: Connexion à Bluesky…
+        handle_label: Identifiant Bluesky
+        handle_placeholder: alice.bsky.social
       mastodon:
-        agree_to_tos_html: "J'accepte les %{tos_link}"
-        identifier_label: "Adresse Mastodon"
-        identifier_placeholder: "alice@mastodon.social"
-        permission_note: "Nous demandons seulement qui vous êtes. Nous ne pouvons pas publier à votre place."
-        terms_of_service: "Conditions d'utilisation"
+        agree_to_tos_html: J'accepte les %{tos_link}
+        identifier_label: Adresse Mastodon
+        identifier_placeholder: alice@mastodon.social
+        permission_note: Nous demandons seulement qui vous êtes. Nous ne pouvons pas publier à votre place.
+        terms_of_service: Conditions d'utilisation
   alternate_names:
     created: Le nom alternatif a été créé avec succès.
     deleted: L'autre nom a été supprimé avec succès.
@@ -238,7 +238,7 @@ fr:
       about: À propos de
       breadcrumb_conversations: Conversations
       participants: Participants
-      sent_on: "le %{date}"
+      sent_on: le %{date}
   crop_companions:
     created: Le compagnon a été créé avec succès.
     deleted: Le compagnon a été détruit avec succès.
@@ -280,12 +280,12 @@ fr:
   crops:
     growing_fact:
       median_of_packets: médiane des paquets de graines des membres
-      members_packets: "Paquets de graines des membres : %{median}"
+      members_packets: 'Paquets de graines des membres : %{median}'
     growing_facts:
       days_until_maturity: Jours jusqu'à maturité
       germination: Germination
       median_of_packets: médiane des paquets de graines des membres
-      members_packets_hemispheres: "Paquets de graines des membres : %{south} sud, %{north} nord"
+      members_packets_hemispheres: 'Paquets de graines des membres : %{south} sud, %{north} nord'
       northern_hemisphere: Hémisphère nord
       row_spacing: Espacement des rangs
       southern_hemisphere: Hémisphère sud
@@ -353,12 +353,128 @@ fr:
       save: Enregistrer
       wikidata_id: Identifiant Wikidata
     search: Rechercher des cultures
+    edit:
+      added_by_html: Ajouté par %{creator_link} il y a %{time_ago}.
+      approved_by_html: Approuvé par %{approver_link}.
+      requested_by_html: Demandé par %{requester_link} il y a %{time_ago}.
+      status_by_html: 'Statut : %{status} par %{creator_link}.'
+      status_html: 'Statut : %{status}.'
+      title: 'Modifier la culture : %{name}'
+    new:
+      edible_only: La base de données de Growstuff ne contient que des cultures comestibles. À l'avenir, nous espérons prendre en charge d'autres cultures, mais pour l'instant, si votre suggestion n'est pas comestible, nous ne pourrons pas l'ajouter.
+      intro: 'Merci d''avoir pris le temps de suggérer une culture ! Notre base de données de cultures est gérée par des bénévoles et nous apprécions votre aide. Voici quelques éléments à prendre en compte lors de la suggestion d''une nouvelle culture :'
+      new_crop: Nouvelle culture
+      search_our_crops: rechercher parmi nos cultures
+      search_suggestion_html: Tout d'abord, vous souhaiterez peut-être %{search_link} pour vous assurer que nous ne l'avons pas déjà, peut-être sous un autre nom.
+      suggest_crop: Suggérer une culture
+      wikipedia_requirement: Pour l'instant, nous n'ajoutons que les cultures disposant d'une page Wikipédia. Si vous souhaitez ajouter une variété spécifique de culture qui ne possède pas sa propre page Wikipédia, veuillez utiliser la forme la plus générale de la culture et indiquer le nom de votre variété dans les notes/description.
+    form:
+      approve_and_save: Approuver et enregistrer
+      errors:
+        one: '1 erreur a empêché l''enregistrement de cette culture :'
+        other: "%{count} erreurs ont empêché l'enregistrement de cette culture :"
+      reject: Rejeter
+      save: Enregistrer
+    fields:
+      alternate_name_with_index: 'Nom alternatif %{index} :'
+      alternate_names: Noms alternatifs
+      alternate_names_hint: Nom alternatif de la culture.
+      basic_information: Informations de base
+      comments: Commentaires
+      crop_request_notes: Notes sur la demande de culture
+      crop_wrangling_guide: guide de gestion des cultures
+      crop_wrangling_guide_intro_html: Pour des directives détaillées sur la gestion des cultures, veuillez consulter le %{guide_link} sur le wiki Growstuff.
+      currently: 'Actuellement :'
+      data: Données
+      days_until_maturity_max: Jours jusqu'à maturité, au maximum
+      days_until_maturity_min: Jours jusqu'à maturité, au minimum
+      description: Description
+      en_wikipedia_url: URL Wikipédia
+      en_wikipedia_url_hint: Lien vers la page de la culture sur Wikipédia en anglais (requis).
+      en_youtube_url: URL YouTube
+      en_youtube_url_hint: Lien vers une vidéo YouTube sur la culture en anglais.
+      germination_days_max: Germination, au maximum (jours)
+      germination_days_min: Germination, au minimum (jours)
+      growing: Culture
+      growing_degree_days: Degrés-jours de croissance
+      height: Hauteur (cm)
+      icon: Icône
+      icon_blank: 'Aucune : utiliser celle de la culture parente'
+      icon_hint: Facultatif. Affichée pour cette culture et toutes ses variétés qui n'en ont pas.
+      lifespan: Durée de vie
+      lifespan_annual: Annuelle
+      lifespan_annual_hint: Vivant et se reproduisant en une seule année ou moins
+      lifespan_perennial: Vivace
+      lifespan_perennial_hint: Vivant plus de deux ans
+      months_to_sow: Mois de semis
+      months_to_sow_hint: 'Cochez les mois pour l''hémisphère sud : l''hémisphère nord est décalé de six mois.'
+      name:
+        hint: Le nom commun de la culture, en anglais (requis).
+        label: Nom
+        wranglers_hint: 'Wranglers : veuillez vous assurer que ce nom est au singulier et ne mettez de majuscule qu''aux noms propres.'
+      parent_crop: Culture parente
+      parent_crop_hint: Facultatif. Pour définir la hiérarchie des cultures pour les variétés, etc.
+      parent_value: 'Parente : %{value}'
+      public_food_key: Australian Food Composition Database Public Food Key
+      rejection_notes_hint: Veuillez fournir des remarques supplémentaires expliquant pourquoi cette demande de culture a été rejetée si les raisons ci-dessus ne s'appliquent pas.
+      requester_submission_notice: Lorsque vous soumettez ce formulaire, votre suggestion sera envoyée à notre équipe de gestionnaires bénévoles pour examen. Nous vous ferons part du résultat dès que possible.
+      row_spacing: Espacement des rangs (cm)
+      scientific_name_with_index: 'Nom scientifique %{index} :'
+      scientific_names: Noms scientifiques
+      scientific_names_hint: Recherche dans GBIF pour déterminer le nom scientifique de la culture.
+      search_wikipedia: Rechercher sur Wikipédia
+      sowing_method: Méthode de semis
+      spread: Envergure (cm)
+      sun_requirements: Exposition au soleil
+      harvest_style:
+        blank: Je ne sais pas
+        heading: Mode de récolte
+        hint: 'Une fois par plante, comme une laitue : la plante entière est récoltée. Plusieurs fois par plante, comme une tomate.'
+        label: Comment une plante est récoltée
+        parent: 'Parente : %{style}'
+    wrangle:
+      add: Ajouter
+      add_crop: Ajouter une culture
+      all_crops: Toutes les cultures
+      approved: Approuvé
+      clear: Effacer
+      crop_wranglers: Gestionnaires de cultures
+      crops: Cultures
+      full_crop_hierarchy: Hiérarchie complète des cultures
+      merge_crops: Fusionner les cultures
+      not_applicable: N/D
+      pending_approval: En attente d'approbation
+      recently_edited: Récemment modifié
+      rejected: Rejeté
+      search_aria_label: Rechercher des cultures
+      search_button: Rechercher
+      search_placeholder: Rechercher des cultures par nom
+      template: modèle
+      th_added_by: Ajouté par
+      th_alternate_names: Noms alternatifs
+      th_child_crops: Cultures filles
+      th_growing_degree_days: Degrés-jours de croissance
+      th_height: Hauteur
+      th_icon: Icône
+      th_job_templates: Modèles de tâches
+      th_name: Nom
+      th_rejected_by: Rejeté par
+      th_requested_by: Demandé par
+      th_row_spacing: Espacement des rangs
+      th_scientific_names: Noms scientifiques
+      th_spread: Envergure
+      th_updated: Mis à jour
+      th_youtube: YouTube
+      time_ago: il y a %{time}
+      title: Gestion des cultures
+      top_level_crops: Cultures de niveau supérieur
+      'yes': Oui
   edit_crop: Modifier le rognage
   follows:
     followers:
-      title: "Abonnés de %{member}"
+      title: Abonnés de %{member}
     index:
-      title: "Abonnements de %{member}"
+      title: Abonnements de %{member}
   forms:
     optional: "(Facultatif)"
   forums:
@@ -1098,13 +1214,13 @@ fr:
     form:
       about: À propos de
       cancel: Annuler
-      crop_seeds: "Graines de %{crop}"
+      crop_seeds: Graines de %{crop}
       send: Envoyer
       to: À
       type_your_message: Écrivez votre message ici
     new:
       breadcrumb_messages: Messages
-      title: "Envoyer un message à %{recipient}"
+      title: Envoyer un message à %{recipient}
     auth_failed: Echec de l'authentification.
     auth_success: Authentification réussie.
     crops_waiting: Il y a des cultures qui attendent d'être disputées.
@@ -1264,7 +1380,7 @@ fr:
     contact:
       title: Contact
       general_email: E-mail de contact général
-      support_enquiries_html: "Demandes d'assistance et de comptes (non couvertes par la %{faq_link})"
+      support_enquiries_html: Demandes d'assistance et de comptes (non couvertes par la %{faq_link})
       faq: FAQ
       media_enquiries: Demandes médias et presse
       twitter: Twitter
@@ -1301,9 +1417,9 @@ fr:
       no_nearby_seeds: Aucune graine trouvée à proximité
       recent_plantings: Plantations récentes près de %{place}
       seeds_available: Graines disponibles pour échange près de %{place}
-      view_all_members: "Voir tous les membres \u00bb"
-      view_all_plantings: "Voir toutes les plantations \u00bb"
-      view_all_seeds: "Voir toutes les graines \u00bb"
+      view_all_members: Voir tous les membres »
+      view_all_plantings: Voir toutes les plantations »
+      view_all_seeds: Voir toutes les graines »
   plant_parts:
     edit:
       back: Retour
@@ -1311,13 +1427,13 @@ fr:
       title: Modifier la partie de plante
     form:
       errors:
-        one: "1 erreur a empêché l'enregistrement de cette partie de plante :"
+        one: '1 erreur a empêché l''enregistrement de cette partie de plante :'
         other: "%{count} erreurs ont empêché l'enregistrement de cette partie de plante :"
       name: Nom
       save: Enregistrer
     index:
       new_plant_part: Nouvelle partie de plante
-      no_crops: "Aucune culture n'est récoltée pour cette partie de plante (pour l'instant)."
+      no_crops: Aucune culture n'est récoltée pour cette partie de plante (pour l'instant).
       title: Parties de plantes
     new:
       back: Retour
@@ -1326,7 +1442,7 @@ fr:
       delete: Supprimer
       edit: Modifier
       harvested_crops: Les cultures suivantes sont récoltées pour leur %{plant_part}.
-      no_crops: "Aucune culture n'est récoltée pour cette partie de plante (pour l'instant)."
+      no_crops: Aucune culture n'est récoltée pour cette partie de plante (pour l'instant).
       view_other_plant_parts: Voir les autres parties de plantes
   planting:
     status:
@@ -1451,7 +1567,7 @@ fr:
       finished: Terminé %{date}
       first_harvest_expected: Première récolte prévue le %{date}
       harvest_started: Récolte commencée le %{date}
-      legend: (Un emoji = 1 semaine)
+      legend: "(Un emoji = 1 semaine)"
       planted: Planté %{date}
     transplant:
       cancel: Annuler
@@ -1484,7 +1600,7 @@ fr:
       crop_wrangling_guide: guide de gestion des cultures
       crop_wrangling_guide_intro_html: Pour des instructions détaillées sur la gestion des cultures, veuillez consulter le %{guide_link} sur le wiki Growstuff.
       errors:
-        one: "1 erreur a empêché l'enregistrement de ce nom scientifique :"
+        one: '1 erreur a empêché l''enregistrement de ce nom scientifique :'
         other: "%{count} erreurs ont empêché l'enregistrement de ce nom scientifique :"
       name: Nom
       save: Enregistrer
@@ -1499,8 +1615,8 @@ fr:
       title: Nouveau nom scientifique
     show:
       back: Retour
-      crop_label: "Culture :"
-      scientific_name_label: "Nom scientifique :"
+      crop_label: 'Culture :'
+      scientific_name_label: 'Nom scientifique :'
   seasons:
     autumn: L'automne
     spring: Ressort
