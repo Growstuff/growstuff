@@ -51,7 +51,7 @@ module SuggestionsHelper
     {
       average: t('suggestions.climate.average'), now: t('suggestions.climate.now'), loading: t('suggestions.climate.loading'),
       loadFailed: t('suggestions.climate.load_failed'), retry: t('suggestions.climate.retry'), noData: t('suggestions.climate.no_data'),
-      noCrops: t('suggestions.climate.no_crops'), off: t('home.dashboard.suggestions_off'), addToJobs: t('suggestions.climate.add_to_jobs'),
+      noCrops: t('suggestions.climate.no_crops'), off: t('home.dashboard.suggestions_off'), addToJobs: t('suggestions.climate.add_to_jobs'), addFailed: t('suggestions.climate.add_failed'),
       planned: t('suggestions.climate.planned'), growing: t('suggestions.climate.growing'), notForMe: t('home.dashboard.not_for_me')
     }
   end

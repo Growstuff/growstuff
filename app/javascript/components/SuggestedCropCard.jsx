@@ -1,16 +1,43 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-import {csrfToken} from '../api';
+import {csrfToken, postJson} from '../api';
 
 // A crop suggested for a season, as the home page shows its suggestions: its photo, name, notes (the temperatures it likes and
-// how long it takes), whether the member is growing it or someone they follow is, a button that adds a job to
-// plant it to the planned jobs (or says it is there already), and a way to say it is not for them. Both buttons send a form and
-// come back to the suggestions with the season open.
-export default function SuggestedCropCard({crop, season, urls, labels}) {
+// how long it takes), whether the member is growing it or someone they follow is, a button that adds a job to plant it to the
+// planned jobs, and a way to say it is not for them.
+//
+// Adding is sent without leaving the page. Once the crop is in the planned jobs for the season, which the server says in
+// crop.planned and onPlanned passes on, the photo has a tick and the button says so.
+export default function SuggestedCropCard({crop, season, urls, labels, onPlanned}) {
+  const [adding, setAdding] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  async function add() {
+    setAdding(true);
+    setFailed(false);
+    try {
+      const {ok} = await postJson(urls.jobs, {crop_id: crop.id, season});
+      if (!ok) throw new Error('Could not add');
+      onPlanned(crop.id);
+    } catch (error) {
+      setFailed(true);
+    } finally {
+      setAdding(false);
+    }
+  }
+
   return (
     <div className="home-crop">
       <a href={crop.path}>
-        <img src={crop.image} alt={crop.name} loading="lazy" />
+        <span className="home-crop-photo">
+          <img src={crop.image} alt={crop.name} loading="lazy" />
+          {crop.planned && (
+            <span className="home-crop-tick" title={labels.planned}>
+              <i className="fas fa-check" aria-hidden="true" />
+              <span className="visually-hidden">{labels.planned}</span>
+            </span>
+          )}
+        </span>
         <span className="home-crop-name">{crop.name}</span>
         {crop.note && <span className="home-crop-note">{crop.note}</span>}
         {crop.timing && <span className="home-crop-note">{crop.timing}</span>}
@@ -22,22 +49,21 @@ export default function SuggestedCropCard({crop, season, urls, labels}) {
       )}
       {crop.followed && <span className="home-crop-flag home-crop-flag--followed">{crop.followed}</span>}
       {crop.planned ? (
-        <a className="home-crop-go home-crop-planned" href={urls.planned}>{labels.planned}</a>
+        <a className="home-crop-go home-crop-planned" href={urls.planned}>
+          <i className="fas fa-check" aria-hidden="true" /> {labels.planned}
+        </a>
       ) : (
-        <CropForm action={urls.jobs} crop={crop} season={season} className="home-crop-go" label={labels.addToJobs} />
+        <button type="button" className="home-crop-go" disabled={adding} onClick={add}>
+          {adding && <span className="spinner-border spinner-border-sm me-1" aria-hidden="true" />}
+          {labels.addToJobs}
+        </button>
       )}
-      <CropForm action={urls.dismiss} crop={crop} className="home-crop-dismiss" label={labels.notForMe} />
+      {failed && <span className="home-crop-flag home-crop-flag--failed" role="alert">{labels.addFailed}</span>}
+      <form className="home-dismiss-form" method="post" action={urls.dismiss}>
+        <input type="hidden" name="authenticity_token" value={csrfToken()} />
+        <input type="hidden" name="crop_id" value={crop.id} />
+        <button type="submit" className="home-crop-dismiss">{labels.notForMe}</button>
+      </form>
     </div>
-  );
-}
-
-function CropForm({action, crop, season, className, label}) {
-  return (
-    <form className="home-dismiss-form" method="post" action={action}>
-      <input type="hidden" name="authenticity_token" value={csrfToken()} />
-      <input type="hidden" name="crop_id" value={crop.id} />
-      {season && <input type="hidden" name="season" value={season} />}
-      <button type="submit" className={className}>{label}</button>
-    </form>
   );
 }

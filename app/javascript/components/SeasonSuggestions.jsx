@@ -27,6 +27,20 @@ export default function SeasonSuggestions({seasons, open: firstOpen, initial = {
     }
   }
 
+  // The crop is in the planned jobs for the season now: say so wherever it is listed there.
+  function markPlanned(seasonName, cropId) {
+    setCrops((now) => ({
+      ...now,
+      [seasonName]: {
+        ...now[seasonName],
+        groups: now[seasonName].groups.map((group) => ({
+          ...group,
+          crops: group.crops.map((crop) => (crop.id === cropId ? {...crop, planned: true} : crop)),
+        })),
+      },
+    }));
+  }
+
   function toggle(season) {
     const closing = open === season.name;
     setOpen(closing ? null : season.name);
@@ -49,6 +63,7 @@ export default function SeasonSuggestions({seasons, open: firstOpen, initial = {
             data={crops[season.name]}
             status={status[season.name]}
             onRetry={() => load(season)}
+            onPlanned={(cropId) => markPlanned(season.name, cropId)}
             urls={urls}
             labels={labels}
           />
@@ -105,7 +120,7 @@ function Season({season, expanded, onToggle, labels, children}) {
   );
 }
 
-function Crops({season, enabled, data, status, onRetry, urls, labels}) {
+function Crops({season, enabled, data, status, onRetry, onPlanned, urls, labels}) {
   if (!season.hasData) return <p className="text-muted">{labels.noData}</p>;
   if (!enabled) return <p className="text-muted">{labels.off}</p>;
   if (status === 'failed') {
@@ -130,7 +145,7 @@ function Crops({season, enabled, data, status, onRetry, urls, labels}) {
       {group.crops.length ? (
         <div className="home-crops">
           {group.crops.map((crop) => (
-            <SuggestedCropCard key={crop.id} crop={crop} season={season.name} urls={urls} labels={labels} />
+            <SuggestedCropCard key={crop.id} crop={crop} season={season.name} urls={urls} labels={labels} onPlanned={onPlanned} />
           ))}
         </div>
       ) : (
