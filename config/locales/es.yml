@@ -1243,14 +1243,56 @@ es:
         lead: "¡Dos seguidos!"
         note: El caracol está ganando velocidad.
       undo: Deshacer
+    description:
+      due: "(vence %{due})"
+      in_garden_html: en %{link}
+      on_planting_html: en %{link}
+      planned: planeó hacer “%{name}”
+      plans: planea hacer “%{name}”
     due:
       last: último %{day}
+    edit:
+      title: Editar tarea
+    finished_description:
+      did: hizo “%{name}”
+      in_garden_html: en %{link}
+      on_planting_html: en %{link}
     form:
-      finish_helper: Un trabajo finaliza cuando lo has completado o, de lo contrario, ya no es posible.
+      add_garden: Añadir un huerto.
+      add_planting: Añadir una plantación.
+      description_label: Cuéntanos más al respecto
+      errors:
+        one: '1 error impidió guardar esta tarea:'
+        other: "%{count} errores impidieron guardar esta tarea:"
+      finish_helper: Un trabajo finaliza cuando lo has completado o, de lo contrario,
+        ya no es posible.
+      garden_label: "¿Es esto para un huerto específico?"
+      name_label: "¿Qué hay que hacer?"
+      planting_label: "¿Es esto para una plantación específica?"
+      repeat_times_label: "¿Repetir cuántas veces?"
+      repeat_weeks_label: "¿Cada cuántas semanas?"
+      save: Guardar
+      when_label: "¿Cuándo?"
     index:
+      all_members: todos los miembros
+      api_methods: Métodos de la API
+      breadcrumbs_jobs: Tareas
+      due_date_html: 'Fecha de vencimiento: %{date}'
+      garden_html: 'Huerto: %{garden}'
+      ics_description: Tareas de %{owner}
+      ics_garden: 'Huerto: %{garden}'
+      ics_planting: 'Plantación: %{planting}'
+      include_finished_jobs: incluir tareas terminadas
+      not_applicable: N/D
+      open_data: Datos Abiertos
+      owner_jobs: Tareas de %{owner}
+      planting_html: 'Plantación: %{planting}'
+      rss_title: Tareas recientes de %{owner} (%{site})
+      sidebar_heading: Tareas
       title:
         default: Los trabajos de todos
         owner_jobs: Empleos de %{owner}
+      unknown: desconocido
     pad:
       add: Añadir un trabajo
       add_button: Agregar

@@ -1,12 +1,12 @@
 - if event_model.finished
-  planned to do “#{event_model.name}”
+  = t('.planned', name: event_model.name)
 - else
-  plans to do “#{event_model.name}”
+  = t('.plans', name: event_model.name)
   - if event_model.due_date && event_model.due_date >= Time.zone.today
-    (due #{job_due_label(event_model)})
+    = t('.due', due: job_due_label(event_model))
 
 - if event_model.planting
-  %span on #{link_to event_model.planting, event_model.planting}
+  %span= t('.on_planting_html', link: link_to(event_model.planting, event_model.planting))
 
 - if event_model.garden
-  %span in #{link_to event_model.garden, event_model.garden}
+  %span= t('.in_garden_html', link: link_to(event_model.garden, event_model.garden))
