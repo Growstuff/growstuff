@@ -1,0 +1,6 @@
+%h1= t('soil_ph_readings.title')
+%p= link_to @garden.name, garden_path(@garden)
+= form_for [@garden, @soil_ph_reading] do |f|
+  = render 'fields', f: f
+  = f.submit t('soil_ph_readings.save'), class: 'btn btn-primary'
+  = link_to t('soil_ph_readings.cancel'), garden_path(@garden), class: 'btn btn-secondary'
