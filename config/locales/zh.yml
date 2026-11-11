@@ -2543,7 +2543,7 @@ zh:
       lede: "%{band} 的园丁本月正在种植什么，大部分先种植。"
       none: 目前没什么可建议的。下个月再回来看看。
       not_located: 告诉我们您在哪里园艺，我们可以建议播种什么。
-      title: 在您附近的 %{month} 轻松播种
+      title: 您附近适合种植什么
     update:
       disabled: 我们已经停止建议农作物。
       enabled: 作物建议又回来了。

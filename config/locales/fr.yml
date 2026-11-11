@@ -2554,7 +2554,7 @@ fr:
       lede: Ce que les jardiniers de %{band} plantent ce mois-ci, la plupart plantés en premier.
       none: Rien à suggérer pour le moment. Revenez le mois prochain.
       not_located: Dites-nous où vous jardinez et nous pouvons vous suggérer quoi semer.
-      title: Facile à semer dans %{month} près de chez vous
+      title: Que cultiver près de chez vous
     update:
       disabled: Nous avons cessé de suggérer des cultures.
       enabled: Les suggestions de cultures sont de retour.
