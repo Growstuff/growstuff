@@ -38,8 +38,10 @@ Rails.application.routes.draw do
   post '/my/email/decline', to: 'member_emails#decline', as: :decline_member_email
   post '/my/email/resend', to: 'member_emails#resend', as: :resend_member_email
   get '/suggestions', to: 'suggestions#index', as: :suggestions
+  get '/suggestions/seasons/:season', to: 'suggestions#season', as: :suggestions_season, defaults: { format: :json }
   patch '/my/suggestions', to: 'suggestions#update', as: :my_suggestions
   post '/my/dismissed_crops', to: 'crop_dismissals#create', as: :crop_dismissals
+  post '/my/suggested_jobs', to: 'suggested_jobs#create', as: :suggested_jobs
   delete '/my/dismissed_crops', to: 'crop_dismissals#destroy_all'
   get '/my/neighbours', to: 'neighbours#show', as: :neighbours
   get '/my/neighbours/feed', to: 'neighbours#feed', as: :neighbours_feed

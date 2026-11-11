@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_11_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -387,6 +387,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000000) do
     t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_claims_on_member_id"
     t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
+  end
+
+  create_table "climate_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.datetime "requested_at", null: false, comment: "When the cell was first asked for, so the longest waiting is fetched first."
+    t.datetime "updated_at", null: false
+    t.index ["latitude", "longitude"], name: "index_climate_requests_on_cell", unique: true
   end
 
   create_table "climate_months", force: :cascade do |t|

@@ -63,7 +63,23 @@ describe PlantingWeatherHelper do
     end
 
     it 'labels the survivable range' do
-      expect(chart).to have_css '.weather-band-label--absolute', text: 'Survives 5–35°'
+      expect(chart).to have_css '.weather-band-label--absolute', text: 'Grows at 5–35°'
+    end
+
+    context 'with a killing temperature' do
+      let(:ranges) { { optimal: [15, 25], absolute: [5, 35], kill: 0 } }
+
+      it 'draws a line at it' do
+        expect(chart).to have_css 'line.weather-kill-line'
+      end
+
+      it 'labels the line' do
+        expect(chart).to have_css '.weather-kill-label', text: 'Dies at 0 °C'
+      end
+    end
+
+    it 'draws no kill line without one' do
+      expect(chart).to have_no_css 'line.weather-kill-line'
     end
 
     it 'stretches the axis to show a range beyond the readings' do
@@ -117,11 +133,11 @@ describe PlantingWeatherHelper do
     let(:expected) { [] }
     let(:readings) { days(mild: 20) }
 
-    # Runs of days, from `from`: mild ones average 15, inside the best range; cool ones average 7.5, outside it but not
-    # past what the crop survives; hot ones have a high of 35, and cold ones a low of 1, past what it survives.
+    # Runs of days, from `from`: mild ones have a high of 18, inside the best range; cool ones a high of 9, outside it but not
+    # past what the crop survives; hot ones have a high of 35, and cold ones a low of 1 and a high of 9, past what it survives.
     def days(mild: 0, cool: 0, hot: 0, cold: 0, from: Date.new(2026, 5, 1))
-      highs_and_lows = Array.new(mild) { [18, 12] } + Array.new(cool) { [10, 5] } + Array.new(hot) { [35, 20] } + Array.new(cold) do
-        [14, 1]
+      highs_and_lows = Array.new(mild) { [18, 12] } + Array.new(cool) { [9, 5] } + Array.new(hot) { [35, 20] } + Array.new(cold) do
+        [9, 1]
       end
       highs_and_lows.each_with_index.map do |(high, low), index|
         build(:weather_reading, date: from + index, temp_max_c: high, temp_min_c: low)
@@ -133,7 +149,7 @@ describe PlantingWeatherHelper do
       it('has a tick') { expect(notes).to have_css '.weather-note .fa-check-circle' }
 
       it('counts the days in the best range') {
-        expect(notes).to have_css '.weather-note', text: '20 of 20 days averaged inside the best range of 10–24°C'
+        expect(notes).to have_css '.weather-note', text: '20 of 20 days had a high inside the best range of 10–24°C'
       }
 
       it('has no problems') { expect(notes).to have_no_css '.weather-note--danger' }
@@ -142,7 +158,8 @@ describe PlantingWeatherHelper do
     context 'when many days went past what the crop survives, too hot and too cold' do
       let(:readings) { days(mild: 80, hot: 13, cold: 7) }
 
-      it('warns that it was not optimal') { expect(notes).to have_css '.weather-note--danger', text: 'Not optimal for pea so far' }
+      it('names the heat as the problem') { expect(notes).to have_css '.weather-note--danger', text: 'Too hot for pea so far' }
+      it('stays red for heat') { expect(notes).to have_no_css '.weather-note--cold' }
       it('has a warning triangle') { expect(notes).to have_css '.weather-note--danger .fa-exclamation-triangle' }
 
       it 'says which days went wrong, with the limits' do
@@ -151,8 +168,31 @@ describe PlantingWeatherHelper do
       end
 
       it('still counts the days in the best range') {
-        expect(notes).to have_css '.weather-note', text: '80 of 100 days averaged inside the best range'
+        expect(notes).to have_css '.weather-note', text: '80 of 100 days had a high inside the best range'
       }
+    end
+
+    context 'when it was too hot on many days and too cold on many others' do
+      let(:readings) { days(mild: 70, hot: 15, cold: 15) }
+
+      it('names both') { expect(notes).to have_css '.weather-note--danger', text: 'Too hot and too cold for pea so far' }
+    end
+
+    context 'when the lows reached the temperature that kills the crop' do
+      let(:ranges) { { optimal: [10, 24], absolute: [4, 30], kill: 2 } }
+      let(:readings) { days(mild: 90, cold: 10) }
+
+      it('has a skull') { expect(notes).to have_css '.weather-note--danger .fa-skull' }
+      it('is blue, not red, for the cold') { expect(notes).to have_css '.weather-note--cold' }
+      it('has a snowflake for the cold') { expect(notes).to have_css '.weather-note--danger .fa-snowflake' }
+      it('says how many days') { expect(notes).to have_css '.weather-note', text: 'reached the killing temperature of 2°C on 10 days' }
+    end
+
+    context 'when the lows stayed above the killing temperature' do
+      let(:ranges) { { optimal: [10, 24], absolute: [4, 30], kill: 0 } }
+      let(:readings) { days(mild: 90, cold: 10) }
+
+      it('has no skull') { expect(notes).to have_no_css '.fa-skull' }
     end
 
     context 'when only a few days went past the survivable limits' do
@@ -166,13 +206,15 @@ describe PlantingWeatherHelper do
       let(:readings) { days(mild: 3, cool: 7) }
 
       it('is mixed') { expect(notes).to have_css '.weather-note--caution' }
+      it('names the cold') { expect(notes).to have_css '.weather-note--caution', text: 'Too cold for pea so far' }
+      it('counts the days below the best range') { expect(notes).to have_css '.weather-note', text: 'below the best range on 7 days' }
     end
 
     context 'when the crop has only survivable limits' do
       let(:ranges) { { absolute: [4, 30] } }
 
-      it('says the weather stayed within what it survives') {
-        expect(notes).to have_css '.weather-note--neutral', text: 'stayed within what pea survives'
+      it('says the weather stayed within the range it grows in') {
+        expect(notes).to have_css '.weather-note--neutral', text: 'stayed within the range pea grows in'
       }
     end
 
@@ -191,7 +233,7 @@ describe PlantingWeatherHelper do
       let(:expected) { days(mild: 10, hot: 20, from: Date.new(2026, 11, 20)) }
 
       it 'warns about the future' do
-        expect(notes).to have_css '.weather-note--danger', text: 'Expected not to be optimal for pea'
+        expect(notes).to have_css '.weather-note--danger', text: 'Expected to be too hot for pea'
       end
 
       it('says it could be too hot') { expect(notes).to have_css '.weather-note--danger', text: 'It could be too hot on 20 days' }
@@ -233,7 +275,7 @@ describe PlantingWeatherHelper do
        build(:weather_reading, date: Date.new(2026, 10, 3), temp_max_c: 22, temp_min_c: 12)]
     end
 
-    it 'counts the days whose average was in the range' do
+    it 'counts the days whose high was in the range' do
       expect(helper.weather_summary(readings, ranges: { optimal: [15, 25] })[:best_days]).to eq '2 of 3'
     end
 
@@ -247,6 +289,11 @@ describe PlantingWeatherHelper do
 
     it 'gives the best range' do
       expect(helper.weather_temperature_ranges(crop)[:optimal]).to eq [15, 25]
+    end
+
+    it 'gives the killing temperature' do
+      crop.ecocrop_data.update!(ktmp: -2)
+      expect(helper.weather_temperature_ranges(crop)[:kill]).to eq(-2)
     end
 
     it 'gives a survivable range open at the top' do

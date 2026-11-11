@@ -208,6 +208,8 @@ class Member < ApplicationRecord
   # Triggers
   after_validation :geocode
   after_validation :empty_unwanted_geocodes
+  # Ask for the climate of the place they have said they are, to be fetched before others.
+  after_save :request_climate, if: -> { saved_change_to_latitude? || saved_change_to_longitude? }
 
   # Give each new member a default garden
   # we use find_or_create to avoid accidentally creating a second one,
@@ -333,6 +335,10 @@ class Member < ApplicationRecord
 
   def located?
     location.present? && latitude.present? && longitude.present?
+  end
+
+  def request_climate
+    ClimateRequest.record(Place.new(latitude, longitude)) if located?
   end
 
   def auth(provider)
