@@ -1,6 +1,26 @@
 ---
 en:
+  soil_ph_readings:
+    heading: Soil pH
+    title: Record soil pH
+    date: Measurement date
+    ph: Soil pH
+    hint: Enter a value from 0 to 14. A pH of 7 is neutral.
+    measuring_title: How to measure soil pH
+    measuring_intro: Use a soil pH tester or a soil pH test kit from a garden centre. A moisture-only meter cannot measure pH.
+    measuring_steps: Follow your tester's instructions, including any calibration and whether to test directly in damp soil or mix a soil sample with distilled water. Test a few spots in the garden, avoiding recently fertilised areas, and wait for each reading to settle.
+    measuring_consistency: For a useful monthly comparison, use the same method and similar sampling spots each time. If readings vary widely, test again or ask a soil testing service for a more detailed result.
+    frequency: Record your soil pH about once a month to track changes over time.
+    save: Save reading
+    cancel: Cancel
+    close: Close
+    saved: Soil pH reading saved.
+    empty: No soil pH readings recorded yet.
   activerecord:
+    attributes:
+      soil_ph_reading:
+        ph: Soil pH
+        measured_on: Measurement date
     errors:
       messages:
         bed_position_incomplete: must have both a column and a row, or neither

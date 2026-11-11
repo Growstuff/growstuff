@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -389,15 +389,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
     t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
   end
 
-  create_table "climate_requests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
-    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
-    t.datetime "requested_at", null: false, comment: "When the cell was first asked for, so the longest waiting is fetched first."
-    t.datetime "updated_at", null: false
-    t.index ["latitude", "longitude"], name: "index_climate_requests_on_cell", unique: true
-  end
-
   create_table "climate_months", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "days", null: false, comment: "How many days of the month the figures are from."
@@ -418,6 +409,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
     t.datetime "updated_at", null: false
     t.integer "year", null: false
     t.index ["latitude", "longitude", "year", "month"], name: "index_climate_months_on_cell_year_and_month", unique: true
+  end
+
+  create_table "climate_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.datetime "requested_at", null: false, comment: "When the cell was first asked for, so the longest waiting is fetched first."
+    t.datetime "updated_at", null: false
+    t.index ["latitude", "longitude"], name: "index_climate_requests_on_cell", unique: true
   end
 
   create_table "comfy_cms_categories", id: :serial, force: :cascade do |t|
@@ -1293,6 +1293,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
     t.index ["source"], name: "index_seeds_on_source"
   end
 
+  create_table "soil_ph_readings", force: :cascade do |t|
+    t.bigint "garden_id", null: false
+    t.date "measured_on", null: false
+    t.decimal "ph", precision: 4, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["garden_id"], name: "index_soil_ph_readings_on_garden_id"
+    t.check_constraint "ph >= 0::numeric AND ph <= 14::numeric", name: "soil_ph_readings_ph_range"
+  end
+
   create_table "stall_seeds", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "offer", default: "free", null: false
@@ -1388,6 +1398,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
   add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
+  add_foreign_key "soil_ph_readings", "gardens"
   add_foreign_key "stall_seeds", "seeds"
   add_foreign_key "stall_seeds", "stalls"
   add_foreign_key "stalls", "members"

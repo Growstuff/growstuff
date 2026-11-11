@@ -1,6 +1,26 @@
 ---
 de:
+  soil_ph_readings:
+    heading: Boden-pH-Wert
+    title: Boden-pH-Wert erfassen
+    date: Messdatum
+    ph: Boden-pH-Wert
+    hint: Geben Sie einen Wert von 0 bis 14 ein. Ein pH-Wert von 7 ist neutral.
+    measuring_title: So messen Sie den Boden-pH-Wert
+    measuring_intro: Verwenden Sie ein Boden-pH-Messgerät oder ein Boden-pH-Testset aus dem Gartencenter. Ein reines Feuchtigkeitsmessgerät kann den pH-Wert nicht messen.
+    measuring_steps: Befolgen Sie die Anleitung zur Kalibrierung und zur Messung direkt in feuchter Erde oder mit einer mit destilliertem Wasser vermischten Bodenprobe. Messen Sie an mehreren Stellen, meiden Sie kürzlich gedüngte Bereiche und warten Sie, bis sich jeder Messwert stabilisiert hat.
+    measuring_consistency: Verwenden Sie für monatliche Vergleiche dieselbe Methode und ähnliche Probenstellen. Bei stark abweichenden Werten messen Sie erneut oder bitten Sie ein Bodenlabor um eine genauere Untersuchung.
+    frequency: Erfassen Sie den Boden-pH-Wert etwa einmal im Monat, um Veränderungen zu verfolgen.
+    save: Messwert speichern
+    cancel: Abbrechen
+    close: Schließen
+    saved: Boden-pH-Wert gespeichert.
+    empty: Noch keine Boden-pH-Werte erfasst.
   activerecord:
+    attributes:
+      soil_ph_reading:
+        ph: Boden-pH-Wert
+        measured_on: Messdatum
     errors:
       messages:
         bed_position_incomplete: muss sowohl eine Spalte als auch eine Zeile oder keines von beiden haben

@@ -117,6 +117,8 @@ class Ability
     # settled without asking the database about collaborators each time.
     can :update_layout, Garden, garden_collaborators: { member_id: member.id }
     can :update_layout, Garden, owner_id: member.id
+    can :record_soil_ph, Garden, garden_collaborators: { member_id: member.id }
+    can :record_soil_ph, Garden, owner_id: member.id
     can %i(make_nursery stop_nursery), Garden, owner_id: member.id
 
     can :create,  Planting

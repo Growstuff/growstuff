@@ -1,6 +1,26 @@
 ---
 fr:
+  soil_ph_readings:
+    heading: pH du sol
+    title: Enregistrer le pH du sol
+    date: Date de mesure
+    ph: pH du sol
+    hint: Saisissez une valeur de 0 à 14. Un pH de 7 est neutre.
+    measuring_title: Comment mesurer le pH du sol
+    measuring_intro: Utilisez un pH-mètre pour le sol ou un kit de test du pH vendu en jardinerie. Un appareil qui mesure uniquement l’humidité ne peut pas mesurer le pH.
+    measuring_steps: Suivez les instructions d’étalonnage et vérifiez s’il faut mesurer directement dans un sol humide ou mélanger un échantillon avec de l’eau distillée. Testez plusieurs endroits, évitez les zones récemment fertilisées et attendez que chaque mesure se stabilise.
+    measuring_consistency: Pour comparer les résultats mensuels, utilisez la même méthode et des points de prélèvement similaires. Si les valeurs varient fortement, recommencez ou demandez une analyse plus détaillée à un laboratoire d’analyse des sols.
+    frequency: Enregistrez le pH du sol environ une fois par mois pour suivre son évolution.
+    save: Enregistrer la mesure
+    cancel: Annuler
+    close: Fermer
+    saved: La mesure du pH du sol a été enregistrée.
+    empty: Aucune mesure du pH du sol enregistrée pour le moment.
   activerecord:
+    attributes:
+      soil_ph_reading:
+        ph: pH du sol
+        measured_on: Date de mesure
     errors:
       messages:
         bed_position_incomplete: doit avoir à la fois une colonne et une ligne, ou aucun des deux

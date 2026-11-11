@@ -76,6 +76,7 @@ Rails.application.routes.draw do
     post 'stop_nursery' => 'gardens#stop_nursery', on: :member
 
     resources :garden_collaborators
+    resources :soil_ph_readings, only: %i(new create)
     resource :location, only: %i(update destroy), controller: 'garden_locations'
   end
 
