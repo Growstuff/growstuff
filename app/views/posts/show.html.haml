@@ -10,25 +10,23 @@
 
 - if @post.author && !current_member
   .alert.alert-info
-    = link_to @post.author.login_name, member_path(@post.author)
-    is using
-    = link_to ENV["GROWSTUFF_SITE_NAME"], root_path
-    to discuss #{@post.subject} with a community of food gardeners worldwide.
-    We have advice on growing
-    = succeed "," do
-      = link_to 'hundreds of different crops', crops_url
-    and a community from all around the world.
-
-    = render "shared/signin_signup",
-      to: "or to start using #{ENV['GROWSTUFF_SITE_NAME']} to track what you're planting and harvesting"
+    = t('.visitor_intro_html', author: link_to(@post.author.login_name, member_path(@post.author)),
+      site: link_to(ENV.fetch('GROWSTUFF_SITE_NAME', nil), root_path), subject: @post.subject,
+      crops: link_to(t('.different_crops'), crops_url))
+    :ruby
+      sign_in_options = { data: { auth_dialog: 'sign_in' }, class: 'text-success' }
+      sign_up_options = { data: { auth_dialog: 'sign_up' }, class: 'text-info' }
+      sign_in_link = link_to(t('.sign_in'), new_member_session_path, sign_in_options)
+      sign_up_link = link_to(t('.sign_up'), new_member_registration_path, sign_up_options)
+    = t('.join_html', sign_in: sign_in_link, sign_up: sign_up_link, site: ENV.fetch('GROWSTUFF_SITE_NAME', nil))
 
 - content_for :buttonbar do
   - if @post.comments.count > 10 && can?(:create, Comment)
-    = link_to 'Comment', '#new-comment', class: 'btn'
+    = link_to t('.comment'), '#new-comment', class: 'btn'
 
 - content_for :breadcrumbs do
   %li.breadcrumb-item= link_to @post.author, @post.author
-  %li.breadcrumb-item= link_to 'posts', member_posts_path(member_slug: @post.author.slug)
+  %li.breadcrumb-item= link_to t('posts.index.posts'), member_posts_path(member_slug: @post.author.slug)
   %li.breadcrumb-item.active{"aria-current" => "page"}= @post.subject
 
 .row.record-page
@@ -46,7 +44,7 @@
         %h2.display-3.float-start
           = @post.subject
           - if @post.draft?
-            %span.badge.text-bg-warning.fs-6 Draft
+            %span.badge.text-bg-warning.fs-6= t('posts.draft')
         = render 'posts/actions', post: @post
       .card-body
         .post-content= render 'posts/single', post: @post
@@ -70,7 +68,7 @@
           - if can? :create, Comment
             = link_to '#new-comment', class: 'btn' do
               = icon 'fas', 'comment'
-              Comment
+              = t('.comment')
 
     %section.comments
       = render "comments/comments", commentable: @post
@@ -92,11 +90,7 @@
               %small.text-muted= l(other.created_at.to_date, format: :short)
     - unless @post.crops.approved.empty?
       %section.crops
-        %h2 Crops mentioned in this post
+        %h2= t('.crops_mentioned')
         .index-cards
           - @post.crops.approved.each do |c|
             = render 'crops/thumbnail', crop: c
-
-
-
-

@@ -2251,10 +2251,76 @@ zh:
       submit: 移植
       title: 移植 %{crop}
   posts:
+    draft: 草稿
+    description:
+      activity_html: "撰写了一篇关于%{post}的帖子"
+    edit:
+      title: 编辑帖子
+    form:
+      draft_visibility: 发布之前，只有您能看到此草稿。
+      errors:
+        one: "%{count}个错误导致此帖子无法保存："
+        other: "%{count}个错误导致此帖子无法保存："
+      forum_body: 最近有什么新鲜事？
+      garden_body: 您的菜园最近怎么样？
+      editor_instructions_html: 使用上方的按钮设置文字格式。输入<strong>@</strong>可链接到作物、成员或您的一次种植。其他情况下，可在<strong>Markdown</strong>选项卡中查看原始文本。
+      forum_notice_html: "此帖子将发布到%{forum}论坛"
+      photos: 照片
+      photo_instructions_html: 使用工具栏中的<strong>+ Flickr photo</strong>将照片插入帖子。下次打开草稿时，封面照片和其他照片将显示在这里。
+      card_photo: 封面照片
+      card_photo_help: 显示在帖子列表、您的页面和分享的链接中。
+      card_photo_empty: 添加照片，然后选择一张代表此帖子的照片。
+      photos_in_post: 此帖子中的照片
+      pick_from_flickr: 从Flickr中选择
+      flickr_photos: 这些照片来自您的Flickr账户。
+      autosave_help: 编辑时会自动保存。您可以关闭此页面，稍后从您的帖子中继续编辑。
+      discard_draft: 丢弃草稿
+      confirm_discard: 您确定吗？
+      close: 关闭
+      save_draft: 保存草稿
+      publish_post: 发布帖子
+      save_changes: 保存更改
+    new:
+      forum_title: "在%{forum}中发帖"
+    preview:
+      photo_alt: 与此帖子相关的照片
+      author_html: "作者：%{author}，"
+      read_more: 阅读更多
+    single:
+      attribution_html: "由%{author}发表于%{date}"
+      forum_attribution_html: "由%{author}于%{date}发布在%{forum}中"
+      deleted_member: 已删除的成员
+      edited_at: "编辑于%{date}"
+      permalink: 永久链接
+    summary:
+      subject: 主题
+      posted_by: 发布者
+      recent_activity: 最近活动
+      comments: 评论
+    show:
+      visitor_intro_html: "%{author}正在使用%{site}与来自世界各地的食用作物种植者讨论%{subject}。我们提供%{crops}的种植建议，并拥有遍布全球的社区。"
+      different_crops: 数百种不同作物
+      join_html: "%{sign_in}或%{sign_up}，开始使用%{site}记录您的种植和收获。"
+      sign_in: 登录
+      sign_up: 注册
+      comment: 评论
+      crops_mentioned: 此帖子中提到的作物
+      feed_title: "%{subject}的最新评论（%{site}）"
+      comment_title: "%{author}于%{date}发表的评论"
+      comment_description_html: "对%{post}的评论"
     created: 帖子创建成功。
     deleted: 帖子已被删除。
     draft_saved: 草稿已保存。
     index:
+      posts: 帖子
+      subscribe_author_html: "订阅%{feed}。"
+      author_feed: "%{author}的帖子RSS订阅源"
+      subscribe_html: "订阅%{site}的%{posts}或%{comments}。"
+      posts_feed: 帖子RSS订阅源
+      comments_feed: 评论RSS订阅源
+      feed_title: "%{author}的最新帖子（%{site}）"
+      all_members: 所有成员
+      item_title: "%{subject}，作者：%{author}"
       title:
         author_posts: "%{author} 帖子"
         default: 大家的帖子
