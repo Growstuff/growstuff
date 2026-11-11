@@ -2507,6 +2507,9 @@ de:
       title: Beitrag bearbeiten
     form:
       draft_visibility: Nur du kannst diesen Entwurf sehen, bis du ihn veröffentlichst.
+      advanced_options: Erweiterte Optionen
+      language: Sprache des Beitrags
+      unknown_language: Unbekannte Sprache
       errors:
         one: "%{count} Fehler hat das Speichern dieses Beitrags verhindert:"
         other: "%{count} Fehler haben das Speichern dieses Beitrags verhindert:"

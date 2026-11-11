@@ -26,8 +26,6 @@
 
         .card-body
           = f.text_field :subject, autofocus: 'autofocus', maxlength: 255
-          = f.select :language, I18nData.languages.map { |code, name| [name.split(';').first, code.downcase] },
-            { label: t('.language'), include_blank: t('.unknown_language') }
 
           - if @post.forum || @forum
             = label_tag :body, t('.forum_body')
@@ -48,6 +46,12 @@
               = t('.forum_notice_html', forum: link_to(forum.name, forum))
             .field
               = f.hidden_field :forum_id, value: forum.id
+
+          %details.post-advanced-options.mt-3{ open: @post.errors[:language].any? }
+            %summary= t('.advanced_options')
+            .mt-3
+              = f.select :language, post_language_options,
+                { label: t('.language'), include_blank: t('.unknown_language') }
 
     - if @post.new_record?
       .col-lg-4

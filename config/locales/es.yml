@@ -2506,6 +2506,9 @@ es:
       title: Editar publicación
     form:
       draft_visibility: Solo tú puedes ver este borrador hasta que lo publiques.
+      advanced_options: Opciones avanzadas
+      language: Idioma de la publicación
+      unknown_language: Idioma desconocido
       errors:
         one: "%{count} error impidió guardar esta publicación:"
         other: "%{count} errores impidieron guardar esta publicación:"

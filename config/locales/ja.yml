@@ -1537,6 +1537,9 @@ ja:
       title: 投稿を編集
     form:
       draft_visibility: 公開するまで、この下書きを見られるのはあなただけです。
+      advanced_options: 詳細設定
+      language: 投稿の言語
+      unknown_language: 言語不明
       errors:
         one: "%{count}件のエラーにより、この投稿を保存できませんでした："
         other: "%{count}件のエラーにより、この投稿を保存できませんでした："
