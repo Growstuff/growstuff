@@ -3741,7 +3741,7 @@ en:
       finished_date: Finished date
       optional: optional
       save: Save
-      sun: {sun: sun, semi-shade: partial shade, shade: shade}
+      sun: {sun: sun, semi-shade: semi-shade, shade: shade}
       units:
         plant: {one: plant, other: plants}
         planting: {one: planting, other: plantings}
