@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1217,6 +1217,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
     t.string "slug"
     t.string "subject", null: false
     t.datetime "updated_at", precision: nil
+    t.string "language"
     t.index ["card_photo_id"], name: "index_posts_on_card_photo_id"
     t.index ["created_at", "author_id"], name: "index_posts_on_created_at_and_author_id"
     t.index ["forum_id"], name: "index_posts_on_forum_id"

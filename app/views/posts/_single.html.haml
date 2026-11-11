@@ -13,5 +13,6 @@
 
 = link_to t('.permalink'), @post
 
-:markdown
-  #{ markdownify(strip_tags(@post.body), figures: true) }
+.post-text{ lang: @post.language.to_s }
+  :markdown
+    #{ markdownify(strip_tags(@post.body), figures: true) }
