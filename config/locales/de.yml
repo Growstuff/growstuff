@@ -1906,10 +1906,76 @@ de:
       submit: Umpflanzen
       title: "%{crop} umpflanzen"
   posts:
+    draft: Entwurf
+    description:
+      activity_html: "schrieb einen Beitrag über %{post}"
+    edit:
+      title: Beitrag bearbeiten
+    form:
+      draft_visibility: Nur du kannst diesen Entwurf sehen, bis du ihn veröffentlichst.
+      errors:
+        one: "%{count} Fehler hat das Speichern dieses Beitrags verhindert:"
+        other: "%{count} Fehler haben das Speichern dieses Beitrags verhindert:"
+      forum_body: Was gibt es Neues?
+      garden_body: Was passiert in deinem Nutzgarten?
+      editor_instructions_html: Formatiere deinen Text mit den Schaltflächen oben. Tippe <strong>@</strong>, um auf eine Nutzpflanze, ein Mitglied oder eine deiner Pflanzungen zu verlinken. Für alles andere zeigt der Reiter <strong>Markdown</strong> den Rohtext.
+      forum_notice_html: "Dieser Beitrag wird im Forum %{forum} veröffentlicht"
+      photos: Fotos
+      photo_instructions_html: Füge über <strong>+ Flickr photo</strong> in der Werkzeugleiste ein Foto in deinen Beitrag ein. Das Vorschaubild und die Fotos erscheinen hier, wenn du den Entwurf das nächste Mal öffnest.
+      card_photo: Vorschaubild
+      card_photo_help: Wird in der Beitragsliste, auf deiner Seite und bei geteilten Links angezeigt.
+      card_photo_empty: Füge ein Foto hinzu und wähle dann aus, welches diesen Beitrag repräsentiert.
+      photos_in_post: Fotos in diesem Beitrag
+      pick_from_flickr: aus Flickr auswählen
+      flickr_photos: Dies sind Fotos aus deinem Flickr-Konto.
+      autosave_help: Wird während der Arbeit automatisch gespeichert. Du kannst diese Seite schließen und später über deine Beiträge weitermachen.
+      discard_draft: Entwurf verwerfen
+      confirm_discard: Bist du sicher?
+      close: Schließen
+      save_draft: Entwurf speichern
+      publish_post: Beitrag veröffentlichen
+      save_changes: Änderungen speichern
+    new:
+      forum_title: "Beitrag in %{forum}"
+    preview:
+      photo_alt: Ein Foto zu diesem Beitrag
+      author_html: "von %{author},"
+      read_more: Weiterlesen
+    single:
+      attribution_html: "Veröffentlicht von %{author} am %{date}"
+      forum_attribution_html: "Veröffentlicht von %{author} in %{forum} am %{date}"
+      deleted_member: Mitglied gelöscht
+      edited_at: "und bearbeitet am %{date}"
+      permalink: Permalink
+    summary:
+      subject: Betreff
+      posted_by: Veröffentlicht von
+      recent_activity: Letzte Aktivität
+      comments: Kommentare
+    show:
+      visitor_intro_html: "%{author} nutzt %{site}, um mit einer weltweiten Gemeinschaft von Nutzgärtnerinnen und Nutzgärtnern über %{subject} zu sprechen. Wir bieten Anbautipps für %{crops} und eine Gemeinschaft aus aller Welt."
+      different_crops: Hunderte verschiedener Nutzpflanzen
+      join_html: "%{sign_in} oder %{sign_up}, um mit %{site} deine Pflanzungen und Ernten zu dokumentieren."
+      sign_in: Anmelden
+      sign_up: registrieren
+      comment: Kommentieren
+      crops_mentioned: In diesem Beitrag erwähnte Nutzpflanzen
+      feed_title: "Neueste Kommentare zu %{subject} (%{site})"
+      comment_title: "Kommentar von %{author} am %{date}"
+      comment_description_html: "Kommentar zu %{post}"
     created: Beitrag erfolgreich erstellt
     deleted: Ihr Beitrag wurde gelöscht.
     draft_saved: Entwurf wurde gespeichert.
     index:
+      posts: Beiträge
+      subscribe_author_html: "%{feed} abonnieren."
+      author_feed: "RSS-Feed der Beiträge von %{author}"
+      subscribe_html: "Abonniere den %{posts} oder den %{comments} von %{site}."
+      posts_feed: RSS-Feed der Beiträge
+      comments_feed: RSS-Feed der Kommentare
+      feed_title: "Neueste Beiträge von %{author} (%{site})"
+      all_members: allen Mitgliedern
+      item_title: "%{subject} von %{author}"
       title:
         author_posts: "%{author} Posts"
         default: Alle Beiträge

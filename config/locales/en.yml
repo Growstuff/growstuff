@@ -2595,10 +2595,76 @@ en:
       submit: Transplant
       title: Transplant %{crop}
   posts:
+    draft: Draft
+    description:
+      activity_html: "wrote a post about %{post}"
+    edit:
+      title: Edit post
+    form:
+      draft_visibility: Only you can see this draft until you publish it.
+      errors:
+        one: "%{count} error prohibited this post from being saved:"
+        other: "%{count} errors prohibited this post from being saved:"
+      forum_body: What's up?
+      garden_body: What's going on in your food garden?
+      editor_instructions_html: Use the buttons above to format your text. Type <strong>@</strong> to link to a crop, a member or one of your plantings. For anything else, the <strong>Markdown</strong> tab shows the raw text.
+      forum_notice_html: "This post will be posted in the forum %{forum}"
+      photos: Photos
+      photo_instructions_html: Use <strong>+ Flickr photo</strong> in the toolbar to put a photo in your post. Its card photo and photos appear here when you next open the draft.
+      card_photo: Card photo
+      card_photo_help: Shown on the posts list, your page and shared links.
+      card_photo_empty: Add a photo, then choose which one stands for this post.
+      photos_in_post: Photos in this post
+      pick_from_flickr: pick from flickr
+      flickr_photos: These are photos from your Flickr account.
+      autosave_help: Saved automatically as you work. Close this page and pick it up later from your posts.
+      discard_draft: Discard draft
+      confirm_discard: Are you sure?
+      close: Close
+      save_draft: Save draft
+      publish_post: Publish post
+      save_changes: Save changes
+    new:
+      forum_title: "Post in %{forum}"
+    preview:
+      photo_alt: A photo related to this post
+      author_html: "by %{author},"
+      read_more: Read more
+    single:
+      attribution_html: "Posted by %{author} on %{date}"
+      forum_attribution_html: "Posted by %{author} in %{forum} on %{date}"
+      deleted_member: Member Deleted
+      edited_at: "and edited at %{date}"
+      permalink: Permalink
+    summary:
+      subject: Subject
+      posted_by: Posted by
+      recent_activity: Most recent activity
+      comments: Comments
+    show:
+      visitor_intro_html: "%{author} is using %{site} to discuss %{subject} with a community of food gardeners worldwide. We have advice on growing %{crops}, and a community from all around the world."
+      different_crops: hundreds of different crops
+      join_html: "%{sign_in} or %{sign_up} to start using %{site} to track what you're planting and harvesting."
+      sign_in: Sign in
+      sign_up: sign up
+      comment: Comment
+      crops_mentioned: Crops mentioned in this post
+      feed_title: "Recent comments on %{subject} (%{site})"
+      comment_title: "Comment by %{author} on %{date}"
+      comment_description_html: "Comment on %{post}"
     created: Post was successfully created.
     deleted: Post was deleted.
     draft_saved: Draft was saved.
     index:
+      posts: Posts
+      subscribe_author_html: "Subscribe to %{feed}."
+      author_feed: "%{author}'s posts RSS feed"
+      subscribe_html: "Subscribe to the %{site} %{posts} or %{comments}."
+      posts_feed: posts RSS feed
+      comments_feed: comments RSS feed
+      feed_title: "Recent posts from %{author} (%{site})"
+      all_members: all members
+      item_title: "%{subject} by %{author}"
       title:
         author_posts: "%{author} posts"
         default: Everyone's posts

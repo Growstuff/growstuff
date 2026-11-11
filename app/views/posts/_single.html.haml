@@ -1,22 +1,17 @@
 - @post ||= post if defined?(post)
 %p
-  Posted by
-  - if @post.author
-    = link_to @post.author.login_name, member_path(@post.author)
-  - else
-    Member Deleted
+  - author = @post.author ? link_to(@post.author.login_name, member_path(@post.author)) : t('.deleted_member')
   - if @post.forum
-    in
-    = link_to @post.forum, @post.forum
-  on
-  = @post.created_at.to_fs(:default)
+    = t('.forum_attribution_html', author: author, forum: link_to(@post.forum, @post.forum),
+      date: l(@post.created_at, format: :long))
+  - else
+    = t('.attribution_html', author: author, date: l(@post.created_at, format: :long))
   &middot;
   = t('posts.read_time', count: @post.read_time_minutes)
   - if @post.updated_at > @post.created_at
-    and edited at
-    = @post.updated_at.to_fs(:default)
+    = t('.edited_at', date: l(@post.updated_at, format: :long))
 
-= link_to "Permalink", @post
+= link_to t('.permalink'), @post
 
 :markdown
   #{ markdownify(strip_tags(@post.body), figures: true) }

@@ -1908,10 +1908,76 @@ fr:
       submit: Repiquer
       title: Repiquer %{crop}
   posts:
+    draft: Brouillon
+    description:
+      activity_html: "a écrit un article sur %{post}"
+    edit:
+      title: Modifier l’article
+    form:
+      draft_visibility: Vous seul pouvez voir ce brouillon tant que vous ne l’avez pas publié.
+      errors:
+        one: "%{count} erreur a empêché l’enregistrement de cet article :"
+        other: "%{count} erreurs ont empêché l’enregistrement de cet article :"
+      forum_body: Quoi de neuf ?
+      garden_body: Que se passe-t-il dans votre potager ?
+      editor_instructions_html: Utilisez les boutons ci-dessus pour mettre votre texte en forme. Tapez <strong>@</strong> pour créer un lien vers une plante, un membre ou l’une de vos plantations. Pour le reste, l’onglet <strong>Markdown</strong> affiche le texte brut.
+      forum_notice_html: "Cet article sera publié dans le forum %{forum}"
+      photos: Photos
+      photo_instructions_html: Utilisez <strong>+ Flickr photo</strong> dans la barre d’outils pour insérer une photo dans votre article. Sa photo de couverture et ses photos apparaîtront ici à la prochaine ouverture du brouillon.
+      card_photo: Photo de couverture
+      card_photo_help: Affichée dans la liste des articles, sur votre page et dans les liens partagés.
+      card_photo_empty: Ajoutez une photo, puis choisissez celle qui représentera cet article.
+      photos_in_post: Photos de cet article
+      pick_from_flickr: choisir sur Flickr
+      flickr_photos: Ces photos proviennent de votre compte Flickr.
+      autosave_help: Enregistrement automatique pendant la rédaction. Fermez cette page et reprenez plus tard depuis vos articles.
+      discard_draft: Supprimer le brouillon
+      confirm_discard: Êtes-vous sûr ?
+      close: Fermer
+      save_draft: Enregistrer le brouillon
+      publish_post: Publier l’article
+      save_changes: Enregistrer les modifications
+    new:
+      forum_title: "Publier dans %{forum}"
+    preview:
+      photo_alt: Une photo en rapport avec cet article
+      author_html: "par %{author},"
+      read_more: Lire la suite
+    single:
+      attribution_html: "Publié par %{author} le %{date}"
+      forum_attribution_html: "Publié par %{author} dans %{forum} le %{date}"
+      deleted_member: Membre supprimé
+      edited_at: "et modifié le %{date}"
+      permalink: Lien permanent
+    summary:
+      subject: Sujet
+      posted_by: Publié par
+      recent_activity: Activité la plus récente
+      comments: Commentaires
+    show:
+      visitor_intro_html: "%{author} utilise %{site} pour parler de %{subject} avec une communauté de jardiniers du monde entier. Nous proposons des conseils pour cultiver %{crops} et une communauté internationale."
+      different_crops: des centaines de plantes différentes
+      join_html: "%{sign_in} ou %{sign_up} pour commencer à utiliser %{site} et suivre vos plantations et récoltes."
+      sign_in: Connectez-vous
+      sign_up: inscrivez-vous
+      comment: Commenter
+      crops_mentioned: Plantes mentionnées dans cet article
+      feed_title: "Commentaires récents sur %{subject} (%{site})"
+      comment_title: "Commentaire de %{author} le %{date}"
+      comment_description_html: "Commentaire sur %{post}"
     created: La publication a été bien créée
     deleted: Ta publication a été supprimée.
     draft_saved: Le brouillon a été enregistré.
     index:
+      posts: Articles
+      subscribe_author_html: "Abonnez-vous au %{feed}."
+      author_feed: "flux RSS des articles de %{author}"
+      subscribe_html: "Abonnez-vous au %{posts} ou au %{comments} de %{site}."
+      posts_feed: flux RSS des articles
+      comments_feed: flux RSS des commentaires
+      feed_title: "Articles récents de %{author} (%{site})"
+      all_members: tous les membres
+      item_title: "%{subject} par %{author}"
       title:
         author_posts: Postes %{author}
         default: Les publications de tout le monde

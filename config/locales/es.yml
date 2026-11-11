@@ -1905,10 +1905,76 @@ es:
       submit: Trasplantar
       title: Trasplantar %{crop}
   posts:
+    draft: Borrador
+    description:
+      activity_html: "escribió una publicación sobre %{post}"
+    edit:
+      title: Editar publicación
+    form:
+      draft_visibility: Solo tú puedes ver este borrador hasta que lo publiques.
+      errors:
+        one: "%{count} error impidió guardar esta publicación:"
+        other: "%{count} errores impidieron guardar esta publicación:"
+      forum_body: ¿Qué hay de nuevo?
+      garden_body: ¿Qué está pasando en tu huerto?
+      editor_instructions_html: Usa los botones de arriba para dar formato al texto. Escribe <strong>@</strong> para enlazar un cultivo, un miembro o una de tus plantaciones. Para lo demás, la pestaña <strong>Markdown</strong> muestra el texto sin formato.
+      forum_notice_html: "Esta publicación se publicará en el foro %{forum}"
+      photos: Fotos
+      photo_instructions_html: Usa <strong>+ Flickr photo</strong> en la barra de herramientas para insertar una foto en tu publicación. Su foto de portada y sus fotos aparecerán aquí la próxima vez que abras el borrador.
+      card_photo: Foto de portada
+      card_photo_help: Se muestra en la lista de publicaciones, en tu página y en los enlaces compartidos.
+      card_photo_empty: Añade una foto y elige cuál representará esta publicación.
+      photos_in_post: Fotos de esta publicación
+      pick_from_flickr: elegir de Flickr
+      flickr_photos: Estas son fotos de tu cuenta de Flickr.
+      autosave_help: Se guarda automáticamente mientras trabajas. Cierra esta página y retómalo más tarde desde tus publicaciones.
+      discard_draft: Descartar borrador
+      confirm_discard: ¿Estás seguro?
+      close: Cerrar
+      save_draft: Guardar borrador
+      publish_post: Publicar
+      save_changes: Guardar cambios
+    new:
+      forum_title: "Publicar en %{forum}"
+    preview:
+      photo_alt: Una foto relacionada con esta publicación
+      author_html: "por %{author},"
+      read_more: Leer más
+    single:
+      attribution_html: "Publicado por %{author} el %{date}"
+      forum_attribution_html: "Publicado por %{author} en %{forum} el %{date}"
+      deleted_member: Miembro eliminado
+      edited_at: "y editado el %{date}"
+      permalink: Enlace permanente
+    summary:
+      subject: Asunto
+      posted_by: Publicado por
+      recent_activity: Actividad más reciente
+      comments: Comentarios
+    show:
+      visitor_intro_html: "%{author} usa %{site} para hablar sobre %{subject} con una comunidad mundial de personas que cultivan sus alimentos. Ofrecemos consejos para cultivar %{crops} y una comunidad de todo el mundo."
+      different_crops: cientos de cultivos diferentes
+      join_html: "%{sign_in} o %{sign_up} para empezar a usar %{site} y llevar un registro de lo que plantas y cosechas."
+      sign_in: Inicia sesión
+      sign_up: regístrate
+      comment: Comentar
+      crops_mentioned: Cultivos mencionados en esta publicación
+      feed_title: "Comentarios recientes en %{subject} (%{site})"
+      comment_title: "Comentario de %{author} el %{date}"
+      comment_description_html: "Comentario en %{post}"
     created: La publicación se creó correctamente.
     deleted: La publicación fue eliminada.
     draft_saved: Se guardó el borrador.
     index:
+      posts: Publicaciones
+      subscribe_author_html: "Suscríbete a %{feed}."
+      author_feed: "la fuente RSS de publicaciones de %{author}"
+      subscribe_html: "Suscríbete a la %{posts} o a la %{comments} de %{site}."
+      posts_feed: fuente RSS de publicaciones
+      comments_feed: fuente RSS de comentarios
+      feed_title: "Publicaciones recientes de %{author} (%{site})"
+      all_members: todos los miembros
+      item_title: "%{subject} por %{author}"
       title:
         author_posts: publicaciones de %{author}
         default: Las publicaciones de todos

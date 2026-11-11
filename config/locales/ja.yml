@@ -908,6 +908,83 @@ ja:
         one: 該当する%{count}袋を表示
         other: 該当する%{count}袋を表示
       showing: 播種期限を過ぎた袋を表示しています。
+  posts:
+    draft: 下書き
+    description:
+      activity_html: "%{post}について投稿しました"
+    edit:
+      title: 投稿を編集
+    form:
+      draft_visibility: 公開するまで、この下書きを見られるのはあなただけです。
+      errors:
+        one: "%{count}件のエラーにより、この投稿を保存できませんでした："
+        other: "%{count}件のエラーにより、この投稿を保存できませんでした："
+      forum_body: 最近どうですか？
+      garden_body: あなたの菜園の様子はいかがですか？
+      editor_instructions_html: 上のボタンで文章を整えられます。<strong>@</strong>を入力すると、作物、メンバー、自分の栽培記録にリンクできます。それ以外の編集には、<strong>Markdown</strong>タブで元のテキストを表示できます。
+      forum_notice_html: "この投稿は%{forum}フォーラムに公開されます"
+      photos: 写真
+      photo_instructions_html: ツールバーの<strong>+ Flickr photo</strong>で投稿に写真を挿入できます。次に下書きを開くと、カバー写真とその他の写真がここに表示されます。
+      card_photo: カバー写真
+      card_photo_help: 投稿一覧、あなたのページ、共有リンクに表示されます。
+      card_photo_empty: 写真を追加してから、この投稿を代表する写真を選んでください。
+      photos_in_post: この投稿の写真
+      pick_from_flickr: Flickrから選択
+      flickr_photos: あなたのFlickrアカウントの写真です。
+      autosave_help: 作業中は自動保存されます。このページを閉じても、後で自分の投稿一覧から編集を再開できます。
+      discard_draft: 下書きを破棄
+      confirm_discard: よろしいですか？
+      close: 閉じる
+      save_draft: 下書きを保存
+      publish_post: 投稿を公開
+      save_changes: 変更を保存
+    index:
+      posts: 投稿
+      subscribe_author_html: "%{feed}を購読する。"
+      author_feed: "%{author}の投稿RSSフィード"
+      subscribe_html: "%{site}の%{posts}または%{comments}を購読する。"
+      posts_feed: 投稿RSSフィード
+      comments_feed: コメントRSSフィード
+      feed_title: "%{author}の最近の投稿（%{site}）"
+      all_members: すべてのメンバー
+      item_title: "%{subject}（投稿者：%{author}）"
+      title:
+        author_posts: "%{author}の投稿"
+        default: みんなの投稿
+    new:
+      forum_title: "%{forum}に投稿"
+    preview:
+      photo_alt: この投稿に関連する写真
+      author_html: "投稿者：%{author}、"
+      read_more: 続きを読む
+    single:
+      attribution_html: "投稿者：%{author}、投稿日時：%{date}"
+      forum_attribution_html: "投稿者：%{author}、フォーラム：%{forum}、投稿日時：%{date}"
+      deleted_member: 退会したメンバー
+      edited_at: "編集日時：%{date}"
+      permalink: 固定リンク
+    summary:
+      subject: 件名
+      posted_by: 投稿者
+      recent_activity: 最近の更新
+      comments: コメント
+    show:
+      visitor_intro_html: "%{author}は%{site}で、世界中の菜園仲間と%{subject}について話しています。%{crops}の栽培アドバイスと、世界中の仲間が集まるコミュニティがあります。"
+      different_crops: 数百種類の作物
+      join_html: "%{sign_in}または%{sign_up}して、%{site}で植え付けや収穫を記録しましょう。"
+      sign_in: ログイン
+      sign_up: 新規登録
+      comment: コメントする
+      crops_mentioned: この投稿に登場する作物
+      feed_title: "%{subject}への最近のコメント（%{site}）"
+      comment_title: "%{author}のコメント（%{date}）"
+      comment_description_html: "%{post}へのコメント"
+    more_from: "%{author}のほかの投稿"
+    read_time:
+      one: "%{count}分で読めます"
+      other: "%{count}分で読めます"
+    untitled: 無題の投稿
+    write_blog_post: ブログを書く
   rack_attack:
     blocked:
       contact: お知らせください
