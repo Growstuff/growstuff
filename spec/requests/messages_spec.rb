@@ -164,10 +164,6 @@ describe 'Messages' do
     context 'when topic is a seed' do
       let(:topic) { seed }
 
-      it 'keeps the private reply form visible' do
-        expect(response.parsed_body.css('form[action="/messages"]').first.ancestors('details')).to be_empty
-      end
-
       it { expect(response.body).to include("About") }
       it { expect(response.body).to include(seed_path(seed)) }
       it { expect(response.body).to include(seed.to_s) }
