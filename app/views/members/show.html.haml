@@ -16,7 +16,7 @@
 - content_for :member_rss_slug, @member.slug
 
 - content_for :breadcrumbs do
-  %li.breadcrumb-item= link_to 'Members', members_path
+  %li.breadcrumb-item= link_to t('.breadcrumbs_members'), members_path
   %li.breadcrumb-item.active= link_to @member.login_name, member_path(@member)
 
 - if member_signed_in? && current_member == @member && @member.email.blank?
@@ -34,12 +34,12 @@
             %p
               %small
                 %a{href: "#content"}
-                  Skip to main content
+                  = t('.skip_to_content')
             - if @member.bio.blank?
               - if member_signed_in? && current_member == @member
-                = link_to "Add a bio to complete your profile.", edit_member_registration_path
+                = link_to t('.add_bio_prompt'), edit_member_registration_path
               - else
-                #{@member.login_name} hasn't written a bio yet.
+                = t('.no_bio', name: @member.login_name)
             - else
               :markdown
                 #{ strip_tags markdownify(@member.bio) }

@@ -2,4 +2,4 @@
   - harvests.each do |harvest|
     = render partial: "harvests/card", locals: { harvest: harvest }
 - if !harvests.any?
-  #{member.login_name} hasn't harvested anything yet.
+  = t('.none', name: member.login_name)

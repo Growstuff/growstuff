@@ -1191,6 +1191,45 @@ fr:
     create:
       dismissed: Nous ne suggérerons plus %{name}.
   members:
+    avatar:
+      alt: "Avatar de %{name}"
+    bio:
+      heading: "Tout sur %{name}"
+    finish_signup:
+      agree_to_tos_html: "J'accepte les %{tos_link}"
+      continue: Continuer
+      email_help: "Nous utiliserons cette adresse pour vous contacter (nous ne spammons jamais !)"
+      email_missing_help: Ajoutez-en une si vous souhaitez des rappels de plantation. Nous vous enverrons un lien de confirmation et nous ne spammons jamais.
+      email_optional: E-mail (facultatif)
+      instructions: Presque terminé. Choisissez le nom qui apparaîtra sur le site.
+      name_help: Ceci est le nom qui apparaîtra sur le site. Vous pourrez le modifier plus tard.
+      terms_of_service: Conditions d'utilisation
+      title: "Rejoindre %{site_name}"
+      welcome: "Bienvenue sur %{site_name}"
+    harvests:
+      none: "%{name} n'a encore rien récolté."
+    member:
+      joined: "Membre depuis %{time}."
+      view_all_gardens: "voir tous les jardins de %{name}"
+    nearby:
+      edit_location: Modifier votre localisation
+      find_within: Trouver des membres dans un rayon de
+      km: km
+      miles: miles
+      no_results: Aucun résultat trouvé
+      of: de
+      results_found: Résultats trouvés
+      search: Rechercher
+      title_find: Trouver des membres à proximité
+      title_near: "Membres près de %{location}"
+    show:
+      add_bio_prompt: Ajoutez une bio pour compléter votre profil.
+      breadcrumbs_members: Membres
+      no_bio: "%{name} n'a pas encore rédigé de bio."
+      rss_item_title: "%{title} par %{author}"
+      skip_to_content: Passer au contenu principal
+    thumbnail:
+      joined: "Membre depuis %{time}."
     card:
       not_interested: Arrêter de suggérer %{name}
       visit: Visitez les jardins de %{name}
@@ -1223,6 +1262,10 @@ fr:
       not_known: Emplacement inconnu ou non géocodable
       see_nearby_html: Voir d'autres membres, plantations, graines et plus encore près de %{location}
     index:
+      show: Afficher
+      sort_alphabetically: par ordre alphabétique
+      sort_by: Trier par
+      sort_recently_joined: récemment inscrit
       title: Membres %{site_name}
     signup:
       error: Échec de l'inscription
@@ -1233,6 +1276,9 @@ fr:
       heading: Statistiques
       toggle: Afficher/Masquer
     unsubscribe:
+      instructions_html: "Si vous souhaitez vous désabonner d'autres e-mails de Growstuff, vous pouvez le faire via %{link}"
+      settings_page: votre page de paramètres
+      title: "Désabonner %{member}"
       error: Nous sommes désolés, une erreur s'est produite lors de la mise à jour de vos paramètres.
     unsubscribed: Vous avez été désabonné des e-mails %{email_type}.
     welcome: Accueil

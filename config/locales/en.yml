@@ -1699,6 +1699,45 @@ en:
     update:
       saved: Thanks, your name is set.
   members:
+    avatar:
+      alt: "Avatar of %{name}"
+    bio:
+      heading: "All about %{name}"
+    finish_signup:
+      agree_to_tos_html: "I agree to the %{tos_link}"
+      continue: Continue
+      email_help: "We'll use this address to contact you (we never spam!)"
+      email_missing_help: "Add one if you'd like planting reminders. We'll send a link to confirm it, and we never spam."
+      email_optional: Email (optional)
+      instructions: Nearly there. Choose the name that will show on the website.
+      name_help: This is the name that will show on the website. You can change it later.
+      terms_of_service: Terms of Service
+      title: "Join %{site_name}"
+      welcome: "Welcome to %{site_name}"
+    harvests:
+      none: "%{name} hasn't harvested anything yet."
+    member:
+      joined: "Joined %{time} ago."
+      view_all_gardens: "view all %{name}'s gardens"
+    nearby:
+      edit_location: Edit your location
+      find_within: Find members within
+      km: km
+      miles: miles
+      no_results: No results found
+      of: of
+      results_found: Results found
+      search: Search
+      title_find: Find nearby members
+      title_near: "Members near %{location}"
+    show:
+      add_bio_prompt: Add a bio to complete your profile.
+      breadcrumbs_members: Members
+      no_bio: "%{name} hasn't written a bio yet."
+      rss_item_title: "%{title} by %{author}"
+      skip_to_content: Skip to main content
+    thumbnail:
+      joined: "Joined %{time} ago."
     card:
       not_interested: Stop suggesting %{name}
       visit: Visit %{name}'s gardens
@@ -1732,6 +1771,10 @@ en:
       not_known: Location not known or geocodable
       see_nearby_html: See other members, plantings, seeds and more near %{location}
     index:
+      show: Show
+      sort_alphabetically: alphabetically
+      sort_by: Sort by
+      sort_recently_joined: recently joined
       title: "%{site_name} members"
     signup:
       error: Failed to complete signup
@@ -1742,6 +1785,9 @@ en:
       heading: Stats
       toggle: Show/Hide
     unsubscribe:
+      instructions_html: "If you wish to unsubscribe from other Growstuff emails, you may do so via %{link}"
+      settings_page: your settings page
+      title: "Unsubscribe %{member}"
       error: We're sorry, there was an error updating your settings.
     unsubscribed: You have been unsubscribed from %{email_type} emails.
     welcome: Welcome
