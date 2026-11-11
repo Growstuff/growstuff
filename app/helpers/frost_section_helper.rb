@@ -23,9 +23,7 @@ module FrostSectionHelper
   }.freeze
 
   def frost_icon(verdict)
-    path = tag.path(d: FROST_ICONS.fetch(FROST_VERDICT_ICONS.fetch(verdict)))
-    tag.svg(path, width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': 2.5,
-                  'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': true)
+    outline_icon(FROST_ICONS.fetch(FROST_VERDICT_ICONS.fetch(verdict)))
   end
 
   def frost_planting?(frost)

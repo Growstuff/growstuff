@@ -16,7 +16,8 @@ class PlantingFrost < FrostSeason
     stay = planting.frost_safe_stay
     new(stat:, crop_name: planting.crop.name, planted_on: stay&.ended_on || planting.planted_at,
         sown_on: (planting.planted_at if stay), safe_place: stay&.garden&.name,
-        ends_on: planting.finished_at || planting.weather_due_on, finished: planting.finished?, readings:, today:)
+        ends_on: planting.finished_at || planting.weather_due_on, finished: planting.finished? || planting.abandoned?(today),
+        readings:, today:)
   end
 
   # planted_on is the day frost danger starts for the planting: the day it went outdoors, if it began somewhere safe from

@@ -206,7 +206,7 @@ module PhotosHelper
       selectedId:    post.card_photo_id,
       addPhotoUrl:   new_photo_path_for(post),
       addPhotoLabel: photo_label(post),
-      photos:        post.photos.map { |p| { id: p.id, title: p.title, thumbnail_url: p.thumbnail_url, fullsize_url: p.fullsize_url } }
+      photos:        post_photo_props(post)
     }
   end
 

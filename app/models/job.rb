@@ -113,7 +113,7 @@ class Job < ApplicationRecord
     if jobbable.is_a?(Planting)
       return if jobbable.owner_id == owner_id ||
                 jobbable.garden&.owner_id == owner_id ||
-                jobbable.garden&.garden_collaborators&.where(member_id: owner_id)&.exists?
+                jobbable.garden&.garden_collaborators&.exists?(member_id: owner_id)
     elsif jobbable.respond_to?(:owner_id) && jobbable.owner_id == owner_id
       return
     elsif !jobbable.respond_to?(:owner_id)

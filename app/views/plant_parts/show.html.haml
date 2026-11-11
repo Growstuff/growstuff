@@ -7,17 +7,17 @@
 
 %h1 #{@plant_part.name.titlecase}
 - if @plant_part.crops.empty?
-  %p No crops are harvested for this plant part (yet).
+  %p= t('.no_crops')
 - else
-  %p The following crops are harvested for their #{@plant_part}.
+  %p= t('.harvested_crops', plant_part: @plant_part)
   %ul
     - @plant_part.crops.each do |c|
       %li= link_to c, c
 
-%p= link_to "View other plant parts", plant_parts_path
+%p= link_to t('.view_other_plant_parts'), plant_parts_path
 
 %p
 - if can? :edit, @plant_part
-  = link_to 'Edit', edit_plant_part_path(@plant_part), class: 'btn btn-outline-secondary btn-sm'
+  = link_to t('.edit'), edit_plant_part_path(@plant_part), class: 'btn btn-outline-secondary btn-sm'
 - if can? :destroy, @plant_part
-  = link_to 'Delete', @plant_part, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-secondary btn-sm'
+  = link_to t('.delete'), @plant_part, method: :delete, data: { confirm: t(:are_you_sure?) }, class: 'btn btn-outline-secondary btn-sm'

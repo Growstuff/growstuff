@@ -93,7 +93,6 @@ class Member < ApplicationRecord
   scope :located, -> { where.not(location: '').where.not(latitude: nil).where.not(longitude: nil) }
   scope :recently_signed_in, -> { reorder(updated_at: :desc) }
   scope :recently_joined, -> { reorder(confirmed_at: :desc) }
-  scope :interesting, -> { confirmed.located.recently_signed_in.has_plantings }
   scope :has_plantings, -> { joins(:plantings).group("members.id") }
   scope :with_email, -> { where.not(email: nil) }
   scope :wants_reminders, -> { with_email.where(send_planting_reminder: true) }
@@ -139,6 +138,14 @@ class Member < ApplicationRecord
 
   # Whether they've said they don't want a nursery, so we stop asking. Having
   # one trumps it.
+  # The member's active annual plantings with a predictable finish, grouped by
+  # how they are getting on: { super_late:, late:, harvesting:, others: }.
+  def plantings_by_progress
+    grouped = plantings.active.annual.select(&:finish_is_predicatable?).group_by(&:progress_state)
+    { super_late: grouped.fetch(:super_late, []), late: grouped.fetch(:late, []),
+      harvesting: grouped.fetch(:harvesting, []), others: grouped.fetch(:growing, []) }
+  end
+
   def nursery_declined?
     settings['nursery_declined'] == true && nursery.nil?
   end
@@ -201,6 +208,8 @@ class Member < ApplicationRecord
   # Triggers
   after_validation :geocode
   after_validation :empty_unwanted_geocodes
+  # Ask for the climate of the place they have said they are, to be fetched before others.
+  after_save :request_climate, if: -> { saved_change_to_latitude? || saved_change_to_longitude? }
 
   # Give each new member a default garden
   # we use find_or_create to avoid accidentally creating a second one,
@@ -326,6 +335,10 @@ class Member < ApplicationRecord
 
   def located?
     location.present? && latitude.present? && longitude.present?
+  end
+
+  def request_climate
+    ClimateRequest.record(Place.new(latitude, longitude)) if located?
   end
 
   def auth(provider)

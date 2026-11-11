@@ -1,36 +1,36 @@
-- content_for :title, "Crop Wrangling"
+- content_for :title, t('.title')
 
-%h1 Crop Wrangling
+%h1= t('.title')
 
 %nav.nav
-  = link_to "Full crop hierarchy", hierarchy_crops_path, class: 'nav-link'
-  = link_to "Add Crop", new_crop_path, class: 'btn'
-  = link_to "Merge crops", admin_crop_merge_path, class: 'nav-link'
+  = link_to t('.full_crop_hierarchy'), hierarchy_crops_path, class: 'nav-link'
+  = link_to t('.add_crop'), new_crop_path, class: 'btn'
+  = link_to t('.merge_crops'), admin_crop_merge_path, class: 'nav-link'
 
 %section.crop_wranglers
-  %h2 Crop Wranglers
+  %h2= t('.crop_wranglers')
   - @crop_wranglers.each do |crop_wrangler|
     = render 'members/tiny', member: crop_wrangler
 
 %hr/
 
 %section
-  %h2 Crops
+  %h2= t('.crops')
 
   = form_with url: wrangle_crops_path, method: :get, class: 'row g-2 my-3', role: 'search' do |f|
     = hidden_field_tag :approval_status, @approval_status if @approval_status.present?
     = hidden_field_tag :level, 'all' if @all_levels
     .col-sm-8.col-md-6
-      = f.search_field :q, value: @query, class: 'form-control', placeholder: 'Search crops by name', 'aria-label': 'Search crops'
+      = f.search_field :q, value: @query, class: 'form-control', placeholder: t('.search_placeholder'), 'aria-label': t('.search_aria_label')
     .col-auto
-      = f.submit 'Search', class: 'btn btn-primary', name: nil
+      = f.submit t('.search_button'), class: 'btn btn-primary', name: nil
       - if @query.present?
-        = link_to 'Clear', wrangle_crops_path(approval_status: @approval_status, level: ('all' if @all_levels)), class: 'btn btn-link'
+        = link_to t('.clear'), wrangle_crops_path(approval_status: @approval_status, level: ('all' if @all_levels)), class: 'btn btn-link'
 
   - carry = { q: @query.presence, level: ('all' if @all_levels && @query.blank?) }
-  - tabs = [['Approved', nil], ['Pending approval', 'pending'], ['Rejected', 'rejected']]
+  - tabs = [[t('.approved'), nil], [t('.pending_approval'), 'pending'], [t('.rejected'), 'rejected']]
   %ul.nav.nav-tabs{ role: 'tablist' }
-    %li.nav-item= link_to 'Recently edited', recently_edited_admin_crops_path, class: 'nav-link'
+    %li.nav-item= link_to t('.recently_edited'), recently_edited_admin_crops_path, class: 'nav-link'
     - tabs.each do |label, status|
       %li.nav-item
         = link_to label, wrangle_crops_path(carry.merge(approval_status: status)), class: ['nav-link', ('active' if @approval_status.presence == status)]
@@ -39,32 +39,32 @@
   - if @query.blank?
     %ul.nav.nav-pills.my-3
       %li.nav-item
-        = link_to 'Top level crops', wrangle_crops_path(approval_status: @approval_status), class: ['nav-link', ('active' unless @all_levels)]
+        = link_to t('.top_level_crops'), wrangle_crops_path(approval_status: @approval_status), class: ['nav-link', ('active' unless @all_levels)]
       %li.nav-item
-        = link_to 'All crops', wrangle_crops_path(approval_status: @approval_status, level: 'all'), class: ['nav-link', ('active' if @all_levels)]
+        = link_to t('.all_crops'), wrangle_crops_path(approval_status: @approval_status, level: 'all'), class: ['nav-link', ('active' if @all_levels)]
 
   .table-responsive
     %table.table.table-striped.table-bordered.table-sm.align-middle.wrangle-table{ id: @approval_status.blank? ? 'approved-crops' : "#{@approval_status}-crops" }
       %thead
         %tr
-          %th Name
-          %th Icon
-          %th.text-end Height
-          %th.text-end Spread
-          %th.text-end Row spacing
-          %th.text-end Growing degree days
-          %th YouTube
-          %th.text-end Scientific names
-          %th.text-end Alternate names
-          %th.text-end Child crops
-          %th.text-end Job templates
-          %th Updated
+          %th= t('.th_name')
+          %th= t('.th_icon')
+          %th.text-end= t('.th_height')
+          %th.text-end= t('.th_spread')
+          %th.text-end= t('.th_row_spacing')
+          %th.text-end= t('.th_growing_degree_days')
+          %th= t('.th_youtube')
+          %th.text-end= t('.th_scientific_names')
+          %th.text-end= t('.th_alternate_names')
+          %th.text-end= t('.th_child_crops')
+          %th.text-end= t('.th_job_templates')
+          %th= t('.th_updated')
           - if @approval_status == 'pending'
-            %th Requested by
+            %th= t('.th_requested_by')
           - elsif @approval_status == 'rejected'
-            %th Rejected by
+            %th= t('.th_rejected_by')
           - else
-            %th Added by
+            %th= t('.th_added_by')
       %tbody
         - @crops.each do |crop|
           %tr
@@ -76,21 +76,19 @@
             %td.text-end= crop.spread
             %td.text-end= crop.row_spacing
             %td.text-end= crop.growing_degree_days
-            %td= crop.en_youtube_url.present? ? 'Yes' : '-'
+            %td= crop.en_youtube_url.present? ? t('.yes') : '-'
             %td.text-end= crop.scientific_names.size
             %td.text-end= crop.alternate_names.size
             %td.text-end= crop.varieties.size
             %td.text-end
               - if crop.crop_job_templates.any?
-                = link_to pluralize(crop.crop_job_templates.size, 'template'), admin_crop_crop_job_templates_path(crop)
+                = link_to pluralize(crop.crop_job_templates.size, t('.template')), admin_crop_crop_job_templates_path(crop)
               - else
-                = link_to 'Add', new_admin_crop_crop_job_template_path(crop)
-            %td
-              = time_ago_in_words(crop.updated_at)
-              ago
+                = link_to t('.add'), new_admin_crop_crop_job_template_path(crop)
+            %td= t('.time_ago', time: time_ago_in_words(crop.updated_at))
             %td
               - person = @approval_status == 'pending' ? crop.requester : crop.creator
-              = person.present? ? link_to(person, person) : 'N/A'
+              = person.present? ? link_to(person, person) : t('.not_applicable')
 
   = page_entries_info @crops
   = will_paginate @crops

@@ -1,9 +1,9 @@
-- content_for :title, "Policy"
+- content_for :title, t('.title')
 
-%h1 Policy
+%h1= t('.title')
 %ul
-  %li= link_to 'Terms Of Service', policy_tos_path
-  %li= link_to 'Privacy Policy', policy_privacy_path
-  %li= link_to 'Data Use Policy', policy_data_use_path
-  %li= link_to 'Community Guidelines', policy_community_path
-  %li= link_to 'Copyright Infringement Policy', policy_copyright_path
+  %li= link_to t('.terms_of_service'), policy_tos_path
+  %li= link_to t('.privacy_policy'), policy_privacy_path
+  %li= link_to t('.data_use_policy'), policy_data_use_path
+  %li= link_to t('.community_guidelines'), policy_community_path
+  %li= link_to t('.copyright_infringement_policy'), policy_copyright_path

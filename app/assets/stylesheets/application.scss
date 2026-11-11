@@ -44,6 +44,7 @@
 @import "actions_menu";
 @import "record_page";
 @import "plantings";
+@import "planting_origin";
 @import "figures";
 @import "frost";
 @import "climate";
@@ -58,13 +59,14 @@
 @import "seeds";
 @import "stalls";
 
-@import "predictions";
 @import "homepage";
 @import "home_dashboard";
+@import "season_climate";
 @import "member_cards";
 @import "neighbours";
 @import "jobs";
 @import "maps";
+@import "admin_climate";
 
 @view-transition {
   navigation: auto;

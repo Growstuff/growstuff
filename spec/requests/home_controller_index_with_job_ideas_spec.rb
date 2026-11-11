@@ -18,8 +18,8 @@ describe HomeController, '#index with job ideas', flipper: :job_ideas do
       get root_path
     end
 
-    it 'has a yellow bar for jobs today' do
-      expect(page).to have_css('.home-ideas .notepad-ideas', text: '1 job today')
+    it 'has a yellow bar for jobs soon' do
+      expect(page).to have_css('.home-ideas .notepad-ideas', text: '1 job soon')
     end
 
     it 'links to my jobs' do
@@ -34,8 +34,8 @@ describe HomeController, '#index with job ideas', flipper: :job_ideas do
       get root_path
     end
 
-    it 'has a yellow bar for jobs today' do
-      expect(page).to have_css('.home-ideas .notepad-ideas', text: '1 job today')
+    it 'has a yellow bar for jobs soon' do
+      expect(page).to have_css('.home-ideas .notepad-ideas', text: '1 job soon')
     end
 
     it 'links to my jobs' do

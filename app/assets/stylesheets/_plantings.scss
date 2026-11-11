@@ -13,21 +13,6 @@
     }
   }
 
-  .planting-thumbnail {
-    padding: 0;
-    width: 150px;
-
-    .badge {
-      font-size: 100%;
-    }
-  }
-
-  .planting-name {
-    position: relative;
-    text-align: center;
-    top: 0;
-  }
-
   .card-footer {
     max-height: 2em;
     -webkit-line-clamp: 1;
@@ -526,13 +511,14 @@
   figcaption {
     color: $ink-muted;
     font-size: 0.8rem;
+    margin-bottom: 0.5rem; // room between a caption, and its badge, and the chart
   }
 
   .weather-chart {
     background: $white;
     border-radius: $card-radius;
     display: block;
-    height: 80px; // WEATHER_CHART_HEIGHT in WeatherChartFrameHelper
+    height: 120px; // WEATHER_CHART_HEIGHT in WeatherChartFrameHelper
     width: 100%;
   }
 
@@ -608,6 +594,147 @@
     position: absolute;
     right: 0.4rem;
     transform: translateY(-110%);
+  }
+
+  // The temperature that kills the crop while it grows, as a solid red line with its label above it on the left, clear of the
+  // frost line's label on the right and of the axis figures.
+  .weather-kill-line {
+    stroke: $danger-text;
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .weather-kill-label {
+    background: rgba($white, 0.85);
+    border-radius: 3px;
+    color: $danger-text;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0 0.25rem;
+    position: absolute;
+    left: 3rem;
+    transform: translateY(-110%);
+  }
+
+  // What EcoCrop says the crop grows best in, and survives, behind the temperature lines: the wider band is paler and
+  // has dashed edges, the narrower is stronger with solid ones.
+  .weather-band {
+    fill: $green;
+    stroke: $green;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+
+    &--absolute {
+      fill-opacity: 0.1;
+      stroke-dasharray: 4 3;
+      stroke-opacity: 0.6;
+    }
+
+    &--optimal {
+      fill-opacity: 0.28;
+      stroke-opacity: 0.9;
+    }
+  }
+
+  // What each band is, in the chart's right-hand corner: the best range under its top edge, the survivable one above its bottom.
+  // The climate notes under the temperature chart's caption: small cards, side by side where they fit and one above the
+  // other where they don't, so a long note wraps and never runs off the page.
+  .weather-notes {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    margin: 0.35rem 0 0.6rem;
+  }
+
+  // One note: a coloured edge and tint for how it went, an icon, a bold line and the figures under it.
+  .weather-note {
+    align-items: flex-start;
+    background: rgba($black, 0.04);
+    border-left: 4px solid $ink-muted;
+    border-radius: $card-radius;
+    display: flex;
+    font-size: 0.85rem;
+    gap: 0.6rem;
+    line-height: 1.35;
+    padding: 0.55rem 0.75rem;
+
+    strong {
+      display: block;
+    }
+
+    span {
+      color: $ink-muted;
+    }
+
+    &--success {
+      background: rgba($green, 0.12);
+      border-left-color: $green;
+    }
+
+    &--caution {
+      background: rgba($orange, 0.14);
+      border-left-color: $orange;
+    }
+
+    &--danger {
+      background: rgba($danger, 0.1);
+      border-left-color: $danger;
+    }
+
+    // Too cold: blue, since red reads as too hot.
+    &--cold {
+      background: rgba($blue, 0.1);
+      border-left-color: $blue;
+    }
+  }
+
+  .weather-note-icons {
+    display: flex;
+    gap: 0.3rem;
+  }
+
+  .weather-note-icon {
+    font-size: 1.15rem;
+    margin-top: 0.1rem;
+  }
+
+  .weather-note .fa-snowflake {
+    color: $blue;
+  }
+
+  .weather-note--success .weather-note-icon {
+    color: $green;
+  }
+
+  .weather-note--caution .weather-note-icon {
+    color: $orange;
+  }
+
+  .weather-note--danger .weather-note-icon {
+    color: $danger;
+  }
+
+  .weather-note--cold .weather-note-icon {
+    color: $blue;
+  }
+
+  .weather-note--neutral .weather-note-icon {
+    color: $ink-muted;
+  }
+
+  .weather-band-label {
+    background: rgba($white, 0.85);
+    border-radius: 3px;
+    color: $ink-muted;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0 0.25rem;
+    position: absolute;
+    right: 0.4rem;
+
+
   }
 
   .weather-seasons {

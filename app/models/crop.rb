@@ -20,6 +20,7 @@ class Crop < ApplicationRecord
   belongs_to :creator, class_name: 'Member', optional: true, inverse_of: :created_crops
   belongs_to :requester, class_name: 'Member', optional: true, inverse_of: :requested_crops
   belongs_to :parent, class_name: 'Crop', optional: true, inverse_of: :varieties
+  belongs_to :ecocrop_record, class_name: 'EcocropData', foreign_key: :ecocrop_data_id, optional: true, inverse_of: :crops
   has_many :scientific_names, dependent: :delete_all
   has_many :alternate_names, dependent: :delete_all
   has_many :plantings, dependent: :destroy
@@ -49,7 +50,6 @@ class Crop < ApplicationRecord
   scope :pending_approval, -> { where(approval_status: "pending") }
   scope :approved, -> { where(approval_status: "approved") }
   scope :rejected, -> { where(approval_status: "rejected") }
-  scope :interesting, -> { approved.has_photos }
   scope :has_photos, -> { includes(:photos).where.not(photos: { id: nil }) }
   scope :joins_members, -> { joins("INNER JOIN members ON members.id = harvests.owner_id") }
 
@@ -129,13 +129,22 @@ class Crop < ApplicationRecord
     scientific_names.first
   end
 
+  # The growing degree days to show: nil unless there is a figure above zero, since a crop needs some heat to grow and a
+  # stored 0 is a gap.
+  def growing_degree_days_figure
+    growing_degree_days if growing_degree_days.to_i.positive?
+  end
+
+  # The record linked by the crops:match_ecocrop tasks or a crop wrangler, else one named like a scientific name of the crop,
+  # else its parent's, so a variety of tomato reads what tomato does.
   def ecocrop_data
-    # Match against any of the crop's scientific names, starting with default
+    return ecocrop_record if ecocrop_record
+
     scientific_names.each do |sn|
       record = EcocropData.by_scientific_name(sn.name)
       return record if record.present?
     end
-    nil
+    parent&.ecocrop_data
   end
 
   # This crop's harvest style if it has one, else its parent's, so a variety of lettuce follows lettuce.
@@ -210,10 +219,6 @@ class Crop < ApplicationRecord
 
   def annual?
     perennial == false
-  end
-
-  def interesting?
-    photos.size >= 3 || plantings_count >= 3
   end
 
   def pending?

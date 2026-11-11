@@ -147,6 +147,9 @@
 
       - cache [@crop, 'ecocrop_data'] do
         = render 'ecocrop_data', crop: @crop
+      -# For wranglers, so it sits outside the cache above.
+      - if can?(:wrangle, @crop) && @crop.ecocrop_record.nil?
+        = render 'ecocrop_link', crop: @crop
 
       %section.crop-learn-more
         .section-header

@@ -1,12 +1,12 @@
-- content_for :title, "Listing alternate names"
+- content_for :title, t('.title')
 
 - if can? :create, AlternateName
-  %p= link_to 'New alternate name', new_alternate_name_path, class: 'btn btn-primary'
+  %p= link_to t('.new_alternate_name'), new_alternate_name_path, class: 'btn btn-primary'
 
 %table
   %tr
-    %th Alternate name
-    %th Crop
+    %th= t('.alternate_name')
+    %th= t('.crop')
     %th
     %th
 
@@ -14,7 +14,7 @@
     %tr
       %td= link_to alternate_name.name, alternate_name
       %td= alternate_name.crop
-      %td= link_to 'Show', alternate_name
+      %td= link_to t('.show'), alternate_name
       %td
         - if can? :edit, alternate_name
           = link_to t('buttons.edit'), edit_alternate_name_path(alternate_name), class: 'btn btn-outline-secondary btn-sm'

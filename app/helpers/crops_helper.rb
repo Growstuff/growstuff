@@ -11,11 +11,11 @@ module CropsHelper
   # the median of members' seed packets.
   def growing_facts(crop)
     [
-      { title: 'Row Spacing', set: growing_cm(crop.row_spacing.presence), median: growing_cm(crop.median_row_spacing) },
-      { title:  'Germination',
+      { title: I18n.t('crops.growing_facts.row_spacing'), set: growing_cm(crop.row_spacing.presence), median: growing_cm(crop.median_row_spacing) },
+      { title:  I18n.t('crops.growing_facts.germination'),
         set:    growing_days(crop.germination_days_min, crop.germination_days_max),
         median: growing_days(crop.median_germination_days_min, crop.median_germination_days_max) },
-      { title:  'Days until maturity',
+      { title:  I18n.t('crops.growing_facts.days_until_maturity'),
         set:    growing_days(crop.days_until_maturity_min, crop.days_until_maturity_max),
         median: growing_days(crop.median_days_until_maturity_min, crop.median_days_until_maturity_max) }
     ]

@@ -10,6 +10,8 @@ import './site/auto_suggest';
 import './site/crop_job_season';
 import './site/copy_credit';
 import './site/cropmap';
+import './site/ecocrop_link';
+import './site/ecocrop_find';
 import './site/editable';
 import './site/finish_toggle';
 import './site/job_ideas';

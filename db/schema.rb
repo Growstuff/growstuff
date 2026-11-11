@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_08_000400) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_11_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -389,6 +389,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000400) do
     t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
   end
 
+  create_table "climate_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.float "latitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.float "longitude", null: false, comment: "Centre of the grid cell, in degrees."
+    t.datetime "requested_at", null: false, comment: "When the cell was first asked for, so the longest waiting is fetched first."
+    t.datetime "updated_at", null: false
+    t.index ["latitude", "longitude"], name: "index_climate_requests_on_cell", unique: true
+  end
+
   create_table "climate_months", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "days", null: false, comment: "How many days of the month the figures are from."
@@ -602,6 +611,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000400) do
     t.integer "days_until_maturity_min", comment: "Days from sowing to harvest, at least."
     t.float "default_diameter"
     t.text "description"
+    t.bigint "ecocrop_data_id", comment: "The EcoCrop record for this crop, matched by scientific name."
     t.string "en_wikipedia_url"
     t.string "en_youtube_url"
     t.integer "germination_days_max", comment: "Days to germinate, at most."
@@ -642,6 +652,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000400) do
     t.string "sun_requirements"
     t.datetime "updated_at", precision: nil
     t.index ["creator_id"], name: "index_crops_on_creator_id"
+    t.index ["ecocrop_data_id"], name: "index_crops_on_ecocrop_data_id"
     t.index ["name"], name: "index_crops_on_name"
     t.index ["normalised_name"], name: "index_crops_on_normalised_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["parent_id"], name: "index_crops_on_parent_id"
@@ -1139,6 +1150,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000400) do
     t.index ["planting_id"], name: "index_planting_histories_on_planting_id"
   end
 
+  create_table "planting_seedlings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "label_text", comment: "What the label or tag said."
+    t.bigint "planting_id", null: false
+    t.string "source", comment: "shop, nursery, market, gift or unknown."
+    t.string "supplier", comment: "Who sold or gave it, as the member put it."
+    t.datetime "updated_at", null: false
+    t.index ["planting_id"], name: "index_planting_seedlings_on_planting_id", unique: true
+  end
+
   create_table "plantings", id: :serial, force: :cascade do |t|
     t.integer "alternate_name_id"
     t.integer "comments_count", default: 0
@@ -1349,6 +1370,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000400) do
   add_foreign_key "crop_job_steps", "crop_job_templates"
   add_foreign_key "crop_job_templates", "crops"
   add_foreign_key "crop_job_templates", "members", column: "creator_id"
+  add_foreign_key "crops", "ecocrop_data", column: "ecocrop_data_id", on_delete: :nullify
   add_foreign_key "harvests", "plantings"
   add_foreign_key "job_idea_dismissals", "members"
   add_foreign_key "jobs", "crop_job_steps", on_delete: :nullify
@@ -1360,6 +1382,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_000400) do
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
   add_foreign_key "planting_histories", "plantings"
+  add_foreign_key "planting_seedlings", "plantings", on_delete: :cascade
   add_foreign_key "plantings", "alternate_names", on_delete: :nullify
   add_foreign_key "plantings", "seeds", column: "parent_seed_id", name: "parent_seed", on_delete: :nullify
   add_foreign_key "plants", "plantings"

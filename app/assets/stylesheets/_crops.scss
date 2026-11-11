@@ -48,27 +48,6 @@
   }
 }
 
-.planting {
-  .crop-card {
-    height: 100%;
-    margin: 0.1em;
-    min-height: 300px;
-  }
-
-  .img-thumbnail {
-    width: 100%;
-  }
-}
-
-.crop-photos {
-  margin-left: 3em;
-}
-
-.crops-search-form {
-  background-color: $white;
-  padding: 1em;
-}
-
 .crop-hierarchy {
   list-style-type: disc;
 }
@@ -259,6 +238,26 @@
   }
 }
 
+// An EcoCrop card: the icon for what it is on top, then its figures. The ranges run longer than
+// the other facts' figures ("500–1000 mm/year"), so they are set smaller to stay on one line, and
+// a card with two ranges draws a line between them.
+.ecocrop-fact {
+  .ecocrop-fact-icon {
+    color: $ink-muted;
+    margin-bottom: 0.5rem;
+  }
+
+  strong {
+    font-size: 1.5rem;
+    text-wrap: balance;
+  }
+
+  .crop-sow-hemisphere + .crop-sow-hemisphere {
+    border-top: 1px solid rgba(65, 63, 59, 0.15);
+    padding-top: 0.5rem;
+  }
+}
+
 // The median of members' seed packets, under the figure a wrangler set, or on its own:
 // quieter than the figure, and marked with the seeds icon so it reads as data from the packets.
 .crop-fact-median {
@@ -275,4 +274,11 @@
     height: 16px;
     width: 16px;
   }
+}
+
+// The common names to copy, in the EcoCrop dialogs: in columns where there are many.
+.ecocrop-names-list {
+  column-width: 12rem;
+  max-height: 14rem;
+  overflow-y: auto;
 }

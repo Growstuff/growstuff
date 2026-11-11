@@ -126,6 +126,7 @@ end
 
 group :development do
   gem 'better_errors'
+  gem 'flay', require: false   # finds duplicated code: bundle exec flay app lib
   gem 'foreman'
   gem 'letter_opener'
   gem 'listen'

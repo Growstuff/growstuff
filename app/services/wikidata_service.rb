@@ -7,10 +7,7 @@ class WikidataService
   CELSIUS_UNIT_ID = 'http://www.wikidata.org/entity/Q25267'
   FAHRENHEIT_UNIT_ID = 'http://www.wikidata.org/entity/Q42289'
 
-  def self.find_wikidata_id(location_name)
-    return nil if location_name.blank?
-
-    uri = URI("https://www.wikidata.org/w/api.php?action=wbsearchentities&search=#{URI.encode_www_form_component(location_name)}&language=en&format=json")
+  def self.get_json(uri)
     req = Net::HTTP::Get.new(uri)
     req['User-Agent'] = "Growstuff (https://www.growstuff.org; admin@growstuff.org)"
 
@@ -18,7 +15,15 @@ class WikidataService
       http.request(req)
     end
 
-    data = JSON.parse(response.body)
+    JSON.parse(response.body)
+  end
+  private_class_method :get_json
+
+  def self.find_wikidata_id(location_name)
+    return nil if location_name.blank?
+
+    uri = URI("https://www.wikidata.org/w/api.php?action=wbsearchentities&search=#{URI.encode_www_form_component(location_name)}&language=en&format=json")
+    data = get_json(uri)
     data.dig('search', 0, 'id')
   rescue StandardError => e
     Rails.logger.error "WikidataService.find_wikidata_id error: #{e.message}"
@@ -29,14 +34,7 @@ class WikidataService
     return {} if wikidata_id.blank?
 
     uri = URI("https://www.wikidata.org/w/api.php?action=wbgetentities&ids=#{wikidata_id}&props=claims&format=json")
-    req = Net::HTTP::Get.new(uri)
-    req['User-Agent'] = "Growstuff (https://www.growstuff.org; admin@growstuff.org)"
-
-    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    data = JSON.parse(response.body)
+    data = get_json(uri)
     claims = data.dig('entities', wikidata_id, 'claims') || {}
 
     highest_temp = extract_temp(claims['P6591'])
