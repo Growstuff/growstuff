@@ -65,5 +65,6 @@ class PlacesController < ApplicationController
   def load_weather(place)
     @frost = FrostSeason.for(place)
     @climate = PlaceClimate.for(place)
+    ClimateRequest.record(place) if member_signed_in? && !@climate
   end
 end
