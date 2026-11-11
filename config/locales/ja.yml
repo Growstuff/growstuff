@@ -591,6 +591,24 @@ ja:
         one: 該当する%{count}袋を表示
         other: 該当する%{count}袋を表示
       showing: 播種期限を過ぎた袋を表示しています。
+  rack_attack:
+    blocked:
+      contact: お知らせください
+      mistake: これが誤りであると思われる場合は、
+      reason_configured: このアドレスはサイトに過剰な負荷をかけていたためブロックされました。
+      reason_honeypot: このアドレスからクローラーのみが要求するページへのリクエストがありました。
+      reason_other: このアドレスはブロックされました。
+      reason_pentesters: このアドレスからWordPressやPHPファイルなど、スキャナーが探索するようなページへのリクエストが繰り返されました。
+      reason_semrush: このクローラーによるアクセスは許可されていません。
+      title: 現在アクセスを受け付けることができません
+    reference: "参照: %{rule}"
+    throttled:
+      intro: 短時間に多数のページが読み込まれたため、一時的にリクエストを制限しています。
+      sign_in: ログイン
+      title: 少し時間をおいてください
+      wait:
+        one: 1分後に再度お試しください。ログイン中のメンバーは制限されないため、
+        other: 約%{count}分後に再度お試しください。ログイン中のメンバーは制限されないため、
   scientific_names:
     deleted: 学名が正常に削除されました。
     edit:

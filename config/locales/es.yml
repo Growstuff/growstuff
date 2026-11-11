@@ -1614,6 +1614,24 @@ es:
     untitled: Publicación sin título
     updated: La publicación se actualizó correctamente.
     write_blog_post: Escribir entrada de blog
+  rack_attack:
+    blocked:
+      contact: avísanos
+      mistake: Si crees que esto es un error,
+      reason_configured: Esta dirección ha sido bloqueada porque estaba sobrecargando el sitio web.
+      reason_honeypot: Algo en esta dirección solicitó una página que solo buscan los rastreadores.
+      reason_other: Esta dirección ha sido bloqueada.
+      reason_pentesters: Algo en esta dirección no paraba de solicitar páginas buscadas por escáneres, como archivos de WordPress o PHP.
+      reason_semrush: Este rastreador no es bienvenido aquí.
+      title: No podemos darte acceso en este momento
+    reference: "Referencia: %{rule}"
+    throttled:
+      intro: Has cargado muchas páginas en poco tiempo, por lo que hemos pausado las solicitudes por un momento.
+      sign_in: iniciar sesión
+      title: Ve un poco más despacio
+      wait:
+        one: Inténtalo de nuevo en un minuto. Los miembros con sesión iniciada no tienen límites de velocidad, así que puedes
+        other: Inténtalo de nuevo en unos %{count} minutos. Los miembros con sesión iniciada no tienen límites de velocidad, así que puedes
   scientific_names:
     deleted: El nombre científico se eliminó correctamente.
     edit:

@@ -1610,6 +1610,24 @@ zh:
     untitled: 无标题帖子
     updated: 帖子已成功更新。
     write_blog_post: 写博客文章
+  rack_attack:
+    blocked:
+      contact: 告诉我们
+      mistake: 如果您认为这是误判，
+      reason_configured: 该地址已被阻止，因为它对网站造成了过多负载。
+      reason_honeypot: 该地址请求了只有爬虫才会查找的页面。
+      reason_other: 该地址已被阻止。
+      reason_pentesters: 该地址不断请求扫描器查找的页面，例如 WordPress 或 PHP 文件。
+      reason_semrush: 此爬虫在此不受欢迎。
+      title: 我们目前无法让您进入
+    reference: "参考编号：%{rule}"
+    throttled:
+      intro: 您在短时间内加载了过多页面，因此我们暂时暂停了请求。
+      sign_in: 登录
+      title: 请慢一点
+      wait:
+        one: 请在 1 分钟后重试。已登录会员不会受到速率限制，因此您可以
+        other: 请在大约 %{count} 分钟后重试。已登录会员不会受到速率限制，因此您可以
   scientific_names:
     deleted: 学名已成功删除。
     edit:

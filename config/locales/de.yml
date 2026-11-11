@@ -1614,6 +1614,24 @@ de:
     untitled: Unbenannter Beitrag
     updated: wurde erfolgreich aktualisiert.
     write_blog_post: Schreibe einen Blogbeitrag
+  rack_attack:
+    blocked:
+      contact: gib uns Bescheid
+      mistake: Wenn du glaubst, dass dies ein Fehler ist,
+      reason_configured: Diese Adresse wurde blockiert, weil sie die Website zu stark belastet hat.
+      reason_honeypot: Etwas unter dieser Adresse hat eine Seite angefordert, nach der nur Crawler suchen.
+      reason_other: Diese Adresse wurde blockiert.
+      reason_pentesters: Etwas unter dieser Adresse hat wiederholt nach Seiten gefragt, nach denen Scanner suchen, wie WordPress- oder PHP-Dateien.
+      reason_semrush: Dieser Crawler ist hier nicht erwünscht.
+      title: Wir können dich gerade nicht hereinlassen
+    reference: "Referenz: %{rule}"
+    throttled:
+      intro: Du hast in kurzer Zeit viele Seiten aufgerufen, daher haben wir den Zugriff kurz angehalten.
+      sign_in: anmelden
+      title: Bitte etwas langsamer
+      wait:
+        one: Bitte versuche es in einer Minute noch einmal. Angemeldete Mitglieder werden nicht ausgebremst, du kannst dich also
+        other: Bitte versuche es in etwa %{count} Minuten noch einmal. Angemeldete Mitglieder werden nicht ausgebremst, du kannst dich also
   scientific_names:
     deleted: Wissenschaftlicher Name wurde erfolgreich gelöscht.
     edit:
