@@ -133,6 +133,30 @@ fr:
   alternate_names:
     created: Le nom alternatif a été créé avec succès.
     deleted: L'autre nom a été supprimé avec succès.
+    edit:
+      added_by_html: Ajouté par %{creator_link} il y a %{time_ago}.
+      title: Modifier le nom alternatif
+    form:
+      crop: Culture
+      crop_wrangling_guide: guide de gestion des cultures
+      crop_wrangling_guide_intro_html: Pour des instructions détaillées sur la gestion des cultures, veuillez consulter le %{guide_link} sur le wiki Growstuff.
+      errors:
+        one: "1 erreur a empêché l'enregistrement de ce nom alternatif :"
+        other: "%{count} erreurs ont empêché l'enregistrement de ce nom alternatif :"
+      name: Nom
+      save: Enregistrer
+    index:
+      alternate_name: Nom alternatif
+      crop: Culture
+      new_alternate_name: Nouveau nom alternatif
+      show: Afficher
+      title: Liste des noms alternatifs
+    new:
+      title: Nouveau nom alternatif
+    show:
+      alternate_name_label: "Nom alternatif :"
+      back: Retour
+      crop_label: "Culture :"
     updated: Le nom alternatif a été mis à jour avec succès.
   application_helper:
     title:

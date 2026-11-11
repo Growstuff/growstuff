@@ -133,6 +133,30 @@ de:
   alternate_names:
     created: Alternativer Name wurde erfolgreich erstellt.
     deleted: Der alternative Name wurde erfolgreich gelöscht.
+    edit:
+      added_by_html: Hinzugefügt von %{creator_link} vor %{time_ago}.
+      title: Alternativen Namen bearbeiten
+    form:
+      crop: Nutzpflanze
+      crop_wrangling_guide: Leitfaden zur Ernteverwaltung
+      crop_wrangling_guide_intro_html: Detaillierte Richtlinien zur Ernteverwaltung finden Sie im %{guide_link} im Growstuff-Wiki.
+      errors:
+        one: "1 Fehler verhinderte das Speichern dieses alternativen Namens:"
+        other: "%{count} Fehler verhinderten das Speichern dieses alternativen Namens:"
+      name: Name
+      save: Speichern
+    index:
+      alternate_name: Alternativer Name
+      crop: Nutzpflanze
+      new_alternate_name: Neuer alternativer Name
+      show: Anzeigen
+      title: Alternative Namen auflisten
+    new:
+      title: Neuer alternativer Name
+    show:
+      alternate_name_label: "Alternativer Name:"
+      back: Zurück
+      crop_label: "Nutzpflanze:"
     updated: Der alternative Name wurde erfolgreich aktualisiert.
   application_helper:
     title:
