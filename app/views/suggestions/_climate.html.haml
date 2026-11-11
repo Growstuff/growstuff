@@ -1,0 +1,33 @@
+-# The member's own climate through the year: a card for each season, from the weather held for the place on their profile.
+-# While it hasn't been collected yet, say so.
+%section.season-climate
+  %h2= t('.heading')
+  - if climate
+    %p.text-muted= t('.intro', place: member.location_place || t('.your_location'), years: climate.years)
+    .season-cards
+      - climate.seasons.each do |season|
+        .season-card{ class: ["season-card--#{season.name}", ('season-card--current' if season.current)] }
+          %h3
+            = t("seasons.#{season.name}")
+            - if season.current
+              %span.badge.text-bg-light.align-middle.ms-1= t('.now')
+          %p.season-card-months
+            = t('.months', first: l(Date.new(2000, season.months.first, 1), format: '%b'), last: l(Date.new(2000, season.months.last, 1), format: '%b'))
+          - if season.mean
+            %p.season-card-mean
+              %strong= t('.degrees', value: number_with_precision(season.mean, precision: 0))
+              %small= t('.average')
+            %dl.season-card-figures
+              - if season.night
+                %dt= t('.nights')
+                %dd= t('.degrees', value: number_with_precision(season.night, precision: 0))
+              - if season.day
+                %dt= t('.days')
+                %dd= t('.degrees', value: number_with_precision(season.day, precision: 0))
+              - if season.rain
+                %dt= t('.rain')
+                %dd= t('.millimetres', value: number_with_precision(season.rain, precision: 0, delimiter: ','))
+          - else
+            %p.text-muted= t('.no_data')
+  - else
+    %p.text-muted= t('.collecting')

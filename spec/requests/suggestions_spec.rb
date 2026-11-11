@@ -39,6 +39,39 @@ describe 'Crop suggestions' do
       expect(response.body).to include "Easy to sow in #{I18n.l(Time.zone.today, format: '%B')} near you"
     end
 
+    context 'with a location' do
+      before { member.update_columns(latitude: -41.3, longitude: 174.7, location: 'Wellington, New Zealand') }
+
+      it 'says the weather is being collected when none is held for the place yet' do
+        get suggestions_path
+        expect(response.body).to include 'collecting the weather for your area'
+      end
+
+      it 'shows the four seasons when the place has weather' do
+        create(:climate_month, year: Time.zone.today.year - 1, month: 7)
+        get suggestions_path
+        expect(response.body.scan('season-card ').size).to eq 4
+      end
+
+      it 'names the place' do
+        create(:climate_month, year: Time.zone.today.year - 1, month: 7)
+        get suggestions_path
+        expect(response.body).to include 'around Wellington'
+      end
+
+      it 'shows it even when suggestions are off' do
+        member.update_columns(suggest_crops: false)
+        create(:climate_month, year: Time.zone.today.year - 1, month: 7)
+        get suggestions_path
+        expect(response.body).to include 'Your climate through the year'
+      end
+    end
+
+    it 'shows no climate without a location' do
+      get suggestions_path
+      expect(response.body).not_to include 'Your climate through the year'
+    end
+
     it 'says suggestions are off when they are' do
       member.update_columns(latitude: -41.3, longitude: 174.7, suggest_crops: false)
       get suggestions_path
