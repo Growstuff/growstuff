@@ -2005,7 +2005,7 @@ en:
     login: Login name or email
     change_password: Change your password
     new_password: New password
-    confirm_password: Confirm new password
+    confirm_password: Password confirmation
     current_password: Current password
     change_my_password: Change my password
     forgot_password: Forgot your password?
