@@ -92,14 +92,21 @@ describe 'Signing in with Bluesky' do
       expect(Member.last.tos_agreement).to be(true)
     end
 
-    it 'does not make a member who has not agreed to the terms' do
-      expect { callback(tos: nil) }.not_to change(Member, :count)
+    it 'creates an account awaiting terms acceptance' do
+      callback(tos: nil)
+      expect(Member.last).not_to be_tos_agreement
     end
 
     it 'sends them back to the terms when they have not agreed' do
       callback(tos: nil)
 
-      expect(flash[:alert]).to eq(I18n.t('messages.tos_required'))
+      expect(response).to redirect_to finish_signup_path(Member.last)
+    end
+
+    it 'blocks normal access without terms acceptance' do
+      callback(tos: nil)
+      get root_path
+      expect(response).to redirect_to finish_signup_path(Member.last)
     end
 
     it 'does not log them in as another member who also has no email' do
@@ -120,13 +127,25 @@ describe 'Signing in with Bluesky' do
     end
 
     it 'signs them in without asking for the terms again' do
-      expect { callback(tos: nil) }.not_to change(Member, :count)
+      callback(tos: nil)
+      get edit_member_registration_path
+
+      expect(response).to have_http_status(:ok)
     end
 
     it 'follows a changed handle' do
       callback
 
       expect(member.auth('bluesky').name).to eq('alice.bsky.social')
+    end
+
+    context 'without recorded terms acceptance' do
+      before { member.update!(tos_agreement: nil) }
+
+      it 'redirects to finish signup' do
+        callback(tos: nil)
+        expect(response).to redirect_to finish_signup_path(member)
+      end
     end
   end
 
@@ -168,6 +187,20 @@ describe 'Signing in with Bluesky' do
   end
 
   describe 'the sign in page' do
+    it 'does not ask for the terms' do
+      allow(Atproto::ClientConfig).to receive(:private_key).and_return(Atproto::Jws.generate_key)
+      get new_member_session_path
+
+      expect(response.parsed_body.css('form[action="/members/auth/bluesky"] input[name="tos_agreement"]')).to be_empty
+    end
+
+    it 'requires the terms on the sign up page' do
+      allow(Atproto::ClientConfig).to receive(:private_key).and_return(Atproto::Jws.generate_key)
+      get new_member_registration_path
+
+      expect(response.parsed_body.at_css('form[action="/members/auth/bluesky"] input[name="tos_agreement"][required]')).to be_present
+    end
+
     it 'offers Bluesky when a signing key is configured' do
       allow(Atproto::ClientConfig).to receive(:private_key).and_return(Atproto::Jws.generate_key)
       get new_member_session_path

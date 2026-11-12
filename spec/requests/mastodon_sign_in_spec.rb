@@ -68,8 +68,20 @@ describe 'Signing in with Mastodon' do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'refuses signup without agreeing to the terms' do
-      expect { callback(tos: nil) }.not_to change(Member, :count)
+    it 'creates an account awaiting terms acceptance' do
+      callback(tos: nil)
+      expect(Member.last).not_to be_tos_agreement
+    end
+
+    it 'redirects to finish signup without terms acceptance' do
+      callback(tos: nil)
+      expect(response).to redirect_to finish_signup_path(Member.last)
+    end
+
+    it 'blocks normal access without terms acceptance' do
+      callback(tos: nil)
+      get root_path
+      expect(response).to redirect_to finish_signup_path(Member.last)
     end
 
     context 'with another member without an email' do
@@ -100,6 +112,15 @@ describe 'Signing in with Mastodon' do
       callback
       expect(member.auth('mastodon').name).to eq ['@alice', domain].join('@')
     end
+
+    context 'without recorded terms acceptance' do
+      before { member.update!(tos_agreement: nil) }
+
+      it 'redirects to finish signup' do
+        callback(tos: nil)
+        expect(response).to redirect_to finish_signup_path(member)
+      end
+    end
   end
 
   context 'when the same numeric identity exists on another server' do
@@ -124,6 +145,11 @@ describe 'Signing in with Mastodon' do
     it 'offers a form on the sign up page without JavaScript' do
       get new_member_registration_path
       expect(response.parsed_body.at_css('form[action="/members/auth/mastodon"] input[name="tos_agreement"][required]')).to be_present
+    end
+
+    it 'does not ask for the terms on the sign in page' do
+      get new_member_session_path
+      expect(response.parsed_body.css('form[action="/members/auth/mastodon"] input[name="tos_agreement"]')).to be_empty
     end
   end
 

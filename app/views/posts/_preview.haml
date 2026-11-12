@@ -4,13 +4,13 @@
     = image_tag post_image_path(post), class: 'img img-cover', alt: t('.photo_alt')
 %h4.fw-bold.mb-3
   %strong
-    = link_to post do
+    = link_to post, lang: post.language.to_s do
       = post.subject.presence || t('posts.untitled')
     - if post.draft?
       %span.badge.text-bg-warning= t('posts.draft')
 %p
   = t('.author_html', author: content_tag(:span, post.author, class: 'fw-bold'))
-.post-body
+.post-body{ lang: post.language.to_s }
   :markdown
     #{post_stripped_tags(post, length: 300)}
 %h6.fw-bold.mb-3

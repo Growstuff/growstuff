@@ -264,6 +264,9 @@ es:
       about: Acerca de
       breadcrumb_conversations: Conversaciones
       participants: Participantes
+      reply_publicly: Responder
+      send_private_message: Enviar mensaje privado
+      private_reply_hint: Este mensaje es privado y solo lo podrán ver los participantes indicados arriba. No aparecerá en el tema público.
       sent_on: "el %{date}"
   crop_companions:
     created: El compañero se creó correctamente.
@@ -1703,6 +1706,7 @@ es:
       my_garden: mi jardin
       my_harvests: mis cosechas
       my_jobs: mis trabajos
+      my_place: El tiempo en mi zona
       my_plantings: mis plantaciones
       my_seeds: mis semillas
       new_badge: Nuevo
@@ -2527,6 +2531,8 @@ es:
       unknown: Desconocido
   plantings:
     badges:
+      harvest_prediction: Semanas previstas hasta la cosecha
+      harvest_ready: La plantación ya está lista para cosechar
       days_until_finished: días hasta terminar
       days_until_harvest: días hasta la cosecha
       harvesting_now: cosechando ahora
@@ -2539,7 +2545,7 @@ es:
       day_progress: día %{age} de %{lifespan}
       done: Hecho
       failed: Fallido
-      finished: finalizado
+      finished: Finalizado
       grown: crecido
       grown_in: Cultivado en
       lifespan_days:
@@ -2566,11 +2572,48 @@ es:
       sown_from_expired: Sembrado de semillas caducadas (plantar antes de %{year})
       unknown: desconocido
     form:
+      save: Guardar
+      optional: opcional
+      finished_date: Fecha de finalización
+      description: Cuéntenos más
+      great: Muy bien
+      poor: Mal
+      rating_help: ¿Cómo va la plantación?
+      rating: Valoración general
+      leave_blank: Dejar en blanco
+      how_many: ¿Cuántas plantas?
+      sun_label: ¿Sol o sombra?
+      planted_from: Plantado a partir de
+      date_help: Planifique futuras plantaciones con fechas futuras y suscríbase a su calendario iCalendar para recibir recordatorios de plantación
+      when: ¿Cuándo?
+      add_garden: Añadir un huerto.
+      garden_label: ¿Dónde lo plantó?
+      choose_garden: Elegir otro huerto
+      planting_in_html: Plantación en %{garden}
+      alternate_help: Opcional. Sus plantaciones mostrarán este nombre en lugar del nombre principal del cultivo.
+      alternate_name: ¿Cómo lo llama?
+      request_crops: Solicitar nuevos cultivos.
+      cannot_find: ¿No encuentra lo que busca?
+      crop_label: ¿Qué plantó?
+      errors:
+        one: '1 error impidió guardar esta plantación:'
+        other: '%{count} errores impidieron guardar esta plantación:'
       failed_helper: Marque esta plantación como fallida si murió o se eliminó sin ninguna cosecha.
       finish_helper: Una plantación finaliza cuando ha cosechado toda la cosecha, muere o ya no crece en su jardín.
     garden_card:
       by: por
     index:
+      feed_item: '%{planting} en %{location}'
+      all_members: todos los miembros
+      feed_title: Plantaciones recientes de %{owner} (%{site})
+      calendar_description: Plantaciones de %{owner}
+      no_plantings: Aún no hay plantaciones registradas
+      api_methods: Métodos de la API
+      open_data: Datos abiertos
+      include_finished: incluir plantaciones finalizadas
+      owner_plantings: Plantaciones de %{owner}
+      plantings: Plantaciones
+      browse: Explore y busque plantaciones.
       title:
         crop_plantings: Las plantaciones %{crop} de todos
         default: Las plantaciones de todos
@@ -2586,6 +2629,13 @@ es:
     progress:
       progress_0_not_planted_yet: 'Progreso: 0% - aún no plantado'
     show:
+      cultivate: Labrar la tierra
+      cultivate_prompt: Esta fue la última plantación reciente en este bancal. ¿Desea labrar la tierra pronto?
+      in_garden_html: en %{garden}
+      grown_by_html: cultivado por %{owner}
+      grower_photo: '%{planting}, cultivado por %{owner}'
+      plantings: Plantaciones
+      add: añadir
       crop: Cultivo
       grower: Productor
       harvest_month_yes: "%{month}, normalmente cosechando"
@@ -2646,6 +2696,52 @@ es:
       move_to: 'Mover esta plantación a:'
       submit: Trasplantar
       title: Trasplantar %{crop}
+    descendants:
+      add: añadir
+    harvests:
+      add: añadir
+    photos:
+      add: añadir
+    description:
+      activity_html: plantó %{crop}
+    menu:
+      actions: Acciones para %{planting}
+    popover:
+      planted: 'Plantado:'
+      quantity: 'Cantidad:'
+    progress_list:
+      insufficient_data: No hay suficientes datos sobre %{crop} para hacer predicciones
+      set_date: Establezca la fecha de plantación para obtener predicciones
+    edit:
+      title: Editar plantación
+    crop:
+      days: {one: '%{count} día', other: '%{count} días'}
+      more: Más sobre %{crop}
+      usual_sun_html: Suele cultivarse en %{sun}
+      last_harvest_html: Última cosecha unos %{days} después de plantar
+      first_harvest_html: Primera cosecha unos %{days} después de plantar
+      perennial: Perenne
+      annual: Anual
+      annual_lifespan_html: Anual, vive aproximadamente %{days}
+      variety_html: una variedad de %{crop}
+      crop_photo: Foto de %{crop}
+    sun: {sun: sol, semi-shade: semisombra, shade: sombra}
+    units:
+      plant: {one: planta, other: plantas}
+      planting: {one: plantación, other: plantaciones}
+      harvest: {one: cosecha, other: cosechas}
+      seed: {one: semilla, other: semillas}
+      seedling: {one: plántula, other: plántulas}
+      cutting: {one: esqueje, other: esquejes}
+      volunteer: {one: planta espontánea, other: plantas espontáneas}
+      root division: {one: división de raíz, other: divisiones de raíz}
+      runner: {one: estolón, other: estolones}
+      bulb: {one: bulbo, other: bulbos}
+      root/tuber: {one: raíz/tubérculo, other: raíces/tubérculos}
+      bare root plant: {one: planta a raíz desnuda, other: plantas a raíz desnuda}
+      advanced plant: {one: planta desarrollada, other: plantas desarrolladas}
+      graft: {one: injerto, other: injertos}
+      layering: {one: acodo, other: acodos}
   posts:
     draft: Borrador
     description:
@@ -2654,6 +2750,9 @@ es:
       title: Editar publicación
     form:
       draft_visibility: Solo tú puedes ver este borrador hasta que lo publiques.
+      advanced_options: Opciones avanzadas
+      language: Idioma de la publicación
+      unknown_language: Idioma desconocido
       errors:
         one: "%{count} error impidió guardar esta publicación:"
         other: "%{count} errores impidieron guardar esta publicación:"

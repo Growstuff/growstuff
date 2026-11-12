@@ -47,6 +47,12 @@
             .field
               = f.hidden_field :forum_id, value: forum.id
 
+          %details.post-advanced-options.mt-3{ open: @post.errors[:language].any? }
+            %summary= t('.advanced_options')
+            .mt-3
+              = f.select :language, post_language_options,
+                { label: t('.language'), include_blank: t('.unknown_language') }
+
     - if @post.new_record?
       .col-lg-4
         %section.card.mb-3{ 'aria-label': t('.photos') }

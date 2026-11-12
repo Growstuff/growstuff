@@ -272,6 +272,12 @@ en:
         identifier_placeholder: alice@mastodon.social
         permission_note: "We only ask who you are. We can't post for you."
         terms_of_service: Terms of Service
+  auto_suggest:
+    choose: Choose one from the list. Use the up and down arrow keys, then Enter.
+    chosen: "Chosen: %{name}"
+    none: No crops match. Check the spelling, or try a shorter name.
+    searching: Searching…
+    unchosen: Not chosen yet. Pick one from the list, or it won't be used.
   buttons:
     add: Add
     add_photo: Add photo
@@ -442,6 +448,9 @@ en:
       about: About
       breadcrumb_conversations: Conversations
       participants: Participants
+      reply_publicly: Reply
+      send_private_message: Send private message
+      private_reply_hint: This message is private to the participants listed above. It will not appear on the public topic.
       sent_on: "on %{date}"
   crop_companions:
     created: Companion was successfully created.
@@ -787,6 +796,29 @@ en:
       inherited: 'This crop has no EcoCrop record of its own, so it uses its parent''s: %{record}.'
       none: This crop is not linked to any EcoCrop data.
       title: EcoCrop data
+    filters:
+      apply: Filter
+      clear: Clear filters
+      ecocrop: EcoCrop data
+      ecocrop_linked: Linked
+      ecocrop_unlinked: Not linked
+      friends: Grown by people I follow
+      history: Have I grown this before?
+      history_before: Yes, I have
+      history_never: No, never
+      needs_location: Set where you garden to filter by what suits your location and what is grown nearby.
+      nearby: Grown by gardeners nearby
+      no_climate: We don't have weather for your place yet, so we can't tell what suits it. We collect it for the places members set, so check back soon.
+      parent: Filter to crop
+      parent_placeholder: Start typing a crop name, then choose one
+      remove: Remove
+      season: Grows in
+      seeds: I have seeds of
+      set_location: Set your location.
+      sign_in: Log in.
+      sign_in_for_more: Log in to also filter by your location, the season, what people nearby and the people you follow grow, and what you've grown.
+      suits: Grows well at my location
+      suits_at: Grows well in %{place}
     growing_facts:
       days_until_maturity: Days until maturity
       germination: Germination
@@ -796,6 +828,19 @@ en:
       row_spacing: Row Spacing
       southern_hemisphere: Southern hemisphere
       when_to_sow: When to sow
+    time_to_harvest:
+      about_html: If sown now, expect a first harvest in about %{days}.
+      hint:
+        no_climate: We don't have weather for your place yet, so we can't work out how long it takes there. We collect it for the places members set, so check back soon.
+        set_location: Set a location in your profile to get more accurate predictions for this crop.
+        sign_in: Log in and set a location to get more accurate predictions for this crop.
+      set_location: Set your location.
+      sign_in: Log in.
+      source:
+        degree_days: Worked out from the growing degree days this crop needs and the usual weather at your place.
+        ecocrop: From the growing cycle in the FAO EcoCrop database, which is the same wherever it is grown.
+        median: From the median time members' plantings of this crop took to their first harvest.
+      title: Time to harvest
     growing_degree_days:
       cycle_html: For %{crop}, the FAO EcoCrop database gives a lowest growing temperature of %{tmin} and a shortest growing cycle of %{gmin} days at its best temperature, about %{degree_days} growing degree days to a first harvest.
       example: 'Say that lowest temperature is 10°C. A day averaging 17°C gives 7 growing degree days. A day averaging 8°C gives none, as it is too cold for the crop to grow. That is why the same lettuce takes about 50 days in a summer and 90 in an autumn: it needs the same total warmth either way.'
@@ -825,6 +870,9 @@ en:
       track_harvests: track your %{crop} harvests
       view_all: View all %{crop} harvests
     index:
+      log_in: Log in
+      log_in_to_suggest: Is a crop missing? You can suggest new crops when you log in.
+      no_matches: No crops match those filters.
       subtitle: "%{crops_size} total"
       title: Browse Crops
       meta_description: Browse and search for crops.
@@ -3678,6 +3726,8 @@ en:
       unknown: Unknown
   plantings:
     badges:
+      harvest_prediction: Predicted weeks until harvest
+      harvest_ready: Planting is ready for harvesting now
       days_until_finished: days until finished
       days_until_harvest: days until harvest
       harvesting_now: harvesting now
@@ -3690,7 +3740,7 @@ en:
       day_progress: day %{age} of %{lifespan}
       done: Done
       failed: Failed
-      finished: finished
+      finished: Finished
       grown: grown
       grown_in: Grown in
       lifespan_days:
@@ -3717,6 +3767,32 @@ en:
       sown_from_expired: Sown from expired seeds (plant before %{year})
       unknown: unknown
     form:
+      save: Save
+      optional: optional
+      finished_date: Finished date
+      description: Tell us more about it
+      great: Great
+      poor: Poor
+      rating_help: How well is the planting going?
+      rating: Overall Rating
+      leave_blank: Leave blank
+      how_many: How many?
+      sun_label: Sun or shade?
+      planted_from: Planted from
+      date_help: Plan out your future plantings by forward dating, and subscribe to your iCalendar feed for reminders to plant
+      when: When?
+      add_garden: Add a garden.
+      garden_label: Where did you plant it?
+      choose_garden: Choose a different garden
+      planting_in_html: Planting in %{garden}
+      alternate_help: Optional. Your plantings will show this name instead of the crop's main name.
+      alternate_name: What do you call it?
+      request_crops: Request new crops.
+      cannot_find: Can't find what you're looking for?
+      crop_label: What did you plant?
+      errors:
+        one: '1 error prohibited this planting from being saved:'
+        other: '%{count} errors prohibited this planting from being saved:'
       failed_helper: 'Mark this planting as failed if it died or was removed without any harvest.
 
         '
@@ -3811,6 +3887,17 @@ en:
         seed: From the seed packet
       title: Hardiness
     index:
+      feed_item: '%{planting} in %{location}'
+      all_members: all members
+      feed_title: Recent plantings from %{owner} (%{site})
+      calendar_description: Plantings by %{owner}
+      no_plantings: No plantings recorded yet
+      api_methods: API Methods
+      open_data: Open Data
+      include_finished: include finished plantings
+      owner_plantings: "%{owner}'s plantings"
+      plantings: Plantings
+      browse: Browse and search for plantings.
       title:
         crop_plantings: Everyone's %{crop} plantings
         default: Everyone's plantings
@@ -3913,6 +4000,13 @@ en:
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
     show:
+      cultivate: Cultivate soil
+      cultivate_prompt: This was the last planting recently in this bed. Would you like to cultivate the soil soon?
+      in_garden_html: in %{garden}
+      grown_by_html: grown by %{owner}
+      grower_photo: '%{planting} grown by %{owner}'
+      plantings: Plantings
+      add: add
       crop: Crop
       frost_line: "%{degrees} °C frost line"
       weather_kill_line: "Dies at %{degrees} °C"
@@ -4019,6 +4113,52 @@ en:
       move_to: 'Move this planting to:'
       submit: Transplant
       title: Transplant %{crop}
+    descendants:
+      add: add
+    harvests:
+      add: add
+    photos:
+      add: add
+    description:
+      activity_html: planted %{crop}
+    menu:
+      actions: Actions for %{planting}
+    popover:
+      planted: 'Planted:'
+      quantity: 'Quantity:'
+    progress_list:
+      insufficient_data: Not enough data on %{crop} to predict
+      set_date: Set the planted date to allow predictions
+    edit:
+      title: Editing planting
+    crop:
+      days: {one: '%{count} day', other: '%{count} days'}
+      more: More about %{crop}
+      usual_sun_html: Usually grown in %{sun}
+      last_harvest_html: Last harvest about %{days} after planting
+      first_harvest_html: First harvest about %{days} after planting
+      perennial: A perennial
+      annual: An annual
+      annual_lifespan_html: An annual, living about %{days}
+      variety_html: a variety of %{crop}
+      crop_photo: Photo of %{crop}
+    sun: {sun: sun, semi-shade: semi-shade, shade: shade}
+    units:
+      plant: {one: plant, other: plants}
+      planting: {one: planting, other: plantings}
+      harvest: {one: harvest, other: harvests}
+      seed: {one: seed, other: seeds}
+      seedling: {one: seedling, other: seedlings}
+      cutting: {one: cutting, other: cuttings}
+      volunteer: {one: volunteer, other: volunteers}
+      root division: {one: root division, other: root divisions}
+      runner: {one: runner, other: runners}
+      bulb: {one: bulb, other: bulbs}
+      root/tuber: {one: root/tuber, other: roots/tubers}
+      bare root plant: {one: bare root plant, other: bare root plants}
+      advanced plant: {one: advanced plant, other: advanced plants}
+      graft: {one: graft, other: grafts}
+      layering: {one: layer, other: layers}
   posts:
     draft: Draft
     description:
@@ -4027,6 +4167,9 @@ en:
       title: Edit post
     form:
       draft_visibility: Only you can see this draft until you publish it.
+      language: Post language
+      advanced_options: Advanced options
+      unknown_language: Unknown language
       errors:
         one: "%{count} error prohibited this post from being saved:"
         other: "%{count} errors prohibited this post from being saved:"

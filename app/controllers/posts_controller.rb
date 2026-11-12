@@ -92,7 +92,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:body, :subject, :author_id, :forum_id, :card_photo_id, :draft)
+    params.require(:post).permit(:body, :subject, :author_id, :forum_id, :card_photo_id, :draft, :language)
   end
 
   # All of their own posts with drafts among them, or only the drafts.

@@ -24,6 +24,22 @@ describe PostsController do
     end
   end
 
+  describe '#create' do
+    it 'stores the selected content language' do
+      post :create, params: { post: valid_attributes.merge(language: 'de') }
+      expect(assigns(:post).reload.language).to eq('de')
+    end
+  end
+
+  describe '#update' do
+    let(:written_post) { create(:post, author: member, language: 'en') }
+
+    it 'updates the content language' do
+      patch :update, params: { id: written_post.slug, post: { language: 'fr' } }
+      expect(written_post.reload.language).to eq('fr')
+    end
+  end
+
   describe '#index' do
     before do
       create_list(:post, 100)

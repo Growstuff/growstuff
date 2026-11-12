@@ -29,8 +29,13 @@ export default function useDraftAutosave(markdown, autosave) {
     const input = subjectId && document.getElementById(subjectId);
     if (!input) return undefined;
     const onInput = () => setSubjectTick((n) => n + 1);
+    const language = input.form && input.form.querySelector('[name="post[language]"]');
     input.addEventListener('input', onInput);
-    return () => input.removeEventListener('input', onInput);
+    if (language) language.addEventListener('change', onInput);
+    return () => {
+      input.removeEventListener('input', onInput);
+      if (language) language.removeEventListener('change', onInput);
+    };
   }, [subjectId]);
 
   // Saves the draft now: updates it, or creates it the first time. Resolves to
@@ -46,6 +51,8 @@ export default function useDraftAutosave(markdown, autosave) {
     const form = input && input.form;
     const forum = form && form.querySelector('[name="post[forum_id]"]');
     const payload = {post: {subject, body, draft: true}};
+    const language = form && form.querySelector('[name="post[language]"]');
+    if (language) payload.post.language = language.value;
     if (forum && forum.value) payload.post.forum_id = forum.value;
 
     setStatus('Saving…');

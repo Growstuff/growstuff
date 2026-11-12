@@ -1,12 +1,12 @@
 - content_for :title, title('plantings', @owner, @crop, @planting)
-- content_for :meta_description, "Browse and search for plantings."
+- content_for :meta_description, t('.browse')
 
 - content_for :breadcrumbs do
   - if @owner
-    %li.breadcrumb-item= link_to 'Plantings', plantings_path
-    %li.breadcrumb-item.active= link_to "#{@owner}'s plantings", member_plantings_path(@owner)
+    %li.breadcrumb-item= link_to t('.plantings'), plantings_path
+    %li.breadcrumb-item.active= link_to t('.owner_plantings', owner: @owner), member_plantings_path(@owner)
   - else
-    %li.breadcrumb-item.active= link_to 'Plantings', plantings_path
+    %li.breadcrumb-item.active= link_to t('.plantings'), plantings_path
 
 .row
   .col-md-2
@@ -16,7 +16,7 @@
     = render 'layouts/nav', model: Planting
     = link_to show_inactive_tickbox_path('plantings', owner: @owner, crop: @crop, show_all: @show_all) do
       = check_box_tag 'active', 'all', @show_all
-      include finished plantings
+      = t('.include_finished')
     %hr
     - if @owner.present?
       = render @owner, cached: true
@@ -24,7 +24,7 @@
       = render @crop, cached: true
 
     %section.open-data
-      %h2 Open Data
+      %h2= t('.open_data')
       %p= t('label.data')
       - ['csv', 'json', 'rss'].each do |format|
         .badge.text-bg-info
@@ -33,7 +33,7 @@
             = format.upcase
       - if @owner
         .badge.text-bg-info= link_to "iCal", member_plantings_path(@owner, format: 'ics', protocol: 'webcal', only_path: false)
-      .badge.text-bg-success= link_to 'API Methods', '/api-docs'
+      .badge.text-bg-success= link_to t('.api_methods'), '/api-docs'
 
   .col-md-10
 
@@ -41,7 +41,7 @@
       %h2= title('plantings', @owner, @crop, @planting)
       = will_paginate @plantings
       - if @plantings.blank?
-        %p No plantings recorded yet
+        %p= t('.no_plantings')
       .index-cards
         - @plantings.each do |p|
           = render 'plantings/card', planting: p

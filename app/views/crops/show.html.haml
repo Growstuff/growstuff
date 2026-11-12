@@ -146,6 +146,9 @@
       - cache [@crop, 'nutritional_data'] do
         = render 'nutritional_data', crop: @crop
 
+      -# For the member's own weather, so it sits outside the cache below.
+      = render 'time_to_harvest', crop: @crop
+
       - cache [@crop, 'ecocrop_data'] do
         = render 'ecocrop_data', crop: @crop
       -# For wranglers, so it sits outside the cache above.

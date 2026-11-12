@@ -12,6 +12,31 @@ jQuery(function () {
 
   const id = $('.auto-suggest-id');
 
+  // What the field says about where you are, under it, for people and screen readers: the words come from the page.
+  const hint = $('<div class="auto-suggest-hint" role="status" aria-live="polite"></div>').insertAfter(el);
+  const words = el.data();
+
+  function say(state, text) {
+    hint.attr('data-state', state).text(text || '');
+    el.toggleClass('is-chosen', state === 'chosen');
+  }
+
+  // Chosen once there is an id for the text; otherwise just typed, which is not enough.
+  function describe() {
+    if (id.val()) say('chosen', words.chosen.replace('{name}', el.val()));
+    else if (el.val().trim()) say('typing', words.choose);
+    else say('', '');
+  }
+
+  el.on('input', function () {
+    id.val('');
+    describe();
+  });
+  el.on('blur', function () {
+    if (el.val().trim() && !id.val()) say('unchosen', words.unchosen);
+  });
+  describe();
+
   el.autocomplete({
     minLength: 1,
     source: el.attr('data-source-url'),
@@ -23,13 +48,20 @@ jQuery(function () {
     select: function (event, ui) {
       el.val(ui.item.name);
       id.val(ui.item.id);
+      describe();
       return false;
+    },
+    search: function () {
+      say('searching', words.searching);
     },
     response: function (event, ui) {
       id.val('');
       ui.content.forEach(function (item) {
         if (item.name === el.val()) id.val(item.id);
       });
+      if (id.val()) describe();
+      else if (ui.content.length) say('typing', words.choose);
+      else say('none', words.none);
     }
   });
 

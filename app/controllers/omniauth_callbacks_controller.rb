@@ -45,8 +45,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     return redirect_to request.env['omniauth.origin'] || edit_member_registration_path unless auth
     return connect_to_current_member(action, auth) if current_member
 
-    return refuse_without_terms unless action.existing_member(auth) || terms_agreed?
-
     member = action.find_or_create_from_authorization(auth, tos_agreement: terms_agreed? || nil)
     @authentication = action.establish_authentication(auth, member)
 
@@ -55,7 +53,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
       session["devise.#{auth['provider']}_data"] = request.env["omniauth.auth"]
       sign_in member
-      redirect_to root_path, notice: t('members.welcome')
+      redirect_to(member.tos_agreement? ? root_path : finish_signup_path(member), notice: t('members.welcome'))
     else
       sign_in_and_redirect member, event: :authentication # this will throw if @user is not activated
       set_flash_message(:notice, :success, kind: auth['provider']) if is_navigational_format?
@@ -69,10 +67,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     request.env['omniauth.params']&.dig('tos_agreement') == '1'
   end
 
-  def refuse_without_terms
-    redirect_to request.env['omniauth.origin'] || new_member_registration_path, alert: t('messages.tos_required')
-  end
-
   # Someone already signed in is adding this account to their own, not signing in as someone else.
   def connect_to_current_member(action, auth)
     taken = Authentication.where(provider: auth['provider'], uid: action.uid_for(auth)).where.not(member_id: current_member.id).exists?
@@ -83,13 +77,5 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = t('messages.auth_success')
     end
     redirect_to edit_member_registration_path
-  end
-
-  def after_sign_in_path_for(resource)
-    if resource.tos_agreement
-      super
-    else
-      finish_signup_path(resource)
-    end
   end
 end

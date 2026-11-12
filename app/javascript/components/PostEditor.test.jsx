@@ -174,6 +174,22 @@ describe('PostEditor', () => {
       input.remove();
     });
 
+    it('autosaves a change of content language', async () => {
+      const patch = vi.spyOn(api, 'patchJson').mockResolvedValue({ok: true, status: 200, data: null});
+      const form = document.createElement('form');
+      form.innerHTML = '<input id="post_subject" value="A title"><select name="post[language]" aria-label="Content language"><option value="en">English</option><option value="fr">French</option></select>';
+      document.body.appendChild(form);
+      try {
+        await setup({autosave, value: 'words'});
+        await userEvent.selectOptions(screen.getByRole('combobox', {name: 'Content language'}), 'fr');
+        await waitFor(() => expect(patch).toHaveBeenCalledWith(
+          '/posts/a-draft', {post: {subject: 'A title', body: 'words', draft: true, language: 'fr'}}
+        ), {timeout: 3000});
+      } finally {
+        form.remove();
+      }
+    });
+
     it('says when saving fails', async () => {
       vi.spyOn(api, 'patchJson').mockResolvedValue({ok: false, status: 500, data: null});
       const {input} = await typeBody('words');
