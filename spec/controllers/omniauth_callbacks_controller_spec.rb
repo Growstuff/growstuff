@@ -30,23 +30,23 @@ describe OmniauthCallbacksController, type: :controller do
     end
 
     context 'when signed out, with an account nobody has linked' do
-      it 'does not sign anyone in' do
+      it 'signs in the new member to finish signup' do
         get :mastodon
-        expect(controller.current_member).to be_nil
+        expect(controller.current_member).to eq Member.last
       end
 
-      it 'sends them to join' do
+      it 'sends them to accept the terms' do
         get :mastodon
-        expect(response).to redirect_to new_member_registration_path
+        expect(response).to redirect_to finish_signup_path(Member.last)
       end
 
-      it 'explains why' do
+      it 'leaves terms acceptance unrecorded' do
         get :mastodon
-        expect(flash[:alert]).to eq I18n.t('messages.tos_required')
+        expect(controller.current_member).not_to be_tos_agreement
       end
 
-      it 'does not create a member' do
-        expect { get :mastodon }.not_to change(Member, :count)
+      it 'creates a member' do
+        expect { get :mastodon }.to change(Member, :count).by(1)
       end
     end
 
@@ -58,8 +58,9 @@ describe OmniauthCallbacksController, type: :controller do
       end
 
       it 'does not sign in the member who has the other account' do
+        other_member = Member.last
         get :mastodon
-        expect(controller.current_member).to be_nil
+        expect(controller.current_member).not_to eq other_member
       end
     end
 

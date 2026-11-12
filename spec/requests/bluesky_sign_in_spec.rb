@@ -92,14 +92,21 @@ describe 'Signing in with Bluesky' do
       expect(Member.last.tos_agreement).to be(true)
     end
 
-    it 'does not make a member who has not agreed to the terms' do
-      expect { callback(tos: nil) }.not_to change(Member, :count)
+    it 'creates an account awaiting terms acceptance' do
+      callback(tos: nil)
+      expect(Member.last).not_to be_tos_agreement
     end
 
     it 'sends them back to the terms when they have not agreed' do
       callback(tos: nil)
 
-      expect(flash[:alert]).to eq(I18n.t('messages.tos_required'))
+      expect(response).to redirect_to finish_signup_path(Member.last)
+    end
+
+    it 'blocks normal access without terms acceptance' do
+      callback(tos: nil)
+      get root_path
+      expect(response).to redirect_to finish_signup_path(Member.last)
     end
 
     it 'does not log them in as another member who also has no email' do
