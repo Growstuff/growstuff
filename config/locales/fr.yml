@@ -1145,6 +1145,8 @@ fr:
       the_planting_this_came_from: La plantation dont cela provient
     updated: La récolte a été mise à jour avec succès.
   home:
+    community_description: Growstuff est une communauté de jardiniers qui cultivent leur nourriture. Apprenons à cultiver ensemble.
+    planting_image_alt: Image de %{planting} par %{owner}
     weather_invitation:
       add_location: Ajouter votre localisation
       change_location: Modifier votre localisation
@@ -2881,102 +2883,8 @@ fr:
     winter: L'hiver
   seeds:
     ui:
-      record_title: Graines de %{crop} de %{owner}
-      record_description: Graines de %{crop}, partagées par %{owner}.
-      plantings: Plantations
-      notes: Notes
-      edit: modifier
-      no_notes: Aucune note pour le moment.
-      descendants_heading: Plantes issues de ces graines
-      add: ajouter
-      photos: Photos
-      no_photos: Aucune photo pour le moment.
-      feed_title: Graines récentes de %{owner} (%{site_name})
-      all_members: tous les membres
-      feed_field: "%{label} : %{value}"
-      feed_trade: Échange %{trade_scope} depuis %{location}
-      unknown_location: lieu inconnu
-      owner_seeds: Graines de %{owner}
-      meta_description: Parcourir et rechercher des graines.
-      open_data: Données ouvertes
-      api_methods: Méthodes de l’API
-      edit_title: Modifier les graines
-      in_stock: En stock
-      finished: Épuisées
-      germination_min: Germination (jours min.)
-      germination_max: Germination (jours max.)
-      search_summary:
-        one: "%{count} sachet de graines de %{crop}."
-        other: "%{count} sachets de graines de %{crop}."
-      whose_seeds: À qui appartiennent les graines
-      mine: Les miennes
-      following: Personnes que je suis
-      near_me: Près de moi
-      everyone: Tout le monde
-      add_seeds: "+ ajouter des graines"
-      auth_prompt_html: "%{sign_in} ou %{sign_up} pour voir les échanges de graines près
-        de chez vous."
-      sign_in: Connectez-vous
-      sign_up: inscrivez-vous
-      sorted_by_distance: Triées par distance depuis votre localisation.
-      shared_summary: "%{packets} de %{gardeners}."
-      gardener_count:
-        one: "%{count} jardinier"
-        other: "%{count} jardiniers"
-      privacy_explanation: Les graines n’apparaissent ici que si leur propriétaire a choisi
-        de les partager. Nous affichons sa ville, jamais son adresse. L’avatar du jardinier
-        figure à côté de chaque sachet. Ouvrez un sachet pour voir les graines et en demander.
-      no_descendants: Rien n’a encore été cultivé à partir de ces graines.
-      errors:
-        one: 'Une erreur a empêché l’enregistrement de ces graines :'
-        other: "%{count} erreurs ont empêché l’enregistrement de ces graines :"
-      crop_help_html: Vous ne trouvez pas ce que vous cherchez ? %{link}
-      request_crops: Demander de nouvelles plantes.
-      harvested_saved_at: Quand les graines ont-elles été récoltées ou conservées ?
-      quantity: Quantité
-      plant_before_year: Semer avant (année)
-      variety: Variété
-      batch_number: Numéro de lot
-      minimum: min.
-      maturity: Jours jusqu’à maturité
-      maximum: max.
-      range_to: à
-      days: jours
-      row_spacing: Espacement des rangs
-      cm: cm
-      organic: Biologiques ?
-      gmo: OGM ?
-      heirloom: Variété ancienne ?
-      source_question: D’où proviennent-elles ?
-      trade_label: Échange
-      set_location_html: N’oubliez pas de %{link}.
-      set_location: définir votre localisation
-      from_location_html: depuis %{location}.
-      change_location: Modifier votre localisation.
-      save: Enregistrer
-      packet_count:
-        one: "%{count} sachet"
-        other: "%{count} sachets"
-      saved_date: Récoltées le %{date}
-      packet: Sachet
-      nobody: Personne
-      saved_by_html: récoltées par %{owner}
-      view_all: Voir toutes les graines de %{owner}
-      nearby_html: Voir d’autres graines, membres et plus encore près de %{location}
-      not_specified: non précisé
-      seed_unit:
-        one: graine
-        other: graines
-      when_to_sow: Quand semer
-      how_to_sow: Comment semer
-      germination: Germination
-      plant_before: Semer avant
-      unknown: inconnu
-      heirloom_or_hybrid: Variété ancienne ou hybride
-      organic_fact: Biologiques
-      gmo_fact: OGM
-      you_have_it: Vous en avez déjà
-      past_sow_by: Date de semis dépassée
+      request_prompt_html: "%{sign_in} ou %{sign_up} pour demander des graines."
+      month_abbreviations: [janv., févr., mars, avr., mai, juin, juil., août, sept., oct., nov., déc.]
       unknown_quiet: inconnu
       plant_seeds: Semer les graines
       saved_year: récoltées en %{year}
@@ -2986,18 +2894,158 @@ fr:
         other: env. %{count} graines
       sow_before_year: semer avant %{year}
       will_trade: échange %{trade_scope}
+      organic_fact: Biologiques
+      gmo_fact: OGM
+      save_crop_seeds_sentence: Enregistrer des graines de %{crop}.
+      unknown: inconnu
+      no_descendants: Rien n’a encore été cultivé à partir de ces graines.
       activity_html: a conservé des graines de %{crop}
+      change_crop: Changer de plante
+      saved_at: Quand ont-elles été récoltées ?
+      seed_quantity: Combien de graines ?
+      plant_before_year: Semer avant (année)
+      trade_label: Échange
+      variety: Variété
+      batch_number: Numéro de lot
+      maturity_min: Jours jusqu’à maturité (min.)
+      maturity_max: Jours jusqu’à maturité (max.)
+      row_spacing_cm: Espacement des rangs (cm)
+      organic: Biologiques ?
+      gmo: OGM ?
+      heirloom: Variété ancienne ?
+      source_question: D’où proviennent-elles ?
+      notes: Notes
+      errors:
+        one: 'Une erreur a empêché l’enregistrement de ces graines :'
+        other: '%{count} erreurs ont empêché l’enregistrement de ces graines :'
       crop: Plante
+      crop_help_html: Vous ne trouvez pas ce que vous cherchez ? %{link}
+      request_crops: Demander de nouvelles plantes.
+      harvested_saved_at: Quand les graines ont-elles été récoltées ou conservées ?
+      quantity: Quantité
+      minimum: min.
+      maximum: max.
+      maturity: Jours jusqu’à maturité
+      range_to: à
+      days: jours
+      row_spacing: Espacement des rangs
+      cm: cm
+      set_location_html: N’oubliez pas de %{link}.
+      set_location: définir votre localisation
+      from_location_html: depuis %{location}.
+      change_location: Modifier votre localisation.
+      save: Enregistrer
+      image_alt: Graines de %{crop} récoltées par %{owner}
+      saved_by_html: récoltées par %{owner}
+      saved_from: récoltées sur
+      request_subject: Vos graines de %{crop} m’intéressent
+      request_seeds: Demander des graines
+      request_seeds_purpose: demander des graines
       sow_before: Semer avant
       seeds: Graines
       where_from: Provenance
       type: Type
       shared_with: Partagées avec
+      packet_count:
+        one: "%{count} sachet"
+        other: "%{count} sachets"
+      saved_date: Récoltées le %{date}
+      packet: Sachet
+      nobody: Personne
+      save_crop_seeds: Enregistrer des graines de %{crop}
+      close: Fermer
+      adding_seeds: Vous ajoutez des graines à votre réserve
+      offer_trade: Proposerez-vous ces graines à l’échange ?
+      trade_from: Oui, je souhaite les échanger depuis %{location}
+      no_trade: Non, je ne souhaite pas les échanger.
+      save_seeds: Enregistrer des graines
+      view_all: Voir toutes les graines de %{owner}
+      nearby_html: Voir d’autres graines, membres et plus encore près de %{location}
+      you_have_it: Vous en avez déjà
+      past_sow_by: Date de semis dépassée
+      not_specified: non précisé
+      seed_unit:
+        one: graine
+        other: graines
+      when_to_sow: Quand semer
+      how_to_sow: Comment semer
+      germination: Germination
+      plant_before: Semer avant
+      heirloom_or_hybrid: Variété ancienne ou hybride
+      crop_image_alt: Image de %{crop}
+      owner_library_html: Grainothèque de %{owner}
+      crop_seeds: Graines de %{crop}
+      shared_seeds: Graines que les jardiniers ont choisi de partager
+      auth_prompt_html: "%{sign_in} ou %{sign_up} pour voir les échanges de graines près de chez vous."
+      sign_in: Connectez-vous
+      sign_up: inscrivez-vous
+      sorted_by_distance: Triées par distance depuis votre localisation.
+      shared_summary: "%{packets} de %{gardeners}."
+      gardener_count:
+        one: "%{count} jardinier"
+        other: "%{count} jardiniers"
+      privacy_explanation: Les graines n’apparaissent ici que si leur propriétaire a choisi de les partager. Nous affichons sa ville, jamais son adresse. L’avatar du jardinier figure à côté de chaque sachet. Ouvrez un sachet pour voir les graines et en demander.
+      whose_seeds: À qui appartiennent les graines
+      mine: Les miennes
+      following: Personnes que je suis
+      near_me: Près de moi
+      everyone: Tout le monde
+      add_seeds: + ajouter des graines
+      search_summary:
+        one: "%{count} sachet de graines de %{crop}."
+        other: "%{count} sachets de graines de %{crop}."
+      variety_count:
+        one: "%{count} variété"
+        other: "%{count} variétés"
+      open_shelf: ▸ Ouvrir l’étagère
+      tick_season: 'Cochez une saison :'
+      germination_min: Germination (jours min.)
+      germination_max: Germination (jours max.)
+      in_stock: En stock
+      finished: Épuisées
+      edit_title: Modifier les graines
+      owner_seeds: Graines de %{owner}
+      meta_description: Parcourir et rechercher des graines.
+      open_data: Données ouvertes
+      api_methods: Méthodes de l’API
+      feed_title: Graines récentes de %{owner} (%{site_name})
+      all_members: tous les membres
+      record_title: Graines de %{crop} de %{owner}
+      feed_field: '%{label} : %{value}'
+      feed_trade: Échange %{trade_scope} depuis %{location}
+      unknown_location: lieu inconnu
+      record_description: Graines de %{crop}, partagées par %{owner}.
+      plantings: Plantations
+      edit: modifier
+      no_notes: Aucune note pour le moment.
+      descendants_heading: Plantes issues de ces graines
+      add: ajouter
+      photos: Photos
+      no_photos: Aucune photo pour le moment.
+      all_year: Toute l’année
+      seasons:
+        spring: Printemps
+        summer: Été
+        autumn: Automne
+        winter: Hiver
       trade_scopes:
         nowhere: nulle part
         locally: local
         nationally: national
         internationally: international
+      stats:
+        packets:
+          one: sachet
+          other: sachets
+        varieties:
+          one: variété
+          other: variétés
+        crops:
+          one: plante
+          other: plantes
+        own:
+          one: récolte personnelle
+          other: récoltes personnelles
     hardiness:
       half_hardy: Semi-rustique (tolère une légère gelée)
       hardy: Rustique (tolère bien le gel)

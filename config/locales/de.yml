@@ -1145,6 +1145,8 @@ de:
       the_planting_this_came_from: Die Pflanzung, von der dies stammt
     updated: Harvest wurde erfolgreich aktualisiert.
   home:
+    community_description: Growstuff ist eine Gemeinschaft von Menschen, die Lebensmittel anbauen. Lernen wir gemeinsam, unser eigenes Essen anzubauen.
+    planting_image_alt: Bild von %{planting} von %{owner}
     weather_invitation:
       add_location: Standort hinzufügen
       change_location: Standort ändern
@@ -2877,102 +2879,8 @@ de:
     winter: Winter
   seeds:
     ui:
-      record_title: "%{crop}-Samen von %{owner}"
-      record_description: Samen von %{crop}, geteilt von %{owner}.
-      plantings: Bepflanzungen
-      notes: Notizen
-      edit: bearbeiten
-      no_notes: Noch keine Notizen.
-      descendants_heading: Aus diesen Samen gezogene Pflanzen
-      add: hinzufügen
-      photos: Fotos
-      no_photos: Noch keine Fotos.
-      feed_title: Neueste Samen von %{owner} (%{site_name})
-      all_members: allen Mitgliedern
-      feed_field: "%{label}: %{value}"
-      feed_trade: Tausch %{trade_scope} von %{location} aus
-      unknown_location: unbekannter Ort
-      owner_seeds: Samen von %{owner}
-      meta_description: Samen durchstöbern und suchen.
-      open_data: Offene Daten
-      api_methods: API-Methoden
-      edit_title: Samen bearbeiten
-      in_stock: Vorrätig
-      finished: Aufgebraucht
-      germination_min: Keimung (min. Tage)
-      germination_max: Keimung (max. Tage)
-      search_summary:
-        one: "%{count} Päckchen %{crop}-Samen."
-        other: "%{count} Päckchen %{crop}-Samen."
-      whose_seeds: Wessen Samen
-      mine: Meine
-      following: Personen, denen ich folge
-      near_me: In meiner Nähe
-      everyone: Alle
-      add_seeds: "+ Samen hinzufügen"
-      auth_prompt_html: "%{sign_in} oder %{sign_up}, um Saatgut-Tauschpartner in Ihrer Nähe
-        zu sehen."
-      sign_in: Anmelden
-      sign_up: registrieren
-      sorted_by_distance: Nach Entfernung von Ihrem Standort sortiert.
-      shared_summary: "%{packets} von %{gardeners}."
-      gardener_count:
-        one: "%{count} gärtnernde Person"
-        other: "%{count} gärtnernde Personen"
-      privacy_explanation: Saatgut erscheint hier nur, wenn die Person es teilen möchte.
-        Wir zeigen nur ihren Ort, niemals ihre Adresse. Neben jedem Päckchen steht das Profilbild
-        der Person. Öffnen Sie ein Päckchen, um das Saatgut anzusehen und danach zu fragen.
-      no_descendants: Aus diesen Samen wurde noch nichts angebaut.
-      errors:
-        one: 'Dieses Saatgut konnte aufgrund eines Fehlers nicht gespeichert werden:'
-        other: 'Dieses Saatgut konnte aufgrund von %{count} Fehlern nicht gespeichert werden:'
-      crop_help_html: Sie finden nicht, wonach Sie suchen? %{link}
-      request_crops: Neue Nutzpflanzen vorschlagen.
-      harvested_saved_at: Wann wurden die Samen geerntet oder gesammelt?
-      quantity: Menge
-      plant_before_year: Aussäen vor (Jahr)
-      variety: Sorte
-      batch_number: Chargennummer
-      minimum: min.
-      maturity: Tage bis zur Reife
-      maximum: max.
-      range_to: bis
-      days: Tage
-      row_spacing: Reihenabstand
-      cm: cm
-      organic: Bio?
-      gmo: Gentechnisch verändert?
-      heirloom: Samenfest?
-      source_question: Woher stammen sie?
-      trade_label: Tauschangebot
-      set_location_html: Vergessen Sie nicht, %{link}.
-      set_location: Ihren Standort festzulegen
-      from_location_html: aus %{location}.
-      change_location: Standort ändern.
-      save: Speichern
-      packet_count:
-        one: "%{count} Päckchen"
-        other: "%{count} Päckchen"
-      saved_date: Geerntet am %{date}
-      packet: Päckchen
-      nobody: Niemandem
-      saved_by_html: geerntet von %{owner}
-      view_all: Alle Samen von %{owner} anzeigen
-      nearby_html: Weitere Samen, Mitglieder und mehr in der Nähe von %{location} anzeigen
-      not_specified: nicht angegeben
-      seed_unit:
-        one: Samen
-        other: Samen
-      when_to_sow: Aussaatzeit
-      how_to_sow: Aussaatanleitung
-      germination: Keimung
-      plant_before: Aussäen vor
-      unknown: unbekannt
-      heirloom_or_hybrid: Samenfest oder Hybrid
-      organic_fact: Bio
-      gmo_fact: Gentechnik
-      you_have_it: Haben Sie bereits
-      past_sow_by: Aussaatdatum überschritten
+      request_prompt_html: "%{sign_in} oder %{sign_up}, um Samen anzufragen."
+      month_abbreviations: [Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
       unknown_quiet: unbekannt
       plant_seeds: Samen aussäen
       saved_year: geerntet %{year}
@@ -2982,18 +2890,158 @@ de:
         other: ca. %{count} Samen
       sow_before_year: aussäen vor %{year}
       will_trade: Tausch %{trade_scope}
+      organic_fact: Bio
+      gmo_fact: Gentechnik
+      save_crop_seeds_sentence: "%{crop}-Samen speichern."
+      unknown: unbekannt
+      no_descendants: Aus diesen Samen wurde noch nichts angebaut.
       activity_html: hat Samen von %{crop} gesammelt
+      change_crop: Nutzpflanze ändern
+      saved_at: Wann wurden sie geerntet?
+      seed_quantity: Wie viele Samen?
+      plant_before_year: Aussäen vor (Jahr)
+      trade_label: Tauschangebot
+      variety: Sorte
+      batch_number: Chargennummer
+      maturity_min: Tage bis zur Reife (min.)
+      maturity_max: Tage bis zur Reife (max.)
+      row_spacing_cm: Reihenabstand (cm)
+      organic: Bio?
+      gmo: Gentechnisch verändert?
+      heirloom: Samenfest?
+      source_question: Woher stammen sie?
+      notes: Notizen
+      errors:
+        one: 'Dieses Saatgut konnte aufgrund eines Fehlers nicht gespeichert werden:'
+        other: 'Dieses Saatgut konnte aufgrund von %{count} Fehlern nicht gespeichert werden:'
       crop: Nutzpflanze
+      crop_help_html: Sie finden nicht, wonach Sie suchen? %{link}
+      request_crops: Neue Nutzpflanzen vorschlagen.
+      harvested_saved_at: Wann wurden die Samen geerntet oder gesammelt?
+      quantity: Menge
+      minimum: min.
+      maximum: max.
+      maturity: Tage bis zur Reife
+      range_to: bis
+      days: Tage
+      row_spacing: Reihenabstand
+      cm: cm
+      set_location_html: Vergessen Sie nicht, %{link}.
+      set_location: Ihren Standort festzulegen
+      from_location_html: aus %{location}.
+      change_location: Standort ändern.
+      save: Speichern
+      image_alt: "%{crop}-Samen, geerntet von %{owner}"
+      saved_by_html: geerntet von %{owner}
+      saved_from: gesammelt von
+      request_subject: Interesse an Ihren %{crop}-Samen
+      request_seeds: Samen anfragen
+      request_seeds_purpose: Samen anzufragen
       sow_before: Aussäen vor
       seeds: Samen
       where_from: Herkunft
       type: Typ
       shared_with: Geteilt mit
+      packet_count:
+        one: "%{count} Päckchen"
+        other: "%{count} Päckchen"
+      saved_date: Geerntet am %{date}
+      packet: Päckchen
+      nobody: Niemandem
+      save_crop_seeds: "%{crop}-Samen speichern"
+      close: Schließen
+      adding_seeds: Sie fügen Ihrem Vorrat Samen hinzu
+      offer_trade: Möchten Sie diese Samen zum Tausch anbieten?
+      trade_from: Ja, ich würde diese Samen von %{location} aus tauschen
+      no_trade: Nein, ich möchte nicht tauschen.
+      save_seeds: Samen speichern
+      view_all: Alle Samen von %{owner} anzeigen
+      nearby_html: Weitere Samen, Mitglieder und mehr in der Nähe von %{location} anzeigen
+      you_have_it: Haben Sie bereits
+      past_sow_by: Aussaatdatum überschritten
+      not_specified: nicht angegeben
+      seed_unit:
+        one: Samen
+        other: Samen
+      when_to_sow: Aussaatzeit
+      how_to_sow: Aussaatanleitung
+      germination: Keimung
+      plant_before: Aussäen vor
+      heirloom_or_hybrid: Samenfest oder Hybrid
+      crop_image_alt: Bild von %{crop}
+      owner_library_html: Saatgutbibliothek von %{owner}
+      crop_seeds: "%{crop}-Samen"
+      shared_seeds: Samen, die Gärtnerinnen und Gärtner teilen möchten
+      auth_prompt_html: "%{sign_in} oder %{sign_up}, um Saatgut-Tauschpartner in Ihrer Nähe zu sehen."
+      sign_in: Anmelden
+      sign_up: registrieren
+      sorted_by_distance: Nach Entfernung von Ihrem Standort sortiert.
+      shared_summary: "%{packets} von %{gardeners}."
+      gardener_count:
+        one: "%{count} gärtnernde Person"
+        other: "%{count} gärtnernde Personen"
+      privacy_explanation: Saatgut erscheint hier nur, wenn die Person es teilen möchte. Wir zeigen nur ihren Ort, niemals ihre Adresse. Neben jedem Päckchen steht das Profilbild der Person. Öffnen Sie ein Päckchen, um das Saatgut anzusehen und danach zu fragen.
+      whose_seeds: Wessen Samen
+      mine: Meine
+      following: Personen, denen ich folge
+      near_me: In meiner Nähe
+      everyone: Alle
+      add_seeds: + Samen hinzufügen
+      search_summary:
+        one: "%{count} Päckchen %{crop}-Samen."
+        other: "%{count} Päckchen %{crop}-Samen."
+      variety_count:
+        one: "%{count} Sorte"
+        other: "%{count} Sorten"
+      open_shelf: ▸ Regal öffnen
+      tick_season: 'Jahreszeit auswählen:'
+      germination_min: Keimung (min. Tage)
+      germination_max: Keimung (max. Tage)
+      in_stock: Vorrätig
+      finished: Aufgebraucht
+      edit_title: Samen bearbeiten
+      owner_seeds: Samen von %{owner}
+      meta_description: Samen durchstöbern und suchen.
+      open_data: Offene Daten
+      api_methods: API-Methoden
+      feed_title: Neueste Samen von %{owner} (%{site_name})
+      all_members: allen Mitgliedern
+      record_title: "%{crop}-Samen von %{owner}"
+      feed_field: '%{label}: %{value}'
+      feed_trade: Tausch %{trade_scope} von %{location} aus
+      unknown_location: unbekannter Ort
+      record_description: Samen von %{crop}, geteilt von %{owner}.
+      plantings: Bepflanzungen
+      edit: bearbeiten
+      no_notes: Noch keine Notizen.
+      descendants_heading: Aus diesen Samen gezogene Pflanzen
+      add: hinzufügen
+      photos: Fotos
+      no_photos: Noch keine Fotos.
+      all_year: Ganzjährig
+      seasons:
+        spring: Frühling
+        summer: Sommer
+        autumn: Herbst
+        winter: Winter
       trade_scopes:
         nowhere: nirgends
         locally: vor Ort
         nationally: landesweit
         internationally: international
+      stats:
+        packets:
+          one: Päckchen
+          other: Päckchen
+        varieties:
+          one: Sorte
+          other: Sorten
+        crops:
+          one: Nutzpflanze
+          other: Nutzpflanzen
+        own:
+          one: eigene Saatguternte
+          other: eigene Saatguternten
     hardiness:
       half_hardy: Mäßig frosthart (leichter Frost ist kein Problem)
       hardy: Winterhart (Frost ist kein Problem)

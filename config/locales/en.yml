@@ -4295,101 +4295,8 @@ en:
     winter: Winter
   seeds:
     ui:
-      record_title: "%{owner}'s %{crop} seeds"
-      record_description: Seeds for %{crop}, shared by %{owner}.
-      plantings: Plantings
-      notes: Notes
-      edit: edit
-      no_notes: No notes yet.
-      descendants_heading: Plants grown from these seeds
-      add: add
-      photos: Photos
-      no_photos: No photos yet.
-      feed_title: Recent seeds from %{owner} (%{site_name})
-      all_members: all members
-      feed_field: "%{label}: %{value}"
-      feed_trade: Will trade %{trade_scope} from %{location}
-      unknown_location: unknown location
-      owner_seeds: "%{owner}'s seeds"
-      meta_description: Browse and search for seeds.
-      open_data: Open Data
-      api_methods: API Methods
-      edit_title: Editing seeds
-      in_stock: In stock
-      finished: Finished
-      germination_min: Germination (min days)
-      germination_max: Germination (max days)
-      search_summary:
-        one: "%{count} packet of %{crop} seeds."
-        other: "%{count} packets of %{crop} seeds."
-      whose_seeds: Whose seeds
-      mine: Mine
-      following: People I follow
-      near_me: Near me
-      everyone: Everyone
-      add_seeds: "+ add seeds"
-      auth_prompt_html: "%{sign_in} or %{sign_up} to see seed traders near you."
-      sign_in: Sign in
-      sign_up: sign up
-      sorted_by_distance: Sorted by distance from your location.
-      shared_summary: "%{packets} from %{gardeners}."
-      gardener_count:
-        one: "%{count} gardener"
-        other: "%{count} gardeners"
-      privacy_explanation: A seed shows here only when the gardener chose to share it. We
-        show a gardener's city, never their address. Each packet has its gardener's avatar
-        beside it. Open a packet to see the seed and ask for some.
-      no_descendants: Nothing has been grown from these seeds yet.
-      errors:
-        one: '1 error prohibited this seed from being saved:'
-        other: "%{count} errors prohibited this seed from being saved:"
-      crop_help_html: Can't find what you're looking for? %{link}
-      request_crops: Request new crops.
-      harvested_saved_at: When were the seeds harvested/saved?
-      quantity: Quantity
-      plant_before_year: Plant before (year)
-      variety: Variety
-      batch_number: Batch number
-      minimum: min
-      maturity: Days until maturity
-      maximum: max
-      range_to: to
-      days: days
-      row_spacing: Row spacing
-      cm: cm
-      organic: Organic?
-      gmo: GMO?
-      heirloom: Heirloom?
-      source_question: Where did they come from?
-      trade_label: Will trade
-      set_location_html: Don't forget to %{link}.
-      set_location: set your location
-      from_location_html: from %{location}.
-      change_location: Change your location.
-      save: Save
-      packet_count:
-        one: "%{count} packet"
-        other: "%{count} packets"
-      saved_date: Saved %{date}
-      packet: Packet
-      nobody: Nobody
-      saved_by_html: saved by %{owner}
-      view_all: view all %{owner}'s seeds
-      nearby_html: View other seeds, members and more near %{location}
-      not_specified: not specified
-      seed_unit:
-        one: seed
-        other: seeds
-      when_to_sow: When to sow
-      how_to_sow: How to sow
-      germination: Germination
-      plant_before: Plant before
-      unknown: Unknown
-      heirloom_or_hybrid: Heirloom or hybrid
-      organic_fact: Organic
-      gmo_fact: GMO
-      you_have_it: You have it
-      past_sow_by: Past sow-by
+      request_prompt_html: "%{sign_in} or %{sign_up} to request seeds."
+      month_abbreviations: [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
       unknown_quiet: unknown
       plant_seeds: Plant seeds
       saved_year: saved %{year}
@@ -4399,18 +4306,158 @@ en:
         other: approx. %{count} seeds
       sow_before_year: sow before %{year}
       will_trade: will trade %{trade_scope}
+      organic_fact: Organic
+      gmo_fact: GMO
+      save_crop_seeds_sentence: Save %{crop} seeds.
+      unknown: Unknown
+      no_descendants: Nothing has been grown from these seeds yet.
       activity_html: saved %{crop} seeds
+      change_crop: Change crop
+      saved_at: When were they saved?
+      seed_quantity: How many seeds?
+      plant_before_year: Plant before (year)
+      trade_label: Will trade
+      variety: Variety
+      batch_number: Batch number
+      maturity_min: Days until maturity (min)
+      maturity_max: Days until maturity (max)
+      row_spacing_cm: Row spacing (cm)
+      organic: Organic?
+      gmo: GMO?
+      heirloom: Heirloom?
+      source_question: Where did they come from?
+      notes: Notes
+      errors:
+        one: '1 error prohibited this seed from being saved:'
+        other: '%{count} errors prohibited this seed from being saved:'
       crop: Crop
+      crop_help_html: Can't find what you're looking for? %{link}
+      request_crops: Request new crops.
+      harvested_saved_at: When were the seeds harvested/saved?
+      quantity: Quantity
+      minimum: min
+      maximum: max
+      maturity: Days until maturity
+      range_to: to
+      days: days
+      row_spacing: Row spacing
+      cm: cm
+      set_location_html: Don't forget to %{link}.
+      set_location: set your location
+      from_location_html: from %{location}.
+      change_location: Change your location.
+      save: Save
+      image_alt: "%{crop} seeds saved by %{owner}"
+      saved_by_html: saved by %{owner}
+      saved_from: saved from
+      request_subject: Interested in your %{crop} seeds
+      request_seeds: Request seeds
+      request_seeds_purpose: request seeds
       sow_before: Sow before
       seeds: Seeds
       where_from: Where from
       type: Type
       shared_with: Shared with
+      packet_count:
+        one: "%{count} packet"
+        other: "%{count} packets"
+      saved_date: Saved %{date}
+      packet: Packet
+      nobody: Nobody
+      save_crop_seeds: Save %{crop} seeds
+      close: Close
+      adding_seeds: You are adding seeds to your stash
+      offer_trade: Will you offer these seeds for trade?
+      trade_from: Yes, I would be willing to trade these from %{location}
+      no_trade: No, I don't want to trade.
+      save_seeds: Save seeds
+      view_all: view all %{owner}'s seeds
+      nearby_html: View other seeds, members and more near %{location}
+      you_have_it: You have it
+      past_sow_by: Past sow-by
+      not_specified: not specified
+      seed_unit:
+        one: seed
+        other: seeds
+      when_to_sow: When to sow
+      how_to_sow: How to sow
+      germination: Germination
+      plant_before: Plant before
+      heirloom_or_hybrid: Heirloom or hybrid
+      crop_image_alt: Image of %{crop}
+      owner_library_html: "%{owner}'s seed library"
+      crop_seeds: "%{crop} seeds"
+      shared_seeds: Seeds that gardeners have chosen to share
+      auth_prompt_html: "%{sign_in} or %{sign_up} to see seed traders near you."
+      sign_in: Sign in
+      sign_up: sign up
+      sorted_by_distance: Sorted by distance from your location.
+      shared_summary: "%{packets} from %{gardeners}."
+      gardener_count:
+        one: "%{count} gardener"
+        other: "%{count} gardeners"
+      privacy_explanation: A seed shows here only when the gardener chose to share it. We show a gardener's city, never their address. Each packet has its gardener's avatar beside it. Open a packet to see the seed and ask for some.
+      whose_seeds: Whose seeds
+      mine: Mine
+      following: People I follow
+      near_me: Near me
+      everyone: Everyone
+      add_seeds: + add seeds
+      search_summary:
+        one: "%{count} packet of %{crop} seeds."
+        other: "%{count} packets of %{crop} seeds."
+      variety_count:
+        one: "%{count} variety"
+        other: "%{count} varieties"
+      open_shelf: ▸ Open shelf
+      tick_season: 'Tick a season:'
+      germination_min: Germination (min days)
+      germination_max: Germination (max days)
+      in_stock: In stock
+      finished: Finished
+      edit_title: Editing seeds
+      owner_seeds: "%{owner}'s seeds"
+      meta_description: Browse and search for seeds.
+      open_data: Open Data
+      api_methods: API Methods
+      feed_title: Recent seeds from %{owner} (%{site_name})
+      all_members: all members
+      record_title: "%{owner}'s %{crop} seeds"
+      feed_field: '%{label}: %{value}'
+      feed_trade: Will trade %{trade_scope} from %{location}
+      unknown_location: unknown location
+      record_description: Seeds for %{crop}, shared by %{owner}.
+      plantings: Plantings
+      edit: edit
+      no_notes: No notes yet.
+      descendants_heading: Plants grown from these seeds
+      add: add
+      photos: Photos
+      no_photos: No photos yet.
+      all_year: All year
+      seasons:
+        spring: Spring
+        summer: Summer
+        autumn: Autumn
+        winter: Winter
       trade_scopes:
         nowhere: nowhere
         locally: locally
         nationally: nationally
         internationally: internationally
+      stats:
+        packets:
+          one: packet
+          other: packets
+        varieties:
+          one: variety
+          other: varieties
+        crops:
+          one: crop
+          other: crops
+        own:
+          one: my own saving
+          other: my own savings
     added_to_stash: Successfully added %{crop} seed to your stash.
     crop_changes:
       show:

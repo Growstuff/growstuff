@@ -4,31 +4,31 @@
       .modal-header.text-center
         %h4.modal-title.w-100.fw-bold
           = seed_icon
-          Save #{seed.crop.name} seeds
-        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", type: "button"}
+          = t('seeds.ui.save_crop_seeds', crop: seed.crop.name)
+        %button.btn-close{"aria-label" => t('seeds.ui.close'), "data-bs-dismiss" => "modal", type: "button"}
 
       .modal-body
-        %h4 You are adding seeds to your stash
+        %h4= t('seeds.ui.adding_seeds')
 
-        %h5 Will you offer these seeds for trade?
+        %h5= t('seeds.ui.offer_trade')
 
         %hr/
-        %p Yes, I would be willing trade these from #{current_member.location}
+        %p= t('seeds.ui.trade_from', location: current_member.location)
 
-        .btn-group.d-grid.flex-column{"aria-label" => "trade to", role: "group"}
-          - Seed::TRADABLE_TO_VALUES.reverse.each do |t|
-            - unless t == 'nowhere'
-              = button_to seeds_path(seed: {crop_id: seed.crop_id, tradable_to: t}), method: :post, class: 'btn col-12' do
-                = t
+        .btn-group.d-grid.flex-column{"aria-label" => t('seeds.ui.trade_label'), role: "group"}
+          - Seed::TRADABLE_TO_VALUES.reverse.each do |scope|
+            - unless scope == 'nowhere'
+              = button_to seeds_path(seed: {crop_id: seed.crop_id, tradable_to: scope}), method: :post, class: 'btn col-12' do
+                = t("seeds.ui.trade_scopes.#{scope}")
 
         %hr/
         %p
           = icon('fas', 'no')
-          No, I don't want to trade.
+          = t('seeds.ui.no_trade')
         = button_to seeds_path(seed: {crop_id: seed.crop_id, tradable_to: 'nowhere'}), method: :post, class: 'btn' do
-          Save #{seed.crop_name} seeds.
+          = t('seeds.ui.save_crop_seeds_sentence', crop: seed.crop_name)
 
 
 %a.btn{"data-bs-target" => "#modelSeedForm", "data-bs-toggle" => "modal", href: ""}
   = seed_icon
-  Save seeds
+  = t('seeds.ui.save_seeds')

@@ -1144,6 +1144,8 @@ es:
       the_planting_this_came_from: La plantación de donde proviene
     updated: La cosecha se actualizó correctamente.
   home:
+    community_description: Growstuff es una comunidad de personas que cultivan alimentos. Aprendamos a cultivar alimentos juntos.
+    planting_image_alt: Imagen de %{planting} de %{owner}
     weather_invitation:
       add_location: Añadir tu ubicación
       change_location: Cambiar tu ubicación
@@ -2876,102 +2878,8 @@ es:
     winter: Invierno
   seeds:
     ui:
-      record_title: Semillas de %{crop} de %{owner}
-      record_description: Semillas de %{crop}, compartidas por %{owner}.
-      plantings: Plantaciones
-      notes: Notas
-      edit: editar
-      no_notes: Todavía no hay notas.
-      descendants_heading: Plantas cultivadas a partir de estas semillas
-      add: añadir
-      photos: Fotos
-      no_photos: Todavía no hay fotos.
-      feed_title: Semillas recientes de %{owner} (%{site_name})
-      all_members: todos los miembros
-      feed_field: "%{label}: %{value}"
-      feed_trade: Intercambio %{trade_scope} desde %{location}
-      unknown_location: ubicación desconocida
-      owner_seeds: Semillas de %{owner}
-      meta_description: Explorar y buscar semillas.
-      open_data: Datos abiertos
-      api_methods: Métodos de la API
-      edit_title: Editar semillas
-      in_stock: Disponibles
-      finished: Terminadas
-      germination_min: Germinación (días mín.)
-      germination_max: Germinación (días máx.)
-      search_summary:
-        one: "%{count} paquete de semillas de %{crop}."
-        other: "%{count} paquetes de semillas de %{crop}."
-      whose_seeds: De quién son las semillas
-      mine: Mías
-      following: Personas que sigo
-      near_me: Cerca de mí
-      everyone: Todos
-      add_seeds: "+ añadir semillas"
-      auth_prompt_html: "%{sign_in} o %{sign_up} para ver quién intercambia semillas cerca
-        de usted."
-      sign_in: Inicie sesión
-      sign_up: regístrese
-      sorted_by_distance: Ordenadas por distancia desde su ubicación.
-      shared_summary: "%{packets} de %{gardeners}."
-      gardener_count:
-        one: "%{count} horticultor"
-        other: "%{count} horticultores"
-      privacy_explanation: Las semillas solo aparecen aquí cuando su propietario decide
-        compartirlas. Mostramos su ciudad, nunca su dirección. Cada paquete tiene al lado
-        el avatar de su propietario. Abra un paquete para ver las semillas y solicitar algunas.
-      no_descendants: Todavía no se ha cultivado nada con estas semillas.
-      errors:
-        one: 'Un error impidió guardar estas semillas:'
-        other: "%{count} errores impidieron guardar estas semillas:"
-      crop_help_html: "¿No encuentra lo que busca? %{link}"
-      request_crops: Solicitar nuevos cultivos.
-      harvested_saved_at: "¿Cuándo se cosecharon o guardaron las semillas?"
-      quantity: Cantidad
-      plant_before_year: Sembrar antes de (año)
-      variety: Variedad
-      batch_number: Número de lote
-      minimum: mín.
-      maturity: Días hasta la madurez
-      maximum: máx.
-      range_to: a
-      days: días
-      row_spacing: Distancia entre filas
-      cm: cm
-      organic: "¿Ecológicas?"
-      gmo: "¿Transgénicas?"
-      heirloom: "¿Tradicionales?"
-      source_question: "¿De dónde proceden?"
-      trade_label: Intercambio
-      set_location_html: No olvide %{link}.
-      set_location: establecer su ubicación
-      from_location_html: desde %{location}.
-      change_location: Cambiar su ubicación.
-      save: Guardar
-      packet_count:
-        one: "%{count} paquete"
-        other: "%{count} paquetes"
-      saved_date: Guardadas el %{date}
-      packet: Paquete
-      nobody: Nadie
-      saved_by_html: guardadas por %{owner}
-      view_all: Ver todas las semillas de %{owner}
-      nearby_html: Ver otras semillas, miembros y más cerca de %{location}
-      not_specified: sin especificar
-      seed_unit:
-        one: semilla
-        other: semillas
-      when_to_sow: Cuándo sembrar
-      how_to_sow: Cómo sembrar
-      germination: Germinación
-      plant_before: Sembrar antes de
-      unknown: desconocido
-      heirloom_or_hybrid: Tradicionales o híbridas
-      organic_fact: Ecológicas
-      gmo_fact: Transgénicas
-      you_have_it: Ya las tiene
-      past_sow_by: Fecha de siembra superada
+      request_prompt_html: "%{sign_in} o %{sign_up} para solicitar semillas."
+      month_abbreviations: [ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]
       unknown_quiet: desconocido
       plant_seeds: Sembrar semillas
       saved_year: guardadas en %{year}
@@ -2981,18 +2889,158 @@ es:
         other: aprox. %{count} semillas
       sow_before_year: sembrar antes de %{year}
       will_trade: intercambio %{trade_scope}
+      organic_fact: Ecológicas
+      gmo_fact: Transgénicas
+      save_crop_seeds_sentence: Guardar semillas de %{crop}.
+      unknown: desconocido
+      no_descendants: Todavía no se ha cultivado nada con estas semillas.
       activity_html: guardó semillas de %{crop}
+      change_crop: Cambiar cultivo
+      saved_at: ¿Cuándo se guardaron?
+      seed_quantity: ¿Cuántas semillas?
+      plant_before_year: Sembrar antes de (año)
+      trade_label: Intercambio
+      variety: Variedad
+      batch_number: Número de lote
+      maturity_min: Días hasta la madurez (mín.)
+      maturity_max: Días hasta la madurez (máx.)
+      row_spacing_cm: Distancia entre filas (cm)
+      organic: ¿Ecológicas?
+      gmo: ¿Transgénicas?
+      heirloom: ¿Tradicionales?
+      source_question: ¿De dónde proceden?
+      notes: Notas
+      errors:
+        one: 'Un error impidió guardar estas semillas:'
+        other: '%{count} errores impidieron guardar estas semillas:'
       crop: Cultivo
+      crop_help_html: ¿No encuentra lo que busca? %{link}
+      request_crops: Solicitar nuevos cultivos.
+      harvested_saved_at: ¿Cuándo se cosecharon o guardaron las semillas?
+      quantity: Cantidad
+      minimum: mín.
+      maximum: máx.
+      maturity: Días hasta la madurez
+      range_to: a
+      days: días
+      row_spacing: Distancia entre filas
+      cm: cm
+      set_location_html: No olvide %{link}.
+      set_location: establecer su ubicación
+      from_location_html: desde %{location}.
+      change_location: Cambiar su ubicación.
+      save: Guardar
+      image_alt: Semillas de %{crop} guardadas por %{owner}
+      saved_by_html: guardadas por %{owner}
+      saved_from: guardadas de
+      request_subject: Me interesan sus semillas de %{crop}
+      request_seeds: Solicitar semillas
+      request_seeds_purpose: solicitar semillas
       sow_before: Sembrar antes de
       seeds: Semillas
       where_from: Procedencia
       type: Tipo
       shared_with: Compartidas con
+      packet_count:
+        one: "%{count} paquete"
+        other: "%{count} paquetes"
+      saved_date: Guardadas el %{date}
+      packet: Paquete
+      nobody: Nadie
+      save_crop_seeds: Guardar semillas de %{crop}
+      close: Cerrar
+      adding_seeds: Está añadiendo semillas a su reserva
+      offer_trade: ¿Ofrecerá estas semillas para intercambio?
+      trade_from: Sí, estaría dispuesto a intercambiarlas desde %{location}
+      no_trade: No, no quiero intercambiar.
+      save_seeds: Guardar semillas
+      view_all: Ver todas las semillas de %{owner}
+      nearby_html: Ver otras semillas, miembros y más cerca de %{location}
+      you_have_it: Ya las tiene
+      past_sow_by: Fecha de siembra superada
+      not_specified: sin especificar
+      seed_unit:
+        one: semilla
+        other: semillas
+      when_to_sow: Cuándo sembrar
+      how_to_sow: Cómo sembrar
+      germination: Germinación
+      plant_before: Sembrar antes de
+      heirloom_or_hybrid: Tradicionales o híbridas
+      crop_image_alt: Imagen de %{crop}
+      owner_library_html: Biblioteca de semillas de %{owner}
+      crop_seeds: Semillas de %{crop}
+      shared_seeds: Semillas que los horticultores han decidido compartir
+      auth_prompt_html: "%{sign_in} o %{sign_up} para ver quién intercambia semillas cerca de usted."
+      sign_in: Inicie sesión
+      sign_up: regístrese
+      sorted_by_distance: Ordenadas por distancia desde su ubicación.
+      shared_summary: "%{packets} de %{gardeners}."
+      gardener_count:
+        one: "%{count} horticultor"
+        other: "%{count} horticultores"
+      privacy_explanation: Las semillas solo aparecen aquí cuando su propietario decide compartirlas. Mostramos su ciudad, nunca su dirección. Cada paquete tiene al lado el avatar de su propietario. Abra un paquete para ver las semillas y solicitar algunas.
+      whose_seeds: De quién son las semillas
+      mine: Mías
+      following: Personas que sigo
+      near_me: Cerca de mí
+      everyone: Todos
+      add_seeds: + añadir semillas
+      search_summary:
+        one: "%{count} paquete de semillas de %{crop}."
+        other: "%{count} paquetes de semillas de %{crop}."
+      variety_count:
+        one: "%{count} variedad"
+        other: "%{count} variedades"
+      open_shelf: ▸ Abrir estante
+      tick_season: 'Seleccione una estación:'
+      germination_min: Germinación (días mín.)
+      germination_max: Germinación (días máx.)
+      in_stock: Disponibles
+      finished: Terminadas
+      edit_title: Editar semillas
+      owner_seeds: Semillas de %{owner}
+      meta_description: Explorar y buscar semillas.
+      open_data: Datos abiertos
+      api_methods: Métodos de la API
+      feed_title: Semillas recientes de %{owner} (%{site_name})
+      all_members: todos los miembros
+      record_title: Semillas de %{crop} de %{owner}
+      feed_field: '%{label}: %{value}'
+      feed_trade: Intercambio %{trade_scope} desde %{location}
+      unknown_location: ubicación desconocida
+      record_description: Semillas de %{crop}, compartidas por %{owner}.
+      plantings: Plantaciones
+      edit: editar
+      no_notes: Todavía no hay notas.
+      descendants_heading: Plantas cultivadas a partir de estas semillas
+      add: añadir
+      photos: Fotos
+      no_photos: Todavía no hay fotos.
+      all_year: Todo el año
+      seasons:
+        spring: Primavera
+        summer: Verano
+        autumn: Otoño
+        winter: Invierno
       trade_scopes:
         nowhere: en ningún lugar
         locally: local
         nationally: nacional
         internationally: internacional
+      stats:
+        packets:
+          one: paquete
+          other: paquetes
+        varieties:
+          one: variedad
+          other: variedades
+        crops:
+          one: cultivo
+          other: cultivos
+        own:
+          one: recolección propia
+          other: recolecciones propias
     hardiness:
       half_hardy: Semirresistente (tolera una helada ligera)
       hardy: Resistente (tolera bien las heladas)

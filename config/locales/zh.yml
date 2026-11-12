@@ -1142,6 +1142,8 @@ zh:
       the_planting_this_came_from: 此收获来源的种植
     updated: 收获已成功更新。
   home:
+    community_description: Growstuff 是一个种植食物的园艺爱好者社区。让我们一起学习种植食物。
+    planting_image_alt: "%{owner}的%{planting}图片"
     weather_invitation:
       add_location: 添加您的位置
       change_location: 更改您的位置
@@ -2870,99 +2872,8 @@ zh:
     winter: 冬天
   seeds:
     ui:
-      record_title: "%{owner}的%{crop}种子"
-      record_description: "%{owner}分享的%{crop}种子。"
-      plantings: 种植
-      notes: 备注
-      edit: 编辑
-      no_notes: 暂无备注。
-      descendants_heading: 由这些种子培育的植物
-      add: 添加
-      photos: 照片
-      no_photos: 暂无照片。
-      feed_title: "%{owner}的近期种子（%{site_name}）"
-      all_members: 所有成员
-      feed_field: "%{label}：%{value}"
-      feed_trade: 可从%{location}向%{trade_scope}交换
-      unknown_location: 未知位置
-      owner_seeds: "%{owner}的种子"
-      meta_description: 浏览和搜索种子。
-      open_data: 开放数据
-      api_methods: API 方法
-      edit_title: 编辑种子
-      in_stock: 有库存
-      finished: 已用完
-      germination_min: 发芽（最少天数）
-      germination_max: 发芽（最多天数）
-      search_summary:
-        one: "%{count}包%{crop}种子。"
-        other: "%{count}包%{crop}种子。"
-      whose_seeds: 谁的种子
-      mine: 我的
-      following: 我关注的人
-      near_me: 我附近
-      everyone: 所有人
-      add_seeds: "+ 添加种子"
-      auth_prompt_html: "%{sign_in}或%{sign_up}，查看您附近的种子交换者。"
-      sign_in: 登录
-      sign_up: 注册
-      sorted_by_distance: 按距您位置的远近排序。
-      shared_summary: 来自%{gardeners}的%{packets}种子。
-      gardener_count:
-        one: "%{count}位园艺爱好者"
-        other: "%{count}位园艺爱好者"
-      privacy_explanation: 只有园艺爱好者选择分享的种子才会显示在这里。我们显示其所在城市，绝不显示详细地址。每包种子旁都有分享者的头像。打开种子包即可查看种子详情并申请一些。
-      no_descendants: 这些种子还没有种出任何植物。
-      errors:
-        one: 有 1 个错误，无法保存这些种子：
-        other: 有 %{count} 个错误，无法保存这些种子：
-      crop_help_html: 找不到您要的作物？%{link}
-      request_crops: 请求添加新作物。
-      harvested_saved_at: 种子何时采收或留存？
-      quantity: 数量
-      plant_before_year: 播种期限（年份）
-      variety: 品种
-      batch_number: 批次编号
-      minimum: 最小
-      maturity: 成熟天数
-      maximum: 最大
-      range_to: 至
-      days: 天
-      row_spacing: 行距
-      cm: 厘米
-      organic: 有机？
-      gmo: 转基因？
-      heirloom: 传统品种？
-      source_question: 种子来自哪里？
-      trade_label: 交换范围
-      set_location_html: 别忘了%{link}。
-      set_location: 设置您的位置
-      from_location_html: 来自%{location}。
-      change_location: 更改您的位置。
-      save: 保存
-      packet_count:
-        one: "%{count}包"
-        other: "%{count}包"
-      saved_date: "%{date}留种"
-      packet: 种子包
-      nobody: 不分享
-      saved_by_html: 由%{owner}留种
-      view_all: 查看%{owner}的所有种子
-      nearby_html: 查看%{location}附近的其他种子、成员等
-      not_specified: 未指定
-      seed_unit:
-        one: 粒种子
-        other: 粒种子
-      when_to_sow: 播种时间
-      how_to_sow: 播种方法
-      germination: 发芽
-      plant_before: 播种期限
-      unknown: 未知
-      heirloom_or_hybrid: 传统品种或杂交品种
-      organic_fact: 有机
-      gmo_fact: 转基因
-      you_have_it: 您已拥有
-      past_sow_by: 已过播种期限
+      request_prompt_html: "%{sign_in}或%{sign_up}以申请种子。"
+      month_abbreviations: [1月, 2月, 3月, 4月, 5月, 6月, 7月, 8月, 9月, 10月, 11月, 12月]
       unknown_quiet: 未知
       plant_seeds: 播种
       saved_year: "%{year}年留种"
@@ -2972,18 +2883,158 @@ zh:
         other: 约%{count}粒种子
       sow_before_year: 在%{year}年之前播种
       will_trade: 可在%{trade_scope}交换
+      organic_fact: 有机
+      gmo_fact: 转基因
+      save_crop_seeds_sentence: 保存%{crop}种子。
+      unknown: 未知
+      no_descendants: 这些种子还没有种出任何植物。
       activity_html: 保存了%{crop}的种子
+      change_crop: 更改作物
+      saved_at: 何时留种？
+      seed_quantity: 有多少粒种子？
+      plant_before_year: 播种期限（年份）
+      trade_label: 交换范围
+      variety: 品种
+      batch_number: 批次编号
+      maturity_min: 成熟天数（最少）
+      maturity_max: 成熟天数（最多）
+      row_spacing_cm: 行距（厘米）
+      organic: 有机？
+      gmo: 转基因？
+      heirloom: 传统品种？
+      source_question: 种子来自哪里？
+      notes: 备注
+      errors:
+        one: '有 1 个错误，无法保存这些种子：'
+        other: '有 %{count} 个错误，无法保存这些种子：'
       crop: 作物
+      crop_help_html: 找不到您要的作物？%{link}
+      request_crops: 请求添加新作物。
+      harvested_saved_at: 种子何时采收或留存？
+      quantity: 数量
+      minimum: 最小
+      maximum: 最大
+      maturity: 成熟天数
+      range_to: 至
+      days: 天
+      row_spacing: 行距
+      cm: 厘米
+      set_location_html: 别忘了%{link}。
+      set_location: 设置您的位置
+      from_location_html: 来自%{location}。
+      change_location: 更改您的位置。
+      save: 保存
+      image_alt: "%{owner}留存的%{crop}种子"
+      saved_by_html: 由%{owner}留种
+      saved_from: 留种来源
+      request_subject: 对您的%{crop}种子感兴趣
+      request_seeds: 申请种子
+      request_seeds_purpose: 申请种子
       sow_before: 播种期限
       seeds: 种子
       where_from: 来源
       type: 类型
       shared_with: 分享范围
+      packet_count:
+        one: "%{count}包"
+        other: "%{count}包"
+      saved_date: "%{date}留种"
+      packet: 种子包
+      nobody: 不分享
+      save_crop_seeds: 保存%{crop}种子
+      close: 关闭
+      adding_seeds: 您正在向库存添加种子
+      offer_trade: 您愿意用这些种子交换吗？
+      trade_from: 是的，我愿意从%{location}提供这些种子进行交换
+      no_trade: 不，我不想交换。
+      save_seeds: 保存种子
+      view_all: 查看%{owner}的所有种子
+      nearby_html: 查看%{location}附近的其他种子、成员等
+      you_have_it: 您已拥有
+      past_sow_by: 已过播种期限
+      not_specified: 未指定
+      seed_unit:
+        one: 粒种子
+        other: 粒种子
+      when_to_sow: 播种时间
+      how_to_sow: 播种方法
+      germination: 发芽
+      plant_before: 播种期限
+      heirloom_or_hybrid: 传统品种或杂交品种
+      crop_image_alt: "%{crop}的图片"
+      owner_library_html: "%{owner}的种子库"
+      crop_seeds: "%{crop}种子"
+      shared_seeds: 园艺爱好者选择分享的种子
+      auth_prompt_html: "%{sign_in}或%{sign_up}，查看您附近的种子交换者。"
+      sign_in: 登录
+      sign_up: 注册
+      sorted_by_distance: 按距您位置的远近排序。
+      shared_summary: 来自%{gardeners}的%{packets}种子。
+      gardener_count:
+        one: "%{count}位园艺爱好者"
+        other: "%{count}位园艺爱好者"
+      privacy_explanation: 只有园艺爱好者选择分享的种子才会显示在这里。我们显示其所在城市，绝不显示详细地址。每包种子旁都有分享者的头像。打开种子包即可查看种子详情并申请一些。
+      whose_seeds: 谁的种子
+      mine: 我的
+      following: 我关注的人
+      near_me: 我附近
+      everyone: 所有人
+      add_seeds: + 添加种子
+      search_summary:
+        one: "%{count}包%{crop}种子。"
+        other: "%{count}包%{crop}种子。"
+      variety_count:
+        one: "%{count}个品种"
+        other: "%{count}个品种"
+      open_shelf: ▸ 展开架子
+      tick_season: 选择季节：
+      germination_min: 发芽（最少天数）
+      germination_max: 发芽（最多天数）
+      in_stock: 有库存
+      finished: 已用完
+      edit_title: 编辑种子
+      owner_seeds: "%{owner}的种子"
+      meta_description: 浏览和搜索种子。
+      open_data: 开放数据
+      api_methods: API 方法
+      feed_title: "%{owner}的近期种子（%{site_name}）"
+      all_members: 所有成员
+      record_title: "%{owner}的%{crop}种子"
+      feed_field: '%{label}：%{value}'
+      feed_trade: 可从%{location}向%{trade_scope}交换
+      unknown_location: 未知位置
+      record_description: "%{owner}分享的%{crop}种子。"
+      plantings: 种植
+      edit: 编辑
+      no_notes: 暂无备注。
+      descendants_heading: 由这些种子培育的植物
+      add: 添加
+      photos: 照片
+      no_photos: 暂无照片。
+      all_year: 全年
+      seasons:
+        spring: 春季
+        summer: 夏季
+        autumn: 秋季
+        winter: 冬季
       trade_scopes:
         nowhere: 不交换
         locally: 本地
         nationally: 国内
         internationally: 国际
+      stats:
+        packets:
+          one: 包
+          other: 包
+        varieties:
+          one: 个品种
+          other: 个品种
+        crops:
+          one: 种作物
+          other: 种作物
+        own:
+          one: 自留种
+          other: 自留种
     hardiness:
       half_hardy: 半耐寒（能耐受轻微霜冻）
       hardy: 耐寒（不怕霜冻）

@@ -11,9 +11,9 @@
     - (1..12).each do |month|
       - id = "#{prefix}-sow-month-#{month}"
       = check_box_tag 'seed[sow_months][]', month, model.sow_months.include?(month), id: id, class: 'btn-check'
-      = label_tag id, Date::ABBR_MONTHNAMES[month], class: 'btn btn-outline-secondary btn-sm'
+      = label_tag id, t('seeds.ui.month_abbreviations')[month - 1], class: 'btn btn-outline-secondary btn-sm'
   - if seasons
     .sow-months-seasons
-      %span.text-muted Tick a season:
+      %span.text-muted= t('seeds.ui.tick_season')
       - seasons.each do |name, months|
-        %button.btn.btn-link.btn-sm{ type: 'button', data: { sow_months_season: months.join(',') } }= name
+        %button.btn.btn-link.btn-sm{ type: 'button', data: { sow_months_season: months.join(',') } }= t("seeds.ui.seasons.#{name.downcase}")
