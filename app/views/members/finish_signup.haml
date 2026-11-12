@@ -1,23 +1,28 @@
-- site_name = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
+- site_name = ENV.fetch('GROWSTUFF_SITE_NAME', 'Growstuff')
 - content_for :title, t('.title', site_name: site_name)
 - email_missing = current_member.email.blank?
 
-= render 'devise/shared/card', title: t('.welcome', site_name: site_name), links: false do
-  %p= t('members.finish_signup.instructions')
+.finish-signup
+  = render 'devise/shared/card', title: t('.welcome', site_name: site_name), links: false do
+    .finish-signup-intro
+      .finish-signup-icon{ 'aria-hidden': true }
+        = icon 'fas', 'seedling'
+      %p= t('members.finish_signup.instructions')
 
-  = bootstrap_form_for(current_member, as: 'member', url: finish_signup_path(current_member), html: { data: { turbo: false } }) do |f|
-    - if @show_errors
-      = render 'devise/shared/error_messages', resource: current_member
+    = bootstrap_form_for(current_member, as: 'member', url: finish_signup_path(current_member), html: { data: { turbo: false } }) do |f|
+      - if @show_errors
+        = render 'devise/shared/error_messages', resource: current_member
 
-    = f.text_field :login_name, autofocus: true, help: t('members.finish_signup.name_help')
+      = f.text_field :login_name, autofocus: true, help: t('members.finish_signup.name_help')
 
-    - if email_missing
-      = f.email_field :email, label: 'Email (optional)', placeholder: 'you@example.com',
-                              help: t('members.finish_signup.email_missing_help')
-    - else
-      = f.email_field :email, help: t('members.finish_signup.email_help')
+      - if email_missing
+        = f.email_field :email, label: t('members.finish_signup.email_optional'),
+                                help: t('members.finish_signup.email_missing_help')
+      - else
+        = f.email_field :email, help: t('members.finish_signup.email_help')
 
-    - unless current_member.tos_agreement
-      = f.check_box :tos_agreement, required: true, label: t('members.finish_signup.agree_to_tos_html', tos_link: link_to(t('members.finish_signup.terms_of_service'), policy_tos_path))
+      - unless current_member.tos_agreement
+        .finish-signup-terms
+          = f.check_box :tos_agreement, required: true, label: t('members.finish_signup.agree_to_tos_html', tos_link: link_to(t('members.finish_signup.terms_of_service'), policy_tos_path, target: '_blank', rel: 'noopener'))
 
-    = f.submit t('members.finish_signup.continue'), class: 'btn w-100 btn-success'
+      = f.submit t('members.finish_signup.continue'), class: 'btn btn-lg w-100 btn-success'
