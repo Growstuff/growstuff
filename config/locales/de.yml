@@ -1656,7 +1656,7 @@ de:
       browse_members: Mitglieder durchsuchen
       community: Gemeinschaft
       community_gardens: Gemeinschaftsgärten
-      community_map: <g id="1">Community Map</g>
+      community_map: Karte der Community
       crop_wrangling: Ernte-Streitigkeiten
       crops: Kulturen
       current_memberlogin_name: "%{current_memberlogin_name}"
@@ -1691,7 +1691,7 @@ de:
       close: Menu schliessen
       community: Gemeinschaft
       community_gardens: Gemeinschaftsgärten
-      community_map: <g id="1">Community Map</g>
+      community_map: Karte der Community
       crop_wrangling: Ernte-Streitigkeiten
       crops: Kulturen
       crops_heading: Kulturen
@@ -1705,6 +1705,7 @@ de:
       my_garden: Mein Garten
       my_harvests: Meine Ernten
       my_jobs: Meine Stellenangebote
+      my_place: Wetter bei mir
       my_plantings: Meine Anpflanzungen
       my_seeds: Meine Samen
       new_badge: Neu
@@ -2529,6 +2530,8 @@ de:
       unknown: Unbekannt
   plantings:
     badges:
+      harvest_prediction: Voraussichtliche Wochen bis zur Ernte
+      harvest_ready: Diese Pflanzung ist jetzt erntereif
       days_until_finished: Bis abgeschlossen
       days_until_harvest: tage bis zur Ernte
       harvesting_now: 'Ernte :'
@@ -2541,7 +2544,7 @@ de:
       day_progress: Tag %{age} von %{lifespan}
       done: Fertig
       failed: Fehlgeschlagen
-      finished: beendet
+      finished: Beendet
       grown: gewachsen
       grown_in: Angebaut in
       lifespan_days:
@@ -2568,11 +2571,48 @@ de:
       sown_from_expired: Aus abgelaufenem Saatgut gesät (pflanzen vor %{year})
       unknown: unbekannt
     form:
+      save: Speichern
+      optional: optional
+      finished_date: Abschlussdatum
+      description: Erzählen Sie uns mehr darüber
+      great: Sehr gut
+      poor: Schlecht
+      rating_help: Wie gut entwickelt sich die Pflanzung?
+      rating: Gesamtbewertung
+      leave_blank: Leer lassen
+      how_many: Wie viele?
+      sun_label: Sonne oder Schatten?
+      planted_from: Gepflanzt aus
+      date_help: Planen Sie zukünftige Pflanzungen mit einem zukünftigen Datum und abonnieren Sie Ihren iCalendar-Feed für Pflanzerinnerungen
+      when: Wann?
+      add_garden: Einen Garten hinzufügen.
+      garden_label: Wo haben Sie gepflanzt?
+      choose_garden: Einen anderen Garten wählen
+      planting_in_html: Pflanzung in %{garden}
+      alternate_help: Optional. Ihre Pflanzungen zeigen diesen Namen anstelle des Hauptnamens der Nutzpflanze.
+      alternate_name: Wie nennen Sie die Pflanze?
+      request_crops: Neue Nutzpflanzen anfragen.
+      cannot_find: Finden Sie nicht, wonach Sie suchen?
+      crop_label: Was haben Sie gepflanzt?
+      errors:
+        one: '1 Fehler hat das Speichern dieser Pflanzung verhindert:'
+        other: '%{count} Fehler haben das Speichern dieser Pflanzung verhindert:'
       failed_helper: Markieren Sie diese Pflanzung als fehlgeschlagen, wenn sie abgestorben ist oder ohne Ernte entfernt wurde.
       finish_helper: Eine Pflanzung ist beendet, wenn Sie die gesamte Ernte geerntet haben, oder sie stirbt, oder sie wächst anderweitig nicht mehr in Ihrem Garten.
     garden_card:
       by: von
     index:
+      feed_item: '%{planting} in %{location}'
+      all_members: allen Mitgliedern
+      feed_title: Neueste Pflanzungen von %{owner} (%{site})
+      calendar_description: Pflanzungen von %{owner}
+      no_plantings: Noch keine Pflanzungen erfasst
+      api_methods: API-Methoden
+      open_data: Offene Daten
+      include_finished: abgeschlossene Pflanzungen einschließen
+      owner_plantings: Pflanzungen von %{owner}
+      plantings: Pflanzungen
+      browse: Pflanzungen durchsuchen und finden.
       title:
         crop_plantings: Alle %{crop} Pflanzungen
         default: Jedermanns Pflanzungen
@@ -2588,6 +2628,13 @@ de:
     progress:
       progress_0_not_planted_yet: 'Fortschritt: 0 % - noch nicht gepflanzt'
     show:
+      cultivate: Boden bearbeiten
+      cultivate_prompt: Dies war die letzte kürzlich angelegte Pflanzung in diesem Beet. Möchten Sie den Boden bald bearbeiten?
+      in_garden_html: in %{garden}
+      grown_by_html: angebaut von %{owner}
+      grower_photo: '%{planting}, angebaut von %{owner}'
+      plantings: Pflanzungen
+      add: hinzufügen
       crop: Crop
       grower: Erzeuger
       harvest_month_yes: "%{month}, in der Regel ernten"
@@ -2648,6 +2695,52 @@ de:
       move_to: 'Diese Bepflanzung verschieben nach:'
       submit: Umpflanzen
       title: "%{crop} umpflanzen"
+    descendants:
+      add: hinzufügen
+    harvests:
+      add: hinzufügen
+    photos:
+      add: hinzufügen
+    description:
+      activity_html: hat %{crop} gepflanzt
+    menu:
+      actions: Aktionen für %{planting}
+    popover:
+      planted: 'Gepflanzt:'
+      quantity: 'Anzahl:'
+    progress_list:
+      insufficient_data: Nicht genügend Daten zu %{crop} für eine Vorhersage
+      set_date: Pflanzdatum festlegen, um Vorhersagen zu ermöglichen
+    edit:
+      title: Pflanzung bearbeiten
+    crop:
+      days: {one: '%{count} Tag', other: '%{count} Tage'}
+      more: Mehr über %{crop}
+      usual_sun_html: Wird üblicherweise bei %{sun} angebaut
+      last_harvest_html: Letzte Ernte etwa %{days} nach der Pflanzung
+      first_harvest_html: Erste Ernte etwa %{days} nach der Pflanzung
+      perennial: Mehrjährig
+      annual: Einjährig
+      annual_lifespan_html: Einjährig, lebt etwa %{days}
+      variety_html: eine Sorte von %{crop}
+      crop_photo: Foto von %{crop}
+    sun: {sun: Sonne, semi-shade: Halbschatten, shade: Schatten}
+    units:
+      plant: {one: Pflanze, other: Pflanzen}
+      planting: {one: Pflanzung, other: Pflanzungen}
+      harvest: {one: Ernte, other: Ernten}
+      seed: {one: Samen, other: Samen}
+      seedling: {one: Sämling, other: Sämlinge}
+      cutting: {one: Steckling, other: Stecklinge}
+      volunteer: {one: selbst ausgesäte Pflanze, other: selbst ausgesäte Pflanzen}
+      root division: {one: Wurzelteilung, other: Wurzelteilungen}
+      runner: {one: Ausläufer, other: Ausläufer}
+      bulb: {one: Zwiebel, other: Zwiebeln}
+      root/tuber: {one: Wurzel/Knolle, other: Wurzeln/Knollen}
+      bare root plant: {one: wurzelnackte Pflanze, other: wurzelnackte Pflanzen}
+      advanced plant: {one: vorgezogene Pflanze, other: vorgezogene Pflanzen}
+      graft: {one: Veredelung, other: Veredelungen}
+      layering: {one: Absenker, other: Absenker}
   posts:
     draft: Entwurf
     description:

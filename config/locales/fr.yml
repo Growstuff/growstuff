@@ -1707,6 +1707,7 @@ fr:
       my_garden: Mon extérieur
       my_harvests: Mes récoltes
       my_jobs: Mes annonces
+      my_place: Météo chez moi
       my_plantings: Mes plantations
       my_seeds: Mes semences
       new_badge: Nouveau
@@ -2533,6 +2534,8 @@ fr:
       unknown: Inconnu
   plantings:
     badges:
+      harvest_prediction: Nombre de semaines prévu avant la récolte
+      harvest_ready: Cette plantation est prête à être récoltée
       days_until_finished: jours jusqu'à la fin
       days_until_harvest: jours jusqu'à la récolte
       harvesting_now: Récolte des olives
@@ -2545,7 +2548,7 @@ fr:
       day_progress: jour %{age} sur %{lifespan}
       done: Terminé
       failed: Échoué
-      finished: terminé
+      finished: Terminé
       grown: poussé
       grown_in: Cultivé en
       lifespan_days:
@@ -2572,11 +2575,48 @@ fr:
       sown_from_expired: Semé à partir de graines périmées (à planter avant %{year})
       unknown: inconnu
     form:
+      save: Enregistrer
+      optional: facultatif
+      finished_date: Date de fin
+      description: Dites-nous-en plus
+      great: Très bien
+      poor: Mal
+      rating_help: Comment se porte la plantation ?
+      rating: Évaluation globale
+      leave_blank: Laisser vide
+      how_many: Combien ?
+      sun_label: Soleil ou ombre ?
+      planted_from: Planté à partir de
+      date_help: Planifiez vos futures plantations en choisissant une date future et abonnez-vous à votre flux iCalendar pour recevoir des rappels de plantation
+      when: Quand ?
+      add_garden: Ajouter un jardin.
+      garden_label: Où l’avez-vous planté ?
+      choose_garden: Choisir un autre jardin
+      planting_in_html: Plantation dans %{garden}
+      alternate_help: Facultatif. Vos plantations afficheront ce nom au lieu du nom principal de la plante.
+      alternate_name: Comment l’appelez-vous ?
+      request_crops: Demander de nouvelles plantes.
+      cannot_find: Vous ne trouvez pas ce que vous cherchez ?
+      crop_label: Qu’avez-vous planté ?
+      errors:
+        one: '1 erreur a empêché l’enregistrement de cette plantation :'
+        other: '%{count} erreurs ont empêché l’enregistrement de cette plantation :'
       failed_helper: Marquez cette plantation comme ayant échoué si elle est morte ou si elle a été retirée sans aucune récolte.
       finish_helper: Une plantation est terminée lorsque vous avez récolté toute la récolte, ou qu'elle meurt, ou qu'elle ne pousse plus dans votre jardin.
     garden_card:
       by: par
     index:
+      feed_item: '%{planting} à %{location}'
+      all_members: tous les membres
+      feed_title: Plantations récentes de %{owner} (%{site})
+      calendar_description: Plantations de %{owner}
+      no_plantings: Aucune plantation enregistrée pour le moment
+      api_methods: Méthodes de l’API
+      open_data: Données ouvertes
+      include_finished: inclure les plantations terminées
+      owner_plantings: Plantations de %{owner}
+      plantings: Plantations
+      browse: Parcourir et rechercher des plantations.
       title:
         crop_plantings: Les plantations %{crop} de chacun
         default: Les plantations de tout le monde
@@ -2592,6 +2632,13 @@ fr:
     progress:
       progress_0_not_planted_yet: 'Progrès : 0 % - pas encore planté'
     show:
+      cultivate: Travailler le sol
+      cultivate_prompt: Il s’agissait de la dernière plantation récente dans cette plate-bande. Souhaitez-vous travailler le sol prochainement ?
+      in_garden_html: dans %{garden}
+      grown_by_html: cultivé par %{owner}
+      grower_photo: '%{planting}, cultivé par %{owner}'
+      plantings: Plantations
+      add: ajouter
       crop: Crop
       grower: Cultivateur
       harvest_month_yes: "%{month}, habituellement la récolte"
@@ -2652,6 +2699,52 @@ fr:
       move_to: 'Déplacer cette plantation vers :'
       submit: Repiquer
       title: Repiquer %{crop}
+    descendants:
+      add: ajouter
+    harvests:
+      add: ajouter
+    photos:
+      add: ajouter
+    description:
+      activity_html: a planté %{crop}
+    menu:
+      actions: Actions pour %{planting}
+    popover:
+      planted: 'Planté :'
+      quantity: 'Quantité :'
+    progress_list:
+      insufficient_data: Pas assez de données sur %{crop} pour faire des prévisions
+      set_date: Renseignez la date de plantation pour obtenir des prévisions
+    edit:
+      title: Modifier la plantation
+    crop:
+      days: {one: '%{count} jour', other: '%{count} jours'}
+      more: En savoir plus sur %{crop}
+      usual_sun_html: Généralement cultivé en %{sun}
+      last_harvest_html: Dernière récolte environ %{days} après la plantation
+      first_harvest_html: Première récolte environ %{days} après la plantation
+      perennial: Une vivace
+      annual: Une annuelle
+      annual_lifespan_html: Une annuelle, vivant environ %{days}
+      variety_html: une variété de %{crop}
+      crop_photo: Photo de %{crop}
+    sun: {sun: plein soleil, semi-shade: mi-ombre, shade: ombre}
+    units:
+      plant: {one: plante, other: plantes}
+      planting: {one: plantation, other: plantations}
+      harvest: {one: récolte, other: récoltes}
+      seed: {one: graine, other: graines}
+      seedling: {one: plantule, other: plantules}
+      cutting: {one: bouture, other: boutures}
+      volunteer: {one: plante spontanée, other: plantes spontanées}
+      root division: {one: division de racine, other: divisions de racine}
+      runner: {one: stolon, other: stolons}
+      bulb: {one: bulbe, other: bulbes}
+      root/tuber: {one: racine/tubercule, other: racines/tubercules}
+      bare root plant: {one: plante à racines nues, other: plantes à racines nues}
+      advanced plant: {one: plante développée, other: plantes développées}
+      graft: {one: greffe, other: greffes}
+      layering: {one: marcotte, other: marcottes}
   posts:
     draft: Brouillon
     description:

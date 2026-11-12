@@ -3724,6 +3724,8 @@ en:
       unknown: Unknown
   plantings:
     badges:
+      harvest_prediction: Predicted weeks until harvest
+      harvest_ready: Planting is ready for harvesting now
       days_until_finished: days until finished
       days_until_harvest: days until harvest
       harvesting_now: harvesting now
@@ -3736,7 +3738,7 @@ en:
       day_progress: day %{age} of %{lifespan}
       done: Done
       failed: Failed
-      finished: finished
+      finished: Finished
       grown: grown
       grown_in: Grown in
       lifespan_days:
@@ -3763,6 +3765,32 @@ en:
       sown_from_expired: Sown from expired seeds (plant before %{year})
       unknown: unknown
     form:
+      save: Save
+      optional: optional
+      finished_date: Finished date
+      description: Tell us more about it
+      great: Great
+      poor: Poor
+      rating_help: How well is the planting going?
+      rating: Overall Rating
+      leave_blank: Leave blank
+      how_many: How many?
+      sun_label: Sun or shade?
+      planted_from: Planted from
+      date_help: Plan out your future plantings by forward dating, and subscribe to your iCalendar feed for reminders to plant
+      when: When?
+      add_garden: Add a garden.
+      garden_label: Where did you plant it?
+      choose_garden: Choose a different garden
+      planting_in_html: Planting in %{garden}
+      alternate_help: Optional. Your plantings will show this name instead of the crop's main name.
+      alternate_name: What do you call it?
+      request_crops: Request new crops.
+      cannot_find: Can't find what you're looking for?
+      crop_label: What did you plant?
+      errors:
+        one: '1 error prohibited this planting from being saved:'
+        other: '%{count} errors prohibited this planting from being saved:'
       failed_helper: 'Mark this planting as failed if it died or was removed without any harvest.
 
         '
@@ -3857,6 +3885,17 @@ en:
         seed: From the seed packet
       title: Hardiness
     index:
+      feed_item: '%{planting} in %{location}'
+      all_members: all members
+      feed_title: Recent plantings from %{owner} (%{site})
+      calendar_description: Plantings by %{owner}
+      no_plantings: No plantings recorded yet
+      api_methods: API Methods
+      open_data: Open Data
+      include_finished: include finished plantings
+      owner_plantings: "%{owner}'s plantings"
+      plantings: Plantings
+      browse: Browse and search for plantings.
       title:
         crop_plantings: Everyone's %{crop} plantings
         default: Everyone's plantings
@@ -3959,6 +3998,13 @@ en:
     progress:
       progress_0_not_planted_yet: 'Progress: 0% - not planted yet'
     show:
+      cultivate: Cultivate soil
+      cultivate_prompt: This was the last planting recently in this bed. Would you like to cultivate the soil soon?
+      in_garden_html: in %{garden}
+      grown_by_html: grown by %{owner}
+      grower_photo: '%{planting} grown by %{owner}'
+      plantings: Plantings
+      add: add
       crop: Crop
       frost_line: "%{degrees} °C frost line"
       weather_kill_line: "Dies at %{degrees} °C"
@@ -4065,6 +4111,52 @@ en:
       move_to: 'Move this planting to:'
       submit: Transplant
       title: Transplant %{crop}
+    descendants:
+      add: add
+    harvests:
+      add: add
+    photos:
+      add: add
+    description:
+      activity_html: planted %{crop}
+    menu:
+      actions: Actions for %{planting}
+    popover:
+      planted: 'Planted:'
+      quantity: 'Quantity:'
+    progress_list:
+      insufficient_data: Not enough data on %{crop} to predict
+      set_date: Set the planted date to allow predictions
+    edit:
+      title: Editing planting
+    crop:
+      days: {one: '%{count} day', other: '%{count} days'}
+      more: More about %{crop}
+      usual_sun_html: Usually grown in %{sun}
+      last_harvest_html: Last harvest about %{days} after planting
+      first_harvest_html: First harvest about %{days} after planting
+      perennial: A perennial
+      annual: An annual
+      annual_lifespan_html: An annual, living about %{days}
+      variety_html: a variety of %{crop}
+      crop_photo: Photo of %{crop}
+    sun: {sun: sun, semi-shade: semi-shade, shade: shade}
+    units:
+      plant: {one: plant, other: plants}
+      planting: {one: planting, other: plantings}
+      harvest: {one: harvest, other: harvests}
+      seed: {one: seed, other: seeds}
+      seedling: {one: seedling, other: seedlings}
+      cutting: {one: cutting, other: cuttings}
+      volunteer: {one: volunteer, other: volunteers}
+      root division: {one: root division, other: root divisions}
+      runner: {one: runner, other: runners}
+      bulb: {one: bulb, other: bulbs}
+      root/tuber: {one: root/tuber, other: roots/tubers}
+      bare root plant: {one: bare root plant, other: bare root plants}
+      advanced plant: {one: advanced plant, other: advanced plants}
+      graft: {one: graft, other: grafts}
+      layering: {one: layer, other: layers}
   posts:
     draft: Draft
     description:

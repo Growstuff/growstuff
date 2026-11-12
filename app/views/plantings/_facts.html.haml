@@ -57,7 +57,7 @@
       %strong.plantingfact--quantity
         = planting.quantity.to_i.positive? ? planting.quantity : t('.unknown')
       %span.plantingfact--plantedfrom
-        = (planting.planted_from.presence || 'plant').pluralize(planting.quantity.to_i)
+        = t("plantings.units.#{planting.planted_from.presence || 'plant'}", count: planting.quantity.to_i)
 
   .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
     %h3
@@ -66,7 +66,7 @@
     .fact-value.fact-sunniness
       %strong= sunniness_icon(planting.sunniness)
       %span.plantingfact--sunniness
-        = planting.sunniness.presence || t('.not_specified')
+        = planting.sunniness.present? ? t("plantings.sun.#{planting.sunniness}") : t('.not_specified')
 
   .card.fact-card{class: planting.overall_rating.present? ? '' : 'text-muted'}
     %h3= t('.rating')

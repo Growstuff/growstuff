@@ -1003,8 +1003,11 @@ ja:
       close: 閉じる
     header:
       logo_alt: Growstuffのロゴ（洋梨のイラスト）
+      community_map: コミュニティマップ
     menu:
       label: メニュー
+      community_map: コミュニティマップ
+      my_place: 現在地の天気
     nav:
       my_records: "自分の%{records}"
       everyone_records: "みんなの%{records}"
@@ -1564,6 +1567,102 @@ ja:
       seeds_saved: 保存した種
       sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
       unknown: 不明
+    badges:
+      harvest_prediction: 収穫までの予測週数
+      harvest_ready: この作付けは今すぐ収穫できます
+    descendants:
+      add: 追加
+    harvests:
+      add: 追加
+    photos:
+      add: 追加
+    show:
+      cultivate: 土を耕す
+      cultivate_prompt: この区画ではこれが直近の最後の作付けでした。そろそろ土を耕しませんか？
+      in_garden_html: 栽培場所：%{garden}
+      grown_by_html: 栽培者：%{owner}
+      grower_photo: '%{owner}が育てた%{planting}'
+      plantings: 作付け
+      add: 追加
+    description:
+      activity_html: '%{crop}を植えました'
+    menu:
+      actions: '%{planting}の操作'
+    popover:
+      planted: 植え付け日：
+      quantity: 数量：
+    progress_list:
+      insufficient_data: '%{crop}のデータが不足しているため予測できません'
+      set_date: 予測を表示するには植え付け日を設定してください
+    edit:
+      title: 作付けを編集
+    index:
+      feed_item: '%{location}の%{planting}'
+      all_members: すべてのメンバー
+      feed_title: '%{owner}の最近の作付け（%{site}）'
+      calendar_description: '%{owner}の作付け'
+      no_plantings: 作付けはまだ記録されていません
+      api_methods: APIメソッド
+      open_data: オープンデータ
+      include_finished: 終了した作付けを含める
+      owner_plantings: '%{owner}の作付け'
+      plantings: 作付け
+      browse: 作付けを閲覧・検索します。
+    crop:
+      days: {one: '%{count}日', other: '%{count}日'}
+      more: '%{crop}の詳細'
+      usual_sun_html: 通常は%{sun}で栽培
+      last_harvest_html: 最後の収穫は植え付けから約%{days}後
+      first_harvest_html: 最初の収穫は植え付けから約%{days}後
+      perennial: 多年草
+      annual: 一年草
+      annual_lifespan_html: 一年草、生育期間は約%{days}
+      variety_html: '%{crop}の品種'
+      crop_photo: '%{crop}の写真'
+    form:
+      save: 保存
+      optional: 任意
+      finished_date: 終了日
+      description: 詳しく教えてください
+      great: とても良い
+      poor: 悪い
+      rating_help: 作付けの調子はいかがですか？
+      rating: 総合評価
+      leave_blank: 空欄にする
+      how_many: いくつ？
+      sun_label: 日なたですか、日陰ですか？
+      planted_from: 植え付け材料
+      date_help: 未来の日付で作付けを計画し、iCalendarフィードを購読して植え付けのリマインダーを受け取りましょう
+      when: いつ？
+      add_garden: 菜園を追加する。
+      garden_label: どこに植えましたか？
+      choose_garden: 別の菜園を選ぶ
+      planting_in_html: 植え付け先：%{garden}
+      alternate_help: 任意。作物の主な名前の代わりに、この名前が作付けに表示されます。
+      alternate_name: 何と呼んでいますか？
+      request_crops: 新しい作物をリクエストする。
+      cannot_find: お探しの作物が見つかりませんか？
+      crop_label: 何を植えましたか？
+      errors:
+        one: '%{count}件のエラーにより、この作付けを保存できませんでした：'
+        other: '%{count}件のエラーにより、この作付けを保存できませんでした：'
+    sun: {sun: 日なた, semi-shade: 半日陰, shade: 日陰}
+    units:
+      plant: {one: 株, other: 株}
+      planting: {one: 作付け, other: 作付け}
+      harvest: {one: 収穫, other: 収穫}
+      seed: {one: 種, other: 種}
+      seedling: {one: 苗, other: 苗}
+      cutting: {one: 挿し穂, other: 挿し穂}
+      volunteer: {one: こぼれ種からの株, other: こぼれ種からの株}
+      root division: {one: 株分け, other: 株分け}
+      runner: {one: ランナー, other: ランナー}
+      bulb: {one: 球根, other: 球根}
+      root/tuber: {one: 根・塊茎, other: 根・塊茎}
+      bare root plant: {one: 裸根苗, other: 裸根苗}
+      advanced plant: {one: 大苗, other: 大苗}
+      graft: {one: 接ぎ木, other: 接ぎ木}
+      layering: {one: 取り木, other: 取り木}
   seasons:
     autumn: 秋
     spring: 春
