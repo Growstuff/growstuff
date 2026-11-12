@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   after_action :store_location
   before_action :set_locale
+  before_action :require_terms_acceptance
   before_action :set_paper_trail_whodunnit
   around_action :use_browser_time_zone
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
@@ -19,6 +20,8 @@ class ApplicationController < ActionController::Base
   end
 
   def store_location
+    return if controller_name == 'members' && action_name == 'finish_signup'
+
     unless request.path.in?(["/members/sign_in",
                              "/members/sign_up",
                              "/members/password/new",
@@ -33,8 +36,19 @@ class ApplicationController < ActionController::Base
     render file: 'app/views/errors/404.html', status: :not_found, layout: false
   end
 
-  def after_sign_in_path_for(_resource)
+  def after_sign_in_path_for(resource)
+    return finish_signup_path(resource) unless resource.tos_agreement?
+
     stored_location_for(:member) || root_path
+  end
+
+  def require_terms_acceptance
+    return unless member_signed_in? && !current_member.tos_agreement?
+    return if controller_name == 'members' && action_name == 'finish_signup'
+    return if controller_name == 'sessions' && action_name == 'destroy'
+    return if controller_name == 'pages' && %w(policies tos privacy data_use community_guidelines copyright).include?(action_name)
+
+    redirect_to finish_signup_path(current_member)
   end
 
   def after_sign_out_path_for(_resource_or_scope)
