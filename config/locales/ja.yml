@@ -1,5 +1,13 @@
 ---
 ja:
+  activerecord:
+    models:
+      post: 投稿
+      photo: 写真
+      planting: 作付け
+      harvest: 収穫
+  likes:
+    description_html: '%{member}さんが%{item}に「いいね」しました'
   shared:
     flash_messages:
       close: 閉じる
@@ -110,6 +118,14 @@ ja:
       crop_label: "作物:"
     updated: 別名が正常に更新されました。
   authentications:
+    connected:
+      connected_title: Flickr連携済み
+      not_connected_title: Flickr未連携
+      connected_heading: Flickrと連携しました
+      connected_help: このウィンドウを閉じて、写真の選択を続けられます。
+      not_connected_heading: Flickrと連携できませんでした
+      not_connected_help: このウィンドウを閉じて、もう一度お試しください。
+      close_window: このウィンドウを閉じる
     sign_in:
       bluesky:
         terms_of_service: "利用規約"

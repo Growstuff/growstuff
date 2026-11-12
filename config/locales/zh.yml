@@ -1,5 +1,7 @@
 ---
 zh:
+  likes:
+    description_html: '%{member}赞了%{item}'
   shared:
     flash_messages:
       close: 关闭
@@ -143,6 +145,14 @@ zh:
         disabled: "%{feature} 现已关闭。"
         enabled: "%{feature} 现已开启。"
   authentications:
+    connected:
+      connected_title: Flickr已连接
+      not_connected_title: Flickr未连接
+      connected_heading: 已连接Flickr
+      connected_help: 您可以关闭此窗口并继续选择照片。
+      not_connected_heading: 未能连接Flickr
+      not_connected_help: 您可以关闭此窗口并重试。
+      close_window: 关闭此窗口
     sign_in:
       bluesky:
         terms_of_service: "服务条款"
