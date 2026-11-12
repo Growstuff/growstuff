@@ -2936,6 +2936,8 @@ es:
       request_subject: Me interesan sus semillas de %{crop}
       request_seeds: Solicitar semillas
       request_seeds_purpose: solicitar semillas
+      activity_html: guardó semillas de %{crop}
+      crop: Cultivo
       sow_before: Sembrar antes de
       seeds: Semillas
       where_from: Procedencia

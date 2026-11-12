@@ -2930,6 +2930,8 @@ zh:
       request_subject: 对您的%{crop}种子感兴趣
       request_seeds: 申请种子
       request_seeds_purpose: 申请种子
+      activity_html: 保存了%{crop}的种子
+      crop: 作物
       sow_before: 播种期限
       seeds: 种子
       where_from: 来源

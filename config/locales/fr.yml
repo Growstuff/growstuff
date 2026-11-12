@@ -2941,6 +2941,8 @@ fr:
       request_subject: Vos graines de %{crop} m’intéressent
       request_seeds: Demander des graines
       request_seeds_purpose: demander des graines
+      activity_html: a conservé des graines de %{crop}
+      crop: Plante
       sow_before: Semer avant
       seeds: Graines
       where_from: Provenance

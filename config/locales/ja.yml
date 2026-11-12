@@ -1733,6 +1733,8 @@ ja:
       request_subject: あなたの%{crop}の種に興味があります
       request_seeds: 種をリクエスト
       request_seeds_purpose: 種をリクエストする
+      activity_html: "%{crop}の種を採種しました"
+      crop: 作物
       sow_before: 播種期限
       seeds: 種
       where_from: 入手元
