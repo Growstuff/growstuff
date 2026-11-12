@@ -1,5 +1,7 @@
 ---
 en:
+  likes:
+    description_html: '%{member} liked %{item}'
   shared:
     flash_messages:
       close: Close
@@ -293,6 +295,14 @@ en:
         default: Default
   are_you_sure: Are you sure?
   authentications:
+    connected:
+      connected_title: Flickr connected
+      not_connected_title: Flickr not connected
+      connected_heading: Flickr is connected
+      connected_help: You can close this window and carry on choosing a photo.
+      not_connected_heading: Flickr was not connected
+      not_connected_help: You can close this window and try again.
+      close_window: Close this window
     sign_in:
       bluesky:
         agree_to_tos_html: I agree to the %{tos_link}
