@@ -784,6 +784,63 @@ describe Planting do
       )
     end
 
+    context 'when transplanting part of a batch' do
+      subject(:moved) { planting.transplant_to(garden, quantity: '4') }
+
+      it 'moves the requested quantity into the destination' do
+        expect(moved).to have_attributes(quantity: 4, garden:, source_planting: planting)
+      end
+
+      it 'leaves the remainder in the nursery' do
+        moved
+        expect(planting.reload).to have_attributes(quantity: 2, garden: nursery)
+      end
+
+      it 'preserves the sowing date' do
+        expect(moved.planted_at).to eq planting.planted_at
+      end
+
+      it 'records the nursery history' do
+        expect(moved.histories.first).to have_attributes(garden: nursery, started_on: planting.planted_at)
+      end
+
+      it 'links the original to the transplanted planting' do
+        expect(planting.transplanted_plantings).to include moved
+      end
+
+      it 'does not duplicate harvest counts' do
+        expect(moved.harvests_count).to eq 0
+      end
+
+      context 'with an unauthorized garden owner' do
+        let(:garden) { create(:garden) }
+
+        it 'does not subtract from the source' do
+          moved
+          expect(planting.reload.quantity).to eq 6
+        end
+
+        it 'does not save a new planting' do
+          planting
+          expect { moved }.not_to change(described_class, :count)
+        end
+      end
+    end
+
+    context 'when transplanting the whole batch explicitly' do
+      it 'keeps the same planting' do
+        expect(planting.transplant_to(garden, quantity: '6')).to eq planting
+      end
+    end
+
+    context 'with an invalid transplant quantity' do
+      [0, -1, 7, '1.5', 'abc', ''].each do |amount|
+        it "rejects #{amount.inspect}" do
+          expect(planting.transplant_to(garden, quantity: amount).errors[:quantity]).not_to be_empty
+        end
+      end
+    end
+
     context 'when moved again' do
       let(:third) { create(:garden, owner:) }
 

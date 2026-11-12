@@ -31,6 +31,9 @@ class Planting < ApplicationRecord
   belongs_to :garden
   belongs_to :crop, counter_cache: true
   belongs_to :alternate_name, optional: true
+  belongs_to :source_planting, class_name: 'Planting', optional: true, inverse_of: :transplanted_plantings
+  has_many :transplanted_plantings, class_name: 'Planting', foreign_key: :source_planting_id,
+                                  inverse_of: :source_planting, dependent: :nullify
   # The gardens it was in before the one it is in now, oldest first.
   has_many :histories, -> { order(:ended_on, :id) }, class_name: 'PlantingHistory', dependent: :destroy, inverse_of: :planting
   has_many :harvests, dependent: :destroy
@@ -184,12 +187,40 @@ class Planting < ApplicationRecord
 
   # Moves this planting into another garden, on the day given, and keeps a record
   # of the garden it was in. It stays one planting, with its sow date, photos and
-  # harvests, so the crop's averages count it once. If it can't be moved, it has
-  # errors.
-  def transplant_to(garden, on: Time.zone.today)
+  # harvests. A partial quantity creates a linked planting instead. If it can't
+  # be moved, the returned planting has errors.
+  def transplant_to(garden, on: Time.zone.today, quantity: nil)
+    return split_transplant_to(garden, on:, amount: quantity) unless quantity.nil?
+
     histories.build(garden: self.garden, started_on: histories.filter_map(&:ended_on).max || planted_at, ended_on: on)
     update(garden:)
     self
+  end
+
+  # Lock the source so two requests cannot transplant the same seedlings twice.
+  def split_transplant_to(garden, on:, amount:)
+    result = self
+    with_lock do
+      unless amount.to_s.match?(/\A[1-9]\d*\z/) && quantity.present? && amount.to_i <= quantity
+        errors.add(:quantity, :invalid)
+        next
+      end
+      if amount.to_i == quantity
+        result = transplant_to(garden, on:)
+        next
+      end
+
+      result = dup
+      result.assign_attributes(quantity: amount.to_i, source_planting: self, slug: nil, harvests_count: 0)
+      histories.each do |history|
+        result.histories.build(history.attributes.except('id', 'planting_id', 'created_at', 'updated_at'))
+      end
+      result.transplant_to(garden, on:)
+      raise ActiveRecord::Rollback if result.errors.any?
+
+      update!(quantity: quantity - amount.to_i)
+    end
+    result
   end
 
   # The stay in a garden that keeps plants safe from frost (a nursery, a greenhouse, indoors) the planting began in, as the

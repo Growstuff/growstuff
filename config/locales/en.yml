@@ -4061,6 +4061,9 @@ en:
       legend: (One emoji = 1 week)
       planted: Planted %{date}
     transplant:
+      quantity: How many are you transplanting?
+      source: 'Split from planting:'
+      children: 'Plantings split from this planting:'
       cancel: Cancel
       close: Close
       move_to: 'Move this planting to:'

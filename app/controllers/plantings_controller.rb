@@ -103,14 +103,15 @@ class PlantingsController < DataController
     new_garden = Garden.find(params[:garden_id])
     authorize! :update, new_garden
 
-    @planting.transplant_to(new_garden, on: transplanted_on)
+    source = @planting
+    @planting = source.transplant_to(new_garden, on: transplanted_on, quantity: params[:quantity])
 
     respond_to do |format|
       if @planting.errors.empty?
         format.html { redirect_to @planting, notice: t('messages.transplant_success') }
         format.json { render json: { url: planting_path(@planting), garden: garden_card(@planting.garden) } }
       else
-        format.html { redirect_to @planting, alert: t('messages.transplant_error', errors: @planting.errors.full_messages.to_sentence) }
+        format.html { redirect_to source, alert: t('messages.transplant_error', errors: @planting.errors.full_messages.to_sentence) }
         format.json { render json: { errors: @planting.errors.to_hash }, status: :unprocessable_content }
       end
     end

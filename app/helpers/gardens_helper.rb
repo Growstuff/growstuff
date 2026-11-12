@@ -125,7 +125,8 @@ module GardensHelper
     if gardens.any? && card_ability.can?(:transplant, seedling)
       actions.insert([1, actions.size].min, { key: :transplant, label: I18n.t('buttons.transplant'), href: planting_path(seedling) })
     end
-    chip.merge(actions: actions)
+    chip.merge(actions: actions, quantity: seedling.quantity,
+               transplant_quantity_label: t('plantings.transplant.quantity'))
   end
 
   # The sow seeds dialog's props: the nursery, the member's other gardens to sow
