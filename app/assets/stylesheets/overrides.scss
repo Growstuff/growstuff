@@ -425,6 +425,85 @@ ul.plantings {
     }
   }
 }
+.finish-signup {
+  margin: 2rem auto 3rem;
+  max-width: 38rem;
+
+  .form-page .form-card {
+    width: 100%;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    text-align: left;
+    border: 1px solid rgba($green, 0.2);
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 2rem rgba($green, 0.08);
+  }
+
+  .modal-header {
+    justify-content: center;
+    padding: 0 0 1rem;
+    border: 0;
+  }
+
+  .modal-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .modal-body {
+    padding: 0;
+  }
+
+  .finish-signup-intro {
+    margin-bottom: 1.75rem;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .finish-signup-icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    background: rgba($green, 0.1);
+    color: $green;
+    font-size: 1.5rem;
+  }
+
+  .form-label {
+    font-weight: 600;
+  }
+
+  .form-control {
+    padding: 0.75rem;
+  }
+
+  .form-text {
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+
+  .finish-signup-terms {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid rgba($green, 0.2);
+    border-radius: 0.5rem;
+    background: rgba($green, 0.04);
+
+    .form-check {
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-bottom: 0;
+    }
+
+    .form-check-input {
+      flex-shrink: 0;
+    }
+  }
+}
+
 .text-muted {
   color: $blue;
 }

@@ -117,4 +117,37 @@ describe 'Finishing sign up' do
       expect(member.reload.unconfirmed_email).to eq('alice@example.com')
     end
   end
+
+  context 'with an email belonging to another member' do
+    let(:existing_member) { create(:member) }
+    let(:params) { { member: { login_name: 'alice_bsky', tos_agreement: '1', email: existing_member.email } } }
+
+    it 'redisplays the form with an email error' do
+      patch finish_signup_path(member), params: params
+      expect(response.parsed_body.at_css('input[name="member[email]"].is-invalid')).to be_present
+    end
+
+    it 'does not save any signup changes' do
+      original_attributes = member.attributes.slice('email', 'unconfirmed_email', 'login_name', 'tos_agreement')
+      patch finish_signup_path(member), params: params
+      expect(member.reload.attributes.slice(*original_attributes.keys)).to eq(original_attributes)
+    end
+
+    it 'does not send a confirmation email' do
+      existing_member
+      expect { patch finish_signup_path(member), params: }.not_to change { ActionMailer::Base.deliveries.count }
+    end
+
+    it 'does not change the other account' do
+      original_attributes = existing_member.reload.attributes
+      patch finish_signup_path(member), params: params
+      expect(existing_member.reload.attributes).to eq(original_attributes)
+    end
+
+    it 'allows retrying without an email' do
+      patch finish_signup_path(member), params: params
+      patch finish_signup_path(member), params: { member: { login_name: 'alice_bsky', tos_agreement: '1', email: '' } }
+      expect(response).to redirect_to(root_path)
+    end
+  end
 end
