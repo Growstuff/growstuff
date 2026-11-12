@@ -1670,6 +1670,49 @@ ja:
     winter: 冬
   seeds:
     ui:
+      record_title: "%{owner}の%{crop}の種"
+      record_description: "%{owner}が共有する%{crop}の種。"
+      plantings: 植え付け
+      notes: メモ
+      edit: 編集
+      no_notes: メモはまだありません。
+      descendants_heading: この種から育てた植物
+      add: 追加
+      photos: 写真
+      no_photos: 写真はまだありません。
+      feed_title: "%{owner}の最近の種（%{site_name}）"
+      all_members: すべてのメンバー
+      feed_field: "%{label}：%{value}"
+      feed_trade: "%{location}から%{trade_scope}で交換可能"
+      unknown_location: 所在地不明
+      owner_seeds: "%{owner}の種"
+      meta_description: 種を閲覧・検索できます。
+      open_data: オープンデータ
+      api_methods: APIメソッド
+      edit_title: 種を編集
+      in_stock: 在庫あり
+      finished: 終了
+      germination_min: 発芽（最短日数）
+      germination_max: 発芽（最長日数）
+      search_summary:
+        one: "%{crop}の種が%{count}袋。"
+        other: "%{crop}の種が%{count}袋。"
+      whose_seeds: 誰の種
+      mine: 自分
+      following: フォロー中の人
+      near_me: 近くの人
+      everyone: すべての人
+      add_seeds: "+ 種を追加"
+      auth_prompt_html: 近くで種を交換している人を見るには、%{sign_in}または%{sign_up}してください。
+      sign_in: ログイン
+      sign_up: 新規登録
+      sorted_by_distance: あなたの所在地からの距離順に表示しています。
+      shared_summary: "%{gardeners}からの%{packets}。"
+      gardener_count:
+        one: 栽培者%{count}人
+        other: 栽培者%{count}人
+      privacy_explanation: 栽培者が共有を選んだ種だけがここに表示されます。市区町村は表示しますが、住所は公開しません。各種袋の横には栽培者のアバターが表示されます。種袋を開くと種の詳細を確認し、分けてもらうよう依頼できます。
+      no_descendants: この種からはまだ何も育てられていません。
       errors:
         one: 1件のエラーにより、この種を保存できませんでした：
         other: "%{count}件のエラーにより、この種を保存できませんでした："

@@ -2870,6 +2870,49 @@ zh:
     winter: 冬天
   seeds:
     ui:
+      record_title: "%{owner}的%{crop}种子"
+      record_description: "%{owner}分享的%{crop}种子。"
+      plantings: 种植
+      notes: 备注
+      edit: 编辑
+      no_notes: 暂无备注。
+      descendants_heading: 由这些种子培育的植物
+      add: 添加
+      photos: 照片
+      no_photos: 暂无照片。
+      feed_title: "%{owner}的近期种子（%{site_name}）"
+      all_members: 所有成员
+      feed_field: "%{label}：%{value}"
+      feed_trade: 可从%{location}向%{trade_scope}交换
+      unknown_location: 未知位置
+      owner_seeds: "%{owner}的种子"
+      meta_description: 浏览和搜索种子。
+      open_data: 开放数据
+      api_methods: API 方法
+      edit_title: 编辑种子
+      in_stock: 有库存
+      finished: 已用完
+      germination_min: 发芽（最少天数）
+      germination_max: 发芽（最多天数）
+      search_summary:
+        one: "%{count}包%{crop}种子。"
+        other: "%{count}包%{crop}种子。"
+      whose_seeds: 谁的种子
+      mine: 我的
+      following: 我关注的人
+      near_me: 我附近
+      everyone: 所有人
+      add_seeds: "+ 添加种子"
+      auth_prompt_html: "%{sign_in}或%{sign_up}，查看您附近的种子交换者。"
+      sign_in: 登录
+      sign_up: 注册
+      sorted_by_distance: 按距您位置的远近排序。
+      shared_summary: 来自%{gardeners}的%{packets}种子。
+      gardener_count:
+        one: "%{count}位园艺爱好者"
+        other: "%{count}位园艺爱好者"
+      privacy_explanation: 只有园艺爱好者选择分享的种子才会显示在这里。我们显示其所在城市，绝不显示详细地址。每包种子旁都有分享者的头像。打开种子包即可查看种子详情并申请一些。
+      no_descendants: 这些种子还没有种出任何植物。
       errors:
         one: 有 1 个错误，无法保存这些种子：
         other: 有 %{count} 个错误，无法保存这些种子：
