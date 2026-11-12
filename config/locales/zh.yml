@@ -2869,6 +2869,28 @@ zh:
     summer: 夏天
     winter: 冬天
   seeds:
+    ui:
+      unknown_quiet: 未知
+      plant_seeds: 播种
+      saved_year: "%{year}年留种"
+      seeds_saved_by: 由%{owner}留种
+      approx_seeds:
+        one: 约%{count}粒种子
+        other: 约%{count}粒种子
+      sow_before_year: 在%{year}年之前播种
+      will_trade: 可在%{trade_scope}交换
+      activity_html: 保存了%{crop}的种子
+      crop: 作物
+      sow_before: 播种期限
+      seeds: 种子
+      where_from: 来源
+      type: 类型
+      shared_with: 分享范围
+      trade_scopes:
+        nowhere: 不交换
+        locally: 本地
+        nationally: 国内
+        internationally: 国际
     hardiness:
       half_hardy: 半耐寒（能耐受轻微霜冻）
       hardy: 耐寒（不怕霜冻）
