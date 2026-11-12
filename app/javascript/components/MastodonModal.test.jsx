@@ -18,15 +18,14 @@ describe('MastodonModal', () => {
   });
 
   it('requires agreement to the terms', () => {
-    show();
-    expect(screen.getByRole('checkbox', {name: /Terms of Service/})).toBeRequired();
+    render(<MastodonModal urls={{mastodon: '/members/auth/mastodon'}} requireTerms onClose={() => {}} />);
+    expect(screen.getByRole('checkbox')).toBeRequired();
   });
 
   it('disables submission while contacting the server', async () => {
     show();
     screen.getByLabelText('Mastodon address').closest('form').addEventListener('submit', (event) => event.preventDefault());
     await userEvent.type(screen.getByLabelText('Mastodon address'), 'alice@mastodon.social');
-    await userEvent.click(screen.getByRole('checkbox', {name: /Terms of Service/}));
     await userEvent.click(screen.getByRole('button', {name: 'Continue with Mastodon'}));
     expect(screen.getByRole('button', {name: /Contacting Mastodon/})).toBeDisabled();
   });
