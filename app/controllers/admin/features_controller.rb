@@ -19,7 +19,7 @@ module Admin
 
     def add_member
       feature = Feature.find(params[:id])
-      member = Member.kept.find_by(login_name: params[:login_name].to_s.strip)
+      member = Member.kept.case_insensitive_login_name(params[:login_name].to_s.strip).first
       return redirect_to admin_features_path, alert: t('admin.features.member_not_found') unless member
 
       feature.enable_member(member)
