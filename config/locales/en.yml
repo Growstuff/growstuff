@@ -4295,6 +4295,51 @@ en:
     winter: Winter
   seeds:
     ui:
+      record_title: "%{owner}'s %{crop} seeds"
+      record_description: Seeds for %{crop}, shared by %{owner}.
+      plantings: Plantings
+      notes: Notes
+      edit: edit
+      no_notes: No notes yet.
+      descendants_heading: Plants grown from these seeds
+      add: add
+      photos: Photos
+      no_photos: No photos yet.
+      feed_title: Recent seeds from %{owner} (%{site_name})
+      all_members: all members
+      feed_field: "%{label}: %{value}"
+      feed_trade: Will trade %{trade_scope} from %{location}
+      unknown_location: unknown location
+      owner_seeds: "%{owner}'s seeds"
+      meta_description: Browse and search for seeds.
+      open_data: Open Data
+      api_methods: API Methods
+      edit_title: Editing seeds
+      in_stock: In stock
+      finished: Finished
+      germination_min: Germination (min days)
+      germination_max: Germination (max days)
+      search_summary:
+        one: "%{count} packet of %{crop} seeds."
+        other: "%{count} packets of %{crop} seeds."
+      whose_seeds: Whose seeds
+      mine: Mine
+      following: People I follow
+      near_me: Near me
+      everyone: Everyone
+      add_seeds: "+ add seeds"
+      auth_prompt_html: "%{sign_in} or %{sign_up} to see seed traders near you."
+      sign_in: Sign in
+      sign_up: sign up
+      sorted_by_distance: Sorted by distance from your location.
+      shared_summary: "%{packets} from %{gardeners}."
+      gardener_count:
+        one: "%{count} gardener"
+        other: "%{count} gardeners"
+      privacy_explanation: A seed shows here only when the gardener chose to share it. We
+        show a gardener's city, never their address. Each packet has its gardener's avatar
+        beside it. Open a packet to see the seed and ask for some.
+      no_descendants: Nothing has been grown from these seeds yet.
       errors:
         one: '1 error prohibited this seed from being saved:'
         other: "%{count} errors prohibited this seed from being saved:"

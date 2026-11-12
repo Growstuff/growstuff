@@ -5,4 +5,4 @@
     - seed.child_plantings.each do |planting|
       = render 'plantings/card', planting: planting
 - else
-  %p.text-muted.mb-0 Nothing has been grown from these seeds yet.
+  %p.text-muted.mb-0= t('seeds.ui.no_descendants')

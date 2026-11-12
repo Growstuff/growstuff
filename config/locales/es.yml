@@ -2876,6 +2876,52 @@ es:
     winter: Invierno
   seeds:
     ui:
+      record_title: Semillas de %{crop} de %{owner}
+      record_description: Semillas de %{crop}, compartidas por %{owner}.
+      plantings: Plantaciones
+      notes: Notas
+      edit: editar
+      no_notes: Todavía no hay notas.
+      descendants_heading: Plantas cultivadas a partir de estas semillas
+      add: añadir
+      photos: Fotos
+      no_photos: Todavía no hay fotos.
+      feed_title: Semillas recientes de %{owner} (%{site_name})
+      all_members: todos los miembros
+      feed_field: "%{label}: %{value}"
+      feed_trade: Intercambio %{trade_scope} desde %{location}
+      unknown_location: ubicación desconocida
+      owner_seeds: Semillas de %{owner}
+      meta_description: Explorar y buscar semillas.
+      open_data: Datos abiertos
+      api_methods: Métodos de la API
+      edit_title: Editar semillas
+      in_stock: Disponibles
+      finished: Terminadas
+      germination_min: Germinación (días mín.)
+      germination_max: Germinación (días máx.)
+      search_summary:
+        one: "%{count} paquete de semillas de %{crop}."
+        other: "%{count} paquetes de semillas de %{crop}."
+      whose_seeds: De quién son las semillas
+      mine: Mías
+      following: Personas que sigo
+      near_me: Cerca de mí
+      everyone: Todos
+      add_seeds: "+ añadir semillas"
+      auth_prompt_html: "%{sign_in} o %{sign_up} para ver quién intercambia semillas cerca
+        de usted."
+      sign_in: Inicie sesión
+      sign_up: regístrese
+      sorted_by_distance: Ordenadas por distancia desde su ubicación.
+      shared_summary: "%{packets} de %{gardeners}."
+      gardener_count:
+        one: "%{count} horticultor"
+        other: "%{count} horticultores"
+      privacy_explanation: Las semillas solo aparecen aquí cuando su propietario decide
+        compartirlas. Mostramos su ciudad, nunca su dirección. Cada paquete tiene al lado
+        el avatar de su propietario. Abra un paquete para ver las semillas y solicitar algunas.
+      no_descendants: Todavía no se ha cultivado nada con estas semillas.
       errors:
         one: 'Un error impidió guardar estas semillas:'
         other: "%{count} errores impidieron guardar estas semillas:"
