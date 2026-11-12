@@ -2881,6 +2881,56 @@ fr:
     winter: L'hiver
   seeds:
     ui:
+      errors:
+        one: 'Une erreur a empêché l’enregistrement de ces graines :'
+        other: "%{count} erreurs ont empêché l’enregistrement de ces graines :"
+      crop_help_html: Vous ne trouvez pas ce que vous cherchez ? %{link}
+      request_crops: Demander de nouvelles plantes.
+      harvested_saved_at: Quand les graines ont-elles été récoltées ou conservées ?
+      quantity: Quantité
+      plant_before_year: Semer avant (année)
+      variety: Variété
+      batch_number: Numéro de lot
+      minimum: min.
+      maturity: Jours jusqu’à maturité
+      maximum: max.
+      range_to: à
+      days: jours
+      row_spacing: Espacement des rangs
+      cm: cm
+      organic: Biologiques ?
+      gmo: OGM ?
+      heirloom: Variété ancienne ?
+      source_question: D’où proviennent-elles ?
+      trade_label: Échange
+      set_location_html: N’oubliez pas de %{link}.
+      set_location: définir votre localisation
+      from_location_html: depuis %{location}.
+      change_location: Modifier votre localisation.
+      save: Enregistrer
+      packet_count:
+        one: "%{count} sachet"
+        other: "%{count} sachets"
+      saved_date: Récoltées le %{date}
+      packet: Sachet
+      nobody: Personne
+      saved_by_html: récoltées par %{owner}
+      view_all: Voir toutes les graines de %{owner}
+      nearby_html: Voir d’autres graines, membres et plus encore près de %{location}
+      not_specified: non précisé
+      seed_unit:
+        one: graine
+        other: graines
+      when_to_sow: Quand semer
+      how_to_sow: Comment semer
+      germination: Germination
+      plant_before: Semer avant
+      unknown: inconnu
+      heirloom_or_hybrid: Variété ancienne ou hybride
+      organic_fact: Biologiques
+      gmo_fact: OGM
+      you_have_it: Vous en avez déjà
+      past_sow_by: Date de semis dépassée
       unknown_quiet: inconnu
       plant_seeds: Semer les graines
       saved_year: récoltées en %{year}

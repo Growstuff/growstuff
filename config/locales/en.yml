@@ -4295,6 +4295,56 @@ en:
     winter: Winter
   seeds:
     ui:
+      errors:
+        one: '1 error prohibited this seed from being saved:'
+        other: "%{count} errors prohibited this seed from being saved:"
+      crop_help_html: Can't find what you're looking for? %{link}
+      request_crops: Request new crops.
+      harvested_saved_at: When were the seeds harvested/saved?
+      quantity: Quantity
+      plant_before_year: Plant before (year)
+      variety: Variety
+      batch_number: Batch number
+      minimum: min
+      maturity: Days until maturity
+      maximum: max
+      range_to: to
+      days: days
+      row_spacing: Row spacing
+      cm: cm
+      organic: Organic?
+      gmo: GMO?
+      heirloom: Heirloom?
+      source_question: Where did they come from?
+      trade_label: Will trade
+      set_location_html: Don't forget to %{link}.
+      set_location: set your location
+      from_location_html: from %{location}.
+      change_location: Change your location.
+      save: Save
+      packet_count:
+        one: "%{count} packet"
+        other: "%{count} packets"
+      saved_date: Saved %{date}
+      packet: Packet
+      nobody: Nobody
+      saved_by_html: saved by %{owner}
+      view_all: view all %{owner}'s seeds
+      nearby_html: View other seeds, members and more near %{location}
+      not_specified: not specified
+      seed_unit:
+        one: seed
+        other: seeds
+      when_to_sow: When to sow
+      how_to_sow: How to sow
+      germination: Germination
+      plant_before: Plant before
+      unknown: Unknown
+      heirloom_or_hybrid: Heirloom or hybrid
+      organic_fact: Organic
+      gmo_fact: GMO
+      you_have_it: You have it
+      past_sow_by: Past sow-by
       unknown_quiet: unknown
       plant_seeds: Plant seeds
       saved_year: saved %{year}

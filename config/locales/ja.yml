@@ -1670,6 +1670,56 @@ ja:
     winter: 冬
   seeds:
     ui:
+      errors:
+        one: 1件のエラーにより、この種を保存できませんでした：
+        other: "%{count}件のエラーにより、この種を保存できませんでした："
+      crop_help_html: お探しの作物が見つかりませんか？ %{link}
+      request_crops: 新しい作物をリクエストする。
+      harvested_saved_at: いつ種を収穫・採種しましたか？
+      quantity: 数量
+      plant_before_year: 播種期限（年）
+      variety: 品種
+      batch_number: ロット番号
+      minimum: 最小
+      maturity: 成熟までの日数
+      maximum: 最大
+      range_to: "～"
+      days: 日
+      row_spacing: 畝間
+      cm: cm
+      organic: 有機栽培ですか？
+      gmo: 遺伝子組み換えですか？
+      heirloom: 伝統品種ですか？
+      source_question: どこから入手しましたか？
+      trade_label: 交換範囲
+      set_location_html: 忘れずに%{link}。
+      set_location: 所在地を設定してください
+      from_location_html: 所在地は%{location}です。
+      change_location: 所在地を変更する。
+      save: 保存
+      packet_count:
+        one: "%{count}袋"
+        other: "%{count}袋"
+      saved_date: "%{date}採種"
+      packet: 種袋
+      nobody: 共有なし
+      saved_by_html: "%{owner}が採種"
+      view_all: "%{owner}のすべての種を表示"
+      nearby_html: "%{location}付近の他の種やメンバーなどを表示"
+      not_specified: 未指定
+      seed_unit:
+        one: 粒
+        other: 粒
+      when_to_sow: 種まきの時期
+      how_to_sow: 種まきの方法
+      germination: 発芽
+      plant_before: 播種期限
+      unknown: 不明
+      heirloom_or_hybrid: 伝統品種または交配種
+      organic_fact: 有機栽培
+      gmo_fact: 遺伝子組み換え
+      you_have_it: 所有済み
+      past_sow_by: 播種期限切れ
       unknown_quiet: 不明
       plant_seeds: 種をまく
       saved_year: "%{year}年採種"

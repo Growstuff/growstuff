@@ -9,14 +9,13 @@
       - if @seed.errors.any?
         #error_explanation
           %h2
-            = pluralize(@seed.errors.size, "error")
-            prohibited this seed from being saved:
+            = t('seeds.ui.errors', count: @seed.errors.size)
           %ul
             - @seed.errors.full_messages.each do |msg|
               %li= msg
 
       .mb-3.required
-        = f.label :crop, 'Crop'
+        = f.label :crop, t('seeds.ui.crop')
         - if @planting
           = link_to @planting, planting_path(@planting)
           = f.hidden_field :parent_planting_id, value: @planting.id
@@ -24,18 +23,17 @@
 
           = auto_suggest @seed, :crop, class: 'form-control', default: @crop, required: true
           %span.help-inline
-            Can't find what you're looking for?
-            = link_to "Request new crops.", new_crop_path
+            = t('seeds.ui.crop_help_html', link: link_to(t('seeds.ui.request_crops'), new_crop_path))
       .row
         .col-12.col-md-4
           = f.date_field :saved_at,
                      value: @seed.saved_at ? @seed.saved_at.to_fs(:ymd) : '',
-                     label: 'When were the seeds harvested/saved?'
-        .col-12.col-md-4= f.number_field :quantity, label: 'Quantity', min: 1
+                     label: t('seeds.ui.harvested_saved_at')
+        .col-12.col-md-4= f.number_field :quantity, label: t('seeds.ui.quantity'), min: 1
         .col-12.col-md-4
           -# Only the year: seed keeps until the end of the season it is
           -# dated to, so a day would be false precision.
-          = f.number_field :plant_before_year, label: 'Plant before (year)',
+          = f.number_field :plant_before_year, label: t('seeds.ui.plant_before_year'),
                            min: Seed::PLANT_BEFORE_YEARS.first, max: Seed::PLANT_BEFORE_YEARS.last
 
       .row
@@ -47,26 +45,26 @@
           %span.help-inline= t('.finish_helper')
 
       .row
-        .col-md-6= f.text_field :variety, label: 'Variety'
-        .col-md-6= f.text_field :batch_number, label: 'Batch number'
+        .col-md-6= f.text_field :variety, label: t('seeds.ui.variety')
+        .col-md-6= f.text_field :batch_number, label: t('seeds.ui.batch_number')
 
       .row
-        .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: 'min', prepend: 'Days until maturity', min: 1
-        .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: 'max', prepend: 'to', append: "days", min: 1
+        .col-md-6= f.number_field :days_until_maturity_min, label_as_placeholder: true, label: t('seeds.ui.minimum'), prepend: t('seeds.ui.maturity'), min: 1
+        .col-md-6= f.number_field :days_until_maturity_max, label_as_placeholder: true, label: t('seeds.ui.maximum'), prepend: t('seeds.ui.range_to'), append: t('seeds.ui.days'), min: 1
 
       .row
-        .col-md-6= f.number_field :row_spacing, label: 'Row spacing', append: 'cm', min: 1
+        .col-md-6= f.number_field :row_spacing, label: t('seeds.ui.row_spacing'), append: t('seeds.ui.cm'), min: 1
       = render 'seeds/sowing_fields', f: f, seed: @seed, prefix: 'page'
 
       .row
         .col-md-3
-          = f.select(:organic, Seed::ORGANIC_VALUES, { label: 'Organic?', wrapper: { class: 'required' }, required: true }, default: 'unknown')
+          = f.select(:organic, Seed::ORGANIC_VALUES, { label: t('seeds.ui.organic'), wrapper: { class: 'required' }, required: true }, default: 'unknown')
         .col-md-3
-          = f.select(:gmo, Seed::GMO_VALUES, { label: 'GMO?', wrapper: { class: 'required' }, required: true }, default: 'unknown')
+          = f.select(:gmo, Seed::GMO_VALUES, { label: t('seeds.ui.gmo'), wrapper: { class: 'required' }, required: true }, default: 'unknown')
         .col-md-3
-          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, { label: 'Heirloom?', wrapper: { class: 'required' }, required: true }, default: 'unknown')
+          = f.select(:heirloom, Seed::HEIRLOOM_VALUES, { label: t('seeds.ui.heirloom'), wrapper: { class: 'required' }, required: true }, default: 'unknown')
         .col-md-3
-          = f.select(:source, Seed::SOURCE_VALUES, { label: 'Source?', wrapper: { class: 'required' }, required: true }, default: 'unknown')
+          = f.select(:source, Seed::SOURCE_VALUES, { label: t('seeds.ui.source_question'), wrapper: { class: 'required' }, required: true }, default: 'unknown')
       .row
         .col-md-3
           = f.select(:hardiness, Seed::HARDINESS_VALUES.map { |value| [t("seeds.hardiness.#{value}"), value] }, { label: t('seeds.hardiness.label') }, default: 'unknown')
@@ -74,16 +72,12 @@
 
       %hr/
       =  t('.trade_help', site_name: ENV['GROWSTUFF_SITE_NAME'])
-      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES, { label: 'Will trade', wrapper: { class: 'required' }, required: true })
+      = f.select(:tradable_to, Seed::TRADABLE_TO_VALUES.map { |value| [t("seeds.ui.trade_scopes.#{value}"), value] }, { label: t('seeds.ui.trade_label'), wrapper: { class: 'required' }, required: true })
       %span.help_inline
         - if current_member.location.blank?
-          Don't forget to
-          = succeed "." do
-            = link_to "set your location", edit_member_registration_path
+          = t('seeds.ui.set_location_html', link: link_to(t('seeds.ui.set_location'), edit_member_registration_path))
         - else
-          from
-          = succeed "." do
-            = link_to current_member.location, place_path(current_member.location)
-          = link_to "Change your location.", edit_member_registration_path
+          = t('seeds.ui.from_location_html', location: link_to(current_member.location, place_path(current_member.location)))
+          = link_to t('seeds.ui.change_location'), edit_member_registration_path
     .card-footer
-      .text-end= f.submit 'Save'
+      .text-end= f.submit t('seeds.ui.save')
