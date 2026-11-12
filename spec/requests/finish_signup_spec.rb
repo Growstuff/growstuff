@@ -24,6 +24,32 @@ describe 'Finishing sign up' do
     it 'leaves out the links to other sign in pages' do
       expect(response.body).not_to include('Forgot your password?')
     end
+
+    it 'presents a required terms acceptance checkbox' do
+      expect(response.parsed_body.at_css('input[type="checkbox"][name="member[tos_agreement]"][required]')).to be_present
+    end
+
+    it 'links to the terms of service' do
+      expect(response.parsed_body.at_css("a[href='#{policy_tos_path}']")).to be_present
+    end
+  end
+
+  describe 'translations' do
+    %i(en de es fr ja zh).each do |locale|
+      context "with locale #{locale}" do
+        it 'renders without missing translations' do
+          get finish_signup_path(member), params: { locale: }
+          expect(response.parsed_body.css('.form-page .translation_missing')).to be_empty
+        end
+
+        it 'renders the existing email form without missing translations' do
+          member.skip_reconfirmation!
+          member.update!(email: 'alice@example.com')
+          get finish_signup_path(member), params: { locale: }
+          expect(response.parsed_body.css('.form-page .translation_missing')).to be_empty
+        end
+      end
+    end
   end
 
   describe 'PATCH without an email' do
@@ -39,6 +65,36 @@ describe 'Finishing sign up' do
 
     it 'leaves the email blank' do
       expect(member.reload.email).to be_nil
+    end
+
+    it 'records terms acceptance' do
+      expect(member.reload).to be_tos_agreement
+    end
+  end
+
+  context 'without terms acceptance' do
+    it 'rejects an unchecked checkbox' do
+      patch finish_signup_path(member), params: { member: { tos_agreement: '0' } }
+      expect(member.reload).not_to be_tos_agreement
+    end
+
+    it 'rejects omitted acceptance' do
+      patch finish_signup_path(member), params: { member: { login_name: 'new_name' } }
+      expect(member.reload.login_name).not_to eq('new_name')
+    end
+
+    it 'keeps the acceptance form visible' do
+      patch finish_signup_path(member), params: { member: { tos_agreement: '0' } }
+      expect(response.parsed_body.at_css('input[type="checkbox"][name="member[tos_agreement]"][required]')).to be_present
+    end
+  end
+
+  context 'when signed out' do
+    before { sign_out member }
+
+    it 'redirects to sign in' do
+      get finish_signup_path(member)
+      expect(response).to redirect_to new_member_session_path
     end
   end
 
