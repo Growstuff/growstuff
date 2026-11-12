@@ -2870,6 +2870,56 @@ zh:
     winter: 冬天
   seeds:
     ui:
+      errors:
+        one: 有 1 个错误，无法保存这些种子：
+        other: 有 %{count} 个错误，无法保存这些种子：
+      crop_help_html: 找不到您要的作物？%{link}
+      request_crops: 请求添加新作物。
+      harvested_saved_at: 种子何时采收或留存？
+      quantity: 数量
+      plant_before_year: 播种期限（年份）
+      variety: 品种
+      batch_number: 批次编号
+      minimum: 最小
+      maturity: 成熟天数
+      maximum: 最大
+      range_to: 至
+      days: 天
+      row_spacing: 行距
+      cm: 厘米
+      organic: 有机？
+      gmo: 转基因？
+      heirloom: 传统品种？
+      source_question: 种子来自哪里？
+      trade_label: 交换范围
+      set_location_html: 别忘了%{link}。
+      set_location: 设置您的位置
+      from_location_html: 来自%{location}。
+      change_location: 更改您的位置。
+      save: 保存
+      packet_count:
+        one: "%{count}包"
+        other: "%{count}包"
+      saved_date: "%{date}留种"
+      packet: 种子包
+      nobody: 不分享
+      saved_by_html: 由%{owner}留种
+      view_all: 查看%{owner}的所有种子
+      nearby_html: 查看%{location}附近的其他种子、成员等
+      not_specified: 未指定
+      seed_unit:
+        one: 粒种子
+        other: 粒种子
+      when_to_sow: 播种时间
+      how_to_sow: 播种方法
+      germination: 发芽
+      plant_before: 播种期限
+      unknown: 未知
+      heirloom_or_hybrid: 传统品种或杂交品种
+      organic_fact: 有机
+      gmo_fact: 转基因
+      you_have_it: 您已拥有
+      past_sow_by: 已过播种期限
       unknown_quiet: 未知
       plant_seeds: 播种
       saved_year: "%{year}年留种"

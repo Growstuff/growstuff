@@ -2876,6 +2876,56 @@ es:
     winter: Invierno
   seeds:
     ui:
+      errors:
+        one: 'Un error impidió guardar estas semillas:'
+        other: "%{count} errores impidieron guardar estas semillas:"
+      crop_help_html: "¿No encuentra lo que busca? %{link}"
+      request_crops: Solicitar nuevos cultivos.
+      harvested_saved_at: "¿Cuándo se cosecharon o guardaron las semillas?"
+      quantity: Cantidad
+      plant_before_year: Sembrar antes de (año)
+      variety: Variedad
+      batch_number: Número de lote
+      minimum: mín.
+      maturity: Días hasta la madurez
+      maximum: máx.
+      range_to: a
+      days: días
+      row_spacing: Distancia entre filas
+      cm: cm
+      organic: "¿Ecológicas?"
+      gmo: "¿Transgénicas?"
+      heirloom: "¿Tradicionales?"
+      source_question: "¿De dónde proceden?"
+      trade_label: Intercambio
+      set_location_html: No olvide %{link}.
+      set_location: establecer su ubicación
+      from_location_html: desde %{location}.
+      change_location: Cambiar su ubicación.
+      save: Guardar
+      packet_count:
+        one: "%{count} paquete"
+        other: "%{count} paquetes"
+      saved_date: Guardadas el %{date}
+      packet: Paquete
+      nobody: Nadie
+      saved_by_html: guardadas por %{owner}
+      view_all: Ver todas las semillas de %{owner}
+      nearby_html: Ver otras semillas, miembros y más cerca de %{location}
+      not_specified: sin especificar
+      seed_unit:
+        one: semilla
+        other: semillas
+      when_to_sow: Cuándo sembrar
+      how_to_sow: Cómo sembrar
+      germination: Germinación
+      plant_before: Sembrar antes de
+      unknown: desconocido
+      heirloom_or_hybrid: Tradicionales o híbridas
+      organic_fact: Ecológicas
+      gmo_fact: Transgénicas
+      you_have_it: Ya las tiene
+      past_sow_by: Fecha de siembra superada
       unknown_quiet: desconocido
       plant_seeds: Sembrar semillas
       saved_year: guardadas en %{year}

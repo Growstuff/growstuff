@@ -2877,6 +2877,56 @@ de:
     winter: Winter
   seeds:
     ui:
+      errors:
+        one: 'Dieses Saatgut konnte aufgrund eines Fehlers nicht gespeichert werden:'
+        other: 'Dieses Saatgut konnte aufgrund von %{count} Fehlern nicht gespeichert werden:'
+      crop_help_html: Sie finden nicht, wonach Sie suchen? %{link}
+      request_crops: Neue Nutzpflanzen vorschlagen.
+      harvested_saved_at: Wann wurden die Samen geerntet oder gesammelt?
+      quantity: Menge
+      plant_before_year: Aussäen vor (Jahr)
+      variety: Sorte
+      batch_number: Chargennummer
+      minimum: min.
+      maturity: Tage bis zur Reife
+      maximum: max.
+      range_to: bis
+      days: Tage
+      row_spacing: Reihenabstand
+      cm: cm
+      organic: Bio?
+      gmo: Gentechnisch verändert?
+      heirloom: Samenfest?
+      source_question: Woher stammen sie?
+      trade_label: Tauschangebot
+      set_location_html: Vergessen Sie nicht, %{link}.
+      set_location: Ihren Standort festzulegen
+      from_location_html: aus %{location}.
+      change_location: Standort ändern.
+      save: Speichern
+      packet_count:
+        one: "%{count} Päckchen"
+        other: "%{count} Päckchen"
+      saved_date: Geerntet am %{date}
+      packet: Päckchen
+      nobody: Niemandem
+      saved_by_html: geerntet von %{owner}
+      view_all: Alle Samen von %{owner} anzeigen
+      nearby_html: Weitere Samen, Mitglieder und mehr in der Nähe von %{location} anzeigen
+      not_specified: nicht angegeben
+      seed_unit:
+        one: Samen
+        other: Samen
+      when_to_sow: Aussaatzeit
+      how_to_sow: Aussaatanleitung
+      germination: Keimung
+      plant_before: Aussäen vor
+      unknown: unbekannt
+      heirloom_or_hybrid: Samenfest oder Hybrid
+      organic_fact: Bio
+      gmo_fact: Gentechnik
+      you_have_it: Haben Sie bereits
+      past_sow_by: Aussaatdatum überschritten
       unknown_quiet: unbekannt
       plant_seeds: Samen aussäen
       saved_year: geerntet %{year}
