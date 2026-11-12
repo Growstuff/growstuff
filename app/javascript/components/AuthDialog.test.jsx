@@ -20,6 +20,28 @@ function setup(pageUrls = urls) {
 }
 
 describe('AuthDialog', () => {
+  describe.each(['Bluesky', 'Mastodon'])('%s terms agreement', (provider) => {
+    it('does not prompt when signing in from a provider link', async () => {
+      setup();
+      await userEvent.click(screen.getByRole('link', {name: provider}));
+      expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
+    });
+
+    it('does not prompt when continuing from sign in', async () => {
+      setup();
+      await userEvent.click(screen.getByRole('link', {name: 'Log in'}));
+      await userEvent.click(screen.getByRole('button', {name: `Continue with ${provider}`}));
+      expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
+    });
+
+    it('requires agreement when continuing from sign up', async () => {
+      setup();
+      await userEvent.click(screen.getByRole('link', {name: 'Join'}));
+      await userEvent.click(screen.getByRole('button', {name: `Continue with ${provider}`}));
+      expect(screen.getByRole('checkbox')).toBeRequired();
+    });
+  });
+
   it('draws nothing to start with', () => {
     setup();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

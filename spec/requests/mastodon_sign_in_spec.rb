@@ -100,6 +100,15 @@ describe 'Signing in with Mastodon' do
       callback
       expect(member.auth('mastodon').name).to eq ['@alice', domain].join('@')
     end
+
+    context 'without recorded terms acceptance' do
+      before { member.update!(tos_agreement: nil) }
+
+      it 'redirects to finish signup' do
+        callback(tos: nil)
+        expect(response).to redirect_to finish_signup_path(member)
+      end
+    end
   end
 
   context 'when the same numeric identity exists on another server' do
@@ -124,6 +133,11 @@ describe 'Signing in with Mastodon' do
     it 'offers a form on the sign up page without JavaScript' do
       get new_member_registration_path
       expect(response.parsed_body.at_css('form[action="/members/auth/mastodon"] input[name="tos_agreement"][required]')).to be_present
+    end
+
+    it 'does not ask for the terms on the sign in page' do
+      get new_member_session_path
+      expect(response.parsed_body.css('form[action="/members/auth/mastodon"] input[name="tos_agreement"]')).to be_empty
     end
   end
 
