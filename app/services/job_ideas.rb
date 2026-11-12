@@ -40,10 +40,12 @@ class JobIdeas
     @skipped = SWITCHES.values_at(*Array(skip)).flatten.compact
   end
 
-  # Every idea not hidden, one source at a time in turn, so no one source fills
-  # the list.
+  # Every idea not hidden, most relevant first. Equally relevant ideas take
+  # sources in turn, so no one source fills the list.
   def ideas
-    @ideas ||= take_turns(sources.map { |source| source.ideas.select { |idea| hidden_keys.exclude?(idea.key) } })
+    @ideas ||= Relevance.new(@member).rank(
+      take_turns(sources.map { |source| source.ideas.select { |idea| hidden_keys.exclude?(idea.key) } })
+    )
   end
 
   # The few to suggest now. Dismissing one brings the next.
