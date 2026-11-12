@@ -1,5 +1,31 @@
 ---
 en:
+  shared:
+    flash_messages:
+      close: Close
+    markdown_help:
+      instructions: You can use Markdown to format your text.
+      examples: 'For instance, *italic*, **bold**, or a link [like this](http://to.some.site.com/).'
+      crop_links: 'Quick crop links: [sweet potato](crop).'
+      member_links: 'Quick member links: @Username or [Username](member).'
+    record_parent:
+      growing_in_html: growing in %{garden}
+    signin_signup:
+      sign_in: Sign in
+      sign_up: sign up
+      prompt_html: '%{sign_in} or %{sign_up} to %{purpose}.'
+    editable:
+      date:
+        when: When?
+      form:
+        edit: Edit %{field}
+        minimum: min
+        maximum: max
+        when: When?
+  timeline:
+    likeables:
+      post:
+        view_post: view post
   activerecord:
     errors:
       messages:

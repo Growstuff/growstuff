@@ -1,5 +1,31 @@
 ---
 zh:
+  shared:
+    flash_messages:
+      close: 关闭
+    markdown_help:
+      instructions: 您可以使用 Markdown 设置文本格式。
+      examples: '例如，*斜体*、**粗体**，或[这样的链接](http://to.some.site.com/)。'
+      crop_links: '作物快捷链接：[红薯](crop)。'
+      member_links: '成员快捷链接：@用户名 或 [用户名](member)。'
+    record_parent:
+      growing_in_html: 在%{garden}中生长
+    signin_signup:
+      sign_in: 登录
+      sign_up: 注册
+      prompt_html: '请%{sign_in}或%{sign_up}，以便%{purpose}。'
+    editable:
+      date:
+        when: 何时？
+      form:
+        edit: 编辑%{field}
+        minimum: 最小
+        maximum: 最大
+        when: 何时？
+  timeline:
+    likeables:
+      post:
+        view_post: 查看帖子
   activerecord:
     errors:
       messages:

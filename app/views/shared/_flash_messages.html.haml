@@ -2,5 +2,5 @@
   .flash-messages
     - flash.each do |type, content|
       %div{ class: build_alert_classes(type), role: "alert" }
-        %button.btn-close{ type: "button", "aria-label" => "Close", "data-bs-dismiss" => "alert" }
+        %button.btn-close{ type: "button", "aria-label" => t('.close'), "data-bs-dismiss" => "alert" }
         = sanitize(content)

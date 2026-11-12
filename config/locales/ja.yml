@@ -1,5 +1,31 @@
 ---
 ja:
+  shared:
+    flash_messages:
+      close: 閉じる
+    markdown_help:
+      instructions: Markdownを使ってテキストを整形できます。
+      examples: '例えば、*斜体*、**太字**、[このようなリンク](http://to.some.site.com/)。'
+      crop_links: '作物への簡易リンク：[サツマイモ](crop)。'
+      member_links: 'メンバーへの簡易リンク：@ユーザー名 または [ユーザー名](member)。'
+    record_parent:
+      growing_in_html: '%{garden}で栽培中'
+    signin_signup:
+      sign_in: ログイン
+      sign_up: 新規登録
+      prompt_html: '%{purpose}には、%{sign_in}または%{sign_up}してください。'
+    editable:
+      date:
+        when: いつですか？
+      form:
+        edit: '%{field}を編集'
+        minimum: 最小
+        maximum: 最大
+        when: いつですか？
+  timeline:
+    likeables:
+      post:
+        view_post: 投稿を見る
   suggestions:
     index:
       title: あなたの地域で育てられる作物
