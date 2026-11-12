@@ -84,12 +84,4 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
     redirect_to edit_member_registration_path
   end
-
-  def after_sign_in_path_for(resource)
-    if resource.tos_agreement
-      super
-    else
-      finish_signup_path(resource)
-    end
-  end
 end
