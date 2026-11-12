@@ -4294,6 +4294,28 @@ en:
     summer: Summer
     winter: Winter
   seeds:
+    ui:
+      unknown_quiet: unknown
+      plant_seeds: Plant seeds
+      saved_year: saved %{year}
+      seeds_saved_by: seeds saved by %{owner}
+      approx_seeds:
+        one: approx. %{count} seed
+        other: approx. %{count} seeds
+      sow_before_year: sow before %{year}
+      will_trade: will trade %{trade_scope}
+      activity_html: saved %{crop} seeds
+      crop: Crop
+      sow_before: Sow before
+      seeds: Seeds
+      where_from: Where from
+      type: Type
+      shared_with: Shared with
+      trade_scopes:
+        nowhere: nowhere
+        locally: locally
+        nationally: nationally
+        internationally: internationally
     added_to_stash: Successfully added %{crop} seed to your stash.
     crop_changes:
       show:

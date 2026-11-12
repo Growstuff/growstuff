@@ -2875,6 +2875,28 @@ es:
     summer: Verano
     winter: Invierno
   seeds:
+    ui:
+      unknown_quiet: desconocido
+      plant_seeds: Sembrar semillas
+      saved_year: guardadas en %{year}
+      seeds_saved_by: semillas guardadas por %{owner}
+      approx_seeds:
+        one: aprox. %{count} semilla
+        other: aprox. %{count} semillas
+      sow_before_year: sembrar antes de %{year}
+      will_trade: intercambio %{trade_scope}
+      activity_html: guardó semillas de %{crop}
+      crop: Cultivo
+      sow_before: Sembrar antes de
+      seeds: Semillas
+      where_from: Procedencia
+      type: Tipo
+      shared_with: Compartidas con
+      trade_scopes:
+        nowhere: en ningún lugar
+        locally: local
+        nationally: nacional
+        internationally: internacional
     hardiness:
       half_hardy: Semirresistente (tolera una helada ligera)
       hardy: Resistente (tolera bien las heladas)

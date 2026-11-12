@@ -1669,6 +1669,28 @@ ja:
     summer: 夏
     winter: 冬
   seeds:
+    ui:
+      unknown_quiet: 不明
+      plant_seeds: 種をまく
+      saved_year: "%{year}年採種"
+      seeds_saved_by: "%{owner}が採種した種"
+      approx_seeds:
+        one: 約%{count}粒
+        other: 約%{count}粒
+      sow_before_year: "%{year}年より前にまく"
+      will_trade: "%{trade_scope}で交換可能"
+      activity_html: "%{crop}の種を採種しました"
+      crop: 作物
+      sow_before: 播種期限
+      seeds: 種
+      where_from: 入手元
+      type: 種類
+      shared_with: 共有範囲
+      trade_scopes:
+        nowhere: 交換不可
+        locally: 近隣
+        nationally: 国内
+        internationally: 国際
     hardiness:
       half_hardy: 半耐寒性（軽い霜なら耐えられます）
       hardy: 耐寒性（霜に耐えられます）

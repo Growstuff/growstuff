@@ -2880,6 +2880,28 @@ fr:
     summer: Été
     winter: L'hiver
   seeds:
+    ui:
+      unknown_quiet: inconnu
+      plant_seeds: Semer les graines
+      saved_year: récoltées en %{year}
+      seeds_saved_by: graines récoltées par %{owner}
+      approx_seeds:
+        one: env. %{count} graine
+        other: env. %{count} graines
+      sow_before_year: semer avant %{year}
+      will_trade: échange %{trade_scope}
+      activity_html: a conservé des graines de %{crop}
+      crop: Plante
+      sow_before: Semer avant
+      seeds: Graines
+      where_from: Provenance
+      type: Type
+      shared_with: Partagées avec
+      trade_scopes:
+        nowhere: nulle part
+        locally: local
+        nationally: national
+        internationally: international
     hardiness:
       half_hardy: Semi-rustique (tolère une légère gelée)
       hardy: Rustique (tolère bien le gel)

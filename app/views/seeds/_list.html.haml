@@ -3,12 +3,12 @@
 %table.table.table-sm.seed-list
   %thead
     %tr
-      %th Crop
-      %th Sow before
-      %th Seeds
-      %th Where from
-      %th Type
-      %th Shared with
+      %th= t('seeds.ui.crop')
+      %th= t('seeds.ui.sow_before')
+      %th= t('seeds.ui.seeds')
+      %th= t('seeds.ui.where_from')
+      %th= t('seeds.ui.type')
+      %th= t('seeds.ui.shared_with')
   - shelves.each do |shelf, seeds|
     %tbody
       %tr.seed-list-shelf
