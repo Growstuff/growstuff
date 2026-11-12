@@ -2937,8 +2937,6 @@ de:
       request_subject: Interesse an Ihren %{crop}-Samen
       request_seeds: Samen anfragen
       request_seeds_purpose: Samen anzufragen
-      activity_html: hat Samen von %{crop} gesammelt
-      crop: Nutzpflanze
       sow_before: Aussäen vor
       seeds: Samen
       where_from: Herkunft
