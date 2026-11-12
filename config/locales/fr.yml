@@ -1,5 +1,31 @@
 ---
 fr:
+  shared:
+    flash_messages:
+      close: Fermer
+    markdown_help:
+      instructions: Vous pouvez utiliser Markdown pour mettre votre texte en forme.
+      examples: 'Par exemple, *italique*, **gras** ou un lien [comme celui-ci](http://to.some.site.com/).'
+      crop_links: 'Liens rapides vers les plantes : [patate douce](crop).'
+      member_links: 'Liens rapides vers les membres : @Pseudo ou [Pseudo](member).'
+    record_parent:
+      growing_in_html: pousse dans %{garden}
+    signin_signup:
+      sign_in: Connectez-vous
+      sign_up: inscrivez-vous
+      prompt_html: '%{sign_in} ou %{sign_up} pour %{purpose}.'
+    editable:
+      date:
+        when: Quand ?
+      form:
+        edit: Modifier %{field}
+        minimum: min.
+        maximum: max.
+        when: Quand ?
+  timeline:
+    likeables:
+      post:
+        view_post: voir la publication
   activerecord:
     errors:
       messages:
