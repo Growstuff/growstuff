@@ -899,16 +899,12 @@ zh:
       title: 新建花园
     about:
       collaborators: 合作者
-      fetch_wikidata: 获取维基数据信息
       heading: 关于这个花园
       leave: 离开花园
       leave_confirm: 你确定要离开这个花园吗？
       location: 地点
       manage: 管理
       owner: 所有者
-      temperature_unknown: 未知
-      temperatures_html: "%{source} 的当地气温：最热的 %{hottest}，最冷的 %{coldest}。"
-      wikidata_missing: 该位置缺少维基数据信息。
       you: "（你）"
     actions:
       add_photo: 添加来自 Flickr 的照片

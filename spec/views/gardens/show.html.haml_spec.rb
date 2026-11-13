@@ -262,8 +262,8 @@ describe "gardens/show" do
       render
     end
 
-    it 'shows both temperatures on one line' do
-      assert_select '.garden-temperatures', text: /hottest 31\.4°C, coldest 3\.1°C/
+    it 'does not show the legacy temperature summary' do
+      assert_select '.garden-temperatures', count: 0
     end
   end
 

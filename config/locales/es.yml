@@ -899,16 +899,12 @@ es:
       title: Nuevo huerto
     about:
       collaborators: Colaboradores
-      fetch_wikidata: Obtener información de Wikidata
       heading: Sobre este jardín
       leave: salir del jardin
       leave_confirm: "¿Estás seguro de que quieres abandonar este jardín?"
       location: Ubicación
       manage: Administrar
       owner: Dueño
-      temperature_unknown: no conocido
-      temperatures_html: 'Temperaturas locales a partir de %{source}: más caliente %{hottest}, más fría %{coldest}.'
-      wikidata_missing: Falta información de Wikidata para esta ubicación.
       you: "(tú)"
     actions:
       add_photo: Añadir foto de Flickr
