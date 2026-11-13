@@ -1232,16 +1232,12 @@ en:
       title: New garden
     about:
       collaborators: Collaborators
-      fetch_wikidata: Fetch Wikidata info
       heading: About this garden
       leave: Leave garden
       leave_confirm: Are you sure you want to leave this garden?
       location: Location
       manage: Manage
       owner: Owner
-      temperature_unknown: not known
-      temperatures_html: 'Local temperatures from %{source}: hottest %{hottest}, coldest %{coldest}.'
-      wikidata_missing: Wikidata information is missing for this location.
       you: "(you)"
     actions:
       add_photo: Add photo from Flickr
@@ -1400,8 +1396,6 @@ en:
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
     string: "%{owner}'s %{garden}"
     updated: Garden was successfully updated.
-    wikidata_not_found: Could not find Wikidata information for this location.
-    wikidata_updated: Wikidata information updated.
   hardiness:
     levels:
       half_hardy:
