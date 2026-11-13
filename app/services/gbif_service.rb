@@ -143,7 +143,9 @@ class GbifService
       next unless result["media"]
 
       media = result["media"].first
+      next unless media
       next unless media["identifier"]
+      next if media_author(media).blank? || media["license"].blank?
 
       # Example: "https://inaturalist-open-data.s3.amazonaws.com/photos/250226497/original.jpg"
       url = media["identifier"]
@@ -160,17 +162,11 @@ class GbifService
         source_id:     result["key"],
         source:        'gbif',
         owner:         @cropbot,
+        author_name:   media_author(media),
         thumbnail_url: thumbnail,
         fullsize_url:  url,
         title:         "Photo by #{media['creator']} via #{media['publisher']} (Copyright #{media['rightsHolder']})",
-        license_name:  case media["license"]
-                       when "http://creativecommons.org/licenses/by/4.0/"
-                         "CC BY 4.0"
-                       when "http://creativecommons.org/licenses/by-nc/4.0/"
-                         "CC BY-NC 4.0"
-                       else
-                         media["license"]
-                       end,
+        license_name:  media_license_name(media),
         license_url:   media["license"],
         link_url:      media["references"]
       )
@@ -189,5 +185,32 @@ class GbifService
 
   def fetch(key)
     Gbif::Request.new("species/#{key}", nil, nil, nil).perform
+  end
+
+  # Re-read the exact imported image, not simply the first image on an occurrence.
+  # Occurrence licences can differ from image licences, so never use that fallback.
+  def repair_photo_credits!
+    Photo.where(source: 'gbif').find_each do |photo|
+      occurrence = Gbif::Request.new("occurrence/#{photo.source_id}", nil, nil, nil).perform
+      media = Array(occurrence["media"]).find { |item| item["identifier"] == photo.fullsize_url }
+      unless media && media_author(media).present? && media["license"].present?
+        Rails.logger.warn "GBIF photo #{photo.id}: missing matching media, author or licence; left unchanged"
+        next
+      end
+
+      photo.update!(author_name: media_author(media), license_name: media_license_name(media), license_url: media["license"])
+    end
+  end
+
+  private
+
+  def media_author(media)
+    media["creator"].presence || media["rightsHolder"].presence
+  end
+
+  def media_license_name(media)
+    license = media["license"]
+    match = %r{\Ahttps?://creativecommons\.org/licenses/(by(?:-[a-z]+)*)/([\d.]+)/?\z}.match(license.to_s)
+    match ? "CC #{match[1].upcase} #{match[2]}" : license
   end
 end
