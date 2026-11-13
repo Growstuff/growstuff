@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # The crops that could be grown from a sowing in each season at the member's home, from EcoCrop's temperatures. A crop is
-# left out if, in any month of its cycle, the nights usually fall below the lowest temperature it grows at or reach the
-# temperature that kills it, or the days rise above the highest it grows at. Of those that survive:
+# left out if, in any month of its cycle, the average temperature is below the lowest it grows at, the coldest nights usually
+# reach the temperature that kills it, or the days rise above the highest it grows at. Of those that survive:
 #   optimal   the days' usual high, on average over its shortest cycle, is in its best range
 #   tolerable the rest, which survive its longest cycle without being at their best
 # A crop with no record of its own uses its parent's, and one we can't tell the cycle length of (see CropDuration) is left
@@ -20,6 +20,7 @@ class SeasonalCrops
   end
 
   def initialize(climate)
+    @means = climate.monthly_means
     @nights = climate.monthly_nights
     @days = climate.monthly_days
   end
@@ -85,14 +86,16 @@ class SeasonalCrops
     high.between?(candidate.best_min, candidate.best_max)
   end
 
-  # Whether the month's nights and days stay within what the crop grows at, and the nights stay above what kills it. A month
-  # we hold no weather for does not.
+  # Whether the month stays within what the crop grows at and the nights stay above what kills it: the month's average
+  # temperature is not below the lowest it grows at (a growing temperature, not a night's), the days do not rise above the
+  # highest it grows at, and the coldest nights stay above its killing temperature. A month we hold no weather for does not.
   def survives?(candidate, month)
+    mean = @means[month]
     night = @nights[month]
     day = @days[month]
-    return false unless night && day
+    return false unless mean && night && day
 
-    (candidate.kill_min.nil? || night >= candidate.kill_min) && (candidate.kill_max.nil? || day <= candidate.kill_max) &&
+    (candidate.kill_min.nil? || mean >= candidate.kill_min) && (candidate.kill_max.nil? || day <= candidate.kill_max) &&
       (candidate.dies_at.nil? || night > candidate.dies_at)
   end
 end

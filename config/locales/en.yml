@@ -4872,7 +4872,7 @@ en:
       ready_in: ready in %{part} %{season}
       retry: Try again
       still_grows: Also grows in %{season} in %{place}, but not at its best
-      suits: Grows best in %{season} in %{place}
+      suits: Grows well in %{season} in %{place}
       timing: "%{days}, %{ready}"
       usual_day: Typical hottest day
       usual_night: Typical coldest night
