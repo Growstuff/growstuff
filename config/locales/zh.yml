@@ -2674,6 +2674,8 @@ zh:
       planned_for: 计划于 %{date}
       planted: 已种植
       planting_failed: 该种植已失败
+      short_code: 短代码
+      short_code_description: 用于植物标签和标记
       progress: 进度
       quantity: 数量
       rating: 评分

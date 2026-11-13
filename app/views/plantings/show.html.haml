@@ -57,6 +57,8 @@
                 %p.planting-grower-more.small.mb-0
                   = link_to t('plantings.show.view_all_plantings', owner: @planting.owner), member_plantings_path(@planting.owner)
             .d-flex.align-items-center.gap-2
+              - if @planting.short_code.present?
+                %span.badge.text-bg-secondary.planting-short-code= @planting.short_code
               - if @planting.failed?
                 %span.badge.text-bg-danger= t('plantings.facts.failed')
               - elsif @planting.finished?

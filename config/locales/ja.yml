@@ -1678,6 +1678,8 @@ ja:
       planned_for: "%{date} 予定"
       planted: 植え付け
       planting_failed: この植え付けは失敗しました
+      short_code: ショートコード
+      short_code_description: プラントマーカーやラベル用
       progress: 進捗
       quantity: 数量
       rating: 評価

@@ -2680,6 +2680,8 @@ es:
       planned_for: para el %{date}
       planted: Plantado
       planting_failed: esta plantación falló
+      short_code: Código corto
+      short_code_description: para marcadores de plantas y etiquetas
       progress: Progreso
       quantity: Cantidad
       rating: Calificación

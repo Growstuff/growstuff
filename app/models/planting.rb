@@ -119,6 +119,25 @@ class Planting < ApplicationRecord
   validates :overall_rating, allow_blank: true, numericality: {
     only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5
   }
+  validates :short_code, length: { is: 4 }, format: { with: /\A[2-9A-HJ-NP-Z]{4}\z/ },
+                         uniqueness: { scope: :owner_id, allow_nil: true }
+
+  SHORT_CODE_CHARS = %w[2 3 4 5 6 7 8 9 A B C D E F G H J K L M N P Q R S T U V W X Y Z].freeze
+
+  before_validation :assign_short_code, on: :create
+
+  def self.random_short_code
+    Array.new(4) { SHORT_CODE_CHARS.sample }.join
+  end
+
+  def self.generate_short_code(owner = nil)
+    loop do
+      code = random_short_code
+      next if owner && where(owner_id: owner.id, short_code: code).exists?
+
+      break code
+    end
+  end
 
   def subject
     to_s
@@ -337,6 +356,10 @@ class Planting < ApplicationRecord
 
   # Copied from the packet when the planting is made, as the packet may be
   # edited or thrown away later.
+  def assign_short_code
+    self.short_code ||= self.class.generate_short_code(owner)
+  end
+
   def remember_seed_plant_before
     self.seed_plant_before ||= parent_seed&.plant_before
   end
