@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_13_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -898,6 +898,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
     t.bigint "owner_id"
     t.string "slug"
     t.datetime "updated_at", null: false
+    t.integer "position", default: 0, null: false
     t.index ["crop_job_step_id"], name: "index_jobs_on_crop_job_step_id"
     t.index ["garden_id"], name: "index_jobs_on_garden_id"
     t.index ["jobbable_type", "jobbable_id"], name: "index_jobs_on_jobbable"

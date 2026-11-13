@@ -93,9 +93,10 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   // Changes one or more of a job's settings, such as {finished: '1'}.
-  const patchJob = function (url, attributes) {
+  const patchJob = function (url, attributes, beforeId) {
     const body = new FormData();
     body.append('_method', 'patch');
+    if (beforeId !== undefined) body.append('before_id', beforeId);
     Object.keys(attributes).forEach(function (key) { body.append('job[' + key + ']', attributes[key]); });
     return send(url, body);
   };
@@ -344,6 +345,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const clearDropTargets = function () {
     groups.querySelectorAll('.drop-over').forEach(function (el) { el.classList.remove('drop-over'); });
+    groups.querySelectorAll('.drop-before').forEach(function (el) { el.classList.remove('drop-before'); });
+  };
+
+  const insertionRow = function (event, group) {
+    return Array.from(group.querySelectorAll('.notepad-job')).find(function (row) {
+      if (row === dragged) return false;
+      const bounds = row.getBoundingClientRect();
+      return event.clientY < bounds.top + bounds.height / 2;
+    });
   };
 
   groups.addEventListener('dragstart', function (event) {
@@ -367,6 +377,8 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     clearDropTargets();
     group.classList.add('drop-over');
+    const before = insertionRow(event, group);
+    if (before) before.classList.add('drop-before');
   });
 
   groups.addEventListener('drop', function (event) {
@@ -377,12 +389,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Show the job in its new place at once, marked as saving, so the drop is seen
     // to have worked while the server catches up. The list then replaces it.
     const row = dragged;
+    const before = insertionRow(event, group);
+    const previous = Array.from(group.querySelectorAll('.notepad-job')).filter(function (other) { return other !== row; }).pop();
+    const dueDate = before ? before.dataset.dueDate : previous ? previous.dataset.dueDate : null;
     const hint = group.querySelector('.notepad-drop-hint');
     if (hint) hint.remove();
-    group.appendChild(row);
+    if (before) before.before(row);
+    else if (previous) previous.after(row);
+    else group.appendChild(row);
+    clearDropTargets();
     markSaving(row);
 
-    patchJob(row.dataset.url, {due_date: group.dataset.drop === 'none' ? '' : group.dataset.drop}).catch(reload);
+    patchJob(row.dataset.url, {due_date: dueDate === undefined || dueDate === null ? (group.dataset.drop === 'none' ? '' : group.dataset.drop) : dueDate}, before ? before.dataset.id : '').catch(reload);
   });
 
   // ---- Linking a job: typing @ and a crop name offers your plantings and seeds

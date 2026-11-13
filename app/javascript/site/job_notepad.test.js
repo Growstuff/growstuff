@@ -80,6 +80,55 @@ const dragEvent = (type) => {
 
 let fetchMock;
 
+describe('ordering jobs within a day', () => {
+  const prepare = async (clientY) => {
+    fetchMock.mockReturnValue(new Promise(() => {}));
+    const group = document.querySelector('.notepad-group');
+    group.insertAdjacentHTML('beforeend', row(3, 'Sow'));
+    const rows = group.querySelectorAll('.notepad-job');
+    rows.forEach((el) => { el.dataset.dueDate = '2026-10-23'; });
+    rows[0].getBoundingClientRect = () => ({top: 0, height: 50});
+    rows[1].getBoundingClientRect = () => ({top: 50, height: 50});
+    await start();
+    rows[1].dispatchEvent(dragEvent('dragstart'));
+    const drop = dragEvent('drop');
+    drop.clientY = clientY;
+    group.dispatchEvent(drop);
+    await flush();
+    return group;
+  };
+
+  it('sends the row to insert before', async () => {
+    await prepare(10);
+    expect(fetchMock.mock.calls[0][1].body.get('before_id')).toBe('1');
+  });
+
+  it('shows the chosen order while saving', async () => {
+    const group = await prepare(10);
+    expect(Array.from(group.querySelectorAll('.notepad-job')).map((el) => el.dataset.id)).toEqual(['3', '1']);
+  });
+
+  it('sends an empty target when dropping after the last row', async () => {
+    await prepare(100);
+    expect(fetchMock.mock.calls[0][1].body.get('before_id')).toBe('');
+  });
+
+  it('uses the target row’s day in a group spanning several days', async () => {
+    fetchMock.mockReturnValue(new Promise(() => {}));
+    const group = document.querySelector('.notepad-group');
+    const target = group.querySelector('.notepad-job');
+    target.dataset.dueDate = '2026-10-24';
+    target.getBoundingClientRect = () => ({top: 50, height: 50});
+    await start();
+    document.querySelector('[data-id="2"]').dispatchEvent(dragEvent('dragstart'));
+    const drop = dragEvent('drop');
+    drop.clientY = 40;
+    target.dispatchEvent(drop);
+    await flush();
+    expect(fetchMock.mock.calls[0][1].body.get('job[due_date]')).toBe('2026-10-24');
+  });
+});
+
 beforeEach(() => {
   document.body.innerHTML = page();
   fetchMock = vi.fn();
@@ -707,4 +756,3 @@ describe('@ suggestions', () => {
     });
   });
 });
-
