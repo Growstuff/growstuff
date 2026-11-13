@@ -73,6 +73,6 @@ function showMap(placesmap) {
       return crop_data;
     });
   }
-  fetchCropsForMap('/api/v1/plantings.json?filter[finished]=false&sort=-planted-at&page[size]=100');
+  fetchCropsForMap('/api/v1/plantings.json?filter[finished]=false&filter[failed]=false&sort=-planted-at&page[size]=100');
   placesmap.addLayer(markers);
 }

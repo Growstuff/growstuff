@@ -25,10 +25,10 @@ describe('places map planting requests', () => {
     document.body.innerHTML = '';
   });
 
-  it('requests 100 active plantings on the first page', async () => {
+  it('requests 100 unfinished, non-failed plantings on the first page', async () => {
     await import('./places');
     const url = getJSON.mock.calls.find(([url]) => url.includes('/api/v1/plantings'))[0];
-    expect(url).toBe('/api/v1/plantings.json?filter[finished]=false&sort=-planted-at&page[size]=100');
+    expect(url).toBe('/api/v1/plantings.json?filter[finished]=false&filter[failed]=false&sort=-planted-at&page[size]=100');
   });
 
   describe('when more pages are available', () => {
