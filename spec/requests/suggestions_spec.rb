@@ -228,7 +228,7 @@ describe 'Crop suggestions' do
 
           it 'names the season in the headings' do
             get suggestions_season_path('winter')
-            expect(groups.find { |group| group['key'] == 'optimal' }['heading']).to eq 'Grows best in winter in Wellington'
+            expect(groups.find { |group| group['key'] == 'optimal' }['heading']).to eq 'Grows well in winter in Wellington'
           end
 
           it 'lists what gardeners nearby plant in the season' do
