@@ -37,3 +37,8 @@ Follow the layout advice at https://www.betterspecs.org/:
 Avoid tests simply for the sake of tests - for example, if a feature test broadly covers an area a view test for a partial may simply increase maintenance and build fragility. If a view or component has significant complexity or branching logic, prefer test coverage of helpers and moving as much of the complexity there.
 
 When adding new coverage, ensure it is executed to validate it. Check carefully for common causes of flaky test behaviour - timezones, factory content that differs due to randomness, etc.
+
+## Unused code
+
+When refactoring, run `leftovers` to detect code that may no longer be used.
+Check carefully if the code used by an external gem, metaprogramming/dynamic methods/etc. If so, document why in a leftovers.yml configuration, so the reviewer can see why.
