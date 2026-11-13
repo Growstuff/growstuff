@@ -32,6 +32,12 @@
 .season-item--autumn { border-left-color: $yellow; }
 .season-item--winter { border-left-color: $blue; }
 
+// The icon of each season, in the colour of its row's edge.
+.season-item--spring .season-icon { color: $green; }
+.season-item--summer .season-icon { color: $orange; }
+.season-item--autumn .season-icon { color: $yellow; }
+.season-item--winter .season-icon { color: $blue; }
+
 // The season it is now: a tint over its row.
 .season-item--current .accordion-button {
   background: rgba($green, 0.1);
@@ -47,7 +53,7 @@
 
 .season-summary-name {
   font-size: 1.25rem;
-  min-width: 9rem;
+  min-width: 10.5rem;
 }
 
 .season-summary-months {

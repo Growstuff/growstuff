@@ -20,7 +20,7 @@
 - else
   - if params[:lat].present?
     .alert.alert-warning= t('.no_weather')
-  = react_component('UseMyLocation', url: suggestions_path, labels: { button: t('.use_my_location'), finding: t('.finding'), failed: t('.location_failed'), unsupported: t('.location_unsupported') })
+  = react_component('UseMyLocation', url: suggestions_path, labels: { button: t('.use_my_location'), finding: t('.finding'), waiting: t('.waiting'), failed: t('.location_failed'), unsupported: t('.location_unsupported') })
 
 .card.border-success.border-3.my-5.suggestions-signup
   .card-body.p-4.p-md-5
