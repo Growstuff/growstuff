@@ -9,8 +9,9 @@ import SuggestedCropCard from './SuggestedCropCard';
 //
 // seasons: each as { name, title, current, hasData, months, mean, figures: [{label, value}], url } with its text ready.
 // initial: { season name => its crops, as the season's url answers }. open: the name of the season open first.
-// enabled: whether crops are suggested at all. urls and labels are the addresses and words, from the server.
-export default function SeasonSuggestions({seasons, open: firstOpen, initial = {}, enabled, urls, labels}) {
+// enabled: whether crops are suggested at all. guest: a visitor who isn't signed in, whose cards leave out the buttons that need an account.
+// urls and labels are the addresses and words, from the server.
+export default function SeasonSuggestions({seasons, open: firstOpen, initial = {}, enabled, guest = false, urls, labels}) {
   const [open, setOpen] = useState(firstOpen);
   const [crops, setCrops] = useState(initial);
   const [status, setStatus] = useState({}); // season name => 'loading' or 'failed'
@@ -64,6 +65,7 @@ export default function SeasonSuggestions({seasons, open: firstOpen, initial = {
             status={status[season.name]}
             onRetry={() => load(season)}
             onPlanned={(cropId) => markPlanned(season.name, cropId)}
+            guest={guest}
             urls={urls}
             labels={labels}
           />
@@ -120,7 +122,7 @@ function Season({season, expanded, onToggle, labels, children}) {
   );
 }
 
-function Crops({season, enabled, data, status, onRetry, onPlanned, urls, labels}) {
+function Crops({season, enabled, guest, data, status, onRetry, onPlanned, urls, labels}) {
   if (!season.hasData) return <p className="text-muted">{labels.noData}</p>;
   if (!enabled) return <p className="text-muted">{labels.off}</p>;
   if (status === 'failed') {
@@ -134,7 +136,7 @@ function Crops({season, enabled, data, status, onRetry, onPlanned, urls, labels}
   if (!data) {
     return (
       <div className="season-loading" role="status">
-        <span className="spinner-border text-success" aria-hidden="true" />
+        {guest ? <i className="fas fa-globe fa-spin text-success" aria-hidden="true" /> : <span className="spinner-border text-success" aria-hidden="true" />}
         <span>{labels.loading}</span>
       </div>
     );
@@ -145,7 +147,7 @@ function Crops({season, enabled, data, status, onRetry, onPlanned, urls, labels}
       {group.crops.length ? (
         <div className="home-crops">
           {group.crops.map((crop) => (
-            <SuggestedCropCard key={crop.id} crop={crop} season={season.name} urls={urls} labels={labels} onPlanned={onPlanned} />
+            <SuggestedCropCard key={crop.id} crop={crop} season={season.name} guest={guest} urls={urls} labels={labels} onPlanned={onPlanned} />
           ))}
         </div>
       ) : (

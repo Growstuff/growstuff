@@ -280,9 +280,60 @@ describe 'Crop suggestions' do
   end
 
   context 'when signed out' do
-    it 'does not show the page' do
-      get suggestions_path
-      expect(response).to redirect_to new_member_session_path
+    before { get suggestions_path }
+
+    it 'shows the introduction' do
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'offers sign up' do
+      expect(Capybara.string(response.body)).to have_link(href: new_member_registration_path)
+    end
+
+    it 'has no seasons without a position' do
+      get suggestions_season_path('winter', format: :json)
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'offers the browser location button' do
+      expect(Capybara.string(response.body)).to have_css('[data-react-component="UseMyLocation"]', visible: :all)
+    end
+
+    context 'with a position near weather we hold' do
+      before do
+        allow(PlaceSuggester).to receive(:reverse).and_return([{ name: 'Wellington, New Zealand' }])
+        (1..12).each { |month| create(:climate_month, month:, temp_mean_c: 14.0) }
+        get suggestions_path(lat: -41.3, lng: 174.8)
+      end
+
+      it 'shows the seasons' do
+        expect(Capybara.string(response.body)).to have_css('[data-react-component="SeasonSuggestions"]', visible: :all)
+      end
+
+      it 'says which location is shown' do
+        expect(response.body).to include('Wellington, New Zealand')
+      end
+
+      it 'does not invite them to sign up for closer weather' do
+        expect(Capybara.string(response.body)).not_to have_css('.alert-info')
+      end
+
+      it 'hides the buttons that need an account' do
+        expect(JSON.parse(Capybara.string(response.body).find('[data-react-component="SeasonSuggestions"]', visible: :all)['data-props']))
+          .to include('guest' => true)
+      end
+    end
+
+    context 'with a position far from weather we hold' do
+      before do
+        allow(PlaceSuggester).to receive(:reverse).and_return([])
+        create(:climate_month)
+        get suggestions_path(lat: 51.5, lng: 0.1)
+      end
+
+      it 'invites them to sign up for closer weather' do
+        expect(Capybara.string(response.body)).to have_css('.alert-info a[href="/members/sign_up"]')
+      end
     end
   end
 end

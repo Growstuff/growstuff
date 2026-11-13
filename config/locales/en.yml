@@ -4844,7 +4844,7 @@ en:
       best_range: Best at %{low}–%{high}°
       choose: Open a season to see the crops that suit it.
       collecting_html: We don't currently have any climate data for %{place}. We'll fetch it soon.
-      days: Days reach
+      days: Hottest day on record
       degrees: "%{value}°"
       duration:
         one: 1 day
@@ -4859,7 +4859,7 @@ en:
       loading: Loading crops…
       millimetres: "%{value} mm"
       months: "%{first} to %{last}"
-      nights: Nights fall to
+      nights: Coldest night on record
       no_crops: Nothing we know of.
       no_data: We don't have weather for this season yet.
       now: Now
@@ -4878,6 +4878,30 @@ en:
     index:
       not_located: Tell us where you garden and we can suggest what to sow.
       title: What to grow near you
+    introduction:
+      climate: Tell us where your garden is and we'll show you the climate there through the year, season by season, including the rain, the warm days and the cold nights.
+      crops: For each season we'll suggest the crops to plant, based on what each plant prefers and what gardeners near you are already planting.
+      far_html: That's the closest weather we have to you, so it may differ from your garden. %{sign_up} and tell us where you garden, and we'll include weather for your exact location.
+      features:
+        closer_weather: Weather fetched for your own garden, not just the nearest place we hold
+        following: See what the people you follow are growing
+        garden_climate: Crop suggestions for the climate in your own garden, season by season
+        not_for_me: Hide the crops that aren't for you
+        planned_jobs: Add suggested crops to your planned jobs
+        record: Keep a record of what you've planted and grown
+      finding: Finding your location…
+      location_failed: We couldn't get your location. Check that your browser is allowed to share it, and try again.
+      location_unsupported: Your browser can't share its location.
+      no_weather: We don't hold any weather data yet.
+      retrieving: Retrieving data for %{place}…
+      showing: "Showing the weather for %{place}, about %{distance} km from you, from the last %{years} years."
+      sign_in: Sign in
+      sign_up: Sign up for free
+      signup_heading: Sign up and get suggestions for your own garden
+      summary: Get suggestions on what to plant, based on the climate in your garden and what each plant prefers, season by season.
+      title: What to grow near you
+      unnamed_place: the nearest area we hold weather for
+      use_my_location: Use my location
     update:
       disabled: We've stopped suggesting crops.
       enabled: Crop suggestions are back.
