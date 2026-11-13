@@ -1,5 +1,8 @@
 %a{ name: 'posts' }
-%h2= t('.title', crop: crop.name.pluralize)
+.section-header
+  %h2= t('.title', crop: crop.name.pluralize)
+  - if can? :create, Post
+    = link_to t('.post'), new_post_path(crop_id: crop.slug), class: 'btn btn-sm section-add'
 
 - if @posts.empty?
   %p.text-muted= t('.empty', crop: crop.name.pluralize)
@@ -13,14 +16,8 @@
 - else
   = will_paginate @posts
 
-  .index-cards
+  .crop-post-list
     - @posts.each do |post|
-      .card.card-double= render 'posts/preview', post: post
+      = render 'crops/post', post: post
 
   = will_paginate @posts
-
--# The action sits at the foot of the section, on the right, whether or not
--# anyone has posted yet.
-- if can? :create, Post
-  .section-footer
-    = link_to t('.post'), new_post_path(crop_id: crop.slug), class: 'btn btn-outline-secondary btn-sm'
