@@ -256,6 +256,12 @@ en:
       bulk_ban:
         banned: Selected members have been banned.
         none_selected: No members were selected.
+    index:
+      garden_types: Garden Types
+    roles:
+      index:
+        delete: Delete
+        edit: Edit
   alternate_names:
     created: Alternate name was successfully created.
     deleted: Alternate name was successfully deleted.
@@ -312,31 +318,24 @@ en:
   buttons:
     add: Add
     add_photo: Add photo
-    add_seed_to_stash: Add %{crop_name} seeds to stash
     copy: Copy
     delete: Delete
     edit: Edit
-    harvest: Harvest
-    harvest_crop: Harvest %{crop_name}
     like: Like
-    make_nursery: Use as my nursery
     mark_as_active: Mark as active
     mark_as_failed: Mark as failed
     mark_as_finished: Mark as finished
     mark_as_inactive: Mark as inactive
-    my_gardens: My Gardens
     new_harvest: New harvest
     new_job: Add a job
     new_planting: New planting
     new_post: Write new post
     new_seeds: New saved seed
     plant: Plant
-    plant_crop: Plant %{crop_name}
     plant_something_here: Plant something here
     record_harvest: Record harvest
     save_seeds: Save seeds
     stop_nursery: Stop using as my nursery
-    timeline: Timeline
     total_likes: Total likes
     transplant: Transplant
     unlike: Remove like
@@ -716,6 +715,9 @@ en:
       language: Language
       name: Name
       save: Save
+    alternate_names:
+      delete: Delete
+      edit: Edit
     approval_status_message:
       pending_title: This crop is currently pending approval.
       rejected_message: 'This crop was rejected for the following reason: %{reason}'
@@ -1355,11 +1357,6 @@ en:
     nursery_made: This garden is now your nursery.
     nursery_name: Nursery
     nursery_stopped: This garden is no longer your nursery.
-    overview:
-      gardensactions: gardens/actions
-      gardensphoto: gardens/photo
-      no_plantings: no plantings
-      plantingsthumbnail: plantings/thumbnail
     owner_gardens:
       growing_count: "%{count} growing"
       heading: "%{owner}'s gardens"
@@ -1396,7 +1393,6 @@ en:
       already_member: Already a member?
       heading: Start your own garden
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
-    string: "%{owner}'s %{garden}"
     updated: Garden was successfully updated.
     wikidata_not_found: Could not find Wikidata information for this location.
     wikidata_updated: Wikidata information updated.
@@ -1463,7 +1459,6 @@ en:
       harvested: harvested
       picked_at: picked %{date}
       title: "%{crop} harvest"
-    created: Harvest was successfully created.
     edit_modal:
       harvested_at: When did you harvest it?
       notes: Notes
@@ -1999,10 +1994,7 @@ en:
       the_crop: the crop
   label:
     data: 'The data on this page is available in the following formats:'
-    days_until_finished: "%{number} days"
-    days_until_harvest: "%{number} days"
     harvesting_now: harvesting now
-    weeks_until_finished: "%{number} weeks"
     weeks_until_harvest: "%{number} weeks until harvest"
   devise_views:
     resend_confirmation: Resend confirmation instructions
@@ -2096,6 +2088,7 @@ en:
     generate_token: Generate API Token
   layouts:
     application:
+      skip: Skip navigation menu
       breadcrumbs: Breadcrumb
       home: Home
     head:
@@ -2155,7 +2148,6 @@ en:
     menu:
       label: Menu
       about: About
-      activities: Activities
       add: Add
       add_button: "+ Add"
       admin: Admin
@@ -2176,6 +2168,7 @@ en:
       help_and_community: Help and community
       how_it_works: How Growstuff works
       inbox: Inbox
+      jobs: Jobs
       my_garden: My garden
       my_harvests: My harvests
       my_jobs: My jobs
@@ -2202,8 +2195,6 @@ en:
       description: "%{site_name} helps you track what you're harvesting from your home garden and see how productive it is."
       my_drafts: My drafts
       suggest_something: Suggest something
-  links:
-    my_gardens: My gardens
   member_dismissals:
     create:
       dismissed: We won't suggest %{name} again.
@@ -2338,7 +2329,6 @@ en:
     followed: Followed %{name}
     invalid_location: Please enter a valid location
     mastodon_instance_invalid: We couldn't connect to that Mastodon server. Check the address, which looks like you@mastodon.social, and try again.
-    mastodon_needs_account: We don't know that Mastodon account yet. Join Growstuff or sign in, then connect Mastodon from your account settings.
     location_cleared: Location removed.
     location_unplaced_html: We can't find "%{location}" on the map. <a href="%{link}">Choose your location from the list</a> so we can show you what's growing near you.
     revert_error: 'Could not revert to version from %{date}. Errors: %{errors}'
@@ -3738,7 +3728,6 @@ en:
       planting: "%{planting}"
       seed: "%{seed}"
       taken: Taken %{date}
-      thing_by: A %{thing} by %{owner}
     shows:
       crop:
         about: Curious how to grow it? See when to plant, who else grows it near you, and what they harvest.
@@ -3764,7 +3753,6 @@ en:
         go: See this harvest
         kind: Harvest
         picked: Picked %{date}
-        title: "%{crop} harvest"
       heading: What this photo shows
       intro: Follow the photo back to the garden record it came from.
       job:
@@ -3792,7 +3780,6 @@ en:
         seeds:
           one: "%{count} seed"
           other: "%{count} seeds"
-        title: "%{crop} seeds"
   places:
     index:
       title: "%{site_name} Community Map"
@@ -3853,7 +3840,6 @@ en:
       days_until_harvest: days until harvest
       harvesting_now: harvesting now
       late_finishing: late finishing
-      sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super late
     card:
       planted_by_in_html: Planted by %{owner} in %{garden}
@@ -3922,83 +3908,6 @@ en:
       finish_helper: 'A planting is finished when you''ve harvested all of the crop, or it dies, or it''s otherwise no longer growing in your garden.
 
         '
-    frost:
-      cards:
-        free:
-          label: Frost-free season
-          note: in a typical year
-        in_danger:
-          label: Frost danger it grew through
-          note: from planting to the latest it has come, %{latest}
-        last:
-          label: Usual last frost
-          note: has come as late as %{latest}
-          planted_after: planted %{days} after it
-          planted_before: planted %{days} before it
-        margin:
-          label: Margin above frost
-          note: coldest night was %{coldest} °C; the frost line is %{threshold} °C
-        next:
-          label: Next frost danger starts
-          note_finished: as early as %{earliest}, %{days} after this planting finished
-          note_finishes: as early as %{earliest}, %{days} after this planting finishes
-          note_now: as early as %{earliest}, %{days} from now
-      days:
-        one: "%{count} day"
-        other: "%{count} days"
-      degrees: "%{degrees} °C"
-      nights_so_far:
-        one: One night so far was at or below %{threshold} °C, the coldest %{coldest} °C.
-        other: "%{count} nights so far were at or below %{threshold} °C, the coldest %{coldest} °C."
-      planted:
-        after: The planting went in on %{planted}, %{days} after the usual last frost (%{usual_end}).
-        before: The planting went in on %{planted}, %{days} before the usual last frost (%{usual_end}).
-      timeline:
-        annotation_after: Planted %{days} after the usual last frost
-        annotation_before: Planted %{days} before the usual last frost
-        description: Timeline from %{from} to %{to}. Usual frost danger runs %{usual_start} to %{usual_end}. Frost has come as early as %{earliest} and as late as %{latest}. The planting runs from %{planted} to %{ends}.
-        finish_expected: Finish expected %{date}
-        finished: Finished %{date}
-        legend:
-          finished: Planting, finished
-          possible: 'Possible: as early or late as it has come'
-          so_far: Planting so far
-          still_to_come: Planting still to come
-          usual: Usual frost danger
-        planted: Planted %{date}
-        row_danger: Frost danger
-        row_planting: This planting
-        title: This planting against the frost season
-        today: Today, %{date}
-        usual: "%{from} – %{to}"
-        usual_open: "%{from} →"
-      title: Frost
-      verdicts:
-        before_season:
-          body: The usual first frost is %{usual_start}, in %{days}. It has come as early as %{earliest}.
-          title: Frost danger starts soon
-          title_far: No frost danger yet
-        finished_clear:
-          body: Frost was possible until %{latest}, and no night in that time was colder than %{coldest} °C.
-          body_no_readings: Frost was possible until %{latest}. We have no night temperatures for this planting.
-          title: No frost reached this planting
-        finished_hit:
-          body:
-            one: One night while frost was possible was at or below %{threshold} °C. The coldest was %{coldest} °C.
-            other: "%{count} nights while frost was possible were at or below %{threshold} °C. The coldest was %{coldest} °C."
-          title: Frost may have reached this planting
-        in_season:
-          body: The usual last frost is %{usual_end}, in %{days}. It has come as late as %{latest}.
-          title: In the usual frost danger
-        late_possible:
-          body: It has come as late as %{latest}, %{days} from now. Keep an eye on the forecast.
-          title: Past the usual last frost, but it can still come
-        passed:
-          body: The latest a frost has come in past years is %{latest}, %{days} ago.
-          title: Frost danger has passed for this planting
-        rare:
-          body: Frost is rare in this area, so we show no frost dates.
-          title: Frost is rare here
     garden_card:
       by: by
     hardiness:
@@ -4025,7 +3934,6 @@ en:
         crop_plantings: Everyone's %{crop} plantings
         default: Everyone's plantings
         owner_plantings: "%{owner}'s plantings"
-      view_owners_profile: View %{owner}'s profile >>
     modal:
       add_new_garden: Add a new garden
       add_to_my_garden: Add to my garden
@@ -4141,21 +4049,15 @@ en:
       harvests: Harvests
       heading: "%{crop} planting"
       jobs: Jobs
-      jobs_current: Planned
       jobs_finished: Finished
       meta_description: "%{crop} planted by %{owner} in %{garden}."
       more_photos: More photos
       neighbours: World neighbours
       neighbours_explanation: Other %{crop} plantings at the same latitude.
       no_harvests: No harvests recorded yet.
-      no_harvests_prompt: 'Record your harvests here to improve crop predictions, and you''ll be able to compare with your garden next season.
-
-        '
       no_jobs: Nothing is planned here.
       no_photos: No photos yet.
-      no_photos_prompt: Photos come from your Flickr account. Add one to track how this planting grows.
       no_seeds: No seeds saved yet.
-      no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
       notes: Notes
       photos: Photos
       seeds_saved: Seeds saved

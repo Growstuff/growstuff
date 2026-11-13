@@ -192,36 +192,28 @@ zh:
   buttons:
     add: 添加
     add_photo: 添加照片
-    add_seed_to_stash: 将 %{crop_name} 种子添加到储藏室
     copy: 复制
     delete: 删除
     edit: 编辑
-    harvest: 收成
-    harvest_crop: 收获 %{crop_name}
     like: 喜欢
-    make_nursery: 用作我的托儿所
     mark_as_active: 标记为活动状态
     mark_as_failed: 标记为失败
     mark_as_finished: 标记为已完成
     mark_as_inactive: 标记为非活动状态
-    my_gardens: 我的花园
     new_harvest: 新收获
     new_job: 添加职位
     new_planting: 新种植
     new_post: 写新帖子
     new_seeds: 新保存的种子
     plant: 植物
-    plant_crop: 植物 %{crop_name}
     plant_something_here: 在这里种点东西
     record_harvest: 创纪录的收获
     save_seeds: 保存种子
     stop_nursery: 别再用我的托儿所了
-    timeline: 时间轴
     total_likes: 总喜欢数
     transplant: 移植
     unlike: 删除喜欢
     view: 看法
-    write_blog_post: 写博客文章
   comments:
     comments:
       empty: 暂无评论
@@ -536,7 +528,6 @@ zh:
       track_harvests: 记录您的 %{crop} 收获
       view_all: 查看所有 %{crop} 收获
     index:
-      subtitle: "%{crops_size} 总计"
       title: 浏览农作物
       meta_description: 浏览和搜索作物。
       wrangle: 管理作物
@@ -998,13 +989,6 @@ zh:
       drag_plants: 在地图上拖动植物，看看哪些植物适合哪里。
       edit_layout: 编辑布局
       edit_layout_label: 编辑床的布局
-      heading: 布局
-      map_out: 绘制这张床的地图
-      map_out_text: 将你的植物拖到床上的图片上，看看什么适合哪里。
-      new: 新的
-      plants_placed:
-        one: "%{count} 植物放置在床上"
-        other: "%{count} 植物放置在床上"
       view_layout: 查看布局
       view_layout_label: 查看床位布局
       where_each: 花园里每种植物生长的地方，都在床的地图上。
@@ -1013,16 +997,10 @@ zh:
       heading: 地点
       not_set: 未设置
       remove: 删除
-    string: "%{owner} 的 %{garden}"
     nursery_declined: 好吧，我们不会再问托儿所的事了。您可以稍后从您的花园页面进行设置。
     nursery_made: 这个花园现在是你的苗圃。
     nursery_name: 苗圃
     nursery_stopped: 这个花园不再是你的苗圃。
-    overview:
-      gardensactions: 花园/活动
-      gardensphoto: 花园/照片
-      no_plantings: 没有种植
-      plantingsthumbnail: 种植/缩略图
     owner_gardens:
       growing_count: "%{count} 成长"
       heading: "%{owner} 的花园"
@@ -1123,7 +1101,6 @@ zh:
       harvested: 已收获
       picked_at: 采摘于 %{date}
       title: "%{crop}收获"
-    created: 收获成功创建。
     edit_modal:
       harvested_at: 你什么时候收获的？
       notes: 笔记
@@ -1389,7 +1366,6 @@ zh:
       plantings:
         one: 种植
         other: 种植
-    updated: 种子已成功更新。
     why_join:
       neighbours:
         body: 在附近寻找种子，看看当地园丁现在正在种植和收获什么。
@@ -1639,10 +1615,7 @@ zh:
       the_crop: 作物
   label:
     data: 此页面上的数据有以下格式：
-    days_until_finished: "%{number} 天"
-    days_until_harvest: "%{number} 天"
     harvesting_now: 现在收获
-    weeks_until_finished: "%{number}周"
     weeks_until_harvest: "%{number} 收获前几周"
   devise_views:
     resend_confirmation: 重新发送确认邮件
@@ -1795,7 +1768,6 @@ zh:
     menu:
       label: 菜单
       about: 关于
-      activities: 活动
       add: 添加
       add_button: "+ 添加"
       admin: 行政
@@ -1842,8 +1814,6 @@ zh:
       description: "%{site_name}帮助您记录家庭菜园的收获，了解菜园的产量。"
       my_drafts: 我的草稿
       suggest_something: 建议一些东西
-  links:
-    my_gardens: 我的花园
   member_dismissals:
     create:
       dismissed: 我们不会再建议 %{name}。
@@ -2587,7 +2557,6 @@ zh:
       harvest: "%{crop} %{owner} 收获"
       planting: "%{planting}"
       seed: "%{seed}"
-      thing_by: "%{owner} 的 %{thing}"
   places:
     index:
       title: "%{site_name} 社区地图"
@@ -2647,7 +2616,6 @@ zh:
       days_until_harvest: 距收获天数
       harvesting_now: 现在收获
       late_finishing: 后期整理
-      sharedbuttonsfinish_planting: 共享/按钮/finish_planting
       super_late: 超级晚了
     card:
       planted_by_in_html: 由 %{owner} 种植在 %{garden} 中
@@ -2730,7 +2698,6 @@ zh:
         crop_plantings: 大家的%{crop}种植
         default: 大家的种植
         owner_plantings: "%{owner} 的种植"
-      view_owners_profile: 查看%{owner}的个人资料>>
     modal:
       add_new_garden: 添加新花园
       add_to_my_garden: 添加到我的花园
@@ -2738,8 +2705,6 @@ zh:
       title: 将 %{crop} 添加到您的花园
       which_garden: 要放进哪个花园？
     plant_something: 种点东西
-    progress:
-      progress_0_not_planted_yet: 进度：0% - 尚未种植
     show:
       cultivate: 翻耕土壤
       cultivate_prompt: 这是这块种植床最近的最后一次种植。您想近期翻耕土壤吗？
@@ -2749,7 +2714,6 @@ zh:
       plantings: 种植记录
       add: 添加
       crop: 庄稼
-      grower: 种植者
       harvest_month_yes: "%{month}，通常收获"
       harvest_months: 收获月
       harvest_months_legend: 突出显示的月份是通常在这里收获这种作物的月份。
@@ -2757,19 +2721,15 @@ zh:
       harvests: 收获
       heading: "%{crop} 种植"
       jobs: 工作机会
-      jobs_current: 计划
       jobs_finished: 完成的
       meta_description: "%{crop} 由 %{owner} 种植在 %{garden} 中。"
       more_photos: 更多照片
       neighbours: 世界邻居
       neighbours_explanation: 同纬度的其他 %{crop} 种植。
       no_harvests: 尚未记录收获。
-      no_harvests_prompt: 在这里记录您的收成以提高作物预测，并且您可以与下个季节的花园进行比较。
       no_jobs: 这里没有任何计划。
       no_photos: 还没有照片。
-      no_photos_prompt: 照片来自您的 Flickr 帐户。添加一个来跟踪这种植物的生长情况。
       no_seeds: 尚未保存种子。
-      no_seeds_prompt: 保存此种植的种子以在下个季节播种，或与其他成员进行交易。
       notes: 笔记
       photos: 照片
       seeds_saved: 已保存种子

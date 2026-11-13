@@ -192,36 +192,28 @@ fr:
   buttons:
     add: Ajouter
     add_photo: Ajouter une photo
-    add_seed_to_stash: Ajouter des graines %{crop_name} à stocker
     copy: Copier
     delete: Effacer
     edit: editer
-    harvest: Récolte
-    harvest_crop: Récolte %{crop_name}
     like: J'aime
-    make_nursery: Utiliser comme pépinière
     mark_as_active: Marquer comme actif ?
     mark_as_failed: Marque comme échoué
     mark_as_finished: Marquer comme terminé
     mark_as_inactive: Marquer comme inactif
-    my_gardens: Mes jardins
     new_harvest: Nouvelle Récolte!
     new_job: Ajouter un métier
     new_planting: plantation nouvelle
     new_post: Écrire nouvelle note
     new_seeds: Nouvelle graine enregistrée
     plant: Installation
-    plant_crop: Usine %{crop_name}
     plant_something_here: Plantez quelque chose ici
     record_harvest: récolte record
     save_seeds: Gérer les semences
     stop_nursery: Arrêtez de l'utiliser comme chambre d'enfant
-    timeline: Calendrier
     total_likes: Total de « J’aime »
     transplant: Plant repiqué
     unlike: Supprimer "j'aime"
     view: Afficher
-    write_blog_post: Ecrire un article de blog
   comments:
     comments:
       empty: Aucun commentaire pour le moment
@@ -536,7 +528,6 @@ fr:
       track_harvests: suivre vos récoltes de %{crop}
       view_all: Voir toutes les récoltes de %{crop}
     index:
-      subtitle: "%{crops_size} total"
       title: Parcourir les cultures
       meta_description: Parcourir et rechercher des cultures.
       wrangle: Gérer les cultures
@@ -1001,13 +992,6 @@ fr:
       drag_plants: Faites glisser les plantes autour de la carte pour voir ce qui convient où.
       edit_layout: Modifier la disposition
       edit_layout_label: Modification de la mise en page
-      heading: Structure
-      map_out: Planifiez ce lit
-      map_out_text: Faites glisser vos plantes sur une image du lit et voyez ce qui convient.
-      new: Nouveau
-      plants_placed:
-        one: Plante %{count} posée sur le lit
-        other: Plantes %{count} placées sur le lit
       view_layout: Voir la mise en forme
       view_layout_label: Voir la disposition du lit
       where_each: Où pousse chaque plante de ce jardin, sur une carte du lit.
@@ -1016,16 +1000,10 @@ fr:
       heading: Emplacement
       not_set: Non défini
       remove: Supprimer
-    string: "%{owner} %{garden}"
     nursery_declined: D'accord, nous ne poserons plus de questions sur une crèche. Vous pouvez en configurer un plus tard à partir de votre page Jardins.
     nursery_made: Ce jardin est maintenant votre pépinière.
     nursery_name: Pouponnière
     nursery_stopped: Ce jardin n'est plus votre pépinière.
-    overview:
-      gardensactions: jardins/actions
-      gardensphoto: jardins/photo
-      no_plantings: aucune plantation
-      plantingsthumbnail: plantations/vignette
     owner_gardens:
       growing_count: "%{count} Growing"
       heading: Jardins de %{owner}
@@ -1126,7 +1104,6 @@ fr:
       harvested: récolté
       picked_at: cueilli le %{date}
       title: Récolte de %{crop}
-    created: La récolte a été créée avec succès.
     edit_modal:
       harvested_at: Quand l'avez-vous récolté ?
       notes: Notes
@@ -1394,7 +1371,6 @@ fr:
       plantings:
         one: plantées
         other: Plantations
-    updated: Seed a été mis à jour avec succès.
     why_join:
       neighbours:
         body: Trouvez des graines à proximité et voyez ce que les jardiniers locaux plantent et récoltent maintenant.
@@ -1645,10 +1621,7 @@ fr:
       the_crop: la récolte
   label:
     data: 'Les données de cette page sont disponibles dans les formats suivants :'
-    days_until_finished: "%{number} jours"
-    days_until_harvest: "%{number} jours"
     harvesting_now: Récolte des olives
-    weeks_until_finished: "%{number} semaines"
     weeks_until_harvest: "%{number} semaines avant LA récolte"
   devise_views:
     resend_confirmation: Renvoyer les instructions de confirmation
@@ -1801,7 +1774,6 @@ fr:
     menu:
       label: Menu
       about: À propos
-      activities: Activités
       add: Ajouter
       add_button: "+ Ajouter"
       admin: Admin
@@ -1848,8 +1820,6 @@ fr:
       description: "%{site_name} vous aide à suivre les récoltes de votre potager et à évaluer sa productivité."
       my_drafts: Mes brouillons
       suggest_something: Faire une suggestion
-  links:
-    my_gardens: Mes jardins
   member_dismissals:
     create:
       dismissed: Nous ne suggérerons plus %{name}.
@@ -2597,7 +2567,6 @@ fr:
       harvest: "%{crop} récolte par %{owner}"
       planting: "%{planting}"
       seed: "%{seed}"
-      thing_by: A %{thing} par %{owner}
   places:
     index:
       title: Carte de la communauté %{site_name}
@@ -2658,7 +2627,6 @@ fr:
       days_until_harvest: jours jusqu'à la récolte
       harvesting_now: Récolte des olives
       late_finishing: finition tardive
-      sharedbuttonsfinish_planting: shared/buttons/finish_planting
       super_late: super tard
     card:
       planted_by_in_html: Planté par %{owner} à %{garden}
@@ -2741,7 +2709,6 @@ fr:
         crop_plantings: Les plantations %{crop} de chacun
         default: Les plantations de tout le monde
         owner_plantings: Les plantations de %{owner}
-      view_owners_profile: Voir le profil de %{owner} >>
     modal:
       add_new_garden: Ajouter un nouveau jardin
       add_to_my_garden: Ajouter à mon jardin
@@ -2749,8 +2716,6 @@ fr:
       title: Ajouter %{crop} à votre jardin
       which_garden: Dans quel jardin va-t-il ?
     plant_something: Planter quelque chose
-    progress:
-      progress_0_not_planted_yet: 'Progrès : 0 % - pas encore planté'
     show:
       cultivate: Travailler le sol
       cultivate_prompt: Il s’agissait de la dernière plantation récente dans cette plate-bande. Souhaitez-vous travailler le sol prochainement ?
@@ -2760,7 +2725,6 @@ fr:
       plantings: Plantations
       add: ajouter
       crop: Crop
-      grower: Cultivateur
       harvest_month_yes: "%{month}, habituellement la récolte"
       harvest_months: Mois de récolte
       harvest_months_legend: Les mois mis en évidence sont ceux où cette culture est généralement récoltée ici.
@@ -2768,19 +2732,15 @@ fr:
       harvests: Récolte
       heading: Plantation %{crop}
       jobs: Postes disponibles
-      jobs_current: Planifié
       jobs_finished: Clôturée
       meta_description: "%{crop} planté par %{owner} à %{garden}."
       more_photos: Plus de photos
       neighbours: Voisins du monde
       neighbours_explanation: Autres plantations %{crop} à la même latitude.
       no_harvests: Aucune récolte enregistrée pour le moment.
-      no_harvests_prompt: Enregistrez vos récoltes ici pour améliorer les prévisions de récolte, et vous pourrez comparer avec votre jardin la saison prochaine.
       no_jobs: Rien n'est prévu ici.
       no_photos: Pas encore de photo
-      no_photos_prompt: Les photos proviennent de votre compte Flickr. Ajoutez-en un pour suivre la croissance de cette plantation.
       no_seeds: Aucune graine sauvegardée pour le moment.
-      no_seeds_prompt: Conservez les graines de cette plantation pour les semer la saison prochaine ou pour les échanger avec d'autres membres.
       notes: Notes
       photos: Photos
       seeds_saved: Graines sauvegardées
