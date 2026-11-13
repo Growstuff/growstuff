@@ -175,4 +175,31 @@ describe('SeasonSuggestions', () => {
     await userEvent.click(screen.getByRole('button', {name: /Spring/}));
     expect(await screen.findByTitle('In your planned jobs')).toBeInTheDocument();
   });
+
+  describe('scrolling to an opened season', () => {
+    let scrollIntoView;
+
+    beforeEach(() => {
+      scrollIntoView = vi.fn();
+      window.HTMLElement.prototype.scrollIntoView = scrollIntoView;
+      getJson.mockResolvedValue({ok: true, data: payload('summer', [])});
+    });
+
+    it('does not scroll for the season open on load', () => {
+      renderIsland();
+      expect(scrollIntoView).not.toHaveBeenCalled();
+    });
+
+    it('scrolls to a season when it is opened', async () => {
+      renderIsland();
+      await userEvent.click(screen.getByRole('button', {name: /Summer/}));
+      expect(scrollIntoView).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not scroll when a season is closed', async () => {
+      renderIsland();
+      await userEvent.click(screen.getByRole('button', {name: /Spring/}));
+      expect(scrollIntoView).not.toHaveBeenCalled();
+    });
+  });
 });

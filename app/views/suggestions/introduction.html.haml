@@ -1,0 +1,35 @@
+- content_for :title, t('.title')
+- content_for :scripts do
+  = javascript_include_tag 'react_islands', defer: true
+
+%h1.mt-3= t('.title')
+%p.lead= t('.summary')
+%p= t('.climate')
+%p= t('.crops')
+
+- if @climate
+  - place = @nearest.place_name || t('.unnamed_place')
+  - distance = number_with_delimiter(@nearest.distance_km.round)
+  %p.fs-5.mb-2= t('.showing', place:, distance:, years: @climate.years)
+  - if @nearest.far?
+    .alert.alert-info= t('.far_html', sign_up: link_to(t('.sign_up'), new_member_registration_path, data: { auth_dialog: 'sign_up' }))
+  = react_component('SeasonSuggestions', season_island_props(climate: @climate, selected: @season, payload: @season_payload, enabled: true, nearest: @nearest)) do
+    .season-loading{ role: 'status' }
+      %i.fas.fa-globe.fa-spin.text-success{ 'aria-hidden': 'true' }
+      %span= t('.retrieving', place:)
+- else
+  - if params[:lat].present?
+    .alert.alert-warning= t('.no_weather')
+  = react_component('UseMyLocation', url: suggestions_path, labels: { button: t('.use_my_location'), finding: t('.finding'), waiting: t('.waiting'), failed: t('.location_failed'), denied: t('.location_denied'), unavailable: t('.location_unavailable'), timeout: t('.location_timeout'), unsupported: t('.location_unsupported') })
+
+.card.border-success.border-3.my-5.suggestions-signup
+  .card-body.p-4.p-md-5
+    %h2.display-5.fw-bold= t('.signup_heading')
+    %ul.list-unstyled.fs-5.my-4
+      - %i(garden_climate closer_weather harvest_predictions planned_jobs not_for_me following record).each do |feature|
+        %li.mb-2
+          = icon 'far', 'square-check', class: 'text-success me-2'
+          = t(".features.#{feature}")
+    .d-flex.flex-column.flex-sm-row.justify-content-end.align-items-sm-center.gap-3
+      = link_to t('.sign_in'), new_member_session_path, class: 'btn btn-outline-secondary btn-lg', data: { auth_dialog: 'sign_in' }
+      = link_to t('.sign_up'), new_member_registration_path, class: 'btn btn-success btn-lg px-5 py-3 fs-3 fw-bold', data: { auth_dialog: 'sign_up' }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {getJson} from '../api';
 import SuggestedCropCard from './SuggestedCropCard';
@@ -9,11 +9,25 @@ import SuggestedCropCard from './SuggestedCropCard';
 //
 // seasons: each as { name, title, current, hasData, months, mean, figures: [{label, value}], url } with its text ready.
 // initial: { season name => its crops, as the season's url answers }. open: the name of the season open first.
-// enabled: whether crops are suggested at all. urls and labels are the addresses and words, from the server.
-export default function SeasonSuggestions({seasons, open: firstOpen, initial = {}, enabled, urls, labels}) {
+// enabled: whether crops are suggested at all. guest: a visitor who isn't signed in, whose cards leave out the buttons that need an account.
+// urls and labels are the addresses and words, from the server.
+export default function SeasonSuggestions({seasons, open: firstOpen, initial = {}, enabled, guest = false, urls, labels}) {
   const [open, setOpen] = useState(firstOpen);
   const [crops, setCrops] = useState(initial);
   const [status, setStatus] = useState({}); // season name => 'loading' or 'failed'
+  const opened = useRef(false);
+
+  // A season the member opens is brought to the top of the window, as the one that was open above it closes and moves it down.
+  // The one open when the page loads stays where it is.
+  useEffect(() => {
+    if (!opened.current) {
+      opened.current = true;
+      return;
+    }
+    if (!open) return;
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    document.getElementById(`season-item-${open}`)?.scrollIntoView?.({behavior: reduced ? 'auto' : 'smooth', block: 'start'});
+  }, [open]);
 
   async function load(season) {
     setStatus((now) => ({...now, [season.name]: 'loading'}));
@@ -64,6 +78,7 @@ export default function SeasonSuggestions({seasons, open: firstOpen, initial = {
             status={status[season.name]}
             onRetry={() => load(season)}
             onPlanned={(cropId) => markPlanned(season.name, cropId)}
+            guest={guest}
             urls={urls}
             labels={labels}
           />
@@ -73,11 +88,14 @@ export default function SeasonSuggestions({seasons, open: firstOpen, initial = {
   );
 }
 
+// The icon that stands for each season, so they can be told apart at a glance.
+const SEASON_ICONS = {spring: 'fa-seedling', summer: 'fa-sun', autumn: 'fa-leaf', winter: 'fa-snowflake'};
+
 function Season({season, expanded, onToggle, labels, children}) {
   const panel = `season-${season.name}`;
   const classes = ['accordion-item', `season-item--${season.name}`, season.current && 'season-item--current'];
   return (
-    <div className={classes.filter(Boolean).join(' ')}>
+    <div id={`season-item-${season.name}`} className={classes.filter(Boolean).join(' ')}>
       <h3 className="accordion-header">
         <button
           type="button"
@@ -88,6 +106,7 @@ function Season({season, expanded, onToggle, labels, children}) {
         >
           <span className="season-summary">
             <span className="season-summary-name">
+              <i className={`fas ${SEASON_ICONS[season.name]} season-icon me-2`} aria-hidden="true" />
               {season.title}
               {season.current && <span className="badge text-bg-light align-middle ms-1">{labels.now}</span>}
               <small className="season-summary-months">{season.months}</small>
@@ -120,7 +139,7 @@ function Season({season, expanded, onToggle, labels, children}) {
   );
 }
 
-function Crops({season, enabled, data, status, onRetry, onPlanned, urls, labels}) {
+function Crops({season, enabled, guest, data, status, onRetry, onPlanned, urls, labels}) {
   if (!season.hasData) return <p className="text-muted">{labels.noData}</p>;
   if (!enabled) return <p className="text-muted">{labels.off}</p>;
   if (status === 'failed') {
@@ -134,7 +153,7 @@ function Crops({season, enabled, data, status, onRetry, onPlanned, urls, labels}
   if (!data) {
     return (
       <div className="season-loading" role="status">
-        <span className="spinner-border text-success" aria-hidden="true" />
+        {guest ? <i className="fas fa-globe fa-spin text-success" aria-hidden="true" /> : <span className="spinner-border text-success" aria-hidden="true" />}
         <span>{labels.loading}</span>
       </div>
     );
@@ -145,7 +164,7 @@ function Crops({season, enabled, data, status, onRetry, onPlanned, urls, labels}
       {group.crops.length ? (
         <div className="home-crops">
           {group.crops.map((crop) => (
-            <SuggestedCropCard key={crop.id} crop={crop} season={season.name} urls={urls} labels={labels} onPlanned={onPlanned} />
+            <SuggestedCropCard key={crop.id} crop={crop} season={season.name} guest={guest} urls={urls} labels={labels} onPlanned={onPlanned} />
           ))}
         </div>
       ) : (
