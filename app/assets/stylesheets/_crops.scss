@@ -69,6 +69,47 @@
   max-height: 300px;
 }
 
+.crop-post-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.crop-post {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 0;
+
+  & + & {
+    border-top: 1px solid var(--bs-border-color);
+  }
+}
+
+.crop-post-thumbnail {
+  flex: 0 0 auto;
+
+  img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: $card-radius;
+  }
+}
+
+.crop-post-content {
+  flex: 1 1 12rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.crop-post-action {
+  margin-left: auto;
+  align-self: flex-end;
+}
+
 @include media-breakpoint-down(sm) {
   .index-cards {
     .crop-thumbnail {
