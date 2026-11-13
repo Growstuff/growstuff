@@ -326,6 +326,11 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/retry/-/retry-0.4.3.tgz#c2b9d2e374ee62c586d3adbea87199b1d7a7a6ba"
   integrity sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==
 
+"@idotj/mastodon-embed-timeline@4.10.0":
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/@idotj/mastodon-embed-timeline/-/mastodon-embed-timeline-4.10.0.tgz#ed1f22a502da879fb5e85d9e1cf723204790624a"
+  integrity sha512-1dzfqC/PFLiM4vsnHs/f3OnF9gBB8ZG4ry0MbO3g3LAUZiegx5+AeYtcLUOJyNHO59C6/uTZUYQmi/UDSRFWPQ==
+
 "@jridgewell/resolve-uri@^3.1.0":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.1.2.tgz#7a0ee601f60f99a20c7c7c5ff0c80388c1189bd6"

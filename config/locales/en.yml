@@ -644,6 +644,16 @@ en:
       planted:
         one: "Planted %{count} time"
         other: "Planted %{count} times"
+    mastodon:
+      title: Around the Fediverse
+      description: "Recent public posts with #gardening and #%{hashtag}, via mastodon.social. Loading contacts Mastodon and external media hosts."
+      empty: No matching posts in the recent crop feed.
+      loading: Loading Mastodon posts
+      view: "Browse #%{hashtag} on Mastodon"
+      show_more: Show more
+      show_less: Show less
+      show_content: Show sensitive content
+      play_video: Load and play video
     posts:
       title: "What people are saying about %{crop}"
       empty: "Nobody has posted about %{crop} yet."

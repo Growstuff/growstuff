@@ -1,0 +1,7 @@
+- hashtag = crop.name.downcase.gsub(/[^\p{L}\p{N}_]/, '')
+- if hashtag.present?
+  %section
+    .section-header
+      %h2= t('.title')
+    - labels = { description: t('.description', hashtag: hashtag), feed: t('.title'), empty: t('.empty'), loading: t('.loading'), view: t('.view', hashtag: hashtag), showMore: t('.show_more'), showLess: t('.show_less'), showContent: t('.show_content'), playVideo: t('.play_video') }
+    = react_component 'MastodonPosts', { hashtag: hashtag, labels: labels }

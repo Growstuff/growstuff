@@ -123,6 +123,7 @@
             #cropmap.map
 
         %section.posts= render 'crops/posts', crop: @crop
+        = render 'crops/mastodon', crop: @crop
 
     .col-md-3
       = image_tag crop_image_path(@crop),

@@ -1,0 +1,13 @@
+- photo = post.default_photo || post.crops.first&.default_photo
+%article.crop-post
+  - if photo
+    = link_to post, class: 'crop-post-thumbnail', tabindex: -1, 'aria-hidden': 'true' do
+      = image_tag photo.thumbnail_url, alt: '', loading: 'lazy'
+  .crop-post-content
+    %h3.h5
+      = link_to post.subject.presence || t('posts.untitled'), post, lang: post.language.to_s
+    %p.small.text-muted.mb-2
+      = t('posts.preview.author_html', author: content_tag(:span, post.author, class: 'fw-bold'))
+    %p.post-body.mb-0{ lang: post.language.to_s }= post_excerpt(post)
+  .crop-post-action
+    = link_to t('posts.preview.read_more'), post, class: 'btn btn-outline-secondary btn-sm'
