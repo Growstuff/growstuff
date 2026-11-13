@@ -45,8 +45,7 @@ function showMap(placesmap) {
     });
   });
 
-  function fetchCropsForMap(url) {
-    var n = 0;
+  function fetchCropsForMap(url, page = 1) {
     $.getJSON(url, function(crop_data) {
       $.each(crop_data['data'], function(i, p) {
         if (p.attributes.latitude && p.attributes.longitude) {
@@ -67,13 +66,13 @@ function showMap(placesmap) {
           markers.addLayer(marker);
         }
       });
-      // We fetch pages of 10 at a time. Stop after 200 crops; so we are showing only 'active' plantings.
-      if (crop_data['links']['next'] && n++ < 20) {
-        fetchCropsForMap(crop_data['links']['next'])
+      // Fetch at most two pages of 100 active plantings.
+      if (crop_data['links']['next'] && page < 2) {
+        fetchCropsForMap(crop_data['links']['next'], page + 1);
       }
       return crop_data;
     });
   }
-  fetchCropsForMap('/api/v1/plantings.json?filter[finished]=false&sort=-planted-at');
+  fetchCropsForMap('/api/v1/plantings.json?filter[finished]=false&sort=-planted-at&page[size]=100');
   placesmap.addLayer(markers);
 }
