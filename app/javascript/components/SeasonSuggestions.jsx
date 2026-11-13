@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {getJson} from '../api';
 import SuggestedCropCard from './SuggestedCropCard';
@@ -15,6 +15,19 @@ export default function SeasonSuggestions({seasons, open: firstOpen, initial = {
   const [open, setOpen] = useState(firstOpen);
   const [crops, setCrops] = useState(initial);
   const [status, setStatus] = useState({}); // season name => 'loading' or 'failed'
+  const opened = useRef(false);
+
+  // A season the member opens is brought to the top of the window, as the one that was open above it closes and moves it down.
+  // The one open when the page loads stays where it is.
+  useEffect(() => {
+    if (!opened.current) {
+      opened.current = true;
+      return;
+    }
+    if (!open) return;
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    document.getElementById(`season-item-${open}`)?.scrollIntoView?.({behavior: reduced ? 'auto' : 'smooth', block: 'start'});
+  }, [open]);
 
   async function load(season) {
     setStatus((now) => ({...now, [season.name]: 'loading'}));
@@ -75,11 +88,14 @@ export default function SeasonSuggestions({seasons, open: firstOpen, initial = {
   );
 }
 
+// The icon that stands for each season, so they can be told apart at a glance.
+const SEASON_ICONS = {spring: 'fa-seedling', summer: 'fa-sun', autumn: 'fa-leaf', winter: 'fa-snowflake'};
+
 function Season({season, expanded, onToggle, labels, children}) {
   const panel = `season-${season.name}`;
   const classes = ['accordion-item', `season-item--${season.name}`, season.current && 'season-item--current'];
   return (
-    <div className={classes.filter(Boolean).join(' ')}>
+    <div id={`season-item-${season.name}`} className={classes.filter(Boolean).join(' ')}>
       <h3 className="accordion-header">
         <button
           type="button"
@@ -90,6 +106,7 @@ function Season({season, expanded, onToggle, labels, children}) {
         >
           <span className="season-summary">
             <span className="season-summary-name">
+              <i className={`fas ${SEASON_ICONS[season.name]} season-icon me-2`} aria-hidden="true" />
               {season.title}
               {season.current && <span className="badge text-bg-light align-middle ms-1">{labels.now}</span>}
               <small className="season-summary-months">{season.months}</small>
