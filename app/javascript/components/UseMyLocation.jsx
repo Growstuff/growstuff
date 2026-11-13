@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
 
 const WAITING_MS = 2500;
+// The browser's reasons for failing (GeolocationPositionError.code), and the label that says each.
+const FAILURES = {1: 'denied', 2: 'unavailable', 3: 'timeout'};
+// Long enough for someone to answer the browser's permission question; an answer from the last ten minutes will do.
+const OPTIONS = {timeout: 30000, maximumAge: 600000};
 
 // A button that asks the browser where the visitor is and reloads the page with it, so the server can show the nearest weather
 // we hold. The position is rounded to the weather grid and goes in the address, so nothing is stored. url is the page's address and
-// labels are the words, from the server: waiting is a list of light-hearted lines shown in turn while it works.
+// labels are the words, from the server: denied, unavailable and timeout say why it failed, and waiting is a list of light-hearted lines shown in turn while it works.
 export default function UseMyLocation({url, labels}) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
@@ -29,11 +33,11 @@ export default function UseMyLocation({url, labels}) {
         const params = new URLSearchParams({lat: coords.latitude.toFixed(2), lng: coords.longitude.toFixed(2)});
         window.location.assign(`${url}?${params}`);
       },
-      () => {
+      (error) => {
         setBusy(false);
-        setMessage(labels.failed);
+        setMessage(labels[FAILURES[error.code]] || labels.failed);
       },
-      {timeout: 10000}
+      OPTIONS
     );
   }
 

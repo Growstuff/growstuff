@@ -32,9 +32,14 @@ describe SeasonalCrops do
       expect(optimal).to include suitable
     end
 
-    it 'leaves out a crop whose cycle outlasts its best range' do
-      slow = crop_with(10, 20, gmin: 150)
+    it 'leaves out a crop whose cycle is on average hotter than its best range' do
+      slow = crop_with(10, 16, gmin: 150)
       expect(optimal).not_to include slow
+    end
+
+    it 'includes a crop that is out of its best range for some months of the cycle' do
+      uneven = crop_with(14, 20, gmin: 90)
+      expect(optimal).to include uneven
     end
 
     it 'counts a crop that is in range from a later start month' do
@@ -48,7 +53,7 @@ describe SeasonalCrops do
     end
 
     it 'leaves out a crop the nights would kill, whatever its best range' do
-      tender = crop_with(10, 20, gmin: 90, tmin: 6)
+      tender = crop_with(10, 20, gmin: 90, tmin: 12)
       expect(optimal).not_to include tender
     end
 
@@ -156,7 +161,7 @@ describe SeasonalCrops do
   end
 
   describe '.for' do
-    let(:spring) { SeasonalClimate::Season.new(name: :spring, months:, mean: 15, night: nil, day: nil, rain: nil, current: false) }
+    let(:spring) { SeasonalClimate::Season.new(name: :spring, months:, mean: 15, night: nil, night_usual: nil, day: nil, day_usual: nil, rain: nil, current: false) }
 
     before { allow(climate).to receive(:seasons).and_return([spring]) }
 

@@ -286,6 +286,10 @@ describe 'Crop suggestions' do
       expect(response).to have_http_status(:ok)
     end
 
+    it 'links to itself from the menu' do
+      expect(Capybara.string(response.body)).to have_css('.dropdown-menu a.dropdown-item[href="/suggestions"]')
+    end
+
     it 'offers sign up' do
       expect(Capybara.string(response.body)).to have_link(href: new_member_registration_path)
     end

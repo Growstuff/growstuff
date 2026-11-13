@@ -58,11 +58,10 @@
           = menu_icon(:crop)
           = t('.crops')
         .dropdown-menu
-          - if member_signed_in?
-            = link_to suggestions_path, class: 'dropdown-item' do
-              = menu_icon(:planting)
-              = t('.planting_suggestions')
-              %span.badge.text-bg-success.ms-1= t('.new_badge')
+          = link_to suggestions_path, class: 'dropdown-item' do
+            = menu_icon(:planting)
+            = t('.planting_suggestions')
+            %span.badge.text-bg-success.ms-1= t('.new_badge')
           = link_to crops_path, class: 'dropdown-item' do
             = menu_icon(:crop)
             = t('.all_crops')

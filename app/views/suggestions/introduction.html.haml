@@ -20,13 +20,13 @@
 - else
   - if params[:lat].present?
     .alert.alert-warning= t('.no_weather')
-  = react_component('UseMyLocation', url: suggestions_path, labels: { button: t('.use_my_location'), finding: t('.finding'), waiting: t('.waiting'), failed: t('.location_failed'), unsupported: t('.location_unsupported') })
+  = react_component('UseMyLocation', url: suggestions_path, labels: { button: t('.use_my_location'), finding: t('.finding'), waiting: t('.waiting'), failed: t('.location_failed'), denied: t('.location_denied'), unavailable: t('.location_unavailable'), timeout: t('.location_timeout'), unsupported: t('.location_unsupported') })
 
 .card.border-success.border-3.my-5.suggestions-signup
   .card-body.p-4.p-md-5
     %h2.display-5.fw-bold= t('.signup_heading')
     %ul.list-unstyled.fs-5.my-4
-      - %i(garden_climate closer_weather planned_jobs not_for_me following record).each do |feature|
+      - %i(garden_climate closer_weather harvest_predictions planned_jobs not_for_me following record).each do |feature|
         %li.mb-2
           = icon 'far', 'square-check', class: 'text-success me-2'
           = t(".features.#{feature}")
