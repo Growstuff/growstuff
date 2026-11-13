@@ -4874,6 +4874,8 @@ en:
       still_grows: Also grows in %{season} in %{place}, but not at its best
       suits: Grows best in %{season} in %{place}
       timing: "%{days}, %{ready}"
+      usual_day: Typical hottest day
+      usual_night: Typical coldest night
       your_location: your location
     index:
       not_located: Tell us where you garden and we can suggest what to sow.
@@ -4886,11 +4888,15 @@ en:
         closer_weather: Weather fetched for your own garden, not just the nearest place we hold
         following: See what the people you follow are growing
         garden_climate: Crop suggestions for the climate in your own garden, season by season
+        harvest_predictions: Predictions of when your harvest will be ready
         not_for_me: Hide the crops that aren't for you
         planned_jobs: Add suggested crops to your planned jobs
         record: Keep a record of what you've planted and grown
       finding: Finding your location…
+      location_denied: Your browser isn't allowed to share your location with this site. Allow it from the icon next to the address, then try again.
       location_failed: We couldn't get your location. Check that your browser is allowed to share it, and try again.
+      location_timeout: Finding your location took too long. Please try again.
+      location_unavailable: Your device couldn't work out where it is. Check that its location services are on, then try again.
       location_unsupported: Your browser can't share its location.
       no_weather: We don't hold any weather data yet.
       retrieving: Retrieving data for %{place}…

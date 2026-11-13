@@ -9,9 +9,10 @@ class SeasonalClimate
   include SeasonsHelper
 
   # name: :spring, :summer, :autumn or :winter. months: their numbers. mean: the average air temperature, in °C.
-  # night: the coldest night held for the season, and day: the hottest day, both in °C. rain: the
-  # season's rain in mm. Each figure is nil when we hold nothing for the season. current: whether it is the season now.
-  Season = Data.define(:name, :months, :mean, :night, :day, :rain, :current)
+  # night: the coldest night held for the season, night_usual: the average of the coldest night of each month and year of it (what
+  # the crops are fitted by), day: the hottest day, and day_usual: the average of the hottest day of each month and year, all in °C.
+  # rain: the season's rain in mm. Each figure is nil when we hold nothing for the season. current: whether it is the season now.
+  Season = Data.define(:name, :months, :mean, :night, :night_usual, :day, :day_usual, :rain, :current)
 
   # The member's weather cell, from the place on their profile. Nil without a location, or with no weather held for it yet.
   def self.for(member, today: Time.zone.today)
@@ -87,7 +88,9 @@ class SeasonalClimate
   def season(name, months)
     rows = months.flat_map { |month| @past.fetch(month, []) }
     Season.new(name:, months:, mean: average(rows.filter_map(&:temp_mean_c)), night: rows.filter_map(&:temp_min_c).min,
-               day: rows.filter_map(&:temp_max_c).max, rain: rain(months), current: name == @current)
+               night_usual: average(rows.filter_map(&:temp_min_c)), day: rows.filter_map(&:temp_max_c).max,
+               day_usual: average(rows.filter_map(&:temp_max_c)), rain: rain(months),
+               current: name == @current)
   end
 
   # The usual rain of each month of the season, added up, for the months we hold any.

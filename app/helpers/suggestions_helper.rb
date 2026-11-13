@@ -51,7 +51,9 @@ module SuggestionsHelper
   # The nights, the days and the rain of the season that we hold figures for, as { label:, value: }.
   def season_island_figures(season)
     [
+      [:usual_night, season.night_usual && island_degrees(season.night_usual)],
       [:nights, season.night && island_degrees(season.night)],
+      [:usual_day, season.day_usual && island_degrees(season.day_usual)],
       [:days, season.day && island_degrees(season.day)],
       [:rain, season.rain && t('suggestions.climate.millimetres', value: number_with_precision(season.rain, precision: 0, delimiter: ','))]
     ].filter_map { |key, value| { label: t("suggestions.climate.#{key}"), value: } if value }

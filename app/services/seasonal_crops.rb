@@ -3,7 +3,7 @@
 # The crops that could be grown from a sowing in each season at the member's home, from EcoCrop's temperatures. A crop is
 # left out if, in any month of its cycle, the nights usually fall below the lowest temperature it grows at or reach the
 # temperature that kills it, or the days rise above the highest it grows at. Of those that survive:
-#   optimal   the days' usual high stays in its best range for its shortest cycle
+#   optimal   the days' usual high, on average over its shortest cycle, is in its best range
 #   tolerable the rest, which survive its longest cycle without being at their best
 # A crop with no record of its own uses its parent's, and one we can't tell the cycle length of (see CropDuration) is left
 # out. The most planted come first. It holds the working out and no text.
@@ -73,15 +73,16 @@ class SeasonalCrops
 
       needed = [((best ? taking.quick : taking.slow) / CropDuration::DAYS_IN_MONTH).ceil, 12].min
       cycle = (0...needed).map { |offset| ((start - 1 + offset) % 12) + 1 }
-      cycle.all? { |month| survives?(candidate, month) && (!best || best?(candidate, month)) }
+      cycle.all? { |month| survives?(candidate, month) } && (!best || best?(candidate, cycle))
     end
   end
 
-  # Whether the days' usual high in the month is in the crop's best range. A plant does its growing in the day, so the high is
-  # compared, not the average of the whole day and night, which runs well below it.
-  def best?(candidate, month)
-    high = @days[month]
-    high && high >= candidate.best_min && high <= candidate.best_max
+  # Whether the days' usual high over the cycle is, on average, in the crop's best range. Not every month has to be: only
+  # staying within what the crop grows at is needed of each. A plant does its growing in the day, so the high is compared, not
+  # the average of the whole day and night, which runs well below it.
+  def best?(candidate, cycle)
+    high = cycle.sum { |month| @days.fetch(month) } / cycle.size
+    high.between?(candidate.best_min, candidate.best_max)
   end
 
   # Whether the month's nights and days stay within what the crop grows at, and the nights stay above what kills it. A month
