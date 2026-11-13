@@ -85,7 +85,7 @@
         - else
           = t('.not_rated')
 
-  - if planting.short_code.present?
+  - if planting_code_visible?(planting) && planting.short_code.present?
     .card.fact-card
       %h3= t('.short_code')
       %strong.plantingfact--shortcode= planting.short_code

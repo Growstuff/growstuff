@@ -15,8 +15,7 @@ describe PlantingsController, '#show' do
     expect(page).to have_css('.card.job', text: 'Stake the tomatoes')
   end
 
-  it 'displays the short code on the planting show page' do
-    expect(page).to have_css('.planting-short-code', text: planting.short_code)
-    expect(page).to have_css('.plantingfact--shortcode', text: planting.short_code)
+  it 'hides the short code from visitors' do
+    expect(page).to have_no_css('.planting-short-code, .plantingfact--shortcode')
   end
 end
