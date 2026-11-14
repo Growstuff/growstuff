@@ -52,13 +52,14 @@
       %h3
         = t('.heat')
         -# Degree days aren't calendar days, so the card explains itself on a tap or a hover.
-        = render 'plantings/help', css: 'plantingheat--help', label: t('.heat_help_label'), title: t('.heat'), content: t('.heat_help')
-      %strong.plantingfact--heat= number_with_delimiter(heat)
-      %span
-        - if needed
-          = t('.heat_of_needed', needed: number_with_delimiter(needed))
-        - else
-          = t('.heat_needed_unknown')
+        = render 'plantings/help', css: 'plantingheat--help', label: t('.heat_help_label'), title: t('.heat_help_title'), content: t('.heat_help')
+      .fact-value
+        %strong.plantingfact--heat= number_with_delimiter(heat)
+        %span
+          - if needed
+            = t('.heat_of_needed', needed: number_with_delimiter(needed))
+          - else
+            = t('.heat_needed_unknown')
 
   -# Quantity and the growing method were two cards that both said "seedling".
   -# One card, one sentence: "3 cuttings". Both fields stay editable from it.

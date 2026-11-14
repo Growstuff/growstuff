@@ -322,6 +322,12 @@
 
 
 
+  // Five stars stay on one row in the narrow card, so the rating's value sits level with the other cards' values.
+  .facts .plantingfact--rating {
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+
   // The sun or shade a planting grew in: the icon is the value, so it is drawn larger than the text values are.
   .facts .plantingfact--sunicon {
     font-size: 2.25rem;
