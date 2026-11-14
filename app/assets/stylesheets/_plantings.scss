@@ -1,11 +1,3 @@
-// The tint of each season, on the weather charts and along a planting's timeline: its colour and how strong.
-$season-tints: (
-  spring: ($green, 0.14),
-  summer: ($orange, 0.16),
-  autumn: ($yellow, 0.18),
-  winter: ($blue, 0.1)
-);
-
 .planting {
   .planting-badges {
     font-size: 1em;
@@ -1050,7 +1042,7 @@ $season-tints: (
 
   @each $season, $tint in $season-tints {
     .season-#{$season} {
-      background: rgba(nth($tint, 1), nth($tint, 2) + 0.1);
+      background: rgba(nth($tint, 1), nth($tint, 2));
     }
   }
 }

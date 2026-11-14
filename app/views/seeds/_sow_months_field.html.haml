@@ -16,4 +16,4 @@
     .sow-months-seasons
       %span.text-muted= t('seeds.ui.tick_season')
       - seasons.each do |name, months|
-        %button.btn.btn-link.btn-sm{ type: 'button', data: { sow_months_season: months.join(',') } }= t("seeds.ui.seasons.#{name.downcase}")
+        %button.btn.btn-link.btn-sm{ type: 'button', data: { sow_months_season: months.join(',') } }= t("seeds.ui.seasons.#{name}")

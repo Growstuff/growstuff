@@ -4450,6 +4450,7 @@ en:
       scientific_name_label: "Scientific name:"
   seasons:
     autumn: Autumn
+    in_place: "%{season} in %{place}"
     spring: Spring
     summer: Summer
     winter: Winter

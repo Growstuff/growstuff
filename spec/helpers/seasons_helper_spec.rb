@@ -28,4 +28,11 @@ describe SeasonsHelper do
       expect(helper.season_summary(build(:member, latitude: nil))).to be_nil
     end
   end
+
+  describe 'SEASON_ICONS' do
+    it 'has an icon for each season of either half of the world' do
+      expect(described_class::SEASON_ICONS.keys).to match_array(described_class::SEASON_MONTHS[:northern].keys)
+      expect(described_class::SEASON_ICONS.keys).to match_array(described_class::SEASON_MONTHS[:southern].keys)
+    end
+  end
 end

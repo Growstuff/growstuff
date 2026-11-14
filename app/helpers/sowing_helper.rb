@@ -2,10 +2,6 @@
 
 # A packet's sowing facts, as the packet would write them.
 module SowingHelper
-  # The seasons as months, for each hemisphere, named as the packet would.
-  NORTHERN_SEASONS = SeasonsHelper::SEASON_MONTHS[:northern].transform_keys { |season| season.to_s.capitalize }.freeze
-  SOUTHERN_SEASONS = SeasonsHelper::SEASON_MONTHS[:southern].transform_keys { |season| season.to_s.capitalize }.freeze
-
   # The months to sow in, as runs: "Oct–Feb", or "Mar–Apr, Sep–Oct". A run goes on round the end
   # of the year, and all twelve is "All year". Nothing, if there are none.
   def sow_months_text(months)
@@ -31,7 +27,7 @@ module SowingHelper
   def season_months(latitude)
     return if latitude.blank?
 
-    latitude.negative? ? SOUTHERN_SEASONS : NORTHERN_SEASONS
+    SeasonsHelper::SEASON_MONTHS[latitude.negative? ? :southern : :northern]
   end
 
   private
