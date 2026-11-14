@@ -118,7 +118,7 @@ describe "Planting a crop", :js do
 
         expect(page).to have_content "planting was successfully created"
         expect(page).to have_no_content "0%"
-        expect(page).to have_no_content "Finish expected"
+        expect(page).to have_no_css '.planting-timeline-event--expected .planting-timeline-name', text: 'Finished'
         expect(page).to have_no_content "Finishes"
       end
 
