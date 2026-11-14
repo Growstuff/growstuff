@@ -42,6 +42,7 @@ en:
         grid_too_small_for_plantings: 'is too small: some plantings would fall outside the bed. Move them first.'
         harvest_after_planted: cannot be harvested before planting
         no_newlines: must contain no newlines
+        not_in_future: can't be in the future
         not_a_valid_area_unit: "%{value} is not a valid area unit"
         not_a_valid_planting_method: "%{value} is not a valid planting method"
         not_a_valid_sunniness: "%{value} is not a valid sunniness value"
@@ -311,6 +312,7 @@ en:
     unchosen: Not chosen yet. Pick one from the list, or it won't be used.
   buttons:
     add: Add
+    add_observation: Add observation
     add_photo: Add photo
     add_seed_to_stash: Add %{crop_name} seeds to stash
     copy: Copy
@@ -3618,6 +3620,14 @@ en:
       data_use_policy: Data Use Policy
       community_guidelines: Community Guidelines
       copyright_infringement_policy: Copyright Infringement Policy
+  observations:
+    kinds:
+      disease_observed: Disease observed
+      flowering: Flowering
+      fruiting: Fruiting
+      germination: Germination
+      other: Other
+      wilting: Wilting
   photo_associations:
     update:
       updated: Photo updated.
@@ -4033,6 +4043,13 @@ en:
       title: Add %{crop} to your garden
       which_garden: Which garden is it going in?
     plant_something: Plant something
+    observations:
+      add: add
+      day: Day %{count}
+      delete: Delete observation
+      destroy:
+        deleted: Observation deleted.
+      logged_by: "%{author} noticed"
     origin:
       change: change
       crop_changed: This planting is now %{crop}, to match your packet. It was %{was}.
@@ -4152,11 +4169,13 @@ en:
 
         '
       no_jobs: Nothing is planned here.
+      no_observations: Nothing noticed yet. Note when it flowers, fruits, wilts or falls ill.
       no_photos: No photos yet.
       no_photos_prompt: Photos come from your Flickr account. Add one to track how this planting grows.
       no_seeds: No seeds saved yet.
       no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
       notes: Notes
+      observations: Observations
       photos: Photos
       seeds_saved: Seeds saved
       title: "%{crop} planting by %{owner}"

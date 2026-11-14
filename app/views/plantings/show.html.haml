@@ -101,6 +101,8 @@
 
         %section#photos= render 'plantings/photos', photos: @photos, planting: @planting
 
+        %section#observations.observations= render 'plantings/observations', planting: @planting, observations: @observations
+
         = render 'frost/section', frost: @frost if @frost
 
         %section#harvests.harvests

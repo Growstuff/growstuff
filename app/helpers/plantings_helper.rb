@@ -44,7 +44,7 @@ module PlantingsHelper
   # so the menu is the same on a card and on the planting's own page.
   def planting_actions_props(planting)
     {
-      planting:         {
+      planting:          {
         id:         planting.id,
         url:        planting_path(planting),
         # The finish and harvest dialogs need these: neither may happen before
@@ -54,11 +54,12 @@ module PlantingsHelper
         today:      Time.zone.today,
         crop:       { name: planting.crop.name, icon_url: crop_icon_url(planting.crop) }
       },
-      actions:          planting_menu_actions(planting),
-      harvest_icon_url: image_path('icons/harvest.svg'),
-      seed_icon_url:    image_path('icons/seeds.svg'),
-      photo_icon_url:   image_path('icons/photo.svg'),
-      finish_icon_url:  image_path('icons/finish.svg')
+      actions:           planting_menu_actions(planting),
+      observation_kinds: observation_kind_options,
+      harvest_icon_url:  image_path('icons/harvest.svg'),
+      seed_icon_url:     image_path('icons/seeds.svg'),
+      photo_icon_url:    image_path('icons/photo.svg'),
+      finish_icon_url:   image_path('icons/finish.svg')
     }
   end
 
@@ -95,6 +96,7 @@ module PlantingsHelper
       actions << { key: 'photo', label: t('buttons.add_photo'),
                    href: new_photo_path(id: planting.id, type: 'planting') }
     end
+    actions << observation_action(planting)
     actions.concat(active_planting_menu_actions(planting)) if planting.active
     actions << planting_delete_action(planting)
     actions.compact
