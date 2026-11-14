@@ -15,7 +15,7 @@ class GardenCardSerializer
     gardens = gardens.to_a
     plantings = Planting.active
       .where(garden_id: gardens.map(&:id))
-      .includes(:garden, :harvests, :photos, :parent_seed, { histories: :garden }, { crop: { parent: :parent } })
+      .includes(:garden, :harvests, :photos, :parent_seed, :alternate_name, { histories: :garden }, { crop: { parent: :parent } })
       .order(:planted_at)
       .group_by(&:garden_id)
 

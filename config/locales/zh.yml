@@ -2679,6 +2679,20 @@ zh:
       seeds_saved: 已留种
       sown_from_expired: 使用过期种子播种（请在 %{year} 年前种植）
       unknown: 未知
+      heat: "积温"
+      heat_help_html: "这不是日历上的天数。积温（度日）是一天中有用的热量：当天平均气温高出这种作物生长所需最低温度的度数。寒冷的日子不会累加，所以作物在秋天比夏天需要更多天。%{link}。"
+      heat_help_label: "什么是积温（度日）？"
+      heat_help_link: "在维基百科上了解更多"
+      heat_help_title: "积温（度日）"
+      heat_needed_unknown: "目前为止；所需积温未知"
+      heat_of_needed: "共需约 %{needed}"
+      short_code_help: "把这个代码写在植物标签或标记上，以后即使有很多同一作物，也能在这里找到这株植物。"
+      short_code_help_label: "短代码有什么用？"
+      sun_semi_shade: "半阴"
+      sun_shade: "阴处"
+      sun_sun: "全日照"
+      variety: "品种"
+      variety_from_packet: "来自种子包"
     form:
       save: 保存
       optional: 可选
@@ -2798,6 +2812,16 @@ zh:
       harvest_started: 于 %{date} 开始收获
       legend: (一个表情符号 = 1周)
       planted: 种植于 %{date}
+      events:
+        failed: "失败"
+        finished: "结束"
+        first_harvest: "首次收获"
+        last_harvest: "最后收获"
+        planted: "种植"
+        sown: "播种"
+        transplanted: "移至 %{garden}"
+      expected: "预计"
+      today: "今天"
     transplant:
       cancel: 取消
       close: 关闭
@@ -2984,6 +3008,7 @@ zh:
     spring: 春天
     summer: 夏天
     winter: 冬天
+    in_place: "%{place}的%{season}"
   seeds:
     ui:
       request_prompt_html: "%{sign_in}或%{sign_up}以申请种子。"

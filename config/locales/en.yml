@@ -4024,6 +4024,7 @@ en:
       label: How much frost does it take?
       sources:
         crop: Usual for the crop
+        parent_crop: Usual for the parent crop
         planting: Set for this planting
         seed: From the seed packet
       title: Hardiness

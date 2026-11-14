@@ -22,4 +22,22 @@ describe PlantingChipSerializer do
       expect(json[:label]).to eq planting.crop.name
     end
   end
+
+  context 'when the member has their own name for the crop' do
+    let(:seed) { nil }
+    let(:planting) do
+      crop = create(:crop, name: 'tomato')
+      create(:planting, crop:, parent_seed: nil, alternate_name: create(:alternate_name, crop:, name: 'love apple'))
+    end
+
+    it 'labels the chip with their name, not the crop' do
+      expect(json[:label]).to eq 'love apple'
+    end
+
+    it 'puts the variety in brackets after it' do
+      planting.parent_seed = create(:seed, crop: planting.crop, variety: 'Brandywine')
+
+      expect(json[:label]).to eq 'love apple (Brandywine)'
+    end
+  end
 end

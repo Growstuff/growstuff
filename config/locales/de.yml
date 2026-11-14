@@ -2686,6 +2686,20 @@ de:
       seeds_saved: Saatgut gewonnen
       sown_from_expired: Aus abgelaufenem Saatgut gesät (pflanzen vor %{year})
       unknown: unbekannt
+      heat: "Gradtage"
+      heat_help_html: "Das sind keine Kalendertage. Ein Wachstumsgradtag ist der Wärmegewinn eines Tages: um wie viele Grad die Tagesmitteltemperatur über der niedrigsten Temperatur lag, bei der diese Nutzpflanze wächst. Ein kalter Tag zählt nicht mit, deshalb braucht eine Nutzpflanze im Herbst mehr Tage als im Sommer. %{link}."
+      heat_help_label: "Was sind Wachstumsgradtage?"
+      heat_help_link: "Mehr dazu auf Wikipedia"
+      heat_help_title: "Wachstumsgradtage"
+      heat_needed_unknown: "bisher; wie viele nötig sind, ist nicht bekannt"
+      heat_of_needed: "von etwa %{needed} benötigt"
+      short_code_help: "Schreiben Sie diesen Code auf Ihr Pflanzenschild oder Ihre Markierung, dann finden Sie genau diese Pflanze später hier wieder, auch unter vielen Pflanzen derselben Nutzpflanze."
+      short_code_help_label: "Wofür ist der Kurzcode?"
+      sun_semi_shade: "Halbschatten"
+      sun_shade: "Schatten"
+      sun_sun: "volle Sonne"
+      variety: "Sorte"
+      variety_from_packet: "aus dem Saatgutpäckchen"
     form:
       save: Speichern
       optional: optional
@@ -2805,6 +2819,16 @@ de:
       harvest_started: Ernte begonnen %{date}
       legend: (Ein Emoji = 1 Woche)
       planted: Gepflanzt %{date}
+      events:
+        failed: "Fehlgeschlagen"
+        finished: "Abgeschlossen"
+        first_harvest: "Erste Ernte"
+        last_harvest: "Letzte Ernte"
+        planted: "Gepflanzt"
+        sown: "Gesät"
+        transplanted: "Umgesetzt nach %{garden}"
+      expected: "erwartet"
+      today: "Heute"
     transplant:
       cancel: Abbrechen
       close: Schließen
@@ -2991,6 +3015,7 @@ de:
     spring: Frühling
     summer: Sommer
     winter: Winter
+    in_place: "%{season} in %{place}"
   seeds:
     ui:
       request_prompt_html: "%{sign_in} oder %{sign_up}, um Samen anzufragen."
