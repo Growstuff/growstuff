@@ -3887,6 +3887,8 @@ en:
       planting_failed: this planting failed
       short_code: Short code
       short_code_description: for plant markers and labels
+      short_code_help: Write this code on your plant label or marker, and you can find this exact plant here later, even among many of the same crop.
+      short_code_help_label: What is the short code for?
       progress: Progress
       quantity: Quantity
       rating: Rating

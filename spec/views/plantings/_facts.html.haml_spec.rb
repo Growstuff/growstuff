@@ -42,4 +42,14 @@ describe 'plantings/_facts' do
       expect(rendered).to have_no_css '.plantingheat'
     end
   end
+
+  context 'when the planting has a short code' do
+    let(:planting) { build(:planting, short_code: 'ab12') }
+    let(:heat_so_far) { nil }
+    let(:heat_needed) { nil }
+
+    it 'explains it can be written on a plant label' do
+      expect(rendered).to have_css '.plantingshortcode--help[data-bs-content*="plant label"]'
+    end
+  end
 end

@@ -52,10 +52,7 @@
       %h3
         = t('.heat')
         -# Degree days aren't calendar days, so the card explains itself on a tap or a hover.
-        %button.btn.btn-link.p-0.ms-1.plantingheat--help{ type: 'button', 'aria-label': t('.heat_help_label'),
-          data: { 'bs-toggle': 'popover', 'bs-trigger': 'hover focus', 'bs-placement': 'top',
-                  'bs-title': t('.heat'), 'bs-content': t('.heat_help') } }
-          = icon 'far', 'circle-question'
+        = render 'plantings/help', css: 'plantingheat--help', label: t('.heat_help_label'), title: t('.heat'), content: t('.heat_help')
       %strong.plantingfact--heat= number_with_delimiter(heat)
       %span
         - if needed
@@ -106,7 +103,9 @@
 
   - if planting.short_code.present?
     .card.fact-card
-      %h3= t('.short_code')
+      %h3
+        = t('.short_code')
+        = render 'plantings/help', css: 'plantingshortcode--help', label: t('.short_code_help_label'), title: t('.short_code'), content: t('.short_code_help')
       %strong.plantingfact--shortcode= planting.short_code
       %span= t('.short_code_description')
 
