@@ -322,6 +322,16 @@
 
 
 
+  // The sun or shade a planting grew in: the icon is the value, so it is drawn larger than the text values are.
+  .facts .plantingfact--sunicon {
+    font-size: 2.25rem;
+    line-height: 1.2;
+  }
+
+  .facts .plantingfact--sunicon-sun {
+    color: var(--bs-warning);
+  }
+
   // The inline edit form takes the place of the fact's value, inside a card
   // only 170px wide. Without this the control runs past the card's edge and
   // the save button lands on top of the sub-line beneath it.

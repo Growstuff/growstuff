@@ -52,4 +52,15 @@ describe 'plantings/_facts' do
       expect(rendered).to have_css '.plantingshortcode--help[data-bs-content*="plant label"]'
     end
   end
+
+  context 'when it grew in partial shade' do
+    let(:planting) { build(:planting, sunniness: 'semi-shade') }
+    let(:heat_so_far) { nil }
+    let(:heat_needed) { nil }
+
+    it 'says so in words under the icon' do
+      expect(rendered).to have_css '.plantingfact--sunicon-semi-shade'
+      expect(rendered).to have_css '.plantingfact--sunniness', text: 'partial shade'
+    end
+  end
 end

@@ -121,9 +121,9 @@ module IconsHelper
   def sunniness_icon(sunniness)
     case sunniness
     when 'sun'
-      icon 'far', 'sun'
+      icon 'fas', 'sun'
     when 'shade'
-      icon 'fas', 'umbrella-beach'
+      icon 'fas', 'tree'
     when 'semi-shade'
       icon 'fas', 'cloud-sun'
     else

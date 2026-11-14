@@ -80,9 +80,11 @@
       = t('.grown_in')
       = editable :select, planting, :sunniness, values: Planting::SUNNINESS_VALUES, display_field: '.fact-sunniness'
     .fact-value.fact-sunniness
-      %strong= sunniness_icon(planting.sunniness)
+      -# The icon is the value, big enough to read at a glance; the words under it say it plainly.
+      %strong.plantingfact--sunicon{ class: planting.sunniness.present? ? "plantingfact--sunicon-#{planting.sunniness}" : nil }
+        = sunniness_icon(planting.sunniness)
       %span.plantingfact--sunniness
-        = planting.sunniness.present? ? t("plantings.sun.#{planting.sunniness}") : t('.not_specified')
+        = planting.sunniness.present? ? t(".sun_#{planting.sunniness.tr('-', '_')}") : t('.not_specified')
 
   .card.fact-card{class: planting.overall_rating.present? ? '' : 'text-muted'}
     %h3= t('.rating')
