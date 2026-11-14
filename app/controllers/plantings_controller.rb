@@ -25,6 +25,7 @@ class PlantingsController < DataController
     # drops every harvest that has no photo.
     @harvests = @planting.harvests.includes(:owner, :crop, :plant_part).recent
     @child_seeds = @planting.child_seeds.includes(:owner, :crop)
+    @observations = @planting.observations.includes(:author).newest_first
     @current_jobs = @planting.jobs.active.includes(:owner).order(created_at: :desc)
     @finished_jobs = @planting.jobs.finished.includes(:owner).order(created_at: :desc)
     load_weather

@@ -1,5 +1,7 @@
 ---
 en:
+  likes:
+    description_html: '%{member} liked %{item}'
   shared:
     flash_messages:
       close: Close
@@ -42,6 +44,7 @@ en:
         grid_too_small_for_plantings: 'is too small: some plantings would fall outside the bed. Move them first.'
         harvest_after_planted: cannot be harvested before planting
         no_newlines: must contain no newlines
+        not_in_future: can't be in the future
         not_a_valid_area_unit: "%{value} is not a valid area unit"
         not_a_valid_planting_method: "%{value} is not a valid planting method"
         not_a_valid_sunniness: "%{value} is not a valid sunniness value"
@@ -230,6 +233,7 @@ en:
         garden_stall: A page where members offer spare seedlings and seeds to friends. Switch on once all the parts are deployed.
         job_ideas: Suggested jobs for members, from their past jobs and plantings, crop templates and what gardeners nearby are doing.
         planting_weather: Temperature and rainfall charts on each planting, from daily weather for the garden's area.
+        planting_codes: Shows planting codes to the planting owner and collaborators in its garden.
       index:
         disabled: 'Off'
         enabled: 'On'
@@ -249,6 +253,7 @@ en:
         garden_stall: Garden stall
         job_ideas: Job ideas
         planting_weather: Planting weather
+        planting_codes: Planting codes
       update:
         disabled: "%{feature} is now off."
         enabled: "%{feature} is now on."
@@ -290,6 +295,14 @@ en:
         default: Default
   are_you_sure: Are you sure?
   authentications:
+    connected:
+      connected_title: Flickr connected
+      not_connected_title: Flickr not connected
+      connected_heading: Flickr is connected
+      connected_help: You can close this window and carry on choosing a photo.
+      not_connected_heading: Flickr was not connected
+      not_connected_help: You can close this window and try again.
+      close_window: Close this window
     sign_in:
       bluesky:
         agree_to_tos_html: I agree to the %{tos_link}
@@ -311,6 +324,7 @@ en:
     unchosen: Not chosen yet. Pick one from the list, or it won't be used.
   buttons:
     add: Add
+    add_observation: Add observation
     add_photo: Add photo
     add_seed_to_stash: Add %{crop_name} seeds to stash
     copy: Copy
@@ -1230,16 +1244,12 @@ en:
       title: New garden
     about:
       collaborators: Collaborators
-      fetch_wikidata: Fetch Wikidata info
       heading: About this garden
       leave: Leave garden
       leave_confirm: Are you sure you want to leave this garden?
       location: Location
       manage: Manage
       owner: Owner
-      temperature_unknown: not known
-      temperatures_html: 'Local temperatures from %{source}: hottest %{hottest}, coldest %{coldest}.'
-      wikidata_missing: Wikidata information is missing for this location.
       you: "(you)"
     actions:
       add_photo: Add photo from Flickr
@@ -1398,8 +1408,6 @@ en:
       text: Plant, harvest and save seeds in one place, and see what grows well near you.
     string: "%{owner}'s %{garden}"
     updated: Garden was successfully updated.
-    wikidata_not_found: Could not find Wikidata information for this location.
-    wikidata_updated: Wikidata information updated.
   hardiness:
     levels:
       half_hardy:
@@ -3618,6 +3626,14 @@ en:
       data_use_policy: Data Use Policy
       community_guidelines: Community Guidelines
       copyright_infringement_policy: Copyright Infringement Policy
+  observations:
+    kinds:
+      disease_observed: Disease observed
+      flowering: Flowering
+      fruiting: Fruiting
+      germination: Germination
+      other: Other
+      wilting: Wilting
   photo_associations:
     update:
       updated: Photo updated.
@@ -4033,6 +4049,15 @@ en:
       title: Add %{crop} to your garden
       which_garden: Which garden is it going in?
     plant_something: Plant something
+    observations:
+      add: add
+      day: Day %{count}
+      delete: Delete observation
+      destroy:
+        deleted: Observation deleted.
+      edit: Edit observation
+      logged_by: "%{author} noticed"
+      planted: Planted
     origin:
       change: change
       crop_changed: This planting is now %{crop}, to match your packet. It was %{was}.
@@ -4152,11 +4177,13 @@ en:
 
         '
       no_jobs: Nothing is planned here.
+      no_observations: Nothing noticed yet. Note when it flowers, fruits, wilts or falls ill.
       no_photos: No photos yet.
       no_photos_prompt: Photos come from your Flickr account. Add one to track how this planting grows.
       no_seeds: No seeds saved yet.
       no_seeds_prompt: Save seeds from this planting to sow next season, or to trade with other members.
       notes: Notes
+      observations: Observations
       photos: Photos
       seeds_saved: Seeds saved
       title: "%{crop} planting by %{owner}"

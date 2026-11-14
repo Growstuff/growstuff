@@ -1,5 +1,7 @@
 ---
 de:
+  likes:
+    description_html: '%{member} gefällt %{item}'
   shared:
     flash_messages:
       close: Schließen
@@ -143,6 +145,14 @@ de:
         disabled: "%{feature} ist jetzt ausgeschaltet."
         enabled: "%{feature} ist jetzt aktiviert."
   authentications:
+    connected:
+      connected_title: Flickr verbunden
+      not_connected_title: Flickr nicht verbunden
+      connected_heading: Flickr ist verbunden
+      connected_help: Du kannst dieses Fenster schließen und weiter ein Foto auswählen.
+      not_connected_heading: Flickr wurde nicht verbunden
+      not_connected_help: Du kannst dieses Fenster schließen und es erneut versuchen.
+      close_window: Dieses Fenster schließen
     sign_in:
       bluesky:
         terms_of_service: "Nutzungsbedingungen"
@@ -900,16 +910,12 @@ de:
       title: Neuer Garten
     about:
       collaborators: Mitarbeiter
-      fetch_wikidata: Wikidata-Informationen abrufen
       heading: Über diesen Garten
       leave: Garten verlassen
       leave_confirm: Sind Sie sicher, dass Sie diesen Garten verlassen möchten?
       location: Standort
       manage: Verwalten
       owner: Eigentümer
-      temperature_unknown: nicht bekannt
-      temperatures_html: 'Lokale Temperaturen von %{source}: heißeste %{hottest}, kälteste %{coldest}.'
-      wikidata_missing: Für diesen Standort fehlen Wikidata-Informationen.
       you: "(Du)"
     actions:
       add_photo: Foto von Flickr hinzufügen

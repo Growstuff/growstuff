@@ -4,6 +4,13 @@ module PlantingsHelper
   include PlantingWeatherHelper
   include SeedsHelper
 
+  def planting_code_visible?(planting)
+    return false unless current_member && Feature.enabled?(:planting_codes, current_member)
+
+    planting.owner_id == current_member.id ||
+      planting.garden.garden_collaborators.exists?(member_id: current_member.id)
+  end
+
   # Pictures for the ways a planting was started and where it came from, from the icons the site already has.
   ORIGIN_KIND_ICONS = {
     'seed' => 'icons/seeds.svg', 'seedling' => 'icons/sprout.svg', 'cutting' => 'icons/plant_parts/stem.svg',
@@ -44,7 +51,7 @@ module PlantingsHelper
   # so the menu is the same on a card and on the planting's own page.
   def planting_actions_props(planting)
     {
-      planting:         {
+      planting:          {
         id:         planting.id,
         url:        planting_path(planting),
         # The finish and harvest dialogs need these: neither may happen before
@@ -54,11 +61,12 @@ module PlantingsHelper
         today:      Time.zone.today,
         crop:       { name: planting.crop.name, icon_url: crop_icon_url(planting.crop) }
       },
-      actions:          planting_menu_actions(planting),
-      harvest_icon_url: image_path('icons/harvest.svg'),
-      seed_icon_url:    image_path('icons/seeds.svg'),
-      photo_icon_url:   image_path('icons/photo.svg'),
-      finish_icon_url:  image_path('icons/finish.svg')
+      actions:           planting_menu_actions(planting),
+      observation_kinds: observation_kind_options,
+      harvest_icon_url:  image_path('icons/harvest.svg'),
+      seed_icon_url:     image_path('icons/seeds.svg'),
+      photo_icon_url:    image_path('icons/photo.svg'),
+      finish_icon_url:   image_path('icons/finish.svg')
     }
   end
 
@@ -95,6 +103,7 @@ module PlantingsHelper
       actions << { key: 'photo', label: t('buttons.add_photo'),
                    href: new_photo_path(id: planting.id, type: 'planting') }
     end
+    actions << { key: 'observation', label: t('buttons.add_observation'), href: planting_path(planting, anchor: 'observations') }
     actions.concat(active_planting_menu_actions(planting)) if planting.active
     actions << planting_delete_action(planting)
     actions.compact

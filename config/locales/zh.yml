@@ -1,5 +1,7 @@
 ---
 zh:
+  likes:
+    description_html: '%{member}赞了%{item}'
   shared:
     flash_messages:
       close: 关闭
@@ -143,6 +145,14 @@ zh:
         disabled: "%{feature} 现已关闭。"
         enabled: "%{feature} 现已开启。"
   authentications:
+    connected:
+      connected_title: Flickr已连接
+      not_connected_title: Flickr未连接
+      connected_heading: 已连接Flickr
+      connected_help: 您可以关闭此窗口并继续选择照片。
+      not_connected_heading: 未能连接Flickr
+      not_connected_help: 您可以关闭此窗口并重试。
+      close_window: 关闭此窗口
     sign_in:
       bluesky:
         terms_of_service: "服务条款"
@@ -899,16 +909,12 @@ zh:
       title: 新建花园
     about:
       collaborators: 合作者
-      fetch_wikidata: 获取维基数据信息
       heading: 关于这个花园
       leave: 离开花园
       leave_confirm: 你确定要离开这个花园吗？
       location: 地点
       manage: 管理
       owner: 所有者
-      temperature_unknown: 未知
-      temperatures_html: "%{source} 的当地气温：最热的 %{hottest}，最冷的 %{coldest}。"
-      wikidata_missing: 该位置缺少维基数据信息。
       you: "（你）"
     actions:
       add_photo: 添加来自 Flickr 的照片

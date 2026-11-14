@@ -9,6 +9,6 @@ describe 'likes/_description' do
   before { render partial: 'likes/description', locals: { event_model: like } }
 
   it 'links a liked job to its owner\'s jobs, as a job has no page of its own' do
-    expect(rendered).to have_link('job', href: member_jobs_path(job.owner))
+    expect(rendered).to have_link(href: member_jobs_path(job.owner))
   end
 end

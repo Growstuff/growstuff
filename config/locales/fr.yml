@@ -1,5 +1,7 @@
 ---
 fr:
+  likes:
+    description_html: '%{member} a aimé %{item}'
   shared:
     flash_messages:
       close: Fermer
@@ -143,6 +145,14 @@ fr:
         disabled: "%{feature} est maintenant désactivé."
         enabled: "%{feature} est maintenant activé."
   authentications:
+    connected:
+      connected_title: Flickr connecté
+      not_connected_title: Flickr non connecté
+      connected_heading: Flickr est connecté
+      connected_help: Vous pouvez fermer cette fenêtre et continuer à choisir une photo.
+      not_connected_heading: Flickr n’a pas été connecté
+      not_connected_help: Vous pouvez fermer cette fenêtre et réessayer.
+      close_window: Fermer cette fenêtre
     sign_in:
       bluesky:
         terms_of_service: "Conditions d'utilisation"
@@ -900,16 +910,12 @@ fr:
       title: Nouveau jardin
     about:
       collaborators: collaborateurs
-      fetch_wikidata: Récupérer les informations de Wikidata
       heading: À propos de ce jardin
       leave: Quitter le jardin
       leave_confirm: Voulez-vous vraiment quitter cette page ?
       location: Emplacement
       manage: Gérer
       owner: Responsable
-      temperature_unknown: vous ne saviez pas
-      temperatures_html: 'Températures locales de %{source} : %{hottest} le plus chaud, %{coldest} le plus froid.'
-      wikidata_missing: Les informations de Wikidata sont manquantes pour cet emplacement.
       you: "(vous)"
     actions:
       add_photo: Ajouter une photo depuis Flickr

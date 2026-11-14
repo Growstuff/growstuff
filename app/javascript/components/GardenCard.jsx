@@ -8,7 +8,7 @@ import PlantingRow from './PlantingRow';
 // One garden, as a row that opens: its picture, name and how it is doing. Opened
 // it has a picture, then what is planted, as perennials (just names) and annuals
 // (each with its progress). The buttons and menus are for gardens you can change.
-export default function GardenCard({garden, defaultOpen, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto, onFinishPlanting, onEditGarden}) {
+export default function GardenCard({garden, defaultOpen, defaultIconUrl, onPlant, highlightedId, highlightKind, onPlantingUpdated, onEditPlanting, onHarvestPlanting, onSaveSeedsPlanting, onAddPhoto, onFinishPlanting, onObservePlanting, onEditGarden}) {
   const {id, name, url, image_url: imageUrl, layout_url: layoutUrl, owner, actions, plant_url: plantUrl, plantings_count: plantingsCount, harvesting_now: harvestingNow} = garden;
   const {perennials, annuals} = garden;
   const {location, area, frost_safe: frostSafe, frost_safe_label: frostSafeLabel} = garden;
@@ -20,6 +20,7 @@ export default function GardenCard({garden, defaultOpen, defaultIconUrl, onPlant
     harvest: onHarvestPlanting,
     seeds: onSaveSeedsPlanting,
     finish: onFinishPlanting,
+    observation: onObservePlanting,
     photo: onAddPhoto && ((planting, action) => onAddPhoto({label: `${planting.crop.name} planting`, href: action.href})),
   };
   function plant(event) {

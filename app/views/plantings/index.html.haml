@@ -44,5 +44,5 @@
         %p= t('.no_plantings')
       .index-cards
         - @plantings.each do |p|
-          = render 'plantings/card', planting: p, show_short_code: @owner.present? && @owner == current_member
+          = render 'plantings/card', planting: p
       = will_paginate @plantings
