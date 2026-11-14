@@ -4,10 +4,12 @@ require 'rails_helper'
 
 describe 'plantings/_facts' do
   let(:planting) { build(:planting) }
+  # Only the owner, with the feature on, is shown a planting's short code.
+  let(:code_visible) { true }
 
   before do
     allow(planting).to receive_messages(heat_so_far:, heat_needed:)
-    allow(view).to receive(:can?).and_return(false)
+    allow(view).to receive_messages(can?: false, planting_code_visible?: code_visible)
     render partial: 'plantings/facts', locals: { planting: }
   end
 
@@ -55,6 +57,15 @@ describe 'plantings/_facts' do
 
     it 'explains it can be written on a plant label' do
       expect(rendered).to have_css '.plantingshortcode--help[data-bs-content*="plant label"]'
+    end
+
+    context 'when the viewer is not the owner' do
+      let(:code_visible) { false }
+
+      it 'shows no short code card, or help for it' do
+        expect(rendered).to have_no_css '.plantingfact--shortcode'
+        expect(rendered).to have_no_css '.plantingshortcode--help'
+      end
     end
   end
 
