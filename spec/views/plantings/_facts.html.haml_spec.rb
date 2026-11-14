@@ -63,4 +63,26 @@ describe 'plantings/_facts' do
       expect(rendered).to have_css '.plantingfact--sunniness', text: 'partial shade'
     end
   end
+
+  context 'when the sun is not set' do
+    let(:planting) { build(:planting, sunniness: nil, slug: 'a-planting') }
+    let(:heat_so_far) { nil }
+    let(:heat_needed) { nil }
+
+    it 'is muted for someone who cannot edit it' do
+      expect(rendered).to have_no_css '.origin-unanswered .plantingfact--sunniness'
+    end
+
+    context 'when the viewer can edit the planting' do
+      before do
+        allow(view).to receive(:can?).and_return(true)
+        render partial: 'plantings/facts', locals: { planting: }
+      end
+
+      it 'prompts in the same orange as "Grown from"' do
+        expect(rendered).to have_css '.origin-unanswered .origin-badge', text: '?'
+        expect(rendered).to have_css '.origin-unanswered .plantingfact--sunniness'
+      end
+    end
+  end
 end

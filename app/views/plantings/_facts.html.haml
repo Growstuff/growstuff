@@ -75,8 +75,12 @@
       %span.plantingfact--plantedfrom
         = t("plantings.units.#{planting.planted_from.presence || 'plant'}", count: planting.quantity.to_i)
 
-  .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
+  -# Unset, it asks the owner to answer, in the same orange as "Grown from"; everyone else sees it muted.
+  - sun_prompt = planting.sunniness.blank? && can?(:edit, planting)
+  .card.fact-card{class: [('text-muted' if planting.sunniness.blank?), ('origin-unanswered' if sun_prompt)]}
     %h3
+      - if sun_prompt
+        %span.origin-badge.origin-badge-small{ 'aria-hidden' => 'true' } ?
       = t('.grown_in')
       = editable :select, planting, :sunniness, values: Planting::SUNNINESS_VALUES, display_field: '.fact-sunniness'
     .fact-value.fact-sunniness
