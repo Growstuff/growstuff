@@ -843,6 +843,34 @@ describe Planting do
     end
   end
 
+  describe '#variety' do
+    it 'is the variety of its parent seed' do
+      planting = build(:planting, parent_seed: build(:seed, variety: 'Brandywine'))
+      expect(planting.variety).to eq 'Brandywine'
+    end
+
+    it 'is nil when the parent seed names no variety' do
+      planting = build(:planting, parent_seed: build(:seed, variety: ''))
+      expect(planting.variety).to be_nil
+    end
+
+    it 'is nil without a parent seed' do
+      expect(build(:planting, parent_seed: nil).variety).to be_nil
+    end
+  end
+
+  describe '#display_name_with_variety' do
+    it 'puts the variety in brackets after the name' do
+      planting = build(:planting, parent_seed: build(:seed, variety: 'Brandywine'))
+      expect(planting.display_name_with_variety).to eq "#{planting.display_name} (Brandywine)"
+    end
+
+    it 'is just the name without a variety' do
+      planting = build(:planting, parent_seed: nil)
+      expect(planting.display_name_with_variety).to eq planting.display_name
+    end
+  end
+
   describe '#heat_so_far and #heat_needed' do
     let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
     let(:crop) { create(:crop, growing_degree_days: 600) }

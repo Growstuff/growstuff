@@ -13,8 +13,8 @@ class PlantingChipSerializer
 
   def as_json(*)
     {
-      id: @planting.id, url: routes.planting_path(@planting), crop: crop_chip, can_edit: can?(:edit, @planting),
-      actions: planting_actions
+      id: @planting.id, url: routes.planting_path(@planting), crop: crop_chip, variety: @planting.variety,
+      can_edit: can?(:edit, @planting), actions: planting_actions
     }
   end
 

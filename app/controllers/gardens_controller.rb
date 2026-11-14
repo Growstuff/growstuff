@@ -33,7 +33,7 @@ class GardensController < DataController
     owned = Garden.inactive.where(owner: @owner)
     collaborating = Garden.inactive.where(id: GardenCollaborator.where(member: @owner).select(:garden_id))
     @gardens = owned.or(collaborating)
-      .includes(:owner, plantings: { crop: { parent: :parent } })
+      .includes(:owner, plantings: [{ crop: { parent: :parent } }, :parent_seed])
       .order(updated_at: :desc)
       .paginate(page: params[:page], per_page: 12)
   end

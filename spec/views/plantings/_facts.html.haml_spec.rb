@@ -90,4 +90,26 @@ describe 'plantings/_facts' do
       end
     end
   end
+
+  context 'when its parent seed has a variety' do
+    let(:seed) { create(:seed, variety: 'Brandywine') }
+    let(:planting) { build(:planting, parent_seed: seed) }
+    let(:heat_so_far) { nil }
+    let(:heat_needed) { nil }
+
+    it 'shows the variety, linked to the seed' do
+      expect(rendered).to have_css '.plantingvariety .plantingfact--variety', text: 'Brandywine'
+      expect(rendered).to have_link 'from the seed packet', href: seed_path(seed)
+    end
+  end
+
+  context 'when its parent seed has no variety' do
+    let(:planting) { build(:planting, parent_seed: build_stubbed(:seed, variety: nil)) }
+    let(:heat_so_far) { nil }
+    let(:heat_needed) { nil }
+
+    it 'shows no variety card' do
+      expect(rendered).to have_no_css '.plantingvariety'
+    end
+  end
 end

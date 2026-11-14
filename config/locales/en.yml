@@ -3901,6 +3901,8 @@ en:
       seeds_saved: Seeds saved
       sown_from_expired: Sown from expired seeds (plant before %{year})
       unknown: unknown
+      variety: Variety
+      variety_from_packet: from the seed packet
     form:
       save: Save
       optional: optional
