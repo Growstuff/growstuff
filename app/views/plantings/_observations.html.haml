@@ -1,6 +1,7 @@
--# What the grower noticed about this planting, newest first, as a timeline. The
--# add link opens the same dialog as the actions menu item (see PlantingActions).
+-# What the grower noticed about this planting, newest first, as a timeline, with the day it was planted in its place.
+-# The add link opens the same dialog as the actions menu item (see PlantingActions).
 - can_manage = can?(:create, Observation.new(planting:))
+- timeline = observation_timeline(planting, observations)
 .section-header
   %h2= t('plantings.show.observations')
   - if can_manage
@@ -10,27 +11,37 @@
       = t('.add')
 - if observations.empty?
   %p.text-muted.mb-0= t('plantings.show.no_observations')
-- else
+- if timeline.any?
   %ol.observation-timeline.list-unstyled
-    - observations.each do |observation|
-      %li.observation{ class: ("observation-problem" if observation.problem?), id: "observation-#{observation.id}" }
-        %span.observation-icon= observation_icon(observation.kind)
-        .observation-when
-          %time{ datetime: observation.observed_at.iso8601 }= l(observation.observed_at.to_date)
-          - if (day = observation_day(observation, planting))
-            %span.observation-day= t('.day', count: day)
-        .observation-body
-          %strong.observation-kind= observation_kind_label(observation.kind)
-          - if observation.author_id != planting.owner_id
-            %span.text-muted.small= t('.logged_by', author: observation.author.login_name)
-          - if observation.description.present?
-            %p.observation-note.mb-0= observation.description
-        - if can_manage
-          = link_to planting_path(planting, anchor: 'observations'), title: t('.edit'), 'aria-label': t('.edit'),
-                    class: 'btn btn-sm btn-link observation-edit',
-                    data: { planting_dialog: 'observation', observation: observation_edit_data(observation) } do
-            = icon 'fas', 'pen'
-          = button_to planting_observation_path(planting_slug: planting.slug, id: observation.id), method: :delete,
-            class: 'btn btn-sm btn-link text-danger observation-delete', title: t('.delete'),
-            data: { confirm: t('are_you_sure') }, 'aria-label': t('.delete') do
-            = icon 'fas', 'times'
+    - timeline.each do |at, observation|
+      - if observation
+        %li.observation{ class: ("observation-problem" if observation.problem?), id: "observation-#{observation.id}" }
+          %span.observation-icon= observation_icon(observation.kind)
+          .observation-when
+            %time{ datetime: at.iso8601 }= l(at.to_date)
+            - if (day = observation_day(observation, planting))
+              %span.observation-day= t('.day', count: day)
+          .observation-body
+            %strong.observation-kind= observation_kind_label(observation.kind)
+            - if observation.author_id != planting.owner_id
+              %span.text-muted.small= t('.logged_by', author: observation.author.login_name)
+            - if observation.description.present?
+              %p.observation-note.mb-0= observation.description
+          - if can_manage
+            = link_to planting_path(planting, anchor: 'observations'), title: t('.edit'), 'aria-label': t('.edit'),
+                      class: 'btn btn-sm btn-link observation-edit',
+                      data: { planting_dialog: 'observation', observation: observation_edit_data(observation) } do
+              = icon 'fas', 'pen'
+            = button_to planting_observation_path(planting_slug: planting.slug, id: observation.id), method: :delete,
+              class: 'btn btn-sm btn-link text-danger observation-delete', title: t('.delete'),
+              data: { confirm: t('are_you_sure') }, 'aria-label': t('.delete') do
+              = icon 'fas', 'times'
+      - else
+        -# The planting itself: always there, and not something to edit.
+        %li.observation.observation-planted
+          %span.observation-icon= icon 'fas', 'trowel'
+          .observation-when
+            %time{ datetime: planting.planted_at.iso8601 }= l(planting.planted_at)
+            %span.observation-day= t('.day', count: 0)
+          .observation-body
+            %strong.observation-kind= t('.planted')

@@ -76,7 +76,7 @@ describe 'Noting an observation on a planting', :js do
       accept_confirm { find('#observations .observation-delete').click }
 
       expect(page).to have_content 'Observation deleted.'
-      expect(page).to have_no_css '#observations .observation'
+      expect(page).to have_no_css '#observations .observation-kind', text: 'Fruiting'
     end
   end
 end
