@@ -1090,7 +1090,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_observations_on_author_id"
     t.index ["planting_id", "observed_at"], name: "index_observations_on_planting_id_and_observed_at"
-    t.index ["planting_id"], name: "index_observations_on_planting_id"
   end
 
   create_table "photo_associations", id: :serial, force: :cascade do |t|

@@ -96,7 +96,7 @@ module PlantingsHelper
       actions << { key: 'photo', label: t('buttons.add_photo'),
                    href: new_photo_path(id: planting.id, type: 'planting') }
     end
-    actions << observation_action(planting)
+    actions << { key: 'observation', label: t('buttons.add_observation'), href: planting_path(planting, anchor: 'observations') }
     actions.concat(active_planting_menu_actions(planting)) if planting.active
     actions << planting_delete_action(planting)
     actions.compact

@@ -12,18 +12,13 @@ class Observation < ApplicationRecord
   # No kind is "other".
   enum :kind, KINDS.index_with(&:itself), validate: { allow_nil: true }
 
-  validates :observed_at, presence: true
-  validate :observed_at_not_in_future
+  before_validation { self.observed_at ||= Time.zone.now }
+
+  validates :observed_at, comparison: { less_than_or_equal_to: -> { Time.zone.now }, message: :not_in_future }
 
   scope :newest_first, -> { order(observed_at: :desc, id: :desc) }
 
   def problem?
     PROBLEM_KINDS.include?(kind)
-  end
-
-  private
-
-  def observed_at_not_in_future
-    errors.add(:observed_at, :not_in_future) if observed_at && observed_at > Time.zone.now
   end
 end

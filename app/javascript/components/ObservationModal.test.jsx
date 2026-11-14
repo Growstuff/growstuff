@@ -5,7 +5,11 @@ import {afterEach, describe, expect, it, vi} from 'vitest';
 import ObservationModal from './ObservationModal';
 
 const planting = {id: 7, url: '/plantings/tomato-7', crop: {name: 'Tomato'}};
-const kinds = [{value: 'flowering', label: 'Flowering'}, {value: 'wilting', label: 'Wilting'}, {value: 'other', label: 'Other'}];
+const kinds = [
+  {value: 'flowering', label: 'Flowering', icon: 'spa'},
+  {value: 'wilting', label: 'Wilting', icon: 'arrow-trend-down'},
+  {value: 'other', label: 'Other', icon: 'circle-question'},
+];
 
 function stubFetch(response) {
   const fetch = vi.fn(async () => ({ok: response.ok, status: response.status, json: async () => response.data || {}}));
@@ -13,9 +17,9 @@ function stubFetch(response) {
   return fetch;
 }
 
-function setup() {
+function setup(props = {}) {
   const onSaved = vi.fn();
-  render(<ObservationModal planting={planting} kinds={kinds} onClose={vi.fn()} onSaved={onSaved} />);
+  render(<ObservationModal planting={planting} kinds={kinds} onClose={vi.fn()} onSaved={onSaved} {...props} />);
   return onSaved;
 }
 
@@ -88,5 +92,49 @@ describe('ObservationModal', () => {
     expect(await screen.findByText('Observed at can\'t be in the future')).toBeInTheDocument();
     expect(onSaved).not.toHaveBeenCalled();
     expect(screen.getByLabelText('Flowering')).toBeChecked();
+  });
+
+  it('shows each kind\'s icon', () => {
+    setup();
+    expect(screen.getByText('Wilting').closest('label').querySelector('.fa-arrow-trend-down')).not.toBeNull();
+  });
+
+  describe('editing', () => {
+    const existing = {id: 3, kind: 'wilting', observed_on: '2026-01-05', description: 'Droopy'};
+
+    it('starts from the observation', () => {
+      setup({observation: existing});
+      expect(screen.getByLabelText('Wilting')).toBeChecked();
+      expect(screen.getByLabelText('Date')).toHaveValue('2026-01-05');
+      expect(screen.getByLabelText(/Note/)).toHaveValue('Droopy');
+      expect(screen.getByRole('button', {name: 'Save changes'})).toBeEnabled();
+    });
+
+    it('patches it, leaving the day alone if it was not changed', async () => {
+      const fetch = stubFetch({ok: true, data: {observation: {id: 3}}});
+      const onSaved = setup({observation: existing});
+      await userEvent.click(screen.getByLabelText('Flowering'));
+      await userEvent.click(screen.getByRole('button', {name: 'Save changes'}));
+      expect(fetch.mock.calls[0][0]).toBe('/plantings/tomato-7/observations/3.json');
+      expect(fetch.mock.calls[0][1].method).toBe('PATCH');
+      expect(body(fetch)).toEqual({kind: 'flowering', description: 'Droopy'});
+      expect(onSaved).toHaveBeenCalled();
+    });
+
+    it('saves Other as no kind', async () => {
+      const fetch = stubFetch({ok: true, data: {}});
+      setup({observation: {...existing, kind: null}});
+      expect(screen.getByLabelText('Other')).toBeChecked();
+      await userEvent.click(screen.getByRole('button', {name: 'Save changes'}));
+      expect(body(fetch)).toMatchObject({kind: null});
+    });
+
+    it('moves it to now when changed to today', async () => {
+      const fetch = stubFetch({ok: true, data: {}});
+      setup({observation: existing});
+      await userEvent.click(screen.getByLabelText('Today'));
+      await userEvent.click(screen.getByRole('button', {name: 'Save changes'}));
+      expect(body(fetch)).toHaveProperty('observed_at', null);
+    });
   });
 });

@@ -18,9 +18,10 @@ describe Observation do
     expect(observation).not_to be_problem
   end
 
-  it 'needs a time' do
+  it 'is as of now unless it says otherwise' do
     observation.observed_at = nil
-    expect(observation).not_to be_valid
+    observation.validate
+    expect(observation.observed_at).to be_within(1.minute).of(Time.zone.now)
   end
 
   it 'cannot be in the future' do

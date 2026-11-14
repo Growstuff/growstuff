@@ -4049,6 +4049,7 @@ en:
       delete: Delete observation
       destroy:
         deleted: Observation deleted.
+      edit: Edit observation
       logged_by: "%{author} noticed"
     origin:
       change: change
