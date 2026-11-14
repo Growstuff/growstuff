@@ -1,10 +1,18 @@
 -# A planting's life as a line with its events on it: sown or planted, each move to another garden, first and last
 -# harvest, and finished, each with the icon the site uses for it elsewhere. A solid badge has happened; a dashed, fainter one is expected.
--# The line fills as far as today.
+-# The line is filled as far as today.
 - timeline = PlantingTimeline.new(planting)
 - if planting.annual? && timeline.show?
+  - seasons = timeline.seasons
   .planting-timeline
-    .planting-timeline-line{ 'aria-hidden': 'true' }
+    -# Where the garden is in the northern or southern half of the world, the line is made of the seasons it runs through,
+    -# on the same scale as the events, so each one sits in its season. Without that it is a plain line.
+    .planting-timeline-line{ class: ('planting-timeline-line--seasons' if seasons.any?), 'aria-hidden': 'true' }
+      - if seasons.any?
+        .planting-timeline-seasons
+          - seasons.each do |band|
+            %span.planting-timeline-season{ class: "season-#{band[:season]}", style: "left: #{band[:left]}%; width: #{band[:width]}%" }
+              = t("seasons.#{band[:season]}")
       .planting-timeline-fill{ class: "progress-bar--#{planting.progress_state}", style: "width: #{timeline.fill_position}%" }
       - if timeline.today_position
         %span.planting-timeline-today{ style: "left: #{timeline.today_position}%", title: t('.today') }

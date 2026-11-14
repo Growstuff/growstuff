@@ -75,6 +75,36 @@ describe PlantingTimeline do
     end
   end
 
+  describe '#seasons' do
+    let(:first_harvest) { Date.new(2026, 7, 1) }
+    let(:finish) { Date.new(2026, 8, 31) }
+
+    it 'lays the seasons of the northern half of the world along the line, as shares of it' do
+      allow(planting).to receive(:latitude).and_return(51.5)
+
+      expect(timeline.seasons).to eq [{ season: :spring, left: 0.0, width: 25.41 }, { season: :summer, left: 25.41, width: 74.59 }]
+    end
+
+    it 'has the opposite seasons in the southern half' do
+      allow(planting).to receive(:latitude).and_return(-41.3)
+
+      expect(timeline.seasons.pluck(:season)).to eq %i(autumn winter)
+    end
+
+    it 'runs through a year, with each season once it has come round' do
+      allow(planting).to receive_messages(latitude: 51.5, finish_predicted_at: Date.new(2027, 5, 1))
+
+      expect(timeline.seasons.pluck(:season)).to eq %i(spring summer autumn winter spring)
+      expect(timeline.seasons.sum { |band| band[:width] }).to be_within(0.1).of(100)
+    end
+
+    it 'has none without knowing which half of the world the garden is in' do
+      allow(planting).to receive(:latitude).and_return(nil)
+
+      expect(timeline.seasons).to eq []
+    end
+  end
+
   context 'when it was not started from seed' do
     let(:planted_from) { 'seedling' }
 

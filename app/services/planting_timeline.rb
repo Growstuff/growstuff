@@ -5,6 +5,8 @@
 # expected when it hasn't happened yet or when we are predicting it, as the harvests and the finish usually are.
 # Predicted events stay in the order of a life: first harvest, last harvest, finish.
 class PlantingTimeline
+  include SeasonsHelper
+
   Event = Data.define(:kind, :date, :expected, :garden)
 
   # The icon, in app/assets/images/icons, the site uses for each kind of event: planting for planted or sown,
@@ -55,6 +57,20 @@ class PlantingTimeline
   def as_json(*)
     { state: @planting.progress_state, fill: fill_position, today: today_position, expected_label: I18n.t('plantings.timeline.expected'),
       today_label: I18n.t('plantings.timeline.today'), events: events.map { |event| event_json(event) } }
+  end
+
+  # The seasons the line runs through, in the order they come, as the share of the line each takes up:
+  # [{ season: :spring, left: 0.0, width: 31.5 }, ...]. Empty when we don't know which hemisphere the garden is in.
+  def seasons
+    half = hemisphere(@planting.latitude)
+    return [] unless half && show?
+
+    days = (finish - start).to_i
+    (0..days).chunk_while { |a, b| season_in(half, start + a) == season_in(half, start + b) }.map do |run|
+      left = position(start + run.first)
+      right = run.last == days ? 100 : position(start + run.last + 1)
+      { season: season_in(half, start + run.first), left:, width: (right - left).round(2) }
+    end
   end
 
   # How far along the line today is, or nil for a planting that hasn't started or has finished.

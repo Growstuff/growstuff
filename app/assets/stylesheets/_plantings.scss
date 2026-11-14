@@ -1,3 +1,11 @@
+// The tint of each season, on the weather charts and under a planting's timeline: its colour and how strong.
+$season-tints: (
+  spring: ($green, 0.14),
+  summer: ($orange, 0.16),
+  autumn: ($yellow, 0.18),
+  winter: ($blue, 0.1)
+);
+
 .planting {
   .planting-badges {
     font-size: 1em;
@@ -567,24 +575,11 @@
   }
 
   // Seasons: a faint tint behind the data, and the same colours in the strip of names under the charts.
-  .season-spring {
-    fill: $green;
-    background: rgba($green, 0.14);
-  }
-
-  .season-summer {
-    fill: $orange;
-    background: rgba($orange, 0.16);
-  }
-
-  .season-autumn {
-    fill: $yellow;
-    background: rgba($yellow, 0.18);
-  }
-
-  .season-winter {
-    fill: $blue;
-    background: rgba($blue, 0.1);
+  @each $season, $tint in $season-tints {
+    .season-#{$season} {
+      fill: nth($tint, 1);
+      background: rgba(nth($tint, 1), nth($tint, 2));
+    }
   }
 
   .weather-season {
@@ -1007,5 +1002,53 @@
   .planting-timeline-name,
   .planting-timeline-date {
     display: inline;
+  }
+}
+
+// The line made of the seasons it runs through: each is a stretch of the line, tinted and named. The progress to today
+// is the strong bar along its foot, and the event icons sit on top of it.
+.planting-timeline-line--seasons {
+  height: 1.6rem;
+  margin-top: -0.8rem;
+  background: transparent;
+
+  .planting-timeline-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 0.35rem;
+    border-radius: 0 0.175rem 0.175rem 0;
+  }
+
+  .planting-timeline-today {
+    top: -0.3rem;
+    bottom: -0.3rem;
+  }
+}
+
+// The seasons are clipped to the rounded ends of the line, which the "today" tick above it must not be.
+.planting-timeline-seasons {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 0.3rem;
+}
+
+.planting-timeline-season {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  padding: 0 0.25rem 0.2rem;
+  color: $ink-muted;
+  font-size: 0.75rem;
+  line-height: 1.4rem;
+  text-align: center;
+  white-space: nowrap;
+
+  @each $season, $tint in $season-tints {
+    &.season-#{$season} {
+      background: rgba(nth($tint, 1), nth($tint, 2) + 0.1);
+    }
   }
 }
