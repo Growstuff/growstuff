@@ -10,6 +10,7 @@ describe PlantingsController, '#show observations' do
     before { get planting_path(planting) }
 
     it { expect(page).to have_css('#observations', text: 'Nothing noticed yet') }
+    it { expect(page).to have_css('#observations .observation-planted', text: 'Planted') }
   end
 
   context 'with some' do
@@ -22,13 +23,18 @@ describe PlantingsController, '#show observations' do
     end
 
     it 'lists them newest first, with the day of the planting' do
-      expect(page).to have_css('.observation-timeline .observation', count: 3)
-      expect(page.all('.observation-kind').map(&:text)).to eq ['Other', 'Disease observed', 'Flowering']
+      expect(page).to have_css('.observation-timeline .observation', count: 4)
+      expect(page.all('.observation-kind').map(&:text)).to eq ['Other', 'Disease observed', 'Flowering', 'Planted']
       expect(page).to have_css('.observation-problem', text: 'White spots on the leaves')
       expect(page).to have_css('.observation-day', text: 'Day 59')
       expect(page).to have_css('.observation-problem .observation-icon .fa-bug')
       expect(page).to have_css('.observation .observation-icon .fa-spa')
       expect(page).to have_css('.observation .observation-icon .fa-circle-question')
+    end
+
+    it 'ends with the planting, which cannot be edited' do
+      expect(page).to have_css('.observation-timeline .observation-planted:last-child', text: 'Planted')
+      expect(page).to have_css('.observation-planted .observation-day', text: 'Day 0')
     end
 
     it 'gives the public no way to add or delete' do

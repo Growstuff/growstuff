@@ -32,6 +32,14 @@ module ObservationsHelper
     t("observations.kinds.#{kind || 'other'}")
   end
 
+  # What the timeline lists, newest first, as [when, observation]: the observations, and the planting itself, which
+  # has no observation, on the day it went in.
+  def observation_timeline(planting, observations)
+    entries = observations.map { |observation| [observation.observed_at, observation] }
+    entries << [planting.planted_at.in_time_zone, nil] if planting.planted_at.present?
+    entries.sort_by(&:first).reverse
+  end
+
   # How many days into the planting it was noticed, if we know when it was planted.
   def observation_day(observation, planting)
     return if planting.planted_at.blank?

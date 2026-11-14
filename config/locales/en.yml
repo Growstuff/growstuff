@@ -4051,6 +4051,7 @@ en:
         deleted: Observation deleted.
       edit: Edit observation
       logged_by: "%{author} noticed"
+      planted: Planted
     origin:
       change: change
       crop_changed: This planting is now %{crop}, to match your packet. It was %{was}.
