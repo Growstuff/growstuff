@@ -52,7 +52,8 @@
       %h3
         = t('.heat')
         -# Degree days aren't calendar days, so the card explains itself on a tap or a hover.
-        = render 'plantings/help', css: 'plantingheat--help', label: t('.heat_help_label'), title: t('.heat_help_title'), content: t('.heat_help')
+        = render 'plantings/help', css: 'plantingheat--help', links: true, label: t('.heat_help_label'), title: t('.heat_help_title'),
+          content: t('.heat_help_html', link: link_to(t('.heat_help_link'), 'https://en.wikipedia.org/wiki/Growing_degree-day', target: '_blank', rel: 'noopener'))
       .fact-value
         %strong.plantingfact--heat= number_with_delimiter(heat)
         %span

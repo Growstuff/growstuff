@@ -19,6 +19,11 @@ describe 'plantings/_facts' do
       expect(rendered).to have_css '.plantingheat--help[data-bs-content*="not calendar days"]'
     end
 
+    it 'links to where growing degree days are explained, in a popover that opens on a click' do
+      expect(rendered).to have_css '.plantingheat--help[data-bs-trigger="click"][data-bs-html="true"]'
+      expect(rendered).to have_css '.plantingheat--help[data-bs-content*="https://en.wikipedia.org/wiki/Growing_degree-day"]'
+    end
+
     it 'shows the heat so far out of what is needed' do
       expect(rendered).to have_css '.plantingheat .plantingfact--heat', text: '412'
       expect(rendered).to have_css '.plantingheat', text: 'of about 850 needed'
