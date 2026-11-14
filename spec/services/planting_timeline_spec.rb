@@ -94,6 +94,16 @@ describe PlantingTimeline do
       expect(timeline.markers.map(&:modifiers)).to eq [%i(above start), %i(below middle expected), %i(above end expected)]
     end
 
+    it 'can label every kind of event in every language the site has' do
+      I18n.available_locales.each do |locale|
+        I18n.with_locale(locale) do
+          described_class::ICONS.each_key do |kind|
+            expect { I18n.t("plantings.timeline.events.#{kind}", garden: 'Bed 2', raise: true) }.not_to raise_error
+          end
+        end
+      end
+    end
+
     it 'names the garden a move was to' do
       allow(planting).to receive(:histories)
         .and_return([instance_double(PlantingHistory, ended_on: Date.new(2026, 5, 15), moved_to: build(:garden, name: 'Bed 2'))])

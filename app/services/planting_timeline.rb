@@ -45,7 +45,7 @@ class PlantingTimeline
   def markers
     events.each_with_index.map do |event, index|
       percent = position(event.date)
-      Marker.new(kind: event.kind, label: I18n.t("plantings.timeline.#{event.kind}", garden: event.garden&.name),
+      Marker.new(kind: event.kind, label: I18n.t("plantings.timeline.events.#{event.kind}", garden: event.garden&.name),
                  date: event.date, expected: event.expected, percent:, side: index.even? ? :above : :below,
                  edge: edge(percent), icon: ICONS.fetch(event.kind))
     end
