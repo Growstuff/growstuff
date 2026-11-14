@@ -35,6 +35,7 @@ class Planting < ApplicationRecord
   has_many :histories, -> { order(:ended_on, :id) }, class_name: 'PlantingHistory', dependent: :destroy, inverse_of: :planting
   has_many :harvests, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :observations, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid. Made the
   # first time the garden's layout is used (Garden#prepare_layout), not for every
   # planting, as most plantings never go on a layout.
