@@ -22,13 +22,14 @@ module GardensHelper
   # use for crops that have none of their own.
   def garden_cards_props(gardens, owner: nil)
     {
-      gardens:          GardenCardSerializer.collection(gardens, ability: card_ability, show_owner: owner.blank?),
-      default_icon_url: image_path('icons/planting.svg'),
-      spade_icon_url:   image_path('spade-marker.svg'),
-      harvest_icon_url: image_path('icons/harvest.svg'),
-      seed_icon_url:    image_path('icons/seeds.svg'),
-      photo_icon_url:   image_path('icons/photo.svg'),
-      finish_icon_url:  image_path('icons/finish.svg')
+      gardens:           GardenCardSerializer.collection(gardens, ability: card_ability, show_owner: owner.blank?),
+      default_icon_url:  image_path('icons/planting.svg'),
+      spade_icon_url:    image_path('spade-marker.svg'),
+      harvest_icon_url:  image_path('icons/harvest.svg'),
+      seed_icon_url:     image_path('icons/seeds.svg'),
+      photo_icon_url:    image_path('icons/photo.svg'),
+      finish_icon_url:   image_path('icons/finish.svg'),
+      observation_kinds: observation_kind_options
     }
   end
 
@@ -98,11 +99,12 @@ module GardensHelper
   def nursery_chip_props(seedling, gardens:)
     chip = PlantingChipSerializer.new(seedling, ability: card_ability).as_json.merge(slug: seedling.slug)
     {
-      planting:         nursery_chip_with_transplant(chip, seedling, gardens),
-      gardens:          gardens,
-      default_icon_url: image_path('icons/planting.svg'),
-      photo_icon_url:   image_path('icons/photo.svg'),
-      detail:           ("\u00d7 #{seedling.quantity}" if seedling.quantity)
+      planting:          nursery_chip_with_transplant(chip, seedling, gardens),
+      gardens:           gardens,
+      default_icon_url:  image_path('icons/planting.svg'),
+      photo_icon_url:    image_path('icons/photo.svg'),
+      observation_kinds: observation_kind_options,
+      detail:            ("\u00d7 #{seedling.quantity}" if seedling.quantity)
     }
   end
 

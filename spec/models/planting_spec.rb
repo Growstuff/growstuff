@@ -8,6 +8,40 @@ describe Planting do
   let(:garden)       { create(:garden, owner: garden_owner, name: 'Springfield Community Garden') }
   let(:planting)     { create(:planting, crop:, garden:, owner: garden.owner) }
 
+  describe 'short code assignment' do
+    it 'assigns a code when creating a planting' do
+      expect(planting.reload.short_code).to match(/\A[2-9A-HJ-NP-Z]{4}\z/)
+    end
+
+    context 'with a missing short code' do
+      before do
+        planting.update_column(:short_code, nil) # rubocop:disable Rails/SkipsModelValidations
+        allow(described_class).to receive(:generate_short_code).with(planting.owner).and_return('AB23')
+      end
+
+      it 'assigns a code when saving an existing planting' do
+        planting.save!
+
+        expect(planting.reload.short_code).to eq('AB23')
+      end
+
+      it 'assigns a code when saving without validation' do
+        planting.save!(validate: false)
+
+        expect(planting.reload.short_code).to eq('AB23')
+      end
+    end
+
+    context 'with an existing short code' do
+      it 'preserves the code when saving' do
+        original_code = planting.short_code
+        planting.save!
+
+        expect(planting.reload.short_code).to eq(original_code)
+      end
+    end
+  end
+
   describe 'planting lifespan predictions' do
     context 'no predications data yet' do
       describe 'planting planted, not finished' do

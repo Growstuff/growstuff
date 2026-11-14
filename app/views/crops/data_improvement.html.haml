@@ -6,12 +6,12 @@
 
 %ul.nav.nav-tabs
   - labels.each do |key, value|
-    %li{class: "nav-item #{('active' if @active_tab == key.to_s)}"}
-      = link_to value, data_improvement_crops_path(tab: key)
+    %li.nav-item
+      = link_to value, data_improvement_crops_path(tab: key), class: ['nav-link', ('active' if @active_tab == key.to_s)], aria: { current: ('page' if @active_tab == key.to_s) }
 
 .tab-content
   .tab-pane.active
-    %h2= t('.missing', field: labels[@active_tab.to_sym])
+    .alert= t('.missing', field: labels[@active_tab.to_sym])
     = render 'crop_list', crops: @crops
 
     = will_paginate @crops

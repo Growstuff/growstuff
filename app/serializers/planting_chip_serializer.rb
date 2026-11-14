@@ -33,7 +33,8 @@ class PlantingChipSerializer
     actions = [
       action(:view, I18n.t('buttons.view'), routes.planting_path(@planting)),
       action(:edit, I18n.t('buttons.edit'), routes.edit_planting_path(@planting)),
-      photo_action(@planting)
+      photo_action(@planting),
+      action(:observation, I18n.t('buttons.add_observation'), routes.planting_path(@planting, anchor: 'observations'))
     ]
     actions.concat(active_planting_actions) if @planting.active
     actions.compact
