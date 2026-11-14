@@ -90,28 +90,6 @@ describe GardensHelper do
     end
   end
 
-  describe '#temperature_text' do
-    it 'rounds to a tenth of a degree' do
-      expect(helper.temperature_text(31.44)).to eq '31.4°C'
-    end
-
-    it 'says when it is not known' do
-      expect(helper.temperature_text(nil)).to eq 'not known'
-    end
-  end
-
-  describe '#garden_temperatures' do
-    let(:garden) { build_stubbed(:garden, location_wikidata_id: 'Q1', highest_temp_c: 31.4, lowest_temp_c: nil) }
-
-    it 'says the hottest and coldest, crediting Wikidata' do
-      expect(helper.garden_temperatures(garden)).to include('hottest 31.4°C, coldest not known')
-    end
-
-    it 'links to the Wikidata entry' do
-      expect(helper.garden_temperatures(garden)).to include('href="https://www.wikidata.org/wiki/Q1"')
-    end
-  end
-
   describe '#garden_planter_props' do
     let(:garden) { build_stubbed(:garden) }
 

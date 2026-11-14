@@ -8,20 +8,6 @@ module GardensHelper
     safe_join([location, garden.garden_type&.name, garden.area_text, garden_distance(garden)].compact, ' · ')
   end
 
-  # A temperature as degrees, or that it is not known.
-  def temperature_text(celsius)
-    celsius.present? ? "#{celsius.round(1)}°C" : t('gardens.about.temperature_unknown')
-  end
-
-  # The garden's hottest and coldest, as the sentence that credits Wikidata.
-  def garden_temperatures(garden)
-    url = "https://www.wikidata.org/wiki/#{garden.location_wikidata_id}"
-    source = link_to('Wikidata', url, target: '_blank', rel: 'noopener noreferrer')
-    hottest = temperature_text(garden.highest_temp_c)
-    coldest = temperature_text(garden.lowest_temp_c)
-    t('gardens.about.temperatures_html', source:, hottest:, coldest:)
-  end
-
   # What the GardenPlanter island needs to open the planting dialog for a garden.
   def garden_planter_props(garden)
     { garden: { id: garden.id, name: garden.name }, buttonClass: 'btn btn-sm section-add', iconUrl: image_path('icons/planting.svg') }
