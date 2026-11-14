@@ -833,3 +833,130 @@
     stroke: $blue;
   }
 }
+
+// A planting's life as a line with events on it (plantings/_timeline). Each event sits at its share of the line, with
+// its label alternately above and below so neighbours don't overlap; the ones near either end lean inwards to stay on screen.
+.planting-timeline {
+  position: relative;
+  height: 10rem;
+  margin: 0.5rem 0.5rem 1rem;
+}
+
+.planting-timeline-line {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 0.6rem;
+  margin-top: -0.3rem;
+  background: var(--bs-gray-200);
+  border-radius: 0.3rem;
+}
+
+.planting-timeline-fill {
+  height: 100%;
+  border-radius: 0.3rem;
+}
+
+.planting-timeline-today {
+  position: absolute;
+  top: -0.4rem;
+  bottom: -0.4rem;
+  width: 2px;
+  background: var(--bs-body-color);
+}
+
+.planting-timeline-events {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// The event is a point on the line; its icon and label are placed from it.
+.planting-timeline-event {
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+}
+
+.planting-timeline-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: var(--bs-body-bg);
+  border: 2px solid var(--bs-body-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+
+  img,
+  i {
+    width: 1.2rem;
+    height: 1.2rem;
+    font-size: 1.1rem;
+    line-height: 1.2rem;
+  }
+}
+
+// What is only expected: a dashed badge and a fainter icon.
+.planting-timeline-event--expected .planting-timeline-marker {
+  border-style: dashed;
+  border-color: var(--bs-gray-600);
+
+  img,
+  i {
+    opacity: 0.55;
+  }
+}
+
+.planting-timeline-label {
+  position: absolute;
+  left: 0;
+  width: max-content;
+  max-width: 8rem;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.planting-timeline-event--above .planting-timeline-label {
+  bottom: 1.4rem;
+}
+
+.planting-timeline-event--below .planting-timeline-label {
+  top: 1.4rem;
+}
+
+.planting-timeline-event--start .planting-timeline-label {
+  text-align: left;
+  transform: translateX(-1rem);
+}
+
+.planting-timeline-event--end .planting-timeline-label {
+  text-align: right;
+  transform: translateX(calc(-100% + 1rem));
+}
+
+.planting-timeline-name {
+  display: block;
+  font-weight: 600;
+}
+
+.planting-timeline-date {
+  display: block;
+  color: $ink-muted;
+}
+
+.planting-timeline-event--failed .planting-timeline-name {
+  color: var(--bs-danger);
+}
+
+.planting-timeline-event--expected .planting-timeline-label {
+  font-style: italic;
+}

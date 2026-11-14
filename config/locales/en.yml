@@ -4237,13 +4237,15 @@ en:
       weather_temperature_chart_alt: Daily high and low temperature, from %{low} to %{high}.
     string: "%{crop} planting in %{garden} by %{owner}"
     timeline:
+      expected: expected
       failed: Failed
-      finish_expected: Finish expected %{date}
-      finished: Finished %{date}
-      first_harvest_expected: First harvest expected %{date}
-      harvest_started: Harvest started %{date}
-      legend: (One emoji = 1 week)
-      planted: Planted %{date}
+      finished: Finished
+      first_harvest: First harvest
+      last_harvest: Last harvest
+      planted: Planted
+      sown: Sown
+      today: Today
+      transplanted: Moved to %{garden}
     transplant:
       cancel: Cancel
       close: Close
