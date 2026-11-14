@@ -843,6 +843,51 @@ describe Planting do
     end
   end
 
+  describe '#heat_so_far and #heat_needed' do
+    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+    let(:crop) { create(:crop, growing_degree_days: 600) }
+    let(:planting) do
+      create(:planting, crop:, garden:, owner: garden.owner, planted_at: Date.new(2026, 10, 1),
+                        finished: true, finished_at: Date.new(2026, 10, 3))
+    end
+
+    before do
+      (Date.new(2026, 9, 30)..Date.new(2026, 10, 5)).each { |date| create(:weather_reading, date:, temp_max_c: 20.0, temp_min_c: 10.0) }
+    end
+
+    it 'adds up the heat above the default base from planting to its last day' do
+      expect(planting.heat_so_far).to eq 15
+    end
+
+    it 'needs the heat the crop is set to' do
+      expect(planting.heat_needed).to eq 600
+    end
+
+    context 'when the crop has no figure' do
+      let(:crop) { create(:crop, growing_degree_days: nil) }
+
+      it 'does not know the heat needed' do
+        expect(planting.heat_needed).to be_nil
+      end
+    end
+
+    context 'when the crop is a perennial' do
+      let(:crop) { create(:crop, growing_degree_days: 600, perennial: true) }
+
+      it 'has no heat so far' do
+        expect(planting.heat_so_far).to be_nil
+      end
+    end
+
+    context 'when the garden has no location' do
+      before { garden.update_columns(latitude: nil, longitude: nil) } # rubocop:disable Rails/SkipsModelValidations
+
+      it 'does not know the heat so far' do
+        expect(planting.heat_so_far).to be_nil
+      end
+    end
+  end
+
   describe '#weather_readings' do
     subject(:readings) { planting.weather_readings }
 
