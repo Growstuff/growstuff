@@ -4,6 +4,13 @@ module PlantingsHelper
   include PlantingWeatherHelper
   include SeedsHelper
 
+  def planting_code_visible?(planting)
+    return false unless current_member && Feature.enabled?(:planting_codes, current_member)
+
+    planting.owner_id == current_member.id ||
+      planting.garden.garden_collaborators.exists?(member_id: current_member.id)
+  end
+
   # Pictures for the ways a planting was started and where it came from, from the icons the site already has.
   ORIGIN_KIND_ICONS = {
     'seed' => 'icons/seeds.svg', 'seedling' => 'icons/sprout.svg', 'cutting' => 'icons/plant_parts/stem.svg',

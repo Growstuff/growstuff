@@ -1,5 +1,7 @@
 ---
 fr:
+  likes:
+    description_html: '%{member} a aimé %{item}'
   shared:
     flash_messages:
       close: Fermer
@@ -143,6 +145,14 @@ fr:
         disabled: "%{feature} est maintenant désactivé."
         enabled: "%{feature} est maintenant activé."
   authentications:
+    connected:
+      connected_title: Flickr connecté
+      not_connected_title: Flickr non connecté
+      connected_heading: Flickr est connecté
+      connected_help: Vous pouvez fermer cette fenêtre et continuer à choisir une photo.
+      not_connected_heading: Flickr n’a pas été connecté
+      not_connected_help: Vous pouvez fermer cette fenêtre et réessayer.
+      close_window: Fermer cette fenêtre
     sign_in:
       bluesky:
         terms_of_service: "Conditions d'utilisation"

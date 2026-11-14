@@ -4,7 +4,7 @@
 -# priming it hides the owner's own controls, and the owner priming it shows
 -# them to strangers.
 - owner_viewing = member_signed_in? && current_member.id == planting.owner_id
-- show_short_code = owner_viewing && local_assigns[:show_short_code] == true
+- show_short_code = planting_code_visible?(planting)
 - cache [planting, owner_viewing, show_short_code] do
   .card.planting{class: planting.active ? '' : 'card-finished'}
     = link_to planting_path(slug: planting.slug) do
