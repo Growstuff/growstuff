@@ -86,6 +86,7 @@ Rails.application.routes.draw do
     resources :harvests
     resources :seeds
     resource :origin, only: :update, module: :plantings
+    resources :observations, only: %i(create destroy), module: :plantings
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
     end

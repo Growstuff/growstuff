@@ -1,0 +1,76 @@
+// A planting's observations, newest first, down a line with a dot for each.
+.observation-timeline {
+  position: relative;
+  margin: 0;
+  padding-left: 1.5rem;
+  border-left: 2px solid rgba($brown, 0.2);
+
+  .observation {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    padding: 0.25rem 0 1rem;
+
+    // What was seen, as an icon on the line.
+    .observation-icon {
+      position: absolute;
+      top: 0;
+      left: calc(-1.5rem - 15px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      color: $white;
+      background: $green;
+      box-shadow: 0 0 0 3px $white;
+    }
+
+    &.observation-problem .observation-icon {
+      background: $danger-text;
+    }
+  }
+
+  .observation-when {
+    flex: 0 0 7.5rem;
+    padding-top: 0.15rem;
+    font-size: 0.875rem;
+    color: $ink-muted;
+
+    .observation-day {
+      display: block;
+    }
+  }
+
+  .observation-body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .observation-problem .observation-kind {
+    color: $danger-text;
+  }
+
+  .observation-note {
+    white-space: pre-line;
+  }
+
+  .observation-delete {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .observation-timeline .observation {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    min-height: 28px;
+    padding-left: 0.75rem;
+
+    .observation-when {
+      flex-basis: 100%;
+    }
+  }
+}

@@ -4,12 +4,13 @@ import ActionsMenu from './ActionsMenu';
 import AddPhotoModal from './AddPhotoModal';
 import EditPlantingModal from './EditPlantingModal';
 import MarkFinishedModal from './MarkFinishedModal';
+import ObservationModal from './ObservationModal';
 import RecordHarvestModal from './RecordHarvestModal';
 import SaveSeedsModal from './SaveSeedsModal';
 
 // The menu items we open a dialog for. Anything else — delete, and whatever is
 // added later — keeps its link, its data-method and its data-confirm.
-const DIALOGS = ['edit', 'harvest', 'seeds', 'finish', 'photo'];
+const DIALOGS = ['edit', 'harvest', 'seeds', 'finish', 'photo', 'observation'];
 
 // Transplanting is a server-rendered Bootstrap dialog, already on the page but
 // hidden. Its form posts as it always has, so it needs no JSON endpoint.
@@ -53,7 +54,7 @@ function useSectionTriggers(onTrigger) {
 export default function PlantingActions({
   planting, actions,
   harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl,
-  photo_icon_url: photoIconUrl, finish_icon_url: finishIconUrl
+  photo_icon_url: photoIconUrl, finish_icon_url: finishIconUrl, observation_kinds: observationKinds
 }) {
   // {kind, href}: which dialog is open, and the link it was opened from, which
   // the add-photo dialog needs.
@@ -109,6 +110,9 @@ export default function PlantingActions({
       )}
       {kind === 'finish' && (
         <MarkFinishedModal planting={planting} iconUrl={finishIconUrl} onClose={close} onSaved={saved} />
+      )}
+      {kind === 'observation' && (
+        <ObservationModal planting={planting} kinds={observationKinds} onClose={close} onSaved={saved} />
       )}
       {kind === 'photo' && (
         <AddPhotoModal

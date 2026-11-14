@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1080,6 +1080,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
     t.index ["order_id", "product_id"], name: "index_orders_products_on_order_id_and_product_id"
   end
 
+  create_table "observations", force: :cascade do |t|
+    t.bigint "author_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "kind"
+    t.datetime "observed_at", null: false
+    t.bigint "planting_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_observations_on_author_id"
+    t.index ["planting_id", "observed_at"], name: "index_observations_on_planting_id_and_observed_at"
+    t.index ["planting_id"], name: "index_observations_on_planting_id"
+  end
+
   create_table "photo_associations", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.integer "crop_id"
@@ -1381,6 +1394,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_11_000200) do
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "member_dismissals", "members"
   add_foreign_key "member_dismissals", "members", column: "dismissed_id"
+  add_foreign_key "observations", "members", column: "author_id"
+  add_foreign_key "observations", "plantings"
   add_foreign_key "photo_associations", "crops"
   add_foreign_key "photo_associations", "photos"
   add_foreign_key "planting_histories", "plantings"
