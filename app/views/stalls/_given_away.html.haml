@@ -10,5 +10,5 @@
           %strong= gift.planting.display_name
           %span.text-muted= l(gift.given_away_at.to_date)
           - if owner
-            %span= t('.to', recipient: gift.recipient)
+            %span= t('.to', recipient: gift.recipient_label)
             %span.badge{ class: gift.claimed? ? 'text-bg-success' : 'text-bg-secondary' }= t(gift.claimed? ? '.claimed' : '.waiting')

@@ -1087,4 +1087,28 @@ describe Planting do
       it { is_expected.to be false }
     end
   end
+
+  describe '#split_off' do
+    subject(:planting) { create(:planting, quantity: 6, harvests_count: 0, planted_at: Time.zone.local(2026, 10, 3)) }
+
+    context 'with some of the batch' do
+      let!(:portion) { planting.split_off(2) }
+
+      it 'makes a planting of that many' do
+        expect(portion).to have_attributes(quantity: 2, crop: planting.crop, garden: planting.garden, planted_at: planting.planted_at)
+      end
+
+      it 'is a planting of its own' do
+        expect(portion).not_to eq planting
+      end
+
+      it 'keeps the rest' do
+        expect(planting.reload.quantity).to eq 4
+      end
+    end
+
+    it 'is the planting itself when it is all of it' do
+      expect(planting.split_off(6)).to eq planting
+    end
+  end
 end

@@ -59,6 +59,8 @@ Rails.application.routes.draw do
     resources :seeds, only: %i(new create destroy), module: :stalls
     # Recording seedlings given away, and to whom.
     resources :plantings, only: %i(new create destroy), module: :stalls
+    # Members to pick from, for who has the seedlings.
+    resources :recipients, only: :index, module: :stalls
   end
 
   # Seedlings given to you, to claim into one of your gardens.

@@ -44,9 +44,14 @@ class Stall < ApplicationRecord
     end
   end
 
-  # Puts seedlings on the stall with nobody to give them to yet. They stay the member's active plantings.
-  def offer_seedlings!(plantings)
-    transaction { plantings.map { |planting| stall_plantings.unclaimed.find_or_create_by!(planting:) } }
+  # Puts seedlings on the stall with nobody to give them to yet. They stay the member's active plantings. A count for
+  # a planting, by its id, offers only that many of the batch, as a planting of its own.
+  def offer_seedlings!(plantings, quantities: {})
+    transaction do
+      plantings.map do |planting|
+        stall_plantings.unclaimed.find_or_create_by!(planting: portion_of(planting, quantities))
+      end
+    end
   end
 
   # The seedlings on offer that are still the member's to give: not finished, failed or given since.
@@ -55,13 +60,15 @@ class Stall < ApplicationRecord
   end
 
   # Gives plantings away to one person, on the day given, whether or not they were on offer: each leaves the member's
-  # active plantings at once, and is kept here with who it went to, for them to claim when they sign in as that address
-  # or handle. All or none: if one can't be given, nothing is, and the error is on the record that failed.
-  def give_away!(plantings, kind:, recipient:, on: Time.zone.now)
+  # active plantings at once, and is kept here with who it went to. `to` says who: recipient_member, recipient_name, and
+  # the recipient_kind and recipient (an address or handle) they sign in with, if known. A count for a planting, by its
+  # id, gives only that many of the batch. All or none: if one can't be given, nothing is, and the error is on the
+  # record that failed.
+  def give_away!(plantings, to:, on: Time.zone.now, quantities: {})
     transaction do
       plantings.map do |planting|
-        stall_plantings.unclaimed.find_or_initialize_by(planting:).tap do |record|
-          record.update!(recipient_kind: kind, recipient:, given_away_at: on)
+        stall_plantings.unclaimed.find_or_initialize_by(planting: portion_of(planting, quantities)).tap do |record|
+          record.update!(**to, given_away_at: on)
         end
       end
     end
@@ -86,6 +93,11 @@ class Stall < ApplicationRecord
   end
 
   private
+
+  def portion_of(planting, quantities)
+    count = quantities[planting.id.to_s].to_i
+    count.positive? ? planting.split_off(count) : planting
+  end
 
   def near?(friend)
     Geocoder::Calculations.distance_between([member.latitude, member.longitude], [friend.latitude, friend.longitude],

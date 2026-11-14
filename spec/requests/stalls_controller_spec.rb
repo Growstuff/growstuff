@@ -62,6 +62,19 @@ describe StallsController, flipper: :garden_stall do
       end
     end
 
+    context 'when a signed-in friend looks at seedlings on offer' do
+      before do
+        stall = create(:stall, :open, member: owner)
+        stall.offer_seedlings!([create(:planting, owner:)])
+        sign_in create(:member)
+        get member_stall_path(owner)
+      end
+
+      it 'lets them ask for one' do
+        expect(Capybara.string(response.body)).to have_link(href: %r{\A/messages/new\?recipient_id=#{owner.id}})
+      end
+    end
+
     context 'when the owner has just taken a packet off the stall' do
       let(:seed) { create(:seed, owner:) }
 

@@ -11,6 +11,7 @@ import CropFilterPicker from './components/CropFilterPicker';
 import EmailStep from './components/EmailStep';
 import FeedMore from './components/FeedMore';
 import GardenCards from './components/GardenCards';
+import GiveAwayForm from './components/GiveAwayForm';
 import GardenLayout from './components/GardenLayout';
 import GardenPicker from './components/GardenPicker';
 import GardenPlanter from './components/GardenPlanter';
@@ -36,7 +37,7 @@ import ScientificNames from './components/ScientificNames';
 import SeedStack from './components/SeedStack';
 import {mountIslands, registerIslands} from './islands';
 
-registerIslands({AlternateNames, AuthDialog, CardPhotoDialog, CropFilterPicker, EmailStep, FeedMore, GardenCards, GardenLayout, GardenPicker, GardenPlanter, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingOrigin, PlantingRating, PostEditor, RecordDialog, ScientificNames, SeasonSuggestions, SeedLibrary, SeedStack, UseMyLocation});
+registerIslands({AlternateNames, AuthDialog, CardPhotoDialog, CropFilterPicker, EmailStep, FeedMore, GardenCards, GardenLayout, GardenPicker, GardenPlanter, GiveAwayForm, GrowingTable, HarvestChart, JobPicker, LocationPicker, NurseryChip, NurseryPlanter, PhotoDialog, PhotoPicker, PlantPicker, PlantingPicker, PlantingActions, PlantingOrigin, PlantingRating, PostEditor, RecordDialog, ScientificNames, SeasonSuggestions, SeedLibrary, SeedStack, UseMyLocation});
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => mountIslands());

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# The member recording seedlings from their nursery they have given away: which, to whom (an email address, or a Fediverse
-# or Bluesky handle), and when. It doesn't need the stall to be open: it is a record, as much as an offer.
+# The member giving away seedlings from their nursery, or putting them on their stall: which, how many, and for those given,
+# to whom and when. It doesn't need the stall to be open: it is a record, as much as an offer.
 module Stalls
   class PlantingsController < ApplicationController
     include FeatureGated
@@ -12,26 +12,23 @@ module Stalls
     STATUSES = %w(given offered).freeze
 
     def new
-      @seedlings = giveable
-      @kind = StallPlanting::KINDS.first
-      @status = params[:status].presence_in(STATUSES) || 'given'
-      load_offered_ids
+      @seedlings = giveable.to_a
+      @status = params[:status].presence_in(STATUSES)
+      @selected = params[:planting_ids].to_a.index_with { nil }
+      @values = {}
+      @recipients = StallRecipients.new(current_member)
     end
 
     # Seedlings are either given to someone, or put on the stall for now with nobody to give them to yet.
     def create
-      @kind = params[:recipient_kind].to_s
       @status = params[:status].presence_in(STATUSES) || 'given'
-      plantings = giveable.where(id: params[:planting_ids])
-      return redirect_to new_stall_planting_path, alert: t('.none') if plantings.none?
+      plantings = giveable.where(id: params[:planting_ids]).to_a
+      return redirect_to new_stall_planting_path(status: @status), alert: t('.none') if plantings.empty?
 
-      record(plantings.to_a)
+      record(plantings)
       redirect_to member_stall_path(current_member), notice: t(".#{@status}", count: plantings.size)
     rescue ActiveRecord::RecordInvalid => e
-      @seedlings = giveable
-      load_offered_ids
-      flash.now[:alert] = e.record.errors.full_messages.to_sentence
-      render :new, status: :unprocessable_content
+      render_form_again(e.record.errors.full_messages.to_sentence)
     end
 
     # Takes a seedling off the stall that nobody has been given yet. Once given it is a record, and stays.
@@ -44,16 +41,30 @@ module Stalls
 
     def record(plantings)
       stall = current_member.stall!
+      quantities = params[:quantities]&.to_unsafe_h || {}
       if @status == 'offered'
-        stall.offer_seedlings!(plantings)
+        stall.offer_seedlings!(plantings, quantities:)
       else
-        stall.give_away!(plantings, kind: @kind, recipient: params[:recipient].to_s, on: given_on)
+        stall.give_away!(plantings, to: recipient_params, on: given_on, quantities:)
       end
     end
 
-    # Which of the seedlings are on their stall already, to say so beside them.
-    def load_offered_ids
-      @offered_ids = current_member.stall&.seedlings_on_offer&.pluck(:planting_id).to_a
+    # Who it went to: a member they picked, or a name, and how that person signs in, if they know.
+    def recipient_params
+      fields = params.permit(:recipient_member_id, :recipient_name, :recipient_kind, :recipient).to_h.symbolize_keys
+      fields.delete(:recipient_kind) if fields[:recipient].blank?
+      member = StallRecipients.new(current_member).pickable.find_by(id: fields.delete(:recipient_member_id))
+      fields.transform_values(&:presence).merge(recipient_member: member)
+    end
+
+    def render_form_again(message)
+      @seedlings = giveable.to_a
+      @selected = params[:planting_ids].to_a.index_with { |id| params.dig(:quantities, id).presence&.to_i }
+      @status = params[:status].presence_in(STATUSES)
+      @values = params.permit(:recipient_name, :recipient_kind, :recipient, :given_on, :recipient_member_id).to_h
+      @recipients = StallRecipients.new(current_member)
+      @errors = [message]
+      render :new, status: :unprocessable_content
     end
 
     # The seedlings in their nursery, newest sown first: only those are offered.

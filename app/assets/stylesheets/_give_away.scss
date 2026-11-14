@@ -1,0 +1,327 @@
+// Giving seedlings away, or putting them on the stall: the GiveAwayForm island, laid out as a dialog. It follows the
+// design: a list of seedlings, then one question ("what's happened to them?") as cards that open only the fields that
+// answer needs. Touch targets are at least 44px.
+$give-border: #757575;
+$give-muted: rgba(65, 63, 59, 0.75);
+$give-note: #e8f5e9;
+$give-warn: #fff8e1;
+
+.give-form {
+  max-width: 760px;
+
+  legend {
+    padding: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+.give-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.give-fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.give-strong {
+  font-weight: 600;
+}
+
+.give-normal {
+  font-weight: 400;
+}
+
+.give-muted {
+  color: $give-muted;
+}
+
+.give-block {
+  display: block;
+}
+
+// A seedling to tick, and how many of the batch.
+.give-row,
+.give-card,
+.give-picked {
+  border: 1px solid $give-border;
+  border-radius: 4px;
+  background: $white;
+}
+
+.give-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  padding: 0.5rem 0.9rem;
+}
+
+.give-row-on,
+.give-card-on,
+.give-picked {
+  border-color: $green;
+  box-shadow: inset 0 0 0 1px $green;
+}
+
+.give-row-label {
+  display: flex;
+  flex: 1 1 200px;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  cursor: pointer;
+
+  input {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    accent-color: $green;
+  }
+}
+
+.give-thumb {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  background: #cfe3c4;
+  color: $green;
+}
+
+.give-person-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.give-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  button {
+    width: 44px;
+    height: 44px;
+    border: 1px solid $give-border;
+    border-radius: 2px;
+    background: $white;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+  }
+}
+
+.give-qty {
+  min-width: 28px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.give-stay {
+  flex-basis: 100%;
+  padding-left: 2rem;
+  color: $give-muted;
+}
+
+// The choices for what has happened to them.
+.give-card-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  cursor: pointer;
+
+  input {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    margin: 2px 0 0;
+    accent-color: $green;
+  }
+}
+
+.give-card-body {
+  padding: 0.25rem 0.9rem 1rem 2.9rem;
+}
+
+.give-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.give-stack-wide {
+  gap: 1.1rem;
+}
+
+.give-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.give-date {
+  max-width: 260px;
+}
+
+.give-legend-small {
+  margin-bottom: 0.5rem;
+}
+
+.give-note {
+  padding: 0.65rem 0.9rem;
+  margin: 0;
+  border-radius: 2px;
+  background: $give-warn;
+}
+
+// A member to pick, or the one picked.
+.give-person {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 56px;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid $give-border;
+  border-radius: 4px;
+  background: $white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.give-picked {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+
+  .give-person-text {
+    flex: 1 1 160px;
+  }
+}
+
+.give-avatar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #a4c98c;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.give-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $green;
+  font-weight: 600;
+  text-align: left;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+// How they sign in, suggested but not needed.
+.give-signin {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1rem;
+  border-radius: 4px;
+  background: $give-note;
+
+  p {
+    margin: 0;
+  }
+}
+
+.give-signin-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.give-badge {
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: $green;
+  color: $white;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.give-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.give-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid $give-border;
+  border-radius: 999px;
+  background: $white;
+  cursor: pointer;
+
+  input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: $green;
+  }
+}
+
+.give-chip-on {
+  border-color: $green;
+  box-shadow: inset 0 0 0 1px $green;
+  font-weight: 600;
+}
+
+.give-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}

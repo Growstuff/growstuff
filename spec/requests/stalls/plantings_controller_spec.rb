@@ -5,54 +5,101 @@ require 'rails_helper'
 describe Stalls::PlantingsController, flipper: :garden_stall do
   let(:owner) { create(:member) }
   let(:nursery) { owner.nursery! }
-  let!(:seedling) { create(:planting, owner:, garden: nursery, crop: create(:crop, name: 'kale')) }
+  let!(:seedling) { create(:planting, owner:, garden: nursery, crop: create(:crop, name: 'kale'), quantity: 6) }
   let!(:garden_planting) { create(:planting, owner:, garden: create(:garden, owner:)) }
-  let(:params) { { planting_ids: [seedling.id], recipient_kind: 'email', recipient: 'neighbour@example.com', given_on: '2026-11-14' } }
+  let(:neighbour) { create(:member) }
+  let(:params) { { planting_ids: [seedling.id], status: 'given', recipient_name: 'Sam', given_on: '2026-11-14' } }
+  let(:stall_planting) { owner.stall.stall_plantings.reload.first }
 
   before { sign_in owner }
 
+  # What the form island was given.
+  def island_props
+    JSON.parse(Capybara.string(response.body).find('[data-react-component=GiveAwayForm]', visible: :all)['data-props'])
+  end
+
   describe 'GET /stall/plantings/new' do
-    before { get new_stall_planting_path(status: 'given') }
+    before { get new_stall_planting_path(status: 'given', planting_ids: [seedling.id]) }
 
-    it 'lists the seedlings to give' do
-      expect(Capybara.string(response.body)).to have_field("planting_ids_#{seedling.id}")
+    it 'offers the seedlings in the nursery' do
+      expect(island_props['seedlings'].pluck('id')).to eq [seedling.id]
     end
 
-    it 'leaves out plantings that are not in the nursery' do
-      expect(Capybara.string(response.body)).to have_no_field("planting_ids_#{garden_planting.id}")
+    it 'says how many are in each batch' do
+      expect(island_props['seedlings'].first['total']).to eq 6
     end
 
-    it 'asks who has them, once given' do
-      expect(Capybara.string(response.body)).to have_field('recipient')
+    it 'ticks the seedling it was opened for' do
+      expect(island_props['selected']).to eq(seedling.id.to_s => nil)
     end
 
-    context 'when putting them on the stall' do
-      before { get new_stall_planting_path(status: 'offered') }
-
-      it 'does not ask who has them' do
-        expect(Capybara.string(response.body)).to have_no_field('recipient')
-      end
-
-      it 'does not ask when' do
-        expect(Capybara.string(response.body)).to have_no_field('given_on')
-      end
+    it 'starts on the path it was opened for' do
+      expect(island_props['status']).to eq 'given'
     end
   end
 
   describe 'POST /stall/plantings' do
-    context 'with a seedling and an email address' do
+    context 'with a seedling and a name' do
       before { post stall_plantings_path, params: }
 
       it 'goes back to the stall' do
         expect(response).to redirect_to(member_stall_path(owner))
       end
 
-      it 'records it as given away' do
-        expect(owner.stall.stall_plantings.first).to have_attributes(planting: seedling, recipient: 'neighbour@example.com')
+      it 'records who it was given to' do
+        expect(stall_planting).to have_attributes(planting: seedling, recipient_name: 'Sam')
       end
 
       it 'takes it out of their active plantings' do
         expect(owner.plantings.active).not_to include(seedling)
+      end
+    end
+
+    context 'with how they sign in' do
+      before { post stall_plantings_path, params: params.merge(recipient_kind: 'email', recipient: 'Sam@Example.com') }
+
+      it 'keeps the address, lower case' do
+        expect(stall_planting).to have_attributes(recipient_kind: 'email', recipient: 'sam@example.com')
+      end
+    end
+
+    context 'with a sign-in kind but no address' do
+      before { post stall_plantings_path, params: params.merge(recipient_kind: 'email') }
+
+      it 'records the name alone' do
+        expect(stall_planting).to have_attributes(recipient_name: 'Sam', recipient: nil)
+      end
+    end
+
+    context 'when given to a member' do
+      before { post stall_plantings_path, params: params.except(:recipient_name).merge(recipient_member_id: neighbour.id) }
+
+      it 'records the member' do
+        expect(stall_planting.recipient_member).to eq neighbour
+      end
+
+      it 'is waiting for them' do
+        expect(StallPlanting.waiting_for(neighbour)).to eq [stall_planting]
+      end
+    end
+
+    context 'when given to yourself' do
+      before { post stall_plantings_path, params: params.except(:recipient_name).merge(recipient_member_id: owner.id) }
+
+      it 'asks again' do
+        expect(response).to have_http_status(:unprocessable_content)
+      end
+    end
+
+    context 'when giving part of a batch' do
+      before { post stall_plantings_path, params: params.merge(quantities: { seedling.id.to_s => '2' }) }
+
+      it 'gives a planting of that many' do
+        expect(stall_planting.planting.quantity).to eq 2
+      end
+
+      it 'keeps the rest in the nursery' do
+        expect(seedling.reload.quantity).to eq 4
       end
     end
 
@@ -68,13 +115,17 @@ describe Stalls::PlantingsController, flipper: :garden_stall do
       end
     end
 
-    context 'with a recipient that is not an address' do
-      before { post stall_plantings_path, params: params.merge(recipient: 'nobody') }
+    context 'without saying who' do
+      before { post stall_plantings_path, params: params.except(:recipient_name) }
 
       it { expect(response).to have_http_status(:unprocessable_content) }
 
       it 'gives nothing away' do
         expect(seedling.reload).not_to be_given_away
+      end
+
+      it 'shows the form again with what was chosen' do
+        expect(island_props['selected']).to eq(seedling.id.to_s => nil)
       end
     end
 
@@ -82,7 +133,7 @@ describe Stalls::PlantingsController, flipper: :garden_stall do
       before { post stall_plantings_path, params: params.merge(planting_ids: []) }
 
       it 'asks again' do
-        expect(response).to redirect_to(new_stall_planting_path)
+        expect(response).to redirect_to(new_stall_planting_path(status: 'given'))
       end
     end
 
@@ -90,7 +141,7 @@ describe Stalls::PlantingsController, flipper: :garden_stall do
       before { post stall_plantings_path, params: params.merge(planting_ids: [garden_planting.id]) }
 
       it 'asks again' do
-        expect(response).to redirect_to(new_stall_planting_path)
+        expect(response).to redirect_to(new_stall_planting_path(status: 'given'))
       end
     end
 
@@ -98,7 +149,7 @@ describe Stalls::PlantingsController, flipper: :garden_stall do
       before { post stall_plantings_path, params: params.merge(planting_ids: [create(:planting).id]) }
 
       it 'asks again' do
-        expect(response).to redirect_to(new_stall_planting_path)
+        expect(response).to redirect_to(new_stall_planting_path(status: 'given'))
       end
     end
   end
@@ -112,7 +163,7 @@ describe Stalls::PlantingsController, flipper: :garden_stall do
     end
 
     it 'keeps one that was given' do
-      owner.stall.give_away!([seedling], kind: 'email', recipient: 'a@example.com')
+      owner.stall.give_away!([seedling], to: { recipient_name: 'Sam' })
       delete stall_planting_path(offer)
       expect(response).to have_http_status(:not_found)
     end

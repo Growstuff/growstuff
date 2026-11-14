@@ -210,6 +210,23 @@ class Planting < ApplicationRecord
     quantity.to_i > MAX_PLANTS
   end
 
+  # Splits some of a batch off as a planting of its own, the same crop, garden, date and where it came from, and leaves the
+  # rest here: giving away two of six seedlings makes a planting of two and keeps one of four. Returns the new one, or this
+  # planting itself when the count is all of it, or more.
+  def split_off(count)
+    return self if quantity.nil? || count >= quantity
+
+    portion = dup
+    portion.assign_attributes(quantity: count, slug: nil, short_code: nil, comments_count: 0, likes_count: 0, harvests_count: 0,
+                              days_to_first_harvest: nil, days_to_last_harvest: nil, lifespan: nil, given_away_at: nil)
+    portion.build_seedling(seedling.slice(:source, :supplier, :label_text)) if seedling
+    transaction do
+      portion.save!
+      update!(quantity: quantity - count)
+    end
+    portion
+  end
+
   # Moves this planting into another garden, on the day given, and keeps a record
   # of the garden it was in. It stays one planting, with its sow date, photos and
   # harvests, so the crop's averages count it once. If it can't be moved, it has

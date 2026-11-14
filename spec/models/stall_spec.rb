@@ -143,13 +143,33 @@ describe Stall do
     before { stall.offer_seedlings!([planting]) }
 
     it 'turns an offer into a gift, not a second record' do
-      stall.give_away!([planting], kind: 'email', recipient: 'a@example.com')
+      stall.give_away!([planting], to: { recipient_name: 'Sam' })
       expect(stall.stall_plantings.count).to eq 1
     end
 
     it 'takes it off offer' do
-      stall.give_away!([planting], kind: 'email', recipient: 'a@example.com')
+      stall.give_away!([planting], to: { recipient_name: 'Sam' })
       expect(stall.seedlings_on_offer).to be_empty
+    end
+  end
+
+  describe 'giving part of a batch' do
+    subject(:stall) { create(:stall) }
+
+    let(:planting) { create(:planting, owner: stall.member, quantity: 6) }
+
+    before { stall.give_away!([planting], to: { recipient_name: 'Sam' }, quantities: { planting.id.to_s => '2' }) }
+
+    it 'gives a planting of just those' do
+      expect(stall.stall_plantings.first.planting.quantity).to eq 2
+    end
+
+    it 'keeps the rest' do
+      expect(planting.reload.quantity).to eq 4
+    end
+
+    it 'leaves the rest active' do
+      expect(Planting.active).to include(planting)
     end
   end
 end

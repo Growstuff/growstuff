@@ -1315,14 +1315,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
     t.datetime "created_at", null: false
     t.datetime "given_away_at", comment: "Blank while it is only on offer."
     t.bigint "planting_id", null: false
-    t.string "recipient", comment: "The address or handle it was given to, lower case. Blank while it is only on offer."
-    t.string "recipient_kind", comment: "email, mastodon or bluesky. Blank while it is only on offer."
+    t.string "recipient", comment: "The address or handle they sign in with, lower case, when the giver knows it."
+    t.string "recipient_kind", comment: "email, mastodon or bluesky: how they sign in, when the giver knows."
+    t.bigint "recipient_member_id", comment: "A member it was given to, picked from Growstuff."
+    t.string "recipient_name", comment: "Whatever the giver calls someone who is not a member, or has not been found."
     t.bigint "stall_id", null: false
     t.datetime "updated_at", null: false
     t.index ["claimed_by_id"], name: "index_stall_plantings_on_claimed_by_id"
     t.index ["planting_id"], name: "index_stall_plantings_on_planting_id"
     t.index ["planting_id"], name: "index_stall_plantings_on_unclaimed_planting", unique: true, where: "(claimed_at IS NULL)"
     t.index ["recipient_kind", "recipient"], name: "index_stall_plantings_on_recipient_kind_and_recipient"
+    t.index ["recipient_member_id"], name: "index_stall_plantings_on_recipient_member_id"
     t.index ["stall_id"], name: "index_stall_plantings_on_stall_id"
   end
 
@@ -1424,6 +1427,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
   add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
   add_foreign_key "stall_plantings", "members", column: "claimed_by_id"
+  add_foreign_key "stall_plantings", "members", column: "recipient_member_id"
   add_foreign_key "stall_plantings", "plantings"
   add_foreign_key "stall_plantings", "stalls"
   add_foreign_key "stall_seeds", "seeds"

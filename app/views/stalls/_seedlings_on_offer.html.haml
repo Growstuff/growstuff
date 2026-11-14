@@ -13,5 +13,8 @@
           - if offer.planting.quantity
             %span.text-muted= t('.quantity', count: offer.planting.quantity)
           - if owner
-            = link_to t('.given'), new_stall_planting_path(planting_ids: [offer.planting_id]), class: 'btn btn-sm btn-outline-secondary'
+            = link_to t('.given'), new_stall_planting_path(status: 'given', planting_ids: [offer.planting_id]), class: 'btn btn-sm btn-outline-secondary'
             = button_to t('.take_off'), stall_planting_path(offer), method: :delete, class: 'btn btn-sm btn-link'
+          - elsif member_signed_in?
+            - subject = t('.ask_subject', crop: offer.planting.display_name)
+            = link_to t('.ask'), new_message_path(recipient_id: stall.member_id, subject:), class: 'btn btn-sm btn-outline-secondary'

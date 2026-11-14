@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# A planting on a member's stall: on offer, with nobody to give it to yet, or given away, and who to: an email address, or a
-# Fediverse or Bluesky handle, which may not belong to a member yet. Whoever signs in as that address or handle can claim it
-# into one of their gardens.
+# A planting on a member's stall: on offer, with nobody to give it to yet, or given away, and who to: a member picked from
+# Growstuff, or a name the giver uses, with the email address or Fediverse or Bluesky handle they sign in with if known.
+# Whoever it was given to, or signs in as that address or handle, can claim it into one of their gardens.
 #
 # plantings.given_away_at is set while it is with the giver and nobody has claimed it. It is not finished, so it counts
 # for nothing in the crop's medians, but it is no longer an active planting. Claiming clears it.
@@ -14,9 +14,11 @@ class CreateStallPlantings < ActiveRecord::Migration[8.1]
     create_table :stall_plantings do |t|
       t.references :stall, null: false, foreign_key: true
       t.references :planting, null: false, foreign_key: true
-      t.string :recipient_kind, comment: 'email, mastodon or bluesky. Blank while it is only on offer.'
-      t.string :recipient, comment: 'The address or handle it was given to, lower case. Blank while it is only on offer.'
+      t.string :recipient_kind, comment: 'email, mastodon or bluesky: how they sign in, when the giver knows.'
+      t.string :recipient, comment: 'The address or handle they sign in with, lower case, when the giver knows it.'
       t.datetime :given_away_at, comment: 'Blank while it is only on offer.'
+      t.references :recipient_member, foreign_key: { to_table: :members }, comment: 'A member it was given to, picked from Growstuff.'
+      t.string :recipient_name, comment: 'Whatever the giver calls someone who is not a member, or has not been found.'
       t.references :claimed_by, foreign_key: { to_table: :members }
       t.datetime :claimed_at
       t.timestamps

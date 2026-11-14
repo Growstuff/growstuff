@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :stall_planting do
     stall
     planting { association :planting, owner: stall.member, strategy: :create }
+    recipient_name { 'Sam from the garden' }
     recipient_kind { 'email' }
     recipient { 'neighbour@example.com' }
     given_away_at { Time.zone.local(2026, 11, 14, 12) }

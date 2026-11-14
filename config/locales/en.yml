@@ -59,6 +59,7 @@ en:
         outside_area: This stall is only for people near %{place}.
         owner_unplaced: The gardener hasn't said where they are yet.
         photo_owner_mismatch: must have same owner as item it links to
+        recipient_unknown: "Say who has them: pick a member, or give a name."
         rejection_notes_required: must be added if the reason for rejection is "other"
         rejection_reason_required: must be rejected if a reason for rejection is present
         same_crop_required: must be the same crop
@@ -4789,33 +4790,78 @@ en:
           other: "%{count} seedlings are on your stall."
       destroy:
         removed: Taken off your stall.
-      new:
+      form:
+        bluesky: Bluesky
+        bluesky_label: Their Bluesky handle
+        bluesky_placeholder: alice.bsky.social
         cancel: Cancel
-        given:
-          intro: Tick the seedlings you gave to one person, and say who. They leave your active plantings, and carry on in that person's garden if they claim them by signing in.
-          other: Don't know who has them yet? Put them on your stall instead.
-          submit: Record as given away
-          title: Record seedlings given away
+        change: Change
+        close: Close
+        email: Email
+        email_label: Their email address
+        email_placeholder: alice@example.com
+        email_what: email address
+        fediverse: Fediverse
+        given_hint: Or they're coming to collect them soon.
         given_on: Given on
-        kind: How to reach them
-        kinds:
-          bluesky: Bluesky handle
-          email: Email address
-          mastodon: Fediverse handle
+        given_on_hint: Collecting soon? Record it now. They leave your active plantings today.
+        given_title: I've given them to someone
+        handle_what: handle
+        help_given_lead: Given to someone
+        help_given_rest: takes them out of your active plantings, so they stop counting as growing.
+        help_leaving: This is for seedlings that are leaving your nursery.
+        help_nothing_deleted: Nothing is deleted either way. If you opened this by mistake, just cancel.
+        help_offered_lead: On my stall
+        help_offered_rest: lists them for other gardeners to ask for, and they stay in your nursery until someone takes them.
+        help_title: I'm not sure why I'm here
+        how_signin: How can they sign in?
+        it: it
+        mastodon_label: Their Fediverse handle
+        mastodon_placeholder: "@alice@mastodon.social"
+        matching_hint: Matching people on Growstuff
+        name_hint: Whatever you call them, like “Sam from the community garden”.
+        no_match: No one called “%{query}” is on Growstuff. You can record their name instead.
         none_left: You have no seedlings in your nursery to give away.
-        offered:
-          intro: Tick the seedlings you would like to offer. They stay in your nursery until someone takes them, and you can say who it was later.
-          other: Already given them to someone? Record who instead.
-          submit: Put on my stall
-          title: Put seedlings on my stall
-        on_stall: on your stall
-        privacy: Only you can see who they went to. Growstuff doesn't contact them.
-        recipient: Their email address or handle
-        recipient_hint: For example alice@example.com, @alice@mastodon.social or alice.bsky.social
-        seedling:
-          one: "%{crop} in %{garden}"
-          other: "%{crop} in %{garden}, %{count} plants"
-        your_seedlings: Your seedlings
+        not_on_growstuff: "They're not on Growstuff: record their name instead"
+        offered_detail: They'll show on your stall as seedlings on offer, so other gardeners can ask for them. They stay in your nursery until someone takes them. When they do, you can record who it was.
+        offered_hint: I don't know who will want them yet.
+        offered_title: I'd like to put them on my stall
+        on_growstuff_after_all: "They're on Growstuff after all: find them"
+        on_stall: On your stall
+        of_total: of %{total}
+        one_fewer: One fewer
+        one_more: One more
+        privacy_guest: Only you can see who they went to. Growstuff doesn't contact them.
+        privacy_member: "%{name} will see these waiting on their gardens page, ready to add to a garden."
+        privacy_member_unnamed: They will see these waiting on their gardens page, ready to add to a garden.
+        quantity_group: How many %{name}
+        recommended: Recommended
+        required: "(required)"
+        search_placeholder: Search Growstuff by name
+        seedling_name: "%{crop} seedlings"
+        signin_heading: Record how they sign in
+        signin_text: Growstuff doesn't contact anyone. But if you add the email address or handle they use, these seedlings will be waiting in their own garden whenever they join or sign in.
+        sown: sown %{date}, %{ago} ago
+        stay:
+          one: 1 will stay in your nursery
+          other: "%{count} will stay in your nursery"
+        submit_given: Record as given away
+        submit_offered: Put on my stall
+        suggestions_hint: Neighbours and people you follow
+        tell_them: Tell them yourself, and ask them to sign in with this %{what}. No details? You can still record their name.
+        their_name: Their name
+        them: them
+        title: Give away seedlings
+        what_happened: What's happened to %{these}?
+        which: Which seedlings?
+        who_has: Who has them?
+      new:
+        needs_javascript: This form needs JavaScript.
+        title: Give away seedlings
+    recipients:
+      km: "%{count} km away"
+      metres: "%{count} m away"
+      place: "%{place}, %{distance}"
     seed_tin:
       add: "+ add"
       heading: In the seed tin
@@ -4826,6 +4872,8 @@ en:
       take_off: Take off the stall
     seedlings_on_offer:
       add: "+ add"
+      ask: Ask for it
+      ask_subject: "%{crop} seedlings"
       count:
         one: 1 seedling
         other: "%{count} seedlings"

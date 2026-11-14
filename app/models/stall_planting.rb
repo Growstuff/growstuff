@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 # A seedling on a member's stall. First it may only be on offer, with nobody to give it to yet; then it is given away, and
-# says who it went to: an email address, or a Fediverse or Bluesky handle. They may not be a member yet. Whoever signs in
-# with that address or handle can claim it into one of their gardens, and it carries on there. The giver keeps this
+# says who it went to: a member picked from Growstuff, or a name the giver uses for someone who isn't one, with the email
+# address or Fediverse or Bluesky handle they sign in with, if the giver knows it. Whoever it was given to, or signs in
+# with that address or handle, can claim it into one of their gardens, and it carries on there. The giver keeps this
 # record, as the stall remembering it was given.
 #
 # The planting's own short code is not secret, so it is no proof of who has the seedling: only signing in as the
@@ -15,15 +16,19 @@ class StallPlanting < ApplicationRecord
   belongs_to :stall
   belongs_to :planting
   belongs_to :claimed_by, class_name: 'Member', optional: true
+  belongs_to :recipient_member, class_name: 'Member', optional: true
 
   enum :recipient_kind, KINDS.index_with(&:itself), validate: { allow_nil: true }
 
   normalizes :recipient, with: ->(value) { value.to_s.strip.downcase }
 
   before_validation :normalize_handle
-  validates :recipient, :recipient_kind, presence: true, if: :given?
+  validates :recipient_name, length: { maximum: 100 }
+  validate :recipient_is_known, if: :given?
+  validates :recipient_kind, presence: true, if: -> { recipient.present? }
+  validates :recipient, presence: true, if: -> { recipient_kind.present? }
   validates :planting_id, uniqueness: { conditions: -> { unclaimed } }, unless: :claimed?
-  validate :recipient_is_well_formed, if: :given?
+  validate :recipient_is_well_formed, if: -> { recipient.present? }
   validate :planting_is_the_stall_owners, on: :create
   validate :planting_is_giveable, if: -> { new_record? || will_save_change_to_given_away_at? }
   # It stops being an active planting of the giver's the moment it is given.
@@ -35,12 +40,14 @@ class StallPlanting < ApplicationRecord
   scope :given, -> { where.not(given_away_at: nil) }
   scope :newest_first, -> { order(given_away_at: :desc, id: :desc) }
 
-  # What is waiting for a member: given to an address or handle that they have signed in with, and not claimed yet. An
-  # email counts as theirs once confirmed, which is all `email` ever holds; a handle counts once they have signed in with it.
+  # What is waiting for a member: given to them as a member, or to an address or handle that they have signed in with, and
+  # not claimed yet. An email counts as theirs once confirmed, which is all `email` ever holds; a handle counts once they
+  # have signed in with it.
   scope :waiting_for, lambda { |member|
-    unclaimed.where(recipient_kind: 'email', recipient: member.email.to_s.downcase.presence || '-')
-      .or(unclaimed.where(recipient_kind: 'mastodon', recipient: member.handles_for('mastodon')))
-      .or(unclaimed.where(recipient_kind: 'bluesky', recipient: member.handles_for('bluesky')))
+    given.unclaimed.where(recipient_member_id: member.id)
+      .or(given.unclaimed.where(recipient_kind: 'email', recipient: member.email.to_s.downcase.presence || '-'))
+      .or(given.unclaimed.where(recipient_kind: 'mastodon', recipient: member.handles_for('mastodon')))
+      .or(given.unclaimed.where(recipient_kind: 'bluesky', recipient: member.handles_for('bluesky')))
   }
 
   def claimed?
@@ -49,6 +56,11 @@ class StallPlanting < ApplicationRecord
 
   def given?
     given_away_at.present?
+  end
+
+  # Who it went to, as the giver put it: the member's name, or the name they used.
+  def recipient_label
+    recipient_member&.to_s.presence || recipient_name
   end
 
   def waiting_for?(member)
@@ -90,6 +102,11 @@ class StallPlanting < ApplicationRecord
   def bluesky_handle
     handle = recipient.delete_prefix('@')
     handle.include?('.') ? handle : "#{handle}.#{BLUESKY_DEFAULT_DOMAIN}"
+  end
+
+  # Given to a member, or to someone the giver can name.
+  def recipient_is_known
+    errors.add(:base, :recipient_unknown) if recipient_member.blank? && recipient_name.blank?
   end
 
   def recipient_is_well_formed

@@ -7,6 +7,25 @@ describe StallPlanting do
 
   it { is_expected.to be_valid }
 
+  describe 'who it was given to' do
+    it 'can be just a name' do
+      expect(build(:stall_planting, recipient_kind: nil, recipient: nil)).to be_valid
+    end
+
+    it 'can be a member' do
+      gift = build(:stall_planting, recipient_name: nil, recipient_kind: nil, recipient: nil, recipient_member: create(:member))
+      expect(gift).to be_valid
+    end
+
+    it 'needs a member or a name' do
+      expect(build(:stall_planting, recipient_name: nil, recipient_kind: nil, recipient: nil)).not_to be_valid
+    end
+
+    it 'needs a kind with an address' do
+      expect(build(:stall_planting, recipient_kind: nil)).not_to be_valid
+    end
+  end
+
   describe '#recipient' do
     it 'is lower case' do
       gift.recipient = ' Neighbour@Example.COM '
@@ -84,6 +103,11 @@ describe StallPlanting do
     it 'leaves out one given to someone else' do
       create(:stall_planting, recipient: 'other@example.com')
       expect(described_class.waiting_for(member)).to be_empty
+    end
+
+    it 'finds one given to them as a member' do
+      gift = create(:stall_planting, recipient_member: member, recipient_kind: nil, recipient: nil)
+      expect(described_class.waiting_for(member)).to eq [gift]
     end
 
     it 'finds one given to a Fediverse handle they signed in with' do
@@ -173,7 +197,7 @@ describe StallPlanting do
   end
 
   describe 'when only on offer' do
-    subject(:offer) { create(:stall_planting, recipient_kind: nil, recipient: nil, given_away_at: nil) }
+    subject(:offer) { create(:stall_planting, recipient_name: nil, recipient_kind: nil, recipient: nil, given_away_at: nil) }
 
     it { is_expected.to be_valid }
 
@@ -188,7 +212,7 @@ describe StallPlanting do
     end
 
     context 'when given to someone' do
-      before { offer.update!(recipient_kind: 'email', recipient: 'neighbour@example.com', given_away_at: Time.zone.now) }
+      before { offer.update!(recipient_name: 'Sam', recipient_kind: nil, recipient: nil, given_away_at: Time.zone.now) }
 
       it 'takes the planting off the active ones' do
         expect(Planting.active).not_to include(offer.planting)
