@@ -35,6 +35,7 @@ class Planting < ApplicationRecord
   has_many :histories, -> { order(:ended_on, :id) }, class_name: 'PlantingHistory', dependent: :destroy, inverse_of: :planting
   has_many :harvests, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :observations, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid. Made the
   # first time the garden's layout is used (Garden#prepare_layout), not for every
   # planting, as most plantings never go on a layout.
@@ -124,7 +125,8 @@ class Planting < ApplicationRecord
 
   SHORT_CODE_CHARS = %w[2 3 4 5 6 7 8 9 A B C D E F G H J K L M N P Q R S T U V W X Y Z].freeze
 
-  before_validation :assign_short_code, on: :create
+  before_validation :assign_short_code
+  before_save :assign_short_code
 
   def self.random_short_code
     Array.new(4) { SHORT_CODE_CHARS.sample }.join
