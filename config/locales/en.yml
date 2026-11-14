@@ -3864,6 +3864,11 @@ en:
       finished: Finished
       grown: grown
       grown_in: Grown in
+      heat: Growing degree days
+      heat_help: "These are not calendar days. A growing degree day is one day's worth of useful warmth: how many degrees the day's average temperature was above the lowest temperature this crop grows at. A cold day adds none, so a crop takes more days in autumn than in summer."
+      heat_help_label: What are growing degree days?
+      heat_needed_unknown: so far; how many it needs isn't known
+      heat_of_needed: of about %{needed} needed
       lifespan_days:
         one: 1 day
         other: "%{count} days"

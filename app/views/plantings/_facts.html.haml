@@ -44,6 +44,25 @@
       %strong.plantingfact--progress= t('.unknown')
       %span= t('.no_finish_predicted')
 
+  -# The heat it has had, against the heat the crop needs when we know that. Only for a planting with weather.
+  - heat = planting.heat_so_far
+  - if heat
+    - needed = planting.heat_needed
+    .card.fact-card.plantingheat
+      %h3
+        = t('.heat')
+        -# Degree days aren't calendar days, so the card explains itself on a tap or a hover.
+        %button.btn.btn-link.p-0.ms-1.plantingheat--help{ type: 'button', 'aria-label': t('.heat_help_label'),
+          data: { 'bs-toggle': 'popover', 'bs-trigger': 'hover focus', 'bs-placement': 'top',
+                  'bs-title': t('.heat'), 'bs-content': t('.heat_help') } }
+          = icon 'far', 'circle-question'
+      %strong.plantingfact--heat= number_with_delimiter(heat)
+      %span
+        - if needed
+          = t('.heat_of_needed', needed: number_with_delimiter(needed))
+        - else
+          = t('.heat_needed_unknown')
+
   -# Quantity and the growing method were two cards that both said "seedling".
   -# One card, one sentence: "3 cuttings". Both fields stay editable from it.
   .card.fact-card{class: planting.quantity.to_i.positive? ? '' : 'text-muted'}
