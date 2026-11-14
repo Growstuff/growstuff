@@ -1,8 +1,9 @@
 -# What the grower noticed about this planting, newest first, as a timeline. The
 -# add link opens the same dialog as the actions menu item (see PlantingActions).
+- can_manage = can?(:create, Observation.new(planting:))
 .section-header
   %h2= t('plantings.show.observations')
-  - if can?(:edit, planting)
+  - if can_manage
     - add_options = { class: 'btn btn-sm section-add', data: { planting_dialog: 'observation' } }
     = link_to planting_path(planting, anchor: 'observations'), add_options do
       = icon 'fas', 'plus'
@@ -16,15 +17,19 @@
         %span.observation-icon= observation_icon(observation.kind)
         .observation-when
           %time{ datetime: observation.observed_at.iso8601 }= l(observation.observed_at.to_date)
-          - if planting.planted_at.present? && observation.observed_at.to_date >= planting.planted_at
-            %span.observation-day= t('.day', count: (observation.observed_at.to_date - planting.planted_at).to_i)
+          - if (day = observation_day(observation, planting))
+            %span.observation-day= t('.day', count: day)
         .observation-body
           %strong.observation-kind= observation_kind_label(observation.kind)
           - if observation.author_id != planting.owner_id
             %span.text-muted.small= t('.logged_by', author: observation.author.login_name)
           - if observation.description.present?
             %p.observation-note.mb-0= observation.description
-        - if can?(:edit, planting)
+        - if can_manage
+          = link_to planting_path(planting, anchor: 'observations'), title: t('.edit'), 'aria-label': t('.edit'),
+                    class: 'btn btn-sm btn-link observation-edit',
+                    data: { planting_dialog: 'observation', observation: observation_edit_data(observation) } do
+            = icon 'fas', 'pen'
           = button_to planting_observation_path(planting_slug: planting.slug, id: observation.id), method: :delete,
             class: 'btn btn-sm btn-link text-danger observation-delete', title: t('.delete'),
             data: { confirm: t('are_you_sure') }, 'aria-label': t('.delete') do

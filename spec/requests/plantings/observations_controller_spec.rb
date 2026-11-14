@@ -93,6 +93,48 @@ describe Plantings::ObservationsController do
     end
   end
 
+  describe 'PATCH /plantings/:slug/observations/:id' do
+    subject(:update_observation) do
+      patch planting_observation_path(planting_slug: planting.slug, id: observation.id), params: params, as: :json
+    end
+
+    let!(:observation) { create(:observation, planting: planting, kind: 'flowering', observed_at: Time.zone.local(2026, 1, 5, 9)) }
+    let(:params) { { observation: { kind: nil, description: 'Odd spots' } } }
+
+    context 'when signed in as the owner' do
+      before { sign_in member }
+
+      it 'changes it, leaving the time alone when none is sent' do
+        update_observation
+        expect(response).to have_http_status(:ok)
+        expect(observation.reload).to have_attributes(kind: nil, description: 'Odd spots', observed_at: Time.zone.local(2026, 1, 5, 9))
+      end
+
+      context 'with a null time, which is now' do
+        let(:params) { { observation: { observed_at: nil } } }
+
+        it { expect { update_observation }.to change { observation.reload.observed_at }.to(be_within(1.minute).of(Time.zone.now)) }
+      end
+
+      context 'with a day in the future' do
+        let(:params) { { observation: { observed_at: 3.days.from_now.to_date.to_s } } }
+
+        it 'is unprocessable and changes nothing' do
+          expect { update_observation }.not_to(change { observation.reload.observed_at })
+          expect(response).to have_http_status(:unprocessable_content)
+        end
+      end
+    end
+
+    context 'when signed in as someone else' do
+      before { sign_in create(:member) }
+
+      it 'changes nothing' do
+        expect { update_observation }.not_to(change { observation.reload.description })
+      end
+    end
+  end
+
   describe 'DELETE /plantings/:slug/observations/:id' do
     subject(:delete_observation) { delete planting_observation_path(planting_slug: planting.slug, id: observation.id) }
 

@@ -32,6 +32,7 @@ describe PlantingsController, '#show observations' do
     end
 
     it 'gives the public no way to add or delete' do
+      expect(page).to have_no_css('.observation-edit')
       expect(page).to have_no_css('.observation-delete')
       expect(page).to have_no_css('[data-planting-dialog="observation"]')
     end
@@ -44,8 +45,9 @@ describe PlantingsController, '#show observations' do
       get planting_path(planting)
     end
 
-    it 'offers to add and delete' do
+    it 'offers to add, edit and delete' do
       expect(page).to have_css('[data-planting-dialog="observation"]')
+      expect(page).to have_css('.observation-edit')
       expect(page).to have_css('.observation-delete')
     end
   end

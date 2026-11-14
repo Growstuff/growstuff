@@ -33,7 +33,9 @@ function useSectionTriggers(onTrigger) {
       const trigger = event.target.closest('[data-planting-dialog]');
       if (!trigger) return;
       event.preventDefault();
-      latest.current(trigger.dataset.plantingDialog, trigger.getAttribute('href'));
+      // The edit links for an observation carry what it says, to start the dialog from.
+      const observation = trigger.dataset.observation && JSON.parse(trigger.dataset.observation);
+      latest.current(trigger.dataset.plantingDialog, trigger.getAttribute('href'), observation);
     }
 
     document.addEventListener('click', onClick);
@@ -56,11 +58,11 @@ export default function PlantingActions({
   harvest_icon_url: harvestIconUrl, seed_icon_url: seedIconUrl,
   photo_icon_url: photoIconUrl, finish_icon_url: finishIconUrl, observation_kinds: observationKinds
 }) {
-  // {kind, href}: which dialog is open, and the link it was opened from, which
-  // the add-photo dialog needs.
+  // {kind, href, observation}: which dialog is open, and the link it was opened from, which
+  // the add-photo dialog needs, and the observation being edited, if it is one.
   const [dialog, setDialog] = useState(null);
 
-  const open = (kind, href) => setDialog({kind, href});
+  const open = (kind, href, observation) => setDialog({kind, href, observation});
   const close = () => setDialog(null);
 
   // Close the dialog, then reload on the next tick. Reloading straight from the
@@ -112,7 +114,7 @@ export default function PlantingActions({
         <MarkFinishedModal planting={planting} iconUrl={finishIconUrl} onClose={close} onSaved={saved} />
       )}
       {kind === 'observation' && (
-        <ObservationModal planting={planting} kinds={observationKinds} onClose={close} onSaved={saved} />
+        <ObservationModal planting={planting} kinds={observationKinds} observation={dialog.observation} onClose={close} onSaved={saved} />
       )}
       {kind === 'photo' && (
         <AddPhotoModal

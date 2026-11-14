@@ -1,29 +1,42 @@
 # frozen_string_literal: true
 
 module ObservationsHelper
-  # The kinds of observation to choose from, with their wording.
-  def observation_kind_options
-    kinds = Observation::KINDS.map { |kind| { value: kind, label: observation_kind_label(kind) } }
-    kinds << { value: 'other', label: observation_kind_label(nil) }
-  end
-
-  OBSERVATION_ICONS = {
+  ICONS = {
     'germination' => 'seedling', 'flowering' => 'spa', 'fruiting' => 'apple-whole',
     'wilting' => 'arrow-trend-down', 'disease_observed' => 'bug'
   }.freeze
 
-  # The icon on an observation's place on the timeline; "other" has a question mark.
-  def observation_icon(kind)
-    icon 'fas', OBSERVATION_ICONS.fetch(kind, 'circle-question')
+  # The kinds of observation to choose from, with their wording. Observations with no kind are "other".
+  def observation_kind_options
+    @observation_kind_options ||= (Observation::KINDS + ['other']).map do |kind|
+      { value: kind, label: observation_kind_label(kind), icon: observation_icon_name(kind) }
+    end
   end
 
-  # An observation with no kind is "other".
+  # The icon on an observation's place on the timeline and in the dialog; "other" has a question mark.
+  def observation_icon(kind)
+    icon 'fas', observation_icon_name(kind)
+  end
+
+  # What the edit dialog starts from.
+  def observation_edit_data(observation)
+    { id: observation.id, kind: observation.kind, observed_on: observation.observed_at.to_date.iso8601,
+      description: observation.description }
+  end
+
+  def observation_icon_name(kind)
+    ICONS.fetch(kind, 'circle-question')
+  end
+
   def observation_kind_label(kind)
     t("observations.kinds.#{kind || 'other'}")
   end
 
-  # The dialog for noting something about the planting; the link is where it goes without JavaScript.
-  def observation_action(planting)
-    { key: 'observation', label: t('buttons.add_observation'), href: planting_path(planting, anchor: 'observations') }
+  # How many days into the planting it was noticed, if we know when it was planted.
+  def observation_day(observation, planting)
+    return if planting.planted_at.blank?
+
+    days = (observation.observed_at.to_date - planting.planted_at).to_i
+    days if days >= 0
   end
 end

@@ -51,6 +51,24 @@ describe 'Noting an observation on a planting', :js do
       expect(page).to have_css '#observations .observation-day', text: 'Day 10'
     end
 
+    it 'edits one from the timeline' do
+      create(:observation, planting: planting, kind: 'fruiting', description: 'Green ones')
+      visit planting_path(planting)
+
+      find('#observations .observation-edit').click
+      within '[role=dialog]' do
+        expect(page).to have_content 'Edit observation of lettuce'
+        expect(page).to have_checked_field 'Fruiting', visible: :all
+        find('label', text: 'Other').click
+        fill_in 'Note', with: 'Strange ones'
+        click_button 'Save changes'
+      end
+
+      expect(page).to have_css '#observations .observation-kind', text: 'Other'
+      expect(page).to have_css '#observations .observation', text: 'Strange ones'
+      expect(planting.observations.last).to have_attributes(kind: nil, description: 'Strange ones')
+    end
+
     it 'removes one from the timeline' do
       create(:observation, planting: planting, kind: 'fruiting')
       visit planting_path(planting)
