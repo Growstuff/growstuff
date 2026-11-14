@@ -4,6 +4,6 @@
 .progress-ring{ role: 'progressbar', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': percent.to_i }
   %svg{ viewBox: '0 0 100 100', 'aria-hidden': 'true', focusable: 'false' }
     %circle.progress-ring__track{ cx: 50, cy: 50, r: 42, pathLength: 100 }
-    %circle.progress-ring__arc{ class: "progress-ring--#{planting.progress_state}", cx: 50, cy: 50, r: 42, pathLength: 100,
-      'stroke-dasharray': "#{percent.clamp(0, 100).round(1)} 100" }
+    %circle.progress-ring__arc{ class: "progress-ring--#{planting.progress_state}", cx: 50, cy: 50, r: 42,
+      pathLength: 100, 'stroke-dasharray': "#{percent.clamp(0, 100).round(1)} 100" }
   %strong.plantingfact--progress #{percent.to_i}%

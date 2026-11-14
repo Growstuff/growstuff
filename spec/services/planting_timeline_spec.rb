@@ -75,33 +75,38 @@ describe PlantingTimeline do
     end
   end
 
-  describe '#seasons' do
+  describe '#markers' do
     let(:first_harvest) { Date.new(2026, 7, 1) }
     let(:finish) { Date.new(2026, 8, 31) }
 
-    it 'lays the seasons of the northern half of the world along the line, as shares of it' do
-      allow(planting).to receive(:latitude).and_return(51.5)
-
-      expect(timeline.seasons).to eq [{ season: :spring, left: 0.0, width: 25.41 }, { season: :summer, left: 25.41, width: 74.59 }]
+    it 'labels each event and gives it the icon the site uses for it' do
+      expect(timeline.markers.map(&:label)).to eq ['Sown', 'First harvest', 'Finished']
+      expect(timeline.markers.map(&:icon)).to eq %w(planting harvest finish)
     end
 
-    it 'has the opposite seasons in the southern half' do
-      allow(planting).to receive(:latitude).and_return(-41.3)
-
-      expect(timeline.seasons.pluck(:season)).to eq %i(autumn winter)
+    it 'places each along the line, its label on alternate sides and leaning inwards at either end' do
+      expect(timeline.markers.map(&:percent)).to eq [0.0, 50.0, 100.0]
+      expect(timeline.markers.map(&:side)).to eq %i(above below above)
+      expect(timeline.markers.map(&:edge)).to eq %i(start middle end)
     end
 
-    it 'runs through a year, with each season once it has come round' do
-      allow(planting).to receive_messages(latitude: 51.5, finish_predicted_at: Date.new(2027, 5, 1))
-
-      expect(timeline.seasons.pluck(:season)).to eq %i(spring summer autumn winter spring)
-      expect(timeline.seasons.sum { |band| band[:width] }).to be_within(0.1).of(100)
+    it 'names what sets how each is drawn' do
+      expect(timeline.markers.map(&:modifiers)).to eq [%i(above start), %i(below middle expected), %i(above end expected)]
     end
 
-    it 'has none without knowing which half of the world the garden is in' do
-      allow(planting).to receive(:latitude).and_return(nil)
+    it 'names the garden a move was to' do
+      allow(planting).to receive(:histories)
+        .and_return([instance_double(PlantingHistory, ended_on: Date.new(2026, 5, 15), moved_to: build(:garden, name: 'Bed 2'))])
 
-      expect(timeline.seasons).to eq []
+      expect(timeline.markers.second).to have_attributes(label: 'Moved to Bed 2', icon: 'growing')
+    end
+  end
+
+  describe '#days' do
+    let(:finish) { Date.new(2026, 8, 31) }
+
+    it 'is how long the line runs' do
+      expect(timeline.days).to eq 122
     end
   end
 

@@ -119,9 +119,8 @@ class GardenCardSerializer
 
   def annual(planting)
     perennial(planting).merge(
-      thumb_url: thumb_url(planting), percentage_grown: planting.percentage_grown,
-      progress_state: planting.progress_state,
-      progress_note: progress_note(planting), badges: badges(planting), timeline: timeline(planting)
+      thumb_url: thumb_url(planting), progress_note: progress_note(planting), badges: badges(planting),
+      timeline: timeline(planting)
     )
   end
 

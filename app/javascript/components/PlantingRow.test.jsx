@@ -9,9 +9,9 @@ const base = {
   timeline: {
     state: 'growing', fill: 40, today: 40, expected_label: 'expected', today_label: 'Today',
     events: [
-      {kind: 'sown', label: 'Sown', date: '2025-06-01', expected: false, percent: 0, icon_url: '/planting.svg'},
-      {kind: 'first_harvest', label: 'First harvest', date: '2025-07-20', expected: true, percent: 60, icon_url: '/harvest.svg'},
-      {kind: 'finished', label: 'Finished', date: '2025-08-30', expected: true, percent: 100, icon_url: '/finish.svg'},
+      {kind: 'sown', label: 'Sown', date: '2025-06-01', expected: false, percent: 0, modifiers: ['above', 'start'], icon_url: '/planting.svg'},
+      {kind: 'first_harvest', label: 'First harvest', date: '2025-07-20', expected: true, percent: 60, modifiers: ['below', 'middle', 'expected'], icon_url: '/harvest.svg'},
+      {kind: 'finished', label: 'Finished', date: '2025-08-30', expected: true, percent: 100, modifiers: ['above', 'end', 'expected'], icon_url: '/finish.svg'},
     ],
   },
 };

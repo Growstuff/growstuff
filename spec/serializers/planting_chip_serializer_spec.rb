@@ -10,16 +10,16 @@ describe PlantingChipSerializer do
   context 'when its parent seed has a variety' do
     let(:seed) { create(:seed, variety: 'Brandywine') }
 
-    it 'includes the variety' do
-      expect(json[:variety]).to eq 'Brandywine'
+    it 'labels the chip with the crop and the variety in brackets' do
+      expect(json[:label]).to eq "#{planting.crop.name} (Brandywine)"
     end
   end
 
   context 'without a parent seed' do
     let(:seed) { nil }
 
-    it 'has no variety' do
-      expect(json[:variety]).to be_nil
+    it 'labels the chip with the crop' do
+      expect(json[:label]).to eq planting.crop.name
     end
   end
 end

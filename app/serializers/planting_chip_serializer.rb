@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# A planting as a chip with a menu, for the React cards: its crop's name and icon,
+# A planting as a chip with a menu, for the React cards: its crop's name and icon, what the chip says,
 # where it is, and the menu items you may use on it. The server decides the
 # links and permissions, and React just draws them.
 class PlantingChipSerializer
@@ -13,7 +13,7 @@ class PlantingChipSerializer
 
   def as_json(*)
     {
-      id: @planting.id, url: routes.planting_path(@planting), crop: crop_chip, variety: @planting.variety,
+      id: @planting.id, url: routes.planting_path(@planting), crop: crop_chip, label: @planting.with_variety(@planting.crop.name),
       can_edit: can?(:edit, @planting), actions: planting_actions
     }
   end

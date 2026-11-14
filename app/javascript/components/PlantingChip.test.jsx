@@ -39,14 +39,14 @@ describe('PlantingChip', () => {
     });
   });
 
-  describe('with a variety', () => {
-    it('puts the variety in brackets after the crop name, with a menu', () => {
-      render(<PlantingChip planting={{...planting, variety: 'Brandywine'}} defaultIconUrl="/d.png" handlers={{}} />);
+  describe('with a label from the server', () => {
+    it('says the label, with a menu', () => {
+      render(<PlantingChip planting={{...planting, label: 'Tomato (Brandywine)'}} defaultIconUrl="/d.png" handlers={{}} />);
       expect(screen.getByRole('button', {name: 'Actions for Tomato (Brandywine)'})).toHaveTextContent('Tomato (Brandywine)');
     });
 
-    it('puts the variety in brackets after the crop name, without a menu', () => {
-      render(<PlantingChip planting={{...planting, variety: 'Brandywine', actions: []}} defaultIconUrl="/d.png" handlers={{}} />);
+    it('says the label, without a menu', () => {
+      render(<PlantingChip planting={{...planting, label: 'Tomato (Brandywine)', actions: []}} defaultIconUrl="/d.png" handlers={{}} />);
       expect(screen.getByTitle('Tomato (Brandywine)')).toHaveTextContent('Tomato (Brandywine)');
     });
   });

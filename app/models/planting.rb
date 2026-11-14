@@ -239,9 +239,9 @@ class Planting < ApplicationRecord
     parent_seed&.variety.presence
   end
 
-  # Its name for a chip or a list: what it is called, with its variety in brackets when it has one.
-  def display_name_with_variety
-    variety ? "#{display_name} (#{variety})" : display_name
+  # A name for it with its variety in brackets after, when it has one: "tomato (Brandywine)".
+  def with_variety(name)
+    variety ? "#{name} (#{variety})" : name
   end
 
   def weather_located?

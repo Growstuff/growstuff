@@ -1,4 +1,4 @@
-// The tint of each season, on the weather charts and under a planting's timeline: its colour and how strong.
+// The tint of each season, on the weather charts and along a planting's timeline: its colour and how strong.
 $season-tints: (
   spring: ($green, 0.14),
   summer: ($orange, 0.16),
@@ -334,6 +334,16 @@ $season-tints: (
   .facts .plantingfact--rating {
     font-size: 1.05rem;
     white-space: nowrap;
+  }
+
+  // A card that is still a question (.origin-unanswered) has a flex row for a title, to hold its badge. The inline
+  // edit form opens inside that title, so it takes a row of its own beneath, not a squeeze beside the label.
+  .facts .origin-unanswered h3 {
+    flex-wrap: wrap;
+
+    form {
+      flex: 0 0 100%;
+    }
   }
 
   // The sun or shade a planting grew in: the icon is the value, so it is drawn larger than the text values are.
@@ -889,12 +899,9 @@ $season-tints: (
   border-radius: 50%;
   transform: translate(-50%, -50%);
 
-  img,
-  i {
+  img {
     width: 1.2rem;
     height: 1.2rem;
-    font-size: 1.1rem;
-    line-height: 1.2rem;
   }
 }
 
@@ -903,8 +910,7 @@ $season-tints: (
   border-style: dashed;
   border-color: var(--bs-gray-600);
 
-  img,
-  i {
+  img {
     opacity: 0.55;
   }
 }
@@ -965,12 +971,9 @@ $season-tints: (
     width: 1.6rem;
     height: 1.6rem;
 
-    img,
-    i {
+    img {
       width: 1rem;
       height: 1rem;
-      font-size: 0.9rem;
-      line-height: 1rem;
     }
   }
 
@@ -1026,28 +1029,27 @@ $season-tints: (
   }
 }
 
-// The seasons are clipped to the rounded ends of the line, which the "today" tick above it must not be.
-.planting-timeline-seasons {
+// The strip of seasons the weather charts use (weather_season_strip), as the line itself. It is clipped to the rounded
+// ends of the line, which the "today" tick above it must not be.
+.planting-timeline-line .weather-seasons {
   position: absolute;
   inset: 0;
+  display: flex;
   overflow: hidden;
   border-radius: 0.3rem;
-}
 
-.planting-timeline-season {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  overflow: hidden;
-  padding: 0 0.25rem 0.2rem;
-  color: $ink-muted;
-  font-size: 0.75rem;
-  line-height: 1.4rem;
-  text-align: center;
-  white-space: nowrap;
+  span {
+    overflow: hidden;
+    padding: 0 0.25rem 0.2rem;
+    color: $ink-muted;
+    font-size: 0.75rem;
+    line-height: 1.4rem;
+    text-align: center;
+    white-space: nowrap;
+  }
 
   @each $season, $tint in $season-tints {
-    &.season-#{$season} {
+    .season-#{$season} {
       background: rgba(nth($tint, 1), nth($tint, 2) + 0.1);
     }
   }

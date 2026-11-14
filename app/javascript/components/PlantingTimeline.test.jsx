@@ -6,10 +6,10 @@ import PlantingTimeline from './PlantingTimeline';
 const timeline = {
   state: 'harvesting', fill: 55, today: 55, expected_label: 'expected', today_label: 'Today',
   events: [
-    {kind: 'sown', label: 'Sown', date: '2025-06-01', expected: false, percent: 0, icon_url: '/planting.svg'},
-    {kind: 'transplanted', label: 'Moved to Bed 2', date: '2025-06-20', expected: false, percent: 20, icon_url: '/growing.svg'},
-    {kind: 'first_harvest', label: 'First harvest', date: '2025-07-20', expected: true, percent: 60, icon_url: '/harvest.svg'},
-    {kind: 'failed', label: 'Failed', date: '2025-08-30', expected: false, percent: 100, icon_url: '/finish.svg'},
+    {kind: 'sown', label: 'Sown', date: '2025-06-01', expected: false, percent: 0, modifiers: ['above', 'start'], icon_url: '/planting.svg'},
+    {kind: 'transplanted', label: 'Moved to Bed 2', date: '2025-06-20', expected: false, percent: 20, modifiers: ['below', 'middle'], icon_url: '/growing.svg'},
+    {kind: 'first_harvest', label: 'First harvest', date: '2025-07-20', expected: true, percent: 60, modifiers: ['above', 'middle', 'expected'], icon_url: '/harvest.svg'},
+    {kind: 'failed', label: 'Failed', date: '2025-08-30', expected: false, percent: 100, modifiers: ['below', 'end', 'failed'], icon_url: '/finish.svg'},
   ],
 };
 
@@ -38,13 +38,13 @@ describe('PlantingTimeline', () => {
     expect(items[2]).toHaveTextContent('expected');
   });
 
-  it('puts the labels alternately above and below the line', () => {
+  it('puts each label on the side of the line the server chose', () => {
     render(<PlantingTimeline timeline={timeline} />);
     const sides = screen.getAllByRole('listitem').map((item) => (item.classList.contains('planting-timeline-event--above') ? 'above' : 'below'));
     expect(sides).toEqual(['above', 'below', 'above', 'below']);
   });
 
-  it('leans the labels at either end inwards', () => {
+  it('leans the labels the server says are at either end', () => {
     render(<PlantingTimeline timeline={timeline} />);
     const items = screen.getAllByRole('listitem');
     expect(items[0]).toHaveClass('planting-timeline-event--start');

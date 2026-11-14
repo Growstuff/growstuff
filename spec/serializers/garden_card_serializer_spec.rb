@@ -115,11 +115,7 @@ describe GardenCardSerializer do
       expect(planting).to include(url: "/plantings/#{annual.slug}", crop: { name: 'lettuce', icon_url: nil })
     end
 
-    it 'says how the planting is getting on, for the progress bar colour' do
-      expect(serialize(garden)[:annuals].first[:progress_state]).to eq :growing
-    end
-
-    it 'says why there is no progress bar' do
+    it 'says why there is no timeline' do
       annual.update!(planted_at: nil)
 
       expect(serialize(garden)[:annuals].first[:progress_note]).to eq 'Set a planted date to see predictions'
@@ -145,7 +141,9 @@ describe GardenCardSerializer do
       harvest = timeline[:events].find { |event| event[:kind] == :first_harvest }
 
       expect(timeline[:events].pluck(:kind)).to eq [timeline[:events].first[:kind], :first_harvest, :finished]
-      expect(harvest).to include(label: 'First harvest', date: (annual.planted_at + 50.days).iso8601, expected: false, percent: 50.0)
+      expect(harvest).to include(label: 'First harvest', date: (annual.planted_at + 50.days).iso8601, expected: false, percent: 50.0,
+                                 modifiers: %i(below middle))
+      expect(timeline[:state]).to eq annual.progress_state
       expect(harvest[:icon_url]).to match(%r{/icons/harvest.*\.svg\z})
       expect(timeline[:events].last).to include(expected: true, percent: 100.0)
     end

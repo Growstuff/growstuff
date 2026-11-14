@@ -612,29 +612,6 @@ ul.plantings {
   }
 }
 
-.progress-fade {
-  cursor: pointer;
-  float: left;
-  position: relative;
-}
-
-.progress-fade::before {
-  background: $beige;
-  bottom: 0;
-  content: "";
-  display: block;
-  left: 0;
-  opacity: 0.7;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: background 0.3s linear;
-}
-
-.progress-fade:hover::before {
-  background: none;
-}
-
 // Bootstrap 5 dropped text-justify.
 .text-justify {
   text-align: justify;
@@ -684,29 +661,27 @@ ul.plantings {
   --bs-btn-active-bg: rgba(0, 0, 0, 0.12);
 }
 
-// Progress bar colours by state (Planting#progress_state).
-.progress-bar--growing {
-  background-color: var(--bs-info);
+// Colours by how a planting is getting on (Planting#progress_state): the fill of a progress bar or timeline, and the
+// arc of the progress ring. Finished is grey, not --bs-secondary: the site's secondary colour is its dark blue.
+$progress-state-colours: (
+  growing: var(--bs-info),
+  harvesting: var(--bs-success),
+  late: var(--bs-warning),
+  super_late: var(--bs-danger),
+  finished: var(--bs-gray-600)
+);
+
+@each $state, $colour in $progress-state-colours {
+  .progress-bar--#{$state} {
+    background-color: $colour;
+  }
+
+  .progress-ring--#{$state} {
+    stroke: $colour;
+  }
 }
 
-.progress-bar--harvesting {
-  background-color: var(--bs-success);
-}
-
-.progress-bar--late {
-  background-color: var(--bs-warning);
-}
-
-.progress-bar--super_late {
-  background-color: var(--bs-danger);
-}
-
-// Grey, not --bs-secondary: the site's secondary colour is its dark blue.
-.progress-bar--finished {
-  background-color: var(--bs-gray-600);
-}
-
-// The ring on a planting's progress card: the same colours as the bar, by state.
+// The ring on a planting's progress card.
 .progress-ring {
   position: relative;
   width: 6.5rem;
@@ -736,22 +711,6 @@ ul.plantings {
     left: 50%;
     transform: translate(-50%, -50%);
   }
-}
-
-.progress-ring--growing {
-  stroke: var(--bs-info);
-}
-
-.progress-ring--harvesting {
-  stroke: var(--bs-success);
-}
-
-.progress-ring--late {
-  stroke: var(--bs-warning);
-}
-
-.progress-ring--super_late {
-  stroke: var(--bs-danger);
 }
 
 // The card variables drop the card's border, which also drew the line under a

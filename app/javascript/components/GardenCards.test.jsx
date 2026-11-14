@@ -8,7 +8,7 @@ import GardenCards from './GardenCards';
 vi.mock('./PlantSomethingModal', () => ({
   default: ({garden, onCreated}) => (
     <div role="dialog" aria-label={`Plant in ${garden.name}`}>
-      <button type="button" onClick={() => onCreated({...garden, plantings_count: 1, annuals: [{id: 9, crop: {name: 'Kale'}, url: '/p/9', actions: [], badges: [], harvests: [], percentage_grown: null}]}, {name: 'Kale'})}>Plant</button>
+      <button type="button" onClick={() => onCreated({...garden, plantings_count: 1, annuals: [{id: 9, crop: {name: 'Kale'}, url: '/p/9', actions: [], badges: [], timeline: null}]}, {name: 'Kale'})}>Plant</button>
     </div>
   ),
 }));

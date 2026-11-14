@@ -31,8 +31,8 @@ describe 'plantings/_timeline' do
     end
 
     it 'makes the line of the seasons it runs through, named' do
-      expect(rendered).to have_css '.planting-timeline-line--seasons .planting-timeline-season', minimum: 1
-      expect(rendered).to have_css '.planting-timeline-line--seasons .planting-timeline-season', text: /Spring|Summer|Autumn|Winter/
+      expect(rendered).to have_css '.planting-timeline-line--seasons .weather-seasons span[class^="season-"]',
+                                   text: /Spring|Summer|Autumn|Winter/
     end
   end
 
@@ -43,7 +43,7 @@ describe 'plantings/_timeline' do
     end
 
     it 'is a plain line' do
-      expect(rendered).to have_no_css '.planting-timeline-season'
+      expect(rendered).to have_no_css '.weather-seasons'
       expect(rendered).to have_no_css '.planting-timeline-line--seasons'
     end
   end

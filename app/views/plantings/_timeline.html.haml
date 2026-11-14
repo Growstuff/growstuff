@@ -1,33 +1,27 @@
 -# A planting's life as a line with its events on it: sown or planted, each move to another garden, first and last
--# harvest, and finished, each with the icon the site uses for it elsewhere. A solid badge has happened; a dashed, fainter one is expected.
--# The line is filled as far as today.
+-# harvest, and finished, each with the icon the site uses for it elsewhere. A solid badge has happened; a dashed,
+-# fainter one is expected. The line is filled as far as today. PlantingTimeline decides what goes where; the garden
+-# cards draw the same thing in React (PlantingTimeline.jsx).
 - timeline = PlantingTimeline.new(planting)
 - if planting.annual? && timeline.show?
-  - seasons = timeline.seasons
+  -# Where we know which half of the world the garden is in, the line is made of the seasons it runs through, as the
+  -# weather charts further down the page are. Without that it is a plain line.
+  - seasons = weather_seasons(planting.latitude, from: timeline.start, days: timeline.days)
   .planting-timeline
-    -# Where the garden is in the northern or southern half of the world, the line is made of the seasons it runs through,
-    -# on the same scale as the events, so each one sits in its season. Without that it is a plain line.
     .planting-timeline-line{ class: ('planting-timeline-line--seasons' if seasons.any?), 'aria-hidden': 'true' }
-      - if seasons.any?
-        .planting-timeline-seasons
-          - seasons.each do |band|
-            %span.planting-timeline-season{ class: "season-#{band[:season]}", style: "left: #{band[:left]}%; width: #{band[:width]}%" }
-              = t("seasons.#{band[:season]}")
-      .planting-timeline-fill{ class: "progress-bar--#{planting.progress_state}", style: "width: #{timeline.fill_position}%" }
+      = weather_season_strip(seasons, timeline.days)
+      - fill = "width: #{timeline.fill_position}%"
+      .planting-timeline-fill{ class: "progress-bar--#{planting.progress_state}", style: fill }
       - if timeline.today_position
         %span.planting-timeline-today{ style: "left: #{timeline.today_position}%", title: t('.today') }
     %ol.planting-timeline-events
-      - timeline.events.each_with_index do |event, index|
-        - position = timeline.position(event.date)
-        - edge = position < 12 ? 'start' : (position > 88 ? 'end' : 'middle')
-        %li.planting-timeline-event{ class: ["planting-timeline-event--#{index.even? ? 'above' : 'below'}", "planting-timeline-event--#{edge}",
-                                            ('planting-timeline-event--expected' if event.expected),
-                                            ('planting-timeline-event--failed' if event.kind == :failed)],
-                                    style: "left: #{position}%" }
-          %span.planting-timeline-marker{ 'aria-hidden': 'true' }= planting_event_icon(event.kind)
+      - timeline.markers.each do |marker|
+        - classes = marker.modifiers.map { |modifier| "planting-timeline-event--#{modifier}" }
+        %li.planting-timeline-event{ class: classes, style: "left: #{marker.percent}%" }
+          %span.planting-timeline-marker{ 'aria-hidden': 'true' }= image_icon marker.icon
           %span.planting-timeline-label
-            %span.planting-timeline-name= t(".#{event.kind}", garden: event.garden&.name)
+            %span.planting-timeline-name= marker.label
             %span.planting-timeline-date
-              = I18n.l(event.date)
-              - if event.expected
+              = I18n.l(marker.date)
+              - if marker.expected
                 %em= t('.expected')

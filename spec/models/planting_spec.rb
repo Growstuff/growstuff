@@ -859,15 +859,14 @@ describe Planting do
     end
   end
 
-  describe '#display_name_with_variety' do
+  describe '#with_variety' do
     it 'puts the variety in brackets after the name' do
       planting = build(:planting, parent_seed: build(:seed, variety: 'Brandywine'))
-      expect(planting.display_name_with_variety).to eq "#{planting.display_name} (Brandywine)"
+      expect(planting.with_variety('tomato')).to eq 'tomato (Brandywine)'
     end
 
     it 'is just the name without a variety' do
-      planting = build(:planting, parent_seed: nil)
-      expect(planting.display_name_with_variety).to eq planting.display_name
+      expect(build(:planting, parent_seed: nil).with_variety('tomato')).to eq 'tomato'
     end
   end
 
