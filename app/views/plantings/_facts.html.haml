@@ -34,7 +34,7 @@
       %strong.plantingfact--progress= t('.planned')
       %span= t('.planned_for', date: I18n.l(planting.planted_at))
     - elsif planting.percentage_grown.present?
-      %strong.plantingfact--progress #{planting.percentage_grown.to_i}%
+      = render 'plantings/progress_ring', planting: planting
       %span
         - if planting.finish_is_predicatable?
           = t('.day_progress', age: planting.age_in_days, lifespan: planting.expected_lifespan)

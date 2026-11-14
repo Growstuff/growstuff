@@ -706,6 +706,54 @@ ul.plantings {
   background-color: var(--bs-gray-600);
 }
 
+// The ring on a planting's progress card: the same colours as the bar, by state.
+.progress-ring {
+  position: relative;
+  width: 6.5rem;
+  margin: 0 auto;
+
+  svg {
+    display: block;
+    transform: rotate(-90deg);
+  }
+
+  circle {
+    fill: none;
+    stroke-width: 9;
+  }
+
+  .progress-ring__track {
+    stroke: var(--bs-gray-200);
+  }
+
+  .progress-ring__arc {
+    stroke-linecap: round;
+  }
+
+  strong {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.progress-ring--growing {
+  stroke: var(--bs-info);
+}
+
+.progress-ring--harvesting {
+  stroke: var(--bs-success);
+}
+
+.progress-ring--late {
+  stroke: var(--bs-warning);
+}
+
+.progress-ring--super_late {
+  stroke: var(--bs-danger);
+}
+
 // The card variables drop the card's border, which also drew the line under a
 // header, so put that line back.
 .card-header {
