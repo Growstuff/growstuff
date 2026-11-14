@@ -98,12 +98,14 @@ module PredictHarvest
 
     # The growing degree days this planting has had, from the day it was planted to its last day of weather so far,
     # or nil for a perennial, which isn't grown to a harvest by heat, or when it has no planting date, no place
-    # for the weather, or hasn't been planted yet.
+    # for the weather, no temperatures were collected for its days, or it hasn't been planted yet. A cold season adds
+    # up to a low number, but missing weather isn't zero.
     def heat_so_far
       return if crop.perennial || planted_at.blank? || !weather_located? || planned?
 
       readings = weather_cell_readings.select(*WeatherReading::CHARTED).between(planted_at, weather_last_day)
-      GrowingDegreeDays.new(base: heat_base).total(readings).round
+                                      .select { |reading| reading.temp_max_c && reading.temp_min_c }
+      GrowingDegreeDays.new(base: heat_base).total(readings).round if readings.any?
     end
 
     # The growing degree days the crop needs to a first harvest: the figure a wrangler set, else EcoCrop's, else nil.

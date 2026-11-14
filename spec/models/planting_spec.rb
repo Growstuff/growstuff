@@ -871,6 +871,14 @@ describe Planting do
       end
     end
 
+    context 'when no weather was collected for its days' do
+      before { WeatherReading.delete_all }
+
+      it 'has no heat so far, rather than none' do
+        expect(planting.heat_so_far).to be_nil
+      end
+    end
+
     context 'when the crop is a perennial' do
       let(:crop) { create(:crop, growing_degree_days: 600, perennial: true) }
 
