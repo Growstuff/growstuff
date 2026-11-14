@@ -234,6 +234,16 @@ class Planting < ApplicationRecord
     garden.nursery?
   end
 
+  # The variety its parent seed says it is, such as Brandywine, or nil when there is no parent seed or it names none.
+  def variety
+    parent_seed&.variety.presence
+  end
+
+  # A name for it with its variety in brackets after, when it has one: "tomato (Brandywine)".
+  def with_variety(name)
+    variety ? "#{name} (#{variety})" : name
+  end
+
   def weather_located?
     latitude.present? && longitude.present?
   end

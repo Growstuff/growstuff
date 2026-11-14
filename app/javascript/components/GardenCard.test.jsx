@@ -6,7 +6,7 @@ import GardenCard from './GardenCard';
 
 const planting = (id, name, extra = {}) => ({
   id, url: `/plantings/${id}`, crop: {name, icon_url: '/i.png'}, actions: [], can_edit: false, planted_at: null,
-  badges: [], progress_note: null, percentage_grown: null, harvests: [], ...extra,
+  badges: [], progress_note: null, timeline: null, ...extra,
 });
 const garden = {
   id: 1, name: 'Back yard', url: '/gardens/back-yard', image_url: '/g.jpg', layout_url: '/gardens/back-yard/layout',

@@ -33,7 +33,7 @@
           %p.garden-meta.text-muted
             = details
             - if season
-              %span.garden-season{ title: t('.season_title') }= season.to_s.capitalize
+              %span.garden-season{ title: t('.season_title') }= t("seasons.#{season}")
         %p.garden-owner-link= link_to t('.all_gardens', owner: garden.owner), member_gardens_path(garden.owner)
     .garden-hero-actions
       = render 'gardens/actions', garden: garden

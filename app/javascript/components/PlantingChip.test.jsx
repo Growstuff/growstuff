@@ -39,6 +39,18 @@ describe('PlantingChip', () => {
     });
   });
 
+  describe('with a label from the server', () => {
+    it('says the label, with a menu', () => {
+      render(<PlantingChip planting={{...planting, label: 'Tomato (Brandywine)'}} defaultIconUrl="/d.png" handlers={{}} />);
+      expect(screen.getByRole('button', {name: 'Actions for Tomato (Brandywine)'})).toHaveTextContent('Tomato (Brandywine)');
+    });
+
+    it('says the label, without a menu', () => {
+      render(<PlantingChip planting={{...planting, label: 'Tomato (Brandywine)', actions: []}} defaultIconUrl="/d.png" handlers={{}} />);
+      expect(screen.getByTitle('Tomato (Brandywine)')).toHaveTextContent('Tomato (Brandywine)');
+    });
+  });
+
   describe('without actions', () => {
     it('is a plain link to the planting', () => {
       render(<PlantingChip planting={{...planting, actions: []}} defaultIconUrl="/d.png" handlers={{}} />);

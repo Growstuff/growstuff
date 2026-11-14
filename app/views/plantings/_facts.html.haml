@@ -34,7 +34,7 @@
       %strong.plantingfact--progress= t('.planned')
       %span= t('.planned_for', date: I18n.l(planting.planted_at))
     - elsif planting.percentage_grown.present?
-      %strong.plantingfact--progress #{planting.percentage_grown.to_i}%
+      = render 'plantings/progress_ring', planting: planting
       %span
         - if planting.finish_is_predicatable?
           = t('.day_progress', age: planting.age_in_days, lifespan: planting.expected_lifespan)
@@ -43,6 +43,24 @@
     - else
       %strong.plantingfact--progress= t('.unknown')
       %span= t('.no_finish_predicted')
+
+  -# The heat it has had, against the heat the crop needs when we know that. Only for a planting with weather.
+  - heat = planting.heat_so_far
+  - if heat
+    - needed = planting.heat_needed
+    .card.fact-card.plantingheat
+      %h3
+        = t('.heat')
+        -# Degree days aren't calendar days, so the card explains itself on a tap or a hover.
+        = render 'plantings/help', css: 'plantingheat--help', links: true, label: t('.heat_help_label'), title: t('.heat_help_title'),
+          content: t('.heat_help_html', link: link_to(t('.heat_help_link'), 'https://en.wikipedia.org/wiki/Growing_degree-day', target: '_blank', rel: 'noopener'))
+      .fact-value
+        %strong.plantingfact--heat= number_with_delimiter(heat)
+        %span
+          - if needed
+            = t('.heat_of_needed', needed: number_with_delimiter(needed))
+          - else
+            = t('.heat_needed_unknown')
 
   -# Quantity and the growing method were two cards that both said "seedling".
   -# One card, one sentence: "3 cuttings". Both fields stay editable from it.
@@ -59,14 +77,20 @@
       %span.plantingfact--plantedfrom
         = t("plantings.units.#{planting.planted_from.presence || 'plant'}", count: planting.quantity.to_i)
 
-  .card.fact-card{class: planting.sunniness.present? ? '' : 'text-muted'}
+  -# Unset, it asks the owner to answer, in the same orange as "Grown from"; everyone else sees it muted.
+  - sun_prompt = planting.sunniness.blank? && can?(:edit, planting)
+  .card.fact-card{class: [('text-muted' if planting.sunniness.blank?), ('origin-unanswered' if sun_prompt)]}
     %h3
+      - if sun_prompt
+        %span.origin-badge.origin-badge-small{ 'aria-hidden' => 'true' } ?
       = t('.grown_in')
       = editable :select, planting, :sunniness, values: Planting::SUNNINESS_VALUES, display_field: '.fact-sunniness'
     .fact-value.fact-sunniness
-      %strong= sunniness_icon(planting.sunniness)
+      -# The icon is the value, big enough to read at a glance; the words under it say it plainly.
+      %strong.plantingfact--sunicon{ class: planting.sunniness.present? ? "plantingfact--sunicon-#{planting.sunniness}" : nil }
+        = sunniness_icon(planting.sunniness)
       %span.plantingfact--sunniness
-        = planting.sunniness.present? ? t("plantings.sun.#{planting.sunniness}") : t('.not_specified')
+        = planting.sunniness.present? ? t(".sun_#{planting.sunniness.tr('-', '_')}") : t('.not_specified')
 
   .card.fact-card{class: planting.overall_rating.present? ? '' : 'text-muted'}
     %h3= t('.rating')
@@ -87,7 +111,9 @@
 
   - if planting.short_code.present?
     .card.fact-card
-      %h3= t('.short_code')
+      %h3
+        = t('.short_code')
+        = render 'plantings/help', css: 'plantingshortcode--help', label: t('.short_code_help_label'), title: t('.short_code'), content: t('.short_code_help')
       %strong.plantingfact--shortcode= planting.short_code
       %span= t('.short_code_description')
 
@@ -100,6 +126,12 @@
         %span.text-warning-emphasis
           = t('.sown_from_expired', year: planting.seed_plant_before.year)
   = render 'plantings/origin', planting: planting
+  - if planting.variety
+    .card.fact-card.plantingvariety
+      %h3= t('.variety')
+      .fact-value
+        %strong.plantingfact--variety= planting.variety
+        %span= link_to t('.variety_from_packet'), planting.parent_seed
 
   -# Facts that only some plantings have.
   = render 'plantings/hardiness', planting: planting

@@ -102,8 +102,6 @@ module NeighboursHelper # rubocop:disable Metrics/ModuleLength
     month ? Date.new(date.year, month, 1) : Date.new(date.year - 1, 12, 1)
   end
 
-  SEASON_ICONS = { spring: 'seedling', summer: 'sun', autumn: 'leaf', winter: 'snowflake' }.freeze
-
   # "Spring 2026", or "Spring 2026 · Autumn in the northern hemisphere" when
   # the feed has people in both halves of the world, each with its season's
   # icon. Their own hemisphere is not named, unless they have not said where
@@ -121,7 +119,7 @@ module NeighboursHelper # rubocop:disable Metrics/ModuleLength
         name = t('neighbours.season.in_hemisphere', season:     name,
                                                     hemisphere: t("neighbours.season.#{half}"))
       end
-      safe_join([icon('fas', SEASON_ICONS.fetch(season)), name], ' ')
+      safe_join([icon('fas', SeasonsHelper::SEASON_ICONS.fetch(season)), name], ' ')
     end
     safe_join(names, ' · ')
   end

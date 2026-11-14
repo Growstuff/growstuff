@@ -15,7 +15,7 @@ class GardenCardSerializer
     gardens = gardens.to_a
     plantings = Planting.active
       .where(garden_id: gardens.map(&:id))
-      .includes(:garden, :harvests, :photos, crop: { parent: :parent })
+      .includes(:garden, :harvests, :photos, :parent_seed, { histories: :garden }, { crop: { parent: :parent } })
       .order(:planted_at)
       .group_by(&:garden_id)
 
@@ -119,10 +119,8 @@ class GardenCardSerializer
 
   def annual(planting)
     perennial(planting).merge(
-      thumb_url: thumb_url(planting), percentage_grown: planting.percentage_grown,
-      progress_state: planting.progress_state,
-      finish_predicted_label: finish_label(planting), progress_note: progress_note(planting),
-      badges: badges(planting), harvests: harvest_marks(planting)
+      thumb_url: thumb_url(planting), progress_note: progress_note(planting), badges: badges(planting),
+      timeline: timeline(planting)
     )
   end
 
@@ -130,28 +128,14 @@ class GardenCardSerializer
     PlantingChipSerializer.new(planting, ability: @ability).as_json
   end
 
-  # Where each harvest falls along the planting's progress bar, oldest first, on
-  # the same scale as the bar's fill (age over expected lifespan, 0 to 100).
-  def harvest_marks(planting)
-    lifespan = planting.expected_lifespan.to_f
-    return [] if planting.planted_at.blank? || !lifespan.positive?
-
-    marks = planting.harvests.filter_map do |harvest|
-      next if harvest.harvested_at.blank?
-
-      percent = ((harvest.harvested_at - planting.planted_at).to_f / lifespan * 100).clamp(0, 100)
-      { date: harvest.harvested_at, percent: percent.round(1) }
-    end
-    marks.sort_by { |mark| mark[:date] }
+  # The events of the planting's life along a line, as the planting page draws them, or nothing when there is
+  # too little to draw one.
+  def timeline(planting)
+    timeline = PlantingTimeline.new(planting)
+    timeline.as_json if timeline.show?
   end
 
-  # "Mar 2026", as plantings/_progress shows it.
-  def finish_label(planting)
-    date = planting.finish_predicted_at
-    "#{I18n.t('date.abbr_month_names')[date.month]} #{date.year}" if date
-  end
-
-  # Shown instead of a progress bar when there is nothing to predict from.
+  # Shown instead of the timeline when there is nothing to predict from.
   def progress_note(planting)
     if planting.planted_at.blank?
       'Set a planted date to see predictions'

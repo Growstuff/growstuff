@@ -3868,6 +3868,13 @@ en:
       finished: Finished
       grown: grown
       grown_in: Grown in
+      heat: Degree days
+      heat_help_html: "These are not calendar days. A growing degree day is one day's worth of useful warmth: how many degrees the day's average temperature was above the lowest temperature this crop grows at. A cold day adds none, so a crop takes more days in autumn than in summer. %{link}."
+      heat_help_label: What are growing degree days?
+      heat_help_link: Read more on Wikipedia
+      heat_help_title: Growing degree days
+      heat_needed_unknown: so far; how many it needs isn't known
+      heat_of_needed: of about %{needed} needed
       lifespan_days:
         one: 1 day
         other: "%{count} days"
@@ -3886,6 +3893,11 @@ en:
       planting_failed: this planting failed
       short_code: Short code
       short_code_description: for plant markers and labels
+      short_code_help: Write this code on your plant label or marker, and you can find this exact plant here later, even among many of the same crop.
+      short_code_help_label: What is the short code for?
+      sun_semi_shade: partial shade
+      sun_shade: shade
+      sun_sun: full sun
       progress: Progress
       quantity: Quantity
       rating: Rating
@@ -3893,6 +3905,8 @@ en:
       seeds_saved: Seeds saved
       sown_from_expired: Sown from expired seeds (plant before %{year})
       unknown: unknown
+      variety: Variety
+      variety_from_packet: from the seed packet
     form:
       save: Save
       optional: optional
@@ -4238,13 +4252,15 @@ en:
       weather_temperature_chart_alt: Daily high and low temperature, from %{low} to %{high}.
     string: "%{crop} planting in %{garden} by %{owner}"
     timeline:
+      expected: expected
       failed: Failed
-      finish_expected: Finish expected %{date}
-      finished: Finished %{date}
-      first_harvest_expected: First harvest expected %{date}
-      harvest_started: Harvest started %{date}
-      legend: (One emoji = 1 week)
-      planted: Planted %{date}
+      finished: Finished
+      first_harvest: First harvest
+      last_harvest: Last harvest
+      planted: Planted
+      sown: Sown
+      today: Today
+      transplanted: Moved to %{garden}
     transplant:
       cancel: Cancel
       close: Close
@@ -4428,6 +4444,7 @@ en:
       scientific_name_label: "Scientific name:"
   seasons:
     autumn: Autumn
+    in_place: "%{season} in %{place}"
     spring: Spring
     summer: Summer
     winter: Winter

@@ -11,6 +11,15 @@ $red: #ff4d43;
 $danger-text: #c62828;
 $orange: #ffa500;
 $yellow: #b2935c;
+
+// The colour of each season wherever seasons are drawn, and how strong it is as a tint behind other things: the
+// weather charts and timeline of a planting, and the seasons on the suggestions page. Their icons are in SeasonsHelper.
+$season-tints: (
+  spring: ($green, 0.14),
+  summer: ($orange, 0.16),
+  autumn: ($yellow, 0.18),
+  winter: ($blue, 0.1)
+);
 $white: #fff;
 
 // One corner radius for every data card and section box.

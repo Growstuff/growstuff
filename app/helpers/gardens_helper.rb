@@ -55,7 +55,7 @@ module GardensHelper
   def nursery_seedlings(nursery)
     return [] unless nursery
 
-    nursery.plantings.current.includes({ crop: :parent }, :photos).order(planted_at: :desc, id: :desc).to_a
+    nursery.plantings.current.includes({ crop: :parent }, :parent_seed, :photos).order(planted_at: :desc, id: :desc).to_a
   end
 
   # What has been sown, as [[day, got as seedlings], plantings] pairs, newest

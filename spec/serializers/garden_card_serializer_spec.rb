@@ -115,11 +115,7 @@ describe GardenCardSerializer do
       expect(planting).to include(url: "/plantings/#{annual.slug}", crop: { name: 'lettuce', icon_url: nil })
     end
 
-    it 'says how the planting is getting on, for the progress bar colour' do
-      expect(serialize(garden)[:annuals].first[:progress_state]).to eq :growing
-    end
-
-    it 'says why there is no progress bar' do
+    it 'says why there is no timeline' do
       annual.update!(planted_at: nil)
 
       expect(serialize(garden)[:annuals].first[:progress_note]).to eq 'Set a planted date to see predictions'
@@ -136,30 +132,31 @@ describe GardenCardSerializer do
       expect(serialize(garden, viewer: other_member)[:annuals].first[:actions]).to eq []
     end
 
-    it 'places each harvest along the progress bar, oldest first, on the bar\'s own scale' do
+    it 'gives the events of its life along a line, each with its label, icon and place on the line' do
       annual_crop.update!(median_lifespan: 100)
-      planted = annual.planted_at
-      create(:harvest, planting: annual, owner: member, crop: annual_crop, harvested_at: planted + 50.days)
-      create(:harvest, planting: annual, owner: member, crop: annual_crop, harvested_at: planted + 2.days)
+      annual.update!(planted_at: 80.days.ago.to_date)
+      create(:harvest, planting: annual, owner: member, crop: annual_crop, harvested_at: annual.planted_at + 50.days)
 
-      marks = serialize(garden)[:annuals].first[:harvests]
+      timeline = serialize(garden)[:annuals].first[:timeline]
+      harvest = timeline[:events].find { |event| event[:kind] == :first_harvest }
 
-      expect(marks).to eq [{ date: planted + 2.days, percent: 2.0 }, { date: planted + 50.days, percent: 50.0 }]
+      expect(timeline[:events].pluck(:kind)).to eq [timeline[:events].first[:kind], :first_harvest, :finished]
+      expect(harvest).to include(label: 'First harvest', date: (annual.planted_at + 50.days).iso8601, expected: false, percent: 50.0,
+                                 modifiers: %i(below middle))
+      expect(timeline[:state]).to eq annual.progress_state
+      expect(harvest[:icon_url]).to match(%r{/icons/harvest.*\.svg\z})
+      expect(timeline[:events].last).to include(expected: true, percent: 100.0)
     end
 
-    it 'keeps a harvest after the predicted finish at the end of the bar' do
-      annual_crop.update!(median_lifespan: 100)
-      create(:harvest, planting: annual, owner: member, crop: annual_crop, harvested_at: annual.planted_at + 130.days)
+    it 'draws no timeline, and says why, when there is nothing to draw one to' do
+      card = serialize(garden)[:annuals].first
 
-      expect(serialize(garden)[:annuals].first[:harvests].pluck(:percent)).to eq [100]
+      expect(card[:timeline]).to be_nil
+      expect(card[:progress_note]).to eq 'Not enough data on this crop to predict'
     end
 
     it "says what day it is on the server, which is the day finishing something today means" do
       expect(serialize(garden)[:annuals].first[:today]).to eq Time.zone.today
-    end
-
-    it 'has no harvest marks for a planting with none' do
-      expect(serialize(garden)[:annuals].first[:harvests]).to eq []
     end
 
     it 'says whether the viewer can edit the planting, so its date can be changed' do

@@ -11,6 +11,9 @@ module SeasonsHelper
     southern: { spring: [9, 10, 11], summer: [12, 1, 2], autumn: [3, 4, 5], winter: [6, 7, 8] }
   }.freeze
 
+  # The Font Awesome icon that stands for each season, wherever a season has one.
+  SEASON_ICONS = { spring: 'seedling', summer: 'sun', autumn: 'leaf', winter: 'snowflake' }.freeze
+
   # Nil when we don't know where they are, in which case we say nothing about
   # seasons rather than guessing at the wrong half of the world.
   def hemisphere(latitude)
@@ -43,9 +46,9 @@ module SeasonsHelper
   def season_summary(member, date = Date.current)
     return if member.latitude.blank?
 
-    season = season_for(member.latitude, date)
+    season = I18n.t("seasons.#{season_for(member.latitude, date)}")
     place = member.location.presence
     degrees = "#{member.latitude.to_f.abs.round}°#{member.latitude.to_f.negative? ? 'S' : 'N'}"
-    [[season&.to_s&.capitalize, place].compact.join(' in '), I18n.l(date, format: '%B'), degrees].compact_blank.join(' · ')
+    [place ? I18n.t('seasons.in_place', season:, place:) : season, I18n.l(date, format: '%B'), degrees].join(' · ')
   end
 end

@@ -322,6 +322,32 @@
 
 
 
+  // Five stars stay on one row in the narrow card, so the rating's value sits level with the other cards' values.
+  .facts .plantingfact--rating {
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+
+  // A card that is still a question (.origin-unanswered) has a flex row for a title, to hold its badge. The inline
+  // edit form opens inside that title, so it takes a row of its own beneath, not a squeeze beside the label.
+  .facts .origin-unanswered h3 {
+    flex-wrap: wrap;
+
+    form {
+      flex: 0 0 100%;
+    }
+  }
+
+  // The sun or shade a planting grew in: the icon is the value, so it is drawn larger than the text values are.
+  .facts .plantingfact--sunicon {
+    font-size: 2.25rem;
+    line-height: 1.2;
+  }
+
+  .facts .plantingfact--sunicon-sun {
+    color: var(--bs-warning);
+  }
+
   // The inline edit form takes the place of the fact's value, inside a card
   // only 170px wide. Without this the control runs past the card's edge and
   // the save button lands on top of the sub-line beneath it.
@@ -551,24 +577,11 @@
   }
 
   // Seasons: a faint tint behind the data, and the same colours in the strip of names under the charts.
-  .season-spring {
-    fill: $green;
-    background: rgba($green, 0.14);
-  }
-
-  .season-summer {
-    fill: $orange;
-    background: rgba($orange, 0.16);
-  }
-
-  .season-autumn {
-    fill: $yellow;
-    background: rgba($yellow, 0.18);
-  }
-
-  .season-winter {
-    fill: $blue;
-    background: rgba($blue, 0.1);
+  @each $season, $tint in $season-tints {
+    .season-#{$season} {
+      fill: nth($tint, 1);
+      background: rgba(nth($tint, 1), nth($tint, 2));
+    }
   }
 
   .weather-season {
@@ -815,5 +828,221 @@
 
   .weather-low {
     stroke: $blue;
+  }
+}
+
+// A planting's life as a line with events on it (plantings/_timeline). Each event sits at its share of the line, with
+// its label alternately above and below so neighbours don't overlap; the ones near either end lean inwards to stay on screen.
+.planting-timeline {
+  position: relative;
+  height: 10rem;
+  margin: 0.5rem 0.5rem 1rem;
+}
+
+.planting-timeline-line {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 0.6rem;
+  margin-top: -0.3rem;
+  background: var(--bs-gray-200);
+  border-radius: 0.3rem;
+}
+
+.planting-timeline-fill {
+  height: 100%;
+  border-radius: 0.3rem;
+}
+
+.planting-timeline-today {
+  position: absolute;
+  top: -0.4rem;
+  bottom: -0.4rem;
+  width: 2px;
+  background: var(--bs-body-color);
+}
+
+.planting-timeline-events {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// The event is a point on the line; its icon and label are placed from it.
+.planting-timeline-event {
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+}
+
+.planting-timeline-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: var(--bs-body-bg);
+  border: 2px solid var(--bs-body-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+
+  img {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+}
+
+// What is only expected: a dashed badge and a fainter icon.
+.planting-timeline-event--expected .planting-timeline-marker {
+  border-style: dashed;
+  border-color: var(--bs-gray-600);
+
+  img {
+    opacity: 0.55;
+  }
+}
+
+.planting-timeline-label {
+  position: absolute;
+  left: 0;
+  width: max-content;
+  max-width: 8rem;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.planting-timeline-event--above .planting-timeline-label {
+  bottom: 1.4rem;
+}
+
+.planting-timeline-event--below .planting-timeline-label {
+  top: 1.4rem;
+}
+
+.planting-timeline-event--start .planting-timeline-label {
+  text-align: left;
+  transform: translateX(-1rem);
+}
+
+.planting-timeline-event--end .planting-timeline-label {
+  text-align: right;
+  transform: translateX(calc(-100% + 1rem));
+}
+
+.planting-timeline-name {
+  display: block;
+  font-weight: 600;
+}
+
+.planting-timeline-date {
+  display: block;
+  color: $ink-muted;
+}
+
+.planting-timeline-event--failed .planting-timeline-name {
+  color: var(--bs-danger);
+}
+
+.planting-timeline-event--expected .planting-timeline-label {
+  font-style: italic;
+}
+
+// The same timeline in a list of plantings, such as a garden's: less tall, with each label on one line.
+.planting-timeline--compact {
+  height: 5rem;
+  margin: 0.25rem 1rem;
+
+  .planting-timeline-marker {
+    width: 1.6rem;
+    height: 1.6rem;
+
+    img {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .planting-timeline-label {
+    display: flex;
+    gap: 0.35rem;
+    align-items: baseline;
+    max-width: none;
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .planting-timeline-event--above .planting-timeline-label {
+    bottom: 1.1rem;
+  }
+
+  .planting-timeline-event--below .planting-timeline-label {
+    top: 1.1rem;
+  }
+
+  .planting-timeline-event--start .planting-timeline-label {
+    transform: translateX(-0.8rem);
+  }
+
+  .planting-timeline-event--end .planting-timeline-label {
+    transform: translateX(calc(-100% + 0.8rem));
+  }
+
+  .planting-timeline-name,
+  .planting-timeline-date {
+    display: inline;
+  }
+}
+
+// The line made of the seasons it runs through: each is a stretch of the line, tinted and named. The progress to today
+// is the strong bar along its foot, and the event icons sit on top of it.
+.planting-timeline-line--seasons {
+  height: 1.6rem;
+  margin-top: -0.8rem;
+  background: transparent;
+
+  .planting-timeline-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 0.35rem;
+    border-radius: 0 0.175rem 0.175rem 0;
+  }
+
+  .planting-timeline-today {
+    top: -0.3rem;
+    bottom: -0.3rem;
+  }
+}
+
+// The strip of seasons the weather charts use (weather_season_strip), as the line itself. It is clipped to the rounded
+// ends of the line, which the "today" tick above it must not be.
+.planting-timeline-line .weather-seasons {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  overflow: hidden;
+  border-radius: 0.3rem;
+
+  span {
+    overflow: hidden;
+    padding: 0 0.25rem 0.2rem;
+    color: $ink-muted;
+    font-size: 0.75rem;
+    line-height: 1.4rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  @each $season, $tint in $season-tints {
+    .season-#{$season} {
+      background: rgba(nth($tint, 1), nth($tint, 2));
+    }
   }
 }

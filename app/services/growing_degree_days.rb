@@ -16,6 +16,11 @@ class GrowingDegreeDays
     [((reading.temp_max_c + reading.temp_min_c) / 2.0) - @base, 0].max
   end
 
+  # The heat of all these readings added together.
+  def total(readings)
+    readings.sum { |reading| for_day(reading) }
+  end
+
   # The day the heat of these readings, in date order, adds up to the target, or nil if it never does.
   def date_reaching(target, readings)
     total = 0

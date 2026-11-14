@@ -14,6 +14,13 @@
     margin-bottom: $section-gap;
   }
 
+  // The site's own `section` rule gives every section a little top margin. The first one in a column starts the column,
+  // so it goes without, and sits level with the panel beside it.
+  > .row > [class^="col-"] > section:first-child,
+  > .row > [class*=" col-"] > section:first-child {
+    margin-top: 0;
+  }
+
   // Override nested card styling for now.
   .comment {
     border: 1px solid lightgray;
