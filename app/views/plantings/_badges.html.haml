@@ -1,5 +1,5 @@
 .planting-badges
-  - unless planting.finished?
+  - unless planting.finished? || planting.given_away?
     // Finish times
     - if planting.finish_is_predicatable?
       - if planting.super_late?

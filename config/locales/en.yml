@@ -52,6 +52,9 @@ en:
         not_a_valid_wikipedia_url: is not a valid English Wikipedia URL
         not_a_valid_youtube_url: is not a valid YouTube URL
         not_confirmed_in_area: Tick that you're in %{place}.
+        not_for_you: This seedling wasn't given to you.
+        not_giveable: is finished, failed or already given away
+        not_your_garden: Choose one of your own gardens.
         one_nursery_per_member: already exists; a member can have only one nursery
         outside_area: This stall is only for people near %{place}.
         owner_unplaced: The gardener hasn't said where they are yet.
@@ -330,6 +333,7 @@ en:
     copy: Copy
     delete: Delete
     edit: Edit
+    give_away: Give away
     harvest: Harvest
     harvest_crop: Harvest %{crop_name}
     like: Like
@@ -1235,6 +1239,9 @@ en:
       title: Edit garden
     image_alt: Image of %{name}
     index:
+      gifts_waiting:
+        one: A seedling was given to you. Claim it into a garden.
+        other: "%{count} seedlings were given to you. Claim them into gardens."
       title: Everyone's gardens
       profile: Profile
     layout:
@@ -3878,6 +3885,7 @@ en:
       done: Done
       failed: Failed
       finished: Finished
+      given_away: Given away
       grown: grown
       grown_in: Grown in
       lifespan_days:
@@ -3896,6 +3904,7 @@ en:
       planned_for: for %{date}
       planted: Planted
       planting_failed: this planting failed
+      seedling: Seedling
       short_code: Short code
       short_code_description: for plant markers and labels
       progress: Progress
@@ -4710,6 +4719,9 @@ en:
       join: Join free
       sign_in: Sign in
       text: A community for growing food. Record what you plant and harvest, and swap seeds and tips with other gardeners. Join free, or sign in, to get in touch with %{name} about what's on the stall.
+    acceptances:
+      create:
+        claimed: "%{crop} is now in your garden."
     card:
       go: Go to your stall
       heading: Garden stall
@@ -4736,6 +4748,22 @@ en:
         claimed: "%{crop} is claimed. It's yours; message the gardener to arrange pick-up or postage."
       destroy:
         undone: You've given back the %{crop}.
+    gifts:
+      index:
+        claim: Add to my garden
+        from: from %{giver}, given on %{date}
+        garden: Which garden?
+        intro: These were given to you, to your email address or a handle you sign in with. Choose where each one goes, and it carries on there as yours.
+        none: Nothing has been given to you.
+        title: Seedlings given to you
+    given_away:
+      claimed: Claimed
+      count:
+        one: 1 seedling
+        other: "%{count} seedlings"
+      heading: Given away
+      to: to %{recipient}
+      waiting: Not claimed yet
     offers:
       free: Free
       free_text: Yours for the asking
@@ -4750,6 +4778,44 @@ en:
       garden_of: Garden of
       link: Link to your stall
       profile: See %{name}'s profile
+    plantings:
+      create:
+        given:
+          one: Recorded 1 seedling as given away.
+          other: Recorded %{count} seedlings as given away.
+        none: Choose at least one seedling.
+        offered:
+          one: 1 seedling is on your stall.
+          other: "%{count} seedlings are on your stall."
+      destroy:
+        removed: Taken off your stall.
+      new:
+        cancel: Cancel
+        given:
+          intro: Tick the seedlings you gave to one person, and say who. They leave your active plantings, and carry on in that person's garden if they claim them by signing in.
+          other: Don't know who has them yet? Put them on your stall instead.
+          submit: Record as given away
+          title: Record seedlings given away
+        given_on: Given on
+        kind: How to reach them
+        kinds:
+          bluesky: Bluesky handle
+          email: Email address
+          mastodon: Fediverse handle
+        none_left: You have no seedlings in your nursery to give away.
+        offered:
+          intro: Tick the seedlings you would like to offer. They stay in your nursery until someone takes them, and you can say who it was later.
+          other: Already given them to someone? Record who instead.
+          submit: Put on my stall
+          title: Put seedlings on my stall
+        on_stall: on your stall
+        privacy: Only you can see who they went to. Growstuff doesn't contact them.
+        recipient: Their email address or handle
+        recipient_hint: For example alice@example.com, @alice@mastodon.social or alice.bsky.social
+        seedling:
+          one: "%{crop} in %{garden}"
+          other: "%{crop} in %{garden}, %{count} plants"
+        your_seedlings: Your seedlings
     seed_tin:
       add: "+ add"
       heading: In the seed tin
@@ -4757,6 +4823,17 @@ en:
       packets:
         one: 1 packet
         other: "%{count} packets"
+      take_off: Take off the stall
+    seedlings_on_offer:
+      add: "+ add"
+      count:
+        one: 1 seedling
+        other: "%{count} seedlings"
+      given: Someone took it
+      heading: Seedlings on offer
+      quantity:
+        one: 1 plant
+        other: "%{count} plants"
       take_off: Take off the stall
     seeds:
       choice:
@@ -4816,10 +4893,10 @@ en:
       where_help: Based on the place on your Growstuff profile, and only ever shown as a place name. Bluesky friends say where they are when they claim. No street address is shown or asked for.
       your_place: where you garden
     show:
+      add_seedlings: Add seedlings
       add_seeds: Add seeds
       breadcrumb: Garden stall
       close: Close the stall
-      coming_soon: Coming soon
       description:
         one: Spare seeds from %{name}'s garden on Growstuff. 1 packet is up for grabs, free or to swap.
         other: Spare seeds from %{name}'s garden on Growstuff. %{count} packets are up for grabs, free or to swap.
@@ -4835,6 +4912,7 @@ en:
         choose_who: 'You choose who can claim: anyone signed in, or only people you follow.'
         expiry: Offers close after 4 weeks, so the stall never goes stale.
         privacy: Growstuff keeps no addresses. Friends message you to arrange pick-up or postage.
+      record_given_away: Record seedlings given away
       seedlings: Seedlings
       seedlings_text: Plants you've raised that need a home.
       seeds: Seeds

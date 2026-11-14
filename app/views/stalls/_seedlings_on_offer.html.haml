@@ -1,0 +1,17 @@
+-# Seedlings on the stall that nobody has been given yet. The owner can say who took one, or take it off.
+- offers = stall.seedlings_on_offer
+%section.stall-section{ 'aria-labelledby': 'stall-offer-h' }
+  .stall-section-header
+    %h2#stall-offer-h= t('.heading')
+    %span= t('.count', count: offers.size)
+    = link_to t('.add'), new_stall_planting_path(status: 'offered'), class: 'stall-add' if owner
+  .stall-section-body
+    %ul.list-unstyled.mb-0
+      - offers.each do |offer|
+        %li.d-flex.flex-wrap.align-items-center.gap-2
+          %strong= offer.planting.display_name
+          - if offer.planting.quantity
+            %span.text-muted= t('.quantity', count: offer.planting.quantity)
+          - if owner
+            = link_to t('.given'), new_stall_planting_path(planting_ids: [offer.planting_id]), class: 'btn btn-sm btn-outline-secondary'
+            = button_to t('.take_off'), stall_planting_path(offer), method: :delete, class: 'btn btn-sm btn-link'

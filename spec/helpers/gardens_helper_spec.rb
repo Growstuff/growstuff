@@ -97,4 +97,31 @@ describe GardensHelper do
       expect(helper.garden_planter_props(garden)[:garden]).to eq(id: garden.id, name: garden.name)
     end
   end
+
+  describe '#nursery_chip_props', flipper: :garden_stall do
+    subject(:keys) { helper.nursery_chip_props(seedling, gardens: [])[:planting][:actions].pluck(:key) }
+
+    let(:member) { create(:member) }
+    let(:seedling) { create(:planting, owner: member, garden: member.nursery!) }
+    let(:ability) { Ability.new(member) }
+
+    before do
+      allow(helper).to receive_messages(current_member: member, current_ability: ability)
+    end
+
+    it 'offers giving away, above marking as finished' do
+      expect(keys.last(2)).to eq %i(give_away finish)
+    end
+
+    it 'links to the give-away form with the seedling ticked' do
+      action = helper.nursery_chip_props(seedling, gardens: [])[:planting][:actions].find { |item| item[:key] == :give_away }
+      expect(action[:href]).to eq new_stall_planting_path(status: 'given', planting_ids: [seedling.id])
+    end
+
+    context 'when the seedling was already given away' do
+      before { seedling.update_columns(given_away_at: Time.zone.now) } # rubocop:disable Rails/SkipsModelValidations
+
+      it { is_expected.not_to include(:give_away) }
+    end
+  end
 end

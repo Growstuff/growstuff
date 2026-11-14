@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -1185,6 +1185,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
     t.boolean "finished", default: false, null: false
     t.date "finished_at"
     t.integer "garden_id", null: false
+    t.datetime "given_away_at", comment: "When the owner gave it away, until someone claims it. Not finished: it stays out of the crop medians."
     t.text "hardiness", default: "unknown", null: false, comment: "tender, half_hardy, hardy or unknown. Unknown goes by the seed, then the crop."
     t.integer "harvests_count", default: 0
     t.integer "lifespan"
@@ -1308,6 +1309,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
     t.index ["source"], name: "index_seeds_on_source"
   end
 
+  create_table "stall_plantings", force: :cascade do |t|
+    t.datetime "claimed_at"
+    t.bigint "claimed_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "given_away_at", comment: "Blank while it is only on offer."
+    t.bigint "planting_id", null: false
+    t.string "recipient", comment: "The address or handle it was given to, lower case. Blank while it is only on offer."
+    t.string "recipient_kind", comment: "email, mastodon or bluesky. Blank while it is only on offer."
+    t.bigint "stall_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["claimed_by_id"], name: "index_stall_plantings_on_claimed_by_id"
+    t.index ["planting_id"], name: "index_stall_plantings_on_planting_id"
+    t.index ["planting_id"], name: "index_stall_plantings_on_unclaimed_planting", unique: true, where: "(claimed_at IS NULL)"
+    t.index ["recipient_kind", "recipient"], name: "index_stall_plantings_on_recipient_kind_and_recipient"
+    t.index ["stall_id"], name: "index_stall_plantings_on_stall_id"
+  end
+
   create_table "stall_seeds", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "offer", default: "free", null: false
@@ -1405,6 +1423,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000000) do
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
   add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
+  add_foreign_key "stall_plantings", "members", column: "claimed_by_id"
+  add_foreign_key "stall_plantings", "plantings"
+  add_foreign_key "stall_plantings", "stalls"
   add_foreign_key "stall_seeds", "seeds"
   add_foreign_key "stall_seeds", "stalls"
   add_foreign_key "stalls", "members"

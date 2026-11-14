@@ -1024,4 +1024,18 @@ describe Crop do
       it('is nil') { expect(figure).to be_nil }
     end
   end
+
+  describe '#update_harvest_medians' do
+    let(:crop) { create(:crop) }
+
+    before do
+      create(:planting, crop:, days_to_first_harvest: 20)
+      create(:planting, crop:, days_to_first_harvest: 90, given_away_at: Time.zone.now)
+      crop.update_harvest_medians
+    end
+
+    it 'leaves out plantings that were given away' do
+      expect(crop.median_days_to_first_harvest).to eq 20
+    end
+  end
 end

@@ -61,8 +61,12 @@
                 %span.badge.text-bg-secondary.planting-short-code= @planting.short_code
               - if @planting.failed?
                 %span.badge.text-bg-danger= t('plantings.facts.failed')
+              - elsif @planting.given_away?
+                %span.badge.text-bg-info= t('plantings.facts.given_away')
               - elsif @planting.finished?
                 %span.badge.text-bg-success= t('plantings.facts.done')
+              - elsif @planting.in_nursery?
+                %span.badge.text-bg-success= t('plantings.facts.seedling')
               = render 'plantings/actions', planting: @planting
 
           = render 'timeline', planting: @planting

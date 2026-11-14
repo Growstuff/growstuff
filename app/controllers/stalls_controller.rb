@@ -14,8 +14,10 @@ class StallsController < ApplicationController
     @stall = @member.stall || @member.build_stall
     raise ActiveRecord::RecordNotFound unless @stall.open? || @owner
 
-    # The shutter rolls up when the owner arrives from opening it.
-    @opening = @owner && @stall.open? && flash.notice.present?
+    # The shutter rolls up only when the owner arrives from opening it, not after any other notice, such as taking
+    # something off the stall, which would look like the stall had been closed and opened again.
+    just_opened = session.delete(:stall_opened)
+    @opening = @owner && @stall.open? && just_opened.present?
   end
 
   # The owner choosing where friends can be.

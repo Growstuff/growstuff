@@ -35,6 +35,8 @@ class Planting < ApplicationRecord
   has_many :histories, -> { order(:ended_on, :id) }, class_name: 'PlantingHistory', dependent: :destroy, inverse_of: :planting
   has_many :harvests, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+  # On offer on a stall, or given away from one and who to; kept after it is claimed.
+  has_many :stall_plantings, dependent: :destroy, inverse_of: :planting
   has_many :observations, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid. Made the
   # first time the garden's layout is used (Garden#prepare_layout), not for every
@@ -46,11 +48,11 @@ class Planting < ApplicationRecord
   before_create :remember_seed_plant_before
   after_update :sync_plants, if: -> { saved_change_to_quantity? && plants.exists? }
 
-  scope :current, -> { where.not(finished: true).where.not(failed: true) }
+  scope :current, -> { where.not(finished: true).where.not(failed: true).where(given_away_at: nil) }
   # The plantings the daily weather update collects for: planted, in a garden with a place that isn't a nursery, and
   # still growing or finished recently enough that their last days, which lag, may not be in yet.
   scope :weather_tracked, lambda { |today = Time.zone.today|
-    where.not(failed: true).where(planted_at: ..today)
+    where.not(failed: true).where(given_away_at: nil).where(planted_at: ..today)
       .where('plantings.finished IS NOT TRUE OR plantings.finished_at >= ?', today - WEATHER_FINISHED_DAYS)
       .joins(:garden).merge(Garden.located_for_weather)
   }
@@ -75,7 +77,12 @@ class Planting < ApplicationRecord
       .where.not(gardens: { latitude: nil })
       .where.not(gardens: { longitude: nil })
   }
-  scope :active, -> { where(finished: false, failed: false).where('finished_at IS NULL OR finished_at < ?', Time.zone.now) }
+  scope :active, lambda {
+    where(finished: false, failed: false, given_away_at: nil).where('finished_at IS NULL OR finished_at < ?', Time.zone.now)
+  }
+  # The ones that count for the crop's medians: given-away ones are not a finished life, so they are left out.
+  scope :not_given_away, -> { where(given_away_at: nil) }
+  scope :given_away, -> { where.not(given_away_at: nil) }
   scope :failed, -> { where(failed: true) }
   scope :annual, -> { joins(:crop).where(crops: { perennial: false }) }
   scope :perennial, -> { joins(:crop).where(crops: { perennial: true }) }
@@ -225,8 +232,18 @@ class Planting < ApplicationRecord
     seed_plant_before.present? && planted_at.present? && planted_at > seed_plant_before
   end
 
+  # Given to someone else and not claimed yet, so no longer one of its owner's plantings to look after.
+  def given_away?
+    given_away_at.present?
+  end
+
+  # Whether it can be given away: still its owner's to look after.
+  def giveable?
+    !finished? && !failed? && !given_away?
+  end
+
   def growing?
-    planted? && !finished?
+    planted? && !finished? && !given_away?
   end
 
   # Still in the nursery, which is somewhere seedlings are raised before they go out: it has no climate of its own to show.

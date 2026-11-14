@@ -10,6 +10,7 @@ module Stalls
 
     def create
       current_member.stall!.open!
+      session[:stall_opened] = true # read once by the stall page, for the shutter
       redirect_to member_stall_path(current_member), notice: t('.opened')
     end
 

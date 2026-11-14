@@ -57,6 +57,13 @@ Rails.application.routes.draw do
   resource :stall, only: :update do
     resource :opening, only: %i(create destroy), module: :stalls
     resources :seeds, only: %i(new create destroy), module: :stalls
+    # Recording seedlings given away, and to whom.
+    resources :plantings, only: %i(new create destroy), module: :stalls
+  end
+
+  # Seedlings given to you, to claim into one of your gardens.
+  resources :gifts, only: :index, module: :stalls do
+    resource :acceptance, only: :create
   end
 
   # A friend claiming a packet on someone's stall, or changing their mind.

@@ -112,4 +112,44 @@ describe Stall do
       it { is_expected.to eq(:owner_unplaced) }
     end
   end
+
+  describe '#offer_seedlings!' do
+    subject(:stall) { create(:stall) }
+
+    let(:planting) { create(:planting, owner: stall.member) }
+
+    it 'puts the seedling on offer' do
+      stall.offer_seedlings!([planting])
+      expect(stall.seedlings_on_offer.map(&:planting)).to eq [planting]
+    end
+
+    it 'offers it once, however many times it is put on' do
+      2.times { stall.offer_seedlings!([planting]) }
+      expect(stall.stall_plantings.count).to eq 1
+    end
+
+    it 'stops offering one that was finished' do
+      stall.offer_seedlings!([planting])
+      planting.update!(finished: true, finished_at: Time.zone.today)
+      expect(stall.seedlings_on_offer).to be_empty
+    end
+  end
+
+  describe '#give_away!' do
+    subject(:stall) { create(:stall) }
+
+    let(:planting) { create(:planting, owner: stall.member) }
+
+    before { stall.offer_seedlings!([planting]) }
+
+    it 'turns an offer into a gift, not a second record' do
+      stall.give_away!([planting], kind: 'email', recipient: 'a@example.com')
+      expect(stall.stall_plantings.count).to eq 1
+    end
+
+    it 'takes it off offer' do
+      stall.give_away!([planting], kind: 'email', recipient: 'a@example.com')
+      expect(stall.seedlings_on_offer).to be_empty
+    end
+  end
 end

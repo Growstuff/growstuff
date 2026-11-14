@@ -23,6 +23,9 @@
     - if planting.failed?
       %strong.plantingfact--progress= t('.failed')
       %span= planting.finished_at.present? ? I18n.l(planting.finished_at) : t('.planting_failed')
+    - elsif planting.given_away?
+      %strong.plantingfact--progress= t('.given_away')
+      %span= I18n.l(planting.given_away_at.to_date)
     - elsif planting.finished?
       %strong.plantingfact--progress= t('.done')
       %span

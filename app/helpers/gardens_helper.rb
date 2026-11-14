@@ -113,7 +113,17 @@ module GardensHelper
     if gardens.any? && card_ability.can?(:transplant, seedling)
       actions.insert([1, actions.size].min, { key: :transplant, label: I18n.t('buttons.transplant'), href: planting_path(seedling) })
     end
+    insert_give_away(actions, seedling)
     chip.merge(actions: actions)
+  end
+
+  # "Give away" goes in above the divider before "mark as finished", for the owner, to the form with this one ticked.
+  def insert_give_away(actions, seedling)
+    return unless seedling.giveable? && seedling.owner_id == current_member&.id && Feature.enabled?(:garden_stall, current_member)
+
+    at = actions.index { |action| action[:key] == :finish } || actions.size
+    href = new_stall_planting_path(status: 'given', planting_ids: [seedling.id])
+    actions.insert(at, { key: :give_away, label: I18n.t('buttons.give_away'), href: })
   end
 
   # The sow seeds dialog's props: the nursery, the member's other gardens to sow

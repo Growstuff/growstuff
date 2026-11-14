@@ -16,6 +16,8 @@ class Stall < ApplicationRecord
   belongs_to :member
   has_many :stall_seeds, dependent: :destroy
   has_many :seeds, through: :stall_seeds
+  # Plantings given away from here, newest first, whether or not they have been claimed yet.
+  has_many :stall_plantings, -> { newest_first }, dependent: :destroy, inverse_of: :stall
 
   validates :member_id, uniqueness: true
 
@@ -38,6 +40,29 @@ class Stall < ApplicationRecord
       packets.each do |seed|
         seed.update!(tradable_to: WILL_TRADE) unless seed.tradable
         stall_seeds.find_or_create_by!(seed:) { |stall_seed| stall_seed.offer = offer }
+      end
+    end
+  end
+
+  # Puts seedlings on the stall with nobody to give them to yet. They stay the member's active plantings.
+  def offer_seedlings!(plantings)
+    transaction { plantings.map { |planting| stall_plantings.unclaimed.find_or_create_by!(planting:) } }
+  end
+
+  # The seedlings on offer that are still the member's to give: not finished, failed or given since.
+  def seedlings_on_offer
+    stall_plantings.offered.where(planting_id: Planting.current.select(:id)).includes(planting: :crop)
+  end
+
+  # Gives plantings away to one person, on the day given, whether or not they were on offer: each leaves the member's
+  # active plantings at once, and is kept here with who it went to, for them to claim when they sign in as that address
+  # or handle. All or none: if one can't be given, nothing is, and the error is on the record that failed.
+  def give_away!(plantings, kind:, recipient:, on: Time.zone.now)
+    transaction do
+      plantings.map do |planting|
+        stall_plantings.unclaimed.find_or_initialize_by(planting:).tap do |record|
+          record.update!(recipient_kind: kind, recipient:, given_away_at: on)
+        end
       end
     end
   end

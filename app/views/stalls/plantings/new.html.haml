@@ -1,0 +1,48 @@
+- content_for :title, t(".#{@status}.title")
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to t('layouts.menu.gardens'), gardens_path
+  %li.breadcrumb-item= link_to t('stalls.show.breadcrumb'), member_stall_path(current_member)
+  %li.breadcrumb-item.active= t(".#{@status}.title")
+
+-# Two forms in one page: putting seedlings on the stall asks nothing but which; recording that they have been given
+-# away asks who has them, and when.
+- given = @status == 'given'
+.stall-dialog
+  .stall-dialog-header
+    %h1= t(".#{@status}.title")
+    = link_to member_stall_path(current_member), class: 'stall-dialog-close', title: t('.cancel') do
+      = icon 'fas', 'xmark'
+      %span.visually-hidden= t('.cancel')
+
+  = form_with url: stall_plantings_path do
+    = hidden_field_tag :status, @status
+    .stall-dialog-body
+      %p= t(".#{@status}.intro")
+      .stall-packets{ role: 'group', 'aria-label': t('.your_seedlings'), tabindex: 0 }
+        - @seedlings.each do |planting|
+          = label_tag "planting_ids_#{planting.id}", class: 'stall-offer-choice' do
+            = check_box_tag 'planting_ids[]', planting.id, params[:planting_ids].to_a.include?(planting.id.to_s), id: "planting_ids_#{planting.id}"
+            = t('.seedling', crop: planting.display_name, garden: planting.garden.name, count: planting.quantity || 1)
+            - if @offered_ids.include?(planting.id)
+              %span.text-muted= t('.on_stall')
+        - if @seedlings.empty?
+          %p.text-muted= t('.none_left')
+      - if given
+        .row
+          .col-12.col-md-4.mb-3
+            = label_tag :recipient_kind, t('.kind'), class: 'form-label fw-bold'
+            = select_tag :recipient_kind, options_for_select(StallPlanting::KINDS.map { |kind| [t(".kinds.#{kind}"), kind] }, @kind), class: 'form-select'
+          .col-12.col-md-8.mb-3
+            = label_tag :recipient, t('.recipient'), class: 'form-label fw-bold'
+            = text_field_tag :recipient, params[:recipient], class: 'form-control', autocomplete: 'off'
+            %small.text-muted= t('.recipient_hint')
+        .mb-3
+          = label_tag :given_on, t('.given_on'), class: 'form-label fw-bold'
+          = date_field_tag :given_on, params[:given_on].presence || Time.zone.today, max: Time.zone.today, class: 'form-control'
+        %p.stall-note= t('.privacy')
+      %p.mb-0
+        = link_to t(".#{@status}.other"), new_stall_planting_path(status: (given ? 'offered' : 'given'), planting_ids: params[:planting_ids])
+    .stall-dialog-footer
+      = link_to t('.cancel'), member_stall_path(current_member), class: 'btn btn-secondary'
+      = submit_tag t(".#{@status}.submit"), class: 'btn btn-primary'

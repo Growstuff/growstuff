@@ -319,12 +319,12 @@ class Crop < ApplicationRecord
 
   def update_lifespan_medians
     # Median lifespan of plantings
-    update(median_lifespan: Planting.where(crop: self).median(:lifespan))
+    update(median_lifespan: Planting.not_given_away.where(crop: self).median(:lifespan))
   end
 
   def update_harvest_medians
-    update(median_days_to_first_harvest: Planting.where(crop: self).median(:days_to_first_harvest))
-    update(median_days_to_last_harvest: Planting.where(crop: self).median(:days_to_last_harvest))
+    update(median_days_to_first_harvest: Planting.not_given_away.where(crop: self).median(:days_to_first_harvest))
+    update(median_days_to_last_harvest: Planting.not_given_away.where(crop: self).median(:days_to_last_harvest))
   end
 
   def self.case_insensitive_name(name)

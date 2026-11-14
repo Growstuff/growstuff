@@ -1,0 +1,25 @@
+- content_for :title, t('.title')
+
+- content_for :breadcrumbs do
+  %li.breadcrumb-item= link_to t('layouts.menu.gardens'), gardens_path
+  %li.breadcrumb-item.active= t('.title')
+
+.stall-dialog
+  .stall-dialog-header
+    %h1= t('.title')
+  .stall-dialog-body
+    - if @gifts.empty?
+      %p.text-muted= t('.none')
+    - else
+      %p= t('.intro')
+      - @gifts.each do |gift|
+        = form_with url: gift_acceptance_path(gift), class: 'mb-3' do
+          %p.mb-1
+            %strong= gift.planting.display_name
+            = t('.from', giver: gift.stall.member, date: l(gift.given_away_at.to_date))
+          .row.align-items-end
+            .col-12.col-md-8.mb-2
+              = label_tag "garden_id_#{gift.id}", t('.garden'), class: 'form-label'
+              = select_tag :garden_id, options_from_collection_for_select(@gardens, :id, :name, @gardens.find(&:nursery?)&.id), id: "garden_id_#{gift.id}", class: 'form-select'
+            .col-12.col-md-4.mb-2.text-md-end
+              = submit_tag t('.claim'), class: 'btn btn-primary'

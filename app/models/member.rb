@@ -348,6 +348,11 @@ class Member < ApplicationRecord
     authentications.find_by(provider:)
   end
 
+  # The handles they have signed in with on a provider (mastodon or bluesky), lower case, as a planting is given to them.
+  def handles_for(provider)
+    authentications.where(provider:).pluck(:name).compact_blank.map(&:downcase)
+  end
+
   # Whether they sign in with Bluesky, which is how they are known on a stall.
   def bluesky?
     authentications.any? { |authentication| authentication.provider == 'bluesky' }
