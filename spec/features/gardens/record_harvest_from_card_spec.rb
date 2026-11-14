@@ -107,13 +107,13 @@ describe 'Recording a harvest from a garden card', :js do
     end
   end
 
-  it 'draws a tick on the planting bar for the harvest' do
+  it 'puts the harvest on the planting\'s timeline' do
     create(:harvest, planting: planting, owner: member, crop: lettuce, plant_part: leaf, harvested_at: 5.days.ago)
     visit_gardens_open
 
     within('.planting-row', text: 'lettuce') do
-      expect(page).to have_css '.harvest-tick', count: 1, visible: :all
-      expect(page).to have_css '.visually-hidden', text: '1 harvest, the latest on', visible: :all
+      expect(page).to have_css '.planting-timeline-event:not(.planting-timeline-event--expected) .planting-timeline-name',
+                               text: 'First harvest', visible: :all
     end
   end
 end

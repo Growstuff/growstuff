@@ -3,10 +3,9 @@
 -# The line fills as far as today.
 - timeline = PlantingTimeline.new(planting)
 - if planting.annual? && timeline.show?
-  - fill = planting.finished? ? 100 : (timeline.today_position || 0)
   .planting-timeline
     .planting-timeline-line{ 'aria-hidden': 'true' }
-      .planting-timeline-fill{ class: "progress-bar--#{planting.progress_state}", style: "width: #{fill}%" }
+      .planting-timeline-fill{ class: "progress-bar--#{planting.progress_state}", style: "width: #{timeline.fill_position}%" }
       - if timeline.today_position
         %span.planting-timeline-today{ style: "left: #{timeline.today_position}%", title: t('.today') }
     %ol.planting-timeline-events

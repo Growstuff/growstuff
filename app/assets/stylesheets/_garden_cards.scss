@@ -161,35 +161,6 @@ $garden-card-line: #e6e6e6;
     color: $garden-card-muted;
     font-size: 0.85rem;
   }
-
-  .planting-progress .progress {
-    height: 0.5rem;
-    margin: 0;
-  }
-
-  // Ticks for harvests sit over the bar, a little taller than it (so they stand
-  // out from the fill), which is why they are not inside .progress, which clips.
-  .planting-progress-track {
-    position: relative;
-  }
-
-  .harvest-tick {
-    position: absolute;
-    top: -3px;
-    bottom: -3px;
-    width: 3px;
-    margin-left: -1px;
-    border-radius: 1px;
-    background: #3e2723;
-  }
-
-  .planting-progress-labels {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.15rem;
-    color: $garden-card-muted;
-    font-size: 0.8rem;
-  }
 }
 
 // The "more" button: three dots in a small round button. The theme gives every

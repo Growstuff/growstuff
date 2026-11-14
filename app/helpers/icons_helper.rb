@@ -71,12 +71,7 @@ module IconsHelper
   # The icon for an event on a planting's timeline (PlantingTimeline::Event#kind). Each is the icon the rest of the site
   # uses for the same thing, such as the neighbours feed: planted or sown, moved, harvested, and finished or failed.
   def planting_event_icon(kind)
-    case kind.to_sym
-    when :sown, :planted then planting_icon
-    when :transplanted then growing_icon
-    when :first_harvest, :last_harvest then harvest_icon
-    else finished_icon
-    end
+    image_icon PlantingTimeline::ICONS.fetch(kind.to_sym)
   end
 
   def edit_icon

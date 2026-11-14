@@ -7,6 +7,13 @@
 class PlantingTimeline
   Event = Data.define(:kind, :date, :expected, :garden)
 
+  # The icon, in app/assets/images/icons, the site uses for each kind of event: planting for planted or sown,
+  # growing for a move, harvest for both harvests, and finish for finished or failed.
+  ICONS = {
+    sown: 'planting', planted: 'planting', transplanted: 'growing', first_harvest: 'harvest', last_harvest: 'harvest',
+    finished: 'finish', failed: 'finish'
+  }.freeze
+
   def initialize(planting, today: Time.zone.today)
     @planting = planting
     @today = today
@@ -39,12 +46,29 @@ class PlantingTimeline
     (((date - start).to_f / (finish - start)) * 100).clamp(0, 100).round(2)
   end
 
+  # How far along the line the fill goes: all of it for a planting that has finished, otherwise as far as today.
+  def fill_position
+    @planting.finished? ? 100 : (today_position || 0)
+  end
+
+  # For the React cards: what to draw, with the labels and icons the server has chosen. Dates are as "2026-09-12".
+  def as_json(*)
+    { state: @planting.progress_state, fill: fill_position, today: today_position, expected_label: I18n.t('plantings.timeline.expected'),
+      today_label: I18n.t('plantings.timeline.today'), events: events.map { |event| event_json(event) } }
+  end
+
   # How far along the line today is, or nil for a planting that hasn't started or has finished.
   def today_position
     position(@today) if @planting.planted_at <= @today && !@planting.finished?
   end
 
   private
+
+  def event_json(event)
+    { kind: event.kind, label: I18n.t("plantings.timeline.#{event.kind}", garden: event.garden&.name), date: event.date.iso8601,
+      expected: event.expected, percent: position(event.date),
+      icon_url: ActionController::Base.helpers.image_path("icons/#{ICONS.fetch(event.kind)}.svg") }
+  end
 
   # Sown for a planting that began as seed, planted for anything else.
   def planting_event

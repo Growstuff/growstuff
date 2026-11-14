@@ -5,8 +5,15 @@ import PlantingRow from './PlantingRow';
 
 const base = {
   id: 1, url: '/plantings/1', crop: {name: 'Tomato', icon_url: '/t.png'}, actions: [], can_edit: false, planted_at: null,
-  thumb_url: null, badges: [], progress_note: null, percentage_grown: 50, progress_state: 'growing',
-  finish_predicted_label: 'Ready in 3 weeks', harvests: [],
+  thumb_url: null, badges: [], progress_note: null,
+  timeline: {
+    state: 'growing', fill: 40, today: 40, expected_label: 'expected', today_label: 'Today',
+    events: [
+      {kind: 'sown', label: 'Sown', date: '2025-06-01', expected: false, percent: 0, icon_url: '/planting.svg'},
+      {kind: 'first_harvest', label: 'First harvest', date: '2025-07-20', expected: true, percent: 60, icon_url: '/harvest.svg'},
+      {kind: 'finished', label: 'Finished', date: '2025-08-30', expected: true, percent: 100, icon_url: '/finish.svg'},
+    ],
+  },
 };
 
 function setup(planting = {}, props = {}) {
@@ -19,19 +26,10 @@ describe('PlantingRow', () => {
     expect(screen.getByText('Tomato')).toBeInTheDocument();
   });
 
-  it('shows the progress', () => {
-    setup();
-    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '50');
-  });
-
-  it('shows the percentage', () => {
-    setup();
-    expect(screen.getByText('50%')).toBeInTheDocument();
-  });
-
-  it('shows when it will finish', () => {
-    setup();
-    expect(screen.getByText('Ready in 3 weeks')).toBeInTheDocument();
+  it('shows each event on the timeline', () => {
+    const {container} = setup();
+    expect(container.querySelectorAll('.planting-timeline-event')).toHaveLength(3);
+    expect(screen.getByText('First harvest')).toBeInTheDocument();
   });
 
   it('shows the photo when there is one', () => {
@@ -44,36 +42,23 @@ describe('PlantingRow', () => {
     expect(screen.getByText('Harvesting')).toHaveAttribute('title', 'Has been harvested');
   });
 
-  describe('with a note instead of a prediction', () => {
+  describe('with a note instead of a timeline', () => {
     it('shows the note', () => {
-      setup({progress_note: 'No prediction yet'});
+      setup({timeline: null, progress_note: 'No prediction yet'});
       expect(screen.getByText('No prediction yet')).toBeInTheDocument();
     });
 
-    it('shows no progress bar', () => {
-      setup({progress_note: 'No prediction yet'});
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    it('shows no timeline', () => {
+      const {container} = setup({timeline: null, progress_note: 'No prediction yet'});
+      expect(container.querySelector('.planting-timeline')).toBeNull();
     });
   });
 
-  describe('with nothing to predict from', () => {
-    it('shows no progress bar', () => {
-      setup({percentage_grown: null});
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
-    });
-  });
-
-  describe('with harvests', () => {
-    const harvests = [{date: '2025-06-01', percent: 30}, {date: '2025-07-01', percent: 60}];
-
-    it('ticks each one on the bar', () => {
-      const {container} = setup({harvests});
-      expect(container.querySelectorAll('.harvest-tick')).toHaveLength(2);
-    });
-
-    it('says how many for assistive technology', () => {
-      setup({harvests});
-      expect(screen.getByText(/2 harvests, the latest on/)).toBeInTheDocument();
+  describe('with nothing to draw and no note', () => {
+    it('shows neither', () => {
+      const {container} = setup({timeline: null});
+      expect(container.querySelector('.planting-timeline')).toBeNull();
+      expect(container.querySelector('.planting-row-note')).toBeNull();
     });
   });
 
