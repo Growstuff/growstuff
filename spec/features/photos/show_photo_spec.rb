@@ -3,6 +3,27 @@
 require 'rails_helper'
 
 describe "show photo page" do
+  context 'with an imported GBIF photo' do
+    let(:photo) do
+      create(:photo, source: 'gbif', owner: create(:cropbot), author_name: 'Original photographer',
+                     license_name: 'CC BY-NC 4.0', license_url: 'https://creativecommons.org/licenses/by-nc/4.0/')
+    end
+
+    before { visit photo_path(photo) }
+
+    it 'shows the original photographer' do
+      expect(page).to have_css('.photo-photographer-name', text: photo.author_name)
+    end
+
+    it 'does not present cropbot as the photographer' do
+      expect(page).to have_no_css('.photo-photographer-name', text: 'cropbot')
+    end
+
+    it 'links to the original media licence' do
+      expect(page).to have_link(href: photo.license_url)
+    end
+  end
+
   context "signed in member" do
     include_context 'signed in member'
     context "linked to planting" do
