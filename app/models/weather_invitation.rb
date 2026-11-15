@@ -32,7 +32,7 @@ class WeatherInvitation
   end
 
   # Whether the front page shows it: the weather feature is switched on.
-  def self.enabled?
-    Feature.enabled?(:planting_weather)
+  def self.enabled?(member = nil)
+    Feature.enabled?(:planting_weather, member)
   end
 end

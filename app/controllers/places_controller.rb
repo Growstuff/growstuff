@@ -26,7 +26,7 @@ class PlacesController < ApplicationController
     @place = params[:place] # used for page title
     @latitude, @longitude = Geocoder.coordinates(@place, params: { limit: 1 }) if @place.present?
     @nearby_members = @latitude && @longitude ? Member.nearest_to_point(@latitude, @longitude) : Member.none
-    load_weather(Place.new(@latitude, @longitude)) if @latitude && @longitude && Feature.enabled?(:planting_weather)
+    load_weather(Place.new(@latitude, @longitude)) if @latitude && @longitude && Feature.enabled?(:planting_weather, current_member)
     respond_to do |format|
       format.html # show.html.haml
       format.json do
@@ -65,5 +65,6 @@ class PlacesController < ApplicationController
   def load_weather(place)
     @frost = FrostSeason.for(place)
     @climate = PlaceClimate.for(place)
+    ClimateRequest.record(place) if member_signed_in? && !@climate
   end
 end

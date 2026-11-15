@@ -91,6 +91,33 @@ $dash-line: rgba(65, 63, 59, 0.15);
 
 .home-crop-name { display: block; padding: 10px 10px 2px; font-size: 1.15rem; font-weight: 300; }
 
+// Under a crop's name, such as the temperatures it grows best in.
+.home-crop-note { color: $ink-muted; display: block; font-size: 0.85rem; padding: 0 10px 4px; }
+
+// Whether the member is growing a suggested crop, or someone they follow is.
+.home-crop-flag { background: rgba($green, 0.12); color: $green; display: block; font-size: 0.8rem; margin: 4px 0 0; padding: 4px 8px; }
+.home-crop-flag--followed,
+.home-crop-flag--past { background: none; color: $ink-muted; }
+.home-crop-flag--failed { background: rgba($orange, 0.15); color: #333; }
+
+// A tick on the photo of a suggested crop that is in the planned jobs for the season.
+.home-crop-photo { display: block; position: relative; }
+.home-crop-tick {
+  align-items: center;
+  background: $green;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  display: flex;
+  height: 2rem;
+  justify-content: center;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 2rem;
+}
+
 .home-crop-go {
   display: block;
   width: 100%;

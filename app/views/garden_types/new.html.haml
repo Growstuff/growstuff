@@ -1,4 +1,4 @@
-- content_for :title, "New GardenType"
+- content_for :title, t('.title')
 
 - if can? :create, @garden_type
   = render 'form'

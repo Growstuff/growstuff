@@ -10,7 +10,8 @@ class CropsController < ApplicationController
   responders :flash
 
   def index
-    @crops = Crop.search_by_name(nil).paginate(page: params[:page], per_page: 100)
+    @filter = CropFilter.new(current_member, params)
+    @crops = @filter.apply(Crop.search_by_name(nil)).paginate(page: params[:page], per_page: 100)
     if request.format.csv? || request.format.rss?
       @crops = @crops.includes(:parent, :scientific_names, :creator)
       @seed_counts = Seed.where(crop_id: @crops.map(&:id)).group(:crop_id).count
@@ -48,6 +49,13 @@ class CropsController < ApplicationController
 
   def search
     @term = params[:term]
+
+    # To be further split: As we add more short codes and this becomes a 'find anything' search box,
+    # move to own controller.
+    if request.format.html? && current_member && @term.to_s.match?(/\A[2-9A-HJ-NP-Z]{4}\z/)
+      planting = current_member.plantings.find_by(short_code: @term)
+      return redirect_to planting_path(planting) if planting
+    end
 
     @crops = CropSearchService.search(@term,
                                       page:           params[:page],

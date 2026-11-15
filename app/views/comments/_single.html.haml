@@ -14,18 +14,11 @@
             = render 'comments/edit_modal', comment:
       .col-md-9.border-start
         .comment-meta.text-muted
-          Posted by
-          - if comment.author.discarded?
-            Member Deleted
-          - else
-            = link_to comment.author.login_name, member_path(comment.author)
-          on
-          = comment.created_at
+          - author = comment.author.discarded? ? t('.deleted_member') : link_to(comment.author.login_name, member_path(comment.author))
+          = t('.attribution_html', author: author, date: l(comment.created_at, format: :long))
           - if comment.updated_at > comment.created_at
-            and edited at
-            = comment.updated_at
+            = t('.edited_at', date: l(comment.updated_at, format: :long))
 
         .comment-body
           :markdown
             #{ strip_tags markdownify(comment.body) }
-

@@ -1,20 +1,20 @@
 - site_name = ENV.fetch('GROWSTUFF_SITE_NAME', nil)
 
-= render 'devise/shared/card', title: "Join #{site_name}" do
-  %p Sign up for a #{site_name} account to track your vegetable garden and connect with other local growers.
-  %p If you have accessibility issues with the captcha, please contact us via the links in the footer and we will help.
+= render 'devise/shared/card', title: t('devise_views.join_site', site_name: site_name) do
+  %p= t('devise_views.signup_help', site_name: site_name)
+  %p= t('devise_views.captcha_help')
 
   = bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { data: { turbo: false } }) do |f|
     = render 'devise/shared/error_messages', resource: resource
 
-    = f.text_field :login_name, help: 'This is the name that will show on the website.'
-    = f.email_field :email, help: "We'll use this address to contact you (we never spam!)"
-    = f.password_field :password
-    = f.password_field :password_confirmation
+    = f.text_field :login_name, label: t('devise_views.login_name'), help: t('devise_views.login_help')
+    = f.email_field :email, label: t('devise_views.email'), help: t('devise_views.email_help')
+    = f.password_field :password, label: t('devise_views.password')
+    = f.password_field :password_confirmation, label: t('devise_views.confirm_password')
 
-    = f.check_box :tos_agreement, label: safe_join(['I agree to the ', link_to('Terms of Service', '/policy/tos')])
+    = f.check_box :tos_agreement, label: t('devise_views.agreement_html', link: link_to(t('devise_views.terms'), '/policy/tos'))
 
-    = f.submit 'Sign up', class: 'btn w-100 btn-success'
+    = f.submit t('devise_views.sign_up'), class: 'btn w-100 btn-success'
 
     = flash[:recaptcha_error]
     = recaptcha_tags

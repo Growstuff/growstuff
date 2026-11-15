@@ -1,11 +1,15 @@
 %a{ name: 'posts' }
-%h2 What people are saying about #{crop.name.pluralize}
+%h2= t('.title', crop: crop.name.pluralize)
 
 - if @posts.empty?
-  %p.text-muted Nobody has posted about #{crop.name.pluralize} yet.
+  %p.text-muted= t('.empty', crop: crop.name.pluralize)
   - unless can? :create, Post
-    = render partial: "shared/signin_signup",
-            locals: { to: "post your tips and experiences growing #{crop.name.pluralize}" }
+    :ruby
+      sign_in_options = { data: { auth_dialog: 'sign_in' }, class: 'text-success' }
+      sign_up_options = { data: { auth_dialog: 'sign_up' }, class: 'text-info' }
+      sign_in = link_to(t('.sign_in'), new_member_session_path, sign_in_options)
+      sign_up = link_to(t('.sign_up'), new_member_registration_path, sign_up_options)
+    = t('.join_html', sign_in: sign_in, sign_up: sign_up, crop: crop.name.pluralize)
 - else
   = will_paginate @posts
 
@@ -19,4 +23,4 @@
 -# anyone has posted yet.
 - if can? :create, Post
   .section-footer
-    = link_to "Post something", new_post_path(crop_id: crop.slug), class: 'btn btn-outline-secondary btn-sm'
+    = link_to t('.post'), new_post_path(crop_id: crop.slug), class: 'btn btn-outline-secondary btn-sm'

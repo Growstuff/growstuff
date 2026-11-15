@@ -2,9 +2,9 @@
 %ul.nav.nav-tabs
   %li.nav-item
     = link_to seed_view_path(finished: nil, all: nil), class: ['nav-link', ('active' unless @show_finished || @show_all)] do
-      In stock
+      = t('seeds.ui.in_stock')
       %small= @in_stock_count
   %li.nav-item
     = link_to seed_view_path(finished: 1, all: nil), class: ['nav-link', ('active' if @show_finished)] do
-      Finished
+      = t('seeds.ui.finished')
       %small= @finished_count

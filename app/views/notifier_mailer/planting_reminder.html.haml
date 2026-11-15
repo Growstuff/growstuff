@@ -1,6 +1,6 @@
-%p Hello #{@member.login_name},
+%p= t('notifier_mailer.shared.greeting', login_name: @member.login_name)
 
-%h2 Your Weekly #{@sitename} progress report
+%h2= t('notifier_mailer.planting_reminder.heading', sitename: @sitename)
 
 - if @outlook.new_features.any?
   = render 'whats_new', features: @outlook.new_features
@@ -8,75 +8,70 @@
 = render 'outlook', outlook: @outlook
 
 - if @member.plantings.empty?
+  %p= t('notifier_mailer.planting_reminder.empty_intro', sitename: @sitename)
   %p
-    #{@sitename} lets you track what food you're growing
-    in your garden and see what other people near you are planting too.
-  %p
-    #{link_to "Get started now", new_planting_url} by planting your first crop.
+    = link_to t('notifier_mailer.planting_reminder.get_started'), new_planting_url
+    = t('notifier_mailer.planting_reminder.by_planting')
 
 - else
   - if @harvesting.size.positive?
     %section.harvests
-      %h2 Ready to harvest
-      %p Congratulations, you have plants ready to harvest
+      %h2= t('notifier_mailer.planting_reminder.ready_to_harvest')
+      %p= t('notifier_mailer.planting_reminder.congratulations')
       %ul
         - @harvesting.each do |planting|
           %li= render 'planting', planting: planting
 
   - if @others.size.positive?
     %section.progress
-      %h2 Progress report
+      %h2= t('notifier_mailer.planting_reminder.progress_report')
       %ul
         - @others.each do |planting|
           %li
             = render 'planting', planting: planting
-            is #{sprintf '%.0f', planting.percentage_grown}% grown
-            with #{(planting.finish_predicted_at - Time.zone.today).to_i} days to go.
+            = t('notifier_mailer.planting_reminder.progress_status', percentage: sprintf('%.0f', planting.percentage_grown), days: (planting.finish_predicted_at - Time.zone.today).to_i)
 
   - if @late.size.positive?
     %section.late
-      %h2 Late
+      %h2= t('notifier_mailer.planting_reminder.late')
       %p
-        These plantings are at the end of their lifecycle.
-        #{link_to 'Log in', new_member_session_url} and let us know if you're not growing them anymore,
-        and we'll stop tracking them.
+        = t('notifier_mailer.planting_reminder.late_intro', login_link: link_to(t('notifier_mailer.planting_reminder.log_in'), new_member_session_url)).html_safe
       %ul
         - @late.each do |planting|
           %li= render 'planting', planting: planting
 
   - if @super_late.size.positive?
     %section.superlate
-      %h2 Super late
-      %p
-        We suspect the following plantings finished long ago and no longer need tracking. You can mark them as finished to stop tracking.
+      %h2= t('notifier_mailer.planting_reminder.super_late')
+      %p= t('notifier_mailer.planting_reminder.super_late_intro')
       %ul
         - @super_late.each do |planting|
           %li
             = render 'planting', planting: planting
-            planted on #{planting.planted_at.to_date}
-%p Harvested anything lately?
-%p
-  = link_to "Open your dashboard to record a harvest.", root_url, class: 'btn'
+            = t('notifier_mailer.planting_reminder.planted_on', date: l(planting.planted_at.to_date))
 
-%p Want to track and predict a planting in your garden?
+%p= t('notifier_mailer.shared.harvest_question')
 %p
-  = link_to "Open your dashboard to add a planting.", root_url, class: 'btn'
+  = link_to t('notifier_mailer.shared.record_harvest'), root_url, class: 'btn'
 
-%p Track and predict your entire garden, and keep your garden records up to date at
+%p= t('notifier_mailer.planting_reminder.planting_question')
+%p
+  = link_to t('notifier_mailer.planting_reminder.add_planting'), root_url, class: 'btn'
+
+%p= t('notifier_mailer.shared.garden_overview_intro')
 %p
   = link_to member_gardens_url(@member), class: 'btn' do
-    Your garden overview
+    = t('notifier_mailer.shared.garden_overview')
 %p
-  or on
+  = t('notifier_mailer.shared.or_on')
   = link_to member_url(@member) do
-    your profile page
+    = t('notifier_mailer.shared.profile_page')
 
-%h4
-  See you soon on #{@sitename}!
+%h4= t('notifier_mailer.shared.see_you_soon', sitename: @sitename)
 
 = render partial: 'signature'
 
 %hr/
 %p
-  Don't want to get these emails any more?
-  = link_to "Unsubscribe from planting reminders", unsubscribe_member_url(@signed_message)
+  = t('notifier_mailer.planting_reminder.unsubscribe_prompt')
+  = link_to t('notifier_mailer.planting_reminder.unsubscribe'), unsubscribe_member_url(@signed_message)

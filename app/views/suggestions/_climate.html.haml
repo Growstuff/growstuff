@@ -1,0 +1,18 @@
+-# The member's own climate through the year: an island with a row for each season, from the weather held for the place on their
+-# profile, that opens to the crops for the season. While the weather hasn't been collected yet, say so.
+- # The place's name, linked to its page when the member has said where they are.
+- place_link = lambda { |name| member.location.present? ? link_to(name, place_path(member.location)) : t('.your_location') }
+%section.season-climate
+  %h2= t('.heading')
+  - if climate
+    %p.text-muted= t('.intro_html', place: place_link.call(member.location_place || member.location), years: climate.years)
+    %p.season-climate-choose= t('.choose')
+    = react_component('SeasonSuggestions', season_island_props(climate:, selected:, payload:, enabled: dashboard.suggestions_enabled?)) do
+      .season-loading{ role: 'status' }
+        %span.spinner-border.text-success{ 'aria-hidden': 'true' }
+        %span= t('.loading')
+  - else
+    .card.season-climate-pending
+      .card-body.text-center
+        = icon 'fas', 'cloud-sun', class: 'fa-2x text-muted'
+        %p.mb-0.mt-2= t('.collecting_html', place: place_link.call(member.location))

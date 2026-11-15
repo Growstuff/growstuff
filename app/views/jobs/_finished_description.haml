@@ -1,7 +1,7 @@
-did “#{event_model.name}”
+= t('.did', name: event_model.name)
 
 - if event_model.planting
-  %span on #{link_to event_model.planting, event_model.planting}
+  %span= t('.on_planting_html', link: link_to(event_model.planting, event_model.planting))
 
 - if event_model.garden
-  %span in #{link_to event_model.garden, event_model.garden}
+  %span= t('.in_garden_html', link: link_to(event_model.garden, event_model.garden))

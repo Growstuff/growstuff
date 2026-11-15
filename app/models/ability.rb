@@ -148,6 +148,10 @@ class Ability
     can :update,  Harvest, planting: { garden: { garden_collaborators: { member_id: member.id } } }
     can :destroy, Harvest, planting: { garden: { garden_collaborators: { member_id: member.id } } }
 
+    # Whoever looks after the garden can note what they see in it.
+    can %i(create update destroy), Observation, planting: { garden: { garden_collaborators: { member_id: member.id } } }
+    can %i(create update destroy), Observation, planting: { garden: { owner_id: member.id } }
+
     can :create, Photo
     can :update, Photo, owner_id: member.id
     can :destroy, Photo, owner_id: member.id

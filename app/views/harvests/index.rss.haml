@@ -2,7 +2,7 @@
 %rss{ version: 2.0 }
   %channel
     %title
-      Recent harvests from #{@owner ||= 'all members'} (#{ENV['GROWSTUFF_SITE_NAME']})
+      = t('harvests.feed.title', owner: @owner || t('harvests.feed.all_members'), site_name: ENV['GROWSTUFF_SITE_NAME'])
     %link= harvests_url
     - @harvests.each do |harvest|
       %item

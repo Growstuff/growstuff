@@ -2,16 +2,12 @@
 
 # A packet's sowing facts, as the packet would write them.
 module SowingHelper
-  # The seasons as months, for each hemisphere, named as the packet would.
-  NORTHERN_SEASONS = SeasonsHelper::SEASON_MONTHS[:northern].transform_keys { |season| season.to_s.capitalize }.freeze
-  SOUTHERN_SEASONS = SeasonsHelper::SEASON_MONTHS[:southern].transform_keys { |season| season.to_s.capitalize }.freeze
-
   # The months to sow in, as runs: "Oct–Feb", or "Mar–Apr, Sep–Oct". A run goes on round the end
   # of the year, and all twelve is "All year". Nothing, if there are none.
   def sow_months_text(months)
     months = Array(months).sort
     return if months.empty?
-    return 'All year' if months.size == 12
+    return t('seeds.ui.all_year') if months.size == 12
 
     runs = months.slice_when { |earlier, later| later != earlier + 1 }.to_a
     runs = [runs.last + runs.first, *runs[1...-1]] if runs.size > 1 && runs.first.first == 1 && runs.last.last == 12
@@ -31,12 +27,12 @@ module SowingHelper
   def season_months(latitude)
     return if latitude.blank?
 
-    latitude.negative? ? SOUTHERN_SEASONS : NORTHERN_SEASONS
+    SeasonsHelper::SEASON_MONTHS[latitude.negative? ? :southern : :northern]
   end
 
   private
 
   def sow_month_name(month)
-    Date::ABBR_MONTHNAMES[month]
+    t('seeds.ui.month_abbreviations')[month - 1]
   end
 end

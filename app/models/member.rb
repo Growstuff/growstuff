@@ -3,6 +3,8 @@
 class Member < ApplicationRecord
   include Discard::Model
 
+  include Flipper::Identifier
+
   acts_as_messageable # messages can be sent to this model
   include Geocodable
   include MemberFlickr
@@ -15,6 +17,7 @@ class Member < ApplicationRecord
   # Relationships
   has_many :posts, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :comments, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
+  has_many :observations, foreign_key: 'author_id', dependent: :destroy, inverse_of: :author
   has_many :forums, foreign_key: 'owner_id', dependent: :nullify, inverse_of: :owner
   has_many :gardens, foreign_key: 'owner_id', dependent: :destroy, inverse_of: :owner
   has_one :stall, dependent: :destroy
@@ -208,6 +211,8 @@ class Member < ApplicationRecord
   # Triggers
   after_validation :geocode
   after_validation :empty_unwanted_geocodes
+  # Ask for the climate of the place they have said they are, to be fetched before others.
+  after_save :request_climate, if: -> { saved_change_to_latitude? || saved_change_to_longitude? }
 
   # Give each new member a default garden
   # we use find_or_create to avoid accidentally creating a second one,
@@ -333,6 +338,10 @@ class Member < ApplicationRecord
 
   def located?
     location.present? && latitude.present? && longitude.present?
+  end
+
+  def request_climate
+    ClimateRequest.record(Place.new(latitude, longitude)) if located?
   end
 
   def auth(provider)

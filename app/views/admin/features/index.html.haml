@@ -11,6 +11,7 @@
     %tr
       %th= t('.feature')
       %th= t('.state')
+      %th= t('.members')
       %th
   %tbody
     - @features.each do |feature|
@@ -24,6 +25,16 @@
             %span.badge.bg-success= t('.enabled')
           - else
             %span.badge.bg-secondary= t('.disabled')
+        %td
+          %ul.list-unstyled
+            - feature.members.each do |member|
+              %li
+                = link_to member.login_name, member_path(member)
+                = button_to t('.remove_member'), remove_member_admin_feature_path(feature), method: :delete, params: { member_id: member.id }, class: 'btn btn-sm btn-outline-secondary'
+          = form_with url: add_member_admin_feature_path(feature), method: :post do |form|
+            = form.label :login_name, t('.login_name'), for: "feature-#{feature.name}-login"
+            = form.text_field :login_name, id: "feature-#{feature.name}-login", required: true, class: 'form-control'
+            = form.submit t('.add_member'), class: 'btn btn-sm btn-outline-primary'
         %td
           - on = feature.enabled?
           = button_to t(on ? '.switch_off' : '.switch_on'), admin_feature_path(feature),

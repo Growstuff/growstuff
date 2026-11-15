@@ -1,7 +1,7 @@
-- content_for :title, 'Resend unlock instructions'
+- content_for :title, t('devise_views.resend_unlock')
 
-= render 'devise/shared/card', title: 'Resend unlock instructions' do
+= render 'devise/shared/card', title: t('devise_views.resend_unlock') do
   = bootstrap_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
     = render 'devise/shared/error_messages', resource: resource
-    = f.email_field :email, autocomplete: 'email', autofocus: true
-    = f.submit 'Resend unlock instructions', class: 'btn btn-success w-100'
+    = f.email_field :email, label: t('devise_views.email'), autocomplete: 'email', autofocus: true
+    = f.submit t('devise_views.resend_unlock'), class: 'btn btn-success w-100'

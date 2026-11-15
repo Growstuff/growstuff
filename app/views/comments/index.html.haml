@@ -1,9 +1,9 @@
-- content_for :title, "Comments"
-- content_for :meta_description, "Browse and search for comments."
+- content_for :title, t('.title')
+- content_for :meta_description, t('.meta_description')
 - content_for :breadcrumbs do
-  %li.breadcrumb-item.active= link_to "Comments", comments_path
+  %li.breadcrumb-item.active= link_to t('.title'), comments_path
 
-%h1 Comments
+%h1= t('.title')
 
 = will_paginate @comments
 

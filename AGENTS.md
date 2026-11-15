@@ -4,6 +4,10 @@
 
 Where possible if creating a pull request, include screenshots or other visual test evidence if your changes are design oriented.
 
+### Forms
+
+Put a form's submit button at the bottom right, and its back or cancel button to the left of it, at the bottom left.
+
 ### i18n
 
 For user facing screens, prefer i18n translations (locale/en.yml) rather than inline text.

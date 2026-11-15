@@ -2,15 +2,14 @@
 .row
   .col-md-12
     %p
-      = image_tag "flickr_32.png", size: "32x32", alt: 'Flickr logo'
+      = image_tag "flickr_32.png", size: "32x32", alt: t('devise_views.provider_logo', provider: 'Flickr')
       - if @flickr_auth
-        You are connected to Flickr as
-        = link_to @flickr_auth.name, "https://flickr.com/photos/#{@flickr_auth.uid}"
-        = link_to "Disconnect", @flickr_auth,
-                  confirm: "Are you sure you want to remove this connection?",
+        = t('devise_views.connected_html', provider: 'Flickr', account: link_to(@flickr_auth.name, "https://flickr.com/photos/#{@flickr_auth.uid}"))
+        = link_to t('devise_views.disconnect'), @flickr_auth,
+                  data: { confirm: t('devise_views.disconnect_confirm') },
                   method: :delete, class: "remove btn btn-danger"
       - else
-        = button_to 'Connect to Flickr', '/members/auth/flickr', class: 'btn'
+        = button_to t('devise_views.connect_provider', provider: 'Flickr'), '/members/auth/flickr', class: 'btn'
 - if Authentication.enabled_sign_in_providers.include?('bluesky')
   %hr
   .row
@@ -18,13 +17,12 @@
       - if (bluesky_auth = current_member.auth('bluesky'))
         %p
           = icon 'fab', 'bluesky'
-          You are connected to Bluesky as
-          = link_to "@#{bluesky_auth.name}", "https://bsky.app/profile/#{bluesky_auth.uid}"
-          = link_to "Disconnect", bluesky_auth,
-                    data: { confirm: "Are you sure you want to remove this connection?" },
+          = t('devise_views.connected_html', provider: 'Bluesky', account: link_to("@#{bluesky_auth.name}", "https://bsky.app/profile/#{bluesky_auth.uid}"))
+          = link_to t('devise_views.disconnect'), bluesky_auth,
+                    data: { confirm: t('devise_views.disconnect_confirm') },
                     method: :delete, class: "remove btn btn-danger"
       - else
-        = render 'authentications/sign_in/bluesky', label: 'Connect to Bluesky', tos: false
+        = render 'authentications/sign_in/bluesky', label: t('devise_views.connect_provider', provider: 'Bluesky'), tos: false
 - if Authentication.enabled_sign_in_providers.include?('mastodon')
   %hr
   .row
@@ -32,43 +30,43 @@
       %p
         = icon 'fab', 'mastodon', class: 'fa-2x align-middle me-1'
         - if @mastodon_auths&.any?
-          Connected Mastodon accounts:
+          = t('devise_views.mastodon_accounts')
           %ul.mt-2
             - @mastodon_auths.each do |mastodon_auth|
               %li.mb-2
                 = mastodon_auth.name || mastodon_auth.uid
-                = link_to "Disconnect", mastodon_auth,
-                          data: { confirm: "Are you sure you want to remove this Mastodon connection?" },
+                = link_to t('devise_views.disconnect'), mastodon_auth,
+                          data: { confirm: t('devise_views.disconnect_confirm') },
                           method: :delete, class: "remove btn btn-danger btn-sm ms-2"
         - else
-          Connect your Mastodon account to sign in with it and show it on your profile.
+          = t('devise_views.mastodon_help')
       -# These two controls belong to the #mastodon-connect form at the foot of this
       -# partial. HTML doesn't allow a form inside this one, so they point at it with `form`.
       .row.g-2.align-items-center
         .col-auto
-          = label_tag :identifier, 'Your Mastodon address', class: 'visually-hidden'
+          = label_tag :identifier, t('devise_views.mastodon_address'), class: 'visually-hidden'
           = text_field_tag :identifier, nil, form: 'mastodon-connect', placeholder: 'you@mastodon.social',
                             class: 'form-control', required: true, autocomplete: 'off'
         .col-auto
-          = submit_tag(@mastodon_auths&.any? ? 'Connect another account' : 'Connect to Mastodon',
+          = submit_tag(@mastodon_auths&.any? ? t('devise_views.connect_another') : t('devise_views.connect_provider', provider: 'Mastodon'),
                         form: 'mastodon-connect', name: nil, class: 'btn btn-primary')
 
 %hr
 .row
   .col-md-12
     %p
-      = image_tag "icons/post.svg", size: "32x32", alt: 'API logo'
+      = image_tag "icons/post.svg", size: "32x32", alt: t('devise_views.provider_logo', provider: 'API')
       - if current_member.api_token?
-        Your API token is
+        = t('devise_views.api_token')
         %code= current_member.api_token.token
-        = link_to "Regenerate", regenerate_api_token_path,
-                  data: { confirm: "Are you sure? Your old token will stop working immediately." },
+        = link_to t('devise_views.regenerate'), regenerate_api_token_path,
+                  data: { confirm: t('devise_views.regenerate_confirm') },
                   method: :post, class: "remove btn btn-warning"
-        = link_to "Delete API Token", destroy_api_token_path,
-                  data: { confirm: "Are you sure you want to delete your API token?" },
+        = link_to t('devise_views.delete_token'), destroy_api_token_path,
+                  data: { confirm: t('devise_views.delete_token_confirm') },
                   method: :delete, class: "remove btn btn-danger"
       - else
-        = link_to 'Generate API Token', regenerate_api_token_path, method: :post, class: 'btn btn-primary'
+        = link_to t('devise_views.generate_token'), regenerate_api_token_path, method: :post, class: 'btn btn-primary'
 
 -# See the Mastodon controls above. Any server can be chosen, so the address is asked for here.
 = form_with url: omniauth_authorize_path(:member, :mastodon), method: :post, id: 'mastodon-connect', local: true, data: { turbo: false } do

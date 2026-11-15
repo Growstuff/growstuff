@@ -97,7 +97,7 @@ describe 'Adding a photo as JSON' do
 
       expect { add_photo }.not_to(change(Photo, :count))
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.parsed_body['errors']).to have_key('title')
     end
   end

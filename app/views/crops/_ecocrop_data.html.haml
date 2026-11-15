@@ -2,73 +2,71 @@
 - if data
   %section.crop-ecocrop
     .section-header
-      %h2 Ecological requirements
+      %h2= t('.title')
     %div
       %p.text-muted.small
-        Data from the FAO EcoCrop database for
-        %em= data.scientificname
-        - if data.auth.present?
-          = data.auth
+        = t('.source_html', name: content_tag(:em, data.scientificname), authority: data.auth.to_s)
       %table.table.table-sm.table-borderless
         %tbody
           - if data.famname.present?
             %tr
-              %th Family / Taxonomy
+              %th= t('.family')
               %td= safe_join(data.famname.split(':'), tag.br)
           - if data.ktmp.present? || data.ktmpr.present?
             %tr
-              %th Killing temperature
+              %th= t('.killing_temperature')
               %td
                 - parts = []
-                - parts << "growth: #{data.ktmp} °C" if data.ktmp.present?
-                - parts << "rest: #{data.ktmpr} °C" if data.ktmpr.present?
+                - parts << t('.growth_temperature', temperature: data.ktmp) if data.ktmp.present?
+                - parts << t('.rest_temperature', temperature: data.ktmpr) if data.ktmpr.present?
                 = parts.join(', ')
           - if data.lifo.present? && data.lifo.any?
             %tr
-              %th Life form
+              %th= t('.life_form')
               %td= data.lifo.join(', ')
           - if data.lispa.present? && data.lispa.any?
             %tr
-              %th Life span
+              %th= t('.life_span')
               %td= data.lispa.join(', ')
           - if data.habi.present? && data.habi.any?
             %tr
-              %th Habit
+              %th= t('.habit')
               %td= data.habi.join(', ')
           - if data.dep.present?
             %tr
-              %th Optimal soil depth
+              %th= t('.soil_depth')
               %td= data.dep
           - if data.text.present? && data.text.any?
             %tr
-              %th Optimal soil texture
+              %th= t('.soil_texture')
               %td= data.text.join(', ')
           - if data.fer.present?
             %tr
-              %th Optimal soil fertility
+              %th= t('.soil_fertility')
               %td= data.fer
           - if data.dra.present? && data.dra.any?
             %tr
-              %th Optimal soil drainage
+              %th= t('.soil_drainage')
               %td= data.dra.join(', ')
           - if data.sal.present?
             %tr
-              %th Optimal soil salinity
+              %th= t('.soil_salinity')
               %td= data.sal
           - if data.photo.present? && data.photo.any?
             %tr
-              %th Photoperiod
+              %th= t('.photoperiod')
               %td= data.photo.join(', ')
 
     .card-footer.text-muted.small
       %p.mb-2
-        Licensed under
-        = link_to "CC-BY-4.0", "https://creativecommons.org/licenses/by/4.0/", target: "_blank", rel: "noopener noreferrer"
-        \.
+        :ruby
+          licence_url = 'https://creativecommons.org/licenses/by/4.0/'
+          licence = link_to('CC-BY-4.0', licence_url, target: '_blank', rel: 'noopener noreferrer')
+        = t('.licence_html', licence: licence)
       %p.mb-0.citation.small
-        Food and Agriculture Organization of the United Nations (2025) ECOCROP, the crop ecological requirements database. Version 1.
-        = succeed "." do
-          = link_to "https://data.apps.fao.org/catalog/dataset/ecocrop", "https://data.apps.fao.org/catalog/dataset/ecocrop", target: "_blank", rel: "noopener noreferrer"
-        Accessed through the CGIAR Climate Action Data Hub,
-        = succeed "." do
-          = link_to "https://cgiar-climate-data-hub.github.io/catalog/ecocrop_1/", "https://cgiar-climate-data-hub.github.io/catalog/ecocrop_1/", target: "_blank", rel: "noopener noreferrer"
+        :ruby
+          fao_url = 'https://data.apps.fao.org/catalog/dataset/ecocrop'
+          hub_url = 'https://cgiar-climate-data-hub.github.io/catalog/ecocrop_1/'
+          fao = link_to(fao_url, fao_url, target: '_blank', rel: 'noopener noreferrer')
+          hub = link_to(hub_url, hub_url, target: '_blank', rel: 'noopener noreferrer')
+        = t('.citation_html', fao: fao, hub: hub)

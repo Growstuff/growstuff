@@ -226,4 +226,69 @@ describe ClimateUpdater, type: :service do
       expect(ClimateMonth.where(latitude: 51.5).count).to eq 1
     end
   end
+
+  context 'with a place someone asked to see' do
+    subject(:updater) { described_class.new(client:, today:, budget: cell_cost, seconds_per_call: 0) }
+
+    let(:cell_cost) { OpenMeteoClient.call_cost(Date.new(1996, 1, 1), Date.new(2026, 10, 26), variables: described_class::VARIABLES.size) }
+    let!(:request) { ClimateRequest.create!(latitude: 51.5, longitude: 0.0, requested_at: today.in_time_zone) }
+
+    it 'does it before a place with a planting' do
+      updater.update_all
+      expect(ClimateMonth.distinct.pluck(:latitude)).to eq [51.5]
+    end
+
+    it 'removes the request once it is done' do
+      updater.update_all
+      expect(ClimateRequest.exists?(request.id)).to be false
+    end
+
+    it 'reports that it fetched it' do
+      updater.update_all
+      expect(updater.report).to eq ['Requested 51.5, 0.0 (asked 2026-10-31): fetched']
+    end
+
+    it 'keeps the request when the budget does not stretch to it' do
+      described_class.new(client:, today:, budget: 0, seconds_per_call: 0).update_all
+      expect(ClimateRequest.exists?(request.id)).to be true
+    end
+
+    it 'does the one that has waited longest first' do
+      ClimateRequest.create!(latitude: 40.0, longitude: 10.0, requested_at: today.in_time_zone - 1.day)
+      updater.update_all
+      expect(ClimateMonth.distinct.pluck(:latitude)).to eq [40.0]
+    end
+  end
+
+  context 'with a progress callback' do
+    subject(:updater) { described_class.new(client:, today:, seconds_per_call: 0, progress: lines.method(:<<)) }
+
+    let(:lines) { [] }
+
+    it 'says which place it is fetching' do
+      updater.update_all
+      expect(lines).to include a_string_starting_with('Fetching -41.25, 174.75 (')
+    end
+
+    it 'says how many gardens are in it' do
+      updater.update_all
+      expect(lines).to include a_string_including('1 gardens')
+    end
+
+    it 'says how many days came back' do
+      updater.update_all
+      expect(lines).to include a_string_matching(/\A  1996-01-01 to 2026-10-26: \d+ days from Open-Meteo/)
+    end
+
+    it 'says why when Open-Meteo refuses' do
+      allow(client).to receive(:daily).and_raise(OpenMeteoClient::Error, 'Daily API request limit exceeded')
+      updater.update_all
+      expect(lines).to include a_string_matching(/refused it: Daily API request limit exceeded/)
+    end
+
+    it 'says why when the budget is too small' do
+      described_class.new(client:, today:, budget: 1, seconds_per_call: 0, progress: lines.method(:<<)).update_all
+      expect(lines).to include a_string_matching(/more than the 1 left of the budget/)
+    end
+  end
 end

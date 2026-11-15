@@ -7,6 +7,13 @@ describe GrowingDegreeDays do
 
   let(:warm_day) { build(:weather_reading, temp_max_c: 22.0, temp_min_c: 12.0) }
 
+  describe '#total' do
+    it 'adds up each day' do
+      cold_day = build(:weather_reading, temp_max_c: 11.0, temp_min_c: 3.0)
+      expect(degree_days.total([warm_day, cold_day, warm_day])).to eq 14
+    end
+  end
+
   describe '#for_day' do
     it 'is how far the average temperature is above the base' do
       expect(degree_days.for_day(warm_day)).to eq 7

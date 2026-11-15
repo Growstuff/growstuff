@@ -29,5 +29,9 @@ describe "harvests/show" do
     it 'renders localized active breadcrumb' do
       expect(view.content_for(:breadcrumbs)).to have_content I18n.t('harvests.show.breadcrumb')
     end
+
+    it 'renders comments section' do
+      expect(rendered).to have_css('section#comments.comments')
+    end
   end
 end

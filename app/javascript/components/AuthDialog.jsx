@@ -33,8 +33,8 @@ export default function AuthDialog({urls, recaptcha_site_key: recaptchaSiteKey, 
     return () => document.removeEventListener('click', onClick);
   }, []);
 
-  const onBluesky = urls.bluesky ? () => setOpened('bluesky') : undefined;
-  const onMastodon = urls.mastodon ? () => setOpened('mastodon') : undefined;
+  const onBluesky = urls.bluesky ? () => setOpened(opened === 'sign_up' ? 'bluesky_sign_up' : 'bluesky') : undefined;
+  const onMastodon = urls.mastodon ? () => setOpened(opened === 'sign_up' ? 'mastodon_sign_up' : 'mastodon') : undefined;
 
   if (opened === 'sign_in') {
     return <SignInModal urls={urls} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_up')} onBluesky={onBluesky} onMastodon={onMastodon} />;
@@ -42,11 +42,11 @@ export default function AuthDialog({urls, recaptcha_site_key: recaptchaSiteKey, 
   if (opened === 'sign_up') {
     return <SignUpModal urls={urls} recaptchaSiteKey={recaptchaSiteKey} siteName={siteName} onClose={() => setOpened(null)} onSwitch={() => setOpened('sign_in')} onBluesky={onBluesky} onMastodon={onMastodon} />;
   }
-  if (opened === 'mastodon') {
-    return <MastodonModal urls={urls} onClose={() => setOpened(null)} />;
+  if (opened === 'mastodon' || opened === 'mastodon_sign_up') {
+    return <MastodonModal urls={urls} requireTerms={opened === 'mastodon_sign_up'} onClose={() => setOpened(null)} />;
   }
-  if (opened === 'bluesky') {
-    return <BlueskyModal urls={urls} onClose={() => setOpened(null)} />;
+  if (opened === 'bluesky' || opened === 'bluesky_sign_up') {
+    return <BlueskyModal urls={urls} requireTerms={opened === 'bluesky_sign_up'} onClose={() => setOpened(null)} />;
   }
   return null;
 }

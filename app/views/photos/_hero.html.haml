@@ -5,4 +5,4 @@
     .col-6
       %h3= link_to photo.title, photo
       - if photo.date_taken
-        Taken on #{I18n.l photo.date_taken}
+        = t('.taken_on', date: l(photo.date_taken))

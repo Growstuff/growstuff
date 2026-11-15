@@ -3,32 +3,33 @@
   %h2
     -# Decorative: the heading already says what this is.
     %span.heading-emoji{ 'aria-hidden' => 'true' } 🪄
-    #{crop.name.capitalize} facts
+    = t('.title', crop: crop.name.capitalize)
   - if can?(:wrangle, crop) && missing_attributes
-    = link_to 'Add more attributes', edit_crop_path(crop, anchor: ":~:text=Data"), class: 'btn btn-sm section-add'
+    = link_to t('.add_attributes'), edit_crop_path(crop, anchor: ":~:text=Data"), class: 'btn btn-sm section-add'
 .index-cards.facts
   - unless crop.perennial.nil?
     .card.fact-card.lifespan-card
       .card-body.text-center
         %h3
-          Lifespan
-          = editable :select, crop, :perennial, display_field: '.lifespan-display', values: [['Annual', false], ['Perennial', true]]
+          = t('crops.fields.lifespan')
+          = editable :select, crop, :perennial, display_field: '.lifespan-display',
+            values: [[t('crops.fields.lifespan_annual'), false], [t('crops.fields.lifespan_perennial'), true]]
         .lifespan-display
           = link_to 'https://en.wikipedia.org/wiki/Annual_vs._perennial_plant_evolution', class: 'lifespan-word' do
-            = crop.perennial? ? 'Perennial' : 'Annual'
+            = crop.perennial? ? t('crops.fields.lifespan_perennial') : t('crops.fields.lifespan_annual')
           - if crop.perennial?
-            %small living more than two years
+            %small= t('.perennial_hint')
           - else
-            %small living and reproducing in a single year or less
+            %small= t('.annual_hint')
             - if crop.median_lifespan.present?
               - weeks = in_weeks(crop.median_lifespan)
               .crop-median-lifespan
                 %i.far.fa-calendar.fa-2x.amber-text{ 'aria-hidden': 'true' }
                 - if weeks > 1
-                  %strong #{weeks} #{'week'.pluralize(weeks)}
-                  %small median lifespan
+                  %strong= t('.weeks', count: weeks)
+                  %small= t('.median_lifespan')
                 - else
-                  %small.text-muted We don't have enough data yet on the median lifespan.
+                  %small.text-muted= t('.insufficient_lifespan_data')
 
   - if (style = crop.effective_harvest_style)
     = render 'layouts/fact_card',
@@ -53,7 +54,7 @@
   = render 'crops/hardiness', crop: crop
   - if crop.growing_degree_days_figure
     = render 'layouts/fact_card',
-      title: 'Growing Degree Days', value: crop.growing_degree_days_figure, description: nil
+      title: t('.degree_days'), value: crop.growing_degree_days_figure, description: nil
   = render 'openfarm_data', crop: crop
   - ecocrop_facts(crop.ecocrop_data).each do |fact|
     = render 'crops/ecocrop_fact', fact:

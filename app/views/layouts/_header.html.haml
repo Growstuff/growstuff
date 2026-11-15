@@ -1,11 +1,11 @@
 %nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.sticky-top
   %a.navbar-brand{ href: root_path }
-    = image_tag("pear.png", class: 'logo', alt: 'Growstuff brand logo (drawing of a pear)')
+    = image_tag("pear.png", class: 'logo', alt: t('.logo_alt'))
     %div
       %span.site-name Growstuff
   -# Below the desktop width the bar carries search, add and the menu button; the rest is in the drawer.
   .navbar-phone.d-lg-none
-    %button.navbar-phone-button.navbar-search-toggle{ type: 'button', 'aria-label' => 'Search', 'aria-controls' => 'phoneSearch', 'data-bs-target' => '#phoneSearch', 'data-bs-toggle' => 'offcanvas' }
+    %button.navbar-phone-button.navbar-search-toggle{ type: 'button', 'aria-label' => t('layouts.menu.search'), 'aria-controls' => 'phoneSearch', 'data-bs-target' => '#phoneSearch', 'data-bs-toggle' => 'offcanvas' }
       %svg{ width: 22, height: 22, viewBox: '0 0 24 24', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }
         %circle{ cx: 11, cy: 11, r: 6.5 }
         %path{ d: 'M16 16l4.5 4.5' }
@@ -13,7 +13,7 @@
       %button.navbar-phone-button{ type: 'button', 'aria-label' => t('layouts.menu.add'), 'aria-controls' => 'quickAdd', 'data-bs-target' => '#quickAdd', 'data-bs-toggle' => 'offcanvas' }
         %svg{ width: 22, height: 22, viewBox: '0 0 24 24', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }
           %path{ d: 'M12 5v14M5 12h14' }
-    %button.navbar-toggler{ "aria-controls" => "navbarSupportedContent", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarSupportedContent", "data-bs-toggle" => "offcanvas", type: "button" }
+    %button.navbar-toggler{ "aria-controls" => "navbarSupportedContent", "aria-label" => t('.toggle_navigation'), "data-bs-target" => "#navbarSupportedContent", "data-bs-toggle" => "offcanvas", type: "button" }
       %span.navbar-toggler-icon
   = render 'layouts/menu'
   = render 'layouts/phone_search'

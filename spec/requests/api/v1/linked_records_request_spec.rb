@@ -108,7 +108,7 @@ relationships: { garden: link_to('gardens', their_garden.id) } } }.to_json,
 
     before { post_job(attributes: { 'jobbable-type' => 'Planting', 'jobbable-id' => planting.id }) }
 
-    it { expect(response).to have_http_status(:unprocessable_entity) }
+    it { expect(response).to have_http_status(:unprocessable_content) }
 
     it 'makes no job' do
       expect(Job.where(owner: member, name: 'Water')).to be_empty
@@ -120,25 +120,25 @@ relationships: { garden: link_to('gardens', their_garden.id) } } }.to_json,
 
     before { post_job(attributes: { 'jobbable-type' => 'Seed', 'jobbable-id' => seed.id }) }
 
-    it { expect(response).to have_http_status(:unprocessable_entity) }
+    it { expect(response).to have_http_status(:unprocessable_content) }
   end
 
   describe 'a job about something that is not a crop, planting or seed' do
     before { post_job(attributes: { 'jobbable-type' => 'Member', 'jobbable-id' => other_member.id }) }
 
-    it { expect(response).to have_http_status(:unprocessable_entity) }
+    it { expect(response).to have_http_status(:unprocessable_content) }
   end
 
   describe 'a job about a kind of record that does not exist' do
     before { post_job(attributes: { 'jobbable-type' => 'Nonsense', 'jobbable-id' => 1 }) }
 
-    it { expect(response).to have_http_status(:unprocessable_entity) }
+    it { expect(response).to have_http_status(:unprocessable_content) }
   end
 
   describe 'a job about a record that does not exist' do
     before { post_job(attributes: { 'jobbable-type' => 'Planting', 'jobbable-id' => 0 }) }
 
-    it { expect(response).to have_http_status(:unprocessable_entity) }
+    it { expect(response).to have_http_status(:unprocessable_content) }
   end
 
   describe 'a job with an action that does not fit what it is about' do
@@ -147,12 +147,12 @@ relationships: { garden: link_to('gardens', their_garden.id) } } }.to_json,
      'jobbable-id' => create(:planting, owner: member, garden: own_garden).id })
     end
 
-    it { expect(response).to have_http_status(:unprocessable_entity) }
+    it { expect(response).to have_http_status(:unprocessable_content) }
   end
 
   describe 'a job with an action that does not exist' do
     before { post_job(attributes: { 'action' => 'nonsense' }) }
 
-    it { expect(response).to have_http_status(:unprocessable_entity) }
+    it { expect(response).to have_http_status(:unprocessable_content) }
   end
 end

@@ -38,8 +38,10 @@ Rails.application.routes.draw do
   post '/my/email/decline', to: 'member_emails#decline', as: :decline_member_email
   post '/my/email/resend', to: 'member_emails#resend', as: :resend_member_email
   get '/suggestions', to: 'suggestions#index', as: :suggestions
+  get '/suggestions/seasons/:season', to: 'suggestions#season', as: :suggestions_season, defaults: { format: :json }
   patch '/my/suggestions', to: 'suggestions#update', as: :my_suggestions
   post '/my/dismissed_crops', to: 'crop_dismissals#create', as: :crop_dismissals
+  post '/my/suggested_jobs', to: 'suggested_jobs#create', as: :suggested_jobs
   delete '/my/dismissed_crops', to: 'crop_dismissals#destroy_all'
   get '/my/neighbours', to: 'neighbours#show', as: :neighbours
   get '/my/neighbours/feed', to: 'neighbours#feed', as: :neighbours_feed
@@ -69,7 +71,6 @@ Rails.application.routes.draw do
 
   resources :gardens, concerns: :has_photos, param: :slug do
     get 'timeline' => 'charts/gardens#timeline', constraints: { format: 'json' }
-    post 'fetch_wikidata' => 'gardens#fetch_wikidata', on: :member
     post 'make_nursery' => 'gardens#make_nursery', on: :member
     post 'stop_nursery' => 'gardens#stop_nursery', on: :member
 
@@ -84,6 +85,7 @@ Rails.application.routes.draw do
     resources :harvests
     resources :seeds
     resource :origin, only: :update, module: :plantings
+    resources :observations, only: %i(create update destroy), module: :plantings
     collection do
       get 'crop/:crop' => 'plantings#index', as: 'plantings_by_crop'
     end
@@ -224,7 +226,10 @@ Rails.application.routes.draw do
       post :restore, on: :member
     end
     resources :roles
-    resources :features, only: %i(index update)
+    resources :features, only: %i(index update) do
+      post :add_member, on: :member
+      delete :remove_member, on: :member
+    end
     resources :reminder_stats, only: :index
     get 'climate/members' => 'climate_coverage#members', as: :climate_members
     get 'climate/gardens' => 'climate_coverage#gardens', as: :climate_gardens

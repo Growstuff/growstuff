@@ -282,3 +282,70 @@
   max-height: 14rem;
   overflow-y: auto;
 }
+
+// The filters above the crop list: headings over each control, toggle buttons that fill when on, and a footer with the
+// status on the left and the Filter button, which shows only without JavaScript, on the right.
+.crop-filters {
+  .crop-filter-heading {
+    display: block;
+    margin-bottom: .4rem;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: $gray-700;
+  }
+
+  .crop-filter-toggles .btn {
+    box-shadow: none;
+    border: 1px solid $primary;
+    background: $white;
+    color: $primary;
+  }
+
+  .btn-check:checked + .btn {
+    background: $primary;
+    color: $white;
+  }
+
+  .crop-filter-checks {
+    padding-top: .75rem;
+    border-top: 1px solid $gray-300;
+  }
+
+  .crop-filters-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: .5rem;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .crop-filter-status:empty {
+    display: none;
+  }
+}
+
+// The crop chosen to see the varieties of, as a chip with a button to remove it.
+.crop-filters .crop-filter-chosen {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem .5rem .25rem 1rem;
+  border: 2px solid $primary;
+  border-radius: 2rem;
+  background: $white;
+  color: $primary;
+  font-size: 1.25rem;
+}
+
+.crop-filters .crop-filter-chosen-remove {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}

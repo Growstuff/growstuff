@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 %rss{ version: 2.0 }
   %channel
-    %title Recent comments on all posts (#{ENV['GROWSTUFF_SITE_NAME']})
+    %title= t('.feed_title', site: ENV['GROWSTUFF_SITE_NAME'])
     %link= comments_url
     - @comments.each do |comment|
       %item
-        %title Comment by #{comment.author.login_name} on #{comment.commentable.subject}
+        %title= t('.item_title', author: comment.author.discarded? ? t('comments.single.deleted_member') : comment.author.login_name, subject: comment.commentable.subject)
         %description
           :escaped_markdown
             <p>
-            Comment on
-            #{ link_to comment.commentable.subject, polymorphic_url(comment.commentable) }
+            #{ t('.item_description_html', subject: link_to(comment.commentable.subject, polymorphic_url(comment.commentable))) }
             </p>
 
           :escaped_markdown
@@ -19,4 +18,3 @@
         %pubdate= comment.created_at.to_fs(:rfc822)
         %link= polymorphic_url(comment.commentable)
         %guid= comment_url(comment)
-

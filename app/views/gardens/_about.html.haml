@@ -37,10 +37,3 @@
         - if distance
           %br
           %small.text-muted= distance
-    - if garden.location_wikidata_id.present?
-      %p.garden-temperatures.text-muted= garden_temperatures(garden)
-    - elsif can?(:edit, garden) && garden.location.present?
-      - wikidata_path = fetch_wikidata_garden_path(garden)
-      .alert.alert-info.mb-0
-        %p= t('.wikidata_missing')
-        = button_to t('.fetch_wikidata'), wikidata_path, method: :post, class: 'btn btn-info btn-sm'

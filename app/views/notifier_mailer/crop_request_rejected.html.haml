@@ -1,9 +1,6 @@
 %p
-  Hello #{@member.login_name},
+  = t('notifier_mailer.shared.greeting', login_name: @member.login_name)
 %p
-  We're sorry, but your request for the new crop:
-  = link_to @crop.name, crop_url(@crop)
-  has been rejected for the following reason:
-  = @crop.rejection_explanation
+  = t('notifier_mailer.crop_request.rejected_intro', link: link_to(@crop.name, crop_url(@crop)), reason: @crop.rejection_explanation).html_safe
 
 = render partial: 'signature'

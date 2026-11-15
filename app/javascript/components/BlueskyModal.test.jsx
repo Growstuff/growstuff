@@ -14,13 +14,12 @@ describe('BlueskyModal', () => {
     render(<BlueskyModal urls={{bluesky: '/members/auth/bluesky'}} onClose={() => {}} />);
     screen.getByLabelText('Bluesky handle').closest('form').addEventListener('submit', (event) => event.preventDefault());
     await userEvent.type(screen.getByLabelText('Bluesky handle'), 'alice');
-    await userEvent.click(screen.getByRole('checkbox', {name: /Terms of Service/}));
     await userEvent.click(screen.getByRole('button', {name: 'Continue with Bluesky'}));
     expect(screen.getByRole('button', {name: /Contacting Bluesky/})).toBeDisabled();
   });
 
   it('asks for the terms of service before going to Bluesky', () => {
-    render(<BlueskyModal urls={{bluesky: '/members/auth/bluesky'}} onClose={() => {}} />);
-    expect(screen.getByRole('checkbox', {name: /Terms of Service/})).toBeRequired();
+    render(<BlueskyModal urls={{bluesky: '/members/auth/bluesky'}} requireTerms onClose={() => {}} />);
+    expect(screen.getByRole('checkbox')).toBeRequired();
   });
 });

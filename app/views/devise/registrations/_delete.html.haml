@@ -4,12 +4,12 @@
   %br/
   = render 'devise/shared/error_messages', resource: resource
 
-  %p Delete your account from #{ENV['GROWSTUFF_SITE_NAME']}.
+  %p= t('devise_views.delete_help', site_name: ENV['GROWSTUFF_SITE_NAME'])
   .row.mb-3
-    = f.label :current_password, "Password required to delete", class: 'col-form-label col-md-2'
+    = f.label :current_password, t('devise_views.delete_password'), class: 'col-form-label col-md-2'
     .col-md-4
       = f.password_field :current_password, class: 'form-control', id: 'current_pw_for_delete'
 
   .row.mb-3
     .offset-md-2.col-md-8
-      = f.submit "Delete", class: 'btn btn-danger'
+      = f.submit t('devise_views.delete'), class: 'btn btn-danger'
