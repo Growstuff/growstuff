@@ -56,6 +56,12 @@ fr:
         same_crop_required: doivent être les mêmes.
         same_owner_required: de récolte doit être le même que la plantation, ou un collaborateur sur ce jardin
         too_many_plants: une plantation peut avoir au plus des plantes %{limit} sur la mise en page
+        cannot_be_stall_owner: ne peut pas être propriétaire du stand
+        not_in_future: ça ne peut pas être dans le futur
+        not_confirmed_in_area: Cochez que vous êtes dans %{place}.
+        outside_area: Ce stand est réservé aux personnes proches de %{place}.
+        owner_unplaced: Le jardinier n'a pas encore dit où ils se trouvent.
+        stall_closed: Le stand est fermé.
       models:
         crop_job_step:
           attributes:
@@ -89,6 +95,8 @@ fr:
               source_inclusion: Vous devez dire d'où viennent les graines, ou que vous ne savez pas
             tradable_to:
               tradable_to_inclusion: Vous ne pouvez commercialiser des semences nulle part, localement, nationalement ou internationalement
+            hardiness:
+              hardiness_inclusion: Vous devez dire si les graines sont tendres, semi-rustiques, rustiques ou que vous ne savez pas
     models:
       comment:
         one: commentaire
@@ -127,6 +135,8 @@ fr:
         enable_planting_reminders: Envoie les e-mails hebdomadaires de rappel de plantation aux membres qui le souhaitent.
         job_ideas: Emplois suggérés pour les membres, à partir de leurs emplois et plantations passés, des modèles de cultures et de ce que font les jardiniers à proximité.
         planting_weather: Graphiques de température et de précipitations sur chaque plantation, à partir de la météo quotidienne pour la zone du jardin.
+        garden_stall: Une page où les membres offrent des plants et des graines de rechange à leurs amis. Allumez une fois que toutes les pièces sont déployées.
+        planting_codes: Montre les codes de plantation au propriétaire de la plantation et aux collaborateurs de son jardin.
       index:
         disabled: Arrêt
         enabled: Marche
@@ -136,14 +146,121 @@ fr:
         switch_off: Éteindre
         switch_on: Allumer
         title: Caractéristiques
+        members: Activé pour les membres
+        login_name: Nom d'utilisateur
+        add_member: Activer pour le membre
+        remove_member: Supprimer la subvention
       names:
         enable_harvest_reminders: Rappels de récolte
         enable_planting_reminders: Rappels de plantation
         job_ideas: Idées d'emploi
         planting_weather: Temps de plantation
+        garden_stall: Étal de jardin
+        planting_codes: Codes de plantation
       update:
         disabled: "%{feature} est maintenant désactivé."
         enabled: "%{feature} est maintenant activé."
+      member_not_found: Membre introuvable. Entrez un nom d'utilisateur existant.
+    climate_coverage:
+      all: Tous
+      gardens:
+        cell: Cellule météo
+        climate: Données climatiques
+        fetched: Dernière récupération
+        garden: Jardin
+        inactive: Inactif
+        kind: Gentil
+        location: Emplacement
+        nursery: Nursery
+        owner: Propriétaire
+        title: Données climatiques du jardin
+      intro: Si nous conservons des données climatiques (pluie, température et gel) pour la cellule de la grille météorologique dans laquelle se situe chaque emplacement. Les données sont récupérées pour les jardins utilisés et les jardins des plantations actuelles. Les données sont obsolètes lorsqu'elles n'ont pas été récupérées depuis une semaine, ce qui se produit lorsqu'aucun jardin ou plantation dans cette cellule n'est utilisé. Un membre est couvert lorsque son propre emplacement ou l’un de ses jardins l’est.
+      members:
+        climate: Données climatiques
+        gardens: Jardins
+        gardens_covered: "%{covered} sur %{located} à jour"
+        gardens_stale:
+          one: "%{count} obsolète"
+          other: "%{count} obsolète"
+        location: Emplacement
+        member: Membre
+        own: Propre emplacement
+        title: Données climatiques des membres
+      statuses:
+        covered: À jour
+        missing: Aucune donnée pour l'instant
+        stale: Obsolète
+        unlocated: Aucun emplacement sur la carte
+    ecocrop_data:
+      create_crop:
+        created: "%{crop} a été créé à partir de %{record}."
+        name_blank: Donnez un nom à la nouvelle culture.
+        name_taken: Un recadrage appelé %{name} existe déjà.
+      create_modal:
+        cancel: Annuler
+        close: Fermer
+        create: Créer un recadrage
+        hint: Faites un recadrage à partir de cet enregistrement EcoCrop. Il est créé tel qu'approuvé, avec le nom scientifique ci-dessous, et lié au dossier.
+        name: Nom de la culture
+        names_hint: Ceux-ci sont conservés comme noms alternatifs, en anglais. Les noms avec une note entre parenthèses ne sont pas cochés, car ils proviennent généralement d’une autre langue ou d’un autre lieu. Décochez tous les autres qui ne sont pas anglais ou qui ne sont pas corrects.
+        names_legend: Autres noms communs
+        title: Créer un recadrage
+        wikipedia_hint: Une culture approuvée en a besoin. Il s’agit d’une supposition à partir du nom scientifique, alors vérifiez que la page est la bonne plante.
+        wikipedia_url: Page Wikipédia en anglais
+      details:
+        category: Catégorie
+        common_names: Noms communs
+        family: Famille
+        life_form: Forme de vie
+      index:
+        all: Tous
+        common_names: Noms communs
+        copy_names:
+          one: Copier 1 nom
+          other: Copier %{count} noms
+        create_crop: Créer un recadrage
+        crops: Cultures assorties
+        heat_data: Chiffres de chaleur
+        how_to_link: Cliquez sur un nom commun pour rechercher la culture à laquelle il appartient, puis confirmez le lien.
+        intro: "%{matched} des %{total} enregistrements EcoCrop correspondent à une culture."
+        link: Lier une culture
+        matched: Correspondant
+        no_heat_data: Manquant
+        none: Aucun enregistrement EcoCrop ici.
+        scientific_name: Nom scientifique
+        search: Recherche
+        search_placeholder: Nom scientifique ou commun
+        suggestion: Lien %{crop}
+        suggestion_title: "%{crop} est nommé comme un nom commun de %{record}"
+        title: Données EcoCrop
+        unlink: Dissocier
+        unmatched: Incomparable
+        unmatched_crop: Ne correspond pas à une culture
+        yes_heat_data: Complet
+      link:
+        failed: "%{crop} n'a pas pu être lié."
+        linked:
+          one: "%{crop} est désormais lié à %{record}, avec 1 nom alternatif ajouté."
+          other: "%{crop} est désormais lié à %{record}, avec %{count} noms alternatifs ajoutés."
+          zero: "%{crop} est désormais lié à %{record}."
+      link_modal:
+        back: Choisissez une culture différente
+        cancel: Annuler
+        close: Fermer
+        confirm: Lier le recadrage %{crop} à %{record} ?
+        confirm_button: Oui, relie-le
+        hint: Recherchez la culture décrite par cet enregistrement EcoCrop. Une culture a un enregistrement, donc le lier remplace tous ceux qu'elle avait.
+        names_hint: Ceux-ci sont ajoutés au recadrage sous forme de noms alternatifs, en anglais. Les noms avec une note entre parenthèses ne sont pas cochés, car ils proviennent généralement d’une autre langue ou d’un autre lieu. Décochez tous les autres qui ne sont pas anglais ou qui ne sont pas corrects.
+        names_legend: Copiez également ces noms communs
+        none: Aucune culture trouvée
+        search_label: Nom de la culture
+        title: Lier une culture
+      unlink:
+        unlinked: "%{crop} n'est plus lié à %{record}."
+    members:
+      bulk_ban:
+        banned: Les membres sélectionnés ont été bannis.
+        none_selected: Aucun membre n'a été sélectionné.
   authentications:
     connected:
       connected_title: Flickr connecté
@@ -232,6 +349,7 @@ fr:
     unlike: Supprimer "j'aime"
     view: Afficher
     write_blog_post: Ecrire un article de blog
+    add_observation: Ajouter une observation
   comments:
     comments:
       empty: Aucun commentaire pour le moment
@@ -554,6 +672,9 @@ fr:
       crops: Cultures
       formats: "Les données de cette page sont disponibles dans les formats suivants :"
       feed_title: "Cultures récemment ajoutées (%{site})"
+      log_in: Se connecter
+      log_in_to_suggest: Une récolte manque-t-elle ? Vous pouvez suggérer de nouvelles cultures lorsque vous vous connectez.
+      no_matches: Aucune culture ne correspond à ces filtres.
     join_banner:
       heading: Growstuff est un site gratuit géré par la communauté pour les personnes qui cultivent des aliments.
       prompt: Inscrivez-vous pour enregistrer vos propres %{crops}.
@@ -668,6 +789,10 @@ fr:
       sowing_method: Méthode de semis
       spread: Envergure (cm)
       sun_requirements: Exposition au soleil
+      hardiness:
+        from_packets: Déterminez-le à partir des paquets de semences des membres
+        help: Combien de gel la récolte prend-elle. Choisissez un niveau pour le conserver, quoi que disent les sachets de graines.
+        label: Rusticité
     wrangle:
       edit: Modifier
       add_scientific_name: Ajouter un nom scientifique
@@ -711,6 +836,92 @@ fr:
       title: Gestion des cultures
       top_level_crops: Cultures de niveau supérieur
       yes: Oui
+    ecocrop_facts:
+      absolute_ph: pH absolu du sol
+      absolute_rainfall: Précipitations absolues
+      absolute_temperature: Température absolue
+      crop_cycle: Cycle de culture
+      max_altitude: Altitude maximale
+      optimal_light: Lumière optimale
+      optimal_ph: pH optimal du sol
+      optimal_rainfall: Précipitations optimales
+      optimal_temperature: Température optimale
+      source: EcoCrop de la FAO
+      to: à
+      units:
+        celsius: "°C"
+        days: jours
+        metres: m
+        rainfall: mm/an
+    ecocrop_find_modal:
+      back: Choisir un autre enregistrement
+      cancel: Annuler
+      close: Fermer
+      confirm: Lier %{crop} à %{record} ?
+      confirm_button: Oui, relie-le
+      hint: Recherchez les enregistrements EcoCrop par nom commun ou par nom scientifique.
+      linked_to: Déjà lié à %{crops}
+      names_hint: Ceux-ci sont ajoutés au recadrage sous forme de noms alternatifs, en anglais. Les noms avec une note entre parenthèses ne sont pas cochés, car ils proviennent généralement d’une autre langue ou d’un autre lieu. Décochez tous les autres qui ne sont pas anglais ou qui ne sont pas corrects.
+      names_legend: Copiez également ces noms communs
+      none: Aucun enregistrement EcoCrop trouvé
+      search_label: Nom commun
+      title: Recherchez l'enregistrement EcoCrop pour %{crop}
+    ecocrop_link:
+      find: Rechercher des données EcoCrop
+      inherited: Cette culture n'a pas d'enregistrement EcoCrop propre, elle utilise donc celui de son parent : %{record}.
+      none: Cette culture n’est liée à aucune donnée EcoCrop.
+      title: Données EcoCrop
+    filters:
+      apply: Filtre
+      clear: Effacer les filtres
+      ecocrop: Données EcoCrop
+      ecocrop_linked: Lié
+      ecocrop_unlinked: Non lié
+      friends: Cultivé par des gens que je suis
+      history: Est-ce que j'ai déjà cultivé ça ?
+      history_before: Oui, j'ai
+      history_never: Non, jamais
+      needs_location: Définissez où vous jardinez pour filtrer selon ce qui convient à votre emplacement et ce qui est cultivé à proximité.
+      nearby: Cultivé par des jardiniers à proximité
+      no_climate: Nous n'avons pas encore la météo pour votre logement, nous ne pouvons donc pas dire ce qui lui convient. Nous les collectons pour les places définies par les membres, alors revenez bientôt.
+      parent: Filtrer par culture
+      parent_placeholder: Commencez à saisir un nom de culture, puis choisissez-en un
+      remove: Retirer
+      season: Grandit dans
+      seeds: j'ai des graines de
+      set_location: Définissez votre emplacement.
+      sign_in: Se connecter.
+      sign_in_for_more: Connectez-vous pour filtrer également en fonction de votre emplacement, de la saison, des personnes à proximité et des personnes que vous suivez grandissent, ainsi que de ce que vous avez cultivé.
+      suits: Pousse bien chez moi
+      suits_at: Pousse bien dans %{place}
+    time_to_harvest:
+      about_html: Si semé maintenant, attendez-vous à une première récolte dans environ %{days}.
+      hint:
+        no_climate: Nous n'avons pas encore la météo pour votre logement, nous ne pouvons donc pas déterminer combien de temps cela prendra. Nous les collectons pour les places définies par les membres, alors revenez bientôt.
+        set_location: Définissez un emplacement dans votre profil pour obtenir des prévisions plus précises pour cette culture.
+        sign_in: Connectez-vous et définissez un emplacement pour obtenir des prévisions plus précises pour cette culture.
+      set_location: Définissez votre emplacement.
+      sign_in: Se connecter.
+      source:
+        degree_days: Déterminé à partir des degrés-jours de croissance dont cette culture a besoin et de la météo habituelle chez vous.
+        ecocrop: Du cycle de croissance dans la base de données FAO EcoCrop, qui est le même partout où il est cultivé.
+        median: Depuis le temps médian de plantation de cette culture par les membres jusqu'à leur première récolte.
+      title: Il est temps de récolter
+    growing_degree_days:
+      cycle_html: Pour %{crop}, la base de données FAO EcoCrop donne une température de croissance la plus basse de %{tmin} et un cycle de croissance le plus court de %{gmin} jours à sa meilleure température, soit environ %{degree_days} degrés-jours de croissance pour une première récolte.
+      example: 'Disons que la température la plus basse est de 10°C. Une journée à 17°C en moyenne donne 7 degrés-jours de croissance. Une journée à 8°C en moyenne n’en donne pas, car il fait trop froid pour que la culture pousse. C''est pourquoi la même laitue a besoin d''environ 50 jours en été et 90 jours en automne : dans les deux cas, elle a besoin de la même chaleur totale.'
+      intro: 'Une plante pousse avec la chaleur, pas avec les jours. Un degré-jour de croissance équivaut à une journée de chaleur utile : de combien de degrés la température moyenne du jour est au-dessus de la température la plus basse à laquelle pousse la culture. Additionnez-les à partir de la plantation et vous saurez où en est la culture, quoi qu’en dise le calendrier.'
+      needs_html: "%{crop} nécessite environ %{degree_days} degrés-jours de croissance."
+      summary: Que sont les degrés-jours de croissance ?
+      usage: 'Lorsque vous nous avez indiqué où se trouve votre jardin, nous utilisons cela ainsi que la météo pour prédire quand vos %{crop} seront prêts à être récoltés. Nous ne l''utilisons pas pour combien de temps une plante vit ou quand elle se termine : nous nous basons sur ce que les membres ont enregistré pour cela.'
+    hardiness:
+      from_packets: Déterminez-le à partir des paquets de semences des membres
+      help: Combien de gel la récolte prend-elle. Choisissez un niveau pour le conserver, quoi que disent les sachets de graines.
+      label: Rusticité
+      sources:
+        manual: Définie par un responsable des cultures
+        seed_packets: À partir des paquets de semences des membres
+      title: Rusticité
   edit_crop: Modifier le rognage
   flash:
     photo_associations:
@@ -968,6 +1179,9 @@ fr:
         one: Une erreur a empêché l’enregistrement de ce jardin
         other: '%{count} erreurs ont empêché l’enregistrement de ce jardin'
       save: Enregistrer le jardin
+      frost_safe:
+        help: Cochez cette case pour une serre, à l'intérieur ou sur un banc chauffé, où les plantes ne sont pas exposées au gel. Une plantation qui a commencé ici voit sa section de gel commencer le jour où elle est sortie à l'extérieur. Une crèche commence à cocher ; décochez-la si le gel peut atteindre vos plants.
+        label: Ce jardin est à l'abri du gel
     header:
       nursery: Pépinière
       nursery_hint: Les semis cultivés ici peuvent être repiqués dans vos jardins.
@@ -978,6 +1192,8 @@ fr:
         other: Photo du jardin · %{count} photos
       hero_label: Photos de %{garden}
       season_title: La saison où ce jardin est
+      frost_protected: Protégé contre le gel
+      frost_protected_title: À l'abri du gel, comme en intérieur ou en serre
     inactive:
       current_gardens: Jardins actuels
       empty_body: Il n'y a aucun jardin inactif à afficher.
@@ -1372,6 +1588,23 @@ fr:
       years_growing:
         one: "%{count} année DE croissance"
         other: "%{count} années croissantes"
+      todo: Faire
+      todo_confirm: Confirmez votre adresse e-mail
+      todo_confirm_note: Nous avons envoyé un lien vers %{email}. Suivez-le pour que nous sachions que c'est le vôtre.
+      todo_confirm_resend: Envoyez-le à nouveau
+      todo_confirm_waiting: Une fois que vous aurez ajouté une adresse e-mail, nous vous enverrons un lien pour la confirmer.
+      todo_email: Ajoutez votre adresse e-mail
+      todo_email_add: Ajouter un e-mail
+      todo_email_changed_mind: Vous avez changé d'avis ?
+      todo_email_decline: Non merci
+      todo_email_declined: Vous avez choisi de ne pas en ajouter, nous ne vous enverrons donc pas de notifications ni de rappels de plantation.
+      todo_email_error: Nous ne pouvions pas le sauver pour le moment. Veuillez réessayer.
+      todo_email_note: Sans cela, nous ne pouvons pas vous envoyer de notifications ou de rappels de plantation, ni vous permettre de réinitialiser votre mot de passe. Nous vous enverrons un lien par e-mail pour le confirmer.
+      todo_email_save: Enregistrer l'e-mail
+      todo_email_skipped: Sauté
+      todo_name: Confirmez votre nom
+      todo_name_note: C'est le nom qui apparaît sur le site Web. Nous en avons suggéré un et vous pouvez le modifier.
+      todo_name_save: Enregistrer le nom
     index:
       harvest: Récolte
       plant: Installation
@@ -1991,6 +2224,19 @@ fr:
     unable_to_like: 'Impossible d''aimer. '
     unable_to_unlike: Incapable de différencier
     unfollowed: Unfollowed %{name}
+    auth_already_linked: Ce compte est déjà connecté à un autre membre Growstuff.
+    auth_last_sign_in: C'est la seule façon de vous connecter. Ajoutez d'abord une adresse e-mail et un mot de passe.
+    auth_taken: Ce compte est déjà connecté à un autre membre.
+    bluesky_declined: Bluesky n'a pas approuvé cette connexion. Veuillez réessayer.
+    mastodon_declined: Mastodon n'a pas approuvé cette connexion. Veuillez réessayer.
+    mastodon_failed: Nous n'avons pas pu vous connecter avec Mastodon. Veuillez réessayer.
+    bluesky_expired: Cela a pris trop de temps, alors Bluesky a laissé la connexion expirer. Veuillez réessayer et terminer dans quelques minutes.
+    bluesky_failed: Nous n'avons pas pu vous connecter avec Bluesky. Vérifiez votre identifiant et réessayez.
+    mastodon_instance_invalid: Nous n'avons pas pu nous connecter à ce serveur Mastodon. Vérifiez l'adresse qui ressemble à vous@mastodon.social et réessayez.
+    mastodon_needs_account: Nous ne connaissons pas encore ce compte Mastodon. Rejoignez Growstuff ou connectez-vous, puis connectez Mastodon depuis les paramètres de votre compte.
+    location_cleared: Emplacement supprimé.
+    location_unplaced_html: Nous ne trouvons pas "%{location}" sur la carte. <a href="%{link}">Choisissez votre emplacement dans la liste</a> afin que nous puissions vous montrer ce qui pousse près de chez vous.
+    tos_required: Veuillez accepter les conditions d'utilisation pour vous inscrire, puis réessayer.
   neighbours:
     audience:
       all:
@@ -2604,6 +2850,141 @@ fr:
       planting: "%{planting}"
       seed: "%{seed}"
       thing_by: A %{thing} par %{owner}
+      heading: Photo de %{subject}
+      photo_by: Photo de %{name}
+      photos: Photos
+      taken: Pris %{date}
+    actions:
+      delete: Supprimer la photo de Growstuff
+      delete_confirm: Supprimer complètement cette photo de Growstuff ? On enlève tout ce à quoi il est attaché. Il reste sur Flickr.
+      refresh: Actualiser les données photo de Flickr
+      unlink:
+        crop: Supprimer de la culture : %{name}
+        garden: 'Retirer du jardin : %{name}'
+        harvest: Retirer de la récolte : %{name}
+        job: Supprimer du travail : %{name}
+        planting: 'Retirer de la plantation : %{name}'
+        post: Supprimer du message : %{name}
+        seed: Retirer des graines : %{name}
+      unlink_confirm: Supprimer cette photo de cet enregistrement ? La photo elle-même reste sur Growstuff.
+    comment:
+      ago: il y a %{time}
+      delete: Supprimer
+      delete_confirm: Supprimer ce commentaire ?
+      deleted_member: Membre supprimé
+      edit: Modifier
+      edited: édité
+      photographer: Photographe
+      you: Toi
+    comments:
+      add_comment: Ajouter un commentaire
+      empty: Pas encore de commentaires. Soyez le premier à dire quelque chose à propos de cette photo.
+      guidelines: Lignes directrices de la communauté
+      heading: Commentaires
+      join: Inscrivez-vous gratuitement
+      placeholder: Dis quelque chose à propos de cette photo
+      post: Publier un commentaire
+      public_note_html: Les commentaires sont publics. Veuillez suivre le %{guidelines}.
+      sign_in: Se connecter
+      sign_in_prompt: Connectez-vous pour rejoindre la conversation
+    credit:
+      by: Photo de %{name}
+      'on': le %{site}
+    licence:
+      copied: Copié
+      copy_credit: Crédit de copie
+      credit_label: Créditez-le comme ça
+      heading: Licence
+      public_domain: Domaine public
+      read_licence: Lire la licence complète
+      summary:
+        by: Vous pouvez partager et adapter cette photo, même commercialement, à condition de créditer %{name} et de créer un lien vers la licence.
+        by-nc: Vous pouvez partager et adapter cette photo pour un usage non commercial, à condition de créditer %{name} et de créer un lien vers la licence.
+        by-nc-nd: Vous pouvez partager cette photo pour un usage non commercial, à condition de créditer %{name}, de créer un lien vers la licence et de ne pas la modifier.
+        by-nc-sa: Vous pouvez partager et adapter cette photo pour un usage non commercial, à condition de créditer %{name}, de créer un lien vers la licence et de partager ce que vous réalisez sous la même licence.
+        by-nd: Vous pouvez partager cette photo, même commercialement, à condition de créditer %{name}, de créer un lien vers la licence et de ne pas la modifier.
+        by-sa: Vous pouvez partager et adapter cette photo, même commercialement, à condition de créditer %{name}, de créer un lien vers la licence et de partager ce que vous réalisez sous la même licence.
+        mark: Cette photo est dans le domaine public. Vous pouvez l'utiliser comme bon vous semble.
+        other: Consultez la licence pour savoir comment utiliser cette photo.
+        reserved: "%{name} conserve tous les droits sur cette photo. Renseignez-vous avant de l'utiliser ailleurs."
+        zero: "%{name} a renoncé à tous ses droits sur cette photo. Vous pouvez l'utiliser comme bon vous semble."
+    photographer:
+      gardens: Voir les jardins de %{name}
+      harvests: récoltes
+      heading: Photographe
+      joined: Inscrit il y a %{time}
+      plantings: plantations
+      seeds: graines
+    photographer_outsider:
+      heading: Photographe
+      not_a_member: Pas membre de Growstuff. Cette photo est partagée sur %{site} sous licence Creative Commons.
+      photographer: "%{site} photographe"
+      see_photos: Voir leurs photos sur %{site}
+    polaroid:
+      view_on: Vue sur %{site}
+    refresh:
+      not_found: Flickr n'a pas pu trouver cette photo. Il peut être privé ou supprimé.
+      not_public: Cette photo n'est plus publique sur Flickr et n'a donc pas pu être actualisée.
+      refreshed: Actualisation des détails de la photo depuis Flickr.
+      unavailable: Flickr n'a pas pu être atteint. Veuillez réessayer dans un instant.
+    records:
+      harvest: "%{crop} récolte"
+      planting: "%{crop} plantation"
+      seed: "%{crop} graines"
+    shows:
+      crop:
+        about: Curieux de savoir comment le cultiver ? Voyez quand planter, qui d’autre le cultive près de chez vous et ce qu’ils récoltent.
+        go: Explorer %{crop}
+        harvests:
+          one: "%{count} récolte"
+          other: "%{count} récoltes"
+        image_alt: Image de %{crop}
+        kind: Culture
+        on_growstuff: Sur Growstuff
+        plantings:
+          one: "%{count} plantation"
+          other: "%{count} plantations"
+        seeds:
+          one: "%{count} sachet de graines"
+          other: "%{count} sachets de graines"
+      garden:
+        by: Jardin de %{owner}
+        kind: Jardin
+      harvest:
+        about: Voyez ce qui est sorti du sol et combien de temps il a fallu pour planter.
+        by: Récolté par %{owner}
+        go: Voir cette récolte
+        kind: Récolte
+        picked: Cueilli %{date}
+        title: "%{crop} récolte"
+      heading: Ce que montre cette photo
+      intro: Suivez la photo jusqu'au dossier du jardin d'où elle provient.
+      job:
+        by: Travail de %{owner}
+        kind: Emploi
+      outsider_intro: Une photo Creative Commons de cette culture, partagée à partir de %{site}.
+      planting:
+        about: Voyez quand il est entré, comment il a poussé et s'il a été récolté.
+        by: Planté par %{owner}
+        go: Voir cette plantation
+        kind: Plantation
+        planted: Planté %{date}
+        plants:
+          one: "%{count} plante"
+          other: "%{count} plantes"
+      post:
+        by: Publié par %{owner}
+        kind: Poste
+      seed:
+        about: Voyez de quelle variété il s’agit, d’où elle vient et si elle est commercialisée.
+        by: Enregistré par %{owner}
+        go: Voir ces graines
+        kind: Graines
+        saved: Enregistré %{date}
+        seeds:
+          one: "%{count} graine"
+          other: "%{count} graines"
+        title: "%{crop} graines"
   places:
     index:
       title: Carte de la communauté %{site_name}
@@ -2824,6 +3205,52 @@ fr:
       weather_soil_temp: Température du sol
       weather_temperature_chart: Haut / bas quotidien
       weather_temperature_chart_alt: Température quotidienne haute et basse, de %{low} à %{high}.
+      frost_line: "%{degrees} °C ligne de gel"
+      weather_kill_line: Meurt à %{degrees} °C
+      no_observations: Rien de remarqué pour l'instant. Notez quand il fleurit, fructifie, se flétrit ou tombe malade.
+      observations: Observations
+      weather: Météo
+      weather_abandoned_note: Personne n'a marqué cette plantation comme terminée, et il est bien plus tard qu'elle aurait dû se terminer, donc la météo affichée se termine le %{date}, alors qu'elle était censée se terminer.
+      weather_absolute_range: Grandit à %{range}
+      weather_best_days: Jours dans sa meilleure gamme
+      weather_best_days_value: "%{count} sur %{total}"
+      weather_days_count:
+        one: "%{count} jour"
+        other: "%{count} jours"
+      weather_in: Météo à %{place}
+      weather_note_cold: trop froid sur %{days} (minimum en dessous de %{limit})
+      weather_note_above: au-dessus de la meilleure plage sur %{days}
+      weather_note_below: en dessous de la meilleure plage sur %{days}
+      weather_note_future_best: D'après la météo de l'année dernière, %{best} des %{total} jours entre %{from} et %{to} devraient avoir un maximum dans la meilleure plage de %{range}.
+      weather_note_future_caution: Devrait être mélangé pour %{crop}
+      weather_note_future_danger: Devrait sortir de la plage %{crop}
+      weather_note_future_killed: La dépression pourrait atteindre la température mortelle de %{limit} sur %{days}.
+      weather_note_future_neutral: Devrait rester dans la fourchette %{crop}
+      weather_note_future_outside: Les sommets pourraient être de %{outside}.
+      weather_note_future_problems: Cela pourrait être %{problems}.
+      weather_note_future_slow: Croissance attendue, mais pas de la manière la plus rapide, pendant %{crop}
+      weather_note_future_success: Devrait convenir à %{crop}
+      weather_note_future_too_both: Il devrait faire trop chaud et trop froid pour %{crop}
+      weather_note_future_too_cold: Il devrait faire trop froid pour %{crop}
+      weather_note_future_too_hot: Il devrait faire trop chaud pour %{crop}
+      weather_note_future_survives: D'après les conditions météorologiques de l'année dernière, la croissance devrait rester dans la plage de %{crop} entre %{from} et %{to}.
+      weather_note_hot: trop chaud sur %{days} (maximums au-dessus de %{limit})
+      weather_note_past_best: De %{from} à %{to}, %{best} jours sur %{total} ont connu un maximum dans la meilleure plage de %{range}.
+      weather_note_past_caution: Conditions mitigées pour %{crop} jusqu'à présent
+      weather_note_past_danger: En dehors de la plage %{crop} augmente jusqu'à présent
+      weather_note_past_killed: La dépression a atteint la température mortelle de %{limit} sur %{days}.
+      weather_note_past_neutral: Dans la plage %{crop} augmente jusqu'à présent
+      weather_note_past_outside: Les sommets étaient de %{outside}.
+      weather_note_past_problems: Le temps était de %{problems}.
+      weather_note_past_slow: Croissance, mais pas la plus rapide, depuis %{crop} jusqu'à présent
+      weather_note_past_success: Bonnes conditions pour %{crop} jusqu'à présent
+      weather_note_past_too_both: Trop chaud et trop froid pour %{crop} jusqu'à présent
+      weather_note_past_too_cold: Trop froid pour %{crop} jusqu'à présent
+      weather_note_past_too_hot: Trop chaud pour %{crop} jusqu'à présent
+      weather_note_past_survives: De %{from} à %{to}, la météo est restée dans la plage de croissance de %{crop}.
+      weather_now_rain: Dernier, %{date} : %{rain}
+      weather_now_temperature: 'Dernier, %{date} : %{high} / %{low}'
+      weather_optimal_range: Pousse mieux %{range}
     string: Plantation de %{crop} à %{garden} par %{owner}
     timeline:
       failed: Échoué
@@ -2895,6 +3322,188 @@ fr:
       advanced plant: {one: plante développée, other: plantes développées}
       graft: {one: greffe, other: greffes}
       layering: {one: marcotte, other: marcottes}
+    frost:
+      cards:
+        free:
+          label: Saison sans gel
+          note: dans une année typique
+        in_danger:
+          label: Danger de gel qu'il a traversé
+          note: depuis la plantation jusqu'au dernier arrivé, %{latest}
+        last:
+          label: Dernière gelée habituelle
+          note: est arrivé aussi tard que %{latest}
+          planted_after: planté %{days} après lui
+          planted_before: planté %{days} avant lui
+        margin:
+          label: Marge au-dessus du gel
+          note: la nuit la plus froide était de %{coldest} °C ; la ligne de gel est de %{threshold} °C
+        next:
+          label: Le prochain risque de gel commence
+          note_finished: dès %{earliest}, %{days} après la fin de cette plantation
+          note_finishes: dès %{earliest}, %{days} après la fin de cette plantation
+          note_now: dès %{earliest}, %{days} à partir de maintenant
+      days:
+        one: "%{count} jour"
+        other: "%{count} jours"
+      degrees: "%{degrees} °C"
+      nights_so_far:
+        one: Jusqu'à présent, une nuit s'est déroulée à %{threshold} °C ou en dessous, la température la plus froide de %{coldest} °C.
+        other: Jusqu'à présent, %{count} nuits se sont déroulées à %{threshold} °C ou en dessous, le niveau le plus froid de %{coldest} °C.
+      planted:
+        after: Les semis ont eu lieu le %{planted}, %{days} après le dernier gel habituel (%{usual_end}).
+        before: Les semis ont eu lieu le %{planted}, %{days} avant le dernier gel habituel (%{usual_end}).
+      timeline:
+        annotation_after: Planté %{days} après le dernier gel habituel
+        annotation_before: Planté %{days} avant le dernier gel habituel
+        description: Chronologie de %{from} à %{to}. Le risque de gel habituel va de %{usual_start} à %{usual_end}. Le gel est arrivé dès %{earliest} et aussi tard que %{latest}. La plantation s'étend de %{planted} à %{ends}.
+        finish_expected: Fin attendue %{date}
+        finished: Terminé %{date}
+        legend:
+          finished: Plantation, terminée
+          possible: 'Possible : le plus tôt ou le plus tard possible'
+          so_far: Planter jusqu'à présent
+          still_to_come: Plantation encore à venir
+          usual: Risque de gel habituel
+        planted: Planté %{date}
+        row_danger: Risque de gel
+        row_planting: Cette plantation
+        title: Cette plantation contre la saison des gelées
+        today: Aujourd'hui, %{date}
+        usual: "%{from} – %{to}"
+        usual_open: "%{from} →"
+      title: Gel
+      verdicts:
+        before_season:
+          body: La première gelée habituelle est de %{usual_start}, en %{days}. Cela est arrivé dès %{earliest}.
+          title: Le risque de gel commence bientôt
+          title_far: Pas encore de risque de gel
+        finished_clear:
+          body: Des gelées étaient possibles jusqu'à %{latest}, et aucune nuit pendant cette période n'était plus froide que %{coldest} °C.
+          body_no_readings: Le gel était possible jusqu'à %{latest}. Nous n'avons pas de températures nocturnes pour cette plantation.
+          title: Aucun gel n'a atteint cette plantation
+        finished_hit:
+          body:
+            one: Une nuit où le gel était possible était égal ou inférieur à %{threshold} °C. Le plus froid était de %{coldest} °C.
+            other: "%{count} nuits pendant lesquelles des gelées étaient possibles étaient à %{threshold} °C ou moins. Le plus froid était de %{coldest} °C."
+          title: Le gel a peut-être atteint cette plantation
+        in_season:
+          body: La dernière gelée habituelle est %{usual_end}, en %{days}. Cela est arrivé aussi tard que %{latest}.
+          title: Dans le risque de gel habituel
+        late_possible:
+          body: Cela est arrivé jusqu'à %{latest}, %{days} à partir de maintenant. Gardez un œil sur les prévisions.
+          title: Passé le dernier gel habituel, mais il peut encore arriver
+        passed:
+          body: La dernière gelée survenue ces dernières années remonte à %{latest}, %{days}.
+          title: Le risque de gel est passé pour cette plantation
+        rare:
+          body: Les gelées sont rares dans cette région, nous n'affichons donc aucune date de gelée.
+          title: Le gel est rare ici
+    hardiness:
+      help: Laissez-le comme inconnu pour passer par la graine, puis par la récolte.
+      label: Combien de gel faut-il ?
+      sources:
+        crop: Habituel pour la récolte
+        parent_crop: Habituel pour la culture mère
+        planting: Prêt pour cette plantation
+        seed: Du sachet de graines
+      title: Rusticité
+    observations:
+      add: ajouter
+      day: Jour %{count}
+      delete: Supprimer l'observation
+      destroy:
+        deleted: Observation supprimée.
+      edit: Modifier l'observation
+      logged_by: "%{author} remarqué"
+      planted: Planté
+    origin:
+      change: changement
+      crop_changed: Cette plantation est maintenant de %{crop}, pour correspondre à votre paquet. C'était %{was}.
+      dialog:
+        another_way: J'ai commencé d'une autre manière
+        back: Dos
+        cancel: Annuler
+        change_hint: La récolte de la plantation suit le paquet. Choisir une variété en fait une plantation de cette variété.
+        change_link: changement
+        change_title: Changer la provenance de ces %{crop} plantations
+        choose: Choisir
+        choose_another: Choisissez-en un autre
+        choose_different: Choisissez un autre paquet
+        confirm_other_crop: "%{seed} est une culture différente de cette %{crop} plantation. Êtes-vous sûr qu'il a poussé à partir de ce paquet ?"
+        label_hint: Les semis sont souvent accompagnés d'une étiquette ou d'un tag. Copiez tout ce qui est utile pour pouvoir le retrouver la saison prochaine.
+        label_text: Texte de l'étiquette (facultatif)
+        label_text_hint: Fournisseur, conseils de plantation, jours de récolte, tout ce qui y est imprimé
+        label_title: Ce que dit l'étiquette
+        link_anyway: Lien quand même
+        linked_now: Lié maintenant
+        no_match: Rien trouvé pour "%{query}" parmi %{crop} graines.
+        not_my_packet: Pas un de mes paquets
+        next: Suivant
+        not_this_packet: Ou ce n'était pas ce paquet
+        other_crops: Autres cultures
+        other_seeds: Autres graines
+        other_seeds_hint: Les autres graines vont d'où elles viennent et vous permettent d'ajouter les détails du paquet. Une autre méthode propose les semis, les boutures et le reste.
+        other_ways: Une autre façon
+        remove_link: Supprimer le lien
+        remove_link_hint: La suppression du lien ramène cela à non enregistré. La liste des plantations du paquet est immédiatement mise à jour.
+        right_now: Tout de suite
+        save: Sauvegarder
+        search: Recherchez vos graines
+        search_placeholder: Toute culture ou variété
+        seed_list: "%{crop} graines, y compris les variétés"
+        seed_list_hint: Le choix d'une variété modifie également la culture de cette plantation en cette variété.
+        seed_source_title: D'où viennent les graines ?
+        seed_title: Est-ce une de vos graines ?
+        seedling_source_title: Où l'as-tu eu ?
+        seedling_title: À propos du semis
+        skip: Enregistrez simplement "%{kind}"
+        some_other_seeds: Non, d'autres graines
+        some_other_seeds_hint: Pas dans votre bibliothèque, ou vous n'en avez pas.
+        started_title: Comment ces %{crop} plantations ont-elles commencé ?
+        step: Étape %{step} de %{total}
+        step_how: Comment ça a commencé
+        step_source: D'où
+        supplier: D'où (facultatif)
+        supplier_placeholder: Magasin, crèche, stand ou personne
+        unsaved: Cela n'a pas sauvé. Veuillez réessayer.
+      grown_from: Cultivé à partir de
+      kind_hints:
+        cutting: Un morceau d'une autre plante
+        seed: À partir d'un paquet ou d'une graine conservée
+        seedling: Un jeune plant, acheté ou offert
+        volunteer: Est venu tout seul, à partir d'une graine que tu n'as pas semée
+      kinds:
+        advanced_plant: Plant développé
+        bare_root_plant: Plante à racines nues
+        bulb: Bulbe
+        cutting: Bouture
+        graft: Greffer
+        layering: Marcotte
+        root_division: Division des racines
+        root_tuber: Racine/tubercule
+        runner: Stolon
+        seed: Graine
+        seedling: Semis
+        volunteer: Semis spontané
+      link_a_seed: Lier une graine
+      not_recorded: Non enregistré
+      packet: Votre paquet %{seed}
+      saved_in: Enregistré %{year}
+      seed_sources:
+        my own seed saving: Sauvé par moi plus tôt
+        other/unknown: Pas sûr
+        retail outlet: Magasin ou jardinerie
+        seed bank or similar institution: Bibliothèque de graines ou banque de graines
+        seed catalogue: Catalogue de semences
+        traded from another person: Échangé ou donné par quelqu'un
+      seedling_sources:
+        gift: Donné par quelqu'un
+        market: Marché ou stand
+        nursery: Nursery
+        shop: Magasin ou jardinerie
+        unknown: Pas sûr
+      undo: Défaire
   posts:
     draft: Brouillon
     description:
@@ -3271,11 +3880,176 @@ fr:
       heading: "%{crop} Seeds"
     string: Graines %{crop} appartenant à %{owner}
     updated: Seed a été mis à jour avec succès.
+    crop_changes:
+      show:
+        confirm: Oui, change-les
+        decline: Non, laisse-les
+        harvests:
+          one: 1 récolte
+          other: "%{count} récoltes"
+        intro: Vous avez modifié cette valeur de départ de %{from} à %{to}. Ceux-ci en sont issus et sont toujours %{from}. Les changer également en %{to} ?
+        plantings:
+          one: 1 plantation
+          other: "%{count} plantations"
+        seeds:
+          one: 1 sachet de graines
+          other: "%{count} paquets de graines"
+        title: Les changer également en %{crop} ?
+      update:
+        changed: Changé pour la nouvelle récolte.
   stalls:
     about_growstuff:
       join: Rejoindre gratuitement
       sign_in: Se connecter
       text: Une communauté pour faire pousser des aliments. Notez ce que vous plantez et récoltez, et échangez des graines et des astuces avec d'autres jardiniers. Rejoignez-nous gratuitement ou connectez-vous pour contacter %{name} au sujet de son stand.
+    card:
+      go: Allez à votre stand
+      heading: Étal de jardin
+      open: Ouvrir un stand de jardin
+      open_text: Votre stand de jardin est ouvert aux amis.
+      text: Partagez des plants et des graines de rechange avec des amis. Vous choisissez quoi et qui, les offres se clôturent au bout de 4 semaines et aucune adresse n'est conservée.
+    claim:
+      claim: Réclamer
+      claimed: Réclamé
+      confirm: Réclamez-le
+      here: Je suis dans %{place}
+      note: Remarque : %{note}
+      note_label: Une note pour le jardinier (facultatif)
+      note_placeholder: Dites merci et ce que vous pourriez offrir en retour
+      outside: Uniquement pour les personnes proches de %{place}
+      owner_unplaced: Le jardinier n'a pas encore dit où ils se trouvent
+      postage: "%{owner} peut vous demander de payer les frais de port."
+      set_place: Pas vrai ? Placez-vous là où vous jardinez.
+      set_place_ask: Ou définissez où vous jardinez dans votre profil pour que cela soit vérifié pour vous.
+      sign_in: Connectez-vous pour réclamer
+      undo: Annuler ma réclamation
+    claims:
+      create:
+        claimed: "%{crop} est revendiqué. C'est le vôtre ; envoyez un message au jardinier pour organiser le ramassage ou l’envoi."
+      destroy:
+        undone: Vous avez rendu les %{crop}.
+    offers:
+      free: Gratuit
+      free_text: À vous pour la demande
+      swap: Échanger
+      swap_text: Apportez vos propres graines
+    openings:
+      create:
+        opened: Votre stand de jardin est ouvert.
+      destroy:
+        closed: Votre stand de jardin est fermé.
+    owner:
+      garden_of: Jardin de
+      link: Lien vers votre stand
+      profile: Voir le profil de %{name}
+    seed_tin:
+      add: "+ ajouter"
+      heading: Dans la boîte de graines
+      legend: Chaque paquet indique s'il est gratuit ou s'il s'agit d'un échange.
+      packets:
+        one: 1 paquet
+        other: "%{count} paquets"
+      take_off: Enlevez le stand
+    seeds:
+      choice:
+        not_trading: Je ne négocie pas encore
+        quantity:
+          one: env. 1 graine
+          other: env. %{count} graines
+        saved: enregistré %{year}
+        sow_before: semer avant %{year}
+      create:
+        added:
+          one: 1 paquet est sur votre stand.
+          other: "%{count} paquets sont sur votre stand."
+        none: Cochez les paquets que vous souhaitez mettre sur le stand.
+      destroy:
+        removed: Retiré du stand. Il est toujours dans votre bibliothèque de semences.
+      new:
+        add: Ajouter au stand
+        breadcrumb: Ajouter des graines
+        cancel: Annuler
+        cant_find: Vous ne trouvez pas la récolte ?
+        crop: Culture
+        intro: Choisissez des graines à mettre sur l'étal, dans votre bibliothèque de graines.
+        new_note: Il est également enregistré dans votre bibliothèque de semences et est envoyé sur le stand avec les paquets que vous avez cochés.
+        no_matches: Aucune graine ne correspond à "%{query}".
+        none_left: Chaque paquet que vous avez est déjà sur le stand.
+        offer: Sous quelle forme les proposez-vous ?
+        offers:
+          free: Révéler
+          swap: Échanger ou échanger
+        others:
+          one: Autres graines dans votre bibliothèque (1)
+          other: Autres graines dans votre bibliothèque (%{count})
+        quantity: Env. combien de graines
+        ready:
+          one: Marqué « sera échangé » (1)
+          other: Marqué « sera échangé » (%{count})
+        record_new: Ajoutez un paquet de graines que vous n'avez pas encore enregistré
+        request_crop: Demandez une nouvelle récolte.
+        search: Recherchez vos graines
+        search_button: Recherche
+        search_placeholder: Culture ou variété, par exemple tomate
+        title: Ajoutez des graines à votre stand
+        variety: Variété
+        will_mark: Mettre un paquet qui n'est pas marqué « sera échangé » sur le stand marque qu'il « sera échangé » dans votre bibliothèque de graines, afin que vos amis puissent le voir là aussi. Le retirer du stand le laisse marqué.
+        your_seeds: Vos graines
+    settings:
+      areas:
+        anywhere: N'importe où
+        region: Seules les personnes proches de %{place}
+      heading: Qui peut prétendre
+      postage: Je peux demander à des amis de payer les frais de port
+      save: Sauvegarder
+      set_place: Placez-vous là où vous jardinez.
+      unplaced: Dites où vous jardinez pour que vos amis à proximité puissent le réclamer. Tant que vous ne le ferez pas, personne ne le pourra.
+      where: Où les amis peuvent être
+      where_help: Basé sur le lieu indiqué sur votre profil Growstuff et affiché uniquement sous forme de nom de lieu. Les amis de Bluesky disent où ils se trouvent lorsqu'ils réclament. Aucune adresse postale n’est affichée ou demandée.
+      your_place: où tu jardines
+    show:
+      add_seeds: Ajouter des graines
+      breadcrumb: Étal de jardin
+      close: Fermer le stand
+      coming_soon: À venir
+      description:
+        one: Graines de rechange du jardin de %{name} sur Growstuff. 1 paquet est à gagner, gratuit ou à échanger.
+        other: Graines de rechange du jardin de %{name} sur Growstuff. %{count} paquets sont à gagner, gratuitement ou à échanger.
+        zero: Rechangez les plants et graines du jardin de %{name} sur Growstuff, gratuitement ou à échanger.
+      first_heading: Votre stand est ouvert. Que se passe-t-il en premier ?
+      first_intro: Vous pouvez en ajouter d’autres à tout moment. Rien n'est montré aux amis tant que quelque chose n'est pas sur la table.
+      open: J'ouvre mon stand
+      open_heading: Ouvrir un stand de jardin
+      open_intro: Vous avez des plants ou des graines de rechange ? Mettez-les sur un stand et partagez le lien avec vos amis. Donnez-les ou échangez-les.
+      points:
+        choose_what: Vous choisissez ce qui va sur la table.
+        choose_where: 'Vous choisissez où vos amis peuvent être : près de chez vous ou n''importe où.'
+        choose_who: 'Vous choisissez qui peut réclamer : toute personne connectée ou uniquement les personnes que vous suivez.'
+        expiry: Les offres se terminent après 4 semaines, donc le stand ne se démode jamais.
+        privacy: Growstuff ne conserve aucune adresse. Des amis vous envoient un message pour organiser le ramassage ou l'envoi.
+      seedlings: Semis
+      seedlings_text: Les plantes que vous avez cultivées et qui ont besoin d’un foyer.
+      seeds: Graines
+      seeds_text: Paquets que vous avez enregistrés et que vous allez échanger.
+      title: L'étal de jardin de %{name}
+    stall:
+      closed: Fermé pour l'instant
+      sign: L'étal de jardin de %{name}
+      spots:
+        more: Autre chose
+        seedlings: les semis ici
+        seeds: graines ici
+      tagline: Semis et graines pour les amis. Gratuit ou échange.
+    terms:
+      anywhere: Toute personne connectée peut réclamer.
+      heading: Qui peut prétendre
+      manners: C'est gratuit, mais c'est une bonne manière d'offrir quelque chose en retour, comme certaines de vos propres graines, ou simplement un remerciement.
+      no_money: Growstuff ne gère ni argent ni adresses. Envoyez un message au jardinier pour organiser le ramassage ou l’envoi.
+      postage: "%{owner} peut vous demander de payer les frais de port."
+      region: La réclamation est réservée aux personnes proches de %{place}.
+      unplaced: "%{owner} n'a pas encore indiqué où ils se trouvent, donc personne ne peut le déclarer pour l'instant."
+    update:
+      updated: Enregistré.
   suggested_jobs:
     create:
       added: '"%{name}" ajouté à vos tâches planifiées.'
@@ -3290,6 +4064,81 @@ fr:
     update:
       disabled: Nous avons cessé de suggérer des cultures.
       enabled: Les suggestions de cultures sont de retour.
+    climate:
+      add_failed: Nous n'avons pas pu l'ajouter. Essayer à nouveau.
+      add_to_jobs: Ajouter aux tâches planifiées
+      average: moyenne
+      best_range: Meilleur à %{low}–%{high}°
+      choose: Ouvrez une saison pour voir les cultures qui lui conviennent.
+      collecting_html: Nous ne disposons actuellement d'aucune donnée climatique pour %{place}. Nous allons le chercher bientôt.
+      days: Journée la plus chaude jamais enregistrée
+      degrees: "%{value}°"
+      duration:
+        one: 1 jour
+        other: "%{count} jours"
+      duration_range: "%{low} à %{high} jours"
+      followed_grow: Personnes que vous suivez et qui développent ceci : %{names}
+      grown_before: Vous avez fait pousser ça en %{years}
+      growing: Tu fais déjà grandir ça
+      heading: Votre climat tout au long de l'année
+      intro_html: Quel temps fait-il habituellement autour de %{place}, au cours des %{years} dernières années.
+      load_failed: Nous ne pouvions pas charger les récoltes. Essayer à nouveau.
+      loading: Chargement des récoltes…
+      millimetres: "%{value} mm"
+      months: "%{first} à %{last}"
+      nights: La nuit la plus froide jamais enregistrée
+      no_crops: Rien à notre connaissance.
+      no_data: Nous n'avons pas encore la météo pour cette saison.
+      now: Maintenant
+      part_early: tôt
+      part_late: en retard
+      part_mid: milieu
+      planned: Dans vos travaux prévus
+      planting: Ce que les jardiniers près de %{place} plantent dans %{season}, la plupart l'ont planté en premier.
+      rain: Pluie
+      ready_in: prêt dans %{part} %{season}
+      retry: Essayer à nouveau
+      still_grows: Pousse également en %{season} en %{place}, mais pas à son meilleur
+      suits: Pousse bien en %{season} en %{place}
+      timing: "%{days}, %{ready}"
+      usual_day: Journée la plus chaude typique
+      usual_night: Nuit la plus froide typique
+      your_location: votre emplacement
+    introduction:
+      climate: Dites-nous où se trouve votre jardin et nous vous montrerons le climat tout au long de l'année, saison par saison, y compris la pluie, les journées chaudes et les nuits froides.
+      crops: Pour chaque saison, nous vous suggérerons les cultures à planter, en fonction de ce que chaque plante préfère et de ce que les jardiniers près de chez vous plantent déjà.
+      far_html: C'est la météo la plus proche de chez vous, elle peut donc différer de celle de votre jardin. %{sign_up} et dites-nous où vous jardinez, et nous inclurons la météo pour votre emplacement exact.
+      features:
+        closer_weather: Météo recherchée pour votre propre jardin, pas seulement pour l'endroit le plus proche que nous détenons
+        following: Voyez ce que les personnes que vous suivez grandissent
+        garden_climate: Suggestions de cultures pour le climat dans votre propre jardin, saison par saison
+        harvest_predictions: Prédictions du moment où votre récolte sera prête
+        not_for_me: Cachez les cultures qui ne sont pas pour vous
+        planned_jobs: Ajoutez des cultures suggérées à vos tâches planifiées
+        record: Gardez une trace de ce que vous avez planté et cultivé
+      finding: Trouver votre position…
+      location_denied: Votre navigateur n'est pas autorisé à partager votre position avec ce site. Autorisez-le à partir de l'icône à côté de l'adresse, puis réessayez.
+      location_failed: Nous n'avons pas pu obtenir votre position. Vérifiez que votre navigateur est autorisé à le partager et réessayez.
+      location_timeout: La recherche de votre position a pris trop de temps. Veuillez réessayer.
+      location_unavailable: Votre appareil n'a pas pu déterminer où il se trouve. Vérifiez que ses services de localisation sont activés, puis réessayez.
+      location_unsupported: Votre navigateur ne peut pas partager sa position.
+      no_weather: Nous ne disposons pas encore de données météorologiques.
+      retrieving: Récupération des données pour %{place}…
+      showing: Affichage de la météo pour %{place}, à environ %{distance} km de vous, au cours des %{years} dernières années.
+      sign_in: Se connecter
+      sign_up: Inscrivez-vous gratuitement
+      signup_heading: Inscrivez-vous et recevez des suggestions pour votre propre jardin
+      summary: Obtenez des suggestions sur quoi planter, en fonction du climat de votre jardin et de ce que chaque plante préfère, saison par saison.
+      title: Que cultiver près de chez vous
+      unnamed_place: la zone la plus proche pour laquelle nous détenons la météo
+      use_my_location: Utiliser ma position
+      waiting:
+      - Récolter les récoltes…
+      - En regardant par la fenêtre…
+      - On réfléchit à la météo…
+      - Consulter le tas de compost…
+      - Cannelures réticulées…
+      - Demander aux vers…
   unauthorized:
     create:
       all: Veuillez vous connecter ou vous inscrire pour créer un %{subject}.
@@ -3302,3 +4151,140 @@ fr:
       all: Non autorisé à %{action} %{subject}.
     read:
       notification: Vous devez être connecté pour afficher les notifications.
+  auto_suggest:
+    choose: Choisissez-en un dans la liste. Utilisez les touches fléchées haut et bas, puis Entrée.
+    chosen: 'Choisi : %{name}'
+    none: Aucune récolte ne correspond. Vérifiez l'orthographe ou essayez un nom plus court.
+    searching: Recherche…
+    unchosen: Pas encore choisi. Choisissez-en un dans la liste, sinon il ne sera pas utilisé.
+  climate:
+    about_estimates: Ces chiffres proviennent de données de modèles météorologiques sur 25 km, et non de relevés d'une station située dans votre jardin, de sorte que votre propre pluie et vos températures peuvent différer. Vérifiez votre service météorologique national avant de compter sur lui.
+    air:
+      body_above: La température moyenne de l'air depuis le 1er janvier est de %{air} °C, soit %{difference} °C au-dessus de la température habituelle de %{usual} °C pour cette date.
+      body_below: La température moyenne de l'air depuis le 1er janvier est de %{air} °C, soit %{difference} °C de moins que la température habituelle de %{usual} °C pour cette date.
+      body_close: La température moyenne de l'air depuis le 1er janvier est de %{air} °C, proche de la température habituelle de %{usual} °C pour cette date.
+      cards:
+        coldest: Mois le plus froid
+        soil: Sol ce mois-ci
+        soil_note: moyenne de ce mois, dans les 7 premiers cm
+        warmest: Mois le plus chaud
+      chart: Température de l'air chaque mois, cette année et habituellement
+      records: Records au cours des %{count} dernières années
+      soil_chart: Température du sol chaque mois, cette année et habituellement
+      title: Température
+      verdicts:
+        a_little_cooler: Cette année, c'est un peu plus frais que d'habitude
+        a_little_warmer: Cette année il fait un peu plus chaud que d'habitude
+        close: Cette année est proche de l'habitude
+        cooler: Cette année est plus fraîche que d'habitude
+        warmer: Cette année il fait plus chaud que d'habitude
+    chart:
+      bar: "%{month}, %{kind} : %{value}"
+      description: Graphique à colonnes de la moyenne mensuelle %{measure}. Habituel : %{usual}. Cette année jusqu'à présent : %{year}.
+      legend:
+        usual: Habituel pour le mois
+        year: Cette année
+      measures:
+        air: température de l'air en degrés Celsius
+        rain: précipitations en millimètres
+        soil: température du sol, 7 cm supérieurs, en degrés Celsius
+    month_year: "%{month} %{year}"
+    on_average: "%{value} en moyenne"
+    rain:
+      body: "%{rain} est en baisse depuis le 1er janvier. Cela représente %{percent} % des %{usual} habituels à cette date."
+      cards:
+        driest: Mois le plus sec jamais enregistré
+        wettest: Mois le plus humide jamais enregistré
+        year: Année habituelle
+      chart: Il pleut chaque mois, cette année et habituellement
+      records_note:
+        one: Les mois les plus humides et les plus secs sont les plus élevés et les plus bas au cours de l'année de données que nous détenons, pas nécessairement les plus élevés ou les plus bas jamais enregistrés.
+        other: Les mois les plus humides et les plus secs sont les plus élevés et les plus bas des %{count} années de données que nous détenons, pas nécessairement les plus élevés ou les plus bas jamais enregistrés.
+      title: Précipitations
+      verdicts:
+        close: Les précipitations cette année sont proches de la normale
+        drier: Les précipitations cette année sont plus sèches que d'habitude
+        wetter: Les précipitations cette année sont plus humides que d'habitude
+    records:
+      coldest_night: Nuit la plus froide
+      coldest_soil: Sol le plus froid
+      hottest_day: Journée la plus chaude
+      this_year: Cette année : %{value}
+      warmest_soil: Sol le plus chaud
+    table:
+      air: Air
+      details: Afficher les chiffres mensuels
+      month: Mois
+      none: "–"
+      rain: Pluie
+      soil: Sol
+      this_year: cette année
+      usual: habituel
+    units:
+      celsius: "%{value} °C"
+      mm: "%{value} mm"
+    years_average:
+      one: Moyenne sur 1 an
+      other: Moyenne de %{count} ans
+  crop_jobs:
+    add: Ajouter les tâches de culture de %{crop} à mes tâches
+    add_to_planting: Ajouter à %{crop} dans %{garden}, planté %{date}
+    added:
+      one: Ajout de 1 %{crop} tâches à vos tâches.
+      other: Ajout de %{count} %{crop} tâches à vos tâches.
+    already_added: Vos tâches comprennent déjà les tâches de culture de %{crop}.
+    new:
+      add_anyway: Ajoutez-les quand même
+      cancel: Annuler
+      intro: Les échéances des tâches sont calculées à partir du jour de la plantation. Une tâche dont l’échéance serait déjà passée est prévue pour aujourd’hui.
+      out_of_season: "%{template} est pour %{season}, et %{date} est en dehors de l'endroit où vous vous trouvez."
+      planting_on: Quand voulez-vous planter %{crop} ?
+      submit: Ajouter ces tâches
+      title: Ajouter les tâches de culture de %{crop}
+    new_planting: Une nouvelle %{crop} plantation que je vais faire
+    see_jobs: Consultez vos tâches.
+  crop_photos:
+    create:
+      added: Ajout d'une photo à %{crop}.
+      kind_missing: Dites si la photo montre une plantation, une récolte ou des graines.
+      not_creative_commons: Cette photo n'est pas sous licence Creative Commons, elle ne peut donc pas être utilisée ici.
+      not_flickr: Cela ne ressemble pas à l'adresse d'une photo sur Flickr.
+      not_found: Flickr n'a pas pu trouver cette photo. Il peut être privé ou supprimé.
+      not_public: Cette photo n’est pas publique, elle ne peut donc pas être utilisée ici.
+      unavailable: Flickr n'a pas pu être atteint. Veuillez réessayer dans un instant.
+    kinds:
+      harvest: Quelque chose de récolté
+      harvest_hint: Produits cueillis, comme un panier de tomates.
+      legend: Que montre la photo ?
+      planting: Plantes en croissance
+      planting_hint: Plantes poussant dans un jardin, un massif ou un pot.
+      seed: Graines
+      seed_hint: Les graines elles-mêmes, ou les têtes de graines et les gousses.
+    pager:
+      label: Pages de photos
+      next: Page suivante
+      page: Page %{page} sur %{pages}
+      previous: Page précédente
+    source:
+      view_on_flickr: Voir sur Flickr
+    new:
+      add: Ajouter cette photo
+      attribution: par %{owner}
+      back: Retour à %{crop}
+      cancel: Annuler
+      close: Fermer
+      empty: Aucune photo publique Creative Commons ne correspond à cette recherche.
+      intro: Photos publiques sur Flickr sous licence Creative Commons. Vérifiez que la photo montre la culture avant de l'ajouter.
+      modal_title: Ajoutez cette photo de %{crop}
+      save: Sauvegarder
+      search: Recherche
+      taken: Pris %{date}
+      title: Trouvez une photo de %{crop}
+  observations:
+    kinds:
+      disease_observed: Maladie observée
+      flowering: Floraison
+      fruiting: Fructification
+      germination: Germination
+      other: Autre
+      wilting: Flétrissement

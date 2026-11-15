@@ -56,6 +56,12 @@ es:
         same_crop_required: debe ser el mismo cultivo
         same_owner_required: de cosecha debe ser el mismo que el de plantar, o un colaborador en ese huerto
         too_many_plants: una plantación puede tener como máximo %{limit} plantas en el diseño
+        cannot_be_stall_owner: no puede ser el dueño del puesto
+        not_in_future: no puede ser en el futuro
+        not_confirmed_in_area: Marca que estás en %{place}.
+        outside_area: Este puesto es sólo para personas cercanas a %{place}.
+        owner_unplaced: El jardinero aún no ha dicho dónde están.
+        stall_closed: El puesto está cerrado.
       models:
         crop_job_step:
           attributes:
@@ -89,6 +95,8 @@ es:
               source_inclusion: Debes decir de donde son las semillas, o que no sabes
             tradable_to:
               tradable_to_inclusion: Sólo puede comercializar semillas en ningún lugar, ni a nivel local, nacional o internacional.
+            hardiness:
+              hardiness_inclusion: Debes decir si las semillas son tiernas, semi-resistentes, resistentes o no lo sabes.
     models:
       comment:
         one: comentario
@@ -127,6 +135,8 @@ es:
         enable_planting_reminders: Envía correos electrónicos de recordatorio de siembra semanal a los miembros que los deseen.
         job_ideas: Trabajos sugeridos para los miembros, a partir de sus trabajos y plantaciones anteriores, plantillas de cultivos y lo que están haciendo los jardineros cercanos.
         planting_weather: Gráficos de temperatura y precipitaciones en cada plantación, a partir del clima diario para el área del jardín.
+        garden_stall: Una página donde los miembros ofrecen plántulas y semillas de repuesto a sus amigos. Enciéndalo una vez que todas las piezas estén desplegadas.
+        planting_codes: Muestra códigos de siembra al dueño de la plantación y colaboradores en su jardín.
       index:
         disabled: Apagado
         enabled: En
@@ -136,14 +146,121 @@ es:
         switch_off: Desconectar
         switch_on: Encender
         title: Características
+        members: Habilitado para miembros
+        login_name: Nombre de usuario
+        add_member: Habilitar para miembro
+        remove_member: Eliminar subvención
       names:
         enable_harvest_reminders: Recordatorios de cosecha
         enable_planting_reminders: Recordatorios de plantación
         job_ideas: ideas de trabajo
         planting_weather: Clima de siembra
+        garden_stall: Puesto de jardín
+        planting_codes: Códigos de plantación
       update:
         disabled: "%{feature} ahora está apagado."
         enabled: "%{feature} ya está activado."
+      member_not_found: Miembro no encontrado. Ingrese un nombre de usuario existente.
+    climate_coverage:
+      all: Todo
+      gardens:
+        cell: celda meteorológica
+        climate: Datos climáticos
+        fetched: último obtenido
+        garden: Jardín
+        inactive: Inactivo
+        kind: Amable
+        location: Ubicación
+        nursery: Vivero
+        owner: Dueño
+        title: Datos climáticos del jardín
+      intro: Si mantenemos datos climáticos (lluvia, temperatura y heladas) para la celda de la cuadrícula meteorológica en la que se encuentra cada ubicación. Los datos se obtienen de los jardines en uso y los jardines de las plantaciones actuales. Los datos están desactualizados cuando no se han recuperado durante una semana, lo que sucede cuando no se utiliza ningún jardín o plantación en esa celda. Un miembro está cubierto cuando lo está su propia ubicación o cualquiera de sus jardines.
+      members:
+        climate: Datos climáticos
+        gardens: Jardines
+        gardens_covered: "%{covered} de %{located} al día"
+        gardens_stale:
+          one: "%{count} desactualizado"
+          other: "%{count} desactualizado"
+        location: Ubicación
+        member: Miembro
+        own: Ubicación propia
+        title: Datos climáticos de los miembros
+      statuses:
+        covered: A hoy
+        missing: Aún no hay datos
+        stale: Fuera de fecha
+        unlocated: Sin ubicación en el mapa
+    ecocrop_data:
+      create_crop:
+        created: "%{crop} se creó a partir de %{record}."
+        name_blank: Dale un nombre a la nueva cosecha.
+        name_taken: Ya existe un cultivo llamado %{name}.
+      create_modal:
+        cancel: Cancelar
+        close: Cerca
+        create: Crear cultivo
+        hint: Haz un cultivo a partir de este registro de EcoCrop. Se crea tal como fue aprobado, con el nombre científico a continuación y vinculado al registro.
+        name: Nombre del cultivo
+        names_hint: Estos se mantienen como nombres alternativos, en inglés. Los nombres con una nota entre paréntesis no están marcados, ya que suelen ser de otro idioma o lugar. Desmarca cualquier otro que no sea inglés o que no sea correcto.
+        names_legend: Otros nombres comunes
+        title: Crear un cultivo
+        wikipedia_hint: Un cultivo aprobado necesita uno. Esta es una suposición del nombre científico, así que consulte la página para encontrar la planta correcta.
+        wikipedia_url: Página de Wikipedia en inglés
+      details:
+        category: Categoría
+        common_names: Nombres comunes
+        family: Familia
+        life_form: forma de vida
+      index:
+        all: Todo
+        common_names: Nombres comunes
+        copy_names:
+          one: Copiar 1 nombre
+          other: Copiar %{count} nombres
+        create_crop: Crear un cultivo
+        crops: Cultivos combinados
+        heat_data: Cifras de calor
+        how_to_link: Haga clic en un nombre común para buscar el cultivo al que pertenece y luego confirme el enlace.
+        intro: "%{matched} de los %{total} registros de EcoCrop coinciden con un cultivo."
+        link: Vincular un cultivo
+        matched: emparejado
+        no_heat_data: Desaparecido
+        none: No hay registros de EcoCrop aquí.
+        scientific_name: nombre cientifico
+        search: Buscar
+        search_placeholder: Nombre científico o común
+        suggestion: Enlace %{crop}
+        suggestion_title: "%{crop} tiene el nombre similar a un nombre común de %{record}"
+        title: Datos de EcoCrop
+        unlink: Desconectar
+        unmatched: Sin par
+        unmatched_crop: No coincidente con un cultivo
+        yes_heat_data: Completo
+      link:
+        failed: "%{crop} no se pudo vincular."
+        linked:
+          one: "%{crop} ahora está vinculado a %{record}, con 1 nombre alternativo agregado."
+          other: "%{crop} ahora está vinculado a %{record}, con %{count} nombres alternativos agregados."
+          zero: "%{crop} ahora está vinculado a %{record}."
+      link_modal:
+        back: Elige un cultivo diferente
+        cancel: Cancelar
+        close: Cerca
+        confirm: "¿Vincular el cultivo %{crop} a %{record}?"
+        confirm_button: Si, vincúlalo
+        hint: Busque el cultivo que describe este registro de EcoCrop. Un cultivo tiene un registro, por lo que al vincularlo se reemplaza cualquiera que tuviera.
+        names_hint: Estos se agregan al cultivo como nombres alternativos, en inglés. Los nombres con una nota entre paréntesis no están marcados, ya que suelen ser de otro idioma o lugar. Desmarca cualquier otro que no sea inglés o que no sea correcto.
+        names_legend: Copie también estos nombres comunes
+        none: No se encontraron cultivos
+        search_label: Nombre del cultivo
+        title: Vincular un cultivo
+      unlink:
+        unlinked: "%{crop} ya no está vinculado a %{record}."
+    members:
+      bulk_ban:
+        banned: Los miembros seleccionados han sido prohibidos.
+        none_selected: No se seleccionó ningún miembro.
   authentications:
     connected:
       connected_title: Flickr conectado
@@ -232,6 +349,7 @@ es:
     unlike: Quitar me gusta
     view: Vista
     write_blog_post: Escribir entrada de blog
+    add_observation: Añadir observación
   comments:
     comments:
       empty: Aún no hay comentarios
@@ -554,6 +672,9 @@ es:
       crops: Cultivos
       formats: "Los datos de esta página están disponibles en los siguientes formatos:"
       feed_title: "Cultivos añadidos recientemente (%{site})"
+      log_in: Acceso
+      log_in_to_suggest: "¿Falta algún cultivo? Puedes sugerir nuevos cultivos al iniciar sesión."
+      no_matches: Ningún cultivo coincide con esos filtros.
     join_banner:
       heading: Growstuff es un sitio gratuito administrado por la comunidad para personas que cultivan alimentos.
       prompt: Únase para registrar sus propios %{crops}.
@@ -668,6 +789,10 @@ es:
       sowing_method: Método de siembra
       spread: Extensión (cm)
       sun_requirements: Requisitos de sol
+      hardiness:
+        from_packets: Resuélvelo a partir de los paquetes de semillas de los miembros.
+        help: Cuánta escarcha soporta el cultivo. Elige un nivel para conservarlo, diga lo que digan los paquetes de semillas.
+        label: Robustez
     wrangle:
       edit: Editar
       add_scientific_name: Añadir nombre científico
@@ -711,6 +836,92 @@ es:
       title: Gestión de cultivos
       top_level_crops: Cultivos de nivel superior
       yes: Sí
+    ecocrop_facts:
+      absolute_ph: pH absoluto del suelo
+      absolute_rainfall: Precipitación absoluta
+      absolute_temperature: temperatura absoluta
+      crop_cycle: ciclo de cultivo
+      max_altitude: Altitud máxima
+      optimal_light: Luz óptima
+      optimal_ph: pH óptimo del suelo
+      optimal_rainfall: Precipitación óptima
+      optimal_temperature: Temperatura óptima
+      source: Ecocultivo de la FAO
+      to: a
+      units:
+        celsius: "°C"
+        days: días
+        metres: metro
+        rainfall: mm/año
+    ecocrop_find_modal:
+      back: Elija un registro diferente
+      cancel: Cancelar
+      close: Cerca
+      confirm: "¿Enlace %{crop} a %{record}?"
+      confirm_button: Si, vincúlalo
+      hint: Busque los registros de EcoCrop por nombre común o por nombre científico.
+      linked_to: Ya vinculado a %{crops}
+      names_hint: Estos se agregan al cultivo como nombres alternativos, en inglés. Los nombres con una nota entre paréntesis no están marcados, ya que suelen ser de otro idioma o lugar. Desmarca cualquier otro que no sea inglés o que no sea correcto.
+      names_legend: Copie también estos nombres comunes
+      none: No se encontraron registros de EcoCrop
+      search_label: nombre común
+      title: Encuentre el registro EcoCrop para %{crop}
+    ecocrop_link:
+      find: Buscar datos de EcoCrop
+      inherited: 'Este cultivo no tiene registro EcoCrop propio, por lo que utiliza el de su padre: %{record}.'
+      none: Este cultivo no está vinculado a ningún dato de EcoCrop.
+      title: Datos de EcoCrop
+    filters:
+      apply: Filtrar
+      clear: Limpiar filtros
+      ecocrop: Datos de EcoCrop
+      ecocrop_linked: Vinculado
+      ecocrop_unlinked: No vinculado
+      friends: Crecido por personas que sigo
+      history: "¿He cultivado esto antes?"
+      history_before: si, tengo
+      history_never: No, nunca
+      needs_location: Establezca dónde cultiva su jardín para filtrar según lo que se adapte a su ubicación y lo que se cultiva cerca.
+      nearby: Cultivado por jardineros cercanos.
+      no_climate: Aún no tenemos el clima para tu lugar, por lo que no podemos decir cuál es el más adecuado. Lo recopilamos para los lugares establecidos por los miembros, así que vuelva a consultarlo pronto.
+      parent: Filtrar para recortar
+      parent_placeholder: Comience a escribir el nombre de un cultivo y luego elija uno.
+      remove: Eliminar
+      season: crece en
+      seeds: tengo semillas de
+      set_location: Establece tu ubicación.
+      sign_in: Acceso.
+      sign_in_for_more: Inicia sesión para filtrar también por tu ubicación, la temporada, qué personas cercanas crecen y las personas a las que sigues, y qué has cultivado tú.
+      suits: Crece bien en mi ubicación.
+      suits_at: Crece bien en %{place}
+    time_to_harvest:
+      about_html: Si se siembra ahora, se espera una primera cosecha en aproximadamente %{days}.
+      hint:
+        no_climate: Aún no tenemos el clima para tu lugar, por lo que no podemos calcular cuánto tiempo lleva allí. Lo recopilamos para los lugares establecidos por los miembros, así que vuelva a consultarlo pronto.
+        set_location: Establece una ubicación en tu perfil para obtener predicciones más precisas para este cultivo.
+        sign_in: Inicie sesión y establezca una ubicación para obtener predicciones más precisas para este cultivo.
+      set_location: Establece tu ubicación.
+      sign_in: Acceso.
+      source:
+        degree_days: Calculado a partir de los grados día de crecimiento que necesita este cultivo y el clima habitual en su lugar.
+        ecocrop: Del ciclo de cultivo en la base de datos de EcoCrop de la FAO, que es el mismo dondequiera que se cultive.
+        median: Desde la mediana de tiempo que los miembros plantaron este cultivo hasta su primera cosecha.
+      title: Hora de cosechar
+    growing_degree_days:
+      cycle_html: Para %{crop}, la base de datos de EcoCrop de la FAO proporciona una temperatura de crecimiento más baja de %{tmin} y un ciclo de crecimiento más corto de %{gmin} días en su mejor temperatura, aproximadamente %{degree_days} grados-día de crecimiento hasta una primera cosecha.
+      example: 'Digamos que la temperatura más baja es 10°C. Un día con un promedio de 17°C da 7 grados día de crecimiento. Un día con un promedio de 8°C no produce nada, ya que hace demasiado frío para que crezca la cosecha. Por eso la misma lechuga necesita unos 50 días en verano y 90 en otoño: necesita el mismo calor total en ambos casos.'
+      intro: 'Una planta crece con calor, no con días. Un grado día de crecimiento equivale a un día de calor útil: cuántos grados la temperatura promedio del día está por encima de la temperatura más baja a la que crece el cultivo. Súmalos desde la siembra y sabrás qué tan avanzado está el cultivo, diga lo que diga el calendario.'
+      needs_html: "%{crop} necesita alrededor de %{degree_days} grados día de crecimiento."
+      summary: "¿Qué son los grados día de crecimiento?"
+      usage: 'Cuando nos hayas dicho dónde está tu jardín, usaremos esto y el clima allí para predecir cuándo estará listo tu %{crop} para cosechar. No lo usamos para determinar cuánto tiempo vive una planta o cuándo termina: nos basamos en lo que los miembros han registrado para eso.'
+    hardiness:
+      from_packets: Resuélvelo a partir de los paquetes de semillas de los miembros.
+      help: Cuánta escarcha soporta el cultivo. Elige un nivel para conservarlo, diga lo que digan los paquetes de semillas.
+      label: Robustez
+      sources:
+        manual: Establecido por un cultivador
+        seed_packets: De los paquetes de semillas de los miembros
+      title: Robustez
   edit_crop: Editar recorte
   flash:
     photo_associations:
@@ -967,6 +1178,9 @@ es:
         one: Un error impidió guardar este huerto
         other: '%{count} errores impidieron guardar este huerto'
       save: Guardar huerto
+      frost_safe:
+        help: Marque esta opción para un invernadero, interior o banco con calefacción, donde las plantas no corren peligro de heladas. Una plantación que comenzó aquí tiene su sección de heladas comenzando el día que salió al aire libre. Una guardería comienza con tictac; Desmárquelo si las heladas pueden llegar a sus plántulas.
+        label: Este jardín está a salvo de las heladas
     header:
       nursery: Vivero
       nursery_hint: Las plántulas cultivadas aquí se pueden trasplantar a sus huertos.
@@ -977,6 +1191,8 @@ es:
         other: Foto del jardín · Fotos %{count}
       hero_label: Fotos de %{garden}
       season_title: La temporada donde está este jardín.
+      frost_protected: Protegido contra heladas
+      frost_protected_title: A salvo de las heladas, como en interiores o en invernaderos.
     inactive:
       current_gardens: Jardines actuales
       empty_body: No hay jardines inactivos para mostrar.
@@ -1369,6 +1585,23 @@ es:
       years_growing:
         one: "%{count} año creciendo"
         other: "%{count} años creciendo"
+      todo: Hacer
+      todo_confirm: Confirma tu dirección de correo electrónico
+      todo_confirm_note: Enviamos un enlace a %{email}. Síguelo para que sepamos que es tuyo.
+      todo_confirm_resend: envíalo de nuevo
+      todo_confirm_waiting: Una vez que haya agregado una dirección de correo electrónico, le enviaremos un enlace para confirmarla.
+      todo_email: Añade tu dirección de correo electrónico
+      todo_email_add: Agregar correo electrónico
+      todo_email_changed_mind: "¿Cambiaste de opinión?"
+      todo_email_decline: No, gracias
+      todo_email_declined: Elegiste no agregar uno, por lo que no te enviaremos notificaciones ni recordatorios de plantación.
+      todo_email_error: No pudimos salvar eso ahora. Por favor inténtalo de nuevo.
+      todo_email_note: Sin uno, no podemos enviarle notificaciones ni recordatorios de plantación, ni permitirle restablecer su contraseña. Le enviaremos un enlace por correo electrónico para confirmarlo.
+      todo_email_save: Guardar correo electrónico
+      todo_email_skipped: Saltado
+      todo_name: Confirma tu nombre
+      todo_name_note: Este es el nombre que aparece en la web. Te sugerimos uno y puedes cambiarlo.
+      todo_name_save: Guardar nombre
     index:
       harvest: Cosecha
       plant: Planta
@@ -1988,6 +2221,19 @@ es:
     unable_to_like: incapaz de gustar
     unable_to_unlike: No se puede diferenciar
     unfollowed: Dejado de seguir %{name}
+    auth_already_linked: Esa cuenta ya está conectada a otro miembro de Growstuff.
+    auth_last_sign_in: Esta es la única forma de iniciar sesión. Primero agregue una dirección de correo electrónico y una contraseña.
+    auth_taken: Esa cuenta ya está conectada a otro miembro.
+    bluesky_declined: Bluesky no aprobó ese inicio de sesión. Inténtelo de nuevo.
+    mastodon_declined: Mastodon no aprobó ese inicio de sesión. Inténtelo de nuevo.
+    mastodon_failed: No pudimos registrarte con Mastodon. Por favor inténtalo de nuevo.
+    bluesky_expired: Eso tomó demasiado tiempo, por lo que Bluesky dejó que el inicio de sesión expirara. Inténtelo de nuevo y finalice en unos minutos.
+    bluesky_failed: No pudimos registrarte con Bluesky. Comprueba tu identificador y vuelve a intentarlo.
+    mastodon_instance_invalid: No pudimos conectarnos a ese servidor de Mastodon. Verifique la dirección, que parece you@mastodon.social, e inténtelo nuevamente.
+    mastodon_needs_account: Aún no conocemos esa cuenta de Mastodon. Únase a Growstuff o inicie sesión, luego conecte Mastodon desde la configuración de su cuenta.
+    location_cleared: Ubicación eliminada.
+    location_unplaced_html: No podemos encontrar "%{location}" en el mapa. <a href="%{link}">Elija su ubicación de la lista</a> para que podamos mostrarle lo que está creciendo cerca de usted.
+    tos_required: Acepte los Términos de servicio para unirse y vuelva a intentarlo.
   neighbours:
     audience:
       all:
@@ -2599,6 +2845,141 @@ es:
       planting: "%{planting}"
       seed: "%{seed}"
       thing_by: UN %{thing} por %{owner}
+      heading: Foto de %{subject}
+      photo_by: Foto de %{name}
+      photos: Fotos
+      taken: Tomado %{date}
+    actions:
+      delete: Eliminar foto de Growstuff
+      delete_confirm: "¿Eliminar esta foto de Growstuff por completo? Se quita todo a lo que está adherido. Permanece en Flickr."
+      refresh: Actualizar datos de fotografías desde Flickr
+      unlink:
+        crop: 'Quitar del cultivo: %{name}'
+        garden: 'Retirar del jardín: %{name}'
+        harvest: 'Retirar de la cosecha: %{name}'
+        job: 'Quitar del trabajo: %{name}'
+        planting: 'Retirar de la siembra: %{name}'
+        post: 'Eliminar de la publicación: %{name}'
+        seed: 'Quitar de las semillas: %{name}'
+      unlink_confirm: "¿Quitar esta foto de ese registro? La foto en sí permanece en Growstuff."
+    comment:
+      ago: "%{time} hace"
+      delete: Borrar
+      delete_confirm: "¿Eliminar este comentario?"
+      deleted_member: Miembro eliminado
+      edit: Editar
+      edited: editado
+      photographer: Fotógrafo
+      you: Tú
+    comments:
+      add_comment: Añadir un comentario
+      empty: Aún no hay comentarios. Sé el primero en decir algo sobre esta foto.
+      guidelines: Pautas de la comunidad
+      heading: Comentarios
+      join: Únete gratis
+      placeholder: Di algo sobre esta foto.
+      post: Publicar comentario
+      public_note_html: Los comentarios son públicos. Siga el %{guidelines}.
+      sign_in: Iniciar sesión
+      sign_in_prompt: Inicia sesión para unirte a la conversación
+    credit:
+      by: Foto de %{name}
+      'on': en %{site}
+    licence:
+      copied: Copiado
+      copy_credit: Copiar crédito
+      credit_label: acreditalo asi
+      heading: Licencia
+      public_domain: Dominio público
+      read_licence: Leer la licencia completa
+      summary:
+        by: Puede compartir y adaptar esta foto, incluso comercialmente, siempre que acredite %{name} y enlace a la licencia.
+        by-nc: Puede compartir y adaptar esta foto para uso no comercial, siempre que acredite %{name} y enlace a la licencia.
+        by-nc-nd: Puedes compartir esta foto para uso no comercial, siempre y cuando acredites %{name}, vincules a la licencia y no la cambies.
+        by-nc-sa: Puedes compartir y adaptar esta foto para uso no comercial, siempre que acredites %{name}, vincules a la licencia y compartas lo que haces bajo la misma licencia.
+        by-nd: Puedes compartir esta foto, incluso comercialmente, siempre que acredites %{name}, vincules la licencia y no la cambies.
+        by-sa: Puedes compartir y adaptar esta foto, incluso comercialmente, siempre que acredites %{name}, vincules a la licencia y compartas lo que haces bajo la misma licencia.
+        mark: Esta foto es de dominio público. Puedes usarlo como quieras.
+        other: Consulte la licencia para saber cómo puede utilizar esta foto.
+        reserved: "%{name} conserva todos los derechos sobre esta foto. Pregunta antes de usarlo en otro lugar."
+        zero: "%{name} ha cedido todos los derechos sobre esta foto. Puedes usarlo como quieras."
+    photographer:
+      gardens: Ver los jardines de %{name}
+      harvests: cosechas
+      heading: Fotógrafo
+      joined: Se unió hace %{time}
+      plantings: plantaciones
+      seeds: semillas
+    photographer_outsider:
+      heading: Fotógrafo
+      not_a_member: No soy miembro de Growstuff. Esta foto se comparte en %{site} bajo una licencia Creative Commons.
+      photographer: "%{site} fotógrafo"
+      see_photos: Vea sus fotos en %{site}
+    polaroid:
+      view_on: Ver en %{site}
+    refresh:
+      not_found: Flickr no pudo encontrar esa foto. Puede ser privado o eliminado.
+      not_public: Esa foto ya no es pública en Flickr, por lo que no se pudo actualizar.
+      refreshed: Se actualizaron los detalles de la foto desde Flickr.
+      unavailable: No se pudo acceder a Flickr. Inténtelo de nuevo en un momento.
+    records:
+      harvest: "%{crop} cosecha"
+      planting: "%{crop} plantación"
+      seed: "%{crop} semillas"
+    shows:
+      crop:
+        about: "¿Tienes curiosidad por saber cómo cultivarlo? Vea cuándo plantar, quién más lo cultiva cerca de usted y qué cosechan."
+        go: Explorar %{crop}
+        harvests:
+          one: "%{count} cosecha"
+          other: "%{count} cosechas"
+        image_alt: Imagen de %{crop}
+        kind: Cultivo
+        on_growstuff: En materia de cultivo
+        plantings:
+          one: "%{count} plantación"
+          other: "%{count} plantaciones"
+        seeds:
+          one: "%{count} paquete de semillas"
+          other: "%{count} paquetes de semillas"
+      garden:
+        by: Jardín de %{owner}
+        kind: Jardín
+      harvest:
+        about: Vea lo que salió del suelo y cuánto tiempo tardó en plantarse.
+        by: Cosechado por %{owner}
+        go: ver esta cosecha
+        kind: Cosecha
+        picked: Elegido %{date}
+        title: "%{crop} cosecha"
+      heading: Lo que muestra esta foto
+      intro: Siga la foto hasta el registro del jardín del que procede.
+      job:
+        by: Trabajo de %{owner}
+        kind: Trabajo
+      outsider_intro: Una fotografía Creative Commons de este cultivo, compartida desde %{site}.
+      planting:
+        about: Vea cuándo entró, cómo creció y si se cosechó.
+        by: Plantado por %{owner}
+        go: Ver esta plantación
+        kind: Plantando
+        planted: Plantado %{date}
+        plants:
+          one: "%{count} planta"
+          other: "%{count} plantas"
+      post:
+        by: Publicado por %{owner}
+        kind: Correo
+      seed:
+        about: Vea qué variedad es, de dónde viene y si es apto para el comercio.
+        by: Guardado por %{owner}
+        go: Mira estas semillas
+        kind: Semillas
+        saved: Guardado %{date}
+        seeds:
+          one: "%{count} semilla"
+          other: "%{count} semillas"
+        title: "%{crop} semillas"
   places:
     index:
       title: Mapa de la comunidad %{site_name}
@@ -2819,6 +3200,52 @@ es:
       weather_soil_temp: Temperatura del suelo
       weather_temperature_chart: Altas y bajas diarias
       weather_temperature_chart_alt: Temperatura máxima y mínima diaria, de %{low} a %{high}.
+      frost_line: "%{degrees} °C línea de escarcha"
+      weather_kill_line: Muere a %{degrees} °C
+      no_observations: Aún no se ha notado nada. Observe cuando florece, fructifica, se marchita o enferma.
+      observations: Observaciones
+      weather: Clima
+      weather_abandoned_note: Nadie ha marcado esta plantación como terminada, y ya pasó mucho tiempo cuando debería haber terminado, por lo que el clima mostrado termina en %{date}, cuando se esperaba que terminara.
+      weather_absolute_range: Crece en %{range}
+      weather_best_days: Días en su mejor rango.
+      weather_best_days_value: "%{count} de %{total}"
+      weather_days_count:
+        one: "%{count} día"
+        other: "%{count} días"
+      weather_in: Tiempo en %{place}
+      weather_note_cold: demasiado frío en %{days} (mínimos por debajo de %{limit})
+      weather_note_above: por encima del mejor rango en %{days}
+      weather_note_below: por debajo del mejor rango en %{days}
+      weather_note_future_best: Según el clima del año pasado, %{best} de los %{total} días desde %{from} a %{to} deberían tener un máximo dentro del mejor rango de %{range}.
+      weather_note_future_caution: Se espera que se mezcle durante %{crop}
+      weather_note_future_danger: Se espera que salga del rango %{crop} crece en
+      weather_note_future_killed: El mínimo podría alcanzar la temperatura mortal de %{limit} en %{days}.
+      weather_note_future_neutral: Se espera que se mantenga dentro del rango %{crop} crece en
+      weather_note_future_outside: Los máximos podrían ser %{outside}.
+      weather_note_future_problems: Podría ser %{problems}.
+      weather_note_future_slow: Se espera que crezca, aunque no al más rápido, durante %{crop}
+      weather_note_future_success: Se espera que se adapte a %{crop}
+      weather_note_future_too_both: Se espera que haga demasiado calor y demasiado frío para %{crop}
+      weather_note_future_too_cold: Se espera que haga demasiado frío para %{crop}
+      weather_note_future_too_hot: Se espera que haga demasiado calor para %{crop}
+      weather_note_future_survives: Según el clima del año pasado, debería permanecer dentro del rango %{crop} crece de %{from} a %{to}.
+      weather_note_hot: demasiado caliente en %{days} (máximos por encima de %{limit})
+      weather_note_past_best: De %{from} a %{to}, %{best} de %{total} días tuvieron un máximo dentro del mejor rango de %{range}.
+      weather_note_past_caution: Condiciones mixtas para %{crop} hasta ahora
+      weather_note_past_danger: Fuera del rango %{crop} crece hasta ahora
+      weather_note_past_killed: El mínimo alcanzó la temperatura mortal de %{limit} el %{days}.
+      weather_note_past_neutral: Dentro del rango %{crop} crece hasta ahora
+      weather_note_past_outside: Los máximos fueron %{outside}.
+      weather_note_past_problems: El clima era %{problems}.
+      weather_note_past_slow: Creciendo, aunque no al más rápido, por %{crop} hasta ahora
+      weather_note_past_success: Buenas condiciones para %{crop} hasta ahora.
+      weather_note_past_too_both: Demasiado calor y demasiado frío para %{crop} hasta ahora
+      weather_note_past_too_cold: Demasiado frío para %{crop} hasta ahora
+      weather_note_past_too_hot: Demasiado calor para %{crop} hasta ahora
+      weather_note_past_survives: De %{from} a %{to}, el clima que se mantuvo dentro del rango %{crop} aumenta.
+      weather_now_rain: 'Último, %{date}: %{rain}'
+      weather_now_temperature: 'Último, %{date}: %{high} / %{low}'
+      weather_optimal_range: Crece mejor %{range}
     string: '%{crop} plantando en %{garden} por %{owner}'
     timeline:
       failed: Fallido
@@ -2890,6 +3317,188 @@ es:
       advanced plant: {one: planta desarrollada, other: plantas desarrolladas}
       graft: {one: injerto, other: injertos}
       layering: {one: acodo, other: acodos}
+    frost:
+      cards:
+        free:
+          label: Temporada sin heladas
+          note: en un año típico
+        in_danger:
+          label: Peligro de heladas que superó
+          note: desde la siembra hasta lo ultimo ha llegado, %{latest}
+        last:
+          label: Última helada habitual
+          note: ha llegado tan tarde como %{latest}
+          planted_after: plantado %{days} después de él
+          planted_before: plantó %{days} antes de él
+        margin:
+          label: Margen por encima de las heladas
+          note: la noche más fría fue de %{coldest} °C; la línea de escarcha es %{threshold} °C
+        next:
+          label: Comienza el próximo peligro de heladas
+          note_finished: tan pronto como %{earliest}, %{days} después de que finalice esta plantación
+          note_finishes: tan pronto como %{earliest}, %{days} después de que finalice esta plantación
+          note_now: tan pronto como %{earliest}, %{days} a partir de ahora
+      days:
+        one: "%{count} día"
+        other: "%{count} días"
+      degrees: "%{degrees}ºC"
+      nights_so_far:
+        one: Hasta ahora, una noche fue de %{threshold} °C o menos, la más fría %{coldest} °C.
+        other: Hasta ahora, %{count} noches han sido de %{threshold} °C o menos, los %{coldest} °C más fríos.
+      planted:
+        after: La plantación comenzó el %{planted}, %{days} después de la última helada habitual (%{usual_end}).
+        before: La siembra comenzó el %{planted}, %{days} antes de la última helada habitual (%{usual_end}).
+      timeline:
+        annotation_after: Plantado %{days} después de la última helada habitual.
+        annotation_before: Plantado %{days} antes de la última helada habitual.
+        description: Línea de tiempo desde %{from} hasta %{to}. El peligro habitual de heladas va del %{usual_start} al %{usual_end}. La escarcha llegó tan pronto como %{earliest} y tan tarde como %{latest}. La siembra va desde %{planted} hasta %{ends}.
+        finish_expected: Finalizado esperado %{date}
+        finished: Terminado %{date}
+        legend:
+          finished: Plantación, terminada
+          possible: 'Posible: tan temprano o tarde como haya llegado'
+          so_far: Plantando hasta ahora
+          still_to_come: La siembra aún está por llegar
+          usual: Peligro habitual de heladas
+        planted: Plantado %{date}
+        row_danger: Peligro de heladas
+        row_planting: Esta plantación
+        title: Esta siembra contra la temporada de heladas.
+        today: Hoy, %{date}
+        usual: "%{from} – %{to}"
+        usual_open: "%{from} →"
+      title: Helada
+      verdicts:
+        before_season:
+          body: La primera helada habitual es %{usual_start}, en %{days}. Ha llegado ya en %{earliest}.
+          title: El peligro de heladas comienza pronto
+          title_far: Aún no hay peligro de heladas
+        finished_clear:
+          body: Hasta los %{latest} se podían producir heladas y ninguna noche durante ese tiempo fue más fría que los %{coldest} °C.
+          body_no_readings: Las heladas eran posibles hasta %{latest}. No tenemos temperaturas nocturnas para esta siembra.
+          title: Ninguna helada llegó a esta plantación.
+        finished_hit:
+          body:
+            one: Una noche en la que era posible que hubiera heladas fue de %{threshold} °C o menos. El más frío fue de %{coldest} °C.
+            other: "%{count} noches en las que era posible que hubiera heladas fueron de %{threshold} °C o menos. El más frío fue de %{coldest} °C."
+          title: Es posible que las heladas hayan llegado a esta plantación.
+        in_season:
+          body: La última helada habitual es %{usual_end}, en %{days}. Ha llegado tan tarde como %{latest}.
+          title: En el habitual peligro de heladas
+        late_possible:
+          body: Ha llegado tan tarde como %{latest}, %{days} a partir de ahora. Esté atento al pronóstico.
+          title: Pasada la última helada habitual, pero aún puede llegar
+        passed:
+          body: La última helada que se ha producido en los últimos años fue hace %{latest}, %{days}.
+          title: El peligro de heladas ha pasado para esta plantación.
+        rare:
+          body: Las heladas son raras en esta área, por lo que no mostramos fechas de heladas.
+          title: Las heladas son raras aquí
+    hardiness:
+      help: Déjelo como desconocido para pasar por la semilla y luego por el cultivo.
+      label: "¿Cuánta escarcha se necesita?"
+      sources:
+        crop: Habitual para el cultivo.
+        parent_crop: Habitual para el cultivo parental.
+        planting: Establecido para esta plantación.
+        seed: Del paquete de semillas
+      title: Robustez
+    observations:
+      add: agregar
+      day: Día %{count}
+      delete: Eliminar observación
+      destroy:
+        deleted: Observación eliminada.
+      edit: Editar observación
+      logged_by: "%{author} notado"
+      planted: plantado
+    origin:
+      change: cambiar
+      crop_changed: Esta plantación ahora es %{crop}, para coincidir con su paquete. Era %{was}.
+      dialog:
+        another_way: Empezó de otra manera
+        back: Atrás
+        cancel: Cancelar
+        change_hint: La cosecha de la siembra sigue el paquete. La elección de una variedad hace que esta sea una plantación de esa variedad.
+        change_link: cambiar
+        change_title: Cambiar de dónde vino esta %{crop} plantación
+        choose: Elegir
+        choose_another: Elige otro
+        choose_different: Elige un paquete diferente
+        confirm_other_crop: "%{seed} es un cultivo diferente a esta %{crop} siembra. ¿Estás seguro de que surgió de este paquete?"
+        label_hint: Las plántulas suelen venir con una etiqueta o rótulo. Copia todo lo que sea útil para poder encontrarlo la próxima temporada.
+        label_text: Texto de etiqueta (opcional)
+        label_text_hint: Proveedor, consejos de siembra, días para cosechar, cualquier cosa impresa en él.
+        label_title: Lo que dice la etiqueta
+        link_anyway: Enlace de todos modos
+        linked_now: Vinculado ahora
+        no_match: No se encontró nada para "%{query}" entre %{crop} semillas.
+        not_my_packet: Ninguno de mis paquetes
+        next: Próximo
+        not_this_packet: O no era este paquete
+        other_crops: Otros cultivos
+        other_seeds: Otras semillas
+        other_seeds_hint: Otras semillas van al lugar de donde vinieron y te permiten agregar los detalles del paquete. Otra forma ofrece plántulas, esquejes y demás.
+        other_ways: otra manera
+        remove_link: Eliminar el enlace
+        remove_link_hint: Al eliminar el enlace, esto volverá a no estar registrado. La lista de plantaciones del paquete se actualiza de inmediato.
+        right_now: Ahora mismo
+        save: Ahorrar
+        search: Busca tus semillas
+        search_placeholder: Cualquier cultivo o variedad
+        seed_list: "%{crop} semillas, incluidas variedades"
+        seed_list_hint: Elegir una variedad también cambia el cultivo de esta plantación a esa variedad.
+        seed_source_title: "¿De dónde vinieron las semillas?"
+        seed_title: "¿Es una de tus semillas?"
+        seedling_source_title: "¿Dónde lo conseguiste?"
+        seedling_title: Sobre la plántula
+        skip: Simplemente guarde "%{kind}"
+        some_other_seeds: No, algunas otras semillas.
+        some_other_seeds_hint: No en tu biblioteca, o no tienes ninguna.
+        started_title: "¿Cómo empezó esta %{crop} siembra?"
+        step: Paso %{step} de %{total}
+        step_how: como empezó
+        step_source: De donde
+        supplier: De dónde (opcional)
+        supplier_placeholder: Tienda, guardería, puesto o persona
+        unsaved: Eso no salvó. Por favor inténtalo de nuevo.
+      grown_from: crecido de
+      kind_hints:
+        cutting: Un pedazo de otra planta
+        seed: De un paquete o semilla guardada
+        seedling: Una planta joven, comprada o regalada.
+        volunteer: Surgió solo, de una semilla que no sembraste
+      kinds:
+        advanced_plant: Planta avanzada
+        bare_root_plant: Planta de raíz desnuda
+        bulb: Bulbo
+        cutting: Corte
+        graft: Injerto
+        layering: capas
+        root_division: División de raíces
+        root_tuber: Raíz/tubérculo
+        runner: Corredor
+        seed: Semilla
+        seedling: Planta de semillero
+        volunteer: Voluntario
+      link_a_seed: Vincular una semilla
+      not_recorded: No registrado
+      packet: Tu paquete %{seed}
+      saved_in: Guardado %{year}
+      seed_sources:
+        my own seed saving: Guardado por mí antes
+        other/unknown: No estoy seguro
+        retail outlet: Tienda o centro de jardinería
+        seed bank or similar institution: Biblioteca de semillas o banco de semillas
+        seed catalogue: catalogo de semillas
+        traded from another person: Intercambiado o regalado por alguien
+      seedling_sources:
+        gift: dado por alguien
+        market: Mercado o puesto
+        nursery: Vivero
+        shop: Tienda o centro de jardinería
+        unknown: No estoy seguro
+      undo: Deshacer
   posts:
     draft: Borrador
     description:
@@ -3266,11 +3875,176 @@ es:
       heading: Semillas %{crop}
     string: Semillas %{crop} pertenecientes a %{owner}
     updated: La semilla se actualizó correctamente.
+    crop_changes:
+      show:
+        confirm: Si, cámbialos
+        decline: No, déjalos
+        harvests:
+          one: 1 cosecha
+          other: "%{count} cosechas"
+        intro: Cambió esta semilla de %{from} a %{to}. Estos surgieron de él y todavía están %{from}. ¿Cambiarlos a %{to} también?
+        plantings:
+          one: 1 plantación
+          other: "%{count} plantaciones"
+        seeds:
+          one: 1 paquete de semillas
+          other: "%{count} paquetes de semillas"
+        title: "¿Cambiarlos a %{crop} también?"
+      update:
+        changed: Cambiado a la nueva cosecha.
   stalls:
     about_growstuff:
       join: Únete gratis
       sign_in: Iniciar sesión
       text: Una comunidad para cultivar alimentos. Registra lo que siembras y cosechas, e intercambia semillas y consejos con otros jardineros. Únete gratis o inicia sesión para ponerte en contacto con %{name} sobre lo que hay en el puesto.
+    card:
+      go: Ve a tu puesto
+      heading: Puesto de jardín
+      open: Abrir un puesto de jardín
+      open_text: Tu puesto en el jardín está abierto para amigos.
+      text: Comparta plántulas y semillas de repuesto con amigos. Tú eliges qué y quién, las ofertas se cierran después de 4 semanas y no se guardan direcciones.
+    claim:
+      claim: Afirmar
+      claimed: Reclamado
+      confirm: Reclámalo
+      here: Estoy en %{place}
+      note: 'Nota: %{note}'
+      note_label: Una nota para el jardinero (opcional)
+      note_placeholder: Da las gracias y qué podrías ofrecer a cambio.
+      outside: Sólo para personas cercanas a %{place}
+      owner_unplaced: El jardinero aún no ha dicho dónde están.
+      postage: "%{owner} puede pedirle que pague el envío."
+      set_place: "¿No está bien? Establezca el lugar donde cultiva el jardín."
+      set_place_ask: O establece dónde cultivas tu jardín en tu perfil, para que lo revisen por ti.
+      sign_in: Inicia sesión para reclamar
+      undo: Deshacer mi reclamo
+    claims:
+      create:
+        claimed: Se reclama %{crop}. Es tuyo; Envíe un mensaje al jardinero para organizar la recogida o el envío.
+      destroy:
+        undone: Has devuelto el %{crop}.
+    offers:
+      free: Gratis
+      free_text: Tuyo con solo preguntar
+      swap: Intercambio
+      swap_text: Trae tus propias semillas
+    openings:
+      create:
+        opened: Su puesto de jardín está abierto.
+      destroy:
+        closed: Su puesto de jardín está cerrado.
+    owner:
+      garden_of: Jardín de
+      link: Enlace a tu puesto
+      profile: Ver el perfil de %{name}
+    seed_tin:
+      add: "+ agregar"
+      heading: En la lata de semillas
+      legend: Cada paquete dice si es gratis o es un intercambio.
+      packets:
+        one: 1 paquete
+        other: "%{count} paquetes"
+      take_off: Quita el puesto
+    seeds:
+      choice:
+        not_trading: No comerciar todavía
+        quantity:
+          one: aprox. 1 semilla
+          other: aprox. %{count} semillas
+        saved: guardado %{year}
+        sow_before: sembrar antes %{year}
+      create:
+        added:
+          one: 1 paquete está en tu puesto.
+          other: "%{count} paquetes están en tu puesto."
+        none: Marque los paquetes que desea poner en el puesto.
+      destroy:
+        removed: Sacado del puesto. Todavía está en tu biblioteca de semillas.
+      new:
+        add: Añadir al puesto
+        breadcrumb: agregar semillas
+        cancel: Cancelar
+        cant_find: "¿No encuentras el cultivo?"
+        crop: Cultivo
+        intro: Elija semillas para poner en el puesto, de su biblioteca de semillas.
+        new_note: También se guarda en su biblioteca de semillas y se guarda en el puesto con los paquetes que marcó.
+        no_matches: Ninguna semilla coincide con "%{query}".
+        none_left: Cada paquete que tienes ya está en el puesto.
+        offer: "¿Cómo les ofreces?"
+        offers:
+          free: Donar
+          swap: Intercambiar o intercambiar
+        others:
+          one: Otras semillas en tu biblioteca (1)
+          other: Otras semillas en tu biblioteca (%{count})
+        quantity: Aprox. cuantas semillas
+        ready:
+          one: Marcado "se negociará" (1)
+          other: Marcado "se comercializará" (%{count})
+        record_new: Agrega un paquete de semillas que aún no hayas registrado
+        request_crop: Solicite una nueva cosecha.
+        search: Busca tus semillas
+        search_button: Buscar
+        search_placeholder: Cultivo o variedad, por ejemplo tomate.
+        title: Añade semillas a tu puesto
+        variety: Variedad
+        will_mark: Poner un paquete que no está marcado como "se intercambiará" en el puesto lo marca como "se intercambiará" en su biblioteca de semillas, para que sus amigos también puedan verlo allí. Al sacarlo del cubículo queda marcado.
+        your_seeds: Tus semillas
+    settings:
+      areas:
+        anywhere: En cualquier lugar
+        region: Solo personas cerca de %{place}
+      heading: "¿Quién puede reclamar?"
+      postage: Puedo pedirles a mis amigos que paguen el envío.
+      save: Ahorrar
+      set_place: Establezca el lugar donde cultiva el jardín.
+      unplaced: Di dónde cultivas para que tus amigos cercanos puedan reclamarlo. Hasta que no lo hagas, nadie podrá hacerlo.
+      where: donde los amigos pueden estar
+      where_help: Basado en el lugar en su perfil de Growstuff y solo se muestra como nombre de lugar. Los amigos de Bluesky dicen dónde están cuando reclaman. No se muestra ni se solicita ninguna dirección postal.
+      your_place: donde tu jardín
+    show:
+      add_seeds: agregar semillas
+      breadcrumb: Puesto de jardín
+      close: cerrar el puesto
+      coming_soon: Muy pronto
+      description:
+        one: Semillas de repuesto del jardín de %{name} en Growstuff. 1 paquete está en juego, gratis o para intercambiar.
+        other: Semillas de repuesto del jardín de %{name} en Growstuff. %{count} paquetes están disponibles, gratis o para intercambiar.
+        zero: Plántulas y semillas de repuesto del jardín de %{name} en Growstuff, gratis o para intercambiar.
+      first_heading: Tu puesto está abierto. ¿Qué pasa primero?
+      first_intro: Puedes agregar más en cualquier momento. Nada se muestra a los amigos hasta que hay algo sobre la mesa.
+      open: abrir mi puesto
+      open_heading: Abrir un puesto de jardín
+      open_intro: "¿Tienes plántulas o semillas de repuesto? Ponlos en un puesto y comparte el enlace con tus amigos. Regálalos o cámbialos."
+      points:
+        choose_what: Tú eliges lo que va sobre la mesa.
+        choose_where: 'Tú eliges dónde pueden estar tus amigos: cerca de ti o en cualquier lugar.'
+        choose_who: 'Tú eliges quién puede reclamar: cualquiera que haya iniciado sesión o solo las personas a las que sigues.'
+        expiry: Las ofertas cierran después de 4 semanas, por lo que el puesto nunca se queda obsoleto.
+        privacy: Growstuff no guarda direcciones. Sus amigos le envían un mensaje para concertar la recogida o el envío.
+      seedlings: Plántulas
+      seedlings_text: Plantas que has cultivado y que necesitan un hogar.
+      seeds: Semillas
+      seeds_text: Paquetes que ha guardado y que intercambiará.
+      title: Puesto de jardín de %{name}
+    stall:
+      closed: Cerrado por ahora
+      sign: Puesto de jardín de %{name}
+      spots:
+        more: algo más
+        seedlings: plántulas aquí
+        seeds: semillas aquí
+      tagline: Plántulas y semillas para amigos. Gratis o permuta.
+    terms:
+      anywhere: Cualquiera que haya iniciado sesión puede reclamar.
+      heading: "¿Quién puede reclamar?"
+      manners: Es gratis, pero es de buena educación ofrecer algo a cambio, como algunas de tus propias semillas, o simplemente un agradecimiento.
+      no_money: Growstuff no maneja dinero ni direcciones. Envíe un mensaje al jardinero para concertar la recogida o el envío.
+      postage: "%{owner} puede pedirle que pague el envío."
+      region: El reclamo es solo para personas cercanas a %{place}.
+      unplaced: "%{owner} aún no ha dicho dónde están, por lo que nadie puede reclamar por ahora."
+    update:
+      updated: Guardado.
   suggested_jobs:
     create:
       added: Se añadió "%{name}" a tus tareas planificadas.
@@ -3285,6 +4059,81 @@ es:
     update:
       disabled: Hemos dejado de sugerir cultivos.
       enabled: Vuelven las sugerencias de cultivos.
+    climate:
+      add_failed: No pudimos agregarlo. Intentar otra vez.
+      add_to_jobs: Agregar a trabajos planificados
+      average: promedio
+      best_range: Mejor en %{low}–%{high}°
+      choose: Abrir una temporada para ver los cultivos que le convienen.
+      collecting_html: Actualmente no tenemos datos climáticos para %{place}. Lo traeremos pronto.
+      days: El día más caluroso registrado
+      degrees: "%{value}°"
+      duration:
+        one: 1 dia
+        other: "%{count} días"
+      duration_range: "%{low} a %{high} días"
+      followed_grow: 'Personas a las que sigues haciendo crecer esto: %{names}'
+      grown_before: Creciste esto en %{years}
+      growing: Ya estás cultivando esto
+      heading: Tu clima a lo largo del año
+      intro_html: Cómo suele ser el clima alrededor de %{place}, de los últimos %{years} años.
+      load_failed: No pudimos cargar las cosechas. Intentar otra vez.
+      loading: Cargando cultivos…
+      millimetres: "%{value} mm"
+      months: "%{first} a %{last}"
+      nights: La noche más fría jamás registrada
+      no_crops: Nada que sepamos.
+      no_data: Aún no tenemos tiempo para esta temporada.
+      now: Ahora
+      part_early: temprano
+      part_late: tarde
+      part_mid: medio
+      planned: En tus trabajos planificados
+      planting: Lo que los jardineros cerca de %{place} están plantando en %{season}, la mayoría lo planta primero.
+      rain: Lluvia
+      ready_in: listo en %{part} %{season}
+      retry: Intentar otra vez
+      still_grows: También crece en %{season} en %{place}, pero no en su mejor momento
+      suits: Crece bien en %{season} en %{place}
+      timing: "%{days}, %{ready}"
+      usual_day: Día más caluroso típico
+      usual_night: Típica noche más fría
+      your_location: tu ubicación
+    introduction:
+      climate: Díganos dónde está su jardín y le mostraremos el clima a lo largo del año, estación por estación, incluyendo la lluvia, los días cálidos y las noches frías.
+      crops: Para cada temporada, le sugeriremos los cultivos a plantar, según lo que prefiera cada planta y lo que los jardineros cercanos ya estén plantando.
+      far_html: Ese es el clima más cercano que tenemos a usted, por lo que puede diferir del de su jardín. %{sign_up} y díganos dónde cultiva su jardín e incluiremos el clima para su ubicación exacta.
+      features:
+        closer_weather: Se ha obtenido el tiempo para su propio jardín, no solo para el lugar más cercano al que tenemos
+        following: Mira lo que están creciendo las personas que sigues
+        garden_climate: Sugerencias de cultivos según el clima de tu propio jardín, temporada a temporada
+        harvest_predictions: Predicciones de cuándo estará lista tu cosecha
+        not_for_me: Oculta los cultivos que no son para ti
+        planned_jobs: Agregue cultivos sugeridos a sus trabajos planificados
+        record: Mantenga un registro de lo que ha plantado y cultivado.
+      finding: Encontrar su ubicación…
+      location_denied: Su navegador no puede compartir su ubicación con este sitio. Permítelo desde el ícono al lado de la dirección, luego inténtalo nuevamente.
+      location_failed: No pudimos obtener su ubicación. Comprueba que tu navegador tiene permiso para compartirlo y vuelve a intentarlo.
+      location_timeout: Encontrar su ubicación tomó demasiado tiempo. Por favor inténtalo de nuevo.
+      location_unavailable: Tu dispositivo no pudo determinar dónde está. Verifique que sus servicios de ubicación estén activados y vuelva a intentarlo.
+      location_unsupported: Su navegador no puede compartir su ubicación.
+      no_weather: Aún no disponemos de datos meteorológicos.
+      retrieving: Recuperando datos para %{place}…
+      showing: Mostrando el clima para %{place}, a unos %{distance} km de ti, de los últimos %{years} años.
+      sign_in: Iniciar sesión
+      sign_up: Regístrate gratis
+      signup_heading: Regístrate y recibe sugerencias para tu propio jardín
+      summary: Obtenga sugerencias sobre qué plantar, según el clima de su jardín y lo que prefiere cada planta, temporada tras temporada.
+      title: Que cultivar cerca de ti
+      unnamed_place: el área más cercana para la que mantenemos el clima
+      use_my_location: Usar mi ubicación
+      waiting:
+      - Recogiendo las cosechas...
+      - Mirando por la ventana…
+      - Reflexionando sobre el clima...
+      - Consultando la pila de abono…
+      - Splines reticulados...
+      - Preguntando a los gusanos...
   unauthorized:
     create:
       all: Inicie sesión o regístrese para crear un %{subject}.
@@ -3297,3 +4146,140 @@ es:
       all: No autorizado para %{action} %{subject}.
     read:
       notification: Debes iniciar sesión para ver las notificaciones.
+  auto_suggest:
+    choose: Elija uno de la lista. Utilice las teclas de flecha arriba y abajo y luego Intro.
+    chosen: 'Elegido: %{name}'
+    none: Ningún cultivo coincide. Revisa la ortografía o prueba con un nombre más corto.
+    searching: Búsqueda…
+    unchosen: Aún no elegido. Elija uno de la lista o no se utilizará.
+  climate:
+    about_estimates: Estas cifras provienen de datos de modelos meteorológicos de 25 km, no de lecturas de una estación en su jardín, por lo que su propia lluvia y temperaturas pueden diferir. Consulte su servicio meteorológico nacional antes de confiar en ellos.
+    air:
+      body_above: La temperatura media del aire desde el 1 de enero es de %{air} °C, lo que supone %{difference} °C más que los %{usual} °C habituales para esta fecha.
+      body_below: La temperatura media del aire desde el 1 de enero es de %{air} °C, lo que es %{difference} °C inferior a los %{usual} °C habituales para esta fecha.
+      body_close: La temperatura media del aire desde el 1 de enero es de %{air} °C, cercana a los %{usual} °C habituales para esta fecha.
+      cards:
+        coldest: Mes más frío
+        soil: Suelo este mes
+        soil_note: significa este mes, top 7 cm
+        warmest: Mes más cálido
+      chart: Temperatura del aire cada mes, este año y generalmente.
+      records: Registros en los últimos %{count} años
+      soil_chart: Temperatura del suelo cada mes, este año y generalmente.
+      title: Temperatura
+      verdicts:
+        a_little_cooler: Este año es un poco más fresco de lo habitual.
+        a_little_warmer: Este año es un poco más cálido de lo habitual.
+        close: Este año está cerca de lo habitual.
+        cooler: Este año es más fresco de lo habitual.
+        warmer: Este año es más cálido de lo habitual.
+    chart:
+      bar: "%{month}, %{kind}: %{value}"
+      description: 'Gráfico de columnas de promedio mensual %{measure}. Habitual: %{usual}. Este año hasta el momento: %{year}.'
+      legend:
+        usual: Habitual del mes
+        year: este año
+      measures:
+        air: temperatura del aire en grados centígrados
+        rain: lluvia en milimetros
+        soil: Temperatura del suelo, 7 cm superiores, en grados Celsius.
+    month_year: "%{month} %{year}"
+    on_average: "%{value} en promedio"
+    rain:
+      body: "%{rain} ha caído desde el 1 de enero. Eso es el %{percent}% del %{usual} habitual para esta fecha."
+      cards:
+        driest: Mes más seco registrado
+        wettest: El mes más lluvioso registrado
+        year: Año habitual
+      chart: Llueve cada mes, este año y generalmente
+      records_note:
+        one: Los meses más húmedos y secos son los más altos y más bajos en el año de datos que tenemos, no necesariamente los más altos o más bajos de la historia.
+        other: Los meses más húmedos y secos son los más altos y más bajos en los %{count} años de datos que tenemos, no necesariamente los más altos o más bajos de la historia.
+      title: Lluvia
+      verdicts:
+        close: Las precipitaciones este año son cercanas a lo habitual
+        drier: Las precipitaciones este año son más secas de lo habitual
+        wetter: Las precipitaciones este año son más húmedas de lo habitual
+    records:
+      coldest_night: La noche más fría
+      coldest_soil: Suelo más frío
+      hottest_day: dia mas caluroso
+      this_year: 'Este año: %{value}'
+      warmest_soil: Suelo más cálido
+    table:
+      air: Aire
+      details: Mostrar las cifras mensuales
+      month: Mes
+      none: "–"
+      rain: Lluvia
+      soil: Suelo
+      this_year: este año
+      usual: habitual
+    units:
+      celsius: "%{value}ºC"
+      mm: "%{value} mm"
+    years_average:
+      one: promedio de 1 año
+      other: "%{count} promedio anual"
+  crop_jobs:
+    add: Agregar %{crop} empleos en crecimiento a mis trabajos
+    add_to_planting: Añadir a %{crop} en %{garden}, plantar %{date}
+    added:
+      one: Se agregó 1 %{crop} trabajo a tus trabajos.
+      other: Se agregaron %{count} %{crop} trabajos a sus trabajos.
+    already_added: Sus empleos ya tienen los %{crop} empleos en crecimiento.
+    new:
+      add_anyway: Agrégalos de todos modos
+      cancel: Cancelar
+      intro: Los trabajos se cuentan desde el día que se planta. Uno que ya sería pasado, vence hoy.
+      out_of_season: "%{template} es para %{season} y %{date} está fuera de donde estás."
+      planting_on: "¿Cuándo quieres plantar %{crop}?"
+      submit: Añadir estos trabajos
+      title: Añadir %{crop} empleos en crecimiento
+    new_planting: Una nueva %{crop} siembra que voy a hacer
+    see_jobs: Vea sus trabajos.
+  crop_photos:
+    create:
+      added: Se agregó una foto a %{crop}.
+      kind_missing: Di si la fotografía muestra una plantación, una cosecha o semillas.
+      not_creative_commons: Esa foto no está bajo una licencia Creative Commons, por lo que no se puede utilizar aquí.
+      not_flickr: Esa no parece la dirección de una foto en Flickr.
+      not_found: Flickr no pudo encontrar esa foto. Puede ser privado o eliminado.
+      not_public: Esa foto no es pública, por lo que no se puede utilizar aquí.
+      unavailable: No se pudo acceder a Flickr. Inténtelo de nuevo en un momento.
+    kinds:
+      harvest: algo cosechado
+      harvest_hint: Productos recolectados, como una canasta de tomates.
+      legend: "¿Qué muestra la foto?"
+      planting: plantas creciendo
+      planting_hint: Plantas que crecen en un jardín, parterre o maceta.
+      seed: Semillas
+      seed_hint: Las semillas mismas, o las cabezas y vainas de las semillas.
+    pager:
+      label: paginas de fotos
+      next: Página siguiente
+      page: Página %{page} de %{pages}
+      previous: Pagina anterior
+    source:
+      view_on_flickr: Ver en Flickr
+    new:
+      add: Añade esta foto
+      attribution: por %{owner}
+      back: Volver a %{crop}
+      cancel: Cancelar
+      close: Cerca
+      empty: Ninguna fotografía pública Creative Commons coincidió con esa búsqueda.
+      intro: Fotografías públicas en Flickr bajo licencia Creative Commons. Comprueba que la foto muestra el recorte antes de añadirla.
+      modal_title: Añade esta foto de %{crop}
+      save: Ahorrar
+      search: Buscar
+      taken: Tomado %{date}
+      title: Encuentra una foto de %{crop}
+  observations:
+    kinds:
+      disease_observed: Enfermedad observada
+      flowering: Floración
+      fruiting: fructificacion
+      germination: Germinación
+      other: Otro
+      wilting: Marchitez
