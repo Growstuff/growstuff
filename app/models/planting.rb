@@ -234,14 +234,29 @@ class Planting < ApplicationRecord
     garden.nursery?
   end
 
+  # The variety its parent seed says it is, such as Brandywine, or nil when there is no parent seed or it names none.
+  def variety
+    parent_seed&.variety.presence
+  end
+
+  # A name for it with its variety in brackets after, when it has one: "tomato (Brandywine)".
+  def with_variety(name)
+    variety ? "#{name} (#{variety})" : name
+  end
+
   def weather_located?
     latitude.present? && longitude.present?
   end
 
-  # How much frost the planting takes, and whose word that is: [source, level], with the source :planting, :seed or :crop.
-  # The planting's own say comes first, then its seed's, then its crop's. Nil when none of them knows.
+  # How much frost the planting takes, and whose word that is: [source, level], with the source :planting, :seed, :crop
+  # or :parent_crop. The planting's own say comes first, then its seed's, then its crop's, then its crop's parents'.
+  # Nil when none of them knows.
   def hardiness_found
-    { planting: hardiness, seed: parent_seed&.hardiness, crop: crop.hardiness }.find { |_source, level| Hardiness::LEVELS.include?(level) }
+    own = { planting: hardiness, seed: parent_seed&.hardiness }.find { |_source, level| Hardiness::LEVELS.include?(level) }
+    return own if own
+
+    found, level = crop.hardiness_found
+    [found == crop ? :crop : :parent_crop, level] if found
   end
 
   # The weather isn't here yet but will be: this is a planting the daily update collects weather for.

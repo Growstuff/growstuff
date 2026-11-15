@@ -1667,6 +1667,16 @@ ja:
       harvest_started: "%{date}に収穫開始"
       legend: "(絵文字1つ = 1週間)"
       planted: "%{date}に植え付け"
+      events:
+        failed: "失敗"
+        finished: "終了"
+        first_harvest: "初収穫"
+        last_harvest: "最終収穫"
+        planted: "植え付け"
+        sown: "播種"
+        transplanted: "%{garden}に移動"
+      expected: "予定"
+      today: "今日"
     transplant:
       cancel: キャンセル
       close: 閉じる
@@ -1703,6 +1713,20 @@ ja:
       seeds_saved: 保存した種
       sown_from_expired: 期限切れの種から播種（%{year}年までに植え付け）
       unknown: 不明
+      heat: "積算温度"
+      heat_help_html: "これは暦の日数ではありません。積算温度は、その日の「役に立つ暖かさ」を表し、日平均気温がこの作物の生育できる最低気温を何度上回ったかで数えます。寒い日は加算されないため、作物は夏より秋のほうが日数がかかります。%{link}。"
+      heat_help_label: "積算温度とは？"
+      heat_help_link: "Wikipediaで詳しく見る"
+      heat_help_title: "積算温度"
+      heat_needed_unknown: "これまでの値。必要な積算温度は不明です"
+      heat_of_needed: "必要な約%{needed}のうち"
+      short_code_help: "このコードを植物のラベルや目印に書いておくと、同じ作物がたくさんあっても、後でここでその株を見つけられます。"
+      short_code_help_label: "ショートコードは何のためですか？"
+      sun_semi_shade: "半日陰"
+      sun_shade: "日陰"
+      sun_sun: "日なた"
+      variety: "品種"
+      variety_from_packet: "種袋より"
     badges:
       harvest_prediction: 収穫までの予測週数
       harvest_ready: この作付けは今すぐ収穫できます
@@ -1804,6 +1828,7 @@ ja:
     spring: 春
     summer: 夏
     winter: 冬
+    in_place: "%{place}の%{season}"
   seeds:
     form:
       finish_helper: 種をすべてまいたり、すべて交換に出したりしたら、終了に設定します。

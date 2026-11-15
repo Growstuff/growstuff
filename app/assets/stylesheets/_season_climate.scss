@@ -29,16 +29,16 @@
   }
 }
 
-.season-item--spring { border-left-color: $green; }
-.season-item--summer { border-left-color: $orange; }
-.season-item--autumn { border-left-color: $yellow; }
-.season-item--winter { border-left-color: $blue; }
+// Each season's row has an edge, and its icon, in the season's colour.
+@each $season, $tint in $season-tints {
+  .season-item--#{$season} {
+    border-left-color: nth($tint, 1);
 
-// The icon of each season, in the colour of its row's edge.
-.season-item--spring .season-icon { color: $green; }
-.season-item--summer .season-icon { color: $orange; }
-.season-item--autumn .season-icon { color: $yellow; }
-.season-item--winter .season-icon { color: $blue; }
+    .season-icon {
+      color: nth($tint, 1);
+    }
+  }
+}
 
 // The season it is now: a tint over its row.
 .season-item--current .accordion-button {

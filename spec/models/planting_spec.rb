@@ -843,6 +843,86 @@ describe Planting do
     end
   end
 
+  describe '#variety' do
+    it 'is the variety of its parent seed' do
+      planting = build(:planting, parent_seed: build(:seed, variety: 'Brandywine'))
+      expect(planting.variety).to eq 'Brandywine'
+    end
+
+    it 'is nil when the parent seed names no variety' do
+      planting = build(:planting, parent_seed: build(:seed, variety: ''))
+      expect(planting.variety).to be_nil
+    end
+
+    it 'is nil without a parent seed' do
+      expect(build(:planting, parent_seed: nil).variety).to be_nil
+    end
+  end
+
+  describe '#with_variety' do
+    it 'puts the variety in brackets after the name' do
+      planting = build(:planting, parent_seed: build(:seed, variety: 'Brandywine'))
+      expect(planting.with_variety('tomato')).to eq 'tomato (Brandywine)'
+    end
+
+    it 'is just the name without a variety' do
+      expect(build(:planting, parent_seed: nil).with_variety('tomato')).to eq 'tomato'
+    end
+  end
+
+  describe '#heat_so_far and #heat_needed' do
+    let(:garden) { create(:garden).tap { |g| g.update_columns(latitude: -41.29, longitude: 174.78) } } # rubocop:disable Rails/SkipsModelValidations
+    let(:crop) { create(:crop, growing_degree_days: 600) }
+    let(:planting) do
+      create(:planting, crop:, garden:, owner: garden.owner, planted_at: Date.new(2026, 10, 1),
+                        finished: true, finished_at: Date.new(2026, 10, 3))
+    end
+
+    before do
+      (Date.new(2026, 9, 30)..Date.new(2026, 10, 5)).each { |date| create(:weather_reading, date:, temp_max_c: 20.0, temp_min_c: 10.0) }
+    end
+
+    it 'adds up the heat above the default base from planting to its last day' do
+      expect(planting.heat_so_far).to eq 15
+    end
+
+    it 'needs the heat the crop is set to' do
+      expect(planting.heat_needed).to eq 600
+    end
+
+    context 'when the crop has no figure' do
+      let(:crop) { create(:crop, growing_degree_days: nil) }
+
+      it 'does not know the heat needed' do
+        expect(planting.heat_needed).to be_nil
+      end
+    end
+
+    context 'when no weather was collected for its days' do
+      before { WeatherReading.delete_all }
+
+      it 'has no heat so far, rather than none' do
+        expect(planting.heat_so_far).to be_nil
+      end
+    end
+
+    context 'when the crop is a perennial' do
+      let(:crop) { create(:crop, growing_degree_days: 600, perennial: true) }
+
+      it 'has no heat so far' do
+        expect(planting.heat_so_far).to be_nil
+      end
+    end
+
+    context 'when the garden has no location' do
+      before { garden.update_columns(latitude: nil, longitude: nil) } # rubocop:disable Rails/SkipsModelValidations
+
+      it 'does not know the heat so far' do
+        expect(planting.heat_so_far).to be_nil
+      end
+    end
+  end
+
   describe '#weather_readings' do
     subject(:readings) { planting.weather_readings }
 
