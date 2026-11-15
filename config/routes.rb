@@ -68,10 +68,16 @@ Rails.application.routes.draw do
     resource :acceptance, only: :create
   end
 
-  # A friend claiming a packet on someone's stall, or changing their mind.
-  resources :stall_seeds, only: [] do
-    resource :claim, only: %i(create destroy), module: :stalls
+  # A friend claiming a packet of seed or a seedling on someone's stall, or changing their mind. Then handing it over, which
+  # takes both: the claimer says they collected it (received), and the giver says they handed it over (given).
+  concern :claimable do
+    resource :claim, only: %i(create destroy), module: :stalls do
+      post :received
+      post :given
+    end
   end
+  resources :stall_seeds, only: [], concerns: :claimable
+  resources :stall_plantings, only: [], concerns: :claimable
 
   resource :nursery, only: %i(show create) do
     get :panel

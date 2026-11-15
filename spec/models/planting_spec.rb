@@ -1111,4 +1111,42 @@ describe Planting do
       expect(planting.split_off(6)).to eq planting
     end
   end
+
+  describe '#pass_on_to' do
+    subject(:received) { planting.pass_on_to(member, garden) }
+
+    let(:planting) { create(:planting, quantity: 6, description: 'My notes', planted_at: Time.zone.local(2026, 10, 3)) }
+    let(:member) { create(:member) }
+    let(:garden) { member.gardens.first }
+
+    it 'makes a planting of the same crop, date and number for them' do
+      expect(received).to have_attributes(owner: member, garden:, crop: planting.crop, quantity: 6, planted_at: planting.planted_at)
+    end
+
+    it 'knows where it came from' do
+      expect(received.received_from).to eq planting
+    end
+
+    it 'leaves the giver\'s notes with the giver' do
+      expect(received.description).to be_nil
+    end
+
+    it 'is a planting of its own' do
+      expect(received).not_to eq planting
+    end
+
+    it 'is a seedling, as that is how it came' do
+      expect(received.planted_from).to eq 'seedling'
+    end
+
+    it 'does not point at the giver\'s packet of seed' do
+      planting.update!(parent_seed: create(:seed, crop: planting.crop, owner: planting.owner))
+      expect(planting.pass_on_to(member, garden).parent_seed).to be_nil
+    end
+
+    it 'leaves the original with its owner' do
+      received
+      expect(planting.reload.owner).not_to eq member
+    end
+  end
 end

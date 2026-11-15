@@ -128,48 +128,56 @@ describe StallPlanting do
       expect(described_class.waiting_for(member)).to be_empty
     end
 
-    it 'leaves out one already claimed' do
-      create(:stall_planting, claimed_at: Time.zone.now)
+    it 'leaves out one already accepted' do
+      create(:stall_planting, accepted_at: Time.zone.now)
       expect(described_class.waiting_for(member)).to be_empty
     end
   end
 
-  describe '#claim' do
-    subject(:claim) { gift.claim(member, garden) }
+  describe '#accept' do
+    subject(:accept) { gift.accept(member, garden) }
 
     let(:gift) { create(:stall_planting) }
     let(:giver) { gift.stall.member }
     let(:member) { create(:member, email: 'neighbour@example.com') }
     let(:garden) { member.gardens.first }
-    let(:planting) { gift.planting.reload }
+    let(:received) { gift.planting.reload.passed_on_as }
 
-    it { is_expected.to be true }
+    it { is_expected.to be_a Planting }
 
-    context 'when claimed' do
-      before { claim }
+    context 'when accepted' do
+      before { accept }
 
-      it 'moves the planting to the member' do
-        expect(planting.owner).to eq member
+      it 'makes a planting for the member' do
+        expect(received.owner).to eq member
       end
 
       it 'puts it in their garden' do
-        expect(planting.garden).to eq garden
+        expect(received.garden).to eq garden
       end
 
-      it 'makes it active again' do
-        expect(Planting.active).to include(planting)
+      it 'is an active planting' do
+        expect(Planting.active).to include(received)
       end
 
-      it 'keeps a record of the giver\'s garden' do
-        expect(planting.histories.size).to eq 1
+      it 'knows where it came from' do
+        expect(received.received_from).to eq gift.planting
       end
 
       it 'says it was a gift from the giver' do
-        expect(planting.seedling).to have_attributes(source: 'gift', supplier: giver.to_s)
+        expect(received.seedling).to have_attributes(source: 'gift', supplier: giver.to_s)
       end
 
-      it 'is recorded as claimed by them' do
-        expect(gift.reload).to have_attributes(claimed_by: member)
+      it 'leaves the giver\'s planting with them' do
+        expect(gift.planting.reload.owner).to eq giver
+      end
+
+      it 'leaves the giver\'s planting given away, out of the active ones' do
+        expect(Planting.active).not_to include(gift.planting)
+      end
+
+      it 'is recorded as accepted by them' do
+        expect(gift.reload).to have_attributes(accepted_by: member)
       end
 
       it 'stays on the giver\'s stall as given away' do
@@ -189,8 +197,8 @@ describe StallPlanting do
       it { is_expected.to be false }
     end
 
-    context 'when already claimed' do
-      before { gift.claim(member, garden) }
+    context 'when already accepted' do
+      before { gift.accept(member, garden) }
 
       it { is_expected.to be false }
     end
@@ -230,7 +238,7 @@ describe StallPlanting do
   describe 'when its planting is on a second record' do
     let(:planting) { create(:stall_planting).planting }
 
-    it 'is not valid while the first is unclaimed' do
+    it 'is not valid while the first is unaccepted' do
       expect(build(:stall_planting, stall: planting.owner.stall, planting:)).not_to be_valid
     end
   end

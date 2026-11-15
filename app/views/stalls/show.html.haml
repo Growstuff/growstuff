@@ -6,25 +6,30 @@
   %li.breadcrumb-item.active= t('.breadcrumb')
 
 .stall-page
-  = render 'stalls/stall', member: @member, open: @stall.open?, opening: @opening, stocked: @stall.seeds.any?
+  = render 'stalls/stall', member: @member, open: @stall.open?, opening: @opening, stocked: @stall.seeds.any? || @stall.seedlings_on_offer.any?
 
   -# Closed, the owner is on the shutter instead.
   - if @stall.open?
     = render 'stalls/owner', member: @member, large: true, url: (member_stall_url(@member) if @owner)
+    = render 'stalls/owner_actions', empty: @stall.seeds.empty? && @stall.stall_plantings.empty? && @stall.stall_seeds_given_away.empty? if @owner
+
+  -# For browsers: how picking seedlings works, before the terms.
+  = render 'stalls/browse_intro', member: @member if @stall.open? && !@owner && @stall.seedlings_on_offer.any?
 
   = render 'stalls/terms', stall: @stall if @stall.open?
 
-  = render 'stalls/seed_tin', stall: @stall, owner: @owner if @stall.seeds.any?
-
+  -# Seedlings first, then seeds, then the record of what has gone.
   = render 'stalls/seedlings_on_offer', stall: @stall, owner: @owner if @stall.seedlings_on_offer.any?
 
-  = render 'stalls/given_away', stall: @stall, owner: @owner if @stall.stall_plantings.given.any?
+  = render 'stalls/seed_tin', stall: @stall, owner: @owner if @stall.seeds.any?
+
+  = render 'stalls/given_away', stall: @stall, owner: @owner if @stall.stall_plantings.given.any? || @stall.stall_seeds_given_away.any?
 
   = render 'stalls/about_growstuff', member: @member if @stall.open? && !member_signed_in?
 
   - if @owner
     - if @stall.open?
-      - if @stall.seeds.empty? && @stall.stall_plantings.empty?
+      - if @stall.seeds.empty? && @stall.stall_plantings.empty? && @stall.stall_seeds_given_away.empty?
         %section.stall-panel{ 'aria-labelledby': 'stall-first-h', class: ('stall-reveal-delayed' if @opening) }
           %h1#stall-first-h= t('.first_heading')
           %p.text-muted= t('.first_intro')
@@ -37,10 +42,6 @@
               %strong= t('.seeds')
               %span= t('.seeds_text')
               %span.stall-choice-add= t('.add_seeds')
-      %p
-        = link_to t('.add_seedlings'), new_stall_planting_path(status: 'offered')
-        &middot;
-        = link_to t('.record_given_away'), new_stall_planting_path(status: 'given')
       = render 'stalls/settings', stall: @stall
       .mt-3
         = button_to t('.close'), stall_opening_path, method: :delete, class: 'btn btn-secondary'

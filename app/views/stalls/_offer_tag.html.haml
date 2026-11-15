@@ -1,0 +1,11 @@
+-# What is asked for a packet or seedling, in words and colour: free, or a swap. Once someone has claimed it, it says that
+-# instead, and who has it, so nobody takes it for available.
+- claim = local_assigns[:claim]
+- if claim
+  .stall-offer-tag.stall-offer-claimed
+    %strong= t('stalls.offers.claimed')
+    %span= t('stalls.offers.claimed_by', name: claim.member)
+- else
+  .stall-offer-tag{ class: "stall-offer-#{offer}" }
+    %strong= t("stalls.offers.#{offer}")
+    %span= t("stalls.offers.#{offer}_text")

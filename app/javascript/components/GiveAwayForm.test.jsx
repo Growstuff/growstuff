@@ -8,9 +8,8 @@ const labels = {
   title: 'Give away seedlings', close: 'Close', cancel: 'Cancel', which: 'Which seedlings?', what_happened: 'What\'s happened to %{these}?',
   it: 'it', them: 'them', one_fewer: 'One fewer', one_more: 'One more', of_total: 'of %{total}', quantity_group: 'How many %{name}',
   stay: {one: '1 will stay', other: '%{count} will stay'}, given_title: 'Given to someone', given_hint: 'hint',
-  offered_title: 'Put on my stall', offered_hint: 'hint', offered_detail: 'On offer.', help_title: 'Not sure',
-  help_leaving: 'Leaving.', help_given_lead: 'a', help_given_rest: 'b', help_offered_lead: 'c', help_offered_rest: 'd',
-  help_nothing_deleted: 'Nothing deleted.', who_has: 'Who has them?', search_placeholder: 'Search', suggestions_hint: 'Neighbours',
+  offered_title: 'Put on my stall', offered_hint: 'hint', offered_detail: 'On offer.',
+  who_has: 'Who has them?', search_placeholder: 'Search', suggestions_hint: 'Neighbours',
   matching_hint: 'Matching', no_match: 'No one called %{query}.', not_on_growstuff: 'Not on Growstuff', change: 'Change',
   their_name: 'Their name', required: '(required)', name_hint: 'hint', signin_heading: 'How they sign in', recommended: 'Recommended',
   signin_text: 'text', how_signin: 'How can they sign in?', email: 'Email', fediverse: 'Fediverse', bluesky: 'Bluesky',
@@ -119,12 +118,6 @@ describe('GiveAwayForm', () => {
     await userEvent.type(screen.getByLabelText('Who has them?'), 'pri');
     await waitFor(() => expect(screen.getByRole('button', {name: /Priya/})).toBeInTheDocument());
     expect(fetchMock).toHaveBeenCalledWith('/stall/recipients?q=pri', expect.anything());
-  });
-
-  it('shows the help without a way to submit', async () => {
-    setup({selected: {1: null}});
-    await userEvent.click(screen.getByRole('radio', {name: /Not sure/}));
-    expect(screen.getByText('Nothing deleted.')).toBeInTheDocument();
   });
 
   it('shows what the server said was wrong', () => {

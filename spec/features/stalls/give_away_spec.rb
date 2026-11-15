@@ -12,7 +12,7 @@ describe 'Giving away seedlings', :js, flipper: :garden_stall do
     before do
       visit new_stall_planting_path(status: 'offered', planting_ids: [seedling.id])
       click_button 'Put on my stall'
-      expect(page).to have_current_path(member_stall_path(member))
+      find_by_id('stall-offer-h') # the stall it goes back to, so the server has finished
     end
 
     it 'puts the seedling on offer' do
@@ -26,7 +26,7 @@ describe 'Giving away seedlings', :js, flipper: :garden_stall do
       click_button 'They\'re not on Growstuff: record their name instead'
       fill_in 'Their name', with: 'Sam from the garden'
       click_button 'Record as given away'
-      expect(page).to have_current_path(member_stall_path(member))
+      find_by_id('stall-given-h') # the stall it goes back to, so the server has finished
     end
 
     it 'records who has them' do

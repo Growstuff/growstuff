@@ -1,0 +1,27 @@
+-# Handing over a claimed packet or seedling takes both people. The claimer says they collected it, the giver says they handed
+-# it over, in either order; when both have, it moves to the claimer. This is what each of them can do now, and what they are
+-# waiting for.
+- kind = item.is_a?(StallSeed) ? 'stall_seed' : 'stall_planting'
+- received_path = public_send("received_#{kind}_claim_path", item)
+- given_path = public_send("given_#{kind}_claim_path", item)
+.stall-handover
+  - if owner
+    - if claim.received?
+      %p.stall-handover-note= t('.says_collected', name: claim.member)
+      = button_to icon('fas', 'check', t('.confirm_given', name: claim.member)), given_path, class: 'btn btn-primary btn-sm'
+    - else
+      = button_to icon('fas', 'handshake', t('.gave', name: claim.member)), given_path, class: 'btn btn-outline-secondary btn-sm'
+  - elsif mine
+    - if claim.received?
+      %p.stall-handover-note= t('.waiting_for_giver', name: item.stall.member)
+    - elsif kind == 'stall_planting'
+      -# A seedling needs somewhere to go.
+      %details.stall-claim
+        %summary.btn.btn-primary.btn-sm= t('.collected')
+        = form_with url: received_path do
+          = label_tag dom_id(item, :garden), t('.which_garden'), class: 'form-label fw-bold'
+          - gardens = current_member.gardens.active.order_by_name
+          = select_tag :garden_id, options_from_collection_for_select(gardens, :id, :name, gardens.find(&:nursery?)&.id), id: dom_id(item, :garden), class: 'form-select mb-2'
+          = submit_tag t('.confirm_collected'), class: 'btn btn-primary btn-sm'
+    - else
+      = button_to icon('fas', 'check', t('.collected')), received_path, class: 'btn btn-primary btn-sm'

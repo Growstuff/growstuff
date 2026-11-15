@@ -8,10 +8,18 @@
   .stall-dialog-header
     %h1= t('.title')
   .stall-dialog-body
-    - if @gifts.empty?
+    - if @gifts.empty? && @seed_gifts.empty?
       %p.text-muted= t('.none')
     - else
       %p= t('.intro')
+      - @seed_gifts.each do |claim|
+        = form_with url: received_stall_seed_claim_path(claim.stall_seed), class: 'mb-3' do
+          .row.align-items-center
+            .col-12.col-md-8.mb-2
+              %strong= t('.seeds', crop: claim.stall_seed.seed.crop_name)
+              = t('.from', giver: claim.stall_seed.stall.member, date: l(claim.given_at.to_date))
+            .col-12.col-md-4.mb-2.text-md-end
+              = submit_tag t('.received'), class: 'btn btn-primary'
       - @gifts.each do |gift|
         = form_with url: gift_acceptance_path(gift), class: 'mb-3' do
           %p.mb-1
@@ -22,4 +30,4 @@
               = label_tag "garden_id_#{gift.id}", t('.garden'), class: 'form-label'
               = select_tag :garden_id, options_from_collection_for_select(@gardens, :id, :name, @gardens.find(&:nursery?)&.id), id: "garden_id_#{gift.id}", class: 'form-select'
             .col-12.col-md-4.mb-2.text-md-end
-              = submit_tag t('.claim'), class: 'btn btn-primary'
+              = submit_tag t('.accept'), class: 'btn btn-primary'

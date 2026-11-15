@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# The seedlings other members have given to this one: given to their email address, or a Fediverse or Bluesky handle they
-# sign in with. They claim each into a garden of their own.
+# What other members have handed over to this one, for them to say they received it: seedlings given to them, which go into one
+# of their gardens, and packets of seed.
 module Stalls
   class GiftsController < ApplicationController
     include FeatureGated
@@ -10,7 +10,9 @@ module Stalls
     before_action :authenticate_member!
 
     def index
-      @gifts = StallPlanting.waiting_for(current_member).includes(planting: :crop, stall: :member).newest_first
+      handovers = StallHandovers.new(current_member)
+      @gifts = handovers.seedlings_to_receive
+      @seed_gifts = handovers.seeds_to_receive
       @gardens = current_member.gardens.active.order_by_name
     end
   end

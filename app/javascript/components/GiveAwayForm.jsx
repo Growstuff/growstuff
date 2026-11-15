@@ -267,12 +267,6 @@ export default function GiveAwayForm({
           <PathCard id="give-path-offered" value="offered" current={path} setCurrent={setPath} title={labels.offered_title} hint={labels.offered_hint}>
             <p className="mb-0">{labels.offered_detail}</p>
           </PathCard>
-
-          <PathCard id="give-path-help" value="help" current={path} setCurrent={setPath} title={labels.help_title}>
-            <p>{labels.help_leaving}</p>
-            <p><strong>{labels.help_given_lead}</strong> {labels.help_given_rest} <strong>{labels.help_offered_lead}</strong> {labels.help_offered_rest}</p>
-            <p className="mb-0">{labels.help_nothing_deleted}</p>
-          </PathCard>
         </fieldset>
       </div>
 

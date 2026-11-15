@@ -32,9 +32,14 @@
       - elsif @owner
         = render 'members/follow_buttons', member: @owner
 
-  - if @own_gardens && Feature.enabled?(:garden_stall, current_member) && (waiting = StallPlanting.waiting_for(current_member).count).positive?
-    .alert.alert-success.gifts-waiting
-      = link_to t('.gifts_waiting', count: waiting), gifts_path
+  - if @own_gardens && Feature.enabled?(:garden_stall, current_member)
+    - handovers = StallHandovers.new(current_member)
+    - if (waiting = handovers.to_receive_count).positive?
+      .alert.alert-success.gifts-waiting
+        = link_to t('.gifts_waiting', count: waiting), gifts_path
+    - if (to_give = handovers.to_give.count).positive?
+      .alert.alert-success.handovers-to-confirm
+        = link_to t('.handovers_to_confirm', count: to_give), member_stall_path(current_member)
 
   - if @nursery || (@own_gardens && !@owner.nursery_declined?)
     = render 'gardens/nursery_panel', owner: @owner, nursery: @nursery

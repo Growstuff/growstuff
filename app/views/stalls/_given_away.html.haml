@@ -1,14 +1,25 @@
--# Seedlings given away from the stall, and when. Only their owner sees who they went to, and whether it has been claimed.
+-# What has been given away from the stall, and when: seedlings and packets of seed. Only the owner sees who they went to, and
+-# whether the other person has said they received it yet; once they have, it is theirs, as a new record that knows where it
+-# came from.
+- seedlings = stall.stall_plantings.given.includes(planting: :crop).to_a
+- seeds = stall.stall_seeds_given_away.includes(:claim, seed: :crop).to_a
 %section.stall-section{ 'aria-labelledby': 'stall-given-h' }
   .stall-section-header
     %h2#stall-given-h= t('.heading')
-    %span= t('.count', count: stall.stall_plantings.given.size)
+    %span= t('.count', count: seedlings.size + seeds.size)
   .stall-section-body
     %ul.list-unstyled.mb-0
-      - stall.stall_plantings.given.includes(planting: :crop).each do |gift|
+      - seedlings.each do |gift|
         %li
           %strong= gift.planting.display_name
           %span.text-muted= l(gift.given_away_at.to_date)
           - if owner
             %span= t('.to', recipient: gift.recipient_label)
-            %span.badge{ class: gift.claimed? ? 'text-bg-success' : 'text-bg-secondary' }= t(gift.claimed? ? '.claimed' : '.waiting')
+            %span.badge{ class: gift.accepted? ? 'text-bg-success' : 'text-bg-secondary' }= t(gift.accepted? ? '.accepted' : '.waiting')
+      - seeds.each do |stall_seed|
+        %li
+          %strong= t('.seeds', crop: stall_seed.seed.crop_name)
+          %span.text-muted= l(stall_seed.seed.given_away_at.to_date)
+          - if owner && stall_seed.claim
+            %span= t('.to', recipient: stall_seed.claim.member)
+            %span.badge{ class: stall_seed.claim.completed? ? 'text-bg-success' : 'text-bg-secondary' }= t(stall_seed.claim.completed? ? '.accepted' : '.waiting')

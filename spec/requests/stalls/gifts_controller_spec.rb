@@ -22,12 +22,12 @@ describe Stalls::GiftsController, flipper: :garden_stall do
     context 'when given to them' do
       before { post gift_acceptance_path(gift), params: { garden_id: garden.id } }
 
-      it 'shows them the planting' do
-        expect(response).to redirect_to(gift.planting)
+      it 'shows them their new planting' do
+        expect(response).to redirect_to(gift.planting.reload.passed_on_as)
       end
 
       it 'puts it in their garden' do
-        expect(gift.planting.reload.garden).to eq garden
+        expect(gift.planting.reload.passed_on_as.garden).to eq garden
       end
     end
 
@@ -50,6 +50,19 @@ describe Stalls::GiftsController, flipper: :garden_stall do
       it 'leaves the planting with the giver' do
         expect(gift.planting.reload).to be_given_away
       end
+    end
+  end
+
+  describe 'GET /gifts with a packet of seed handed over' do
+    let(:claim) { create(:claim, member: neighbour) }
+
+    before do
+      claim.give
+      get gifts_path
+    end
+
+    it 'offers to confirm it was received' do
+      expect(Capybara.string(response.body)).to have_css("form[action='#{received_stall_seed_claim_path(claim.stall_seed)}']")
     end
   end
 end

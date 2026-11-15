@@ -35,8 +35,11 @@ class Planting < ApplicationRecord
   has_many :histories, -> { order(:ended_on, :id) }, class_name: 'PlantingHistory', dependent: :destroy, inverse_of: :planting
   has_many :harvests, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
-  # On offer on a stall, or given away from one and who to; kept after it is claimed.
+  # On offer on a stall, or given away from one and who to; kept after it has been given.
   has_many :stall_plantings, dependent: :destroy, inverse_of: :planting
+  # Where a planting came from, when someone gave it away, and the planting made for whoever took it.
+  belongs_to :received_from, class_name: 'Planting', optional: true, inverse_of: :passed_on_as
+  has_one :passed_on_as, class_name: 'Planting', foreign_key: :received_from_id, dependent: :nullify, inverse_of: :received_from
   has_many :observations, dependent: :destroy
   # One per individual plant, for placing on the garden's layout grid. Made the
   # first time the garden's layout is used (Garden#prepare_layout), not for every
@@ -227,6 +230,20 @@ class Planting < ApplicationRecord
     portion
   end
 
+  # Makes a planting for someone who was given this one, in their garden: the same crop, date and numbers, and where it came
+  # from, as a gift from this planting's owner. This planting stays with its owner, given away. What belongs to the giver
+  # (their notes, photos, harvests) stays with them. Returns the new planting.
+  def pass_on_to(member, garden)
+    received = dup
+    received.assign_attributes(owner: member, garden:, received_from: self, slug: nil, short_code: nil, description: nil,
+                               comments_count: 0, likes_count: 0, harvests_count: 0, days_to_first_harvest: nil,
+                               days_to_last_harvest: nil, lifespan: nil, given_away_at: nil,
+                               # It came as a seedling, not from a packet of the receiver's: the giver's packet stays theirs.
+                               planted_from: 'seedling', parent_seed_id: nil, seed_plant_before: nil)
+    received.build_seedling(source: 'gift', supplier: owner.to_s)
+    received.tap(&:save!)
+  end
+
   # Moves this planting into another garden, on the day given, and keeps a record
   # of the garden it was in. It stays one planting, with its sow date, photos and
   # harvests, so the crop's averages count it once. If it can't be moved, it has
@@ -249,7 +266,7 @@ class Planting < ApplicationRecord
     seed_plant_before.present? && planted_at.present? && planted_at > seed_plant_before
   end
 
-  # Given to someone else and not claimed yet, so no longer one of its owner's plantings to look after.
+  # Given to someone else and not accepted into a garden yet, so no longer one of its owner's plantings to look after.
   def given_away?
     given_away_at.present?
   end

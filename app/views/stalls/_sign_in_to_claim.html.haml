@@ -1,0 +1,7 @@
+-# For someone who isn't signed in: how they can be, and that it can be with an email address, Bluesky or Mastodon.
+.stall-signin
+  = sign_in_link t('.sign_in'), class: 'btn btn-secondary stall-claim-sign-in'
+  %ul.stall-signin-methods{ 'aria-label': t('.methods') }
+    %li= sign_in_link safe_join([icon('fas', 'envelope'), t('.email')], ' ')
+    %li= bluesky_link t('.bluesky')
+    %li= mastodon_link t('.mastodon')

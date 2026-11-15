@@ -28,6 +28,9 @@ class Seed < ApplicationRecord
   belongs_to :parent_planting, class_name: 'Planting',
                                optional: true, inverse_of: :child_seeds # parent
   has_many :stall_seeds, dependent: :destroy
+  # Where a packet came from, when someone gave it away, and the packet made for whoever took it.
+  belongs_to :received_from, class_name: 'Seed', optional: true, inverse_of: :passed_on_as
+  has_one :passed_on_as, class_name: 'Seed', foreign_key: :received_from_id, dependent: :nullify, inverse_of: :received_from
   has_many :child_plantings, class_name: 'Planting',
                              foreign_key: 'parent_seed_id', dependent: :nullify,
                              inverse_of: :parent_seed # children
@@ -112,7 +115,12 @@ class Seed < ApplicationRecord
   scope :tradable, -> { where.not(tradable_to: 'nowhere') }
   scope :has_location, -> { joins(:owner).where.not('members.location': nil) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :active, -> { where('seeds.finished <> true').where('seeds.finished_at IS NULL OR seeds.finished_at < ?', Time.zone.now) }
+  # A packet that was given away is no longer in its owner's library, though it stays as the record of it.
+  scope :current, -> { where.not(finished: true).where(given_away_at: nil) }
+  scope :active, lambda {
+    where('seeds.finished <> true').where(given_away_at: nil).where('seeds.finished_at IS NULL OR seeds.finished_at < ?', Time.zone.now)
+  }
+  scope :given_away, -> { where.not(given_away_at: nil) }
   # The params that narrow which seeds the library shows; its other params
   # (crop, whose seeds, tab, grouping, view) are not counted as filtering.
   FILTER_PARAMS = %w(from heirloom shared planted gardener sow_month within past).freeze
@@ -172,6 +180,19 @@ class Seed < ApplicationRecord
 
   def tradable
     tradable_to != 'nowhere'
+  end
+
+  # Given to someone else, so no longer in its owner's library.
+  def given_away?
+    given_away_at.present?
+  end
+
+  # Makes a packet for someone who was given this one: the same crop and details, and where it came from. It starts out not
+  # for trading, as its new owner decides that. This packet stays with its owner, given away. Returns the new packet.
+  def pass_on_to(member)
+    received = dup
+    received.assign_attributes(owner: member, received_from: self, slug: nil, given_away_at: nil, tradable_to: 'nowhere')
+    received.tap(&:save!)
   end
 
   # Whether the year to sow it by has gone.

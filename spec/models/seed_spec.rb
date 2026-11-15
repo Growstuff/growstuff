@@ -316,4 +316,37 @@ describe Seed do
     it { expect(described_class.sown_in([8, 9])).to contain_exactly(september) }
     it { expect(described_class.sown_in([])).to be_empty }
   end
+
+  describe '#pass_on_to' do
+    subject(:received) { seed.pass_on_to(member) }
+
+    let(:seed) { create(:seed, tradable_to: 'locally', variety: 'Marketmore') }
+    let(:member) { create(:member) }
+
+    it 'makes a packet of the same crop and variety for them' do
+      expect(received).to have_attributes(owner: member, crop: seed.crop, variety: 'Marketmore')
+    end
+
+    it 'knows where it came from' do
+      expect(received.received_from).to eq seed
+    end
+
+    it 'starts out not for trading' do
+      expect(received.tradable_to).to eq 'nowhere'
+    end
+  end
+
+  describe 'a packet given away' do
+    let(:seed) { create(:seed) }
+
+    before { seed.update!(given_away_at: Time.zone.now) }
+
+    it 'is no longer current' do
+      expect(described_class.current).not_to include(seed)
+    end
+
+    it 'is no longer active' do
+      expect(described_class.active).not_to include(seed)
+    end
+  end
 end

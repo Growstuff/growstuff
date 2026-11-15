@@ -1,0 +1,21 @@
+-# One seedling on offer: its photo and what it is, whether it is free, and what a friend or the owner can do with it.
+- planting = offer.planting
+.stall-tin-item{ class: ('stall-tin-item-claimed' if offer.claim) }
+  .card.seedling-card
+    = image_tag(planting.thumbnail_url || placeholder_image, alt: planting.display_name, class: 'img-card')
+    .card-body
+      %h3.card-title.h5= planting.display_name
+      %p.seedling-card-facts
+        - if planting.quantity
+          %span= t('.plants', count: planting.quantity)
+        - if planting.planted_at
+          %span= t('.sown', date: l(planting.planted_at, format: '%-d %b'))
+  = render 'stalls/offer_tag', offer: 'free', claim: offer.claim
+  = render 'stalls/claim', item: offer, claim_path: stall_planting_claim_path(offer), owner:
+  - if owner
+    .seedling-owner-actions
+      - if planting.photos.none?
+        = link_to icon('fas', 'camera', t('.add_photo')), new_photo_path(id: planting.id, type: 'planting'), class: 'btn btn-outline-secondary btn-sm'
+      - unless offer.claim
+        = link_to icon('fas', 'handshake', t('.given')), new_stall_planting_path(status: 'given', planting_ids: [offer.planting_id]), class: 'btn btn-outline-secondary btn-sm'
+      = button_to icon('fas', 'xmark', t('.take_off')), stall_planting_path(offer), method: :delete, class: 'btn btn-link btn-sm'

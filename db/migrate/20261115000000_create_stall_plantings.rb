@@ -4,7 +4,7 @@
 # Growstuff, or a name the giver uses, with the email address or Fediverse or Bluesky handle they sign in with if known.
 # Whoever it was given to, or signs in as that address or handle, can claim it into one of their gardens.
 #
-# plantings.given_away_at is set while it is with the giver and nobody has claimed it. It is not finished, so it counts
+# plantings.given_away_at is set while it is with the giver and nobody has accepted it into a garden. It is not finished, so it counts
 # for nothing in the crop's medians, but it is no longer an active planting. Claiming clears it.
 class CreateStallPlantings < ActiveRecord::Migration[8.1]
   def change
@@ -19,12 +19,12 @@ class CreateStallPlantings < ActiveRecord::Migration[8.1]
       t.datetime :given_away_at, comment: 'Blank while it is only on offer.'
       t.references :recipient_member, foreign_key: { to_table: :members }, comment: 'A member it was given to, picked from Growstuff.'
       t.string :recipient_name, comment: 'Whatever the giver calls someone who is not a member, or has not been found.'
-      t.references :claimed_by, foreign_key: { to_table: :members }
-      t.datetime :claimed_at
+      t.references :accepted_by, foreign_key: { to_table: :members }
+      t.datetime :accepted_at
       t.timestamps
     end
-    # One live record per planting; once claimed, its new owner can give it on from their own stall.
-    add_index :stall_plantings, :planting_id, unique: true, where: 'claimed_at IS NULL', name: 'index_stall_plantings_on_unclaimed_planting'
+    # One live record per planting; once accepted, its new owner can give it on from their own stall.
+    add_index :stall_plantings, :planting_id, unique: true, where: 'accepted_at IS NULL', name: 'index_stall_plantings_on_unaccepted_planting'
     add_index :stall_plantings, %i(recipient_kind recipient)
   end
 end

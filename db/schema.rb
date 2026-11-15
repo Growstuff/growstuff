@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_15_000200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -380,12 +380,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
   end
 
   create_table "claims", force: :cascade do |t|
+    t.datetime "completed_at", comment: "When both had said so, and the new record was made for the claimer."
     t.datetime "created_at", null: false
+    t.datetime "given_at", comment: "When the giver said they handed it over."
     t.bigint "member_id", null: false
     t.text "note"
-    t.bigint "stall_seed_id", null: false
+    t.datetime "received_at", comment: "When the claimer said they collected it."
+    t.bigint "receiving_garden_id", comment: "Where the claimer will put a seedling."
+    t.bigint "stall_planting_id"
+    t.bigint "stall_seed_id"
     t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_claims_on_member_id"
+    t.index ["receiving_garden_id"], name: "index_claims_on_receiving_garden_id"
+    t.index ["stall_planting_id"], name: "index_claims_on_stall_planting_id", unique: true
     t.index ["stall_seed_id"], name: "index_claims_on_stall_seed_id", unique: true
   end
 
@@ -1196,6 +1203,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
     t.date "planted_at"
     t.string "planted_from"
     t.integer "quantity"
+    t.bigint "received_from_id", comment: "The planting this one was made from, when given by someone."
     t.date "seed_plant_before"
     t.string "short_code", limit: 10
     t.string "slug"
@@ -1207,6 +1215,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
     t.index ["owner_id", "short_code"], name: "index_plantings_on_owner_id_and_short_code"
     t.index ["owner_id"], name: "index_plantings_on_owner_id"
     t.index ["parent_seed_id"], name: "index_plantings_on_parent_seed_id"
+    t.index ["received_from_id"], name: "index_plantings_on_received_from_id"
     t.index ["slug"], name: "index_plantings_on_slug", unique: true
   end
 
@@ -1285,6 +1294,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
     t.date "finished_at"
     t.integer "germination_days_max"
     t.integer "germination_days_min"
+    t.datetime "given_away_at", comment: "When the owner gave it away. It stays as the record of it, out of their library."
     t.text "gmo", default: "unknown"
     t.text "hardiness", default: "unknown", comment: "What the packet says: tender, half_hardy, hardy or unknown."
     t.text "heirloom", default: "unknown"
@@ -1294,6 +1304,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
     t.integer "parent_planting_id"
     t.date "plant_before"
     t.integer "quantity"
+    t.bigint "received_from_id", comment: "The packet this one was made from, when given by someone."
     t.integer "row_spacing", comment: "Centimetres between rows, as printed on the packet."
     t.date "saved_at"
     t.string "slug"
@@ -1305,13 +1316,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
     t.index ["crop_id"], name: "index_seeds_on_crop_id"
     t.index ["owner_id"], name: "index_seeds_on_owner_id"
     t.index ["parent_planting_id"], name: "index_seeds_on_parent_planting_id"
+    t.index ["received_from_id"], name: "index_seeds_on_received_from_id"
     t.index ["slug"], name: "index_seeds_on_slug", unique: true
     t.index ["source"], name: "index_seeds_on_source"
   end
 
   create_table "stall_plantings", force: :cascade do |t|
-    t.datetime "claimed_at"
-    t.bigint "claimed_by_id"
+    t.datetime "accepted_at"
+    t.bigint "accepted_by_id"
     t.datetime "created_at", null: false
     t.datetime "given_away_at", comment: "Blank while it is only on offer."
     t.bigint "planting_id", null: false
@@ -1321,9 +1333,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
     t.string "recipient_name", comment: "Whatever the giver calls someone who is not a member, or has not been found."
     t.bigint "stall_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["claimed_by_id"], name: "index_stall_plantings_on_claimed_by_id"
+    t.index ["accepted_by_id"], name: "index_stall_plantings_on_accepted_by_id"
     t.index ["planting_id"], name: "index_stall_plantings_on_planting_id"
-    t.index ["planting_id"], name: "index_stall_plantings_on_unclaimed_planting", unique: true, where: "(claimed_at IS NULL)"
+    t.index ["planting_id"], name: "index_stall_plantings_on_unaccepted_planting", unique: true, where: "(accepted_at IS NULL)"
     t.index ["recipient_kind", "recipient"], name: "index_stall_plantings_on_recipient_kind_and_recipient"
     t.index ["recipient_member_id"], name: "index_stall_plantings_on_recipient_member_id"
     t.index ["stall_id"], name: "index_stall_plantings_on_stall_id"
@@ -1398,7 +1410,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blocks", "members", column: "blocked_id"
   add_foreign_key "blocks", "members", column: "blocker_id"
+  add_foreign_key "claims", "gardens", column: "receiving_garden_id"
   add_foreign_key "claims", "members"
+  add_foreign_key "claims", "stall_plantings"
   add_foreign_key "claims", "stall_seeds"
   add_foreign_key "crop_dismissals", "crops"
   add_foreign_key "crop_dismissals", "members"
@@ -1426,7 +1440,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_15_000000) do
   add_foreign_key "posts", "photos", column: "card_photo_id", on_delete: :nullify
   add_foreign_key "reminder_events", "members", on_delete: :cascade
   add_foreign_key "seeds", "plantings", column: "parent_planting_id", name: "parent_planting", on_delete: :nullify
-  add_foreign_key "stall_plantings", "members", column: "claimed_by_id"
+  add_foreign_key "plantings", "plantings", column: "received_from_id"
+  add_foreign_key "seeds", "seeds", column: "received_from_id"
+  add_foreign_key "stall_plantings", "members", column: "accepted_by_id"
   add_foreign_key "stall_plantings", "members", column: "recipient_member_id"
   add_foreign_key "stall_plantings", "plantings"
   add_foreign_key "stall_plantings", "stalls"

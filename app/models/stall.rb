@@ -15,8 +15,9 @@ class Stall < ApplicationRecord
 
   belongs_to :member
   has_many :stall_seeds, dependent: :destroy
-  has_many :seeds, through: :stall_seeds
-  # Plantings given away from here, newest first, whether or not they have been claimed yet.
+  # The packets on the table: not given away, though they may be claimed.
+  has_many :seeds, -> { current }, through: :stall_seeds
+  # Plantings given away from here, newest first, whether or not they have been accepted into a garden yet.
   has_many :stall_plantings, -> { newest_first }, dependent: :destroy, inverse_of: :stall
 
   validates :member_id, uniqueness: true
@@ -49,9 +50,18 @@ class Stall < ApplicationRecord
   def offer_seedlings!(plantings, quantities: {})
     transaction do
       plantings.map do |planting|
-        stall_plantings.unclaimed.find_or_create_by!(planting: portion_of(planting, quantities))
+        stall_plantings.unaccepted.find_or_create_by!(planting: portion_of(planting, quantities))
       end
     end
+  end
+
+  # The packets on the table, as offered on the stall, and the ones given away since.
+  def stall_seeds_on_table
+    stall_seeds.where(seed_id: Seed.current.select(:id))
+  end
+
+  def stall_seeds_given_away
+    stall_seeds.where(seed_id: Seed.given_away.select(:id))
   end
 
   # The seedlings on offer that are still the member's to give: not finished, failed or given since.
@@ -67,7 +77,7 @@ class Stall < ApplicationRecord
   def give_away!(plantings, to:, on: Time.zone.now, quantities: {})
     transaction do
       plantings.map do |planting|
-        stall_plantings.unclaimed.find_or_initialize_by(planting: portion_of(planting, quantities)).tap do |record|
+        stall_plantings.unaccepted.find_or_initialize_by(planting: portion_of(planting, quantities)).tap do |record|
           record.update!(**to, given_away_at: on)
         end
       end

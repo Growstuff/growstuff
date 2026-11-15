@@ -1,0 +1,10 @@
+-# What the owner can do with their open stall, as buttons near the top: put things on it, say what has gone, and change
+-# who can claim. A stall with nothing on it yet has the first-time prompt for adding, so only the settings show.
+- empty = local_assigns.fetch(:empty, false)
+.stall-owner-actions
+  - unless empty
+    = link_to icon('fas', 'seedling', t('.add_seedlings')), new_stall_planting_path(status: 'offered'), class: 'btn btn-primary'
+    = link_to icon('fas', 'plus', t('.add_seeds')), new_stall_seed_path, class: 'btn btn-outline-secondary'
+    = link_to icon('fas', 'handshake', t('.record_given_away')), new_stall_planting_path(status: 'given'), class: 'btn btn-outline-secondary'
+  %button.btn.btn-outline-secondary{ type: 'button', 'data-bs-toggle': 'modal', 'data-bs-target': '#stall-settings' }
+    = icon 'fas', 'sliders', t('.settings')

@@ -1,20 +1,22 @@
--# Seedlings on the stall that nobody has been given yet. The owner can say who took one, or take it off.
-- offers = stall.seedlings_on_offer
+-# The seedlings on the stall that nobody has been given yet, as cards on the table with their photo, like the packets of
+-# seed. A friend can claim one; the owner then gives it to them, or says who else took it, or takes it off.
+-# Available ones first; claimed ones are dimmed, and say who has them.
+- offers = stall.seedlings_on_offer.to_a.sort_by { |offer| offer.claim ? 1 : 0 }
+- available = offers.count { |offer| offer.claim.nil? }
 %section.stall-section{ 'aria-labelledby': 'stall-offer-h' }
   .stall-section-header
     %h2#stall-offer-h= t('.heading')
-    %span= t('.count', count: offers.size)
+    %span= available == offers.size ? t('.count', count: offers.size) : t('.available', available:, count: offers.size)
     = link_to t('.add'), new_stall_planting_path(status: 'offered'), class: 'stall-add' if owner
   .stall-section-body
-    %ul.list-unstyled.mb-0
+    - unless member_signed_in?
+      %p.stall-signin-hint
+        = icon 'fas', 'circle-info'
+        = t('.sign_in_hint')
+    %p.stall-legend
+      %span.stall-offer-tag.stall-offer-free= t('stalls.offers.free')
+      = t('.legend')
+    .stall-packets-grid
       - offers.each do |offer|
-        %li.d-flex.flex-wrap.align-items-center.gap-2
-          %strong= offer.planting.display_name
-          - if offer.planting.quantity
-            %span.text-muted= t('.quantity', count: offer.planting.quantity)
-          - if owner
-            = link_to t('.given'), new_stall_planting_path(status: 'given', planting_ids: [offer.planting_id]), class: 'btn btn-sm btn-outline-secondary'
-            = button_to t('.take_off'), stall_planting_path(offer), method: :delete, class: 'btn btn-sm btn-link'
-          - elsif member_signed_in?
-            - subject = t('.ask_subject', crop: offer.planting.display_name)
-            = link_to t('.ask'), new_message_path(recipient_id: stall.member_id, subject:), class: 'btn btn-sm btn-outline-secondary'
+        = render 'stalls/seedling_card', offer:, owner:
+    .stall-tabletop{ 'aria-hidden': 'true' }

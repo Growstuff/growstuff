@@ -43,6 +43,8 @@ en:
         finished_after_planted: must be after the planting date
         grid_too_small_for_plantings: 'is too small: some plantings would fall outside the bed. Move them first.'
         harvest_after_planted: cannot be harvested before planting
+        already_completed: It has already been handed over.
+        no_longer_offered: This seedling has been given to someone.
         no_newlines: must contain no newlines
         not_in_future: can't be in the future
         not_a_valid_area_unit: "%{value} is not a valid area unit"
@@ -55,6 +57,7 @@ en:
         not_for_you: This seedling wasn't given to you.
         not_giveable: is finished, failed or already given away
         not_your_garden: Choose one of your own gardens.
+        one_item_required: A claim has to be for one packet of seed or one seedling.
         one_nursery_per_member: already exists; a member can have only one nursery
         outside_area: This stall is only for people near %{place}.
         owner_unplaced: The gardener hasn't said where they are yet.
@@ -1241,8 +1244,11 @@ en:
     image_alt: Image of %{name}
     index:
       gifts_waiting:
-        one: A seedling was given to you. Claim it into a garden.
-        other: "%{count} seedlings were given to you. Claim them into gardens."
+        one: Something was handed over to you. Confirm you received it.
+        other: "%{count} things were handed over to you. Confirm you received them."
+      handovers_to_confirm:
+        one: Someone says they collected something from your stall. Confirm you handed it over.
+        other: "%{count} people say they collected things from your stall. Confirm you handed them over."
       title: Everyone's gardens
       profile: Profile
     layout:
@@ -4118,7 +4124,9 @@ en:
         supplier: Where from (optional)
         supplier_placeholder: Shop, nursery, stall or person
         unsaved: That didn't save. Please try again.
+      given_by_html: Given by %{giver}.
       grown_from: Grown from
+      their_planting: See their planting
       kind_hints:
         cutting: A piece of another plant
         seed: From a packet or saved seed
@@ -4722,7 +4730,21 @@ en:
       text: A community for growing food. Record what you plant and harvest, and swap seeds and tips with other gardeners. Join free, or sign in, to get in touch with %{name} about what's on the stall.
     acceptances:
       create:
-        claimed: "%{crop} is now in your garden."
+        accepted: "%{crop} is now in your garden."
+    browse_intro:
+      heading: Pick the seedlings you'd like
+      lead: These seedlings were raised by %{name}, and are free to a good home. Choose the ones you want and claim them, as if you were filling a basket.
+      promise: Claiming a seedling is a promise to collect it. Only claim what you can pick up, and if your plans change, give it back so someone else can have it.
+      steps:
+        choose:
+          text: Browse the seedlings below. Each card shows its photo and how many plants there are.
+          title: Choose
+        claim:
+          text: Sign in with your email address, Bluesky or Mastodon, and claim each one you want. It's reserved for you straight away.
+          title: Claim
+        collect:
+          text: Message %{name} to arrange a time, then pick your seedlings up.
+          title: Collect
     card:
       go: Go to your stall
       heading: Garden stall
@@ -4742,30 +4764,49 @@ en:
       postage: "%{owner} may ask you to pay for postage."
       set_place: Not right? Set where you garden.
       set_place_ask: Or set where you garden in your profile, so it's checked for you.
-      sign_in: Sign in to claim
       undo: Undo my claim
     claims:
       create:
         claimed: "%{crop} is claimed. It's yours; message the gardener to arrange pick-up or postage."
       destroy:
+        too_late: It has already been handed over, so it can't be given back.
         undone: You've given back the %{crop}.
+      given:
+        given: "Recorded that you gave the %{crop} to %{name}. It's theirs once they confirm they received it."
+        given_done: "The %{crop} is handed over to %{name}."
+      received:
+        received: "Recorded that you collected the %{crop}. It's yours once the gardener confirms."
+        received_done: "The %{crop} is yours now, and in your own records."
+    handover:
+      collected: I've collected it
+      confirm_collected: I've collected it
+      confirm_given: Confirm I gave it to %{name}
+      gave: I gave it to %{name}
+      says_collected: "%{name} says they collected this."
+      waiting_for_giver: Waiting for %{name} to confirm.
+      which_garden: Which garden is it going in?
     gifts:
       index:
-        claim: Add to my garden
+        accept: Add to my garden
         from: from %{giver}, given on %{date}
         garden: Which garden?
-        intro: These were given to you, to your email address or a handle you sign in with. Choose where each one goes, and it carries on there as yours.
-        none: Nothing has been given to you.
-        title: Seedlings given to you
+        intro: These were handed over to you. Say you received each one, and it is added to your own records, which remember where it came from. Seedlings go into the garden you choose.
+        none: Nothing is waiting for you to confirm.
+        received: I received it
+        seeds: "%{crop} seeds"
+        title: Handed over to you
     given_away:
-      claimed: Claimed
+      accepted: Handed over
       count:
-        one: 1 seedling
-        other: "%{count} seedlings"
+        one: 1 item
+        other: "%{count} items"
       heading: Given away
+      seeds: "%{crop} seeds"
       to: to %{recipient}
-      waiting: Not claimed yet
+      waiting: Waiting for recipient to confirm
     offers:
+      claimed: Claimed
+      claimed_by: Not available. %{name} has it.
       free: Free
       free_text: Yours for the asking
       swap: Swap
@@ -4779,6 +4820,11 @@ en:
       garden_of: Garden of
       link: Link to your stall
       profile: See %{name}'s profile
+    owner_actions:
+      add_seedlings: Add seedlings
+      add_seeds: Add seeds
+      record_given_away: Record seedlings given away
+      settings: Edit my stall settings
     plantings:
       create:
         given:
@@ -4790,6 +4836,9 @@ en:
           other: "%{count} seedlings are on your stall."
       destroy:
         removed: Taken off your stall.
+      given:
+        given: "%{name} has it now. They can add it to their garden."
+        unclaimed: Nobody has claimed that one. Record who took it instead.
       form:
         bluesky: Bluesky
         bluesky_label: Their Bluesky handle
@@ -4807,13 +4856,6 @@ en:
         given_on_hint: Collecting soon? Record it now. They leave your active plantings today.
         given_title: I've given them to someone
         handle_what: handle
-        help_given_lead: Given to someone
-        help_given_rest: takes them out of your active plantings, so they stop counting as growing.
-        help_leaving: This is for seedlings that are leaving your nursery.
-        help_nothing_deleted: Nothing is deleted either way. If you opened this by mistake, just cancel.
-        help_offered_lead: On my stall
-        help_offered_rest: lists them for other gardeners to ask for, and they stay in your nursery until someone takes them.
-        help_title: I'm not sure why I'm here
         how_signin: How can they sign in?
         it: it
         mastodon_label: Their Fediverse handle
@@ -4864,25 +4906,35 @@ en:
       place: "%{place}, %{distance}"
     seed_tin:
       add: "+ add"
-      heading: In the seed tin
+      heading: Seeds available from %{name}
       legend: Each packet says whether it's free or a swap.
+      available:
+        one: "%{available} of 1 packet available"
+        other: "%{available} of %{count} packets available"
       packets:
         one: 1 packet
         other: "%{count} packets"
       take_off: Take off the stall
+    seedling_card:
+      add_photo: Add a photo
+      give_to: Give it to %{name}
+      given: Someone took it
+      plants:
+        one: 1 plant
+        other: "%{count} plants"
+      sown: sown %{date}
+      take_off: Take off the stall
     seedlings_on_offer:
       add: "+ add"
-      ask: Ask for it
-      ask_subject: "%{crop} seedlings"
+      available:
+        one: "%{available} of 1 seedling available"
+        other: "%{available} of %{count} seedlings available"
       count:
         one: 1 seedling
         other: "%{count} seedlings"
-      given: Someone took it
       heading: Seedlings on offer
-      quantity:
-        one: 1 plant
-        other: "%{count} plants"
-      take_off: Take off the stall
+      legend: Raised by the gardener. Claim one and message them to arrange pick-up.
+      sign_in_hint: To claim a seedling, sign in with your email address, Bluesky or Mastodon. New here? It's free to join.
     seeds:
       choice:
         not_trading: Not trading yet
@@ -4932,6 +4984,8 @@ en:
       areas:
         anywhere: Anywhere
         region: Only people near %{place}
+      cancel: Cancel
+      close: Close
       heading: Who can claim
       postage: I may ask friends to pay for postage
       save: Save
@@ -4960,12 +5014,17 @@ en:
         choose_who: 'You choose who can claim: anyone signed in, or only people you follow.'
         expiry: Offers close after 4 weeks, so the stall never goes stale.
         privacy: Growstuff keeps no addresses. Friends message you to arrange pick-up or postage.
-      record_given_away: Record seedlings given away
       seedlings: Seedlings
       seedlings_text: Plants you've raised that need a home.
       seeds: Seeds
       seeds_text: Packets you've saved and will trade.
       title: "%{name}'s garden stall"
+    sign_in_to_claim:
+      bluesky: Bluesky
+      email: Email
+      mastodon: Mastodon
+      methods: Ways to sign in
+      sign_in: Sign in to claim
     stall:
       closed: Closed for now
       sign: "%{name}'s garden stall"

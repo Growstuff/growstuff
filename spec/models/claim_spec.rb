@@ -67,4 +67,44 @@ describe Claim do
       it { is_expected.to be_valid }
     end
   end
+
+  context 'when for an offered seedling' do
+    subject(:claim) { build(:claim, :for_seedling) }
+
+    it { is_expected.to be_valid }
+  end
+
+  context 'when for a seedling and a packet' do
+    subject(:claim) { build(:claim, stall_planting: create(:stall_planting, :offered)) }
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context 'when for neither' do
+    subject(:claim) { build(:claim, stall_seed: nil) }
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context 'when the seedling has been given to someone' do
+    subject(:claim) { build(:claim, stall_seed: nil, stall_planting: create(:stall_planting)) }
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context 'when the seedling is already claimed' do
+    subject(:second) { build(:claim, stall_seed: nil, stall_planting: claim.stall_planting) }
+
+    let(:claim) { create(:claim, :for_seedling) }
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context 'when the stall owner claims their own seedling' do
+    subject(:claim) { build(:claim, :for_seedling, member: offer.stall.member, stall_planting: offer) }
+
+    let(:offer) { create(:stall_planting, :offered) }
+
+    it { is_expected.not_to be_valid }
+  end
 end

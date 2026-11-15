@@ -10,7 +10,12 @@
       %strong
         = image_tag planting_origin_kind_icon_url(kind), alt: '', width: 28, height: 28
         = t("plantings.origin.kinds.#{planted_from_key(kind)}")
-      - if planting.parent_seed
+      - if planting.received_from
+        -# Given by someone: where it came from is their planting, not a packet of this owner's.
+        %span
+          = t('plantings.origin.given_by_html', giver: link_to(planting.received_from.owner, planting.received_from.owner))
+          = link_to t('plantings.origin.their_planting'), planting_path(planting.received_from)
+      - elsif planting.parent_seed
         %span
           = link_to t('plantings.origin.packet', seed: planting.parent_seed.crop.name.downcase), planting.parent_seed
           - if planting.sown_from_expired_seeds?

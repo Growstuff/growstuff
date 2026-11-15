@@ -1,16 +1,17 @@
--# What a friend can do with a packet: claim it, or, once it's claimed, see who has
--# it. Their own claim they can give back.
-- claim = stall_seed.claim
+-# What a friend can do with a packet of seed or an offered seedling: claim it, or, once it's claimed, see who has
+-# it. Their own claim they can give back. `item` is the StallSeed or StallPlanting, and `claim_path` where claims go.
+- claim = item.claim
 - if claim
   .stall-ribbon
     %strong= t('.claimed')
     = render 'stalls/claimer', member: claim.member
   = tag.p t('.note', note: claim.note), class: 'stall-claim-note' if owner && claim.note.present?
   - mine = claim.member == current_member
-  = button_to t('.undo'), stall_seed_claim_path(stall_seed), class: 'btn btn-secondary btn-sm', method: :delete if mine
+  = render 'stalls/handover', item:, claim:, owner:, mine:
+  = button_to t('.undo'), claim_path, class: 'btn btn-secondary btn-sm', method: :delete if mine && claim.undoable?
 - elsif !owner
   - if member_signed_in?
-    - stall = stall_seed.stall
+    - stall = item.stall
     - check = stall.area_check(current_member)
     - if %i(outside owner_unplaced).include?(check)
       %button.stall-claim-blocked{ type: 'button', 'aria-disabled': 'true' }
@@ -19,17 +20,17 @@
     - else
       %details.stall-claim
         %summary.btn.btn-primary= t('.claim')
-        = form_with url: stall_seed_claim_path(stall_seed) do
+        = form_with url: claim_path do
           - if stall.postage?
             %p.stall-note= t('.postage', owner: stall.member)
-          = label_tag "note_#{stall_seed.id}", t('.note_label'), class: 'form-label fw-bold'
-          = text_area_tag :note, nil, id: "note_#{stall_seed.id}", rows: 2, maxlength: 500, class: 'form-control mb-2',
+          = label_tag dom_id(item, :note), t('.note_label'), class: 'form-label fw-bold'
+          = text_area_tag :note, nil, id: dom_id(item, :note), rows: 2, maxlength: 500, class: 'form-control mb-2',
             placeholder: t('.note_placeholder')
           - if check == :ask
             %label.stall-here
-              = check_box_tag :here, '1', false, id: "here_#{stall_seed.id}"
+              = check_box_tag :here, '1', false, id: dom_id(item, :here)
               = t('.here', place: stall.area_name)
             %p.stall-set-place= link_to t('.set_place_ask'), edit_member_registration_path
           = submit_tag t('.confirm'), class: 'btn btn-primary btn-sm'
   - else
-    = sign_in_link t('.sign_in'), class: 'btn btn-secondary stall-claim-sign-in'
+    = render 'stalls/sign_in_to_claim'

@@ -871,11 +871,18 @@ $stall-label: #fff8e1;
   }
 }
 
-.stall-settings {
-  margin-top: 2rem;
+// The owner's buttons under their name: add, record what has gone, and the settings.
+.stall-owner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
 
-  h2 {
-    margin: 0 0 0.75rem;
+// The dialog for who can claim.
+.stall-settings {
+  .modal-title {
+    margin: 0;
     padding: 0;
     background: none;
     box-shadow: none;
@@ -924,4 +931,174 @@ $stall-label: #fff8e1;
   display: block;
   margin: 0.4rem 0 0;
   font-size: 0.85rem;
+}
+
+// A seedling on offer: a card with its photo, on the table beside the seed packets.
+.seedling-card {
+  margin: 0;
+  overflow: hidden;
+
+  .img-card {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .card-body {
+    padding: 0.75rem;
+  }
+}
+
+.seedling-card-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.75rem;
+  margin: 0;
+  color: $gray-600;
+  font-size: 0.85rem;
+}
+
+.seedling-owner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  margin-top: 0.5rem;
+
+  form {
+    display: inline;
+  }
+}
+
+// How to sign in, where someone who isn't can see they can, and with what.
+.stall-signin {
+  margin-top: 0.5rem;
+}
+
+.stall-signin-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  padding: 0;
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  list-style: none;
+}
+
+.stall-signin-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  margin: 0 0 1rem;
+  border-radius: 2px;
+  background: $stall-label;
+}
+
+// For someone browsing: how picking seedlings works, in three steps like a shop's.
+.stall-intro {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 2px solid $stall-outline;
+  border-radius: 4px 16px 16px 4px;
+  background: $white;
+
+  h2 {
+    margin: 0 0 0.5rem;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    color: inherit;
+    font-size: 150%;
+  }
+}
+
+.stall-intro-lead {
+  margin-bottom: 1rem;
+}
+
+.stall-intro-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.75rem;
+  padding: 0;
+  margin: 0 0 1rem;
+  counter-reset: step;
+  list-style: none;
+
+  li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem 0.9rem 0.75rem 3rem;
+    border-radius: 4px;
+    background: $stall-label;
+    counter-increment: step;
+
+    // The step's number, in a round badge.
+    &::before {
+      position: absolute;
+      top: 0.7rem;
+      left: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.7rem;
+      height: 1.7rem;
+      border-radius: 50%;
+      background: $green;
+      color: $white;
+      content: counter(step);
+      font-weight: 600;
+    }
+  }
+}
+
+.stall-intro-promise {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  margin: 0;
+  font-weight: 600;
+}
+
+// Someone has claimed it: the card is dimmed so it reads as taken, and the tag says who has it. The ribbon stays bright.
+.stall-tin-item-claimed {
+  .seed-card,
+  .seedling-card {
+    opacity: 0.5;
+    filter: grayscale(1);
+  }
+}
+
+.stall-offer-claimed {
+  // A small box rather than the pill the offers use: it holds two lines.
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-items: flex-start;
+  padding: 0.35rem 0.75rem;
+  border-color: #595959;
+  border-radius: 4px;
+  background: #e6e6e6;
+  color: #333;
+
+  strong {
+    letter-spacing: 0.08em;
+  }
+}
+
+// What each person can do to hand a claimed packet or seedling over, under its card.
+.stall-handover {
+  margin-top: 0.5rem;
+
+  form {
+    display: inline;
+  }
+}
+
+.stall-handover-note {
+  margin: 0 0 0.35rem;
+  font-weight: 600;
 }

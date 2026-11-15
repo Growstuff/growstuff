@@ -3,7 +3,7 @@
 # A seedling on a member's stall. First it may only be on offer, with nobody to give it to yet; then it is given away, and
 # says who it went to: a member picked from Growstuff, or a name the giver uses for someone who isn't one, with the email
 # address or Fediverse or Bluesky handle they sign in with, if the giver knows it. Whoever it was given to, or signs in
-# with that address or handle, can claim it into one of their gardens, and it carries on there. The giver keeps this
+# with that address or handle, can accept it into one of their gardens, and it carries on there. The giver keeps this
 # record, as the stall remembering it was given.
 #
 # The planting's own short code is not secret, so it is no proof of who has the seedling: only signing in as the
@@ -15,8 +15,10 @@ class StallPlanting < ApplicationRecord
 
   belongs_to :stall
   belongs_to :planting
-  belongs_to :claimed_by, class_name: 'Member', optional: true
+  belongs_to :accepted_by, class_name: 'Member', optional: true
   belongs_to :recipient_member, class_name: 'Member', optional: true
+  # A friend asking for it while it is on offer.
+  has_one :claim, dependent: :destroy
 
   enum :recipient_kind, KINDS.index_with(&:itself), validate: { allow_nil: true }
 
@@ -27,35 +29,40 @@ class StallPlanting < ApplicationRecord
   validate :recipient_is_known, if: :given?
   validates :recipient_kind, presence: true, if: -> { recipient.present? }
   validates :recipient, presence: true, if: -> { recipient_kind.present? }
-  validates :planting_id, uniqueness: { conditions: -> { unclaimed } }, unless: :claimed?
+  validates :planting_id, uniqueness: { conditions: -> { unaccepted } }, unless: :accepted?
   validate :recipient_is_well_formed, if: -> { recipient.present? }
   validate :planting_is_the_stall_owners, on: :create
   validate :planting_is_giveable, if: -> { new_record? || will_save_change_to_given_away_at? }
   # It stops being an active planting of the giver's the moment it is given.
   after_save :take_planting_off_its_owner, if: -> { saved_change_to_given_away_at? && given? }
 
-  scope :unclaimed, -> { where(claimed_at: nil) }
+  scope :unaccepted, -> { where(accepted_at: nil) }
   # On the stall with nobody to give it to yet, or given to someone.
   scope :offered, -> { where(given_away_at: nil) }
   scope :given, -> { where.not(given_away_at: nil) }
   scope :newest_first, -> { order(given_away_at: :desc, id: :desc) }
 
   # What is waiting for a member: given to them as a member, or to an address or handle that they have signed in with, and
-  # not claimed yet. An email counts as theirs once confirmed, which is all `email` ever holds; a handle counts once they
+  # not accepted into a garden yet. An email counts as theirs once confirmed, which is all `email` ever holds; a handle counts once they
   # have signed in with it.
   scope :waiting_for, lambda { |member|
-    given.unclaimed.where(recipient_member_id: member.id)
-      .or(given.unclaimed.where(recipient_kind: 'email', recipient: member.email.to_s.downcase.presence || '-'))
-      .or(given.unclaimed.where(recipient_kind: 'mastodon', recipient: member.handles_for('mastodon')))
-      .or(given.unclaimed.where(recipient_kind: 'bluesky', recipient: member.handles_for('bluesky')))
+    given.unaccepted.where(recipient_member_id: member.id)
+      .or(given.unaccepted.where(recipient_kind: 'email', recipient: member.email.to_s.downcase.presence || '-'))
+      .or(given.unaccepted.where(recipient_kind: 'mastodon', recipient: member.handles_for('mastodon')))
+      .or(given.unaccepted.where(recipient_kind: 'bluesky', recipient: member.handles_for('bluesky')))
   }
 
-  def claimed?
-    claimed_at.present?
+  def accepted?
+    accepted_at.present?
   end
 
   def given?
     given_away_at.present?
+  end
+
+  # On the stall with nobody to give it to yet.
+  def offered?
+    !given?
   end
 
   # Who it went to, as the giver put it: the member's name, or the name they used.
@@ -64,26 +71,23 @@ class StallPlanting < ApplicationRecord
   end
 
   def waiting_for?(member)
-    !claimed? && self.class.waiting_for(member).exists?(id)
+    !accepted? && self.class.waiting_for(member).exists?(id)
   end
 
-  # Hands the planting to the member, into one of their gardens, where it carries on as theirs: a fresh short code, as
-  # theirs are their own, and where it came from, as a gift from the giver. The giver's own notes on it stay with the giver.
-  # Returns whether it was claimed; if not, errors say why.
-  def claim(member, garden) # rubocop:disable Naming/PredicateMethod
+  # The member takes the seedling into one of their gardens. The giver's planting stays as it was, marked as given away, and
+  # a new planting is made for the member, which knows where it came from. Returns the new planting, or false and says why in
+  # the errors.
+  def accept(member, garden)
     errors.add(:base, :not_for_you) unless waiting_for?(member)
     errors.add(:base, :not_your_garden) unless garden&.owner_id == member.id
     return false if errors.any?
 
     transaction do
-      giver = planting.owner
-      planting.histories.build(garden: planting.garden, started_on: planting.planted_at || given_away_at.to_date, ended_on: Time.zone.today)
-      planting.assign_attributes(owner: member, garden:, given_away_at: nil, short_code: Planting.generate_short_code(member))
-      planting.save!
-      (planting.seedling || planting.build_seedling).update!(source: 'gift', supplier: giver.to_s, label_text: nil)
-      update!(claimed_by: member, claimed_at: Time.current)
+      received = planting.pass_on_to(member, garden)
+      update!(accepted_by: member, accepted_at: Time.current)
+      claim&.finish!
+      received
     end
-    true
   end
 
   private

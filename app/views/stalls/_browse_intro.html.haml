@@ -1,0 +1,13 @@
+-# For someone browsing the stall, who isn't its owner: how it works, like a shop where you pick what you want, and that
+-# claiming a seedling is a promise to collect it.
+%section.stall-intro{ 'aria-labelledby': 'stall-intro-h' }
+  %h2#stall-intro-h= t('.heading')
+  %p.stall-intro-lead= t('.lead', name: member)
+  %ol.stall-intro-steps
+    - %i(choose claim collect).each do |step|
+      %li
+        %strong= t(".steps.#{step}.title")
+        %span= t(".steps.#{step}.text", name: member)
+  %p.stall-intro-promise
+    = icon 'fas', 'handshake'
+    = t('.promise')

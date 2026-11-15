@@ -36,6 +36,14 @@ describe StallsController, flipper: :garden_stall do
       it 'offers to close it' do
         expect(Capybara.string(response.body)).to have_button('Close the stall')
       end
+
+      it 'has a button near the top that opens the settings' do
+        expect(Capybara.string(response.body)).to have_css(".stall-owner-actions button[data-bs-target='#stall-settings']")
+      end
+
+      it 'keeps the settings form in a dialog' do
+        expect(Capybara.string(response.body)).to have_css(".modal#stall-settings form[action='#{stall_path}']", visible: :all)
+      end
     end
 
     context 'when the owner has just opened the stall' do
@@ -62,16 +70,87 @@ describe StallsController, flipper: :garden_stall do
       end
     end
 
-    context 'when a signed-in friend looks at seedlings on offer' do
+    context 'when the owner looks at their seedlings on offer' do
       before do
-        stall = create(:stall, :open, member: owner)
-        stall.offer_seedlings!([create(:planting, owner:)])
+        create(:stall, :open, member: owner).offer_seedlings!([create(:planting, owner:)])
+        sign_in owner
+        get member_stall_path(owner)
+      end
+
+      it 'is not told how to pick them' do
+        expect(Capybara.string(response.body)).to have_no_css('.stall-intro')
+      end
+    end
+
+    context 'when a signed-in friend looks at seedlings on offer' do
+      let(:offer) { create(:stall, :open, claim_area: 'anywhere', member: owner).offer_seedlings!([create(:planting, owner:)]).first }
+
+      before do
+        offer
         sign_in create(:member)
         get member_stall_path(owner)
       end
 
-      it 'lets them ask for one' do
-        expect(Capybara.string(response.body)).to have_link(href: %r{\A/messages/new\?recipient_id=#{owner.id}})
+      it 'lets them claim one' do
+        expect(Capybara.string(response.body)).to have_css("form[action='#{stall_planting_claim_path(offer)}']", visible: :all)
+      end
+    end
+
+    context 'when a visitor who is not signed in looks at seedlings on offer' do
+      before do
+        create(:stall, :open, member: owner).offer_seedlings!([create(:planting, owner:)])
+        get member_stall_path(owner)
+      end
+
+      it 'offers signing in with Bluesky' do
+        expect(Capybara.string(response.body)).to have_css('.stall-signin-methods [data-auth-dialog=bluesky]')
+      end
+
+      it 'explains how picking seedlings works' do
+        expect(Capybara.string(response.body)).to have_css('.stall-intro .stall-intro-steps li', count: 3)
+      end
+
+      it 'offers signing in with Mastodon' do
+        expect(Capybara.string(response.body)).to have_css('.stall-signin-methods [data-auth-dialog=mastodon]')
+      end
+    end
+
+    context 'when a packet has been claimed' do
+      let(:stall_seed) { create(:stall_seed, stall: create(:stall, :open, member: owner, claim_area: 'anywhere')) }
+      let(:friend) { create(:member) }
+      let!(:claim) { create(:claim, stall_seed:, member: friend) }
+
+      it 'lets the owner say they handed it over' do
+        sign_in owner
+        get member_stall_path(owner)
+        expect(Capybara.string(response.body)).to have_css("form[action='#{given_stall_seed_claim_path(stall_seed)}']")
+      end
+
+      it 'lets the claimer say they collected it' do
+        sign_in friend
+        get member_stall_path(owner)
+        expect(Capybara.string(response.body)).to have_css("form[action='#{received_stall_seed_claim_path(stall_seed)}']")
+      end
+
+      it 'tells the owner when the claimer says they collected it' do
+        claim.receive
+        sign_in owner
+        get member_stall_path(owner)
+        expect(Capybara.string(response.body)).to have_css('.stall-handover-note', text: friend.login_name)
+      end
+
+      it 'lists it as given away, once the owner has handed it over' do
+        claim.give
+        sign_in owner
+        get member_stall_path(owner)
+        expect(Capybara.string(response.body)).to have_css('#stall-given-h')
+      end
+
+      it 'takes it off the table, once the owner has handed it over' do
+        claim.give
+        sign_in owner
+        get member_stall_path(owner)
+        expect(Capybara.string(response.body)).to have_no_css('.stall-tin-item')
       end
     end
 
@@ -96,6 +175,14 @@ describe StallsController, flipper: :garden_stall do
         stall.put_seeds_on!([create(:seed, owner:, crop: create(:crop, name: 'rocket'))])
         sign_in owner
         get member_stall_path(owner)
+      end
+
+      it 'has buttons near the top to add seedlings' do
+        expect(Capybara.string(response.body)).to have_css(".stall-owner-actions a[href='#{new_stall_planting_path(status: 'offered')}']")
+      end
+
+      it 'has a button to record seedlings given away' do
+        expect(Capybara.string(response.body)).to have_css(".stall-owner-actions a[href='#{new_stall_planting_path(status: 'given')}']")
       end
 
       it 'shows the seed tin' do
@@ -182,6 +269,18 @@ describe StallsController, flipper: :garden_stall do
 
         it 'takes the claim button away' do
           expect(Capybara.string(response.body)).to have_no_css('.stall-claim')
+        end
+
+        it 'dims the packet as taken' do
+          expect(Capybara.string(response.body)).to have_css('.stall-tin-item-claimed')
+        end
+
+        it 'says it is not available, and who has it' do
+          expect(Capybara.string(response.body)).to have_css('.stall-offer-claimed', text: friend.login_name)
+        end
+
+        it 'no longer says it is free' do
+          expect(Capybara.string(response.body)).to have_no_css('.stall-tin-item-claimed .stall-offer-free')
         end
       end
     end
